@@ -362,6 +362,14 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - Step F has 3 sub-problems: tree building (mechanical for S-expr/math,
   learned for prose), op dispatch (token identity → op code), and
   wiring basin projector → tree builder → VSM kernel end-to-end.
+- **ARCH BUG: shared_level (MERA levels 1-7) defined but never called
+  in _ascending_arm forward pass.** Model is flat windowed attention
+  (level 0 only, stride 8) + embedding. Not a sieve. ~38.9M of 39.6M
+  params are embedding. Shared_level evolves in tournament but does
+  nothing. Evaluate at step 1K: if sim is low, wiring up the sieve
+  hierarchy may be the fix. If sim is adequate, embedding may be
+  doing the heavy lifting and multi-scale context is unnecessary for
+  short oracle sentences (median 6 words).
 
 ### 9. Future: variable binding and scope
 
