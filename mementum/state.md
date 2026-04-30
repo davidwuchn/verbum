@@ -2,19 +2,88 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-04-30 | Session: 058
+> Last updated: 2026-04-30 | Session: 059
 
 ## Where we are
 
-**BASIN PROJECTOR TRAINING RUNNING. 20K steps (~16 hours).**
+**BASIN PROJECTOR TRAINING v2 RUNNING. 20K steps (~16 hours).**
 
-Oracle pipeline ran overnight: 80K sentences → 160 shards → 442,682
-word vectors → 3.9 GB. PCA projector re-fit on full data: d=64
-captures 60.6% variance (vs 82% on curated pilot — expected with
-442K diverse words vs 2632 curated probes; effective rank is higher).
-Basin projector architecture written in MLX (`basin_model.py`):
-ternary MERA ascending arm + spiral attention + word span pooling +
-L2-normalized basin output. Smoke test passes.
+Session 059 found and fixed a critical bug: AdamW weight decay was
+corrupting packed uint32 ternary weights every step (cast to float32,
+destroying 2-bit field packing → 94% weights collapsed to -1, 6%
+invalid). Fix: `freeze_ternary_weights()` removes packed weights from
+`trainable_parameters()`. Also fixed 6 checkpoint resume gaps.
+
+Training restarted from scratch. First healthy results:
+
+| Step | Overall | S-expr | Math | Prose | Behav | Complex | Mixed |
+|------|---------|--------|------|-------|-------|---------|-------|
+| 500  | 0.542   | 0.667  | 0.526| 0.595 | 0.546 | 0.502   | 0.435 |
+| 600  | 0.578   | 0.694  | 0.628| 0.633 | 0.581 | 0.520   | 0.451 |
+| 900  | 0.582   | 0.725  | 0.618| 0.635 | 0.581 | 0.563   | 0.453 |
+| 1000 | 0.613   | 0.719  | 0.606| 0.651 | 0.623 | 0.534   | 0.515 |
+
+All strata above 0.5 except mixed (0.515 by step 1K). 73% of PCA
+ceiling (0.845). Topology balanced (32/34/34 zero/pos/neg). No
+corruption. Evolution at base_pct=0.001 (floor), 50% accept — gamma
+doing all the learning, evolution making slow structural refinements.
+
+**Wait for 3-5 checkpoints before changing anything.** This is the first
+non-collapsing training run. Let the experiment speak.
+
+### Session 059 results
+
+#### Critical bug found: AdamW corrupts packed ternary weights
+
+**Root cause:** AdamW weight decay applies `w *= (1 - lr * wd)` even
+with zero gradient. This casts packed uint32 to float32, destroying
+the 2-bit field packing. Then `restore_ternary` clipped the float
+to [0, 3] and cast back — destroying 15 of 16 bit-field slots per
+packed word. Result: 94% weights → -1, 6% → invalid encoded=3.
+
+**Diagnosis method:** Slot-by-slot analysis of checkpoint packed uint32
+values. Slot 0: 96% encoded=3 (invalid). Slots 1-15: 99.8% encoded=0
+(-1). Pattern exactly matches `clip(large_uint32, 0, 3) → 0x00000003`.
+
+**Fix:** `freeze_ternary_weights()` — freezes packed weight params via
+MLX `mod.freeze(keys=["weight"])`, removing them from
+`trainable_parameters()`. Three defense layers: freeze (primary) +
+`zero_ternary_grads` (belt) + `restore_ternary` now raises (suspenders).
+
+**Impact:** All session 058 checkpoints (steps 1-6K) were invalid.
+The model was training with dead topology — gamma alone reached 0.55
+S-expr cosine sim, which is remarkable but far below potential.
+
+#### Checkpoint resume gaps fixed
+
+Six gaps in save/restore: total_accepted/total_gens not restored,
+_strategy_history not saved, train_losses not restored, mutation rng
+not saved, data loader position/epoch not restored. All fixed.
+RNG states saved as numpy MT19937 state arrays in `rng.npz`.
+Deduplicated checkpoint logic into `_do_checkpoint()` helper.
+
+#### Training v2 — first healthy results
+
+Restarted from scratch with fix. All strata above noise floor by
+step 200. By step 1000: overall 0.613 (73% of ceiling), S-expr 0.719,
+prose 0.651, behavioral 0.623. Topology balanced (32/34/34). Loss
+0.39 and improving. No sawtooth. Evolution at 0.1% mutation rate,
+50% accept — gamma doing the learning, evolution making slow
+structural refinements.
+
+**Observation:** Evolution may not be contributing much. Topology at
+step 1000 is essentially unchanged from random init. The gamma
+per-channel scaling has enough expressivity to reach 73% of ceiling
+with random ternary topology. Open question for later: drop evolution,
+simplify to frozen-topology + gamma-only training?
+
+#### Key files (session 059)
+
+| File | Purpose |
+|------|---------|
+| `scripts/v8/ternary.py` | **freeze_ternary_weights() + restore_ternary assertion** |
+| `scripts/v9/train_basin.py` | **Full checkpoint resume, freeze calls, _do_checkpoint** |
+| `scripts/v9/analyze_checkpoint.py` | Multi-checkpoint analyzer (unchanged) |
 
 ### Session 058 results (pre-crash recovery)
 
