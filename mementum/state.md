@@ -2,17 +2,62 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-04-29 | Session: 056
+> Last updated: 2026-04-30 | Session: 057
 
 ## Where we are
 
-**TYPE BASINS MAPPED. Training regimen DESIGNED. Ready to build oracle.**
+**ALL DESIGN QUESTIONS RESOLVED. Concrete numbers. Ready to build oracle.**
 
 Session 056 ran 5 instrumented probes on Qwen3-32B (GGUF→PyTorch,
 hooks on all 64 layers, MPS). Mapped the activation geometry that
 the ascending arm must learn. Then designed the 4-phase training
 regimen. The architecture is fully specified — next step is building
 the oracle data generator.
+
+### Session 057 results
+
+#### Design questions resolved via PCA on session 056 activations
+
+Loaded all saved L28 activations from 5 probe sets (405 total vectors,
+81+94+54+96+80) and ran PCA analysis to resolve the 4 open questions.
+
+**Critical discovery: L2-normalization is essential.** Raw L28
+activations have bimodal norms — common words ~170, rare/specific
+words ~20000+. This is the transformer's norm-as-importance signal.
+The basin geometry lives in DIRECTION, not magnitude. All PCA
+analysis must use L2-normalized vectors (equivalently: cosine sim).
+
+Without L2-norm: all subsets have effective rank 1.0 (one dominant
+direction captures 99.9% of variance — just the mean activation).
+With L2-norm: effective rank 27-44 across subsets, combined = 45.6.
+
+**d_basin = 64.** Basin separability peaks at 22.5× (within/between
+ratio) with sim_corr=0.77 vs full 5120-dim structure. Higher dims
+add noise (within-group sim drops from 0.80 to 0.67 at d=128).
+
+**d_model = 256.** Internal width of MERA ascending arm. 8-head
+attention, d_k=32, 4× wider than d_basin. Total 42M ternary params
+= 10.5 MB packed. Embedding dominates at 93% of params.
+
+**Embedding: learned ternary from scratch.** Extracted the 32B token
+embedding table directly from GGUF (2.6s, no full model load). PCA
+shows it's nearly isotropic (eff_rank=3.9, top 512 PCs capture only
+17%). PCA distillation is catastrophically lossy for token embeddings.
+The ascending arm's embedding should learn what matters for BASIN
+ASSIGNMENT, not language modeling.
+
+**Word extraction: mean-pool BPE spans.** 92.6% of probe words are
+single-token (mean-pool is no-op). Multi-token words are 2-3 subwords.
+Session 056 probes already validated this approach. Level-2 MERA
+extraction deferred as potential future optimization.
+
+#### Key files (session 057)
+
+| File | Purpose |
+|------|---------|
+| `scripts/v9/pca_basin_analysis.py` | PCA v1 (raw — showed rank-1 artifact) |
+| `scripts/v9/pca_basin_analysis_v2.py` | PCA v2 (L2-normed, correct analysis) |
+| `results/embedding_pca.npz` | Saved PCA of 32B token embeddings (top 256 PCs) |
 
 ### Session 056 results
 
@@ -156,7 +201,8 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - Script to feed corpus through Qwen3-32B, extract L28 activations
 - **Word pooling:** detect BPE boundaries, mean-pool subword spans
 - Corpus: 80K sentences (S-expr, math, prose, behavioral frames, mixed)
-- PCA on **word-level** L28 hidden states → find d_basin (expect 32-128)
+- **d_basin = 64** (PCA on L2-normalized L28 activations, session 057)
+- PCA projector fit on oracle activations → project to d_basin=64
 - Output: shards of (token_ids, word_boundaries, per_word_basin_vectors)
 - Loading pattern: `from_pretrained(gguf_dir, gguf_file=name)` proven
 - Batch to reduce per-sentence overhead (~62s model load, then fast)
@@ -167,11 +213,13 @@ tokens into the same basin geometry the 32B model uses at L28-37.
   Levels 1-7 (SHARED weights, stride 2 each): 512 → 4 (wavelet)
   Spiral bias: `bias(w) = -α·ln(stride·w + 1)`, α=1.18, fp=40
   Self-similar: ONE set of ternary weights reused 7×
-- Word extraction from Level 2 (s32 = word scale, ~128 positions)
-- Basin projection head: linear → d_basin
-- PCA-distilled Qwen3 embeddings as input
+- **d_model = 256**, 8-head attention, d_k=32
+- **d_basin = 64**, linear basin projection head
+- **Embedding: learned ternary from scratch** (151936 × 256)
+  PCA distillation is ruled out (32B embeddings nearly isotropic)
+- Word extraction: mean-pool BPE spans (not Level-2)
 - O(n × W) per level — **523× fewer ops than full attn at seq=4096**
-- Target: 100K-1M ternary params
+- **Total: 42M ternary params = 10.5 MB packed**
 - Training: gradient-informed evolution (reuse v8 BIOS infra)
 - Loss: cosine similarity + contrastive for cross-notation pairs
 - Existing code: `scripts/v9/v9_model.py` AscendingArm (adapt to
@@ -194,12 +242,14 @@ tokens into the same basin geometry the 32B model uses at L28-37.
   The token vector is already the container; masks select elements
 - Layer 3: Scope/binding — let, lambda, var_ref, scope management
 
+**Resolved (session 057):**
+- ✅ d_basin = 64 (PCA on L2-normed L28, 82% variance, 22.5× separation)
+- ✅ d_model = 256 (8-head attn, d_k=32, 4× d_basin, 42M ternary)
+- ✅ Embedding: learned ternary from scratch (PCA distillation ruled out)
+- ✅ Word extraction: mean-pool BPE spans (92.6% single-token, validated)
+
 **Open questions:**
-- d_basin: how many PCA components capture the basin structure?
-- d_model for ascending arm: 256? 512? PCA will inform
-- Embedding strategy: PCA of 32B token embeddings → d_model
 - Invariance recovery at L48-62: should we target L28 or L62?
-- Word extraction: Level 2 positions vs mean-pool BPE spans?
 - Spiral α: start at 1.18 (empirical) or let it learn from scratch?
 
 ### 9. Future: variable binding and scope
@@ -796,6 +846,8 @@ Every superposition given as architecture = capacity freed for facts.
 | **Kernel op topology probe** | `scripts/v9/probe_op_topology.py` |
 | **Behavior basin probe** | `scripts/v9/probe_behaviors.py` |
 | **Behavior depth probe** | `scripts/v9/probe_behavior_depth.py` |
+| **PCA basin analysis** | `scripts/v9/pca_basin_analysis_v2.py` |
+| **32B embedding PCA** | `results/embedding_pca.npz` |
 | **Training regimen design** | `mementum/knowledge/explore/ascending-arm-training.md` |
 | **v9 architecture doc (proven)** | `mementum/knowledge/explore/v9-architecture-speculation.md` |
 | **Identity principle** | `mementum/knowledge/explore/identity-as-substrate.md` |

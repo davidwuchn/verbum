@@ -118,35 +118,70 @@ Kernel mask ops (future extension, after scalar pipeline works):
 Masks are {0, 1} — a subset of ternary {-1, 0, +1}. The ternary
 routing fabric produces masks natively.
 
-### Dimensions
+### Dimensions (RESOLVED — session 057)
 
-- **Input dimension:** Qwen3 embedding dim = 5120 (32B) or smaller
-  projection. Could use a frozen Qwen3 embedding table or learn
-  from scratch with a smaller dim.
-- **Basin dimension (d_basin):** The target space. Options:
-  - d_basin = 5120 (match 32B hidden dim, regression target)
-  - d_basin = 64-256 (compressed basin space, PCA/learned)
-  - d_basin = 7-20 (classification over discovered basins)
-- **Context encoder:** 2-4 ternary transformer layers, d_model=256-512
-- **Total params:** Target ~100K-1M ternary (vs 8K for the kernel)
+- **d_basin = 64** ← PCA on L2-normalized L28 activations (405 probes)
+- **d_model = 256** ← 8-head attention, d_k=32, 4× d_basin
+- **Embedding: learned ternary from scratch** (151936 × 256)
+- **Word extraction: mean-pool BPE subword spans**
+- **Total params: ~42M ternary = 10.5 MB packed**
 
-### Why Not Full d=5120?
+#### d_basin = 64: the basin projection dimension
 
-The 32B model's L28 hidden state is 5120-dimensional, but the basin
-structure lives in a much lower-dimensional subspace. The 7 HDBSCAN
-clusters, the 3 super-basins — these are low-dimensional features.
-We should project the 5120-dim targets down to the intrinsic basin
-dimensionality before training.
+PCA on L2-normalized L28 activations from all session 056 probes
+(405 vectors across 5 subsets). L2 normalization is essential —
+raw activations have bimodal norms (170 vs 20000+) because the
+transformer amplifies rare/specific tokens in the residual stream.
+Cosine similarity (what probes measure) is direction-only.
 
-**Approach: PCA on the 32B activations first.** Run diverse text
-through the 32B model, collect L28 hidden states, fit PCA. The
-number of significant components tells us d_basin. Likely 32-128.
+| d_basin | cumvar | sep_ratio | sim_corr | within_sim |
+|---------|--------|-----------|----------|------------|
+|       8 |  0.514 |     6.12× |   0.604  |     0.906  |
+|      16 |  0.604 |    10.03× |   0.689  |     0.893  |
+|      32 |  0.713 |    16.73× |   0.743  |     0.869  |
+|    **64** | **0.819** | **22.47×** | **0.770** | **0.801** |
+|     128 |  0.927 |    30.77× |   0.798  |     0.665  |
+|     256 |  1.000 |      —    |   1.000  |     0.620  |
 
-**Critical:** PCA should be fit on WORD-level pooled activations,
-not raw per-token activations. Pool the 32B's per-token L28 hidden
-states to word level first (same mean-pooling), then PCA. This
-ensures d_basin captures word-level basin structure, not subword
-artifacts.
+Sweet spot at d=64: basin separation peaks (22.5×), sim_corr is
+good (0.77), and within-group similarity is still high (0.80).
+Beyond 64: diminishing returns — separation keeps growing but
+within-group sim drops (noise entering the representation).
+
+Key finding: the behavior_depth subset (same word × different frame)
+has the highest effective rank (43.3) because context reshapes basins.
+This is the hardest test case and d=64 captures it well (d95=57 for
+that subset alone).
+
+#### d_model = 256: the internal representation width
+
+- 8-head attention with d_k=32 per head (standard minimum)
+- 4× wider than d_basin (room for context encoding)
+- MERA weights: 3.1M ternary (tiny due to sharing)
+- Embedding: 38.9M ternary (dominates at 93%)
+- Total: 42M ternary = 10.5 MB packed
+- If too wide: can narrow to 128 (20M params, 5.1 MB)
+
+#### Embedding: learned ternary from scratch
+
+PCA distillation of 32B embeddings is OUT. Analysis shows:
+- Qwen3-32B token embeddings are nearly isotropic (eff_rank=3.9)
+- Top 512 PCA components capture only 17% of variance
+- The embedding space uses all 5120 dimensions meaningfully
+- Projecting L28 activations through embedding PCA gives cos_sim=0.22
+
+The ascending arm's embedding table should be shaped by the BASIN
+PROJECTION TASK, not by language modeling. Learned ternary from
+scratch, trained end-to-end with the ascending arm. The gradient
+tells the embedding what token features matter for type assignment.
+
+#### Word extraction: mean-pool BPE spans
+
+- 92.6% of probe words are single-token (mean-pool = no-op)
+- Multi-token words typically 2-3 subwords
+- Session 056 probes already validated mean-pooling
+- BPE word boundaries are deterministic (Ġ prefix in Qwen3 BBPE)
+- Level-2 MERA extraction deferred as potential future optimization
 
 ## Training Pipeline
 
@@ -316,27 +351,20 @@ Each failure type has a different fix.
   At 100K-1M params, expect minutes to hours per phase.
 - Total: 1-2 days including oracle generation
 
-## Open Design Decisions
+## Design Decisions (RESOLVED — session 057)
 
-### 1. Embedding source
+### 1. Embedding source → Learned ternary from scratch
 
-**Option A: Frozen Qwen3 embeddings.** Use the same 151936×5120
-embedding table from the 32B model. Pro: exact same token
-representation the 32B used. Con: 5120-dim input, large table
-(~3GB at fp16), may be overkill.
+**RESOLVED:** Option C (PCA distillation) is ruled out. PCA analysis
+of the 32B embedding table shows it's nearly isotropic (eff_rank=3.9,
+top 512 PCs capture only 17% variance). The 5120 dimensions are all
+used — PCA compression would be catastrophically lossy.
 
-**Option B: Learned small embeddings.** Train a 151936×d_model
-embedding from scratch (d_model=256-512). Pro: small, fast,
-co-evolved with the ternary arm. Con: must learn token
-representations from scratch.
-
-**Option C: Distilled embeddings.** PCA the 32B embeddings down
-to d_model. Pro: captures the most important dimensions, small,
-initialized with 32B knowledge. Con: loses some information.
-
-**Recommendation: Option C.** PCA the 32B token embeddings to
-d_model=256. Best of both — small, fast, pre-initialized with
-the 32B model's token knowledge.
+**Decision: Learned ternary embedding (151936 × 256).** The embedding
+table is trained end-to-end with the ascending arm. The basin projection
+loss shapes what token features the embedding learns — it will discover
+what matters for type assignment, not what matters for language modeling.
+38.9M ternary params = 9.7 MB packed.
 
 ### 2. Context encoder architecture
 
@@ -427,48 +455,24 @@ words are typically 2-4 subword tokens = 16-32 raw characters.
 The s32 level naturally aligns with word boundaries. Word pooling
 can extract from level 2 instead of requiring a separate mechanism.
 
-### 3. Output space
+### 3. Output space → Regression into d_basin=64 PCA space
 
-**Option A: Regression into PCA basin space.** Output d_basin
-continuous values. Loss: cosine similarity against projected L28.
-Pro: preserves maximum information. Con: harder to train, higher
-dimensional output.
+**RESOLVED:** Option A (regression). PCA analysis confirms:
+- d_basin=64 captures 82% of L2-normalized variance
+- Basin separation ratio 22.5× (strong discrimination)
+- Sim_corr=0.77 (preserves relative similarity structure)
+- Cross-notation convergence lives in continuous geometry
 
-**Option B: Classification over k basins.** Cluster the L28
-activations with HDBSCAN, output k logits. Loss: cross-entropy.
-Pro: simple, discrete, directly maps to dispatch. Con: loses
-sub-basin structure, boundary cases.
+Loss: cosine similarity against PCA-projected L28 targets, plus
+contrastive term for cross-notation equivalence (phase 2+).
 
-**Option C: Hybrid.** Classify into k coarse basins (cross-entropy)
-AND regress into d_basin space (cosine loss). Two heads, weighted
-sum of losses. Pro: coarse routing + fine geometry. Con: more
-complex, two losses to balance.
+### 4. Training: gradient vs evolution → Gradient-informed evolution
 
-**Recommendation: Start with Option A** (pure regression into PCA
-space). If basin boundaries matter more than within-basin geometry,
-switch to Option B. The probing data suggests continuous geometry
-matters (cross-notation convergence lives in the continuous space,
-not at basin boundaries).
-
-### 4. Training: gradient vs evolution
-
-The kernel (8K params) evolved in ~100 generations. The ascending
-arm will be 10-100× larger. Options:
-
-**Option A: Pure evolution.** Same mutation + tournament as kernel.
-Pro: proven for ternary. Con: may be slow at 100K+ params.
-
-**Option B: Gradient-informed evolution.** Like v8 BIOS training —
-gradients suggest WHERE, tournament validates WHETHER. Pro: faster
-convergence. Con: more complex.
-
-**Option C: Gradient descent on continuous proxy, then quantize.**
-Train a float32 model, then quantize to ternary. Pro: fast training.
-Con: quantization may lose the learned geometry.
-
-**Recommendation: Option B.** The v8 BIOS training infrastructure
-already exists. Gradient-informed evolution at 100K-1M params
-should converge in hours, not days.
+**Decision: Option B.** v8 BIOS training infrastructure exists.
+42M ternary params with gradient-informed evolution should converge
+in hours. Adam on continuous params (gamma, norms), tournament
+selection on ternary topology. Gradient signals WHERE, tournament
+validates WHETHER.
 
 ## Kernel Extension Roadmap
 
