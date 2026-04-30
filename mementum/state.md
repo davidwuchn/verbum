@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**BASIN PROJECTOR MODEL BUILT. Training loop is next.**
+**BASIN PROJECTOR TRAINING RUNNING. 20K steps (~16 hours).**
 
 Oracle pipeline ran overnight: 80K sentences → 160 shards → 442,682
 word vectors → 3.9 GB. PCA projector re-fit on full data: d=64
@@ -324,9 +324,12 @@ tokens into the same basin geometry the 32B model uses at L28-37.
   SpiralAttention, MERA levels, word pooling, smoke tested
 - ✅ **Training loop built**: `scripts/v9/train_basin.py` — Adam +
   evolutionary tournament, cosine sim loss, per-stratum eval
-- **NEXT: full training run** — 20K steps (~16 hours overnight)
-  Then evaluate: does the ascending arm learn to project into basin
-  geometry? Target: >0.5 cosine sim on S-expr, >0.3 on math/prose
+- 🔄 **Training running**: 20K steps (~16 hours), checkpoints every 1K steps
+  Checkpoints: `checkpoints/basin/step_NNNNNN/`
+  Target: >0.5 cosine sim on S-expr, >0.3 on math/prose
+  Noise floor: ~0.12 (1/√64). Values below this = random.
+  Ceiling: ~0.85 (PCA reconstruction limit at d=64)
+  100-step smoke test: sim_sexpr=0.18 (above noise), others near zero
 
 **Step E: 4-phase training curriculum**
 - Phase 1: S-expr calibration (target >0.9 cosine sim to 32B)
@@ -354,6 +357,11 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 **Open questions:**
 - Invariance recovery at L48-62: should we target L28 or L62?
 - Spiral α: start at 1.18 (empirical) or let it learn from scratch?
+- After training: does basin separation drive correct kernel dispatch?
+  Step F design depends on training results — wait before building.
+- Step F has 3 sub-problems: tree building (mechanical for S-expr/math,
+  learned for prose), op dispatch (token identity → op code), and
+  wiring basin projector → tree builder → VSM kernel end-to-end.
 
 ### 9. Future: variable binding and scope
 
