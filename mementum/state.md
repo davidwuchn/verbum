@@ -51,12 +51,41 @@ sample vectors). Saved to `results/oracle-data/pca_projector.npz`.
   then mean-pool enriched tokens per BPE word span (not stride-8 collapse)
 - Smoke test passes with random tokens and fake word spans
 
+#### Training loop built and smoke-tested (`train_basin.py`)
+
+`scripts/v9/train_basin.py`: complete training pipeline.
+
+- **OracleDataLoader**: loads shards, tokenizes sentences (with caching),
+  PCA-projects L28 targets to d_basin=64, batches with padding
+- **Loss**: cosine similarity between predicted and target basin vectors
+- **Optimizer**: Adam on continuous params (gamma, norms), evolutionary
+  mutation + tournament on ternary topology (reuses v8 BIOS infra)
+- **Gradient-informed evolution**: row importance from |∂L/∂γ|,
+  col importance from mean(|x|), 4 mutant strategies per generation
+- **Evaluation**: per-stratum cosine similarity breakdown
+- **Checkpointing**: full save/resume (model + optimizer + importance maps)
+
+Smoke test results (100 steps, batch=32, warmup phase):
+- **1.8s/step** (non-tournament), ~20s on tournament steps (every 25)
+- **20K steps ≈ 16 hours** — feasible overnight
+- S-expr cosine sim 0.18 after just 100 steps (still in warmup!)
+- Math 0.09, mixed 0.02 — learning order matches basin distinctiveness
+- 75% tournament acceptance rate — topology is finding helpful mutations
+- Model forward pass: 2ms. Data loading: 0.88s/batch (tokenization dominant)
+- Tokenization cache eliminates repeat cost within epoch
+
+Bottleneck: tokenization (0.88s per batch of 32 sentences). Model itself
+is fast (2ms forward). Pre-tokenizing all 80K sentences at startup
+would eliminate this, but increases memory. Current caching amortizes
+across epochs.
+
 #### Key files (session 058)
 
 | File | Purpose |
 |------|---------|
 | `scripts/v9/refit_pca.py` | PCA re-fit on full 442K oracle data |
 | `scripts/v9/basin_model.py` | **Basin projector: MERA ascending arm in MLX** |
+| `scripts/v9/train_basin.py` | **Training loop: Adam + evolution, cosine loss** |
 
 ### Session 057 results
 
@@ -293,9 +322,11 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - **Total: 42M ternary params = 10.5 MB packed**
 - ✅ **Architecture built**: `scripts/v9/basin_model.py` — MLX ternary,
   SpiralAttention, MERA levels, word pooling, smoke tested
-- **NEXT: training loop** — data loader for oracle shards,
-  cosine similarity loss to 32B L28 targets, gradient-informed
-  evolution (reuse v8 BIOS infra)
+- ✅ **Training loop built**: `scripts/v9/train_basin.py` — Adam +
+  evolutionary tournament, cosine sim loss, per-stratum eval
+- **NEXT: full training run** — 20K steps (~16 hours overnight)
+  Then evaluate: does the ascending arm learn to project into basin
+  geometry? Target: >0.5 cosine sim on S-expr, >0.3 on math/prose
 
 **Step E: 4-phase training curriculum**
 - Phase 1: S-expr calibration (target >0.9 cosine sim to 32B)
@@ -921,6 +952,7 @@ Every superposition given as architecture = capacity freed for facts.
 | **PCA basin analysis** | `scripts/v9/pca_basin_analysis_v2.py` |
 | **PCA re-fit (full 442K)** | `scripts/v9/refit_pca.py` |
 | **Basin projector model** | `scripts/v9/basin_model.py` |
+| **Basin training loop** | `scripts/v9/train_basin.py` |
 | **32B embedding PCA** | `results/embedding_pca.npz` |
 | **Training regimen design** | `mementum/knowledge/explore/ascending-arm-training.md` |
 | **v9 architecture doc (proven)** | `mementum/knowledge/explore/v9-architecture-speculation.md` |
