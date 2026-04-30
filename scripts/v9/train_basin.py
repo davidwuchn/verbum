@@ -763,6 +763,27 @@ def main():
 
         # ── Checkpoint ───────────────────────────────────────
         if step % args.checkpoint_interval == 0:
+            # Run eval at checkpoint time so metrics are saved
+            ckpt_eval = evaluate(model, eval_loader, n_batches=16)
+            print(f"\n  📊 Checkpoint eval @ step {step}: cosine_sim={ckpt_eval['cosine_sim']:.4f}")
+            for k, v in sorted(ckpt_eval.items()):
+                if k.startswith("sim_"):
+                    print(f"     {k}: {v:.4f}")
+
+            # Ternary topology statistics
+            ternary_stats = {}
+            for path, mod in _walk_ternary_modules(model):
+                if isinstance(mod, TernaryLinear) and hasattr(mod, 'ternary_stats'):
+                    ternary_stats[path] = mod.ternary_stats()
+
+            # Strategy win distribution
+            recent_strategies = list(_strategy_history[-100:])
+            strategy_wins = {}
+            for s in recent_strategies:
+                if s is not None:
+                    strategy_wins[s] = strategy_wins.get(s, 0) + 1
+            strategy_wins["rejected"] = recent_strategies.count(None)
+
             state = {
                 "step": step,
                 "epoch": train_loader.epoch,
@@ -771,12 +792,17 @@ def main():
                 "total_accepted": total_accepted,
                 "train_loss_recent": float(np.mean(train_losses[-100:])),
                 "train_losses_last100": [float(x) for x in train_losses[-100:]],
+                "eval_metrics": {k: float(v) for k, v in ckpt_eval.items()},
+                "strategy_wins": strategy_wins,
+                "ternary_stats": ternary_stats,
+                "gen_interval": args.gen_interval,
             }
             save_checkpoint(
                 step, model, optimizer, state,
                 row_importance, col_importance, grad_direction,
                 CHECKPOINT_DIR,
             )
+            print()
 
     # ── Final checkpoint ─────────────────────────────────────
     final_metrics = evaluate(model, eval_loader, n_batches=16)
@@ -789,6 +815,18 @@ def main():
     print(f"  Evo: {total_gens} gens, {total_accepted} accepted")
     print(f"{'=' * 60}")
 
+    ternary_stats = {}
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear) and hasattr(mod, 'ternary_stats'):
+            ternary_stats[path] = mod.ternary_stats()
+
+    recent_strategies = list(_strategy_history[-100:])
+    strategy_wins = {}
+    for s in recent_strategies:
+        if s is not None:
+            strategy_wins[s] = strategy_wins.get(s, 0) + 1
+    strategy_wins["rejected"] = recent_strategies.count(None)
+
     state = {
         "step": args.total_steps,
         "epoch": train_loader.epoch,
@@ -796,7 +834,11 @@ def main():
         "total_gens": total_gens,
         "total_accepted": total_accepted,
         "train_loss_recent": float(np.mean(train_losses[-100:])),
-        "final_metrics": {k: float(v) for k, v in final_metrics.items()},
+        "train_losses_last100": [float(x) for x in train_losses[-100:]],
+        "eval_metrics": {k: float(v) for k, v in final_metrics.items()},
+        "strategy_wins": strategy_wins,
+        "ternary_stats": ternary_stats,
+        "gen_interval": args.gen_interval,
     }
     save_checkpoint(
         args.total_steps, model, optimizer, state,
