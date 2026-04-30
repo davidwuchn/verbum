@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**ALL DESIGN QUESTIONS RESOLVED. Concrete numbers. Ready to build oracle.**
+**ORACLE PIPELINE BUILT AND VALIDATED. d_basin=64 confirmed on real data.**
 
 Session 056 ran 5 instrumented probes on Qwen3-32B (GGUF→PyTorch,
 hooks on all 64 layers, MPS). Mapped the activation geometry that
@@ -51,12 +51,41 @@ single-token (mean-pool is no-op). Multi-token words are 2-3 subwords.
 Session 056 probes already validated this approach. Level-2 MERA
 extraction deferred as potential future optimization.
 
+#### Oracle pipeline built and pilot validated
+
+Built the full oracle data generation pipeline:
+1. **Corpus generator** (`oracle_corpus.py`): 6 strata — S-expr,
+   math, prose, behavioral, complex, mixed. Cross-notation group
+   linking. Pilot mode (500) and full mode (80K).
+2. **Oracle extractor** (`oracle_extract.py`): loads 32B GGUF (~61s),
+   hooks layer 28 only, extracts per-word mean-pooled activations,
+   saves compressed shards.
+3. **Pilot run**: 500 sentences → 2632 words → 2 shards (25 MB).
+   Throughput: **6.8 sent/s** → full 80K would take ~3.3 hours.
+
+**d_basin=64 confirmed on real oracle data.** With 2632 diverse words
+(vs 405 curated probes), the L2-normalized activations have higher
+effective rank (81 vs 46). But d=64 still preserves type-level
+structure cleanly:
+- Operators cluster at 0.50 within-sim
+- Nouns at 0.43, verbs at 0.41, numbers at 0.30
+- Cross-type separation strong: operators↔verbs = -0.17, numbers↔nouns = -0.52
+- Reconstruction cosine sim: 0.845 ± 0.116 at d=64
+- PCA projector saved: `results/oracle-data/pca_projector.npz`
+
+PCA projector note: the pilot PCA (2632 samples) should be re-fit on
+the full 80K corpus for production use. The pilot projector is adequate
+for phase 1 development.
+
 #### Key files (session 057)
 
 | File | Purpose |
 |------|---------|
+| `scripts/v9/oracle_corpus.py` | Corpus generator (6 strata, 80K sentences) |
+| `scripts/v9/oracle_extract.py` | 32B L28 activation extractor + word pooling |
 | `scripts/v9/pca_basin_analysis.py` | PCA v1 (raw — showed rank-1 artifact) |
 | `scripts/v9/pca_basin_analysis_v2.py` | PCA v2 (L2-normed, correct analysis) |
+| `results/oracle-data/` | Pilot shards + PCA projector |
 | `results/embedding_pca.npz` | Saved PCA of 32B token embeddings (top 256 PCs) |
 
 ### Session 056 results
@@ -197,7 +226,7 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 **Step B: Design training regimen** ← DONE (session 056)
 - Full design in `mementum/knowledge/explore/ascending-arm-training.md`
 
-**Step C: Build oracle data generator** ← NEXT
+**Step C: Build oracle data generator** ← DONE (session 057, pilot validated)
 - Script to feed corpus through Qwen3-32B, extract L28 activations
 - **Word pooling:** detect BPE boundaries, mean-pool subword spans
 - Corpus: 80K sentences (S-expr, math, prose, behavioral frames, mixed)
@@ -207,7 +236,7 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - Loading pattern: `from_pretrained(gguf_dir, gguf_file=name)` proven
 - Batch to reduce per-sentence overhead (~62s model load, then fast)
 
-**Step D: Build basin projector model**
+**Step D: Build basin projector model** ← NEXT
 - MERA ascending arm: W=8 base stride, 8 levels (v6/v7 proven)
   Level 0 (own weights): 4096 → 512 (stride 8, token/local)
   Levels 1-7 (SHARED weights, stride 2 each): 512 → 4 (wavelet)
