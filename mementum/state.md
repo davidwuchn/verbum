@@ -2,17 +2,61 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-04-30 | Session: 057
+> Last updated: 2026-04-30 | Session: 058
 
 ## Where we are
 
-**ORACLE PIPELINE BUILT AND VALIDATED. d_basin=64 confirmed on real data.**
+**BASIN PROJECTOR MODEL BUILT. Training loop is next.**
 
-Session 056 ran 5 instrumented probes on Qwen3-32B (GGUF→PyTorch,
-hooks on all 64 layers, MPS). Mapped the activation geometry that
-the ascending arm must learn. Then designed the 4-phase training
-regimen. The architecture is fully specified — next step is building
-the oracle data generator.
+Oracle pipeline ran overnight: 80K sentences → 160 shards → 442,682
+word vectors → 3.9 GB. PCA projector re-fit on full data: d=64
+captures 60.6% variance (vs 82% on curated pilot — expected with
+442K diverse words vs 2632 curated probes; effective rank is higher).
+Basin projector architecture written in MLX (`basin_model.py`):
+ternary MERA ascending arm + spiral attention + word span pooling +
+L2-normalized basin output. Smoke test passes.
+
+### Session 058 results (pre-crash recovery)
+
+#### Full oracle extraction completed (overnight)
+
+80K sentences from 6 strata → 160 shards → **442,682 words** → 3.9 GB.
+Throughput ~6.8 sent/s as predicted in session 057 (~3.3 hours).
+All shards in `results/oracle-data/shard_0000.npz` through
+`shard_0159.npz`.
+
+#### PCA projector re-fit on full data
+
+`scripts/v9/refit_pca.py`: L2-normalizes all 442K vectors, computes
+global mean from all 160 shards, fits PCA on every 4th shard (~110K
+sample vectors). Saved to `results/oracle-data/pca_projector.npz`.
+
+- **d=64 captures 60.6% variance** (pilot was 82% on 2632 words)
+- Top PC: 19.8% (vs ~uniform in raw embeddings — L2-norm reveals structure)
+- Effective rank higher than pilot (more diverse vocabulary)
+- This is the production projector for evaluation/comparison
+
+#### Basin projector model built (`basin_model.py`)
+
+`scripts/v9/basin_model.py`: full ascending arm architecture in MLX.
+
+- `BasinConfig`: d_model=256, d_basin=64, n_heads=8, vocab=151936
+- `SpiralAttention`: ternary Q/K/V/O with hyperbolic distance bias
+  `bias(i,j) = -α·ln(|i-j| + 1)`, α=1.18 — infinite effective range
+- `MERALevel`: window → positional enc → spiral attn → FF → attention pool
+  Level 0 (own weights, stride 8) + levels 1-7 (shared weights, stride 2)
+- `BasinProjector`: embed → pos enc → ascending arm → word pooling → basin proj → L2 norm
+- `detect_word_spans()`: BPE word boundary detection for Qwen3 tokenizer
+- Design decision: ascending arm enriches token reps with local context,
+  then mean-pool enriched tokens per BPE word span (not stride-8 collapse)
+- Smoke test passes with random tokens and fake word spans
+
+#### Key files (session 058)
+
+| File | Purpose |
+|------|---------|
+| `scripts/v9/refit_pca.py` | PCA re-fit on full 442K oracle data |
+| `scripts/v9/basin_model.py` | **Basin projector: MERA ascending arm in MLX** |
 
 ### Session 057 results
 
@@ -85,7 +129,9 @@ for phase 1 development.
 | `scripts/v9/oracle_extract.py` | 32B L28 activation extractor + word pooling |
 | `scripts/v9/pca_basin_analysis.py` | PCA v1 (raw — showed rank-1 artifact) |
 | `scripts/v9/pca_basin_analysis_v2.py` | PCA v2 (L2-normed, correct analysis) |
-| `results/oracle-data/` | Pilot shards + PCA projector |
+| `scripts/v9/refit_pca.py` | PCA re-fit on full 442K oracle data |
+| `scripts/v9/basin_model.py` | **Basin projector: MERA ascending arm in MLX** |
+| `results/oracle-data/` | 160 shards (442K words) + PCA projector |
 | `results/embedding_pca.npz` | Saved PCA of 32B token embeddings (top 256 PCs) |
 
 ### Session 056 results
@@ -226,14 +272,13 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 **Step B: Design training regimen** ← DONE (session 056)
 - Full design in `mementum/knowledge/explore/ascending-arm-training.md`
 
-**Step C: Build oracle data generator** ← DONE (session 057)
+**Step C: Build oracle data generator** ← DONE (sessions 057-058)
 - Pipeline built and pilot-validated (500 sentences, 73s, 6.8 sent/s)
-- **Full 80K extraction running overnight** (~3.3 hours estimated)
-- Output: `results/oracle-data/` — ~80 shards, ~4 GB total
-- Re-fit PCA projector on full data when extraction completes
-- Then ready for Step D
+- Full 80K extraction completed: 160 shards, 442,682 words, 3.9 GB
+- PCA projector re-fit on full data: d=64 = 60.6% variance
+- Output: `results/oracle-data/`
 
-**Step D: Build basin projector model** ← NEXT
+**Step D: Build basin projector model** ← IN PROGRESS (session 058)
 - MERA ascending arm: W=8 base stride, 8 levels (v6/v7 proven)
   Level 0 (own weights): 4096 → 512 (stride 8, token/local)
   Levels 1-7 (SHARED weights, stride 2 each): 512 → 4 (wavelet)
@@ -246,10 +291,11 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - Word extraction: mean-pool BPE spans (not Level-2)
 - O(n × W) per level — **523× fewer ops than full attn at seq=4096**
 - **Total: 42M ternary params = 10.5 MB packed**
-- Training: gradient-informed evolution (reuse v8 BIOS infra)
-- Loss: cosine similarity + contrastive for cross-notation pairs
-- Existing code: `scripts/v9/v9_model.py` AscendingArm (adapt to
-  Qwen3 BBPE vocab, add spiral bias from v8 model, add basin head)
+- ✅ **Architecture built**: `scripts/v9/basin_model.py` — MLX ternary,
+  SpiralAttention, MERA levels, word pooling, smoke tested
+- **NEXT: training loop** — data loader for oracle shards,
+  cosine similarity loss to 32B L28 targets, gradient-informed
+  evolution (reuse v8 BIOS infra)
 
 **Step E: 4-phase training curriculum**
 - Phase 1: S-expr calibration (target >0.9 cosine sim to 32B)
@@ -873,6 +919,8 @@ Every superposition given as architecture = capacity freed for facts.
 | **Behavior basin probe** | `scripts/v9/probe_behaviors.py` |
 | **Behavior depth probe** | `scripts/v9/probe_behavior_depth.py` |
 | **PCA basin analysis** | `scripts/v9/pca_basin_analysis_v2.py` |
+| **PCA re-fit (full 442K)** | `scripts/v9/refit_pca.py` |
+| **Basin projector model** | `scripts/v9/basin_model.py` |
 | **32B embedding PCA** | `results/embedding_pca.npz` |
 | **Training regimen design** | `mementum/knowledge/explore/ascending-arm-training.md` |
 | **v9 architecture doc (proven)** | `mementum/knowledge/explore/v9-architecture-speculation.md` |
