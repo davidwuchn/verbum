@@ -321,9 +321,9 @@ def main():
                 shard_strata = []
                 shard_groups = []
 
-            # Progress report every 10 seconds
+            # Progress report every 3 minutes
             now = time.time()
-            if now - t_last_report > 10:
+            if now - t_last_report > 180:
                 elapsed = now - t_start
                 rate = total_sentences / elapsed
                 print(f"  [{total_sentences} sentences, {total_words} words, "

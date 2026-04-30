@@ -226,15 +226,12 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 **Step B: Design training regimen** ← DONE (session 056)
 - Full design in `mementum/knowledge/explore/ascending-arm-training.md`
 
-**Step C: Build oracle data generator** ← DONE (session 057, pilot validated)
-- Script to feed corpus through Qwen3-32B, extract L28 activations
-- **Word pooling:** detect BPE boundaries, mean-pool subword spans
-- Corpus: 80K sentences (S-expr, math, prose, behavioral frames, mixed)
-- **d_basin = 64** (PCA on L2-normalized L28 activations, session 057)
-- PCA projector fit on oracle activations → project to d_basin=64
-- Output: shards of (token_ids, word_boundaries, per_word_basin_vectors)
-- Loading pattern: `from_pretrained(gguf_dir, gguf_file=name)` proven
-- Batch to reduce per-sentence overhead (~62s model load, then fast)
+**Step C: Build oracle data generator** ← DONE (session 057)
+- Pipeline built and pilot-validated (500 sentences, 73s, 6.8 sent/s)
+- **Full 80K extraction running overnight** (~3.3 hours estimated)
+- Output: `results/oracle-data/` — ~80 shards, ~4 GB total
+- Re-fit PCA projector on full data when extraction completes
+- Then ready for Step D
 
 **Step D: Build basin projector model** ← NEXT
 - MERA ascending arm: W=8 base stride, 8 levels (v6/v7 proven)
