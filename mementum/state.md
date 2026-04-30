@@ -324,12 +324,14 @@ tokens into the same basin geometry the 32B model uses at L28-37.
   SpiralAttention, MERA levels, word pooling, smoke tested
 - ✅ **Training loop built**: `scripts/v9/train_basin.py` — Adam +
   evolutionary tournament, cosine sim loss, per-stratum eval
-- 🔄 **Training running**: 20K steps (~16 hours), checkpoints every 1K steps
+- 🔄 **Ready for training**: 20K steps (~16 hours), checkpoints every 1K
+  Command: `uv run python scripts/v9/train_basin.py --total-steps 20000`
   Checkpoints: `checkpoints/basin/step_NNNNNN/`
+  Analyze: `uv run python scripts/v9/analyze_checkpoint.py checkpoints/basin/step_001000 --eval`
   Target: >0.5 cosine sim on S-expr, >0.3 on math/prose
   Noise floor: ~0.12 (1/√64). Values below this = random.
   Ceiling: ~0.85 (PCA reconstruction limit at d=64)
-  100-step smoke test: sim_sexpr=0.18 (above noise), others near zero
+  Sieve arch fixed — shared_level now active with feedback cascade
 
 **Step E: 4-phase training curriculum**
 - Phase 1: S-expr calibration (target >0.9 cosine sim to 32B)
@@ -362,14 +364,12 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - Step F has 3 sub-problems: tree building (mechanical for S-expr/math,
   learned for prose), op dispatch (token identity → op code), and
   wiring basin projector → tree builder → VSM kernel end-to-end.
-- **ARCH BUG: shared_level (MERA levels 1-7) defined but never called
-  in _ascending_arm forward pass.** Model is flat windowed attention
-  (level 0 only, stride 8) + embedding. Not a sieve. ~38.9M of 39.6M
-  params are embedding. Shared_level evolves in tournament but does
-  nothing. Evaluate at step 1K: if sim is low, wiring up the sieve
-  hierarchy may be the fix. If sim is adequate, embedding may be
-  doing the heavy lifting and multi-scale context is unnecessary for
-  short oracle sentences (median 6 words).
+- ~~ARCH BUG: shared_level unused~~ **FIXED session 058.** Sieve now
+  wired: level 0 attend (keep tokens) → level 0 pool (T/8) → levels
+  1-7 shared stride-2 attend+pool → feedback broadcast all levels
+  back to token positions. Each token now sees multi-scale context
+  up to full sequence. Verified: shared_level gets gradients, 
+  _x_abs_mean populated, evolution has importance signal.
 
 ### 9. Future: variable binding and scope
 

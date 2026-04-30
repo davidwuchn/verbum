@@ -295,37 +295,41 @@ class BasinProjector(nn.Module):
         return pe
 
     def _ascending_arm(self, x: mx.array) -> mx.array:
-        """Run MERA ascending arm: levels 0-7.
+        """Run MERA ascending arm: level 0 attend + sieve levels 0-7 + feedback.
+
+        Architecture (sieve with feedback):
+          1. Level 0 ATTEND: within stride-8 windows, keep all token positions
+          2. Level 0 POOL: attention-weighted pooling → T/8 positions
+          3. Levels 1-7 (SHARED): stride-2 attend+pool, progressively reducing
+          4. FEEDBACK: broadcast each level's output back to token positions
+             Each level covers a progressively larger span of original tokens.
+             All scales are added to the enriched token representations.
+
+        Result: each token gets its own embedding + local context (8 tokens)
+        + progressively broader context up to the full sequence.
+
+        For a 128-token sequence:
+          Level 0 pool: 128 → 16 (8-token spans)
+          Level 1: 16 → 8 (16-token spans)
+          Level 2: 8 → 4 (32-token spans)
+          Level 3: 4 → 2 (64-token spans)
+          Level 4: 2 → 1 (128-token span = global)
+          Levels 5-7: skip (already at 1 position)
+
+        For short sentences (~10 tokens, padded to 16):
+          Level 0 pool: 16 → 2
+          Level 1: 2 → 1 (global)
+          → Cross-window context achieved with just 2 active sieve levels.
 
         Args:
             x: (B, T, d_model) — embedded tokens
         Returns:
-            (B, T0, d_model) — level 0 output (token-local scale)
-
-        We return level 0 output because word pooling operates at
-        the token level. The ascending arm's higher levels provide
-        context via the shared attention within windows — by level 0,
-        each window of 8 tokens has already seen its local context.
-
-        Multi-scale: level 0 output positions are 1:8 compressed.
-        BPE words span 1-4 subword tokens → after level 0 (stride 8),
-        each position covers ~2 words. Word pooling maps back to
-        per-word via the BPE boundaries.
-
-        Actually — for word-level extraction, we want representations
-        BEFORE stride-8 collapse. The ascending arm's purpose is to
-        enrich token representations with multi-scale context, then
-        we pool enriched tokens into words.
-
-        Strategy: Apply level 0 attention within windows BUT keep
-        all token positions (don't pool). Higher levels provide
-        context that flows back through the attention patterns.
+            (B, T, d_model) — tokens enriched with multi-scale context
         """
-        # Level 0: attend within stride-8 windows, keep all positions
         B, T, D = x.shape
         stride = self.config.base_stride
 
-        # Pad to multiple of stride
+        # ── Pad to multiple of stride ────────────────────────
         pad_len = (stride - T % stride) % stride
         if pad_len > 0:
             x_padded = mx.concatenate([x, mx.zeros((B, pad_len, D))], axis=1)
@@ -336,21 +340,58 @@ class BasinProjector(nn.Module):
 
         n_windows = T_padded // stride
 
-        # Window + attend (without pooling — keep all positions)
+        # ── Level 0 ATTEND: within stride-8 windows, keep all positions ──
         windows = x_padded.reshape(B, n_windows, stride, D)
         win_pos = self.level0.window_pos(mx.arange(stride))
         windows = windows + win_pos
         flat = windows.reshape(B * n_windows, stride, D)
 
-        # Self-attend within windows (residual)
         attended = flat + self.level0.attn(flat)
         flat_2d = attended.reshape(B * n_windows * stride, D)
         mixed = flat_2d + self.level0.ff(flat_2d)
         enriched = mixed.reshape(B, T_padded, D)
 
-        # Trim padding
-        enriched = enriched[:, :T, :]
+        # ── Level 0 POOL: attention-weighted reduction → T/8 ──
+        attended_windows = mixed.reshape(B * n_windows, stride, D)
+        pool_q = mx.broadcast_to(self.level0._pool_query, (B * n_windows, 1, D))
+        pool_scores = (pool_q @ attended_windows.transpose(0, 2, 1)) * (D ** -0.5)
+        pool_attn = mx.softmax(pool_scores, axis=-1)
+        pooled = (pool_attn @ attended_windows).squeeze(1)  # (B*nw, D)
+        reduced = pooled.reshape(B, n_windows, D)
 
+        # ── Levels 1-7 (SHARED): stride-2 attend+pool ──
+        level_outputs = [reduced]  # level 0 pooled = first feedback source
+        current = reduced
+
+        for _ in range(self.config.n_shared_levels):
+            if current.shape[1] <= 1:
+                break  # can't reduce further
+            current = self.shared_level(current)
+            level_outputs.append(current)
+
+        # ── FEEDBACK: broadcast each level back to token positions ──
+        # Level 0 pooled: each position covers `stride` tokens
+        # Level 1: each position covers `stride * 2` tokens
+        # Level L: each position covers `stride * 2^L` tokens
+        for level_out in level_outputs:
+            n_pos = level_out.shape[1]
+            if n_pos == 0:
+                continue
+            span = T_padded // n_pos  # tokens per position at this level
+            # Broadcast: repeat each position's vector across its span
+            expanded = mx.repeat(level_out, span, axis=1)  # (B, n_pos*span, D)
+            # Handle rounding (n_pos*span might not equal T_padded)
+            if expanded.shape[1] > T_padded:
+                expanded = expanded[:, :T_padded, :]
+            elif expanded.shape[1] < T_padded:
+                pad = T_padded - expanded.shape[1]
+                expanded = mx.concatenate(
+                    [expanded, mx.zeros((B, pad, D))], axis=1
+                )
+            enriched = enriched + expanded
+
+        # ── Trim padding ─────────────────────────────────────
+        enriched = enriched[:, :T, :]
         return enriched
 
     def forward(
