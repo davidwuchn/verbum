@@ -365,8 +365,10 @@ def save_checkpoint(
     step: int, model, optimizer, state: dict,
     row_importance: dict, col_importance: dict, grad_direction: dict,
     checkpoint_dir: Path,
+    mutation_rng: np.random.RandomState | None = None,
+    loader_rng: np.random.RandomState | None = None,
 ):
-    """Save full checkpoint."""
+    """Save full checkpoint including RNG states for exact resume."""
     step_dir = checkpoint_dir / f"step_{step:06d}"
     step_dir.mkdir(parents=True, exist_ok=True)
 
@@ -389,6 +391,19 @@ def save_checkpoint(
     if imp:
         np.savez_compressed(str(step_dir / "importance.npz"), **imp)
 
+    # RNG states (for reproducible resume)
+    rng_data = {}
+    if mutation_rng is not None:
+        mt_state = mutation_rng.get_state()
+        rng_data["mutation_keys"] = mt_state[1]       # (624,) uint32
+        rng_data["mutation_pos"] = np.array([mt_state[2]])  # scalar → array
+    if loader_rng is not None:
+        mt_state = loader_rng.get_state()
+        rng_data["loader_keys"] = mt_state[1]
+        rng_data["loader_pos"] = np.array([mt_state[2]])
+    if rng_data:
+        np.savez_compressed(str(step_dir / "rng.npz"), **rng_data)
+
     # State JSON
     with open(step_dir / "state.json", "w") as f:
         json.dump(state, f, indent=2)
@@ -398,8 +413,13 @@ def save_checkpoint(
 
 def load_checkpoint(
     checkpoint_dir: Path, model, optimizer,
+    mutation_rng: np.random.RandomState | None = None,
+    loader_rng: np.random.RandomState | None = None,
 ) -> tuple[dict, dict, dict, dict]:
-    """Load checkpoint, return (state, row_imp, col_imp, grad_dir)."""
+    """Load checkpoint, return (state, row_imp, col_imp, grad_dir).
+
+    Optionally restores RNG states for reproducible resume.
+    """
     # Model
     weights = dict(mx.load(str(checkpoint_dir / "model.npz")))
     model.load_weights(list(weights.items()))
@@ -428,6 +448,25 @@ def load_checkpoint(
                 col_imp[k[4:]] = v
             elif k.startswith("dir."):
                 grad_dir[k[4:]] = v
+
+    # RNG states
+    rng_path = checkpoint_dir / "rng.npz"
+    if rng_path.exists():
+        rng_data = dict(np.load(str(rng_path)))
+        if mutation_rng is not None and "mutation_keys" in rng_data:
+            mutation_rng.set_state((
+                "MT19937",
+                rng_data["mutation_keys"],
+                int(rng_data["mutation_pos"][0]),
+                0, 0.0,
+            ))
+        if loader_rng is not None and "loader_keys" in rng_data:
+            loader_rng.set_state((
+                "MT19937",
+                rng_data["loader_keys"],
+                int(rng_data["loader_pos"][0]),
+                0, 0.0,
+            ))
 
     return state, row_imp, col_imp, grad_dir
 
@@ -480,6 +519,60 @@ def adapt_base_pct(base_pct: float, window: int = 20) -> float:
     if conservative_rate > 0.5:
         return max(min_pct, base_pct * 0.67)
     return base_pct
+
+
+# ═════════════════════════════════════════════════════════════════
+# Checkpoint helper (deduplicates periodic + final checkpoint logic)
+# ═════════════════════════════════════════════════════════════════
+
+def _do_checkpoint(
+    step, model, optimizer, eval_metrics, train_loader,
+    train_losses, total_gens, total_accepted, base_pct,
+    gen_interval, row_importance, col_importance,
+    grad_direction, mutation_rng, checkpoint_dir,
+):
+    """Build state dict and save a full checkpoint."""
+    # Ternary topology statistics
+    ternary_stats = {}
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear) and hasattr(mod, "ternary_stats"):
+            ternary_stats[path] = mod.ternary_stats()
+
+    # Strategy win distribution (for analysis/display)
+    recent_strategies = list(_strategy_history[-100:])
+    strategy_wins = {}
+    for s in recent_strategies:
+        if s is not None:
+            strategy_wins[s] = strategy_wins.get(s, 0) + 1
+    strategy_wins["rejected"] = recent_strategies.count(None)
+
+    state = {
+        "step": step,
+        "epoch": train_loader.epoch,
+        "base_pct": base_pct,
+        "total_gens": total_gens,
+        "total_accepted": total_accepted,
+        "train_loss_recent": float(np.mean(train_losses[-100:])) if train_losses else 0.0,
+        "train_losses_last100": [float(x) for x in train_losses[-100:]],
+        "eval_metrics": {k: float(v) for k, v in eval_metrics.items()},
+        "strategy_wins": strategy_wins,
+        "ternary_stats": ternary_stats,
+        "gen_interval": gen_interval,
+        # ── Resume state (session 059: close all checkpoint gaps) ──
+        "strategy_history": [
+            s if s is not None else "__rejected__"
+            for s in _strategy_history[-200:]
+        ],
+        "data_loader_epoch": train_loader._epoch,
+        "data_loader_pos": train_loader._pos,
+    }
+    save_checkpoint(
+        step, model, optimizer, state,
+        row_importance, col_importance, grad_direction,
+        checkpoint_dir,
+        mutation_rng=mutation_rng,
+        loader_rng=train_loader.rng,
+    )
 
 
 # ═════════════════════════════════════════════════════════════════
@@ -565,13 +658,20 @@ def main():
     # ── Optimizer (Adam on continuous params only) ────────────
     optimizer = optim.AdamW(learning_rate=args.lr, weight_decay=0.01)
 
-    # ── Resume or fresh start ────────────────────────────────
+    # ── Training state (defaults, overridden by resume) ─────
+    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
     start_step = 0
     base_pct = args.base_pct
     row_importance: dict[str, np.ndarray] = {}
     col_importance: dict[str, np.ndarray] = {}
     grad_direction: dict[str, np.ndarray] = {}
+    rng = np.random.RandomState(args.seed)
+    importance_alpha = 0.1
+    train_losses: list[float] = []
+    total_accepted = 0
+    total_gens = 0
 
+    # ── Resume or fresh start ────────────────────────────────
     if args.resume:
         print(f"\nResuming from {args.resume}")
         # Dummy forward+backward to init optimizer state structure
@@ -589,20 +689,34 @@ def main():
         train_loader.reset()
 
         state, row_importance, col_importance, grad_direction = \
-            load_checkpoint(Path(args.resume), model, optimizer)
+            load_checkpoint(
+                Path(args.resume), model, optimizer,
+                mutation_rng=rng, loader_rng=train_loader.rng,
+            )
         # Re-freeze after load_weights (which may reset freeze state)
         freeze_ternary_weights(model)
+
+        # Restore training state
         start_step = state.get("step", 0)
         base_pct = state.get("base_pct", args.base_pct)
-        print(f"  Resumed at step {start_step}, base_pct={base_pct:.4f}")
+        total_accepted = state.get("total_accepted", 0)
+        total_gens = state.get("total_gens", 0)
+        train_losses = state.get("train_losses_last100", [])
 
-    # ── Training state ───────────────────────────────────────
-    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
-    rng = np.random.RandomState(args.seed)
-    importance_alpha = 0.1
-    train_losses = []
-    total_accepted = 0
-    total_gens = 0
+        # Restore strategy history for adaptive mutation rate
+        saved_history = state.get("strategy_history", [])
+        _strategy_history.clear()
+        _strategy_history.extend(
+            s if s != "__rejected__" else None for s in saved_history
+        )
+
+        # Restore data loader position
+        train_loader._epoch = state.get("data_loader_epoch", 0)
+        train_loader._pos = state.get("data_loader_pos", 0)
+
+        print(f"  Resumed at step {start_step}, epoch {train_loader._epoch}, "
+              f"base_pct={base_pct:.4f}, gens={total_gens}, "
+              f"accepted={total_accepted}")
 
     print(f"\n{'=' * 60}")
     print(f"  Training: {args.total_steps} steps, batch={args.batch_size}, "
@@ -781,37 +895,11 @@ def main():
                 if k.startswith("sim_"):
                     print(f"     {k}: {v:.4f}")
 
-            # Ternary topology statistics
-            ternary_stats = {}
-            for path, mod in _walk_ternary_modules(model):
-                if isinstance(mod, TernaryLinear) and hasattr(mod, 'ternary_stats'):
-                    ternary_stats[path] = mod.ternary_stats()
-
-            # Strategy win distribution
-            recent_strategies = list(_strategy_history[-100:])
-            strategy_wins = {}
-            for s in recent_strategies:
-                if s is not None:
-                    strategy_wins[s] = strategy_wins.get(s, 0) + 1
-            strategy_wins["rejected"] = recent_strategies.count(None)
-
-            state = {
-                "step": step,
-                "epoch": train_loader.epoch,
-                "base_pct": base_pct,
-                "total_gens": total_gens,
-                "total_accepted": total_accepted,
-                "train_loss_recent": float(np.mean(train_losses[-100:])),
-                "train_losses_last100": [float(x) for x in train_losses[-100:]],
-                "eval_metrics": {k: float(v) for k, v in ckpt_eval.items()},
-                "strategy_wins": strategy_wins,
-                "ternary_stats": ternary_stats,
-                "gen_interval": args.gen_interval,
-            }
-            save_checkpoint(
-                step, model, optimizer, state,
-                row_importance, col_importance, grad_direction,
-                CHECKPOINT_DIR,
+            _do_checkpoint(
+                step, model, optimizer, ckpt_eval, train_loader,
+                train_losses, total_gens, total_accepted, base_pct,
+                args.gen_interval, row_importance, col_importance,
+                grad_direction, rng, CHECKPOINT_DIR,
             )
             print()
 
@@ -826,35 +914,11 @@ def main():
     print(f"  Evo: {total_gens} gens, {total_accepted} accepted")
     print(f"{'=' * 60}")
 
-    ternary_stats = {}
-    for path, mod in _walk_ternary_modules(model):
-        if isinstance(mod, TernaryLinear) and hasattr(mod, 'ternary_stats'):
-            ternary_stats[path] = mod.ternary_stats()
-
-    recent_strategies = list(_strategy_history[-100:])
-    strategy_wins = {}
-    for s in recent_strategies:
-        if s is not None:
-            strategy_wins[s] = strategy_wins.get(s, 0) + 1
-    strategy_wins["rejected"] = recent_strategies.count(None)
-
-    state = {
-        "step": args.total_steps,
-        "epoch": train_loader.epoch,
-        "base_pct": base_pct,
-        "total_gens": total_gens,
-        "total_accepted": total_accepted,
-        "train_loss_recent": float(np.mean(train_losses[-100:])),
-        "train_losses_last100": [float(x) for x in train_losses[-100:]],
-        "eval_metrics": {k: float(v) for k, v in final_metrics.items()},
-        "strategy_wins": strategy_wins,
-        "ternary_stats": ternary_stats,
-        "gen_interval": args.gen_interval,
-    }
-    save_checkpoint(
-        args.total_steps, model, optimizer, state,
-        row_importance, col_importance, grad_direction,
-        CHECKPOINT_DIR,
+    _do_checkpoint(
+        args.total_steps, model, optimizer, final_metrics, train_loader,
+        train_losses, total_gens, total_accepted, base_pct,
+        args.gen_interval, row_importance, col_importance,
+        grad_direction, rng, CHECKPOINT_DIR,
     )
 
 
