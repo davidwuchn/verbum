@@ -498,37 +498,66 @@ def zero_ternary_grads(model: nn.Module, grads: dict) -> dict:
     return _zero("", grads)
 
 
-def restore_ternary(model: nn.Module) -> None:
-    """Re-cast any ternary weights back to their correct dtype after an optimizer step.
+def freeze_ternary_weights(model: nn.Module) -> int:
+    """Freeze all packed ternary weight parameters so the optimizer ignores them.
 
-    Safety net: if the optimizer inadvertently casts packed weights to float,
-    this restores them.  With zero_ternary_grads applied correctly this
-    should be a no-op, but prevents silent dtype drift.
+    This is the correct way to protect packed uint32/uint8 topology weights
+    from AdamW weight decay corruption.  Without freezing, AdamW applies
+    weight decay (w *= 1 - lr*wd) which casts packed uint32 to float32,
+    destroying the 2-bit field packing.
 
-    - TernaryLinear.weight:         uint32
-    - TernaryEmbedding.ternary_weight: uint8
+    Freezing removes these parameters from model.trainable_parameters(),
+    so nn.value_and_grad won't differentiate through them and the optimizer
+    won't apply weight decay or momentum updates.
+
+    Evolutionary mutations still work via direct assignment (mod.weight = ...).
+
+    Must be called:
+      - After model creation
+      - After model.load_weights() (which may reset freeze state)
+
+    Returns:
+        Number of modules frozen.
     """
-    def _walk(mod):
+    n_frozen = 0
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear):
+            mod.freeze(keys=["weight"])
+            n_frozen += 1
+        elif isinstance(mod, TernaryEmbedding):
+            mod.freeze(keys=["ternary_weight"])
+            n_frozen += 1
+    return n_frozen
+
+
+def restore_ternary(model: nn.Module) -> None:
+    """Assert ternary weights have correct dtype — detect corruption early.
+
+    With freeze_ternary_weights() applied, the optimizer should never touch
+    packed weights.  This function raises immediately if it detects dtype
+    drift rather than silently corrupting the packing by clipping.
+
+    The old implementation clipped packed uint32 values to [0, 3] which
+    DESTROYED the 2-bit field packing (15 of 16 slots collapsed to -1).
+    That bug is now prevented by freezing, and this function is the alarm.
+    """
+    for path, mod in _walk_ternary_modules(model):
         if isinstance(mod, TernaryLinear):
             if mod.weight.dtype != mx.uint32:
-                # Clip to valid 2-bit range [0,3] then round and cast
-                mod.weight = mx.clip(
-                    mx.round(mod.weight), 0, 3
-                ).astype(mx.uint32)
+                raise RuntimeError(
+                    f"TERNARY CORRUPTION: {path}.weight dtype is "
+                    f"{mod.weight.dtype}, expected uint32. "
+                    f"Was freeze_ternary_weights() called after model init "
+                    f"and after load_weights()?"
+                )
         elif isinstance(mod, TernaryEmbedding):
             if mod.ternary_weight.dtype != mx.uint8:
-                mod.ternary_weight = mx.clip(
-                    mx.round(mod.ternary_weight), 0, 255
-                ).astype(mx.uint8)
-        if isinstance(mod, nn.Module):
-            for child in mod.children().values():
-                if isinstance(child, nn.Module):
-                    _walk(child)
-                elif isinstance(child, list):
-                    for item in child:
-                        if isinstance(item, nn.Module):
-                            _walk(item)
-    _walk(model)
+                raise RuntimeError(
+                    f"TERNARY CORRUPTION: {path}.ternary_weight dtype is "
+                    f"{mod.ternary_weight.dtype}, expected uint8. "
+                    f"Was freeze_ternary_weights() called after model init "
+                    f"and after load_weights()?"
+                )
 
 
 # ══════════════════════════════════════════════════════════════════════

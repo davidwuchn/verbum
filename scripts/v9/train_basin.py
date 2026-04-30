@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "v8"))
 from basin_model import BasinProjector, BasinConfig, detect_word_spans
 from ternary import (
     TernaryLinear,
+    freeze_ternary_weights,
     zero_ternary_grads,
     restore_ternary,
     count_ternary_weights,
@@ -553,6 +554,14 @@ def main():
     total_ternary = count_ternary_weights(model)
     print(f"  Ternary weights (evolution): {total_ternary:,}")
 
+    # ── Freeze ternary topology weights ──────────────────────
+    # CRITICAL: prevents AdamW weight decay from corrupting packed uint32.
+    # Without this, weight decay casts uint32→float32, destroying the
+    # 2-bit field packing (session 059 diagnosis: 94% of weights collapsed
+    # to -1, 6% corrupted to invalid encoded=3).
+    n_frozen = freeze_ternary_weights(model)
+    print(f"  Frozen ternary modules: {n_frozen} (optimizer will not touch topology)")
+
     # ── Optimizer (Adam on continuous params only) ────────────
     optimizer = optim.AdamW(learning_rate=args.lr, weight_decay=0.01)
 
@@ -581,6 +590,8 @@ def main():
 
         state, row_importance, col_importance, grad_direction = \
             load_checkpoint(Path(args.resume), model, optimizer)
+        # Re-freeze after load_weights (which may reset freeze state)
+        freeze_ternary_weights(model)
         start_step = state.get("step", 0)
         base_pct = state.get("base_pct", args.base_pct)
         print(f"  Resumed at step {start_step}, base_pct={base_pct:.4f}")
