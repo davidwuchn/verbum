@@ -577,7 +577,7 @@ def main():
     parser.add_argument("--grad-accum", type=int, default=1)
     parser.add_argument("--seed", type=int, default=42)
     # ── Evolution ─────────────────────────────────────────────
-    parser.add_argument("--gen-interval", type=int, default=25,
+    parser.add_argument("--gen-interval", type=int, default=50,
                         help="Steps between evolutionary tournaments")
     parser.add_argument("--base-pct", type=float, default=0.005,
                         help="Base mutation rate for ternary topology")
