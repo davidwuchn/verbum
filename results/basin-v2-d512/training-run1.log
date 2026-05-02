@@ -1,0 +1,3238 @@
+============================================================
+  Basin Projector Training  (v2 — gamma-only, no evolution)
+============================================================
+  d_model=512  d_basin=512  n_heads=16
+  checkpoint_dir: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512
+  pca_path: /Users/mwhitford/src/verbum/results/oracle-data/pca_projector_512.npz
+
+Loading tokenizer...
+  Vocab size: 151643
+Loading PCA projector: /Users/mwhitford/src/verbum/results/oracle-data/pca_projector_512.npz
+  d_basin=512, components: (512, 5120)
+
+Data: 152 train shards, 8 eval shards
+  ~76000 train sentences, ~4000 eval sentences
+
+Model: d_model=512, d_basin=512, n_heads=16, n_levels=8
+  Total logical params: 80,840,064
+  Ternary logical: 80,674,816
+  Continuous: 165,248
+  Packed size: 20.8 MB
+  Frozen ternary modules: 12 (optimizer will not touch topology)
+
+============================================================
+  Training: 16000 steps, batch=32, lr=0.0003 → 3.00e-06 (cosine, 1% floor)
+============================================================
+
+  step    10 | loss 0.9974 (avg50: 0.9950) | lr 6.00e-06 | epoch 0 | 1.84s/step | 18s total
+  step    20 | loss 0.9929 (avg50: 0.9956) | lr 1.20e-05 | epoch 0 | 1.76s/step | 36s total
+  step    30 | loss 1.0035 (avg50: 0.9949) | lr 1.80e-05 | epoch 0 | 1.77s/step | 54s total
+  step    40 | loss 0.9995 (avg50: 0.9949) | lr 2.40e-05 | epoch 0 | 1.81s/step | 71s total
+  step    50 | loss 0.9953 (avg50: 0.9938) | lr 3.00e-05 | epoch 0 | 1.79s/step | 90s total
+  step    60 | loss 0.9760 (avg50: 0.9925) | lr 3.60e-05 | epoch 0 | 1.82s/step | 107s total
+  step    70 | loss 0.9749 (avg50: 0.9896) | lr 4.20e-05 | epoch 0 | 1.78s/step | 125s total
+  step    80 | loss 0.9499 (avg50: 0.9871) | lr 4.80e-05 | epoch 0 | 1.81s/step | 143s total
+  step    90 | loss 0.9924 (avg50: 0.9815) | lr 5.40e-05 | epoch 0 | 1.79s/step | 161s total
+  step   100 | loss 0.9546 (avg50: 0.9789) | lr 6.00e-05 | epoch 0 | 1.82s/step | 179s total
+
+  📊 Eval @ step 100: cosine_sim=0.0346
+     sim_behavioral: -0.0395
+     sim_complex: -0.0008
+     sim_math: 0.1722
+     sim_mixed: 0.0162
+     sim_prose: 0.0020
+     sim_sexpr: 0.2602
+
+  step   110 | loss 0.9835 (avg50: 0.9749) | lr 6.60e-05 | epoch 0 | 1.78s/step | 211s total
+  step   120 | loss 0.9751 (avg50: 0.9703) | lr 7.20e-05 | epoch 0 | 1.81s/step | 229s total
+  step   130 | loss 0.9350 (avg50: 0.9636) | lr 7.80e-05 | epoch 0 | 1.79s/step | 247s total
+  step   140 | loss 0.8901 (avg50: 0.9610) | lr 8.40e-05 | epoch 0 | 1.79s/step | 265s total
+  step   150 | loss 0.9304 (avg50: 0.9542) | lr 9.00e-05 | epoch 0 | 1.78s/step | 283s total
+  step   160 | loss 0.9056 (avg50: 0.9497) | lr 9.60e-05 | epoch 0 | 1.80s/step | 301s total
+  step   170 | loss 0.9426 (avg50: 0.9490) | lr 1.02e-04 | epoch 0 | 1.79s/step | 319s total
+  step   180 | loss 0.9760 (avg50: 0.9482) | lr 1.08e-04 | epoch 0 | 1.77s/step | 336s total
+  step   190 | loss 0.9929 (avg50: 0.9476) | lr 1.14e-04 | epoch 0 | 1.81s/step | 354s total
+  step   200 | loss 0.8857 (avg50: 0.9478) | lr 1.20e-04 | epoch 0 | 1.77s/step | 372s total
+
+  📊 Eval @ step 200: cosine_sim=0.0370
+     sim_behavioral: -0.0436
+     sim_complex: 0.0244
+     sim_math: 0.3520
+     sim_mixed: 0.0214
+     sim_prose: 0.0150
+     sim_sexpr: 0.3936
+
+  step   210 | loss 0.9845 (avg50: 0.9465) | lr 1.26e-04 | epoch 0 | 1.79s/step | 404s total
+  step   220 | loss 0.9499 (avg50: 0.9416) | lr 1.32e-04 | epoch 0 | 1.77s/step | 422s total
+  step   230 | loss 0.8938 (avg50: 0.9392) | lr 1.38e-04 | epoch 0 | 1.77s/step | 440s total
+  step   240 | loss 0.9050 (avg50: 0.9289) | lr 1.44e-04 | epoch 0 | 1.77s/step | 457s total
+  step   250 | loss 0.9065 (avg50: 0.9192) | lr 1.50e-04 | epoch 0 | 1.77s/step | 475s total
+  step   260 | loss 0.8764 (avg50: 0.9084) | lr 1.56e-04 | epoch 0 | 1.78s/step | 493s total
+  step   270 | loss 0.7986 (avg50: 0.8913) | lr 1.62e-04 | epoch 0 | 1.84s/step | 511s total
+  step   280 | loss 0.7696 (avg50: 0.8653) | lr 1.68e-04 | epoch 0 | 1.78s/step | 529s total
+  step   290 | loss 0.7560 (avg50: 0.8358) | lr 1.74e-04 | epoch 0 | 1.96s/step | 548s total
+  step   300 | loss 0.6884 (avg50: 0.8029) | lr 1.80e-04 | epoch 0 | 1.88s/step | 566s total
+
+  📊 Eval @ step 300: cosine_sim=0.3220
+     sim_behavioral: 0.3420
+     sim_complex: 0.2137
+     sim_math: 0.3332
+     sim_mixed: 0.3222
+     sim_prose: 0.2907
+     sim_sexpr: 0.4356
+
+  step   310 | loss 0.6319 (avg50: 0.7557) | lr 1.86e-04 | epoch 0 | 1.80s/step | 601s total
+  step   320 | loss 0.5728 (avg50: 0.7124) | lr 1.92e-04 | epoch 0 | 1.82s/step | 619s total
+  step   330 | loss 0.6555 (avg50: 0.6756) | lr 1.98e-04 | epoch 0 | 1.81s/step | 637s total
+  step   340 | loss 0.5682 (avg50: 0.6412) | lr 2.04e-04 | epoch 0 | 1.78s/step | 655s total
+  step   350 | loss 0.5583 (avg50: 0.6091) | lr 2.10e-04 | epoch 0 | 1.78s/step | 673s total
+  step   360 | loss 0.5845 (avg50: 0.5901) | lr 2.16e-04 | epoch 0 | 1.78s/step | 691s total
+  step   370 | loss 0.5346 (avg50: 0.5738) | lr 2.22e-04 | epoch 0 | 1.79s/step | 709s total
+  step   380 | loss 0.5510 (avg50: 0.5625) | lr 2.28e-04 | epoch 0 | 1.81s/step | 727s total
+  step   390 | loss 0.5007 (avg50: 0.5557) | lr 2.34e-04 | epoch 0 | 1.78s/step | 745s total
+  step   400 | loss 0.4935 (avg50: 0.5485) | lr 2.40e-04 | epoch 0 | 1.78s/step | 763s total
+
+  📊 Eval @ step 400: cosine_sim=0.4434
+     sim_behavioral: 0.4835
+     sim_complex: 0.2903
+     sim_math: 0.5269
+     sim_mixed: 0.3364
+     sim_prose: 0.4168
+     sim_sexpr: 0.6128
+
+  step   410 | loss 0.5072 (avg50: 0.5482) | lr 2.46e-04 | epoch 0 | 1.88s/step | 795s total
+  step   420 | loss 0.5220 (avg50: 0.5458) | lr 2.52e-04 | epoch 0 | 1.77s/step | 813s total
+  step   430 | loss 0.5189 (avg50: 0.5380) | lr 2.58e-04 | epoch 0 | 1.81s/step | 831s total
+  step   440 | loss 0.5118 (avg50: 0.5357) | lr 2.64e-04 | epoch 0 | 1.79s/step | 849s total
+  step   450 | loss 0.4964 (avg50: 0.5313) | lr 2.70e-04 | epoch 0 | 1.78s/step | 867s total
+  step   460 | loss 0.4977 (avg50: 0.5228) | lr 2.76e-04 | epoch 0 | 1.79s/step | 885s total
+  step   470 | loss 0.4924 (avg50: 0.5188) | lr 2.82e-04 | epoch 0 | 1.79s/step | 903s total
+  step   480 | loss 0.5070 (avg50: 0.5175) | lr 2.88e-04 | epoch 0 | 1.90s/step | 921s total
+  step   490 | loss 0.5028 (avg50: 0.5126) | lr 2.94e-04 | epoch 0 | 1.88s/step | 940s total
+  step   500 | loss 0.5212 (avg50: 0.5116) | lr 3.00e-04 | epoch 0 | 1.78s/step | 958s total
+
+  📊 Eval @ step 500: cosine_sim=0.5050
+     sim_behavioral: 0.5257
+     sim_complex: 0.4112
+     sim_math: 0.5869
+     sim_mixed: 0.4192
+     sim_prose: 0.5149
+     sim_sexpr: 0.6073
+
+  step   510 | loss 0.5196 (avg50: 0.5106) | lr 3.00e-04 | epoch 0 | 1.78s/step | 990s total
+  step   520 | loss 0.4562 (avg50: 0.5057) | lr 3.00e-04 | epoch 0 | 1.77s/step | 1008s total
+  step   530 | loss 0.4802 (avg50: 0.5012) | lr 3.00e-04 | epoch 0 | 1.78s/step | 1026s total
+  step   540 | loss 0.5134 (avg50: 0.4991) | lr 3.00e-04 | epoch 0 | 1.77s/step | 1044s total
+  step   550 | loss 0.4729 (avg50: 0.4945) | lr 3.00e-04 | epoch 0 | 1.76s/step | 1062s total
+  step   560 | loss 0.4741 (avg50: 0.4927) | lr 3.00e-04 | epoch 0 | 1.77s/step | 1079s total
+  step   570 | loss 0.4806 (avg50: 0.4901) | lr 3.00e-04 | epoch 0 | 1.83s/step | 1097s total
+  step   580 | loss 0.4792 (avg50: 0.4899) | lr 3.00e-04 | epoch 0 | 1.81s/step | 1116s total
+  step   590 | loss 0.4819 (avg50: 0.4867) | lr 3.00e-04 | epoch 0 | 1.83s/step | 1134s total
+  step   600 | loss 0.4709 (avg50: 0.4847) | lr 3.00e-04 | epoch 0 | 1.85s/step | 1152s total
+
+  📊 Eval @ step 600: cosine_sim=0.5336
+     sim_behavioral: 0.5488
+     sim_complex: 0.4493
+     sim_math: 0.6086
+     sim_mixed: 0.4395
+     sim_prose: 0.5308
+     sim_sexpr: 0.6546
+
+  step   610 | loss 0.4788 (avg50: 0.4803) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1184s total
+  step   620 | loss 0.4633 (avg50: 0.4805) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1202s total
+  step   630 | loss 0.4894 (avg50: 0.4777) | lr 3.00e-04 | epoch 0 | 1.78s/step | 1220s total
+  step   640 | loss 0.4673 (avg50: 0.4784) | lr 3.00e-04 | epoch 0 | 1.77s/step | 1238s total
+  step   650 | loss 0.4358 (avg50: 0.4760) | lr 3.00e-04 | epoch 0 | 1.78s/step | 1255s total
+  step   660 | loss 0.4649 (avg50: 0.4760) | lr 3.00e-04 | epoch 0 | 1.77s/step | 1273s total
+  step   670 | loss 0.4619 (avg50: 0.4738) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1291s total
+  step   680 | loss 0.4702 (avg50: 0.4705) | lr 3.00e-04 | epoch 0 | 1.82s/step | 1309s total
+  step   690 | loss 0.4602 (avg50: 0.4645) | lr 3.00e-04 | epoch 0 | 1.83s/step | 1327s total
+  step   700 | loss 0.4480 (avg50: 0.4635) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1345s total
+
+  📊 Eval @ step 700: cosine_sim=0.5358
+     sim_behavioral: 0.5264
+     sim_complex: 0.4460
+     sim_math: 0.6569
+     sim_mixed: 0.4877
+     sim_prose: 0.5393
+     sim_sexpr: 0.6761
+
+  step   710 | loss 0.4441 (avg50: 0.4615) | lr 3.00e-04 | epoch 0 | 1.85s/step | 1377s total
+  step   720 | loss 0.4704 (avg50: 0.4602) | lr 3.00e-04 | epoch 0 | 1.87s/step | 1396s total
+  step   730 | loss 0.4354 (avg50: 0.4594) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1414s total
+  step   740 | loss 0.4733 (avg50: 0.4589) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1432s total
+  step   750 | loss 0.4395 (avg50: 0.4556) | lr 3.00e-04 | epoch 0 | 1.84s/step | 1450s total
+  step   760 | loss 0.4665 (avg50: 0.4538) | lr 3.00e-04 | epoch 0 | 1.78s/step | 1468s total
+  step   770 | loss 0.4452 (avg50: 0.4527) | lr 3.00e-04 | epoch 0 | 1.81s/step | 1486s total
+  step   780 | loss 0.4519 (avg50: 0.4508) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1504s total
+  step   790 | loss 0.4092 (avg50: 0.4495) | lr 3.00e-04 | epoch 0 | 1.84s/step | 1522s total
+  step   800 | loss 0.4298 (avg50: 0.4510) | lr 3.00e-04 | epoch 0 | 1.89s/step | 1540s total
+
+  📊 Eval @ step 800: cosine_sim=0.5469
+     sim_behavioral: 0.5472
+     sim_complex: 0.4799
+     sim_math: 0.6688
+     sim_mixed: 0.5001
+     sim_prose: 0.5343
+     sim_sexpr: 0.6657
+
+  step   810 | loss 0.4518 (avg50: 0.4482) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1573s total
+  step   820 | loss 0.4650 (avg50: 0.4482) | lr 3.00e-04 | epoch 0 | 1.85s/step | 1591s total
+  step   830 | loss 0.4536 (avg50: 0.4564) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1610s total
+  step   840 | loss 0.4557 (avg50: 0.4621) | lr 3.00e-04 | epoch 0 | 1.83s/step | 1627s total
+  step   850 | loss 0.4578 (avg50: 0.4630) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1646s total
+  step   860 | loss 0.4551 (avg50: 0.4638) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1664s total
+  step   870 | loss 0.4406 (avg50: 0.4611) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1681s total
+  step   880 | loss 0.4353 (avg50: 0.4520) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1700s total
+  step   890 | loss 0.4499 (avg50: 0.4460) | lr 3.00e-04 | epoch 0 | 1.80s/step | 1718s total
+  step   900 | loss 0.4428 (avg50: 0.4458) | lr 3.00e-04 | epoch 0 | 1.79s/step | 1736s total
+
+  📊 Eval @ step 900: cosine_sim=0.5672
+     sim_behavioral: 0.5724
+     sim_complex: 0.5044
+     sim_math: 0.6438
+     sim_mixed: 0.5115
+     sim_prose: 0.5767
+     sim_sexpr: 0.6751
+
+  step   910 | loss 0.4082 (avg50: 0.4438) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1768s total
+  step   920 | loss 0.4440 (avg50: 0.4431) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1786s total
+  step   930 | loss 0.4556 (avg50: 0.4415) | lr 2.99e-04 | epoch 0 | 1.85s/step | 1804s total
+  step   940 | loss 0.4171 (avg50: 0.4381) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1822s total
+  step   950 | loss 0.4213 (avg50: 0.4362) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1840s total
+  step   960 | loss 0.4392 (avg50: 0.4362) | lr 2.99e-04 | epoch 0 | 1.79s/step | 1858s total
+  step   970 | loss 0.4712 (avg50: 0.4366) | lr 2.99e-04 | epoch 0 | 1.80s/step | 1875s total
+  step   980 | loss 0.4397 (avg50: 0.4371) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1893s total
+  step   990 | loss 0.4408 (avg50: 0.4379) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1911s total
+  step  1000 | loss 0.4349 (avg50: 0.4355) | lr 2.99e-04 | epoch 0 | 1.78s/step | 1929s total
+
+  📊 Eval @ step 1000: cosine_sim=0.5734
+     sim_behavioral: 0.5633
+     sim_complex: 0.5105
+     sim_math: 0.6610
+     sim_mixed: 0.5045
+     sim_prose: 0.5619
+     sim_sexpr: 0.6824
+
+
+  📊 Checkpoint eval @ step 1000: cosine_sim=0.5704
+     sim_behavioral: 0.5679
+     sim_complex: 0.5112
+     sim_math: 0.6740
+     sim_mixed: 0.5079
+     sim_prose: 0.5563
+     sim_sexpr: 0.6903
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_001000
+
+  step  1010 | loss 0.4338 (avg50: 0.4343) | lr 2.99e-04 | epoch 0 | 1.82s/step | 1989s total
+  step  1020 | loss 0.4172 (avg50: 0.4326) | lr 2.99e-04 | epoch 0 | 1.78s/step | 2007s total
+  step  1030 | loss 0.4533 (avg50: 0.4329) | lr 2.99e-04 | epoch 0 | 1.78s/step | 2025s total
+  step  1040 | loss 0.4213 (avg50: 0.4327) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2043s total
+  step  1050 | loss 0.4334 (avg50: 0.4317) | lr 2.99e-04 | epoch 0 | 1.78s/step | 2061s total
+  step  1060 | loss 0.4269 (avg50: 0.4319) | lr 2.99e-04 | epoch 0 | 1.85s/step | 2079s total
+  step  1070 | loss 0.4425 (avg50: 0.4315) | lr 2.99e-04 | epoch 0 | 1.84s/step | 2097s total
+  step  1080 | loss 0.4257 (avg50: 0.4292) | lr 2.99e-04 | epoch 0 | 1.78s/step | 2115s total
+  step  1090 | loss 0.4336 (avg50: 0.4275) | lr 2.99e-04 | epoch 0 | 1.78s/step | 2133s total
+  step  1100 | loss 0.4088 (avg50: 0.4265) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2150s total
+
+  📊 Eval @ step 1100: cosine_sim=0.5733
+     sim_behavioral: 0.5720
+     sim_complex: 0.5106
+     sim_math: 0.6779
+     sim_mixed: 0.5222
+     sim_prose: 0.5476
+     sim_sexpr: 0.6870
+
+  step  1110 | loss 0.4676 (avg50: 0.4262) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2182s total
+  step  1120 | loss 0.4064 (avg50: 0.4247) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2200s total
+  step  1130 | loss 0.4132 (avg50: 0.4246) | lr 2.99e-04 | epoch 0 | 1.76s/step | 2218s total
+  step  1140 | loss 0.4415 (avg50: 0.4253) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2235s total
+  step  1150 | loss 0.4259 (avg50: 0.4264) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2253s total
+  step  1160 | loss 0.4021 (avg50: 0.4258) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2271s total
+  step  1170 | loss 0.4190 (avg50: 0.4267) | lr 2.99e-04 | epoch 0 | 1.76s/step | 2288s total
+  step  1180 | loss 0.3963 (avg50: 0.4246) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2306s total
+  step  1190 | loss 0.4262 (avg50: 0.4229) | lr 2.99e-04 | epoch 0 | 1.76s/step | 2324s total
+  step  1200 | loss 0.4402 (avg50: 0.4206) | lr 2.99e-04 | epoch 0 | 1.77s/step | 2342s total
+
+  📊 Eval @ step 1200: cosine_sim=0.5811
+     sim_behavioral: 0.5875
+     sim_complex: 0.5282
+     sim_math: 0.6644
+     sim_mixed: 0.5214
+     sim_prose: 0.5678
+     sim_sexpr: 0.6946
+
+  step  1210 | loss 0.4110 (avg50: 0.4215) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2373s total
+  step  1220 | loss 0.4418 (avg50: 0.4218) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2391s total
+  step  1230 | loss 0.4121 (avg50: 0.4230) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2409s total
+  step  1240 | loss 0.4277 (avg50: 0.4225) | lr 2.98e-04 | epoch 0 | 1.79s/step | 2427s total
+  step  1250 | loss 0.4325 (avg50: 0.4232) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2445s total
+  step  1260 | loss 0.4241 (avg50: 0.4200) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2462s total
+  step  1270 | loss 0.4438 (avg50: 0.4193) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2480s total
+  step  1280 | loss 0.4076 (avg50: 0.4187) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2498s total
+  step  1290 | loss 0.4248 (avg50: 0.4196) | lr 2.98e-04 | epoch 0 | 1.83s/step | 2516s total
+  step  1300 | loss 0.4207 (avg50: 0.4181) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2534s total
+
+  📊 Eval @ step 1300: cosine_sim=0.5879
+     sim_behavioral: 0.5796
+     sim_complex: 0.5213
+     sim_math: 0.6847
+     sim_mixed: 0.5386
+     sim_prose: 0.5609
+     sim_sexpr: 0.6957
+
+  step  1310 | loss 0.4046 (avg50: 0.4179) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2566s total
+  step  1320 | loss 0.4222 (avg50: 0.4147) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2584s total
+  step  1330 | loss 0.4046 (avg50: 0.4132) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2601s total
+  step  1340 | loss 0.4150 (avg50: 0.4119) | lr 2.98e-04 | epoch 0 | 1.79s/step | 2619s total
+  step  1350 | loss 0.4061 (avg50: 0.4129) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2637s total
+  step  1360 | loss 0.4067 (avg50: 0.4129) | lr 2.98e-04 | epoch 0 | 1.82s/step | 2655s total
+  step  1370 | loss 0.4001 (avg50: 0.4150) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2673s total
+  step  1380 | loss 0.4116 (avg50: 0.4161) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2691s total
+  step  1390 | loss 0.4320 (avg50: 0.4166) | lr 2.98e-04 | epoch 0 | 1.77s/step | 2708s total
+  step  1400 | loss 0.4154 (avg50: 0.4157) | lr 2.98e-04 | epoch 0 | 1.78s/step | 2726s total
+
+  📊 Eval @ step 1400: cosine_sim=0.5877
+     sim_behavioral: 0.5903
+     sim_complex: 0.5329
+     sim_math: 0.6878
+     sim_mixed: 0.5403
+     sim_prose: 0.5830
+     sim_sexpr: 0.6998
+
+  step  1410 | loss 0.4029 (avg50: 0.4160) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2758s total
+  step  1420 | loss 0.4095 (avg50: 0.4145) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2776s total
+  step  1430 | loss 0.4133 (avg50: 0.4120) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2794s total
+  step  1440 | loss 0.3967 (avg50: 0.4100) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2811s total
+  step  1450 | loss 0.3697 (avg50: 0.4081) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2829s total
+  step  1460 | loss 0.4112 (avg50: 0.4065) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2847s total
+  step  1470 | loss 0.4113 (avg50: 0.4039) | lr 2.97e-04 | epoch 0 | 1.78s/step | 2865s total
+  step  1480 | loss 0.3808 (avg50: 0.4037) | lr 2.97e-04 | epoch 0 | 1.77s/step | 2883s total
+  step  1490 | loss 0.4189 (avg50: 0.4036) | lr 2.97e-04 | epoch 0 | 1.77s/step | 2900s total
+  step  1500 | loss 0.4501 (avg50: 0.4062) | lr 2.97e-04 | epoch 0 | 1.77s/step | 2918s total
+
+  📊 Eval @ step 1500: cosine_sim=0.5834
+     sim_behavioral: 0.5839
+     sim_complex: 0.5131
+     sim_math: 0.6783
+     sim_mixed: 0.5270
+     sim_prose: 0.5584
+     sim_sexpr: 0.6971
+
+  step  1510 | loss 0.4091 (avg50: 0.4053) | lr 2.97e-04 | epoch 0 | 1.77s/step | 2950s total
+  step  1520 | loss 0.4057 (avg50: 0.4070) | lr 2.97e-04 | epoch 0 | 1.77s/step | 2967s total
+  step  1530 | loss 0.4171 (avg50: 0.4072) | lr 2.97e-04 | epoch 0 | 1.81s/step | 2986s total
+  step  1540 | loss 0.3961 (avg50: 0.4063) | lr 2.97e-04 | epoch 0 | 1.78s/step | 3004s total
+  step  1550 | loss 0.3813 (avg50: 0.4068) | lr 2.97e-04 | epoch 0 | 1.77s/step | 3021s total
+  step  1560 | loss 0.4247 (avg50: 0.4081) | lr 2.97e-04 | epoch 0 | 1.77s/step | 3039s total
+  step  1570 | loss 0.4045 (avg50: 0.4094) | lr 2.97e-04 | epoch 0 | 1.85s/step | 3057s total
+  step  1580 | loss 0.4150 (avg50: 0.4101) | lr 2.96e-04 | epoch 0 | 1.86s/step | 3075s total
+  step  1590 | loss 0.4032 (avg50: 0.4113) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3094s total
+  step  1600 | loss 0.3848 (avg50: 0.4077) | lr 2.96e-04 | epoch 0 | 1.77s/step | 3111s total
+
+  📊 Eval @ step 1600: cosine_sim=0.5894
+     sim_behavioral: 0.5992
+     sim_complex: 0.5242
+     sim_math: 0.6760
+     sim_mixed: 0.5407
+     sim_prose: 0.5681
+     sim_sexpr: 0.7081
+
+  step  1610 | loss 0.3938 (avg50: 0.4066) | lr 2.96e-04 | epoch 0 | 1.80s/step | 3143s total
+  step  1620 | loss 0.4283 (avg50: 0.4051) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3161s total
+  step  1630 | loss 0.3918 (avg50: 0.4035) | lr 2.96e-04 | epoch 0 | 1.77s/step | 3179s total
+  step  1640 | loss 0.4279 (avg50: 0.4045) | lr 2.96e-04 | epoch 0 | 1.79s/step | 3197s total
+  step  1650 | loss 0.4274 (avg50: 0.4064) | lr 2.96e-04 | epoch 0 | 1.77s/step | 3215s total
+  step  1660 | loss 0.5203 (avg50: 0.4097) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3233s total
+  step  1670 | loss 0.3940 (avg50: 0.4098) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3251s total
+  step  1680 | loss 0.4034 (avg50: 0.4108) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3268s total
+  step  1690 | loss 0.4191 (avg50: 0.4095) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3286s total
+  step  1700 | loss 0.4105 (avg50: 0.4091) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3304s total
+
+  📊 Eval @ step 1700: cosine_sim=0.5989
+     sim_behavioral: 0.6085
+     sim_complex: 0.5443
+     sim_math: 0.6924
+     sim_mixed: 0.5506
+     sim_prose: 0.5866
+     sim_sexpr: 0.7087
+
+  step  1710 | loss 0.3792 (avg50: 0.4078) | lr 2.96e-04 | epoch 0 | 1.78s/step | 3336s total
+  step  1720 | loss 0.4167 (avg50: 0.4082) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3354s total
+  step  1730 | loss 0.4016 (avg50: 0.4072) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3371s total
+  step  1740 | loss 0.4018 (avg50: 0.4060) | lr 2.95e-04 | epoch 0 | 1.79s/step | 3389s total
+  step  1750 | loss 0.3930 (avg50: 0.4065) | lr 2.95e-04 | epoch 0 | 1.78s/step | 3407s total
+  step  1760 | loss 0.3917 (avg50: 0.4042) | lr 2.95e-04 | epoch 0 | 1.80s/step | 3425s total
+  step  1770 | loss 0.4097 (avg50: 0.4021) | lr 2.95e-04 | epoch 0 | 1.78s/step | 3443s total
+  step  1780 | loss 0.4166 (avg50: 0.4003) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3461s total
+  step  1790 | loss 0.4145 (avg50: 0.4016) | lr 2.95e-04 | epoch 0 | 1.78s/step | 3478s total
+  step  1800 | loss 0.4195 (avg50: 0.4012) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3496s total
+
+  📊 Eval @ step 1800: cosine_sim=0.5938
+     sim_behavioral: 0.5973
+     sim_complex: 0.5222
+     sim_math: 0.6809
+     sim_mixed: 0.5484
+     sim_prose: 0.5706
+     sim_sexpr: 0.7068
+
+  step  1810 | loss 0.3744 (avg50: 0.4012) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3528s total
+  step  1820 | loss 0.4026 (avg50: 0.4019) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3546s total
+  step  1830 | loss 0.3799 (avg50: 0.4043) | lr 2.95e-04 | epoch 0 | 1.78s/step | 3564s total
+  step  1840 | loss 0.3764 (avg50: 0.4037) | lr 2.95e-04 | epoch 0 | 1.77s/step | 3582s total
+  step  1850 | loss 0.3579 (avg50: 0.4025) | lr 2.94e-04 | epoch 0 | 1.79s/step | 3599s total
+  step  1860 | loss 0.4241 (avg50: 0.4024) | lr 2.94e-04 | epoch 0 | 1.79s/step | 3617s total
+  step  1870 | loss 0.4008 (avg50: 0.4018) | lr 2.94e-04 | epoch 0 | 1.77s/step | 3635s total
+  step  1880 | loss 0.3782 (avg50: 0.3989) | lr 2.94e-04 | epoch 0 | 1.84s/step | 3653s total
+  step  1890 | loss 0.4139 (avg50: 0.3977) | lr 2.94e-04 | epoch 0 | 1.80s/step | 3671s total
+  step  1900 | loss 0.3900 (avg50: 0.3976) | lr 2.94e-04 | epoch 0 | 1.80s/step | 3689s total
+
+  📊 Eval @ step 1900: cosine_sim=0.5970
+     sim_behavioral: 0.6062
+     sim_complex: 0.5324
+     sim_math: 0.6982
+     sim_mixed: 0.5421
+     sim_prose: 0.5815
+     sim_sexpr: 0.7065
+
+  step  1910 | loss 0.3863 (avg50: 0.3970) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3721s total
+  step  1920 | loss 0.3980 (avg50: 0.3980) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3739s total
+  step  1930 | loss 0.4129 (avg50: 0.3998) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3757s total
+  step  1940 | loss 0.4071 (avg50: 0.4015) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3775s total
+  step  1950 | loss 0.3785 (avg50: 0.4008) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3793s total
+  step  1960 | loss 0.3778 (avg50: 0.3994) | lr 2.94e-04 | epoch 0 | 1.78s/step | 3810s total
+  step  1970 | loss 0.3926 (avg50: 0.3990) | lr 2.93e-04 | epoch 0 | 1.78s/step | 3828s total
+  step  1980 | loss 0.4031 (avg50: 0.3995) | lr 2.93e-04 | epoch 0 | 1.77s/step | 3846s total
+  step  1990 | loss 0.3845 (avg50: 0.3956) | lr 2.93e-04 | epoch 0 | 1.79s/step | 3864s total
+  step  2000 | loss 0.4099 (avg50: 0.3961) | lr 2.93e-04 | epoch 0 | 1.78s/step | 3882s total
+
+  📊 Eval @ step 2000: cosine_sim=0.6058
+     sim_behavioral: 0.6275
+     sim_complex: 0.5380
+     sim_math: 0.7036
+     sim_mixed: 0.5567
+     sim_prose: 0.5852
+     sim_sexpr: 0.7021
+
+
+  📊 Checkpoint eval @ step 2000: cosine_sim=0.6014
+     sim_behavioral: 0.6091
+     sim_complex: 0.5370
+     sim_math: 0.6988
+     sim_mixed: 0.5478
+     sim_prose: 0.5748
+     sim_sexpr: 0.7147
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_002000
+
+  step  2010 | loss 0.4153 (avg50: 0.3966) | lr 2.93e-04 | epoch 0 | 1.77s/step | 3942s total
+  step  2020 | loss 0.3959 (avg50: 0.3954) | lr 2.93e-04 | epoch 0 | 1.77s/step | 3960s total
+  step  2030 | loss 0.4020 (avg50: 0.3951) | lr 2.93e-04 | epoch 0 | 1.77s/step | 3978s total
+  step  2040 | loss 0.4226 (avg50: 0.3955) | lr 2.93e-04 | epoch 0 | 1.77s/step | 3995s total
+  step  2050 | loss 0.3954 (avg50: 0.3940) | lr 2.93e-04 | epoch 0 | 1.79s/step | 4013s total
+  step  2060 | loss 0.3977 (avg50: 0.3929) | lr 2.93e-04 | epoch 0 | 1.78s/step | 4031s total
+  step  2070 | loss 0.3891 (avg50: 0.3928) | lr 2.93e-04 | epoch 0 | 1.78s/step | 4049s total
+  step  2080 | loss 0.4300 (avg50: 0.3932) | lr 2.92e-04 | epoch 0 | 1.77s/step | 4066s total
+  step  2090 | loss 0.3882 (avg50: 0.3948) | lr 2.92e-04 | epoch 0 | 1.78s/step | 4084s total
+  step  2100 | loss 0.3890 (avg50: 0.3947) | lr 2.92e-04 | epoch 0 | 1.78s/step | 4102s total
+
+  📊 Eval @ step 2100: cosine_sim=0.6071
+     sim_behavioral: 0.6177
+     sim_complex: 0.5372
+     sim_math: 0.6855
+     sim_mixed: 0.5434
+     sim_prose: 0.6025
+     sim_sexpr: 0.7154
+
+  step  2110 | loss 0.3819 (avg50: 0.3953) | lr 2.92e-04 | epoch 0 | 1.77s/step | 4134s total
+  step  2120 | loss 0.4059 (avg50: 0.3943) | lr 2.92e-04 | epoch 0 | 1.81s/step | 4152s total
+  step  2130 | loss 0.4069 (avg50: 0.3930) | lr 2.92e-04 | epoch 0 | 1.77s/step | 4170s total
+  step  2140 | loss 0.3983 (avg50: 0.3930) | lr 2.92e-04 | epoch 0 | 1.78s/step | 4188s total
+  step  2150 | loss 0.3978 (avg50: 0.3933) | lr 2.92e-04 | epoch 0 | 1.78s/step | 4206s total
+  step  2160 | loss 0.3743 (avg50: 0.3929) | lr 2.92e-04 | epoch 0 | 1.77s/step | 4224s total
+  step  2170 | loss 0.3895 (avg50: 0.3930) | lr 2.92e-04 | epoch 0 | 1.77s/step | 4241s total
+  step  2180 | loss 0.3933 (avg50: 0.3914) | lr 2.91e-04 | epoch 0 | 1.76s/step | 4259s total
+  step  2190 | loss 0.4166 (avg50: 0.3910) | lr 2.91e-04 | epoch 0 | 1.77s/step | 4277s total
+  step  2200 | loss 0.3685 (avg50: 0.3917) | lr 2.91e-04 | epoch 0 | 1.77s/step | 4295s total
+
+  📊 Eval @ step 2200: cosine_sim=0.6084
+     sim_behavioral: 0.6101
+     sim_complex: 0.5571
+     sim_math: 0.6996
+     sim_mixed: 0.5662
+     sim_prose: 0.5661
+     sim_sexpr: 0.7139
+
+  step  2210 | loss 0.3984 (avg50: 0.3924) | lr 2.91e-04 | epoch 0 | 1.78s/step | 4327s total
+  step  2220 | loss 0.3938 (avg50: 0.3929) | lr 2.91e-04 | epoch 0 | 1.76s/step | 4344s total
+  step  2230 | loss 0.4081 (avg50: 0.3950) | lr 2.91e-04 | epoch 0 | 1.77s/step | 4362s total
+  step  2240 | loss 0.4111 (avg50: 0.3934) | lr 2.91e-04 | epoch 0 | 1.76s/step | 4380s total
+  step  2250 | loss 0.4208 (avg50: 0.3938) | lr 2.91e-04 | epoch 0 | 1.77s/step | 4398s total
+  step  2260 | loss 0.3773 (avg50: 0.3937) | lr 2.91e-04 | epoch 0 | 1.77s/step | 4415s total
+  step  2270 | loss 0.3764 (avg50: 0.3938) | lr 2.91e-04 | epoch 0 | 1.78s/step | 4433s total
+  step  2280 | loss 0.3505 (avg50: 0.3926) | lr 2.90e-04 | epoch 0 | 1.78s/step | 4451s total
+  step  2290 | loss 0.3923 (avg50: 0.3920) | lr 2.90e-04 | epoch 0 | 1.78s/step | 4469s total
+  step  2300 | loss 0.3774 (avg50: 0.3905) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4486s total
+
+  📊 Eval @ step 2300: cosine_sim=0.6088
+     sim_behavioral: 0.6129
+     sim_complex: 0.5443
+     sim_math: 0.7209
+     sim_mixed: 0.5668
+     sim_prose: 0.5908
+     sim_sexpr: 0.7163
+
+  step  2310 | loss 0.3871 (avg50: 0.3908) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4518s total
+  step  2320 | loss 0.3970 (avg50: 0.3901) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4536s total
+  step  2330 | loss 0.3701 (avg50: 0.3890) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4554s total
+  step  2340 | loss 0.4044 (avg50: 0.3900) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4571s total
+  step  2350 | loss 0.3961 (avg50: 0.3897) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4589s total
+  step  2360 | loss 0.4025 (avg50: 0.3886) | lr 2.90e-04 | epoch 0 | 1.77s/step | 4607s total
+  step  2370 | loss 0.3763 (avg50: 0.3870) | lr 2.89e-04 | epoch 0 | 1.77s/step | 4625s total
+  step  2380 | loss 0.4071 (avg50: 0.3891) | lr 2.89e-04 | epoch 1 | 1.78s/step | 4643s total
+  step  2390 | loss 0.3791 (avg50: 0.3896) | lr 2.89e-04 | epoch 1 | 1.77s/step | 4660s total
+  step  2400 | loss 0.4185 (avg50: 0.3874) | lr 2.89e-04 | epoch 1 | 1.76s/step | 4678s total
+
+  📊 Eval @ step 2400: cosine_sim=0.6044
+     sim_behavioral: 0.6030
+     sim_complex: 0.5410
+     sim_math: 0.7271
+     sim_mixed: 0.5577
+     sim_prose: 0.5757
+     sim_sexpr: 0.7155
+
+  step  2410 | loss 0.3707 (avg50: 0.3882) | lr 2.89e-04 | epoch 1 | 1.77s/step | 4710s total
+  step  2420 | loss 0.3833 (avg50: 0.3894) | lr 2.89e-04 | epoch 1 | 1.77s/step | 4728s total
+  step  2430 | loss 0.3866 (avg50: 0.3878) | lr 2.89e-04 | epoch 1 | 1.77s/step | 4745s total
+  step  2440 | loss 0.3963 (avg50: 0.3870) | lr 2.89e-04 | epoch 1 | 1.77s/step | 4763s total
+  step  2450 | loss 0.3818 (avg50: 0.3887) | lr 2.89e-04 | epoch 1 | 1.78s/step | 4781s total
+  step  2460 | loss 0.3875 (avg50: 0.3867) | lr 2.88e-04 | epoch 1 | 1.77s/step | 4799s total
+  step  2470 | loss 0.4012 (avg50: 0.3882) | lr 2.88e-04 | epoch 1 | 1.76s/step | 4816s total
+  step  2480 | loss 0.3896 (avg50: 0.3875) | lr 2.88e-04 | epoch 1 | 1.77s/step | 4834s total
+  step  2490 | loss 0.4182 (avg50: 0.3893) | lr 2.88e-04 | epoch 1 | 1.78s/step | 4852s total
+  step  2500 | loss 0.3836 (avg50: 0.3894) | lr 2.88e-04 | epoch 1 | 1.76s/step | 4870s total
+
+  📊 Eval @ step 2500: cosine_sim=0.6134
+     sim_behavioral: 0.6245
+     sim_complex: 0.5517
+     sim_math: 0.7126
+     sim_mixed: 0.5680
+     sim_prose: 0.5892
+     sim_sexpr: 0.7048
+
+  step  2510 | loss 0.3978 (avg50: 0.3899) | lr 2.88e-04 | epoch 1 | 1.77s/step | 4901s total
+  step  2520 | loss 0.3815 (avg50: 0.3872) | lr 2.88e-04 | epoch 1 | 1.78s/step | 4919s total
+  step  2530 | loss 0.3732 (avg50: 0.3862) | lr 2.88e-04 | epoch 1 | 1.78s/step | 4937s total
+  step  2540 | loss 0.3694 (avg50: 0.3836) | lr 2.87e-04 | epoch 1 | 1.78s/step | 4955s total
+  step  2550 | loss 0.3798 (avg50: 0.3825) | lr 2.87e-04 | epoch 1 | 1.79s/step | 4973s total
+  step  2560 | loss 0.3937 (avg50: 0.3829) | lr 2.87e-04 | epoch 1 | 1.79s/step | 4991s total
+  step  2570 | loss 0.3885 (avg50: 0.3838) | lr 2.87e-04 | epoch 1 | 1.78s/step | 5008s total
+  step  2580 | loss 0.4144 (avg50: 0.3859) | lr 2.87e-04 | epoch 1 | 1.77s/step | 5026s total
+  step  2590 | loss 0.3886 (avg50: 0.3877) | lr 2.87e-04 | epoch 1 | 1.78s/step | 5044s total
+  step  2600 | loss 0.3817 (avg50: 0.3880) | lr 2.87e-04 | epoch 1 | 1.78s/step | 5062s total
+
+  📊 Eval @ step 2600: cosine_sim=0.6132
+     sim_behavioral: 0.6298
+     sim_complex: 0.5443
+     sim_math: 0.7010
+     sim_mixed: 0.5682
+     sim_prose: 0.5802
+     sim_sexpr: 0.7023
+
+  step  2610 | loss 0.3828 (avg50: 0.3875) | lr 2.87e-04 | epoch 1 | 1.82s/step | 5094s total
+  step  2620 | loss 0.3769 (avg50: 0.3851) | lr 2.87e-04 | epoch 1 | 1.83s/step | 5112s total
+  step  2630 | loss 0.3512 (avg50: 0.3830) | lr 2.86e-04 | epoch 1 | 1.77s/step | 5130s total
+  step  2640 | loss 0.3854 (avg50: 0.3821) | lr 2.86e-04 | epoch 1 | 1.79s/step | 5148s total
+  step  2650 | loss 0.3901 (avg50: 0.3836) | lr 2.86e-04 | epoch 1 | 1.76s/step | 5166s total
+  step  2660 | loss 0.3866 (avg50: 0.3835) | lr 2.86e-04 | epoch 1 | 1.78s/step | 5184s total
+  step  2670 | loss 0.3789 (avg50: 0.3835) | lr 2.86e-04 | epoch 1 | 1.80s/step | 5201s total
+  step  2680 | loss 0.3822 (avg50: 0.3847) | lr 2.86e-04 | epoch 1 | 1.79s/step | 5219s total
+  step  2690 | loss 0.3898 (avg50: 0.3835) | lr 2.86e-04 | epoch 1 | 1.79s/step | 5237s total
+  step  2700 | loss 0.3779 (avg50: 0.3846) | lr 2.85e-04 | epoch 1 | 1.78s/step | 5255s total
+
+  📊 Eval @ step 2700: cosine_sim=0.6081
+     sim_behavioral: 0.6198
+     sim_complex: 0.5289
+     sim_math: 0.7130
+     sim_mixed: 0.5529
+     sim_prose: 0.5947
+     sim_sexpr: 0.7268
+
+  step  2710 | loss 0.4023 (avg50: 0.3845) | lr 2.85e-04 | epoch 1 | 1.78s/step | 5287s total
+  step  2720 | loss 0.3725 (avg50: 0.3848) | lr 2.85e-04 | epoch 1 | 1.77s/step | 5305s total
+  step  2730 | loss 0.3713 (avg50: 0.3838) | lr 2.85e-04 | epoch 1 | 1.78s/step | 5323s total
+  step  2740 | loss 0.3818 (avg50: 0.3835) | lr 2.85e-04 | epoch 1 | 1.76s/step | 5340s total
+  step  2750 | loss 0.3828 (avg50: 0.3825) | lr 2.85e-04 | epoch 1 | 1.79s/step | 5358s total
+  step  2760 | loss 0.3954 (avg50: 0.3819) | lr 2.85e-04 | epoch 1 | 1.76s/step | 5376s total
+  step  2770 | loss 0.3652 (avg50: 0.3834) | lr 2.85e-04 | epoch 1 | 1.77s/step | 5394s total
+  step  2780 | loss 0.3829 (avg50: 0.3848) | lr 2.84e-04 | epoch 1 | 1.77s/step | 5412s total
+  step  2790 | loss 0.3891 (avg50: 0.3841) | lr 2.84e-04 | epoch 1 | 1.78s/step | 5429s total
+  step  2800 | loss 0.3700 (avg50: 0.3834) | lr 2.84e-04 | epoch 1 | 1.77s/step | 5447s total
+
+  📊 Eval @ step 2800: cosine_sim=0.6281
+     sim_behavioral: 0.6324
+     sim_complex: 0.5573
+     sim_math: 0.7153
+     sim_mixed: 0.5845
+     sim_prose: 0.6103
+     sim_sexpr: 0.7121
+
+  step  2810 | loss 0.3662 (avg50: 0.3849) | lr 2.84e-04 | epoch 1 | 1.77s/step | 5479s total
+  step  2820 | loss 0.4043 (avg50: 0.3843) | lr 2.84e-04 | epoch 1 | 1.79s/step | 5497s total
+  step  2830 | loss 0.3936 (avg50: 0.3825) | lr 2.84e-04 | epoch 1 | 1.78s/step | 5515s total
+  step  2840 | loss 0.3790 (avg50: 0.3840) | lr 2.84e-04 | epoch 1 | 1.77s/step | 5532s total
+  step  2850 | loss 0.3709 (avg50: 0.3829) | lr 2.83e-04 | epoch 1 | 1.77s/step | 5550s total
+  step  2860 | loss 0.3892 (avg50: 0.3842) | lr 2.83e-04 | epoch 1 | 1.77s/step | 5568s total
+  step  2870 | loss 0.3843 (avg50: 0.3860) | lr 2.83e-04 | epoch 1 | 1.78s/step | 5586s total
+  step  2880 | loss 0.3733 (avg50: 0.3863) | lr 2.83e-04 | epoch 1 | 1.76s/step | 5603s total
+  step  2890 | loss 0.3948 (avg50: 0.3864) | lr 2.83e-04 | epoch 1 | 1.78s/step | 5621s total
+  step  2900 | loss 0.3712 (avg50: 0.3870) | lr 2.83e-04 | epoch 1 | 1.77s/step | 5639s total
+
+  📊 Eval @ step 2900: cosine_sim=0.6163
+     sim_behavioral: 0.6313
+     sim_complex: 0.5573
+     sim_math: 0.6994
+     sim_mixed: 0.5661
+     sim_prose: 0.5887
+     sim_sexpr: 0.7225
+
+  step  2910 | loss 0.3677 (avg50: 0.3849) | lr 2.83e-04 | epoch 1 | 1.79s/step | 5671s total
+  step  2920 | loss 0.3792 (avg50: 0.3836) | lr 2.82e-04 | epoch 1 | 1.78s/step | 5689s total
+  step  2930 | loss 0.3787 (avg50: 0.3837) | lr 2.82e-04 | epoch 1 | 1.79s/step | 5706s total
+  step  2940 | loss 0.3747 (avg50: 0.3829) | lr 2.82e-04 | epoch 1 | 1.78s/step | 5724s total
+  step  2950 | loss 0.3741 (avg50: 0.3819) | lr 2.82e-04 | epoch 1 | 1.77s/step | 5742s total
+  step  2960 | loss 0.4031 (avg50: 0.3820) | lr 2.82e-04 | epoch 1 | 1.77s/step | 5760s total
+  step  2970 | loss 0.4120 (avg50: 0.3817) | lr 2.82e-04 | epoch 1 | 1.78s/step | 5777s total
+  step  2980 | loss 0.3682 (avg50: 0.3836) | lr 2.82e-04 | epoch 1 | 1.77s/step | 5795s total
+  step  2990 | loss 0.4034 (avg50: 0.3846) | lr 2.81e-04 | epoch 1 | 1.77s/step | 5813s total
+  step  3000 | loss 0.3595 (avg50: 0.3853) | lr 2.81e-04 | epoch 1 | 1.78s/step | 5831s total
+
+  📊 Eval @ step 3000: cosine_sim=0.6183
+     sim_behavioral: 0.6288
+     sim_complex: 0.5327
+     sim_math: 0.7192
+     sim_mixed: 0.5894
+     sim_prose: 0.5785
+     sim_sexpr: 0.7209
+
+
+  📊 Checkpoint eval @ step 3000: cosine_sim=0.6177
+     sim_behavioral: 0.6280
+     sim_complex: 0.5530
+     sim_math: 0.7136
+     sim_mixed: 0.5772
+     sim_prose: 0.5931
+     sim_sexpr: 0.7263
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_003000
+
+  step  3010 | loss 0.4109 (avg50: 0.3864) | lr 2.81e-04 | epoch 1 | 1.78s/step | 5891s total
+  step  3020 | loss 0.3995 (avg50: 0.3865) | lr 2.81e-04 | epoch 1 | 1.77s/step | 5909s total
+  step  3030 | loss 0.3869 (avg50: 0.3852) | lr 2.81e-04 | epoch 1 | 1.79s/step | 5927s total
+  step  3040 | loss 0.3638 (avg50: 0.3847) | lr 2.81e-04 | epoch 1 | 1.79s/step | 5945s total
+  step  3050 | loss 0.3485 (avg50: 0.3832) | lr 2.81e-04 | epoch 1 | 1.77s/step | 5962s total
+  step  3060 | loss 0.3785 (avg50: 0.3806) | lr 2.80e-04 | epoch 1 | 1.78s/step | 5980s total
+  step  3070 | loss 0.3717 (avg50: 0.3789) | lr 2.80e-04 | epoch 1 | 1.78s/step | 5998s total
+  step  3080 | loss 0.3528 (avg50: 0.3775) | lr 2.80e-04 | epoch 1 | 1.75s/step | 6016s total
+  step  3090 | loss 0.3825 (avg50: 0.3761) | lr 2.80e-04 | epoch 1 | 1.76s/step | 6033s total
+  step  3100 | loss 0.3559 (avg50: 0.3762) | lr 2.80e-04 | epoch 1 | 1.80s/step | 6051s total
+
+  📊 Eval @ step 3100: cosine_sim=0.6108
+     sim_behavioral: 0.6263
+     sim_complex: 0.5312
+     sim_math: 0.7180
+     sim_mixed: 0.5626
+     sim_prose: 0.5898
+     sim_sexpr: 0.7207
+
+  step  3110 | loss 0.3880 (avg50: 0.3781) | lr 2.80e-04 | epoch 1 | 1.79s/step | 6083s total
+  step  3120 | loss 0.3826 (avg50: 0.3784) | lr 2.80e-04 | epoch 1 | 1.77s/step | 6101s total
+  step  3130 | loss 0.3796 (avg50: 0.3789) | lr 2.79e-04 | epoch 1 | 1.79s/step | 6119s total
+  step  3140 | loss 0.3661 (avg50: 0.3792) | lr 2.79e-04 | epoch 1 | 1.79s/step | 6137s total
+  step  3150 | loss 0.3658 (avg50: 0.3807) | lr 2.79e-04 | epoch 1 | 1.79s/step | 6154s total
+  step  3160 | loss 0.3980 (avg50: 0.3791) | lr 2.79e-04 | epoch 1 | 1.78s/step | 6172s total
+  step  3170 | loss 0.4066 (avg50: 0.3813) | lr 2.79e-04 | epoch 1 | 1.76s/step | 6190s total
+  step  3180 | loss 0.3956 (avg50: 0.3832) | lr 2.79e-04 | epoch 1 | 1.75s/step | 6208s total
+  step  3190 | loss 0.3895 (avg50: 0.3837) | lr 2.78e-04 | epoch 1 | 1.76s/step | 6225s total
+  step  3200 | loss 0.3841 (avg50: 0.3822) | lr 2.78e-04 | epoch 1 | 1.77s/step | 6243s total
+
+  📊 Eval @ step 3200: cosine_sim=0.6212
+     sim_behavioral: 0.6278
+     sim_complex: 0.5668
+     sim_math: 0.7070
+     sim_mixed: 0.5782
+     sim_prose: 0.6114
+     sim_sexpr: 0.7166
+
+  step  3210 | loss 0.3658 (avg50: 0.3822) | lr 2.78e-04 | epoch 1 | 1.77s/step | 6275s total
+  step  3220 | loss 0.3710 (avg50: 0.3798) | lr 2.78e-04 | epoch 1 | 1.77s/step | 6293s total
+  step  3230 | loss 0.3446 (avg50: 0.3771) | lr 2.78e-04 | epoch 1 | 1.76s/step | 6310s total
+  step  3240 | loss 0.3788 (avg50: 0.3761) | lr 2.78e-04 | epoch 1 | 1.77s/step | 6328s total
+  step  3250 | loss 0.3841 (avg50: 0.3778) | lr 2.78e-04 | epoch 1 | 1.77s/step | 6346s total
+  step  3260 | loss 0.3767 (avg50: 0.3778) | lr 2.77e-04 | epoch 1 | 1.77s/step | 6363s total
+  step  3270 | loss 0.3718 (avg50: 0.3760) | lr 2.77e-04 | epoch 1 | 1.77s/step | 6381s total
+  step  3280 | loss 0.3668 (avg50: 0.3755) | lr 2.77e-04 | epoch 1 | 1.77s/step | 6399s total
+  step  3290 | loss 0.3961 (avg50: 0.3760) | lr 2.77e-04 | epoch 1 | 1.78s/step | 6416s total
+  step  3300 | loss 0.3910 (avg50: 0.3773) | lr 2.77e-04 | epoch 1 | 1.77s/step | 6434s total
+
+  📊 Eval @ step 3300: cosine_sim=0.6152
+     sim_behavioral: 0.6274
+     sim_complex: 0.5402
+     sim_math: 0.7172
+     sim_mixed: 0.5668
+     sim_prose: 0.6027
+     sim_sexpr: 0.7158
+
+  step  3310 | loss 0.3661 (avg50: 0.3774) | lr 2.77e-04 | epoch 1 | 1.76s/step | 6466s total
+  step  3320 | loss 0.3515 (avg50: 0.3777) | lr 2.76e-04 | epoch 1 | 1.77s/step | 6483s total
+  step  3330 | loss 0.3633 (avg50: 0.3774) | lr 2.76e-04 | epoch 1 | 1.76s/step | 6501s total
+  step  3340 | loss 0.3618 (avg50: 0.3767) | lr 2.76e-04 | epoch 1 | 1.77s/step | 6519s total
+  step  3350 | loss 0.3749 (avg50: 0.3733) | lr 2.76e-04 | epoch 1 | 1.77s/step | 6537s total
+  step  3360 | loss 0.3654 (avg50: 0.3732) | lr 2.76e-04 | epoch 1 | 1.77s/step | 6554s total
+  step  3370 | loss 0.3889 (avg50: 0.3756) | lr 2.76e-04 | epoch 1 | 1.76s/step | 6572s total
+  step  3380 | loss 0.3787 (avg50: 0.3767) | lr 2.75e-04 | epoch 1 | 1.77s/step | 6590s total
+  step  3390 | loss 0.3848 (avg50: 0.3776) | lr 2.75e-04 | epoch 1 | 1.77s/step | 6607s total
+  step  3400 | loss 0.3582 (avg50: 0.3776) | lr 2.75e-04 | epoch 1 | 1.77s/step | 6625s total
+
+  📊 Eval @ step 3400: cosine_sim=0.6299
+     sim_behavioral: 0.6381
+     sim_complex: 0.5612
+     sim_math: 0.7330
+     sim_mixed: 0.5936
+     sim_prose: 0.5989
+     sim_sexpr: 0.7142
+
+  step  3410 | loss 0.3514 (avg50: 0.3759) | lr 2.75e-04 | epoch 1 | 1.77s/step | 6657s total
+  step  3420 | loss 0.3625 (avg50: 0.3739) | lr 2.75e-04 | epoch 1 | 1.78s/step | 6675s total
+  step  3430 | loss 0.3621 (avg50: 0.3737) | lr 2.75e-04 | epoch 1 | 1.77s/step | 6692s total
+  step  3440 | loss 0.3594 (avg50: 0.3721) | lr 2.74e-04 | epoch 1 | 1.78s/step | 6710s total
+  step  3450 | loss 0.3787 (avg50: 0.3728) | lr 2.74e-04 | epoch 1 | 1.77s/step | 6728s total
+  step  3460 | loss 0.3935 (avg50: 0.3754) | lr 2.74e-04 | epoch 1 | 1.80s/step | 6745s total
+  step  3470 | loss 0.4008 (avg50: 0.3767) | lr 2.74e-04 | epoch 1 | 1.77s/step | 6763s total
+  step  3480 | loss 0.3710 (avg50: 0.3772) | lr 2.74e-04 | epoch 1 | 1.78s/step | 6781s total
+  step  3490 | loss 0.3894 (avg50: 0.3788) | lr 2.74e-04 | epoch 1 | 1.77s/step | 6799s total
+  step  3500 | loss 0.3915 (avg50: 0.3793) | lr 2.73e-04 | epoch 1 | 1.77s/step | 6816s total
+
+  📊 Eval @ step 3500: cosine_sim=0.6279
+     sim_behavioral: 0.6377
+     sim_complex: 0.5482
+     sim_math: 0.7021
+     sim_mixed: 0.5808
+     sim_prose: 0.6076
+     sim_sexpr: 0.7293
+
+  step  3510 | loss 0.3395 (avg50: 0.3775) | lr 2.73e-04 | epoch 1 | 1.78s/step | 6848s total
+  step  3520 | loss 0.3698 (avg50: 0.3769) | lr 2.73e-04 | epoch 1 | 1.77s/step | 6866s total
+  step  3530 | loss 0.3536 (avg50: 0.3765) | lr 2.73e-04 | epoch 1 | 1.77s/step | 6884s total
+  step  3540 | loss 0.3720 (avg50: 0.3776) | lr 2.73e-04 | epoch 1 | 1.76s/step | 6902s total
+  step  3550 | loss 0.3736 (avg50: 0.3769) | lr 2.73e-04 | epoch 1 | 1.77s/step | 6919s total
+  step  3560 | loss 0.3615 (avg50: 0.3797) | lr 2.72e-04 | epoch 1 | 1.76s/step | 6937s total
+  step  3570 | loss 0.3910 (avg50: 0.3807) | lr 2.72e-04 | epoch 1 | 1.79s/step | 6955s total
+  step  3580 | loss 0.3919 (avg50: 0.3797) | lr 2.72e-04 | epoch 1 | 1.79s/step | 6973s total
+  step  3590 | loss 0.3607 (avg50: 0.3789) | lr 2.72e-04 | epoch 1 | 1.77s/step | 6990s total
+  step  3600 | loss 0.3711 (avg50: 0.3798) | lr 2.72e-04 | epoch 1 | 1.76s/step | 7008s total
+
+  📊 Eval @ step 3600: cosine_sim=0.6270
+     sim_behavioral: 0.6472
+     sim_complex: 0.5649
+     sim_math: 0.7175
+     sim_mixed: 0.5695
+     sim_prose: 0.6005
+     sim_sexpr: 0.7226
+
+  step  3610 | loss 0.3562 (avg50: 0.3771) | lr 2.71e-04 | epoch 1 | 1.77s/step | 7040s total
+  step  3620 | loss 0.3918 (avg50: 0.3760) | lr 2.71e-04 | epoch 1 | 1.77s/step | 7058s total
+  step  3630 | loss 0.3605 (avg50: 0.3770) | lr 2.71e-04 | epoch 1 | 1.77s/step | 7076s total
+  step  3640 | loss 0.3740 (avg50: 0.3766) | lr 2.71e-04 | epoch 1 | 1.78s/step | 7093s total
+  step  3650 | loss 0.3693 (avg50: 0.3767) | lr 2.71e-04 | epoch 1 | 1.77s/step | 7111s total
+  step  3660 | loss 0.3648 (avg50: 0.3760) | lr 2.71e-04 | epoch 1 | 1.78s/step | 7129s total
+  step  3670 | loss 0.3720 (avg50: 0.3762) | lr 2.70e-04 | epoch 1 | 1.79s/step | 7147s total
+  step  3680 | loss 0.3736 (avg50: 0.3756) | lr 2.70e-04 | epoch 1 | 1.77s/step | 7164s total
+  step  3690 | loss 0.3649 (avg50: 0.3758) | lr 2.70e-04 | epoch 1 | 1.77s/step | 7182s total
+  step  3700 | loss 0.3938 (avg50: 0.3747) | lr 2.70e-04 | epoch 1 | 1.79s/step | 7200s total
+
+  📊 Eval @ step 3700: cosine_sim=0.6167
+     sim_behavioral: 0.6291
+     sim_complex: 0.5641
+     sim_math: 0.7167
+     sim_mixed: 0.5802
+     sim_prose: 0.5869
+     sim_sexpr: 0.7282
+
+  step  3710 | loss 0.3773 (avg50: 0.3766) | lr 2.70e-04 | epoch 1 | 1.79s/step | 7232s total
+  step  3720 | loss 0.3792 (avg50: 0.3755) | lr 2.69e-04 | epoch 1 | 1.78s/step | 7250s total
+  step  3730 | loss 0.3771 (avg50: 0.3750) | lr 2.69e-04 | epoch 1 | 1.78s/step | 7267s total
+  step  3740 | loss 0.3716 (avg50: 0.3743) | lr 2.69e-04 | epoch 1 | 1.78s/step | 7285s total
+  step  3750 | loss 0.3804 (avg50: 0.3738) | lr 2.69e-04 | epoch 1 | 1.78s/step | 7303s total
+  step  3760 | loss 0.3892 (avg50: 0.3732) | lr 2.69e-04 | epoch 1 | 1.78s/step | 7321s total
+  step  3770 | loss 0.3847 (avg50: 0.3740) | lr 2.69e-04 | epoch 1 | 1.76s/step | 7339s total
+  step  3780 | loss 0.3721 (avg50: 0.3729) | lr 2.68e-04 | epoch 1 | 1.78s/step | 7356s total
+  step  3790 | loss 0.3672 (avg50: 0.3729) | lr 2.68e-04 | epoch 1 | 1.78s/step | 7374s total
+  step  3800 | loss 0.3838 (avg50: 0.3712) | lr 2.68e-04 | epoch 1 | 1.78s/step | 7392s total
+
+  📊 Eval @ step 3800: cosine_sim=0.6267
+     sim_behavioral: 0.6467
+     sim_complex: 0.5440
+     sim_math: 0.7023
+     sim_mixed: 0.5943
+     sim_prose: 0.5976
+     sim_sexpr: 0.7190
+
+  step  3810 | loss 0.3676 (avg50: 0.3699) | lr 2.68e-04 | epoch 1 | 1.78s/step | 7424s total
+  step  3820 | loss 0.3870 (avg50: 0.3712) | lr 2.68e-04 | epoch 1 | 1.78s/step | 7442s total
+  step  3830 | loss 0.3693 (avg50: 0.3712) | lr 2.67e-04 | epoch 1 | 1.79s/step | 7460s total
+  step  3840 | loss 0.3905 (avg50: 0.3710) | lr 2.67e-04 | epoch 1 | 1.78s/step | 7478s total
+  step  3850 | loss 0.3453 (avg50: 0.3733) | lr 2.67e-04 | epoch 1 | 1.79s/step | 7495s total
+  step  3860 | loss 0.3788 (avg50: 0.3758) | lr 2.67e-04 | epoch 1 | 1.76s/step | 7513s total
+  step  3870 | loss 0.3659 (avg50: 0.3744) | lr 2.67e-04 | epoch 1 | 1.79s/step | 7531s total
+  step  3880 | loss 0.3652 (avg50: 0.3757) | lr 2.66e-04 | epoch 1 | 1.76s/step | 7549s total
+  step  3890 | loss 0.3579 (avg50: 0.3766) | lr 2.66e-04 | epoch 1 | 1.78s/step | 7566s total
+  step  3900 | loss 0.3840 (avg50: 0.3761) | lr 2.66e-04 | epoch 1 | 1.77s/step | 7584s total
+
+  📊 Eval @ step 3900: cosine_sim=0.6310
+     sim_behavioral: 0.6495
+     sim_complex: 0.5618
+     sim_math: 0.7251
+     sim_mixed: 0.5921
+     sim_prose: 0.6055
+     sim_sexpr: 0.7073
+
+  step  3910 | loss 0.3667 (avg50: 0.3748) | lr 2.66e-04 | epoch 1 | 1.79s/step | 7616s total
+  step  3920 | loss 0.3972 (avg50: 0.3749) | lr 2.66e-04 | epoch 1 | 1.79s/step | 7634s total
+  step  3930 | loss 0.3625 (avg50: 0.3734) | lr 2.66e-04 | epoch 1 | 1.77s/step | 7652s total
+  step  3940 | loss 0.3599 (avg50: 0.3704) | lr 2.65e-04 | epoch 1 | 1.78s/step | 7670s total
+  step  3950 | loss 0.3628 (avg50: 0.3695) | lr 2.65e-04 | epoch 1 | 1.79s/step | 7687s total
+  step  3960 | loss 0.3796 (avg50: 0.3694) | lr 2.65e-04 | epoch 1 | 1.80s/step | 7705s total
+  step  3970 | loss 0.4149 (avg50: 0.3692) | lr 2.65e-04 | epoch 1 | 1.78s/step | 7723s total
+  step  3980 | loss 0.3768 (avg50: 0.3708) | lr 2.65e-04 | epoch 1 | 1.78s/step | 7741s total
+  step  3990 | loss 0.3957 (avg50: 0.3718) | lr 2.64e-04 | epoch 1 | 1.79s/step | 7759s total
+  step  4000 | loss 0.4028 (avg50: 0.3731) | lr 2.64e-04 | epoch 1 | 1.79s/step | 7777s total
+
+  📊 Eval @ step 4000: cosine_sim=0.6230
+     sim_behavioral: 0.6291
+     sim_complex: 0.5724
+     sim_math: 0.7142
+     sim_mixed: 0.5719
+     sim_prose: 0.5977
+     sim_sexpr: 0.7137
+
+
+  📊 Checkpoint eval @ step 4000: cosine_sim=0.6277
+     sim_behavioral: 0.6340
+     sim_complex: 0.5723
+     sim_math: 0.7244
+     sim_mixed: 0.5980
+     sim_prose: 0.6016
+     sim_sexpr: 0.7207
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_004000
+
+  step  4010 | loss 0.3901 (avg50: 0.3734) | lr 2.64e-04 | epoch 1 | 1.79s/step | 7837s total
+  step  4020 | loss 0.3919 (avg50: 0.3729) | lr 2.64e-04 | epoch 1 | 1.78s/step | 7855s total
+  step  4030 | loss 0.3724 (avg50: 0.3722) | lr 2.64e-04 | epoch 1 | 1.78s/step | 7873s total
+  step  4040 | loss 0.3675 (avg50: 0.3726) | lr 2.63e-04 | epoch 1 | 1.77s/step | 7891s total
+  step  4050 | loss 0.3866 (avg50: 0.3704) | lr 2.63e-04 | epoch 1 | 1.77s/step | 7908s total
+  step  4060 | loss 0.3622 (avg50: 0.3696) | lr 2.63e-04 | epoch 1 | 1.78s/step | 7926s total
+  step  4070 | loss 0.3751 (avg50: 0.3711) | lr 2.63e-04 | epoch 1 | 1.80s/step | 7944s total
+  step  4080 | loss 0.3524 (avg50: 0.3708) | lr 2.63e-04 | epoch 1 | 1.78s/step | 7962s total
+  step  4090 | loss 0.3648 (avg50: 0.3714) | lr 2.62e-04 | epoch 1 | 1.79s/step | 7979s total
+  step  4100 | loss 0.3781 (avg50: 0.3721) | lr 2.62e-04 | epoch 1 | 1.78s/step | 7997s total
+
+  📊 Eval @ step 4100: cosine_sim=0.6332
+     sim_behavioral: 0.6471
+     sim_complex: 0.5739
+     sim_math: 0.7428
+     sim_mixed: 0.5891
+     sim_prose: 0.6143
+     sim_sexpr: 0.7231
+
+  step  4110 | loss 0.3630 (avg50: 0.3713) | lr 2.62e-04 | epoch 1 | 1.77s/step | 8029s total
+  step  4120 | loss 0.3539 (avg50: 0.3702) | lr 2.62e-04 | epoch 1 | 1.79s/step | 8047s total
+  step  4130 | loss 0.3889 (avg50: 0.3703) | lr 2.62e-04 | epoch 1 | 1.78s/step | 8065s total
+  step  4140 | loss 0.3623 (avg50: 0.3689) | lr 2.61e-04 | epoch 1 | 1.77s/step | 8082s total
+  step  4150 | loss 0.3735 (avg50: 0.3709) | lr 2.61e-04 | epoch 1 | 1.76s/step | 8100s total
+  step  4160 | loss 0.3758 (avg50: 0.3719) | lr 2.61e-04 | epoch 1 | 1.78s/step | 8118s total
+  step  4170 | loss 0.3774 (avg50: 0.3715) | lr 2.61e-04 | epoch 1 | 1.78s/step | 8136s total
+  step  4180 | loss 0.3793 (avg50: 0.3719) | lr 2.61e-04 | epoch 1 | 1.77s/step | 8154s total
+  step  4190 | loss 0.3646 (avg50: 0.3715) | lr 2.60e-04 | epoch 1 | 1.80s/step | 8171s total
+  step  4200 | loss 0.3693 (avg50: 0.3694) | lr 2.60e-04 | epoch 1 | 1.77s/step | 8189s total
+
+  📊 Eval @ step 4200: cosine_sim=0.6294
+     sim_behavioral: 0.6322
+     sim_complex: 0.5444
+     sim_math: 0.7303
+     sim_mixed: 0.5951
+     sim_prose: 0.6029
+     sim_sexpr: 0.7304
+
+  step  4210 | loss 0.3591 (avg50: 0.3707) | lr 2.60e-04 | epoch 1 | 1.76s/step | 8221s total
+  step  4220 | loss 0.3697 (avg50: 0.3717) | lr 2.60e-04 | epoch 1 | 1.79s/step | 8239s total
+  step  4230 | loss 0.3834 (avg50: 0.3724) | lr 2.60e-04 | epoch 1 | 1.76s/step | 8257s total
+  step  4240 | loss 0.3928 (avg50: 0.3757) | lr 2.59e-04 | epoch 1 | 1.81s/step | 8274s total
+  step  4250 | loss 0.3396 (avg50: 0.3762) | lr 2.59e-04 | epoch 1 | 1.76s/step | 8292s total
+  step  4260 | loss 0.3971 (avg50: 0.3759) | lr 2.59e-04 | epoch 1 | 1.77s/step | 8310s total
+  step  4270 | loss 0.3758 (avg50: 0.3752) | lr 2.59e-04 | epoch 1 | 1.78s/step | 8328s total
+  step  4280 | loss 0.3611 (avg50: 0.3739) | lr 2.59e-04 | epoch 1 | 1.76s/step | 8346s total
+  step  4290 | loss 0.4078 (avg50: 0.3720) | lr 2.58e-04 | epoch 1 | 1.80s/step | 8363s total
+  step  4300 | loss 0.3386 (avg50: 0.3698) | lr 2.58e-04 | epoch 1 | 1.78s/step | 8381s total
+
+  📊 Eval @ step 4300: cosine_sim=0.6202
+     sim_behavioral: 0.6318
+     sim_complex: 0.5378
+     sim_math: 0.7103
+     sim_mixed: 0.5699
+     sim_prose: 0.5985
+     sim_sexpr: 0.7171
+
+  step  4310 | loss 0.3841 (avg50: 0.3704) | lr 2.58e-04 | epoch 1 | 1.78s/step | 8413s total
+  step  4320 | loss 0.3607 (avg50: 0.3682) | lr 2.58e-04 | epoch 1 | 1.78s/step | 8431s total
+  step  4330 | loss 0.3584 (avg50: 0.3684) | lr 2.57e-04 | epoch 1 | 1.78s/step | 8449s total
+  step  4340 | loss 0.3618 (avg50: 0.3677) | lr 2.57e-04 | epoch 1 | 1.76s/step | 8467s total
+  step  4350 | loss 0.3799 (avg50: 0.3697) | lr 2.57e-04 | epoch 1 | 1.78s/step | 8484s total
+  step  4360 | loss 0.3587 (avg50: 0.3677) | lr 2.57e-04 | epoch 1 | 1.78s/step | 8502s total
+  step  4370 | loss 0.3903 (avg50: 0.3700) | lr 2.57e-04 | epoch 1 | 1.78s/step | 8520s total
+  step  4380 | loss 0.3763 (avg50: 0.3709) | lr 2.56e-04 | epoch 1 | 1.78s/step | 8538s total
+  step  4390 | loss 0.3633 (avg50: 0.3719) | lr 2.56e-04 | epoch 1 | 1.77s/step | 8556s total
+  step  4400 | loss 0.3564 (avg50: 0.3717) | lr 2.56e-04 | epoch 1 | 1.77s/step | 8573s total
+
+  📊 Eval @ step 4400: cosine_sim=0.6377
+     sim_behavioral: 0.6552
+     sim_complex: 0.5626
+     sim_math: 0.7240
+     sim_mixed: 0.5949
+     sim_prose: 0.6146
+     sim_sexpr: 0.7199
+
+  step  4410 | loss 0.3882 (avg50: 0.3721) | lr 2.56e-04 | epoch 1 | 1.78s/step | 8605s total
+  step  4420 | loss 0.3667 (avg50: 0.3713) | lr 2.56e-04 | epoch 1 | 1.78s/step | 8623s total
+  step  4430 | loss 0.3854 (avg50: 0.3700) | lr 2.55e-04 | epoch 1 | 1.78s/step | 8641s total
+  step  4440 | loss 0.3721 (avg50: 0.3681) | lr 2.55e-04 | epoch 1 | 1.78s/step | 8659s total
+  step  4450 | loss 0.3446 (avg50: 0.3650) | lr 2.55e-04 | epoch 1 | 1.77s/step | 8677s total
+  step  4460 | loss 0.3467 (avg50: 0.3645) | lr 2.55e-04 | epoch 1 | 1.79s/step | 8695s total
+  step  4470 | loss 0.3793 (avg50: 0.3648) | lr 2.54e-04 | epoch 1 | 1.81s/step | 8713s total
+  step  4480 | loss 0.3636 (avg50: 0.3659) | lr 2.54e-04 | epoch 1 | 1.80s/step | 8730s total
+  step  4490 | loss 0.3551 (avg50: 0.3660) | lr 2.54e-04 | epoch 1 | 1.81s/step | 8748s total
+  step  4500 | loss 0.3762 (avg50: 0.3700) | lr 2.54e-04 | epoch 1 | 1.78s/step | 8766s total
+
+  📊 Eval @ step 4500: cosine_sim=0.6303
+     sim_behavioral: 0.6401
+     sim_complex: 0.5596
+     sim_math: 0.7078
+     sim_mixed: 0.6023
+     sim_prose: 0.5891
+     sim_sexpr: 0.7291
+
+  step  4510 | loss 0.3710 (avg50: 0.3709) | lr 2.54e-04 | epoch 1 | 1.83s/step | 8798s total
+  step  4520 | loss 0.3475 (avg50: 0.3700) | lr 2.53e-04 | epoch 1 | 1.80s/step | 8816s total
+  step  4530 | loss 0.3749 (avg50: 0.3698) | lr 2.53e-04 | epoch 1 | 1.77s/step | 8834s total
+  step  4540 | loss 0.3696 (avg50: 0.3708) | lr 2.53e-04 | epoch 1 | 1.80s/step | 8852s total
+  step  4550 | loss 0.3772 (avg50: 0.3700) | lr 2.53e-04 | epoch 1 | 1.78s/step | 8870s total
+  step  4560 | loss 0.3718 (avg50: 0.3683) | lr 2.52e-04 | epoch 1 | 1.77s/step | 8888s total
+  step  4570 | loss 0.3759 (avg50: 0.3679) | lr 2.52e-04 | epoch 1 | 1.77s/step | 8906s total
+  step  4580 | loss 0.3808 (avg50: 0.3659) | lr 2.52e-04 | epoch 1 | 1.80s/step | 8923s total
+  step  4590 | loss 0.3738 (avg50: 0.3663) | lr 2.52e-04 | epoch 1 | 1.79s/step | 8941s total
+  step  4600 | loss 0.3594 (avg50: 0.3663) | lr 2.52e-04 | epoch 1 | 1.79s/step | 8959s total
+
+  📊 Eval @ step 4600: cosine_sim=0.6306
+     sim_behavioral: 0.6426
+     sim_complex: 0.5709
+     sim_math: 0.7172
+     sim_mixed: 0.6026
+     sim_prose: 0.6186
+     sim_sexpr: 0.7118
+
+  step  4610 | loss 0.3803 (avg50: 0.3666) | lr 2.51e-04 | epoch 1 | 1.78s/step | 8991s total
+  step  4620 | loss 0.3722 (avg50: 0.3670) | lr 2.51e-04 | epoch 1 | 1.78s/step | 9009s total
+  step  4630 | loss 0.3591 (avg50: 0.3677) | lr 2.51e-04 | epoch 1 | 1.78s/step | 9027s total
+  step  4640 | loss 0.3681 (avg50: 0.3665) | lr 2.51e-04 | epoch 1 | 1.78s/step | 9045s total
+  step  4650 | loss 0.3964 (avg50: 0.3670) | lr 2.50e-04 | epoch 1 | 1.78s/step | 9062s total
+  step  4660 | loss 0.3925 (avg50: 0.3681) | lr 2.50e-04 | epoch 1 | 1.77s/step | 9080s total
+  step  4670 | loss 0.3625 (avg50: 0.3694) | lr 2.50e-04 | epoch 1 | 1.77s/step | 9098s total
+  step  4680 | loss 0.3563 (avg50: 0.3691) | lr 2.50e-04 | epoch 1 | 1.79s/step | 9116s total
+  step  4690 | loss 0.3678 (avg50: 0.3687) | lr 2.50e-04 | epoch 1 | 1.80s/step | 9134s total
+  step  4700 | loss 0.3750 (avg50: 0.3672) | lr 2.49e-04 | epoch 1 | 1.80s/step | 9152s total
+
+  📊 Eval @ step 4700: cosine_sim=0.6330
+     sim_behavioral: 0.6430
+     sim_complex: 0.5596
+     sim_math: 0.7250
+     sim_mixed: 0.5943
+     sim_prose: 0.6131
+     sim_sexpr: 0.7150
+
+  step  4710 | loss 0.3337 (avg50: 0.3653) | lr 2.49e-04 | epoch 1 | 1.78s/step | 9184s total
+  step  4720 | loss 0.3760 (avg50: 0.3639) | lr 2.49e-04 | epoch 1 | 1.77s/step | 9201s total
+  step  4730 | loss 0.3818 (avg50: 0.3643) | lr 2.49e-04 | epoch 1 | 1.78s/step | 9219s total
+  step  4740 | loss 0.3579 (avg50: 0.3650) | lr 2.48e-04 | epoch 1 | 1.78s/step | 9237s total
+  step  4750 | loss 0.3701 (avg50: 0.3656) | lr 2.48e-04 | epoch 1 | 1.77s/step | 9255s total
+  step  4760 | loss 0.3812 (avg50: 0.3677) | lr 2.48e-04 | epoch 2 | 1.77s/step | 9273s total
+  step  4770 | loss 0.3595 (avg50: 0.3677) | lr 2.48e-04 | epoch 2 | 1.78s/step | 9291s total
+  step  4780 | loss 0.3554 (avg50: 0.3663) | lr 2.48e-04 | epoch 2 | 1.81s/step | 9309s total
+  step  4790 | loss 0.3501 (avg50: 0.3657) | lr 2.47e-04 | epoch 2 | 1.79s/step | 9326s total
+  step  4800 | loss 0.3783 (avg50: 0.3653) | lr 2.47e-04 | epoch 2 | 1.80s/step | 9344s total
+
+  📊 Eval @ step 4800: cosine_sim=0.6391
+     sim_behavioral: 0.6481
+     sim_complex: 0.5664
+     sim_math: 0.7376
+     sim_mixed: 0.6073
+     sim_prose: 0.6201
+     sim_sexpr: 0.7328
+
+  step  4810 | loss 0.3282 (avg50: 0.3637) | lr 2.47e-04 | epoch 2 | 1.82s/step | 9377s total
+  step  4820 | loss 0.3641 (avg50: 0.3623) | lr 2.47e-04 | epoch 2 | 1.78s/step | 9395s total
+  step  4830 | loss 0.3500 (avg50: 0.3615) | lr 2.46e-04 | epoch 2 | 1.77s/step | 9412s total
+  step  4840 | loss 0.3827 (avg50: 0.3633) | lr 2.46e-04 | epoch 2 | 1.77s/step | 9430s total
+  step  4850 | loss 0.3814 (avg50: 0.3637) | lr 2.46e-04 | epoch 2 | 1.79s/step | 9448s total
+  step  4860 | loss 0.3401 (avg50: 0.3628) | lr 2.46e-04 | epoch 2 | 1.77s/step | 9466s total
+  step  4870 | loss 0.3663 (avg50: 0.3635) | lr 2.45e-04 | epoch 2 | 1.79s/step | 9484s total
+  step  4880 | loss 0.3452 (avg50: 0.3641) | lr 2.45e-04 | epoch 2 | 1.78s/step | 9501s total
+  step  4890 | loss 0.3682 (avg50: 0.3625) | lr 2.45e-04 | epoch 2 | 1.80s/step | 9519s total
+  step  4900 | loss 0.3673 (avg50: 0.3602) | lr 2.45e-04 | epoch 2 | 1.78s/step | 9537s total
+
+  📊 Eval @ step 4900: cosine_sim=0.6384
+     sim_behavioral: 0.6445
+     sim_complex: 0.5682
+     sim_math: 0.7261
+     sim_mixed: 0.6010
+     sim_prose: 0.6077
+     sim_sexpr: 0.7363
+
+  step  4910 | loss 0.3661 (avg50: 0.3604) | lr 2.45e-04 | epoch 2 | 1.78s/step | 9569s total
+  step  4920 | loss 0.3802 (avg50: 0.3630) | lr 2.44e-04 | epoch 2 | 1.79s/step | 9587s total
+  step  4930 | loss 0.3687 (avg50: 0.3646) | lr 2.44e-04 | epoch 2 | 1.77s/step | 9605s total
+  step  4940 | loss 0.3444 (avg50: 0.3667) | lr 2.44e-04 | epoch 2 | 1.78s/step | 9623s total
+  step  4950 | loss 0.3679 (avg50: 0.3669) | lr 2.44e-04 | epoch 2 | 1.77s/step | 9641s total
+  step  4960 | loss 0.3723 (avg50: 0.3673) | lr 2.43e-04 | epoch 2 | 1.83s/step | 9659s total
+  step  4970 | loss 0.3819 (avg50: 0.3651) | lr 2.43e-04 | epoch 2 | 1.83s/step | 9677s total
+  step  4980 | loss 0.3398 (avg50: 0.3651) | lr 2.43e-04 | epoch 2 | 1.78s/step | 9695s total
+  step  4990 | loss 0.3676 (avg50: 0.3623) | lr 2.43e-04 | epoch 2 | 1.81s/step | 9713s total
+  step  5000 | loss 0.3503 (avg50: 0.3624) | lr 2.42e-04 | epoch 2 | 1.77s/step | 9731s total
+
+  📊 Eval @ step 5000: cosine_sim=0.6251
+     sim_behavioral: 0.6504
+     sim_complex: 0.5586
+     sim_math: 0.7400
+     sim_mixed: 0.6073
+     sim_prose: 0.5898
+     sim_sexpr: 0.7129
+
+
+  📊 Checkpoint eval @ step 5000: cosine_sim=0.6334
+     sim_behavioral: 0.6518
+     sim_complex: 0.5742
+     sim_math: 0.7225
+     sim_mixed: 0.5911
+     sim_prose: 0.6008
+     sim_sexpr: 0.7306
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_005000
+
+  step  5010 | loss 0.3679 (avg50: 0.3616) | lr 2.42e-04 | epoch 2 | 1.76s/step | 9791s total
+  step  5020 | loss 0.3671 (avg50: 0.3631) | lr 2.42e-04 | epoch 2 | 1.78s/step | 9809s total
+  step  5030 | loss 0.3676 (avg50: 0.3629) | lr 2.42e-04 | epoch 2 | 1.77s/step | 9827s total
+  step  5040 | loss 0.3385 (avg50: 0.3633) | lr 2.41e-04 | epoch 2 | 1.77s/step | 9845s total
+  step  5050 | loss 0.3742 (avg50: 0.3645) | lr 2.41e-04 | epoch 2 | 1.80s/step | 9863s total
+  step  5060 | loss 0.3548 (avg50: 0.3651) | lr 2.41e-04 | epoch 2 | 1.78s/step | 9881s total
+  step  5070 | loss 0.3747 (avg50: 0.3640) | lr 2.41e-04 | epoch 2 | 1.81s/step | 9898s total
+  step  5080 | loss 0.3465 (avg50: 0.3646) | lr 2.40e-04 | epoch 2 | 1.80s/step | 9916s total
+  step  5090 | loss 0.3606 (avg50: 0.3648) | lr 2.40e-04 | epoch 2 | 1.80s/step | 9934s total
+  step  5100 | loss 0.3852 (avg50: 0.3647) | lr 2.40e-04 | epoch 2 | 1.77s/step | 9952s total
+
+  📊 Eval @ step 5100: cosine_sim=0.6368
+     sim_behavioral: 0.6573
+     sim_complex: 0.5493
+     sim_math: 0.7230
+     sim_mixed: 0.6090
+     sim_prose: 0.6060
+     sim_sexpr: 0.7193
+
+  step  5110 | loss 0.3734 (avg50: 0.3659) | lr 2.40e-04 | epoch 2 | 1.78s/step | 9985s total
+  step  5120 | loss 0.3735 (avg50: 0.3655) | lr 2.40e-04 | epoch 2 | 1.83s/step | 10003s total
+  step  5130 | loss 0.3799 (avg50: 0.3635) | lr 2.39e-04 | epoch 2 | 1.79s/step | 10021s total
+  step  5140 | loss 0.3707 (avg50: 0.3620) | lr 2.39e-04 | epoch 2 | 1.82s/step | 10038s total
+  step  5150 | loss 0.3811 (avg50: 0.3621) | lr 2.39e-04 | epoch 2 | 1.77s/step | 10056s total
+  step  5160 | loss 0.3573 (avg50: 0.3616) | lr 2.39e-04 | epoch 2 | 1.78s/step | 10074s total
+  step  5170 | loss 0.3638 (avg50: 0.3619) | lr 2.38e-04 | epoch 2 | 1.82s/step | 10092s total
+  step  5180 | loss 0.3525 (avg50: 0.3626) | lr 2.38e-04 | epoch 2 | 1.79s/step | 10110s total
+  step  5190 | loss 0.3469 (avg50: 0.3635) | lr 2.38e-04 | epoch 2 | 1.85s/step | 10128s total
+  step  5200 | loss 0.3586 (avg50: 0.3650) | lr 2.38e-04 | epoch 2 | 1.81s/step | 10146s total
+
+  📊 Eval @ step 5200: cosine_sim=0.6413
+     sim_behavioral: 0.6613
+     sim_complex: 0.5608
+     sim_math: 0.7102
+     sim_mixed: 0.6140
+     sim_prose: 0.6117
+     sim_sexpr: 0.7226
+
+  step  5210 | loss 0.3615 (avg50: 0.3645) | lr 2.37e-04 | epoch 2 | 1.77s/step | 10178s total
+  step  5220 | loss 0.3537 (avg50: 0.3631) | lr 2.37e-04 | epoch 2 | 1.77s/step | 10196s total
+  step  5230 | loss 0.3638 (avg50: 0.3634) | lr 2.37e-04 | epoch 2 | 1.78s/step | 10214s total
+  step  5240 | loss 0.4164 (avg50: 0.3642) | lr 2.37e-04 | epoch 2 | 1.82s/step | 10232s total
+  step  5250 | loss 0.3790 (avg50: 0.3613) | lr 2.36e-04 | epoch 2 | 1.81s/step | 10250s total
+  step  5260 | loss 0.3710 (avg50: 0.3607) | lr 2.36e-04 | epoch 2 | 1.77s/step | 10268s total
+  step  5270 | loss 0.3598 (avg50: 0.3615) | lr 2.36e-04 | epoch 2 | 1.80s/step | 10286s total
+  step  5280 | loss 0.3657 (avg50: 0.3607) | lr 2.36e-04 | epoch 2 | 1.79s/step | 10304s total
+  step  5290 | loss 0.3532 (avg50: 0.3601) | lr 2.35e-04 | epoch 2 | 1.82s/step | 10321s total
+  step  5300 | loss 0.3584 (avg50: 0.3600) | lr 2.35e-04 | epoch 2 | 1.84s/step | 10340s total
+
+  📊 Eval @ step 5300: cosine_sim=0.6339
+     sim_behavioral: 0.6575
+     sim_complex: 0.5534
+     sim_math: 0.7361
+     sim_mixed: 0.6161
+     sim_prose: 0.5941
+     sim_sexpr: 0.7203
+
+  step  5310 | loss 0.3504 (avg50: 0.3614) | lr 2.35e-04 | epoch 2 | 1.78s/step | 10372s total
+  step  5320 | loss 0.3790 (avg50: 0.3614) | lr 2.35e-04 | epoch 2 | 1.79s/step | 10390s total
+  step  5330 | loss 0.3762 (avg50: 0.3628) | lr 2.34e-04 | epoch 2 | 1.79s/step | 10408s total
+  step  5340 | loss 0.3758 (avg50: 0.3642) | lr 2.34e-04 | epoch 2 | 1.80s/step | 10426s total
+  step  5350 | loss 0.3624 (avg50: 0.3636) | lr 2.34e-04 | epoch 2 | 1.88s/step | 10444s total
+  step  5360 | loss 0.3674 (avg50: 0.3611) | lr 2.34e-04 | epoch 2 | 1.85s/step | 10462s total
+  step  5370 | loss 0.3869 (avg50: 0.3612) | lr 2.33e-04 | epoch 2 | 1.79s/step | 10480s total
+  step  5380 | loss 0.3373 (avg50: 0.3603) | lr 2.33e-04 | epoch 2 | 1.77s/step | 10498s total
+  step  5390 | loss 0.3371 (avg50: 0.3597) | lr 2.33e-04 | epoch 2 | 1.79s/step | 10516s total
+  step  5400 | loss 0.3744 (avg50: 0.3631) | lr 2.33e-04 | epoch 2 | 1.78s/step | 10534s total
+
+  📊 Eval @ step 5400: cosine_sim=0.6353
+     sim_behavioral: 0.6526
+     sim_complex: 0.5717
+     sim_math: 0.7251
+     sim_mixed: 0.6043
+     sim_prose: 0.6055
+     sim_sexpr: 0.7201
+
+  step  5410 | loss 0.3636 (avg50: 0.3651) | lr 2.32e-04 | epoch 2 | 1.84s/step | 10566s total
+  step  5420 | loss 0.3718 (avg50: 0.3652) | lr 2.32e-04 | epoch 2 | 1.78s/step | 10584s total
+  step  5430 | loss 0.3542 (avg50: 0.3655) | lr 2.32e-04 | epoch 2 | 1.79s/step | 10602s total
+  step  5440 | loss 0.3748 (avg50: 0.3648) | lr 2.32e-04 | epoch 2 | 1.79s/step | 10620s total
+  step  5450 | loss 0.3725 (avg50: 0.3633) | lr 2.31e-04 | epoch 2 | 1.79s/step | 10637s total
+  step  5460 | loss 0.3397 (avg50: 0.3607) | lr 2.31e-04 | epoch 2 | 1.79s/step | 10655s total
+  step  5470 | loss 0.3916 (avg50: 0.3614) | lr 2.31e-04 | epoch 2 | 1.78s/step | 10673s total
+  step  5480 | loss 0.3582 (avg50: 0.3608) | lr 2.31e-04 | epoch 2 | 1.77s/step | 10691s total
+  step  5490 | loss 0.3723 (avg50: 0.3606) | lr 2.30e-04 | epoch 2 | 1.78s/step | 10709s total
+  step  5500 | loss 0.3398 (avg50: 0.3595) | lr 2.30e-04 | epoch 2 | 1.79s/step | 10727s total
+
+  📊 Eval @ step 5500: cosine_sim=0.6392
+     sim_behavioral: 0.6528
+     sim_complex: 0.5711
+     sim_math: 0.7206
+     sim_mixed: 0.6111
+     sim_prose: 0.6187
+     sim_sexpr: 0.7402
+
+  step  5510 | loss 0.3875 (avg50: 0.3628) | lr 2.30e-04 | epoch 2 | 1.77s/step | 10759s total
+  step  5520 | loss 0.3220 (avg50: 0.3606) | lr 2.30e-04 | epoch 2 | 1.77s/step | 10777s total
+  step  5530 | loss 0.3512 (avg50: 0.3599) | lr 2.29e-04 | epoch 2 | 1.80s/step | 10794s total
+  step  5540 | loss 0.3652 (avg50: 0.3592) | lr 2.29e-04 | epoch 2 | 1.77s/step | 10812s total
+  step  5550 | loss 0.3569 (avg50: 0.3607) | lr 2.29e-04 | epoch 2 | 1.77s/step | 10830s total
+  step  5560 | loss 0.3495 (avg50: 0.3591) | lr 2.29e-04 | epoch 2 | 1.77s/step | 10848s total
+  step  5570 | loss 0.3668 (avg50: 0.3599) | lr 2.28e-04 | epoch 2 | 1.77s/step | 10865s total
+  step  5580 | loss 0.3581 (avg50: 0.3590) | lr 2.28e-04 | epoch 2 | 1.77s/step | 10883s total
+  step  5590 | loss 0.3650 (avg50: 0.3607) | lr 2.28e-04 | epoch 2 | 1.77s/step | 10901s total
+  step  5600 | loss 0.3456 (avg50: 0.3598) | lr 2.27e-04 | epoch 2 | 1.78s/step | 10919s total
+
+  📊 Eval @ step 5600: cosine_sim=0.6406
+     sim_behavioral: 0.6596
+     sim_complex: 0.5706
+     sim_math: 0.7337
+     sim_mixed: 0.6024
+     sim_prose: 0.6114
+     sim_sexpr: 0.7349
+
+  step  5610 | loss 0.3571 (avg50: 0.3590) | lr 2.27e-04 | epoch 2 | 1.80s/step | 10951s total
+  step  5620 | loss 0.3775 (avg50: 0.3592) | lr 2.27e-04 | epoch 2 | 1.78s/step | 10968s total
+  step  5630 | loss 0.3695 (avg50: 0.3606) | lr 2.27e-04 | epoch 2 | 1.76s/step | 10986s total
+  step  5640 | loss 0.3780 (avg50: 0.3604) | lr 2.26e-04 | epoch 2 | 1.77s/step | 11004s total
+  step  5650 | loss 0.3744 (avg50: 0.3597) | lr 2.26e-04 | epoch 2 | 1.77s/step | 11021s total
+  step  5660 | loss 0.3535 (avg50: 0.3608) | lr 2.26e-04 | epoch 2 | 1.78s/step | 11039s total
+  step  5670 | loss 0.3488 (avg50: 0.3610) | lr 2.26e-04 | epoch 2 | 1.76s/step | 11057s total
+  step  5680 | loss 0.3727 (avg50: 0.3620) | lr 2.25e-04 | epoch 2 | 1.77s/step | 11074s total
+  step  5690 | loss 0.3653 (avg50: 0.3614) | lr 2.25e-04 | epoch 2 | 1.77s/step | 11092s total
+  step  5700 | loss 0.3509 (avg50: 0.3618) | lr 2.25e-04 | epoch 2 | 1.77s/step | 11110s total
+
+  📊 Eval @ step 5700: cosine_sim=0.6452
+     sim_behavioral: 0.6566
+     sim_complex: 0.5683
+     sim_math: 0.7420
+     sim_mixed: 0.6165
+     sim_prose: 0.6184
+     sim_sexpr: 0.7303
+
+  step  5710 | loss 0.3672 (avg50: 0.3606) | lr 2.25e-04 | epoch 2 | 1.76s/step | 11142s total
+  step  5720 | loss 0.3542 (avg50: 0.3588) | lr 2.24e-04 | epoch 2 | 1.78s/step | 11159s total
+  step  5730 | loss 0.3749 (avg50: 0.3579) | lr 2.24e-04 | epoch 2 | 1.77s/step | 11177s total
+  step  5740 | loss 0.3595 (avg50: 0.3583) | lr 2.24e-04 | epoch 2 | 1.78s/step | 11195s total
+  step  5750 | loss 0.3612 (avg50: 0.3583) | lr 2.24e-04 | epoch 2 | 1.77s/step | 11213s total
+  step  5760 | loss 0.3327 (avg50: 0.3587) | lr 2.23e-04 | epoch 2 | 1.77s/step | 11230s total
+  step  5770 | loss 0.3540 (avg50: 0.3610) | lr 2.23e-04 | epoch 2 | 1.76s/step | 11248s total
+  step  5780 | loss 0.3721 (avg50: 0.3607) | lr 2.23e-04 | epoch 2 | 1.77s/step | 11266s total
+  step  5790 | loss 0.3542 (avg50: 0.3605) | lr 2.23e-04 | epoch 2 | 1.78s/step | 11283s total
+  step  5800 | loss 0.3710 (avg50: 0.3594) | lr 2.22e-04 | epoch 2 | 1.78s/step | 11301s total
+
+  📊 Eval @ step 5800: cosine_sim=0.6387
+     sim_behavioral: 0.6557
+     sim_complex: 0.5737
+     sim_math: 0.7150
+     sim_mixed: 0.6061
+     sim_prose: 0.6057
+     sim_sexpr: 0.7256
+
+  step  5810 | loss 0.3423 (avg50: 0.3589) | lr 2.22e-04 | epoch 2 | 1.79s/step | 11333s total
+  step  5820 | loss 0.3311 (avg50: 0.3574) | lr 2.22e-04 | epoch 2 | 1.78s/step | 11351s total
+  step  5830 | loss 0.3706 (avg50: 0.3575) | lr 2.21e-04 | epoch 2 | 1.77s/step | 11368s total
+  step  5840 | loss 0.3887 (avg50: 0.3576) | lr 2.21e-04 | epoch 2 | 1.76s/step | 11386s total
+  step  5850 | loss 0.3377 (avg50: 0.3579) | lr 2.21e-04 | epoch 2 | 1.76s/step | 11404s total
+  step  5860 | loss 0.3666 (avg50: 0.3604) | lr 2.21e-04 | epoch 2 | 1.77s/step | 11422s total
+  step  5870 | loss 0.3544 (avg50: 0.3618) | lr 2.20e-04 | epoch 2 | 1.77s/step | 11439s total
+  step  5880 | loss 0.3845 (avg50: 0.3619) | lr 2.20e-04 | epoch 2 | 1.76s/step | 11457s total
+  step  5890 | loss 0.3604 (avg50: 0.3620) | lr 2.20e-04 | epoch 2 | 1.76s/step | 11475s total
+  step  5900 | loss 0.3714 (avg50: 0.3634) | lr 2.20e-04 | epoch 2 | 1.76s/step | 11492s total
+
+  📊 Eval @ step 5900: cosine_sim=0.6399
+     sim_behavioral: 0.6558
+     sim_complex: 0.5670
+     sim_math: 0.7365
+     sim_mixed: 0.6091
+     sim_prose: 0.6169
+     sim_sexpr: 0.7350
+
+  step  5910 | loss 0.3465 (avg50: 0.3615) | lr 2.19e-04 | epoch 2 | 1.78s/step | 11524s total
+  step  5920 | loss 0.3480 (avg50: 0.3608) | lr 2.19e-04 | epoch 2 | 1.76s/step | 11542s total
+  step  5930 | loss 0.3666 (avg50: 0.3615) | lr 2.19e-04 | epoch 2 | 1.77s/step | 11560s total
+  step  5940 | loss 0.3343 (avg50: 0.3590) | lr 2.19e-04 | epoch 2 | 1.78s/step | 11577s total
+  step  5950 | loss 0.3548 (avg50: 0.3600) | lr 2.18e-04 | epoch 2 | 1.77s/step | 11595s total
+  step  5960 | loss 0.3584 (avg50: 0.3602) | lr 2.18e-04 | epoch 2 | 1.77s/step | 11613s total
+  step  5970 | loss 0.3282 (avg50: 0.3589) | lr 2.18e-04 | epoch 2 | 1.77s/step | 11630s total
+  step  5980 | loss 0.3648 (avg50: 0.3573) | lr 2.17e-04 | epoch 2 | 1.77s/step | 11648s total
+  step  5990 | loss 0.3593 (avg50: 0.3596) | lr 2.17e-04 | epoch 2 | 1.77s/step | 11666s total
+  step  6000 | loss 0.3323 (avg50: 0.3569) | lr 2.17e-04 | epoch 2 | 1.76s/step | 11683s total
+
+  📊 Eval @ step 6000: cosine_sim=0.6489
+     sim_behavioral: 0.6659
+     sim_complex: 0.5857
+     sim_math: 0.7278
+     sim_mixed: 0.6273
+     sim_prose: 0.6070
+     sim_sexpr: 0.7238
+
+
+  📊 Checkpoint eval @ step 6000: cosine_sim=0.6414
+     sim_behavioral: 0.6583
+     sim_complex: 0.5774
+     sim_math: 0.7381
+     sim_mixed: 0.6131
+     sim_prose: 0.6092
+     sim_sexpr: 0.7227
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_006000
+
+  step  6010 | loss 0.3344 (avg50: 0.3546) | lr 2.17e-04 | epoch 2 | 1.77s/step | 11744s total
+  step  6020 | loss 0.3487 (avg50: 0.3556) | lr 2.16e-04 | epoch 2 | 1.77s/step | 11761s total
+  step  6030 | loss 0.3610 (avg50: 0.3559) | lr 2.16e-04 | epoch 2 | 1.78s/step | 11779s total
+  step  6040 | loss 0.3716 (avg50: 0.3538) | lr 2.16e-04 | epoch 2 | 1.75s/step | 11797s total
+  step  6050 | loss 0.3502 (avg50: 0.3532) | lr 2.16e-04 | epoch 2 | 1.77s/step | 11814s total
+  step  6060 | loss 0.3595 (avg50: 0.3564) | lr 2.15e-04 | epoch 2 | 1.77s/step | 11832s total
+  step  6070 | loss 0.3384 (avg50: 0.3561) | lr 2.15e-04 | epoch 2 | 1.76s/step | 11850s total
+  step  6080 | loss 0.3440 (avg50: 0.3572) | lr 2.15e-04 | epoch 2 | 1.78s/step | 11868s total
+  step  6090 | loss 0.3420 (avg50: 0.3568) | lr 2.14e-04 | epoch 2 | 1.78s/step | 11885s total
+  step  6100 | loss 0.3784 (avg50: 0.3593) | lr 2.14e-04 | epoch 2 | 1.76s/step | 11903s total
+
+  📊 Eval @ step 6100: cosine_sim=0.6424
+     sim_behavioral: 0.6585
+     sim_complex: 0.5728
+     sim_math: 0.7270
+     sim_mixed: 0.6157
+     sim_prose: 0.6207
+     sim_sexpr: 0.7248
+
+  step  6110 | loss 0.3664 (avg50: 0.3607) | lr 2.14e-04 | epoch 2 | 1.78s/step | 11935s total
+  step  6120 | loss 0.3595 (avg50: 0.3606) | lr 2.14e-04 | epoch 2 | 1.78s/step | 11953s total
+  step  6130 | loss 0.3587 (avg50: 0.3595) | lr 2.13e-04 | epoch 2 | 1.79s/step | 11971s total
+  step  6140 | loss 0.3768 (avg50: 0.3609) | lr 2.13e-04 | epoch 2 | 1.79s/step | 11989s total
+  step  6150 | loss 0.3477 (avg50: 0.3595) | lr 2.13e-04 | epoch 2 | 1.80s/step | 12007s total
+  step  6160 | loss 0.3473 (avg50: 0.3573) | lr 2.13e-04 | epoch 2 | 1.80s/step | 12025s total
+  step  6170 | loss 0.3475 (avg50: 0.3560) | lr 2.12e-04 | epoch 2 | 1.79s/step | 12043s total
+  step  6180 | loss 0.4042 (avg50: 0.3555) | lr 2.12e-04 | epoch 2 | 1.80s/step | 12060s total
+  step  6190 | loss 0.3439 (avg50: 0.3564) | lr 2.12e-04 | epoch 2 | 1.78s/step | 12078s total
+  step  6200 | loss 0.3529 (avg50: 0.3572) | lr 2.11e-04 | epoch 2 | 1.79s/step | 12096s total
+
+  📊 Eval @ step 6200: cosine_sim=0.6490
+     sim_behavioral: 0.6613
+     sim_complex: 0.5670
+     sim_math: 0.7265
+     sim_mixed: 0.6230
+     sim_prose: 0.6286
+     sim_sexpr: 0.7242
+
+  step  6210 | loss 0.3702 (avg50: 0.3570) | lr 2.11e-04 | epoch 2 | 1.78s/step | 12128s total
+  step  6220 | loss 0.3824 (avg50: 0.3597) | lr 2.11e-04 | epoch 2 | 1.81s/step | 12146s total
+  step  6230 | loss 0.3528 (avg50: 0.3591) | lr 2.11e-04 | epoch 2 | 1.78s/step | 12164s total
+  step  6240 | loss 0.3694 (avg50: 0.3569) | lr 2.10e-04 | epoch 2 | 1.78s/step | 12182s total
+  step  6250 | loss 0.3463 (avg50: 0.3555) | lr 2.10e-04 | epoch 2 | 1.82s/step | 12200s total
+  step  6260 | loss 0.3633 (avg50: 0.3547) | lr 2.10e-04 | epoch 2 | 1.79s/step | 12218s total
+  step  6270 | loss 0.3527 (avg50: 0.3528) | lr 2.10e-04 | epoch 2 | 1.78s/step | 12236s total
+  step  6280 | loss 0.3360 (avg50: 0.3538) | lr 2.09e-04 | epoch 2 | 1.77s/step | 12254s total
+  step  6290 | loss 0.3300 (avg50: 0.3557) | lr 2.09e-04 | epoch 2 | 1.77s/step | 12272s total
+  step  6300 | loss 0.3710 (avg50: 0.3571) | lr 2.09e-04 | epoch 2 | 1.83s/step | 12290s total
+
+  📊 Eval @ step 6300: cosine_sim=0.6362
+     sim_behavioral: 0.6434
+     sim_complex: 0.5714
+     sim_math: 0.7307
+     sim_mixed: 0.6197
+     sim_prose: 0.5914
+     sim_sexpr: 0.7239
+
+  step  6310 | loss 0.3481 (avg50: 0.3584) | lr 2.08e-04 | epoch 2 | 1.78s/step | 12322s total
+  step  6320 | loss 0.3637 (avg50: 0.3583) | lr 2.08e-04 | epoch 2 | 1.82s/step | 12340s total
+  step  6330 | loss 0.3623 (avg50: 0.3591) | lr 2.08e-04 | epoch 2 | 1.79s/step | 12358s total
+  step  6340 | loss 0.3675 (avg50: 0.3588) | lr 2.08e-04 | epoch 2 | 1.81s/step | 12376s total
+  step  6350 | loss 0.3730 (avg50: 0.3588) | lr 2.07e-04 | epoch 2 | 1.81s/step | 12395s total
+  step  6360 | loss 0.3916 (avg50: 0.3586) | lr 2.07e-04 | epoch 2 | 1.87s/step | 12413s total
+  step  6370 | loss 0.3432 (avg50: 0.3601) | lr 2.07e-04 | epoch 2 | 1.87s/step | 12431s total
+  step  6380 | loss 0.3706 (avg50: 0.3604) | lr 2.06e-04 | epoch 2 | 1.77s/step | 12449s total
+  step  6390 | loss 0.3759 (avg50: 0.3605) | lr 2.06e-04 | epoch 2 | 1.80s/step | 12467s total
+  step  6400 | loss 0.3640 (avg50: 0.3606) | lr 2.06e-04 | epoch 2 | 1.77s/step | 12485s total
+
+  📊 Eval @ step 6400: cosine_sim=0.6439
+     sim_behavioral: 0.6562
+     sim_complex: 0.5719
+     sim_math: 0.7165
+     sim_mixed: 0.6127
+     sim_prose: 0.6029
+     sim_sexpr: 0.7269
+
+  step  6410 | loss 0.3662 (avg50: 0.3601) | lr 2.06e-04 | epoch 2 | 1.80s/step | 12517s total
+  step  6420 | loss 0.3578 (avg50: 0.3600) | lr 2.05e-04 | epoch 2 | 1.79s/step | 12535s total
+  step  6430 | loss 0.3725 (avg50: 0.3592) | lr 2.05e-04 | epoch 2 | 1.79s/step | 12553s total
+  step  6440 | loss 0.3429 (avg50: 0.3585) | lr 2.05e-04 | epoch 2 | 1.79s/step | 12571s total
+  step  6450 | loss 0.3668 (avg50: 0.3582) | lr 2.04e-04 | epoch 2 | 1.78s/step | 12589s total
+  step  6460 | loss 0.3631 (avg50: 0.3588) | lr 2.04e-04 | epoch 2 | 1.79s/step | 12607s total
+  step  6470 | loss 0.3568 (avg50: 0.3592) | lr 2.04e-04 | epoch 2 | 1.84s/step | 12625s total
+  step  6480 | loss 0.3404 (avg50: 0.3587) | lr 2.04e-04 | epoch 2 | 1.79s/step | 12643s total
+  step  6490 | loss 0.3429 (avg50: 0.3580) | lr 2.03e-04 | epoch 2 | 1.79s/step | 12661s total
+  step  6500 | loss 0.3318 (avg50: 0.3575) | lr 2.03e-04 | epoch 2 | 1.81s/step | 12679s total
+
+  📊 Eval @ step 6500: cosine_sim=0.6314
+     sim_behavioral: 0.6500
+     sim_complex: 0.5563
+     sim_math: 0.7426
+     sim_mixed: 0.6025
+     sim_prose: 0.6054
+     sim_sexpr: 0.7185
+
+  step  6510 | loss 0.3551 (avg50: 0.3549) | lr 2.03e-04 | epoch 2 | 1.78s/step | 12712s total
+  step  6520 | loss 0.3635 (avg50: 0.3545) | lr 2.03e-04 | epoch 2 | 1.77s/step | 12729s total
+  step  6530 | loss 0.3467 (avg50: 0.3530) | lr 2.02e-04 | epoch 2 | 1.79s/step | 12747s total
+  step  6540 | loss 0.3653 (avg50: 0.3541) | lr 2.02e-04 | epoch 2 | 1.79s/step | 12765s total
+  step  6550 | loss 0.3636 (avg50: 0.3536) | lr 2.02e-04 | epoch 2 | 1.81s/step | 12783s total
+  step  6560 | loss 0.3478 (avg50: 0.3560) | lr 2.01e-04 | epoch 2 | 1.79s/step | 12801s total
+  step  6570 | loss 0.3386 (avg50: 0.3543) | lr 2.01e-04 | epoch 2 | 1.84s/step | 12819s total
+  step  6580 | loss 0.3613 (avg50: 0.3557) | lr 2.01e-04 | epoch 2 | 1.78s/step | 12837s total
+  step  6590 | loss 0.3618 (avg50: 0.3571) | lr 2.01e-04 | epoch 2 | 1.79s/step | 12855s total
+  step  6600 | loss 0.3588 (avg50: 0.3594) | lr 2.00e-04 | epoch 2 | 1.80s/step | 12873s total
+
+  📊 Eval @ step 6600: cosine_sim=0.6453
+     sim_behavioral: 0.6548
+     sim_complex: 0.5635
+     sim_math: 0.7396
+     sim_mixed: 0.6117
+     sim_prose: 0.6216
+     sim_sexpr: 0.7268
+
+  step  6610 | loss 0.3554 (avg50: 0.3588) | lr 2.00e-04 | epoch 2 | 1.77s/step | 12905s total
+  step  6620 | loss 0.3441 (avg50: 0.3601) | lr 2.00e-04 | epoch 2 | 1.81s/step | 12923s total
+  step  6630 | loss 0.3589 (avg50: 0.3592) | lr 1.99e-04 | epoch 2 | 1.78s/step | 12941s total
+  step  6640 | loss 0.3497 (avg50: 0.3585) | lr 1.99e-04 | epoch 2 | 1.82s/step | 12959s total
+  step  6650 | loss 0.3779 (avg50: 0.3579) | lr 1.99e-04 | epoch 2 | 1.82s/step | 12977s total
+  step  6660 | loss 0.3471 (avg50: 0.3568) | lr 1.99e-04 | epoch 2 | 1.79s/step | 12995s total
+  step  6670 | loss 0.3466 (avg50: 0.3554) | lr 1.98e-04 | epoch 2 | 1.83s/step | 13013s total
+  step  6680 | loss 0.3514 (avg50: 0.3554) | lr 1.98e-04 | epoch 2 | 1.78s/step | 13031s total
+  step  6690 | loss 0.3737 (avg50: 0.3554) | lr 1.98e-04 | epoch 2 | 1.79s/step | 13049s total
+  step  6700 | loss 0.3718 (avg50: 0.3535) | lr 1.97e-04 | epoch 2 | 1.77s/step | 13067s total
+
+  📊 Eval @ step 6700: cosine_sim=0.6430
+     sim_behavioral: 0.6565
+     sim_complex: 0.5672
+     sim_math: 0.7452
+     sim_mixed: 0.6247
+     sim_prose: 0.6107
+     sim_sexpr: 0.7202
+
+  step  6710 | loss 0.3545 (avg50: 0.3532) | lr 1.97e-04 | epoch 2 | 1.80s/step | 13099s total
+  step  6720 | loss 0.3507 (avg50: 0.3539) | lr 1.97e-04 | epoch 2 | 1.81s/step | 13117s total
+  step  6730 | loss 0.3675 (avg50: 0.3549) | lr 1.97e-04 | epoch 2 | 1.80s/step | 13135s total
+  step  6740 | loss 0.3515 (avg50: 0.3550) | lr 1.96e-04 | epoch 2 | 1.79s/step | 13153s total
+  step  6750 | loss 0.3531 (avg50: 0.3555) | lr 1.96e-04 | epoch 2 | 1.79s/step | 13171s total
+  step  6760 | loss 0.3673 (avg50: 0.3569) | lr 1.96e-04 | epoch 2 | 1.80s/step | 13189s total
+  step  6770 | loss 0.3628 (avg50: 0.3580) | lr 1.95e-04 | epoch 2 | 1.80s/step | 13207s total
+  step  6780 | loss 0.3751 (avg50: 0.3586) | lr 1.95e-04 | epoch 2 | 1.77s/step | 13225s total
+  step  6790 | loss 0.3676 (avg50: 0.3572) | lr 1.95e-04 | epoch 2 | 1.78s/step | 13242s total
+  step  6800 | loss 0.3515 (avg50: 0.3578) | lr 1.95e-04 | epoch 2 | 1.79s/step | 13260s total
+
+  📊 Eval @ step 6800: cosine_sim=0.6418
+     sim_behavioral: 0.6631
+     sim_complex: 0.5616
+     sim_math: 0.7562
+     sim_mixed: 0.6232
+     sim_prose: 0.6040
+     sim_sexpr: 0.7312
+
+  step  6810 | loss 0.3287 (avg50: 0.3562) | lr 1.94e-04 | epoch 2 | 1.79s/step | 13293s total
+  step  6820 | loss 0.3481 (avg50: 0.3548) | lr 1.94e-04 | epoch 2 | 1.84s/step | 13311s total
+  step  6830 | loss 0.3691 (avg50: 0.3539) | lr 1.94e-04 | epoch 2 | 1.80s/step | 13329s total
+  step  6840 | loss 0.3555 (avg50: 0.3549) | lr 1.93e-04 | epoch 2 | 1.78s/step | 13347s total
+  step  6850 | loss 0.3524 (avg50: 0.3536) | lr 1.93e-04 | epoch 2 | 1.80s/step | 13365s total
+  step  6860 | loss 0.3544 (avg50: 0.3552) | lr 1.93e-04 | epoch 2 | 1.79s/step | 13383s total
+  step  6870 | loss 0.3462 (avg50: 0.3557) | lr 1.92e-04 | epoch 2 | 1.82s/step | 13401s total
+  step  6880 | loss 0.3521 (avg50: 0.3552) | lr 1.92e-04 | epoch 2 | 1.77s/step | 13419s total
+  step  6890 | loss 0.3478 (avg50: 0.3553) | lr 1.92e-04 | epoch 2 | 1.82s/step | 13437s total
+  step  6900 | loss 0.3677 (avg50: 0.3552) | lr 1.92e-04 | epoch 2 | 1.77s/step | 13455s total
+
+  📊 Eval @ step 6900: cosine_sim=0.6483
+     sim_behavioral: 0.6578
+     sim_complex: 0.5690
+     sim_math: 0.7464
+     sim_mixed: 0.6232
+     sim_prose: 0.6098
+     sim_sexpr: 0.7280
+
+  step  6910 | loss 0.3472 (avg50: 0.3550) | lr 1.91e-04 | epoch 2 | 1.77s/step | 13487s total
+  step  6920 | loss 0.3490 (avg50: 0.3531) | lr 1.91e-04 | epoch 2 | 1.77s/step | 13504s total
+  step  6930 | loss 0.3578 (avg50: 0.3525) | lr 1.91e-04 | epoch 2 | 1.78s/step | 13522s total
+  step  6940 | loss 0.3840 (avg50: 0.3529) | lr 1.90e-04 | epoch 2 | 1.80s/step | 13540s total
+  step  6950 | loss 0.3641 (avg50: 0.3546) | lr 1.90e-04 | epoch 2 | 1.77s/step | 13558s total
+  step  6960 | loss 0.3412 (avg50: 0.3550) | lr 1.90e-04 | epoch 2 | 1.81s/step | 13576s total
+  step  6970 | loss 0.3563 (avg50: 0.3565) | lr 1.90e-04 | epoch 2 | 1.79s/step | 13594s total
+  step  6980 | loss 0.3569 (avg50: 0.3582) | lr 1.89e-04 | epoch 2 | 1.80s/step | 13612s total
+  step  6990 | loss 0.3577 (avg50: 0.3555) | lr 1.89e-04 | epoch 2 | 1.83s/step | 13630s total
+  step  7000 | loss 0.3468 (avg50: 0.3542) | lr 1.89e-04 | epoch 2 | 1.80s/step | 13648s total
+
+  📊 Eval @ step 7000: cosine_sim=0.6432
+     sim_behavioral: 0.6596
+     sim_complex: 0.5751
+     sim_math: 0.7296
+     sim_mixed: 0.6161
+     sim_prose: 0.6106
+     sim_sexpr: 0.7276
+
+
+  📊 Checkpoint eval @ step 7000: cosine_sim=0.6450
+     sim_behavioral: 0.6629
+     sim_complex: 0.5846
+     sim_math: 0.7355
+     sim_mixed: 0.6239
+     sim_prose: 0.6094
+     sim_sexpr: 0.7291
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_007000
+
+  step  7010 | loss 0.3522 (avg50: 0.3539) | lr 1.88e-04 | epoch 2 | 1.80s/step | 13709s total
+  step  7020 | loss 0.3654 (avg50: 0.3549) | lr 1.88e-04 | epoch 2 | 1.82s/step | 13727s total
+  step  7030 | loss 0.3452 (avg50: 0.3538) | lr 1.88e-04 | epoch 2 | 1.82s/step | 13745s total
+  step  7040 | loss 0.3707 (avg50: 0.3551) | lr 1.88e-04 | epoch 2 | 1.81s/step | 13763s total
+  step  7050 | loss 0.3131 (avg50: 0.3545) | lr 1.87e-04 | epoch 2 | 1.80s/step | 13782s total
+  step  7060 | loss 0.3609 (avg50: 0.3546) | lr 1.87e-04 | epoch 2 | 1.81s/step | 13800s total
+  step  7070 | loss 0.3634 (avg50: 0.3520) | lr 1.87e-04 | epoch 2 | 1.77s/step | 13818s total
+  step  7080 | loss 0.3667 (avg50: 0.3521) | lr 1.86e-04 | epoch 2 | 1.83s/step | 13836s total
+  step  7090 | loss 0.3505 (avg50: 0.3518) | lr 1.86e-04 | epoch 2 | 1.81s/step | 13854s total
+  step  7100 | loss 0.3296 (avg50: 0.3523) | lr 1.86e-04 | epoch 2 | 1.81s/step | 13872s total
+
+  📊 Eval @ step 7100: cosine_sim=0.6377
+     sim_behavioral: 0.6631
+     sim_complex: 0.5530
+     sim_math: 0.7224
+     sim_mixed: 0.6195
+     sim_prose: 0.6121
+     sim_sexpr: 0.7281
+
+  step  7110 | loss 0.3531 (avg50: 0.3523) | lr 1.86e-04 | epoch 2 | 1.83s/step | 13905s total
+  step  7120 | loss 0.3708 (avg50: 0.3536) | lr 1.85e-04 | epoch 2 | 1.79s/step | 13923s total
+  step  7130 | loss 0.3651 (avg50: 0.3543) | lr 1.85e-04 | epoch 3 | 1.80s/step | 13941s total
+  step  7140 | loss 0.3365 (avg50: 0.3544) | lr 1.85e-04 | epoch 3 | 1.85s/step | 13959s total
+  step  7150 | loss 0.3329 (avg50: 0.3554) | lr 1.84e-04 | epoch 3 | 1.82s/step | 13977s total
+  step  7160 | loss 0.3589 (avg50: 0.3555) | lr 1.84e-04 | epoch 3 | 1.81s/step | 13996s total
+  step  7170 | loss 0.3598 (avg50: 0.3558) | lr 1.84e-04 | epoch 3 | 1.82s/step | 14014s total
+  step  7180 | loss 0.3328 (avg50: 0.3542) | lr 1.83e-04 | epoch 3 | 1.81s/step | 14032s total
+  step  7190 | loss 0.3422 (avg50: 0.3540) | lr 1.83e-04 | epoch 3 | 1.78s/step | 14051s total
+  step  7200 | loss 0.3686 (avg50: 0.3526) | lr 1.83e-04 | epoch 3 | 1.84s/step | 14069s total
+
+  📊 Eval @ step 7200: cosine_sim=0.6445
+     sim_behavioral: 0.6631
+     sim_complex: 0.5785
+     sim_math: 0.7215
+     sim_mixed: 0.6143
+     sim_prose: 0.6163
+     sim_sexpr: 0.7285
+
+  step  7210 | loss 0.3489 (avg50: 0.3512) | lr 1.83e-04 | epoch 3 | 1.83s/step | 14102s total
+  step  7220 | loss 0.3695 (avg50: 0.3521) | lr 1.82e-04 | epoch 3 | 1.79s/step | 14120s total
+  step  7230 | loss 0.3779 (avg50: 0.3538) | lr 1.82e-04 | epoch 3 | 1.82s/step | 14138s total
+  step  7240 | loss 0.3399 (avg50: 0.3528) | lr 1.82e-04 | epoch 3 | 1.83s/step | 14156s total
+  step  7250 | loss 0.3651 (avg50: 0.3532) | lr 1.81e-04 | epoch 3 | 1.76s/step | 14174s total
+  step  7260 | loss 0.3464 (avg50: 0.3539) | lr 1.81e-04 | epoch 3 | 1.78s/step | 14191s total
+  step  7270 | loss 0.3508 (avg50: 0.3518) | lr 1.81e-04 | epoch 3 | 1.83s/step | 14210s total
+  step  7280 | loss 0.3806 (avg50: 0.3518) | lr 1.81e-04 | epoch 3 | 1.80s/step | 14227s total
+  step  7290 | loss 0.3495 (avg50: 0.3520) | lr 1.80e-04 | epoch 3 | 1.77s/step | 14245s total
+  step  7300 | loss 0.3671 (avg50: 0.3526) | lr 1.80e-04 | epoch 3 | 1.77s/step | 14263s total
+
+  📊 Eval @ step 7300: cosine_sim=0.6520
+     sim_behavioral: 0.6641
+     sim_complex: 0.5902
+     sim_math: 0.7312
+     sim_mixed: 0.6118
+     sim_prose: 0.6423
+     sim_sexpr: 0.7098
+
+  step  7310 | loss 0.3472 (avg50: 0.3507) | lr 1.80e-04 | epoch 3 | 1.77s/step | 14295s total
+  step  7320 | loss 0.3634 (avg50: 0.3514) | lr 1.79e-04 | epoch 3 | 1.77s/step | 14313s total
+  step  7330 | loss 0.3533 (avg50: 0.3499) | lr 1.79e-04 | epoch 3 | 1.77s/step | 14331s total
+  step  7340 | loss 0.3678 (avg50: 0.3509) | lr 1.79e-04 | epoch 3 | 1.81s/step | 14349s total
+  step  7350 | loss 0.3698 (avg50: 0.3499) | lr 1.78e-04 | epoch 3 | 1.78s/step | 14367s total
+  step  7360 | loss 0.3521 (avg50: 0.3519) | lr 1.78e-04 | epoch 3 | 1.80s/step | 14385s total
+  step  7370 | loss 0.3438 (avg50: 0.3513) | lr 1.78e-04 | epoch 3 | 1.83s/step | 14403s total
+  step  7380 | loss 0.3427 (avg50: 0.3521) | lr 1.78e-04 | epoch 3 | 1.78s/step | 14421s total
+  step  7390 | loss 0.3435 (avg50: 0.3519) | lr 1.77e-04 | epoch 3 | 1.80s/step | 14439s total
+  step  7400 | loss 0.3425 (avg50: 0.3533) | lr 1.77e-04 | epoch 3 | 1.79s/step | 14457s total
+
+  📊 Eval @ step 7400: cosine_sim=0.6496
+     sim_behavioral: 0.6604
+     sim_complex: 0.5740
+     sim_math: 0.7404
+     sim_mixed: 0.6371
+     sim_prose: 0.6187
+     sim_sexpr: 0.7334
+
+  step  7410 | loss 0.3639 (avg50: 0.3526) | lr 1.77e-04 | epoch 3 | 1.85s/step | 14490s total
+  step  7420 | loss 0.3714 (avg50: 0.3539) | lr 1.76e-04 | epoch 3 | 1.78s/step | 14508s total
+  step  7430 | loss 0.3297 (avg50: 0.3524) | lr 1.76e-04 | epoch 3 | 1.82s/step | 14526s total
+  step  7440 | loss 0.3544 (avg50: 0.3533) | lr 1.76e-04 | epoch 3 | 1.79s/step | 14544s total
+  step  7450 | loss 0.3225 (avg50: 0.3529) | lr 1.75e-04 | epoch 3 | 1.78s/step | 14562s total
+  step  7460 | loss 0.3651 (avg50: 0.3525) | lr 1.75e-04 | epoch 3 | 1.83s/step | 14580s total
+  step  7470 | loss 0.3594 (avg50: 0.3514) | lr 1.75e-04 | epoch 3 | 1.84s/step | 14598s total
+  step  7480 | loss 0.3486 (avg50: 0.3528) | lr 1.75e-04 | epoch 3 | 1.80s/step | 14616s total
+  step  7490 | loss 0.3412 (avg50: 0.3515) | lr 1.74e-04 | epoch 3 | 1.80s/step | 14634s total
+  step  7500 | loss 0.3449 (avg50: 0.3517) | lr 1.74e-04 | epoch 3 | 1.80s/step | 14653s total
+
+  📊 Eval @ step 7500: cosine_sim=0.6451
+     sim_behavioral: 0.6656
+     sim_complex: 0.5832
+     sim_math: 0.7348
+     sim_mixed: 0.6324
+     sim_prose: 0.6159
+     sim_sexpr: 0.7287
+
+  step  7510 | loss 0.3542 (avg50: 0.3521) | lr 1.74e-04 | epoch 3 | 1.79s/step | 14685s total
+  step  7520 | loss 0.3443 (avg50: 0.3524) | lr 1.73e-04 | epoch 3 | 1.81s/step | 14703s total
+  step  7530 | loss 0.3502 (avg50: 0.3531) | lr 1.73e-04 | epoch 3 | 1.81s/step | 14721s total
+  step  7540 | loss 0.3502 (avg50: 0.3550) | lr 1.73e-04 | epoch 3 | 1.78s/step | 14739s total
+  step  7550 | loss 0.3422 (avg50: 0.3550) | lr 1.72e-04 | epoch 3 | 1.82s/step | 14757s total
+  step  7560 | loss 0.3541 (avg50: 0.3568) | lr 1.72e-04 | epoch 3 | 1.82s/step | 14776s total
+  step  7570 | loss 0.3612 (avg50: 0.3571) | lr 1.72e-04 | epoch 3 | 1.79s/step | 14794s total
+  step  7580 | loss 0.3477 (avg50: 0.3564) | lr 1.72e-04 | epoch 3 | 1.83s/step | 14812s total
+  step  7590 | loss 0.3690 (avg50: 0.3575) | lr 1.71e-04 | epoch 3 | 1.87s/step | 14830s total
+  step  7600 | loss 0.3331 (avg50: 0.3560) | lr 1.71e-04 | epoch 3 | 1.81s/step | 14849s total
+
+  📊 Eval @ step 7600: cosine_sim=0.6545
+     sim_behavioral: 0.6683
+     sim_complex: 0.5830
+     sim_math: 0.7360
+     sim_mixed: 0.6138
+     sim_prose: 0.6356
+     sim_sexpr: 0.7339
+
+  step  7610 | loss 0.3585 (avg50: 0.3558) | lr 1.71e-04 | epoch 3 | 1.82s/step | 14882s total
+  step  7620 | loss 0.3426 (avg50: 0.3560) | lr 1.70e-04 | epoch 3 | 1.83s/step | 14900s total
+  step  7630 | loss 0.3674 (avg50: 0.3556) | lr 1.70e-04 | epoch 3 | 1.84s/step | 14918s total
+  step  7640 | loss 0.3459 (avg50: 0.3545) | lr 1.70e-04 | epoch 3 | 1.78s/step | 14937s total
+  step  7650 | loss 0.3516 (avg50: 0.3561) | lr 1.70e-04 | epoch 3 | 1.82s/step | 14955s total
+  step  7660 | loss 0.3571 (avg50: 0.3538) | lr 1.69e-04 | epoch 3 | 1.78s/step | 14973s total
+  step  7670 | loss 0.3827 (avg50: 0.3543) | lr 1.69e-04 | epoch 3 | 1.81s/step | 14991s total
+  step  7680 | loss 0.3607 (avg50: 0.3554) | lr 1.69e-04 | epoch 3 | 1.82s/step | 15009s total
+  step  7690 | loss 0.3579 (avg50: 0.3563) | lr 1.68e-04 | epoch 3 | 1.80s/step | 15027s total
+  step  7700 | loss 0.3711 (avg50: 0.3549) | lr 1.68e-04 | epoch 3 | 1.80s/step | 15045s total
+
+  📊 Eval @ step 7700: cosine_sim=0.6391
+     sim_behavioral: 0.6628
+     sim_complex: 0.5707
+     sim_math: 0.7305
+     sim_mixed: 0.6099
+     sim_prose: 0.6013
+     sim_sexpr: 0.7258
+
+  step  7710 | loss 0.3586 (avg50: 0.3561) | lr 1.68e-04 | epoch 3 | 1.77s/step | 15077s total
+  step  7720 | loss 0.3502 (avg50: 0.3546) | lr 1.67e-04 | epoch 3 | 1.76s/step | 15095s total
+  step  7730 | loss 0.3311 (avg50: 0.3526) | lr 1.67e-04 | epoch 3 | 1.84s/step | 15113s total
+  step  7740 | loss 0.3459 (avg50: 0.3489) | lr 1.67e-04 | epoch 3 | 1.78s/step | 15131s total
+  step  7750 | loss 0.3516 (avg50: 0.3481) | lr 1.67e-04 | epoch 3 | 1.77s/step | 15149s total
+  step  7760 | loss 0.3663 (avg50: 0.3471) | lr 1.66e-04 | epoch 3 | 1.81s/step | 15167s total
+  step  7770 | loss 0.3668 (avg50: 0.3487) | lr 1.66e-04 | epoch 3 | 1.77s/step | 15184s total
+  step  7780 | loss 0.3365 (avg50: 0.3498) | lr 1.66e-04 | epoch 3 | 1.77s/step | 15202s total
+  step  7790 | loss 0.3534 (avg50: 0.3518) | lr 1.65e-04 | epoch 3 | 1.83s/step | 15220s total
+  step  7800 | loss 0.3699 (avg50: 0.3530) | lr 1.65e-04 | epoch 3 | 1.76s/step | 15238s total
+
+  📊 Eval @ step 7800: cosine_sim=0.6506
+     sim_behavioral: 0.6595
+     sim_complex: 0.5701
+     sim_math: 0.7198
+     sim_mixed: 0.6177
+     sim_prose: 0.6282
+     sim_sexpr: 0.7382
+
+  step  7810 | loss 0.3482 (avg50: 0.3541) | lr 1.65e-04 | epoch 3 | 1.79s/step | 15270s total
+  step  7820 | loss 0.3544 (avg50: 0.3524) | lr 1.64e-04 | epoch 3 | 1.77s/step | 15287s total
+  step  7830 | loss 0.3525 (avg50: 0.3528) | lr 1.64e-04 | epoch 3 | 1.79s/step | 15305s total
+  step  7840 | loss 0.3672 (avg50: 0.3510) | lr 1.64e-04 | epoch 3 | 1.78s/step | 15323s total
+  step  7850 | loss 0.3533 (avg50: 0.3502) | lr 1.64e-04 | epoch 3 | 1.77s/step | 15341s total
+  step  7860 | loss 0.3538 (avg50: 0.3491) | lr 1.63e-04 | epoch 3 | 1.78s/step | 15359s total
+  step  7870 | loss 0.3230 (avg50: 0.3485) | lr 1.63e-04 | epoch 3 | 1.77s/step | 15376s total
+  step  7880 | loss 0.3339 (avg50: 0.3474) | lr 1.63e-04 | epoch 3 | 1.77s/step | 15394s total
+  step  7890 | loss 0.3528 (avg50: 0.3488) | lr 1.62e-04 | epoch 3 | 1.77s/step | 15412s total
+  step  7900 | loss 0.3310 (avg50: 0.3487) | lr 1.62e-04 | epoch 3 | 1.77s/step | 15430s total
+
+  📊 Eval @ step 7900: cosine_sim=0.6458
+     sim_behavioral: 0.6620
+     sim_complex: 0.5772
+     sim_math: 0.7152
+     sim_mixed: 0.6250
+     sim_prose: 0.6171
+     sim_sexpr: 0.7275
+
+  step  7910 | loss 0.3553 (avg50: 0.3495) | lr 1.62e-04 | epoch 3 | 1.77s/step | 15461s total
+  step  7920 | loss 0.3567 (avg50: 0.3501) | lr 1.61e-04 | epoch 3 | 1.77s/step | 15479s total
+  step  7930 | loss 0.3584 (avg50: 0.3523) | lr 1.61e-04 | epoch 3 | 1.78s/step | 15497s total
+  step  7940 | loss 0.3448 (avg50: 0.3516) | lr 1.61e-04 | epoch 3 | 1.75s/step | 15515s total
+  step  7950 | loss 0.3554 (avg50: 0.3534) | lr 1.61e-04 | epoch 3 | 1.76s/step | 15532s total
+  step  7960 | loss 0.3585 (avg50: 0.3537) | lr 1.60e-04 | epoch 3 | 1.78s/step | 15550s total
+  step  7970 | loss 0.3528 (avg50: 0.3541) | lr 1.60e-04 | epoch 3 | 1.77s/step | 15568s total
+  step  7980 | loss 0.3377 (avg50: 0.3527) | lr 1.60e-04 | epoch 3 | 1.76s/step | 15585s total
+  step  7990 | loss 0.3594 (avg50: 0.3539) | lr 1.59e-04 | epoch 3 | 1.79s/step | 15603s total
+  step  8000 | loss 0.3294 (avg50: 0.3518) | lr 1.59e-04 | epoch 3 | 1.77s/step | 15621s total
+
+  📊 Eval @ step 8000: cosine_sim=0.6549
+     sim_behavioral: 0.6628
+     sim_complex: 0.5793
+     sim_math: 0.7460
+     sim_mixed: 0.6166
+     sim_prose: 0.6204
+     sim_sexpr: 0.7414
+
+
+  📊 Checkpoint eval @ step 8000: cosine_sim=0.6507
+     sim_behavioral: 0.6607
+     sim_complex: 0.5860
+     sim_math: 0.7389
+     sim_mixed: 0.6241
+     sim_prose: 0.6172
+     sim_sexpr: 0.7296
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_008000
+
+  step  8010 | loss 0.3645 (avg50: 0.3521) | lr 1.59e-04 | epoch 3 | 1.76s/step | 15681s total
+  step  8020 | loss 0.3056 (avg50: 0.3519) | lr 1.58e-04 | epoch 3 | 1.77s/step | 15699s total
+  step  8030 | loss 0.3499 (avg50: 0.3519) | lr 1.58e-04 | epoch 3 | 1.77s/step | 15716s total
+  step  8040 | loss 0.3597 (avg50: 0.3518) | lr 1.58e-04 | epoch 3 | 1.77s/step | 15734s total
+  step  8050 | loss 0.3427 (avg50: 0.3513) | lr 1.58e-04 | epoch 3 | 1.77s/step | 15752s total
+  step  8060 | loss 0.3694 (avg50: 0.3504) | lr 1.57e-04 | epoch 3 | 1.77s/step | 15769s total
+  step  8070 | loss 0.3551 (avg50: 0.3497) | lr 1.57e-04 | epoch 3 | 1.77s/step | 15787s total
+  step  8080 | loss 0.3715 (avg50: 0.3501) | lr 1.57e-04 | epoch 3 | 1.76s/step | 15805s total
+  step  8090 | loss 0.3460 (avg50: 0.3482) | lr 1.56e-04 | epoch 3 | 1.78s/step | 15823s total
+  step  8100 | loss 0.3562 (avg50: 0.3495) | lr 1.56e-04 | epoch 3 | 1.77s/step | 15840s total
+
+  📊 Eval @ step 8100: cosine_sim=0.6474
+     sim_behavioral: 0.6620
+     sim_complex: 0.5821
+     sim_math: 0.7467
+     sim_mixed: 0.6231
+     sim_prose: 0.6136
+     sim_sexpr: 0.7318
+
+  step  8110 | loss 0.3502 (avg50: 0.3491) | lr 1.56e-04 | epoch 3 | 1.76s/step | 15872s total
+  step  8120 | loss 0.3516 (avg50: 0.3506) | lr 1.55e-04 | epoch 3 | 1.78s/step | 15890s total
+  step  8130 | loss 0.3701 (avg50: 0.3497) | lr 1.55e-04 | epoch 3 | 1.77s/step | 15908s total
+  step  8140 | loss 0.3540 (avg50: 0.3512) | lr 1.55e-04 | epoch 3 | 1.76s/step | 15925s total
+  step  8150 | loss 0.3446 (avg50: 0.3508) | lr 1.55e-04 | epoch 3 | 1.77s/step | 15943s total
+  step  8160 | loss 0.3455 (avg50: 0.3503) | lr 1.54e-04 | epoch 3 | 1.76s/step | 15961s total
+  step  8170 | loss 0.3815 (avg50: 0.3491) | lr 1.54e-04 | epoch 3 | 1.76s/step | 15978s total
+  step  8180 | loss 0.3331 (avg50: 0.3508) | lr 1.54e-04 | epoch 3 | 1.77s/step | 15996s total
+  step  8190 | loss 0.3597 (avg50: 0.3509) | lr 1.53e-04 | epoch 3 | 1.77s/step | 16014s total
+  step  8200 | loss 0.3312 (avg50: 0.3499) | lr 1.53e-04 | epoch 3 | 1.77s/step | 16031s total
+
+  📊 Eval @ step 8200: cosine_sim=0.6546
+     sim_behavioral: 0.6695
+     sim_complex: 0.5644
+     sim_math: 0.7499
+     sim_mixed: 0.6260
+     sim_prose: 0.6241
+     sim_sexpr: 0.7296
+
+  step  8210 | loss 0.3540 (avg50: 0.3504) | lr 1.53e-04 | epoch 3 | 1.77s/step | 16063s total
+  step  8220 | loss 0.3558 (avg50: 0.3516) | lr 1.52e-04 | epoch 3 | 1.76s/step | 16081s total
+  step  8230 | loss 0.3492 (avg50: 0.3480) | lr 1.52e-04 | epoch 3 | 1.77s/step | 16099s total
+  step  8240 | loss 0.3444 (avg50: 0.3462) | lr 1.52e-04 | epoch 3 | 1.80s/step | 16116s total
+  step  8250 | loss 0.3544 (avg50: 0.3478) | lr 1.51e-04 | epoch 3 | 1.77s/step | 16134s total
+  step  8260 | loss 0.3479 (avg50: 0.3486) | lr 1.51e-04 | epoch 3 | 1.78s/step | 16152s total
+  step  8270 | loss 0.3425 (avg50: 0.3476) | lr 1.51e-04 | epoch 3 | 1.78s/step | 16170s total
+  step  8280 | loss 0.3611 (avg50: 0.3499) | lr 1.51e-04 | epoch 3 | 1.78s/step | 16188s total
+  step  8290 | loss 0.3422 (avg50: 0.3503) | lr 1.50e-04 | epoch 3 | 1.79s/step | 16206s total
+  step  8300 | loss 0.3651 (avg50: 0.3512) | lr 1.50e-04 | epoch 3 | 1.77s/step | 16223s total
+
+  📊 Eval @ step 8300: cosine_sim=0.6528
+     sim_behavioral: 0.6660
+     sim_complex: 0.5842
+     sim_math: 0.7287
+     sim_mixed: 0.6271
+     sim_prose: 0.6243
+     sim_sexpr: 0.7327
+
+  step  8310 | loss 0.3400 (avg50: 0.3519) | lr 1.50e-04 | epoch 3 | 1.79s/step | 16256s total
+  step  8320 | loss 0.3477 (avg50: 0.3542) | lr 1.49e-04 | epoch 3 | 1.84s/step | 16274s total
+  step  8330 | loss 0.3226 (avg50: 0.3561) | lr 1.49e-04 | epoch 3 | 1.79s/step | 16292s total
+  step  8340 | loss 0.3460 (avg50: 0.3551) | lr 1.49e-04 | epoch 3 | 1.79s/step | 16309s total
+  step  8350 | loss 0.3488 (avg50: 0.3550) | lr 1.48e-04 | epoch 3 | 1.79s/step | 16328s total
+  step  8360 | loss 0.3627 (avg50: 0.3551) | lr 1.48e-04 | epoch 3 | 1.79s/step | 16346s total
+  step  8370 | loss 0.3468 (avg50: 0.3532) | lr 1.48e-04 | epoch 3 | 1.78s/step | 16363s total
+  step  8380 | loss 0.3356 (avg50: 0.3503) | lr 1.48e-04 | epoch 3 | 1.77s/step | 16381s total
+  step  8390 | loss 0.3499 (avg50: 0.3520) | lr 1.47e-04 | epoch 3 | 1.77s/step | 16399s total
+  step  8400 | loss 0.3481 (avg50: 0.3495) | lr 1.47e-04 | epoch 3 | 1.76s/step | 16417s total
+
+  📊 Eval @ step 8400: cosine_sim=0.6483
+     sim_behavioral: 0.6672
+     sim_complex: 0.5799
+     sim_math: 0.7232
+     sim_mixed: 0.6251
+     sim_prose: 0.6324
+     sim_sexpr: 0.7126
+
+  step  8410 | loss 0.3377 (avg50: 0.3483) | lr 1.47e-04 | epoch 3 | 1.77s/step | 16449s total
+  step  8420 | loss 0.3463 (avg50: 0.3478) | lr 1.46e-04 | epoch 3 | 1.78s/step | 16466s total
+  step  8430 | loss 0.3438 (avg50: 0.3468) | lr 1.46e-04 | epoch 3 | 1.77s/step | 16484s total
+  step  8440 | loss 0.3603 (avg50: 0.3472) | lr 1.46e-04 | epoch 3 | 1.78s/step | 16502s total
+  step  8450 | loss 0.3257 (avg50: 0.3482) | lr 1.45e-04 | epoch 3 | 1.78s/step | 16520s total
+  step  8460 | loss 0.3478 (avg50: 0.3479) | lr 1.45e-04 | epoch 3 | 1.78s/step | 16537s total
+  step  8470 | loss 0.3376 (avg50: 0.3491) | lr 1.45e-04 | epoch 3 | 1.77s/step | 16555s total
+  step  8480 | loss 0.3479 (avg50: 0.3495) | lr 1.45e-04 | epoch 3 | 1.79s/step | 16573s total
+  step  8490 | loss 0.3544 (avg50: 0.3502) | lr 1.44e-04 | epoch 3 | 1.77s/step | 16591s total
+  step  8500 | loss 0.3535 (avg50: 0.3510) | lr 1.44e-04 | epoch 3 | 1.77s/step | 16608s total
+
+  📊 Eval @ step 8500: cosine_sim=0.6565
+     sim_behavioral: 0.6669
+     sim_complex: 0.5863
+     sim_math: 0.7379
+     sim_mixed: 0.6382
+     sim_prose: 0.6345
+     sim_sexpr: 0.7334
+
+  step  8510 | loss 0.3632 (avg50: 0.3513) | lr 1.44e-04 | epoch 3 | 1.77s/step | 16640s total
+  step  8520 | loss 0.3661 (avg50: 0.3505) | lr 1.43e-04 | epoch 3 | 1.77s/step | 16658s total
+  step  8530 | loss 0.3446 (avg50: 0.3503) | lr 1.43e-04 | epoch 3 | 1.78s/step | 16676s total
+  step  8540 | loss 0.3623 (avg50: 0.3501) | lr 1.43e-04 | epoch 3 | 1.77s/step | 16694s total
+  step  8550 | loss 0.3533 (avg50: 0.3474) | lr 1.42e-04 | epoch 3 | 1.78s/step | 16711s total
+  step  8560 | loss 0.3560 (avg50: 0.3464) | lr 1.42e-04 | epoch 3 | 1.77s/step | 16729s total
+  step  8570 | loss 0.3428 (avg50: 0.3476) | lr 1.42e-04 | epoch 3 | 1.76s/step | 16747s total
+  step  8580 | loss 0.3534 (avg50: 0.3496) | lr 1.42e-04 | epoch 3 | 1.81s/step | 16765s total
+  step  8590 | loss 0.3328 (avg50: 0.3480) | lr 1.41e-04 | epoch 3 | 1.78s/step | 16783s total
+  step  8600 | loss 0.3327 (avg50: 0.3503) | lr 1.41e-04 | epoch 3 | 1.77s/step | 16800s total
+
+  📊 Eval @ step 8600: cosine_sim=0.6526
+     sim_behavioral: 0.6662
+     sim_complex: 0.5802
+     sim_math: 0.7444
+     sim_mixed: 0.6304
+     sim_prose: 0.6270
+     sim_sexpr: 0.7384
+
+  step  8610 | loss 0.3405 (avg50: 0.3521) | lr 1.41e-04 | epoch 3 | 1.76s/step | 16832s total
+  step  8620 | loss 0.3435 (avg50: 0.3492) | lr 1.40e-04 | epoch 3 | 1.77s/step | 16850s total
+  step  8630 | loss 0.3773 (avg50: 0.3483) | lr 1.40e-04 | epoch 3 | 1.78s/step | 16868s total
+  step  8640 | loss 0.3467 (avg50: 0.3508) | lr 1.40e-04 | epoch 3 | 1.78s/step | 16886s total
+  step  8650 | loss 0.3499 (avg50: 0.3501) | lr 1.39e-04 | epoch 3 | 1.77s/step | 16903s total
+  step  8660 | loss 0.3354 (avg50: 0.3485) | lr 1.39e-04 | epoch 3 | 1.77s/step | 16921s total
+  step  8670 | loss 0.3535 (avg50: 0.3504) | lr 1.39e-04 | epoch 3 | 1.77s/step | 16939s total
+  step  8680 | loss 0.3757 (avg50: 0.3491) | lr 1.39e-04 | epoch 3 | 1.77s/step | 16957s total
+  step  8690 | loss 0.3493 (avg50: 0.3466) | lr 1.38e-04 | epoch 3 | 1.78s/step | 16974s total
+  step  8700 | loss 0.3334 (avg50: 0.3468) | lr 1.38e-04 | epoch 3 | 1.77s/step | 16992s total
+
+  📊 Eval @ step 8700: cosine_sim=0.6550
+     sim_behavioral: 0.6688
+     sim_complex: 0.5990
+     sim_math: 0.7399
+     sim_mixed: 0.6270
+     sim_prose: 0.6207
+     sim_sexpr: 0.7260
+
+  step  8710 | loss 0.3385 (avg50: 0.3468) | lr 1.38e-04 | epoch 3 | 1.77s/step | 17024s total
+  step  8720 | loss 0.3537 (avg50: 0.3471) | lr 1.37e-04 | epoch 3 | 1.77s/step | 17042s total
+  step  8730 | loss 0.3534 (avg50: 0.3490) | lr 1.37e-04 | epoch 3 | 1.78s/step | 17059s total
+  step  8740 | loss 0.3331 (avg50: 0.3490) | lr 1.37e-04 | epoch 3 | 1.77s/step | 17077s total
+  step  8750 | loss 0.3482 (avg50: 0.3472) | lr 1.36e-04 | epoch 3 | 1.77s/step | 17095s total
+  step  8760 | loss 0.3375 (avg50: 0.3492) | lr 1.36e-04 | epoch 3 | 1.78s/step | 17113s total
+  step  8770 | loss 0.3662 (avg50: 0.3506) | lr 1.36e-04 | epoch 3 | 1.77s/step | 17130s total
+  step  8780 | loss 0.3831 (avg50: 0.3498) | lr 1.36e-04 | epoch 3 | 1.77s/step | 17148s total
+  step  8790 | loss 0.3450 (avg50: 0.3499) | lr 1.35e-04 | epoch 3 | 1.79s/step | 17166s total
+  step  8800 | loss 0.3378 (avg50: 0.3519) | lr 1.35e-04 | epoch 3 | 1.77s/step | 17183s total
+
+  📊 Eval @ step 8800: cosine_sim=0.6513
+     sim_behavioral: 0.6637
+     sim_complex: 0.5832
+     sim_math: 0.7443
+     sim_mixed: 0.6252
+     sim_prose: 0.6250
+     sim_sexpr: 0.7361
+
+  step  8810 | loss 0.3286 (avg50: 0.3497) | lr 1.35e-04 | epoch 3 | 1.77s/step | 17215s total
+  step  8820 | loss 0.3733 (avg50: 0.3484) | lr 1.34e-04 | epoch 3 | 1.76s/step | 17233s total
+  step  8830 | loss 0.3481 (avg50: 0.3511) | lr 1.34e-04 | epoch 3 | 1.81s/step | 17251s total
+  step  8840 | loss 0.3591 (avg50: 0.3521) | lr 1.34e-04 | epoch 3 | 1.77s/step | 17268s total
+  step  8850 | loss 0.3390 (avg50: 0.3534) | lr 1.33e-04 | epoch 3 | 1.77s/step | 17286s total
+  step  8860 | loss 0.3706 (avg50: 0.3545) | lr 1.33e-04 | epoch 3 | 1.77s/step | 17304s total
+  step  8870 | loss 0.3252 (avg50: 0.3541) | lr 1.33e-04 | epoch 3 | 1.77s/step | 17322s total
+  step  8880 | loss 0.3368 (avg50: 0.3506) | lr 1.33e-04 | epoch 3 | 1.80s/step | 17339s total
+  step  8890 | loss 0.3306 (avg50: 0.3509) | lr 1.32e-04 | epoch 3 | 1.79s/step | 17357s total
+  step  8900 | loss 0.3414 (avg50: 0.3504) | lr 1.32e-04 | epoch 3 | 1.77s/step | 17375s total
+
+  📊 Eval @ step 8900: cosine_sim=0.6526
+     sim_behavioral: 0.6687
+     sim_complex: 0.5814
+     sim_math: 0.7326
+     sim_mixed: 0.6331
+     sim_prose: 0.6142
+     sim_sexpr: 0.7436
+
+  step  8910 | loss 0.3435 (avg50: 0.3489) | lr 1.32e-04 | epoch 3 | 1.79s/step | 17407s total
+  step  8920 | loss 0.3409 (avg50: 0.3488) | lr 1.31e-04 | epoch 3 | 1.76s/step | 17424s total
+  step  8930 | loss 0.3589 (avg50: 0.3508) | lr 1.31e-04 | epoch 3 | 1.78s/step | 17442s total
+  step  8940 | loss 0.3654 (avg50: 0.3496) | lr 1.31e-04 | epoch 3 | 1.77s/step | 17460s total
+  step  8950 | loss 0.3419 (avg50: 0.3487) | lr 1.31e-04 | epoch 3 | 1.77s/step | 17478s total
+  step  8960 | loss 0.3407 (avg50: 0.3496) | lr 1.30e-04 | epoch 3 | 1.76s/step | 17495s total
+  step  8970 | loss 0.3693 (avg50: 0.3494) | lr 1.30e-04 | epoch 3 | 1.77s/step | 17513s total
+  step  8980 | loss 0.3563 (avg50: 0.3484) | lr 1.30e-04 | epoch 3 | 1.77s/step | 17531s total
+  step  8990 | loss 0.3293 (avg50: 0.3498) | lr 1.29e-04 | epoch 3 | 1.79s/step | 17549s total
+  step  9000 | loss 0.3356 (avg50: 0.3501) | lr 1.29e-04 | epoch 3 | 1.76s/step | 17566s total
+
+  📊 Eval @ step 9000: cosine_sim=0.6429
+     sim_behavioral: 0.6600
+     sim_complex: 0.5764
+     sim_math: 0.7319
+     sim_mixed: 0.6248
+     sim_prose: 0.6221
+     sim_sexpr: 0.7259
+
+
+  📊 Checkpoint eval @ step 9000: cosine_sim=0.6455
+     sim_behavioral: 0.6672
+     sim_complex: 0.5587
+     sim_math: 0.7380
+     sim_mixed: 0.6246
+     sim_prose: 0.6084
+     sim_sexpr: 0.7261
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_009000
+
+  step  9010 | loss 0.3391 (avg50: 0.3491) | lr 1.29e-04 | epoch 3 | 1.78s/step | 17627s total
+  step  9020 | loss 0.3381 (avg50: 0.3485) | lr 1.28e-04 | epoch 3 | 1.76s/step | 17644s total
+  step  9030 | loss 0.3490 (avg50: 0.3477) | lr 1.28e-04 | epoch 3 | 1.77s/step | 17662s total
+  step  9040 | loss 0.3666 (avg50: 0.3463) | lr 1.28e-04 | epoch 3 | 1.79s/step | 17680s total
+  step  9050 | loss 0.3494 (avg50: 0.3464) | lr 1.28e-04 | epoch 3 | 1.76s/step | 17698s total
+  step  9060 | loss 0.3629 (avg50: 0.3467) | lr 1.27e-04 | epoch 3 | 1.77s/step | 17715s total
+  step  9070 | loss 0.3553 (avg50: 0.3463) | lr 1.27e-04 | epoch 3 | 1.81s/step | 17733s total
+  step  9080 | loss 0.3463 (avg50: 0.3467) | lr 1.27e-04 | epoch 3 | 1.80s/step | 17751s total
+  step  9090 | loss 0.3533 (avg50: 0.3469) | lr 1.26e-04 | epoch 3 | 1.77s/step | 17769s total
+  step  9100 | loss 0.3454 (avg50: 0.3466) | lr 1.26e-04 | epoch 3 | 1.81s/step | 17787s total
+
+  📊 Eval @ step 9100: cosine_sim=0.6503
+     sim_behavioral: 0.6693
+     sim_complex: 0.5909
+     sim_math: 0.7247
+     sim_mixed: 0.6300
+     sim_prose: 0.6149
+     sim_sexpr: 0.7301
+
+  step  9110 | loss 0.3574 (avg50: 0.3472) | lr 1.26e-04 | epoch 3 | 1.77s/step | 17818s total
+  step  9120 | loss 0.3227 (avg50: 0.3480) | lr 1.25e-04 | epoch 3 | 1.78s/step | 17836s total
+  step  9130 | loss 0.3432 (avg50: 0.3484) | lr 1.25e-04 | epoch 3 | 1.78s/step | 17854s total
+  step  9140 | loss 0.3403 (avg50: 0.3474) | lr 1.25e-04 | epoch 3 | 1.77s/step | 17872s total
+  step  9150 | loss 0.3585 (avg50: 0.3473) | lr 1.25e-04 | epoch 3 | 1.78s/step | 17889s total
+  step  9160 | loss 0.3609 (avg50: 0.3496) | lr 1.24e-04 | epoch 3 | 1.78s/step | 17907s total
+  step  9170 | loss 0.3537 (avg50: 0.3507) | lr 1.24e-04 | epoch 3 | 1.81s/step | 17925s total
+  step  9180 | loss 0.3383 (avg50: 0.3499) | lr 1.24e-04 | epoch 3 | 1.77s/step | 17943s total
+  step  9190 | loss 0.3485 (avg50: 0.3504) | lr 1.23e-04 | epoch 3 | 1.76s/step | 17961s total
+  step  9200 | loss 0.3525 (avg50: 0.3504) | lr 1.23e-04 | epoch 3 | 1.77s/step | 17978s total
+
+  📊 Eval @ step 9200: cosine_sim=0.6551
+     sim_behavioral: 0.6623
+     sim_complex: 0.5865
+     sim_math: 0.7451
+     sim_mixed: 0.6407
+     sim_prose: 0.6167
+     sim_sexpr: 0.7429
+
+  step  9210 | loss 0.3475 (avg50: 0.3491) | lr 1.23e-04 | epoch 3 | 1.78s/step | 18010s total
+  step  9220 | loss 0.3427 (avg50: 0.3491) | lr 1.22e-04 | epoch 3 | 1.79s/step | 18028s total
+  step  9230 | loss 0.3636 (avg50: 0.3499) | lr 1.22e-04 | epoch 3 | 1.77s/step | 18046s total
+  step  9240 | loss 0.3560 (avg50: 0.3488) | lr 1.22e-04 | epoch 3 | 1.77s/step | 18064s total
+  step  9250 | loss 0.3377 (avg50: 0.3467) | lr 1.22e-04 | epoch 3 | 1.79s/step | 18081s total
+  step  9260 | loss 0.3806 (avg50: 0.3465) | lr 1.21e-04 | epoch 3 | 1.76s/step | 18099s total
+  step  9270 | loss 0.3550 (avg50: 0.3462) | lr 1.21e-04 | epoch 3 | 1.79s/step | 18117s total
+  step  9280 | loss 0.3463 (avg50: 0.3466) | lr 1.21e-04 | epoch 3 | 1.77s/step | 18135s total
+  step  9290 | loss 0.3240 (avg50: 0.3475) | lr 1.20e-04 | epoch 3 | 1.78s/step | 18153s total
+  step  9300 | loss 0.3615 (avg50: 0.3475) | lr 1.20e-04 | epoch 3 | 1.78s/step | 18170s total
+
+  📊 Eval @ step 9300: cosine_sim=0.6544
+     sim_behavioral: 0.6643
+     sim_complex: 0.5903
+     sim_math: 0.7353
+     sim_mixed: 0.6221
+     sim_prose: 0.6187
+     sim_sexpr: 0.7334
+
+  step  9310 | loss 0.3526 (avg50: 0.3487) | lr 1.20e-04 | epoch 3 | 1.78s/step | 18202s total
+  step  9320 | loss 0.3374 (avg50: 0.3465) | lr 1.20e-04 | epoch 3 | 1.79s/step | 18220s total
+  step  9330 | loss 0.3552 (avg50: 0.3443) | lr 1.19e-04 | epoch 3 | 1.80s/step | 18238s total
+  step  9340 | loss 0.3554 (avg50: 0.3437) | lr 1.19e-04 | epoch 3 | 1.77s/step | 18256s total
+  step  9350 | loss 0.3617 (avg50: 0.3448) | lr 1.19e-04 | epoch 3 | 1.78s/step | 18274s total
+  step  9360 | loss 0.3637 (avg50: 0.3434) | lr 1.18e-04 | epoch 3 | 1.76s/step | 18292s total
+  step  9370 | loss 0.3448 (avg50: 0.3448) | lr 1.18e-04 | epoch 3 | 1.77s/step | 18309s total
+  step  9380 | loss 0.3525 (avg50: 0.3467) | lr 1.18e-04 | epoch 3 | 1.81s/step | 18327s total
+  step  9390 | loss 0.3394 (avg50: 0.3490) | lr 1.17e-04 | epoch 3 | 1.77s/step | 18345s total
+  step  9400 | loss 0.3529 (avg50: 0.3494) | lr 1.17e-04 | epoch 3 | 1.78s/step | 18363s total
+
+  📊 Eval @ step 9400: cosine_sim=0.6533
+     sim_behavioral: 0.6673
+     sim_complex: 0.5884
+     sim_math: 0.7426
+     sim_mixed: 0.6335
+     sim_prose: 0.6242
+     sim_sexpr: 0.7312
+
+  step  9410 | loss 0.3553 (avg50: 0.3478) | lr 1.17e-04 | epoch 3 | 1.77s/step | 18395s total
+  step  9420 | loss 0.3523 (avg50: 0.3477) | lr 1.17e-04 | epoch 3 | 1.81s/step | 18413s total
+  step  9430 | loss 0.3543 (avg50: 0.3476) | lr 1.16e-04 | epoch 3 | 1.77s/step | 18430s total
+  step  9440 | loss 0.3380 (avg50: 0.3446) | lr 1.16e-04 | epoch 3 | 1.78s/step | 18448s total
+  step  9450 | loss 0.3620 (avg50: 0.3466) | lr 1.16e-04 | epoch 3 | 1.80s/step | 18466s total
+  step  9460 | loss 0.3497 (avg50: 0.3474) | lr 1.15e-04 | epoch 3 | 1.77s/step | 18484s total
+  step  9470 | loss 0.3444 (avg50: 0.3481) | lr 1.15e-04 | epoch 3 | 1.77s/step | 18502s total
+  step  9480 | loss 0.3509 (avg50: 0.3467) | lr 1.15e-04 | epoch 3 | 1.80s/step | 18519s total
+  step  9490 | loss 0.3419 (avg50: 0.3478) | lr 1.15e-04 | epoch 3 | 1.77s/step | 18537s total
+  step  9500 | loss 0.3547 (avg50: 0.3463) | lr 1.14e-04 | epoch 3 | 1.78s/step | 18555s total
+
+  📊 Eval @ step 9500: cosine_sim=0.6451
+     sim_behavioral: 0.6577
+     sim_complex: 0.5890
+     sim_math: 0.7278
+     sim_mixed: 0.6251
+     sim_prose: 0.6092
+     sim_sexpr: 0.7223
+
+  step  9510 | loss 0.3411 (avg50: 0.3481) | lr 1.14e-04 | epoch 4 | 1.77s/step | 18587s total
+  step  9520 | loss 0.3511 (avg50: 0.3478) | lr 1.14e-04 | epoch 4 | 1.78s/step | 18605s total
+  step  9530 | loss 0.3555 (avg50: 0.3512) | lr 1.13e-04 | epoch 4 | 1.77s/step | 18623s total
+  step  9540 | loss 0.3393 (avg50: 0.3504) | lr 1.13e-04 | epoch 4 | 1.77s/step | 18641s total
+  step  9550 | loss 0.3570 (avg50: 0.3494) | lr 1.13e-04 | epoch 4 | 1.78s/step | 18658s total
+  step  9560 | loss 0.3554 (avg50: 0.3480) | lr 1.13e-04 | epoch 4 | 1.78s/step | 18676s total
+  step  9570 | loss 0.3543 (avg50: 0.3474) | lr 1.12e-04 | epoch 4 | 1.78s/step | 18694s total
+  step  9580 | loss 0.3338 (avg50: 0.3444) | lr 1.12e-04 | epoch 4 | 1.79s/step | 18712s total
+  step  9590 | loss 0.3493 (avg50: 0.3451) | lr 1.12e-04 | epoch 4 | 1.78s/step | 18730s total
+  step  9600 | loss 0.3605 (avg50: 0.3457) | lr 1.11e-04 | epoch 4 | 1.77s/step | 18747s total
+
+  📊 Eval @ step 9600: cosine_sim=0.6505
+     sim_behavioral: 0.6755
+     sim_complex: 0.5741
+     sim_math: 0.7301
+     sim_mixed: 0.6212
+     sim_prose: 0.6317
+     sim_sexpr: 0.7288
+
+  step  9610 | loss 0.3408 (avg50: 0.3448) | lr 1.11e-04 | epoch 4 | 1.77s/step | 18779s total
+  step  9620 | loss 0.3512 (avg50: 0.3459) | lr 1.11e-04 | epoch 4 | 1.77s/step | 18797s total
+  step  9630 | loss 0.3610 (avg50: 0.3475) | lr 1.11e-04 | epoch 4 | 1.78s/step | 18815s total
+  step  9640 | loss 0.3494 (avg50: 0.3489) | lr 1.10e-04 | epoch 4 | 1.79s/step | 18833s total
+  step  9650 | loss 0.3292 (avg50: 0.3488) | lr 1.10e-04 | epoch 4 | 1.80s/step | 18851s total
+  step  9660 | loss 0.3394 (avg50: 0.3483) | lr 1.10e-04 | epoch 4 | 1.76s/step | 18868s total
+  step  9670 | loss 0.3315 (avg50: 0.3471) | lr 1.09e-04 | epoch 4 | 1.77s/step | 18886s total
+  step  9680 | loss 0.3444 (avg50: 0.3466) | lr 1.09e-04 | epoch 4 | 1.78s/step | 18904s total
+  step  9690 | loss 0.3234 (avg50: 0.3464) | lr 1.09e-04 | epoch 4 | 1.77s/step | 18922s total
+  step  9700 | loss 0.3447 (avg50: 0.3462) | lr 1.08e-04 | epoch 4 | 1.78s/step | 18940s total
+
+  📊 Eval @ step 9700: cosine_sim=0.6520
+     sim_behavioral: 0.6755
+     sim_complex: 0.5640
+     sim_math: 0.7442
+     sim_mixed: 0.6200
+     sim_prose: 0.6303
+     sim_sexpr: 0.7354
+
+  step  9710 | loss 0.3492 (avg50: 0.3484) | lr 1.08e-04 | epoch 4 | 1.76s/step | 18972s total
+  step  9720 | loss 0.3377 (avg50: 0.3488) | lr 1.08e-04 | epoch 4 | 1.79s/step | 18989s total
+  step  9730 | loss 0.3365 (avg50: 0.3488) | lr 1.08e-04 | epoch 4 | 1.82s/step | 19007s total
+  step  9740 | loss 0.3297 (avg50: 0.3476) | lr 1.07e-04 | epoch 4 | 1.78s/step | 19025s total
+  step  9750 | loss 0.3387 (avg50: 0.3474) | lr 1.07e-04 | epoch 4 | 1.78s/step | 19043s total
+  step  9760 | loss 0.3538 (avg50: 0.3458) | lr 1.07e-04 | epoch 4 | 1.78s/step | 19061s total
+  step  9770 | loss 0.3395 (avg50: 0.3447) | lr 1.06e-04 | epoch 4 | 1.77s/step | 19078s total
+  step  9780 | loss 0.3407 (avg50: 0.3446) | lr 1.06e-04 | epoch 4 | 1.78s/step | 19096s total
+  step  9790 | loss 0.3407 (avg50: 0.3471) | lr 1.06e-04 | epoch 4 | 1.82s/step | 19114s total
+  step  9800 | loss 0.3465 (avg50: 0.3471) | lr 1.06e-04 | epoch 4 | 1.78s/step | 19132s total
+
+  📊 Eval @ step 9800: cosine_sim=0.6618
+     sim_behavioral: 0.6814
+     sim_complex: 0.5724
+     sim_math: 0.7363
+     sim_mixed: 0.6205
+     sim_prose: 0.6378
+     sim_sexpr: 0.7354
+
+  step  9810 | loss 0.3497 (avg50: 0.3477) | lr 1.05e-04 | epoch 4 | 1.76s/step | 19164s total
+  step  9820 | loss 0.3622 (avg50: 0.3474) | lr 1.05e-04 | epoch 4 | 1.77s/step | 19182s total
+  step  9830 | loss 0.3490 (avg50: 0.3459) | lr 1.05e-04 | epoch 4 | 1.78s/step | 19199s total
+  step  9840 | loss 0.3594 (avg50: 0.3451) | lr 1.04e-04 | epoch 4 | 1.77s/step | 19217s total
+  step  9850 | loss 0.3301 (avg50: 0.3468) | lr 1.04e-04 | epoch 4 | 1.77s/step | 19235s total
+  step  9860 | loss 0.3376 (avg50: 0.3458) | lr 1.04e-04 | epoch 4 | 1.82s/step | 19253s total
+  step  9870 | loss 0.3502 (avg50: 0.3466) | lr 1.04e-04 | epoch 4 | 1.77s/step | 19271s total
+  step  9880 | loss 0.3247 (avg50: 0.3482) | lr 1.03e-04 | epoch 4 | 1.76s/step | 19288s total
+  step  9890 | loss 0.3350 (avg50: 0.3471) | lr 1.03e-04 | epoch 4 | 1.76s/step | 19306s total
+  step  9900 | loss 0.3347 (avg50: 0.3461) | lr 1.03e-04 | epoch 4 | 1.77s/step | 19324s total
+
+  📊 Eval @ step 9900: cosine_sim=0.6641
+     sim_behavioral: 0.6693
+     sim_complex: 0.6046
+     sim_math: 0.7362
+     sim_mixed: 0.6446
+     sim_prose: 0.6372
+     sim_sexpr: 0.7300
+
+  step  9910 | loss 0.3626 (avg50: 0.3473) | lr 1.02e-04 | epoch 4 | 1.76s/step | 19356s total
+  step  9920 | loss 0.3547 (avg50: 0.3488) | lr 1.02e-04 | epoch 4 | 1.79s/step | 19373s total
+  step  9930 | loss 0.3178 (avg50: 0.3468) | lr 1.02e-04 | epoch 4 | 1.83s/step | 19391s total
+  step  9940 | loss 0.3347 (avg50: 0.3472) | lr 1.02e-04 | epoch 4 | 1.77s/step | 19409s total
+  step  9950 | loss 0.3596 (avg50: 0.3487) | lr 1.01e-04 | epoch 4 | 1.78s/step | 19427s total
+  step  9960 | loss 0.3470 (avg50: 0.3484) | lr 1.01e-04 | epoch 4 | 1.81s/step | 19445s total
+  step  9970 | loss 0.3457 (avg50: 0.3467) | lr 1.01e-04 | epoch 4 | 1.77s/step | 19463s total
+  step  9980 | loss 0.3508 (avg50: 0.3478) | lr 1.00e-04 | epoch 4 | 1.78s/step | 19480s total
+  step  9990 | loss 0.3354 (avg50: 0.3467) | lr 1.00e-04 | epoch 4 | 1.81s/step | 19498s total
+  step 10000 | loss 0.3523 (avg50: 0.3445) | lr 9.99e-05 | epoch 4 | 1.79s/step | 19516s total
+
+  📊 Eval @ step 10000: cosine_sim=0.6573
+     sim_behavioral: 0.6757
+     sim_complex: 0.5857
+     sim_math: 0.7524
+     sim_mixed: 0.6385
+     sim_prose: 0.6269
+     sim_sexpr: 0.7307
+
+
+  📊 Checkpoint eval @ step 10000: cosine_sim=0.6504
+     sim_behavioral: 0.6695
+     sim_complex: 0.5758
+     sim_math: 0.7323
+     sim_mixed: 0.6337
+     sim_prose: 0.6143
+     sim_sexpr: 0.7302
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_010000
+
+  step 10010 | loss 0.3252 (avg50: 0.3434) | lr 9.96e-05 | epoch 4 | 1.79s/step | 19577s total
+  step 10020 | loss 0.3351 (avg50: 0.3439) | lr 9.94e-05 | epoch 4 | 1.77s/step | 19594s total
+  step 10030 | loss 0.3380 (avg50: 0.3448) | lr 9.91e-05 | epoch 4 | 1.77s/step | 19612s total
+  step 10040 | loss 0.3420 (avg50: 0.3454) | lr 9.88e-05 | epoch 4 | 1.78s/step | 19630s total
+  step 10050 | loss 0.3576 (avg50: 0.3452) | lr 9.85e-05 | epoch 4 | 1.75s/step | 19648s total
+  step 10060 | loss 0.3481 (avg50: 0.3461) | lr 9.82e-05 | epoch 4 | 1.79s/step | 19666s total
+  step 10070 | loss 0.3602 (avg50: 0.3476) | lr 9.80e-05 | epoch 4 | 1.78s/step | 19684s total
+  step 10080 | loss 0.3267 (avg50: 0.3462) | lr 9.77e-05 | epoch 4 | 1.78s/step | 19702s total
+  step 10090 | loss 0.3468 (avg50: 0.3475) | lr 9.74e-05 | epoch 4 | 1.78s/step | 19719s total
+  step 10100 | loss 0.3668 (avg50: 0.3482) | lr 9.71e-05 | epoch 4 | 1.79s/step | 19737s total
+
+  📊 Eval @ step 10100: cosine_sim=0.6499
+     sim_behavioral: 0.6692
+     sim_complex: 0.5698
+     sim_math: 0.7388
+     sim_mixed: 0.6417
+     sim_prose: 0.6213
+     sim_sexpr: 0.7285
+
+  step 10110 | loss 0.3495 (avg50: 0.3468) | lr 9.68e-05 | epoch 4 | 1.79s/step | 19769s total
+  step 10120 | loss 0.3259 (avg50: 0.3442) | lr 9.66e-05 | epoch 4 | 1.77s/step | 19787s total
+  step 10130 | loss 0.3482 (avg50: 0.3462) | lr 9.63e-05 | epoch 4 | 1.79s/step | 19805s total
+  step 10140 | loss 0.3296 (avg50: 0.3445) | lr 9.60e-05 | epoch 4 | 1.77s/step | 19823s total
+  step 10150 | loss 0.3414 (avg50: 0.3432) | lr 9.57e-05 | epoch 4 | 1.79s/step | 19841s total
+  step 10160 | loss 0.3820 (avg50: 0.3454) | lr 9.54e-05 | epoch 4 | 1.78s/step | 19858s total
+  step 10170 | loss 0.3494 (avg50: 0.3464) | lr 9.52e-05 | epoch 4 | 1.78s/step | 19876s total
+  step 10180 | loss 0.3369 (avg50: 0.3436) | lr 9.49e-05 | epoch 4 | 1.78s/step | 19894s total
+  step 10190 | loss 0.3425 (avg50: 0.3441) | lr 9.46e-05 | epoch 4 | 1.78s/step | 19912s total
+  step 10200 | loss 0.3336 (avg50: 0.3449) | lr 9.43e-05 | epoch 4 | 1.79s/step | 19930s total
+
+  📊 Eval @ step 10200: cosine_sim=0.6569
+     sim_behavioral: 0.6760
+     sim_complex: 0.5862
+     sim_math: 0.7392
+     sim_mixed: 0.6420
+     sim_prose: 0.6134
+     sim_sexpr: 0.7508
+
+  step 10210 | loss 0.3608 (avg50: 0.3437) | lr 9.40e-05 | epoch 4 | 1.78s/step | 19962s total
+  step 10220 | loss 0.3315 (avg50: 0.3438) | lr 9.38e-05 | epoch 4 | 1.81s/step | 19980s total
+  step 10230 | loss 0.3309 (avg50: 0.3429) | lr 9.35e-05 | epoch 4 | 1.78s/step | 19998s total
+  step 10240 | loss 0.3768 (avg50: 0.3427) | lr 9.32e-05 | epoch 4 | 1.77s/step | 20016s total
+  step 10250 | loss 0.3462 (avg50: 0.3434) | lr 9.29e-05 | epoch 4 | 1.77s/step | 20033s total
+  step 10260 | loss 0.3372 (avg50: 0.3419) | lr 9.27e-05 | epoch 4 | 1.76s/step | 20051s total
+  step 10270 | loss 0.3444 (avg50: 0.3422) | lr 9.24e-05 | epoch 4 | 1.77s/step | 20069s total
+  step 10280 | loss 0.3387 (avg50: 0.3454) | lr 9.21e-05 | epoch 4 | 1.77s/step | 20086s total
+  step 10290 | loss 0.3172 (avg50: 0.3455) | lr 9.18e-05 | epoch 4 | 1.77s/step | 20104s total
+  step 10300 | loss 0.3491 (avg50: 0.3456) | lr 9.16e-05 | epoch 4 | 1.76s/step | 20122s total
+
+  📊 Eval @ step 10300: cosine_sim=0.6494
+     sim_behavioral: 0.6607
+     sim_complex: 0.5856
+     sim_math: 0.7494
+     sim_mixed: 0.6260
+     sim_prose: 0.6233
+     sim_sexpr: 0.7371
+
+  step 10310 | loss 0.3371 (avg50: 0.3472) | lr 9.13e-05 | epoch 4 | 1.77s/step | 20154s total
+  step 10320 | loss 0.3404 (avg50: 0.3457) | lr 9.10e-05 | epoch 4 | 1.77s/step | 20171s total
+  step 10330 | loss 0.3270 (avg50: 0.3453) | lr 9.07e-05 | epoch 4 | 1.76s/step | 20189s total
+  step 10340 | loss 0.3246 (avg50: 0.3463) | lr 9.05e-05 | epoch 4 | 1.76s/step | 20207s total
+  step 10350 | loss 0.3350 (avg50: 0.3445) | lr 9.02e-05 | epoch 4 | 1.77s/step | 20224s total
+  step 10360 | loss 0.3327 (avg50: 0.3453) | lr 8.99e-05 | epoch 4 | 1.77s/step | 20242s total
+  step 10370 | loss 0.3421 (avg50: 0.3463) | lr 8.96e-05 | epoch 4 | 1.77s/step | 20260s total
+  step 10380 | loss 0.3490 (avg50: 0.3470) | lr 8.94e-05 | epoch 4 | 1.78s/step | 20277s total
+  step 10390 | loss 0.3403 (avg50: 0.3444) | lr 8.91e-05 | epoch 4 | 1.77s/step | 20295s total
+  step 10400 | loss 0.3320 (avg50: 0.3459) | lr 8.88e-05 | epoch 4 | 1.75s/step | 20313s total
+
+  📊 Eval @ step 10400: cosine_sim=0.6506
+     sim_behavioral: 0.6587
+     sim_complex: 0.5753
+     sim_math: 0.7646
+     sim_mixed: 0.6392
+     sim_prose: 0.6183
+     sim_sexpr: 0.7284
+
+  step 10410 | loss 0.3456 (avg50: 0.3462) | lr 8.85e-05 | epoch 4 | 1.76s/step | 20344s total
+  step 10420 | loss 0.3436 (avg50: 0.3455) | lr 8.83e-05 | epoch 4 | 1.78s/step | 20362s total
+  step 10430 | loss 0.3243 (avg50: 0.3438) | lr 8.80e-05 | epoch 4 | 1.77s/step | 20380s total
+  step 10440 | loss 0.3492 (avg50: 0.3461) | lr 8.77e-05 | epoch 4 | 1.78s/step | 20397s total
+  step 10450 | loss 0.3366 (avg50: 0.3445) | lr 8.75e-05 | epoch 4 | 1.77s/step | 20415s total
+  step 10460 | loss 0.3492 (avg50: 0.3437) | lr 8.72e-05 | epoch 4 | 1.77s/step | 20433s total
+  step 10470 | loss 0.3316 (avg50: 0.3443) | lr 8.69e-05 | epoch 4 | 1.77s/step | 20451s total
+  step 10480 | loss 0.3336 (avg50: 0.3463) | lr 8.66e-05 | epoch 4 | 1.77s/step | 20468s total
+  step 10490 | loss 0.3556 (avg50: 0.3461) | lr 8.64e-05 | epoch 4 | 1.77s/step | 20486s total
+  step 10500 | loss 0.3482 (avg50: 0.3474) | lr 8.61e-05 | epoch 4 | 1.76s/step | 20504s total
+
+  📊 Eval @ step 10500: cosine_sim=0.6484
+     sim_behavioral: 0.6615
+     sim_complex: 0.5741
+     sim_math: 0.7434
+     sim_mixed: 0.6351
+     sim_prose: 0.6173
+     sim_sexpr: 0.7328
+
+  step 10510 | loss 0.3509 (avg50: 0.3470) | lr 8.58e-05 | epoch 4 | 1.77s/step | 20535s total
+  step 10520 | loss 0.3439 (avg50: 0.3467) | lr 8.56e-05 | epoch 4 | 1.77s/step | 20553s total
+  step 10530 | loss 0.3213 (avg50: 0.3443) | lr 8.53e-05 | epoch 4 | 1.77s/step | 20571s total
+  step 10540 | loss 0.3498 (avg50: 0.3448) | lr 8.50e-05 | epoch 4 | 1.77s/step | 20588s total
+  step 10550 | loss 0.3287 (avg50: 0.3428) | lr 8.48e-05 | epoch 4 | 1.77s/step | 20606s total
+  step 10560 | loss 0.3468 (avg50: 0.3442) | lr 8.45e-05 | epoch 4 | 1.76s/step | 20624s total
+  step 10570 | loss 0.3310 (avg50: 0.3426) | lr 8.42e-05 | epoch 4 | 1.77s/step | 20641s total
+  step 10580 | loss 0.3269 (avg50: 0.3433) | lr 8.39e-05 | epoch 4 | 1.77s/step | 20659s total
+  step 10590 | loss 0.3546 (avg50: 0.3427) | lr 8.37e-05 | epoch 4 | 1.76s/step | 20677s total
+  step 10600 | loss 0.3671 (avg50: 0.3449) | lr 8.34e-05 | epoch 4 | 1.77s/step | 20695s total
+
+  📊 Eval @ step 10600: cosine_sim=0.6543
+     sim_behavioral: 0.6700
+     sim_complex: 0.5902
+     sim_math: 0.7253
+     sim_mixed: 0.6388
+     sim_prose: 0.6267
+     sim_sexpr: 0.7251
+
+  step 10610 | loss 0.3446 (avg50: 0.3425) | lr 8.31e-05 | epoch 4 | 1.78s/step | 20726s total
+  step 10620 | loss 0.3299 (avg50: 0.3441) | lr 8.29e-05 | epoch 4 | 1.75s/step | 20744s total
+  step 10630 | loss 0.3572 (avg50: 0.3445) | lr 8.26e-05 | epoch 4 | 1.76s/step | 20762s total
+  step 10640 | loss 0.3280 (avg50: 0.3436) | lr 8.23e-05 | epoch 4 | 1.77s/step | 20779s total
+  step 10650 | loss 0.3552 (avg50: 0.3438) | lr 8.21e-05 | epoch 4 | 1.76s/step | 20797s total
+  step 10660 | loss 0.3062 (avg50: 0.3443) | lr 8.18e-05 | epoch 4 | 1.77s/step | 20815s total
+  step 10670 | loss 0.3584 (avg50: 0.3445) | lr 8.15e-05 | epoch 4 | 1.76s/step | 20832s total
+  step 10680 | loss 0.3289 (avg50: 0.3442) | lr 8.13e-05 | epoch 4 | 1.76s/step | 20850s total
+  step 10690 | loss 0.3406 (avg50: 0.3460) | lr 8.10e-05 | epoch 4 | 1.76s/step | 20868s total
+  step 10700 | loss 0.3371 (avg50: 0.3454) | lr 8.08e-05 | epoch 4 | 1.76s/step | 20885s total
+
+  📊 Eval @ step 10700: cosine_sim=0.6501
+     sim_behavioral: 0.6655
+     sim_complex: 0.5898
+     sim_math: 0.7645
+     sim_mixed: 0.6306
+     sim_prose: 0.6113
+     sim_sexpr: 0.7273
+
+  step 10710 | loss 0.3464 (avg50: 0.3455) | lr 8.05e-05 | epoch 4 | 1.78s/step | 20917s total
+  step 10720 | loss 0.3420 (avg50: 0.3454) | lr 8.02e-05 | epoch 4 | 1.76s/step | 20935s total
+  step 10730 | loss 0.3295 (avg50: 0.3454) | lr 8.00e-05 | epoch 4 | 1.76s/step | 20953s total
+  step 10740 | loss 0.3717 (avg50: 0.3446) | lr 7.97e-05 | epoch 4 | 1.76s/step | 20970s total
+  step 10750 | loss 0.3587 (avg50: 0.3445) | lr 7.94e-05 | epoch 4 | 1.76s/step | 20988s total
+  step 10760 | loss 0.3350 (avg50: 0.3445) | lr 7.92e-05 | epoch 4 | 1.77s/step | 21006s total
+  step 10770 | loss 0.3377 (avg50: 0.3437) | lr 7.89e-05 | epoch 4 | 1.77s/step | 21023s total
+  step 10780 | loss 0.3430 (avg50: 0.3431) | lr 7.86e-05 | epoch 4 | 1.76s/step | 21041s total
+  step 10790 | loss 0.3631 (avg50: 0.3427) | lr 7.84e-05 | epoch 4 | 1.77s/step | 21059s total
+  step 10800 | loss 0.3281 (avg50: 0.3438) | lr 7.81e-05 | epoch 4 | 1.76s/step | 21076s total
+
+  📊 Eval @ step 10800: cosine_sim=0.6579
+     sim_behavioral: 0.6701
+     sim_complex: 0.5690
+     sim_math: 0.7428
+     sim_mixed: 0.6450
+     sim_prose: 0.6211
+     sim_sexpr: 0.7176
+
+  step 10810 | loss 0.3349 (avg50: 0.3448) | lr 7.79e-05 | epoch 4 | 1.77s/step | 21108s total
+  step 10820 | loss 0.3362 (avg50: 0.3457) | lr 7.76e-05 | epoch 4 | 1.76s/step | 21126s total
+  step 10830 | loss 0.3634 (avg50: 0.3461) | lr 7.73e-05 | epoch 4 | 1.77s/step | 21143s total
+  step 10840 | loss 0.3360 (avg50: 0.3471) | lr 7.71e-05 | epoch 4 | 1.77s/step | 21161s total
+  step 10850 | loss 0.3400 (avg50: 0.3458) | lr 7.68e-05 | epoch 4 | 1.78s/step | 21179s total
+  step 10860 | loss 0.3316 (avg50: 0.3451) | lr 7.66e-05 | epoch 4 | 1.78s/step | 21196s total
+  step 10870 | loss 0.3465 (avg50: 0.3454) | lr 7.63e-05 | epoch 4 | 1.77s/step | 21214s total
+  step 10880 | loss 0.3636 (avg50: 0.3453) | lr 7.60e-05 | epoch 4 | 1.77s/step | 21232s total
+  step 10890 | loss 0.3363 (avg50: 0.3435) | lr 7.58e-05 | epoch 4 | 1.77s/step | 21250s total
+  step 10900 | loss 0.3647 (avg50: 0.3444) | lr 7.55e-05 | epoch 4 | 1.76s/step | 21267s total
+
+  📊 Eval @ step 10900: cosine_sim=0.6485
+     sim_behavioral: 0.6658
+     sim_complex: 0.5699
+     sim_math: 0.7433
+     sim_mixed: 0.6169
+     sim_prose: 0.6048
+     sim_sexpr: 0.7403
+
+  step 10910 | loss 0.3450 (avg50: 0.3462) | lr 7.53e-05 | epoch 4 | 1.76s/step | 21299s total
+  step 10920 | loss 0.3481 (avg50: 0.3451) | lr 7.50e-05 | epoch 4 | 1.77s/step | 21317s total
+  step 10930 | loss 0.3283 (avg50: 0.3453) | lr 7.47e-05 | epoch 4 | 1.77s/step | 21334s total
+  step 10940 | loss 0.3464 (avg50: 0.3463) | lr 7.45e-05 | epoch 4 | 1.77s/step | 21352s total
+  step 10950 | loss 0.3311 (avg50: 0.3449) | lr 7.42e-05 | epoch 4 | 1.77s/step | 21370s total
+  step 10960 | loss 0.3399 (avg50: 0.3429) | lr 7.40e-05 | epoch 4 | 1.78s/step | 21387s total
+  step 10970 | loss 0.3456 (avg50: 0.3441) | lr 7.37e-05 | epoch 4 | 1.77s/step | 21405s total
+  step 10980 | loss 0.3510 (avg50: 0.3451) | lr 7.35e-05 | epoch 4 | 1.77s/step | 21423s total
+  step 10990 | loss 0.3177 (avg50: 0.3435) | lr 7.32e-05 | epoch 4 | 1.77s/step | 21440s total
+  step 11000 | loss 0.3369 (avg50: 0.3432) | lr 7.29e-05 | epoch 4 | 1.77s/step | 21458s total
+
+  📊 Eval @ step 11000: cosine_sim=0.6571
+     sim_behavioral: 0.6659
+     sim_complex: 0.5853
+     sim_math: 0.7621
+     sim_mixed: 0.6419
+     sim_prose: 0.6440
+     sim_sexpr: 0.7345
+
+
+  📊 Checkpoint eval @ step 11000: cosine_sim=0.6579
+     sim_behavioral: 0.6715
+     sim_complex: 0.5722
+     sim_math: 0.7386
+     sim_mixed: 0.6393
+     sim_prose: 0.6301
+     sim_sexpr: 0.7419
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_011000
+
+  step 11010 | loss 0.3638 (avg50: 0.3449) | lr 7.27e-05 | epoch 4 | 1.76s/step | 21518s total
+  step 11020 | loss 0.3469 (avg50: 0.3457) | lr 7.24e-05 | epoch 4 | 1.77s/step | 21536s total
+  step 11030 | loss 0.3184 (avg50: 0.3435) | lr 7.22e-05 | epoch 4 | 1.77s/step | 21554s total
+  step 11040 | loss 0.3826 (avg50: 0.3463) | lr 7.19e-05 | epoch 4 | 1.77s/step | 21571s total
+  step 11050 | loss 0.3473 (avg50: 0.3469) | lr 7.17e-05 | epoch 4 | 1.77s/step | 21589s total
+  step 11060 | loss 0.3212 (avg50: 0.3440) | lr 7.14e-05 | epoch 4 | 1.76s/step | 21607s total
+  step 11070 | loss 0.3531 (avg50: 0.3418) | lr 7.12e-05 | epoch 4 | 1.77s/step | 21624s total
+  step 11080 | loss 0.3317 (avg50: 0.3419) | lr 7.09e-05 | epoch 4 | 1.77s/step | 21642s total
+  step 11090 | loss 0.3833 (avg50: 0.3413) | lr 7.07e-05 | epoch 4 | 1.77s/step | 21660s total
+  step 11100 | loss 0.3450 (avg50: 0.3421) | lr 7.04e-05 | epoch 4 | 1.77s/step | 21677s total
+
+  📊 Eval @ step 11100: cosine_sim=0.6595
+     sim_behavioral: 0.6696
+     sim_complex: 0.5932
+     sim_math: 0.7390
+     sim_mixed: 0.6361
+     sim_prose: 0.6428
+     sim_sexpr: 0.7276
+
+  step 11110 | loss 0.3301 (avg50: 0.3442) | lr 7.02e-05 | epoch 4 | 1.77s/step | 21709s total
+  step 11120 | loss 0.3398 (avg50: 0.3448) | lr 6.99e-05 | epoch 4 | 1.78s/step | 21727s total
+  step 11130 | loss 0.3517 (avg50: 0.3459) | lr 6.97e-05 | epoch 4 | 1.77s/step | 21745s total
+  step 11140 | loss 0.3480 (avg50: 0.3449) | lr 6.94e-05 | epoch 4 | 1.77s/step | 21762s total
+  step 11150 | loss 0.3376 (avg50: 0.3445) | lr 6.92e-05 | epoch 4 | 1.76s/step | 21780s total
+  step 11160 | loss 0.3484 (avg50: 0.3437) | lr 6.89e-05 | epoch 4 | 1.77s/step | 21798s total
+  step 11170 | loss 0.3384 (avg50: 0.3441) | lr 6.87e-05 | epoch 4 | 1.77s/step | 21815s total
+  step 11180 | loss 0.3365 (avg50: 0.3438) | lr 6.84e-05 | epoch 4 | 1.76s/step | 21833s total
+  step 11190 | loss 0.3511 (avg50: 0.3440) | lr 6.82e-05 | epoch 4 | 1.77s/step | 21851s total
+  step 11200 | loss 0.3475 (avg50: 0.3442) | lr 6.79e-05 | epoch 4 | 1.75s/step | 21868s total
+
+  📊 Eval @ step 11200: cosine_sim=0.6516
+     sim_behavioral: 0.6702
+     sim_complex: 0.5895
+     sim_math: 0.7295
+     sim_mixed: 0.6271
+     sim_prose: 0.6219
+     sim_sexpr: 0.7571
+
+  step 11210 | loss 0.3594 (avg50: 0.3437) | lr 6.77e-05 | epoch 4 | 1.78s/step | 21900s total
+  step 11220 | loss 0.3252 (avg50: 0.3444) | lr 6.74e-05 | epoch 4 | 1.79s/step | 21918s total
+  step 11230 | loss 0.3218 (avg50: 0.3466) | lr 6.72e-05 | epoch 4 | 1.76s/step | 21936s total
+  step 11240 | loss 0.3310 (avg50: 0.3457) | lr 6.69e-05 | epoch 4 | 1.77s/step | 21953s total
+  step 11250 | loss 0.3338 (avg50: 0.3453) | lr 6.67e-05 | epoch 4 | 1.76s/step | 21971s total
+  step 11260 | loss 0.3462 (avg50: 0.3454) | lr 6.64e-05 | epoch 4 | 1.78s/step | 21989s total
+  step 11270 | loss 0.3427 (avg50: 0.3455) | lr 6.62e-05 | epoch 4 | 1.76s/step | 22006s total
+  step 11280 | loss 0.3504 (avg50: 0.3441) | lr 6.59e-05 | epoch 4 | 1.77s/step | 22024s total
+  step 11290 | loss 0.3439 (avg50: 0.3441) | lr 6.57e-05 | epoch 4 | 1.77s/step | 22042s total
+  step 11300 | loss 0.3478 (avg50: 0.3451) | lr 6.54e-05 | epoch 4 | 1.78s/step | 22059s total
+
+  📊 Eval @ step 11300: cosine_sim=0.6565
+     sim_behavioral: 0.6650
+     sim_complex: 0.5637
+     sim_math: 0.7436
+     sim_mixed: 0.6441
+     sim_prose: 0.6141
+     sim_sexpr: 0.7320
+
+  step 11310 | loss 0.3288 (avg50: 0.3450) | lr 6.52e-05 | epoch 4 | 1.77s/step | 22091s total
+  step 11320 | loss 0.3424 (avg50: 0.3433) | lr 6.49e-05 | epoch 4 | 1.77s/step | 22109s total
+  step 11330 | loss 0.3579 (avg50: 0.3433) | lr 6.47e-05 | epoch 4 | 1.77s/step | 22126s total
+  step 11340 | loss 0.3726 (avg50: 0.3457) | lr 6.45e-05 | epoch 4 | 1.76s/step | 22144s total
+  step 11350 | loss 0.3387 (avg50: 0.3448) | lr 6.42e-05 | epoch 4 | 1.77s/step | 22162s total
+  step 11360 | loss 0.3628 (avg50: 0.3453) | lr 6.40e-05 | epoch 4 | 1.76s/step | 22180s total
+  step 11370 | loss 0.3554 (avg50: 0.3464) | lr 6.37e-05 | epoch 4 | 1.76s/step | 22197s total
+  step 11380 | loss 0.3297 (avg50: 0.3462) | lr 6.35e-05 | epoch 4 | 1.76s/step | 22215s total
+  step 11390 | loss 0.3466 (avg50: 0.3444) | lr 6.32e-05 | epoch 4 | 1.78s/step | 22233s total
+  step 11400 | loss 0.3273 (avg50: 0.3453) | lr 6.30e-05 | epoch 4 | 1.76s/step | 22250s total
+
+  📊 Eval @ step 11400: cosine_sim=0.6525
+     sim_behavioral: 0.6660
+     sim_complex: 0.5943
+     sim_math: 0.7356
+     sim_mixed: 0.6237
+     sim_prose: 0.6191
+     sim_sexpr: 0.7400
+
+  step 11410 | loss 0.3305 (avg50: 0.3460) | lr 6.28e-05 | epoch 4 | 1.77s/step | 22282s total
+  step 11420 | loss 0.3477 (avg50: 0.3456) | lr 6.25e-05 | epoch 4 | 1.77s/step | 22300s total
+  step 11430 | loss 0.3606 (avg50: 0.3473) | lr 6.23e-05 | epoch 4 | 1.77s/step | 22317s total
+  step 11440 | loss 0.3508 (avg50: 0.3477) | lr 6.20e-05 | epoch 4 | 1.77s/step | 22335s total
+  step 11450 | loss 0.3351 (avg50: 0.3459) | lr 6.18e-05 | epoch 4 | 1.77s/step | 22353s total
+  step 11460 | loss 0.3472 (avg50: 0.3451) | lr 6.16e-05 | epoch 4 | 1.77s/step | 22370s total
+  step 11470 | loss 0.3630 (avg50: 0.3463) | lr 6.13e-05 | epoch 4 | 1.78s/step | 22388s total
+  step 11480 | loss 0.3503 (avg50: 0.3455) | lr 6.11e-05 | epoch 4 | 1.77s/step | 22406s total
+  step 11490 | loss 0.3295 (avg50: 0.3440) | lr 6.08e-05 | epoch 4 | 1.76s/step | 22423s total
+  step 11500 | loss 0.3363 (avg50: 0.3444) | lr 6.06e-05 | epoch 4 | 1.77s/step | 22441s total
+
+  📊 Eval @ step 11500: cosine_sim=0.6571
+     sim_behavioral: 0.6754
+     sim_complex: 0.6018
+     sim_math: 0.7184
+     sim_mixed: 0.6450
+     sim_prose: 0.6282
+     sim_sexpr: 0.7343
+
+  step 11510 | loss 0.3509 (avg50: 0.3432) | lr 6.04e-05 | epoch 4 | 1.76s/step | 22473s total
+  step 11520 | loss 0.3421 (avg50: 0.3421) | lr 6.01e-05 | epoch 4 | 1.76s/step | 22491s total
+  step 11530 | loss 0.3471 (avg50: 0.3404) | lr 5.99e-05 | epoch 4 | 1.76s/step | 22508s total
+  step 11540 | loss 0.3608 (avg50: 0.3430) | lr 5.97e-05 | epoch 4 | 1.77s/step | 22526s total
+  step 11550 | loss 0.3715 (avg50: 0.3438) | lr 5.94e-05 | epoch 4 | 1.77s/step | 22544s total
+  step 11560 | loss 0.3496 (avg50: 0.3453) | lr 5.92e-05 | epoch 4 | 1.78s/step | 22561s total
+  step 11570 | loss 0.3617 (avg50: 0.3448) | lr 5.89e-05 | epoch 4 | 1.76s/step | 22579s total
+  step 11580 | loss 0.3731 (avg50: 0.3457) | lr 5.87e-05 | epoch 4 | 1.78s/step | 22597s total
+  step 11590 | loss 0.3468 (avg50: 0.3428) | lr 5.85e-05 | epoch 4 | 1.76s/step | 22614s total
+  step 11600 | loss 0.3513 (avg50: 0.3430) | lr 5.82e-05 | epoch 4 | 1.76s/step | 22632s total
+
+  📊 Eval @ step 11600: cosine_sim=0.6576
+     sim_behavioral: 0.6691
+     sim_complex: 0.5927
+     sim_math: 0.7604
+     sim_mixed: 0.6227
+     sim_prose: 0.6414
+     sim_sexpr: 0.7394
+
+  step 11610 | loss 0.3300 (avg50: 0.3431) | lr 5.80e-05 | epoch 4 | 1.76s/step | 22664s total
+  step 11620 | loss 0.3672 (avg50: 0.3444) | lr 5.78e-05 | epoch 4 | 1.76s/step | 22681s total
+  step 11630 | loss 0.3382 (avg50: 0.3453) | lr 5.75e-05 | epoch 4 | 1.77s/step | 22699s total
+  step 11640 | loss 0.3265 (avg50: 0.3443) | lr 5.73e-05 | epoch 4 | 1.76s/step | 22717s total
+  step 11650 | loss 0.3694 (avg50: 0.3455) | lr 5.71e-05 | epoch 4 | 1.77s/step | 22734s total
+  step 11660 | loss 0.3565 (avg50: 0.3448) | lr 5.68e-05 | epoch 4 | 1.78s/step | 22752s total
+  step 11670 | loss 0.3347 (avg50: 0.3446) | lr 5.66e-05 | epoch 4 | 1.76s/step | 22770s total
+  step 11680 | loss 0.3575 (avg50: 0.3434) | lr 5.64e-05 | epoch 4 | 1.78s/step | 22788s total
+  step 11690 | loss 0.3530 (avg50: 0.3457) | lr 5.61e-05 | epoch 4 | 1.77s/step | 22805s total
+  step 11700 | loss 0.3475 (avg50: 0.3451) | lr 5.59e-05 | epoch 4 | 1.76s/step | 22823s total
+
+  📊 Eval @ step 11700: cosine_sim=0.6510
+     sim_behavioral: 0.6671
+     sim_complex: 0.5778
+     sim_math: 0.7406
+     sim_mixed: 0.6349
+     sim_prose: 0.6258
+     sim_sexpr: 0.7297
+
+  step 11710 | loss 0.3248 (avg50: 0.3443) | lr 5.57e-05 | epoch 4 | 1.77s/step | 22855s total
+  step 11720 | loss 0.3400 (avg50: 0.3431) | lr 5.55e-05 | epoch 4 | 1.77s/step | 22872s total
+  step 11730 | loss 0.3453 (avg50: 0.3434) | lr 5.52e-05 | epoch 4 | 1.77s/step | 22890s total
+  step 11740 | loss 0.3364 (avg50: 0.3421) | lr 5.50e-05 | epoch 4 | 1.76s/step | 22908s total
+  step 11750 | loss 0.3513 (avg50: 0.3406) | lr 5.48e-05 | epoch 4 | 1.76s/step | 22925s total
+  step 11760 | loss 0.3268 (avg50: 0.3419) | lr 5.45e-05 | epoch 4 | 1.77s/step | 22943s total
+  step 11770 | loss 0.3672 (avg50: 0.3425) | lr 5.43e-05 | epoch 4 | 1.77s/step | 22961s total
+  step 11780 | loss 0.3474 (avg50: 0.3423) | lr 5.41e-05 | epoch 4 | 1.76s/step | 22978s total
+  step 11790 | loss 0.3415 (avg50: 0.3434) | lr 5.39e-05 | epoch 4 | 1.77s/step | 22996s total
+  step 11800 | loss 0.3536 (avg50: 0.3444) | lr 5.36e-05 | epoch 4 | 1.77s/step | 23014s total
+
+  📊 Eval @ step 11800: cosine_sim=0.6510
+     sim_behavioral: 0.6739
+     sim_complex: 0.5840
+     sim_math: 0.7459
+     sim_mixed: 0.6470
+     sim_prose: 0.6263
+     sim_sexpr: 0.7325
+
+  step 11810 | loss 0.3350 (avg50: 0.3449) | lr 5.34e-05 | epoch 4 | 1.77s/step | 23046s total
+  step 11820 | loss 0.3602 (avg50: 0.3435) | lr 5.32e-05 | epoch 4 | 1.77s/step | 23063s total
+  step 11830 | loss 0.3514 (avg50: 0.3429) | lr 5.30e-05 | epoch 4 | 1.76s/step | 23081s total
+  step 11840 | loss 0.3256 (avg50: 0.3421) | lr 5.27e-05 | epoch 4 | 1.76s/step | 23099s total
+  step 11850 | loss 0.3464 (avg50: 0.3419) | lr 5.25e-05 | epoch 4 | 1.77s/step | 23116s total
+  step 11860 | loss 0.3528 (avg50: 0.3433) | lr 5.23e-05 | epoch 4 | 1.77s/step | 23134s total
+  step 11870 | loss 0.3168 (avg50: 0.3445) | lr 5.21e-05 | epoch 4 | 1.77s/step | 23152s total
+  step 11880 | loss 0.3529 (avg50: 0.3461) | lr 5.18e-05 | epoch 5 | 1.76s/step | 23169s total
+  step 11890 | loss 0.3476 (avg50: 0.3475) | lr 5.16e-05 | epoch 5 | 1.77s/step | 23187s total
+  step 11900 | loss 0.3542 (avg50: 0.3469) | lr 5.14e-05 | epoch 5 | 1.77s/step | 23205s total
+
+  📊 Eval @ step 11900: cosine_sim=0.6631
+     sim_behavioral: 0.6731
+     sim_complex: 0.5993
+     sim_math: 0.7425
+     sim_mixed: 0.6379
+     sim_prose: 0.6208
+     sim_sexpr: 0.7275
+
+  step 11910 | loss 0.3228 (avg50: 0.3442) | lr 5.12e-05 | epoch 5 | 1.77s/step | 23236s total
+  step 11920 | loss 0.3269 (avg50: 0.3434) | lr 5.09e-05 | epoch 5 | 1.77s/step | 23254s total
+  step 11930 | loss 0.3467 (avg50: 0.3423) | lr 5.07e-05 | epoch 5 | 1.77s/step | 23272s total
+  step 11940 | loss 0.3485 (avg50: 0.3414) | lr 5.05e-05 | epoch 5 | 1.76s/step | 23289s total
+  step 11950 | loss 0.3615 (avg50: 0.3417) | lr 5.03e-05 | epoch 5 | 1.77s/step | 23307s total
+  step 11960 | loss 0.3441 (avg50: 0.3427) | lr 5.01e-05 | epoch 5 | 1.77s/step | 23325s total
+  step 11970 | loss 0.3369 (avg50: 0.3432) | lr 4.98e-05 | epoch 5 | 1.77s/step | 23342s total
+  step 11980 | loss 0.3597 (avg50: 0.3427) | lr 4.96e-05 | epoch 5 | 1.77s/step | 23360s total
+  step 11990 | loss 0.3452 (avg50: 0.3436) | lr 4.94e-05 | epoch 5 | 1.76s/step | 23378s total
+  step 12000 | loss 0.3336 (avg50: 0.3425) | lr 4.92e-05 | epoch 5 | 1.77s/step | 23395s total
+
+  📊 Eval @ step 12000: cosine_sim=0.6660
+     sim_behavioral: 0.6773
+     sim_complex: 0.5909
+     sim_math: 0.7491
+     sim_mixed: 0.6372
+     sim_prose: 0.6391
+     sim_sexpr: 0.7277
+
+
+  📊 Checkpoint eval @ step 12000: cosine_sim=0.6578
+     sim_behavioral: 0.6728
+     sim_complex: 0.5846
+     sim_math: 0.7375
+     sim_mixed: 0.6536
+     sim_prose: 0.6212
+     sim_sexpr: 0.7445
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_012000
+
+  step 12010 | loss 0.3301 (avg50: 0.3434) | lr 4.90e-05 | epoch 5 | 1.77s/step | 23456s total
+  step 12020 | loss 0.3448 (avg50: 0.3439) | lr 4.88e-05 | epoch 5 | 1.76s/step | 23473s total
+  step 12030 | loss 0.3660 (avg50: 0.3449) | lr 4.85e-05 | epoch 5 | 1.77s/step | 23491s total
+  step 12040 | loss 0.3571 (avg50: 0.3456) | lr 4.83e-05 | epoch 5 | 1.77s/step | 23509s total
+  step 12050 | loss 0.3331 (avg50: 0.3445) | lr 4.81e-05 | epoch 5 | 1.77s/step | 23526s total
+  step 12060 | loss 0.3558 (avg50: 0.3440) | lr 4.79e-05 | epoch 5 | 1.77s/step | 23544s total
+  step 12070 | loss 0.3421 (avg50: 0.3448) | lr 4.77e-05 | epoch 5 | 1.77s/step | 23562s total
+  step 12080 | loss 0.3337 (avg50: 0.3443) | lr 4.75e-05 | epoch 5 | 1.76s/step | 23579s total
+  step 12090 | loss 0.3218 (avg50: 0.3424) | lr 4.72e-05 | epoch 5 | 1.77s/step | 23597s total
+  step 12100 | loss 0.3186 (avg50: 0.3433) | lr 4.70e-05 | epoch 5 | 1.77s/step | 23615s total
+
+  📊 Eval @ step 12100: cosine_sim=0.6612
+     sim_behavioral: 0.6659
+     sim_complex: 0.5847
+     sim_math: 0.7407
+     sim_mixed: 0.6385
+     sim_prose: 0.6372
+     sim_sexpr: 0.7296
+
+  step 12110 | loss 0.3405 (avg50: 0.3429) | lr 4.68e-05 | epoch 5 | 1.77s/step | 23647s total
+  step 12120 | loss 0.3490 (avg50: 0.3407) | lr 4.66e-05 | epoch 5 | 1.77s/step | 23664s total
+  step 12130 | loss 0.3421 (avg50: 0.3408) | lr 4.64e-05 | epoch 5 | 1.77s/step | 23682s total
+  step 12140 | loss 0.3645 (avg50: 0.3400) | lr 4.62e-05 | epoch 5 | 1.76s/step | 23700s total
+  step 12150 | loss 0.3620 (avg50: 0.3409) | lr 4.60e-05 | epoch 5 | 1.77s/step | 23717s total
+  step 12160 | loss 0.3298 (avg50: 0.3415) | lr 4.58e-05 | epoch 5 | 1.76s/step | 23735s total
+  step 12170 | loss 0.3311 (avg50: 0.3418) | lr 4.55e-05 | epoch 5 | 1.76s/step | 23753s total
+  step 12180 | loss 0.3484 (avg50: 0.3422) | lr 4.53e-05 | epoch 5 | 1.76s/step | 23770s total
+  step 12190 | loss 0.3542 (avg50: 0.3439) | lr 4.51e-05 | epoch 5 | 1.77s/step | 23788s total
+  step 12200 | loss 0.3567 (avg50: 0.3445) | lr 4.49e-05 | epoch 5 | 1.77s/step | 23806s total
+
+  📊 Eval @ step 12200: cosine_sim=0.6580
+     sim_behavioral: 0.6757
+     sim_complex: 0.5846
+     sim_math: 0.7459
+     sim_mixed: 0.6391
+     sim_prose: 0.6284
+     sim_sexpr: 0.7267
+
+  step 12210 | loss 0.3615 (avg50: 0.3425) | lr 4.47e-05 | epoch 5 | 1.77s/step | 23837s total
+  step 12220 | loss 0.3603 (avg50: 0.3433) | lr 4.45e-05 | epoch 5 | 1.77s/step | 23855s total
+  step 12230 | loss 0.3642 (avg50: 0.3441) | lr 4.43e-05 | epoch 5 | 1.77s/step | 23873s total
+  step 12240 | loss 0.3484 (avg50: 0.3429) | lr 4.41e-05 | epoch 5 | 1.77s/step | 23890s total
+  step 12250 | loss 0.3315 (avg50: 0.3412) | lr 4.39e-05 | epoch 5 | 1.77s/step | 23908s total
+  step 12260 | loss 0.3354 (avg50: 0.3420) | lr 4.37e-05 | epoch 5 | 1.76s/step | 23926s total
+  step 12270 | loss 0.3532 (avg50: 0.3431) | lr 4.35e-05 | epoch 5 | 1.77s/step | 23944s total
+  step 12280 | loss 0.3474 (avg50: 0.3415) | lr 4.32e-05 | epoch 5 | 1.77s/step | 23961s total
+  step 12290 | loss 0.3365 (avg50: 0.3414) | lr 4.30e-05 | epoch 5 | 1.77s/step | 23979s total
+  step 12300 | loss 0.3201 (avg50: 0.3429) | lr 4.28e-05 | epoch 5 | 1.77s/step | 23997s total
+
+  📊 Eval @ step 12300: cosine_sim=0.6504
+     sim_behavioral: 0.6733
+     sim_complex: 0.5736
+     sim_math: 0.7385
+     sim_mixed: 0.6306
+     sim_prose: 0.6150
+     sim_sexpr: 0.7411
+
+  step 12310 | loss 0.3515 (avg50: 0.3444) | lr 4.26e-05 | epoch 5 | 1.78s/step | 24028s total
+  step 12320 | loss 0.3323 (avg50: 0.3426) | lr 4.24e-05 | epoch 5 | 1.77s/step | 24046s total
+  step 12330 | loss 0.3185 (avg50: 0.3416) | lr 4.22e-05 | epoch 5 | 1.77s/step | 24064s total
+  step 12340 | loss 0.3195 (avg50: 0.3408) | lr 4.20e-05 | epoch 5 | 1.77s/step | 24081s total
+  step 12350 | loss 0.3485 (avg50: 0.3403) | lr 4.18e-05 | epoch 5 | 1.76s/step | 24099s total
+  step 12360 | loss 0.3304 (avg50: 0.3393) | lr 4.16e-05 | epoch 5 | 1.76s/step | 24117s total
+  step 12370 | loss 0.3552 (avg50: 0.3409) | lr 4.14e-05 | epoch 5 | 1.77s/step | 24135s total
+  step 12380 | loss 0.3471 (avg50: 0.3428) | lr 4.12e-05 | epoch 5 | 1.77s/step | 24152s total
+  step 12390 | loss 0.3470 (avg50: 0.3433) | lr 4.10e-05 | epoch 5 | 1.78s/step | 24170s total
+  step 12400 | loss 0.3580 (avg50: 0.3441) | lr 4.08e-05 | epoch 5 | 1.77s/step | 24188s total
+
+  📊 Eval @ step 12400: cosine_sim=0.6565
+     sim_behavioral: 0.6642
+     sim_complex: 0.5810
+     sim_math: 0.7473
+     sim_mixed: 0.6422
+     sim_prose: 0.6203
+     sim_sexpr: 0.7486
+
+  step 12410 | loss 0.3709 (avg50: 0.3439) | lr 4.06e-05 | epoch 5 | 1.77s/step | 24219s total
+  step 12420 | loss 0.3276 (avg50: 0.3429) | lr 4.04e-05 | epoch 5 | 1.77s/step | 24237s total
+  step 12430 | loss 0.3233 (avg50: 0.3424) | lr 4.02e-05 | epoch 5 | 1.78s/step | 24255s total
+  step 12440 | loss 0.3425 (avg50: 0.3430) | lr 4.00e-05 | epoch 5 | 1.77s/step | 24272s total
+  step 12450 | loss 0.3614 (avg50: 0.3444) | lr 3.98e-05 | epoch 5 | 1.76s/step | 24290s total
+  step 12460 | loss 0.3517 (avg50: 0.3432) | lr 3.96e-05 | epoch 5 | 1.77s/step | 24308s total
+  step 12470 | loss 0.3216 (avg50: 0.3435) | lr 3.94e-05 | epoch 5 | 1.77s/step | 24325s total
+  step 12480 | loss 0.3615 (avg50: 0.3432) | lr 3.92e-05 | epoch 5 | 1.77s/step | 24343s total
+  step 12490 | loss 0.3357 (avg50: 0.3452) | lr 3.90e-05 | epoch 5 | 1.78s/step | 24361s total
+  step 12500 | loss 0.3294 (avg50: 0.3439) | lr 3.88e-05 | epoch 5 | 1.77s/step | 24379s total
+
+  📊 Eval @ step 12500: cosine_sim=0.6482
+     sim_behavioral: 0.6714
+     sim_complex: 0.5907
+     sim_math: 0.7249
+     sim_mixed: 0.6317
+     sim_prose: 0.6225
+     sim_sexpr: 0.7201
+
+  step 12510 | loss 0.3459 (avg50: 0.3466) | lr 3.86e-05 | epoch 5 | 1.77s/step | 24410s total
+  step 12520 | loss 0.3479 (avg50: 0.3472) | lr 3.84e-05 | epoch 5 | 1.77s/step | 24428s total
+  step 12530 | loss 0.3849 (avg50: 0.3481) | lr 3.82e-05 | epoch 5 | 1.76s/step | 24446s total
+  step 12540 | loss 0.3526 (avg50: 0.3451) | lr 3.80e-05 | epoch 5 | 1.78s/step | 24463s total
+  step 12550 | loss 0.3139 (avg50: 0.3442) | lr 3.78e-05 | epoch 5 | 1.76s/step | 24481s total
+  step 12560 | loss 0.3727 (avg50: 0.3434) | lr 3.77e-05 | epoch 5 | 1.76s/step | 24499s total
+  step 12570 | loss 0.3599 (avg50: 0.3421) | lr 3.75e-05 | epoch 5 | 1.77s/step | 24516s total
+  step 12580 | loss 0.3446 (avg50: 0.3416) | lr 3.73e-05 | epoch 5 | 1.77s/step | 24534s total
+  step 12590 | loss 0.3358 (avg50: 0.3431) | lr 3.71e-05 | epoch 5 | 1.77s/step | 24552s total
+  step 12600 | loss 0.3358 (avg50: 0.3417) | lr 3.69e-05 | epoch 5 | 1.77s/step | 24570s total
+
+  📊 Eval @ step 12600: cosine_sim=0.6591
+     sim_behavioral: 0.6673
+     sim_complex: 0.5853
+     sim_math: 0.7199
+     sim_mixed: 0.6445
+     sim_prose: 0.6359
+     sim_sexpr: 0.7352
+
+  step 12610 | loss 0.3595 (avg50: 0.3411) | lr 3.67e-05 | epoch 5 | 1.77s/step | 24601s total
+  step 12620 | loss 0.3557 (avg50: 0.3419) | lr 3.65e-05 | epoch 5 | 1.77s/step | 24619s total
+  step 12630 | loss 0.3338 (avg50: 0.3427) | lr 3.63e-05 | epoch 5 | 1.77s/step | 24637s total
+  step 12640 | loss 0.3562 (avg50: 0.3433) | lr 3.61e-05 | epoch 5 | 1.76s/step | 24654s total
+  step 12650 | loss 0.3370 (avg50: 0.3457) | lr 3.59e-05 | epoch 5 | 1.76s/step | 24672s total
+  step 12660 | loss 0.3636 (avg50: 0.3454) | lr 3.57e-05 | epoch 5 | 1.77s/step | 24690s total
+  step 12670 | loss 0.3500 (avg50: 0.3466) | lr 3.56e-05 | epoch 5 | 1.77s/step | 24707s total
+  step 12680 | loss 0.3265 (avg50: 0.3459) | lr 3.54e-05 | epoch 5 | 1.76s/step | 24725s total
+  step 12690 | loss 0.3681 (avg50: 0.3467) | lr 3.52e-05 | epoch 5 | 1.78s/step | 24743s total
+  step 12700 | loss 0.3292 (avg50: 0.3451) | lr 3.50e-05 | epoch 5 | 1.80s/step | 24761s total
+
+  📊 Eval @ step 12700: cosine_sim=0.6504
+     sim_behavioral: 0.6684
+     sim_complex: 0.5864
+     sim_math: 0.7518
+     sim_mixed: 0.6171
+     sim_prose: 0.6252
+     sim_sexpr: 0.7505
+
+  step 12710 | loss 0.3277 (avg50: 0.3439) | lr 3.48e-05 | epoch 5 | 1.77s/step | 24793s total
+  step 12720 | loss 0.3308 (avg50: 0.3414) | lr 3.46e-05 | epoch 5 | 1.77s/step | 24811s total
+  step 12730 | loss 0.3680 (avg50: 0.3431) | lr 3.44e-05 | epoch 5 | 1.77s/step | 24829s total
+  step 12740 | loss 0.3336 (avg50: 0.3410) | lr 3.43e-05 | epoch 5 | 1.78s/step | 24846s total
+  step 12750 | loss 0.3397 (avg50: 0.3429) | lr 3.41e-05 | epoch 5 | 1.77s/step | 24864s total
+  step 12760 | loss 0.3301 (avg50: 0.3439) | lr 3.39e-05 | epoch 5 | 1.77s/step | 24882s total
+  step 12770 | loss 0.3534 (avg50: 0.3447) | lr 3.37e-05 | epoch 5 | 1.78s/step | 24900s total
+  step 12780 | loss 0.3575 (avg50: 0.3422) | lr 3.35e-05 | epoch 5 | 1.78s/step | 24918s total
+  step 12790 | loss 0.3443 (avg50: 0.3421) | lr 3.33e-05 | epoch 5 | 1.77s/step | 24935s total
+  step 12800 | loss 0.3490 (avg50: 0.3416) | lr 3.32e-05 | epoch 5 | 1.78s/step | 24953s total
+
+  📊 Eval @ step 12800: cosine_sim=0.6595
+     sim_behavioral: 0.6886
+     sim_complex: 0.5858
+     sim_math: 0.7424
+     sim_mixed: 0.6391
+     sim_prose: 0.6193
+     sim_sexpr: 0.7277
+
+  step 12810 | loss 0.3318 (avg50: 0.3414) | lr 3.30e-05 | epoch 5 | 1.79s/step | 24985s total
+  step 12820 | loss 0.3255 (avg50: 0.3410) | lr 3.28e-05 | epoch 5 | 1.78s/step | 25003s total
+  step 12830 | loss 0.3586 (avg50: 0.3427) | lr 3.26e-05 | epoch 5 | 1.77s/step | 25021s total
+  step 12840 | loss 0.3519 (avg50: 0.3437) | lr 3.24e-05 | epoch 5 | 1.82s/step | 25039s total
+  step 12850 | loss 0.3365 (avg50: 0.3435) | lr 3.23e-05 | epoch 5 | 1.77s/step | 25056s total
+  step 12860 | loss 0.3492 (avg50: 0.3432) | lr 3.21e-05 | epoch 5 | 1.82s/step | 25074s total
+  step 12870 | loss 0.3587 (avg50: 0.3451) | lr 3.19e-05 | epoch 5 | 1.84s/step | 25092s total
+  step 12880 | loss 0.3514 (avg50: 0.3431) | lr 3.17e-05 | epoch 5 | 1.76s/step | 25110s total
+  step 12890 | loss 0.3455 (avg50: 0.3422) | lr 3.15e-05 | epoch 5 | 1.76s/step | 25128s total
+  step 12900 | loss 0.3584 (avg50: 0.3425) | lr 3.14e-05 | epoch 5 | 1.76s/step | 25146s total
+
+  📊 Eval @ step 12900: cosine_sim=0.6620
+     sim_behavioral: 0.6743
+     sim_complex: 0.5922
+     sim_math: 0.7544
+     sim_mixed: 0.6403
+     sim_prose: 0.6314
+     sim_sexpr: 0.7328
+
+  step 12910 | loss 0.3582 (avg50: 0.3426) | lr 3.12e-05 | epoch 5 | 1.77s/step | 25178s total
+  step 12920 | loss 0.3368 (avg50: 0.3417) | lr 3.10e-05 | epoch 5 | 1.78s/step | 25196s total
+  step 12930 | loss 0.3417 (avg50: 0.3429) | lr 3.08e-05 | epoch 5 | 1.78s/step | 25213s total
+  step 12940 | loss 0.3541 (avg50: 0.3411) | lr 3.07e-05 | epoch 5 | 1.78s/step | 25231s total
+  step 12950 | loss 0.3262 (avg50: 0.3404) | lr 3.05e-05 | epoch 5 | 1.80s/step | 25249s total
+  step 12960 | loss 0.3346 (avg50: 0.3406) | lr 3.03e-05 | epoch 5 | 1.79s/step | 25267s total
+  step 12970 | loss 0.3476 (avg50: 0.3409) | lr 3.01e-05 | epoch 5 | 1.79s/step | 25285s total
+  step 12980 | loss 0.3525 (avg50: 0.3400) | lr 3.00e-05 | epoch 5 | 1.77s/step | 25302s total
+  step 12990 | loss 0.3438 (avg50: 0.3425) | lr 2.98e-05 | epoch 5 | 1.76s/step | 25320s total
+  step 13000 | loss 0.3696 (avg50: 0.3431) | lr 2.96e-05 | epoch 5 | 1.77s/step | 25338s total
+
+  📊 Eval @ step 13000: cosine_sim=0.6519
+     sim_behavioral: 0.6688
+     sim_complex: 0.5872
+     sim_math: 0.7548
+     sim_mixed: 0.6268
+     sim_prose: 0.6236
+     sim_sexpr: 0.7380
+
+
+  📊 Checkpoint eval @ step 13000: cosine_sim=0.6561
+     sim_behavioral: 0.6769
+     sim_complex: 0.5948
+     sim_math: 0.7383
+     sim_mixed: 0.6377
+     sim_prose: 0.6247
+     sim_sexpr: 0.7276
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_013000
+
+  step 13010 | loss 0.3341 (avg50: 0.3439) | lr 2.94e-05 | epoch 5 | 1.78s/step | 25398s total
+  step 13020 | loss 0.3563 (avg50: 0.3441) | lr 2.93e-05 | epoch 5 | 1.79s/step | 25416s total
+  step 13030 | loss 0.3201 (avg50: 0.3439) | lr 2.91e-05 | epoch 5 | 1.77s/step | 25434s total
+  step 13040 | loss 0.3427 (avg50: 0.3418) | lr 2.89e-05 | epoch 5 | 1.79s/step | 25452s total
+  step 13050 | loss 0.3369 (avg50: 0.3420) | lr 2.88e-05 | epoch 5 | 1.78s/step | 25470s total
+  step 13060 | loss 0.3254 (avg50: 0.3409) | lr 2.86e-05 | epoch 5 | 1.82s/step | 25488s total
+  step 13070 | loss 0.3431 (avg50: 0.3389) | lr 2.84e-05 | epoch 5 | 1.84s/step | 25506s total
+  step 13080 | loss 0.3506 (avg50: 0.3394) | lr 2.83e-05 | epoch 5 | 1.83s/step | 25525s total
+  step 13090 | loss 0.3341 (avg50: 0.3412) | lr 2.81e-05 | epoch 5 | 1.86s/step | 25543s total
+  step 13100 | loss 0.3434 (avg50: 0.3416) | lr 2.79e-05 | epoch 5 | 1.78s/step | 25561s total
+
+  📊 Eval @ step 13100: cosine_sim=0.6554
+     sim_behavioral: 0.6753
+     sim_complex: 0.5861
+     sim_math: 0.7432
+     sim_mixed: 0.6279
+     sim_prose: 0.6243
+     sim_sexpr: 0.7189
+
+  step 13110 | loss 0.3472 (avg50: 0.3432) | lr 2.78e-05 | epoch 5 | 1.77s/step | 25593s total
+  step 13120 | loss 0.3576 (avg50: 0.3449) | lr 2.76e-05 | epoch 5 | 1.76s/step | 25611s total
+  step 13130 | loss 0.3277 (avg50: 0.3440) | lr 2.74e-05 | epoch 5 | 1.78s/step | 25629s total
+  step 13140 | loss 0.3597 (avg50: 0.3430) | lr 2.73e-05 | epoch 5 | 1.76s/step | 25646s total
+  step 13150 | loss 0.3405 (avg50: 0.3418) | lr 2.71e-05 | epoch 5 | 1.78s/step | 25664s total
+  step 13160 | loss 0.3384 (avg50: 0.3415) | lr 2.69e-05 | epoch 5 | 1.80s/step | 25682s total
+  step 13170 | loss 0.3341 (avg50: 0.3406) | lr 2.68e-05 | epoch 5 | 1.79s/step | 25700s total
+  step 13180 | loss 0.3604 (avg50: 0.3418) | lr 2.66e-05 | epoch 5 | 1.79s/step | 25718s total
+  step 13190 | loss 0.3473 (avg50: 0.3432) | lr 2.64e-05 | epoch 5 | 1.84s/step | 25736s total
+  step 13200 | loss 0.3376 (avg50: 0.3440) | lr 2.63e-05 | epoch 5 | 1.78s/step | 25754s total
+
+  📊 Eval @ step 13200: cosine_sim=0.6622
+     sim_behavioral: 0.6764
+     sim_complex: 0.5872
+     sim_math: 0.7448
+     sim_mixed: 0.6447
+     sim_prose: 0.6243
+     sim_sexpr: 0.7488
+
+  step 13210 | loss 0.3691 (avg50: 0.3442) | lr 2.61e-05 | epoch 5 | 1.79s/step | 25786s total
+  step 13220 | loss 0.3472 (avg50: 0.3444) | lr 2.60e-05 | epoch 5 | 1.78s/step | 25803s total
+  step 13230 | loss 0.3514 (avg50: 0.3432) | lr 2.58e-05 | epoch 5 | 1.77s/step | 25821s total
+  step 13240 | loss 0.3775 (avg50: 0.3435) | lr 2.56e-05 | epoch 5 | 1.78s/step | 25839s total
+  step 13250 | loss 0.3393 (avg50: 0.3431) | lr 2.55e-05 | epoch 5 | 1.77s/step | 25857s total
+  step 13260 | loss 0.3461 (avg50: 0.3422) | lr 2.53e-05 | epoch 5 | 1.79s/step | 25875s total
+  step 13270 | loss 0.3351 (avg50: 0.3422) | lr 2.52e-05 | epoch 5 | 1.77s/step | 25893s total
+  step 13280 | loss 0.3449 (avg50: 0.3426) | lr 2.50e-05 | epoch 5 | 1.79s/step | 25911s total
+  step 13290 | loss 0.3358 (avg50: 0.3424) | lr 2.48e-05 | epoch 5 | 1.80s/step | 25929s total
+  step 13300 | loss 0.3240 (avg50: 0.3413) | lr 2.47e-05 | epoch 5 | 1.78s/step | 25946s total
+
+  📊 Eval @ step 13300: cosine_sim=0.6591
+     sim_behavioral: 0.6660
+     sim_complex: 0.5934
+     sim_math: 0.7459
+     sim_mixed: 0.6359
+     sim_prose: 0.6463
+     sim_sexpr: 0.7431
+
+  step 13310 | loss 0.3451 (avg50: 0.3419) | lr 2.45e-05 | epoch 5 | 1.78s/step | 25979s total
+  step 13320 | loss 0.3261 (avg50: 0.3412) | lr 2.44e-05 | epoch 5 | 1.77s/step | 25996s total
+  step 13330 | loss 0.3376 (avg50: 0.3409) | lr 2.42e-05 | epoch 5 | 1.79s/step | 26014s total
+  step 13340 | loss 0.3402 (avg50: 0.3405) | lr 2.41e-05 | epoch 5 | 1.76s/step | 26032s total
+  step 13350 | loss 0.3464 (avg50: 0.3403) | lr 2.39e-05 | epoch 5 | 1.77s/step | 26050s total
+  step 13360 | loss 0.3298 (avg50: 0.3399) | lr 2.38e-05 | epoch 5 | 1.78s/step | 26068s total
+  step 13370 | loss 0.3450 (avg50: 0.3414) | lr 2.36e-05 | epoch 5 | 1.76s/step | 26085s total
+  step 13380 | loss 0.3540 (avg50: 0.3424) | lr 2.35e-05 | epoch 5 | 1.78s/step | 26103s total
+  step 13390 | loss 0.3448 (avg50: 0.3419) | lr 2.33e-05 | epoch 5 | 1.81s/step | 26121s total
+  step 13400 | loss 0.3484 (avg50: 0.3423) | lr 2.31e-05 | epoch 5 | 1.77s/step | 26139s total
+
+  📊 Eval @ step 13400: cosine_sim=0.6582
+     sim_behavioral: 0.6691
+     sim_complex: 0.5867
+     sim_math: 0.7327
+     sim_mixed: 0.6380
+     sim_prose: 0.6325
+     sim_sexpr: 0.7390
+
+  step 13410 | loss 0.3369 (avg50: 0.3432) | lr 2.30e-05 | epoch 5 | 1.81s/step | 26171s total
+  step 13420 | loss 0.3656 (avg50: 0.3433) | lr 2.28e-05 | epoch 5 | 1.78s/step | 26189s total
+  step 13430 | loss 0.3577 (avg50: 0.3431) | lr 2.27e-05 | epoch 5 | 1.82s/step | 26207s total
+  step 13440 | loss 0.3403 (avg50: 0.3439) | lr 2.25e-05 | epoch 5 | 1.77s/step | 26225s total
+  step 13450 | loss 0.3339 (avg50: 0.3428) | lr 2.24e-05 | epoch 5 | 1.78s/step | 26243s total
+  step 13460 | loss 0.3541 (avg50: 0.3414) | lr 2.22e-05 | epoch 5 | 1.79s/step | 26261s total
+  step 13470 | loss 0.3535 (avg50: 0.3424) | lr 2.21e-05 | epoch 5 | 1.79s/step | 26278s total
+  step 13480 | loss 0.3425 (avg50: 0.3420) | lr 2.20e-05 | epoch 5 | 1.79s/step | 26296s total
+  step 13490 | loss 0.3578 (avg50: 0.3421) | lr 2.18e-05 | epoch 5 | 1.77s/step | 26314s total
+  step 13500 | loss 0.3697 (avg50: 0.3440) | lr 2.17e-05 | epoch 5 | 1.79s/step | 26332s total
+
+  📊 Eval @ step 13500: cosine_sim=0.6532
+     sim_behavioral: 0.6770
+     sim_complex: 0.5754
+     sim_math: 0.7355
+     sim_mixed: 0.6539
+     sim_prose: 0.6185
+     sim_sexpr: 0.7366
+
+  step 13510 | loss 0.3447 (avg50: 0.3430) | lr 2.15e-05 | epoch 5 | 1.78s/step | 26364s total
+  step 13520 | loss 0.3558 (avg50: 0.3430) | lr 2.14e-05 | epoch 5 | 1.80s/step | 26382s total
+  step 13530 | loss 0.3299 (avg50: 0.3426) | lr 2.12e-05 | epoch 5 | 1.83s/step | 26400s total
+  step 13540 | loss 0.3520 (avg50: 0.3416) | lr 2.11e-05 | epoch 5 | 1.77s/step | 26418s total
+  step 13550 | loss 0.3585 (avg50: 0.3424) | lr 2.09e-05 | epoch 5 | 1.80s/step | 26436s total
+  step 13560 | loss 0.3464 (avg50: 0.3445) | lr 2.08e-05 | epoch 5 | 1.77s/step | 26454s total
+  step 13570 | loss 0.3479 (avg50: 0.3426) | lr 2.07e-05 | epoch 5 | 1.82s/step | 26472s total
+  step 13580 | loss 0.3519 (avg50: 0.3434) | lr 2.05e-05 | epoch 5 | 1.86s/step | 26490s total
+  step 13590 | loss 0.3420 (avg50: 0.3423) | lr 2.04e-05 | epoch 5 | 1.80s/step | 26508s total
+  step 13600 | loss 0.3292 (avg50: 0.3408) | lr 2.02e-05 | epoch 5 | 1.83s/step | 26527s total
+
+  📊 Eval @ step 13600: cosine_sim=0.6568
+     sim_behavioral: 0.6707
+     sim_complex: 0.5961
+     sim_math: 0.7292
+     sim_mixed: 0.6362
+     sim_prose: 0.6255
+     sim_sexpr: 0.7312
+
+  step 13610 | loss 0.3381 (avg50: 0.3393) | lr 2.01e-05 | epoch 5 | 1.80s/step | 26559s total
+  step 13620 | loss 0.3438 (avg50: 0.3389) | lr 1.99e-05 | epoch 5 | 1.83s/step | 26577s total
+  step 13630 | loss 0.3238 (avg50: 0.3385) | lr 1.98e-05 | epoch 5 | 1.78s/step | 26595s total
+  step 13640 | loss 0.3287 (avg50: 0.3422) | lr 1.97e-05 | epoch 5 | 1.77s/step | 26612s total
+  step 13650 | loss 0.3471 (avg50: 0.3419) | lr 1.95e-05 | epoch 5 | 1.77s/step | 26630s total
+  step 13660 | loss 0.3422 (avg50: 0.3413) | lr 1.94e-05 | epoch 5 | 1.78s/step | 26648s total
+  step 13670 | loss 0.3227 (avg50: 0.3415) | lr 1.93e-05 | epoch 5 | 1.78s/step | 26666s total
+  step 13680 | loss 0.3386 (avg50: 0.3402) | lr 1.91e-05 | epoch 5 | 1.78s/step | 26684s total
+  step 13690 | loss 0.3314 (avg50: 0.3368) | lr 1.90e-05 | epoch 5 | 1.77s/step | 26701s total
+  step 13700 | loss 0.3112 (avg50: 0.3363) | lr 1.88e-05 | epoch 5 | 1.82s/step | 26719s total
+
+  📊 Eval @ step 13700: cosine_sim=0.6543
+     sim_behavioral: 0.6683
+     sim_complex: 0.5863
+     sim_math: 0.7362
+     sim_mixed: 0.6426
+     sim_prose: 0.6284
+     sim_sexpr: 0.7368
+
+  step 13710 | loss 0.3355 (avg50: 0.3391) | lr 1.87e-05 | epoch 5 | 1.78s/step | 26751s total
+  step 13720 | loss 0.3648 (avg50: 0.3398) | lr 1.86e-05 | epoch 5 | 1.78s/step | 26769s total
+  step 13730 | loss 0.3649 (avg50: 0.3408) | lr 1.84e-05 | epoch 5 | 1.76s/step | 26787s total
+  step 13740 | loss 0.3325 (avg50: 0.3420) | lr 1.83e-05 | epoch 5 | 1.76s/step | 26804s total
+  step 13750 | loss 0.3355 (avg50: 0.3430) | lr 1.82e-05 | epoch 5 | 1.79s/step | 26822s total
+  step 13760 | loss 0.3535 (avg50: 0.3424) | lr 1.80e-05 | epoch 5 | 1.76s/step | 26840s total
+  step 13770 | loss 0.3165 (avg50: 0.3421) | lr 1.79e-05 | epoch 5 | 1.78s/step | 26857s total
+  step 13780 | loss 0.3583 (avg50: 0.3416) | lr 1.78e-05 | epoch 5 | 1.79s/step | 26875s total
+  step 13790 | loss 0.3347 (avg50: 0.3416) | lr 1.77e-05 | epoch 5 | 1.77s/step | 26893s total
+  step 13800 | loss 0.3435 (avg50: 0.3413) | lr 1.75e-05 | epoch 5 | 1.78s/step | 26911s total
+
+  📊 Eval @ step 13800: cosine_sim=0.6552
+     sim_behavioral: 0.6734
+     sim_complex: 0.5870
+     sim_math: 0.7209
+     sim_mixed: 0.6448
+     sim_prose: 0.6292
+     sim_sexpr: 0.7370
+
+  step 13810 | loss 0.3525 (avg50: 0.3425) | lr 1.74e-05 | epoch 5 | 1.77s/step | 26943s total
+  step 13820 | loss 0.3465 (avg50: 0.3432) | lr 1.73e-05 | epoch 5 | 1.77s/step | 26960s total
+  step 13830 | loss 0.3279 (avg50: 0.3457) | lr 1.71e-05 | epoch 5 | 1.76s/step | 26978s total
+  step 13840 | loss 0.3468 (avg50: 0.3452) | lr 1.70e-05 | epoch 5 | 1.77s/step | 26996s total
+  step 13850 | loss 0.3609 (avg50: 0.3461) | lr 1.69e-05 | epoch 5 | 1.77s/step | 27013s total
+  step 13860 | loss 0.3476 (avg50: 0.3426) | lr 1.68e-05 | epoch 5 | 1.76s/step | 27031s total
+  step 13870 | loss 0.3405 (avg50: 0.3417) | lr 1.66e-05 | epoch 5 | 1.78s/step | 27049s total
+  step 13880 | loss 0.3195 (avg50: 0.3402) | lr 1.65e-05 | epoch 5 | 1.77s/step | 27066s total
+  step 13890 | loss 0.3536 (avg50: 0.3408) | lr 1.64e-05 | epoch 5 | 1.77s/step | 27084s total
+  step 13900 | loss 0.3360 (avg50: 0.3405) | lr 1.62e-05 | epoch 5 | 1.77s/step | 27102s total
+
+  📊 Eval @ step 13900: cosine_sim=0.6575
+     sim_behavioral: 0.6869
+     sim_complex: 0.5848
+     sim_math: 0.7389
+     sim_mixed: 0.6353
+     sim_prose: 0.6252
+     sim_sexpr: 0.7383
+
+  step 13910 | loss 0.3273 (avg50: 0.3404) | lr 1.61e-05 | epoch 5 | 1.77s/step | 27134s total
+  step 13920 | loss 0.3201 (avg50: 0.3399) | lr 1.60e-05 | epoch 5 | 1.76s/step | 27151s total
+  step 13930 | loss 0.3351 (avg50: 0.3387) | lr 1.59e-05 | epoch 5 | 1.76s/step | 27169s total
+  step 13940 | loss 0.3455 (avg50: 0.3392) | lr 1.58e-05 | epoch 5 | 1.77s/step | 27187s total
+  step 13950 | loss 0.3469 (avg50: 0.3406) | lr 1.56e-05 | epoch 5 | 1.77s/step | 27205s total
+  step 13960 | loss 0.3459 (avg50: 0.3421) | lr 1.55e-05 | epoch 5 | 1.77s/step | 27222s total
+  step 13970 | loss 0.3206 (avg50: 0.3421) | lr 1.54e-05 | epoch 5 | 1.76s/step | 27240s total
+  step 13980 | loss 0.3467 (avg50: 0.3442) | lr 1.53e-05 | epoch 5 | 1.78s/step | 27258s total
+  step 13990 | loss 0.3466 (avg50: 0.3441) | lr 1.52e-05 | epoch 5 | 1.77s/step | 27276s total
+  step 14000 | loss 0.3317 (avg50: 0.3409) | lr 1.50e-05 | epoch 5 | 1.77s/step | 27293s total
+
+  📊 Eval @ step 14000: cosine_sim=0.6607
+     sim_behavioral: 0.6712
+     sim_complex: 0.5989
+     sim_math: 0.7604
+     sim_mixed: 0.6388
+     sim_prose: 0.6217
+     sim_sexpr: 0.7342
+
+
+  📊 Checkpoint eval @ step 14000: cosine_sim=0.6594
+     sim_behavioral: 0.6689
+     sim_complex: 0.5907
+     sim_math: 0.7491
+     sim_mixed: 0.6406
+     sim_prose: 0.6247
+     sim_sexpr: 0.7249
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_014000
+
+  step 14010 | loss 0.3416 (avg50: 0.3399) | lr 1.49e-05 | epoch 5 | 1.77s/step | 27353s total
+  step 14020 | loss 0.3107 (avg50: 0.3412) | lr 1.48e-05 | epoch 5 | 1.76s/step | 27371s total
+  step 14030 | loss 0.3527 (avg50: 0.3405) | lr 1.47e-05 | epoch 5 | 1.77s/step | 27389s total
+  step 14040 | loss 0.3357 (avg50: 0.3395) | lr 1.46e-05 | epoch 5 | 1.77s/step | 27406s total
+  step 14050 | loss 0.3474 (avg50: 0.3420) | lr 1.44e-05 | epoch 5 | 1.77s/step | 27424s total
+  step 14060 | loss 0.3735 (avg50: 0.3443) | lr 1.43e-05 | epoch 5 | 1.78s/step | 27442s total
+  step 14070 | loss 0.3162 (avg50: 0.3441) | lr 1.42e-05 | epoch 5 | 1.76s/step | 27460s total
+  step 14080 | loss 0.3320 (avg50: 0.3437) | lr 1.41e-05 | epoch 5 | 1.77s/step | 27477s total
+  step 14090 | loss 0.3416 (avg50: 0.3445) | lr 1.40e-05 | epoch 5 | 1.77s/step | 27495s total
+  step 14100 | loss 0.3258 (avg50: 0.3433) | lr 1.39e-05 | epoch 5 | 1.77s/step | 27513s total
+
+  📊 Eval @ step 14100: cosine_sim=0.6532
+     sim_behavioral: 0.6757
+     sim_complex: 0.5746
+     sim_math: 0.7546
+     sim_mixed: 0.6242
+     sim_prose: 0.6116
+     sim_sexpr: 0.7340
+
+  step 14110 | loss 0.3465 (avg50: 0.3421) | lr 1.38e-05 | epoch 5 | 1.77s/step | 27544s total
+  step 14120 | loss 0.3171 (avg50: 0.3411) | lr 1.37e-05 | epoch 5 | 1.77s/step | 27562s total
+  step 14130 | loss 0.3392 (avg50: 0.3414) | lr 1.35e-05 | epoch 5 | 1.77s/step | 27580s total
+  step 14140 | loss 0.3365 (avg50: 0.3401) | lr 1.34e-05 | epoch 5 | 1.76s/step | 27598s total
+  step 14150 | loss 0.3397 (avg50: 0.3412) | lr 1.33e-05 | epoch 5 | 1.76s/step | 27615s total
+  step 14160 | loss 0.3427 (avg50: 0.3412) | lr 1.32e-05 | epoch 5 | 1.76s/step | 27633s total
+  step 14170 | loss 0.3465 (avg50: 0.3420) | lr 1.31e-05 | epoch 5 | 1.76s/step | 27651s total
+  step 14180 | loss 0.3569 (avg50: 0.3417) | lr 1.30e-05 | epoch 5 | 1.77s/step | 27668s total
+  step 14190 | loss 0.3570 (avg50: 0.3436) | lr 1.29e-05 | epoch 5 | 1.76s/step | 27686s total
+  step 14200 | loss 0.3457 (avg50: 0.3422) | lr 1.28e-05 | epoch 5 | 1.77s/step | 27704s total
+
+  📊 Eval @ step 14200: cosine_sim=0.6620
+     sim_behavioral: 0.6745
+     sim_complex: 0.5924
+     sim_math: 0.7375
+     sim_mixed: 0.6393
+     sim_prose: 0.6247
+     sim_sexpr: 0.7389
+
+  step 14210 | loss 0.3483 (avg50: 0.3414) | lr 1.27e-05 | epoch 5 | 1.77s/step | 27736s total
+  step 14220 | loss 0.3347 (avg50: 0.3414) | lr 1.26e-05 | epoch 5 | 1.77s/step | 27753s total
+  step 14230 | loss 0.3342 (avg50: 0.3396) | lr 1.25e-05 | epoch 5 | 1.76s/step | 27771s total
+  step 14240 | loss 0.3341 (avg50: 0.3379) | lr 1.23e-05 | epoch 5 | 1.77s/step | 27789s total
+  step 14250 | loss 0.3402 (avg50: 0.3388) | lr 1.22e-05 | epoch 5 | 1.77s/step | 27806s total
+  step 14260 | loss 0.3470 (avg50: 0.3399) | lr 1.21e-05 | epoch 6 | 1.77s/step | 27824s total
+  step 14270 | loss 0.3471 (avg50: 0.3398) | lr 1.20e-05 | epoch 6 | 1.75s/step | 27842s total
+  step 14280 | loss 0.3351 (avg50: 0.3415) | lr 1.19e-05 | epoch 6 | 1.77s/step | 27859s total
+  step 14290 | loss 0.3439 (avg50: 0.3419) | lr 1.18e-05 | epoch 6 | 1.76s/step | 27877s total
+  step 14300 | loss 0.3546 (avg50: 0.3420) | lr 1.17e-05 | epoch 6 | 1.77s/step | 27895s total
+
+  📊 Eval @ step 14300: cosine_sim=0.6626
+     sim_behavioral: 0.6782
+     sim_complex: 0.5908
+     sim_math: 0.7575
+     sim_mixed: 0.6542
+     sim_prose: 0.6328
+     sim_sexpr: 0.7335
+
+  step 14310 | loss 0.3493 (avg50: 0.3417) | lr 1.16e-05 | epoch 6 | 1.78s/step | 27927s total
+  step 14320 | loss 0.3530 (avg50: 0.3421) | lr 1.15e-05 | epoch 6 | 1.78s/step | 27944s total
+  step 14330 | loss 0.3371 (avg50: 0.3426) | lr 1.14e-05 | epoch 6 | 1.76s/step | 27962s total
+  step 14340 | loss 0.3429 (avg50: 0.3423) | lr 1.13e-05 | epoch 6 | 1.77s/step | 27980s total
+  step 14350 | loss 0.3181 (avg50: 0.3423) | lr 1.12e-05 | epoch 6 | 1.77s/step | 27997s total
+  step 14360 | loss 0.3202 (avg50: 0.3424) | lr 1.11e-05 | epoch 6 | 1.77s/step | 28015s total
+  step 14370 | loss 0.3266 (avg50: 0.3422) | lr 1.10e-05 | epoch 6 | 1.78s/step | 28033s total
+  step 14380 | loss 0.3473 (avg50: 0.3430) | lr 1.09e-05 | epoch 6 | 1.77s/step | 28051s total
+  step 14390 | loss 0.3266 (avg50: 0.3424) | lr 1.08e-05 | epoch 6 | 1.77s/step | 28068s total
+  step 14400 | loss 0.3326 (avg50: 0.3408) | lr 1.07e-05 | epoch 6 | 1.76s/step | 28086s total
+
+  📊 Eval @ step 14400: cosine_sim=0.6606
+     sim_behavioral: 0.6701
+     sim_complex: 0.5891
+     sim_math: 0.7312
+     sim_mixed: 0.6317
+     sim_prose: 0.6425
+     sim_sexpr: 0.7404
+
+  step 14410 | loss 0.3394 (avg50: 0.3396) | lr 1.06e-05 | epoch 6 | 1.76s/step | 28118s total
+  step 14420 | loss 0.3321 (avg50: 0.3396) | lr 1.05e-05 | epoch 6 | 1.76s/step | 28135s total
+  step 14430 | loss 0.3434 (avg50: 0.3387) | lr 1.05e-05 | epoch 6 | 1.77s/step | 28153s total
+  step 14440 | loss 0.3426 (avg50: 0.3400) | lr 1.04e-05 | epoch 6 | 1.77s/step | 28171s total
+  step 14450 | loss 0.3387 (avg50: 0.3394) | lr 1.03e-05 | epoch 6 | 1.77s/step | 28189s total
+  step 14460 | loss 0.3519 (avg50: 0.3401) | lr 1.02e-05 | epoch 6 | 1.76s/step | 28206s total
+  step 14470 | loss 0.3307 (avg50: 0.3378) | lr 1.01e-05 | epoch 6 | 1.77s/step | 28224s total
+  step 14480 | loss 0.3460 (avg50: 0.3362) | lr 9.99e-06 | epoch 6 | 1.77s/step | 28242s total
+  step 14490 | loss 0.3715 (avg50: 0.3354) | lr 9.90e-06 | epoch 6 | 1.77s/step | 28259s total
+  step 14500 | loss 0.3326 (avg50: 0.3377) | lr 9.81e-06 | epoch 6 | 1.77s/step | 28277s total
+
+  📊 Eval @ step 14500: cosine_sim=0.6611
+     sim_behavioral: 0.6730
+     sim_complex: 0.6026
+     sim_math: 0.7470
+     sim_mixed: 0.6480
+     sim_prose: 0.6334
+     sim_sexpr: 0.7292
+
+  step 14510 | loss 0.3373 (avg50: 0.3399) | lr 9.72e-06 | epoch 6 | 1.76s/step | 28309s total
+  step 14520 | loss 0.3414 (avg50: 0.3425) | lr 9.63e-06 | epoch 6 | 1.77s/step | 28327s total
+  step 14530 | loss 0.3328 (avg50: 0.3442) | lr 9.54e-06 | epoch 6 | 1.76s/step | 28344s total
+  step 14540 | loss 0.3408 (avg50: 0.3456) | lr 9.45e-06 | epoch 6 | 1.78s/step | 28362s total
+  step 14550 | loss 0.3515 (avg50: 0.3452) | lr 9.37e-06 | epoch 6 | 1.77s/step | 28380s total
+  step 14560 | loss 0.3703 (avg50: 0.3437) | lr 9.28e-06 | epoch 6 | 1.77s/step | 28397s total
+  step 14570 | loss 0.3531 (avg50: 0.3436) | lr 9.19e-06 | epoch 6 | 1.78s/step | 28415s total
+  step 14580 | loss 0.3293 (avg50: 0.3416) | lr 9.11e-06 | epoch 6 | 1.76s/step | 28433s total
+  step 14590 | loss 0.3250 (avg50: 0.3414) | lr 9.02e-06 | epoch 6 | 1.77s/step | 28450s total
+  step 14600 | loss 0.3284 (avg50: 0.3411) | lr 8.94e-06 | epoch 6 | 1.77s/step | 28468s total
+
+  📊 Eval @ step 14600: cosine_sim=0.6552
+     sim_behavioral: 0.6752
+     sim_complex: 0.5933
+     sim_math: 0.7386
+     sim_mixed: 0.6386
+     sim_prose: 0.6268
+     sim_sexpr: 0.7299
+
+  step 14610 | loss 0.3410 (avg50: 0.3394) | lr 8.85e-06 | epoch 6 | 1.76s/step | 28500s total
+  step 14620 | loss 0.3496 (avg50: 0.3384) | lr 8.77e-06 | epoch 6 | 1.77s/step | 28518s total
+  step 14630 | loss 0.3765 (avg50: 0.3407) | lr 8.69e-06 | epoch 6 | 1.77s/step | 28535s total
+  step 14640 | loss 0.3538 (avg50: 0.3389) | lr 8.61e-06 | epoch 6 | 1.77s/step | 28553s total
+  step 14650 | loss 0.3570 (avg50: 0.3389) | lr 8.52e-06 | epoch 6 | 1.77s/step | 28571s total
+  step 14660 | loss 0.3314 (avg50: 0.3393) | lr 8.44e-06 | epoch 6 | 1.77s/step | 28588s total
+  step 14670 | loss 0.3474 (avg50: 0.3395) | lr 8.36e-06 | epoch 6 | 1.77s/step | 28606s total
+  step 14680 | loss 0.3225 (avg50: 0.3385) | lr 8.28e-06 | epoch 6 | 1.77s/step | 28624s total
+  step 14690 | loss 0.3235 (avg50: 0.3403) | lr 8.20e-06 | epoch 6 | 1.78s/step | 28642s total
+  step 14700 | loss 0.3383 (avg50: 0.3387) | lr 8.13e-06 | epoch 6 | 1.76s/step | 28659s total
+
+  📊 Eval @ step 14700: cosine_sim=0.6590
+     sim_behavioral: 0.6740
+     sim_complex: 0.5879
+     sim_math: 0.7564
+     sim_mixed: 0.6565
+     sim_prose: 0.6201
+     sim_sexpr: 0.7327
+
+  step 14710 | loss 0.3574 (avg50: 0.3387) | lr 8.05e-06 | epoch 6 | 1.77s/step | 28691s total
+  step 14720 | loss 0.3326 (avg50: 0.3391) | lr 7.97e-06 | epoch 6 | 1.77s/step | 28709s total
+  step 14730 | loss 0.3657 (avg50: 0.3395) | lr 7.89e-06 | epoch 6 | 1.76s/step | 28726s total
+  step 14740 | loss 0.3376 (avg50: 0.3392) | lr 7.82e-06 | epoch 6 | 1.77s/step | 28744s total
+  step 14750 | loss 0.3696 (avg50: 0.3425) | lr 7.74e-06 | epoch 6 | 1.76s/step | 28762s total
+  step 14760 | loss 0.3114 (avg50: 0.3421) | lr 7.67e-06 | epoch 6 | 1.77s/step | 28779s total
+  step 14770 | loss 0.3326 (avg50: 0.3430) | lr 7.59e-06 | epoch 6 | 1.77s/step | 28797s total
+  step 14780 | loss 0.3412 (avg50: 0.3444) | lr 7.52e-06 | epoch 6 | 1.77s/step | 28815s total
+  step 14790 | loss 0.3319 (avg50: 0.3439) | lr 7.44e-06 | epoch 6 | 1.77s/step | 28833s total
+  step 14800 | loss 0.3334 (avg50: 0.3436) | lr 7.37e-06 | epoch 6 | 1.76s/step | 28850s total
+
+  📊 Eval @ step 14800: cosine_sim=0.6612
+     sim_behavioral: 0.6767
+     sim_complex: 0.5880
+     sim_math: 0.7434
+     sim_mixed: 0.6438
+     sim_prose: 0.6397
+     sim_sexpr: 0.7319
+
+  step 14810 | loss 0.3192 (avg50: 0.3451) | lr 7.30e-06 | epoch 6 | 1.77s/step | 28882s total
+  step 14820 | loss 0.3403 (avg50: 0.3441) | lr 7.23e-06 | epoch 6 | 1.78s/step | 28900s total
+  step 14830 | loss 0.3353 (avg50: 0.3427) | lr 7.16e-06 | epoch 6 | 1.77s/step | 28917s total
+  step 14840 | loss 0.3682 (avg50: 0.3441) | lr 7.09e-06 | epoch 6 | 1.77s/step | 28935s total
+  step 14850 | loss 0.3231 (avg50: 0.3422) | lr 7.02e-06 | epoch 6 | 1.77s/step | 28953s total
+  step 14860 | loss 0.3367 (avg50: 0.3409) | lr 6.95e-06 | epoch 6 | 1.77s/step | 28971s total
+  step 14870 | loss 0.3272 (avg50: 0.3411) | lr 6.88e-06 | epoch 6 | 1.77s/step | 28988s total
+  step 14880 | loss 0.3446 (avg50: 0.3397) | lr 6.81e-06 | epoch 6 | 1.77s/step | 29006s total
+  step 14890 | loss 0.3574 (avg50: 0.3400) | lr 6.74e-06 | epoch 6 | 1.77s/step | 29024s total
+  step 14900 | loss 0.3274 (avg50: 0.3400) | lr 6.68e-06 | epoch 6 | 1.77s/step | 29041s total
+
+  📊 Eval @ step 14900: cosine_sim=0.6641
+     sim_behavioral: 0.6811
+     sim_complex: 0.5943
+     sim_math: 0.7318
+     sim_mixed: 0.6496
+     sim_prose: 0.6253
+     sim_sexpr: 0.7396
+
+  step 14910 | loss 0.3327 (avg50: 0.3430) | lr 6.61e-06 | epoch 6 | 1.77s/step | 29073s total
+  step 14920 | loss 0.3604 (avg50: 0.3427) | lr 6.54e-06 | epoch 6 | 1.77s/step | 29091s total
+  step 14930 | loss 0.3451 (avg50: 0.3434) | lr 6.48e-06 | epoch 6 | 1.77s/step | 29109s total
+  step 14940 | loss 0.3451 (avg50: 0.3418) | lr 6.41e-06 | epoch 6 | 1.76s/step | 29126s total
+  step 14950 | loss 0.3595 (avg50: 0.3415) | lr 6.35e-06 | epoch 6 | 1.77s/step | 29144s total
+  step 14960 | loss 0.3333 (avg50: 0.3385) | lr 6.29e-06 | epoch 6 | 1.77s/step | 29162s total
+  step 14970 | loss 0.3461 (avg50: 0.3391) | lr 6.22e-06 | epoch 6 | 1.77s/step | 29179s total
+  step 14980 | loss 0.3373 (avg50: 0.3405) | lr 6.16e-06 | epoch 6 | 1.77s/step | 29197s total
+  step 14990 | loss 0.3455 (avg50: 0.3418) | lr 6.10e-06 | epoch 6 | 1.78s/step | 29215s total
+  step 15000 | loss 0.3473 (avg50: 0.3424) | lr 6.04e-06 | epoch 6 | 1.76s/step | 29232s total
+
+  📊 Eval @ step 15000: cosine_sim=0.6598
+     sim_behavioral: 0.6696
+     sim_complex: 0.5909
+     sim_math: 0.7391
+     sim_mixed: 0.6491
+     sim_prose: 0.6306
+     sim_sexpr: 0.7359
+
+
+  📊 Checkpoint eval @ step 15000: cosine_sim=0.6632
+     sim_behavioral: 0.6770
+     sim_complex: 0.5780
+     sim_math: 0.7473
+     sim_mixed: 0.6271
+     sim_prose: 0.6375
+     sim_sexpr: 0.7360
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_015000
+
+  step 15010 | loss 0.3258 (avg50: 0.3440) | lr 5.98e-06 | epoch 6 | 1.77s/step | 29292s total
+  step 15020 | loss 0.3418 (avg50: 0.3436) | lr 5.92e-06 | epoch 6 | 1.76s/step | 29310s total
+  step 15030 | loss 0.3565 (avg50: 0.3421) | lr 5.86e-06 | epoch 6 | 1.77s/step | 29328s total
+  step 15040 | loss 0.3417 (avg50: 0.3398) | lr 5.80e-06 | epoch 6 | 1.78s/step | 29346s total
+  step 15050 | loss 0.3374 (avg50: 0.3403) | lr 5.74e-06 | epoch 6 | 1.76s/step | 29363s total
+  step 15060 | loss 0.3323 (avg50: 0.3391) | lr 5.69e-06 | epoch 6 | 1.77s/step | 29381s total
+  step 15070 | loss 0.3192 (avg50: 0.3381) | lr 5.63e-06 | epoch 6 | 1.79s/step | 29399s total
+  step 15080 | loss 0.3459 (avg50: 0.3400) | lr 5.57e-06 | epoch 6 | 1.78s/step | 29417s total
+  step 15090 | loss 0.3253 (avg50: 0.3424) | lr 5.52e-06 | epoch 6 | 1.78s/step | 29435s total
+  step 15100 | loss 0.3203 (avg50: 0.3425) | lr 5.46e-06 | epoch 6 | 1.79s/step | 29452s total
+
+  📊 Eval @ step 15100: cosine_sim=0.6518
+     sim_behavioral: 0.6712
+     sim_complex: 0.5865
+     sim_math: 0.7408
+     sim_mixed: 0.6324
+     sim_prose: 0.6219
+     sim_sexpr: 0.7246
+
+  step 15110 | loss 0.3341 (avg50: 0.3449) | lr 5.41e-06 | epoch 6 | 1.77s/step | 29484s total
+  step 15120 | loss 0.3498 (avg50: 0.3449) | lr 5.36e-06 | epoch 6 | 1.77s/step | 29502s total
+  step 15130 | loss 0.3236 (avg50: 0.3431) | lr 5.30e-06 | epoch 6 | 1.77s/step | 29520s total
+  step 15140 | loss 0.3403 (avg50: 0.3425) | lr 5.25e-06 | epoch 6 | 1.80s/step | 29538s total
+  step 15150 | loss 0.3485 (avg50: 0.3428) | lr 5.20e-06 | epoch 6 | 1.78s/step | 29555s total
+  step 15160 | loss 0.3404 (avg50: 0.3409) | lr 5.15e-06 | epoch 6 | 1.78s/step | 29573s total
+  step 15170 | loss 0.3496 (avg50: 0.3423) | lr 5.10e-06 | epoch 6 | 1.77s/step | 29591s total
+  step 15180 | loss 0.3224 (avg50: 0.3432) | lr 5.05e-06 | epoch 6 | 1.77s/step | 29609s total
+  step 15190 | loss 0.3515 (avg50: 0.3433) | lr 5.00e-06 | epoch 6 | 1.78s/step | 29626s total
+  step 15200 | loss 0.3208 (avg50: 0.3424) | lr 4.95e-06 | epoch 6 | 1.77s/step | 29644s total
+
+  📊 Eval @ step 15200: cosine_sim=0.6553
+     sim_behavioral: 0.6705
+     sim_complex: 0.5840
+     sim_math: 0.7337
+     sim_mixed: 0.6428
+     sim_prose: 0.6255
+     sim_sexpr: 0.7393
+
+  step 15210 | loss 0.3543 (avg50: 0.3429) | lr 4.90e-06 | epoch 6 | 1.79s/step | 29676s total
+  step 15220 | loss 0.3371 (avg50: 0.3409) | lr 4.85e-06 | epoch 6 | 1.78s/step | 29694s total
+  step 15230 | loss 0.3351 (avg50: 0.3420) | lr 4.80e-06 | epoch 6 | 1.77s/step | 29711s total
+  step 15240 | loss 0.3380 (avg50: 0.3417) | lr 4.76e-06 | epoch 6 | 1.77s/step | 29729s total
+  step 15250 | loss 0.3339 (avg50: 0.3426) | lr 4.71e-06 | epoch 6 | 1.77s/step | 29747s total
+  step 15260 | loss 0.3269 (avg50: 0.3417) | lr 4.67e-06 | epoch 6 | 1.76s/step | 29765s total
+  step 15270 | loss 0.3532 (avg50: 0.3416) | lr 4.62e-06 | epoch 6 | 1.78s/step | 29782s total
+  step 15280 | loss 0.3613 (avg50: 0.3405) | lr 4.58e-06 | epoch 6 | 1.78s/step | 29800s total
+  step 15290 | loss 0.3480 (avg50: 0.3408) | lr 4.53e-06 | epoch 6 | 1.78s/step | 29818s total
+  step 15300 | loss 0.3433 (avg50: 0.3410) | lr 4.49e-06 | epoch 6 | 1.79s/step | 29836s total
+
+  📊 Eval @ step 15300: cosine_sim=0.6555
+     sim_behavioral: 0.6673
+     sim_complex: 0.5940
+     sim_math: 0.7417
+     sim_mixed: 0.6289
+     sim_prose: 0.6219
+     sim_sexpr: 0.7402
+
+  step 15310 | loss 0.3687 (avg50: 0.3404) | lr 4.45e-06 | epoch 6 | 1.77s/step | 29868s total
+  step 15320 | loss 0.3540 (avg50: 0.3411) | lr 4.41e-06 | epoch 6 | 1.78s/step | 29885s total
+  step 15330 | loss 0.3491 (avg50: 0.3409) | lr 4.37e-06 | epoch 6 | 1.78s/step | 29903s total
+  step 15340 | loss 0.3473 (avg50: 0.3408) | lr 4.33e-06 | epoch 6 | 1.77s/step | 29921s total
+  step 15350 | loss 0.3553 (avg50: 0.3403) | lr 4.29e-06 | epoch 6 | 1.77s/step | 29939s total
+  step 15360 | loss 0.3321 (avg50: 0.3408) | lr 4.25e-06 | epoch 6 | 1.78s/step | 29957s total
+  step 15370 | loss 0.3506 (avg50: 0.3420) | lr 4.21e-06 | epoch 6 | 1.80s/step | 29975s total
+  step 15380 | loss 0.3641 (avg50: 0.3407) | lr 4.17e-06 | epoch 6 | 1.78s/step | 29992s total
+  step 15390 | loss 0.3321 (avg50: 0.3399) | lr 4.13e-06 | epoch 6 | 1.78s/step | 30010s total
+  step 15400 | loss 0.3158 (avg50: 0.3376) | lr 4.10e-06 | epoch 6 | 1.79s/step | 30028s total
+
+  📊 Eval @ step 15400: cosine_sim=0.6543
+     sim_behavioral: 0.6753
+     sim_complex: 0.5773
+     sim_math: 0.7494
+     sim_mixed: 0.6332
+     sim_prose: 0.6204
+     sim_sexpr: 0.7480
+
+  step 15410 | loss 0.3464 (avg50: 0.3369) | lr 4.06e-06 | epoch 6 | 1.79s/step | 30060s total
+  step 15420 | loss 0.3720 (avg50: 0.3364) | lr 4.02e-06 | epoch 6 | 1.81s/step | 30078s total
+  step 15430 | loss 0.3369 (avg50: 0.3375) | lr 3.99e-06 | epoch 6 | 1.78s/step | 30096s total
+  step 15440 | loss 0.3471 (avg50: 0.3383) | lr 3.96e-06 | epoch 6 | 1.77s/step | 30114s total
+  step 15450 | loss 0.3453 (avg50: 0.3397) | lr 3.92e-06 | epoch 6 | 1.78s/step | 30131s total
+  step 15460 | loss 0.3400 (avg50: 0.3406) | lr 3.89e-06 | epoch 6 | 1.77s/step | 30149s total
+  step 15470 | loss 0.3212 (avg50: 0.3408) | lr 3.86e-06 | epoch 6 | 1.79s/step | 30167s total
+  step 15480 | loss 0.3364 (avg50: 0.3404) | lr 3.82e-06 | epoch 6 | 1.76s/step | 30185s total
+  step 15490 | loss 0.3471 (avg50: 0.3412) | lr 3.79e-06 | epoch 6 | 1.79s/step | 30202s total
+  step 15500 | loss 0.3500 (avg50: 0.3424) | lr 3.76e-06 | epoch 6 | 1.80s/step | 30220s total
+
+  📊 Eval @ step 15500: cosine_sim=0.6593
+     sim_behavioral: 0.6713
+     sim_complex: 0.5775
+     sim_math: 0.7453
+     sim_mixed: 0.6395
+     sim_prose: 0.6271
+     sim_sexpr: 0.7290
+
+  step 15510 | loss 0.3521 (avg50: 0.3435) | lr 3.73e-06 | epoch 6 | 1.79s/step | 30252s total
+  step 15520 | loss 0.3534 (avg50: 0.3427) | lr 3.70e-06 | epoch 6 | 1.81s/step | 30270s total
+  step 15530 | loss 0.3627 (avg50: 0.3438) | lr 3.67e-06 | epoch 6 | 1.79s/step | 30288s total
+  step 15540 | loss 0.3267 (avg50: 0.3427) | lr 3.64e-06 | epoch 6 | 1.80s/step | 30306s total
+  step 15550 | loss 0.3418 (avg50: 0.3408) | lr 3.62e-06 | epoch 6 | 1.78s/step | 30324s total
+  step 15560 | loss 0.3528 (avg50: 0.3415) | lr 3.59e-06 | epoch 6 | 1.78s/step | 30342s total
+  step 15570 | loss 0.3552 (avg50: 0.3429) | lr 3.56e-06 | epoch 6 | 1.81s/step | 30359s total
+  step 15580 | loss 0.3547 (avg50: 0.3417) | lr 3.54e-06 | epoch 6 | 1.78s/step | 30377s total
+  step 15590 | loss 0.3721 (avg50: 0.3430) | lr 3.51e-06 | epoch 6 | 1.78s/step | 30395s total
+  step 15600 | loss 0.3396 (avg50: 0.3451) | lr 3.49e-06 | epoch 6 | 1.76s/step | 30413s total
+
+  📊 Eval @ step 15600: cosine_sim=0.6651
+     sim_behavioral: 0.6781
+     sim_complex: 0.5948
+     sim_math: 0.7463
+     sim_mixed: 0.6365
+     sim_prose: 0.6267
+     sim_sexpr: 0.7396
+
+  step 15610 | loss 0.3367 (avg50: 0.3442) | lr 3.46e-06 | epoch 6 | 1.77s/step | 30445s total
+  step 15620 | loss 0.3410 (avg50: 0.3437) | lr 3.44e-06 | epoch 6 | 1.77s/step | 30463s total
+  step 15630 | loss 0.3522 (avg50: 0.3454) | lr 3.42e-06 | epoch 6 | 1.77s/step | 30480s total
+  step 15640 | loss 0.3699 (avg50: 0.3462) | lr 3.40e-06 | epoch 6 | 1.77s/step | 30498s total
+  step 15650 | loss 0.3545 (avg50: 0.3436) | lr 3.37e-06 | epoch 6 | 1.77s/step | 30516s total
+  step 15660 | loss 0.3283 (avg50: 0.3420) | lr 3.35e-06 | epoch 6 | 1.77s/step | 30534s total
+  step 15670 | loss 0.3553 (avg50: 0.3413) | lr 3.33e-06 | epoch 6 | 1.82s/step | 30552s total
+  step 15680 | loss 0.3369 (avg50: 0.3409) | lr 3.31e-06 | epoch 6 | 1.80s/step | 30570s total
+  step 15690 | loss 0.3404 (avg50: 0.3382) | lr 3.29e-06 | epoch 6 | 1.80s/step | 30587s total
+  step 15700 | loss 0.3458 (avg50: 0.3410) | lr 3.27e-06 | epoch 6 | 1.79s/step | 30605s total
+
+  📊 Eval @ step 15700: cosine_sim=0.6552
+     sim_behavioral: 0.6790
+     sim_complex: 0.5930
+     sim_math: 0.7358
+     sim_mixed: 0.6423
+     sim_prose: 0.6229
+     sim_sexpr: 0.7338
+
+  step 15710 | loss 0.3145 (avg50: 0.3416) | lr 3.26e-06 | epoch 6 | 1.77s/step | 30637s total
+  step 15720 | loss 0.3292 (avg50: 0.3418) | lr 3.24e-06 | epoch 6 | 1.78s/step | 30655s total
+  step 15730 | loss 0.3636 (avg50: 0.3430) | lr 3.22e-06 | epoch 6 | 1.77s/step | 30673s total
+  step 15740 | loss 0.3375 (avg50: 0.3428) | lr 3.21e-06 | epoch 6 | 1.77s/step | 30690s total
+  step 15750 | loss 0.3437 (avg50: 0.3410) | lr 3.19e-06 | epoch 6 | 1.80s/step | 30708s total
+  step 15760 | loss 0.3322 (avg50: 0.3412) | lr 3.18e-06 | epoch 6 | 1.78s/step | 30726s total
+  step 15770 | loss 0.3333 (avg50: 0.3400) | lr 3.16e-06 | epoch 6 | 1.77s/step | 30744s total
+  step 15780 | loss 0.3485 (avg50: 0.3378) | lr 3.15e-06 | epoch 6 | 1.79s/step | 30761s total
+  step 15790 | loss 0.3616 (avg50: 0.3384) | lr 3.13e-06 | epoch 6 | 1.79s/step | 30779s total
+  step 15800 | loss 0.3532 (avg50: 0.3400) | lr 3.12e-06 | epoch 6 | 1.81s/step | 30797s total
+
+  📊 Eval @ step 15800: cosine_sim=0.6572
+     sim_behavioral: 0.6777
+     sim_complex: 0.6015
+     sim_math: 0.7471
+     sim_mixed: 0.6427
+     sim_prose: 0.6240
+     sim_sexpr: 0.7292
+
+  step 15810 | loss 0.3448 (avg50: 0.3402) | lr 3.11e-06 | epoch 6 | 1.76s/step | 30829s total
+  step 15820 | loss 0.3399 (avg50: 0.3407) | lr 3.10e-06 | epoch 6 | 1.77s/step | 30847s total
+  step 15830 | loss 0.3284 (avg50: 0.3417) | lr 3.09e-06 | epoch 6 | 1.82s/step | 30865s total
+  step 15840 | loss 0.3498 (avg50: 0.3430) | lr 3.08e-06 | epoch 6 | 1.77s/step | 30883s total
+  step 15850 | loss 0.3486 (avg50: 0.3417) | lr 3.07e-06 | epoch 6 | 1.85s/step | 30901s total
+  step 15860 | loss 0.3540 (avg50: 0.3429) | lr 3.06e-06 | epoch 6 | 1.76s/step | 30919s total
+  step 15870 | loss 0.3479 (avg50: 0.3447) | lr 3.05e-06 | epoch 6 | 1.83s/step | 30937s total
+  step 15880 | loss 0.3439 (avg50: 0.3448) | lr 3.04e-06 | epoch 6 | 1.80s/step | 30955s total
+  step 15890 | loss 0.3569 (avg50: 0.3441) | lr 3.04e-06 | epoch 6 | 1.77s/step | 30972s total
+  step 15900 | loss 0.3285 (avg50: 0.3451) | lr 3.03e-06 | epoch 6 | 1.76s/step | 30990s total
+
+  📊 Eval @ step 15900: cosine_sim=0.6516
+     sim_behavioral: 0.6728
+     sim_complex: 0.5804
+     sim_math: 0.7494
+     sim_mixed: 0.6332
+     sim_prose: 0.6273
+     sim_sexpr: 0.7284
+
+  step 15910 | loss 0.3101 (avg50: 0.3432) | lr 3.02e-06 | epoch 6 | 1.77s/step | 31022s total
+  step 15920 | loss 0.3412 (avg50: 0.3433) | lr 3.02e-06 | epoch 6 | 1.77s/step | 31040s total
+  step 15930 | loss 0.3600 (avg50: 0.3437) | lr 3.01e-06 | epoch 6 | 1.76s/step | 31057s total
+  step 15940 | loss 0.3583 (avg50: 0.3441) | lr 3.01e-06 | epoch 6 | 1.77s/step | 31075s total
+  step 15950 | loss 0.3350 (avg50: 0.3438) | lr 3.01e-06 | epoch 6 | 1.79s/step | 31093s total
+  step 15960 | loss 0.3414 (avg50: 0.3448) | lr 3.00e-06 | epoch 6 | 1.78s/step | 31111s total
+  step 15970 | loss 0.3461 (avg50: 0.3437) | lr 3.00e-06 | epoch 6 | 1.76s/step | 31129s total
+  step 15980 | loss 0.3377 (avg50: 0.3430) | lr 3.00e-06 | epoch 6 | 1.78s/step | 31147s total
+  step 15990 | loss 0.3396 (avg50: 0.3413) | lr 3.00e-06 | epoch 6 | 1.78s/step | 31164s total
+  step 16000 | loss 0.3577 (avg50: 0.3403) | lr 3.00e-06 | epoch 6 | 1.77s/step | 31182s total
+
+  📊 Eval @ step 16000: cosine_sim=0.6570
+     sim_behavioral: 0.6711
+     sim_complex: 0.5840
+     sim_math: 0.7478
+     sim_mixed: 0.6425
+     sim_prose: 0.6327
+     sim_sexpr: 0.7237
+
+
+  📊 Checkpoint eval @ step 16000: cosine_sim=0.6595
+     sim_behavioral: 0.6757
+     sim_complex: 0.5807
+     sim_math: 0.7523
+     sim_mixed: 0.6450
+     sim_prose: 0.6237
+     sim_sexpr: 0.7378
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_016000
+
+
+============================================================
+  Training complete: 16000 steps
+  Final cosine_sim: 0.6575
+    sim_behavioral: 0.6684
+    sim_complex: 0.5899
+    sim_math: 0.7376
+    sim_mixed: 0.6423
+    sim_prose: 0.6244
+    sim_sexpr: 0.7350
+============================================================
+  💾 Checkpoint saved: /Users/mwhitford/src/verbum/checkpoints/basin-v2-d512/step_016000

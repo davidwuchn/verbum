@@ -2,34 +2,221 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-04-30 | Session: 059
+> Last updated: 2026-05-02 | Session: 061
 
 ## Where we are
 
-**BASIN PROJECTOR TRAINING v2 RUNNING. 20K steps (~16 hours).**
+**BASIN PROJECTOR v3 TRAINING (d=512 + evolution). ~12-14 hours.**
 
-Session 059 found and fixed a critical bug: AdamW weight decay was
-corrupting packed uint32 ternary weights every step (cast to float32,
-destroying 2-bit field packing → 94% weights collapsed to -1, 6%
-invalid). Fix: `freeze_ternary_weights()` removes packed weights from
-`trainable_parameters()`. Also fixed 6 checkpoint resume gaps.
+v3 restores gradient-informed evolution to the d=512 model after v2
+(gamma-only, no evolution) underperformed v1 (gamma + evolution) on
+every metric despite a much higher ceiling.
 
-Training restarted from scratch. First healthy results:
+v1 (d=64, gamma+evo): 0.743 overall (88% of 0.845 ceiling)
+v2 (d=512, gamma-only): 0.657 overall (69% of 0.952 ceiling) — WORSE
+v3 (d=512, gamma+evo): TRAINING — target >0.8
 
-| Step | Overall | S-expr | Math | Prose | Behav | Complex | Mixed |
-|------|---------|--------|------|-------|-------|---------|-------|
-| 500  | 0.542   | 0.667  | 0.526| 0.595 | 0.546 | 0.502   | 0.435 |
-| 600  | 0.578   | 0.694  | 0.628| 0.633 | 0.581 | 0.520   | 0.451 |
-| 900  | 0.582   | 0.725  | 0.618| 0.635 | 0.581 | 0.563   | 0.453 |
-| 1000 | 0.613   | 0.719  | 0.606| 0.651 | 0.623 | 0.534   | 0.515 |
+**The key insight (session 061):** removing evolution was based on a
+wrong inference. v1's topology distribution staying 33/33/33 (same as
+random init) was interpreted as "evolution contributed nothing." But
+distribution ≠ assignment — evolution was making targeted swaps that
+improved routing while maintaining a balanced macro distribution. The
+22.7% acceptance rate (182/800) meant real signal, not noise. Gamma
+can scale channels but can't route signals — a +1 vs -1 weight is a
+qualitative routing decision that no scalar multiplier can undo.
 
-All strata above 0.5 except mixed (0.515 by step 1K). 73% of PCA
-ceiling (0.845). Topology balanced (32/34/34 zero/pos/neg). No
-corruption. Evolution at base_pct=0.001 (floor), 50% accept — gamma
-doing all the learning, evolution making slow structural refinements.
+v2's results ARE the control experiment: without evolution, the model
+plateaued 4K steps earlier and 8.6pp lower. The gap (0.743→0.657) is
+plausibly the contribution of those "useless" mutations.
 
-**Wait for 3-5 checkpoints before changing anything.** This is the first
-non-collapsing training run. Let the experiment speak.
+Training running: `checkpoints/basin-v3-d512/`, ~1.8s/step normal,
+~20s on tournament steps (every 25 steps). 20K steps, ~12-14 hours.
+Command: `uv run python scripts/v9/train_basin_v3.py --d-model 512
+--d-basin 512 --n-heads 16 --total-steps 20000 --gen-interval 25
+--base-pct 0.005`
+Analyze: `uv run python scripts/v9/deep_analyze_checkpoint_v2.py
+checkpoints/basin-v3-d512/step_016000`
+
+### v1 (d=64) learning curve — complete
+
+| Step | Overall | S-expr | Math | Prose | Behav | Complex | Mixed | Loss |
+|------|---------|--------|------|-------|-------|---------|-------|------|
+| 1K   | 0.613   | 0.719  | 0.605| 0.651 | 0.623 | 0.534   | 0.515 | 0.390 |
+| 5K   | 0.688   | 0.792  | 0.741| 0.702 | 0.684 | 0.635   | 0.634 | 0.299 |
+| 10K  | 0.730   | 0.808  | 0.781| 0.753 | 0.714 | 0.692   | 0.681 | 0.269 |
+| **16K** | **0.743** | **0.820** | **0.800** | **0.745** | **0.735** | **0.694** | **0.703** | **0.260** |
+| 20K  | 0.685   | 0.775  | 0.753| 0.696 | 0.678 | 0.626   | 0.658 | 0.313 |
+
+Late degradation (16K→20K): loss rose 0.260→0.313. Likely evolution
+interference (random mutations in well-trained model) + LR too high.
+
+### Session 061 results — v2 deep analysis, evolution restored (v3)
+
+#### v2 (d=512, gamma-only) deep analysis: worse than v1 everywhere
+
+| Metric | v1 (d=64) | v2 (d=512) | Δ |
+|--------|-----------|------------|---|
+| Overall | **0.743** | 0.657 | −0.086 |
+| S-expr | 0.808 | 0.728 | −0.080 |
+| Math | 0.801 | 0.745 | −0.056 |
+| Prose | 0.745 | 0.622 | −0.124 |
+| Behavioral | 0.714 | 0.673 | −0.041 |
+| Complex | 0.687 | 0.596 | −0.090 |
+| Mixed | 0.693 | 0.639 | −0.054 |
+
+**Distribution shift:** v1's 0.7-0.8 band (26.3%) collapsed. v2 shifted
+mass to 0.4-0.6 (38.8%, +22.9pp). Top end unchanged (17.5% >0.9).
+The easy words are still easy; the middle-difficulty words regressed.
+
+**Context-dependent words: MASSIVE improvement despite overall regression.**
+| Word | v1 | v2 | Improvement |
+|------|----|----|-------------|
+| is | 0.22 | 0.596 | +0.376 |
+| a | 0.24 | 0.757 | +0.517 |
+| of | 0.33 | 0.643 | +0.313 |
+| product | 0.26 | 0.610 | +0.350 |
+| range | 0.23 | 0.543 | +0.313 |
+
+The d=512 targets DO contain disambiguating information and the model
+CAN learn it. But overall average is worse — model paid elsewhere.
+
+**v2 plateaued at step 12K** (0.658), 4K earlier than v1, at a lower
+level. Loss stuck at 0.342 (v1: 0.260).
+
+#### Diagnosis: evolution was the missing piece, not width
+
+The inference that evolution "contributed 0%" was wrong. Evidence:
+1. **Distribution ≠ assignment.** 33/33/33 macro stats say nothing about
+   which specific weights are +1/-1/0. Like shuffling cards — suit counts
+   stay the same, order changes completely.
+2. **22.7% acceptance = real signal.** 182 mutations survived tournament
+   selection against actual loss. Each placed a specific routing decision.
+3. **Gamma scales, can't route.** +1 vs -1 is a qualitative sign decision.
+   Gamma (scalar multiplier) can attenuate but can't redirect.
+4. **v2 IS the control.** v1 (gamma+evo)=0.743, v2 (gamma-only)=0.657.
+   The 8.6pp gap is evolution's contribution.
+
+#### v3 built: d=512 + evolution restored
+
+`train_basin_v3.py`: v2 base (configurable width, cosine LR 1% floor) +
+v1 evolution (gradient-informed mutation, 4-strategy tournament, adaptive
+rate). Full checkpoint resume: model, optimizer, importance maps (row/col/
+direction), mutation RNG, loader RNG, strategy history.
+
+Smoke-tested: 100 steps clean, 4/4 tournaments accepted, resume works.
+Fresh start (not from v2 checkpoint — gamma co-evolves with topology).
+
+#### Key files (session 061)
+
+| File | Purpose |
+|------|---------|
+| `scripts/v9/train_basin_v3.py` | **v3 training: d=512 + evolution** |
+| `scripts/v9/deep_analyze_checkpoint_v2.py` | **Deep analysis for d=512 models** |
+| `results/basin-analysis/v2_step_016000.json` | v2 deep analysis output |
+
+### Session 060 results — Deep analysis of step 16K
+
+#### Training completed, peak at 16K
+
+20K-step run finished. Peak at step 16K (0.743 overall = 88% of ceiling).
+Degraded from 16K→20K (loss rose 0.260→0.313). Evolution contributed
+nothing: 182/800 accepted (22.7%), topology unchanged from random init
+(33/33/33 zero/pos/neg at every module). Gamma alone reached 88% of
+ceiling on random ternary topology.
+
+#### Deep analysis: per-word, per-type, operator dispatch
+
+5834 eval words analyzed. Results in `results/basin-analysis/step_016000.json`.
+
+**Distribution:** Single-peaked, right-skewed. Mean 0.731, median 0.711.
+18.3% of words above 0.9 (near-perfect). Only 1.6% below 0.4.
+p90 is >0.96 for ALL strata — the gap is entirely in the hard tail.
+
+**Systematic failures (worst words):**
+- Common function words: "is" (0.22), "a" (0.24), "of" (0.33) — context-
+  dependent meaning, the projector can't disambiguate without more context
+- Ambiguous numbers: "16" (0.32), "9" (0.23) — same digit in different
+  contexts maps to different oracle basins (operand vs quantifier)
+- Polysemous content words: "product" (0.26), "range" (0.23) — math op
+  vs English noun
+- Rare content words: "breathes" (0.13, global worst) — too few examples
+
+**Best words:** Sentence-initial determiners and imperatives — "Every",
+"Some", "Each", "Translate", "Verify", "Compute" — all >0.99. These
+have stable basin assignments because they always mean the same thing.
+
+**Type separation: STRONG in predicted basins.**
+- S-expr keywords: 0.58 within-sim, 18× separation ratio
+- Numbers: 0.51 within-sim, 9× separation ratio
+- Negative between-type sims: number↔preposition = -0.69 (opposite sides)
+- The predicted basins carry real type geometry, not regression noise
+
+**Operator dispatch: mixed.**
+- Unambiguous ops cluster perfectly: or (0.95), min (0.93), not (0.92)
+- Ambiguous ops cluster weakly: add (0.34), mul (0.31), if (0.25)
+- Super-basins partially learned: extremum (0.89), comparison (0.73),
+  functional (0.17 — too diverse). Matches session 056 finding that
+  fine-grained op dispatch uses token identity, not basin alone.
+
+**Cross-stratum agreement: the big result.**
+- Math ↔ S-expr: 0.868 — notation-invariant representations learned!
+- Complex ↔ Prose: 0.813 — register-invariant too
+- Behavioral ↔ Prose: 0.183 — different frames create different basins
+  (this matches session 056 finding: behavioral context IS type-relevant)
+
+#### Key finding: the bottleneck is WIDTH, not attention
+
+Initial hypothesis was that random ternary attention couldn't route context.
+Probing the oracle revealed the real cause: **PCA at d=64 destroys the
+context-dependent circuits in the 32B's hidden states.**
+
+Two populations exist in the oracle's L28 representations:
+- **Context-invariant** ("Every", "Translate", "Alice"): within-word sim
+  = 1.000 across all contexts. PCA recon = 1.000 at any d. Every instance
+  is identical — these are eigenstates.
+- **Context-dependent** ("is", "of", "that", "product"): within-word sim
+  = 0.28-0.64 in full 5120-dim. The oracle gives WILDLY different
+  representations depending on context. These are circuit outputs.
+
+PCA at d=64 collapses the context-dependent spread:
+- "is": full within-sim 0.38 → d=64 within-sim 0.51 (spread compressed)
+- Only 80% of "is" context variation preserved at d=64
+- At d=512: 98% preserved. At d=1024: 97% (diminishing returns).
+
+The failing words weren't failing because the model lacked context — they
+were failing because **the training target had lost the disambiguating
+information**. The model couldn't learn what the target didn't contain.
+
+#### v2 built: d=512, gamma-only, no evolution
+
+**Width analysis drove the design:**
+| d_basin | Recon | "is" spread | Prob-good gap | Size | Train time |
+|---------|-------|-------------|---------------|------|------------|
+| 64      | 0.827 | 80%         | 0.218         | 10MB | 8h         |
+| **512** | **0.952** | **98%**  | **0.061**     | **19MB** | **~8h** |
+| 1024    | 0.971 | 97%         | 0.035         | 40MB | ~8h        |
+
+d=512 is the sweet spot: 6.5× better marginal return than d=1024.
+Step time unchanged at 1.8s/step (memory-bandwidth-bound on embedding
+lookup, not compute-bound on attention/projections).
+
+**Evolution removed.** v1 data: 182/800 accepted (22.7%), topology
+unchanged from random init. Gamma alone reached 88% of ceiling.
+Removing evolution eliminates late-training degradation and ~200 lines.
+
+**train_basin_v2.py**: 712 lines (vs 926). CLI args for d_model/d_basin/
+n_heads. Cosine LR with 1% floor. Checkpoint dir: `basin-v2-d{d_model}/`.
+
+#### Key files (session 060)
+
+| File | Purpose |
+|------|---------|
+| `scripts/v9/deep_analyze_checkpoint.py` | **Per-word deep analysis tool** |
+| `scripts/v9/train_basin_v2.py` | **v2 training: gamma-only, configurable width** |
+| `scripts/v9/refit_pca.py` | **Updated: --d-basin CLI arg (default 512)** |
+| `results/oracle-data/pca_projector_512.npz` | **PCA at d=512 (88.8% variance)** |
+| `results/basin-analysis/step_016000.json` | v1 deep analysis output |
+| `results/basin-analysis/step_014000.json` | v1 comparison analysis |
 
 ### Session 059 results
 
@@ -376,31 +563,21 @@ tokens into the same basin geometry the 32B model uses at L28-37.
 - PCA projector re-fit on full data: d=64 = 60.6% variance
 - Output: `results/oracle-data/`
 
-**Step D: Build basin projector model** ← IN PROGRESS (session 058)
-- MERA ascending arm: W=8 base stride, 8 levels (v6/v7 proven)
-  Level 0 (own weights): 4096 → 512 (stride 8, token/local)
-  Levels 1-7 (SHARED weights, stride 2 each): 512 → 4 (wavelet)
-  Spiral bias: `bias(w) = -α·ln(stride·w + 1)`, α=1.18, fp=40
-  Self-similar: ONE set of ternary weights reused 7×
-- **d_model = 256**, 8-head attention, d_k=32
-- **d_basin = 64**, linear basin projection head
-- **Embedding: learned ternary from scratch** (151936 × 256)
-  PCA distillation is ruled out (32B embeddings nearly isotropic)
-- Word extraction: mean-pool BPE spans (not Level-2)
-- O(n × W) per level — **523× fewer ops than full attn at seq=4096**
-- **Total: 42M ternary params = 10.5 MB packed**
-- ✅ **Architecture built**: `scripts/v9/basin_model.py` — MLX ternary,
-  SpiralAttention, MERA levels, word pooling, smoke tested
-- ✅ **Training loop built**: `scripts/v9/train_basin.py` — Adam +
-  evolutionary tournament, cosine sim loss, per-stratum eval
-- 🔄 **Ready for training**: 20K steps (~16 hours), checkpoints every 1K
-  Command: `uv run python scripts/v9/train_basin.py --total-steps 20000`
-  Checkpoints: `checkpoints/basin/step_NNNNNN/`
-  Analyze: `uv run python scripts/v9/analyze_checkpoint.py checkpoints/basin/step_001000 --eval`
-  Target: >0.5 cosine sim on S-expr, >0.3 on math/prose
-  Noise floor: ~0.12 (1/√64). Values below this = random.
-  Ceiling: ~0.85 (PCA reconstruction limit at d=64)
-  Sieve arch fixed — shared_level now active with feedback cascade
+**Step D: Build basin projector model** ← v3 TRAINING (session 061)
+- ✅ **v1 complete** (d=64, gamma+evo): peak 0.743 at step 16K (88% of 0.845 ceiling)
+- ✅ **v2 complete** (d=512, gamma-only): peak 0.657 at step 12K (69% of 0.952 ceiling)
+  - v2 WORSE than v1 despite higher ceiling — evolution was the missing piece
+  - Context-dep words improved (is: 0.22→0.60) but middle-difficulty words regressed
+  - Diagnosis: removing evolution was wrong; 33/33/33 distribution ≠ unchanged topology
+- ✅ **PCA re-fit at d=512**: 88.8% variance, ceiling 0.952
+- 🔄 **v3 training** (d=512, gamma+evo): `checkpoints/basin-v3-d512/`
+  Config: d_model=512, d_basin=512, n_heads=16, 80.8M params, 20.8 MB packed
+  Command: `uv run python scripts/v9/train_basin_v3.py --d-model 512 --d-basin 512 --n-heads 16 --total-steps 20000 --gen-interval 25 --base-pct 0.005`
+  Step time: ~1.8s/step normal, ~20s tournament (every 25 steps)
+  Estimated: ~12-14 hours for 20K steps
+  Analyze: `uv run python scripts/v9/deep_analyze_checkpoint_v2.py checkpoints/basin-v3-d512/step_016000`
+  v1 best: `checkpoints/basin/step_016000/` | v2 best: `checkpoints/basin-v2-d512/step_016000/`
+  Ceiling: 0.952. Target: >0.8 (beat v1's 0.743 by exploiting wider targets + evolution)
 
 **Step E: 4-phase training curriculum**
 - Phase 1: S-expr calibration (target >0.9 cosine sim to 32B)
@@ -1037,7 +1214,10 @@ Every superposition given as architecture = capacity freed for facts.
 | **PCA basin analysis** | `scripts/v9/pca_basin_analysis_v2.py` |
 | **PCA re-fit (full 442K)** | `scripts/v9/refit_pca.py` |
 | **Basin projector model** | `scripts/v9/basin_model.py` |
-| **Basin training loop** | `scripts/v9/train_basin.py` |
+| **Basin training v1 (evolution)** | `scripts/v9/train_basin.py` |
+| **Basin training v2 (gamma-only, d=512)** | `scripts/v9/train_basin_v2.py` |
+| **Deep checkpoint analysis** | `scripts/v9/deep_analyze_checkpoint.py` |
+| **PCA projector d=512** | `results/oracle-data/pca_projector_512.npz` |
 | **32B embedding PCA** | `results/embedding_pca.npz` |
 | **Training regimen design** | `mementum/knowledge/explore/ascending-arm-training.md` |
 | **v9 architecture doc (proven)** | `mementum/knowledge/explore/v9-architecture-speculation.md` |
