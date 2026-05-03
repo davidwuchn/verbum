@@ -19,7 +19,6 @@ from pathlib import Path
 
 import numpy as np
 
-D_BASIN = 64
 D_HIDDEN = 5120
 SHARD_DIR = Path(__file__).parent.parent.parent / "results" / "oracle-data"
 N_SHARDS = 160
@@ -33,6 +32,13 @@ def l2_normalize(X: np.ndarray) -> np.ndarray:
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Re-fit PCA projector on oracle data")
+    parser.add_argument("--d-basin", type=int, default=512,
+                        help="PCA dimensionality (default: 512)")
+    args = parser.parse_args()
+    D_BASIN = args.d_basin
+
     print(f"Re-fitting PCA projector on full oracle data")
     print(f"  d_basin={D_BASIN}, shard_dir={SHARD_DIR}")
     t0 = time.time()
@@ -128,8 +134,11 @@ def main():
         within = sim[np.triu_indices(sim.shape[0], k=1)].mean()
         print(f"  {s:15s}: {mask.sum():4d} words, within-sim={within:.3f}")
 
-    # Save
-    out_path = SHARD_DIR / "pca_projector.npz"
+    # Save — include d_basin in filename for d≠64 (preserve backward compat)
+    if D_BASIN == 64:
+        out_path = SHARD_DIR / "pca_projector.npz"
+    else:
+        out_path = SHARD_DIR / f"pca_projector_{D_BASIN}.npz"
     np.savez_compressed(
         out_path,
         components=components,              # (d_basin, 5120)
