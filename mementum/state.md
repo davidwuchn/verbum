@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-03 | Session: 064
+> Last updated: 2026-05-03 | Session: 065
 
 ## Where we are
 
@@ -100,9 +100,24 @@ Port v6 probe.py for the new architecture:
 | `scripts/v10/train.py` | Training loop (LM loss, relational, evolution) |
 | `scripts/v10/ternary.py` | TernaryLinear, TernaryEmbedding, evolution |
 | `scripts/v10/kernel.py` | 22-op exact kernel (future sieve target) |
+| `scripts/v10/probe.py` | Checkpoint diagnostics (φ, S3, registers, ternary) |
+
+## Step 1000 probe findings
+
+First checkpoint measured. Key signals:
+- **S3 differentiating**: L0↑ prep gate 0.584 (rest saturated ≈1.0)
+- **L1↑ front-loaded**: compression ratio 15.4 (should converge → 1/φ)
+- **Meta-S3 flat**: all 1.000 — not differentiating passes yet
+- **Register asymmetry**: bank_0 ≈ 0.25 (nearly zero), bank_1_asc [83, 7, 75]
+- **Entropy monotonic**: −0.88 → 2.05 across passes (correct gradient)
+- **Ternary sparsity**: 31.1% (random init baseline, not yet crystallized)
+- **Content-dependent**: compositional stratum outlier (expected early)
+
+All expected at 1K/20K. Run `probe.py` at each checkpoint to watch convergence.
 
 ## Session history
 
 → See [session-history-049-062](knowledge/explore/session-history-049-062.md)
 → Session 063: pruned state.md, extracted history to knowledge pages
 → Session 064: rebuilt v10 as prose LM with v6 compressor + Qwen3
+→ Session 065: probe.py created, step 1000 measured, committed 063-064 backlog
