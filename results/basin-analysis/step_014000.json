@@ -1,0 +1,1090 @@
+{
+  "step": 14000,
+  "checkpoint": "checkpoints/basin/step_014000",
+  "n_words": 5834,
+  "n_batches": 32,
+  "sim_distribution": {
+    "n_words": 5834,
+    "mean": 0.7325716155428244,
+    "std": 0.15659440739447983,
+    "median": 0.7160135507583618,
+    "p10": 0.5473017394542694,
+    "p25": 0.634804368019104,
+    "p75": 0.8211447894573212,
+    "p90": 0.990639990568161,
+    "min": 0.12323516607284546,
+    "max": 0.996630847454071,
+    "histogram": {
+      "above_0.9": 1065,
+      "0.8_to_0.9": 581,
+      "0.7_to_0.8": 1577,
+      "0.6_to_0.7": 1582,
+      "0.4_to_0.6": 931,
+      "0.2_to_0.4": 94,
+      "below_0.2": 4
+    }
+  },
+  "per_stratum": {
+    "sexpr": {
+      "n_words": 727,
+      "mean": 0.8079800830008731,
+      "std": 0.12933199609983712,
+      "median": 0.8390082120895386,
+      "p10": 0.6191387891769409,
+      "p90": 0.9598232388496398,
+      "above_0.8": 474,
+      "below_0.4": 5
+    },
+    "math": {
+      "n_words": 378,
+      "mean": 0.8029854142318957,
+      "std": 0.13927879739124874,
+      "median": 0.767143040895462,
+      "p10": 0.6435754776000977,
+      "p90": 0.9862744271755218,
+      "above_0.8": 150,
+      "below_0.4": 0
+    },
+    "prose": {
+      "n_words": 1260,
+      "mean": 0.7458740712986106,
+      "std": 0.15566568218900728,
+      "median": 0.7282652854919434,
+      "p10": 0.5729802787303925,
+      "p90": 0.9931750297546387,
+      "above_0.8": 347,
+      "below_0.4": 18
+    },
+    "behavioral": {
+      "n_words": 1719,
+      "mean": 0.720365763083317,
+      "std": 0.15218785485300856,
+      "median": 0.7006734609603882,
+      "p10": 0.5474501848220825,
+      "p90": 0.9940171599388122,
+      "above_0.8": 380,
+      "below_0.4": 29
+    },
+    "complex": {
+      "n_words": 750,
+      "mean": 0.6870381718675296,
+      "std": 0.16289271850090847,
+      "median": 0.6697725653648376,
+      "p10": 0.509768831729889,
+      "p90": 0.9921143770217895,
+      "above_0.8": 126,
+      "below_0.4": 24
+    },
+    "mixed": {
+      "n_words": 1000,
+      "mean": 0.6895040926784277,
+      "std": 0.1530475419082907,
+      "median": 0.6711605191230774,
+      "p10": 0.5151387572288513,
+      "p90": 0.980194091796875,
+      "above_0.8": 169,
+      "below_0.4": 22
+    }
+  },
+  "best_worst_words": {
+    "sexpr": {
+      "best": [
+        {
+          "word": "(abs",
+          "sim": 0.9888
+        },
+        {
+          "word": "(+",
+          "sim": 0.9886
+        },
+        {
+          "word": "(*",
+          "sim": 0.9879
+        },
+        {
+          "word": "(if",
+          "sim": 0.9876
+        },
+        {
+          "word": "(-",
+          "sim": 0.9863
+        },
+        {
+          "word": "(and",
+          "sim": 0.9857
+        },
+        {
+          "word": "(<",
+          "sim": 0.9849
+        },
+        {
+          "word": "(not",
+          "sim": 0.9845
+        },
+        {
+          "word": "(or",
+          "sim": 0.9805
+        },
+        {
+          "word": "(>",
+          "sim": 0.9691
+        },
+        {
+          "word": "(neg",
+          "sim": 0.9623
+        },
+        {
+          "word": "(=",
+          "sim": 0.957
+        },
+        {
+          "word": "12)",
+          "sim": 0.93
+        },
+        {
+          "word": "6)))",
+          "sim": 0.9275
+        },
+        {
+          "word": "16)",
+          "sim": 0.9231
+        }
+      ],
+      "worst": [
+        {
+          "word": "16",
+          "sim": 0.3255
+        },
+        {
+          "word": "(*",
+          "sim": 0.3268
+        },
+        {
+          "word": "(<",
+          "sim": 0.3559
+        },
+        {
+          "word": "(>",
+          "sim": 0.3688
+        },
+        {
+          "word": "(=",
+          "sim": 0.4566
+        },
+        {
+          "word": "7",
+          "sim": 0.4722
+        },
+        {
+          "word": "9",
+          "sim": 0.4889
+        },
+        {
+          "word": "8",
+          "sim": 0.4924
+        },
+        {
+          "word": "2",
+          "sim": 0.4926
+        },
+        {
+          "word": "6",
+          "sim": 0.4945
+        },
+        {
+          "word": "7)",
+          "sim": 0.4959
+        },
+        {
+          "word": "(+",
+          "sim": 0.5033
+        },
+        {
+          "word": "(-",
+          "sim": 0.5047
+        },
+        {
+          "word": "19",
+          "sim": 0.5173
+        },
+        {
+          "word": "17",
+          "sim": 0.5217
+        }
+      ]
+    },
+    "math": {
+      "best": [
+        {
+          "word": "3",
+          "sim": 0.9924
+        },
+        {
+          "word": "4",
+          "sim": 0.9916
+        },
+        {
+          "word": "four",
+          "sim": 0.9915
+        },
+        {
+          "word": "1",
+          "sim": 0.9914
+        },
+        {
+          "word": "7",
+          "sim": 0.9912
+        },
+        {
+          "word": "one",
+          "sim": 0.9912
+        },
+        {
+          "word": "six",
+          "sim": 0.9909
+        },
+        {
+          "word": "seven",
+          "sim": 0.9897
+        },
+        {
+          "word": "6",
+          "sim": 0.9888
+        },
+        {
+          "word": "5",
+          "sim": 0.9885
+        },
+        {
+          "word": "8",
+          "sim": 0.988
+        },
+        {
+          "word": "three",
+          "sim": 0.9878
+        },
+        {
+          "word": "five",
+          "sim": 0.9877
+        },
+        {
+          "word": "(-",
+          "sim": 0.9876
+        },
+        {
+          "word": "twenty",
+          "sim": 0.9875
+        }
+      ],
+      "worst": [
+        {
+          "word": "added",
+          "sim": 0.4271
+        },
+        {
+          "word": "from",
+          "sim": 0.4893
+        },
+        {
+          "word": "5",
+          "sim": 0.4919
+        },
+        {
+          "word": "2",
+          "sim": 0.5022
+        },
+        {
+          "word": "6",
+          "sim": 0.5144
+        },
+        {
+          "word": "9",
+          "sim": 0.515
+        },
+        {
+          "word": "to",
+          "sim": 0.5375
+        },
+        {
+          "word": "16",
+          "sim": 0.5395
+        },
+        {
+          "word": "\u00d7",
+          "sim": 0.5532
+        },
+        {
+          "word": "11",
+          "sim": 0.5618
+        },
+        {
+          "word": "+",
+          "sim": 0.573
+        },
+        {
+          "word": "less",
+          "sim": 0.577
+        },
+        {
+          "word": "subtracted",
+          "sim": 0.5918
+        },
+        {
+          "word": "-",
+          "sim": 0.6417
+        },
+        {
+          "word": "multiplied",
+          "sim": 0.6464
+        }
+      ]
+    },
+    "prose": {
+      "best": [
+        {
+          "word": "A",
+          "sim": 0.9966
+        },
+        {
+          "word": "No",
+          "sim": 0.9961
+        },
+        {
+          "word": "Each",
+          "sim": 0.996
+        },
+        {
+          "word": "Most",
+          "sim": 0.9958
+        },
+        {
+          "word": "Alice",
+          "sim": 0.9957
+        },
+        {
+          "word": "Some",
+          "sim": 0.9957
+        },
+        {
+          "word": "Every",
+          "sim": 0.9951
+        },
+        {
+          "word": "Bob",
+          "sim": 0.9951
+        },
+        {
+          "word": "The",
+          "sim": 0.9942
+        },
+        {
+          "word": "along",
+          "sim": 0.9039
+        },
+        {
+          "word": "by",
+          "sim": 0.8809
+        },
+        {
+          "word": "near",
+          "sim": 0.8802
+        },
+        {
+          "word": "in",
+          "sim": 0.8778
+        },
+        {
+          "word": "across",
+          "sim": 0.8759
+        },
+        {
+          "word": "under",
+          "sim": 0.8718
+        }
+      ],
+      "worst": [
+        {
+          "word": "a",
+          "sim": 0.2057
+        },
+        {
+          "word": "is",
+          "sim": 0.2381
+        },
+        {
+          "word": "system",
+          "sim": 0.25
+        },
+        {
+          "word": "program",
+          "sim": 0.3113
+        },
+        {
+          "word": "wants",
+          "sim": 0.3578
+        },
+        {
+          "word": "birds",
+          "sim": 0.372
+        },
+        {
+          "word": "solution",
+          "sim": 0.4031
+        },
+        {
+          "word": "sings",
+          "sim": 0.4044
+        },
+        {
+          "word": "the",
+          "sim": 0.4055
+        },
+        {
+          "word": "function",
+          "sim": 0.4186
+        },
+        {
+          "word": "equation",
+          "sim": 0.4288
+        },
+        {
+          "word": "value",
+          "sim": 0.4295
+        },
+        {
+          "word": "data",
+          "sim": 0.433
+        },
+        {
+          "word": "output",
+          "sim": 0.4425
+        },
+        {
+          "word": "result",
+          "sim": 0.4442
+        }
+      ]
+    },
+    "behavioral": {
+      "best": [
+        {
+          "word": "Translate",
+          "sim": 0.9966
+        },
+        {
+          "word": "Compare",
+          "sim": 0.9966
+        },
+        {
+          "word": "Verify",
+          "sim": 0.9965
+        },
+        {
+          "word": "Sort",
+          "sim": 0.9965
+        },
+        {
+          "word": "Evaluate",
+          "sim": 0.996
+        },
+        {
+          "word": "Find",
+          "sim": 0.996
+        },
+        {
+          "word": "Transform",
+          "sim": 0.9957
+        },
+        {
+          "word": "Compute",
+          "sim": 0.9945
+        },
+        {
+          "word": "Calculate",
+          "sim": 0.992
+        },
+        {
+          "word": "Simplify",
+          "sim": 0.9915
+        },
+        {
+          "word": "Analyze",
+          "sim": 0.9896
+        },
+        {
+          "word": "Summarize",
+          "sim": 0.9742
+        },
+        {
+          "word": "the",
+          "sim": 0.8738
+        },
+        {
+          "word": "of",
+          "sim": 0.8391
+        },
+        {
+          "word": "scores.",
+          "sim": 0.8184
+        }
+      ],
+      "worst": [
+        {
+          "word": "range",
+          "sim": 0.1875
+        },
+        {
+          "word": "median",
+          "sim": 0.2551
+        },
+        {
+          "word": "product",
+          "sim": 0.3052
+        },
+        {
+          "word": "of",
+          "sim": 0.3151
+        },
+        {
+          "word": "correlation",
+          "sim": 0.3163
+        },
+        {
+          "word": "between",
+          "sim": 0.3181
+        },
+        {
+          "word": "ratio",
+          "sim": 0.3286
+        },
+        {
+          "word": "frequency",
+          "sim": 0.3408
+        },
+        {
+          "word": "maximum",
+          "sim": 0.3419
+        },
+        {
+          "word": "output",
+          "sim": 0.3427
+        },
+        {
+          "word": "intersection",
+          "sim": 0.3465
+        },
+        {
+          "word": "total",
+          "sim": 0.3787
+        },
+        {
+          "word": "difference",
+          "sim": 0.4044
+        },
+        {
+          "word": "complement",
+          "sim": 0.4058
+        },
+        {
+          "word": "boundary",
+          "sim": 0.4162
+        }
+      ]
+    },
+    "complex": {
+      "best": [
+        {
+          "word": "Every",
+          "sim": 0.9957
+        },
+        {
+          "word": "Each",
+          "sim": 0.9956
+        },
+        {
+          "word": "No",
+          "sim": 0.9954
+        },
+        {
+          "word": "Some",
+          "sim": 0.9953
+        },
+        {
+          "word": "Most",
+          "sim": 0.9952
+        },
+        {
+          "word": "Few",
+          "sim": 0.9952
+        },
+        {
+          "word": "Any",
+          "sim": 0.9948
+        },
+        {
+          "word": "All",
+          "sim": 0.9946
+        },
+        {
+          "word": "The",
+          "sim": 0.9938
+        },
+        {
+          "word": "If",
+          "sim": 0.9878
+        },
+        {
+          "word": "but",
+          "sim": 0.842
+        },
+        {
+          "word": "catches",
+          "sim": 0.8329
+        },
+        {
+          "word": "works.",
+          "sim": 0.8275
+        },
+        {
+          "word": "knows",
+          "sim": 0.824
+        },
+        {
+          "word": "rises",
+          "sim": 0.8167
+        }
+      ],
+      "worst": [
+        {
+          "word": "breathes",
+          "sim": 0.1232
+        },
+        {
+          "word": "number",
+          "sim": 0.2256
+        },
+        {
+          "word": "program",
+          "sim": 0.2435
+        },
+        {
+          "word": "bird",
+          "sim": 0.269
+        },
+        {
+          "word": "scientist",
+          "sim": 0.2884
+        },
+        {
+          "word": "cat",
+          "sim": 0.3167
+        },
+        {
+          "word": "a",
+          "sim": 0.356
+        },
+        {
+          "word": "student",
+          "sim": 0.3709
+        },
+        {
+          "word": "equation",
+          "sim": 0.3829
+        },
+        {
+          "word": "system",
+          "sim": 0.3938
+        },
+        {
+          "word": "moves.",
+          "sim": 0.3996
+        },
+        {
+          "word": "child",
+          "sim": 0.4019
+        },
+        {
+          "word": "teacher",
+          "sim": 0.4193
+        },
+        {
+          "word": "result",
+          "sim": 0.42
+        },
+        {
+          "word": "and",
+          "sim": 0.4257
+        }
+      ]
+    },
+    "mixed": {
+      "best": [
+        {
+          "word": "Note",
+          "sim": 0.9953
+        },
+        {
+          "word": "When",
+          "sim": 0.9949
+        },
+        {
+          "word": "The",
+          "sim": 0.9944
+        },
+        {
+          "word": "Multiply",
+          "sim": 0.9917
+        },
+        {
+          "word": "6",
+          "sim": 0.9911
+        },
+        {
+          "word": "9",
+          "sim": 0.991
+        },
+        {
+          "word": "seven",
+          "sim": 0.9907
+        },
+        {
+          "word": "Calculate",
+          "sim": 0.9888
+        },
+        {
+          "word": "4",
+          "sim": 0.9879
+        },
+        {
+          "word": "8",
+          "sim": 0.9877
+        },
+        {
+          "word": "1",
+          "sim": 0.9864
+        },
+        {
+          "word": "3",
+          "sim": 0.9857
+        },
+        {
+          "word": "Compute",
+          "sim": 0.9854
+        },
+        {
+          "word": "5",
+          "sim": 0.985
+        },
+        {
+          "word": "one",
+          "sim": 0.9848
+        }
+      ],
+      "worst": [
+        {
+          "word": "is",
+          "sim": 0.1422
+        },
+        {
+          "word": "we",
+          "sim": 0.2086
+        },
+        {
+          "word": "add",
+          "sim": 0.2843
+        },
+        {
+          "word": "that",
+          "sim": 0.3128
+        },
+        {
+          "word": "9",
+          "sim": 0.3174
+        },
+        {
+          "word": "\u00d7",
+          "sim": 0.3526
+        },
+        {
+          "word": "to",
+          "sim": 0.3678
+        },
+        {
+          "word": "14",
+          "sim": 0.3812
+        },
+        {
+          "word": "you",
+          "sim": 0.3857
+        },
+        {
+          "word": "10",
+          "sim": 0.3862
+        },
+        {
+          "word": "19",
+          "sim": 0.4058
+        },
+        {
+          "word": "five",
+          "sim": 0.4296
+        },
+        {
+          "word": "approximately",
+          "sim": 0.4336
+        },
+        {
+          "word": "of",
+          "sim": 0.4549
+        },
+        {
+          "word": "3",
+          "sim": 0.4551
+        }
+      ]
+    }
+  },
+  "basin_separation": {
+    "n_categorized": {
+      "number": 641,
+      "operator": 97,
+      "article": 1116,
+      "verb": 308,
+      "preposition": 377,
+      "sexpr_keyword": 56
+    },
+    "n_uncategorized": 3239,
+    "within_type_sim": {
+      "number": 0.47,
+      "operator": 0.4378,
+      "article": 0.2242,
+      "verb": 0.2611,
+      "preposition": 0.6348,
+      "sexpr_keyword": 0.6243
+    },
+    "between_type_sim": {
+      "article_vs_number": -0.2028,
+      "article_vs_operator": -0.2551,
+      "article_vs_preposition": -0.1028,
+      "article_vs_sexpr_keyword": -0.3069,
+      "article_vs_verb": 0.0759,
+      "number_vs_operator": 0.4734,
+      "number_vs_preposition": -0.6254,
+      "number_vs_sexpr_keyword": -0.0981,
+      "number_vs_verb": 0.5249,
+      "operator_vs_preposition": 0.0568,
+      "operator_vs_sexpr_keyword": 0.5677,
+      "operator_vs_verb": -0.0308,
+      "preposition_vs_sexpr_keyword": 0.606,
+      "preposition_vs_verb": -0.7061,
+      "sexpr_keyword_vs_verb": -0.3777
+    },
+    "type_centroids_computed": [
+      "article",
+      "number",
+      "operator",
+      "preposition",
+      "sexpr_keyword",
+      "verb"
+    ]
+  },
+  "operator_dispatch": {
+    "op_word_counts": {
+      "sub": 70,
+      "eq": 37,
+      "if": 56,
+      "add": 77,
+      "mul": 72,
+      "max": 12,
+      "and": 51,
+      "min": 15,
+      "or": 5,
+      "not": 12,
+      "lt": 5
+    },
+    "within_op_sim": {
+      "sub": 0.2926,
+      "eq": 0.8197,
+      "if": 0.2494,
+      "add": 0.4053,
+      "mul": 0.35,
+      "max": 0.896,
+      "and": 0.7015,
+      "min": 0.9397,
+      "or": 0.957,
+      "not": 0.9293,
+      "lt": 0.8716
+    },
+    "between_op_sim_sample": {
+      "if_vs_min": -0.6617,
+      "if_vs_not": -0.6244,
+      "if_vs_max": -0.6043,
+      "add_vs_if": -0.5554,
+      "if_vs_mul": -0.4561,
+      "if_vs_sub": -0.4413,
+      "eq_vs_if": -0.4194,
+      "and_vs_if": -0.415,
+      "if_vs_lt": -0.1762,
+      "or_vs_sub": -0.1686,
+      "mul_vs_or": -0.1661,
+      "lt_vs_not": -0.0728,
+      "lt_vs_or": -0.0689,
+      "add_vs_or": -0.0621,
+      "lt_vs_max": -0.05
+    },
+    "super_basin_within": {
+      "functional": 0.1928,
+      "comparison": 0.738,
+      "extremum": 0.907
+    },
+    "super_basin_between": {
+      "comparison_vs_extremum": 0.2566,
+      "comparison_vs_functional": 0.7875,
+      "extremum_vs_functional": 0.3236
+    }
+  },
+  "cross_stratum": {
+    "n_cross_words": 142,
+    "pair_summary": {
+      "behavioral_vs_complex": {
+        "mean": 0.1311,
+        "std": 0.1757,
+        "n_words": 6
+      },
+      "behavioral_vs_mixed": {
+        "mean": 0.377,
+        "std": 0.4319,
+        "n_words": 9
+      },
+      "behavioral_vs_prose": {
+        "mean": 0.2399,
+        "std": 0.135,
+        "n_words": 6
+      },
+      "complex_vs_math": {
+        "mean": 0.062,
+        "std": 0.0,
+        "n_words": 1
+      },
+      "complex_vs_mixed": {
+        "mean": 0.3758,
+        "std": 0.3119,
+        "n_words": 6
+      },
+      "complex_vs_prose": {
+        "mean": 0.8317,
+        "std": 0.1457,
+        "n_words": 58
+      },
+      "math_vs_mixed": {
+        "mean": 0.5275,
+        "std": 0.2888,
+        "n_words": 54
+      },
+      "math_vs_prose": {
+        "mean": 0.0881,
+        "std": 0.0,
+        "n_words": 1
+      },
+      "math_vs_sexpr": {
+        "mean": 0.8555,
+        "std": 0.0771,
+        "n_words": 40
+      },
+      "mixed_vs_prose": {
+        "mean": 0.2015,
+        "std": 0.3001,
+        "n_words": 5
+      },
+      "mixed_vs_sexpr": {
+        "mean": 0.4819,
+        "std": 0.1677,
+        "n_words": 28
+      }
+    },
+    "sexpr_math_best": [
+      {
+        "word": "7)",
+        "sim": 0.967
+      },
+      {
+        "word": "9)",
+        "sim": 0.9626
+      },
+      {
+        "word": "10)",
+        "sim": 0.9616
+      },
+      {
+        "word": "12)",
+        "sim": 0.955
+      },
+      {
+        "word": "8)",
+        "sim": 0.9477
+      },
+      {
+        "word": "6)",
+        "sim": 0.9399
+      },
+      {
+        "word": "4)",
+        "sim": 0.934
+      },
+      {
+        "word": "11)",
+        "sim": 0.927
+      },
+      {
+        "word": "15)",
+        "sim": 0.915
+      },
+      {
+        "word": "13)",
+        "sim": 0.9147
+      }
+    ],
+    "sexpr_math_worst": [
+      {
+        "word": "13",
+        "sim": 0.8077
+      },
+      {
+        "word": "4",
+        "sim": 0.8048
+      },
+      {
+        "word": "(-",
+        "sim": 0.7971
+      },
+      {
+        "word": "1",
+        "sim": 0.7889
+      },
+      {
+        "word": "16",
+        "sim": 0.783
+      },
+      {
+        "word": "8",
+        "sim": 0.7551
+      },
+      {
+        "word": "19",
+        "sim": 0.7289
+      },
+      {
+        "word": "7",
+        "sim": 0.6798
+      },
+      {
+        "word": "3",
+        "sim": 0.6791
+      },
+      {
+        "word": "10",
+        "sim": 0.6723
+      }
+    ]
+  }
+}
