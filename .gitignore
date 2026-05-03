@@ -34,6 +34,8 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+.clj-kondo/
+.lsp/
 
 # large data artifacts
 **/*.npz
