@@ -278,9 +278,14 @@ class TernaryLinear(nn.Module):
 
         # Cache input statistics for gradient-informed mutation.
         # stop_gradient keeps these out of the backward graph.
-        # x shape: (B, T, in_features) — mean over batch and sequence dims.
-        self._x_abs_mean = mx.stop_gradient(mx.mean(mx.abs(x), axis=(0, 1)))  # (in_features,)
-        self._x_mean = mx.stop_gradient(mx.mean(x, axis=(0, 1)))              # (in_features,)
+        # x shape: (B, T, in_features) or (in_features,) — mean over all but last dim.
+        if x.ndim >= 2:
+            reduce_axes = tuple(range(x.ndim - 1))
+            self._x_abs_mean = mx.stop_gradient(mx.mean(mx.abs(x), axis=reduce_axes))
+            self._x_mean = mx.stop_gradient(mx.mean(x, axis=reduce_axes))
+        else:
+            self._x_abs_mean = mx.stop_gradient(mx.abs(x))
+            self._x_mean = mx.stop_gradient(x)
 
         scales, biases = self._get_scales_biases()
         # stop_gradient on weight: it's evolutionary (uint32, not differentiable).
@@ -355,12 +360,45 @@ class TernaryEmbedding(nn.Module):
     def weight_T(self) -> mx.array:
         """Unpacked weight matrix transposed: (d_model, vocab_size) float32.
 
-        Used for tied output projection: logits = h @ embed.weight_T
-        Computed on-the-fly from packed ternary weights + gamma.
+        SLOW fallback — unpacks to float32 then does regular matmul.
+        Prefer output_proj() for the tied output projection.
         """
         w = unpack_ternary(self.ternary_weight, self.d_model).astype(mx.float32)
         w = w * mx.expand_dims(self.gamma, axis=-1)
         return w.T  # (d_model, vocab_size)
+
+    def output_proj(self, x: mx.array) -> mx.array:
+        """Tied output projection via quantized_matmul (fast, ternary).
+
+        x: (B, L, d_model) → logits (B, L, vocab_size)
+
+        Repacks the uint8 embedding weights to uint32 format for
+        quantized_matmul. The repacked weights are cached and invalidated
+        when the topology mutates (detected via shape/id change).
+        """
+        # Repack uint8 → uint32 if needed (cache for speed)
+        if (not hasattr(self, '_qm_cache_id') or
+                self._qm_cache_id != id(self.ternary_weight)):
+            # Unpack uint8 → int8 → repack uint32
+            w_int8 = unpack_ternary(self.ternary_weight, self.d_model)  # (V, d)
+            self._qm_weight = pack_ternary_mlx(w_int8)  # (V, d//16) uint32
+            self._qm_cache_id = id(self.ternary_weight)
+
+        # Build scales/biases from gamma (same as TernaryLinear)
+        group_size = 64
+        n_groups = self.d_model // group_size
+        gamma_2d = mx.broadcast_to(
+            mx.expand_dims(self.gamma, axis=-1),
+            (self.vocab_size, n_groups),
+        )
+        scales = gamma_2d
+        biases = -gamma_2d
+
+        w = mx.stop_gradient(self._qm_weight)
+        return mx.quantized_matmul(
+            x, w, scales, biases,
+            transpose=True, group_size=group_size, bits=2,
+        )
 
     @property
     def in_features(self):
