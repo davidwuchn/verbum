@@ -69,7 +69,7 @@ LOG_V = math.log(151936)  # ≈ 11.93
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# § 2  Loss function
+# § 2  Loss function — relational loss
 # ══════════════════════════════════════════════════════════════════════════════
 
 def loss_fn(
@@ -77,9 +77,23 @@ def loss_fn(
     input_ids: mx.array,
     targets: mx.array,
 ) -> mx.array:
-    """Causal LM cross-entropy loss."""
-    _, loss = model(input_ids, targets)
-    return loss
+    """Relational loss: r = (CE - E) / (log(V) - E).
+
+    Normalizes cross-entropy into phase-aware [0,1] space:
+      r=1.0  → model knows nothing (CE = log(V))
+      r=0.0  → model matches irreducible entropy (CE = E)
+      r<0.0  → model beats irreducible (overfitting or better estimate of E)
+
+    Same gradient direction as CE (monotonic transform), but compressed
+    into a range where evolution can see structural progress — a 0.01
+    improvement in r means the same thing at loss=10 or loss=5.
+
+    The denominator (log(V) - E) is constant, so grad(r) = grad(CE) / const.
+    This scales the learning rate implicitly but the optimizer adapts.
+    """
+    _, ce = model(input_ids, targets)
+    r = (ce - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+    return r
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -236,9 +250,11 @@ def run_tournament(
     targets = mx.array(targets_np)
 
     def _eval_loss():
-        _, lv = model(input_ids, targets)
-        mx.eval(lv)
-        return float(lv.item())
+        """Evaluate relational loss r — same metric as training."""
+        _, ce = model(input_ids, targets)
+        mx.eval(ce)
+        ce_val = float(ce.item())
+        return (ce_val - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
 
     champion_loss = _eval_loss()
     champion_snapshot = save_topology(model)
@@ -578,8 +594,8 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
 
         dt = time.time() - t0
 
-        # ── Relational loss ───────────────────────────────────
-        r = (step_loss - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+        # step_loss is already r (relational loss) — recover CE for display
+        ce = step_loss * (LOG_V - E_IRREDUCIBLE) + E_IRREDUCIBLE
 
         # ── Log ───────────────────────────────────────────────
         if step % cfg.log_interval == 0 or step == start_step + 1:
@@ -592,8 +608,8 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                 evo_str = f" | evo {total_accepted}/{total_generations} ({pct:.0f}%)"
 
             print(
-                f"step {step:>6d} | loss {step_loss:.3f} (avg50: {avg50:.3f})"
-                f" | r={r:.3f} | lr {lr:.2e}"
+                f"step {step:>6d} | r={step_loss:.4f} (avg50: {avg50:.4f})"
+                f" | CE={ce:.3f} | lr {lr:.2e}"
                 f" | {tps:.0f} tok/s"
                 f"{evo_str}"
                 f" | {elapsed:.0f}s",

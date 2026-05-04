@@ -469,8 +469,15 @@ def print_banner(step: int, state: dict, model: V6Compressor):
     losses = state.get("train_losses_last50", [])
     if losses:
         avg = sum(losses) / len(losses)
-        r = (avg - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
-        print(f"  train loss (last 50): {avg:.3f}  r={r:.3f}")
+        # Detect whether losses are CE (>1) or relational r (<1 typically)
+        if avg > 1.5:
+            # Legacy: CE values
+            r = (avg - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+            print(f"  train loss (last 50): CE={avg:.3f}  r={r:.3f}")
+        else:
+            # Current: relational r values
+            ce = avg * (LOG_V - E_IRREDUCIBLE) + E_IRREDUCIBLE
+            print(f"  train loss (last 50): r={avg:.4f}  CE={ce:.3f}")
 
 
 def print_compressor_metrics(phi_result: dict):
