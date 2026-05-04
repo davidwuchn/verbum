@@ -1,5 +1,5 @@
 """
-v10 Model — v6 compressor as prose language model.
+v10 Model — bidirectional VSM with split ascending/descending weights.
 
 Architecture:
 
@@ -8,14 +8,23 @@ Architecture:
                        → [output_norm → tied embedding → logits]
                        → next-token cross-entropy
 
-Compressor: v6 proven architecture.
+Compressor: v6 proven ascending arm + separate descending arm.
   5 passes: L0_asc → L1_asc → L2_apex → L1_desc → L0_desc
   9 strides (1, 8, 16, 32, 64, 128, 256, 512, 1024), W=8
   3 phases per pass: prep → converge (StrideStack) → consolidate
   3 named registers (type, scope, role), d_register=128, real-valued
   S4 intelligence + S3 gating per pass
   Meta-S4 + Meta-S3 after all passes
-  Shared weights across all 5 passes (S5 coherence)
+
+  SPLIT WEIGHTS (the key v10 design):
+    Ascending arm (L0↑, L1↑, L2_apex): shared prep/stride/consolidate/mod/s4
+    Descending arm (L1↓, L0↓): its OWN prep/stride/consolidate/mod/s4
+
+  The ascending arm compresses and types (proven in v6).
+  The descending arm has its own weight space to learn dispatch/routing.
+  Prior work (sessions 045/054/055/062) established that compression in
+  the descending direction doesn't work — the descending arm needs to
+  learn a fundamentally different operation.
 
 Output: tied embedding projection (weight sharing with input embed).
 
@@ -46,21 +55,30 @@ from components import (
 
 
 class V6Compressor(nn.Module):
-    """V6 proven compressor: 5-pass bidirectional VSM with 9 strides.
+    """Bidirectional VSM with split ascending/descending weights.
 
     5 passes:
       L0_asc → L1_asc → L2_apex → L1_desc → L0_desc
 
     Each pass: S4 scan → prep → S3 gate → converge → S3 gate → consolidate → S3 gate
 
-    Shared across all 5 passes (S5 coherence):
+    ASCENDING arm (L0↑, L1↑, L2_apex) — shared weights:
       prep, stride_stack, consolidate, mod_projs, s4
+      Job: compress and type (proven in v6)
+
+    DESCENDING arm (L1↓, L0↓) — its OWN shared weights:
+      prep_desc, stride_stack_desc, consolidate_desc, mod_projs_desc, s4_desc
+      Job: read typed representation, learn dispatch/routing
+      (Prior sessions proved shared compression weights don't work here)
+
     Per-pass (S3 control):
-      5 × S3Ternary instances
+      5 × S3Ternary instances (one per pass, always separate)
     """
 
     REGISTER_NAMES = ("type", "scope", "role")
     N_PASSES = 5
+    N_ASC_PASSES = 3   # L0↑, L1↑, L2_apex
+    N_DESC_PASSES = 2  # L1↓, L0↓
     PASS_NAMES = ("L0_asc", "L1_asc", "L2_apex", "L1_desc", "L0_desc")
 
     def __init__(self, cfg: V10Config):
@@ -82,7 +100,7 @@ class V6Compressor(nn.Module):
             for name in self.REGISTER_NAMES
         }
 
-        # ── S1: Operations (shared across 5 passes) ──────────
+        # ── S1: Ascending ops (shared across L0↑, L1↑, L2_apex) ──
         self.prep = TernaryFFN(d, cfg.d_ff, cfg.dropout)
         self.stride_stack = StrideStack(
             d_model=d,
@@ -94,17 +112,35 @@ class V6Compressor(nn.Module):
         )
         self.consolidate = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
 
-        # ── S4: Intelligence (shared) ─────────────────────────
+        # ── S1: Descending ops (shared across L1↓, L0↓) ──────
+        #    Own weights — NOT shared with ascending arm.
+        #    Same op types, but free to learn different behavior.
+        self.prep_desc = TernaryFFN(d, cfg.d_ff, cfg.dropout)
+        self.stride_stack_desc = StrideStack(
+            d_model=d,
+            strides=cfg.strides,
+            window=cfg.window,
+            n_heads=cfg.n_heads,
+            dropout=cfg.dropout,
+            alpha=cfg.alpha,
+        )
+        self.consolidate_desc = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
+
+        # ── S4: Intelligence (ascending, shared) ──────────────
         self.s4 = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
                             dropout=cfg.dropout)
 
-        # ── S3: Per-pass gating (5 instances) ─────────────────
+        # ── S4: Intelligence (descending, own) ────────────────
+        self.s4_desc = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
+                                  dropout=cfg.dropout)
+
+        # ── S3: Per-pass gating (5 instances, always separate) ─
         self.s3_passes = [
             S3Ternary(d, d_reg, n_phases=3, n_registers=n_reg, d_align=d)
             for _ in range(self.N_PASSES)
         ]
 
-        # ── Modulation projections (shared, 3 per phase) ─────
+        # ── Modulation projections (ascending, shared, 3 per phase) ─
         self.mod_projs = [
             TernaryLinear(d, d, pre_norm=False)
             for _ in range(3)
@@ -112,11 +148,19 @@ class V6Compressor(nn.Module):
         for proj in self.mod_projs:
             proj.gamma = mx.zeros_like(proj.gamma)
 
+        # ── Modulation projections (descending, own) ──────────
+        self.mod_projs_desc = [
+            TernaryLinear(d, d, pre_norm=False)
+            for _ in range(3)
+        ]
+        for proj in self.mod_projs_desc:
+            proj.gamma = mx.zeros_like(proj.gamma)
+
         # ── Meta-S4 ──────────────────────────────────────────
         self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
                                       n_banks=4, dropout=cfg.dropout)
 
-        # ── Meta-S3 ──────────────────────────────────────────
+        # ── Meta-S3 (with temperature + bias fix) ────────────
         self.meta_s3 = MetaS3Ternary(d_reg, n_registers=n_reg,
                                       n_banks=6, n_passes=self.N_PASSES)
 
@@ -135,39 +179,46 @@ class V6Compressor(nn.Module):
 
     # ── Modulation (additive) ─────────────────────────────────
 
-    def _modulate(self, x, delta, gate, phase_idx):
-        return x + gate * mx.tanh(self.mod_projs[phase_idx](delta))
+    def _modulate(self, x, delta, gate, phase_idx, is_descending=False):
+        projs = self.mod_projs_desc if is_descending else self.mod_projs
+        return x + gate * mx.tanh(projs[phase_idx](delta))
 
     # ── Core level-pass ───────────────────────────────────────
 
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks, target_bank):
         x_before = x
 
+        # Select ops: ascending or descending
+        s4 = self.s4_desc if is_descending else self.s4
+        prep = self.prep_desc if is_descending else self.prep
+        strides = self.stride_stack_desc if is_descending else self.stride_stack
+        consolidate = self.consolidate_desc if is_descending else self.consolidate
+
         # S4 scan
-        s4_updates, _ = self.s4(readable_banks, x)
+        s4_updates, _ = s4(readable_banks, x)
         target_bank = [target_bank[i] + s4_updates[i]
                        for i in range(self.cfg.n_registers)]
 
         # Phase 0: prep
-        prep_out = self.prep(x)
+        prep_out = prep(x)
         delta = prep_out - x
         _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
             target_bank, delta, 0)
-        x = self._modulate(x, delta, gate, phase_idx=0)
+        x = self._modulate(x, delta, gate, phase_idx=0, is_descending=is_descending)
 
         # Phase 1: converge (StrideStack)
-        converge_out = self.stride_stack(x, reverse=is_descending)
+        converge_out = strides(x, reverse=is_descending)
         delta = converge_out - x
         _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
             target_bank, delta, 1)
-        x = self._modulate(x, delta, gate, phase_idx=1)
+        x = self._modulate(x, delta, gate, phase_idx=1, is_descending=is_descending)
 
         # Phase 2: consolidate
-        consolidate_out = self.consolidate(x)
+        consolidate_out = consolidate(x)
         delta = consolidate_out - x
         _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
             target_bank, delta, 2)
-        x = self._modulate(x, delta, gate, phase_idx=2)
+        x = self._modulate(x, delta, gate, phase_idx=2, is_descending=is_descending)
 
         pass_delta = x - x_before
         return x, target_bank, pass_delta
@@ -321,33 +372,39 @@ class V6Compressor(nn.Module):
             readable = get_readable()
             target = target_banks[pi]
 
-            s4_updates, _ = self.s4(readable, x)
+            # Select ops: ascending or descending
+            s4 = self.s4_desc if is_desc else self.s4
+            prep = self.prep_desc if is_desc else self.prep
+            strides = self.stride_stack_desc if is_desc else self.stride_stack
+            consolidate = self.consolidate_desc if is_desc else self.consolidate
+
+            s4_updates, _ = s4(readable, x)
             target = [target[i] + s4_updates[i] for i in range(self.cfg.n_registers)]
 
             phase_gates = []
             # Phase 0: prep
-            prep_out = self.prep(x)
+            prep_out = prep(x)
             delta = prep_out - x
             _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
             mx.eval(gate)
             phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 0)
+            x = self._modulate(x, delta, gate, 0, is_descending=is_desc)
 
             # Phase 1: converge
-            conv_out = self.stride_stack(x, reverse=is_desc)
+            conv_out = strides(x, reverse=is_desc)
             delta = conv_out - x
             _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
             mx.eval(gate)
             phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 1)
+            x = self._modulate(x, delta, gate, 1, is_descending=is_desc)
 
             # Phase 2: consolidate
-            cons_out = self.consolidate(x)
+            cons_out = consolidate(x)
             delta = cons_out - x
             _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
             mx.eval(gate)
             phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 2)
+            x = self._modulate(x, delta, gate, 2, is_descending=is_desc)
 
             target_banks[pi] = target
             pass_deltas.append(x - x_before)

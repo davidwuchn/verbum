@@ -313,17 +313,28 @@ class MetaS4Ternary(nn.Module):
 
 
 class MetaS3Ternary(nn.Module):
-    """Top-level per-pass contribution gates from register banks."""
+    """Top-level per-pass contribution gates from register banks.
+
+    Fixed from original: temperature scaling + learned bias initialized
+    to -2.0 (sigmoid(-2) ≈ 0.12) so gates start near-closed and must
+    learn to open. Without this, gates start at 1.0 and never differentiate.
+    """
 
     def __init__(self, d_register: int, n_registers: int, n_banks: int, n_passes: int):
         super().__init__()
+        self.n_passes = n_passes
         d_reg_real = d_register * 2
         input_dim = n_banks * n_registers * d_reg_real
         self.gate_proj = nn.Linear(input_dim, n_passes)
+        # Initialize bias to -2.0 so sigmoid starts near 0.12, not 0.5
+        self.gate_proj.bias = mx.full((n_passes,), -2.0)
+        # Learnable temperature per pass
+        self.temperature = mx.ones((n_passes,))
 
     def __call__(self, all_banks: list[list[mx.array]]) -> mx.array:
         flat = _flatten_banks(all_banks)
-        return mx.sigmoid(self.gate_proj(flat))
+        logits = self.gate_proj(flat)
+        return mx.sigmoid(logits * self.temperature)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -377,7 +388,10 @@ if __name__ == "__main__":
     gates = meta_s3(all_banks)
     mx.eval(gates)
     assert gates.shape == (5,)
-    print(f"  MetaS3: gates shape {gates.shape}, values {[f'{g:.3f}' for g in gates.tolist()]} ✓")
+    # Verify gates start near-closed (bias=-2.0 → sigmoid ≈ 0.12), not at 1.0
+    for g in gates.tolist():
+        assert g < 0.5, f"Meta-S3 gate should start near-closed, got {g:.3f}"
+    print(f"  MetaS3: gates shape {gates.shape}, values {[f'{g:.3f}' for g in gates.tolist()]} ✓ (near-closed)")
 
     # Test gradient flow
     print("Testing gradient flow through S4...")

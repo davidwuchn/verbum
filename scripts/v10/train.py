@@ -86,26 +86,35 @@ def loss_fn(
 # § 3  Shared-weight gradient normalization
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Components shared across 5 passes in the V6 compressor
-SHARED_COMPONENTS = ("prep", "stride_stack", "consolidate", "mod_projs", "s4")
+# Ascending components: shared across L0↑, L1↑, L2_apex (3 passes)
+ASC_SHARED = ("prep", "stride_stack", "consolidate", "mod_projs", "s4")
+# Descending components: shared across L1↓, L0↓ (2 passes)
+DESC_SHARED = ("prep_desc", "stride_stack_desc", "consolidate_desc", "mod_projs_desc", "s4_desc")
+
+N_ASC_PASSES = 3
+N_DESC_PASSES = 2
 
 
-def normalize_shared_grads(grads: dict, n_passes: int = 5) -> dict:
-    """Divide gradients of shared compressor components by n_passes.
+def normalize_shared_grads(grads: dict) -> dict:
+    """Divide gradients of shared components by their pass count.
 
-    These components are traversed 5× per forward pass. Normalizing
-    stabilizes Adam's running statistics.
+    Ascending components (prep, stride_stack, consolidate, mod_projs, s4)
+    are traversed 3× per forward (L0↑, L1↑, L2_apex).
+    Descending components (*_desc) are traversed 2× (L1↓, L0↓).
+    Normalizing stabilizes Adam's running statistics.
     """
-    scale = 1.0 / n_passes
+    asc_scale = 1.0 / N_ASC_PASSES
+    desc_scale = 1.0 / N_DESC_PASSES
 
     def _walk(tree, keys):
         if isinstance(tree, dict):
             out = {}
             for k, v in tree.items():
                 new_keys = keys + [k]
-                # If we're at a shared component root, scale the whole subtree
-                if len(new_keys) >= 1 and new_keys[0] in SHARED_COMPONENTS:
-                    out[k] = tree_map(lambda g: g * scale, v)
+                if len(new_keys) >= 1 and new_keys[0] in ASC_SHARED:
+                    out[k] = tree_map(lambda g: g * asc_scale, v)
+                elif len(new_keys) >= 1 and new_keys[0] in DESC_SHARED:
+                    out[k] = tree_map(lambda g: g * desc_scale, v)
                 else:
                     out[k] = _walk(v, new_keys)
             return out
