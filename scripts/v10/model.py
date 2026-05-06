@@ -535,6 +535,23 @@ class V6Compressor(nn.Module):
             pass_compression.append(ratio)
             pass_phi_dev.append(abs(ratio - INV_PHI))
 
+        # Kernel dispatch metrics (from descending arm)
+        # KernelDispatch caches _dispatch_weights: (B, L, n_ops)
+        # KernelIntegrate caches _type_weights: (B, L, n_types)
+        dispatch_weights = None
+        type_weights = None
+        if hasattr(self.kernel_dispatch, '_dispatch_weights'):
+            dw = self.kernel_dispatch._dispatch_weights
+            mx.eval(dw)
+            # Mean over batch and sequence → per-op activation frequency
+            dispatch_weights = mx.mean(dw, axis=(0, 1))  # (n_ops,)
+            mx.eval(dispatch_weights)
+        if hasattr(self.kernel_integrate, '_type_weights'):
+            tw = self.kernel_integrate._type_weights
+            mx.eval(tw)
+            type_weights = mx.mean(tw, axis=(0, 1))  # (n_types,)
+            mx.eval(type_weights)
+
         metrics = {
             "s3_gates": all_s3_gates,
             "meta_s3": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
@@ -543,6 +560,14 @@ class V6Compressor(nn.Module):
             "pass_entropy_out": pass_h_out,
             "pass_compression": pass_compression,
             "pass_phi_dev": pass_phi_dev,
+            "kernel_dispatch_weights": (
+                [float(dispatch_weights[i].item()) for i in range(dispatch_weights.shape[0])]
+                if dispatch_weights is not None else None
+            ),
+            "kernel_type_weights": (
+                [float(type_weights[i].item()) for i in range(type_weights.shape[0])]
+                if type_weights is not None else None
+            ),
         }
 
         return x, metrics

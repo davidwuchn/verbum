@@ -67,7 +67,22 @@ PHI = (1 + math.sqrt(5)) / 2
 INV_PHI = 1 / PHI
 
 PASS_NAMES = ("L0_asc", "L1_asc", "L2_apex", "L1_desc", "L0_desc")
-PHASE_NAMES = ("prep", "conv", "cons")
+PHASE_NAMES_ASC = ("prep", "conv", "cons")
+PHASE_NAMES_DESC = ("disp", "conv", "intg")
+PHASE_NAMES = ("prep", "conv", "cons")  # backward compat for evolution table
+
+# Kernel op names (from kernel.py) for dispatch weight display
+KERNEL_OP_NAMES = [
+    "+", "-", "*", "//", "%", "min", "max",     # 0-6  arith binary
+    "=", "<", ">", "<=", ">=",                   # 7-11 comparison
+    "and", "or",                                 # 12-13 bool binary
+    "not",                                       # 14    bool unary
+    "abs", "neg",                                # 15-16 arith unary
+    "if",                                        # 17    conditional
+    "partial", "apply", "comp", "apply-c",       # 18-21 lambda
+]
+
+KERNEL_TYPE_NAMES = ["INT", "BOOL", "FN", "FN_COMP", "ERROR"]
 
 RESULTS_DIR = Path("results/v10")
 
@@ -300,6 +315,8 @@ def _run_phi_samples(model: V6Compressor, tokenizer, samples: list[str]) -> dict
         "pass_entropy_out": [],
         "losses": [],
         "per_sample": [],
+        "kernel_dispatch_weights": [],
+        "kernel_type_weights": [],
     }
 
     for text in samples:
@@ -331,6 +348,11 @@ def _run_phi_samples(model: V6Compressor, tokenizer, samples: list[str]) -> dict
         all_metrics["pass_entropy_in"].append(metrics["pass_entropy_in"])
         all_metrics["pass_entropy_out"].append(metrics["pass_entropy_out"])
         all_metrics["losses"].append(float(loss.item()))
+
+        if metrics.get("kernel_dispatch_weights"):
+            all_metrics["kernel_dispatch_weights"].append(metrics["kernel_dispatch_weights"])
+        if metrics.get("kernel_type_weights"):
+            all_metrics["kernel_type_weights"].append(metrics["kernel_type_weights"])
 
         all_metrics["per_sample"].append({
             "text": text[:60],
@@ -420,6 +442,25 @@ def analyze_phi(model: V6Compressor, tokenizer, strata: dict | None = None) -> d
         "pass_entropy_in": _avg_nested(overall_raw["pass_entropy_in"]),
         "pass_entropy_out": _avg_nested(overall_raw["pass_entropy_out"]),
     }
+
+    # Kernel dispatch weights (average over samples)
+    kdw_list = overall_raw.get("kernel_dispatch_weights", [])
+    if kdw_list:
+        n_ops = len(kdw_list[0])
+        avg_kdw = [0.0] * n_ops
+        for kdw in kdw_list:
+            for i in range(n_ops):
+                avg_kdw[i] += kdw[i]
+        overall["kernel_dispatch_weights"] = [v / len(kdw_list) for v in avg_kdw]
+
+    ktw_list = overall_raw.get("kernel_type_weights", [])
+    if ktw_list:
+        n_types = len(ktw_list[0])
+        avg_ktw = [0.0] * n_types
+        for ktw in ktw_list:
+            for i in range(n_types):
+                avg_ktw[i] += ktw[i]
+        overall["kernel_type_weights"] = [v / len(ktw_list) for v in avg_ktw]
 
     # Aggregate phi stats
     agg_ratio = sum(overall["pass_compression"]) / 5
@@ -522,6 +563,32 @@ def print_compressor_metrics(phi_result: dict):
         for bname in sorted(reg_norms.keys()):
             norms = reg_norms[bname]
             print(f"  │ {bname:12s}: {' '.join(f'{n:>7.2f}' for n in norms)}")
+
+    # ── Kernel dispatch weights ──────────────────────────
+    kdw = overall.get("kernel_dispatch_weights")
+    if kdw:
+        print(f"  ├─ Kernel dispatch (top ops) ─────────────────────┤")
+        # Sort by weight, show top 8
+        indexed = sorted(enumerate(kdw), key=lambda x: -x[1])
+        for rank, (op_idx, weight) in enumerate(indexed[:8]):
+            op_name = KERNEL_OP_NAMES[op_idx] if op_idx < len(KERNEL_OP_NAMES) else f"op{op_idx}"
+            bar = "█" * int(weight * 100)
+            print(f"  │ {op_name:>8s} ({op_idx:>2d}): {weight:.3f} {bar}")
+        # Check uniformity: max/min ratio
+        max_w, min_w = max(kdw), min(kdw)
+        ratio = max_w / (min_w + 1e-8)
+        if ratio < 1.5:
+            print(f"  │ ≈ uniform (max/min={ratio:.2f}) — not specialized yet")
+        else:
+            print(f"  │ max/min={ratio:.2f} — specializing")
+
+    # ── Kernel type weights ──────────────────────────────
+    ktw = overall.get("kernel_type_weights")
+    if ktw:
+        print(f"  ├─ Kernel types ──────────────────────────────────┤")
+        for ti, (tname, tw) in enumerate(zip(KERNEL_TYPE_NAMES, ktw)):
+            bar = "█" * int(tw * 50)
+            print(f"  │ {tname:>8s}: {tw:.3f} {bar}")
 
     print(f"  └─────────────────────────────────────────────────┘")
 
