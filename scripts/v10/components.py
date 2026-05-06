@@ -200,6 +200,9 @@ class S3Ternary(nn.Module):
         for wg in self.write_gates:
             wg.bias = mx.full(wg.bias.shape, -2.0)
 
+        # Register normalization — prevents unbounded accumulation → NaN
+        self.register_norm = nn.RMSNorm(self.d_reg_real)
+
     def gate_phase(
         self,
         registers: list[mx.array],
@@ -231,14 +234,15 @@ class S3Ternary(nn.Module):
         )
         gated_delta = gate * delta
 
-        # Register updates
+        # Register updates (normalized to prevent unbounded accumulation)
         updated_registers = []
         write_gate_values = []
         for reg_idx in range(self.n_registers):
             write_idx = phase_idx * self.n_registers + reg_idx
             wg = mx.sigmoid(self.write_gates[write_idx](summary.reshape(1, -1)).reshape(-1))
             update = _ternary_1d(self.write_projs[write_idx], summary)[:self.d_reg_real]
-            updated_registers.append(registers[reg_idx] + wg * update)
+            updated_registers.append(
+                self.register_norm(registers[reg_idx] + wg * update))
             write_gate_values.append(wg.item())
 
         return gated_delta, updated_registers, gate, write_gate_values

@@ -620,18 +620,22 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
             if gamma_grad is not None:
                 gg = np.array(mx.abs(gamma_grad))
                 gs = np.array(gamma_grad)
-                if path in row_importance:
-                    row_importance[path] = imp_alpha * gg + (1 - imp_alpha) * row_importance[path]
-                    grad_direction[path] = imp_alpha * gs + (1 - imp_alpha) * grad_direction[path]
-                else:
-                    row_importance[path] = gg
-                    grad_direction[path] = gs
+                # Skip this step's EMA update if gradients contain NaN/Inf
+                # (preserves prior importance rather than poisoning it)
+                if np.all(np.isfinite(gg)):
+                    if path in row_importance:
+                        row_importance[path] = imp_alpha * gg + (1 - imp_alpha) * row_importance[path]
+                        grad_direction[path] = imp_alpha * gs + (1 - imp_alpha) * grad_direction[path]
+                    else:
+                        row_importance[path] = gg
+                        grad_direction[path] = gs
             if hasattr(mod, "_x_abs_mean"):
                 xm = np.array(mod._x_abs_mean)
-                if path in col_importance:
-                    col_importance[path] = imp_alpha * xm + (1 - imp_alpha) * col_importance[path]
-                else:
-                    col_importance[path] = xm
+                if np.all(np.isfinite(xm)):
+                    if path in col_importance:
+                        col_importance[path] = imp_alpha * xm + (1 - imp_alpha) * col_importance[path]
+                    else:
+                        col_importance[path] = xm
 
         # ── Normalize shared + zero ternary ───────────────────
         accum_grads = normalize_shared_grads(accum_grads)

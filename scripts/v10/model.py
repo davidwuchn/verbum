@@ -115,6 +115,9 @@ class V6Compressor(nn.Module):
             for name in self.REGISTER_NAMES
         }
 
+        # Register normalization — prevents unbounded accumulation → NaN
+        self.register_norm = nn.RMSNorm(self.d_reg_real)
+
         # ── S1: Ascending ops (shared across L0↑, L1↑, L2_apex) ──
         #    Compression operations — proven in v6 (φ-locking)
         self.prep = TernaryFFN(d, cfg.d_ff, cfg.dropout)
@@ -218,7 +221,7 @@ class V6Compressor(nn.Module):
 
         # S4 scan (intelligence — reads register banks)
         s4_updates, _ = s4(readable_banks, x)
-        target_bank = [target_bank[i] + s4_updates[i]
+        target_bank = [self.register_norm(target_bank[i] + s4_updates[i])
                        for i in range(self.cfg.n_registers)]
 
         if is_descending:
@@ -423,7 +426,8 @@ class V6Compressor(nn.Module):
             strides = self.stride_stack_desc if is_desc else self.stride_stack
 
             s4_updates, _ = s4(readable, x)
-            target = [target[i] + s4_updates[i] for i in range(self.cfg.n_registers)]
+            target = [self.register_norm(target[i] + s4_updates[i])
+                      for i in range(self.cfg.n_registers)]
 
             phase_gates = []
 

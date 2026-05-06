@@ -835,6 +835,7 @@ def _importance_sample_indices(
         # Row probabilities from |∂L/∂γ| importance
         if row_imp is not None and len(row_imp) == N:
             row_p = np.asarray(row_imp, dtype=np.float64)
+            row_p = np.where(np.isfinite(row_p), row_p, 0.0)  # NaN/Inf → 0
             row_p = np.maximum(row_p, 1e-8)  # floor to prevent zero-prob rows
             row_p /= row_p.sum()
         else:
@@ -843,6 +844,7 @@ def _importance_sample_indices(
         # Column probabilities from mean(|x|) importance
         if col_imp is not None and len(col_imp) == K:
             col_p = np.asarray(col_imp, dtype=np.float64)
+            col_p = np.where(np.isfinite(col_p), col_p, 0.0)  # NaN/Inf → 0
             col_p = np.maximum(col_p, 1e-8)
             col_p /= col_p.sum()
         else:
