@@ -307,6 +307,63 @@ def run_tournament(
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# § 6b  Adam accumulator decay after accepted mutations
+# ══════════════════════════════════════════════════════════════════════════════
+
+def decay_adam_state(optimizer, model, decay: float = 0.1) -> None:
+    """Decay Adam m/v accumulators for gamma parameters of ternary modules.
+
+    After an accepted topology mutation, the ternary weights have changed
+    but Adam's running mean (m) and variance (v) still reflect gradients
+    from the old topology. This creates a tug-of-war: the momentum points
+    in the old direction while the gradient now points differently.
+
+    Full reset (decay=0) loses all training history.
+    No decay (decay=1) ignores the topology change.
+    decay=0.1 keeps 10% of the old signal — a soft reset that preserves
+    the general direction while allowing rapid adaptation to the new topology.
+
+    Only affects gamma parameters (trainable per-channel scales in
+    TernaryLinear). Other parameters (norms, embeddings, op_embeddings)
+    are unaffected since their gradients don't depend on ternary topology.
+    """
+    if decay >= 1.0 or not optimizer.state:
+        return
+
+    # Collect paths to gamma parameters in ternary modules
+    gamma_paths = set()
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear):
+            gamma_paths.add(f"{path}.gamma")
+
+    # Navigate optimizer state tree and decay m/v for gamma entries
+    def _decay_tree(state_node, param_path_parts, depth=0):
+        """Recursively navigate optimizer state, decay matching gamma entries."""
+        if isinstance(state_node, dict):
+            for key, val in state_node.items():
+                current_path = ".".join(param_path_parts + [key])
+                if current_path in gamma_paths and isinstance(val, dict):
+                    # This is a gamma parameter's optimizer state
+                    for moment_key in ("m", "v"):
+                        if moment_key in val and isinstance(val[moment_key], mx.array):
+                            val[moment_key] = val[moment_key] * decay
+                else:
+                    _decay_tree(val, param_path_parts + [key], depth + 1)
+        elif isinstance(state_node, list):
+            for i, val in enumerate(state_node):
+                _decay_tree(val, param_path_parts + [str(i)], depth + 1)
+
+    # optimizer.state is a list (one entry per parameter group, typically one)
+    if isinstance(optimizer.state, list):
+        for group in optimizer.state:
+            _decay_tree(group, [], 0)
+    elif isinstance(optimizer.state, dict):
+        _decay_tree(optimizer.state, [], 0)
+
+    mx.eval(optimizer.state)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # § 7  Checkpointing
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -627,13 +684,18 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
             total_generations += 1
             if gen_result["accepted"]:
                 total_accepted += 1
+                # Decay Adam accumulators — topology changed, old momentum is stale
+                if cfg.mutation_adam_decay < 1.0:
+                    decay_adam_state(optimizer, model, decay=cfg.mutation_adam_decay)
 
             accepted_str = gen_result["accepted"] or "rejected"
             delta = gen_result["accepted_loss"] - gen_result["champion_loss"]
+            decay_str = f"  adam_decay={cfg.mutation_adam_decay}" if gen_result["accepted"] else ""
             print(
                 f"  🧬 gen {total_generations}: {accepted_str}"
                 f"  Δ={delta:+.4f}  budget={gen_result['budget']:,}"
-                f"  {total_accepted}/{total_generations}",
+                f"  {total_accepted}/{total_generations}"
+                f"{decay_str}",
                 file=sys.stderr, flush=True,
             )
 
