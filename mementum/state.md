@@ -2,112 +2,122 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-04 | Session: 065
+> Last updated: 2026-05-06 | Session: 066
 
 ## Where we are
 
-**v10 rebuilt: split ascending/descending weights. Ready to train.**
+**v10 rebuilt: kernel wired into descending arm. Ready to train.**
 
-Session 065 found that the prior v10 training (20K steps) was wasted —
-it trained the wrong architecture. The 5-pass bidirectional VSM used
-shared weights between ascending and descending arms, but prior sessions
-(045, 054, 055, 062) had already established that compression in the
-descending direction doesn't work. The descending arm should have had
-its own weights from the start.
+Session 066 diagnosed a critical wrong turn: sessions 064-065 replaced the
+kernel-wired v10 architecture (commit 2b263d6) with a standard v6 causal LM,
+then spent 20K steps training the wrong model. The descending arm had
+compression ops (TernaryFFN) instead of kernel dispatch, so it learned
+passthrough — identical failure to shared weights, just with its own weights.
 
-### What was wrong (prior v10)
-- **Shared weights** forced the descending arm to compress — same ops as ascending
-- **Descending arm learned passthrough** — S3 gates went to ~1.0 (all open)
-- **Meta-S3 dead** — flat 1.0 across all passes, never differentiated
-- **Training destabilized at 15K→20K** — 2 late evolution acceptances disrupted equilibrium
-- **Ascending arm worked fine** — L0↑ locked on φ (dev 0.04), L1↑ converging (dev 0.10)
-- The architecture was a copy of v6 wholesale, ignoring the design decisions from sessions 054-062
+### What was wrong (sessions 064-065)
+- Session 064 ("rebuild as prose LM") overwrote the original v10 that had
+  compressor + tree of VSMs + kernel dispatch (commit 2b263d6, 65% op acc in 60 steps)
+- Replaced kernel-shaped descending arm with v6 compression copy
+- 20K steps of training on the wrong architecture: ascending arm worked (φ-locking)
+  but descending arm went to passthrough, Meta-S3 stayed flat 1.0, evolution frozen at 1%
+- Root cause: chased outputs (LM loss) instead of shapes (architecture)
 
 ### What changed (this session)
-1. **Split shared weights** — ascending arm (L0↑, L1↑, L2_apex) has its own
-   prep/stride_stack/consolidate/mod_projs/s4. Descending arm (L1↓, L0↓) has
-   its OWN set: prep_desc/stride_stack_desc/consolidate_desc/mod_projs_desc/s4_desc.
-   Same op types, but free to learn different behavior.
-2. **Fixed Meta-S3 init** — added temperature + learned_bias initialized to -2.0
-   (sigmoid ≈ 0.12). Gates now start near-closed and must earn their way open.
-   Previously started at 1.0 and had no gradient to differentiate.
-3. **Updated gradient normalization** — ascending components normalize by 3 (3 passes),
-   descending components normalize by 2 (2 passes). Previously all normalized by 5.
-4. **Cleared wasted artifacts** — checkpoints/v10/ and results/v10/ removed.
+1. **Diagnosed the missing kernel** — found original v10 at commit 2b263d6 in git
+2. **Built KernelDispatch module** — routes representations through 22 kernel op
+   pathways with ternary routing fabric + op embeddings (pre-wired S5 identity)
+3. **Built KernelIntegrate module** — combines results with 5-type awareness
+   (INT, BOOL, FN, FN_COMP, ERROR)
+4. **Replaced descending arm ops** — `prep_desc`/`consolidate_desc` (TernaryFFN)
+   replaced with `kernel_dispatch`/`kernel_integrate` (KernelDispatch/KernelIntegrate)
+5. **Ascending arm unchanged** — proven, keep it
+6. **Smoke tested** — training runs, gradients flow, 5.3K tok/s, 308K trainable
 
-### Architecture (v10 split)
+### Architecture (v10 tree of VSMs)
 
 ```
 tokens (Qwen3 BBPE) → embed + pos_embed → embed_norm
                             │
-    ASCENDING ARM (shared weights, 3 passes)
-    ├── L0↑: S4 → prep → S3 gate → StrideStack(fwd) → S3 → consolidate → S3
-    ├── L1↑: S4 → prep → S3 gate → StrideStack(fwd) → S3 → consolidate → S3
-    ├── L2_apex: S4 → prep → S3 → StrideStack(fwd) → S3 → consolidate → S3
+    VSM-COMPRESSOR (ascending, shared weights, 3 passes)
+    ├── L0↑: S4 → TernaryFFN(prep) → S3 → StrideStack(fine→coarse) → S3 → TernaryFFN(cons) → S3
+    ├── L1↑: (same shared weights)
+    ├── L2_apex: (same shared weights)
     │
-    DESCENDING ARM (own weights, 2 passes)
-    ├── L1↓: S4_desc → prep_desc → S3 → StrideStack_desc(rev) → S3 → consolidate_desc → S3
-    ├── L0↓: S4_desc → prep_desc → S3 → StrideStack_desc(rev) → S3 → consolidate_desc → S3
+    VSM-DISPATCHER (descending, own weights, 2 passes)
+    ├── L1↓: S4_desc → KernelDispatch(22 ops) → S3 → StrideStack(coarse→fine) → S3 → KernelIntegrate(5 types) → S3
+    ├── L0↓: (same shared weights)
     │
     ├── Meta-S3 (temperature + bias, near-closed init)
     ├── Meta-S4 (final structural summary)
-    └── output_norm → tied embedding → logits → CE loss
+    └── output_norm → tied embedding → logits → relational loss on Dolma
 ```
 
-Params: 23.1M total, 293K trainable, 131M ternary (up from 22.5M/265K/115M).
+Params: ~23.2M total, 308K trainable, 131M ternary.
 
 ### Why this matters
 
-The ascending arm compresses and types — this is proven from v6 and confirmed
-by the (wasted) training run where L0↑ locked on φ. The descending arm needs
-to learn something DIFFERENT: reading the typed representation and routing
-toward kernel functions. With shared weights, it was forced to compress.
-With its own weights, it's free to learn dispatch.
+The ascending arm compresses and types — proven (φ-locking, S3 differentiation).
+The descending arm's job is fundamentally different: dispatch/routing, not
+compression. Prior sessions proved compression ops → passthrough regardless of
+weight sharing. The kernel provides the correct shape:
 
-The kernel (22 ops, 5 types, proven in v9) is not wired in yet — that comes
-after the LM baseline shows the descending arm learning differentiated behavior.
+- **KernelDispatch**: 22 op embeddings as pre-wired identity. The ternary routing
+  fabric learns which positions benefit from which kernel op family. The model
+  discovers these as easy paths while training on prose.
+- **KernelIntegrate**: 5 type embeddings (kernel output types). Type-aware
+  integration back into the residual stream.
+
+The kernel is pre-wired infrastructure (like an ALU) — not a training target.
+The model trains on prose and has the kernel available as computational substrate.
 
 ## What to do next
 
-### 1. Train v10-split at scale
+### 1. Train v10 at scale (20K steps)
 ```bash
 uv run python scripts/v10/train.py --seq-len 4096 --total-steps 20000
 ```
 Watch for:
 - **Ascending arm**: should reproduce prior results (L0↑ → φ, S3 differentiating)
-- **Descending arm**: with own weights, does it learn different behavior?
-  Do its S3 gates differ from ascending? Does it compress or do something else?
-- **Meta-S3**: with bias init, does it differentiate passes? Key signal.
-- **Content spread**: should converge toward independence as before
-- Probe at 1K, 5K, 10K, 15K, 20K checkpoints
+- **Descending arm**: with kernel-shaped ops, do S3 gates differentiate?
+  Do dispatch weights specialize? Does it learn something different from passthrough?
+- **Meta-S3**: with bias init, does it differentiate passes? (starts at 0.12)
+- **KernelDispatch weights**: which ops activate for which types of prose?
+- **Relational loss**: does r converge faster than the compression-only model?
+- Probe at 1K, 5K, 10K, 15K, 20K
 
-### 2. Analyze descending arm behavior
-After training, the key question: what did the descending arm learn?
-If it learns something different from compression, that's the signal
-to wire in the kernel as a gravitational attractor.
+### 2. Probe kernel dispatch behavior
+After training, the key question: what did the dispatcher learn?
+- Which kernel ops activate for which types of prose content?
+- Do ops specialize (e.g., comparison ops for comparative language)?
+- Do type weights differentiate (e.g., BOOL for questions)?
 
-### 3. Wire kernel integration (when descending arm shows differentiation)
-The sieve pipeline between ascending output and logits. Reads the typed
-representation, routes through ternary topology to kernel function families.
+### 3. Wire kernel execution (when dispatch shows specialization)
+Once the dispatcher learns meaningful routing, connect actual kernel
+execution: dispatch weights → op selection → kernel_eval → result
+fed back into residual stream. This is the sieve pipeline.
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v10/model.py` | V6Compressor with split asc/desc weights |
+| `scripts/v10/model.py` | Tree of VSMs: compressor + dispatcher |
+| `scripts/v10/kernel_dispatch.py` | KernelDispatch + KernelIntegrate modules |
+| `scripts/v10/kernel.py` | 22-op exact kernel (pre-wired identity) |
 | `scripts/v10/attention.py` | StrideStack + SingleStrideAttention |
-| `scripts/v10/components.py` | S4, S3, MetaS4, MetaS3 (fixed init) |
+| `scripts/v10/components.py` | S4, S3, MetaS4, MetaS3 |
 | `scripts/v10/config.py` | V10Config (Qwen3, 9 strides, v6 params) |
 | `scripts/v10/data.py` | ShardedDataLoader for Qwen3 Dolma shards |
-| `scripts/v10/train.py` | Training loop (split grad norm: 3 asc, 2 desc) |
+| `scripts/v10/train.py` | Training loop (relational loss, split grad norm) |
 | `scripts/v10/ternary.py` | TernaryLinear, TernaryEmbedding, evolution |
-| `scripts/v10/kernel.py` | 22-op exact kernel (future sieve target) |
-| `scripts/v10/probe.py` | Checkpoint diagnostics (shows asc/desc separately) |
+| `scripts/v10/probe.py` | Checkpoint diagnostics |
 
 ## Session history
 
 → See [session-history-049-062](knowledge/explore/session-history-049-062.md)
 → Session 063: pruned state.md, extracted history to knowledge pages
-→ Session 064: rebuilt v10 as prose LM with v6 compressor + Qwen3 (WRONG: shared weights)
-→ Session 065: probed 20K training (ascending worked, descending broken), diagnosed shared-weight
-  error, split ascending/descending weights, fixed Meta-S3 init, cleared wasted artifacts
+→ Session 064: WRONG — rebuilt v10 as prose LM, overwriting kernel-wired architecture
+→ Session 065: probed 20K training (ascending worked, descending broken), diagnosed
+  shared-weight error but missed the real problem (kernel was removed)
+→ Session 066: found original kernel-wired v10 in git (2b263d6), diagnosed root cause
+  (shapes not outputs), built KernelDispatch/KernelIntegrate, wired kernel into
+  descending arm, smoke tested
