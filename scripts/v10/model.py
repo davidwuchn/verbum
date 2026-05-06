@@ -1,30 +1,41 @@
 """
-v10 Model — bidirectional VSM with split ascending/descending weights.
+v10 Model — Tree of VSMs: compressor + kernel-aware dispatcher.
 
 Architecture:
 
-  tokens (B, L) → [V6Compressor: 5-pass, 9 strides, registers]
-                       → hidden (B, L, d_model)
-                       → [output_norm → tied embedding → logits]
-                       → next-token cross-entropy
+  tokens (B, L) → [VSM-Compressor: ascending, 9 strides, proven]
+                       → typed representations (B, L, d_model)
+                 → [VSM-Dispatcher: descending, kernel-shaped S1 ops]
+                       → enriched representations (B, L, d_model)
+                 → [output_norm → tied embedding → logits]
+                 → relational loss on Dolma prose
 
-Compressor: v6 proven ascending arm + separate descending arm.
-  5 passes: L0_asc → L1_asc → L2_apex → L1_desc → L0_desc
-  9 strides (1, 8, 16, 32, 64, 128, 256, 512, 1024), W=8
-  3 phases per pass: prep → converge (StrideStack) → consolidate
-  3 named registers (type, scope, role), d_register=128, real-valued
-  S4 intelligence + S3 gating per pass
-  Meta-S4 + Meta-S3 after all passes
+Tree of VSMs (Beer 1972):
+  VSM-Compressor (ascending arm, 3 passes: L0↑, L1↑, L2_apex):
+    S5: token embedding identity (Qwen3 BBPE)
+    S4: StrideStack fine→coarse (intelligence — reads context)
+    S3: phase gates (control — what to compress)
+    S1: TernaryFFN prep/consolidate (operations — compression)
+    S2: typed representations → feeds into dispatcher
 
-  SPLIT WEIGHTS (the key v10 design):
-    Ascending arm (L0↑, L1↑, L2_apex): shared prep/stride/consolidate/mod/s4
-    Descending arm (L1↓, L0↓): its OWN prep/stride/consolidate/mod/s4
+  VSM-Dispatcher (descending arm, 2 passes: L1↓, L0↓):
+    S5: kernel function identity (22 ops, 5 types — pre-wired)
+    S4: StrideStack coarse→fine (intelligence — reads typed reps)
+    S3: dispatch gates (control — which kernel pathways activate)
+    S1: KernelDispatch/KernelIntegrate (operations — kernel-shaped)
+    S2: enriched representations → LM head
 
-  The ascending arm compresses and types (proven in v6).
-  The descending arm has its own weight space to learn dispatch/routing.
-  Prior work (sessions 045/054/055/062) established that compression in
-  the descending direction doesn't work — the descending arm needs to
-  learn a fundamentally different operation.
+Key design:
+  The ascending arm compresses and types (proven in v6, φ-locking).
+  The descending arm routes through kernel function pathways — NOT
+  compression. Prior sessions (045/054/055/062/065) proved that giving
+  the descending arm compression ops causes passthrough. The kernel
+  provides the correct shape: dispatch/routing, not compression.
+
+  The 22 kernel ops (from kernel.py, proven at 100% in v9) are pre-wired
+  as architectural identity in the dispatcher VSM. The model discovers
+  them as easy paths while training on prose — no need to learn
+  composition through superpositions.
 
 Output: tied embedding projection (weight sharing with input embed).
 
@@ -47,6 +58,7 @@ from components import (
     MetaS4Ternary,
     MetaS3Ternary,
 )
+from kernel_dispatch import KernelDispatch, KernelIntegrate, N_OPS, N_TYPES
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -55,24 +67,27 @@ from components import (
 
 
 class V6Compressor(nn.Module):
-    """Bidirectional VSM with split ascending/descending weights.
+    """Tree of VSMs: compressor (ascending) + dispatcher (descending).
 
     5 passes:
       L0_asc → L1_asc → L2_apex → L1_desc → L0_desc
 
-    Each pass: S4 scan → prep → S3 gate → converge → S3 gate → consolidate → S3 gate
+    ASCENDING arm (VSM-Compressor, 3 passes) — shared weights:
+      S1: TernaryFFN prep/consolidate (compression — proven in v6)
+      S4: StrideStack fine→coarse (reads context across scales)
+      Job: compress and type (proven: φ-locking, S3 differentiation)
 
-    ASCENDING arm (L0↑, L1↑, L2_apex) — shared weights:
-      prep, stride_stack, consolidate, mod_projs, s4
-      Job: compress and type (proven in v6)
+    DESCENDING arm (VSM-Dispatcher, 2 passes) — own weights:
+      S1: KernelDispatch/KernelIntegrate (kernel-shaped ops)
+      S4: StrideStack coarse→fine (reads typed representations)
+      Job: route through 22 kernel op pathways (NOT compression)
 
-    DESCENDING arm (L1↓, L0↓) — its OWN shared weights:
-      prep_desc, stride_stack_desc, consolidate_desc, mod_projs_desc, s4_desc
-      Job: read typed representation, learn dispatch/routing
-      (Prior sessions proved shared compression weights don't work here)
+    The kernel ops (from kernel.py, proven at 100% in v9) are pre-wired
+    as the dispatcher's S5 identity. The model discovers them as easy
+    paths while training on prose. The ternary routing topology learns
+    which positions benefit from which kernel op family.
 
-    Per-pass (S3 control):
-      5 × S3Ternary instances (one per pass, always separate)
+    Per-pass S3 control: 5 separate S3Ternary instances.
     """
 
     REGISTER_NAMES = ("type", "scope", "role")
@@ -101,6 +116,7 @@ class V6Compressor(nn.Module):
         }
 
         # ── S1: Ascending ops (shared across L0↑, L1↑, L2_apex) ──
+        #    Compression operations — proven in v6 (φ-locking)
         self.prep = TernaryFFN(d, cfg.d_ff, cfg.dropout)
         self.stride_stack = StrideStack(
             d_model=d,
@@ -113,9 +129,13 @@ class V6Compressor(nn.Module):
         self.consolidate = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
 
         # ── S1: Descending ops (shared across L1↓, L0↓) ──────
-        #    Own weights — NOT shared with ascending arm.
-        #    Same op types, but free to learn different behavior.
-        self.prep_desc = TernaryFFN(d, cfg.d_ff, cfg.dropout)
+        #    Kernel-shaped operations — NOT compression.
+        #    KernelDispatch routes to 22 kernel op pathways.
+        #    KernelIntegrate combines results with type awareness.
+        #    StrideStack reads typed reps across scales (coarse→fine).
+        self.kernel_dispatch = KernelDispatch(
+            d, n_ops=N_OPS, d_ff=cfg.d_ff, dropout=cfg.dropout,
+        )
         self.stride_stack_desc = StrideStack(
             d_model=d,
             strides=cfg.strides,
@@ -124,7 +144,9 @@ class V6Compressor(nn.Module):
             dropout=cfg.dropout,
             alpha=cfg.alpha,
         )
-        self.consolidate_desc = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
+        self.kernel_integrate = KernelIntegrate(
+            d, n_types=N_TYPES, d_ff=cfg.d_ff_consolidate, dropout=cfg.dropout,
+        )
 
         # ── S4: Intelligence (ascending, shared) ──────────────
         self.s4 = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
@@ -149,6 +171,8 @@ class V6Compressor(nn.Module):
             proj.gamma = mx.zeros_like(proj.gamma)
 
         # ── Modulation projections (descending, own) ──────────
+        #    Same 3 phases but different semantics:
+        #    phase 0 = dispatch, phase 1 = converge, phase 2 = integrate
         self.mod_projs_desc = [
             TernaryLinear(d, d, pre_norm=False)
             for _ in range(3)
@@ -188,37 +212,59 @@ class V6Compressor(nn.Module):
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks, target_bank):
         x_before = x
 
-        # Select ops: ascending or descending
+        # Select ops based on VSM arm
         s4 = self.s4_desc if is_descending else self.s4
-        prep = self.prep_desc if is_descending else self.prep
         strides = self.stride_stack_desc if is_descending else self.stride_stack
-        consolidate = self.consolidate_desc if is_descending else self.consolidate
 
-        # S4 scan
+        # S4 scan (intelligence — reads register banks)
         s4_updates, _ = s4(readable_banks, x)
         target_bank = [target_bank[i] + s4_updates[i]
                        for i in range(self.cfg.n_registers)]
 
-        # Phase 0: prep
-        prep_out = prep(x)
-        delta = prep_out - x
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 0)
-        x = self._modulate(x, delta, gate, phase_idx=0, is_descending=is_descending)
+        if is_descending:
+            # ── VSM-Dispatcher: kernel-shaped S1 operations ───
+            # Phase 0: dispatch (route to kernel op pathways)
+            dispatch_out = self.kernel_dispatch(x)
+            delta = dispatch_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 0)
+            x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
-        # Phase 1: converge (StrideStack)
-        converge_out = strides(x, reverse=is_descending)
-        delta = converge_out - x
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 1)
-        x = self._modulate(x, delta, gate, phase_idx=1, is_descending=is_descending)
+            # Phase 1: converge (StrideStack coarse→fine)
+            converge_out = strides(x, reverse=True)
+            delta = converge_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 1)
+            x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
-        # Phase 2: consolidate
-        consolidate_out = consolidate(x)
-        delta = consolidate_out - x
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 2)
-        x = self._modulate(x, delta, gate, phase_idx=2, is_descending=is_descending)
+            # Phase 2: integrate (combine kernel pathway results)
+            integrate_out = self.kernel_integrate(x)
+            delta = integrate_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 2)
+            x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
+        else:
+            # ── VSM-Compressor: compression S1 operations ─────
+            # Phase 0: prep (local feature extraction)
+            prep_out = self.prep(x)
+            delta = prep_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 0)
+            x = self._modulate(x, delta, gate, phase_idx=0, is_descending=False)
+
+            # Phase 1: converge (StrideStack fine→coarse)
+            converge_out = strides(x, reverse=False)
+            delta = converge_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 1)
+            x = self._modulate(x, delta, gate, phase_idx=1, is_descending=False)
+
+            # Phase 2: consolidate (feature integration)
+            consolidate_out = self.consolidate(x)
+            delta = consolidate_out - x
+            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                target_bank, delta, 2)
+            x = self._modulate(x, delta, gate, phase_idx=2, is_descending=False)
 
         pass_delta = x - x_before
         return x, target_bank, pass_delta
@@ -372,39 +418,65 @@ class V6Compressor(nn.Module):
             readable = get_readable()
             target = target_banks[pi]
 
-            # Select ops: ascending or descending
+            # Select ops based on VSM arm
             s4 = self.s4_desc if is_desc else self.s4
-            prep = self.prep_desc if is_desc else self.prep
             strides = self.stride_stack_desc if is_desc else self.stride_stack
-            consolidate = self.consolidate_desc if is_desc else self.consolidate
 
             s4_updates, _ = s4(readable, x)
             target = [target[i] + s4_updates[i] for i in range(self.cfg.n_registers)]
 
             phase_gates = []
-            # Phase 0: prep
-            prep_out = prep(x)
-            delta = prep_out - x
-            _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
-            mx.eval(gate)
-            phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 0, is_descending=is_desc)
 
-            # Phase 1: converge
-            conv_out = strides(x, reverse=is_desc)
-            delta = conv_out - x
-            _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
-            mx.eval(gate)
-            phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 1, is_descending=is_desc)
+            if is_desc:
+                # ── VSM-Dispatcher: kernel-shaped phases ──────
+                # Phase 0: dispatch
+                dispatch_out = self.kernel_dispatch(x)
+                delta = dispatch_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 0, is_descending=True)
 
-            # Phase 2: consolidate
-            cons_out = consolidate(x)
-            delta = cons_out - x
-            _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
-            mx.eval(gate)
-            phase_gates.append(float(gate.item()))
-            x = self._modulate(x, delta, gate, 2, is_descending=is_desc)
+                # Phase 1: converge (coarse→fine)
+                conv_out = strides(x, reverse=True)
+                delta = conv_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 1, is_descending=True)
+
+                # Phase 2: integrate
+                integrate_out = self.kernel_integrate(x)
+                delta = integrate_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 2, is_descending=True)
+            else:
+                # ── VSM-Compressor: compression phases ────────
+                # Phase 0: prep
+                prep_out = self.prep(x)
+                delta = prep_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 0, is_descending=False)
+
+                # Phase 1: converge (fine→coarse)
+                conv_out = strides(x, reverse=False)
+                delta = conv_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 1, is_descending=False)
+
+                # Phase 2: consolidate
+                cons_out = self.consolidate(x)
+                delta = cons_out - x
+                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
+                mx.eval(gate)
+                phase_gates.append(float(gate.item()))
+                x = self._modulate(x, delta, gate, 2, is_descending=False)
 
             target_banks[pi] = target
             pass_deltas.append(x - x_before)

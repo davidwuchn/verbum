@@ -103,7 +103,8 @@ def loss_fn(
 # Ascending components: shared across L0↑, L1↑, L2_apex (3 passes)
 ASC_SHARED = ("prep", "stride_stack", "consolidate", "mod_projs", "s4")
 # Descending components: shared across L1↓, L0↓ (2 passes)
-DESC_SHARED = ("prep_desc", "stride_stack_desc", "consolidate_desc", "mod_projs_desc", "s4_desc")
+# Kernel dispatch/integrate replace prep_desc/consolidate_desc
+DESC_SHARED = ("kernel_dispatch", "stride_stack_desc", "kernel_integrate", "mod_projs_desc", "s4_desc")
 
 N_ASC_PASSES = 3
 N_DESC_PASSES = 2
