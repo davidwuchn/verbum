@@ -14,13 +14,15 @@ revolution and ~9.4 layers per revolution. This is content-independent
 and matches v10's architecture (alpha=1.18, 9 strides). See
 [attention-spiral-finding](knowledge/explore/attention-spiral-finding.md).
 
-v10 design analysis: **no changes needed**. The architecture already
-encodes the emergent spiral correctly. Three parameters align:
-alpha=1.18 ✓, 9 strides ✓, bidirectional passes ✓. One minor
-consideration (stride progression gap at s=1→8) noted but not
-worth changing now — let the 5K mixed run results speak first.
+v10 design change: **descending StrideStack reversed to fine→coarse**,
+matching the ascending arm. The spiral finding shows attention always
+expands outward — there is no "descending" direction. Both arms now
+follow the same spiral geometry; they differ in operations (compression
+vs kernel dispatch), not direction. Coarse→fine descending has failed
+across v6–v10 (S3 passthrough every time). This may be the root cause.
 
-The 5K mixed-data run (from session 067) is still pending analysis.
+Also fixed: mixed-data-aware evolution (eval on both prose + structured)
+and reduced mutation budget (66K → 26K flips).
 
 ## What was done this session
 
@@ -34,26 +36,43 @@ The 5K mixed-data run (from session 067) is still pending analysis.
 - Scripts: `scripts/explore/attention_spiral.py`, `attention_spiral_3d.py`
 - Plots: `outputs/attention_spiral/`
 
-### 2. v10 design analysis
-Three things align perfectly, no changes needed:
+### 2. v10 design analysis + descending arm direction change
+Three things align perfectly:
 - **alpha=1.18**: matches emergent expansion factor
 - **9 strides**: matches ~9.4 layers per revolution
 - **5-pass bidirectional**: matches lag-17 half-model oscillation
-One minor irregularity noted: stride progression jumps from 1→8
-(3 octaves) then 8→16→...→1024 (1 octave each). Not worth fixing
-unless training signals say otherwise.
+
+**Key change**: descending StrideStack switched from coarse→fine
+(`reverse=True`) to fine→coarse (`reverse=False`). The spiral
+finding shows attention always expands outward. The descending arm's
+persistent passthrough (v6–v10) may have been caused by fighting
+the natural spiral geometry. Both arms now follow the same direction.
+
+### 3. Evolution fix
+- Mixed-data-aware tournament: mutations evaluated on BOTH prose
+  and structured data, accepted only if max(worst) loss improves
+- Reduced base_pct: 0.0005 → 0.0002 (~26K flips vs 66K)
+- 5K mixed run collapsed at step 750 from gen 15 mutation
 
 ## What to do next
 
-### Priority 1: Check the 5K mixed-data run
+### Priority 1: Run 5K mixed-data with all fixes
 ```bash
-ls checkpoints/v10-mixed/step_*
-uv run python scripts/v10/probe.py checkpoints/v10-mixed/step_001000
-uv run python scripts/v10/probe.py checkpoints/v10-mixed/step_005000
+uv run python scripts/v10/train.py \
+    --total-steps 5000 --mix-ratio 0.1 \
+    --checkpoint-dir checkpoints/v10-spiral --seq-len 4096
 ```
 
-Key signals: S3 gate differentiation, kernel dispatch specialization,
-FN_COMP dominance, eval loss trajectory.
+Three changes in this run:
+1. Descending StrideStack fine→coarse (matching spiral geometry)
+2. Mixed-data-aware evolution (eval on prose + structured)
+3. Reduced mutation budget (26K flips vs 66K)
+
+Key signals to watch:
+- **Descending S3 gates**: do they finally differentiate?
+- **Kernel dispatch**: does specialization improve with spiral-aligned attention?
+- **Loss trajectory**: does the model avoid step-750-style collapse?
+- **Comparison**: step 750 of old run had r=0.404, CE=5.905
 
 ### Priority 2: Test spiral across model sizes
 Run `attention_spiral_3d.py` on Qwen3-0.6B and Qwen3-8B to answer:
@@ -88,6 +107,11 @@ v10 hard-wires that spiral via 9 discrete strides with alpha=1.18 bias.
 The architecture isn't arbitrary — it's encoding the geometry that
 gradient descent converges to independently.
 
+The spiral always expands outward — there is no "descending" direction
+in attention. The descending arm's persistent passthrough (S3 at 1.0
+across v6-v10) may have been caused by coarse→fine stride ordering
+fighting the natural spiral geometry. Both arms now go fine→coarse.
+
 ## Session history
 
 → See [session-history-049-062](knowledge/explore/session-history-049-062.md)
@@ -96,4 +120,4 @@ gradient descent converges to independently.
 → Session 065: probed 20K wasted run, diagnosed shared weights (missed real cause)
 → Session 066: found original v10 in git, diagnosed real cause, rebuilt correctly
 → Session 067: analyzed 20K run, phase reorder + mixed data, 5K test launched
-→ Session 068: attention spiral discovery, v10 design validation
+→ Session 068: attention spiral discovery, descending arm fine→coarse, evolution fix

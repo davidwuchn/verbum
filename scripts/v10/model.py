@@ -18,9 +18,9 @@ Tree of VSMs (Beer 1972):
     S1: TernaryFFN prep/consolidate (operations — compression)
     S2: typed representations → feeds into dispatcher
 
-  VSM-Dispatcher (descending arm, 2 passes: L1↓, L0↓):
+  VSM-Dispatcher (second arm, 2 passes: L1↓, L0↓):
     S5: kernel function identity (22 ops, 5 types — pre-wired)
-    S4: StrideStack coarse→fine (intelligence — reads typed reps)
+    S4: StrideStack fine→coarse (same spiral direction as ascending)
     S3: dispatch gates (control — which kernel pathways activate)
     S1: KernelDispatch/KernelIntegrate/StrideStack (operations)
     S2: enriched representations → LM head
@@ -28,14 +28,20 @@ Tree of VSMs (Beer 1972):
   Phase order (dispatch → integrate → stride):
     Phase 0: KernelDispatch — route to 22 kernel op pathways (local)
     Phase 1: KernelIntegrate — type the dispatched result (local)
-    Phase 2: StrideStack coarse→fine — propagate typed dispatch (spatial)
+    Phase 2: StrideStack fine→coarse — propagate typed dispatch (spatial)
 
     Rationale: dispatch and typing are both local content decisions
     about the same position — they belong adjacent. The stride then
-    propagates complete (op + type) representations across scales.
-    Prior ordering (dispatch → stride → integrate) let spatial mixing
-    wash out per-position dispatch structure before typing, contributing
-    to FN_COMP dominating and S3 gates saturating to passthrough.
+    propagates complete (op + type) representations outward from local
+    to global, following the same spiral geometry as the ascending arm.
+
+    Session 068 discovered that standard transformer attention self-
+    organizes into a logarithmic spiral that always expands outward
+    (~1.18x per revolution, ~9.4 layers per revolution). The spiral
+    never reverses — there is no "descending" direction in attention.
+    Both arms follow the same fine→coarse spiral; they differ in what
+    operations they apply (compression vs kernel dispatch), not in
+    the direction of attention.
 
 Key design:
   The ascending arm compresses and types (proven in v6, φ-locking).
@@ -89,15 +95,20 @@ class V6Compressor(nn.Module):
       S4: StrideStack fine→coarse (reads context across scales)
       Job: compress and type (proven: φ-locking, S3 differentiation)
 
-    DESCENDING arm (VSM-Dispatcher, 2 passes) — own weights:
-      S1: KernelDispatch → KernelIntegrate → StrideStack coarse→fine
+    SECOND arm (VSM-Dispatcher, 2 passes) — own weights:
+      S1: KernelDispatch → KernelIntegrate → StrideStack fine→coarse
       S4: register cross-attention (reads typed representations)
       Job: route through 22 kernel op pathways, type, then propagate
+
+    Both arms spiral outward (fine→coarse). The difference is what
+    operations they apply: compression vs kernel dispatch. The spiral
+    direction matches the emergent attention geometry discovered in
+    standard transformers (~1.18x expansion per revolution).
 
     Phase order: dispatch (local) → integrate (local) → stride (spatial).
     Dispatch and typing are both per-position content decisions — kept
     adjacent so typing sees undiluted dispatch signal. Stride propagates
-    the complete (op + type) result across scales.
+    the complete (op + type) result outward from local to global.
 
     Per-pass S3 control: 5 separate S3Ternary instances.
     """
@@ -252,8 +263,8 @@ class V6Compressor(nn.Module):
                 target_bank, delta, 1)
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
-            # Phase 2: converge (StrideStack coarse→fine — propagate typed dispatch)
-            converge_out = strides(x, reverse=True)
+            # Phase 2: converge (StrideStack fine→coarse — propagate typed dispatch outward)
+            converge_out = strides(x, reverse=False)
             delta = converge_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
@@ -461,8 +472,8 @@ class V6Compressor(nn.Module):
                 phase_gates.append(float(gate.item()))
                 x = self._modulate(x, delta, gate, 1, is_descending=True)
 
-                # Phase 2: converge (coarse→fine — propagate typed dispatch)
-                conv_out = strides(x, reverse=True)
+                # Phase 2: converge (fine→coarse — propagate typed dispatch outward)
+                conv_out = strides(x, reverse=False)
                 delta = conv_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
