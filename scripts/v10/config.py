@@ -69,6 +69,8 @@ class V10Config:
 
     # ── Data ──
     data_dir: str = "/Users/mwhitford/data/fractal-bitnet/shards-qwen3"
+    structured_shard: str = "data/structured_shard.npy"  # BIOS + lambda + clojure
+    mix_ratio: float = 0.0        # fraction of structured data (0.0 = prose only)
     seq_len: int = 4096           # context window
     max_seq_len: int = 4096
     n_train_shards: int = 54      # first 54 shards for training

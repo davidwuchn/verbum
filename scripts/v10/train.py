@@ -42,7 +42,7 @@ from mlx.utils import tree_flatten, tree_map
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V10Config
-from data import ShardedDataLoader
+from data import ShardedDataLoader, MixedDataLoader
 from model import V6Compressor, create_model, count_parameters
 from ternary import (
     freeze_ternary_weights,
@@ -407,6 +407,7 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
             "d_model": cfg.d_model, "vocab_size": cfg.vocab_size,
             "batch_size": cfg.batch_size, "total_steps": cfg.total_steps,
             "lr": cfg.lr, "seq_len": cfg.seq_len,
+            "mix_ratio": cfg.mix_ratio,
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -496,13 +497,26 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
     loss_and_grad = nn.value_and_grad(model, loss_fn)
 
     # ── Data ──────────────────────────────────────────────────
-    train_loader = ShardedDataLoader(
+    prose_loader = ShardedDataLoader(
         data_dir=cfg.data_dir,
         batch_size=cfg.batch_size,
         seq_len=cfg.seq_len,
         shard_start=0,
         shard_end=cfg.n_train_shards,
     )
+
+    if cfg.mix_ratio > 0 and Path(cfg.structured_shard).exists():
+        train_loader = MixedDataLoader(
+            prose_loader=prose_loader,
+            structured_path=cfg.structured_shard,
+            mix_ratio=cfg.mix_ratio,
+            seq_len=cfg.seq_len,
+            batch_size=cfg.batch_size,
+        )
+        print(f"  🔀 Mixed data: {cfg.mix_ratio:.0%} structured, "
+              f"{1-cfg.mix_ratio:.0%} prose", file=sys.stderr)
+    else:
+        train_loader = prose_loader
     eval_loader = ShardedDataLoader(
         data_dir=cfg.data_dir,
         batch_size=cfg.batch_size,
@@ -756,6 +770,10 @@ def main():
     parser.add_argument("--eval-interval", type=int, default=None)
     parser.add_argument("--log-interval", type=int, default=None)
     parser.add_argument("--checkpoint-interval", type=int, default=None)
+    parser.add_argument("--mix-ratio", type=float, default=None,
+                        help="Fraction of structured data (0.0=prose only, 0.1=10%% structured)")
+    parser.add_argument("--structured-shard", type=str, default=None,
+                        help="Path to structured data shard (.npy)")
 
     args = parser.parse_args()
     cfg = V10Config()
@@ -777,6 +795,8 @@ def main():
     if args.eval_interval is not None: cfg.eval_interval = args.eval_interval
     if args.log_interval is not None: cfg.log_interval = args.log_interval
     if args.checkpoint_interval is not None: cfg.checkpoint_interval = args.checkpoint_interval
+    if args.mix_ratio is not None: cfg.mix_ratio = args.mix_ratio
+    if args.structured_shard is not None: cfg.structured_shard = args.structured_shard
     cfg.__post_init__()
 
     train(cfg, args)

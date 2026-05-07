@@ -98,6 +98,80 @@ class ShardedDataLoader:
         return self.next_batch()
 
 
+class MixedDataLoader:
+    """Mixes prose (Dolma shards) with structured data (BIOS/lambda shard).
+
+    Per-batch random draw: with probability mix_ratio, draw from
+    structured data; otherwise draw from prose. This gives the kernel
+    dispatch structured targets (math, lambda, clojure) to latch onto
+    while the bulk prose training drives overall LM quality.
+
+    The structured shard is smaller and wraps around (repeats).
+    """
+
+    def __init__(
+        self,
+        prose_loader: ShardedDataLoader,
+        structured_path: str | Path,
+        mix_ratio: float = 0.1,
+        seq_len: int = 4096,
+        batch_size: int = 2,
+        seed: int = 42,
+    ):
+        self.prose = prose_loader
+        self.mix_ratio = mix_ratio
+        self.seq_len = seq_len
+        self.batch_size = batch_size
+        self.rng = np.random.RandomState(seed)
+
+        # Load structured shard
+        structured_path = Path(structured_path)
+        assert structured_path.exists(), f"Structured shard not found: {structured_path}"
+        self.structured_data = np.load(str(structured_path), mmap_mode="r").astype(np.int64)
+        self.structured_pos = 0
+
+    def _next_structured(self) -> tuple[np.ndarray, np.ndarray]:
+        """Draw a batch from the structured shard, wrapping if needed."""
+        B, T = self.batch_size, self.seq_len
+        needed = B * (T + 1)
+
+        if self.structured_pos + needed > len(self.structured_data):
+            self.structured_pos = 0  # wrap around
+
+        buf = self.structured_data[self.structured_pos : self.structured_pos + needed]
+        self.structured_pos += needed
+
+        buf = np.array(buf).reshape(B, T + 1)
+        input_ids = buf[:, :T].astype(np.int32)
+        targets = buf[:, 1 : T + 1].astype(np.int32)
+        return input_ids, targets
+
+    def next_batch(self) -> tuple[np.ndarray, np.ndarray]:
+        """Returns (input_ids, targets). Randomly picks prose or structured."""
+        if self.rng.random() < self.mix_ratio:
+            return self._next_structured()
+        else:
+            return self.prose.next_batch()
+
+    def save_state(self) -> dict:
+        """Save both loader positions for checkpoint resume."""
+        return {
+            **self.prose.save_state(),
+            "structured_pos": self.structured_pos,
+        }
+
+    def load_state(self, state: dict) -> None:
+        """Restore both loader positions from checkpoint."""
+        self.prose.load_state(state)
+        self.structured_pos = state.get("structured_pos", 0)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self) -> tuple[np.ndarray, np.ndarray]:
+        return self.next_batch()
+
+
 # ══════════════════════════════════════════════════════════════════
 # Self-test
 # ══════════════════════════════════════════════════════════════════
