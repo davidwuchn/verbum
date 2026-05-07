@@ -56,7 +56,7 @@ class V10Config:
 
     # ── Evolution ──
     gen_interval: int = 50
-    base_pct: float = 0.0005       # ~65K flips per generation (was 0.005 = 656K, too disruptive)
+    base_pct: float = 0.0002       # ~26K flips per generation (was 0.0005 = 66K, collapsed at step 750)
     sign_flip_rate: float = 0.2
     guided_fraction: float = 0.7
     mutation_adam_decay: float = 0.1  # decay Adam m/v after accepted mutation (0=reset, 1=no decay)

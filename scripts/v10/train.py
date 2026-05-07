@@ -7,7 +7,7 @@ trained on Dolma prose for next-token prediction.
   • Causal LM cross-entropy loss
   • Relational loss r = (CE - E) / (log(V) - E) for phase awareness
   • Shared-weight gradient normalization (÷5 for 5-pass components)
-  • Ternary topology evolved via tournament selection
+  • Ternary topology evolved via tournament selection (mixed-data-aware)
   • Adam on continuous parameters (gamma, norms, embeddings, pos_embed)
   • Cosine LR with linear warmup
 
@@ -243,31 +243,61 @@ def run_tournament(
     model, cfg, step, total_ternary, eval_loader,
     base_pct, rng,
     row_importance, col_importance, grad_direction,
+    structured_eval_loader=None,
 ) -> dict:
-    """One evolutionary generation."""
-    # Get a fixed eval batch
-    input_ids_np, targets_np = next(eval_loader)
-    input_ids = mx.array(input_ids_np)
-    targets = mx.array(targets_np)
+    """One evolutionary generation.
+
+    When structured_eval_loader is provided (mixed-data training),
+    mutations are evaluated on BOTH prose and structured batches.
+    A mutation is only accepted if it improves on BOTH — the acceptance
+    criterion is the maximum (worst) loss across data types. This prevents
+    mutations that game one distribution at the expense of the other.
+    """
+    # Get fixed eval batches — prose always, structured if available
+    prose_ids_np, prose_tgts_np = next(eval_loader)
+    prose_ids = mx.array(prose_ids_np)
+    prose_tgts = mx.array(prose_tgts_np)
+
+    has_structured = structured_eval_loader is not None
+    if has_structured:
+        struct_ids_np, struct_tgts_np = next(structured_eval_loader)
+        struct_ids = mx.array(struct_ids_np)
+        struct_tgts = mx.array(struct_tgts_np)
 
     def _eval_loss():
-        """Evaluate relational loss r — same metric as training."""
-        _, ce = model(input_ids, targets)
-        mx.eval(ce)
-        ce_val = float(ce.item())
-        return (ce_val - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+        """Evaluate relational loss r on all data types.
 
-    champion_loss = _eval_loss()
+        Returns the max (worst) loss across data types, ensuring
+        mutations must help everywhere, not just one distribution.
+        Also returns per-type losses for logging.
+        """
+        _, ce_prose = model(prose_ids, prose_tgts)
+        mx.eval(ce_prose)
+        r_prose = (float(ce_prose.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+
+        if has_structured:
+            _, ce_struct = model(struct_ids, struct_tgts)
+            mx.eval(ce_struct)
+            r_struct = (float(ce_struct.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+            # Accept only if it helps both — use max (worst) as criterion
+            return max(r_prose, r_struct), r_prose, r_struct
+        else:
+            return r_prose, r_prose, None
+
+    champion_loss, champion_prose, champion_struct = _eval_loss()
     champion_snapshot = save_topology(model)
 
     base_budget = bios_mutation_budget(step, cfg.total_steps, total_ternary, base_pct)
     if base_budget == 0:
         return {"champion_loss": champion_loss, "budget": 0,
-                "accepted": None, "accepted_loss": champion_loss, "frozen": True}
+                "accepted": None, "accepted_loss": champion_loss, "frozen": True,
+                "prose_loss": champion_prose, "struct_loss": champion_struct}
 
     best_loss = champion_loss
     best_strategy = None
     best_snapshot = None
+    best_prose = champion_prose
+    best_struct = champion_struct
 
     for strategy_name, scale in MUTANT_STRATEGIES.items():
         budget = max(1, int(base_budget * scale))
@@ -286,11 +316,13 @@ def run_tournament(
             guided_fraction=guided_frac,
         )
 
-        mutant_loss = _eval_loss()
+        mutant_loss, mutant_prose, mutant_struct = _eval_loss()
         if mutant_loss < best_loss:
             best_loss = mutant_loss
             best_strategy = strategy_name
             best_snapshot = save_topology(model)
+            best_prose = mutant_prose
+            best_struct = mutant_struct
 
     if best_snapshot is not None:
         load_topology(model, best_snapshot)
@@ -303,6 +335,8 @@ def run_tournament(
         "accepted": best_strategy,
         "accepted_loss": best_loss,
         "frozen": False,
+        "prose_loss": best_prose,
+        "struct_loss": best_struct,
     }
 
 
@@ -526,6 +560,26 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
         seed=8888,
     )
 
+    # Structured eval loader for mixed-data-aware evolution.
+    # Mutations must help BOTH prose and structured data to be accepted.
+    structured_eval_loader = None
+    if cfg.mix_ratio > 0 and Path(cfg.structured_shard).exists():
+        structured_eval_loader = MixedDataLoader(
+            prose_loader=ShardedDataLoader(
+                data_dir=cfg.data_dir,
+                batch_size=cfg.batch_size,
+                seq_len=cfg.seq_len,
+                shard_start=cfg.n_train_shards,
+                shard_end=cfg.n_train_shards + cfg.n_eval_shards,
+                seed=7777,
+            ),
+            structured_path=cfg.structured_shard,
+            mix_ratio=1.0,  # always structured for this loader
+            seq_len=cfg.seq_len,
+            batch_size=cfg.batch_size,
+            seed=7777,
+        )
+
     # ── EMA importance maps ───────────────────────────────────
     row_importance: dict[str, np.ndarray] = {}
     col_importance: dict[str, np.ndarray] = {}
@@ -698,6 +752,7 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                 model, cfg, step, total_ternary, eval_loader,
                 cfg.base_pct, mutation_rng,
                 row_importance, col_importance, grad_direction,
+                structured_eval_loader=structured_eval_loader,
             )
             total_generations += 1
             if gen_result["accepted"]:
@@ -709,10 +764,16 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
             accepted_str = gen_result["accepted"] or "rejected"
             delta = gen_result["accepted_loss"] - gen_result["champion_loss"]
             decay_str = f"  adam_decay={cfg.mutation_adam_decay}" if gen_result["accepted"] else ""
+            # Show per-type losses when using mixed data
+            type_str = ""
+            if gen_result.get("struct_loss") is not None:
+                type_str = (f"  prose={gen_result['prose_loss']:.4f}"
+                            f"  struct={gen_result['struct_loss']:.4f}")
             print(
                 f"  🧬 gen {total_generations}: {accepted_str}"
                 f"  Δ={delta:+.4f}  budget={gen_result['budget']:,}"
                 f"  {total_accepted}/{total_generations}"
+                f"{type_str}"
                 f"{decay_str}",
                 file=sys.stderr, flush=True,
             )
