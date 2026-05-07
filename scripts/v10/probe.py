@@ -68,7 +68,7 @@ INV_PHI = 1 / PHI
 
 PASS_NAMES = ("L0_asc", "L1_asc", "L2_apex", "L1_desc", "L0_desc")
 PHASE_NAMES_ASC = ("prep", "conv", "cons")
-PHASE_NAMES_DESC = ("disp", "conv", "intg")
+PHASE_NAMES_DESC = ("disp", "intg", "conv")
 PHASE_NAMES = ("prep", "conv", "cons")  # backward compat for evolution table
 
 # Kernel op names (from kernel.py) for dispatch weight display

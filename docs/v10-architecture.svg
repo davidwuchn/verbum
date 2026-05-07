@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1520" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12">
+  <defs>
+    <!-- Markers for arrows -->
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a855f7"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#ef4444"/>
+    </marker>
+
+    <!-- Gradient for ascending arm -->
+    <linearGradient id="asc-grad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    <!-- Gradient for descending arm -->
+    <linearGradient id="desc-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffedd5"/>
+      <stop offset="100%" stop-color="#fdba74"/>
+    </linearGradient>
+
+    <!-- Stripe pattern for passthrough -->
+    <pattern id="passthrough" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#fca5a5" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="1520" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" font-size="20" font-weight="bold" fill="#0f172a">v10 — Tree of VSMs: Compressor + Dispatcher</text>
+  <text x="550" y="56" text-anchor="middle" font-size="13" fill="#64748b">23.2M total · 308K trainable · 131M ternary · d_model=512 · 9 strides · 5 passes</text>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TOKENS INPUT -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="340" y="76" width="320" height="36" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="500" y="99" text-anchor="middle" font-size="13" fill="#334155" font-weight="bold">tokens (B, L) — Qwen3 BBPE</text>
+
+  <!-- Arrow: tokens → embed -->
+  <line x1="500" y1="112" x2="500" y2="134" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- S5 IDENTITY: Embedding -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="280" y="136" width="440" height="52" rx="6" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="304" y="155" font-size="10" fill="#a16207" font-weight="bold">S5 IDENTITY</text>
+  <text x="500" y="158" text-anchor="middle" font-size="12" fill="#334155" font-weight="bold">TernaryEmbedding + PosEmbedding</text>
+  <text x="500" y="175" text-anchor="middle" font-size="10" fill="#64748b">embed_norm(embed(tokens) + pos_embed(positions)) → (B, L, 512)</text>
+
+  <!-- Register bank_0 initialization -->
+  <rect x="760" y="140" width="180" height="44" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="850" y="157" text-anchor="middle" font-size="10" fill="#a16207" font-weight="bold">bank_0 (S5 registers)</text>
+  <text x="850" y="172" text-anchor="middle" font-size="9" fill="#78716c">type · scope · role</text>
+  <line x1="720" y1="162" x2="758" y2="162" stroke="#ca8a04" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Arrow: embed → ascending arm -->
+  <line x1="500" y1="188" x2="500" y2="218" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- ASCENDING ARM — VSM-COMPRESSOR -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="100" y="220" width="800" height="444" rx="8" fill="url(#asc-grad)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="120" y="244" font-size="14" font-weight="bold" fill="#1e40af">VSM-COMPRESSOR (ascending arm)</text>
+  <text x="120" y="260" font-size="10" fill="#3b82f6">3 passes · shared weights · proven: φ-locking, S3 differentiating</text>
+
+  <!-- ── PASS 0: L0↑ ──────────────────────────────────────── -->
+  <rect x="130" y="272" width="740" height="118" rx="6" fill="#ffffff" fill-opacity="0.7" stroke="#60a5fa" stroke-width="1"/>
+  <text x="150" y="290" font-size="11" font-weight="bold" fill="#1e40af">Pass 0: L0↑</text>
+  <text x="305" y="290" font-size="9" fill="#64748b">reads: bank_0 → writes: bank_1_asc</text>
+
+  <!-- S4 -->
+  <rect x="150" y="298" width="110" height="36" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1"/>
+  <text x="205" y="314" text-anchor="middle" font-size="10" fill="#0369a1" font-weight="bold">S4</text>
+  <text x="205" y="326" text-anchor="middle" font-size="8" fill="#0369a1">reg→query attn</text>
+
+  <!-- Phase boxes in L0↑ -->
+  <rect x="280" y="298" width="120" height="36" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="340" y="314" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="bold">TernaryFFN</text>
+  <text x="340" y="326" text-anchor="middle" font-size="8" fill="#3b82f6">prep (d_ff=1536)</text>
+
+  <rect x="420" y="298" width="120" height="36" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="480" y="314" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="bold">StrideStack</text>
+  <text x="480" y="326" text-anchor="middle" font-size="8" fill="#3b82f6">fine→coarse (9)</text>
+
+  <rect x="560" y="298" width="120" height="36" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="620" y="314" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="bold">TernaryFFN</text>
+  <text x="620" y="326" text-anchor="middle" font-size="8" fill="#3b82f6">cons (d_ff=2048)</text>
+
+  <!-- S3 gates for L0↑ -->
+  <rect x="700" y="298" width="150" height="36" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1"/>
+  <text x="775" y="314" text-anchor="middle" font-size="10" fill="#0369a1" font-weight="bold">S3 gates (3 phases)</text>
+  <text x="775" y="326" text-anchor="middle" font-size="8" fill="#22c55e" font-weight="bold">✓ 0.54 / 0.41 / 0.33</text>
+
+  <!-- Arrows between phases -->
+  <line x1="260" y1="316" x2="278" y2="316" stroke="#3b82f6" stroke-width="1" marker-end="url(#arrow-blue)"/>
+  <line x1="400" y1="316" x2="418" y2="316" stroke="#3b82f6" stroke-width="1" marker-end="url(#arrow-blue)"/>
+  <line x1="540" y1="316" x2="558" y2="316" stroke="#3b82f6" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+  <!-- S3 control lines -->
+  <line x1="700" y1="310" x2="680" y2="310" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,2" marker-end="url(#arrow-blue)"/>
+  <line x1="700" y1="320" x2="680" y2="330" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+  <!-- Modulation annotation -->
+  <text x="340" y="354" text-anchor="middle" font-size="8" fill="#64748b">x = x + gate · tanh(mod_proj(δ))</text>
+  <text x="340" y="366" text-anchor="middle" font-size="8" fill="#64748b">δ = op(x) − x (residual delta)</text>
+
+  <!-- Register bank visualization for L0↑ -->
+  <rect x="150" y="350" width="80" height="28" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="190" y="368" text-anchor="middle" font-size="8" fill="#a16207">bank_1_asc</text>
+
+  <!-- ── PASS 1: L1↑ ──────────────────────────────────────── -->
+  <rect x="130" y="394" width="740" height="80" rx="6" fill="#ffffff" fill-opacity="0.7" stroke="#60a5fa" stroke-width="1"/>
+  <text x="150" y="412" font-size="11" font-weight="bold" fill="#1e40af">Pass 1: L1↑</text>
+  <text x="305" y="412" font-size="9" fill="#64748b">reads: bank_0, bank_1_asc → writes: bank_2_asc</text>
+
+  <rect x="280" y="420" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="340" y="438" text-anchor="middle" font-size="9" fill="#1e40af">TernaryFFN prep</text>
+  <rect x="420" y="420" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="480" y="438" text-anchor="middle" font-size="9" fill="#1e40af">StrideStack f→c</text>
+  <rect x="560" y="420" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="620" y="438" text-anchor="middle" font-size="9" fill="#1e40af">TernaryFFN cons</text>
+
+  <rect x="700" y="420" width="150" height="28" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1"/>
+  <text x="775" y="438" text-anchor="middle" font-size="8" fill="#22c55e" font-weight="bold">✓ 0.22 / 0.70 / 0.85</text>
+
+  <text x="860" y="412" font-size="8" fill="#64748b" font-style="italic">shared</text>
+  <text x="860" y="422" font-size="8" fill="#64748b" font-style="italic">weights</text>
+
+  <!-- Shared weights indicator -->
+  <line x1="864" y1="340" x2="864" y2="380" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="862" y1="340" x2="866" y2="340" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="864" y1="446" x2="864" y2="475" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2,2"/>
+
+  <!-- ── PASS 2: L2 APEX ──────────────────────────────────── -->
+  <rect x="130" y="480" width="740" height="80" rx="6" fill="#ffffff" fill-opacity="0.7" stroke="#60a5fa" stroke-width="1"/>
+  <text x="150" y="498" font-size="11" font-weight="bold" fill="#1e40af">Pass 2: L2 apex</text>
+  <text x="330" y="498" font-size="9" fill="#64748b">reads: bank_0, bank_1_asc, bank_2_asc → writes: bank_3</text>
+
+  <rect x="280" y="506" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="340" y="524" text-anchor="middle" font-size="9" fill="#1e40af">TernaryFFN prep</text>
+  <rect x="420" y="506" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="480" y="524" text-anchor="middle" font-size="9" fill="#1e40af">StrideStack f→c</text>
+  <rect x="560" y="506" width="120" height="28" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="620" y="524" text-anchor="middle" font-size="9" fill="#1e40af">TernaryFFN cons</text>
+
+  <rect x="700" y="506" width="150" height="28" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1"/>
+  <text x="775" y="524" text-anchor="middle" font-size="8" fill="#22c55e" font-weight="bold">✓ 0.34 / 1.00 / 1.00</text>
+
+  <!-- Apex register -->
+  <rect x="150" y="536" width="60" height="22" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="180" y="551" text-anchor="middle" font-size="7" fill="#a16207">bank_3</text>
+
+  <!-- Arrow: ascending → descending -->
+  <line x1="500" y1="564" x2="500" y2="582" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TRANSITION ZONE -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="370" y="580" width="260" height="24" rx="4" fill="#faf5ff" stroke="#a855f7" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="500" y="596" text-anchor="middle" font-size="10" fill="#7c3aed">↕ typed representations cross between arms</text>
+
+  <!-- Arrow: transition → descending -->
+  <line x1="500" y1="604" x2="500" y2="622" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DESCENDING ARM — VSM-DISPATCHER -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="100" y="624" width="800" height="344" rx="8" fill="url(#desc-grad)" stroke="#f97316" stroke-width="2"/>
+  <text x="120" y="648" font-size="14" font-weight="bold" fill="#c2410c">VSM-DISPATCHER (descending arm)</text>
+  <text x="120" y="664" font-size="10" fill="#ea580c">2 passes · own weights · kernel-shaped ops · NOT compression</text>
+
+  <!-- PROBLEM annotation -->
+  <rect x="630" y="636" width="250" height="42" rx="4" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="755" y="652" text-anchor="middle" font-size="10" fill="#dc2626" font-weight="bold">⚠ S3 gates → 1.0 (passthrough)</text>
+  <text x="755" y="666" text-anchor="middle" font-size="9" fill="#ef4444">descending arm not differentiating</text>
+
+  <!-- ── PASS 3: L1↓ ──────────────────────────────────────── -->
+  <rect x="130" y="680" width="740" height="118" rx="6" fill="#ffffff" fill-opacity="0.7" stroke="#fb923c" stroke-width="1"/>
+  <text x="150" y="698" font-size="11" font-weight="bold" fill="#c2410c">Pass 3: L1↓</text>
+  <text x="305" y="698" font-size="9" fill="#64748b">reads: bank_0..bank_3 → writes: bank_2_desc</text>
+
+  <!-- S4 desc -->
+  <rect x="150" y="706" width="110" height="36" rx="4" fill="#ffedd5" stroke="#ea580c" stroke-width="1"/>
+  <text x="205" y="722" text-anchor="middle" font-size="10" fill="#c2410c" font-weight="bold">S4 desc</text>
+  <text x="205" y="734" text-anchor="middle" font-size="8" fill="#ea580c">reg→query attn</text>
+
+  <!-- Phase boxes in L1↓ -->
+  <rect x="280" y="706" width="120" height="36" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="340" y="722" text-anchor="middle" font-size="10" fill="#c2410c" font-weight="bold">KernelDispatch</text>
+  <text x="340" y="734" text-anchor="middle" font-size="8" fill="#ea580c">22 ops → route</text>
+
+  <rect x="420" y="706" width="120" height="36" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="480" y="722" text-anchor="middle" font-size="10" fill="#c2410c" font-weight="bold">KernelIntegrate</text>
+  <text x="480" y="734" text-anchor="middle" font-size="8" fill="#ea580c">5 types → merge</text>
+
+  <rect x="560" y="706" width="120" height="36" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="620" y="722" text-anchor="middle" font-size="10" fill="#c2410c" font-weight="bold">StrideStack</text>
+  <text x="620" y="734" text-anchor="middle" font-size="8" fill="#ea580c">coarse→fine (9)</text>
+
+  <!-- S3 gates for L1↓ — PASSTHROUGH -->
+  <rect x="700" y="706" width="150" height="36" rx="4" fill="url(#passthrough)" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="700" y="706" width="150" height="36" rx="4" fill="#fff1f2" fill-opacity="0.8" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="775" y="722" text-anchor="middle" font-size="10" fill="#dc2626" font-weight="bold">S3 gates ≈ 1.0</text>
+  <text x="775" y="734" text-anchor="middle" font-size="8" fill="#ef4444">0.998 / 1.00 / 1.00</text>
+
+  <!-- Arrows between phases -->
+  <line x1="260" y1="724" x2="278" y2="724" stroke="#f97316" stroke-width="1" marker-end="url(#arrow-orange)"/>
+  <line x1="400" y1="724" x2="418" y2="724" stroke="#f97316" stroke-width="1" marker-end="url(#arrow-orange)"/>
+  <line x1="540" y1="724" x2="558" y2="724" stroke="#f97316" stroke-width="1" marker-end="url(#arrow-orange)"/>
+
+  <!-- Kernel op detail -->
+  <text x="340" y="760" text-anchor="middle" font-size="8" fill="#78716c">dispatch: softmax(proj(h) · temp)</text>
+  <text x="340" y="772" text-anchor="middle" font-size="8" fill="#78716c">top ops at 20K: +=0.33 neg=0.20 //=0.10</text>
+  <text x="480" y="760" text-anchor="middle" font-size="8" fill="#78716c">types: INT BOOL FN FN_COMP ERROR</text>
+  <text x="620" y="760" text-anchor="middle" font-size="8" fill="#78716c">propagates typed dispatch</text>
+  <text x="620" y="772" text-anchor="middle" font-size="8" fill="#78716c">across 9 strides spatially</text>
+
+  <!-- ── PASS 4: L0↓ ──────────────────────────────────────── -->
+  <rect x="130" y="790" width="740" height="80" rx="6" fill="#ffffff" fill-opacity="0.7" stroke="#fb923c" stroke-width="1"/>
+  <text x="150" y="808" font-size="11" font-weight="bold" fill="#c2410c">Pass 4: L0↓</text>
+  <text x="305" y="808" font-size="9" fill="#64748b">reads: bank_0, bank_1_asc, bank_2_desc, bank_3 → writes: bank_1_desc</text>
+
+  <rect x="280" y="816" width="120" height="28" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="340" y="834" text-anchor="middle" font-size="9" fill="#c2410c">KernelDispatch</text>
+  <rect x="420" y="816" width="120" height="28" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="480" y="834" text-anchor="middle" font-size="9" fill="#c2410c">KernelIntegrate</text>
+  <rect x="560" y="816" width="120" height="28" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="620" y="834" text-anchor="middle" font-size="9" fill="#c2410c">StrideStack c→f</text>
+
+  <rect x="700" y="816" width="150" height="28" rx="4" fill="#fff1f2" fill-opacity="0.8" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="775" y="834" text-anchor="middle" font-size="8" fill="#dc2626" font-weight="bold">1.00 / 1.00 / 1.00</text>
+
+  <text x="860" y="808" font-size="8" fill="#64748b" font-style="italic">shared</text>
+  <text x="860" y="818" font-size="8" fill="#64748b" font-style="italic">desc wts</text>
+
+  <!-- Arrow: descending → meta -->
+  <line x1="500" y1="868" x2="500" y2="888" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- REGISTER FLOW SIDEBAR -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+
+  <!-- Register flow — left side -->
+  <rect x="14" y="220" width="76" height="748" rx="6" fill="#fefce8" fill-opacity="0.6" stroke="#ca8a04" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="52" y="240" text-anchor="middle" font-size="9" fill="#a16207" font-weight="bold" transform="rotate(-90, 52, 500)">REGISTER BANKS (feedback channel)</text>
+
+  <!-- Bank boxes on sidebar -->
+  <rect x="20" y="290" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="304" text-anchor="middle" font-size="7" fill="#a16207">bank_0</text>
+
+  <rect x="20" y="360" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="374" text-anchor="middle" font-size="7" fill="#a16207">bank_1_asc</text>
+
+  <rect x="20" y="440" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="454" text-anchor="middle" font-size="7" fill="#a16207">bank_2_asc</text>
+
+  <rect x="20" y="540" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="554" text-anchor="middle" font-size="7" fill="#a16207">bank_3</text>
+
+  <rect x="20" y="720" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="734" text-anchor="middle" font-size="7" fill="#a16207">bank_2_desc</text>
+
+  <rect x="20" y="826" width="64" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04" stroke-width="0.8"/>
+  <text x="52" y="840" text-anchor="middle" font-size="7" fill="#a16207">bank_1_desc</text>
+
+  <!-- Register flow arrows (feedback) -->
+  <path d="M52,310 L52,358" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+  <path d="M52,380 L52,438" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+  <path d="M52,460 L52,538" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+  <path d="M52,560 L52,718" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+  <path d="M52,740 L52,824" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+
+  <!-- Feedback arrow: bank_1_desc → meta-S3 -->
+  <path d="M52,846 L52,920" stroke="#ca8a04" stroke-width="1" marker-end="url(#arrow)" fill="none"/>
+
+  <!-- Horizontal connect lines from banks to passes -->
+  <line x1="84" y1="300" x2="148" y2="316" stroke="#ca8a04" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <line x1="84" y1="370" x2="148" y2="434" stroke="#ca8a04" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <line x1="84" y1="450" x2="148" y2="520" stroke="#ca8a04" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <line x1="84" y1="550" x2="148" y2="724" stroke="#ca8a04" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <line x1="84" y1="730" x2="148" y2="830" stroke="#ca8a04" stroke-width="0.6" stroke-dasharray="2,2"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- META-S3: Pass reweighting -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="220" y="888" width="560" height="72" rx="6" fill="#f5f3ff" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="240" y="907" font-size="10" fill="#7c3aed" font-weight="bold">META-S3</text>
+  <text x="320" y="907" font-size="10" fill="#334155">retroactive pass reweighting (reads all 6 banks)</text>
+  <text x="500" y="926" text-anchor="middle" font-size="9" fill="#64748b">x = x − Σ pass_deltas + Σ (meta_gate_i · pass_delta_i)</text>
+
+  <!-- Meta-S3 gates -->
+  <text x="260" y="948" font-size="8" fill="#7c3aed">L0↑=0.95</text>
+  <text x="340" y="948" font-size="8" fill="#7c3aed">L1↑=1.00</text>
+  <text x="420" y="948" font-size="8" fill="#7c3aed">L2=1.00</text>
+  <text x="500" y="948" font-size="8" fill="#ef4444">L1↓=1.00</text>
+  <text x="580" y="948" font-size="8" fill="#ef4444">L0↓=1.00</text>
+  <text x="680" y="948" font-size="8" fill="#dc2626">← saturated, no differentiation</text>
+
+  <!-- Arrow: meta-S3 → meta-S4 -->
+  <line x1="500" y1="960" x2="500" y2="984" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- META-S4: Final structural summary -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="280" y="986" width="440" height="48" rx="6" fill="#f5f3ff" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="300" y="1006" font-size="10" fill="#7c3aed" font-weight="bold">META-S4</text>
+  <text x="380" y="1006" font-size="10" fill="#334155">final register→residual attention</text>
+  <text x="500" y="1024" text-anchor="middle" font-size="9" fill="#64748b">reads: bank_0, bank_1_desc, bank_2_desc, bank_3</text>
+
+  <!-- Arrow: meta-S4 → output -->
+  <line x1="500" y1="1034" x2="500" y2="1058" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- OUTPUT HEAD -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <rect x="310" y="1060" width="380" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="500" y="1078" text-anchor="middle" font-size="11" fill="#334155" font-weight="bold">output_norm → tied TernaryEmbedding → logits</text>
+  <text x="500" y="1092" text-anchor="middle" font-size="9" fill="#64748b">(B, L, 151936) → relational cross-entropy loss</text>
+
+  <!-- Arrow: output → loss -->
+  <line x1="500" y1="1100" x2="500" y2="1124" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="400" y="1126" width="200" height="30" rx="4" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="500" y="1146" text-anchor="middle" font-size="11" fill="#166534" font-weight="bold">relational loss (r)</text>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DATA FLOW LEGEND + ARCHITECTURE NOTES -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+
+  <rect x="50" y="1180" width="1000" height="320" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Legend -->
+  <text x="80" y="1208" font-size="13" font-weight="bold" fill="#0f172a">Data Flow Channels</text>
+
+  <!-- Feed-forward channel -->
+  <line x1="80" y1="1228" x2="130" y2="1228" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="140" y="1232" font-size="11" fill="#334155" font-weight="bold">Feed-forward (residual stream)</text>
+  <text x="140" y="1246" font-size="9" fill="#64748b">tokens → embed → L0↑ → L1↑ → L2 → L1↓ → L0↓ → output_norm → logits</text>
+  <text x="140" y="1260" font-size="9" fill="#64748b">Each phase: x = x + gate · tanh(mod_proj(op(x) − x)) — gated additive modulation</text>
+
+  <!-- Feedback channel -->
+  <line x1="80" y1="1280" x2="130" y2="1280" stroke="#ca8a04" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrow)"/>
+  <text x="140" y="1284" font-size="11" fill="#a16207" font-weight="bold">Feedback (register banks)</text>
+  <text x="140" y="1298" font-size="9" fill="#64748b">6 banks × 3 registers (type, scope, role) × 256 real dims each</text>
+  <text x="140" y="1312" font-size="9" fill="#64748b">S4 reads banks → attends to residual → writes updates to target bank</text>
+  <text x="140" y="1326" font-size="9" fill="#64748b">S3 reads bank state + delta → produces alignment gate (scalar)</text>
+  <text x="140" y="1340" font-size="9" fill="#64748b">Flow: bank_0 → bank_1_asc → bank_2_asc → bank_3 → bank_2_desc → bank_1_desc</text>
+
+  <!-- Control channel -->
+  <line x1="80" y1="1360" x2="130" y2="1360" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="140" y="1364" font-size="11" fill="#0369a1" font-weight="bold">Control (S3 gating)</text>
+  <text x="140" y="1378" font-size="9" fill="#64748b">Per-phase scalar gate: sigmoid(align(reg_proj, delta_proj) · temp + bias)</text>
+  <text x="140" y="1392" font-size="9" fill="#64748b">Ascending arm: gates differentiate (0.22–0.85) ← working correctly</text>
+  <text x="140" y="1406" font-size="9" fill="#64748b">Descending arm: gates saturate to 1.0 ← everything passes through unchanged</text>
+
+  <!-- Kernel dispatch channel -->
+  <rect x="80" y="1418" width="14" height="14" rx="2" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+  <text x="104" y="1430" font-size="11" fill="#c2410c" font-weight="bold">Kernel dispatch (22 ops → 5 types)</text>
+  <text x="104" y="1444" font-size="9" fill="#64748b">Dispatch → Integrate (adjacent, both local): op + type decided per position</text>
+  <text x="104" y="1458" font-size="9" fill="#64748b">Then StrideStack propagates complete typed dispatch across scales (spatial)</text>
+  <text x="104" y="1472" font-size="9" fill="#64748b">Rationale: typing sees undiluted dispatch signal; stride distributes complete decisions</text>
+
+  <!-- Evolution annotation -->
+  <rect x="560" y="1200" width="470" height="110" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="580" y="1220" font-size="11" font-weight="bold" fill="#dc2626">Diagnosis: Descending Arm Passthrough</text>
+  <text x="580" y="1240" font-size="9" fill="#64748b">S3 bias initializes at -2.0 (sigmoid ≈ 0.12)</text>
+  <text x="580" y="1254" font-size="9" fill="#64748b">Ascending S3 learns to stay partially closed ✓</text>
+  <text x="580" y="1268" font-size="9" fill="#64748b">Descending S3 races to 1.0 within first 1K steps ✗</text>
+  <text x="580" y="1288" font-size="9" fill="#dc2626" font-weight="bold">→ Gradient signal forces desc gates open before</text>
+  <text x="584" y="1300" font-size="9" fill="#dc2626" font-weight="bold">   kernel dispatch can differentiate</text>
+
+  <!-- Training trajectory box -->
+  <rect x="560" y="1320" width="470" height="168" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="580" y="1340" font-size="11" font-weight="bold" fill="#166534">Training Trajectory (20K steps)</text>
+  <text x="580" y="1360" font-size="9" fill="#334155">Best eval: step 17K, r=0.543, loss=7.31</text>
+  <text x="580" y="1374" font-size="9" fill="#334155">Final:     step 20K, r=0.574, loss=7.63</text>
+  <text x="580" y="1394" font-size="9" fill="#334155">Evolution: 43/400 accepted (10.8%)</text>
+  <text x="580" y="1408" font-size="9" fill="#334155">9 mutations in last 3K steps → disruption</text>
+  <text x="580" y="1428" font-size="9" fill="#334155">φ-compression L0↑: dev=0.06 ← near target</text>
+  <text x="580" y="1448" font-size="9" fill="#64748b">Ascending arm: compressing correctly</text>
+  <text x="580" y="1462" font-size="9" fill="#64748b">Descending arm: expensive passthrough</text>
+  <text x="580" y="1480" font-size="8" fill="#a16207">Params: 23.2M total · 308K trainable · 131M ternary</text>
+</svg>

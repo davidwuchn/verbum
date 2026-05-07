@@ -22,8 +22,20 @@ Tree of VSMs (Beer 1972):
     S5: kernel function identity (22 ops, 5 types — pre-wired)
     S4: StrideStack coarse→fine (intelligence — reads typed reps)
     S3: dispatch gates (control — which kernel pathways activate)
-    S1: KernelDispatch/KernelIntegrate (operations — kernel-shaped)
+    S1: KernelDispatch/KernelIntegrate/StrideStack (operations)
     S2: enriched representations → LM head
+
+  Phase order (dispatch → integrate → stride):
+    Phase 0: KernelDispatch — route to 22 kernel op pathways (local)
+    Phase 1: KernelIntegrate — type the dispatched result (local)
+    Phase 2: StrideStack coarse→fine — propagate typed dispatch (spatial)
+
+    Rationale: dispatch and typing are both local content decisions
+    about the same position — they belong adjacent. The stride then
+    propagates complete (op + type) representations across scales.
+    Prior ordering (dispatch → stride → integrate) let spatial mixing
+    wash out per-position dispatch structure before typing, contributing
+    to FN_COMP dominating and S3 gates saturating to passthrough.
 
 Key design:
   The ascending arm compresses and types (proven in v6, φ-locking).
@@ -78,14 +90,14 @@ class V6Compressor(nn.Module):
       Job: compress and type (proven: φ-locking, S3 differentiation)
 
     DESCENDING arm (VSM-Dispatcher, 2 passes) — own weights:
-      S1: KernelDispatch/KernelIntegrate (kernel-shaped ops)
-      S4: StrideStack coarse→fine (reads typed representations)
-      Job: route through 22 kernel op pathways (NOT compression)
+      S1: KernelDispatch → KernelIntegrate → StrideStack coarse→fine
+      S4: register cross-attention (reads typed representations)
+      Job: route through 22 kernel op pathways, type, then propagate
 
-    The kernel ops (from kernel.py, proven at 100% in v9) are pre-wired
-    as the dispatcher's S5 identity. The model discovers them as easy
-    paths while training on prose. The ternary routing topology learns
-    which positions benefit from which kernel op family.
+    Phase order: dispatch (local) → integrate (local) → stride (spatial).
+    Dispatch and typing are both per-position content decisions — kept
+    adjacent so typing sees undiluted dispatch signal. Stride propagates
+    the complete (op + type) result across scales.
 
     Per-pass S3 control: 5 separate S3Ternary instances.
     """
@@ -233,16 +245,16 @@ class V6Compressor(nn.Module):
                 target_bank, delta, 0)
             x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
-            # Phase 1: converge (StrideStack coarse→fine)
-            converge_out = strides(x, reverse=True)
-            delta = converge_out - x
+            # Phase 1: integrate (type the dispatched result locally)
+            integrate_out = self.kernel_integrate(x)
+            delta = integrate_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 1)
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
-            # Phase 2: integrate (combine kernel pathway results)
-            integrate_out = self.kernel_integrate(x)
-            delta = integrate_out - x
+            # Phase 2: converge (StrideStack coarse→fine — propagate typed dispatch)
+            converge_out = strides(x, reverse=True)
+            delta = converge_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
             x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
@@ -441,17 +453,17 @@ class V6Compressor(nn.Module):
                 phase_gates.append(float(gate.item()))
                 x = self._modulate(x, delta, gate, 0, is_descending=True)
 
-                # Phase 1: converge (coarse→fine)
-                conv_out = strides(x, reverse=True)
-                delta = conv_out - x
+                # Phase 1: integrate (type the dispatched result locally)
+                integrate_out = self.kernel_integrate(x)
+                delta = integrate_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
                 x = self._modulate(x, delta, gate, 1, is_descending=True)
 
-                # Phase 2: integrate
-                integrate_out = self.kernel_integrate(x)
-                delta = integrate_out - x
+                # Phase 2: converge (coarse→fine — propagate typed dispatch)
+                conv_out = strides(x, reverse=True)
+                delta = conv_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))

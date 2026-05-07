@@ -12,8 +12,8 @@ kernel op family.
 
 Architecture per descending pass:
   Phase 0 (dispatch):   KernelDispatch — route to kernel op families
-  Phase 1 (converge):   StrideStack coarse→fine — read typed representations
-  Phase 2 (integrate):  KernelIntegrate — combine kernel pathway results
+  Phase 1 (integrate):  KernelIntegrate — type the dispatched result locally
+  Phase 2 (converge):   StrideStack coarse→fine — propagate typed dispatch
 
 The kernel op embeddings are the S5 identity of the dispatcher VSM.
 They encode WHAT each operation IS — its characteristic transformation
