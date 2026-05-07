@@ -2,118 +2,108 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-06 | Session: 066
+> Last updated: 2026-05-07 | Session: 067
 
 ## Where we are
 
-**v10 rebuilt correctly. Ready to train at scale.**
+**v10 phase reorder + mixed data training launched.**
 
-Session 066 diagnosed the root cause of two failed sessions (064-065):
-the kernel-wired architecture (commit 2b263d6) was overwritten with a
-standard v6 causal LM. 20K steps were wasted training the wrong model.
-The correct architecture has now been restored and improved.
+Session 067 analyzed the completed v10 20K-step training run, diagnosed
+two issues in the descending arm, and applied two architectural changes:
 
-## What was built this session
+1. **Descending phase reorder**: dispatch → integrate → stride (was
+   dispatch → stride → integrate). Typing now sees undiluted dispatch
+   signal before spatial mixing.
+2. **Mixed data training**: 10% structured (BIOS math + lambda + clojure),
+   90% Dolma prose. Gives kernel dispatch 22 ops concrete targets.
 
-### 1. Kernel wired into descending arm
-- `scripts/v10/kernel_dispatch.py` — two new modules:
-  - `KernelDispatch`: routes representations through 22 kernel op pathways.
-    Ternary routing fabric (`dispatch`, `up`, `down`) + real-valued op embeddings
-    (pre-wired S5 identity for each of the 22 kernel ops). Dispatch weights are
-    cached for probing.
-  - `KernelIntegrate`: integrates results with 5-type awareness (INT, BOOL, FN,
-    FN_COMP, ERROR). Type weights cached for probing.
-- `model.py` updated: descending arm's `prep_desc`/`consolidate_desc` (TernaryFFN
-  compression) replaced with `kernel_dispatch`/`kernel_integrate`. Ascending arm
-  unchanged (proven: φ-locking, S3 differentiation).
+A 5K test run is in progress at `checkpoints/v10-mixed`.
 
-### 2. Architecture — Tree of VSMs
-```
-tokens (Qwen3 BBPE) → embed + pos_embed → embed_norm
-                            │
-    VSM-COMPRESSOR (ascending, 3 passes, shared weights)
-    ├── Each pass: S4 → TernaryFFN(prep) → S3 → StrideStack(fine→coarse) → S3 → TernaryFFN(cons) → S3
-    │
-    VSM-DISPATCHER (descending, 2 passes, own weights)
-    ├── Each pass: S4 → KernelDispatch(22 ops) → S3 → StrideStack(coarse→fine) → S3 → KernelIntegrate(5 types) → S3
-    │
-    ├── Meta-S3 (near-closed init, bias=-2.0)
-    ├── Meta-S4 (final structural summary)
-    └── output_norm → tied embedding → logits → relational loss on Dolma
-```
-Params: 23.2M total, 308K trainable, 131M ternary.
+## What was done this session
 
-### 3. Evolution fixed
-- **Budget**: base_pct 0.005→0.0005 (~65K flips, was 656K — too disruptive)
-- **Adam decay**: after accepted mutation, gamma m/v multiplied by 0.1.
-  Old momentum is stale after topology change; soft reset allows fast adaptation
-  without discarding all training history.
+### 1. v10 20K training run analyzed
+- Best eval: step 17K (r=0.543, loss=7.31)
+- Evolution disruption at 18K-20K: 9 mutations in 3K steps, eval regressed
+- **Ascending arm works**: S3 gates differentiate (0.22-0.85), φ-dev=0.06
+- **Descending arm passthrough**: S3 gates at 1.0, FN_COMP dominates at 0.62
+- Kernel dispatch specializes (+=0.33, neg=0.20) but S3 lets everything through
 
-### 4. Probe updated
-- Shows kernel dispatch weights (22 ops, top-K + specialization ratio)
-- Shows kernel type weights (5 types)
-- Already specializing at step 50: max/min=4.93, `not` leads, descending S3
-  gates at ~0.5 (not 1.0 passthrough)
+### 2. Architecture diagram
+- `docs/v10-architecture.svg` — full visual of feed-forward + feedback channels
 
-### 5. Verified end-to-end
-- Train → checkpoint → resume → probe all working
-- 5.3K tok/s, relational loss decreasing, Meta-S3 starts near-closed
+### 3. Phase reorder (commit 103dc7d)
+- Descending phases: dispatch → integrate → stride (was dispatch → stride → integrate)
+- Rationale: dispatch and typing are local per-position decisions — kept adjacent
+  so typing sees undiluted dispatch signal. StrideStack propagates complete
+  (op + type) representations across scales.
+- The prior ordering let spatial mixing wash out dispatch structure before
+  typing, contributing to FN_COMP dominating and S3 → 1.0 passthrough.
+
+### 4. Mixed data (commit 28ee23d)
+- `MixedDataLoader` in data.py: per-batch random draw from prose or structured
+- `pack_structured.py`: tokenizes BIOS + compile examples into .npy shard
+- 60K examples → 1.5M tokens: 35% lambda, 57% s-expr, 8% raw math
+- Exercises all 22 kernel ops: arithmetic, comparison, boolean, lambda
+- `--mix-ratio 0.1` CLI arg for train.py (default 0.0 for backward compat)
 
 ## What to do next
 
-### Train v10 at scale
+### Monitor 5K mixed-data run
 ```bash
-uv run python scripts/v10/train.py --seq-len 4096 --total-steps 20000
+# Check if training is still running
+ls checkpoints/v10-mixed/step_*
+
+# Probe key checkpoints
+uv run python scripts/v10/probe.py checkpoints/v10-mixed/step_001000
+uv run python scripts/v10/probe.py checkpoints/v10-mixed/step_005000
 ```
 
 Key signals to watch:
-- **Ascending arm**: should reproduce prior results (L0↑ → φ, S3 differentiating)
-- **Descending arm S3 gates**: should differentiate (not go to 1.0 passthrough)
-- **Kernel dispatch weights**: do they specialize across training? Which ops activate?
-- **Kernel type weights**: do they differentiate (BOOL for questions, INT for numbers)?
-- **Meta-S3**: does it differentiate pass contributions? (starts at 0.12)
-- **Evolution**: with 65K budget + Adam decay, acceptance rate should be higher than 1%
-- Probe at 1K, 5K, 10K, 15K, 20K
+- **Descending S3 gates**: do they differentiate (< 1.0)?
+- **Kernel dispatch**: does specialization change pattern?
+- **Kernel type weights**: does FN_COMP still dominate, or do types differentiate?
+- **Eval loss**: does it improve faster or slower than prose-only?
 
-### After training — analyze dispatcher behavior
-- Which kernel ops activate for which types of prose?
-- Do ops specialize (comparison ops for comparative language, lambda ops for functions)?
-- Do type weights differentiate by content type?
+### If S3 differentiates → run at 20K
+```bash
+uv run python scripts/v10/train.py \
+    --total-steps 20000 --mix-ratio 0.1 \
+    --checkpoint-dir checkpoints/v10-mixed-20k --seq-len 4096
+```
 
-### When dispatch shows specialization — wire kernel execution
-Connect actual kernel execution: dispatch weights → op selection → kernel_eval →
-result fed back into residual stream. This is the sieve pipeline.
+### If S3 still passthrough → investigate further
+- Try higher mix_ratio (0.2, 0.3)
+- Try curriculum: pure structured first, then mix
+- Consider: does the S3 bias initialization need to be more aggressive?
+- Consider: does the descending S4 need separate learning rate?
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v10/model.py` | Tree of VSMs: VSM-Compressor + VSM-Dispatcher |
+| `scripts/v10/model.py` | Tree of VSMs with reordered descending phases |
 | `scripts/v10/kernel_dispatch.py` | KernelDispatch (22 ops) + KernelIntegrate (5 types) |
-| `scripts/v10/kernel.py` | 22-op exact kernel, pre-wired, proven 100% in v9 |
-| `scripts/v10/attention.py` | StrideStack (9 strides, O(L×W), spiral bias) |
-| `scripts/v10/components.py` | S4, S3, MetaS4, MetaS3 (registers, fixed init) |
-| `scripts/v10/config.py` | V10Config — Qwen3, 9 strides, base_pct=0.0005 |
-| `scripts/v10/data.py` | ShardedDataLoader for Qwen3 Dolma shards |
-| `scripts/v10/train.py` | Relational loss, split grad norm, Adam decay on accept |
-| `scripts/v10/ternary.py` | TernaryLinear, evolution, gradient-informed mutation |
-| `scripts/v10/probe.py` | Diagnostics: φ-compression, S3 gates, kernel dispatch |
+| `scripts/v10/data.py` | ShardedDataLoader + MixedDataLoader |
+| `scripts/v10/train.py` | Training with --mix-ratio support |
+| `scripts/v10/pack_structured.py` | BIOS/lambda → tokenized .npy shard |
+| `scripts/v10/probe.py` | Checkpoint diagnostics |
+| `docs/v10-architecture.svg` | Architecture diagram |
+| `data/structured_shard.npy` | 1.5M tokens of structured training data |
 
-## Why the descending arm works now
+## Key insight
 
-Sessions 045/054/055/062/065 proved: descending arm with compression ops
-(TernaryFFN) → passthrough, regardless of weight sharing. Root cause: the
-operation TYPE was wrong, not the weights. Compression ops can only compress
-or pass through. Kernel dispatch ops have 22 structured targets to route
-toward — the ternary topology has a real job to do.
+The kernel dispatch has 22 ops (arithmetic, comparison, boolean, lambda)
+that map directly to lambda/math operations. With pure prose, these ops
+have no clear grounding — dispatch tries to route English words through
+`+`, `not`, `apply`. S3 sees uniform deltas and opens to 1.0.
 
-## The mistake that cost two sessions
+With structured data, the dispatch has crisp targets: `3 + 5 = 8` routes
+through `+`, `(not true) → false` routes through `not`, `(comp f g)` routes
+through `comp`. S3 has something real to selectively gate.
 
-Session 064 ("rebuild as prose LM") discarded the kernel-wired architecture
-(2b263d6, smoke-tested to 65% op accuracy) and replaced it with a v6 copy.
-The lesson: **shapes not outputs**. The architecture must have the right shape
-for the behavior to emerge. Chasing LM loss metrics with the wrong architecture
-produces nothing useful regardless of training duration.
+The two changes are complementary: phase reorder ensures typing sees
+undiluted dispatch signal; mixed data ensures there IS a dispatch signal
+worth preserving.
 
 ## Session history
 
@@ -122,3 +112,4 @@ produces nothing useful regardless of training duration.
 → Session 064: WRONG — replaced kernel architecture with v6 LM copy
 → Session 065: probed 20K wasted run, diagnosed shared weights (missed real cause)
 → Session 066: found original v10 in git, diagnosed real cause, rebuilt correctly
+→ Session 067: analyzed 20K run, phase reorder + mixed data, 5K test launched
