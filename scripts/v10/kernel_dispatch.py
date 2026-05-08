@@ -66,12 +66,14 @@ N_FAMILIES = len(OP_FAMILIES)
 
 
 class KernelDispatch(nn.Module):
-    """Kernel-aware transformation for descending arm phase 0 (dispatch).
+    """Kernel-aware transformation for second arm phase 0 (dispatch).
 
-    Replaces TernaryFFN prep in the descending arm.
+    Replaces TernaryFFN prep in the second arm.
 
     Architecture:
       1. Dispatch: project to (n_ops,) distribution — which kernel op?
+         Conditioned on ascending register banks (type/scope/role) when
+         available, so dispatch can see what the ascending arm learned.
       2. Op modulation: weighted kernel identity added to representation
       3. Pathway: shared ternary transform, biased by kernel identity
       4. Gated residual
@@ -83,6 +85,14 @@ class KernelDispatch(nn.Module):
     The dispatch projection (TernaryLinear) learns WHEN each op is
     relevant. The ternary topology creates discrete routing paths:
     {-1, 0, +1} = {negate, disconnect, connect} = routing fabric.
+
+    Register conditioning: the ascending arm's registers carry
+    type/scope/role information that tells dispatch what kind of
+    content is at each position. Without this, dispatch must infer
+    routing purely from the residual stream — which is why it
+    collapses to routing everything through one op. With register
+    conditioning, dispatch sees "the ascending arm thinks this is
+    scope=local, type=arithmetic" and can route to arithmetic ops.
     """
 
     def __init__(
@@ -91,6 +101,9 @@ class KernelDispatch(nn.Module):
         n_ops: int = N_OPS,
         d_ff: int | None = None,
         dropout: float = 0.1,
+        n_registers: int = 3,
+        d_register: int = 128,
+        max_cond_banks: int = 5,
     ):
         super().__init__()
         self.d_model = d_model
@@ -112,6 +125,23 @@ class KernelDispatch(nn.Module):
         # Lower temperature → harder routing (converged)
         self.dispatch_temp = mx.array([1.0])
 
+        # ── Register conditioning ─────────────────────────────
+        # Ascending registers → dispatch bias: which ops should activate?
+        # Registers carry type/scope/role from the ascending arm.
+        # This is a real-valued (not ternary) projection because
+        # registers are real-valued and we want smooth gradients
+        # for the conditioning to learn quickly.
+        self.n_registers = n_registers
+        self.d_reg_real = d_register * 2
+        self.max_cond_banks = max_cond_banks
+        max_cond_dim = max_cond_banks * n_registers * self.d_reg_real
+        self._max_cond_dim = ((max_cond_dim + 15) // 16) * 16
+        # Small real-valued projection: register summary → per-op bias
+        self.register_cond = nn.Linear(self._max_cond_dim, self.n_ops_padded)
+        # Initialize to zero so conditioning starts inert
+        self.register_cond.weight = mx.zeros_like(self.register_cond.weight)
+        self.register_cond.bias = mx.zeros_like(self.register_cond.bias)
+
         # Op embeddings: kernel S5 identity — what each op IS
         # Real-valued, trainable. Initialized with structure:
         # each op gets a near-orthogonal direction in d_model space.
@@ -124,15 +154,37 @@ class KernelDispatch(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def __call__(self, x: mx.array) -> mx.array:
+    def __call__(self, x: mx.array, registers: list[list[mx.array]] | None = None) -> mx.array:
         """
         x: (B, L, d_model)
+        registers: list of register banks from ascending arm, each bank is
+                   a list of register vectors. Used to condition dispatch.
         Returns: (B, L, d_model) — with residual connection
         """
         h = self.norm(x)
 
         # Step 1: Dispatch — which kernel ops are relevant at each position?
         dispatch_logits = self.dispatch(h)[..., :self.n_ops]  # (B, L, n_ops)
+
+        # Register conditioning: add per-op bias from ascending registers
+        if registers is not None:
+            # Flatten all register banks into one vector
+            parts = []
+            for bank in registers:
+                for reg in bank:
+                    parts.append(reg)
+            cond_input = mx.concatenate(parts, axis=-1)  # (total_reg_dims,)
+            # Pad to max
+            if cond_input.shape[0] < self._max_cond_dim:
+                cond_input = mx.concatenate([
+                    cond_input,
+                    mx.zeros((self._max_cond_dim - cond_input.shape[0],))
+                ])
+            # Project to per-op bias
+            reg_bias = self.register_cond(cond_input)[:self.n_ops]  # (n_ops,)
+            # Add to dispatch logits (broadcast across B, L)
+            dispatch_logits = dispatch_logits + reg_bias[None, None, :]
+
         dispatch_weights = mx.softmax(
             dispatch_logits * self.dispatch_temp, axis=-1
         )  # (B, L, n_ops)

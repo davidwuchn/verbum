@@ -161,6 +161,8 @@ class V6Compressor(nn.Module):
         #    StrideStack reads typed reps across scales (coarse→fine).
         self.kernel_dispatch = KernelDispatch(
             d, n_ops=N_OPS, d_ff=cfg.d_ff, dropout=cfg.dropout,
+            n_registers=cfg.n_registers, d_register=cfg.d_register,
+            max_cond_banks=5,  # bank_0 + up to 4 ascending banks
         )
         self.stride_stack_desc = StrideStack(
             d_model=d,
@@ -250,7 +252,8 @@ class V6Compressor(nn.Module):
         if is_descending:
             # ── VSM-Dispatcher: kernel-shaped S1 operations ───
             # Phase 0: dispatch (route to kernel op pathways)
-            dispatch_out = self.kernel_dispatch(x)
+            # Conditioned on ascending registers: dispatch sees type/scope/role
+            dispatch_out = self.kernel_dispatch(x, registers=readable_banks)
             delta = dispatch_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 0)
@@ -456,8 +459,8 @@ class V6Compressor(nn.Module):
 
             if is_desc:
                 # ── VSM-Dispatcher: kernel-shaped phases ──────
-                # Phase 0: dispatch
-                dispatch_out = self.kernel_dispatch(x)
+                # Phase 0: dispatch (conditioned on ascending registers)
+                dispatch_out = self.kernel_dispatch(x, registers=readable)
                 delta = dispatch_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
                 mx.eval(gate)
