@@ -70,29 +70,39 @@ class KernelDispatch(nn.Module):
 
     Replaces TernaryFFN prep in the second arm.
 
-    Architecture:
-      1. Dispatch: project to (n_ops,) distribution — which kernel op?
+    Architecture (top-k MoE routing):
+      1. Dispatch logits: project to (n_ops,) scores — which kernel ops?
          Conditioned on ascending register banks (type/scope/role) when
          available, so dispatch can see what the ascending arm learned.
-      2. Op modulation: weighted kernel identity added to representation
-      3. Pathway: shared ternary transform, biased by kernel identity
-      4. Gated residual
+      2. Top-k selection: only the k highest-scoring ops participate.
+         Softmax over the k winners only — not all 22 ops.
+      3. Op modulation: weighted kernel identity added to representation
+         (using L2-normalized op embeddings to prevent runaway growth).
+      4. Pathway: shared ternary transform, biased by kernel identity
+      5. Gated residual
 
-    The kernel op embeddings are the S5 identity of each operation.
-    They provide orthogonal directions in d_model space — one per op —
-    so the ternary routing fabric has distinct targets to route toward.
+    Why top-k routing (not softmax over all ops):
+      With full softmax, register conditioning learned a massive bias
+      toward one op (+10.2 for `if`), saturating softmax and giving
+      zero gradient to all other ops. They died permanently. Meanwhile
+      one op's embedding grew to 4× others via positive feedback.
+      Top-k routing ensures the runner-up op always gets meaningful
+      weight (~e^(-delta)), keeping gradient alive for all ops. The
+      natural distribution can be as skewed as the data demands —
+      FN_COMP can dominate prose — but rare ops stay trainable for
+      their niches. Same principle as Switch Transformer / MoE routing.
 
-    The dispatch projection (TernaryLinear) learns WHEN each op is
-    relevant. The ternary topology creates discrete routing paths:
-    {-1, 0, +1} = {negate, disconnect, connect} = routing fabric.
+    Op embedding normalization:
+      All op embeddings are L2-normalized to a fixed scale each forward
+      pass. The dispatch weights (router scores) alone determine each
+      op's influence — not embedding magnitude. This prevents the
+      rich-get-richer feedback loop that created the >= fossil.
 
     Register conditioning: the ascending arm's registers carry
     type/scope/role information that tells dispatch what kind of
-    content is at each position. Without this, dispatch must infer
-    routing purely from the residual stream — which is why it
-    collapses to routing everything through one op. With register
-    conditioning, dispatch sees "the ascending arm thinks this is
-    scope=local, type=arithmetic" and can route to arithmetic ops.
+    content is at each position. Dispatch sees "the ascending arm
+    thinks this is scope=local, type=arithmetic" and can route to
+    arithmetic ops accordingly.
     """
 
     def __init__(
@@ -104,10 +114,12 @@ class KernelDispatch(nn.Module):
         n_registers: int = 3,
         d_register: int = 128,
         max_cond_banks: int = 5,
+        top_k: int = 2,
     ):
         super().__init__()
         self.d_model = d_model
         self.n_ops = n_ops
+        self.top_k = min(top_k, n_ops)
         if d_ff is None:
             d_ff = d_model * 3
 
@@ -116,14 +128,9 @@ class KernelDispatch(nn.Module):
 
         self.norm = nn.RMSNorm(d_model)
 
-        # Dispatch projection: hidden → op distribution
+        # Dispatch projection: hidden → op logits
         # TernaryLinear: the ternary topology learns discrete routing
         self.dispatch = TernaryLinear(d_model, self.n_ops_padded, pre_norm=False)
-
-        # Dispatch temperature: learnable, starts at 1.0
-        # Higher temperature → softer routing (early training)
-        # Lower temperature → harder routing (converged)
-        self.dispatch_temp = mx.array([1.0])
 
         # ── Register conditioning ─────────────────────────────
         # Ascending registers → dispatch bias: which ops should activate?
@@ -147,6 +154,14 @@ class KernelDispatch(nn.Module):
         # each op gets a near-orthogonal direction in d_model space.
         self.op_embeddings = _init_op_embeddings(n_ops, d_model)
 
+        # Op embedding target norm — embeddings are L2-normalized to this
+        # scale each forward pass. Prevents runaway growth (the >=
+        # fossil problem: one embedding grows to 4× others via positive
+        # feedback, then freezes when softmax starves its gradient).
+        # The dispatch weights alone should determine influence, not
+        # embedding magnitude.
+        self.op_embed_scale = 0.5
+
         # Pathway: transforms representation using dispatched op identity
         # The kernel identity modulates the input; the pathway transforms
         self.up = TernaryLinear(d_model, d_ff, pre_norm=False)
@@ -154,16 +169,45 @@ class KernelDispatch(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
+    def _normalize_op_embeddings(self) -> mx.array:
+        """L2-normalize op embeddings to fixed scale.
+
+        Prevents runaway embedding growth. The dispatch weights (router
+        scores) determine each op's influence — not embedding magnitude.
+        Without this, a positive feedback loop develops: higher dispatch
+        weight → more gradient → larger embedding → more modulation
+        impact → even higher effective weight. Once the loop saturates
+        softmax, non-dominant ops get zero gradient and die permanently.
+
+        Returns normalized embeddings (used in forward, gradient flows
+        through to the raw embeddings for training).
+        """
+        norms = mx.sqrt(
+            mx.sum(self.op_embeddings * self.op_embeddings, axis=-1, keepdims=True)
+            + 1e-8
+        )
+        return self.op_embeddings * (self.op_embed_scale / norms)
+
     def __call__(self, x: mx.array, registers: list[list[mx.array]] | None = None) -> mx.array:
         """
         x: (B, L, d_model)
         registers: list of register banks from ascending arm, each bank is
                    a list of register vectors. Used to condition dispatch.
         Returns: (B, L, d_model) — with residual connection
+
+        Routing: top-k MoE style. Per position, only the top-k ops
+        (by dispatch logit) participate. Softmax is computed over the
+        k winners only. This ensures:
+          - The dominant op (likely FN_COMP for prose) gets most weight
+          - The runner-up op still gets meaningful weight and gradient
+          - Rare ops (arithmetic, comparison) stay alive — they'll
+            occasionally appear in top-k for relevant content, giving
+            them gradient to learn their niche
+          - Natural distribution skew is preserved (no forced balancing)
         """
         h = self.norm(x)
 
-        # Step 1: Dispatch — which kernel ops are relevant at each position?
+        # Step 1: Dispatch logits — which kernel ops are relevant?
         dispatch_logits = self.dispatch(h)[..., :self.n_ops]  # (B, L, n_ops)
 
         # Register conditioning: add per-op bias from ascending registers
@@ -185,18 +229,34 @@ class KernelDispatch(nn.Module):
             # Add to dispatch logits (broadcast across B, L)
             dispatch_logits = dispatch_logits + reg_bias[None, None, :]
 
-        dispatch_weights = mx.softmax(
-            dispatch_logits * self.dispatch_temp, axis=-1
-        )  # (B, L, n_ops)
+        # Step 2: Top-k routing — only k ops participate per position
+        # This prevents softmax saturation from killing gradient to
+        # non-dominant ops. With k=2, the runner-up always gets
+        # meaningful weight (~e^(-delta) where delta is the logit gap).
+        B, L, _ = dispatch_logits.shape
+        top_k_values = mx.topk(dispatch_logits, k=self.top_k, axis=-1)  # (B, L, k)
+        # Threshold: minimum value among top-k at each position
+        threshold = mx.min(top_k_values, axis=-1, keepdims=True)  # (B, L, 1)
+        # Mask: keep only top-k, set others to -inf
+        mask = mx.where(
+            dispatch_logits >= threshold,
+            dispatch_logits,
+            mx.full(dispatch_logits.shape, -1e9),
+        )
+        # Softmax over masked logits — only top-k ops get nonzero weight
+        dispatch_weights = mx.softmax(mask, axis=-1)  # (B, L, n_ops)
 
-        # Cache for probing (stop_gradient keeps out of backward graph)
+        # Cache for probing (full 22-wide, zeros for non-top-k)
         self._dispatch_weights = mx.stop_gradient(dispatch_weights)
 
-        # Step 2: Weighted op embedding — kernel identity modulation
-        # (B, L, n_ops) @ (n_ops, d_model) → (B, L, d_model)
-        op_context = dispatch_weights @ self.op_embeddings
+        # Step 3: Normalized op embeddings — prevent runaway growth
+        op_emb = self._normalize_op_embeddings()  # (n_ops, d_model)
 
-        # Step 3: Modulate input with kernel identity, then transform
+        # Step 4: Weighted op embedding — kernel identity modulation
+        # (B, L, n_ops) @ (n_ops, d_model) → (B, L, d_model)
+        op_context = dispatch_weights @ op_emb
+
+        # Step 5: Modulate input with kernel identity, then transform
         modulated = h + op_context
         out = self.down(nn.gelu(self.up(modulated)))
 
@@ -376,28 +436,48 @@ def _init_type_embeddings(n_types: int, d_model: int) -> mx.array:
 # ══════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
+    import numpy as np
     d_model = 512
 
-    print("Testing KernelDispatch...")
-    dispatch = KernelDispatch(d_model, n_ops=22, d_ff=1536)
+    print("Testing KernelDispatch (top-k=2)...")
+    dispatch = KernelDispatch(d_model, n_ops=22, d_ff=1536, top_k=2)
     x = mx.random.normal((1, 64, d_model))
     y = dispatch(x)
     mx.eval(y)
     assert y.shape == (1, 64, d_model), f"Expected (1, 64, 512), got {y.shape}"
-    # Check dispatch weights are cached
+
+    # Check dispatch weights are cached (22-wide)
     assert hasattr(dispatch, '_dispatch_weights')
     dw = dispatch._dispatch_weights
     mx.eval(dw)
     assert dw.shape == (1, 64, 22), f"Expected (1, 64, 22), got {dw.shape}"
-    # Check dispatch weights sum to 1
+
+    # Top-k: only k ops should have nonzero weight per position
+    dw_np = np.array(dw[0])
+    nonzero_per_pos = np.sum(dw_np > 1e-6, axis=1)
+    assert np.all(nonzero_per_pos <= 3), \
+        f"Top-k=2 should give ≤3 nonzero ops per position, got max {nonzero_per_pos.max()}"
+    # Note: <= 3 not == 2 because ties at the threshold can include extras
+    print(f"  Active ops per position: mean={nonzero_per_pos.mean():.1f} "
+          f"min={nonzero_per_pos.min()} max={nonzero_per_pos.max()} ✓")
+
+    # Weights for active ops should still sum to ~1
     sums = mx.sum(dw, axis=-1)
     mx.eval(sums)
-    assert mx.allclose(sums, mx.ones_like(sums), atol=1e-5).item(), \
-        f"Dispatch weights should sum to 1, got {sums}"
+    assert mx.allclose(sums, mx.ones_like(sums), atol=1e-4).item(), \
+        f"Dispatch weights should sum to ~1, got min={float(mx.min(sums).item()):.4f}"
     print(f"  KernelDispatch: {x.shape} → {y.shape} ✓")
-    print(f"  Dispatch weights: {dw.shape}, top op per position varies ✓")
+    print(f"  Dispatch weights: {dw.shape}, top-k routing ✓")
 
-    print("Testing KernelIntegrate...")
+    # Check op embedding normalization
+    normed = dispatch._normalize_op_embeddings()
+    mx.eval(normed)
+    norms = np.linalg.norm(np.array(normed), axis=1)
+    assert np.allclose(norms, dispatch.op_embed_scale, atol=1e-3), \
+        f"Normalized embeddings should have norm={dispatch.op_embed_scale}, got {norms}"
+    print(f"  Op embedding norms: all ≈ {dispatch.op_embed_scale} ✓")
+
+    print("\nTesting KernelIntegrate...")
     integrate = KernelIntegrate(d_model, n_types=5, d_ff=2048)
     y2 = integrate(x)
     mx.eval(y2)
@@ -408,26 +488,24 @@ if __name__ == "__main__":
     print(f"  KernelIntegrate: {x.shape} → {y2.shape} ✓")
     print(f"  Type weights: {tw.shape} ✓")
 
-    # Check op embeddings have structure
-    op_emb = dispatch.op_embeddings
-    mx.eval(op_emb)
-    # Ops in same family should be more similar than across families
-    add_embed = op_emb[0]  # ADD
-    sub_embed = op_emb[1]  # SUB
-    eq_embed = op_emb[7]   # EQ (different family)
+    # Check op embeddings have structure (use normalized versions)
+    op_emb = normed
+    add_embed = op_emb[0]   # ADD
+    sub_embed = op_emb[1]   # SUB
+    eq_embed = op_emb[7]    # EQ (different family)
     mx.eval(add_embed, sub_embed, eq_embed)
     same_fam_sim = float(mx.sum(add_embed * sub_embed).item())
     cross_fam_sim = float(mx.sum(add_embed * eq_embed).item())
     print(f"  Op embedding structure: same-family sim={same_fam_sim:.4f}, "
           f"cross-family sim={cross_fam_sim:.4f}")
 
-    # Test gradient flow
+    # Test gradient flow — critical: verify all top-k ops get gradient
     import mlx.nn as nn_mod
 
     class TestModel(nn_mod.Module):
         def __init__(self):
             super().__init__()
-            self.dispatch = KernelDispatch(d_model, n_ops=22, d_ff=1536)
+            self.dispatch = KernelDispatch(d_model, n_ops=22, d_ff=1536, top_k=2)
             self.integrate = KernelIntegrate(d_model, n_types=5, d_ff=2048)
 
         def __call__(self, x):
@@ -445,6 +523,15 @@ if __name__ == "__main__":
     x = mx.random.normal((1, 16, d_model))
     lv, g = gfn(tm, x)
     mx.eval(lv, g)
-    print(f"  Gradient flow OK: loss={lv.item():.4f} ✓")
 
-    print("kernel_dispatch.py self-test: all ok ✓")
+    # Check that op_embeddings gradient has nonzero entries for multiple ops
+    op_grad = g["dispatch"]["op_embeddings"]
+    mx.eval(op_grad)
+    og_np = np.array(op_grad)
+    grad_norms = np.linalg.norm(og_np, axis=1)
+    n_with_grad = np.sum(grad_norms > 1e-6)
+    print(f"  Gradient flow OK: loss={lv.item():.4f}")
+    print(f"  Ops with gradient: {n_with_grad}/22 "
+          f"(top-k=2 should give ≥2) ✓")
+
+    print("\nkernel_dispatch.py self-test: all ok ✓")

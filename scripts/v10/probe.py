@@ -149,9 +149,10 @@ def load_checkpoint(ckpt_path: Path) -> tuple[V6Compressor, int, dict]:
 
     model = create_model(cfg)
 
-    # Load weights
+    # Load weights (strict=False to handle schema changes across versions,
+    # e.g. dispatch_temp was removed when top-k routing replaced softmax)
     weights = dict(mx.load(str(model_path)))
-    model.load_weights(list(weights.items()))
+    model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
     freeze_ternary_weights(model)
     restore_ternary(model)
@@ -317,6 +318,7 @@ def _run_phi_samples(model: V6Compressor, tokenizer, samples: list[str]) -> dict
         "per_sample": [],
         "kernel_dispatch_weights": [],
         "kernel_type_weights": [],
+        "op_embedding_norms": [],
     }
 
     for text in samples:
@@ -353,6 +355,8 @@ def _run_phi_samples(model: V6Compressor, tokenizer, samples: list[str]) -> dict
             all_metrics["kernel_dispatch_weights"].append(metrics["kernel_dispatch_weights"])
         if metrics.get("kernel_type_weights"):
             all_metrics["kernel_type_weights"].append(metrics["kernel_type_weights"])
+        if metrics.get("op_embedding_norms"):
+            all_metrics["op_embedding_norms"].append(metrics["op_embedding_norms"])
 
         all_metrics["per_sample"].append({
             "text": text[:60],
@@ -461,6 +465,11 @@ def analyze_phi(model: V6Compressor, tokenizer, strata: dict | None = None) -> d
             for i in range(n_types):
                 avg_ktw[i] += ktw[i]
         overall["kernel_type_weights"] = [v / len(ktw_list) for v in avg_ktw]
+
+    # Op embedding norms (constant across samples — just take first)
+    oen_list = overall_raw.get("op_embedding_norms", [])
+    if oen_list:
+        overall["op_embedding_norms"] = oen_list[0]
 
     # Aggregate phi stats
     agg_ratio = sum(overall["pass_compression"]) / 5
@@ -575,12 +584,34 @@ def print_compressor_metrics(phi_result: dict):
             bar = "█" * int(weight * 100)
             print(f"  │ {op_name:>8s} ({op_idx:>2d}): {weight:.3f} {bar}")
         # Check uniformity: max/min ratio
-        max_w, min_w = max(kdw), min(kdw)
-        ratio = max_w / (min_w + 1e-8)
-        if ratio < 1.5:
-            print(f"  │ ≈ uniform (max/min={ratio:.2f}) — not specialized yet")
+        nonzero_kdw = [w for w in kdw if w > 1e-6]
+        if nonzero_kdw:
+            max_w, min_w = max(nonzero_kdw), min(nonzero_kdw)
+            ratio = max_w / (min_w + 1e-8)
+            n_active = len(nonzero_kdw)
+            n_dead = len(kdw) - n_active
+            if n_dead > 0:
+                print(f"  │ {n_active} active, {n_dead} dead (zero weight)")
+            if ratio < 1.5:
+                print(f"  │ ≈ uniform (max/min={ratio:.2f}) — not specialized yet")
+            else:
+                print(f"  │ max/min={ratio:.2f} — specializing")
+
+    # ── Op embedding health ──────────────────────────────
+    op_emb_norms = overall.get("op_embedding_norms")
+    if op_emb_norms:
+        norms = op_emb_norms
+        max_n, min_n = max(norms), min(norms)
+        print(f"  ├─ Op embedding norms ────────────────────────────┤")
+        if max_n / (min_n + 1e-8) > 2.0:
+            # Show individual norms — something is wrong
+            indexed = sorted(enumerate(norms), key=lambda x: -x[1])
+            for op_idx, norm in indexed[:5]:
+                op_name = KERNEL_OP_NAMES[op_idx] if op_idx < len(KERNEL_OP_NAMES) else f"op{op_idx}"
+                print(f"  │ {op_name:>8s}: {norm:.4f}")
+            print(f"  │ ⚠ norm spread {max_n:.3f}/{min_n:.3f} = {max_n/(min_n+1e-8):.1f}× — fossil risk")
         else:
-            print(f"  │ max/min={ratio:.2f} — specializing")
+            print(f"  │ all ≈ {sum(norms)/len(norms):.3f} (healthy)")
 
     # ── Kernel type weights ──────────────────────────────
     ktw = overall.get("kernel_type_weights")

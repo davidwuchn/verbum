@@ -460,7 +460,7 @@ def find_latest_checkpoint(checkpoint_dir):
 
 def load_checkpoint(checkpoint_dir, model, optimizer):
     weights = dict(mx.load(str(checkpoint_dir / "model.npz")))
-    model.load_weights(list(weights.items()))
+    model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
     freeze_ternary_weights(model)
     restore_ternary(model)

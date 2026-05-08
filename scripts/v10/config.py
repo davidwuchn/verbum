@@ -41,6 +41,9 @@ class V10Config:
     # Register names (3 named: type, scope, role)
     n_registers: int = 3
 
+    # Kernel dispatch
+    dispatch_top_k: int = 2       # top-k MoE routing for kernel dispatch
+
     # Dropout
     dropout: float = 0.1
 

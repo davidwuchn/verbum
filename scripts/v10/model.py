@@ -163,6 +163,7 @@ class V6Compressor(nn.Module):
             d, n_ops=N_OPS, d_ff=cfg.d_ff, dropout=cfg.dropout,
             n_registers=cfg.n_registers, d_register=cfg.d_register,
             max_cond_banks=5,  # bank_0 + up to 4 ascending banks
+            top_k=cfg.dispatch_top_k,
         )
         self.stride_stack_desc = StrideStack(
             d_model=d,
@@ -582,6 +583,15 @@ class V6Compressor(nn.Module):
             type_weights = mx.mean(tw, axis=(0, 1))  # (n_types,)
             mx.eval(type_weights)
 
+        # Op embedding norms (health check — should be uniform with norm constraint)
+        op_emb_norms = None
+        if hasattr(self.kernel_dispatch, 'op_embeddings'):
+            raw_emb = self.kernel_dispatch.op_embeddings
+            mx.eval(raw_emb)
+            norms = mx.sqrt(mx.sum(raw_emb * raw_emb, axis=-1) + 1e-8)
+            mx.eval(norms)
+            op_emb_norms = [float(norms[i].item()) for i in range(norms.shape[0])]
+
         metrics = {
             "s3_gates": all_s3_gates,
             "meta_s3": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
@@ -598,6 +608,7 @@ class V6Compressor(nn.Module):
                 [float(type_weights[i].item()) for i in range(type_weights.shape[0])]
                 if type_weights is not None else None
             ),
+            "op_embedding_norms": op_emb_norms,
         }
 
         return x, metrics
