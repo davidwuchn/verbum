@@ -39,6 +39,7 @@ Thumbs.db
 
 # large data artifacts
 **/*.npz
+**/*.npy
 
 # models
 models/
