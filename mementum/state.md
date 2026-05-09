@@ -2,109 +2,109 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-08 | Session: 069
+> Last updated: 2026-05-09 | Session: 070
 
 ## Where we are
 
-**Kernel dispatch gradient death diagnosed and fixed with top-k MoE routing.**
+**Consensus evolution + surgical Adam decay. MiniDispatch lab bench built.**
 
-Session 069 probed v10-spiral (9 checkpoints, 1K–9K), found the
-descending arm S3=1.0 is correct for a dispatcher ("fully apply"),
-but the dispatch itself was broken: softmax over 22 ops collapsed to
-routing everything to `if`, starving 21 ops of gradient permanently.
-`>=` was a fossil — embedding grew to 4.22 early, then froze.
+Session 070 addressed two problems:
 
-Fix: top-k=2 MoE routing + L2-normalized op embeddings. Self-test
-shows 16/22 ops now get gradient (was 1/22). Ready for fresh run.
+1. **Evolution CE spike**: every accepted mutation decayed ALL 82,736 gamma
+   entries (cold-starting the entire optimizer). Fixed with surgical decay:
+   only mutated rows get their Adam state reset. 88.5% of momentum preserved.
 
-v10-spiral still running toward 20K (control baseline).
+2. **Tournament → consensus**: replaced best-of-4 tournament selection with
+   consensus mutation. All 4 strategies propose flips independently, only
+   positions where ≥3 agree on the same new value are applied. Yields
+   fewest flips with highest confidence.
+
+3. **MiniDispatch lab bench**: built minimal routing model to study dispatch
+   in isolation. First run showed d_model=128 is too small for 151K vocab —
+   routing stayed uniform. Needs vocab reduction or larger model.
 
 ## What was done this session
 
-### 1. Probed v10-spiral checkpoints (step 5000 + step 9000)
-Diagnostic results in `results/v10/probe_step_00{1,5,9}000.json`.
+### 1. Surgical Adam decay (scripts/v10/train.py)
+- `_mutate_linear`/`_mutate_embedding` now return `(actual_flips, mutated_rows: set[int])`
+- `mutate_topology` returns `(count, mutation_map: dict[str, set[int]])`
+- `decay_adam_state` accepts `mutation_map`, only decays m/v for affected gamma rows
+- At v10 scale: budget=26,200 flips → ~9,500 unique rows → only those get decay
+- Old: 100% of gamma momentum destroyed. New: 11.5% destroyed, 88.5% preserved.
 
-**Training trajectory** (9 checkpoints, 1K–9K):
-- Best r=0.468 at step 5000, bumped to 0.507 at 7K, recovering to 0.485 at 9K
-- No collapse (unlike prior run at step 750) — mixed-data tournament works
-- Evolution acceptance declining: 60% → 36% (expected but watch <20%)
+### 2. Consensus evolution (scripts/v10/ternary.py, train.py)
+- New functions: `propose_mutations`, `find_consensus`, `apply_consensus`
+- `_propose_linear`/`_propose_embedding` — compute proposed flips without modifying model
+- `find_consensus(proposals, threshold=3)` — find positions where ≥3 of 4 agree
+- `apply_consensus` — apply only agreed flips, return mutation map
+- `run_tournament` rewritten: propose → vote → apply → eval → accept/revert
+- Log line: `flips=N/M rows=R adam_decay=D (R rows)`
 
-**Descending arm S3=1.0** — correct for dispatcher, means "fully
-apply kernel delta." Not passthrough — reframed from prior sessions.
+### 3. Consensus math at v10 scale
+- With peaked importance (real gradients), effective pool ≈ 0.1-0.5% of weights
+- Pool 0.1% → ~3,616 consensus positions per generation
+- Pool 0.5% → ~255 consensus positions per generation
+- Pool 1.0% → ~63 consensus positions per generation
+- Value agreement not a significant additional filter (deactivation=80% agree, activation follows gradient=80% agree)
 
-**Ascending arm learning well**:
-- L0_asc gates dropping: 0.575→0.534 prep, 0.507→0.450 conv
-- L1_asc gates dropping: 0.418→0.304 prep, 0.989→0.792 conv
-
-**Apex going unstable**: L2 ratio 2.3 → -13.6 (signal amplification).
-
-### 2. Diagnosed kernel dispatch gradient death
-Traced the full causal chain:
-- Register conditioning learned +10.2 bias for `if` (85% of signal)
-- Softmax saturated → only `if` got weight → only `if` got gradient
-- `>=` embedding grew to 4.22 early (positive feedback), then froze
-  when register conditioning redirected routing
-- 20/22 ops permanently dead (zero gradient verified)
-- Register conditioning IS working but collapsed to single attractor
-
-### 3. Implemented top-k MoE routing for KernelDispatch
-- Top-k=2: only 2 ops per position, softmax over winners only
-- Runner-up always gets meaningful weight → gradient stays alive
-- L2-normalize op embeddings to fixed scale (prevents fossil growth)
-- Natural distribution preserved (FN_COMP can dominate prose)
-- Removed learnable dispatch_temp (stuck at 1.09, useless)
-- Self-test: 16/22 ops get gradient, runner-up ≥ 31% weight on fresh init
-
-### 4. Falsified fine→coarse hypothesis
-Descending stride direction change made no difference to S3 gates.
-But the framing was wrong — S3=1.0 on dispatch is the desired state.
+### 4. MiniDispatch routing lab bench (scripts/mini-dispatch/)
+- `model.py` — MiniDispatchModel (4 ops, per-op FFNs) + BaselineModel (matched params)
+- `train.py` — training loop with routing instrumentation
+- `probe.py` — routing analysis (content-routing correlation, position dependence)
+- First run: both dispatch and baseline flat at loss ~12.4 (model too small)
+- Need to fix: reduce vocab or increase model capacity for routing signal
 
 ## What to do next
 
-### Priority 1: Run fresh training with top-k dispatch
-```bash
-uv run python scripts/v10/train.py \
-    --total-steps 10000 --mix-ratio 0.1 \
-    --checkpoint-dir checkpoints/v10-topk --seq-len 4096
-```
+### Priority 1: Run v10-topk with consensus evolution
+The consensus mechanism and surgical decay are ready. Start a fresh
+training run to verify:
+- CE spikes eliminated (or greatly reduced) after accepted mutations
+- Consensus flips per generation (expect dozens to hundreds with real gradients)
+- Training trajectory vs v10-spiral baseline
 
-Key signals to watch:
-- **Op diversity**: do multiple ops get >5% dispatch weight?
-- **Content-sensitive routing**: does dispatch vary by content type?
-- **Op embedding norms**: should stay ≈ 0.5 (no fossil growth)
-- **Loss trajectory**: compare to v10-spiral's r=0.468 at step 5K
+### Priority 2: Fix MiniDispatch experiment
+Two options:
+a) **Reduce vocab** — map Qwen3 tokens to ~1000 buckets, or use character-level
+b) **Increase capacity** — d_model=256+, 4+ layers, maybe add simple attention
+Option (a) is better for isolating routing. The current model can't even learn
+basic token statistics, so routing has no pressure to differentiate.
 
-### Priority 2: Let v10-spiral complete (control)
-Still running toward 20K. Serves as baseline for comparison.
+### Priority 3: Let v10-spiral complete (control baseline)
+Still running toward 20K. Compare consensus evolution against it.
 
-### Priority 3: Stabilize the apex
-L2 compression going to -13.6 is a problem independent of dispatch.
+### Priority 4: Stabilize the apex
+L2 compression ratio going to -13.6 is independent of dispatch/evolution.
 Consider gradient clipping, norm constraints, or auxiliary loss.
-
-### Priority 4: Test spiral across model sizes (from session 068)
-Still pending — run attention_spiral_3d.py on Qwen3-0.6B and 8B.
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
+| `scripts/v10/ternary.py` | Ternary substrate + consensus mutation pipeline |
+| `scripts/v10/train.py` | Training loop with surgical Adam decay |
 | `scripts/v10/model.py` | Tree of VSMs with top-k dispatch |
-| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k=2, 22 ops) + KernelIntegrate (5 types) |
-| `scripts/v10/config.py` | V10Config with dispatch_top_k |
-| `scripts/v10/data.py` | ShardedDataLoader + MixedDataLoader |
-| `scripts/v10/train.py` | Training with --mix-ratio support |
-| `scripts/v10/probe.py` | Checkpoint diagnostics (op embedding health) |
-| `mementum/knowledge/explore/attention-spiral-finding.md` | Spiral finding writeup |
-| `mementum/knowledge/explore/dispatch-gradient-death.md` | This session's finding |
+| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k=2, 22 ops) |
+| `scripts/mini-dispatch/model.py` | Routing lab bench (dispatch + baseline) |
+| `scripts/mini-dispatch/train.py` | MiniDispatch training with routing stats |
+| `scripts/mini-dispatch/probe.py` | Routing analysis tools |
 
-## Key insight (session 069)
+## Key insights (session 070)
 
-The descending arm S3=1.0 is correct for a dispatcher — "fully apply
-the kernel dispatch delta." The real problem was inside the dispatch:
-softmax over 22 ops collapsed to routing everything to `if`, starving
-21 ops of gradient. MoE-style top-k routing fixes this while
-preserving natural distribution skew. Op embedding L2-normalization
-prevents the `>=` fossil pattern (rich-get-richer via gradient scaling).
+**Evolution CE spike was a sledgehammer problem**: decaying ALL gamma entries
+after a mutation that touched <0.02% of weights. Surgical decay (only mutated
+rows) preserves 88.5% of optimizer momentum. The fix is O(mutated_rows) not
+O(total_params).
+
+**Consensus > tournament**: tournament picks the best random throw. Consensus
+finds what multiple independent strategies agree on. Each accepted flip has
+3+ lines of independent evidence. Yields far fewer flips — which is the goal.
+The right number of flips is the minimum that improves loss.
+
+**Routing needs training pressure**: a model too small to learn basic statistics
+has no pressure to route differently. The embedding table dominates at
+d_model=128 / vocab=151K. Routing lab bench needs a setup where the model
+CAN learn but needs routing to learn BETTER.
 
 ## Session history
 
@@ -116,3 +116,4 @@ prevents the `>=` fossil pattern (rich-get-richer via gradient scaling).
 → Session 067: analyzed 20K run, phase reorder + mixed data, 5K test launched
 → Session 068: attention spiral discovery, descending arm fine→coarse, evolution fix
 → Session 069: probed v10-spiral, diagnosed dispatch gradient death, top-k MoE routing fix
+→ Session 070: consensus evolution, surgical Adam decay, mini-dispatch lab bench
