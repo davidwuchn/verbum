@@ -25,15 +25,18 @@ Tree of VSMs (Beer 1972):
     S1: KernelDispatch/KernelIntegrate/StrideStack (operations)
     S2: enriched representations → LM head
 
-  Phase order (dispatch → integrate → stride):
+  Phase order (dispatch → stride → integrate):
     Phase 0: KernelDispatch — route to 22 kernel op pathways (local)
-    Phase 1: KernelIntegrate — type the dispatched result (local)
-    Phase 2: StrideStack fine→coarse — propagate typed dispatch (spatial)
+    Phase 1: StrideStack fine→coarse — propagate dispatched signal (spatial)
+    Phase 2: KernelIntegrate — type the context-enriched result (local)
 
-    Rationale: dispatch and typing are both local content decisions
-    about the same position — they belong adjacent. The stride then
-    propagates complete (op + type) representations outward from local
-    to global, following the same spiral geometry as the ascending arm.
+    Rationale: dispatch modulates per-position, then stride propagates
+    so that each position sees how its neighbors were dispatched.
+    Integration (typing) then has both the local op bias AND spatial
+    context to inform its type decision. Prior order (dispatch → integrate
+    → stride) produced type-dispatch decoupling: typing couldn't
+    distinguish dispatch patterns without spatial context, defaulting
+    to FN (56%) regardless of which op was active.
 
     Session 068 discovered that standard transformer attention self-
     organizes into a logarithmic spiral that always expands outward
@@ -96,19 +99,19 @@ class V6Compressor(nn.Module):
       Job: compress and type (proven: φ-locking, S3 differentiation)
 
     SECOND arm (VSM-Dispatcher, 2 passes) — own weights:
-      S1: KernelDispatch → KernelIntegrate → StrideStack fine→coarse
+      S1: KernelDispatch → StrideStack fine→coarse → KernelIntegrate
       S4: register cross-attention (reads typed representations)
-      Job: route through 22 kernel op pathways, type, then propagate
+      Job: route through 22 kernel op pathways, propagate, then type
 
     Both arms spiral outward (fine→coarse). The difference is what
     operations they apply: compression vs kernel dispatch. The spiral
     direction matches the emergent attention geometry discovered in
     standard transformers (~1.18x expansion per revolution).
 
-    Phase order: dispatch (local) → integrate (local) → stride (spatial).
-    Dispatch and typing are both per-position content decisions — kept
-    adjacent so typing sees undiluted dispatch signal. Stride propagates
-    the complete (op + type) result outward from local to global.
+    Phase order: dispatch (local) → stride (spatial) → integrate (local).
+    Dispatch modulates per-position. Stride propagates so each position
+    sees neighbor dispatch patterns. Integrate (typing) then has both
+    local op bias and spatial context for informed type decisions.
 
     Per-pass S3 control: 5 separate S3Ternary instances.
     """
@@ -260,16 +263,16 @@ class V6Compressor(nn.Module):
                 target_bank, delta, 0)
             x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
-            # Phase 1: integrate (type the dispatched result locally)
-            integrate_out = self.kernel_integrate(x)
-            delta = integrate_out - x
+            # Phase 1: converge (StrideStack fine→coarse — propagate dispatch outward)
+            converge_out = strides(x, reverse=False)
+            delta = converge_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 1)
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
-            # Phase 2: converge (StrideStack fine→coarse — propagate typed dispatch outward)
-            converge_out = strides(x, reverse=False)
-            delta = converge_out - x
+            # Phase 2: integrate (type with spatial context from stride)
+            integrate_out = self.kernel_integrate(x)
+            delta = integrate_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
             x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
@@ -468,17 +471,17 @@ class V6Compressor(nn.Module):
                 phase_gates.append(float(gate.item()))
                 x = self._modulate(x, delta, gate, 0, is_descending=True)
 
-                # Phase 1: integrate (type the dispatched result locally)
-                integrate_out = self.kernel_integrate(x)
-                delta = integrate_out - x
+                # Phase 1: converge (fine→coarse — propagate dispatch outward)
+                conv_out = strides(x, reverse=False)
+                delta = conv_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
                 x = self._modulate(x, delta, gate, 1, is_descending=True)
 
-                # Phase 2: converge (fine→coarse — propagate typed dispatch outward)
-                conv_out = strides(x, reverse=False)
-                delta = conv_out - x
+                # Phase 2: integrate (type with spatial context from stride)
+                integrate_out = self.kernel_integrate(x)
+                delta = integrate_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
