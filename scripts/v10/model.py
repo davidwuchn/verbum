@@ -15,15 +15,15 @@ Tree of VSMs (Beer 1972):
     S5: token embedding identity (Qwen3 BBPE)
     S4: StrideStack fine→coarse (intelligence — reads context)
     S3: phase gates (control — what to compress)
+    S2: direction signals between passes (anti-oscillation coordination)
     S1: TernaryFFN prep/consolidate (operations — compression)
-    S2: typed representations → feeds into dispatcher
 
   VSM-Dispatcher (second arm, 2 passes: L1↓, L0↓):
     S5: kernel function identity (22 ops, 5 types — pre-wired)
-    S4: StrideStack fine→coarse (same spiral direction as ascending)
+    S4: dual-view attention (residual + original embeddings)
     S3: dispatch gates (control — which kernel pathways activate)
+    S2: direction signals + register conditioning (coordination)
     S1: KernelDispatch/KernelIntegrate/StrideStack (operations)
-    S2: enriched representations → LM head
 
   Phase order (dispatch → stride → integrate):
     Phase 0: KernelDispatch — route to 22 kernel op pathways (local)
@@ -77,7 +77,8 @@ from components import (
     S4Ternary,
     S3Ternary,
     MetaS4Ternary,
-    MetaS3Ternary,
+    S5Reweight,
+    S2Coordinator,
 )
 from kernel_dispatch import KernelDispatch, KernelIntegrate, N_OPS, N_TYPES
 
@@ -112,6 +113,13 @@ class V6Compressor(nn.Module):
     Dispatch modulates per-position. Stride propagates so each position
     sees neighbor dispatch patterns. Integrate (typing) then has both
     local op bias and spatial context for informed type decisions.
+
+    S2 coordination: between each pair of consecutive passes, a small
+    direction signal is fed forward — "Pass N moved the representation
+    THIS way." This is Beer's anti-oscillation mechanism: coordination
+    between S1 units to prevent unknowing contradiction. The signal
+    survives MetaS3 reweighting (S2 infrastructure ≠ S3 control).
+    4 transitions, learnable scales starting at 0.01.
 
     Per-pass S3 control: 5 separate S3Ternary instances.
     """
@@ -216,9 +224,18 @@ class V6Compressor(nn.Module):
         self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
                                       n_banks=4, dropout=cfg.dropout)
 
-        # ── Meta-S3 (with temperature + bias fix) ────────────
-        self.meta_s3 = MetaS3Ternary(d_reg, n_registers=n_reg,
-                                      n_banks=6, n_passes=self.N_PASSES)
+        # ── S2: Inter-pass direction coordination ──────────
+        #    Beer's anti-oscillation: direction signal between
+        #    consecutive passes prevents unknowing contradiction.
+        self.s2 = S2Coordinator(d)
+
+        # ── S5: Identity-level pass reweighting ───────────────
+        #    Replaces MetaS3. Sees both register banks (S2 state)
+        #    AND raw ungated pass deltas (direct S1 output).
+        #    Beer's S5 needs ungated view to maintain identity.
+        self.s5_reweight = S5Reweight(
+            d, d_reg, n_registers=n_reg,
+            n_banks=6, n_passes=self.N_PASSES)
 
         # ── Algedonic channel: persistent descending registers ─
         # Beer's VSM requires feedback from S3 back to S1/S2 —
@@ -234,12 +251,39 @@ class V6Compressor(nn.Module):
         #   descending pressure → stored → ascending S4 reads →
         #   ascending S3 adjusts gates → regulated apex output
         #
+        # Kernel compute algedonic: the kernel's dispatch weights
+        # and compute gate are packed into a register-shaped vector.
+        # This tells the ascending arm "the kernel was active,
+        # dispatching to these ops, with this compute gate level"
+        # so it can adjust compression accordingly (e.g. preserve
+        # token identity when the kernel is computing).
+        #
         # EMA smoothing (α=0.9) prevents oscillation.
         self._algedonic_ema = 0.9
         self._prev_bank_1_desc = [mx.zeros((self.d_reg_real,))
                                    for _ in range(n_reg)]
         self._prev_bank_2_desc = [mx.zeros((self.d_reg_real,))
                                    for _ in range(n_reg)]
+        # Kernel compute: dispatch weights (22) + compute gate (1)
+        # packed into d_reg_real, zero-padded. No projection needed —
+        # S4's q_proj learns what to extract from the raw values.
+        self._prev_kernel_algedonic = mx.zeros((self.d_reg_real,))
+
+        # ── Op emphasis: S4 register state → per-op modulation ──
+        # S4's registers carry type/scope/role from the ascending arm.
+        # This projection maps that intelligence to per-op emphasis:
+        # "given what S4 observes, which kernel ops should be louder?"
+        # EMA-tracked across steps for stability (slowly shifting
+        # landscape, not reactive noise).
+        # Input: ascending banks (bank_1_asc + bank_2_asc + bank_3)
+        #        = 3 banks × 3 registers × d_reg_real
+        emphasis_input_dim = 3 * n_reg * self.d_reg_real
+        self.emphasis_proj = nn.Linear(emphasis_input_dim, N_OPS)
+        # Zero-init: emphasis starts neutral (1.0 for all ops)
+        self.emphasis_proj.weight = mx.zeros_like(self.emphasis_proj.weight)
+        self.emphasis_proj.bias = mx.zeros_like(self.emphasis_proj.bias)
+        self._op_emphasis = mx.ones((N_OPS,))
+        self._emphasis_ema = 0.95  # slow-moving — captures trends, not noise
 
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
@@ -262,33 +306,49 @@ class V6Compressor(nn.Module):
 
     # ── Core level-pass ───────────────────────────────────────
 
-    def _run_level_pass(self, x, pass_idx, is_descending, readable_banks, target_bank):
+    def _run_level_pass(self, x, pass_idx, is_descending, readable_banks, target_bank,
+                         embed_context=None, op_emphasis=None):
         x_before = x
+        raw_phases = []   # ungated phase deltas for S5
+        phase_gates = []  # S3 gate values for cross-arm visibility
 
         # Select ops based on VSM arm
         s4 = self.s4_desc if is_descending else self.s4
         strides = self.stride_stack_desc if is_descending else self.stride_stack
 
         # S4 scan (intelligence — reads register banks)
-        s4_updates, _ = s4(readable_banks, x)
+        # Descending arm gets dual view: compressed residual + original
+        # token embeddings. S4 attends over [residual; embeddings] (2L
+        # positions) so it can see both what compression produced AND
+        # what the tokens originally were. Critical for dispatch: knowing
+        # "this position IS the + token" helps route to arithmetic ops.
+        s4_residual = x
+        if embed_context is not None:
+            s4_residual = mx.concatenate([x, embed_context], axis=1)
+        s4_updates, _ = s4(readable_banks, s4_residual)
         target_bank = [self.register_norm(target_bank[i] + s4_updates[i])
                        for i in range(self.cfg.n_registers)]
 
         if is_descending:
             # ── VSM-Dispatcher: kernel-shaped S1 operations ───
             # Phase 0: dispatch (route to kernel op pathways)
-            # Conditioned on ascending registers: dispatch sees type/scope/role
-            dispatch_out = self.kernel_dispatch(x, registers=readable_banks)
+            # Conditioned on ascending registers + op emphasis from S4
+            dispatch_out = self.kernel_dispatch(
+                x, registers=readable_banks, op_emphasis=op_emphasis)
             delta = dispatch_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 0)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
             # Phase 1: converge (StrideStack fine→coarse — propagate dispatch outward)
             converge_out = strides(x, reverse=False)
             delta = converge_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 1)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
             # Phase 2: integrate (type with spatial context from stride)
@@ -296,34 +356,47 @@ class V6Compressor(nn.Module):
             dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
             integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
             delta = integrate_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
         else:
             # ── VSM-Compressor: compression S1 operations ─────
             # Phase 0: prep (local feature extraction)
             prep_out = self.prep(x)
             delta = prep_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 0)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=0, is_descending=False)
 
             # Phase 1: converge (StrideStack fine→coarse)
             converge_out = strides(x, reverse=False)
             delta = converge_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 1)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=False)
 
             # Phase 2: consolidate (feature integration)
             consolidate_out = self.consolidate(x)
             delta = consolidate_out - x
+            raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
+            phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=2, is_descending=False)
 
         pass_delta = x - x_before
-        return x, target_bank, pass_delta
+        # Raw delta: sum of ungated phase deltas — what S1 proposed
+        # before S3 gating. S5 sees this to maintain identity coherence.
+        raw_delta = raw_phases[0]
+        for rd in raw_phases[1:]:
+            raw_delta = raw_delta + rd
+        return x, target_bank, pass_delta, raw_delta, phase_gates
 
     # ── Forward ───────────────────────────────────────────────
 
@@ -343,6 +416,12 @@ class V6Compressor(nn.Module):
         positions = mx.arange(L)
         x = self.embed_norm(self.embed(tokens) + self.pos_embed(positions))
 
+        # Capture original embeddings for descending S4's dual view.
+        # By pass 3, compression has buried token identity under 3
+        # transformation passes. The dispatcher needs raw token identity
+        # to route correctly (e.g. "this IS the + token → arithmetic ops").
+        x_embed = x
+
         # Initialize register banks
         bank_0 = self._init_bank0()
         bank_1_asc = self._fresh_bank()
@@ -352,6 +431,7 @@ class V6Compressor(nn.Module):
         bank_1_desc = self._fresh_bank()
 
         pass_deltas = []
+        raw_deltas = []   # ungated phase deltas for S5
 
         # ── Algedonic channel: read previous descending registers ──
         # These are EMA-smoothed registers from the PREVIOUS forward
@@ -363,31 +443,95 @@ class V6Compressor(nn.Module):
         # ascending arm normally.
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+        # Kernel compute algedonic: which ops fired, how active the
+        # compute gate was. Tells ascending arm what downstream needs.
+        prev_kernel = [mx.stop_gradient(self._prev_kernel_algedonic)]
 
-        # Pass 0: L0_asc — now reads prev descending L0 registers
-        x, bank_1_asc, pd = self._run_level_pass(
-            x, 0, False, [bank_0, prev_b1d], bank_1_asc)
-        pass_deltas.append(pd)
+        asc_s3_gates = []  # ascending S3 gate values for descending arm
 
-        # Pass 1: L1_asc — now reads prev descending L1 registers
-        x, bank_2_asc, pd = self._run_level_pass(
-            x, 1, False, [bank_0, bank_1_asc, prev_b2d], bank_2_asc)
+        # Pass 0: L0_asc — reads prev descending L0 + kernel compute
+        x, bank_1_asc, pd, rd, pg = self._run_level_pass(
+            x, 0, False, [bank_0, prev_b1d, prev_kernel], bank_1_asc)
         pass_deltas.append(pd)
+        raw_deltas.append(rd)
+        asc_s3_gates.extend(pg)
 
-        # Pass 2: L2_apex — unchanged (apex is the junction point)
-        x, bank_3, pd = self._run_level_pass(
-            x, 2, False, [bank_0, bank_1_asc, bank_2_asc], bank_3)
-        pass_deltas.append(pd)
+        # S2: direction signal Pass 0 → Pass 1 (unmodulated — first signal)
+        x = x + self.s2.direction_signal(pd, 0)
 
-        # Pass 3: L1_desc
-        x, bank_2_desc, pd = self._run_level_pass(
-            x, 3, True, [bank_0, bank_1_asc, bank_2_asc, bank_3], bank_2_desc)
+        # Pass 1: L1_asc — reads prev descending L1 + kernel compute
+        x, bank_2_asc, pd, rd, pg = self._run_level_pass(
+            x, 1, False, [bank_0, bank_1_asc, prev_b2d, prev_kernel], bank_2_asc)
         pass_deltas.append(pd)
+        raw_deltas.append(rd)
+        asc_s3_gates.extend(pg)
 
-        # Pass 4: L0_desc — reads bank_2_desc, not bank_2_asc
-        x, bank_1_desc, pd = self._run_level_pass(
-            x, 4, True, [bank_0, bank_1_asc, bank_2_desc, bank_3], bank_1_desc)
+        # S2: direction signal Pass 1 → Pass 2, modulated by coherence(0,1)
+        coherence = S2Coordinator.coherence_factor(pass_deltas[0], pass_deltas[1])
+        x = x + self.s2.direction_signal(pd, 1) * coherence
+
+        # Pass 2: L2_apex — reads kernel compute (helps transition to dispatch)
+        x, bank_3, pd, rd, pg = self._run_level_pass(
+            x, 2, False, [bank_0, bank_1_asc, bank_2_asc, prev_kernel], bank_3)
         pass_deltas.append(pd)
+        raw_deltas.append(rd)
+        asc_s3_gates.extend(pg)
+
+        # ── Op emphasis: S4 register state → per-op modulation ──
+        # After ascending passes, registers carry type/scope/role.
+        # Project to per-op emphasis: which ops should be louder?
+        emphasis_parts = []
+        for bank in [bank_1_asc, bank_2_asc, bank_3]:
+            for reg in bank:
+                emphasis_parts.append(reg)
+        emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
+        raw_emphasis = self.emphasis_proj(emphasis_input)           # (N_OPS,)
+        op_emphasis = 1.0 + 0.5 * mx.tanh(raw_emphasis)            # [0.5, 1.5]
+
+        # EMA tracking — slowly accumulates S4's emphasis preferences
+        self._op_emphasis = mx.stop_gradient(
+            self._emphasis_ema * self._op_emphasis
+            + (1.0 - self._emphasis_ema) * op_emphasis)
+
+        # ── Pack ascending S3 gates for descending arm ─────────
+        # 9 gate values (3 passes × 3 phases) packed into a register-
+        # shaped vector. Tells descending S4 what the ascending arm's
+        # control decisions were: "prep was gated at 0.8, converge
+        # suppressed at 0.3, consolidate open at 0.9" etc.
+        # NOT stop_gradient: gradient flows back to ascending S3,
+        # teaching it that its gate decisions affect downstream dispatch.
+        asc_gate_flat = mx.concatenate(
+            [g.reshape(-1) for g in asc_s3_gates])              # (9,)
+        asc_gate_vector = mx.concatenate([
+            asc_gate_flat,
+            mx.zeros((self.d_reg_real - asc_gate_flat.shape[0],)),
+        ])
+        asc_gate_bank = [asc_gate_vector]
+
+        # S2: direction signal Pass 2 → Pass 3 (ascending→descending)
+        #     modulated by coherence(1,2)
+        coherence = S2Coordinator.coherence_factor(pass_deltas[1], pass_deltas[2])
+        x = x + self.s2.direction_signal(pd, 2) * coherence
+
+        # Pass 3: L1_desc — S4 sees residual + embeds + ascending gates
+        x, bank_2_desc, pd, rd, _ = self._run_level_pass(
+            x, 3, True,
+            [bank_0, bank_1_asc, bank_2_asc, bank_3, asc_gate_bank],
+            bank_2_desc, embed_context=x_embed, op_emphasis=op_emphasis)
+        pass_deltas.append(pd)
+        raw_deltas.append(rd)
+
+        # S2: direction signal Pass 3 → Pass 4, modulated by coherence(2,3)
+        coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
+        x = x + self.s2.direction_signal(pd, 3) * coherence
+
+        # Pass 4: L0_desc — S4 sees residual + embeds + ascending gates
+        x, bank_1_desc, pd, rd, _ = self._run_level_pass(
+            x, 4, True,
+            [bank_0, bank_1_asc, bank_2_desc, bank_3, asc_gate_bank],
+            bank_1_desc, embed_context=x_embed, op_emphasis=op_emphasis)
+        pass_deltas.append(pd)
+        raw_deltas.append(rd)
 
         # ── Update algedonic buffers (EMA, no gradient) ────────
         α = self._algedonic_ema
@@ -399,11 +543,31 @@ class V6Compressor(nn.Module):
             mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
             for i in range(self.cfg.n_registers)
         ]
+        # Kernel compute algedonic: pack dispatch weights + compute gate
+        # into register-shaped vector for ascending arm's next pass
+        if hasattr(self.kernel_dispatch, '_dispatch_weights'):
+            dw_mean = mx.stop_gradient(
+                self.kernel_dispatch._dispatch_weights.mean(axis=(0, 1)))
+        else:
+            dw_mean = mx.zeros((N_OPS,))
+        if hasattr(self.kernel_integrate, '_compute_gate'):
+            cg_mean = mx.stop_gradient(
+                self.kernel_integrate._compute_gate.mean().reshape(1,))
+        else:
+            cg_mean = mx.zeros((1,))
+        kernel_state = mx.concatenate([
+            dw_mean,                                        # 22 dims: op distribution
+            cg_mean,                                        # 1 dim: compute gate level
+            mx.zeros((self.d_reg_real - N_OPS - 1,)),       # padding to d_reg_real
+        ])
+        self._prev_kernel_algedonic = mx.stop_gradient(
+            α * self._prev_kernel_algedonic + (1 - α) * kernel_state)
 
-        # Meta-S3: retroactive pass reweighting
+        # S5: identity-level pass reweighting — sees registers AND
+        # raw ungated deltas (direct view of what operations proposed)
         all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3,
                      bank_2_desc, bank_1_desc]
-        meta_gates = self.meta_s3(all_banks)
+        meta_gates = self.s5_reweight(all_banks, raw_deltas)
 
         total_ungated = pass_deltas[0]
         for i in range(1, self.N_PASSES):
@@ -453,7 +617,9 @@ class V6Compressor(nn.Module):
 
         Metrics dict contains:
           s3_gates:     list of 5 lists of 3 floats (per pass, per phase)
-          meta_s3:      list of 5 floats (per-pass contribution gates)
+          s5_reweight:  list of 5 floats (per-pass contribution gates from S5)
+          s2_conflict:  list of 4 floats (cosine sim between consecutive deltas)
+          s2_scales:    list of 4 floats (learnable direction signal scales)
           register_norms: dict of bank_name → list of 3 floats (per register)
           pass_entropy_in:  list of 5 floats
           pass_entropy_out: list of 5 floats
@@ -466,6 +632,7 @@ class V6Compressor(nn.Module):
         B, L = tokens.shape
         positions = mx.arange(L)
         x = self.embed_norm(self.embed(tokens) + self.pos_embed(positions))
+        x_embed = x  # original embeddings for descending S4 dual view
 
         bank_0 = self._init_bank0()
         bank_1_asc = self._fresh_bank()
@@ -475,18 +642,23 @@ class V6Compressor(nn.Module):
         bank_1_desc = self._fresh_bank()
 
         pass_deltas = []
+        raw_deltas = []   # ungated phase deltas for S5
         all_s3_gates = []
         pass_h_in = []
         pass_h_out = []
+        asc_gate_mx = []  # ascending S3 gate values (mx.arrays) for descending arm
+        asc_gate_bank = None  # packed after ascending passes
+        op_emphasis_inst = None  # computed after ascending passes
 
-        # Algedonic channel: stale descending registers for ascending S4
+        # Algedonic channel: stale descending registers + kernel compute
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+        prev_kernel = [mx.stop_gradient(self._prev_kernel_algedonic)]
 
         pass_configs = [
-            (0, False, lambda: [bank_0, prev_b1d]),
-            (1, False, lambda: [bank_0, bank_1_asc, prev_b2d]),
-            (2, False, lambda: [bank_0, bank_1_asc, bank_2_asc]),
+            (0, False, lambda: [bank_0, prev_b1d, prev_kernel]),
+            (1, False, lambda: [bank_0, bank_1_asc, prev_b2d, prev_kernel]),
+            (2, False, lambda: [bank_0, bank_1_asc, bank_2_asc, prev_kernel]),
             (3, True,  lambda: [bank_0, bank_1_asc, bank_2_asc, bank_3]),
             (4, True,  lambda: [bank_0, bank_1_asc, bank_2_desc, bank_3]),
         ]
@@ -504,17 +676,27 @@ class V6Compressor(nn.Module):
             s4 = self.s4_desc if is_desc else self.s4
             strides = self.stride_stack_desc if is_desc else self.stride_stack
 
-            s4_updates, _ = s4(readable, x)
+            # Descending arm: add ascending S3 gate bank + embed dual view
+            if is_desc:
+                if asc_gate_bank is not None:
+                    readable.append(asc_gate_bank)
+                s4_residual = mx.concatenate([x, x_embed], axis=1)
+            else:
+                s4_residual = x
+            s4_updates, _ = s4(readable, s4_residual)
             target = [self.register_norm(target[i] + s4_updates[i])
                       for i in range(self.cfg.n_registers)]
 
             phase_gates = []
+            raw_phases = []  # ungated phase deltas for S5
 
             if is_desc:
                 # ── VSM-Dispatcher: kernel-shaped phases ──────
-                # Phase 0: dispatch (conditioned on ascending registers)
-                dispatch_out = self.kernel_dispatch(x, registers=readable)
+                # Phase 0: dispatch (conditioned on ascending registers + emphasis)
+                dispatch_out = self.kernel_dispatch(
+                    x, registers=readable, op_emphasis=op_emphasis_inst)
                 delta = dispatch_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
@@ -523,6 +705,7 @@ class V6Compressor(nn.Module):
                 # Phase 1: converge (fine→coarse — propagate dispatch outward)
                 conv_out = strides(x, reverse=False)
                 delta = conv_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
@@ -533,6 +716,7 @@ class V6Compressor(nn.Module):
                 dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
                 integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
                 delta = integrate_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
@@ -542,33 +726,87 @@ class V6Compressor(nn.Module):
                 # Phase 0: prep
                 prep_out = self.prep(x)
                 delta = prep_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
+                asc_gate_mx.append(gate)
                 x = self._modulate(x, delta, gate, 0, is_descending=False)
 
                 # Phase 1: converge (fine→coarse)
                 conv_out = strides(x, reverse=False)
                 delta = conv_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
+                asc_gate_mx.append(gate)
                 x = self._modulate(x, delta, gate, 1, is_descending=False)
 
                 # Phase 2: consolidate
                 cons_out = self.consolidate(x)
                 delta = cons_out - x
+                raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
                 phase_gates.append(float(gate.item()))
+                asc_gate_mx.append(gate)
                 x = self._modulate(x, delta, gate, 2, is_descending=False)
 
             target_banks[pi] = target
             pass_deltas.append(x - x_before)
+            # Raw delta: sum of ungated phase deltas for S5
+            raw_delta = raw_phases[0]
+            for rd in raw_phases[1:]:
+                raw_delta = raw_delta + rd
+            raw_deltas.append(raw_delta)
             all_s3_gates.append(phase_gates)
+
+            # Pack ascending S3 gates after last ascending pass (pi=2)
+            if not is_desc and pi == 2 and asc_gate_mx:
+                asc_gate_flat = mx.concatenate(
+                    [g.reshape(-1) for g in asc_gate_mx])
+                asc_gate_vector = mx.concatenate([
+                    asc_gate_flat,
+                    mx.zeros((self.d_reg_real - asc_gate_flat.shape[0],)),
+                ])
+                asc_gate_bank = [asc_gate_vector]
+
+            # Op emphasis after ascending passes complete (pi=2)
+            if not is_desc and pi == 2:
+                emphasis_parts = []
+                for bank in [target_banks[0], target_banks[1], target_banks[2]]:
+                    for reg in bank:
+                        emphasis_parts.append(reg)
+                emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
+                raw_emphasis = self.emphasis_proj(emphasis_input)
+                op_emphasis_inst = 1.0 + 0.5 * mx.tanh(raw_emphasis)
+                mx.eval(op_emphasis_inst)
+                self._op_emphasis = mx.stop_gradient(
+                    self._emphasis_ema * self._op_emphasis
+                    + (1.0 - self._emphasis_ema) * op_emphasis_inst)
 
             h_out = self._entropy_proxy(x)
             pass_h_out.append(h_out)
+
+            # S2: direction signal to next pass (except after last pass)
+            # First signal unmodulated; subsequent signals modulated by
+            # coherence between this pass and the previous one.
+            if pi < len(pass_configs) - 1:
+                signal = self.s2.direction_signal(pass_deltas[-1], pi)
+                if pi > 0:
+                    coherence = S2Coordinator.coherence_factor(
+                        pass_deltas[-2], pass_deltas[-1])
+                    signal = signal * coherence
+                x = x + signal
+
+        # S2: conflict scores between consecutive pass deltas
+        s2_conflict = []
+        for i in range(len(pass_deltas) - 1):
+            cs = S2Coordinator.conflict_score(pass_deltas[i], pass_deltas[i + 1])
+            s2_conflict.append(cs)
+        s2_scales = [float(self.s2.scales[i].item())
+                     for i in range(S2Coordinator.N_TRANSITIONS)]
 
         # Re-assign named banks from target_banks
         bank_1_asc = target_banks[0]
@@ -587,10 +825,27 @@ class V6Compressor(nn.Module):
             mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
             for i in range(self.cfg.n_registers)
         ]
+        # Kernel compute algedonic — same as forward()
+        if hasattr(self.kernel_dispatch, '_dispatch_weights'):
+            dw_mean = mx.stop_gradient(
+                self.kernel_dispatch._dispatch_weights.mean(axis=(0, 1)))
+        else:
+            dw_mean = mx.zeros((N_OPS,))
+        if hasattr(self.kernel_integrate, '_compute_gate'):
+            cg_mean = mx.stop_gradient(
+                self.kernel_integrate._compute_gate.mean().reshape(1,))
+        else:
+            cg_mean = mx.zeros((1,))
+        kernel_state = mx.concatenate([
+            dw_mean, cg_mean,
+            mx.zeros((self.d_reg_real - N_OPS - 1,)),
+        ])
+        self._prev_kernel_algedonic = mx.stop_gradient(
+            α * self._prev_kernel_algedonic + (1 - α) * kernel_state)
 
-        # Meta-S3
+        # S5: identity-level pass reweighting (sees registers + raw deltas)
         all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3, bank_2_desc, bank_1_desc]
-        meta_gates = self.meta_s3(all_banks)
+        meta_gates = self.s5_reweight(all_banks, raw_deltas)
         mx.eval(meta_gates)
 
         total_ungated = pass_deltas[0]
@@ -659,7 +914,13 @@ class V6Compressor(nn.Module):
 
         metrics = {
             "s3_gates": all_s3_gates,
-            "meta_s3": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
+            "s5_reweight": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
+            "op_emphasis": (
+                [float(op_emphasis_inst[i].item()) for i in range(N_OPS)]
+                if op_emphasis_inst is not None else None
+            ),
+            "s2_conflict": s2_conflict,
+            "s2_scales": s2_scales,
             "register_norms": reg_norms,
             "pass_entropy_in": pass_h_in,
             "pass_entropy_out": pass_h_out,

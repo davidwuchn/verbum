@@ -204,10 +204,20 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
         gates = compressor_metrics["s3_gates"][pi]
         print(f"  │ {pname:4s}: prep={gates[0]:.3f}  conv={gates[1]:.3f}  "
               f"cons={gates[2]:.3f}", file=sys.stderr)
-    print("  ├─ Meta-S3 ───────────────────────────────────────┤", file=sys.stderr)
-    mg = compressor_metrics["meta_s3"]
+    print("  ├─ S5 reweight ───────────────────────────────────┤", file=sys.stderr)
+    mg = compressor_metrics["s5_reweight"]
     print(f"  │ {' '.join(f'{pn}={g:.3f}' for pn, g in zip(pass_names, mg))}",
           file=sys.stderr)
+    print("  ├─ S2 coordination ───────────────────────────────┤", file=sys.stderr)
+    s2_conflict = compressor_metrics.get("s2_conflict", [])
+    s2_scales = compressor_metrics.get("s2_scales", [])
+    s2_names = ("L0↑→L1↑", "L1↑→L2", "L2→L1↓", "L1↓→L0↓")
+    for ti in range(len(s2_conflict)):
+        cs = s2_conflict[ti]
+        sc = s2_scales[ti] if ti < len(s2_scales) else 0.0
+        warn = "  ⚠" if cs < 0 else ""
+        print(f"  │ {s2_names[ti]:8s}: cos={cs:+.3f}  scale={sc:.4f}{warn}",
+              file=sys.stderr)
     print("  ├─ Compression ───────────────────────────────────┤", file=sys.stderr)
     cr = compressor_metrics["pass_compression"]
     pd = compressor_metrics["pass_phi_dev"]
@@ -220,6 +230,17 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
         print(f"  │ {bname:12s}: {' '.join(f'{n:.2f}' for n in norms)}",
               file=sys.stderr)
     print("  └─────────────────────────────────────────────────┘", file=sys.stderr)
+
+    # Op emphasis (S4→kernel modulation)
+    op_emph = compressor_metrics.get("op_emphasis")
+    if op_emph:
+        from kernel import OP_NAMES
+        indexed = sorted(enumerate(op_emph), key=lambda x: x[1], reverse=True)
+        top3 = [(OP_NAMES[i], v) for i, v in indexed[:3]]
+        bot3 = [(OP_NAMES[i], v) for i, v in indexed[-3:]]
+        print(f"  🎯 Op emphasis: top={' '.join(f'{n}={v:.2f}' for n,v in top3)}"
+              f"  bot={' '.join(f'{n}={v:.2f}' for n,v in bot3)}",
+              file=sys.stderr)
 
     # Compute gate stats (kernel pathway)
     if "compute_gate_mean" in compressor_metrics:
@@ -247,7 +268,11 @@ MUTANT_STRATEGIES = {
     "explorer":     1.0,
     "targeted":     2.0,
     "random":       4.0,
+    "intelligence": 0.5,   # S4→S5: Beer's intelligence proposal channel
 }
+
+# S4 module path fragments — intelligence strategy amplifies these
+S4_MODULES = ('s4.', 's4_desc.', 'meta_s4.')
 
 
 def run_tournament(
@@ -323,14 +348,41 @@ def run_tournament(
             int(rng.randint(0, 2**31)) ^ (hash(strategy_name) & 0x7FFFFFFF))
 
         guided_frac = cfg.guided_fraction if strategy_name != "random" else 0.0
-        prop = propose_mutations(
-            model, strategy_budget, strategy_rng,
-            sign_flip_rate=cfg.sign_flip_rate,
-            row_importance=row_importance if row_importance else None,
-            col_importance=col_importance if col_importance else None,
-            grad_direction=grad_direction if grad_direction else None,
-            guided_fraction=guided_frac,
-        )
+
+        # Intelligence strategy: S4→S5 proposal channel (Beer's VSM).
+        # S4 is the intelligence layer — it sees the full picture via
+        # register-query attention. Its gradient signal carries extra
+        # weight because it reflects what the model's intelligence
+        # considers important. Fully gradient-guided (it knows what
+        # it wants), with amplified S4 module importance and suppressed
+        # non-S4 modules.
+        if strategy_name == "intelligence":
+            guided_frac = 1.0  # fully guided — S4 knows what it wants
+            ri_use = {}
+            gd_use = {}
+            for path in (row_importance or {}):
+                is_s4 = any(s in path for s in S4_MODULES)
+                boost = cfg.s4_boost if is_s4 else (1.0 / cfg.s4_boost)
+                ri_use[path] = row_importance[path] * boost
+                if path in (grad_direction or {}):
+                    gd_use[path] = grad_direction[path]
+            prop = propose_mutations(
+                model, strategy_budget, strategy_rng,
+                sign_flip_rate=cfg.sign_flip_rate,
+                row_importance=ri_use if ri_use else None,
+                col_importance=col_importance if col_importance else None,
+                grad_direction=gd_use if gd_use else None,
+                guided_fraction=guided_frac,
+            )
+        else:
+            prop = propose_mutations(
+                model, strategy_budget, strategy_rng,
+                sign_flip_rate=cfg.sign_flip_rate,
+                row_importance=row_importance if row_importance else None,
+                col_importance=col_importance if col_importance else None,
+                grad_direction=grad_direction if grad_direction else None,
+                guided_fraction=guided_frac,
+            )
         proposals.append(prop)
 
     # ── Phase 2: Find consensus — ≥3 of 4 must agree ──

@@ -63,6 +63,7 @@ class V10Config:
     sign_flip_rate: float = 0.2
     guided_fraction: float = 0.7
     mutation_adam_decay: float = 0.1  # decay Adam m/v after accepted mutation (0=reset, 1=no decay)
+    s4_boost: float = 3.0           # S4→S5 proposal amplification (Beer's intelligence channel)
 
     # ── Checkpointing ──
     checkpoint_interval: int = 1000

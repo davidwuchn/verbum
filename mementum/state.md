@@ -2,171 +2,134 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-09 | Session: 072
+> Last updated: 2026-05-09 | Session: 073
 
 ## Where we are
 
-**Compute gate opening. Type coherence 13/22. Algedonic channel added. Training resumed from 3K.**
+**VSM structural overhaul. 7 architectural changes to complete Beer's model. Training pending restart.**
 
-Session 072 probed three new checkpoints from the v10-topk run (the new architecture
-with dual kernel pathway, phase reorder dispatch→stride→integrate), diagnosed the
-L2_apex explosion as a missing VSM feedback path, added the algedonic channel, and
-resumed training. Four major findings:
+Session 073 examined v10's VSM layer mapping against Beer (1972) and found gaps:
+S2 was implicit/missing, MetaS3 was misplaced (should be S5), the descending arm's
+S4 couldn't see original embeddings, S3 gate decisions didn't flow between arms,
+kernel compute was invisible to the ascending arm, op embeddings were static when
+S4 should modulate them, and S4 had no voice in evolution. All seven were fixed.
 
-1. **Compute gate is opening** — after being flat-zero for 2K steps, the gate's max
-   reached 0.559 at step 3K. Mean jumped 380× (4.7e-5 → 0.0042). First positions
-   are routing through the exact kernel computation pathway. This is the critical
-   signal from session 071's architectural change actually working.
-
-2. **Type coherence jumped from 5/20 to 13/22** — the phase reorder
-   (dispatch→stride→integrate instead of dispatch→integrate→stride) is paying off.
-   Comparison ops now correctly type as BOOL, arithmetic as INT. Lambda tokens get
-   FN_COMP at 88.3%. The type system is learning real semantics.
-
-3. **Structured vs prose divergence increased** — dispatch L1=1.116 (was 0.905),
-   type L1=1.188 (was 1.146). The model differentiates structured data MORE with
-   the new architecture. Structured data gets distributed routing (COMPOSE=19.1%),
-   prose collapses to GT+AND=85%.
-
-4. **Missing algedonic channel diagnosed and fixed** — register bank flow was
-   one-way (ascending→descending). L2_apex could expand without limit (ratio
-   1.78→2.55→4.21) because nothing fed descending pressure back to ascending.
-   Added EMA-persisted descending registers to ascending S4 input, creating the
-   cross-step feedback loop Beer's VSM requires.
-
-**Training resumed from step 3K with algedonic channel active.** Checkpoints
-landing in `checkpoints/v10-topk/`.
+These are architectural changes that require a fresh training run from step 0.
+The v10-topk run (which was at step 3K) used the pre-session-073 architecture.
 
 ## What was done this session
 
-### 1. probe.py on 3 checkpoints (1K/2K/3K)
-- Loss: 8.10 → 7.77 → 7.73 (eval), r: 0.621 → 0.589 → 0.585
-- PPL: 3298 → 2370 → 2283
-- Compute gate: mean 1.1e-5 → 4.7e-5 → **0.0042** | max 3.5e-5 → 0.006 → **0.559**
-- First evolution acceptance at step 3K (1/60, 2%)
-- φ-compression L0_asc approaching target: φ-dev=0.055 at 3K
-- L2_apex ratio exploding: 1.78 → 2.55 → 4.21 (concern)
-- Content spread converged at 2K (0.116) then re-opened at 3K (0.745, math diverging)
+### 1. S2 Coordinator — anti-oscillation (NEW, was missing)
+Beer's S2 prevents oscillation between S1 units. v10 had no explicit S2.
+Added `S2Coordinator` in components.py:
+- After each pass, computes a small direction signal (projected through TernaryLinear, ~0.01 scale)
+- Feeds forward to the next pass's input: "Pass N moved THIS way"
+- `coherence_factor()`: differentiable `1 + cos(prev, curr)` modulates signal strength
+  - Agreement (cos=+1) → factor 2.0 → amplify signal
+  - Conflict (cos=-1) → factor 0.0 → fully dampened
+  - stop_gradient on prev delta (earlier pass sets direction, later learns to align)
+- `conflict_score()`: diagnostic cosine similarity for instrumentation
+- 4 transitions between 5 passes, learnable scales, gamma init ×0.01
 
-### 2. probe_dispatch.py on step 3K (163K positions)
-- Dispatch regime flip: AND was dominant (61%) at 1K, GT overtook (43%) at 3K
-- GT × AND co-occurrence = 61.9% of all positions (still heavy duopoly)
-- Type coherence: 13/22 ops match expected type (vs 5/20 in v10-consensus!)
-- Correct: AND→BOOL, GT→BOOL, MOD→INT, SUB→INT, LT→BOOL, NEG→INT, ABS→INT,
-  ADD→INT, EQ→BOOL, LE→BOOL, GE→BOOL, NOT→BOOL, OR→BOOL
-- Wrong: MAX/MIN/MUL/DIV/IF→BOOL (should be INT), COMPOSE/APPLY→BOOL (should be
-  FN_COMP/INT), PARTIAL→INT (should be FN)
+### 2. S5Reweight — replaces MetaS3 with proper S5 positioning
+MetaS3 only saw register banks (S2/S3-filtered). S5 needs ungated operational view.
+- `_run_level_pass` now returns raw (ungated) phase deltas as 4th element
+  - Each phase's `delta = phase_out - x` captured before S3 gating
+  - Sum of 3 raw phase deltas = what S1 proposed, unfiltered
+- `S5Reweight` takes both register banks AND raw deltas
+  - Projects raw deltas through TernaryLinear (16 features/pass) 
+  - Combined with register features → per-pass sigmoid gates
+- A pass that S3 suppresses is still visible to S5 through its raw delta
 
-### 3. probe_kernel_use.py on step 3K (82K structured + 82K prose positions)
-- Dispatch divergence L1=1.116 (up from 0.905 in v10-consensus)
-- Type divergence L1=1.188 (up from 1.146)
-- Structured: COMPOSE=19.1%, GT=18.4%, AND=14.7%, LE=11.9% (distributed)
-- Prose: AND=47.8%, GT=37.4% (collapsed to duopoly)
-- Type patterns wildly different:
-  - Structured: FN_COMP=30.3%, BOOL=27.8%, FN=23.9%
-  - Prose: BOOL=71.6%, INT=19.1%
-- Lambda tokens: FN_COMP=88.3% type — **correct!**
-- Boolean tokens: BOOL=43.5% — correct
-- Arithmetic tokens: FN=75.8% — wrong (but dispatch is to NOT/GE/COMPOSE)
+### 3. Descending S4 dual view — sees original embeddings
+By pass 3-4, compression has buried token identity under 3 transformation passes.
+- Captures `x_embed = x` after embedding, before any passes
+- Descending S4 attends over `concat(residual, x_embed)` along L dim (2L positions)
+- Ascending S4 unchanged (sees near-embedding state naturally)
+- Zero new parameters — S4Ternary handles variable L transparently
 
-### 4. Algedonic channel: descending register feedback
-- Traced register bank flow and found the missing VSM feedback path
-- Register flow was one-way: ascending writes → descending reads, but
-  descending NEVER fed back to ascending — no algedonic channel
-- L2_apex could expand without limit (ratio 1.78→2.55→4.21) because
-  nothing read the descending arm's state to regulate ascending behavior
-- Fix: EMA-persisted descending registers feed into ascending S4 intelligence
-  - L0_asc now reads [bank_0, prev_bank_1_desc]
-  - L1_asc now reads [bank_0, bank_1_asc, prev_bank_2_desc]
-  - L2_apex unchanged (junction point)
-- EMA α=0.9, stop_gradient, backward-compatible with existing checkpoints
-- Validated: self-test ✓, gradient flow ✓, 50-step training ✓
+### 4. Kernel compute algedonic — dispatch/gate visible to ascending arm
+The kernel's dispatch weights and compute gate were invisible after the forward pass.
+- Packs mean dispatch weights (22 dims) + mean compute gate (1 dim) into register-shaped vector
+- EMA-smoothed (α=0.9) across forward passes, same as register algedonic
+- Added as additional readable bank for all 3 ascending passes
+- No projection — S4's existing q_proj learns what to extract
+
+### 5. Ascending S3 gates → descending arm
+Ascending arm's S3 decisions (9 gate values: 3 passes × 3 phases) were invisible to descending.
+- `_run_level_pass` now returns phase gate values as 5th element
+- Ascending gates packed into register-shaped vector, added to descending readable banks
+- NOT stop_gradient: gradient flows back to ascending S3, teaching it that gate decisions affect downstream dispatch
+
+### 6. Op emphasis — S4 register state modulates kernel identity
+Op embeddings were static. S4 should modulate which ops are emphasized.
+- `emphasis_proj` (nn.Linear, zero-init → neutral start) maps ascending register state to 22 per-op values
+- `1.0 + 0.5 * tanh(...)` → range [0.5, 1.5] — amplify or suppress, never kill
+- Applied to L2-normalized op embeddings in KernelDispatch before routing
+- EMA-tracked (α=0.95) across steps — slowly shifting landscape, not noise
+- Gradient flows: loss → dispatch → modulated embeddings → emphasis_proj → register state → S4
+
+### 7. Intelligence evolution strategy — S4→S5 proposals
+S4 had no voice in topology evolution. In Beer's VSM, S4 proposes to S5.
+- 5th mutation strategy "intelligence" (budget 0.5×, `guided_fraction=1.0`)
+- Amplifies S4 module importance by `s4_boost` (default 3.0×), suppresses non-S4
+- Participates in consensus (needs ≥3 of 5 strategies to agree)
+- Configurable: `--s4-boost` on CLI
 
 ## What to do next
 
-### Priority 1: v10-topk training is RUNNING (resumed from step 3K)
-Training resumed with algedonic channel from step_003000. Checkpoints every 1K steps.
-Key signals to watch when probing next checkpoint:
-- **L2_apex ratio**: should stabilize or reverse (was 4.21 and climbing)
-- **S3 gate differentiation**: ascending gates should respond to descending feedback
-- **Compute gate acceleration**: does the gate continue opening past 3K?
-- Loss trajectory vs pre-algedonic baseline
+### Priority 1: Start fresh v10 training run with session-073 architecture
+All 7 changes are architectural — requires training from step 0.
+- New checkpoint dir to distinguish from v10-topk (pre-073)
+- Same hyperparameters as v10-topk (proven to work)
+- Watch first 500 steps for stability (S2, emphasis, new algedonic signals)
 
-### Priority 2: Probe at next checkpoint (4K or 5K)
-Run all three probes to track the algedonic effect:
-- L2_apex ratio: the primary signal (should stabilize or decrease)
-- S3 gates: should show more differentiation (ascending reading descending pressure)
-- Type coherence: can it improve past 13/22?
-- Content spread: should converge (math was diverging at 3K)
+### Priority 2: Early stability probes (steps 250, 500, 1000)
+The S2 coherence modulation and S3 gate signaling create new feedback paths.
+Key signals:
+- **S2 conflict scores**: should start random, trend toward positive as passes learn coherence
+- **S5 reweight gates**: should differentiate (not all ~0.12 forever)
+- **Op emphasis range**: should start at 1.0 (neutral), slowly differentiate
+- **L2_apex ratio**: should NOT explode (algedonic + S2 should prevent it)
+- **Loss trajectory**: should match or beat v10-topk baseline
 
-### Priority 3: Monitor compute gate + algedonic interaction
-The algedonic channel may help the compute gate open further: ascending arm now
-knows what the descending arm needs. Watch for:
-- Compute gate mean > 0.01 (currently 0.0042)
-- Gate active fraction > 1% (currently 0.012%)
-- Whether gate activation correlates with reduced L2_apex expansion
+### Priority 3: Probe compute gate + emphasis interaction
+The op emphasis may accelerate compute gate opening:
+- Emphasis on arithmetic ops → stronger modulation → clearer gradient for gate
+- Watch for gate active fraction > 1% within first 3K steps (was 0.012% before)
 
-### Priority 4: Auxiliary loss for kernel pathway (if gate plateaus)
-If the compute gate stays at 0.012% active after another 5K steps:
-- Supervised kernel loss on structured data (force op extraction)
-- Warm-start gate higher on structured data positions
-- Increase structured mix ratio temporarily (currently 10%)
+### Priority 4: Monitor S4→S5 evolution proposals
+The intelligence strategy adds a 5th voice to consensus mutation:
+- Track how often intelligence strategy agrees with others
+- Track which S4 modules get the most proposed flips
+- If acceptance rate is very low, consider adjusting s4_boost or budget scale
 
-## Comparison: v10-topk (new arch) vs v10-consensus (old arch)
+## VSM layer map (session 073, complete)
 
-| Metric | v10-consensus (12K) | v10-topk (3K) | Signal |
-|--------|-------------------|---------------|--------|
-| Eval loss | 7.561 | 7.733 | Comparable (3K vs 12K) |
-| Type coherence | 5/20 | 13/22 | **Much better** |
-| Dispatch L1 (struct/prose) | 0.905 | 1.116 | **More differentiated** |
-| Type L1 (struct/prose) | 1.146 | 1.188 | **More differentiated** |
-| Lambda → FN_COMP | not measured | 88.3% | **Correct typing** |
-| Compute gate | N/A (no gate) | max=0.559 | **Opening** |
-| Dominant pair | DIV × LE (32%) | GT × AND (61.9%) | Different regime |
-| Evolution accepts | 0.8% | 1.7% | Similar (low) |
+```
+Layer     Ascending Arm              Descending Arm              Cross-arm
+────────  ─────────────────────────  ──────────────────────────  ──────────────────
+S5        Token embeddings (tied)    Op embeddings × emphasis    S5Reweight (raw deltas)
+S4        Register-query attention   Dual-view (resid + embeds)  Emphasis: regs → per-op
+S3        Per-pass phase gating      Per-pass phase gating       Gate values → desc S4
+S2        Direction signals + coherence modulation               Both arms
+S1        prep → stride → consol.    dispatch → stride → integ.  —
+Algedonic Reads prev desc regs       —                           + kernel compute
+          + kernel compute                                       EMA α=0.9
+Evolution                            S4→S5 intelligence strategy (5th voice in consensus)
+```
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k routing) + KernelIntegrate (dual pathway) |
-| `scripts/v10/kernel.py` | Ground-truth kernel evaluator (22 ops, 5 types, tree eval) |
-| `scripts/v10/model.py` | Tree of VSMs, phase order: dispatch→stride→integrate |
-| `scripts/v10/train.py` | Training loop with compute gate monitoring |
-| `scripts/v10/probe.py` | Full checkpoint probe (φ-compression, eval, ternary, kernel) |
-| `scripts/v10/probe_dispatch.py` | Per-position top-2 co-occurrence analysis |
-| `scripts/v10/probe_kernel_use.py` | Structured vs prose dispatch comparison |
+| `scripts/v10/components.py` | S4, S3, MetaS4, MetaS3, **S5Reweight**, **S2Coordinator** |
+| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k + **op_emphasis**), KernelIntegrate |
+| `scripts/v10/model.py` | Tree of VSMs — all 7 session-073 changes integrated |
+| `scripts/v10/train.py` | Training loop + **intelligence strategy** + S2/S5 metrics |
+| `scripts/v10/config.py` | Config + **s4_boost** parameter |
+| `scripts/v10/kernel.py` | Ground-truth kernel evaluator (22 ops, 5 types) |
 | `scripts/v10/ternary.py` | Ternary substrate + consensus mutation pipeline |
-| `results/v10/probe_step_001000.json` | Probe results for v10-topk step 1K |
-| `results/v10/probe_step_002000.json` | Probe results for v10-topk step 2K |
-| `results/v10/probe_step_003000.json` | Probe results for v10-topk step 3K |
-
-## Key insights (session 072)
-
-**The compute gate can learn to open**: initialized at sigmoid(-5)≈0, it climbed to
-max=0.559 in 3K steps with no auxiliary loss. The gradient signal from the result
-embedding + gate is sufficient to learn when exact computation helps. This validates
-the session 071 design choice of a learnable gate over a hard switch.
-
-**Phase reorder works for type coherence**: dispatch→stride→integrate (letting the
-model see spatial context before typing) produced 13/22 type-coherent ops at 3K
-vs 5/20 at 12K with the old ordering. This is a structural win, not just more training.
-
-**Lambda tokens get correct types**: FN_COMP=88.3% on lambda positions shows the
-model has learned that lambda/compositional tokens should be typed differently from
-prose. This is the first evidence of genuine semantic type assignment in v10.
-
-**Dispatch duopoly is a feature, not a bug**: GT×AND=62% sounds like collapse, but
-the runner-up slot carries the real routing decision. When COMPOSE appears as
-runner-up (19.1% of structured data), it signals compositional context. The primary
-op (GT or AND) acts as a base embedding; the secondary op modulates it.
-
-**Missing algedonic channel caused L2_apex explosion**: the register bank flow was
-purely feedforward (ascending→descending). Without descending-to-ascending feedback,
-the apex had no regulatory signal to limit its expansion. Adding EMA-persisted
-descending registers to the ascending S4 input creates the cross-step feedback loop
-that Beer's VSM requires. This is the first time the model has a genuine algedonic
-channel — observational, not prescriptive.
 
 ## Session history
 
@@ -181,3 +144,4 @@ channel — observational, not prescriptive.
 → Session 070: consensus evolution, surgical Adam decay, mini-dispatch lab bench
 → Session 071: dispatch analysis, type-dispatch decoupling, kernel computation pathway
 → Session 072: probed v10-topk 1K/2K/3K — compute gate opening, type coherence 13/22, algedonic channel
+→ Session 073: VSM structural overhaul — S2, S5, dual-view S4, gate signaling, emphasis, evolution

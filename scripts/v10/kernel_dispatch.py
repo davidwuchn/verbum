@@ -188,11 +188,16 @@ class KernelDispatch(nn.Module):
         )
         return self.op_embeddings * (self.op_embed_scale / norms)
 
-    def __call__(self, x: mx.array, registers: list[list[mx.array]] | None = None) -> mx.array:
+    def __call__(self, x: mx.array, registers: list[list[mx.array]] | None = None,
+                 op_emphasis: mx.array | None = None) -> mx.array:
         """
         x: (B, L, d_model)
         registers: list of register banks from ascending arm, each bank is
                    a list of register vectors. Used to condition dispatch.
+        op_emphasis: (n_ops,) per-op emphasis from S4's register state.
+                     Modulates op embeddings: emphasis > 1 amplifies,
+                     < 1 suppresses. Driven by what S4's intelligence
+                     observes, EMA-tracked across steps for stability.
         Returns: (B, L, d_model) — with residual connection
 
         Routing: top-k MoE style. Per position, only the top-k ops
@@ -251,6 +256,15 @@ class KernelDispatch(nn.Module):
 
         # Step 3: Normalized op embeddings — prevent runaway growth
         op_emb = self._normalize_op_embeddings()  # (n_ops, d_model)
+
+        # S4→S5 emphasis: modulate which ops are more/less available.
+        # Driven by S4's register state, EMA-tracked across steps.
+        # emphasis > 1 amplifies an op's embedding (makes it louder
+        # in the modulation), < 1 suppresses (quieter). The dispatch
+        # weights (routing) still control WHICH ops fire per position;
+        # emphasis shifts the landscape of what's available.
+        if op_emphasis is not None:
+            op_emb = op_emb * op_emphasis[:, None]  # (n_ops, d_model)
 
         # Step 4: Weighted op embedding — kernel identity modulation
         # (B, L, n_ops) @ (n_ops, d_model) → (B, L, d_model)

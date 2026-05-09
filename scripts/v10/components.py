@@ -342,6 +342,256 @@ class MetaS3Ternary(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# S5Reweight — Identity-level pass contribution (replaces MetaS3)
+# ══════════════════════════════════════════════════════════════════════
+
+
+class S5Reweight(nn.Module):
+    """S5 — Identity-level pass contribution reweighting.
+
+    Beer's S5 is identity — it defines what the system IS and must
+    see the full picture to maintain coherence. The prior MetaS3 only
+    saw register banks (S2/S3-filtered state). S5 gets a direct,
+    ungated view of what S1 operations actually produced.
+
+    Inputs:
+      - Register banks (S2 coordination state) — what the system
+        believes about type/scope/role
+      - Raw (ungated) pass deltas — what each pass's operations
+        PROPOSED before S3 gating filtered them
+
+    Why ungated matters:
+      A pass that S3 currently suppresses can still influence the
+      final output through S5's awareness of its raw delta. If S5
+      sees useful raw output, it opens that pass's gate, which in
+      turn teaches S3 to open. S5 sees ground truth about S1; S3
+      only sees what it already filtered.
+
+    Output: per-pass sigmoid gates (same role as MetaS3).
+    Initialization: bias -2.0 (gates start near-closed, ~0.12).
+    """
+
+    def __init__(
+        self,
+        d_model: int,
+        d_register: int,
+        n_registers: int,
+        n_banks: int,
+        n_passes: int,
+    ):
+        super().__init__()
+        self.n_passes = n_passes
+        self.d_model = d_model
+        d_reg_real = d_register * 2
+
+        # Register input (same as MetaS3)
+        reg_input_dim = n_banks * n_registers * d_reg_real
+
+        # Raw delta input: each pass delta summarized to d_model
+        delta_summary_dim = n_passes * d_model
+        self._delta_dim = ((delta_summary_dim + 15) // 16) * 16
+        self._delta_dim_raw = delta_summary_dim
+
+        # Project raw deltas to compact features via ternary fabric.
+        # pre_norm=True: direction matters, not magnitude.
+        # 16 features per pass — enough to capture operational character.
+        delta_proj_out = n_passes * 16
+        delta_proj_out_padded = ((delta_proj_out + 15) // 16) * 16
+        self.delta_proj = TernaryLinear(
+            self._delta_dim, delta_proj_out_padded, pre_norm=True)
+        self._delta_proj_out = delta_proj_out
+
+        # Combined: register features + delta features → gates
+        combined_dim = reg_input_dim + delta_proj_out
+        self.gate_proj = nn.Linear(combined_dim, n_passes)
+        # Bias -2.0: gates start near-closed (~0.12), must learn to open
+        self.gate_proj.bias = mx.full((n_passes,), -2.0)
+        # Learnable temperature per pass
+        self.temperature = mx.ones((n_passes,))
+
+    def __call__(
+        self,
+        all_banks: list[list[mx.array]],
+        raw_deltas: list[mx.array],
+    ) -> mx.array:
+        """
+        all_banks:  list of register banks (S2 coordination state)
+        raw_deltas: list of n_passes raw (ungated) pass deltas,
+                    each (B, L, d_model)
+
+        Returns: (n_passes,) sigmoid gates for pass contribution
+        """
+        # Register features
+        reg_flat = _flatten_banks(all_banks)
+
+        # Raw delta features: spatial mean of each ungated pass delta
+        delta_summaries = []
+        for delta in raw_deltas:
+            delta_summaries.append(delta.mean(axis=(0, 1)))  # (d_model,)
+        delta_flat = mx.concatenate(delta_summaries, axis=-1)
+
+        # Pad for TernaryLinear alignment
+        if delta_flat.shape[0] < self._delta_dim:
+            delta_flat = mx.concatenate([
+                delta_flat,
+                mx.zeros((self._delta_dim - delta_flat.shape[0],))
+            ])
+
+        # Project: ternary topology learns which delta patterns matter
+        delta_features = _ternary_1d(
+            self.delta_proj, delta_flat)[:self._delta_proj_out]
+
+        # Combine register + delta features → gate logits
+        combined = mx.concatenate([reg_flat, delta_features], axis=-1)
+        logits = self.gate_proj(combined)
+        return mx.sigmoid(logits * self.temperature)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# S2 — Inter-pass direction coordination (Beer's anti-oscillation)
+# ══════════════════════════════════════════════════════════════════════
+
+
+class S2Coordinator(nn.Module):
+    """S2 — Inter-pass direction coordination.
+
+    Beer's S2 prevents oscillation between S1 operational units.
+    In v10, the S1 units are the 5 level-passes. Without S2, passes
+    can write contradictory deltas to the residual stream — Pass N
+    compresses in one direction, Pass N+1 inadvertently undoes it.
+
+    Mechanism: after each pass produces a delta, S2 computes a small
+    direction signal and adds it to the next pass's input. This is
+    a coordination memo: "Pass N moved the representation THIS way."
+
+    The next pass's S3 gates and S4 intelligence still control what
+    happens — S2 just provides awareness of the predecessor's action.
+
+    Properties:
+      - 4 transitions (between 5 passes)
+      - Direction = projected, normalized delta summary
+      - Scale starts small (~0.01), learnable per transition
+      - S2 signals survive MetaS3 reweighting — coordination
+        infrastructure is not gated by control (correct: S2 ≠ S3)
+
+    Conflict detection (diagnostic, not used for control):
+      Cosine similarity between consecutive pass deltas.
+        cos < 0 → oscillation (passes fighting)
+        cos > 0 → reinforcement (passes cooperating)
+      Exposed in instrumentation. If S2 works, conflict scores
+      should trend toward 0 or positive over training.
+
+    Design:
+      - Not S3: doesn't gate or suppress. Additive, not multiplicative.
+      - Not S4: doesn't scan environment. Dumb memo of what happened.
+      - Not S5: doesn't define identity. Transient, per-forward-pass.
+      - IS S2: minimum viable coordination — "FYI, here's what just
+        happened." Prevents unknowing contradiction without preventing
+        intentional override.
+    """
+
+    N_TRANSITIONS = 4
+    TRANSITION_NAMES = ("L0↑→L1↑", "L1↑→L2", "L2→L1↓", "L1↓→L0↓")
+
+    def __init__(self, d_model: int):
+        super().__init__()
+        self.d_model = d_model
+
+        # Direction projection: learns which aspects of the delta
+        # matter for coordination. pre_norm=True so it's about
+        # direction (shape), not magnitude.
+        self.dir_projs = [
+            TernaryLinear(d_model, d_model, pre_norm=True)
+            for _ in range(self.N_TRANSITIONS)
+        ]
+        # Initialize gamma small — direction signal starts gentle
+        for proj in self.dir_projs:
+            proj.gamma = proj.gamma * 0.01
+
+        # Per-transition learnable scale
+        self.scales = [mx.ones((1,)) * 0.01
+                       for _ in range(self.N_TRANSITIONS)]
+
+        # Normalize direction signal — prevents scale drift over training
+        self.norm = nn.RMSNorm(d_model)
+
+    def direction_signal(
+        self,
+        pass_delta: mx.array,
+        transition_idx: int,
+    ) -> mx.array:
+        """Direction memo from pass N to pass N+1.
+
+        pass_delta: (B, L, d_model) — what the pass changed
+        transition_idx: 0-3
+
+        Returns (1, 1, d_model) — broadcasts to (B, L, d_model)
+        """
+        # Spatial mean → single direction vector
+        summary = pass_delta.mean(axis=(0, 1))           # (d_model,)
+
+        # Project through ternary fabric — learns which aspects matter
+        projected = self.dir_projs[transition_idx](
+            summary.reshape(1, -1)
+        ).reshape(-1)                                     # (d_model,)
+
+        # Normalize + scale
+        signal = self.norm(projected) * self.scales[transition_idx]
+
+        return signal[None, None, :]                      # (1, 1, d_model)
+
+    @staticmethod
+    def coherence_factor(
+        delta_prev: mx.array,
+        delta_curr: mx.array,
+    ) -> mx.array:
+        """Differentiable coherence: 1 + cos(prev, curr).
+
+        Returns mx.array scalar in [0, 2]:
+          2.0 → passes fully agree (amplify direction signal)
+          1.0 → orthogonal (neutral)
+          0.0 → passes fully conflict (dampen signal to zero)
+
+        Gradient: stop_gradient on delta_prev — earlier pass sets
+        direction, later pass learns to align. S2 doesn't retro-adjust
+        the predecessor; it teaches the current pass that coherent
+        deltas produce stronger forward signals (better loss).
+        """
+        s_prev = mx.stop_gradient(delta_prev.mean(axis=(0, 1)))
+        s_curr = delta_curr.mean(axis=(0, 1))
+
+        dot = (s_prev * s_curr).sum()
+        n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
+        n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
+
+        return 1.0 + dot / (n_prev * n_curr)
+
+    @staticmethod
+    def conflict_score(
+        delta_prev: mx.array,
+        delta_curr: mx.array,
+    ) -> float:
+        """Cosine similarity between consecutive pass deltas (diagnostic).
+
+          +1 → reinforcing  |  0 → orthogonal  |  -1 → oscillating
+
+        Non-differentiable — for instrumentation/logging only.
+        See coherence_factor() for the differentiable version used
+        in the forward pass to modulate direction signals.
+        """
+        s_prev = delta_prev.mean(axis=(0, 1))
+        s_curr = delta_curr.mean(axis=(0, 1))
+
+        dot = (s_prev * s_curr).sum()
+        n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
+        n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
+
+        cos = dot / (n_prev * n_curr)
+        mx.eval(cos)
+        return float(cos.item())
+
+
+# ══════════════════════════════════════════════════════════════════════
 # Self-test
 # ══════════════════════════════════════════════════════════════════════
 
@@ -396,6 +646,73 @@ if __name__ == "__main__":
     for g in gates.tolist():
         assert g < 0.5, f"Meta-S3 gate should start near-closed, got {g:.3f}"
     print(f"  MetaS3: gates shape {gates.shape}, values {[f'{g:.3f}' for g in gates.tolist()]} ✓ (near-closed)")
+
+    print("Testing S5Reweight...")
+    s5 = S5Reweight(d_model, d_register, n_registers=n_registers,
+                     n_banks=6, n_passes=5)
+    mx.eval(s5.parameters())
+    all_banks_s5 = [_init_bank()] + [_fresh_bank() for _ in range(5)]
+    raw_deltas = [mx.random.normal((1, 32, d_model)) for _ in range(5)]
+    gates_s5 = s5(all_banks_s5, raw_deltas)
+    mx.eval(gates_s5)
+    assert gates_s5.shape == (5,), f"Expected (5,), got {gates_s5.shape}"
+    for g in gates_s5.tolist():
+        assert g < 0.5, f"S5 gate should start near-closed, got {g:.3f}"
+    print(f"  S5Reweight: gates {[f'{g:.3f}' for g in gates_s5.tolist()]} ✓ (near-closed)")
+    # Verify it uses raw deltas — different deltas should produce different gates
+    raw_deltas_2 = [mx.random.normal((1, 32, d_model)) * 10.0 for _ in range(5)]
+    gates_s5_2 = s5(all_banks_s5, raw_deltas_2)
+    mx.eval(gates_s5_2)
+    diff = max(abs(a - b) for a, b in zip(gates_s5.tolist(), gates_s5_2.tolist()))
+    assert diff > 1e-6, "S5 gates should differ with different raw deltas"
+    print(f"  S5Reweight: different raw deltas → different gates (max diff={diff:.4f}) ✓")
+
+    print("Testing S2Coordinator...")
+    s2 = S2Coordinator(d_model)
+    mx.eval(s2.parameters())
+    # Direction signal shape
+    delta = mx.random.normal((1, 32, d_model))
+    signal = s2.direction_signal(delta, 0)
+    mx.eval(signal)
+    assert signal.shape == (1, 1, d_model), f"Expected (1, 1, {d_model}), got {signal.shape}"
+    # Signal should be small (gamma init * 0.01, scale 0.01)
+    signal_norm = float(mx.sqrt((signal * signal).sum()).item())
+    print(f"  S2: signal shape {signal.shape}, norm={signal_norm:.6f} (should be small) ✓")
+    # All 4 transitions
+    for ti in range(S2Coordinator.N_TRANSITIONS):
+        sig = s2.direction_signal(delta, ti)
+        mx.eval(sig)
+        assert sig.shape == (1, 1, d_model)
+    print(f"  S2: all {S2Coordinator.N_TRANSITIONS} transitions produce valid signals ✓")
+    # Conflict score
+    delta2 = mx.random.normal((1, 32, d_model))
+    cs = S2Coordinator.conflict_score(delta, delta2)
+    assert -1.0 <= cs <= 1.0, f"Conflict score out of range: {cs}"
+    # Self-conflict should be +1
+    cs_self = S2Coordinator.conflict_score(delta, delta)
+    assert cs_self > 0.99, f"Self-conflict should be ~1.0, got {cs_self:.3f}"
+    # Anti-conflict should be -1
+    cs_anti = S2Coordinator.conflict_score(delta, -delta)
+    assert cs_anti < -0.99, f"Anti-conflict should be ~-1.0, got {cs_anti:.3f}"
+    print(f"  S2: conflict scores: random={cs:.3f}, self={cs_self:.3f}, anti={cs_anti:.3f} ✓")
+    # Coherence factor (differentiable version)
+    cf_agree = S2Coordinator.coherence_factor(delta, delta)
+    mx.eval(cf_agree)
+    assert abs(float(cf_agree.item()) - 2.0) < 0.01, \
+        f"Agreement coherence should be ~2.0, got {cf_agree.item()}"
+    cf_fight = S2Coordinator.coherence_factor(delta, -delta)
+    mx.eval(cf_fight)
+    assert abs(float(cf_fight.item()) - 0.0) < 0.01, \
+        f"Conflict coherence should be ~0.0, got {cf_fight.item()}"
+    cf_ortho = S2Coordinator.coherence_factor(
+        mx.array([[[1.0, 0.0, 0.0, 0.0]]]),
+        mx.array([[[0.0, 1.0, 0.0, 0.0]]]),
+    )
+    mx.eval(cf_ortho)
+    assert abs(float(cf_ortho.item()) - 1.0) < 0.01, \
+        f"Orthogonal coherence should be ~1.0, got {cf_ortho.item()}"
+    print(f"  S2: coherence factor: agree={cf_agree.item():.1f}, "
+          f"ortho={cf_ortho.item():.1f}, fight={cf_fight.item():.1f} ✓")
 
     # Test gradient flow
     print("Testing gradient flow through S4...")
