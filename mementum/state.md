@@ -56,12 +56,18 @@ Session 070 addressed two problems:
 
 ## What to do next
 
-### Priority 1: Run v10-topk with consensus evolution
-The consensus mechanism and surgical decay are ready. Start a fresh
-training run to verify:
+### Priority 1: Monitor v10-consensus run (ACTIVE in tmux)
+```bash
+uv run python scripts/v10/train.py \
+    --total-steps 10000 --mix-ratio 0.1 \
+    --checkpoint-dir checkpoints/v10-consensus --seq-len 4096
+```
+Key signals to watch:
 - CE spikes eliminated (or greatly reduced) after accepted mutations
 - Consensus flips per generation (expect dozens to hundreds with real gradients)
+- `flips=N/M` in log — N=consensus flips, M=positions sampled
 - Training trajectory vs v10-spiral baseline
+- If consensus yields 0 flips consistently, may need to lower threshold or raise base_pct
 
 ### Priority 2: Fix MiniDispatch experiment
 Two options:
