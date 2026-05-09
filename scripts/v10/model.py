@@ -220,6 +220,27 @@ class V6Compressor(nn.Module):
         self.meta_s3 = MetaS3Ternary(d_reg, n_registers=n_reg,
                                       n_banks=6, n_passes=self.N_PASSES)
 
+        # ── Algedonic channel: persistent descending registers ─
+        # Beer's VSM requires feedback from S3 back to S1/S2 —
+        # an "algedonic channel" that signals system distress.
+        # Without it, the apex can expand without limit because
+        # nothing reads the descending arm's state to regulate
+        # the ascending arm.
+        #
+        # Implementation: store the descending registers from the
+        # previous forward pass as persistent buffers. The ascending
+        # arm's S4 intelligence can read these stale descending
+        # registers, creating a cross-step feedback loop:
+        #   descending pressure → stored → ascending S4 reads →
+        #   ascending S3 adjusts gates → regulated apex output
+        #
+        # EMA smoothing (α=0.9) prevents oscillation.
+        self._algedonic_ema = 0.9
+        self._prev_bank_1_desc = [mx.zeros((self.d_reg_real,))
+                                   for _ in range(n_reg)]
+        self._prev_bank_2_desc = [mx.zeros((self.d_reg_real,))
+                                   for _ in range(n_reg)]
+
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
 
@@ -332,17 +353,28 @@ class V6Compressor(nn.Module):
 
         pass_deltas = []
 
-        # Pass 0: L0_asc
+        # ── Algedonic channel: read previous descending registers ──
+        # These are EMA-smoothed registers from the PREVIOUS forward
+        # pass. They carry descending arm pressure (type/dispatch state)
+        # back into the ascending arm's S4 intelligence, creating the
+        # feedback loop that Beer's VSM requires for S3 regulation.
+        # stop_gradient: the algedonic signal is observational, not
+        # a training target. Gradient flows forward through the
+        # ascending arm normally.
+        prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
+        prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+
+        # Pass 0: L0_asc — now reads prev descending L0 registers
         x, bank_1_asc, pd = self._run_level_pass(
-            x, 0, False, [bank_0], bank_1_asc)
+            x, 0, False, [bank_0, prev_b1d], bank_1_asc)
         pass_deltas.append(pd)
 
-        # Pass 1: L1_asc
+        # Pass 1: L1_asc — now reads prev descending L1 registers
         x, bank_2_asc, pd = self._run_level_pass(
-            x, 1, False, [bank_0, bank_1_asc], bank_2_asc)
+            x, 1, False, [bank_0, bank_1_asc, prev_b2d], bank_2_asc)
         pass_deltas.append(pd)
 
-        # Pass 2: L2_apex
+        # Pass 2: L2_apex — unchanged (apex is the junction point)
         x, bank_3, pd = self._run_level_pass(
             x, 2, False, [bank_0, bank_1_asc, bank_2_asc], bank_3)
         pass_deltas.append(pd)
@@ -356,6 +388,17 @@ class V6Compressor(nn.Module):
         x, bank_1_desc, pd = self._run_level_pass(
             x, 4, True, [bank_0, bank_1_asc, bank_2_desc, bank_3], bank_1_desc)
         pass_deltas.append(pd)
+
+        # ── Update algedonic buffers (EMA, no gradient) ────────
+        α = self._algedonic_ema
+        self._prev_bank_1_desc = [
+            mx.stop_gradient(α * self._prev_bank_1_desc[i] + (1 - α) * bank_1_desc[i])
+            for i in range(self.cfg.n_registers)
+        ]
+        self._prev_bank_2_desc = [
+            mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
+            for i in range(self.cfg.n_registers)
+        ]
 
         # Meta-S3: retroactive pass reweighting
         all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3,
@@ -436,9 +479,13 @@ class V6Compressor(nn.Module):
         pass_h_in = []
         pass_h_out = []
 
+        # Algedonic channel: stale descending registers for ascending S4
+        prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
+        prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+
         pass_configs = [
-            (0, False, lambda: [bank_0]),
-            (1, False, lambda: [bank_0, bank_1_asc]),
+            (0, False, lambda: [bank_0, prev_b1d]),
+            (1, False, lambda: [bank_0, bank_1_asc, prev_b2d]),
             (2, False, lambda: [bank_0, bank_1_asc, bank_2_asc]),
             (3, True,  lambda: [bank_0, bank_1_asc, bank_2_asc, bank_3]),
             (4, True,  lambda: [bank_0, bank_1_asc, bank_2_desc, bank_3]),
@@ -529,6 +576,17 @@ class V6Compressor(nn.Module):
         bank_3 = target_banks[2]
         bank_2_desc = target_banks[3]
         bank_1_desc = target_banks[4]
+
+        # Update algedonic buffers (EMA, no gradient) — same as forward()
+        α = self._algedonic_ema
+        self._prev_bank_1_desc = [
+            mx.stop_gradient(α * self._prev_bank_1_desc[i] + (1 - α) * bank_1_desc[i])
+            for i in range(self.cfg.n_registers)
+        ]
+        self._prev_bank_2_desc = [
+            mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
+            for i in range(self.cfg.n_registers)
+        ]
 
         # Meta-S3
         all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3, bank_2_desc, bank_1_desc]
