@@ -6,10 +6,12 @@
 
 ## Where we are
 
-**Compute gate is opening. Type coherence dramatically improved. v10-topk probed at 1K/2K/3K.**
+**Compute gate opening. Type coherence 13/22. Algedonic channel added. Training resumed from 3K.**
 
 Session 072 probed three new checkpoints from the v10-topk run (the new architecture
-with dual kernel pathway, phase reorder dispatch→stride→integrate). Three major findings:
+with dual kernel pathway, phase reorder dispatch→stride→integrate), diagnosed the
+L2_apex explosion as a missing VSM feedback path, added the algedonic channel, and
+resumed training. Four major findings:
 
 1. **Compute gate is opening** — after being flat-zero for 2K steps, the gate's max
    reached 0.559 at step 3K. Mean jumped 380× (4.7e-5 → 0.0042). First positions
@@ -25,6 +27,15 @@ with dual kernel pathway, phase reorder dispatch→stride→integrate). Three ma
    type L1=1.188 (was 1.146). The model differentiates structured data MORE with
    the new architecture. Structured data gets distributed routing (COMPOSE=19.1%),
    prose collapses to GT+AND=85%.
+
+4. **Missing algedonic channel diagnosed and fixed** — register bank flow was
+   one-way (ascending→descending). L2_apex could expand without limit (ratio
+   1.78→2.55→4.21) because nothing fed descending pressure back to ascending.
+   Added EMA-persisted descending registers to ascending S4 input, creating the
+   cross-step feedback loop Beer's VSM requires.
+
+**Training resumed from step 3K with algedonic channel active.** Checkpoints
+landing in `checkpoints/v10-topk/`.
 
 ## What was done this session
 
@@ -73,16 +84,9 @@ with dual kernel pathway, phase reorder dispatch→stride→integrate). Three ma
 
 ## What to do next
 
-### Priority 1: Resume training with algedonic channel
-The algedonic channel has been added to model.py (session 072). Resume training
-from step_003000 — the new code is backward-compatible (algedonic buffers init
-to zero and warm up within a few steps):
-```bash
-uv run python scripts/v10/train.py \
-    --total-steps 20000 --mix-ratio 0.1 \
-    --checkpoint-dir checkpoints/v10-topk --seq-len 4096 --resume
-```
-Key signals to watch:
+### Priority 1: v10-topk training is RUNNING (resumed from step 3K)
+Training resumed with algedonic channel from step_003000. Checkpoints every 1K steps.
+Key signals to watch when probing next checkpoint:
 - **L2_apex ratio**: should stabilize or reverse (was 4.21 and climbing)
 - **S3 gate differentiation**: ascending gates should respond to descending feedback
 - **Compute gate acceleration**: does the gate continue opening past 3K?

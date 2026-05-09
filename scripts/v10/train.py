@@ -679,7 +679,15 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
 
     # ── Resume ────────────────────────────────────────────────
     if args.resume:
-        ckpt = find_latest_checkpoint(checkpoint_dir)
+        if args.resume is True:
+            # --resume with no argument: find latest
+            ckpt = find_latest_checkpoint(checkpoint_dir)
+        else:
+            # --resume step_003000 or --resume /full/path/step_003000
+            resume_path = Path(args.resume)
+            if not resume_path.is_absolute():
+                resume_path = checkpoint_dir / resume_path
+            ckpt = resume_path if resume_path.exists() else None
         if ckpt:
             start_step, state, row_importance, col_importance, \
                 grad_direction, mutation_rng, dl_state = load_checkpoint(ckpt, model, optimizer)
@@ -914,7 +922,9 @@ def main():
         description="v10 — V6 compressor on Dolma prose (Qwen3 tokenizer)")
     parser.add_argument("--total-steps", type=int, default=None)
     parser.add_argument("--checkpoint-dir", type=str, default=None)
-    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--resume", nargs="?", const=True, default=False,
+                        help="Resume training. No arg = latest checkpoint. "
+                             "Arg = step dir name (e.g. step_003000) or full path.")
     parser.add_argument("--d-model", type=int, default=None)
     parser.add_argument("--batch-size", type=int, default=None)
     parser.add_argument("--grad-accum", type=int, default=None)
