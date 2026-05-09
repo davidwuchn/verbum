@@ -2,115 +2,128 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-09 | Session: 070
+> Last updated: 2026-05-09 | Session: 071
 
 ## Where we are
 
-**Consensus evolution + surgical Adam decay. MiniDispatch lab bench built.**
+**Dispatch analysis reveals type-dispatch decoupling. Kernel computation pathway added.**
 
-Session 070 addressed two problems:
+Session 071 analyzed the v10-topk run (12 checkpoints, 1K-12K steps, saved to
+checkpoints/v10-consensus) and discovered three major findings:
 
-1. **Evolution CE spike**: every accepted mutation decayed ALL 82,736 gamma
-   entries (cold-starting the entire optimizer). Fixed with surgical decay:
-   only mutated rows get their Adam state reset. 88.5% of momentum preserved.
+1. **Dispatch is not dispatch** — the 22 "kernel ops" are just embedding vectors
+   that bias a single shared FFN. There's no actual computation happening. LE, DIV,
+   PARTIAL etc. are names for learned modulation directions, not operations.
 
-2. **Tournament → consensus**: replaced best-of-4 tournament selection with
-   consensus mutation. All 4 strategies propose flips independently, only
-   positions where ≥3 agree on the same new value are applied. Yields
-   fewest flips with highest confidence.
+2. **Type and dispatch are completely decoupled** — 163K-position probe showed FN
+   type dominates at 56% regardless of which op is active. LE dispatches 59% but
+   BOOL type is only 2.4%. Only 5/20 ops match their expected output type.
 
-3. **MiniDispatch lab bench**: built minimal routing model to study dispatch
-   in isolation. First run showed d_model=128 is too small for 151K vocab —
-   routing stayed uniform. Needs vocab reduction or larger model.
+3. **The model DOES differentiate structured from prose** — dispatch divergence
+   L1=0.905, type divergence L1=1.146. Structured data gets FN_COMP=65% type
+   (vs FN=57% for prose). Different token categories get different dispatch.
+   But dispatch doesn't match the right ops (arithmetic tokens → GE, not ADD).
 
 ## What was done this session
 
-### 1. Surgical Adam decay (scripts/v10/train.py)
-- `_mutate_linear`/`_mutate_embedding` now return `(actual_flips, mutated_rows: set[int])`
-- `mutate_topology` returns `(count, mutation_map: dict[str, set[int]])`
-- `decay_adam_state` accepts `mutation_map`, only decays m/v for affected gamma rows
-- At v10 scale: budget=26,200 flips → ~9,500 unique rows → only those get decay
-- Old: 100% of gamma momentum destroyed. New: 11.5% destroyed, 88.5% preserved.
+### 1. v10-topk checkpoint analysis (12 checkpoints)
+- Loss trajectory: 8.06 → 7.56 over 12K steps (best: 7.561 at step 11K)
+- Dispatch regime change at step 7K: NOT(41%) → LE(59%)
+- Evolution dead: 2/240 accepted (0.8%), consensus threshold too strict
+- Named ops mapped: LE=comparison, DIV=arithmetic, PARTIAL=lambda, etc.
 
-### 2. Consensus evolution (scripts/v10/ternary.py, train.py)
-- New functions: `propose_mutations`, `find_consensus`, `apply_consensus`
-- `_propose_linear`/`_propose_embedding` — compute proposed flips without modifying model
-- `find_consensus(proposals, threshold=3)` — find positions where ≥3 of 4 agree
-- `apply_consensus` — apply only agreed flips, return mutation map
-- `run_tournament` rewritten: propose → vote → apply → eval → accept/revert
-- Log line: `flips=N/M rows=R adam_decay=D (R rows)`
+### 2. Per-position dispatch probe (probe_dispatch.py)
+- LE is top-1 at 84% of positions with avg weight 0.706
+- The real routing decision is the runner-up slot (which 2nd op pairs with LE)
+- Top pair: DIV × LE (32%), then LE × PARTIAL (19%), LE × NOT (9%)
+- Co-occurrence matrix shows structured family pairing
 
-### 3. Consensus math at v10 scale
-- With peaked importance (real gradients), effective pool ≈ 0.1-0.5% of weights
-- Pool 0.1% → ~3,616 consensus positions per generation
-- Pool 0.5% → ~255 consensus positions per generation
-- Pool 1.0% → ~63 consensus positions per generation
-- Value agreement not a significant additional filter (deactivation=80% agree, activation follows gradient=80% agree)
+### 3. Structured vs prose probe (probe_kernel_use.py)
+- Structured data dispatches very differently from prose (L1=0.905)
+- Per-category: arithmetic tokens → GE+LT (not ADD/MUL)
+- Lambda tokens → GE+LE+DIV (not PARTIAL/APPLY)
+- The kernel functions from kernel.py were never wired in
 
-### 4. MiniDispatch routing lab bench (scripts/mini-dispatch/)
-- `model.py` — MiniDispatchModel (4 ops, per-op FFNs) + BaselineModel (matched params)
-- `train.py` — training loop with routing instrumentation
-- `probe.py` — routing analysis (content-routing correlation, position dependence)
-- First run: both dispatch and baseline flat at loss ~12.4 (model too small)
-- Need to fix: reduce vocab or increase model capacity for routing signal
+### 4. Descending arm phase reorder: dispatch→stride→integrate
+- Changed from dispatch→integrate→stride
+- Rationale: integrate (typing) needs spatial context from stride to see
+  how neighbors were dispatched, preventing type-dispatch decoupling
+- Both forward paths updated, validated with 100-step test run
+
+### 5. KernelIntegrate: dual pathway with exact computation (NEW)
+- Added kernel computation pathway alongside existing FFN
+- Operand extraction: two TernaryLinear projections → argmax → (arg1, arg2)
+- Op selection: reads dispatch_weights from KernelDispatch (argmax → op code)
+- Exact kernel: computes all 22 ops vectorized, selects by op code
+- Result encoding: integer result → d_model via learned embedding (1024 buckets)
+- Compute gate: learned sigmoid gate per position, initialized at ~0
+  - gate=0: pure FFN (backward-compatible, all prose)
+  - gate=1: pure kernel (exact computation for structured data)
+- Gradient: flows through result embedding + gate (kernel is non-differentiable)
+- Params: 435K → 960K trainable. Throughput unchanged.
 
 ## What to do next
 
-### Priority 1: Monitor v10-consensus run (ACTIVE in tmux)
+### Priority 1: Launch v10-topk 20K run with new architecture
 ```bash
 uv run python scripts/v10/train.py \
-    --total-steps 10000 --mix-ratio 0.1 \
-    --checkpoint-dir checkpoints/v10-consensus --seq-len 4096
+    --total-steps 20000 --mix-ratio 0.1 \
+    --checkpoint-dir checkpoints/v10-topk --seq-len 4096
 ```
 Key signals to watch:
-- CE spikes eliminated (or greatly reduced) after accepted mutations
-- Consensus flips per generation (expect dozens to hundreds with real gradients)
-- `flips=N/M` in log — N=consensus flips, M=positions sampled
-- Training trajectory vs v10-spiral baseline
-- If consensus yields 0 flips consistently, may need to lower threshold or raise base_pct
+- Compute gate: does it open? mean, max, active(>0.5) fraction
+- Does type distribution start tracking dispatch (BOOL should grow if LE dominates)
+- Phase order effect: does the new dispatch→stride→integrate improve type coherence
+- Loss trajectory vs v10-consensus baseline
 
-### Priority 2: Fix MiniDispatch experiment
-Two options:
-a) **Reduce vocab** — map Qwen3 tokens to ~1000 buckets, or use character-level
-b) **Increase capacity** — d_model=256+, 4+ layers, maybe add simple attention
-Option (a) is better for isolating routing. The current model can't even learn
-basic token statistics, so routing has no pressure to differentiate.
+### Priority 2: Monitor compute gate activation
+The gate starts at ~0 (sigmoid(-5)). For the kernel pathway to matter:
+- The operand extraction projections must learn to extract meaningful values
+- The result embedding must learn to encode results in useful directions
+- The gate must learn to open when exact computation would improve loss
+This will only happen on the 10% structured data where computation matters.
+If gate stays at 0 after 5K steps, may need auxiliary loss.
 
-### Priority 3: Let v10-spiral complete (control baseline)
-Still running toward 20K. Compare consensus evolution against it.
+### Priority 3: Re-run dispatch probe after training
+After the new architecture trains, re-run probe_dispatch.py and
+probe_kernel_use.py to see if:
+- Type-dispatch coupling improved (phase reorder effect)
+- Kernel pathway is active on structured data
+- Dispatch correlates better with actual operations
 
-### Priority 4: Stabilize the apex
-L2 compression ratio going to -13.6 is independent of dispatch/evolution.
-Consider gradient clipping, norm constraints, or auxiliary loss.
+### Priority 4: Auxiliary loss for kernel pathway (if gate doesn't open)
+If the compute gate stays near 0, consider:
+- Supervised kernel loss on structured data (force op extraction)
+- Warm-start the gate higher on structured data positions
+- Increase structured mix ratio temporarily
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
+| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k routing) + KernelIntegrate (dual pathway) |
+| `scripts/v10/kernel.py` | Ground-truth kernel evaluator (22 ops, 5 types, tree eval) |
+| `scripts/v10/model.py` | Tree of VSMs, phase order: dispatch→stride→integrate |
+| `scripts/v10/train.py` | Training loop with compute gate monitoring |
+| `scripts/v10/probe_dispatch.py` | Per-position top-2 co-occurrence analysis |
+| `scripts/v10/probe_kernel_use.py` | Structured vs prose dispatch comparison |
 | `scripts/v10/ternary.py` | Ternary substrate + consensus mutation pipeline |
-| `scripts/v10/train.py` | Training loop with surgical Adam decay |
-| `scripts/v10/model.py` | Tree of VSMs with top-k dispatch |
-| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k=2, 22 ops) |
-| `scripts/mini-dispatch/model.py` | Routing lab bench (dispatch + baseline) |
-| `scripts/mini-dispatch/train.py` | MiniDispatch training with routing stats |
-| `scripts/mini-dispatch/probe.py` | Routing analysis tools |
 
-## Key insights (session 070)
+## Key insights (session 071)
 
-**Evolution CE spike was a sledgehammer problem**: decaying ALL gamma entries
-after a mutation that touched <0.02% of weights. Surgical decay (only mutated
-rows) preserves 88.5% of optimizer momentum. The fix is O(mutated_rows) not
-O(total_params).
+**The ops were never ops**: KernelDispatch doesn't dispatch to different computations,
+it just adds different embedding vectors to a shared FFN. KernelIntegrate didn't
+integrate or type, it added type embedding vectors to another shared FFN. Both were
+just soft modulation — the model reinterpreted the structured initialization into
+22 useful bias directions, but couldn't use them for computation.
 
-**Consensus > tournament**: tournament picks the best random throw. Consensus
-finds what multiple independent strategies agree on. Each accepted flip has
-3+ lines of independent evidence. Yields far fewer flips — which is the goal.
-The right number of flips is the minimum that improves loss.
+**But the model knows the difference**: structured data gets completely different
+dispatch and type patterns than prose (L1 > 0.9). The signal is there, the
+computational pathway wasn't.
 
-**Routing needs training pressure**: a model too small to learn basic statistics
-has no pressure to route differently. The embedding table dominates at
-d_model=128 / vocab=151K. Routing lab bench needs a setup where the model
-CAN learn but needs routing to learn BETTER.
+**The kernel was always available**: kernel.py has exact evaluation for all 22 ops,
+proven in v9. The gap was wiring it into the model's forward pass with proper
+gradient flow (straight-through via result embedding and compute gate).
 
 ## Session history
 
@@ -123,3 +136,4 @@ CAN learn but needs routing to learn BETTER.
 → Session 068: attention spiral discovery, descending arm fine→coarse, evolution fix
 → Session 069: probed v10-spiral, diagnosed dispatch gradient death, top-k MoE routing fix
 → Session 070: consensus evolution, surgical Adam decay, mini-dispatch lab bench
+→ Session 071: dispatch analysis, type-dispatch decoupling, kernel computation pathway
