@@ -221,6 +221,14 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
               file=sys.stderr)
     print("  └─────────────────────────────────────────────────┘", file=sys.stderr)
 
+    # Compute gate stats (kernel pathway)
+    if "compute_gate_mean" in compressor_metrics:
+        cg_mean = compressor_metrics["compute_gate_mean"]
+        cg_max = compressor_metrics["compute_gate_max"]
+        cg_active = compressor_metrics["compute_gate_active"]
+        print(f"  🔧 Compute gate: mean={cg_mean:.4f}  max={cg_max:.4f}  "
+              f"active(>0.5)={cg_active:.1%}", file=sys.stderr)
+
     result = {
         "loss": avg_loss,
         "ppl": ppl,

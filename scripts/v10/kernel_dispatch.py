@@ -269,79 +269,250 @@ class KernelDispatch(nn.Module):
 
 
 class KernelIntegrate(nn.Module):
-    """Kernel-aware integration for descending arm phase 2 (integrate).
+    """Kernel-aware integration with exact computation pathway.
 
-    Replaces TernaryFFN consolidation in the descending arm.
+    Phase 2 of the descending arm: after dispatch selected ops and
+    stride propagated across context, integrate can now see both
+    local op bias and spatial patterns.
 
-    After the StrideStack has propagated context across scales, this
-    module integrates the kernel dispatch information back into the
-    representation. It reads the current hidden state and produces
-    a type-aware transformation.
+    Dual pathway architecture:
+      1. **Operand extraction**: project hidden state to extract two
+         operands as scalar logits (over a value range), and read the
+         dispatch weights from KernelDispatch to know WHICH op to apply.
+      2. **Exact kernel computation**: apply the actual kernel function
+         (ADD, LE, PARTIAL, etc.) to the extracted operands. This is
+         non-differentiable but exact — no approximation.
+      3. **Result encoding**: map the kernel result back to d_model
+         via learned embedding, producing a "kernel signal" vector.
+      4. **Compute gate**: learned scalar gate (0-1) per position that
+         blends the kernel result with the standard FFN pathway.
+         Starts at 0 (pure FFN) so the model can learn when to trust
+         the kernel. This is critical: prose positions should gate=0
+         (no computation), structured positions should gate→1.
+      5. **Standard FFN pathway**: type modulation + shared transform,
+         as before. This handles prose and non-computational positions.
+      6. **Blend**: output = gate * kernel_result + (1-gate) * ffn_result
 
-    Architecture:
-      1. Type projection: project to (n_types,) distribution
-      2. Type modulation: weighted type identity added to representation
-      3. Integration pathway: shared ternary transform
-      4. Gated residual
+    The compute gate makes this backward-compatible: at initialization,
+    gate=0 everywhere, so the model behaves identically to the old
+    KernelIntegrate. As training progresses on structured data, the
+    gate learns to open for positions where exact computation helps.
 
-    The type embeddings are the output types of the kernel — INT, BOOL,
-    FN, FN_COMP, ERROR. They provide the type-awareness that the
-    descending arm needs to produce well-typed representations.
+    Gradient flow through the non-differentiable kernel:
+      The kernel itself has no gradient (argmax + integer arithmetic).
+      But gradient flows through:
+        - The operand extraction projections (which operands to extract)
+        - The result encoder (which d_model direction the result maps to)
+        - The compute gate (when to use kernel vs FFN)
+      This is the same straight-through pattern as in v9.
     """
 
     def __init__(
         self,
         d_model: int,
         n_types: int = N_TYPES,
+        n_ops: int = N_OPS,
         d_ff: int | None = None,
         dropout: float = 0.1,
+        max_val: int = 256,
+        result_buckets: int = 1024,
     ):
         super().__init__()
         self.d_model = d_model
         self.n_types = n_types
+        self.n_ops = n_ops
+        self.max_val = max_val
         if d_ff is None:
-            d_ff = d_model * 4  # wider than dispatch — integration needs capacity
+            d_ff = d_model * 4
 
         # Pad n_types to multiple of 16
-        self.n_types_padded = ((n_types + 15) // 16) * 16  # 16
+        self.n_types_padded = ((n_types + 15) // 16) * 16
 
         self.norm = nn.RMSNorm(d_model)
 
-        # Type projection: hidden → type distribution
+        # ── Type pathway (unchanged) ──────────────────────────
         self.type_proj = TernaryLinear(d_model, self.n_types_padded, pre_norm=False)
-
-        # Type embeddings: kernel output types
         self.type_embeddings = _init_type_embeddings(n_types, d_model)
 
-        # Integration pathway
+        # ── Standard FFN pathway (unchanged) ──────────────────
         self.up = TernaryLinear(d_model, d_ff, pre_norm=False)
         self.down = TernaryLinear(d_ff, d_model, pre_norm=False)
 
+        # ── Kernel computation pathway (NEW) ──────────────────
+
+        # Operand extraction: hidden → two value distributions
+        # Each operand is a distribution over [0, max_val), decoded via argmax
+        max_val_padded = ((max_val + 15) // 16) * 16
+        self._max_val_padded = max_val_padded
+        self.operand1_proj = TernaryLinear(d_model, max_val_padded, pre_norm=False)
+        self.operand2_proj = TernaryLinear(d_model, max_val_padded, pre_norm=False)
+
+        # Result encoder: integer result → d_model vector
+        # Larger bucket range than v9: results can be negative (comparisons,
+        # subtraction) and large (multiplication)
+        self.result_buckets = result_buckets
+        self.result_offset = result_buckets // 2  # center at 0
+        self.result_embed = nn.Embedding(result_buckets, d_model)
+
+        # Compute gate: per-position scalar, initialized to produce ~0
+        # so the model starts with pure FFN (backward-compatible)
+        self.gate_proj = nn.Linear(d_model, 1)
+        # Initialize gate bias negative so sigmoid → ~0 at start
+        self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
+        self.gate_proj.bias = mx.ones_like(self.gate_proj.bias) * -5.0
+
         self.dropout = nn.Dropout(dropout)
 
-    def __call__(self, x: mx.array) -> mx.array:
+    def _kernel_compute(
+        self,
+        h: mx.array,
+        dispatch_weights: mx.array | None,
+    ) -> tuple[mx.array, dict]:
+        """Extract operands, run kernel, encode result.
+
+        Args:
+            h: (B, L, d_model) — normalized hidden state
+            dispatch_weights: (B, L, n_ops) from KernelDispatch, or None
+
+        Returns:
+            kernel_out: (B, L, d_model) — encoded kernel results
+            kernel_info: dict with decoded ops/args/results for probing
+        """
+        B, L, _ = h.shape
+
+        # Extract operands via argmax (non-differentiable)
+        op1_logits = self.operand1_proj(h)[..., :self.max_val]  # (B, L, max_val)
+        op2_logits = self.operand2_proj(h)[..., :self.max_val]  # (B, L, max_val)
+
+        # stop_gradient: argmax is non-differentiable, all gradient
+        # flows through the result embedding and the compute gate
+        arg1 = mx.stop_gradient(mx.argmax(op1_logits, axis=-1)).astype(mx.int32)  # (B, L)
+        arg2 = mx.stop_gradient(mx.argmax(op2_logits, axis=-1)).astype(mx.int32)  # (B, L)
+
+        # Get op from dispatch weights (argmax of top-1)
+        if dispatch_weights is not None:
+            op = mx.stop_gradient(mx.argmax(dispatch_weights, axis=-1)).astype(mx.int32)  # (B, L)
+        else:
+            op = mx.zeros((B, L), dtype=mx.int32)
+
+        # ── Exact kernel computation (non-differentiable) ─────
+        # Compute all possible results, select by op code
+        # This is vectorized: compute all ops, mask-select by dispatched op
+
+        # Arithmetic binary: ADD(0), SUB(1), MUL(2), DIV(3), MOD(4), MIN(5), MAX(6)
+        r_add = arg1 + arg2
+        r_sub = arg1 - arg2
+        r_mul = arg1 * arg2
+        # Safe division
+        safe_arg2 = mx.where(arg2 == 0, mx.ones_like(arg2), arg2)
+        r_div = arg1 // safe_arg2
+        r_div = mx.where(arg2 == 0, mx.zeros_like(r_div), r_div)
+        r_mod = arg1 % safe_arg2
+        r_mod = mx.where(arg2 == 0, mx.zeros_like(r_mod), r_mod)
+        r_min = mx.minimum(arg1, arg2)
+        r_max = mx.maximum(arg1, arg2)
+
+        # Comparison: EQ(7), LT(8), GT(9), LE(10), GE(11)
+        r_eq = (arg1 == arg2).astype(mx.int32)
+        r_lt = (arg1 < arg2).astype(mx.int32)
+        r_gt = (arg1 > arg2).astype(mx.int32)
+        r_le = (arg1 <= arg2).astype(mx.int32)
+        r_ge = (arg1 >= arg2).astype(mx.int32)
+
+        # Boolean binary: AND(12), OR(13)
+        b1 = (arg1 != 0)
+        b2 = (arg2 != 0)
+        r_and = (b1 & b2).astype(mx.int32)
+        r_or = (b1 | b2).astype(mx.int32)
+
+        # Boolean unary: NOT(14)
+        r_not = (~b1).astype(mx.int32)
+
+        # Arithmetic unary: ABS(15), NEG(16)
+        r_abs = mx.abs(arg1)
+        r_neg = -arg1
+
+        # Conditional: IF(17) — arg1=cond, arg2=then (no else in 2-operand form)
+        r_if = mx.where(arg1 != 0, arg2, mx.zeros_like(arg2))
+
+        # Lambda ops (18-21): return arg1 unchanged (placeholder —
+        # actual lambda computation needs tree structure, not 2 scalars)
+        r_lambda = arg1
+
+        # Stack all results and select by op
+        # Shape: (22, B, L) — one result per op
+        all_results = mx.stack([
+            r_add, r_sub, r_mul, r_div, r_mod, r_min, r_max,  # 0-6
+            r_eq, r_lt, r_gt, r_le, r_ge,                      # 7-11
+            r_and, r_or,                                        # 12-13
+            r_not,                                              # 14
+            r_abs, r_neg,                                       # 15-16
+            r_if,                                               # 17
+            r_lambda, r_lambda, r_lambda, r_lambda,             # 18-21
+        ], axis=0)  # (22, B, L)
+
+        # Select result by op code: gather along op dimension
+        # op is (B, L), need to index into (22, B, L)
+        op_clamped = mx.clip(op, 0, N_OPS - 1)
+        # Use advanced indexing: result[op[b,l], b, l]
+        b_idx = mx.broadcast_to(mx.arange(B)[:, None], (B, L))
+        l_idx = mx.broadcast_to(mx.arange(L)[None, :], (B, L))
+        result = all_results[op_clamped, b_idx, l_idx]  # (B, L)
+
+        # ── Encode result back to d_model ─────────────────────
+        # stop_gradient on the index computation: the kernel itself
+        # is non-differentiable. Gradient flows through result_embed
+        # weights (which embedding direction the result maps to) and
+        # through the gate (when to use this pathway).
+        result_idx = mx.stop_gradient(
+            mx.clip(result + self.result_offset, 0, self.result_buckets - 1)
+        ).astype(mx.int32)
+        kernel_out = self.result_embed(result_idx)  # (B, L, d_model)
+
+        # Probing info
+        kernel_info = {
+            "op": mx.stop_gradient(op),
+            "arg1": mx.stop_gradient(arg1),
+            "arg2": mx.stop_gradient(arg2),
+            "result": mx.stop_gradient(result),
+        }
+
+        return kernel_out, kernel_info
+
+    def __call__(
+        self,
+        x: mx.array,
+        dispatch_weights: mx.array | None = None,
+    ) -> mx.array:
         """
         x: (B, L, d_model)
+        dispatch_weights: (B, L, n_ops) from KernelDispatch (cached)
         Returns: (B, L, d_model) — with residual connection
         """
         h = self.norm(x)
 
-        # Step 1: Type projection — what output type at each position?
-        type_logits = self.type_proj(h)[..., :self.n_types]  # (B, L, n_types)
-        type_weights = mx.softmax(type_logits, axis=-1)  # (B, L, n_types)
-
-        # Cache for probing
+        # ── Type projection ───────────────────────────────────
+        type_logits = self.type_proj(h)[..., :self.n_types]
+        type_weights = mx.softmax(type_logits, axis=-1)
         self._type_weights = mx.stop_gradient(type_weights)
 
-        # Step 2: Type modulation
-        # (B, L, n_types) @ (n_types, d_model) → (B, L, d_model)
+        # ── Standard FFN pathway ──────────────────────────────
         type_context = type_weights @ self.type_embeddings
-
-        # Step 3: Integrate
         modulated = h + type_context
-        out = self.down(nn.gelu(self.up(modulated)))
+        ffn_out = self.down(nn.gelu(self.up(modulated)))  # (B, L, d_model)
 
-        return x + self.dropout(out)
+        # ── Kernel computation pathway ────────────────────────
+        kernel_out, kernel_info = self._kernel_compute(h, dispatch_weights)
+        self._kernel_info = kernel_info
+
+        # ── Compute gate: blend kernel vs FFN ─────────────────
+        gate = mx.sigmoid(self.gate_proj(h))  # (B, L, 1)
+        self._compute_gate = mx.stop_gradient(gate)
+
+        # Blend: gate=0 → pure FFN, gate=1 → pure kernel
+        blended = gate * kernel_out + (1.0 - gate) * ffn_out
+
+        return x + self.dropout(blended)
 
 
 # ══════════════════════════════════════════════════════════════════

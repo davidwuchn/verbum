@@ -271,7 +271,9 @@ class V6Compressor(nn.Module):
             x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
 
             # Phase 2: integrate (type with spatial context from stride)
-            integrate_out = self.kernel_integrate(x)
+            # Pass dispatch weights so kernel can execute the selected op
+            dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
+            integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
             delta = integrate_out - x
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
                 target_bank, delta, 2)
@@ -480,7 +482,9 @@ class V6Compressor(nn.Module):
                 x = self._modulate(x, delta, gate, 1, is_descending=True)
 
                 # Phase 2: integrate (type with spatial context from stride)
-                integrate_out = self.kernel_integrate(x)
+                # Pass dispatch weights so kernel can execute the selected op
+                dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
+                integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
                 delta = integrate_out - x
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
                 mx.eval(gate)
@@ -613,6 +617,16 @@ class V6Compressor(nn.Module):
             ),
             "op_embedding_norms": op_emb_norms,
         }
+
+        # Compute gate stats (if kernel pathway is active)
+        if hasattr(self.kernel_integrate, '_compute_gate'):
+            cg = self.kernel_integrate._compute_gate  # (B, L, 1)
+            mx.eval(cg)
+            metrics["compute_gate_mean"] = float(mx.mean(cg).item())
+            metrics["compute_gate_max"] = float(mx.max(cg).item())
+            metrics["compute_gate_min"] = float(mx.min(cg).item())
+            # Fraction of positions where gate > 0.5
+            metrics["compute_gate_active"] = float(mx.mean((cg > 0.5).astype(mx.float32)).item())
 
         return x, metrics
 
