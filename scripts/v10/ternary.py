@@ -725,7 +725,7 @@ def mutate_topology(
     col_importance: dict[str, Any] | None = None,
     grad_direction: dict[str, Any] | None = None,
     guided_fraction: float = 0.7,
-) -> int:
+) -> tuple[int, dict[str, set[int]]]:
     """Apply gradient-informed mutations to the ternary topology.
 
     Distributes `budget` mutations across ternary modules, weighted by
@@ -751,13 +751,16 @@ def mutate_topology(
         guided_fraction:  fraction of mutations that are importance-weighted (rest uniform)
 
     Returns:
-        Actual number of mutations applied.
+        (n_mutated, mutation_map) — total count and dict mapping
+        module_path → set of mutated row indices. The mutation map
+        enables surgical Adam decay: only gamma entries for rows that
+        actually changed need their optimizer state reset.
     """
     import numpy as np
 
     modules = list(_walk_ternary_modules(model))
     if not modules or budget <= 0:
-        return 0
+        return 0, {}
 
     # Compute effective weight for each module
     sizes = [mod.out_features * mod.in_features for _, mod in modules]
@@ -779,6 +782,7 @@ def mutate_topology(
 
     total_mutated = 0
     mutated_arrays = []
+    mutation_map: dict[str, set[int]] = {}
 
     for (path, mod), n_weights, eff in zip(modules, sizes, effective):
         mod_budget = max(0, round(budget * eff / total_effective))
@@ -792,19 +796,23 @@ def mutate_topology(
         grad_dir = grad_direction.get(path) if grad_direction else None
 
         if isinstance(mod, TernaryLinear):
-            total_mutated += _mutate_linear(
+            n, rows = _mutate_linear(
                 mod, mod_budget, rng, np, mutated_arrays, sign_flip_rate,
                 row_imp, col_imp, grad_dir, guided_fraction,
             )
+            total_mutated += n
+            mutation_map[path] = rows
         else:
-            total_mutated += _mutate_embedding(
+            n, rows = _mutate_embedding(
                 mod, mod_budget, rng, np, mutated_arrays, sign_flip_rate,
             )
+            total_mutated += n
+            mutation_map[path] = rows
 
     if mutated_arrays:
         mx.eval(*mutated_arrays)
 
-    return total_mutated
+    return total_mutated, mutation_map
 
 
 def _importance_sample_indices(
@@ -876,7 +884,7 @@ def _mutate_linear(
     col_imp: Any | None = None,
     grad_dir: Any | None = None,
     guided_fraction: float = 0.7,
-) -> int:
+) -> tuple[int, set[int]]:
     """Mutate TernaryLinear.weight with gradient-informed position selection.
 
     Position selection: importance-weighted sampling from |∂L/∂γ| (rows)
@@ -889,6 +897,10 @@ def _mutate_linear(
         0 → ±1        (activate — gradient-biased if direction available)
        ±1 → 0         (deactivate, probability 1-sign_flip_rate)
        ±1 → ∓1        (sign flip, probability sign_flip_rate)
+
+    Returns:
+        (n_mutated, mutated_rows) — count and set of affected row indices.
+        mutated_rows maps to gamma indices for surgical Adam decay.
     """
     N = mod.out_features
     K = mod.in_features
@@ -950,13 +962,26 @@ def _mutate_linear(
 
     new_encoded = (new_val.astype(np.int32) + 1).astype(np.uint32)
 
+    # Count actual flips: positions where the value genuinely changed.
+    # Budget ≠ flips because:
+    #   - indices sampled with replacement → duplicates (last write wins)
+    #   - some mutations are no-ops at the packed level when duplicates
+    #     overwrite each other
+    # We compare against the original packed values at unique positions.
+    actual_flips = int(np.sum(new_val != current_val))
+
     # Write back
     clear_mask = ~(np.uint32(0x3) << shifts)
     flat_packed[uint32_idx] = (flat_packed[uint32_idx] & clear_mask) | (new_encoded << shifts)
 
     mod.weight = mx.array(flat_packed.reshape(N, K // 16))
     mutated_arrays.append(mod.weight)
-    return mod_budget
+
+    # Track which rows (output channels) were touched — for surgical Adam decay
+    # Only count rows where a flip actually happened
+    actually_changed = new_val != current_val
+    mutated_rows = set(int(r) for r in np.unique(rows[actually_changed])) if actual_flips > 0 else set()
+    return actual_flips, mutated_rows
 
 
 def _mutate_embedding(
@@ -966,7 +991,7 @@ def _mutate_embedding(
     np: Any,
     mutated_arrays: list,
     sign_flip_rate: float = 0.2,
-) -> int:
+) -> tuple[int, set[int]]:
     """Mutate TernaryEmbedding.ternary_weight (uint8, 4-per-byte big-endian format).
 
     Encoding: {0b00→-1, 0b01→0, 0b10→+1}.
@@ -1015,13 +1040,369 @@ def _mutate_embedding(
 
     new_encoded = (new_val + 1).astype(np.uint8)
 
+    # Actual flips (same logic as _mutate_linear)
+    actual_flips = int(np.sum(new_val != current_val))
+
     # Write back
     clear_masks = ~(np.uint8(0x3) << shifts)
     flat_packed[byte_idx] = (flat_packed[byte_idx] & clear_masks) | (new_encoded << shifts)
 
     mod.ternary_weight = mx.array(flat_packed.reshape(N, K4))
     mutated_arrays.append(mod.ternary_weight)
-    return mod_budget
+
+    # Track mutated rows (vocab entries) — embeddings don't have gamma,
+    # but tracked for completeness and potential future use
+    actually_changed = new_val != current_val
+    rows = indices // (K4 * 4)
+    mutated_rows = set(int(r) for r in np.unique(rows[actually_changed])) if actual_flips > 0 else set()
+    return actual_flips, mutated_rows
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Consensus-based mutation: propose → vote → apply only agreed flips
+# ══════════════════════════════════════════════════════════════════════
+#
+# Instead of tournament selection (best of 4 independent throws),
+# consensus requires ≥3 of 4 strategies to independently agree on
+# the same flip at the same position. This yields the fewest flips
+# with the highest confidence — each accepted flip has independent
+# evidence from multiple sampling strategies.
+#
+# Flow:
+#   1. propose_mutations()  — each strategy samples positions and
+#      computes proposed values WITHOUT modifying the model
+#   2. find_consensus()     — positions where ≥3 strategies agree
+#   3. apply_consensus()    — apply only the consensus flips
+
+
+def _propose_linear(
+    mod: "TernaryLinear",
+    mod_budget: int,
+    rng: Any,
+    np: Any,
+    sign_flip_rate: float = 0.2,
+    row_imp: Any | None = None,
+    col_imp: Any | None = None,
+    grad_dir: Any | None = None,
+    guided_fraction: float = 0.7,
+) -> dict[int, int]:
+    """Propose mutations for a TernaryLinear without modifying it.
+
+    Same sampling and mutation logic as _mutate_linear, but returns
+    a dict of {flat_logical_index: proposed_ternary_value} instead
+    of writing to the packed array.
+
+    Only includes positions where the proposal differs from current.
+    For duplicate indices (sampled with replacement), last proposal wins.
+    """
+    N = mod.out_features
+    K = mod.in_features
+
+    packed_np = np.array(mod.weight)  # (N, K//16) uint32
+    flat_packed = packed_np.reshape(-1)
+
+    indices = _importance_sample_indices(
+        N, K, mod_budget, rng, np, row_imp, col_imp, guided_fraction,
+    )
+
+    rows = indices // K
+    cols = indices % K
+    uint32_idx = rows * (K // 16) + cols // 16
+    slot = cols % 16
+    shifts = (slot * 2).astype(np.uint32)
+
+    current_encoded = ((flat_packed[uint32_idx] >> shifts) & np.uint32(0x3))
+    current_val = current_encoded.astype(np.int8) - 1
+
+    new_val = np.copy(current_val)
+
+    # Non-zero: deactivate or sign-flip
+    nonzero_mask = current_val != 0
+    n_nonzero = int(nonzero_mask.sum())
+    if n_nonzero > 0:
+        flip_roll = rng.random(size=n_nonzero)
+        do_flip = flip_roll < sign_flip_rate
+        nonzero_vals = current_val[nonzero_mask]
+        new_nonzero = np.where(do_flip, -nonzero_vals, np.int8(0))
+        new_val[nonzero_mask] = new_nonzero
+
+    # Zero: activate with gradient-directed sign
+    zero_mask = current_val == 0
+    n_zeros = int(zero_mask.sum())
+    if n_zeros > 0:
+        if grad_dir is not None and len(grad_dir) == N:
+            zero_rows = rows[zero_mask]
+            gd = np.asarray(grad_dir, dtype=np.float32)
+            row_signs = np.sign(gd[zero_rows])
+            random_signs = rng.choice([-1, 1], size=n_zeros).astype(np.int8)
+            follow_grad = rng.random(size=n_zeros) < 0.8
+            has_direction = row_signs != 0
+            use_grad = follow_grad & has_direction
+            new_val[zero_mask] = np.where(
+                use_grad, row_signs.astype(np.int8), random_signs,
+            )
+        else:
+            new_val[zero_mask] = rng.choice([-1, 1], size=n_zeros).astype(np.int8)
+
+    # Build proposals dict: only positions that actually change
+    # For duplicates, iterate in order so last write wins (matching _mutate_linear)
+    proposals = {}
+    for i in range(len(indices)):
+        if new_val[i] != current_val[i]:
+            proposals[int(indices[i])] = int(new_val[i])
+
+    return proposals
+
+
+def _propose_embedding(
+    mod: "TernaryEmbedding",
+    mod_budget: int,
+    rng: Any,
+    np: Any,
+    sign_flip_rate: float = 0.2,
+) -> dict[int, int]:
+    """Propose mutations for a TernaryEmbedding without modifying it."""
+    vocab_size = mod.vocab_size
+    d_model = mod.d_model
+    n_weights = vocab_size * d_model
+
+    packed_np = np.array(mod.ternary_weight)
+    flat_packed = packed_np.reshape(-1)
+
+    indices = rng.randint(0, n_weights, size=mod_budget)
+
+    byte_idx = indices // 4
+    pos_in_byte = indices % 4
+    shifts = np.array([6, 4, 2, 0], dtype=np.uint8)[pos_in_byte]
+
+    current_encoded = (flat_packed[byte_idx] >> shifts) & np.uint8(0x3)
+    current_val = current_encoded.astype(np.int8) - 1
+
+    new_val = np.copy(current_val)
+
+    nonzero_mask = current_val != 0
+    n_nonzero = int(nonzero_mask.sum())
+    if n_nonzero > 0:
+        flip_roll = rng.random(size=n_nonzero)
+        do_flip = flip_roll < sign_flip_rate
+        nonzero_vals = current_val[nonzero_mask]
+        new_nonzero = np.where(do_flip, -nonzero_vals, np.int8(0))
+        new_val[nonzero_mask] = new_nonzero
+
+    zero_mask = current_val == 0
+    n_zeros = int(zero_mask.sum())
+    if n_zeros > 0:
+        new_val[zero_mask] = rng.choice([-1, 1], size=n_zeros).astype(np.int8)
+
+    proposals = {}
+    for i in range(len(indices)):
+        if new_val[i] != current_val[i]:
+            proposals[int(indices[i])] = int(new_val[i])
+
+    return proposals
+
+
+def propose_mutations(
+    model: nn.Module,
+    budget: int,
+    rng: Any,
+    sign_flip_rate: float = 0.2,
+    row_importance: dict[str, Any] | None = None,
+    col_importance: dict[str, Any] | None = None,
+    grad_direction: dict[str, Any] | None = None,
+    guided_fraction: float = 0.7,
+    depth_weights: dict[str, float] | None = None,
+) -> dict[str, dict[int, int]]:
+    """Propose mutations for all ternary modules without applying them.
+
+    Returns dict mapping module_path → {flat_index: proposed_value}.
+    Same budget distribution logic as mutate_topology.
+    """
+    import numpy as np
+
+    modules = list(_walk_ternary_modules(model))
+    if not modules or budget <= 0:
+        return {}
+
+    sizes = [mod.out_features * mod.in_features for _, mod in modules]
+
+    if depth_weights is not None:
+        effective = []
+        for (path, _), n_weights in zip(modules, sizes):
+            best_weight = 1.0
+            best_len = 0
+            for prefix, w in depth_weights.items():
+                if path.startswith(prefix) and len(prefix) > best_len:
+                    best_weight = w
+                    best_len = len(prefix)
+            effective.append(n_weights * best_weight)
+    else:
+        effective = [float(s) for s in sizes]
+
+    total_effective = sum(effective)
+    all_proposals = {}
+
+    for (path, mod), n_weights, eff in zip(modules, sizes, effective):
+        mod_budget = max(0, round(budget * eff / total_effective))
+        if mod_budget == 0:
+            continue
+        mod_budget = min(mod_budget, n_weights)
+
+        row_imp = row_importance.get(path) if row_importance else None
+        col_imp = col_importance.get(path) if col_importance else None
+        grad_dir = grad_direction.get(path) if grad_direction else None
+
+        if isinstance(mod, TernaryLinear):
+            all_proposals[path] = _propose_linear(
+                mod, mod_budget, rng, np, sign_flip_rate,
+                row_imp, col_imp, grad_dir, guided_fraction,
+            )
+        else:
+            all_proposals[path] = _propose_embedding(
+                mod, mod_budget, rng, np, sign_flip_rate,
+            )
+
+    return all_proposals
+
+
+def find_consensus(
+    proposals_list: list[dict[str, dict[int, int]]],
+    threshold: int = 3,
+) -> tuple[dict[str, dict[int, int]], dict]:
+    """Find consensus mutations: positions where ≥threshold strategies agree.
+
+    Args:
+        proposals_list: list of proposals from each strategy (from propose_mutations)
+        threshold:      minimum number of strategies that must agree (default: 3 of 4)
+
+    Returns:
+        (consensus, stats) where:
+          consensus: dict[module_path → {flat_index: agreed_value}]
+          stats: dict with diagnostic counts
+    """
+    from collections import Counter, defaultdict
+
+    # Collect all module paths
+    all_paths = set()
+    for prop in proposals_list:
+        all_paths.update(prop.keys())
+
+    consensus = {}
+    total_positions_seen = 0
+    total_positions_voted = 0
+    total_consensus = 0
+
+    for path in all_paths:
+        # Gather votes: for each position, collect proposed values from each strategy
+        votes = defaultdict(list)
+        for prop in proposals_list:
+            if path in prop:
+                for idx, val in prop[path].items():
+                    votes[idx].append(val)
+
+        total_positions_seen += len(votes)
+
+        # Find consensus: ≥threshold strategies agree on the same value
+        path_consensus = {}
+        for idx, vote_list in votes.items():
+            if len(vote_list) >= threshold:
+                total_positions_voted += 1
+                counts = Counter(vote_list)
+                best_val, best_count = counts.most_common(1)[0]
+                if best_count >= threshold:
+                    path_consensus[idx] = best_val
+                    total_consensus += 1
+
+        if path_consensus:
+            consensus[path] = path_consensus
+
+    stats = {
+        "positions_sampled": total_positions_seen,
+        "positions_with_enough_votes": total_positions_voted,
+        "consensus_flips": total_consensus,
+        "n_strategies": len(proposals_list),
+        "threshold": threshold,
+    }
+
+    return consensus, stats
+
+
+def apply_consensus(
+    model: nn.Module,
+    consensus: dict[str, dict[int, int]],
+) -> tuple[int, dict[str, set[int]]]:
+    """Apply consensus mutations to the model.
+
+    Args:
+        consensus: dict[module_path → {flat_logical_index: new_ternary_value}]
+
+    Returns:
+        (n_applied, mutation_map) — count and per-module affected rows
+        for surgical Adam decay.
+    """
+    import numpy as np
+
+    mod_map = {path: mod for path, mod in _walk_ternary_modules(model)}
+    total_applied = 0
+    mutation_map: dict[str, set[int]] = {}
+    mutated_arrays = []
+
+    for path, flips in consensus.items():
+        if path not in mod_map or not flips:
+            continue
+
+        mod = mod_map[path]
+
+        if isinstance(mod, TernaryLinear):
+            N = mod.out_features
+            K = mod.in_features
+            packed_np = np.array(mod.weight)
+            flat_packed = packed_np.reshape(-1)
+
+            indices = np.array(list(flips.keys()), dtype=np.int64)
+            new_vals = np.array(list(flips.values()), dtype=np.int8)
+
+            rows = indices // K
+            cols = indices % K
+            uint32_idx = rows * (K // 16) + cols // 16
+            slot = cols % 16
+            shifts = (slot * 2).astype(np.uint32)
+
+            new_encoded = (new_vals.astype(np.int32) + 1).astype(np.uint32)
+            clear_mask = ~(np.uint32(0x3) << shifts)
+            flat_packed[uint32_idx] = (flat_packed[uint32_idx] & clear_mask) | (new_encoded << shifts)
+
+            mod.weight = mx.array(flat_packed.reshape(N, K // 16))
+            mutated_arrays.append(mod.weight)
+            mutation_map[path] = set(int(r) for r in np.unique(rows))
+            total_applied += len(flips)
+
+        elif isinstance(mod, TernaryEmbedding):
+            packed_np = np.array(mod.ternary_weight)
+            N, K4 = packed_np.shape
+            flat_packed = packed_np.reshape(-1)
+
+            indices = np.array(list(flips.keys()), dtype=np.int64)
+            new_vals = np.array(list(flips.values()), dtype=np.int8)
+
+            byte_idx = indices // 4
+            pos_in_byte = indices % 4
+            shifts = np.array([6, 4, 2, 0], dtype=np.uint8)[pos_in_byte]
+
+            new_encoded = (new_vals + 1).astype(np.uint8)
+            clear_masks = ~(np.uint8(0x3) << shifts)
+            flat_packed[byte_idx] = (flat_packed[byte_idx] & clear_masks) | (new_encoded << shifts)
+
+            mod.ternary_weight = mx.array(flat_packed.reshape(N, K4))
+            mutated_arrays.append(mod.ternary_weight)
+            emb_rows = indices // (K4 * 4)
+            mutation_map[path] = set(int(r) for r in np.unique(emb_rows))
+            total_applied += len(flips)
+
+    if mutated_arrays:
+        mx.eval(*mutated_arrays)
+
+    return total_applied, mutation_map
 
 
 # ══════════════════════════════════════════════════════════════════════

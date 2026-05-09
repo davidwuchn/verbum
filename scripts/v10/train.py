@@ -53,6 +53,9 @@ from ternary import (
     save_topology,
     load_topology,
     mutate_topology,
+    propose_mutations,
+    find_consensus,
+    apply_consensus,
     _walk_ternary_modules,
     TernaryLinear,
 )
@@ -245,13 +248,23 @@ def run_tournament(
     row_importance, col_importance, grad_direction,
     structured_eval_loader=None,
 ) -> dict:
-    """One evolutionary generation.
+    """One evolutionary generation via consensus mutation.
+
+    Instead of tournament selection (best of 4 independent throws),
+    consensus requires ≥3 of 4 strategies to independently agree on
+    the same flip at the same position. Each accepted flip has
+    independent evidence from multiple sampling strategies.
+
+    Flow:
+      1. Each strategy proposes mutations (without modifying the model)
+      2. Find positions where ≥3 strategies agree on the same new value
+      3. Apply only the consensus flips
+      4. Evaluate: accept if loss improves, revert if not
 
     When structured_eval_loader is provided (mixed-data training),
     mutations are evaluated on BOTH prose and structured batches.
     A mutation is only accepted if it improves on BOTH — the acceptance
-    criterion is the maximum (worst) loss across data types. This prevents
-    mutations that game one distribution at the expense of the other.
+    criterion is the maximum (worst) loss across data types.
     """
     # Get fixed eval batches — prose always, structured if available
     prose_ids_np, prose_tgts_np = next(eval_loader)
@@ -265,12 +278,7 @@ def run_tournament(
         struct_tgts = mx.array(struct_tgts_np)
 
     def _eval_loss():
-        """Evaluate relational loss r on all data types.
-
-        Returns the max (worst) loss across data types, ensuring
-        mutations must help everywhere, not just one distribution.
-        Also returns per-type losses for logging.
-        """
+        """Evaluate relational loss r on all data types."""
         _, ce_prose = model(prose_ids, prose_tgts)
         mx.eval(ce_prose)
         r_prose = (float(ce_prose.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
@@ -279,7 +287,6 @@ def run_tournament(
             _, ce_struct = model(struct_ids, struct_tgts)
             mx.eval(ce_struct)
             r_struct = (float(ce_struct.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
-            # Accept only if it helps both — use max (worst) as criterion
             return max(r_prose, r_struct), r_prose, r_struct
         else:
             return r_prose, r_prose, None
@@ -291,52 +298,84 @@ def run_tournament(
     if base_budget == 0:
         return {"champion_loss": champion_loss, "budget": 0,
                 "accepted": None, "accepted_loss": champion_loss, "frozen": True,
-                "prose_loss": champion_prose, "struct_loss": champion_struct}
+                "prose_loss": champion_prose, "struct_loss": champion_struct,
+                "actual_flips": 0, "n_rows_mutated": 0, "mutation_map": None,
+                "consensus_stats": None}
 
-    best_loss = champion_loss
-    best_strategy = None
-    best_snapshot = None
-    best_prose = champion_prose
-    best_struct = champion_struct
-
+    # ── Phase 1: Each strategy proposes mutations independently ──
+    # No model modification — just sampling + computing proposed values.
+    # Each strategy gets its own RNG seed for independent sampling.
+    proposals = []
+    strategy_budgets = []
     for strategy_name, scale in MUTANT_STRATEGIES.items():
-        budget = max(1, int(base_budget * scale))
-        load_topology(model, champion_snapshot)
+        strategy_budget = max(1, int(base_budget * scale))
+        strategy_budgets.append(strategy_budget)
 
         strategy_rng = np.random.RandomState(
             int(rng.randint(0, 2**31)) ^ (hash(strategy_name) & 0x7FFFFFFF))
 
         guided_frac = cfg.guided_fraction if strategy_name != "random" else 0.0
-        mutate_topology(
-            model, budget, strategy_rng,
+        prop = propose_mutations(
+            model, strategy_budget, strategy_rng,
             sign_flip_rate=cfg.sign_flip_rate,
             row_importance=row_importance if row_importance else None,
             col_importance=col_importance if col_importance else None,
             grad_direction=grad_direction if grad_direction else None,
             guided_fraction=guided_frac,
         )
+        proposals.append(prop)
 
-        mutant_loss, mutant_prose, mutant_struct = _eval_loss()
-        if mutant_loss < best_loss:
-            best_loss = mutant_loss
-            best_strategy = strategy_name
-            best_snapshot = save_topology(model)
-            best_prose = mutant_prose
-            best_struct = mutant_struct
+    # ── Phase 2: Find consensus — ≥3 of 4 must agree ──
+    consensus, consensus_stats = find_consensus(proposals, threshold=3)
 
-    if best_snapshot is not None:
-        load_topology(model, best_snapshot)
+    if not consensus or consensus_stats["consensus_flips"] == 0:
+        # No consensus — no flips to evaluate
+        return {
+            "champion_loss": champion_loss,
+            "budget": base_budget,
+            "accepted": None,
+            "accepted_loss": champion_loss,
+            "frozen": False,
+            "prose_loss": champion_prose,
+            "struct_loss": champion_struct,
+            "actual_flips": 0,
+            "n_rows_mutated": 0,
+            "mutation_map": None,
+            "consensus_stats": consensus_stats,
+        }
+
+    # ── Phase 3: Apply consensus flips ──
+    actual_flips, mutation_map = apply_consensus(model, consensus)
+
+    # ── Phase 4: Evaluate — accept only if loss improves ──
+    mutant_loss, mutant_prose, mutant_struct = _eval_loss()
+
+    if mutant_loss < champion_loss:
+        accepted = "consensus"
     else:
+        # Revert
         load_topology(model, champion_snapshot)
+        accepted = None
+        mutant_loss = champion_loss
+        mutant_prose = champion_prose
+        mutant_struct = champion_struct
+        mutation_map = None
+        actual_flips = 0
+
+    n_rows_mutated = sum(len(v) for v in mutation_map.values()) if mutation_map else 0
 
     return {
         "champion_loss": champion_loss,
         "budget": base_budget,
-        "accepted": best_strategy,
-        "accepted_loss": best_loss,
+        "accepted": accepted,
+        "accepted_loss": mutant_loss,
         "frozen": False,
-        "prose_loss": best_prose,
-        "struct_loss": best_struct,
+        "prose_loss": mutant_prose,
+        "struct_loss": mutant_struct,
+        "actual_flips": actual_flips,
+        "n_rows_mutated": n_rows_mutated,
+        "mutation_map": mutation_map,
+        "consensus_stats": consensus_stats,
     }
 
 
@@ -344,50 +383,84 @@ def run_tournament(
 # § 6b  Adam accumulator decay after accepted mutations
 # ══════════════════════════════════════════════════════════════════════════════
 
-def decay_adam_state(optimizer, model, decay: float = 0.1) -> None:
-    """Decay Adam m/v accumulators for gamma parameters of ternary modules.
+def decay_adam_state(optimizer, model, decay: float = 0.1,
+                     mutation_map: dict[str, set[int]] | None = None) -> int:
+    """Surgically decay Adam m/v accumulators for mutated gamma entries only.
 
     After an accepted topology mutation, the ternary weights have changed
     but Adam's running mean (m) and variance (v) still reflect gradients
     from the old topology. This creates a tug-of-war: the momentum points
     in the old direction while the gradient now points differently.
 
-    Full reset (decay=0) loses all training history.
-    No decay (decay=1) ignores the topology change.
-    decay=0.1 keeps 10% of the old signal — a soft reset that preserves
-    the general direction while allowing rapid adaptation to the new topology.
+    The key insight: only rows that were actually mutated need their Adam
+    state reset. A mutation touching 26K weights out of 131M affects maybe
+    a few hundred unique rows per module. Decaying ALL gamma entries
+    (the old behavior) cold-starts the entire model's optimizer state —
+    causing the CE spike. Surgical decay leaves untouched rows with full
+    momentum, so only the ~0.02% of the model that changed needs to
+    re-adapt.
 
-    Only affects gamma parameters (trainable per-channel scales in
-    TernaryLinear). Other parameters (norms, embeddings, op_embeddings)
-    are unaffected since their gradients don't depend on ternary topology.
+    Args:
+        optimizer:    the AdamW optimizer
+        model:        the model (for walking ternary modules)
+        decay:        scale factor for m/v (0.0 = full reset, 1.0 = no change)
+        mutation_map: dict mapping module_path → set of mutated row indices.
+                      If None, falls back to decaying ALL gamma entries
+                      (legacy behavior — still a sledgehammer, but safe).
+
+    Returns:
+        Number of gamma entries (rows) that were decayed.
     """
     if decay >= 1.0 or not optimizer.state:
-        return
+        return 0
 
-    # Collect paths to gamma parameters in ternary modules
-    gamma_paths = set()
+    # Build map: gamma_path → set of row indices to decay
+    gamma_decay_map: dict[str, set[int] | None] = {}
     for path, mod in _walk_ternary_modules(model):
         if isinstance(mod, TernaryLinear):
-            gamma_paths.add(f"{path}.gamma")
+            gamma_path = f"{path}.gamma"
+            if mutation_map is not None:
+                # Only decay rows that were mutated in this module
+                if path in mutation_map:
+                    gamma_decay_map[gamma_path] = mutation_map[path]
+                # If this module wasn't mutated, skip it entirely
+            else:
+                # Legacy fallback: decay all rows
+                gamma_decay_map[gamma_path] = None  # None = all rows
 
-    # Navigate optimizer state tree and decay m/v for gamma entries
+    if not gamma_decay_map:
+        return 0
+
+    n_decayed = 0
+
+    # Navigate optimizer state tree and decay m/v for targeted gamma entries
     def _decay_tree(state_node, param_path_parts, depth=0):
-        """Recursively navigate optimizer state, decay matching gamma entries."""
+        nonlocal n_decayed
         if isinstance(state_node, dict):
             for key, val in state_node.items():
                 current_path = ".".join(param_path_parts + [key])
-                if current_path in gamma_paths and isinstance(val, dict):
-                    # This is a gamma parameter's optimizer state
+                if current_path in gamma_decay_map and isinstance(val, dict):
+                    rows = gamma_decay_map[current_path]
                     for moment_key in ("m", "v"):
                         if moment_key in val and isinstance(val[moment_key], mx.array):
-                            val[moment_key] = val[moment_key] * decay
+                            if rows is None:
+                                # Legacy: decay entire vector
+                                val[moment_key] = val[moment_key] * decay
+                                n_decayed += val[moment_key].size
+                            else:
+                                # Surgical: only decay specific row indices
+                                arr = val[moment_key]
+                                row_indices = mx.array(sorted(rows))
+                                updates = arr[row_indices] * decay
+                                arr = arr.at[row_indices].add(updates - arr[row_indices])
+                                val[moment_key] = arr
+                                n_decayed += len(rows)
                 else:
                     _decay_tree(val, param_path_parts + [key], depth + 1)
         elif isinstance(state_node, list):
             for i, val in enumerate(state_node):
                 _decay_tree(val, param_path_parts + [str(i)], depth + 1)
 
-    # optimizer.state is a list (one entry per parameter group, typically one)
     if isinstance(optimizer.state, list):
         for group in optimizer.state:
             _decay_tree(group, [], 0)
@@ -395,6 +468,7 @@ def decay_adam_state(optimizer, model, decay: float = 0.1) -> None:
         _decay_tree(optimizer.state, [], 0)
 
     mx.eval(optimizer.state)
+    return n_decayed
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -757,13 +831,23 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
             total_generations += 1
             if gen_result["accepted"]:
                 total_accepted += 1
-                # Decay Adam accumulators — topology changed, old momentum is stale
+                # Surgical Adam decay — only reset m/v for gamma entries
+                # whose rows were actually mutated. Untouched rows keep
+                # full momentum, preventing the CE spike.
                 if cfg.mutation_adam_decay < 1.0:
-                    decay_adam_state(optimizer, model, decay=cfg.mutation_adam_decay)
+                    n_decayed = decay_adam_state(
+                        optimizer, model, decay=cfg.mutation_adam_decay,
+                        mutation_map=gen_result.get("mutation_map"),
+                    )
 
             accepted_str = gen_result["accepted"] or "rejected"
             delta = gen_result["accepted_loss"] - gen_result["champion_loss"]
-            decay_str = f"  adam_decay={cfg.mutation_adam_decay}" if gen_result["accepted"] else ""
+            n_rows = gen_result.get("n_rows_mutated", 0)
+            actual_flips = gen_result.get("actual_flips", 0)
+            cs = gen_result.get("consensus_stats") or {}
+            sampled = cs.get("positions_sampled", 0)
+            decay_str = (f"  adam_decay={cfg.mutation_adam_decay} ({n_decayed} rows)"
+                         if gen_result["accepted"] and cfg.mutation_adam_decay < 1.0 else "")
             # Show per-type losses when using mixed data
             type_str = ""
             if gen_result.get("struct_loss") is not None:
@@ -771,7 +855,9 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                             f"  struct={gen_result['struct_loss']:.4f}")
             print(
                 f"  🧬 gen {total_generations}: {accepted_str}"
-                f"  Δ={delta:+.4f}  budget={gen_result['budget']:,}"
+                f"  Δ={delta:+.4f}"
+                f"  flips={actual_flips:,}/{sampled:,}"
+                f"  rows={n_rows:,}"
                 f"  {total_accepted}/{total_generations}"
                 f"{type_str}"
                 f"{decay_str}",
