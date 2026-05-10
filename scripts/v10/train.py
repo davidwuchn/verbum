@@ -197,13 +197,22 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
 
     # Print compressor metrics
     pass_names = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
-    phase_names = ("prep", "conv", "cons")
+    desc_cycles = compressor_metrics.get("desc_cycles", 1)
 
     print("  ┌─ S3 gates ──────────────────────────────────────┐", file=sys.stderr)
     for pi, pname in enumerate(pass_names):
         gates = compressor_metrics["s3_gates"][pi]
-        print(f"  │ {pname:4s}: prep={gates[0]:.3f}  conv={gates[1]:.3f}  "
-              f"cons={gates[2]:.3f}", file=sys.stderr)
+        if pi >= 3 and desc_cycles > 1:
+            # Descending pass: show per-cycle gates
+            for cy in range(desc_cycles):
+                base = cy * 3
+                cyname = f"{pname}c{cy}"
+                print(f"  │ {cyname:6s}: disp={gates[base]:.3f}  "
+                      f"conv={gates[base+1]:.3f}  intg={gates[base+2]:.3f}",
+                      file=sys.stderr)
+        else:
+            print(f"  │ {pname:4s}: prep={gates[0]:.3f}  conv={gates[1]:.3f}  "
+                  f"cons={gates[2]:.3f}", file=sys.stderr)
     print("  ├─ S5 reweight ───────────────────────────────────┤", file=sys.stderr)
     mg = compressor_metrics["s5_reweight"]
     print(f"  │ {' '.join(f'{pn}={g:.3f}' for pn, g in zip(pass_names, mg))}",
@@ -249,6 +258,12 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
         cg_active = compressor_metrics["compute_gate_active"]
         print(f"  🔧 Compute gate: mean={cg_mean:.4f}  max={cg_max:.4f}  "
               f"active(>0.5)={cg_active:.1%}", file=sys.stderr)
+
+    # Multi-cycle stats
+    if desc_cycles > 1:
+        cig = compressor_metrics.get("cycle_inject_gate", 0.0)
+        print(f"  🔄 Desc cycles: {desc_cycles}  inject_gate={cig:.4f}",
+              file=sys.stderr)
 
     result = {
         "loss": avg_loss,

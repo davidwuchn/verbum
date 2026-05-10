@@ -220,6 +220,15 @@ class V6Compressor(nn.Module):
         for proj in self.mod_projs_desc:
             proj.gamma = mx.zeros_like(proj.gamma)
 
+        # ── Multi-cycle input injection gate (HRM-inspired) ──
+        # Controls how much of the pre-cycle residual is re-injected
+        # at each cycle > 0. HRM adds z_H + input at every L-step;
+        # this is the v10 analog: re-ground in the pre-cycle state
+        # so dispatch doesn't drift too far from what ascending produced.
+        # sigmoid(-4) ≈ 0.018: injection starts nearly silent, model
+        # learns to open. Unused when desc_cycles=1.
+        self._cycle_inject_gate_raw = mx.array([-4.0])
+
         # ── Meta-S4 ──────────────────────────────────────────
         self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
                                       n_banks=4, dropout=cfg.dropout)
@@ -288,6 +297,13 @@ class V6Compressor(nn.Module):
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
 
+    # ── Cycle injection ────────────────────────────────────────
+
+    @property
+    def cycle_inject_gate(self) -> mx.array:
+        """Sigmoid gate controlling input injection strength per cycle."""
+        return mx.sigmoid(self._cycle_inject_gate_raw)
+
     # ── Register helpers ──────────────────────────────────────
 
     def _init_bank0(self) -> list[mx.array]:
@@ -330,37 +346,68 @@ class V6Compressor(nn.Module):
                        for i in range(self.cfg.n_registers)]
 
         if is_descending:
-            # ── VSM-Dispatcher: kernel-shaped S1 operations ───
-            # Phase 0: dispatch (route to kernel op pathways)
-            # Conditioned on ascending registers + op emphasis from S4
-            dispatch_out = self.kernel_dispatch(
-                x, registers=readable_banks, op_emphasis=op_emphasis)
-            delta = dispatch_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 0)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
+            # ── VSM-Dispatcher: multi-cycle kernel operations ─
+            # HRM-inspired multi-timescale: S4 scanned once above
+            # (slow/abstract), now dispatch→stride→integrate cycles
+            # N times (fast/detailed).
+            #
+            # Cycle 1: dispatch from compressed reps, propagate
+            #          spatially, integrate with local-only context.
+            # Cycle 2+: dispatch AGAIN with spatial context from
+            #          prior cycle's stride. Each position now knows
+            #          what its neighbors dispatched to. Integrate
+            #          sees the refined dispatch landscape.
+            #
+            # Weights shared across cycles (same as HRM sharing
+            # L_level weights across L_cycles). S3 gates each
+            # cycle's phases independently — same phase_idx reused
+            # means the same alignment projections judge cycle 2's
+            # delta against the (now-updated) register state.
+            #
+            # Input injection at cycle > 0: re-ground in the
+            # pre-cycle residual (HRM's z_L += z_H + input pattern).
+            # Prevents drift from what the ascending arm produced.
+            # Gate starts near-zero (sigmoid(-4) ≈ 0.018), learnable.
+            #
+            # desc_cycles=1: loop runs once, cycle>0 never true,
+            # behavior is identical to prior single-cycle code.
 
-            # Phase 1: converge (StrideStack fine→coarse — propagate dispatch outward)
-            converge_out = strides(x, reverse=False)
-            delta = converge_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 1)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
+            x_anchor = x  # pre-cycle state for injection
+            n_cycles = self.cfg.desc_cycles
 
-            # Phase 2: integrate (type with spatial context from stride)
-            # Pass dispatch weights so kernel can execute the selected op
-            dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
-            integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
-            delta = integrate_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 2)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
+            for cycle in range(n_cycles):
+                # Input injection (HRM pattern): re-ground in anchor
+                if cycle > 0:
+                    x = x + self.cycle_inject_gate * x_anchor
+
+                # Phase 0: dispatch (route to kernel op pathways)
+                dispatch_out = self.kernel_dispatch(
+                    x, registers=readable_banks, op_emphasis=op_emphasis)
+                delta = dispatch_out - x
+                raw_phases.append(delta)
+                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                    target_bank, delta, 0)
+                phase_gates.append(gate)
+                x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
+
+                # Phase 1: converge (StrideStack — propagate dispatch outward)
+                converge_out = strides(x, reverse=False)
+                delta = converge_out - x
+                raw_phases.append(delta)
+                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                    target_bank, delta, 1)
+                phase_gates.append(gate)
+                x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
+
+                # Phase 2: integrate (type + compute with spatial context)
+                dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
+                integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
+                delta = integrate_out - x
+                raw_phases.append(delta)
+                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+                    target_bank, delta, 2)
+                phase_gates.append(gate)
+                x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
         else:
             # ── VSM-Compressor: compression S1 operations ─────
             # Phase 0: prep (local feature extraction)
@@ -616,7 +663,8 @@ class V6Compressor(nn.Module):
         """Forward pass with full instrumentation. Returns (hidden, metrics).
 
         Metrics dict contains:
-          s3_gates:     list of 5 lists of 3 floats (per pass, per phase)
+          s3_gates:     list of 5 lists of floats (per pass, per phase;
+                        descending passes have 3*desc_cycles phases)
           s5_reweight:  list of 5 floats (per-pass contribution gates from S5)
           s2_conflict:  list of 4 floats (cosine sim between consecutive deltas)
           s2_scales:    list of 4 floats (learnable direction signal scales)
@@ -625,6 +673,8 @@ class V6Compressor(nn.Module):
           pass_entropy_out: list of 5 floats
           pass_compression: list of 5 floats (out/in ratio)
           pass_phi_dev:     list of 5 floats (|ratio - 1/φ|)
+          desc_cycles:  int — number of dispatch cycles per descending pass
+          cycle_inject_gate: float — learned injection strength (sigmoid)
         """
         import math
         INV_PHI = 1.0 / ((1 + math.sqrt(5)) / 2)
@@ -691,36 +741,43 @@ class V6Compressor(nn.Module):
             raw_phases = []  # ungated phase deltas for S5
 
             if is_desc:
-                # ── VSM-Dispatcher: kernel-shaped phases ──────
-                # Phase 0: dispatch (conditioned on ascending registers + emphasis)
-                dispatch_out = self.kernel_dispatch(
-                    x, registers=readable, op_emphasis=op_emphasis_inst)
-                delta = dispatch_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                x = self._modulate(x, delta, gate, 0, is_descending=True)
+                # ── VSM-Dispatcher: multi-cycle kernel phases ─
+                x_anchor = x
+                n_cycles = self.cfg.desc_cycles
 
-                # Phase 1: converge (fine→coarse — propagate dispatch outward)
-                conv_out = strides(x, reverse=False)
-                delta = conv_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                x = self._modulate(x, delta, gate, 1, is_descending=True)
+                for cycle in range(n_cycles):
+                    # Input injection (HRM pattern)
+                    if cycle > 0:
+                        x = x + self.cycle_inject_gate * x_anchor
 
-                # Phase 2: integrate (type with spatial context from stride)
-                # Pass dispatch weights so kernel can execute the selected op
-                dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
-                integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
-                delta = integrate_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                x = self._modulate(x, delta, gate, 2, is_descending=True)
+                    # Phase 0: dispatch
+                    dispatch_out = self.kernel_dispatch(
+                        x, registers=readable, op_emphasis=op_emphasis_inst)
+                    delta = dispatch_out - x
+                    raw_phases.append(delta)
+                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 0)
+                    mx.eval(gate)
+                    phase_gates.append(float(gate.item()))
+                    x = self._modulate(x, delta, gate, 0, is_descending=True)
+
+                    # Phase 1: converge (propagate dispatch outward)
+                    conv_out = strides(x, reverse=False)
+                    delta = conv_out - x
+                    raw_phases.append(delta)
+                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 1)
+                    mx.eval(gate)
+                    phase_gates.append(float(gate.item()))
+                    x = self._modulate(x, delta, gate, 1, is_descending=True)
+
+                    # Phase 2: integrate (type + compute with spatial context)
+                    dw = self.kernel_dispatch._dispatch_weights if hasattr(self.kernel_dispatch, '_dispatch_weights') else None
+                    integrate_out = self.kernel_integrate(x, dispatch_weights=dw)
+                    delta = integrate_out - x
+                    raw_phases.append(delta)
+                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(target, delta, 2)
+                    mx.eval(gate)
+                    phase_gates.append(float(gate.item()))
+                    x = self._modulate(x, delta, gate, 2, is_descending=True)
             else:
                 # ── VSM-Compressor: compression phases ────────
                 # Phase 0: prep
@@ -912,6 +969,10 @@ class V6Compressor(nn.Module):
             mx.eval(norms)
             op_emb_norms = [float(norms[i].item()) for i in range(norms.shape[0])]
 
+        # Cycle inject gate value
+        cig = self.cycle_inject_gate
+        mx.eval(cig)
+
         metrics = {
             "s3_gates": all_s3_gates,
             "s5_reweight": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
@@ -935,6 +996,8 @@ class V6Compressor(nn.Module):
                 if type_weights is not None else None
             ),
             "op_embedding_norms": op_emb_norms,
+            "desc_cycles": self.cfg.desc_cycles,
+            "cycle_inject_gate": float(cig.item()),
         }
 
         # Compute gate stats (if kernel pathway is active)

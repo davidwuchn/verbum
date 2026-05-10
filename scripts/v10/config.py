@@ -44,6 +44,12 @@ class V10Config:
     # Kernel dispatch
     dispatch_top_k: int = 2       # top-k MoE routing for kernel dispatch
 
+    # Multi-cycle descending arm (HRM-inspired multi-timescale)
+    # S4 scans once per pass (slow/abstract), then dispatch→stride→integrate
+    # cycles N times (fast/detailed). Cycle 2+ refines dispatch with spatial
+    # context from cycle 1's stride propagation. desc_cycles=1 = current behavior.
+    desc_cycles: int = 2
+
     # Dropout
     dropout: float = 0.1
 
