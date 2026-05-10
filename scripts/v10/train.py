@@ -156,6 +156,37 @@ def cosine_lr(step, warmup_steps, total_steps, lr_max, lr_floor_ratio=0.01):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# § 4b  JSONL metrics logging
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _sanitize_for_json(obj):
+    """Recursively sanitize a value for JSON: NaN/Inf → null, mx/np scalars → Python."""
+    if isinstance(obj, dict):
+        return {k: _sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_sanitize_for_json(v) for v in obj]
+    if isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    if hasattr(obj, 'item'):  # mx.array scalar, np scalar
+        v = obj.item()
+        if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
+            return None
+        return v
+    if isinstance(obj, set):
+        return sorted(obj)
+    return obj
+
+
+def _append_jsonl(path: Path, record: dict) -> None:
+    """Append one JSON line to a JSONL file. Creates if missing."""
+    clean = _sanitize_for_json(record)
+    with open(path, "a") as f:
+        f.write(json.dumps(clean) + "\n")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # § 5  Evaluation
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -912,6 +943,19 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                 file=sys.stderr, flush=True,
             )
 
+            # Append lightweight training metrics to JSONL log
+            _append_jsonl(checkpoint_dir / "train_log.jsonl", {
+                "step": step,
+                "timestamp": time.time(),
+                "r": step_loss,
+                "ce": ce,
+                "r_avg50": avg50,
+                "lr": lr,
+                "grad_norm": grad_norm,
+                "tok_per_sec": tps,
+                "elapsed": elapsed,
+            })
+
         # ── Evolution ─────────────────────────────────────────
         if step % cfg.gen_interval == 0:
             gen_result = run_tournament(
@@ -956,6 +1000,23 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                 file=sys.stderr, flush=True,
             )
 
+            # Log evolution event
+            _append_jsonl(checkpoint_dir / "evolution_log.jsonl", {
+                "step": step,
+                "timestamp": time.time(),
+                "generation": total_generations,
+                "accepted": gen_result["accepted"],
+                "champion_loss": gen_result["champion_loss"],
+                "accepted_loss": gen_result["accepted_loss"],
+                "delta": delta,
+                "budget": gen_result["budget"],
+                "actual_flips": actual_flips,
+                "n_rows_mutated": n_rows,
+                "prose_loss": gen_result.get("prose_loss"),
+                "struct_loss": gen_result.get("struct_loss"),
+                "consensus_stats": gen_result.get("consensus_stats"),
+            })
+
         # ── Evaluation ────────────────────────────────────────
         if step % cfg.eval_interval == 0:
             last_eval = evaluate(model, cfg)
@@ -964,6 +1025,14 @@ def train(cfg: V10Config, args: argparse.Namespace) -> None:
                 f"  ppl={last_eval['ppl']:.0f}  r={last_eval['r']:.3f}",
                 file=sys.stderr, flush=True,
             )
+            # Append full instrumentation to JSONL log
+            _append_jsonl(checkpoint_dir / "metrics_log.jsonl", {
+                "step": step,
+                "timestamp": time.time(),
+                "total_generations": total_generations,
+                "total_accepted": total_accepted,
+                **last_eval,
+            })
 
         # ── Checkpoint ────────────────────────────────────────
         if step % cfg.checkpoint_interval == 0:
