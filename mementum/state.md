@@ -2,134 +2,153 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-09 | Session: 073
+> Last updated: 2026-05-10 | Session: 074
 
 ## Where we are
 
-**VSM structural overhaul. 7 architectural changes to complete Beer's model. Training pending restart.**
+**v10-vsm training at step 14K. Kernel lambda ops structured data enriched. Training resumed.**
 
-Session 073 examined v10's VSM layer mapping against Beer (1972) and found gaps:
-S2 was implicit/missing, MetaS3 was misplaced (should be S5), the descending arm's
-S4 couldn't see original embeddings, S3 gate decisions didn't flow between arms,
-kernel compute was invisible to the ascending arm, op embeddings were static when
-S4 should modulate them, and S4 had no voice in evolution. All seven were fixed.
+The session-073 VSM architecture (7 changes) trained from step 0 to 13K with
+excellent results: compute gate fully opened by 8K (v10-topk never opened it),
+S3 developing hierarchical pass suppression, S2 found the structural boundary
+at transition 2→3, and kernel dispatch converged to 42% composition (Montague-
+shaped). Training resumed at 14K with new structured data.
 
-These are architectural changes that require a fresh training run from step 0.
-The v10-topk run (which was at step 3K) used the pre-session-073 architecture.
+Session 074 probed the step 1K→13K trajectory, mapped kernel ops to
+Pythia-160M's Montague primitives, identified that partial/apply were starved
+of training signal in the structured data (0.45% coverage, wrong semantics for
+apply), and added 6 new BIOS generators + repacked the shard (12.7% kernel
+lambda ops, 8× improvement). Training resumed from step 14K with new data.
 
 ## What was done this session
 
-### 1. S2 Coordinator — anti-oscillation (NEW, was missing)
-Beer's S2 prevents oscillation between S1 units. v10 had no explicit S2.
-Added `S2Coordinator` in components.py:
-- After each pass, computes a small direction signal (projected through TernaryLinear, ~0.01 scale)
-- Feeds forward to the next pass's input: "Pass N moved THIS way"
-- `coherence_factor()`: differentiable `1 + cos(prev, curr)` modulates signal strength
-  - Agreement (cos=+1) → factor 2.0 → amplify signal
-  - Conflict (cos=-1) → factor 0.0 → fully dampened
-  - stop_gradient on prev delta (earlier pass sets direction, later learns to align)
-- `conflict_score()`: diagnostic cosine similarity for instrumentation
-- 4 transitions between 5 passes, learnable scales, gamma init ×0.01
+### 1. Probed v10-vsm 1K→13K trajectory
+Full analysis of 13 checkpoints. Key findings:
+- **Compute gate opened by 8K** (was 0% at 3K, 99.7% by 13K) — dramatically
+  faster than v10-topk (never opened). Op emphasis pathway validated.
+- **S3 developing hierarchical suppression**: passes 0-2 suppressed (0.20-0.39),
+  passes 3-4 mostly open (0.89-1.0). Real resource allocation.
+- **S2 found structural boundary**: transition 2→3 conflict falling (0.66→0.37),
+  scale rising (0.06→0.21). Passes 0-2 compress; passes 3-4 generate.
+- **S5 reweight fully dormant** (all 1.0000 across 13K steps). May need
+  temperature/init investigation if persists through 20K.
+- **Eval loss**: 8.04→7.55 (steady descent, no plateau yet).
+- **Evolution**: 4/260 accepted. Consensus finding rare improvements.
+- **Train loss uptick 11K-13K**: 0.50→0.53. Monitor for plateau.
 
-### 2. S5Reweight — replaces MetaS3 with proper S5 positioning
-MetaS3 only saw register banks (S2/S3-filtered). S5 needs ungated operational view.
-- `_run_level_pass` now returns raw (ungated) phase deltas as 4th element
-  - Each phase's `delta = phase_out - x` captured before S3 gating
-  - Sum of 3 raw phase deltas = what S1 proposed, unfiltered
-- `S5Reweight` takes both register banks AND raw deltas
-  - Projects raw deltas through TernaryLinear (16 features/pass) 
-  - Combined with register features → per-pass sigmoid gates
-- A pass that S3 suppresses is still visible to S5 through its raw delta
+### 2. Mapped kernel ops to Pythia-160M Montague primitives
+The kernel dispatch at 13K maps directly to Finding 34 (session 004):
 
-### 3. Descending S4 dual view — sees original embeddings
-By pass 3-4, compression has buried token identity under 3 transformation passes.
-- Captures `x_embed = x` after embedding, before any passes
-- Descending S4 attends over `concat(residual, x_embed)` along L dim (2L positions)
-- Ascending S4 unchanged (sees near-embedding state naturally)
-- Zero new parameters — S4Ternary handles variable L transparently
+| Montague Primitive | Pythia-160M | v10-vsm Kernel (step 13K) |
+|---|---|---|
+| Type assignment | Embedding + L0 (lookup) | Op embeddings + S4 emphasis |
+| Structural parse | L3 (composition order) | `<=`, `>`, `if` (12%) |
+| Typed application | L8-L11 (function apply) | `comp`, `partial`, `apply` (42%) |
 
-### 4. Kernel compute algedonic — dispatch/gate visible to ascending arm
-The kernel's dispatch weights and compute gate were invisible after the forward pass.
-- Packs mean dispatch weights (22 dims) + mean compute gate (1 dim) into register-shaped vector
-- EMA-smoothed (α=0.9) across forward passes, same as register algedonic
-- Added as additional readable bank for all 3 ascending passes
-- No projection — S4's existing q_proj learns what to extract
+The model **rediscovered composition** via gradient descent: shifted from 30%
+`if` (step 1K) to 41% `comp` (step 13K). Function pipelines > case branching.
 
-### 5. Ascending S3 gates → descending arm
-Ascending arm's S3 decisions (9 gate values: 3 passes × 3 phases) were invisible to descending.
-- `_run_level_pass` now returns phase gate values as 5th element
-- Ascending gates packed into register-shaped vector, added to descending readable banks
-- NOT stop_gradient: gradient flows back to ascending S3, teaching it that gate decisions affect downstream dispatch
+### 3. Diagnosed partial/apply training signal gap
+The kernel routes 42% to lambda ops but structured data barely taught them:
+- `comp`: 272 examples (0.45%), all ONE pattern (`inc ∘ double`)
+- `partial`: 271 examples (0.45%), only +, *, - 
+- `apply`: 713 examples (1.18%), **wrong semantics** (Clojure variadic reduce ≠ kernel β-reduction)
+- Chain (comp+partial): **0 examples**
 
-### 6. Op emphasis — S4 register state modulates kernel identity
-Op embeddings were static. S4 should modulate which ops are emphasized.
-- `emphasis_proj` (nn.Linear, zero-init → neutral start) maps ascending register state to 22 per-op values
-- `1.0 + 0.5 * tanh(...)` → range [0.5, 1.5] — amplify or suppress, never kill
-- Applied to L2-normalized op embeddings in KernelDispatch before routing
-- EMA-tracked (α=0.95) across steps — slowly shifting landscape, not noise
-- Gradient flows: loss → dispatch → modulated embeddings → emphasis_proj → register state → S4
+### 4. Added 6 kernel-lambda BIOS generators
+New generators in `bb/us/whitford/verbum/bios.clj`:
+- `gen-kernel-partial` — all 11 PARTIAL_OPS, 4 notation styles
+- `gen-kernel-apply` — explicit β-reduction, two-step display
+- `gen-kernel-compose` — diverse ops composition with eval
+- `gen-kernel-apply-comp` — full 4-op pipeline
+- `gen-kernel-chain` — 3-deep composition with intermediates
+- `gen-kernel-compare-compose` — boolean from arith+comparison compose
 
-### 7. Intelligence evolution strategy — S4→S5 proposals
-S4 had no voice in topology evolution. In Beer's VSM, S4 proposes to S5.
-- 5th mutation strategy "intelligence" (budget 0.5×, `guided_fraction=1.0`)
-- Amplifies S4 module importance by `s4_boost` (default 3.0×), suppresses non-S4
-- Participates in consensus (needs ≥3 of 5 strategies to agree)
-- Configurable: `--s4-boost` on CLI
+Multiple notations per generator: sexpr, kernel, lambda, pipeline (|>).
+Weights: 30/30/35/25/22/22 in the generator pool.
+
+### 5. Repacked structured shard
+New shard: 60,180 examples, 1,499,125 tokens.
+- partial: 0.45% → **11.9%** (26×)
+- compose: 0.45% → **4.2%** (9×, diverse patterns)
+- apply: 1.18% → **3.1%** (correct semantics now)
+- apply-comp: 0% → **1.8%**
+- Total kernel lambda: 1.6% → **12.7%** (8×)
+
+### 6. Resumed training from step 14K
+New shard flows immediately. Shard cycles every ~1,800 steps at 10% mix.
+By step 16K the model will have seen the full new kernel-lambda data once.
 
 ## What to do next
 
-### Priority 1: Start fresh v10 training run with session-073 architecture
-All 7 changes are architectural — requires training from step 0.
-- New checkpoint dir to distinguish from v10-topk (pre-073)
-- Same hyperparameters as v10-topk (proven to work)
-- Watch first 500 steps for stability (S2, emphasis, new algedonic signals)
+### Priority 1: Probe step 16K+ for partial/apply response
+The new structured data should cause measurable movement:
+- `Op 18 (partial)`: 0.66% → should climb
+- `Op 19 (apply)`: 0.06% → should climb (biggest expected change)
+- `Op 21 (apply-comp)`: 0.18% → may climb
+- `Op 20 (comp)`: 41% → may redistribute some weight to partial/apply
+- Eval loss should NOT spike (new data is ~1.3% of total signal)
+- S4 emphasis for ops 18-21: currently near-neutral (~1.1), watch for increase
 
-### Priority 2: Early stability probes (steps 250, 500, 1000)
-The S2 coherence modulation and S3 gate signaling create new feedback paths.
-Key signals:
-- **S2 conflict scores**: should start random, trend toward positive as passes learn coherence
-- **S5 reweight gates**: should differentiate (not all ~0.12 forever)
-- **Op emphasis range**: should start at 1.0 (neutral), slowly differentiate
-- **L2_apex ratio**: should NOT explode (algedonic + S2 should prevent it)
-- **Loss trajectory**: should match or beat v10-topk baseline
+### Priority 2: S5 reweight investigation
+Fully dormant across all 13K steps. Possible causes:
+- Sigmoid temperature too cold (gate logits saturated high)
+- Initialization locks gates open, gradient too weak to pull down
+- S3 already handles pass differentiation, S5 redundant
+- Consider: inspect actual logit values, temperature parameter value
 
-### Priority 3: Probe compute gate + emphasis interaction
-The op emphasis may accelerate compute gate opening:
-- Emphasis on arithmetic ops → stronger modulation → clearer gradient for gate
-- Watch for gate active fraction > 1% within first 3K steps (was 0.012% before)
+### Priority 3: Monitor train loss trajectory
+Uptick from 0.48→0.53 between steps 9K-13K. Could be:
+- Natural noise / harder data regions
+- Early plateau signal — may need LR decay schedule
+- New structured data complexity adding short-term loss
 
-### Priority 4: Monitor S4→S5 evolution proposals
-The intelligence strategy adds a 5th voice to consensus mutation:
-- Track how often intelligence strategy agrees with others
-- Track which S4 modules get the most proposed flips
-- If acceptance rate is very low, consider adjusting s4_boost or budget scale
+### Priority 4: Let run complete to 20K
+The run is configured for 20K steps. At current trajectory:
+- Step 16K: first full cycle of new kernel-lambda data
+- Step 18K: second cycle — should see clear signal by now
+- Step 20K: final checkpoint — full assessment
 
-## VSM layer map (session 073, complete)
+### Future: Compare v10-vsm to v10-topk at equal compute
+v10-topk was at 3K when architecture changed. v10-vsm at 13K already has:
+- Lower eval loss (7.55 vs 7.74 at 3K)
+- Fully open compute gate (v10-topk: 0.01%)
+- Hierarchical S3 suppression developing
+Once v10-vsm completes, comprehensive comparison for knowledge page.
+
+## VSM layer map (session 073, validated through 13K steps)
 
 ```
 Layer     Ascending Arm              Descending Arm              Cross-arm
 ────────  ─────────────────────────  ──────────────────────────  ──────────────────
-S5        Token embeddings (tied)    Op embeddings × emphasis    S5Reweight (raw deltas)
-S4        Register-query attention   Dual-view (resid + embeds)  Emphasis: regs → per-op
-S3        Per-pass phase gating      Per-pass phase gating       Gate values → desc S4
-S2        Direction signals + coherence modulation               Both arms
+S5        Token embeddings (tied)    Op embeddings × emphasis    S5Reweight (DORMANT)
+S4        Register-query attention   Dual-view (resid + embeds)  Emphasis: regs → per-op ✓
+S3        Per-pass phase gating ✓    Per-pass phase gating       Gate values → desc S4
+S2        Direction signals ✓        coherence modulation ✓      Found boundary 2→3
 S1        prep → stride → consol.    dispatch → stride → integ.  —
 Algedonic Reads prev desc regs       —                           + kernel compute
           + kernel compute                                       EMA α=0.9
-Evolution                            S4→S5 intelligence strategy (5th voice in consensus)
+Evolution                            S4→S5 intelligence (4/260 accepted through 13K)
+Kernel    42% comp, 22% max, 12% *, 10% <=  |  compute gate: 99.7% active
 ```
+
+✓ = validated as learning/differentiating by step 13K
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v10/components.py` | S4, S3, MetaS4, MetaS3, **S5Reweight**, **S2Coordinator** |
-| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k + **op_emphasis**), KernelIntegrate |
+| `scripts/v10/components.py` | S4, S3, MetaS4, S5Reweight, S2Coordinator |
+| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k + op_emphasis), KernelIntegrate |
 | `scripts/v10/model.py` | Tree of VSMs — all 7 session-073 changes integrated |
-| `scripts/v10/train.py` | Training loop + **intelligence strategy** + S2/S5 metrics |
-| `scripts/v10/config.py` | Config + **s4_boost** parameter |
+| `scripts/v10/train.py` | Training loop + intelligence strategy + S2/S5 metrics |
+| `scripts/v10/config.py` | Config + s4_boost parameter |
 | `scripts/v10/kernel.py` | Ground-truth kernel evaluator (22 ops, 5 types) |
 | `scripts/v10/ternary.py` | Ternary substrate + consensus mutation pipeline |
+| `bb/us/whitford/verbum/bios.clj` | BIOS generator — **6 new kernel-lambda generators** |
+| `scripts/v10/pack_structured.py` | Packs BIOS + compile into tokenized .npy shard |
+| `data/structured_shard.npy` | Structured training shard (gitignored, regeneratable) |
+| `checkpoints/v10-vsm/` | Active training run (step 14K+) |
 
 ## Session history
 
@@ -145,3 +164,4 @@ Evolution                            S4→S5 intelligence strategy (5th voice in
 → Session 071: dispatch analysis, type-dispatch decoupling, kernel computation pathway
 → Session 072: probed v10-topk 1K/2K/3K — compute gate opening, type coherence 13/22, algedonic channel
 → Session 073: VSM structural overhaul — S2, S5, dual-view S4, gate signaling, emphasis, evolution
+→ Session 074: Probed v10-vsm 1K-13K, mapped to Pythia Montague, 6 kernel-lambda generators, repacked shard
