@@ -79,6 +79,7 @@ from components import (
     MetaS4Ternary,
     S5Reweight,
     S2Coordinator,
+    CycleContinue,
 )
 from kernel_dispatch import KernelDispatch, KernelIntegrate, N_OPS, N_TYPES
 
@@ -226,8 +227,19 @@ class V6Compressor(nn.Module):
         # this is the v10 analog: re-ground in the pre-cycle state
         # so dispatch doesn't drift too far from what ascending produced.
         # sigmoid(-4) ≈ 0.018: injection starts nearly silent, model
-        # learns to open. Unused when desc_cycles=1.
+        # learns to open. Unused when desc_max_cycles=1.
         self._cycle_inject_gate_raw = mx.array([-4.0])
+
+        # ── S3 cycle continuation gate ────────────────────────
+        # Beer's S3 control decides whether the next cycle should
+        # contribute. Reads register state after each cycle to
+        # determine if further computation is productive.
+        # The model self-regulates: simple content → 1 cycle,
+        # complex composition → up to desc_max_cycles.
+        # Unused when desc_max_cycles ≤ 1.
+        if cfg.desc_max_cycles > 1:
+            self.cycle_continue = CycleContinue(
+                cfg.d_register, n_registers=cfg.n_registers)
 
         # ── Meta-S4 ──────────────────────────────────────────
         self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
@@ -346,36 +358,37 @@ class V6Compressor(nn.Module):
                        for i in range(self.cfg.n_registers)]
 
         if is_descending:
-            # ── VSM-Dispatcher: multi-cycle kernel operations ─
-            # HRM-inspired multi-timescale: S4 scanned once above
-            # (slow/abstract), now dispatch→stride→integrate cycles
-            # N times (fast/detailed).
+            # ── VSM-Dispatcher: self-regulating kernel cycles ─
+            # S4 scanned once above (slow/abstract). Now dispatch→
+            # stride→integrate cycles up to desc_max_cycles times.
+            # A learned S3 continuation gate (CycleContinue) decides
+            # after each cycle whether further cycles should contribute.
             #
-            # Cycle 1: dispatch from compressed reps, propagate
-            #          spatially, integrate with local-only context.
-            # Cycle 2+: dispatch AGAIN with spatial context from
-            #          prior cycle's stride. Each position now knows
-            #          what its neighbors dispatched to. Integrate
-            #          sees the refined dispatch landscape.
+            # Static graph: all cycles always execute (MLX requirement).
+            # CycleContinue controls contribution via cumulative gate:
+            #   cycle 0: full strength (cumulative_gate = 1.0)
+            #   cycle 1: scaled by continue_gate_0
+            #   cycle 2: scaled by continue_gate_0 × continue_gate_1
             #
-            # Weights shared across cycles (same as HRM sharing
-            # L_level weights across L_cycles). S3 gates each
-            # cycle's phases independently — same phase_idx reused
-            # means the same alignment projections judge cycle 2's
-            # delta against the (now-updated) register state.
+            # If the model learns "this is simple prose", it drives
+            # continuation gates → 0 after cycle 0. Cycles 1+ still
+            # compute but produce near-zero deltas (gated out).
+            # For complex content (PARTIAL → APPLY composition),
+            # gates stay open → full multi-cycle refinement.
             #
-            # Input injection at cycle > 0: re-ground in the
-            # pre-cycle residual (HRM's z_L += z_H + input pattern).
-            # Prevents drift from what the ascending arm produced.
-            # Gate starts near-zero (sigmoid(-4) ≈ 0.018), learnable.
+            # Input injection at cycle > 0: re-ground in pre-cycle
+            # residual (HRM's z_L += z_H + input pattern).
             #
-            # desc_cycles=1: loop runs once, cycle>0 never true,
-            # behavior is identical to prior single-cycle code.
+            # desc_max_cycles=1: loop runs once, no continuation
+            # gates computed, behavior identical to single-cycle.
 
             x_anchor = x  # pre-cycle state for injection
-            n_cycles = self.cfg.desc_cycles
+            max_cycles = self.cfg.desc_max_cycles
+            cumulative_gate = mx.array(1.0)  # cycle 0 always full
 
-            for cycle in range(n_cycles):
+            for cycle in range(max_cycles):
+                x_cycle_start = x
+
                 # Input injection (HRM pattern): re-ground in anchor
                 if cycle > 0:
                     x = x + self.cycle_inject_gate * x_anchor
@@ -408,6 +421,15 @@ class V6Compressor(nn.Module):
                     target_bank, delta, 2)
                 phase_gates.append(gate)
                 x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
+
+                # Scale this cycle's total contribution by cumulative gate
+                cycle_contribution = x - x_cycle_start
+                x = x_cycle_start + cumulative_gate * cycle_contribution
+
+                # S3 continuation: should the next cycle contribute?
+                if cycle < max_cycles - 1 and max_cycles > 1:
+                    cont_gate = self.cycle_continue(target_bank)
+                    cumulative_gate = cumulative_gate * cont_gate
         else:
             # ── VSM-Compressor: compression S1 operations ─────
             # Phase 0: prep (local feature extraction)
@@ -673,8 +695,10 @@ class V6Compressor(nn.Module):
           pass_entropy_out: list of 5 floats
           pass_compression: list of 5 floats (out/in ratio)
           pass_phi_dev:     list of 5 floats (|ratio - 1/φ|)
-          desc_cycles:  int — number of dispatch cycles per descending pass
+          desc_max_cycles:  int — max dispatch cycles per descending pass
           cycle_inject_gate: float — learned injection strength (sigmoid)
+          cycle_continue_gates: list of per-pass continuation gate lists
+          effective_cycles: list of per-pass effective cycle counts
         """
         import math
         INV_PHI = 1.0 / ((1 + math.sqrt(5)) / 2)
@@ -699,6 +723,8 @@ class V6Compressor(nn.Module):
         asc_gate_mx = []  # ascending S3 gate values (mx.arrays) for descending arm
         asc_gate_bank = None  # packed after ascending passes
         op_emphasis_inst = None  # computed after ascending passes
+        all_cycle_continue_gates = []  # per-pass continuation gate values
+        all_effective_cycles = []       # per-pass effective cycle counts
 
         # Algedonic channel: stale descending registers + kernel compute
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
@@ -741,11 +767,15 @@ class V6Compressor(nn.Module):
             raw_phases = []  # ungated phase deltas for S5
 
             if is_desc:
-                # ── VSM-Dispatcher: multi-cycle kernel phases ─
+                # ── VSM-Dispatcher: self-regulating kernel cycles ─
                 x_anchor = x
-                n_cycles = self.cfg.desc_cycles
+                max_cycles = self.cfg.desc_max_cycles
+                cumulative_gate = mx.array(1.0)
+                cycle_continue_gates = []  # per-cycle continuation gate values
 
-                for cycle in range(n_cycles):
+                for cycle in range(max_cycles):
+                    x_cycle_start = x
+
                     # Input injection (HRM pattern)
                     if cycle > 0:
                         x = x + self.cycle_inject_gate * x_anchor
@@ -778,6 +808,17 @@ class V6Compressor(nn.Module):
                     mx.eval(gate)
                     phase_gates.append(float(gate.item()))
                     x = self._modulate(x, delta, gate, 2, is_descending=True)
+
+                    # Scale cycle contribution by cumulative gate
+                    cycle_contribution = x - x_cycle_start
+                    x = x_cycle_start + cumulative_gate * cycle_contribution
+
+                    # S3 continuation gate
+                    if cycle < max_cycles - 1 and max_cycles > 1:
+                        cont_gate = self.cycle_continue(target)
+                        mx.eval(cont_gate)
+                        cycle_continue_gates.append(float(cont_gate.item()))
+                        cumulative_gate = cumulative_gate * cont_gate
             else:
                 # ── VSM-Compressor: compression phases ────────
                 # Phase 0: prep
@@ -818,6 +859,16 @@ class V6Compressor(nn.Module):
                 raw_delta = raw_delta + rd
             raw_deltas.append(raw_delta)
             all_s3_gates.append(phase_gates)
+
+            # Collect cycle continuation data for descending passes
+            if is_desc and self.cfg.desc_max_cycles > 1:
+                all_cycle_continue_gates.append(cycle_continue_gates)
+                # Effective cycles: 1.0 (cycle 0) + sum of cumulative gates
+                eff = 1.0 + sum(
+                    float(mx.prod(mx.array(cycle_continue_gates[:i+1])).item())
+                    for i in range(len(cycle_continue_gates))
+                ) if cycle_continue_gates else 1.0
+                all_effective_cycles.append(eff)
 
             # Pack ascending S3 gates after last ascending pass (pi=2)
             if not is_desc and pi == 2 and asc_gate_mx:
@@ -996,8 +1047,10 @@ class V6Compressor(nn.Module):
                 if type_weights is not None else None
             ),
             "op_embedding_norms": op_emb_norms,
-            "desc_cycles": self.cfg.desc_cycles,
+            "desc_max_cycles": self.cfg.desc_max_cycles,
             "cycle_inject_gate": float(cig.item()),
+            "cycle_continue_gates": all_cycle_continue_gates,
+            "effective_cycles": all_effective_cycles,
         }
 
         # Compute gate stats (if kernel pathway is active)

@@ -197,14 +197,14 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
 
     # Print compressor metrics
     pass_names = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
-    desc_cycles = compressor_metrics.get("desc_cycles", 1)
+    desc_max_cycles = compressor_metrics.get("desc_max_cycles", 1)
 
     print("  ┌─ S3 gates ──────────────────────────────────────┐", file=sys.stderr)
     for pi, pname in enumerate(pass_names):
         gates = compressor_metrics["s3_gates"][pi]
-        if pi >= 3 and desc_cycles > 1:
+        if pi >= 3 and desc_max_cycles > 1:
             # Descending pass: show per-cycle gates
-            for cy in range(desc_cycles):
+            for cy in range(desc_max_cycles):
                 base = cy * 3
                 cyname = f"{pname}c{cy}"
                 print(f"  │ {cyname:6s}: disp={gates[base]:.3f}  "
@@ -260,10 +260,19 @@ def evaluate(model: V6Compressor, cfg: V10Config) -> dict:
               f"active(>0.5)={cg_active:.1%}", file=sys.stderr)
 
     # Multi-cycle stats
-    if desc_cycles > 1:
+    if desc_max_cycles > 1:
         cig = compressor_metrics.get("cycle_inject_gate", 0.0)
-        print(f"  🔄 Desc cycles: {desc_cycles}  inject_gate={cig:.4f}",
-              file=sys.stderr)
+        eff_cycles = compressor_metrics.get("effective_cycles", [])
+        cont_gates = compressor_metrics.get("cycle_continue_gates", [])
+        desc_pass_names = ("L1↓", "L0↓")
+        parts = [f"max={desc_max_cycles}", f"inject={cig:.4f}"]
+        for di, dpn in enumerate(desc_pass_names):
+            if di < len(eff_cycles):
+                parts.append(f"{dpn}={eff_cycles[di]:.2f}eff")
+            if di < len(cont_gates) and cont_gates[di]:
+                cg_str = ",".join(f"{g:.2f}" for g in cont_gates[di])
+                parts.append(f"cont=[{cg_str}]")
+        print(f"  🔄 Cycles: {' '.join(parts)}", file=sys.stderr)
 
     result = {
         "loss": avg_loss,

@@ -592,6 +592,68 @@ class S2Coordinator(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# CycleContinue — S3 cycle-level continuation gate
+# ══════════════════════════════════════════════════════════════════════
+
+
+class CycleContinue(nn.Module):
+    """S3 continuation gate: should another dispatch cycle contribute?
+
+    Beer's S3 is the control layer — it decides what operations should
+    pass through. Within a cycle, the existing S3Ternary gates each
+    phase's delta. Between cycles, CycleContinue gates whether the
+    NEXT cycle's entire contribution should matter.
+
+    The model always computes up to desc_max_cycles (static graph for
+    MLX). CycleContinue controls each cycle's contribution weight via
+    a cumulative gate product:
+
+      cycle 0: always full strength (cumulative_gate = 1.0)
+      cycle 1: scaled by continue_gate_0
+      cycle 2: scaled by continue_gate_0 × continue_gate_1
+      ...
+
+    If CycleContinue learns that simple tokens need only 1 cycle,
+    it drives the gate toward 0 after cycle 0 — cycles 1+ produce
+    near-zero deltas (computed but ineffective). For complex tokens
+    needing compositional depth (PARTIAL → APPLY), the gate stays
+    open, giving cycle 1+ full contribution.
+
+    Input: register bank (S3's running state after the cycle).
+    The registers carry type/scope/role information accumulated
+    through the cycle's S3 phase gating — exactly what's needed
+    to decide "was this cycle productive? would another help?"
+
+    Initialization: bias=0 → sigmoid(0)=0.5 (neutral). The model
+    learns in both directions: open for complex content, close for
+    simple. No commitment to a default cycle count.
+    """
+
+    def __init__(self, d_register: int, n_registers: int = 3):
+        super().__init__()
+        d_reg_real = d_register * 2
+        self.d_reg_real = d_reg_real
+        self.n_registers = n_registers
+
+        input_dim = n_registers * d_reg_real
+        # Small projection: register state → scalar continuation logit
+        self.gate_proj = nn.Linear(input_dim, 1)
+        # Neutral init: sigmoid(0) = 0.5
+        self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
+        self.gate_proj.bias = mx.zeros_like(self.gate_proj.bias)
+
+    def __call__(self, registers: list[mx.array]) -> mx.array:
+        """Compute continuation gate from register state.
+
+        registers: list of n_registers register vectors, each (d_reg_real,)
+        Returns: scalar gate in [0, 1]
+        """
+        reg_flat = _flatten_registers(registers)
+        logit = self.gate_proj(reg_flat)
+        return mx.sigmoid(logit).reshape(())  # scalar
+
+
+# ══════════════════════════════════════════════════════════════════════
 # Self-test
 # ══════════════════════════════════════════════════════════════════════
 
@@ -713,6 +775,28 @@ if __name__ == "__main__":
         f"Orthogonal coherence should be ~1.0, got {cf_ortho.item()}"
     print(f"  S2: coherence factor: agree={cf_agree.item():.1f}, "
           f"ortho={cf_ortho.item():.1f}, fight={cf_fight.item():.1f} ✓")
+
+    print("Testing CycleContinue...")
+    cc = CycleContinue(d_register, n_registers=n_registers)
+    mx.eval(cc.parameters())
+    regs = _fresh_bank()
+    gate = cc(regs)
+    mx.eval(gate)
+    assert gate.shape == (), f"Expected scalar, got {gate.shape}"
+    assert abs(float(gate.item()) - 0.5) < 0.01, \
+        f"CycleContinue gate should start at ~0.5 (neutral), got {gate.item():.3f}"
+    print(f"  CycleContinue: gate={gate.item():.3f} (neutral init) ✓")
+    # After training (non-zero weights), different register states produce different gates.
+    # At init, weights are zero so all inputs → same output (correct: neutral start).
+    # Verify by setting a non-zero weight:
+    cc.gate_proj.weight = mx.ones_like(cc.gate_proj.weight) * 0.01
+    regs2 = [mx.random.normal((d_reg_real,)) for _ in range(n_registers)]
+    gate_a = cc(regs)
+    gate_b = cc(regs2)
+    mx.eval(gate_a, gate_b)
+    assert abs(float(gate_a.item()) - float(gate_b.item())) > 1e-6, \
+        "CycleContinue should produce different gates for different register states (non-zero weights)"
+    print(f"  CycleContinue: different regs → different gates ({gate_a.item():.3f} vs {gate_b.item():.3f}) ✓")
 
     # Test gradient flow
     print("Testing gradient flow through S4...")

@@ -44,11 +44,13 @@ class V10Config:
     # Kernel dispatch
     dispatch_top_k: int = 2       # top-k MoE routing for kernel dispatch
 
-    # Multi-cycle descending arm (HRM-inspired multi-timescale)
+    # Self-regulating descending cycles (HRM-inspired multi-timescale)
     # S4 scans once per pass (slow/abstract), then dispatch→stride→integrate
-    # cycles N times (fast/detailed). Cycle 2+ refines dispatch with spatial
-    # context from cycle 1's stride propagation. desc_cycles=1 = current behavior.
-    desc_cycles: int = 2
+    # cycles up to N times (fast/detailed). A learned S3 continuation gate
+    # decides after each cycle whether further cycles should contribute —
+    # the model self-regulates computational depth per pass.
+    # desc_max_cycles=1 disables multi-cycle (backward compat).
+    desc_max_cycles: int = 3
 
     # Dropout
     dropout: float = 0.1
