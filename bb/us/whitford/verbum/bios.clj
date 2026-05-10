@@ -1070,6 +1070,212 @@
         :sexpr  (fmt-sexpr expr result)
         :lambda (str "((λx. (" op " " a " x)) " b ") → " (fmt-result result))))))
 
+;; ── Kernel-aligned lambda op generators ──────────────────────
+;; These teach the v10-vsm kernel's ACTUAL lambda ops:
+;;   partial(op, bound) → FN
+;;   apply(FN, arg) → result
+;;   compose(outer_FN, inner_FN) → FN_COMP
+;;   apply-comp(FN_COMP, arg) → result
+;;
+;; PARTIAL_OPS: +, -, *, quot, mod, min, max, =, <, >, <=, >=
+
+(def kernel-partial-ops
+  "Ops that the kernel can curry (matches kernel.py PARTIAL_OPS)."
+  '[+ - * quot mod min max])
+
+(def kernel-comparison-ops
+  "Comparison ops that return bool (0/1) when curried."
+  '[< > <= >=])
+
+(def kernel-all-partial-ops
+  "All curriable ops for the kernel."
+  (vec (concat kernel-partial-ops kernel-comparison-ops)))
+
+(defn gen-kernel-partial
+  "Diverse partial application across all kernel-curriable ops.
+   Shows: partial(op, val) applied to arg → result
+   Format mimics kernel semantics: the bound arg is the LEFT operand."
+  []
+  (let [op (rand-choice kernel-all-partial-ops)
+        ;; Bound = left arg (kernel convention: partial binds LEFT)
+        bound (rand-digits)
+        arg (case op
+              quot (rand-pos 20)    ; avoid div-by-zero
+              mod  (rand-pos 20)    ; avoid mod-by-zero
+              (rand-digits))
+        ;; Kernel semantics: partial(op, bound) → (λx. op(bound, x))
+        expr (list (list 'partial op bound) arg)
+        [result ok?] (safe-eval expr)]
+    (when ok?
+      (case (rand-choice [:sexpr :step :lambda :kernel])
+        ;; Standard s-expr
+        :sexpr  (fmt-sexpr expr result)
+        ;; Step-by-step showing the pipeline
+        :step   (str "partial(" op ", " bound ") → FN; apply(FN, " arg ") → " (fmt-result result))
+        ;; Lambda notation
+        :lambda (str "(λx. (" op " " bound " x)) " arg " → " (fmt-result result))
+        ;; Kernel-style explicit notation
+        :kernel (str "partial(" op ", " bound ")(" arg ") = " (fmt-result result))))))
+
+(defn gen-kernel-apply
+  "Explicit β-reduction: create FN via partial, then apply.
+   Shows the two-step process the kernel must learn:
+     Step 1: partial(op, bound) → FN
+     Step 2: apply(FN, arg) → result"
+  []
+  (let [op (rand-choice kernel-all-partial-ops)
+        bound (rand-digits)
+        arg (case op
+              quot (rand-pos 20)
+              mod  (rand-pos 20)
+              (rand-digits))
+        expr (list (list 'partial op bound) arg)
+        [result ok?] (safe-eval expr)]
+    (when ok?
+      (case (rand-choice [:explicit :kernel :lambda])
+        ;; Explicit two-step
+        :explicit (str "let f = partial(" op ", " bound "); apply(f, " arg ") → " (fmt-result result))
+        ;; Kernel notation
+        :kernel   (str "apply(partial(" op ", " bound "), " arg ") → " (fmt-result result))
+        ;; Lambda with explicit application
+        :lambda   (str "(let [f (λx. (" op " " bound " x))] (f " arg ")) → " (fmt-result result))))))
+
+(defn gen-kernel-compose
+  "Compose two partial functions and apply.
+   Shows: compose(partial(op1, a), partial(op2, b)) applied to x
+   Kernel semantics: inner applied first, then outer.
+     compose(outer, inner)(x) = outer(inner(x))"
+  []
+  (let [;; Inner function: applied first
+        inner-op (rand-choice kernel-partial-ops)
+        inner-bound (rand-int* 1 12)  ; keep small to avoid overflow
+        ;; Outer function: applied second
+        outer-op (rand-choice kernel-partial-ops)
+        outer-bound (rand-int* 1 12)
+        ;; Argument
+        x (rand-int* 0 20)
+        ;; Evaluate: outer(outer-bound, inner(inner-bound, x))
+        inner-expr (list (list 'partial inner-op inner-bound) x)
+        [intermediate ok1?] (safe-eval inner-expr)]
+    (when (and ok1? (number? intermediate))
+      (let [outer-expr (list (list 'partial outer-op outer-bound) intermediate)
+            [result ok2?] (safe-eval outer-expr)]
+        (when (and ok2? (number? result)
+                   ;; Guard against overflow
+                   (< (abs result) 1000000))
+          (case (rand-choice [:compose :pipeline :kernel :lambda])
+            ;; Composition notation
+            :compose  (str "comp(" outer-op "(" outer-bound "), " inner-op "(" inner-bound "))(" x ") → " (fmt-result result))
+            ;; Pipeline notation (shows data flow)
+            :pipeline (str x " |> partial(" inner-op ", " inner-bound ") |> partial(" outer-op ", " outer-bound ") → " (fmt-result result))
+            ;; Kernel-style
+            :kernel   (str "apply-comp(compose(partial(" outer-op ", " outer-bound "), partial(" inner-op ", " inner-bound ")), " x ") → " (fmt-result result))
+            ;; Lambda
+            :lambda   (str "(λx. (" outer-op " " outer-bound " (" inner-op " " inner-bound " x))) " x " → " (fmt-result result))))))))
+
+(defn- eval-binary-op
+  "Evaluate a binary op given symbol, left, right."
+  [op a b]
+  (case op
+    +    (+ a b)
+    -    (- a b)
+    *    (* a b)
+    quot (if (zero? b) nil (quot a b))
+    mod  (if (zero? b) nil (mod a b))
+    min  (min a b)
+    max  (max a b)
+    <    (if (< a b) 1 0)
+    >    (if (> a b) 1 0)
+    <=   (if (<= a b) 1 0)
+    >=   (if (>= a b) 1 0)
+    nil))
+
+(defn gen-kernel-apply-comp
+  "Full pipeline: partial → compose → apply-comp.
+   Shows all four kernel lambda ops working together."
+  []
+  (let [;; Build two functions
+        op1 (rand-choice '[+ - *])
+        bound1 (rand-int* 1 10)
+        op2 (rand-choice '[+ - *])
+        bound2 (rand-int* 1 10)
+        x (rand-int* 0 15)
+        ;; Evaluate: op1(bound1, op2(bound2, x))
+        inner-result (eval-binary-op op2 bound2 x)
+        final-result (when inner-result (eval-binary-op op1 bound1 inner-result))]
+    (when (and final-result (< (abs final-result) 1000000))
+      (case (rand-choice [:full-pipeline :kernel-steps :lambda])
+        ;; Full explicit pipeline with intermediate
+        :full-pipeline
+        (str "f = partial(" op2 ", " bound2 ") → (λx. " op2 "(" bound2 ", x)); "
+             "g = partial(" op1 ", " bound1 ") → (λx. " op1 "(" bound1 ", x)); "
+             "h = compose(g, f); "
+             "apply-comp(h, " x ") → " final-result)
+        ;; Kernel steps
+        :kernel-steps
+        (str "partial(" op2 ", " bound2 ")(" x ") = " inner-result "; "
+             "partial(" op1 ", " bound1 ")(" inner-result ") = " final-result)
+        ;; Lambda composition
+        :lambda
+        (str "(λx. (" op1 " " bound1 " (" op2 " " bound2 " x))) " x " → " final-result)))))
+
+(defn gen-kernel-chain
+  "Multi-step chains: 3 composed functions.
+   Teaches deeper composition pipelines."
+  []
+  (let [ops (vec (repeatedly 3 #(rand-choice '[+ - *])))
+        bounds (vec (repeatedly 3 #(rand-int* 1 5)))
+        x (rand-int* 0 10)
+        ;; Evaluate chain: op3(b3, op2(b2, op1(b1, x)))
+        step1 (eval-binary-op (nth ops 0) (nth bounds 0) x)
+        step2 (when step1 (eval-binary-op (nth ops 1) (nth bounds 1) step1))
+        step3 (when step2 (eval-binary-op (nth ops 2) (nth bounds 2) step2))]
+    (when (and step3 (< (abs step3) 1000000))
+      (case (rand-choice [:chain :pipeline :lambda])
+        ;; Chain notation
+        :chain
+        (str "compose(partial(" (nth ops 2) ", " (nth bounds 2) "), "
+             "compose(partial(" (nth ops 1) ", " (nth bounds 1) "), "
+             "partial(" (nth ops 0) ", " (nth bounds 0) ")))(" x ") → " step3)
+        ;; Pipeline notation
+        :pipeline
+        (str x
+             " |> partial(" (nth ops 0) ", " (nth bounds 0) ") → " step1
+             " |> partial(" (nth ops 1) ", " (nth bounds 1) ") → " step2
+             " |> partial(" (nth ops 2) ", " (nth bounds 2) ") → " step3)
+        ;; Lambda
+        :lambda
+        (str "(λx. (" (nth ops 2) " " (nth bounds 2)
+             " (" (nth ops 1) " " (nth bounds 1)
+             " (" (nth ops 0) " " (nth bounds 0) " x))))"
+             " " x " → " step3)))))
+
+(defn gen-kernel-compare-compose
+  "Compose comparison with arithmetic — produces boolean results.
+   Shows: compose(partial(<, threshold), partial(*, scale))(x)
+   'Is x*scale < threshold?'"
+  []
+  (let [cmp-op (rand-choice kernel-comparison-ops)
+        threshold (rand-int* 1 100)
+        arith-op (rand-choice '[+ - *])
+        arith-bound (rand-int* 1 10)
+        x (rand-int* 0 20)
+        ;; Step 1: arithmetic
+        intermediate (eval-binary-op arith-op arith-bound x)
+        ;; Step 2: comparison (kernel convention: partial(op, bound) → (λx. op(bound, x)))
+        bool-result (when intermediate (eval-binary-op cmp-op threshold intermediate))]
+    (when bool-result
+      (case (rand-choice [:kernel :pipeline :lambda])
+        :kernel
+        (str "compose(partial(" cmp-op ", " threshold "), partial(" arith-op ", " arith-bound "))(" x ") → " bool-result)
+        :pipeline
+        (str x " |> partial(" arith-op ", " arith-bound ") → " intermediate
+             " |> partial(" cmp-op ", " threshold ") → " bool-result)
+        :lambda
+        (str "(λx. (" cmp-op " " threshold " (" arith-op " " arith-bound " x))) " x " → " bool-result)))))
+
+;; ── End kernel-lambda generators ─────────────────────────────
+
 (defn gen-juxt []
   (let [x (rand-digits)
         expr (list (list 'juxt 'inc 'dec) x)
@@ -1272,11 +1478,18 @@
    [gen-let 10]
    ;; Clojure — Function def + apply
    [gen-fn-apply 10]
-   ;; Clojure — Higher-order
-   [gen-comp 6]
-   [gen-partial 6]
+   ;; Clojure — Higher-order (legacy)
+   [gen-comp 3]
+   [gen-partial 3]
    [gen-juxt 4]
    [gen-identity-constantly 3]
+   ;; Kernel lambda ops (high weight �� these teach partial/apply/compose)
+   [gen-kernel-partial 30]
+   [gen-kernel-apply 30]
+   [gen-kernel-compose 35]
+   [gen-kernel-apply-comp 25]
+   [gen-kernel-chain 22]
+   [gen-kernel-compare-compose 22]
    ;; Clojure — Compound (2+ ops)
    [gen-filter-map 8]
    [gen-map-filter 8]
