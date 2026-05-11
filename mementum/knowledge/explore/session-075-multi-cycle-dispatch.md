@@ -95,12 +95,29 @@ S4 scan (once — slow, abstract)
 
 ```python
 class CycleContinue(nn.Module):
-    # register_flat (n_registers × d_reg_real) → Linear(768, 1) → sigmoid
+    # register_flat (n_registers × d_reg_real) → RMSNorm → Linear(768, 1)
+    #   → tanh(·) × 4.0 → sigmoid
     # Zero-init weights, zero bias → gate starts at 0.5 (neutral)
     # The model learns:
     #   simple prose → gate → 0 (1 effective cycle)
     #   complex composition → gate → 1 (3 effective cycles)
 ```
+
+**Session 076 fix — sigmoid saturation**: The original design (raw
+Linear → sigmoid) saturated to 1.0 within ~200 training steps. Register
+inputs have ||x|| ≈ 27.7. Even small weight updates produced logit ≈ 30,
+where sigmoid gradient ≈ 0 — the gate locked permanently open.
+
+The fix applies two layers of protection:
+1. **RMSNorm** on concatenated register input → ||x|| ≈ 1.0
+2. **tanh(·) × 4.0** logit clamp → gate ∈ [0.018, 0.982]
+
+The tanh clamp guarantees minimum gradient of 0.018 at the extremes.
+The gate can never fully saturate in either direction — always learnable.
+
+**General rule**: any sigmoid gate receiving high-norm input needs either
+normalized input or logit clamping. This is the same class of issue as
+softmax-routing-kills-gradient.md — magnitude mismatch at gate boundaries.
 
 VSM mapping: S3 already controls within-cycle (phase gating via
 S3Ternary). CycleContinue extends S3 to between-cycle control.
@@ -163,6 +180,32 @@ When training with desc_max_cycles=3, watch for:
    the raw value up from -4 toward 0 or positive
 5. **effective_cycles tracks content complexity**: the JSONL metrics_log
    should show variance in effective_cycles across eval batches
+
+## Experimental Results
+
+### v10-multicycle (session 076) — CycleContinue bug present
+
+First multi-cycle training run. CycleContinue had sigmoid saturation bug
+(gate locked at 1.0). Still produced useful observations through 7.5K steps:
+
+- **Loss**: tracked identically to single-cycle v10-vsm (7.593 vs 7.598 at 7K)
+- **Dispatch collapsed**: 3 ops held 98.3% (sub 61%, min_max 26%, and_or 11%)
+  vs v10-vsm's broader 4-5 op spread. Multi-cycle with dead gates → exploitation
+  over exploration in dispatch routing.
+- **Compute gate opening slower**: 0.24 at 7.5K vs 0.80 at 7K (v10-vsm).
+  Extra descending compute may dilute the gradient signal to the compute gate.
+- **S3 per-cycle differentiation emerged**: L1↓ c0 disp=0.62 → c1=0.73 → c2=0.80.
+  Later cycles got progressively wider gates — the model learned cycle structure
+  through S3 even with CycleContinue dead.
+- **cycle_inject_gate frozen** at 0.018 (init value). No gradient reached it.
+- **Continuation gates**: 1.0000 at all 15 evals. Confirmed dead.
+
+### v10-multicycle2 (pending) — CycleContinue fix applied
+
+To be run with RMSNorm + tanh clamp fix. Key comparisons vs v10-multicycle:
+- Do continuation gates differentiate?
+- Does dispatch diversity increase with adaptive cycles?
+- Does compute gate open faster with self-regulated compute?
 
 ## What This Does NOT Do
 
