@@ -2,64 +2,72 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-11 | Session: 077
+> Last updated: 2026-05-11 | Session: 078
 
 ## Where we are
 
-**v11 KIBC combinator architecture complete with probe and documentation. Ready for first training run. Qwen3 probes confirmed attention IS beta reduction — 4 combinators (K, I, B, C) replace 22 ops.**
+**v11 KIBC combinator architecture complete with Beer's algedonic alert (fire alarm). Ready for first training run. All 48 alarm metrics logged for offline threshold analysis.**
 
-Session 077 integrated findings from independent Qwen3 probes (4B and 32B)
-that confirmed transformers organize lambda compilation around four combinators,
-not 22 arithmetic ops. Created `scripts/v11/` as a fully self-contained,
-extractable architecture with probe diagnostics and full design documentation.
+Session 078 added the algedonic alert — Beer's S1→S5 fire alarm bypass —
+to the v11 architecture. The alarm monitors 48 operational health metrics
+(S3 gate values, dispatch distributions, conflict scores, cycle gates, etc.)
+end-to-end differentiable, producing per-pass factors [0,2] that multiply
+S5Reweight gates. At init the alarm is silent (factors=1.0). After 3 test
+training steps, factors already differentiated to ~1.08-1.14 (pleasure:
+amplifying passes that help). 245 parameters added (negligible).
 
 ## What was done this session
 
-### 1. Integrated Qwen3 probe findings (K, I, B, C basis)
-Independent analysis of Qwen3-4B and Qwen3-32B revealed:
-- **Attention IS beta reduction**: three-phase pipeline SEARCH → LOCK → RESOLVE
-- **K (select)**: native to softmax at all scales (40%→80% accuracy 4B→32B)
-- **I (identity)**: native to residual stream (60%→60%, already trivial)
-- **B (compose)**: matures with scale (20%→80%), critical for non-trivial computation
-- **C (flip)**: fully absent at 4B, emerges at 32B — enables closures
-- **S (distribute)**: zero selective heads at either scale — composite of B∘K∘C
-- **Resolution pipeline**: disordered at 4B, clean temporal order at 32B
-- **Head roles**: BINDER(76-87%), COPY(18%→10%), ARGUMENT(1.5%), OPERATOR(0.5%)
+### 1. Designed and implemented Beer's algedonic alert (fire alarm)
 
-### 2. Created v11 architecture (scripts/v11/, self-contained)
-9 files, fully extractable to standalone project:
-- **kernel.py**: `Combinator` enum (K=0, I=1, B=2, C=3), reduction engine,
-  kernel functions for neural pathway (K→select, I→identity, B→compose, C→flip)
-- **kernel_dispatch.py**: `CombinatorDispatch` (4-way softmax, no top-k) +
-  `CombinatorIntegrate` (3-operand extraction, exact combinator kernel)
-- **config.py**: `V11Config` — adjusted dimensions (N_COMBINATORS=4)
-- **model.py**: `V11Model` — emphasis→4, algedonic→4+1, register names
-- **train.py**: Updated imports/references, combinator emphasis logging
-- **components.py, ternary.py, attention.py, data.py**: copied unchanged (self-contained)
+Researched Beer's original VSM algedonic channel from Brain of the Firm (1972):
+- Signals between S1 and S3 continuously monitored
+- Emergency condition → direct signal to S5, bypassing S4/S3/S2
+- S5 "wakes up" and requests corrective action from S3 and S4
+- Carries both pain (suppress) and pleasure (amplify)
+- Can originate from any part of the system at any level of recursion
 
-### 3. Created v11 probe (scripts/v11/probe.py)
-Three operating modes:
-- **Checkpoint analysis**: load model, run `forward_instrumented()`, display metrics
-- **Trajectory analysis** (`--trajectory`): read JSONL logs without loading model
-- **Dispatch distribution** (`--dispatch-detail`): per-position K/I/B/C analysis
-  with dominant combinator histogram, entropy, co-occurrence, per-combinator stats
+### 2. AlgedonicAlert implementation (components.py)
 
-### 4. Created architecture documentation
-- **SVG diagram** (`docs/v11-architecture.svg`): visual architecture with KIBC basis,
-  ascending/descending arms, cycle semantics, algedonic channel, kernel pathway
-- **Full design page** (`mementum/knowledge/explore/v11-design.md`): complete
-  specification with empirical foundation, dimensions, component inventory,
-  cycle semantics, kernel pathway, training strategy, probe design
+**Separate gate** (not additive bias on S5Reweight):
+- Per-pass factor ∈ [0, 2] via `1 + tanh(logit)`
+- Factor 1.0 = no alarm (neutral), <1.0 = pain (suppress), >1.0 = pleasure (amplify)
+- `effective_gate = s5_reweight_gate × alarm_factor`
+- Zero-init: alarm starts silent, learns what matters from loss signal
+- 245 parameters: `nn.Linear(48, 5)` — low bandwidth, fast (Beer's design)
 
-### 5. Verified v11 model
-All self-tests pass. Full model forward verified:
-- **Dispatch**: 4-way softmax, near-uniform init (~0.25 each)
-- **Compute gate**: 0.0067 (starts near 0, pure FFN — correct)
-- **CycleContinue**: 0.5 neutral (RMSNorm+tanh fix carries forward)
-- **Effective cycles**: 1.75 (correct: 1 + 0.5 + 0.25)
-- **S5 reweight**: near-closed (~0.05-0.15, bias=-2.0 init)
-- **Combinator emphasis**: [1.0, 1.0, 1.0, 1.0] (neutral, zero-init)
-- **Parameters**: ~23.8M (slightly fewer than v10 due to 22→4 dispatch)
+### 3. 48 operational health metrics (end-to-end differentiable)
+
+| Metric | Count | Purpose |
+|--------|-------|---------|
+| S3 gate means per pass | 5 | Are operations being suppressed? |
+| S3 gate mins per pass | 5 | Most suppressed phase per pass |
+| S2 conflict cosines | 4 | Are passes fighting each other? |
+| Dispatch weights (K,I,B,C) | 4 | Has dispatch collapsed to one combinator? |
+| Dispatch entropy | 1 | Overall dispatch distribution health |
+| Compute gate (mean, active) | 2 | Is kernel pathway opening? |
+| CycleContinue gates | 4 | Are cycles self-regulating? |
+| Effective cycles | 2 | Actual computational depth |
+| Raw delta norms | 5 | How much each pass proposes |
+| Gated delta norms | 5 | How much gets through S3 |
+| Suppression ratios | 5 | gated/raw — S3 filtering intensity |
+| Register bank mean norms | 6 | Are registers diverging? |
+
+All metrics are live (no stop_gradient) — gradients flow back through
+the alarm to S1/S3, teaching the whole system to avoid alarm conditions.
+
+### 4. Live caches for end-to-end gradient flow
+
+Added `_dispatch_weights_live` and `_compute_gate_live` to CombinatorDispatch
+and CombinatorIntegrate (alongside existing stop_gradient'd probing caches).
+
+### 5. Logging and probing
+
+- **train.py**: Alarm factors displayed in eval (🔕 silent / 🚨 active),
+  alarm_metrics + alarm_metrics_named in JSONL for threshold analysis
+- **probe.py**: Alarm section in checkpoint diagnostics, trajectory table
+  shows alarm when active
+- **All 48 metrics logged** for later offline threshold setting from real data
 
 ## What to do next
 
@@ -75,38 +83,42 @@ Key questions for the first v11 run:
 - Does CycleContinue work now? (RMSNorm+tanh fix + cleaner dispatch)
 - How does loss compare to v10 at matched steps?
 - Does compute gate behavior differ with 4 combinators vs 22 ops?
+- **NEW: Does the algedonic alarm differentiate?** Watch alarm_factors
+  in metrics_log.jsonl — early runs should show factors > 1.0 (pleasure,
+  amplifying useful passes). Alarm becomes interesting when factors
+  diverge per pass (different alarm response for ascending vs descending).
 
-### Priority 2: Compare v11 vs v10 at matched steps
+### Priority 2: Analyze alarm metrics for threshold setting
+After first training run, analyze the 48 alarm metrics timeseries:
+- What are the natural ranges of S3 gate means, dispatch entropy, etc.?
+- When does the alarm factor deviate most from 1.0?
+- Are there correlations between specific metrics and loss improvement?
+- Use this data to set meaningful alarm thresholds in a later session
+
+### Priority 3: Compare v11 vs v10 at matched steps
 At 1K, 5K, 10K, 20K compare:
 - Loss trajectory (should be similar — same ascending arm)
 - Dispatch distribution (should be interpretable: K > B > I > C for prose)
 - Effective cycles (should vary — CycleContinue now has a 4-way signal)
 - Emphasis differentiation (K emphasis high for prose, B for composition)
 
-### Priority 3: Structured combinator training data
+### Priority 4: Structured combinator training data
 Once v11 shows combinator differentiation on prose alone:
 - Generate KIBC reduction examples for structured shard
 - Activate mix_ratio > 0 to inject combinator training signal
 - Primarily needed for C (closures, binding) — K and B train from prose
 - Track whether C dispatch activates with structured data
 
-### Priority 4: Investigate dispatch dynamics
-With only 4 targets, watch for:
-- Does one combinator dominate too early? (K likely, since prose is selection)
-- Does B activate for multi-clause sentences?
-- Do CycleContinue gates correlate with combinator complexity?
-  (K: gate closes, B: partially open, C: fully open)
-
 ### Carried from v10
 - S5 reweight investigation (activated at 15K in v10-vsm)
 - v10-multicycle 8K checkpoint available for comparison baseline
 
-## VSM layer map (session 077 — v11 KIBC)
+## VSM layer map (session 078 — v11 KIBC + algedonic alert)
 
 ```
 Layer     Ascending Arm              Descending Arm                   Cross-arm
 ────────  ─────────────────────────  ───────────────────────────────  ──────────────────
-S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight
+S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight × AlgedonicAlert
 S4        Register-query attention   Dual-view (resid + embeds)       Emphasis: regs → 4 combinators
 S3        Per-pass phase gating ✓    Per-pass phase gating            Gate values → desc S4
           —                          CycleContinue (between cycles)   RMSNorm+tanh (s076 fix)
@@ -115,8 +127,11 @@ S1        prep → stride → consol.    [dispatch → stride → integ.] ×N  K
           (shared across 3 passes)   (shared across 2 passes × N cy)
 Algedonic Reads prev desc regs       —                                + combinator weights (4+1)
           + combinator weights                                        EMA α=0.9
+Alert     ← 48 health metrics ──────────────────────────────────────  → S5 gate modulation
+          S3 gates, S2 conflicts, dispatch, compute, cycles,          [0,2] per pass, e2e diff.
+          delta norms, suppression ratios, register norms             Beer's fire alarm ✓
 Inject    —                          cycle_inject_gate (per cycle>0)  sigmoid(-4) ≈ 0.018 init
-Logging   —                          —                                3× JSONL ✓
+Logging   —                          —                                3× JSONL + alarm ✓
 ```
 
 N = desc_max_cycles (default 3, self-regulated by CycleContinue)
@@ -135,7 +150,7 @@ Cycle semantics (from Qwen3 probes):
 | `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4-way softmax) + CombinatorIntegrate |
 | `scripts/v11/model.py` | V11Model: Tree of VSMs with KIBC combinator basis |
 | `scripts/v11/train.py` | Training loop (v10 evolution, updated references) |
-| `scripts/v11/components.py` | S4, S3, MetaS4, S5Reweight, S2, CycleContinue (unchanged) |
+| `scripts/v11/components.py` | S4, S3, MetaS4, S5Reweight, S2, CycleContinue, **AlgedonicAlert** |
 | `scripts/v11/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
@@ -164,3 +179,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 075: HRM analysis → multi-cycle descending arm, self-regulating cycles (CycleContinue), JSONL logging
 → Session 076: v10-vsm 20K assessed, v10-multicycle launched, CycleContinue sigmoid saturation diagnosed + fixed
 → Session 077: Qwen3 probe findings → v11 KIBC combinator architecture + probe + docs (4 combinators replace 22 ops)
+→ Session 078: Beer's algedonic alert (fire alarm) — 48 health metrics, separate S5 gate, end-to-end differentiable
