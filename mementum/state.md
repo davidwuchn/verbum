@@ -2,141 +2,132 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-11 | Session: 076
+> Last updated: 2026-05-11 | Session: 077
 
 ## Where we are
 
-**v10-vsm completed 20K. v10-multicycle running (8K checkpoint imminent). CycleContinue sigmoid saturation diagnosed and fixed — next run will have working self-regulating cycles.**
+**v11 KIBC combinator architecture created. Ready for first training run. Qwen3 probes confirmed attention IS beta reduction — 4 combinators (K, I, B, C) replace 22 ops.**
 
-Session 076 assessed the completed v10-vsm 20K run, launched the first
-multi-cycle training run (v10-multicycle), and diagnosed a critical bug:
-CycleContinue's sigmoid gate saturated to 1.0 within the first ~200 steps
-and could never learn to close. Fixed with RMSNorm + tanh clamp. The
-v10-multicycle run continues to 8K for a final checkpoint before restarting
-with the fix.
+Session 077 integrated findings from independent Qwen3 probes (4B and 32B)
+that confirmed transformers organize lambda compilation around four combinators,
+not 22 arithmetic ops. Created `scripts/v11/` as a fully self-contained,
+extractable architecture built on this empirical basis.
 
 ## What was done this session
 
-### 1. Assessed v10-vsm 20K run (complete)
-Full trajectory analysis across all 20 checkpoints:
-- **Loss**: 8.04 → 7.37 (best at 15K), slight regression to 7.42 at 20K
-- **S5 Reweight activated** for the first time ever: pass 1 dropped from 1.0 → 0.693
-  at 20K. The model learned to de-emphasize pass 1. Coincided with loss regression.
-- **Compute gate**: opened and saturated by 10K (0.89 at 20K)
-- **S3 gates**: beautiful differentiation — pass 0 gating down to [0.33, 0.24, 0.19]
-- **Op dispatch** converged: compose(37%), sub(23%), pred(16%), min_max(10%)
-- **Partial/apply (ops 18/19)**: flat at <0.3% despite kernel-lambda data enrichment
-- **Evolution**: 7/400 accepted (1.75%)
+### 1. Integrated Qwen3 probe findings (K, I, B, C basis)
+Independent analysis of Qwen3-4B and Qwen3-32B revealed:
+- **Attention IS beta reduction**: three-phase pipeline SEARCH → LOCK → RESOLVE
+- **K (select)**: native to softmax at all scales (40%→80% accuracy 4B→32B)
+- **I (identity)**: native to residual stream (60%→60%, already trivial)
+- **B (compose)**: matures with scale (20%→80%), critical for non-trivial computation
+- **C (flip)**: fully absent at 4B, emerges at 32B — enables closures
+- **S (distribute)**: zero selective heads at either scale — composite of B∘K∘C
+- **Resolution pipeline**: disordered at 4B, clean temporal order at 32B
+- **Head roles**: BINDER(76-87%), COPY(18%→10%), ARGUMENT(1.5%), OPERATOR(0.5%)
 
-### 2. Launched v10-multicycle training run
-First training with multi-cycle descending arm (desc_max_cycles=3):
-```
-checkpoints/v10-multicycle/   ← running, step 7.5K+ at time of writing
-```
-JSONL logging confirmed working — all three log files accumulating correctly.
-New multi-cycle instrumentation fields verified: `cycle_continue_gates`,
-`effective_cycles`, `cycle_inject_gate`, per-cycle S3 gates (9 per desc pass).
+### 2. Created v11 architecture (scripts/v11/, self-contained)
+9 files, fully extractable to standalone project:
+- **kernel.py**: `Combinator` enum (K=0, I=1, B=2, C=3), reduction engine,
+  kernel functions for neural pathway (K→select, I→identity, B→compose, C→flip)
+- **kernel_dispatch.py**: `CombinatorDispatch` (4-way softmax, no top-k) +
+  `CombinatorIntegrate` (3-operand extraction, exact combinator kernel)
+- **config.py**: `V11Config` — adjusted dimensions (N_COMBINATORS=4)
+- **model.py**: `V11Model` — emphasis→4, algedonic→4+1, register names
+- **train.py**: Updated imports/references, combinator emphasis logging
+- **components.py, ternary.py, attention.py, data.py**: copied unchanged (self-contained)
 
-### 3. Diagnosed CycleContinue sigmoid saturation
-**The bug**: CycleContinue's gate_proj (Linear 768→1 + sigmoid) receives
-register input with ||x|| ≈ 27.7. After even small weight updates, logit ≈ 30,
-sigmoid(30) gradient ≈ 0. The gate locked at 1.0000 by step ~200 and never
-moved — all 15 evals showed effective_cycles = 3.000 for both desc passes.
-
-**Evidence**: gate_proj weight norm = 1.08, input norm ≈ 27.7, max |logit| ≈ 30.
-
-**The fix** (committed, not yet trained):
-1. **RMSNorm** on concatenated register input → ||x|| ≈ 1.0
-2. **tanh(·) × 4.0** logit clamp → gate ∈ [0.018, 0.982], min gradient 0.018
-3. Belt and suspenders: normalization prevents saturation, clamp guarantees it
-
-### 4. v10-multicycle observations at 7.5K
-Despite dead CycleContinue, useful signals:
-- **Loss tracking identical** to v10-vsm at same steps (7.593 vs 7.598 at 7K)
-- **Dispatch collapsed** to 3 ops: sub(61%), min_max(26%), and_or(11%) = 98.3%
-  Much more concentrated than v10-vsm's 4-5 op spread
-- **Compute gate opening slower**: 0.24 at 7.5K vs 0.80 at 7K in v10-vsm
-- **S3 per-cycle gates differentiating**: L1↓ c0 disp=0.62 → c1=0.73 → c2=0.80
-  (later cycles open wider) — S3 learned something about cycle structure
-- **cycle_inject_gate frozen** at 0.018 (init value) — never moved
+### 3. Verified v11 model
+All self-tests pass. Full model forward verified:
+- **Dispatch**: 4-way softmax, near-uniform init (~0.25 each)
+- **Compute gate**: 0.0067 (starts near 0, pure FFN — correct)
+- **CycleContinue**: 0.5 neutral (RMSNorm+tanh fix carries forward)
+- **Effective cycles**: 1.75 (correct: 1 + 0.5 + 0.25)
+- **S5 reweight**: near-closed (~0.05-0.15, bias=-2.0 init)
+- **Combinator emphasis**: [1.0, 1.0, 1.0, 1.0] (neutral, zero-init)
+- **Parameters**: ~23.8M (slightly fewer than v10 due to 22→4 dispatch)
 
 ## What to do next
 
-### Priority 1: Start fresh v10-multicycle run with CycleContinue fix
-After v10-multicycle reaches 8K checkpoint, start a new run:
+### Priority 1: Launch first v11 training run
 ```
-cd ~/src/verbum && uv run python scripts/v10/train.py \
-  --checkpoint-dir checkpoints/v10-multicycle2 \
-  --total-steps 20000 \
-  --mix-ratio 0.1
+cd ~/src/verbum && uv run python scripts/v11/train.py \
+  --checkpoint-dir checkpoints/v11 \
+  --total-steps 20000
 ```
-Key questions for the new run:
-- Do continuation gates differentiate? (Simple prose → close, structured → open)
-- Does effective_cycles vary across eval batches?
-- Does the model learn to use fewer cycles for simple content?
-- Does dispatch diversity improve with working self-regulation?
+Key questions for the first v11 run:
+- Does combinator dispatch differentiate? (K should dominate prose)
+- Does B emphasis rise for compositional structures?
+- Does CycleContinue work now? (RMSNorm+tanh fix + cleaner dispatch)
+- How does loss compare to v10 at matched steps?
+- Does compute gate behavior differ with 4 combinators vs 22 ops?
 
-### Priority 2: Compare v10-multicycle (dead gates) vs v10-multicycle2 (live gates)
-At matched steps (e.g. 5K, 10K), compare:
-- Loss trajectory
-- Dispatch concentration (3-op collapse vs spread)
-- Compute gate opening speed
-- S3 per-cycle gate patterns
+### Priority 2: Compare v11 vs v10 at matched steps
+At 1K, 5K, 10K, 20K compare:
+- Loss trajectory (should be similar — same ascending arm)
+- Dispatch distribution (should be interpretable: K > B > I > C for prose)
+- Effective cycles (should vary — CycleContinue now has a 4-way signal)
+- Emphasis differentiation (K emphasis high for prose, B for composition)
 
-### Priority 3: Investigate dispatch collapse
-v10-multicycle collapsed to 3 ops (98.3%) vs v10-vsm's broader spread.
-Hypotheses:
-- 3× descending compute with identical routing → model finds one good op faster
-- Dead CycleContinue = wasted capacity that could have diversified dispatch
-- The fix may resolve this if adaptive cycles free capacity for exploration
+### Priority 3: Structured combinator training data
+Once v11 shows combinator differentiation on prose alone:
+- Generate KIBC reduction examples for structured shard
+- Activate mix_ratio > 0 to inject combinator training signal
+- Primarily needed for C (closures, binding) — K and B train from prose
+- Track whether C dispatch activates with structured data
 
-### Priority 4: Partial/apply ops still flat
-Neither v10-vsm (20K) nor v10-multicycle (7.5K) moved ops 18/19 above noise.
-10% mix_ratio may be too low. Consider:
-- Higher mix_ratio (20-30%) for a targeted experiment
-- Separate structured-only eval to see if partial/apply activate on that data
-- Check if the op embeddings for 18/19 are even distinguishable
+### Priority 4: Investigate dispatch dynamics
+With only 4 targets, watch for:
+- Does one combinator dominate too early? (K likely, since prose is selection)
+- Does B activate for multi-clause sentences?
+- Do CycleContinue gates correlate with combinator complexity?
+  (K: gate closes, B: partially open, C: fully open)
 
-### Carried: S5 reweight investigation
-v10-vsm showed S5 activating at 15K+ (first time). v10-multicycle S5 stable at 1.0
-through 7.5K. Track whether new run with working CycleContinue affects S5 activation
-timing.
+### Carried from v10
+- S5 reweight investigation (activated at 15K in v10-vsm)
+- v10-multicycle 8K checkpoint available for comparison baseline
 
-## VSM layer map (session 076 update)
+## VSM layer map (session 077 — v11 KIBC)
 
 ```
 Layer     Ascending Arm              Descending Arm                   Cross-arm
 ────────  ─────────────────────────  ───────────────────────────────  ──────────────────
-S5        Token embeddings (tied)    Op embeddings × emphasis         S5Reweight (activated in vsm!)
-S4        Register-query attention   Dual-view (resid + embeds)       Emphasis: regs → per-op ✓
+S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight
+S4        Register-query attention   Dual-view (resid + embeds)       Emphasis: regs → 4 combinators
 S3        Per-pass phase gating ✓    Per-pass phase gating            Gate values → desc S4
-          —                          CycleContinue (between cycles)   ← FIXED s076: RMSNorm+tanh
+          —                          CycleContinue (between cycles)   RMSNorm+tanh (s076 fix)
 S2        Direction signals ✓        coherence modulation ✓           Found boundary 2→3
-S1        prep → stride → consol.    [dispatch → stride → integ.] ×N  ← MULTI-CYCLE s075
+S1        prep → stride → consol.    [dispatch → stride → integ.] ×N  KIBC combinator basis
           (shared across 3 passes)   (shared across 2 passes × N cy)
-Algedonic Reads prev desc regs       —                                + kernel compute
-          + kernel compute                                            EMA α=0.9
-Inject    —                          cycle_inject_gate (per cycle>0)  ← frozen at init s076
-Logging   —                          —                                3× JSONL ✓ verified s076
+Algedonic Reads prev desc regs       —                                + combinator weights (4+1)
+          + combinator weights                                        EMA α=0.9
+Inject    —                          cycle_inject_gate (per cycle>0)  sigmoid(-4) ≈ 0.018 init
+Logging   —                          —                                3× JSONL ✓
 ```
 
 N = desc_max_cycles (default 3, self-regulated by CycleContinue)
+
+Cycle semantics (from Qwen3 probes):
+  Cycle 0 — IDENTIFY: which combinator? (K select, B compose, C flip, I pass)
+  Cycle 1 — RESOLVE:  find and bind arguments (StrideStack propagation)
+  Cycle 2 — PRODUCE:  apply reduction, produce result
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v10/components.py` | S4, S3, MetaS4, S5Reweight, S2, **CycleContinue** (fixed s076) |
-| `scripts/v10/kernel_dispatch.py` | KernelDispatch (top-k + op_emphasis), KernelIntegrate |
-| `scripts/v10/model.py` | Tree of VSMs — multi-cycle descending arm, self-regulating |
-| `scripts/v10/train.py` | Training loop + JSONL logging (metrics, train, evolution) |
-| `scripts/v10/config.py` | Config: desc_max_cycles, cycle inject gate |
-| `scripts/v10/kernel.py` | Ground-truth kernel evaluator (22 ops, 5 types) |
-| `scripts/v10/ternary.py` | Ternary substrate + consensus mutation pipeline |
-| `bb/us/whitford/verbum/bios.clj` | BIOS generator — 6 kernel-lambda generators |
-| `scripts/v10/pack_structured.py` | Packs BIOS + compile into tokenized .npy shard |
-| `checkpoints/v10-vsm/` | Completed 20K run (single-cycle) |
-| `checkpoints/v10-multicycle/` | Running to 8K (dead CycleContinue) |
+| `scripts/v11/config.py` | V11Config: N_COMBINATORS=4, adjusted dimensions |
+| `scripts/v11/kernel.py` | KIBC combinator enum, reduction engine, kernel functions |
+| `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4-way softmax) + CombinatorIntegrate |
+| `scripts/v11/model.py` | V11Model: Tree of VSMs with KIBC combinator basis |
+| `scripts/v11/train.py` | Training loop (v10 evolution, updated references) |
+| `scripts/v11/components.py` | S4, S3, MetaS4, S5Reweight, S2, CycleContinue (unchanged) |
+| `scripts/v11/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
+| `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
+| `scripts/v11/data.py` | Data loading (unchanged) |
+| `mementum/knowledge/explore/v11-kibc-architecture.md` | Architecture design doc |
+| `checkpoints/v10-vsm/` | Completed v10 20K run (baseline) |
+| `checkpoints/v10-multicycle/` | Completed v10 8K run (dead CycleContinue) |
 
 ## Session history
 
@@ -155,3 +146,4 @@ N = desc_max_cycles (default 3, self-regulated by CycleContinue)
 → Session 074: Probed v10-vsm 1K-13K, mapped to Pythia Montague, 6 kernel-lambda generators, repacked shard
 → Session 075: HRM analysis → multi-cycle descending arm, self-regulating cycles (CycleContinue), JSONL logging
 → Session 076: v10-vsm 20K assessed, v10-multicycle launched, CycleContinue sigmoid saturation diagnosed + fixed
+→ Session 077: Qwen3 probe findings → v11 KIBC combinator architecture (4 combinators replace 22 ops)
