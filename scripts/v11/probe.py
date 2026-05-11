@@ -465,6 +465,14 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
                 emph_strs = [f"{COMBINATOR_NAMES[i]}={emph[i]:.2f}"
                              for i in range(len(emph))]
                 print(f" {' '.join(emph_strs):>20}", end="")
+
+            # Alarm factors (if present)
+            af = m.get("alarm_factors", [])
+            if af:
+                any_active = any(abs(f - 1.0) > 0.01 for f in af)
+                if any_active:
+                    af_str = " ".join(f"{f:.2f}" for f in af)
+                    print(f"  🚨[{af_str}]", end="")
             print()
 
         # ── Dispatch evolution summary ────────────────────
@@ -785,6 +793,28 @@ def print_compressor_metrics(raw: dict):
     for pi, pname in enumerate(PASS_NAMES_SHORT):
         phi_mark = " ←φ" if pd[pi] < 0.05 else "   "
         print(f"  │ {pname:4s}: ratio={cr[pi]:>7.3f}  φ-dev={pd[pi]:.3f}{phi_mark}")
+
+    # Algedonic alert (Beer's fire alarm)
+    alarm_factors = raw.get("alarm_factors")
+    eff_s5 = raw.get("effective_s5_gates")
+    alarm_metrics_named = raw.get("alarm_metrics_named")
+    if alarm_factors:
+        any_alarm = any(abs(f - 1.0) > 0.01 for f in alarm_factors)
+        symbol = "🚨" if any_alarm else "🔕"
+        print(f"  ├─ Algedonic ({symbol} {'ACTIVE' if any_alarm else 'silent'}) "
+              f"──────────────────────┤")
+        parts = [f"{pn}={f:.3f}" for pn, f in zip(PASS_NAMES_SHORT, alarm_factors)]
+        print(f"  │ factors: {' '.join(parts)}")
+        if eff_s5:
+            parts2 = [f"{pn}={g:.3f}" for pn, g in zip(PASS_NAMES_SHORT, eff_s5)]
+            print(f"  │ eff.gates: {' '.join(parts2)}")
+        if alarm_metrics_named:
+            for section in ["s3_gate_means", "s3_gate_mins",
+                            "dispatch_entropy", "suppression_ratios"]:
+                vals = alarm_metrics_named.get(section)
+                if vals:
+                    val_str = " ".join(f"{v:.3f}" for v in vals)
+                    print(f"  │ {section}: {val_str}")
 
     print(f"  └─────────────────────────────────────────────────┘")
 

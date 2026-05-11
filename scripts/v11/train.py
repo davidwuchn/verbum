@@ -303,6 +303,40 @@ def evaluate(model: V11Model, cfg: V11Config) -> dict:
                 parts.append(f"cont=[{cg_str}]")
         print(f"  🔄 Cycles: {' '.join(parts)}", file=sys.stderr)
 
+    # Algedonic alert (Beer's fire alarm)
+    alarm_factors = compressor_metrics.get("alarm_factors")
+    eff_s5 = compressor_metrics.get("effective_s5_gates")
+    if alarm_factors:
+        pass_names_alarm = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
+        # Detect any non-neutral alarm (factor != 1.0)
+        any_alarm = any(abs(f - 1.0) > 0.01 for f in alarm_factors)
+        symbol = "🚨" if any_alarm else "🔕"
+        parts = [f"{pn}={f:.3f}" for pn, f in zip(pass_names_alarm, alarm_factors)]
+        print(f"  {symbol} Algedonic: {' '.join(parts)}"
+              f"  {'(active)' if any_alarm else '(silent)'}",
+              file=sys.stderr)
+        if eff_s5:
+            parts2 = [f"{pn}={g:.3f}" for pn, g in zip(pass_names_alarm, eff_s5)]
+            print(f"     effective gates: {' '.join(parts2)}",
+                  file=sys.stderr)
+    # Log alarm raw metrics for offline threshold analysis
+    alarm_metrics_raw = compressor_metrics.get("alarm_metrics")
+    if alarm_metrics_raw:
+        # Named sections for the 48 metrics
+        alarm_named = {}
+        idx = 0
+        for section, count in [
+            ("s3_gate_means", 5), ("s3_gate_mins", 5),
+            ("s2_conflicts", 4), ("dispatch_weights", 4),
+            ("dispatch_entropy", 1), ("compute_gate", 2),
+            ("cycle_continue", 4), ("effective_cycles", 2),
+            ("raw_delta_norms", 5), ("gated_delta_norms", 5),
+            ("suppression_ratios", 5), ("register_norms", 6),
+        ]:
+            alarm_named[section] = alarm_metrics_raw[idx:idx+count]
+            idx += count
+        compressor_metrics["alarm_metrics_named"] = alarm_named
+
     result = {
         "loss": avg_loss,
         "ppl": ppl,

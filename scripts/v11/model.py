@@ -44,6 +44,7 @@ from components import (
     S5Reweight,
     S2Coordinator,
     CycleContinue,
+    AlgedonicAlert,
 )
 from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
 
@@ -167,6 +168,9 @@ class V11Model(nn.Module):
             d, d_reg, n_registers=n_reg,
             n_banks=6, n_passes=self.N_PASSES)
 
+        # ── Algedonic alert (Beer's fire alarm: S1→S5 bypass) ──
+        self.algedonic = AlgedonicAlert(n_passes=self.N_PASSES)
+
         # ── Algedonic channel ──────────────────────────────────
         self._algedonic_ema = 0.9
         self._prev_bank_1_desc = [mx.zeros((self.d_reg_real,))
@@ -206,6 +210,165 @@ class V11Model(nn.Module):
         projs = self.mod_projs_desc if is_descending else self.mod_projs
         return x + gate * mx.tanh(projs[phase_idx](delta))
 
+    # ── Alarm metrics collection ─────────────────────────────
+
+    @staticmethod
+    def _delta_rms(delta: mx.array) -> mx.array:
+        """RMS norm of a (B, L, d) delta, scalar. Differentiable."""
+        return mx.sqrt(mx.mean(delta * delta) + 1e-8)
+
+    def _collect_alarm_metrics(
+        self,
+        all_s3_gates: list[list],
+        pass_deltas: list[mx.array],
+        raw_deltas: list[mx.array],
+        all_pass_alarm: list[dict],
+        all_banks: list[list[mx.array]],
+    ) -> mx.array:
+        """Pack ~48 operational health metrics into a single vector.
+
+        All values are end-to-end differentiable (live tensors, no
+        stop_gradient). This is what Beer's algedonic channel monitors.
+
+        Returns: (48,) metrics vector for AlgedonicAlert.
+        """
+        metrics = []
+
+        # 1. S3 gate means per pass (5 scalars)
+        for pass_gates in all_s3_gates:
+            if pass_gates:
+                gate_sum = pass_gates[0]
+                for g in pass_gates[1:]:
+                    gate_sum = gate_sum + g
+                metrics.append(gate_sum / len(pass_gates))
+            else:
+                metrics.append(mx.array(0.5))
+
+        # 2. S3 gate mins per pass (5 scalars)
+        for pass_gates in all_s3_gates:
+            if pass_gates:
+                gate_min = pass_gates[0]
+                for g in pass_gates[1:]:
+                    gate_min = mx.minimum(gate_min, g)
+                metrics.append(gate_min)
+            else:
+                metrics.append(mx.array(0.5))
+
+        # 3. S2 conflict cosines — differentiable (4 scalars)
+        for i in range(self.N_PASSES - 1):
+            s_prev = pass_deltas[i].mean(axis=(0, 1))
+            s_curr = pass_deltas[i + 1].mean(axis=(0, 1))
+            dot = (s_prev * s_curr).sum()
+            n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
+            n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
+            metrics.append(dot / (n_prev * n_curr))
+
+        # 4. Dispatch weight means K,I,B,C (4 scalars)
+        # Accumulate live dispatch weights from descending passes
+        dispatch_accum = None
+        n_desc = 0
+        for pa in all_pass_alarm:
+            dw = pa.get('dispatch_weights_live')
+            if dw is not None:
+                dw_mean = mx.mean(dw, axis=(0, 1))  # (4,)
+                if dispatch_accum is None:
+                    dispatch_accum = dw_mean
+                else:
+                    dispatch_accum = dispatch_accum + dw_mean
+                n_desc += 1
+        if dispatch_accum is not None and n_desc > 0:
+            dispatch_mean = dispatch_accum / n_desc  # (4,)
+            for i in range(N_COMBINATORS):
+                metrics.append(dispatch_mean[i])
+        else:
+            for _ in range(N_COMBINATORS):
+                metrics.append(mx.array(0.25))
+
+        # 5. Dispatch entropy (1 scalar)
+        #    -sum(p log p) — low entropy = collapsed dispatch
+        if dispatch_accum is not None and n_desc > 0:
+            p = dispatch_mean
+            entropy = -mx.sum(p * mx.log(p + 1e-8))
+            metrics.append(entropy)
+        else:
+            metrics.append(mx.array(1.386))  # ln(4) — uniform
+
+        # 6. Compute gate: mean + active fraction (2 scalars)
+        cg_accum = None
+        cg_count = 0
+        for pa in all_pass_alarm:
+            cg = pa.get('compute_gate_live')
+            if cg is not None:
+                cg_accum = mx.mean(cg) if cg_accum is None \
+                    else (cg_accum + mx.mean(cg))
+                cg_count += 1
+        if cg_accum is not None and cg_count > 0:
+            cg_mean = cg_accum / cg_count
+            metrics.append(cg_mean)
+            # Active fraction: soft approximation (mean of gate values)
+            metrics.append(cg_mean)  # at init these are the same
+        else:
+            metrics.append(mx.array(0.0))
+            metrics.append(mx.array(0.0))
+
+        # 7. CycleContinue gates (4 scalars, padded)
+        cycle_gates_flat = []
+        for pa in all_pass_alarm:
+            for cg in pa.get('cycle_continue_gates', []):
+                cycle_gates_flat.append(cg)
+        # Pad to 4 (2 gates × 2 desc passes)
+        while len(cycle_gates_flat) < 4:
+            cycle_gates_flat.append(mx.array(0.5))  # neutral padding
+        for cg in cycle_gates_flat[:4]:
+            metrics.append(cg)
+
+        # 8. Effective cycles per desc pass (2 scalars)
+        #    Only descending passes (last N_DESC_PASSES) have cycles
+        eff_cycles_list = []
+        for pa in all_pass_alarm:
+            cc_gates = pa.get('cycle_continue_gates', [])
+            if cc_gates:
+                eff = mx.array(1.0)
+                cumul = mx.array(1.0)
+                for cg in cc_gates:
+                    cumul = cumul * cg
+                    eff = eff + cumul
+                eff_cycles_list.append(eff)
+        # Pad to exactly 2 (one per desc pass)
+        while len(eff_cycles_list) < 2:
+            eff_cycles_list.append(mx.array(1.0))
+        for ec in eff_cycles_list[:2]:
+            metrics.append(ec)
+
+        # 9. Raw delta RMS norms (5 scalars)
+        for rd in raw_deltas:
+            metrics.append(self._delta_rms(rd))
+
+        # 10. Gated delta RMS norms (5 scalars)
+        for pd in pass_deltas:
+            metrics.append(self._delta_rms(pd))
+
+        # 11. S3 suppression ratio per pass (5 scalars)
+        #     gated_norm / raw_norm — how much S3 is filtering
+        for pd, rd in zip(pass_deltas, raw_deltas):
+            gated_rms = self._delta_rms(pd)
+            raw_rms = self._delta_rms(rd)
+            metrics.append(gated_rms / (raw_rms + 1e-8))
+
+        # 12. Register bank mean norms (6 scalars)
+        for bank in all_banks:
+            bank_norm_sum = mx.array(0.0)
+            for reg in bank:
+                bank_norm_sum = bank_norm_sum + mx.sqrt(
+                    mx.sum(reg * reg) + 1e-8)
+            metrics.append(bank_norm_sum / len(bank))
+
+        # Ensure all metrics are 0-d arrays and concatenate
+        metrics_flat = [m.reshape(1) if m.ndim == 0 else m.reshape(1)
+                        for m in metrics]
+        metrics_vector = mx.concatenate(metrics_flat)
+        return metrics_vector
+
     # ── Core level-pass ───────────────────────────────────────
 
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
@@ -214,6 +377,12 @@ class V11Model(nn.Module):
         x_before = x
         raw_phases = []
         phase_gates = []
+        # Alarm metrics: live (differentiable) values for AlgedonicAlert
+        pass_alarm = {
+            'cycle_continue_gates': [],  # live CycleContinue gate values
+            'dispatch_weights_live': None,  # (B, L, 4) live dispatch weights
+            'compute_gate_live': None,  # (B, L, 1) live compute gate
+        }
 
         s4 = self.s4_desc if is_descending else self.s4
         strides = self.stride_stack_desc if is_descending else self.stride_stack
@@ -278,7 +447,17 @@ class V11Model(nn.Module):
                 # S3 continuation
                 if cycle < max_cycles - 1 and max_cycles > 1:
                     cont_gate = self.cycle_continue(target_bank)
+                    pass_alarm['cycle_continue_gates'].append(cont_gate)
                     cumulative_gate = cumulative_gate * cont_gate
+
+            # Capture live (differentiable) dispatch/compute metrics
+            # from the LAST cycle — most recent computation
+            if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
+                pass_alarm['dispatch_weights_live'] = \
+                    self.combinator_dispatch._dispatch_weights_live
+            if hasattr(self.combinator_integrate, '_compute_gate_live'):
+                pass_alarm['compute_gate_live'] = \
+                    self.combinator_integrate._compute_gate_live
         else:
             # ── Ascending compression ──────────────────────────
             prep_out = self.prep(x)
@@ -309,7 +488,7 @@ class V11Model(nn.Module):
         raw_delta = raw_phases[0]
         for rd in raw_phases[1:]:
             raw_delta = raw_delta + rd
-        return x, target_bank, pass_delta, raw_delta, phase_gates
+        return x, target_bank, pass_delta, raw_delta, phase_gates, pass_alarm
 
     # ── Forward ───────────────────────────────────────────────
 
@@ -333,6 +512,8 @@ class V11Model(nn.Module):
 
         pass_deltas = []
         raw_deltas = []
+        all_s3_gates = []       # per-pass list of gate values (for alarm)
+        all_pass_alarm = []     # per-pass alarm metrics dicts
 
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
@@ -341,22 +522,25 @@ class V11Model(nn.Module):
         asc_s3_gates = []
 
         # Pass 0: L0↑
-        x, bank_1_asc, pd, rd, pg = self._run_level_pass(
+        x, bank_1_asc, pd, rd, pg, pa = self._run_level_pass(
             x, 0, False, [bank_0, prev_b1d, prev_kernel], bank_1_asc)
-        pass_deltas.append(pd); raw_deltas.append(rd); asc_s3_gates.extend(pg)
+        pass_deltas.append(pd); raw_deltas.append(rd)
+        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
         x = x + self.s2.direction_signal(pd, 0)
 
         # Pass 1: L1↑
-        x, bank_2_asc, pd, rd, pg = self._run_level_pass(
+        x, bank_2_asc, pd, rd, pg, pa = self._run_level_pass(
             x, 1, False, [bank_0, bank_1_asc, prev_b2d, prev_kernel], bank_2_asc)
-        pass_deltas.append(pd); raw_deltas.append(rd); asc_s3_gates.extend(pg)
+        pass_deltas.append(pd); raw_deltas.append(rd)
+        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
         coherence = S2Coordinator.coherence_factor(pass_deltas[0], pass_deltas[1])
         x = x + self.s2.direction_signal(pd, 1) * coherence
 
         # Pass 2: L2_apex
-        x, bank_3, pd, rd, pg = self._run_level_pass(
+        x, bank_3, pd, rd, pg, pa = self._run_level_pass(
             x, 2, False, [bank_0, bank_1_asc, bank_2_asc, prev_kernel], bank_3)
-        pass_deltas.append(pd); raw_deltas.append(rd); asc_s3_gates.extend(pg)
+        pass_deltas.append(pd); raw_deltas.append(rd)
+        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
         # ── Combinator emphasis (4-wide, not 22) ──────────────
         emphasis_parts = []
@@ -384,23 +568,25 @@ class V11Model(nn.Module):
         x = x + self.s2.direction_signal(pd, 2) * coherence
 
         # Pass 3: L1↓
-        x, bank_2_desc, pd, rd, _ = self._run_level_pass(
+        x, bank_2_desc, pd, rd, pg, pa = self._run_level_pass(
             x, 3, True,
             [bank_0, bank_1_asc, bank_2_asc, bank_3, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
             combinator_emphasis=combinator_emphasis)
         pass_deltas.append(pd); raw_deltas.append(rd)
+        all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
         coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
         x = x + self.s2.direction_signal(pd, 3) * coherence
 
         # Pass 4: L0↓
-        x, bank_1_desc, pd, rd, _ = self._run_level_pass(
+        x, bank_1_desc, pd, rd, pg, pa = self._run_level_pass(
             x, 4, True,
             [bank_0, bank_1_asc, bank_2_desc, bank_3, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
             combinator_emphasis=combinator_emphasis)
         pass_deltas.append(pd); raw_deltas.append(rd)
+        all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
         # ── Update algedonic buffers ───────────────────────────
         α = self._algedonic_ema
@@ -435,12 +621,20 @@ class V11Model(nn.Module):
                      bank_2_desc, bank_1_desc]
         meta_gates = self.s5_reweight(all_banks, raw_deltas)
 
+        # ── Algedonic alert (Beer's fire alarm) ───────────────
+        alarm_metrics = self._collect_alarm_metrics(
+            all_s3_gates, pass_deltas, raw_deltas,
+            all_pass_alarm, all_banks)
+        alarm_factors = self.algedonic(alarm_metrics)
+        # Effective gate = S5Reweight × alarm factor
+        effective_gates = meta_gates * alarm_factors
+
         total_ungated = pass_deltas[0]
         for i in range(1, self.N_PASSES):
             total_ungated = total_ungated + pass_deltas[i]
-        total_gated = meta_gates[0] * pass_deltas[0]
+        total_gated = effective_gates[0] * pass_deltas[0]
         for i in range(1, self.N_PASSES):
-            total_gated = total_gated + meta_gates[i] * pass_deltas[i]
+            total_gated = total_gated + effective_gates[i] * pass_deltas[i]
         x = x - total_ungated + total_gated
 
         # Meta-S4
@@ -495,6 +689,7 @@ class V11Model(nn.Module):
         pass_deltas = []
         raw_deltas = []
         all_s3_gates = []
+        all_pass_alarm_inst = []  # for alarm metrics collection
         pass_h_in = []
         pass_h_out = []
         asc_gate_mx = []
@@ -635,6 +830,30 @@ class V11Model(nn.Module):
             raw_deltas.append(raw_delta)
             all_s3_gates.append(phase_gates)
 
+            # Collect alarm metrics for this pass (live values from modules)
+            pa_inst = {
+                'cycle_continue_gates': [],
+                'dispatch_weights_live': None,
+                'compute_gate_live': None,
+            }
+            if is_desc:
+                if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
+                    pa_inst['dispatch_weights_live'] = \
+                        self.combinator_dispatch._dispatch_weights_live
+                if hasattr(self.combinator_integrate, '_compute_gate_live'):
+                    pa_inst['compute_gate_live'] = \
+                        self.combinator_integrate._compute_gate_live
+                # CycleContinue gates: re-read from module state
+                # (the live gates were consumed in cumulative_gate above)
+                # We need the live values — recompute from target register state
+                # Actually, the cont_gate local variable IS live when computed.
+                # But we already eval'd it. For instrumented mode, the stop_grad
+                # versions are fine since we don't backprop. Use mx.array wrapping.
+                if self.cfg.desc_max_cycles > 1 and cycle_continue_gates:
+                    pa_inst['cycle_continue_gates'] = [
+                        mx.array(g) for g in cycle_continue_gates]
+            all_pass_alarm_inst.append(pa_inst)
+
             if is_desc and self.cfg.desc_max_cycles > 1:
                 all_cycle_continue_gates.append(cycle_continue_gates)
                 eff = 1.0 + sum(
@@ -722,12 +941,26 @@ class V11Model(nn.Module):
         meta_gates = self.s5_reweight(all_banks, raw_deltas)
         mx.eval(meta_gates)
 
+        # ── Algedonic alert (Beer's fire alarm) ───────────────
+        # Collect alarm metrics using live S3 gate values.
+        # In instrumented mode, S3 gates are floats — wrap as mx.array.
+        all_s3_gates_mx = []
+        for pass_gates in all_s3_gates:
+            all_s3_gates_mx.append([mx.array(g) for g in pass_gates])
+        alarm_metrics_inst = self._collect_alarm_metrics(
+            all_s3_gates_mx, pass_deltas, raw_deltas,
+            all_pass_alarm_inst, all_banks)
+        mx.eval(alarm_metrics_inst)
+        alarm_factors_inst = self.algedonic(alarm_metrics_inst)
+        mx.eval(alarm_factors_inst)
+        effective_gates = meta_gates * alarm_factors_inst
+
         total_ungated = pass_deltas[0]
         for i in range(1, self.N_PASSES):
             total_ungated = total_ungated + pass_deltas[i]
-        total_gated = meta_gates[0] * pass_deltas[0]
+        total_gated = effective_gates[0] * pass_deltas[0]
         for i in range(1, self.N_PASSES):
-            total_gated = total_gated + meta_gates[i] * pass_deltas[i]
+            total_gated = total_gated + effective_gates[i] * pass_deltas[i]
         x = x - total_ungated + total_gated
 
         meta_banks_list = [bank_0, bank_1_desc, bank_2_desc, bank_3]
@@ -785,6 +1018,12 @@ class V11Model(nn.Module):
         metrics = {
             "s3_gates": all_s3_gates,
             "s5_reweight": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
+            "alarm_factors": [float(alarm_factors_inst[i].item())
+                              for i in range(self.N_PASSES)],
+            "alarm_metrics": [float(alarm_metrics_inst[i].item())
+                              for i in range(alarm_metrics_inst.shape[0])],
+            "effective_s5_gates": [float(effective_gates[i].item())
+                                   for i in range(self.N_PASSES)],
             "combinator_emphasis": (
                 [float(combinator_emphasis_inst[i].item())
                  for i in range(N_COMBINATORS)]

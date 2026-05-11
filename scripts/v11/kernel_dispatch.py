@@ -148,8 +148,9 @@ class CombinatorDispatch(nn.Module):
         # No top-k masking — 4 targets have strong gradients for all entries
         dispatch_weights = mx.softmax(dispatch_logits, axis=-1)  # (B, L, 4)
 
-        # Cache for probing
+        # Cache for probing (stop_gradient) and alarm (live, end-to-end)
         self._dispatch_weights = mx.stop_gradient(dispatch_weights)
+        self._dispatch_weights_live = dispatch_weights
 
         # Step 3: Normalized combinator embeddings
         comb_emb = self._normalize_embeddings()  # (4, d_model)
@@ -344,6 +345,7 @@ class CombinatorIntegrate(nn.Module):
         # ── Compute gate: blend kernel vs FFN ─────────────────
         gate = mx.sigmoid(self.gate_proj(h))  # (B, L, 1)
         self._compute_gate = mx.stop_gradient(gate)
+        self._compute_gate_live = gate
 
         blended = gate * kernel_out + (1.0 - gate) * ffn_out
 

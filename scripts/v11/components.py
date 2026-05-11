@@ -664,6 +664,103 @@ class CycleContinue(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# AlgedonicAlert — Beer's fire alarm: S1→S5 emergency bypass
+# ══════════════════════════════════════════════════════════════════════
+
+
+class AlgedonicAlert(nn.Module):
+    """Beer's algedonic channel: S1→S5 fire alarm.
+
+    Direct bypass from operational metrics to S5, monitoring the
+    HEALTH of the control system itself — not its content.
+
+    Beer (Brain of the Firm, 1972): "Signals between Systems 1 and 3
+    should be continuously monitored, and if an emergency condition
+    is detected, an emergency signal will be sent directly to System 5.
+    In turn, System 5 wakes up, requesting emergency corrective action
+    from Systems 3 and 4."
+
+    In v11, S5Reweight asks "what did each pass contribute?" (content).
+    AlgedonicAlert asks "is the control system healthy?" (health).
+    S5Reweight reads raw deltas and register banks through S4 attention.
+    AlgedonicAlert reads S3 gate values, dispatch distributions,
+    conflict scores — the operational metrics that S4 doesn't see.
+
+    Mechanism:
+      - Separate gate: per-pass factor ∈ [0, 2] via 1 + tanh(logit)
+      - Factor = 1.0 → no alarm (neutral, S5Reweight controls)
+      - Factor < 1.0 → pain (suppress this pass)
+      - Factor > 1.0 → pleasure (amplify this pass, up to 2×)
+      - Multiplies S5Reweight gates: effective = s5_gate × alarm_factor
+
+    Properties:
+      - Zero-init: alarm starts inert (factor = 1.0 everywhere)
+      - End-to-end differentiable: gradients flow back through
+        operational metrics to S1/S3, teaching the whole system
+        to avoid alarm conditions
+      - Low bandwidth: ~48 scalar inputs → 5 scalar outputs
+        (one linear projection, no attention — the alarm is FAST)
+      - No learned baseline: raw metrics logged for offline
+        threshold analysis. Baselines set from real data later.
+
+    Escalation (Beer's model):
+      1. S1 self-corrects (CycleContinue regulates cycles)
+      2. S3 filters (per-phase gates suppress bad deltas)
+      3. S5 overrides via alarm (this module — final recourse)
+      The alarm runs AFTER all passes, so S1 and S3 have
+      already had their chance.
+    """
+
+    # Input metric dimensions (must match _pack_metrics)
+    N_S3_GATE_MEANS = 5    # mean S3 gate per pass
+    N_S3_GATE_MINS = 5     # min S3 gate per pass (most suppressed phase)
+    N_S2_CONFLICTS = 4     # cosine between consecutive pass deltas
+    N_DISPATCH = 4         # combinator weight means (K, I, B, C)
+    N_DISPATCH_ENTROPY = 1 # dispatch distribution entropy
+    N_COMPUTE_GATE = 2     # mean + active fraction
+    N_CYCLE_GATES = 4      # CycleContinue gates (2 per desc pass, padded)
+    N_EFFECTIVE_CYCLES = 2 # effective cycle count per desc pass
+    N_RAW_DELTA_NORMS = 5  # L2 norm of each raw delta
+    N_GATED_DELTA_NORMS = 5  # L2 norm of each gated delta
+    N_SUPPRESSION_RATIOS = 5  # gated/raw ratio per pass
+    N_REGISTER_NORMS = 6   # mean register norm per bank
+
+    INPUT_DIM = (N_S3_GATE_MEANS + N_S3_GATE_MINS + N_S2_CONFLICTS +
+                 N_DISPATCH + N_DISPATCH_ENTROPY + N_COMPUTE_GATE +
+                 N_CYCLE_GATES + N_EFFECTIVE_CYCLES +
+                 N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
+                 N_SUPPRESSION_RATIOS + N_REGISTER_NORMS)  # = 48
+
+    def __init__(self, n_passes: int = 5):
+        super().__init__()
+        self.n_passes = n_passes
+
+        # Single linear: operational metrics → per-pass alarm logits
+        # Zero-init: alarm starts inert (all factors = 1.0)
+        self.alarm_proj = nn.Linear(self.INPUT_DIM, n_passes)
+        self.alarm_proj.weight = mx.zeros_like(self.alarm_proj.weight)
+        self.alarm_proj.bias = mx.zeros_like(self.alarm_proj.bias)
+
+    def __call__(self, metrics_vector: mx.array) -> mx.array:
+        """Compute alarm factors from operational health metrics.
+
+        Args:
+            metrics_vector: (INPUT_DIM,) packed operational metrics.
+                All values should be differentiable (no stop_gradient).
+
+        Returns:
+            (n_passes,) alarm factors:
+              1.0 → no alarm (neutral)
+              < 1.0 → pain (suppress this pass)
+              > 1.0 → pleasure (amplify, up to 2.0)
+        """
+        logits = self.alarm_proj(metrics_vector)
+        # tanh clamp → [-1, +1], shift to [0, 2]
+        # At init: logits = 0 → tanh(0) = 0 → factor = 1.0
+        return 1.0 + mx.tanh(logits)
+
+
+# ══════════════════════════════════════════════════════════════════════
 # Self-test
 # ══════════════════════════════════════════════════════════════════════
 
@@ -831,5 +928,62 @@ if __name__ == "__main__":
     lv, g = gfn(tm, x)
     mx.eval(lv, g)
     print(f"  S4 gradient flow OK: loss={lv.item():.4f} ✓")
+
+    print("Testing AlgedonicAlert...")
+    alarm = AlgedonicAlert(n_passes=5)
+    mx.eval(alarm.parameters())
+    # Input dim should be 48
+    assert AlgedonicAlert.INPUT_DIM == 48, \
+        f"Expected INPUT_DIM=48, got {AlgedonicAlert.INPUT_DIM}"
+    # At init: all factors should be 1.0 (alarm silent)
+    metrics_vec = mx.zeros((AlgedonicAlert.INPUT_DIM,))
+    factors = alarm(metrics_vec)
+    mx.eval(factors)
+    assert factors.shape == (5,), f"Expected (5,), got {factors.shape}"
+    for i, f in enumerate(factors.tolist()):
+        assert abs(f - 1.0) < 0.01, \
+            f"Alarm factor {i} should be ~1.0 at init, got {f:.4f}"
+    print(f"  AlgedonicAlert: factors {[f'{f:.3f}' for f in factors.tolist()]} ✓ (all ~1.0)")
+    # Verify range is [0, 2] with extreme inputs
+    extreme_pos = mx.ones((AlgedonicAlert.INPUT_DIM,)) * 100.0
+    alarm.alarm_proj.weight = mx.ones_like(alarm.alarm_proj.weight) * 0.1
+    factors_pos = alarm(extreme_pos)
+    mx.eval(factors_pos)
+    for f in factors_pos.tolist():
+        assert 0.0 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
+        assert f > 1.5, f"Extreme positive should give factor > 1.5, got {f:.3f}"
+    extreme_neg = mx.ones((AlgedonicAlert.INPUT_DIM,)) * -100.0
+    factors_neg = alarm(extreme_neg)
+    mx.eval(factors_neg)
+    for f in factors_neg.tolist():
+        assert 0.0 - 1e-6 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
+        assert f < 0.5, f"Extreme negative should give factor < 0.5, got {f:.3f}"
+    print(f"  AlgedonicAlert: range verified [0, 2] — pos={factors_pos[0].item():.3f}, neg={factors_neg[0].item():.3f} ✓")
+    # Gradient flow test
+    alarm2 = AlgedonicAlert(n_passes=5)
+    mx.eval(alarm2.parameters())
+
+    class AlarmTestModel(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.alarm = AlgedonicAlert(n_passes=5)
+            self.input_param = mx.zeros((AlgedonicAlert.INPUT_DIM,))
+        def __call__(self, _):
+            factors = self.alarm(self.input_param)
+            return mx.sum(factors)
+
+    atm = AlarmTestModel()
+    mx.eval(atm.parameters())
+    def alarm_test_loss(m, x):
+        return m(x)
+    agfn = nn.value_and_grad(atm, alarm_test_loss)
+    dummy = mx.zeros((1,))
+    alv, ag = agfn(atm, dummy)
+    mx.eval(alv, ag)
+    print(f"  AlgedonicAlert gradient flow OK: sum={alv.item():.4f} ✓")
+    # Parameter count
+    from mlx.utils import tree_flatten as tf
+    n_alarm_params = sum(p.size for _, p in tf(alarm.parameters()))
+    print(f"  AlgedonicAlert params: {n_alarm_params} (48×5 + 5 = 245 expected) ✓")
 
     print("components.py self-test: all ok ✓")
