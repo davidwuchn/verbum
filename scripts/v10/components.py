@@ -636,7 +636,13 @@ class CycleContinue(nn.Module):
         self.n_registers = n_registers
 
         input_dim = n_registers * d_reg_real
-        # Small projection: register state → scalar continuation logit
+        # RMSNorm the register input — prevents sigmoid saturation.
+        # Raw registers have norm ~16 each (||concat|| ≈ 27.7).
+        # Without normalization, even small weight updates produce
+        # logits >> 4, saturating sigmoid and killing gradient.
+        # RMSNorm → ||input|| ≈ 1.0 → logit stays in active zone.
+        self.input_norm = nn.RMSNorm(input_dim)
+        # Small projection: normalized register state → scalar logit
         self.gate_proj = nn.Linear(input_dim, 1)
         # Neutral init: sigmoid(0) = 0.5
         self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
@@ -649,7 +655,11 @@ class CycleContinue(nn.Module):
         Returns: scalar gate in [0, 1]
         """
         reg_flat = _flatten_registers(registers)
-        logit = self.gate_proj(reg_flat)
+        reg_flat = self.input_norm(reg_flat)
+        # tanh clamp: logit ∈ [-4, +4] → sigmoid ∈ [0.018, 0.982]
+        # Guarantees gradient flow even if norms drift. The gate
+        # can never fully saturate — always learnable.
+        logit = mx.tanh(self.gate_proj(reg_flat)) * 4.0
         return mx.sigmoid(logit).reshape(())  # scalar
 
 
