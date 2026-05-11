@@ -2,72 +2,89 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-11 | Session: 078
+> Last updated: 2026-05-11 | Session: 079
 
 ## Where we are
 
-**v11 KIBC combinator architecture complete with Beer's algedonic alert (fire alarm). Ready for first training run. All 48 alarm metrics logged for offline threshold analysis.**
+**RoPE × attention spiral investigation complete. RoPE provides the geometric substrate (64 dim pairs, wavelengths 6→5M tokens); learned Q·K alignment creates the actual spiral (~1.018/layer expansion). Three new scripts, 36 visualization outputs.**
 
-Session 078 added the algedonic alert — Beer's S1→S5 fire alarm bypass —
-to the v11 architecture. The alarm monitors 48 operational health metrics
-(S3 gate values, dispatch distributions, conflict scores, cycle gates, etc.)
-end-to-end differentiable, producing per-pass factors [0,2] that multiply
-S5Reweight gates. At init the alarm is silent (factors=1.0). After 3 test
-training steps, factors already differentiated to ~1.08-1.14 (pleasure:
-amplifying passes that help). 245 parameters added (negligible).
+Session 079 tested whether the attention distance spiral discovered in
+session 068 is tied to RoPE's cos-sin frequency structure. Built a probe
+that hooks Q/K projections to measure per-dim-pair energy distribution
+across all 36 layers. Key finding: RoPE energy is BROAD at every layer
+(no progressive frequency shift), and RoPE alone predicts a FLAT attention
+centroid (~35 tokens, no expansion). The spiral emerges from learned W_Q/W_K
+projections that choose where on RoPE's frequency ruler to align Q·K —
+early layers align on high-freq dims (local attention), deeper layers on
+low-freq dims (global attention). RoPE is the coordinate system; the model
+learns where to stand on it at each depth.
+
+v11 KIBC architecture remains ready for first training run (session 078).
 
 ## What was done this session
 
-### 1. Designed and implemented Beer's algedonic alert (fire alarm)
+### 1. RoPE frequency analysis (mathematical)
 
-Researched Beer's original VSM algedonic channel from Brain of the Firm (1972):
-- Signals between S1 and S3 continuously monitored
-- Emergency condition → direct signal to S5, bypassing S4/S3/S2
-- S5 "wakes up" and requests corrective action from S3 and S4
-- Carries both pain (suppress) and pleasure (amplify)
-- Can originate from any part of the system at any level of recursion
+Computed the full RoPE frequency spectrum for Qwen3-4B:
+- θ_base = 1,000,000, head_dim = 128, 64 dimension pairs
+- Wavelengths: 6.3 → 5,063,256 tokens (geometric series)
+- Ratio between successive wavelengths: θ^(1/64) = **1.2409** (exact constant)
+- Tested theoretical model: if layers shift energy by K dim pairs/layer,
+  expansion = θ^(K/64). For observed 1.018 expansion, K ≈ 0.08 — too small
+- Pure RoPE shift model predicts expansion ~1.006-1.008 (40-50% of observed)
+- Simulated 36-layer expansion with Gaussian energy windows: confirmed
 
-### 2. AlgedonicAlert implementation (components.py)
+### 2. RoPE energy probe (`scripts/explore/rope_energy_probe.py`)
 
-**Separate gate** (not additive bias on S5Reweight):
-- Per-pass factor ∈ [0, 2] via `1 + tanh(logit)`
-- Factor 1.0 = no alarm (neutral), <1.0 = pain (suppress), >1.0 = pleasure (amplify)
-- `effective_gate = s5_reweight_gate × alarm_factor`
-- Zero-init: alarm starts silent, learns what matters from loss signal
-- 245 parameters: `nn.Linear(48, 5)` — low bandwidth, fast (Beer's design)
+Hooks into Qwen3-4B's q_norm and k_norm (after projection, before RoPE):
+- Captures per-dim-pair energy: mean(|q_2i|² + |q_{2i+1}|²) per layer × head
+- Computes energy centroid in dim-pair space (weighted mean index)
+- Predicts attention centroid from energy distribution via softmax model
+- Ran all 7 prompts from attention_spiral.py for direct comparison
 
-### 3. 48 operational health metrics (end-to-end differentiable)
+**Findings:**
+- Q energy centroid **oscillates** (range 29-44) — does NOT monotonically shift
+- K centroid shows **strong GQA alternation** (~27 vs ~37-48 per layer)
+- Cross-prompt correlation r > 0.99 — this is a **model property**, not content-dependent
+- Cross-prompt std = 0.3 on a 28-44 range
+- RoPE-predicted expansion = **1.0000** (flat) — accounts for 0% of observed spiral
+- RoPE per-dim-pair energy is BROAD at every layer
 
-| Metric | Count | Purpose |
-|--------|-------|---------|
-| S3 gate means per pass | 5 | Are operations being suppressed? |
-| S3 gate mins per pass | 5 | Most suppressed phase per pass |
-| S2 conflict cosines | 4 | Are passes fighting each other? |
-| Dispatch weights (K,I,B,C) | 4 | Has dispatch collapsed to one combinator? |
-| Dispatch entropy | 1 | Overall dispatch distribution health |
-| Compute gate (mean, active) | 2 | Is kernel pathway opening? |
-| CycleContinue gates | 4 | Are cycles self-regulating? |
-| Effective cycles | 2 | Actual computational depth |
-| Raw delta norms | 5 | How much each pass proposes |
-| Gated delta norms | 5 | How much gets through S3 |
-| Suppression ratios | 5 | gated/raw — S3 filtering intensity |
-| Register bank mean norms | 6 | Are registers diverging? |
+### 3. Combined 3D visualization (`scripts/explore/rope_spiral_combined.py`)
 
-All metrics are live (no stop_gradient) — gradients flow back through
-the alarm to S1/S3, teaching the whole system to avoid alarm conditions.
+Renders the RoPE substrate and observed spiral in the same 3D space:
+- **Dual helix**: observed spiral (colored by RoPE band) vs RoPE prediction (flat gray cylinder)
+- **Spectral helix**: colored by RoPE wavelength, sized by Q-K divergence
+- **Gap analysis**: anatomy of the learned contribution (obs - pred) with 3D radial lines
+- **Unwound ribbon**: flattened view with RoPE wavelength scale overlay
+- **Aggregate**: all 7 prompts wound together around the flat RoPE cylinder
 
-### 4. Live caches for end-to-end gradient flow
+### 4. Key insight: RoPE as coordinate system
 
-Added `_dispatch_weights_live` and `_compute_gate_live` to CombinatorDispatch
-and CombinatorIntegrate (alongside existing stop_gradient'd probing caches).
+```
+RoPE (constant)     = coordinate system (the frequency ruler)
+W_Q, W_K (learned)  = where to stand on that ruler per layer
+attention centroid   = readout of learned position on the ruler
+spiral              = progressive shift of standing-position across depth
+```
 
-### 5. Logging and probing
+The model doesn't learn "attend at distance X" — it learns "align Q and K on
+dim pairs I-J" which, because of RoPE's geometric spacing, maps to a specific
+distance scale. The spiral is the model sliding its Q·K alignment window down
+the RoPE ruler across layers. Each layer computes a **delta** against RoPE's
+flat ~35-token baseline: early layers push down (more local), late layers
+push up (more global).
 
-- **train.py**: Alarm factors displayed in eval (🔕 silent / 🚨 active),
-  alarm_metrics + alarm_metrics_named in JSONL for threshold analysis
-- **probe.py**: Alarm section in checkpoint diagnostics, trajectory table
-  shows alarm when active
-- **All 48 metrics logged** for later offline threshold setting from real data
+GQA head specialization: KV heads plant flags at different RoPE ruler positions
+(~27 = local, ~47 = global). Q heads choose which flag to align with per layer.
+
+### 5. Literature connection
+
+"Round and Round We Go!" (ICLR 2025) found the same pattern in Gemma 7B:
+- High-freq RoPE dims → positional attention (local patterns)
+- Low-freq RoPE dims → semantic attention (long-range meaning)
+- First and last layers use high frequencies most
+- Our layer 5-6 spike maps to their positional→semantic transition
 
 ## What to do next
 
@@ -83,35 +100,26 @@ Key questions for the first v11 run:
 - Does CycleContinue work now? (RMSNorm+tanh fix + cleaner dispatch)
 - How does loss compare to v10 at matched steps?
 - Does compute gate behavior differ with 4 combinators vs 22 ops?
-- **NEW: Does the algedonic alarm differentiate?** Watch alarm_factors
-  in metrics_log.jsonl — early runs should show factors > 1.0 (pleasure,
-  amplifying useful passes). Alarm becomes interesting when factors
-  diverge per pass (different alarm response for ascending vs descending).
+- Does the algedonic alarm differentiate? Watch alarm_factors in
+  metrics_log.jsonl — early runs should show factors > 1.0 (pleasure)
 
-### Priority 2: Analyze alarm metrics for threshold setting
-After first training run, analyze the 48 alarm metrics timeseries:
-- What are the natural ranges of S3 gate means, dispatch entropy, etc.?
-- When does the alarm factor deviate most from 1.0?
-- Are there correlations between specific metrics and loss improvement?
-- Use this data to set meaningful alarm thresholds in a later session
+### Priority 2: QK alignment decomposition probe
+The RoPE energy probe showed WHERE energy sits, but the spiral comes from
+Q·K ALIGNMENT per dim pair (which bands correlate, not just which have energy).
+Next probe: decompose actual attention logits by RoPE dim pair to measure
+per-dim-pair QK correlation at each layer. This should reveal the progressive
+alignment shift that creates the spiral.
 
 ### Priority 3: Compare v11 vs v10 at matched steps
-At 1K, 5K, 10K, 20K compare:
-- Loss trajectory (should be similar — same ascending arm)
-- Dispatch distribution (should be interpretable: K > B > I > C for prose)
-- Effective cycles (should vary — CycleContinue now has a 4-way signal)
-- Emphasis differentiation (K emphasis high for prose, B for composition)
+At 1K, 5K, 10K, 20K compare loss, dispatch, cycles, emphasis.
 
 ### Priority 4: Structured combinator training data
-Once v11 shows combinator differentiation on prose alone:
-- Generate KIBC reduction examples for structured shard
-- Activate mix_ratio > 0 to inject combinator training signal
-- Primarily needed for C (closures, binding) — K and B train from prose
-- Track whether C dispatch activates with structured data
+Generate KIBC reduction examples once v11 shows combinator differentiation.
 
-### Carried from v10
+### Carried
 - S5 reweight investigation (activated at 15K in v10-vsm)
-- v10-multicycle 8K checkpoint available for comparison baseline
+- v10-multicycle 8K checkpoint for comparison
+- Alarm metrics threshold analysis after first v11 run
 
 ## VSM layer map (session 078 — v11 KIBC + algedonic alert)
 
@@ -155,6 +163,10 @@ Cycle semantics (from Qwen3 probes):
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
 | `scripts/v11/probe.py` | Checkpoint diagnostics + trajectory + dispatch analysis |
+| `scripts/explore/rope_energy_probe.py` | RoPE dim-pair energy probe (Q/K hooks) |
+| `scripts/explore/rope_spiral_combined.py` | Combined 3D: RoPE × attention spiral |
+| `outputs/rope_energy/` | 19 files: energy heatmaps, centroid analysis, JSON |
+| `outputs/rope_spiral/` | 17 files: dual helices, gap analysis, unwound ribbon |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
 | `mementum/knowledge/explore/v11-kibc-architecture.md` | Initial architecture sketch |
@@ -180,3 +192,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 076: v10-vsm 20K assessed, v10-multicycle launched, CycleContinue sigmoid saturation diagnosed + fixed
 → Session 077: Qwen3 probe findings → v11 KIBC combinator architecture + probe + docs (4 combinators replace 22 ops)
 → Session 078: Beer's algedonic alert (fire alarm) — 48 health metrics, separate S5 gate, end-to-end differentiable
+→ Session 079: RoPE × attention spiral — energy probe shows RoPE=substrate not driver, spiral=learned Q·K alignment
