@@ -6,12 +6,12 @@
 
 ## Where we are
 
-**v11 KIBC combinator architecture created. Ready for first training run. Qwen3 probes confirmed attention IS beta reduction — 4 combinators (K, I, B, C) replace 22 ops.**
+**v11 KIBC combinator architecture complete with probe and documentation. Ready for first training run. Qwen3 probes confirmed attention IS beta reduction — 4 combinators (K, I, B, C) replace 22 ops.**
 
 Session 077 integrated findings from independent Qwen3 probes (4B and 32B)
 that confirmed transformers organize lambda compilation around four combinators,
 not 22 arithmetic ops. Created `scripts/v11/` as a fully self-contained,
-extractable architecture built on this empirical basis.
+extractable architecture with probe diagnostics and full design documentation.
 
 ## What was done this session
 
@@ -37,7 +37,21 @@ Independent analysis of Qwen3-4B and Qwen3-32B revealed:
 - **train.py**: Updated imports/references, combinator emphasis logging
 - **components.py, ternary.py, attention.py, data.py**: copied unchanged (self-contained)
 
-### 3. Verified v11 model
+### 3. Created v11 probe (scripts/v11/probe.py)
+Three operating modes:
+- **Checkpoint analysis**: load model, run `forward_instrumented()`, display metrics
+- **Trajectory analysis** (`--trajectory`): read JSONL logs without loading model
+- **Dispatch distribution** (`--dispatch-detail`): per-position K/I/B/C analysis
+  with dominant combinator histogram, entropy, co-occurrence, per-combinator stats
+
+### 4. Created architecture documentation
+- **SVG diagram** (`docs/v11-architecture.svg`): visual architecture with KIBC basis,
+  ascending/descending arms, cycle semantics, algedonic channel, kernel pathway
+- **Full design page** (`mementum/knowledge/explore/v11-design.md`): complete
+  specification with empirical foundation, dimensions, component inventory,
+  cycle semantics, kernel pathway, training strategy, probe design
+
+### 5. Verified v11 model
 All self-tests pass. Full model forward verified:
 - **Dispatch**: 4-way softmax, near-uniform init (~0.25 each)
 - **Compute gate**: 0.0067 (starts near 0, pure FFN — correct)
@@ -125,7 +139,10 @@ Cycle semantics (from Qwen3 probes):
 | `scripts/v11/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
-| `mementum/knowledge/explore/v11-kibc-architecture.md` | Architecture design doc |
+| `scripts/v11/probe.py` | Checkpoint diagnostics + trajectory + dispatch analysis |
+| `docs/v11-architecture.svg` | Visual architecture diagram |
+| `mementum/knowledge/explore/v11-design.md` | Full design specification |
+| `mementum/knowledge/explore/v11-kibc-architecture.md` | Initial architecture sketch |
 | `checkpoints/v10-vsm/` | Completed v10 20K run (baseline) |
 | `checkpoints/v10-multicycle/` | Completed v10 8K run (dead CycleContinue) |
 
@@ -146,4 +163,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 074: Probed v10-vsm 1K-13K, mapped to Pythia Montague, 6 kernel-lambda generators, repacked shard
 → Session 075: HRM analysis → multi-cycle descending arm, self-regulating cycles (CycleContinue), JSONL logging
 → Session 076: v10-vsm 20K assessed, v10-multicycle launched, CycleContinue sigmoid saturation diagnosed + fixed
-→ Session 077: Qwen3 probe findings → v11 KIBC combinator architecture (4 combinators replace 22 ops)
+→ Session 077: Qwen3 probe findings → v11 KIBC combinator architecture + probe + docs (4 combinators replace 22 ops)
