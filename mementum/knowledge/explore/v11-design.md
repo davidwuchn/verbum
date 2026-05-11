@@ -6,8 +6,9 @@
 **Status**: active
 **Category**: architecture
 **Tags**: v11, combinators, KIBC, Qwen probes, Montague, design
-**Related**: v11-kibc-architecture, session-073-vsm-structure, session-075-multi-cycle-dispatch, kernel-montague-mapping
+**Related**: v11-kibc-architecture, session-073-vsm-structure, session-075-multi-cycle-dispatch, kernel-montague-mapping, algedonic-alert
 **Created**: session 077
+**Updated**: session 078 — algedonic alert (Beer's fire alarm)
 
 ---
 
@@ -74,7 +75,7 @@ right computation easier to fall into.
 | desc_max_cycles | 3 | Self-regulating descending cycles |
 | vocab_size | 151936 | Qwen3 BBPE |
 | seq_len | 4096 | Context window |
-| ~params | 23.8M | Slightly fewer than v10 (22→4 dispatch) |
+| ~params | 23.8M | +245 for algedonic alert (negligible) |
 
 ### 5-Pass Structure
 
@@ -86,6 +87,8 @@ Pass 2 (L2↑): ascending, shared weights (apex)
 Pass 3 (L1↓): descending, own weights, S4 dual-view, up to 3 cycles
 Pass 4 (L0↓): descending, own weights, S4 dual-view, up to 3 cycles
   ── S5 reweight: all banks + raw deltas → 5 pass gates ──
+  ── Algedonic alert: 48 health metrics → 5 alarm factors [0,2] ──
+  ── effective_gate = s5_gate × alarm_factor ──
   ── Meta-S4: final structural summary ──
   ── output_norm → tied embedding → logits ──
 ```
@@ -155,6 +158,38 @@ Register semantics (v11, renamed from v10):
 - Import/reference updates (`V11Config`, `V11Model`)
 - `DESC_SHARED` references `combinator_dispatch`, `combinator_integrate`
 - Emphasis logging shows 4 combinator names
+
+#### components.py — AlgedonicAlert (NEW in session 078)
+
+Beer's fire alarm: direct S1→S5 bypass channel that monitors the HEALTH
+of the control system (not content). See `algedonic-alert.md` for full design.
+
+**AlgedonicAlert**: separate gate multiplying S5Reweight gates
+- `alarm_proj`: nn.Linear(48 → 5), zero-init (alarm starts silent)
+- Output: per-pass factor ∈ [0, 2] via `1 + tanh(logit)`
+- Factor 1.0 = neutral, <1.0 = pain (suppress), >1.0 = pleasure (amplify)
+- End-to-end differentiable: gradients flow back through 48 operational
+  health metrics to S1/S3, teaching the system to avoid alarm conditions
+
+48 input metrics (all live, no stop_gradient):
+- S3 gate means/mins per pass (10), S2 conflict cosines (4)
+- Dispatch weights K/I/B/C (4), dispatch entropy (1)
+- Compute gate mean + active fraction (2)
+- CycleContinue gates (4), effective cycles (2)
+- Raw delta norms (5), gated delta norms (5), suppression ratios (5)
+- Register bank mean norms (6)
+
+**Key property**: S5Reweight reads registers (S4's output) and raw deltas.
+AlgedonicAlert reads OPERATIONAL METRICS — S3 gate values, dispatch
+distributions, conflict scores — things that S4 doesn't process.
+S5Reweight asks "what did each pass contribute?" (content).
+AlgedonicAlert asks "is the control system healthy?" (health).
+
+#### kernel_dispatch.py — Live caches (NEW in session 078)
+
+Added `_dispatch_weights_live` and `_compute_gate_live` alongside existing
+stop_gradient'd probing caches. These enable end-to-end gradient flow
+through the algedonic alert back to dispatch and compute gate weights.
 
 ### Unchanged from v10
 
@@ -275,6 +310,11 @@ KIBC reduction examples with ground truth:
 5. **Emphasis shifts**: K emphasis high for prose, B for composition
 6. **Compute gate**: should open when combinators are useful
 7. **Loss parity with v10**: same ascending arm → similar loss trajectory
+8. **Alarm differentiation**: alarm_factors should diverge per pass
+   (ascending vs descending may need different alarm responses)
+9. **Alarm metrics baselines**: first run establishes natural ranges
+   for S3 gate means, dispatch entropy, suppression ratios, etc.
+   (logged in JSONL for offline threshold analysis)
 
 ---
 
@@ -289,9 +329,10 @@ uv run python scripts/v11/probe.py checkpoints/v11/step_*
 Loads model, runs `forward_instrumented()` on stratified text samples,
 displays full metrics. For multiple checkpoints, shows evolution table.
 
-**Outputs**: S3 gates (per-cycle for desc), S5 reweight, combinator
-dispatch distribution, combinator emphasis, compute gate, CycleContinue
-gates, effective cycles, register norms, φ-compression, ternary stats.
+**Outputs**: S3 gates (per-cycle for desc), S5 reweight, **algedonic alert
+factors + 48 raw metrics**, combinator dispatch distribution, combinator
+emphasis, compute gate, CycleContinue gates, effective cycles, register
+norms, φ-compression, ternary stats.
 
 #### Mode 2: Trajectory analysis (no model loading)
 ```bash
@@ -332,6 +373,8 @@ Runs 10+ batches through model, collects per-position dispatch weights.
 | Compute gate | Opening gradually | Stuck at 0 or >0.5 too fast |
 | K+B co-occurrence | Most common pair | Not visible |
 | S5 pass 1 | Rises at ~15K+ | Never moves from init |
+| Alarm factors | Diverge per pass | All locked at 1.0 |
+| Alarm dispatch entropy | Tracked (baseline TBD) | Collapsed to 0 |
 
 ### φ-compression strata
 
@@ -351,10 +394,10 @@ scripts/v11/
 ├── kernel.py           # KIBC combinator enum, reduction engine, kernel functions
 ├── kernel_dispatch.py  # CombinatorDispatch + CombinatorIntegrate
 ├── config.py           # V11Config (4 combinators, no top-k)
-├── model.py            # V11Model (emphasis→4, algedonic→4+1)
-├── train.py            # Training loop (updated imports/references)
-├── probe.py            # Checkpoint diagnostics + trajectory + dispatch analysis
-├── components.py       # S4, S3, S5, S2, CycleContinue, MetaS4 (unchanged)
+├── model.py            # V11Model (emphasis→4, algedonic→4+1, alarm gate)
+├── train.py            # Training loop (+ alarm JSONL logging)
+├── probe.py            # Checkpoint diagnostics + trajectory + dispatch + alarm
+├── components.py       # S4, S3, S5, S2, CycleContinue, MetaS4, AlgedonicAlert
 ├── ternary.py          # Ternary substrate + consensus evolution (unchanged)
 ├── attention.py        # StrideStack + TernaryFFN (unchanged)
 └── data.py             # Data loading (unchanged)
