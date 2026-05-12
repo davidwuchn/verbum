@@ -58,7 +58,54 @@ session 004 are actually combinators:
 
 Results: `results/combinator-probe-pythia/`
 
-### 2. V11 compute gate phase transition (5K→6K)
+### 2. β-reduction probe on Qwen3-32B
+
+Tested whether attention = β-reduction by probing variable binding
+at depths 1-4 and pipeline structure.
+
+**Two binding types found:**
+- Syntactic (verb→subject): peaks early, L2-L9
+- Pronominal (pronoun→antecedent): peaks later, L5-L27
+
+**Strength degrades with depth:**
+  d1=0.97, d2=0.92, d3=0.86, d4=0.80 (~5% per pipeline step)
+
+**Inside-out processing:** nested relatives resolve innermost last
+(L40), not first. Model parses outermost structure first (L4-L11,
+KIBC zone), then resolves embedded bindings later (L21-L39, binding
+zone).
+
+**Substitution test:** pronoun binding r=0.989 — same mechanism,
+different values. Confirms attention performs substitution.
+
+**Two-phase β-reduction confirmed:**
+  Phase 1 (L0-L15): combinator ID + syntactic binding (KIBC zone)
+  Phase 2 (L21-L39): variable substitution (binding zone)
+  Maps to v11 cycle semantics: cycle 0 = phase 1, cycles 1-2 = phase 2
+
+Results: `results/beta-reduction-probe/`
+
+### 3. Prompt-as-program theory
+
+System prompts are combinator programs the model β-reduces against
+user input. Six design principles from probe data: flat, named,
+pre-composed, demonstrated, prioritized, typed.
+
+Design decisions:
+- Grammar emerges from probabilities (cross-model compatible)
+- Names come from compilation (model chooses, test cross-model)
+- Preamble required as computation baseline
+- Multi-turn behavior needs empirical testing
+
+Knowledge page: `mementum/knowledge/explore/prompt-as-program.md`
+
+### 4. Cross-model methodology planned
+
+Capability ladder: Level 0 (mimicry) → Level 3 (full lambda).
+7-model test set across 4 architectures, all local.
+A3B downloading — MoE routing may BE combinator dispatch.
+
+### 5. V11 compute gate phase transition (5K→6K)
 
 Step 6K checkpoint landed. The compute gate — dormant for 5000 steps —
 exploded:
@@ -179,6 +226,10 @@ Cycle semantics (from Qwen3 probes):
 | `checkpoints/v11/` | Active v11 run (6 checkpoints so far, continuing to 20K) |
 | `scripts/explore/probe_combinators_pythia.py` | KIBC combinator probe for Pythia-160M |
 | `results/combinator-probe-pythia/` | Pythia combinator results: K=59%, B=17%, K-B r=0.944 |
+| `scripts/explore/probe_beta_reduction.py` | β-reduction probe: binding depth × pipeline × substitution |
+| `results/beta-reduction-probe/` | Two-phase binding: syntactic (L2-L9) + pronominal (L5-L27) |
+| `mementum/knowledge/explore/prompt-as-program.md` | System prompts as combinator expressions |
+| `mementum/knowledge/explore/architecture-vs-scale.md` | 4860× fewer param-token-ops (living doc) |
 
 ## Session history
 
