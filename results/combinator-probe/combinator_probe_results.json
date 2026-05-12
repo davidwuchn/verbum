@@ -1,0 +1,262 @@
+{
+  "timestamp": "2026-05-12T06:31:34Z",
+  "model": "Qwen/Qwen3-32B",
+  "n_layers": 64,
+  "n_heads": 64,
+  "quick_mode": true,
+  "combinator_selectivity": {
+    "K": {
+      "mean": 0.08196925533165621,
+      "max": 0.3204242984453837,
+      "std": 0.06478967621606359,
+      "max_layer": 3,
+      "max_head": 26,
+      "top_5_heads": [
+        {
+          "layer": 3,
+          "head": 26,
+          "score": 0.3204242984453837,
+          "differential": 0.10254413882891339,
+          "is_dominant": true
+        },
+        {
+          "layer": 1,
+          "head": 50,
+          "score": 0.2996858060359955,
+          "differential": 0.030658483505249023,
+          "is_dominant": true
+        },
+        {
+          "layer": 1,
+          "head": 1,
+          "score": 0.2923571616411209,
+          "differential": 0.043114547928174346,
+          "is_dominant": true
+        },
+        {
+          "layer": 1,
+          "head": 38,
+          "score": 0.2915946344534556,
+          "differential": 0.04606374104817709,
+          "is_dominant": true
+        },
+        {
+          "layer": 6,
+          "head": 29,
+          "score": 0.29095425208409625,
+          "differential": 0.03243201971054077,
+          "is_dominant": true
+        }
+      ]
+    },
+    "I": {
+      "mean": 0.05262560034974122,
+      "max": 0.16815167665481567,
+      "std": 0.03360990165049755,
+      "max_layer": 6,
+      "max_head": 52,
+      "top_5_heads": [
+        {
+          "layer": 6,
+          "head": 52,
+          "score": 0.16815167665481567,
+          "differential": 0.04966079319516818,
+          "is_dominant": true
+        },
+        {
+          "layer": 3,
+          "head": 63,
+          "score": 0.16434635718663534,
+          "differential": 0.005604222416877747,
+          "is_dominant": false
+        },
+        {
+          "layer": 36,
+          "head": 5,
+          "score": 0.15969817837079367,
+          "differential": 0.09420699874560039,
+          "is_dominant": true
+        },
+        {
+          "layer": 9,
+          "head": 54,
+          "score": 0.15575036903222403,
+          "differential": 0.06084897477800648,
+          "is_dominant": true
+        },
+        {
+          "layer": 3,
+          "head": 36,
+          "score": 0.15048099805911383,
+          "differential": 0.007926801840464293,
+          "is_dominant": false
+        }
+      ]
+    },
+    "B": {
+      "mean": 0.07764101000688697,
+      "max": 0.26884856820106506,
+      "std": 0.05594270692412081,
+      "max_layer": 3,
+      "max_head": 36,
+      "top_5_heads": [
+        {
+          "layer": 3,
+          "head": 36,
+          "score": 0.26884856820106506,
+          "differential": 0.007926801840464293,
+          "is_dominant": false
+        },
+        {
+          "layer": 5,
+          "head": 22,
+          "score": 0.26002927124500275,
+          "differential": 0.0034263382355372296,
+          "is_dominant": false
+        },
+        {
+          "layer": 3,
+          "head": 55,
+          "score": 0.25588266054789227,
+          "differential": 0.00269992152849835,
+          "is_dominant": true
+        },
+        {
+          "layer": 9,
+          "head": 11,
+          "score": 0.25010209778944653,
+          "differential": 0.0051802843809128085,
+          "is_dominant": true
+        },
+        {
+          "layer": 14,
+          "head": 59,
+          "score": 0.24428158501784006,
+          "differential": 0.02820021907488507,
+          "is_dominant": false
+        }
+      ]
+    },
+    "C": {
+      "mean": 0.07680010315381579,
+      "max": 0.30029935638109845,
+      "std": 0.062159558933002186,
+      "max_layer": 1,
+      "max_head": 34,
+      "top_5_heads": [
+        {
+          "layer": 1,
+          "head": 34,
+          "score": 0.30029935638109845,
+          "differential": 0.01846639315287274,
+          "is_dominant": true
+        },
+        {
+          "layer": 1,
+          "head": 37,
+          "score": 0.2966424524784088,
+          "differential": 0.01165713369846344,
+          "is_dominant": true
+        },
+        {
+          "layer": 5,
+          "head": 22,
+          "score": 0.29243669907251996,
+          "differential": 0.0034263382355372296,
+          "is_dominant": true
+        },
+        {
+          "layer": 1,
+          "head": 55,
+          "score": 0.2870938579241435,
+          "differential": 0.0002834598223367957,
+          "is_dominant": false
+        },
+        {
+          "layer": 5,
+          "head": 19,
+          "score": 0.27657310167948407,
+          "differential": 0.011197755734125792,
+          "is_dominant": true
+        }
+      ]
+    }
+  },
+  "head_assignment": {
+    "K": 1284,
+    "I": 603,
+    "B": 1282,
+    "C": 927
+  },
+  "cross_correlation": {
+    "K_K": 1.0,
+    "K_I": 0.7113366581158916,
+    "K_B": 0.861862484093716,
+    "K_C": 0.9293276931612214,
+    "I_K": 0.7113366581158918,
+    "I_I": 0.9999999999999998,
+    "I_B": 0.7504152911625485,
+    "I_C": 0.6913644229086682,
+    "B_K": 0.8618624840937159,
+    "B_I": 0.7504152911625485,
+    "B_B": 1.0,
+    "B_C": 0.8665311897313017,
+    "C_K": 0.9293276931612215,
+    "C_I": 0.6913644229086682,
+    "C_B": 0.8665311897313017,
+    "C_C": 1.0
+  },
+  "circuit_mapping": {
+    "L1:H0_gate_recognizer": {
+      "4b_position": [
+        1,
+        0
+      ],
+      "32b_approx": [
+        2,
+        0
+      ],
+      "selectivity": {
+        "K": 0.09093094120423,
+        "I": 0.07324819763501485,
+        "B": 0.12508198618888855,
+        "C": 0.10199950883785884
+      },
+      "dominant": "B"
+    },
+    "L24:H0_compositor": {
+      "4b_position": [
+        24,
+        0
+      ],
+      "32b_approx": [
+        43,
+        0
+      ],
+      "selectivity": {
+        "K": 0.12909498810768127,
+        "I": 0.07114282995462418,
+        "B": 0.13713092605272928,
+        "C": 0.14940923949082693
+      },
+      "dominant": "C"
+    },
+    "L24:H2_recursion": {
+      "4b_position": [
+        24,
+        2
+      ],
+      "32b_approx": [
+        43,
+        2
+      ],
+      "selectivity": {
+        "K": 0.09439962853988011,
+        "I": 0.07318919276197751,
+        "B": 0.1116940329472224,
+        "C": 0.11161552617947261
+      },
+      "dominant": "B"
+    }
+  }
+}

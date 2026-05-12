@@ -2,124 +2,179 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-11 | Session: 079
+> Last updated: 2026-05-12 | Session: 080
 
 ## Where we are
 
-**RoPE × attention spiral investigation complete. RoPE provides the geometric substrate (64 dim pairs, wavelengths 6→5M tokens); learned Q·K alignment creates the actual spiral (~1.018/layer expansion). Three new scripts, 36 visualization outputs.**
+**V11 first run probed (1K–5K). KIBC validated in Qwen3-32B: K=31%, B=31% (co-equal). Extended probe: W≡C (r=0.92), S≡B (r=0.88), bind is partially distinct (r=0.83 with B, mid-to-late layers). Three circuits, not eight: {K,C,W,abstract}=routing, {B,S}=composition, {I}=identity, plus binding as a downstream operation. KIBC is the correct basis. V11 run continuing to 20K.**
 
-Session 079 tested whether the attention distance spiral discovered in
-session 068 is tied to RoPE's cos-sin frequency structure. Built a probe
-that hooks Q/K projections to measure per-dim-pair energy distribution
-across all 36 layers. Key finding: RoPE energy is BROAD at every layer
-(no progressive frequency shift), and RoPE alone predicts a FLAT attention
-centroid (~35 tokens, no expansion). The spiral emerges from learned W_Q/W_K
-projections that choose where on RoPE's frequency ruler to align Q·K —
-early layers align on high-freq dims (local attention), deeper layers on
-low-freq dims (global attention). RoPE is the coordinate system; the model
-learns where to stand on it at each depth.
-
-v11 KIBC architecture remains ready for first training run (session 078).
+Session 080 probed the first v11 KIBC training run (5 checkpoints,
+1K–5K) and then validated the KIBC architecture against Qwen3-32B
+with two combinator probes: basic (K,I,B,C) and extended (W,S,bind,
+abstract). The 32B has equal K and B representation — the target
+state exists in the oracle.
 
 ## What was done this session
 
-### 1. RoPE frequency analysis (mathematical)
+### 1. Full probe of v11 steps 1K–5K
 
-Computed the full RoPE frequency spectrum for Qwen3-4B:
-- θ_base = 1,000,000, head_dim = 128, 64 dimension pairs
-- Wavelengths: 6.3 → 5,063,256 tokens (geometric series)
-- Ratio between successive wavelengths: θ^(1/64) = **1.2409** (exact constant)
-- Tested theoretical model: if layers shift energy by K dim pairs/layer,
-  expansion = θ^(K/64). For observed 1.018 expansion, K ≈ 0.08 — too small
-- Pure RoPE shift model predicts expansion ~1.006-1.008 (40-50% of observed)
-- Simulated 36-layer expansion with Gaussian energy windows: confirmed
+Ran `probe.py` with `--dispatch-detail` across all 5 checkpoints plus
+JSONL trajectory analysis. Results saved to `results/v11/`.
 
-### 2. RoPE energy probe (`scripts/explore/rope_energy_probe.py`)
+**Loss trajectory:**
+| Step | Eval Loss | PPL | r |
+|-----:|----------:|----:|------:|
+| 1000 | 7.958 | 2859 | 0.607 |
+| 2000 | 7.694 | 2194 | 0.581 |
+| 3000 | 7.668 | 2139 | 0.578 |
+| 4000 | 7.638 | 2075 | 0.575 |
+| 5000 | 7.642 | 2083 | 0.576 |
 
-Hooks into Qwen3-4B's q_norm and k_norm (after projection, before RoPE):
-- Captures per-dim-pair energy: mean(|q_2i|² + |q_{2i+1}|²) per layer × head
-- Computes energy centroid in dim-pair space (weighted mean index)
-- Predicts attention centroid from energy distribution via softmax model
-- Ran all 7 prompts from attention_spiral.py for direct comparison
+Loss drops meaningfully 1K→2K, then plateaus. 4K→5K essentially flat.
 
-**Findings:**
-- Q energy centroid **oscillates** (range 29-44) — does NOT monotonically shift
-- K centroid shows **strong GQA alternation** (~27 vs ~37-48 per layer)
-- Cross-prompt correlation r > 0.99 — this is a **model property**, not content-dependent
-- Cross-prompt std = 0.3 on a 28-44 range
-- RoPE-predicted expansion = **1.0000** (flat) — accounts for 0% of observed spiral
-- RoPE per-dim-pair energy is BROAD at every layer
+### 2. Combinator dispatch analysis
 
-### 3. Combined 3D visualization (`scripts/explore/rope_spiral_combined.py`)
+**K dominates at 60-65% as predicted** — prose is mostly selection.
 
-Renders the RoPE substrate and observed spiral in the same 3D space:
-- **Dual helix**: observed spiral (colored by RoPE band) vs RoPE prediction (flat gray cylinder)
-- **Spectral helix**: colored by RoPE wavelength, sized by Q-K divergence
-- **Gap analysis**: anatomy of the learned contribution (obs - pred) with 3D radial lines
-- **Unwound ribbon**: flattened view with RoPE wavelength scale overlay
-- **Aggregate**: all 7 prompts wound together around the flat RoPE cylinder
+Phase transition at step 3K→4K:
+- K snapped back from 0.49 to 0.65 (had been declining as I explored)
+- Top-2 co-occurrence flipped: K+I (75%) → K+C (68%)
+- S5 un-gated L1↓ (0.003 → 0.952)
+- Dispatch entropy dropped from 0.725 to 0.607 (stronger specialization)
 
-### 4. Key insight: RoPE as coordinate system
+**B dispatch flat at ~1.8% across all checkpoints.**
+
+### 3. Key insight: B-type rising in integrate channel
+
+While B is dead in dispatch, the type distribution tells a different story:
+
+| Step | K-type | B-type |
+|-----:|-------:|-------:|
+| 1000 | 0.939 | 0.058 |
+| 2000 | 0.673 | 0.269 |
+| 3000 | 0.583 | 0.350 |
+| 4000 | 0.410 | **0.476** |
+| 5000 | 0.496 | **0.391** |
+
+The integrate channel is building B representations even though dispatch
+hasn't started routing to it. This mirrors v4.1's register variance
+building internally before the gate jump (0.04→0.87 at step 2K).
+
+### 4. KIBC combinator probe on Qwen3-32B
+
+Probed Qwen3-32B (GGUF Q8, 64 layers × 64 heads = 4096 heads) for
+combinator-selective attention heads. Designed matched probe pairs for
+each combinator (active vs control with same surface form).
+
+**Head assignment (dominant combinator per head):**
+  K: 1284 (31.3%), B: 1282 (31.3%), C: 927 (22.6%), I: 603 (14.7%)
+
+**K and B are co-equal in the 32B.** This validates the KIBC premise.
+B is not secondary — it has equal representation to K.
+
+**Cross-combinator correlation:**
+  K-C: 0.93 (nearly same circuit — both are argument routing)
+  K-B: 0.86, B-C: 0.87 (related but separable)
+  I-*: 0.69-0.75 (most distinct — different heads)
+
+**Session 001 circuit maps to {B, C, B}:**
+  L1:H0 (gate) → B, L24:H0 (compositor) → C, L24:H2 (recursion) → B
+
+**Layer profiles:** K and C peak early (L0-L6, syntactic), B peaks
+early-to-mid (L3-L17, progressive), I is distributed (L6-L41).
+
+Results: `results/combinator-probe/`, visualizations: 4 PNGs + NPZ.
+
+### 5. Extended combinator probe — W, S, bind, abstract
+
+Probed Qwen3-32B for operations beyond KIBC: W (duplicate), S (distribute),
+variable binding, and abstraction.
+
+**Cross-correlation reveals three circuits:**
+```
+Circuit 1 — Routing:   K, C, W, abstract (r=0.87-0.93 among them)
+Circuit 2 — Compose:   B, S              (r=0.88)
+Circuit 3 — Identity:  I                 (r=0.68-0.76 with everything)
+Outlier   — Binding:   bind              (r=0.72-0.83, mid-to-late layers)
+```
+
+**W ≡ C** (r=0.92): duplication uses the reordering circuit.
+**S ≡ B** (r=0.88): distribution uses the composition circuit.
+**bind is partially distinct** (max r=0.83 with B): peak layers L21-L39
+vs everything else at L0-L15. Binding is a downstream consumer.
+
+This confirms KIBC is the natural basis. W and S don't need separate
+combinators. Binding maps to the cycle semantics: cycle 0=identify,
+cycle 1=compose, cycle 2=bind.
+
+Results: `results/combinator-probe-extended/`
+
+### 6. Phase transition hypothesis (combinator bootstrap)
+
+The v6 stride percolation pattern (φ-compression propagating fine→coarse
+as a wavelet, each stride learning in order) predicts that KIBC combinators
+should learn in dependency order:
 
 ```
-RoPE (constant)     = coordinate system (the frequency ruler)
-W_Q, W_K (learned)  = where to stand on that ruler per layer
-attention centroid   = readout of learned position on the ruler
-spiral              = progressive shift of standing-position across depth
+I (arity 1) → K (arity 2) → C (arity 3, reorder) → B (arity 3, compose)
+              ↑ already stable  ↑ emerging            ↑ building pressure
 ```
 
-The model doesn't learn "attend at distance X" — it learns "align Q and K on
-dim pairs I-J" which, because of RoPE's geometric spacing, maps to a specific
-distance scale. The spiral is the model sliding its Q·K alignment window down
-the RoPE ruler across layers. Each layer computes a **delta** against RoPE's
-flat ~35-token baseline: early layers push down (more local), late layers
-push up (more global).
+B is last because **B depends on K and C already working.** Composition
+requires two functions that are each individually meaningful. The model
+can't recognize prose composition (relative clauses, quantifier scope)
+as B-work until K can reliably select and C can reliably reorder. The
+compositional signal is in the data — B just can't see it yet.
 
-GQA head specialization: KV heads plant flags at different RoPE ruler positions
-(~27 = local, ~47 = global). Q heads choose which flag to align with per layer.
+This is a bootstrapping dependency, not a data gap.
 
-### 5. Literature connection
+### 5. Other findings
 
-"Round and Round We Go!" (ICLR 2025) found the same pattern in Gemma 7B:
-- High-freq RoPE dims → positional attention (local patterns)
-- Low-freq RoPE dims → semantic attention (long-range meaning)
-- First and last layers use high frequencies most
-- Our layer 5-6 spike maps to their positional→semantic transition
+- **CycleContinue dead:** ~1.02 effective cycles, never learning to iterate
+- **Ternary evolution frozen:** 0/106 accepted, zero flips
+- **S3 gates healthy:** progressive selective opening (L0↑ cons: 0.995→0.312)
+- **Compute gate waking up at 5K:** mean=0.037, max=0.20 (was 0.0000)
+- **φ-compression:** L0↑ converging toward 1/φ (0.703, φ-dev=0.085)
+- **Algedonic alert:** firing at extremes (0 or 2.0), not calibrated
 
 ## What to do next
 
-### Priority 1: Launch first v11 training run
-```
-cd ~/src/verbum && uv run python scripts/v11/train.py \
-  --checkpoint-dir checkpoints/v11 \
-  --total-steps 20000
-```
-Key questions for the first v11 run:
-- Does combinator dispatch differentiate? (K should dominate prose)
-- Does B emphasis rise for compositional structures?
-- Does CycleContinue work now? (RMSNorm+tanh fix + cleaner dispatch)
-- How does loss compare to v10 at matched steps?
-- Does compute gate behavior differ with 4 combinators vs 22 ops?
-- Does the algedonic alarm differentiate? Watch alarm_factors in
-  metrics_log.jsonl — early runs should show factors > 1.0 (pleasure)
+### Priority 1: Continue v11 run to 20K
+Let it run. Watch for:
+- B-type in integrate: if it keeps climbing → pressure building → phase transition coming
+- B-type plateaus/drops → may need compositional data augmentation
+- Compute gate trajectory: just woke up at 5K, track whether it opens further
+- K+C co-occurrence stability (phase transition at 4K — does it hold?)
 
-### Priority 2: QK alignment decomposition probe
-The RoPE energy probe showed WHERE energy sits, but the spiral comes from
-Q·K ALIGNMENT per dim pair (which bands correlate, not just which have energy).
-Next probe: decompose actual attention logits by RoPE dim pair to measure
-per-dim-pair QK correlation at each layer. This should reveal the progressive
-alignment shift that creates the spiral.
+### Priority 2: Probe at 10K and 15K milestones
+Run full probe with dispatch detail at those checkpoints. Key metrics:
+- B dispatch weight (watch for the jump)
+- B-type in integrate (is pressure still building?)
+- Dispatch entropy (specializing or collapsing?)
+- Compute gate (opening further?)
 
 ### Priority 3: Compare v11 vs v10 at matched steps
-At 1K, 5K, 10K, 20K compare loss, dispatch, cycles, emphasis.
+At 5K: v11 eval=7.64, v10-vsm was in a similar range. Need exact v10
+comparison at matched steps to assess whether KIBC architecture helps
+or hurts raw loss.
 
-### Priority 4: Structured combinator training data
-Generate KIBC reduction examples once v11 shows combinator differentiation.
+### Priority 4: Investigate the shadow path
+B-type rising in integrate while B-dispatch is flat — is the model
+routing composition through K-dispatch with B-type integration? Probe
+per-position type weights conditioned on dispatch winner to test this.
+
+### Priority 5: Binding-aware cycle semantics
+The extended probe showed binding lives in mid-to-late layers (L21-L39),
+distinct from KIBC (L0-L15). This maps to CycleContinue: cycle 2 should
+learn to handle binding. Monitor CycleContinue gates at later checkpoints
+for signs that binding pressure opens the continuation gates.
 
 ### Carried
 - S5 reweight investigation (activated at 15K in v10-vsm)
 - v10-multicycle 8K checkpoint for comparison
-- Alarm metrics threshold analysis after first v11 run
+- Alarm metrics threshold analysis after sufficient v11 data
+- QK alignment decomposition probe (RoPE follow-up)
+- Structured combinator training data (if B doesn't phase-transition)
 
 ## VSM layer map (session 078 — v11 KIBC + algedonic alert)
 
@@ -163,6 +218,11 @@ Cycle semantics (from Qwen3 probes):
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
 | `scripts/v11/probe.py` | Checkpoint diagnostics + trajectory + dispatch analysis |
+| `results/v11/` | Probe results: probe_step_{001000–005000}.json |
+| `scripts/explore/probe_combinators.py` | KIBC combinator probe for Qwen3-32B |
+| `scripts/explore/probe_combinators_extended.py` | Extended probe: W, S, bind, abstract |
+| `results/combinator-probe/` | KIBC probe results + selectivity matrices + 4 PNGs |
+| `results/combinator-probe-extended/` | Extended probe results + correlation matrix + 3 PNGs |
 | `scripts/explore/rope_energy_probe.py` | RoPE dim-pair energy probe (Q/K hooks) |
 | `scripts/explore/rope_spiral_combined.py` | Combined 3D: RoPE × attention spiral |
 | `outputs/rope_energy/` | 19 files: energy heatmaps, centroid analysis, JSON |
@@ -172,6 +232,7 @@ Cycle semantics (from Qwen3 probes):
 | `mementum/knowledge/explore/v11-kibc-architecture.md` | Initial architecture sketch |
 | `checkpoints/v10-vsm/` | Completed v10 20K run (baseline) |
 | `checkpoints/v10-multicycle/` | Completed v10 8K run (dead CycleContinue) |
+| `checkpoints/v11/` | Active v11 run (5 checkpoints so far, continuing to 20K) |
 
 ## Session history
 
@@ -193,3 +254,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 077: Qwen3 probe findings → v11 KIBC combinator architecture + probe + docs (4 combinators replace 22 ops)
 → Session 078: Beer's algedonic alert (fire alarm) — 48 health metrics, separate S5 gate, end-to-end differentiable
 → Session 079: RoPE × attention spiral — energy probe shows RoPE=substrate not driver, spiral=learned Q·K alignment
+→ Session 080: v11 1K-5K probe — K dominates, B-type rising in integrate. KIBC validated in 32B (K=B=31%). Extended probe: W≡C, S≡B, bind distinct. Three circuits + binding.
