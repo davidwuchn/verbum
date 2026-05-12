@@ -2,179 +2,123 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-12 | Session: 080
+> Last updated: 2026-05-12 | Session: 081
 
 ## Where we are
 
-**V11 first run probed (1K–5K). KIBC validated in Qwen3-32B: K=31%, B=31% (co-equal). Extended probe: W≡C (r=0.92), S≡B (r=0.88), bind is partially distinct (r=0.83 with B, mid-to-late layers). Three circuits, not eight: {K,C,W,abstract}=routing, {B,S}=composition, {I}=identity, plus binding as a downstream operation. KIBC is the correct basis. V11 run continuing to 20K.**
+**Session 004's "three Montague primitives" in Pythia-160M were KIBC combinators all along. Pythia-160M: K=59%, I=2%, B=17%, C=22% — K-B correlation 0.944 (nearly fused). The Montague three-phase structure (type/parse/apply) is real but the mechanism is one K-dominant circuit operating in three phases, not three separate primitives. B hasn't differentiated from K at 160M scale. Compare: Qwen3-32B has K=B=31% (co-equal, r=0.86 — separable). V11 compute gate exploded 5K→6K (0.00007→0.51). Run at step ~6K, heading to 20K.**
 
-Session 080 probed the first v11 KIBC training run (5 checkpoints,
-1K–5K) and then validated the KIBC architecture against Qwen3-32B
-with two combinator probes: basic (K,I,B,C) and extended (W,S,bind,
-abstract). The 32B has equal K and B representation — the target
-state exists in the oracle.
+Session 081 ran the KIBC combinator probe on Pythia-160M (12 layers ×
+12 heads = 144 heads), reinterpreting session 004's Montague findings
+through the combinator lens. Also observed v11 compute gate phase
+transition and continued loss improvement at steps 5.5K–6K.
 
 ## What was done this session
 
-### 1. Full probe of v11 steps 1K–5K
+### 1. Pythia-160M combinator probe — Montague reinterpretation
 
-Ran `probe.py` with `--dispatch-detail` across all 5 checkpoints plus
-JSONL trajectory analysis. Results saved to `results/v11/`.
+Ran same KIBC probe methodology (matched sentence pairs, attention
+selectivity) on Pythia-160M. The "three Montague primitives" from
+session 004 are actually combinators:
 
-**Loss trajectory:**
-| Step | Eval Loss | PPL | r |
-|-----:|----------:|----:|------:|
-| 1000 | 7.958 | 2859 | 0.607 |
-| 2000 | 7.694 | 2194 | 0.581 |
-| 3000 | 7.668 | 2139 | 0.578 |
-| 4000 | 7.638 | 2075 | 0.575 |
-| 5000 | 7.642 | 2083 | 0.576 |
+**Head assignment:**
 
-Loss drops meaningfully 1K→2K, then plateaus. 4K→5K essentially flat.
+| Combinator | Pythia-160M (144 heads) | Qwen3-32B (4096 heads) | v11 @ 5K |
+|---|---|---|---|
+| K (select) | **59.0%** | 31.3% | 62.5% |
+| I (identity) | 2.1% | 14.7% | 15.3% |
+| B (compose) | 16.7% | 31.3% | 2.6% |
+| C (flip) | 22.2% | 22.6% | 19.6% |
 
-### 2. Combinator dispatch analysis
+**Key findings:**
 
-**K dominates at 60-65% as predicted** — prose is mostly selection.
+- **K-B correlation = 0.944** (vs 0.86 in 32B). In Pythia, K and B
+  are nearly the same circuit. B hasn't differentiated from K. What
+  session 004 called "typed application" in L8-L11 was K doing
+  selection-that-resembles-composition.
 
-Phase transition at step 3K→4K:
-- K snapped back from 0.49 to 0.65 (had been declining as I explored)
-- Top-2 co-occurrence flipped: K+I (75%) → K+C (68%)
-- S5 un-gated L1↓ (0.003 → 0.952)
-- Dispatch entropy dropped from 0.725 to 0.607 (stronger specialization)
+- **K dominates ALL three Montague zones:** type (L0), parse (L3),
+  apply (L8-L11). Not three mechanisms — one K-dominant circuit in
+  three phases.
 
-**B dispatch flat at ~1.8% across all checkpoints.**
+- **Cosine data confirms three-phase structure:** L0-L2 (cos 0.91-0.93,
+  input parsing), L3-L8 (cos 0.99+, stable processing), L9-L11
+  (cos 0.89→0.15, progressive destruction → output). The phase
+  boundaries match Montague exactly, but the mechanism is combinators.
 
-### 3. Key insight: B-type rising in integrate channel
+- **C already differentiated** at 22.2% (matches 32B's 22.6% exactly).
+  Argument reordering separates early at any scale.
 
-While B is dead in dispatch, the type distribution tells a different story:
+- **I nearly absent** at 2.1% (vs 14.7% in 32B). Too few heads to
+  spare for pass-through at 160M.
 
-| Step | K-type | B-type |
-|-----:|-------:|-------:|
-| 1000 | 0.939 | 0.058 |
-| 2000 | 0.673 | 0.269 |
-| 3000 | 0.583 | 0.350 |
-| 4000 | 0.410 | **0.476** |
-| 5000 | 0.496 | **0.391** |
+- **Pythia-160M ≡ bootstrap state.** Its distribution (K=59%, B=17%)
+  matches v11 at 5K (K=63%, B=2.6%) — not the mature 32B target.
+  B differentiates from K only with sufficient scale.
 
-The integrate channel is building B representations even though dispatch
-hasn't started routing to it. This mirrors v4.1's register variance
-building internally before the gate jump (0.04→0.87 at step 2K).
+Results: `results/combinator-probe-pythia/`
 
-### 4. KIBC combinator probe on Qwen3-32B
+### 2. V11 compute gate phase transition (5K→6K)
 
-Probed Qwen3-32B (GGUF Q8, 64 layers × 64 heads = 4096 heads) for
-combinator-selective attention heads. Designed matched probe pairs for
-each combinator (active vs control with same surface form).
+Step 6K checkpoint landed. The compute gate — dormant for 5000 steps —
+exploded:
 
-**Head assignment (dominant combinator per head):**
-  K: 1284 (31.3%), B: 1282 (31.3%), C: 927 (22.6%), I: 603 (14.7%)
+| Step | Compute Mean | Compute Max | Eval Loss | PPL |
+|-----:|-------------:|------------:|----------:|----:|
+| 4000 | 0.00007 | 0.001 | 7.637 | 2073 |
+| 4500 | 0.00028 | 0.016 | 7.649 | 2100 |
+| 5000 | 0.03576 | 0.179 | 7.641 | 2081 |
+| 5500 | **0.44527** | **0.915** | 7.585 | 1969 |
+| 6000 | **0.51457** | **0.931** | 7.574 | 1948 |
 
-**K and B are co-equal in the 32B.** This validates the KIBC premise.
-B is not secondary — it has equal representation to K.
+From dead (0.00007) to majority-open (0.51) in 2000 steps. Loss
+resumed dropping after the 4K→5K plateau. The compute gate opening
+correlates with renewed loss improvement.
 
-**Cross-combinator correlation:**
-  K-C: 0.93 (nearly same circuit — both are argument routing)
-  K-B: 0.86, B-C: 0.87 (related but separable)
-  I-*: 0.69-0.75 (most distinct — different heads)
+**Alarm factors declining:** pass 0 (0.93→0.75) and pass 1 (2.0→1.63)
+under stress. The algedonic channel may be driving the compute gate
+opening — exactly Beer's design intent.
 
-**Session 001 circuit maps to {B, C, B}:**
-  L1:H0 (gate) → B, L24:H0 (compositor) → C, L24:H2 (recursion) → B
-
-**Layer profiles:** K and C peak early (L0-L6, syntactic), B peaks
-early-to-mid (L3-L17, progressive), I is distributed (L6-L41).
-
-Results: `results/combinator-probe/`, visualizations: 4 PNGs + NPZ.
-
-### 5. Extended combinator probe — W, S, bind, abstract
-
-Probed Qwen3-32B for operations beyond KIBC: W (duplicate), S (distribute),
-variable binding, and abstraction.
-
-**Cross-correlation reveals three circuits:**
-```
-Circuit 1 — Routing:   K, C, W, abstract (r=0.87-0.93 among them)
-Circuit 2 — Compose:   B, S              (r=0.88)
-Circuit 3 — Identity:  I                 (r=0.68-0.76 with everything)
-Outlier   — Binding:   bind              (r=0.72-0.83, mid-to-late layers)
-```
-
-**W ≡ C** (r=0.92): duplication uses the reordering circuit.
-**S ≡ B** (r=0.88): distribution uses the composition circuit.
-**bind is partially distinct** (max r=0.83 with B): peak layers L21-L39
-vs everything else at L0-L15. Binding is a downstream consumer.
-
-This confirms KIBC is the natural basis. W and S don't need separate
-combinators. Binding maps to the cycle semantics: cycle 0=identify,
-cycle 1=compose, cycle 2=bind.
-
-Results: `results/combinator-probe-extended/`
-
-### 6. Phase transition hypothesis (combinator bootstrap)
-
-The v6 stride percolation pattern (φ-compression propagating fine→coarse
-as a wavelet, each stride learning in order) predicts that KIBC combinators
-should learn in dependency order:
-
-```
-I (arity 1) → K (arity 2) → C (arity 3, reorder) → B (arity 3, compose)
-              ↑ already stable  ↑ emerging            ↑ building pressure
-```
-
-B is last because **B depends on K and C already working.** Composition
-requires two functions that are each individually meaningful. The model
-can't recognize prose composition (relative clauses, quantifier scope)
-as B-work until K can reliably select and C can reliably reorder. The
-compositional signal is in the data — B just can't see it yet.
-
-This is a bootstrapping dependency, not a data gap.
-
-### 5. Other findings
-
-- **CycleContinue dead:** ~1.02 effective cycles, never learning to iterate
-- **Ternary evolution frozen:** 0/106 accepted, zero flips
-- **S3 gates healthy:** progressive selective opening (L0↑ cons: 0.995→0.312)
-- **Compute gate waking up at 5K:** mean=0.037, max=0.20 (was 0.0000)
-- **φ-compression:** L0↑ converging toward 1/φ (0.703, φ-dev=0.085)
-- **Algedonic alert:** firing at extremes (0 or 2.0), not calibrated
+B dispatch still flat at ~2.6%. B-type in integrate oscillating 0.43-0.47.
+CycleContinue still dead. Ternary evolution still frozen.
 
 ## What to do next
 
 ### Priority 1: Continue v11 run to 20K
-Let it run. Watch for:
-- B-type in integrate: if it keeps climbing → pressure building → phase transition coming
-- B-type plateaus/drops → may need compositional data augmentation
-- Compute gate trajectory: just woke up at 5K, track whether it opens further
-- K+C co-occurrence stability (phase transition at 4K — does it hold?)
+Run is live at step ~6K. Watch for:
+- Compute gate: will it saturate at 1.0 or find equilibrium?
+- Alarm ↔ compute correlation: is the alarm driving the gate opening?
+- B-type in integrate: pressure still building?
+- Loss trajectory: will compute gate sustain the improvement?
 
-### Priority 2: Probe at 10K and 15K milestones
-Run full probe with dispatch detail at those checkpoints. Key metrics:
-- B dispatch weight (watch for the jump)
-- B-type in integrate (is pressure still building?)
-- Dispatch entropy (specializing or collapsing?)
-- Compute gate (opening further?)
+### Priority 2: Probe at 10K milestone
+Full probe with dispatch detail. Key metrics:
+- B dispatch weight (phase transition watch)
+- Compute gate trajectory (post-transition behavior)
+- Alarm factor dynamics
+- Dispatch entropy
 
-### Priority 3: Compare v11 vs v10 at matched steps
-At 5K: v11 eval=7.64, v10-vsm was in a similar range. Need exact v10
-comparison at matched steps to assess whether KIBC architecture helps
-or hurts raw loss.
+### Priority 3: Investigate alarm → compute gate pathway
+Alarm factors for passes 0 and 1 are declining while compute gate
+opens. Is this causal? The algedonic channel should modulate S5 gates
+which should affect downstream capacity. Trace the gradient path.
 
-### Priority 4: Investigate the shadow path
-B-type rising in integrate while B-dispatch is flat — is the model
-routing composition through K-dispatch with B-type integration? Probe
-per-position type weights conditioned on dispatch winner to test this.
+### Priority 4: Pythia scaling — combinator differentiation
+Run combinator probe on Pythia-410M and Pythia-1B to map where B
+differentiates from K. If K-B correlation drops from 0.944 (160M) toward
+0.86 (32B) at some intermediate scale, that's the differentiation threshold.
 
-### Priority 5: Binding-aware cycle semantics
-The extended probe showed binding lives in mid-to-late layers (L21-L39),
-distinct from KIBC (L0-L15). This maps to CycleContinue: cycle 2 should
-learn to handle binding. Monitor CycleContinue gates at later checkpoints
-for signs that binding pressure opens the continuation gates.
+### Priority 5: Compare v11 vs v10 at matched steps
+At 5K: v11 eval=7.64, v10-vsm was similar. At 6K: v11=7.57.
+Need v10 comparison to assess KIBC architecture benefit.
 
 ### Carried
+- B dispatch phase transition (watching)
 - S5 reweight investigation (activated at 15K in v10-vsm)
 - v10-multicycle 8K checkpoint for comparison
-- Alarm metrics threshold analysis after sufficient v11 data
 - QK alignment decomposition probe (RoPE follow-up)
 - Structured combinator training data (if B doesn't phase-transition)
+- Binding-aware cycle semantics (CycleContinue still dead)
 
 ## VSM layer map (session 078 — v11 KIBC + algedonic alert)
 
@@ -232,7 +176,9 @@ Cycle semantics (from Qwen3 probes):
 | `mementum/knowledge/explore/v11-kibc-architecture.md` | Initial architecture sketch |
 | `checkpoints/v10-vsm/` | Completed v10 20K run (baseline) |
 | `checkpoints/v10-multicycle/` | Completed v10 8K run (dead CycleContinue) |
-| `checkpoints/v11/` | Active v11 run (5 checkpoints so far, continuing to 20K) |
+| `checkpoints/v11/` | Active v11 run (6 checkpoints so far, continuing to 20K) |
+| `scripts/explore/probe_combinators_pythia.py` | KIBC combinator probe for Pythia-160M |
+| `results/combinator-probe-pythia/` | Pythia combinator results: K=59%, B=17%, K-B r=0.944 |
 
 ## Session history
 
@@ -255,3 +201,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 078: Beer's algedonic alert (fire alarm) — 48 health metrics, separate S5 gate, end-to-end differentiable
 → Session 079: RoPE × attention spiral — energy probe shows RoPE=substrate not driver, spiral=learned Q·K alignment
 → Session 080: v11 1K-5K probe — K dominates, B-type rising in integrate. KIBC validated in 32B (K=B=31%). Extended probe: W≡C, S≡B, bind distinct. Three circuits + binding.
+→ Session 081: Pythia-160M combinator probe — session 004's "Montague primitives" were combinators all along (K=59%, K-B r=0.944). V11 compute gate exploded (0.00007→0.51).

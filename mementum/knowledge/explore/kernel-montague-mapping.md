@@ -100,9 +100,39 @@ This doesn't require finding the circuit in a pre-trained model and
 extracting it — it builds a model WHERE THE CIRCUIT IS THE ARCHITECTURE.
 The kernel ops ARE the typed application primitives.
 
+## Session 081 reinterpretation: Montague → Combinators
+
+> The three Montague primitives discovered in Pythia-160M (session 004)
+> are KIBC combinators viewed from a different angle. Session 081 ran
+> the same combinator probe used on Qwen3-32B against Pythia-160M and
+> found K dominates all three Montague zones.
+
+**The mapping that session 074 identified — comp→typed application,
+comparison ops→structural parse, op embeddings→type assignment — still
+holds functionally.** But the mechanism underneath is combinator-based:
+
+| Montague primitive | Combinator circuit | Evidence |
+|---|---|---|
+| Type assignment (L0) | K-dominant selection | K=0.144 at L0, all heads |
+| Structural parse (L3) | K-dominant selection | K=0.122 at L3, all heads |
+| Typed application (L8-L11) | K-dominant (B fused) | K=0.188, B=0.173, r(K,B)=0.944 |
+
+The v10-vsm kernel's `comp` operation (41% dispatch) maps to the B
+combinator. The kernel made B explicit before the model could
+differentiate B from K in its attention heads. The explicit kernel
+architecture provides the separation that the raw attention circuit
+lacks at small scale.
+
+This strengthens the v11 KIBC approach: instead of 22 named ops
+(many rarely used), four combinators directly match what the attention
+mechanism actually does. The kernel dispatch IS combinator dispatch.
+
+See: `mementum/knowledge/explore/pythia-160m-combinators.md`
+
 ## Source data
 
 - Checkpoints: `checkpoints/v10-vsm/step_001000` through `step_013000`
 - Kernel ops: `scripts/v10/kernel.py` (22 ops, PARTIAL_OPS list)
 - Pythia-160M findings: `mementum/knowledge/explore/session-004-findings.md`
+- Pythia-160M combinator probe: `mementum/knowledge/explore/pythia-160m-combinators.md`
 - New generators: `bb/us/whitford/verbum/bios.clj` (6 gen-kernel-* functions)
