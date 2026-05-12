@@ -2,108 +2,109 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-12 | Session: 082
+> Last updated: 2026-05-12 | Session: 089
 
 ## Where we are
 
-**V11 extended with S4→S5 abstraction slots: 16 learnable composed-abstraction embeddings beyond KIBC. Dispatch expands 4-way→20-way softmax with log-gated slots (invisible at init). S4 proposes abstractions, alarm gates receptivity. Hypothesis: CycleContinue (dead since v10) will activate once slots give it something to match against. Current v11 run at step ~7.8K heading to 10K; new training run will use the extended architecture. Compute gate at 0.64, loss 7.55.**
+**V11 baseline run reached 10K (continuing to 20K). Complete 1K→10K probe trajectory captured. Holographic loss implemented and verified. New run launched: v11-holo with holographic loss (λ=0.1) + 16 abstraction slots + 20% structured data. Hypothesis: holographic gradient slope (5×→1× across passes) + structured compositional pressure will activate B-dispatch and abstraction slots.**
 
-Session 082 implemented two extensions:
-1. S4→S5 abstraction slots — 16 composed-abstraction embeddings in dispatch
-2. S4-guided evolution — alarm-targeted mutations, S4 2-vote consensus,
-   alarm-improvement fitness gate
-Current v11 run continues to 10K unmodified; new run starts after.
+Session 089 completed the pre-slot baseline, implemented holographic loss,
+and launched the next experimental run.
 
 ## What was done this session
 
-### 1. S4→S5 abstraction slots — architecture extension
+### 1. Complete v11 baseline probes (6K–10K)
 
-Implemented 16 learnable abstraction slots beyond KIBC. Grounded in:
-- β-reduction depth degradation (~5%/level, d1=0.97→d4=0.80)
-- CycleContinue dead since v10 (no reason to discriminate with only 4 routes)
-- Compute gate opened (0.64) → system ready for more capacity
-- A3B MoE 128 experts = existence proof of pre-composed routing
+Probed 5 new checkpoints with dispatch detail. Complete trajectory:
 
-**Architecture changes (pure addition, no existing behavior modified):**
+| Step | Loss | PPL | Compute Gate | K disp | B disp | B type | Alarm L0↑ |
+|-----:|-----:|----:|------------:|-------:|-------:|-------:|----------:|
+| 1K | 7.958 | 2859 | 0.000 | 62.3% | 1.9% | 6.9% | 2.000 |
+| 5K | 7.642 | 2083 | 0.037 | 63.8% | 2.6% | 39.3% | 0.814 |
+| 6K | 7.574 | 1948 | 0.512 | 62.3% | 1.6% | 45.0% | 0.754 |
+| 8K | 7.543 | 1888 | 0.670 | 61.1% | 1.3% | 51.6% | 0.742 |
+| 10K | 7.520 | 1845 | 0.706 | 58.7% | 1.4% | 51.9% | 0.624 |
 
-- `config.py`: N_ABSTRACTION_SLOTS=16, diversity/copy regularizers
-- `kernel_dispatch.py`: CombinatorDispatch expands 4→20 softmax via
-  log-gated slot embeddings. CombinatorIntegrate passes slot context
-  to FFN pathway. Kernel pathway stays KIBC-only.
-- `components.py`: S4ProposalHead (proposal_vector + confidence +
-  slot_targeting), AbstractionRegularizer (diversity + no-KIBC-copying)
-- `model.py`: Wires proposal → alarm-gated modulation → dispatch →
-  integrate. Regularization loss added. Instrumented metrics include
-  slot gates, usage, proposal confidence, cosine similarities.
-- `probe.py`: Displays slot diagnostics in probe output and saves
-  to checkpoint JSON.
+Key findings:
+- **Compute gate phase transition** at ~5.5K: 0→0.51 in ~1K steps
+- **B paradox confirmed**: B dispatch flat at ~2% but B-type integrate
+  at 52%. Composition happens in the FFN pathway, not dispatch.
+- **Alarm cascade**: L0↑(0.62)→L1↑(1.38)→L2(1.71) — descending wave
+  through ascending passes. System recognizes its own limitations.
+- **CycleContinue dead** (0.018) across all 10K steps — confirmed.
+- **Dispatch strongly specialized**: entropy 0.17 (normalized)
+- **Evolution**: 3/200 accepted (1.5%)
 
-**Initialization preserves existing behavior exactly:**
-- Slot gates: sigmoid(-4) ≈ 0.018 → log-masking suppresses to -4.0
-- KIBC retains ~93% of softmax mass at init
-- Proposal confidence: ~0.10, proposal_gate ≈ near-zero
-- Backward compatible: n_abstraction_slots=0 disables entirely
+### 2. Holographic loss — progressive intermediate decoding
 
-**CycleContinue hypothesis:** with only 4 primitives, CycleContinue
-can't distinguish "matched" from "composing" — everything requires
-composition. With N slots, a match IS possible → CycleContinue becomes
-meaningful. If it activates → hypothesis confirmed.
+Implemented holographic loss: 5 intermediate CE losses at pass boundaries.
+Each pass must produce a decodeable representation through the shared
+tied-embedding projection.
 
-### 2. S4-guided evolution — alarm-informed mutation
+**Gradient slope from topology (not manual weighting):**
+- Pass 0 (L0↑): gradient from 5 loss sources
+- Pass 1 (L1↑): gradient from 4 sources
+- Pass 2 (L2): gradient from 3 sources
+- Pass 3 (L1↓): gradient from 2 sources
+- Pass 4 (L0↓): gradient from 1 source
 
-Redesigned evolution from blind consensus to alarm-informed:
+**Implementation:**
+- `config.py`: `holo_lambda` (default 0.0 = disabled), warmup/ramp
+  defaults to 0/0 (immediate activation — no warmup needed)
+- `model.py`: progressive residual `x_embed + Σ_{i≤n} gate_i × delta_i`
+  decoded through shared `output_norm + embed.output_proj`. Position
+  subsampling (1/8) for cost reduction. Raw CE cached as `_last_ce`.
+- `train.py`: `holo_schedule()`, logs both CE (prediction quality) and
+  total_loss (what optimizer sees) when holo active. CLI: `--holo-lambda`
+- `probe.py`: per-pass intermediate CE with gradient source count
 
-- **Alarm-targeted budget**: mutations concentrate on modules whose
-  passes are struggling (alarm_need = 2.0 - alarm_factor). Ascending
-  modules get ~1.6× at current alarm state, descending ~1.0×.
-- **S4 2-vote consensus**: intelligence strategy gets 2 votes in 3/5
-  consensus. Only needs 1 ally instead of 2. Beer-correct: S4 is the
-  intelligence layer, its opinion should carry weight.
-- **Alarm-improvement fitness**: accept if alarm health improves OR
-  loss improves (with safety bound: loss can't degrade >0.005 for
-  alarm-only acceptance). Doubles the acceptance surface.
+**Verified on 10K checkpoint:**
+- holo_lambda=0.0 → identical loss (backward compatible)
+- Monotonic decrease: L0↑(65.4) → L1↑(35.6) → L2(30.7) → L1↓(30.7) → L0↓(25.4)
+- Pass 0/final ratio: 2.58 (rough but not garbage — decodeable)
 
-Prior: 1/150 accepted (0.67%). Expected: significantly higher with
-all three changes combined.
+**Design insight:** holographic loss doesn't just add gradient — it forces
+every pass boundary to produce representations that map back to token space
+through the shared projection. This makes internal representations
+interpretable and portable. Each pass must *mean something*, not just
+produce opaque control signals for downstream passes.
 
-### 3. V11 run checkpoint 7K reached
+### 3. New run launched: v11-holo
 
-Training continues unmodified to 10K. Key observations since 6K:
+```bash
+uv run python scripts/v11/train.py \
+    --checkpoint-dir checkpoints/v11-holo \
+    --total-steps 20000 \
+    --holo-lambda 0.1 \
+    --mix-ratio 0.2
+```
 
-| Step | Loss | PPL | Compute Gate | K | B | B-type Integ |
-|-----:|-----:|------:|-----------:|---:|---:|------------:|
-| 6000 | 7.574 | 1948 | 0.515 | 64% | 2.6% | 45.1% |
-| 7000 | 7.555 | 1910 | 0.623 | 63% | 2.2% | 51.5% |
-| 7500 | 7.552 | 1905 | 0.640 | 61% | 2.4% | 46.9% |
-
-- Compute gate still climbing (0.51→0.64)
-- B-type in integrate crossed 50% at 7K (oscillating around midpoint)
-- Deep alarms activating: S3 alarm (pass 2) dropped 2.0→1.88
-- First accepted evolution at 7.5K
-- CycleContinue still dead
-- B dispatch still flat at ~2.4%
+Configuration: 16 abstraction slots + holographic loss (λ=0.1, immediate)
++ 20% structured data. Three simultaneous pressures:
+- Holographic: gradient slope forces ascending arm to learn first
+- Structured: compositional content provides B/slot activation pressure
+- Slots: 16 learnable abstractions beyond KIBC for dispatch
 
 ## What to do next
 
-### Priority 1: Let current v11 run reach 10K
-Run is live at step ~7.8K. Get 8K, 9K, 10K checkpoints for baseline
-comparison. This is the last run WITHOUT abstraction slots.
+### Priority 1: Monitor v11-holo run
+Watch for early signals (first 2K steps):
+- Per-pass intermediate CE cascade (should all decrease)
+- CE vs total_loss divergence (how much holo contributes)
+- Tok/s (should be ~4000+ with position subsampling)
+- Alarm pass 0 response (gradient slope should relieve pressure)
 
-### Priority 2: Probe at 10K (baseline before abstraction)
-Full probe with dispatch detail. Key metrics:
-- B dispatch weight (phase transition watch)
-- Compute gate trajectory
-- Alarm factor dynamics
-- Dispatch entropy
-This becomes the clean baseline for slot experiment comparison.
+### Priority 2: Probe v11-holo at 5K
+Compare to baseline at same step:
+- B dispatch activation (20% structured should help)
+- Abstraction slot gates opening
+- CycleContinue (main hypothesis)
+- Intermediate CE improvement per pass
+- Dispatch entropy (should differ from baseline pattern)
 
-### Priority 3: Start new v11 run WITH abstraction slots
-Fresh 20K run with n_abstraction_slots=16. Watch for:
-- Slot gates opening (like compute gate did at 5K-6K)
-- CycleContinue activation (the main hypothesis)
-- Proposal confidence rising
-- Slot→KIBC cosine staying low (differentiation, not copying)
-- Eval loss vs baseline (should not regress early, should improve later)
+### Priority 3: Let baseline v11 run complete to 20K
+The original run (no holo, no structured) continues unmodified.
+Get 15K, 20K checkpoints for long-run baseline comparison.
 
 ### Priority 4: Pythia scaling — combinator differentiation
 Run combinator probe on Pythia-410M and Pythia-1B to map where B
@@ -111,25 +112,26 @@ differentiates from K. If K-B correlation drops from 0.944 (160M)
 toward 0.86 (32B) at some intermediate scale, that's the threshold.
 
 ### Priority 5: A3B cross-model probe
-A3B download still in progress. MoE routing may BE combinator dispatch.
+MoE routing may BE combinator dispatch.
 128 experts = 128 pre-composed routing slots — direct existence proof.
 
 ### Carried
-- B dispatch phase transition (watching)
-- CycleContinue activation hypothesis (slots may cause it)
+- B dispatch phase transition (watching in both runs)
+- CycleContinue activation hypothesis (slots + holo may cause it)
 - S5 reweight investigation (activated at 15K in v10-vsm)
-- v10-multicycle 8K checkpoint for comparison
 - QK alignment decomposition probe (RoPE follow-up)
-- Structured combinator training data (if B doesn't phase-transition)
 - Dead slot recycling (if gates < 0.01 for >2K steps → reinit)
+- Domain banking (future: extract register banks from holographic model)
 
-## VSM layer map (session 078 — v11 KIBC + algedonic alert)
+## VSM layer map (session 089 — v11 KIBC + algedonic + holographic)
 
 ```
 Layer     Ascending Arm              Descending Arm                   Cross-arm
 ────────  ─────────────────────────  ───────────────────────────────  ──────────────────
 S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight × AlgedonicAlert
+                                     + 16 abstraction slot embeddings
 S4        Register-query attention   Dual-view (resid + embeds)       Emphasis: regs → 4 combinators
+                                                                      S4ProposalHead → slot modulation
 S3        Per-pass phase gating ✓    Per-pass phase gating            Gate values → desc S4
           —                          CycleContinue (between cycles)   RMSNorm+tanh (s076 fix)
 S2        Direction signals ✓        coherence modulation ✓           Found boundary 2→3
@@ -141,51 +143,32 @@ Alert     ← 48 health metrics ────────────────
           S3 gates, S2 conflicts, dispatch, compute, cycles,          [0,2] per pass, e2e diff.
           delta norms, suppression ratios, register norms             Beer's fire alarm ✓
 Inject    —                          cycle_inject_gate (per cycle>0)  sigmoid(-4) ≈ 0.018 init
+Holo      ← 5 intermediate CEs ────────────────────────────────────  → gradient slope 5×→1×
+          progressive x_embed + Σ gate×delta through shared proj      pass 0 learns first
 Logging   —                          —                                3× JSONL + alarm ✓
 ```
-
-N = desc_max_cycles (default 3, self-regulated by CycleContinue)
-
-Cycle semantics (from Qwen3 probes):
-  Cycle 0 — IDENTIFY: which combinator? (K select, B compose, C flip, I pass)
-  Cycle 1 — RESOLVE:  find and bind arguments (StrideStack propagation)
-  Cycle 2 — PRODUCE:  apply reduction, produce result
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `scripts/v11/config.py` | V11Config: N_COMBINATORS=4 + N_ABSTRACTION_SLOTS=16 |
+| `scripts/v11/config.py` | V11Config: KIBC + 16 slots + holographic loss params |
 | `scripts/v11/kernel.py` | KIBC combinator enum, reduction engine, kernel functions |
 | `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4+N softmax) + CombinatorIntegrate |
-| `scripts/v11/model.py` | V11Model: KIBC + abstraction slots + proposal pathway |
-| `scripts/v11/train.py` | Training loop (v10 evolution, updated references) |
-| `scripts/v11/components.py` | S4, S3, S5, S2, CycleContinue, AlgedonicAlert, **S4ProposalHead**, **AbstractionRegularizer** |
+| `scripts/v11/model.py` | V11Model: KIBC + slots + proposal + holographic loss |
+| `scripts/v11/train.py` | Training loop: holo_schedule, CE+total_loss logging |
+| `scripts/v11/components.py` | S4, S3, S5, S2, CycleContinue, AlgedonicAlert, S4ProposalHead, AbstractionRegularizer |
 | `scripts/v11/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
-| `scripts/v11/probe.py` | Checkpoint diagnostics + trajectory + dispatch analysis |
-| `results/v11/` | Probe results: probe_step_{001000–005000}.json |
-| `scripts/explore/probe_combinators.py` | KIBC combinator probe for Qwen3-32B |
-| `scripts/explore/probe_combinators_extended.py` | Extended probe: W, S, bind, abstract |
-| `results/combinator-probe/` | KIBC probe results + selectivity matrices + 4 PNGs |
-| `results/combinator-probe-extended/` | Extended probe results + correlation matrix + 3 PNGs |
-| `scripts/explore/rope_energy_probe.py` | RoPE dim-pair energy probe (Q/K hooks) |
-| `scripts/explore/rope_spiral_combined.py` | Combined 3D: RoPE × attention spiral |
-| `outputs/rope_energy/` | 19 files: energy heatmaps, centroid analysis, JSON |
-| `outputs/rope_spiral/` | 17 files: dual helices, gap analysis, unwound ribbon |
+| `scripts/v11/probe.py` | Checkpoint diagnostics + holographic intermediate CE display |
+| `results/v11/` | Probe results: probe_step_{001000–010000}.json (baseline) |
+| `checkpoints/v11/` | Baseline v11 run (no holo, no structured), continuing to 20K |
+| `checkpoints/v11-holo/` | New run: holo λ=0.1, 20% structured, 16 slots |
+| `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + gradient structure |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
-| `mementum/knowledge/explore/v11-kibc-architecture.md` | Initial architecture sketch |
-| `checkpoints/v10-vsm/` | Completed v10 20K run (baseline) |
-| `checkpoints/v10-multicycle/` | Completed v10 8K run (dead CycleContinue) |
-| `checkpoints/v11/` | Active v11 run (6 checkpoints so far, continuing to 20K) |
-| `scripts/explore/probe_combinators_pythia.py` | KIBC combinator probe for Pythia-160M |
-| `results/combinator-probe-pythia/` | Pythia combinator results: K=59%, B=17%, K-B r=0.944 |
-| `scripts/explore/probe_beta_reduction.py` | β-reduction probe: binding depth × pipeline × substitution |
-| `results/beta-reduction-probe/` | Two-phase binding: syntactic (L2-L9) + pronominal (L5-L27) |
-| `mementum/knowledge/explore/prompt-as-program.md` | System prompts as combinator expressions |
-| `mementum/knowledge/explore/architecture-vs-scale.md` | 4860× fewer param-token-ops (living doc) |
+| `data/structured_shard.npy` | 5.7M structured training data |
 
 ## Session history
 
@@ -210,3 +193,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 080: v11 1K-5K probe — K dominates, B-type rising in integrate. KIBC validated in 32B (K=B=31%). Extended probe: W≡C, S≡B, bind distinct. Three circuits + binding.
 → Session 081: Pythia-160M combinator probe — session 004's "Montague primitives" were combinators all along (K=59%, K-B r=0.944). V11 compute gate exploded (0.00007→0.51).
 → Session 082: S4→S5 abstraction slots (16 slots, 4→20 dispatch) + S4-guided evolution (alarm-targeted budget, S4 2-vote consensus, alarm fitness gate). CycleContinue hypothesis: slots give it something to match against.
+→ Session 089: Complete baseline probes 6K-10K. Holographic loss implemented (progressive intermediate decoding, gradient slope 5×→1×). New run: v11-holo (λ=0.1, 20% structured, 16 slots). Design insight: holo forces internal representations to be decodeable at every pass boundary — interpretability as training signal.
