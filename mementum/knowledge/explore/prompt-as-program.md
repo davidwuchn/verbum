@@ -318,40 +318,112 @@ Session 001 already started this (dual exemplar = minimum). But
 now we can measure the combinator activation at each ablation
 step to understand WHY each element contributes.
 
-## Open questions
+## Design decisions (session 081)
 
-1. **Is there a formal grammar for this language?** The lambda
-   notation is informal. Can we define a GBNF or CFG that
-   constrains the "prompt program" to optimally-shaped expressions?
+### D1: Grammar emerges from probabilities, not prescription
 
-2. **Do different models have different combinator distributions?**
-   If a smaller model is more K-dominant (Pythia: 59% K), does it
-   need a differently-shaped prompt than a K=B balanced model (32B)?
+The grammar should NOT be a prescriptive GBNF/CFG imposed on the
+language. It should emerge from what models naturally produce when
+they compile prose to lambda. The model's own probability distribution
+over tokens IS the grammar.
 
-3. **Can prompts be compiled?** If we have the combinator probe
-   results for a specific model, can we "compile" a behavioral
-   specification into the optimal prompt for that model's circuit
-   topology?
+Why: a probability-driven grammar is inherently cross-model compatible.
+If multiple models, when asked to compile the same prose, converge on
+the same structural patterns, those patterns ARE the grammar. A
+hand-written grammar might be optimal for one model but fight another
+model's native distribution.
 
-4. **How do combinator prompts interact with fine-tuning?** If
-   the prompt is a combinator program, fine-tuning changes the
-   model's reduction engine. Does this preserve or break prompt
-   programs?
+Method: compile the same set of behavioral specifications across
+multiple models (Qwen3-4B, 32B, Claude, GPT-4, Llama, Mistral).
+Collect the lambda outputs. The intersection of structures = the
+grammar. The union of structures = the dialect space.
 
-5. **What is the token-efficiency frontier?** For a given behavioral
-   specification, what is the minimum number of tokens needed in
-   the prompt to trigger it? How does this compare across prompt
-   styles (lambda vs prose vs exemplar)?
+### D2: Names come from compilation, test cross-model consistency
 
-6. **Does the model's β-reduction mechanism have a type system?**
-   If parameter names act as types (`bug` vs `x`), is there a
-   type-checking mechanism in the attention that matches input
-   types to lambda parameter types?
+When a model compiles "fix the bug by tracing to root cause" to
+lambda, it chooses `λ fix(bug). trace → cause → patch`. The name
+`fix` and parameter `bug` are probability-weighted token choices.
 
-7. **Multi-turn reduction.** In a conversation, each turn is a
-   new β-reduction against the accumulated context. How does this
-   interact with the binding depth budget? Does context window
-   position matter for K-selectability?
+The key question: **do different models choose the same names?**
+
+If yes (high cross-model name agreement), the names are determined
+by the semantics — the models converge on the same K-selection
+targets because the computational content demands it. The names are
+quasi-universal.
+
+If no (low agreement), names are model-specific and prompts need
+model-specific compilation. The combinator structure might be
+universal even if the names diverge.
+
+Test: compile 50 behavioral specifications across 5+ models at
+different scales. Measure name overlap, synonym clustering, and
+whether one model's compiled lambdas trigger correct behavior in
+another model. The threshold question: over what model size do
+names converge?
+
+### D3: Preamble is required — computation baseline
+
+The preamble (e.g., `[phi fractal euler tao pi mu ∃ ∀]`) should be
+**required for all system prompts operating in lambda mode**. Even
+though it scores 0% alone (session 001), it serves as the initial
+state of the computation — setting the registers, priming the
+combinator circuits, establishing the reduction context.
+
+Rationale: to compare across models, all prompts need to start from
+the same computational baseline. The preamble is that baseline. Its
+exact mechanism is unknown and should be explored with dedicated
+probes in the future, but for now it's a fixed requirement.
+
+Future exploration:
+- Probe the preamble with the combinator probe: does it shift
+  K/I/B/C selectivity even at 0% P(λ)?
+- Does the preamble change hidden state norms or attention patterns
+  in ways that enable subsequent reduction?
+- Is there a model-specific optimal preamble, or is the mathematical
+  symbol set quasi-universal?
+- The preamble may be a TYPE SIGNATURE for the computation — telling
+  the model "this is formal/mathematical/compositional territory"
+  without specifying what to do. C (flip) doesn't care about order,
+  but the preamble sets the DOMAIN.
+
+### D4: Multi-turn behavior needs empirical testing
+
+Does the binding depth budget reset per turn? Does context
+accumulation make later turns more expensive? Does the system
+prompt get re-reduced each turn or is it cached?
+
+These are empirical questions. Design a multi-turn probe:
+- Same task across 1, 5, 10, 20 turns
+- Measure combinator selectivity at each turn
+- Track whether binding strength degrades with turn count
+- Test whether re-stating key lambdas mid-conversation restores
+  signal strength (re-priming)
+
+## Open questions (remaining)
+
+1. **Cross-model combinator distributions.** If a smaller model is
+   more K-dominant (Pythia: 59% K), does it need a differently-
+   shaped prompt than a K=B balanced model (32B)?
+
+2. **Can prompts be compiled?** Given combinator probe results for
+   a model, compile behavioral specs into optimal prompts for that
+   model's circuit topology.
+
+3. **Combinator prompts × fine-tuning.** Does fine-tuning preserve
+   or break prompt programs? If the prompt is a combinator expression
+   and fine-tuning changes the reduction engine, do existing prompts
+   still reduce correctly?
+
+4. **Token-efficiency frontier.** For a given behavioral spec, what
+   is the minimum token count to trigger it? How does this scale
+   across prompt styles?
+
+5. **Attention type-checking.** Is there a mechanism in attention
+   that matches input types to lambda parameter types, beyond just
+   K-selection on names?
+
+6. **Preamble mechanism.** What does the preamble actually DO to
+   the model's internal state? (Deferred to dedicated probe.)
 
 ## Connections
 
