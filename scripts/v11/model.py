@@ -209,6 +209,9 @@ class V11Model(nn.Module):
             # Track dead slots for recycling
             self._slot_dead_steps = mx.zeros((cfg.n_abstraction_slots,))
 
+        # ── Holographic loss schedule (set by train loop) ────
+        self._holo_lambda_effective = 0.0
+
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
 
@@ -706,10 +709,14 @@ class V11Model(nn.Module):
 
         loss = None
         if targets is not None:
-            loss = nn.losses.cross_entropy(
+            ce_loss = nn.losses.cross_entropy(
                 logits.reshape(-1, self.cfg.vocab_size),
                 targets.reshape(-1),
             ).mean()
+            loss = ce_loss
+
+            # Cache raw CE for logging (before holo/reg terms are added)
+            self._last_ce = mx.stop_gradient(ce_loss)
 
             # Abstraction slot regularization
             if self.cfg.n_abstraction_slots > 0:
@@ -722,6 +729,48 @@ class V11Model(nn.Module):
                     copy_threshold=self.cfg.abstraction_copy_threshold,
                 )
                 loss = loss + reg_loss
+
+            # ── Holographic loss (progressive intermediate decoding) ──
+            # Each pass boundary produces a decodeable representation.
+            # Pass n sees gradient from losses n..4 (5-n sources).
+            # This creates a natural gradient slope: ascending arm
+            # gets 3-5× gradient, descending arm gets 1-2×.
+            #
+            # Cost reduction: subsample positions for intermediate logits.
+            # The 512→151936 projection is the bottleneck. Sampling 1/8
+            # of positions gives unbiased gradient at ~8× less cost per
+            # intermediate decode. The slope property is preserved exactly.
+            holo_lambda_eff = getattr(self, '_holo_lambda_effective', 0.0)
+            if holo_lambda_eff > 0:
+                holo_loss = mx.array(0.0)
+                x_progressive = x_embed  # base hologram = raw embedding
+                total_pos = B * L
+                n_sample = max(256, total_pos // 8)
+                if n_sample < total_pos:
+                    holo_idx = mx.random.randint(0, total_pos, (n_sample,))
+                    targets_flat = targets.reshape(-1)
+                    targets_sample = targets_flat[holo_idx]
+                else:
+                    holo_idx = None
+
+                for n in range(self.N_PASSES):
+                    x_progressive = x_progressive + effective_gates[n] * pass_deltas[n]
+                    if holo_idx is not None:
+                        x_flat = x_progressive.reshape(total_pos, -1)
+                        x_sample = x_flat[holo_idx]  # (n_sample, d)
+                        logits_n = self.embed.output_proj(
+                            self.output_norm(x_sample))
+                        loss_n = nn.losses.cross_entropy(
+                            logits_n, targets_sample).mean()
+                    else:
+                        logits_n = self.embed.output_proj(
+                            self.output_norm(x_progressive))
+                        loss_n = nn.losses.cross_entropy(
+                            logits_n.reshape(-1, self.cfg.vocab_size),
+                            targets.reshape(-1),
+                        ).mean()
+                    holo_loss = holo_loss + loss_n
+                loss = loss + holo_lambda_eff * holo_loss
 
         return logits, loss
 
@@ -1213,6 +1262,29 @@ class V11Model(nn.Module):
         # Abstraction slot metrics
         if slot_metrics is not None:
             metrics["abstraction_slots"] = slot_metrics
+
+        # ── Holographic intermediate losses ───────────────────
+        # Compute per-pass intermediate CE loss for diagnostics.
+        # These show how decodeable each progressive representation is.
+        holo_losses = []
+        x_progressive = mx.stop_gradient(x_embed)  # no grad in instrumented
+        for n in range(self.N_PASSES):
+            x_progressive = x_progressive + mx.stop_gradient(
+                effective_gates[n] * pass_deltas[n])
+            logits_n = self.embed.output_proj(self.output_norm(x_progressive))
+            # Use first token shifted as pseudo-targets
+            # (instrumented mode doesn't have real targets, compute on
+            # the input tokens themselves for relative comparison)
+            pseudo_targets = mx.concatenate(
+                [tokens[:, 1:], mx.zeros((tokens.shape[0], 1), dtype=mx.int32)],
+                axis=1)
+            loss_n = nn.losses.cross_entropy(
+                logits_n.reshape(-1, self.cfg.vocab_size),
+                pseudo_targets.reshape(-1),
+            ).mean()
+            mx.eval(loss_n)
+            holo_losses.append(float(loss_n.item()))
+        metrics["holo_losses"] = holo_losses
 
         return x, metrics
 

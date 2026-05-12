@@ -63,6 +63,11 @@ class V11Config:
     abstraction_dead_recycle_steps: int = 2000   # reinit dead slots after N steps
     abstraction_proposal_threshold_init: float = 1.0  # alarm×confidence threshold
 
+    # ── Holographic loss (progressive intermediate decoding) ──
+    holo_lambda: float = 0.0          # holographic loss weight (0.0 = disabled, preserves existing behavior)
+    holo_warmup_steps: int = 0        # steps before holographic loss activates (0 = immediate)
+    holo_ramp_steps: int = 0          # linear ramp from 0 → holo_lambda after warmup (0 = immediate)
+
     # Dropout
     dropout: float = 0.1
 

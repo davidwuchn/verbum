@@ -94,8 +94,8 @@ def loss_fn(
     The denominator (log(V) - E) is constant, so grad(r) = grad(CE) / const.
     This scales the learning rate implicitly but the optimizer adapts.
     """
-    _, ce = model(input_ids, targets)
-    r = (ce - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+    _, total_loss = model(input_ids, targets)
+    r = (total_loss - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
     return r
 
 
@@ -153,6 +153,23 @@ def cosine_lr(step, warmup_steps, total_steps, lr_max, lr_floor_ratio=0.01):
     progress = (step - warmup_steps) / max(total_steps - warmup_steps, 1)
     floor = lr_max * lr_floor_ratio
     return floor + (lr_max - floor) * 0.5 * (1.0 + math.cos(math.pi * progress))
+
+
+def holo_schedule(step: int, cfg: V11Config) -> float:
+    """Holographic loss weight schedule.
+
+    With default warmup=0, ramp=0: returns holo_lambda from step 1.
+    With warmup>0: delays activation. With ramp>0: linear ramp after warmup.
+    When holo_lambda=0.0, always returns 0.0 (zero overhead).
+    """
+    if cfg.holo_lambda <= 0:
+        return 0.0
+    if step < cfg.holo_warmup_steps:
+        return 0.0
+    if cfg.holo_ramp_steps <= 0:
+        return cfg.holo_lambda
+    ramp_progress = min(1.0, (step - cfg.holo_warmup_steps) / cfg.holo_ramp_steps)
+    return cfg.holo_lambda * ramp_progress
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -319,6 +336,13 @@ def evaluate(model: V11Model, cfg: V11Config) -> dict:
             parts2 = [f"{pn}={g:.3f}" for pn, g in zip(pass_names_alarm, eff_s5)]
             print(f"     effective gates: {' '.join(parts2)}",
                   file=sys.stderr)
+    # Holographic intermediate losses
+    holo = compressor_metrics.get("holo_losses")
+    if holo:
+        pass_names_h = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
+        parts = [f"{pn}={h:.3f}" for pn, h in zip(pass_names_h, holo)]
+        print(f"  🔮 Holographic: {' '.join(parts)}", file=sys.stderr)
+
     # Log alarm raw metrics for offline threshold analysis
     alarm_metrics_raw = compressor_metrics.get("alarm_metrics")
     if alarm_metrics_raw:
@@ -485,14 +509,14 @@ def run_tournament(
 
     def _eval_loss():
         """Evaluate relational loss r on all data types."""
-        _, ce_prose = model(prose_ids, prose_tgts)
-        mx.eval(ce_prose)
-        r_prose = (float(ce_prose.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+        _, loss_prose = model(prose_ids, prose_tgts)
+        mx.eval(loss_prose)
+        r_prose = (float(loss_prose.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
 
         if has_structured:
-            _, ce_struct = model(struct_ids, struct_tgts)
-            mx.eval(ce_struct)
-            r_struct = (float(ce_struct.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+            _, loss_struct = model(struct_ids, struct_tgts)
+            mx.eval(loss_struct)
+            r_struct = (float(loss_struct.item()) - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
             return max(r_prose, r_struct), r_prose, r_struct
         else:
             return r_prose, r_prose, None
@@ -792,6 +816,9 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
             "batch_size": cfg.batch_size, "total_steps": cfg.total_steps,
             "lr": cfg.lr, "seq_len": cfg.seq_len,
             "mix_ratio": cfg.mix_ratio,
+            "holo_lambda": cfg.holo_lambda,
+            "holo_warmup_steps": cfg.holo_warmup_steps,
+            "holo_ramp_steps": cfg.holo_ramp_steps,
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -986,6 +1013,10 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
           f"total_steps={cfg.total_steps}", file=sys.stderr)
     print(f"  gen_interval={cfg.gen_interval}  base_pct={cfg.base_pct}  "
           f"grad_accum={cfg.grad_accum}", file=sys.stderr)
+    if cfg.holo_lambda > 0:
+        print(f"  🔮 Holographic loss: λ={cfg.holo_lambda}  "
+              f"warmup={cfg.holo_warmup_steps}  ramp={cfg.holo_ramp_steps}",
+              file=sys.stderr)
     print(f"  data: {cfg.data_dir}", file=sys.stderr)
     if start_step > 0:
         print(f"  Resuming from step {start_step}", file=sys.stderr)
@@ -1003,6 +1034,10 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
         lr = cosine_lr(step, cfg.warmup_steps, cfg.total_steps,
                        cfg.lr, cfg.lr_floor_ratio)
         optimizer.learning_rate = lr
+
+        # ── Holographic loss schedule ─────────────────────────
+        holo_eff = holo_schedule(step, cfg)
+        model._holo_lambda_effective = holo_eff
 
         # ── Gradient accumulation ─────────────────────────────
         accum_loss = 0.0
@@ -1082,8 +1117,16 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
 
         dt = time.time() - t0
 
-        # step_loss is already r (relational loss) — recover CE for display
-        ce = step_loss * (LOG_V - E_IRREDUCIBLE) + E_IRREDUCIBLE
+        # step_loss is r (relational loss) — recover total loss for display.
+        # When holo is active, total_loss = CE + holo_lambda * Σ(intermediate CEs),
+        # so the recovered value is NOT raw CE.
+        total_loss = step_loss * (LOG_V - E_IRREDUCIBLE) + E_IRREDUCIBLE
+
+        # Read raw CE from model cache (set during forward, before holo/reg terms)
+        raw_ce = None
+        if hasattr(model, '_last_ce'):
+            mx.eval(model._last_ce)
+            raw_ce = float(model._last_ce.item())
 
         # ── Log ───────────────────────────────────────────────
         if step % cfg.log_interval == 0 or step == start_step + 1:
@@ -1095,9 +1138,13 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
                 pct = total_accepted / total_generations * 100
                 evo_str = f" | evo {total_accepted}/{total_generations} ({pct:.0f}%)"
 
+            if holo_eff > 0 and raw_ce is not None:
+                loss_str = f"CE={raw_ce:.3f} loss={total_loss:.3f}"
+            else:
+                loss_str = f"CE={total_loss:.3f}"
             print(
                 f"step {step:>6d} | r={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | CE={ce:.3f} | lr {lr:.2e}"
+                f" | {loss_str} | lr {lr:.2e}"
                 f" | {tps:.0f} tok/s"
                 f"{evo_str}"
                 f" | {elapsed:.0f}s",
@@ -1105,17 +1152,22 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
             )
 
             # Append lightweight training metrics to JSONL log
-            _append_jsonl(checkpoint_dir / "train_log.jsonl", {
+            train_record = {
                 "step": step,
                 "timestamp": time.time(),
                 "r": step_loss,
-                "ce": ce,
+                "total_loss": total_loss,
                 "r_avg50": avg50,
                 "lr": lr,
                 "grad_norm": grad_norm,
                 "tok_per_sec": tps,
                 "elapsed": elapsed,
-            })
+            }
+            if raw_ce is not None:
+                train_record["ce"] = raw_ce
+            if holo_eff > 0:
+                train_record["holo_lambda_effective"] = holo_eff
+            _append_jsonl(checkpoint_dir / "train_log.jsonl", train_record)
 
         # ── Evolution ─────────────────────────────────────────
         if step % cfg.gen_interval == 0:
@@ -1260,6 +1312,12 @@ def main():
                         help="Fraction of structured data (0.0=prose only, 0.1=10%% structured)")
     parser.add_argument("--structured-shard", type=str, default=None,
                         help="Path to structured data shard (.npy)")
+    parser.add_argument("--holo-lambda", type=float, default=None,
+                        help="Holographic loss weight (0.0=disabled, 0.1=recommended)")
+    parser.add_argument("--holo-warmup-steps", type=int, default=None,
+                        help="Steps before holographic loss activates")
+    parser.add_argument("--holo-ramp-steps", type=int, default=None,
+                        help="Steps to ramp holographic loss from 0 to holo-lambda")
 
     args = parser.parse_args()
     cfg = V11Config()
@@ -1283,6 +1341,9 @@ def main():
     if args.checkpoint_interval is not None: cfg.checkpoint_interval = args.checkpoint_interval
     if args.mix_ratio is not None: cfg.mix_ratio = args.mix_ratio
     if args.structured_shard is not None: cfg.structured_shard = args.structured_shard
+    if args.holo_lambda is not None: cfg.holo_lambda = args.holo_lambda
+    if args.holo_warmup_steps is not None: cfg.holo_warmup_steps = args.holo_warmup_steps
+    if args.holo_ramp_steps is not None: cfg.holo_ramp_steps = args.holo_ramp_steps
     cfg.__post_init__()
 
     train(cfg, args)

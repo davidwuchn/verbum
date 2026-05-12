@@ -651,6 +651,10 @@ def run_instrumented_samples(
     if "abstraction_slots" in metrics:
         all_metrics["abstraction_slots"] = metrics["abstraction_slots"]
 
+    # Holographic intermediate losses (from last sample — they're stable)
+    if "holo_losses" in metrics:
+        all_metrics["holo_losses"] = metrics["holo_losses"]
+
     return all_metrics
 
 
@@ -869,6 +873,22 @@ def print_compressor_metrics(raw: dict):
             warn = " ⚠ copying!" if worst_c > 0.7 else ""
             print(f"  │ slot→KIBC cos: avg={avg_c:.3f}"
                   f" max={worst_c:.3f}{warn}")
+
+    # Holographic intermediate losses
+    holo = raw.get("holo_losses")
+    if holo:
+        print(f"  ├─ Holographic intermediate losses ───────────────┤")
+        for pi, (pname, hl) in enumerate(zip(PASS_NAMES_SHORT, holo)):
+            bar_len = max(0, int((12.0 - hl) * 4))  # scale: lower loss = longer bar
+            bar = "█" * min(bar_len, 40)
+            grad_sources = len(holo) - pi
+            print(f"  │ {pname:4s}: CE={hl:>7.3f}  "
+                  f"(∂ sources={grad_sources}) {bar}")
+        # Early exit quality: pass 0 alone vs final
+        if len(holo) >= 2:
+            ratio = holo[0] / max(holo[-1], 1e-8)
+            print(f"  │ pass_0/final ratio: {ratio:.2f}  "
+                  f"({'decodeable' if ratio < 1.5 else 'opaque'})")
 
     print("  └──────────────────────────────────────────"
           "───────┘")
