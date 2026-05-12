@@ -358,8 +358,85 @@ MUTANT_STRATEGIES = {
     "intelligence": 0.5,   # S4→S5: Beer's intelligence proposal channel
 }
 
+# Vote weights: intelligence gets 2 votes in consensus (others get 1).
+# With threshold=3: S4 needs only 1 ally, not 2.
+STRATEGY_VOTE_WEIGHTS = [1, 1, 1, 1, 2]  # matches MUTANT_STRATEGIES order
+
 # S4 module path fragments — intelligence strategy amplifies these
 S4_MODULES = ('s4.', 's4_desc.', 'meta_s4.')
+
+# ── Module → pass mapping for alarm-targeted mutation budget ──
+# Each module is used in one or more passes. Alarm-targeting weights
+# the mutation budget toward passes that are struggling (alarm < 1.0).
+#
+# Ascending: passes 0, 1, 2 (L0↑, L1↑, L2_apex)
+# Descending: passes 3, 4 (L1↓, L0↓)
+MODULE_PASS_MAP = {
+    # Ascending shared (3 passes)
+    "prep":             [0, 1, 2],
+    "stride_stack":     [0, 1, 2],
+    "consolidate":      [0, 1, 2],
+    "s4":               [0, 1, 2],
+    "mod_projs":        [0, 1, 2],
+    # Descending shared (2 passes)
+    "combinator_dispatch":  [3, 4],
+    "stride_stack_desc":    [3, 4],
+    "combinator_integrate": [3, 4],
+    "s4_desc":              [3, 4],
+    "mod_projs_desc":       [3, 4],
+    # Per-pass S3
+    "s3_passes.0":      [0],
+    "s3_passes.1":      [1],
+    "s3_passes.2":      [2],
+    "s3_passes.3":      [3],
+    "s3_passes.4":      [4],
+}
+# Modules not in the map get mean alarm need (S5, S2, meta, embed, etc.)
+
+
+def _compute_alarm_depth_weights(
+    alarm_factors: list[float] | None,
+    model_modules: list[tuple[str, object]],
+) -> dict[str, float] | None:
+    """Compute per-module depth weights from alarm factors.
+
+    alarm_need = max(0, 2.0 - alarm_factor):
+      alarm=0.75 → need=1.25 (high priority — system is in pain)
+      alarm=1.0  → need=1.0  (neutral)
+      alarm=2.0  → need=0.0  (system is healthy, don't touch)
+
+    Returns depth_weights dict for propose_mutations, or None if
+    no alarm data available.
+    """
+    if not alarm_factors or len(alarm_factors) < 5:
+        return None
+
+    alarm_need = [max(0.0, 2.0 - af) for af in alarm_factors]
+    mean_need = sum(alarm_need) / len(alarm_need)
+    if mean_need < 1e-6:
+        return None  # everything healthy, no targeting needed
+
+    depth_weights = {}
+    for path, _mod in model_modules:
+        # Find which passes this module serves
+        passes = None
+        for prefix, pass_indices in MODULE_PASS_MAP.items():
+            if path == prefix or path.startswith(prefix + "."):
+                passes = pass_indices
+                break
+
+        if passes is not None:
+            # Module weight = mean alarm_need across its passes
+            mod_need = sum(alarm_need[p] for p in passes) / len(passes)
+        else:
+            # Modules not mapped to a specific pass get mean need
+            mod_need = mean_need
+
+        # Scale: 1.0 + need ensures no module gets zero budget
+        # Cap at 4.0 to prevent extreme concentration
+        depth_weights[path] = min(4.0, 1.0 + mod_need)
+
+    return depth_weights
 
 
 def run_tournament(
@@ -367,26 +444,35 @@ def run_tournament(
     base_pct, rng,
     row_importance, col_importance, grad_direction,
     structured_eval_loader=None,
+    alarm_factors=None,
 ) -> dict:
-    """One evolutionary generation via consensus mutation.
+    """One evolutionary generation via S4-guided consensus mutation.
 
-    Instead of tournament selection (best of 4 independent throws),
-    consensus requires ≥3 of 4 strategies to independently agree on
-    the same flip at the same position. Each accepted flip has
-    independent evidence from multiple sampling strategies.
+    S4-guided evolution (session 082): three improvements over blind
+    consensus:
+
+    1. Alarm-targeted budget: mutation budget concentrates on modules
+       whose passes are struggling (alarm < 1.0 = pain). Healthy
+       modules get baseline budget; stressed modules get up to 4×.
+
+    2. S4 2-vote consensus: the intelligence strategy gets 2 votes
+       instead of 1 in the 3/5 consensus. S4 only needs one ally,
+       not two, because it has contextual awareness the random
+       strategies lack.
+
+    3. Alarm-improvement fitness: accept if alarm health improves
+       OR loss improves. Structural improvements (resolving conflicts,
+       opening suppressed passes) are valuable even before they
+       reduce loss.
 
     Flow:
-      1. Each strategy proposes mutations (without modifying the model)
-      2. Find positions where ≥3 strategies agree on the same new value
-      3. Apply only the consensus flips
-      4. Evaluate: accept if loss improves, revert if not
-
-    When structured_eval_loader is provided (mixed-data training),
-    mutations are evaluated on BOTH prose and structured batches.
-    A mutation is only accepted if it improves on BOTH — the acceptance
-    criterion is the maximum (worst) loss across data types.
+      1. Compute alarm-targeted depth weights from alarm_factors
+      2. Each strategy proposes mutations (alarm-weighted budgets)
+      3. Find consensus with S4's 2× votes (threshold=3)
+      4. Apply consensus flips
+      5. Accept if loss improves OR alarm health improves
     """
-    # Get fixed eval batches — prose always, structured if available
+    # Get fixed eval batches
     prose_ids_np, prose_tgts_np = next(eval_loader)
     prose_ids = mx.array(prose_ids_np)
     prose_tgts = mx.array(prose_tgts_np)
@@ -411,7 +497,25 @@ def run_tournament(
         else:
             return r_prose, r_prose, None
 
+    def _eval_alarm_health():
+        """Evaluate alarm health score via forward_instrumented.
+
+        Health = mean(alarm_factors). Higher = healthier.
+        Returns (health_score, alarm_factors_list) or (None, None)
+        if instrumented forward fails.
+        """
+        try:
+            _, metrics = model.forward_instrumented(prose_ids)
+            af = metrics.get("alarm_factors")
+            if af:
+                health = sum(af) / len(af)
+                return health, af
+        except Exception:
+            pass
+        return None, None
+
     champion_loss, champion_prose, champion_struct = _eval_loss()
+    champion_health, champion_alarm = _eval_alarm_health()
     champion_snapshot = save_topology(model)
 
     base_budget = bios_mutation_budget(step, cfg.total_steps, total_ternary, base_pct)
@@ -420,11 +524,17 @@ def run_tournament(
                 "accepted": None, "accepted_loss": champion_loss, "frozen": True,
                 "prose_loss": champion_prose, "struct_loss": champion_struct,
                 "actual_flips": 0, "n_rows_mutated": 0, "mutation_map": None,
-                "consensus_stats": None}
+                "consensus_stats": None,
+                "alarm_health_before": champion_health,
+                "alarm_health_after": champion_health}
+
+    # ── Alarm-targeted depth weights ─────────────────────────
+    # Use alarm_factors to concentrate mutations on struggling passes.
+    # alarm_factors come from the last eval (cached by training loop).
+    modules = list(_walk_ternary_modules(model))
+    depth_weights = _compute_alarm_depth_weights(alarm_factors, modules)
 
     # ── Phase 1: Each strategy proposes mutations independently ──
-    # No model modification — just sampling + computing proposed values.
-    # Each strategy gets its own RNG seed for independent sampling.
     proposals = []
     strategy_budgets = []
     for strategy_name, scale in MUTANT_STRATEGIES.items():
@@ -437,14 +547,11 @@ def run_tournament(
         guided_frac = cfg.guided_fraction if strategy_name != "random" else 0.0
 
         # Intelligence strategy: S4→S5 proposal channel (Beer's VSM).
-        # S4 is the intelligence layer — it sees the full picture via
-        # register-query attention. Its gradient signal carries extra
-        # weight because it reflects what the model's intelligence
-        # considers important. Fully gradient-guided (it knows what
-        # it wants), with amplified S4 module importance and suppressed
-        # non-S4 modules.
+        # 2 votes in consensus. Fully gradient-guided with S4 module
+        # amplification. Gets alarm-targeted depth weights like everyone
+        # else, PLUS S4-specific boosting.
         if strategy_name == "intelligence":
-            guided_frac = 1.0  # fully guided — S4 knows what it wants
+            guided_frac = 1.0
             ri_use = {}
             gd_use = {}
             for path in (row_importance or {}):
@@ -460,6 +567,7 @@ def run_tournament(
                 col_importance=col_importance if col_importance else None,
                 grad_direction=gd_use if gd_use else None,
                 guided_fraction=guided_frac,
+                depth_weights=depth_weights,
             )
         else:
             prop = propose_mutations(
@@ -469,14 +577,16 @@ def run_tournament(
                 col_importance=col_importance if col_importance else None,
                 grad_direction=grad_direction if grad_direction else None,
                 guided_fraction=guided_frac,
+                depth_weights=depth_weights,
             )
         proposals.append(prop)
 
-    # ── Phase 2: Find consensus — ≥3 of 4 must agree ──
-    consensus, consensus_stats = find_consensus(proposals, threshold=3)
+    # ── Phase 2: Find consensus — S4 gets 2 votes ───────────
+    consensus, consensus_stats = find_consensus(
+        proposals, threshold=3,
+        vote_weights=STRATEGY_VOTE_WEIGHTS)
 
     if not consensus or consensus_stats["consensus_flips"] == 0:
-        # No consensus — no flips to evaluate
         return {
             "champion_loss": champion_loss,
             "budget": base_budget,
@@ -489,16 +599,32 @@ def run_tournament(
             "n_rows_mutated": 0,
             "mutation_map": None,
             "consensus_stats": consensus_stats,
+            "alarm_health_before": champion_health,
+            "alarm_health_after": champion_health,
         }
 
     # ── Phase 3: Apply consensus flips ──
     actual_flips, mutation_map = apply_consensus(model, consensus)
 
-    # ── Phase 4: Evaluate — accept only if loss improves ──
+    # ── Phase 4: Accept if loss improves OR alarm health improves ──
     mutant_loss, mutant_prose, mutant_struct = _eval_loss()
+    mutant_health, mutant_alarm = _eval_alarm_health()
 
-    if mutant_loss < champion_loss:
-        accepted = "consensus"
+    # Acceptance criteria (OR gate):
+    #   1. Loss improved (original criterion)
+    #   2. Alarm health improved (structural improvement)
+    # Safety bound: alarm-only acceptance requires loss didn't degrade
+    # by more than 0.005 (prevents accepting structurally "better"
+    # mutations that catastrophically hurt prediction).
+    loss_improved = mutant_loss < champion_loss
+    alarm_improved = (champion_health is not None
+                      and mutant_health is not None
+                      and mutant_health > champion_health
+                      and (mutant_loss - champion_loss) < 0.005)
+
+    if loss_improved or alarm_improved:
+        reason = "loss" if loss_improved else "alarm"
+        accepted = f"consensus_{reason}"
     else:
         # Revert
         load_topology(model, champion_snapshot)
@@ -506,6 +632,7 @@ def run_tournament(
         mutant_loss = champion_loss
         mutant_prose = champion_prose
         mutant_struct = champion_struct
+        mutant_health = champion_health
         mutation_map = None
         actual_flips = 0
 
@@ -523,6 +650,8 @@ def run_tournament(
         "n_rows_mutated": n_rows_mutated,
         "mutation_map": mutation_map,
         "consensus_stats": consensus_stats,
+        "alarm_health_before": champion_health,
+        "alarm_health_after": mutant_health,
     }
 
 
@@ -990,11 +1119,15 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
 
         # ── Evolution ─────────────────────────────────────────
         if step % cfg.gen_interval == 0:
+            # Pass alarm factors from last eval for targeted mutation
+            _alarm = (last_eval.get("alarm_factors")
+                      if last_eval else None)
             gen_result = run_tournament(
                 model, cfg, step, total_ternary, eval_loader,
                 cfg.base_pct, mutation_rng,
                 row_importance, col_importance, grad_direction,
                 structured_eval_loader=structured_eval_loader,
+                alarm_factors=_alarm,
             )
             total_generations += 1
             if gen_result["accepted"]:
@@ -1021,13 +1154,22 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
             if gen_result.get("struct_loss") is not None:
                 type_str = (f"  prose={gen_result['prose_loss']:.4f}"
                             f"  struct={gen_result['struct_loss']:.4f}")
+            # Show alarm health delta
+            alarm_str = ""
+            ah_before = gen_result.get("alarm_health_before")
+            ah_after = gen_result.get("alarm_health_after")
+            if ah_before is not None and ah_after is not None:
+                ah_delta = ah_after - ah_before
+                alarm_str = f"  alarm={ah_before:.3f}→{ah_after:.3f}"
+                if ah_delta > 0.001:
+                    alarm_str += " ↑"
             print(
                 f"  🧬 gen {total_generations}: {accepted_str}"
                 f"  Δ={delta:+.4f}"
                 f"  flips={actual_flips:,}/{sampled:,}"
                 f"  rows={n_rows:,}"
                 f"  {total_accepted}/{total_generations}"
-                f"{type_str}"
+                f"{type_str}{alarm_str}"
                 f"{decay_str}",
                 file=sys.stderr, flush=True,
             )
@@ -1047,6 +1189,8 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
                 "prose_loss": gen_result.get("prose_loss"),
                 "struct_loss": gen_result.get("struct_loss"),
                 "consensus_stats": gen_result.get("consensus_stats"),
+                "alarm_health_before": gen_result.get("alarm_health_before"),
+                "alarm_health_after": gen_result.get("alarm_health_after"),
             })
 
         # ── Evaluation ────────────────────────────────────────

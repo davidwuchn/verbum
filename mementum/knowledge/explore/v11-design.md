@@ -478,7 +478,71 @@ abstraction_proposal_threshold_init: float = 1.0
 
 ---
 
-## 9. File Inventory
+## 9. S4-Guided Evolution (session 082)
+
+Evolution redesigned from blind consensus to alarm-informed,
+S4-weighted decision making. Three changes:
+
+### 9a. Alarm-targeted mutation budget
+
+Module mutation budget weighted by alarm need:
+
+```
+alarm_need = max(0, 2.0 - alarm_factor)
+
+pass 0 alarm=0.75 → need=1.25 → ascending modules weight ≈ 2.25
+pass 4 alarm=2.0  → need=0.0  → descending modules weight ≈ 1.01
+
+depth_weight[module] = min(4.0, 1.0 + mean(alarm_need[passes]))
+```
+
+Mutations concentrate on struggling passes. Healthy modules get
+baseline budget (1.0×) — never zero. Cap at 4× prevents extreme
+concentration.
+
+### 9b. S4 gets 2 votes in consensus
+
+5 strategies, threshold 3. Intelligence strategy gets 2 votes:
+
+```
+STRATEGY_VOTE_WEIGHTS = [1, 1, 1, 1, 2]
+# conservative, explorer, targeted, random, intelligence
+
+# S4 needs 1 ally (2+1=3) instead of 2 (1+1+1=3)
+# 3 non-S4 strategies agreeing still passes (3≥3)
+# S4 alone cannot force consensus (2<3)
+```
+
+S4 is the informed tiebreaker, not a dictator. It sees registers,
+residual, alarm — it knows WHERE the system is struggling.
+
+### 9c. Alarm-improvement fitness gate
+
+Accept if loss improves OR alarm health improves:
+
+```python
+loss_improved = mutant_loss < champion_loss
+alarm_improved = (mutant_health > champion_health
+                  and loss_delta < 0.005)  # safety bound
+
+accepted = loss_improved or alarm_improved
+```
+
+Safety bound: alarm-only acceptance requires loss didn't degrade
+by more than 0.005. Structural improvements (resolving S2 conflicts,
+opening suppressed passes) are accepted even before they reduce loss.
+
+### Prior state: 1/150 acceptance (0.67%)
+
+The old evolution was essentially dead: random mutations with loss-only
+gating. Expected improvement from these changes:
+- Alarm targeting → strategies overlap more → more consensus
+- S4 2-vote → informed opinion needs less random agreement
+- Alarm fitness → broader acceptance surface
+
+---
+
+## 10. File Inventory
 
 ```
 scripts/v11/

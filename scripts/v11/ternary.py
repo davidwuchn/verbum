@@ -1268,19 +1268,27 @@ def propose_mutations(
 def find_consensus(
     proposals_list: list[dict[str, dict[int, int]]],
     threshold: int = 3,
+    vote_weights: list[int] | None = None,
 ) -> tuple[dict[str, dict[int, int]], dict]:
-    """Find consensus mutations: positions where ≥threshold strategies agree.
+    """Find consensus mutations: positions where weighted votes ≥ threshold.
 
     Args:
         proposals_list: list of proposals from each strategy (from propose_mutations)
-        threshold:      minimum number of strategies that must agree (default: 3 of 4)
+        threshold:      minimum weighted vote count to accept (default: 3)
+        vote_weights:   per-strategy vote multiplier (default: all 1).
+                        e.g. [1,1,1,1,2] gives strategy 4 two votes.
+                        S4 intelligence gets 2 votes — it only needs
+                        one ally for consensus instead of two.
 
     Returns:
         (consensus, stats) where:
           consensus: dict[module_path → {flat_index: agreed_value}]
           stats: dict with diagnostic counts
     """
-    from collections import Counter, defaultdict
+    from collections import defaultdict
+
+    if vote_weights is None:
+        vote_weights = [1] * len(proposals_list)
 
     # Collect all module paths
     all_paths = set()
@@ -1293,23 +1301,30 @@ def find_consensus(
     total_consensus = 0
 
     for path in all_paths:
-        # Gather votes: for each position, collect proposed values from each strategy
+        # Gather weighted votes: for each position, collect
+        # (proposed_value, weight) from each strategy
         votes = defaultdict(list)
-        for prop in proposals_list:
+        for si, prop in enumerate(proposals_list):
+            w = vote_weights[si]
             if path in prop:
                 for idx, val in prop[path].items():
-                    votes[idx].append(val)
+                    votes[idx].append((val, w))
 
         total_positions_seen += len(votes)
 
-        # Find consensus: ≥threshold strategies agree on the same value
+        # Find consensus: weighted votes for same value ≥ threshold
         path_consensus = {}
         for idx, vote_list in votes.items():
-            if len(vote_list) >= threshold:
+            total_weight = sum(w for _, w in vote_list)
+            if total_weight >= threshold:
                 total_positions_voted += 1
-                counts = Counter(vote_list)
-                best_val, best_count = counts.most_common(1)[0]
-                if best_count >= threshold:
+                # Count weighted votes per value
+                value_weights: dict[int, int] = {}
+                for val, w in vote_list:
+                    value_weights[val] = value_weights.get(val, 0) + w
+                best_val = max(value_weights, key=value_weights.get)
+                best_weight = value_weights[best_val]
+                if best_weight >= threshold:
                     path_consensus[idx] = best_val
                     total_consensus += 1
 
@@ -1322,6 +1337,7 @@ def find_consensus(
         "consensus_flips": total_consensus,
         "n_strategies": len(proposals_list),
         "threshold": threshold,
+        "vote_weights": vote_weights,
     }
 
     return consensus, stats

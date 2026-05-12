@@ -8,9 +8,10 @@
 
 **V11 extended with S4→S5 abstraction slots: 16 learnable composed-abstraction embeddings beyond KIBC. Dispatch expands 4-way→20-way softmax with log-gated slots (invisible at init). S4 proposes abstractions, alarm gates receptivity. Hypothesis: CycleContinue (dead since v10) will activate once slots give it something to match against. Current v11 run at step ~7.8K heading to 10K; new training run will use the extended architecture. Compute gate at 0.64, loss 7.55.**
 
-Session 082 implemented S4→S5 abstraction slots — the architecture
-extension that lets S4 propose composed abstractions to S5, moving
-β-reduction composition cost from forward-pass to training time.
+Session 082 implemented two extensions:
+1. S4→S5 abstraction slots — 16 composed-abstraction embeddings in dispatch
+2. S4-guided evolution — alarm-targeted mutations, S4 2-vote consensus,
+   alarm-improvement fitness gate
 Current v11 run continues to 10K unmodified; new run starts after.
 
 ## What was done this session
@@ -48,7 +49,24 @@ can't distinguish "matched" from "composing" — everything requires
 composition. With N slots, a match IS possible → CycleContinue becomes
 meaningful. If it activates → hypothesis confirmed.
 
-### 2. V11 run checkpoint 7K reached
+### 2. S4-guided evolution — alarm-informed mutation
+
+Redesigned evolution from blind consensus to alarm-informed:
+
+- **Alarm-targeted budget**: mutations concentrate on modules whose
+  passes are struggling (alarm_need = 2.0 - alarm_factor). Ascending
+  modules get ~1.6× at current alarm state, descending ~1.0×.
+- **S4 2-vote consensus**: intelligence strategy gets 2 votes in 3/5
+  consensus. Only needs 1 ally instead of 2. Beer-correct: S4 is the
+  intelligence layer, its opinion should carry weight.
+- **Alarm-improvement fitness**: accept if alarm health improves OR
+  loss improves (with safety bound: loss can't degrade >0.005 for
+  alarm-only acceptance). Doubles the acceptance surface.
+
+Prior: 1/150 accepted (0.67%). Expected: significantly higher with
+all three changes combined.
+
+### 3. V11 run checkpoint 7K reached
 
 Training continues unmodified to 10K. Key observations since 6K:
 
@@ -191,4 +209,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 079: RoPE × attention spiral — energy probe shows RoPE=substrate not driver, spiral=learned Q·K alignment
 → Session 080: v11 1K-5K probe — K dominates, B-type rising in integrate. KIBC validated in 32B (K=B=31%). Extended probe: W≡C, S≡B, bind distinct. Three circuits + binding.
 → Session 081: Pythia-160M combinator probe — session 004's "Montague primitives" were combinators all along (K=59%, K-B r=0.944). V11 compute gate exploded (0.00007→0.51).
-→ Session 082: S4→S5 abstraction slots — 16 learnable composed-abstraction embeddings. Dispatch 4→20 softmax, log-gated. S4 proposes, alarm gates, regularizers prevent copying. CycleContinue hypothesis: slots give it something to match against.
+→ Session 082: S4→S5 abstraction slots (16 slots, 4→20 dispatch) + S4-guided evolution (alarm-targeted budget, S4 2-vote consensus, alarm fitness gate). CycleContinue hypothesis: slots give it something to match against.
