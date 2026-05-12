@@ -45,6 +45,8 @@ from components import (
     S2Coordinator,
     CycleContinue,
     AlgedonicAlert,
+    S4ProposalHead,
+    AbstractionRegularizer,
 )
 from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
 
@@ -105,9 +107,11 @@ class V11Model(nn.Module):
         self.consolidate = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
 
         # ── S1: Descending ops (shared across 2 passes) ───────
-        #    KIBC combinator dispatch — NOT 22 ops
+        #    KIBC combinator dispatch + N abstraction slots
         self.combinator_dispatch = CombinatorDispatch(
-            d, n_combinators=N_COMBINATORS, d_ff=cfg.d_ff,
+            d, n_combinators=N_COMBINATORS,
+            n_abstraction_slots=cfg.n_abstraction_slots,
+            d_ff=cfg.d_ff,
             dropout=cfg.dropout,
             n_registers=cfg.n_registers, d_register=cfg.d_register,
             max_cond_banks=5,
@@ -122,6 +126,7 @@ class V11Model(nn.Module):
         )
         self.combinator_integrate = CombinatorIntegrate(
             d, n_combinators=N_COMBINATORS,
+            n_abstraction_slots=cfg.n_abstraction_slots,
             d_ff=cfg.d_ff_consolidate, dropout=cfg.dropout,
         )
 
@@ -188,6 +193,21 @@ class V11Model(nn.Module):
         self.emphasis_proj.bias = mx.zeros_like(self.emphasis_proj.bias)
         self._combinator_emphasis = mx.ones((N_COMBINATORS,))
         self._emphasis_ema = 0.95
+
+        # ── S4→S5 abstraction proposal pathway ────────────────
+        if cfg.n_abstraction_slots > 0:
+            self.proposal_head = S4ProposalHead(
+                d_model=d,
+                n_abstraction_slots=cfg.n_abstraction_slots,
+                d_register=cfg.d_register,
+                n_registers=n_reg,
+                n_banks=3,
+            )
+            # Alarm-gate threshold: learnable, init conservative
+            self.proposal_threshold = mx.array(
+                [cfg.abstraction_proposal_threshold_init])
+            # Track dead slots for recycling
+            self._slot_dead_steps = mx.zeros((cfg.n_abstraction_slots,))
 
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
@@ -373,7 +393,8 @@ class V11Model(nn.Module):
 
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
                          target_bank, embed_context=None,
-                         combinator_emphasis=None):
+                         combinator_emphasis=None,
+                         proposal_delta=None):
         x_before = x
         raw_phases = []
         phase_gates = []
@@ -407,10 +428,11 @@ class V11Model(nn.Module):
                 if cycle > 0:
                     x = x + self.cycle_inject_gate * x_anchor
 
-                # Phase 0: dispatch (which combinator?)
+                # Phase 0: dispatch (which combinator/slot?)
                 dispatch_out = self.combinator_dispatch(
                     x, registers=readable_banks,
-                    combinator_emphasis=combinator_emphasis)
+                    combinator_emphasis=combinator_emphasis,
+                    proposal_delta=proposal_delta)
                 delta = dispatch_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -431,8 +453,19 @@ class V11Model(nn.Module):
                 dw = (self.combinator_dispatch._dispatch_weights
                       if hasattr(self.combinator_dispatch, '_dispatch_weights')
                       else None)
+                # Pass slot embeddings for context in FFN pathway
+                slot_emb = None
+                if (self.cfg.n_abstraction_slots > 0
+                        and hasattr(self.combinator_dispatch,
+                                    '_normalize_slot_embeddings')):
+                    slot_emb = (self.combinator_dispatch
+                                ._normalize_slot_embeddings())
+                    if proposal_delta is not None:
+                        slot_emb = slot_emb + proposal_delta
+                    slot_emb = (slot_emb
+                                * self.combinator_dispatch.slot_gates[:, None])
                 integrate_out = self.combinator_integrate(
-                    x, dispatch_weights=dw)
+                    x, dispatch_weights=dw, slot_embeddings=slot_emb)
                 delta = integrate_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -555,6 +588,28 @@ class V11Model(nn.Module):
             self._emphasis_ema * self._combinator_emphasis
             + (1.0 - self._emphasis_ema) * combinator_emphasis)
 
+        # ── S4→S5 abstraction proposal ─────────────────────────
+        proposal_delta = None
+        if self.cfg.n_abstraction_slots > 0:
+            proposal_input = emphasis_input  # same register banks
+            proposal_delta, proposal_conf, _ = self.proposal_head(
+                proposal_input)
+            # Cache for probing
+            self._proposal_confidence = mx.stop_gradient(proposal_conf)
+
+            # Alarm-gate modulation: use alarm from previous step
+            # (alarm hasn't been computed yet for this step, but the
+            # algedonic EMA carries forward). Use pass-0 alarm factor
+            # as the S5 receptivity signal.
+            # At init: alarm=1.0, confidence=0.1, threshold=1.0
+            #   gate = sigmoid(1.0 * 0.1 - 1.0) = sigmoid(-0.9) ≈ 0.29
+            #   Gentle, but not zero — gradient can explore.
+            # During training: high alarm → gate opens more
+            alarm_signal = mx.array(1.0)  # will be modulated by live alarm
+            proposal_gate = mx.sigmoid(
+                alarm_signal * proposal_conf - self.proposal_threshold)
+            proposal_delta = proposal_delta * proposal_gate
+
         # ── Pack ascending S3 gates for descending arm ─────────
         asc_gate_flat = mx.concatenate(
             [g.reshape(-1) for g in asc_s3_gates])
@@ -572,7 +627,8 @@ class V11Model(nn.Module):
             x, 3, True,
             [bank_0, bank_1_asc, bank_2_asc, bank_3, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
-            combinator_emphasis=combinator_emphasis)
+            combinator_emphasis=combinator_emphasis,
+            proposal_delta=proposal_delta)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -584,7 +640,8 @@ class V11Model(nn.Module):
             x, 4, True,
             [bank_0, bank_1_asc, bank_2_desc, bank_3, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
-            combinator_emphasis=combinator_emphasis)
+            combinator_emphasis=combinator_emphasis,
+            proposal_delta=proposal_delta)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -597,10 +654,12 @@ class V11Model(nn.Module):
             mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
             for i in range(self.cfg.n_registers)]
 
-        # Combinator algedonic: 4 weights + 1 compute gate (was 22+1)
+        # Combinator algedonic: 4 KIBC weights + 1 compute gate
         if hasattr(self.combinator_dispatch, '_dispatch_weights'):
-            dw_mean = mx.stop_gradient(
+            dw_full = mx.stop_gradient(
                 self.combinator_dispatch._dispatch_weights.mean(axis=(0, 1)))
+            # Only take KIBC portion (first 4)
+            dw_mean = dw_full[:N_COMBINATORS]
         else:
             dw_mean = mx.zeros((N_COMBINATORS,))
         if hasattr(self.combinator_integrate, '_compute_gate'):
@@ -652,6 +711,18 @@ class V11Model(nn.Module):
                 targets.reshape(-1),
             ).mean()
 
+            # Abstraction slot regularization
+            if self.cfg.n_abstraction_slots > 0:
+                reg_loss = AbstractionRegularizer.combined_loss(
+                    self.combinator_dispatch.slot_embeddings,
+                    self.combinator_dispatch.combinator_embeddings,
+                    diversity_lambda=self.cfg.abstraction_diversity_lambda,
+                    copy_lambda=self.cfg.abstraction_copy_lambda,
+                    diversity_threshold=self.cfg.abstraction_diversity_threshold,
+                    copy_threshold=self.cfg.abstraction_copy_threshold,
+                )
+                loss = loss + reg_loss
+
         return logits, loss
 
     def __call__(self, tokens, targets=None):
@@ -697,6 +768,8 @@ class V11Model(nn.Module):
         combinator_emphasis_inst = None
         all_cycle_continue_gates = []
         all_effective_cycles = []
+        proposal_delta_inst = None
+        proposal_confidence_inst = None
 
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
@@ -746,10 +819,11 @@ class V11Model(nn.Module):
                     if cycle > 0:
                         x = x + self.cycle_inject_gate * x_anchor
 
-                    # Phase 0: dispatch
+                    # Phase 0: dispatch (with proposal if available)
                     dispatch_out = self.combinator_dispatch(
                         x, registers=readable,
-                        combinator_emphasis=combinator_emphasis_inst)
+                        combinator_emphasis=combinator_emphasis_inst,
+                        proposal_delta=proposal_delta_inst)
                     delta = dispatch_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -768,12 +842,24 @@ class V11Model(nn.Module):
                     phase_gates.append(float(gate.item()))
                     x = self._modulate(x, delta, gate, 1, is_descending=True)
 
-                    # Phase 2: integrate
+                    # Phase 2: integrate (with slot embeddings if available)
                     dw = (self.combinator_dispatch._dispatch_weights
                           if hasattr(self.combinator_dispatch, '_dispatch_weights')
                           else None)
+                    slot_emb_inst = None
+                    if (self.cfg.n_abstraction_slots > 0
+                            and hasattr(self.combinator_dispatch,
+                                        '_normalize_slot_embeddings')):
+                        slot_emb_inst = (self.combinator_dispatch
+                                         ._normalize_slot_embeddings())
+                        if proposal_delta_inst is not None:
+                            slot_emb_inst = slot_emb_inst + proposal_delta_inst
+                        slot_emb_inst = (
+                            slot_emb_inst
+                            * self.combinator_dispatch.slot_gates[:, None])
                     integrate_out = self.combinator_integrate(
-                        x, dispatch_weights=dw)
+                        x, dispatch_weights=dw,
+                        slot_embeddings=slot_emb_inst)
                     delta = integrate_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -884,6 +970,17 @@ class V11Model(nn.Module):
                     self._emphasis_ema * self._combinator_emphasis
                     + (1.0 - self._emphasis_ema) * combinator_emphasis_inst)
 
+                # S4→S5 abstraction proposal
+                if self.cfg.n_abstraction_slots > 0:
+                    proposal_delta_inst, proposal_confidence_inst, _ = \
+                        self.proposal_head(emphasis_input)
+                    mx.eval(proposal_delta_inst, proposal_confidence_inst)
+                    proposal_gate_inst = mx.sigmoid(
+                        mx.array(1.0) * proposal_confidence_inst
+                        - self.proposal_threshold)
+                    proposal_delta_inst = proposal_delta_inst * proposal_gate_inst
+                    mx.eval(proposal_delta_inst)
+
             h_out = self._entropy_proxy(x)
             pass_h_out.append(h_out)
 
@@ -919,8 +1016,9 @@ class V11Model(nn.Module):
             for i in range(self.cfg.n_registers)]
 
         if hasattr(self.combinator_dispatch, '_dispatch_weights'):
-            dw_mean = mx.stop_gradient(
+            dw_full_inst = mx.stop_gradient(
                 self.combinator_dispatch._dispatch_weights.mean(axis=(0, 1)))
+            dw_mean = dw_full_inst[:N_COMBINATORS]
         else:
             dw_mean = mx.zeros((N_COMBINATORS,))
         if hasattr(self.combinator_integrate, '_compute_gate'):
@@ -991,12 +1089,15 @@ class V11Model(nn.Module):
 
         # Combinator dispatch metrics
         dispatch_weights = None
+        dispatch_weights_kibc = None
         type_weights = None
         if hasattr(self.combinator_dispatch, '_dispatch_weights'):
             dw = self.combinator_dispatch._dispatch_weights
             mx.eval(dw)
             dispatch_weights = mx.mean(dw, axis=(0, 1))
             mx.eval(dispatch_weights)
+            # KIBC-only for backward compat
+            dispatch_weights_kibc = dispatch_weights[:N_COMBINATORS]
         if hasattr(self.combinator_integrate, '_type_weights'):
             tw = self.combinator_integrate._type_weights
             mx.eval(tw)
@@ -1011,6 +1112,53 @@ class V11Model(nn.Module):
             norms = mx.sqrt(mx.sum(raw_emb * raw_emb, axis=-1) + 1e-8)
             mx.eval(norms)
             comb_emb_norms = [float(norms[i].item()) for i in range(norms.shape[0])]
+
+        # Abstraction slot metrics
+        slot_metrics = None
+        if self.cfg.n_abstraction_slots > 0:
+            sg = self.combinator_dispatch.slot_gates
+            mx.eval(sg)
+            slot_gates_list = [float(sg[i].item())
+                               for i in range(self.cfg.n_abstraction_slots)]
+
+            # Slot usage: what fraction of dispatch mass goes to slots
+            slot_usage = None
+            if dispatch_weights is not None:
+                slot_dw = dispatch_weights[N_COMBINATORS:]
+                mx.eval(slot_dw)
+                slot_usage = [float(slot_dw[i].item())
+                              for i in range(self.cfg.n_abstraction_slots)]
+
+            # Slot-KIBC cosine similarity
+            slot_emb = self.combinator_dispatch.slot_embeddings
+            comb_emb = self.combinator_dispatch.combinator_embeddings
+            mx.eval(slot_emb, comb_emb)
+            s_norms = mx.sqrt(mx.sum(slot_emb * slot_emb, axis=-1,
+                                      keepdims=True) + 1e-8)
+            c_norms = mx.sqrt(mx.sum(comb_emb * comb_emb, axis=-1,
+                                      keepdims=True) + 1e-8)
+            slot_kibc_cos = ((slot_emb / s_norms) @ (comb_emb / c_norms).T)
+            mx.eval(slot_kibc_cos)
+            max_slot_kibc_cos = [float(mx.max(slot_kibc_cos[i]).item())
+                                 for i in range(self.cfg.n_abstraction_slots)]
+
+            # Slot pairwise cosine (max off-diagonal per slot)
+            s_normed = slot_emb / s_norms
+            slot_pair_cos = s_normed @ s_normed.T
+            mx.eval(slot_pair_cos)
+
+            # Proposal confidence
+            prop_conf = None
+            if proposal_confidence_inst is not None:
+                prop_conf = float(proposal_confidence_inst.item())
+
+            slot_metrics = {
+                "slot_gates": slot_gates_list,
+                "slot_usage": slot_usage,
+                "max_slot_kibc_cosine": max_slot_kibc_cos,
+                "proposal_confidence": prop_conf,
+                "n_active_slots": sum(1 for g in slot_gates_list if g > 0.1),
+            }
 
         cig = self.cycle_inject_gate
         mx.eval(cig)
@@ -1037,9 +1185,9 @@ class V11Model(nn.Module):
             "pass_compression": pass_compression,
             "pass_phi_dev": pass_phi_dev,
             "combinator_dispatch_weights": (
-                [float(dispatch_weights[i].item())
-                 for i in range(dispatch_weights.shape[0])]
-                if dispatch_weights is not None else None
+                [float(dispatch_weights_kibc[i].item())
+                 for i in range(dispatch_weights_kibc.shape[0])]
+                if dispatch_weights_kibc is not None else None
             ),
             "combinator_type_weights": (
                 [float(type_weights[i].item())
@@ -1061,6 +1209,10 @@ class V11Model(nn.Module):
             metrics["compute_gate_min"] = float(mx.min(cg).item())
             metrics["compute_gate_active"] = float(
                 mx.mean((cg > 0.5).astype(mx.float32)).item())
+
+        # Abstraction slot metrics
+        if slot_metrics is not None:
+            metrics["abstraction_slots"] = slot_metrics
 
         return x, metrics
 

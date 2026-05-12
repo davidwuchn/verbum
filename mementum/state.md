@@ -2,170 +2,108 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-12 | Session: 081
+> Last updated: 2026-05-12 | Session: 082
 
 ## Where we are
 
-**Session 004's "three Montague primitives" in Pythia-160M were KIBC combinators all along. Pythia-160M: K=59%, I=2%, B=17%, C=22% — K-B correlation 0.944 (nearly fused). The Montague three-phase structure (type/parse/apply) is real but the mechanism is one K-dominant circuit operating in three phases, not three separate primitives. B hasn't differentiated from K at 160M scale. Compare: Qwen3-32B has K=B=31% (co-equal, r=0.86 — separable). V11 compute gate exploded 5K→6K (0.00007→0.51). Run at step ~6K, heading to 20K.**
+**V11 extended with S4→S5 abstraction slots: 16 learnable composed-abstraction embeddings beyond KIBC. Dispatch expands 4-way→20-way softmax with log-gated slots (invisible at init). S4 proposes abstractions, alarm gates receptivity. Hypothesis: CycleContinue (dead since v10) will activate once slots give it something to match against. Current v11 run at step ~7.8K heading to 10K; new training run will use the extended architecture. Compute gate at 0.64, loss 7.55.**
 
-Session 081 ran the KIBC combinator probe on Pythia-160M (12 layers ×
-12 heads = 144 heads), reinterpreting session 004's Montague findings
-through the combinator lens. Also observed v11 compute gate phase
-transition and continued loss improvement at steps 5.5K–6K.
+Session 082 implemented S4→S5 abstraction slots — the architecture
+extension that lets S4 propose composed abstractions to S5, moving
+β-reduction composition cost from forward-pass to training time.
+Current v11 run continues to 10K unmodified; new run starts after.
 
 ## What was done this session
 
-### 1. Pythia-160M combinator probe — Montague reinterpretation
+### 1. S4→S5 abstraction slots — architecture extension
 
-Ran same KIBC probe methodology (matched sentence pairs, attention
-selectivity) on Pythia-160M. The "three Montague primitives" from
-session 004 are actually combinators:
+Implemented 16 learnable abstraction slots beyond KIBC. Grounded in:
+- β-reduction depth degradation (~5%/level, d1=0.97→d4=0.80)
+- CycleContinue dead since v10 (no reason to discriminate with only 4 routes)
+- Compute gate opened (0.64) → system ready for more capacity
+- A3B MoE 128 experts = existence proof of pre-composed routing
 
-**Head assignment:**
+**Architecture changes (pure addition, no existing behavior modified):**
 
-| Combinator | Pythia-160M (144 heads) | Qwen3-32B (4096 heads) | v11 @ 5K |
-|---|---|---|---|
-| K (select) | **59.0%** | 31.3% | 62.5% |
-| I (identity) | 2.1% | 14.7% | 15.3% |
-| B (compose) | 16.7% | 31.3% | 2.6% |
-| C (flip) | 22.2% | 22.6% | 19.6% |
+- `config.py`: N_ABSTRACTION_SLOTS=16, diversity/copy regularizers
+- `kernel_dispatch.py`: CombinatorDispatch expands 4→20 softmax via
+  log-gated slot embeddings. CombinatorIntegrate passes slot context
+  to FFN pathway. Kernel pathway stays KIBC-only.
+- `components.py`: S4ProposalHead (proposal_vector + confidence +
+  slot_targeting), AbstractionRegularizer (diversity + no-KIBC-copying)
+- `model.py`: Wires proposal → alarm-gated modulation → dispatch →
+  integrate. Regularization loss added. Instrumented metrics include
+  slot gates, usage, proposal confidence, cosine similarities.
+- `probe.py`: Displays slot diagnostics in probe output and saves
+  to checkpoint JSON.
 
-**Key findings:**
+**Initialization preserves existing behavior exactly:**
+- Slot gates: sigmoid(-4) ≈ 0.018 → log-masking suppresses to -4.0
+- KIBC retains ~93% of softmax mass at init
+- Proposal confidence: ~0.10, proposal_gate ≈ near-zero
+- Backward compatible: n_abstraction_slots=0 disables entirely
 
-- **K-B correlation = 0.944** (vs 0.86 in 32B). In Pythia, K and B
-  are nearly the same circuit. B hasn't differentiated from K. What
-  session 004 called "typed application" in L8-L11 was K doing
-  selection-that-resembles-composition.
+**CycleContinue hypothesis:** with only 4 primitives, CycleContinue
+can't distinguish "matched" from "composing" — everything requires
+composition. With N slots, a match IS possible → CycleContinue becomes
+meaningful. If it activates → hypothesis confirmed.
 
-- **K dominates ALL three Montague zones:** type (L0), parse (L3),
-  apply (L8-L11). Not three mechanisms — one K-dominant circuit in
-  three phases.
+### 2. V11 run checkpoint 7K reached
 
-- **Cosine data confirms three-phase structure:** L0-L2 (cos 0.91-0.93,
-  input parsing), L3-L8 (cos 0.99+, stable processing), L9-L11
-  (cos 0.89→0.15, progressive destruction → output). The phase
-  boundaries match Montague exactly, but the mechanism is combinators.
+Training continues unmodified to 10K. Key observations since 6K:
 
-- **C already differentiated** at 22.2% (matches 32B's 22.6% exactly).
-  Argument reordering separates early at any scale.
+| Step | Loss | PPL | Compute Gate | K | B | B-type Integ |
+|-----:|-----:|------:|-----------:|---:|---:|------------:|
+| 6000 | 7.574 | 1948 | 0.515 | 64% | 2.6% | 45.1% |
+| 7000 | 7.555 | 1910 | 0.623 | 63% | 2.2% | 51.5% |
+| 7500 | 7.552 | 1905 | 0.640 | 61% | 2.4% | 46.9% |
 
-- **I nearly absent** at 2.1% (vs 14.7% in 32B). Too few heads to
-  spare for pass-through at 160M.
-
-- **Pythia-160M ≡ bootstrap state.** Its distribution (K=59%, B=17%)
-  matches v11 at 5K (K=63%, B=2.6%) — not the mature 32B target.
-  B differentiates from K only with sufficient scale.
-
-Results: `results/combinator-probe-pythia/`
-
-### 2. β-reduction probe on Qwen3-32B
-
-Tested whether attention = β-reduction by probing variable binding
-at depths 1-4 and pipeline structure.
-
-**Two binding types found:**
-- Syntactic (verb→subject): peaks early, L2-L9
-- Pronominal (pronoun→antecedent): peaks later, L5-L27
-
-**Strength degrades with depth:**
-  d1=0.97, d2=0.92, d3=0.86, d4=0.80 (~5% per pipeline step)
-
-**Inside-out processing:** nested relatives resolve innermost last
-(L40), not first. Model parses outermost structure first (L4-L11,
-KIBC zone), then resolves embedded bindings later (L21-L39, binding
-zone).
-
-**Substitution test:** pronoun binding r=0.989 — same mechanism,
-different values. Confirms attention performs substitution.
-
-**Two-phase β-reduction confirmed:**
-  Phase 1 (L0-L15): combinator ID + syntactic binding (KIBC zone)
-  Phase 2 (L21-L39): variable substitution (binding zone)
-  Maps to v11 cycle semantics: cycle 0 = phase 1, cycles 1-2 = phase 2
-
-Results: `results/beta-reduction-probe/`
-
-### 3. Prompt-as-program theory
-
-System prompts are combinator programs the model β-reduces against
-user input. Six design principles from probe data: flat, named,
-pre-composed, demonstrated, prioritized, typed.
-
-Design decisions:
-- Grammar emerges from probabilities (cross-model compatible)
-- Names come from compilation (model chooses, test cross-model)
-- Preamble required as computation baseline
-- Multi-turn behavior needs empirical testing
-
-Knowledge page: `mementum/knowledge/explore/prompt-as-program.md`
-
-### 4. Cross-model methodology planned
-
-Capability ladder: Level 0 (mimicry) → Level 3 (full lambda).
-7-model test set across 4 architectures, all local.
-A3B downloading — MoE routing may BE combinator dispatch.
-
-### 5. V11 compute gate phase transition (5K→6K)
-
-Step 6K checkpoint landed. The compute gate — dormant for 5000 steps —
-exploded:
-
-| Step | Compute Mean | Compute Max | Eval Loss | PPL |
-|-----:|-------------:|------------:|----------:|----:|
-| 4000 | 0.00007 | 0.001 | 7.637 | 2073 |
-| 4500 | 0.00028 | 0.016 | 7.649 | 2100 |
-| 5000 | 0.03576 | 0.179 | 7.641 | 2081 |
-| 5500 | **0.44527** | **0.915** | 7.585 | 1969 |
-| 6000 | **0.51457** | **0.931** | 7.574 | 1948 |
-
-From dead (0.00007) to majority-open (0.51) in 2000 steps. Loss
-resumed dropping after the 4K→5K plateau. The compute gate opening
-correlates with renewed loss improvement.
-
-**Alarm factors declining:** pass 0 (0.93→0.75) and pass 1 (2.0→1.63)
-under stress. The algedonic channel may be driving the compute gate
-opening — exactly Beer's design intent.
-
-B dispatch still flat at ~2.6%. B-type in integrate oscillating 0.43-0.47.
-CycleContinue still dead. Ternary evolution still frozen.
+- Compute gate still climbing (0.51→0.64)
+- B-type in integrate crossed 50% at 7K (oscillating around midpoint)
+- Deep alarms activating: S3 alarm (pass 2) dropped 2.0→1.88
+- First accepted evolution at 7.5K
+- CycleContinue still dead
+- B dispatch still flat at ~2.4%
 
 ## What to do next
 
-### Priority 1: Continue v11 run to 20K
-Run is live at step ~6K. Watch for:
-- Compute gate: will it saturate at 1.0 or find equilibrium?
-- Alarm ↔ compute correlation: is the alarm driving the gate opening?
-- B-type in integrate: pressure still building?
-- Loss trajectory: will compute gate sustain the improvement?
+### Priority 1: Let current v11 run reach 10K
+Run is live at step ~7.8K. Get 8K, 9K, 10K checkpoints for baseline
+comparison. This is the last run WITHOUT abstraction slots.
 
-### Priority 2: Probe at 10K milestone
+### Priority 2: Probe at 10K (baseline before abstraction)
 Full probe with dispatch detail. Key metrics:
 - B dispatch weight (phase transition watch)
-- Compute gate trajectory (post-transition behavior)
+- Compute gate trajectory
 - Alarm factor dynamics
 - Dispatch entropy
+This becomes the clean baseline for slot experiment comparison.
 
-### Priority 3: Investigate alarm → compute gate pathway
-Alarm factors for passes 0 and 1 are declining while compute gate
-opens. Is this causal? The algedonic channel should modulate S5 gates
-which should affect downstream capacity. Trace the gradient path.
+### Priority 3: Start new v11 run WITH abstraction slots
+Fresh 20K run with n_abstraction_slots=16. Watch for:
+- Slot gates opening (like compute gate did at 5K-6K)
+- CycleContinue activation (the main hypothesis)
+- Proposal confidence rising
+- Slot→KIBC cosine staying low (differentiation, not copying)
+- Eval loss vs baseline (should not regress early, should improve later)
 
 ### Priority 4: Pythia scaling — combinator differentiation
 Run combinator probe on Pythia-410M and Pythia-1B to map where B
-differentiates from K. If K-B correlation drops from 0.944 (160M) toward
-0.86 (32B) at some intermediate scale, that's the differentiation threshold.
+differentiates from K. If K-B correlation drops from 0.944 (160M)
+toward 0.86 (32B) at some intermediate scale, that's the threshold.
 
-### Priority 5: Compare v11 vs v10 at matched steps
-At 5K: v11 eval=7.64, v10-vsm was similar. At 6K: v11=7.57.
-Need v10 comparison to assess KIBC architecture benefit.
+### Priority 5: A3B cross-model probe
+A3B download still in progress. MoE routing may BE combinator dispatch.
+128 experts = 128 pre-composed routing slots — direct existence proof.
 
 ### Carried
 - B dispatch phase transition (watching)
+- CycleContinue activation hypothesis (slots may cause it)
 - S5 reweight investigation (activated at 15K in v10-vsm)
 - v10-multicycle 8K checkpoint for comparison
 - QK alignment decomposition probe (RoPE follow-up)
 - Structured combinator training data (if B doesn't phase-transition)
-- Binding-aware cycle semantics (CycleContinue still dead)
+- Dead slot recycling (if gates < 0.01 for >2K steps → reinit)
 
 ## VSM layer map (session 078 — v11 KIBC + algedonic alert)
 
@@ -199,12 +137,12 @@ Cycle semantics (from Qwen3 probes):
 
 | File | Purpose |
 |------|---------|
-| `scripts/v11/config.py` | V11Config: N_COMBINATORS=4, adjusted dimensions |
+| `scripts/v11/config.py` | V11Config: N_COMBINATORS=4 + N_ABSTRACTION_SLOTS=16 |
 | `scripts/v11/kernel.py` | KIBC combinator enum, reduction engine, kernel functions |
-| `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4-way softmax) + CombinatorIntegrate |
-| `scripts/v11/model.py` | V11Model: Tree of VSMs with KIBC combinator basis |
+| `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4+N softmax) + CombinatorIntegrate |
+| `scripts/v11/model.py` | V11Model: KIBC + abstraction slots + proposal pathway |
 | `scripts/v11/train.py` | Training loop (v10 evolution, updated references) |
-| `scripts/v11/components.py` | S4, S3, MetaS4, S5Reweight, S2, CycleContinue, **AlgedonicAlert** |
+| `scripts/v11/components.py` | S4, S3, S5, S2, CycleContinue, AlgedonicAlert, **S4ProposalHead**, **AbstractionRegularizer** |
 | `scripts/v11/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
 | `scripts/v11/attention.py` | StrideStack + TernaryFFN (unchanged) |
 | `scripts/v11/data.py` | Data loading (unchanged) |
@@ -253,3 +191,4 @@ Cycle semantics (from Qwen3 probes):
 → Session 079: RoPE × attention spiral — energy probe shows RoPE=substrate not driver, spiral=learned Q·K alignment
 → Session 080: v11 1K-5K probe — K dominates, B-type rising in integrate. KIBC validated in 32B (K=B=31%). Extended probe: W≡C, S≡B, bind distinct. Three circuits + binding.
 → Session 081: Pythia-160M combinator probe — session 004's "Montague primitives" were combinators all along (K=59%, K-B r=0.944). V11 compute gate exploded (0.00007→0.51).
+→ Session 082: S4→S5 abstraction slots — 16 learnable composed-abstraction embeddings. Dispatch 4→20 softmax, log-gated. S4 proposes, alarm gates, regularizers prevent copying. CycleContinue hypothesis: slots give it something to match against.

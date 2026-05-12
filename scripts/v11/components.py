@@ -448,6 +448,198 @@ class S5Reweight(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# S4ProposalHead — S4→S5 abstraction proposal pathway
+# ══════════════════════════════════════════════════════════════════════
+
+
+class S4ProposalHead(nn.Module):
+    """S4→S5 abstraction proposal: S4 proposes composed abstractions.
+
+    After S4 has scanned registers and residual, this head projects
+    S4's understanding into the slot embedding space. The result
+    modulates what the abstraction slots represent during dispatch.
+
+    Mechanism:
+      - proposal_vector: Linear(S4_summary → d_model) — what to propose
+      - proposal_confidence: Linear(S4_summary → 1) → sigmoid — how sure
+      - target_slot: argmax over slot logits (straight-through)
+      - effective: confidence × proposal_vector added to target slot
+
+    The alarm gate (in model.py) modulates whether the proposal takes
+    effect: high alarm + high confidence → gate opens → slot learns.
+
+    Initialization: near-zero weights produce ~0.1 confidence and
+    near-zero proposal vectors. First N steps behave identically
+    to current architecture.
+    """
+
+    def __init__(
+        self,
+        d_model: int,
+        n_abstraction_slots: int,
+        d_register: int,
+        n_registers: int = 3,
+        n_banks: int = 3,
+    ):
+        super().__init__()
+        self.d_model = d_model
+        self.n_abstraction_slots = n_abstraction_slots
+
+        # Input: S4 summary (register-derived) — same inputs as emphasis
+        d_reg_real = d_register * 2
+        input_dim = n_banks * n_registers * d_reg_real
+
+        # Proposal vector: what the abstraction should be
+        self.proposal_proj = nn.Linear(input_dim, d_model)
+        # Small init: proposals start negligible
+        self.proposal_proj.weight = self.proposal_proj.weight * 0.01
+        self.proposal_proj.bias = mx.zeros_like(self.proposal_proj.bias)
+
+        # Confidence: how sure S4 is about this proposal
+        self.confidence_proj = nn.Linear(input_dim, 1)
+        # Bias init: sigmoid(bias) ≈ 0.1 → low confidence at start
+        self.confidence_proj.weight = mx.zeros_like(
+            self.confidence_proj.weight)
+        self.confidence_proj.bias = mx.full(
+            self.confidence_proj.bias.shape, -2.2)  # sigmoid(-2.2) ≈ 0.10
+
+        # Slot targeting: which slot to modulate
+        self.slot_target_proj = nn.Linear(input_dim, n_abstraction_slots)
+        self.slot_target_proj.weight = mx.zeros_like(
+            self.slot_target_proj.weight)
+        self.slot_target_proj.bias = mx.zeros_like(
+            self.slot_target_proj.bias)
+
+    def __call__(
+        self,
+        register_summary: mx.array,
+    ) -> tuple[mx.array, mx.array, mx.array]:
+        """Produce a proposal for the abstraction slots.
+
+        register_summary: (input_dim,) flattened register banks
+
+        Returns:
+          proposal_delta: (N, d_model) — per-slot proposal modulation
+                          Only the target slot has non-zero contribution.
+          confidence: scalar in [0, 1]
+          slot_logits: (N,) raw targeting logits (for probing)
+        """
+        # Proposal vector
+        proposal = self.proposal_proj(register_summary)  # (d_model,)
+
+        # Confidence
+        confidence = mx.sigmoid(
+            self.confidence_proj(register_summary)).reshape(())
+
+        # Target slot selection — soft via softmax weighting
+        slot_logits = self.slot_target_proj(register_summary)  # (N,)
+        slot_weights = mx.softmax(slot_logits)  # (N,)
+
+        # Proposal delta: confidence-weighted proposal distributed
+        # across slots proportional to slot_weights
+        # (N,) × (d_model,) → (N, d_model)
+        proposal_delta = (confidence * slot_weights[:, None]
+                          * proposal[None, :])
+
+        return proposal_delta, confidence, slot_logits
+
+
+# ══════════════════════════════════════════════════════════════════════
+# AbstractionRegularizer — diversity + no-KIBC-copying
+# ══════════════════════════════════════════════════════════════════════
+
+
+class AbstractionRegularizer:
+    """Compute regularization losses for abstraction slot embeddings.
+
+    Two soft pressures:
+      1. Diversity: prevent slots from collapsing to the same vector.
+         Penalizes pairwise cosine > diversity_threshold.
+      2. No-KIBC-copying: prevent slots from becoming redundant copies
+         of K, I, B, or C. Penalizes cosine(slot, combinator) > copy_threshold.
+
+    Both are differentiable soft penalties (squared hinge).
+    """
+
+    @staticmethod
+    def diversity_loss(
+        slot_embeddings: mx.array,
+        threshold: float = 0.5,
+    ) -> mx.array:
+        """Pairwise diversity penalty.
+
+        slot_embeddings: (N, d_model)
+        Returns: scalar loss
+        """
+        N = slot_embeddings.shape[0]
+        if N < 2:
+            return mx.array(0.0)
+
+        # L2-normalize
+        norms = mx.sqrt(mx.sum(
+            slot_embeddings * slot_embeddings,
+            axis=-1, keepdims=True) + 1e-8)
+        normed = slot_embeddings / norms
+
+        # Pairwise cosine: (N, N)
+        cosines = normed @ normed.T
+
+        # Mask diagonal
+        mask = 1.0 - mx.eye(N)
+        cosines = cosines * mask
+
+        # Squared hinge: penalize above threshold
+        violations = mx.maximum(cosines - threshold, 0.0)
+        return mx.mean(violations * violations)
+
+    @staticmethod
+    def copy_loss(
+        slot_embeddings: mx.array,
+        combinator_embeddings: mx.array,
+        threshold: float = 0.7,
+    ) -> mx.array:
+        """Prevent slots from copying KIBC embeddings.
+
+        slot_embeddings: (N, d_model)
+        combinator_embeddings: (4, d_model)
+        Returns: scalar loss
+        """
+        # L2-normalize both
+        s_norms = mx.sqrt(mx.sum(
+            slot_embeddings * slot_embeddings,
+            axis=-1, keepdims=True) + 1e-8)
+        s_normed = slot_embeddings / s_norms
+
+        c_norms = mx.sqrt(mx.sum(
+            combinator_embeddings * combinator_embeddings,
+            axis=-1, keepdims=True) + 1e-8)
+        c_normed = combinator_embeddings / c_norms
+
+        # Cross cosine: (N, 4)
+        cosines = s_normed @ c_normed.T
+
+        # Squared hinge: penalize above threshold
+        violations = mx.maximum(cosines - threshold, 0.0)
+        return mx.mean(violations * violations)
+
+    @staticmethod
+    def combined_loss(
+        slot_embeddings: mx.array,
+        combinator_embeddings: mx.array,
+        diversity_lambda: float = 0.01,
+        copy_lambda: float = 0.01,
+        diversity_threshold: float = 0.5,
+        copy_threshold: float = 0.7,
+    ) -> mx.array:
+        """Combined regularization loss."""
+        div_loss = AbstractionRegularizer.diversity_loss(
+            slot_embeddings, diversity_threshold)
+        cp_loss = AbstractionRegularizer.copy_loss(
+            slot_embeddings, combinator_embeddings, copy_threshold)
+        return diversity_lambda * div_loss + copy_lambda * cp_loss
+
+
+# ══════════════════════════════════════════════════════════════════════
 # S2 — Inter-pass direction coordination (Beer's anti-oscillation)
 # ══════════════════════════════════════════════════════════════════════
 

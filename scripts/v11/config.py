@@ -54,6 +54,15 @@ class V11Config:
     # Self-regulating descending cycles (unchanged from v10)
     desc_max_cycles: int = 3
 
+    # ── Abstraction slots (S4→S5 composed abstractions) ──
+    n_abstraction_slots: int = 16    # learnable embedding slots beyond KIBC
+    abstraction_diversity_lambda: float = 0.01   # pairwise orthogonality pressure
+    abstraction_copy_lambda: float = 0.01        # prevent copying KIBC embeddings
+    abstraction_copy_threshold: float = 0.7      # cosine above this penalized
+    abstraction_diversity_threshold: float = 0.5  # cosine above this penalized
+    abstraction_dead_recycle_steps: int = 2000   # reinit dead slots after N steps
+    abstraction_proposal_threshold_init: float = 1.0  # alarm×confidence threshold
+
     # Dropout
     dropout: float = 0.1
 

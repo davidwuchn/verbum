@@ -473,6 +473,15 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
                 if any_active:
                     af_str = " ".join(f"{f:.2f}" for f in af)
                     print(f"  🚨[{af_str}]", end="")
+
+            # Abstraction slot summary (if present)
+            abs_slots = m.get("abstraction_slots")
+            if abs_slots:
+                n_active = abs_slots.get("n_active_slots", 0)
+                n_total = len(abs_slots.get("slot_gates", []))
+                if n_active > 0:
+                    print(f"  🔮[{n_active}/{n_total}]", end="")
+
             print()
 
         # ── Dispatch evolution summary ────────────────────
@@ -637,6 +646,10 @@ def run_instrumented_samples(
             "loss": float(loss.item()),
             "pass_compression": metrics["pass_compression"],
         })
+
+    # Average abstraction slot metrics from last sample (they're model-wide)
+    if "abstraction_slots" in metrics:
+        all_metrics["abstraction_slots"] = metrics["abstraction_slots"]
 
     return all_metrics
 
@@ -816,7 +829,49 @@ def print_compressor_metrics(raw: dict):
                     val_str = " ".join(f"{v:.3f}" for v in vals)
                     print(f"  │ {section}: {val_str}")
 
-    print(f"  └─────────────────────────────────────────────────┘")
+    # Abstraction slots
+    abs_slots = raw.get("abstraction_slots")
+    if abs_slots:
+        n_active = abs_slots.get("n_active_slots", 0)
+        n_total = len(abs_slots.get("slot_gates", []))
+        symbol = "🟢" if n_active > 0 else "⚪"
+        print(f"  ├─ Abstraction slots "
+              f"({symbol} {n_active}/{n_total} active) ──────┤")
+
+        gates = abs_slots.get("slot_gates", [])
+        if gates:
+            alive = [f"{g:.3f}" for g in gates if g > 0.05]
+            dormant = sum(1 for g in gates if g <= 0.05)
+            if alive:
+                top = " ".join(alive[:8])
+                sfx = "..." if len(alive) > 8 else ""
+                print(f"  │ active gates: {top}{sfx}")
+            print(f"  │ dormant: {dormant}/{n_total}")
+
+        usage = abs_slots.get("slot_usage")
+        if usage:
+            total_mass = sum(usage)
+            top = sorted(enumerate(usage), key=lambda x: -x[1])[:5]
+            print(f"  │ slot dispatch mass: {total_mass:.4f}")
+            if top and top[0][1] > 0.001:
+                s = " ".join(
+                    f"s{i}={u:.4f}" for i, u in top if u > 0.001)
+                print(f"  │ top slots: {s}")
+
+        conf = abs_slots.get("proposal_confidence")
+        if conf is not None:
+            print(f"  │ proposal confidence: {conf:.4f}")
+
+        max_cos = abs_slots.get("max_slot_kibc_cosine")
+        if max_cos:
+            avg_c = sum(max_cos) / len(max_cos)
+            worst_c = max(max_cos)
+            warn = " ⚠ copying!" if worst_c > 0.7 else ""
+            print(f"  │ slot→KIBC cos: avg={avg_c:.3f}"
+                  f" max={worst_c:.3f}{warn}")
+
+    print("  └──────────────────────────────────────────"
+          "───────┘")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -949,6 +1004,10 @@ def save_results(step: int, state: dict, phi_raw: dict,
         output["eval"] = eval_result
     if dispatch_analysis:
         output["dispatch_analysis"] = dispatch_analysis
+    # Abstraction slot metrics (from instrumented analysis)
+    abs_slots = phi_raw.get("abstraction_slots")
+    if abs_slots:
+        output["abstraction_slots"] = abs_slots
 
     out_path.write_text(json.dumps(output, indent=2, default=str))
     return out_path

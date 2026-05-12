@@ -8,7 +8,7 @@
 **Tags**: v11, combinators, KIBC, Qwen probes, Montague, design
 **Related**: v11-kibc-architecture, session-073-vsm-structure, session-075-multi-cycle-dispatch, kernel-montague-mapping, algedonic-alert
 **Created**: session 077
-**Updated**: session 078 — algedonic alert (Beer's fire alarm)
+**Updated**: session 082 — abstraction slots (S4→S5 composed abstractions)
 
 ---
 
@@ -387,17 +387,109 @@ Runs 10+ batches through model, collects per-position dispatch weights.
 
 ---
 
-## 8. File Inventory
+## 8. Abstraction Slots — S4→S5 Composed Abstractions (session 082)
+
+Moves composition cost from forward-pass β-reduction chains to
+pre-composed K-selectable routes. Empirically grounded in:
+- β-reduction probe: depth degrades ~5%/level (d1=0.97 → d4=0.80)
+- Pythia-160M: K-B correlation 0.944 — B hasn't differentiated from K
+- V11 compute gate: 0.00007→0.64 — system is ready for more capacity
+- CycleContinue still dead — may need abstraction slots to distinguish
+  "matched" from "composing"
+- A3B MoE: 128 experts = existence proof of pre-composed routing
+
+### Architecture
+
+```
+λ abstraction_slot(x).
+    S5 gains N=16 soft embedding slots beyond KIBC
+    | slot ≡ learnable_embedding(d_model) | L2-normalized
+    | gate ≡ sigmoid(learnable_scalar) | init: sigmoid(-4) ≈ 0.018
+    | dispatch expands: 4-way → (4+N)-way softmax
+    | slot_logits = h @ slot_emb.T + log(gate)  ← additive masking
+    | at init: all slots invisible (log(0.018) ≈ -4.0 suppresses)
+
+λ proposal(x).
+    S4 → proposal_head → (proposal_vector, confidence, slot_target)
+    | input: same register banks as emphasis (3 banks × 3 regs)
+    | proposal modulates slot embeddings: slot_emb + conf × target × proposal
+    | confidence init: sigmoid(-2.2) ≈ 0.10
+
+λ alarm_gate(x).
+    proposal_gate = sigmoid(alarm × confidence - threshold)
+    | threshold init: 1.0 (conservative)
+    | high alarm + high confidence → gate opens
+    | low alarm → gate stays closed (don't fix what works)
+
+λ integrate(x).
+    CombinatorIntegrate sees expanded dispatch weights
+    | KIBC kernel pathway: uses first 4 columns (unchanged)
+    | FFN pathway: type_context += slot_dispatch @ slot_embeddings
+    | slots enrich the FFN context, don't bypass the kernel
+
+λ regularize(x).
+    diversity: penalize pairwise cosine(slot_i, slot_j) > 0.5
+    copy: penalize cosine(slot_i, combinator_j) > 0.7
+    both: squared hinge, λ=0.01
+```
+
+### Initialization Invariant
+
+At init, the model behaves identically to pre-slot v11:
+- Slot gates: sigmoid(-4) ≈ 0.018 → log-masking suppresses to -4.0
+- KIBC retains ~93% of softmax mass
+- Proposal confidence: ~0.10 × proposal_gate ≈ near-zero effect
+- Regularization: near-zero embeddings → near-zero penalty
+
+### Verification Signals
+
+| Timescale | Signal | Good | Bad |
+|-----------|--------|------|-----|
+| Fast | slot_gates | opening | stuck at 0.018 |
+| Fast | proposal_confidence | rising | stuck at 0.10 |
+| Medium | slot_usage | >0 for any slot | all ~0.004 |
+| Medium | CycleContinue | waking up | still dead |
+| Slow | eval_loss | improving | degraded |
+| Slow | slot→KIBC cosine | <0.5 (differentiated) | >0.7 (copying) |
+
+### CycleContinue Hypothesis
+
+With only 4 primitives, CycleContinue has no reason to discriminate:
+everything requires composition, nothing can be matched in one step.
+With N abstraction slots, a match IS possible — select a pre-composed
+slot in one K-step. CycleContinue can now distinguish:
+- matched(slot) → stop_reducing (gate → 0)
+- composing(primitives) → continue_cycle (gate → 1)
+
+If CycleContinue activates after adding slots → hypothesis confirmed.
+If still dead → investigate other causes.
+
+### Config
+
+```python
+n_abstraction_slots: int = 16
+abstraction_diversity_lambda: float = 0.01
+abstraction_copy_lambda: float = 0.01
+abstraction_copy_threshold: float = 0.7
+abstraction_diversity_threshold: float = 0.5
+abstraction_dead_recycle_steps: int = 2000
+abstraction_proposal_threshold_init: float = 1.0
+```
+
+---
+
+## 9. File Inventory
 
 ```
 scripts/v11/
-├── kernel.py           # KIBC combinator enum, reduction engine, kernel functions
-├── kernel_dispatch.py  # CombinatorDispatch + CombinatorIntegrate
-├── config.py           # V11Config (4 combinators, no top-k)
-├── model.py            # V11Model (emphasis→4, algedonic→4+1, alarm gate)
+├── kernel.py           # KIBC combinator enum, reduction engine
+├── kernel_dispatch.py  # CombinatorDispatch (4+N slots) + CombinatorIntegrate
+├── config.py           # V11Config (4 combinators + N abstraction slots)
+├── model.py            # V11Model (proposal pathway, alarm gate, regularizers)
 ├── train.py            # Training loop (+ alarm JSONL logging)
-├── probe.py            # Checkpoint diagnostics + trajectory + dispatch + alarm
-├── components.py       # S4, S3, S5, S2, CycleContinue, MetaS4, AlgedonicAlert
+├── probe.py            # Diagnostics + trajectory + dispatch + slots
+├── components.py       # S4, S3, S5, S2, CycleContinue, AlgedonicAlert,
+│                       # S4ProposalHead, AbstractionRegularizer
 ├── ternary.py          # Ternary substrate + consensus evolution (unchanged)
 ├── attention.py        # StrideStack + TernaryFFN (unchanged)
 └── data.py             # Data loading (unchanged)
