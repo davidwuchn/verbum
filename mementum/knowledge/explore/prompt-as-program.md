@@ -425,6 +425,90 @@ These are empirical questions. Design a multi-turn probe:
 6. **Preamble mechanism.** What does the preamble actually DO to
    the model's internal state? (Deferred to dedicated probe.)
 
+## Cross-model methodology (session 081)
+
+### The capability ladder
+
+Full lambda capability requires a minimum model scale. The probes
+establish where each capability level appears:
+
+```
+Level 0: K-selection only (format mimicry, no content)
+         Pythia-14M: copies exemplar shape, all outputs identical
+         Minimum: ~14M params, 6 layers
+
+Level 1: K-selection + basic binding (correct predicates, depth 1)
+         Pythia-160M: 100% P(λ), correct content, K-B fused (r=0.944)
+         Minimum: ~160M params, 12 layers
+         Combinators: K=59%, B=17% (undifferentiated)
+
+Level 2: B differentiation (separate composition circuit)
+         Qwen3-32B: K=31%, B=31%, K-B r=0.86 (separable)
+         Binding degrades at depth (d4=0.80)
+         Minimum: TBD (somewhere between 2.8B and 32B?)
+
+Level 3: Full lambda (variable binding, nested reduction, scope)
+         Qwen3-30B-A3B: full Montague types, correct β-reduction
+         Only 3B active params — MoE routing may enable this
+         Minimum: TBD — is it parameter count or architecture?
+```
+
+### Model set (all local, no API)
+
+| Model | Architecture | Params | Layers×Heads | Level | Status |
+|---|---|---|---|---|---|
+| Pythia-160M | GPTNeoX | 162M | 12×12=144 | 0-1 | ✓ downloaded |
+| Pythia-2.8B | GPTNeoX | 2.8B | 32×32=1024 | 1-2? | ✓ downloaded |
+| SmolLM3-3B | Llama | 3B | 28×16=448 | 1-2? | ✓ downloaded |
+| Phi-4-mini | Phi | 3.8B | 32×32=1024 | 1-2? | ✓ downloaded |
+| Qwen3-4B | Qwen2 | 4B | 36×32=1152 | 1-2? | ✓ downloaded |
+| Qwen3-30B-A3B | Qwen3MoE | 30B(3B active) | 48×32=1536 | 3 | downloading |
+| Qwen3-32B | Qwen2 | 32B | 64×64=4096 | 2 | ✓ downloaded |
+
+Hardware: M3 Ultra, 512GB RAM. All models load at full precision.
+
+### The A3B question: MoE routing as combinator dispatch
+
+Qwen3-30B-A3B has TWO selection mechanisms:
+1. **Attention heads** (48×32=1536) — standard combinator probe
+2. **MoE expert routing** (128 experts, 8 active per token) — FFN selection
+
+The MoE router selects which 8 of 128 experts process each token.
+This is architecturally a **second K-selection layer**. If the router
+learned to send K-type tokens to certain experts and B-type tokens to
+others, then MoE routing IS combinator dispatch — explicit routing
+that the dense 32B has to do implicitly in attention superposition.
+
+This could explain why the A3B is a strong lambda compiler despite
+only 3B active params per token: the MoE router does the combinator
+selection explicitly, freeing attention to focus on binding.
+
+**Testable**: capture MoE router logits alongside attention patterns.
+For each KIBC probe sentence, measure which experts activate. If
+expert assignment correlates with combinator type, MoE ≡ dispatch.
+
+### Experiment plan (ordered by information value)
+
+**E1: Cross-model combinator probe** (immediate)
+Run KIBC probe on all 7 models. Get combinator distributions.
+Find the B-differentiation threshold.
+
+**E2: Cross-model compilation test (D2)**
+50 prose→lambda compilations across all models with generation.
+Measure name convergence. Find the Level 3 threshold.
+
+**E3: A3B MoE routing × combinator correlation**
+Capture both attention selectivity AND expert routing for A3B.
+Test whether MoE routing correlates with combinator type.
+
+**E4: Prompted combinator probe (Experiment 3 from above)**
+Run KIBC probe with/without system prompt on 32B and A3B.
+Measure whether lambda preamble shifts combinator selectivity.
+
+**E5: Binding depth scaling across models**
+Run β-reduction probe on all models at Level 2+. Map the
+binding depth capacity vs model size curve.
+
 ## Connections
 
 This connects VERBUM's extraction work to practical prompt
@@ -434,14 +518,17 @@ then understanding how prompts interact with those circuits could:
 
 - Improve nucleus (the existing prompt system) with empirical grounding
 - Enable "prompt compilation" for specific model architectures
-- Explain why certain prompt techniques work (chain-of-thought = 
+- Explain why certain prompt techniques work (chain-of-thought =
   explicit B-composition? few-shot = exemplar β-reduction?)
 - Inform v11's training: if the model will eventually be prompted,
   the training data should include prompt-shaped contexts
+- The A3B finding could mean MoE IS the right architecture for
+  combinator-native computation — explicit routing > implicit
 
 ## Status
 
-Designing. No experiments run yet. This page captures the theoretical
-framework emerging from sessions 001 + 080 + 081. First experiment
-should be the combinator probe on prompted models (Experiment 3) — 
-it's the cheapest test of the core hypothesis.
+Designing. Pythia-160M combinator probe complete. β-reduction probe
+on 32B complete. A3B downloading. Next: cross-model combinator probe
+(E1) when A3B download finishes. V11 run continuing to 20K in
+background — results at 10K will inform whether the architecture
+already captures two-phase β-reduction via CycleContinue.
