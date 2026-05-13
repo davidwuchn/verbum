@@ -640,7 +640,7 @@ def run_tournament(
     # Safety bound: alarm-only acceptance requires loss didn't degrade
     # by more than 0.005 (prevents accepting structurally "better"
     # mutations that catastrophically hurt prediction).
-    loss_improved = mutant_loss < champion_loss
+    loss_improved = (champion_loss - mutant_loss) >= cfg.evolution_min_delta
     alarm_improved = (champion_health is not None
                       and mutant_health is not None
                       and mutant_health > champion_health

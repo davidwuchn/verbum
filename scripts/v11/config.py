@@ -124,6 +124,7 @@ class V11Config:
     guided_fraction: float = 0.7
     mutation_adam_decay: float = 0.1
     s4_boost: float = 3.0
+    evolution_min_delta: float = 0.01  # minimum loss improvement to accept a flip (noise floor)
 
     # ── Checkpointing ──
     checkpoint_interval: int = 1000
