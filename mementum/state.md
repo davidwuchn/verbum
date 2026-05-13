@@ -2,43 +2,85 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-13 | Session: 091
+> Last updated: 2026-05-13 | Session: 093
 
 ## Where we are
 
-**V11-holo-inv launched. Coarse→fine descending + fractal stride bands + evolution noise floor (0.01) + alarm-no-regression. V11-holo hit compositional catastrophe at 10K: B-type collapsed 55.7%→5.8%, eval loss exploded 7.675→9.259, holographic CEs all regressed catastrophically. Root causes: (1) descending arm fighting its own stride direction, (2) alarm-accepted mutations with positive loss deltas accumulated, (3) no evolution noise floor. All three fixed in v11-holo-inv. Direct A/B comparison underway.**
+**V11-holo-inv probed at 1K and monitored through ~1.5K. Headline finding: all four KIBC combinators active from the start (B=27.6% dominant positions vs 0% in holo at 1K). Dispatch is balanced (K=34%, I=23%, B=28%, C=16%) with strong specialization (entropy 0.188). Type channel differentiates independently (I=68%, B=25% typed integration). Holographic intermediate CEs show correct inversion pattern (ascending compresses, descending specializes). Eval loss 8.235 slightly behind baseline 7.958 (expected — holo splits gradient across 5 decoders). Compute gate still closed. Evolution acceptance rising (20%→30%). Run healthy, approaching transition window.**
 
-## What was done this session (091)
+## What was done this session (093)
 
-### 1. Probed v11-holo at 8K and 9K
+### 1. Probed v11-holo-inv at step 1,000 (full + dispatch detail)
 
-| Step | Holo loss | Baseline | Δ | Gate | B-type | Holo ratio |
-|-----:|----------:|---------:|------:|-----:|-------:|-----------:|
-| 7K | 7.706 | 7.573 | +0.13 | 0.486 | 56.6% | 0.99 |
-| **8K** | **7.674** | **7.543** | **+0.13** | **0.526** | **62.8%** | **0.95** |
-| **9K** | **7.675** | **7.560** | **+0.12** | **0.547** | **55.7%** | **0.99** |
+Compared against v11 baseline 1K and v11-holo 1K. Key findings:
 
-8K was local optimum (ratio=0.95). 9K = reorganization wave (all holo CEs
-regressed, matching the 3K spike pattern). Gap narrowing: +0.26 → +0.12.
+**Balanced dispatch (vs K-dominance in prior runs):**
+- Dominant positions: K=34.2%, I=22.6%, B=27.6%, C=15.5%
+- Compare: baseline K=92.7%, holo K=75.1% — both heavily K-skewed
+- Dispatch entropy 0.188 (strong specialization, not uniform)
 
-### 2. Architectural changes (both now default)
+**Composition (B) active from the start:**
+- B at 27.6% dominant — was 0.7% in baseline, 0.0% in holo at 1K
+- I+B co-occurrence at 31.7% — was 1% in holo
+- This is the binding circuit pattern emerging early
 
-**Coarse→fine descending** (`desc_stride_reverse=True`): ascending compresses
-(fine→coarse), descending expands (coarse→fine). TST paper (Peng et al.
-2026, arxiv 2605.06546) validates: coarse→fine + direct loss = 2.5× speedup.
-Holographic loss provides that signal. Opt out: `--no-desc-stride-reverse`.
+**Type channel differentiates independently of dispatch:**
+- Dispatch: K=0.386, I=0.334, B=0.132, C=0.141
+- Type integration: I=0.678, B=0.251, K=0.002, C=0.070
+- Model dispatches K+I, then integrates via I+B typed application
 
-**Fractal stride bands** (`fractal_stride_bands=True`): each pass activates
-only strides matching its resolution. MERA topology. 49% compute savings.
-Opt out: `--no-fractal-stride-bands`.
+**Holographic CEs show correct inversion:**
+- L0↑=11.3 → L1↑=8.8 → L2=8.9 → L1↓=9.0 → L0↓=9.3
+- Ascending compresses; descending specializes (coarse→fine)
+- pass_0/final ratio=1.21 (decodeable after one pass)
 
-```
-L0↑: s1→s32    L1↑: s16→s256   L2: s64→s1024   L1↓: s256→s16   L0↓: s32→s1
-```
+**Other metrics:**
+- Eval loss 8.235 (vs baseline 7.958, holo 8.221)
+- Compute gate closed (0.000007) — expected pre-transition
+- Evolution 4/20 (20%) rising to 9/30 (30%) by 1.5K
+- All 16 abstraction slots dormant, low cosine to KIBC (avg 0.064)
 
-See: `knowledge/explore/fractal-stride-bands.md`, `knowledge/explore/holographic-inversion.md`
+### 2. Monitored trajectory through 1.5K
 
-### 3. Launch command for v11-holo-inv (after 10K comparison)
+- I rising steadily: 0.264 → 0.343 → 0.367
+- K stabilized ~0.39; B peaked 0.132 at 1K then 0.108 at 1.5K
+- Holographic ratio declining (1.12 → 1.09) = descending arm catching up
+- Prose loss: ~0.98 range, structured ~0.28
+
+### 3. Holographic probe — intermediate layer decoding on Qwen3-32B
+
+Tested whether the model is holographic by decoding at every layer:
+- Cosine divergence compile vs null: 0.995 (L0) → 0.533 (L63) = beam separation is real
+- Intermediate layers decode to GARBAGE (not coarse-but-coherent) = reading is constructive
+- Entropy hump: 6.5 (L0) → 11.1 (L8) → 2.0 (L63) = constructive reorganization
+- Beam divergence begins at layer 24 (38% depth)
+- **Storage may be holographic, but reading is constructive (64 sequential facets)**
+
+### 4. Ternary survival probe — does selectivity survive quantization?
+
+**100% survival across every combinator, every layer, every sparsity level.**
+- sign_only (0.9% sparse): 8/8 survived, mean=0.93
+- mid_sparse (50% sparse): 8/8 survived, mean=0.94
+- high_sparse (75% sparse): 8/8 survived, mean=0.98
+- **Combinator information is TOPOLOGICAL — stored as sign patterns, not magnitudes**
+- Holographic plate hypothesis confirmed for weight structure
+
+### 5. Full combinator selectivity map — depth profile
+
+All four combinators peak in layers 0-6 (first 10% of 64 layers):
+- Zone 1 (L0-6): HIGH selectivity 0.13-0.20, K/C dominant
+- Zone 2 (L7-30): LOW selectivity 0.04-0.10, mixed K/B
+- Zone 3 (L31-63): LOW selectivity 0.05-0.10, B/C/K mixed
+
+K top heads: L3:H26(0.318), L1:H50(0.295), L1:H38(0.291)
+I top heads: L36:H5(0.137), L6:H52(0.137), L3:H63(0.136)  
+B top heads: L1:H37(0.248), L1:H39(0.247), L14:H59(0.245)
+C top heads: L1:H34(0.299), L5:H22(0.291), L1:H55(0.290)
+
+Cross-correlation: K-B=0.914, K-C=0.930, B-C=0.927, I distinct (0.67-0.75)
+I is the outlier — different circuit from K/B/C cluster.
+
+### 6. Active run command (unchanged)
 
 ```
 uv run python scripts/v11/train.py \
@@ -48,16 +90,17 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Monitor v11-holo-inv (just launched, step 0)
-Watch for early signs at 1K-2K:
-- Descending arm holo CEs should be better than v11-holo at same step
-- Fractal bands should show faster per-step training (49% fewer stride ops)
-- B-type should develop without the catastrophic collapse pattern
-- Evolution acceptance rate under new noise floor (0.01 min delta)
+### Priority 1: Monitor v11-holo-inv through transition window (2K→8K)
+Watch for:
+- Continued prose improvement (not just structured wins)
+- Alarm de-saturation / differentiation (currently near ceiling)
+- Compute gate opening around 5K–7K and associated reorganization
+- No recurrence of 10K compositional catastrophe pattern
 
-### Priority 2: Probe v11-holo-inv at 1K — first structural snapshot
-Compare to v11-holo 1K and baseline 1K. Key metrics: holographic ratio,
-descending arm CEs, dispatch distribution, compute gate timing.
+### Priority 2: Probe v11-holo-inv at 2K/3K/5K/7K
+Compare against v11-holo and baseline at matched steps. Key metrics:
+holographic ratio, descending arm CEs, dispatch distribution, compute gate timing,
+B-type stability, and prose-vs-structured gap.
 
 ### Priority 3: v11-holo status — compositional catastrophe at 10K
 10K probe: eval loss 9.259 (was 7.675), B-type 5.8% (was 55.7%).
@@ -124,11 +167,13 @@ Logging   —                          —                                3× JS
 | `scripts/v11/probe.py` | Checkpoint diagnostics + holographic intermediate CE display |
 | `results/v11/` | Probe results: probe_step_{001000–010000}.json (baseline) |
 | `results/v11-holo/` | Probe results: probe_step_{001000–009000}.json (holo) |
+| `results/v11-holo-inv/` | Probe results: probe_step_001000.json (holo-inv) |
 | `checkpoints/v11/` | Baseline v11 run (no holo, no structured), continuing to 20K |
 | `checkpoints/v11-holo/` | Holo run: λ=0.1, 20% structured, 16 slots, running to 20K |
 | `checkpoints/v11-holo-inv/` | LIVE: holo + coarse→fine + fractal + evo fixes |
 | `mementum/knowledge/explore/fractal-stride-bands.md` | MERA topology design + rationale |
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
+| `mementum/knowledge/explore/lambda-probe-atlas.md` | New cross-model lambda/combinator territory mapping stream |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -160,3 +205,5 @@ Logging   —                          —                                3× JS
 → Session 089: Complete baseline probes 6K-10K. Holographic loss implemented (progressive intermediate decoding, gradient slope 5×→1×). New run: v11-holo (λ=0.1, 20% structured, 16 slots). Design insight: holo forces internal representations to be decodeable at every pass boundary — interpretability as training signal.
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
 → Session 091: Probed v11-holo 8K-10K. 8K local optimum, 9K reorganization wave, 10K compositional catastrophe (B-type 55.7%→5.8%, eval loss 7.675→9.259). Implemented coarse→fine descending (default), fractal stride bands (MERA, 49% savings, default), evolution noise floor (0.01), alarm-no-regression fix. TST paper (Peng et al. 2026) connection. Launched v11-holo-inv with all fixes.
+→ Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
+→ Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
