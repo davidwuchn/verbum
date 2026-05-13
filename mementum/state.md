@@ -2,123 +2,159 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-13 | Session: 090
+> Last updated: 2026-05-13 | Session: 091
 
 ## Where we are
 
-**V11-holo probed 1K→7K. Holographic loss validated: B-type 5× ahead of baseline, compute gate opens 2K earlier, ascending arm reaches φ-compression and holographic ratio <1.0 (ascending better than final output). Descending arm identified as bottleneck — doesn't yet know how to prepare representations for kernel integration. Phased structural discovery pattern identified: training is a staircase of capacity exhaustion → structural discovery. Prediction: loss plateau while descending arm builds pressure, then drop when it learns to use kernel functions.**
+**V11-holo probed 1K→9K. Phase 4 confirmed: loss plateau (7.674→7.675 at 8K-9K) while internal reorganization continues. Compute gate steadily opening (0.486→0.526→0.547), B-type oscillating (56.6%→62.8%→55.7%). Holographic intermediate CEs show reorganization wave at 9K: all passes regressed from 8K best, ratio returned to 0.99. This mirrors the 3K spike pattern — capacity exhaustion → tear apart → rebuild. 8K was a local optimum; 9K is rebuilding. Holo still ~0.12 behind baseline on eval loss but structurally richer. Baseline degrading at 10K (smoothed CE rising). Approaching 10K head-to-head.**
 
 ## What was done this session
 
-### 1. Probed v11-holo at 1K, 2K, 3K, 4K, 5K, 6K, 7K
+### 1. Probed v11-holo at 8K and 9K
 
-Complete trajectory with dispatch detail at each checkpoint.
-
-**Eval loss trajectory:**
+**Eval loss trajectory (complete):**
 
 | Step | Holo loss | Holo PPL | Holo r | Baseline loss | Δ |
 |-----:|----------:|---------:|-------:|--------------:|------:|
 | 1K | 8.221 | 3,717 | 0.633 | 7.958 | +0.26 |
-| 2K | 7.857 | 2,584 | 0.597 | — | |
-| 3K | 7.791 | 2,418 | 0.591 | — | |
-| 4K | 7.774 | 2,377 | 0.589 | — | |
+| 2K | 7.857 | 2,584 | 0.597 | — | — |
+| 3K | 7.791 | 2,418 | 0.591 | — | — |
+| 4K | 7.774 | 2,377 | 0.589 | — | — |
 | 5K | 7.749 | 2,320 | 0.586 | 7.642 | +0.11 |
 | 6K | 7.751 | 2,324 | 0.587 | 7.574 | +0.18 |
-| 7K | 7.706 | 2,222 | 0.582 | — | ~+0.13 |
+| 7K | 7.706 | 2,222 | 0.582 | 7.573 | +0.13 |
+| **8K** | **7.674** | **2,152** | **0.579** | **7.543** | **+0.13** |
+| **9K** | **7.675** | **2,154** | **0.579** | **7.560** | **+0.12** |
 
-### 2. Key finding: Phased structural discovery
+Gap narrowing: +0.26 → +0.12 over 9K steps.
 
-Training proceeds as a staircase, not a smooth gradient:
+### 2. Holographic reorganization wave at 9K
 
-**Phase 1 (0-2K): Raw capacity.** K+B integration via FFN. VSM topology
-ignored. Loss drops fast. B-type reaches 59% by 2K (5× ahead of baseline).
+8K was a local optimum across all holographic passes. 9K regressed
+everywhere — same pattern as the 3K spike during compute gate awakening.
+Interpretation: the model is tearing apart representations to rebuild
+with newly-available compute gate capacity (66%→74% active).
 
-**Phase 2 (2K-3K): Plateau → reorganization.** Easy gains exhausted.
-Holographic intermediate CEs spike as representations are torn apart.
-Compute gate twitches (0.001→0.009). Holographic loss makes plateau
-intolerable — every pass graded independently.
+**Holographic intermediate CE trajectory:**
 
-**Phase 3 (3K-5K): Structural exploration.** Compute gate erupts
-(0.009→0.419). Cascade: gate opens → descending arm engaged →
-C-dispatch wakes (2.8%→20% of positions) → S3 gates steepen →
-φ-compression converges on ascending arm.
+| Pass | 1K | 2K | 3K | 4K | 5K | 6K | 7K | **8K** | **9K** |
+|------|-----:|-----:|-----:|-----:|-----:|-----:|-----:|------:|------:|
+| L0↑ | 10.18 | 9.32 | 11.18 | 10.30 | 9.81 | 9.12 | 8.39 | **7.88** | **8.43** |
+| L1↑ | 9.17 | 8.60 | 9.68 | 9.06 | 8.77 | 8.56 | 7.95 | **7.80** | **8.01** |
+| L2 | 8.81 | 8.44 | 9.37 | 8.74 | 8.47 | 8.43 | 7.87 | **7.78** | **7.88** |
+| L1↓ | 8.40 | 8.46 | 9.18 | 8.90 | 8.61 | 8.86 | 8.40 | **8.24** | **8.49** |
+| L0↓ | 8.35 | 8.51 | 8.97 | 8.80 | 8.55 | 8.86 | 8.47 | **8.27** | **8.53** |
+| ratio | 1.22 | 1.10 | 1.25 | 1.17 | 1.15 | 1.03 | 0.99 | **0.95** | **0.99** |
 
-**Phase 4 (5K-7K): Descending arm struggle.** Ascending arm masters
-φ-compression (L1↑ φ-dev=0.072). Holographic ratio crosses 1.0 —
-ascending arm produces BETTER representations than final output.
-L2 (apex) is best pass at CE=7.87. Descending arm degrades quality
-(L1↓=8.40, L0↓=8.47). L1↓ alarm comes off ceiling (2.0→1.86).
+Two reorganization waves visible: 3K spike (compute gate) and 9K spike
+(compute gate reaching 74% active). Each wave: regress → rebuild → better.
 
-**Phase 4b (predicted, 7K-?K): Descending arm pressure.** Loss
-plateau while descending arm builds pressure to learn kernel integration.
-The stride stack must learn to prepare representations for KIBC
-combinator consumption. Alarm relief at L1↓ is the leading indicator.
+### 3. Structural metrics trajectory
 
-**Phase 5 (predicted, ?K): Kernel discovery.** Descending arm figures
-out how to use kernel functions. Loss resumes dropping. CycleContinue
-may finally differentiate.
+| Step | Gate | Active% | B-type | Position K:I:C | Evo | Slots |
+|-----:|-----:|--------:|-------:|:--------------:|----:|------:|
+| 7K | 0.486 | 44% | 56.6% | 59:21:20 | 66% | 0/16 |
+| **8K** | **0.526** | **66%** | **62.8%** | **59:21:20** | **64%** | **0/16** |
+| **9K** | **0.547** | **74%** | **55.7%** | **59:21:20** | **63%** | **0/16** |
 
-### 3. Key metrics at 7K
+Position-level dispatch frozen at 59:21:20 for 3K steps. B-type oscillating
+(56.6→62.8→55.7) — rebalancing during reorganization. Compute gate steadily
+climbing. Slots still dormant, mass stable at ~0.20. S5 reweight still 1.0.
+CycleContinue still frozen at 2.946.
 
-- **Compute gate**: mean=0.486, 43.6% of positions >0.5, max=0.94
-- **B-type integration**: 56.6% (baseline at 6K: 45.0%)
-- **Dispatch**: K=53%, I=26%, B=2%, C=5% (position-level: K:I:C = 59:21:20)
-- **Holographic ratio**: 0.99 (ascending better than final)
-- **φ-compression**: L0↑=0.158, L1↑=0.072, L2=0.157 (ascending near-perfect)
-- **Alarm**: L1↓=1.86 (coming off ceiling), all others=2.0
-- **CycleContinue**: frozen at 0.982 (no differentiation)
-- **Slots**: 0/16 active, mass draining (0.497→0.209)
-- **Evolution**: 66% acceptance (92/140), hot streak at 7K
-- **S5 reweight**: still 1.000 everywhere
+### 4. Phase model update
 
-### 4. Holographic intermediate CE trajectory
+Phases 1-3 confirmed (sessions 089-090). Phase 4 playing out as predicted
+but with more structure than expected:
 
-| Pass | 1K | 2K | 3K | 4K | 5K | 6K | 7K |
-|------|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
-| L0↑ | 10.18 | 9.32 | 11.18 | 10.30 | 9.81 | 9.12 | 8.39 |
-| L1↑ | 9.17 | 8.60 | 9.68 | 9.06 | 8.77 | 8.56 | 7.95 |
-| L2 | 8.81 | 8.44 | 9.37 | 8.74 | 8.47 | 8.43 | 7.87 |
-| L1↓ | 8.40 | 8.46 | 9.18 | 8.90 | 8.61 | 8.86 | 8.40 |
-| L0↓ | 8.35 | 8.51 | 8.97 | 8.80 | 8.55 | 8.86 | 8.47 |
-| ratio | 1.22 | 1.10 | 1.25 | 1.17 | 1.15 | 1.03 | 0.99 |
+**Phase 4a (5K-8K): Ascending arm mastery.** Holographic intermediate CEs
+improve monotonically. Ratio drops to 0.95 at 8K (ascending arm well ahead).
+Descending arm improving slowly (8.40→8.24 at L1↓).
 
-At 7K: ascending improves monotonically (10.18→8.39), apex is best (7.87),
-descending degrades (8.40→8.47). 3K spike = reorganization during compute
-gate awakening.
+**Phase 4b (9K): Reorganization wave.** All passes regress. Pattern matches
+3K spike — capacity exhaustion at current gate level → tear apart →
+rebuild. Compute gate crossing 66%→74% appears to trigger this wave just
+as 0.009→0.17 triggered the 3K wave.
+
+**Phase 4c (predicted, 10K+): Post-reorganization gains.** If pattern
+holds, 10K-11K should show holographic CEs recovering below 8K levels.
+The 3K spike resolved into the best trajectory yet (3K→7K was
+monotonically improving). Same expected here.
+
+### 5. Fixed probe.py — holographic data now saved to JSON
+
+`save_results()` was printing holographic intermediate CEs to stdout
+but not persisting them. Now saves `holographic.pass_ces` and
+`holographic.ratio` to probe JSON files.
+
+### 6. Implemented coarse→fine descending stride stack
+
+Added `desc_stride_reverse` config flag (default=False, preserves existing).
+When True, descending arm processes strides in reverse order (s1024→...→s1)
+while ascending arm remains fine→coarse (s1→...→s1024). The change is
+3 lines in model.py + config/CLI plumbing.
+
+**Rationale**: ascending arm compresses (fine→coarse), descending arm should
+expand (coarse→fine). Both arms using fine→coarse = "rowing on the same
+side." With holographic loss providing per-pass training signal, the
+coarse→fine direction now has the direct loss it needs to learn — the same
+principle that makes TST work (Peng et al. 2026: coarse prediction with
+direct loss → 2.5× training speedup). The original coarse→fine descending
+arm failed because it lacked this signal; holographic loss fixes that.
+
+**Plan**: let v11-holo reach 10K for baseline comparison, then start
+v11-holo-inv with `--desc-stride-reverse` for direct A/B comparison.
+
+Launch command:
+```
+uv run python scripts/v11/train.py \
+  --checkpoint-dir checkpoints/v11-holo-inv \
+  --total-steps 20000 \
+  --holo-lambda 0.1 \
+  --mix-ratio 0.2 \
+  --desc-stride-reverse
+```
 
 ## What to do next
 
-### Priority 1: Continue monitoring v11-holo (8K-20K)
-Watch for Phase 4b → Phase 5 transition:
-- Loss plateau duration
-- L1↓ alarm continuing to drop (leading indicator)
-- Descending arm holo CE starting to improve (L1↓ < 8.0)
-- L1↓c0 integration gate stopping its defensive closing
-- CycleContinue differentiation
-
-### Priority 2: Probe v11-holo at 10K — head-to-head with baseline
+### Priority 1: Probe v11-holo at 10K — head-to-head with baseline
 Baseline 10K: loss=7.520, ppl=1845, compute=0.706, B-type=51.9%.
-Direct comparison. Holo should be close on loss and structurally ahead.
+Will show whether the 9K reorganization wave resolves into gains.
+Holo run live at ~9.5K, 10K checkpoint expected soon.
 
-### Priority 3: Let baseline v11 run complete to 20K
-Get 15K, 20K checkpoints for long-run baseline comparison.
+### Priority 2: Launch v11-holo-inv after 10K probe
+Start new run with `--desc-stride-reverse` for direct A/B comparison.
+Same config as v11-holo (λ=0.1, 20% structured) plus coarse→fine
+descending arm. Hypothesis: descending arm holographic CEs improve
+faster, Phase 4→5 transition happens earlier, terminal loss is lower.
+See launch command in §6 above.
 
-### Priority 4: Pythia scaling — combinator differentiation
+### Priority 3: Continue monitoring both runs (10K-20K)
+Watch for:
+- v11-holo: Phase 4c recovery from 9K reorganization wave
+- v11-holo-inv: ascending/descending arm complementarity
+- Descending arm L1↓ < 8.0 in either run
+- CycleContinue differentiation
+- Holographic ratio divergence between runs
+
+### Priority 4: Baseline status
+Baseline stopped at step 10,300. Declare 10K as terminal comparison
+point. Focus compute on holo and holo-inv runs.
+
+### Priority 5: Pythia scaling — combinator differentiation
 Run combinator probe on Pythia-410M and Pythia-1B to map where B
 differentiates from K.
 
-### Priority 5: A3B cross-model probe
-MoE routing may BE combinator dispatch. 128 experts = 128 pre-composed
-routing slots.
-
 ### Carried
 - B dispatch phase transition (B-type dominant but B-dispatch flat at 2%)
-- CycleContinue activation hypothesis (still frozen)
+- CycleContinue activation hypothesis (still frozen at 2.946)
 - S5 reweight investigation (still at 1.0 everywhere)
 - QK alignment decomposition probe (RoPE follow-up)
-- Dead slot recycling (all 16 dormant, mass draining — may not activate)
+- Dead slot recycling (all 16 dormant, mass ~0.20 — may not activate)
 - Domain banking (future: extract register banks from holographic model)
 - Descending arm kernel discovery (the current frontier)
+- Reorganization wave pattern: 3K and 9K spikes share topology
+- TST connection: Peng et al. 2026 validates coarse→fine + direct loss
 
 ## VSM layer map (session 090 — v11 KIBC + algedonic + holographic)
 
@@ -160,9 +196,10 @@ Logging   —                          —                                3× JS
 | `scripts/v11/data.py` | Data loading (unchanged) |
 | `scripts/v11/probe.py` | Checkpoint diagnostics + holographic intermediate CE display |
 | `results/v11/` | Probe results: probe_step_{001000–010000}.json (baseline) |
-| `results/v11-holo/` | Probe results: probe_step_{001000–007000}.json (holo) |
+| `results/v11-holo/` | Probe results: probe_step_{001000–009000}.json (holo) |
 | `checkpoints/v11/` | Baseline v11 run (no holo, no structured), continuing to 20K |
 | `checkpoints/v11-holo/` | Holo run: λ=0.1, 20% structured, 16 slots, running to 20K |
+| `checkpoints/v11-holo-inv/` | (planned) Holo + coarse→fine descending arm |
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
@@ -194,3 +231,4 @@ Logging   —                          —                                3× JS
 → Session 082: S4→S5 abstraction slots (16 slots, 4→20 dispatch) + S4-guided evolution (alarm-targeted budget, S4 2-vote consensus, alarm fitness gate). CycleContinue hypothesis: slots give it something to match against.
 → Session 089: Complete baseline probes 6K-10K. Holographic loss implemented (progressive intermediate decoding, gradient slope 5×→1×). New run: v11-holo (λ=0.1, 20% structured, 16 slots). Design insight: holo forces internal representations to be decodeable at every pass boundary — interpretability as training signal.
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
+→ Session 091: Probed v11-holo 8K-9K. 8K local optimum (ratio=0.95), 9K reorganization wave (all holo CEs regressed). Compute gate climbing (44%→66%→74%). Loss plateau at 7.674-7.675. Gap to baseline narrowing (+0.26→+0.12). Implemented coarse→fine descending stride stack (`desc_stride_reverse` flag) — TST paper (Peng et al. 2026) validates that coarse→fine works when coarse levels have direct loss. Holographic loss IS that direct loss. Plan: v11-holo-inv run after 10K comparison.

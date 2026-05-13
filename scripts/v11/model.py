@@ -444,7 +444,8 @@ class V11Model(nn.Module):
                 x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
                 # Phase 1: converge (propagate spatially)
-                converge_out = strides(x, reverse=False)
+                # Descending arm: coarse→fine when desc_stride_reverse=True
+                converge_out = strides(x, reverse=self.cfg.desc_stride_reverse)
                 delta = converge_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -882,7 +883,8 @@ class V11Model(nn.Module):
                     x = self._modulate(x, delta, gate, 0, is_descending=True)
 
                     # Phase 1: converge
-                    conv_out = strides(x, reverse=False)
+                    # Descending arm: coarse→fine when desc_stride_reverse=True
+                    conv_out = strides(x, reverse=self.cfg.desc_stride_reverse)
                     delta = conv_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(

@@ -819,6 +819,7 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
             "holo_lambda": cfg.holo_lambda,
             "holo_warmup_steps": cfg.holo_warmup_steps,
             "holo_ramp_steps": cfg.holo_ramp_steps,
+            "desc_stride_reverse": cfg.desc_stride_reverse,
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -1013,6 +1014,8 @@ def train(cfg: V11Config, args: argparse.Namespace) -> None:
           f"total_steps={cfg.total_steps}", file=sys.stderr)
     print(f"  gen_interval={cfg.gen_interval}  base_pct={cfg.base_pct}  "
           f"grad_accum={cfg.grad_accum}", file=sys.stderr)
+    if cfg.desc_stride_reverse:
+        print(f"  🔄 Descending stride: coarse→fine (reverse=True)", file=sys.stderr)
     if cfg.holo_lambda > 0:
         print(f"  🔮 Holographic loss: λ={cfg.holo_lambda}  "
               f"warmup={cfg.holo_warmup_steps}  ramp={cfg.holo_ramp_steps}",
@@ -1318,6 +1321,8 @@ def main():
                         help="Steps before holographic loss activates")
     parser.add_argument("--holo-ramp-steps", type=int, default=None,
                         help="Steps to ramp holographic loss from 0 to holo-lambda")
+    parser.add_argument("--desc-stride-reverse", action="store_true", default=False,
+                        help="Descending arm uses coarse→fine stride order (s1024→...→s1)")
 
     args = parser.parse_args()
     cfg = V11Config()
@@ -1344,6 +1349,7 @@ def main():
     if args.holo_lambda is not None: cfg.holo_lambda = args.holo_lambda
     if args.holo_warmup_steps is not None: cfg.holo_warmup_steps = args.holo_warmup_steps
     if args.holo_ramp_steps is not None: cfg.holo_ramp_steps = args.holo_ramp_steps
+    if args.desc_stride_reverse: cfg.desc_stride_reverse = True
     cfg.__post_init__()
 
     train(cfg, args)

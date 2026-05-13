@@ -138,6 +138,8 @@ def load_checkpoint(ckpt_path: Path) -> tuple[V11Model, int, dict, V11Config]:
     if "seq_len" in config_data:
         cfg.seq_len = config_data["seq_len"]
         cfg.max_seq_len = config_data["seq_len"]
+    if config_data.get("desc_stride_reverse", False):
+        cfg.desc_stride_reverse = True
 
     model = create_model(cfg)
     weights = dict(mx.load(str(model_path)))
@@ -1024,6 +1026,15 @@ def save_results(step: int, state: dict, phi_raw: dict,
         output["eval"] = eval_result
     if dispatch_analysis:
         output["dispatch_analysis"] = dispatch_analysis
+    # Holographic intermediate losses (per-pass CEs)
+    holo_losses = phi_raw.get("holo_losses")
+    if holo_losses:
+        output["holographic"] = {
+            "pass_ces": {name: float(ce) for name, ce in
+                         zip(("L0_up", "L1_up", "L2", "L1_down", "L0_down"),
+                             holo_losses)},
+            "ratio": float(holo_losses[0] / max(holo_losses[-1], 1e-8)),
+        }
     # Abstraction slot metrics (from instrumented analysis)
     abs_slots = phi_raw.get("abstraction_slots")
     if abs_slots:

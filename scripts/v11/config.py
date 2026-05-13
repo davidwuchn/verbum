@@ -54,6 +54,15 @@ class V11Config:
     # Self-regulating descending cycles (unchanged from v10)
     desc_max_cycles: int = 3
 
+    # Descending arm stride direction: coarse→fine (TST-aligned)
+    # When True, descending arm processes s1024→...→s8→s1 (coarse→fine),
+    # complementing the ascending arm's s1→s8→...→s1024 (fine→coarse).
+    # Rationale: ascending compresses, descending expands. With holographic
+    # loss providing per-pass signal, each arm gets the inductive bias
+    # matching its function. See: Peng et al. "Token Superposition Training"
+    # (2026) — coarse→fine works when coarse levels have direct loss.
+    desc_stride_reverse: bool = False  # default preserves existing behavior
+
     # ── Abstraction slots (S4→S5 composed abstractions) ──
     n_abstraction_slots: int = 16    # learnable embedding slots beyond KIBC
     abstraction_diversity_lambda: float = 0.01   # pairwise orthogonality pressure
