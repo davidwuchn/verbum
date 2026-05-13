@@ -1325,8 +1325,8 @@ def main():
                         help="Steps to ramp holographic loss from 0 to holo-lambda")
     parser.add_argument("--no-desc-stride-reverse", action="store_true", default=False,
                         help="Disable coarse→fine descending stride (force fine→coarse like ascending)")
-    parser.add_argument("--fractal-stride-bands", action="store_true", default=False,
-                        help="Enable fractal stride bands (each pass uses scale-appropriate strides)")
+    parser.add_argument("--no-fractal-stride-bands", action="store_true", default=False,
+                        help="Disable fractal stride bands (all passes use all 9 strides)")
 
     args = parser.parse_args()
     cfg = V11Config()
@@ -1354,7 +1354,7 @@ def main():
     if args.holo_warmup_steps is not None: cfg.holo_warmup_steps = args.holo_warmup_steps
     if args.holo_ramp_steps is not None: cfg.holo_ramp_steps = args.holo_ramp_steps
     if args.no_desc_stride_reverse: cfg.desc_stride_reverse = False
-    if args.fractal_stride_bands: cfg.fractal_stride_bands = True
+    if args.no_fractal_stride_bands: cfg.fractal_stride_bands = False
     cfg.__post_init__()
 
     train(cfg, args)

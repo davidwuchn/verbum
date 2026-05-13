@@ -139,8 +139,8 @@ uv run python scripts/v11/train.py \
   --fractal-stride-bands
 ```
 
-Note: `--desc-stride-reverse` is now the default. `--no-desc-stride-reverse`
-to opt out. Fractal bands require explicit `--fractal-stride-bands`.
+Both features are now default. Opt out with `--no-desc-stride-reverse`
+and/or `--no-fractal-stride-bands`.
 
 ## What to do next
 

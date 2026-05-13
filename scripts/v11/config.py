@@ -79,7 +79,7 @@ class V11Config:
     #
     # Adjacent passes share 2-3 strides for inter-level communication.
     # MERA tensor network topology: each level handles one scale band.
-    fractal_stride_bands: bool = False  # default off, enable for fractal runs
+    fractal_stride_bands: bool = True  # MERA topology: each pass uses scale-appropriate strides
     # Per-pass stride index ranges: (start_inclusive, end_exclusive) into strides tuple
     # 5 passes: L0↑, L1↑, L2, L1↓, L0↓
     stride_band_ranges: tuple[tuple[int, int], ...] = (
