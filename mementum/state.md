@@ -80,6 +80,21 @@ C top heads: L1:H34(0.299), L5:H22(0.291), L1:H55(0.290)
 Cross-correlation: K-B=0.914, K-C=0.930, B-C=0.927, I distinct (0.67-0.75)
 I is the outlier — different circuit from K/B/C cluster.
 
+### 6. Holographic bank extraction
+
+**Q is the beam angle, V is the plate.** Same head (L1:H37) has identical V weights 
+for B and C (cos=1.000) but completely different Q weights (cos=0.005). The combinator
+is selected by Q, not V. Q-only bank is sufficient.
+
+Extracted seed: **784 KB** from 32B model.
+- 4 combinator Q patterns (top-1 head each, 80×5120 ternary)
+- Projection matrix (320×5120 ternary) for dimensionality reduction
+- All four combinators are nearly orthogonal after projection (cos≈0)
+- Effective rank 267 (90%), 312 (99%) — high-dimensional, broadly distributed
+
+Files: `results/holographic-bank/seed_qwen3_32b.npz`, `seed_meta.json`
+Scripts: `scripts/explore/extract_holographic_bank.py`
+
 ### 6. Active run command (unchanged)
 
 ```
