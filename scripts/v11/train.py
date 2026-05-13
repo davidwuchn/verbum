@@ -634,21 +634,15 @@ def run_tournament(
     mutant_loss, mutant_prose, mutant_struct = _eval_loss()
     mutant_health, mutant_alarm = _eval_alarm_health()
 
-    # Acceptance criteria (OR gate):
-    #   1. Loss improved (original criterion)
-    #   2. Alarm health improved (structural improvement)
-    # Safety bound: alarm-only acceptance requires loss didn't degrade
-    # by more than 0.005 (prevents accepting structurally "better"
-    # mutations that catastrophically hurt prediction).
+    # Acceptance criterion: loss must improve by at least min_delta.
+    # No alarm-only path — structural improvements that degrade loss
+    # are noise that accumulates into catastrophic reorganizations
+    # (observed: v11-holo 10K compositional collapse from alarm-accepted
+    # mutations with +0.0003 to +0.0024 loss deltas).
     loss_improved = (champion_loss - mutant_loss) >= cfg.evolution_min_delta
-    alarm_improved = (champion_health is not None
-                      and mutant_health is not None
-                      and mutant_health > champion_health
-                      and (mutant_loss - champion_loss) < 0.005)
 
-    if loss_improved or alarm_improved:
-        reason = "loss" if loss_improved else "alarm"
-        accepted = f"consensus_{reason}"
+    if loss_improved:
+        accepted = "consensus_loss"
     else:
         # Revert
         load_topology(model, champion_snapshot)
