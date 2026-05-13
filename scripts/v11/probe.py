@@ -140,6 +140,8 @@ def load_checkpoint(ckpt_path: Path) -> tuple[V11Model, int, dict, V11Config]:
         cfg.max_seq_len = config_data["seq_len"]
     if config_data.get("desc_stride_reverse", False):
         cfg.desc_stride_reverse = True
+    if config_data.get("fractal_stride_bands", False):
+        cfg.fractal_stride_bands = True
 
     model = create_model(cfg)
     weights = dict(mx.load(str(model_path)))

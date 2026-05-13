@@ -168,9 +168,24 @@ class StrideStack(nn.Module):
             for s in strides
         ]
 
-    def __call__(self, x: mx.array, reverse: bool = False) -> mx.array:
-        order = reversed(range(len(self.layers))) if reverse else range(len(self.layers))
-        for i in order:
+    def __call__(self, x: mx.array, reverse: bool = False,
+                 stride_range: tuple[int, int] | None = None) -> mx.array:
+        """Run stride layers sequentially.
+
+        Args:
+            x: Input tensor (B, L, D).
+            reverse: If True, process strides in reverse order (coarse→fine).
+            stride_range: If set, only activate layers in [start, end) index range.
+                         When None, all layers fire (backward compatible).
+        """
+        if stride_range is not None:
+            start, end = stride_range
+            indices = list(range(start, min(end, len(self.layers))))
+        else:
+            indices = list(range(len(self.layers)))
+        if reverse:
+            indices = list(reversed(indices))
+        for i in indices:
             x = self.layers[i](x)
         return x
 

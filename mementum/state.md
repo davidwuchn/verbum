@@ -103,7 +103,31 @@ direct loss → 2.5× training speedup). The original coarse→fine descending
 arm failed because it lacked this signal; holographic loss fixes that.
 
 **Plan**: let v11-holo reach 10K for baseline comparison, then start
-v11-holo-inv with `--desc-stride-reverse` for direct A/B comparison.
+v11-holo-inv with coarse→fine descending + fractal bands for A/B comparison.
+
+### 7. Implemented fractal stride bands
+
+Each pass now activates only strides matching its resolution level:
+
+```
+L0↑ (fine):    s1,s8,s16,s32           (4 strides, fine→coarse)
+L1↑ (medium):  s16,s32,s64,s128,s256   (5 strides, fine→coarse)
+L2  (apex):    s64,s128,s256,s512,s1024 (5 strides, fine→coarse)
+L1↓ (medium):  s256,s128,s64,s32,s16   (5 strides, coarse→fine)
+L0↓ (fine):    s32,s16,s8,s1           (4 strides, coarse→fine)
+```
+
+Symmetric hourglass: descending mirrors ascending, reversed. Adjacent passes
+share 2-3 strides for inter-level communication. 23 stride-layer activations
+per forward instead of 45 (~49% compute savings). Same shared weights —
+only the activation pattern changes. MERA tensor network topology.
+
+**Why this should help the hologram**: if normal LLMs are piles of photographs
+that accidentally form holograms, and we're training holograms directly via
+holographic loss, then fractal bands stop the model from wasting capacity
+processing all 9 strides at every pass. Each pass focuses on its natural
+resolution band, graded by holo CE at that band. The freed capacity can be
+used to pack holograms more densely — the whole point of holographic storage.
 
 Launch command:
 ```
@@ -112,8 +136,11 @@ uv run python scripts/v11/train.py \
   --total-steps 20000 \
   --holo-lambda 0.1 \
   --mix-ratio 0.2 \
-  --desc-stride-reverse
+  --fractal-stride-bands
 ```
+
+Note: `--desc-stride-reverse` is now the default. `--no-desc-stride-reverse`
+to opt out. Fractal bands require explicit `--fractal-stride-bands`.
 
 ## What to do next
 
@@ -231,4 +258,4 @@ Logging   —                          —                                3× JS
 → Session 082: S4→S5 abstraction slots (16 slots, 4→20 dispatch) + S4-guided evolution (alarm-targeted budget, S4 2-vote consensus, alarm fitness gate). CycleContinue hypothesis: slots give it something to match against.
 → Session 089: Complete baseline probes 6K-10K. Holographic loss implemented (progressive intermediate decoding, gradient slope 5×→1×). New run: v11-holo (λ=0.1, 20% structured, 16 slots). Design insight: holo forces internal representations to be decodeable at every pass boundary — interpretability as training signal.
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
-→ Session 091: Probed v11-holo 8K-9K. 8K local optimum (ratio=0.95), 9K reorganization wave (all holo CEs regressed). Compute gate climbing (44%→66%→74%). Loss plateau at 7.674-7.675. Gap to baseline narrowing (+0.26→+0.12). Implemented coarse→fine descending stride stack (`desc_stride_reverse` flag) — TST paper (Peng et al. 2026) validates that coarse→fine works when coarse levels have direct loss. Holographic loss IS that direct loss. Plan: v11-holo-inv run after 10K comparison.
+→ Session 091: Probed v11-holo 8K-9K. 8K local optimum (ratio=0.95), 9K reorganization wave. Implemented coarse→fine descending stride stack (default=True) + fractal stride bands (each pass uses scale-appropriate strides, ~49% compute savings, MERA topology). TST paper (Peng et al. 2026) validates coarse→fine + direct loss. Holographic loss provides that signal. Plan: v11-holo-inv run with both features after 10K comparison.

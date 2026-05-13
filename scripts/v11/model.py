@@ -394,6 +394,14 @@ class V11Model(nn.Module):
 
     # ── Core level-pass ───────────────────────────────────────
 
+    def _stride_range_for_pass(self, pass_idx: int) -> tuple[int, int] | None:
+        """Return stride index range for this pass, or None if fractal bands disabled."""
+        if not self.cfg.fractal_stride_bands:
+            return None
+        if pass_idx < len(self.cfg.stride_band_ranges):
+            return self.cfg.stride_band_ranges[pass_idx]
+        return None
+
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
                          target_bank, embed_context=None,
                          combinator_emphasis=None,
@@ -445,7 +453,9 @@ class V11Model(nn.Module):
 
                 # Phase 1: converge (propagate spatially)
                 # Descending arm: coarse→fine when desc_stride_reverse=True
-                converge_out = strides(x, reverse=self.cfg.desc_stride_reverse)
+                # Fractal bands: only activate strides for this pass's scale
+                converge_out = strides(x, reverse=self.cfg.desc_stride_reverse,
+                                       stride_range=self._stride_range_for_pass(pass_idx))
                 delta = converge_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -505,7 +515,8 @@ class V11Model(nn.Module):
             phase_gates.append(gate)
             x = self._modulate(x, delta, gate, phase_idx=0, is_descending=False)
 
-            converge_out = strides(x, reverse=False)
+            converge_out = strides(x, reverse=False,
+                                   stride_range=self._stride_range_for_pass(pass_idx))
             delta = converge_out - x
             raw_phases.append(delta)
             _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -884,7 +895,8 @@ class V11Model(nn.Module):
 
                     # Phase 1: converge
                     # Descending arm: coarse→fine when desc_stride_reverse=True
-                    conv_out = strides(x, reverse=self.cfg.desc_stride_reverse)
+                    conv_out = strides(x, reverse=self.cfg.desc_stride_reverse,
+                                       stride_range=self._stride_range_for_pass(pass_idx))
                     delta = conv_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -939,7 +951,8 @@ class V11Model(nn.Module):
                 asc_gate_mx.append(gate)
                 x = self._modulate(x, delta, gate, 0, is_descending=False)
 
-                conv_out = strides(x, reverse=False)
+                conv_out = strides(x, reverse=False,
+                                   stride_range=self._stride_range_for_pass(pass_idx))
                 delta = conv_out - x
                 raw_phases.append(delta)
                 _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(

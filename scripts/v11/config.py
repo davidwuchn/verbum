@@ -61,7 +61,34 @@ class V11Config:
     # loss providing per-pass signal, each arm gets the inductive bias
     # matching its function. See: Peng et al. "Token Superposition Training"
     # (2026) — coarse→fine works when coarse levels have direct loss.
-    desc_stride_reverse: bool = False  # default preserves existing behavior
+    desc_stride_reverse: bool = True  # coarse→fine is the natural descending direction
+
+    # Fractal stride bands: each pass activates only strides matching its
+    # resolution level. Symmetric hourglass — ascending mirrors descending.
+    # When enabled, each pass uses ~4-5 of the 9 strides instead of all 9.
+    # This gives ~49% compute savings per forward pass and ensures each
+    # pass focuses on its natural scale. Shared weights (S5 coherence) —
+    # only the activation pattern changes, not the parameters.
+    #
+    # Band assignments (index into strides tuple):
+    #   L0↑ (fine):    [0,1,2,3]   → s1,s8,s16,s32       fine→coarse
+    #   L1↑ (medium):  [2,3,4,5,6] → s16,s32,s64,s128,s256  fine→coarse
+    #   L2  (apex):    [4,5,6,7,8] → s64,s128,s256,s512,s1024  fine→coarse
+    #   L1↓ (medium):  [2,3,4,5,6] → s256,s128,s64,s32,s16  coarse→fine
+    #   L0↓ (fine):    [0,1,2,3]   → s32,s16,s8,s1       coarse→fine
+    #
+    # Adjacent passes share 2-3 strides for inter-level communication.
+    # MERA tensor network topology: each level handles one scale band.
+    fractal_stride_bands: bool = False  # default off, enable for fractal runs
+    # Per-pass stride index ranges: (start_inclusive, end_exclusive) into strides tuple
+    # 5 passes: L0↑, L1↑, L2, L1↓, L0↓
+    stride_band_ranges: tuple[tuple[int, int], ...] = (
+        (0, 4),   # L0↑: indices 0-3 → s1,s8,s16,s32
+        (2, 7),   # L1↑: indices 2-6 → s16,s32,s64,s128,s256
+        (4, 9),   # L2:  indices 4-8 → s64,s128,s256,s512,s1024
+        (2, 7),   # L1↓: indices 2-6 → s16..s256 (reversed by desc_stride_reverse)
+        (0, 4),   # L0↓: indices 0-3 → s1..s32 (reversed by desc_stride_reverse)
+    )
 
     # ── Abstraction slots (S4→S5 composed abstractions) ──
     n_abstraction_slots: int = 16    # learnable embedding slots beyond KIBC
