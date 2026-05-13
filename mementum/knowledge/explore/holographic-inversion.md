@@ -1,7 +1,8 @@
 # Holographic Inversion — VSM-LM v11
 
-> Status: **validated** (session 090). All 4 training predictions confirmed.
-> Ascending arm holographic, descending arm bottleneck identified. Run continuing.
+> Status: **validated + extended** (session 091). All 4 training predictions
+> confirmed. Descending arm bottleneck addressed: coarse→fine stride direction
+> + fractal stride bands. Next run: v11-holo-inv.
 
 ## Context
 
@@ -264,6 +265,45 @@ Ascending arm converges on golden ratio compression:
 
 Descending arm chaotic (L1↓ φ-dev=3.0 at 7K), consistent with
 reorganization during kernel integration learning.
+
+## Session 091: Addressing the Descending Arm Bottleneck
+
+### New findings (8K-9K probes)
+
+8K was a local optimum (holo ratio 0.95, all passes improved). 9K shows
+a reorganization wave — all holo CEs regressed, matching the 3K spike.
+The model tears apart representations when compute gate capacity increases
+(66%→74%), then rebuilds better. Two such waves now observed: 3K and 9K.
+
+### TST connection (Peng et al. 2026)
+
+Token-Superposition Training proves that coarse→fine prediction works
+when coarse levels have direct loss (multi-hot CE on token bags, 2.5×
+speedup). The original v11 coarse→fine descending arm failed because
+it lacked this signal. Holographic loss provides it — continuous TST.
+
+  coarse→fine(arch) + direct_loss(training) = works (TST, now holo)
+  coarse→fine(arch) + uniform_loss(training) = fails (original v11)
+
+### Two architectural changes
+
+1. **Coarse→fine descending stride** (`desc_stride_reverse=True`, now default):
+   Descending arm processes s1024→...→s1, complementing ascending s1→...→s1024.
+   Ascending compresses, descending expands.
+
+2. **Fractal stride bands** (`fractal_stride_bands=True`, now default):
+   Each pass activates only strides matching its resolution level.
+   L0↑: s1-s32, L1↑: s16-s256, L2: s64-s1024, etc. MERA topology.
+   49% fewer stride activations per forward pass. Same shared weights.
+
+### Holographic capacity hypothesis
+
+Normal LLMs build redundant multi-scale representations that accidentally
+form holographic patterns. If holographic loss trains intentional holograms,
+fractal bands stop wasting capacity on all 9 strides per pass. The freed
+capacity can pack holograms more densely — the point of holographic storage.
+
+See: `mementum/knowledge/explore/fractal-stride-bands.md`
 
 ## Future: Domain Banking (not implemented yet, design only)
 
