@@ -95,6 +95,26 @@ Extracted seed: **784 KB** from 32B model.
 Files: `results/holographic-bank/seed_qwen3_32b.npz`, `seed_meta.json`
 Scripts: `scripts/explore/extract_holographic_bank.py`
 
+### 7. Qwen3.6-35B-A3B MoE probing
+
+Fixed MPS histogram bug (one-line patch: `device.type in ("cpu", "mps")`).
+Hybrid architecture: 40 layers, every 4th is full attention (L3,7,11,...,39), rest linear (GatedDeltaNet).
+256 experts × 8 active, d=2048, 16 heads × head_dim=512, 2 KV heads.
+
+**Completely different depth profile from Qwen3-32B:**
+- Qwen3-32B: combinators peak in L0-6 (first 10%)
+- Qwen3.6-35B-A3B: B peaks at L7-9 (early) AND L31-36 (late) — **bimodal!**
+- B dominates everywhere (0.04-0.20), K second (0.02-0.08), I weakest (0.01-0.02)
+- Full attention layers show spikes: L7=0.115, L31=0.195 (strongest)
+
+Ternary survival: ✓ at 50% and 75% sparsity. sign_only slightly weaker at L31 (0.46)
+but final-layer impact minimal (0.95). **Topological storage confirmed across architectures.**
+
+MoE gate patterns (256×2048) extracted — these are the expert routing matrices,
+themselves a form of beam selection.
+
+Patterns saved: `results/holographic-bank/qwen36_35b_a3b_patterns.npz` (29KB compressed)
+
 ### 6. Active run command (unchanged)
 
 ```
