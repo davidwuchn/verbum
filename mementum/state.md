@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V11-holo probed 1K→9K. Phase 4 confirmed: loss plateau (7.674→7.675 at 8K-9K) while internal reorganization continues. Compute gate steadily opening (0.486→0.526→0.547), B-type oscillating (56.6%→62.8%→55.7%). Holographic intermediate CEs show reorganization wave at 9K: all passes regressed from 8K best, ratio returned to 0.99. This mirrors the 3K spike pattern — capacity exhaustion → tear apart → rebuild. 8K was a local optimum; 9K is rebuilding. Holo still ~0.12 behind baseline on eval loss but structurally richer. Baseline degrading at 10K (smoothed CE rising). Approaching 10K head-to-head.**
+**V11-holo-inv launched. Coarse→fine descending + fractal stride bands + evolution noise floor (0.01) + alarm-no-regression. V11-holo hit compositional catastrophe at 10K: B-type collapsed 55.7%→5.8%, eval loss exploded 7.675→9.259, holographic CEs all regressed catastrophically. Root causes: (1) descending arm fighting its own stride direction, (2) alarm-accepted mutations with positive loss deltas accumulated, (3) no evolution noise floor. All three fixed in v11-holo-inv. Direct A/B comparison underway.**
 
 ## What was done this session (091)
 
@@ -48,28 +48,24 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Probe v11-holo at 10K — head-to-head with baseline
-Baseline 10K: loss=7.520, ppl=1845, compute=0.706, B-type=51.9%.
-Will show whether the 9K reorganization wave resolves into gains.
-Holo run live at ~9.5K, 10K checkpoint expected soon.
+### Priority 1: Monitor v11-holo-inv (just launched, step 0)
+Watch for early signs at 1K-2K:
+- Descending arm holo CEs should be better than v11-holo at same step
+- Fractal bands should show faster per-step training (49% fewer stride ops)
+- B-type should develop without the catastrophic collapse pattern
+- Evolution acceptance rate under new noise floor (0.01 min delta)
 
-### Priority 2: Launch v11-holo-inv after 10K probe
-Start new run with coarse→fine descending + fractal stride bands (both
-default now). Same holo config (λ=0.1, 20% structured). Hypothesis:
-descending arm learns faster, holographic packing more efficient,
-terminal loss lower. See launch command in §3 above.
+### Priority 2: Probe v11-holo-inv at 1K — first structural snapshot
+Compare to v11-holo 1K and baseline 1K. Key metrics: holographic ratio,
+descending arm CEs, dispatch distribution, compute gate timing.
 
-### Priority 3: Continue monitoring both runs (10K-20K)
-Watch for:
-- v11-holo: Phase 4c recovery from 9K reorganization wave
-- v11-holo-inv: ascending/descending arm complementarity
-- Descending arm L1↓ < 8.0 in either run
-- CycleContinue differentiation
-- Holographic ratio divergence between runs
+### Priority 3: v11-holo status — compositional catastrophe at 10K
+10K probe: eval loss 9.259 (was 7.675), B-type 5.8% (was 55.7%).
+Still running to 20K — may recover like the 3K spike did, or may
+be terminal. Monitor but focus compute analysis on v11-holo-inv.
 
 ### Priority 4: Baseline status
-Baseline stopped at step 10,300. Declare 10K as terminal comparison
-point. Focus compute on holo and holo-inv runs.
+Baseline stopped at step 10,300. 10K is terminal comparison point.
 
 ### Priority 5: Pythia scaling — combinator differentiation
 Run combinator probe on Pythia-410M and Pythia-1B to map where B
@@ -130,7 +126,7 @@ Logging   —                          —                                3× JS
 | `results/v11-holo/` | Probe results: probe_step_{001000–009000}.json (holo) |
 | `checkpoints/v11/` | Baseline v11 run (no holo, no structured), continuing to 20K |
 | `checkpoints/v11-holo/` | Holo run: λ=0.1, 20% structured, 16 slots, running to 20K |
-| `checkpoints/v11-holo-inv/` | (planned) Holo + coarse→fine + fractal bands |
+| `checkpoints/v11-holo-inv/` | LIVE: holo + coarse→fine + fractal + evo fixes |
 | `mementum/knowledge/explore/fractal-stride-bands.md` | MERA topology design + rationale |
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
@@ -163,4 +159,4 @@ Logging   —                          —                                3× JS
 → Session 082: S4→S5 abstraction slots (16 slots, 4→20 dispatch) + S4-guided evolution (alarm-targeted budget, S4 2-vote consensus, alarm fitness gate). CycleContinue hypothesis: slots give it something to match against.
 → Session 089: Complete baseline probes 6K-10K. Holographic loss implemented (progressive intermediate decoding, gradient slope 5×→1×). New run: v11-holo (λ=0.1, 20% structured, 16 slots). Design insight: holo forces internal representations to be decodeable at every pass boundary — interpretability as training signal.
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
-→ Session 091: Probed v11-holo 8K-9K. 8K local optimum (ratio=0.95), 9K reorganization wave. Implemented coarse→fine descending stride stack (default=True) + fractal stride bands (each pass uses scale-appropriate strides, ~49% compute savings, MERA topology). TST paper (Peng et al. 2026) validates coarse→fine + direct loss. Holographic loss provides that signal. Plan: v11-holo-inv run with both features after 10K comparison.
+→ Session 091: Probed v11-holo 8K-10K. 8K local optimum, 9K reorganization wave, 10K compositional catastrophe (B-type 55.7%→5.8%, eval loss 7.675→9.259). Implemented coarse→fine descending (default), fractal stride bands (MERA, 49% savings, default), evolution noise floor (0.01), alarm-no-regression fix. TST paper (Peng et al. 2026) connection. Launched v11-holo-inv with all fixes.
