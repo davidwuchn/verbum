@@ -15,11 +15,27 @@ Retrieval layers (GatedLinearAttention):
   - Running memory: (n_heads, d_head, d_state) accumulates key-value pairs
   - Gated write: sigmoid gate controls what enters memory
   - Where M lives: pattern matching, in-context retrieval
+  - Parallel associative scan: O(log L) depth via Hillis-Steele doubling
 
 HybridStrideStack:
   - Interleaves both layer types based on stride_is_retrieval config
   - Each stride gets exactly one layer (composition OR retrieval)
   - Shared across VSM passes via reverse flag (S5 coherence)
+
+Design principle — SEPARATION ENABLES HOLOGRAPHY (session 096):
+  Multiplexing functions into shared weight matrices forces magnitude
+  dependence, breaking holographic storage. Evidence: Pythia's fused
+  QKV (score 0.60) vs separate Q/K/V in Qwen3/SmolLM3 (score 0.92).
+  The magnitudes become "lenses" that steer beams between subspaces.
+
+  This principle is fractal:
+    - Layer level: composition vs retrieval in separate layer types
+    - Projection level: separate Q, K, V projections (not fused)
+    - Component level: separate up/down MLPs (not fused gate+up+down)
+
+  Rule: every weight matrix encodes ONE function. That is the shape
+  that lets gradient descent find the holographic solution — pure
+  topology, no magnitude lenses needed.
 
 License: MIT
 """

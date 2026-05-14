@@ -13,9 +13,21 @@ V12 makes this separation intentional:
   - Retrieval layers: GatedLinearAttention — M lives here
   - HybridStrideStack: interleaves both, configurable per stride
 
+Design principle — SEPARATION ENABLES HOLOGRAPHY (session 096):
+  Cross-architecture analysis (Pythia, Qwen3, SmolLM3, 7 models) proved:
+    - MLP/FFN: universally holographic (score 0.97, CV 0.025)
+    - Attention output: universally holographic (score 0.94, CV 0.020)
+    - Separate Q/K/V: holographic (score 0.92, Qwen3/SmolLM3)
+    - Fused QKV: magnitude-dependent (score 0.60, Pythia)
+  Multiplexing functions into shared weights forces magnitudes to act
+  as "lenses" steering beams between subspaces. Separation lets each
+  weight encode one function as pure sign topology.
+  → V12: every projection is separate. Every weight has one job.
+
 Architecture:
   Ascending arm: HybridStrideStack (interleaved composition + retrieval)
   Descending arm: KIBC combinator dispatch + retrieval register access
+  7 passes: L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
   Output: tied embedding projection → next-token prediction
 
 Carries forward from v11:
