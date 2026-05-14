@@ -290,7 +290,8 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     print("  └─────────────────────────────────────────────────┘", file=sys.stderr)
 
     # Combinator emphasis (S4→dispatch modulation)
-    comb_emph = compressor_metrics.get("combinator_emphasis")
+    comb_emph = compressor_metrics.get("emphasis_bias",
+                                       compressor_metrics.get("combinator_emphasis"))
     if comb_emph:
         from kernel import COMBINATOR_NAMES
         indexed = sorted(enumerate(comb_emph), key=lambda x: x[1], reverse=True)

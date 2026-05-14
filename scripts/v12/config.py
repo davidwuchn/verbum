@@ -148,6 +148,13 @@ class V12Config:
     holo_warmup_steps: int = 0
     holo_ramp_steps: int = 0
 
+    # ── Dispatch entropy regularization (v12 variety fix) ──
+    # Penalizes dispatch collapse: squared hinge on entropy below target.
+    # Target = 85% of max entropy (ln(4) ≈ 1.386 → target ≈ 1.178).
+    # Creates gradient flow from dispatch diversity back to ascending arm.
+    dispatch_entropy_lambda: float = 0.01
+    dispatch_entropy_target: float = 1.178   # ln(4) * 0.85
+
     # Dropout
     dropout: float = 0.1
 

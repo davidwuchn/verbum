@@ -147,19 +147,18 @@ class CombinatorDispatch(nn.Module):
 
     def _get_all_embeddings(
         self,
-        combinator_emphasis: mx.array | None = None,
         proposal_delta: mx.array | None = None,
     ) -> mx.array:
         """Get combined (4+N, d_model) embedding table.
 
-        Returns normalized KIBC embeddings (with emphasis) concatenated
-        with gated slot embeddings (with optional S4 proposal delta).
+        Returns normalized KIBC embeddings concatenated with gated
+        slot embeddings (with optional S4 proposal delta).
+
+        v12: emphasis removed from embeddings. S4/alarm now control
+        dispatch via additive logit bias (correct in softmax space).
         """
-        # KIBC embeddings
+        # KIBC embeddings — pure normalized, no emphasis multiplication
         comb_emb = self._normalize_embeddings()  # (4, d_model)
-        if combinator_emphasis is not None:
-            # Only apply emphasis to KIBC, not slots
-            comb_emb = comb_emb * combinator_emphasis[:self.n_combinators, None]
 
         if self.n_abstraction_slots == 0:
             return comb_emb
@@ -181,13 +180,15 @@ class CombinatorDispatch(nn.Module):
         self,
         x: mx.array,
         registers: list[list[mx.array]] | None = None,
-        combinator_emphasis: mx.array | None = None,
+        dispatch_bias: mx.array | None = None,
         proposal_delta: mx.array | None = None,
     ) -> mx.array:
         """
         x: (B, L, d_model)
         registers: ascending register banks for conditioning
-        combinator_emphasis: (n_combinators,) per-combinator emphasis from S4
+        dispatch_bias: (n_combinators,) additive logit bias from S4 emphasis
+            + alarm dispatch bias. Acts in logit space (correct for softmax).
+            Replaces old multiplicative combinator_emphasis.
         proposal_delta: (N, d_model) S4 proposal modulation for slot embeddings
 
         Returns: (B, L, d_model) with residual connection
@@ -211,6 +212,13 @@ class CombinatorDispatch(nn.Module):
                 ])
             reg_bias = self.register_cond(cond_input)[:self.n_combinators]
             kibc_logits = kibc_logits + reg_bias[None, None, :]
+
+        # Dispatch bias: additive logit-space control from S4 + alarm
+        # Replaces v11's multiplicative emphasis (which saturated at ceiling).
+        # Additive bias in logit space is the correct actuator for softmax:
+        # a +2 bias on one combinator shifts its probability ~7× relative.
+        if dispatch_bias is not None:
+            kibc_logits = kibc_logits + dispatch_bias[None, None, :]
 
         # Step 2: Slot logits via dot product with gated slot embeddings
         if self.n_abstraction_slots > 0:
@@ -242,7 +250,7 @@ class CombinatorDispatch(nn.Module):
 
         # Step 3: All embeddings (KIBC + gated slots)
         all_emb = self._get_all_embeddings(
-            combinator_emphasis, proposal_delta)  # (4+N, d_model)
+            proposal_delta)  # (4+N, d_model)
 
         # Step 4: Weighted embedding — identity modulation
         # (B, L, 4+N) @ (4+N, d_model) → (B, L, d_model)

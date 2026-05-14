@@ -930,9 +930,10 @@ class AlgedonicAlert(nn.Module):
                  N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
                  N_SUPPRESSION_RATIOS + N_REGISTER_NORMS)  # = 65
 
-    def __init__(self, n_passes: int = 5):
+    def __init__(self, n_passes: int = 5, n_combinators: int = 4):
         super().__init__()
         self.n_passes = n_passes
+        self.n_combinators = n_combinators
 
         # Single linear: operational metrics → per-pass alarm logits
         # Zero-init: alarm starts inert (all factors = 1.0)
@@ -940,23 +941,54 @@ class AlgedonicAlert(nn.Module):
         self.alarm_proj.weight = mx.zeros_like(self.alarm_proj.weight)
         self.alarm_proj.bias = mx.zeros_like(self.alarm_proj.bias)
 
-    def __call__(self, metrics_vector: mx.array) -> mx.array:
-        """Compute alarm factors from operational health metrics.
+        # ── Per-combinator dispatch bias (v12 variety fix) ────
+        # The v11 gap: alarm could only modulate per-PASS amplitude,
+        # but dispatch collapse happens per-COMBINATOR within a pass.
+        # 5 knobs can't control 4×5=20 dimensions (Beer's variety law).
+        #
+        # This head gives the alarm direct per-combinator control:
+        # output is an additive bias on CombinatorDispatch logits.
+        # If B is declining while entropy drops, alarm can boost B's
+        # logit directly without affecting K/I/C.
+        #
+        # Zero-init: bias starts at [0,0,0,0] (inert, same as v11).
+        # Range [-2, +2] via tanh×2: a ±2 shift on logits is significant
+        # in softmax (shifts ~7× probability ratio).
+        self.dispatch_bias_proj = nn.Linear(self.INPUT_DIM, n_combinators)
+        self.dispatch_bias_proj.weight = mx.zeros_like(
+            self.dispatch_bias_proj.weight)
+        self.dispatch_bias_proj.bias = mx.zeros_like(
+            self.dispatch_bias_proj.bias)
+
+    def __call__(
+        self, metrics_vector: mx.array,
+    ) -> tuple[mx.array, mx.array]:
+        """Compute alarm factors and dispatch bias from health metrics.
 
         Args:
             metrics_vector: (INPUT_DIM,) packed operational metrics.
                 All values should be differentiable (no stop_gradient).
 
         Returns:
-            (n_passes,) alarm factors:
+            pass_factors: (n_passes,) alarm factors:
               1.0 → no alarm (neutral)
               < 1.0 → pain (suppress this pass)
               > 1.0 → pleasure (amplify, up to 2.0)
+            dispatch_bias: (n_combinators,) additive logit bias:
+              0.0 → neutral (no alarm intervention on dispatch)
+              > 0 → boost this combinator's softmax share
+              < 0 → suppress this combinator's softmax share
+              Range [-2, +2] — significant in softmax space.
         """
-        logits = self.alarm_proj(metrics_vector)
-        # tanh clamp → [-1, +1], shift to [0, 2]
-        # At init: logits = 0 → tanh(0) = 0 → factor = 1.0
-        return 1.0 + mx.tanh(logits)
+        # Per-pass factors (existing mechanism)
+        pass_logits = self.alarm_proj(metrics_vector)
+        pass_factors = 1.0 + mx.tanh(pass_logits)
+
+        # Per-combinator dispatch bias (new: variety-matching actuator)
+        dispatch_logits = self.dispatch_bias_proj(metrics_vector)
+        dispatch_bias = 2.0 * mx.tanh(dispatch_logits)
+
+        return pass_factors, dispatch_bias
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1237,47 +1269,59 @@ if __name__ == "__main__":
     print(f"  S4 gradient flow OK: loss={lv.item():.4f} ✓")
 
     print("Testing AlgedonicAlert...")
-    alarm = AlgedonicAlert(n_passes=7)
+    alarm = AlgedonicAlert(n_passes=7, n_combinators=4)
     mx.eval(alarm.parameters())
     # Input dim should be 65 (v12: 7 passes, 6 transitions, 8 banks)
     assert AlgedonicAlert.INPUT_DIM == 65, \
         f"Expected INPUT_DIM=65, got {AlgedonicAlert.INPUT_DIM}"
-    # At init: all factors should be 1.0 (alarm silent)
+    # At init: factors ~1.0, dispatch_bias ~0.0
     metrics_vec = mx.zeros((AlgedonicAlert.INPUT_DIM,))
-    factors = alarm(metrics_vec)
-    mx.eval(factors)
+    factors, dispatch_bias = alarm(metrics_vec)
+    mx.eval(factors, dispatch_bias)
     assert factors.shape == (7,), f"Expected (7,), got {factors.shape}"
+    assert dispatch_bias.shape == (4,), f"Expected (4,), got {dispatch_bias.shape}"
     for i, f in enumerate(factors.tolist()):
         assert abs(f - 1.0) < 0.01, \
             f"Alarm factor {i} should be ~1.0 at init, got {f:.4f}"
+    for i, b in enumerate(dispatch_bias.tolist()):
+        assert abs(b) < 0.01, \
+            f"Dispatch bias {i} should be ~0.0 at init, got {b:.4f}"
     print(f"  AlgedonicAlert: factors {[f'{f:.3f}' for f in factors.tolist()]} ✓ (all ~1.0)")
-    # Verify range is [0, 2] with extreme inputs
+    print(f"  AlgedonicAlert: dispatch_bias {[f'{b:.3f}' for b in dispatch_bias.tolist()]} ✓ (all ~0.0)")
+    # Verify range: factors [0, 2], dispatch_bias [-2, +2]
     extreme_pos = mx.ones((AlgedonicAlert.INPUT_DIM,)) * 100.0
     alarm.alarm_proj.weight = mx.ones_like(alarm.alarm_proj.weight) * 0.1
-    factors_pos = alarm(extreme_pos)
-    mx.eval(factors_pos)
+    alarm.dispatch_bias_proj.weight = mx.ones_like(alarm.dispatch_bias_proj.weight) * 0.1
+    factors_pos, dbias_pos = alarm(extreme_pos)
+    mx.eval(factors_pos, dbias_pos)
     for f in factors_pos.tolist():
         assert 0.0 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
         assert f > 1.5, f"Extreme positive should give factor > 1.5, got {f:.3f}"
+    for b in dbias_pos.tolist():
+        assert -2.0 - 1e-6 <= b <= 2.0 + 1e-6, f"Dispatch bias out of [-2, 2]: {b}"
+        assert b > 1.5, f"Extreme positive should give bias > 1.5, got {b:.3f}"
     extreme_neg = mx.ones((AlgedonicAlert.INPUT_DIM,)) * -100.0
-    factors_neg = alarm(extreme_neg)
-    mx.eval(factors_neg)
+    factors_neg, dbias_neg = alarm(extreme_neg)
+    mx.eval(factors_neg, dbias_neg)
     for f in factors_neg.tolist():
         assert 0.0 - 1e-6 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
         assert f < 0.5, f"Extreme negative should give factor < 0.5, got {f:.3f}"
-    print(f"  AlgedonicAlert: range verified [0, 2] — pos={factors_pos[0].item():.3f}, neg={factors_neg[0].item():.3f} ✓")
+    for b in dbias_neg.tolist():
+        assert -2.0 - 1e-6 <= b <= 2.0 + 1e-6, f"Dispatch bias out of [-2, 2]: {b}"
+        assert b < -1.5, f"Extreme negative should give bias < -1.5, got {b:.3f}"
+    print(f"  AlgedonicAlert: range verified — factors [0, 2], bias [-2, +2] ✓")
     # Gradient flow test
-    alarm2 = AlgedonicAlert(n_passes=7)
+    alarm2 = AlgedonicAlert(n_passes=7, n_combinators=4)
     mx.eval(alarm2.parameters())
 
     class AlarmTestModel(nn.Module):
         def __init__(self):
             super().__init__()
-            self.alarm = AlgedonicAlert(n_passes=7)
+            self.alarm = AlgedonicAlert(n_passes=7, n_combinators=4)
             self.input_param = mx.zeros((AlgedonicAlert.INPUT_DIM,))
         def __call__(self, _):
-            factors = self.alarm(self.input_param)
-            return mx.sum(factors)
+            factors, dbias = self.alarm(self.input_param)
+            return mx.sum(factors) + mx.sum(dbias)
 
     atm = AlarmTestModel()
     mx.eval(atm.parameters())
@@ -1288,10 +1332,11 @@ if __name__ == "__main__":
     alv, ag = agfn(atm, dummy)
     mx.eval(alv, ag)
     print(f"  AlgedonicAlert gradient flow OK: sum={alv.item():.4f} ✓")
-    # Parameter count
+    # Parameter count: (65×7 + 7) pass_proj + (65×4 + 4) dispatch_bias_proj
     from mlx.utils import tree_flatten as tf
     n_alarm_params = sum(p.size for _, p in tf(alarm.parameters()))
-    print(f"  AlgedonicAlert params: {n_alarm_params} (65×7 + 7 = 462 expected) ✓")
+    expected_params = (65 * 7 + 7) + (65 * 4 + 4)  # = 462 + 264 = 726
+    print(f"  AlgedonicAlert params: {n_alarm_params} (expected {expected_params}) ✓")
 
     print("Testing RetrievalRegisters...")
     ret_regs = RetrievalRegisters(d_model, d_register, n_retrieval_registers=2)

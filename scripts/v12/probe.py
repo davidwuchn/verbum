@@ -454,8 +454,9 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
             eff_str = ",".join(f"{e:.2f}" for e in eff) if eff else "—"
 
             # Emphasis
-            emph = m.get("combinator_emphasis",
-                         m.get("op_emphasis", []))
+            emph = m.get("emphasis_bias",
+                         m.get("combinator_emphasis",
+                               m.get("op_emphasis", [])))
 
             print(f"  {step:>8} {loss:>8.4f} {r:>8.4f} {cg:>10.4f}", end="")
             for ci in range(min(len(dw), N_COMBINATORS)):
@@ -596,7 +597,8 @@ def run_instrumented_samples(
         "pass_entropy_in": [], "pass_entropy_out": [],
         "losses": [], "per_sample": [],
         "combinator_dispatch_weights": [], "combinator_type_weights": [],
-        "combinator_emphasis": [],
+        "emphasis_bias": [],
+        "alarm_dispatch_bias": [],
         "cycle_continue_gates": [], "effective_cycles": [],
         "compute_gate_mean": [],
     }
@@ -633,9 +635,12 @@ def run_instrumented_samples(
         if metrics.get("combinator_type_weights"):
             all_metrics["combinator_type_weights"].append(
                 metrics["combinator_type_weights"])
-        if metrics.get("combinator_emphasis"):
-            all_metrics["combinator_emphasis"].append(
-                metrics["combinator_emphasis"])
+        if metrics.get("emphasis_bias"):
+            all_metrics["emphasis_bias"].append(
+                metrics["emphasis_bias"])
+        if metrics.get("alarm_dispatch_bias"):
+            all_metrics["alarm_dispatch_bias"].append(
+                metrics["alarm_dispatch_bias"])
         if metrics.get("cycle_continue_gates"):
             all_metrics["cycle_continue_gates"].append(
                 metrics["cycle_continue_gates"])
@@ -766,7 +771,7 @@ def print_compressor_metrics(raw: dict):
                   f"{avg_cdw[ci]:.4f} {bar}")
 
     # Emphasis
-    emph = raw.get("combinator_emphasis", [])
+    emph = raw.get("emphasis_bias", raw.get("combinator_emphasis", []))
     if emph:
         avg_emph = [0.0] * N_COMBINATORS
         for e in emph:

@@ -216,14 +216,28 @@ class V12Model(nn.Module):
         # Retrieval register EMA (v12): carry retrieval state across steps
         self._prev_retrieval_regs = [
             mx.zeros((self.d_reg_real,)) for _ in range(cfg.n_retrieval_registers)]
+        # Alarm dispatch bias EMA: carries per-combinator bias across steps.
+        # The alarm runs AFTER all passes (retroactive), so the dispatch
+        # bias from alarm must come from the previous step's computation.
+        # Combined with S4 emphasis_bias (computed between asc/desc) to
+        # form the total dispatch_bias fed to CombinatorDispatch.
+        self._prev_alarm_dispatch_bias = mx.zeros((N_COMBINATORS,))
 
-        # ── Combinator emphasis: S4 registers → per-combinator ──
-        #    4 combinators instead of 22 ops
+        # ── Combinator emphasis → additive dispatch bias (v12) ──
+        # v11 used multiplicative emphasis (range [0.5, 1.5]) on embeddings.
+        # Problem: B started at 1.499 (ceiling), emphasis couldn't rescue it.
+        # Multiplicative scaling on embeddings is weak in softmax space.
+        #
+        # v12 fix: additive logit bias (range [-2, +2] via tanh×2).
+        # A +2 bias in logit space shifts softmax probability ~7× relative.
+        # This gives S4 real control over the dispatch distribution.
+        # Combined with alarm's per-combinator bias → two independent
+        # actuators on the same lever (both additive, correct composition).
         emphasis_input_dim = 3 * n_reg * self.d_reg_real
         self.emphasis_proj = nn.Linear(emphasis_input_dim, N_COMBINATORS)
         self.emphasis_proj.weight = mx.zeros_like(self.emphasis_proj.weight)
         self.emphasis_proj.bias = mx.zeros_like(self.emphasis_proj.bias)
-        self._combinator_emphasis = mx.ones((N_COMBINATORS,))
+        self._emphasis_bias = mx.zeros((N_COMBINATORS,))
         self._emphasis_ema = 0.95
 
         # ── S4→S5 abstraction proposal pathway ────────────────
@@ -440,7 +454,7 @@ class V12Model(nn.Module):
 
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
                          target_bank, embed_context=None,
-                         combinator_emphasis=None,
+                         dispatch_bias=None,
                          proposal_delta=None,
                          ret_regs=None):
         x_before = x
@@ -481,7 +495,7 @@ class V12Model(nn.Module):
                 # Phase 0: dispatch (which combinator/slot?)
                 dispatch_out = self.combinator_dispatch(
                     x, registers=readable_banks,
-                    combinator_emphasis=combinator_emphasis,
+                    dispatch_bias=dispatch_bias,
                     proposal_delta=proposal_delta)
                 delta = dispatch_out - x
                 raw_phases.append(delta)
@@ -659,19 +673,22 @@ class V12Model(nn.Module):
         pass_deltas.append(pd); raw_deltas.append(rd)
         asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
-        # ── Combinator emphasis (4-wide, not 22) ──────────────
-        # Uses the 3 ascending output banks (excluding bank_0 init and apex)
+        # ── S4 emphasis → additive dispatch bias (v12) ─────────
+        # Produces a (4,) logit bias from ascending register banks.
+        # Range [-2, +2] via tanh×2. Combined with alarm's dispatch
+        # bias in the descending arm to give both S4 and S5 control
+        # over the dispatch distribution in softmax space.
         emphasis_parts = []
         for bank in [bank_1_asc, bank_2_asc, bank_3_asc]:
             for reg in bank:
                 emphasis_parts.append(reg)
         emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
         raw_emphasis = self.emphasis_proj(emphasis_input)
-        combinator_emphasis = 1.0 + 0.5 * mx.tanh(raw_emphasis)  # [0.5, 1.5]
+        emphasis_bias = 2.0 * mx.tanh(raw_emphasis)  # [-2, +2]
 
-        self._combinator_emphasis = mx.stop_gradient(
-            self._emphasis_ema * self._combinator_emphasis
-            + (1.0 - self._emphasis_ema) * combinator_emphasis)
+        self._emphasis_bias = mx.stop_gradient(
+            self._emphasis_ema * self._emphasis_bias
+            + (1.0 - self._emphasis_ema) * emphasis_bias)
 
         # ── S4→S5 abstraction proposal ─────────────────────────
         proposal_delta = None
@@ -704,6 +721,13 @@ class V12Model(nn.Module):
         ])
         asc_gate_bank = [asc_gate_vector]
 
+        # ── Compose dispatch bias: S4 emphasis + alarm EMA ─────
+        # emphasis_bias: live from this step's ascending registers [-2, +2]
+        # _prev_alarm_dispatch_bias: EMA from previous step's alarm [-2, +2]
+        # Combined additively: correct composition in logit space.
+        prev_alarm_bias = mx.stop_gradient(self._prev_alarm_dispatch_bias)
+        dispatch_bias = emphasis_bias + prev_alarm_bias
+
         coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
         x = x + self.s2.direction_signal(pd, 3) * coherence
 
@@ -712,7 +736,7 @@ class V12Model(nn.Module):
             x, 4, True,
             [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex, asc_gate_bank],
             bank_3_desc, embed_context=x_embed,
-            combinator_emphasis=combinator_emphasis,
+            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
@@ -726,7 +750,7 @@ class V12Model(nn.Module):
             x, 5, True,
             [bank_0, bank_1_asc, bank_3_desc, bank_4_apex, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
-            combinator_emphasis=combinator_emphasis,
+            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
@@ -740,7 +764,7 @@ class V12Model(nn.Module):
             x, 6, True,
             [bank_0, bank_1_asc, bank_2_desc, bank_4_apex, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
-            combinator_emphasis=combinator_emphasis,
+            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
@@ -797,7 +821,15 @@ class V12Model(nn.Module):
         alarm_metrics = self._collect_alarm_metrics(
             all_s3_gates, pass_deltas, raw_deltas,
             all_pass_alarm, all_banks)
-        alarm_factors = self.algedonic(alarm_metrics)
+        alarm_factors, alarm_dispatch_bias = self.algedonic(alarm_metrics)
+        # Cache for probing/logging
+        self._alarm_dispatch_bias = mx.stop_gradient(alarm_dispatch_bias)
+        # Update EMA for next step's dispatch bias
+        α = self._algedonic_ema
+        self._prev_alarm_dispatch_bias = mx.stop_gradient(
+            α * self._prev_alarm_dispatch_bias
+            + (1.0 - α) * alarm_dispatch_bias)
+
         # Effective gate = S5Reweight × alarm factor
         effective_gates = meta_gates * alarm_factors
 
@@ -839,6 +871,36 @@ class V12Model(nn.Module):
                     copy_threshold=self.cfg.abstraction_copy_threshold,
                 )
                 loss = loss + reg_loss
+
+            # ── Dispatch entropy regularization (v12) ─────────────
+            # The v11 gap: no ascending→dispatch feedback loop.
+            # When ascending arm runs out of capacity, it drops
+            # B-relevant features first, and nothing penalizes the
+            # resulting dispatch collapse. This entropy penalty
+            # creates gradient flow from dispatch diversity back
+            # through the entire system.
+            #
+            # Squared hinge: only penalizes collapse (below target),
+            # not uniformity. Target = 85% of max entropy (ln(4)).
+            if self.cfg.dispatch_entropy_lambda > 0:
+                # Use live dispatch weights (differentiable)
+                dispatch_live = None
+                n_desc_live = 0
+                for pa in all_pass_alarm:
+                    dw_live = pa.get('dispatch_weights_live')
+                    if dw_live is not None:
+                        dw_mean = mx.mean(dw_live, axis=(0, 1))
+                        dispatch_live = dw_mean if dispatch_live is None \
+                            else (dispatch_live + dw_mean)
+                        n_desc_live += 1
+                if dispatch_live is not None and n_desc_live > 0:
+                    p = dispatch_live / n_desc_live
+                    entropy = -mx.sum(p * mx.log(p + 1e-8))
+                    entropy_deficit = mx.maximum(
+                        self.cfg.dispatch_entropy_target - entropy, 0.0)
+                    entropy_loss = self.cfg.dispatch_entropy_lambda * (
+                        entropy_deficit * entropy_deficit)
+                    loss = loss + entropy_loss
 
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.
@@ -926,7 +988,7 @@ class V12Model(nn.Module):
         pass_h_out = []
         asc_gate_mx = []
         asc_gate_bank = None
-        combinator_emphasis_inst = None
+        dispatch_bias_inst = None
         all_cycle_continue_gates = []
         all_effective_cycles = []
         proposal_delta_inst = None
@@ -992,7 +1054,7 @@ class V12Model(nn.Module):
                     # Phase 0: dispatch (with proposal if available)
                     dispatch_out = self.combinator_dispatch(
                         x, registers=readable,
-                        combinator_emphasis=combinator_emphasis_inst,
+                        dispatch_bias=dispatch_bias_inst,
                         proposal_delta=proposal_delta_inst)
                     delta = dispatch_out - x
                     raw_phases.append(delta)
@@ -1162,11 +1224,16 @@ class V12Model(nn.Module):
                         emphasis_parts.append(reg)
                 emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
                 raw_emphasis = self.emphasis_proj(emphasis_input)
-                combinator_emphasis_inst = 1.0 + 0.5 * mx.tanh(raw_emphasis)
-                mx.eval(combinator_emphasis_inst)
-                self._combinator_emphasis = mx.stop_gradient(
-                    self._emphasis_ema * self._combinator_emphasis
-                    + (1.0 - self._emphasis_ema) * combinator_emphasis_inst)
+                emphasis_bias_inst = 2.0 * mx.tanh(raw_emphasis)
+                mx.eval(emphasis_bias_inst)
+                self._emphasis_bias = mx.stop_gradient(
+                    self._emphasis_ema * self._emphasis_bias
+                    + (1.0 - self._emphasis_ema) * emphasis_bias_inst)
+                # Compose dispatch bias for instrumented path
+                prev_alarm_bias_inst = mx.stop_gradient(
+                    self._prev_alarm_dispatch_bias)
+                dispatch_bias_inst = emphasis_bias_inst + prev_alarm_bias_inst
+                mx.eval(dispatch_bias_inst)
 
                 # S4→S5 abstraction proposal
                 if self.cfg.n_abstraction_slots > 0:
@@ -1258,8 +1325,14 @@ class V12Model(nn.Module):
             all_s3_gates_mx, pass_deltas, raw_deltas,
             all_pass_alarm_inst, all_banks)
         mx.eval(alarm_metrics_inst)
-        alarm_factors_inst = self.algedonic(alarm_metrics_inst)
-        mx.eval(alarm_factors_inst)
+        alarm_factors_inst, alarm_dispatch_bias_inst = self.algedonic(
+            alarm_metrics_inst)
+        mx.eval(alarm_factors_inst, alarm_dispatch_bias_inst)
+        # Update alarm dispatch bias EMA
+        self._prev_alarm_dispatch_bias = mx.stop_gradient(
+            self._algedonic_ema * self._prev_alarm_dispatch_bias
+            + (1.0 - self._algedonic_ema) * alarm_dispatch_bias_inst)
+        self._alarm_dispatch_bias = mx.stop_gradient(alarm_dispatch_bias_inst)
         effective_gates = meta_gates * alarm_factors_inst
 
         total_ungated = pass_deltas[0]
@@ -1398,10 +1471,19 @@ class V12Model(nn.Module):
                               for i in range(alarm_metrics_inst.shape[0])],
             "effective_s5_gates": [float(effective_gates[i].item())
                                    for i in range(self.N_PASSES)],
-            "combinator_emphasis": (
-                [float(combinator_emphasis_inst[i].item())
+            "emphasis_bias": (
+                [float(emphasis_bias_inst[i].item())
                  for i in range(N_COMBINATORS)]
-                if combinator_emphasis_inst is not None else None
+                if emphasis_bias_inst is not None else None
+            ),
+            "alarm_dispatch_bias": (
+                [float(alarm_dispatch_bias_inst[i].item())
+                 for i in range(N_COMBINATORS)]
+            ),
+            "dispatch_bias": (
+                [float(dispatch_bias_inst[i].item())
+                 for i in range(N_COMBINATORS)]
+                if dispatch_bias_inst is not None else None
             ),
             "s2_conflict": s2_conflict,
             "s2_scales": s2_scales,
