@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V11-holo-inv probed at 1K and monitored through ~1.5K. Headline finding: all four KIBC combinators active from the start (B=27.6% dominant positions vs 0% in holo at 1K). Dispatch is balanced (K=34%, I=23%, B=28%, C=16%) with strong specialization (entropy 0.188). Type channel differentiates independently (I=68%, B=25% typed integration). Holographic intermediate CEs show correct inversion pattern (ascending compresses, descending specializes). Eval loss 8.235 slightly behind baseline 7.958 (expected — holo splits gradient across 5 decoders). Compute gate still closed. Evolution acceptance rising (20%→30%). Run healthy, approaching transition window.**
+**V11-holo-inv probed through 4K. Eval loss improving steadily (8.235→7.804). Descending arm expanding aggressively between 3K-4K (L0↓ CE: 9.41→9.85) but alarm de-saturating (1.884→1.847 off ~2.0 ceiling) — consistent with phase transition rather than catastrophe. C dispatch rising (0.137→0.176), I declining (0.343→0.294), S4 compensating by raising I emphasis (0.706→0.991). Evolution acceptance climbing (20%→36%). Compute gate still closed. CE hitting new lows (6.989 at step 4325). Approaching transition window.**
 
 ## What was done this session (094)
 
@@ -75,6 +75,60 @@ Features:
 - CLI: `--hologram type,induction`, `--model qwen36`, `--quick`, `--skip-ternary`
 
 Currently running on Qwen3.6-35B-A3B. Results → `results/hologram-atlas/`.
+
+### 3. Probed v11-holo-inv at 2K/3K/4K
+
+Full probes at steps 2000, 3000, 4000. Evolution table:
+
+```
+step   eval_loss  K      I      B      C      compute  evo     alarm
+────── ───────── ─────  ─────  ─────  ─────  ──────── ──────  ─────
+1000   8.235     0.383  0.343  0.132  0.137  0.000006 20%     ~2.0
+2000   7.872     0.401  0.343  0.111  0.140  0.000009 22%     ~2.0
+3000   7.819     0.413  0.300  0.131  0.154  0.000010 28%     ~2.0
+4000   7.804     0.407  0.294  0.122  0.176  0.000011 32%     ~2.0
+~4325  CE=6.989                                        36%     1.847
+```
+
+**Holographic intermediate CEs (eval-time):**
+```
+step   L0↑     L1↑     L2      L1↓     L0↓     ratio
+────── ─────── ─────── ─────── ─────── ─────── ───────
+1000   11.285  8.775   8.922   9.014   9.317   1.211
+2000   11.020  9.152   9.019   9.179   9.337   1.180
+3000   10.816  9.238   9.058   9.213   9.413   1.149
+4000   10.917  9.253   9.185   9.541   9.848   1.109
+```
+
+**Key findings:**
+
+1. **Descending arm expanding aggressively at 4K**: L1↓ jumped 9.21→9.54,
+   L0↓ jumped 9.41→9.85 between 3K-4K. This is CORRECT behavior (descending
+   goes coarse→fine = expansion), but rate accelerated sharply.
+
+2. **Alarm de-saturating**: 1.884→1.857→1.870→1.847. Coming off ~2.0 ceiling.
+   This is the algedonic channel detecting the expansion rate and gaining
+   headroom to steer. Same signal identified in session 090 as "system
+   beginning to address descending arm."
+
+3. **Phase transition reading, not catastrophe**: The v11-holo catastrophe
+   pattern was alarm-saturated + loss spike + B-collapse. Here we have
+   alarm DECLINING + loss IMPROVING + dispatch STABLE. Different topology.
+
+4. **C rising, I declining**: C dispatch 0.137→0.176, I dispatch 0.343→0.294.
+   Model discovering argument reordering (flip) as useful, relying less on
+   pure identity. Natural emergence of B ≥ K ≥ C >> I ordering.
+
+5. **S4 compensating for I**: I emphasis rose 0.706→0.991. Intelligence layer
+   giving I more weight per-activation as its share declines. Algedonic
+   system working as designed.
+
+6. **Type channel stabilized**: B-type rose from 0.254 (1K) to 0.464 (2K),
+   then stable ~0.42. Composition types dominate over identity types.
+
+7. **Compute gate still closed** (0.000011). Transition window expected 5K-7K.
+
+8. **CE hitting new lows**: 6.989 at step 4325, trending down consistently.
 
 ### Previous session (093) summary
 

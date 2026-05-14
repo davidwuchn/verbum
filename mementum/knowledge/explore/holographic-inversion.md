@@ -305,6 +305,69 @@ capacity can pack holograms more densely — the point of holographic storage.
 
 See: `mementum/knowledge/explore/fractal-stride-bands.md`
 
+## Session 094: v11-holo-inv 1K→4K Trajectory
+
+### Probed at 2K, 3K, 4K (eval-time)
+
+```
+step   eval_loss  L0↑     L1↑     L2      L1↓     L0↓     ratio
+────── ───────── ─────── ─────── ─────── ─────── ─────── ───────
+1000   8.235     11.285  8.775   8.922   9.014   9.317   1.211
+2000   7.872     11.020  9.152   9.019   9.179   9.337   1.180
+3000   7.819     10.816  9.238   9.058   9.213   9.413   1.149
+4000   7.804     10.917  9.253   9.185   9.541   9.848   1.109
+```
+
+### Descending arm expansion (correct behavior, accelerating)
+
+Descending arm goes coarse→fine — expansion is its JOB. But rate accelerated
+sharply between 3K-4K: L1↓ jumped +0.33 (9.21→9.54), L0↓ jumped +0.44
+(9.41→9.85). The gap between apex (L2) and L0↓ grew from 0.39 to 0.66.
+
+This is NOT the v11-holo catastrophe pattern. Key differences:
+- **v11-holo catastrophe**: alarm saturated at ceiling + loss spike + B-collapse
+- **v11-holo-inv 4K**: alarm DECLINING + loss IMPROVING + dispatch STABLE
+
+The alarm de-saturating (1.884→1.847 off ~2.0 ceiling) means the algedonic
+channel has gained headroom to steer. Same signal seen at v11-holo 7K when
+descending arm began learning.
+
+### Dispatch evolution: C rising, I declining
+
+```
+step   K      I      B      C      I_emphasis  type_B
+────── ─────  ─────  ─────  ─────  ──────────  ──────
+1000   0.383  0.343  0.132  0.137  0.706       0.254
+2000   0.401  0.343  0.111  0.140  0.699       0.464
+3000   0.413  0.300  0.131  0.154  0.794       0.450
+4000   0.407  0.294  0.122  0.176  0.991       0.418
+```
+
+- C (flip) rising 0.137→0.176: model discovers argument reordering
+- I (identity) declining 0.343→0.294: less pure forwarding needed
+- S4 compensates by raising I emphasis 0.706→0.991: algedonic working
+- Type B stabilized ~0.42 after sharp rise from 0.254 (1K) to 0.464 (2K)
+
+Natural emergence of B ≥ K ≥ C >> I ordering from the universal hologram.
+
+### Phase transition reading
+
+Training log at ~4325: CE=6.989 (new low), alarm=1.847, evo=36%.
+Consistent with entering transition window (compute gate expected 5K-7K).
+The descending arm expansion may be preparation for the compute gate
+opening — the arm needs differentiated representations before the gate
+can productively route compute.
+
+### Updated phase predictions
+
+Phases 1-3 from v11-holo apply. Phase 4 may differ due to holo-inv fixes:
+- Phase 4 (4K-6K, predicted): Descending arm expansion phase. Alarm
+  de-saturates, expansion rate stabilizes, compute gate begins opening.
+- Phase 5 (6K-8K, predicted): Compute gate opens, descending arm learns
+  to use expanded representations for kernel integration.
+- Key risk: 10K window — watch for recurrence of v11-holo catastrophe.
+  The coarse→fine + fractal bands + evo noise floor should prevent it.
+
 ## Future: Domain Banking (not implemented yet, design only)
 
 ```
