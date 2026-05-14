@@ -988,6 +988,11 @@ def run_ternary_survival(
 # Cross-hologram orthogonality
 # ══════════════════════════════════════════════════════════════════
 
+def _int_keys(d: dict) -> dict:
+    """Convert string keys to int (JSON roundtrip loses int keys)."""
+    return {int(k): v for k, v in d.items()}
+
+
 def compute_orthogonality(
     selectivity_profiles: dict[str, dict],
     measure_layers: list[int],
@@ -1004,7 +1009,7 @@ def compute_orthogonality(
     # Build vectors: selectivity across all layers
     vectors = {}
     for name in hologram_names:
-        profile = selectivity_profiles[name]
+        profile = _int_keys(selectivity_profiles[name])
         vec = np.array([profile[li] for li in measure_layers])
         vectors[name] = vec
 
@@ -1486,7 +1491,7 @@ Examples:
             all_results["holograms"]["combinator"] = cached_data
             agg = cached_data.get("selectivity", {}).get("aggregate", {})
             if agg.get("layer_selectivity"):
-                selectivity_profiles["combinator"] = agg["layer_selectivity"]
+                selectivity_profiles["combinator"] = _int_keys(agg["layer_selectivity"])
         else:
             print(f"\n{'─'*72}")
             print(f"  Combinator baseline (for cross-hologram comparison)")
@@ -1519,7 +1524,7 @@ Examples:
             all_results["holograms"][hname] = cached_data
             agg = cached_data.get("selectivity", {}).get("aggregate", {})
             if agg.get("layer_selectivity"):
-                selectivity_profiles[hname] = agg["layer_selectivity"]
+                selectivity_profiles[hname] = _int_keys(agg["layer_selectivity"])
             continue
 
         probes = HOLOGRAM_PROBES[hname]
