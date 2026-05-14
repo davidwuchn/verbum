@@ -2,113 +2,121 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-14 | Session: 096
+> Last updated: 2026-05-14 | Session: 097
 
 ## Where we are
 
-**V12 complete — dual-layer architecture with symmetric 7-pass hourglass (3 asc + apex + 3 desc). M kernel as GatedLinearAttention layer type. Descending arm gains 3rd pass (was 2 in v11), addressing the depth bottleneck identified in session 090. Cleaner MERA: each level handles a narrow stride band. 26.1M params, all tests pass. V11-holo-inv at 10K stable (loss 7.703, B 57.7%). Ready to train V12 once v11-holo-inv reaches 15K.**
+**V12 evolved — VSM feedback topology closed, GLA 2.7× faster, S4→S3 cycle budget channel added. Three gaps from v11's B-dispatch collapse (r=0.82 alarm-detected but uncorrectable) fixed: per-combinator alarm actuator, additive logit-space emphasis, dispatch entropy regularization. Stride-aware GLA gather/scatter eliminates 78% of training cost (771→2104 tok/s). S4 now controls cycle depth via budget bias to CycleContinue. Evolution noise floor unified at 0.02. 26.1M params, all tests pass. V11-holo-inv at 12.8K/20K, training live. V12 ready to launch.**
 
-## What was done this session (096)
+## What was done this session (097)
 
-### 1. Designed V12 dual-layer architecture
+### 1. Diagnosed v11 B-dispatch decline — VSM variety gap
 
-Key insight: M (match/retrieval) is NOT a 5th combinator in the KIBC dispatch softmax.
-M is a different *layer type*. Evidence from session 095:
-- Induction circuit is maximally independent (J=0.176 with everything else)
-- Lives exclusively in GatedDeltaNet layers (linear attention), not full attention
-- Shares no heads with KIBC (0 of top-20 overlap)
+Analyzed v11-holo-inv 10K-12K metrics: B dispatch declining monotonically (0.132→0.079)
+while alarm detects the problem but can't fix it. Traced the feedback topology:
 
-Qwen3.6's hybrid architecture accidentally separates composition (full attention every
-4th layer) from retrieval (GatedDeltaNet between). The field doesn't know why this
-works — they optimize on perplexity without the holographic theory. V12 makes the
-separation intentional.
+**Three structural failures:**
+1. **Alarm → pass amplitude (wrong granularity)**: 48 inputs but only 5 per-pass scalar
+   outputs. Can't selectively boost B within a pass. Beer's variety law: controller must
+   match system dimensionality. 5 knobs can't control 4×5=20 dimensions.
+2. **Emphasis saturated at ceiling**: `1.0 + 0.5*tanh(raw)` range [0.5, 1.5]. B started
+   at 1.499 — nowhere to go. Multiplicative on embeddings is weak in softmax space;
+   additive on logits is the correct actuator.
+3. **No ascending→dispatch feedback loop**: ascending arm optimized for holographic loss
+   but had no gradient penalty for dispatch collapse downstream.
 
-### 2. Built `scripts/v12/` (10 files, copied from v11, evolved)
+Evidence: r=0.82 correlation B_dispatch vs ascending S3 gate means. L0↑ suppression
+reached 0.51. S4 emphasis drifted downward (1.499→1.470) — sensor shares the bottleneck.
 
-| File | Changes |
-|------|---------|
-| `config.py` | V12Config: d_state=64, stride_is_retrieval, n_retrieval_registers=2 |
-| `kernel.py` | Added Kernel enum (KIBCM), M definition. N_COMBINATORS still 4. |
-| `attention.py` | NEW: GatedLinearAttention (running memory, gated write, linear retrieval). NEW: HybridStrideStack (interleaves comp+ret per stride). |
-| `components.py` | NEW: RetrievalRegisters (bridge ascending M → descending KIBC). Gated write, normalized registers, instrumentation. |
-| `kernel_dispatch.py` | CombinatorIntegrate gains retrieval_registers param. Retrieval context conditions FFN pathway. KIBC dispatch unchanged. |
-| `model.py` | V12Model: ascending arm uses HybridStrideStack, ret_regs threaded through all passes. Rich retrieval instrumentation. |
-| `probe.py` | V12 references, retrieval metrics in print/save/evolution. |
-| `train.py` | V12 references, retrieval metrics in JSONL logging and eval print. |
+### 2. V12 VSM variety fix (3 changes)
 
-### 3. GatedLinearAttention design
+1. **AlgedonicAlert per-combinator dispatch bias**: `dispatch_bias_proj` (65→4) produces
+   additive logit bias on CombinatorDispatch. Range [-2, +2] via tanh×2. Zero-init.
+   When alarm sees B declining + entropy dropping, it boosts B's softmax logit directly.
 
-```python
-q = elu(q_proj(x)) + 1           # non-negative queries
-k = elu(k_proj(x)) + 1           # non-negative keys
-v = v_proj(x)                    # values
-gate = sigmoid(gate_proj(x))     # write gate [0, 1]
-S_t = (1-gate) * S_{t-1} + gate * outer(k, v)  # running memory
-output = q @ S_t                 # linear retrieval
-```
+2. **Additive emphasis bias**: S4's emphasis_proj output changed from multiplicative
+   embedding scale [0.5, 1.5] to additive logit bias [-2, +2]. A +2 bias shifts softmax
+   ~7× relative. S4 emphasis + alarm bias combine additively (correct for logit space).
 
-O(L×d) per position — linear in sequence length. The running memory IS the holographic
-plate. The gate controls constructive interference. Stride-aware: each GLA layer runs
-at its stride's scale (s16=phrase, s32=sentence, s64=paragraph).
+3. **Dispatch entropy regularization**: squared hinge penalty when entropy < 85% of max
+   (ln(4) × 0.85 ≈ 1.178). Gradient flows from dispatch collapse back through descending
+   arm to ascending arm — closing the open loop. `dispatch_entropy_lambda=0.01`.
 
-### 4. Stride layout
+### 3. Evolution noise floor
 
-```
-stride:    1     8    16    32    64   128   256   512  1024
-type:     comp  comp  RET   RET   RET  comp  comp  comp comp
-```
+Alarm-path acceptance had no minimum delta — any positive health change (0.0001) was
+accepted. Sign flips cause routing ripple effects that accumulate silently. Fixed:
+`evolution_alarm_min_delta=0.02` (1% of health range [0,2]). Loss-path min_delta also
+raised from 0.01 to 0.02 to match. Applied to both v11 (live run) and v12.
 
-Retrieval at phrase/sentence scales (s16-s64) — where induction patterns live
-empirically. Composition at word level (s1, s8) and structural level (s128+).
+### 4. Stride-aware GLA — 2.7× training speedup
 
-### 5. Symmetric 7-pass hourglass (3+apex+3)
+**The dominant bottleneck**: GLA parallel scan consumed 78% of training time. For stride=32,
+only 128 of 4096 positions participate, but the scan ran over all 4096 with masking.
+`S_all` tensor: (B, 4096, 8, 64, 64) = 512 MB per layer × 6 layers.
 
-Changed from 5 passes (3 asc + 2 desc) to 7 passes (3 asc + apex + 3 desc):
-```
-L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
-s1-16  s8-64  s32-256  s128-1024  s32-256  s8-64  s1-16
-```
-
-Each level handles a narrow stride band (cleaner MERA). Descending arm gets 3 KIBC
-dispatch passes (was 2) — addresses the depth bottleneck from session 090.
-
-- 8 register banks, 6 S2 transitions, 7 S3 instances
-- AlgedonicAlert INPUT_DIM: 48→65 (7 passes, 6 transitions, 8 banks)
-
-### 7. Holographic landscape probe — 93.6% ternary-safe
-
-Mapped every weight matrix (502 matrices, 34.7B params) in Qwen3.6-35B-A3B.
-
-**Methodological correction:** `cos(W, sign(W))` has ceiling `√(2/π) ≈ 0.798` for
-Gaussian weights. Initial scores clustered at 0.74-0.79 misleadingly. After
-correcting for Gaussian baseline using magnitude CV, the holographic structure
-becomes visible.
+**Fix**: Gather participating positions, scan over compact sequence, broadcast states for
+retrieval. Each position reads from `S_stride[:, i//stride]` (causal).
 
 ```
-TERNARY-SAFE:     93.6% of params (expert FFN + embedding)
-MAYBE SAFE:       97.6% of params (+ attention, linear attention)
-NEEDS PRECISION:   2.4% of params (MoE gates + conv1d)
+Config              Before      After     Speedup
+3 cycles fwd+bwd    10,625ms    3,894ms    2.73×
+1 cycle  fwd+bwd     9,133ms    2,597ms    3.52×
+3 cycles tok/s           771      2,104    2.73×
+1 cycle  tok/s           897      3,154    3.52×
 ```
 
-Expert FFN weights (93% of model) have magnitude CV ≈ Gaussian baseline → magnitudes
-are noise, signs ARE the computation. MoE gates (0.06%) and conv1d (0.003%) are deeply
-magnitude-dependent — they control routing and local convolution.
+### 5. S4→S3 cycle budget — intelligence controls cycle depth
 
-V12 architecture confirmed correct: TernaryLinear for composition (93.6%), float32
-gates for routing (2.4%). See `knowledge/explore/holographic-landscape.md`.
+**The gap**: CycleContinue (S3) only read its own register state — a closed loop with no
+intelligence input. S4 attended to the residual stream and knew content difficulty but
+had no channel to tell S3 when to stop cycling. Gates stuck at 0.982.
 
-### 8. Architecture verification
+**Fix**: `cycle_budget_proj` (emphasis_input → 1) produces scalar bias ∈ [-4, +4] that
+shifts CycleContinue's logit. Beer's S4→S3 policy channel: intelligence sets policy,
+control executes.
+- Simple content → negative bias → gate closes → fewer effective cycles
+- Complex content → positive bias → gate stays open → more cycles
+- Zero-init → starts inert (backward compatible)
 
-- All 4 module self-tests pass (kernel, attention, components, kernel_dispatch)
-- V12Model instantiates: 26,096,317 params
-- Forward pass: logits correct, loss 13.78
-- Backward pass: gradients computed, 388/700 parameter groups non-zero
-- Instrumented pass: 30 metrics total, 4 retrieval-specific:
-  - retrieval_gate_means: per-stride gate means across 4 ascending passes
-  - retrieval_memory_norms: per-stride memory norms per head
-  - retrieval_register_norms: per-register L2 norms (2 registers)
-  - retrieval_write_gates: per-register write activity (~0.05 at init)
-- 7 S3 gates, 6 S2 conflicts, 7 alarm factors, 7 holo losses — all correct
+### 6. Performance analysis (V12 architecture)
+
+Deep profiling of V12 (B=2, L=4096) revealed cost structure:
+
+| Component | GFLOPs | Fraction |
+|-----------|--------|----------|
+| Output projection | 1,275 | 42.0% |
+| Descending arm (3 passes × 3 cycles) | 1,113 | 36.7% |
+| Ascending arm (4 passes) | 541 | 17.8% |
+| S4 cross-attention | 105 | 3.5% |
+
+GLA retrieval layers add only 4.8% of total compute — retrieval is cheap.
+The output projection (512→151936 vocab) dominates FLOPs but is fast on AMX.
+Holographic loss when enabled adds 36.8% overhead (7 intermediate decodes).
+
+### 7. V11-holo-inv status (12.8K/20K, training live)
+
+```
+step   loss    comp   K_disp  B_disp  holo_ratio  alarm_min
+1K     12.52   0.000  0.383   0.132   1.122       2.000
+5K     11.76   0.000  0.419   0.101   1.051       1.392
+10K    11.63   0.827  0.417   0.084   1.038       1.361
+12K    11.60   0.882  0.436   0.079   1.034       1.324
+```
+
+B declining (0.132→0.079) — the variety gap that motivated session's V12 fixes.
+Alarm detects it (min factor 1.324, declining from 2.0) but can't correct.
+Holo ratio converging toward 1.0. Training continues to 20K for final checkpoint.
+
+## What was done session (096)
+
+V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator).
+HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge).
+7-pass symmetric hourglass (3+apex+3). Parallel associative scan for GLA (O(log L) depth).
+Holographic landscape probe: 93.6% of Qwen3.6 is ternary-safe.
+Cross-model universality: 3 architecture families confirm holographic partition.
+Multiplexing breaks holography: fused QKV score 0.60 vs separate 0.92.
+See session 096 entry in history for full details.
 
 ## What was done this session (095)
 
@@ -531,82 +539,104 @@ Tested Pythia-70M through Qwen3-32B (9 models total):
 
 Fixed MPS bug for Qwen3.6-35B-A3B: `histc` needs float input on MPS (not int).
 
-### 6. Active run command (unchanged)
+### 8. Active run commands
 
+V11-holo-inv (LIVE, ~12.8K/20K):
 ```
 uv run python scripts/v11/train.py \
   --checkpoint-dir checkpoints/v11-holo-inv \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
 
-## What to do next
-
-### Priority 1: Launch V12 training run
-V12 scaffold is complete and verified. Launch first training run:
+V12 (READY TO LAUNCH):
 ```
 uv run python scripts/v12/train.py \
   --checkpoint-dir checkpoints/v12 \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
+
+## What to do next
+
+### Priority 1: Launch V12 training run
+V12 is complete and optimized. Launch first training run.
 Key things to watch:
-- GLA memory norms: do they grow appropriately? Explode? Collapse?
+- **cycle_budget_bias**: does S4 learn to differentiate simple vs complex content?
+  Should see bias go negative for prose, positive for structured lambda data.
+- **dispatch_bias (emphasis + alarm)**: does the additive logit bias maintain
+  dispatch diversity better than v11's saturated multiplicative emphasis?
+- **dispatch entropy**: does the regularizer keep entropy above 1.178 target?
+  If B still declines, lambda needs increasing.
+- GLA memory norms: do they grow appropriately at each stride scale?
 - Retrieval write gates: when do they open? (init ~0.05)
-- Retrieval gate means per stride: do they differentiate between scales?
-- Whether composition strides and retrieval strides learn different things
-- Loss trajectory vs V11-holo-inv (is retrieval substrate useful?)
+- Loss trajectory vs V11-holo-inv at matched steps
+- **CycleContinue gates**: should differentiate now that S4 budget bias is active.
+  If gates stay near 0.5 after 2K steps, cycle_budget_proj may need larger init.
 
-### Priority 2: GLA sequential scan optimization
-Current GLA implementation uses Python loop over sequence positions (O(L) steps).
-At L=4096, this will be slow. Options:
-- Chunked parallel scan (process blocks of 64-128 positions in parallel)
-- MLX-native scan operator (if available)
-- Reduce to matrix operations within chunks
-Wait until training launches to measure actual bottleneck before optimizing.
+### Priority 2: Monitor v11-holo-inv 15K-20K (parallel)
+V11 run continues. Final checkpoints for baseline comparison.
+B declining (0.079 at 12K) — the variety gap we fixed in V12.
 
-### Priority 3: Monitor v11-holo-inv 10K-20K (parallel)
-V11 run continues. Watch for:
-- B-dominance plateau or continued climb (currently 57.7%)
-- CycleContinue activation (frozen at 2.946, compute gate at 0.82)
-- Abstraction slot activation (0/16, but proposal confidence 0.62 and rising)
-- V12 vs V11 comparison at matched steps
+### Priority 3: Descending cycle efficiency validation
+Once V12 has ~2K steps: probe CycleContinue gates. If budget bias is working,
+expect cycle gates to be < 0.3 for simple positions and > 0.7 for complex ones.
+If cycles are still uniformly ~0.5, consider desc_max_cycles=2 + S4→S2 inter-cycle
+direction channel (Channel 2 from the analysis).
 
 ### Priority 4: Cross-model validation of three-cluster structure
 Run head-level probe on Pythia to confirm KIBCM universality.
 
 ### Carried
 - Hologram atlas results (sessions 094-095)
-- B dispatch phase transition
-- CycleContinue activation hypothesis
+- CycleContinue differentiation (now addressable via S4 budget bias)
 - S5 reweight investigation
 - QK alignment decomposition probe (RoPE follow-up)
 - Dead slot recycling
 - Domain banking (future)
 - TST connection: Peng et al. 2026 validates coarse→fine + direct loss
+- S4→S2 inter-cycle direction channel (if cycles don't differentiate)
 
-## VSM layer map (session 091 — v11 KIBC + algedonic + holographic + fractal)
+## VSM layer map (session 097 — v12 KIBC + M retrieval + variety fix)
 
 ```
 Layer     Ascending Arm              Descending Arm                   Cross-arm
 ────────  ─────────────────────────  ───────────────────────────────  ──────────────────
 S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight × AlgedonicAlert
                                      + 16 abstraction slot embeddings
-S4        Register-query attention   Dual-view (resid + embeds)       Emphasis: regs → 4 combinators
+S4        Register-query attention   Dual-view (resid + embeds)       Emphasis bias: regs → 4 logits [-2,+2]
                                                                       S4ProposalHead → slot modulation
+                                                                      Cycle budget: regs → 1 logit [-4,+4]
 S3        Per-pass phase gating ✓    Per-pass phase gating            Gate values → desc S4
-          —                          CycleContinue (between cycles)   RMSNorm+tanh (s076 fix)
-S2        Direction signals ✓        coherence modulation ✓           Found boundary 2→3
-S1        prep → stride → consol.    [dispatch → stride → integ.] ×N  KIBC combinator basis
-          fine→coarse bands           coarse→fine bands (reversed)     fractal MERA topology
-          (shared across 3 passes)   (shared across 2 passes × N cy)  49% fewer stride activations
+          —                          CycleContinue + S4 budget bias   S4→S3 policy channel (new)
+S2        Direction signals ✓        coherence modulation ✓           6 transitions (was 4)
+S1        prep → hybrid_stride →     [dispatch → stride → integ.] ×N  KIBC + M (retrieval)
+          consolidate                coarse→fine bands (reversed)      fractal MERA topology
+          fine→coarse bands          (shared across 3 passes × N cy)
+          (shared across 4 passes)   Stride-aware GLA (gather/scatter)
+          GLA at s16,s32,s64         Retrieval registers → integrate
 Algedonic Reads prev desc regs       —                                + combinator weights (4+1)
           + combinator weights                                        EMA α=0.9
-Alert     ← 48 health metrics ──────────────────────────────────────  → S5 gate modulation
+Alert     ← 65 health metrics ──────────────────────────────────────  → S5 gate modulation
           S3 gates, S2 conflicts, dispatch, compute, cycles,          [0,2] per pass, e2e diff.
-          delta norms, suppression ratios, register norms             Beer's fire alarm ✓
+          delta norms, suppression ratios, register norms             + dispatch_bias (4 logits)
+Dispatch  entropy_target=1.178 ─────────────────────────────────────  → loss penalty if < target
+          squared hinge on collapse → gradient to ascending arm        closes open feedback loop
 Inject    —                          cycle_inject_gate (per cycle>0)  sigmoid(-4) ≈ 0.018 init
-Holo      ← 5 intermediate CEs ────────────────────────────────────  → gradient slope 5×→1×
+Holo      ← 7 intermediate CEs ────────────────────────────────────  → gradient slope 7×→1×
           progressive x_embed + Σ gate×delta through shared proj      pass 0 learns first
 Logging   —                          —                                3× JSONL + alarm ✓
+```
+
+### V12 S4 policy channels (new in session 097)
+
+```
+S4 → emphasis_bias     (4,) additive logit bias on CombinatorDispatch
+S4 → cycle_budget_bias (1,) logit shift on CycleContinue gate
+S4 → proposal_delta    (N, d_model) S4→S5 abstraction slot modulation
+
+Alarm → dispatch_bias  (4,) additive logit bias (EMA from prev step)
+Alarm → pass_factors   (7,) per-pass amplitude [0, 2]
+
+Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDispatch
 ```
 
 ## Key files
@@ -650,6 +680,8 @@ Logging   —                          —                                3× JS
 | `scripts/explore/probe_hologram_heads.py` | Head-level orthogonality + binding↔I + late MoE gate probe. |
 | `results/hologram-atlas/` | Atlas results: per-hologram JSON, selectivity_profiles.npz, hologram_atlas_results.json |
 | `results/hologram-heads/` | Head-level probe: hologram_heads_results.json, head_selectivity_vectors.npz |
+| `mementum/memories/vsm-variety-gap.md` | V11 VSM feedback topology gap + V12 fix rationale |
+| `mementum/memories/multiplexing-breaks-holography.md` | Separation principle: one function per weight matrix |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -686,3 +718,4 @@ Logging   —                          —                                3× JS
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
 → Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge). 7-pass symmetric hourglass (3+apex+3). Parallel associative scan for GLA (O(log L) depth). Holographic landscape probe: 93.6% of Qwen3.6 is ternary-safe (expert FFN = holographic plate, MoE gates + conv1d = precision-critical readout). V12 architecture confirmed correct partition.
+→ Session 097: VSM variety gap diagnosed and fixed. V11's alarm detected B-dispatch decline (r=0.82) but couldn't correct — wrong actuator granularity (Beer's variety law). Three fixes: (1) per-combinator alarm dispatch bias [-2,+2] on logits, (2) emphasis changed to additive logit bias [-2,+2] replacing saturated multiplicative [0.5,1.5], (3) dispatch entropy regularization closes ascending→dispatch feedback loop. Stride-aware GLA gather/scatter: 2.73× training speedup (78% of cost was wasted scan over non-participating positions). S4→S3 cycle budget bias: intelligence tells CycleContinue when to stop — the missing Beer's policy channel. Evolution noise floor unified at 0.02 for both loss and alarm paths.
