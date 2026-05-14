@@ -75,7 +75,29 @@ dispatch passes (was 2) — addresses the depth bottleneck from session 090.
 - 8 register banks, 6 S2 transitions, 7 S3 instances
 - AlgedonicAlert INPUT_DIM: 48→65 (7 passes, 6 transitions, 8 banks)
 
-### 6. Architecture verification
+### 7. Holographic landscape probe — 93.6% ternary-safe
+
+Mapped every weight matrix (502 matrices, 34.7B params) in Qwen3.6-35B-A3B.
+
+**Methodological correction:** `cos(W, sign(W))` has ceiling `√(2/π) ≈ 0.798` for
+Gaussian weights. Initial scores clustered at 0.74-0.79 misleadingly. After
+correcting for Gaussian baseline using magnitude CV, the holographic structure
+becomes visible.
+
+```
+TERNARY-SAFE:     93.6% of params (expert FFN + embedding)
+MAYBE SAFE:       97.6% of params (+ attention, linear attention)
+NEEDS PRECISION:   2.4% of params (MoE gates + conv1d)
+```
+
+Expert FFN weights (93% of model) have magnitude CV ≈ Gaussian baseline → magnitudes
+are noise, signs ARE the computation. MoE gates (0.06%) and conv1d (0.003%) are deeply
+magnitude-dependent — they control routing and local convolution.
+
+V12 architecture confirmed correct: TernaryLinear for composition (93.6%), float32
+gates for routing (2.4%). See `knowledge/explore/holographic-landscape.md`.
+
+### 8. Architecture verification
 
 - All 4 module self-tests pass (kernel, attention, components, kernel_dispatch)
 - V12Model instantiates: 26,096,317 params
@@ -621,6 +643,9 @@ Logging   —                          —                                3× JS
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
 | `mementum/knowledge/explore/lambda-probe-atlas.md` | New cross-model lambda/combinator territory mapping stream |
 | `mementum/knowledge/explore/holographic-storage.md` | Holographic storage findings + "Beyond Combinators" atlas (5 candidate holograms) |
+| `mementum/knowledge/explore/holographic-landscape.md` | Per-matrix ternary fidelity: 93.6% of Qwen3.6 is ternary-safe |
+| `scripts/explore/probe_holographic_landscape.py` | Holographic landscape probe — per-weight-matrix analysis |
+| `results/holographic-landscape/` | Landscape results: per-matrix scores, corrected analysis |
 | `scripts/explore/probe_hologram_atlas.py` | Multi-hologram probe: type, induction, binding, frequency, discourse. Qwen3.6 primary. |
 | `scripts/explore/probe_hologram_heads.py` | Head-level orthogonality + binding↔I + late MoE gate probe. |
 | `results/hologram-atlas/` | Atlas results: per-hologram JSON, selectivity_profiles.npz, hologram_atlas_results.json |
@@ -660,4 +685,4 @@ Logging   —                          —                                3× JS
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
-→ Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge), rich instrumentation. All tests pass, forward+backward verified (25.6M params). Ready to train.
+→ Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge). 7-pass symmetric hourglass (3+apex+3). Parallel associative scan for GLA (O(log L) depth). Holographic landscape probe: 93.6% of Qwen3.6 is ternary-safe (expert FFN = holographic plate, MoE gates + conv1d = precision-critical readout). V12 architecture confirmed correct partition.
