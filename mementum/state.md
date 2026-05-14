@@ -2,13 +2,87 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-14 | Session: 094
+> Last updated: 2026-05-14 | Session: 095
 
 ## Where we are
 
-**V11-holo-inv probed through 4K. Eval loss improving steadily (8.235→7.804). Descending arm expanding aggressively between 3K-4K (L0↓ CE: 9.41→9.85) but alarm de-saturating (1.884→1.847 off ~2.0 ceiling) — consistent with phase transition rather than catastrophe. C dispatch rising (0.137→0.176), I declining (0.343→0.294), S4 compensating by raising I emphasis (0.706→0.991). Evolution acceptance climbing (20%→36%). Compute gate still closed. CE hitting new lows (6.989 at step 4325). Approaching transition window.**
+**Hologram atlas complete on Qwen3.6-35B-A3B: 6 holograms probed (combinator, type, induction, binding, frequency, discourse), all real, each with distinct signature. Discourse dominates (output_KL=1.646, 0/18 ternary failures, late-peaking at L35). Binding is the outlier (5/18 failures, magnitude-dependent — connects to I-combinator's distinct circuit). Frequency MLP is MORE topologically robust than attention (inverted prediction, 0/18 MLP failures vs 3/18 attention). Layer-level orthogonality test failed — all holograms ride the same architectural depth profile (L7 peak → L11 dip → L31 peak). Need HEAD-LEVEL analysis to resolve angle multiplexing vs independent circuits. MoE gates show emergent period-12 pairing structure (L8↔L20...L19↔L31, cos 0.72–0.83). V11-holo-inv continues through transition window.**
 
-## What was done this session (094)
+## What was done this session (095)
+
+### 1. Analyzed hologram atlas results (Qwen3.6-35B-A3B)
+
+All 6 holograms are real and distinguishable:
+
+```
+Hologram     output_KL  peak_layer  ternary_fail  signature
+──────────── ─────────  ──────────  ────────────  ─────────────────────────────────
+combinator   0.365      L31         baseline      bimodal depth template
+type         0.415      L31         2/18          matches combinator shape closely
+induction    0.827      L31         1/18          most robust attention hologram
+binding      0.444      L31         5/18          most fragile — magnitude-dependent
+frequency    0.224      L7          3/18 attn     MLP 0/18 — inverted prediction!
+discourse    1.646      L35         0/18          strongest, most robust, late-peaking
+```
+
+### 2. Three structural findings
+
+**Finding 1: L11 dip is architectural, not holographic.** Every hologram drops
+47–72% at L11 relative to L7. The bimodal depth profile (L7→L11 dip→L31) is
+Qwen3.6's hybrid architecture, not any linguistic circuit. Layer-level selectivity
+profiles can't distinguish holograms from each other — they all ride the same wave.
+Cross-hologram correlations all >0.72 (Pearson r), >0.95 (cosine).
+
+**Finding 2: Binding is magnitude-dependent (connects to I-outlier).** 5 ternary
+failures — all at sign-only in early full-attention layers (L3: 2.357, L7: 2.028,
+L0: 2.823). Sign pattern alone cannot encode variable binding. Requires knowing
+HOW STRONGLY a head attends, not just whether it does. Consistent with I-combinator
+being the outlier (r≈0.70 vs K/B/C r>0.90 in session 093). Binding IS the I-circuit,
+and I's distinctness comes from requiring magnitude where K/B/C don't.
+
+**Finding 3: Frequency MLP more robust than attention (inverted prediction).**
+MLP ternary survival: 0/18 failures (output_survival 0.93–1.07). Attention: 3/18
+failures including catastrophic L0 mid_sparse disruption (7.07). Statistical
+co-occurrence lives in FFN weight matrices as clean sign patterns. Supports
+"FFN = key-value memory" view. Attention dynamically routes this info and
+depends on specific magnitudes.
+
+### 3. Discourse is the dominant hologram
+
+Genre distinction (narrative/expository) has output_KL = 2.526 — nearly 2× the
+next highest signal. Discourse is:
+- **Strongest** at every layer (2–5× other holograms)
+- **Most robust** (0/18 failures, even at GatedDeltaNet layers)
+- **Only late-peaking** (L35 > L31 > L7 — signal keeps rising)
+- **Most pervasive** (never drops below 0.049, even at L11 dip)
+
+Fits VSM prediction: discourse operates at S5, modulating all others.
+
+### 4. MoE gate: period-12 structure + beam-selector partial confirmation
+
+Gate ternary survival confirmed L0-L4 (cos≈0.73–0.76). Cross-layer cosine
+reveals period-12 pairing: L8↔L20 through L19↔L31 (cos 0.72–0.83). Does NOT
+match full-attention period (every 4th). Suggests 3-phase model: early (L0-7),
+middle (L8-19 ↔ L20-31 paired), late (L32-39). Gate Frobenius norms fall
+monotonically (19→7 from early to late) but effective rank stays high (172–199).
+Late gates are smaller but not lower-rank.
+
+### 5. Prediction scorecard
+
+| Prediction | Result | Notes |
+|-----------|--------|-------|
+| Type overlaps combinator | ✓ r=0.972 | But all holograms overlap at layer resolution |
+| Induction orthogonal to combinator | ✗ r=0.987 | Layer profiles too coarse |
+| Binding overlaps I | ~ Inconclusive | Weakest + most fragile = consistent with I |
+| Frequency lower MLP survival | ✗ Inverted | MLP MORE robust than attention |
+| Discourse MoE gate survival | ✓ L0-L4 | Need L31-L39 to complete test |
+
+### 6. Fixed JSON string-key bug in atlas script
+
+Cache-loaded selectivity profiles had string keys (JSON roundtrip), measure_layers
+had int keys → KeyError. Added `_int_keys()` helper at all ingestion points.
+
+## What was done session (094)
 
 ### 1. Mapped five candidate holograms beyond combinators
 
@@ -290,41 +364,37 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Analyze hologram atlas results
-`probe_hologram_atlas.py` is running on Qwen3.6-35B-A3B. When complete:
-- Compare type hologram depth profile against combinator hologram (overlap?)
-- Check induction hologram orthogonality to combinators (cos < 0.3?)
-- Evaluate MoE gate ternary survival (discourse = beam selector?)
-- Check if MLP frequency hologram has lower sparsity tolerance than attention
-- Cross-model validation: run on Pythia for universality test (r > 0.90?)
-See: `mementum/knowledge/explore/holographic-storage.md` § "Beyond Combinators"
+### Priority 1: Head-level hologram probe (IN PROGRESS)
+Layer-level orthogonality failed — all holograms ride the same architectural wave.
+Need head-level selectivity (40 layers × 16 heads = 640-dim vectors) to determine:
+- Are holograms angle-multiplexed (same heads, different Q patterns)?
+- Or independent circuits (different heads entirely)?
+- Does binding use the same heads as I-combinator? (Magnitude-dependence link)
+Script: `scripts/explore/probe_hologram_heads.py` — building now.
 
-### Priority 2: Apply universal hologram findings to V11
-Wait for v11-holo-inv to complete or plateau, then:
-- Change combinator embedding init: K/B/C share subspace, I separate
-- Test whether init change accelerates hologram formation
-- Build bank loading mechanism (S4 selector + Q-pattern injection)
+### Priority 2: Complete discourse beam-selector test
+MoE gate ternary survival only measured at L0-L4. Discourse selectivity peaks at
+L31-L35. Need gate survival at late layers to complete the hypothesis test.
+Also: period-12 structure (L8↔L20...L19↔L31) demands explanation — probe whether
+gate routing at paired layers produces similar expert activation patterns.
 
-### Priority 3: Monitor v11-holo-inv through transition window (2K→8K)
-Watch for:
-- Continued prose improvement (not just structured wins)
-- Alarm de-saturation / differentiation (currently near ceiling)
-- Compute gate opening around 5K–7K and associated reorganization
-- No recurrence of 10K compositional catastrophe pattern
+### Priority 3: Apply hologram findings to V11 design
+- Binding is magnitude-dependent → holographic loss should preserve magnitudes
+  for binding-relevant heads, not just sign patterns
+- Frequency lives in MLP sign patterns → extend holographic loss to MLP weights?
+- Discourse = S5 modulator → V11's S5 should learn discourse-like gating
+- I-combinator init should differ from K/B/C (separate subspace, different norm)
 
-### Priority 3: Probe v11-holo-inv at 2K/3K/5K/7K
-Compare against v11-holo and baseline at matched steps. Key metrics:
-holographic ratio, descending arm CEs, dispatch distribution, compute gate timing,
-B-type stability, and prose-vs-structured gap.
+### Priority 4: Monitor v11-holo-inv through transition window
+Watch for: prose improvement, alarm de-saturation, compute gate opening 5K-7K,
+no recurrence of 10K catastrophe. CE trending down (6.989 at 4325).
 
-### Priority 4: v11-holo status — compositional catastrophe at 10K
-10K probe: eval loss 9.259 (was 7.675), B-type 5.8% (was 55.7%).
-Still running to 20K — may recover like the 3K spike did, or may
-be terminal. Monitor but focus compute analysis on v11-holo-inv.
+### Priority 5: Cross-model validation of hologram atlas
+Run atlas on Pythia to test universality. If discourse dominance and binding
+fragility replicate, these are features of language, not architecture.
 
-### Priority 5: Pythia scaling — combinator differentiation
-Run combinator probe on Pythia-410M and Pythia-1B to map where B
-differentiates from K.
+### Priority 6: v11-holo status — compositional catastrophe at 10K
+10K probe: eval loss 9.259, B-type 5.8%. Monitor but focus on v11-holo-inv.
 
 ### Carried
 - Hologram atlas running on Qwen3.6-35B-A3B (results → results/hologram-atlas/)
@@ -389,6 +459,8 @@ Logging   —                          —                                3× JS
 | `mementum/knowledge/explore/lambda-probe-atlas.md` | New cross-model lambda/combinator territory mapping stream |
 | `mementum/knowledge/explore/holographic-storage.md` | Holographic storage findings + "Beyond Combinators" atlas (5 candidate holograms) |
 | `scripts/explore/probe_hologram_atlas.py` | Multi-hologram probe: type, induction, binding, frequency, discourse. Qwen3.6 primary. |
+| `scripts/explore/probe_hologram_heads.py` | Head-level orthogonality + binding↔I + late MoE gate probe. |
+| `results/hologram-atlas/` | Atlas results: per-hologram JSON, selectivity_profiles.npz, hologram_atlas_results.json |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -423,3 +495,4 @@ Logging   —                          —                                3× JS
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
+→ Session 095: Hologram atlas analysis complete. 6 holograms real, each distinct. Discourse dominates (KL=1.646, 0/18 failures, late-peaking). Binding is magnitude-dependent (5/18 failures, connects to I-outlier). Frequency MLP more robust than attention (inverted prediction). Layer-level orthogonality failed — all ride same architectural wave (L7→L11 dip→L31). MoE period-12 gate pairing discovered. Building head-level probe to resolve multiplexing.
