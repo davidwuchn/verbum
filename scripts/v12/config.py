@@ -175,7 +175,7 @@ class V12Config:
     guided_fraction: float = 0.7
     mutation_adam_decay: float = 0.1
     s4_boost: float = 3.0
-    evolution_min_delta: float = 0.01
+    evolution_min_delta: float = 0.02
     # Alarm-path noise floor: minimum health improvement to accept via alarm.
     # Alarm health ∈ [0, 2] (mean of per-pass factors). Without a floor,
     # health deltas of 0.0001 (measurement noise on a single eval batch)
