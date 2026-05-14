@@ -1,0 +1,103 @@
+{
+  "model": "EleutherAI/pythia-160m-deduped",
+  "timestamp": "2026-05-14T10:14:02-0700",
+  "n_sentences": 3,
+  "per_layer_averages": {
+    "0": {
+      "beam_cosine": 0.9934894521133247,
+      "rotation_deg": 87.78463975410341,
+      "attn_rotation_frac": 0.19962859009771042,
+      "ffn_rotation_frac": 0.8003714099022895,
+      "differential_rotation": 0.12773294308156632,
+      "q_amplification": 0.54940869365464
+    },
+    "1": {
+      "beam_cosine": 0.9834460173483418,
+      "rotation_deg": 21.39855066018494,
+      "attn_rotation_frac": 0.4990237761035732,
+      "ffn_rotation_frac": 0.5009762238964267,
+      "differential_rotation": 0.4632914394806533,
+      "q_amplification": 0.8994718977372699
+    },
+    "2": {
+      "beam_cosine": 0.9697810149968572,
+      "rotation_deg": 25.76869295217885,
+      "attn_rotation_frac": 0.4486314087363139,
+      "ffn_rotation_frac": 0.5513685912636861,
+      "differential_rotation": 0.5316239969326331,
+      "q_amplification": 0.7491736990904215
+    },
+    "3": {
+      "beam_cosine": 0.9674719223068715,
+      "rotation_deg": 37.00458977837619,
+      "attn_rotation_frac": 0.6906372855800241,
+      "ffn_rotation_frac": 0.3093627144199759,
+      "differential_rotation": 0.36774496385760314,
+      "q_amplification": 0.5957089186368978
+    },
+    "4": {
+      "beam_cosine": 0.9363471093033985,
+      "rotation_deg": 33.042090820704004,
+      "attn_rotation_frac": 0.4742825024666015,
+      "ffn_rotation_frac": 0.5257174975333986,
+      "differential_rotation": 0.5651554428007787,
+      "q_amplification": 0.7810303938488604
+    },
+    "5": {
+      "beam_cosine": 0.9282218874243057,
+      "rotation_deg": 31.24283002475561,
+      "attn_rotation_frac": 0.4452996721730424,
+      "ffn_rotation_frac": 0.5547003278269577,
+      "differential_rotation": 0.6268666620033919,
+      "q_amplification": 0.6501651164244396
+    },
+    "6": {
+      "beam_cosine": 0.8789005657366801,
+      "rotation_deg": 27.405252950273233,
+      "attn_rotation_frac": 0.4045099996256474,
+      "ffn_rotation_frac": 0.5954900003743525,
+      "differential_rotation": 0.75710314294864,
+      "q_amplification": 4.469072930527897
+    },
+    "7": {
+      "beam_cosine": 0.9203862786663278,
+      "rotation_deg": 26.706216101303415,
+      "attn_rotation_frac": 0.28093589887811354,
+      "ffn_rotation_frac": 0.7190641011218865,
+      "differential_rotation": 0.6038876102533975,
+      "q_amplification": 1.3319532193432682
+    },
+    "8": {
+      "beam_cosine": 0.9148657018187901,
+      "rotation_deg": 26.14570345725549,
+      "attn_rotation_frac": 0.1644083671493327,
+      "ffn_rotation_frac": 0.8355916328506673,
+      "differential_rotation": 0.5943971588566325,
+      "q_amplification": 1.1218114754022317
+    },
+    "9": {
+      "beam_cosine": 0.8542195614573368,
+      "rotation_deg": 30.159100984622608,
+      "attn_rotation_frac": 0.14827408619688737,
+      "ffn_rotation_frac": 0.8517259138031127,
+      "differential_rotation": 0.7006009279007812,
+      "q_amplification": 1.6267265599387029
+    },
+    "10": {
+      "beam_cosine": 0.87422253017813,
+      "rotation_deg": 48.95223215885901,
+      "attn_rotation_frac": 0.12989654511895124,
+      "ffn_rotation_frac": 0.8701034548810487,
+      "differential_rotation": 0.5112647399230127,
+      "q_amplification": 1.1260963656283505
+    },
+    "11": {
+      "beam_cosine": 0.9862060263924097,
+      "rotation_deg": 79.56312511305102,
+      "attn_rotation_frac": 0.15524379457697435,
+      "ffn_rotation_frac": 0.8447562054230257,
+      "differential_rotation": 0.1934234519849374,
+      "q_amplification": 0.31419523073590255
+    }
+  }
+}

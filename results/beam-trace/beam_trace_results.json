@@ -1,0 +1,3154 @@
+{
+  "timestamp": "2026-05-14T10:14:02-0700",
+  "model": "EleutherAI/pythia-160m-deduped",
+  "n_sentences": 3,
+  "n_layers": 12,
+  "d_model": 768,
+  "sentences": [
+    {
+      "sentence": "The cat sat on the mat.",
+      "compile_tokens": 44,
+      "null_tokens": 23,
+      "layers": {
+        "0": {
+          "beam_divergence": {
+            "cosine": 0.9934896101304369,
+            "angle_deg": 6.54149523241432,
+            "norm_compile": 8.565222740035939,
+            "norm_null": 9.085065957156797,
+            "norm_ratio": 0.9427804685654099
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.5329054594039917,
+            "angle_deg": 87.82901321641127,
+            "mag_ratio": 15.541840553283691,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 8.56522274017334,
+            "delta_norm": 8.562074661254883,
+            "delta_parallel_mag": -0.22664088010787964,
+            "delta_perp_norm": 8.559075355529785,
+            "delta_parallel_frac": 0.02647032029926777,
+            "delta_perp_frac": 0.999649703502655
+          },
+          "null_decomposition": {
+            "angle_rad": 1.5369315147399902,
+            "angle_deg": 88.05968919525012,
+            "mag_ratio": 16.485111236572266,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 9.085065841674805,
+            "delta_norm": 9.083121299743652,
+            "delta_parallel_mag": -0.24350227415561676,
+            "delta_perp_norm": 9.07985782623291,
+            "delta_parallel_frac": 0.02680821157991886,
+            "delta_perp_frac": 0.999640703201294
+          },
+          "compile_attn_rotation_frac": 0.1923268939567879,
+          "compile_ffn_rotation_frac": 0.8076731060432121,
+          "null_attn_rotation_frac": 0.2361954316440909,
+          "null_ffn_rotation_frac": 0.7638045683559092,
+          "q_subspace": {
+            "q_explained_90": 0.6142331654314459,
+            "q_explained_99": 0.8055639304123194,
+            "q_rank_90": 289,
+            "q_rank_99": 511,
+            "q_amplification": 0.5490280297476424,
+            "q_delta_norm": 7.947705249555445,
+            "q_hin_norm": 0.9320872393533628
+          },
+          "differential_rotation_norm": 1.1327720986937035,
+          "differential_rotation_relative": 0.12843998840520401
+        },
+        "1": {
+          "beam_divergence": {
+            "cosine": 0.9824499217079796,
+            "angle_deg": 10.750146220362419,
+            "norm_compile": 8.46255097051671,
+            "norm_null": 8.984275829785759,
+            "norm_ratio": 0.9419291138035453
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.38621002435684204,
+            "angle_deg": 22.128204401291775,
+            "mag_ratio": 0.988012969493866,
+            "norm_pre": 8.56522274017334,
+            "norm_post": 8.46255111694336,
+            "delta_norm": 3.2693042755126953,
+            "delta_parallel_mag": -0.7259951829910278,
+            "delta_perp_norm": 3.187676429748535,
+            "delta_parallel_frac": 0.22206412255764008,
+            "delta_perp_frac": 0.9750320315361023
+          },
+          "null_decomposition": {
+            "angle_rad": 0.4060192108154297,
+            "angle_deg": 23.26318718095655,
+            "mag_ratio": 0.9889059662818909,
+            "norm_pre": 9.085065841674805,
+            "norm_post": 8.984275817871094,
+            "delta_norm": 3.6444435119628906,
+            "delta_parallel_mag": -0.8312094211578369,
+            "delta_perp_norm": 3.5483884811401367,
+            "delta_parallel_frac": 0.2280758172273636,
+            "delta_perp_frac": 0.97364342212677
+          },
+          "compile_attn_rotation_frac": 0.491808129253339,
+          "compile_ffn_rotation_frac": 0.508191870746661,
+          "null_attn_rotation_frac": 0.5402114960538923,
+          "null_ffn_rotation_frac": 0.4597885039461077,
+          "q_subspace": {
+            "q_explained_90": 0.6628298405862576,
+            "q_explained_99": 0.8247445283960791,
+            "q_rank_90": 315,
+            "q_rank_99": 535,
+            "q_amplification": 0.8952972494934965,
+            "q_delta_norm": 3.300982642105708,
+            "q_hin_norm": 9.90696012551659
+          },
+          "differential_rotation_norm": 1.5460536301527419,
+          "differential_rotation_relative": 0.4590376292291757
+        },
+        "2": {
+          "beam_divergence": {
+            "cosine": 0.9671588629662067,
+            "angle_deg": 14.724566059027397,
+            "norm_compile": 9.611187273351048,
+            "norm_null": 9.189206304664761,
+            "norm_ratio": 1.0459213728254282
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.469394713640213,
+            "angle_deg": 26.89433601733606,
+            "mag_ratio": 1.13573157787323,
+            "norm_pre": 8.46255111694336,
+            "norm_post": 9.611186981201172,
+            "delta_norm": 4.348956108093262,
+            "delta_parallel_mag": 0.10911203920841217,
+            "delta_perp_norm": 4.3475871086120605,
+            "delta_parallel_frac": 0.02508924901485443,
+            "delta_perp_frac": 0.9996852278709412
+          },
+          "null_decomposition": {
+            "angle_rad": 0.47580429911613464,
+            "angle_deg": 27.261578213534722,
+            "mag_ratio": 1.0228098630905151,
+            "norm_pre": 8.984275817871094,
+            "norm_post": 9.18920612335205,
+            "delta_norm": 4.287469863891602,
+            "delta_parallel_mag": -0.8157640695571899,
+            "delta_perp_norm": 4.209147930145264,
+            "delta_parallel_frac": 0.19026699662208557,
+            "delta_perp_frac": 0.9817323684692383
+          },
+          "compile_attn_rotation_frac": 0.45939366120919806,
+          "compile_ffn_rotation_frac": 0.540606338790802,
+          "null_attn_rotation_frac": 0.3505171813084828,
+          "null_ffn_rotation_frac": 0.6494828186915172,
+          "q_subspace": {
+            "q_explained_90": 0.6360590394744089,
+            "q_explained_99": 0.8149047033197034,
+            "q_rank_90": 329,
+            "q_rank_99": 545,
+            "q_amplification": 0.7363303647563739,
+            "q_delta_norm": 4.467545984487503,
+            "q_hin_norm": 11.809984480187342
+          },
+          "differential_rotation_norm": 2.2549713896819683,
+          "differential_rotation_relative": 0.5270635089705307
+        },
+        "3": {
+          "beam_divergence": {
+            "cosine": 0.9631077174402516,
+            "angle_deg": 15.611681882275114,
+            "norm_compile": 11.573610351598198,
+            "norm_null": 11.235743087873816,
+            "norm_ratio": 1.0300707537616294
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.6496618986129761,
+            "angle_deg": 37.22288490097952,
+            "mag_ratio": 1.20418119430542,
+            "norm_pre": 9.611186981201172,
+            "norm_post": 11.573610305786133,
+            "delta_norm": 7.01222562789917,
+            "delta_parallel_mag": -0.395256370306015,
+            "delta_perp_norm": 7.001076698303223,
+            "delta_parallel_frac": 0.056366752833127975,
+            "delta_perp_frac": 0.9984100461006165
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6476537585258484,
+            "angle_deg": 37.10782694931607,
+            "mag_ratio": 1.2227109670639038,
+            "norm_pre": 9.18920612335205,
+            "norm_post": 11.235743522644043,
+            "delta_norm": 6.782572269439697,
+            "delta_parallel_mag": -0.22868569195270538,
+            "delta_perp_norm": 6.778716087341309,
+            "delta_parallel_frac": 0.03371665999293327,
+            "delta_perp_frac": 0.9994314312934875
+          },
+          "compile_attn_rotation_frac": 0.6977014262457941,
+          "compile_ffn_rotation_frac": 0.30229857375420593,
+          "null_attn_rotation_frac": 0.6671667839582285,
+          "null_ffn_rotation_frac": 0.3328332160417715,
+          "q_subspace": {
+            "q_explained_90": 0.675030627493994,
+            "q_explained_99": 0.869451674365162,
+            "q_rank_90": 298,
+            "q_rank_99": 526,
+            "q_amplification": 0.570576615179164,
+            "q_delta_norm": 5.559246173510668,
+            "q_hin_norm": 13.375626555254344
+          },
+          "differential_rotation_norm": 2.6073061410831864,
+          "differential_rotation_relative": 0.3784245759157238
+        },
+        "4": {
+          "beam_divergence": {
+            "cosine": 0.935721840899632,
+            "angle_deg": 20.65492201373445,
+            "norm_compile": 12.76841553036096,
+            "norm_null": 11.802989867497844,
+            "norm_ratio": 1.0817950090359418
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5705730319023132,
+            "angle_deg": 32.69142663198583,
+            "mag_ratio": 1.1032352447509766,
+            "norm_pre": 11.573610305786133,
+            "norm_post": 12.768415451049805,
+            "delta_norm": 6.945913791656494,
+            "delta_parallel_mag": -0.8278205990791321,
+            "delta_perp_norm": 6.896407127380371,
+            "delta_parallel_frac": 0.11918095499277115,
+            "delta_perp_frac": 0.9928725361824036
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5485860705375671,
+            "angle_deg": 31.431666541468672,
+            "mag_ratio": 1.0504858493804932,
+            "norm_pre": 11.235743522644043,
+            "norm_post": 11.802989959716797,
+            "delta_norm": 6.2642621994018555,
+            "delta_parallel_mag": -1.1646907329559326,
+            "delta_perp_norm": 6.155036449432373,
+            "delta_parallel_frac": 0.18592624366283417,
+            "delta_perp_frac": 0.9825636744499207
+          },
+          "compile_attn_rotation_frac": 0.5019482377357546,
+          "compile_ffn_rotation_frac": 0.4980517622642454,
+          "null_attn_rotation_frac": 0.41003106782803517,
+          "null_ffn_rotation_frac": 0.5899689321719648,
+          "q_subspace": {
+            "q_explained_90": 0.6877465411452384,
+            "q_explained_99": 0.8381899352131058,
+            "q_rank_90": 320,
+            "q_rank_99": 537,
+            "q_amplification": 0.7628385705732792,
+            "q_delta_norm": 5.63144650836382,
+            "q_hin_norm": 12.388915054911232
+          },
+          "differential_rotation_norm": 3.68404683163341,
+          "differential_rotation_relative": 0.5645424299470935
+        },
+        "5": {
+          "beam_divergence": {
+            "cosine": 0.9221040636000518,
+            "angle_deg": 22.764353783477727,
+            "norm_compile": 15.888234029324064,
+            "norm_null": 14.377087226459762,
+            "norm_ratio": 1.105107994342774
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5322170853614807,
+            "angle_deg": 30.493792775966714,
+            "mag_ratio": 1.2443387508392334,
+            "norm_pre": 12.768415451049805,
+            "norm_post": 15.88823413848877,
+            "delta_norm": 8.114977836608887,
+            "delta_parallel_mag": 0.9222241640090942,
+            "delta_perp_norm": 8.06240463256836,
+            "delta_parallel_frac": 0.11364468932151794,
+            "delta_perp_frac": 0.9935214519500732
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5528811812400818,
+            "angle_deg": 31.677758257264234,
+            "mag_ratio": 1.2180886268615723,
+            "norm_pre": 11.802989959716797,
+            "norm_post": 14.377087593078613,
+            "delta_norm": 7.562357425689697,
+            "delta_parallel_mag": 0.43212890625,
+            "delta_perp_norm": 7.5500006675720215,
+            "delta_parallel_frac": 0.05714209005236626,
+            "delta_perp_frac": 0.9983659982681274
+          },
+          "compile_attn_rotation_frac": 0.48687051350043326,
+          "compile_ffn_rotation_frac": 0.5131294864995668,
+          "null_attn_rotation_frac": 0.45015580888622225,
+          "null_ffn_rotation_frac": 0.5498441911137778,
+          "q_subspace": {
+            "q_explained_90": 0.6201681359310263,
+            "q_explained_99": 0.8291380613694064,
+            "q_rank_90": 261,
+            "q_rank_99": 506,
+            "q_amplification": 1.0936210130334412,
+            "q_delta_norm": 20.111636486260398,
+            "q_hin_norm": 29.12413120103452
+          },
+          "differential_rotation_norm": 5.241527125249061,
+          "differential_rotation_relative": 0.6714567073465587
+        },
+        "6": {
+          "beam_divergence": {
+            "cosine": 0.8838079631508811,
+            "angle_deg": 27.894816075017857,
+            "norm_compile": 17.57346047375703,
+            "norm_null": 14.908708783034777,
+            "norm_ratio": 1.178737926235073
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.4330625534057617,
+            "angle_deg": 24.81265657530896,
+            "mag_ratio": 1.1060675382614136,
+            "norm_pre": 15.88823413848877,
+            "norm_post": 17.57345962524414,
+            "delta_norm": 7.375019550323486,
+            "delta_parallel_mag": 0.06292757391929626,
+            "delta_perp_norm": 7.374751567840576,
+            "delta_parallel_frac": 0.008532529696822166,
+            "delta_perp_frac": 0.999963641166687
+          },
+          "null_decomposition": {
+            "angle_rad": 0.4289208948612213,
+            "angle_deg": 24.5753570205225,
+            "mag_ratio": 1.036976933479309,
+            "norm_pre": 14.377087593078613,
+            "norm_post": 14.908708572387695,
+            "delta_norm": 6.254219055175781,
+            "delta_parallel_mag": -0.818882405757904,
+            "delta_perp_norm": 6.200377941131592,
+            "delta_parallel_frac": 0.1309327930212021,
+            "delta_perp_frac": 0.9913912415504456
+          },
+          "compile_attn_rotation_frac": 0.4560867266482361,
+          "compile_ffn_rotation_frac": 0.5439132733517639,
+          "null_attn_rotation_frac": 0.26550897149033675,
+          "null_ffn_rotation_frac": 0.7344910285096633,
+          "q_subspace": {
+            "q_explained_90": 0.24186394736635208,
+            "q_explained_99": 0.6749963229721874,
+            "q_rank_90": 24,
+            "q_rank_99": 334,
+            "q_amplification": 4.905013131446326,
+            "q_delta_norm": 57.841733537965254,
+            "q_hin_norm": 25.4055955192629
+          },
+          "differential_rotation_norm": 5.519064230449905,
+          "differential_rotation_relative": 0.8131140638574835
+        },
+        "7": {
+          "beam_divergence": {
+            "cosine": 0.917101060888458,
+            "angle_deg": 23.494110001800603,
+            "norm_compile": 23.766490544243663,
+            "norm_null": 21.413798175991204,
+            "norm_ratio": 1.1098680555834444
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.4357602596282959,
+            "angle_deg": 24.96722375622635,
+            "mag_ratio": 1.3524080514907837,
+            "norm_pre": 17.57345962524414,
+            "norm_post": 23.766489028930664,
+            "delta_norm": 10.789570808410645,
+            "delta_parallel_mag": 3.9720325469970703,
+            "delta_perp_norm": 10.031839370727539,
+            "delta_parallel_frac": 0.36813634634017944,
+            "delta_perp_frac": 0.9297718405723572
+          },
+          "null_decomposition": {
+            "angle_rad": 0.4718373417854309,
+            "angle_deg": 27.034288300976915,
+            "mag_ratio": 1.4363281726837158,
+            "norm_pre": 14.908708572387695,
+            "norm_post": 21.41379737854004,
+            "delta_norm": 10.586902618408203,
+            "delta_parallel_mag": 4.165305137634277,
+            "delta_perp_norm": 9.733074188232422,
+            "delta_parallel_frac": 0.3934394419193268,
+            "delta_perp_frac": 0.9193505048751831
+          },
+          "compile_attn_rotation_frac": 0.3115807431416187,
+          "compile_ffn_rotation_frac": 0.6884192568583813,
+          "null_attn_rotation_frac": 0.19602011332989447,
+          "null_ffn_rotation_frac": 0.8039798866701056,
+          "q_subspace": {
+            "q_explained_90": 0.4690073066195139,
+            "q_explained_99": 0.7170819843919274,
+            "q_rank_90": 41,
+            "q_rank_99": 260,
+            "q_amplification": 1.8535679542994374,
+            "q_delta_norm": 91.86966979519045,
+            "q_hin_norm": 86.82411507459854
+          },
+          "differential_rotation_norm": 6.440094465722247,
+          "differential_rotation_relative": 0.6516693565736309
+        },
+        "8": {
+          "beam_divergence": {
+            "cosine": 0.924262672117426,
+            "angle_deg": 22.44256641682948,
+            "norm_compile": 27.682734979756972,
+            "norm_null": 26.772393869652383,
+            "norm_ratio": 1.0340029776394595
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.40288442373275757,
+            "angle_deg": 23.08357711144731,
+            "mag_ratio": 1.1647801399230957,
+            "norm_pre": 23.766489028930664,
+            "norm_post": 27.682735443115234,
+            "delta_norm": 10.9859619140625,
+            "delta_parallel_mag": 1.6997967958450317,
+            "delta_perp_norm": 10.85366439819336,
+            "delta_parallel_frac": 0.15472444891929626,
+            "delta_perp_frac": 0.9879575967788696
+          },
+          "null_decomposition": {
+            "angle_rad": 0.42329585552215576,
+            "angle_deg": 24.25306600679899,
+            "mag_ratio": 1.2502403259277344,
+            "norm_pre": 21.41379737854004,
+            "norm_post": 26.77239418029785,
+            "delta_norm": 11.397943496704102,
+            "delta_parallel_mag": 2.9956672191619873,
+            "delta_perp_norm": 10.997230529785156,
+            "delta_parallel_frac": 0.26282525062561035,
+            "delta_perp_frac": 0.9648433923721313
+          },
+          "compile_attn_rotation_frac": 0.17118083728537026,
+          "compile_ffn_rotation_frac": 0.8288191627146297,
+          "null_attn_rotation_frac": 0.08577106466926862,
+          "null_ffn_rotation_frac": 0.9142289353307314,
+          "q_subspace": {
+            "q_explained_90": 0.41856931705328115,
+            "q_explained_99": 0.6952124685826241,
+            "q_rank_90": 42,
+            "q_rank_99": 280,
+            "q_amplification": 1.2559516617749893,
+            "q_delta_norm": 103.83015738253881,
+            "q_hin_norm": 181.02527911978655
+          },
+          "differential_rotation_norm": 6.679564715225644,
+          "differential_rotation_relative": 0.6113767203830395
+        },
+        "9": {
+          "beam_divergence": {
+            "cosine": 0.8297917969824198,
+            "angle_deg": 33.92264354202694,
+            "norm_compile": 27.436258578868895,
+            "norm_null": 27.175180310651317,
+            "norm_ratio": 1.0096072322329817
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5143170356750488,
+            "angle_deg": 29.468195475859694,
+            "mag_ratio": 0.9910963773727417,
+            "norm_pre": 27.682735443115234,
+            "norm_post": 27.43625831604004,
+            "delta_norm": 14.020637512207031,
+            "delta_parallel_mag": -3.7959365844726562,
+            "delta_perp_norm": 13.497005462646484,
+            "delta_parallel_frac": 0.27073925733566284,
+            "delta_perp_frac": 0.9626527428627014
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5277822017669678,
+            "angle_deg": 30.239692663369315,
+            "mag_ratio": 1.0150448083877563,
+            "norm_pre": 26.77239418029785,
+            "norm_post": 27.17517852783203,
+            "delta_norm": 14.077003479003906,
+            "delta_parallel_mag": -3.295048475265503,
+            "delta_perp_norm": 13.685930252075195,
+            "delta_parallel_frac": 0.23407314717769623,
+            "delta_perp_frac": 0.9722189903259277
+          },
+          "compile_attn_rotation_frac": 0.1412285666889187,
+          "compile_ffn_rotation_frac": 0.8587714333110813,
+          "null_attn_rotation_frac": 0.11592205955522465,
+          "null_ffn_rotation_frac": 0.8840779404447754,
+          "q_subspace": {
+            "q_explained_90": 0.3419403424874479,
+            "q_explained_99": 0.5330700610141557,
+            "q_rank_90": 43,
+            "q_rank_99": 192,
+            "q_amplification": 1.9394824738636525,
+            "q_delta_norm": 195.61503037390142,
+            "q_hin_norm": 206.8654446630395
+          },
+          "differential_rotation_norm": 11.020513473291395,
+          "differential_rotation_relative": 0.8108405894163752
+        },
+        "10": {
+          "beam_divergence": {
+            "cosine": 0.8645757035660594,
+            "angle_deg": 30.16570859170919,
+            "norm_compile": 30.137956920860873,
+            "norm_null": 30.585651007518017,
+            "norm_ratio": 0.9853626105082053
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.8594254851341248,
+            "angle_deg": 49.24145310416862,
+            "mag_ratio": 1.098471760749817,
+            "norm_pre": 27.43625831604004,
+            "norm_post": 30.137954711914062,
+            "delta_norm": 24.11139488220215,
+            "delta_parallel_mag": -7.760009765625,
+            "delta_perp_norm": 22.828529357910156,
+            "delta_parallel_frac": 0.32183992862701416,
+            "delta_perp_frac": 0.9467942118644714
+          },
+          "null_decomposition": {
+            "angle_rad": 0.780593752861023,
+            "angle_deg": 44.72472755321464,
+            "mag_ratio": 1.1254996061325073,
+            "norm_pre": 27.17517852783203,
+            "norm_post": 30.585651397705078,
+            "delta_norm": 22.20103645324707,
+            "delta_parallel_mag": -5.444204330444336,
+            "delta_perp_norm": 21.52316665649414,
+            "delta_parallel_frac": 0.2452230006456375,
+            "delta_perp_frac": 0.9694667458534241
+          },
+          "compile_attn_rotation_frac": 0.13155959484313373,
+          "compile_ffn_rotation_frac": 0.8684404051568663,
+          "null_attn_rotation_frac": 0.07664282462306715,
+          "null_ffn_rotation_frac": 0.9233571753769328,
+          "q_subspace": {
+            "q_explained_90": 0.4789298559619322,
+            "q_explained_99": 0.5990024603322658,
+            "q_rank_90": 47,
+            "q_rank_99": 219,
+            "q_amplification": 1.251580204125626,
+            "q_delta_norm": 368.9650827357251,
+            "q_hin_norm": 354.3019669576544
+          },
+          "differential_rotation_norm": 12.241869235943692,
+          "differential_rotation_relative": 0.552036148173352
+        },
+        "11": {
+          "beam_divergence": {
+            "cosine": 0.984550211443158,
+            "angle_deg": 10.08462230323836,
+            "norm_compile": 100.4435848135031,
+            "norm_null": 113.29048616370761,
+            "norm_ratio": 0.8866021165127633
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.3980439901351929,
+            "angle_deg": 80.10202020837585,
+            "mag_ratio": 3.332793712615967,
+            "norm_pre": 30.137954711914062,
+            "norm_post": 100.44358825683594,
+            "delta_norm": 99.78228759765625,
+            "delta_parallel_mag": -12.872275352478027,
+            "delta_perp_norm": 98.94852447509766,
+            "delta_parallel_frac": 0.1290036141872406,
+            "delta_perp_frac": 0.9916442036628723
+          },
+          "null_decomposition": {
+            "angle_rad": 1.4100818634033203,
+            "angle_deg": 80.7917395409529,
+            "mag_ratio": 3.70404052734375,
+            "norm_pre": 30.585651397705078,
+            "norm_post": 113.29048919677734,
+            "delta_norm": 112.52214813232422,
+            "delta_parallel_mag": -12.456512451171875,
+            "delta_perp_norm": 111.83053588867188,
+            "delta_parallel_frac": 0.1107027605175972,
+            "delta_perp_frac": 0.9938535690307617
+          },
+          "compile_attn_rotation_frac": 0.1564803731373291,
+          "compile_ffn_rotation_frac": 0.8435196268626709,
+          "null_attn_rotation_frac": 0.13586899144120815,
+          "null_ffn_rotation_frac": 0.8641310085587919,
+          "q_subspace": {
+            "q_explained_90": 0.6658839968660631,
+            "q_explained_99": 0.8187672166275343,
+            "q_rank_90": 117,
+            "q_rank_99": 310,
+            "q_amplification": 0.31646133230829626,
+            "q_delta_norm": 500.8777576510518,
+            "q_hin_norm": 482.0760923962827
+          },
+          "differential_rotation_norm": 17.66028321343818,
+          "differential_rotation_relative": 0.16757151790935568
+        }
+      },
+      "ternary_test": {
+        "baseline_norms": {
+          "0": 8.565222740035939,
+          "1": 8.46255097051671,
+          "2": 9.611187273351048,
+          "3": 11.573610351598198,
+          "4": 12.76841553036096,
+          "5": 15.888234029324064,
+          "6": 17.57346047375703,
+          "7": 23.766490544243663,
+          "8": 27.682734979756972,
+          "9": 27.436258578868895,
+          "10": 30.137956920860873,
+          "11": 100.4435848135031
+        },
+        "tests": {
+          "Q_sign": {
+            "0": {
+              "cosine": 0.44074581824657816,
+              "angle_deg": 63.848523041837815,
+              "norm_compile": 265.9487864472586,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 31.049838926447197
+            },
+            "1": {
+              "cosine": 0.3995293689947154,
+              "angle_deg": 66.45123963988807,
+              "norm_compile": 352.4831385141368,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 41.652114089732294
+            },
+            "2": {
+              "cosine": 0.2652402795261875,
+              "angle_deg": 74.61876926910598,
+              "norm_compile": 406.1243455430071,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 42.25537740473216
+            },
+            "3": {
+              "cosine": 0.18603719704104843,
+              "angle_deg": 79.27839075372185,
+              "norm_compile": 505.8200276887713,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 43.70460144434728
+            },
+            "4": {
+              "cosine": 0.2392428047599268,
+              "angle_deg": 76.15814559255062,
+              "norm_compile": 600.6713957558345,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 47.043534440710175
+            },
+            "5": {
+              "cosine": 0.17554440279543573,
+              "angle_deg": 79.88965946568342,
+              "norm_compile": 665.1617270468932,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 41.86505094394001
+            },
+            "6": {
+              "cosine": 0.1916630533818408,
+              "angle_deg": 78.95014597731405,
+              "norm_compile": 880.4546434926154,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 50.10138127362135
+            },
+            "7": {
+              "cosine": 0.13874472325886586,
+              "angle_deg": 82.0247846919469,
+              "norm_compile": 913.7396088499853,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 38.4465517594602
+            },
+            "8": {
+              "cosine": 0.1602133843992712,
+              "angle_deg": 80.78071797270808,
+              "norm_compile": 977.7539303890048,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 35.319990279283765
+            },
+            "9": {
+              "cosine": 0.13256829498934927,
+              "angle_deg": 82.38197041963916,
+              "norm_compile": 1016.6201207884934,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 37.05389048824183
+            },
+            "10": {
+              "cosine": 0.07394942006248259,
+              "angle_deg": 85.75913912418497,
+              "norm_compile": 1098.6596002042393,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 36.45434901540289
+            },
+            "11": {
+              "cosine": 0.06361291647717945,
+              "angle_deg": 86.35278573241347,
+              "norm_compile": 1182.7581259230883,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 11.775347605515616
+            }
+          },
+          "Q_global": {
+            "0": {
+              "cosine": 0.970500406885569,
+              "angle_deg": 13.951441758407073,
+              "norm_compile": 8.556941156182985,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 0.9990331151793352
+            },
+            "1": {
+              "cosine": 0.8158605360409988,
+              "angle_deg": 35.32746118792982,
+              "norm_compile": 11.472785023788532,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.3557123689723574
+            },
+            "2": {
+              "cosine": 0.7052784198707219,
+              "angle_deg": 45.14795844063076,
+              "norm_compile": 10.49372273079718,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 1.0918237708147815
+            },
+            "3": {
+              "cosine": 0.6762842353914003,
+              "angle_deg": 47.44604196918607,
+              "norm_compile": 12.328814309702295,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 1.0652522363516248
+            },
+            "4": {
+              "cosine": 0.7112000523543022,
+              "angle_deg": 44.66736104857719,
+              "norm_compile": 13.126118337678934,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 1.0280146590207235
+            },
+            "5": {
+              "cosine": 0.7673476848427768,
+              "angle_deg": 39.883692947976215,
+              "norm_compile": 16.473932125250283,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1.0368636372579374
+            },
+            "6": {
+              "cosine": 0.7322466471693876,
+              "angle_deg": 42.924929447313176,
+              "norm_compile": 20.795988887993566,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 1.183374721162564
+            },
+            "7": {
+              "cosine": 0.7691031968953016,
+              "angle_deg": 39.72657511788044,
+              "norm_compile": 26.301470813603927,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 1.1066619518199858
+            },
+            "8": {
+              "cosine": 0.7400663723969241,
+              "angle_deg": 42.26293021333322,
+              "norm_compile": 28.18024941828686,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 1.017972011757281
+            },
+            "9": {
+              "cosine": 0.6511176899348313,
+              "angle_deg": 49.374075997028136,
+              "norm_compile": 29.626497681571564,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.0798300940489594
+            },
+            "10": {
+              "cosine": 0.5950379739780265,
+              "angle_deg": 53.48466077482161,
+              "norm_compile": 37.90186820082178,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 1.2576123955697505
+            },
+            "11": {
+              "cosine": 0.9522346791555105,
+              "angle_deg": 17.780255809526036,
+              "norm_compile": 169.0869223540045,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.6834019083244964
+            }
+          },
+          "Q_group": {
+            "0": {
+              "cosine": 0.9767692640300305,
+              "angle_deg": 12.374095596583759,
+              "norm_compile": 8.179160950212411,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 0.9549268242588742
+            },
+            "1": {
+              "cosine": 0.7989923752892596,
+              "angle_deg": 36.96601127601239,
+              "norm_compile": 12.890235860713986,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.5232092433621025
+            },
+            "2": {
+              "cosine": 0.705053082600423,
+              "angle_deg": 45.16616732770862,
+              "norm_compile": 11.991798212133727,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 1.2476916608818354
+            },
+            "3": {
+              "cosine": 0.46510245928372695,
+              "angle_deg": 62.283146761142376,
+              "norm_compile": 46.42974687340522,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 4.0116908607514805
+            },
+            "4": {
+              "cosine": 0.56113479429006,
+              "angle_deg": 55.865687290427694,
+              "norm_compile": 52.0582840338182,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 4.077113868203389
+            },
+            "5": {
+              "cosine": 0.6720975778736213,
+              "angle_deg": 47.77083598067513,
+              "norm_compile": 55.37110125349313,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 3.4850381201143974
+            },
+            "6": {
+              "cosine": 0.6033903207226687,
+              "angle_deg": 52.88690067208842,
+              "norm_compile": 54.55343000962716,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 3.104307776552797
+            },
+            "7": {
+              "cosine": 0.6849814381642456,
+              "angle_deg": 46.7658526166232,
+              "norm_compile": 53.12683208537631,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 2.235367143772257
+            },
+            "8": {
+              "cosine": 0.68218592448712,
+              "angle_deg": 46.98530405277928,
+              "norm_compile": 48.24893873077077,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 1.7429252841546492
+            },
+            "9": {
+              "cosine": 0.636222636331926,
+              "angle_deg": 50.489275783822585,
+              "norm_compile": 35.73208342898184,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.3023672060192018
+            },
+            "10": {
+              "cosine": 0.7248848499342162,
+              "angle_deg": 43.54073045155512,
+              "norm_compile": 26.622909583598066,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 0.8833680947088433
+            },
+            "11": {
+              "cosine": 0.9633632407487516,
+              "angle_deg": 15.557187322354991,
+              "norm_compile": 99.93400686394254,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9949267247828052
+            }
+          },
+          "attn_dense_sign": {
+            "0": {
+              "cosine": 0.1656112690916399,
+              "angle_deg": 80.46725383563177,
+              "norm_compile": 175.81360956565456,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 20.526449212331503
+            },
+            "1": {
+              "cosine": 0.1200295376114728,
+              "angle_deg": 83.10619271877549,
+              "norm_compile": 302.862449323649,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 35.78855245644171
+            },
+            "2": {
+              "cosine": 0.10334954122943588,
+              "angle_deg": 84.06791511166038,
+              "norm_compile": 481.26085494807825,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 50.07298695370039
+            },
+            "3": {
+              "cosine": 0.0758083153873141,
+              "angle_deg": 85.6523324066,
+              "norm_compile": 594.5591074617304,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 51.37196513442564
+            },
+            "4": {
+              "cosine": 0.059167106193438984,
+              "angle_deg": 86.60799347008222,
+              "norm_compile": 792.4806616532794,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 62.06570108631765
+            },
+            "5": {
+              "cosine": 0.0468771566790775,
+              "angle_deg": 87.31315210971258,
+              "norm_compile": 943.8444122119854,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 59.40524355758999
+            },
+            "6": {
+              "cosine": 0.028993221963104988,
+              "angle_deg": 88.3385779244166,
+              "norm_compile": 1198.9562874651053,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 68.22539529169809
+            },
+            "7": {
+              "cosine": 0.005168484359454039,
+              "angle_deg": 89.70386634126614,
+              "norm_compile": 1590.533082522827,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 66.92334653119664
+            },
+            "8": {
+              "cosine": -0.00597293563004985,
+              "angle_deg": 90.34222603779948,
+              "norm_compile": 1838.0977252227644,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 66.39870397801646
+            },
+            "9": {
+              "cosine": -0.0035489349076558165,
+              "angle_deg": 90.2033394188181,
+              "norm_compile": 2208.3212042597015,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 80.48915262668235
+            },
+            "10": {
+              "cosine": 0.026604658732856102,
+              "angle_deg": 88.47548545924408,
+              "norm_compile": 2459.652342491552,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 81.6131083122304
+            },
+            "11": {
+              "cosine": 0.05353314237272444,
+              "angle_deg": 86.93130997881526,
+              "norm_compile": 2737.379761228591,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 27.25290785181726
+            }
+          },
+          "attn_dense_global": {
+            "0": {
+              "cosine": 0.9722604214339063,
+              "angle_deg": 13.526848731458143,
+              "norm_compile": 8.731728790225661,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 1.019439780522161
+            },
+            "1": {
+              "cosine": 0.9163616893695237,
+              "angle_deg": 23.600148866290258,
+              "norm_compile": 10.836122996559268,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.2804794954041654
+            },
+            "2": {
+              "cosine": 0.8964525324112154,
+              "angle_deg": 26.30438317922945,
+              "norm_compile": 9.234713305541023,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 0.9608296085485843
+            },
+            "3": {
+              "cosine": 0.8738071264940487,
+              "angle_deg": 29.095887714740265,
+              "norm_compile": 9.507381854204825,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 0.8214707049379757
+            },
+            "4": {
+              "cosine": 0.8513528137846875,
+              "angle_deg": 31.6408848688651,
+              "norm_compile": 10.556087691387336,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 0.8267343482272242
+            },
+            "5": {
+              "cosine": 0.8573602604373535,
+              "angle_deg": 30.978527359104167,
+              "norm_compile": 13.165969891003458,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 0.8286616288949251
+            },
+            "6": {
+              "cosine": 0.8626203285427374,
+              "angle_deg": 30.387921304117352,
+              "norm_compile": 15.537365044850649,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 0.8841380482832654
+            },
+            "7": {
+              "cosine": 0.8908204120141576,
+              "angle_deg": 27.023478808751225,
+              "norm_compile": 20.501372502554872,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 0.8626167361306268
+            },
+            "8": {
+              "cosine": 0.9035483196811138,
+              "angle_deg": 25.371529662992483,
+              "norm_compile": 25.231061323808323,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 0.911436725535196
+            },
+            "9": {
+              "cosine": 0.9178995663275666,
+              "angle_deg": 23.379080860494376,
+              "norm_compile": 28.041821524118333,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.0220716299020391
+            },
+            "10": {
+              "cosine": 0.9414724082992194,
+              "angle_deg": 19.69968326230569,
+              "norm_compile": 29.91949477522812,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 0.9927512622635167
+            },
+            "11": {
+              "cosine": 0.9929942721257072,
+              "angle_deg": 6.786066859517931,
+              "norm_compile": 99.78415952768036,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9934348690655843
+            }
+          },
+          "attn_dense_group": {
+            "0": {
+              "cosine": 0.9741608565188582,
+              "angle_deg": 13.053179149724306,
+              "norm_compile": 8.67954756582062,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 1.0133475601574609
+            },
+            "1": {
+              "cosine": 0.8864874339278527,
+              "angle_deg": 27.56487511814243,
+              "norm_compile": 11.73152336372129,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.386286877868575
+            },
+            "2": {
+              "cosine": 0.8563748612602882,
+              "angle_deg": 31.088042947523267,
+              "norm_compile": 9.588530729678897,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 0.9976426904369068
+            },
+            "3": {
+              "cosine": 0.8355297589775318,
+              "angle_deg": 33.328959323077434,
+              "norm_compile": 9.99315216942045,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 0.8634429418163794
+            },
+            "4": {
+              "cosine": 0.8430179008440485,
+              "angle_deg": 32.53981184077442,
+              "norm_compile": 11.257554024334961,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 0.881671966076492
+            },
+            "5": {
+              "cosine": 0.8979411590599468,
+              "angle_deg": 26.111252282940747,
+              "norm_compile": 14.267674394081318,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 0.8980025324241974
+            },
+            "6": {
+              "cosine": 0.8979687411839323,
+              "angle_deg": 26.107661315902877,
+              "norm_compile": 16.39556808604683,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 0.9329732246264654
+            },
+            "7": {
+              "cosine": 0.915183643309567,
+              "angle_deg": 23.768179696497764,
+              "norm_compile": 22.336038175641253,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 0.9398122172922636
+            },
+            "8": {
+              "cosine": 0.948272591219079,
+              "angle_deg": 18.509218420338225,
+              "norm_compile": 26.499268166234327,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 0.9572489201522878
+            },
+            "9": {
+              "cosine": 0.9251722621341462,
+              "angle_deg": 22.305655006214046,
+              "norm_compile": 28.109032033011147,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.0245213264851067
+            },
+            "10": {
+              "cosine": 0.9382092145985875,
+              "angle_deg": 20.247040179360273,
+              "norm_compile": 30.68419520404627,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 1.0181245956592133
+            },
+            "11": {
+              "cosine": 0.9922935783087848,
+              "angle_deg": 7.117759582162238,
+              "norm_compile": 98.22302362961751,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9778924538783779
+            }
+          },
+          "FFN_dense_h_to_4h_sign": {
+            "0": {
+              "cosine": 0.5124092810390548,
+              "angle_deg": 59.175555586795596,
+              "norm_compile": 487.3585567595417,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 56.89969444478181
+            },
+            "1": {
+              "cosine": 0.4281247792191479,
+              "angle_deg": 64.65138733848151,
+              "norm_compile": 611.1998262589037,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 72.22406439716661
+            },
+            "2": {
+              "cosine": 0.32467863202786396,
+              "angle_deg": 71.0538938500516,
+              "norm_compile": 677.6980304462417,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 70.51137504367394
+            },
+            "3": {
+              "cosine": 0.37858582027723714,
+              "angle_deg": 67.75388741219497,
+              "norm_compile": 1709.134530094688,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 147.6751400965105
+            },
+            "4": {
+              "cosine": 0.47508475936061384,
+              "angle_deg": 61.63513115560588,
+              "norm_compile": 2061.7969358184587,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 161.47633439058137
+            },
+            "5": {
+              "cosine": 0.5225469932553788,
+              "angle_deg": 58.49674563863448,
+              "norm_compile": 2051.1012989690807,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 129.09561221111628
+            },
+            "6": {
+              "cosine": 0.4103708973853387,
+              "angle_deg": 65.77186387698966,
+              "norm_compile": 1929.3822512008812,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 109.78954623547735
+            },
+            "7": {
+              "cosine": 0.42134655189839854,
+              "angle_deg": 65.08036983623602,
+              "norm_compile": 1643.4049558372485,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 69.14798601745126
+            },
+            "8": {
+              "cosine": 0.2777566586403334,
+              "angle_deg": 73.87363939173399,
+              "norm_compile": 1451.6754411883835,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 52.43974059101901
+            },
+            "9": {
+              "cosine": -0.17110248779393145,
+              "angle_deg": 99.85192620399263,
+              "norm_compile": 1187.1382250871993,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 43.2689545360066
+            },
+            "10": {
+              "cosine": -0.3440156615639423,
+              "angle_deg": 110.12171967372437,
+              "norm_compile": 1546.4902446621527,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 51.31370546195532
+            },
+            "11": {
+              "cosine": 0.9191606582737365,
+              "angle_deg": 23.1963172700044,
+              "norm_compile": 3311.2042320244827,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 32.965810989049274
+            }
+          },
+          "FFN_dense_h_to_4h_global": {
+            "0": {
+              "cosine": 0.8389772683535521,
+              "angle_deg": 32.967721253295295,
+              "norm_compile": 13.7420065993412,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 1.60439570766884
+            },
+            "1": {
+              "cosine": 0.7656954530267647,
+              "angle_deg": 40.03109766776462,
+              "norm_compile": 12.394931382762648,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.4646802631908795
+            },
+            "2": {
+              "cosine": 0.5848342958038026,
+              "angle_deg": 54.208715366915406,
+              "norm_compile": 10.52715805326849,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 1.095302562926555
+            },
+            "3": {
+              "cosine": 0.5993810245786207,
+              "angle_deg": 53.17442035275376,
+              "norm_compile": 11.589659438322261,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 1.0013866966518228
+            },
+            "4": {
+              "cosine": 0.5381961977891527,
+              "angle_deg": 57.43906956457453,
+              "norm_compile": 14.108450238264572,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 1.1049491775010967
+            },
+            "5": {
+              "cosine": 0.3756682618948241,
+              "angle_deg": 67.9343784803259,
+              "norm_compile": 19.363616122236916,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1.2187393568409508
+            },
+            "6": {
+              "cosine": 0.5688824051497595,
+              "angle_deg": 55.32767081852944,
+              "norm_compile": 19.51541275414756,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 1.1105048310371486
+            },
+            "7": {
+              "cosine": 0.7408275046286233,
+              "angle_deg": 42.19804594944609,
+              "norm_compile": 26.723922100038852,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 1.1244370324802326
+            },
+            "8": {
+              "cosine": 0.7823039297644672,
+              "angle_deg": 38.52799223733256,
+              "norm_compile": 27.750605144307613,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 1.0024517145650627
+            },
+            "9": {
+              "cosine": 0.6592927363693215,
+              "angle_deg": 48.754044868450755,
+              "norm_compile": 31.70694152279006,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.155658357412129
+            },
+            "10": {
+              "cosine": 0.653804926716757,
+              "angle_deg": 49.170904832149674,
+              "norm_compile": 30.639597997898722,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 1.0166448269322006
+            },
+            "11": {
+              "cosine": 0.9514694451192492,
+              "angle_deg": 17.92327950335412,
+              "norm_compile": 89.48773180185604,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.8909253086497346
+            }
+          },
+          "FFN_dense_h_to_4h_group": {
+            "0": {
+              "cosine": 0.8691462584765914,
+              "angle_deg": 29.64041970288624,
+              "norm_compile": 11.929901290425287,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 1.392830245343419
+            },
+            "1": {
+              "cosine": 0.7956683392078605,
+              "angle_deg": 37.28157238868713,
+              "norm_compile": 10.841857227754126,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 1.2811570961908354
+            },
+            "2": {
+              "cosine": 0.642968387921302,
+              "angle_deg": 49.986477474260276,
+              "norm_compile": 9.451078801775902,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 0.9833414471051792
+            },
+            "3": {
+              "cosine": 0.690824453430512,
+              "angle_deg": 46.30459301831348,
+              "norm_compile": 10.665622241377507,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 0.9215466839960352
+            },
+            "4": {
+              "cosine": 0.6612171344617185,
+              "angle_deg": 48.607235430445606,
+              "norm_compile": 12.366436993994938,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 0.9685177432227052
+            },
+            "5": {
+              "cosine": 0.6509505252294799,
+              "angle_deg": 49.38669420581155,
+              "norm_compile": 16.300512959676112,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1.025948694461016
+            },
+            "6": {
+              "cosine": 0.7254966143038891,
+              "angle_deg": 43.48982402318477,
+              "norm_compile": 17.39470141246832,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 0.9898278963579393
+            },
+            "7": {
+              "cosine": 0.759079244491528,
+              "angle_deg": 40.616906780037375,
+              "norm_compile": 23.99588246227917,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 1.0096519053836943
+            },
+            "8": {
+              "cosine": 0.8267560412593629,
+              "angle_deg": 34.233067124611985,
+              "norm_compile": 25.78717248766681,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 0.9315254618636383
+            },
+            "9": {
+              "cosine": 0.7378121812909598,
+              "angle_deg": 42.45462103589102,
+              "norm_compile": 27.810887161243127,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.0136545069108938
+            },
+            "10": {
+              "cosine": 0.689569912618006,
+              "angle_deg": 46.40392663805214,
+              "norm_compile": 27.189907839559687,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 0.9021815218250376
+            },
+            "11": {
+              "cosine": 0.9580773345566489,
+              "angle_deg": 16.649113099519955,
+              "norm_compile": 80.64577797593924,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.8028962539088674
+            }
+          },
+          "FFN_dense_4h_to_h_sign": {
+            "0": {
+              "cosine": 0.4608424732475337,
+              "angle_deg": 62.55851586758454,
+              "norm_compile": 273.92295908418214,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 31.98083311993738
+            },
+            "1": {
+              "cosine": -0.04400298913920611,
+              "angle_deg": 92.52199988644685,
+              "norm_compile": 3853.340646586613,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 455.34031759590493
+            },
+            "2": {
+              "cosine": -0.026639166635407833,
+              "angle_deg": 91.52649239893628,
+              "norm_compile": 9394.643512287797,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 977.469613804773
+            },
+            "3": {
+              "cosine": 0.01390942015105165,
+              "angle_deg": 89.20302322968415,
+              "norm_compile": 23557.109727829542,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 2035.415830685586
+            },
+            "4": {
+              "cosine": 0.005139721091497614,
+              "angle_deg": 89.7055143770151,
+              "norm_compile": 22579.86405454742,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 1768.4155094151367
+            },
+            "5": {
+              "cosine": 0.09348146077126021,
+              "angle_deg": 84.63607504123588,
+              "norm_compile": 21565.463636738037,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1357.3228841503603
+            },
+            "6": {
+              "cosine": 0.06869086538470373,
+              "angle_deg": 86.06120167730452,
+              "norm_compile": 19755.271808046775,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 1124.1537679814346
+            },
+            "7": {
+              "cosine": 0.028053781454749988,
+              "angle_deg": 88.39242581214752,
+              "norm_compile": 18615.637105041464,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 783.2724427860572
+            },
+            "8": {
+              "cosine": -0.044853153835858,
+              "angle_deg": 92.57075888226245,
+              "norm_compile": 18108.122347446417,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 654.1305387884543
+            },
+            "9": {
+              "cosine": -0.07233499323365213,
+              "angle_deg": 94.1481125976758,
+              "norm_compile": 17340.57015627279,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 632.0311534615842
+            },
+            "10": {
+              "cosine": -0.11259215682860248,
+              "angle_deg": 96.46476373689572,
+              "norm_compile": 16834.711120568005,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 558.5883331366555
+            },
+            "11": {
+              "cosine": 0.023776156495376878,
+              "angle_deg": 88.63759819697447,
+              "norm_compile": 15991.511531660046,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 159.2088888638534
+            }
+          },
+          "FFN_dense_4h_to_h_global": {
+            "0": {
+              "cosine": 0.9105419861816203,
+              "angle_deg": 24.419642229549204,
+              "norm_compile": 5.177671538709906,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 0.6044993453011102
+            },
+            "1": {
+              "cosine": 0.8380694455597385,
+              "angle_deg": 33.06318416806534,
+              "norm_compile": 6.762806857221092,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 0.7991451845646212
+            },
+            "2": {
+              "cosine": 0.5956091918481681,
+              "angle_deg": 53.44392780255766,
+              "norm_compile": 9.75648204213753,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 1.0151172549919343
+            },
+            "3": {
+              "cosine": 0.5296632439612559,
+              "angle_deg": 58.017295596799414,
+              "norm_compile": 13.007235536791809,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 1.1238701789364838
+            },
+            "4": {
+              "cosine": 0.4373349290141317,
+              "angle_deg": 64.06603763744988,
+              "norm_compile": 18.813363995650818,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 1.4734298042631895
+            },
+            "5": {
+              "cosine": 0.30356821909876813,
+              "angle_deg": 72.32795473839589,
+              "norm_compile": 24.576714900510957,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1.5468500058062482
+            },
+            "6": {
+              "cosine": 0.2923051789013266,
+              "angle_deg": 73.00398576734241,
+              "norm_compile": 24.78793189204628,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 1.4105322016152047
+            },
+            "7": {
+              "cosine": 0.24702587836938278,
+              "angle_deg": 75.69841148749632,
+              "norm_compile": 28.28515129417763,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 1.1901273871934115
+            },
+            "8": {
+              "cosine": 0.31824035380373467,
+              "angle_deg": 71.44345772897158,
+              "norm_compile": 27.98333588858767,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 1.0108587864981735
+            },
+            "9": {
+              "cosine": 0.2801473698053242,
+              "angle_deg": 73.73099960737349,
+              "norm_compile": 28.56559064336407,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 1.0411620287528918
+            },
+            "10": {
+              "cosine": 0.21972370603251326,
+              "angle_deg": 77.30719455554731,
+              "norm_compile": 32.225418827098096,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 1.0692635506686363
+            },
+            "11": {
+              "cosine": 0.8599559268055158,
+              "angle_deg": 30.688365284185345,
+              "norm_compile": 72.91880219164132,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.7259677392740618
+            }
+          },
+          "FFN_dense_4h_to_h_group": {
+            "0": {
+              "cosine": 0.9366247911610588,
+              "angle_deg": 20.507753174723025,
+              "norm_compile": 5.735591435535688,
+              "norm_null": 8.565222740035939,
+              "norm_ratio": 0.6696371605990041
+            },
+            "1": {
+              "cosine": 0.8835531296157508,
+              "angle_deg": 27.92600852382293,
+              "norm_compile": 7.300757514900433,
+              "norm_null": 8.46255097051671,
+              "norm_ratio": 0.8627135647792334
+            },
+            "2": {
+              "cosine": 0.6745731130424498,
+              "angle_deg": 47.578991249885306,
+              "norm_compile": 9.213082064539119,
+              "norm_null": 9.611187273351048,
+              "norm_ratio": 0.9585789770306781
+            },
+            "3": {
+              "cosine": 0.5696954063850487,
+              "angle_deg": 55.27101175403181,
+              "norm_compile": 12.400186697273153,
+              "norm_null": 11.573610351598198,
+              "norm_ratio": 1.07141905771528
+            },
+            "4": {
+              "cosine": 0.4518854959303729,
+              "angle_deg": 63.1352800893025,
+              "norm_compile": 18.355535440011547,
+              "norm_null": 12.76841553036096,
+              "norm_ratio": 1.4375734715372817
+            },
+            "5": {
+              "cosine": 0.3395145220681078,
+              "angle_deg": 70.15270110033416,
+              "norm_compile": 23.35901304999927,
+              "norm_null": 15.888234029324064,
+              "norm_ratio": 1.4702082690176133
+            },
+            "6": {
+              "cosine": 0.3297192355963692,
+              "angle_deg": 70.74826487325248,
+              "norm_compile": 23.855066069643676,
+              "norm_null": 17.57346047375703,
+              "norm_ratio": 1.3574484151978579
+            },
+            "7": {
+              "cosine": 0.2755064338915026,
+              "angle_deg": 74.00780341852729,
+              "norm_compile": 27.965534195249877,
+              "norm_null": 23.766490544243663,
+              "norm_ratio": 1.1766791627560358
+            },
+            "8": {
+              "cosine": 0.3812647785704693,
+              "angle_deg": 67.58795202280231,
+              "norm_compile": 27.297841533328913,
+              "norm_null": 27.682734979756972,
+              "norm_ratio": 0.9860962637286557
+            },
+            "9": {
+              "cosine": 0.3449816505244933,
+              "angle_deg": 69.8193243489527,
+              "norm_compile": 27.266468321367064,
+              "norm_null": 27.436258578868895,
+              "norm_ratio": 0.9938114645984347
+            },
+            "10": {
+              "cosine": 0.28449740750288605,
+              "angle_deg": 73.47119143360158,
+              "norm_compile": 31.38350721218874,
+              "norm_null": 30.137956920860873,
+              "norm_ratio": 1.0413282922461715
+            },
+            "11": {
+              "cosine": 0.8667707754528855,
+              "angle_deg": 29.914476110575563,
+              "norm_compile": 68.57831674611256,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.6827545718668263
+            }
+          },
+          "Q_per_layer_group": {
+            "0": {
+              "cosine": 0.9605041311918436,
+              "angle_deg": 16.156725019536474,
+              "norm_compile": 49.164315584041155,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.48947193268067996
+            },
+            "1": {
+              "cosine": 0.9971710553728115,
+              "angle_deg": 4.310744568902853,
+              "norm_compile": 98.76606534536424,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9832988889110882
+            },
+            "2": {
+              "cosine": 0.9992168207193272,
+              "angle_deg": 2.2677572981256446,
+              "norm_compile": 98.61568154880229,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.981801692282342
+            },
+            "3": {
+              "cosine": 0.9971169600366633,
+              "angle_deg": 4.3517842629322665,
+              "norm_compile": 102.071667756798,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0162089290850962
+            },
+            "4": {
+              "cosine": 0.9976773749123695,
+              "angle_deg": 3.9058115110885305,
+              "norm_compile": 103.00053577599999,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.025456588066271
+            },
+            "5": {
+              "cosine": 0.9982911482117173,
+              "angle_deg": 3.3500531214119587,
+              "norm_compile": 99.07345780263007,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9863592382388883
+            },
+            "6": {
+              "cosine": 0.9981722691360139,
+              "angle_deg": 3.4646544228765417,
+              "norm_compile": 105.12175885212814,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0465751401377317
+            },
+            "7": {
+              "cosine": 0.9989238328175761,
+              "angle_deg": 2.658376308189791,
+              "norm_compile": 101.04580643202407,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.005995620523094
+            },
+            "8": {
+              "cosine": 0.9961481612532022,
+              "angle_deg": 5.030500311805245,
+              "norm_compile": 100.4140445870504,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9997059023081709
+            },
+            "9": {
+              "cosine": 0.9993832385031952,
+              "angle_deg": 2.0124197968802156,
+              "norm_compile": 101.8784824031473,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.014285607112773
+            },
+            "10": {
+              "cosine": 0.9963061120696237,
+              "angle_deg": 4.926213893122511,
+              "norm_compile": 97.92529298225301,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.974928295959111
+            },
+            "11": {
+              "cosine": 0.989904044747308,
+              "angle_deg": 8.148494969031168,
+              "norm_compile": 107.86692254434574,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.073905543540942
+            }
+          },
+          "attn_dense_per_layer_group": {
+            "0": {
+              "cosine": 0.9963026260041967,
+              "angle_deg": 4.928539308291235,
+              "norm_compile": 95.389344342002,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9496808035985029
+            },
+            "1": {
+              "cosine": 0.9993104407728269,
+              "angle_deg": 2.127886094464961,
+              "norm_compile": 99.02829167328818,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9859095715983979
+            },
+            "2": {
+              "cosine": 0.9982608590658058,
+              "angle_deg": 3.3796208482758763,
+              "norm_compile": 101.71005675889431,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.01260878878171
+            },
+            "3": {
+              "cosine": 0.9986839774783136,
+              "angle_deg": 2.939794215264006,
+              "norm_compile": 105.1818712768451,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.047173609664965
+            },
+            "4": {
+              "cosine": 0.9988412886431448,
+              "angle_deg": 2.7584632737756474,
+              "norm_compile": 102.3340697678133,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0188213608447003
+            },
+            "5": {
+              "cosine": 0.9988002408900458,
+              "angle_deg": 2.806907420612428,
+              "norm_compile": 99.95661404539476,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9951517982058037
+            },
+            "6": {
+              "cosine": 0.9990020520072465,
+              "angle_deg": 2.5599277505013855,
+              "norm_compile": 98.79070938380788,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9835442409511352
+            },
+            "7": {
+              "cosine": 0.9991926923001409,
+              "angle_deg": 2.3024298090487587,
+              "norm_compile": 99.1364122413038,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9869860023950124
+            },
+            "8": {
+              "cosine": 0.9994903799462647,
+              "angle_deg": 1.8292763954660882,
+              "norm_compile": 98.33434609492267,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9790007622438335
+            },
+            "9": {
+              "cosine": 0.9995446051594046,
+              "angle_deg": 1.7292117021471856,
+              "norm_compile": 98.38159537885517,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9794711684327427
+            },
+            "10": {
+              "cosine": 0.9994816506313957,
+              "angle_deg": 1.8448781133130518,
+              "norm_compile": 97.94657198446951,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9751401462455779
+            },
+            "11": {
+              "cosine": 0.9995326163341097,
+              "angle_deg": 1.7518273895051688,
+              "norm_compile": 95.8434082990209,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9542013905315755
+            }
+          },
+          "FFN_dense_h_to_4h_per_layer_group": {
+            "0": {
+              "cosine": 0.9896051561612882,
+              "angle_deg": 8.268439172947325,
+              "norm_compile": 84.99182659664768,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.846164807383715
+            },
+            "1": {
+              "cosine": 0.9985966786559248,
+              "angle_deg": 3.0357569403676825,
+              "norm_compile": 99.51330879904619,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9907383232469831
+            },
+            "2": {
+              "cosine": 0.9979273484227079,
+              "angle_deg": 3.6895705672735173,
+              "norm_compile": 100.42075497210622,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9997727098107932
+            },
+            "3": {
+              "cosine": 0.9979792260424158,
+              "angle_deg": 3.6430879821717497,
+              "norm_compile": 102.98616686816236,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0253135335559773
+            },
+            "4": {
+              "cosine": 0.9960743257067962,
+              "angle_deg": 5.078517338635481,
+              "norm_compile": 97.31587345314554,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9688610142084746
+            },
+            "5": {
+              "cosine": 0.9979895249072286,
+              "angle_deg": 3.6337895124098774,
+              "norm_compile": 103.39499010602259,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0293837112444708
+            },
+            "6": {
+              "cosine": 0.9980074086274459,
+              "angle_deg": 3.6175862448251674,
+              "norm_compile": 98.29148465977839,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.978574040764071
+            },
+            "7": {
+              "cosine": 0.9982232477231038,
+              "angle_deg": 3.4159805901925444,
+              "norm_compile": 104.13160300741914,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0367173095301578
+            },
+            "8": {
+              "cosine": 0.9978024897107344,
+              "angle_deg": 3.799116850362029,
+              "norm_compile": 102.81698838463907,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0236292200795378
+            },
+            "9": {
+              "cosine": 0.9975672464180126,
+              "angle_deg": 3.9973739152764343,
+              "norm_compile": 95.05159515697746,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9463182276246201
+            },
+            "10": {
+              "cosine": 0.9973317494819174,
+              "angle_deg": 4.186465782691143,
+              "norm_compile": 108.48459510523377,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0800549911341841
+            },
+            "11": {
+              "cosine": 0.9943652016767733,
+              "angle_deg": 6.0852855159361265,
+              "norm_compile": 83.26131792334147,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.8289361443832923
+            }
+          },
+          "FFN_dense_4h_to_h_per_layer_group": {
+            "0": {
+              "cosine": 0.9847153071337813,
+              "angle_deg": 10.030456909646947,
+              "norm_compile": 82.54361329053758,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.821790793745554
+            },
+            "1": {
+              "cosine": 0.9922783772292584,
+              "angle_deg": 7.124785140330055,
+              "norm_compile": 96.65813288130828,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9623126560125926
+            },
+            "2": {
+              "cosine": 0.9951806998492458,
+              "angle_deg": 5.627353382890046,
+              "norm_compile": 88.84399646816738,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.8845163843278487
+            },
+            "3": {
+              "cosine": 0.9844356776989001,
+              "angle_deg": 10.122030552071204,
+              "norm_compile": 92.67350791715384,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9226423777011125
+            },
+            "4": {
+              "cosine": 0.997893735796478,
+              "angle_deg": 3.719377944074247,
+              "norm_compile": 104.65965611319575,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.0419745203988964
+            },
+            "5": {
+              "cosine": 0.9980025088678829,
+              "angle_deg": 3.6220327956674363,
+              "norm_compile": 98.34798426335695,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.979136541631433
+            },
+            "6": {
+              "cosine": 0.9983038614570127,
+              "angle_deg": 3.337564721469923,
+              "norm_compile": 100.43572457578252,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9999217447511937
+            },
+            "7": {
+              "cosine": 0.9983867009048585,
+              "angle_deg": 3.255018639647746,
+              "norm_compile": 97.2621116407406,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9683257703449191
+            },
+            "8": {
+              "cosine": 0.997786661734518,
+              "angle_deg": 3.812779257705295,
+              "norm_compile": 96.92377137848646,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9649573097022375
+            },
+            "9": {
+              "cosine": 0.9972797239766522,
+              "angle_deg": 4.227100917524889,
+              "norm_compile": 95.10785298639509,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.9468783214277444
+            },
+            "10": {
+              "cosine": 0.9903646662297174,
+              "angle_deg": 7.960133362719287,
+              "norm_compile": 87.67248223097518,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 0.8728529790504745
+            },
+            "11": {
+              "cosine": 0.9872962700949779,
+              "angle_deg": 9.142481578276849,
+              "norm_compile": 114.65061961725387,
+              "norm_null": 100.4435848135031,
+              "norm_ratio": 1.1414429286860823
+            }
+          }
+        }
+      }
+    },
+    {
+      "sentence": "Every student passed the exam.",
+      "compile_tokens": 43,
+      "null_tokens": 22,
+      "layers": {
+        "0": {
+          "beam_divergence": {
+            "cosine": 0.9930005719257288,
+            "angle_deg": 6.783011466641258,
+            "norm_compile": 8.679820423246492,
+            "norm_null": 9.113662658605472,
+            "norm_ratio": 0.952396500549718
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.5307226181030273,
+            "angle_deg": 87.70394562251917,
+            "mag_ratio": 15.749780654907227,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 8.67982006072998,
+            "delta_norm": 8.675235748291016,
+            "delta_parallel_mag": -0.20336779952049255,
+            "delta_perp_norm": 8.6728515625,
+            "delta_parallel_frac": 0.023442333564162254,
+            "delta_perp_frac": 0.9997251629829407
+          },
+          "null_decomposition": {
+            "angle_rad": 1.5339428186416626,
+            "angle_deg": 87.88844952256872,
+            "mag_ratio": 16.53700065612793,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 9.113662719726562,
+            "delta_norm": 9.110018730163574,
+            "delta_parallel_mag": -0.21531248092651367,
+            "delta_perp_norm": 9.107474327087402,
+            "delta_parallel_frac": 0.023634688928723335,
+            "delta_perp_frac": 0.9997206926345825
+          },
+          "compile_attn_rotation_frac": 0.20280639952514495,
+          "compile_ffn_rotation_frac": 0.7971936004748551,
+          "null_attn_rotation_frac": 0.24107150897634505,
+          "null_ffn_rotation_frac": 0.758928491023655,
+          "q_subspace": {
+            "q_explained_90": 0.6153727556315286,
+            "q_explained_99": 0.8058155802458297,
+            "q_rank_90": 289,
+            "q_rank_99": 511,
+            "q_amplification": 0.5477291662766567,
+            "q_delta_norm": 8.03430303617371,
+            "q_hin_norm": 0.9320872393533628
+          },
+          "differential_rotation_norm": 1.1381806970120492,
+          "differential_rotation_relative": 0.12802697570576688
+        },
+        "1": {
+          "beam_divergence": {
+            "cosine": 0.982316705777171,
+            "angle_deg": 10.790989785246056,
+            "norm_compile": 8.39146419592435,
+            "norm_null": 8.79474790432639,
+            "norm_ratio": 0.9541449382302756
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.379011332988739,
+            "angle_deg": 21.715749767882215,
+            "mag_ratio": 0.966778576374054,
+            "norm_pre": 8.67982006072998,
+            "norm_post": 8.391464233398438,
+            "delta_norm": 3.2282235622406006,
+            "delta_parallel_mag": -0.8838914036750793,
+            "delta_perp_norm": 3.10486102104187,
+            "delta_parallel_frac": 0.27380120754241943,
+            "delta_perp_frac": 0.9617862701416016
+          },
+          "null_decomposition": {
+            "angle_rad": 0.4047037661075592,
+            "angle_deg": 23.18781775101275,
+            "mag_ratio": 0.9650071263313293,
+            "norm_pre": 9.113662719726562,
+            "norm_post": 8.79474925994873,
+            "delta_norm": 3.61265230178833,
+            "delta_parallel_mag": -1.029361605644226,
+            "delta_perp_norm": 3.4628992080688477,
+            "delta_parallel_frac": 0.28493237495422363,
+            "delta_perp_frac": 0.9585475921630859
+          },
+          "compile_attn_rotation_frac": 0.4836457114870913,
+          "compile_ffn_rotation_frac": 0.5163542885129087,
+          "null_attn_rotation_frac": 0.5300793103932596,
+          "null_ffn_rotation_frac": 0.46992068960674044,
+          "q_subspace": {
+            "q_explained_90": 0.664039626543632,
+            "q_explained_99": 0.8137395149178921,
+            "q_rank_90": 315,
+            "q_rank_99": 535,
+            "q_amplification": 0.9516225349433904,
+            "q_delta_norm": 3.4012638707262837,
+            "q_hin_norm": 9.991810358671506
+          },
+          "differential_rotation_norm": 1.558467121318197,
+          "differential_rotation_relative": 0.4745809991462611
+        },
+        "2": {
+          "beam_divergence": {
+            "cosine": 0.9692567504870874,
+            "angle_deg": 14.243983936747961,
+            "norm_compile": 9.660787374665507,
+            "norm_null": 9.308652544449092,
+            "norm_ratio": 1.037828765069376
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.4257678985595703,
+            "angle_deg": 24.394703639617543,
+            "mag_ratio": 1.1512635946273804,
+            "norm_pre": 8.391464233398438,
+            "norm_post": 9.660787582397461,
+            "delta_norm": 4.0107879638671875,
+            "delta_parallel_mag": 0.4068254232406616,
+            "delta_perp_norm": 3.9901020526885986,
+            "delta_parallel_frac": 0.10143279284238815,
+            "delta_perp_frac": 0.9948424100875854
+          },
+          "null_decomposition": {
+            "angle_rad": 0.45955637097358704,
+            "angle_deg": 26.33064050513491,
+            "mag_ratio": 1.0584330558776855,
+            "norm_pre": 8.79474925994873,
+            "norm_post": 9.308652877807617,
+            "delta_norm": 4.153505802154541,
+            "delta_parallel_mag": -0.4518710970878601,
+            "delta_perp_norm": 4.128852367401123,
+            "delta_parallel_frac": 0.10879268497228622,
+            "delta_perp_frac": 0.994064450263977
+          },
+          "compile_attn_rotation_frac": 0.4336113647356061,
+          "compile_ffn_rotation_frac": 0.566388635264394,
+          "null_attn_rotation_frac": 0.3607163808091636,
+          "null_ffn_rotation_frac": 0.6392836191908364,
+          "q_subspace": {
+            "q_explained_90": 0.6232838814344988,
+            "q_explained_99": 0.8112637020921311,
+            "q_rank_90": 329,
+            "q_rank_99": 545,
+            "q_amplification": 0.7362566999559675,
+            "q_delta_norm": 4.068735908899147,
+            "q_hin_norm": 11.622083533301192
+          },
+          "differential_rotation_norm": 2.2118359303309383,
+          "differential_rotation_relative": 0.544857342994106
+        },
+        "3": {
+          "beam_divergence": {
+            "cosine": 0.9694624905132705,
+            "angle_deg": 14.195995959484978,
+            "norm_compile": 11.756511032704365,
+            "norm_null": 11.43386781117509,
+            "norm_ratio": 1.0282182046231052
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.6345363259315491,
+            "angle_deg": 36.35625342361538,
+            "mag_ratio": 1.216930866241455,
+            "norm_pre": 9.660787582397461,
+            "norm_post": 11.756510734558105,
+            "delta_norm": 6.971972942352295,
+            "delta_parallel_mag": -0.1927207112312317,
+            "delta_perp_norm": 6.969308853149414,
+            "delta_parallel_frac": 0.027642203494906425,
+            "delta_perp_frac": 0.999617874622345
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6292608976364136,
+            "angle_deg": 36.05399364718022,
+            "mag_ratio": 1.2283053398132324,
+            "norm_pre": 9.308652877807617,
+            "norm_post": 11.433868408203125,
+            "delta_norm": 6.729683876037598,
+            "delta_parallel_mag": -0.06479573994874954,
+            "delta_perp_norm": 6.729371547698975,
+            "delta_parallel_frac": 0.009628347121179104,
+            "delta_perp_frac": 0.99995356798172
+          },
+          "compile_attn_rotation_frac": 0.6929853723745444,
+          "compile_ffn_rotation_frac": 0.30701462762545567,
+          "null_attn_rotation_frac": 0.6655142853336712,
+          "null_ffn_rotation_frac": 0.3344857146663288,
+          "q_subspace": {
+            "q_explained_90": 0.7124811962976638,
+            "q_explained_99": 0.8820806757214762,
+            "q_rank_90": 298,
+            "q_rank_99": 526,
+            "q_amplification": 0.6118959327302868,
+            "q_delta_norm": 5.878033867394971,
+            "q_hin_norm": 13.316108600595525
+          },
+          "differential_rotation_norm": 2.47348377944424,
+          "differential_rotation_relative": 0.3611273016049051
+        },
+        "4": {
+          "beam_divergence": {
+            "cosine": 0.943513389315461,
+            "angle_deg": 19.349788119133972,
+            "norm_compile": 12.11072362329164,
+            "norm_null": 11.319553750668858,
+            "norm_ratio": 1.0698940868208726
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5430852174758911,
+            "angle_deg": 31.11649087731302,
+            "mag_ratio": 1.030129075050354,
+            "norm_pre": 11.756510734558105,
+            "norm_post": 12.110723495483398,
+            "delta_norm": 6.410706520080566,
+            "delta_parallel_mag": -1.3882980346679688,
+            "delta_perp_norm": 6.2585768699646,
+            "delta_parallel_frac": 0.2165593057870865,
+            "delta_perp_frac": 0.9762694239616394
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5262761116027832,
+            "angle_deg": 30.153400053395373,
+            "mag_ratio": 0.9900020956993103,
+            "norm_pre": 11.433868408203125,
+            "norm_post": 11.31955337524414,
+            "delta_norm": 5.919464588165283,
+            "delta_parallel_mag": -1.6460349559783936,
+            "delta_perp_norm": 5.686002731323242,
+            "delta_parallel_frac": 0.2780715823173523,
+            "delta_perp_frac": 0.9605603218078613
+          },
+          "compile_attn_rotation_frac": 0.43691497740508467,
+          "compile_ffn_rotation_frac": 0.5630850225949153,
+          "null_attn_rotation_frac": 0.33462058056572136,
+          "null_ffn_rotation_frac": 0.6653794194342786,
+          "q_subspace": {
+            "q_explained_90": 0.7034138455997397,
+            "q_explained_99": 0.8454927097946979,
+            "q_rank_90": 320,
+            "q_rank_99": 537,
+            "q_amplification": 0.8080324322729724,
+            "q_delta_norm": 5.383974908125576,
+            "q_hin_norm": 12.516332492770681
+          },
+          "differential_rotation_norm": 3.2897290762212315,
+          "differential_rotation_relative": 0.5508321149682034
+        },
+        "5": {
+          "beam_divergence": {
+            "cosine": 0.9388974765870545,
+            "angle_deg": 20.132781266752083,
+            "norm_compile": 14.662137524653735,
+            "norm_null": 13.974259061112882,
+            "norm_ratio": 1.0492246823629496
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5491629838943481,
+            "angle_deg": 31.46472124195695,
+            "mag_ratio": 1.2106740474700928,
+            "norm_pre": 12.110723495483398,
+            "norm_post": 14.662137985229492,
+            "delta_norm": 7.663460731506348,
+            "delta_parallel_mag": 0.39551830291748047,
+            "delta_perp_norm": 7.653246879577637,
+            "delta_parallel_frac": 0.05161092430353165,
+            "delta_perp_frac": 0.9986671805381775
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6077783107757568,
+            "angle_deg": 34.82313208704139,
+            "mag_ratio": 1.234523892402649,
+            "norm_pre": 11.31955337524414,
+            "norm_post": 13.974258422851562,
+            "delta_norm": 7.981387138366699,
+            "delta_parallel_mag": 0.1521739363670349,
+            "delta_perp_norm": 7.979936122894287,
+            "delta_parallel_frac": 0.01906610280275345,
+            "delta_perp_frac": 0.9998182058334351
+          },
+          "compile_attn_rotation_frac": 0.4224860972170509,
+          "compile_ffn_rotation_frac": 0.5775139027829491,
+          "null_attn_rotation_frac": 0.4351568538006678,
+          "null_ffn_rotation_frac": 0.5648431461993322,
+          "q_subspace": {
+            "q_explained_90": 0.5701802881124365,
+            "q_explained_99": 0.7979221821893584,
+            "q_rank_90": 261,
+            "q_rank_99": 506,
+            "q_amplification": 0.27179384923543964,
+            "q_delta_norm": 6.067252786271133,
+            "q_hin_norm": 35.32456433950283
+          },
+          "differential_rotation_norm": 4.4642711373685335,
+          "differential_rotation_relative": 0.571127589134858
+        },
+        "6": {
+          "beam_divergence": {
+            "cosine": 0.8662900220607875,
+            "angle_deg": 29.969663066973606,
+            "norm_compile": 16.079276872591596,
+            "norm_null": 16.472236010770825,
+            "norm_ratio": 0.9761441532332172
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5441702604293823,
+            "angle_deg": 31.178659259138477,
+            "mag_ratio": 1.0966529846191406,
+            "norm_pre": 14.662137985229492,
+            "norm_post": 16.07927703857422,
+            "delta_norm": 8.373467445373535,
+            "delta_parallel_mag": -0.905396044254303,
+            "delta_perp_norm": 8.324374198913574,
+            "delta_parallel_frac": 0.10812676697969437,
+            "delta_perp_frac": 0.9941370487213135
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6815415024757385,
+            "angle_deg": 39.04945165486477,
+            "mag_ratio": 1.1787556409835815,
+            "norm_pre": 13.974258422851562,
+            "norm_post": 16.47223663330078,
+            "delta_norm": 10.44444465637207,
+            "delta_parallel_mag": -1.181880235671997,
+            "delta_perp_norm": 10.377359390258789,
+            "delta_parallel_frac": 0.11315875500440598,
+            "delta_perp_frac": 0.9935769438743591
+          },
+          "compile_attn_rotation_frac": 0.30991412591949485,
+          "compile_ffn_rotation_frac": 0.6900858740805051,
+          "null_attn_rotation_frac": 0.23908890818778747,
+          "null_ffn_rotation_frac": 0.7609110918122125,
+          "q_subspace": {
+            "q_explained_90": 0.31304448456022627,
+            "q_explained_99": 0.693951491425409,
+            "q_rank_90": 24,
+            "q_rank_99": 334,
+            "q_amplification": 1.2439072006913736,
+            "q_delta_norm": 72.62180550227271,
+            "q_hin_norm": 102.83115968899014
+          },
+          "differential_rotation_norm": 6.357299876073301,
+          "differential_rotation_relative": 0.6798620639598268
+        },
+        "7": {
+          "beam_divergence": {
+            "cosine": 0.9289454281275235,
+            "angle_deg": 21.728981234914265,
+            "norm_compile": 23.290585430458652,
+            "norm_null": 20.367591540114297,
+            "norm_ratio": 1.1435120045778349
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5218314528465271,
+            "angle_deg": 29.898739865286032,
+            "mag_ratio": 1.4484845399856567,
+            "norm_pre": 16.07927703857422,
+            "norm_post": 23.290584564208984,
+            "delta_norm": 12.316166877746582,
+            "delta_parallel_mag": 4.11151123046875,
+            "delta_perp_norm": 11.609627723693848,
+            "delta_parallel_frac": 0.33383041620254517,
+            "delta_perp_frac": 0.9426332116127014
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6263633370399475,
+            "angle_deg": 35.8879756541193,
+            "mag_ratio": 1.2364799976348877,
+            "norm_pre": 16.47223663330078,
+            "norm_post": 20.367591857910156,
+            "delta_norm": 11.93956470489502,
+            "delta_parallel_mag": 0.028867006301879883,
+            "delta_perp_norm": 11.939529418945312,
+            "delta_parallel_frac": 0.0024177602026611567,
+            "delta_perp_frac": 0.9999970197677612
+          },
+          "compile_attn_rotation_frac": 0.2288905242615127,
+          "compile_ffn_rotation_frac": 0.7711094757384873,
+          "null_attn_rotation_frac": 0.19421258291711282,
+          "null_ffn_rotation_frac": 0.8057874170828871,
+          "q_subspace": {
+            "q_explained_90": 0.4926888591782901,
+            "q_explained_99": 0.750524065392541,
+            "q_rank_90": 41,
+            "q_rank_99": 260,
+            "q_amplification": 0.36584962520698217,
+            "q_delta_norm": 43.12056983370021,
+            "q_hin_norm": 163.24132074989305
+          },
+          "differential_rotation_norm": 6.210314883284299,
+          "differential_rotation_relative": 0.527434140134199
+        },
+        "8": {
+          "beam_divergence": {
+            "cosine": 0.9042191916950868,
+            "angle_deg": 25.281674230728367,
+            "norm_compile": 26.64568742291326,
+            "norm_null": 24.97664180499479,
+            "norm_ratio": 1.0668242604810345
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5182490348815918,
+            "angle_deg": 29.693482435443393,
+            "mag_ratio": 1.1440540552139282,
+            "norm_pre": 23.290584564208984,
+            "norm_post": 26.645687103271484,
+            "delta_norm": 13.199983596801758,
+            "delta_parallel_mag": -0.14379745721817017,
+            "delta_perp_norm": 13.199200630187988,
+            "delta_parallel_frac": 0.010893760249018669,
+            "delta_perp_frac": 0.9999406933784485
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5081131458282471,
+            "angle_deg": 29.11273877107389,
+            "mag_ratio": 1.2262933254241943,
+            "norm_pre": 20.367591857910156,
+            "norm_post": 24.976642608642578,
+            "delta_norm": 12.238505363464355,
+            "delta_parallel_mag": 1.4536044597625732,
+            "delta_perp_norm": 12.151874542236328,
+            "delta_parallel_frac": 0.11877303570508957,
+            "delta_perp_frac": 0.9929214715957642
+          },
+          "compile_attn_rotation_frac": 0.16439533334578482,
+          "compile_ffn_rotation_frac": 0.8356046666542152,
+          "null_attn_rotation_frac": 0.045763314303419844,
+          "null_ffn_rotation_frac": 0.9542366856965802,
+          "q_subspace": {
+            "q_explained_90": 0.6002903403987528,
+            "q_explained_99": 0.7735365640811009,
+            "q_rank_90": 42,
+            "q_rank_99": 280,
+            "q_amplification": 1.194047795028142,
+            "q_delta_norm": 284.781503700545,
+            "q_hin_norm": 420.8456719681275
+          },
+          "differential_rotation_norm": 7.571680350183576,
+          "differential_rotation_relative": 0.5973459165532721
+        },
+        "9": {
+          "beam_divergence": {
+            "cosine": 0.8960986671613433,
+            "angle_deg": 26.350099314268995,
+            "norm_compile": 27.120916786406212,
+            "norm_null": 28.88212810791243,
+            "norm_ratio": 0.9390207219175195
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5053723454475403,
+            "angle_deg": 28.955702476771542,
+            "mag_ratio": 1.0178351402282715,
+            "norm_pre": 26.645687103271484,
+            "norm_post": 27.12091636657715,
+            "delta_norm": 13.449837684631348,
+            "delta_parallel_mag": -2.915043354034424,
+            "delta_perp_norm": 13.130143165588379,
+            "delta_parallel_frac": 0.21673446893692017,
+            "delta_perp_frac": 0.9762306213378906
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5345860719680786,
+            "angle_deg": 30.62952571024779,
+            "mag_ratio": 1.1563653945922852,
+            "norm_pre": 24.976642608642578,
+            "norm_post": 28.882125854492188,
+            "delta_norm": 14.715536117553711,
+            "delta_parallel_mag": -0.12416219711303711,
+            "delta_perp_norm": 14.715012550354004,
+            "delta_parallel_frac": 0.00843749102205038,
+            "delta_perp_frac": 0.9999644160270691
+          },
+          "compile_attn_rotation_frac": 0.1651857336676798,
+          "compile_ffn_rotation_frac": 0.8348142663323201,
+          "null_attn_rotation_frac": 0.13763478801719964,
+          "null_ffn_rotation_frac": 0.8623652119828004,
+          "q_subspace": {
+            "q_explained_90": 0.30170677331577944,
+            "q_explained_99": 0.5485422033729568,
+            "q_rank_90": 43,
+            "q_rank_99": 192,
+            "q_amplification": 0.7122125903139859,
+            "q_delta_norm": 87.06182487838709,
+            "q_hin_norm": 248.07077048250278
+          },
+          "differential_rotation_norm": 7.893699138230052,
+          "differential_rotation_relative": 0.5669711042713448
+        },
+        "10": {
+          "beam_divergence": {
+            "cosine": 0.9031282704030065,
+            "angle_deg": 25.427639357601322,
+            "norm_compile": 31.483451649835864,
+            "norm_null": 32.814274894835386,
+            "norm_ratio": 0.9594437710641298
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.8528154492378235,
+            "angle_deg": 48.86272594488059,
+            "mag_ratio": 1.1608550548553467,
+            "norm_pre": 27.12091636657715,
+            "norm_post": 31.48345184326172,
+            "delta_norm": 24.562210083007812,
+            "delta_parallel_mag": -6.409049987792969,
+            "delta_perp_norm": 23.7113094329834,
+            "delta_parallel_frac": 0.2609313428401947,
+            "delta_perp_frac": 0.9653573036193848
+          },
+          "null_decomposition": {
+            "angle_rad": 0.8243076205253601,
+            "angle_deg": 47.22934767657456,
+            "mag_ratio": 1.1361446380615234,
+            "norm_pre": 28.882125854492188,
+            "norm_post": 32.814273834228516,
+            "delta_norm": 24.975811004638672,
+            "delta_parallel_mag": -6.599095344543457,
+            "delta_perp_norm": 24.088233947753906,
+            "delta_parallel_frac": 0.2642194926738739,
+            "delta_perp_frac": 0.9644625186920166
+          },
+          "compile_attn_rotation_frac": 0.11907070282401995,
+          "compile_ffn_rotation_frac": 0.88092929717598,
+          "null_attn_rotation_frac": 0.055127176234951496,
+          "null_ffn_rotation_frac": 0.9448728237650486,
+          "q_subspace": {
+            "q_explained_90": 0.4409230608474999,
+            "q_explained_99": 0.5724715529499462,
+            "q_rank_90": 47,
+            "q_rank_99": 219,
+            "q_amplification": 0.7900216011749682,
+            "q_delta_norm": 339.82330235108236,
+            "q_hin_norm": 491.9976038403975
+          },
+          "differential_rotation_norm": 10.383446067293935,
+          "differential_rotation_relative": 0.43445793148167233
+        },
+        "11": {
+          "beam_divergence": {
+            "cosine": 0.9882655600310329,
+            "angle_deg": 8.786065045824603,
+            "norm_compile": 98.26980653914157,
+            "norm_null": 117.4078729532446,
+            "norm_ratio": 0.8369950333592672
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.3880833387374878,
+            "angle_deg": 79.53131692208626,
+            "mag_ratio": 3.1213161945343018,
+            "norm_pre": 31.48345184326172,
+            "norm_post": 98.26980590820312,
+            "delta_norm": 97.59027099609375,
+            "delta_parallel_mag": -13.628015518188477,
+            "delta_perp_norm": 96.63404846191406,
+            "delta_parallel_frac": 0.13964521884918213,
+            "delta_perp_frac": 0.9902016520500183
+          },
+          "null_decomposition": {
+            "angle_rad": 1.386335015296936,
+            "angle_deg": 79.43114536771886,
+            "mag_ratio": 3.577951431274414,
+            "norm_pre": 32.814273834228516,
+            "norm_post": 117.40787506103516,
+            "delta_norm": 115.96595001220703,
+            "delta_parallel_mag": -11.279682159423828,
+            "delta_perp_norm": 115.41607666015625,
+            "delta_parallel_frac": 0.09726718813180923,
+            "delta_perp_frac": 0.9952583312988281
+          },
+          "compile_attn_rotation_frac": 0.15774526101972397,
+          "compile_ffn_rotation_frac": 0.842254738980276,
+          "null_attn_rotation_frac": 0.12414752434749375,
+          "null_ffn_rotation_frac": 0.8758524756525062,
+          "q_subspace": {
+            "q_explained_90": 0.6647799840099886,
+            "q_explained_99": 0.8185306442065053,
+            "q_rank_90": 117,
+            "q_rank_99": 310,
+            "q_amplification": 0.2892904907993012,
+            "q_delta_norm": 494.6998152361275,
+            "q_hin_norm": 557.1341515435685
+          },
+          "differential_rotation_norm": 21.639454740975857,
+          "differential_rotation_relative": 0.20409755189130302
+        }
+      },
+      "ternary_test": null
+    },
+    {
+      "sentence": "The man who the dog chased ran away.",
+      "compile_tokens": 46,
+      "null_tokens": 25,
+      "layers": {
+        "0": {
+          "beam_divergence": {
+            "cosine": 0.9939781742838086,
+            "angle_deg": 6.291003102784552,
+            "norm_compile": 8.69726974000289,
+            "norm_null": 9.266247181495427,
+            "norm_ratio": 0.9385967770610762
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.5327649116516113,
+            "angle_deg": 87.82096042337983,
+            "mag_ratio": 15.781445503234863,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 8.697270393371582,
+            "delta_norm": 8.693775177001953,
+            "delta_parallel_mag": -0.22041718661785126,
+            "delta_perp_norm": 8.690980911254883,
+            "delta_parallel_frac": 0.02535344660282135,
+            "delta_perp_frac": 0.9996786117553711
+          },
+          "null_decomposition": {
+            "angle_rad": 1.5370967388153076,
+            "angle_deg": 88.06915583743975,
+            "mag_ratio": 16.81386947631836,
+            "norm_pre": 0.5511073470115662,
+            "norm_post": 9.266246795654297,
+            "delta_norm": 9.264066696166992,
+            "delta_parallel_mag": -0.23889774084091187,
+            "delta_perp_norm": 9.260986328125,
+            "delta_parallel_frac": 0.025787563994526863,
+            "delta_perp_frac": 0.9996674656867981
+          },
+          "compile_attn_rotation_frac": 0.20375247681119849,
+          "compile_ffn_rotation_frac": 0.7962475231888015,
+          "null_attn_rotation_frac": 0.25004478238951006,
+          "null_ffn_rotation_frac": 0.74995521761049,
+          "q_subspace": {
+            "q_explained_90": 0.6236431134675567,
+            "q_explained_99": 0.8085634721925863,
+            "q_rank_90": 289,
+            "q_rank_99": 511,
+            "q_amplification": 0.5514688849396205,
+            "q_delta_norm": 8.106067371064725,
+            "q_hin_norm": 0.9320872393533628
+          },
+          "differential_rotation_norm": 1.1375431106610001,
+          "differential_rotation_relative": 0.12673186513372808
+        },
+        "1": {
+          "beam_divergence": {
+            "cosine": 0.9855714245598752,
+            "angle_deg": 9.74480003813959,
+            "norm_compile": 9.22316959805615,
+            "norm_null": 9.892175053799829,
+            "norm_ratio": 0.932370236868514
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.35520413517951965,
+            "angle_deg": 20.351697811380845,
+            "mag_ratio": 1.0604671239852905,
+            "norm_pre": 8.697270393371582,
+            "norm_post": 9.223169326782227,
+            "delta_norm": 3.208035945892334,
+            "delta_parallel_mag": -0.049851059913635254,
+            "delta_perp_norm": 3.207648515701294,
+            "delta_parallel_frac": 0.015539431944489479,
+            "delta_perp_frac": 0.9998792409896851
+          },
+          "null_decomposition": {
+            "angle_rad": 0.3805355727672577,
+            "angle_deg": 21.80308227415729,
+            "mag_ratio": 1.067549228668213,
+            "norm_pre": 9.266246795654297,
+            "norm_post": 9.89217472076416,
+            "delta_norm": 3.6750404834747314,
+            "delta_parallel_mag": -0.08170145750045776,
+            "delta_perp_norm": 3.6741323471069336,
+            "delta_parallel_frac": 0.0222314465790987,
+            "delta_perp_frac": 0.9997528791427612
+          },
+          "compile_attn_rotation_frac": 0.5216174875702894,
+          "compile_ffn_rotation_frac": 0.47838251242971064,
+          "null_attn_rotation_frac": 0.5225354051641069,
+          "null_ffn_rotation_frac": 0.4774645948358931,
+          "q_subspace": {
+            "q_explained_90": 0.6530751275351665,
+            "q_explained_99": 0.8076817610791686,
+            "q_rank_90": 315,
+            "q_rank_99": 535,
+            "q_amplification": 0.8514959087749225,
+            "q_delta_norm": 3.1605700951214097,
+            "q_hin_norm": 10.064194397441652
+          },
+          "differential_rotation_norm": 1.5699258441335382,
+          "differential_rotation_relative": 0.45625569006652317
+        },
+        "2": {
+          "beam_divergence": {
+            "cosine": 0.9729274315372773,
+            "angle_deg": 13.362479412257217,
+            "norm_compile": 9.912006458596071,
+            "norm_null": 9.50456419176885,
+            "norm_ratio": 1.0428680640802106
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.45408299565315247,
+            "angle_deg": 26.017039199582943,
+            "mag_ratio": 1.0746854543685913,
+            "norm_pre": 9.223169326782227,
+            "norm_post": 9.912006378173828,
+            "delta_norm": 4.359228610992432,
+            "delta_parallel_mag": -0.3156103491783142,
+            "delta_perp_norm": 4.347787857055664,
+            "delta_parallel_frac": 0.07240050286054611,
+            "delta_perp_frac": 0.99737548828125
+          },
+          "null_decomposition": {
+            "angle_rad": 0.4631287753582001,
+            "angle_deg": 26.535324199087267,
+            "mag_ratio": 0.9608164429664612,
+            "norm_pre": 9.89217472076416,
+            "norm_post": 9.50456428527832,
+            "delta_norm": 4.467517375946045,
+            "delta_parallel_mag": -1.3888299465179443,
+            "delta_perp_norm": 4.246158599853516,
+            "delta_parallel_frac": 0.310872882604599,
+            "delta_perp_frac": 0.9504514932632446
+          },
+          "compile_attn_rotation_frac": 0.45288920026413765,
+          "compile_ffn_rotation_frac": 0.5471107997358623,
+          "null_attn_rotation_frac": 0.3843525197730964,
+          "null_ffn_rotation_frac": 0.6156474802269036,
+          "q_subspace": {
+            "q_explained_90": 0.6077219817455213,
+            "q_explained_99": 0.7966496618277426,
+            "q_rank_90": 329,
+            "q_rank_99": 545,
+            "q_amplification": 0.7749340325589231,
+            "q_delta_norm": 4.4817801199138785,
+            "q_hin_norm": 12.268674477781651
+          },
+          "differential_rotation_norm": 2.2471070684486794,
+          "differential_rotation_relative": 0.5229511388332627
+        },
+        "3": {
+          "beam_divergence": {
+            "cosine": 0.9698455589670926,
+            "angle_deg": 14.106220913032416,
+            "norm_compile": 11.955371302313042,
+            "norm_null": 11.445491291767555,
+            "norm_ratio": 1.0445485473316667
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.6533575654029846,
+            "angle_deg": 37.43463101053367,
+            "mag_ratio": 1.2061505317687988,
+            "norm_pre": 9.912006378173828,
+            "norm_post": 11.955371856689453,
+            "delta_norm": 7.279205799102783,
+            "delta_parallel_mag": -0.4188762307167053,
+            "delta_perp_norm": 7.267144203186035,
+            "delta_parallel_frac": 0.057544220238924026,
+            "delta_perp_frac": 0.9983429908752441
+          },
+          "null_decomposition": {
+            "angle_rad": 0.6356639862060547,
+            "angle_deg": 36.42086359806911,
+            "mag_ratio": 1.2042099237442017,
+            "norm_pre": 9.50456428527832,
+            "norm_post": 11.445490837097168,
+            "delta_norm": 6.8017096519470215,
+            "delta_parallel_mag": -0.29463326930999756,
+            "delta_perp_norm": 6.795324802398682,
+            "delta_parallel_frac": 0.0433175303041935,
+            "delta_perp_frac": 0.9990612864494324
+          },
+          "compile_attn_rotation_frac": 0.6812250581197339,
+          "compile_ffn_rotation_frac": 0.3187749418802661,
+          "null_attn_rotation_frac": 0.6612145392108255,
+          "null_ffn_rotation_frac": 0.3387854607891745,
+          "q_subspace": {
+            "q_explained_90": 0.6770218408848477,
+            "q_explained_99": 0.8690150737675855,
+            "q_rank_90": 298,
+            "q_rank_99": 526,
+            "q_amplification": 0.6046542080012426,
+            "q_delta_norm": 5.990242552093384,
+            "q_hin_norm": 13.512482230160895
+          },
+          "differential_rotation_norm": 2.557140576970252,
+          "differential_rotation_relative": 0.3636830140521806
+        },
+        "4": {
+          "beam_divergence": {
+            "cosine": 0.9298060976951024,
+            "angle_deg": 21.59539067978254,
+            "norm_compile": 12.466526400174224,
+            "norm_null": 11.287760551992855,
+            "norm_ratio": 1.1044286723439805
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.6164215803146362,
+            "angle_deg": 35.318354952813166,
+            "mag_ratio": 1.0427552461624146,
+            "norm_pre": 11.955371856689453,
+            "norm_post": 12.46652603149414,
+            "delta_norm": 7.424479007720947,
+            "delta_parallel_mag": -1.783278226852417,
+            "delta_perp_norm": 7.2071356773376465,
+            "delta_parallel_frac": 0.24018898606300354,
+            "delta_perp_frac": 0.9707261323928833
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5858233571052551,
+            "angle_deg": 33.565205902316386,
+            "mag_ratio": 0.9862189888954163,
+            "norm_pre": 11.445490837097168,
+            "norm_post": 11.287760734558105,
+            "delta_norm": 6.565762042999268,
+            "delta_parallel_mag": -2.039884567260742,
+            "delta_perp_norm": 6.240840911865234,
+            "delta_parallel_frac": 0.3106851279735565,
+            "delta_perp_frac": 0.9505128264427185
+          },
+          "compile_attn_rotation_frac": 0.48398429225896517,
+          "compile_ffn_rotation_frac": 0.5160157077410349,
+          "null_attn_rotation_frac": 0.39493528132752215,
+          "null_ffn_rotation_frac": 0.6050647186724778,
+          "q_subspace": {
+            "q_explained_90": 0.6904058865208206,
+            "q_explained_99": 0.8429796334235559,
+            "q_rank_90": 320,
+            "q_rank_99": 537,
+            "q_amplification": 0.7722201787003297,
+            "q_delta_norm": 5.9279028197663,
+            "q_hin_norm": 12.733866712507083
+          },
+          "differential_rotation_norm": 3.9005304421193294,
+          "differential_rotation_relative": 0.5800917834870389
+        },
+        "5": {
+          "beam_divergence": {
+            "cosine": 0.9236641220858106,
+            "angle_deg": 22.532229600465442,
+            "norm_compile": 15.022631988862216,
+            "norm_null": 13.271421225441443,
+            "norm_ratio": 1.1319535213051397
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5544906854629517,
+            "angle_deg": 31.76997605634316,
+            "mag_ratio": 1.2050374746322632,
+            "norm_pre": 12.46652603149414,
+            "norm_post": 15.022631645202637,
+            "delta_norm": 7.91546106338501,
+            "delta_parallel_mag": 0.30524396896362305,
+            "delta_perp_norm": 7.909573554992676,
+            "delta_parallel_frac": 0.03856300562620163,
+            "delta_perp_frac": 0.9992561936378479
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5617049336433411,
+            "angle_deg": 32.18332202943941,
+            "mag_ratio": 1.175735592842102,
+            "norm_pre": 11.287760734558105,
+            "norm_post": 13.271421432495117,
+            "delta_norm": 7.06897497177124,
+            "delta_parallel_mag": -0.05551677942276001,
+            "delta_perp_norm": 7.068756580352783,
+            "delta_parallel_frac": 0.007853582501411438,
+            "delta_perp_frac": 0.9999691247940063
+          },
+          "compile_attn_rotation_frac": 0.426542405801643,
+          "compile_ffn_rotation_frac": 0.573457594198357,
+          "null_attn_rotation_frac": 0.31647252202926596,
+          "null_ffn_rotation_frac": 0.6835274779707341,
+          "q_subspace": {
+            "q_explained_90": 0.6042525604265314,
+            "q_explained_99": 0.8026117196911798,
+            "q_rank_90": 261,
+            "q_rank_99": 506,
+            "q_amplification": 0.5850804870044378,
+            "q_delta_norm": 9.072627575543361,
+            "q_hin_norm": 24.440487767166296
+          },
+          "differential_rotation_norm": 4.77820481774173,
+          "differential_rotation_relative": 0.6380156895287593
+        },
+        "6": {
+          "beam_divergence": {
+            "cosine": 0.8866037119983721,
+            "angle_deg": 27.550474667303302,
+            "norm_compile": 16.696341366626047,
+            "norm_null": 14.156756943933264,
+            "norm_ratio": 1.1793902680360064
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.4577028751373291,
+            "angle_deg": 26.224443016372255,
+            "mag_ratio": 1.1114126443862915,
+            "norm_pre": 15.022631645202637,
+            "norm_post": 16.69634246826172,
+            "delta_norm": 7.3780598640441895,
+            "delta_parallel_mag": -0.04484659433364868,
+            "delta_perp_norm": 7.377923488616943,
+            "delta_parallel_frac": 0.006078372243791819,
+            "delta_perp_frac": 0.9999815225601196
+          },
+          "null_decomposition": {
+            "angle_rad": 0.454678475856781,
+            "angle_deg": 26.05115770203445,
+            "mag_ratio": 1.0667099952697754,
+            "norm_pre": 13.271421432495117,
+            "norm_post": 14.156757354736328,
+            "delta_norm": 6.241812229156494,
+            "delta_parallel_mag": -0.5529580116271973,
+            "delta_perp_norm": 6.217270851135254,
+            "delta_parallel_frac": 0.08858932554721832,
+            "delta_perp_frac": 0.9960682392120361
+          },
+          "compile_attn_rotation_frac": 0.4475291463092113,
+          "compile_ffn_rotation_frac": 0.5524708536907886,
+          "null_attn_rotation_frac": 0.32678874608938824,
+          "null_ffn_rotation_frac": 0.6732112539106118,
+          "q_subspace": {
+            "q_explained_90": 0.32186104462267906,
+            "q_explained_99": 0.6973168364137918,
+            "q_rank_90": 24,
+            "q_rank_99": 334,
+            "q_amplification": 7.258298459445992,
+            "q_delta_norm": 88.78780476372826,
+            "q_hin_norm": 24.907513189914482
+          },
+          "differential_rotation_norm": 5.290796392478693,
+          "differential_rotation_relative": 0.77833330102861
+        },
+        "7": {
+          "beam_divergence": {
+            "cosine": 0.9151123469830021,
+            "angle_deg": 23.77831315216006,
+            "norm_compile": 22.54602938294655,
+            "norm_null": 20.80819466270268,
+            "norm_ratio": 1.083516842686926
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.44074249267578125,
+            "angle_deg": 25.252684682397863,
+            "mag_ratio": 1.3503572940826416,
+            "norm_pre": 16.69634246826172,
+            "norm_post": 22.54602813720703,
+            "delta_norm": 10.303732872009277,
+            "delta_parallel_mag": 3.695082664489746,
+            "delta_perp_norm": 9.618382453918457,
+            "delta_parallel_frac": 0.3586159348487854,
+            "delta_perp_frac": 0.933485209941864
+          },
+          "null_decomposition": {
+            "angle_rad": 0.46758735179901123,
+            "angle_deg": 26.790781811782203,
+            "mag_ratio": 1.4698419570922852,
+            "norm_pre": 14.156757354736328,
+            "norm_post": 20.808195114135742,
+            "delta_norm": 10.367368698120117,
+            "delta_parallel_mag": 4.417850494384766,
+            "delta_perp_norm": 9.378962516784668,
+            "delta_parallel_frac": 0.4261302947998047,
+            "delta_perp_frac": 0.9046618342399597
+          },
+          "compile_attn_rotation_frac": 0.3023364292312092,
+          "compile_ffn_rotation_frac": 0.6976635707687908,
+          "null_attn_rotation_frac": 0.19418012311970237,
+          "null_ffn_rotation_frac": 0.8058198768802977,
+          "q_subspace": {
+            "q_explained_90": 0.4580257741069072,
+            "q_explained_99": 0.706206136232657,
+            "q_rank_90": 41,
+            "q_rank_99": 260,
+            "q_amplification": 1.7764420785233843,
+            "q_delta_norm": 99.38430250934542,
+            "q_hin_norm": 97.11493778936891
+          },
+          "differential_rotation_norm": 6.008473835908551,
+          "differential_rotation_relative": 0.6325593340523629
+        },
+        "8": {
+          "beam_divergence": {
+            "cosine": 0.9161152416438576,
+            "angle_deg": 23.635394106274866,
+            "norm_compile": 26.63643859172051,
+            "norm_null": 26.861478382681376,
+            "norm_ratio": 0.9916222112664521
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.44785237312316895,
+            "angle_deg": 25.660050824875764,
+            "mag_ratio": 1.181424856185913,
+            "norm_pre": 22.54602813720703,
+            "norm_post": 26.636438369750977,
+            "delta_norm": 11.62686824798584,
+            "delta_parallel_mag": 1.4635025262832642,
+            "delta_perp_norm": 11.534393310546875,
+            "delta_parallel_frac": 0.12587246298789978,
+            "delta_perp_frac": 0.9920464158058167
+          },
+          "null_decomposition": {
+            "angle_rad": 0.47261321544647217,
+            "angle_deg": 27.078742587189943,
+            "mag_ratio": 1.290908694267273,
+            "norm_pre": 20.808195114135742,
+            "norm_post": 26.861480712890625,
+            "delta_norm": 12.616732597351074,
+            "delta_parallel_mag": 3.1087770462036133,
+            "delta_perp_norm": 12.227733612060547,
+            "delta_parallel_frac": 0.2464011013507843,
+            "delta_perp_frac": 0.9691680073738098
+          },
+          "compile_attn_rotation_frac": 0.15764893081684306,
+          "compile_ffn_rotation_frac": 0.8423510691831569,
+          "null_attn_rotation_frac": 0.017650141170994924,
+          "null_ffn_rotation_frac": 0.982349858829005,
+          "q_subspace": {
+            "q_explained_90": 0.41379747814666556,
+            "q_explained_99": 0.6929154525812997,
+            "q_rank_90": 42,
+            "q_rank_99": 280,
+            "q_amplification": 0.9154349694035636,
+            "q_delta_norm": 93.28840558923592,
+            "q_hin_norm": 199.19364474476944
+          },
+          "differential_rotation_norm": 6.825300722638167,
+          "differential_rotation_relative": 0.574468839633586
+        },
+        "9": {
+          "beam_divergence": {
+            "cosine": 0.8367682202282476,
+            "angle_deg": 33.19959120225334,
+            "norm_compile": 26.980628675512154,
+            "norm_null": 28.43069090142103,
+            "norm_ratio": 0.9489965885480328
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.5594374537467957,
+            "angle_deg": 32.05340500123659,
+            "mag_ratio": 1.012921690940857,
+            "norm_pre": 26.636438369750977,
+            "norm_post": 26.980627059936523,
+            "delta_norm": 14.80659008026123,
+            "delta_parallel_mag": -3.7689099311828613,
+            "delta_perp_norm": 14.318883895874023,
+            "delta_parallel_frac": 0.254542738199234,
+            "delta_perp_frac": 0.9670615196228027
+          },
+          "null_decomposition": {
+            "angle_rad": 0.5784118175506592,
+            "angle_deg": 33.14055596614377,
+            "mag_ratio": 1.05841863155365,
+            "norm_pre": 26.861480712890625,
+            "norm_post": 28.43069076538086,
+            "delta_norm": 15.840409278869629,
+            "delta_parallel_mag": -3.055553913116455,
+            "delta_perp_norm": 15.542914390563965,
+            "delta_parallel_frac": 0.19289612770080566,
+            "delta_perp_frac": 0.9812192320823669
+          },
+          "compile_attn_rotation_frac": 0.1384079582340636,
+          "compile_ffn_rotation_frac": 0.8615920417659364,
+          "null_attn_rotation_frac": 0.08588236669247465,
+          "null_ffn_rotation_frac": 0.9141176333075254,
+          "q_subspace": {
+            "q_explained_90": 0.38467173307037233,
+            "q_explained_99": 0.5514760704795069,
+            "q_rank_90": 43,
+            "q_rank_99": 192,
+            "q_amplification": 2.22848461563847,
+            "q_delta_norm": 260.62784759804845,
+            "q_hin_norm": 217.55955688354788
+          },
+          "differential_rotation_norm": 10.809837658845247,
+          "differential_rotation_relative": 0.7239910900146236
+        },
+        "10": {
+          "beam_divergence": {
+            "cosine": 0.8549636165653245,
+            "angle_deg": 31.244284468380915,
+            "norm_compile": 30.058275786798667,
+            "norm_null": 31.489096781165244,
+            "norm_ratio": 0.9545613834429699
+          },
+          "compile_decomposition": {
+            "angle_rad": 0.8508919477462769,
+            "angle_deg": 48.75251742752784,
+            "mag_ratio": 1.114068865776062,
+            "norm_pre": 26.980627059936523,
+            "norm_post": 30.05827522277832,
+            "delta_norm": 23.70781898498535,
+            "delta_parallel_mag": -7.162824630737305,
+            "delta_perp_norm": 22.59988021850586,
+            "delta_parallel_frac": 0.30212923884391785,
+            "delta_perp_frac": 0.9532669186592102
+          },
+          "null_decomposition": {
+            "angle_rad": 0.8134008646011353,
+            "angle_deg": 46.60443659393717,
+            "mag_ratio": 1.1075741052627563,
+            "norm_pre": 28.43069076538086,
+            "norm_post": 31.48909568786621,
+            "delta_norm": 23.868988037109375,
+            "delta_parallel_mag": -6.796695709228516,
+            "delta_perp_norm": 22.880855560302734,
+            "delta_parallel_frac": 0.2847500741481781,
+            "delta_perp_frac": 0.9586018323898315
+          },
+          "compile_attn_rotation_frac": 0.13905933768970005,
+          "compile_ffn_rotation_frac": 0.8609406623103,
+          "null_attn_rotation_frac": 0.06558644019108703,
+          "null_ffn_rotation_frac": 0.9344135598089129,
+          "q_subspace": {
+            "q_explained_90": 0.46153999574386106,
+            "q_explained_99": 0.586793205163017,
+            "q_rank_90": 47,
+            "q_rank_99": 219,
+            "q_amplification": 1.3366872915844574,
+            "q_delta_norm": 363.1359643551579,
+            "q_hin_norm": 324.32869077036696
+          },
+          "differential_rotation_norm": 12.445806179791807,
+          "differential_rotation_relative": 0.5473001401140137
+        },
+        "11": {
+          "beam_divergence": {
+            "cosine": 0.9858023077030382,
+            "angle_deg": 9.66633148858188,
+            "norm_compile": 103.5631395773073,
+            "norm_null": 123.93032785600462,
+            "norm_ratio": 0.835656141389684
+          },
+          "compile_decomposition": {
+            "angle_rad": 1.3797881603240967,
+            "angle_deg": 79.05603820869092,
+            "mag_ratio": 3.4454119205474854,
+            "norm_pre": 30.05827522277832,
+            "norm_post": 103.56314086914062,
+            "delta_norm": 102.20984649658203,
+            "delta_parallel_mag": -10.396932601928711,
+            "delta_perp_norm": 101.67967224121094,
+            "delta_parallel_frac": 0.10172145068645477,
+            "delta_perp_frac": 0.9948129057884216
+          },
+          "null_decomposition": {
+            "angle_rad": 1.3860135078430176,
+            "angle_deg": 79.41272434752733,
+            "mag_ratio": 3.9356584548950195,
+            "norm_pre": 31.48909568786621,
+            "norm_post": 123.93032836914062,
+            "delta_norm": 122.1321792602539,
+            "delta_parallel_mag": -8.71899700164795,
+            "delta_perp_norm": 121.82056427001953,
+            "delta_parallel_frac": 0.07138984650373459,
+            "delta_perp_frac": 0.9974485635757446
+          },
+          "compile_attn_rotation_frac": 0.15150574957386995,
+          "compile_ffn_rotation_frac": 0.84849425042613,
+          "null_attn_rotation_frac": 0.1251101707286966,
+          "null_ffn_rotation_frac": 0.8748898292713034,
+          "q_subspace": {
+            "q_explained_90": 0.6651967105398636,
+            "q_explained_99": 0.8184856660109114,
+            "q_rank_90": 117,
+            "q_rank_99": 310,
+            "q_amplification": 0.3368338691001101,
+            "q_delta_norm": 515.287765936167,
+            "q_hin_norm": 452.23483120902085
+          },
+          "differential_rotation_norm": 23.31121782025574,
+          "differential_rotation_relative": 0.20860128615415355
+        }
+      },
+      "ternary_test": null
+    }
+  ]
+}
