@@ -161,7 +161,14 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Monitor v11-holo-inv through transition window (2K→8K)
+### Priority 1: Apply universal hologram findings to V11
+Wait for v11-holo-inv to complete or plateau, then:
+- Change combinator embedding init: K/B/C share subspace, I separate
+- Test whether init change accelerates hologram formation
+- Build bank loading mechanism (S4 selector + Q-pattern injection)
+See: `mementum/knowledge/explore/holographic-storage.md`
+
+### Priority 2: Monitor v11-holo-inv through transition window (2K→8K)
 Watch for:
 - Continued prose improvement (not just structured wins)
 - Alarm de-saturation / differentiation (currently near ceiling)
@@ -245,6 +252,7 @@ Logging   —                          —                                3× JS
 | `mementum/knowledge/explore/fractal-stride-bands.md` | MERA topology design + rationale |
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
 | `mementum/knowledge/explore/lambda-probe-atlas.md` | New cross-model lambda/combinator territory mapping stream |
+| `mementum/knowledge/explore/holographic-storage.md` | Holographic storage findings: ternary survival, universal hologram, extraction pipeline |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
