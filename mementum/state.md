@@ -171,6 +171,25 @@ cos/layer > 0.996 — near-lossless at 8 GB for 35B params with zero multiplies.
 This is why V12 works (train to not need magnitudes) while post-hoc quantization fails
 (existing models encode information in magnitudes that ternary destroys).
 
+### 12. The holographic seed IS 3 bits per weight
+
+Decoded exactly what Q4 preserves: decompose each weight into sign (1 bit) +
+group scale (0.25 bits shared) + **magnitude level** (the groove depth).
+
+Phase transition at 8 levels (3 magnitude bits): cos/layer crosses 0.98,
+L12 cos reaches 0.80, model comes alive (PPL 519 vs dead at 4 levels).
+Q4 uses 16 levels (4 bits) for L12 cos 0.95, PPL 253.
+
+The "holographic seed" for existing models is exactly this 3-bit-per-weight
+magnitude level index — which of 8 uniformly-spaced magnitude bins each weight
+falls into. It's per-element (no low-rank shortcut, r=0.00 sign-magnitude
+correlation, no spatial autocorrelation). Its entropy is 2.55 bits (15%
+compressible, Gaussian-skewed). This is what separates a working Q4 from a
+dead ternary model.
+
+For V12: training pushes magnitude CV→0, making all levels equal → the 3-bit
+seed becomes redundant → sign + 1 group scale (1.85 bits) suffices.
+
 ## What was done this session (097)
 
 ### 1. Diagnosed v11 B-dispatch decline — VSM variety gap

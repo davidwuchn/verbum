@@ -319,10 +319,27 @@ nearly eliminates the angular error. Where the beam is wide (L0-L2, rank 54-73),
 no per-group calibration can help — too many directions need simultaneous
 precision.
 
-**Conclusion**: for existing models, there is no small holographic seed. The
-magnitude information is high-rank and per-element. For V12, the seed IS the
-training process: gradient descent pushes magnitudes toward uniform (CV→0),
-eliminating the need for per-element magnitude storage.
+**Conclusion**: For existing models, the holographic seed is exactly **3 bits
+per weight** — the magnitude level index within each group. This is what Q4
+stores and why Q4 works. The seed is per-element (not low-rank, not spatial,
+not predictable from signs). Its entropy is 2.55 bits (15% compressible vs
+the 3-bit allocation).
+
+The phase transition is sharp:
+```
+Levels  mag bits  cos/mat  L12 cos  PPL
+2       0         0.78     0.05     100M (dead)
+4       2         0.93     0.44     34K  (dead)
+8       3         0.98     0.80     519  (alive)
+16      4         0.996    0.95     253  (good)
+```
+
+**The cliff is between 2-3 magnitude bits** (4 to 8 levels). Below 8 levels,
+the per-layer angular error compounds past the survival threshold.
+
+For V12: the sieve pushes magnitude CV→0, making all "groove depths" equal.
+This eliminates the need for the 3-bit seed entirely — sign + 1 group scale
+suffices when the model has learned to not need per-element magnitudes.
 
 ## Open Questions
 
