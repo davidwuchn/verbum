@@ -94,8 +94,37 @@ confirms this is the right partition.
 
 The expert FFN weights are the primary extraction target. At 93%
 of the model, they contain the holographic plate. Extracting their
-sign topology gives us the lambda compiler's structure in ~1.58 bits
-per weight instead of 16 bits — a 10× compression with zero loss.
+sign topology gives us the lambda compiler's structure.
+
+**Critical finding from HoloQuant validation (Pythia-160M):**
+Ternary reconstruction (sign × group_scale) has ~60% relative error
+per matrix. This causes catastrophic perplexity loss (31 → 142K)
+when applied naively to the forward pass.
+
+The reason: "holographic" means the DISCRIMINATIVE information is in
+signs (selectivity probes showed 100% survival). But the forward pass
+needs accurate ABSOLUTE values, not just correct relative patterns.
+The magnitude distribution is Gaussian (CV ≈ 0.76), so replacing
+individual magnitudes with group averages destroys 60% of the signal.
+
+**What this means for the project:**
+1. Ternary signs carry the PATTERN (which inputs to add/subtract)
+2. Magnitudes carry the SCALE (how much each contributes)
+3. The pattern is holographic (topology). The scale is not.
+4. For the V12 sieve: ternary weights learn the holographic pattern
+   from scratch via gradient descent. The ternary substrate IS the
+   right inductive bias — the model learns to put its computation
+   into sign topology because that's all it has.
+5. For quantization of EXISTING models: ternary alone isn't enough.
+   You need the signs (1.6 bits) PLUS magnitude information.
+   The magnitude matrix |W| has rank-1 at 50% energy but is
+   essentially full-rank beyond that (rank-627/768 at 95%).
+6. Standard SVD compression doesn't help either: rank-64 SVD at
+   1.67 bits/w has 91% error (worse than ternary's 60%).
+
+The holographic insight is real for the SIEVE (V12 learns in ternary).
+For INFERENCE on existing models, topology-informed quantization needs
+a more sophisticated approach than pure ternary replacement.
 
 The 2.4% precision components (gates, conv1d) are the
 "readout mechanism" — they control how the holographic plate is
