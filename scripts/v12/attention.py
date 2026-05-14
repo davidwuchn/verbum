@@ -226,9 +226,14 @@ class GatedLinearAttention(nn.Module):
     def __call__(self, x: mx.array) -> mx.array:
         """Forward pass with causal gated linear attention.
 
-        For stride > 1, we gather positions at stride intervals and
-        run the recurrence over strided positions, then scatter back.
-        This gives scale-appropriate pattern memory.
+        For stride > 1, we GATHER positions at stride intervals into
+        a compact tensor, run the scan over the short sequence, then
+        broadcast each stride segment's state to all its positions
+        for retrieval. This is stride/1× cheaper than scanning over
+        all L positions with masking.
+
+        For stride=1, every position participates (full recurrence,
+        no gather/scatter needed).
         """
         B, L, D = x.shape
         H = self.n_heads
@@ -238,83 +243,88 @@ class GatedLinearAttention(nn.Module):
 
         x_norm = self.norm(x)
 
-        # Project to Q, K, V, gate
+        # Project ALL positions to Q, K, V, gate (cheap TernaryLinear)
         q_raw = self.q_proj(x_norm).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         k_raw = self.k_proj(x_norm).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         v = self.v_proj(x_norm).reshape(B, L, H, Dh)       # (B, L, H, Dh)
         gate = mx.sigmoid(self.gate_proj(x_norm))           # (B, L, H)
 
         # Non-negative activations for linear attention
-        # elu(x) + 1 maps ℝ → ℝ⁺, continuous and differentiable
         q = nn.elu(q_raw) + 1.0  # (B, L, H, Ds)
         k = nn.elu(k_raw) + 1.0  # (B, L, H, Ds)
 
         # Cache gate values for instrumentation
         self._gate_values = mx.stop_gradient(gate)
 
-        # ── Strided recurrence ────────────────────────────────
-        # For stride s, we process every s-th position in a recurrence.
-        # Positions not at stride boundaries get zero retrieval output
-        # (they don't participate in this stride's pattern memory).
+        # ── Stride-aware scan ─────────────────────────────────
+        # For stride s > 1, only every s-th position writes to memory.
+        # Old approach: scan over all L positions with masking (wasteful).
+        # New approach: gather L/s participating positions, scan over
+        # the short sequence, then broadcast states for retrieval.
         #
-        # For stride=1, every position participates (full recurrence).
-        #
-        # Implementation: chunk-parallel for efficiency on MLX.
-        # We process all positions but mask non-strided ones.
+        # The state at stride position j covers all positions in
+        # [j*stride, (j+1)*stride). Position i reads from state at
+        # index i // stride (floor division — causal).
 
-        # Determine which positions participate at this stride
-        # position i participates if i % stride == 0
-        positions = mx.arange(L)
-        participates = (positions % stride) == 0  # (L,) bool
+        if stride == 1:
+            # Full recurrence — all positions participate
+            L_s = L
 
-        # Expand gate for outer product: (B, L, H, 1, 1)
-        gate_expand = gate[:, :, :, None, None]
+            # Outer product k^T v: (B, L, H, Ds, Dh)
+            kv_outer = k[:, :, :, :, None] * v[:, :, :, None, :]
+            gate_expand = gate[:, :, :, None, None]
+            gated_kv = gate_expand * kv_outer       # (B, L, H, Ds, Dh)
+            retention = 1.0 - gate                   # (B, L, H)
 
-        # Outer product k^T v for memory update: (B, L, H, Ds, Dh)
-        # k: (B, L, H, Ds) → (B, L, H, Ds, 1)
-        # v: (B, L, H, Dh) → (B, L, H, 1, Dh)
-        kv_outer = k[:, :, :, :, None] * v[:, :, :, None, :]  # (B, L, H, Ds, Dh)
+            # Parallel scan over full sequence
+            S_all = parallel_scan_2d(retention, gated_kv)  # (B, L, H, Ds, Dh)
 
-        # Gated update term: g_t * (k_t^T v_t)
-        gated_kv = gate_expand * kv_outer  # (B, L, H, Ds, Dh)
+            # Retrieve: every position reads its own state
+            # q: (B, L, H, Ds), S_all: (B, L, H, Ds, Dh) → (B, L, H, Dh)
+            output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)
+        else:
+            # ── Gather stride positions ───────────────────────
+            # Participating: positions 0, stride, 2*stride, ...
+            L_s = L // stride  # number of stride positions
+            # Index array for gathering: [0, stride, 2*stride, ...]
+            stride_idx = mx.arange(L_s) * stride  # (L_s,)
 
-        # Retention factor: (1 - g_t) for memory decay
-        retention = (1.0 - gate)[:, :, :, None, None]  # (B, L, H, 1, 1)
+            # Gather K, V, gate at stride positions only
+            k_s = k[:, stride_idx, :, :]          # (B, L_s, H, Ds)
+            v_s = v[:, stride_idx, :, :]          # (B, L_s, H, Dh)
+            gate_s = gate[:, stride_idx, :]       # (B, L_s, H)
 
-        # Mask non-participating positions (stride > 1)
-        # Non-participating positions: gate=0, retention=1 → no effect
-        part_mask = participates[None, :, None, None, None]  # (1, L, 1, 1, 1)
-        gated_kv = mx.where(part_mask, gated_kv, mx.zeros_like(gated_kv))
-        # Non-participating: retention=1 (memory passes through unchanged)
-        retention = mx.where(
-            participates[None, :, None, None, None],
-            retention,
-            mx.ones_like(retention),
-        )
+            # Outer product over ONLY stride positions
+            kv_outer_s = k_s[:, :, :, :, None] * v_s[:, :, :, None, :]  # (B, L_s, H, Ds, Dh)
+            gate_s_expand = gate_s[:, :, :, None, None]
+            gated_kv_s = gate_s_expand * kv_outer_s   # (B, L_s, H, Ds, Dh)
+            retention_s = 1.0 - gate_s                 # (B, L_s, H)
 
-        # ── Parallel prefix scan (associative, O(log L) depth) ──
-        # S_t = retention_t × S_{t-1} + gated_kv_t
-        # o_t = q_t @ S_t
-        #
-        # The affine recurrence forms a monoid:
-        #   (a₂, b₂) ∘ (a₁, b₁) = (a₂×a₁, a₂×b₁ + b₂)
-        # Hillis-Steele doubling computes all prefixes in 12 steps
-        # for L=4096, fully vectorized — no Python loop over positions.
+            # Parallel scan over SHORT sequence (L_s positions)
+            # This is stride× cheaper than scanning over L positions.
+            # For stride=32: 128 positions instead of 4096 → 32× less work.
+            S_stride = parallel_scan_2d(retention_s, gated_kv_s)  # (B, L_s, H, Ds, Dh)
 
-        # retention_scalar: (B, L, H) — squeeze out the trailing dims
-        retention_scalar = retention[:, :, :, 0, 0]  # (B, L, H)
+            # ── Broadcast states for retrieval ────────────────
+            # Position i reads from the state at stride position
+            # floor(i / stride). This is causal: position i only
+            # sees memory accumulated from positions ≤ i.
+            #
+            # state_idx[i] = i // stride, but clipped to [0, L_s-1]
+            state_idx = mx.minimum(
+                mx.arange(L) // stride, L_s - 1)       # (L,)
+            S_all = S_stride[:, state_idx, :, :, :]      # (B, L, H, Ds, Dh)
 
-        # Parallel scan: compute running state S at every position
-        # gated_kv: (B, L, H, Ds, Dh), retention_scalar: (B, L, H)
-        S_all = parallel_scan_2d(retention_scalar, gated_kv)  # (B, L, H, Ds, Dh)
+            # Retrieve: ALL positions query against their stride state
+            output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)
 
-        # Retrieve: output_t = q_t @ S_t for all positions in parallel
-        # q: (B, L, H, Ds), S_all: (B, L, H, Ds, Dh) → (B, L, H, Dh)
-        output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)  # (B, L, H, Dh)
-        output = output.reshape(B, L, D)
+        output = output.reshape(B, L, D)  # (B, L, H, Dh) → (B, L, D)
 
-        # Instrumentation: memory norms at final position
-        S_final = S_all[:, -1, :, :, :]  # (B, H, Ds, Dh)
+        # Instrumentation: memory norms at final stride position
+        if stride == 1:
+            S_final = S_all[:, -1, :, :, :]
+        else:
+            S_final = S_stride[:, -1, :, :, :]
         S_norms = mx.sqrt(mx.sum(S_final * S_final, axis=(2, 3)) + 1e-8)  # (B, H)
         self._memory_norms = mx.stop_gradient(S_norms.mean(axis=0))  # (H,)
 
