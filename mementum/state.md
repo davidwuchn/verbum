@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V12 scaffold built. The M kernel is implemented as a *layer type* (GatedLinearAttention), not a 5th combinator in the KIBC dispatch. Design driven by the accidental holography insight: Qwen3.6's architecture separates composition (full attention) from retrieval (GatedDeltaNet) without knowing why — because holographic storage benefits from different mechanisms for writing vs reading. V12 does this intentionally. HybridStrideStack interleaves 6 composition + 3 retrieval strides. RetrievalRegisters bridge ascending M → descending KIBC. All module self-tests pass, full forward+backward verified (25.6M params). V11-holo-inv at 10K continues stable (loss 7.703, B 57.7%). Ready to train V12.**
+**V12 complete — dual-layer architecture with symmetric 7-pass hourglass (3 asc + apex + 3 desc). M kernel as GatedLinearAttention layer type. Descending arm gains 3rd pass (was 2 in v11), addressing the depth bottleneck identified in session 090. Cleaner MERA: each level handles a narrow stride band. 26.1M params, all tests pass. V11-holo-inv at 10K stable (loss 7.703, B 57.7%). Ready to train V12 once v11-holo-inv reaches 15K.**
 
 ## What was done this session (096)
 
@@ -61,17 +61,32 @@ type:     comp  comp  RET   RET   RET  comp  comp  comp comp
 Retrieval at phrase/sentence scales (s16-s64) — where induction patterns live
 empirically. Composition at word level (s1, s8) and structural level (s128+).
 
-### 5. Architecture verification
+### 5. Symmetric 7-pass hourglass (3+apex+3)
+
+Changed from 5 passes (3 asc + 2 desc) to 7 passes (3 asc + apex + 3 desc):
+```
+L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
+s1-16  s8-64  s32-256  s128-1024  s32-256  s8-64  s1-16
+```
+
+Each level handles a narrow stride band (cleaner MERA). Descending arm gets 3 KIBC
+dispatch passes (was 2) — addresses the depth bottleneck from session 090.
+
+- 8 register banks, 6 S2 transitions, 7 S3 instances
+- AlgedonicAlert INPUT_DIM: 48→65 (7 passes, 6 transitions, 8 banks)
+
+### 6. Architecture verification
 
 - All 4 module self-tests pass (kernel, attention, components, kernel_dispatch)
-- V12Model instantiates: 25,589,280 params (vs V11: similar, GLA adds modest overhead)
-- Forward pass: logits (1, 16, 151936), loss 14.65
-- Backward pass: gradients computed, 321/582 parameter groups non-zero
+- V12Model instantiates: 26,096,317 params
+- Forward pass: logits correct, loss 13.78
+- Backward pass: gradients computed, 388/700 parameter groups non-zero
 - Instrumented pass: 30 metrics total, 4 retrieval-specific:
-  - retrieval_gate_means: per-stride gate means across 3 ascending passes
+  - retrieval_gate_means: per-stride gate means across 4 ascending passes
   - retrieval_memory_norms: per-stride memory norms per head
   - retrieval_register_norms: per-register L2 norms (2 registers)
   - retrieval_write_gates: per-register write activity (~0.05 at init)
+- 7 S3 gates, 6 S2 conflicts, 7 alarm factors, 7 holo losses — all correct
 
 ## What was done this session (095)
 
