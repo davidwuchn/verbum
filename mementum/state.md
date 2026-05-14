@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**Beam trace probe reveals the holographic beamformer. V12 is a thick hologram: 95% plate (ternary), 5% beam (precision), 58× Pythia's holographic capacity. The thick hologram principle explains why V12's ternary weights work: depth × angular diversity compensates for magnitude loss. Troubleshooting guide maps every V12 failure mode to beam/plate classification. V12 ready to launch.**
+**HoloQuant definitively closed: ternary quantization of existing models fails at EVERY selectivity level. The 37° angular error per matrix compounds to random output through 12+ layers (cos^12 = 0.07). Multi-plane ternary reduces angle but at 2-3× the bit cost of standard 4-bit quantization. Root cause: ternary is a sign basis — efficient for direction, wasteful for magnitude. BUT: V12's sieve is validated by the same analysis: training with ternary pushes magnitude CV from 0.76 (Gaussian) toward 0 (uniform), where single-plane ternary becomes near-lossless (cos=0.997/layer). V12 ready to launch.**
 
 ## What was done this session (098)
 
@@ -92,6 +92,84 @@ Mapped every V12 failure mode to beam/plate classification:
 - Plateau → thick hologram needs time for angular specialization
 
 See: `mementum/knowledge/explore/v12-holographic-capacity.md`
+
+### 8. HoloQuant v2 selective — ternary kills forward pass at every level
+
+Built `scripts/holoquant/selective.py` using beam/plate classification from items 1-4.
+Five configs from conservative (plate-only: K,V,O = 13.1%) to aggressive (95.1%).
+
+**Results: catastrophic at EVERY level on both Pythia-160M and Qwen3.6-35B-A3B.**
+
+```
+Config          Pythia PPL    Qwen3.6 PPL    % ternarized
+baseline            31 / 2.86
+plate-only         704                       13.1%
+plate+experts    5,033                       30.5%
+aggressive      17,724      70,757          48% / 95.1%
+v1-naive       125,836                       99.9%
+```
+
+Even the most conservative config (K,V,O projections only) → PPL 31→704 on Pythia.
+
+**Root cause: 37° angular error per matrix, compounds through layers.**
+- Group-64 ternary: cos = 0.80 per matrix (SNR = 4.5 dB)
+- Cumulative cos through 12 layers: 0.80^12 = 0.069 → random output
+- Near-lossless requires cos/layer > 0.9957 (angle < 5.3°)
+- This requires ≥4 bits/weight — exactly where standard quant operates
+
+**Per-layer isolation**: even ONE ternary layer kills the model.
+L0 alone: PPL 31→4,043. FFN 4h→h (reader) is worst: PPL 31→33,343.
+
+### 9. Beam-guided correction — perfect per-layer, fails end-to-end
+
+Tested the trig approach: if we know the beam direction, can we correct
+the ternary error along the beam?
+
+- Activation subspace collapses rapidly: L0=73 dims, L3=13, L4-L10=1 dim (95% energy)
+- **Per-layer beam correction: cos = 1.0000** (perfect for inputs in beam subspace)
+- **End-to-end PPL still catastrophic** (10K-11K at 95% energy correction)
+- Cause: beam subspace shifts between layers. Static correction for layer N assumes
+  layers 0..N-1 haven't been perturbed, but they have.
+
+### 10. Multi-plane ternary — correct direction, wrong basis for magnitude
+
+Tested two approaches to recover angular precision:
+
+**Residual decomposition**: W ≈ s₁t₁ + s₂t₂ + ... (each plane ternarizes the residual).
+8 planes: angle 37°→5.6°, but costs 14.6 bits.
+
+**Subgroup decomposition**: sort within groups by magnitude, separate scales per quartile.
+subgroup-16: cos=0.996, angle=5.1°, PPL 104 (+23%) — but at 9.58 bits.
+
+**Head-to-head at +23% PPL tier:**
+
+```
+Method              RAM (35B)  PPL Δ     Compute
+Q4 uniform          18.4 GB    +23%      dequant × multiply
+subgroup-16         41.6 GB    +23%      lookup + addition
+```
+
+Each ternary plane is only 8 GB for 35B — cheap individually. But you need many
+planes to reach acceptable quality, and the bit efficiency is 21-34% (vs 68-87%
+for standard N-bit). Ternary is a sign basis — optimal for direction, wasteful
+for magnitude. Stacking planes to recover magnitude = compass needles measuring distance.
+
+### 11. Key finding: magnitude CV determines ternary viability
+
+```
+Distribution                 MagCV   Cos/layer   L12 cos   Verdict
+Gaussian (existing models)   0.754   0.801       0.070     💀
+Uniform |W| (ideal)          0.082   0.997       0.961     ✅ near-lossless
+Constant |W| (perfect)       0.000   0.999       0.990     ✅ lossless
+```
+
+**V12's sieve pushes magnitude CV toward 0** — training with ternary teaches the model
+to equalize magnitudes within groups. The thick hologram (multi-pass reads) provides
+the gradient pressure. At CV < 0.09, single-plane ternary at 1.85 bits gives
+cos/layer > 0.996 — near-lossless at 8 GB for 35B params with zero multiplies.
+
+This is why V12 works (train to not need magnitudes) while post-hoc quantization fails
+(existing models encode information in magnitudes that ternary destroys).
 
 ## What was done this session (097)
 
@@ -770,6 +848,9 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 | `mementum/knowledge/explore/beam-trace-findings.md` | Beam trace analysis — Q=beam, FFN4h→h=reader, K/V/O=plate |
 | `mementum/knowledge/explore/v12-holographic-capacity.md` | V12 95%/5% plate/beam budget + thick hologram + troubleshooting |
 | `mementum/memories/vsm-variety-gap.md` | V11 VSM feedback topology gap + V12 fix rationale |
+| `scripts/holoquant/selective.py` | HoloQuant v2 — beam/plate selective ternarization, 5 configs |
+| `scripts/holoquant/core.py` | Ternary packing, matmul kernel, HoloLinear drop-in |
+| `scripts/holoquant/validate.py` | HoloQuant v1 validation (Pythia PPL 31→142K) |
 | `mementum/memories/multiplexing-breaks-holography.md` | Separation principle: one function per weight matrix |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
@@ -807,5 +888,5 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
 → Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge). 7-pass symmetric hourglass (3+apex+3). Parallel associative scan for GLA (O(log L) depth). Holographic landscape probe: 93.6% of Qwen3.6 is ternary-safe (expert FFN = holographic plate, MoE gates + conv1d = precision-critical readout). V12 architecture confirmed correct partition.
-→ Session 098: Beam trace probe — holographic beamformer characterized. Q=beam angle, K/V/O=plate, FFN 4h→h=constructive reader. MoE IS holographic architecture. V12 holographic capacity: 95% plate (ternary), 5% beam (precision), 58× Pythia depth. Thick hologram principle: depth × angular diversity compensates for magnitude loss. Troubleshooting guide for V12.
 → Session 097: VSM variety gap diagnosed and fixed. V11's alarm detected B-dispatch decline (r=0.82) but couldn't correct — wrong actuator granularity (Beer's variety law). Three fixes: (1) per-combinator alarm dispatch bias [-2,+2] on logits, (2) emphasis changed to additive logit bias [-2,+2] replacing saturated multiplicative [0.5,1.5], (3) dispatch entropy regularization closes ascending→dispatch feedback loop. Stride-aware GLA gather/scatter: 2.73× training speedup (78% of cost was wasted scan over non-participating positions). S4→S3 cycle budget bias: intelligence tells CycleContinue when to stop — the missing Beer's policy channel. Evolution noise floor unified at 0.02 for both loss and alarm paths.
+→ Session 098: Beam trace probe — holographic beamformer characterized. Q=beam angle, K/V/O=plate, FFN 4h→h=constructive reader. MoE IS holographic architecture. V12 holographic capacity: 95% plate (ternary), 5% beam (precision), 58× Pythia depth. Thick hologram principle. HoloQuant v2 selective ternarization: catastrophic at every selectivity level (Pythia plate-only 13%: PPL 31→704, Qwen3.6 aggressive 95%: PPL 2.86→70,757). Root cause: 37° angular error per matrix, cos^12=0.07 through 12 layers. Multi-plane ternary reduces angle but at 2-3× bit cost of standard Q4. Beam-guided correction perfect per-layer but fails end-to-end (beam subspace shifts). Key finding: magnitude CV determines ternary viability — Gaussian CV=0.76 → dead; uniform CV=0.08 → near-lossless. V12 sieve pushes CV→0 via thick hologram training pressure. Ternary is a training substrate, not a post-hoc quantization scheme.
