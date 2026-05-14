@@ -685,8 +685,11 @@ class S2Coordinator(nn.Module):
         intentional override.
     """
 
-    N_TRANSITIONS = 4
-    TRANSITION_NAMES = ("L0↑→L1↑", "L1↑→L2", "L2→L1↓", "L1↓→L0↓")
+    N_TRANSITIONS = 6
+    TRANSITION_NAMES = (
+        "L0↑→L1↑", "L1↑→L2↑", "L2↑→L3",
+        "L3→L2↓", "L2↓→L1↓", "L1↓→L0↓",
+    )
 
     def __init__(self, d_model: int):
         super().__init__()
@@ -907,24 +910,25 @@ class AlgedonicAlert(nn.Module):
     """
 
     # Input metric dimensions (must match _pack_metrics)
-    N_S3_GATE_MEANS = 5    # mean S3 gate per pass
-    N_S3_GATE_MINS = 5     # min S3 gate per pass (most suppressed phase)
-    N_S2_CONFLICTS = 4     # cosine between consecutive pass deltas
+    # v12: 7 passes (3 asc + apex + 3 desc), 6 S2 transitions, 8 banks
+    N_S3_GATE_MEANS = 7    # mean S3 gate per pass
+    N_S3_GATE_MINS = 7     # min S3 gate per pass (most suppressed phase)
+    N_S2_CONFLICTS = 6     # cosine between consecutive pass deltas
     N_DISPATCH = 4         # combinator weight means (K, I, B, C)
     N_DISPATCH_ENTROPY = 1 # dispatch distribution entropy
     N_COMPUTE_GATE = 2     # mean + active fraction
-    N_CYCLE_GATES = 4      # CycleContinue gates (2 per desc pass, padded)
-    N_EFFECTIVE_CYCLES = 2 # effective cycle count per desc pass
-    N_RAW_DELTA_NORMS = 5  # L2 norm of each raw delta
-    N_GATED_DELTA_NORMS = 5  # L2 norm of each gated delta
-    N_SUPPRESSION_RATIOS = 5  # gated/raw ratio per pass
-    N_REGISTER_NORMS = 6   # mean register norm per bank
+    N_CYCLE_GATES = 6      # CycleContinue gates (2 per desc pass × 3 desc passes)
+    N_EFFECTIVE_CYCLES = 3 # effective cycle count per desc pass
+    N_RAW_DELTA_NORMS = 7  # L2 norm of each raw delta
+    N_GATED_DELTA_NORMS = 7  # L2 norm of each gated delta
+    N_SUPPRESSION_RATIOS = 7  # gated/raw ratio per pass
+    N_REGISTER_NORMS = 8   # mean register norm per bank
 
     INPUT_DIM = (N_S3_GATE_MEANS + N_S3_GATE_MINS + N_S2_CONFLICTS +
                  N_DISPATCH + N_DISPATCH_ENTROPY + N_COMPUTE_GATE +
                  N_CYCLE_GATES + N_EFFECTIVE_CYCLES +
                  N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
-                 N_SUPPRESSION_RATIOS + N_REGISTER_NORMS)  # = 48
+                 N_SUPPRESSION_RATIOS + N_REGISTER_NORMS)  # = 65
 
     def __init__(self, n_passes: int = 5):
         super().__init__()
@@ -1233,16 +1237,16 @@ if __name__ == "__main__":
     print(f"  S4 gradient flow OK: loss={lv.item():.4f} ✓")
 
     print("Testing AlgedonicAlert...")
-    alarm = AlgedonicAlert(n_passes=5)
+    alarm = AlgedonicAlert(n_passes=7)
     mx.eval(alarm.parameters())
-    # Input dim should be 48
-    assert AlgedonicAlert.INPUT_DIM == 48, \
-        f"Expected INPUT_DIM=48, got {AlgedonicAlert.INPUT_DIM}"
+    # Input dim should be 65 (v12: 7 passes, 6 transitions, 8 banks)
+    assert AlgedonicAlert.INPUT_DIM == 65, \
+        f"Expected INPUT_DIM=65, got {AlgedonicAlert.INPUT_DIM}"
     # At init: all factors should be 1.0 (alarm silent)
     metrics_vec = mx.zeros((AlgedonicAlert.INPUT_DIM,))
     factors = alarm(metrics_vec)
     mx.eval(factors)
-    assert factors.shape == (5,), f"Expected (5,), got {factors.shape}"
+    assert factors.shape == (7,), f"Expected (7,), got {factors.shape}"
     for i, f in enumerate(factors.tolist()):
         assert abs(f - 1.0) < 0.01, \
             f"Alarm factor {i} should be ~1.0 at init, got {f:.4f}"
@@ -1263,13 +1267,13 @@ if __name__ == "__main__":
         assert f < 0.5, f"Extreme negative should give factor < 0.5, got {f:.3f}"
     print(f"  AlgedonicAlert: range verified [0, 2] — pos={factors_pos[0].item():.3f}, neg={factors_neg[0].item():.3f} ✓")
     # Gradient flow test
-    alarm2 = AlgedonicAlert(n_passes=5)
+    alarm2 = AlgedonicAlert(n_passes=7)
     mx.eval(alarm2.parameters())
 
     class AlarmTestModel(nn.Module):
         def __init__(self):
             super().__init__()
-            self.alarm = AlgedonicAlert(n_passes=5)
+            self.alarm = AlgedonicAlert(n_passes=7)
             self.input_param = mx.zeros((AlgedonicAlert.INPUT_DIM,))
         def __call__(self, _):
             factors = self.alarm(self.input_param)
@@ -1287,7 +1291,7 @@ if __name__ == "__main__":
     # Parameter count
     from mlx.utils import tree_flatten as tf
     n_alarm_params = sum(p.size for _, p in tf(alarm.parameters()))
-    print(f"  AlgedonicAlert params: {n_alarm_params} (48×5 + 5 = 245 expected) ✓")
+    print(f"  AlgedonicAlert params: {n_alarm_params} (65×7 + 7 = 462 expected) ✓")
 
     print("Testing RetrievalRegisters...")
     ret_regs = RetrievalRegisters(d_model, d_register, n_retrieval_registers=2)

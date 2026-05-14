@@ -20,14 +20,18 @@ tokens that appeared many positions ago can be retrieved via GLA's
 recurrent state, complementing the KIBC combinator's logical structure.
 
 Architecture:
-  Ascending arm (3 passes): HybridStrideStack (KIBC + GLA)
+  Ascending arm (4 passes): HybridStrideStack (KIBC + GLA)
     Retrieval registers updated after each ascending stride pass.
-  Descending arm (2 passes): KIBC combinator dispatch (unchanged)
+  Descending arm (3 passes): KIBC combinator dispatch (unchanged)
     CombinatorIntegrate conditioned on retrieval registers.
   Self-regulating cycles (desc_max_cycles=3): unchanged from v11
       Cycle 0 — IDENTIFY: which combinator?
       Cycle 1 — RESOLVE:  find arguments
       Cycle 2 — PRODUCE:  apply reduction (informed by retrieval)
+
+Symmetric hourglass (7 passes):
+  L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
+  Pass  0       1       2         3       4      5      6
 
 License: MIT
 """
@@ -65,7 +69,7 @@ from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATO
 class V12Model(nn.Module):
     """Dual-layer VSM: KIBC composition (ascending/descending) + M retrieval.
 
-    5 passes: L0↑ → L1↑ → L2_apex → L1↓ → L0↓
+    7 passes: L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
 
     Register semantics (v12):
       reg 0: combinator — K/I/B/C identity at this position
@@ -79,10 +83,11 @@ class V12Model(nn.Module):
 
     REGISTER_NAMES = ("combinator", "binding_depth", "phase")
     RETRIEVAL_REGISTER_NAMES = tuple(f"ret_{i}" for i in range(2))
-    N_PASSES = 5
-    N_ASC_PASSES = 3
-    N_DESC_PASSES = 2
-    PASS_NAMES = ("L0_asc", "L1_asc", "L2_apex", "L1_desc", "L0_desc")
+    N_PASSES = 7
+    N_ASC_PASSES = 4
+    N_DESC_PASSES = 3
+    PASS_NAMES = ("L0_asc", "L1_asc", "L2_asc", "L3_apex",
+                  "L2_desc", "L1_desc", "L0_desc")
 
     def __init__(self, cfg: V12Config):
         super().__init__()
@@ -131,7 +136,7 @@ class V12Model(nn.Module):
             d_ff=cfg.d_ff,
             dropout=cfg.dropout,
             n_registers=cfg.n_registers, d_register=cfg.d_register,
-            max_cond_banks=5,
+            max_cond_banks=7,  # v12: up to 7 readable banks for descending passes
         )
         self.stride_stack_desc = StrideStack(
             d_model=d,
@@ -155,7 +160,7 @@ class V12Model(nn.Module):
         self.s4_desc = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
                                   dropout=cfg.dropout)
 
-        # ── S3: Per-pass gating (5 separate instances) ─────────
+        # ── S3: Per-pass gating (7 separate instances) ─────────
         self.s3_passes = [
             S3Ternary(d, d_reg, n_phases=3, n_registers=n_reg, d_align=d)
             for _ in range(self.N_PASSES)
@@ -181,6 +186,7 @@ class V12Model(nn.Module):
                 cfg.d_register, n_registers=cfg.n_registers)
 
         # ── Meta-S4 ──────────────────────────────────────────
+        # Banks: [bank_0, bank_1_desc, bank_3_desc, bank_4_apex] = 4
         self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
                                       n_banks=4, dropout=cfg.dropout)
 
@@ -188,9 +194,11 @@ class V12Model(nn.Module):
         self.s2 = S2Coordinator(d)
 
         # ── S5: Pass reweighting ──────────────────────────────
+        # 8 banks: bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
+        #          bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc
         self.s5_reweight = S5Reweight(
             d, d_reg, n_registers=n_reg,
-            n_banks=6, n_passes=self.N_PASSES)
+            n_banks=8, n_passes=self.N_PASSES)
 
         # ── Algedonic alert (Beer's fire alarm: S1→S5 bypass) ──
         self.algedonic = AlgedonicAlert(n_passes=self.N_PASSES)
@@ -200,6 +208,8 @@ class V12Model(nn.Module):
         self._prev_bank_1_desc = [mx.zeros((self.d_reg_real,))
                                    for _ in range(n_reg)]
         self._prev_bank_2_desc = [mx.zeros((self.d_reg_real,))
+                                   for _ in range(n_reg)]
+        self._prev_bank_3_desc = [mx.zeros((self.d_reg_real,))
                                    for _ in range(n_reg)]
         # Combinator algedonic: 4 combinator weights + 1 compute gate
         self._prev_kernel_algedonic = mx.zeros((self.d_reg_real,))
@@ -283,7 +293,7 @@ class V12Model(nn.Module):
         """
         metrics = []
 
-        # 1. S3 gate means per pass (5 scalars)
+        # 1. S3 gate means per pass (7 scalars)
         for pass_gates in all_s3_gates:
             if pass_gates:
                 gate_sum = pass_gates[0]
@@ -293,7 +303,7 @@ class V12Model(nn.Module):
             else:
                 metrics.append(mx.array(0.5))
 
-        # 2. S3 gate mins per pass (5 scalars)
+        # 2. S3 gate mins per pass (7 scalars)
         for pass_gates in all_s3_gates:
             if pass_gates:
                 gate_min = pass_gates[0]
@@ -303,7 +313,7 @@ class V12Model(nn.Module):
             else:
                 metrics.append(mx.array(0.5))
 
-        # 3. S2 conflict cosines — differentiable (4 scalars)
+        # 3. S2 conflict cosines — differentiable (6 scalars)
         for i in range(self.N_PASSES - 1):
             s_prev = pass_deltas[i].mean(axis=(0, 1))
             s_curr = pass_deltas[i + 1].mean(axis=(0, 1))
@@ -360,18 +370,18 @@ class V12Model(nn.Module):
             metrics.append(mx.array(0.0))
             metrics.append(mx.array(0.0))
 
-        # 7. CycleContinue gates (4 scalars, padded)
+        # 7. CycleContinue gates (6 scalars, padded)
         cycle_gates_flat = []
         for pa in all_pass_alarm:
             for cg in pa.get('cycle_continue_gates', []):
                 cycle_gates_flat.append(cg)
-        # Pad to 4 (2 gates × 2 desc passes)
-        while len(cycle_gates_flat) < 4:
+        # Pad to 6 (2 gates × 3 desc passes)
+        while len(cycle_gates_flat) < 6:
             cycle_gates_flat.append(mx.array(0.5))  # neutral padding
-        for cg in cycle_gates_flat[:4]:
+        for cg in cycle_gates_flat[:6]:
             metrics.append(cg)
 
-        # 8. Effective cycles per desc pass (2 scalars)
+        # 8. Effective cycles per desc pass (3 scalars)
         #    Only descending passes (last N_DESC_PASSES) have cycles
         eff_cycles_list = []
         for pa in all_pass_alarm:
@@ -383,28 +393,28 @@ class V12Model(nn.Module):
                     cumul = cumul * cg
                     eff = eff + cumul
                 eff_cycles_list.append(eff)
-        # Pad to exactly 2 (one per desc pass)
-        while len(eff_cycles_list) < 2:
+        # Pad to exactly 3 (one per desc pass)
+        while len(eff_cycles_list) < 3:
             eff_cycles_list.append(mx.array(1.0))
-        for ec in eff_cycles_list[:2]:
+        for ec in eff_cycles_list[:3]:
             metrics.append(ec)
 
-        # 9. Raw delta RMS norms (5 scalars)
+        # 9. Raw delta RMS norms (7 scalars)
         for rd in raw_deltas:
             metrics.append(self._delta_rms(rd))
 
-        # 10. Gated delta RMS norms (5 scalars)
+        # 10. Gated delta RMS norms (7 scalars)
         for pd in pass_deltas:
             metrics.append(self._delta_rms(pd))
 
-        # 11. S3 suppression ratio per pass (5 scalars)
+        # 11. S3 suppression ratio per pass (7 scalars)
         #     gated_norm / raw_norm — how much S3 is filtering
         for pd, rd in zip(pass_deltas, raw_deltas):
             gated_rms = self._delta_rms(pd)
             raw_rms = self._delta_rms(rd)
             metrics.append(gated_rms / (raw_rms + 1e-8))
 
-        # 12. Register bank mean norms (6 scalars)
+        # 12. Register bank mean norms (8 scalars)
         for bank in all_banks:
             bank_norm_sum = mx.array(0.0)
             for reg in bank:
@@ -593,7 +603,9 @@ class V12Model(nn.Module):
         bank_0 = self._init_bank0()
         bank_1_asc = self._fresh_bank()
         bank_2_asc = self._fresh_bank()
-        bank_3 = self._fresh_bank()
+        bank_3_asc = self._fresh_bank()
+        bank_4_apex = self._fresh_bank()
+        bank_3_desc = self._fresh_bank()
         bank_2_desc = self._fresh_bank()
         bank_1_desc = self._fresh_bank()
 
@@ -604,6 +616,7 @@ class V12Model(nn.Module):
 
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+        prev_b3d = [mx.stop_gradient(r) for r in self._prev_bank_3_desc]
         prev_kernel = [mx.stop_gradient(self._prev_kernel_algedonic)]
 
         asc_s3_gates = []
@@ -628,16 +641,28 @@ class V12Model(nn.Module):
         coherence = S2Coordinator.coherence_factor(pass_deltas[0], pass_deltas[1])
         x = x + self.s2.direction_signal(pd, 1) * coherence
 
-        # Pass 2: L2_apex
-        x, bank_3, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 2, False, [bank_0, bank_1_asc, bank_2_asc, prev_kernel], bank_3,
+        # Pass 2: L2↑
+        x, bank_3_asc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
+            x, 2, False,
+            [bank_0, bank_1_asc, bank_2_asc, prev_b3d, prev_kernel], bank_3_asc,
+            ret_regs=ret_regs)
+        pass_deltas.append(pd); raw_deltas.append(rd)
+        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
+        coherence = S2Coordinator.coherence_factor(pass_deltas[1], pass_deltas[2])
+        x = x + self.s2.direction_signal(pd, 2) * coherence
+
+        # Pass 3: L3_apex
+        x, bank_4_apex, pd, rd, pg, pa, ret_regs = self._run_level_pass(
+            x, 3, False,
+            [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, prev_kernel], bank_4_apex,
             ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
         asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
         # ── Combinator emphasis (4-wide, not 22) ──────────────
+        # Uses the 3 ascending output banks (excluding bank_0 init and apex)
         emphasis_parts = []
-        for bank in [bank_1_asc, bank_2_asc, bank_3]:
+        for bank in [bank_1_asc, bank_2_asc, bank_3_asc]:
             for reg in bank:
                 emphasis_parts.append(reg)
         emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
@@ -679,13 +704,27 @@ class V12Model(nn.Module):
         ])
         asc_gate_bank = [asc_gate_vector]
 
-        coherence = S2Coordinator.coherence_factor(pass_deltas[1], pass_deltas[2])
-        x = x + self.s2.direction_signal(pd, 2) * coherence
+        coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
+        x = x + self.s2.direction_signal(pd, 3) * coherence
 
-        # Pass 3: L1↓
+        # Pass 4: L2↓
+        x, bank_3_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
+            x, 4, True,
+            [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex, asc_gate_bank],
+            bank_3_desc, embed_context=x_embed,
+            combinator_emphasis=combinator_emphasis,
+            proposal_delta=proposal_delta,
+            ret_regs=ret_regs)
+        pass_deltas.append(pd); raw_deltas.append(rd)
+        all_s3_gates.append(pg); all_pass_alarm.append(pa)
+
+        coherence = S2Coordinator.coherence_factor(pass_deltas[3], pass_deltas[4])
+        x = x + self.s2.direction_signal(pd, 4) * coherence
+
+        # Pass 5: L1↓
         x, bank_2_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 3, True,
-            [bank_0, bank_1_asc, bank_2_asc, bank_3, asc_gate_bank],
+            x, 5, True,
+            [bank_0, bank_1_asc, bank_3_desc, bank_4_apex, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
             combinator_emphasis=combinator_emphasis,
             proposal_delta=proposal_delta,
@@ -693,13 +732,13 @@ class V12Model(nn.Module):
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
-        coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
-        x = x + self.s2.direction_signal(pd, 3) * coherence
+        coherence = S2Coordinator.coherence_factor(pass_deltas[4], pass_deltas[5])
+        x = x + self.s2.direction_signal(pd, 5) * coherence
 
-        # Pass 4: L0↓
+        # Pass 6: L0↓
         x, bank_1_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 4, True,
-            [bank_0, bank_1_asc, bank_2_desc, bank_3, asc_gate_bank],
+            x, 6, True,
+            [bank_0, bank_1_asc, bank_2_desc, bank_4_apex, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
             combinator_emphasis=combinator_emphasis,
             proposal_delta=proposal_delta,
@@ -714,6 +753,9 @@ class V12Model(nn.Module):
             for i in range(self.cfg.n_registers)]
         self._prev_bank_2_desc = [
             mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
+            for i in range(self.cfg.n_registers)]
+        self._prev_bank_3_desc = [
+            mx.stop_gradient(α * self._prev_bank_3_desc[i] + (1 - α) * bank_3_desc[i])
             for i in range(self.cfg.n_registers)]
 
         # Combinator algedonic: 4 KIBC weights + 1 compute gate
@@ -745,8 +787,10 @@ class V12Model(nn.Module):
             for i in range(self.cfg.n_retrieval_registers)]
 
         # ── S5 reweighting ─────────────────────────────────────
-        all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3,
-                     bank_2_desc, bank_1_desc]
+        # 8 banks: bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
+        #          bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc
+        all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
+                     bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc]
         meta_gates = self.s5_reweight(all_banks, raw_deltas)
 
         # ── Algedonic alert (Beer's fire alarm) ───────────────
@@ -765,8 +809,8 @@ class V12Model(nn.Module):
             total_gated = total_gated + effective_gates[i] * pass_deltas[i]
         x = x - total_ungated + total_gated
 
-        # Meta-S4
-        meta_banks = [bank_0, bank_1_desc, bank_2_desc, bank_3]
+        # Meta-S4: [bank_0, bank_1_desc, bank_3_desc, bank_4_apex] = 4 banks
+        meta_banks = [bank_0, bank_1_desc, bank_3_desc, bank_4_apex]
         x = self.meta_s4(meta_banks, x)
 
         # Output
@@ -798,9 +842,9 @@ class V12Model(nn.Module):
 
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.
-            # Pass n sees gradient from losses n..4 (5-n sources).
+            # Pass n sees gradient from losses n..6 (7-n sources).
             # This creates a natural gradient slope: ascending arm
-            # gets 3-5× gradient, descending arm gets 1-2×.
+            # gets 4-7× gradient, descending arm gets 1-3×.
             #
             # Cost reduction: subsample positions for intermediate logits.
             # The 512→151936 projection is the bottleneck. Sampling 1/8
@@ -868,7 +912,9 @@ class V12Model(nn.Module):
         bank_0 = self._init_bank0()
         bank_1_asc = self._fresh_bank()
         bank_2_asc = self._fresh_bank()
-        bank_3 = self._fresh_bank()
+        bank_3_asc = self._fresh_bank()
+        bank_4_apex = self._fresh_bank()
+        bank_3_desc = self._fresh_bank()
         bank_2_desc = self._fresh_bank()
         bank_1_desc = self._fresh_bank()
 
@@ -893,16 +939,20 @@ class V12Model(nn.Module):
 
         prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
         prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
+        prev_b3d = [mx.stop_gradient(r) for r in self._prev_bank_3_desc]
         prev_kernel = [mx.stop_gradient(self._prev_kernel_algedonic)]
 
         pass_configs = [
             (0, False, lambda: [bank_0, prev_b1d, prev_kernel]),
             (1, False, lambda: [bank_0, bank_1_asc, prev_b2d, prev_kernel]),
-            (2, False, lambda: [bank_0, bank_1_asc, bank_2_asc, prev_kernel]),
-            (3, True,  lambda: [bank_0, bank_1_asc, bank_2_asc, bank_3]),
-            (4, True,  lambda: [bank_0, bank_1_asc, bank_2_desc, bank_3]),
+            (2, False, lambda: [bank_0, bank_1_asc, bank_2_asc, prev_b3d, prev_kernel]),
+            (3, False, lambda: [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, prev_kernel]),
+            (4, True,  lambda: [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex]),
+            (5, True,  lambda: [bank_0, bank_1_asc, bank_3_desc, bank_4_apex]),
+            (6, True,  lambda: [bank_0, bank_1_asc, bank_2_desc, bank_4_apex]),
         ]
-        target_banks = [bank_1_asc, bank_2_asc, bank_3, bank_2_desc, bank_1_desc]
+        target_banks = [bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex,
+                        bank_3_desc, bank_2_desc, bank_1_desc]
 
         for pi, (pass_idx, is_desc, get_readable) in enumerate(pass_configs):
             h_in = self._entropy_proxy(x)
@@ -1093,7 +1143,8 @@ class V12Model(nn.Module):
                 ) if cycle_continue_gates else 1.0
                 all_effective_cycles.append(eff)
 
-            if not is_desc and pi == 2 and asc_gate_mx:
+            # After pass 3 (L3_apex, pi==3): pack asc gates + compute emphasis
+            if not is_desc and pi == 3 and asc_gate_mx:
                 asc_gate_flat = mx.concatenate(
                     [g.reshape(-1) for g in asc_gate_mx])
                 asc_gate_vector = mx.concatenate([
@@ -1102,7 +1153,9 @@ class V12Model(nn.Module):
                 ])
                 asc_gate_bank = [asc_gate_vector]
 
-            if not is_desc and pi == 2:
+            if not is_desc and pi == 3:
+                # Emphasis uses banks 1_asc, 2_asc, 3_asc
+                # (target_banks[0,1,2] = bank_1_asc, bank_2_asc, bank_3_asc)
                 emphasis_parts = []
                 for bank in [target_banks[0], target_banks[1], target_banks[2]]:
                     for reg in bank:
@@ -1147,9 +1200,11 @@ class V12Model(nn.Module):
 
         bank_1_asc = target_banks[0]
         bank_2_asc = target_banks[1]
-        bank_3 = target_banks[2]
-        bank_2_desc = target_banks[3]
-        bank_1_desc = target_banks[4]
+        bank_3_asc = target_banks[2]
+        bank_4_apex = target_banks[3]
+        bank_3_desc = target_banks[4]
+        bank_2_desc = target_banks[5]
+        bank_1_desc = target_banks[6]
 
         # Update algedonic buffers
         α = self._algedonic_ema
@@ -1158,6 +1213,9 @@ class V12Model(nn.Module):
             for i in range(self.cfg.n_registers)]
         self._prev_bank_2_desc = [
             mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
+            for i in range(self.cfg.n_registers)]
+        self._prev_bank_3_desc = [
+            mx.stop_gradient(α * self._prev_bank_3_desc[i] + (1 - α) * bank_3_desc[i])
             for i in range(self.cfg.n_registers)]
 
         if hasattr(self.combinator_dispatch, '_dispatch_weights'):
@@ -1184,9 +1242,9 @@ class V12Model(nn.Module):
                 α * self._prev_retrieval_regs[i] + (1 - α) * ret_regs_inst[i])
             for i in range(self.cfg.n_retrieval_registers)]
 
-        # S5 reweighting
-        all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3,
-                     bank_2_desc, bank_1_desc]
+        # S5 reweighting — 8 banks
+        all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
+                     bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc]
         meta_gates = self.s5_reweight(all_banks, raw_deltas)
         mx.eval(meta_gates)
 
@@ -1212,7 +1270,8 @@ class V12Model(nn.Module):
             total_gated = total_gated + effective_gates[i] * pass_deltas[i]
         x = x - total_ungated + total_gated
 
-        meta_banks_list = [bank_0, bank_1_desc, bank_2_desc, bank_3]
+        # Meta-S4: [bank_0, bank_1_desc, bank_3_desc, bank_4_apex] = 4 banks
+        meta_banks_list = [bank_0, bank_1_desc, bank_3_desc, bank_4_apex]
         x = self.meta_s4(meta_banks_list, x)
         x = self.output_norm(x)
 
@@ -1220,7 +1279,8 @@ class V12Model(nn.Module):
         reg_norms = {}
         named_banks = {
             "bank_0": bank_0, "bank_1_asc": bank_1_asc,
-            "bank_2_asc": bank_2_asc, "bank_3": bank_3,
+            "bank_2_asc": bank_2_asc, "bank_3_asc": bank_3_asc,
+            "bank_4_apex": bank_4_apex, "bank_3_desc": bank_3_desc,
             "bank_2_desc": bank_2_desc, "bank_1_desc": bank_1_desc,
         }
         for name, bank in named_banks.items():

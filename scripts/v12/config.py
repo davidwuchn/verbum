@@ -97,14 +97,29 @@ class V12Config:
     # Descending arm stride direction: coarse→fine (TST-aligned)
     desc_stride_reverse: bool = True
 
-    # Fractal stride bands (MERA topology, unchanged from v11)
+    # Fractal stride bands (MERA topology)
+    # v12: 7 passes (3 asc + apex + 3 desc) — symmetric hourglass.
+    # Each level handles a narrow stride band. Adjacent levels share
+    # 1-2 strides for inter-level communication.
+    #
+    # stride indices: 0=s1, 1=s8, 2=s16, 3=s32, 4=s64, 5=s128, 6=s256, 7=s512, 8=s1024
+    #
+    # L0↑ (fine):     [0,1,2]     → s1,s8,s16           fine→coarse
+    # L1↑ (medium):   [1,2,3,4]   → s8,s16,s32,s64      fine→coarse
+    # L2↑ (coarse):   [3,4,5,6]   → s32,s64,s128,s256   fine→coarse
+    # L3  (apex):     [5,6,7,8]   → s128,s256,s512,s1024 fine→coarse
+    # L2↓ (coarse):   [3,4,5,6]   → s256,s128,s64,s32   coarse→fine
+    # L1↓ (medium):   [1,2,3,4]   → s64,s32,s16,s8      coarse→fine
+    # L0↓ (fine):     [0,1,2]     → s16,s8,s1           coarse→fine
     fractal_stride_bands: bool = True
     stride_band_ranges: tuple[tuple[int, int], ...] = (
-        (0, 4),   # L0↑: indices 0-3 → s1,s8,s16,s32
-        (2, 7),   # L1↑: indices 2-6 → s16,s32,s64,s128,s256
-        (4, 9),   # L2:  indices 4-8 → s64,s128,s256,s512,s1024
-        (2, 7),   # L1↓: indices 2-6 → s16..s256 (reversed by desc_stride_reverse)
-        (0, 4),   # L0↓: indices 0-3 → s1..s32 (reversed by desc_stride_reverse)
+        (0, 3),   # L0↑: indices 0-2 → s1,s8,s16
+        (1, 5),   # L1↑: indices 1-4 → s8,s16,s32,s64
+        (3, 7),   # L2↑: indices 3-6 → s32,s64,s128,s256
+        (5, 9),   # L3:  indices 5-8 → s128,s256,s512,s1024
+        (3, 7),   # L2↓: indices 3-6 → s32..s256 (reversed by desc_stride_reverse)
+        (1, 5),   # L1↓: indices 1-4 → s8..s64 (reversed by desc_stride_reverse)
+        (0, 3),   # L0↓: indices 0-2 → s1..s16 (reversed by desc_stride_reverse)
     )
 
     # ── Abstraction slots (S4→S5 composed abstractions) ──
