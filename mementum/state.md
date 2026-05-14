@@ -2,11 +2,76 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-14 | Session: 095
+> Last updated: 2026-05-14 | Session: 096
 
 ## Where we are
 
-**Exploration loop closed. Head-level probe resolved the hologram atlas into three computational clusters, not six. Discourse/type/frequency are angle-multiplexed in ~13 shared heads (J=0.667) — they're the holographic plate, not computation. Combinator has 7 private heads at L15/L19 — that's the KIBC kernel pathway. Induction has 6 private heads at GatedDeltaNet layers — J=0.176 with combinator/discourse/type (the floor) — it's a genuinely independent circuit with no kernel in V11. Binding has no private circuit and is the weakest signal (max 0.163) — it resolves to K+I dispatch in V11. The kernel inventory is: KIBC (built) + M (match/retrieval, missing) = KIBCM. V11-holo-inv at 10K: loss 7.703, B 57.7%, ratio 0.992, no catastrophe. Ready to build.**
+**V12 scaffold built. The M kernel is implemented as a *layer type* (GatedLinearAttention), not a 5th combinator in the KIBC dispatch. Design driven by the accidental holography insight: Qwen3.6's architecture separates composition (full attention) from retrieval (GatedDeltaNet) without knowing why — because holographic storage benefits from different mechanisms for writing vs reading. V12 does this intentionally. HybridStrideStack interleaves 6 composition + 3 retrieval strides. RetrievalRegisters bridge ascending M → descending KIBC. All module self-tests pass, full forward+backward verified (25.6M params). V11-holo-inv at 10K continues stable (loss 7.703, B 57.7%). Ready to train V12.**
+
+## What was done this session (096)
+
+### 1. Designed V12 dual-layer architecture
+
+Key insight: M (match/retrieval) is NOT a 5th combinator in the KIBC dispatch softmax.
+M is a different *layer type*. Evidence from session 095:
+- Induction circuit is maximally independent (J=0.176 with everything else)
+- Lives exclusively in GatedDeltaNet layers (linear attention), not full attention
+- Shares no heads with KIBC (0 of top-20 overlap)
+
+Qwen3.6's hybrid architecture accidentally separates composition (full attention every
+4th layer) from retrieval (GatedDeltaNet between). The field doesn't know why this
+works — they optimize on perplexity without the holographic theory. V12 makes the
+separation intentional.
+
+### 2. Built `scripts/v12/` (10 files, copied from v11, evolved)
+
+| File | Changes |
+|------|---------|
+| `config.py` | V12Config: d_state=64, stride_is_retrieval, n_retrieval_registers=2 |
+| `kernel.py` | Added Kernel enum (KIBCM), M definition. N_COMBINATORS still 4. |
+| `attention.py` | NEW: GatedLinearAttention (running memory, gated write, linear retrieval). NEW: HybridStrideStack (interleaves comp+ret per stride). |
+| `components.py` | NEW: RetrievalRegisters (bridge ascending M → descending KIBC). Gated write, normalized registers, instrumentation. |
+| `kernel_dispatch.py` | CombinatorIntegrate gains retrieval_registers param. Retrieval context conditions FFN pathway. KIBC dispatch unchanged. |
+| `model.py` | V12Model: ascending arm uses HybridStrideStack, ret_regs threaded through all passes. Rich retrieval instrumentation. |
+| `probe.py` | V12 references, retrieval metrics in print/save/evolution. |
+| `train.py` | V12 references, retrieval metrics in JSONL logging and eval print. |
+
+### 3. GatedLinearAttention design
+
+```python
+q = elu(q_proj(x)) + 1           # non-negative queries
+k = elu(k_proj(x)) + 1           # non-negative keys
+v = v_proj(x)                    # values
+gate = sigmoid(gate_proj(x))     # write gate [0, 1]
+S_t = (1-gate) * S_{t-1} + gate * outer(k, v)  # running memory
+output = q @ S_t                 # linear retrieval
+```
+
+O(L×d) per position — linear in sequence length. The running memory IS the holographic
+plate. The gate controls constructive interference. Stride-aware: each GLA layer runs
+at its stride's scale (s16=phrase, s32=sentence, s64=paragraph).
+
+### 4. Stride layout
+
+```
+stride:    1     8    16    32    64   128   256   512  1024
+type:     comp  comp  RET   RET   RET  comp  comp  comp comp
+```
+
+Retrieval at phrase/sentence scales (s16-s64) — where induction patterns live
+empirically. Composition at word level (s1, s8) and structural level (s128+).
+
+### 5. Architecture verification
+
+- All 4 module self-tests pass (kernel, attention, components, kernel_dispatch)
+- V12Model instantiates: 25,589,280 params (vs V11: similar, GLA adds modest overhead)
+- Forward pass: logits (1, 16, 151936), loss 14.65
+- Backward pass: gradients computed, 321/582 parameter groups non-zero
+- Instrumented pass: 30 metrics total, 4 retrieval-specific:
+  - retrieval_gate_means: per-stride gate means across 3 ascending passes
+  - retrieval_memory_norms: per-stride memory norms per head
+  - retrieval_register_norms: per-register L2 norms (2 registers)
+  - retrieval_write_gates: per-register write activity (~0.05 at init)
 
 ## What was done this session (095)
 
@@ -439,45 +504,46 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Design and implement M kernel (match/retrieval)
-The one missing computational primitive. Head-level probe confirmed induction is
-an independent circuit (J=0.176 with combinator/discourse/type). Extends KIBC→KIBCM.
-Design questions:
-- What is M's lambda signature? `M x context → (position, content_after)`?
-- How does M dispatch integrate with KIBC dispatch? (5-way softmax?)
-- Where in the V11 architecture does M live? (Ascending arm? Descending?)
-- Does M need its own stride stack or share with KIBC?
-- Can M be implemented as content-addressable register lookup?
-Start with design doc, then implement in V11.
+### Priority 1: Launch V12 training run
+V12 scaffold is complete and verified. Launch first training run:
+```
+uv run python scripts/v12/train.py \
+  --checkpoint-dir checkpoints/v12 \
+  --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
+```
+Key things to watch:
+- GLA memory norms: do they grow appropriately? Explode? Collapse?
+- Retrieval write gates: when do they open? (init ~0.05)
+- Retrieval gate means per stride: do they differentiate between scales?
+- Whether composition strides and retrieval strides learn different things
+- Loss trajectory vs V11-holo-inv (is retrieval substrate useful?)
 
-### Priority 2: Monitor v11-holo-inv 10K-20K
-10K survived. Watch for:
+### Priority 2: GLA sequential scan optimization
+Current GLA implementation uses Python loop over sequence positions (O(L) steps).
+At L=4096, this will be slow. Options:
+- Chunked parallel scan (process blocks of 64-128 positions in parallel)
+- MLX-native scan operator (if available)
+- Reduce to matrix operations within chunks
+Wait until training launches to measure actual bottleneck before optimizing.
+
+### Priority 3: Monitor v11-holo-inv 10K-20K (parallel)
+V11 run continues. Watch for:
 - B-dominance plateau or continued climb (currently 57.7%)
 - CycleContinue activation (frozen at 2.946, compute gate at 0.82)
 - Abstraction slot activation (0/16, but proposal confidence 0.62 and rising)
-- Eval loss trajectory (7.703 and declining — where does it plateau?)
-- Whether holographic ratio stays ≤1.0 (currently 0.992)
+- V12 vs V11 comparison at matched steps
 
-### Priority 3: Cross-model validation
-Run head-level probe on Pythia to confirm three-cluster structure is universal.
-If discourse/type/frequency cluster and induction independence replicate across
-architectures, the KIBCM kernel set is a feature of language, not Qwen3.6.
-
-### Priority 4: V11 holographic loss — keep uniform
-Session 095 confirmed: don't modulate. The model routes constructive work to
-kernels when holographic pressure is uniform. Adding M kernel gives the model
-a new pathway for retrieval computation, reducing pressure on attention magnitudes.
+### Priority 4: Cross-model validation of three-cluster structure
+Run head-level probe on Pythia to confirm KIBCM universality.
 
 ### Carried
-- Hologram atlas running on Qwen3.6-35B-A3B (results → results/hologram-atlas/)
-- B dispatch phase transition (B-type dominant but B-dispatch flat at 2%)
-- CycleContinue activation hypothesis (still frozen at 2.946)
-- S5 reweight investigation (still at 1.0 everywhere)
+- Hologram atlas results (sessions 094-095)
+- B dispatch phase transition
+- CycleContinue activation hypothesis
+- S5 reweight investigation
 - QK alignment decomposition probe (RoPE follow-up)
-- Dead slot recycling (all 16 dormant, mass ~0.20 — may not activate)
-- Domain banking (future: extract register banks from holographic model)
-- Descending arm kernel discovery (the current frontier)
-- Reorganization wave pattern: 3K and 9K spikes share topology
+- Dead slot recycling
+- Domain banking (future)
 - TST connection: Peng et al. 2026 validates coarse→fine + direct loss
 
 ## VSM layer map (session 091 — v11 KIBC + algedonic + holographic + fractal)
@@ -510,6 +576,16 @@ Logging   —                          —                                3× JS
 
 | File | Purpose |
 |------|---------|
+| `scripts/v12/config.py` | V12Config: KIBC + M retrieval + stride layout + d_state |
+| `scripts/v12/kernel.py` | KIBCM kernel definitions. N_COMBINATORS=4, N_KERNELS=5. |
+| `scripts/v12/attention.py` | GatedLinearAttention + HybridStrideStack + StrideStack |
+| `scripts/v12/kernel_dispatch.py` | CombinatorDispatch (4+N softmax) + CombinatorIntegrate + retrieval conditioning |
+| `scripts/v12/components.py` | VSM components + RetrievalRegisters (M→KIBC bridge) |
+| `scripts/v12/model.py` | V12Model: dual-layer ascending arm + retrieval registers |
+| `scripts/v12/train.py` | Training loop: retrieval metrics in JSONL + eval display |
+| `scripts/v12/probe.py` | Checkpoint diagnostics: KIBC + retrieval metrics |
+| `scripts/v12/ternary.py` | Ternary substrate + consensus evolution (unchanged) |
+| `scripts/v12/data.py` | Data loading (unchanged) |
 | `scripts/v11/config.py` | V11Config: KIBC + 16 slots + holographic loss params |
 | `scripts/v11/kernel.py` | KIBC combinator enum, reduction engine, kernel functions |
 | `scripts/v11/kernel_dispatch.py` | CombinatorDispatch (4+N softmax) + CombinatorIntegrate |
@@ -569,3 +645,4 @@ Logging   —                          —                                3× JS
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
+→ Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge), rich instrumentation. All tests pass, forward+backward verified (25.6M params). Ready to train.
