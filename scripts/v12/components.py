@@ -846,11 +846,27 @@ class CycleContinue(nn.Module):
         self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
         self.gate_proj.bias = mx.zeros_like(self.gate_proj.bias)
 
-    def __call__(self, registers: list[mx.array]) -> mx.array:
-        """Compute continuation gate from register state.
+    def __call__(
+        self,
+        registers: list[mx.array],
+        budget_bias: mx.array | None = None,
+    ) -> mx.array:
+        """Compute continuation gate from register state + S4 budget.
 
         registers: list of n_registers register vectors, each (d_reg_real,)
+        budget_bias: scalar from S4 intelligence — shifts the gate logit.
+            Negative → close gate (S4 says "simple, stop early").
+            Positive → open gate (S4 says "complex, keep going").
+            None or 0.0 → no S4 influence (backward compatible).
+
         Returns: scalar gate in [0, 1]
+
+        The S4→S3 channel (Beer's VSM):
+          S4 (intelligence) sets POLICY by observing the residual stream.
+          S3 (control) EXECUTES by gating cycle contributions.
+          Without this channel, CycleContinue only sees S3's own register
+          state — a closed loop with no intelligence input. S4's budget
+          bias opens the loop: intelligence tells control when to stop.
         """
         reg_flat = _flatten_registers(registers)
         reg_flat = self.input_norm(reg_flat)
@@ -858,6 +874,13 @@ class CycleContinue(nn.Module):
         # Guarantees gradient flow even if norms drift. The gate
         # can never fully saturate — always learnable.
         logit = mx.tanh(self.gate_proj(reg_flat)) * 4.0
+
+        # S4 budget bias: additive shift on the logit.
+        # budget_bias ∈ [-4, +4] from S4's tanh clamp.
+        # Combined logit clamped to [-8, +8] → sigmoid still well-behaved.
+        if budget_bias is not None:
+            logit = logit + budget_bias
+
         return mx.sigmoid(logit).reshape(())  # scalar
 
 

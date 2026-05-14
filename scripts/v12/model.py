@@ -240,6 +240,24 @@ class V12Model(nn.Module):
         self._emphasis_bias = mx.zeros((N_COMBINATORS,))
         self._emphasis_ema = 0.95
 
+        # ── S4→S3 cycle budget: intelligence → control channel ──
+        # S4 observes the residual stream and register state, then
+        # produces a scalar bias that shifts CycleContinue's gate.
+        # This is Beer's S4→S3 policy channel: intelligence tells
+        # control when to stop cycling.
+        #
+        # Simple content (pronouns, punctuation): bias < 0 → fewer cycles
+        # Complex content (lambda application, nested binding): bias > 0 → more
+        #
+        # Zero-init: starts inert (CycleContinue behaves exactly as before).
+        # tanh×4 clamp: bias ∈ [-4, +4], matching CycleContinue's logit range.
+        self.cycle_budget_proj = nn.Linear(emphasis_input_dim, 1)
+        self.cycle_budget_proj.weight = mx.zeros_like(
+            self.cycle_budget_proj.weight)
+        self.cycle_budget_proj.bias = mx.zeros_like(
+            self.cycle_budget_proj.bias)
+        self._cycle_budget_bias = mx.array(0.0)
+
         # ── S4→S5 abstraction proposal pathway ────────────────
         if cfg.n_abstraction_slots > 0:
             self.proposal_head = S4ProposalHead(
@@ -456,7 +474,8 @@ class V12Model(nn.Module):
                          target_bank, embed_context=None,
                          dispatch_bias=None,
                          proposal_delta=None,
-                         ret_regs=None):
+                         ret_regs=None,
+                         cycle_budget_bias=None):
         x_before = x
         raw_phases = []
         phase_gates = []
@@ -547,7 +566,8 @@ class V12Model(nn.Module):
 
                 # S3 continuation
                 if cycle < max_cycles - 1 and max_cycles > 1:
-                    cont_gate = self.cycle_continue(target_bank)
+                    cont_gate = self.cycle_continue(
+                        target_bank, budget_bias=cycle_budget_bias)
                     pass_alarm['cycle_continue_gates'].append(cont_gate)
                     cumulative_gate = cumulative_gate * cont_gate
 
@@ -690,6 +710,15 @@ class V12Model(nn.Module):
             self._emphasis_ema * self._emphasis_bias
             + (1.0 - self._emphasis_ema) * emphasis_bias)
 
+        # ── S4→S3 cycle budget bias ───────────────────────────
+        # Same input as emphasis (ascending register banks).
+        # S4 decides: is this content worth multiple dispatch cycles?
+        raw_budget = self.cycle_budget_proj(emphasis_input).reshape(())
+        cycle_budget_bias = 4.0 * mx.tanh(raw_budget)  # [-4, +4]
+        self._cycle_budget_bias = mx.stop_gradient(
+            self._emphasis_ema * self._cycle_budget_bias
+            + (1.0 - self._emphasis_ema) * cycle_budget_bias)
+
         # ── S4→S5 abstraction proposal ─────────────────────────
         proposal_delta = None
         if self.cfg.n_abstraction_slots > 0:
@@ -738,7 +767,8 @@ class V12Model(nn.Module):
             bank_3_desc, embed_context=x_embed,
             dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs)
+            ret_regs=ret_regs,
+            cycle_budget_bias=cycle_budget_bias)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -752,7 +782,8 @@ class V12Model(nn.Module):
             bank_2_desc, embed_context=x_embed,
             dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs)
+            ret_regs=ret_regs,
+            cycle_budget_bias=cycle_budget_bias)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -766,7 +797,8 @@ class V12Model(nn.Module):
             bank_1_desc, embed_context=x_embed,
             dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs)
+            ret_regs=ret_regs,
+            cycle_budget_bias=cycle_budget_bias)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -989,6 +1021,7 @@ class V12Model(nn.Module):
         asc_gate_mx = []
         asc_gate_bank = None
         dispatch_bias_inst = None
+        cycle_budget_bias_inst = None
         all_cycle_continue_gates = []
         all_effective_cycles = []
         proposal_delta_inst = None
@@ -1107,7 +1140,9 @@ class V12Model(nn.Module):
                     x = x_cycle_start + cumulative_gate * cycle_contribution
 
                     if cycle < max_cycles - 1 and max_cycles > 1:
-                        cont_gate = self.cycle_continue(target)
+                        cont_gate = self.cycle_continue(
+                            target, budget_bias=cycle_budget_bias_inst
+                            if cycle_budget_bias_inst is not None else None)
                         mx.eval(cont_gate)
                         cycle_continue_gates.append(float(cont_gate.item()))
                         cumulative_gate = cumulative_gate * cont_gate
@@ -1234,6 +1269,15 @@ class V12Model(nn.Module):
                     self._prev_alarm_dispatch_bias)
                 dispatch_bias_inst = emphasis_bias_inst + prev_alarm_bias_inst
                 mx.eval(dispatch_bias_inst)
+
+                # S4→S3 cycle budget bias (instrumented path)
+                raw_budget_inst = self.cycle_budget_proj(
+                    emphasis_input).reshape(())
+                cycle_budget_bias_inst = 4.0 * mx.tanh(raw_budget_inst)
+                mx.eval(cycle_budget_bias_inst)
+                self._cycle_budget_bias = mx.stop_gradient(
+                    self._emphasis_ema * self._cycle_budget_bias
+                    + (1.0 - self._emphasis_ema) * cycle_budget_bias_inst)
 
                 # S4→S5 abstraction proposal
                 if self.cfg.n_abstraction_slots > 0:
@@ -1505,6 +1549,8 @@ class V12Model(nn.Module):
             "combinator_embedding_norms": comb_emb_norms,
             "desc_max_cycles": self.cfg.desc_max_cycles,
             "cycle_inject_gate": float(cig.item()),
+            "cycle_budget_bias": float(cycle_budget_bias_inst.item())
+                if cycle_budget_bias_inst is not None else 0.0,
             "cycle_continue_gates": all_cycle_continue_gates,
             "effective_cycles": all_effective_cycles,
             # ── Retrieval metrics (v12) ────────────────────────
