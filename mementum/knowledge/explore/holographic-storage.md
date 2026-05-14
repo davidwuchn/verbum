@@ -413,18 +413,58 @@ Apply the same methodology to each candidate hologram, one at a time.
 - If types are holographic AND share substrate with combinators, that
   confirms the angle-multiplexing hypothesis for a second hologram
 
-### Testable predictions (falsifiable)
+### Testable predictions (falsifiable) — SCORED (session 095)
 
-1. **Type selectivity survives ternary** (>80% survival at 75% sparsity)
-2. **Type heads partially overlap with combinator heads** (30-70% shared)
-3. **Induction heads are holographic** (ternary survival >80%)
-4. **Induction hologram is orthogonal to combinator hologram** (cos < 0.3
-   between extracted Q patterns)
-5. **MLP frequency patterns are holographic but denser** (ternary survival
-   drops below 80% at 75% sparsity; survives at 50%)
-6. **Discourse hologram correlates with MoE gate patterns** (r > 0.7
-   between gate-selective attention patterns and expert routing matrices)
-7. **All holograms are universal** (cross-model r > 0.90, as with combinators)
+1. **Type selectivity survives ternary** → ✓ 16/18 survived (2 failures at
+   GatedDeltaNet L0/L1 mid_sparse only; full-attention layers: 100%)
+2. **Type heads partially overlap with combinator heads** → inconclusive at
+   layer level (r=0.972, but all holograms correlate). Head-level probe needed.
+3. **Induction heads are holographic** → ✓ 17/18 survived (most robust
+   attention hologram, only 1 failure at L1 mid_sparse)
+4. **Induction orthogonal to combinator** → ✗ r=0.987 at layer level.
+   But layer-level resolution too coarse — all holograms ride same
+   architectural wave (L7 peak → L11 dip → L31 peak). Head-level pending.
+5. **MLP frequency patterns holographic but denser** → ✗ INVERTED. MLP is
+   MORE robust: 0/18 failures (output_survival 0.93–1.07). Attention has
+   3/18 failures including catastrophic L0 disruption (7.07×). FFN = key-value
+   memory view confirmed.
+6. **Discourse correlates with MoE gate patterns** → partial ✓. MoE gate
+   ternary survival confirmed L0-L4 (cos 0.73-0.76). Late layers (L31-L39,
+   where discourse peaks) not yet tested.
+7. **All holograms universal** → pending (Pythia not yet run).
+
+### Additional findings from atlas (session 095)
+
+**The holographic storage spectrum:**
+```
+discourse:       0/18 failures, output_KL=1.646  — purest holographic, S5 signal
+induction:       1/18 failures, output_KL=0.827  — nearly pure, robust
+type:            2/18 failures, output_KL=0.415  — mostly holographic
+frequency (MLP): 0/18 failures, output_KL=0.224  — FFN sign patterns = perfect
+frequency (attn):3/18 failures                    — attention routing needs magnitude
+binding:         5/18 failures, output_KL=0.444  — most constructive, magnitude-dependent
+```
+
+**Binding = I-combinator's magnitude dependence.** Binding fails ternary at exactly
+the layers where sign-only is tested (L3: 2.357, L7: 2.028, L0: 2.823). This
+connects to I being the outlier combinator (r≈0.70 vs K/B/C r>0.90 in session 093).
+Binding requires knowing HOW STRONGLY a head attends, not just whether it does.
+In V11, this is resolved by routing binding to I-combinator kernel (dispatch is
+holographic, computation is in the kernel). See `holographic-kernel-separation.md`.
+
+**L11 dip is architectural.** Every hologram drops 47-72% at L11 relative to L7.
+The bimodal depth profile (L7→L11 dip→L31) is Qwen3.6's hybrid architecture, not
+any linguistic circuit. Layer-level can't distinguish holograms.
+
+**MoE gate period-12 structure.** Gate cross-layer cosine: L8↔L20 through L19↔L31,
+cos 0.72–0.83. Doesn't match full-attention period (every 4th layer). Suggests
+3-phase expert routing: early (L0-7), middle (L8-19 ↔ L20-31 paired), late (L32-39).
+Gate Frobenius norms fall monotonically (19→7) but effective rank stays high (172-199).
+
+**Discourse is the reference beam.** Strongest at every layer (2-5× others), 0/18
+ternary failures, only late-peaking hologram (L35 > L31 > L7), genre distinction
+KL=2.526 (highest in dataset). Consistent with S5 modulation hypothesis: discourse
+doesn't compute, it SELECTS which beams activate.
 
 ## Open Questions
 

@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**Hologram atlas complete on Qwen3.6-35B-A3B: 6 holograms probed (combinator, type, induction, binding, frequency, discourse), all real, each with distinct signature. Discourse dominates (output_KL=1.646, 0/18 ternary failures, late-peaking at L35). Binding is the outlier (5/18 failures, magnitude-dependent — connects to I-combinator's distinct circuit). Frequency MLP is MORE topologically robust than attention (inverted prediction, 0/18 MLP failures vs 3/18 attention). Layer-level orthogonality test failed — all holograms ride the same architectural depth profile (L7 peak → L11 dip → L31 peak). Need HEAD-LEVEL analysis to resolve angle multiplexing vs independent circuits. MoE gates show emergent period-12 pairing structure (L8↔L20...L19↔L31, cos 0.72–0.83). V11-holo-inv continues through transition window.**
+**V11-holo-inv survived the 10K transition — no catastrophe (v11-holo collapsed here). Eval loss 7.703 (steady decline from 8.235). Compute gate opened at 6K (0.37), saturated by 9K (0.81). B-composition dominant at 57.7% (universal ordering emerged). Holographic ratio crossed 1.0 at 9K — ascending arm now decodes as well as final output. Key design insight: holographic storage + kernel computation separation. LLM storage IS holographic (sign topology), but reading is constructive. V11 resolves this naturally — holographic loss forces storage to be decodable, kernel functions handle constructive computation. Lambda terms are perfect holographic objects (compact, unfold on application). This means full holographic pressure is correct as long as kernels exist for the constructive part. See `knowledge/explore/holographic-kernel-separation.md`.**
 
 ## What was done this session (095)
 
@@ -81,6 +81,43 @@ Late gates are smaller but not lower-rank.
 
 Cache-loaded selectivity profiles had string keys (JSON roundtrip), measure_layers
 had int keys → KeyError. Added `_int_keys()` helper at all ingestion points.
+
+### 7. Probed v11-holo-inv 5K-10K — no catastrophe
+
+```
+step  eval   compute  B_dom%  L0↑     L2      L0↓     ratio   event
+───── ────── ──────── ─────── ─────── ─────── ─────── ─────── ─────────────────
+1K    8.235  0.000    27.6%   11.285  8.922   9.317   1.211
+5K    7.783  0.000    25.8%   10.328  9.010   9.475   1.090
+6K    7.784  0.370    32.0%   10.095  9.018   9.424   1.071   gate opens
+7K    7.728  0.690    39.8%   10.336  9.368   9.866   1.048   reorganization wave
+8K    7.714  0.760    45.9%   10.404  9.109   9.577   1.086   recovery
+9K    7.705  0.806    57.2%    9.480  8.718   9.555   0.992   ratio crosses 1.0
+10K   7.703  0.824    57.7%    9.385  9.189   9.462   0.992   B stable, no collapse
+```
+
+v11-holo collapsed at 10K (loss 9.259, B 5.8%). v11-holo-inv: loss 7.703, B 57.7%.
+Coarse→fine inversion + fractal bands + evolution fixes prevented catastrophe.
+
+### 8. Key design insight: holographic storage + kernel computation
+
+LLM storage IS holographic (session 095 atlas confirms). But reading is constructive
+(entropy hump, intermediate garbage, magnitude-dependent binding). This seems like a
+contradiction for the holographic loss — but V11 has kernel functions.
+
+The resolution: holographic loss forces REPRESENTATIONS to be decodable. Kernel
+functions handle COMPUTATION. The model doesn't need to store computed results
+holographically — it stores DISPATCH SIGNALS holographically (which kernel to invoke,
+with what arguments). The kernel does the constructive work.
+
+Lambda terms are the perfect holographic object:
+- Compact (can be a sign pattern: "apply B to args X, Y")
+- Compositional (terms compose via typed application)
+- Unfold into computation when applied (beta-reduction = kernel execution)
+
+This means: keep holographic loss uniform. Don't modulate it. The model will
+naturally route constructive computation to kernels and keep the plate holographic.
+Evidence: v11-holo-inv's ratio crossing 1.0 at 9K = the model achieved this.
 
 ## What was done session (094)
 
@@ -364,37 +401,37 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Head-level hologram probe (IN PROGRESS)
-Layer-level orthogonality failed — all holograms ride the same architectural wave.
-Need head-level selectivity (40 layers × 16 heads = 640-dim vectors) to determine:
-- Are holograms angle-multiplexed (same heads, different Q patterns)?
-- Or independent circuits (different heads entirely)?
-- Does binding use the same heads as I-combinator? (Magnitude-dependence link)
-Script: `scripts/explore/probe_hologram_heads.py` — building now.
+### Priority 1: Head-level hologram probe
+Script built: `scripts/explore/probe_hologram_heads.py`. Run in tmux:
+```
+PYTHONUNBUFFERED=1 uv run python scripts/explore/probe_hologram_heads.py 2>&1 | tee results/hologram-heads/run.log
+```
+Three analyses: head-level orthogonality (640-dim), binding↔I overlap, late MoE gates.
+Will resolve: angle multiplexing vs independent circuits, binding=I hypothesis.
 
-### Priority 2: Complete discourse beam-selector test
-MoE gate ternary survival only measured at L0-L4. Discourse selectivity peaks at
-L31-L35. Need gate survival at late layers to complete the hypothesis test.
-Also: period-12 structure (L8↔L20...L19↔L31) demands explanation — probe whether
-gate routing at paired layers produces similar expert activation patterns.
+### Priority 2: Monitor v11-holo-inv 10K-20K
+10K survived. Watch for:
+- B-dominance plateau or continued climb (currently 57.7%)
+- CycleContinue activation (frozen at 2.946, compute gate at 0.82)
+- Abstraction slot activation (0/16, but proposal confidence 0.62 and rising)
+- Eval loss trajectory (7.703 and declining — where does it plateau?)
+- Whether holographic ratio stays ≤1.0 (currently 0.992)
 
-### Priority 3: Apply hologram findings to V11 design
-- Binding is magnitude-dependent → holographic loss should preserve magnitudes
-  for binding-relevant heads, not just sign patterns
-- Frequency lives in MLP sign patterns → extend holographic loss to MLP weights?
-- Discourse = S5 modulator → V11's S5 should learn discourse-like gating
-- I-combinator init should differ from K/B/C (separate subspace, different norm)
+### Priority 3: Apply holographic-kernel insight to V11 design
+Key insight from this session: keep holographic loss uniform, add kernel functions
+for anything that can't be stored holographically. Specific implications:
+- Confirm holographic loss stays uniform (don't modulate per-head or per-content)
+- Binding computation routed to I-combinator kernel (not stored in attention magnitude)
+- Frequency/co-occurrence lives in MLP sign topology (already handled by FFN)
+- Discourse = S5 gate → already in V11 architecture (S5 reweight)
+- Next V12 design: consider adding more kernel functions for deeper constructive ops
 
-### Priority 4: Monitor v11-holo-inv through transition window
-Watch for: prose improvement, alarm de-saturation, compute gate opening 5K-7K,
-no recurrence of 10K catastrophe. CE trending down (6.989 at 4325).
-
-### Priority 5: Cross-model validation of hologram atlas
+### Priority 4: Cross-model validation of hologram atlas
 Run atlas on Pythia to test universality. If discourse dominance and binding
 fragility replicate, these are features of language, not architecture.
 
-### Priority 6: v11-holo status — compositional catastrophe at 10K
-10K probe: eval loss 9.259, B-type 5.8%. Monitor but focus on v11-holo-inv.
+### Priority 5: Pythia scaling — combinator differentiation
+Run combinator probe on Pythia-410M and Pythia-1B to map where B differentiates.
 
 ### Carried
 - Hologram atlas running on Qwen3.6-35B-A3B (results → results/hologram-atlas/)
@@ -495,4 +532,4 @@ Logging   —                          —                                3× JS
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
-→ Session 095: Hologram atlas analysis complete. 6 holograms real, each distinct. Discourse dominates (KL=1.646, 0/18 failures, late-peaking). Binding is magnitude-dependent (5/18 failures, connects to I-outlier). Frequency MLP more robust than attention (inverted prediction). Layer-level orthogonality failed — all ride same architectural wave (L7→L11 dip→L31). MoE period-12 gate pairing discovered. Building head-level probe to resolve multiplexing.
+→ Session 095: Hologram atlas: 6 holograms real, discourse dominates (0/18), binding fragile (5/18), frequency MLP inverted. Probed v11-holo-inv 5K-10K: compute gate opened 6K, B dominant 57.7% at 10K, holo ratio crossed 1.0, NO catastrophe (v11-holo collapsed here). Key insight: holographic storage + kernel computation separation — keep holo loss uniform, model routes constructive work to KIBC kernels, stores dispatch signals holographically. Lambda terms are perfect holographic objects. Built head-level probe script.

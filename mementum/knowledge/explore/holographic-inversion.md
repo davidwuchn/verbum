@@ -358,15 +358,56 @@ The descending arm expansion may be preparation for the compute gate
 opening — the arm needs differentiated representations before the gate
 can productively route compute.
 
-### Updated phase predictions
+### Updated phase predictions — CONFIRMED through 10K (session 095)
 
-Phases 1-3 from v11-holo apply. Phase 4 may differ due to holo-inv fixes:
-- Phase 4 (4K-6K, predicted): Descending arm expansion phase. Alarm
-  de-saturates, expansion rate stabilizes, compute gate begins opening.
-- Phase 5 (6K-8K, predicted): Compute gate opens, descending arm learns
-  to use expanded representations for kernel integration.
-- Key risk: 10K window — watch for recurrence of v11-holo catastrophe.
-  The coarse→fine + fractal bands + evo noise floor should prevent it.
+```
+Phase    Predicted              Actual
+──────── ────────────────────── ─────────────────────────────────────────
+4 (4-6K) Desc arm expansion,    ✓ desc_span 0.47→0.41, gate opens at 6K
+         gate begins opening       (0.37), alarm de-saturating
+5 (6-8K) Gate opens, desc arm   ✓ gate 0.69→0.76, B_dom rises 32→46%,
+         uses expanded reps        7K reorganization wave absorbed
+6 (8-10K) Risk: 10K catastrophe ✓ NO CATASTROPHE. Loss 7.703 (new low),
+                                   B_dom 57.7%, ratio 0.992
+```
+
+All phases confirmed. The coarse→fine inversion prevented the catastrophe
+that killed v11-holo at 10K (loss 9.259, B 5.8%).
+
+### V11-holo-inv full trajectory (1K-10K, session 094-095)
+
+```
+step  eval   compute  B_dom%  ratio   event
+───── ────── ──────── ─────── ─────── ──────────────────────
+1K    8.235  0.000    27.6%   1.211
+2K    7.872  0.000    —       1.180
+3K    7.819  0.000    —       1.149
+4K    7.804  0.000    —       1.109   descending arm expanding
+5K    7.783  0.000    25.8%   1.090
+6K    7.784  0.370    32.0%   1.071   COMPUTE GATE OPENS
+7K    7.728  0.690    39.8%   1.048   reorganization wave (absorbed)
+8K    7.714  0.760    45.9%   1.086   recovery
+9K    7.705  0.806    57.2%   0.992   RATIO CROSSES 1.0
+10K   7.703  0.824    57.7%   0.992   B stable, no collapse
+```
+
+Key milestones:
+- **Compute gate**: opened at 6K (later than v11-holo's 3K), smooth sigmoid ramp
+- **B-dominance**: natural emergence of universal ordering B ≥ K ≥ C >> I
+- **Holographic ratio < 1.0**: at 9K, ascending arm decodes AS WELL AS final
+  output — the holographic loss achieved its goal
+- **Ascending compression collapsed**: L0↑-L2 span went 2.36 (1K) → 0.20 (10K).
+  First pass gets nearly to apex quality. This IS holographic reading.
+- **No catastrophe**: v11-holo collapsed at 10K. v11-holo-inv sailed through.
+
+### Design insight: holographic storage + kernel computation (session 095)
+
+The ratio crossing 1.0 means the model achieved holographic decodability while
+maintaining B-dominant composition. This is possible because the holographic loss
+forces the model to store DISPATCH SIGNALS (which kernel to invoke) holographically,
+not computed results. The kernel functions handle the constructive computation.
+
+See `holographic-kernel-separation.md` for the full analysis.
 
 ## Future: Domain Banking (not implemented yet, design only)
 
