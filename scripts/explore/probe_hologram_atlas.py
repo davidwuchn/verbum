@@ -1477,27 +1477,51 @@ Examples:
 
     # ── Optional: combinator baseline for comparison ─────────
     if not args.skip_combinator_baseline:
-        print(f"\n{'─'*72}")
-        print(f"  Combinator baseline (for cross-hologram comparison)")
-        print(f"{'─'*72}")
+        cached = args.output_dir / "hologram_combinator.json"
+        if cached.exists():
+            print(f"\n{'─'*72}")
+            print(f"  Combinator baseline — loading from {cached}")
+            print(f"{'─'*72}")
+            cached_data = json.loads(cached.read_text())
+            all_results["holograms"]["combinator"] = cached_data
+            agg = cached_data.get("selectivity", {}).get("aggregate", {})
+            if agg.get("layer_selectivity"):
+                selectivity_profiles["combinator"] = agg["layer_selectivity"]
+        else:
+            print(f"\n{'─'*72}")
+            print(f"  Combinator baseline (for cross-hologram comparison)")
+            print(f"{'─'*72}")
 
-        comb_sel = measure_selectivity(
-            model, tokenizer, COMBINATOR_PROBES, measure_layers, args.quick)
-        comb_agg = aggregate_selectivity(comb_sel, measure_layers)
-        selectivity_profiles["combinator"] = comb_agg["layer_selectivity"]
+            comb_sel = measure_selectivity(
+                model, tokenizer, COMBINATOR_PROBES, measure_layers, args.quick)
+            comb_agg = aggregate_selectivity(comb_sel, measure_layers)
+            selectivity_profiles["combinator"] = comb_agg["layer_selectivity"]
 
-        print_selectivity_summary("combinator (baseline)", comb_sel, measure_layers)
+            print_selectivity_summary("combinator (baseline)", comb_sel, measure_layers)
 
-        all_results["holograms"]["combinator"] = {
-            "selectivity": {
-                "per_condition": comb_sel,
-                "aggregate": comb_agg,
-            },
-        }
-        save_incremental(all_results, args.output_dir, "combinator")
+            all_results["holograms"]["combinator"] = {
+                "selectivity": {
+                    "per_condition": comb_sel,
+                    "aggregate": comb_agg,
+                },
+            }
+            save_incremental(all_results, args.output_dir, "combinator")
 
     # ── Probe each selected hologram ─────────────────────────
     for hname in selected:
+        # Check for cached results from prior run
+        cached = args.output_dir / f"hologram_{hname}.json"
+        if cached.exists():
+            print(f"\n{'─'*72}")
+            print(f"  {hname.upper()} — cached, loading from {cached}")
+            print(f"{'─'*72}")
+            cached_data = json.loads(cached.read_text())
+            all_results["holograms"][hname] = cached_data
+            agg = cached_data.get("selectivity", {}).get("aggregate", {})
+            if agg.get("layer_selectivity"):
+                selectivity_profiles[hname] = agg["layer_selectivity"]
+            continue
+
         probes = HOLOGRAM_PROBES[hname]
 
         print(f"\n{'─'*72}")
