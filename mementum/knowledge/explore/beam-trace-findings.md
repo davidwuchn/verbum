@@ -288,6 +288,42 @@ residual-8x         118.62   +40.0%   14.60     21%  ← 3.4× more bits, WORSE
 multiple compass needles to measure distance. The ternary basis is
 optimal for DIRECTION (which combinator), wasteful for DISTANCE (how much).
 
+## Holographic Seed Exploration (session 098)
+
+Searched for a small "seed" of magnitudes that could reconstruct the
+hologram — like a reference beam in physical holography.
+
+**What was tested:**
+1. **Low-rank SVD of |W|**: Magnitude matrix has rank 330 at 95% energy — too
+   high-rank. Rank-64 seed barely moves cos (0.80→0.87).
+2. **Shared row/col profiles**: Row-norm profiles are cos>0.98 across all 12
+   layers — a shared envelope exists! But the rank-1 outer product captures
+   only the marginal distribution, giving cos=0.80 (same as plain ternary).
+3. **Diagonal transforms** (D_row @ sign(W) @ D_col): cos=0.80. The transform
+   needs to be per-element, not per-row/col.
+4. **Low-rank residual correction**: Ternary residual (W - W_t) has rank 440
+   at 95% energy — even higher than |W|. Not compressible.
+5. **Activation-calibrated group scales** (GPTQ-style): Per-layer improvement
+   is dramatic where beam is narrow — L6 jumps from cos 0.79→0.994 (6.4°).
+   But L0 barely changes (0.80→0.81) because the beam is 73-dimensional there.
+   End-to-end still catastrophic. Even keeping 10/12 layers at FP32 and only
+   ternarizing L10-L11 gives +382% PPL.
+
+**Information-theoretic floor**: magnitude entropy is ~5 bits/weight. Ternary
+recovers ~0.4 bits. Near-lossless needs ~3.2 bits. The seed must carry ~2.8
+bits/weight — that's 202 KB per 768×768 matrix, essentially the matrix itself.
+
+**Key finding**: the activation-calibrated scales reveal the holographic
+readout geometry. Where the beam is narrow (L3-L10, rank 1-13), calibration
+nearly eliminates the angular error. Where the beam is wide (L0-L2, rank 54-73),
+no per-group calibration can help — too many directions need simultaneous
+precision.
+
+**Conclusion**: for existing models, there is no small holographic seed. The
+magnitude information is high-rank and per-element. For V12, the seed IS the
+training process: gradient descent pushes magnitudes toward uniform (CV→0),
+eliminating the need for per-element magnitude storage.
+
 ## Open Questions
 
 1. **Does the L6 singularity generalize?** Is there always a "beam
