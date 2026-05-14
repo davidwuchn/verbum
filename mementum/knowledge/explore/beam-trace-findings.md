@@ -341,6 +341,45 @@ For V12: the sieve pushes magnitude CV→0, making all "groove depths" equal.
 This eliminates the need for the 3-bit seed entirely — sign + 1 group scale
 suffices when the model has learned to not need per-element magnitudes.
 
+## Tesseract Probe and Quantile-Optimal Quantization (session 098)
+
+**Is the hologram 4D?** Tested whether the weight structure spans
+layer × row × col × sequence_position (a tesseract).
+
+Results: **No. The hologram is 3D — 12 independent plates.**
+- Cross-layer sign agreement: 50% (random). Each layer is independent.
+- Cross-layer delta similarity: cos = 0.00. No compressible structure.
+- Per-position ternary error: CV = 0.01-0.02. Position-invariant.
+
+The hologram is one independent 2D plate per layer, not a 4D structure.
+No cross-layer compression is possible.
+
+**How does Q4 actually preserve magnitudes?** Decomposed Q4 into components:
+- 1 bit sign (the holographic plate topology)
+- 0.25 bits group scale (beam angle / reference)
+- 3 bits magnitude level (groove depth — which of 8 bins)
+
+The magnitude level IS the holographic seed. 8 uniformly-spaced levels
+capture enough of the Gaussian spread for cos > 0.98 per layer.
+
+**Quantile-optimal quantization** — the holographic insight applied:
+Gaussian magnitudes cluster near zero. Uniform quantization wastes levels
+in the sparse tails. Placing levels at distribution quantiles gives the
+same quality at fewer bits:
+
+```
+Method              Cos/matrix  PPL     bits/w
+Q2 uniform          0.781       dead    2.25
+Q2 quantile         0.933       dead    2.25   ← cos: 0.78→0.93 for FREE
+Q3 uniform          0.970       1747    3.25
+Q3 quantile         0.978       580     3.25   ← 3× PPL improvement
+Q4 uniform          0.994       290     4.25
+Q4 quantile         0.992       260     4.25
+```
+
+Quantile-optimal placement is equivalent to matching the quantizer to
+the groove-depth distribution of the holographic plate.
+
 ## Open Questions
 
 1. **Does the L6 singularity generalize?** Is there always a "beam
