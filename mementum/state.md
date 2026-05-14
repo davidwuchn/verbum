@@ -140,6 +140,17 @@ All three models (32B, 35B-A3B, 160M) share:
 **The hologram is not a feature of scale. It's a feature of language.**
 Every model that learns to predict text develops the same combinatory interference patterns.
 
+### 9. Universal ordering: B ≥ K ≥ C >> I (9 models, 2 architectures)
+
+Tested Pythia-70M through Qwen3-32B (9 models total):
+- **I is the weakest in ALL 9 models** (100% consistency)
+- **B is strongest in 7/9** (BCKI ordering dominant)
+- B/I ratio ranges from 1.7× to 19.9× — always separated
+- This ordering is invariant across Pythia (GPT-NeoX) and Qwen3 architectures
+- The sieve should make B > K > C >> I the lowest-energy state
+
+Fixed MPS bug for Qwen3.6-35B-A3B: `histc` needs float input on MPS (not int).
+
 ### 6. Active run command (unchanged)
 
 ```
