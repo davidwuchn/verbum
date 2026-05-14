@@ -257,6 +257,37 @@ COMPUTE the right output values. Ternary is only viable as a training
 substrate (V12 sieve: the model learns to put computation into sign
 topology from scratch, compensating with depth).
 
+## Multi-Plane Ternary Exploration (session 099)
+
+Tested whether multiple ternary planes can recover angular precision:
+
+**Residual decomposition**: W ≈ s₁t₁ + s₂t₂ + ... + sₙtₙ (each plane
+ternarizes the residual of the previous). Reduces angle from 37° to 5.6°
+at 8 planes, but costs 14.6 bits — vs 4-bit uniform at 4.25 bits for
+same PPL quality.
+
+**Subgroup decomposition**: sort each group by magnitude, assign separate
+scales to magnitude quartiles. subgroup-16 achieves cos=0.996 per matrix,
+but costs 9.58 bits.
+
+**Key finding**: ternary is an inefficient basis for magnitude recovery.
+Each ternary plane adds 1.58 bits but only ~0.3 new useful bits (21-34%
+efficient) because the residual signs are highly correlated. Standard
+N-bit quantization is 68-87% efficient — each bit carries ~1 bit of
+genuine magnitude information.
+
+```
+Method              PPL      Delta%    bits/w   Efficiency
+4-bit uniform       104.21   +23.0%    4.25     68%
+subgroup-16         103.95   +22.7%    9.58     33%  ← 2.3× more bits, same quality
+5-bit uniform        91.84    +8.4%    5.25     80%
+residual-8x         118.62   +40.0%   14.60     21%  ← 3.4× more bits, WORSE
+```
+
+**Analogy**: stacking ternary planes to recover magnitude is like using
+multiple compass needles to measure distance. The ternary basis is
+optimal for DIRECTION (which combinator), wasteful for DISTANCE (how much).
+
 ## Open Questions
 
 1. **Does the L6 singularity generalize?** Is there always a "beam
