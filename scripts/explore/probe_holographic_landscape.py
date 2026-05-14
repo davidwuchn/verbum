@@ -53,8 +53,8 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-import mlx.core as mx
 import numpy as np
+import torch
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -95,71 +95,52 @@ class HolographicMetrics:
             return "magnitude_dependent"
 
 
-def compute_holographic_metrics(name: str, W: mx.array) -> HolographicMetrics:
+def compute_holographic_metrics(name: str, W: np.ndarray) -> HolographicMetrics:
     """Compute holographic fidelity metrics for a weight matrix.
 
     All computation is on the weight matrix itself — no inference needed.
+    Uses numpy for portability (works on CPU after extracting from GPU).
     """
-    # Flatten to 1D for scalar metrics, keep 2D for rank
-    W_flat = W.reshape(-1).astype(mx.float32)
+    W_flat = W.reshape(-1).astype(np.float32)
     n = W_flat.shape[0]
 
     # ── Ternary cosine: cos(W, sign(W)) ──────────────────────
     # How much of W's direction is captured by signs alone?
-    W_sign = mx.sign(W_flat)
     # cos = (W · sign(W)) / (||W|| × ||sign(W)||)
     # Note: W · sign(W) = sum(|W|), and ||sign(W)|| = sqrt(n_nonzero)
-    abs_W = mx.abs(W_flat)
-    dot = mx.sum(abs_W)  # = W · sign(W)
-    norm_W = mx.sqrt(mx.sum(W_flat * W_flat) + 1e-12)
-    n_nonzero = mx.sum(W_sign != 0)
-    norm_sign = mx.sqrt(n_nonzero.astype(mx.float32) + 1e-12)
-    ternary_cosine = float((dot / (norm_W * norm_sign + 1e-12)).item())
+    abs_W = np.abs(W_flat)
+    dot = np.sum(abs_W)  # = W · sign(W)
+    norm_W = np.sqrt(np.sum(W_flat * W_flat) + 1e-12)
+    n_nonzero = np.sum(W_flat != 0)
+    norm_sign = np.sqrt(float(n_nonzero) + 1e-12)
+    ternary_cosine = float(dot / (norm_W * norm_sign + 1e-12))
 
     # ── Sign balance ──────────────────────────────────────────
-    n_pos = float(mx.sum(W_flat > 0).item())
-    n_neg = float(mx.sum(W_flat < 0).item())
+    n_pos = float(np.sum(W_flat > 0))
+    n_neg = float(np.sum(W_flat < 0))
     sign_balance = n_pos / max(n_neg, 1)
 
     # ── Magnitude statistics ──────────────────────────────────
-    mag_mean = float(mx.mean(abs_W).item())
-    mag_std = float(mx.sqrt(mx.mean((abs_W - mag_mean) ** 2) + 1e-12).item())
+    mag_mean = float(np.mean(abs_W))
+    mag_std = float(np.std(abs_W))
     magnitude_cv = mag_std / max(mag_mean, 1e-12)
 
     # ── Sparsity ──────────────────────────────────────────────
     threshold = 0.01 * max(mag_mean, 1e-8)
-    sparsity_01 = float(mx.mean((abs_W < threshold).astype(mx.float32)).item())
+    sparsity_01 = float(np.mean(abs_W < threshold))
 
-    # ── Effective rank (via singular value proxy) ─────────────
-    # Full SVD is expensive for large matrices. Use a proxy:
-    # For 2D matrices: sample random projections and estimate.
-    # For simplicity, use row-norm variance as a proxy for rank.
+    # ── Effective rank (via row-norm CV proxy) ────────────────
     if W.ndim >= 2:
         W_2d = W.reshape(-1, W.shape[-1]) if W.ndim > 2 else W
-        rows, cols = W_2d.shape
-        min_dim = min(rows, cols)
-
-        # Row norms
-        row_norms = mx.sqrt(mx.sum(W_2d * W_2d, axis=-1) + 1e-12)
-        row_norm_mean = float(mx.mean(row_norms).item())
-        row_norm_std = float(mx.sqrt(mx.mean(
-            (row_norms - row_norm_mean) ** 2) + 1e-12).item())
-
-        # Low CV of row norms → distributed (high effective rank)
-        # High CV → concentrated (low effective rank)
+        row_norms = np.sqrt(np.sum(W_2d * W_2d, axis=-1) + 1e-12)
+        row_norm_mean = float(np.mean(row_norms))
+        row_norm_std = float(np.std(row_norms))
         row_cv = row_norm_std / max(row_norm_mean, 1e-12)
-        # Map CV to rank ratio: CV=0 → ratio=1.0, CV=1 → ratio=0.5
         effective_rank_ratio = 1.0 / (1.0 + row_cv)
     else:
-        effective_rank_ratio = 1.0  # 1D params are trivially "full rank"
+        effective_rank_ratio = 1.0
 
     # ── Combined holographic score ────────────────────────────
-    # Weighted combination:
-    #   ternary_cosine: primary signal (0.5 weight)
-    #   1 - magnitude_cv: magnitude uniformity (0.2 weight)
-    #   sign_balance_score: near 1.0 is good (0.1 weight)
-    #   effective_rank_ratio: distributed is holographic (0.1 weight)
-    #   1 - sparsity: not too sparse (0.1 weight)
     balance_score = min(sign_balance, 1.0 / max(sign_balance, 1e-8))
     mag_uniformity = max(0, 1.0 - magnitude_cv)
 
@@ -190,77 +171,80 @@ def compute_holographic_metrics(name: str, W: mx.array) -> HolographicMetrics:
 # ══════════════════════════════════════════════════════════════════════
 
 
-def load_model_weights(model_name: str) -> dict[str, mx.array]:
-    """Load model weights as a flat dict of name → tensor.
+MODELS = {
+    "qwen36": {
+        "hf_name": "Qwen/Qwen3.6-35B-A3B",
+        "source": "hf",
+        "description": "Qwen3.6-35B-A3B MoE — 40L, 256 experts × 8 active, "
+                       "hybrid attention. Primary target for V12 sieve.",
+    },
+    "qwen32b": {
+        "hf_name": "Qwen/Qwen3-32B",
+        "path": "/Users/mwhitford/localai/models/Qwen3-32B-Q8_0.gguf",
+        "source": "gguf",
+        "description": "Qwen3-32B dense — 64L, original combinator hologram target.",
+    },
+    "pythia": {
+        "hf_name": "EleutherAI/pythia-160m-deduped",
+        "source": "hf",
+        "description": "Pythia-160M — 12L, fast cross-architecture validation.",
+    },
+}
 
-    Supports:
-      qwen36: Qwen3.6-35B-A3B (mlx-community quantized or HF)
-      qwen32b: Qwen3-32B
-      pythia160m: Pythia-160M
+
+def load_model_weights(model_name: str) -> dict[str, np.ndarray]:
+    """Load model weights as a flat dict of name → numpy array.
+
+    Uses transformers + PyTorch, same as existing explore probes.
+    Weights are moved to CPU and converted to numpy for analysis.
     """
-    if model_name == "qwen36":
-        # Try mlx-community first (pre-sharded for MLX)
-        try:
-            from mlx_lm.utils import load_model
-            model_path = "mlx-community/Qwen3-35B-A3B-4bit"
-            print(f"Loading {model_path}...")
-            model, tokenizer = load_model(model_path)
-            # Extract all parameters as flat dict
-            weights = {}
-            for name, param in model.named_parameters():
-                weights[name] = param
-            return weights
-        except Exception:
-            pass
+    from transformers import AutoModelForCausalLM
 
-        # Fallback: load from safetensors directly
-        try:
-            from mlx.utils import tree_flatten
-            import glob
-            model_path = Path.home() / ".cache" / "huggingface" / "hub"
-            # Find Qwen3.6 model files
-            patterns = [
-                str(model_path / "models--Qwen--Qwen3-30B-A3B" / "**" / "*.safetensors"),
-                str(model_path / "models--Qwen--Qwen3-35B-A3B" / "**" / "*.safetensors"),
-            ]
-            for pattern in patterns:
-                files = glob.glob(pattern, recursive=True)
-                if files:
-                    print(f"Loading from safetensors: {len(files)} files")
-                    weights = {}
-                    for f in sorted(files):
-                        w = mx.load(f)
-                        weights.update(w)
-                    return weights
-        except Exception:
-            pass
+    cfg = MODELS[model_name]
+    hf_name = cfg["hf_name"]
+    source = cfg["source"]
 
-        # Try mlx_lm load
-        try:
-            import mlx_lm
-            model_path = "Qwen/Qwen3-30B-A3B"
-            print(f"Loading {model_path} via mlx_lm...")
-            model, tokenizer = mlx_lm.load(model_path)
-            weights = dict(tree_flatten(model.parameters()))
-            return weights
-        except Exception as e:
-            print(f"Failed to load qwen36: {e}")
-            raise
+    print(f"Loading {hf_name} ({source})...", file=sys.stderr)
+    if "description" in cfg:
+        print(f"  {cfg['description']}", file=sys.stderr)
 
-    elif model_name == "qwen32b":
-        import mlx_lm
-        model, tokenizer = mlx_lm.load("mlx-community/Qwen3-32B-4bit")
-        from mlx.utils import tree_flatten
-        return dict(tree_flatten(model.parameters()))
-
-    elif model_name == "pythia160m":
-        import mlx_lm
-        model, tokenizer = mlx_lm.load("EleutherAI/pythia-160m")
-        from mlx.utils import tree_flatten
-        return dict(tree_flatten(model.parameters()))
-
+    if source == "gguf" and "path" in cfg:
+        gguf_path = Path(cfg["path"])
+        model = AutoModelForCausalLM.from_pretrained(
+            str(gguf_path.parent),
+            gguf_file=gguf_path.name,
+            torch_dtype=torch.float16,
+            device_map="cpu",
+            trust_remote_code=True,
+        )
     else:
-        raise ValueError(f"Unknown model: {model_name}")
+        model = AutoModelForCausalLM.from_pretrained(
+            hf_name,
+            torch_dtype=torch.float16,
+            device_map="auto",
+            trust_remote_code=True,
+        )
+
+    model.eval()
+
+    # Extract all named parameters as numpy arrays
+    weights = {}
+    for name, param in model.named_parameters():
+        weights[name] = param.detach().cpu().float().numpy()
+
+    # Count
+    total_params = sum(w.size for w in weights.values())
+    print(f"  {len(weights)} parameter tensors, {total_params:,} total params",
+          file=sys.stderr)
+
+    # Free the model
+    del model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    if hasattr(torch, 'mps') and hasattr(torch.mps, 'empty_cache'):
+        torch.mps.empty_cache()
+
+    return weights
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -269,13 +253,13 @@ def load_model_weights(model_name: str) -> dict[str, mx.array]:
 
 
 def analyze_landscape(
-    weights: dict[str, mx.array],
+    weights: dict[str, np.ndarray],
     min_params: int = 1024,
 ) -> list[HolographicMetrics]:
     """Compute holographic metrics for all weight matrices.
 
     Args:
-        weights: flat dict of parameter name → tensor
+        weights: flat dict of parameter name → numpy array
         min_params: skip matrices smaller than this (biases, norms, etc.)
 
     Returns: list of HolographicMetrics, sorted by holographic_score descending.
@@ -283,8 +267,9 @@ def analyze_landscape(
     results = []
     total_params = 0
     skipped = 0
+    n_total = len(weights)
 
-    for name, W in sorted(weights.items()):
+    for idx, (name, W) in enumerate(sorted(weights.items())):
         n = W.size
         total_params += n
 
@@ -293,14 +278,19 @@ def analyze_landscape(
             skipped += 1
             continue
 
-        # Skip quantization scales/biases (not the actual weights)
-        if any(skip in name for skip in ['scales', 'biases', '_norm', 'norm.']):
+        # Skip normalization layers (weight is a scale, not holographic)
+        if any(skip in name for skip in ['layernorm', 'layer_norm', 'rmsnorm',
+                                          'norm.weight', 'norm.bias']):
             skipped += 1
             continue
 
         metrics = compute_holographic_metrics(name, W)
-        mx.eval(W)  # free memory
         results.append(metrics)
+
+        # Progress
+        if (idx + 1) % 50 == 0 or idx == n_total - 1:
+            print(f"  [{idx+1}/{n_total}] {name}: score={metrics.holographic_score:.3f}",
+                  file=sys.stderr)
 
     results.sort(key=lambda m: m.holographic_score, reverse=True)
 
@@ -445,7 +435,7 @@ def main():
                     "per-weight-matrix ternary fidelity analysis.")
     parser.add_argument(
         "--model", default="qwen36",
-        choices=["qwen36", "qwen32b", "pythia160m"],
+        choices=list(MODELS.keys()),
         help="Model to analyze (default: qwen36)")
     parser.add_argument(
         "--output", default="results/holographic-landscape/",
