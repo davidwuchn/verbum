@@ -30,6 +30,7 @@ import mlx.core as mx
 import mlx.nn as nn
 
 from ternary import TernaryLinear
+from scan import parallel_scan_2d
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -275,35 +276,30 @@ class GatedLinearAttention(nn.Module):
             mx.ones_like(retention),
         )
 
-        # ── Sequential scan (causal recurrence) ──────────────
-        # S_t = retention_t * S_{t-1} + gated_kv_t
+        # ── Parallel prefix scan (associative, O(log L) depth) ──
+        # S_t = retention_t × S_{t-1} + gated_kv_t
         # o_t = q_t @ S_t
         #
-        # For MLX efficiency, we do the scan as a Python loop over
-        # sequence positions. At our model scale (L=4096, H=8,
-        # Ds=64, Dh=64), each step is a small matrix operation.
-        # Future: parallel scan or chunked implementation.
+        # The affine recurrence forms a monoid:
+        #   (a₂, b₂) ∘ (a₁, b₁) = (a₂×a₁, a₂×b₁ + b₂)
+        # Hillis-Steele doubling computes all prefixes in 12 steps
+        # for L=4096, fully vectorized — no Python loop over positions.
 
-        # Initialize memory
-        S = mx.zeros((B, H, Ds, Dh))  # running memory per head
-        outputs = []
+        # retention_scalar: (B, L, H) — squeeze out the trailing dims
+        retention_scalar = retention[:, :, :, 0, 0]  # (B, L, H)
 
-        for t in range(L):
-            # Update memory: S_t = (1 - g_t) * S_{t-1} + g_t * k_t^T v_t
-            S = retention[:, t, :, :, :] * S + gated_kv[:, t, :, :, :]
+        # Parallel scan: compute running state S at every position
+        # gated_kv: (B, L, H, Ds, Dh), retention_scalar: (B, L, H)
+        S_all = parallel_scan_2d(retention_scalar, gated_kv)  # (B, L, H, Ds, Dh)
 
-            # Retrieve: o_t = q_t @ S_t → (B, H, Dh)
-            # q[:, t] is (B, H, Ds), S is (B, H, Ds, Dh)
-            o_t = mx.sum(q[:, t, :, :, None] * S, axis=2)  # (B, H, Dh)
-            outputs.append(o_t)
-
-        # Stack outputs: (L, B, H, Dh) → (B, L, H, Dh) → (B, L, D)
-        output = mx.stack(outputs, axis=0)           # (L, B, H, Dh)
-        output = output.transpose(1, 0, 2, 3)        # (B, L, H, Dh)
+        # Retrieve: output_t = q_t @ S_t for all positions in parallel
+        # q: (B, L, H, Ds), S_all: (B, L, H, Ds, Dh) → (B, L, H, Dh)
+        output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)  # (B, L, H, Dh)
         output = output.reshape(B, L, D)
 
         # Instrumentation: memory norms at final position
-        S_norms = mx.sqrt(mx.sum(S * S, axis=(2, 3)) + 1e-8)  # (B, H)
+        S_final = S_all[:, -1, :, :, :]  # (B, H, Ds, Dh)
+        S_norms = mx.sqrt(mx.sum(S_final * S_final, axis=(2, 3)) + 1e-8)  # (B, H)
         self._memory_norms = mx.stop_gradient(S_norms.mean(axis=0))  # (H,)
 
         # Retrieval output norms
