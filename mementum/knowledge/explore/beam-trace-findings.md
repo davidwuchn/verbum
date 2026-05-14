@@ -224,14 +224,38 @@ The original HoloQuant failure (Pythia: PPL 31→142K) is now fully explained:
 - FFN output ternarization destroys the constructive reader
 - Combined effect: catastrophic
 
-**Revised HoloQuant approach:**
-- Ternary: K, V, attn_output (the plate) → 25% of dense model
-- Low-bit (4-8): FFN h→4h (marginal) → 33%
-- Full precision: Q, FFN 4h→h → 42%
-- For MoE models: ternary extends to expert FFN (93% of model)
+**Revised HoloQuant approach — ALSO FAILED (session 099):**
 
-This would give ~3 bits/weight average for dense models (vs 16 FP16),
-and ~2 bits/weight for MoE models.
+Even selective ternarization (plate-only: K, V, O) kills perplexity:
+- Pythia-160M plate-only (13.1% ternarized): PPL 31 → 704 (❌)
+- Pythia-160M plate+experts (30.5%): PPL 31 → 5,033 (❌)
+- Pythia-160M aggressive (48%): PPL 31 → 17,724 (❌)
+- Qwen3.6-35B-A3B aggressive (95.1%): PPL 2.86 → 70,757 (❌)
+
+**Root cause: group-64 ternary has 4.5 dB SNR per matrix.** Each weight
+is reconstructed as sign(W_i) × mean(|W_group|), but magnitude CV within
+groups is 0.76 (≈ Gaussian baseline). After group averaging, each element
+has ~60% relative error. Cosine similarity = 0.80 per matrix.
+
+**Cumulative error through layers is the killer:**
+```
+Layer  Ternary(1.6b)  4-bit     8-bit
+L0     0.800          0.994     1.000
+L5     0.269          0.967     1.000
+L11    0.071          0.930     1.000
+```
+
+At L11, ternary output has cos=0.071 to clean output — essentially
+random. The forward pass needs cumulative cos > ~0.95 at the final layer
+to preserve perplexity. This requires ≥4 bits/weight.
+
+**Definitive conclusion:** Ternary quantization of existing models is
+not viable at ANY selectivity level. The holographic finding (signs carry
+discriminative info) is real but irrelevant to the forward pass. Signs
+tell you WHICH combinator is active (selectivity probes) but can't
+COMPUTE the right output values. Ternary is only viable as a training
+substrate (V12 sieve: the model learns to put computation into sign
+topology from scratch, compensating with depth).
 
 ## Open Questions
 
