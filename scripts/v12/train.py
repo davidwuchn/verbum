@@ -659,16 +659,21 @@ def run_tournament(
 
     # Acceptance criteria (AND on loss direction, OR on signal source):
     #   1. Loss path: loss improved by at least min_delta (noise floor)
-    #   2. Alarm path: alarm health improved AND loss didn't get worse
-    #      Alarm provides stronger signal from the running system (2 votes),
-    #      so it can accept sub-threshold improvements that loss-only would
-    #      reject as noise — but loss must NEVER get worse.
-    # (v11-holo 10K collapse caused by alarm accepting +0.0003 to +0.0024
-    #  loss deltas — small regressions accumulated into catastrophe.)
+    #   2. Alarm path: alarm health improved by at least alarm_min_delta
+    #      AND loss didn't get worse.
+    #
+    # Both paths enforce noise floors. Without them, measurement noise
+    # from a single eval batch (~0.001) gets accepted, and the resulting
+    # sign flips cause routing ripple effects that accumulate silently.
+    # (v11-holo 10K collapse: alarm accepted +0.0003 to +0.0024 loss
+    #  deltas — small regressions accumulated into catastrophe.)
+    #
+    # The alarm noise floor is separately configurable because alarm
+    # health ∈ [0, 2] has different scale than relational loss ∈ [0, 1].
     loss_improved = (champion_loss - mutant_loss) >= cfg.evolution_min_delta
     alarm_improved = (champion_health is not None
                       and mutant_health is not None
-                      and mutant_health > champion_health
+                      and (mutant_health - champion_health) >= cfg.evolution_alarm_min_delta
                       and mutant_loss <= champion_loss)  # loss must not get worse
 
     if loss_improved or alarm_improved:
@@ -1232,6 +1237,10 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
 
             accepted_str = gen_result["accepted"] or "rejected"
             delta = gen_result["accepted_loss"] - gen_result["champion_loss"]
+            # Log alarm health delta for noise floor diagnostics
+            ah_before = gen_result.get("alarm_health_before")
+            ah_after = gen_result.get("alarm_health_after")
+            alarm_delta = (ah_after - ah_before) if (ah_before is not None and ah_after is not None) else 0.0
             n_rows = gen_result.get("n_rows_mutated", 0)
             actual_flips = gen_result.get("actual_flips", 0)
             cs = gen_result.get("consensus_stats") or {}

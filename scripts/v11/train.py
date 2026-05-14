@@ -643,9 +643,13 @@ def run_tournament(
     # (v11-holo 10K collapse caused by alarm accepting +0.0003 to +0.0024
     #  loss deltas — small regressions accumulated into catastrophe.)
     loss_improved = (champion_loss - mutant_loss) >= cfg.evolution_min_delta
+    # Alarm noise floor: require meaningful health improvement (0.02 = 1% of [0,2]).
+    # Without this, measurement noise from single eval batch gets accepted,
+    # and sign flips cause routing ripple effects that accumulate silently.
+    alarm_min_delta = getattr(cfg, 'evolution_alarm_min_delta', 0.02)
     alarm_improved = (champion_health is not None
                       and mutant_health is not None
-                      and mutant_health > champion_health
+                      and (mutant_health - champion_health) >= alarm_min_delta
                       and mutant_loss <= champion_loss)  # loss must not get worse
 
     if loss_improved or alarm_improved:
