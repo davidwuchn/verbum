@@ -758,28 +758,34 @@ def ternary_quantize_layer(model, layer_idx: int, threshold_pct: float):
         w = proj.weight.data
         originals[wn] = w.clone()
 
-        abs_w = w.abs()
+        # All computation on CPU to avoid MPS indexing bugs on large tensors
+        w_cpu = w.cpu().float()
+        abs_cpu = w_cpu.abs()
         if threshold_pct > 0:
-            flat = abs_w.float().flatten()
+            flat = abs_cpu.flatten()
             if flat.numel() > 1_000_000:
-                indices = torch.randperm(flat.numel(), device="cpu")[:1_000_000]
-                sample = flat.cpu()[indices]
+                indices = torch.randperm(flat.numel())[:1_000_000]
+                sample = flat[indices]
             else:
-                sample = flat.cpu()
+                sample = flat
             threshold = torch.quantile(sample, threshold_pct).item()
         else:
             threshold = 0.0
 
-        scale = abs_w[abs_w > threshold].mean().item() if (abs_w > threshold).any() else 1.0
-        ternary = torch.zeros_like(w)
-        ternary[w > threshold] = 1.0
-        ternary[w < -threshold] = -1.0
-        proj.weight.data = ternary * scale
+        mask = abs_cpu > threshold
+        scale = abs_cpu[mask].mean().item() if mask.any() else 1.0
+        ternary = torch.zeros_like(w_cpu)
+        ternary[w_cpu > threshold] = 1.0
+        ternary[w_cpu < -threshold] = -1.0
 
-        n_total = w.numel()
-        n_zero = (ternary == 0).sum().item()
-        n_pos = (ternary > 0).sum().item()
-        n_neg = (ternary < 0).sum().item()
+        # Stats on CPU (safe from MPS bounds errors)
+        n_total = ternary.numel()
+        n_zero = int((ternary == 0).sum().item())
+        n_pos = int((ternary > 0).sum().item())
+        n_neg = int((ternary < 0).sum().item())
+
+        # Apply back to device
+        proj.weight.data = (ternary * scale).to(w.device).to(w.dtype)
 
         stats[wn] = {
             "shape": list(w.shape),
@@ -845,26 +851,31 @@ def ternary_quantize_mlp(model, layer_idx: int, threshold_pct: float):
         w = mod.weight.data
         originals[name] = w.clone()
 
-        abs_w = w.abs()
+        # Compute on CPU to avoid MPS indexing bugs on large tensors
+        w_cpu = w.cpu().float()
+        abs_cpu = w_cpu.abs()
         if threshold_pct > 0:
-            flat = abs_w.float().flatten()
+            flat = abs_cpu.flatten()
             if flat.numel() > 1_000_000:
-                indices = torch.randperm(flat.numel(), device="cpu")[:1_000_000]
-                sample = flat.cpu()[indices]
+                indices = torch.randperm(flat.numel())[:1_000_000]
+                sample = flat[indices]
             else:
-                sample = flat.cpu()
+                sample = flat
             threshold = torch.quantile(sample, threshold_pct).item()
         else:
             threshold = 0.0
 
-        scale = abs_w[abs_w > threshold].mean().item() if (abs_w > threshold).any() else 1.0
-        ternary = torch.zeros_like(w)
-        ternary[w > threshold] = 1.0
-        ternary[w < -threshold] = -1.0
-        mod.weight.data = ternary * scale
+        mask = abs_cpu > threshold
+        scale = abs_cpu[mask].mean().item() if mask.any() else 1.0
+        ternary = torch.zeros_like(w_cpu)
+        ternary[w_cpu > threshold] = 1.0
+        ternary[w_cpu < -threshold] = -1.0
 
-        n_total = w.numel()
-        n_zero = (ternary == 0).sum().item()
+        n_total = ternary.numel()
+        n_zero = int((ternary == 0).sum().item())
+
+        # Apply back to device
+        mod.weight.data = (ternary * scale).to(w.device).to(w.dtype)
 
         stats[name] = {
             "shape": list(w.shape),
