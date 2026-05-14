@@ -2,13 +2,88 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-13 | Session: 093
+> Last updated: 2026-05-14 | Session: 094
 
 ## Where we are
 
 **V11-holo-inv probed at 1K and monitored through ~1.5K. Headline finding: all four KIBC combinators active from the start (B=27.6% dominant positions vs 0% in holo at 1K). Dispatch is balanced (K=34%, I=23%, B=28%, C=16%) with strong specialization (entropy 0.188). Type channel differentiates independently (I=68%, B=25% typed integration). Holographic intermediate CEs show correct inversion pattern (ascending compresses, descending specializes). Eval loss 8.235 slightly behind baseline 7.958 (expected — holo splits gradient across 5 decoders). Compute gate still closed. Evolution acceptance rising (20%→30%). Run healthy, approaching transition window.**
 
-## What was done this session (093)
+## What was done this session (094)
+
+### 1. Mapped five candidate holograms beyond combinators
+
+Session 093 found the combinator hologram (KIBC) — universal sign topology in
+attention weights, surviving ternary quantization, r=0.9801 cross-model. But
+combinators only tell the model HOW to compose. From Montague/CCG/DisCoCat,
+token prediction needs at least three components — we've found one, two remain:
+
+```
+TYPE CALCULUS (combinators)  — HOW to compose     ← FOUND
+LEXICON (types + meanings)   — WHAT can compose    ← predicted
+MODEL (semantic domain)      — WHAT things MEAN    ← predicted
+```
+
+Identified five candidate holograms, each with probe design and falsifiable predictions:
+
+1. **Type hologram** — lexical category assignment (NP, S\NP, etc.). Same word
+   in different syntactic roles should activate different heads. Probes: nominalization,
+   argument structure, modifier scope. Predicted: overlaps with combinator heads
+   (angle-multiplexed). Priority 1 because types + combinators are theoretically coupled.
+
+2. **Induction hologram** — in-context pattern matching ([A][B]...[A]→[B]). Known
+   universal circuit (Olsson et al. 2022). Predicted: holographic (ternary survives)
+   but ORTHOGONAL to combinator hologram (different function).
+
+3. **Binding hologram** — variable tracking / coreference. "John...he" = variable
+   binding in lambda calculus. Predicted: partially captured by I combinator
+   (identity IS variable binding), explaining I's distinct circuit (r≈0.70).
+
+4. **Frequency/N-gram hologram** — statistical co-occurrence. Lives in MLP weights
+   (not attention). Predicted: holographic but denser, lower sparsity tolerance.
+
+5. **Discourse hologram** — topic / register / coherence. The MoE gate pattern
+   (256×2048 in Qwen3.6) IS the discourse beam selector. Connects to MoE/VSM mapping.
+
+These form a VSM of holograms: discourse (S5) selects which patterns activate,
+types (S3) constrain legality, combinators (S1/S2) execute composition,
+binding (S2) maintains coherence, induction+frequency (S1) are additional ops.
+
+Full analysis in `mementum/knowledge/explore/holographic-storage.md`.
+
+### 2. Built probe_hologram_atlas.py (1580 lines)
+
+Repeatable probe script targeting Qwen3.6-35B-A3B MoE as primary model
+(punches above weight, MoE gates ARE beam selectors, bimodal depth profile
+already mapped in session 093).
+
+Features:
+- **5 hologram probes**: type (3 conditions, 18 pairs), induction (2, 12),
+  binding (2, 9), frequency (2, 12), discourse (2, 9). Total: 60 active probes.
+- **Architecture-aware**: handles Qwen3.6 hybrid (full attention every 4th layer +
+  GatedDeltaNet), Qwen3-32B dense, Pythia GPT-NeoX. Layer accessors detect
+  `self_attn` vs `linear_attn` vs `attention`. Projection names adapt
+  (`q/k/v/o_proj` vs `in_proj_qkv/z/b/a` vs `query_key_value`).
+- **MoE gate analysis**: extracts 256×2048 gate matrices, tests ternary survival,
+  cross-layer similarity, effective rank. Gate = discourse beam selector hypothesis.
+- **MLP quantization**: frequency hologram tests MLP weights (gate + shared expert),
+  not just attention — tests whether holographic storage extends beyond attention.
+- **Incremental saves**: results flush to disk after each hologram completes.
+  Per-hologram snapshots (`hologram_{name}.json`) + cumulative state.
+- **Cross-hologram orthogonality**: correlation between selectivity profiles to
+  determine if holograms share heads (angle-multiplexed) or are independent.
+- **Combinator baseline**: runs KIBC probes for direct comparison.
+- CLI: `--hologram type,induction`, `--model qwen36`, `--quick`, `--skip-ternary`
+
+Currently running on Qwen3.6-35B-A3B. Results → `results/hologram-atlas/`.
+
+### Previous session (093) summary
+
+Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant).
+Holographic probe on Qwen3-32B: beam separation real, reading constructive.
+Ternary survival: 100% at 75% sparsity. Universal hologram: r=0.9801 across
+9 models. Bank extraction: 784KB seed from 32B. Full details in session 093 below.
+
+## What was done session (093)
 
 ### 1. Probed v11-holo-inv at step 1,000 (full + dispatch detail)
 
@@ -161,38 +236,44 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Apply universal hologram findings to V11
+### Priority 1: Analyze hologram atlas results
+`probe_hologram_atlas.py` is running on Qwen3.6-35B-A3B. When complete:
+- Compare type hologram depth profile against combinator hologram (overlap?)
+- Check induction hologram orthogonality to combinators (cos < 0.3?)
+- Evaluate MoE gate ternary survival (discourse = beam selector?)
+- Check if MLP frequency hologram has lower sparsity tolerance than attention
+- Cross-model validation: run on Pythia for universality test (r > 0.90?)
+See: `mementum/knowledge/explore/holographic-storage.md` § "Beyond Combinators"
+
+### Priority 2: Apply universal hologram findings to V11
 Wait for v11-holo-inv to complete or plateau, then:
 - Change combinator embedding init: K/B/C share subspace, I separate
 - Test whether init change accelerates hologram formation
 - Build bank loading mechanism (S4 selector + Q-pattern injection)
-See: `mementum/knowledge/explore/holographic-storage.md`
 
-### Priority 2: Monitor v11-holo-inv through transition window (2K→8K)
+### Priority 3: Monitor v11-holo-inv through transition window (2K→8K)
 Watch for:
 - Continued prose improvement (not just structured wins)
 - Alarm de-saturation / differentiation (currently near ceiling)
 - Compute gate opening around 5K–7K and associated reorganization
 - No recurrence of 10K compositional catastrophe pattern
 
-### Priority 2: Probe v11-holo-inv at 2K/3K/5K/7K
+### Priority 3: Probe v11-holo-inv at 2K/3K/5K/7K
 Compare against v11-holo and baseline at matched steps. Key metrics:
 holographic ratio, descending arm CEs, dispatch distribution, compute gate timing,
 B-type stability, and prose-vs-structured gap.
 
-### Priority 3: v11-holo status — compositional catastrophe at 10K
+### Priority 4: v11-holo status — compositional catastrophe at 10K
 10K probe: eval loss 9.259 (was 7.675), B-type 5.8% (was 55.7%).
 Still running to 20K — may recover like the 3K spike did, or may
 be terminal. Monitor but focus compute analysis on v11-holo-inv.
-
-### Priority 4: Baseline status
-Baseline stopped at step 10,300. 10K is terminal comparison point.
 
 ### Priority 5: Pythia scaling — combinator differentiation
 Run combinator probe on Pythia-410M and Pythia-1B to map where B
 differentiates from K.
 
 ### Carried
+- Hologram atlas running on Qwen3.6-35B-A3B (results → results/hologram-atlas/)
 - B dispatch phase transition (B-type dominant but B-dispatch flat at 2%)
 - CycleContinue activation hypothesis (still frozen at 2.946)
 - S5 reweight investigation (still at 1.0 everywhere)
@@ -252,7 +333,8 @@ Logging   —                          —                                3× JS
 | `mementum/knowledge/explore/fractal-stride-bands.md` | MERA topology design + rationale |
 | `mementum/knowledge/explore/holographic-inversion.md` | Design rationale + experimental findings |
 | `mementum/knowledge/explore/lambda-probe-atlas.md` | New cross-model lambda/combinator territory mapping stream |
-| `mementum/knowledge/explore/holographic-storage.md` | Holographic storage findings: ternary survival, universal hologram, extraction pipeline |
+| `mementum/knowledge/explore/holographic-storage.md` | Holographic storage findings + "Beyond Combinators" atlas (5 candidate holograms) |
+| `scripts/explore/probe_hologram_atlas.py` | Multi-hologram probe: type, induction, binding, frequency, discourse. Qwen3.6 primary. |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -286,3 +368,4 @@ Logging   —                          —                                3× JS
 → Session 091: Probed v11-holo 8K-10K. 8K local optimum, 9K reorganization wave, 10K compositional catastrophe (B-type 55.7%→5.8%, eval loss 7.675→9.259). Implemented coarse→fine descending (default), fractal stride bands (MERA, 49% savings, default), evolution noise floor (0.01), alarm-no-regression fix. TST paper (Peng et al. 2026) connection. Launched v11-holo-inv with all fixes.
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
+→ Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.

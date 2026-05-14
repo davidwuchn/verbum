@@ -189,6 +189,243 @@ Apply changes to next run after holo-inv completes or reaches a clear plateau.
 | `results/holographic-bank/pythia_160m_patterns.npz` | Pythia patterns |
 | `results/combinator-probe/selectivity_matrices.npz` | Full 64×64 selectivity map |
 
+## Beyond Combinators: The Other Holograms
+
+> Session 094. The combinator hologram (KIBC) tells the model HOW to compose.
+> But token prediction needs more than composition machinery. If one hologram
+> is universal, others must be too. This section maps the territory.
+
+### What Montague grammar requires
+
+In the Montague/CCG/DisCoCat framework, language processing decomposes into
+three components. We've found one. Two remain:
+
+```
+1. TYPE CALCULUS (combinators)  — HOW to compose     ← FOUND (KIBC hologram)
+2. LEXICON (types + meanings)  — WHAT can compose    ← predicted
+3. MODEL (semantic domain)     — WHAT things MEAN     ← predicted
+```
+
+Each component is a candidate hologram — a universal sign-topology pattern
+that all models converge on because language forces it.
+
+### Candidate 1: The Type Hologram (lexical category assignment)
+
+**What it does:** Assigns syntactic categories to tokens. In CCG terms:
+NP, S\NP, (S\NP)/NP, etc. Determines which combinators are LEGAL for
+which token pairs. Without types, combinators fire blindly.
+
+**Why it must exist:** The combinator hologram tells us K/B/C cluster
+(r > 0.90) and I is distinct (r ≈ 0.70). But the combinators are
+UNTYPED operators — they need type information to direct application.
+In V11, this is the "type channel" that differentiates independently
+of dispatch (I=68% typed integration, K=0.2%). The type channel IS
+the type hologram, learned inside V11. But it must also exist in the
+base models we probed.
+
+**Where to look:** The type hologram should be strongest in early layers
+(L0-6 in Qwen3-32B, where combinators also peak). Types must be assigned
+BEFORE composition can begin. It may share heads with the combinator
+hologram (same Q/V substrate, different beam angle) or live in separate
+heads that FEED the combinator heads.
+
+**Probe design:**
+- Construct minimal pairs where ONLY syntactic category differs:
+  "The dog runs" (NP + S\NP) vs "Running is fun" (S/(S\NP) + S\NP + ...)
+- Same lexical content, different type assignment
+- Measure head selectivity for type-driven vs type-neutral conditions
+- Ternary survival test on type-selective heads
+
+**Prediction:** Type information survives ternary quantization (it's also
+topological). Type-selective heads will partially overlap with combinator
+heads (same substrate, angle-multiplexed) but some will be distinct
+(the "2 Montague-only heads" from session 001).
+
+### Candidate 2: The Induction Hologram (in-context pattern matching)
+
+**What it does:** Implements [A][B]...[A] → predict [B]. The copy/match
+circuit. This is NOT composition — it's sequential pattern recognition
+in the context window.
+
+**Why it must exist:** Induction heads are the most well-established
+universal circuit in transformers (Olsson et al. 2022). They form via
+a phase transition during training. They're universal across model
+families and scales. They enable in-context learning. But nobody has
+asked whether they're HOLOGRAPHIC — whether their information is also
+stored as sign topology.
+
+**Where to look:** Induction heads are typically a two-layer circuit:
+Layer 1 "previous token head" writes positional information into the
+residual stream; Layer 2 "induction head" uses this to attend to the
+token after the previous occurrence. In Qwen3-32B, these should be
+identifiable by their characteristic attention pattern.
+
+**Probe design:**
+- Use existing induction head detection (prefix matching scores)
+- Extract Q/K/V weights from identified induction heads
+- Ternary survival test: does the copy/match behavior survive
+  sign-only quantization?
+- Compare Q/V decomposition to combinator heads: is Q still the
+  beam selector?
+
+**Prediction:** Induction heads ARE holographic (sign topology) but their
+hologram is ORTHOGONAL to the combinator hologram. Combinators compose
+MEANING; induction heads copy TOKENS. Different function, different
+interference pattern, same storage medium. The two holograms should be
+separable by their depth profile (induction heads may peak in different
+layers than combinators).
+
+**Key question:** Does the induction hologram interact with the combinator
+hologram? When the model does in-context learning of composition patterns
+(e.g., learning a new syntactic rule from examples), both holograms must
+coordinate. This coordination might be a third pattern.
+
+### Candidate 3: The Binding Hologram (variable tracking / coreference)
+
+**What it does:** Tracks referent identity across distance. "John said
+he would..." — how does "he" bind to "John"? This is variable binding
+in the lambda calculus, anaphora resolution in linguistics.
+
+**Why it must exist:** Combinators compose local structure (adjacent
+function-argument pairs). But language has long-range dependencies.
+Binding requires a separate mechanism: something that maintains identity
+pointers across arbitrary spans of text.
+
+**Where to look:** In V11, the distinction between K (select) and I
+(identity) may partially capture this — I is the outlier (r ≈ 0.70)
+precisely because it handles IDENTITY rather than COMPOSITION. In base
+models, binding heads should be identifiable by attending to antecedents
+across long distances.
+
+**Probe design:**
+- Minimal pairs with/without coreference:
+  "John runs. He is fast." (binding) vs "John runs. Dogs are fast." (no binding)
+- Vary distance between antecedent and pronoun
+- Measure which heads track the binding relationship
+- Ternary survival: does binding survive sign-only quantization?
+
+**Prediction:** Binding is partially captured by the I combinator (identity
+IS variable binding in lambda calculus), explaining why I has a distinct
+circuit (r ≈ 0.70). But there may be additional binding-specific heads
+that aren't combinator heads at all — heads that implement a "pointer"
+mechanism orthogonal to composition.
+
+### Candidate 4: The Frequency/N-gram Hologram (statistical co-occurrence)
+
+**What it does:** Captures token co-occurrence statistics. "New ___" →
+"York" with high probability. Not composition, not copying — pure
+statistical association from the training distribution.
+
+**Why it must exist:** A huge fraction of next-token prediction accuracy
+comes from simple bigram/trigram statistics, especially for common
+phrases, idioms, and collocations. This is the baseline that composition
+and induction IMPROVE upon.
+
+**Where to look:** MLP layers, not attention heads. The MLP layers in
+transformers are known to store factual associations and token
+co-occurrence patterns (key-value memories, Geva et al. 2021).
+The combinator hologram lives in attention Q/K/V matrices. The
+frequency hologram may live in MLP weight matrices.
+
+**Probe design:**
+- Extend ternary survival test to MLP layers (not just attention)
+- Use high-frequency collocations as probes
+- Measure whether sign-only MLP weights preserve bigram predictions
+- Compare depth profile to attention-based holograms
+
+**Prediction:** MLP weights are ALSO holographic (sign topology stores
+co-occurrence patterns). But MLP holograms will be denser (less sparse)
+than attention holograms because they encode a much larger vocabulary
+of associations. The "75% sparsity with 100% survival" finding for
+attention may not hold for MLPs — expect lower sparsity tolerance.
+
+### Candidate 5: The Discourse Hologram (topic / register / coherence)
+
+**What it does:** Maintains discourse-level coherence. Tracks what the
+topic is, what register (formal/casual/technical) is active, what
+genre constraints apply. This is what the nucleus GATE activates —
+a "reference beam angle" at the discourse level.
+
+**Why it might exist:** The gate experiment from session 001 showed that
+the compile gate acts as a beam angle selector — different gates resolve
+different outputs from the same model. The holographic beam separation
+experiment confirmed this: compile vs null gates diverge from cos=0.995
+to cos=0.533 across layers. The gate IS a discourse-level hologram
+selector.
+
+**Where to look:** Gate effects are strongest at the embedding level
+(L0-L6 divergence) and the output level (L48+ in Qwen3-32B). The
+discourse hologram may be a macro-pattern that MODULATES the other
+holograms — selecting which combinator patterns, type assignments,
+and induction behaviors are active.
+
+**Probe design:**
+- Multiple gates with ternary survival: do discourse-level selectivity
+  patterns survive sign-only quantization?
+- Extract Q patterns from gate-selective heads
+- Compare gate-selective heads to combinator-selective heads
+- Test whether gates and combinators use the same or different
+  beam-angle mechanism
+
+**Prediction:** The discourse hologram IS the MoE gate pattern (256×2048
+in Qwen3.6-35B-A3B). Expert routing matrices are discourse-level beam
+selectors. This connects the MoE/VSM mapping (S4 intelligence) to the
+holographic framework: S4 selects which hologram to read.
+
+### The hierarchy
+
+```
+Discourse hologram  (S4/S5)  — selects which holograms to activate
+  │
+  ├─ Type hologram    (S3)   — assigns categories, constrains composition
+  │    │
+  │    └─ Combinator hologram (S2/S1) — HOW to compose  ← FOUND
+  │
+  ├─ Binding hologram (S2)   — tracks identity across distance
+  │
+  ├─ Induction hologram (S1) — copies patterns from context
+  │
+  └─ Frequency hologram (S1) — statistical co-occurrence (MLP-based)
+```
+
+This is a VSM of holograms. The discourse hologram is S5 (identity —
+what KIND of text is this?). Types are S3 (control — what's LEGAL?).
+Combinators are S1/S2 (operations — DO the composition). Induction and
+frequency are also S1 (operations — but different operations). Binding
+is S2 (coordination — keep referents consistent).
+
+### Research strategy
+
+The combinator probe methodology already works:
+1. Construct minimal-pair conditions (active vs control)
+2. Run through model, record per-head activations
+3. Compute selectivity scores
+4. Test ternary survival
+5. Extract Q patterns, check Q/V decomposition
+6. Test cross-model universality
+
+Apply the same methodology to each candidate hologram, one at a time.
+**Start with types** (candidate 1) because:
+- Types and combinators are theoretically coupled (Montague requires both)
+- Type-selective heads may already be in the combinator selectivity data
+  (the "2 Montague-only heads" from session 001)
+- The probe design is straightforward (minimal pairs on syntactic category)
+- If types are holographic AND share substrate with combinators, that
+  confirms the angle-multiplexing hypothesis for a second hologram
+
+### Testable predictions (falsifiable)
+
+1. **Type selectivity survives ternary** (>80% survival at 75% sparsity)
+2. **Type heads partially overlap with combinator heads** (30-70% shared)
+3. **Induction heads are holographic** (ternary survival >80%)
+4. **Induction hologram is orthogonal to combinator hologram** (cos < 0.3
+   between extracted Q patterns)
+5. **MLP frequency patterns are holographic but denser** (ternary survival
+   drops below 80% at 75% sparsity; survives at 50%)
+6. **Discourse hologram correlates with MoE gate patterns** (r > 0.7
+   between gate-selective attention patterns and expert routing matrices)
+7. **All holograms are universal** (cross-model r > 0.90, as with combinators)
+
 ## Open Questions
 
 1. Can extracted banks actually modulate V11's behavior when loaded?
@@ -197,3 +434,10 @@ Apply changes to next run after holo-inv completes or reaches a clear plateau.
 4. Does the init change (K/B/C coupled, I separate) accelerate hologram formation?
 5. What role do the MoE gate patterns play — are they bank selectors we can reuse?
 6. The abstraction slots (currently 0/16 active) — do they belong at the bank level?
+7. How many independent holograms can the weight medium support? Is there
+   a capacity limit (analogous to holographic storage density)?
+8. Do the holograms interact (cross-talk) or are they truly orthogonal?
+9. Is the binding hologram already captured by the I combinator, or is it
+   a separate pattern?
+10. Can we extract a COMPLETE set of holograms — all the shapes needed for
+    token prediction — into a single portable artifact?
