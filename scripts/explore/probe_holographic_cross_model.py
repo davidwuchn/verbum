@@ -37,6 +37,7 @@ GAUSSIAN_TC = float(np.sqrt(2 / np.pi))
 GAUSSIAN_CV = float(np.sqrt(np.pi / 2 - 1))
 
 MODELS = {
+    # Pythia family — GPT-NeoX architecture, The Pile data
     "pythia-70m": {
         "hf_name": "EleutherAI/pythia-70m-deduped",
         "family": "pythia", "params": "70M",
@@ -52,6 +53,25 @@ MODELS = {
     "pythia-1b": {
         "hf_name": "EleutherAI/pythia-1b-deduped",
         "family": "pythia", "params": "1B",
+    },
+    # Phi family — Microsoft, different architecture + data
+    "phi4-mini": {
+        "hf_name": "microsoft/Phi-4-mini-instruct",
+        "family": "phi", "params": "3.8B",
+    },
+    # Qwen3 family — different architecture, different data, different scale
+    "qwen3-0.6b": {
+        "hf_name": "Qwen/Qwen3-0.6B",
+        "family": "qwen3", "params": "0.6B",
+    },
+    "qwen3-4b": {
+        "hf_name": "Qwen/Qwen3-4B",
+        "family": "qwen3", "params": "4B",
+    },
+    # SmolLM3 — HuggingFace, yet another architecture
+    "smollm3-3b": {
+        "hf_name": "HuggingFaceTB/SmolLM3-3B",
+        "family": "smollm", "params": "3B",
     },
 }
 
@@ -74,23 +94,58 @@ def compute_corrected_score(W_np: np.ndarray) -> float:
 
 
 def classify_component(name: str) -> str:
-    """Classify a parameter name into component type."""
-    if "dense_h_to_4h" in name or "dense_4h_to_h" in name or "mlp" in name:
-        if "expert" in name:
-            return "expert_ffn"
-        return "mlp"
-    elif "query_key_value" in name or "q_proj" in name or "k_proj" in name:
+    """Classify a parameter name into component type.
+
+    Handles naming conventions across architectures:
+      Pythia (GPT-NeoX): query_key_value, dense, dense_h_to_4h
+      Qwen3: q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj
+      Phi: qkv_proj, o_proj, gate_up_proj, down_proj
+      SmolLM3: q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj
+    """
+    name_lower = name.lower()
+
+    # Attention QKV (universally magnitude-dependent)
+    if any(s in name_lower for s in [
+        "query_key_value", "qkv_proj",
+        "q_proj", "k_proj", "v_proj",
+        ".wq.", ".wk.", ".wv.",
+    ]):
         return "attention_qkv"
-    elif "dense" in name and "attention" in name:
-        return "attention_out"
-    elif "embed" in name:
+
+    # Attention output projection
+    if any(s in name_lower for s in [
+        "o_proj", ".wo.",
+        "attention.dense",  # Pythia
+    ]):
+        if "dense_h_to" not in name_lower and "dense_4h" not in name_lower:
+            return "attention_out"
+
+    # MLP / FFN (the holographic plate)
+    if any(s in name_lower for s in [
+        "mlp", "dense_h_to_4h", "dense_4h_to_h",
+        "gate_proj", "up_proj", "down_proj",
+        "gate_up_proj",  # Phi fused gate+up
+        "fc1", "fc2",    # some architectures
+    ]):
+        if "expert" in name_lower:
+            return "expert_ffn"
+        if "moe" in name_lower and "gate" in name_lower and "proj" not in name_lower:
+            return "moe_gate"
+        return "mlp"
+
+    # Embeddings
+    if "embed" in name_lower:
         return "embedding"
-    elif "norm" in name or "layernorm" in name:
+
+    # Norms (skip in analysis)
+    if any(s in name_lower for s in ["norm", "layernorm", "rmsnorm"]):
         return "norm"
-    elif "gate" in name and "mlp" not in name:
+
+    # MoE routing gate
+    if "gate" in name_lower and "proj" not in name_lower:
         return "moe_gate"
-    else:
-        return "other"
+
+    return "other"
 
 
 def analyze_model(model_key: str) -> dict:
