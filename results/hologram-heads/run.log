@@ -1,0 +1,293 @@
+════════════════════════════════════════════════════════════════════════
+  Hologram Head-Level Probe
+  Model: qwen36
+  Analyses: ['heads', 'binding_i', 'moe_late']
+  Output: results/hologram-heads/
+════════════════════════════════════════════════════════════════════════
+Loading Qwen/Qwen3.6-35B-A3B (hf)...
+  Qwen3.6-35B-A3B MoE — 40L, 256 experts × 8 active, hybrid attention (full every 4th layer, GatedDeltaNet rest). Best bang-for-compute local model. MoE gates ARE beam selectors.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 26 files:   0%|          | 0/26 [00:00<?, ?it/s]Fetching 26 files: 100%|██████████| 26/26 [00:00<00:00, 30309.03it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/693 [00:00<?, ?it/s]Loading weights:   0%|          | 1/693 [00:02<26:07,  2.27s/it]Loading weights:   2%|▏         | 14/693 [00:02<01:27,  7.80it/s]Loading weights:   5%|▍         | 32/693 [00:02<00:33, 19.47it/s]Loading weights:   7%|▋         | 49/693 [00:02<00:20, 31.42it/s]Loading weights:   8%|▊         | 58/693 [00:02<00:18, 34.83it/s]Loading weights:  10%|▉         | 66/693 [00:03<00:16, 38.43it/s]Loading weights:  12%|█▏        | 83/693 [00:03<00:12, 48.51it/s]Loading weights:  15%|█▍        | 101/693 [00:03<00:10, 56.40it/s]Loading weights:  17%|█▋        | 118/693 [00:03<00:07, 73.20it/s]Loading weights:  19%|█▊        | 129/693 [00:03<00:09, 59.67it/s]Loading weights:  22%|██▏       | 152/693 [00:04<00:07, 72.05it/s]Loading weights:  24%|██▍       | 169/693 [00:04<00:06, 79.82it/s]Loading weights:  26%|██▌       | 179/693 [00:04<00:06, 78.70it/s]Loading weights:  27%|██▋       | 188/693 [00:04<00:07, 68.85it/s]Loading weights:  28%|██▊       | 197/693 [00:04<00:08, 60.08it/s]Loading weights:  32%|███▏      | 221/693 [00:05<00:06, 73.90it/s]Loading weights:  34%|███▍      | 239/693 [00:05<00:05, 80.19it/s]Loading weights:  37%|███▋      | 257/693 [00:05<00:05, 86.23it/s]Loading weights:  38%|███▊      | 266/693 [00:05<00:05, 76.56it/s]Loading weights:  42%|████▏     | 290/693 [00:05<00:04, 91.54it/s]Loading weights:  44%|████▍     | 307/693 [00:06<00:04, 94.20it/s]Loading weights:  46%|████▌     | 317/693 [00:06<00:04, 89.92it/s]Loading weights:  47%|████▋     | 326/693 [00:06<00:04, 73.96it/s]Loading weights:  48%|████▊     | 335/693 [00:06<00:05, 63.54it/s]Loading weights:  52%|█████▏    | 359/693 [00:06<00:04, 82.28it/s]Loading weights:  54%|█████▍    | 377/693 [00:06<00:03, 84.15it/s]Loading weights:  57%|█████▋    | 395/693 [00:07<00:03, 87.84it/s]Loading weights:  58%|█████▊    | 404/693 [00:07<00:03, 73.66it/s]Loading weights:  62%|██████▏   | 427/693 [00:07<00:03, 85.42it/s]Loading weights:  63%|██████▎   | 436/693 [00:07<00:03, 82.13it/s]Loading weights:  64%|██████▍   | 446/693 [00:07<00:03, 71.50it/s]Loading weights:  67%|██████▋   | 464/693 [00:08<00:03, 74.94it/s]Loading weights:  68%|██████▊   | 473/693 [00:08<00:03, 64.32it/s]Loading weights:  72%|███████▏  | 496/693 [00:08<00:02, 92.64it/s]Loading weights:  73%|███████▎  | 508/693 [00:08<00:01, 94.44it/s]Loading weights:  75%|███████▍  | 519/693 [00:08<00:02, 84.93it/s]Loading weights:  77%|███████▋  | 533/693 [00:08<00:02, 78.42it/s]Loading weights:  78%|███████▊  | 542/693 [00:09<00:02, 58.31it/s]Loading weights:  82%|████████▏ | 566/693 [00:09<00:01, 74.61it/s]Loading weights:  84%|████████▍ | 584/693 [00:09<00:01, 76.95it/s]Loading weights:  87%|████████▋ | 602/693 [00:09<00:01, 74.92it/s]Loading weights:  88%|████████▊ | 611/693 [00:10<00:01, 67.62it/s]Loading weights:  92%|█████████▏| 635/693 [00:10<00:00, 84.05it/s]Loading weights:  94%|█████████▍| 653/693 [00:10<00:00, 87.60it/s]Loading weights:  97%|█████████▋| 670/693 [00:10<00:00, 91.57it/s]Loading weights:  98%|█████████▊| 680/693 [00:10<00:00, 65.62it/s]Loading weights: 100%|██████████| 693/693 [00:11<00:00, 62.99it/s]
+Loaded in 13.9s: 40L × 16H, d=2048
+  MoE: 256 experts × 8 active
+  Hybrid: full_attn at L[3, 7, 11, 15, 19, 23, 27, 31, 35, 39], linear_attn at 30 layers
+
+  Architecture: 40L × 16H, d=2048
+  Head dim: 256
+  Measure layers (12): [0, 3, 7, 11, 15, 19, 23, 27, 31, 35, 38, 39]
+
+────────────────────────────────────────────────────────────────────────
+  Analysis 1: Head-Level Selectivity
+────────────────────────────────────────────────────────────────────────
+
+  Probing: COMBINATOR (baseline)
+
+  ┌─ COMBINATOR Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L  15 H   1     0.311255
+  │    2 L   3 H   5     0.290800
+  │    3 L  35 H   7     0.281748
+  │    4 L   3 H   6     0.276782
+  │    5 L  35 H   2     0.275707
+  │    6 L  35 H   1     0.275334
+  │    7 L  15 H   7     0.271342
+  │    8 L   3 H  15     0.269984
+  │    9 L   0 H   5     0.266845
+  │   10 L  27 H   7     0.265059
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.130451   0.266845 H       5
+  │ L   3   0.139494   0.290800 H       5
+  │ L   7   0.073537   0.226767 H       3
+  │ L  11   0.115873   0.214820 H       7
+  │ L  15   0.171838   0.311255 H       1
+  │ L  19   0.152355   0.263316 H      13
+  │ L  23   0.104442   0.181707 H       3
+  │ L  27   0.156748   0.265059 H       7
+  │ L  31   0.072480   0.176513 H       7
+  │ L  35   0.123804   0.281748 H       7
+  │ L  38   0.092518   0.190806 H       6
+  │ L  39   0.041566   0.081708 H       0
+
+
+  Probing: TYPE
+
+  ┌─ TYPE Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L  35 H   2     0.304164
+  │    2 L  35 H   3     0.289614
+  │    3 L  35 H   7     0.288797
+  │    4 L   3 H   6     0.252366
+  │    5 L  35 H   5     0.251396
+  │    6 L  35 H   1     0.230063
+  │    7 L   0 H   4     0.229239
+  │    8 L   0 H   5     0.219938
+  │    9 L   3 H  12     0.217053
+  │   10 L   0 H  15     0.212217
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.135027   0.229239 H       4
+  │ L   3   0.119505   0.252366 H       6
+  │ L   7   0.062753   0.151720 H       3
+  │ L  11   0.072458   0.159525 H       7
+  │ L  15   0.083249   0.148672 H      15
+  │ L  19   0.091360   0.203400 H      11
+  │ L  23   0.075608   0.139578 H       3
+  │ L  27   0.080942   0.160949 H      15
+  │ L  31   0.037907   0.127767 H       7
+  │ L  35   0.123781   0.304164 H       2
+  │ L  38   0.083543   0.151872 H       2
+  │ L  39   0.033348   0.065528 H       0
+
+
+  Probing: INDUCTION
+
+  ┌─ INDUCTION Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L  27 H  15     0.242272
+  │    2 L   0 H   5     0.230592
+  │    3 L  15 H  15     0.227917
+  │    4 L   0 H   4     0.225536
+  │    5 L  27 H   8     0.219684
+  │    6 L  11 H  15     0.218977
+  │    7 L  19 H   9     0.216998
+  │    8 L  19 H  13     0.214432
+  │    9 L   3 H   6     0.207046
+  │   10 L  15 H   8     0.203718
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.116472   0.230592 H       5
+  │ L   3   0.095551   0.207046 H       6
+  │ L   7   0.079768   0.139488 H       3
+  │ L  11   0.098886   0.218977 H      15
+  │ L  15   0.099409   0.227917 H      15
+  │ L  19   0.114585   0.216998 H       9
+  │ L  23   0.086953   0.147724 H       9
+  │ L  27   0.107332   0.242272 H      15
+  │ L  31   0.079042   0.153319 H      14
+  │ L  35   0.064637   0.153153 H       1
+  │ L  38   0.051802   0.109000 H       6
+  │ L  39   0.024582   0.042067 H       0
+
+
+  Probing: BINDING
+
+  ┌─ BINDING Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L  35 H   7     0.163137
+  │    2 L   3 H   5     0.158753
+  │    3 L   7 H   3     0.145923
+  │    4 L   7 H   4     0.145889
+  │    5 L   0 H   5     0.143132
+  │    6 L   0 H   6     0.130171
+  │    7 L  27 H   8     0.126688
+  │    8 L  35 H   1     0.121679
+  │    9 L  19 H   9     0.121666
+  │   10 L   0 H   8     0.120694
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.070597   0.143132 H       5
+  │ L   3   0.062571   0.158753 H       5
+  │ L   7   0.053019   0.145923 H       3
+  │ L  11   0.058329   0.099914 H       3
+  │ L  15   0.055020   0.111628 H      15
+  │ L  19   0.068118   0.121666 H       9
+  │ L  23   0.051263   0.093667 H       3
+  │ L  27   0.058992   0.126688 H       8
+  │ L  31   0.041949   0.100498 H       7
+  │ L  35   0.050312   0.163137 H       7
+  │ L  38   0.044312   0.091103 H       6
+  │ L  39   0.017520   0.033914 H       0
+
+
+  Probing: FREQUENCY
+
+  ┌─ FREQUENCY Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L  35 H   5     0.410992
+  │    2 L  35 H   2     0.383376
+  │    3 L   0 H   4     0.326269
+  │    4 L   0 H  15     0.313011
+  │    5 L   3 H   6     0.305480
+  │    6 L   0 H   5     0.300881
+  │    7 L  35 H   1     0.293395
+  │    8 L   0 H   8     0.270131
+  │    9 L  35 H   7     0.258688
+  │   10 L  35 H   0     0.243668
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.173093   0.326269 H       4
+  │ L   3   0.106173   0.305480 H       6
+  │ L   7   0.058133   0.183120 H       3
+  │ L  11   0.066164   0.181744 H       9
+  │ L  15   0.101797   0.195426 H       8
+  │ L  19   0.107826   0.230539 H      13
+  │ L  23   0.073710   0.124692 H       9
+  │ L  27   0.090037   0.182830 H       8
+  │ L  31   0.033724   0.111466 H       7
+  │ L  35   0.134965   0.410992 H       5
+  │ L  38   0.064013   0.131708 H       4
+  │ L  39   0.031948   0.104837 H       0
+
+
+  Probing: DISCOURSE
+
+  ┌─ DISCOURSE Top-10 Heads ──────────────────────┐
+  │ rank  layer   head  selectivity
+  │    1 L   0 H   3     0.629771
+  │    2 L   0 H  10     0.588659
+  │    3 L   3 H  15     0.580786
+  │    4 L  35 H   2     0.556881
+  │    5 L  35 H   7     0.552641
+  │    6 L  35 H   1     0.506075
+  │    7 L  35 H   5     0.500062
+  │    8 L   3 H   6     0.482219
+  │    9 L   0 H   4     0.473674
+  │   10 L   0 H   6     0.448529
+  └──────────────────────────────────────────────┘
+  │  layer   mean_sel    max_sel   max_head
+  │ L   0   0.291523   0.629771 H       3
+  │ L   3   0.259638   0.580786 H      15
+  │ L   7   0.175659   0.407296 H       1
+  │ L  11   0.170151   0.326066 H       9
+  │ L  15   0.203250   0.312446 H       3
+  │ L  19   0.215339   0.384010 H      11
+  │ L  23   0.171766   0.274077 H      14
+  │ L  27   0.179807   0.411775 H       3
+  │ L  31   0.092616   0.238829 H      10
+  │ L  35   0.224830   0.556881 H       2
+  │ L  38   0.183455   0.332999 H       6
+  │ L  39   0.087460   0.176429 H       0
+
+
+────────────────────────────────────────────────────────────────────────
+  Head-Level Cross-Hologram Orthogonality
+────────────────────────────────────────────────────────────────────────
+
+  ┌─ Head-Level Orthogonality (192-dim vectors) ─────┐
+
+  Pearson correlation:
+                  binding combinator  discourse  frequency  induction       type
+       binding      1.000      0.811      0.751      0.726      0.825      0.786
+    combinator      0.811      1.000      0.817      0.816      0.745      0.863
+     discourse      0.751      0.817      1.000      0.856      0.594      0.910
+     frequency      0.726      0.816      0.856      1.000      0.658      0.922
+     induction      0.825      0.745      0.594      0.658      1.000      0.633
+          type      0.786      0.863      0.910      0.922      0.633      1.000
+
+  Cosine similarity:
+                  binding combinator  discourse  frequency  induction       type
+       binding      1.000      0.939      0.918      0.886      0.947      0.923
+    combinator      0.939      1.000      0.938      0.921      0.919      0.950
+     discourse      0.918      0.938      1.000      0.937      0.869      0.967
+     frequency      0.886      0.921      0.937      1.000      0.861      0.965
+     induction      0.947      0.919      0.869      0.861      1.000      0.872
+          type      0.923      0.950      0.967      0.965      0.872      1.000
+
+  Jaccard similarity (top-20 heads):
+                  binding combinator  discourse  frequency  induction       type
+       binding      1.000      0.212      0.290      0.290      0.333      0.333
+    combinator      0.212      1.000      0.250      0.290      0.176      0.333
+     discourse      0.290      0.250      1.000      0.481      0.176      0.667
+     frequency      0.290      0.290      0.481      1.000      0.250      0.538
+     induction      0.333      0.176      0.176      0.250      1.000      0.176
+          type      0.333      0.333      0.667      0.538      0.176      1.000
+  └────────────────────────────────────────────────────────────────────────┘
+  💾 Results: results/hologram-heads/hologram_heads_results.json
+  💾 Head vectors: results/hologram-heads/head_selectivity_vectors.npz
+
+────────────────────────────────────────────────────────────────────────
+  Analysis 2: Binding ↔ I Combinator Overlap
+────────────────────────────────────────────────────────────────────────
+
+  ┌─ Binding ↔ Combinator Overlap ──────────────────────┐
+  │ Prediction: Jaccard(binding,I) >> Jaccard(binding,K/B/C)
+  │
+  │               metric          K          I          B          C
+  │      Jaccard(top-20)      0.250      0.212
+  │               Cosine      0.932      0.921
+  │          Correlation      0.799      0.762
+  │
+  │ Verdict: PARTIAL: only K and B combinators available (need I/C probes)
+  └────────────────────────────────────────────────────────────┘
+
+  Per-head ternary survival for binding at [3, 7, 11]
+    Measuring baseline head selectivity...
+    Quantizing L3 (sign-only)...
+    Quantizing L7 (sign-only)...
+    Quantizing L11 (sign-only)...
+  💾 Results: results/hologram-heads/hologram_heads_results.json
+  💾 Head vectors: results/hologram-heads/head_selectivity_vectors.npz
+
+────────────────────────────────────────────────────────────────────────
+  Analysis 3: Late MoE Gate Ternary Survival
+────────────────────────────────────────────────────────────────────────
+
+  ┌─ MoE Gate Ternary Survival (late layers) ─────────────┐
+  │  layer     frob  eff90  eff99     sign      50%      75%
+  │ L  18    11.83    193    247  0.627 ✓  0.744 ✓  0.760 ✓
+  │ L  19    11.29    193    248  0.622 ✓  0.739 ✓  0.756 ✓
+  │ L  20    11.21    189    247  0.656 ✓  0.774 ✓  0.779 ✓
+  │ L  21    11.37    194    248  0.643 ✓  0.761 ✓  0.772 ✓
+  │ L  22    12.48    194    248  0.646 ✓  0.766 ✓  0.780 ✓
+  │ L  30     9.65    192    247  0.629 ✓  0.745 ✓  0.759 ✓
+  │ L  31     8.85    190    246  0.626 ✓  0.743 ✓  0.758 ✓
+  │ L  32     8.60    189    246  0.629 ✓  0.745 ✓  0.758 ✓
+  │ L  33     8.28    188    244  0.644 ✓  0.760 ✓  0.766 ✓
+  │ L  34     8.07    186    245  0.636 ✓  0.750 ✓  0.758 ✓
+  │ L  35     7.57    187    246  0.660 ✓  0.773 ✓  0.771 ✓
+  │ L  36     7.40    184    244  0.651 ✓  0.768 ✓  0.773 ✓
+  │ L  37     7.20    181    243  0.665 ✓  0.780 ✓  0.780 ✓
+  │ L  38     6.92    178    243  0.691 ✓  0.804 ✓  0.790 ✓
+  │ L  39     8.59    172    240  0.758 ✓  0.863 ✓  0.812 ✓
+  └────────────────────────────────────────────────────────────────────┘
+  💾 Results: results/hologram-heads/hologram_heads_results.json
+  💾 Head vectors: results/hologram-heads/head_selectivity_vectors.npz
+  💾 Results: results/hologram-heads/hologram_heads_results.json
+  💾 Head vectors: results/hologram-heads/head_selectivity_vectors.npz
+
+════════════════════════════════════════════════════════════════════════
+  Done. Results: results/hologram-heads/
+════════════════════════════════════════════════════════════════════════

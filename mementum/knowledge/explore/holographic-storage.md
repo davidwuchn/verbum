@@ -466,6 +466,55 @@ ternary failures, only late-peaking hologram (L35 > L31 > L7), genre distinction
 KL=2.526 (highest in dataset). Consistent with S5 modulation hypothesis: discourse
 doesn't compute, it SELECTS which beams activate.
 
+### Head-level resolution (session 095, probe_hologram_heads.py)
+
+Layer-level orthogonality failed (all pairs r>0.72). Head-level probe on Qwen3.6
+(192-dim vectors: 12 layers × 16 heads) resolved the six holograms into **three
+computational clusters** via Jaccard top-20 overlap:
+
+```
+Jaccard top-20 matrix (THE diagnostic):
+              binding  combinator  discourse  frequency  induction  type
+binding        1.000       0.212      0.290      0.290      0.333  0.333
+combinator     0.212       1.000      0.250      0.290      0.176  0.333
+discourse      0.290       0.250      1.000      0.481      0.176  0.667
+frequency      0.290       0.290      0.481      1.000      0.250  0.538
+induction      0.333       0.176      0.176      0.250      1.000  0.176
+type           0.333       0.333      0.667      0.538      0.176  1.000
+```
+
+**Cluster 1: Semantic Plate** (discourse/type/frequency)
+- Discourse↔type J=0.667 — 13/20 heads shared. Angle-multiplexed.
+- Discourse↔frequency J=0.481, frequency↔type J=0.538
+- Same ~13 heads at L0, L3, L35. Different amplitudes per hologram.
+- These ARE the holographic plate — storage, not computation.
+- Universal heads: L0 H5, L35 H1, L35 H7 (in all 6 holograms' top-20)
+
+**Cluster 2: Composition Circuit** (combinator/KIBC)
+- 7 PRIVATE heads: L15 H1/H4/H5/H7, L19 H0/H10, L27 H7
+- J with all others: 0.176–0.333 (low)
+- Concentrated at L15/L19 full-attention layers
+- This IS the KIBC kernel pathway
+
+**Cluster 3: Retrieval Circuit** (induction)
+- 6 PRIVATE heads: L3 H0/H13, L11 H9/H15, L15 H14, L31 H14
+- J with combinator/discourse/type: ALL 0.176 (joint floor)
+- Most independent circuit. GatedDeltaNet layers prominent.
+- L11 H15 = strong private induction head (selectivity 0.219)
+- NO KERNEL IN V11 → this is the M (match) kernel gap
+
+**Binding**: weakest signal (max 0.163), no private heads, distributed across
+clusters. Overlaps more with B-combinator than K (J=0.250 vs 0.212). At L3,
+15/16 heads fail sign-only ternary (mean survival 0.15) — pure magnitude encoding
+at early layers. Resolves to K+I dispatch in V11 with kernels.
+
+**Signal strength**: discourse (0.630) >> frequency (0.411) > combinator (0.311) >
+type (0.304) > induction (0.242) >> binding (0.163)
+
+**Implication**: The kernel inventory is KIBC + M = **KIBCM**. Three computational
+primitives: semantic plate (inherent), composition (KIBC, built), retrieval (M, missing).
+See `holographic-kernel-separation.md`.
+
 ## Open Questions
 
 1. Can extracted banks actually modulate V11's behavior when loaded?

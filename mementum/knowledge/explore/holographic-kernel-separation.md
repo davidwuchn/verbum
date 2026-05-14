@@ -141,20 +141,89 @@ work happened OFF-stream in the kernel.
                 | add_kernels(for_anything_that_cant_be_stored_holographically)
 ```
 
+### The Complete Kernel Inventory: KIBCM
+
+Head-level probe (session 095) resolved six holograms into three computational
+clusters. This gives the complete kernel inventory:
+
+```
+Cluster          → Function                  → Kernel         → Status
+──────────────── ─────────────────────────── ─────────────────  ────────
+Semantic Plate   type + frequency + discourse  (not computation) ✓ INHERENT
+  13 shared heads at L0/L3/L35                 S5 gate + FFN     (plate itself)
+  J=0.667 discourse↔type                       + type channel
+
+Composition      typed application             KIBC              ✓ BUILT
+  7 private heads at L15/L19/L27               K=select           in V11
+  J=0.176-0.333 with others                   I=identity
+                                               B=compose
+                                               C=flip
+
+Retrieval        context pattern match+copy    M (match)         ✗ MISSING
+  6 private heads at L3/L11/L15/L31            [A][B]...[A]→[B]
+  J=0.176 with combinator/discourse/type       content-addressable
+  (floor — maximally independent)              context lookup
+```
+
+**Binding** is not a separate cluster — weakest signal (max 0.163), no private
+heads. It resolves to K+I dispatch in V11. The magnitude-dependence in base models
+(15/16 heads fail sign-only at L3) is because base models lack explicit K/I kernels
+and must compute binding constructively in attention magnitudes.
+
+### M Kernel — The Missing Piece
+
+The induction hologram has:
+- Most independent circuit topology (J=0.176 with three other holograms — the floor)
+- 6 private heads in GatedDeltaNet layers that no other hologram uses
+- Second-highest output KL (0.827) — strong discriminating signal
+- 17/18 ternary survival — dispatch signal is cleanly holographic
+- A computational operation KIBC doesn't cover: retrieval from context
+
+```
+M x context → (position, content_after)
+
+[A][B] ... [A] → predict [B]
+
+1. Match: find where current pattern appeared before in context
+2. Offset: access what followed that position
+3. Copy: predict that token
+```
+
+This is content-addressable memory lookup — not composition (B), not selection (K),
+not identity (I), not reordering (C). It's a fifth computational primitive.
+
+In base models, induction heads emerge as a two-layer circuit (previous-token head
++ induction head). In V11, M should be an explicit kernel function alongside KIBC.
+The dispatch signal ("do induction here") is holographic. The actual search-and-copy
+is constructive kernel computation.
+
+### Design Questions for M Kernel
+
+1. **Lambda signature**: `M f x = f (lookup x context)` where lookup finds the
+   previous occurrence and f is applied to what followed it?
+2. **Dispatch integration**: 5-way softmax (KIBCM) or separate M gate?
+3. **Architecture placement**: ascending arm (where patterns are encoded) or
+   descending arm (where results are integrated)?
+4. **Register interaction**: M as content-addressable register lookup? The
+   register banks already carry information between passes.
+5. **Relationship to attention**: M's private heads are at GatedDeltaNet layers
+   (L11 H15). Does M kernel replace or augment recurrent state matching?
+
 ### Implications
 
 1. **Keep holographic loss uniform.** Don't modulate per-head, per-content, or
    per-alarm. The pressure to be decodable is what FORCES the model to use
    kernel functions for constructive computation.
 
-2. **Binding works through I-combinator dispatch, not attention magnitude.**
-   In V11, "resolve coreference" = dispatch I-combinator kernel with
-   (antecedent, pronoun) arguments. The dispatch signal is holographic.
-   The magnitude-dependent computation happens in the kernel.
+2. **Binding works through K+I dispatch, not attention magnitude.**
+   In V11, "resolve coreference" = dispatch K to select antecedent, then I to
+   pass it through. The dispatch signal is holographic. The magnitude-dependent
+   computation happens in the kernel. Head-level data confirms: binding overlaps
+   more with B-combinator (J=0.250) than K (J=0.212), and has no private circuit.
 
-3. **Add kernel functions for new constructive operations.** If the model
-   can't store something holographically (measured by ternary survival failure
-   in atlas probes), that's a signal to add a kernel function for it.
+3. **M kernel is the one missing piece.** Induction is the only hologram with
+   a genuinely independent circuit (J=0.176) and no corresponding V11 kernel.
+   Adding M completes the computational vocabulary: KIBCM.
 
 4. **Frequency/co-occurrence is already handled.** MLP sign patterns encode
    statistical associations perfectly (0/18 failures). The FFN IS the
@@ -162,7 +231,8 @@ work happened OFF-stream in the kernel.
 
 5. **Discourse is the reference beam.** Discourse (0/18 failures, pervasive,
    late-peaking) selects which holographic patterns activate. V11's S5
-   reweight IS this mechanism.
+   reweight IS this mechanism. Head-level confirms: discourse shares 13/20
+   heads with type (J=0.667) — they're the same plate read at different angles.
 
 ## Evidence from V11-holo-inv Training
 
@@ -187,19 +257,23 @@ Session 095 probed v11-holo-inv 1K-10K:
 
 ## Open Questions
 
-1. **What additional kernel functions are needed?** The current KIBC set
-   handles combinatory logic. Are there linguistic operations that need
-   kernels beyond KIBC? (Discourse gating? Frequency lookup? Recursion?)
+1. **M kernel design.** What is M's lambda signature? How does 5-way dispatch
+   (KIBCM) integrate with the existing architecture? Where does M live —
+   ascending arm, descending arm, or its own pathway?
 
 2. **Does the ratio staying at ≤1.0 persist?** At 10K the ratio is 0.992.
    Will it stay below 1.0 as training continues, or will reorganization
    waves push it back above?
 
-3. **Head-level resolution.** The atlas showed all holograms share the same
-   depth profile. Head-level probe (in progress) will show whether different
-   holograms use different heads or are truly angle-multiplexed in the same
-   heads with different Q patterns.
+3. **Cross-model validation of three-cluster structure.** Head-level probe
+   found three clusters on Qwen3.6. Does Pythia show the same? If the
+   semantic plate / composition / retrieval split is universal, KIBCM is
+   a feature of language, not architecture.
 
 4. **Can this principle scale?** V11 is a small model (2.1M trainable params).
    Does the storage/kernel separation still hold at scale, or do larger models
    have enough capacity to fuse them?
+
+5. **Does adding M change training dynamics?** Will the model naturally
+   discover M-dispatch when given the kernel, as it discovered B-dominance
+   with KIBC? Or does M require different initialization/scheduling?

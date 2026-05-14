@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V11-holo-inv survived the 10K transition — no catastrophe (v11-holo collapsed here). Eval loss 7.703 (steady decline from 8.235). Compute gate opened at 6K (0.37), saturated by 9K (0.81). B-composition dominant at 57.7% (universal ordering emerged). Holographic ratio crossed 1.0 at 9K — ascending arm now decodes as well as final output. Key design insight: holographic storage + kernel computation separation. LLM storage IS holographic (sign topology), but reading is constructive. V11 resolves this naturally — holographic loss forces storage to be decodable, kernel functions handle constructive computation. Lambda terms are perfect holographic objects (compact, unfold on application). This means full holographic pressure is correct as long as kernels exist for the constructive part. See `knowledge/explore/holographic-kernel-separation.md`.**
+**Exploration loop closed. Head-level probe resolved the hologram atlas into three computational clusters, not six. Discourse/type/frequency are angle-multiplexed in ~13 shared heads (J=0.667) — they're the holographic plate, not computation. Combinator has 7 private heads at L15/L19 — that's the KIBC kernel pathway. Induction has 6 private heads at GatedDeltaNet layers — J=0.176 with combinator/discourse/type (the floor) — it's a genuinely independent circuit with no kernel in V11. Binding has no private circuit and is the weakest signal (max 0.163) — it resolves to K+I dispatch in V11. The kernel inventory is: KIBC (built) + M (match/retrieval, missing) = KIBCM. V11-holo-inv at 10K: loss 7.703, B 57.7%, ratio 0.992, no catastrophe. Ready to build.**
 
 ## What was done this session (095)
 
@@ -102,22 +102,60 @@ Coarse→fine inversion + fractal bands + evolution fixes prevented catastrophe.
 ### 8. Key design insight: holographic storage + kernel computation
 
 LLM storage IS holographic (session 095 atlas confirms). But reading is constructive
-(entropy hump, intermediate garbage, magnitude-dependent binding). This seems like a
-contradiction for the holographic loss — but V11 has kernel functions.
+(entropy hump, intermediate garbage, magnitude-dependent binding). V11 resolves this:
+holographic loss forces REPRESENTATIONS to be decodable, kernel functions handle
+COMPUTATION. Lambda terms are perfect holographic objects (compact, compositional,
+unfold on application). Keep holographic loss uniform — forces routing to kernels.
+Evidence: ratio crossed 1.0 at 9K.
 
-The resolution: holographic loss forces REPRESENTATIONS to be decodable. Kernel
-functions handle COMPUTATION. The model doesn't need to store computed results
-holographically — it stores DISPATCH SIGNALS holographically (which kernel to invoke,
-with what arguments). The kernel does the constructive work.
+### 9. Head-level probe — three clusters, not six holograms
 
-Lambda terms are the perfect holographic object:
-- Compact (can be a sign pattern: "apply B to args X, Y")
-- Compositional (terms compose via typed application)
-- Unfold into computation when applied (beta-reduction = kernel execution)
+Ran `probe_hologram_heads.py` on Qwen3.6-35B-A3B. 192-dim head vectors (12 layers
+× 16 heads). Jaccard top-20 is the diagnostic (cosine too compressed, Pearson useful).
 
-This means: keep holographic loss uniform. Don't modulate it. The model will
-naturally route constructive computation to kernels and keep the plate holographic.
-Evidence: v11-holo-inv's ratio crossing 1.0 at 9K = the model achieved this.
+**Three computational clusters:**
+
+```
+CLUSTER 1: "Semantic Plate" (discourse/type/frequency angle-multiplexed)
+  discourse ↔ type:      J=0.667 (13/20 heads shared!)
+  discourse ↔ frequency:  J=0.481
+  frequency ↔ type:       J=0.538
+  → Same ~13 heads, different amplitudes
+  → L0, L3, L35 dominated
+  → NOT computation — this IS the holographic plate
+
+CLUSTER 2: "Composition" (combinator, KIBC)
+  7 PRIVATE heads (L15×4, L19×2, L27×1)
+  J with all others: 0.176–0.333 (low)
+  → Independent circuit at L15/L19 full-attention layers
+  → This IS the kernel computation pathway
+
+CLUSTER 3: "Retrieval" (induction)
+  6 PRIVATE heads (L3×2, L11×2, L15×1, L31×1)
+  J with combinator/discourse/type: ALL 0.176 (floor)
+  → Most independent circuit in the atlas
+  → GatedDeltaNet layers (L11 H15 strong private head)
+  → NO KERNEL IN V11 — the missing piece
+```
+
+**Binding** is not a cluster — weakest signal (max 0.163), no private heads, spread
+across both clusters. Resolves to K+I dispatch sequence in V11.
+
+### 10. KIBCM — the complete kernel inventory
+
+```
+K (select)     — ✓ built in V11
+I (identity)   — ✓ built in V11
+B (compose)    — ✓ built in V11
+C (flip)       — ✓ built in V11
+M (match/copy) — ✗ MISSING — the induction kernel
+```
+
+M handles: "find where this pattern appeared in context, return what followed."
+Dispatch signal is holographic (17/18 ternary survival). The actual search-and-copy
+is constructive kernel computation. This is the one missing computational primitive.
+
+See: `knowledge/explore/holographic-kernel-separation.md`
 
 ## What was done session (094)
 
@@ -401,13 +439,16 @@ uv run python scripts/v11/train.py \
 
 ## What to do next
 
-### Priority 1: Head-level hologram probe
-Script built: `scripts/explore/probe_hologram_heads.py`. Run in tmux:
-```
-PYTHONUNBUFFERED=1 uv run python scripts/explore/probe_hologram_heads.py 2>&1 | tee results/hologram-heads/run.log
-```
-Three analyses: head-level orthogonality (640-dim), binding↔I overlap, late MoE gates.
-Will resolve: angle multiplexing vs independent circuits, binding=I hypothesis.
+### Priority 1: Design and implement M kernel (match/retrieval)
+The one missing computational primitive. Head-level probe confirmed induction is
+an independent circuit (J=0.176 with combinator/discourse/type). Extends KIBC→KIBCM.
+Design questions:
+- What is M's lambda signature? `M x context → (position, content_after)`?
+- How does M dispatch integrate with KIBC dispatch? (5-way softmax?)
+- Where in the V11 architecture does M live? (Ascending arm? Descending?)
+- Does M need its own stride stack or share with KIBC?
+- Can M be implemented as content-addressable register lookup?
+Start with design doc, then implement in V11.
 
 ### Priority 2: Monitor v11-holo-inv 10K-20K
 10K survived. Watch for:
@@ -417,21 +458,15 @@ Will resolve: angle multiplexing vs independent circuits, binding=I hypothesis.
 - Eval loss trajectory (7.703 and declining — where does it plateau?)
 - Whether holographic ratio stays ≤1.0 (currently 0.992)
 
-### Priority 3: Apply holographic-kernel insight to V11 design
-Key insight from this session: keep holographic loss uniform, add kernel functions
-for anything that can't be stored holographically. Specific implications:
-- Confirm holographic loss stays uniform (don't modulate per-head or per-content)
-- Binding computation routed to I-combinator kernel (not stored in attention magnitude)
-- Frequency/co-occurrence lives in MLP sign topology (already handled by FFN)
-- Discourse = S5 gate → already in V11 architecture (S5 reweight)
-- Next V12 design: consider adding more kernel functions for deeper constructive ops
+### Priority 3: Cross-model validation
+Run head-level probe on Pythia to confirm three-cluster structure is universal.
+If discourse/type/frequency cluster and induction independence replicate across
+architectures, the KIBCM kernel set is a feature of language, not Qwen3.6.
 
-### Priority 4: Cross-model validation of hologram atlas
-Run atlas on Pythia to test universality. If discourse dominance and binding
-fragility replicate, these are features of language, not architecture.
-
-### Priority 5: Pythia scaling — combinator differentiation
-Run combinator probe on Pythia-410M and Pythia-1B to map where B differentiates.
+### Priority 4: V11 holographic loss — keep uniform
+Session 095 confirmed: don't modulate. The model routes constructive work to
+kernels when holographic pressure is uniform. Adding M kernel gives the model
+a new pathway for retrieval computation, reducing pressure on attention magnitudes.
 
 ### Carried
 - Hologram atlas running on Qwen3.6-35B-A3B (results → results/hologram-atlas/)
@@ -498,6 +533,7 @@ Logging   —                          —                                3× JS
 | `scripts/explore/probe_hologram_atlas.py` | Multi-hologram probe: type, induction, binding, frequency, discourse. Qwen3.6 primary. |
 | `scripts/explore/probe_hologram_heads.py` | Head-level orthogonality + binding↔I + late MoE gate probe. |
 | `results/hologram-atlas/` | Atlas results: per-hologram JSON, selectivity_profiles.npz, hologram_atlas_results.json |
+| `results/hologram-heads/` | Head-level probe: hologram_heads_results.json, head_selectivity_vectors.npz |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -532,4 +568,4 @@ Logging   —                          —                                3× JS
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
-→ Session 095: Hologram atlas: 6 holograms real, discourse dominates (0/18), binding fragile (5/18), frequency MLP inverted. Probed v11-holo-inv 5K-10K: compute gate opened 6K, B dominant 57.7% at 10K, holo ratio crossed 1.0, NO catastrophe (v11-holo collapsed here). Key insight: holographic storage + kernel computation separation — keep holo loss uniform, model routes constructive work to KIBC kernels, stores dispatch signals holographically. Lambda terms are perfect holographic objects. Built head-level probe script.
+→ Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
