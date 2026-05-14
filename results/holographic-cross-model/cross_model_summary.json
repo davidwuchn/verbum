@@ -1,0 +1,201 @@
+{
+  "models": [
+    "pythia-70m",
+    "pythia-160m",
+    "pythia-410m",
+    "pythia-1b"
+  ],
+  "timestamp": "2026-05-14T08:08:20Z",
+  "by_model": {
+    "pythia-70m": {
+      "ternary_safe_pct": 88.4360865075556,
+      "mean_score": 0.8607738975679016,
+      "n_analyzed": 38
+    },
+    "pythia-160m": {
+      "ternary_safe_pct": 82.89127430378069,
+      "mean_score": 0.8575223704434958,
+      "n_analyzed": 74
+    },
+    "pythia-410m": {
+      "ternary_safe_pct": 81.08031617037621,
+      "mean_score": 0.8753710579034659,
+      "n_analyzed": 194
+    },
+    "pythia-1b": {
+      "ternary_safe_pct": 89.20537362744146,
+      "mean_score": 0.8981082369773945,
+      "n_analyzed": 130
+    }
+  },
+  "by_component_by_model": {
+    "pythia-70m": {
+      "embedding": {
+        "n_matrices": 2,
+        "total_params": 51511296,
+        "pct_of_model": 73.14179364894731,
+        "mean_score": 1.55750120844095,
+        "std_score": 0.5640653776653072,
+        "mean_tc": 0.8826570548691708,
+        "mean_cv": 0.5062104389071465,
+        "ternary_safe": true
+      },
+      "attention_qkv": {
+        "n_matrices": 12,
+        "total_params": 4727808,
+        "pct_of_model": 6.71309759218332,
+        "mean_score": 0.5757072616597186,
+        "std_score": 0.19949352050575211,
+        "mean_tc": 0.5204442152906739,
+        "mean_cv": 1.755990281701088,
+        "ternary_safe": false
+      },
+      "attention_out": {
+        "n_matrices": 6,
+        "total_params": 1572864,
+        "pct_of_model": 2.2333372106548794,
+        "mean_score": 0.9625855954916903,
+        "std_score": 0.022029471368728095,
+        "mean_tc": 0.7811336833667114,
+        "mean_cv": 0.799385537703832,
+        "ternary_safe": true
+      },
+      "mlp": {
+        "n_matrices": 18,
+        "total_params": 12595200,
+        "pct_of_model": 17.884145632197278,
+        "mean_score": 0.9394669432128663,
+        "std_score": 0.09226919464575901,
+        "mean_tc": 0.7666297769653102,
+        "mean_cv": 0.8428397708468967,
+        "ternary_safe": false
+      }
+    },
+    "pythia-160m": {
+      "embedding": {
+        "n_matrices": 2,
+        "total_params": 77266944,
+        "pct_of_model": 47.600753224387056,
+        "mean_score": 1.3722732096163908,
+        "std_score": 0.37816077257282765,
+        "mean_tc": 0.8729044981063909,
+        "mean_cv": 0.544593408703804,
+        "ternary_safe": true
+      },
+      "attention_qkv": {
+        "n_matrices": 24,
+        "total_params": 21261312,
+        "pct_of_model": 13.098155735765857,
+        "mean_score": 0.5665979353537114,
+        "std_score": 0.1874049518711519,
+        "mean_tc": 0.5153709120786537,
+        "mean_cv": 1.7867531577746074,
+        "ternary_safe": false
+      },
+      "attention_out": {
+        "n_matrices": 12,
+        "total_params": 7077888,
+        "pct_of_model": 4.360374341165227,
+        "mean_score": 0.953001323947817,
+        "std_score": 0.042602992915590575,
+        "mean_tc": 0.776086864410734,
+        "mean_cv": 0.812997117638588,
+        "ternary_safe": true
+      },
+      "mlp": {
+        "n_matrices": 36,
+        "total_params": 56659968,
+        "pct_of_model": 34.90570501234872,
+        "mean_score": 0.9910484071589729,
+        "std_score": 0.09863497158634342,
+        "mean_tc": 0.7904649620139971,
+        "mean_cv": 0.7748207863834169,
+        "ternary_safe": true
+      }
+    },
+    "pythia-410m": {
+      "embedding": {
+        "n_matrices": 2,
+        "total_params": 103022592,
+        "pct_of_model": 25.416715087637748,
+        "mean_score": 0.9886040780990542,
+        "std_score": 0.0065400875880508025,
+        "mean_tc": 0.7929621259773452,
+        "mean_cv": 0.768353283405304,
+        "ternary_safe": true
+      },
+      "attention_qkv": {
+        "n_matrices": 48,
+        "total_params": 75571200,
+        "pct_of_model": 18.644179125593052,
+        "mean_score": 0.5976781859695962,
+        "std_score": 0.22694587999277677,
+        "mean_tc": 0.53324170764345,
+        "mean_cv": 1.7522606750329335,
+        "ternary_safe": false
+      },
+      "attention_out": {
+        "n_matrices": 48,
+        "total_params": 25190400,
+        "pct_of_model": 6.214726375197684,
+        "mean_score": 0.9064683342331551,
+        "std_score": 0.08420969217024023,
+        "mean_tc": 0.750909483735866,
+        "mean_cv": 0.8829848878085613,
+        "ternary_safe": false
+      },
+      "mlp": {
+        "n_matrices": 96,
+        "total_params": 201449472,
+        "pct_of_model": 49.699621558532115,
+        "mean_score": 0.9963098344514812,
+        "std_score": 0.14484348380607653,
+        "mean_tc": 0.7879539941820649,
+        "mean_cv": 0.7833770796035727,
+        "ternary_safe": true
+      }
+    },
+    "pythia-1b": {
+      "embedding": {
+        "n_matrices": 2,
+        "total_params": 206045184,
+        "pct_of_model": 20.364590291356464,
+        "mean_score": 0.9887428827817986,
+        "std_score": 0.0056272442384169286,
+        "mean_tc": 0.7930274701811988,
+        "mean_cv": 0.768181711435318,
+        "ternary_safe": true
+      },
+      "attention_qkv": {
+        "n_matrices": 32,
+        "total_params": 201424896,
+        "pct_of_model": 19.907941558678147,
+        "mean_score": 0.6677895313423428,
+        "std_score": 0.27312912689621627,
+        "mean_tc": 0.5764705875146328,
+        "mean_cv": 1.6565141510218382,
+        "ternary_safe": false
+      },
+      "attention_out": {
+        "n_matrices": 32,
+        "total_params": 67141632,
+        "pct_of_model": 6.635980519559382,
+        "mean_score": 0.9220632899977075,
+        "std_score": 0.0938814106414569,
+        "mean_tc": 0.7579645377261324,
+        "mean_cv": 0.8651419226080179,
+        "ternary_safe": false
+      },
+      "mlp": {
+        "n_matrices": 64,
+        "total_params": 537034752,
+        "pct_of_model": 53.07812822599254,
+        "mean_score": 0.9984577306033762,
+        "std_score": 0.1470960049799629,
+        "mean_tc": 0.7885636150135078,
+        "mean_cv": 0.7820663629099727,
+        "ternary_safe": true
+      }
+    }
+  }
+}
