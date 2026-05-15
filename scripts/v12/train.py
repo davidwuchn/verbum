@@ -1489,6 +1489,19 @@ def main():
                         help="Disable coarse→fine descending stride (force fine→coarse like ascending)")
     parser.add_argument("--no-fractal-stride-bands", action="store_true", default=False,
                         help="Disable fractal stride bands (all passes use all 9 strides)")
+    # Etching overrides
+    parser.add_argument("--etch-warmup", type=int, default=None,
+                        help="Steps before etching begins (default: 500)")
+    parser.add_argument("--etch-interval", type=int, default=None,
+                        help="Steps between etch checks (default: 200)")
+    parser.add_argument("--etch-signal-interval", type=int, default=None,
+                        help="Steps between signal plane updates (default: 50)")
+    parser.add_argument("--etch-consensus", type=int, default=None,
+                        help="Signal planes required for consensus (2 or 3, default: 3)")
+    parser.add_argument("--no-etching", action="store_true", default=False,
+                        help="Disable etching, use legacy evolution")
+    parser.add_argument("--use-evolution", action="store_true", default=False,
+                        help="Enable legacy consensus evolution")
 
     args = parser.parse_args()
     cfg = V12Config()
@@ -1517,6 +1530,12 @@ def main():
     if args.holo_ramp_steps is not None: cfg.holo_ramp_steps = args.holo_ramp_steps
     if args.no_desc_stride_reverse: cfg.desc_stride_reverse = False
     if args.no_fractal_stride_bands: cfg.fractal_stride_bands = False
+    if args.etch_warmup is not None: cfg.etch_warmup = args.etch_warmup
+    if args.etch_interval is not None: cfg.etch_interval = args.etch_interval
+    if args.etch_signal_interval is not None: cfg.etch_signal_interval = args.etch_signal_interval
+    if args.etch_consensus is not None: cfg.etch_consensus = args.etch_consensus
+    if args.no_etching: cfg.use_etching = False
+    if args.use_evolution: cfg.use_evolution = True
     cfg.__post_init__()
 
     train(cfg, args)
