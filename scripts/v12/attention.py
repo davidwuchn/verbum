@@ -159,14 +159,21 @@ class SingleStrideAttention(nn.Module):
         combinator_mirrors: list,
         dispatch_weights: mx.array,
     ) -> mx.array:
-        """Per-combinator Q with shared K,V,O — the holographic read.
+        """Per-combinator beam angle via Q blending — the holographic read.
 
         Session 093: V(B) = V(C) at cos=1.000, Q(B)·Q(C) = 0.005.
         The plate (K,V) is shared. The beam (Q) is combinator-specific.
 
-        Compute K,V once. For each combinator mirror, compute a different Q,
-        run attention, collect outputs. Blend with dispatch weights. Apply
-        shared O projection.
+        Compute K,V once. For each combinator mirror, compute a different Q.
+        Blend the Q vectors with dispatch weights. Run ONE attention pass.
+        Apply shared O projection.
+
+        When dispatch is near-one-hot (which it should be after early training),
+        blended Q ≈ the dominant combinator's Q. The mirrors learn beam
+        deflections; the blended Q IS the effective beam angle for this position.
+
+        Cost: K,V once + N×(mirror+Q_proj) + 1×attention + O = ~(N+3)d²
+        vs N separate attention passes: K,V once + N×(mirror+Q+attention) + O
 
         Args:
             x: (B, L, d_model)
@@ -181,11 +188,24 @@ class SingleStrideAttention(nn.Module):
 
         x_norm = self.norm(x)
 
+        # Per-combinator Q via mirrors, blended with dispatch weights.
+        # Each mirror deflects the beam angle before Q projection.
+        # Dispatch weights blend the Q vectors → one effective beam angle.
+        Q_blended = mx.zeros((B, L, D))
+        for i, mirror in enumerate(combinator_mirrors):
+            q_in = mirror(x_norm)
+            for m in self.q_mirrors:
+                q_in = m(q_in)
+            Q_i = self.q_proj(q_in)  # (B, L, D)
+            Q_blended = Q_blended + dispatch_weights[..., i:i+1] * Q_i
+
+        Q = Q_blended.reshape(B, L, H, Dh)
+
         # Shared K, V (the plate — computed once)
         K = self.k_proj(x_norm).reshape(B, L, H, Dh)
         V = self.v_proj(x_norm).reshape(B, L, H, Dh)
 
-        # Gather K, V at stride positions (shared across all combinator Q's)
+        # ONE attention pass with blended Q, shared K, V
         query_pos = mx.arange(L)[:, None]
         offsets = mx.arange(W)[None, :] * self.stride
         raw_indices = query_pos - offsets
@@ -202,43 +222,25 @@ class SingleStrideAttention(nn.Module):
         K_gathered = mx.take_along_axis(K_flat, idx, axis=1).reshape(B, L, W, H, Dh)
         V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
 
-        K_r = K_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
-        V_r = V_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
+        Q_r = Q.transpose(0, 2, 1, 3)
+        K_r = K_gathered.transpose(0, 3, 1, 2, 4)
 
-        valid_mask = valid[None, None, :, :]  # (1, 1, L, W)
+        attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1)
+        attn = attn * self.scale
 
-        # Per-combinator Q via mirrors → attention → blend outputs
-        blended_attn_out = mx.zeros((B, L, D))
-        n_comb = len(combinator_mirrors)
+        if self._spiral_bias is not None:
+            attn = attn + self._spiral_bias
 
-        for i, mirror in enumerate(combinator_mirrors):
-            # Mirror deflects the beam angle before Q projection
-            q_in = mirror(x_norm)
-            # Apply existing per-layer mirrors too (if any)
-            for m in self.q_mirrors:
-                q_in = m(q_in)
-            Q = self.q_proj(q_in).reshape(B, L, H, Dh)
-            Q_r = Q.transpose(0, 2, 1, 3)  # (B, H, L, Dh)
+        valid_mask = valid[None, None, :, :]
+        attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
+        attn = mx.softmax(attn, axis=-1)
+        attn = self.dropout(attn)
 
-            attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1)
-            attn = attn * self.scale
+        V_r = V_gathered.transpose(0, 3, 1, 2, 4)
+        out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
+        out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
 
-            if self._spiral_bias is not None:
-                attn = attn + self._spiral_bias
-
-            attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
-            attn = mx.softmax(attn, axis=-1)
-            # No dropout for combinator reads (deterministic beam angle)
-
-            out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
-            out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
-
-            # Weight by dispatch (B, L, 1) for this combinator
-            w = dispatch_weights[..., i:i+1]
-            blended_attn_out = blended_attn_out + w * out
-
-        # Shared O projection on blended attention output
-        return x + self.out_proj(blended_attn_out)
+        return x + self.out_proj(out)
 
 
 # ══════════════════════════════════════════════════════════════════════
