@@ -1921,44 +1921,53 @@ def surgical_adam_decay_for_etch(
     Adam's accumulated momentum/variance for gamma[i] is stale and can
     cause instability. Multiply by `decay` to partially forget.
 
+    MLX Adam optimizer.state is a nested dict mirroring the parameter tree:
+        state["stride_stack"]["layers"][0]["q_proj"]["gamma"] = {"m": ..., "v": ...}
+
     Returns number of gamma entries decayed.
     """
     import numpy as np
-    from mlx.utils import tree_flatten
 
     n_decayed = 0
 
-    # tree_flatten gives (path, array) pairs matching optimizer.state order
-    param_list = tree_flatten(model.trainable_parameters())
-
-    # Build path → index map for gamma parameters
-    gamma_idx = {}
-    for idx, (ppath, _param) in enumerate(param_list):
-        if ppath.endswith(".gamma"):
-            # ppath like "stride_stack.layers.0.q_proj.gamma"
-            # module path is everything before ".gamma"
-            mod_path = ppath[:-6]  # strip ".gamma"
-            gamma_idx[mod_path] = idx
-
     for path, rows in affected_rows.items():
-        if not rows or path not in gamma_idx:
+        if not rows:
             continue
         row_indices = sorted(rows)
-        param_idx = gamma_idx[path]
 
-        # Decay Adam state for these rows
-        if param_idx < len(optimizer.state):
-            opt_state = optimizer.state[param_idx]
-            if isinstance(opt_state, (list, tuple)) and len(opt_state) >= 2:
-                # MLX Adam state: [m, v] or [m, v, ...]
-                for si in range(min(2, len(opt_state))):
-                    s = opt_state[si]
-                    if hasattr(s, 'shape') and len(s.shape) >= 1:
-                        s_np = np.array(s)
-                        for ri in row_indices:
-                            if ri < s_np.shape[0]:
-                                s_np[ri] *= decay
-                        opt_state[si] = mx.array(s_np)
-                        n_decayed += len(row_indices)
+        # Navigate optimizer.state to find the gamma entry
+        # path like "stride_stack.layers.0.q_proj" → need state[...]["gamma"]
+        gamma_path = path + ".gamma"
+        parts = gamma_path.split(".")
+
+        node = optimizer.state
+        try:
+            for part in parts:
+                if isinstance(node, dict):
+                    node = node[part]
+                elif isinstance(node, (list, tuple)):
+                    node = node[int(part)]
+                else:
+                    node = None
+                    break
+        except (KeyError, IndexError, ValueError):
+            node = None
+
+        if node is None or not isinstance(node, dict):
+            continue
+
+        # node is {"m": mx.array, "v": mx.array}
+        for state_key in ("m", "v"):
+            if state_key not in node:
+                continue
+            s = node[state_key]
+            if not hasattr(s, 'shape') or len(s.shape) < 1:
+                continue
+            s_np = np.array(s)
+            for ri in row_indices:
+                if ri < s_np.shape[0]:
+                    s_np[ri] *= decay
+            node[state_key] = mx.array(s_np)
+            n_decayed += len(row_indices)
 
     return n_decayed
