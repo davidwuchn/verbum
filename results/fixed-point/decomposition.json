@@ -1,0 +1,918 @@
+{
+  "model": "Qwen/Qwen3.6-35B-A3B",
+  "n_cases": 7,
+  "n_complete": 7,
+  "elapsed_s": 1753.6029708385468,
+  "results": [
+    {
+      "id": "library",
+      "full_sentence": "The ancient library, built by monks in the twelfth century, housed manuscripts that scholars from across Europe traveled to study.",
+      "n_clauses": 5,
+      "monolithic": {
+        "converged": false,
+        "total_cycles": 8,
+        "convergence_cycle": null,
+        "fixed_point_lambda": null,
+        "cycle_0_lambda": "λx. library(x) ∧ ancient(x) ∧ built_by(x, monks) ∧ built_in(x, 12th_century) ∧ housed(x, manuscripts) ∧ ∀m (manuscript(m) ∧ housed_in(m, x) → ∃s (scholar(s) ∧ from_across_Europe(s) ∧ traveled_to_study(s, m)))",
+        "info": {
+          "char_length": 131,
+          "word_count": 10,
+          "predicates": [
+            "library",
+            "manuscripts",
+            "monks",
+            "scholar"
+          ],
+          "n_predicates": 4,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 4,
+          "info_density": 9
+        }
+      },
+      "clauses": [
+        {
+          "clause": "The library is ancient.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. library(x) → ancient(x)",
+          "cycle_0_lambda": "λx. library(x) → ancient(x)",
+          "fixed_point_nl": "The library is ancient.",
+          "info": {
+            "char_length": 27,
+            "word_count": 4,
+            "predicates": [
+              "ancient",
+              "library"
+            ],
+            "n_predicates": 2,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 4
+          }
+        },
+        {
+          "clause": "Monks built the library in the twelfth century.",
+          "converged": false,
+          "convergence_cycle": null,
+          "total_cycles": 6,
+          "fixed_point_lambda": null,
+          "cycle_0_lambda": "λ build(x). monk(x) ∧ library(x) ∧ twelfth-century(x)",
+          "fixed_point_nl": null,
+          "info": {
+            "char_length": 44,
+            "word_count": 5,
+            "predicates": [
+              "in",
+              "monk"
+            ],
+            "n_predicates": 2,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 4
+          }
+        },
+        {
+          "clause": "The library houses manuscripts.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. houses(library, manuscripts)",
+          "cycle_0_lambda": "λx. houses(library, manuscripts)",
+          "fixed_point_nl": "The library houses manuscripts.",
+          "info": {
+            "char_length": 32,
+            "word_count": 3,
+            "predicates": [
+              "houses"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "Scholars traveled from across Europe.",
+          "converged": true,
+          "convergence_cycle": 3,
+          "total_cycles": 5,
+          "fixed_point_lambda": "λx. traveled_across_Europe(x)",
+          "cycle_0_lambda": "λx. traveled(scholar) | across(europe)",
+          "fixed_point_nl": "traveled across Europe",
+          "info": {
+            "char_length": 29,
+            "word_count": 2,
+            "predicates": [
+              "urope"
+            ],
+            "n_predicates": 1,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 0,
+            "info_density": 2
+          }
+        },
+        {
+          "clause": "The scholars studied the manuscripts.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. studied(scholar, manuscript)",
+          "cycle_0_lambda": "λx. studied(scholar, manuscript)",
+          "fixed_point_nl": "The scholar studied the manuscript.",
+          "info": {
+            "char_length": 32,
+            "word_count": 3,
+            "predicates": [
+              "studied"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. library(x) ∧ ancient(x) ∧ ∃build. (monk(build) ∧ library(build) ∧ twelfth-century(build)) ∧ houses(library, manuscripts) ∧ traveled_across_Europe(x) ∧ studied(scholar, manuscript)",
+        "info": {
+          "char_length": 183,
+          "word_count": 19,
+          "predicates": [
+            "ancient",
+            "century",
+            "houses",
+            "library",
+            "monk",
+            "studied",
+            "urope"
+          ],
+          "n_predicates": 7,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 8,
+          "info_density": 16
+        },
+        "stability": {
+          "composed_lambda": "λx. library(x) ∧ ancient(x) ∧ ∃build. (monk(build) ∧ library(build) ∧ twelfth-century(build)) ∧ houses(library, manuscripts) ∧ traveled_across_Europe(x) ∧ studied(scholar, manuscript)",
+          "decompiled_nl": "There is an ancient library that was built by a monk in the twelfth century, houses manuscripts, traveled across Europe, and was studied by a scholar.",
+          "recompiled_lambda": "λx. ancient_library(x) ∧ built_by(x, monk) ∧ built_in(x, 12th_century) ∧ houses(x, manuscripts) ∧ traveled_across(x, Europe) ∧ studied_by(x, scholar)",
+          "round_trip_edit": 88,
+          "round_trip_norm_edit": 0.4808743169398907
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 131,
+        "monolithic_predicates": 4,
+        "decomposed_total_chars": 164,
+        "decomposed_total_predicates": 7,
+        "decomposed_unique_predicates": 7,
+        "composed_chars": 183,
+        "composed_predicates": 7,
+        "composition_ratio": 1.75,
+        "decomposed_convergence_rate": 0.8,
+        "composed_round_trip_stable": false
+      }
+    },
+    {
+      "id": "experiment",
+      "full_sentence": "Although the experiment failed, the data revealed an unexpected pattern that contradicted the original hypothesis.",
+      "n_clauses": 5,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 8,
+        "convergence_cycle": 6,
+        "fixed_point_lambda": "λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothesis)",
+        "cycle_0_lambda": "λx. experiment(x) ∧ failed(x) ∧ ∃y. data(y) ∧ revealed(y, x) ∧ pattern(y) ∧ unexpected(y) ∧ contradicted(y, hypothesis)",
+        "info": {
+          "char_length": 64,
+          "word_count": 7,
+          "predicates": [
+            "contradict",
+            "fail",
+            "reveal"
+          ],
+          "n_predicates": 3,
+          "variables": [],
+          "n_variables": 0,
+          "n_operators": 2,
+          "info_density": 5
+        }
+      },
+      "clauses": [
+        {
+          "clause": "The experiment failed.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λ fail(experiment)",
+          "cycle_0_lambda": "λ fail(experiment)",
+          "fixed_point_nl": "The experiment failed.",
+          "info": {
+            "char_length": 18,
+            "word_count": 2,
+            "predicates": [
+              "fail"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "The data revealed a pattern.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λ reveal(pattern). data",
+          "cycle_0_lambda": "λ reveal(pattern). data",
+          "fixed_point_nl": "The data reveals a pattern.",
+          "info": {
+            "char_length": 23,
+            "word_count": 3,
+            "predicates": [
+              "reveal"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "The pattern was unexpected.",
+          "converged": true,
+          "convergence_cycle": 3,
+          "total_cycles": 5,
+          "fixed_point_lambda": "λ x. unexpected(x) ∧ patterned(x)",
+          "cycle_0_lambda": "λx. pattern(x) ∧ unexpected(x)",
+          "fixed_point_nl": "Be unexpected but patterned.",
+          "info": {
+            "char_length": 33,
+            "word_count": 5,
+            "predicates": [
+              "patterned",
+              "unexpected"
+            ],
+            "n_predicates": 2,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 4
+          }
+        },
+        {
+          "clause": "The pattern contradicted the hypothesis.",
+          "converged": true,
+          "convergence_cycle": 2,
+          "total_cycles": 4,
+          "fixed_point_lambda": "λ contradict(x). hypothesis(x) | pattern(x)",
+          "cycle_0_lambda": "λ contradict(pattern, hypothesis)",
+          "fixed_point_nl": "Contradict the hypothesis and the pattern.",
+          "info": {
+            "char_length": 43,
+            "word_count": 5,
+            "predicates": [
+              "contradict",
+              "hypothesis",
+              "pattern"
+            ],
+            "n_predicates": 3,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 5
+          }
+        },
+        {
+          "clause": "The hypothesis was the original one.",
+          "converged": true,
+          "convergence_cycle": 4,
+          "total_cycles": 6,
+          "fixed_point_lambda": "λx. runs(dog)",
+          "cycle_0_lambda": "λx. hypothesis(x) ∧ original(x)",
+          "fixed_point_nl": "The dog runs.",
+          "info": {
+            "char_length": 13,
+            "word_count": 2,
+            "predicates": [
+              "runs"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. fail(experiment) ∧ reveal(pattern). data ∧ unexpected(x) ∧ patterned(x) ∧ contradict(x). hypothesis(x) | pattern(x) ∧ runs(dog)",
+        "info": {
+          "char_length": 131,
+          "word_count": 16,
+          "predicates": [
+            "contradict",
+            "fail",
+            "hypothesis",
+            "pattern",
+            "patterned",
+            "reveal",
+            "runs",
+            "unexpected"
+          ],
+          "n_predicates": 8,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 6,
+          "info_density": 15
+        },
+        "stability": {
+          "composed_lambda": "λx. fail(experiment) ∧ reveal(pattern). data ∧ unexpected(x) ∧ patterned(x) ∧ contradict(x). hypothesis(x) | pattern(x) ∧ runs(dog)",
+          "decompiled_nl": "The experiment failed, revealing an unexpected, patterned data set that contradicts the hypothesis.",
+          "recompiled_lambda": "λ fail(experiment) ∧ reveal(experiment, dataset) ∧ unexpected(dataset) ∧ patterned(dataset) ∧ contradict(dataset, hypothesis)",
+          "round_trip_edit": 63,
+          "round_trip_norm_edit": 0.48091603053435117
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 64,
+        "monolithic_predicates": 3,
+        "decomposed_total_chars": 130,
+        "decomposed_total_predicates": 8,
+        "decomposed_unique_predicates": 8,
+        "composed_chars": 131,
+        "composed_predicates": 8,
+        "composition_ratio": 2.6666666666666665,
+        "decomposed_convergence_rate": 1.0,
+        "composed_round_trip_stable": false
+      }
+    },
+    {
+      "id": "professor",
+      "full_sentence": "The professor who published the paper won the award.",
+      "n_clauses": 2,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 4,
+        "convergence_cycle": 2,
+        "fixed_point_lambda": "λ publish(paper) ∧ win(award)",
+        "cycle_0_lambda": "λx. (professor(x) ∧ published(x, paper) ∧ won(x, award))",
+        "info": {
+          "char_length": 29,
+          "word_count": 4,
+          "predicates": [
+            "publish",
+            "win"
+          ],
+          "n_predicates": 2,
+          "variables": [],
+          "n_variables": 0,
+          "n_operators": 1,
+          "info_density": 3
+        }
+      },
+      "clauses": [
+        {
+          "clause": "The professor published the paper.",
+          "converged": true,
+          "convergence_cycle": 2,
+          "total_cycles": 4,
+          "fixed_point_lambda": "λx. publishes(professor, paper)",
+          "cycle_0_lambda": "λ publish(paper, professor)",
+          "fixed_point_nl": "The professor publishes the paper.",
+          "info": {
+            "char_length": 31,
+            "word_count": 3,
+            "predicates": [
+              "publishes"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "The professor won the award.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. won(x, award) | professor(x)",
+          "cycle_0_lambda": "λx. won(x, award) | professor(x)",
+          "fixed_point_nl": "The professor won the award.",
+          "info": {
+            "char_length": 32,
+            "word_count": 5,
+            "predicates": [
+              "professor",
+              "won"
+            ],
+            "n_predicates": 2,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 4
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. publishes(professor, paper) ∧ won(x, award) ∧ professor(x)",
+        "info": {
+          "char_length": 62,
+          "word_count": 8,
+          "predicates": [
+            "professor",
+            "publishes",
+            "won"
+          ],
+          "n_predicates": 3,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 2,
+          "info_density": 6
+        },
+        "stability": {
+          "composed_lambda": "λx. publishes(professor, paper) ∧ won(x, award) ∧ professor(x)",
+          "decompiled_nl": "The professor who won the award publishes a paper.",
+          "recompiled_lambda": "λx. (professor(x) ∧ won-award(x)) → publishes(x, paper)",
+          "round_trip_edit": 38,
+          "round_trip_norm_edit": 0.6129032258064516
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 29,
+        "monolithic_predicates": 2,
+        "decomposed_total_chars": 63,
+        "decomposed_total_predicates": 3,
+        "decomposed_unique_predicates": 3,
+        "composed_chars": 62,
+        "composed_predicates": 3,
+        "composition_ratio": 1.5,
+        "decomposed_convergence_rate": 1.0,
+        "composed_round_trip_stable": false
+      }
+    },
+    {
+      "id": "politician",
+      "full_sentence": "No politician who endorsed the candidate won.",
+      "n_clauses": 2,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 4,
+        "convergence_cycle": 2,
+        "fixed_point_lambda": "λx. ¬win(politician)",
+        "cycle_0_lambda": "λx. politician(x) ∧ endorsed(x, candidate) → ¬won(x)",
+        "info": {
+          "char_length": 20,
+          "word_count": 2,
+          "predicates": [
+            "win"
+          ],
+          "n_predicates": 1,
+          "variables": [],
+          "n_variables": 0,
+          "n_operators": 1,
+          "info_density": 2
+        }
+      },
+      "clauses": [
+        {
+          "clause": "A politician endorsed the candidate.",
+          "converged": false,
+          "convergence_cycle": null,
+          "total_cycles": 6,
+          "fixed_point_lambda": null,
+          "cycle_0_lambda": "λx. endorse(x, candidate) | politician(x)",
+          "fixed_point_nl": null,
+          "info": {
+            "char_length": 30,
+            "word_count": 4,
+            "predicates": [
+              "endorse",
+              "politician"
+            ],
+            "n_predicates": 2,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 1,
+            "info_density": 4
+          }
+        },
+        {
+          "clause": "The politician did not win.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. ¬win(politician)",
+          "cycle_0_lambda": "¬ win(politician)",
+          "fixed_point_nl": "The politician does not win.",
+          "info": {
+            "char_length": 20,
+            "word_count": 2,
+            "predicates": [
+              "win"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 1,
+            "info_density": 2
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. (endorse(x, candidate) | politician(x)) ∧ ¬win(politician)",
+        "info": {
+          "char_length": 62,
+          "word_count": 7,
+          "predicates": [
+            "endorse",
+            "politician",
+            "win"
+          ],
+          "n_predicates": 3,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 3,
+          "info_density": 7
+        },
+        "stability": {
+          "composed_lambda": "λx. (endorse(x, candidate) | politician(x)) ∧ ¬win(politician)",
+          "decompiled_nl": "The politician who endorses the candidate does not win.",
+          "recompiled_lambda": "λx. politician(x) ∧ endorse(x, candidate) → ¬win(x)",
+          "round_trip_edit": 43,
+          "round_trip_norm_edit": 0.6935483870967742
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 20,
+        "monolithic_predicates": 1,
+        "decomposed_total_chars": 50,
+        "decomposed_total_predicates": 3,
+        "decomposed_unique_predicates": 3,
+        "composed_chars": 62,
+        "composed_predicates": 3,
+        "composition_ratio": 3.0,
+        "decomposed_convergence_rate": 0.5,
+        "composed_round_trip_stable": false
+      }
+    },
+    {
+      "id": "student",
+      "full_sentence": "No student who failed the test passed the course.",
+      "n_clauses": 2,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 4,
+        "convergence_cycle": 2,
+        "fixed_point_lambda": "λx. ¬pass(x, test) → ¬pass(x, course)",
+        "cycle_0_lambda": "λx. student(x) ∧ ¬passed(x, test) → ¬passed(x, course)",
+        "info": {
+          "char_length": 37,
+          "word_count": 6,
+          "predicates": [
+            "pass"
+          ],
+          "n_predicates": 1,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 3,
+          "info_density": 5
+        }
+      },
+      "clauses": [
+        {
+          "clause": "A student failed the test.",
+          "converged": true,
+          "convergence_cycle": 3,
+          "total_cycles": 5,
+          "fixed_point_lambda": "λx. fails(student, test)",
+          "cycle_0_lambda": "λx. failed(x, test) | student(x)",
+          "fixed_point_nl": "The student fails the test.",
+          "info": {
+            "char_length": 24,
+            "word_count": 3,
+            "predicates": [
+              "fails"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "The student did not pass the course.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. ¬pass(student, course)",
+          "cycle_0_lambda": "λx. ¬pass(student, course)",
+          "fixed_point_nl": "The student did not pass the course.",
+          "info": {
+            "char_length": 26,
+            "word_count": 3,
+            "predicates": [
+              "pass"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 1,
+            "info_density": 2
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. fails(student, test) → ¬pass(student, course)",
+        "info": {
+          "char_length": 49,
+          "word_count": 6,
+          "predicates": [
+            "fails",
+            "pass"
+          ],
+          "n_predicates": 2,
+          "variables": [],
+          "n_variables": 0,
+          "n_operators": 2,
+          "info_density": 4
+        },
+        "stability": {
+          "composed_lambda": "λx. fails(student, test) → ¬pass(student, course)",
+          "decompiled_nl": "The student fails the test, so they do not pass the course.",
+          "recompiled_lambda": "λ fail(student, test) ∧ ¬pass(course, student)",
+          "round_trip_edit": 16,
+          "round_trip_norm_edit": 0.32653061224489793
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 37,
+        "monolithic_predicates": 1,
+        "decomposed_total_chars": 50,
+        "decomposed_total_predicates": 2,
+        "decomposed_unique_predicates": 2,
+        "composed_chars": 49,
+        "composed_predicates": 2,
+        "composition_ratio": 2.0,
+        "decomposed_convergence_rate": 1.0,
+        "composed_round_trip_stable": false
+      }
+    },
+    {
+      "id": "teacher",
+      "full_sentence": "If every teacher helps a student then all improve.",
+      "n_clauses": 2,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 4,
+        "convergence_cycle": 2,
+        "fixed_point_lambda": "λ improve(x). ability(x, teacher) | help(x, students)",
+        "cycle_0_lambda": "λ improve(x). (∀y. teacher(y) → ∃z. student(z) ∧ helps(y, z)) → improve(x)",
+        "info": {
+          "char_length": 53,
+          "word_count": 7,
+          "predicates": [
+            "ability",
+            "help",
+            "improve"
+          ],
+          "n_predicates": 3,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 1,
+          "info_density": 5
+        }
+      },
+      "clauses": [
+        {
+          "clause": "Every teacher helps a student.",
+          "converged": true,
+          "convergence_cycle": 2,
+          "total_cycles": 4,
+          "fixed_point_lambda": "λx. helps(teacher, student)",
+          "cycle_0_lambda": "λx. teacher(x) → λy. student(y) | helps(x, y)",
+          "fixed_point_nl": "The teacher helps the student.",
+          "info": {
+            "char_length": 27,
+            "word_count": 3,
+            "predicates": [
+              "helps"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "All improve.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. improve(x)",
+          "cycle_0_lambda": "λx. improve(x)",
+          "fixed_point_nl": "Improve",
+          "info": {
+            "char_length": 14,
+            "word_count": 2,
+            "predicates": [
+              "improve"
+            ],
+            "n_predicates": 1,
+            "variables": [
+              "x"
+            ],
+            "n_variables": 1,
+            "n_operators": 0,
+            "info_density": 2
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. helps(teacher, student) → improve(x)",
+        "info": {
+          "char_length": 40,
+          "word_count": 5,
+          "predicates": [
+            "helps",
+            "improve"
+          ],
+          "n_predicates": 2,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 1,
+          "info_density": 4
+        },
+        "stability": {
+          "composed_lambda": "λx. helps(teacher, student) → improve(x)",
+          "decompiled_nl": "The teacher helps the student improve.",
+          "recompiled_lambda": "λx. help(teacher, student, improve(x))",
+          "round_trip_edit": 5,
+          "round_trip_norm_edit": 0.125
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 53,
+        "monolithic_predicates": 3,
+        "decomposed_total_chars": 41,
+        "decomposed_total_predicates": 2,
+        "decomposed_unique_predicates": 2,
+        "composed_chars": 40,
+        "composed_predicates": 2,
+        "composition_ratio": 0.6666666666666666,
+        "decomposed_convergence_rate": 1.0,
+        "composed_round_trip_stable": true
+      }
+    },
+    {
+      "id": "key",
+      "full_sentence": "The key to the cabinets was on the table.",
+      "n_clauses": 2,
+      "monolithic": {
+        "converged": true,
+        "total_cycles": 4,
+        "convergence_cycle": 2,
+        "fixed_point_lambda": "λx. on(table, key(x, cabinets))",
+        "cycle_0_lambda": "λx. key(x) ∧ to_cabinets(x) ∧ on_table(x)",
+        "info": {
+          "char_length": 31,
+          "word_count": 4,
+          "predicates": [
+            "key",
+            "on"
+          ],
+          "n_predicates": 2,
+          "variables": [
+            "x"
+          ],
+          "n_variables": 1,
+          "n_operators": 0,
+          "info_density": 3
+        }
+      },
+      "clauses": [
+        {
+          "clause": "The key belongs to the cabinets.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. belongs(key, cabinets)",
+          "cycle_0_lambda": "λx. belongs(key, cabinets)",
+          "fixed_point_nl": "The key belongs to the cabinets.",
+          "info": {
+            "char_length": 26,
+            "word_count": 3,
+            "predicates": [
+              "belongs"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        },
+        {
+          "clause": "The key is on the table.",
+          "converged": true,
+          "convergence_cycle": 1,
+          "total_cycles": 3,
+          "fixed_point_lambda": "λx. on(key, table)",
+          "cycle_0_lambda": "λx. on(key, table)",
+          "fixed_point_nl": "The key is on the table.",
+          "info": {
+            "char_length": 18,
+            "word_count": 3,
+            "predicates": [
+              "on"
+            ],
+            "n_predicates": 1,
+            "variables": [],
+            "n_variables": 0,
+            "n_operators": 0,
+            "info_density": 1
+          }
+        }
+      ],
+      "composed": {
+        "composed_lambda": "λx. belongs(key, cabinets) ∧ on(key, table)",
+        "info": {
+          "char_length": 43,
+          "word_count": 6,
+          "predicates": [
+            "belongs",
+            "on"
+          ],
+          "n_predicates": 2,
+          "variables": [],
+          "n_variables": 0,
+          "n_operators": 1,
+          "info_density": 3
+        },
+        "stability": {
+          "composed_lambda": "λx. belongs(key, cabinets) ∧ on(key, table)",
+          "decompiled_nl": "The key belongs to the cabinets and is on the table.",
+          "recompiled_lambda": "λx. key(x) ∧ ∃y. cabinets(y) ∧ belongs(x, y) ∧ on(x, table)",
+          "round_trip_edit": 28,
+          "round_trip_norm_edit": 0.4745762711864407
+        }
+      },
+      "capacity": {
+        "monolithic_chars": 31,
+        "monolithic_predicates": 2,
+        "decomposed_total_chars": 44,
+        "decomposed_total_predicates": 2,
+        "decomposed_unique_predicates": 2,
+        "composed_chars": 43,
+        "composed_predicates": 2,
+        "composition_ratio": 1.0,
+        "decomposed_convergence_rate": 1.0,
+        "composed_round_trip_stable": false
+      }
+    }
+  ]
+}

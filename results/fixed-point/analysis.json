@@ -1,0 +1,92 @@
+{
+  "experiment": {
+    "model": "Qwen/Qwen3.6-35B-A3B",
+    "n_inputs": 16,
+    "max_cycles": 8,
+    "convergence_threshold": 5,
+    "compile_gate": "gates/compile.txt (2 exemplar pairs)",
+    "decompile_gate": "gates/decompile.txt (2 exemplar pairs)"
+  },
+  "convergence": {
+    "n_converged": 15,
+    "n_failed": 1,
+    "rate": 0.9375,
+    "distribution": {
+      "instant_cycle_1": 5,
+      "fast_cycle_2_3": 9,
+      "slow_cycle_4_plus": 1,
+      "failed": 1
+    },
+    "mean_cycles": 2.0,
+    "median_cycles": 2
+  },
+  "information_losses": {
+    "tense": {
+      "count": 1,
+      "example": "'The cat sat on the mat' → 'The cat is on the mat'",
+      "mechanism": "λ-calculus has no tense; temporal info is surface-only"
+    },
+    "quantifier_scope": {
+      "count": 3,
+      "example": "'Every student passed' → 'The student passes'",
+      "mechanism": "Collapse when first compile doesn't deploy explicit ∀/∃; preserved when it does (cf. 'Every boy loves some girl')"
+    },
+    "agent_experiencer": {
+      "count": 4,
+      "example": "'The professor who published the paper won' → 'published ∧ won'",
+      "mechanism": "Relative clauses flatten; WHO collapses into bare predication"
+    },
+    "discourse_structure": {
+      "count": 1,
+      "example": "Library sentence never converges — reframes each cycle",
+      "mechanism": "Multi-clause discourse exceeds single λ-term capacity"
+    }
+  },
+  "preserved": {
+    "predicate_argument_structure": "Always preserved — the core of what λ encodes",
+    "named_entities": "'John', 'Mary' survive every cycle",
+    "explicit_quantifiers": "'every(boy(x)) | some(girl(x))' round-trips perfectly",
+    "reflexive_binding": "'about(book, himself)' preserves — binding IS the I-combinator",
+    "conditional_structure": "'rain(x) → wet(ground)' stable from cycle 1",
+    "negation": "'¬win(politician)' survives once established"
+  },
+  "fixed_point_quality": {
+    "compression": "Fixed-point λ is 38-75% the length of cycle-0 λ",
+    "beta_reduction": "'λf.λx. f(x)' → 'λx. x' — model computes beta-normal form",
+    "canonicality": "Fixed points are more direct, fewer variables, flatter structure"
+  },
+  "gate_exemplar_effect": {
+    "contamination": "'Composition chains...' collapsed to gate exemplar 'The dog runs. Be helpful but concise.'",
+    "mechanism": "When input semantics are weak, gate exemplar is the strongest holographic signal",
+    "implication": "Gate exemplars define the attractor basin — more diverse exemplars = wider coverage"
+  },
+  "v12_implications": {
+    "plate_stores": "Predicate structure, argument binding, logical operators, named entities",
+    "beam_modulates": "Tense, quantifier scope, agent/experiencer assignment, discourse framing",
+    "training_signal": "Fixed-point λ forms are candidate target patterns for ternary plate etching",
+    "exemplar_diversity": "V12 needs diverse compile/decompile pairs to avoid attractor collapse",
+    "capacity_limit": "Complex multi-clause sentences exceed single-hologram capacity — supports multi-pass architecture"
+  },
+  "instant_fixed_points": [
+    {
+      "input": "The dog runs.",
+      "lambda": "λx. runs(dog)"
+    },
+    {
+      "input": "Every boy loves some girl.",
+      "lambda": "λ love(x). every(boy(x)) | some(girl(x))"
+    },
+    {
+      "input": "The man who the dog chased ran away.",
+      "lambda": "λx. man(x) ∧ ∃y. dog(y) ∧ chase(y, x) ∧ run-away(x)"
+    },
+    {
+      "input": "If it rains, the ground gets wet.",
+      "lambda": "λx. rain(x) → λy. wet(ground)"
+    },
+    {
+      "input": "John gave Mary a book about himself.",
+      "lambda": "λ give(x, y, z). give(John, Mary, book) ∧ about(book, himself)"
+    }
+  ]
+}

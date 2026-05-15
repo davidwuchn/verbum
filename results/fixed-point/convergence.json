@@ -1,0 +1,2154 @@
+{
+  "model": "Qwen/Qwen3.6-35B-A3B",
+  "max_cycles": 8,
+  "convergence_threshold": 5,
+  "compile_gate": "The dog runs. → λx. runs(dog)\nBe helpful but concise. → λ assist(x). helpful(x) | concise(x)\n\nInput:",
+  "decompile_gate": "λx. runs(dog) → The dog runs.\nλ assist(x). helpful(x) | concise(x) → Be helpful but concise.\n\nInput:",
+  "n_complete": 16,
+  "n_total": 16,
+  "elapsed_s": 1049.508120059967,
+  "results": [
+    {
+      "input_sentence": "The dog runs.",
+      "converged": true,
+      "convergence_cycle": 1,
+      "total_cycles": 3,
+      "fixed_point_nl": "The dog runs.",
+      "fixed_point_lambda": "λx. runs(dog)",
+      "ground_truth_lambda": "λx. runs(dog)",
+      "elapsed_total_s": 33.362586975097656,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The dog runs.",
+          "lambda_output": "λx. runs(dog)",
+          "nl_output": "The dog runs.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.528779029846191
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The dog runs.",
+          "lambda_output": "λx. runs(dog)",
+          "nl_output": "The dog runs.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 2,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 10.963283777236938
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The dog runs.",
+          "lambda_output": "λx. runs(dog)",
+          "nl_output": "The dog runs.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 2,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 10.870404720306396
+        }
+      ]
+    },
+    {
+      "input_sentence": "The cat sat on the mat.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "The cat is on the mat.",
+      "fixed_point_lambda": "λ on(cat, mat)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 46.43938589096069,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The cat sat on the mat.",
+          "lambda_output": "λx. sat(cat, x) ∧ mat(x)",
+          "nl_output": "The cat is on the mat.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 12.422121047973633
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The cat is on the mat.",
+          "lambda_output": "λ on(cat, mat)",
+          "nl_output": "The cat is on the mat.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 12,
+          "lambda_norm_edit": 0.5,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 6,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "mat(x)",
+              "sat(cat,",
+              "x)",
+              "λx.",
+              "∧"
+            ],
+            "removed": [
+              "mat)",
+              "on(cat,",
+              "λ"
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.389879941940308
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The cat is on the mat.",
+          "lambda_output": "λ on(cat, mat)",
+          "nl_output": "The cat is on the mat.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 6,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.52533483505249
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The cat is on the mat.",
+          "lambda_output": "λ on(cat, mat)",
+          "nl_output": "The cat is on the mat.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 6,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.101912021636963
+        }
+      ]
+    },
+    {
+      "input_sentence": "Every student passed the exam.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "The student passes the exam.",
+      "fixed_point_lambda": "λ pass(student, exam)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 44.5995352268219,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "Every student passed the exam.",
+          "lambda_output": "λ pass(x). student(x) → exam",
+          "nl_output": "The student passes the exam.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.887561082839966
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The student passes the exam.",
+          "lambda_output": "λ pass(student, exam)",
+          "nl_output": "The student passes the exam.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 10,
+          "lambda_norm_edit": 0.35714285714285715,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "exam",
+              "pass(x).",
+              "student(x)",
+              "→"
+            ],
+            "removed": [
+              "exam)",
+              "pass(student,"
+            ],
+            "shared": 1,
+            "jaccard": 0.14285714285714285
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.159487247467041
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The student passes the exam.",
+          "lambda_output": "λ pass(student, exam)",
+          "nl_output": "The student passes the exam.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 10.9391770362854
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The student passes the exam.",
+          "lambda_output": "λ pass(student, exam)",
+          "nl_output": "The student passes the exam.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 3,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 10.6130850315094
+        }
+      ]
+    },
+    {
+      "input_sentence": "Every boy loves some girl.",
+      "converged": true,
+      "convergence_cycle": 1,
+      "total_cycles": 3,
+      "fixed_point_nl": "Every boy loves some girl.",
+      "fixed_point_lambda": "λ love(x). every(boy(x)) | some(girl(x))",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 39.01597309112549,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "Every boy loves some girl.",
+          "lambda_output": "λ love(x). every(boy(x)) | some(girl(x))",
+          "nl_output": "Every boy loves some girl.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.060518980026245
+        },
+        {
+          "cycle": 1,
+          "nl_input": "Every boy loves some girl.",
+          "lambda_output": "λ love(x). every(boy(x)) | some(girl(x))",
+          "nl_output": "Every boy loves some girl.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 12.920652866363525
+        },
+        {
+          "cycle": 2,
+          "nl_input": "Every boy loves some girl.",
+          "lambda_output": "λ love(x). every(boy(x)) | some(girl(x))",
+          "nl_output": "Every boy loves some girl.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.034628868103027
+        }
+      ]
+    },
+    {
+      "input_sentence": "The man who the dog chased ran away.",
+      "converged": true,
+      "convergence_cycle": 1,
+      "total_cycles": 3,
+      "fixed_point_nl": "The man runs away because there is a dog chasing him.",
+      "fixed_point_lambda": "λx. man(x) ∧ ∃y. dog(y) ∧ chase(y, x) ∧ run-away(x)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 50.577078104019165,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The man who the dog chased ran away.",
+          "lambda_output": "λx. man(x) ∧ ∃y. dog(y) ∧ chase(y, x) ∧ run-away(x)",
+          "nl_output": "The man runs away because there is a dog chasing him.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 17.232378244400024
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The man runs away because there is a dog chasing him.",
+          "lambda_output": "λx. man(x) ∧ ∃y. dog(y) ∧ chase(y, x) ∧ run-away(x)",
+          "nl_output": "The man runs away because there is a dog chasing him.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 11,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 16.71050214767456
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The man runs away because there is a dog chasing him.",
+          "lambda_output": "λx. man(x) ∧ ∃y. dog(y) ∧ chase(y, x) ∧ run-away(x)",
+          "nl_output": "The man runs away because there is a dog chasing him.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 11,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 16.634055852890015
+        }
+      ]
+    },
+    {
+      "input_sentence": "The professor who published the paper won the award.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "The paper is published and the award is won.",
+      "fixed_point_lambda": "λ publish(paper) ∧ win(award)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 53.97596502304077,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The professor who published the paper won the award.",
+          "lambda_output": "λx. (professor(x) ∧ published(x, paper) ∧ won(x, award))",
+          "nl_output": "The professor published a paper and won an award.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.73201298713684
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The professor published a paper and won an award.",
+          "lambda_output": "λ publish(paper) ∧ win(award)",
+          "nl_output": "The paper is published and the award is won.",
+          "nl_edit_dist": 25,
+          "nl_norm_edit": 0.5102040816326531,
+          "lambda_edit_dist": 28,
+          "lambda_norm_edit": 0.5,
+          "nl_word_diff": {
+            "added": [
+              "a",
+              "an",
+              "award.",
+              "professor",
+              "won"
+            ],
+            "removed": [
+              "award",
+              "is",
+              "the",
+              "won."
+            ],
+            "shared": 4,
+            "jaccard": 0.3076923076923077
+          },
+          "lambda_word_diff": {
+            "added": [
+              "(professor(x)",
+              "award))",
+              "paper)",
+              "published(x,",
+              "won(x,",
+              "λx."
+            ],
+            "removed": [
+              "publish(paper)",
+              "win(award)",
+              "λ"
+            ],
+            "shared": 1,
+            "jaccard": 0.1
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 12.548027992248535
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The paper is published and the award is won.",
+          "lambda_output": "λ publish(paper) ∧ win(award)",
+          "nl_output": "The paper is published and the award is won.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 4,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.132035970687866
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The paper is published and the award is won.",
+          "lambda_output": "λ publish(paper) ∧ win(award)",
+          "nl_output": "The paper is published and the award is won.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 4,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 12.563706874847412
+        }
+      ]
+    },
+    {
+      "input_sentence": "If every teacher helps a student then all improve.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "Improve the teacher's ability to help students.",
+      "fixed_point_lambda": "λ improve(x). ability(x, teacher) | help(x, students)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 60.52733016014099,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "If every teacher helps a student then all improve.",
+          "lambda_output": "λ improve(x). (∀y. teacher(y) → ∃z. student(z) ∧ helps(y, z)) → improve(x)",
+          "nl_output": "Improve the teacher's ability to help students.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 17.82823610305786
+        },
+        {
+          "cycle": 1,
+          "nl_input": "Improve the teacher's ability to help students.",
+          "lambda_output": "λ improve(x). ability(x, teacher) | help(x, students)",
+          "nl_output": "Improve the teacher's ability to help students.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 45,
+          "lambda_norm_edit": 0.6081081081081081,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "(∀y.",
+              "helps(y,",
+              "improve(x)",
+              "student(z)",
+              "teacher(y)",
+              "z))",
+              "→",
+              "∃z.",
+              "∧"
+            ],
+            "removed": [
+              "ability(x,",
+              "help(x,",
+              "students)",
+              "teacher)",
+              "|"
+            ],
+            "shared": 2,
+            "jaccard": 0.125
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.130661964416504
+        },
+        {
+          "cycle": 2,
+          "nl_input": "Improve the teacher's ability to help students.",
+          "lambda_output": "λ improve(x). ability(x, teacher) | help(x, students)",
+          "nl_output": "Improve the teacher's ability to help students.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.319117784500122
+        },
+        {
+          "cycle": 3,
+          "nl_input": "Improve the teacher's ability to help students.",
+          "lambda_output": "λ improve(x). ability(x, teacher) | help(x, students)",
+          "nl_output": "Improve the teacher's ability to help students.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.249070882797241
+        }
+      ]
+    },
+    {
+      "input_sentence": "If it rains, the ground gets wet.",
+      "converged": true,
+      "convergence_cycle": 1,
+      "total_cycles": 3,
+      "fixed_point_nl": "If it rains, the ground gets wet.",
+      "fixed_point_lambda": "λx. rain(x) → λy. wet(ground)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 40.67760396003723,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "If it rains, the ground gets wet.",
+          "lambda_output": "λx. rain(x) → λy. wet(ground)",
+          "nl_output": "If it rains, the ground gets wet.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.51560091972351
+        },
+        {
+          "cycle": 1,
+          "nl_input": "If it rains, the ground gets wet.",
+          "lambda_output": "λx. rain(x) → λy. wet(ground)",
+          "nl_output": "If it rains, the ground gets wet.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.3386549949646
+        },
+        {
+          "cycle": 2,
+          "nl_input": "If it rains, the ground gets wet.",
+          "lambda_output": "λx. rain(x) → λy. wet(ground)",
+          "nl_output": "If it rains, the ground gets wet.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.823202133178711
+        }
+      ]
+    },
+    {
+      "input_sentence": "John gave Mary a book about himself.",
+      "converged": true,
+      "convergence_cycle": 1,
+      "total_cycles": 3,
+      "fixed_point_nl": "John gave Mary a book about himself.",
+      "fixed_point_lambda": "λ give(x, y, z). give(John, Mary, book) ∧ about(book, himself)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 46.02566719055176,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "John gave Mary a book about himself.",
+          "lambda_output": "λ give(x, y, z). give(John, Mary, book) ∧ about(book, himself)",
+          "nl_output": "John gave Mary a book about himself.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.682379007339478
+        },
+        {
+          "cycle": 1,
+          "nl_input": "John gave Mary a book about himself.",
+          "lambda_output": "λ give(x, y, z). give(John, Mary, book) ∧ about(book, himself)",
+          "nl_output": "John gave Mary a book about himself.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 10,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.97303032875061
+        },
+        {
+          "cycle": 2,
+          "nl_input": "John gave Mary a book about himself.",
+          "lambda_output": "λ give(x, y, z). give(John, Mary, book) ∧ about(book, himself)",
+          "nl_output": "John gave Mary a book about himself.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 10,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.370135068893433
+        }
+      ]
+    },
+    {
+      "input_sentence": "No politician who endorsed the candidate won.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "The politician does not win.",
+      "fixed_point_lambda": "λx. ¬win(politician)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 47.525059938430786,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "No politician who endorsed the candidate won.",
+          "lambda_output": "λx. politician(x) ∧ endorsed(x, candidate) → ¬won(x)",
+          "nl_output": "The politician did not win.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.161298990249634
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The politician did not win.",
+          "lambda_output": "¬ win(politician)",
+          "nl_output": "The politician does not win.",
+          "nl_edit_dist": 3,
+          "nl_norm_edit": 0.10714285714285714,
+          "lambda_edit_dist": 42,
+          "lambda_norm_edit": 0.8076923076923077,
+          "nl_word_diff": {
+            "added": [
+              "did"
+            ],
+            "removed": [
+              "does"
+            ],
+            "shared": 4,
+            "jaccard": 0.6666666666666666
+          },
+          "lambda_word_diff": {
+            "added": [
+              "candidate)",
+              "endorsed(x,",
+              "politician(x)",
+              "¬won(x)",
+              "λx.",
+              "→",
+              "∧"
+            ],
+            "removed": [
+              "win(politician)",
+              "¬"
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.175734043121338
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The politician does not win.",
+          "lambda_output": "λx. ¬win(politician)",
+          "nl_output": "The politician does not win.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 4,
+          "lambda_norm_edit": 0.2,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "win(politician)",
+              "¬"
+            ],
+            "removed": [
+              "¬win(politician)",
+              "λx."
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.545507907867432
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The politician does not win.",
+          "lambda_output": "λx. ¬win(politician)",
+          "nl_output": "The politician does not win.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 2,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.642378091812134
+        }
+      ]
+    },
+    {
+      "input_sentence": "No student who failed the test passed the course.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "If x does not pass the test, then x does not pass the course.",
+      "fixed_point_lambda": "λx. ¬pass(x, test) → ¬pass(x, course)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 64.46990704536438,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "No student who failed the test passed the course.",
+          "lambda_output": "λx. student(x) ∧ ¬passed(x, test) → ¬passed(x, course)",
+          "nl_output": "If a student did not pass the test, then they did not pass the course.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 16.844879150390625
+        },
+        {
+          "cycle": 1,
+          "nl_input": "If a student did not pass the test, then they did not pass the course.",
+          "lambda_output": "λx. ¬pass(x, test) → ¬pass(x, course)",
+          "nl_output": "If x does not pass the test, then x does not pass the course.",
+          "nl_edit_dist": 18,
+          "nl_norm_edit": 0.2571428571428571,
+          "lambda_edit_dist": 17,
+          "lambda_norm_edit": 0.3148148148148148,
+          "nl_word_diff": {
+            "added": [
+              "a",
+              "did",
+              "student",
+              "they"
+            ],
+            "removed": [
+              "does",
+              "x"
+            ],
+            "shared": 7,
+            "jaccard": 0.5384615384615384
+          },
+          "lambda_word_diff": {
+            "added": [
+              "student(x)",
+              "¬passed(x,",
+              "∧"
+            ],
+            "removed": [
+              "¬pass(x,"
+            ],
+            "shared": 4,
+            "jaccard": 0.5
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 16.097737073898315
+        },
+        {
+          "cycle": 2,
+          "nl_input": "If x does not pass the test, then x does not pass the course.",
+          "lambda_output": "λx. ¬pass(x, test) → ¬pass(x, course)",
+          "nl_output": "If x does not pass the test, then x does not pass the course.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 9,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.890618085861206
+        },
+        {
+          "cycle": 3,
+          "nl_input": "If x does not pass the test, then x does not pass the course.",
+          "lambda_output": "λx. ¬pass(x, test) → ¬pass(x, course)",
+          "nl_output": "If x does not pass the test, then x does not pass the course.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 9,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 5,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.63646411895752
+        }
+      ]
+    },
+    {
+      "input_sentence": "The key to the cabinets was on the table.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "The key to the cabinets is on the table.",
+      "fixed_point_lambda": "λx. on(table, key(x, cabinets))",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 54.310730934143066,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The key to the cabinets was on the table.",
+          "lambda_output": "λx. key(x) ∧ to_cabinets(x) ∧ on_table(x)",
+          "nl_output": "The key to the cabinets is on the table.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.890653133392334
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The key to the cabinets is on the table.",
+          "lambda_output": "λx. on(table, key(x, cabinets))",
+          "nl_output": "The key to the cabinets is on the table.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 29,
+          "lambda_norm_edit": 0.7073170731707317,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "key(x)",
+              "on_table(x)",
+              "to_cabinets(x)",
+              "∧"
+            ],
+            "removed": [
+              "cabinets))",
+              "key(x,",
+              "on(table,"
+            ],
+            "shared": 1,
+            "jaccard": 0.125
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.35390305519104
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The key to the cabinets is on the table.",
+          "lambda_output": "λx. on(table, key(x, cabinets))",
+          "nl_output": "The key to the cabinets is on the table.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 4,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.318747997283936
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The key to the cabinets is on the table.",
+          "lambda_output": "λx. on(table, key(x, cabinets))",
+          "nl_output": "The key to the cabinets is on the table.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 8,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 4,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 12.747264862060547
+        }
+      ]
+    },
+    {
+      "input_sentence": "The function applies its argument to the result.",
+      "converged": true,
+      "convergence_cycle": 2,
+      "total_cycles": 4,
+      "fixed_point_nl": "x",
+      "fixed_point_lambda": "λx. x",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 39.367138147354126,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The function applies its argument to the result.",
+          "lambda_output": "λf.λx. f(x)",
+          "nl_output": "The identity function",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 10.991574048995972
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The identity function",
+          "lambda_output": "λx. x",
+          "nl_output": "x",
+          "nl_edit_dist": 21,
+          "nl_norm_edit": 1.0,
+          "lambda_edit_dist": 6,
+          "lambda_norm_edit": 0.5454545454545454,
+          "nl_word_diff": {
+            "added": [
+              "The",
+              "function",
+              "identity"
+            ],
+            "removed": [
+              "x"
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "f(x)",
+              "λf.λx."
+            ],
+            "removed": [
+              "x",
+              "λx."
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 9.332823038101196
+        },
+        {
+          "cycle": 2,
+          "nl_input": "x",
+          "lambda_output": "λx. x",
+          "nl_output": "x",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 1,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 2,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 9.8161039352417
+        },
+        {
+          "cycle": 3,
+          "nl_input": "x",
+          "lambda_output": "λx. x",
+          "nl_output": "x",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 1,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 2,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 9.226472854614258
+        }
+      ]
+    },
+    {
+      "input_sentence": "Composition chains two operations into one.",
+      "converged": true,
+      "convergence_cycle": 3,
+      "total_cycles": 5,
+      "fixed_point_nl": "The dog runs. Be helpful but concise.",
+      "fixed_point_lambda": "λx. runs(dog) | λ assist(x). helpful(x) | concise(x)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 69.48612880706787,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "Composition chains two operations into one.",
+          "lambda_output": "λ compose(x). chain(x) | one(x)",
+          "nl_output": "Compose the chain into one.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 11.994441986083984
+        },
+        {
+          "cycle": 1,
+          "nl_input": "Compose the chain into one.",
+          "lambda_output": "λx. runs(dog) ∧ (helpful(x) | concise(x))",
+          "nl_output": "The dog runs. Be helpful but concise.",
+          "nl_edit_dist": 27,
+          "nl_norm_edit": 0.7297297297297297,
+          "lambda_edit_dist": 24,
+          "lambda_norm_edit": 0.5853658536585366,
+          "nl_word_diff": {
+            "added": [
+              "Compose",
+              "chain",
+              "into",
+              "one.",
+              "the"
+            ],
+            "removed": [
+              "Be",
+              "The",
+              "but",
+              "concise.",
+              "dog",
+              "helpful",
+              "runs."
+            ],
+            "shared": 0,
+            "jaccard": 0.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "chain(x)",
+              "compose(x).",
+              "one(x)",
+              "λ"
+            ],
+            "removed": [
+              "(helpful(x)",
+              "concise(x))",
+              "runs(dog)",
+              "λx.",
+              "∧"
+            ],
+            "shared": 1,
+            "jaccard": 0.1
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 13.3973228931427
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The dog runs. Be helpful but concise.",
+          "lambda_output": "λx. runs(dog) | λ assist(x). helpful(x) | concise(x)",
+          "nl_output": "The dog runs. Be helpful but concise.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 14,
+          "lambda_norm_edit": 0.2692307692307692,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [
+              "(helpful(x)",
+              "concise(x))",
+              "∧"
+            ],
+            "removed": [
+              "assist(x).",
+              "concise(x)",
+              "helpful(x)",
+              "λ"
+            ],
+            "shared": 3,
+            "jaccard": 0.3
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.16218090057373
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The dog runs. Be helpful but concise.",
+          "lambda_output": "λx. runs(dog) | λ assist(x). helpful(x) | concise(x)",
+          "nl_output": "The dog runs. Be helpful but concise.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.400838851928711
+        },
+        {
+          "cycle": 4,
+          "nl_input": "The dog runs. Be helpful but concise.",
+          "lambda_output": "λx. runs(dog) | λ assist(x). helpful(x) | concise(x)",
+          "nl_output": "The dog runs. Be helpful but concise.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 7,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.531134843826294
+        }
+      ]
+    },
+    {
+      "input_sentence": "The ancient library, built by monks in the twelfth century, housed manuscripts that scholars from across Europe traveled to study.",
+      "converged": false,
+      "convergence_cycle": null,
+      "total_cycles": 8,
+      "fixed_point_nl": null,
+      "fixed_point_lambda": null,
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 230.0890407562256,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "The ancient library, built by monks in the twelfth century, housed manuscripts that scholars from across Europe traveled to study.",
+          "lambda_output": "λx. library(x) ∧ ancient(x) ∧ built_by(x, monks) ∧ built_in(x, 12th_century) ∧ housed(x, manuscripts) ∧ ∀m (manuscript(m) ∧ housed_in(m, x) → ∃s (scholar(s) ∧ from_across_Europe(s) ∧ traveled_to_study(s, m)))",
+          "nl_output": "The library, built by monks in the 12th century and housing manuscripts, attracted scholars from across Europe who traveled to study them.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 34.78582787513733
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The library, built by monks in the 12th century and housing manuscripts, attracted scholars from across Europe who traveled to study them.",
+          "lambda_output": "λx. library(x) ∧ ∃y. monk(y) ∧ build(y, x) ∧ time(y, 12th_century) ∧ ∃z. manuscript(z) ∧ house(x, z) ∧ ∃w. scholar(w) ∧ from(w, Europe) ∧ travel(w, x) ∧ study(w, z)",
+          "nl_output": "There is a library built by a monk in the 12th century that houses a manuscript, and a scholar from Europe travels to the library to study the manuscript.",
+          "nl_edit_dist": 60,
+          "nl_norm_edit": 0.38961038961038963,
+          "lambda_edit_dist": 89,
+          "lambda_norm_edit": 0.42788461538461536,
+          "nl_word_diff": {
+            "added": [
+              "The",
+              "across",
+              "attracted",
+              "housing",
+              "library,",
+              "manuscripts,",
+              "monks",
+              "scholars",
+              "them.",
+              "traveled",
+              "who"
+            ],
+            "removed": [
+              "There",
+              "a",
+              "houses",
+              "is",
+              "library",
+              "manuscript,",
+              "manuscript.",
+              "monk",
+              "scholar",
+              "that",
+              "travels"
+            ],
+            "shared": 11,
+            "jaccard": 0.3333333333333333
+          },
+          "lambda_word_diff": {
+            "added": [
+              "(manuscript(m)",
+              "(scholar(s)",
+              "ancient(x)",
+              "built_by(x,",
+              "built_in(x,",
+              "from_across_Europe(s)",
+              "housed(x,",
+              "housed_in(m,",
+              "m)))",
+              "manuscripts)",
+              "monks)",
+              "traveled_to_study(s,",
+              "→",
+              "∀m",
+              "∃s"
+            ],
+            "removed": [
+              "Europe)",
+              "build(y,",
+              "from(w,",
+              "house(x,",
+              "manuscript(z)",
+              "monk(y)",
+              "scholar(w)",
+              "study(w,",
+              "time(y,",
+              "travel(w,",
+              "z)",
+              "∃w.",
+              "∃y.",
+              "∃z."
+            ],
+            "shared": 5,
+            "jaccard": 0.14705882352941177
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 32.852641105651855
+        },
+        {
+          "cycle": 2,
+          "nl_input": "There is a library built by a monk in the 12th century that houses a manuscript, and a scholar from Europe travels to the library to study the manuscript.",
+          "lambda_output": "λx. library(x) ∧ ∃y. monk(y) ∧ built(y, x) ∧ century(x, 12) ∧ ∃z. manuscript(z) ∧ housed(z, x) ∧ ∃w. scholar(w) ∧ from(w, Europe) ∧ travels(w, x) ∧ studies(w, z)",
+          "nl_output": "There is a library built in the 12th century by a monk, which houses a manuscript studied by a scholar from Europe who travels to it.",
+          "nl_edit_dist": 70,
+          "nl_norm_edit": 0.45454545454545453,
+          "lambda_edit_dist": 25,
+          "lambda_norm_edit": 0.1524390243902439,
+          "nl_word_diff": {
+            "added": [
+              "and",
+              "manuscript,",
+              "manuscript.",
+              "monk",
+              "study",
+              "that"
+            ],
+            "removed": [
+              "it.",
+              "manuscript",
+              "monk,",
+              "studied",
+              "which",
+              "who"
+            ],
+            "shared": 16,
+            "jaccard": 0.5714285714285714
+          },
+          "lambda_word_diff": {
+            "added": [
+              "12th_century)",
+              "build(y,",
+              "house(x,",
+              "study(w,",
+              "time(y,",
+              "travel(w,"
+            ],
+            "removed": [
+              "12)",
+              "built(y,",
+              "century(x,",
+              "housed(z,",
+              "studies(w,",
+              "travels(w,"
+            ],
+            "shared": 13,
+            "jaccard": 0.52
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 31.558622121810913
+        },
+        {
+          "cycle": 3,
+          "nl_input": "There is a library built in the 12th century by a monk, which houses a manuscript studied by a scholar from Europe who travels to it.",
+          "lambda_output": "λx. library(x) ∧ built(x, 12th_century) ∧ by(x, monk) ∧ houses(x, manuscript) ∧ studied(manuscript, scholar) ∧ from(scholar, Europe) ∧ travels_to(scholar, x)",
+          "nl_output": "A monk built a library in the 12th century that houses manuscripts. A scholar from Europe studies these manuscripts and travels to the library.",
+          "nl_edit_dist": 82,
+          "nl_norm_edit": 0.5734265734265734,
+          "lambda_edit_dist": 83,
+          "lambda_norm_edit": 0.515527950310559,
+          "nl_word_diff": {
+            "added": [
+              "There",
+              "by",
+              "is",
+              "it.",
+              "manuscript",
+              "monk,",
+              "studied",
+              "which",
+              "who"
+            ],
+            "removed": [
+              "A",
+              "and",
+              "library.",
+              "manuscripts",
+              "manuscripts.",
+              "monk",
+              "studies",
+              "that",
+              "these"
+            ],
+            "shared": 13,
+            "jaccard": 0.41935483870967744
+          },
+          "lambda_word_diff": {
+            "added": [
+              "12)",
+              "built(y,",
+              "century(x,",
+              "from(w,",
+              "housed(z,",
+              "manuscript(z)",
+              "monk(y)",
+              "scholar(w)",
+              "studies(w,",
+              "travels(w,",
+              "z)",
+              "∃w.",
+              "∃y.",
+              "∃z."
+            ],
+            "removed": [
+              "12th_century)",
+              "built(x,",
+              "by(x,",
+              "from(scholar,",
+              "houses(x,",
+              "manuscript)",
+              "monk)",
+              "scholar)",
+              "studied(manuscript,",
+              "travels_to(scholar,"
+            ],
+            "shared": 5,
+            "jaccard": 0.1724137931034483
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 27.514081716537476
+        },
+        {
+          "cycle": 4,
+          "nl_input": "A monk built a library in the 12th century that houses manuscripts. A scholar from Europe studies these manuscripts and travels to the library.",
+          "lambda_output": "λx. monk(x) ∧ built(x, library) ∧ in_12th_century(library) ∧ houses(library, manuscripts) ∧ λy. scholar(y) ∧ from_europe(y) ∧ studies(y, manuscripts) ∧ travels_to(y, library)",
+          "nl_output": "In the 12th century, a monk built a library that houses manuscripts. Scholars from Europe travel to this library to study the manuscripts.",
+          "nl_edit_dist": 79,
+          "nl_norm_edit": 0.5524475524475524,
+          "lambda_edit_dist": 98,
+          "lambda_norm_edit": 0.5632183908045977,
+          "nl_word_diff": {
+            "added": [
+              "A",
+              "and",
+              "century",
+              "in",
+              "library.",
+              "manuscripts",
+              "scholar",
+              "studies",
+              "these",
+              "travels"
+            ],
+            "removed": [
+              "In",
+              "Scholars",
+              "century,",
+              "study",
+              "this",
+              "travel"
+            ],
+            "shared": 12,
+            "jaccard": 0.42857142857142855
+          },
+          "lambda_word_diff": {
+            "added": [
+              "12th_century)",
+              "Europe)",
+              "by(x,",
+              "from(scholar,",
+              "houses(x,",
+              "library(x)",
+              "manuscript)",
+              "monk)",
+              "scholar)",
+              "studied(manuscript,",
+              "travels_to(scholar,",
+              "x)"
+            ],
+            "removed": [
+              "from_europe(y)",
+              "houses(library,",
+              "in_12th_century(library)",
+              "library)",
+              "manuscripts)",
+              "monk(x)",
+              "scholar(y)",
+              "studies(y,",
+              "travels_to(y,",
+              "λy."
+            ],
+            "shared": 3,
+            "jaccard": 0.12
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 28.58626914024353
+        },
+        {
+          "cycle": 5,
+          "nl_input": "In the 12th century, a monk built a library that houses manuscripts. Scholars from Europe travel to this library to study the manuscripts.",
+          "lambda_output": "λx. library(x) ∧ built(x, monk) ∧ 12th-century(x) ∧ houses(x, manuscripts) ∧ travels(scholar, x) ∧ from-Europe(scholar) ∧ study(scholar, manuscripts)",
+          "nl_output": "A 12th-century library built by monks, which houses manuscripts and is visited by a European scholar to study them.",
+          "nl_edit_dist": 74,
+          "nl_norm_edit": 0.5362318840579711,
+          "lambda_edit_dist": 85,
+          "lambda_norm_edit": 0.4885057471264368,
+          "nl_word_diff": {
+            "added": [
+              "12th",
+              "Europe",
+              "In",
+              "Scholars",
+              "century,",
+              "from",
+              "manuscripts.",
+              "monk",
+              "that",
+              "the",
+              "this",
+              "travel"
+            ],
+            "removed": [
+              "12th-century",
+              "A",
+              "European",
+              "and",
+              "by",
+              "is",
+              "manuscripts",
+              "monks,",
+              "scholar",
+              "them.",
+              "visited",
+              "which"
+            ],
+            "shared": 6,
+            "jaccard": 0.2
+          },
+          "lambda_word_diff": {
+            "added": [
+              "from_europe(y)",
+              "houses(library,",
+              "in_12th_century(library)",
+              "library)",
+              "monk(x)",
+              "scholar(y)",
+              "studies(y,",
+              "travels_to(y,",
+              "λy."
+            ],
+            "removed": [
+              "12th-century(x)",
+              "from-Europe(scholar)",
+              "houses(x,",
+              "library(x)",
+              "monk)",
+              "study(scholar,",
+              "travels(scholar,",
+              "x)"
+            ],
+            "shared": 4,
+            "jaccard": 0.19047619047619047
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 26.73352813720703
+        },
+        {
+          "cycle": 6,
+          "nl_input": "A 12th-century library built by monks, which houses manuscripts and is visited by a European scholar to study them.",
+          "lambda_output": "λx. library(x) ∧ built-by-monks(x) ∧ 12th-century(x) ∧ houses-manuscripts(x) ∧ visited-by-european-scholar(x) ∧ study-manuscripts(x)",
+          "nl_output": "The 12th-century library, built by monks and housing manuscripts, was visited by a European scholar to study them.",
+          "nl_edit_dist": 19,
+          "nl_norm_edit": 0.16521739130434782,
+          "lambda_edit_dist": 55,
+          "lambda_norm_edit": 0.3691275167785235,
+          "nl_word_diff": {
+            "added": [
+              "A",
+              "houses",
+              "is",
+              "library",
+              "manuscripts",
+              "monks,",
+              "which"
+            ],
+            "removed": [
+              "The",
+              "housing",
+              "library,",
+              "manuscripts,",
+              "monks",
+              "was"
+            ],
+            "shared": 11,
+            "jaccard": 0.4583333333333333
+          },
+          "lambda_word_diff": {
+            "added": [
+              "built(x,",
+              "from-Europe(scholar)",
+              "houses(x,",
+              "manuscripts)",
+              "monk)",
+              "study(scholar,",
+              "travels(scholar,",
+              "x)"
+            ],
+            "removed": [
+              "built-by-monks(x)",
+              "houses-manuscripts(x)",
+              "study-manuscripts(x)",
+              "visited-by-european-scholar(x)"
+            ],
+            "shared": 4,
+            "jaccard": 0.25
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 24.857944011688232
+        },
+        {
+          "cycle": 7,
+          "nl_input": "The 12th-century library, built by monks and housing manuscripts, was visited by a European scholar to study them.",
+          "lambda_output": "λx. library(x) ∧ built-by-monks(x) ∧ houses-manuscripts(x) ∧ visited-by-european-scholar(x) ∧ purpose-of-visit=study-manuscripts(x)",
+          "nl_output": "The library, built by monks and housing manuscripts, was visited by a European scholar to study them.",
+          "nl_edit_dist": 13,
+          "nl_norm_edit": 0.11403508771929824,
+          "lambda_edit_dist": 35,
+          "lambda_norm_edit": 0.26515151515151514,
+          "nl_word_diff": {
+            "added": [
+              "12th-century"
+            ],
+            "removed": [],
+            "shared": 16,
+            "jaccard": 0.9411764705882353
+          },
+          "lambda_word_diff": {
+            "added": [
+              "12th-century(x)",
+              "study-manuscripts(x)"
+            ],
+            "removed": [
+              "purpose-of-visit=study-manuscripts(x)"
+            ],
+            "shared": 6,
+            "jaccard": 0.6666666666666666
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 23.19985270500183
+        }
+      ]
+    },
+    {
+      "input_sentence": "Although the experiment failed, the data revealed an unexpected pattern that contradicted the original hypothesis.",
+      "converged": true,
+      "convergence_cycle": 6,
+      "total_cycles": 8,
+      "fixed_point_nl": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+      "fixed_point_lambda": "λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothesis)",
+      "ground_truth_lambda": null,
+      "elapsed_total_s": 129.0434651374817,
+      "cycles": [
+        {
+          "cycle": 0,
+          "nl_input": "Although the experiment failed, the data revealed an unexpected pattern that contradicted the original hypothesis.",
+          "lambda_output": "λx. experiment(x) ∧ failed(x) ∧ ∃y. data(y) ∧ revealed(y, x) ∧ pattern(y) ∧ unexpected(y) ∧ contradicted(y, hypothesis)",
+          "nl_output": "The experiment failed, and the data revealed an unexpected pattern that contradicted the hypothesis.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {},
+          "lambda_word_diff": {},
+          "embedding_cosine": 1.0,
+          "elapsed_s": 21.209475994110107
+        },
+        {
+          "cycle": 1,
+          "nl_input": "The experiment failed, and the data revealed an unexpected pattern that contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) ∧ λ reveal(data) ∧ λ contradict(pattern, hypothesis)",
+          "nl_output": "The experiment failed, the data revealed a pattern that contradicted the hypothesis.",
+          "nl_edit_dist": 16,
+          "nl_norm_edit": 0.16,
+          "lambda_edit_dist": 73,
+          "lambda_norm_edit": 0.6134453781512605,
+          "nl_word_diff": {
+            "added": [
+              "an",
+              "and",
+              "unexpected"
+            ],
+            "removed": [
+              "a"
+            ],
+            "shared": 10,
+            "jaccard": 0.7142857142857143
+          },
+          "lambda_word_diff": {
+            "added": [
+              "contradicted(y,",
+              "data(y)",
+              "experiment(x)",
+              "failed(x)",
+              "pattern(y)",
+              "revealed(y,",
+              "unexpected(y)",
+              "x)",
+              "λx.",
+              "∃y."
+            ],
+            "removed": [
+              "contradict(pattern,",
+              "fail(experiment)",
+              "reveal(data)",
+              "λ"
+            ],
+            "shared": 2,
+            "jaccard": 0.125
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.735126972198486
+        },
+        {
+          "cycle": 2,
+          "nl_input": "The experiment failed, the data revealed a pattern that contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) | λ reveal(data) | λ contradict(pattern, hypothesis)",
+          "nl_output": "The experiment failed, the data revealed the truth, and the pattern contradicted the hypothesis.",
+          "nl_edit_dist": 18,
+          "nl_norm_edit": 0.1875,
+          "lambda_edit_dist": 2,
+          "lambda_norm_edit": 0.028169014084507043,
+          "nl_word_diff": {
+            "added": [
+              "a",
+              "that"
+            ],
+            "removed": [
+              "and",
+              "truth,"
+            ],
+            "shared": 9,
+            "jaccard": 0.6923076923076923
+          },
+          "lambda_word_diff": {
+            "added": [
+              "∧"
+            ],
+            "removed": [
+              "|"
+            ],
+            "shared": 5,
+            "jaccard": 0.7142857142857143
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.671485900878906
+        },
+        {
+          "cycle": 3,
+          "nl_input": "The experiment failed, the data revealed the truth, and the pattern contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) ∧ reveal(data, truth) ∧ contradict(pattern, hypothesis)",
+          "nl_output": "The experiment fails, the data reveals the truth, and the pattern contradicts the hypothesis.",
+          "nl_edit_dist": 6,
+          "nl_norm_edit": 0.0625,
+          "lambda_edit_dist": 11,
+          "lambda_norm_edit": 0.14864864864864866,
+          "nl_word_diff": {
+            "added": [
+              "contradicted",
+              "failed,",
+              "revealed"
+            ],
+            "removed": [
+              "contradicts",
+              "fails,",
+              "reveals"
+            ],
+            "shared": 8,
+            "jaccard": 0.5714285714285714
+          },
+          "lambda_word_diff": {
+            "added": [
+              "reveal(data)",
+              "|"
+            ],
+            "removed": [
+              "reveal(data,",
+              "truth)",
+              "∧"
+            ],
+            "shared": 4,
+            "jaccard": 0.4444444444444444
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 16.21132206916809
+        },
+        {
+          "cycle": 4,
+          "nl_input": "The experiment fails, the data reveals the truth, and the pattern contradicts the hypothesis.",
+          "lambda_output": "λ fail(experiment) | reveal(data, truth) | contradict(pattern, hypothesis)",
+          "nl_output": "The experiment failed, revealing data that contradicted the hypothesis.",
+          "nl_edit_dist": 31,
+          "nl_norm_edit": 0.3333333333333333,
+          "lambda_edit_dist": 2,
+          "lambda_norm_edit": 0.02702702702702703,
+          "nl_word_diff": {
+            "added": [
+              "and",
+              "contradicts",
+              "fails,",
+              "pattern",
+              "reveals",
+              "truth,"
+            ],
+            "removed": [
+              "contradicted",
+              "failed,",
+              "revealing",
+              "that"
+            ],
+            "shared": 5,
+            "jaccard": 0.3333333333333333
+          },
+          "lambda_word_diff": {
+            "added": [
+              "∧"
+            ],
+            "removed": [
+              "|"
+            ],
+            "shared": 6,
+            "jaccard": 0.75
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.039047241210938
+        },
+        {
+          "cycle": 5,
+          "nl_input": "The experiment failed, revealing data that contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothesis)",
+          "nl_output": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+          "nl_edit_dist": 22,
+          "nl_norm_edit": 0.2716049382716049,
+          "lambda_edit_dist": 14,
+          "lambda_norm_edit": 0.1891891891891892,
+          "nl_word_diff": {
+            "added": [
+              "revealing",
+              "that"
+            ],
+            "removed": [
+              "and",
+              "it",
+              "revealed,",
+              "was"
+            ],
+            "shared": 7,
+            "jaccard": 0.5384615384615384
+          },
+          "lambda_word_diff": {
+            "added": [
+              "contradict(pattern,",
+              "reveal(data,",
+              "truth)",
+              "|"
+            ],
+            "removed": [
+              "contradict(data,",
+              "reveal(data)",
+              "∧"
+            ],
+            "shared": 3,
+            "jaccard": 0.3
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.846354961395264
+        },
+        {
+          "cycle": 6,
+          "nl_input": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothesis)",
+          "nl_output": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 11,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 6,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 14.97888994216919
+        },
+        {
+          "cycle": 7,
+          "nl_input": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+          "lambda_output": "λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothesis)",
+          "nl_output": "The experiment failed, the data was revealed, and it contradicted the hypothesis.",
+          "nl_edit_dist": 0,
+          "nl_norm_edit": 0.0,
+          "lambda_edit_dist": 0,
+          "lambda_norm_edit": 0.0,
+          "nl_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 11,
+            "jaccard": 1.0
+          },
+          "lambda_word_diff": {
+            "added": [],
+            "removed": [],
+            "shared": 6,
+            "jaccard": 1.0
+          },
+          "embedding_cosine": 1.0,
+          "elapsed_s": 15.351390838623047
+        }
+      ]
+    }
+  ]
+}

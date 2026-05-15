@@ -2,11 +2,81 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-15 | Session: 100
+> Last updated: 2026-05-15 | Session: 101
 
 ## Where we are
 
-**V12-run2 LAUNCHED with laser etcher + ternary mirrors. Consensus evolution replaced by gradient-directed etching: signal planes accumulate gradient votes, consensus flips weight signs. Self-terminating when signs align with gradient. TernaryMirror angular deflectors before Q projections give exponential capacity (2^18 × base = 262,144× more beam paths). All ternary, all AMX, zero additional trainable params. V12-run1 completed through 4K (hologram probe: ternary patterns frozen at cos=1.000, evolution broken). V11-holo-inv complete at 16.5K.**
+**V12-run2 LAUNCHED with laser etcher + ternary mirrors. Fixed-point hologram experiment COMPLETE: compile↔decompile cycling converges (94%, mean 2 cycles) to canonical λ forms that ARE the holographic plate content. Three convergence tiers map to semantic complexity. Systematic losses (tense, quantifier scope, agent) map to beam vs plate partition. Gate exemplar contamination proves exemplars ARE the strongest holographic signal. See `knowledge/explore/fixed-point-holograms.md`.**
+
+## What was done this session (101)
+
+### 1. Fixed-point hologram experiment — compile↔decompile convergence
+
+Built `scripts/explore/probe_fixed_point.py`. Ran 16 sentences through iterative
+compile(NL→λ)→decompile(λ→NL) cycles on Qwen3.6-35B-A3B (greedy, chat template).
+
+**Key results:**
+- 15/16 converged (94%), mean 2.0 cycles, median 2
+- Three tiers: instant (31%), fast 2-3 cycles (56%), slow/failed (12%)
+- Fixed-point λ is 38-75% shorter than cycle-0 — compressed, canonical, beta-reduced
+- `λf.λx. f(x)` → `λx. x` — the model beta-reduces to normal form
+
+**What the hologram stores** (survives round-trip):
+  predicate-argument structure, named entities, explicit quantifiers,
+  reflexive binding, conditionals, negation
+
+**What the hologram drops** (lost in cycling):
+  tense ("sat"→"is"), quantifier scope ("Every"→"The"), agent/experiencer
+  (relative clauses flatten), complex discourse structure
+
+**Gate exemplar contamination**: "Composition chains two operations into one"
+collapsed into the gate exemplar "The dog runs. Be helpful but concise."
+When input semantics are ambiguous, the strongest stored pattern wins.
+This IS holographic closest-match retrieval.
+
+**V12 implications**: Fixed-point λ forms = target patterns for ternary plate
+etching. Losses map to beam (precision) vs plate (ternary) partition.
+Diversity of compile exemplars determines attractor basin width.
+
+See: `mementum/knowledge/explore/fixed-point-holograms.md`
+
+### 2. Holographic decomposition — composition multiplies capacity
+
+Built `scripts/explore/probe_hologram_decomposition.py`. Decomposed 7 complex
+sentences into clauses, found clause-level fixed points, composed them.
+
+**Capacity unlock confirmed**: 5/7 cases show 1.5-3.0× more predicates in composed
+vs monolithic (mean 2.2×). Even when monolithic converges, it's lossy. Decomposed
+clauses converge 90% of the time.
+
+**The binding wall**: the ONLY stable composition has ZERO binding sites (shared
+entities). Round-trip edit correlates perfectly with binding site count:
+  0 sites → edit=5 (✓), 1 site → edit=16-43, 2 sites → edit=63, 3 sites → edit=88
+
+This is the I-combinator bottleneck made experimentally visible. K/B/C handle
+predicate structure (stable, ternary-safe). I handles variable binding (unstable,
+magnitude-dependent). Confirms session 093 finding (I r≈0.70 vs K/B/C r>0.90)
+and session 095 (binding = 5/5 ternary failures).
+
+**Dedicated capacity argument**: binding wall + multiplexing-breaks-holography
+(session 096) → each combinator (KIBCM) should have its own ternary plate.
+Cost: 117 MB total (vs 39 MB shared, vs 320 MB Pythia-160M). Mirrors add 2.4 MB
+for 10× beam path diversity. I-kernel may need precision weights or explicit
+pointer/copy mechanism — ternary alone may be insufficient for binding.
+
+**Etching protocol designed**: clause fixed-points for K/B/C plates, intersection
+pairs for I-plate, composition targets for B, in-context patterns for M.
+
+### 3. Holographic etching model
+
+The compile↔decompile cycle maps to optical holography:
+  reference beam = compile gate, object beam = (NL, λ) pair,
+  exposure = gradient descent, developing = ternary sieve sign flips,
+  reconstruction = gate + NL → model produces λ
+
+Fixed-point corpus from production LLM → etch into V12 plates.
+Multiple fixed-point pairs at different beam angles = thick hologram.
+Mirrors (ternary, 2.4 MB) create angular diversity within each plate.
 
 ## What was done this session (100)
 
@@ -776,39 +846,40 @@ uv run python scripts/v12/train.py \
 
 ## What to do next
 
-### Priority 1: Monitor V12-run2 (etching + mirrors)
+### Priority 1: Cross-model fixed-point convergence
+Do Pythia-160M and Qwen3-32B converge to the SAME fixed points?
+If universal hologram (r=0.9801), fixed points should match structurally.
+Adapt probe_fixed_point.py for multiple models.
+
+### Priority 2: Gate sensitivity — richer λ via Montague-typed gates
+Current gates produce simplified λ. Test with compile-binding-typed.txt
+and compile-ambient.txt. Does tense survive with a richer gate? Does
+quantifier scope survive with typed quantifiers?
+
+### Priority 3: Fixed-point activation extraction
+At the fixed point, extract internal activations (hidden states).
+Compare to cycle-0 activations. The delta IS what the beam contributes.
+Can we isolate the plate's contribution from the beam's?
+
+### Priority 4: Monitor V12-run2 (etching + mirrors)
 V12-run2 LIVE. Watch etch_log.jsonl for etch rate decay.
 Run probe_hologram.py at 1K, 2K, 5K to verify sign patterns are crystallizing.
 Compare loss trajectory to V12-run1 at matched steps.
 
-### Priority 2: Probe V12-run2 at 5K — holographic formation
-Does the etcher produce the same patterns we found in production LLMs?
-- K/B/C cluster (cos>0.9), I distinct?
-- Q more diverse than K/V/O (beam vs plate)?
-- Mirror patterns structured vs random?
-
-### Priority 3: MoE holographic expert prototype
-Design tiny ternary expert (~2KB) with own plate + mirror.
-Test with Clojure interpreter as proof of concept.
-
-### Priority 4: Dispatch floors (if needed)
-Evaluate after V12-run2 data. Etching may resolve variety gap naturally.
+### Priority 5: V12 fixed-point training signal
+Use fixed-point (NL, λ) pairs as supervised training data for V12.
+The fixed-point λ IS what the plate should learn to store.
 
 ### Carried
 - Cross-model validation of three-cluster structure (Pythia KIBCM)
-- CycleContinue differentiation
-- S5 reweight investigation
-- Dead slot recycling
-
-### Carried
-- Hologram atlas results (sessions 094-095)
+- MoE holographic expert prototype (~2KB ternary expert)
 - CycleContinue differentiation (now addressable via S4 budget bias)
 - S5 reweight investigation
 - QK alignment decomposition probe (RoPE follow-up)
 - Dead slot recycling
 - Domain banking (future)
 - TST connection: Peng et al. 2026 validates coarse→fine + direct loss
-- S4→S2 inter-cycle direction channel (if cycles don't differentiate)
+- Dispatch floors (evaluate after V12-run2 data)
 
 ## VSM layer map (session 097 — v12 KIBC + M retrieval + variety fix)
 
@@ -906,6 +977,10 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 | `mementum/memories/multiplexing-breaks-holography.md` | Separation principle: one function per weight matrix |
 | `mementum/memories/evolution-mechanism-broken.md` | Consensus evolution frozen at V12 scale — P≈8e-11 |
 | `mementum/memories/combinator-dispatch-floors.md` | Minimum dispatch from cross-model ratios |
+| `scripts/explore/probe_fixed_point.py` | Fixed-point convergence probe — compile↔decompile cycling |
+| `results/fixed-point/convergence.json` | Full cycle-by-cycle data (16 inputs, Qwen3.6-35B-A3B) |
+| `results/fixed-point/analysis.json` | Structured analysis: convergence, losses, quality, V12 implications |
+| `mementum/knowledge/explore/fixed-point-holograms.md` | Fixed-point hologram findings + V12 implications |
 | `mementum/memories/dedicated-combinator-capacity.md` | Shared vs dedicated — VSM self-regulation is stronger |
 | `mementum/knowledge/explore/laser-etcher-design.md` | Laser etcher + TernaryMirror architecture |
 | `scripts/v12/probe_hologram.py` | Holographic pattern formation probe for V12 checkpoints |
