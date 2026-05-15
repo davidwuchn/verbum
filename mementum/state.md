@@ -2,11 +2,48 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-14 | Session: 098
+> Last updated: 2026-05-15 | Session: 099
 
 ## Where we are
 
-**HoloQuant definitively closed: ternary quantization of existing models fails at EVERY selectivity level. The 37° angular error per matrix compounds to random output through 12+ layers (cos^12 = 0.07). Multi-plane ternary reduces angle but at 2-3× the bit cost of standard 4-bit quantization. Root cause: ternary is a sign basis — efficient for direction, wasteful for magnitude. BUT: V12's sieve is validated by the same analysis: training with ternary pushes magnitude CV from 0.76 (Gaussian) toward 0 (uniform), where single-plane ternary becomes near-lossless (cos=0.997/layer). V12 ready to launch.**
+**V12-run1 LIVE at ~3925/20K steps. Three checkpoints dropped (1K, 2K, 3K). Compute gate opening fast (0.59 at 3500 — earlier than V11). B hyper-dominant (67.5%). I crushed to 0.5% at 3500 by S4 emphasis flip — the variety gap in new form. Holographic ratio converging (1.066). Cycles saturated (budget pegged +4, all gates 1.0). Retrieval dormant. Waiting for 5K checkpoint to assess and adjust. Design direction: enforce minimum combinator dispatch floors derived from cross-model empirical ratios (B ≥ K ≥ C >> I, 9 models). V11-holo-inv complete at 16.5K.**
+
+## What was done this session (099)
+
+### 1. Oriented on V12-run1 (3 checkpoints dropped)
+
+V12 training launched between sessions. Checkpoints at 1K, 2K, 3K. Still running (~3925 steps).
+
+**Trajectory:**
+```
+step   loss     compute   B%     K%    I%    C%    ent%   holo_ratio
+─────  ──────── ────────  ─────  ────  ────  ────  ─────  ──────────
+500    16.086   0.0001    52.1   1.7   37.7   8.5   71%    1.118
+1000   14.191   0.0001    70.2   1.0   12.5  16.3   61%    1.127
+1500   13.713   0.0000    71.0   1.1   12.6  15.3   61%    1.088
+2000   13.540   0.0000    65.6   1.3   13.4  19.7   67%    1.077
+2500   13.454   0.0048    62.1   1.5   13.4  23.0   70%    1.074
+3000   13.505   0.2306    63.8   1.8   12.3  22.1   69%    1.070
+3500   13.455   0.5926    67.5   2.2    0.5  29.9   53%    1.066
+```
+
+**Key signals:**
+- Compute gate opening fast (0.59 at 3500 — V11 opened ~5K)
+- I crushed at 3500: emphasis flipped +1.44 → -1.88, dispatch 13%→0.5%
+- B dominant at 67.5%, C rising (8.5→30%), K starved (2.2%)
+- Holographic ratio improving steadily (1.118→1.066)
+- Cycle budget pegged at +4.0, all gates 1.000 — no differentiation
+- Retrieval write gates 0.0000, GLA dormant
+- Evolution 0/70 accepted (noise floor filter working)
+
+### 2. Design direction: combinator dispatch floors
+
+Identified need for minimum dispatch floors per combinator, derived from the
+universal cross-model ordering (session 093: B ≥ K ≥ C >> I across 9 models).
+S4 emphasis shouldn't be able to eliminate a combinator entirely.
+Will implement at 5K checkpoint review.
+
+See: `mementum/memories/combinator-dispatch-floors.md`
 
 ## What was done this session (098)
 
@@ -739,30 +776,27 @@ uv run python scripts/v12/train.py \
 
 ## What to do next
 
-### Priority 1: Launch V12 training run
-V12 is complete and optimized. Launch first training run.
-Key things to watch:
-- **cycle_budget_bias**: does S4 learn to differentiate simple vs complex content?
-  Should see bias go negative for prose, positive for structured lambda data.
-- **dispatch_bias (emphasis + alarm)**: does the additive logit bias maintain
-  dispatch diversity better than v11's saturated multiplicative emphasis?
-- **dispatch entropy**: does the regularizer keep entropy above 1.178 target?
-  If B still declines, lambda needs increasing.
-- GLA memory norms: do they grow appropriately at each stride scale?
-- Retrieval write gates: when do they open? (init ~0.05)
-- Loss trajectory vs V11-holo-inv at matched steps
-- **CycleContinue gates**: should differentiate now that S4 budget bias is active.
-  If gates stay near 0.5 after 2K steps, cycle_budget_proj may need larger init.
+### Priority 1: Probe V12-run1 at 5K checkpoint
+V12 training live (~3925/20K). Wait for 5K checkpoint, then full diagnostic:
+- **I-suppression**: S4 emphasis crushed I to 0.5%. Is the alarm correcting?
+  If I stays dead at 5K, implement combinator dispatch floors.
+- **Dispatch floors**: use cross-model empirical ratios (B ≥ K ≥ C >> I, 9 models)
+  as minimum per-combinator dispatch. Options: hard clamp, soft penalty, alarm-side.
+- **Cycle saturation**: budget pegged at +4, all gates 1.000. No simple/complex
+  differentiation. May need smaller init or narrower range.
+- **Retrieval**: GLA still dormant (write gates 0.0000). When does it activate?
+- **Loss trajectory**: V12 at 13.455 (3.5K) vs V11-holo-inv at 8.235 (1K).
+  V12 loss is much higher — is this just the 7-pass overhead or a real problem?
+  (V11-holo-inv started at 8.235 at 1K; V12 architecture is larger/different)
 
-### Priority 2: Monitor v11-holo-inv 15K-20K (parallel)
-V11 run continues. Final checkpoints for baseline comparison.
-B declining (0.079 at 12K) — the variety gap we fixed in V12.
+### Priority 2: V11-holo-inv final analysis
+Complete at 16.5K (stopped before 20K target). Final: loss=11.39, balanced KIBC
+(K=34%, I=30%, B=9%, C=27%). B collapsed from peak 57.7% — confirms variety gap.
+Baseline comparison for V12.
 
-### Priority 3: Descending cycle efficiency validation
-Once V12 has ~2K steps: probe CycleContinue gates. If budget bias is working,
-expect cycle gates to be < 0.3 for simple positions and > 0.7 for complex ones.
-If cycles are still uniformly ~0.5, consider desc_max_cycles=2 + S4→S2 inter-cycle
-direction channel (Channel 2 from the analysis).
+### Priority 3: Implement dispatch floors (after 5K probe)
+Design and implement minimum combinator dispatch, informed by both the cross-model
+data and the V12-run1 failure mode. See `memories/combinator-dispatch-floors.md`.
 
 ### Priority 4: Cross-model validation of three-cluster structure
 Run head-level probe on Pythia to confirm KIBCM universality.
