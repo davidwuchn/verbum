@@ -2,13 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-15 | Session: 099
+> Last updated: 2026-05-15 | Session: 100
 
 ## Where we are
 
-**V12-run1 LIVE at ~3925/20K steps. Three checkpoints dropped (1K, 2K, 3K). Compute gate opening fast (0.59 at 3500 — earlier than V11). B hyper-dominant (67.5%). I crushed to 0.5% at 3500 by S4 emphasis flip — the variety gap in new form. Holographic ratio converging (1.066). Cycles saturated (budget pegged +4, all gates 1.0). Retrieval dormant. Waiting for 5K checkpoint to assess and adjust. Design direction: enforce minimum combinator dispatch floors derived from cross-model empirical ratios (B ≥ K ≥ C >> I, 9 models). V11-holo-inv complete at 16.5K.**
+**V12-run2 LAUNCHED with laser etcher + ternary mirrors. Consensus evolution replaced by gradient-directed etching: signal planes accumulate gradient votes, consensus flips weight signs. Self-terminating when signs align with gradient. TernaryMirror angular deflectors before Q projections give exponential capacity (2^18 × base = 262,144× more beam paths). All ternary, all AMX, zero additional trainable params. V12-run1 completed through 4K (hologram probe: ternary patterns frozen at cos=1.000, evolution broken). V11-holo-inv complete at 16.5K.**
 
-## What was done this session (099)
+## What was done this session (100)
 
 ### 1. Oriented on V12-run1 (3 checkpoints dropped)
 
@@ -776,25 +776,29 @@ uv run python scripts/v12/train.py \
 
 ## What to do next
 
-### Priority 1: Launch V12-run2 with etching
-Stop V12-run1 at 5K. Start V12-run2 from fresh init with etching enabled.
-Key things to watch:
-- **Etch rate**: how many flips per cycle? Should start high (random init) and decay.
-- **Sign pattern crystallization**: run probe_hologram.py to verify cos < 1.0 now.
-- **Plate/beam separation**: do Q projections evolve differently from K/V/O?
-- **Dispatch diversity**: does etching help or hurt the I-suppression problem?
-- **Loss trajectory**: V12+etch vs V12-run1 at matched steps.
+### Priority 1: Monitor V12-run2 (etching + mirrors)
+V12-run2 LIVE. Watch etch_log.jsonl for etch rate decay.
+Run probe_hologram.py at 1K, 2K, 5K to verify sign patterns are crystallizing.
+Compare loss trajectory to V12-run1 at matched steps.
 
-### Priority 2: Probe V12-run1 at 5K (before stopping)
-Quick probe at 5K for baseline comparison, then stop the run.
-I still dead? Compute gate? Retrieval?
+### Priority 2: Probe V12-run2 at 5K — holographic formation
+Does the etcher produce the same patterns we found in production LLMs?
+- K/B/C cluster (cos>0.9), I distinct?
+- Q more diverse than K/V/O (beam vs plate)?
+- Mirror patterns structured vs random?
 
-### Priority 3: Dispatch floors (evaluate after V12-run2 data)
-May not need if etching + proper topology shaping resolves variety gap.
-The model may need B/C dominance as a training phase.
+### Priority 3: MoE holographic expert prototype
+Design tiny ternary expert (~2KB) with own plate + mirror.
+Test with Clojure interpreter as proof of concept.
 
-### Priority 4: Cross-model validation of three-cluster structure
-Run head-level probe on Pythia to confirm KIBCM universality.
+### Priority 4: Dispatch floors (if needed)
+Evaluate after V12-run2 data. Etching may resolve variety gap naturally.
+
+### Carried
+- Cross-model validation of three-cluster structure (Pythia KIBCM)
+- CycleContinue differentiation
+- S5 reweight investigation
+- Dead slot recycling
 
 ### Carried
 - Hologram atlas results (sessions 094-095)
@@ -900,6 +904,12 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 | `scripts/holoquant/core.py` | Ternary packing, matmul kernel, HoloLinear drop-in |
 | `scripts/holoquant/validate.py` | HoloQuant v1 validation (Pythia PPL 31→142K) |
 | `mementum/memories/multiplexing-breaks-holography.md` | Separation principle: one function per weight matrix |
+| `mementum/memories/evolution-mechanism-broken.md` | Consensus evolution frozen at V12 scale — P≈8e-11 |
+| `mementum/memories/combinator-dispatch-floors.md` | Minimum dispatch from cross-model ratios |
+| `mementum/memories/dedicated-combinator-capacity.md` | Shared vs dedicated — VSM self-regulation is stronger |
+| `mementum/knowledge/explore/laser-etcher-design.md` | Laser etcher + TernaryMirror architecture |
+| `scripts/v12/probe_hologram.py` | Holographic pattern formation probe for V12 checkpoints |
+| `checkpoints/v12-run2/` | V12 with etching + mirrors (LIVE) |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -935,6 +945,7 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
+→ Session 100: Hologram probe: ternary patterns frozen (cos=1.0), evolution broken (P≈8e-11). Built laser etcher: gradient-directed signal planes + consensus etch. TernaryMirror angular deflectors: exponential capacity (2^18×). S4 alarm modulates etching focus. Rate limiting. MoE-holographic expert concept. V12-run2 launched with etching + mirrors.
 → Session 096: V12 designed and built. M kernel as GatedLinearAttention layer type (not 5th combinator). "Accidental holography" insight: Qwen3.6's architecture separates composition from retrieval without knowing why — V12 does it intentionally. HybridStrideStack (6 comp + 3 ret strides), RetrievalRegisters (M→KIBC bridge). 7-pass symmetric hourglass (3+apex+3). Parallel associative scan for GLA (O(log L) depth). Holographic landscape probe: 93.6% of Qwen3.6 is ternary-safe (expert FFN = holographic plate, MoE gates + conv1d = precision-critical readout). V12 architecture confirmed correct partition.
 → Session 097: VSM variety gap diagnosed and fixed. V11's alarm detected B-dispatch decline (r=0.82) but couldn't correct — wrong actuator granularity (Beer's variety law). Three fixes: (1) per-combinator alarm dispatch bias [-2,+2] on logits, (2) emphasis changed to additive logit bias [-2,+2] replacing saturated multiplicative [0.5,1.5], (3) dispatch entropy regularization closes ascending→dispatch feedback loop. Stride-aware GLA gather/scatter: 2.73× training speedup (78% of cost was wasted scan over non-participating positions). S4→S3 cycle budget bias: intelligence tells CycleContinue when to stop — the missing Beer's policy channel. Evolution noise floor unified at 0.02 for both loss and alarm paths.
 → Session 098: Beam trace probe — holographic beamformer characterized. Q=beam angle, K/V/O=plate, FFN 4h→h=constructive reader. MoE IS holographic architecture. V12 holographic capacity: 95% plate (ternary), 5% beam (precision), 58× Pythia depth. Thick hologram principle. HoloQuant v2 selective ternarization: catastrophic at every selectivity level (Pythia plate-only 13%: PPL 31→704, Qwen3.6 aggressive 95%: PPL 2.86→70,757). Root cause: 37° angular error per matrix, cos^12=0.07 through 12 layers. Multi-plane ternary reduces angle but at 2-3× bit cost of standard Q4. Beam-guided correction perfect per-layer but fails end-to-end (beam subspace shifts). Key finding: magnitude CV determines ternary viability — Gaussian CV=0.76 → dead; uniform CV=0.08 → near-lossless. V12 sieve pushes CV→0 via thick hologram training pressure. Ternary is a training substrate, not a post-hoc quantization scheme.
