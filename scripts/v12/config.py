@@ -197,13 +197,14 @@ class V12Config:
     use_etching: bool = True
     etch_signal_interval: int = 50    # steps between signal plane updates
     etch_interval: int = 200          # steps between etch checks
-    etch_warmup: int = 500            # steps before etching begins
+    etch_warmup: int = 200            # steps before etching begins (signal planes need history)
     etch_heat_alpha: float = 0.99     # EMA decay for heat accumulation
     etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)  # percentiles for planes
     etch_consensus: int = 3           # planes that must agree (2 or 3)
     etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
-    etch_max_pct: float = 0.001       # max fraction of weights to flip per cycle (0.1%)
-    etch_max_pct_ramp: int = 5000     # steps to ramp from etch_max_pct to 10× (1%)
+    # NOTE: etch_max_pct and etch_max_pct_ramp are REMOVED.
+    # Consensus mechanism is the sole governor of flip rate.
+    # Self-terminating: early=aggressive (many wrong signs), late=quiet (signs aligned).
 
     # ── Checkpointing ──
     checkpoint_interval: int = 1000
