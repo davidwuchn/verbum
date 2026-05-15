@@ -1,39 +1,33 @@
 🎯 dedicated-combinator-capacity
 
-Dispatch floors alone are insufficient. If combinators share weights and the model
-spends N steps optimizing those shared weights for one dominant combinator, the
-suppressed combinators lose CAPACITY not just routing. Forcing dispatch back up
-routes inputs through weights that no longer encode the suppressed function.
+**Tension**: dedicated vs shared combinator capacity.
+
+**Case for dedicated**: If combinators share weights and the model spends N steps
+optimizing those weights for B-dominant dispatch, suppressed combinators (I, K) lose
+CAPACITY not just routing. Forcing dispatch back routes inputs through weights that
+no longer encode the suppressed function.
+
+**Case for shared (stronger design)**: If the VSM feedback topology is correct, shared
+weights let the system dynamically reallocate capacity. Dedicated capacity admits the
+VSM can't do its job. The ternary substrate acts as a seed bank — preserving sign
+patterns even while float weights drift. The holographic plate stores all functions
+simultaneously at different angles (session 095: same ~13 heads for discourse/type/
+frequency). Overwriting B doesn't erase I from the plate.
+
+**The real risk**: alarm latency. V12-run1 killed I in one eval window (3000→3500).
+If the alarm's EMA (α=0.9) is too slow to catch a one-window collapse, patterns are
+lost before intervention. Evolution accepted only 1/80 by 4K — I's ternary patterns
+may never have been validated before suppression. The seed bank only works if you
+deposit seeds before the drought.
+
+**Resolution**: the VSM should be designed to react fast enough, with dispatch floors
+as the minimum safety net. The question at 5K: can we fix the alarm latency and
+emphasis dynamics to make shared capacity work, or do we need dedicated capacity as
+insurance?
 
 All 4 combinators (KIBC) are used in ALL models across 9 models and 2 architectures
 (session 093). Suppressing any of them completely fights the universal structure of
-language. The reorganization phase (where the model discovers new strategies) is
-natural and expected, but the system must preserve each combinator's ability to
-recover after reorganization.
+language.
 
-**Design direction**: separate dedicated capacity per combinator so that:
-1. Each combinator has its own weight matrices that can't be overwritten by others
-2. Reorganization can shift dispatch ratios without destroying capability
-3. Recovery after reorganization is possible because the weights are preserved
-
-This is the multiplexing-breaks-holography principle (session 093) applied to
-the kernel pathway: one function per weight set.
-
-**Current V12 architecture**: combinators share the stride stack weights. Dispatch
-selects which combinator's kernel function processes the output, but the
-upstream computation (attention, FFN) is shared. This means B-dominant training
-reshapes shared weights toward B's needs.
-
-**Possible approaches** (evaluate at 5K):
-1. Per-combinator projection heads (small dedicated MLPs, shared backbone)
-2. Per-combinator attention heads (partition heads across combinators)
-3. Fully separate combinator pathways (expensive but cleanest)
-4. Combinator-conditioned computation (combinator embedding modulates shared weights)
-
-The right level of separation is an empirical question — enough to preserve
-capacity, not so much that you lose the shared representations that make the
-holographic plate work. The plate SHOULD be shared; the kernels should be separate.
-
-Connects to: three-clusters finding (session 095) — the holographic plate IS
-shared (discourse/type/frequency in same ~13 heads), but the composition kernel
-has 7 PRIVATE heads. The model already wants separation at the head level.
+Connects to: three-clusters (session 095), multiplexing-breaks-holography (session 093),
+combinator-dispatch-floors (this session)
