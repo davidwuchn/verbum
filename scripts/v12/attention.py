@@ -566,9 +566,18 @@ class DedicatedStrideStacks(nn.Module):
         # Each mirror is a ternary d×d matrix — rotates the beam angle.
         # The plate stores the hologram; the mirror selects which image.
         # Session 093: V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005.
-        self.combinator_mirrors = [
-            TernaryMirror(d_model) for _ in range(n_combinators)
-        ]
+        #
+        # I (index 1) gets IDENTITY init — reads residual stream as-is.
+        # K/B/C get random init — learn specific beam angles.
+        # I handles BINDING which needs to read what's already in the
+        # representation (where is this entity? what does it refer to?).
+        # The sieve can evolve I's mirror from identity if needed.
+        self.combinator_mirrors = []
+        for i in range(n_combinators):
+            is_I = (i == 1)  # I combinator = index 1
+            self.combinator_mirrors.append(
+                TernaryMirror(d_model, identity_init=is_I)
+            )
 
     def __call__(
         self,

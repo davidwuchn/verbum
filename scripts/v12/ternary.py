@@ -346,16 +346,27 @@ class TernaryMirror(nn.Module):
     group_size: int = 64
     bits: int = 2
 
-    def __init__(self, in_features: int, out_features: int | None = None):
+    def __init__(self, in_features: int, out_features: int | None = None,
+                 identity_init: bool = False):
         super().__init__()
         if out_features is None:
             out_features = in_features
         self.in_features = in_features
         self.out_features = out_features
 
-        # Initialize ternary topology
-        wq_uint32, _gamma = _ternary_init(out_features, in_features)
-        self.weight = wq_uint32
+        if identity_init and in_features == out_features:
+            # Identity-like init: +1 on diagonal, 0 elsewhere.
+            # The closest ternary approximation of I — pass-through.
+            # Used for I-combinator mirror: "read the residual as-is."
+            # The sieve can evolve it from identity if needed.
+            w_id = mx.zeros((out_features, in_features), dtype=mx.int8)
+            for i in range(min(out_features, in_features)):
+                w_id = w_id.at[i, i].add(mx.array(1, dtype=mx.int8))
+            self.weight = pack_ternary_mlx(w_id)
+        else:
+            # Random ternary topology (standard init for K/B/C mirrors)
+            wq_uint32, _gamma = _ternary_init(out_features, in_features)
+            self.weight = wq_uint32
 
         # Fixed gamma: 1/√in_features preserves input magnitude
         # Not trainable — frozen immediately
