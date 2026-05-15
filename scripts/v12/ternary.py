@@ -1441,3 +1441,244 @@ def load_ternary_state(model: nn.Module, path: str) -> None:
     Kept for protocol compatibility.
     """
     pass
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Gradient-directed etching — "laser hologram etcher"
+# ══════════════════════════════════════════════════════════════════════
+#
+# The holographic plate in production LLMs is a structured ternary sign
+# topology. The current consensus evolution can't shape it (cos=1.000
+# frozen across 4K steps — see session 099 hologram probe).
+#
+# The laser etcher replaces random mutation with gradient-directed
+# sign shaping:
+#
+#   1. HEAT ACCUMULATION (every step, cheap):
+#      Row heat: EMA of |∂L/∂γ[i]| — gradient pressure per output channel
+#      Col heat: EMA of |x_mean[j]| — input activation per feature
+#      Row dir:  EMA of ∂L/∂γ[i]   — signed gradient direction
+#      Col dir:  EMA of x_mean[j]   — signed activation direction
+#
+#   2. SIGNAL PLANE UPDATE (every N steps):
+#      3 ternary signal planes per weight matrix, at heat thresholds
+#      (weak/medium/strong). Each plane gets a direction vote:
+#        direction[i,j] = sign(row_dir[i] × col_dir[j])
+#      Written only at positions above the plane's heat threshold.
+#
+#   3. ETCH CHECK (every M steps):
+#      When all 3 signal planes agree on a direction AND that direction
+#      disagrees with the current weight sign → flip the weight sign.
+#      Reset signal planes at etched positions.
+#
+# Properties:
+#   - Self-terminating: heat drops to zero when signs align with gradient
+#   - Re-etchable: if strategy changes, new gradient direction accumulates
+#   - Memory efficient: 3 signal planes (ternary) + 4 float vectors per module
+#   - Compute efficient: all ternary operations, AMX-compatible
+#
+# Metaphor:
+#   γ gradient     = laser energy accumulating at each point
+#   heat threshold = temperature where material changes state
+#   consensus      = sustained energy from all intensity levels
+#   settling time  = plate cooling between passes
+
+
+class EtchState:
+    """Per-module state for gradient-directed etching.
+
+    Stores:
+      - 4 float EMA vectors: row_heat, col_heat, row_dir, col_dir
+      - 3 packed ternary signal planes (same uint32 format as TernaryLinear)
+      - Bookkeeping: steps accumulated, total flips
+    """
+
+    def __init__(self, out_features: int, in_features: int):
+        import numpy as np
+        self.out_features = out_features
+        self.in_features = in_features
+
+        # Float EMAs — gradient heat and direction
+        self.row_heat = np.zeros(out_features, dtype=np.float32)
+        self.col_heat = np.zeros(in_features, dtype=np.float32)
+        self.row_dir = np.zeros(out_features, dtype=np.float32)
+        self.col_dir = np.zeros(in_features, dtype=np.float32)
+
+        # 3 signal planes: packed uint32, initialized to all-zero (neutral)
+        # Same format as TernaryLinear.weight: (out_features, in_features//16)
+        # Encoding: -1→0, 0→1, +1→2 (ternary+1). All-zero packed = all-neutral.
+        n_packed = in_features // 16
+        # All-neutral = every 2-bit field is 0b01 (=1, decodes to 0)
+        # Pack 16 copies of 0b01: each at position 2*i
+        neutral_word = sum(1 << (2 * i) for i in range(16))
+        self.signal_planes = [
+            np.full((out_features, n_packed), neutral_word, dtype=np.uint32)
+            for _ in range(3)
+        ]
+
+        self.steps_accumulated = 0
+        self.total_etched = 0
+
+    def accumulate(
+        self,
+        gamma_grad: "np.ndarray",
+        x_abs_mean: "np.ndarray",
+        x_mean: "np.ndarray",
+        alpha: float = 0.99,
+    ) -> None:
+        """Accumulate gradient heat and direction from one training step."""
+        import numpy as np
+        gamma_grad = np.asarray(gamma_grad, dtype=np.float32)
+        x_abs_mean = np.asarray(x_abs_mean, dtype=np.float32)
+        x_mean = np.asarray(x_mean, dtype=np.float32)
+
+        self.row_heat = alpha * self.row_heat + (1 - alpha) * np.abs(gamma_grad)
+        self.col_heat = alpha * self.col_heat + (1 - alpha) * x_abs_mean
+        self.row_dir = alpha * self.row_dir + (1 - alpha) * gamma_grad
+        self.col_dir = alpha * self.col_dir + (1 - alpha) * x_mean
+        self.steps_accumulated += 1
+
+    def reset_signal_planes(self) -> None:
+        """Reset all signal planes to neutral."""
+        import numpy as np
+        n_packed = self.in_features // 16
+        neutral_word = sum(1 << (2 * i) for i in range(16))
+        for i in range(3):
+            self.signal_planes[i] = np.full(
+                (self.out_features, n_packed), neutral_word, dtype=np.uint32
+            )
+
+    def save_dict(self) -> dict:
+        """Serialize for checkpoint."""
+        return {
+            "row_heat": self.row_heat,
+            "col_heat": self.col_heat,
+            "row_dir": self.row_dir,
+            "col_dir": self.col_dir,
+            "signal_plane_0": self.signal_planes[0],
+            "signal_plane_1": self.signal_planes[1],
+            "signal_plane_2": self.signal_planes[2],
+            "steps_accumulated": self.steps_accumulated,
+            "total_etched": self.total_etched,
+        }
+
+    def load_dict(self, d: dict) -> None:
+        """Restore from checkpoint."""
+        self.row_heat = d["row_heat"]
+        self.col_heat = d["col_heat"]
+        self.row_dir = d["row_dir"]
+        self.col_dir = d["col_dir"]
+        self.signal_planes[0] = d["signal_plane_0"]
+        self.signal_planes[1] = d["signal_plane_1"]
+        self.signal_planes[2] = d["signal_plane_2"]
+        self.steps_accumulated = int(d.get("steps_accumulated", 0))
+        self.total_etched = int(d.get("total_etched", 0))
+
+
+def init_etch_states(model: nn.Module) -> dict[str, EtchState]:
+    """Initialize etch state for all TernaryLinear modules."""
+    states = {}
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear):
+            states[path] = EtchState(mod.out_features, mod.in_features)
+    return states
+
+
+def _extract_gamma_grad(grads, path: str):
+    """Extract gamma gradient for a module from the grad tree.
+
+    grads is a nested dict matching model parameter structure.
+    path like 'stride_stack.layers.0.q_proj' → grads['stride_stack']['layers'][0]['q_proj']['gamma']
+    """
+    import numpy as np
+    parts = path.split(".")
+    node = grads
+    try:
+        for part in parts:
+            if isinstance(node, (list, tuple)):
+                node = node[int(part)]
+            elif isinstance(node, dict):
+                if part.isdigit():
+                    node = node[int(part)] if int(part) < len(node) else node[part]
+                else:
+                    node = node[part]
+            else:
+                return None
+        # node should now be the module's grad dict
+        if isinstance(node, dict) and "gamma" in node:
+            g = node["gamma"]
+            if hasattr(g, '__array__'):
+                return np.array(g)
+            return g
+    except (KeyError, IndexError, TypeError):
+        pass
+    return None
+
+
+def accumulate_etch_heat(
+    model: nn.Module,
+    grads,
+    etch_states: dict[str, EtchState],
+    alpha: float = 0.99,
+) -> None:
+    """Accumulate gradient heat for all TernaryLinear modules.
+
+    Called every training step. Uses gamma gradient (from optimizer)
+    and cached _x_abs_mean / _x_mean (from forward pass).
+
+    Cost: 4 vector EMAs per module. Negligible.
+    """
+    import numpy as np
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in etch_states:
+            continue
+        if not isinstance(mod, TernaryLinear):
+            continue
+
+        state = etch_states[path]
+
+        # Gamma gradient from grad tree
+        gamma_grad = _extract_gamma_grad(grads, path)
+        if gamma_grad is None:
+            continue
+
+        # Input activation stats from forward pass cache
+        x_abs_mean = np.array(mod._x_abs_mean) if hasattr(mod, '_x_abs_mean') else None
+        x_mean = np.array(mod._x_mean) if hasattr(mod, '_x_mean') else None
+
+        if x_abs_mean is None or x_mean is None:
+            continue
+
+        state.accumulate(gamma_grad, x_abs_mean, x_mean, alpha=alpha)
+
+
+def save_etch_states(etch_states: dict[str, EtchState], path: str) -> None:
+    """Save all etch states to a .npz file."""
+    import numpy as np
+    save_dict = {}
+    for mod_path, state in etch_states.items():
+        d = state.save_dict()
+        for k, v in d.items():
+            save_dict[f"{mod_path}/{k}"] = v
+    np.savez_compressed(path, **save_dict)
+
+
+def load_etch_states(
+    etch_states: dict[str, EtchState], path: str
+) -> None:
+    """Load etch states from a .npz file."""
+    import numpy as np
+    from pathlib import Path
+    if not Path(path).exists():
+        return
+    data = dict(np.load(path))
+    for mod_path, state in etch_states.items():
+        d = {}
+        prefix = f"{mod_path}/"
+        for k, v in data.items():
+            if k.startswith(prefix):
+                key = k[len(prefix):]
+                d[key] = v
+        if d:
+            state.load_dict(d)
