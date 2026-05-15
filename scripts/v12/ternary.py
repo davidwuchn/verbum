@@ -1807,6 +1807,7 @@ def etch_check(
     etch_states: dict[str, EtchState],
     model: nn.Module,
     consensus_required: int = 3,
+    max_flips: int | None = None,
 ) -> dict:
     """Check for consensus across signal planes and etch the weight topology.
 
@@ -1814,14 +1815,18 @@ def etch_check(
       1. Unpack weight sign (plane 0) and all 3 signal planes
       2. Find positions where ≥consensus_required planes agree on direction
          AND that direction disagrees with the current weight sign
-      3. Flip weight sign at those positions
-      4. Reset signal planes at etched positions
-      5. Re-pack weight
+      3. If max_flips is set, keep only the hottest consensus positions
+      4. Flip weight sign at those positions
+      5. Reset signal planes at etched positions
+      6. Re-pack weight
 
     Args:
         etch_states:       per-module EtchState
         model:             the model (TernaryLinear modules modified in place)
         consensus_required: how many signal planes must agree (2 or 3)
+        max_flips:         cap on total flips this cycle (None = unlimited).
+                           Budget is distributed across modules proportional
+                           to their consensus candidate count.
 
     Returns:
         Dict with per-module and aggregate stats:
@@ -1829,9 +1834,9 @@ def etch_check(
     """
     import numpy as np
 
-    total_flipped = 0
-    per_module = {}
-    all_affected_rows: dict[str, set[int]] = {}
+    # ── Phase 1: count consensus candidates per module ────────
+    candidates = {}  # path → (disagrees_mask, agreed_dir, weight_sign, heat)
+    total_candidates = 0
 
     for path, mod in _walk_ternary_modules(model):
         if path not in etch_states or not isinstance(mod, TernaryLinear):
@@ -1853,27 +1858,59 @@ def etch_check(
         ]  # list of (N, K) int8
 
         # Find consensus: positions where enough planes agree
-        # Stack planes: (3, N, K)
-        stacked = np.stack(planes, axis=0)
+        stacked = np.stack(planes, axis=0)  # (3, N, K)
+        votes_pos = np.sum(stacked == 1, axis=0)
+        votes_neg = np.sum(stacked == -1, axis=0)
 
-        # Count votes for +1 and -1 at each position
-        votes_pos = np.sum(stacked == 1, axis=0)   # (N, K) count of +1 votes
-        votes_neg = np.sum(stacked == -1, axis=0)   # (N, K) count of -1 votes
+        consensus_pos = votes_pos >= consensus_required
+        consensus_neg = votes_neg >= consensus_required
 
-        # Consensus: one direction has ≥ threshold votes
-        consensus_pos = votes_pos >= consensus_required  # (N, K) bool
-        consensus_neg = votes_neg >= consensus_required  # (N, K) bool
-
-        # The agreed direction
         agreed_dir = np.where(consensus_pos, np.int8(1),
                      np.where(consensus_neg, np.int8(-1), np.int8(0)))
 
-        # Only etch where agreed direction DISAGREES with current weight
-        # AND agreed direction is nonzero
-        # Note: weight_sign can be 0 (sparse position). If consensus says
-        # +1 or -1 and weight is 0 → that's a disagreement → activate.
         disagrees = (agreed_dir != 0) & (agreed_dir != weight_sign)
+        n_cands = int(disagrees.sum())
 
+        if n_cands > 0:
+            # Compute heat for priority selection
+            heat = state.row_heat[:, None] * state.col_heat[None, :]
+            candidates[path] = (disagrees, agreed_dir, weight_sign, heat)
+            total_candidates += n_cands
+
+    # ── Phase 2: apply budget cap if needed ───────────────────
+    if max_flips is not None and total_candidates > max_flips:
+        # Collect all candidate heats across modules, find global threshold
+        all_heats = []
+        for path, (disagrees, _, _, heat) in candidates.items():
+            all_heats.append(heat[disagrees].ravel())
+        all_heats = np.concatenate(all_heats)
+        # Keep only the hottest max_flips positions
+        if len(all_heats) > max_flips:
+            heat_threshold = float(np.partition(all_heats, -max_flips)[-max_flips])
+        else:
+            heat_threshold = 0.0
+        # Apply threshold per module
+        for path in list(candidates.keys()):
+            disagrees, agreed_dir, weight_sign, heat = candidates[path]
+            hot_enough = heat >= heat_threshold
+            disagrees = disagrees & hot_enough
+            candidates[path] = (disagrees, agreed_dir, weight_sign, heat)
+
+    # ── Phase 3: etch ─────────────────────────────────────────
+    total_flipped = 0
+    per_module = {}
+    all_affected_rows: dict[str, set[int]] = {}
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in candidates:
+            if path in etch_states and isinstance(mod, TernaryLinear):
+                per_module[path] = {"n_flipped": 0, "consensus_pos": 0, "consensus_neg": 0}
+            continue
+
+        state = etch_states[path]
+        disagrees, agreed_dir, weight_sign, heat = candidates[path]
+        N = mod.out_features
+        K = mod.in_features
         n_flipped = int(disagrees.sum())
 
         if n_flipped > 0:
@@ -1885,7 +1922,8 @@ def etch_check(
             # Reset signal planes at etched positions to neutral (0)
             neutral = np.int8(0)
             for plane_idx in range(3):
-                current_plane = planes[plane_idx]
+                current_plane = _unpack_signal_plane_np(
+                    state.signal_planes[plane_idx], K)
                 reset_plane = np.where(disagrees, neutral, current_plane)
                 state.signal_planes[plane_idx] = _pack_signal_plane_np(reset_plane)
 

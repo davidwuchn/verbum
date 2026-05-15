@@ -198,6 +198,8 @@ class V12Config:
     etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)  # percentiles for planes
     etch_consensus: int = 3           # planes that must agree (2 or 3)
     etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
+    etch_max_pct: float = 0.001       # max fraction of weights to flip per cycle (0.1%)
+    etch_max_pct_ramp: int = 5000     # steps to ramp from etch_max_pct to 10× (1%)
 
     # ── Checkpointing ──
     checkpoint_interval: int = 1000

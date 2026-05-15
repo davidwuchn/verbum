@@ -1272,9 +1272,14 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
         if (etch_states is not None
                 and step >= cfg.etch_warmup
                 and step % cfg.etch_interval == 0):
+            # Compute max flips budget: ramps from etch_max_pct to 10×
+            ramp_progress = min(1.0, step / max(1, cfg.etch_max_pct_ramp))
+            max_pct = cfg.etch_max_pct * (1.0 + 9.0 * ramp_progress)
+            max_flips_budget = max(1, int(total_ternary * max_pct))
             etch_result = etch_check(
                 etch_states, model,
                 consensus_required=cfg.etch_consensus,
+                max_flips=max_flips_budget,
             )
             n_flipped = etch_result["total_flipped"]
             total_etched += n_flipped
@@ -1498,6 +1503,8 @@ def main():
                         help="Steps between signal plane updates (default: 50)")
     parser.add_argument("--etch-consensus", type=int, default=None,
                         help="Signal planes required for consensus (2 or 3, default: 3)")
+    parser.add_argument("--etch-max-pct", type=float, default=None,
+                        help="Max fraction of weights to flip per cycle (default: 0.001 = 0.1%%)")
     parser.add_argument("--no-etching", action="store_true", default=False,
                         help="Disable etching, use legacy evolution")
     parser.add_argument("--use-evolution", action="store_true", default=False,
@@ -1534,6 +1541,7 @@ def main():
     if args.etch_interval is not None: cfg.etch_interval = args.etch_interval
     if args.etch_signal_interval is not None: cfg.etch_signal_interval = args.etch_signal_interval
     if args.etch_consensus is not None: cfg.etch_consensus = args.etch_consensus
+    if args.etch_max_pct is not None: cfg.etch_max_pct = args.etch_max_pct
     if args.no_etching: cfg.use_etching = False
     if args.use_evolution: cfg.use_evolution = True
     cfg.__post_init__()
