@@ -1736,18 +1736,25 @@ def update_signal_planes(
     etch_states: dict[str, EtchState],
     model: nn.Module,
     heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0),
+    alarm_weights: dict[str, float] | None = None,
 ) -> dict[str, dict]:
     """Update signal planes with gradient-directed ternary votes.
 
     For each TernaryLinear module:
       1. Compute heat = row_heat × col_heat (outer product)
-      2. Compute direction = sign(row_dir × col_dir)
-      3. For each signal plane, write direction vote at positions above threshold
+      2. Multiply heat by alarm weight (S4/VSM modulation)
+      3. Compute direction = sign(row_dir × col_dir)
+      4. For each signal plane, write direction vote at positions above threshold
 
     Args:
-        etch_states: per-module EtchState
-        model:       the model (for accessing TernaryLinear modules)
+        etch_states:     per-module EtchState
+        model:           the model (for accessing TernaryLinear modules)
         heat_thresholds: percentiles for each plane (weak, medium, strong)
+        alarm_weights:   per-module weight from alarm factors (S4 modulation).
+                         Struggling passes get weight > 1.0 → heat amplified
+                         → easier to reach consensus → more etching where needed.
+                         Healthy passes get weight < 1.0 → less etching.
+                         None = no modulation (all weight 1.0).
 
     Returns:
         Per-module stats: {path: {votes_written_per_plane, max_heat, ...}}
@@ -1768,6 +1775,11 @@ def update_signal_planes(
 
         # Compute heat and direction via outer product
         heat = state.row_heat[:, None] * state.col_heat[None, :]  # (N, K)
+
+        # S4/alarm modulation: amplify heat for struggling modules
+        if alarm_weights is not None and path in alarm_weights:
+            heat = heat * alarm_weights[path]
+
         dir_product = state.row_dir[:, None] * state.col_dir[None, :]  # (N, K)
         direction = np.sign(dir_product).astype(np.int8)  # {-1, 0, +1}
 

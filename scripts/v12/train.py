@@ -1257,9 +1257,21 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
         if (etch_states is not None
                 and step >= cfg.etch_warmup
                 and step % cfg.etch_signal_interval == 0):
+            # S4 modulation: alarm factors weight the heat per module
+            # Struggling passes → amplified heat → more etching
+            _alarm_for_etch = (last_eval.get("alarm_factors")
+                               if last_eval else None)
+            etch_alarm_weights = None
+            if _alarm_for_etch:
+                modules = list(_walk_ternary_modules(model))
+                dw = _compute_alarm_depth_weights(_alarm_for_etch, modules)
+                if dw:
+                    etch_alarm_weights = dw
+
             sig_stats = update_signal_planes(
                 etch_states, model,
                 heat_thresholds=cfg.etch_heat_thresholds,
+                alarm_weights=etch_alarm_weights,
             )
             # Brief log for active modules
             if sig_stats and step % cfg.log_interval == 0:
