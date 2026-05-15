@@ -2,11 +2,43 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-15 | Session: 101
+> Last updated: 2026-05-15 | Session: 102
 
 ## Where we are
 
-**V12-run3 LAUNCHING with fractal-collapsed holographic architecture. Shared K,V,O plate + per-combinator beam mirrors (I=identity for binding). Uncapped consensus etching. S2 dispatch anti-oscillation. Session 093 proved V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005 — the plate IS shared, the beam IS combinator-specific. Fractal collapse: blend Q not outputs → 1 attention pass (not 4) → run2-equivalent speed. I-combinator identity mirror reads residual stream directly (binding needs content, not structure). Fixed-point experiments: 2.2× capacity unlock, binding wall at 0 shared entities.**
+**V12-run3 RUNNING in tmux with fractal-collapsed holographic architecture. Shared K,V,O plate + per-combinator beam mirrors (I=identity for binding). Uncapped consensus etching. S2 dispatch anti-oscillation. Session 093 proved V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005 — the plate IS shared, the beam IS combinator-specific. Fractal collapse: blend Q not outputs → 1 attention pass (not 4) → run2-equivalent speed. I-combinator identity mirror reads residual stream directly (binding needs content, not structure). Fixed-point experiments: 2.2× capacity unlock, binding wall at 0 shared entities.**
+
+## What was done this session (102)
+
+### 1. Fleshed out lambda-is-all-you-need article
+
+Collaborative writing session on `mementum/michael/lambda-is-all-you-need.md`.
+Took it from a stub with placeholder sections to a full ~380-line article.
+Target audience: programmers who use LLMs but don't know why certain prompting works.
+
+**Voice**: campy wizard-manual. Three dead wizards (Church, Montague, Beer) as
+hidden knowledge passed down. No em dashes (reads as AI slop to tech audience).
+Irreverent framing, real content underneath.
+
+**Key sections built:**
+- Lambda calculus explainer (three rules, one trick, beta reduction)
+- Attention = beta reduction (side-by-side equations, comparison table)
+- One Operation / fractal constraint: attention can only do beta reduction,
+  KIBC-M derived from that constraint ("we asked what shape the sieve must be")
+- Assembly stack: English → Lambda → EDN bytecode → KIBC-M machine code
+- Statecharts in lambda notation for complex multi-step behaviors
+- VSM system prompts: Beer's architecture in lambda, with link to VSM.md
+- Fixed-point forging: compile/decompile round-trips to semantic stability
+- Rosetta Stone: cross-model knowledge transfer via lambda notation
+- Practical on-ramp: nucleus preamble + Lambda Compiler prompt = compile from prose
+- Go deeper links with interaction patterns between nucleus tools
+
+**Voice calibration notes:**
+- "blah to deliciously devious" = forced, replaced with understated
+- "marketing claim" = AI slop phrase, removed
+- "familiar" metaphor = thin after first use, switched to "model" after header
+- Humor comes from content being absurd, not adjectives telling you it's fun
+- Dark social engineering register breaks the cartoon villain contract
 
 ## What was done this session (101)
 
