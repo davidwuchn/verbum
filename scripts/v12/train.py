@@ -59,6 +59,14 @@ from ternary import (
     apply_consensus,
     _walk_ternary_modules,
     TernaryLinear,
+    # Etching (gradient-directed ternary topology shaping)
+    init_etch_states,
+    accumulate_etch_heat,
+    update_signal_planes,
+    etch_check,
+    save_etch_states,
+    load_etch_states,
+    surgical_adam_decay_for_etch,
 )
 
 
@@ -811,6 +819,7 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
                     train_losses, total_generations, total_accepted,
                     eval_metrics, row_importance, col_importance,
                     grad_direction, mutation_rng,
+                    etch_states=None, total_etched=0,
                     train_loader=None):
     step_dir = checkpoint_dir / f"step_{step:06d}"
     step_dir.mkdir(parents=True, exist_ok=True)
@@ -836,10 +845,15 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
                         state_array=rng_state[1],
                         pos=np.array([rng_state[2]], dtype=np.int64))
 
+    # Save etch states
+    if etch_states is not None:
+        save_etch_states(etch_states, str(step_dir / "etch_states.npz"))
+
     state = {
         "step": step,
         "total_generations": total_generations,
         "total_accepted": total_accepted,
+        "total_etched": total_etched,
         "train_losses_last50": train_losses[-50:],
         "eval_metrics": eval_metrics or {},
         "data_loader": train_loader.save_state() if train_loader else {},
@@ -991,12 +1005,26 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             seed=7777,
         )
 
-    # ── EMA importance maps ───────────────────────────────────
+    # ── EMA importance maps (for legacy evolution) ──────────────
     row_importance: dict[str, np.ndarray] = {}
     col_importance: dict[str, np.ndarray] = {}
     grad_direction: dict[str, np.ndarray] = {}
     imp_alpha = 0.1
     mutation_rng = np.random.RandomState(42)
+
+    # ── Etch states (gradient-directed topology shaping) ──────
+    etch_states: dict | None = None
+    if cfg.use_etching:
+        etch_states = init_etch_states(model)
+        n_etch_modules = len(etch_states)
+        n_signal_params = sum(
+            s.out_features * s.in_features * 3 for s in etch_states.values()
+        )
+        print(f"  etch: {n_etch_modules} modules, "
+              f"signal_planes={n_signal_params:,} ternary values "
+              f"({n_signal_params * 2 / 8 / 1024:.0f} KB)",
+              file=sys.stderr)
+    total_etched = 0
 
     # ── State ─────────────────────────────────────────────────
     start_step = 0
@@ -1023,10 +1051,17 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             train_losses = state.get("train_losses_last50", [])
             total_generations = state.get("total_generations", 0)
             total_accepted = state.get("total_accepted", 0)
+            total_etched = state.get("total_etched", 0)
             last_eval = state.get("eval_metrics")
             loss_window.extend(train_losses[-50:])
             if dl_state:
                 train_loader.load_state(dl_state)
+            # Restore etch states from checkpoint
+            if etch_states is not None:
+                etch_path = ckpt / "etch_states.npz"
+                load_etch_states(etch_states, str(etch_path))
+                print(f"  etch: loaded signal planes from {etch_path}",
+                      file=sys.stderr)
         else:
             print("  ⚠  No checkpoint found, starting fresh.", file=sys.stderr)
 
@@ -1135,6 +1170,11 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     else:
                         col_importance[path] = xm
 
+        # ── Etch heat accumulation (every step, cheap) ─────────
+        if etch_states is not None:
+            accumulate_etch_heat(model, accum_grads, etch_states,
+                                alpha=cfg.etch_heat_alpha)
+
         # ── Normalize shared + zero ternary ───────────────────
         accum_grads = normalize_shared_grads(accum_grads)
         accum_grads = zero_ternary_grads(model, accum_grads)
@@ -1213,8 +1253,73 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     }
             _append_jsonl(checkpoint_dir / "train_log.jsonl", train_record)
 
-        # ── Evolution ─────────────────────────────────────────
-        if step % cfg.gen_interval == 0:
+        # ── Signal plane update (etch) ─────────────────────────
+        if (etch_states is not None
+                and step >= cfg.etch_warmup
+                and step % cfg.etch_signal_interval == 0):
+            sig_stats = update_signal_planes(
+                etch_states, model,
+                heat_thresholds=cfg.etch_heat_thresholds,
+            )
+            # Brief log for active modules
+            if sig_stats and step % cfg.log_interval == 0:
+                active = sum(1 for s in sig_stats.values()
+                             if sum(s.get("votes_per_plane", [])) > 0)
+                print(f"  🔥 signal update: {active}/{len(sig_stats)} modules active",
+                      file=sys.stderr, flush=True)
+
+        # ── Etch check (topology shaping) ─────────────────────
+        if (etch_states is not None
+                and step >= cfg.etch_warmup
+                and step % cfg.etch_interval == 0):
+            etch_result = etch_check(
+                etch_states, model,
+                consensus_required=cfg.etch_consensus,
+            )
+            n_flipped = etch_result["total_flipped"]
+            total_etched += n_flipped
+
+            if n_flipped > 0:
+                # Surgical Adam decay for etched rows
+                affected = etch_result.get("affected_rows", {})
+                if cfg.etch_adam_decay < 1.0 and affected:
+                    surgical_adam_decay_for_etch(
+                        optimizer, model, affected,
+                        decay=cfg.etch_adam_decay,
+                    )
+                # Re-freeze ternary weights after etching
+                freeze_ternary_weights(model)
+                restore_ternary(model)
+
+            # Log etch event
+            per_mod_summary = {
+                p: d["n_flipped"]
+                for p, d in etch_result.get("per_module", {}).items()
+                if d["n_flipped"] > 0
+            }
+            print(
+                f"  ⚡ etch step {step}: {n_flipped:,} flips"
+                f" ({total_etched:,} total)"
+                f"  modules: {len(per_mod_summary)}",
+                file=sys.stderr, flush=True,
+            )
+            if per_mod_summary:
+                top3 = sorted(per_mod_summary.items(), key=lambda x: -x[1])[:3]
+                for p, nf in top3:
+                    print(f"       {p}: {nf:,}", file=sys.stderr, flush=True)
+
+            _append_jsonl(checkpoint_dir / "etch_log.jsonl", {
+                "step": step,
+                "timestamp": time.time(),
+                "total_flipped": n_flipped,
+                "total_etched": total_etched,
+                "per_module": {
+                    p: d for p, d in etch_result.get("per_module", {}).items()
+                },
+            })
+
+        # ── Evolution (legacy, disabled by default) ───────────
+        if cfg.use_evolution and step % cfg.gen_interval == 0:
             # Pass alarm factors from last eval for targeted mutation
             _alarm = (last_eval.get("alarm_factors")
                       if last_eval else None)
@@ -1323,7 +1428,10 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
                             train_losses, total_generations, total_accepted,
                             last_eval, row_importance, col_importance,
-                            grad_direction, mutation_rng, train_loader)
+                            grad_direction, mutation_rng,
+                            etch_states=etch_states,
+                            total_etched=total_etched,
+                            train_loader=train_loader)
 
     # ── Final ─────────────────────────────────────────────────
     elapsed = time.time() - t_start
@@ -1339,7 +1447,10 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
     save_checkpoint(model, optimizer, cfg.total_steps, cfg, checkpoint_dir,
                     train_losses, total_generations, total_accepted,
                     final_eval, row_importance, col_importance,
-                    grad_direction, mutation_rng, train_loader)
+                    grad_direction, mutation_rng,
+                    etch_states=etch_states,
+                    total_etched=total_etched,
+                    train_loader=train_loader)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
