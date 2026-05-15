@@ -415,24 +415,34 @@ class StrideStack(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
-# DedicatedStrideStacks — 4 dedicated KIBC plates (Option C, v12 desc arm)
+# DedicatedStrideStacks — shared plate + per-combinator beam mirrors
 # ══════════════════════════════════════════════════════════════════════
 
 
 class DedicatedStrideStacks(nn.Module):
-    """4 dedicated ternary plates — one per KIBC combinator.
+    """Shared plate + per-combinator beam mirrors (fractal collapse).
 
-    Each combinator (K, I, B, C) gets its own full StrideStack with
-    all 9 strides. Dispatch weights from CombinatorDispatch blend the
-    4 plate outputs into a single representation.
+    Session 093 proved: V(B) = V(C) at cos=1.000, Q(B)·Q(C) = 0.005.
+    The plate is SHARED. The beam is COMBINATOR-SPECIFIC.
 
-    Design principle (Option C — VSM Emergent Depth):
-      - No multiplexing: each plate encodes ONE function (K / I / B / C).
-      - CycleContinue (S3) self-regulates depth per combinator.
-      - Dispatch weights are the LIVE (differentiable) version so that
-        gradients flow from plate outputs back through dispatch.
+    Architecture: ONE StrideStack (shared K,V,O plate) + 4 TernaryMirrors
+    (one per KIBC combinator). Each mirror deflects the beam angle before
+    the input enters the shared plate. Dispatch weights blend the
+    mirror-deflected inputs, then ONE pass through the shared plate.
 
-    SEPARATION ENABLES HOLOGRAPHY: one weight matrix, one function.
+    This is how thick holograms work: one plate stores many images
+    at different angles. The beam angle selects which image to read.
+    Mirrors rotate the beam angle into combinator-specific space.
+
+    Compute: 4 ternary mat-vec (mirrors, cheap) + 1 full stride stack.
+    vs dedicated plates: 4 full stride stacks.
+    Savings: ~75% fewer FLOPs, ~73% fewer params.
+
+    VSM self-regulation unchanged:
+      - CycleContinue gates depth per READ (same)
+      - Dispatch selects which BEAM to use via mirror blending
+      - S2 inertia keeps the beam angle stable across cycles
+      - Mirrors are ternary, etched by the same sieve as the plate
     """
 
     PLATE_NAMES = ('K', 'I', 'B', 'C')
@@ -454,17 +464,22 @@ class DedicatedStrideStacks(nn.Module):
         self.window = window
         self.n_combinators = n_combinators
 
-        self.plates = [
-            StrideStack(
-                d_model=d_model,
-                strides=strides,
-                window=window,
-                n_heads=n_heads,
-                dropout=dropout,
-                alpha=alpha,
-                n_q_mirrors=n_q_mirrors,
-            )
-            for _ in range(n_combinators)
+        # ONE shared plate (K,V,O + attention at all strides)
+        self.plate = StrideStack(
+            d_model=d_model,
+            strides=strides,
+            window=window,
+            n_heads=n_heads,
+            dropout=dropout,
+            alpha=alpha,
+            n_q_mirrors=n_q_mirrors,
+        )
+
+        # Per-combinator beam mirrors: deflect input before shared plate.
+        # Each mirror is a ternary d×d matrix — rotates the beam angle.
+        # The plate stores the hologram; the mirror selects which image.
+        self.combinator_mirrors = [
+            TernaryMirror(d_model) for _ in range(n_combinators)
         ]
 
     def __call__(
@@ -474,40 +489,37 @@ class DedicatedStrideStacks(nn.Module):
         reverse: bool = False,
         stride_range: tuple[int, int] | None = None,
     ) -> mx.array:
-        """Run all 4 plates and blend outputs using dispatch weights.
+        """Beam-multiplex: mirror-deflect per combinator, blend, read shared plate.
 
         Args:
             x: (B, L, d_model) — input representation
-            dispatch_weights: (B, L, n_combinators) — KIBC softmax weights
-                              Must be the LIVE (differentiable) version so
-                              gradients flow from plate outputs to dispatch.
+            dispatch_weights: (B, L, n_combinators) — KIBC softmax weights.
+                              LIVE (differentiable) so gradients flow through.
             reverse: whether to run strides in reverse order (coarse→fine)
             stride_range: (start, end) stride index range, or None for all
 
         Returns:
-            (B, L, d_model) — blended output
+            (B, L, d_model) — plate output from beam-blended input
         """
-        outputs = []
-        for plate in self.plates:
-            out = plate(x, reverse=reverse, stride_range=stride_range)
-            outputs.append(out)
+        # Apply per-combinator mirrors and blend with dispatch weights.
+        # Each mirror rotates the beam angle: Mirror_K(x) reads K-patterns,
+        # Mirror_I(x) reads I-patterns, etc. Dispatch weights control
+        # which angle dominates. When dispatch is near-one-hot, this
+        # approximates selecting a single beam angle.
+        blended = mx.zeros_like(x)
+        for i, mirror in enumerate(self.combinator_mirrors):
+            deflected = mirror(x)  # ternary mat-vec, cheap
+            blended = blended + dispatch_weights[..., i:i+1] * deflected
 
-        # Stack: (n_combinators, B, L, d_model)
-        stacked = mx.stack(outputs, axis=0)
-
-        # dispatch_weights: (B, L, n_combinators) → (n_combinators, B, L, 1)
-        weights = mx.transpose(dispatch_weights, (2, 0, 1))[..., None]
-
-        # Blend: weighted sum over combinators → (B, L, d_model)
-        blended = mx.sum(stacked * weights, axis=0)
-        return blended
+        # ONE pass through shared plate with beam-blended input
+        return self.plate(blended, reverse=reverse, stride_range=stride_range)
 
     def describe(self) -> str:
         strides_str = " → ".join(f"s{s}" for s in self.strides)
         names = ", ".join(
             self.PLATE_NAMES[i] for i in range(self.n_combinators))
-        return (f"DedicatedStrideStacks([{names}] × "
-                f"StrideStack({strides_str}, W={self.window}))")
+        return (f"DedicatedStrideStacks([{names}] mirrors × "
+                f"shared StrideStack({strides_str}, W={self.window}))")
 
 
 # ══════════════════════════════════════════════════════════════════════
