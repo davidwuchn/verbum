@@ -1219,10 +1219,27 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 loss_str = f"CE={raw_ce:.3f} loss={total_loss:.3f}"
             else:
                 loss_str = f"CE={total_loss:.3f}"
+
+            # Dispatch + oscillation summary for live monitoring
+            dispatch_str = ""
+            if hasattr(model, 'combinator_dispatch') and hasattr(model.combinator_dispatch, '_dispatch_weights'):
+                dw = model.combinator_dispatch._dispatch_weights
+                if dw is not None:
+                    dw_mean = dw.mean(axis=(0, 1))
+                    mx.eval(dw_mean)
+                    dw_vals = [float(dw_mean[i].item()) for i in range(min(4, dw_mean.shape[0]))]
+                    dispatch_str = f" | K={dw_vals[0]:.2f} I={dw_vals[1]:.2f} B={dw_vals[2]:.2f} C={dw_vals[3]:.2f}"
+            osc_str = ""
+            if hasattr(model, 's2_dispatch'):
+                osc = model.s2_dispatch.oscillation_signal
+                if osc > 0.001:
+                    osc_str = f" osc={osc:.3f}"
+
             print(
                 f"step {step:>6d} | r={step_loss:.4f} (avg50: {avg50:.4f})"
                 f" | {loss_str} | lr {lr:.2e}"
                 f" | {tps:.0f} tok/s"
+                f"{dispatch_str}{osc_str}"
                 f"{evo_str}"
                 f" | {elapsed:.0f}s",
                 file=sys.stderr, flush=True,
@@ -1251,6 +1268,28 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     train_record["retrieval_gate_means_last"] = {
                         str(k): float(v) for k, v in rgm.items()
                     }
+
+            # ── NEW: Dedicated plate + dispatch coordination metrics ──
+
+            # Per-combinator dispatch weights (from last forward pass)
+            if hasattr(model, 'combinator_dispatch') and hasattr(model.combinator_dispatch, '_dispatch_weights'):
+                dw = model.combinator_dispatch._dispatch_weights
+                if dw is not None:
+                    dw_mean = dw.mean(axis=(0, 1))  # (n_comb,)
+                    mx.eval(dw_mean)
+                    dw_list = [float(dw_mean[i].item()) for i in range(min(4, dw_mean.shape[0]))]
+                    train_record["dispatch_K"] = dw_list[0] if len(dw_list) > 0 else 0
+                    train_record["dispatch_I"] = dw_list[1] if len(dw_list) > 1 else 0
+                    train_record["dispatch_B"] = dw_list[2] if len(dw_list) > 2 else 0
+                    train_record["dispatch_C"] = dw_list[3] if len(dw_list) > 3 else 0
+
+            # S2 dispatch oscillation signal
+            if hasattr(model, 's2_dispatch'):
+                train_record["dispatch_oscillation"] = model.s2_dispatch.oscillation_signal
+                # Inertia scale (how much anti-oscillation the model is using)
+                mx.eval(model.s2_dispatch.inertia_scale)
+                train_record["s2_inertia_scale"] = float(mx.tanh(model.s2_dispatch.inertia_scale).item())
+
             _append_jsonl(checkpoint_dir / "train_log.jsonl", train_record)
 
         # ── Signal plane update (etch) ─────────────────────────
@@ -1315,10 +1354,27 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 for p, d in etch_result.get("per_module", {}).items()
                 if d["n_flipped"] > 0
             }
+
+            # Aggregate per-plate etch counts (K=0, I=1, B=2, C=3)
+            plate_names = ['K', 'I', 'B', 'C']
+            plate_flips = {name: 0 for name in plate_names}
+            other_flips = 0
+            for p, nf in per_mod_summary.items():
+                matched = False
+                for i, name in enumerate(plate_names):
+                    if f"desc_plates.plates.{i}." in p:
+                        plate_flips[name] += nf
+                        matched = True
+                        break
+                if not matched:
+                    other_flips += nf
+
+            plate_str = " ".join(f"{name}={plate_flips[name]:,}" for name in plate_names)
             print(
                 f"  ⚡ etch step {step}: {n_flipped:,} flips"
                 f" ({total_etched:,} total)"
-                f"  modules: {len(per_mod_summary)}",
+                f"  modules: {len(per_mod_summary)}"
+                f"  plates: {plate_str}  other={other_flips:,}",
                 file=sys.stderr, flush=True,
             )
             if per_mod_summary:
@@ -1331,6 +1387,8 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 "timestamp": time.time(),
                 "total_flipped": n_flipped,
                 "total_etched": total_etched,
+                "plate_flips": plate_flips,
+                "other_flips": other_flips,
                 "per_module": {
                     p: d for p, d in etch_result.get("per_module", {}).items()
                 },
