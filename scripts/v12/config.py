@@ -168,7 +168,7 @@ class V12Config:
     weight_decay: float = 0.01
     grad_clip: float = 1.0
 
-    # ── Evolution ──
+    # ── Evolution (legacy — disabled when etching is active) ──
     gen_interval: int = 50
     base_pct: float = 0.0002
     sign_flip_rate: float = 0.2
@@ -176,12 +176,28 @@ class V12Config:
     mutation_adam_decay: float = 0.1
     s4_boost: float = 3.0
     evolution_min_delta: float = 0.02
-    # Alarm-path noise floor: minimum health improvement to accept via alarm.
-    # Alarm health ∈ [0, 2] (mean of per-pass factors). Without a floor,
-    # health deltas of 0.0001 (measurement noise on a single eval batch)
-    # get accepted, and the resulting sign flips cause routing ripple
-    # effects that accumulate silently. 0.02 = 1% of the full range.
     evolution_alarm_min_delta: float = 0.02
+    use_evolution: bool = False  # disabled by default, etching replaces it
+
+    # ── Etching (gradient-directed ternary topology shaping) ──
+    # The laser etcher: gradient heat accumulates in signal planes,
+    # consensus across planes triggers sign flips in the weight topology.
+    #
+    # Signal planes (3 per TernaryLinear, same packed uint32 format):
+    #   Plane 1 (weak):   votes from positions with heat > p_weak
+    #   Plane 2 (medium): votes from positions with heat > p_medium
+    #   Plane 3 (strong): votes from positions with heat > p_strong
+    #
+    # Etch condition: all etch_consensus planes agree on direction
+    #   AND that direction disagrees with current weight sign → flip.
+    use_etching: bool = True
+    etch_signal_interval: int = 50    # steps between signal plane updates
+    etch_interval: int = 200          # steps between etch checks
+    etch_warmup: int = 500            # steps before etching begins
+    etch_heat_alpha: float = 0.99     # EMA decay for heat accumulation
+    etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)  # percentiles for planes
+    etch_consensus: int = 3           # planes that must agree (2 or 3)
+    etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
 
     # ── Checkpointing ──
     checkpoint_interval: int = 1000
