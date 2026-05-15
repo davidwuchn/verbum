@@ -245,20 +245,22 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     _, compressor_metrics = model.forward_instrumented(input_ids)
 
     # Print compressor metrics
-    pass_names = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
+    pass_names = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
+    n_asc = 4  # passes 0-3 are ascending (L0↑, L1↑, L2↑, L3_apex)
     desc_max_cycles = compressor_metrics.get("desc_max_cycles", 1)
 
     print("  ┌─ S3 gates ──────────────────────────────────────┐", file=sys.stderr)
     for pi, pname in enumerate(pass_names):
         gates = compressor_metrics["s3_gates"][pi]
-        if pi >= 3 and desc_max_cycles > 1:
+        if pi >= n_asc and desc_max_cycles > 1:
             # Descending pass: show per-cycle gates
             for cy in range(desc_max_cycles):
                 base = cy * 3
                 cyname = f"{pname}c{cy}"
-                print(f"  │ {cyname:6s}: disp={gates[base]:.3f}  "
-                      f"conv={gates[base+1]:.3f}  intg={gates[base+2]:.3f}",
-                      file=sys.stderr)
+                if base + 2 < len(gates):
+                    print(f"  │ {cyname:6s}: disp={gates[base]:.3f}  "
+                          f"conv={gates[base+1]:.3f}  intg={gates[base+2]:.3f}",
+                          file=sys.stderr)
         else:
             print(f"  │ {pname:4s}: prep={gates[0]:.3f}  conv={gates[1]:.3f}  "
                   f"cons={gates[2]:.3f}", file=sys.stderr)
@@ -269,7 +271,7 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     print("  ├─ S2 coordination ───────────────────────────────┤", file=sys.stderr)
     s2_conflict = compressor_metrics.get("s2_conflict", [])
     s2_scales = compressor_metrics.get("s2_scales", [])
-    s2_names = ("L0↑→L1↑", "L1↑→L2", "L2→L1↓", "L1↓→L0↓")
+    s2_names = ("L0↑→L1↑", "L1↑→L2↑", "L2↑→L3", "L3→L2↓", "L2↓→L1↓", "L1↓→L0↓")
     for ti in range(len(s2_conflict)):
         cs = s2_conflict[ti]
         sc = s2_scales[ti] if ti < len(s2_scales) else 0.0
@@ -312,7 +314,7 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
         cig = compressor_metrics.get("cycle_inject_gate", 0.0)
         eff_cycles = compressor_metrics.get("effective_cycles", [])
         cont_gates = compressor_metrics.get("cycle_continue_gates", [])
-        desc_pass_names = ("L1↓", "L0↓")
+        desc_pass_names = ("L2↓", "L1↓", "L0↓")
         parts = [f"max={desc_max_cycles}", f"inject={cig:.4f}"]
         for di, dpn in enumerate(desc_pass_names):
             if di < len(eff_cycles):
@@ -326,7 +328,7 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     alarm_factors = compressor_metrics.get("alarm_factors")
     eff_s5 = compressor_metrics.get("effective_s5_gates")
     if alarm_factors:
-        pass_names_alarm = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
+        pass_names_alarm = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
         # Detect any non-neutral alarm (factor != 1.0)
         any_alarm = any(abs(f - 1.0) > 0.01 for f in alarm_factors)
         symbol = "🚨" if any_alarm else "🔕"
@@ -341,7 +343,7 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     # Holographic intermediate losses
     holo = compressor_metrics.get("holo_losses")
     if holo:
-        pass_names_h = ("L0↑", "L1↑", "L2", "L1↓", "L0↓")
+        pass_names_h = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
         parts = [f"{pn}={h:.3f}" for pn, h in zip(pass_names_h, holo)]
         print(f"  🔮 Holographic: {' '.join(parts)}", file=sys.stderr)
 
