@@ -52,6 +52,7 @@ from components import (
     MetaS4Ternary,
     S5Reweight,
     S2Coordinator,
+    S2DispatchCoordinator,
     CycleContinue,
     AlgedonicAlert,
     S4ProposalHead,
@@ -196,6 +197,10 @@ class V12Model(nn.Module):
 
         # ── S2: Direction coordination ─────────────────────────
         self.s2 = S2Coordinator(d)
+
+        # ── S2: Dispatch anti-oscillation for dedicated plates ──
+        self.s2_dispatch = S2DispatchCoordinator(
+            n_combinators=cfg.n_combinators, d_model=d)
 
         # ── S5: Pass reweighting ──────────────────────────────
         # 8 banks: bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
@@ -508,6 +513,8 @@ class V12Model(nn.Module):
             x_anchor = x
             max_cycles = self.cfg.desc_max_cycles
             cumulative_gate = mx.array(1.0)
+            # S2 dispatch inertia: carries dispatch momentum across cycles
+            s2_inertia_bias = None  # None for first cycle, then computed
 
             for cycle in range(max_cycles):
                 x_cycle_start = x
@@ -516,9 +523,21 @@ class V12Model(nn.Module):
                     x = x + self.cycle_inject_gate * x_anchor
 
                 # Phase 0: dispatch (which combinator/slot?)
+                # S2 inertia bias added to dispatch_bias (both in logit space)
+                combined_dispatch_bias = dispatch_bias
+                if s2_inertia_bias is not None and combined_dispatch_bias is not None:
+                    # Inertia applies to KIBC logits only (first n_comb of padded)
+                    n_comb = self.cfg.n_combinators
+                    combined_dispatch_bias = (
+                        combined_dispatch_bias
+                        + s2_inertia_bias[..., :combined_dispatch_bias.shape[-1]]
+                    )
+                elif s2_inertia_bias is not None:
+                    combined_dispatch_bias = s2_inertia_bias
+
                 dispatch_out = self.combinator_dispatch(
                     x, registers=readable_banks,
-                    dispatch_bias=dispatch_bias,
+                    dispatch_bias=combined_dispatch_bias,
                     proposal_delta=proposal_delta)
                 delta = dispatch_out - x
                 raw_phases.append(delta)
@@ -532,6 +551,10 @@ class V12Model(nn.Module):
                 # dispatch_weights_live is the DIFFERENTIABLE version — gradients flow
                 # from plate outputs back through dispatch (no stop_gradient here).
                 dw_kibc = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
+
+                # S2 dispatch: compute inertia bias for NEXT cycle from this cycle's dispatch
+                s2_inertia_bias = self.s2_dispatch.inertia_bias(dw_kibc)
+
                 converge_out = self.desc_plates(
                     x, dispatch_weights=dw_kibc,
                     reverse=self.cfg.desc_stride_reverse,
@@ -579,11 +602,18 @@ class V12Model(nn.Module):
                     pass_alarm['cycle_continue_gates'].append(cont_gate)
                     cumulative_gate = cumulative_gate * cont_gate
 
+            # S2 dispatch: update cross-step EMA for alarm monitoring
+            if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
+                self.s2_dispatch.update_ema(
+                    self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators])
+
             # Capture live (differentiable) dispatch/compute metrics
             # from the LAST cycle — most recent computation
             if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
                 pass_alarm['dispatch_weights_live'] = \
                     self.combinator_dispatch._dispatch_weights_live
+                pass_alarm['dispatch_oscillation'] = \
+                    self.s2_dispatch.oscillation_signal
             if hasattr(self.combinator_integrate, '_compute_gate_live'):
                 pass_alarm['compute_gate_live'] = \
                     self.combinator_integrate._compute_gate_live
