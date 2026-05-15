@@ -45,7 +45,7 @@ from __future__ import annotations
 import mlx.core as mx
 import mlx.nn as nn
 
-from ternary import TernaryLinear
+from ternary import TernaryLinear, TernaryMirror
 from scan import parallel_scan_2d
 
 
@@ -72,6 +72,7 @@ class SingleStrideAttention(nn.Module):
         n_heads: int = 8,
         dropout: float = 0.1,
         alpha: float | None = None,
+        n_q_mirrors: int = 0,
     ):
         super().__init__()
         self.d_model = d_model
@@ -84,6 +85,9 @@ class SingleStrideAttention(nn.Module):
         self.alpha = alpha
 
         self.norm = nn.RMSNorm(d_model)
+
+        # Beam mirrors: ternary angular deflectors before Q projection
+        self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
 
         self.q_proj = TernaryLinear(d_model, d_model, pre_norm=False)
         self.k_proj = TernaryLinear(d_model, d_model, pre_norm=False)
@@ -105,7 +109,12 @@ class SingleStrideAttention(nn.Module):
 
         x_norm = self.norm(x)
 
-        Q = self.q_proj(x_norm).reshape(B, L, H, Dh)
+        # Beam steering: pass through mirrors before Q projection
+        q_in = x_norm
+        for mirror in self.q_mirrors:
+            q_in = mirror(q_in)
+
+        Q = self.q_proj(q_in).reshape(B, L, H, Dh)
         K = self.k_proj(x_norm).reshape(B, L, H, Dh)
         V = self.v_proj(x_norm).reshape(B, L, H, Dh)
 
@@ -191,6 +200,7 @@ class GatedLinearAttention(nn.Module):
         d_state: int = 64,
         n_heads: int = 8,
         dropout: float = 0.1,
+        n_q_mirrors: int = 0,
     ):
         super().__init__()
         self.d_model = d_model
@@ -201,6 +211,9 @@ class GatedLinearAttention(nn.Module):
         assert d_model % n_heads == 0
 
         self.norm = nn.RMSNorm(d_model)
+
+        # Beam mirrors: ternary angular deflectors before Q projection
+        self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
 
         # Ternary projections for Q, K, V
         self.q_proj = TernaryLinear(d_model, n_heads * d_state, pre_norm=False)
@@ -244,7 +257,12 @@ class GatedLinearAttention(nn.Module):
         x_norm = self.norm(x)
 
         # Project ALL positions to Q, K, V, gate (cheap TernaryLinear)
-        q_raw = self.q_proj(x_norm).reshape(B, L, H, Ds)   # (B, L, H, Ds)
+        # Beam steering: pass through mirrors before Q projection
+        q_in = x_norm
+        for mirror in self.q_mirrors:
+            q_in = mirror(q_in)
+
+        q_raw = self.q_proj(q_in).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         k_raw = self.k_proj(x_norm).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         v = self.v_proj(x_norm).reshape(B, L, H, Dh)       # (B, L, H, Dh)
         gate = mx.sigmoid(self.gate_proj(x_norm))           # (B, L, H)
@@ -358,6 +376,7 @@ class StrideStack(nn.Module):
         n_heads: int = 8,
         dropout: float = 0.1,
         alpha: float | None = None,
+        n_q_mirrors: int = 0,
     ):
         super().__init__()
         self.d_model = d_model
@@ -372,6 +391,7 @@ class StrideStack(nn.Module):
                 n_heads=n_heads,
                 dropout=dropout,
                 alpha=alpha,
+                n_q_mirrors=n_q_mirrors,
             )
             for s in strides
         ]
@@ -435,6 +455,7 @@ class HybridStrideStack(nn.Module):
         d_state: int = 64,
         dropout: float = 0.1,
         alpha: float | None = None,
+        n_q_mirrors: int = 0,
     ):
         super().__init__()
         assert len(strides) == len(stride_is_retrieval)
@@ -455,6 +476,7 @@ class HybridStrideStack(nn.Module):
                         d_state=d_state,
                         n_heads=n_heads,
                         dropout=dropout,
+                        n_q_mirrors=n_q_mirrors,
                     )
                 )
                 self._layer_types.append("ret")
@@ -467,6 +489,7 @@ class HybridStrideStack(nn.Module):
                         n_heads=n_heads,
                         dropout=dropout,
                         alpha=alpha,
+                        n_q_mirrors=n_q_mirrors,
                     )
                 )
                 self._layer_types.append("comp")

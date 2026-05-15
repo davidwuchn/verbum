@@ -316,6 +316,92 @@ class TernaryLinear(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# TernaryMirror — pure angular deflector (no trainable gamma)
+# ══════════════════════════════════════════════════════════════════════
+
+
+class TernaryMirror(nn.Module):
+    """Pure ternary angular deflector — a "mirror" for beam steering.
+
+    Like TernaryLinear but gamma is NOT trained. The sign topology alone
+    determines the transformation. Gamma is fixed at 1/√in_features to
+    preserve input magnitude. RMSNorm after projection ensures the output
+    scale stays consistent regardless of sign pattern.
+
+    Used before Q projections to refine beam angles. Multiple mirrors
+    in cascade give exponentially finer angular resolution:
+      1 mirror × 64 angles = 64 distinguishable beam paths
+      3 mirrors × 64 angles = 262,144 beam paths
+
+    Forward:
+        y = norm(quantized_matmul(x, W_ternary, scales=γ, biases=-γ))
+
+    The sign topology evolves via etching (same as TernaryLinear).
+    Gamma is fixed — Adam never touches it. Only the sign pattern matters.
+
+    Memory: 2 bits per weight (identical to TernaryLinear).
+    Compute: one quantized_matmul + one RMSNorm (negligible vs Q proj).
+    """
+
+    group_size: int = 64
+    bits: int = 2
+
+    def __init__(self, in_features: int, out_features: int | None = None):
+        super().__init__()
+        if out_features is None:
+            out_features = in_features
+        self.in_features = in_features
+        self.out_features = out_features
+
+        # Initialize ternary topology
+        wq_uint32, _gamma = _ternary_init(out_features, in_features)
+        self.weight = wq_uint32
+
+        # Fixed gamma: 1/√in_features preserves input magnitude
+        # Not trainable — frozen immediately
+        self.gamma = mx.full((out_features,), 1.0 / math.sqrt(in_features))
+
+        # Normalize output to preserve magnitude after ternary projection
+        self.norm = nn.RMSNorm(out_features)
+
+    def __call__(self, x: mx.array) -> mx.array:
+        # Cache input stats for etching (same as TernaryLinear)
+        if x.ndim >= 2:
+            reduce_axes = tuple(range(x.ndim - 1))
+            self._x_abs_mean = mx.stop_gradient(mx.mean(mx.abs(x), axis=reduce_axes))
+            self._x_mean = mx.stop_gradient(mx.mean(x, axis=reduce_axes))
+        else:
+            self._x_abs_mean = mx.stop_gradient(mx.abs(x))
+            self._x_mean = mx.stop_gradient(x)
+
+        n_groups = self.in_features // self.group_size
+        gamma_2d = mx.broadcast_to(
+            mx.expand_dims(self.gamma, axis=-1),
+            (self.out_features, n_groups),
+        )
+        scales = gamma_2d
+        biases = -gamma_2d
+
+        w = mx.stop_gradient(self.weight)
+        y = mx.quantized_matmul(
+            x, w, scales, biases,
+            transpose=True, group_size=self.group_size, bits=self.bits,
+        )
+        return self.norm(y)
+
+    def ternary_stats(self) -> dict[str, float]:
+        """Report ternary weight statistics."""
+        w = unpack_ternary_mlx(self.weight)
+        total = w.size
+        return {
+            "sparsity": float((w == 0).sum().item()) / total,
+            "pos_frac": float((w == 1).sum().item()) / total,
+            "neg_frac": float((w == -1).sum().item()) / total,
+            "gamma_mean": float(self.gamma.mean().item()),
+        }
+
+
+# ══════════════════════════════════════════════════════════════════════
 # TernaryEmbedding — packed ternary lookup table (UNCHANGED)
 # ══════════════════════════════════════════════════════════════════════
 
@@ -488,9 +574,9 @@ def _ternary_embed_vjp(primals, cotangent, output):
 
 
 def _walk_ternary_modules(model: nn.Module):
-    """Yield (path, module) for all TernaryLinear and TernaryEmbedding in model."""
+    """Yield (path, module) for all TernaryLinear, TernaryMirror, and TernaryEmbedding in model."""
     for path, module in model.named_modules():
-        if isinstance(module, (TernaryLinear, TernaryEmbedding)):
+        if isinstance(module, (TernaryLinear, TernaryMirror, TernaryEmbedding)):
             yield path, module
 
 
@@ -559,7 +645,11 @@ def freeze_ternary_weights(model: nn.Module) -> int:
     """
     n_frozen = 0
     for path, mod in _walk_ternary_modules(model):
-        if isinstance(mod, TernaryLinear):
+        if isinstance(mod, TernaryMirror):
+            # Mirror: freeze BOTH weight (topology) and gamma (fixed scale)
+            mod.freeze(keys=["weight", "gamma"])
+            n_frozen += 1
+        elif isinstance(mod, TernaryLinear):
             mod.freeze(keys=["weight"])
             n_frozen += 1
         elif isinstance(mod, TernaryEmbedding):
@@ -580,7 +670,7 @@ def restore_ternary(model: nn.Module) -> None:
     That bug is now prevented by freezing, and this function is the alarm.
     """
     for path, mod in _walk_ternary_modules(model):
-        if isinstance(mod, TernaryLinear):
+        if isinstance(mod, (TernaryLinear, TernaryMirror)):
             if mod.weight.dtype != mx.uint32:
                 raise RuntimeError(
                     f"TERNARY CORRUPTION: {path}.weight dtype is "
@@ -1576,10 +1666,10 @@ class EtchState:
 
 
 def init_etch_states(model: nn.Module) -> dict[str, EtchState]:
-    """Initialize etch state for all TernaryLinear modules."""
+    """Initialize etch state for all TernaryLinear and TernaryMirror modules."""
     states = {}
     for path, mod in _walk_ternary_modules(model):
-        if isinstance(mod, TernaryLinear):
+        if isinstance(mod, (TernaryLinear, TernaryMirror)):
             states[path] = EtchState(mod.out_features, mod.in_features)
     return states
 

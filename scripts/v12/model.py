@@ -112,6 +112,7 @@ class V12Model(nn.Module):
 
         # ── S1: Ascending ops (shared across 3 passes) ────────
         self.prep = TernaryFFN(d, cfg.d_ff, cfg.dropout)
+        n_mirrors = cfg.n_q_mirrors if cfg.use_q_mirrors else 0
         self.stride_stack = HybridStrideStack(
             d_model=d,
             strides=cfg.strides,
@@ -121,6 +122,7 @@ class V12Model(nn.Module):
             alpha=cfg.alpha,
             stride_is_retrieval=cfg.stride_is_retrieval,
             d_state=cfg.d_state,
+            n_q_mirrors=n_mirrors,
         )
         self.consolidate = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
 
@@ -145,6 +147,7 @@ class V12Model(nn.Module):
             n_heads=cfg.n_heads,
             dropout=cfg.dropout,
             alpha=cfg.alpha,
+            n_q_mirrors=n_mirrors,
         )
         self.combinator_integrate = CombinatorIntegrate(
             d, n_combinators=N_COMBINATORS,

@@ -100,6 +100,10 @@ class V12Config:
     # n_retrieval_registers: how many retrieval slots M can write to.
     n_retrieval_registers: int = 2
 
+    # ── Beam mirrors (ternary angular deflectors before Q projections) ──
+    use_q_mirrors: bool = True    # enable ternary mirrors before Q projections
+    n_q_mirrors: int = 1          # mirrors per attention layer (cascade for finer angles)
+
     # ── Combinator dispatch ──
     n_combinators: int = N_COMBINATORS  # 4: K, I, B, C (M is NOT here)
 
