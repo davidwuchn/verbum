@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V12-run2 LAUNCHED with laser etcher + ternary mirrors. Fixed-point hologram experiment COMPLETE: compile↔decompile cycling converges (94%, mean 2 cycles) to canonical λ forms that ARE the holographic plate content. Three convergence tiers map to semantic complexity. Systematic losses (tense, quantifier scope, agent) map to beam vs plate partition. Gate exemplar contamination proves exemplars ARE the strongest holographic signal. See `knowledge/explore/fixed-point-holograms.md`.**
+**V12-run3 LAUNCHED with dedicated KIBCM plates + uncapped etching + S2 dispatch anti-oscillation. V12-run2 baseline at 1K: CE=8.28, alarm saturated, S3 collapsing. Evolution: 4 dedicated StrideStacks (one per KIBC combinator, 8.7 MB ternary), consensus-governed etching (no flip cap), S2DispatchCoordinator (inertia bias + oscillation monitoring). Grounded in fixed-point hologram experiments showing 2.2× capacity unlock via composition, binding wall at 0 shared-entity sites, and multiplexing-breaks-holography (0.60 vs 0.92).**
 
 ## What was done this session (101)
 
@@ -40,7 +40,7 @@ Diversity of compile exemplars determines attractor basin width.
 
 See: `mementum/knowledge/explore/fixed-point-holograms.md`
 
-### 2. Holographic decomposition — composition multiplies capacity
+### 2. Holographic decomposition — composition multiplies capacity (COMPLETE)
 
 Built `scripts/explore/probe_hologram_decomposition.py`. Decomposed 7 complex
 sentences into clauses, found clause-level fixed points, composed them.
@@ -67,7 +67,52 @@ pointer/copy mechanism — ternary alone may be insufficient for binding.
 **Etching protocol designed**: clause fixed-points for K/B/C plates, intersection
 pairs for I-plate, composition targets for B, in-context patterns for M.
 
-### 3. Holographic etching model
+### 3. V12 evolution — dedicated KIBCM plates
+
+Evolved V12 descending arm in place (not a new version — V12 hasn't had a full run yet):
+
+**Dedicated plates** (`attention.py`): `DedicatedStrideStacks` holds 4 StrideStacks
+(K, I, B, C), each with all 9 strides. Dispatch weights (live/differentiable) blend
+plate outputs. No multiplexing. 4× plate expansion: 2.2→8.7 MB (ternary, trivial).
+
+**Uncapped etching** (`train.py`, `config.py`): Removed `etch_max_pct` and ramp.
+3-plane consensus mechanism is the sole governor. Self-terminating: aggressive early
+(many wrong signs), quiet late (signs aligned). Warmup reduced 500→200 steps.
+
+**S2 dispatch anti-oscillation** (`components.py`): `S2DispatchCoordinator` provides
+learned inertia bias between cycles. Previous cycle's dispatch weights bias next
+cycle's dispatch logits (additive, logit-space). Zero-init, model discovers needed
+inertia. Cross-step EMA tracks dispatch stability for alarm monitoring.
+`oscillation_signal` metric exposed for health checks.
+
+**New logging**: stderr shows per-step dispatch weights (K=.xx I=.xx B=.xx C=.xx)
+and oscillation signal. Etch log includes per-plate flip counts. Train JSONL
+includes dispatch_K/I/B/C, dispatch_oscillation, s2_inertia_scale.
+
+### 4. V12-run2 baseline (step 1000)
+
+```
+CE=8.28 (train), eval_loss=21.76 (spiked from 16.14 at 500)
+r=1.972 (holographic ratio — ascending >> descending)
+total_etched=1,076,199 signs, 72/218 modules active
+S3 gates: descending collapsing (0.3-0.5 at passes 1-3)
+Alarm: saturated at 2.000 everywhere (not differentiated)
+Top etched: consolidate.down, prep.down, combinator_integrate.down (FFN pathways)
+```
+
+### 5. V12-run3 LAUNCHED (dedicated plates, uncapped etch, S2 dispatch)
+
+```
+uv run python scripts/v12/train.py \
+  --checkpoint-dir checkpoints/v12-run3 \
+  --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
+```
+
+Fresh start. Architecture: 4 dedicated StrideStacks + uncapped consensus etching
++ S2 dispatch inertia. Watch for: per-plate etch differentiation, dispatch
+stability (oscillation signal), alarm desaturation, S3 gate recovery.
+
+### 6. Holographic etching model (theoretical)
 
 The compile↔decompile cycle maps to optical holography:
   reference beam = compile gate, object beam = (NL, λ) pair,
@@ -77,6 +122,7 @@ The compile↔decompile cycle maps to optical holography:
 Fixed-point corpus from production LLM → etch into V12 plates.
 Multiple fixed-point pairs at different beam angles = thick hologram.
 Mirrors (ternary, 2.4 MB) create angular diversity within each plate.
+Clause fixed-points for K/B/C plates, intersection pairs for I-plate.
 
 ## What was done this session (100)
 
@@ -837,49 +883,52 @@ uv run python scripts/v11/train.py \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
 
-V12 (READY TO LAUNCH):
+V12-run3 (LIVE — dedicated plates + uncapped etch + S2 dispatch):
 ```
 uv run python scripts/v12/train.py \
-  --checkpoint-dir checkpoints/v12 \
+  --checkpoint-dir checkpoints/v12-run3 \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
 
 ## What to do next
 
-### Priority 1: Cross-model fixed-point convergence
-Do Pythia-160M and Qwen3-32B converge to the SAME fixed points?
-If universal hologram (r=0.9801), fixed points should match structurally.
-Adapt probe_fixed_point.py for multiple models.
+### Priority 1: Monitor V12-run3 (dedicated plates + uncapped etch)
+V12-run3 LIVE. Key signals to watch:
+- Per-plate etch counts: do K/I/B/C plates differentiate?
+- Dispatch weights: K=? I=? B=? C=? — do they specialize?
+- Oscillation signal: does S2 inertia keep dispatch stable?
+- Alarm desaturation: does it differentiate from 2.0?
+- S3 gates: do they recover from the 0.3-0.5 collapse seen in run2?
+Probe at 1K, 2K, 5K. Compare to run2 baseline.
 
-### Priority 2: Gate sensitivity — richer λ via Montague-typed gates
-Current gates produce simplified λ. Test with compile-binding-typed.txt
-and compile-ambient.txt. Does tense survive with a richer gate? Does
-quantifier scope survive with typed quantifiers?
+### Priority 2: V12-run3 holographic pattern formation probe
+At 5K: do the dedicated plates show holographic patterns?
+- K/B/C cluster (cos>0.9), I distinct (cos≈0.70)?
+- Q more diverse than K/V/O (beam vs plate)?
+- Per-plate sign pattern analysis
 
-### Priority 3: Fixed-point activation extraction
-At the fixed point, extract internal activations (hidden states).
-Compare to cycle-0 activations. The delta IS what the beam contributes.
-Can we isolate the plate's contribution from the beam's?
+### Priority 3: Fixed-point etching protocol
+Use fixed-point (NL, λ) pairs as supervised training signal.
+Clause fixed-points for K/B/C plates, intersection pairs for I-plate.
+Requires: generate corpus from Qwen3.6, add to training mix.
 
-### Priority 4: Monitor V12-run2 (etching + mirrors)
-V12-run2 LIVE. Watch etch_log.jsonl for etch rate decay.
-Run probe_hologram.py at 1K, 2K, 5K to verify sign patterns are crystallizing.
-Compare loss trajectory to V12-run1 at matched steps.
+### Priority 4: Cross-model fixed-point convergence
+Do Pythia-160M and Qwen3-32B find the same fixed points?
+If universal hologram (r=0.9801), should match structurally.
 
-### Priority 5: V12 fixed-point training signal
-Use fixed-point (NL, λ) pairs as supervised training data for V12.
-The fixed-point λ IS what the plate should learn to store.
+### Priority 5: Gate sensitivity — richer λ vocab
+Richer gates → richer fixed points? Does tense survive with
+Montague-typed gates? Does quantifier scope survive?
 
 ### Carried
 - Cross-model validation of three-cluster structure (Pythia KIBCM)
 - MoE holographic expert prototype (~2KB ternary expert)
-- CycleContinue differentiation (now addressable via S4 budget bias)
+- CycleContinue differentiation (now addressable via S4 budget bias + dedicated plates)
 - S5 reweight investigation
 - QK alignment decomposition probe (RoPE follow-up)
 - Dead slot recycling
 - Domain banking (future)
 - TST connection: Peng et al. 2026 validates coarse→fine + direct loss
-- Dispatch floors (evaluate after V12-run2 data)
 
 ## VSM layer map (session 097 — v12 KIBC + M retrieval + variety fix)
 
@@ -984,7 +1033,8 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 | `mementum/memories/dedicated-combinator-capacity.md` | Shared vs dedicated — VSM self-regulation is stronger |
 | `mementum/knowledge/explore/laser-etcher-design.md` | Laser etcher + TernaryMirror architecture |
 | `scripts/v12/probe_hologram.py` | Holographic pattern formation probe for V12 checkpoints |
-| `checkpoints/v12-run2/` | V12 with etching + mirrors (LIVE) |
+| `checkpoints/v12-run2/` | V12 shared plates + capped etch (baseline at 1K) |
+| `checkpoints/v12-run3/` | V12 dedicated KIBCM plates + uncapped etch + S2 dispatch (LIVE) |
 | `mementum/memories/phased-structural-discovery.md` | Training staircase pattern |
 | `docs/v11-architecture.svg` | Visual architecture diagram |
 | `mementum/knowledge/explore/v11-design.md` | Full design specification |
@@ -1017,6 +1067,7 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
 → Session 091: Probed v11-holo 8K-10K. 8K local optimum, 9K reorganization wave, 10K compositional catastrophe (B-type 55.7%→5.8%, eval loss 7.675→9.259). Implemented coarse→fine descending (default), fractal stride bands (MERA, 49% savings, default), evolution noise floor (0.01), alarm-no-regression fix. TST paper (Peng et al. 2026) connection. Launched v11-holo-inv with all fixes.
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
+→ Session 101: Fixed-point holograms: compile↔decompile converges (94%, mean 2 cycles). Decomposition: 2.2× capacity unlock, binding wall (0/6 stable at binding_sites>0). V12 evolution: dedicated KIBCM plates (4×StrideStack, 8.7 MB), uncapped consensus etching, S2 dispatch anti-oscillation. V12-run2 baseline at 1K. V12-run3 launched.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
