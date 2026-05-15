@@ -1,0 +1,201 @@
+Loading Qwen/Qwen3.6-35B-A3B...Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 26 files:   0%|          | 0/26 [00:00<?, ?it/s]Fetching 26 files: 100%|██████████| 26/26 [00:00<00:00, 21466.91it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/693 [00:00<?, ?it/s]Loading weights:   0%|          | 1/693 [00:02<27:16,  2.36s/it]Loading weights:   2%|▏         | 14/693 [00:02<01:33,  7.24it/s]Loading weights:   5%|▍         | 32/693 [00:02<00:35, 18.57it/s]Loading weights:   7%|▋         | 49/693 [00:02<00:20, 31.28it/s]Loading weights:   9%|▊         | 59/693 [00:03<00:20, 31.69it/s]Loading weights:  12%|█▏        | 83/693 [00:03<00:12, 49.25it/s]Loading weights:  15%|█▍        | 101/693 [00:03<00:09, 59.44it/s]Loading weights:  17%|█▋        | 119/693 [00:03<00:08, 68.13it/s]Loading weights:  19%|█▊        | 129/693 [00:04<00:09, 56.88it/s]Loading weights:  22%|██▏       | 152/693 [00:04<00:07, 72.16it/s]Loading weights:  25%|██▍       | 170/693 [00:04<00:07, 74.36it/s]Loading weights:  27%|██▋       | 188/693 [00:04<00:06, 74.34it/s]Loading weights:  28%|██▊       | 197/693 [00:04<00:07, 65.33it/s]Loading weights:  32%|███▏      | 221/693 [00:05<00:05, 81.69it/s]Loading weights:  34%|███▍      | 239/693 [00:05<00:05, 84.94it/s]Loading weights:  37%|███▋      | 257/693 [00:05<00:05, 85.89it/s]Loading weights:  38%|███▊      | 266/693 [00:05<00:05, 76.21it/s]Loading weights:  42%|████▏     | 290/693 [00:05<00:04, 92.24it/s]Loading weights:  44%|████▍     | 308/693 [00:06<00:04, 92.82it/s]Loading weights:  47%|████▋     | 325/693 [00:06<00:03, 101.40it/s]Loading weights:  48%|████▊     | 336/693 [00:06<00:04, 71.45it/s] Loading weights:  52%|█████▏    | 358/693 [00:06<00:03, 95.18it/s]Loading weights:  54%|█████▎    | 371/693 [00:06<00:03, 94.32it/s]Loading weights:  55%|█████▌    | 383/693 [00:06<00:03, 78.33it/s]Loading weights:  57%|█████▋    | 395/693 [00:07<00:04, 74.08it/s]Loading weights:  58%|█████▊    | 404/693 [00:07<00:04, 68.10it/s]Loading weights:  62%|██████▏   | 428/693 [00:07<00:03, 81.14it/s]Loading weights:  64%|██████▍   | 446/693 [00:07<00:02, 85.69it/s]Loading weights:  67%|██████▋   | 464/693 [00:07<00:02, 89.40it/s]Loading weights:  68%|██████▊   | 474/693 [00:08<00:02, 80.97it/s]Loading weights:  72%|███████▏  | 497/693 [00:08<00:02, 80.71it/s]Loading weights:  74%|███████▍  | 515/693 [00:08<00:02, 82.13it/s]Loading weights:  77%|███████▋  | 533/693 [00:08<00:01, 80.79it/s]Loading weights:  78%|███████▊  | 542/693 [00:09<00:02, 67.92it/s]Loading weights:  82%|████████▏ | 565/693 [00:09<00:01, 92.55it/s]Loading weights:  83%|████████▎ | 577/693 [00:09<00:01, 96.32it/s]Loading weights:  85%|████████▍ | 589/693 [00:09<00:01, 87.51it/s]Loading weights:  87%|████████▋ | 602/693 [00:09<00:01, 83.00it/s]Loading weights:  88%|████████▊ | 612/693 [00:09<00:01, 78.30it/s]Loading weights:  92%|█████████▏| 635/693 [00:10<00:00, 89.43it/s]Loading weights:  94%|█████████▍| 653/693 [00:10<00:00, 92.08it/s]Loading weights:  97%|█████████▋| 671/693 [00:10<00:00, 94.58it/s]Loading weights:  98%|█████████▊| 681/693 [00:10<00:00, 85.34it/s]Loading weights: 100%|██████████| 693/693 [00:10<00:00, 65.74it/s]
+ 13.5s (40 layers)
+
+============================================================
+[1/7] library: "The ancient library, built by monks in the twelfth century, "
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✗ cycles=8, λ=λx. library(x) ∧ built-by-monks(x) ∧ houses-manuscripts(x) ∧
+
+  STAGE 2: Clause-level fixed-points (5 clauses)
+    ✓ "The library is ancient.                 " → λx. library(x) → ancient(x)
+    ✗ "Monks built the library in the twelfth c" → λx. in(x, library) ∧ twelfth-century-mon
+    ✓ "The library houses manuscripts.         " → λx. houses(library, manuscripts)
+    ✓ "Scholars traveled from across Europe.   " → λx. traveled_across_Europe(x)
+    ✓ "The scholars studied the manuscripts.   " → λx. studied(scholar, manuscript)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. library(x) ∧ ancient(x) ∧ ∃build. (monk(build) ∧ library(build) ∧ 
+    Decompiled: There is an ancient library that was built by a monk in the twelfth ce
+    Round-trip edit: 88
+
+  CAPACITY:
+    Monolithic:   131 chars, 4 predicates
+    Decomposed Σ: 164 chars, 7 unique predicates
+    Composed:     183 chars, 7 predicates
+    Composition ratio: 1.75× (UNLOCK)
+    Clause convergence: 80%
+    Composed stable: False
+
+============================================================
+[2/7] experiment: "Although the experiment failed, the data revealed an unexpec"
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=8, λ=λ fail(experiment) ∧ reveal(data) ∧ contradict(data, hypothe
+
+  STAGE 2: Clause-level fixed-points (5 clauses)
+    ✓ "The experiment failed.                  " → λ fail(experiment)
+    ✓ "The data revealed a pattern.            " → λ reveal(pattern). data
+    ✓ "The pattern was unexpected.             " → λ x. unexpected(x) ∧ patterned(x)
+    ✓ "The pattern contradicted the hypothesis." → λ contradict(x). hypothesis(x) | pattern
+    ✓ "The hypothesis was the original one.    " → λx. runs(dog)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. fail(experiment) ∧ reveal(pattern). data ∧ unexpected(x) ∧ pattern
+    Decompiled: The experiment failed, revealing an unexpected, patterned data set tha
+    Round-trip edit: 63
+
+  CAPACITY:
+    Monolithic:    64 chars, 3 predicates
+    Decomposed Σ: 130 chars, 8 unique predicates
+    Composed:     131 chars, 8 predicates
+    Composition ratio: 2.67× (UNLOCK)
+    Clause convergence: 100%
+    Composed stable: False
+
+============================================================
+[3/7] professor: "The professor who published the paper won the award."
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=4, λ=λ publish(paper) ∧ win(award)
+
+  STAGE 2: Clause-level fixed-points (2 clauses)
+    ✓ "The professor published the paper.      " → λx. publishes(professor, paper)
+    ✓ "The professor won the award.            " → λx. won(x, award) | professor(x)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. publishes(professor, paper) ∧ won(x, award) ∧ professor(x)
+    Decompiled: The professor who won the award publishes a paper.
+    Round-trip edit: 38
+
+  CAPACITY:
+    Monolithic:    29 chars, 2 predicates
+    Decomposed Σ:  63 chars, 3 unique predicates
+    Composed:      62 chars, 3 predicates
+    Composition ratio: 1.50× (UNLOCK)
+    Clause convergence: 100%
+    Composed stable: False
+
+============================================================
+[4/7] politician: "No politician who endorsed the candidate won."
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=4, λ=λx. ¬win(politician)
+
+  STAGE 2: Clause-level fixed-points (2 clauses)
+    ✗ "A politician endorsed the candidate.    " → λx. endorse(x) | politician(x)
+    ✓ "The politician did not win.             " → λx. ¬win(politician)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. (endorse(x, candidate) | politician(x)) ∧ ¬win(politician)
+    Decompiled: The politician who endorses the candidate does not win.
+    Round-trip edit: 43
+
+  CAPACITY:
+    Monolithic:    20 chars, 1 predicates
+    Decomposed Σ:  50 chars, 3 unique predicates
+    Composed:      62 chars, 3 predicates
+    Composition ratio: 3.00× (UNLOCK)
+    Clause convergence: 50%
+    Composed stable: False
+
+============================================================
+[5/7] student: "No student who failed the test passed the course."
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=4, λ=λx. ¬pass(x, test) → ¬pass(x, course)
+
+  STAGE 2: Clause-level fixed-points (2 clauses)
+    ✓ "A student failed the test.              " → λx. fails(student, test)
+    ✓ "The student did not pass the course.    " → λx. ¬pass(student, course)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. fails(student, test) → ¬pass(student, course)
+    Decompiled: The student fails the test, so they do not pass the course.
+    Round-trip edit: 16
+
+  CAPACITY:
+    Monolithic:    37 chars, 1 predicates
+    Decomposed Σ:  50 chars, 2 unique predicates
+    Composed:      49 chars, 2 predicates
+    Composition ratio: 2.00× (UNLOCK)
+    Clause convergence: 100%
+    Composed stable: False
+
+============================================================
+[6/7] teacher: "If every teacher helps a student then all improve."
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=4, λ=λ improve(x). ability(x, teacher) | help(x, students)
+
+  STAGE 2: Clause-level fixed-points (2 clauses)
+    ✓ "Every teacher helps a student.          " → λx. helps(teacher, student)
+    ✓ "All improve.                            " → λx. improve(x)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. helps(teacher, student) → improve(x)
+    Decompiled: The teacher helps the student improve.
+    Round-trip edit: 5
+
+  CAPACITY:
+    Monolithic:    53 chars, 3 predicates
+    Decomposed Σ:  41 chars, 2 unique predicates
+    Composed:      40 chars, 2 predicates
+    Composition ratio: 0.67× (no gain)
+    Clause convergence: 100%
+    Composed stable: True
+
+============================================================
+[7/7] key: "The key to the cabinets was on the table."
+============================================================
+
+  STAGE 1: Monolithic fixed-point
+    ✓ cycles=4, λ=λx. on(table, key(x, cabinets))
+
+  STAGE 2: Clause-level fixed-points (2 clauses)
+    ✓ "The key belongs to the cabinets.        " → λx. belongs(key, cabinets)
+    ✓ "The key is on the table.                " → λx. on(key, table)
+
+  STAGE 3: Compose clause fixed-points
+    Composed: λx. belongs(key, cabinets) ∧ on(key, table)
+    Decompiled: The key belongs to the cabinets and is on the table.
+    Round-trip edit: 28
+
+  CAPACITY:
+    Monolithic:    31 chars, 2 predicates
+    Decomposed Σ:  44 chars, 2 unique predicates
+    Composed:      43 chars, 2 predicates
+    Composition ratio: 1.00× (no gain)
+    Clause convergence: 100%
+    Composed stable: False
+
+============================================================
+DECOMPOSITION SUMMARY
+============================================================
+
+  library      | mono ✗ 4pred | clauses 80% | composed ✗ 7pred | ↑ 1.8×
+
+  experiment   | mono ✓ 3pred | clauses 100% | composed ✗ 8pred | ↑ 2.7×
+
+  professor    | mono ✓ 2pred | clauses 100% | composed ✗ 3pred | ↑ 1.5×
+
+  politician   | mono ✓ 1pred | clauses 50% | composed ✗ 3pred | ↑ 3.0×
+
+  student      | mono ✓ 1pred | clauses 100% | composed ✗ 2pred | ↑ 2.0×
+
+  teacher      | mono ✓ 3pred | clauses 100% | composed ✓ 2pred | ↓ 0.7×
+
+  key          | mono ✓ 2pred | clauses 100% | composed ✗ 2pred | = 1.0×
+
+Total: 1754s
+Results: results/fixed-point/decomposition.json
