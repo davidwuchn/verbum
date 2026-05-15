@@ -1924,34 +1924,41 @@ def surgical_adam_decay_for_etch(
     Returns number of gamma entries decayed.
     """
     import numpy as np
+    from mlx.utils import tree_flatten
 
     n_decayed = 0
-    # optimizer.state is a list matching model.trainable_parameters()
-    # We need to find gamma entries in the optimizer state
-    param_list = list(model.trainable_parameters())
+
+    # tree_flatten gives (path, array) pairs matching optimizer.state order
+    param_list = tree_flatten(model.trainable_parameters())
+
+    # Build path → index map for gamma parameters
+    gamma_idx = {}
+    for idx, (ppath, _param) in enumerate(param_list):
+        if ppath.endswith(".gamma"):
+            # ppath like "stride_stack.layers.0.q_proj.gamma"
+            # module path is everything before ".gamma"
+            mod_path = ppath[:-6]  # strip ".gamma"
+            gamma_idx[mod_path] = idx
 
     for path, rows in affected_rows.items():
-        if not rows:
+        if not rows or path not in gamma_idx:
             continue
         row_indices = sorted(rows)
+        param_idx = gamma_idx[path]
 
-        # Find the gamma parameter for this module in the optimizer state
-        for param_idx, (ppath, param) in enumerate(param_list):
-            if ppath == f"{path}.gamma":
-                # Decay Adam state for these rows
-                if param_idx < len(optimizer.state):
-                    opt_state = optimizer.state[param_idx]
-                    if isinstance(opt_state, dict):
-                        for state_key in ["v", "m"]:  # Adam momentum and variance
-                            if state_key in opt_state:
-                                s = opt_state[state_key]
-                                if hasattr(s, 'shape') and len(s.shape) >= 1:
-                                    s_np = np.array(s)
-                                    for ri in row_indices:
-                                        if ri < s_np.shape[0]:
-                                            s_np[ri] *= decay
-                                    opt_state[state_key] = mx.array(s_np)
-                                    n_decayed += len(row_indices)
-                break
+        # Decay Adam state for these rows
+        if param_idx < len(optimizer.state):
+            opt_state = optimizer.state[param_idx]
+            if isinstance(opt_state, (list, tuple)) and len(opt_state) >= 2:
+                # MLX Adam state: [m, v] or [m, v, ...]
+                for si in range(min(2, len(opt_state))):
+                    s = opt_state[si]
+                    if hasattr(s, 'shape') and len(s.shape) >= 1:
+                        s_np = np.array(s)
+                        for ri in row_indices:
+                            if ri < s_np.shape[0]:
+                                s_np[ri] *= decay
+                        opt_state[si] = mx.array(s_np)
+                        n_decayed += len(row_indices)
 
     return n_decayed
