@@ -1682,3 +1682,276 @@ def load_etch_states(
                 d[key] = v
         if d:
             state.load_dict(d)
+
+
+# ── Signal plane update ──────────────────────────────────────────────
+
+
+def _unpack_signal_plane_np(packed: "np.ndarray", in_features: int) -> "np.ndarray":
+    """Unpack uint32 signal plane → int8 {-1, 0, +1}. Same format as TernaryLinear."""
+    import numpy as np
+    N, K16 = packed.shape
+    flat = packed.reshape(-1)
+    out = np.zeros(flat.shape[0] * 16, dtype=np.int8)
+    for bit in range(16):
+        val = (flat >> np.uint32(bit * 2)) & np.uint32(0x3)
+        out[bit::16] = np.where(val == 1, 0, np.where(val == 2, 1, -1))
+    return out.reshape(N, -1)[:, :in_features]
+
+
+def _pack_signal_plane_np(vals: "np.ndarray") -> "np.ndarray":
+    """Pack int8 {-1, 0, +1} → uint32 signal plane. K must be divisible by 16."""
+    import numpy as np
+    N, K = vals.shape
+    assert K % 16 == 0
+    encoded = (vals.astype(np.int32) + 1).astype(np.uint32)  # {0,1,2}
+    groups = encoded.reshape(N, K // 16, 16)
+    shifts = np.arange(16, dtype=np.uint32) * 2
+    packed = np.zeros((N, K // 16), dtype=np.uint32)
+    for bit in range(16):
+        packed |= groups[:, :, bit] << np.uint32(bit * 2)
+    return packed
+
+
+def _write_votes_to_plane(
+    plane: "np.ndarray",
+    direction: "np.ndarray",
+    mask: "np.ndarray",
+    in_features: int,
+) -> "np.ndarray":
+    """Write ternary direction votes to a signal plane at masked positions.
+
+    plane:     (N, K//16) uint32 packed ternary
+    direction: (N, K) int8 {-1, 0, +1} — the vote
+    mask:      (N, K) bool — where to write
+    Returns:   (N, K//16) uint32 updated plane
+    """
+    import numpy as np
+    current = _unpack_signal_plane_np(plane, in_features)
+    updated = np.where(mask, direction, current)
+    return _pack_signal_plane_np(updated)
+
+
+def update_signal_planes(
+    etch_states: dict[str, EtchState],
+    model: nn.Module,
+    heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0),
+) -> dict[str, dict]:
+    """Update signal planes with gradient-directed ternary votes.
+
+    For each TernaryLinear module:
+      1. Compute heat = row_heat × col_heat (outer product)
+      2. Compute direction = sign(row_dir × col_dir)
+      3. For each signal plane, write direction vote at positions above threshold
+
+    Args:
+        etch_states: per-module EtchState
+        model:       the model (for accessing TernaryLinear modules)
+        heat_thresholds: percentiles for each plane (weak, medium, strong)
+
+    Returns:
+        Per-module stats: {path: {votes_written_per_plane, max_heat, ...}}
+    """
+    import numpy as np
+
+    stats = {}
+    for path, mod in _walk_ternary_modules(model):
+        if path not in etch_states or not isinstance(mod, TernaryLinear):
+            continue
+
+        state = etch_states[path]
+        if state.steps_accumulated < 10:
+            continue  # not enough data yet
+
+        N = state.out_features
+        K = state.in_features
+
+        # Compute heat and direction via outer product
+        heat = state.row_heat[:, None] * state.col_heat[None, :]  # (N, K)
+        dir_product = state.row_dir[:, None] * state.col_dir[None, :]  # (N, K)
+        direction = np.sign(dir_product).astype(np.int8)  # {-1, 0, +1}
+
+        # Skip if no meaningful heat
+        max_heat = float(heat.max())
+        if max_heat < 1e-10:
+            continue
+
+        mod_stats = {"max_heat": max_heat, "votes_per_plane": []}
+
+        # Update each signal plane at positions above its threshold
+        for plane_idx, pct in enumerate(heat_thresholds):
+            threshold = np.percentile(heat, pct)
+            mask = heat > threshold  # (N, K) bool
+
+            # Only write non-zero direction votes
+            write_mask = mask & (direction != 0)
+            n_votes = int(write_mask.sum())
+
+            state.signal_planes[plane_idx] = _write_votes_to_plane(
+                state.signal_planes[plane_idx],
+                direction,
+                write_mask,
+                K,
+            )
+            mod_stats["votes_per_plane"].append(n_votes)
+
+        stats[path] = mod_stats
+
+    return stats
+
+
+# ── Etch check — consensus-driven sign flipping ─────────────────────
+
+
+def etch_check(
+    etch_states: dict[str, EtchState],
+    model: nn.Module,
+    consensus_required: int = 3,
+) -> dict:
+    """Check for consensus across signal planes and etch the weight topology.
+
+    For each TernaryLinear module:
+      1. Unpack weight sign (plane 0) and all 3 signal planes
+      2. Find positions where ≥consensus_required planes agree on direction
+         AND that direction disagrees with the current weight sign
+      3. Flip weight sign at those positions
+      4. Reset signal planes at etched positions
+      5. Re-pack weight
+
+    Args:
+        etch_states:       per-module EtchState
+        model:             the model (TernaryLinear modules modified in place)
+        consensus_required: how many signal planes must agree (2 or 3)
+
+    Returns:
+        Dict with per-module and aggregate stats:
+          total_flipped, per_module {path: n_flipped}, affected_rows per module
+    """
+    import numpy as np
+
+    total_flipped = 0
+    per_module = {}
+    all_affected_rows: dict[str, set[int]] = {}
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in etch_states or not isinstance(mod, TernaryLinear):
+            continue
+
+        state = etch_states[path]
+        N = mod.out_features
+        K = mod.in_features
+
+        # Unpack current weight signs
+        weight_sign = _unpack_signal_plane_np(
+            np.array(mod.weight), K
+        )  # (N, K) int8 {-1, 0, +1}
+
+        # Unpack signal planes
+        planes = [
+            _unpack_signal_plane_np(sp, K)
+            for sp in state.signal_planes
+        ]  # list of (N, K) int8
+
+        # Find consensus: positions where enough planes agree
+        # Stack planes: (3, N, K)
+        stacked = np.stack(planes, axis=0)
+
+        # Count votes for +1 and -1 at each position
+        votes_pos = np.sum(stacked == 1, axis=0)   # (N, K) count of +1 votes
+        votes_neg = np.sum(stacked == -1, axis=0)   # (N, K) count of -1 votes
+
+        # Consensus: one direction has ≥ threshold votes
+        consensus_pos = votes_pos >= consensus_required  # (N, K) bool
+        consensus_neg = votes_neg >= consensus_required  # (N, K) bool
+
+        # The agreed direction
+        agreed_dir = np.where(consensus_pos, np.int8(1),
+                     np.where(consensus_neg, np.int8(-1), np.int8(0)))
+
+        # Only etch where agreed direction DISAGREES with current weight
+        # AND agreed direction is nonzero
+        # Note: weight_sign can be 0 (sparse position). If consensus says
+        # +1 or -1 and weight is 0 → that's a disagreement → activate.
+        disagrees = (agreed_dir != 0) & (agreed_dir != weight_sign)
+
+        n_flipped = int(disagrees.sum())
+
+        if n_flipped > 0:
+            # Etch: adopt the consensus direction
+            new_sign = np.where(disagrees, agreed_dir, weight_sign)
+            mod.weight = mx.array(_pack_signal_plane_np(new_sign))
+            mx.eval(mod.weight)
+
+            # Reset signal planes at etched positions to neutral (0)
+            neutral = np.int8(0)
+            for plane_idx in range(3):
+                current_plane = planes[plane_idx]
+                reset_plane = np.where(disagrees, neutral, current_plane)
+                state.signal_planes[plane_idx] = _pack_signal_plane_np(reset_plane)
+
+            # Track affected rows for Adam state reset
+            affected = set(int(r) for r in np.where(np.any(disagrees, axis=1))[0])
+            all_affected_rows[path] = affected
+
+            state.total_etched += n_flipped
+
+        per_module[path] = {
+            "n_flipped": n_flipped,
+            "consensus_pos": int(consensus_pos.sum()),
+            "consensus_neg": int(consensus_neg.sum()),
+        }
+        total_flipped += n_flipped
+
+    return {
+        "total_flipped": total_flipped,
+        "per_module": per_module,
+        "affected_rows": all_affected_rows,
+    }
+
+
+def surgical_adam_decay_for_etch(
+    optimizer,
+    model: nn.Module,
+    affected_rows: dict[str, set[int]],
+    decay: float = 0.1,
+) -> int:
+    """Reset Adam momentum/variance for gamma entries on etched rows.
+
+    After etching flips signs, the loss landscape changes for those rows.
+    Adam's accumulated momentum/variance for gamma[i] is stale and can
+    cause instability. Multiply by `decay` to partially forget.
+
+    Returns number of gamma entries decayed.
+    """
+    import numpy as np
+
+    n_decayed = 0
+    # optimizer.state is a list matching model.trainable_parameters()
+    # We need to find gamma entries in the optimizer state
+    param_list = list(model.trainable_parameters())
+
+    for path, rows in affected_rows.items():
+        if not rows:
+            continue
+        row_indices = sorted(rows)
+
+        # Find the gamma parameter for this module in the optimizer state
+        for param_idx, (ppath, param) in enumerate(param_list):
+            if ppath == f"{path}.gamma":
+                # Decay Adam state for these rows
+                if param_idx < len(optimizer.state):
+                    opt_state = optimizer.state[param_idx]
+                    if isinstance(opt_state, dict):
+                        for state_key in ["v", "m"]:  # Adam momentum and variance
+                            if state_key in opt_state:
+                                s = opt_state[state_key]
+                                if hasattr(s, 'shape') and len(s.shape) >= 1:
+                                    s_np = np.array(s)
+                                    for ri in row_indices:
+                                        if ri < s_np.shape[0]:
+                                            s_np[ri] *= decay
+                                    opt_state[state_key] = mx.array(s_np)
+                                    n_decayed += len(row_indices)
+                break
+
+    return n_decayed
