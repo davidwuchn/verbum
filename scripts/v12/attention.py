@@ -153,6 +153,93 @@ class SingleStrideAttention(nn.Module):
 
         return x + self.out_proj(out)
 
+    def combinator_forward(
+        self,
+        x: mx.array,
+        combinator_mirrors: list,
+        dispatch_weights: mx.array,
+    ) -> mx.array:
+        """Per-combinator Q with shared K,V,O — the holographic read.
+
+        Session 093: V(B) = V(C) at cos=1.000, Q(B)·Q(C) = 0.005.
+        The plate (K,V) is shared. The beam (Q) is combinator-specific.
+
+        Compute K,V once. For each combinator mirror, compute a different Q,
+        run attention, collect outputs. Blend with dispatch weights. Apply
+        shared O projection.
+
+        Args:
+            x: (B, L, d_model)
+            combinator_mirrors: list of N TernaryMirror modules
+            dispatch_weights: (B, L, N) — KIBC softmax weights (live)
+
+        Returns: (B, L, d_model) with residual connection
+        """
+        B, L, D = x.shape
+        H, Dh = self.n_heads, self.d_head
+        W = self.window
+
+        x_norm = self.norm(x)
+
+        # Shared K, V (the plate — computed once)
+        K = self.k_proj(x_norm).reshape(B, L, H, Dh)
+        V = self.v_proj(x_norm).reshape(B, L, H, Dh)
+
+        # Gather K, V at stride positions (shared across all combinator Q's)
+        query_pos = mx.arange(L)[:, None]
+        offsets = mx.arange(W)[None, :] * self.stride
+        raw_indices = query_pos - offsets
+        valid = raw_indices >= 0
+        indices = mx.maximum(raw_indices, 0)
+
+        GD = H * Dh
+        K_flat = K.reshape(B, L, GD)
+        V_flat = V.reshape(B, L, GD)
+
+        idx = indices.reshape(1, L * W, 1)
+        idx = mx.broadcast_to(idx, (B, L * W, GD))
+
+        K_gathered = mx.take_along_axis(K_flat, idx, axis=1).reshape(B, L, W, H, Dh)
+        V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
+
+        K_r = K_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
+        V_r = V_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
+
+        valid_mask = valid[None, None, :, :]  # (1, 1, L, W)
+
+        # Per-combinator Q via mirrors → attention → blend outputs
+        blended_attn_out = mx.zeros((B, L, D))
+        n_comb = len(combinator_mirrors)
+
+        for i, mirror in enumerate(combinator_mirrors):
+            # Mirror deflects the beam angle before Q projection
+            q_in = mirror(x_norm)
+            # Apply existing per-layer mirrors too (if any)
+            for m in self.q_mirrors:
+                q_in = m(q_in)
+            Q = self.q_proj(q_in).reshape(B, L, H, Dh)
+            Q_r = Q.transpose(0, 2, 1, 3)  # (B, H, L, Dh)
+
+            attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1)
+            attn = attn * self.scale
+
+            if self._spiral_bias is not None:
+                attn = attn + self._spiral_bias
+
+            attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
+            attn = mx.softmax(attn, axis=-1)
+            # No dropout for combinator reads (deterministic beam angle)
+
+            out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
+            out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
+
+            # Weight by dispatch (B, L, 1) for this combinator
+            w = dispatch_weights[..., i:i+1]
+            blended_attn_out = blended_attn_out + w * out
+
+        # Shared O projection on blended attention output
+        return x + self.out_proj(blended_attn_out)
+
 
 # ══════════════════════════════════════════════════════════════════════
 # GatedLinearAttention — retrieval layers (M kernel substrate)
@@ -475,9 +562,10 @@ class DedicatedStrideStacks(nn.Module):
             n_q_mirrors=n_q_mirrors,
         )
 
-        # Per-combinator beam mirrors: deflect input before shared plate.
+        # Per-combinator beam mirrors: deflect Q before shared K,V,O.
         # Each mirror is a ternary d×d matrix — rotates the beam angle.
         # The plate stores the hologram; the mirror selects which image.
+        # Session 093: V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005.
         self.combinator_mirrors = [
             TernaryMirror(d_model) for _ in range(n_combinators)
         ]
@@ -489,30 +577,42 @@ class DedicatedStrideStacks(nn.Module):
         reverse: bool = False,
         stride_range: tuple[int, int] | None = None,
     ) -> mx.array:
-        """Beam-multiplex: mirror-deflect per combinator, blend, read shared plate.
+        """Per-combinator beam angles through shared plate.
+
+        For each stride layer: compute shared K,V once, run 4 Q beams
+        (one per combinator mirror), blend attention outputs with dispatch
+        weights, apply shared O. This is the holographic read: one plate,
+        many beam angles, many images.
+
+        Cost: K,V once + 4×(mirror+Q+attention) + O once ≈ 11d²
+        vs 4 full stride stacks: 4×4d² = 16d²  → 31% savings
+        vs input-blend: 4×mirror + 1×4d² ≈ 5d² but wrong (blends input not output)
 
         Args:
             x: (B, L, d_model) — input representation
             dispatch_weights: (B, L, n_combinators) — KIBC softmax weights.
                               LIVE (differentiable) so gradients flow through.
-            reverse: whether to run strides in reverse order (coarse→fine)
+            reverse: whether to run strides in reverse order
             stride_range: (start, end) stride index range, or None for all
 
         Returns:
-            (B, L, d_model) — plate output from beam-blended input
+            (B, L, d_model) — plate output with combinator-specific beam angles
         """
-        # Apply per-combinator mirrors and blend with dispatch weights.
-        # Each mirror rotates the beam angle: Mirror_K(x) reads K-patterns,
-        # Mirror_I(x) reads I-patterns, etc. Dispatch weights control
-        # which angle dominates. When dispatch is near-one-hot, this
-        # approximates selecting a single beam angle.
-        blended = mx.zeros_like(x)
-        for i, mirror in enumerate(self.combinator_mirrors):
-            deflected = mirror(x)  # ternary mat-vec, cheap
-            blended = blended + dispatch_weights[..., i:i+1] * deflected
+        # Iterate through the shared plate's stride layers, using
+        # combinator_forward at each layer for per-combinator Q.
+        layers = self.plate.layers
+        if stride_range is not None:
+            start, end = stride_range
+            indices = list(range(start, min(end, len(layers))))
+        else:
+            indices = list(range(len(layers)))
+        if reverse:
+            indices = list(reversed(indices))
 
-        # ONE pass through shared plate with beam-blended input
-        return self.plate(blended, reverse=reverse, stride_range=stride_range)
+        for i in indices:
+            x = layers[i].combinator_forward(
+                x, self.combinator_mirrors, dispatch_weights)
+        return x
 
     def describe(self) -> str:
         strides_str = " → ".join(f"s{s}" for s in self.strides)
