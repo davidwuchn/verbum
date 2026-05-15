@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V12-run3 LAUNCHED with dedicated KIBCM plates + uncapped etching + S2 dispatch anti-oscillation. V12-run2 baseline at 1K: CE=8.28, alarm saturated, S3 collapsing. Evolution: 4 dedicated StrideStacks (one per KIBC combinator, 8.7 MB ternary), consensus-governed etching (no flip cap), S2DispatchCoordinator (inertia bias + oscillation monitoring). Grounded in fixed-point hologram experiments showing 2.2× capacity unlock via composition, binding wall at 0 shared-entity sites, and multiplexing-breaks-holography (0.60 vs 0.92).**
+**V12-run3 LAUNCHING with fractal-collapsed holographic architecture. Shared K,V,O plate + per-combinator beam mirrors (I=identity for binding). Uncapped consensus etching. S2 dispatch anti-oscillation. Session 093 proved V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005 — the plate IS shared, the beam IS combinator-specific. Fractal collapse: blend Q not outputs → 1 attention pass (not 4) → run2-equivalent speed. I-combinator identity mirror reads residual stream directly (binding needs content, not structure). Fixed-point experiments: 2.2× capacity unlock, binding wall at 0 shared entities.**
 
 ## What was done this session (101)
 
@@ -67,27 +67,44 @@ pointer/copy mechanism — ternary alone may be insufficient for binding.
 **Etching protocol designed**: clause fixed-points for K/B/C plates, intersection
 pairs for I-plate, composition targets for B, in-context patterns for M.
 
-### 3. V12 evolution — dedicated KIBCM plates
+### 3. V12 evolution — fractal-collapsed holographic architecture
 
-Evolved V12 descending arm in place (not a new version — V12 hasn't had a full run yet):
+Evolved V12 descending arm through three iterations to correct design:
 
-**Dedicated plates** (`attention.py`): `DedicatedStrideStacks` holds 4 StrideStacks
-(K, I, B, C), each with all 9 strides. Dispatch weights (live/differentiable) blend
-plate outputs. No multiplexing. 4× plate expansion: 2.2→8.7 MB (ternary, trivial).
+**Iteration 1: Dedicated plates** (too expensive — 4× StrideStacks, 2K tok/s)
+**Iteration 2: Shared plate + input-blend mirrors** (wrong — blends inputs not Q)  
+**Iteration 3: Shared plate + Q-blend mirrors** (correct and fast)
+
+**Final architecture** (`attention.py`): `DedicatedStrideStacks` has ONE shared
+StrideStack (K,V,O plate) + 4 TernaryMirror beam deflectors (one per KIBC).
+`combinator_forward` on each stride layer: compute 4 Q vectors (one per mirror),
+blend with dispatch weights, run ONE attention pass with shared K,V. Session 093
+proved V(B)=V(C) at cos=1.000 — plate IS shared. Combinator specificity is in Q.
+
+**I-combinator identity mirror** (`ternary.py`): I's mirror initialized as identity
+(+1 diagonal, 0 elsewhere, cos=0.997 with input). I reads the residual stream
+directly — binding needs content (where is this entity?), not structure (what plate
+pattern?). K/B/C mirrors start random, learn specific beam angles. The sieve can
+evolve I from identity if the system discovers better.
 
 **Uncapped etching** (`train.py`, `config.py`): Removed `etch_max_pct` and ramp.
-3-plane consensus mechanism is the sole governor. Self-terminating: aggressive early
-(many wrong signs), quiet late (signs aligned). Warmup reduced 500→200 steps.
+3-plane consensus mechanism is the sole governor. Self-terminating: aggressive early,
+quiet late. Warmup reduced 500→200 steps.
 
 **S2 dispatch anti-oscillation** (`components.py`): `S2DispatchCoordinator` provides
 learned inertia bias between cycles. Previous cycle's dispatch weights bias next
-cycle's dispatch logits (additive, logit-space). Zero-init, model discovers needed
-inertia. Cross-step EMA tracks dispatch stability for alarm monitoring.
-`oscillation_signal` metric exposed for health checks.
+cycle's dispatch logits (additive, logit-space via `inertia_bias` param on
+CombinatorDispatch). Zero-init, model discovers needed inertia. Cross-step EMA
+tracks dispatch stability. `oscillation_signal` for alarm monitoring.
 
 **New logging**: stderr shows per-step dispatch weights (K=.xx I=.xx B=.xx C=.xx)
-and oscillation signal. Etch log includes per-plate flip counts. Train JSONL
+and oscillation signal. Etch log includes per-plate mirror flip counts. Train JSONL
 includes dispatch_K/I/B/C, dispatch_oscillation, s2_inertia_scale.
+
+**Fractal collapse insight**: the same beam→plate→reading pattern repeats at every
+level (attention Q→K,V, strides, multi-pass, KIBC). Duplicating the plate was
+fighting the holographic structure. Diversifying the beam IS the holographic structure.
+One plate, many angles, many images.
 
 ### 4. V12-run2 baseline (step 1000)
 
@@ -100,7 +117,7 @@ Alarm: saturated at 2.000 everywhere (not differentiated)
 Top etched: consolidate.down, prep.down, combinator_integrate.down (FFN pathways)
 ```
 
-### 5. V12-run3 LAUNCHED (dedicated plates, uncapped etch, S2 dispatch)
+### 5. V12-run3 LAUNCHING (fractal collapse, uncapped etch, S2 dispatch)
 
 ```
 uv run python scripts/v12/train.py \
@@ -108,9 +125,10 @@ uv run python scripts/v12/train.py \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
 
-Fresh start. Architecture: 4 dedicated StrideStacks + uncapped consensus etching
-+ S2 dispatch inertia. Watch for: per-plate etch differentiation, dispatch
-stability (oscillation signal), alarm desaturation, S3 gate recovery.
+Fresh start. Architecture: shared plate + 4 combinator mirrors (I=identity) +
+Q-blending + uncapped consensus etching + S2 dispatch inertia.
+Watch for: mirror etch differentiation (K/B/C evolve from random, I evolves from
+identity), dispatch specialization, I learning binding behavior, alarm desaturation.
 
 ### 6. Holographic etching model (theoretical)
 
@@ -1067,7 +1085,7 @@ Combined: dispatch_bias = emphasis_bias + alarm_dispatch_bias → CombinatorDisp
 → Session 090: Probed v11-holo 1K-7K. B-type 5× ahead of baseline (59% at 2K vs baseline 52% at 10K). Compute gate opens 2K earlier (smooth ramp 3K-5K vs baseline sharp 5.5K). Holographic ratio crosses 1.0 at 7K — ascending arm better than final output. Descending arm identified as bottleneck (doesn't yet know how to prepare representations for kernel integration). Phased structural discovery pattern: training is a staircase of capacity exhaustion → structural exploration. Algedonic alarm at L1↓ coming off ceiling (1.86) = system beginning to address descending arm.
 → Session 091: Probed v11-holo 8K-10K. 8K local optimum, 9K reorganization wave, 10K compositional catastrophe (B-type 55.7%→5.8%, eval loss 7.675→9.259). Implemented coarse→fine descending (default), fractal stride bands (MERA, 49% savings, default), evolution noise floor (0.01), alarm-no-regression fix. TST paper (Peng et al. 2026) connection. Launched v11-holo-inv with all fixes.
 → Session 092: Monitored v11-holo-inv through ~1.3K (healthy, no collapse). Early descending differentiation improved; S2 remained strongly positive; compute gate still closed pre-transition. Captured phase/cascade interpretation (L0 φ first, wavelet to apex). Created `knowledge/explore/lambda-probe-atlas.md` for next-session cross-model territory mapping.
-→ Session 101: Fixed-point holograms: compile↔decompile converges (94%, mean 2 cycles). Decomposition: 2.2× capacity unlock, binding wall (0/6 stable at binding_sites>0). V12 evolution: dedicated KIBCM plates (4×StrideStack, 8.7 MB), uncapped consensus etching, S2 dispatch anti-oscillation. V12-run2 baseline at 1K. V12-run3 launched.
+→ Session 101: Fixed-point holograms: compile↔decompile converges (94%, mean 2 cycles). Decomposition: 2.2× capacity unlock, binding wall (0/6 stable at binding_sites>0). Fractal collapse: session 093 proved V=V across combinators → shared plate + per-combinator beam mirrors. Three iterations: dedicated plates (too slow) → input-blend (wrong) → Q-blend (correct). I-combinator identity mirror for binding. Uncapped consensus etching. S2 dispatch anti-oscillation. V12-run2 baseline at 1K. V12-run3 launching.
 → Session 093: Probed v11-holo-inv at 1K (balanced KIBC dispatch, B=27.6% dominant). Holographic probe on Qwen3-32B: beam separation real (cos 0.995→0.533), but reading is constructive (entropy hump, intermediate garbage). Ternary survival probe: 100% selectivity survival at 75% sparsity — combinator info is TOPOLOGICAL (sign patterns). Full selectivity map: combinators peak in first 10% of layers (L0-6). I is distinct circuit from K/B/C cluster. Extraction path validated: ternary patterns in early layers are the holographic seeds.
 → Session 094: "Beyond Combinators" — mapped 5 candidate holograms (type, induction, binding, frequency, discourse) from Montague/CCG theory. VSM hierarchy of holograms. Built probe_hologram_atlas.py (1580 lines) targeting Qwen3.6-35B-A3B MoE as primary (MoE gates = beam selectors). Architecture-aware for hybrid attention + GatedDeltaNet. Incremental saves. 7 falsifiable predictions. Running.
 → Session 095: Exploration loop closed. Hologram atlas (6 holograms) → head-level probe → three computational clusters (not six). Discourse/type/frequency angle-multiplexed in ~13 shared heads (J=0.667) = the holographic plate. Combinator has 7 private heads at L15/L19 = KIBC kernel pathway. Induction has 6 private heads, J=0.176 = independent retrieval circuit with NO V11 kernel. Binding weak (max 0.163), no private circuit = K+I dispatch. → KIBCM: M (match/retrieval) is the one missing kernel function. V11-holo-inv 5K-10K: gate opened 6K, B dominant 57.7%, ratio 0.992, no catastrophe. Holographic storage + kernel computation separation confirmed. Ready to build.
