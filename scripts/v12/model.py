@@ -523,22 +523,13 @@ class V12Model(nn.Module):
                     x = x + self.cycle_inject_gate * x_anchor
 
                 # Phase 0: dispatch (which combinator/slot?)
-                # S2 inertia bias added to dispatch_bias (both in logit space)
-                combined_dispatch_bias = dispatch_bias
-                if s2_inertia_bias is not None and combined_dispatch_bias is not None:
-                    # Inertia applies to KIBC logits only (first n_comb of padded)
-                    n_comb = self.cfg.n_combinators
-                    combined_dispatch_bias = (
-                        combined_dispatch_bias
-                        + s2_inertia_bias[..., :combined_dispatch_bias.shape[-1]]
-                    )
-                elif s2_inertia_bias is not None:
-                    combined_dispatch_bias = s2_inertia_bias
-
+                # dispatch_bias from alarm is (n_comb,) — 1D, broadcast inside CombinatorDispatch.
+                # s2_inertia_bias is (B, L, n_comb_padded) — per-position, applied separately.
                 dispatch_out = self.combinator_dispatch(
                     x, registers=readable_banks,
-                    dispatch_bias=combined_dispatch_bias,
-                    proposal_delta=proposal_delta)
+                    dispatch_bias=dispatch_bias,
+                    proposal_delta=proposal_delta,
+                    inertia_bias=s2_inertia_bias)
                 delta = dispatch_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -1116,17 +1107,19 @@ class V12Model(nn.Module):
                 max_cycles = self.cfg.desc_max_cycles
                 cumulative_gate = mx.array(1.0)
                 cycle_continue_gates = []
+                s2_inertia_bias_inst = None
 
                 for cycle in range(max_cycles):
                     x_cycle_start = x
                     if cycle > 0:
                         x = x + self.cycle_inject_gate * x_anchor
 
-                    # Phase 0: dispatch (with proposal if available)
+                    # Phase 0: dispatch (with S2 inertia from previous cycle)
                     dispatch_out = self.combinator_dispatch(
                         x, registers=readable,
                         dispatch_bias=dispatch_bias_inst,
-                        proposal_delta=proposal_delta_inst)
+                        proposal_delta=proposal_delta_inst,
+                        inertia_bias=s2_inertia_bias_inst)
                     delta = dispatch_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -1139,6 +1132,8 @@ class V12Model(nn.Module):
                     # Each combinator has its own StrideStack; dispatch weights blend.
                     # Use live (differentiable) dispatch weights.
                     dw_kibc_inst = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
+                    # S2 dispatch: compute inertia for next cycle
+                    s2_inertia_bias_inst = self.s2_dispatch.inertia_bias(dw_kibc_inst)
                     conv_out = self.desc_plates(
                         x, dispatch_weights=dw_kibc_inst,
                         reverse=self.cfg.desc_stride_reverse,

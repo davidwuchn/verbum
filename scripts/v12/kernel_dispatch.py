@@ -182,14 +182,15 @@ class CombinatorDispatch(nn.Module):
         registers: list[list[mx.array]] | None = None,
         dispatch_bias: mx.array | None = None,
         proposal_delta: mx.array | None = None,
+        inertia_bias: mx.array | None = None,
     ) -> mx.array:
         """
         x: (B, L, d_model)
         registers: ascending register banks for conditioning
         dispatch_bias: (n_combinators,) additive logit bias from S4 emphasis
             + alarm dispatch bias. Acts in logit space (correct for softmax).
-            Replaces old multiplicative combinator_emphasis.
         proposal_delta: (N, d_model) S4 proposal modulation for slot embeddings
+        inertia_bias: (B, L, n_comb_padded) per-position S2 dispatch inertia
 
         Returns: (B, L, d_model) with residual connection
         """
@@ -219,6 +220,12 @@ class CombinatorDispatch(nn.Module):
         # a +2 bias on one combinator shifts its probability ~7× relative.
         if dispatch_bias is not None:
             kibc_logits = kibc_logits + dispatch_bias[None, None, :]
+
+        # S2 inertia bias: per-position momentum from previous cycle's dispatch.
+        # (B, L, n_comb_padded) → take first n_combinators columns.
+        # Zero-init at model start, model learns how much inertia to apply.
+        if inertia_bias is not None:
+            kibc_logits = kibc_logits + inertia_bias[..., :self.n_combinators]
 
         # Step 2: Slot logits via dot product with gated slot embeddings
         if self.n_abstraction_slots > 0:
