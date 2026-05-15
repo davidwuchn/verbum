@@ -776,27 +776,22 @@ uv run python scripts/v12/train.py \
 
 ## What to do next
 
-### Priority 1: Probe V12-run1 at 5K checkpoint
-V12 training live (~3925/20K). Wait for 5K checkpoint, then full diagnostic:
-- **I-suppression**: S4 emphasis crushed I to 0.5%. Is the alarm correcting?
-  If I stays dead at 5K, implement combinator dispatch floors.
-- **Dispatch floors**: use cross-model empirical ratios (B ≥ K ≥ C >> I, 9 models)
-  as minimum per-combinator dispatch. Options: hard clamp, soft penalty, alarm-side.
-- **Cycle saturation**: budget pegged at +4, all gates 1.000. No simple/complex
-  differentiation. May need smaller init or narrower range.
-- **Retrieval**: GLA still dormant (write gates 0.0000). When does it activate?
-- **Loss trajectory**: V12 at 13.455 (3.5K) vs V11-holo-inv at 8.235 (1K).
-  V12 loss is much higher — is this just the 7-pass overhead or a real problem?
-  (V11-holo-inv started at 8.235 at 1K; V12 architecture is larger/different)
+### Priority 1: Launch V12-run2 with etching
+Stop V12-run1 at 5K. Start V12-run2 from fresh init with etching enabled.
+Key things to watch:
+- **Etch rate**: how many flips per cycle? Should start high (random init) and decay.
+- **Sign pattern crystallization**: run probe_hologram.py to verify cos < 1.0 now.
+- **Plate/beam separation**: do Q projections evolve differently from K/V/O?
+- **Dispatch diversity**: does etching help or hurt the I-suppression problem?
+- **Loss trajectory**: V12+etch vs V12-run1 at matched steps.
 
-### Priority 2: V11-holo-inv final analysis
-Complete at 16.5K (stopped before 20K target). Final: loss=11.39, balanced KIBC
-(K=34%, I=30%, B=9%, C=27%). B collapsed from peak 57.7% — confirms variety gap.
-Baseline comparison for V12.
+### Priority 2: Probe V12-run1 at 5K (before stopping)
+Quick probe at 5K for baseline comparison, then stop the run.
+I still dead? Compute gate? Retrieval?
 
-### Priority 3: Implement dispatch floors (after 5K probe)
-Design and implement minimum combinator dispatch, informed by both the cross-model
-data and the V12-run1 failure mode. See `memories/combinator-dispatch-floors.md`.
+### Priority 3: Dispatch floors (evaluate after V12-run2 data)
+May not need if etching + proper topology shaping resolves variety gap.
+The model may need B/C dominance as a training phase.
 
 ### Priority 4: Cross-model validation of three-cluster structure
 Run head-level probe on Pythia to confirm KIBCM universality.
