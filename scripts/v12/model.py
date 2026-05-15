@@ -45,7 +45,7 @@ import mlx.nn as nn
 
 from config import V12Config
 from ternary import TernaryLinear, TernaryEmbedding
-from attention import StrideStack, HybridStrideStack, TernaryFFN
+from attention import StrideStack, HybridStrideStack, DedicatedStrideStacks, TernaryFFN
 from components import (
     S4Ternary,
     S3Ternary,
@@ -140,7 +140,7 @@ class V12Model(nn.Module):
             n_registers=cfg.n_registers, d_register=cfg.d_register,
             max_cond_banks=7,  # v12: up to 7 readable banks for descending passes
         )
-        self.stride_stack_desc = StrideStack(
+        self.desc_plates = DedicatedStrideStacks(
             d_model=d,
             strides=cfg.strides,
             window=cfg.window,
@@ -148,6 +148,7 @@ class V12Model(nn.Module):
             dropout=cfg.dropout,
             alpha=cfg.alpha,
             n_q_mirrors=n_mirrors,
+            n_combinators=cfg.n_combinators,
         )
         self.combinator_integrate = CombinatorIntegrate(
             d, n_combinators=N_COMBINATORS,
@@ -492,7 +493,7 @@ class V12Model(nn.Module):
         }
 
         s4 = self.s4_desc if is_descending else self.s4
-        strides = self.stride_stack_desc if is_descending else self.stride_stack
+        strides = self.stride_stack if not is_descending else None  # desc uses desc_plates
 
         # S4 scan
         s4_residual = x
@@ -526,11 +527,15 @@ class V12Model(nn.Module):
                 phase_gates.append(gate)
                 x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
 
-                # Phase 1: converge (propagate spatially)
-                # Descending arm: coarse→fine when desc_stride_reverse=True
-                # Fractal bands: only activate strides for this pass's scale
-                converge_out = strides(x, reverse=self.cfg.desc_stride_reverse,
-                                       stride_range=self._stride_range_for_pass(pass_idx))
+                # Phase 1: converge (propagate spatially via KIBC dedicated plates)
+                # Each combinator gets its own StrideStack; dispatch weights blend outputs.
+                # dispatch_weights_live is the DIFFERENTIABLE version — gradients flow
+                # from plate outputs back through dispatch (no stop_gradient here).
+                dw_kibc = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
+                converge_out = self.desc_plates(
+                    x, dispatch_weights=dw_kibc,
+                    reverse=self.cfg.desc_stride_reverse,
+                    stride_range=self._stride_range_for_pass(pass_idx))
                 delta = converge_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -1061,7 +1066,7 @@ class V12Model(nn.Module):
             target = target_banks[pi]
 
             s4 = self.s4_desc if is_desc else self.s4
-            strides = self.stride_stack_desc if is_desc else self.stride_stack
+            strides = self.stride_stack if not is_desc else None  # desc uses desc_plates
 
             if is_desc:
                 if asc_gate_bank is not None:
@@ -1100,10 +1105,14 @@ class V12Model(nn.Module):
                     phase_gates.append(float(gate.item()))
                     x = self._modulate(x, delta, gate, 0, is_descending=True)
 
-                    # Phase 1: converge
-                    # Descending arm: coarse→fine when desc_stride_reverse=True
-                    conv_out = strides(x, reverse=self.cfg.desc_stride_reverse,
-                                       stride_range=self._stride_range_for_pass(pass_idx))
+                    # Phase 1: converge (KIBC dedicated plates)
+                    # Each combinator has its own StrideStack; dispatch weights blend.
+                    # Use live (differentiable) dispatch weights.
+                    dw_kibc_inst = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
+                    conv_out = self.desc_plates(
+                        x, dispatch_weights=dw_kibc_inst,
+                        reverse=self.cfg.desc_stride_reverse,
+                        stride_range=self._stride_range_for_pass(pass_idx))
                     delta = conv_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(

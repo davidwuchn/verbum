@@ -116,7 +116,7 @@ def loss_fn(
 ASC_SHARED = ("prep", "stride_stack", "consolidate", "mod_projs", "s4")
 # Descending components: shared across L1↓, L0↓ (2 passes)
 # Kernel dispatch/integrate replace prep_desc/consolidate_desc
-DESC_SHARED = ("combinator_dispatch", "stride_stack_desc", "combinator_integrate", "mod_projs_desc", "s4_desc")
+DESC_SHARED = ("combinator_dispatch", "desc_plates", "combinator_integrate", "mod_projs_desc", "s4_desc")
 
 N_ASC_PASSES = 3
 N_DESC_PASSES = 2
@@ -437,7 +437,7 @@ MODULE_PASS_MAP = {
     "mod_projs":        [0, 1, 2],
     # Descending shared (2 passes)
     "combinator_dispatch":  [3, 4],
-    "stride_stack_desc":    [3, 4],
+    "desc_plates":          [3, 4],
     "combinator_integrate": [3, 4],
     "s4_desc":              [3, 4],
     "mod_projs_desc":       [3, 4],

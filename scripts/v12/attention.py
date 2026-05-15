@@ -415,6 +415,102 @@ class StrideStack(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# DedicatedStrideStacks — 4 dedicated KIBC plates (Option C, v12 desc arm)
+# ══════════════════════════════════════════════════════════════════════
+
+
+class DedicatedStrideStacks(nn.Module):
+    """4 dedicated ternary plates — one per KIBC combinator.
+
+    Each combinator (K, I, B, C) gets its own full StrideStack with
+    all 9 strides. Dispatch weights from CombinatorDispatch blend the
+    4 plate outputs into a single representation.
+
+    Design principle (Option C — VSM Emergent Depth):
+      - No multiplexing: each plate encodes ONE function (K / I / B / C).
+      - CycleContinue (S3) self-regulates depth per combinator.
+      - Dispatch weights are the LIVE (differentiable) version so that
+        gradients flow from plate outputs back through dispatch.
+
+    SEPARATION ENABLES HOLOGRAPHY: one weight matrix, one function.
+    """
+
+    PLATE_NAMES = ('K', 'I', 'B', 'C')
+
+    def __init__(
+        self,
+        d_model: int,
+        strides: tuple[int, ...] = (1, 8, 16, 32, 64, 128, 256, 512, 1024),
+        window: int = 8,
+        n_heads: int = 8,
+        dropout: float = 0.1,
+        alpha: float | None = None,
+        n_q_mirrors: int = 0,
+        n_combinators: int = 4,
+    ):
+        super().__init__()
+        self.d_model = d_model
+        self.strides = strides
+        self.window = window
+        self.n_combinators = n_combinators
+
+        self.plates = [
+            StrideStack(
+                d_model=d_model,
+                strides=strides,
+                window=window,
+                n_heads=n_heads,
+                dropout=dropout,
+                alpha=alpha,
+                n_q_mirrors=n_q_mirrors,
+            )
+            for _ in range(n_combinators)
+        ]
+
+    def __call__(
+        self,
+        x: mx.array,
+        dispatch_weights: mx.array,
+        reverse: bool = False,
+        stride_range: tuple[int, int] | None = None,
+    ) -> mx.array:
+        """Run all 4 plates and blend outputs using dispatch weights.
+
+        Args:
+            x: (B, L, d_model) — input representation
+            dispatch_weights: (B, L, n_combinators) — KIBC softmax weights
+                              Must be the LIVE (differentiable) version so
+                              gradients flow from plate outputs to dispatch.
+            reverse: whether to run strides in reverse order (coarse→fine)
+            stride_range: (start, end) stride index range, or None for all
+
+        Returns:
+            (B, L, d_model) — blended output
+        """
+        outputs = []
+        for plate in self.plates:
+            out = plate(x, reverse=reverse, stride_range=stride_range)
+            outputs.append(out)
+
+        # Stack: (n_combinators, B, L, d_model)
+        stacked = mx.stack(outputs, axis=0)
+
+        # dispatch_weights: (B, L, n_combinators) → (n_combinators, B, L, 1)
+        weights = mx.transpose(dispatch_weights, (2, 0, 1))[..., None]
+
+        # Blend: weighted sum over combinators → (B, L, d_model)
+        blended = mx.sum(stacked * weights, axis=0)
+        return blended
+
+    def describe(self) -> str:
+        strides_str = " → ".join(f"s{s}" for s in self.strides)
+        names = ", ".join(
+            self.PLATE_NAMES[i] for i in range(self.n_combinators))
+        return (f"DedicatedStrideStacks([{names}] × "
+                f"StrideStack({strides_str}, W={self.window}))")
+
+
+# ══════════════════════════════════════════════════════════════════════
 # HybridStrideStack — interleaved composition + retrieval layers
 # ══════════════════════════════════════════════════════════════════════
 
