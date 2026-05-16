@@ -352,11 +352,13 @@ class RelationalLoss(nn.Module):
     Only uses upper triangle (avoids diagonal = 1.0 always).
     """
 
-    def __init__(self, target_rdms: dict[int, np.ndarray], layer_weights: dict[int, float] | None = None):
+    def __init__(self, target_rdms: dict[int, np.ndarray], layer_weights: dict[int, float] | None = None,
+                 residual: bool = False):
         super().__init__()
         # Register target RDMs as buffers (non-trainable, move with model)
         self.target_layers = sorted(target_rdms.keys())
         self.n_probes = list(target_rdms.values())[0].shape[0]
+        self.residual = residual
 
         for li in self.target_layers:
             rdm_tensor = torch.from_numpy(target_rdms[li]).float()
@@ -394,6 +396,11 @@ class RelationalLoss(nn.Module):
 
             # Student RDM
             student_rdm = hs_norm @ hs_norm.T  # (n_probes, n_probes)
+
+            # If residual mode: subtract mean from student RDM too
+            # (target is already mean-subtracted; student must match)
+            if self.residual:
+                student_rdm = student_rdm - student_rdm.mean()
 
             # Extract upper triangles
             student_flat = student_rdm[self.triu_row, self.triu_col]
@@ -634,6 +641,9 @@ def main():
                         help="Skip baseline (NT-only) — use when rerunning with new lambdas")
     parser.add_argument("--template-lambda", type=float, default=0.0,
                         help="Weight of Level 2 template loss (0=disabled). Targets L0 structure.")
+    parser.add_argument("--residual", action="store_true",
+                        help="Use residual RDM (mean-subtracted). Removes PC1 'all facts alike' "
+                             "signal, focuses loss on discriminative structure (domain/template/answer_type).")
     args = parser.parse_args()
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -692,6 +702,24 @@ def main():
             print(f"{mean_sim:>8.3f}", end='', file=sys.stderr)
         print(file=sys.stderr)
 
+    # ── Optional: Residual RDM (mean-subtracted) ──
+    if args.residual:
+        print(f"\n  Applying RESIDUAL transformation (mean-subtracted RDM)...", file=sys.stderr)
+        print(f"  Removes PC1 (93.3% — 'all facts alike'), focuses on discriminative structure.",
+              file=sys.stderr)
+        for li in list(universal_rdm.keys()):
+            rdm_orig = universal_rdm[li]
+            rdm_mean = rdm_orig.mean()
+            rdm_residual = rdm_orig - rdm_mean
+            # Keep diagonal at 0 (self-similarity is uninformative in residual space)
+            np.fill_diagonal(rdm_residual, 0.0)
+            universal_rdm[li] = rdm_residual
+            # Report signal amplification
+            orig_std = rdm_orig[np.triu_indices(len(rdm_orig), k=1)].std()
+            resid_std = rdm_residual[np.triu_indices(len(rdm_residual), k=1)].std()
+            print(f"    L{li}: mean_removed={rdm_mean:.4f}, "
+                  f"signal_std: {orig_std:.4f} → {resid_std:.4f}", file=sys.stderr)
+
     # ══ Phase 2: Extract plate signs ═════════════════════════════
     print(f"\nPhase 2: Extracting plate signs from {args.source}...", file=sys.stderr)
     extracted_signs = extract_signs(args.source, layer_indices, device=args.device)
@@ -711,8 +739,10 @@ def main():
     layer_weights = {li: w / total_w for li, w in layer_weights.items()}
 
     print(f"  Level 1 (domain) layer weights: {layer_weights}", file=sys.stderr)
+    if args.residual:
+        print(f"  Mode: RESIDUAL (mean-subtracted, discriminative only)", file=sys.stderr)
 
-    rel_loss_fn = RelationalLoss(universal_rdm, layer_weights)
+    rel_loss_fn = RelationalLoss(universal_rdm, layer_weights, residual=args.residual)
 
     # Level 2: Template loss (targets early layers where structural templates cluster)
     template_loss_fn = None
@@ -728,7 +758,7 @@ def main():
         if template_layer_weights:
             total_tw = sum(template_layer_weights.values())
             template_layer_weights = {li: w / total_tw for li, w in template_layer_weights.items()}
-            template_loss_fn = RelationalLoss(universal_rdm, template_layer_weights)
+            template_loss_fn = RelationalLoss(universal_rdm, template_layer_weights, residual=args.residual)
             print(f"  Level 2 (template) layer weights: {template_layer_weights}", file=sys.stderr)
             print(f"  Template lambda: {args.template_lambda}", file=sys.stderr)
         else:
