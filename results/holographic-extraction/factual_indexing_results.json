@@ -1,0 +1,4499 @@
+{
+  "timestamp": "2026-05-16T12:32:30Z",
+  "config": {
+    "source_model": "Qwen/Qwen3-14B",
+    "layer_indices": [
+      0,
+      10,
+      20,
+      30
+    ],
+    "n_layers": 4,
+    "train_steps": 500,
+    "n_probes": 46,
+    "categories": [
+      "geography",
+      "science",
+      "culture",
+      "math",
+      "common"
+    ],
+    "probes_per_category": {
+      "geography": 12,
+      "science": 10,
+      "culture": 8,
+      "math": 8,
+      "common": 8
+    }
+  },
+  "training_history": {
+    "extracted": [
+      {
+        "step": 1,
+        "loss": 3680.97802734375,
+        "tok_per_sec": 1345.6971190269549
+      },
+      {
+        "step": 100,
+        "loss": 139.2498779296875,
+        "tok_per_sec": 433.4034141058408
+      },
+      {
+        "step": 200,
+        "loss": 67.36065673828125,
+        "tok_per_sec": 433.88802789156523
+      },
+      {
+        "step": 300,
+        "loss": 48.4913215637207,
+        "tok_per_sec": 429.46877404593477
+      },
+      {
+        "step": 400,
+        "loss": 27.501609802246094,
+        "tok_per_sec": 426.0177202165275
+      },
+      {
+        "step": 500,
+        "loss": 34.892822265625,
+        "tok_per_sec": 424.39390437937163
+      }
+    ],
+    "random": [
+      {
+        "step": 1,
+        "loss": 4446.2890625,
+        "tok_per_sec": 10575.455144462556
+      },
+      {
+        "step": 100,
+        "loss": 144.8011932373047,
+        "tok_per_sec": 426.300528597822
+      },
+      {
+        "step": 200,
+        "loss": 63.66759490966797,
+        "tok_per_sec": 426.5527220035598
+      },
+      {
+        "step": 300,
+        "loss": 51.422149658203125,
+        "tok_per_sec": 429.4771663424369
+      },
+      {
+        "step": 400,
+        "loss": 37.11689758300781,
+        "tok_per_sec": 430.8005807292217
+      },
+      {
+        "step": 500,
+        "loss": 37.95430374145508,
+        "tok_per_sec": 430.4942006773537
+      }
+    ]
+  },
+  "analysis": {
+    "q_directions": {
+      "extracted": {
+        "label": "extracted",
+        "n_probes": 46,
+        "n_layers": 4,
+        "layers": [
+          {
+            "layer_idx": 0,
+            "mean_within_sim": 0.23769201338291168,
+            "mean_between_sim": 0.06590859591960907,
+            "clustering_ratio": 3.6063886670083614,
+            "per_category_within": {
+              "geography": 0.5804926753044128,
+              "science": 0.0017056791111826897,
+              "culture": 0.15914484858512878,
+              "math": 0.05623748153448105,
+              "common": 0.06892748922109604
+            },
+            "effective_dim": 9.075190544128418,
+            "dim_90_pct": 20,
+            "dim_95_pct": 23,
+            "dim_99_pct": 26,
+            "q_magnitude_mean": 100.66466522216797,
+            "q_magnitude_std": 44.26033401489258
+          },
+          {
+            "layer_idx": 1,
+            "mean_within_sim": 0.9988631010055542,
+            "mean_between_sim": 0.9984856843948364,
+            "clustering_ratio": 1.0003779890053672,
+            "per_category_within": {
+              "geography": 0.9995244145393372,
+              "science": 0.9989932775497437,
+              "culture": 0.9993728399276733,
+              "math": 0.9979362487792969,
+              "common": 0.9975115656852722
+            },
+            "effective_dim": 1.0028271675109863,
+            "dim_90_pct": 1,
+            "dim_95_pct": 1,
+            "dim_99_pct": 1,
+            "q_magnitude_mean": 535.5233764648438,
+            "q_magnitude_std": 9.058338165283203
+          },
+          {
+            "layer_idx": 2,
+            "mean_within_sim": 0.9998453855514526,
+            "mean_between_sim": 0.9997597932815552,
+            "clustering_ratio": 1.0000856128346756,
+            "per_category_within": {
+              "geography": 0.9999182820320129,
+              "science": 0.9998545050621033,
+              "culture": 0.9998742938041687,
+              "math": 0.9997857809066772,
+              "common": 0.9996898770332336
+            },
+            "effective_dim": 1.0004386901855469,
+            "dim_90_pct": 1,
+            "dim_95_pct": 1,
+            "dim_99_pct": 1,
+            "q_magnitude_mean": 364.809814453125,
+            "q_magnitude_std": 1.6176974773406982
+          },
+          {
+            "layer_idx": 3,
+            "mean_within_sim": 0.9999871850013733,
+            "mean_between_sim": 0.9999800324440002,
+            "clustering_ratio": 1.000007152700195,
+            "per_category_within": {
+              "geography": 0.9999926090240479,
+              "science": 0.999988317489624,
+              "culture": 0.9999886751174927,
+              "math": 0.9999812841415405,
+              "common": 0.9999762773513794
+            },
+            "effective_dim": 1.000036358833313,
+            "dim_90_pct": 1,
+            "dim_95_pct": 1,
+            "dim_99_pct": 1,
+            "q_magnitude_mean": 279.845458984375,
+            "q_magnitude_std": 0.4174133539199829
+          }
+        ]
+      },
+      "random": {
+        "label": "random",
+        "n_probes": 46,
+        "n_layers": 4,
+        "layers": [
+          {
+            "layer_idx": 0,
+            "mean_within_sim": 0.24079495668411255,
+            "mean_between_sim": 0.07264035195112228,
+            "clustering_ratio": 3.3148924835350044,
+            "per_category_within": {
+              "geography": 0.587705671787262,
+              "science": -0.00499150063842535,
+              "culture": 0.137818843126297,
+              "math": 0.09376155585050583,
+              "common": 0.06810030341148376
+            },
+            "effective_dim": 9.094797134399414,
+            "dim_90_pct": 21,
+            "dim_95_pct": 24,
+            "dim_99_pct": 26,
+            "q_magnitude_mean": 81.8697280883789,
+            "q_magnitude_std": 30.986328125
+          },
+          {
+            "layer_idx": 1,
+            "mean_within_sim": 0.5245930552482605,
+            "mean_between_sim": 0.4251540005207062,
+            "clustering_ratio": 1.2338894955845803,
+            "per_category_within": {
+              "geography": 0.7766245007514954,
+              "science": 0.0874752551317215,
+              "culture": 0.7016811966896057,
+              "math": 0.09907717257738113,
+              "common": 0.881457507610321
+            },
+            "effective_dim": 2.1115591526031494,
+            "dim_90_pct": 10,
+            "dim_95_pct": 15,
+            "dim_99_pct": 22,
+            "q_magnitude_mean": 158.68743896484375,
+            "q_magnitude_std": 76.48594665527344
+          },
+          {
+            "layer_idx": 2,
+            "mean_within_sim": 0.9213013648986816,
+            "mean_between_sim": 0.900353729724884,
+            "clustering_ratio": 1.0232660058843743,
+            "per_category_within": {
+              "geography": 0.9986019730567932,
+              "science": 0.9707896113395691,
+              "culture": 0.9977509379386902,
+              "math": 0.5069918036460876,
+              "common": 0.9974181056022644
+            },
+            "effective_dim": 1.034282922744751,
+            "dim_90_pct": 1,
+            "dim_95_pct": 1,
+            "dim_99_pct": 2,
+            "q_magnitude_mean": 456.0585632324219,
+            "q_magnitude_std": 93.01150512695312
+          },
+          {
+            "layer_idx": 3,
+            "mean_within_sim": 0.9999144077301025,
+            "mean_between_sim": 0.9998787045478821,
+            "clustering_ratio": 1.0000357075133794,
+            "per_category_within": {
+              "geography": 0.9999859929084778,
+              "science": 0.9999653100967407,
+              "culture": 0.9999886155128479,
+              "math": 0.9995237588882446,
+              "common": 0.9999803900718689
+            },
+            "effective_dim": 1.0002237558364868,
+            "dim_90_pct": 1,
+            "dim_95_pct": 1,
+            "dim_99_pct": 1,
+            "q_magnitude_mean": 512.5317993164062,
+            "q_magnitude_std": 9.03762435913086
+          }
+        ]
+      }
+    },
+    "per_layer_indexing": {
+      "extracted": {
+        "label": "extracted",
+        "baseline_mean_logprob": -96.55973771862362,
+        "zero_one_layer": [
+          {
+            "layer": 0,
+            "mean_logprob": -96.84109271090963,
+            "drop_from_baseline": 0.2813549922860119,
+            "relative_drop": 0.0029137920103499467
+          },
+          {
+            "layer": 1,
+            "mean_logprob": -96.55844344263491,
+            "drop_from_baseline": -0.0012942759887124566,
+            "relative_drop": -1.3403888818380953e-05
+          },
+          {
+            "layer": 2,
+            "mean_logprob": -96.55657109488611,
+            "drop_from_baseline": -0.0031666237375134187,
+            "relative_drop": -3.2794452556830706e-05
+          },
+          {
+            "layer": 3,
+            "mean_logprob": -96.55978802494381,
+            "drop_from_baseline": 5.030632019042969e-05,
+            "relative_drop": 5.209865040957648e-07
+          }
+        ],
+        "only_one_layer": [
+          {
+            "layer": 0,
+            "mean_logprob": -96.55528682211171,
+            "recall_fraction": 0.9999539052547463
+          },
+          {
+            "layer": 1,
+            "mean_logprob": -96.83926924415256,
+            "recall_fraction": 1.0028949076720102
+          },
+          {
+            "layer": 2,
+            "mean_logprob": -96.83763403477876,
+            "recall_fraction": 1.0028779729804667
+          },
+          {
+            "layer": 3,
+            "mean_logprob": -96.8358096661775,
+            "recall_fraction": 1.0028590793023728
+          }
+        ]
+      },
+      "random": {
+        "label": "random",
+        "baseline_mean_logprob": -78.3664172835972,
+        "zero_one_layer": [
+          {
+            "layer": 0,
+            "mean_logprob": -78.66477823257446,
+            "drop_from_baseline": 0.29836094897726184,
+            "relative_drop": 0.0038072551906709598
+          },
+          {
+            "layer": 1,
+            "mean_logprob": -77.98622736723527,
+            "drop_from_baseline": -0.3801899163619282,
+            "relative_drop": -0.00485143929683647
+          },
+          {
+            "layer": 2,
+            "mean_logprob": -133.18351088399473,
+            "drop_from_baseline": 54.81709360039753,
+            "relative_drop": 0.699497252783958
+          },
+          {
+            "layer": 3,
+            "mean_logprob": -78.34412095857704,
+            "drop_from_baseline": -0.02229632502016443,
+            "relative_drop": -0.00028451377251912795
+          }
+        ],
+        "only_one_layer": [
+          {
+            "layer": 0,
+            "mean_logprob": -78.56706117028776,
+            "recall_fraction": 1.0025603299684411
+          },
+          {
+            "layer": 1,
+            "mean_logprob": -85.29683188770129,
+            "recall_fraction": 1.0884360271189109
+          },
+          {
+            "layer": 2,
+            "mean_logprob": -78.30991947132608,
+            "recall_fraction": 0.9992790558222578
+          },
+          {
+            "layer": 3,
+            "mean_logprob": -78.85435111626335,
+            "recall_fraction": 1.0062263128720097
+          }
+        ]
+      }
+    },
+    "attention_patterns": {
+      "extracted": {
+        "label": "extracted",
+        "layer_summary": [
+          {
+            "layer": 0,
+            "mean_entropy": 2.4600400924682617,
+            "std_entropy": 0.4116431176662445,
+            "mean_top5_mass": 0.8903040911840356,
+            "std_top5_mass": 0.1370165959403922
+          },
+          {
+            "layer": 1,
+            "mean_entropy": 2.4531137943267822,
+            "std_entropy": 0.34072384238243103,
+            "mean_top5_mass": 0.9177536523860433,
+            "std_top5_mass": 0.10228862088103134
+          },
+          {
+            "layer": 2,
+            "mean_entropy": 2.4949142932891846,
+            "std_entropy": 0.3960981070995331,
+            "mean_top5_mass": 0.884171785219856,
+            "std_top5_mass": 0.13464691164864248
+          },
+          {
+            "layer": 3,
+            "mean_entropy": 2.589311122894287,
+            "std_entropy": 0.40339019894599915,
+            "mean_top5_mass": 0.8491243447946466,
+            "std_top5_mass": 0.1726842100552626
+          }
+        ],
+        "probe_details": [
+          {
+            "prompt": "The capital of France is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.068197727203369,
+                "entropy_ratio": 0.8907242785671614,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.46104270219802856
+              },
+              {
+                "entropy": 2.217099905014038,
+                "entropy_ratio": 0.9548529559962926,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.26966241002082825
+              },
+              {
+                "entropy": 2.150804281234741,
+                "entropy_ratio": 0.9263009849316964,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4083864688873291
+              },
+              {
+                "entropy": 2.3128812313079834,
+                "entropy_ratio": 0.9961037279322736,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23105187714099884
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Japan is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.081127882003784,
+                "entropy_ratio": 0.8962929931319603,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.451246976852417
+              },
+              {
+                "entropy": 2.231325149536133,
+                "entropy_ratio": 0.9609794353448208,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2827241122722626
+              },
+              {
+                "entropy": 2.192739248275757,
+                "entropy_ratio": 0.9443613921998423,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.3803021311759949
+              },
+              {
+                "entropy": 2.315492868423462,
+                "entropy_ratio": 0.9972284988161046,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.23090989887714386
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Germany is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.0618207454681396,
+                "entropy_ratio": 0.8879778620225358,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4562416970729828
+              },
+              {
+                "entropy": 2.2517037391662598,
+                "entropy_ratio": 0.969756016185114,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.254466712474823
+              },
+              {
+                "entropy": 2.167732000350952,
+                "entropy_ratio": 0.9335913567366994,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3980479836463928
+              },
+              {
+                "entropy": 2.3140616416931152,
+                "entropy_ratio": 0.9966121030140562,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2301112413406372
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Italy is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.077120780944824,
+                "entropy_ratio": 0.8945672286400351,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4390811026096344
+              },
+              {
+                "entropy": 2.252824306488037,
+                "entropy_ratio": 0.9702386182623466,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2671375870704651
+              },
+              {
+                "entropy": 2.2038161754608154,
+                "entropy_ratio": 0.9491319650739329,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3668096363544464
+              },
+              {
+                "entropy": 2.3131117820739746,
+                "entropy_ratio": 0.9962030207426319,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23668786883354187
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Spain is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.0877556800842285,
+                "entropy_ratio": 0.8991474303968515,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4476645588874817
+              },
+              {
+                "entropy": 2.2635276317596436,
+                "entropy_ratio": 0.974848289550262,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.26943689584732056
+              },
+              {
+                "entropy": 2.2010269165039062,
+                "entropy_ratio": 0.9479306966267959,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3723543584346771
+              },
+              {
+                "entropy": 2.313852310180664,
+                "entropy_ratio": 0.9965219488387775,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23376944661140442
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Russia is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.0709760189056396,
+                "entropy_ratio": 0.8919208236748192,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.457233190536499
+              },
+              {
+                "entropy": 2.281737804412842,
+                "entropy_ratio": 0.9826909840304637,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2607050836086273
+              },
+              {
+                "entropy": 2.1577463150024414,
+                "entropy_ratio": 0.9292907561407989,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.402517706155777
+              },
+              {
+                "entropy": 2.313124895095825,
+                "entropy_ratio": 0.9962086682137484,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23247793316841125
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of China is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.067239999771118,
+                "entropy_ratio": 0.8903118078130671,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.461932510137558
+              },
+              {
+                "entropy": 2.2767527103424072,
+                "entropy_ratio": 0.9805440208745368,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2407524138689041
+              },
+              {
+                "entropy": 2.1831448078155518,
+                "entropy_ratio": 0.940229291605801,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.38662782311439514
+              },
+              {
+                "entropy": 2.311945915222168,
+                "entropy_ratio": 0.995700909219724,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23602166771888733
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Australia is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.106252431869507,
+                "entropy_ratio": 0.9071135477912731,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.44074392318725586
+              },
+              {
+                "entropy": 2.251051187515259,
+                "entropy_ratio": 0.9694749774860958,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2646833062171936
+              },
+              {
+                "entropy": 2.1342623233795166,
+                "entropy_ratio": 0.9191767514588133,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4226967394351959
+              },
+              {
+                "entropy": 2.313680410385132,
+                "entropy_ratio": 0.9964479156265041,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22825321555137634
+              }
+            ]
+          },
+          {
+            "prompt": "The largest ocean is the",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.298471450805664,
+                "entropy_ratio": 0.9898977732629416,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120largest",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.2695297598838806
+              },
+              {
+                "entropy": 2.173319101333618,
+                "entropy_ratio": 0.9359975901575225,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.35516786575317383
+              },
+              {
+                "entropy": 2.2488696575164795,
+                "entropy_ratio": 0.9685354436548876,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.33318012952804565
+              },
+              {
+                "entropy": 2.3184752464294434,
+                "entropy_ratio": 0.9985129391105945,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2191917598247528
+              }
+            ]
+          },
+          {
+            "prompt": "The longest river in the world is the",
+            "category": "geography",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.955587863922119,
+                "entropy_ratio": 0.9851959546407064,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120longest",
+                "top5_mass": 0.7149463891983032,
+                "max_attn_value": 0.1756369173526764
+              },
+              {
+                "entropy": 2.70737886428833,
+                "entropy_ratio": 0.9024596214294434,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.81200110912323,
+                "max_attn_value": 0.3325936198234558
+              },
+              {
+                "entropy": 2.896089553833008,
+                "entropy_ratio": 0.9653631846110026,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7302255034446716,
+                "max_attn_value": 0.2521752715110779
+              },
+              {
+                "entropy": 2.996703624725342,
+                "entropy_ratio": 0.9989012082417806,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.6467092037200928,
+                "max_attn_value": 0.14337120950222015
+              }
+            ]
+          },
+          {
+            "prompt": "The highest mountain in the world is Mount",
+            "category": "geography",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.8743298053741455,
+                "entropy_ratio": 0.9581099351247152,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.7286485433578491,
+                "max_attn_value": 0.27416443824768066
+              },
+              {
+                "entropy": 2.6986212730407715,
+                "entropy_ratio": 0.8995404243469238,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8551647067070007,
+                "max_attn_value": 0.2697126865386963
+              },
+              {
+                "entropy": 2.8714442253112793,
+                "entropy_ratio": 0.9571480751037598,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7544093132019043,
+                "max_attn_value": 0.23975804448127747
+              },
+              {
+                "entropy": 2.9936470985412598,
+                "entropy_ratio": 0.9978823661804199,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120in",
+                "top5_mass": 0.6567535996437073,
+                "max_attn_value": 0.14556042850017548
+              }
+            ]
+          },
+          {
+            "prompt": "The largest continent is",
+            "category": "geography",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.788860559463501,
+                "entropy_ratio": 0.8944302797317505,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.49711674451828003
+              },
+              {
+                "entropy": 1.882493257522583,
+                "entropy_ratio": 0.9412466287612915,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.37986671924591064
+              },
+              {
+                "entropy": 1.874645709991455,
+                "entropy_ratio": 0.9373228549957275,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4401024281978607
+              },
+              {
+                "entropy": 1.9967572689056396,
+                "entropy_ratio": 0.9983786344528198,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.27791398763656616
+              }
+            ]
+          },
+          {
+            "prompt": "Water freezes at zero degrees",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3139405250549316,
+                "entropy_ratio": 0.9965599409171979,
+                "max_attn_pos": 0,
+                "max_attn_token": "Water",
+                "top5_mass": 1.0000001192092896,
+                "max_attn_value": 0.234468013048172
+              },
+              {
+                "entropy": 2.3163974285125732,
+                "entropy_ratio": 0.9976180716418537,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120freezes",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22005164623260498
+              },
+              {
+                "entropy": 2.2909629344940186,
+                "entropy_ratio": 0.9866640313016042,
+                "max_attn_pos": 0,
+                "max_attn_token": "Water",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.24655838310718536
+              },
+              {
+                "entropy": 2.3210620880126953,
+                "entropy_ratio": 0.9996270311399506,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120at",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.20860537886619568
+              }
+            ]
+          },
+          {
+            "prompt": "The speed of light is approximately 300,000 kilometers per",
+            "category": "science",
+            "seq_len": 16,
+            "layers": [
+              {
+                "entropy": 3.9659159183502197,
+                "entropy_ratio": 0.9914789795875549,
+                "max_attn_pos": 7,
+                "max_attn_token": "3",
+                "top5_mass": 0.400338351726532,
+                "max_attn_value": 0.10297317802906036
+              },
+              {
+                "entropy": 3.5687007904052734,
+                "entropy_ratio": 0.8921751976013184,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.6283063292503357,
+                "max_attn_value": 0.22536849975585938
+              },
+              {
+                "entropy": 3.765246868133545,
+                "entropy_ratio": 0.9413117170333862,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.5329827666282654,
+                "max_attn_value": 0.17856796085834503
+              },
+              {
+                "entropy": 3.988034248352051,
+                "entropy_ratio": 0.9970085620880127,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.3631473183631897,
+                "max_attn_value": 0.0826631635427475
+              }
+            ]
+          },
+          {
+            "prompt": "The chemical symbol for gold is",
+            "category": "science",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.2492942810058594,
+                "entropy_ratio": 0.8701458069037166,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9155024290084839,
+                "max_attn_value": 0.4524229168891907
+              },
+              {
+                "entropy": 2.4038665294647217,
+                "entropy_ratio": 0.9299425151405825,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9251550436019897,
+                "max_attn_value": 0.2780211865901947
+              },
+              {
+                "entropy": 2.51271915435791,
+                "entropy_ratio": 0.972052458655361,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8708141446113586,
+                "max_attn_value": 0.29260748624801636
+              },
+              {
+                "entropy": 2.5833163261413574,
+                "entropy_ratio": 0.9993631727426068,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8432036638259888,
+                "max_attn_value": 0.1796649694442749
+              }
+            ]
+          },
+          {
+            "prompt": "DNA stands for deoxyribonucleic",
+            "category": "science",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 3.121624708175659,
+                "entropy_ratio": 0.9847629539359207,
+                "max_attn_pos": 8,
+                "max_attn_token": "ic",
+                "top5_mass": 0.6487852334976196,
+                "max_attn_value": 0.17831578850746155
+              },
+              {
+                "entropy": 3.070373058319092,
+                "entropy_ratio": 0.9685948585288534,
+                "max_attn_pos": 6,
+                "max_attn_token": "on",
+                "top5_mass": 0.6826869249343872,
+                "max_attn_value": 0.2127874344587326
+              },
+              {
+                "entropy": 3.1260297298431396,
+                "entropy_ratio": 0.986152583553491,
+                "max_attn_pos": 0,
+                "max_attn_token": "DNA",
+                "top5_mass": 0.6450241208076477,
+                "max_attn_value": 0.16507510840892792
+              },
+              {
+                "entropy": 3.166764259338379,
+                "entropy_ratio": 0.9990028968816312,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 0.5824691653251648,
+                "max_attn_value": 0.12229964882135391
+              }
+            ]
+          },
+          {
+            "prompt": "The closest star to Earth is the",
+            "category": "science",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.7276864051818848,
+                "entropy_ratio": 0.971621501702632,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120closest",
+                "top5_mass": 0.8016696572303772,
+                "max_attn_value": 0.2507098317146301
+              },
+              {
+                "entropy": 2.600152015686035,
+                "entropy_ratio": 0.9261928355607765,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8673759698867798,
+                "max_attn_value": 0.2953168749809265
+              },
+              {
+                "entropy": 2.6836657524108887,
+                "entropy_ratio": 0.9559410288044166,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7978397607803345,
+                "max_attn_value": 0.2974967956542969
+              },
+              {
+                "entropy": 2.8008322715759277,
+                "entropy_ratio": 0.9976765850194332,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7486557960510254,
+                "max_attn_value": 0.16565635800361633
+              }
+            ]
+          },
+          {
+            "prompt": "Gravity was described by Isaac",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.309889554977417,
+                "entropy_ratio": 0.9948152830673557,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120Isaac",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23939847946166992
+              },
+              {
+                "entropy": 2.183885335922241,
+                "entropy_ratio": 0.9405482197019467,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120Isaac",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.32755762338638306
+              },
+              {
+                "entropy": 2.298720359802246,
+                "entropy_ratio": 0.9900049725328631,
+                "max_attn_pos": 0,
+                "max_attn_token": "Gravity",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.25074878334999084
+              },
+              {
+                "entropy": 2.319693088531494,
+                "entropy_ratio": 0.9990374351553826,
+                "max_attn_pos": 0,
+                "max_attn_token": "Gravity",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.20985059440135956
+              }
+            ]
+          },
+          {
+            "prompt": "The theory of relativity was developed by Albert",
+            "category": "science",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 3.151747226715088,
+                "entropy_ratio": 0.9942655505354374,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.6242979764938354,
+                "max_attn_value": 0.13763251900672913
+              },
+              {
+                "entropy": 3.003845691680908,
+                "entropy_ratio": 0.9476078110094598,
+                "max_attn_pos": 4,
+                "max_attn_token": "ativity",
+                "top5_mass": 0.7384840250015259,
+                "max_attn_value": 0.23450875282287598
+              },
+              {
+                "entropy": 3.0797863006591797,
+                "entropy_ratio": 0.9715644058638234,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120theory",
+                "top5_mass": 0.6967942118644714,
+                "max_attn_value": 0.18726779520511627
+              },
+              {
+                "entropy": 3.1586828231811523,
+                "entropy_ratio": 0.99645348762004,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.6010156273841858,
+                "max_attn_value": 0.143269881606102
+              }
+            ]
+          },
+          {
+            "prompt": "Photosynthesis converts sunlight into",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.2770228385925293,
+                "entropy_ratio": 0.9806603587795378,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120into",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2806692123413086
+              },
+              {
+                "entropy": 2.2100448608398438,
+                "entropy_ratio": 0.9518145138542949,
+                "max_attn_pos": 0,
+                "max_attn_token": "Photos",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2981503903865814
+              },
+              {
+                "entropy": 2.2036657333374023,
+                "entropy_ratio": 0.9490671731780321,
+                "max_attn_pos": 0,
+                "max_attn_token": "Photos",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.368101567029953
+              },
+              {
+                "entropy": 2.3184304237365723,
+                "entropy_ratio": 0.9984936350275052,
+                "max_attn_pos": 0,
+                "max_attn_token": "Photos",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22249364852905273
+              }
+            ]
+          },
+          {
+            "prompt": "The chemical formula for table salt is Na",
+            "category": "science",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.9849281311035156,
+                "entropy_ratio": 0.9949760437011719,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.6798312067985535,
+                "max_attn_value": 0.1625838428735733
+              },
+              {
+                "entropy": 2.823770523071289,
+                "entropy_ratio": 0.9412568410237631,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8152390718460083,
+                "max_attn_value": 0.25086650252342224
+              },
+              {
+                "entropy": 2.8034069538116455,
+                "entropy_ratio": 0.9344689846038818,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7473950386047363,
+                "max_attn_value": 0.32026028633117676
+              },
+              {
+                "entropy": 2.9956138134002686,
+                "entropy_ratio": 0.9985379378000895,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.6494584083557129,
+                "max_attn_value": 0.14729514718055725
+              }
+            ]
+          },
+          {
+            "prompt": "Electrons carry a negative electric",
+            "category": "science",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.5778632164001465,
+                "entropy_ratio": 0.9972536219310613,
+                "max_attn_pos": 0,
+                "max_attn_token": "Elect",
+                "top5_mass": 0.8539565801620483,
+                "max_attn_value": 0.1967046558856964
+              },
+              {
+                "entropy": 2.530350685119629,
+                "entropy_ratio": 0.9788732658263741,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.8845155239105225,
+                "max_attn_value": 0.25888827443122864
+              },
+              {
+                "entropy": 2.4865033626556396,
+                "entropy_ratio": 0.9619108060414616,
+                "max_attn_pos": 0,
+                "max_attn_token": "Elect",
+                "top5_mass": 0.8886935710906982,
+                "max_attn_value": 0.2983854413032532
+              },
+              {
+                "entropy": 2.5802464485168457,
+                "entropy_ratio": 0.9981755819656979,
+                "max_attn_pos": 0,
+                "max_attn_token": "Elect",
+                "top5_mass": 0.8497147560119629,
+                "max_attn_value": 0.18940149247646332
+              }
+            ]
+          },
+          {
+            "prompt": "Shakespeare wrote Romeo and",
+            "category": "culture",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3115522861480713,
+                "entropy_ratio": 0.9955313824049343,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120Romeo",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23693597316741943
+              },
+              {
+                "entropy": 2.2937417030334473,
+                "entropy_ratio": 0.987860781771848,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120wrote",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2311028689146042
+              },
+              {
+                "entropy": 2.2656919956207275,
+                "entropy_ratio": 0.9757804303283721,
+                "max_attn_pos": 0,
+                "max_attn_token": "Sh",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3056718707084656
+              },
+              {
+                "entropy": 2.314150333404541,
+                "entropy_ratio": 0.9966503004550628,
+                "max_attn_pos": 0,
+                "max_attn_token": "Sh",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.22557878494262695
+              }
+            ]
+          },
+          {
+            "prompt": "The Mona Lisa was painted by Leonardo da",
+            "category": "culture",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.9705076217651367,
+                "entropy_ratio": 0.9901692072550455,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.7035911083221436,
+                "max_attn_value": 0.17081615328788757
+              },
+              {
+                "entropy": 2.6549768447875977,
+                "entropy_ratio": 0.8849922815958658,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120Leonardo",
+                "top5_mass": 0.8613364696502686,
+                "max_attn_value": 0.339013010263443
+              },
+              {
+                "entropy": 2.947507381439209,
+                "entropy_ratio": 0.9825024604797363,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.7166039943695068,
+                "max_attn_value": 0.18699002265930176
+              },
+              {
+                "entropy": 2.998568534851074,
+                "entropy_ratio": 0.999522844950358,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.6402015686035156,
+                "max_attn_value": 0.13527080416679382
+              }
+            ]
+          },
+          {
+            "prompt": "The Great Wall is located in",
+            "category": "culture",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.4789211750030518,
+                "entropy_ratio": 0.9589776154630789,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120in",
+                "top5_mass": 0.910461962223053,
+                "max_attn_value": 0.27416330575942993
+              },
+              {
+                "entropy": 2.4258549213409424,
+                "entropy_ratio": 0.9384487862644717,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9470067620277405,
+                "max_attn_value": 0.2993472218513489
+              },
+              {
+                "entropy": 2.4187662601470947,
+                "entropy_ratio": 0.9357065177820971,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9066662788391113,
+                "max_attn_value": 0.3572283089160919
+              },
+              {
+                "entropy": 2.5786824226379395,
+                "entropy_ratio": 0.9975705341638555,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8558618426322937,
+                "max_attn_value": 0.1937578171491623
+              }
+            ]
+          },
+          {
+            "prompt": "The Eiffel Tower is in",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.687451124191284,
+                "entropy_ratio": 0.9572894054384693,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120in",
+                "top5_mass": 0.8357369303703308,
+                "max_attn_value": 0.25132161378860474
+              },
+              {
+                "entropy": 2.4565906524658203,
+                "entropy_ratio": 0.8750552461907107,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.9157220125198364,
+                "max_attn_value": 0.2910194396972656
+              },
+              {
+                "entropy": 2.661405086517334,
+                "entropy_ratio": 0.9480116196233219,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8367072939872742,
+                "max_attn_value": 0.2926260828971863
+              },
+              {
+                "entropy": 2.8037009239196777,
+                "entropy_ratio": 0.9986984196015912,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7343173027038574,
+                "max_attn_value": 0.16382941603660583
+              }
+            ]
+          },
+          {
+            "prompt": "The Colosseum is in",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.690251588821411,
+                "entropy_ratio": 0.9582869510669623,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120in",
+                "top5_mass": 0.8426864147186279,
+                "max_attn_value": 0.2418481409549713
+              },
+              {
+                "entropy": 2.551161050796509,
+                "entropy_ratio": 0.9087419017637705,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8957164287567139,
+                "max_attn_value": 0.3201703131198883
+              },
+              {
+                "entropy": 2.6706738471984863,
+                "entropy_ratio": 0.9513132187935326,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.825719952583313,
+                "max_attn_value": 0.2954586148262024
+              },
+              {
+                "entropy": 2.7985851764678955,
+                "entropy_ratio": 0.9968761535918369,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7538937926292419,
+                "max_attn_value": 0.1717110127210617
+              }
+            ]
+          },
+          {
+            "prompt": "Beethoven composed the Moonlight",
+            "category": "culture",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.573429822921753,
+                "entropy_ratio": 0.9955385512183694,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120Moon",
+                "top5_mass": 0.8614130020141602,
+                "max_attn_value": 0.19802546501159668
+              },
+              {
+                "entropy": 2.488316059112549,
+                "entropy_ratio": 0.962612052754481,
+                "max_attn_pos": 0,
+                "max_attn_token": "Be",
+                "top5_mass": 0.9088424444198608,
+                "max_attn_value": 0.28044602274894714
+              },
+              {
+                "entropy": 2.437777042388916,
+                "entropy_ratio": 0.9430608922600703,
+                "max_attn_pos": 0,
+                "max_attn_token": "Be",
+                "top5_mass": 0.9007007479667664,
+                "max_attn_value": 0.28041964769363403
+              },
+              {
+                "entropy": 2.575615882873535,
+                "entropy_ratio": 0.9963842346474994,
+                "max_attn_pos": 0,
+                "max_attn_token": "Be",
+                "top5_mass": 0.8537099361419678,
+                "max_attn_value": 0.19869688153266907
+              }
+            ]
+          },
+          {
+            "prompt": "The Sistine Chapel was painted by",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.6721107959747314,
+                "entropy_ratio": 0.9518250702751372,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.8229867219924927,
+                "max_attn_value": 0.28359803557395935
+              },
+              {
+                "entropy": 2.7471580505371094,
+                "entropy_ratio": 0.9785574417229815,
+                "max_attn_pos": 2,
+                "max_attn_token": "istine",
+                "top5_mass": 0.792018473148346,
+                "max_attn_value": 0.2062803953886032
+              },
+              {
+                "entropy": 2.7633800506591797,
+                "entropy_ratio": 0.9843358347557302,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.7807275652885437,
+                "max_attn_value": 0.21143989264965057
+              },
+              {
+                "entropy": 2.805763006210327,
+                "entropy_ratio": 0.9994329481339288,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120Chapel",
+                "top5_mass": 0.7298933863639832,
+                "max_attn_value": 0.15569251775741577
+              }
+            ]
+          },
+          {
+            "prompt": "The Odyssey was written by",
+            "category": "culture",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.1924939155578613,
+                "entropy_ratio": 0.9442557331493162,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.361288458108902
+              },
+              {
+                "entropy": 2.251783847808838,
+                "entropy_ratio": 0.9697905170995715,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120Odyssey",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.295112669467926
+              },
+              {
+                "entropy": 2.2813398838043213,
+                "entropy_ratio": 0.9825196089523996,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120Odyssey",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2600937783718109
+              },
+              {
+                "entropy": 2.318321466445923,
+                "entropy_ratio": 0.9984467096765913,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120Odyssey",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22350282967090607
+              }
+            ]
+          },
+          {
+            "prompt": "Two plus two equals",
+            "category": "math",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.969152808189392,
+                "entropy_ratio": 0.984576404094696,
+                "max_attn_pos": 0,
+                "max_attn_token": "Two",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.31220799684524536
+              },
+              {
+                "entropy": 1.8977723121643066,
+                "entropy_ratio": 0.9488861560821533,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120plus",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4212293028831482
+              },
+              {
+                "entropy": 1.9884330034255981,
+                "entropy_ratio": 0.9942165017127991,
+                "max_attn_pos": 0,
+                "max_attn_token": "Two",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.28915315866470337
+              },
+              {
+                "entropy": 1.999652624130249,
+                "entropy_ratio": 0.9998263120651245,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120equals",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2583988904953003
+              }
+            ]
+          },
+          {
+            "prompt": "The square root of 144 is",
+            "category": "math",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 2.6505963802337646,
+                "entropy_ratio": 0.8361700604991432,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8080747723579407,
+                "max_attn_value": 0.4215804934501648
+              },
+              {
+                "entropy": 2.890472173690796,
+                "entropy_ratio": 0.9118424481259444,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7977166771888733,
+                "max_attn_value": 0.22643113136291504
+              },
+              {
+                "entropy": 3.0949764251708984,
+                "entropy_ratio": 0.9763563566212726,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.6611026525497437,
+                "max_attn_value": 0.20663711428642273
+              },
+              {
+                "entropy": 3.165729522705078,
+                "entropy_ratio": 0.9986764738171013,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.5852808952331543,
+                "max_attn_value": 0.1283617913722992
+              }
+            ]
+          },
+          {
+            "prompt": "Pi is approximately 3.14",
+            "category": "math",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.8260953426361084,
+                "entropy_ratio": 0.9420317808787028,
+                "max_attn_pos": 4,
+                "max_attn_token": "3",
+                "top5_mass": 0.780633807182312,
+                "max_attn_value": 0.2521247863769531
+              },
+              {
+                "entropy": 2.7104177474975586,
+                "entropy_ratio": 0.9034725824991862,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8355384469032288,
+                "max_attn_value": 0.31900495290756226
+              },
+              {
+                "entropy": 2.8950278759002686,
+                "entropy_ratio": 0.9650092919667562,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7366805076599121,
+                "max_attn_value": 0.23966622352600098
+              },
+              {
+                "entropy": 2.993846893310547,
+                "entropy_ratio": 0.997948964436849,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.6632230281829834,
+                "max_attn_value": 0.14655998349189758
+              }
+            ]
+          },
+          {
+            "prompt": "A triangle has three",
+            "category": "math",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9855977296829224,
+                "entropy_ratio": 0.9927988648414612,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.30346420407295227
+              },
+              {
+                "entropy": 1.9972081184387207,
+                "entropy_ratio": 0.9986040592193604,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2763049304485321
+              },
+              {
+                "entropy": 1.9667644500732422,
+                "entropy_ratio": 0.9833822250366211,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.31131118535995483
+              },
+              {
+                "entropy": 1.9963871240615845,
+                "entropy_ratio": 0.9981935620307922,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.26883935928344727
+              }
+            ]
+          },
+          {
+            "prompt": "A hexagon has six",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3159005641937256,
+                "entropy_ratio": 0.9974040838271828,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2207597941160202
+              },
+              {
+                "entropy": 2.270968198776245,
+                "entropy_ratio": 0.9780527673430864,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120hex",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2676220238208771
+              },
+              {
+                "entropy": 2.283507823944092,
+                "entropy_ratio": 0.9834532899499051,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.26868417859077454
+              },
+              {
+                "entropy": 2.3155384063720703,
+                "entropy_ratio": 0.997248110943073,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22821000218391418
+              }
+            ]
+          },
+          {
+            "prompt": "The derivative of x squared is",
+            "category": "math",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.2764039039611816,
+                "entropy_ratio": 0.880633240647053,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9229611158370972,
+                "max_attn_value": 0.4292399287223816
+              },
+              {
+                "entropy": 2.4682931900024414,
+                "entropy_ratio": 0.9548661496303462,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.917366087436676,
+                "max_attn_value": 0.28639674186706543
+              },
+              {
+                "entropy": 2.484344005584717,
+                "entropy_ratio": 0.9610754526967534,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8874560594558716,
+                "max_attn_value": 0.3077368140220642
+              },
+              {
+                "entropy": 2.580226182937622,
+                "entropy_ratio": 0.998167742169485,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8504347801208496,
+                "max_attn_value": 0.18958935141563416
+              }
+            ]
+          },
+          {
+            "prompt": "Ten multiplied by ten equals",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.318420886993408,
+                "entropy_ratio": 0.998489527775784,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.21415908634662628
+              },
+              {
+                "entropy": 2.3136825561523438,
+                "entropy_ratio": 0.9964488397581415,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120equals",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22132161259651184
+              },
+              {
+                "entropy": 2.262223243713379,
+                "entropy_ratio": 0.9742865201961047,
+                "max_attn_pos": 0,
+                "max_attn_token": "Ten",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3046533465385437
+              },
+              {
+                "entropy": 2.318572759628296,
+                "entropy_ratio": 0.998554935759443,
+                "max_attn_pos": 0,
+                "max_attn_token": "Ten",
+                "top5_mass": 1.0000001192092896,
+                "max_attn_value": 0.2238365113735199
+              }
+            ]
+          },
+          {
+            "prompt": "A right angle measures exactly",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.298483371734619,
+                "entropy_ratio": 0.989902907327593,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120measures",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.25240954756736755
+              },
+              {
+                "entropy": 2.305586338043213,
+                "entropy_ratio": 0.9929619884094895,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120angle",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.2529805302619934
+              },
+              {
+                "entropy": 2.2474887371063232,
+                "entropy_ratio": 0.9679407136056682,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3212653696537018
+              },
+              {
+                "entropy": 2.3188095092773438,
+                "entropy_ratio": 0.9986568982834201,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.21651765704154968
+              }
+            ]
+          },
+          {
+            "prompt": "The Earth orbits the",
+            "category": "common",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9582014083862305,
+                "entropy_ratio": 0.9791007041931152,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120orbits",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3508766293525696
+              },
+              {
+                "entropy": 1.91489839553833,
+                "entropy_ratio": 0.957449197769165,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120orbits",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.34763965010643005
+              },
+              {
+                "entropy": 1.9739108085632324,
+                "entropy_ratio": 0.9869554042816162,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.3271755576133728
+              },
+              {
+                "entropy": 1.9992527961730957,
+                "entropy_ratio": 0.9996263980865479,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120Earth",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.25908133387565613
+              }
+            ]
+          },
+          {
+            "prompt": "There are 24 hours in a",
+            "category": "common",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.5993618965148926,
+                "entropy_ratio": 0.8664539655049642,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.8435735702514648,
+                "max_attn_value": 0.36470210552215576
+              },
+              {
+                "entropy": 2.899690628051758,
+                "entropy_ratio": 0.9665635426839193,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.7522679567337036,
+                "max_attn_value": 0.21105284988880157
+              },
+              {
+                "entropy": 2.957669258117676,
+                "entropy_ratio": 0.985889752705892,
+                "max_attn_pos": 0,
+                "max_attn_token": "There",
+                "top5_mass": 0.7182960510253906,
+                "max_attn_value": 0.17733997106552124
+              },
+              {
+                "entropy": 2.997140884399414,
+                "entropy_ratio": 0.9990469614664713,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120in",
+                "top5_mass": 0.6527591943740845,
+                "max_attn_value": 0.13662657141685486
+              }
+            ]
+          },
+          {
+            "prompt": "There are 365 days in a",
+            "category": "common",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 2.7224016189575195,
+                "entropy_ratio": 0.8588220912857023,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.8134808540344238,
+                "max_attn_value": 0.36770060658454895
+              },
+              {
+                "entropy": 3.0328376293182373,
+                "entropy_ratio": 0.9567537490439993,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.7176101803779602,
+                "max_attn_value": 0.22347255051136017
+              },
+              {
+                "entropy": 3.133150577545166,
+                "entropy_ratio": 0.9883989608964207,
+                "max_attn_pos": 0,
+                "max_attn_token": "There",
+                "top5_mass": 0.6564571857452393,
+                "max_attn_value": 0.15613719820976257
+              },
+              {
+                "entropy": 3.168529987335205,
+                "entropy_ratio": 0.9995599220465872,
+                "max_attn_pos": 5,
+                "max_attn_token": "5",
+                "top5_mass": 0.5727317929267883,
+                "max_attn_value": 0.11890347301959991
+              }
+            ]
+          },
+          {
+            "prompt": "The human body has 206",
+            "category": "common",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.905789375305176,
+                "entropy_ratio": 0.9685964584350586,
+                "max_attn_pos": 6,
+                "max_attn_token": "0",
+                "top5_mass": 0.7574604749679565,
+                "max_attn_value": 0.20819422602653503
+              },
+              {
+                "entropy": 2.847379684448242,
+                "entropy_ratio": 0.9491265614827474,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 0.7965357303619385,
+                "max_attn_value": 0.21756252646446228
+              },
+              {
+                "entropy": 2.980898857116699,
+                "entropy_ratio": 0.993632952372233,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.6833593845367432,
+                "max_attn_value": 0.16152605414390564
+              },
+              {
+                "entropy": 2.996951103210449,
+                "entropy_ratio": 0.9989837010701498,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 0.6511718034744263,
+                "max_attn_value": 0.13526511192321777
+              }
+            ]
+          },
+          {
+            "prompt": "Oxygen is essential for",
+            "category": "common",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.281052350997925,
+                "entropy_ratio": 0.9823957753130076,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.29857128858566284
+              },
+              {
+                "entropy": 2.153721332550049,
+                "entropy_ratio": 0.9275572905518966,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.37106624245643616
+              },
+              {
+                "entropy": 2.222960948944092,
+                "entropy_ratio": 0.9573771702228051,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3208295702934265
+              },
+              {
+                "entropy": 2.3193519115448,
+                "entropy_ratio": 0.9988904982250593,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0000001192092896,
+                "max_attn_value": 0.21402187645435333
+              }
+            ]
+          },
+          {
+            "prompt": "The color of the sky is typically",
+            "category": "common",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.7798824310302734,
+                "entropy_ratio": 0.9902141012483041,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.7692525386810303,
+                "max_attn_value": 0.20424529910087585
+              },
+              {
+                "entropy": 2.5765788555145264,
+                "entropy_ratio": 0.9177959064848366,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9136648774147034,
+                "max_attn_value": 0.2572328448295593
+              },
+              {
+                "entropy": 2.6217567920684814,
+                "entropy_ratio": 0.9338886121840655,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8045176267623901,
+                "max_attn_value": 0.33986353874206543
+              },
+              {
+                "entropy": 2.8015289306640625,
+                "entropy_ratio": 0.997924739993591,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.7362321019172668,
+                "max_attn_value": 0.16313320398330688
+              }
+            ]
+          },
+          {
+            "prompt": "Ice is the solid form of",
+            "category": "common",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.3788039684295654,
+                "entropy_ratio": 0.9202469930476452,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9136985540390015,
+                "max_attn_value": 0.35340291261672974
+              },
+              {
+                "entropy": 2.3447158336639404,
+                "entropy_ratio": 0.9070599024201739,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9563968181610107,
+                "max_attn_value": 0.3316124379634857
+              },
+              {
+                "entropy": 2.513179302215576,
+                "entropy_ratio": 0.972230468145842,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8927286863327026,
+                "max_attn_value": 0.270814448595047
+              },
+              {
+                "entropy": 2.5842812061309814,
+                "entropy_ratio": 0.9997364392752373,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8388807773590088,
+                "max_attn_value": 0.17632099986076355
+              }
+            ]
+          },
+          {
+            "prompt": "The opposite of hot is",
+            "category": "common",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.101321220397949,
+                "entropy_ratio": 0.9049897906075706,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4388197958469391
+              },
+              {
+                "entropy": 2.150200605392456,
+                "entropy_ratio": 0.926040995897749,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3293994963169098
+              },
+              {
+                "entropy": 2.1602041721343994,
+                "entropy_ratio": 0.9303492975906267,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.40584689378738403
+              },
+              {
+                "entropy": 2.3127033710479736,
+                "entropy_ratio": 0.9960271276876745,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.22884602844715118
+              }
+            ]
+          }
+        ]
+      },
+      "random": {
+        "label": "random",
+        "layer_summary": [
+          {
+            "layer": 0,
+            "mean_entropy": 2.515010118484497,
+            "std_entropy": 0.4048004746437073,
+            "mean_top5_mass": 0.8782576737196549,
+            "std_top5_mass": 0.15056414418675845
+          },
+          {
+            "layer": 1,
+            "mean_entropy": 2.4381089210510254,
+            "std_entropy": 0.40832117199897766,
+            "mean_top5_mass": 0.9054048916567927,
+            "std_top5_mass": 0.12945042221229236
+          },
+          {
+            "layer": 2,
+            "mean_entropy": 0.9018791317939758,
+            "std_entropy": 0.4697342813014984,
+            "mean_top5_mass": 0.9999545216560364,
+            "std_top5_mass": 0.00016873744929853487
+          },
+          {
+            "layer": 3,
+            "mean_entropy": 1.6806972026824951,
+            "std_entropy": 0.48103564977645874,
+            "mean_top5_mass": 0.9703185998875162,
+            "std_top5_mass": 0.0457160669872015
+          }
+        ],
+        "probe_details": [
+          {
+            "prompt": "The capital of France is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.161478281021118,
+                "entropy_ratio": 0.9308980264205694,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3824595808982849
+              },
+              {
+                "entropy": 2.1047301292419434,
+                "entropy_ratio": 0.906457927735288,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.340504914522171
+              },
+              {
+                "entropy": 0.703544020652771,
+                "entropy_ratio": 0.3029999172678516,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8091133236885071
+              },
+              {
+                "entropy": 1.3543694019317627,
+                "entropy_ratio": 0.5832951523838914,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5467351078987122
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Japan is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.1590418815612793,
+                "entropy_ratio": 0.9298487262871141,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3807293176651001
+              },
+              {
+                "entropy": 2.09549617767334,
+                "entropy_ratio": 0.9024810812563053,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.32142820954322815
+              },
+              {
+                "entropy": 0.6994661688804626,
+                "entropy_ratio": 0.30124368210222036,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8110653162002563
+              },
+              {
+                "entropy": 1.3110144138336182,
+                "entropy_ratio": 0.5646231753344696,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5334935784339905
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Germany is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.1670665740966797,
+                "entropy_ratio": 0.9333047732478577,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.3931275010108948
+              },
+              {
+                "entropy": 2.092540979385376,
+                "entropy_ratio": 0.9012083466292207,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3344021141529083
+              },
+              {
+                "entropy": 0.7028988599777222,
+                "entropy_ratio": 0.30272206168891724,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0000001192092896,
+                "max_attn_value": 0.8094288110733032
+              },
+              {
+                "entropy": 1.3525668382644653,
+                "entropy_ratio": 0.5825188304679517,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5395558476448059
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Italy is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.182598352432251,
+                "entropy_ratio": 0.9399939460821803,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.37637633085250854
+              },
+              {
+                "entropy": 2.1140594482421875,
+                "entropy_ratio": 0.9104758467314819,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3181547224521637
+              },
+              {
+                "entropy": 0.7381836175918579,
+                "entropy_ratio": 0.3179183796506272,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7918263673782349
+              },
+              {
+                "entropy": 1.3531596660614014,
+                "entropy_ratio": 0.5827741475030663,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5125570297241211
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Spain is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.177166223526001,
+                "entropy_ratio": 0.9376544555018257,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.3782484531402588
+              },
+              {
+                "entropy": 2.0974318981170654,
+                "entropy_ratio": 0.9033147506744014,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.30455082654953003
+              },
+              {
+                "entropy": 0.7165101766586304,
+                "entropy_ratio": 0.30858413670789775,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8028036952018738
+              },
+              {
+                "entropy": 1.30692720413208,
+                "entropy_ratio": 0.5628629099280871,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5290364027023315
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Russia is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.16847562789917,
+                "entropy_ratio": 0.9339116196896544,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3952258229255676
+              },
+              {
+                "entropy": 2.1304235458374023,
+                "entropy_ratio": 0.917523479959766,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.31259816884994507
+              },
+              {
+                "entropy": 0.7002124190330505,
+                "entropy_ratio": 0.3015650745493986,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8107091188430786
+              },
+              {
+                "entropy": 1.3371813297271729,
+                "entropy_ratio": 0.5758926526069017,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.5254066586494446
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of China is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.169638156890869,
+                "entropy_ratio": 0.9344122936744599,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3848232328891754
+              },
+              {
+                "entropy": 2.0738742351531982,
+                "entropy_ratio": 0.89316901747287,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3614676594734192
+              },
+              {
+                "entropy": 0.7065528035163879,
+                "entropy_ratio": 0.30429572951554434,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.807660698890686
+              },
+              {
+                "entropy": 1.3397467136383057,
+                "entropy_ratio": 0.5769975033198853,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5248011350631714
+              }
+            ]
+          },
+          {
+            "prompt": "The capital of Australia is",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.1663670539855957,
+                "entropy_ratio": 0.9330035063341129,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3853381276130676
+              },
+              {
+                "entropy": 2.1582462787628174,
+                "entropy_ratio": 0.929506078812279,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120capital",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.27434495091438293
+              },
+              {
+                "entropy": 0.7096301317214966,
+                "entropy_ratio": 0.30562106263498273,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8061749339103699
+              },
+              {
+                "entropy": 1.3209360837936401,
+                "entropy_ratio": 0.5688962060031921,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.5065464973449707
+              }
+            ]
+          },
+          {
+            "prompt": "The largest ocean is the",
+            "category": "geography",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.305964469909668,
+                "entropy_ratio": 0.9931248409402322,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2518720328807831
+              },
+              {
+                "entropy": 2.061861038208008,
+                "entropy_ratio": 0.8879952151610576,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3704284727573395
+              },
+              {
+                "entropy": 1.085276484489441,
+                "entropy_ratio": 0.4674031408979046,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.6607664823532104
+              },
+              {
+                "entropy": 1.0688765048980713,
+                "entropy_ratio": 0.4603400541350196,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7431977987289429
+              }
+            ]
+          },
+          {
+            "prompt": "The longest river in the world is the",
+            "category": "geography",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.90757417678833,
+                "entropy_ratio": 0.9691913922627767,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120longest",
+                "top5_mass": 0.7703476548194885,
+                "max_attn_value": 0.1932024508714676
+              },
+              {
+                "entropy": 2.6879661083221436,
+                "entropy_ratio": 0.8959887027740479,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120longest",
+                "top5_mass": 0.8677202463150024,
+                "max_attn_value": 0.2814505398273468
+              },
+              {
+                "entropy": 1.667251706123352,
+                "entropy_ratio": 0.555750568707784,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.5738542675971985
+              },
+              {
+                "entropy": 1.8506840467453003,
+                "entropy_ratio": 0.6168946822484335,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9904605150222778,
+                "max_attn_value": 0.5486796498298645
+              }
+            ]
+          },
+          {
+            "prompt": "The highest mountain in the world is Mount",
+            "category": "geography",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.993645191192627,
+                "entropy_ratio": 0.9978817303975424,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120world",
+                "top5_mass": 0.6500763297080994,
+                "max_attn_value": 0.15121138095855713
+              },
+              {
+                "entropy": 2.8158318996429443,
+                "entropy_ratio": 0.9386106332143148,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.8033546209335327,
+                "max_attn_value": 0.23591575026512146
+              },
+              {
+                "entropy": 1.2432161569595337,
+                "entropy_ratio": 0.4144053856531779,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.6320045590400696
+              },
+              {
+                "entropy": 1.5167698860168457,
+                "entropy_ratio": 0.5055899620056152,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9803838729858398,
+                "max_attn_value": 0.6774216890335083
+              }
+            ]
+          },
+          {
+            "prompt": "The largest continent is",
+            "category": "geography",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9231798648834229,
+                "entropy_ratio": 0.9615899324417114,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.395639032125473
+              },
+              {
+                "entropy": 1.9065709114074707,
+                "entropy_ratio": 0.9532854557037354,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120largest",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3370547294616699
+              },
+              {
+                "entropy": 0.5431944131851196,
+                "entropy_ratio": 0.2715972065925598,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.899272620677948
+              },
+              {
+                "entropy": 0.5658182501792908,
+                "entropy_ratio": 0.2829091250896454,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.8979409337043762
+              }
+            ]
+          },
+          {
+            "prompt": "Water freezes at zero degrees",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.300668716430664,
+                "entropy_ratio": 0.9908440840594896,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120at",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.24079015851020813
+              },
+              {
+                "entropy": 2.312239170074463,
+                "entropy_ratio": 0.9958272072101486,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120at",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.24296173453330994
+              },
+              {
+                "entropy": 1.5170818567276,
+                "entropy_ratio": 0.6533715923710353,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120at",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5702468752861023
+              },
+              {
+                "entropy": 2.22406268119812,
+                "entropy_ratio": 0.9578516604778885,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120at",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.35265737771987915
+              }
+            ]
+          },
+          {
+            "prompt": "The speed of light is approximately 300,000 kilometers per",
+            "category": "science",
+            "seq_len": 16,
+            "layers": [
+              {
+                "entropy": 3.9810807704925537,
+                "entropy_ratio": 0.9952701926231384,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.36837905645370483,
+                "max_attn_value": 0.07966218888759613
+              },
+              {
+                "entropy": 3.9586520195007324,
+                "entropy_ratio": 0.9896630048751831,
+                "max_attn_pos": 15,
+                "max_attn_token": "\u0120per",
+                "top5_mass": 0.4019743800163269,
+                "max_attn_value": 0.08622678369283676
+              },
+              {
+                "entropy": 1.4941657781600952,
+                "entropy_ratio": 0.3735414445400238,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.44395560026168823
+              },
+              {
+                "entropy": 2.452198028564453,
+                "entropy_ratio": 0.6130495071411133,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.8748098611831665,
+                "max_attn_value": 0.4207054078578949
+              }
+            ]
+          },
+          {
+            "prompt": "The chemical symbol for gold is",
+            "category": "science",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.44486927986145,
+                "entropy_ratio": 0.9458045442358941,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9038591980934143,
+                "max_attn_value": 0.33832603693008423
+              },
+              {
+                "entropy": 2.4850497245788574,
+                "entropy_ratio": 0.9613484620707554,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 0.9196853637695312,
+                "max_attn_value": 0.24908089637756348
+              },
+              {
+                "entropy": 1.0506677627563477,
+                "entropy_ratio": 0.40645377349312845,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5960925817489624
+              },
+              {
+                "entropy": 1.2682539224624634,
+                "entropy_ratio": 0.49062759019082264,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.991877019405365,
+                "max_attn_value": 0.7361311912536621
+              }
+            ]
+          },
+          {
+            "prompt": "DNA stands for deoxyribonucleic",
+            "category": "science",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 3.1617515087127686,
+                "entropy_ratio": 0.9974215501231655,
+                "max_attn_pos": 8,
+                "max_attn_token": "ic",
+                "top5_mass": 0.5930960178375244,
+                "max_attn_value": 0.13867661356925964
+              },
+              {
+                "entropy": 3.154292106628418,
+                "entropy_ratio": 0.9950683707637306,
+                "max_attn_pos": 6,
+                "max_attn_token": "on",
+                "top5_mass": 0.6088154315948486,
+                "max_attn_value": 0.14422783255577087
+              },
+              {
+                "entropy": 0.10876142978668213,
+                "entropy_ratio": 0.03431041104669537,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 0.9999767541885376,
+                "max_attn_value": 0.9886484146118164
+              },
+              {
+                "entropy": 2.3754920959472656,
+                "entropy_ratio": 0.7493843213534767,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 0.9077979922294617,
+                "max_attn_value": 0.4338645935058594
+              }
+            ]
+          },
+          {
+            "prompt": "The closest star to Earth is the",
+            "category": "science",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.6545581817626953,
+                "entropy_ratio": 0.9455727029402755,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.8421600461006165,
+                "max_attn_value": 0.24576544761657715
+              },
+              {
+                "entropy": 2.595881938934326,
+                "entropy_ratio": 0.9246718035323149,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.8664146065711975,
+                "max_attn_value": 0.3081231117248535
+              },
+              {
+                "entropy": 1.878983736038208,
+                "entropy_ratio": 0.6693075112358925,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9996892809867859,
+                "max_attn_value": 0.45095187425613403
+              },
+              {
+                "entropy": 2.078294515609741,
+                "entropy_ratio": 0.7403034433873754,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9565861225128174,
+                "max_attn_value": 0.5129125714302063
+              }
+            ]
+          },
+          {
+            "prompt": "Gravity was described by Isaac",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.317047595977783,
+                "entropy_ratio": 0.9978980835279416,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120was",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.225946307182312
+              },
+              {
+                "entropy": 2.15830659866333,
+                "entropy_ratio": 0.9295320571794151,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.4062073230743408
+              },
+              {
+                "entropy": 1.1568026542663574,
+                "entropy_ratio": 0.49820778550960015,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.6992881894111633
+              },
+              {
+                "entropy": 1.9769692420959473,
+                "entropy_ratio": 0.8514343086028472,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.46019497513771057
+              }
+            ]
+          },
+          {
+            "prompt": "The theory of relativity was developed by Albert",
+            "category": "science",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 3.160634756088257,
+                "entropy_ratio": 0.9970692538940737,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.5969700813293457,
+                "max_attn_value": 0.1332707703113556
+              },
+              {
+                "entropy": 3.10994029045105,
+                "entropy_ratio": 0.9810769305381138,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120Albert",
+                "top5_mass": 0.6629852056503296,
+                "max_attn_value": 0.1656692922115326
+              },
+              {
+                "entropy": 0.2837379574775696,
+                "entropy_ratio": 0.08950935979509583,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999240636825562,
+                "max_attn_value": 0.9614235162734985
+              },
+              {
+                "entropy": 1.6025677919387817,
+                "entropy_ratio": 0.5055538510247451,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.926347553730011,
+                "max_attn_value": 0.7219905853271484
+              }
+            ]
+          },
+          {
+            "prompt": "Photosynthesis converts sunlight into",
+            "category": "science",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3115646839141846,
+                "entropy_ratio": 0.9955367218321718,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120into",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.24423816800117493
+              },
+              {
+                "entropy": 2.2886483669281006,
+                "entropy_ratio": 0.9856672013088863,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120sunlight",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.28478267788887024
+              },
+              {
+                "entropy": 1.0435209274291992,
+                "entropy_ratio": 0.44942000130276255,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120sunlight",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7510364055633545
+              },
+              {
+                "entropy": 2.2232847213745117,
+                "entropy_ratio": 0.9575166114187375,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120into",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.28912055492401123
+              }
+            ]
+          },
+          {
+            "prompt": "The chemical formula for table salt is Na",
+            "category": "science",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.9929728507995605,
+                "entropy_ratio": 0.9976576169331869,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120Na",
+                "top5_mass": 0.6570492386817932,
+                "max_attn_value": 0.14630073308944702
+              },
+              {
+                "entropy": 2.9180803298950195,
+                "entropy_ratio": 0.9726934432983398,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120for",
+                "top5_mass": 0.7376801371574402,
+                "max_attn_value": 0.19568787515163422
+              },
+              {
+                "entropy": 1.0270367860794067,
+                "entropy_ratio": 0.34234559535980225,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999970197677612,
+                "max_attn_value": 0.5922534465789795
+              },
+              {
+                "entropy": 1.403341293334961,
+                "entropy_ratio": 0.4677804311116536,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9724626541137695,
+                "max_attn_value": 0.7274028062820435
+              }
+            ]
+          },
+          {
+            "prompt": "Electrons carry a negative electric",
+            "category": "science",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.5652947425842285,
+                "entropy_ratio": 0.9923914725527195,
+                "max_attn_pos": 1,
+                "max_attn_token": "rons",
+                "top5_mass": 0.8811929225921631,
+                "max_attn_value": 0.2102658450603485
+              },
+              {
+                "entropy": 2.5645129680633545,
+                "entropy_ratio": 0.9920890408846951,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.8641442060470581,
+                "max_attn_value": 0.2261774241924286
+              },
+              {
+                "entropy": 0.514546275138855,
+                "entropy_ratio": 0.19905367098954288,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.9230133295059204
+              },
+              {
+                "entropy": 1.2867872714996338,
+                "entropy_ratio": 0.49779726829330956,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.9757059812545776,
+                "max_attn_value": 0.7689148187637329
+              }
+            ]
+          },
+          {
+            "prompt": "Shakespeare wrote Romeo and",
+            "category": "culture",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3033785820007324,
+                "entropy_ratio": 0.9920111596360482,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120and",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.255941241979599
+              },
+              {
+                "entropy": 2.2508718967437744,
+                "entropy_ratio": 0.9693977611537385,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120and",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.27587589621543884
+              },
+              {
+                "entropy": 3.095259444307885e-06,
+                "entropy_ratio": 1.3330556838186832e-06,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120and",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.9999998807907104
+              },
+              {
+                "entropy": 1.2916229963302612,
+                "entropy_ratio": 0.5562717463879597,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120and",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.6756974458694458
+              }
+            ]
+          },
+          {
+            "prompt": "The Mona Lisa was painted by Leonardo da",
+            "category": "culture",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.9919919967651367,
+                "entropy_ratio": 0.9973306655883789,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120painted",
+                "top5_mass": 0.6661971807479858,
+                "max_attn_value": 0.1446002572774887
+              },
+              {
+                "entropy": 2.8200597763061523,
+                "entropy_ratio": 0.9400199254353842,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.7859269380569458,
+                "max_attn_value": 0.26125097274780273
+              },
+              {
+                "entropy": 1.4420957565307617,
+                "entropy_ratio": 0.4806985855102539,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9999897480010986,
+                "max_attn_value": 0.5752800107002258
+              },
+              {
+                "entropy": 2.7256011962890625,
+                "entropy_ratio": 0.9085337320963541,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.840749979019165,
+                "max_attn_value": 0.30394846200942993
+              }
+            ]
+          },
+          {
+            "prompt": "The Great Wall is located in",
+            "category": "culture",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.5261433124542236,
+                "entropy_ratio": 0.9772456318996802,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8901878595352173,
+                "max_attn_value": 0.2383229285478592
+              },
+              {
+                "entropy": 2.4166646003723145,
+                "entropy_ratio": 0.9348934847983715,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.929789662361145,
+                "max_attn_value": 0.316326767206192
+              },
+              {
+                "entropy": 0.4390862286090851,
+                "entropy_ratio": 0.16986174015545225,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.9205982089042664
+              },
+              {
+                "entropy": 1.013604760169983,
+                "entropy_ratio": 0.3921158468980522,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9908333420753479,
+                "max_attn_value": 0.8291452527046204
+              }
+            ]
+          },
+          {
+            "prompt": "The Eiffel Tower is in",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.7632040977478027,
+                "entropy_ratio": 0.9842731590641052,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7887358665466309,
+                "max_attn_value": 0.20875903964042664
+              },
+              {
+                "entropy": 2.6277527809143066,
+                "entropy_ratio": 0.936024426504768,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.8637607097625732,
+                "max_attn_value": 0.2632078528404236
+              },
+              {
+                "entropy": 0.6547836661338806,
+                "entropy_ratio": 0.23323864787782794,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.999850869178772,
+                "max_attn_value": 0.8860177993774414
+              },
+              {
+                "entropy": 1.5317751169204712,
+                "entropy_ratio": 0.5456293056803028,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9475830793380737,
+                "max_attn_value": 0.7227490544319153
+              }
+            ]
+          },
+          {
+            "prompt": "The Colosseum is in",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.7617835998535156,
+                "entropy_ratio": 0.9837671675048882,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7907134294509888,
+                "max_attn_value": 0.20339182019233704
+              },
+              {
+                "entropy": 2.538727045059204,
+                "entropy_ratio": 0.9043128195556002,
+                "max_attn_pos": 4,
+                "max_attn_token": "um",
+                "top5_mass": 0.8733571767807007,
+                "max_attn_value": 0.36646801233291626
+              },
+              {
+                "entropy": 0.8508077263832092,
+                "entropy_ratio": 0.3030638269847347,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9999884366989136,
+                "max_attn_value": 0.8465515971183777
+              },
+              {
+                "entropy": 1.1536909341812134,
+                "entropy_ratio": 0.41095300245671634,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.961968719959259,
+                "max_attn_value": 0.8133551478385925
+              }
+            ]
+          },
+          {
+            "prompt": "Beethoven composed the Moonlight",
+            "category": "culture",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.573129892349243,
+                "entropy_ratio": 0.9954225222344185,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.8669719099998474,
+                "max_attn_value": 0.19882984459400177
+              },
+              {
+                "entropy": 2.396422863006592,
+                "entropy_ratio": 0.9270629118751373,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.8991920351982117,
+                "max_attn_value": 0.3730606436729431
+              },
+              {
+                "entropy": 0.1453009992837906,
+                "entropy_ratio": 0.05621009946691851,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.9823945760726929
+              },
+              {
+                "entropy": 2.1376700401306152,
+                "entropy_ratio": 0.8269636559657038,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.9535521268844604,
+                "max_attn_value": 0.4869620203971863
+              }
+            ]
+          },
+          {
+            "prompt": "The Sistine Chapel was painted by",
+            "category": "culture",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.681360960006714,
+                "entropy_ratio": 0.9551200451852575,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.8031967878341675,
+                "max_attn_value": 0.2985193133354187
+              },
+              {
+                "entropy": 2.7228639125823975,
+                "entropy_ratio": 0.9699036951789194,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120Chapel",
+                "top5_mass": 0.8067703247070312,
+                "max_attn_value": 0.252171128988266
+              },
+              {
+                "entropy": 1.219149112701416,
+                "entropy_ratio": 0.4342696761006125,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.614437460899353
+              },
+              {
+                "entropy": 1.9859256744384766,
+                "entropy_ratio": 0.7074009982973315,
+                "max_attn_pos": 6,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9852635264396667,
+                "max_attn_value": 0.4459608197212219
+              }
+            ]
+          },
+          {
+            "prompt": "The Odyssey was written by",
+            "category": "culture",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.219374179840088,
+                "entropy_ratio": 0.9558324328504888,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.35535991191864014
+              },
+              {
+                "entropy": 2.264434814453125,
+                "entropy_ratio": 0.9752389918702343,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2863664925098419
+              },
+              {
+                "entropy": 1.4076387882232666,
+                "entropy_ratio": 0.6062370283225983,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5751758813858032
+              },
+              {
+                "entropy": 1.9643948078155518,
+                "entropy_ratio": 0.8460187945272463,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.40948811173439026
+              }
+            ]
+          },
+          {
+            "prompt": "Two plus two equals",
+            "category": "math",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9977750778198242,
+                "entropy_ratio": 0.9988875389099121,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120two",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.26593145728111267
+              },
+              {
+                "entropy": 1.8138507604599,
+                "entropy_ratio": 0.90692538022995,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120plus",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3465791642665863
+              },
+              {
+                "entropy": 0.8194763660430908,
+                "entropy_ratio": 0.4097381830215454,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120plus",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8035570383071899
+              },
+              {
+                "entropy": 1.1270880699157715,
+                "entropy_ratio": 0.5635440349578857,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120two",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7743391990661621
+              }
+            ]
+          },
+          {
+            "prompt": "The square root of 144 is",
+            "category": "math",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 2.9281768798828125,
+                "entropy_ratio": 0.923736958619051,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7072180509567261,
+                "max_attn_value": 0.3171474039554596
+              },
+              {
+                "entropy": 2.7169229984283447,
+                "entropy_ratio": 0.8570937789355104,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120root",
+                "top5_mass": 0.8373374938964844,
+                "max_attn_value": 0.3175567090511322
+              },
+              {
+                "entropy": 0.6736266613006592,
+                "entropy_ratio": 0.21250555170679428,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999985098838806,
+                "max_attn_value": 0.8230298161506653
+              },
+              {
+                "entropy": 1.807355523109436,
+                "entropy_ratio": 0.5701571874057245,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9347583055496216,
+                "max_attn_value": 0.5174901485443115
+              }
+            ]
+          },
+          {
+            "prompt": "Pi is approximately 3.14",
+            "category": "math",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.8766746520996094,
+                "entropy_ratio": 0.9588915506998698,
+                "max_attn_pos": 4,
+                "max_attn_token": "3",
+                "top5_mass": 0.7822669744491577,
+                "max_attn_value": 0.220350980758667
+              },
+              {
+                "entropy": 2.724273681640625,
+                "entropy_ratio": 0.9080912272135416,
+                "max_attn_pos": 0,
+                "max_attn_token": "Pi",
+                "top5_mass": 0.8521390557289124,
+                "max_attn_value": 0.24542856216430664
+              },
+              {
+                "entropy": 0.2027910351753235,
+                "entropy_ratio": 0.06759701172510783,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9998007416725159,
+                "max_attn_value": 0.9699162244796753
+              },
+              {
+                "entropy": 1.8260889053344727,
+                "entropy_ratio": 0.6086963017781576,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9074535965919495,
+                "max_attn_value": 0.6576146483421326
+              }
+            ]
+          },
+          {
+            "prompt": "A triangle has three",
+            "category": "math",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9885172843933105,
+                "entropy_ratio": 0.9942586421966553,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.28839296102523804
+              },
+              {
+                "entropy": 1.9604263305664062,
+                "entropy_ratio": 0.9802131652832031,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.34985294938087463
+              },
+              {
+                "entropy": 1.1773241758346558,
+                "entropy_ratio": 0.5886620879173279,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5719663500785828
+              },
+              {
+                "entropy": 1.9006924629211426,
+                "entropy_ratio": 0.9503462314605713,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.386703222990036
+              }
+            ]
+          },
+          {
+            "prompt": "A hexagon has six",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.3162667751312256,
+                "entropy_ratio": 0.9975618022932742,
+                "max_attn_pos": 2,
+                "max_attn_token": "agon",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.21238379180431366
+              },
+              {
+                "entropy": 2.157668113708496,
+                "entropy_ratio": 0.9292570766766857,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.37730854749679565
+              },
+              {
+                "entropy": 0.8282007575035095,
+                "entropy_ratio": 0.3566866516353884,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.8513556718826294
+              },
+              {
+                "entropy": 2.1830813884735107,
+                "entropy_ratio": 0.9402019783818556,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3497220575809479
+              }
+            ]
+          },
+          {
+            "prompt": "The derivative of x squared is",
+            "category": "math",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.4327902793884277,
+                "entropy_ratio": 0.9411317489943181,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.9096526503562927,
+                "max_attn_value": 0.3353315591812134
+              },
+              {
+                "entropy": 2.3385534286499023,
+                "entropy_ratio": 0.904675958741177,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120derivative",
+                "top5_mass": 0.9717755317687988,
+                "max_attn_value": 0.3074307441711426
+              },
+              {
+                "entropy": 0.6912001967430115,
+                "entropy_ratio": 0.26739273647110146,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.8149274587631226
+              },
+              {
+                "entropy": 1.4879225492477417,
+                "entropy_ratio": 0.5756070151240643,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.987480103969574,
+                "max_attn_value": 0.5055807828903198
+              }
+            ]
+          },
+          {
+            "prompt": "Ten multiplied by ten equals",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.313659191131592,
+                "entropy_ratio": 0.9964387769914247,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120multiplied",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.23102164268493652
+              },
+              {
+                "entropy": 2.241239309310913,
+                "entropy_ratio": 0.9652492315528128,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120ten",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.27607831358909607
+              },
+              {
+                "entropy": 0.5062552690505981,
+                "entropy_ratio": 0.21803227678123116,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.9219756126403809
+              },
+              {
+                "entropy": 1.757425308227539,
+                "entropy_ratio": 0.7568818828185084,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120by",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.5579240918159485
+              }
+            ]
+          },
+          {
+            "prompt": "A right angle measures exactly",
+            "category": "math",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.317715883255005,
+                "entropy_ratio": 0.9981858991922996,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120angle",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.21823135018348694
+              },
+              {
+                "entropy": 2.22849178314209,
+                "entropy_ratio": 0.9597591708584735,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120right",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3301217555999756
+              },
+              {
+                "entropy": 2.04536771774292,
+                "entropy_ratio": 0.8808919286719521,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3452478051185608
+              },
+              {
+                "entropy": 2.1945788860321045,
+                "entropy_ratio": 0.9451536810568479,
+                "max_attn_pos": 0,
+                "max_attn_token": "A",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.37776845693588257
+              }
+            ]
+          },
+          {
+            "prompt": "The Earth orbits the",
+            "category": "common",
+            "seq_len": 4,
+            "layers": [
+              {
+                "entropy": 1.9538204669952393,
+                "entropy_ratio": 0.9769102334976196,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.2998344898223877
+              },
+              {
+                "entropy": 1.9426393508911133,
+                "entropy_ratio": 0.9713196754455566,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.3651893734931946
+              },
+              {
+                "entropy": 0.692689836025238,
+                "entropy_ratio": 0.346344918012619,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 1.0000001192092896,
+                "max_attn_value": 0.8162809610366821
+              },
+              {
+                "entropy": 1.3510184288024902,
+                "entropy_ratio": 0.6755092144012451,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.6735868453979492
+              }
+            ]
+          },
+          {
+            "prompt": "There are 24 hours in a",
+            "category": "common",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.830918788909912,
+                "entropy_ratio": 0.9436395963033041,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.7496445178985596,
+                "max_attn_value": 0.29678452014923096
+              },
+              {
+                "entropy": 2.863842487335205,
+                "entropy_ratio": 0.9546141624450684,
+                "max_attn_pos": 0,
+                "max_attn_token": "There",
+                "top5_mass": 0.7525776624679565,
+                "max_attn_value": 0.2636875510215759
+              },
+              {
+                "entropy": 0.6727166771888733,
+                "entropy_ratio": 0.2242388923962911,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.9999342560768127,
+                "max_attn_value": 0.8794010281562805
+              },
+              {
+                "entropy": 2.193765878677368,
+                "entropy_ratio": 0.731255292892456,
+                "max_attn_pos": 7,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.9016066789627075,
+                "max_attn_value": 0.5410964488983154
+              }
+            ]
+          },
+          {
+            "prompt": "There are 365 days in a",
+            "category": "common",
+            "seq_len": 9,
+            "layers": [
+              {
+                "entropy": 2.9668872356414795,
+                "entropy_ratio": 0.9359487162287907,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.7381619215011597,
+                "max_attn_value": 0.2747793197631836
+              },
+              {
+                "entropy": 3.037189483642578,
+                "entropy_ratio": 0.958126606232217,
+                "max_attn_pos": 0,
+                "max_attn_token": "There",
+                "top5_mass": 0.7178348898887634,
+                "max_attn_value": 0.21763694286346436
+              },
+              {
+                "entropy": 0.8285130262374878,
+                "entropy_ratio": 0.2613667597373803,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.999861478805542,
+                "max_attn_value": 0.8319758176803589
+              },
+              {
+                "entropy": 2.233356475830078,
+                "entropy_ratio": 0.704545525466345,
+                "max_attn_pos": 8,
+                "max_attn_token": "\u0120a",
+                "top5_mass": 0.8670856952667236,
+                "max_attn_value": 0.5583003759384155
+              }
+            ]
+          },
+          {
+            "prompt": "The human body has 206",
+            "category": "common",
+            "seq_len": 8,
+            "layers": [
+              {
+                "entropy": 2.8132071495056152,
+                "entropy_ratio": 0.9377357165018717,
+                "max_attn_pos": 7,
+                "max_attn_token": "6",
+                "top5_mass": 0.7825380563735962,
+                "max_attn_value": 0.2672921121120453
+              },
+              {
+                "entropy": 2.798861026763916,
+                "entropy_ratio": 0.932953675587972,
+                "max_attn_pos": 3,
+                "max_attn_token": "\u0120has",
+                "top5_mass": 0.8139135837554932,
+                "max_attn_value": 0.23159030079841614
+              },
+              {
+                "entropy": 2.0480313301086426,
+                "entropy_ratio": 0.6826771100362142,
+                "max_attn_pos": 0,
+                "max_attn_token": "The",
+                "top5_mass": 0.998897135257721,
+                "max_attn_value": 0.4279664158821106
+              },
+              {
+                "entropy": 2.7954301834106445,
+                "entropy_ratio": 0.9318100611368815,
+                "max_attn_pos": 5,
+                "max_attn_token": "2",
+                "top5_mass": 0.8275659084320068,
+                "max_attn_value": 0.2676948010921478
+              }
+            ]
+          },
+          {
+            "prompt": "Oxygen is essential for",
+            "category": "common",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.2694456577301025,
+                "entropy_ratio": 0.9773970446058082,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.2947389781475067
+              },
+              {
+                "entropy": 2.2887399196624756,
+                "entropy_ratio": 0.9857066309254092,
+                "max_attn_pos": 0,
+                "max_attn_token": "O",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.261607825756073
+              },
+              {
+                "entropy": 0.8723825216293335,
+                "entropy_ratio": 0.37571470173870875,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7541275024414062
+              },
+              {
+                "entropy": 1.2074522972106934,
+                "entropy_ratio": 0.5200213994005131,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.7533122301101685
+              }
+            ]
+          },
+          {
+            "prompt": "The color of the sky is typically",
+            "category": "common",
+            "seq_len": 7,
+            "layers": [
+              {
+                "entropy": 2.7971911430358887,
+                "entropy_ratio": 0.9963795888642872,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 0.7564249634742737,
+                "max_attn_value": 0.1666887253522873
+              },
+              {
+                "entropy": 2.7426631450653076,
+                "entropy_ratio": 0.9769563240885546,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120sky",
+                "top5_mass": 0.8183286190032959,
+                "max_attn_value": 0.22440746426582336
+              },
+              {
+                "entropy": 1.0832182168960571,
+                "entropy_ratio": 0.385850114064712,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999998211860657,
+                "max_attn_value": 0.7391833066940308
+              },
+              {
+                "entropy": 1.9049562215805054,
+                "entropy_ratio": 0.678559097253118,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9697866439819336,
+                "max_attn_value": 0.4574795663356781
+              }
+            ]
+          },
+          {
+            "prompt": "Ice is the solid form of",
+            "category": "common",
+            "seq_len": 6,
+            "layers": [
+              {
+                "entropy": 2.4996094703674316,
+                "entropy_ratio": 0.9669809406016867,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.904812753200531,
+                "max_attn_value": 0.2880716919898987
+              },
+              {
+                "entropy": 2.351490020751953,
+                "entropy_ratio": 0.9096805157119036,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120the",
+                "top5_mass": 0.9931472539901733,
+                "max_attn_value": 0.23024162650108337
+              },
+              {
+                "entropy": 1.1901192665100098,
+                "entropy_ratio": 0.46040097919331086,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.6921590566635132
+              },
+              {
+                "entropy": 1.7011553049087524,
+                "entropy_ratio": 0.6580967052458835,
+                "max_attn_pos": 5,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9825367331504822,
+                "max_attn_value": 0.4394453167915344
+              }
+            ]
+          },
+          {
+            "prompt": "The opposite of hot is",
+            "category": "common",
+            "seq_len": 5,
+            "layers": [
+              {
+                "entropy": 2.1948037147521973,
+                "entropy_ratio": 0.9452505095161735,
+                "max_attn_pos": 4,
+                "max_attn_token": "\u0120is",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.3665558397769928
+              },
+              {
+                "entropy": 2.0237388610839844,
+                "entropy_ratio": 0.871576887131019,
+                "max_attn_pos": 1,
+                "max_attn_token": "\u0120opposite",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.394793301820755
+              },
+              {
+                "entropy": 0.7044140100479126,
+                "entropy_ratio": 0.30337460130611155,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 1.0,
+                "max_attn_value": 0.808633029460907
+              },
+              {
+                "entropy": 1.267124056816101,
+                "entropy_ratio": 0.545720627441553,
+                "max_attn_pos": 2,
+                "max_attn_token": "\u0120of",
+                "top5_mass": 0.9999999403953552,
+                "max_attn_value": 0.5219202041625977
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "q_clustering": {
+      "extracted": {
+        "label": "extracted",
+        "layers": [
+          {
+            "layer": 0,
+            "category_sim_matrix": {
+              "geography_geography": 0.5804926753044128,
+              "geography_science": 0.10310923308134079,
+              "geography_culture": 0.016586413607001305,
+              "geography_math": 0.1798490732908249,
+              "geography_common": 0.15930627286434174,
+              "science_geography": 0.10310923308134079,
+              "science_science": 0.0017056791111826897,
+              "science_culture": -0.0012316812062636018,
+              "science_math": 0.025263499468564987,
+              "science_common": 0.033838242292404175,
+              "culture_geography": 0.016586413607001305,
+              "culture_science": -0.001231681671924889,
+              "culture_culture": 0.15914484858512878,
+              "culture_math": 0.0073286122642457485,
+              "culture_common": 0.01257263869047165,
+              "math_geography": 0.17984908819198608,
+              "math_science": 0.025263497605919838,
+              "math_culture": 0.0073286122642457485,
+              "math_math": 0.05623747780919075,
+              "math_common": 0.04586908221244812,
+              "common_geography": 0.15930627286434174,
+              "common_science": 0.033838242292404175,
+              "common_culture": 0.012572637759149075,
+              "common_math": 0.04586908593773842,
+              "common_common": 0.06892748177051544
+            },
+            "mean_within_sim": 0.1733016325160861,
+            "mean_between_sim": 0.0582491394248791,
+            "separation_ratio": 2.975179276933082,
+            "top_selective_heads": [
+              {
+                "head": 33,
+                "separation": 5.903532298617991
+              },
+              {
+                "head": 22,
+                "separation": 5.264432103441542
+              },
+              {
+                "head": 6,
+                "separation": 5.148628610830467
+              },
+              {
+                "head": 0,
+                "separation": 4.811537027874417
+              },
+              {
+                "head": 38,
+                "separation": 4.642115578799019
+              }
+            ],
+            "mean_head_separation": 3.7127495351695723,
+            "max_head_separation": 5.903532298617991
+          },
+          {
+            "layer": 1,
+            "category_sim_matrix": {
+              "geography_geography": 0.9995244145393372,
+              "geography_science": 0.9987247586250305,
+              "geography_culture": 0.9987554550170898,
+              "geography_math": 0.9980482459068298,
+              "geography_common": 0.9982647895812988,
+              "science_geography": 0.9987247586250305,
+              "science_science": 0.9989932775497437,
+              "science_culture": 0.9991697072982788,
+              "science_math": 0.9985450506210327,
+              "science_common": 0.9983335733413696,
+              "culture_geography": 0.9987554550170898,
+              "culture_science": 0.9991697072982788,
+              "culture_culture": 0.9993728995323181,
+              "culture_math": 0.9986644983291626,
+              "culture_common": 0.9984467029571533,
+              "math_geography": 0.9980483055114746,
+              "math_science": 0.9985450506210327,
+              "math_culture": 0.9986644983291626,
+              "math_math": 0.9979362487792969,
+              "math_common": 0.9977406859397888,
+              "common_geography": 0.9982647895812988,
+              "common_science": 0.9983335733413696,
+              "common_culture": 0.9984467029571533,
+              "common_math": 0.9977406859397888,
+              "common_common": 0.9975117444992065
+            },
+            "mean_within_sim": 0.9986677169799805,
+            "mean_between_sim": 0.9984693497419357,
+            "separation_ratio": 1.000198671334374,
+            "top_selective_heads": [
+              {
+                "head": 5,
+                "separation": 1.000970667178327
+              },
+              {
+                "head": 32,
+                "separation": 1.0009572274109346
+              },
+              {
+                "head": 31,
+                "separation": 1.000730389641747
+              },
+              {
+                "head": 20,
+                "separation": 1.0005224360511575
+              },
+              {
+                "head": 23,
+                "separation": 1.0005188874927928
+              }
+            ],
+            "mean_head_separation": 1.0003823888205403,
+            "max_head_separation": 1.000970667178327
+          },
+          {
+            "layer": 2,
+            "category_sim_matrix": {
+              "geography_geography": 0.9999181628227234,
+              "geography_science": 0.9997047185897827,
+              "geography_culture": 0.999743640422821,
+              "geography_math": 0.9996916651725769,
+              "geography_common": 0.9997491836547852,
+              "science_geography": 0.999704897403717,
+              "science_science": 0.9998543858528137,
+              "science_culture": 0.9998663663864136,
+              "science_math": 0.9998278617858887,
+              "science_common": 0.999751091003418,
+              "culture_geography": 0.9997434616088867,
+              "culture_science": 0.9998663663864136,
+              "culture_culture": 0.9998742341995239,
+              "culture_math": 0.9998337030410767,
+              "culture_common": 0.9997693300247192,
+              "math_geography": 0.9996916651725769,
+              "math_science": 0.9998277425765991,
+              "math_culture": 0.9998337030410767,
+              "math_math": 0.9997857809066772,
+              "math_common": 0.9997137784957886,
+              "common_geography": 0.9997491836547852,
+              "common_science": 0.999751091003418,
+              "common_culture": 0.9997693300247192,
+              "common_math": 0.9997137784957886,
+              "common_common": 0.9996897578239441
+            },
+            "mean_within_sim": 0.9998244643211365,
+            "mean_between_sim": 0.9997651278972626,
+            "separation_ratio": 1.0000593503636186,
+            "top_selective_heads": [
+              {
+                "head": 29,
+                "separation": 1.0002515078692977
+              },
+              {
+                "head": 26,
+                "separation": 1.0001739404939851
+              },
+              {
+                "head": 7,
+                "separation": 1.0001636289758293
+              },
+              {
+                "head": 17,
+                "separation": 1.0001481140766986
+              },
+              {
+                "head": 20,
+                "separation": 1.000145183961793
+              }
+            ],
+            "mean_head_separation": 1.0000892188841,
+            "max_head_separation": 1.0002515078692977
+          },
+          {
+            "layer": 3,
+            "category_sim_matrix": {
+              "geography_geography": 0.9999926090240479,
+              "geography_science": 0.9999744296073914,
+              "geography_culture": 0.999978244304657,
+              "geography_math": 0.9999741911888123,
+              "geography_common": 0.9999788403511047,
+              "science_geography": 0.9999744296073914,
+              "science_science": 0.9999884963035583,
+              "science_culture": 0.9999884366989136,
+              "science_math": 0.9999856948852539,
+              "science_common": 0.9999807476997375,
+              "culture_geography": 0.999978244304657,
+              "culture_science": 0.9999885559082031,
+              "culture_culture": 0.999988853931427,
+              "culture_math": 0.9999854564666748,
+              "culture_common": 0.9999818801879883,
+              "math_geography": 0.999974250793457,
+              "math_science": 0.9999856948852539,
+              "math_culture": 0.9999854564666748,
+              "math_math": 0.9999813437461853,
+              "math_common": 0.9999779462814331,
+              "common_geography": 0.9999788403511047,
+              "common_science": 0.999980628490448,
+              "common_culture": 0.9999818801879883,
+              "common_math": 0.9999779462814331,
+              "common_common": 0.9999761581420898
+            },
+            "mean_within_sim": 0.9999854922294616,
+            "mean_between_sim": 0.9999805897474289,
+            "separation_ratio": 1.000004902577193,
+            "top_selective_heads": [
+              {
+                "head": 26,
+                "separation": 1.0000353485082751
+              },
+              {
+                "head": 10,
+                "separation": 1.0000245587589767
+              },
+              {
+                "head": 12,
+                "separation": 1.0000206839582968
+              },
+              {
+                "head": 2,
+                "separation": 1.0000200282696643
+              },
+              {
+                "head": 14,
+                "separation": 1.0000184186641032
+              }
+            ],
+            "mean_head_separation": 1.0000081944497783,
+            "max_head_separation": 1.0000353485082751
+          }
+        ]
+      },
+      "random": {
+        "label": "random",
+        "layers": [
+          {
+            "layer": 0,
+            "category_sim_matrix": {
+              "geography_geography": 0.5877056121826172,
+              "geography_science": 0.10118749737739563,
+              "geography_culture": 0.005663003772497177,
+              "geography_math": 0.22217972576618195,
+              "geography_common": 0.16467271745204926,
+              "science_geography": 0.10118749737739563,
+              "science_science": -0.00499150063842535,
+              "science_culture": 0.005328877363353968,
+              "science_math": 0.031664855778217316,
+              "science_common": 0.03944975882768631,
+              "culture_geography": 0.0056630088947713375,
+              "culture_science": 0.005328877363353968,
+              "culture_culture": 0.137818843126297,
+              "culture_math": 0.0037064035423099995,
+              "culture_common": 0.015213379636406898,
+              "math_geography": 0.22217972576618195,
+              "math_science": 0.031664855778217316,
+              "math_culture": 0.003706403076648712,
+              "math_math": 0.09376156330108643,
+              "math_common": 0.060430772602558136,
+              "common_geography": 0.16467270255088806,
+              "common_science": 0.03944975137710571,
+              "common_culture": 0.015213380567729473,
+              "common_math": 0.060430772602558136,
+              "common_common": 0.06810031086206436
+            },
+            "mean_within_sim": 0.17647896576672792,
+            "mean_between_sim": 0.06494969837367534,
+            "separation_ratio": 2.7171637464948772,
+            "top_selective_heads": [
+              {
+                "head": 0,
+                "separation": 5.3405180258730915
+              },
+              {
+                "head": 12,
+                "separation": 5.126132975749706
+              },
+              {
+                "head": 32,
+                "separation": 4.788964758746512
+              },
+              {
+                "head": 10,
+                "separation": 4.430023120158666
+              },
+              {
+                "head": 5,
+                "separation": 4.39277616225353
+              }
+            ],
+            "mean_head_separation": 3.4938484811276624,
+            "max_head_separation": 5.3405180258730915
+          },
+          {
+            "layer": 1,
+            "category_sim_matrix": {
+              "geography_geography": 0.7766245007514954,
+              "geography_science": 0.29397886991500854,
+              "geography_culture": 0.6753643155097961,
+              "geography_math": 0.32639309763908386,
+              "geography_common": 0.8255981802940369,
+              "science_geography": 0.29397889971733093,
+              "science_science": 0.0874752551317215,
+              "science_culture": 0.2998529374599457,
+              "science_math": 0.12009741365909576,
+              "science_common": 0.3244355320930481,
+              "culture_geography": 0.6753643155097961,
+              "culture_science": 0.29985299706459045,
+              "culture_culture": 0.7016811966896057,
+              "culture_math": 0.26615026593208313,
+              "culture_common": 0.7463290691375732,
+              "math_geography": 0.32639309763908386,
+              "math_science": 0.12009742110967636,
+              "math_culture": 0.26615026593208313,
+              "math_math": 0.09907718747854233,
+              "math_common": 0.344940721988678,
+              "common_geography": 0.8255982398986816,
+              "common_science": 0.3244355320930481,
+              "common_culture": 0.7463290691375732,
+              "common_math": 0.344940721988678,
+              "common_common": 0.8814576268196106
+            },
+            "mean_within_sim": 0.5092631533741951,
+            "mean_between_sim": 0.42231404818594453,
+            "separation_ratio": 1.2058873143380895,
+            "top_selective_heads": [
+              {
+                "head": 14,
+                "separation": 1.3230136311438696
+              },
+              {
+                "head": 22,
+                "separation": 1.3150097830711653
+              },
+              {
+                "head": 2,
+                "separation": 1.30922040525301
+              },
+              {
+                "head": 3,
+                "separation": 1.2993230986043904
+              },
+              {
+                "head": 17,
+                "separation": 1.2990300216748685
+              }
+            ],
+            "mean_head_separation": 1.2371380277217738,
+            "max_head_separation": 1.3230136311438696
+          },
+          {
+            "layer": 2,
+            "category_sim_matrix": {
+              "geography_geography": 0.9986019730567932,
+              "geography_science": 0.9804363250732422,
+              "geography_culture": 0.9966209530830383,
+              "geography_math": 0.7470924258232117,
+              "geography_common": 0.9977235198020935,
+              "science_geography": 0.9804363250732422,
+              "science_science": 0.9707893133163452,
+              "science_culture": 0.9837954640388489,
+              "science_math": 0.7351885437965393,
+              "science_common": 0.9819883108139038,
+              "culture_geography": 0.9966209530830383,
+              "culture_science": 0.9837954640388489,
+              "culture_culture": 0.9977509379386902,
+              "culture_math": 0.7464169263839722,
+              "culture_common": 0.9972549676895142,
+              "math_geography": 0.7470924258232117,
+              "math_science": 0.7351886034011841,
+              "math_culture": 0.7464169263839722,
+              "math_math": 0.5069918036460876,
+              "math_common": 0.746782124042511,
+              "common_geography": 0.9977235198020935,
+              "common_science": 0.9819883108139038,
+              "common_culture": 0.9972549080848694,
+              "common_math": 0.746782124042511,
+              "common_common": 0.9974181056022644
+            },
+            "mean_within_sim": 0.8943104267120361,
+            "mean_between_sim": 0.8913299560546875,
+            "separation_ratio": 1.0033438466160625,
+            "top_selective_heads": [
+              {
+                "head": 28,
+                "separation": 1.0257009160584711
+              },
+              {
+                "head": 21,
+                "separation": 1.0249509039780258
+              },
+              {
+                "head": 35,
+                "separation": 1.0240601126011015
+              },
+              {
+                "head": 16,
+                "separation": 1.0239443373953672
+              },
+              {
+                "head": 2,
+                "separation": 1.023861168771746
+              }
+            ],
+            "mean_head_separation": 1.023233657027588,
+            "max_head_separation": 1.0257009160584711
+          },
+          {
+            "layer": 3,
+            "category_sim_matrix": {
+              "geography_geography": 0.9999859929084778,
+              "geography_science": 0.999944806098938,
+              "geography_culture": 0.9999556541442871,
+              "geography_math": 0.9997069239616394,
+              "geography_common": 0.9999821782112122,
+              "science_geography": 0.999944806098938,
+              "science_science": 0.9999653100967407,
+              "science_culture": 0.999977707862854,
+              "science_math": 0.9997555017471313,
+              "science_common": 0.9999497532844543,
+              "culture_geography": 0.9999556541442871,
+              "culture_science": 0.999977707862854,
+              "culture_culture": 0.9999886751174927,
+              "culture_math": 0.9997669458389282,
+              "culture_common": 0.9999604821205139,
+              "math_geography": 0.9997068047523499,
+              "math_science": 0.9997555017471313,
+              "math_culture": 0.9997669458389282,
+              "math_math": 0.9995236992835999,
+              "math_common": 0.9997131824493408,
+              "common_geography": 0.9999821782112122,
+              "common_science": 0.9999497532844543,
+              "common_culture": 0.9999604821205139,
+              "common_math": 0.9997131824493408,
+              "common_common": 0.9999803900718689
+            },
+            "mean_within_sim": 0.999888813495636,
+            "mean_between_sim": 0.9998713076114655,
+            "separation_ratio": 1.0000175081373346,
+            "top_selective_heads": [
+              {
+                "head": 28,
+                "separation": 1.0000651009568589
+              },
+              {
+                "head": 32,
+                "separation": 1.0000630138317448
+              },
+              {
+                "head": 27,
+                "separation": 1.000049778304719
+              },
+              {
+                "head": 29,
+                "separation": 1.000049181852433
+              },
+              {
+                "head": 30,
+                "separation": 1.0000489434299795
+              }
+            ],
+            "mean_head_separation": 1.0000341025834945,
+            "max_head_separation": 1.0000651009568589
+          }
+        ]
+      }
+    }
+  }
+}

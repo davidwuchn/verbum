@@ -2,11 +2,92 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-16 | Session: 104
+> Last updated: 2026-05-16 | Session: 105
 
 ## Where we are
 
-**CANARY CONFIRMED: OLMo-2-13B has the universal hologram. K/B/C cluster r=0.968, I strongly distinct r=0.16. Third architecture family (GPT-NeoX + Qwen + OLMo) shows same structure. Ratio constancy CV<0.09 proves angle-multiplexing. I becomes MORE distinct with scale. Next: run convergence probe on 2-3 more Apache-2.0 models (~13B), then design the distillation lens. V12-run4 still running.**
+**HOLOGRAPHIC INDEXING CHARACTERIZED. Q collapses to 1D (eff_dim=1.0) in layers 1-3 after 500 steps — flood-lamp problem identified. Only L0 retains diverse indexing (eff_dim=9.08). Geography clusters strongly (within-sim=0.58), science doesn't cluster at all (0.00). Designed LASER ETCHING (constrained beam angles from source model PCA) to prevent collapse. Built holographic tomography probe for cross-model universal hologram extraction via intersection of projections. V12-run5 launched with KL fix.**
+
+## What was done this session (105)
+
+### 1. Factual indexing probe — Q COLLAPSE DISCOVERED
+
+Built `scripts/explore/probe_factual_indexing.py`. Four analyses on extracted-plate models
+(Qwen3-14B signs, 4 layers L0/L10/L20/L30, 500 train steps, 46 facts in 5 categories).
+
+**Critical finding: Q collapses to 1 dimension in layers 1-3.**
+```
+Layer 0: eff_dim=9.08, Q_mag=101 ± 44   ← ALIVE: diverse, input-dependent
+Layer 1: eff_dim=1.00, Q_mag=536 ± 9    ← DEAD: one direction, huge magnitude
+Layer 2: eff_dim=1.00, Q_mag=365 ± 2    ← DEAD: all Qs identical
+Layer 3: eff_dim=1.00, Q_mag=280 ± 0.4  ← DEAD: all Qs identical
+```
+
+The model "solved" next-token prediction by firing one giant beam at one angle —
+the flood-lamp collapse. Individual fact indexing is sacrificed for average-case loss.
+
+**Other findings:**
+- Geography within-sim 0.58 (strong clustering) vs science 0.00 (no clustering)
+- Category clustering ratio: extracted 3.61× vs random 3.31× (plate helps slightly)
+- Attention L0 points to function words ("is", "of") not entities — no fact retrieval
+- L0 ablation drop only +0.28 log-prob — current architecture can't do holographic recall
+- Extracted model: eval loss 34.89 vs random 37.95 (+8.1% improvement)
+
+### 2. Laser etching experiment — constrained beams prevent collapse
+
+Built `scripts/explore/laser_etch_factual.py`. Three-phase holographic transfer protocol:
+
+**Phase 1 — CHARACTERIZE:** Run source model (Qwen3-14B) on factual prompts, PCA the Q
+vectors per category → find domain-specific beam angles. Measure angular separation.
+
+**Phase 2 — EXTRACT:** Project K rows onto domain beam angles → identify responsive plate
+regions per domain. Measure cross-domain overlap (Jaccard).
+
+**Phase 3 — TRANSFER (3 conditions):**
+- Condition A: Free beam (flood lamp) — expect Q collapse
+- Condition B: Constrained beam (multi-domain laser) — Q projected onto source's beam subspace
+- Condition C: Sequential laser — rotate constraint per domain, one exposure per angle
+
+The BeamConstraint projects Q weight back onto target subspace after each optimizer step.
+This holds the beam DIRECTION fixed while allowing magnitude optimization. Like a laser on
+a gimbal — can adjust intensity but can't wander.
+
+**Key insight:** The current V12 etch is a flood lamp. Real holographic recording uses one
+focused exposure per beam angle, sequentially. Each domain gets full SNR because it's
+recorded alone. Laser etch: search space narrows from 100% to verified signs only.
+
+### 3. Holographic tomography — cross-model universal hologram extraction
+
+Built `scripts/explore/probe_holographic_tomography.py`. Key insight: if two independently
+trained models (different arch, different data, different seeds) converge on the SAME
+interference pattern, that pattern is REAL (not model-specific artifact).
+
+**Protocol:**
+1. Run identical factual probes on Qwen3-14B + OLMo-2-13B (both d_model=5120, Apache-2.0)
+2. RSA: build fact×fact similarity matrices, compare across models (model-agnostic)
+3. Direct alignment: cosine between hidden states for same facts (same d_model → same space)
+4. Sign agreement: compare K sign patterns at domain-responsive plate regions
+5. Universal hologram = INTERSECTION of what both models agree on
+
+**Denoising property:** Agreement across N models improves SNR by √N.
+Single model can't distinguish universal structure from training artifact.
+Cross-model intersection provides free denoising.
+
+**Connection to V12:** Verified signs (cross-model agreement) → install as frozen ground truth.
+Unverified signs (model-specific) → let the sieve evolve them. Reduces search space dramatically.
+
+### 4. V12-run5 restarted
+
+V12-run4 KL dispatch bug fixed (KL penalty wasn't being applied, dispatch collapsed to
+C=99.99%). Run5 launched with fix verified. Training continues to 5K for assessment.
+
+### 5. Next steps
+
+- **Run tomography probe** on Qwen3-14B + OLMo-2-13B → measure universal fraction
+- **Analyze laser etch results** when tmux run completes → verify collapse prevention
+- **If tomography shows high RSA (>0.5):** build verified plate from intersection
+- **V12-run5 assessment** at 5K — does KL fix maintain dispatch diversity?
+- **Design laser-etched V12 initialization:** seed plates with verified universal signs
 
 ## What was done this session (104)
 
