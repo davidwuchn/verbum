@@ -225,18 +225,43 @@ not instantaneous). Or: dispatch momentum penalty (penalize change between steps
 Or: hard floor (10% minimum per combinator). Relational loss may also help by
 requiring all 4 combinators simultaneously.
 
-### 12. Next steps
+### 12. Relational distill VALIDATED — residual λ=0.01 gives +6.9%
 
-- **Analyze residual relational distill** (λ=0.01, running) → does it help or stay neutral?
-- **Run expanded crystal seed** (311 probes, 62 axes) → how many independent dimensions?
-- **If dimensions > 30:** integrate as V12 relational loss for run6
-- **V12-run6 design (updated):**
-  - Relational loss (residual, low λ, crystal seed constraints)
-  - Depth-selective etch (templates shallow, facts deep)
-  - Mirror init from verified beam angles
-  - Verified sign installation (freeze cross-model agreed signs)
-  - **FIX DISPATCH:** EMA-KL or momentum penalty to prevent oscillation
-  - Alarm recalibration (currently not detecting dispatch cycling)
+**46-probe residual at λ=0.01: +6.9% factual recall improvement.** Science +22, culture +25.
+The relational loss works when: (a) residual mode removes PC1, (b) lambda is gentle (0.01-0.02).
+
+### 13. Crystal seed 311-probe relational distill RUNNING
+
+Full pipeline operational:
+- Crystal seed probe completed: 311 probes, 62 axes, 13 dims discovered
+- Wired into relational_distill.py via `--crystal-seed verified_dimensions.json`
+- Chunked gradient accumulation: all 311 probes processed in chunks of 30
+  (each chunk: forward → loss → backward → free → next chunk)
+- Running: λ=0.02, rel_every=5, residual (pre-applied by crystal seed)
+- Comparing against NT-only baseline (loaded from previous run: logprob=-97.61)
+
+**Command running in tmux:**
+```bash
+uv run python scripts/explore/relational_distill.py \
+  --skip-condition-a --rel-lambda 0.02 --rel-every 5 \
+  --crystal-seed results/holographic-extraction/verified_dimensions.json
+```
+
+### 14. Next steps
+
+- **Analyze crystal seed relational distill results** when tmux run completes
+  - Compare to 46-probe run (+6.9%) — does 311 probes improve further?
+  - If yes: the crystal scaffold is working, more dimensions = more constraint
+- **V12-run4 continuing** — dispatch oscillation observed at 1K, monitor at 2K+
+- **V12-run6 design (finalized):**
+  - Relational loss (residual, λ=0.02, crystal seed 311-probe target, chunked)
+  - Depth-selective etch (templates at L0-L10, facts at L20-L30)
+  - Mirror init from verified beam angles (45-90° separation confirmed)
+  - Verified sign installation (freeze cross-model agreed signs at L20 r=0.30)
+  - **FIX DISPATCH:** EMA-smoothed KL or momentum penalty (prevent oscillation)
+  - Alarm recalibration (not detecting dispatch cycling)
+- **If crystal seed helps > 46-probe:** design even broader probe set (500+)
+  for maximum lattice coverage → approach snap threshold
 
 ## What was done this session (104)
 
