@@ -278,6 +278,151 @@ PROBES = {
         "Notwithstanding the considerable methodological limitations inherent in cross-sectional observational studies of this nature, the statistically significant correlation between early childhood nutritional interventions and subsequent cognitive development outcomes provides compelling evidence for the",
         "The recursive self-referential nature of consciousness as conceptualized within the integrated information theory framework poses fundamental challenges to any purely computational account of subjective experience, particularly when one considers the hard problem of",
     ],
+
+    # ══════════════════════════════════════════════════════════════
+    # NON-LINGUISTIC AXES — code, reasoning, tools, structure
+    # These should reveal ORTHOGONAL dimensions to linguistic probes
+    # ══════════════════════════════════════════════════════════════
+
+    # ── Code: Python ──
+    "code_python_function": [
+        "def fibonacci(n):\n    if n <=",
+        "def binary_search(arr, target):\n    left, right = 0, len(arr) -",
+        "def merge_sort(lst):\n    if len(lst) <=",
+        "class LinkedList:\n    def __init__(self):\n        self.head =",
+        "def read_file(path):\n    with open(path, 'r') as",
+    ],
+    "code_python_expression": [
+        "result = [x**2 for x in range(10) if x %",
+        "data = {k: v for k, v in zip(keys,",
+        "filtered = list(filter(lambda x: x >",
+        "total = sum(item.price for item in cart if item.quantity >",
+        "output = '\\n'.join(sorted(set(words), key=lambda w: w.",
+    ],
+    "code_javascript": [
+        "const fetchData = async (url) => {\n  const response = await",
+        "document.querySelectorAll('.item').forEach(el => {\n    el.addEventListener('click',",
+        "const reducer = (state, action) => {\n  switch (action.type) {\n    case",
+        "export default function App({ children }) {\n  return (\n    <div className=",
+        "const debounce = (fn, ms) => {\n  let timer;\n  return (...args) =>",
+    ],
+    "code_shell": [
+        "find /var/log -name '*.log' -mtime +7 |",
+        "cat data.csv | awk -F',' '{print $2}' | sort | uniq -c | sort -",
+        "docker run -d --name app -p 8080:80 -v $(pwd):/",
+        "git log --oneline --graph --all | head -",
+        "curl -X POST -H 'Content-Type: application/json' -d '{\"key\":\"value\"}' http://",
+    ],
+
+    # ── Structured output / formatting ──
+    "format_json": [
+        '{\"name\": \"Alice\", \"age\": 30, \"address\": {\"city\":',
+        '[{\"id\": 1, \"status\": \"active\"}, {\"id\": 2, \"status\":',
+        '{\"model\": \"gpt-4\", \"messages\": [{\"role\": \"user\", \"content\":',
+        '{\"type\": \"object\", \"properties\": {\"name\": {\"type\":',
+        '{\"error\": {\"code\": 404, \"message\":',
+    ],
+    "format_markdown": [
+        "# Introduction\n\n## Background\n\nThe field of machine learning has",
+        "| Column A | Column B | Column C |\n|----------|----------|----------|\n|",
+        "1. First, prepare the environment\n2. Next, install the dependencies\n3.",
+        "```python\nimport numpy as np\n\ndef transform(data):\n    return",
+        "> **Note:** This approach requires careful consideration of the",
+    ],
+    "format_yaml": [
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name:",
+        "services:\n  web:\n    image: nginx:latest\n    ports:\n      -",
+        "steps:\n  - name: Build\n    run: |\n      npm install\n      npm",
+        "model:\n  name: transformer\n  layers: 12\n  hidden_size:",
+        "database:\n  host: localhost\n  port: 5432\n  name:",
+    ],
+
+    # ── Reasoning / step-by-step ──
+    "reasoning_math": [
+        "To solve 3x + 7 = 22, first subtract 7 from both sides to get 3x =",
+        "The area of a circle with radius 5 is pi * r^2 = pi *",
+        "If a train travels at 60 mph for 2.5 hours, the distance is",
+        "To find the derivative of f(x) = x^3 + 2x, we apply the power rule:",
+        "The probability of rolling a 6 twice in a row is (1/6) * (1/6) =",
+    ],
+    "reasoning_logic": [
+        "All mammals are warm-blooded. Whales are mammals. Therefore, whales are",
+        "If it is raining, the ground is wet. The ground is wet. Can we conclude",
+        "Premise: No reptiles have fur. Premise: All dogs have fur. Conclusion: No dogs are",
+        "Given: A implies B. Given: not B. By modus tollens, we conclude:",
+        "Either the butler or the maid committed the crime. The maid has an alibi. Therefore,",
+    ],
+    "reasoning_planning": [
+        "To bake a cake, the steps are: 1) preheat oven to 350F, 2) mix dry ingredients, 3)",
+        "To deploy this application, first we need to: build the Docker image, then push to registry, then",
+        "The project timeline is: Week 1 - requirements, Week 2 - design, Week 3 -",
+        "To debug this issue, I should: 1) reproduce the error, 2) check the logs, 3)",
+        "My morning routine: wake up at 6am, exercise for 30 minutes, shower, then",
+    ],
+
+    # ── Tool use / API patterns ──
+    "tool_function_call": [
+        "I need to search for information. <tool_call>\n{\"name\": \"search\", \"arguments\": {\"query\":",
+        "Let me calculate that. <tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\":",
+        "I'll look up the weather. <tool_call>\n{\"name\": \"weather\", \"arguments\": {\"location\":",
+        "Let me read that file. <tool_call>\n{\"name\": \"read_file\", \"arguments\": {\"path\":",
+        "I'll create a new document. <tool_call>\n{\"name\": \"write\", \"arguments\": {\"content\":",
+    ],
+    "tool_api_response": [
+        "<tool_response>\n{\"results\": [{\"title\": \"Machine Learning\", \"url\":",
+        "<tool_response>\n{\"temperature\": 72, \"condition\": \"sunny\", \"humidity\":",
+        "<tool_response>\n{\"status\": \"success\", \"data\": {\"id\": 12345, \"created\":",
+        "<tool_response>\n{\"error\": null, \"output\": \"Hello, World!\\n\", \"exit_code\":",
+        "<tool_response>\n{\"files\": [{\"name\": \"main.py\", \"size\": 1234, \"modified\":",
+    ],
+
+    # ── Instruction following / control ──
+    "instruction_system": [
+        "You are a helpful assistant. You should provide clear, accurate answers and",
+        "You are an expert Python developer. When writing code, always include type hints and",
+        "You are a medical professional. Never provide diagnoses. Always recommend consulting a",
+        "You are a creative writing assistant. Use vivid imagery and avoid cliches. Your tone should be",
+        "You are a data analyst. Present findings with statistical rigor and",
+    ],
+    "instruction_constraint": [
+        "Answer in exactly three sentences. Do not use the word 'the'. The topic is",
+        "Respond only in JSON format. Include fields: name, description, and",
+        "List exactly five items, numbered. Each item must be under ten words.",
+        "Explain this concept as if speaking to a five-year-old child who has never",
+        "Write your response as a haiku (5-7-5 syllables). The subject is",
+    ],
+
+    # ── Pattern completion / sequence ──
+    "pattern_numeric": [
+        "1, 1, 2, 3, 5, 8, 13, 21,",
+        "2, 4, 8, 16, 32, 64,",
+        "1, 4, 9, 16, 25, 36,",
+        "0, 1, 1, 2, 3, 5, 8,",
+        "3, 6, 9, 12, 15, 18,",
+    ],
+    "pattern_alphabetic": [
+        "A, C, E, G, I, K,",
+        "Z, Y, X, W, V, U,",
+        "AA, AB, AC, AD, AE,",
+        "alpha, beta, gamma, delta,",
+        "do, re, mi, fa, sol,",
+    ],
+
+    # ── Multilingual (shared structure across languages) ──
+    "multilingual_romance": [
+        "En francais: Le chat est sur la",
+        "En espanol: El gato esta en la",
+        "In italiano: Il gatto e sul",
+        "Em portugues: O gato esta no",
+        "In romaneste: Pisica este pe",
+    ],
+    "multilingual_greeting": [
+        "Hello, how are you doing today? I hope you are",
+        "Hola, como estas hoy? Espero que estes",
+        "Bonjour, comment allez-vous aujourd'hui? J'espere que vous",
+        "Hallo, wie geht es Ihnen heute? Ich hoffe Sie",
+        "Konnichiwa, kyou wa ogenki desu ka? Odaiji ni",
+    ],
 }
 
 
