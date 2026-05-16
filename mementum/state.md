@@ -61,6 +61,12 @@ death) are energetically expensive, not forbidden. Topology > instruction.
 
 Entropy target updated to match non-uniform prior: H(prior) * 0.85 ≈ 1.149.
 
+Added KL divergence leash: `loss += λ · KL(dispatch ∥ prior)` with λ=0.1.
+Belt and suspenders: entropy prevents collapse (direction-agnostic), KL steers
+toward the specific ratio (direction-specific). Lambda controls leash length.
+B-monopoly costs ~0.123 (1.4% of CE). Mild deviation (B=40%) costs ~0.003 (0.04%).
+The model can deviate if CE gain exceeds KL cost.
+
 **Voice calibration notes:**
 - "blah to deliciously devious" = forced, replaced with understated
 - "marketing claim" = AI slop phrase, removed
