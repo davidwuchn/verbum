@@ -964,6 +964,33 @@ class V12Model(nn.Module):
                         entropy_deficit * entropy_deficit)
                     loss = loss + entropy_loss
 
+            # ── KL divergence toward empirical ratio (dispatch leash) ──
+            # KL(dispatch ∥ prior) = Σ dispatch_i · log(dispatch_i / prior_i)
+            # Penalizes deviation from the measured universal ratio.
+            # The prior IS the ratio: λ dispatch(logits, r). softmax(logits + log(r/Σr))
+            if self.cfg.dispatch_kl_lambda > 0:
+                dispatch_kl_live = None
+                n_kl_live = 0
+                for pa in all_pass_alarm:
+                    dw_live = pa.get('dispatch_weights_live')
+                    if dw_live is not None:
+                        dw_mean = mx.mean(dw_live, axis=(0, 1))
+                        dispatch_kl_live = dw_mean if dispatch_kl_live is None \
+                            else (dispatch_kl_live + dw_mean)
+                        n_kl_live += 1
+                if dispatch_kl_live is not None and n_kl_live > 0:
+                    q = dispatch_kl_live / n_kl_live  # mean dispatch probs
+                    # KIBC-only: first 4 components
+                    q_kibc = q[:self.cfg.n_combinators]
+                    q_kibc = q_kibc / mx.sum(q_kibc)  # renormalize to sum=1
+                    # Prior from config ratio
+                    r = mx.array(self.cfg.dispatch_ratio)
+                    p_prior = r / mx.sum(r)
+                    # KL(q ∥ p) = Σ q_i · log(q_i / p_i)
+                    kl = mx.sum(q_kibc * mx.log(q_kibc / (p_prior + 1e-8) + 1e-8))
+                    kl_loss = self.cfg.dispatch_kl_lambda * kl
+                    loss = loss + kl_loss
+
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.
             # Pass n sees gradient from losses n..6 (7-n sources).
