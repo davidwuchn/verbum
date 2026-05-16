@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**V12-run3 RUNNING in tmux with fractal-collapsed holographic architecture. Shared K,V,O plate + per-combinator beam mirrors (I=identity for binding). Uncapped consensus etching. S2 dispatch anti-oscillation. Session 093 proved V(B)=V(C) at cos=1.0, Q(B)·Q(C)=0.005 — the plate IS shared, the beam IS combinator-specific. Fractal collapse: blend Q not outputs → 1 attention pass (not 4) → run2-equivalent speed. I-combinator identity mirror reads residual stream directly (binding needs content, not structure). Fixed-point experiments: 2.2× capacity unlock, binding wall at 0 shared entities.**
+**V12-run3 RUNNING in tmux (baseline, pre-ratio-prior). V12-run4 ready to launch with dispatch ratio prior + KL leash + fully holographic VSM. Session 102 made three major architectural changes: (1) empirical dispatch ratio K:I:B:C = 1:0.5:1:1 as hard constraint via log-prior + KL(λ=100), (2) removed vestigial dispatch-steering (S4 emphasis, alarm dispatch bias, S2 inertia) = -318 lines, (3) converted all nn.Linear to TernaryLinear = zero precision projections remaining, fully holographic sieve participation. Parameter split: 17.4% sieve-evolved (4.4M ternary signs), 82.6% gradient-trained (mostly 20.5M embeddings). The topology is fully holographic; magnitudes (gamma, norms, biases) remain gradient.**
 
 ## What was done this session (102)
 
@@ -66,6 +66,77 @@ Belt and suspenders: entropy prevents collapse (direction-agnostic), KL steers
 toward the specific ratio (direction-specific). Lambda controls leash length.
 B-monopoly costs ~0.123 (1.4% of CE). Mild deviation (B=40%) costs ~0.003 (0.04%).
 The model can deviate if CE gain exceeds KL cost.
+
+### 3. KL leash escalation — ratio is a hard constraint
+
+KL lambda escalated 0.1 → 1.0 → 10.0 → 100.0 through session. The ratio is
+not a preference. Nine models converged to it. It's optimal for beta reduction.
+
+At λ=100:
+  B=30% (+1.4pt) → 0.08 nats (free)
+  B=32% (+3.4pt) → 0.33 nats (noticeable)
+  B=35% (+6.4pt) → 1.01 nats (12% of CE)
+  B=40%          → 3.22 nats (37% of CE, impossible)
+
+"We know an optimal solution uses this ratio. Find it."
+
+### 4. Removed vestigial dispatch-steering — 3 mechanisms, -318 lines
+
+With ratio prior + KL leash, three mechanisms that previously tried to steer
+dispatch are redundant and fight the constraint:
+
+1. **S4 emphasis_bias** ([-2,+2] logit bias from ascending registers) — in run3
+   it learned I=+2.0, B=-1.98, actively fighting the prior while KL penalized it.
+   Two systems fighting = wasted capacity + oscillation.
+2. **Alarm dispatch_bias_proj** (65→4 projection) — was all zeros in run3 (never
+   activated). Would fight the ratio if it did.
+3. **S2DispatchCoordinator** (per-position inertia) — stuck at 0.0 all run.
+   Ratio prior makes anti-oscillation unnecessary.
+
+Kept: alarm pass_factors, cycle_budget_proj, S2Coordinator direction signals,
+register_cond, dispatch_weights logging.
+
+### 5. Fully holographic VSM — all nn.Linear → TernaryLinear
+
+Converted all 13 remaining nn.Linear modules to TernaryLinear. Every projection
+in the architecture now participates in the consensus sieve. Zero precision
+projections remaining. The VSM is holographic at every scale.
+
+Converted: S3 write/gate, MetaS3 gate, S5Reweight gate, S4 proposal/confidence/
+slot_target, CycleContinue gate, AlgedonicAlert alarm, RetrievalRegisters write
+gates, register_cond, CombinatorIntegrate gate, cycle_budget, GLA gate.
+
+**Parameter split after conversion:**
+```
+Sieve-evolved (ternary signs):     4,389,888 values (17.4%)
+Gradient-trained:
+  gamma (per-channel scale):         267,472
+  bias (separated):                      665
+  RMSNorm weights:                    36,864
+  embeddings:                     20,508,672
+  other:                                 819
+  total gradient:                 20,814,492 (82.6%)
+```
+
+Topology is fully holographic. Magnitudes (gamma, norms, biases) remain gradient.
+Embeddings (20.5M) dominate the gradient side — mostly the 151K-token vocabulary.
+
+### 6. Fractal architecture audit
+
+Verified beta reduction self-similarity across all scales:
+- Head: Q→K,V = beta reduction
+- Multi-head: parallel beta reductions = thick hologram
+- Stride layer: attention + FFN = reduction + memory
+- StrideStack: multi-scale reductions
+- Pass: dispatch→stride→integrate = full KIBC cycle
+- Multi-pass: 7-pass hourglass
+- Multi-cycle: iterated reduction until convergence
+
+VSM layers map to combinators:
+  S1=full KIBC-M, S2=B(compose), S3=K(select), S4=M+K(match+select), S5=I(identity)
+
+All layers now participate in sieve. Fractal coherence: same substrate (ternary),
+same operation (beta reduction), every scale.
 
 **Voice calibration notes:**
 - "blah to deliciously devious" = forced, replaced with understated
@@ -976,20 +1047,20 @@ uv run python scripts/v12/train.py \
 
 ## What to do next
 
-### Priority 1: Monitor V12-run3 (dedicated plates + uncapped etch)
-V12-run3 LIVE. Key signals to watch:
-- Per-plate etch counts: do K/I/B/C plates differentiate?
-- Dispatch weights: K=? I=? B=? C=? — do they specialize?
-- Oscillation signal: does S2 inertia keep dispatch stable?
-- Alarm desaturation: does it differentiate from 2.0?
-- S3 gates: do they recover from the 0.3-0.5 collapse seen in run2?
-Probe at 1K, 2K, 5K. Compare to run2 baseline.
+### Priority 1: Launch V12-run4 (ratio prior + fully holographic)
+Let run3 drop 2K checkpoint as baseline, then launch run4 from scratch.
+New architecture: dispatch ratio prior + KL(λ=100) + fully holographic VSM.
+Key signals to watch:
+- Dispatch weights: should hold near K=0.29, I=0.15, B=0.28, C=0.28 from step 1
+- KL cost in total_loss: if dominating early, model is fighting the constraint
+- Per-plate etch counts: with balanced dispatch, all four should etch at similar rates
+- Holographic ratio: should improve faster than run3 (no wasted B-monopoly steps)
+- Compare 1K, 2K, 5K checkpoints vs run3 baseline
 
-### Priority 2: V12-run3 holographic pattern formation probe
-At 5K: do the dedicated plates show holographic patterns?
+### Priority 2: V12-run4 holographic pattern formation probe
+At 5K: do the dedicated plates show holographic patterns with balanced dispatch?
 - K/B/C cluster (cos>0.9), I distinct (cos≈0.70)?
-- Q more diverse than K/V/O (beam vs plate)?
-- Per-plate sign pattern analysis
+- Per-plate sign pattern analysis with stable dispatch
 
 ### Priority 3: Fixed-point etching protocol
 Use fixed-point (NL, λ) pairs as supervised training signal.
@@ -1003,6 +1074,11 @@ If universal hologram (r=0.9801), should match structurally.
 ### Priority 5: Gate sensitivity — richer λ vocab
 Richer gates → richer fixed points? Does tense survive with
 Montague-typed gates? Does quantifier scope survive?
+
+### Priority 6: Gamma evolution — can sieve replace gradient for scales?
+267K gamma params currently gradient-trained. If the sieve can evolve
+per-channel scales, gradient params drop to norms + biases + embeddings.
+Embeddings (20.5M) are the elephant — can vocabulary be fully ternary?
 
 ### Carried
 - Cross-model validation of three-cluster structure (Pythia KIBCM)
