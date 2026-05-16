@@ -113,32 +113,39 @@ def loss_fn(
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Ascending components: shared across L0↑, L1↑, L2_apex (3 passes)
-ASC_SHARED = ("prep", "stride_stack", "consolidate", "mod_projs", "s4")
-# Descending components: shared across L1↓, L0↓ (2 passes)
-# Kernel dispatch/integrate replace prep_desc/consolidate_desc
-DESC_SHARED = ("combinator_dispatch", "desc_plates", "combinator_integrate", "mod_projs_desc", "s4_desc")
+ASC_SHARED = ("stride_stack", "mod_projs", "s4")
+# Descending components: shared across descending passes
+DESC_SHARED = ("combinator_dispatch", "combinator_integrate", "mod_projs_desc", "s4_desc")
+# Universal shared: stride_stack + dispatch/integrate are used in ALL 7 passes
+UNIVERSAL_SHARED = ("stride_stack", "combinator_dispatch", "combinator_integrate")
 
-N_ASC_PASSES = 3
-N_DESC_PASSES = 2
+N_ASC_PASSES = 4   # L0↑ L1↑ L2↑ L3_apex
+N_DESC_PASSES = 3  # L2↓ L1↓ L0↓
+N_ALL_PASSES = 7
 
 
 def normalize_shared_grads(grads: dict) -> dict:
     """Divide gradients of shared components by their pass count.
 
-    Ascending components (prep, stride_stack, consolidate, mod_projs, s4)
-    are traversed 3× per forward (L0↑, L1↑, L2_apex).
-    Descending components (*_desc) are traversed 2× (L1↓, L0↓).
+    stride_stack, combinator_dispatch, combinator_integrate are shared
+    across ALL 7 passes (universal architecture).
+    s4 (ascending) and s4_desc (descending) have their respective counts.
     Normalizing stabilizes Adam's running statistics.
     """
     asc_scale = 1.0 / N_ASC_PASSES
     desc_scale = 1.0 / N_DESC_PASSES
+
+    all_scale = 1.0 / N_ALL_PASSES
 
     def _walk(tree, keys):
         if isinstance(tree, dict):
             out = {}
             for k, v in tree.items():
                 new_keys = keys + [k]
-                if len(new_keys) >= 1 and new_keys[0] in ASC_SHARED:
+                if len(new_keys) >= 1 and new_keys[0] in UNIVERSAL_SHARED:
+                    # Used in all 7 passes
+                    out[k] = tree_map(lambda g: g * all_scale, v)
+                elif len(new_keys) >= 1 and new_keys[0] in ASC_SHARED:
                     out[k] = tree_map(lambda g: g * asc_scale, v)
                 elif len(new_keys) >= 1 and new_keys[0] in DESC_SHARED:
                     out[k] = tree_map(lambda g: g * desc_scale, v)
@@ -255,23 +262,12 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     # Print compressor metrics
     pass_names = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
     n_asc = 4  # passes 0-3 are ascending (L0↑, L1↑, L2↑, L3_apex)
-    desc_max_cycles = compressor_metrics.get("desc_max_cycles", 1)
 
     print("  ┌─ S3 gates ──────────────────────────────────────┐", file=sys.stderr)
     for pi, pname in enumerate(pass_names):
         gates = compressor_metrics["s3_gates"][pi]
-        if pi >= n_asc and desc_max_cycles > 1:
-            # Descending pass: show per-cycle gates
-            for cy in range(desc_max_cycles):
-                base = cy * 3
-                cyname = f"{pname}c{cy}"
-                if base + 2 < len(gates):
-                    print(f"  │ {cyname:6s}: disp={gates[base]:.3f}  "
-                          f"conv={gates[base+1]:.3f}  intg={gates[base+2]:.3f}",
-                          file=sys.stderr)
-        else:
-            print(f"  │ {pname:4s}: prep={gates[0]:.3f}  conv={gates[1]:.3f}  "
-                  f"cons={gates[2]:.3f}", file=sys.stderr)
+        print(f"  │ {pname:4s}: disp={gates[0]:.3f}  conv={gates[1]:.3f}  "
+              f"intg={gates[2]:.3f}", file=sys.stderr)
     print("  ├─ S5 reweight ───────────────────────────────────┤", file=sys.stderr)
     mg = compressor_metrics["s5_reweight"]
     print(f"  │ {' '.join(f'{pn}={g:.3f}' for pn, g in zip(pass_names, mg))}",
@@ -306,21 +302,6 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
         cg_active = compressor_metrics["compute_gate_active"]
         print(f"  🔧 Compute gate: mean={cg_mean:.4f}  max={cg_max:.4f}  "
               f"active(>0.5)={cg_active:.1%}", file=sys.stderr)
-
-    # Multi-cycle stats
-    if desc_max_cycles > 1:
-        cig = compressor_metrics.get("cycle_inject_gate", 0.0)
-        eff_cycles = compressor_metrics.get("effective_cycles", [])
-        cont_gates = compressor_metrics.get("cycle_continue_gates", [])
-        desc_pass_names = ("L2↓", "L1↓", "L0↓")
-        parts = [f"max={desc_max_cycles}", f"inject={cig:.4f}"]
-        for di, dpn in enumerate(desc_pass_names):
-            if di < len(eff_cycles):
-                parts.append(f"{dpn}={eff_cycles[di]:.2f}eff")
-            if di < len(cont_gates) and cont_gates[di]:
-                cg_str = ",".join(f"{g:.2f}" for g in cont_gates[di])
-                parts.append(f"cont=[{cg_str}]")
-        print(f"  🔄 Cycles: {' '.join(parts)}", file=sys.stderr)
 
     # Algedonic alert (Beer's fire alarm)
     alarm_factors = compressor_metrics.get("alarm_factors")
@@ -422,21 +403,23 @@ MODULE_PASS_MAP = {
     # Ascending shared (3 passes)
     "prep":             [0, 1, 2],
     "stride_stack":     [0, 1, 2],
-    "consolidate":      [0, 1, 2],
-    "s4":               [0, 1, 2],
-    "mod_projs":        [0, 1, 2],
-    # Descending shared (2 passes)
-    "combinator_dispatch":  [3, 4],
-    "desc_plates":          [3, 4],
-    "combinator_integrate": [3, 4],
-    "s4_desc":              [3, 4],
-    "mod_projs_desc":       [3, 4],
+    "s4":               [0, 1, 2, 3],
+    "mod_projs":        [0, 1, 2, 3],
+    # Universal shared (all 7 passes)
+    "stride_stack":         [0, 1, 2, 3, 4, 5, 6],
+    "combinator_dispatch":  [0, 1, 2, 3, 4, 5, 6],
+    "combinator_integrate": [0, 1, 2, 3, 4, 5, 6],
+    # Descending shared (3 desc passes)
+    "s4_desc":              [4, 5, 6],
+    "mod_projs_desc":       [4, 5, 6],
     # Per-pass S3
     "s3_passes.0":      [0],
     "s3_passes.1":      [1],
     "s3_passes.2":      [2],
     "s3_passes.3":      [3],
     "s3_passes.4":      [4],
+    "s3_passes.5":      [5],
+    "s3_passes.6":      [6],
 }
 # Modules not in the map get mean alarm need (S5, S2, meta, embed, etc.)
 
@@ -931,7 +914,7 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
 
     print(f"\n  d_model={cfg.d_model}  n_heads={cfg.n_heads}  "
           f"strides={cfg.strides}", file=sys.stderr)
-    print(f"  d_ff={cfg.d_ff}  d_ff_consolidate={cfg.d_ff_consolidate}  "
+    print(f"  d_ff={cfg.d_ff}  n_passes={cfg.n_passes}  "
           f"d_register={cfg.d_register}  alpha={cfg.alpha}", file=sys.stderr)
     print(f"  params: total={param_counts['total']:,}  "
           f"trainable={param_counts['trainable']:,}  "
@@ -1298,18 +1281,17 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                       file=sys.stderr, flush=True)
 
         # ── Etch check (topology shaping) ─────────────────────
-        # No artificial cap on flip rate. The 3-plane consensus mechanism
-        # IS the governor: only flips where all signal planes agree AND
-        # current sign disagrees. Self-terminating as topology converges.
+        # Consensus mechanism + per-event ceiling govern flip rate.
         # Early: many wrong signs → aggressive etching.
         # Late: signs aligned → few/no flips. Natural convergence.
         if (etch_states is not None
                 and step >= cfg.etch_warmup
                 and step % cfg.etch_interval == 0):
+            max_flips_this_event = getattr(cfg, 'etch_max_flips_per_event', None)
             etch_result = etch_check(
                 etch_states, model,
                 consensus_required=cfg.etch_consensus,
-                max_flips=None,  # consensus is the sole governor
+                max_flips=max_flips_this_event,
             )
             n_flipped = etch_result["total_flipped"]
             total_etched += n_flipped
@@ -1326,6 +1308,14 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 freeze_ternary_weights(model)
                 restore_ternary(model)
 
+                # Reset signal accumulators after successful etch
+                # (heat planes should restart from current gradient signal
+                # rather than carry stale pre-flip consensus votes)
+                if getattr(cfg, 'etch_reset_after_flip', False):
+                    for es in etch_states.values():
+                        if hasattr(es, 'reset_heat'):
+                            es.reset_heat()
+
             # Log etch event
             per_mod_summary = {
                 p: d["n_flipped"]
@@ -1333,26 +1323,13 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 if d["n_flipped"] > 0
             }
 
-            # Aggregate per-plate etch counts (K=0, I=1, B=2, C=3)
-            plate_names = ['K', 'I', 'B', 'C']
-            plate_flips = {name: 0 for name in plate_names}
-            other_flips = 0
-            for p, nf in per_mod_summary.items():
-                matched = False
-                for i, name in enumerate(plate_names):
-                    if f"desc_plates.plates.{i}." in p:
-                        plate_flips[name] += nf
-                        matched = True
-                        break
-                if not matched:
-                    other_flips += nf
+            # Aggregate per-mirror/plate etch counts
+            other_flips = sum(per_mod_summary.values())
 
-            plate_str = " ".join(f"{name}={plate_flips[name]:,}" for name in plate_names)
             print(
                 f"  ⚡ etch step {step}: {n_flipped:,} flips"
                 f" ({total_etched:,} total)"
-                f"  modules: {len(per_mod_summary)}"
-                f"  plates: {plate_str}  other={other_flips:,}",
+                f"  modules: {len(per_mod_summary)}",
                 file=sys.stderr, flush=True,
             )
             if per_mod_summary:
@@ -1365,8 +1342,6 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 "timestamp": time.time(),
                 "total_flipped": n_flipped,
                 "total_etched": total_etched,
-                "plate_flips": plate_flips,
-                "other_flips": other_flips,
                 "per_module": {
                     p: d for p, d in etch_result.get("per_module", {}).items()
                 },
@@ -1567,7 +1542,6 @@ def main():
     if args.d_model is not None:
         cfg.d_model = args.d_model
         cfg.d_ff = args.d_model * 3
-        cfg.d_ff_consolidate = args.d_model * 4
     if args.batch_size is not None: cfg.batch_size = args.batch_size
     if args.grad_accum is not None: cfg.grad_accum = args.grad_accum
     if args.seq_len is not None:

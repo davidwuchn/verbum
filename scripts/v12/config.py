@@ -55,8 +55,7 @@ class V12Config:
 
     # ── Core dimensions ──
     d_model: int = 512            # representation dimension
-    d_ff: int = 1536              # prep FFN width (3× d_model)
-    d_ff_consolidate: int = 2048  # consolidate FFN width (wider)
+    d_ff: int = 1536              # FFN width (3× d_model)
     d_register: int = 128         # register dimension (real dim = 2×)
     n_heads: int = 8              # attention heads (d_head = 64)
     window: int = 8               # attention window width
@@ -107,8 +106,15 @@ class V12Config:
     # ── Combinator dispatch ──
     n_combinators: int = N_COMBINATORS  # 4: K, I, B, C (M is NOT here)
 
-    # Self-regulating descending cycles (unchanged from v11)
-    desc_max_cycles: int = 3
+    # Total number of passes — mirrors per-pass beam angle differentiation
+    n_passes: int = 7
+
+    # NOTE: max_cycles removed permanently. Architecture is max_cycles=1:
+    # 7 passes × 1 dispatch→stride→integrate = 7 kernel ops total.
+    # Each pass has its own mirror = unique beam angle = unique variety.
+    # Adding cycles (same mirror twice) adds depth without variety — redundant
+    # when passes already provide sequential refinement at different angles.
+    # If more depth is needed: add passes (more mirrors), not cycles.
 
     # Descending arm stride direction: coarse→fine (TST-aligned)
     desc_stride_reverse: bool = True
@@ -217,15 +223,17 @@ class V12Config:
     # Etch condition: all etch_consensus planes agree on direction
     #   AND that direction disagrees with current weight sign → flip.
     use_etching: bool = True
-    etch_signal_interval: int = 50    # steps between signal plane updates
-    etch_interval: int = 200          # steps between etch checks
+    etch_signal_interval: int = 1     # steps between signal plane updates
+    etch_interval: int = 2            # steps between etch checks
     etch_warmup: int = 200            # steps before etching begins (signal planes need history)
     etch_heat_alpha: float = 0.99     # EMA decay for heat accumulation
     etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)  # percentiles for planes
     etch_consensus: int = 3           # planes that must agree (2 or 3)
     etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
+    etch_max_flips_per_event: int = 50000  # per-event flip ceiling
+    etch_reset_after_flip: bool = True     # reset accumulators after etch
     # NOTE: etch_max_pct and etch_max_pct_ramp are REMOVED.
-    # Consensus mechanism is the sole governor of flip rate.
+    # Consensus mechanism (+ etch_max_flips_per_event ceiling) governs flip rate.
     # Self-terminating: early=aggressive (many wrong signs), late=quiet (signs aligned).
 
     # ── Checkpointing ──

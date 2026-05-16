@@ -841,7 +841,7 @@ class CycleContinue(nn.Module):
     phase's delta. Between cycles, CycleContinue gates whether the
     NEXT cycle's entire contribution should matter.
 
-    The model always computes up to desc_max_cycles (static graph for
+    The model always computes up to max_cycles (static graph for
     MLX). CycleContinue controls each cycle's contribution weight via
     a cumulative gate product:
 
@@ -885,10 +885,14 @@ class CycleContinue(nn.Module):
         self._input_dim = input_dim
         self._input_dim_padded = ((input_dim + 63) // 64) * 64
         self.gate_proj = TernaryLinear(self._input_dim_padded, 16, pre_norm=False)
-        # Neutral init: sigmoid(0) = 0.5 — zero gamma → zero output
+        # Conservative init: sigmoid(-2) ≈ 0.12 — mostly don't continue.
+        # Zero gamma → projection output is 0, bias drives the default.
+        # Small pathway (12%) gives gradient signal to LEARN to open.
+        # Passes that benefit from cycling will learn to open the gate.
+        # Passes that don't (most ascending) stay at ~1 effective cycle.
         self.gate_proj.gamma = mx.zeros_like(self.gate_proj.gamma)
-        # Separate bias: 0.0 → sigmoid(0) = 0.5 (neutral)
-        self.gate_bias = mx.zeros((1,))
+        # Separate bias: -2.0 → sigmoid(-2) ≈ 0.12 (mostly closed, small hint)
+        self.gate_bias = mx.full((1,), -2.0)
 
     def __call__(
         self,

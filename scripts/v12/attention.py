@@ -680,6 +680,7 @@ class HybridStrideStack(nn.Module):
         dropout: float = 0.1,
         alpha: float | None = None,
         n_q_mirrors: int = 0,
+        n_combinators: int = 4,
     ):
         super().__init__()
         assert len(strides) == len(stride_is_retrieval)
@@ -687,6 +688,11 @@ class HybridStrideStack(nn.Module):
         self.strides = strides
         self.stride_is_retrieval = stride_is_retrieval
         self.window = window
+        self.n_combinators = n_combinators
+
+        # Per-combinator beam mirrors — same pattern as DedicatedStrideStacks.
+        # Used when dispatch_weights are provided to combinator_forward.
+        self.combinator_mirrors = [TernaryMirror(d_model) for _ in range(n_combinators)]
 
         self.layers = []
         self._layer_types = []  # "comp" or "ret" per layer
@@ -723,8 +729,13 @@ class HybridStrideStack(nn.Module):
         self._retrieval_memory_norms = {}
 
     def __call__(self, x: mx.array, reverse: bool = False,
-                 stride_range: tuple[int, int] | None = None) -> mx.array:
+                 stride_range: tuple[int, int] | None = None,
+                 dispatch_weights: mx.array | None = None) -> mx.array:
         """Run stride layers sequentially (hybrid: comp + ret interleaved).
+
+        When dispatch_weights is provided (B, L, n_combinators), composition
+        layers use combinator_forward for per-combinator beam angle routing.
+        Retrieval layers (GLA) always use the plain forward pass.
 
         After each retrieval layer, caches instrumentation metrics.
         """
@@ -741,7 +752,14 @@ class HybridStrideStack(nn.Module):
         self._retrieval_memory_norms = {}
 
         for i in indices:
-            x = self.layers[i](x)
+            if (dispatch_weights is not None
+                    and self._layer_types[i] == "comp"):
+                # Composition layer: use per-combinator beam angles
+                x = self.layers[i].combinator_forward(
+                    x, self.combinator_mirrors, dispatch_weights)
+            else:
+                # Retrieval layer (GLA) or no dispatch — plain forward
+                x = self.layers[i](x)
 
             # Capture retrieval instrumentation
             if self._layer_types[i] == "ret":

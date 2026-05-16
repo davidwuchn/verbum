@@ -5,7 +5,6 @@ Probes v12 checkpoints with:
   - Eval loss + relational loss
   - Combinator dispatch distribution (K, I, B, C weights and evolution)
   - Per-position dispatch analysis (which combinator dominates where)
-  - CycleContinue dynamics (effective cycles, continuation gates)
   - Combinator emphasis from S4 intelligence channel
   - φ-compression analysis (stratified by content type)
   - S3 gates, S5 reweight, S2 coordination
@@ -133,7 +132,6 @@ def load_checkpoint(ckpt_path: Path) -> tuple[V12Model, int, dict, V12Config]:
     if "d_model" in config_data:
         cfg.d_model = config_data["d_model"]
         cfg.d_ff = cfg.d_model * 3
-        cfg.d_ff_consolidate = cfg.d_model * 4
     if "vocab_size" in config_data:
         cfg.vocab_size = config_data["vocab_size"]
     if "seq_len" in config_data:
@@ -433,11 +431,11 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
         print(f"\n  {'step':>8} {'loss':>8} {'r':>8} {'comp_gate':>10} ", end="")
         for cn in COMBINATOR_NAMES:
             print(f" {cn:>6}", end="")
-        print(f" {'eff_cyc':>8}")
+        print()
         print(f"  {'─'*8} {'─'*8} {'─'*8} {'─'*10}", end="")
         for _ in COMBINATOR_NAMES:
             print(f" {'─'*6}", end="")
-        print(f" {'─'*8}")
+        print()
 
         for m in metrics:
             step = m["step"]
@@ -449,17 +447,12 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
             dw = m.get("combinator_dispatch_weights",
                        m.get("kernel_dispatch_weights", []))
 
-            # Effective cycles
-            eff = m.get("effective_cycles", [])
-            eff_str = ",".join(f"{e:.2f}" for e in eff) if eff else "—"
-
             print(f"  {step:>8} {loss:>8.4f} {r:>8.4f} {cg:>10.4f}", end="")
             for ci in range(min(len(dw), N_COMBINATORS)):
                 print(f" {dw[ci]:>6.3f}", end="")
             if len(dw) < N_COMBINATORS:
                 for _ in range(N_COMBINATORS - len(dw)):
                     print(f" {'—':>6}", end="")
-            print(f" {eff_str:>8}", end="")
 
             # Alarm factors (if present)
             af = m.get("alarm_factors", [])
@@ -495,31 +488,6 @@ def analyze_trajectory(checkpoint_dir: Path) -> None:
                     arrow = "↑" if d > 0.01 else ("↓" if d < -0.01 else "→")
                     print(f"    {name}: {dw_first[ci]:.4f} {arrow} {dw_last[ci]:.4f} "
                           f"(Δ={d:+.4f})")
-
-        # ── CycleContinue trajectory ──────────────────────
-        has_cycles = any(m.get("cycle_continue_gates") for m in metrics)
-        if has_cycles:
-            print(f"\n  CycleContinue trajectory:")
-            print(f"  {'step':>8} {'eff_L1↓':>8} {'eff_L0↓':>8} "
-                  f"{'cont_L1↓':>16} {'cont_L0↓':>16}")
-            print(f"  {'─'*8} {'─'*8} {'─'*8} {'─'*16} {'─'*16}")
-            for m in metrics:
-                step = m["step"]
-                eff = m.get("effective_cycles", [])
-                cont = m.get("cycle_continue_gates", [])
-                eff_strs = [f"{e:.3f}" for e in eff] if eff else ["—", "—"]
-                cont_strs = []
-                for cg_list in cont:
-                    if cg_list:
-                        cont_strs.append(",".join(f"{g:.3f}" for g in cg_list))
-                    else:
-                        cont_strs.append("—")
-                while len(eff_strs) < 2:
-                    eff_strs.append("—")
-                while len(cont_strs) < 2:
-                    cont_strs.append("—")
-                print(f"  {step:>8} {eff_strs[0]:>8} {eff_strs[1]:>8} "
-                      f"{cont_strs[0]:>16} {cont_strs[1]:>16}")
 
         # ── S3 gate trajectory ────────────────────────────
         print(f"\n  S3 gate trajectory (L0↑ pass — earliest signal):")
@@ -586,7 +554,6 @@ def run_instrumented_samples(
         "pass_entropy_in": [], "pass_entropy_out": [],
         "losses": [], "per_sample": [],
         "combinator_dispatch_weights": [], "combinator_type_weights": [],
-        "cycle_continue_gates": [], "effective_cycles": [],
         "compute_gate_mean": [],
     }
 
@@ -622,12 +589,6 @@ def run_instrumented_samples(
         if metrics.get("combinator_type_weights"):
             all_metrics["combinator_type_weights"].append(
                 metrics["combinator_type_weights"])
-        if metrics.get("cycle_continue_gates"):
-            all_metrics["cycle_continue_gates"].append(
-                metrics["cycle_continue_gates"])
-        if metrics.get("effective_cycles"):
-            all_metrics["effective_cycles"].append(
-                metrics["effective_cycles"])
         if "compute_gate_mean" in metrics:
             all_metrics["compute_gate_mean"].append(
                 metrics["compute_gate_mean"])
@@ -757,20 +718,6 @@ def print_compressor_metrics(raw: dict):
         avg_cg = sum(cg) / len(cg)
         print(f"  ├─ Compute gate ──────────────────────────────────┤")
         print(f"  │ mean={avg_cg:.4f}")
-
-    # CycleContinue
-    ccg = raw.get("cycle_continue_gates", [])
-    eff = raw.get("effective_cycles", [])
-    if ccg or eff:
-        print(f"  ├─ CycleContinue ─────────────────────────────────┤")
-        if eff:
-            avg_eff = [0.0] * len(eff[0])
-            for e in eff:
-                for i in range(len(e)):
-                    avg_eff[i] += e[i]
-            avg_eff = [v / len(eff) for v in avg_eff]
-            print(f"  │ effective cycles: "
-                  f"{' '.join(f'{e:.3f}' for e in avg_eff)}")
 
     # Register norms
     reg_norms = _avg_register_norms(raw["register_norms"])
@@ -926,7 +873,7 @@ def print_evolution(all_results: list[dict]):
     print(f"\n  {'step':>8} {'loss':>8} {'r':>8}", end="")
     for cn in COMBINATOR_NAMES:
         print(f" {cn:>7}", end="")
-    print(f" {'comp_gate':>10} {'eff_cyc':>8}", end="")
+    print(f" {'comp_gate':>10}", end="")
     if has_ret_gate:
         print(f" {'ret_gate':>9}", end="")
     if has_ret_reg:
@@ -935,7 +882,7 @@ def print_evolution(all_results: list[dict]):
     print(f"  {'─'*8} {'─'*8} {'─'*8}", end="")
     for _ in COMBINATOR_NAMES:
         print(f" {'─'*7}", end="")
-    print(f" {'─'*10} {'─'*8}", end="")
+    print(f" {'─'*10}", end="")
     if has_ret_gate:
         print(f" {'─'*9}", end="")
     if has_ret_reg:
@@ -947,11 +894,10 @@ def print_evolution(all_results: list[dict]):
         rel_r = (loss - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE) if loss else 0
         dw = r.get("dispatch", [0.25] * N_COMBINATORS)
         cg = r.get("compute_gate", 0)
-        eff = r.get("effective_cycles", "—")
         print(f"  {r['step']:>8} {loss:>8.4f} {rel_r:>8.4f}", end="")
         for ci in range(N_COMBINATORS):
             print(f" {dw[ci]:>7.4f}", end="")
-        print(f" {cg:>10.4f} {eff:>8}", end="")
+        print(f" {cg:>10.4f}", end="")
         if has_ret_gate:
             rg = r.get("ret_gate_mean")
             print(f" {rg:>9.4f}" if rg is not None else f" {'—':>9}", end="")
@@ -1191,20 +1137,12 @@ def main():
         cg_list = raw.get("compute_gate_mean", [])
         avg_cg = sum(cg_list) / len(cg_list) if cg_list else 0
 
-        eff_list = raw.get("effective_cycles", [])
-        eff_str = "—"
-        if eff_list:
-            avg_eff = [sum(e[i] for e in eff_list) / len(eff_list)
-                       for i in range(len(eff_list[0]))]
-            eff_str = ",".join(f"{e:.2f}" for e in avg_eff)
-
         result_entry: dict = {
             "step": step,
             "loss": float(sum(raw["losses"]) / len(raw["losses"])),
             "eval_loss": eval_result["loss"] if eval_result else 0,
             "dispatch": avg_dw,
             "compute_gate": avg_cg,
-            "effective_cycles": eff_str,
         }
         # Retrieval summary scalars for evolution table
         ret_gm = raw.get("retrieval_gate_means")

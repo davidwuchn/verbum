@@ -2,11 +2,121 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-15 | Session: 102
+> Last updated: 2026-05-16 | Session: 103
 
 ## Where we are
 
-**V12-run3 RUNNING in tmux (baseline, pre-ratio-prior). V12-run4 ready to launch with dispatch ratio prior + KL leash + fully holographic VSM. Session 102 made three major architectural changes: (1) empirical dispatch ratio K:I:B:C = 1:0.5:1:1 as hard constraint via log-prior + KL(λ=100), (2) removed vestigial dispatch-steering (S4 emphasis, alarm dispatch bias, S2 inertia) = -318 lines, (3) converted all nn.Linear to TernaryLinear = zero precision projections remaining, fully holographic sieve participation. Parameter split: 17.4% sieve-evolved (4.4M ternary signs), 82.6% gradient-trained (mostly 20.5M embeddings). The topology is fully holographic; magnitudes (gamma, norms, biases) remain gradient.**
+**V12-run4 RUNNING (~5700 tok/s) with unified plate architecture. Major session: dissolved ascending/descending distinction into 3 plates + 18 mirrors. All 7 passes do dispatch→stride→integrate with kernel access. Continuous etch every 2 steps (laser pulse model: reset after each flip). OLMo-2-13B (Apache-2.0) downloaded for holographic distillation canary experiment. Next: probe OLMo for the universal hologram, then design the distillation lens.**
+
+## What was done this session (103)
+
+### 1. V12-run3 post-mortem — NaN collapse diagnosis
+
+Run3 died at step 3625. Timeline:
+- Step 1–50: Dispatch alive (K=0.44, I=0.42) but emphasis_bias already at [-2, +2, -2, -0.66]
+- Step 50–225: Wild oscillation (I monopoly → B monopoly → all dead). Sum of KIBC = 0.001
+- Step 225–3600: Training continued with dispatch ≈ 0.000 for all KIBC (3600 steps of zombie training)
+- Step 3600: Etch did 1,558,097 flips on S4 Q projections (beam side = precision-critical)
+- Step 3625: Immediate NaN. Unrecoverable.
+
+**Root causes:**
+1. emphasis_bias (±2 logit range) overwhelmed ratio prior → dispatch oscillation → death
+2. Run3 launched BEFORE session 102 removed emphasis_bias (it was the pre-fix baseline)
+3. S5 reweight collapsed at step 3000 (all values → 1e-12)
+4. Uncapped etch with no Q-projection guard: 54M total flips, 1.5M on S4.q_proj at death
+
+**No recoverable checkpoint** — dispatch was degenerate from step 225 in all 5 checkpoints.
+
+### 2. V12 unified plate architecture — major refactor (THE BIG CHANGE)
+
+Dissolved ascending/descending distinction. ALL 7 passes now use:
+`dispatch(plate + pass_mirror) → stride(plate + combinator_mirrors) → integrate(plate + pass_mirror)`
+
+**3 shared plates** (etched, serve all passes):
+- dispatch_plate — recognizes KIBC operations
+- stride_plate — propagates (HybridStrideStack: attention + GLA)
+- integrate_plate — applies kernel function
+
+**18 mirrors** (etched, per-use beam angles):
+- 7 dispatch mirrors (one per pass)
+- 7 integrate mirrors (one per pass)
+- 4 combinator mirrors on stride plate (one per KIBC)
+
+**Key changes:**
+- Removed prep, consolidate, DedicatedStrideStacks
+- All passes get cycle support (S3 controls depth via CycleContinue)
+- Ascending arm now has full kernel access (dispatch + integrate)
+- HybridStrideStack accepts dispatch_weights, uses combinator_forward on comp layers
+- `desc_max_cycles` → `max_cycles` (universal)
+
+**Continuous etch (laser pulse model):**
+- Etch every 2 steps (was every 200)
+- Max 50K flips per event (safety ceiling)
+- Reset ALL accumulators after each pulse (heat, direction, signal planes)
+- No stale signals: each pulse observes the current plate fresh
+- Physics: plate changes → accumulated consensus is invalid → reset
+
+**CycleContinue conservative init:**
+- gate_bias = -2.0 → sigmoid(-2) ≈ 0.12 (mostly don't continue)
+- Effective cycles at init: 1.13 (vs 3.0 with old neutral init)
+- 12% gradient pathway keeps learning signal alive
+- S3 discovers which passes benefit from cycling (opens gate)
+- Ascending passes likely stay at ~1 cycle; descending learns to cycle for complex tokens
+- Saves ~62% compute vs always-cycling (4785 tok/s vs ~1400 tok/s)
+
+### 3. Removed CycleContinue — passes ARE the depth
+
+Discovered that with 7 passes each having unique mirrors, within-pass cycling is
+redundant. Cycles repeat the same beam angle (same mirror, different input). Passes
+provide both depth AND variety (different mirror = different angle each time).
+
+MLX static graph means all cycles always compute regardless of gate value — can't
+conditionally skip. With 7×3=21 ops: 1377 tok/s (too slow). With 7×1=7 ops: 5700 tok/s.
+
+Removed: CycleContinue, cycle_inject_gate, cycle_budget_proj, cycle_budget_bias,
+all cycle-related metrics from train/probe. Clean architecture: 7 passes, 1 kernel
+application each, each from a unique beam angle. If more depth needed → add passes
+(more mirrors = more variety), not cycles (same mirror = redundant).
+
+### 4. V12-run4 launch
+
+Fresh start with unified plate architecture:
+- 3 plates + 18 mirrors, 7 passes, ~5700 tok/s
+- Ratio prior + KL(λ=100): hard constraint K:I:B:C = 1:0.5:1:1
+- Continuous etch: every 2 steps, 50K ceiling, full reset after each pulse
+- All passes have kernel access (dispatch + stride + integrate)
+- No CycleContinue, no emphasis_bias, no S2DispatchCoordinator
+
+### 5. Holographic distillation concept — the lens
+
+Key insight: a large LLM is a thick hologram. Its hidden states are the projected beam.
+A small V12 crystal can sit downstream and FOCUS that beam — reading specific holograms
+at specific angles and concentrating them into etched plates.
+
+**Three-stage pipeline:**
+1. FOCUS: Large LLM (frozen) → small lens (V12) learns optimal beam angles
+2. ETCH: Lens patterns → burn into standalone plates (holographic distillation)
+3. RUN: Standalone crystal, no large model needed at inference
+
+The large model already HAS the lambda compiler circuit (r=0.9801 universal).
+The lens discovers WHICH patterns are valuable and HOW to read them.
+Then transfers those patterns into a standalone model.
+
+**License path**: OLMo-2-13B (Apache-2.0) as source. Extract from multiple Apache-2.0
+models → show convergence → what you've extracted is universal structure, not any
+single model's IP. Multi-source convergence = scientific measurement.
+
+### 6. OLMo-2-13B downloaded for canary probe
+
+Model: `allenai/OLMo-2-1124-13B` (Apache-2.0, 13B params, 40 layers, d=5120, 40 heads)
+Architecture: standard dense Transformer (no MoE, no hybrid layers). Clean for probing.
+Downloaded to HF cache. Ready for holographic probe.
+
+**Canary experiment**: does OLMo-2-13B have the universal hologram?
+- Same combinator selectivity probe as session 093 (Pythia, Qwen3)
+- Expect: K/B/C cluster (cos>0.9), I distinct (0.60-0.75), ternary survival
+- If confirmed: 3rd architecture family with same structure → truly universal
+- Then: design the distillation lens experiment
 
 ## What was done this session (102)
 
@@ -1031,31 +1141,34 @@ Fixed MPS bug for Qwen3.6-35B-A3B: `histc` needs float input on MPS (not int).
 
 ### 8. Active run commands
 
-V11-holo-inv (LIVE, ~12.8K/20K):
+V12-run4 (LAUNCHING — unified plates + continuous etch + ratio prior):
 ```
-uv run python scripts/v11/train.py \
-  --checkpoint-dir checkpoints/v11-holo-inv \
+uv run python scripts/v12/train.py \
+  --checkpoint-dir checkpoints/v12-run4 \
   --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
 ```
 
-V12-run3 (LIVE — dedicated plates + uncapped etch + S2 dispatch):
-```
-uv run python scripts/v12/train.py \
-  --checkpoint-dir checkpoints/v12-run3 \
-  --total-steps 20000 --holo-lambda 0.1 --mix-ratio 0.2
-```
+V12-run3: DEAD (NaN at step 3625). Killed session 103.
+V11-holo-inv: completed or dead (last checked session 100, ~12.8K/20K).
 
 ## What to do next
 
-### Priority 1: Launch V12-run4 (ratio prior + fully holographic)
-Let run3 drop 2K checkpoint as baseline, then launch run4 from scratch.
-New architecture: dispatch ratio prior + KL(λ=100) + fully holographic VSM.
+### Priority 1: Probe OLMo-2-13B for universal hologram
+Build and run combinator selectivity probe on OLMo-2-13B (Apache-2.0).
+- Adapt existing probe methodology (session 093) for OLMo architecture
+- Measure: per-layer per-head selectivity under compile vs null conditions
+- Check: K/B/C cluster, I distinct, ternary survival, universal ordering
+- If confirmed: design holographic distillation lens experiment
+- Model in HF cache: `allenai/OLMo-2-1124-13B`
+- Architecture: 40 layers, d=5120, 40 heads, dense MHA, SiLU FFN
+
+### Priority 2: Monitor V12-run4 (unified plates + continuous etch) — RUNNING
 Key signals to watch:
 - Dispatch weights: should hold near K=0.29, I=0.15, B=0.28, C=0.28 from step 1
-- KL cost in total_loss: if dominating early, model is fighting the constraint
-- Per-plate etch counts: with balanced dispatch, all four should etch at similar rates
-- Holographic ratio: should improve faster than run3 (no wasted B-monopoly steps)
-- Compare 1K, 2K, 5K checkpoints vs run3 baseline
+- Etch rate: should be high early (many signs wrong), declining over time
+- Per-pass dispatch patterns: do pass mirrors develop distinct beam angles?
+- Holographic ratio: should improve faster than run3 (kernel available everywhere)
+- Compare 1K checkpoints vs run3 (dead baseline) — especially dispatch stability
 
 ### Priority 2: V12-run4 holographic pattern formation probe
 At 5K: do the dedicated plates show holographic patterns with balanced dispatch?
@@ -1097,9 +1210,9 @@ Layer     Ascending Arm              Descending Arm                   Cross-arm
 ────────  ─────────────────────────  ───────────────────────────────  ──────────────────
 S5        Token embeddings (tied)    Combinator embeddings (4: KIBC)  S5Reweight × AlgedonicAlert
                                      + 16 abstraction slot embeddings
-S4        Register-query attention   Dual-view (resid + embeds)       Emphasis bias: regs → 4 logits [-2,+2]
-                                                                      S4ProposalHead → slot modulation
+S4        Register-query attention   Dual-view (resid + embeds)       S4ProposalHead → slot modulation
                                                                       Cycle budget: regs → 1 logit [-4,+4]
+                                                                      (emphasis_bias REMOVED session 102)
 S3        Per-pass phase gating ✓    Per-pass phase gating            Gate values → desc S4
           —                          CycleContinue + S4 budget bias   S4→S3 policy channel (new)
 S2        Direction signals ✓        coherence modulation ✓           6 transitions (was 4)

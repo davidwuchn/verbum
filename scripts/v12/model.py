@@ -8,7 +8,7 @@ read by the descending arm's CombinatorIntegrate to condition application.
 
 Dual-layer design:
   Layer 1 — KIBC composition (inherited from v11):
-    Ascending: prep → StrideStack → consolidate
+    Ascending: StrideStack composition
     Descending: CombinatorDispatch → StrideStack → CombinatorIntegrate
   Layer 2 — M retrieval (new in v12):
     Ascending: HybridStrideStack alternates composition + GLA retrieval
@@ -24,10 +24,8 @@ Architecture:
     Retrieval registers updated after each ascending stride pass.
   Descending arm (3 passes): KIBC combinator dispatch (unchanged)
     CombinatorIntegrate conditioned on retrieval registers.
-  Self-regulating cycles (desc_max_cycles=3): unchanged from v11
-      Cycle 0 — IDENTIFY: which combinator?
-      Cycle 1 — RESOLVE:  find arguments
-      Cycle 2 — PRODUCE:  apply reduction (informed by retrieval)
+  Each pass: single dispatch→stride→integrate (max_cycles=1 permanently).
+    7 passes × 1 cycle = 7 distinct kernel ops with unique beam angles.
 
 Symmetric hourglass (7 passes):
   L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
@@ -45,14 +43,13 @@ import mlx.nn as nn
 
 from config import V12Config
 from ternary import TernaryLinear, TernaryEmbedding
-from attention import StrideStack, HybridStrideStack, DedicatedStrideStacks, TernaryFFN
+from attention import StrideStack, HybridStrideStack
 from components import (
     S4Ternary,
     S3Ternary,
     MetaS4Ternary,
     S5Reweight,
     S2Coordinator,
-    CycleContinue,
     AlgedonicAlert,
     S4ProposalHead,
     AbstractionRegularizer,
@@ -110,8 +107,7 @@ class V12Model(nn.Module):
 
         self.register_norm = nn.RMSNorm(self.d_reg_real)
 
-        # ── S1: Ascending ops (shared across 3 passes) ────────
-        self.prep = TernaryFFN(d, cfg.d_ff, cfg.dropout)
+        # ── S1: Unified stride stack (ALL 7 passes share this) ────
         n_mirrors = cfg.n_q_mirrors if cfg.use_q_mirrors else 0
         self.stride_stack = HybridStrideStack(
             d_model=d,
@@ -123,40 +119,33 @@ class V12Model(nn.Module):
             stride_is_retrieval=cfg.stride_is_retrieval,
             d_state=cfg.d_state,
             n_q_mirrors=n_mirrors,
+            n_combinators=cfg.n_combinators,
         )
-        self.consolidate = TernaryFFN(d, cfg.d_ff_consolidate, cfg.dropout)
 
         # ── Retrieval registers (v12) ─────────────────────────
         self.retrieval_registers = RetrievalRegisters(
             d, cfg.d_register, cfg.n_retrieval_registers)
 
-        # ── S1: Descending ops (shared across 2 passes) ───────
-        #    KIBC combinator dispatch + N abstraction slots
+        # ── S1: Dispatch→Stride→Integrate (ALL 7 passes) ──────
+        #    Shared combinator dispatch + N abstraction slots
+        #    n_passes mirrors: per-pass beam angle differentiation
         self.combinator_dispatch = CombinatorDispatch(
             d, n_combinators=N_COMBINATORS,
             n_abstraction_slots=cfg.n_abstraction_slots,
             d_ff=cfg.d_ff,
             dropout=cfg.dropout,
             n_registers=cfg.n_registers, d_register=cfg.d_register,
-            max_cond_banks=7,  # v12: up to 7 readable banks for descending passes
+            max_cond_banks=7,  # up to 7 readable banks for descending passes
             dispatch_ratio=cfg.dispatch_ratio,
-        )
-        self.desc_plates = DedicatedStrideStacks(
-            d_model=d,
-            strides=cfg.strides,
-            window=cfg.window,
-            n_heads=cfg.n_heads,
-            dropout=cfg.dropout,
-            alpha=cfg.alpha,
-            n_q_mirrors=n_mirrors,
-            n_combinators=cfg.n_combinators,
+            n_passes=cfg.n_passes,
         )
         self.combinator_integrate = CombinatorIntegrate(
             d, n_combinators=N_COMBINATORS,
             n_abstraction_slots=cfg.n_abstraction_slots,
-            d_ff=cfg.d_ff_consolidate, dropout=cfg.dropout,
+            d_ff=cfg.d_ff, dropout=cfg.dropout,
             d_register=cfg.d_register,
             n_retrieval_registers=cfg.n_retrieval_registers,
+            n_passes=cfg.n_passes,
         )
 
         # ── S4: Intelligence ──────────────────────────────────
@@ -182,13 +171,7 @@ class V12Model(nn.Module):
         for proj in self.mod_projs_desc:
             proj.gamma = mx.zeros_like(proj.gamma)
 
-        # ── Multi-cycle injection gate ─────────────────────────
-        self._cycle_inject_gate_raw = mx.array([-4.0])
-
-        # ── S3 cycle continuation gate ─────────────────────────
-        if cfg.desc_max_cycles > 1:
-            self.cycle_continue = CycleContinue(
-                cfg.d_register, n_registers=cfg.n_registers)
+        # (max_cycles=1 permanently — no cycle injection gate needed)
 
         # ── Meta-S4 ──────────────────────────────────────────
         # Banks: [bank_0, bank_1_desc, bank_3_desc, bank_4_apex] = 4
@@ -221,28 +204,6 @@ class V12Model(nn.Module):
         # Retrieval register EMA (v12): carry retrieval state across steps
         self._prev_retrieval_regs = [
             mx.zeros((self.d_reg_real,)) for _ in range(cfg.n_retrieval_registers)]
-        # ── S4→S3 cycle budget: intelligence → control channel ──
-        # S4 observes the residual stream and register state, then
-        # produces a scalar bias that shifts CycleContinue's gate.
-        # This is Beer's S4→S3 policy channel: intelligence tells
-        # control when to stop cycling.
-        #
-        # Simple content (pronouns, punctuation): bias < 0 → fewer cycles
-        # Complex content (lambda application, nested binding): bias > 0 → more
-        #
-        # Zero-init: starts inert (CycleContinue behaves exactly as before).
-        # tanh×4 clamp: bias ∈ [-4, +4], matching CycleContinue's logit range.
-        _cycle_budget_input_dim = 3 * n_reg * self.d_reg_real
-        # cycle_budget_proj: TernaryLinear padded to 16, take [:1], + bias.
-        _cycle_budget_padded = ((16 + 15) // 16) * 16  # = 16
-        self.cycle_budget_proj = TernaryLinear(
-            _cycle_budget_input_dim, _cycle_budget_padded, pre_norm=False)
-        # Zero gamma: starts inert (CycleContinue unaffected at init)
-        self.cycle_budget_proj.gamma = mx.zeros_like(
-            self.cycle_budget_proj.gamma)
-        self.cycle_budget_bias = mx.zeros((1,))
-        self._cycle_budget_bias = mx.array(0.0)
-
         # ── S4→S5 abstraction proposal pathway ────────────────
         if cfg.n_abstraction_slots > 0:
             self.proposal_head = S4ProposalHead(
@@ -265,10 +226,6 @@ class V12Model(nn.Module):
         self.output_norm = nn.RMSNorm(d)
 
     # ── Helpers ───────────────────────────────────────────────
-
-    @property
-    def cycle_inject_gate(self) -> mx.array:
-        return mx.sigmoid(self._cycle_inject_gate_raw)
 
     def _init_bank0(self) -> list[mx.array]:
         return [self.register_inits[f"reg_{name}"]
@@ -340,13 +297,15 @@ class V12Model(nn.Module):
             metrics.append(dot / (n_prev * n_curr))
 
         # 4. Dispatch weight means K,I,B,C (4 scalars)
-        # Accumulate live dispatch weights from descending passes
+        # Accumulate live dispatch weights from ALL passes (now universal)
         dispatch_accum = None
         n_desc = 0
         for pa in all_pass_alarm:
             dw = pa.get('dispatch_weights_live')
             if dw is not None:
-                dw_mean = mx.mean(dw, axis=(0, 1))  # (4,)
+                # Take only KIBC portion for the 4-wide mean
+                dw_kibc = dw[..., :N_COMBINATORS]
+                dw_mean = mx.mean(dw_kibc, axis=(0, 1))  # (4,)
                 if dispatch_accum is None:
                     dispatch_accum = dw_mean
                 else:
@@ -387,34 +346,13 @@ class V12Model(nn.Module):
             metrics.append(mx.array(0.0))
             metrics.append(mx.array(0.0))
 
-        # 7. CycleContinue gates (6 scalars, padded)
-        cycle_gates_flat = []
-        for pa in all_pass_alarm:
-            for cg in pa.get('cycle_continue_gates', []):
-                cycle_gates_flat.append(cg)
-        # Pad to 6 (2 gates × 3 desc passes)
-        while len(cycle_gates_flat) < 6:
-            cycle_gates_flat.append(mx.array(0.5))  # neutral padding
-        for cg in cycle_gates_flat[:6]:
-            metrics.append(cg)
+        # 7. CycleContinue gates — 6 neutral scalars (max_cycles=1, no continuation)
+        for _ in range(6):
+            metrics.append(mx.array(0.5))
 
-        # 8. Effective cycles per desc pass (3 scalars)
-        #    Only descending passes (last N_DESC_PASSES) have cycles
-        eff_cycles_list = []
-        for pa in all_pass_alarm:
-            cc_gates = pa.get('cycle_continue_gates', [])
-            if cc_gates:
-                eff = mx.array(1.0)
-                cumul = mx.array(1.0)
-                for cg in cc_gates:
-                    cumul = cumul * cg
-                    eff = eff + cumul
-                eff_cycles_list.append(eff)
-        # Pad to exactly 3 (one per desc pass)
-        while len(eff_cycles_list) < 3:
-            eff_cycles_list.append(mx.array(1.0))
-        for ec in eff_cycles_list[:3]:
-            metrics.append(ec)
+        # 8. Effective cycles — 3 scalars, always 1.0 (max_cycles=1)
+        for _ in range(3):
+            metrics.append(mx.array(1.0))
 
         # 9. Raw delta RMS norms (7 scalars)
         for rd in raw_deltas:
@@ -458,24 +396,21 @@ class V12Model(nn.Module):
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
                          target_bank, embed_context=None,
                          proposal_delta=None,
-                         ret_regs=None,
-                         cycle_budget_bias=None):
+                         ret_regs=None):
         x_before = x
         raw_phases = []
         phase_gates = []
         # Alarm metrics: live (differentiable) values for AlgedonicAlert
         pass_alarm = {
-            'cycle_continue_gates': [],  # live CycleContinue gate values
-            'dispatch_weights_live': None,  # (B, L, 4) live dispatch weights
+            'dispatch_weights_live': None,  # (B, L, 4+N) live dispatch weights
             'compute_gate_live': None,  # (B, L, 1) live compute gate
             'retrieval_gate_mean': None,  # mean gate across retrieval strides
             'retrieval_memory_norms': None,  # per-stride GLA memory norms
         }
 
         s4 = self.s4_desc if is_descending else self.s4
-        strides = self.stride_stack if not is_descending else None  # desc uses desc_plates
 
-        # S4 scan
+        # S4 scan (ascending uses self.s4, descending uses self.s4_desc)
         s4_residual = x
         if embed_context is not None:
             s4_residual = mx.concatenate([x, embed_context], axis=1)
@@ -483,125 +418,77 @@ class V12Model(nn.Module):
         target_bank = [self.register_norm(target_bank[i] + s4_updates[i])
                        for i in range(self.cfg.n_registers)]
 
-        if is_descending:
-            # ── Combinator dispatch cycles ─────────────────────
-            x_anchor = x
-            max_cycles = self.cfg.desc_max_cycles
-            cumulative_gate = mx.array(1.0)
+        # ── Dispatch → Stride → Integrate (single pass, max_cycles=1 permanently) ──
+        # Phase 0: dispatch (which combinator?)
+        dispatch_out = self.combinator_dispatch(
+            x, registers=readable_banks,
+            proposal_delta=proposal_delta,
+            pass_idx=pass_idx)
+        delta = dispatch_out - x
+        raw_phases.append(delta)
+        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+            target_bank, delta, 0)
+        phase_gates.append(gate)
+        x = self._modulate(x, delta, gate, phase_idx=0, is_descending=is_descending)
 
-            for cycle in range(max_cycles):
-                x_cycle_start = x
+        # Phase 1: stride (propagate with combinator beam angles)
+        # Live dispatch weights (differentiable) flow gradients back through dispatch.
+        dw_kibc = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
 
-                if cycle > 0:
-                    x = x + self.cycle_inject_gate * x_anchor
+        # Direction: ascending=forward, descending=reverse (if configured)
+        reverse = is_descending and self.cfg.desc_stride_reverse
 
-                # Phase 0: dispatch (which combinator/slot?)
-                dispatch_out = self.combinator_dispatch(
-                    x, registers=readable_banks,
-                    proposal_delta=proposal_delta)
-                delta = dispatch_out - x
-                raw_phases.append(delta)
-                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target_bank, delta, 0)
-                phase_gates.append(gate)
-                x = self._modulate(x, delta, gate, phase_idx=0, is_descending=True)
+        converge_out = self.stride_stack(
+            x, dispatch_weights=dw_kibc,
+            reverse=reverse,
+            stride_range=self._stride_range_for_pass(pass_idx))
+        delta = converge_out - x
+        raw_phases.append(delta)
+        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+            target_bank, delta, 1)
+        phase_gates.append(gate)
+        x = self._modulate(x, delta, gate, phase_idx=1, is_descending=is_descending)
 
-                # Phase 1: converge (propagate spatially via KIBC dedicated plates)
-                # Each combinator gets its own StrideStack; dispatch weights blend outputs.
-                # dispatch_weights_live is the DIFFERENTIABLE version — gradients flow
-                # from plate outputs back through dispatch (no stop_gradient here).
-                dw_kibc = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
+        # Phase 2: integrate (apply kernel function)
+        dw = self.combinator_dispatch._dispatch_weights
+        slot_emb = None
+        if (self.cfg.n_abstraction_slots > 0
+                and hasattr(self.combinator_dispatch, '_normalize_slot_embeddings')):
+            slot_emb = self.combinator_dispatch._normalize_slot_embeddings()
+            if proposal_delta is not None:
+                slot_emb = slot_emb + proposal_delta
+            slot_emb = slot_emb * self.combinator_dispatch.slot_gates[:, None]
 
-                converge_out = self.desc_plates(
-                    x, dispatch_weights=dw_kibc,
-                    reverse=self.cfg.desc_stride_reverse,
-                    stride_range=self._stride_range_for_pass(pass_idx))
-                delta = converge_out - x
-                raw_phases.append(delta)
-                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target_bank, delta, 1)
-                phase_gates.append(gate)
-                x = self._modulate(x, delta, gate, phase_idx=1, is_descending=True)
+        integrate_out = self.combinator_integrate(
+            x, dispatch_weights=dw, slot_embeddings=slot_emb,
+            retrieval_registers=ret_regs,
+            pass_idx=pass_idx)
+        delta = integrate_out - x
+        raw_phases.append(delta)
+        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
+            target_bank, delta, 2)
+        phase_gates.append(gate)
+        x = self._modulate(x, delta, gate, phase_idx=2, is_descending=is_descending)
 
-                # Phase 2: integrate (apply combinator reduction)
-                dw = (self.combinator_dispatch._dispatch_weights
-                      if hasattr(self.combinator_dispatch, '_dispatch_weights')
-                      else None)
-                # Pass slot embeddings for context in FFN pathway
-                slot_emb = None
-                if (self.cfg.n_abstraction_slots > 0
-                        and hasattr(self.combinator_dispatch,
-                                    '_normalize_slot_embeddings')):
-                    slot_emb = (self.combinator_dispatch
-                                ._normalize_slot_embeddings())
-                    if proposal_delta is not None:
-                        slot_emb = slot_emb + proposal_delta
-                    slot_emb = (slot_emb
-                                * self.combinator_dispatch.slot_gates[:, None])
-                integrate_out = self.combinator_integrate(
-                    x, dispatch_weights=dw, slot_embeddings=slot_emb,
-                    retrieval_registers=ret_regs)
-                delta = integrate_out - x
-                raw_phases.append(delta)
-                _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target_bank, delta, 2)
-                phase_gates.append(gate)
-                x = self._modulate(x, delta, gate, phase_idx=2, is_descending=True)
+        # Capture live (differentiable) dispatch/compute metrics
+        if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
+            pass_alarm['dispatch_weights_live'] = \
+                self.combinator_dispatch._dispatch_weights_live
+        if hasattr(self.combinator_integrate, '_compute_gate_live'):
+            pass_alarm['compute_gate_live'] = \
+                self.combinator_integrate._compute_gate_live
 
-                # Scale by cumulative gate
-                cycle_contribution = x - x_cycle_start
-                x = x_cycle_start + cumulative_gate * cycle_contribution
-
-                # S3 continuation
-                if cycle < max_cycles - 1 and max_cycles > 1:
-                    cont_gate = self.cycle_continue(
-                        target_bank, budget_bias=cycle_budget_bias)
-                    pass_alarm['cycle_continue_gates'].append(cont_gate)
-                    cumulative_gate = cumulative_gate * cont_gate
-
-            # Capture live (differentiable) dispatch/compute metrics
-            # from the LAST cycle — most recent computation
-            if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
-                pass_alarm['dispatch_weights_live'] = \
-                    self.combinator_dispatch._dispatch_weights_live
-            if hasattr(self.combinator_integrate, '_compute_gate_live'):
-                pass_alarm['compute_gate_live'] = \
-                    self.combinator_integrate._compute_gate_live
-        else:
-            # ── Ascending compression ──────────────────────────
-            prep_out = self.prep(x)
-            delta = prep_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 0)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=0, is_descending=False)
-
-            converge_out = strides(x, reverse=False,
-                                   stride_range=self._stride_range_for_pass(pass_idx))
-            delta = converge_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 1)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=1, is_descending=False)
-
-            # ── Write retrieval registers after ascending stride pass ──
-            if ret_regs is not None:
-                ret_regs = self.retrieval_registers.write(ret_regs, x)
-            # Capture retrieval instrumentation from HybridStrideStack
-            if hasattr(strides, '_retrieval_gate_means') and strides._retrieval_gate_means:
-                pass_alarm['retrieval_gate_means'] = dict(strides._retrieval_gate_means)
-            if hasattr(strides, '_retrieval_memory_norms'):
-                pass_alarm['retrieval_memory_norms'] = strides._retrieval_memory_norms
-
-            consolidate_out = self.consolidate(x)
-            delta = consolidate_out - x
-            raw_phases.append(delta)
-            _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                target_bank, delta, 2)
-            phase_gates.append(gate)
-            x = self._modulate(x, delta, gate, phase_idx=2, is_descending=False)
+        # ── Write retrieval registers after stride (ascending behavior) ──
+        if not is_descending and ret_regs is not None:
+            ret_regs = self.retrieval_registers.write(ret_regs, x)
+        # Capture retrieval instrumentation from HybridStrideStack
+        if (hasattr(self.stride_stack, '_retrieval_gate_means')
+                and self.stride_stack._retrieval_gate_means):
+            pass_alarm['retrieval_gate_means'] = dict(
+                self.stride_stack._retrieval_gate_means)
+        if hasattr(self.stride_stack, '_retrieval_memory_norms'):
+            pass_alarm['retrieval_memory_norms'] = \
+                self.stride_stack._retrieval_memory_norms
 
         pass_delta = x - x_before
         raw_delta = raw_phases[0]
@@ -681,28 +568,17 @@ class V12Model(nn.Module):
         pass_deltas.append(pd); raw_deltas.append(rd)
         asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
-        # ── S4→S3 cycle budget bias ───────────────────────────
-        # Ascending register banks → scalar bias for CycleContinue.
-        # S4 decides: is this content worth multiple dispatch cycles?
-        cycle_budget_parts = []
-        for bank in [bank_1_asc, bank_2_asc, bank_3_asc]:
-            for reg in bank:
-                cycle_budget_parts.append(reg)
-        cycle_budget_input = mx.concatenate(cycle_budget_parts, axis=-1)
-        raw_budget = (
-            self.cycle_budget_proj(cycle_budget_input.reshape(1, -1)).reshape(-1)[..., :1]
-            + self.cycle_budget_bias
-        ).reshape(())
-        cycle_budget_bias = 4.0 * mx.tanh(raw_budget)  # [-4, +4]
-        self._cycle_budget_bias = mx.stop_gradient(
-            0.95 * self._cycle_budget_bias
-            + 0.05 * cycle_budget_bias)
-
         # ── S4→S5 abstraction proposal ─────────────────────────
+        # Build input from ascending banks for the proposal head.
         proposal_delta = None
         if self.cfg.n_abstraction_slots > 0:
+            proposal_parts = []
+            for bank in [bank_1_asc, bank_2_asc, bank_3_asc]:
+                for reg in bank:
+                    proposal_parts.append(reg)
+            proposal_input = mx.concatenate(proposal_parts, axis=-1)
             proposal_delta, proposal_conf, _ = self.proposal_head(
-                cycle_budget_input)
+                proposal_input)
             # Cache for probing
             self._proposal_confidence = mx.stop_gradient(proposal_conf)
 
@@ -737,8 +613,7 @@ class V12Model(nn.Module):
             [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex, asc_gate_bank],
             bank_3_desc, embed_context=x_embed,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs,
-            cycle_budget_bias=cycle_budget_bias)
+            ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -751,8 +626,7 @@ class V12Model(nn.Module):
             [bank_0, bank_1_asc, bank_3_desc, bank_4_apex, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs,
-            cycle_budget_bias=cycle_budget_bias)
+            ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -765,8 +639,7 @@ class V12Model(nn.Module):
             [bank_0, bank_1_asc, bank_2_desc, bank_4_apex, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
             proposal_delta=proposal_delta,
-            ret_regs=ret_regs,
-            cycle_budget_bias=cycle_budget_bias)
+            ret_regs=ret_regs)
         pass_deltas.append(pd); raw_deltas.append(rd)
         all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
@@ -876,18 +749,21 @@ class V12Model(nn.Module):
             # Squared hinge: only penalizes collapse (below target),
             # not uniformity. Target = 85% of max entropy (ln(4)).
             if self.cfg.dispatch_entropy_lambda > 0:
-                # Use live dispatch weights (differentiable)
+                # Use live KIBC dispatch weights (differentiable), all passes
                 dispatch_live = None
                 n_desc_live = 0
                 for pa in all_pass_alarm:
                     dw_live = pa.get('dispatch_weights_live')
                     if dw_live is not None:
-                        dw_mean = mx.mean(dw_live, axis=(0, 1))
+                        # KIBC-only mean — sum over positions/batch
+                        dw_mean = mx.mean(
+                            dw_live[..., :self.cfg.n_combinators], axis=(0, 1))
                         dispatch_live = dw_mean if dispatch_live is None \
                             else (dispatch_live + dw_mean)
                         n_desc_live += 1
                 if dispatch_live is not None and n_desc_live > 0:
                     p = dispatch_live / n_desc_live
+                    p = p / (mx.sum(p) + 1e-8)  # renormalize to sum=1
                     entropy = -mx.sum(p * mx.log(p + 1e-8))
                     entropy_deficit = mx.maximum(
                         self.cfg.dispatch_entropy_target - entropy, 0.0)
@@ -905,15 +781,15 @@ class V12Model(nn.Module):
                 for pa in all_pass_alarm:
                     dw_live = pa.get('dispatch_weights_live')
                     if dw_live is not None:
-                        dw_mean = mx.mean(dw_live, axis=(0, 1))
+                        # KIBC-only portion, averaged over batch/positions
+                        dw_mean = mx.mean(
+                            dw_live[..., :self.cfg.n_combinators], axis=(0, 1))
                         dispatch_kl_live = dw_mean if dispatch_kl_live is None \
                             else (dispatch_kl_live + dw_mean)
                         n_kl_live += 1
                 if dispatch_kl_live is not None and n_kl_live > 0:
-                    q = dispatch_kl_live / n_kl_live  # mean dispatch probs
-                    # KIBC-only: first 4 components
-                    q_kibc = q[:self.cfg.n_combinators]
-                    q_kibc = q_kibc / mx.sum(q_kibc)  # renormalize to sum=1
+                    q_kibc = dispatch_kl_live / n_kl_live  # mean KIBC probs
+                    q_kibc = q_kibc / (mx.sum(q_kibc) + 1e-8)  # renormalize
                     # Prior from config ratio
                     r = mx.array(self.cfg.dispatch_ratio)
                     p_prior = r / mx.sum(r)
@@ -1008,9 +884,8 @@ class V12Model(nn.Module):
         pass_h_out = []
         asc_gate_mx = []
         asc_gate_bank = None
-        cycle_budget_bias_inst = None
-        all_cycle_continue_gates = []
-        all_effective_cycles = []
+        all_cycle_continue_gates = []  # always empty with max_cycles=1
+        all_effective_cycles = []      # always empty with max_cycles=1
         proposal_delta_inst = None
         proposal_confidence_inst = None
         # Retrieval register state (v12)
@@ -1040,231 +915,76 @@ class V12Model(nn.Module):
             h_in = self._entropy_proxy(x)
             pass_h_in.append(h_in)
 
-            x_before = x
             readable = get_readable()
-            target = target_banks[pi]
+            if is_desc and asc_gate_bank is not None:
+                readable.append(asc_gate_bank)
 
-            s4 = self.s4_desc if is_desc else self.s4
-            strides = self.stride_stack if not is_desc else None  # desc uses desc_plates
+            embed_ctx = x_embed if is_desc else None
 
-            if is_desc:
-                if asc_gate_bank is not None:
-                    readable.append(asc_gate_bank)
-                s4_residual = mx.concatenate([x, x_embed], axis=1)
-            else:
-                s4_residual = x
-            s4_updates, _ = s4(readable, s4_residual)
-            target = [self.register_norm(target[i] + s4_updates[i])
-                      for i in range(self.cfg.n_registers)]
+            # Use unified _run_level_pass for all passes
+            x, target_banks[pi], pd, rd, pg_raw, pa_inst, ret_regs_inst = \
+                self._run_level_pass(
+                    x, pass_idx, is_desc, readable, target_banks[pi],
+                    embed_context=embed_ctx,
+                    proposal_delta=proposal_delta_inst,
+                    ret_regs=ret_regs_inst,
+                )
 
-            phase_gates = []
-            raw_phases = []
+            pass_deltas.append(pd)
+            raw_deltas.append(rd)
 
-            if is_desc:
-                x_anchor = x
-                max_cycles = self.cfg.desc_max_cycles
-                cumulative_gate = mx.array(1.0)
-                cycle_continue_gates = []
+            # Instrumented: eval gates and convert to floats
+            phase_gates_float = []
+            for g in pg_raw:
+                mx.eval(g)
+                phase_gates_float.append(float(g.item()))
+            all_s3_gates.append(phase_gates_float)
 
-                for cycle in range(max_cycles):
-                    x_cycle_start = x
-                    if cycle > 0:
-                        x = x + self.cycle_inject_gate * x_anchor
+            # Capture asc gate contributions for asc_gate_bank packing
+            if not is_desc:
+                for g in pg_raw:
+                    asc_gate_mx.append(g)
 
-                    # Phase 0: dispatch
-                    dispatch_out = self.combinator_dispatch(
-                        x, registers=readable,
-                        proposal_delta=proposal_delta_inst)
-                    delta = dispatch_out - x
-                    raw_phases.append(delta)
-                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                        target, delta, 0)
-                    mx.eval(gate)
-                    phase_gates.append(float(gate.item()))
-                    x = self._modulate(x, delta, gate, 0, is_descending=True)
-
-                    # Phase 1: converge (KIBC dedicated plates)
-                    # Each combinator has its own StrideStack; dispatch weights blend.
-                    # Use live (differentiable) dispatch weights.
-                    dw_kibc_inst = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
-                    conv_out = self.desc_plates(
-                        x, dispatch_weights=dw_kibc_inst,
-                        reverse=self.cfg.desc_stride_reverse,
-                        stride_range=self._stride_range_for_pass(pass_idx))
-                    delta = conv_out - x
-                    raw_phases.append(delta)
-                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                        target, delta, 1)
-                    mx.eval(gate)
-                    phase_gates.append(float(gate.item()))
-                    x = self._modulate(x, delta, gate, 1, is_descending=True)
-
-                    # Phase 2: integrate (with slot embeddings if available)
-                    dw = (self.combinator_dispatch._dispatch_weights
-                          if hasattr(self.combinator_dispatch, '_dispatch_weights')
-                          else None)
-                    slot_emb_inst = None
-                    if (self.cfg.n_abstraction_slots > 0
-                            and hasattr(self.combinator_dispatch,
-                                        '_normalize_slot_embeddings')):
-                        slot_emb_inst = (self.combinator_dispatch
-                                         ._normalize_slot_embeddings())
-                        if proposal_delta_inst is not None:
-                            slot_emb_inst = slot_emb_inst + proposal_delta_inst
-                        slot_emb_inst = (
-                            slot_emb_inst
-                            * self.combinator_dispatch.slot_gates[:, None])
-                    integrate_out = self.combinator_integrate(
-                        x, dispatch_weights=dw,
-                        slot_embeddings=slot_emb_inst,
-                        retrieval_registers=ret_regs_inst)
-                    delta = integrate_out - x
-                    raw_phases.append(delta)
-                    _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                        target, delta, 2)
-                    mx.eval(gate)
-                    phase_gates.append(float(gate.item()))
-                    x = self._modulate(x, delta, gate, 2, is_descending=True)
-
-                    cycle_contribution = x - x_cycle_start
-                    x = x_cycle_start + cumulative_gate * cycle_contribution
-
-                    if cycle < max_cycles - 1 and max_cycles > 1:
-                        cont_gate = self.cycle_continue(
-                            target, budget_bias=cycle_budget_bias_inst
-                            if cycle_budget_bias_inst is not None else None)
-                        mx.eval(cont_gate)
-                        cycle_continue_gates.append(float(cont_gate.item()))
-                        cumulative_gate = cumulative_gate * cont_gate
-            else:
-                # Ascending compression
-                prep_out = self.prep(x)
-                delta = prep_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target, delta, 0)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                asc_gate_mx.append(gate)
-                x = self._modulate(x, delta, gate, 0, is_descending=False)
-
-                conv_out = strides(x, reverse=False,
-                                   stride_range=self._stride_range_for_pass(pass_idx))
-                delta = conv_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target, delta, 1)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                asc_gate_mx.append(gate)
-                x = self._modulate(x, delta, gate, 1, is_descending=False)
-
-                # ── Write retrieval registers (v12) ────────────────
-                ret_regs_inst = self.retrieval_registers.write(ret_regs_inst, x)
-                # Capture retrieval instrumentation from HybridStrideStack
-                if hasattr(strides, '_retrieval_gate_means') and strides._retrieval_gate_means:
-                    all_retrieval_gate_means.append(
-                        dict(strides._retrieval_gate_means))  # dict[stride → float]
-                if hasattr(strides, '_retrieval_memory_norms'):
-                    rmn = strides._retrieval_memory_norms
-                    if isinstance(rmn, dict):
-                        norms_dict = {}
-                        for stride_key, norm_arr in rmn.items():
-                            mx.eval(norm_arr)
-                            norms_dict[stride_key] = [
-                                float(v.item()) for v in norm_arr]
-                        all_retrieval_memory_norms.append(norms_dict)
-                    elif rmn is not None:
-                        mx.eval(rmn)
-                        all_retrieval_memory_norms.append(
-                            [float(v.item()) for v in rmn]
-                            if rmn.ndim > 0 else [float(rmn.item())])
-
-                cons_out = self.consolidate(x)
-                delta = cons_out - x
-                raw_phases.append(delta)
-                _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
-                    target, delta, 2)
-                mx.eval(gate)
-                phase_gates.append(float(gate.item()))
-                asc_gate_mx.append(gate)
-                x = self._modulate(x, delta, gate, 2, is_descending=False)
-
-            target_banks[pi] = target
-            pass_deltas.append(x - x_before)
-            raw_delta = raw_phases[0]
-            for rd in raw_phases[1:]:
-                raw_delta = raw_delta + rd
-            raw_deltas.append(raw_delta)
-            all_s3_gates.append(phase_gates)
-
-            # Collect alarm metrics for this pass (live values from modules)
-            pa_inst = {
-                'cycle_continue_gates': [],
-                'dispatch_weights_live': None,
-                'compute_gate_live': None,
-            }
-            if is_desc:
-                if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
-                    pa_inst['dispatch_weights_live'] = \
-                        self.combinator_dispatch._dispatch_weights_live
-                if hasattr(self.combinator_integrate, '_compute_gate_live'):
-                    pa_inst['compute_gate_live'] = \
-                        self.combinator_integrate._compute_gate_live
-                # CycleContinue gates: re-read from module state
-                # (the live gates were consumed in cumulative_gate above)
-                # We need the live values — recompute from target register state
-                # Actually, the cont_gate local variable IS live when computed.
-                # But we already eval'd it. For instrumented mode, the stop_grad
-                # versions are fine since we don't backprop. Use mx.array wrapping.
-                if self.cfg.desc_max_cycles > 1 and cycle_continue_gates:
-                    pa_inst['cycle_continue_gates'] = [
-                        mx.array(g) for g in cycle_continue_gates]
             all_pass_alarm_inst.append(pa_inst)
 
-            if is_desc and self.cfg.desc_max_cycles > 1:
-                all_cycle_continue_gates.append(cycle_continue_gates)
-                eff = 1.0 + sum(
-                    float(mx.prod(mx.array(cycle_continue_gates[:i+1])).item())
-                    for i in range(len(cycle_continue_gates))
-                ) if cycle_continue_gates else 1.0
-                all_effective_cycles.append(eff)
+            # Capture retrieval instrumentation from HybridStrideStack
+            if pa_inst.get('retrieval_gate_means'):
+                all_retrieval_gate_means.append(pa_inst['retrieval_gate_means'])
+            if pa_inst.get('retrieval_memory_norms'):
+                rmn = pa_inst['retrieval_memory_norms']
+                if isinstance(rmn, dict):
+                    norms_dict = {}
+                    for stride_key, norm_arr in rmn.items():
+                        mx.eval(norm_arr)
+                        norms_dict[stride_key] = [
+                            float(v.item()) for v in norm_arr]
+                    all_retrieval_memory_norms.append(norms_dict)
+                elif rmn is not None:
+                    mx.eval(rmn)
+                    all_retrieval_memory_norms.append(
+                        [float(v.item()) for v in rmn]
+                        if rmn.ndim > 0 else [float(rmn.item())])
 
-            # After pass 3 (L3_apex, pi==3): pack asc gates + compute emphasis
-            if not is_desc and pi == 3 and asc_gate_mx:
-                asc_gate_flat = mx.concatenate(
-                    [g.reshape(-1) for g in asc_gate_mx])
-                asc_gate_vector = mx.concatenate([
-                    asc_gate_flat,
-                    mx.zeros((self.d_reg_real - asc_gate_flat.shape[0],)),
-                ])
-                asc_gate_bank = [asc_gate_vector]
-
+            # After pass 3 (L3_apex, pi==3): pack asc gates + compute biases
             if not is_desc and pi == 3:
-                # S4→S3 cycle budget bias (instrumented path)
-                # Uses banks 1_asc, 2_asc, 3_asc
-                cycle_budget_parts_inst = []
-                for bank in [target_banks[0], target_banks[1], target_banks[2]]:
-                    for reg in bank:
-                        cycle_budget_parts_inst.append(reg)
-                cycle_budget_input_inst = mx.concatenate(
-                    cycle_budget_parts_inst, axis=-1)
-                raw_budget_inst = (
-                    self.cycle_budget_proj(
-                        cycle_budget_input_inst.reshape(1, -1)
-                    ).reshape(-1)[..., :1]
-                    + self.cycle_budget_bias
-                ).reshape(())
-                cycle_budget_bias_inst = 4.0 * mx.tanh(raw_budget_inst)
-                mx.eval(cycle_budget_bias_inst)
-                self._cycle_budget_bias = mx.stop_gradient(
-                    0.95 * self._cycle_budget_bias
-                    + 0.05 * cycle_budget_bias_inst)
+                if asc_gate_mx:
+                    asc_gate_flat = mx.concatenate(
+                        [g.reshape(-1) for g in asc_gate_mx])
+                    asc_gate_vector = mx.concatenate([
+                        asc_gate_flat,
+                        mx.zeros((self.d_reg_real - asc_gate_flat.shape[0],)),
+                    ])
+                    asc_gate_bank = [asc_gate_vector]
 
-                # S4→S5 abstraction proposal
+                # S4→S5 abstraction proposal (instrumented path)
                 if self.cfg.n_abstraction_slots > 0:
+                    proposal_parts_inst = []
+                    for bank in [target_banks[0], target_banks[1], target_banks[2]]:
+                        for reg in bank:
+                            proposal_parts_inst.append(reg)
+                    proposal_input_inst = mx.concatenate(proposal_parts_inst, axis=-1)
                     proposal_delta_inst, proposal_confidence_inst, _ = \
-                        self.proposal_head(cycle_budget_input_inst)
+                        self.proposal_head(proposal_input_inst)
                     mx.eval(proposal_delta_inst, proposal_confidence_inst)
                     proposal_gate_inst = mx.sigmoid(
                         mx.array(1.0) * proposal_confidence_inst
@@ -1479,9 +1199,6 @@ class V12Model(nn.Module):
                 "n_active_slots": sum(1 for g in slot_gates_list if g > 0.1),
             }
 
-        cig = self.cycle_inject_gate
-        mx.eval(cig)
-
         metrics = {
             "s3_gates": all_s3_gates,
             "s5_reweight": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
@@ -1509,12 +1226,6 @@ class V12Model(nn.Module):
                 if type_weights is not None else None
             ),
             "combinator_embedding_norms": comb_emb_norms,
-            "desc_max_cycles": self.cfg.desc_max_cycles,
-            "cycle_inject_gate": float(cig.item()),
-            "cycle_budget_bias": float(cycle_budget_bias_inst.item())
-                if cycle_budget_bias_inst is not None else 0.0,
-            "cycle_continue_gates": all_cycle_continue_gates,
-            "effective_cycles": all_effective_cycles,
             # ── Retrieval metrics (v12) ────────────────────────
             "retrieval_gate_means": all_retrieval_gate_means,
             "retrieval_memory_norms": all_retrieval_memory_norms,

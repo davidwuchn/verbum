@@ -1649,6 +1649,21 @@ class EtchState:
                 (self.out_features, n_packed), neutral_word, dtype=np.uint32
             )
 
+    def reset_heat(self) -> None:
+        """Reset all accumulators — heat, direction, and signal planes.
+
+        Called after each etch pulse. The plate changed, so all accumulated
+        consensus signals are stale. Next step observes the new plate fresh.
+        Like a laser: each pulse is independent. No carryover between pulses.
+        """
+        import numpy as np
+        self.row_heat = np.zeros(self.out_features, dtype=np.float32)
+        self.col_heat = np.zeros(self.in_features, dtype=np.float32)
+        self.row_dir = np.zeros(self.out_features, dtype=np.float32)
+        self.col_dir = np.zeros(self.in_features, dtype=np.float32)
+        self.reset_signal_planes()
+        self.steps_accumulated = 0
+
     def save_dict(self) -> dict:
         """Serialize for checkpoint."""
         return {

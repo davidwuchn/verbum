@@ -16,13 +16,17 @@ M (match/retrieval) operates in the ascending arm via GatedLinearAttention.
 Its results reach the descending arm through retrieval registers,
 which CombinatorIntegrate reads as additional context.
 
-Architecture per descending pass:
+Architecture per pass (ALL 7 passes now unified):
   Phase 0 (dispatch):   CombinatorDispatch — which combinator? (4-way softmax)
-  Phase 1 (converge):   StrideStack — propagate dispatched signal spatially
+                         pass_mirrors[pass_idx] differentiates each pass's view
+  Phase 1 (stride):     HybridStrideStack — propagate with combinator beam angles
+                         combinator_mirrors blend per-combinator Q beams
   Phase 2 (integrate):  CombinatorIntegrate — apply combinator reduction
-                         + retrieval register context from M
+                         pass_mirrors[pass_idx] differentiates each pass's view
+                         + retrieval register context from M (ascending passes write,
+                           descending passes read)
 
-Cycle semantics (desc_max_cycles=3):
+Cycle semantics (max_cycles=3, all passes):
   Cycle 0 — IDENTIFY:  which combinator applies here?
   Cycle 1 — RESOLVE:   find and bind the arguments (M results available)
   Cycle 2 — PRODUCE:   apply reduction, produce result
@@ -35,7 +39,7 @@ from __future__ import annotations
 import mlx.core as mx
 import mlx.nn as nn
 
-from ternary import TernaryLinear
+from ternary import TernaryLinear, TernaryMirror
 from kernel import N_COMBINATORS, COMBINATOR_NAMES
 
 # ── Dispatch ratio prior ──────────────────────────────────────────
@@ -87,11 +91,15 @@ class CombinatorDispatch(nn.Module):
         d_register: int = 128,
         max_cond_banks: int = 5,
         dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0),
+        n_passes: int = 7,
     ):
         super().__init__()
         self.d_model = d_model
         self.n_combinators = n_combinators
         self.n_abstraction_slots = n_abstraction_slots
+
+        # Per-pass beam angle mirrors — differentiate each pass's dispatch view
+        self.pass_mirrors = [TernaryMirror(d_model) for _ in range(n_passes)]
 
         # Empirical ratio prior: log(r/Σr) as static logit bias
         self._dispatch_prior = compute_dispatch_prior(dispatch_ratio)
@@ -197,15 +205,20 @@ class CombinatorDispatch(nn.Module):
         x: mx.array,
         registers: list[list[mx.array]] | None = None,
         proposal_delta: mx.array | None = None,
+        pass_idx: int = 0,
     ) -> mx.array:
         """
         x: (B, L, d_model)
         registers: ascending register banks for conditioning
         proposal_delta: (N, d_model) S4 proposal modulation for slot embeddings
+        pass_idx: which pass is running — routes through the corresponding pass mirror
 
         Returns: (B, L, d_model) with residual connection
         """
         h = self.norm(x)
+
+        # Route through pass-specific beam angle mirror before dispatch projection
+        h = self.pass_mirrors[pass_idx](h)
 
         # Step 1: Dispatch logits — KIBC from ternary projection
         kibc_logits = self.dispatch(h)[..., :self.n_combinators]  # (B, L, 4)
@@ -323,6 +336,7 @@ class CombinatorIntegrate(nn.Module):
         result_buckets: int = 1024,
         d_register: int = 128,
         n_retrieval_registers: int = 0,
+        n_passes: int = 7,
     ):
         super().__init__()
         self.d_model = d_model
@@ -333,6 +347,9 @@ class CombinatorIntegrate(nn.Module):
         self.n_retrieval_registers = n_retrieval_registers
         if d_ff is None:
             d_ff = d_model * 4
+
+        # Per-pass beam angle mirrors — differentiate each pass's integrate view
+        self.pass_mirrors = [TernaryMirror(d_model) for _ in range(n_passes)]
 
         # Pad for TernaryLinear
         self.n_comb_padded = ((n_combinators + 15) // 16) * 16
@@ -465,6 +482,7 @@ class CombinatorIntegrate(nn.Module):
         dispatch_weights: mx.array | None = None,
         slot_embeddings: mx.array | None = None,
         retrieval_registers: list | None = None,
+        pass_idx: int = 0,
     ) -> mx.array:
         """
         x: (B, L, d_model)
@@ -472,9 +490,13 @@ class CombinatorIntegrate(nn.Module):
                           First n_combinators are KIBC, rest are slots.
         slot_embeddings: (N, d_model) gated slot embeddings for context
         retrieval_registers: list of retrieval register vectors from M (v12)
+        pass_idx: which pass is running — routes through the corresponding pass mirror
         Returns: (B, L, d_model) with residual connection
         """
         h = self.norm(x)
+
+        # Route through pass-specific beam angle mirror before type/FFN projection
+        h = self.pass_mirrors[pass_idx](h)
 
         # ── Type projection (KIBC combinator types) ───────────
         type_logits = self.type_proj(h)[..., :self.n_combinators]
