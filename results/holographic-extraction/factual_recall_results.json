@@ -1,0 +1,762 @@
+{
+  "timestamp": "2026-05-16T11:08:24Z",
+  "source_model": "Qwen/Qwen3-14B",
+  "layer_indices": [
+    0,
+    10,
+    20,
+    30
+  ],
+  "train_steps": 500,
+  "n_probes": 40,
+  "summary_extracted": {
+    "n_probes": 40,
+    "mean_log_prob": -77.87691180706024,
+    "median_log_prob": -66.39193534851074,
+    "mean_rank": 52373.3,
+    "median_rank": 44284.0,
+    "top1_accuracy": 0.0,
+    "top10_accuracy": 0.0,
+    "top100_accuracy": 0.1
+  },
+  "summary_random": {
+    "n_probes": 40,
+    "mean_log_prob": -87.62146770954132,
+    "median_log_prob": -56.51987075805664,
+    "mean_rank": 59009.725,
+    "median_rank": 37501.0,
+    "top1_accuracy": 0.0,
+    "top10_accuracy": 0.025,
+    "top100_accuracy": 0.075
+  },
+  "per_fact_wins": {
+    "extracted": 25,
+    "random": 15
+  },
+  "extracted_better_logprob": true,
+  "extracted_better_rank": true,
+  "results_extracted": [
+    {
+      "prompt": "The capital of France is",
+      "expected": " Paris",
+      "expected_token_id": 12095,
+      "log_prob": -18.262847900390625,
+      "rank": 15523,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Japan is",
+      "expected": " Tokyo",
+      "expected_token_id": 26194,
+      "log_prob": -95.19985961914062,
+      "rank": 66791,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Germany is",
+      "expected": " Berlin",
+      "expected_token_id": 19846,
+      "log_prob": -205.6914825439453,
+      "rank": 139748,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Italy is",
+      "expected": " Rome",
+      "expected_token_id": 21718,
+      "log_prob": -59.17415237426758,
+      "rank": 39070,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Spain is",
+      "expected": " Madrid",
+      "expected_token_id": 24081,
+      "log_prob": -75.13585662841797,
+      "rank": 50720,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Russia is",
+      "expected": " Moscow",
+      "expected_token_id": 22415,
+      "log_prob": -11.996541976928711,
+      "rank": 4514,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of China is",
+      "expected": " Beijing",
+      "expected_token_id": 26549,
+      "log_prob": -114.3802261352539,
+      "rank": 83049,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Brazil is",
+      "expected": " Bras",
+      "expected_token_id": 61124,
+      "log_prob": -104.68829345703125,
+      "rank": 75131,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Australia is",
+      "expected": " Canberra",
+      "expected_token_id": 68790,
+      "log_prob": -12.955557823181152,
+      "rank": 6627,
+      "top1": " a",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Canada is",
+      "expected": " Ottawa",
+      "expected_token_id": 32166,
+      "log_prob": -266.9198303222656,
+      "rank": 150058,
+      "top1": " a",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The largest ocean is the",
+      "expected": " Pacific",
+      "expected_token_id": 16462,
+      "log_prob": -201.99436950683594,
+      "rank": 138525,
+      "top1": " an",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The longest river in the world is the",
+      "expected": " Nile",
+      "expected_token_id": 76190,
+      "log_prob": -237.2859344482422,
+      "rank": 147040,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The highest mountain in the world is Mount",
+      "expected": " Everest",
+      "expected_token_id": 86478,
+      "log_prob": -130.87655639648438,
+      "rank": 96722,
+      "top1": " to",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The largest continent is",
+      "expected": " Asia",
+      "expected_token_id": 13622,
+      "log_prob": -73.6097183227539,
+      "rank": 49498,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The smallest country in the world is",
+      "expected": " Vatican",
+      "expected_token_id": 46547,
+      "log_prob": -160.0587615966797,
+      "rank": 117887,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Water freezes at zero degrees",
+      "expected": " Celsius",
+      "expected_token_id": 61347,
+      "log_prob": -12.28891658782959,
+      "rank": 5055,
+      "top1": ",",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The speed of light is approximately 300,000 kilometers per",
+      "expected": " second",
+      "expected_token_id": 2086,
+      "log_prob": -13.172616004943848,
+      "rank": 1552,
+      "top1": " per",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The chemical symbol for gold is",
+      "expected": " Au",
+      "expected_token_id": 32050,
+      "log_prob": -118.17781829833984,
+      "rank": 86380,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The chemical symbol for water is H",
+      "expected": "2",
+      "expected_token_id": 17,
+      "log_prob": -9.030777931213379,
+      "rank": 36,
+      "top1": "}_{",
+      "top1_correct": false
+    },
+    {
+      "prompt": "DNA stands for deoxyribonucleic",
+      "expected": " acid",
+      "expected_token_id": 13621,
+      "log_prob": -117.18626403808594,
+      "rank": 84855,
+      "top1": "\\",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The closest star to Earth is the",
+      "expected": " Sun",
+      "expected_token_id": 8059,
+      "log_prob": -9.430699348449707,
+      "rank": 1821,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Gravity was described by Isaac",
+      "expected": " Newton",
+      "expected_token_id": 20668,
+      "log_prob": -87.54817962646484,
+      "rank": 60678,
+      "top1": "}\n",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The theory of relativity was developed by Albert",
+      "expected": " Einstein",
+      "expected_token_id": 54052,
+      "log_prob": -10.2986478805542,
+      "rank": 2507,
+      "top1": " by",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The periodic table was created by",
+      "expected": " Dmitri",
+      "expected_token_id": 66121,
+      "log_prob": -119.9114761352539,
+      "rank": 86432,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Photosynthesis converts sunlight into",
+      "expected": " energy",
+      "expected_token_id": 4802,
+      "log_prob": -10.12983226776123,
+      "rank": 42,
+      "top1": " into",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Shakespeare wrote Romeo and",
+      "expected": " Juliet",
+      "expected_token_id": 71024,
+      "log_prob": -106.41699981689453,
+      "rank": 76556,
+      "top1": " and",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Mona Lisa was painted by Leonardo da",
+      "expected": " Vinci",
+      "expected_token_id": 96766,
+      "log_prob": -23.59478759765625,
+      "rank": 18840,
+      "top1": "}",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Great Wall is located in",
+      "expected": " China",
+      "expected_token_id": 5616,
+      "log_prob": -43.122806549072266,
+      "rank": 28407,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Eiffel Tower is in",
+      "expected": " Paris",
+      "expected_token_id": 12095,
+      "log_prob": -19.329423904418945,
+      "rank": 16003,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Colosseum is in",
+      "expected": " Rome",
+      "expected_token_id": 21718,
+      "log_prob": -58.5853271484375,
+      "rank": 38222,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Two plus two equals",
+      "expected": " four",
+      "expected_token_id": 3040,
+      "log_prob": -8.674510955810547,
+      "rank": 1109,
+      "top1": ",",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The square root of 144 is",
+      "expected": " 12",
+      "expected_token_id": 220,
+      "log_prob": -5.616481781005859,
+      "rank": 20,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Pi is approximately 3.14",
+      "expected": "15",
+      "expected_token_id": 16,
+      "log_prob": -6.102339744567871,
+      "rank": 51,
+      "top1": "0",
+      "top1_correct": false
+    },
+    {
+      "prompt": "A triangle has three",
+      "expected": " sides",
+      "expected_token_id": 11067,
+      "log_prob": -22.599952697753906,
+      "rank": 18266,
+      "top1": "\\",
+      "top1_correct": false
+    },
+    {
+      "prompt": "A hexagon has six",
+      "expected": " sides",
+      "expected_token_id": 11067,
+      "log_prob": -22.152637481689453,
+      "rank": 17846,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Earth orbits the",
+      "expected": " Sun",
+      "expected_token_id": 8059,
+      "log_prob": -9.733769416809082,
+      "rank": 2247,
+      "top1": "bf",
+      "top1_correct": false
+    },
+    {
+      "prompt": "There are 24 hours in a",
+      "expected": " day",
+      "expected_token_id": 1899,
+      "log_prob": -184.4688262939453,
+      "rank": 131292,
+      "top1": " {\\",
+      "top1_correct": false
+    },
+    {
+      "prompt": "There are 365 days in a",
+      "expected": " year",
+      "expected_token_id": 1042,
+      "log_prob": -78.86194610595703,
+      "rank": 53646,
+      "top1": " quantum",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The human body has 206",
+      "expected": " bones",
+      "expected_token_id": 24854,
+      "log_prob": -145.4280242919922,
+      "rank": 107406,
+      "top1": ")",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Oxygen is essential for",
+      "expected": " breathing",
+      "expected_token_id": 25938,
+      "log_prob": -104.9834213256836,
+      "rank": 74760,
+      "top1": " the",
+      "top1_correct": false
+    }
+  ],
+  "results_random": [
+    {
+      "prompt": "The capital of France is",
+      "expected": " Paris",
+      "expected_token_id": 12095,
+      "log_prob": -56.21476364135742,
+      "rank": 37288,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Japan is",
+      "expected": " Tokyo",
+      "expected_token_id": 26194,
+      "log_prob": -133.0672607421875,
+      "rank": 98935,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Germany is",
+      "expected": " Berlin",
+      "expected_token_id": 19846,
+      "log_prob": -16.223276138305664,
+      "rank": 12641,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Italy is",
+      "expected": " Rome",
+      "expected_token_id": 21718,
+      "log_prob": -84.4241943359375,
+      "rank": 58317,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Spain is",
+      "expected": " Madrid",
+      "expected_token_id": 24081,
+      "log_prob": -53.78001022338867,
+      "rank": 35628,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Russia is",
+      "expected": " Moscow",
+      "expected_token_id": 22415,
+      "log_prob": -11.674402236938477,
+      "rank": 3540,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of China is",
+      "expected": " Beijing",
+      "expected_token_id": 26549,
+      "log_prob": -12.918432235717773,
+      "rank": 5868,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Brazil is",
+      "expected": " Bras",
+      "expected_token_id": 61124,
+      "log_prob": -52.024024963378906,
+      "rank": 34579,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Australia is",
+      "expected": " Canberra",
+      "expected_token_id": 68790,
+      "log_prob": -98.97308349609375,
+      "rank": 70546,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The capital of Canada is",
+      "expected": " Ottawa",
+      "expected_token_id": 32166,
+      "log_prob": -144.5587158203125,
+      "rank": 107658,
+      "top1": " given",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The largest ocean is the",
+      "expected": " Pacific",
+      "expected_token_id": 16462,
+      "log_prob": -45.613956451416016,
+      "rank": 31018,
+      "top1": " time",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The longest river in the world is the",
+      "expected": " Nile",
+      "expected_token_id": 76190,
+      "log_prob": -87.93899536132812,
+      "rank": 61741,
+      "top1": " an",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The highest mountain in the world is Mount",
+      "expected": " Everest",
+      "expected_token_id": 86478,
+      "log_prob": -176.50120544433594,
+      "rank": 128095,
+      "top1": " to",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The largest continent is",
+      "expected": " Asia",
+      "expected_token_id": 13622,
+      "log_prob": -150.21218872070312,
+      "rank": 111386,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The smallest country in the world is",
+      "expected": " Vatican",
+      "expected_token_id": 46547,
+      "log_prob": -87.31273651123047,
+      "rank": 60558,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Water freezes at zero degrees",
+      "expected": " Celsius",
+      "expected_token_id": 61347,
+      "log_prob": -48.65059280395508,
+      "rank": 32172,
+      "top1": " from",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The speed of light is approximately 300,000 kilometers per",
+      "expected": " second",
+      "expected_token_id": 2086,
+      "log_prob": -16.22489356994629,
+      "rank": 14383,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The chemical symbol for gold is",
+      "expected": " Au",
+      "expected_token_id": 32050,
+      "log_prob": -139.38870239257812,
+      "rank": 103649,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The chemical symbol for water is H",
+      "expected": "2",
+      "expected_token_id": 17,
+      "log_prob": -39.265567779541016,
+      "rank": 18355,
+      "top1": "}_{",
+      "top1_correct": false
+    },
+    {
+      "prompt": "DNA stands for deoxyribonucleic",
+      "expected": " acid",
+      "expected_token_id": 13621,
+      "log_prob": -17.59610939025879,
+      "rank": 5397,
+      "top1": "ic",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The closest star to Earth is the",
+      "expected": " Sun",
+      "expected_token_id": 8059,
+      "log_prob": -55.22503662109375,
+      "rank": 37109,
+      "top1": " an",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Gravity was described by Isaac",
+      "expected": " Newton",
+      "expected_token_id": 20668,
+      "log_prob": -48.37240982055664,
+      "rank": 31453,
+      "top1": " from",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The theory of relativity was developed by Albert",
+      "expected": " Einstein",
+      "expected_token_id": 54052,
+      "log_prob": -145.1393280029297,
+      "rank": 108674,
+      "top1": " from",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The periodic table was created by",
+      "expected": " Dmitri",
+      "expected_token_id": 66121,
+      "log_prob": -183.77047729492188,
+      "rank": 131419,
+      "top1": " P",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Photosynthesis converts sunlight into",
+      "expected": " energy",
+      "expected_token_id": 4802,
+      "log_prob": -8.470669746398926,
+      "rank": 35,
+      "top1": " into",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Shakespeare wrote Romeo and",
+      "expected": " Juliet",
+      "expected_token_id": 71024,
+      "log_prob": -167.02061462402344,
+      "rank": 122919,
+      "top1": "~",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Mona Lisa was painted by Leonardo da",
+      "expected": " Vinci",
+      "expected_token_id": 96766,
+      "log_prob": -77.33613586425781,
+      "rank": 52069,
+      "top1": " to",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Great Wall is located in",
+      "expected": " China",
+      "expected_token_id": 5616,
+      "log_prob": -140.04391479492188,
+      "rank": 104616,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Eiffel Tower is in",
+      "expected": " Paris",
+      "expected_token_id": 12095,
+      "log_prob": -56.82497787475586,
+      "rank": 37714,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Colosseum is in",
+      "expected": " Rome",
+      "expected_token_id": 21718,
+      "log_prob": -85.56405639648438,
+      "rank": 59428,
+      "top1": " the",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Two plus two equals",
+      "expected": " four",
+      "expected_token_id": 3040,
+      "log_prob": -12.714189529418945,
+      "rank": 1447,
+      "top1": " rather",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The square root of 144 is",
+      "expected": " 12",
+      "expected_token_id": 220,
+      "log_prob": -4.291329383850098,
+      "rank": 7,
+      "top1": " also",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Pi is approximately 3.14",
+      "expected": "15",
+      "expected_token_id": 16,
+      "log_prob": -6.2651166915893555,
+      "rank": 29,
+      "top1": "0",
+      "top1_correct": false
+    },
+    {
+      "prompt": "A triangle has three",
+      "expected": " sides",
+      "expected_token_id": 11067,
+      "log_prob": -194.9339141845703,
+      "rank": 133689,
+      "top1": " three",
+      "top1_correct": false
+    },
+    {
+      "prompt": "A hexagon has six",
+      "expected": " sides",
+      "expected_token_id": 11067,
+      "log_prob": -194.71177673339844,
+      "rank": 134925,
+      "top1": " in",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The Earth orbits the",
+      "expected": " Sun",
+      "expected_token_id": 8059,
+      "log_prob": -54.89435577392578,
+      "rank": 36753,
+      "top1": " ``",
+      "top1_correct": false
+    },
+    {
+      "prompt": "There are 24 hours in a",
+      "expected": " day",
+      "expected_token_id": 1899,
+      "log_prob": -217.22720336914062,
+      "rank": 143134,
+      "top1": " quantum",
+      "top1_correct": false
+    },
+    {
+      "prompt": "There are 365 days in a",
+      "expected": " year",
+      "expected_token_id": 1042,
+      "log_prob": -320.8467712402344,
+      "rank": 151735,
+      "top1": " quantum",
+      "top1_correct": false
+    },
+    {
+      "prompt": "The human body has 206",
+      "expected": " bones",
+      "expected_token_id": 24854,
+      "log_prob": -42.73233413696289,
+      "rank": 28414,
+      "top1": "0",
+      "top1_correct": false
+    },
+    {
+      "prompt": "Oxygen is essential for",
+      "expected": " breathing",
+      "expected_token_id": 25938,
+      "log_prob": -15.91098403930664,
+      "rank": 13066,
+      "top1": " the",
+      "top1_correct": false
+    }
+  ]
+}
