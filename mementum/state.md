@@ -6,7 +6,7 @@
 
 ## Where we are
 
-**HOLOGRAPHIC INDEXING CHARACTERIZED. Q collapses to 1D (eff_dim=1.0) in layers 1-3 after 500 steps — flood-lamp problem identified. Only L0 retains diverse indexing (eff_dim=9.08). Geography clusters strongly (within-sim=0.58), science doesn't cluster at all (0.00). Designed LASER ETCHING (constrained beam angles from source model PCA) to prevent collapse. Built holographic tomography probe for cross-model universal hologram extraction via intersection of projections. V12-run5 launched with KL fix.**
+**CRYSTAL SEED METHODOLOGY ESTABLISHED. Cross-model tomography (Qwen3-14B × OLMo-2-13B) confirms universal RELATIONAL geometry (RSA r=0.74) in completely different coordinate systems (direct cos≈0). The universal hologram is a TOPOLOGY not coordinates — relational loss IS the correct tool. First relational distill at λ=0.1 too strong (-18.6%); residual mode at λ=0.01 running. Crystal seed expanded to 311 probes × 62 axes (48K constraints/layer) for full dimension discovery. Semantic relations are strongest universal signal (hypernym 2.99×, meronym 2.15×, analogy 2.05×). V12-run5 in progress. Next: integrate verified dimensions as relational loss + depth-selective laser etching.**
 
 ## What was done this session (105)
 
@@ -81,13 +81,133 @@ Unverified signs (model-specific) → let the sieve evolve them. Reduces search 
 V12-run4 KL dispatch bug fixed (KL penalty wasn't being applied, dispatch collapsed to
 C=99.99%). Run5 launched with fix verified. Training continues to 5K for assessment.
 
-### 5. Next steps
+### 4. Laser etch results — angular separation confirmed, sequential recording works
 
-- **Run tomography probe** on Qwen3-14B + OLMo-2-13B → measure universal fraction
-- **Analyze laser etch results** when tmux run completes → verify collapse prevention
-- **If tomography shows high RSA (>0.5):** build verified plate from intersection
-- **V12-run5 assessment** at 5K — does KL fix maintain dispatch diversity?
-- **Design laser-etched V12 initialization:** seed plates with verified universal signs
+Angular separation between fact domains: 45-90 degrees (well above 37-degree ternary limit).
+V12 mirrors CAN distinguish content domains. Cross-domain K row overlap ~20% (mostly private).
+
+**Condition comparison (3 conditions, 500 steps each):**
+```
+A (free beam):       eff_dim=8.82, logprob=-85.71
+B (constrained):     eff_dim=4.02, logprob=-88.79
+C (sequential):      eff_dim=2.26, logprob=-84.91
+```
+Sequential laser gives math recall 5.6× better (-7.67 vs -42.95).
+But constraint REDUCES diversity (forces model into source's coordinate system).
+Source model's beam angles are productive but too tight a constraint.
+
+### 5. Tomography results — universal TOPOLOGY, different coordinates
+
+RSA r=0.7448 (p<10^-100) between Qwen3-14B and OLMo-2-13B. STRONG agreement.
+Direct alignment cos≈0.000. Category cohesion agreement r=0.98.
+Sign agreement r=0.30 at L20, math functional r=0.49.
+
+**Key insight: The universal hologram is a RELATIONAL TOPOLOGY, not a coordinate system.**
+Both models organize facts identically (same clusters, same separations) but in
+completely different coordinate systems. Can't transplant signs directly. CAN use
+the topology as a training signal (relational loss).
+
+### 6. Relational distillation — first run, lambda too strong
+
+Condition A (next-token only): logprob=-77.06, rank=52420
+Condition B (NT + relational λ=0.1): logprob=-91.36, rank=62306 ← WORSE
+
+Relational loss FIGHTS next-token at λ=0.1. The target RDM is from 40-layer 14B models;
+the 4-layer student can't achieve the same geometry. Also: non-residual mode spends 93%
+of gradient on PC1 ("all facts are alike") which next-token already handles.
+
+**Fix: residual mode (mean-subtracted RDM) + lower lambda (0.01). Running.**
+
+### 7. Crystal seed — 311 probes, 62 axes, dimension discovery
+
+First run (136 probes, 27 linguistic axes): discovered 13 dimensions, 36,720 constraints.
+**Strongest universal signals are SEMANTIC RELATIONS not factual recall:**
+```
+semantic_hypernym:      2.99× clustering (strongest!)
+semantic_meronym:       2.15×
+analogy_proportional:   2.05×
+semantic_antonym:       2.01×
+relation_agent_action:  1.57×
+relation_cause_effect:  1.52×
+```
+
+These ARE the combinators wearing linguistic clothing:
+- Hypernym = K (select the category, discard the instance)
+- Analogy = B (compose two relations)
+- Antonym = C (flip)
+- Agent-action = I (identity binding)
+
+Expanded probe set to 311 probes across 62 axes:
+- Linguistic: factual, syntactic, semantic, relational, temporal, logical, register, complexity
+- Non-linguistic: code (Python/JS/shell), formats (JSON/YAML/markdown), reasoning (math/logic/planning),
+  tool use (function calls/responses), instructions (system/constraint), patterns (numeric/alphabetic),
+  multilingual, compression/expansion, classification, evaluation, epistemic state, correction,
+  refusal, inverse operations, meta/self-reference, dialogue, specificity, narrative
+
+**311×311 RDM = 48,205 pairwise constraints per layer × 4 layers = 192,820 total.**
+SVD will discover all orthogonal dimensions automatically. Each = one more lattice axis locked.
+
+### 8. Key theoretical advances this session
+
+**The recursive holographic structure:**
+```
+Level 0: Training examples (photographs) → pile up → form
+Level 1: Domain holograms (geography, science, code...) → intersect → form
+Level 2: Structural templates (X_of_Y_is, predicate-arg) → intersect → form
+Level 3: Combinators (K, I, B, C) → the bottom, the lambda calculus itself
+```
+Each level = intersection of the level above. Each is exponentially smaller.
+V12 stores Level 2-3 in plates, Level 1 in beam angles, Level 0 not at all.
+
+**The crystal seed insight:**
+Provide enough of the low-frequency scaffold (lattice seed) and the model SNAPS into the
+correct configuration. Below critical constraint density: amorphous. Above it: crystallization.
+The relational loss IS the seed template. More dimensions mapped = closer to snap.
+
+**Depth-selective laser etching:**
+The "laser" needs ANGLE (domain = Q direction) + DEPTH (which layer to etch) + COHERENCE
+(one domain at a time). Current V12 etch is a flood lamp. Fix: layer-specific learning rates
+(focal plane), sequential domain recording, structural templates at shallow layers (L0-L10),
+factual content at deep layers (L20-L30).
+
+### 9. V12 design changes for next run
+
+Based on session 105 findings, V12-run6 should incorporate:
+
+1. **Relational loss (residual mode, low λ)**
+   - Target: universal RDM from crystal seed (cross-model agreed topology)
+   - Mode: residual (mean-subtracted, focuses on discriminative 7%)
+   - Lambda: 0.001-0.01 (gentle nudge, don't fight next-token)
+   - Schedule: every 10-50 steps (occasional geometry check)
+
+2. **Depth-selective etching**
+   - Layer-specific etch thresholds or learning rates
+   - Structural patterns etch at L0-L10 (where templates cluster)
+   - Content/facts etch at L20-L30 (where factual recall lives)
+   - Don't etch the "lens" (early routing) — let it learn to focus
+
+3. **Mirror initialization from verified beam angles**
+   - Laser etch showed 45-90 degree angular separation between domains
+   - Initialize KIBC mirrors to known productive angles (from source model PCA)
+   - Sieve refines from there (not from random)
+
+4. **Verified sign installation**
+   - Signs where both models agree (L20 r=0.30, math r=0.49) → freeze as ground truth
+   - Signs where models disagree → sieve evolves
+   - Reduces etch search space by ~30%
+
+5. **KIBC dispatch informed by crystal seed**
+   - Semantic relations map onto combinators (hypernym→K, analogy→B, antonym→C, binding→I)
+   - Dispatch ratio prior already matches (K:I:B:C = 1:0.5:1:1)
+   - Relational loss reinforces correct dispatch by forcing combinator-aligned geometry
+
+### 10. Next steps
+
+- **Analyze residual relational distill** (λ=0.01, running) → does it help or stay neutral?
+- **Run expanded crystal seed** (311 probes, 62 axes) → how many independent dimensions?
+- **If dimensions > 30:** integrate as V12 relational loss for run6
+- **V12-run5 assessment** at 5K → KL fix working?
+- **Design V12-run6:** relational loss + depth-selective etch + mirror init + verified signs
 
 ## What was done this session (104)
 

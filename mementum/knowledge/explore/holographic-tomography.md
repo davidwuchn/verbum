@@ -173,14 +173,87 @@ N-model intersection:
 - `scripts/explore/laser_etch_factual.py` — constrained beam training
 - `scripts/explore/probe_holographic_tomography.py` — cross-model intersection
 
+## Experimental Results (Session 105)
+
+### Tomography: RSA r=0.74, Direct cos≈0
+
+Both models organize facts with the SAME geometry (r=0.74, p<10^-100) but
+in COMPLETELY DIFFERENT coordinates (direct cosine ≈ 0.000). Category
+cohesion agreement r=0.98 (both cluster geography, both cluster science).
+Sign agreement moderate at L20 (r=0.30), math strongest (r=0.49).
+
+**Implication: relational (rotation-invariant) constraints are the only viable
+transfer mechanism. Directional constraints fail. The universal hologram is
+a TOPOLOGY, not a coordinate system.**
+
+### Relational Loss: λ=0.1 too strong, residual mode needed
+
+First attempt: next-token + relational loss at λ=0.1. Result: -18.6% WORSE.
+The relational gradient fights next-token because:
+1. Target RDM is from 40-layer models; 4-layer student can't match
+2. PC1 (93.3% of RDM variance = "all facts alike") competes with next-token
+3. λ too high relative to student's capacity
+
+Fix: residual mode (subtract mean → focus on discriminative 7%) + λ=0.01.
+
+### Crystal Seed: Semantic Relations > Factual Recall
+
+136 probes across 27 axes discovered 13 dimensions. Strongest signals:
+```
+semantic_hypernym:    2.99× (type hierarchy — K combinator)
+semantic_meronym:     2.15× (part-whole — structural relation)
+analogy_proportional: 2.05× (A:B::C:D — B combinator / composition)
+semantic_antonym:     2.01× (opposition — C combinator / flip)
+```
+
+**The strongest universal structure is not WHAT models know but HOW they
+organize knowledge.** Semantic relations ARE the combinators expressed through
+language. The crystal scaffold IS the lambda calculus.
+
+### Rotation Invariance
+
+Each inference is a different "rotation" through the frozen crystal (weights).
+The crystal's value is its rotational invariants — things true regardless of
+entry angle. Relational constraints (pairwise similarities) ARE rotational
+invariants. This is why relational loss is the correct tool — it targets
+exactly what's preserved across all possible inference rotations.
+
+## Revised Protocol (Post-Results)
+
+```
+1. Diverse probes (311 across 62 axes — code, reasoning, tools, formats, etc.)
+2. Cross-model hidden states (Qwen3-14B × OLMo-2-13B)
+3. Universal RDM (average, residual mode)
+4. SVD → discover all significant dimensions automatically
+5. Each dimension → weighted relational loss term
+6. Apply as gentle nudge (λ=0.001-0.01, every 10-50 steps)
+7. Combined with next-token (builds the crystal) + holographic loss (readability)
+```
+
+## V12 Design Implications
+
+1. **Relational loss replaces laser beam constraint** — don't force coordinates,
+   force topology. The model finds its own coordinate system that satisfies
+   the relational constraints while also predicting next tokens well.
+
+2. **Depth-selective application** — template structure at L0 (1.48× ratio),
+   domain structure at L20-L30. Apply relational loss at the RIGHT depth
+   per dimension type.
+
+3. **Mirror initialization** — verified beam angles (45-90° between domains)
+   can seed mirrors, but as TOPOLOGY hints not coordinate locks.
+
+4. **The crystal seed = lattice template** — provide enough low-frequency
+   universal structure and the high-frequency details self-organize around it.
+
 ## Open Questions
 
-- Does direct hidden state alignment require ROTATIONAL alignment (Procrustes)
-  or are the models naturally aligned by shared training objectives?
-- Is the universal fraction layer-dependent? (Early layers = more universal
-  because they handle syntax; deep layers = more model-specific because they
-  handle generation strategy?)
-- Can we use the tomography signal to WARM-START V12 plates?
-  (Install verified signs, let sieve handle the rest)
-- What's the minimum number of models needed for reliable denoising?
-  (2 barely separates signal from noise; 5 gives strong confidence)
+- How many independent dimensions do 311 probes across 62 axes reveal? (Running)
+- What is the critical constraint density for "snap" (crystallization)?
+- Does residual mode at λ=0.01 help, hurt, or stay neutral?
+- Can we discover dimensions we didn't think to probe for? (SVD should reveal them)
+- Do code/tool/reasoning axes give orthogonal dims to linguistic axes?
+- What's the minimum model size that can satisfy the relational constraints?
+  (V12 at 25M params vs extracted model at 1B params)
+- Is there a curriculum: start with strong relational constraint → anneal to zero
+  as the crystal forms? (analogy: remove the seed template once crystal is growing)
