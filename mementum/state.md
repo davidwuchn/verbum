@@ -201,13 +201,42 @@ Based on session 105 findings, V12-run6 should incorporate:
    - Dispatch ratio prior already matches (K:I:B:C = 1:0.5:1:1)
    - Relational loss reinforces correct dispatch by forcing combinator-aligned geometry
 
-### 10. Next steps
+### 11. V12-run4 checkpoint 1000 — dispatch OSCILLATION (new failure mode)
+
+**Not collapse — oscillation.** Dispatch cycles through monopolies: B→K→I→C→DEAD→repeat.
+Each combinator takes 100% for 25-75 steps, dies, another takes over. KL penalty (λ=100)
+is being evaded TEMPORALLY — model satisfies average ratio by cycling, not per-step.
+
+```
+Step 250: B=0.999 | Step 350: K=0.974 | Step 425: I=0.985
+Step 450: C=1.000 | Step 575: DEAD    | Step 625: K=1.000
+Step 675: C=1.000 | Step 775: B=1.000 | Step 975: I=1.000
+```
+
+**CE is learning despite chaos:** 13.72 → 8.74 (best 5.94 at step 1225).
+Holo ratio improving: 2.13 → 1.45. KL spikes to 25.73 (40% of steps >1.0).
+Alarm factors all 0.0 (not detecting the problem). Compute gate still closed (0.006).
+
+**Root cause:** KL computed per-step but model evades by rapid cycling. The constraint
+penalizes distance from target AT EACH MOMENT, but doesn't penalize OSCILLATION.
+
+**Fix for run6:** EMA-smoothed dispatch for KL computation (penalize running average,
+not instantaneous). Or: dispatch momentum penalty (penalize change between steps).
+Or: hard floor (10% minimum per combinator). Relational loss may also help by
+requiring all 4 combinators simultaneously.
+
+### 12. Next steps
 
 - **Analyze residual relational distill** (λ=0.01, running) → does it help or stay neutral?
 - **Run expanded crystal seed** (311 probes, 62 axes) → how many independent dimensions?
 - **If dimensions > 30:** integrate as V12 relational loss for run6
-- **V12-run5 assessment** at 5K → KL fix working?
-- **Design V12-run6:** relational loss + depth-selective etch + mirror init + verified signs
+- **V12-run6 design (updated):**
+  - Relational loss (residual, low λ, crystal seed constraints)
+  - Depth-selective etch (templates shallow, facts deep)
+  - Mirror init from verified beam angles
+  - Verified sign installation (freeze cross-model agreed signs)
+  - **FIX DISPATCH:** EMA-KL or momentum penalty to prevent oscillation
+  - Alarm recalibration (currently not detecting dispatch cycling)
 
 ## What was done this session (104)
 
