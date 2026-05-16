@@ -738,8 +738,8 @@ def main():
     # Show RDM structure
     print(f"  Universal RDM structure (L{layer_indices[0]}):", file=sys.stderr)
     rdm0 = universal_rdm[layer_indices[0]]
-    categories = [p["category"] for p in probes]
-    cat_names = list(FACTUAL_PROBES.keys())
+    categories = [p.get("category", p.get("axis", "unknown")) for p in rel_probes]
+    cat_names = sorted(set(categories))[:10]  # show top 10 categories max
     print(f"  {'':>12}", end='', file=sys.stderr)
     for c in cat_names:
         print(f"{c[:6]:>8}", end='', file=sys.stderr)
