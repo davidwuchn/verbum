@@ -640,8 +640,18 @@ def main():
         ],
     }
 
+    def numpy_serializer(obj):
+        """Convert numpy types to Python native for JSON serialization."""
+        if isinstance(obj, (np.floating, np.float32, np.float64)):
+            return float(obj)
+        if isinstance(obj, (np.integer, np.int32, np.int64)):
+            return int(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
     json_path = args.output_dir / "crystal_seed_results.json"
-    json_path.write_text(json.dumps(output, indent=2))
+    json_path.write_text(json.dumps(output, indent=2, default=numpy_serializer))
     print(f"\n  💾 Results: {json_path}", file=sys.stderr)
 
     # Also save just the targets for relational_distill.py to load
@@ -652,7 +662,7 @@ def main():
         "targets": {str(li): targets[li] for li in target_layers},
         "total_dimensions": total_dims,
     }
-    target_path.write_text(json.dumps(target_output, indent=2))
+    target_path.write_text(json.dumps(target_output, indent=2, default=numpy_serializer))
     print(f"  💾 Verified dimensions: {target_path}", file=sys.stderr)
     print(f"     (Load this in relational_distill.py for full constraint set)", file=sys.stderr)
     print(f"{'═'*70}\n", file=sys.stderr)
