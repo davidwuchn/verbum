@@ -628,7 +628,7 @@ def train_condition(
                 "step": step,
                 "loss_nt": loss_nt.item(),
                 "loss_rel": rel_loss_val,
-                "loss_total": total_loss.item(),
+                "loss_total": loss_nt.item() + rel_loss_val,
                 "elapsed": elapsed,
                 "tok_per_sec": tok_per_sec,
             }
