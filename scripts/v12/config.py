@@ -175,7 +175,7 @@ class V12Config:
     # KL steers toward the specific ratio (direction-specific).
     # Lambda controls leash length: how far the model can profitably
     # drift before KL cost exceeds CE gain.
-    dispatch_kl_lambda: float = 0.1
+    dispatch_kl_lambda: float = 1.0
 
     # Dropout
     dropout: float = 0.1
