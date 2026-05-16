@@ -375,10 +375,13 @@ class RelationalLoss(nn.Module):
         else:
             self.layer_weights = {li: 1.0 for li in self.target_layers}
 
-    def forward(self, student_hidden_states: dict[int, torch.Tensor]) -> torch.Tensor:
+    def forward(self, student_hidden_states: dict[int, torch.Tensor],
+                probe_indices: list[int] | None = None) -> torch.Tensor:
         """
         Args:
-            student_hidden_states: {layer_idx: tensor (n_probes, d_model)}
+            student_hidden_states: {layer_idx: tensor (n_subset, d_model)}
+            probe_indices: if provided, indices into the full RDM for this subset.
+                          Used when subsampling probes for memory efficiency.
 
         Returns:
             Scalar relational loss
@@ -389,22 +392,32 @@ class RelationalLoss(nn.Module):
             if li not in student_hidden_states:
                 continue
 
-            hs = student_hidden_states[li]  # (n_probes, d_model)
+            hs = student_hidden_states[li]  # (n_subset, d_model)
+            n_sub = hs.shape[0]
 
             # Normalize
             hs_norm = F.normalize(hs, dim=-1)
 
             # Student RDM
-            student_rdm = hs_norm @ hs_norm.T  # (n_probes, n_probes)
+            student_rdm = hs_norm @ hs_norm.T  # (n_subset, n_subset)
 
             # If residual mode: subtract mean from student RDM too
-            # (target is already mean-subtracted; student must match)
             if self.residual:
                 student_rdm = student_rdm - student_rdm.mean()
 
-            # Extract upper triangles
-            student_flat = student_rdm[self.triu_row, self.triu_col]
-            target_flat = getattr(self, f"target_rdm_{li}")[self.triu_row, self.triu_col]
+            # Get target RDM (full or subset)
+            target_rdm_full = getattr(self, f"target_rdm_{li}")
+            if probe_indices is not None and len(probe_indices) < self.n_probes:
+                # Extract the sub-matrix corresponding to selected probes
+                idx = torch.tensor(probe_indices, device=target_rdm_full.device)
+                target_sub = target_rdm_full[idx][:, idx]  # (n_subset, n_subset)
+            else:
+                target_sub = target_rdm_full
+
+            # Upper triangle of the subset
+            triu = torch.triu_indices(n_sub, n_sub, offset=1, device=student_rdm.device)
+            student_flat = student_rdm[triu[0], triu[1]]
+            target_flat = target_sub[triu[0], triu[1]]
 
             # MSE loss
             layer_loss = F.mse_loss(student_flat, target_flat)
@@ -564,17 +577,27 @@ def train_condition(
 
         # ── Relational loss (every rel_every steps) ──
         if (rel_loss_fn is not None or template_loss_fn is not None) and step % rel_every == 0:
+            # Subsample probes if too many (avoid OOM with 311 forward passes + grad)
+            rel_batch_size = min(50, len(probes))
+            if len(probes) > rel_batch_size:
+                rng = np.random.default_rng(step)
+                probe_indices = rng.choice(len(probes), rel_batch_size, replace=False)
+                probe_subset = [probes[i] for i in sorted(probe_indices)]
+            else:
+                probe_subset = probes
+                probe_indices = list(range(len(probes)))
+
             student_hs = collect_student_hidden_states(
-                model, probes, tokenizer, target_layers, device
+                model, probe_subset, tokenizer, target_layers, device
             )
-            # Level 1: Domain geometry loss
+            # Level 1: Domain geometry loss (on subset)
             if rel_loss_fn is not None:
-                loss_rel = rel_loss_fn(student_hs)
+                loss_rel = rel_loss_fn(student_hs, probe_indices=probe_indices)
                 total_loss = total_loss + rel_lambda * loss_rel
                 rel_loss_val = loss_rel.item()
-            # Level 2: Template geometry loss
+            # Level 2: Template geometry loss (on subset)
             if template_loss_fn is not None and template_lambda > 0:
-                loss_tmpl = template_loss_fn(student_hs)
+                loss_tmpl = template_loss_fn(student_hs, probe_indices=probe_indices)
                 total_loss = total_loss + template_lambda * loss_tmpl
                 rel_loss_val += loss_tmpl.item()  # combine for logging
 
