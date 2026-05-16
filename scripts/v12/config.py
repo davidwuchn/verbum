@@ -172,8 +172,14 @@ class V12Config:
     # ── KL divergence toward empirical ratio (hard constraint) ──
     # We know an optimal solution uses this ratio. Find it.
     # K:I:B:C = 1:0.5:1:1 — measured across 9 models, 2 architectures.
-    # λ=10: deviation costs more than the task itself. Non-negotiable.
-    dispatch_kl_lambda: float = 10.0
+    # λ=100: only tiny deviations are free. The model discards the
+    # massive space of solutions that don't respect the ratio and
+    # searches only where we know the answer lives.
+    #   B=30% (+1.4pt) → 0.08 nats — free
+    #   B=32% (+3.4pt) → 0.33 nats — noticeable
+    #   B=35% (+6.4pt) → 1.01 nats — 12% of CE, painful
+    #   B=40%          → 3.22 nats — 37% of CE, impossible
+    dispatch_kl_lambda: float = 100.0
 
     # Dropout
     dropout: float = 0.1
