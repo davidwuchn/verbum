@@ -572,37 +572,50 @@ def train_condition(
         logits = model(input_ids)
         loss_nt = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))
 
-        total_loss = loss_nt
+        # ── Standard next-token backward ──
+        optimizer.zero_grad()
+        loss_nt.backward()
         rel_loss_val = 0.0
 
-        # ── Relational loss (every rel_every steps) ──
+        # ── Relational loss (every rel_every steps) — chunked gradient accumulation ──
         if (rel_loss_fn is not None or template_loss_fn is not None) and step % rel_every == 0:
-            # Subsample probes if too many (avoid OOM with many forward passes + grad)
-            rel_batch_size = min(24, len(probes))
-            if len(probes) > rel_batch_size:
-                rng = np.random.default_rng(step)
-                probe_indices = rng.choice(len(probes), rel_batch_size, replace=False)
-                probe_subset = [probes[i] for i in sorted(probe_indices)]
-            else:
-                probe_subset = probes
-                probe_indices = list(range(len(probes)))
+            chunk_size = 30
+            n_probes_total = len(probes)
+            all_indices = list(range(n_probes_total))
 
-            student_hs = collect_student_hidden_states(
-                model, probe_subset, tokenizer, target_layers, device
-            )
-            # Level 1: Domain geometry loss (on subset)
-            if rel_loss_fn is not None:
-                loss_rel = rel_loss_fn(student_hs, probe_indices=probe_indices)
-                total_loss = total_loss + rel_lambda * loss_rel
-                rel_loss_val = loss_rel.item()
-            # Level 2: Template geometry loss (on subset)
-            if template_loss_fn is not None and template_lambda > 0:
-                loss_tmpl = template_loss_fn(student_hs, probe_indices=probe_indices)
-                total_loss = total_loss + template_lambda * loss_tmpl
-                rel_loss_val += loss_tmpl.item()  # combine for logging
+            # Process ALL probes in chunks of 30 — gradients accumulate
+            for chunk_start in range(0, n_probes_total, chunk_size):
+                chunk_end = min(chunk_start + chunk_size, n_probes_total)
+                chunk_indices = all_indices[chunk_start:chunk_end]
+                chunk_probes = [probes[i] for i in chunk_indices]
 
-        optimizer.zero_grad()
-        total_loss.backward()
+                student_hs = collect_student_hidden_states(
+                    model, chunk_probes, tokenizer, target_layers, device
+                )
+
+                chunk_loss = torch.tensor(0.0, device=device)
+
+                # Level 1: Domain geometry loss (on chunk)
+                if rel_loss_fn is not None:
+                    loss_rel = rel_loss_fn(student_hs, probe_indices=chunk_indices)
+                    chunk_loss = chunk_loss + rel_lambda * loss_rel
+                    rel_loss_val += loss_rel.item()
+
+                # Level 2: Template geometry loss (on chunk)
+                if template_loss_fn is not None and template_lambda > 0:
+                    loss_tmpl = template_loss_fn(student_hs, probe_indices=chunk_indices)
+                    chunk_loss = chunk_loss + template_lambda * loss_tmpl
+                    rel_loss_val += loss_tmpl.item()
+
+                # Backward this chunk (gradients accumulate with NT grads)
+                if chunk_loss.requires_grad:
+                    chunk_loss.backward()
+
+                # Free this chunk's computation graph
+                del student_hs, chunk_loss
+                if torch.backends.mps.is_available():
+                    torch.mps.empty_cache()
+
         torch.nn.utils.clip_grad_norm_(trainable_params, 1.0)
         optimizer.step()
         scheduler.step()
