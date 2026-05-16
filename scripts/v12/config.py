@@ -152,12 +152,22 @@ class V12Config:
     holo_warmup_steps: int = 0
     holo_ramp_steps: int = 0
 
+    # ── Dispatch ratio prior (empirical universal ratio) ──
+    # K:I:B:C ≈ 1:0.5:1:1 measured across 9 models, 2 architectures.
+    # Applied as log(ratio/Σratio) additive bias in logit space.
+    # When logits are zero (no opinion), dispatch defaults to this ratio.
+    # The model can still deviate, but must overcome the prior to do so.
+    # This removes bad configurations (B-monopoly, K/C death) from the
+    # low-energy landscape — topology, not instruction.
+    dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0)  # K, I, B, C
+
     # ── Dispatch entropy regularization (v12 variety fix) ──
     # Penalizes dispatch collapse: squared hinge on entropy below target.
-    # Target = 85% of max entropy (ln(4) ≈ 1.386 → target ≈ 1.178).
-    # Creates gradient flow from dispatch diversity back to ascending arm.
+    # Target = entropy of the ratio prior (not uniform).
+    # With ratio (1, 0.5, 1, 1): target probs = (0.286, 0.143, 0.286, 0.286)
+    # H = -Σ p·ln(p) ≈ 1.352. At 85%: 1.352 * 0.85 ≈ 1.149.
     dispatch_entropy_lambda: float = 0.01
-    dispatch_entropy_target: float = 1.178   # ln(4) * 0.85
+    dispatch_entropy_target: float = 1.149   # H(ratio_prior) * 0.85
 
     # Dropout
     dropout: float = 0.1

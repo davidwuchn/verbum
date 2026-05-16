@@ -38,6 +38,19 @@ import mlx.nn as nn
 from ternary import TernaryLinear
 from kernel import N_COMBINATORS, COMBINATOR_NAMES
 
+# ── Dispatch ratio prior ──────────────────────────────────────────
+# λ dispatch(logits, r=[1, 0.5, 1, 1]). softmax(logits + log(r / Σr))
+#
+# Empirical universal ratio K:I:B:C ≈ 1:0.5:1:1 measured across 9
+# models, 2 architecture families (session 093). Applied as additive
+# log-prior in logit space. When logits are zero, dispatch defaults
+# to the ratio. Model learns on top of the prior, not from scratch.
+
+def compute_dispatch_prior(ratio: tuple[float, ...]) -> mx.array:
+    """log(ratio / sum(ratio)) — additive logit bias for softmax."""
+    r = mx.array(ratio)
+    return mx.log(r / mx.sum(r))
+
 
 # ══════════════════════════════════════════════════════════════════
 # CombinatorDispatch — routes to 4 combinator pathways
@@ -73,11 +86,15 @@ class CombinatorDispatch(nn.Module):
         n_registers: int = 3,
         d_register: int = 128,
         max_cond_banks: int = 5,
+        dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0),
     ):
         super().__init__()
         self.d_model = d_model
         self.n_combinators = n_combinators
         self.n_abstraction_slots = n_abstraction_slots
+
+        # Empirical ratio prior: log(r/Σr) as static logit bias
+        self._dispatch_prior = compute_dispatch_prior(dispatch_ratio)
         self.n_total = n_combinators + n_abstraction_slots
         if d_ff is None:
             d_ff = d_model * 3
@@ -245,6 +262,19 @@ class CombinatorDispatch(nn.Module):
                 [kibc_logits, slot_logits], axis=-1)  # (B, L, 4+N)
         else:
             dispatch_logits = kibc_logits
+
+        # Empirical ratio prior: additive log-prior in logit space.
+        # λ dispatch(logits, r). softmax(logits + log(r / Σr))
+        # Defaults to K:I:B:C ≈ 1:0.5:1:1 when logits carry no signal.
+        if self.n_abstraction_slots > 0:
+            # Prior applies to KIBC logits only; slots are unaffected
+            prior_padded = mx.concatenate([
+                self._dispatch_prior,
+                mx.zeros((self.n_abstraction_slots,))
+            ])
+            dispatch_logits = dispatch_logits + prior_padded
+        else:
+            dispatch_logits = dispatch_logits + self._dispatch_prior
 
         dispatch_weights = mx.softmax(dispatch_logits, axis=-1)
 

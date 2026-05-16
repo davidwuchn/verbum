@@ -140,6 +140,7 @@ class V12Model(nn.Module):
             dropout=cfg.dropout,
             n_registers=cfg.n_registers, d_register=cfg.d_register,
             max_cond_banks=7,  # v12: up to 7 readable banks for descending passes
+            dispatch_ratio=cfg.dispatch_ratio,
         )
         self.desc_plates = DedicatedStrideStacks(
             d_model=d,
