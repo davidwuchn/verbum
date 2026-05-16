@@ -577,8 +577,8 @@ def train_condition(
 
         # ── Relational loss (every rel_every steps) ──
         if (rel_loss_fn is not None or template_loss_fn is not None) and step % rel_every == 0:
-            # Subsample probes if too many (avoid OOM with 311 forward passes + grad)
-            rel_batch_size = min(50, len(probes))
+            # Subsample probes if too many (avoid OOM with many forward passes + grad)
+            rel_batch_size = min(24, len(probes))
             if len(probes) > rel_batch_size:
                 rng = np.random.default_rng(step)
                 probe_indices = rng.choice(len(probes), rel_batch_size, replace=False)
