@@ -521,13 +521,20 @@ def train_condition(
     eval_every: int = 100,
     template_loss_fn: RelationalLoss | None = None,
     template_lambda: float = 0.0,
+    eval_probes: list[dict] | None = None,
 ) -> dict:
     """Train with optional relational loss (Level 1 domain + Level 2 template).
 
-    Every `rel_every` steps: compute relational losses on factual probes and backprop.
+    Every `rel_every` steps: compute relational losses on probes and backprop.
     Level 1 (domain): forces category clustering at deep layers.
     Level 2 (template): forces structural template clustering at early layers.
+
+    Args:
+        probes: probes used for relational loss (can be crystal seed 311 probes)
+        eval_probes: probes used for factual recall measurement (always 46 factual probes)
     """
+    if eval_probes is None:
+        eval_probes = probes
     model = model.to(device)
     if rel_loss_fn is not None:
         rel_loss_fn = rel_loss_fn.to(device)
@@ -596,7 +603,7 @@ def train_condition(
 
     # ── Final evaluation ──
     model.eval()
-    final_recall = measure_factual_recall(model, probes, tokenizer, device)
+    final_recall = measure_factual_recall(model, eval_probes, tokenizer, device)
 
     # Measure final student RDM and compare to universal
     final_rdms = measure_student_rsa(model, probes, tokenizer, target_layers, device)
@@ -644,15 +651,35 @@ def main():
     parser.add_argument("--residual", action="store_true",
                         help="Use residual RDM (mean-subtracted). Removes PC1 'all facts alike' "
                              "signal, focuses loss on discriminative structure (domain/template/answer_type).")
+    parser.add_argument("--crystal-seed", type=Path, default=None,
+                        help="Path to verified_dimensions.json from crystal seed probe. "
+                             "Uses the full 311-probe RDM as relational target (much richer constraints).")
     args = parser.parse_args()
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     layer_indices = list(range(0, 40, args.layer_stride))[:args.n_layers]
-    probes = flatten_probes()
+
+    # ── Probe selection: crystal seed (311) or factual only (46) ──
+    if args.crystal_seed and args.crystal_seed.exists():
+        print(f"  Loading crystal seed probes from {args.crystal_seed}...", file=sys.stderr)
+        crystal_data = json.load(args.crystal_seed.open())
+        rel_probes = [{"prompt": p["prompt"], "category": p.get("axis", "unknown")}
+                      for p in crystal_data["probes"]]
+        print(f"  Crystal seed: {len(rel_probes)} probes, "
+              f"{crystal_data['total_dimensions']} verified dimensions", file=sys.stderr)
+    else:
+        rel_probes = None  # will use factual probes
+
+    # Factual probes always used for RECALL measurement (consistent comparison)
+    factual_probes = flatten_probes()
 
     tokenizer = AutoTokenizer.from_pretrained(args.source)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+
+    # Probes for relational loss (crystal seed if available, else factual)
+    if rel_probes is None:
+        rel_probes = factual_probes
 
     print(f"\n{'═'*70}", file=sys.stderr)
     print(f"  RELATIONAL DISTILLATION — Universal Geometry as Training Loss", file=sys.stderr)
@@ -662,20 +689,46 @@ def main():
     print(f"  Steps:       {args.train_steps}", file=sys.stderr)
     print(f"  Rel lambda:  {args.rel_lambda}", file=sys.stderr)
     print(f"  Rel every:   {args.rel_every} steps", file=sys.stderr)
-    print(f"  Probes:      {len(probes)} facts in {len(FACTUAL_PROBES)} categories", file=sys.stderr)
+    print(f"  Rel probes:  {len(rel_probes)} ({'crystal seed' if args.crystal_seed else 'factual'})",
+          file=sys.stderr)
+    print(f"  Eval probes: {len(factual_probes)} (factual recall measurement)", file=sys.stderr)
+    print(f"  Residual:    {args.residual}", file=sys.stderr)
     print(f"{'═'*70}\n", file=sys.stderr)
 
     # ══ Phase 1: Build universal RDM ═════════════════════════════
-    rdm_cache_path = args.output_dir / "universal_rdm_cache.json"
 
-    if args.skip_rdm_extraction and rdm_cache_path.exists():
-        print("Phase 1: Loading cached universal RDM...", file=sys.stderr)
-        cached = json.load(rdm_cache_path.open())
-        universal_rdm = {int(k): np.array(v) for k, v in cached.items()}
+    # If crystal seed provided, load RDM from it directly
+    if args.crystal_seed and args.crystal_seed.exists():
+        print("Phase 1: Loading RDM from crystal seed...", file=sys.stderr)
+        # Crystal seed targets are per-layer RDMs already in residual form
+        crystal_targets = crystal_data["targets"]
+        universal_rdm = {}
+        for li in layer_indices:
+            li_str = str(li)
+            if li_str in crystal_targets:
+                universal_rdm[li] = np.array(crystal_targets[li_str]["rdm"])
+                print(f"  L{li}: loaded {universal_rdm[li].shape[0]}×{universal_rdm[li].shape[1]} RDM "
+                      f"(residual={crystal_targets[li_str].get('residual', False)})", file=sys.stderr)
+            else:
+                # Fall back to nearest available layer
+                available = sorted(crystal_targets.keys(), key=lambda k: abs(int(k) - li))
+                nearest = available[0]
+                universal_rdm[li] = np.array(crystal_targets[nearest]["rdm"])
+                print(f"  L{li}: using L{nearest} RDM (nearest available)", file=sys.stderr)
+        # Crystal seed already applies residual internally — skip the residual step below
+        skip_residual_transform = True
     else:
-        print("Phase 1: Building universal RDM from source models...\n", file=sys.stderr)
-        universal_rdm = build_universal_rdm(
-            list(MODELS.keys()), layer_indices, probes, args.device
+        skip_residual_transform = False
+        rdm_cache_path = args.output_dir / "universal_rdm_cache.json"
+
+        if args.skip_rdm_extraction and rdm_cache_path.exists():
+            print("Phase 1: Loading cached universal RDM...", file=sys.stderr)
+            cached = json.load(rdm_cache_path.open())
+            universal_rdm = {int(k): np.array(v) for k, v in cached.items()}
+        else:
+            print("Phase 1: Building universal RDM from source models...\n", file=sys.stderr)
+            universal_rdm = build_universal_rdm(
+                list(MODELS.keys()), layer_indices, rel_probes, args.device
         )
         # Cache for reuse
         cache_data = {str(k): v.tolist() for k, v in universal_rdm.items()}
@@ -703,7 +756,7 @@ def main():
         print(file=sys.stderr)
 
     # ── Optional: Residual RDM (mean-subtracted) ──
-    if args.residual:
+    if args.residual and not skip_residual_transform:
         print(f"\n  Applying RESIDUAL transformation (mean-subtracted RDM)...", file=sys.stderr)
         print(f"  Removes PC1 (93.3% — 'all facts alike'), focuses on discriminative structure.",
               file=sys.stderr)
@@ -719,6 +772,8 @@ def main():
             resid_std = rdm_residual[np.triu_indices(len(rdm_residual), k=1)].std()
             print(f"    L{li}: mean_removed={rdm_mean:.4f}, "
                   f"signal_std: {orig_std:.4f} → {resid_std:.4f}", file=sys.stderr)
+    elif skip_residual_transform:
+        print(f"\n  Residual already applied by crystal seed.", file=sys.stderr)
 
     # ══ Phase 2: Extract plate signs ═════════════════════════════
     print(f"\nPhase 2: Extracting plate signs from {args.source}...", file=sys.stderr)
@@ -801,10 +856,10 @@ def main():
         loader_a = SimpleDataLoader(DATA_DIR, 2, 256, shard_start=0, shard_end=4, seed=42)
 
         result_a = train_condition(
-            model_a, loader_a, probes, tokenizer, layer_indices,
+            model_a, loader_a, rel_probes, tokenizer, layer_indices,
             n_steps=args.train_steps, lr=args.lr, device=args.device,
             label="NT-ONLY", rel_loss_fn=None,
-            eval_every=100,
+            eval_every=100, eval_probes=factual_probes,
         )
         del model_a
         gc.collect()
@@ -829,11 +884,11 @@ def main():
     # Combined loss: domain (Level 1) + template (Level 2)
     # We pass the domain loss as rel_loss_fn and handle template separately in train_condition
     result_b = train_condition(
-        model_b, loader_b, probes, tokenizer, layer_indices,
+        model_b, loader_b, rel_probes, tokenizer, layer_indices,
         n_steps=args.train_steps, lr=args.lr, device=args.device,
         label="NT+REL", rel_loss_fn=rel_loss_fn,
         rel_lambda=args.rel_lambda, rel_every=args.rel_every,
-        eval_every=100,
+        eval_every=100, eval_probes=factual_probes,
         template_loss_fn=template_loss_fn,
         template_lambda=args.template_lambda,
     )
