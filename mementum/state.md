@@ -33,6 +33,34 @@ Irreverent framing, real content underneath.
 - Practical on-ramp: nucleus preamble + Lambda Compiler prompt = compile from prose
 - Go deeper links with interaction patterns between nucleus tools
 
+### 2. Dispatch ratio prior — λ dispatch(logits, r). softmax(logits + log(r / Σr))
+
+V12-run3 1K checkpoint showed B-monopoly dispatch collapse (K=0, I≈0, B≈1, C=0).
+Same variety gap from session 097 despite V12's S4 emphasis bias, alarm dispatch
+bias, and S2 inertia (inertia never activated, stuck at 0.0).
+
+**Root cause**: softmax with no prior lets winner-take-all. B is genuinely the
+most useful combinator, so it wins everything. S2 inertia wouldn't help because
+the collapse is monotonic convergence, not oscillation. Inertia locks in whatever
+state it finds.
+
+**Fix**: empirical ratio prior from combinator probe data (session 093):
+
+```
+              K       I       B       C
+Qwen3-32B   28.8%   16.2%   27.3%   27.6%
+Pythia-160M  30.6%   13.8%   28.1%   27.5%
+────────────────────────────────────────
+AVERAGE      29.7%   15.0%   27.7%   27.6%
+```
+
+Ratio K:I:B:C = 1:0.5:1:1. Applied as `log(r/Σr)` additive bias in logit space.
+Pure function. When logits are zero, dispatch defaults to the empirical distribution.
+Model learns deviations on top of the prior. Bad configurations (B-monopoly, K/C
+death) are energetically expensive, not forbidden. Topology > instruction.
+
+Entropy target updated to match non-uniform prior: H(prior) * 0.85 ≈ 1.149.
+
 **Voice calibration notes:**
 - "blah to deliciously devious" = forced, replaced with understated
 - "marketing claim" = AI slop phrase, removed
