@@ -309,11 +309,13 @@ class GatedLinearAttention(nn.Module):
         self.k_proj = TernaryLinear(d_model, n_heads * d_state, pre_norm=False)
         self.v_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
-        # Write gate: controls memory update rate
-        # Initialized with slight negative bias → gate ≈ 0.4 at start
-        # (retain more than write — conservative initial memory)
-        self.gate_proj = nn.Linear(d_model, n_heads)
-        self.gate_proj.bias = mx.full(self.gate_proj.bias.shape, -0.5)
+        # Write gate: controls memory update rate.
+        # n_heads=8, pad to 16 for TernaryLinear, take [..., :n_heads].
+        # Separate bias: -0.5 → sigmoid(-0.5) ≈ 0.38 (conservative initial memory).
+        # d_model=512 already a multiple of 16.
+        self._n_heads_padded = ((n_heads + 15) // 16) * 16
+        self.gate_proj = TernaryLinear(d_model, self._n_heads_padded, pre_norm=False)
+        self.gate_bias = mx.full((n_heads,), -0.5)
 
         # Output projection
         self.out_proj = TernaryLinear(d_model, d_model, pre_norm=False)
@@ -354,7 +356,10 @@ class GatedLinearAttention(nn.Module):
         q_raw = self.q_proj(q_in).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         k_raw = self.k_proj(x_norm).reshape(B, L, H, Ds)   # (B, L, H, Ds)
         v = self.v_proj(x_norm).reshape(B, L, H, Dh)       # (B, L, H, Dh)
-        gate = mx.sigmoid(self.gate_proj(x_norm))           # (B, L, H)
+        # gate_proj output padded to _n_heads_padded, take [:, :, :n_heads] + bias
+        gate = mx.sigmoid(
+            self.gate_proj(x_norm)[..., :H] + self.gate_bias
+        )  # (B, L, H)
 
         # Non-negative activations for linear attention
         q = nn.elu(q_raw) + 1.0  # (B, L, H, Ds)

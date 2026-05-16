@@ -113,11 +113,13 @@ class CombinatorDispatch(nn.Module):
         self.d_reg_real = d_register * 2
         self.max_cond_banks = max_cond_banks
         max_cond_dim = max_cond_banks * n_registers * self.d_reg_real
-        self._max_cond_dim = ((max_cond_dim + 15) // 16) * 16
-        self.register_cond = nn.Linear(self._max_cond_dim, self.n_comb_padded)
-        # Zero-init: conditioning starts inert
-        self.register_cond.weight = mx.zeros_like(self.register_cond.weight)
-        self.register_cond.bias = mx.zeros_like(self.register_cond.bias)
+        # TernaryLinear requires in_features divisible by group_size=64
+        self._max_cond_dim = ((max_cond_dim + 63) // 64) * 64
+        self.register_cond = TernaryLinear(self._max_cond_dim, self.n_comb_padded, pre_norm=False)
+        # Zero-init: conditioning starts inert — gamma=0 → output=0
+        self.register_cond.gamma = mx.zeros_like(self.register_cond.gamma)
+        # Separate bias: zeros → no initial bias on conditioning
+        self.register_cond_bias = mx.zeros((self.n_comb_padded,))
 
         # Combinator embeddings: 4 near-orthogonal directions
         self.combinator_embeddings = _init_combinator_embeddings(
@@ -220,7 +222,10 @@ class CombinatorDispatch(nn.Module):
                     cond_input,
                     mx.zeros((self._max_cond_dim - cond_input.shape[0],))
                 ])
-            reg_bias = self.register_cond(cond_input)[:self.n_combinators]
+            reg_bias = (
+                self.register_cond(cond_input.reshape(1, -1)).reshape(-1)
+                + self.register_cond_bias
+            )[:self.n_combinators]
             kibc_logits = kibc_logits + reg_bias[None, None, :]
 
         # Step 2: Slot logits via dot product with gated slot embeddings
@@ -374,10 +379,13 @@ class CombinatorIntegrate(nn.Module):
         self.result_offset = result_buckets // 2
         self.result_embed = nn.Embedding(result_buckets, d_model)
 
-        # Compute gate: starts near 0 (pure FFN)
-        self.gate_proj = nn.Linear(d_model, 1)
-        self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
-        self.gate_proj.bias = mx.ones_like(self.gate_proj.bias) * -5.0
+        # Compute gate: starts near 0 (pure FFN).
+        # Output padded to 16, take [..., :1]. Separate bias.
+        # d_model=512 is already a multiple of 16.
+        self.gate_proj = TernaryLinear(d_model, 16, pre_norm=False)
+        # Zero gamma → output=0 at init → gate = sigmoid(-5) ≈ 0
+        self.gate_proj.gamma = mx.zeros_like(self.gate_proj.gamma)
+        self.gate_bias = mx.full((1,), -5.0)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -512,7 +520,9 @@ class CombinatorIntegrate(nn.Module):
         self._kernel_info = kernel_info
 
         # ── Compute gate: blend kernel vs FFN ─────────────────
-        gate = mx.sigmoid(self.gate_proj(h))  # (B, L, 1)
+        gate = mx.sigmoid(
+            self.gate_proj(h)[..., :1] + self.gate_bias
+        )  # (B, L, 1)
         self._compute_gate = mx.stop_gradient(gate)
         self._compute_gate_live = gate
 

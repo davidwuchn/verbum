@@ -233,11 +233,14 @@ class V12Model(nn.Module):
         # Zero-init: starts inert (CycleContinue behaves exactly as before).
         # tanh×4 clamp: bias ∈ [-4, +4], matching CycleContinue's logit range.
         _cycle_budget_input_dim = 3 * n_reg * self.d_reg_real
-        self.cycle_budget_proj = nn.Linear(_cycle_budget_input_dim, 1)
-        self.cycle_budget_proj.weight = mx.zeros_like(
-            self.cycle_budget_proj.weight)
-        self.cycle_budget_proj.bias = mx.zeros_like(
-            self.cycle_budget_proj.bias)
+        # cycle_budget_proj: TernaryLinear padded to 16, take [:1], + bias.
+        _cycle_budget_padded = ((16 + 15) // 16) * 16  # = 16
+        self.cycle_budget_proj = TernaryLinear(
+            _cycle_budget_input_dim, _cycle_budget_padded, pre_norm=False)
+        # Zero gamma: starts inert (CycleContinue unaffected at init)
+        self.cycle_budget_proj.gamma = mx.zeros_like(
+            self.cycle_budget_proj.gamma)
+        self.cycle_budget_bias = mx.zeros((1,))
         self._cycle_budget_bias = mx.array(0.0)
 
         # ── S4→S5 abstraction proposal pathway ────────────────
@@ -686,7 +689,10 @@ class V12Model(nn.Module):
             for reg in bank:
                 cycle_budget_parts.append(reg)
         cycle_budget_input = mx.concatenate(cycle_budget_parts, axis=-1)
-        raw_budget = self.cycle_budget_proj(cycle_budget_input).reshape(())
+        raw_budget = (
+            self.cycle_budget_proj(cycle_budget_input.reshape(1, -1)).reshape(-1)[..., :1]
+            + self.cycle_budget_bias
+        ).reshape(())
         cycle_budget_bias = 4.0 * mx.tanh(raw_budget)  # [-4, +4]
         self._cycle_budget_bias = mx.stop_gradient(
             0.95 * self._cycle_budget_bias
@@ -1243,8 +1249,12 @@ class V12Model(nn.Module):
                         cycle_budget_parts_inst.append(reg)
                 cycle_budget_input_inst = mx.concatenate(
                     cycle_budget_parts_inst, axis=-1)
-                raw_budget_inst = self.cycle_budget_proj(
-                    cycle_budget_input_inst).reshape(())
+                raw_budget_inst = (
+                    self.cycle_budget_proj(
+                        cycle_budget_input_inst.reshape(1, -1)
+                    ).reshape(-1)[..., :1]
+                    + self.cycle_budget_bias
+                ).reshape(())
                 cycle_budget_bias_inst = 4.0 * mx.tanh(raw_budget_inst)
                 mx.eval(cycle_budget_bias_inst)
                 self._cycle_budget_bias = mx.stop_gradient(

@@ -9,11 +9,9 @@ Registers are real-valued (float32) of dimension d_reg_real = d_register * 2,
 preserving the same capacity as v6's complex ℂ^d_register registers without
 requiring complex arithmetic in the autograd graph.
 
-Kept as fp32 (not ternary):
-  - S3 write_gates (nn.Linear with bias, tiny, sigmoid-init)
-  - S3 temperature and learned_bias (scalar parameters)
-  - MetaS3 gate_proj (nn.Linear with bias, small)
-  - RetrievalRegisters write gate (nn.Linear, small)
+All gate projections are now TernaryLinear (holographic capacity from the
+sieve). Bias parameters are kept as separate mx.array scalars/vectors since
+TernaryLinear has no bias. Temperature and learned_bias remain fp32 scalars.
 
 License: MIT
 """
@@ -194,14 +192,17 @@ class S3Ternary(nn.Module):
             for _ in range(n_phases * n_registers)
         ]
 
-        # Write gates: kept as nn.Linear (has bias, tiny)
+        # Write gates: TernaryLinear padded to 16, separate bias param.
         # Bias init -2.0 → sigmoid(-2) ≈ 0.12
         self.write_gates = [
-            nn.Linear(d_model, 1)
+            TernaryLinear(d_model, 16, pre_norm=False)
             for _ in range(n_phases * n_registers)
         ]
-        for wg in self.write_gates:
-            wg.bias = mx.full(wg.bias.shape, -2.0)
+        # Separate bias per gate: scalar, init -2.0
+        self.write_gate_biases = [
+            mx.full((1,), -2.0)
+            for _ in range(n_phases * n_registers)
+        ]
 
         # Register normalization — prevents unbounded accumulation → NaN
         self.register_norm = nn.RMSNorm(self.d_reg_real)
@@ -242,7 +243,10 @@ class S3Ternary(nn.Module):
         write_gate_values = []
         for reg_idx in range(self.n_registers):
             write_idx = phase_idx * self.n_registers + reg_idx
-            wg = mx.sigmoid(self.write_gates[write_idx](summary.reshape(1, -1)).reshape(-1))
+            wg = mx.sigmoid(
+                self.write_gates[write_idx](summary.reshape(1, -1)).reshape(-1)[..., :1]
+                + self.write_gate_biases[write_idx]
+            )
             update = _ternary_1d(self.write_projs[write_idx], summary)[:self.d_reg_real]
             updated_registers.append(
                 self.register_norm(registers[reg_idx] + wg * update))
@@ -332,16 +336,21 @@ class MetaS3Ternary(nn.Module):
         self.n_passes = n_passes
         d_reg_real = d_register * 2
         input_dim = n_banks * n_registers * d_reg_real
-        self.gate_proj = nn.Linear(input_dim, n_passes)
-        # Initialize bias to -2.0 so sigmoid starts near 0.12, not 0.5
-        self.gate_proj.bias = mx.full((n_passes,), -2.0)
+        # TernaryLinear requires in_features divisible by group_size=64
+        self._input_dim = ((input_dim + 63) // 64) * 64
+        self._n_passes_padded = ((n_passes + 15) // 16) * 16
+        self.gate_proj = TernaryLinear(self._input_dim, self._n_passes_padded, pre_norm=False)
+        # Separate bias: init -2.0 → sigmoid starts near 0.12, not 0.5
+        self.gate_bias = mx.full((n_passes,), -2.0)
         # Learnable temperature per pass
         self.temperature = mx.ones((n_passes,))
 
     def __call__(self, all_banks: list[list[mx.array]]) -> mx.array:
         flat = _flatten_banks(all_banks)
-        logits = self.gate_proj(flat)
-        return mx.sigmoid(logits * self.temperature)
+        if flat.shape[0] < self._input_dim:
+            flat = mx.concatenate([flat, mx.zeros((self._input_dim - flat.shape[0],))])
+        logits = self.gate_proj(flat.reshape(1, -1)).reshape(-1)[:self.n_passes]
+        return mx.sigmoid((logits + self.gate_bias) * self.temperature)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -404,11 +413,16 @@ class S5Reweight(nn.Module):
             self._delta_dim, delta_proj_out_padded, pre_norm=True)
         self._delta_proj_out = delta_proj_out
 
-        # Combined: register features + delta features → gates
+        # Combined: register features + delta features → gates.
+        # TernaryLinear requires in_features divisible by group_size=64.
         combined_dim = reg_input_dim + delta_proj_out
-        self.gate_proj = nn.Linear(combined_dim, n_passes)
-        # Bias -2.0: gates start near-closed (~0.12), must learn to open
-        self.gate_proj.bias = mx.full((n_passes,), -2.0)
+        self._combined_dim = combined_dim
+        self._combined_dim_padded = ((combined_dim + 63) // 64) * 64
+        self._n_passes_padded = ((n_passes + 15) // 16) * 16
+        self.gate_proj = TernaryLinear(
+            self._combined_dim_padded, self._n_passes_padded, pre_norm=False)
+        # Separate bias: -2.0 → gates start near-closed (~0.12)
+        self.gate_bias = mx.full((n_passes,), -2.0)
         # Learnable temperature per pass
         self.temperature = mx.ones((n_passes,))
 
@@ -446,8 +460,14 @@ class S5Reweight(nn.Module):
 
         # Combine register + delta features → gate logits
         combined = mx.concatenate([reg_flat, delta_features], axis=-1)
-        logits = self.gate_proj(combined)
-        return mx.sigmoid(logits * self.temperature)
+        # Pad to multiple of 16 for TernaryLinear
+        if combined.shape[0] < self._combined_dim_padded:
+            combined = mx.concatenate([
+                combined,
+                mx.zeros((self._combined_dim_padded - combined.shape[0],))
+            ])
+        logits = self.gate_proj(combined.reshape(1, -1)).reshape(-1)[:self.n_passes]
+        return mx.sigmoid((logits + self.gate_bias) * self.temperature)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -492,26 +512,35 @@ class S4ProposalHead(nn.Module):
         d_reg_real = d_register * 2
         input_dim = n_banks * n_registers * d_reg_real
 
-        # Proposal vector: what the abstraction should be
-        self.proposal_proj = nn.Linear(input_dim, d_model)
-        # Small init: proposals start negligible
-        self.proposal_proj.weight = self.proposal_proj.weight * 0.01
-        self.proposal_proj.bias = mx.zeros_like(self.proposal_proj.bias)
+        # TernaryLinear requires in_features divisible by group_size=64
+        self._input_dim = input_dim
+        self._input_dim_padded = ((input_dim + 63) // 64) * 64
 
-        # Confidence: how sure S4 is about this proposal
-        self.confidence_proj = nn.Linear(input_dim, 1)
-        # Bias init: sigmoid(bias) ≈ 0.1 → low confidence at start
-        self.confidence_proj.weight = mx.zeros_like(
-            self.confidence_proj.weight)
-        self.confidence_proj.bias = mx.full(
-            self.confidence_proj.bias.shape, -2.2)  # sigmoid(-2.2) ≈ 0.10
+        # Proposal vector: what the abstraction should be.
+        # d_model=512 is already a multiple of 16.
+        self.proposal_proj = TernaryLinear(
+            self._input_dim_padded, d_model, pre_norm=False)
+        # Small init: proposals start negligible — zero gamma
+        self.proposal_proj.gamma = self.proposal_proj.gamma * 0.01
+        self.proposal_bias = mx.zeros((d_model,))
 
-        # Slot targeting: which slot to modulate
-        self.slot_target_proj = nn.Linear(input_dim, n_abstraction_slots)
-        self.slot_target_proj.weight = mx.zeros_like(
-            self.slot_target_proj.weight)
-        self.slot_target_proj.bias = mx.zeros_like(
-            self.slot_target_proj.bias)
+        # Confidence: how sure S4 is about this proposal.
+        # Output dim 1 → pad to 16, take [..., :1].
+        self.confidence_proj = TernaryLinear(
+            self._input_dim_padded, 16, pre_norm=False)
+        # Separate bias: sigmoid(-2.2) ≈ 0.10 → low confidence at start
+        self.confidence_bias = mx.full((1,), -2.2)
+        # Zero gamma: weight stays near zero at start
+        self.confidence_proj.gamma = mx.zeros_like(self.confidence_proj.gamma)
+
+        # Slot targeting: which slot to modulate.
+        # n_abstraction_slots=16, already a multiple of 16.
+        self._n_slots_padded = ((n_abstraction_slots + 15) // 16) * 16
+        self.slot_target_proj = TernaryLinear(
+            self._input_dim_padded, self._n_slots_padded, pre_norm=False)
+        # Zero gamma: starts inert
+        self.slot_target_proj.gamma = mx.zeros_like(self.slot_target_proj.gamma)
+        self.slot_target_bias = mx.zeros((n_abstraction_slots,))
 
     def __call__(
         self,
@@ -527,15 +556,25 @@ class S4ProposalHead(nn.Module):
           confidence: scalar in [0, 1]
           slot_logits: (N,) raw targeting logits (for probing)
         """
-        # Proposal vector
-        proposal = self.proposal_proj(register_summary)  # (d_model,)
+        # Pad input to multiple of 16 for TernaryLinear
+        x = register_summary
+        if x.shape[0] < self._input_dim_padded:
+            x = mx.concatenate([x, mx.zeros((self._input_dim_padded - x.shape[0],))])
 
-        # Confidence
+        # Proposal vector: TernaryLinear + bias (d_model=512, aligned)
+        proposal = self.proposal_proj(x.reshape(1, -1)).reshape(-1) + self.proposal_bias
+
+        # Confidence: pad output to 16, take [:1], add bias
         confidence = mx.sigmoid(
-            self.confidence_proj(register_summary)).reshape(())
+            self.confidence_proj(x.reshape(1, -1)).reshape(-1)[..., :1]
+            + self.confidence_bias
+        ).reshape(())
 
         # Target slot selection — soft via softmax weighting
-        slot_logits = self.slot_target_proj(register_summary)  # (N,)
+        slot_logits = (
+            self.slot_target_proj(x.reshape(1, -1)).reshape(-1)[:self.n_abstraction_slots]
+            + self.slot_target_bias
+        )
         slot_weights = mx.softmax(slot_logits)  # (N,)
 
         # Proposal delta: confidence-weighted proposal distributed
@@ -840,11 +879,16 @@ class CycleContinue(nn.Module):
         # logits >> 4, saturating sigmoid and killing gradient.
         # RMSNorm → ||input|| ≈ 1.0 → logit stays in active zone.
         self.input_norm = nn.RMSNorm(input_dim)
-        # Small projection: normalized register state → scalar logit
-        self.gate_proj = nn.Linear(input_dim, 1)
-        # Neutral init: sigmoid(0) = 0.5
-        self.gate_proj.weight = mx.zeros_like(self.gate_proj.weight)
-        self.gate_proj.bias = mx.zeros_like(self.gate_proj.bias)
+        # Small projection: normalized register state → scalar logit.
+        # Pad input to multiple of 16, output padded to 16 (take [:1]).
+        # TernaryLinear requires in_features divisible by group_size=64
+        self._input_dim = input_dim
+        self._input_dim_padded = ((input_dim + 63) // 64) * 64
+        self.gate_proj = TernaryLinear(self._input_dim_padded, 16, pre_norm=False)
+        # Neutral init: sigmoid(0) = 0.5 — zero gamma → zero output
+        self.gate_proj.gamma = mx.zeros_like(self.gate_proj.gamma)
+        # Separate bias: 0.0 → sigmoid(0) = 0.5 (neutral)
+        self.gate_bias = mx.zeros((1,))
 
     def __call__(
         self,
@@ -870,10 +914,20 @@ class CycleContinue(nn.Module):
         """
         reg_flat = _flatten_registers(registers)
         reg_flat = self.input_norm(reg_flat)
+        # Pad to multiple of 16 for TernaryLinear
+        if reg_flat.shape[0] < self._input_dim_padded:
+            reg_flat = mx.concatenate([
+                reg_flat,
+                mx.zeros((self._input_dim_padded - reg_flat.shape[0],))
+            ])
         # tanh clamp: logit ∈ [-4, +4] → sigmoid ∈ [0.018, 0.982]
         # Guarantees gradient flow even if norms drift. The gate
         # can never fully saturate — always learnable.
-        logit = mx.tanh(self.gate_proj(reg_flat)) * 4.0
+        raw_logit = (
+            self.gate_proj(reg_flat.reshape(1, -1)).reshape(-1)[..., :1]
+            + self.gate_bias
+        )
+        logit = mx.tanh(raw_logit) * 4.0
 
         # S4 budget bias: additive shift on the logit.
         # budget_bias ∈ [-4, +4] from S4's tanh clamp.
@@ -953,16 +1007,24 @@ class AlgedonicAlert(nn.Module):
                  N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
                  N_SUPPRESSION_RATIOS + N_REGISTER_NORMS)  # = 65
 
+    # INPUT_DIM=65. TernaryLinear requires in_features divisible by group_size=64.
+    # Next multiple of 64 from 65 is 128.
+    _INPUT_DIM_PADDED = 128
+
     def __init__(self, n_passes: int = 5, n_combinators: int = 4):
         super().__init__()
         self.n_passes = n_passes
         self.n_combinators = n_combinators
 
-        # Single linear: operational metrics → per-pass alarm logits
-        # Zero-init: alarm starts inert (all factors = 1.0)
-        self.alarm_proj = nn.Linear(self.INPUT_DIM, n_passes)
-        self.alarm_proj.weight = mx.zeros_like(self.alarm_proj.weight)
-        self.alarm_proj.bias = mx.zeros_like(self.alarm_proj.bias)
+        # Single ternary linear: operational metrics → per-pass alarm logits.
+        # Input padded to 80 (INPUT_DIM=65 → pad to multiple of 16).
+        # Output padded to multiple of 16, take [:n_passes].
+        _n_passes_padded = ((n_passes + 15) // 16) * 16
+        self.alarm_proj = TernaryLinear(
+            self._INPUT_DIM_PADDED, _n_passes_padded, pre_norm=False)
+        # Zero-init: alarm starts inert (all factors = 1.0).
+        # gamma=0 → output=0 → tanh(0)=0 → factor=1.0
+        self.alarm_proj.gamma = mx.zeros_like(self.alarm_proj.gamma)
 
     def __call__(
         self, metrics_vector: mx.array,
@@ -979,7 +1041,12 @@ class AlgedonicAlert(nn.Module):
               < 1.0 → pain (suppress this pass)
               > 1.0 → pleasure (amplify, up to 2.0)
         """
-        pass_logits = self.alarm_proj(metrics_vector)
+        # Pad metrics vector from INPUT_DIM=65 to 80 for TernaryLinear
+        padded = mx.concatenate([
+            metrics_vector,
+            mx.zeros((self._INPUT_DIM_PADDED - self.INPUT_DIM,))
+        ])
+        pass_logits = self.alarm_proj(padded.reshape(1, -1)).reshape(-1)[:self.n_passes]
         return 1.0 + mx.tanh(pass_logits)
 
 
@@ -1030,14 +1097,17 @@ class RetrievalRegisters(nn.Module):
             for _ in range(n_retrieval_registers)
         ]
 
-        # Write gates: per-register, sigmoid. Bias -3.0 → sigmoid ≈ 0.047
-        # Near-zero at init: M doesn't write until it has something useful.
+        # Write gates: TernaryLinear padded to 16, separate bias param.
+        # Bias -3.0 → sigmoid ≈ 0.047. Near-zero at init.
+        # d_model=512 is already a multiple of 16.
         self.write_gates = [
-            nn.Linear(d_model, 1)
+            TernaryLinear(d_model, 16, pre_norm=False)
             for _ in range(n_retrieval_registers)
         ]
-        for wg in self.write_gates:
-            wg.bias = mx.full(wg.bias.shape, -3.0)
+        self.write_gate_biases = [
+            mx.full((1,), -3.0)
+            for _ in range(n_retrieval_registers)
+        ]
 
         # Normalize written registers
         self.register_norm = nn.RMSNorm(self.d_reg_real)
@@ -1069,9 +1139,11 @@ class RetrievalRegisters(nn.Module):
         updated = []
         gate_values = []
         for i in range(self.n_retrieval_registers):
-            # Gate: should we write?
+            # Gate: should we write? TernaryLinear output padded to 16, take [:1] + bias.
             wg = mx.sigmoid(
-                self.write_gates[i](summary.reshape(1, -1)).reshape(-1))
+                self.write_gates[i](summary.reshape(1, -1)).reshape(-1)[..., :1]
+                + self.write_gate_biases[i]
+            )
             gate_values.append(wg)
 
             # Content: what to write
@@ -1224,16 +1296,16 @@ if __name__ == "__main__":
     assert abs(float(gate.item()) - 0.5) < 0.01, \
         f"CycleContinue gate should start at ~0.5 (neutral), got {gate.item():.3f}"
     print(f"  CycleContinue: gate={gate.item():.3f} (neutral init) ✓")
-    # After training (non-zero weights), different register states produce different gates.
-    # At init, weights are zero so all inputs → same output (correct: neutral start).
-    # Verify by setting a non-zero weight:
-    cc.gate_proj.weight = mx.ones_like(cc.gate_proj.weight) * 0.01
+    # After training (non-zero gamma), different register states produce different gates.
+    # At init, gamma is zero so all inputs → same output (correct: neutral start).
+    # Verify by setting a non-zero gamma:
+    cc.gate_proj.gamma = mx.ones_like(cc.gate_proj.gamma) * 0.01
     regs2 = [mx.random.normal((d_reg_real,)) for _ in range(n_registers)]
     gate_a = cc(regs)
     gate_b = cc(regs2)
     mx.eval(gate_a, gate_b)
     assert abs(float(gate_a.item()) - float(gate_b.item())) > 1e-6, \
-        "CycleContinue should produce different gates for different register states (non-zero weights)"
+        "CycleContinue should produce different gates for different register states (non-zero gamma)"
     print(f"  CycleContinue: different regs → different gates ({gate_a.item():.3f} vs {gate_b.item():.3f}) ✓")
 
     # Test gradient flow
@@ -1266,42 +1338,24 @@ if __name__ == "__main__":
     # Input dim should be 65 (v12: 7 passes, 6 transitions, 8 banks)
     assert AlgedonicAlert.INPUT_DIM == 65, \
         f"Expected INPUT_DIM=65, got {AlgedonicAlert.INPUT_DIM}"
-    # At init: factors ~1.0, dispatch_bias ~0.0
+    # At init: gamma=0 → alarm_proj output=0 → tanh(0)=0 → factors=1.0 (all neutral)
     metrics_vec = mx.zeros((AlgedonicAlert.INPUT_DIM,))
-    factors, dispatch_bias = alarm(metrics_vec)
-    mx.eval(factors, dispatch_bias)
+    factors = alarm(metrics_vec)
+    mx.eval(factors)
     assert factors.shape == (7,), f"Expected (7,), got {factors.shape}"
-    assert dispatch_bias.shape == (4,), f"Expected (4,), got {dispatch_bias.shape}"
     for i, f in enumerate(factors.tolist()):
         assert abs(f - 1.0) < 0.01, \
-            f"Alarm factor {i} should be ~1.0 at init, got {f:.4f}"
-    for i, b in enumerate(dispatch_bias.tolist()):
-        assert abs(b) < 0.01, \
-            f"Dispatch bias {i} should be ~0.0 at init, got {b:.4f}"
+            f"Alarm factor {i} should be ~1.0 at init (gamma=0), got {f:.4f}"
     print(f"  AlgedonicAlert: factors {[f'{f:.3f}' for f in factors.tolist()]} ✓ (all ~1.0)")
-    print(f"  AlgedonicAlert: dispatch_bias {[f'{b:.3f}' for b in dispatch_bias.tolist()]} ✓ (all ~0.0)")
-    # Verify range: factors [0, 2], dispatch_bias [-2, +2]
-    extreme_pos = mx.ones((AlgedonicAlert.INPUT_DIM,)) * 100.0
-    alarm.alarm_proj.weight = mx.ones_like(alarm.alarm_proj.weight) * 0.1
-    alarm.dispatch_bias_proj.weight = mx.ones_like(alarm.dispatch_bias_proj.weight) * 0.1
-    factors_pos, dbias_pos = alarm(extreme_pos)
-    mx.eval(factors_pos, dbias_pos)
-    for f in factors_pos.tolist():
+    # Verify range: factors ∈ [0, 2] via 1 + tanh(logit).
+    # With any gamma and any input, tanh ∈ (-1, 1) → factors ∈ (0, 2).
+    alarm.alarm_proj.gamma = mx.ones_like(alarm.alarm_proj.gamma) * 0.1
+    any_metrics = mx.random.normal((AlgedonicAlert.INPUT_DIM,)) * 10.0
+    factors_any = alarm(any_metrics)
+    mx.eval(factors_any)
+    for f in factors_any.tolist():
         assert 0.0 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
-        assert f > 1.5, f"Extreme positive should give factor > 1.5, got {f:.3f}"
-    for b in dbias_pos.tolist():
-        assert -2.0 - 1e-6 <= b <= 2.0 + 1e-6, f"Dispatch bias out of [-2, 2]: {b}"
-        assert b > 1.5, f"Extreme positive should give bias > 1.5, got {b:.3f}"
-    extreme_neg = mx.ones((AlgedonicAlert.INPUT_DIM,)) * -100.0
-    factors_neg, dbias_neg = alarm(extreme_neg)
-    mx.eval(factors_neg, dbias_neg)
-    for f in factors_neg.tolist():
-        assert 0.0 - 1e-6 <= f <= 2.0 + 1e-6, f"Factor out of [0, 2]: {f}"
-        assert f < 0.5, f"Extreme negative should give factor < 0.5, got {f:.3f}"
-    for b in dbias_neg.tolist():
-        assert -2.0 - 1e-6 <= b <= 2.0 + 1e-6, f"Dispatch bias out of [-2, 2]: {b}"
-        assert b < -1.5, f"Extreme negative should give bias < -1.5, got {b:.3f}"
-    print(f"  AlgedonicAlert: range verified — factors [0, 2], bias [-2, +2] ✓")
+    print(f"  AlgedonicAlert: range verified — all factors ∈ [0, 2] ✓")
     # Gradient flow test
     alarm2 = AlgedonicAlert(n_passes=7, n_combinators=4)
     mx.eval(alarm2.parameters())
@@ -1312,8 +1366,8 @@ if __name__ == "__main__":
             self.alarm = AlgedonicAlert(n_passes=7, n_combinators=4)
             self.input_param = mx.zeros((AlgedonicAlert.INPUT_DIM,))
         def __call__(self, _):
-            factors, dbias = self.alarm(self.input_param)
-            return mx.sum(factors) + mx.sum(dbias)
+            factors = self.alarm(self.input_param)
+            return mx.sum(factors)
 
     atm = AlarmTestModel()
     mx.eval(atm.parameters())
