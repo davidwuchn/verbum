@@ -423,6 +423,153 @@ PROBES = {
         "Hallo, wie geht es Ihnen heute? Ich hoffe Sie",
         "Konnichiwa, kyou wa ogenki desu ka? Odaiji ni",
     ],
+
+    # ══════════════════════════════════════════════════════════════
+    # OPERATION-LEVEL AXES — cognitive modes, directionality, epistemic
+    # ══════════════════════════════════════════════════════════════
+
+    # ── Compression / Summarization ──
+    "compress_tldr": [
+        "The following is a summary of the key points:",
+        "In brief, the main argument is that",
+        "TL;DR: The article discusses how",
+        "To summarize the three main findings:",
+        "The executive summary: Our quarterly results show",
+    ],
+
+    # ── Expansion / Elaboration ──
+    "expand_elaborate": [
+        "Let me explain this in more detail. The concept of entropy",
+        "To elaborate on that point, there are several factors to consider:",
+        "Breaking this down step by step: First, we need to understand that",
+        "In other words, what this really means is that the underlying",
+        "To put it more concretely, imagine a scenario where",
+    ],
+
+    # ── Classification / Labeling ──
+    "classify_sentiment": [
+        "The sentiment of this review is clearly",
+        "This text expresses a primarily negative emotion of",
+        "Based on the tone, this message is",
+        "The overall sentiment: positive. The key indicators are",
+        "Classification: This is a complaint about",
+    ],
+    "classify_category": [
+        "This article belongs to the category of",
+        "Topic: Science. Subtopic:",
+        "This question is about mathematics, specifically",
+        "Genre: Fantasy fiction. Key elements include",
+        "This falls under the domain of computer science, particularly",
+    ],
+
+    # ── Evaluation / Judgment ──
+    "evaluate_quality": [
+        "Rating: 4/5. The strengths of this approach are",
+        "This solution is suboptimal because it fails to",
+        "Comparing the two options, the first is better due to",
+        "The main weakness of this argument is that it",
+        "This code has a critical bug: the variable",
+    ],
+
+    # ── Certainty / Epistemic state ──
+    "epistemic_certain": [
+        "I am absolutely certain that the answer is",
+        "This is definitively correct because",
+        "There is no doubt that the result is",
+        "The evidence conclusively shows that",
+        "It is a well-established fact that",
+    ],
+    "epistemic_uncertain": [
+        "I'm not entirely sure, but it might be",
+        "This is speculative, but one possibility is that",
+        "There are competing theories, and the evidence suggests",
+        "I would estimate approximately, though this could be",
+        "It's difficult to say with certainty, but perhaps",
+    ],
+
+    # ── Correction / Error handling ──
+    "correction_fix": [
+        "Actually, that's incorrect. The right answer is",
+        "There's an error in line 3: you should change",
+        "That's a common misconception. In reality,",
+        "Wait, let me reconsider. The correct approach is",
+        "I need to correct my earlier statement:",
+    ],
+
+    # ── Refusal / Boundaries ──
+    "refusal_boundary": [
+        "I cannot provide instructions for creating",
+        "I'm not able to help with that request because",
+        "That falls outside my capabilities. Instead, I can",
+        "I don't have access to real-time information about",
+        "I should not speculate about specific individuals'",
+    ],
+
+    # ── Inverse / Reverse operations ──
+    "inverse_debug": [
+        "The output is 'IndexError'. This means the code tried to",
+        "Given this error message, the likely cause is",
+        "Working backwards from the result, the input must have been",
+        "To produce this output, the function must have received",
+        "Reverse engineering: if the hash is X, the original",
+    ],
+
+    # ── Meta / Self-reference ──
+    "meta_self_reference": [
+        "As a language model, I process text by",
+        "The previous paragraph contained three logical fallacies:",
+        "This sentence has exactly seven words in it",
+        "Let me think about what I just said and whether",
+        "The structure of this conversation so far has been",
+    ],
+
+    # ── Dialogue / Turn-taking ──
+    "dialogue_question": [
+        "What do you think about the current state of",
+        "Could you help me understand why the",
+        "How would you approach solving this problem if",
+        "Can you explain the difference between",
+        "What would happen if we changed the",
+    ],
+    "dialogue_acknowledgment": [
+        "That's a great point. Building on your observation,",
+        "I see what you mean. Let me add that",
+        "Yes, exactly. And furthermore, this implies that",
+        "I understand your concern. Here's how we can address",
+        "Good question. The short answer is",
+    ],
+
+    # ── Specificity gradient ──
+    "specificity_concrete": [
+        "At 3:47 PM on March 15th, 2023, the red Toyota Camry with plate number",
+        "The 47-year-old male patient presented with a 3cm laceration on the left",
+        "In apartment 4B at 221 Baker Street, the temperature was exactly",
+        "The function received exactly 3 arguments: 'hello', 42, and",
+        "On row 157 of the spreadsheet, column F contains the value",
+    ],
+    "specificity_abstract": [
+        "The fundamental nature of consciousness remains",
+        "In general, systems tend toward equilibrium when",
+        "The relationship between form and function in any",
+        "All recursive processes share the property of",
+        "The concept of emergence suggests that complex behavior arises from",
+    ],
+
+    # ── Narrative / Creative ──
+    "narrative_story": [
+        "Once upon a time, in a kingdom far away, there lived a",
+        "The detective examined the crime scene carefully, noting that the",
+        "She opened the letter with trembling hands, knowing that its contents would",
+        "The spaceship emerged from hyperspace to find the planet completely",
+        "Years later, he would remember this moment as the turning point when",
+    ],
+    "narrative_descriptive": [
+        "The sunset painted the sky in brilliant shades of orange and",
+        "The old library smelled of dust and leather, its shelves lined with",
+        "The city at night was alive with neon lights reflecting off the wet",
+        "The garden in spring was a riot of color, with tulips and",
+        "The mountain loomed above them, its peak shrouded in thick gray",
+    ],
 }
 
 
