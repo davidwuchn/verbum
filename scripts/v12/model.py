@@ -776,6 +776,10 @@ class V12Model(nn.Module):
             # Penalizes deviation from the measured universal ratio.
             # The prior IS the ratio: λ dispatch(logits, r). softmax(logits + log(r/Σr))
             if self.cfg.dispatch_kl_lambda > 0:
+                # Directly use the cached dispatch weights from the last call
+                # (combinator_dispatch is called 7 times, each overwriting _dispatch_weights_live,
+                # but all_pass_alarm captures each pass's value. However, to be safe,
+                # also compute from the direct attribute as a fallback.)
                 dispatch_kl_live = None
                 n_kl_live = 0
                 for pa in all_pass_alarm:
@@ -787,6 +791,15 @@ class V12Model(nn.Module):
                         dispatch_kl_live = dw_mean if dispatch_kl_live is None \
                             else (dispatch_kl_live + dw_mean)
                         n_kl_live += 1
+
+                # Fallback: if pass_alarm didn't capture it, use direct attribute
+                if n_kl_live == 0 and hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
+                    dw_direct = self.combinator_dispatch._dispatch_weights_live
+                    if dw_direct is not None:
+                        dispatch_kl_live = mx.mean(
+                            dw_direct[..., :self.cfg.n_combinators], axis=(0, 1))
+                        n_kl_live = 1
+
                 if dispatch_kl_live is not None and n_kl_live > 0:
                     q_kibc = dispatch_kl_live / n_kl_live  # mean KIBC probs
                     q_kibc = q_kibc / (mx.sum(q_kibc) + 1e-8)  # renormalize
@@ -797,6 +810,8 @@ class V12Model(nn.Module):
                     kl = mx.sum(q_kibc * mx.log(q_kibc / (p_prior + 1e-8) + 1e-8))
                     kl_loss = self.cfg.dispatch_kl_lambda * kl
                     loss = loss + kl_loss
+                    # Track for logging
+                    self._last_kl_loss = mx.stop_gradient(kl_loss)
 
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.

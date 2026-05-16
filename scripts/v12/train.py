@@ -1229,6 +1229,10 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 train_record["ce"] = raw_ce
             if holo_eff > 0:
                 train_record["holo_lambda_effective"] = holo_eff
+            # KL loss diagnostic
+            if hasattr(model, '_last_kl_loss'):
+                mx.eval(model._last_kl_loss)
+                train_record["kl_loss"] = float(model._last_kl_loss.item())
             # Add retrieval gate means cached by HybridStrideStack during forward (v12)
             if hasattr(model, 'stride_stack') and hasattr(model.stride_stack, '_retrieval_gate_means'):
                 rgm = model.stride_stack._retrieval_gate_means
