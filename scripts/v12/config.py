@@ -169,13 +169,11 @@ class V12Config:
     dispatch_entropy_lambda: float = 0.01
     dispatch_entropy_target: float = 1.149   # H(ratio_prior) * 0.85
 
-    # ── KL divergence toward empirical ratio (dispatch leash) ──
-    # KL(dispatch ∥ prior) penalizes deviation from the empirical ratio.
-    # Entropy prevents collapse (direction-agnostic).
-    # KL steers toward the specific ratio (direction-specific).
-    # Lambda controls leash length: how far the model can profitably
-    # drift before KL cost exceeds CE gain.
-    dispatch_kl_lambda: float = 1.0
+    # ── KL divergence toward empirical ratio (hard constraint) ──
+    # We know an optimal solution uses this ratio. Find it.
+    # K:I:B:C = 1:0.5:1:1 — measured across 9 models, 2 architectures.
+    # λ=10: deviation costs more than the task itself. Non-negotiable.
+    dispatch_kl_lambda: float = 10.0
 
     # Dropout
     dropout: float = 0.1
