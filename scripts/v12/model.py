@@ -52,7 +52,6 @@ from components import (
     MetaS4Ternary,
     S5Reweight,
     S2Coordinator,
-    S2DispatchCoordinator,
     CycleContinue,
     AlgedonicAlert,
     S4ProposalHead,
@@ -199,10 +198,6 @@ class V12Model(nn.Module):
         # ── S2: Direction coordination ─────────────────────────
         self.s2 = S2Coordinator(d)
 
-        # ── S2: Dispatch anti-oscillation for dedicated plates ──
-        self.s2_dispatch = S2DispatchCoordinator(
-            n_combinators=cfg.n_combinators, d_model=d)
-
         # ── S5: Pass reweighting ──────────────────────────────
         # 8 banks: bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
         #          bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc
@@ -226,30 +221,6 @@ class V12Model(nn.Module):
         # Retrieval register EMA (v12): carry retrieval state across steps
         self._prev_retrieval_regs = [
             mx.zeros((self.d_reg_real,)) for _ in range(cfg.n_retrieval_registers)]
-        # Alarm dispatch bias EMA: carries per-combinator bias across steps.
-        # The alarm runs AFTER all passes (retroactive), so the dispatch
-        # bias from alarm must come from the previous step's computation.
-        # Combined with S4 emphasis_bias (computed between asc/desc) to
-        # form the total dispatch_bias fed to CombinatorDispatch.
-        self._prev_alarm_dispatch_bias = mx.zeros((N_COMBINATORS,))
-
-        # ── Combinator emphasis → additive dispatch bias (v12) ──
-        # v11 used multiplicative emphasis (range [0.5, 1.5]) on embeddings.
-        # Problem: B started at 1.499 (ceiling), emphasis couldn't rescue it.
-        # Multiplicative scaling on embeddings is weak in softmax space.
-        #
-        # v12 fix: additive logit bias (range [-2, +2] via tanh×2).
-        # A +2 bias in logit space shifts softmax probability ~7× relative.
-        # This gives S4 real control over the dispatch distribution.
-        # Combined with alarm's per-combinator bias → two independent
-        # actuators on the same lever (both additive, correct composition).
-        emphasis_input_dim = 3 * n_reg * self.d_reg_real
-        self.emphasis_proj = nn.Linear(emphasis_input_dim, N_COMBINATORS)
-        self.emphasis_proj.weight = mx.zeros_like(self.emphasis_proj.weight)
-        self.emphasis_proj.bias = mx.zeros_like(self.emphasis_proj.bias)
-        self._emphasis_bias = mx.zeros((N_COMBINATORS,))
-        self._emphasis_ema = 0.95
-
         # ── S4→S3 cycle budget: intelligence → control channel ──
         # S4 observes the residual stream and register state, then
         # produces a scalar bias that shifts CycleContinue's gate.
@@ -261,7 +232,8 @@ class V12Model(nn.Module):
         #
         # Zero-init: starts inert (CycleContinue behaves exactly as before).
         # tanh×4 clamp: bias ∈ [-4, +4], matching CycleContinue's logit range.
-        self.cycle_budget_proj = nn.Linear(emphasis_input_dim, 1)
+        _cycle_budget_input_dim = 3 * n_reg * self.d_reg_real
+        self.cycle_budget_proj = nn.Linear(_cycle_budget_input_dim, 1)
         self.cycle_budget_proj.weight = mx.zeros_like(
             self.cycle_budget_proj.weight)
         self.cycle_budget_proj.bias = mx.zeros_like(
@@ -482,7 +454,6 @@ class V12Model(nn.Module):
 
     def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
                          target_bank, embed_context=None,
-                         dispatch_bias=None,
                          proposal_delta=None,
                          ret_regs=None,
                          cycle_budget_bias=None):
@@ -514,8 +485,6 @@ class V12Model(nn.Module):
             x_anchor = x
             max_cycles = self.cfg.desc_max_cycles
             cumulative_gate = mx.array(1.0)
-            # S2 dispatch inertia: carries dispatch momentum across cycles
-            s2_inertia_bias = None  # None for first cycle, then computed
 
             for cycle in range(max_cycles):
                 x_cycle_start = x
@@ -524,13 +493,9 @@ class V12Model(nn.Module):
                     x = x + self.cycle_inject_gate * x_anchor
 
                 # Phase 0: dispatch (which combinator/slot?)
-                # dispatch_bias from alarm is (n_comb,) — 1D, broadcast inside CombinatorDispatch.
-                # s2_inertia_bias is (B, L, n_comb_padded) — per-position, applied separately.
                 dispatch_out = self.combinator_dispatch(
                     x, registers=readable_banks,
-                    dispatch_bias=dispatch_bias,
-                    proposal_delta=proposal_delta,
-                    inertia_bias=s2_inertia_bias)
+                    proposal_delta=proposal_delta)
                 delta = dispatch_out - x
                 raw_phases.append(delta)
                 _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -543,9 +508,6 @@ class V12Model(nn.Module):
                 # dispatch_weights_live is the DIFFERENTIABLE version — gradients flow
                 # from plate outputs back through dispatch (no stop_gradient here).
                 dw_kibc = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
-
-                # S2 dispatch: compute inertia bias for NEXT cycle from this cycle's dispatch
-                s2_inertia_bias = self.s2_dispatch.inertia_bias(dw_kibc)
 
                 converge_out = self.desc_plates(
                     x, dispatch_weights=dw_kibc,
@@ -594,18 +556,11 @@ class V12Model(nn.Module):
                     pass_alarm['cycle_continue_gates'].append(cont_gate)
                     cumulative_gate = cumulative_gate * cont_gate
 
-            # S2 dispatch: update cross-step EMA for alarm monitoring
-            if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
-                self.s2_dispatch.update_ema(
-                    self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators])
-
             # Capture live (differentiable) dispatch/compute metrics
             # from the LAST cycle — most recent computation
             if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
                 pass_alarm['dispatch_weights_live'] = \
                     self.combinator_dispatch._dispatch_weights_live
-                pass_alarm['dispatch_oscillation'] = \
-                    self.s2_dispatch.oscillation_signal
             if hasattr(self.combinator_integrate, '_compute_gate_live'):
                 pass_alarm['compute_gate_live'] = \
                     self.combinator_integrate._compute_gate_live
@@ -723,38 +678,25 @@ class V12Model(nn.Module):
         pass_deltas.append(pd); raw_deltas.append(rd)
         asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
 
-        # ── S4 emphasis → additive dispatch bias (v12) ─────────
-        # Produces a (4,) logit bias from ascending register banks.
-        # Range [-2, +2] via tanh×2. Combined with alarm's dispatch
-        # bias in the descending arm to give both S4 and S5 control
-        # over the dispatch distribution in softmax space.
-        emphasis_parts = []
+        # ── S4→S3 cycle budget bias ───────────────────────────
+        # Ascending register banks → scalar bias for CycleContinue.
+        # S4 decides: is this content worth multiple dispatch cycles?
+        cycle_budget_parts = []
         for bank in [bank_1_asc, bank_2_asc, bank_3_asc]:
             for reg in bank:
-                emphasis_parts.append(reg)
-        emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
-        raw_emphasis = self.emphasis_proj(emphasis_input)
-        emphasis_bias = 2.0 * mx.tanh(raw_emphasis)  # [-2, +2]
-
-        self._emphasis_bias = mx.stop_gradient(
-            self._emphasis_ema * self._emphasis_bias
-            + (1.0 - self._emphasis_ema) * emphasis_bias)
-
-        # ── S4→S3 cycle budget bias ───────────────────────────
-        # Same input as emphasis (ascending register banks).
-        # S4 decides: is this content worth multiple dispatch cycles?
-        raw_budget = self.cycle_budget_proj(emphasis_input).reshape(())
+                cycle_budget_parts.append(reg)
+        cycle_budget_input = mx.concatenate(cycle_budget_parts, axis=-1)
+        raw_budget = self.cycle_budget_proj(cycle_budget_input).reshape(())
         cycle_budget_bias = 4.0 * mx.tanh(raw_budget)  # [-4, +4]
         self._cycle_budget_bias = mx.stop_gradient(
-            self._emphasis_ema * self._cycle_budget_bias
-            + (1.0 - self._emphasis_ema) * cycle_budget_bias)
+            0.95 * self._cycle_budget_bias
+            + 0.05 * cycle_budget_bias)
 
         # ── S4→S5 abstraction proposal ─────────────────────────
         proposal_delta = None
         if self.cfg.n_abstraction_slots > 0:
-            proposal_input = emphasis_input  # same register banks
             proposal_delta, proposal_conf, _ = self.proposal_head(
-                proposal_input)
+                cycle_budget_input)
             # Cache for probing
             self._proposal_confidence = mx.stop_gradient(proposal_conf)
 
@@ -780,13 +722,6 @@ class V12Model(nn.Module):
         ])
         asc_gate_bank = [asc_gate_vector]
 
-        # ── Compose dispatch bias: S4 emphasis + alarm EMA ─────
-        # emphasis_bias: live from this step's ascending registers [-2, +2]
-        # _prev_alarm_dispatch_bias: EMA from previous step's alarm [-2, +2]
-        # Combined additively: correct composition in logit space.
-        prev_alarm_bias = mx.stop_gradient(self._prev_alarm_dispatch_bias)
-        dispatch_bias = emphasis_bias + prev_alarm_bias
-
         coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
         x = x + self.s2.direction_signal(pd, 3) * coherence
 
@@ -795,7 +730,6 @@ class V12Model(nn.Module):
             x, 4, True,
             [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex, asc_gate_bank],
             bank_3_desc, embed_context=x_embed,
-            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs,
             cycle_budget_bias=cycle_budget_bias)
@@ -810,7 +744,6 @@ class V12Model(nn.Module):
             x, 5, True,
             [bank_0, bank_1_asc, bank_3_desc, bank_4_apex, asc_gate_bank],
             bank_2_desc, embed_context=x_embed,
-            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs,
             cycle_budget_bias=cycle_budget_bias)
@@ -825,7 +758,6 @@ class V12Model(nn.Module):
             x, 6, True,
             [bank_0, bank_1_asc, bank_2_desc, bank_4_apex, asc_gate_bank],
             bank_1_desc, embed_context=x_embed,
-            dispatch_bias=dispatch_bias,
             proposal_delta=proposal_delta,
             ret_regs=ret_regs,
             cycle_budget_bias=cycle_budget_bias)
@@ -883,14 +815,7 @@ class V12Model(nn.Module):
         alarm_metrics = self._collect_alarm_metrics(
             all_s3_gates, pass_deltas, raw_deltas,
             all_pass_alarm, all_banks)
-        alarm_factors, alarm_dispatch_bias = self.algedonic(alarm_metrics)
-        # Cache for probing/logging
-        self._alarm_dispatch_bias = mx.stop_gradient(alarm_dispatch_bias)
-        # Update EMA for next step's dispatch bias
-        α = self._algedonic_ema
-        self._prev_alarm_dispatch_bias = mx.stop_gradient(
-            α * self._prev_alarm_dispatch_bias
-            + (1.0 - α) * alarm_dispatch_bias)
+        alarm_factors = self.algedonic(alarm_metrics)
 
         # Effective gate = S5Reweight × alarm factor
         effective_gates = meta_gates * alarm_factors
@@ -1077,7 +1002,6 @@ class V12Model(nn.Module):
         pass_h_out = []
         asc_gate_mx = []
         asc_gate_bank = None
-        dispatch_bias_inst = None
         cycle_budget_bias_inst = None
         all_cycle_continue_gates = []
         all_effective_cycles = []
@@ -1135,19 +1059,16 @@ class V12Model(nn.Module):
                 max_cycles = self.cfg.desc_max_cycles
                 cumulative_gate = mx.array(1.0)
                 cycle_continue_gates = []
-                s2_inertia_bias_inst = None
 
                 for cycle in range(max_cycles):
                     x_cycle_start = x
                     if cycle > 0:
                         x = x + self.cycle_inject_gate * x_anchor
 
-                    # Phase 0: dispatch (with S2 inertia from previous cycle)
+                    # Phase 0: dispatch
                     dispatch_out = self.combinator_dispatch(
                         x, registers=readable,
-                        dispatch_bias=dispatch_bias_inst,
-                        proposal_delta=proposal_delta_inst,
-                        inertia_bias=s2_inertia_bias_inst)
+                        proposal_delta=proposal_delta_inst)
                     delta = dispatch_out - x
                     raw_phases.append(delta)
                     _, target, gate, _ = self.s3_passes[pass_idx].gate_phase(
@@ -1160,8 +1081,6 @@ class V12Model(nn.Module):
                     # Each combinator has its own StrideStack; dispatch weights blend.
                     # Use live (differentiable) dispatch weights.
                     dw_kibc_inst = self.combinator_dispatch._dispatch_weights_live[..., :self.cfg.n_combinators]
-                    # S2 dispatch: compute inertia for next cycle
-                    s2_inertia_bias_inst = self.s2_dispatch.inertia_bias(dw_kibc_inst)
                     conv_out = self.desc_plates(
                         x, dispatch_weights=dw_kibc_inst,
                         reverse=self.cfg.desc_stride_reverse,
@@ -1316,38 +1235,26 @@ class V12Model(nn.Module):
                 asc_gate_bank = [asc_gate_vector]
 
             if not is_desc and pi == 3:
-                # Emphasis uses banks 1_asc, 2_asc, 3_asc
-                # (target_banks[0,1,2] = bank_1_asc, bank_2_asc, bank_3_asc)
-                emphasis_parts = []
+                # S4→S3 cycle budget bias (instrumented path)
+                # Uses banks 1_asc, 2_asc, 3_asc
+                cycle_budget_parts_inst = []
                 for bank in [target_banks[0], target_banks[1], target_banks[2]]:
                     for reg in bank:
-                        emphasis_parts.append(reg)
-                emphasis_input = mx.concatenate(emphasis_parts, axis=-1)
-                raw_emphasis = self.emphasis_proj(emphasis_input)
-                emphasis_bias_inst = 2.0 * mx.tanh(raw_emphasis)
-                mx.eval(emphasis_bias_inst)
-                self._emphasis_bias = mx.stop_gradient(
-                    self._emphasis_ema * self._emphasis_bias
-                    + (1.0 - self._emphasis_ema) * emphasis_bias_inst)
-                # Compose dispatch bias for instrumented path
-                prev_alarm_bias_inst = mx.stop_gradient(
-                    self._prev_alarm_dispatch_bias)
-                dispatch_bias_inst = emphasis_bias_inst + prev_alarm_bias_inst
-                mx.eval(dispatch_bias_inst)
-
-                # S4→S3 cycle budget bias (instrumented path)
+                        cycle_budget_parts_inst.append(reg)
+                cycle_budget_input_inst = mx.concatenate(
+                    cycle_budget_parts_inst, axis=-1)
                 raw_budget_inst = self.cycle_budget_proj(
-                    emphasis_input).reshape(())
+                    cycle_budget_input_inst).reshape(())
                 cycle_budget_bias_inst = 4.0 * mx.tanh(raw_budget_inst)
                 mx.eval(cycle_budget_bias_inst)
                 self._cycle_budget_bias = mx.stop_gradient(
-                    self._emphasis_ema * self._cycle_budget_bias
-                    + (1.0 - self._emphasis_ema) * cycle_budget_bias_inst)
+                    0.95 * self._cycle_budget_bias
+                    + 0.05 * cycle_budget_bias_inst)
 
                 # S4→S5 abstraction proposal
                 if self.cfg.n_abstraction_slots > 0:
                     proposal_delta_inst, proposal_confidence_inst, _ = \
-                        self.proposal_head(emphasis_input)
+                        self.proposal_head(cycle_budget_input_inst)
                     mx.eval(proposal_delta_inst, proposal_confidence_inst)
                     proposal_gate_inst = mx.sigmoid(
                         mx.array(1.0) * proposal_confidence_inst
@@ -1434,14 +1341,8 @@ class V12Model(nn.Module):
             all_s3_gates_mx, pass_deltas, raw_deltas,
             all_pass_alarm_inst, all_banks)
         mx.eval(alarm_metrics_inst)
-        alarm_factors_inst, alarm_dispatch_bias_inst = self.algedonic(
-            alarm_metrics_inst)
-        mx.eval(alarm_factors_inst, alarm_dispatch_bias_inst)
-        # Update alarm dispatch bias EMA
-        self._prev_alarm_dispatch_bias = mx.stop_gradient(
-            self._algedonic_ema * self._prev_alarm_dispatch_bias
-            + (1.0 - self._algedonic_ema) * alarm_dispatch_bias_inst)
-        self._alarm_dispatch_bias = mx.stop_gradient(alarm_dispatch_bias_inst)
+        alarm_factors_inst = self.algedonic(alarm_metrics_inst)
+        mx.eval(alarm_factors_inst)
         effective_gates = meta_gates * alarm_factors_inst
 
         total_ungated = pass_deltas[0]
@@ -1580,20 +1481,6 @@ class V12Model(nn.Module):
                               for i in range(alarm_metrics_inst.shape[0])],
             "effective_s5_gates": [float(effective_gates[i].item())
                                    for i in range(self.N_PASSES)],
-            "emphasis_bias": (
-                [float(emphasis_bias_inst[i].item())
-                 for i in range(N_COMBINATORS)]
-                if emphasis_bias_inst is not None else None
-            ),
-            "alarm_dispatch_bias": (
-                [float(alarm_dispatch_bias_inst[i].item())
-                 for i in range(N_COMBINATORS)]
-            ),
-            "dispatch_bias": (
-                [float(dispatch_bias_inst[i].item())
-                 for i in range(N_COMBINATORS)]
-                if dispatch_bias_inst is not None else None
-            ),
             "s2_conflict": s2_conflict,
             "s2_scales": s2_scales,
             "register_norms": reg_norms,

@@ -170,9 +170,6 @@ class CombinatorDispatch(nn.Module):
 
         Returns normalized KIBC embeddings concatenated with gated
         slot embeddings (with optional S4 proposal delta).
-
-        v12: emphasis removed from embeddings. S4/alarm now control
-        dispatch via additive logit bias (correct in softmax space).
         """
         # KIBC embeddings — pure normalized, no emphasis multiplication
         comb_emb = self._normalize_embeddings()  # (4, d_model)
@@ -197,17 +194,12 @@ class CombinatorDispatch(nn.Module):
         self,
         x: mx.array,
         registers: list[list[mx.array]] | None = None,
-        dispatch_bias: mx.array | None = None,
         proposal_delta: mx.array | None = None,
-        inertia_bias: mx.array | None = None,
     ) -> mx.array:
         """
         x: (B, L, d_model)
         registers: ascending register banks for conditioning
-        dispatch_bias: (n_combinators,) additive logit bias from S4 emphasis
-            + alarm dispatch bias. Acts in logit space (correct for softmax).
         proposal_delta: (N, d_model) S4 proposal modulation for slot embeddings
-        inertia_bias: (B, L, n_comb_padded) per-position S2 dispatch inertia
 
         Returns: (B, L, d_model) with residual connection
         """
@@ -230,19 +222,6 @@ class CombinatorDispatch(nn.Module):
                 ])
             reg_bias = self.register_cond(cond_input)[:self.n_combinators]
             kibc_logits = kibc_logits + reg_bias[None, None, :]
-
-        # Dispatch bias: additive logit-space control from S4 + alarm
-        # Replaces v11's multiplicative emphasis (which saturated at ceiling).
-        # Additive bias in logit space is the correct actuator for softmax:
-        # a +2 bias on one combinator shifts its probability ~7× relative.
-        if dispatch_bias is not None:
-            kibc_logits = kibc_logits + dispatch_bias[None, None, :]
-
-        # S2 inertia bias: per-position momentum from previous cycle's dispatch.
-        # (B, L, n_comb_padded) → take first n_combinators columns.
-        # Zero-init at model start, model learns how much inertia to apply.
-        if inertia_bias is not None:
-            kibc_logits = kibc_logits + inertia_bias[..., :self.n_combinators]
 
         # Step 2: Slot logits via dot product with gated slot embeddings
         if self.n_abstraction_slots > 0:

@@ -790,104 +790,6 @@ class S2Coordinator(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
-# S2DispatchCoordinator — anti-oscillation for dedicated KIBC plates
-# ══════════════════════════════════════════════════════════════════════
-
-
-class S2DispatchCoordinator(nn.Module):
-    """S2 anti-oscillation for dedicated combinator plates.
-
-    With dedicated KIBC plates, dispatch oscillation is destructive:
-    if dispatch flips between K and I across cycles/steps, each plate
-    gets inconsistent gradient and the etcher makes contradictory
-    sign flips. S2's job: prevent unknowing oscillation without
-    preventing intentional transitions.
-
-    Mechanism: dispatch inertia via learned momentum signal.
-
-      1. After each cycle's dispatch, compute a direction signal from
-         the dispatch weights (which combinator was chosen).
-      2. Add this signal as a bias to the NEXT cycle's dispatch logits.
-      3. The bias is small and learnable — the model can overcome it
-         when a genuine transition is needed, but random oscillation
-         gets dampened.
-
-    This is proper S2: a coordination memo ("FYI, last cycle chose K")
-    not a control gate. The dispatch still has full authority.
-
-    Additionally maintains a cross-step EMA of dispatch weights for
-    the alarm to monitor dispatch stability. High variance = oscillation
-    signal that the alarm can act on.
-
-    Properties:
-      - Per-cycle: inertia bias from previous cycle's dispatch
-      - Cross-step: EMA of dispatch weights for stability monitoring
-      - Learnable: projection + scale, model discovers how much inertia
-      - S2-correct: additive bias, not multiplicative gate
-      - Compatible with alarm dispatch bias (they sum in logit space)
-    """
-
-    def __init__(self, n_combinators: int = 4, d_model: int = 512):
-        super().__init__()
-        self.n_combinators = n_combinators
-
-        # Dispatch weights → inertia bias for next cycle's dispatch logits.
-        # Maps previous dispatch distribution to a logit-space bias.
-        # Zero-init: starts inert, model learns how much inertia to apply.
-        pad_n = ((n_combinators + 15) // 16) * 16
-        self.inertia_proj = nn.Linear(n_combinators, pad_n)
-        self.inertia_proj.weight = mx.zeros_like(self.inertia_proj.weight)
-        self.inertia_proj.bias = mx.zeros_like(self.inertia_proj.bias)
-
-        # Learnable scale: how strongly to apply inertia. Starts at 0.
-        self.inertia_scale = mx.zeros((1,))
-
-        # Cross-step EMA for alarm monitoring (not differentiable)
-        self._dispatch_ema = mx.ones((n_combinators,)) / n_combinators
-        self._dispatch_ema_alpha = 0.9
-        self._dispatch_variance = mx.zeros((1,))  # running variance estimate
-
-    def inertia_bias(self, prev_dispatch_weights: mx.array) -> mx.array:
-        """Compute inertia bias from previous cycle's dispatch.
-
-        Args:
-            prev_dispatch_weights: (B, L, n_combinators) — previous dispatch
-
-        Returns:
-            (B, L, n_comb_padded) — logit-space bias for next dispatch.
-            The bias favors the same combinator as last cycle.
-        """
-        # Spatial mean → per-batch dispatch summary
-        # (B, L, n_comb) → project → (B, L, n_comb_padded) bias
-        bias = self.inertia_proj(prev_dispatch_weights)
-        return bias * mx.tanh(self.inertia_scale)  # tanh bounds the scale
-
-    def update_ema(self, dispatch_weights: mx.array) -> None:
-        """Update cross-step EMA (non-differentiable, for alarm monitoring).
-
-        Args:
-            dispatch_weights: (B, L, n_combinators) from this step's dispatch
-        """
-        # Mean over batch and sequence → (n_combinators,)
-        current = mx.stop_gradient(dispatch_weights.mean(axis=(0, 1)))
-        alpha = self._dispatch_ema_alpha
-        new_ema = alpha * self._dispatch_ema + (1 - alpha) * current
-        # Variance: how much dispatch shifted from EMA
-        variance = mx.sum((current - self._dispatch_ema) ** 2)
-        self._dispatch_ema = new_ema
-        self._dispatch_variance = alpha * self._dispatch_variance + (1 - alpha) * variance
-
-    @property
-    def oscillation_signal(self) -> float:
-        """Scalar oscillation measure for alarm monitoring.
-
-        High value = dispatch is unstable (oscillating between combinators).
-        Low value = dispatch is consistent (stable plate utilization).
-        """
-        return float(self._dispatch_variance.item())
-
-
-# ══════════════════════════════════════════════════════════════════════
 # CycleContinue — S3 cycle-level continuation gate
 # ══════════════════════════════════════════════════════════════════════
 
@@ -1062,29 +964,10 @@ class AlgedonicAlert(nn.Module):
         self.alarm_proj.weight = mx.zeros_like(self.alarm_proj.weight)
         self.alarm_proj.bias = mx.zeros_like(self.alarm_proj.bias)
 
-        # ── Per-combinator dispatch bias (v12 variety fix) ────
-        # The v11 gap: alarm could only modulate per-PASS amplitude,
-        # but dispatch collapse happens per-COMBINATOR within a pass.
-        # 5 knobs can't control 4×5=20 dimensions (Beer's variety law).
-        #
-        # This head gives the alarm direct per-combinator control:
-        # output is an additive bias on CombinatorDispatch logits.
-        # If B is declining while entropy drops, alarm can boost B's
-        # logit directly without affecting K/I/C.
-        #
-        # Zero-init: bias starts at [0,0,0,0] (inert, same as v11).
-        # Range [-2, +2] via tanh×2: a ±2 shift on logits is significant
-        # in softmax (shifts ~7× probability ratio).
-        self.dispatch_bias_proj = nn.Linear(self.INPUT_DIM, n_combinators)
-        self.dispatch_bias_proj.weight = mx.zeros_like(
-            self.dispatch_bias_proj.weight)
-        self.dispatch_bias_proj.bias = mx.zeros_like(
-            self.dispatch_bias_proj.bias)
-
     def __call__(
         self, metrics_vector: mx.array,
-    ) -> tuple[mx.array, mx.array]:
-        """Compute alarm factors and dispatch bias from health metrics.
+    ) -> mx.array:
+        """Compute alarm factors from health metrics.
 
         Args:
             metrics_vector: (INPUT_DIM,) packed operational metrics.
@@ -1095,21 +978,9 @@ class AlgedonicAlert(nn.Module):
               1.0 → no alarm (neutral)
               < 1.0 → pain (suppress this pass)
               > 1.0 → pleasure (amplify, up to 2.0)
-            dispatch_bias: (n_combinators,) additive logit bias:
-              0.0 → neutral (no alarm intervention on dispatch)
-              > 0 → boost this combinator's softmax share
-              < 0 → suppress this combinator's softmax share
-              Range [-2, +2] — significant in softmax space.
         """
-        # Per-pass factors (existing mechanism)
         pass_logits = self.alarm_proj(metrics_vector)
-        pass_factors = 1.0 + mx.tanh(pass_logits)
-
-        # Per-combinator dispatch bias (new: variety-matching actuator)
-        dispatch_logits = self.dispatch_bias_proj(metrics_vector)
-        dispatch_bias = 2.0 * mx.tanh(dispatch_logits)
-
-        return pass_factors, dispatch_bias
+        return 1.0 + mx.tanh(pass_logits)
 
 
 # ══════════════════════════════════════════════════════════════════════

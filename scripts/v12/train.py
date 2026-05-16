@@ -299,16 +299,6 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
               file=sys.stderr)
     print("  └─────────────────────────────────────────────────┘", file=sys.stderr)
 
-    # Combinator emphasis (S4→dispatch modulation)
-    comb_emph = compressor_metrics.get("emphasis_bias",
-                                       compressor_metrics.get("combinator_emphasis"))
-    if comb_emph:
-        from kernel import COMBINATOR_NAMES
-        indexed = sorted(enumerate(comb_emph), key=lambda x: x[1], reverse=True)
-        parts = [f"{COMBINATOR_NAMES[i]}={v:.2f}" for i, v in indexed]
-        print(f"  🎯 Combinator emphasis: {' '.join(parts)}",
-              file=sys.stderr)
-
     # Compute gate stats (kernel pathway)
     if "compute_gate_mean" in compressor_metrics:
         cg_mean = compressor_metrics["compute_gate_mean"]
@@ -379,16 +369,16 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
     # Log alarm raw metrics for offline threshold analysis
     alarm_metrics_raw = compressor_metrics.get("alarm_metrics")
     if alarm_metrics_raw:
-        # Named sections for the 48 metrics
+        # Named sections matching AlgedonicAlert.INPUT_DIM (7 passes, 6 transitions, 8 banks)
         alarm_named = {}
         idx = 0
         for section, count in [
-            ("s3_gate_means", 5), ("s3_gate_mins", 5),
-            ("s2_conflicts", 4), ("dispatch_weights", 4),
+            ("s3_gate_means", 7), ("s3_gate_mins", 7),
+            ("s2_conflicts", 6), ("dispatch_weights", 4),
             ("dispatch_entropy", 1), ("compute_gate", 2),
-            ("cycle_continue", 4), ("effective_cycles", 2),
-            ("raw_delta_norms", 5), ("gated_delta_norms", 5),
-            ("suppression_ratios", 5), ("register_norms", 6),
+            ("cycle_continue", 6), ("effective_cycles", 3),
+            ("raw_delta_norms", 7), ("gated_delta_norms", 7),
+            ("suppression_ratios", 7), ("register_norms", 8),
         ]:
             alarm_named[section] = alarm_metrics_raw[idx:idx+count]
             idx += count
@@ -1220,7 +1210,7 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             else:
                 loss_str = f"CE={total_loss:.3f}"
 
-            # Dispatch + oscillation summary for live monitoring
+            # Dispatch summary for live monitoring
             dispatch_str = ""
             if hasattr(model, 'combinator_dispatch') and hasattr(model.combinator_dispatch, '_dispatch_weights'):
                 dw = model.combinator_dispatch._dispatch_weights
@@ -1229,17 +1219,12 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     mx.eval(dw_mean)
                     dw_vals = [float(dw_mean[i].item()) for i in range(min(4, dw_mean.shape[0]))]
                     dispatch_str = f" | K={dw_vals[0]:.2f} I={dw_vals[1]:.2f} B={dw_vals[2]:.2f} C={dw_vals[3]:.2f}"
-            osc_str = ""
-            if hasattr(model, 's2_dispatch'):
-                osc = model.s2_dispatch.oscillation_signal
-                if osc > 0.001:
-                    osc_str = f" osc={osc:.3f}"
 
             print(
                 f"step {step:>6d} | r={step_loss:.4f} (avg50: {avg50:.4f})"
                 f" | {loss_str} | lr {lr:.2e}"
                 f" | {tps:.0f} tok/s"
-                f"{dispatch_str}{osc_str}"
+                f"{dispatch_str}"
                 f"{evo_str}"
                 f" | {elapsed:.0f}s",
                 file=sys.stderr, flush=True,
@@ -1282,13 +1267,6 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     train_record["dispatch_I"] = dw_list[1] if len(dw_list) > 1 else 0
                     train_record["dispatch_B"] = dw_list[2] if len(dw_list) > 2 else 0
                     train_record["dispatch_C"] = dw_list[3] if len(dw_list) > 3 else 0
-
-            # S2 dispatch oscillation signal
-            if hasattr(model, 's2_dispatch'):
-                train_record["dispatch_oscillation"] = model.s2_dispatch.oscillation_signal
-                # Inertia scale (how much anti-oscillation the model is using)
-                mx.eval(model.s2_dispatch.inertia_scale)
-                train_record["s2_inertia_scale"] = float(mx.tanh(model.s2_dispatch.inertia_scale).item())
 
             _append_jsonl(checkpoint_dir / "train_log.jsonl", train_record)
 
