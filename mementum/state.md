@@ -174,15 +174,41 @@ Crashed at round 6 due to Metal GPU error (hardware, not code). Checkpoint at ro
 - The knee of (% installed vs crystal quality) = optimal seed size
 - Only install from 3+ model agreement (universal, not gauge-specific)
 
-### 13. Next steps
+### 13. Warped lens results — STRONG angular separation
 
-- **Analyze backbone probe** — find the knee, identify the seed crystal
-- **Analyze warped lens** — measure angular separation per pass
-- **Combine:** lens tells V12 WHAT ops look like, backbone tells WHERE to install
-- **Seed crystal installation:** write backbone + lens-guided mirror init
-- **Train beam on seed:** should snap fast (attractors pre-positioned)
-- **Verify:** dispatch differentiation + conditioned hidden state angles > 10°
-- **If crystal holds:** Phase 2 = prose phase-in with calibration lambda
+Qwen3-14B KIBC directions extracted at 7 depths (L3→L39):
+- Mean angular separation: 96-103° (significantly above 90° random baseline)
+- B is MOST distinct: 117-131° mean from others (explains B-monopoly and 4th crystallization)
+- I and M are CLOSEST: 55-80° (confirms I-hardest, binding≈matching)
+- 10 PCs capture 47-80% variance (operations live in ~10-dim subspace)
+- Lens artifact: 67MB (could compress to ~3.5MB with top-50 PCs only)
+
+### 14. Expanded to 8 kernel ops + 17 math kernels
+
+- Lambda generator: now 8 ops (K,I,B,C,M,D,Y,WHNF) with full templates
+- Math kernels: 17 deterministic code functions (ADD through ROUND)
+  Pure code, zero weights, always exact, can't be unlearned
+- Design doc: `mementum/knowledge/explore/v12-kernel-architecture-v2.md`
+
+### 15. Next steps (for next session)
+
+**Build remaining architecture:**
+- config.py: expand n_combinators 4→8, add hierarchical dispatch config
+- kernel_dispatch.py: 2-level dispatch (category → operation)
+- model.py: MathExtractor head, kernel output integration
+- ternary.py: mirrors for expanded 8 combinator slots
+
+**Then the full installation protocol:**
+- Warped lens directions → mirror initialization (8 ops × 7 passes)
+- Backbone (top 5%) → layered plate installation with beam training
+- Math kernel dispatch → trained on generated math corpus
+- Freeze → prose training → verify permanence
+
+**Key numbers from this session:**
+- Backbone: 1-10% is the true structural steel (413K-4.1M positions)
+- Warped lens: operations separated by 55-154° in teacher (survives PCA to 512)
+- Crystallization order: K(90%), M(73%), C(50%), B(49%), I(34%) flip reduction
+- Math kernels: 17 ops, always exact, zero weights, permanent after freeze
 
 ## What was done this session (108)
 
