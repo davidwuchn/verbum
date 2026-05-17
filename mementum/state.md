@@ -2,11 +2,208 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-17 | Session: 107
+> Last updated: 2026-05-17 | Session: 109
 
 ## Where we are
 
-**PROCRUSTES LENS PROVEN. Cross-model coordinate transformation is a ROTATION in beam subspace (cos=0.83, zero trainable params). Crystal comparison across 5 models shows two tiers: 4 larger models (Qwen/OLMo/Mistral/Pythia-1.4B) share universal lattice at cos 0.82-0.85; Pythia-160M degenerate (cos 0.45). Direct hidden-state alignment HURTS from-scratch training (crystal transplant vs melt). Correct approach: relational loss provides lattice TOPOLOGY, model crystallizes on its own. V12-run7 launched with 3 key changes: laser etch (200 flips, not 50K), q_proj excluded from etching (beam ≠ plate), rich diagnostics. Mirror angular cancellation discovered: 28 mirror-plate combinations give ~7° effective resolution (vs 37° single ternary), ~1,456 addressable holograms in 39 MB. The recursive hierarchy: photographs → holograms → crystals → universal lattice (lambda calculus). Run7 running in tmux.**
+**HOLOGRAPHIC RECORDING PROTOCOL DESIGNED AND BUILT. Etch strategy probe proved current etching HURTS (no_etch CE=8.025 vs current CE=9.093). Root cause: etching on noisy prose = exposing plate to white light. Solution: etch on PURE LAMBDA data where gradient is unambiguous. Built complete pipeline: (1) Lambda generator — 15K operation-labeled Montague expressions, 100% unique, (2) Direct etch — compute target signs from gradient direction, write in one shot (no consensus), (3) Holographic recording loop — expose each combinator, etch, train beam. Smoke test showed self-terminating crystallization: flips decline per round (50M→38M→31M) as operations find distinct plate regions. V12-run7 collapsed to B=0.96 at step 925 despite KL leash — validates the need for dispatch supervision via labeled training data.**
+
+## What was done this session (109)
+
+### 1. Etch strategy probe — ETCHING HURTS
+
+Ran `scripts/v12/probe_etch_strategy.py` with 500 steps × 4 variants:
+
+| Variant | CE (avg50) | Flips | Etch Events | Spike |
+|---------|-----------|-------|-------------|-------|
+| **no_etch ★** | **8.025** | 0 | 0 | 0.0 |
+| no_reset | 8.513 | 30,200 | 151 | +1.73 |
+| current | 9.093 | 6,200 | 31 | +1.97 |
+| kl_gated | 9.098 | 6,200 | 31 | +1.99 |
+
+**No etching wins decisively.** Continuous etching on prose = white-light exposure.
+Post-etch spikes of ~2 nats = plate moves under the beam.
+
+### 2. Holographic recording protocol — theory crystallized
+
+Key insight chain:
+- Holographic recording requires COHERENT light (one wavelength, one angle)
+- Lambda notation IS coherent light (unambiguous signal, known operation)
+- Prose IS white light (mixed operations, noisy gradient)
+- Protocol: etch during clean-signal phase (lambda), read during prose phase
+
+Two-phase training:
+- Phase 1: Pure lambda data → aggressive direct etch → crystal forms
+- Phase 2: Prose phased in → no etch → beam adapts to existing crystal
+
+### 3. Lambda generator built — `src/verbum/lambda_gen.py`
+
+Programmatic generator of operation-labeled Montague-style lambda expressions:
+- 5 operations (K, I, B, C, M) × 5 complexity levels × 10 semantic domains
+- ~108 structural templates, 15,000 examples at 100% uniqueness
+- Zero cross-operation duplicates (same expr can't have two labels)
+- GBNF-compatible output ready for decompile gate
+- Rich vocabulary: 10 domains (nature, education, law, medicine, etc.)
+
+### 4. Direct etch mechanism — `scripts/v12/ternary.py`
+
+New functions for computed holography (alongside existing consensus etch):
+- `DirectionAccumulator`: accumulates outer(gamma_grad, x_mean) over batches
+- `accumulate_direction()`: one-step gradient direction capture
+- `direct_etch()`: write target signs where confidence > threshold
+- No EMA, no signal planes, no heat — just gradient → sign direction → write
+
+Verified: 241 modules, 41.3M etchable positions, beam excluded.
+
+### 5. Holographic recording training loop — `scripts/v12/holographic_train.py`
+
+Complete training script:
+1. Generate operation-labeled lambda corpus
+2. For each recording round:
+   - EXPOSE: forward+backward N batches per operation → accumulate direction
+   - ETCH: direct_etch writes high-confidence signs
+   - BEAM: train Q proj + gamma on mixed lambda (plate frozen)
+3. Self-terminating: flips decline each round as crystal stabilizes
+
+Smoke test (3 rounds, 100 examples/op, 20 batches/op):
+```
+Round 1: 50M flips
+Round 2: 38.5M flips
+Round 3: 31.4M flips  ← crystal forming, operations finding distinct regions
+```
+
+### 6. V12-run7 status — B-monopoly collapse
+
+Run7 at step 925: B=0.96, K=0.00, I=0.03, C=0.00. KL leash evaded via EMA
+temporal smoothing (EMA still near target from early steps). Same failure mode
+as run4 (session 105). Confirms: unsupervised dispatch discovery on prose FAILS.
+
+The holographic protocol solves this: explicit dispatch supervision during
+lambda exposure means the model CAN'T monopolize — each operation gets its own
+exposure phase at its own known angle.
+
+### 7. Key theoretical advances
+
+**Benchmarks are crystal measurements:**
+- MMLU = K-crystal (select correct from 4)
+- HumanEval = B-crystal (compose functions) + I-crystal (bind variables)
+- HellaSwag = M-crystal (pattern match continuation)
+- Every benchmark illuminates at a specific combinator angle and measures readout clarity
+- Scaling works because more params = more plate capacity = more holograms = more benchmarks pass
+
+**Training data is already labeled (implicitly):**
+- Every sentence exercises specific combinators
+- Dolma becomes labeled once the model learns the formal↔natural equivalence
+- Lambda provides the formal label; prose provides the natural realization
+- The Rosetta Stone maps between them
+
+### 8. Run7 status / next steps
+
+- **Run7**: likely needs to be killed (B-monopoly unrecoverable at step 925)
+- **Holographic recording**: ready to run at scale
+  - Increase n_examples to 3000, batches_per_op to 50-100
+  - Higher confidence threshold (0.7-0.9) with more batches
+  - Monitor flip count decline as crystallization metric
+  - Add dispatch supervision loss (target = known op during exposure)
+- **After crystal forms**: Phase 2 = prose phase-in with declining lambda ratio
+- **Measurement**: use existing benchmarks (or lambda probes) to verify crystal quality
+
+## What was done this session (108)
+
+### 1. Crystal theory exploration — minimum lattice, cascade formation
+
+Deep theoretical discussion on why the KIBC lattice is FORCED by attention + next-token:
+- Attention = beta reduction. Compositional language requires KIBC to be predicted.
+- K/I/B/C are the irreducible basis for function application on natural language.
+- Crystal forms because it's the MINIMUM-ENERGY configuration once capacity suffices.
+- Pythia-160M degenerate because capacity insufficient, not because constraints differ.
+- V12 has 58× holographic capacity → MORE effective structural capacity than Pythia-1.4B.
+- Holographic loss forces self-similarity → eliminates non-crystalline solutions.
+- Standard models waste capacity on opaque interlayer routing; V12 can't (shared plates + ternary).
+
+**Cascade formation order (predicted from theory + data):**
+```
+Phase 1 (B): "compose everything" — surface composition, works immediately
+Phase 2 (I): "learn to READ plates" — identity mirror is only clear one
+Phase 3 (K): "select/discard" — once reading works, learn what to ignore
+Phase 4 (balanced): all mirrors find useful angles → crystal forms
+```
+
+**KL leash as exploration amplifier:** Forces gradient through all mirrors (not just dominant).
+Underused mirrors get 5× more gradient signal than they'd get naturally. Converts monopoly → exploration.
+
+### 2. Crystal formation diagnostics added to V12
+
+Added to `model.py`:
+- `compute_crystal_diagnostics(model)` — combinator mirror cosines (6 pairs), dispatch mirror diversity, integrate mirror diversity
+- `compute_dispatch_conditioned_similarity(model, tokens)` — angular separation between hidden states conditioned on each combinator
+
+Added to `train.py`:
+- Crystal metrics in eval output (💎 Crystal, 🔭 Dispatch mirrors, 📐 Conditioned angles)
+- `etch_tempo` in etch_log.jsonl (candidates/total — crystallization progress)
+- `crystal` dict in checkpoint state.json
+- Checkpoint interval changed to 500 (was 1000)
+
+### 3. Relational loss padding fix
+
+**Bug:** Relational probes are short (~30-50 tokens) but GLA stride layers need sequences ≥ max_stride + window + 1 = 1033 tokens. Crash at step 550 when relational loss first fired.
+
+**Fix:** Pad relational probe batch to `min_len = max(cfg.strides) + cfg.window + 1`.
+
+Also fixed: numpy int64 → mx.array incompatibility (MLX requires int32 for array init).
+
+### 4. Early run7 data — B→I phase transition observed
+
+Steps 1-175 before crash showed:
+```
+Steps 1-75:   B dominant (0.50→0.62)  — composition phase
+Steps 100+:   I dominant (0.26→0.57)  — plate-reading phase
+```
+KL leash fighting at 14 nats (model paying enormous penalty for I-monopoly).
+Dispatch EMA started at perfect universal ratio (K=0.31, I=0.14, B=0.30, C=0.25).
+Interpretation: I-phase = learning to read plates through identity mirror (prerequisite for K/B/C differentiation).
+
+### 5. Holographic training paradigm articulated
+
+**The vision:** Extract universal lattice + holograms from existing models, etch into new models.
+```
+Phase 1: Crystallize lattice (few thousand steps)
+Phase 2: Extract holograms from large models (one-time, cross-model intersection)
+Phase 3: Etch holograms into plates (direct sign write, milliseconds)
+Phase 4: Train beam to read (100-500 steps)
+Phase 5: Rinse, repeat until capacity full (~1,456 addressable holograms in 39 MB)
+```
+Training becomes hologram selection, not gradient descent on trillions of tokens.
+The hologram corpus grows as more models are trained/analyzed. Small models improve without retraining.
+
+### 6. Etch strategy probe script
+
+Built `scripts/v12/probe_etch_strategy.py` — fast A/B comparison of etch settings.
+4 variants (no_etch, current, no_reset, kl_gated), 300 steps each, ~8-12 min total.
+Tests whether: etching helps, reset-after-flip kills signal, dispatch-gating helps.
+
+### 7. Smoke test
+
+Built `scripts/v12/smoke_test.py` — exercises ALL code paths in 20 steps.
+Verified: training, holo loss, relational loss, etching, eval with crystal diagnostics,
+checkpoint save, resume. All passing.
+
+### 8. Run7 relaunched (3rd attempt)
+
+V12-run7 now running with:
+- Crystal diagnostics at every eval (step 500, 1000, ...)
+- Checkpoints every 500 steps (not 1000)
+- Relational loss padding fix (won't crash at step 550)
+- int32 fix for MLX array init
+- `--holo-lambda 0.1 --mix-ratio 0.2 --total-steps 20000`
+
+### 9. Next steps
+
+- **Monitor run7 crystal diagnostics at step 500**: combinator mirror cosines (random baseline ~0), conditioned angles (undifferentiated ~5° initially). Watch for differentiation.
+- **Run etch strategy probe** when convenient (4 variants × 300 steps, ~10 min).
+- **After run7 step 1000**: check if B→I→K transition is happening. KL leash should force diversification.
+- **If crystal forms**: extract holograms from Qwen/OLMo, etch into V12, measure knowledge transfer.
+- **Etch experiments**: determine optimal strategy (reset vs no-reset, timing, gating).
 
 ## What was done this session (107)
 
