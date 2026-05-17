@@ -38,18 +38,21 @@ from typing import Callable
 # ══════════════════════════════════════════════════════════════════════════════
 
 class Op(str, Enum):
-    """The five primitive combinators of the lambda calculus kernel."""
-    K = "K"   # select / discard:     λx.λy. x
-    I = "I"   # identity / binding:   λx. x
-    B = "B"   # compose / chain:      λf.λg.λx. f(g(x))
-    C = "C"   # flip / reorder:       λf.λx.λy. f(y)(x)
-    M = "M"   # match / self-apply:   λf. f(f)
+    """The eight kernel combinators of the lambda calculus VM."""
+    K = "K"      # select / discard:      λx.λy. x
+    I = "I"      # identity / binding:    λx. x
+    B = "B"      # compose / chain:       λf.λg.λx. f(g(x))
+    C = "C"      # flip / reorder:        λf.λx.λy. f(y)(x)
+    M = "M"      # match / self-apply:    λf. f(f)
+    D = "D"      # deep compose (fused):  λf.λg.λh.λx. f(g(h(x)))
+    Y = "Y"      # recursion / iterate:   λf. f(Y(f))
+    WHNF = "WHNF"  # terminal / stop:     weak head normal form detection
 
 
 @dataclass
 class Example:
     """A single generated lambda expression with its operation label."""
-    op: str              # "K", "I", "B", "C", "M"
+    op: str              # "K", "I", "B", "C", "M", "D", "Y", "WHNF"
     expr: str            # Montague-style lambda expression
     complexity: int      # 1-5 (atomic → deep nested)
     domain: str          # semantic domain (nature, education, ...)
@@ -949,6 +952,291 @@ M_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
 ]
 
 
+# ── D: DEEP COMPOSE (FUSED) ─────────────────────────────────────────────────
+# D chains THREE functions: f(g(h(x))). Fuses 3× B into one kernel call.
+# Linguistic: multi-step transformation, deep pipelines, nested modification.
+
+D_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
+    # ── Level 1: Atomic ──
+    (1, "pure_D", "D",
+     lambda v: "λf.λg.λh.λx. f(g(h(x)))"),
+
+    (1, "triple_mod", "D(mod,mod,act)",
+     lambda v: f"{v.mod()}({v.mod()}({v.act1()}({v.entity()})))"),
+
+    (1, "triple_relation", "D(R,R,R)",
+     lambda v: f"{v.rel()}({v.rel()}({v.rel()}({v.entity()})))"),
+
+    # ── Level 2: Applied ──
+    (2, "deep_pipeline_applied", "D(f,g,h)(a)",
+     lambda v: f"∀x. {v.entity()}(x) → {v.mod()}({v.mod()}({v.act1()}(x)))"),
+
+    (2, "nested_relation_chain", "D(R,R,entity)",
+     lambda v: f"{v.act2()}({v.entity()}, {v.rel()}({v.rel()}({v.entity()})))"),
+
+    (2, "triple_conditional", "D(→,→,P)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → {v.prop()}(x) → "
+         f"{v.prop()}(x) → {v.act1()}(x)"
+     )),
+
+    (2, "deep_modification", "D(mod,mod,mod)",
+     lambda v: f"λx. {v.mod()}({v.mod()}({v.mod()}(x)))"),
+
+    # ── Level 3: Quantified ──
+    (3, "deep_compose_universal", "D(∀,f,g,h)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"{v.mod()}({v.mod()}({v.act1()}(x)))"
+     )),
+
+    (3, "deep_with_existential", "D(∃,R,R)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.entity()}(y) ∧ {v.act2()}(x, {v.rel()}({v.rel()}(y)))"
+     )),
+
+    (3, "deep_filter_chain", "D(K,B,B)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"{v.mod()}({v.mod()}({v.act1()}(x)))"
+     )),
+
+    (3, "nested_scope_chain", "D(∀,∃,∀)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → ∃y. {v.entity()}(y) → "
+         f"∀z. {v.entity()}(z) ∧ {v.act2()}(x, y) → {v.act2()}(y, z)"
+     )),
+
+    # ── Level 4: Deep nested ──
+    (4, "quad_pipeline", "D(D)",
+     lambda v: (
+         f"{v.mod()}({v.mod()}({v.mod()}({v.mod()}({v.act1()}({v.entity()})))))"
+     )),
+
+    (4, "deep_with_binding", "D(I,B,B)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ {v.mod()}({v.mod()}({v.act2()}(x, y)))"
+     )),
+
+    (4, "chained_transforms", "D(f,g,h,scope)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → ∀y. {v.entity()}(y) → "
+         f"{v.mod()}({v.act2()}(x, {v.rel()}({v.rel()}(y))))"
+     )),
+
+    # ── Level 5: Composed with other ops ──
+    (5, "deep_then_select", "D(K,B,B,B)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"∃y. {v.entity()}(y) ∧ {v.mod()}({v.mod()}({v.act2()}(x, {v.rel()}(y))))"
+     )),
+
+    (5, "deep_then_flip", "D(C,B,B)",
+     lambda v: (
+         f"∀x. ∀y. {v.entity()}(x) ∧ {v.entity()}(y) → "
+         f"{v.mod()}({v.mod()}({v.act2()}(y, {v.rel()}(x))))"
+     )),
+]
+
+
+# ── Y: RECURSION / ITERATION ────────────────────────────────────────────────
+# Y detects and handles recursive/iterative patterns. Fixed-point combinator.
+# Linguistic: repetition, enumeration, counting, "for each", "until".
+
+Y_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
+    # ── Level 1: Atomic ──
+    (1, "pure_Y", "Y",
+     lambda v: "λf. f(Y(f))"),
+
+    (1, "iterate_simple", "Y(act)",
+     lambda v: f"∀x. {v.entity()}(x) → {v.act1()}(x) ∧ {v.act1()}(x)"),
+
+    (1, "repeat_action", "Y(repeat)",
+     lambda v: f"∀x. {v.entity()}(x) → {v.act1()}(x) ∧ {v.act1()}(x) ∧ {v.act1()}(x)"),
+
+    # ── Level 2: Applied ──
+    (2, "iterate_until", "Y(until)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"{v.act1()}(x) ∧ (¬{v.prop()}(x) → {v.act1()}(x))"
+     )),
+
+    (2, "enumerate_set", "Y(enum)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → {v.act1()}(x) ∧ "
+         f"∀y. {v.entity()}(y) → {v.act1()}(y)"
+     )),
+
+    (2, "recursive_relation", "Y(R)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ {v.act2()}(x, y)"
+     )),
+
+    (2, "chain_application", "Y(chain)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"{v.act1()}(x) ∧ {v.act1()}(x)"
+     )),
+
+    # ── Level 3: Quantified ──
+    (3, "recursive_descent", "Y(descent)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ {v.act2()}(x, y) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ {v.act2()}(y, z)"
+     )),
+
+    (3, "iterate_with_accumulator", "Y(acc)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"{v.act1()}(x) ∧ {v.prop()}(x) → {v.act1()}(x) ∧ {v.prop()}(x)"
+     )),
+
+    (3, "recursive_structure", "Y(struct)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → ∃y. {v.entity()}(y) ∧ "
+         f"{v.rel()}(y, x) ∧ ({v.prop()}(y) ∨ "
+         f"∃z. {v.entity()}(z) ∧ {v.rel()}(z, y))"
+     )),
+
+    (3, "count_iterate", "Y(count)",
+     lambda v: (
+         f"∀x. ∀y. ∀z. {v.entity()}(x) ∧ {v.entity()}(y) ∧ {v.entity()}(z) → "
+         f"{v.act1()}(x) ∧ {v.act1()}(y) ∧ {v.act1()}(z)"
+     )),
+
+    # ── Level 4: Deep recursive ──
+    (4, "deep_recursion", "Y(Y)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → ∃y. {v.rel()}(y, x) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ ∃u. {v.rel()}(u, z) ∧ "
+         f"{v.act2()}(x, u)"
+     )),
+
+    (4, "recursive_with_condition", "Y(K,Y)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"∃y. {v.entity()}(y) ∧ {v.rel()}(y, x) ∧ {v.prop()}(y) ∧ "
+         f"∃z. {v.entity()}(z) ∧ {v.rel()}(z, y) ∧ {v.act2()}(x, z)"
+     )),
+
+    (4, "iterate_transform", "Y(B,Y)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"{v.mod()}({v.act1()}(x)) ∧ {v.mod()}({v.mod()}({v.act1()}(x)))"
+     )),
+
+    # ── Level 5: Composed ──
+    (5, "recurse_then_select", "Y(K)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → ∃y. {v.rel()}(y, x) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ {v.prop()}(z) ∧ "
+         f"{v.act2()}(x, z) ∧ ¬{v.act2()}(x, y)"
+     )),
+
+    (5, "recurse_then_compose", "Y(B)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ "
+         f"{v.mod()}({v.mod()}({v.act2()}(x, y))) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ {v.mod()}({v.act2()}(y, z))"
+     )),
+]
+
+
+# ── WHNF: TERMINAL / STOP-REDUCING ──────────────────────────────────────────
+# WHNF detects when an expression is fully reduced (weak head normal form).
+# Linguistic: final state, completion, result, definite answer, conclusion.
+
+WHNF_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
+    # ── Level 1: Atomic ──
+    (1, "pure_terminal", "WHNF",
+     lambda v: f"{v.act1()}({v.entity()})"),
+
+    (1, "terminal_fact", "WHNF(fact)",
+     lambda v: f"{v.prop()}({v.entity()})"),
+
+    (1, "terminal_value", "WHNF(value)",
+     lambda v: f"{v.entity()}"),
+
+    # ── Level 2: Applied ──
+    (2, "definite_result", "WHNF(ι)",
+     lambda v: f"ιx. {v.entity()}(x) ∧ {v.prop()}(x)"),
+
+    (2, "final_state", "WHNF(final)",
+     lambda v: f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ {v.act1()}(x)"),
+
+    (2, "completed_action", "WHNF(done)",
+     lambda v: f"∀x. {v.entity()}(x) → {v.prop()}(x)"),
+
+    (2, "ground_truth", "WHNF(ground)",
+     lambda v: f"{v.act2()}({v.entity()}, {v.entity()})"),
+
+    # ── Level 3: Compound terminal ──
+    (3, "final_conjunction", "WHNF(∧)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"{v.act1()}(x) ∧ {v.prop()}(x)"
+     )),
+
+    (3, "definite_complex", "WHNF(ι,∧)",
+     lambda v: (
+         f"ιx. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.entity()}(y) ∧ {v.act2()}(x, y)"
+     )),
+
+    (3, "terminal_after_reduction", "WHNF(reduced)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∀y. {v.entity()}(y) → {v.act2()}(x, y)"
+     )),
+
+    (3, "unique_result", "WHNF(unique)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∀y. {v.entity()}(y) ∧ {v.prop()}(y) → {v.act2()}(y, x)"
+     )),
+
+    # ── Level 4: Deep terminal ──
+    (4, "terminal_chain", "WHNF(chain)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.rel()}(y, x) ∧ {v.prop()}(y) ∧ "
+         f"{v.act2()}(x, y)"
+     )),
+
+    (4, "fully_determined", "WHNF(det)",
+     lambda v: (
+         f"ιx. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.entity()}(y) ∧ {v.act2()}(x, y) ∧ {v.prop()}(y)"
+     )),
+
+    (4, "conclusive_state", "WHNF(conclude)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ ∀y. {v.entity()}(y) → "
+         f"{v.act2()}(x, y) ∧ {v.prop()}(x) ∧ {v.prop()}(y)"
+     )),
+
+    # ── Level 5: Terminal composed ──
+    (5, "terminal_after_deep", "WHNF(D)",
+     lambda v: (
+         f"ιx. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.rel()}(y, x) ∧ ∃z. {v.rel()}(z, y) ∧ "
+         f"{v.act2()}(x, z) ∧ {v.prop()}(z)"
+     )),
+
+    (5, "terminal_after_recurse", "WHNF(Y)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.rel()}(y, x) ∧ {v.prop()}(y) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ {v.act2()}(x, z) ∧ {v.prop()}(z)"
+     )),
+]
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # Generator
 # ══════════════════════════════════════════════════════════════════════════════
@@ -960,6 +1248,9 @@ _TEMPLATES: dict[str, list[tuple[int, str, str, Callable[[Vocab], str]]]] = {
     "B": B_TEMPLATES,
     "C": C_TEMPLATES,
     "M": M_TEMPLATES,
+    "D": D_TEMPLATES,
+    "Y": Y_TEMPLATES,
+    "WHNF": WHNF_TEMPLATES,
 }
 
 
@@ -1085,7 +1376,7 @@ class LambdaGenerator:
         """
         global_seen: set[str] = set()
         result = {}
-        for op in ["K", "I", "B", "C", "M"]:
+        for op in ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]:
             result[op] = self.generate(
                 op, n=n_per_op, complexity=complexity,
                 global_seen=global_seen,
@@ -1098,7 +1389,7 @@ class LambdaGenerator:
     ) -> list[Example]:
         """Generate a flat list of examples, shuffled, balanced across operations."""
         all_examples = []
-        for op in ["K", "I", "B", "C", "M"]:
+        for op in ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]:
             all_examples.extend(self.generate(op, n=n_per_op))
         self.rng.shuffle(all_examples)
         return all_examples
@@ -1121,7 +1412,7 @@ class LambdaGenerator:
         for ex in flat:
             by_op[ex.op] = by_op.get(ex.op, 0) + 1
         lines.append("By operation:")
-        for op in ["K", "I", "B", "C", "M"]:
+        for op in ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]:
             lines.append(f"  {op}: {by_op.get(op, 0)}")
         lines.append("")
 
@@ -1150,11 +1441,11 @@ class LambdaGenerator:
                 by_op_cx[ex.op] = {}
             by_op_cx[ex.op][ex.complexity] = by_op_cx[ex.op].get(ex.complexity, 0) + 1
         lines.append("By operation × complexity:")
-        header = "  Op " + " ".join(f"  L{i}" for i in range(1, 6))
+        header = "  Op   " + " ".join(f"  L{i}" for i in range(1, 6))
         lines.append(header)
-        for op in ["K", "I", "B", "C", "M"]:
+        for op in ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]:
             counts = by_op_cx.get(op, {})
-            row = f"  {op}  " + " ".join(f"{counts.get(i, 0):4d}" for i in range(1, 6))
+            row = f"  {op:4s} " + " ".join(f"{counts.get(i, 0):4d}" for i in range(1, 6))
             lines.append(row)
         lines.append("")
 
