@@ -289,11 +289,12 @@ You're not just programming anymore. You're engineering.
 
 ### Finding the Fixed Point
 
-There's one more trick the wizards left us. You can round-trip lambda
-expressions through compile and decompile cycles to find a *fixed point*.
-Take a sentence, compile it to lambda. Decompile the lambda back to
-English. Compile that English back to lambda. Keep going. After two or
-three cycles, the lambda expression stops changing. It converges.
+There's one more trick the wizards left us (thanks to @hugoduncan for finding
+this one!). You can round-trip lambda expressions through compile and
+decompile cycles to find a *fixed point*. Take a sentence, compile it to
+lambda. Decompile the lambda back to English. Compile that English back
+to lambda. Keep going. After two or three cycles, the lambda expression
+stops changing. It converges.
 
 That converged form is the fixed point. A prompt that compiles and
 decompiles perfectly. Semantically stable. The model's own canonical
