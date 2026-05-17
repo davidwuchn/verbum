@@ -2195,3 +2195,278 @@ def surgical_adam_decay_for_etch(
             n_decayed += len(row_indices)
 
     return n_decayed
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Direct Holographic Etch — computed holography for pure-signal data
+# ══════════════════════════════════════════════════════════════════════
+#
+# Instead of slow consensus (3 signal planes, EMA heat, etc.), this
+# computes the desired sign direction directly from gradient signal
+# and writes it in one shot.
+#
+# Protocol:
+#   1. Forward+backward N batches of same-operation lambda data
+#   2. Accumulate direction: outer(gamma_grad, x_mean) per module
+#   3. Where accumulated direction disagrees with current sign → flip
+#
+# This works because pure lambda data gives unambiguous gradient.
+# No noise to filter. No consensus to build. Just compute and write.
+#
+# The existing consensus etch (above) remains for noisy prose data.
+# This is the fast path for clean holographic recording.
+
+
+class DirectionAccumulator:
+    """Accumulates gradient direction signal for direct etching.
+
+    Each call to accumulate() adds one batch's gradient information.
+    The direction matrix (N × K) is the outer product of:
+        row_direction = gamma_grad  (which rows want to change)
+        col_direction = x_mean      (which columns are active)
+
+    After N batches, direction / n_steps gives the average desired sign.
+    """
+
+    def __init__(self, out_features: int, in_features: int):
+        import numpy as np
+        self.out_features = out_features
+        self.in_features = in_features
+        self.direction = np.zeros(
+            (out_features, in_features), dtype=np.float32
+        )
+        self.magnitude = np.zeros(
+            (out_features, in_features), dtype=np.float32
+        )
+        self.n_steps = 0
+
+    def accumulate(
+        self,
+        gamma_grad: "np.ndarray",
+        x_mean: "np.ndarray",
+    ) -> None:
+        """Add one batch's gradient signal to the accumulator."""
+        import numpy as np
+        gamma_grad = np.asarray(gamma_grad, dtype=np.float32)
+        x_mean = np.asarray(x_mean, dtype=np.float32)
+
+        # Outer product: (N,) × (K,) → (N, K)
+        # This gives the desired sign change direction for each weight
+        outer = np.outer(gamma_grad, x_mean)
+        self.direction += outer
+        self.magnitude += np.abs(outer)
+        self.n_steps += 1
+
+    def get_target_signs(self) -> "np.ndarray":
+        """Return the accumulated direction as target signs {-1, 0, +1}."""
+        import numpy as np
+        if self.n_steps == 0:
+            return np.zeros(
+                (self.out_features, self.in_features), dtype=np.int8
+            )
+        return np.sign(self.direction).astype(np.int8)
+
+    def get_confidence(self) -> "np.ndarray":
+        """Return per-position confidence (higher = more consistent direction).
+
+        Confidence = |direction| / magnitude. If all steps agree on sign,
+        confidence = 1.0. If steps cancel out, confidence → 0.
+        """
+        import numpy as np
+        if self.n_steps == 0:
+            return np.zeros(
+                (self.out_features, self.in_features), dtype=np.float32
+            )
+        denom = self.magnitude + 1e-12
+        return np.abs(self.direction) / denom
+
+    def reset(self) -> None:
+        """Clear accumulated signal for next operation."""
+        import numpy as np
+        self.direction[:] = 0
+        self.magnitude[:] = 0
+        self.n_steps = 0
+
+
+def init_direction_accumulators(
+    model: nn.Module,
+) -> dict[str, DirectionAccumulator]:
+    """Initialize a DirectionAccumulator for each etchable TernaryLinear module."""
+    accums = {}
+    for path, mod in _walk_ternary_modules(model):
+        if isinstance(mod, TernaryLinear) and not _is_beam_module(path):
+            accums[path] = DirectionAccumulator(mod.out_features, mod.in_features)
+    return accums
+
+
+def accumulate_direction(
+    model: nn.Module,
+    grads,
+    accumulators: dict[str, DirectionAccumulator],
+) -> None:
+    """Accumulate one step's gradient direction into all accumulators.
+
+    Call after forward+backward on a batch of same-operation data.
+    Uses gamma_grad (from backward) and x_mean (cached in forward).
+    """
+    import numpy as np
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in accumulators:
+            continue
+        if not isinstance(mod, TernaryLinear):
+            continue
+
+        gamma_grad = _extract_gamma_grad(grads, path)
+        if gamma_grad is None:
+            continue
+
+        x_mean = np.array(mod._x_mean) if hasattr(mod, '_x_mean') else None
+        if x_mean is None:
+            continue
+
+        if not np.all(np.isfinite(gamma_grad)) or not np.all(np.isfinite(x_mean)):
+            continue
+
+        accumulators[path].accumulate(gamma_grad, x_mean)
+
+
+def direct_etch(
+    model: nn.Module,
+    accumulators: dict[str, DirectionAccumulator],
+    confidence_threshold: float = 0.5,
+    max_flips: int | None = None,
+) -> dict:
+    """Write accumulated direction directly into ternary plates.
+
+    For each module:
+      1. Get target signs from accumulated direction
+      2. Get confidence per position
+      3. Where confidence > threshold AND target disagrees with current → flip
+      4. If max_flips set, keep only highest-confidence disagreements
+
+    Args:
+        model:                The model (TernaryLinear modules modified in place)
+        accumulators:         Per-module DirectionAccumulator (from accumulate_direction)
+        confidence_threshold: Minimum confidence to flip (0.0=flip everything,
+                             1.0=only flip where ALL steps agreed)
+        max_flips:           Global cap on total flips (None=unlimited).
+                             Budget distributed by confidence.
+
+    Returns:
+        Dict with stats:
+          total_flipped, total_candidates, per_module, flips_by_type
+    """
+    import numpy as np
+
+    # ── Phase 1: Identify candidates ─────────────────────────
+    candidates = {}
+    total_candidates = 0
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in accumulators:
+            continue
+        if not isinstance(mod, TernaryLinear):
+            continue
+
+        acc = accumulators[path]
+        if acc.n_steps == 0:
+            continue
+
+        target_signs = acc.get_target_signs()   # (N, K) int8 {-1, 0, +1}
+        confidence = acc.get_confidence()        # (N, K) float [0, 1]
+
+        # Current plate signs
+        current_signs = _unpack_signal_plane_np(
+            np.array(mod.weight), mod.in_features
+        )  # (N, K) int8
+
+        # Disagrees AND confident AND target is non-zero
+        disagrees = (
+            (target_signs != 0) &
+            (target_signs != current_signs) &
+            (confidence >= confidence_threshold)
+        )
+
+        n_cands = int(disagrees.sum())
+        if n_cands > 0:
+            candidates[path] = (disagrees, target_signs, current_signs, confidence)
+            total_candidates += n_cands
+
+    # ── Phase 2: Apply budget cap if needed ───────────────────
+    if max_flips is not None and total_candidates > max_flips:
+        # Keep only the highest-confidence candidates globally
+        all_confs = []
+        for path, (disagrees, _, _, confidence) in candidates.items():
+            all_confs.append(confidence[disagrees].ravel())
+        all_confs = np.concatenate(all_confs)
+
+        if len(all_confs) > max_flips:
+            conf_threshold = float(
+                np.partition(all_confs, -max_flips)[-max_flips]
+            )
+            # Raise threshold to enforce budget
+            for path in list(candidates.keys()):
+                disagrees, target_signs, current_signs, confidence = candidates[path]
+                disagrees = disagrees & (confidence >= conf_threshold)
+                candidates[path] = (disagrees, target_signs, current_signs, confidence)
+
+    # ── Phase 3: Write signs ──────────────────────────────────
+    total_flipped = 0
+    per_module = {}
+
+    for path, mod in _walk_ternary_modules(model):
+        if path not in candidates:
+            continue
+
+        disagrees, target_signs, current_signs, confidence = candidates[path]
+        n_flipped = int(disagrees.sum())
+
+        if n_flipped > 0:
+            # Write new signs: adopt target where we disagree, keep current elsewhere
+            new_signs = np.where(disagrees, target_signs, current_signs)
+            mod.weight = mx.array(_pack_signal_plane_np(new_signs))
+            mx.eval(mod.weight)
+
+        # Classify module type
+        if "k_proj" in path:
+            module_type = "k_proj"
+        elif "v_proj" in path:
+            module_type = "v_proj"
+        elif "out_proj" in path:
+            module_type = "out_proj"
+        elif "gate_proj" in path or "up" in path:
+            module_type = "ffn"
+        else:
+            module_type = "other"
+
+        mean_conf = float(confidence[disagrees].mean()) if n_flipped > 0 else 0.0
+
+        per_module[path] = {
+            "n_flipped": n_flipped,
+            "total_positions": int(current_signs.size),
+            "module_type": module_type,
+            "mean_confidence": mean_conf,
+            "n_steps_accumulated": accumulators[path].n_steps,
+        }
+        total_flipped += n_flipped
+
+    # Aggregate by module type
+    type_flips = {}
+    for info in per_module.values():
+        mt = info.get("module_type", "other")
+        type_flips[mt] = type_flips.get(mt, 0) + info["n_flipped"]
+
+    return {
+        "total_flipped": total_flipped,
+        "total_candidates": total_candidates,
+        "per_module": per_module,
+        "flips_by_type": type_flips,
+        "confidence_threshold": confidence_threshold,
+    }
+
+
+def reset_accumulators(accumulators: dict[str, DirectionAccumulator]) -> None:
+    """Reset all accumulators for the next operation's recording."""
+    for acc in accumulators.values():
+        acc.reset()
