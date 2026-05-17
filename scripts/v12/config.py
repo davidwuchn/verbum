@@ -286,7 +286,7 @@ class V12Config:
     # Self-terminating: early=aggressive (many wrong signs), late=quiet (signs aligned).
 
     # ── Checkpointing ──
-    checkpoint_interval: int = 1000
+    checkpoint_interval: int = 500
     eval_interval: int = 500
     log_interval: int = 25
     checkpoint_dir: str = "checkpoints/v12"

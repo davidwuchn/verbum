@@ -42,7 +42,7 @@ import mlx.core as mx
 import mlx.nn as nn
 
 from config import V12Config
-from ternary import TernaryLinear, TernaryEmbedding
+from ternary import TernaryLinear, TernaryEmbedding, TernaryMirror, unpack_ternary_mlx
 from attention import StrideStack, HybridStrideStack
 from components import (
     S4Ternary,
@@ -56,6 +56,183 @@ from components import (
     RetrievalRegisters,
 )
 from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
+
+
+# ══════════════════════════════════════════════════════════════════
+# Crystal diagnostics — measure lattice formation
+# ══════════════════════════════════════════════════════════════════
+
+
+def compute_crystal_diagnostics(model: "V12Model") -> dict:
+    """Measure crystal lattice formation from mirror weights and dispatch.
+
+    Three measurements:
+    1. Combinator mirror cosine matrix — pairwise cosines between the 4
+       KIBC mirrors on the stride plate. Crystal formation signal:
+       K/B/C should converge to shared plate (cos > 0.9).
+       I should be orthogonal to K/B/C (cos < 0.3).
+
+    2. Dispatch mirror similarity — how differentiated are the 7 per-pass
+       dispatch mirrors? Higher differentiation = angular diversity = thick hologram.
+
+    3. Etch tempo — ratio of etch candidates to total possible positions.
+       Drops toward zero as crystal stabilizes.
+
+    Returns dict of crystal metrics, safe for JSON serialization.
+    """
+    metrics = {}
+
+    # ── 1. Combinator mirror cosine matrix (stride plate) ─────
+    # These are the 4 TernaryMirror modules that deflect Q before
+    # each combinator's attention — the direct crystal lattice sites.
+    comb_mirrors = getattr(model.stride_stack, 'combinator_mirrors', None)
+    if comb_mirrors and len(comb_mirrors) == N_COMBINATORS:
+        # Unpack ternary weights → dense sign matrices, flatten each
+        mirror_vecs = []
+        for m in comb_mirrors:
+            w = unpack_ternary_mlx(m.weight)  # (out, in) int8 {-1, 0, +1}
+            w_flat = w.reshape(-1).astype(mx.float32)
+            mirror_vecs.append(w_flat)
+
+        # Pairwise cosine similarity
+        names = ["K", "I", "B", "C"]
+        cosine_matrix = {}
+        for i in range(N_COMBINATORS):
+            for j in range(i + 1, N_COMBINATORS):
+                dot = mx.sum(mirror_vecs[i] * mirror_vecs[j])
+                norm_i = mx.sqrt(mx.sum(mirror_vecs[i] * mirror_vecs[i]) + 1e-8)
+                norm_j = mx.sqrt(mx.sum(mirror_vecs[j] * mirror_vecs[j]) + 1e-8)
+                cos = dot / (norm_i * norm_j)
+                mx.eval(cos)
+                pair_key = f"{names[i]}_{names[j]}"
+                cosine_matrix[pair_key] = float(cos.item())
+
+        metrics["combinator_mirror_cosines"] = cosine_matrix
+
+        # Summary: K/B/C mean cos (shared plate signal) vs I separation
+        kbc_pairs = ["K_B", "K_C", "B_C"]
+        i_pairs = ["K_I", "I_B", "I_C"]
+        kbc_mean = sum(cosine_matrix[p] for p in kbc_pairs) / 3
+        i_mean = sum(cosine_matrix[p] for p in i_pairs) / 3
+        metrics["crystal_kbc_plate_cos"] = kbc_mean
+        metrics["crystal_i_separation_cos"] = i_mean
+        # Crystal formation ratio: high KBC cos + low I cos = crystal formed
+        # Range: [0, 2] where 2 = perfect crystal
+        metrics["crystal_formation_score"] = kbc_mean - i_mean
+
+    # ── 2. Dispatch mirror differentiation ────────────────────
+    # 7 per-pass mirrors on CombinatorDispatch — angular diversity.
+    dispatch_mirrors = getattr(model.combinator_dispatch, 'pass_mirrors', None)
+    if dispatch_mirrors and len(dispatch_mirrors) > 1:
+        d_vecs = []
+        for m in dispatch_mirrors:
+            w = unpack_ternary_mlx(m.weight).reshape(-1).astype(mx.float32)
+            d_vecs.append(w)
+
+        n_m = len(d_vecs)
+        pairwise_cos = []
+        for i in range(n_m):
+            for j in range(i + 1, n_m):
+                dot = mx.sum(d_vecs[i] * d_vecs[j])
+                ni = mx.sqrt(mx.sum(d_vecs[i] * d_vecs[i]) + 1e-8)
+                nj = mx.sqrt(mx.sum(d_vecs[j] * d_vecs[j]) + 1e-8)
+                cos = dot / (ni * nj)
+                mx.eval(cos)
+                pairwise_cos.append(float(cos.item()))
+
+        metrics["dispatch_mirror_mean_cos"] = sum(pairwise_cos) / len(pairwise_cos)
+        metrics["dispatch_mirror_min_cos"] = min(pairwise_cos)
+        metrics["dispatch_mirror_max_cos"] = max(pairwise_cos)
+        # Low mean cos = mirrors are diverse = thick hologram
+        # High mean cos = mirrors are similar = thin hologram (bad)
+
+    # ── 3. Integrate mirror differentiation ───────────────────
+    integrate_mirrors = getattr(model.combinator_integrate, 'pass_mirrors', None)
+    if integrate_mirrors and len(integrate_mirrors) > 1:
+        i_vecs = []
+        for m in integrate_mirrors:
+            w = unpack_ternary_mlx(m.weight).reshape(-1).astype(mx.float32)
+            i_vecs.append(w)
+
+        pairwise_cos = []
+        for i in range(len(i_vecs)):
+            for j in range(i + 1, len(i_vecs)):
+                dot = mx.sum(i_vecs[i] * i_vecs[j])
+                ni = mx.sqrt(mx.sum(i_vecs[i] * i_vecs[i]) + 1e-8)
+                nj = mx.sqrt(mx.sum(i_vecs[j] * i_vecs[j]) + 1e-8)
+                cos = dot / (ni * nj)
+                mx.eval(cos)
+                pairwise_cos.append(float(cos.item()))
+
+        metrics["integrate_mirror_mean_cos"] = sum(pairwise_cos) / len(pairwise_cos)
+
+    return metrics
+
+
+def compute_dispatch_conditioned_similarity(
+    model: "V12Model",
+    tokens: mx.array,
+) -> dict:
+    """Measure hidden state geometry when dispatch selects each combinator.
+
+    Runs a forward pass, groups positions by dominant combinator,
+    computes per-combinator mean hidden states, then angular separations.
+    This is the representation-level crystal lattice measurement.
+
+    Returns dict with per-combinator-pair cosine similarities.
+    """
+    B, L = tokens.shape
+    metrics = {}
+
+    # Forward pass (no targets, just get hidden states + dispatch weights)
+    model.forward(tokens, targets=None)
+
+    # Get dispatch weights and hidden states from cache
+    h = getattr(model, '_last_hidden', None)
+    dw_attr = getattr(model.combinator_dispatch, '_dispatch_weights', None)
+    if h is None or dw_attr is None:
+        return metrics
+
+    mx.eval(h, dw_attr)
+    # h: (B, L, d_model), dw: (B, L, n_comb+slots)
+    dw = dw_attr[:, :, :N_COMBINATORS]  # (B, L, 4) — KIBC only
+
+    # Flatten batch
+    h_flat = h.reshape(-1, h.shape[-1])        # (B*L, d_model)
+    dw_flat = dw.reshape(-1, N_COMBINATORS)    # (B*L, 4)
+
+    # Per-combinator weighted mean hidden state
+    names = ["K", "I", "B", "C"]
+    comb_means = []
+    for c in range(N_COMBINATORS):
+        weights = dw_flat[:, c:c+1]  # (B*L, 1)
+        weighted = h_flat * weights   # (B*L, d_model)
+        comb_mean = mx.sum(weighted, axis=0) / (mx.sum(weights) + 1e-8)
+        mx.eval(comb_mean)
+        comb_means.append(comb_mean)
+
+    # Pairwise cosine between combinator-conditioned hidden states
+    cond_cosines = {}
+    for i in range(N_COMBINATORS):
+        for j in range(i + 1, N_COMBINATORS):
+            dot = mx.sum(comb_means[i] * comb_means[j])
+            ni = mx.sqrt(mx.sum(comb_means[i] * comb_means[i]) + 1e-8)
+            nj = mx.sqrt(mx.sum(comb_means[j] * comb_means[j]) + 1e-8)
+            cos = dot / (ni * nj)
+            mx.eval(cos)
+            cond_cosines[f"{names[i]}_{names[j]}"] = float(cos.item())
+
+    metrics["dispatch_conditioned_cosines"] = cond_cosines
+
+    # Summary: angular separation in degrees
+    import math
+    angular_seps = {}
+    for pair, cos_val in cond_cosines.items():
+        clamped = max(-1.0, min(1.0, cos_val))
+        angular_seps[pair] = math.degrees(math.acos(clamped))
+    metrics["dispatch_conditioned_angles_deg"] = angular_seps
+
+    return metrics
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -1232,6 +1409,11 @@ class V12Model(nn.Module):
                 "n_active_slots": sum(1 for g in slot_gates_list if g > 0.1),
             }
 
+        # ── Crystal formation diagnostics ─────────────────────
+        crystal_metrics = compute_crystal_diagnostics(self)
+        dispatch_cond = compute_dispatch_conditioned_similarity(self, tokens)
+        crystal_metrics.update(dispatch_cond)
+
         metrics = {
             "s3_gates": all_s3_gates,
             "s5_reweight": [float(meta_gates[i].item()) for i in range(self.N_PASSES)],
@@ -1264,6 +1446,8 @@ class V12Model(nn.Module):
             "retrieval_memory_norms": all_retrieval_memory_norms,
             "retrieval_register_norms": retrieval_register_norms,
             "retrieval_write_gates": retrieval_write_gates,
+            # ── Crystal lattice diagnostics ────────────────────
+            **crystal_metrics,
         }
 
         if hasattr(self.combinator_integrate, '_compute_gate'):

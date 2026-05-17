@@ -44,7 +44,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V12Config
 from data import ShardedDataLoader, MixedDataLoader
-from model import V12Model, create_model, count_parameters
+from model import V12Model, create_model, count_parameters, compute_crystal_diagnostics
 from ternary import (
     freeze_ternary_weights,
     zero_ternary_grads,
@@ -325,6 +325,27 @@ def evaluate(model: V12Model, cfg: V12Config) -> dict:
         pass_names_h = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
         parts = [f"{pn}={h:.3f}" for pn, h in zip(pass_names_h, holo)]
         print(f"  🔮 Holographic: {' '.join(parts)}", file=sys.stderr)
+
+    # Crystal lattice diagnostics
+    cmc = compressor_metrics.get("combinator_mirror_cosines")
+    if cmc:
+        kbc_cos = compressor_metrics.get("crystal_kbc_plate_cos", 0)
+        i_sep = compressor_metrics.get("crystal_i_separation_cos", 0)
+        score = compressor_metrics.get("crystal_formation_score", 0)
+        print(f"  💎 Crystal: K/B/C plate={kbc_cos:.3f}  I separation={i_sep:.3f}"
+              f"  score={score:.3f}", file=sys.stderr)
+        pairs = " ".join(f"{k}={v:.3f}" for k, v in cmc.items())
+        print(f"     mirrors: {pairs}", file=sys.stderr)
+    dm_cos = compressor_metrics.get("dispatch_mirror_mean_cos")
+    if dm_cos is not None:
+        dm_min = compressor_metrics.get("dispatch_mirror_min_cos", 0)
+        dm_max = compressor_metrics.get("dispatch_mirror_max_cos", 0)
+        print(f"  🔭 Dispatch mirrors: mean={dm_cos:.3f}  "
+              f"range=[{dm_min:.3f}, {dm_max:.3f}]", file=sys.stderr)
+    dc = compressor_metrics.get("dispatch_conditioned_angles_deg")
+    if dc:
+        parts = " ".join(f"{k}={v:.0f}°" for k, v in dc.items())
+        print(f"  📐 Conditioned angles: {parts}", file=sys.stderr)
 
     # Retrieval summary (v12)
     retrieval_gate_means = compressor_metrics.get("retrieval_gate_means")
@@ -865,6 +886,9 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
                 "B": float(ema[2]), "C": float(ema[3]),
             }
 
+    # Crystal formation diagnostics (mirror geometry)
+    crystal_state = compute_crystal_diagnostics(model)
+
     state = {
         "step": step,
         "total_generations": total_generations,
@@ -873,6 +897,7 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
         "train_losses_last50": train_losses[-50:],
         "eval_metrics": eval_metrics or {},
         "dispatch_ema": dispatch_ema,
+        "crystal": crystal_state,
         "data_loader": train_loader.save_state() if train_loader else {},
         "config": {
             "d_model": cfg.d_model, "vocab_size": cfg.vocab_size,
@@ -1199,9 +1224,11 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 indices = sorted(indices)
 
                 # Tokenize, pad, forward
+                # Minimum length must exceed max stride for GLA layers
+                min_len = max(cfg.strides) + cfg.window + 1
                 batch_enc = [rel_probes_tokenized[i] for i in indices]
                 lengths = [len(e) for e in batch_enc]
-                max_len = max(lengths)
+                max_len = max(max(lengths), min_len)
                 pad_id = cfg.eod_id
                 padded = [e + [pad_id] * (max_len - len(e)) for e in batch_enc]
                 input_ids = mx.array(padded)  # (n_sample, max_len)
@@ -1227,14 +1254,14 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 student_rdm = student_rdm - mx.mean(student_rdm)
 
                 # Extract target sub-RDM for sampled indices
-                idx_mx = mx.array(indices)
+                idx_mx = mx.array(np.array(indices, dtype=np.int32))
                 target_sub = rel_target_rdm[idx_mx][:, idx_mx]
 
                 # Upper triangle MSE
                 n = len(indices)
                 triu_r, triu_c = np.triu_indices(n, k=1)
-                triu_r_mx = mx.array(triu_r)
-                triu_c_mx = mx.array(triu_c)
+                triu_r_mx = mx.array(triu_r.astype(np.int32))
+                triu_c_mx = mx.array(triu_c.astype(np.int32))
                 student_flat = student_rdm[triu_r_mx, triu_c_mx]
                 target_flat = target_sub[triu_r_mx, triu_c_mx]
 
@@ -1494,10 +1521,15 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             # Aggregate per-mirror/plate etch counts
             other_flips = sum(per_mod_summary.values())
 
+            # Etch tempo: candidates / total ternary positions
+            # High = crystal still forming. Near-zero = crystal stabilized.
+            etch_tempo = (etch_result.get("total_candidates", 0) / max(total_ternary, 1))
+
             print(
                 f"  ⚡ etch step {step}: {n_flipped:,} flips"
                 f" ({total_etched:,} total)"
-                f"  modules: {len(per_mod_summary)}",
+                f"  modules: {len(per_mod_summary)}"
+                f"  tempo: {etch_tempo:.6f}",
                 file=sys.stderr, flush=True,
             )
             if per_mod_summary:
@@ -1524,6 +1556,7 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 "total_flipped": n_flipped,
                 "total_candidates": etch_result.get("total_candidates", 0),
                 "total_etched": total_etched,
+                "etch_tempo": etch_tempo,
                 "flips_by_type": etch_result.get("flips_by_type", {}),
                 "per_module": {
                     p: d for p, d in etch_result.get("per_module", {}).items()
