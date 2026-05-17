@@ -1,0 +1,359 @@
+
+======================================================================
+  HOLOGRAPHIC ETCH WITH PROCRUSTES LENS
+  Source: Qwen/Qwen3-14B
+  Student layers: 4 (from teacher [0, 10, 20, 30])
+  Steps: 500, λ_align=0.05, beam_dims=20
+  Conditions: ['A', 'B', 'C', 'D']
+======================================================================
+
+Phase 1: Teacher activation pre-computation
+  Loading Qwen/Qwen3-14B for activation pre-computation...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:03,  1.22it/s]Loading weights:   0%|          | 2/443 [00:00<03:01,  2.43it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:15, 27.17it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 62.85it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 94.01it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 119.41it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:02, 140.91it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:02, 158.53it/s]Loading weights:  33%|███▎      | 147/443 [00:01<00:01, 169.75it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:01, 177.15it/s]Loading weights:  43%|████▎     | 191/443 [00:01<00:01, 181.68it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:01, 185.78it/s]Loading weights:  53%|█████▎    | 234/443 [00:02<00:01, 192.38it/s]Loading weights:  57%|█████▋    | 254/443 [00:02<00:01, 188.08it/s]Loading weights:  62%|██████▏   | 274/443 [00:02<00:00, 185.41it/s]Loading weights:  66%|██████▌   | 293/443 [00:02<00:00, 181.90it/s]Loading weights:  71%|███████   | 313/443 [00:02<00:00, 182.29it/s]Loading weights:  75%|███████▌  | 334/443 [00:02<00:00, 184.45it/s]Loading weights:  80%|███████▉  | 354/443 [00:02<00:00, 188.42it/s]Loading weights:  84%|████████▍ | 373/443 [00:02<00:00, 184.04it/s]Loading weights:  88%|████████▊ | 392/443 [00:03<00:00, 180.69it/s]Loading weights:  93%|█████████▎| 412/443 [00:03<00:00, 184.23it/s]Loading weights:  98%|█████████▊| 434/443 [00:03<00:00, 188.16it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 136.01it/s]
+  Running 300 batches through teacher...
+    Batch 50/300 (68.7s)
+    Batch 100/300 (137.6s)
+    Batch 150/300 (209.5s)
+    Batch 200/300 (287.0s)
+    Batch 250/300 (370.8s)
+    Batch 300/300 (461.3s)
+  Teacher activations collected in 461.3s
+    L0: (600, 5120) (mean_norm=14.8)
+    L10: (600, 5120) (mean_norm=79.4)
+    L20: (600, 5120) (mean_norm=121.8)
+    L30: (600, 5120) (mean_norm=483.6)
+  Cached teacher activations: results/holographic-etch/teacher_activations.npz (23.0 MB)
+  Teacher activations ready: 600 examples
+
+Phase 2: Sign extraction
+  Extracting signs from Qwen/Qwen3-14B, layers [0, 10, 20, 30]...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<01:44,  4.21it/s]Loading weights:   4%|▍         | 17/443 [00:00<00:06, 61.47it/s]Loading weights:   9%|▉         | 39/443 [00:00<00:03, 110.88it/s]Loading weights:  14%|█▎        | 60/443 [00:00<00:02, 141.89it/s]Loading weights:  19%|█▊        | 82/443 [00:00<00:02, 158.72it/s]Loading weights:  23%|██▎       | 103/443 [00:00<00:01, 173.08it/s]Loading weights:  28%|██▊       | 122/443 [00:00<00:01, 178.11it/s]Loading weights:  32%|███▏      | 141/443 [00:00<00:01, 177.09it/s]Loading weights:  36%|███▌      | 160/443 [00:01<00:01, 173.29it/s]Loading weights:  41%|████      | 182/443 [00:01<00:01, 180.73it/s]Loading weights:  46%|████▌     | 204/443 [00:01<00:01, 184.37it/s]Loading weights:  51%|█████     | 226/443 [00:01<00:01, 186.30it/s]Loading weights:  56%|█████▌    | 247/443 [00:01<00:01, 192.24it/s]Loading weights:  60%|██████    | 268/443 [00:01<00:00, 196.09it/s]Loading weights:  65%|██████▌   | 288/443 [00:01<00:00, 196.20it/s]Loading weights:  70%|██████▉   | 308/443 [00:01<00:00, 191.36it/s]Loading weights:  74%|███████▍  | 328/443 [00:01<00:00, 186.36it/s]Loading weights:  78%|███████▊  | 347/443 [00:02<00:00, 172.21it/s]Loading weights:  83%|████████▎ | 369/443 [00:02<00:00, 179.09it/s]Loading weights:  88%|████████▊ | 390/443 [00:02<00:00, 186.06it/s]Loading weights:  93%|█████████▎| 411/443 [00:02<00:00, 192.08it/s]Loading weights:  97%|█████████▋| 431/443 [00:02<00:00, 194.04it/s]Loading weights: 100%|██████████| 443/443 [00:02<00:00, 172.15it/s]
+    L0: extracted K[1024, 5120] V[1024, 5120] O[5120, 5120] gate[17408, 5120]
+    L10: extracted K[1024, 5120] V[1024, 5120] O[5120, 5120] gate[17408, 5120]
+    L20: extracted K[1024, 5120] V[1024, 5120] O[5120, 5120] gate[17408, 5120]
+    L30: extracted K[1024, 5120] V[1024, 5120] O[5120, 5120] gate[17408, 5120]
+  Cached signs: results/holographic-etch/extracted_signs.npz
+
+
+Phase 3: Training
+
+  ════════════════════════════════════════════════════════════
+  Condition A: Extracted+NT
+  ════════════════════════════════════════════════════════════
+  Params: 1,239,499,776 trainable, 859,832,320 frozen ternary
+  [A:Extracted+NT] step     1 | CE 3783.1323 | eval 869.6939 | 184 tok/s
+  [A:Extracted+NT] step    25 | CE 331.8912 | eval 281.6505 | 823 tok/s
+  [A:Extracted+NT] step    50 | CE 192.1071 | eval 210.7233 | 889 tok/s
+  [A:Extracted+NT] step    75 | CE 126.9731 | eval 174.6559 | 907 tok/s
+  [A:Extracted+NT] step   100 | CE 118.9946 | eval 148.8357 | 911 tok/s
+  [A:Extracted+NT] step   125 | CE 91.4548 | eval 123.0751 | 911 tok/s
+  [A:Extracted+NT] step   150 | CE 85.0324 | eval 119.1246 | 909 tok/s
+  [A:Extracted+NT] step   175 | CE 82.2379 | eval 107.7596 | 905 tok/s
+  [A:Extracted+NT] step   200 | CE 74.7580 | eval 94.1319 | 900 tok/s
+  [A:Extracted+NT] step   225 | CE 62.8212 | eval 89.0889 | 892 tok/s
+  [A:Extracted+NT] step   250 | CE 60.3631 | eval 85.5084 | 880 tok/s
+  [A:Extracted+NT] step   275 | CE 46.2629 | eval 68.8533 | 869 tok/s
+  [A:Extracted+NT] step   300 | CE 50.1516 | eval 61.7026 | 859 tok/s
+  [A:Extracted+NT] step   325 | CE 35.2059 | eval 56.7776 | 849 tok/s
+  [A:Extracted+NT] step   350 | CE 30.1796 | eval 51.7256 | 839 tok/s
+  [A:Extracted+NT] step   375 | CE 18.4936 | eval 51.1075 | 830 tok/s
+  [A:Extracted+NT] step   400 | CE 26.7790 | eval 49.8880 | 821 tok/s
+  [A:Extracted+NT] step   425 | CE 17.6683 | eval 44.6096 | 814 tok/s
+  [A:Extracted+NT] step   450 | CE 25.6823 | eval 49.2479 | 807 tok/s
+  [A:Extracted+NT] step   475 | CE 24.5306 | eval 44.8519 | 800 tok/s
+  [A:Extracted+NT] step   500 | CE 26.2551 | eval 48.2127 | 795 tok/s
+
+  ════════════════════════════════════════════════════════════
+  Condition B: Extracted+Lens
+  ════════════════════════════════════════════════════════════
+  Params: 1,239,499,776 trainable, 859,832,320 frozen ternary
+  [B:Extracted+Lens] step     1 | CE 3784.4226 | eval 745.6873 | align 0.0000 | 198 tok/s
+  [B:Extracted+Lens] step    25 | CE 378.8165 | eval 297.2508 | align 0.0000 | 646 tok/s
+  [B:Extracted+Lens] step    50 | CE 197.7270 | eval 197.2784 | align 0.0000 | 682 tok/s
+  [B:Extracted+Lens] step    75 | CE 134.9119 | eval 149.9479 | align 0.0000 | 693 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 82 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2623, scale=16.5769, t_var=0.702, s_var=0.960
+    Layer 1 (teacher L10): cos=0.3602, scale=4.6109, t_var=0.657, s_var=0.961
+    Layer 2 (teacher L20): cos=0.3716, scale=5.0859, t_var=0.612, s_var=0.988
+    Layer 3 (teacher L30): cos=0.3572, scale=2.1662, t_var=0.584, s_var=0.995
+  [B:Extracted+Lens] step   100 | CE 162.1253 | eval 160.9958 | align 19508.0859 | 699 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 114 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2697, scale=14.9007, t_var=0.670, s_var=0.950
+    Layer 1 (teacher L10): cos=0.3479, scale=3.5129, t_var=0.585, s_var=0.952
+    Layer 2 (teacher L20): cos=0.3674, scale=3.3643, t_var=0.562, s_var=0.982
+    Layer 3 (teacher L30): cos=0.3671, scale=1.2624, t_var=0.559, s_var=0.990
+  [B:Extracted+Lens] step   125 | CE 127.8285 | eval 138.6258 | align 13082.7773 | 702 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 146 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2977, scale=9.2210, t_var=0.672, s_var=0.891
+    Layer 1 (teacher L10): cos=0.3342, scale=2.0598, t_var=0.620, s_var=0.900
+    Layer 2 (teacher L20): cos=0.3210, scale=1.9446, t_var=0.585, s_var=0.956
+    Layer 3 (teacher L30): cos=0.3565, scale=0.7187, t_var=0.582, s_var=0.975
+  [B:Extracted+Lens] step   150 | CE 141.1229 | eval 132.7357 | align 3712.5525 | 705 tok/s
+  [B:Extracted+Lens] step   175 | CE 110.8930 | eval 122.7021 | align 1108.1917 | 708 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 178 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3684, scale=11.2495, t_var=0.659, s_var=0.885
+    Layer 1 (teacher L10): cos=0.3733, scale=2.0201, t_var=0.629, s_var=0.886
+    Layer 2 (teacher L20): cos=0.3969, scale=1.6729, t_var=0.579, s_var=0.931
+    Layer 3 (teacher L30): cos=0.3769, scale=0.5359, t_var=0.566, s_var=0.957
+  [B:Extracted+Lens] step   200 | CE 98.3372 | eval 112.0747 | align 1258.5171 | 711 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 210 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3301, scale=10.1716, t_var=0.683, s_var=0.842
+    Layer 1 (teacher L10): cos=0.3260, scale=1.7139, t_var=0.615, s_var=0.857
+    Layer 2 (teacher L20): cos=0.3485, scale=1.2105, t_var=0.592, s_var=0.895
+    Layer 3 (teacher L30): cos=0.3869, scale=0.4165, t_var=0.577, s_var=0.932
+  [B:Extracted+Lens] step   225 | CE 97.7828 | eval 109.1752 | align 852.0535 | 713 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 242 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3072, scale=6.3383, t_var=0.705, s_var=0.831
+    Layer 1 (teacher L10): cos=0.3584, scale=1.5508, t_var=0.608, s_var=0.836
+    Layer 2 (teacher L20): cos=0.4216, scale=1.0905, t_var=0.570, s_var=0.851
+    Layer 3 (teacher L30): cos=0.4546, scale=0.3533, t_var=0.556, s_var=0.884
+  [B:Extracted+Lens] step   250 | CE 101.7562 | eval 106.3631 | align 606.4983 | 714 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 274 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3469, scale=7.2823, t_var=0.670, s_var=0.791
+    Layer 1 (teacher L10): cos=0.3674, scale=1.1189, t_var=0.616, s_var=0.786
+    Layer 2 (teacher L20): cos=0.3778, scale=0.7764, t_var=0.584, s_var=0.833
+    Layer 3 (teacher L30): cos=0.3657, scale=0.3146, t_var=0.549, s_var=0.900
+  [B:Extracted+Lens] step   275 | CE 91.6726 | eval 101.2675 | align 343.7218 | 715 tok/s
+  [B:Extracted+Lens] step   300 | CE 89.2679 | eval 97.2583 | align 416.4755 | 715 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 306 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3015, scale=6.7646, t_var=0.642, s_var=0.770
+    Layer 1 (teacher L10): cos=0.3489, scale=1.1814, t_var=0.610, s_var=0.768
+    Layer 2 (teacher L20): cos=0.3675, scale=0.8667, t_var=0.563, s_var=0.800
+    Layer 3 (teacher L30): cos=0.3788, scale=0.2704, t_var=0.564, s_var=0.846
+  [B:Extracted+Lens] step   325 | CE 83.2693 | eval 93.1566 | align 861.9999 | 716 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 338 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3554, scale=5.8556, t_var=0.659, s_var=0.744
+    Layer 1 (teacher L10): cos=0.3921, scale=1.0837, t_var=0.624, s_var=0.727
+    Layer 2 (teacher L20): cos=0.4167, scale=0.7568, t_var=0.591, s_var=0.751
+    Layer 3 (teacher L30): cos=0.4454, scale=0.2419, t_var=0.570, s_var=0.804
+  [B:Extracted+Lens] step   350 | CE 86.8591 | eval 90.8128 | align 200.2388 | 717 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 370 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3593, scale=5.9469, t_var=0.755, s_var=0.708
+    Layer 1 (teacher L10): cos=0.3992, scale=1.2232, t_var=0.652, s_var=0.707
+    Layer 2 (teacher L20): cos=0.4498, scale=0.8077, t_var=0.596, s_var=0.721
+    Layer 3 (teacher L30): cos=0.4897, scale=0.2691, t_var=0.565, s_var=0.777
+  [B:Extracted+Lens] step   375 | CE 77.7406 | eval 91.1543 | align 1396.5741 | 718 tok/s
+  [B:Extracted+Lens] step   400 | CE 73.2124 | eval 89.0647 | align 1630.3191 | 720 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 402 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3694, scale=7.7467, t_var=0.658, s_var=0.735
+    Layer 1 (teacher L10): cos=0.3712, scale=1.4521, t_var=0.594, s_var=0.772
+    Layer 2 (teacher L20): cos=0.4089, scale=0.8057, t_var=0.578, s_var=0.748
+    Layer 3 (teacher L30): cos=0.4521, scale=0.2497, t_var=0.580, s_var=0.786
+  [B:Extracted+Lens] step   425 | CE 82.3255 | eval 82.9448 | align 182.3377 | 720 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 434 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3668, scale=5.6665, t_var=0.661, s_var=0.713
+    Layer 1 (teacher L10): cos=0.3657, scale=0.9032, t_var=0.600, s_var=0.693
+    Layer 2 (teacher L20): cos=0.4082, scale=0.5935, t_var=0.576, s_var=0.713
+    Layer 3 (teacher L30): cos=0.4343, scale=0.1806, t_var=0.572, s_var=0.738
+  [B:Extracted+Lens] step   450 | CE 69.5424 | eval 85.2938 | align 341.8610 | 721 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 466 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3669, scale=6.0951, t_var=0.681, s_var=0.747
+    Layer 1 (teacher L10): cos=0.3812, scale=0.9307, t_var=0.607, s_var=0.700
+    Layer 2 (teacher L20): cos=0.4271, scale=0.6782, t_var=0.568, s_var=0.706
+    Layer 3 (teacher L30): cos=0.3495, scale=0.1708, t_var=0.575, s_var=0.726
+  [B:Extracted+Lens] step   475 | CE 76.5584 | eval 85.2477 | align 215.8269 | 722 tok/s
+
+  [B:Extracted+Lens] Calibrating lens at step 498 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.4020, scale=6.1079, t_var=0.648, s_var=0.729
+    Layer 1 (teacher L10): cos=0.3873, scale=0.8564, t_var=0.643, s_var=0.682
+    Layer 2 (teacher L20): cos=0.4269, scale=0.5846, t_var=0.593, s_var=0.679
+    Layer 3 (teacher L30): cos=0.4183, scale=0.1588, t_var=0.562, s_var=0.686
+  [B:Extracted+Lens] step   500 | CE 79.8503 | eval 87.6831 | align 368.1656 | 722 tok/s
+
+  ════════════════════════════════════════════════════════════
+  Condition C: Random+NT
+  ════════════════════════════════════════════════════════════
+  Params: 1,239,499,776 trainable, 859,832,320 frozen ternary
+  [C:Random+NT] step     1 | CE 4492.0024 | eval 3930.1512 | 206 tok/s
+  [C:Random+NT] step    25 | CE 191.5235 | eval 242.5983 | 668 tok/s
+  [C:Random+NT] step    50 | CE 149.8115 | eval 181.5664 | 703 tok/s
+  [C:Random+NT] step    75 | CE 107.9058 | eval 147.2403 | 715 tok/s
+  [C:Random+NT] step   100 | CE 115.6584 | eval 136.0640 | 721 tok/s
+  [C:Random+NT] step   125 | CE 93.3131 | eval 116.9299 | 726 tok/s
+  [C:Random+NT] step   150 | CE 78.6348 | eval 108.8514 | 730 tok/s
+  [C:Random+NT] step   175 | CE 80.0490 | eval 103.6552 | 733 tok/s
+  [C:Random+NT] step   200 | CE 65.3451 | eval 84.9169 | 735 tok/s
+  [C:Random+NT] step   225 | CE 64.8606 | eval 90.0128 | 737 tok/s
+  [C:Random+NT] step   250 | CE 52.4815 | eval 83.2213 | 733 tok/s
+  [C:Random+NT] step   275 | CE 44.0199 | eval 66.0009 | 733 tok/s
+  [C:Random+NT] step   300 | CE 59.2911 | eval 62.0469 | 735 tok/s
+  [C:Random+NT] step   325 | CE 34.5247 | eval 57.4535 | 736 tok/s
+  [C:Random+NT] step   350 | CE 30.1165 | eval 49.6060 | 737 tok/s
+  [C:Random+NT] step   375 | CE 21.6507 | eval 50.5717 | 738 tok/s
+  [C:Random+NT] step   400 | CE 23.4398 | eval 49.5034 | 739 tok/s
+  [C:Random+NT] step   425 | CE 20.8549 | eval 43.7333 | 739 tok/s
+  [C:Random+NT] step   450 | CE 26.6242 | eval 48.7077 | 740 tok/s
+  [C:Random+NT] step   475 | CE 25.7680 | eval 43.5052 | 740 tok/s
+  [C:Random+NT] step   500 | CE 26.3188 | eval 48.3762 | 741 tok/s
+
+  ════════════════════════════════════════════════════════════
+  Condition D: Random+Lens
+  ════════════════════════════════════════════════════════════
+  Params: 1,239,499,776 trainable, 859,832,320 frozen ternary
+  [D:Random+Lens] step     1 | CE 4512.9609 | eval 3942.8108 | align 0.0000 | 213 tok/s
+  [D:Random+Lens] step    25 | CE 185.8940 | eval 227.8616 | align 0.0000 | 689 tok/s
+  [D:Random+Lens] step    50 | CE 150.7162 | eval 176.2492 | align 0.0000 | 725 tok/s
+  [D:Random+Lens] step    75 | CE 117.8530 | eval 145.9350 | align 0.0000 | 737 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 82 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2967, scale=5.4711, t_var=0.702, s_var=0.765
+    Layer 1 (teacher L10): cos=0.3504, scale=1.5342, t_var=0.657, s_var=0.840
+    Layer 2 (teacher L20): cos=0.4081, scale=1.9201, t_var=0.612, s_var=0.959
+    Layer 3 (teacher L30): cos=0.3651, scale=0.7974, t_var=0.584, s_var=0.985
+  [D:Random+Lens] step   100 | CE 124.8974 | eval 138.0166 | align 1614.2408 | 743 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 114 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2970, scale=5.4222, t_var=0.670, s_var=0.754
+    Layer 1 (teacher L10): cos=0.3481, scale=1.6794, t_var=0.585, s_var=0.872
+    Layer 2 (teacher L20): cos=0.3835, scale=1.7934, t_var=0.562, s_var=0.952
+    Layer 3 (teacher L30): cos=0.3906, scale=0.6112, t_var=0.559, s_var=0.967
+  [D:Random+Lens] step   125 | CE 112.1980 | eval 122.6613 | align 5913.4902 | 746 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 146 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3270, scale=4.2700, t_var=0.672, s_var=0.665
+    Layer 1 (teacher L10): cos=0.3857, scale=1.2927, t_var=0.620, s_var=0.798
+    Layer 2 (teacher L20): cos=0.3927, scale=1.1219, t_var=0.585, s_var=0.875
+    Layer 3 (teacher L30): cos=0.4441, scale=0.3985, t_var=0.582, s_var=0.906
+  [D:Random+Lens] step   150 | CE 86.0368 | eval 115.0916 | align 402.7574 | 749 tok/s
+  [D:Random+Lens] step   175 | CE 83.1005 | eval 108.0543 | align 1919.3589 | 751 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 178 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.4020, scale=6.7964, t_var=0.659, s_var=0.796
+    Layer 1 (teacher L10): cos=0.3757, scale=1.3223, t_var=0.629, s_var=0.837
+    Layer 2 (teacher L20): cos=0.3908, scale=1.2497, t_var=0.579, s_var=0.896
+    Layer 3 (teacher L30): cos=0.4326, scale=0.4040, t_var=0.566, s_var=0.912
+  [D:Random+Lens] step   200 | CE 72.6237 | eval 98.8563 | align 371.9494 | 752 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 210 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3371, scale=6.0034, t_var=0.683, s_var=0.697
+    Layer 1 (teacher L10): cos=0.3556, scale=1.2597, t_var=0.615, s_var=0.770
+    Layer 2 (teacher L20): cos=0.3793, scale=1.2474, t_var=0.592, s_var=0.896
+    Layer 3 (teacher L30): cos=0.4315, scale=0.3984, t_var=0.577, s_var=0.928
+  [D:Random+Lens] step   225 | CE 82.1748 | eval 106.7575 | align 483.3973 | 752 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 242 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2718, scale=4.7201, t_var=0.705, s_var=0.762
+    Layer 1 (teacher L10): cos=0.3856, scale=1.3928, t_var=0.608, s_var=0.776
+    Layer 2 (teacher L20): cos=0.4092, scale=1.1927, t_var=0.570, s_var=0.887
+    Layer 3 (teacher L30): cos=0.4596, scale=0.4091, t_var=0.556, s_var=0.907
+  [D:Random+Lens] step   250 | CE 84.5661 | eval 111.7594 | align 287.6550 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 274 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.2947, scale=4.5570, t_var=0.670, s_var=0.653
+    Layer 1 (teacher L10): cos=0.3890, scale=0.9628, t_var=0.616, s_var=0.677
+    Layer 2 (teacher L20): cos=0.4381, scale=0.8195, t_var=0.584, s_var=0.753
+    Layer 3 (teacher L30): cos=0.4812, scale=0.3253, t_var=0.549, s_var=0.819
+  [D:Random+Lens] step   275 | CE 78.9746 | eval 104.1063 | align 347.3072 | 753 tok/s
+  [D:Random+Lens] step   300 | CE 84.6259 | eval 95.6671 | align 99.6656 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 306 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3422, scale=4.3395, t_var=0.642, s_var=0.635
+    Layer 1 (teacher L10): cos=0.3605, scale=0.8407, t_var=0.610, s_var=0.638
+    Layer 2 (teacher L20): cos=0.4054, scale=0.6990, t_var=0.563, s_var=0.679
+    Layer 3 (teacher L30): cos=0.4154, scale=0.2315, t_var=0.564, s_var=0.765
+  [D:Random+Lens] step   325 | CE 74.9140 | eval 89.3868 | align 451.6082 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 338 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3092, scale=4.5546, t_var=0.659, s_var=0.739
+    Layer 1 (teacher L10): cos=0.3058, scale=1.2108, t_var=0.624, s_var=0.911
+    Layer 2 (teacher L20): cos=0.3557, scale=1.0388, t_var=0.591, s_var=0.919
+    Layer 3 (teacher L30): cos=0.3383, scale=0.3625, t_var=0.570, s_var=0.964
+  [D:Random+Lens] step   350 | CE 60.5790 | eval 82.9683 | align 223.1928 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 370 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3391, scale=4.6953, t_var=0.755, s_var=0.688
+    Layer 1 (teacher L10): cos=0.3539, scale=1.4503, t_var=0.652, s_var=0.883
+    Layer 2 (teacher L20): cos=0.4100, scale=1.0625, t_var=0.596, s_var=0.908
+    Layer 3 (teacher L30): cos=0.4411, scale=0.3755, t_var=0.565, s_var=0.958
+  [D:Random+Lens] step   375 | CE 48.6983 | eval 85.0829 | align 196.0415 | 753 tok/s
+  [D:Random+Lens] step   400 | CE 54.9501 | eval 82.2331 | align 508.5141 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 402 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3658, scale=6.1507, t_var=0.658, s_var=0.682
+    Layer 1 (teacher L10): cos=0.3975, scale=1.6414, t_var=0.594, s_var=0.837
+    Layer 2 (teacher L20): cos=0.4302, scale=1.1321, t_var=0.578, s_var=0.856
+    Layer 3 (teacher L30): cos=0.4524, scale=0.2973, t_var=0.580, s_var=0.912
+  [D:Random+Lens] step   425 | CE 48.3551 | eval 78.0541 | align 76.4846 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 434 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3189, scale=4.4959, t_var=0.661, s_var=0.715
+    Layer 1 (teacher L10): cos=0.3507, scale=0.9852, t_var=0.600, s_var=0.826
+    Layer 2 (teacher L20): cos=0.3792, scale=0.8355, t_var=0.576, s_var=0.845
+    Layer 3 (teacher L30): cos=0.4388, scale=0.2219, t_var=0.572, s_var=0.845
+  [D:Random+Lens] step   450 | CE 52.3155 | eval 82.8618 | align 344.7317 | 753 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 466 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3884, scale=5.4911, t_var=0.681, s_var=0.691
+    Layer 1 (teacher L10): cos=0.4132, scale=1.0310, t_var=0.607, s_var=0.717
+    Layer 2 (teacher L20): cos=0.3937, scale=0.7623, t_var=0.568, s_var=0.858
+    Layer 3 (teacher L30): cos=0.3781, scale=0.2369, t_var=0.575, s_var=0.899
+  [D:Random+Lens] step   475 | CE 58.2443 | eval 76.2507 | align 200.6908 | 752 tok/s
+
+  [D:Random+Lens] Calibrating lens at step 498 (buffer=64)...
+    Layer 0 (teacher L0): cos=0.3887, scale=5.4803, t_var=0.648, s_var=0.668
+    Layer 1 (teacher L10): cos=0.4185, scale=0.8114, t_var=0.643, s_var=0.645
+    Layer 2 (teacher L20): cos=0.4230, scale=0.5758, t_var=0.593, s_var=0.646
+    Layer 3 (teacher L30): cos=0.4301, scale=0.1540, t_var=0.562, s_var=0.658
+  [D:Random+Lens] step   500 | CE 54.9476 | eval 83.9750 | align 365.7985 | 752 tok/s
+
+======================================================================
+  RESULTS
+======================================================================
+
+  Final eval loss:
+    A: Extracted+NT         → 48.2127
+    B: Extracted+Lens       → 87.6831
+    C: Random+NT            → 48.3762
+    D: Random+Lens          → 83.9750
+
+  Key comparisons:
+    Lens on extracted plates: -39.4704 (-81.87%) — ❌ lens hurts
+    Lens on random plates:    -35.5988 (-73.59%) — ❌ lens hurts
+    Random+Lens vs Extracted+NT: -35.7623 (-74.18%)
+    Extraction benefit (no lens): +0.1635 (+0.34%)
+
+  Step-by-step eval loss:
+    Step  A:  Extracted+NT  B:Extracted+Lens  C:     Random+NT  D:   Random+Lens
+  ──────────────────────────────────────────────────────────────────────
+       1        869.6939        745.6873       3930.1512       3942.8108
+      25        281.6505        297.2508        242.5983        227.8616
+      50        210.7233        197.2784        181.5664        176.2492
+      75        174.6559        149.9479        147.2403        145.9350
+     100        148.8357        160.9958        136.0640        138.0166
+     125        123.0751        138.6258        116.9299        122.6613
+     150        119.1246        132.7357        108.8514        115.0916
+     175        107.7596        122.7021        103.6552        108.0543
+     200         94.1319        112.0747         84.9169         98.8563
+     225         89.0889        109.1752         90.0128        106.7575
+     250         85.5084        106.3631         83.2213        111.7594
+     275         68.8533        101.2675         66.0009        104.1063
+     300         61.7026         97.2583         62.0469         95.6671
+     325         56.7776         93.1566         57.4535         89.3868
+     350         51.7256         90.8128         49.6060         82.9683
+     375         51.1075         91.1543         50.5717         85.0829
+     400         49.8880         89.0647         49.5034         82.2331
+     425         44.6096         82.9448         43.7333         78.0541
+     450         49.2479         85.2938         48.7077         82.8618
+     475         44.8519         85.2477         43.5052         76.2507
+     500         48.2127         87.6831         48.3762         83.9750
+
+  💾 Results: results/holographic-etch/holographic_etch_results.json
+
+======================================================================
+  DONE
+======================================================================
