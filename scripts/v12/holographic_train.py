@@ -201,6 +201,25 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
     n_params = count_parameters(model)
     print(f"  Parameters: {n_params['total']:,}", file=sys.stderr, flush=True)
 
+    # ── Load pre-trained weights (e.g. from lens burn) ────────
+    if args.load_weights:
+        print(f"  Loading weights from: {args.load_weights}", file=sys.stderr, flush=True)
+        weights = mx.load(args.load_weights)
+        model.load_weights(list(weights.items()))
+        mx.eval(model.parameters())
+        print(f"  ✓ Weights loaded ({len(weights)} arrays)", file=sys.stderr, flush=True)
+
+    # ── Run lens burn (optional, before holographic recording) ─
+    if args.run_lens_burn:
+        print(f"  Running lens burn (lens={args.lens_path}, pass={args.lens_pass_idx})...",
+              file=sys.stderr, flush=True)
+        from lens_burn import burn_lens_into_model
+        burn_stats = burn_lens_into_model(
+            model, lens_path=args.lens_path,
+            pass_idx=args.lens_pass_idx, verbose=True)
+        print(f"  ✓ Lens burn complete: {', '.join(burn_stats['burned'])} burned",
+              file=sys.stderr, flush=True)
+
     # Count etchable positions
     n_etchable = sum(
         m.out_features * m.in_features
@@ -426,6 +445,16 @@ def main():
                         help="Cap on flips per operation per round (None=unlimited)")
     parser.add_argument("--checkpoint-every", type=int, default=5,
                         help="Save checkpoint every N rounds")
+    parser.add_argument("--load-weights", type=str, default=None,
+                        help="Path to .npz weights to load before training "
+                             "(e.g. from lens_burn.py output)")
+    parser.add_argument("--run-lens-burn", action="store_true",
+                        help="Run lens burn before holographic training "
+                             "(writes teacher directions into combinator mirrors)")
+    parser.add_argument("--lens-path", type=str, default="lens/warped_lens.npz",
+                        help="Path to warped lens .npz (used with --run-lens-burn)")
+    parser.add_argument("--lens-pass-idx", type=int, default=3,
+                        help="Which pass's directions to use for lens burn (default: 3=apex)")
 
     args = parser.parse_args()
 
