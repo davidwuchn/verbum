@@ -1,0 +1,68 @@
+========================================================================
+  Backbone Threshold Probe
+  Finding the 20% that IS 80% of the crystal
+========================================================================
+
+Creating model...
+Building lambda corpus...
+  Generating lambda corpus...
+  Tokenizing...
+    K: 300 packed seqs (avg expr len=17.4 tok, ~113 exprs/seq)
+    I: 300 packed seqs (avg expr len=19.1 tok, ~102 exprs/seq)
+    B: 300 packed seqs (avg expr len=15.5 tok, ~128 exprs/seq)
+    C: 300 packed seqs (avg expr len=21.8 tok, ~93 exprs/seq)
+    M: 300 packed seqs (avg expr len=23.8 tok, ~85 exprs/seq)
+
+  Computing backbone scores...
+    K: 50 batches, loss=14.660
+    I: 50 batches, loss=14.777
+    B: 50 batches, loss=14.884
+    C: 50 batches, loss=14.765
+    M: 50 batches, loss=14.667
+
+  Computing per-position backbone scores...
+
+  Total etchable positions: 41,353,216
+  Unanimous positions (all 5 ops agree): 10,022,174 (24.2%)
+
+  Progressive installation sweep: [1.0, 2.0, 5.0, 8.0, 10.0, 15.0, 20.0, 25.0, 30.0, 40.0, 50.0]
+    Backbone candidates (unanimous): 10,022,174 (24.2% of plate)
+    Top scores: 1.0000, 1.0000, 1.0000
+      1.0% | installed= 413,532 | flipped= 270,819 | loss@100=4.632 | final=3.240 | min=2.480
+mx.metal.clear_cache is deprecated and will be removed in a future version. Use mx.clear_cache instead.
+      2.0% | installed= 827,064 | flipped= 541,530 | loss@100=5.147 | final=3.241 | min=2.578
+      5.0% | installed=2,067,660 | flipped=1,353,348 | loss@100=4.665 | final=3.355 | min=2.658
+      8.0% | installed=3,308,257 | flipped=2,165,822 | loss@100=5.561 | final=3.741 | min=2.634
+     10.0% | installed=4,135,321 | flipped=2,709,547 | loss@100=5.048 | final=3.531 | min=2.722
+     15.0% | installed=6,202,982 | flipped=4,062,496 | loss@100=5.493 | final=5.155 | min=4.534
+     20.0% | installed=8,270,643 | flipped=5,413,764 | loss@100=5.580 | final=5.006 | min=4.412
+     25.0% | installed=10,022,174 | flipped=6,563,355 | loss@100=5.253 | final=4.460 | min=3.635
+     30.0% | installed=10,022,174 | flipped=6,564,267 | loss@100=5.626 | final=4.754 | min=4.327
+     40.0% | installed=10,022,174 | flipped=6,566,113 | loss@100=5.533 | final=4.673 | min=4.109
+     50.0% | installed=10,022,174 | flipped=6,564,389 | loss@100=5.931 | final=3.970 | min=3.270
+
+========================================================================
+  RESULTS
+========================================================================
+
+  Threshold sweep:
+       % |  installed | loss@100 |    final |      min
+  -------+------------+----------+----------+---------
+    1.0% |    413,532 |    4.632 |    3.240 |    2.480
+    2.0% |    827,064 |    5.147 |    3.241 |    2.578
+    5.0% |  2,067,660 |    4.665 |    3.355 |    2.658
+    8.0% |  3,308,257 |    5.561 |    3.741 |    2.634
+   10.0% |  4,135,321 |    5.048 |    3.531 |    2.722
+   15.0% |  6,202,982 |    5.493 |    5.155 |    4.534
+   20.0% |  8,270,643 |    5.580 |    5.006 |    4.412
+   25.0% | 10,022,174 |    5.253 |    4.460 |    3.635
+   30.0% | 10,022,174 |    5.626 |    4.754 |    4.327
+   40.0% | 10,022,174 |    5.533 |    4.673 |    4.109
+   50.0% | 10,022,174 |    5.931 |    3.970 |    3.270
+
+  Knee (inflection point): 20.0%
+  At knee, 242% of total improvement achieved
+========================================================================
+
+  💾 Results saved to results/backbone-threshold/results.json
+  💾 Backbone analysis: results/backbone-threshold/backbone_analysis.json
