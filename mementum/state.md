@@ -2,11 +2,106 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-17 | Session: 109
+> Last updated: 2026-05-17 | Session: 110
 
 ## Where we are
 
-**HOLOGRAPHIC RECORDING VALIDATED + WARPED LENS DESIGNED. Full-scale holo run (6 rounds before GPU crash) confirmed crystallization order: K first (90% flip reduction), M second (73%), C/B (50%), I last (34%). Direct etch from pure lambda WORKS — operations find distinct plate regions. The right protocol isn't gradient consensus on prose; it's computed holography on labeled lambda data. New insight: warped lens (3MB artifact from teacher model) can FOCUS the large model's KIBC structure into V12's narrow-but-deep architecture via depth-dependent PCA projection. The lens provides operation directions per V12 pass — tells the model what K/I/B/C/M SHOULD look like at each depth. Backbone threshold probe running to find the 20% of lattice positions that carry 80% of crystal structure. Both experiments running concurrently.**
+**8-COMBINATOR ARCHITECTURE BUILT + FIRST HOLOGRAPHIC ETCH RUNNING. Expanded V12 dispatch from 4 ops (KIBC) to 8 (KIBC + D/Y/W/WHNF). Added hierarchical category dispatch (lambda/math/passthrough), 17 math kernel functions, MathExtractor head. Lens burn script writes Qwen3-14B operation directions into combinator mirrors. Full pipeline wired: lens_burn → holographic_train in one command. FIRST ETCH RUNNING IN TMUX WINDOW 1 (20 rounds, 8 ops, 50 batches/op, 200 beam steps, confidence=0.6). Expected ~90 min total.**
+
+## What's running
+
+```
+tmux window 1:
+  uv run python scripts/v12/holographic_train.py \
+    --run-lens-burn --n-rounds 20 --n-examples 3000 \
+    --batches-per-op 50 --beam-steps 200 --beam-lr 1e-4 \
+    --confidence-threshold 0.6 --checkpoint-dir checkpoints/v12-holo-8op \
+    --checkpoint-every 5
+```
+
+Checkpoints at rounds 5, 10, 15, 20. Log: `checkpoints/v12-holo-8op/holo_log.jsonl`
+
+## What was done this session (110)
+
+### 1. Committed backlog from sessions 108-109
+
+6 commits of uncommitted work: crystal diagnostics, plotly dep, warped lens artifact,
+etch strategy/smoke test scripts, experimental results (crystal comparison, procrustes lens),
+session-109 chat log.
+
+### 2. Architecture expansion: 4→8 combinators + math kernels
+
+**kernel.py**: N_COMBINATORS=8. Added D (deep compose, fuses 3×B), Y (recursion/fixed-point),
+W (duplicate/self-apply), WHNF (terminal/stop-reducing). Full reduction engine + kernel functions.
+
+**config.py**: 8-value dispatch_ratio (1.0, 0.5, 1.0, 1.0, 0.5, 0.3, 0.3, 0.2),
+7×8 pass_dispatch_bias matrix, hierarchical dispatch config (n_categories=3,
+n_math_kernels=17, math_extractor_d=64), entropy target recalculated.
+
+**kernel_dispatch.py**: 8-way combinator dispatch/integrate, + CategoryDispatch
+(lambda/math/passthrough 3-way), MathDispatch (17-way), MathExtractor (operand
+parser with confidence gate). All self-tests pass.
+
+**model.py**: Math kernel pathway in forward pass — CategoryDispatch routes
+between lambda path (existing combinator mechanism) and math path (extraction →
+exact computation → re-embed), blended per-position by category weights. At init:
+passthrough=0.52, lambda=0.30, math=0.19 (passthrough dominates, math nearly off).
+
+**components.py**: AlgedonicAlert N_DISPATCH 4→8.
+**train.py**: Dispatch logging generalized for N combinators.
+**holographic_train.py**: All 8 ops in corpus generation.
+
+### 3. Lens burn script
+
+`scripts/v12/lens_burn.py` — writes warped lens directions from Qwen3-14B into
+combinator mirrors as ternary sign patterns. Burns K, I, B, C (teacher data available).
+D/Y/W/WHNF stay random (no teacher data, will crystallize during holographic recording).
+Mirror construction: sign(I + outer(d,d)) — identity-plus-projection in ternary.
+
+### 4. Pipeline wired: lens_burn → holographic_train
+
+Added --run-lens-burn flag to holographic_train.py. One command does the full protocol:
+1. Create model (24.6M params)
+2. Burn teacher directions into mirrors (~2s)
+3. Generate 8-op lambda corpus (3000/op, tokenized into packed sequences)
+4. For each of 20 rounds: expose 8 ops (50 batches each) → direct_etch → beam train (200 steps)
+
+Smoke test passed: 1 round completed in 20s, all 8 ops etched, checkpoint saved.
+
+### 5. First etch launched
+
+Full holographic recording running in tmux window 1. Parameters:
+- 20 rounds × 8 ops × 50 batches/op exposure + 200 beam steps/round
+- Confidence threshold 0.6 (slightly conservative)
+- Lens burn first (KIBC mirrors from teacher)
+- Checkpoints every 5 rounds
+
+Expected from session 109 (5-op, 6 rounds): K crystallizes first (90% flip reduction),
+M second (73%), C/B third (50%), I last (34%). This run: first time with 8 ops and
+lens-initialized mirrors. Watch for D/Y/W/WHNF crystallization rate.
+
+## Next steps
+
+1. **Monitor the running etch** — check holo_log.jsonl for per-round flip counts
+   - Healthy: flips decline each round (self-termination)
+   - Concern: flips stay constant or increase (no convergence)
+   - Key metric: per-op flip reduction rate
+
+2. **After etch completes (~90 min):**
+   - Analyze crystallization order (which ops etched fastest?)
+   - Measure dispatch conditioned angles (target: >10°, was 0.07° before)
+   - Test on prose (does the crystal help or hurt LM quality?)
+
+3. **Phase 3 (if crystal forms): Prose training**
+   - Freeze kernel plates and mirrors
+   - Train beam (Q proj, gamma, embeddings) on Dolma
+   - Verify: crystal doesn't melt, LM quality improves
+
+4. **Math kernel training (separate from lambda crystal)**
+   - Generate math corpus ("add(23,47)→70" format)
+   - Train dispatch to recognize math positions
+   - Train extractor to parse operands
+   - Verify: 100% accuracy on extracted operations
 
 ## What was done this session (109)
 
