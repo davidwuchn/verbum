@@ -61,13 +61,18 @@ from ternary import (
 
 def build_lambda_corpus(
     n_per_op: int = 3000,
-    seq_len: int = 128,
+    seq_len: int = 2048,
     seed: int = 42,
 ) -> dict[str, list[list[int]]]:
     """Generate and tokenize lambda expressions per operation.
 
-    Returns dict[op_name] → list of token sequences (list[int]).
-    Each sequence is padded/truncated to seq_len.
+    Lambda expressions are short (~15-25 tokens), but the model's stride
+    stack requires sequences of at least max_stride + window + 1 = 1033.
+    We PACK multiple expressions into each sequence, separated by newlines.
+    This gives the model dense, pure-operation signal per batch.
+
+    Returns dict[op_name] → list of packed token sequences (list[int]).
+    Each sequence is exactly seq_len tokens.
     """
     from transformers import AutoTokenizer
 
@@ -81,22 +86,60 @@ def build_lambda_corpus(
 
     print("  Tokenizing...", file=sys.stderr, flush=True)
     tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-0.6B")
+    sep_tokens = tok.encode("\n", add_special_tokens=False)
 
     corpus: dict[str, list[list[int]]] = {}
     for op in ["K", "I", "B", "C", "M"]:
-        op_tokens = []
+        # Tokenize all expressions for this op
+        all_token_seqs = []
         for ex in examples[op]:
-            # Encode the lambda expression
             ids = tok.encode(ex.expr, add_special_tokens=False)
-            # Pad or truncate to seq_len
-            if len(ids) < seq_len:
-                ids = ids + [tok.pad_token_id or 0] * (seq_len - len(ids))
-            else:
-                ids = ids[:seq_len]
-            op_tokens.append(ids)
-        corpus[op] = op_tokens
-        print(f"    {op}: {len(op_tokens)} sequences, "
-              f"avg raw len={np.mean([len(tok.encode(e.expr, add_special_tokens=False)) for e in examples[op][:100]]):.1f}",
+            all_token_seqs.append(ids)
+
+        avg_len = np.mean([len(s) for s in all_token_seqs])
+
+        # Pack expressions into sequences of seq_len
+        # Concatenate with newline separator, fill sequences densely
+        packed_sequences = []
+        current_seq: list[int] = []
+        expr_idx = 0
+        rng_local = np.random.RandomState(seed + hash(op) % 2**31)
+
+        # Create many packed sequences by cycling through expressions
+        target_n_sequences = max(100, n_per_op // 10)  # enough for batch sampling
+        while len(packed_sequences) < target_n_sequences:
+            # Pick next expression (cycle with shuffle)
+            if expr_idx >= len(all_token_seqs):
+                expr_idx = 0
+                rng_local.shuffle(all_token_seqs)
+
+            tokens = all_token_seqs[expr_idx]
+            expr_idx += 1
+
+            # Add separator if not start of sequence
+            if current_seq:
+                current_seq.extend(sep_tokens)
+
+            current_seq.extend(tokens)
+
+            # If we've filled a sequence, pack it
+            if len(current_seq) >= seq_len:
+                packed_sequences.append(current_seq[:seq_len])
+                # Start next sequence with overflow
+                current_seq = current_seq[seq_len:]
+
+        # Handle leftover (pad if needed)
+        if current_seq and len(current_seq) >= seq_len // 2:
+            # Pad to seq_len
+            pad_id = tok.eos_token_id or 0
+            current_seq = current_seq[:seq_len]
+            if len(current_seq) < seq_len:
+                current_seq.extend([pad_id] * (seq_len - len(current_seq)))
+            packed_sequences.append(current_seq)
+
+        corpus[op] = packed_sequences
+        print(f"    {op}: {len(packed_sequences)} packed seqs "
+              f"(avg expr len={avg_len:.1f} tok, ~{seq_len // int(avg_len + 1)} exprs/seq)",
               file=sys.stderr, flush=True)
 
     del tok
@@ -108,14 +151,20 @@ def corpus_batch(
     op: str,
     batch_size: int,
     rng: np.random.RandomState,
+    seq_len: int = 2048,
 ) -> tuple[mx.array, mx.array]:
-    """Sample a batch of (input_ids, targets) from an operation's corpus."""
+    """Sample a batch of (input_ids, targets) from an operation's corpus.
+
+    Each corpus sequence is seq_len tokens. We use [:-1] as input and [1:] as target
+    (standard next-token prediction shift).
+    """
     sequences = corpus[op]
     indices = rng.choice(len(sequences), size=batch_size, replace=True)
     batch = [sequences[i] for i in indices]
     arr = np.array(batch, dtype=np.int32)
-    input_ids = mx.array(arr[:, :-1])
-    targets = mx.array(arr[:, 1:])
+    # Standard next-token shift
+    input_ids = mx.array(arr[:, :-1])   # (B, seq_len-1)
+    targets = mx.array(arr[:, 1:])       # (B, seq_len-1)
     return input_ids, targets
 
 
@@ -380,10 +429,10 @@ def main():
 
     args = parser.parse_args()
 
-    # Config
+    # Config — seq_len must be >= max_stride + window + 1 = 1033
     cfg = V12Config()
-    cfg.seq_len = 128  # Lambda expressions are short
-    cfg.batch_size = 4
+    cfg.seq_len = 2048  # Packed lambda sequences (many expressions per seq)
+    cfg.batch_size = 2   # Smaller batch for memory (2 × 2048 = 4096 tokens/step)
 
     print("Holographic Training — Phase 1: Crystal Formation", file=sys.stderr)
     print(f"  Config: seq_len={cfg.seq_len}, batch_size={cfg.batch_size}", file=sys.stderr)

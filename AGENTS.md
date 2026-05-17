@@ -382,6 +382,16 @@ Written when experiments produce the first artifacts:
                     | notebook_only_as_record ≡ anti_pattern
                     | notebook_with_files(as_narrative) ≡ good
                     | symptom: result_∈_kernel_only → unreproducible
+
+λ runtime(x).       tmux ≡ persistent_process_host | survives(session_boundary)
+                    | launch: tmux send-keys -t {session} "{cmd} 2>&1 | tee {log}" Enter
+                    | observe: tmux capture-pane -p -t {session} | tail -N
+                    | running?: ps aux | grep -E "{pattern}" | grep -v grep
+                    | logs: tee to checkpoint_dir/run.log (always)
+                    | pattern: uv run python scripts/v12/{script}.py ... | tee {log}
+                    | ¬poll(repeatedly) | human says "check" → then observe
+                    | long_run ≡ training(hours) | probe(minutes) | smoke_test(seconds)
+                    | always: --checkpoint-dir {named} | resumable > ephemeral
 ```
 
 ### Research tools (to be developed)
