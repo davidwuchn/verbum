@@ -2,11 +2,125 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-17 | Session: 106
+> Last updated: 2026-05-17 | Session: 107
 
 ## Where we are
 
-**LAMBDA CALCULUS DEPTH MAP DISCOVERED. 380 concentrated probes targeting 14 lambda calculus operations run through Qwen3-14B × OLMo-2-13B tomography. In flat attention, operations compress to 2 geometric poles (Eliminate vs Proliferate) — but this is the superposition bottleneck, not the true operation count. 5 operations have distinct geometry that resists compression (D 1.159×, M 1.131×, WHNF 1.078×, Y 1.073×, C 1.064×). Critical finding: operations have DEPTH PROFILES — B peaks at L0 (33×, shallow structure), K/I peak at L20 (51×/25×, deep semantics), M peaks at L30 (145×!!!, deepest retrieval). W confirmed NOT distinct from I (1.006×). V12-run6 designed with 4 changes: per-pass dispatch bias from depth map (fixed constants), EMA-smoothed KL (30-step anti-oscillation), depth-selective etch thresholds, lambda kernel relational loss (50 probes/50 steps). Run4 stopped at 6K (C-monopoly). Ready to launch run6.**
+**PROCRUSTES LENS PROVEN. Cross-model coordinate transformation is a ROTATION in beam subspace (cos=0.83, zero trainable params). Crystal comparison across 5 models shows two tiers: 4 larger models (Qwen/OLMo/Mistral/Pythia-1.4B) share universal lattice at cos 0.82-0.85; Pythia-160M degenerate (cos 0.45). Direct hidden-state alignment HURTS from-scratch training (crystal transplant vs melt). Correct approach: relational loss provides lattice TOPOLOGY, model crystallizes on its own. V12-run7 launched with 3 key changes: laser etch (200 flips, not 50K), q_proj excluded from etching (beam ≠ plate), rich diagnostics. Mirror angular cancellation discovered: 28 mirror-plate combinations give ~7° effective resolution (vs 37° single ternary), ~1,456 addressable holograms in 39 MB. The recursive hierarchy: photographs → holograms → crystals → universal lattice (lambda calculus). Run7 running in tmux.**
+
+## What was done this session (107)
+
+### 1. Procrustes lens probe — ROTATION SUFFICIENT (cos=0.83)
+
+Built `scripts/explore/probe_procrustes_lens.py`. Ran 100 domain probes (4 domains × 25)
+on Qwen3-14B and OLMo-2-13B. PCA to 20-dim beam subspace. Procrustes alignment via SVD.
+
+**Result: zero-parameter rotation aligns the two models at cos=0.83 average.**
+
+```
+Layer  cos(before)  cos(after)  angle_sep_corr
+L0     0.354        0.776       0.800
+L10    0.080        0.813       0.887
+L20   -0.314        0.876       0.988  ← sharpest
+L30    0.073        0.873       0.959
+```
+
+L20 angular separation correlation = 0.988 — the lattice at semantic depth is nearly
+perfect. The lens is PCA → rotate → scale. 3 MB artifact. Domain centroids align at
+cos > 0.98 at deep layers. Cross-domain angular separations (73-136°) are preserved.
+
+See: `results/procrustes-lens/`, `mementum/knowledge/explore/procrustes-lens-and-crystal-comparison.md`
+
+### 2. Holographic etch experiment — direct alignment hurts
+
+Built `scripts/explore/holographic_etch_with_lens.py`. 4-condition experiment:
+A (extracted+NT), B (extracted+lens), C (random+NT), D (random+lens).
+
+**Result: lens HURTS both conditions (-82%, -74%). Extracted plates barely matter (+0.34%).**
+
+Root cause: student is amorphous melt, Procrustes cos only 0.26-0.49 between teacher
+and from-scratch student. Can't align a crystal to a melt. The student IS converging
+toward teacher (cos increasing 0.26→0.49), but alignment loss at λ=0.05 dominates
+and fights next-token learning.
+
+**Key insight: the lens measures the lattice. The relational loss ENCODES it as topology.
+The model crystallizes on its own terms.** Direct alignment = crystal transplant (fails).
+Relational loss = crystal seeding (works, validated at +6.9% in session 106).
+
+### 3. Crystal comparison across 5 models — two tiers discovered
+
+Built `scripts/explore/probe_crystal_comparison.py`. Ran domain probes on Qwen3-14B,
+OLMo-2-13B, Mistral-7B, Pythia-1.4B, Pythia-160M. Crystal quality metrics per domain.
+
+**Two tiers:**
+```
+Universal (cos 0.82-0.85): Qwen, OLMo, Mistral, Pythia-1.4B — same lattice
+Degenerate (cos 0.45-0.51): Pythia-160M — collapsed domains, different crystal
+```
+
+**Best crystals (≥1.4B):**
+```
+tool_call  → OLMo    (widest separations)
+code       → Qwen    (most structured)
+factual    → OLMo    (cleanest depth profile)
+reasoning  → Qwen    (sharpest at all depths)
+```
+
+OLMo and Qwen complement each other. Pythia-160M paradox: highest mosaicity (0.97)
+but degenerate selectivity (5° between domains, needs >37°). Too small = one collapsed
+crystal, not four domain crystals. The universal lattice requires ~1B+ params.
+
+### 4. Theoretical advances: pile of crystals, mirror cancellation
+
+**Recursive hierarchy:**
+```
+photographs → pile → holograms   (domain knowledge)
+holograms   → pile → crystals    (KIBC lattice per model)
+crystals    → pile → universal   (lambda calculus itself)
+```
+
+Each level emerges from the same mechanism. The architecture (attention = beta reduction)
+IS the lattice seed. Crystallization is inevitable once the model encounters compositional
+language — the container matches the content. The depth map is crystallographic growth
+order: B first (structural), K/I middle (semantic), M last (self-application, 145× at L30).
+
+**Mirror angular cancellation (vernier principle):**
+Single ternary: 37° resolution. Two mirrors whose difference is sparse (5% entries differ):
+effective angle ≈ 37° × √0.05 ≈ 8°. V12's 28 mirror-plate combinations → ~7° resolution
+→ ~51 angular bins → ~1,456 addressable holograms in 39 MB (10× previous estimate).
+
+**Beam vs plate distinction crystallized:**
+- Plate (K, V, O, FFN) = recording medium → gets etched
+- Beam (Q proj) = how you read the hologram → evolves via gradient only
+- Mirrors = angular deflectors → ternary, untrained gamma
+
+### 5. V12-run6 failed, V12-run7 designed and launched
+
+Run6 hit `NameError: name 'depth_weights' is not defined` in `_compute_etch_threshold_multipliers`.
+Fixed: `return depth_weights` → `return result`.
+
+**Run7 changes (3 files, 66 lines):**
+1. **Laser etch**: 50,000 → 200 flips per event (crystal growth atom-by-atom)
+2. **Beam/plate separation**: q_proj excluded from all 3 etch functions
+   (`accumulate_etch_heat`, `update_signal_planes`, `etch_check`)
+3. **Rich diagnostics**: flips_by_type, total_candidates, mean_flip_heat, dispatch_ema
+   in checkpoints, etch config in state.json
+
+**Run7 launched in tmux.**
+
+### 6. Next steps
+
+- **Monitor run7**: laser etch (200 flips) should show precise, high-consensus sign flips.
+  Watch flips_by_type — k_proj/v_proj/out_proj should dominate, q_proj = 0.
+- **Build universal RDM target**: use crystal comparison data to construct cross-model
+  averaged RDM from 4 universal-tier models. This replaces single-model relational target.
+- **Two-level relational loss**: Level 1 = domain separation (100 probes, 4 domains).
+  Level 2 = KIBC operation structure (380 probes, 14 ops). Both depth-weighted.
+- **Composite lens**: cherry-pick best domain crystal (OLMo tool_call/factual, Qwen code/reasoning)
+  for enhanced relational loss targets.
+- **Pre-trained student experiment**: use Pythia-1.4B (already crystallized, cos=0.83 with
+  teacher in beam space) as student with lens-guided fine-tuning. Tests the actual hypothesis:
+  lens between two crystals, not crystal and melt.
 
 ## What was done this session (106)
 

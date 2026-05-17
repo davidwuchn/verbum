@@ -1,0 +1,351 @@
+{
+  "beam_dims": 20,
+  "layers": {
+    "L0": {
+      "rsa_full_space": 0.6627647536833291,
+      "rsa_beam_before": 0.8509987438172517,
+      "rsa_beam_after": 0.8509987527037132,
+      "cos_direct_before": 0.3537743389606476,
+      "cos_direct_after": 0.7760653495788574,
+      "procrustes_residual": 1.8851653337478638,
+      "procrustes_scaled_residual": 0.9041157960891724,
+      "procrustes_scale": 0.4398501515388489,
+      "procrustes_singular_values": [
+        543.1746826171875,
+        295.365478515625,
+        225.14532470703125,
+        209.05296325683594,
+        200.61441040039062,
+        185.8232879638672,
+        177.3417510986328,
+        161.9901580810547,
+        141.13551330566406,
+        138.1595916748047,
+        115.82905578613281,
+        96.61137390136719,
+        78.05936431884766,
+        62.98186492919922,
+        46.27184295654297,
+        33.996788024902344,
+        13.319157600402832,
+        10.1279296875,
+        8.077444076538086,
+        7.456079959869385
+      ],
+      "teacher_eff_dim": 34.43983840942383,
+      "student_eff_dim": 46.1118278503418,
+      "teacher_cumvar": 0.5799188017845154,
+      "student_cumvar": 0.5516863465309143,
+      "domain_results": {
+        "tool_call": {
+          "n_probes": 25,
+          "mean_cos": 0.6854112148284912,
+          "mean_angle_deg": 43.99464797973633,
+          "std_angle_deg": 18.20213508605957,
+          "centroid_cos": 0.8747895359992981
+        },
+        "code": {
+          "n_probes": 25,
+          "mean_cos": 0.7124713063240051,
+          "mean_angle_deg": 43.310203552246094,
+          "std_angle_deg": 12.09402847290039,
+          "centroid_cos": 0.8982059955596924
+        },
+        "factual": {
+          "n_probes": 25,
+          "mean_cos": 0.7509825229644775,
+          "mean_angle_deg": 37.503700256347656,
+          "std_angle_deg": 19.23706817626953,
+          "centroid_cos": 0.9306868314743042
+        },
+        "reasoning": {
+          "n_probes": 25,
+          "mean_cos": 0.9553966522216797,
+          "mean_angle_deg": 15.178410530090332,
+          "std_angle_deg": 8.324540138244629,
+          "centroid_cos": 0.9845532178878784
+        }
+      },
+      "cross_domain_separation_teacher": {
+        "tool_call-code": 78.1113510131836,
+        "tool_call-factual": 105.22087097167969,
+        "tool_call-reasoning": 117.26111602783203,
+        "code-factual": 92.59265899658203,
+        "code-reasoning": 136.2283477783203,
+        "factual-reasoning": 118.63941192626953
+      },
+      "cross_domain_separation_student": {
+        "tool_call-code": 79.59473419189453,
+        "tool_call-factual": 120.05267333984375,
+        "tool_call-reasoning": 111.60189056396484,
+        "code-factual": 110.20513916015625,
+        "code-reasoning": 128.79566955566406,
+        "factual-reasoning": 105.96411895751953
+      },
+      "angular_separation_correlation": 0.7997876206841178,
+      "n_great_dims": 1,
+      "n_good_dims": 2
+    },
+    "L10": {
+      "rsa_full_space": 0.35167903614962914,
+      "rsa_beam_before": 0.7904672634474827,
+      "rsa_beam_after": 0.7904672472326438,
+      "cos_direct_before": 0.07986564189195633,
+      "cos_direct_after": 0.8134850263595581,
+      "procrustes_residual": 78.24727630615234,
+      "procrustes_scaled_residual": 3.2463884353637695,
+      "procrustes_scale": 0.177305206656456,
+      "procrustes_singular_values": [
+        6546.6611328125,
+        5022.279296875,
+        3017.754638671875,
+        2734.66796875,
+        2498.539794921875,
+        2248.484619140625,
+        2006.1634521484375,
+        1988.7056884765625,
+        1873.9569091796875,
+        1800.8692626953125,
+        1646.1658935546875,
+        1623.816162109375,
+        1484.736328125,
+        1349.4227294921875,
+        1104.2738037109375,
+        980.6468505859375,
+        711.2875366210938,
+        392.5992431640625,
+        258.96331787109375,
+        5.286644458770752
+      ],
+      "teacher_eff_dim": 45.397769927978516,
+      "student_eff_dim": 32.08726501464844,
+      "teacher_cumvar": 0.5028868317604065,
+      "student_cumvar": 0.518842875957489,
+      "domain_results": {
+        "tool_call": {
+          "n_probes": 25,
+          "mean_cos": 0.7401564717292786,
+          "mean_angle_deg": 40.6983757019043,
+          "std_angle_deg": 12.18411636352539,
+          "centroid_cos": 0.9181504845619202
+        },
+        "code": {
+          "n_probes": 25,
+          "mean_cos": 0.8211616277694702,
+          "mean_angle_deg": 33.36964416503906,
+          "std_angle_deg": 10.584224700927734,
+          "centroid_cos": 0.9840163588523865
+        },
+        "factual": {
+          "n_probes": 25,
+          "mean_cos": 0.8615279197692871,
+          "mean_angle_deg": 27.993091583251953,
+          "std_angle_deg": 12.78626537322998,
+          "centroid_cos": 0.9863007068634033
+        },
+        "reasoning": {
+          "n_probes": 25,
+          "mean_cos": 0.8310939073562622,
+          "mean_angle_deg": 32.741729736328125,
+          "std_angle_deg": 8.990008354187012,
+          "centroid_cos": 0.9729470610618591
+        }
+      },
+      "cross_domain_separation_teacher": {
+        "tool_call-code": 77.8552017211914,
+        "tool_call-factual": 128.30392456054688,
+        "tool_call-reasoning": 98.97637939453125,
+        "code-factual": 116.70018005371094,
+        "code-reasoning": 117.21248626708984,
+        "factual-reasoning": 113.25740051269531
+      },
+      "cross_domain_separation_student": {
+        "tool_call-code": 79.80731201171875,
+        "tool_call-factual": 125.5387191772461,
+        "tool_call-reasoning": 110.41610717773438,
+        "code-factual": 116.98571014404297,
+        "code-reasoning": 124.74381256103516,
+        "factual-reasoning": 100.67498779296875
+      },
+      "angular_separation_correlation": 0.8866058039855456,
+      "n_great_dims": 1,
+      "n_good_dims": 2
+    },
+    "L20": {
+      "rsa_full_space": 0.5724695949401092,
+      "rsa_beam_before": 0.8517005083335473,
+      "rsa_beam_after": 0.8517004895262648,
+      "cos_direct_before": -0.3136530816555023,
+      "cos_direct_after": 0.8757045865058899,
+      "procrustes_residual": 213.4086151123047,
+      "procrustes_scaled_residual": 4.533266544342041,
+      "procrustes_scale": 0.20076553523540497,
+      "procrustes_singular_values": [
+        24796.677734375,
+        19460.97265625,
+        9395.1328125,
+        8695.5126953125,
+        7643.44677734375,
+        6892.3681640625,
+        5916.07421875,
+        5703.81005859375,
+        5513.017578125,
+        5461.0927734375,
+        5182.68212890625,
+        4820.861328125,
+        4529.98193359375,
+        4115.5849609375,
+        3735.114013671875,
+        3413.994384765625,
+        2753.276123046875,
+        2133.93798828125,
+        686.2723388671875,
+        448.1328430175781
+      ],
+      "teacher_eff_dim": 45.17361068725586,
+      "student_eff_dim": 40.86857986450195,
+      "teacher_cumvar": 0.5027812719345093,
+      "student_cumvar": 0.5006086826324463,
+      "domain_results": {
+        "tool_call": {
+          "n_probes": 25,
+          "mean_cos": 0.8266150951385498,
+          "mean_angle_deg": 33.062774658203125,
+          "std_angle_deg": 9.547454833984375,
+          "centroid_cos": 0.9825056791305542
+        },
+        "code": {
+          "n_probes": 25,
+          "mean_cos": 0.8760792016983032,
+          "mean_angle_deg": 27.92194366455078,
+          "std_angle_deg": 7.607516288757324,
+          "centroid_cos": 0.9933274984359741
+        },
+        "factual": {
+          "n_probes": 25,
+          "mean_cos": 0.8963478207588196,
+          "mean_angle_deg": 24.441665649414062,
+          "std_angle_deg": 10.165762901306152,
+          "centroid_cos": 0.9952559471130371
+        },
+        "reasoning": {
+          "n_probes": 25,
+          "mean_cos": 0.9037763476371765,
+          "mean_angle_deg": 23.774248123168945,
+          "std_angle_deg": 9.230158805847168,
+          "centroid_cos": 0.9966885447502136
+        }
+      },
+      "cross_domain_separation_teacher": {
+        "tool_call-code": 82.20764923095703,
+        "tool_call-factual": 120.00975036621094,
+        "tool_call-reasoning": 109.86805725097656,
+        "code-factual": 118.51585388183594,
+        "code-reasoning": 122.26225280761719,
+        "factual-reasoning": 103.66586303710938
+      },
+      "cross_domain_separation_student": {
+        "tool_call-code": 70.68553161621094,
+        "tool_call-factual": 125.99723052978516,
+        "tool_call-reasoning": 114.03449249267578,
+        "code-factual": 119.8215103149414,
+        "code-reasoning": 122.46845245361328,
+        "factual-reasoning": 102.93077087402344
+      },
+      "angular_separation_correlation": 0.9884150115571204,
+      "n_great_dims": 1,
+      "n_good_dims": 2
+    },
+    "L30": {
+      "rsa_full_space": 0.6238431114149137,
+      "rsa_beam_before": 0.8741719833657497,
+      "rsa_beam_after": 0.8741719883236544,
+      "cos_direct_before": 0.07254658639431,
+      "cos_direct_after": 0.8731945157051086,
+      "procrustes_residual": 2188.870361328125,
+      "procrustes_scaled_residual": 16.44593048095703,
+      "procrustes_scale": 0.12980568408966064,
+      "procrustes_singular_values": [
+        151376.953125,
+        121179.6171875,
+        59535.9921875,
+        48606.3203125,
+        44972.5625,
+        37021.78125,
+        34149.6640625,
+        28962.01953125,
+        28770.9921875,
+        26957.943359375,
+        26242.240234375,
+        25098.4375,
+        24217.703125,
+        21739.322265625,
+        20509.337890625,
+        18898.537109375,
+        14070.908203125,
+        8248.078125,
+        5603.79345703125,
+        1368.646728515625
+      ],
+      "teacher_eff_dim": 36.51871109008789,
+      "student_eff_dim": 46.914344787597656,
+      "teacher_cumvar": 0.5250951647758484,
+      "student_cumvar": 0.46848705410957336,
+      "domain_results": {
+        "tool_call": {
+          "n_probes": 25,
+          "mean_cos": 0.8120737671852112,
+          "mean_angle_deg": 34.513038635253906,
+          "std_angle_deg": 9.968588829040527,
+          "centroid_cos": 0.9929156303405762
+        },
+        "code": {
+          "n_probes": 25,
+          "mean_cos": 0.8712846636772156,
+          "mean_angle_deg": 28.617685317993164,
+          "std_angle_deg": 7.081589698791504,
+          "centroid_cos": 0.9960997700691223
+        },
+        "factual": {
+          "n_probes": 25,
+          "mean_cos": 0.9003859162330627,
+          "mean_angle_deg": 24.518991470336914,
+          "std_angle_deg": 8.353175163269043,
+          "centroid_cos": 0.9904322624206543
+        },
+        "reasoning": {
+          "n_probes": 25,
+          "mean_cos": 0.9090334177017212,
+          "mean_angle_deg": 22.033472061157227,
+          "std_angle_deg": 11.471952438354492,
+          "centroid_cos": 0.9972834587097168
+        }
+      },
+      "cross_domain_separation_teacher": {
+        "tool_call-code": 73.84423828125,
+        "tool_call-factual": 115.03527069091797,
+        "tool_call-reasoning": 119.09929656982422,
+        "code-factual": 111.44755554199219,
+        "code-reasoning": 123.94103240966797,
+        "factual-reasoning": 109.6314697265625
+      },
+      "cross_domain_separation_student": {
+        "tool_call-code": 74.59979248046875,
+        "tool_call-factual": 120.96682739257812,
+        "tool_call-reasoning": 119.29804229736328,
+        "code-factual": 117.24663543701172,
+        "code-reasoning": 124.37818908691406,
+        "factual-reasoning": 100.82402038574219
+      },
+      "angular_separation_correlation": 0.9593246638197573,
+      "n_great_dims": 2,
+      "n_good_dims": 2
+    }
+  },
+  "summary": {
+    "mean_cos_after_procrustes": 0.8346123695373535,
+    "mean_rsa_full_space": 0.5526891240469952,
+    "mean_angular_sep_correlation": 0.9085332750116353,
+    "verdict": "ROTATION_SUFFICIENT"
+  }
+}

@@ -499,7 +499,7 @@ def _compute_etch_threshold_multipliers(
         else:
             result[path] = 1.0  # unmapped modules get standard threshold
 
-    return depth_weights
+    return result
 
 
 def run_tournament(
@@ -855,6 +855,16 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
     if etch_states is not None:
         save_etch_states(etch_states, str(step_dir / "etch_states.npz"))
 
+    # Capture dispatch EMA for analysis
+    dispatch_ema = None
+    if hasattr(model, '_last_dispatch_ema'):
+        ema = model._last_dispatch_ema
+        if ema is not None:
+            dispatch_ema = {
+                "K": float(ema[0]), "I": float(ema[1]),
+                "B": float(ema[2]), "C": float(ema[3]),
+            }
+
     state = {
         "step": step,
         "total_generations": total_generations,
@@ -862,6 +872,7 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
         "total_etched": total_etched,
         "train_losses_last50": train_losses[-50:],
         "eval_metrics": eval_metrics or {},
+        "dispatch_ema": dispatch_ema,
         "data_loader": train_loader.save_state() if train_loader else {},
         "config": {
             "d_model": cfg.d_model, "vocab_size": cfg.vocab_size,
@@ -873,6 +884,10 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
             "holo_ramp_steps": cfg.holo_ramp_steps,
             "desc_stride_reverse": cfg.desc_stride_reverse,
             "fractal_stride_bands": cfg.fractal_stride_bands,
+            "etch_max_flips_per_event": cfg.etch_max_flips_per_event,
+            "rel_lambda": cfg.rel_lambda,
+            "rel_every": cfg.rel_every,
+            "rel_n_probes": cfg.rel_n_probes,
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -1507,7 +1522,9 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 "timestamp": time.time(),
                 "per_pass_flips": per_pass_flips,
                 "total_flipped": n_flipped,
+                "total_candidates": etch_result.get("total_candidates", 0),
                 "total_etched": total_etched,
+                "flips_by_type": etch_result.get("flips_by_type", {}),
                 "per_module": {
                     p: d for p, d in etch_result.get("per_module", {}).items()
                 },

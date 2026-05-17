@@ -1731,16 +1731,31 @@ def _extract_gamma_grad(grads, path: str):
     return None
 
 
+def _is_beam_module(path: str) -> bool:
+    """Return True if this module is a beam component (Q projection).
+
+    Beam modules should NOT be etched — they evolve via gamma gradient.
+    Only plate modules (K, V, O, FFN) get etched.
+
+    The beam is how you READ the hologram. The plate is WHERE the
+    hologram is stored. Etching the beam while recording is like
+    adjusting the laser while exposing film.
+    """
+    return "q_proj" in path
+
+
 def accumulate_etch_heat(
     model: nn.Module,
     grads,
     etch_states: dict[str, EtchState],
     alpha: float = 0.99,
 ) -> None:
-    """Accumulate gradient heat for all TernaryLinear modules.
+    """Accumulate gradient heat for all TernaryLinear plate modules.
 
     Called every training step. Uses gamma gradient (from optimizer)
     and cached _x_abs_mean / _x_mean (from forward pass).
+
+    Beam modules (q_proj) are excluded — they evolve via gradient only.
 
     Cost: 4 vector EMAs per module. Negligible.
     """
@@ -1750,6 +1765,8 @@ def accumulate_etch_heat(
         if path not in etch_states:
             continue
         if not isinstance(mod, TernaryLinear):
+            continue
+        if _is_beam_module(path):
             continue
 
         state = etch_states[path]
@@ -1886,6 +1903,8 @@ def update_signal_planes(
     for path, mod in _walk_ternary_modules(model):
         if path not in etch_states or not isinstance(mod, TernaryLinear):
             continue
+        if _is_beam_module(path):
+            continue  # beam modules (q_proj) don't accumulate signal votes
 
         state = etch_states[path]
         if state.steps_accumulated < 10:
@@ -1981,6 +2000,8 @@ def etch_check(
     for path, mod in _walk_ternary_modules(model):
         if path not in etch_states or not isinstance(mod, TernaryLinear):
             continue
+        if _is_beam_module(path):
+            continue  # beam modules (q_proj) evolve via gradient, not etching
 
         state = etch_states[path]
         N = mod.out_features
@@ -2073,17 +2094,42 @@ def etch_check(
 
             state.total_etched += n_flipped
 
+        # Classify module by role for diagnostics
+        if "k_proj" in path:
+            module_type = "k_proj"
+        elif "v_proj" in path:
+            module_type = "v_proj"
+        elif "out_proj" in path:
+            module_type = "out_proj"
+        elif "gate_proj" in path or "up" in path:
+            module_type = "ffn"
+        else:
+            module_type = "other"
+
+        # Mean heat of actually-flipped positions (consensus strength)
+        mean_flip_heat = float(heat[disagrees].mean()) if n_flipped > 0 else 0.0
+
         per_module[path] = {
             "n_flipped": n_flipped,
             "consensus_pos": int(consensus_pos.sum()),
             "consensus_neg": int(consensus_neg.sum()),
+            "module_type": module_type,
+            "mean_flip_heat": mean_flip_heat,
         }
         total_flipped += n_flipped
 
+    # Aggregate by module type
+    type_flips = {}
+    for info in per_module.values():
+        mt = info.get("module_type", "other")
+        type_flips[mt] = type_flips.get(mt, 0) + info["n_flipped"]
+
     return {
         "total_flipped": total_flipped,
+        "total_candidates": total_candidates,
         "per_module": per_module,
         "affected_rows": all_affected_rows,
+        "flips_by_type": type_flips,
     }
 
 

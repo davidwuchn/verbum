@@ -1,0 +1,1726 @@
+{
+  "timestamp": "2026-05-17T07:30:18Z",
+  "config": {
+    "models": [
+      "qwen3-14b",
+      "olmo-2-13b",
+      "mistral-7b",
+      "pythia-1.4b",
+      "pythia-160m"
+    ],
+    "beam_dims": 20,
+    "n_probes_per_domain": 25,
+    "domains": [
+      "tool_call",
+      "code",
+      "factual",
+      "reasoning"
+    ]
+  },
+  "crystal_quality": {
+    "qwen3-14b": {
+      "shallow": {
+        "tool_call": {
+          "mosaicity": 0.05474349856376648,
+          "coherence_mean_angle": 73.34495544433594,
+          "coherence_std_angle": 17.0882625579834,
+          "selectivity_mean": 100.19778442382812,
+          "selectivity_min": 78.1113510131836,
+          "selectivity_per_domain": {
+            "code": 78.1113510131836,
+            "factual": 105.22087097167969,
+            "reasoning": 117.2611312866211
+          },
+          "completeness": 7.151808261871338,
+          "centroid_magnitude": 2.420830011367798,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.1783752292394638,
+          "coherence_mean_angle": 62.21854019165039,
+          "coherence_std_angle": 19.03925895690918,
+          "selectivity_mean": 102.31078084309895,
+          "selectivity_min": 78.1113510131836,
+          "selectivity_per_domain": {
+            "tool_call": 78.1113510131836,
+            "factual": 92.59265899658203,
+            "reasoning": 136.22833251953125
+          },
+          "completeness": 6.935401439666748,
+          "centroid_magnitude": 3.198913812637329,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.133235365152359,
+          "coherence_mean_angle": 68.58972930908203,
+          "coherence_std_angle": 4.57328987121582,
+          "selectivity_mean": 105.48431396484375,
+          "selectivity_min": 92.59265899658203,
+          "selectivity_per_domain": {
+            "tool_call": 105.22087097167969,
+            "code": 92.59265899658203,
+            "reasoning": 118.63941192626953
+          },
+          "completeness": 8.255221366882324,
+          "centroid_magnitude": 3.1402852535247803,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.8483073711395264,
+          "coherence_mean_angle": 14.037718772888184,
+          "coherence_std_angle": 19.26614761352539,
+          "selectivity_mean": 124.04295857747395,
+          "selectivity_min": 117.2611312866211,
+          "selectivity_per_domain": {
+            "tool_call": 117.2611312866211,
+            "code": 136.22833251953125,
+            "factual": 118.63941192626953
+          },
+          "completeness": 1.2278995513916016,
+          "centroid_magnitude": 4.923923015594482,
+          "n_probes": 25
+        }
+      },
+      "mid_shallow": {
+        "tool_call": {
+          "mosaicity": 0.1766975224018097,
+          "coherence_mean_angle": 64.05467987060547,
+          "coherence_std_angle": 13.468677520751953,
+          "selectivity_mean": 101.71183268229167,
+          "selectivity_min": 77.8552017211914,
+          "selectivity_per_domain": {
+            "code": 77.8552017211914,
+            "factual": 128.3039093017578,
+            "reasoning": 98.97638702392578
+          },
+          "completeness": 5.893736839294434,
+          "centroid_magnitude": 16.78351402282715,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.14870786666870117,
+          "coherence_mean_angle": 64.9963607788086,
+          "coherence_std_angle": 12.015238761901855,
+          "selectivity_mean": 103.92262268066406,
+          "selectivity_min": 77.8552017211914,
+          "selectivity_per_domain": {
+            "tool_call": 77.8552017211914,
+            "factual": 116.70018005371094,
+            "reasoning": 117.21248626708984
+          },
+          "completeness": 7.138422966003418,
+          "centroid_magnitude": 19.32858657836914,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.1916493922472,
+          "coherence_mean_angle": 61.4552116394043,
+          "coherence_std_angle": 12.080740928649902,
+          "selectivity_mean": 119.42049662272136,
+          "selectivity_min": 113.25740051269531,
+          "selectivity_per_domain": {
+            "tool_call": 128.3039093017578,
+            "code": 116.70018005371094,
+            "reasoning": 113.25740051269531
+          },
+          "completeness": 8.30263900756836,
+          "centroid_magnitude": 27.97337532043457,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.8718664646148682,
+          "coherence_mean_angle": 14.696355819702148,
+          "coherence_std_angle": 15.707038879394531,
+          "selectivity_mean": 109.81542460123698,
+          "selectivity_min": 98.97638702392578,
+          "selectivity_per_domain": {
+            "tool_call": 98.97638702392578,
+            "code": 117.21248626708984,
+            "factual": 113.25740051269531
+          },
+          "completeness": 1.698908805847168,
+          "centroid_magnitude": 22.50313377380371,
+          "n_probes": 25
+        }
+      },
+      "mid_deep": {
+        "tool_call": {
+          "mosaicity": 0.15134429931640625,
+          "coherence_mean_angle": 64.55157470703125,
+          "coherence_std_angle": 9.387615203857422,
+          "selectivity_mean": 104.02848307291667,
+          "selectivity_min": 82.20764923095703,
+          "selectivity_per_domain": {
+            "code": 82.20764923095703,
+            "factual": 120.00973510742188,
+            "reasoning": 109.8680648803711
+          },
+          "completeness": 7.2572712898254395,
+          "centroid_magnitude": 33.87633514404297,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.2449263036251068,
+          "coherence_mean_angle": 57.7761344909668,
+          "coherence_std_angle": 11.35998249053955,
+          "selectivity_mean": 107.66192626953125,
+          "selectivity_min": 82.20764923095703,
+          "selectivity_per_domain": {
+            "tool_call": 82.20764923095703,
+            "factual": 118.51587677001953,
+            "reasoning": 122.26225280761719
+          },
+          "completeness": 7.674746036529541,
+          "centroid_magnitude": 42.88274383544922,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.25442853569984436,
+          "coherence_mean_angle": 57.185333251953125,
+          "coherence_std_angle": 11.800023078918457,
+          "selectivity_mean": 114.0638198852539,
+          "selectivity_min": 103.66584777832031,
+          "selectivity_per_domain": {
+            "tool_call": 120.00973510742188,
+            "code": 118.51587677001953,
+            "reasoning": 103.66584777832031
+          },
+          "completeness": 7.386511325836182,
+          "centroid_magnitude": 48.23612594604492,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.621121346950531,
+          "coherence_mean_angle": 35.182308197021484,
+          "coherence_std_angle": 13.502389907836914,
+          "selectivity_mean": 111.9320551554362,
+          "selectivity_min": 103.66584777832031,
+          "selectivity_per_domain": {
+            "tool_call": 109.8680648803711,
+            "code": 122.26225280761719,
+            "factual": 103.66584777832031
+          },
+          "completeness": 1.886596918106079,
+          "centroid_magnitude": 45.79990005493164,
+          "n_probes": 25
+        }
+      },
+      "deep": {
+        "tool_call": {
+          "mosaicity": 0.23168693482875824,
+          "coherence_mean_angle": 59.05280685424805,
+          "coherence_std_angle": 7.5570783615112305,
+          "selectivity_mean": 102.65960184733073,
+          "selectivity_min": 73.84423828125,
+          "selectivity_per_domain": {
+            "code": 73.84423828125,
+            "factual": 115.03527069091797,
+            "reasoning": 119.09929656982422
+          },
+          "completeness": 7.288702011108398,
+          "centroid_magnitude": 114.28704071044922,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.3406137228012085,
+          "coherence_mean_angle": 52.21693801879883,
+          "coherence_std_angle": 10.249932289123535,
+          "selectivity_mean": 103.07760874430339,
+          "selectivity_min": 73.84423828125,
+          "selectivity_per_domain": {
+            "tool_call": 73.84423828125,
+            "factual": 111.44755554199219,
+            "reasoning": 123.94103240966797
+          },
+          "completeness": 5.911179065704346,
+          "centroid_magnitude": 119.56023406982422,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.30778563022613525,
+          "coherence_mean_angle": 53.97090148925781,
+          "coherence_std_angle": 11.053482055664062,
+          "selectivity_mean": 112.03810119628906,
+          "selectivity_min": 109.63147735595703,
+          "selectivity_per_domain": {
+            "tool_call": 115.03527069091797,
+            "code": 111.44755554199219,
+            "reasoning": 109.63147735595703
+          },
+          "completeness": 6.097671031951904,
+          "centroid_magnitude": 150.12738037109375,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.5108399391174316,
+          "coherence_mean_angle": 41.283348083496094,
+          "coherence_std_angle": 16.154464721679688,
+          "selectivity_mean": 117.55726877848308,
+          "selectivity_min": 109.63147735595703,
+          "selectivity_per_domain": {
+            "tool_call": 119.09929656982422,
+            "code": 123.94103240966797,
+            "factual": 109.63147735595703
+          },
+          "completeness": 2.432511806488037,
+          "centroid_magnitude": 172.7740020751953,
+          "n_probes": 25
+        }
+      }
+    },
+    "olmo-2-13b": {
+      "shallow": {
+        "tool_call": {
+          "mosaicity": 0.06533746421337128,
+          "coherence_mean_angle": 78.46098327636719,
+          "coherence_std_angle": 20.537195205688477,
+          "selectivity_mean": 103.74976603190105,
+          "selectivity_min": 79.59473419189453,
+          "selectivity_per_domain": {
+            "code": 79.59473419189453,
+            "factual": 120.05267333984375,
+            "reasoning": 111.60189056396484
+          },
+          "completeness": 6.520021915435791,
+          "centroid_magnitude": 1.4931670427322388,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.1774326115846634,
+          "coherence_mean_angle": 65.2098617553711,
+          "coherence_std_angle": 19.527889251708984,
+          "selectivity_mean": 106.19851430257161,
+          "selectivity_min": 79.59473419189453,
+          "selectivity_per_domain": {
+            "tool_call": 79.59473419189453,
+            "factual": 110.20513916015625,
+            "reasoning": 128.79566955566406
+          },
+          "completeness": 6.022839546203613,
+          "centroid_magnitude": 1.8212401866912842,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.19198013842105865,
+          "coherence_mean_angle": 64.4824447631836,
+          "coherence_std_angle": 12.124809265136719,
+          "selectivity_mean": 112.07397715250652,
+          "selectivity_min": 105.96411895751953,
+          "selectivity_per_domain": {
+            "tool_call": 120.05267333984375,
+            "code": 110.20513916015625,
+            "reasoning": 105.96411895751953
+          },
+          "completeness": 7.44051456451416,
+          "centroid_magnitude": 1.9925541877746582,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.9085147976875305,
+          "coherence_mean_angle": 7.89193868637085,
+          "coherence_std_angle": 16.526519775390625,
+          "selectivity_mean": 115.45389302571614,
+          "selectivity_min": 105.96411895751953,
+          "selectivity_per_domain": {
+            "tool_call": 111.60189056396484,
+            "code": 128.79566955566406,
+            "factual": 105.96411895751953
+          },
+          "completeness": 1.113904356956482,
+          "centroid_magnitude": 2.2388293743133545,
+          "n_probes": 25
+        }
+      },
+      "mid_shallow": {
+        "tool_call": {
+          "mosaicity": 0.21174456179141998,
+          "coherence_mean_angle": 63.75044250488281,
+          "coherence_std_angle": 11.005949974060059,
+          "selectivity_mean": 105.25404612223308,
+          "selectivity_min": 79.80731201171875,
+          "selectivity_per_domain": {
+            "code": 79.80731201171875,
+            "factual": 125.5387191772461,
+            "reasoning": 110.41610717773438
+          },
+          "completeness": 1.8710206747055054,
+          "centroid_magnitude": 4.4464030265808105,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.19973421096801758,
+          "coherence_mean_angle": 61.27421951293945,
+          "coherence_std_angle": 9.154301643371582,
+          "selectivity_mean": 107.17894490559895,
+          "selectivity_min": 79.80731201171875,
+          "selectivity_per_domain": {
+            "tool_call": 79.80731201171875,
+            "factual": 116.98571014404297,
+            "reasoning": 124.74381256103516
+          },
+          "completeness": 7.427395343780518,
+          "centroid_magnitude": 5.01241397857666,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.25188738107681274,
+          "coherence_mean_angle": 57.576114654541016,
+          "coherence_std_angle": 11.788805961608887,
+          "selectivity_mean": 114.39980570475261,
+          "selectivity_min": 100.67498779296875,
+          "selectivity_per_domain": {
+            "tool_call": 125.5387191772461,
+            "code": 116.98571014404297,
+            "reasoning": 100.67498779296875
+          },
+          "completeness": 7.4027323722839355,
+          "centroid_magnitude": 5.877089023590088,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.6129390597343445,
+          "coherence_mean_angle": 35.36194610595703,
+          "coherence_std_angle": 14.915163040161133,
+          "selectivity_mean": 111.9449691772461,
+          "selectivity_min": 100.67498779296875,
+          "selectivity_per_domain": {
+            "tool_call": 110.41610717773438,
+            "code": 124.74381256103516,
+            "factual": 100.67498779296875
+          },
+          "completeness": 1.8357136249542236,
+          "centroid_magnitude": 5.496335983276367,
+          "n_probes": 25
+        }
+      },
+      "mid_deep": {
+        "tool_call": {
+          "mosaicity": 0.3207276165485382,
+          "coherence_mean_angle": 53.646453857421875,
+          "coherence_std_angle": 7.371920585632324,
+          "selectivity_mean": 103.57241821289062,
+          "selectivity_min": 70.68553161621094,
+          "selectivity_per_domain": {
+            "code": 70.68553161621094,
+            "factual": 125.99723052978516,
+            "reasoning": 114.03449249267578
+          },
+          "completeness": 5.286500930786133,
+          "centroid_magnitude": 9.152896881103516,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.2986139953136444,
+          "coherence_mean_angle": 54.898738861083984,
+          "coherence_std_angle": 7.268371105194092,
+          "selectivity_mean": 104.32516479492188,
+          "selectivity_min": 70.68553161621094,
+          "selectivity_per_domain": {
+            "tool_call": 70.68553161621094,
+            "factual": 119.8215103149414,
+            "reasoning": 122.46845245361328
+          },
+          "completeness": 6.124493598937988,
+          "centroid_magnitude": 9.702983856201172,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.27434107661247253,
+          "coherence_mean_angle": 55.847633361816406,
+          "coherence_std_angle": 11.800000190734863,
+          "selectivity_mean": 116.24983723958333,
+          "selectivity_min": 102.93077087402344,
+          "selectivity_per_domain": {
+            "tool_call": 125.99723052978516,
+            "code": 119.8215103149414,
+            "reasoning": 102.93077087402344
+          },
+          "completeness": 8.13920783996582,
+          "centroid_magnitude": 12.848044395446777,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.4838618338108063,
+          "coherence_mean_angle": 43.202796936035156,
+          "coherence_std_angle": 14.184550285339355,
+          "selectivity_mean": 113.14457194010417,
+          "selectivity_min": 102.93077087402344,
+          "selectivity_per_domain": {
+            "tool_call": 114.03449249267578,
+            "code": 122.46845245361328,
+            "factual": 102.93077087402344
+          },
+          "completeness": 2.334965229034424,
+          "centroid_magnitude": 11.811808586120605,
+          "n_probes": 25
+        }
+      },
+      "deep": {
+        "tool_call": {
+          "mosaicity": 0.3273496627807617,
+          "coherence_mean_angle": 53.24476623535156,
+          "coherence_std_angle": 8.348529815673828,
+          "selectivity_mean": 104.95488739013672,
+          "selectivity_min": 74.59979248046875,
+          "selectivity_per_domain": {
+            "code": 74.59979248046875,
+            "factual": 120.96682739257812,
+            "reasoning": 119.29804229736328
+          },
+          "completeness": 5.535899639129639,
+          "centroid_magnitude": 17.905668258666992,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.28511160612106323,
+          "coherence_mean_angle": 55.739036560058594,
+          "coherence_std_angle": 7.8085479736328125,
+          "selectivity_mean": 105.40820566813152,
+          "selectivity_min": 74.59979248046875,
+          "selectivity_per_domain": {
+            "tool_call": 74.59979248046875,
+            "factual": 117.24663543701172,
+            "reasoning": 124.37818908691406
+          },
+          "completeness": 6.047394752502441,
+          "centroid_magnitude": 18.59798240661621,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.2606913447380066,
+          "coherence_mean_angle": 56.97883605957031,
+          "coherence_std_angle": 9.48172664642334,
+          "selectivity_mean": 113.01249440511067,
+          "selectivity_min": 100.82402038574219,
+          "selectivity_per_domain": {
+            "tool_call": 120.96682739257812,
+            "code": 117.24663543701172,
+            "reasoning": 100.82402038574219
+          },
+          "completeness": 8.153145790100098,
+          "centroid_magnitude": 22.125640869140625,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.4429909884929657,
+          "coherence_mean_angle": 45.57606506347656,
+          "coherence_std_angle": 14.271438598632812,
+          "selectivity_mean": 114.83341725667317,
+          "selectivity_min": 100.82402038574219,
+          "selectivity_per_domain": {
+            "tool_call": 119.29804229736328,
+            "code": 124.37818908691406,
+            "factual": 100.82402038574219
+          },
+          "completeness": 2.4171221256256104,
+          "centroid_magnitude": 23.418636322021484,
+          "n_probes": 25
+        }
+      }
+    },
+    "mistral-7b": {
+      "shallow": {
+        "tool_call": {
+          "mosaicity": 0.03975962847471237,
+          "coherence_mean_angle": 74.19390869140625,
+          "coherence_std_angle": 13.315488815307617,
+          "selectivity_mean": 99.18504842122395,
+          "selectivity_min": 63.05413818359375,
+          "selectivity_per_domain": {
+            "code": 63.05413818359375,
+            "factual": 110.28064727783203,
+            "reasoning": 124.2203598022461
+          },
+          "completeness": 8.645676612854004,
+          "centroid_magnitude": 0.053105320781469345,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.14729467034339905,
+          "coherence_mean_angle": 64.63391876220703,
+          "coherence_std_angle": 13.803489685058594,
+          "selectivity_mean": 100.07735951741536,
+          "selectivity_min": 63.05413818359375,
+          "selectivity_per_domain": {
+            "tool_call": 63.05413818359375,
+            "factual": 99.2770767211914,
+            "reasoning": 137.90086364746094
+          },
+          "completeness": 8.41482925415039,
+          "centroid_magnitude": 0.06389869004487991,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.1325705647468567,
+          "coherence_mean_angle": 65.61788940429688,
+          "coherence_std_angle": 13.311339378356934,
+          "selectivity_mean": 107.3925552368164,
+          "selectivity_min": 99.2770767211914,
+          "selectivity_per_domain": {
+            "tool_call": 110.28064727783203,
+            "code": 99.2770767211914,
+            "reasoning": 112.61994171142578
+          },
+          "completeness": 6.813813209533691,
+          "centroid_magnitude": 0.06857467442750931,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.8106415271759033,
+          "coherence_mean_angle": 15.664141654968262,
+          "coherence_std_angle": 22.261655807495117,
+          "selectivity_mean": 124.91372172037761,
+          "selectivity_min": 112.61994171142578,
+          "selectivity_per_domain": {
+            "tool_call": 124.2203598022461,
+            "code": 137.90086364746094,
+            "factual": 112.61994171142578
+          },
+          "completeness": 1.2147077322006226,
+          "centroid_magnitude": 0.10365211963653564,
+          "n_probes": 25
+        }
+      },
+      "mid_shallow": {
+        "tool_call": {
+          "mosaicity": 0.16945061087608337,
+          "coherence_mean_angle": 62.963741302490234,
+          "coherence_std_angle": 9.50503921508789,
+          "selectivity_mean": 104.4923578898112,
+          "selectivity_min": 77.34062957763672,
+          "selectivity_per_domain": {
+            "code": 77.34062957763672,
+            "factual": 119.8196792602539,
+            "reasoning": 116.31676483154297
+          },
+          "completeness": 6.587411403656006,
+          "centroid_magnitude": 0.6052496433258057,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.16686491668224335,
+          "coherence_mean_angle": 63.36402893066406,
+          "coherence_std_angle": 6.635720729827881,
+          "selectivity_mean": 106.01258087158203,
+          "selectivity_min": 77.34062957763672,
+          "selectivity_per_domain": {
+            "tool_call": 77.34062957763672,
+            "factual": 116.96199798583984,
+            "reasoning": 123.73511505126953
+          },
+          "completeness": 7.859928607940674,
+          "centroid_magnitude": 0.6782646179199219,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.23225489258766174,
+          "coherence_mean_angle": 58.27589797973633,
+          "coherence_std_angle": 12.747591018676758,
+          "selectivity_mean": 113.14129892985027,
+          "selectivity_min": 102.64221954345703,
+          "selectivity_per_domain": {
+            "tool_call": 119.8196792602539,
+            "code": 116.96199798583984,
+            "reasoning": 102.64221954345703
+          },
+          "completeness": 6.096493244171143,
+          "centroid_magnitude": 0.7873818874359131,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.4395741820335388,
+          "coherence_mean_angle": 45.85331726074219,
+          "coherence_std_angle": 14.514409065246582,
+          "selectivity_mean": 114.23136647542317,
+          "selectivity_min": 102.64221954345703,
+          "selectivity_per_domain": {
+            "tool_call": 116.31676483154297,
+            "code": 123.73511505126953,
+            "factual": 102.64221954345703
+          },
+          "completeness": 2.535499334335327,
+          "centroid_magnitude": 0.8173329830169678,
+          "n_probes": 25
+        }
+      },
+      "mid_deep": {
+        "tool_call": {
+          "mosaicity": 0.21343623101711273,
+          "coherence_mean_angle": 60.25913619995117,
+          "coherence_std_angle": 6.6731696128845215,
+          "selectivity_mean": 104.09884389241536,
+          "selectivity_min": 78.69121551513672,
+          "selectivity_per_domain": {
+            "code": 78.69121551513672,
+            "factual": 116.7442398071289,
+            "reasoning": 116.86107635498047
+          },
+          "completeness": 6.957224369049072,
+          "centroid_magnitude": 1.9219485521316528,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.2790563404560089,
+          "coherence_mean_angle": 56.03876876831055,
+          "coherence_std_angle": 7.239227771759033,
+          "selectivity_mean": 105.06997426350911,
+          "selectivity_min": 78.69121551513672,
+          "selectivity_per_domain": {
+            "tool_call": 78.69121551513672,
+            "factual": 110.36946105957031,
+            "reasoning": 126.14924621582031
+          },
+          "completeness": 6.51806116104126,
+          "centroid_magnitude": 2.097536087036133,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.31120795011520386,
+          "coherence_mean_angle": 53.51029968261719,
+          "coherence_std_angle": 12.001561164855957,
+          "selectivity_mean": 111.21832021077473,
+          "selectivity_min": 106.541259765625,
+          "selectivity_per_domain": {
+            "tool_call": 116.7442398071289,
+            "code": 110.36946105957031,
+            "reasoning": 106.541259765625
+          },
+          "completeness": 4.954813480377197,
+          "centroid_magnitude": 2.388066530227661,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.3833523094654083,
+          "coherence_mean_angle": 49.46114730834961,
+          "coherence_std_angle": 12.510852813720703,
+          "selectivity_mean": 116.51719411214192,
+          "selectivity_min": 106.541259765625,
+          "selectivity_per_domain": {
+            "tool_call": 116.86107635498047,
+            "code": 126.14924621582031,
+            "factual": 106.541259765625
+          },
+          "completeness": 3.641230583190918,
+          "centroid_magnitude": 2.7856051921844482,
+          "n_probes": 25
+        }
+      },
+      "deep": {
+        "tool_call": {
+          "mosaicity": 0.29218819737434387,
+          "coherence_mean_angle": 55.3140983581543,
+          "coherence_std_angle": 8.794386863708496,
+          "selectivity_mean": 103.76797485351562,
+          "selectivity_min": 78.4825668334961,
+          "selectivity_per_domain": {
+            "code": 78.4825668334961,
+            "factual": 113.56004333496094,
+            "reasoning": 119.26131439208984
+          },
+          "completeness": 6.63027286529541,
+          "centroid_magnitude": 5.132964611053467,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.28414005041122437,
+          "coherence_mean_angle": 55.97647476196289,
+          "coherence_std_angle": 5.756313323974609,
+          "selectivity_mean": 103.21057383219402,
+          "selectivity_min": 78.4825668334961,
+          "selectivity_per_domain": {
+            "tool_call": 78.4825668334961,
+            "factual": 100.65093994140625,
+            "reasoning": 130.4982147216797
+          },
+          "completeness": 5.622689247131348,
+          "centroid_magnitude": 5.166088104248047,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.35248422622680664,
+          "coherence_mean_angle": 51.47003936767578,
+          "coherence_std_angle": 9.609356880187988,
+          "selectivity_mean": 108.24933369954427,
+          "selectivity_min": 100.65093994140625,
+          "selectivity_per_domain": {
+            "tool_call": 113.56004333496094,
+            "code": 100.65093994140625,
+            "reasoning": 110.53701782226562
+          },
+          "completeness": 4.555390357971191,
+          "centroid_magnitude": 5.774306774139404,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.40194931626319885,
+          "coherence_mean_angle": 48.0195198059082,
+          "coherence_std_angle": 14.91976547241211,
+          "selectivity_mean": 120.09884897867839,
+          "selectivity_min": 110.53701782226562,
+          "selectivity_per_domain": {
+            "tool_call": 119.26131439208984,
+            "code": 130.4982147216797,
+            "factual": 110.53701782226562
+          },
+          "completeness": 4.175030708312988,
+          "centroid_magnitude": 7.889644145965576,
+          "n_probes": 25
+        }
+      }
+    },
+    "pythia-1.4b": {
+      "shallow": {
+        "tool_call": {
+          "mosaicity": 0.23012308776378632,
+          "coherence_mean_angle": 57.792236328125,
+          "coherence_std_angle": 20.63920783996582,
+          "selectivity_mean": 86.74627304077148,
+          "selectivity_min": 39.571292877197266,
+          "selectivity_per_domain": {
+            "code": 39.571292877197266,
+            "factual": 72.03648376464844,
+            "reasoning": 148.63104248046875
+          },
+          "completeness": 5.7064385414123535,
+          "centroid_magnitude": 6.065013885498047,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.3342830240726471,
+          "coherence_mean_angle": 52.13054656982422,
+          "coherence_std_angle": 16.01892852783203,
+          "selectivity_mean": 87.43115107218425,
+          "selectivity_min": 39.571292877197266,
+          "selectivity_per_domain": {
+            "tool_call": 39.571292877197266,
+            "factual": 73.03287506103516,
+            "reasoning": 149.6892852783203
+          },
+          "completeness": 8.1566743850708,
+          "centroid_magnitude": 7.237346649169922,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.16623003780841827,
+          "coherence_mean_angle": 63.53150939941406,
+          "coherence_std_angle": 7.971124649047852,
+          "selectivity_mean": 92.59012603759766,
+          "selectivity_min": 72.03648376464844,
+          "selectivity_per_domain": {
+            "tool_call": 72.03648376464844,
+            "code": 73.03287506103516,
+            "reasoning": 132.70101928710938
+          },
+          "completeness": 8.014045715332031,
+          "centroid_magnitude": 6.974158763885498,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.7950311303138733,
+          "coherence_mean_angle": 12.348690032958984,
+          "coherence_std_angle": 27.589311599731445,
+          "selectivity_mean": 143.6737823486328,
+          "selectivity_min": 132.70101928710938,
+          "selectivity_per_domain": {
+            "tool_call": 148.63104248046875,
+            "code": 149.6892852783203,
+            "factual": 132.70101928710938
+          },
+          "completeness": 1.069644808769226,
+          "centroid_magnitude": 16.156217575073242,
+          "n_probes": 25
+        }
+      },
+      "mid_shallow": {
+        "tool_call": {
+          "mosaicity": 0.14613337814807892,
+          "coherence_mean_angle": 64.94335174560547,
+          "coherence_std_angle": 8.45141887664795,
+          "selectivity_mean": 103.46107737223308,
+          "selectivity_min": 76.49143981933594,
+          "selectivity_per_domain": {
+            "code": 76.49143981933594,
+            "factual": 120.5296630859375,
+            "reasoning": 113.36212921142578
+          },
+          "completeness": 6.507500171661377,
+          "centroid_magnitude": 8.888347625732422,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.18374525010585785,
+          "coherence_mean_angle": 61.81291198730469,
+          "coherence_std_angle": 13.128134727478027,
+          "selectivity_mean": 105.4321797688802,
+          "selectivity_min": 76.49143981933594,
+          "selectivity_per_domain": {
+            "tool_call": 76.49143981933594,
+            "factual": 116.65336608886719,
+            "reasoning": 123.1517333984375
+          },
+          "completeness": 7.803637504577637,
+          "centroid_magnitude": 10.375314712524414,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.14463897049427032,
+          "coherence_mean_angle": 64.43693542480469,
+          "coherence_std_angle": 12.72411060333252,
+          "selectivity_mean": 114.19751993815105,
+          "selectivity_min": 105.40953063964844,
+          "selectivity_per_domain": {
+            "tool_call": 120.5296630859375,
+            "code": 116.65336608886719,
+            "reasoning": 105.40953063964844
+          },
+          "completeness": 7.031447410583496,
+          "centroid_magnitude": 12.49587631225586,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.6796000599861145,
+          "coherence_mean_angle": 30.350080490112305,
+          "coherence_std_angle": 17.35801887512207,
+          "selectivity_mean": 113.9744644165039,
+          "selectivity_min": 105.40953063964844,
+          "selectivity_per_domain": {
+            "tool_call": 113.36212921142578,
+            "code": 123.1517333984375,
+            "factual": 105.40953063964844
+          },
+          "completeness": 1.789035439491272,
+          "centroid_magnitude": 12.518791198730469,
+          "n_probes": 25
+        }
+      },
+      "mid_deep": {
+        "tool_call": {
+          "mosaicity": 0.18713349103927612,
+          "coherence_mean_angle": 62.03447341918945,
+          "coherence_std_angle": 7.760872840881348,
+          "selectivity_mean": 104.56306966145833,
+          "selectivity_min": 79.61721801757812,
+          "selectivity_per_domain": {
+            "code": 79.61721801757812,
+            "factual": 112.63033294677734,
+            "reasoning": 121.44165802001953
+          },
+          "completeness": 7.018790245056152,
+          "centroid_magnitude": 13.041876792907715,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.24848873913288116,
+          "coherence_mean_angle": 57.42827224731445,
+          "coherence_std_angle": 12.848966598510742,
+          "selectivity_mean": 105.77039591471355,
+          "selectivity_min": 79.61721801757812,
+          "selectivity_per_domain": {
+            "tool_call": 79.61721801757812,
+            "factual": 112.76107025146484,
+            "reasoning": 124.93289947509766
+          },
+          "completeness": 7.072248458862305,
+          "centroid_magnitude": 14.245635986328125,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.2009190320968628,
+          "coherence_mean_angle": 60.590614318847656,
+          "coherence_std_angle": 11.151029586791992,
+          "selectivity_mean": 109.92101796468098,
+          "selectivity_min": 104.37165069580078,
+          "selectivity_per_domain": {
+            "tool_call": 112.63033294677734,
+            "code": 112.76107025146484,
+            "reasoning": 104.37165069580078
+          },
+          "completeness": 5.9809770584106445,
+          "centroid_magnitude": 15.178208351135254,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.6448978781700134,
+          "coherence_mean_angle": 33.11522674560547,
+          "coherence_std_angle": 16.005233764648438,
+          "selectivity_mean": 116.91540273030598,
+          "selectivity_min": 104.37165069580078,
+          "selectivity_per_domain": {
+            "tool_call": 121.44165802001953,
+            "code": 124.93289947509766,
+            "factual": 104.37165069580078
+          },
+          "completeness": 2.1740567684173584,
+          "centroid_magnitude": 18.72771453857422,
+          "n_probes": 25
+        }
+      },
+      "deep": {
+        "tool_call": {
+          "mosaicity": 0.2043074071407318,
+          "coherence_mean_angle": 60.66437530517578,
+          "coherence_std_angle": 8.341732025146484,
+          "selectivity_mean": 99.06786855061848,
+          "selectivity_min": 67.70557403564453,
+          "selectivity_per_domain": {
+            "code": 67.70557403564453,
+            "factual": 104.2018814086914,
+            "reasoning": 125.29615020751953
+          },
+          "completeness": 6.164547443389893,
+          "centroid_magnitude": 19.566577911376953,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.3372494876384735,
+          "coherence_mean_angle": 52.10595703125,
+          "coherence_std_angle": 11.690369606018066,
+          "selectivity_mean": 100.00006866455078,
+          "selectivity_min": 67.70557403564453,
+          "selectivity_per_domain": {
+            "tool_call": 67.70557403564453,
+            "factual": 109.13407135009766,
+            "reasoning": 123.16056060791016
+          },
+          "completeness": 5.651893615722656,
+          "centroid_magnitude": 21.536624908447266,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.30830350518226624,
+          "coherence_mean_angle": 53.94660949707031,
+          "coherence_std_angle": 10.291333198547363,
+          "selectivity_mean": 110.16251373291016,
+          "selectivity_min": 104.2018814086914,
+          "selectivity_per_domain": {
+            "tool_call": 104.2018814086914,
+            "code": 109.13407135009766,
+            "reasoning": 117.1515884399414
+          },
+          "completeness": 6.55153751373291,
+          "centroid_magnitude": 28.285381317138672,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.4884096384048462,
+          "coherence_mean_angle": 42.178192138671875,
+          "coherence_std_angle": 18.03035545349121,
+          "selectivity_mean": 121.8694330851237,
+          "selectivity_min": 117.1515884399414,
+          "selectivity_per_domain": {
+            "tool_call": 125.29615020751953,
+            "code": 123.16056060791016,
+            "factual": 117.1515884399414
+          },
+          "completeness": 3.1099464893341064,
+          "centroid_magnitude": 35.99379348754883,
+          "n_probes": 25
+        }
+      }
+    },
+    "pythia-160m": {
+      "shallow": {
+        "tool_call": {
+          "mosaicity": 0.09390760213136673,
+          "coherence_mean_angle": 68.55804443359375,
+          "coherence_std_angle": 15.335589408874512,
+          "selectivity_mean": 92.74425888061523,
+          "selectivity_min": 53.348262786865234,
+          "selectivity_per_domain": {
+            "code": 53.348262786865234,
+            "factual": 97.32542419433594,
+            "reasoning": 127.55908966064453
+          },
+          "completeness": 6.643274307250977,
+          "centroid_magnitude": 2.004112720489502,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.23072819411754608,
+          "coherence_mean_angle": 58.552276611328125,
+          "coherence_std_angle": 15.576372146606445,
+          "selectivity_mean": 94.02714665730794,
+          "selectivity_min": 53.348262786865234,
+          "selectivity_per_domain": {
+            "tool_call": 53.348262786865234,
+            "factual": 92.0276107788086,
+            "reasoning": 136.70556640625
+          },
+          "completeness": 9.000853538513184,
+          "centroid_magnitude": 2.7594070434570312,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.16386251151561737,
+          "coherence_mean_angle": 63.378082275390625,
+          "coherence_std_angle": 9.15669059753418,
+          "selectivity_mean": 105.1521987915039,
+          "selectivity_min": 92.0276107788086,
+          "selectivity_per_domain": {
+            "tool_call": 97.32542419433594,
+            "code": 92.0276107788086,
+            "reasoning": 126.10356140136719
+          },
+          "completeness": 8.546770095825195,
+          "centroid_magnitude": 3.4566712379455566,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": 0.7403483986854553,
+          "coherence_mean_angle": 22.36318588256836,
+          "coherence_std_angle": 24.401193618774414,
+          "selectivity_mean": 130.12273915608725,
+          "selectivity_min": 126.10356140136719,
+          "selectivity_per_domain": {
+            "tool_call": 127.55908966064453,
+            "code": 136.70556640625,
+            "factual": 126.10356140136719
+          },
+          "completeness": 1.3916401863098145,
+          "centroid_magnitude": 5.266904354095459,
+          "n_probes": 25
+        }
+      },
+      "mid_shallow": {
+        "tool_call": {
+          "mosaicity": 0.9705551266670227,
+          "coherence_mean_angle": 9.600279808044434,
+          "coherence_std_angle": 1.2389949560165405,
+          "selectivity_mean": 63.38382387161255,
+          "selectivity_min": 4.807745456695557,
+          "selectivity_per_domain": {
+            "code": 4.807745456695557,
+            "factual": 9.181769371032715,
+            "reasoning": 176.16195678710938
+          },
+          "completeness": 7.307129859924316,
+          "centroid_magnitude": 43.92941665649414,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.9688875079154968,
+          "coherence_mean_angle": 9.896885871887207,
+          "coherence_std_angle": 1.0536341667175293,
+          "selectivity_mean": 63.37986930211385,
+          "selectivity_min": 4.807745456695557,
+          "selectivity_per_domain": {
+            "tool_call": 4.807745456695557,
+            "factual": 9.166838645935059,
+            "reasoning": 176.16502380371094
+          },
+          "completeness": 9.227654457092285,
+          "centroid_magnitude": 43.532596588134766,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.9595156908035278,
+          "coherence_mean_angle": 11.211544036865234,
+          "coherence_std_angle": 1.906294345855713,
+          "selectivity_mean": 64.16107368469238,
+          "selectivity_min": 9.166838645935059,
+          "selectivity_per_domain": {
+            "tool_call": 9.181769371032715,
+            "code": 9.166838645935059,
+            "reasoning": 174.13461303710938
+          },
+          "completeness": 6.9388427734375,
+          "centroid_magnitude": 44.618595123291016,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": -0.02151891030371189,
+          "coherence_mean_angle": 75.22561645507812,
+          "coherence_std_angle": 83.57099914550781,
+          "selectivity_mean": 175.48719787597656,
+          "selectivity_min": 174.13461303710938,
+          "selectivity_per_domain": {
+            "tool_call": 176.16195678710938,
+            "code": 176.16502380371094,
+            "factual": 174.13461303710938
+          },
+          "completeness": 1.0007288455963135,
+          "centroid_magnitude": 131.65101623535156,
+          "n_probes": 25
+        }
+      },
+      "mid_deep": {
+        "tool_call": {
+          "mosaicity": 0.9658192992210388,
+          "coherence_mean_angle": 10.222497940063477,
+          "coherence_std_angle": 2.1198346614837646,
+          "selectivity_mean": 64.23957220713298,
+          "selectivity_min": 6.680227279663086,
+          "selectivity_per_domain": {
+            "code": 6.680227279663086,
+            "factual": 10.15994930267334,
+            "reasoning": 175.8785400390625
+          },
+          "completeness": 6.797374725341797,
+          "centroid_magnitude": 45.334163665771484,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.9741086959838867,
+          "coherence_mean_angle": 8.793740272521973,
+          "coherence_std_angle": 2.238931894302368,
+          "selectivity_mean": 64.35928344726562,
+          "selectivity_min": 6.680227279663086,
+          "selectivity_per_domain": {
+            "tool_call": 6.680227279663086,
+            "factual": 11.984674453735352,
+            "reasoning": 174.41294860839844
+          },
+          "completeness": 7.8255205154418945,
+          "centroid_magnitude": 43.668277740478516,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.9622843265533447,
+          "coherence_mean_angle": 10.822090148925781,
+          "coherence_std_angle": 1.8051847219467163,
+          "selectivity_mean": 65.04755179087321,
+          "selectivity_min": 10.15994930267334,
+          "selectivity_per_domain": {
+            "tool_call": 10.15994930267334,
+            "code": 11.984674453735352,
+            "reasoning": 172.99803161621094
+          },
+          "completeness": 5.890405178070068,
+          "centroid_magnitude": 45.533355712890625,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": -0.02139354683458805,
+          "coherence_mean_angle": 75.15692901611328,
+          "coherence_std_angle": 83.4017562866211,
+          "selectivity_mean": 174.42984008789062,
+          "selectivity_min": 172.99803161621094,
+          "selectivity_per_domain": {
+            "tool_call": 175.8785400390625,
+            "code": 174.41294860839844,
+            "factual": 172.99803161621094
+          },
+          "completeness": 1.0009551048278809,
+          "centroid_magnitude": 133.8715057373047,
+          "n_probes": 25
+        }
+      },
+      "deep": {
+        "tool_call": {
+          "mosaicity": 0.9251348972320557,
+          "coherence_mean_angle": 15.26003646850586,
+          "coherence_std_angle": 3.057737112045288,
+          "selectivity_mean": 66.23531532287598,
+          "selectivity_min": 9.544890403747559,
+          "selectivity_per_domain": {
+            "code": 9.544890403747559,
+            "factual": 15.999342918395996,
+            "reasoning": 173.16171264648438
+          },
+          "completeness": 4.544008731842041,
+          "centroid_magnitude": 38.44453048706055,
+          "n_probes": 25
+        },
+        "code": {
+          "mosaicity": 0.948624849319458,
+          "coherence_mean_angle": 12.397457122802734,
+          "coherence_std_angle": 3.3431129455566406,
+          "selectivity_mean": 66.25708548227946,
+          "selectivity_min": 9.544890403747559,
+          "selectivity_per_domain": {
+            "tool_call": 9.544890403747559,
+            "factual": 16.594209671020508,
+            "reasoning": 172.6321563720703
+          },
+          "completeness": 7.255633354187012,
+          "centroid_magnitude": 37.23601531982422,
+          "n_probes": 25
+        },
+        "factual": {
+          "mosaicity": 0.926647961139679,
+          "coherence_mean_angle": 15.04252815246582,
+          "coherence_std_angle": 3.291123867034912,
+          "selectivity_mean": 67.42120901743571,
+          "selectivity_min": 15.999342918395996,
+          "selectivity_per_domain": {
+            "tool_call": 15.999342918395996,
+            "code": 16.594209671020508,
+            "reasoning": 169.67007446289062
+          },
+          "completeness": 5.886413097381592,
+          "centroid_magnitude": 38.61967086791992,
+          "n_probes": 25
+        },
+        "reasoning": {
+          "mosaicity": -0.005201174411922693,
+          "coherence_mean_angle": 70.1194076538086,
+          "coherence_std_angle": 76.67797088623047,
+          "selectivity_mean": 171.8213144938151,
+          "selectivity_min": 169.67007446289062,
+          "selectivity_per_domain": {
+            "tool_call": 173.16171264648438,
+            "code": 172.6321563720703,
+            "factual": 169.67007446289062
+          },
+          "completeness": 1.0072612762451172,
+          "centroid_magnitude": 113.09331512451172,
+          "n_probes": 25
+        }
+      }
+    }
+  },
+  "cross_model_alignment": {
+    "qwen3-14b_vs_olmo-2-13b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7760653495788574,
+          "scale": 0.4398501515388489,
+          "residual": 1.8851653337478638
+        },
+        "mid_shallow": {
+          "cos_after": 0.8134850859642029,
+          "scale": 0.177305206656456,
+          "residual": 78.24727630615234
+        },
+        "mid_deep": {
+          "cos_after": 0.8757046461105347,
+          "scale": 0.20076553523540497,
+          "residual": 213.4086151123047
+        },
+        "deep": {
+          "cos_after": 0.8731944561004639,
+          "scale": 0.12980568408966064,
+          "residual": 2188.870361328125
+        }
+      },
+      "mean_cos": 0.8346123844385147
+    },
+    "qwen3-14b_vs_mistral-7b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.8313105702400208,
+          "scale": 0.01536546740680933,
+          "residual": 3.031905174255371
+        },
+        "mid_shallow": {
+          "cos_after": 0.7991280555725098,
+          "scale": 0.023974629119038582,
+          "residual": 105.60372924804688
+        },
+        "mid_deep": {
+          "cos_after": 0.861972451210022,
+          "scale": 0.0413469634950161,
+          "residual": 300.77587890625
+        },
+        "deep": {
+          "cos_after": 0.8574755191802979,
+          "scale": 0.03636401146650314,
+          "residual": 2665.452392578125
+        }
+      },
+      "mean_cos": 0.8374716490507126
+    },
+    "qwen3-14b_vs_pythia-1.4b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7812371253967285,
+          "scale": 1.362204909324646,
+          "residual": 5.941788673400879
+        },
+        "mid_shallow": {
+          "cos_after": 0.8167951703071594,
+          "scale": 0.3882675766944885,
+          "residual": 50.92017364501953
+        },
+        "mid_deep": {
+          "cos_after": 0.8785248398780823,
+          "scale": 0.299324631690979,
+          "residual": 170.85543823242188
+        },
+        "deep": {
+          "cos_after": 0.8549502491950989,
+          "scale": 0.15763533115386963,
+          "residual": 2065.157470703125
+        }
+      },
+      "mean_cos": 0.8328768461942673
+    },
+    "qwen3-14b_vs_pythia-160m": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7872358560562134,
+          "scale": 0.5851677060127258,
+          "residual": 1.458292841911316
+        },
+        "mid_shallow": {
+          "cos_after": 0.24412618577480316,
+          "scale": 0.6157581210136414,
+          "residual": 570.7381591796875
+        },
+        "mid_deep": {
+          "cos_after": 0.3392760455608368,
+          "scale": 0.45415225625038147,
+          "residual": 657.4906005859375
+        },
+        "deep": {
+          "cos_after": 0.4462379515171051,
+          "scale": 0.17398107051849365,
+          "residual": 2312.0419921875
+        }
+      },
+      "mean_cos": 0.4542190097272396
+    },
+    "olmo-2-13b_vs_mistral-7b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7639616131782532,
+          "scale": 0.01976143941283226,
+          "residual": 1.4507049322128296
+        },
+        "mid_shallow": {
+          "cos_after": 0.8695340156555176,
+          "scale": 0.09733204543590546,
+          "residual": 5.524489402770996
+        },
+        "mid_deep": {
+          "cos_after": 0.899393618106842,
+          "scale": 0.1889255791902542,
+          "residual": 11.843284606933594
+        },
+        "deep": {
+          "cos_after": 0.8728389739990234,
+          "scale": 0.2428240329027176,
+          "residual": 38.54373550415039
+        }
+      },
+      "mean_cos": 0.8514320552349091
+    },
+    "olmo-2-13b_vs_pythia-1.4b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7204471826553345,
+          "scale": 1.8643983602523804,
+          "residual": 7.2156219482421875
+        },
+        "mid_shallow": {
+          "cos_after": 0.8365232348442078,
+          "scale": 1.4334096908569336,
+          "residual": 13.593746185302734
+        },
+        "mid_deep": {
+          "cos_after": 0.8752689361572266,
+          "scale": 1.2884820699691772,
+          "residual": 11.683180809020996
+        },
+        "deep": {
+          "cos_after": 0.8672752380371094,
+          "scale": 1.0592573881149292,
+          "residual": 28.289031982421875
+        }
+      },
+      "mean_cos": 0.8248786479234695
+    },
+    "olmo-2-13b_vs_pythia-160m": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.7349405884742737,
+          "scale": 0.7477025389671326,
+          "residual": 1.2432963848114014
+        },
+        "mid_shallow": {
+          "cos_after": 0.3300268054008484,
+          "scale": 2.583266496658325,
+          "residual": 568.3522338867188
+        },
+        "mid_deep": {
+          "cos_after": 0.3806638717651367,
+          "scale": 2.2385377883911133,
+          "residual": 565.916259765625
+        },
+        "deep": {
+          "cos_after": 0.44199496507644653,
+          "scale": 1.0818171501159668,
+          "residual": 366.03851318359375
+        }
+      },
+      "mean_cos": 0.47190655767917633
+    },
+    "mistral-7b_vs_pythia-1.4b": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.8195176720619202,
+          "scale": 73.47669219970703,
+          "residual": 11.14094352722168
+        },
+        "mid_shallow": {
+          "cos_after": 0.8391772508621216,
+          "scale": 12.934089660644531,
+          "residual": 23.55714225769043
+        },
+        "mid_deep": {
+          "cos_after": 0.8592363595962524,
+          "scale": 5.834137439727783,
+          "residual": 30.836820602416992
+        },
+        "deep": {
+          "cos_after": 0.8533742427825928,
+          "scale": 3.7180850505828857,
+          "residual": 67.14651489257812
+        }
+      },
+      "mean_cos": 0.8428263813257217
+    },
+    "mistral-7b_vs_pythia-160m": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.8287162780761719,
+          "scale": 31.38701629638672,
+          "residual": 1.9093981981277466
+        },
+        "mid_shallow": {
+          "cos_after": 0.35101017355918884,
+          "scale": 26.648475646972656,
+          "residual": 590.9246826171875
+        },
+        "mid_deep": {
+          "cos_after": 0.3858000934123993,
+          "scale": 11.47946834564209,
+          "residual": 609.4353637695312
+        },
+        "deep": {
+          "cos_after": 0.4647603929042816,
+          "scale": 4.398809432983398,
+          "residual": 400.7104187011719
+        }
+      },
+      "mean_cos": 0.5075717344880104
+    },
+    "pythia-1.4b_vs_pythia-160m": {
+      "depths": {
+        "shallow": {
+          "cos_after": 0.8635016083717346,
+          "scale": 0.36865806579589844,
+          "residual": 4.967990398406982
+        },
+        "mid_shallow": {
+          "cos_after": 0.33354610204696655,
+          "scale": 1.4766371250152588,
+          "residual": 545.3003540039062
+        },
+        "mid_deep": {
+          "cos_after": 0.3736479580402374,
+          "scale": 1.4443471431732178,
+          "residual": 552.6834106445312
+        },
+        "deep": {
+          "cos_after": 0.47745755314826965,
+          "scale": 1.010385513305664,
+          "residual": 338.5798034667969
+        }
+      },
+      "mean_cos": 0.5120383054018021
+    }
+  },
+  "selection": {
+    "scores": {
+      "qwen3-14b": {
+        "tool_call": 0.7019421198500527,
+        "code": 0.7668623760077689,
+        "factual": 0.826970643705792,
+        "reasoning": 1.0272812482913334
+      },
+      "olmo-2-13b": {
+        "tool_call": 0.7418841888970799,
+        "code": 0.7412820669213931,
+        "factual": 0.8372730987005763,
+        "reasoning": 0.939310151928001
+      },
+      "mistral-7b": {
+        "tool_call": 0.7426874870757262,
+        "code": 0.7501873772674136,
+        "factual": 0.83617999513944,
+        "reasoning": 0.8975212030212084
+      },
+      "pythia-1.4b": {
+        "tool_call": 0.6645208958718511,
+        "code": 0.744996728890472,
+        "factual": 0.8019275685747465,
+        "reasoning": 1.0084573696520596
+      },
+      "pythia-160m": {
+        "tool_call": 0.9326234757271077,
+        "code": 0.9830725606746142,
+        "factual": 0.9709530146585571,
+        "reasoning": 0.5370978473946453
+      }
+    },
+    "best_per_domain": {
+      "tool_call": {
+        "model": "pythia-160m",
+        "score": 0.9326234757271077,
+        "all_scores": {
+          "qwen3-14b": 0.7019421198500527,
+          "olmo-2-13b": 0.7418841888970799,
+          "mistral-7b": 0.7426874870757262,
+          "pythia-1.4b": 0.6645208958718511,
+          "pythia-160m": 0.9326234757271077
+        }
+      },
+      "code": {
+        "model": "pythia-160m",
+        "score": 0.9830725606746142,
+        "all_scores": {
+          "qwen3-14b": 0.7668623760077689,
+          "olmo-2-13b": 0.7412820669213931,
+          "mistral-7b": 0.7501873772674136,
+          "pythia-1.4b": 0.744996728890472,
+          "pythia-160m": 0.9830725606746142
+        }
+      },
+      "factual": {
+        "model": "pythia-160m",
+        "score": 0.9709530146585571,
+        "all_scores": {
+          "qwen3-14b": 0.826970643705792,
+          "olmo-2-13b": 0.8372730987005763,
+          "mistral-7b": 0.83617999513944,
+          "pythia-1.4b": 0.8019275685747465,
+          "pythia-160m": 0.9709530146585571
+        }
+      },
+      "reasoning": {
+        "model": "qwen3-14b",
+        "score": 1.0272812482913334,
+        "all_scores": {
+          "qwen3-14b": 1.0272812482913334,
+          "olmo-2-13b": 0.939310151928001,
+          "mistral-7b": 0.8975212030212084,
+          "pythia-1.4b": 1.0084573696520596,
+          "pythia-160m": 0.5370978473946453
+        }
+      }
+    },
+    "composite_lens": {
+      "tool_call": {
+        "shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 0,
+          "student_layer": 0,
+          "cos_after": 0.7872357964515686,
+          "scale": 0.9190062880516052
+        },
+        "mid_shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 3,
+          "student_layer": 10,
+          "cos_after": 0.24412618577480316,
+          "scale": 0.1144106388092041
+        },
+        "mid_deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 6,
+          "student_layer": 20,
+          "cos_after": 0.3392760455608368,
+          "scale": 0.23665833473205566
+        },
+        "deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 9,
+          "student_layer": 30,
+          "cos_after": 0.4462379515171051,
+          "scale": 1.1307268142700195
+        }
+      },
+      "code": {
+        "shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 0,
+          "student_layer": 0,
+          "cos_after": 0.7872357964515686,
+          "scale": 0.9190062880516052
+        },
+        "mid_shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 3,
+          "student_layer": 10,
+          "cos_after": 0.24412618577480316,
+          "scale": 0.1144106388092041
+        },
+        "mid_deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 6,
+          "student_layer": 20,
+          "cos_after": 0.3392760455608368,
+          "scale": 0.23665833473205566
+        },
+        "deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 9,
+          "student_layer": 30,
+          "cos_after": 0.4462379515171051,
+          "scale": 1.1307268142700195
+        }
+      },
+      "factual": {
+        "shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 0,
+          "student_layer": 0,
+          "cos_after": 0.7872357964515686,
+          "scale": 0.9190062880516052
+        },
+        "mid_shallow": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 3,
+          "student_layer": 10,
+          "cos_after": 0.24412618577480316,
+          "scale": 0.1144106388092041
+        },
+        "mid_deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 6,
+          "student_layer": 20,
+          "cos_after": 0.3392760455608368,
+          "scale": 0.23665833473205566
+        },
+        "deep": {
+          "teacher_model": "pythia-160m",
+          "teacher_layer": 9,
+          "student_layer": 30,
+          "cos_after": 0.4462379515171051,
+          "scale": 1.1307268142700195
+        }
+      },
+      "reasoning": {
+        "shallow": {
+          "teacher_model": "qwen3-14b",
+          "teacher_layer": 0,
+          "student_layer": 0,
+          "cos_after": 1.0,
+          "scale": 1.0
+        },
+        "mid_shallow": {
+          "teacher_model": "qwen3-14b",
+          "teacher_layer": 10,
+          "student_layer": 10,
+          "cos_after": 1.0,
+          "scale": 1.0
+        },
+        "mid_deep": {
+          "teacher_model": "qwen3-14b",
+          "teacher_layer": 20,
+          "student_layer": 20,
+          "cos_after": 1.0,
+          "scale": 1.0
+        },
+        "deep": {
+          "teacher_model": "qwen3-14b",
+          "teacher_layer": 30,
+          "student_layer": 30,
+          "cos_after": 1.0,
+          "scale": 1.0
+        }
+      }
+    }
+  }
+}

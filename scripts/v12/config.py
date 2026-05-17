@@ -264,7 +264,7 @@ class V12Config:
     etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)  # percentiles for planes
     etch_consensus: int = 3           # planes that must agree (2 or 3)
     etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
-    etch_max_flips_per_event: int = 50000  # per-event flip ceiling
+    etch_max_flips_per_event: int = 200    # laser precision: only highest-consensus flips
     etch_reset_after_flip: bool = True     # reset accumulators after etch
 
     # ── Depth-selective etch thresholds ──
