@@ -469,6 +469,39 @@ def _compute_alarm_depth_weights(
     return depth_weights
 
 
+def _compute_etch_threshold_multipliers(
+    cfg,
+    model_modules: list[tuple[str, object]],
+) -> dict[str, float]:
+    """Compute per-module etch threshold multipliers from the depth map.
+
+    Uses MODULE_PASS_MAP to find which passes each module serves,
+    then averages the per-pass multiplier from cfg.pass_etch_multiplier.
+
+    Shallow passes (low multiplier) → lower percentile threshold → more votes.
+    Deep passes (multiplier=1.0) → standard threshold.
+    """
+    multipliers = cfg.pass_etch_multiplier
+    if not multipliers or len(multipliers) < 2:
+        return {}
+
+    result = {}
+    for path, _mod in model_modules:
+        passes = None
+        for prefix, pass_indices in MODULE_PASS_MAP.items():
+            if path == prefix or path.startswith(prefix + "."):
+                passes = pass_indices
+                break
+
+        if passes is not None:
+            # Average multiplier across the passes this module serves
+            result[path] = sum(multipliers[p] for p in passes if p < len(multipliers)) / len(passes)
+        else:
+            result[path] = 1.0  # unmapped modules get standard threshold
+
+    return depth_weights
+
+
 def run_tournament(
     model, cfg, step, total_ternary, eval_loader,
     base_pct, rng,
@@ -1065,6 +1098,36 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
     print(f"  data: {cfg.data_dir}", file=sys.stderr)
     if start_step > 0:
         print(f"  Resuming from step {start_step}", file=sys.stderr)
+
+    # ── Lambda kernel relational loss setup ───────────────────
+    rel_probes_tokenized = None
+    rel_target_rdm = None
+    rel_rng = None
+    if cfg.use_relational_loss:
+        rel_target_file = Path(cfg.rel_target_path)
+        if rel_target_file.exists():
+            import json as _json
+            from transformers import AutoTokenizer as _AT
+            _rel_data = _json.load(rel_target_file.open())
+            _rel_probes = _rel_data["probes"]
+            # Use L20 target (deepest with both K and I signal)
+            _rel_target_key = "20" if "20" in _rel_data["targets"] else list(_rel_data["targets"].keys())[0]
+            _rdm_raw = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
+            rel_target_rdm = mx.array(_rdm_raw.astype(np.float32))
+
+            # Pre-tokenize all probes with Qwen3 tokenizer
+            _tok = _AT.from_pretrained("Qwen/Qwen3-14B")
+            rel_probes_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
+            rel_rng = np.random.RandomState(42)
+            print(f"  🔬 Relational loss: {len(rel_probes_tokenized)} probes, "
+                  f"λ={cfg.rel_lambda}, every {cfg.rel_every} steps, "
+                  f"sample {cfg.rel_n_probes}/step", file=sys.stderr)
+            del _tok, _rel_data, _rel_probes
+        else:
+            print(f"  ⚠️  Relational loss target not found: {rel_target_file}", file=sys.stderr)
+            print(f"       Run: uv run python scripts/explore/probe_crystal_seed.py --probe-set lambda",
+                  file=sys.stderr)
+
     print("", file=sys.stderr, flush=True)
 
     # ══════════════════════════════════════════════════════════
@@ -1105,6 +1168,72 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
         # Average over micro-batches
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
+
+        # ── Lambda kernel relational loss (periodic) ──────────
+        rel_loss_val = 0.0
+        if (rel_probes_tokenized is not None
+                and rel_target_rdm is not None
+                and step % cfg.rel_every == 0
+                and step > cfg.warmup_steps):
+
+            def _rel_loss_fn(model_inner):
+                """Forward sampled probes, compute residual RDM, MSE vs target."""
+                # Sample random subset of probes
+                n_total = len(rel_probes_tokenized)
+                indices = rel_rng.choice(n_total, size=min(cfg.rel_n_probes, n_total), replace=False)
+                indices = sorted(indices)
+
+                # Tokenize, pad, forward
+                batch_enc = [rel_probes_tokenized[i] for i in indices]
+                lengths = [len(e) for e in batch_enc]
+                max_len = max(lengths)
+                pad_id = cfg.eod_id
+                padded = [e + [pad_id] * (max_len - len(e)) for e in batch_enc]
+                input_ids = mx.array(padded)  # (n_sample, max_len)
+
+                # Forward without targets (no CE loss, just hidden states)
+                logits, _ = model_inner.forward(input_ids, targets=None)
+
+                # Get cached hidden state from forward pass
+                h = model_inner._last_hidden  # (n_sample, max_len, d_model)
+
+                # Extract last real token per probe
+                last_positions = mx.array([l - 1 for l in lengths])
+                batch_idx = mx.arange(len(indices))
+                h_last = h[batch_idx, last_positions, :]  # (n_sample, d_model)
+
+                # Normalize
+                h_norm = h_last / (mx.linalg.norm(h_last, axis=-1, keepdims=True) + 1e-8)
+
+                # Student RDM
+                student_rdm = h_norm @ h_norm.T  # (n_sample, n_sample)
+
+                # Residual mode: mean-subtract
+                student_rdm = student_rdm - mx.mean(student_rdm)
+
+                # Extract target sub-RDM for sampled indices
+                idx_mx = mx.array(indices)
+                target_sub = rel_target_rdm[idx_mx][:, idx_mx]
+
+                # Upper triangle MSE
+                n = len(indices)
+                triu_r, triu_c = np.triu_indices(n, k=1)
+                triu_r_mx = mx.array(triu_r)
+                triu_c_mx = mx.array(triu_c)
+                student_flat = student_rdm[triu_r_mx, triu_c_mx]
+                target_flat = target_sub[triu_r_mx, triu_c_mx]
+
+                return mx.mean((student_flat - target_flat) ** 2)
+
+            rel_loss_grad_fn = nn.value_and_grad(model, _rel_loss_fn)
+            rel_lv, rel_grads = rel_loss_grad_fn(model)
+            mx.eval(rel_lv, rel_grads)
+            rel_loss_val = float(rel_lv.item())
+
+            # Add scaled relational gradients to accumulated gradients
+            accum_grads = tree_map(
+                lambda a, b: a + cfg.rel_lambda * b,
+                accum_grads, rel_grads)
 
         train_losses.append(step_loss)
         loss_window.append(step_loss)
@@ -1255,6 +1384,19 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                     train_record["dispatch_B"] = dw_list[2] if len(dw_list) > 2 else 0
                     train_record["dispatch_C"] = dw_list[3] if len(dw_list) > 3 else 0
 
+            # EMA-smoothed dispatch weights (anti-oscillation diagnostic)
+            if hasattr(model, '_last_dispatch_ema'):
+                mx.eval(model._last_dispatch_ema)
+                ema = model._last_dispatch_ema
+                train_record["dispatch_ema_K"] = float(ema[0].item())
+                train_record["dispatch_ema_I"] = float(ema[1].item())
+                train_record["dispatch_ema_B"] = float(ema[2].item())
+                train_record["dispatch_ema_C"] = float(ema[3].item())
+
+            # Relational loss (lambda kernel probes)
+            if rel_loss_val > 0:
+                train_record["rel_loss"] = rel_loss_val
+
             _append_jsonl(checkpoint_dir / "train_log.jsonl", train_record)
 
         # ── Signal plane update (etch) ─────────────────────────
@@ -1272,10 +1414,17 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 if dw:
                     etch_alarm_weights = dw
 
+            # Per-pass etch threshold multipliers (depth-selective etching)
+            etch_thresh_mults = None
+            if hasattr(cfg, 'pass_etch_multiplier') and cfg.pass_etch_multiplier:
+                modules = list(_walk_ternary_modules(model))
+                etch_thresh_mults = _compute_etch_threshold_multipliers(cfg, modules)
+
             sig_stats = update_signal_planes(
                 etch_states, model,
                 heat_thresholds=cfg.etch_heat_thresholds,
                 alarm_weights=etch_alarm_weights,
+                etch_threshold_multipliers=etch_thresh_mults,
             )
             # Brief log for active modules
             if sig_stats and step % cfg.log_interval == 0:
@@ -1341,9 +1490,22 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 for p, nf in top3:
                     print(f"       {p}: {nf:,}", file=sys.stderr, flush=True)
 
+            # Per-pass flip aggregation for depth-selective logging
+            per_pass_flips = [0] * cfg.n_passes
+            for p, d in etch_result.get("per_module", {}).items():
+                nf = d.get("n_flipped", 0)
+                if nf > 0:
+                    for prefix, pass_indices in MODULE_PASS_MAP.items():
+                        if p == prefix or p.startswith(prefix + "."):
+                            for pi in pass_indices:
+                                if pi < len(per_pass_flips):
+                                    per_pass_flips[pi] += nf
+                            break
+
             _append_jsonl(checkpoint_dir / "etch_log.jsonl", {
                 "step": step,
                 "timestamp": time.time(),
+                "per_pass_flips": per_pass_flips,
                 "total_flipped": n_flipped,
                 "total_etched": total_etched,
                 "per_module": {

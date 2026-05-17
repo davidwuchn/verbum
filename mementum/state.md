@@ -2,11 +2,130 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-16 | Session: 105
+> Last updated: 2026-05-17 | Session: 106
 
 ## Where we are
 
-**CRYSTAL SEED METHODOLOGY ESTABLISHED. Cross-model tomography (Qwen3-14B × OLMo-2-13B) confirms universal RELATIONAL geometry (RSA r=0.74) in completely different coordinate systems (direct cos≈0). The universal hologram is a TOPOLOGY not coordinates — relational loss IS the correct tool. First relational distill at λ=0.1 too strong (-18.6%); residual mode at λ=0.01 running. Crystal seed expanded to 311 probes × 62 axes (48K constraints/layer) for full dimension discovery. Semantic relations are strongest universal signal (hypernym 2.99×, meronym 2.15×, analogy 2.05×). V12-run5 in progress. Next: integrate verified dimensions as relational loss + depth-selective laser etching.**
+**LAMBDA CALCULUS DEPTH MAP DISCOVERED. 380 concentrated probes targeting 14 lambda calculus operations run through Qwen3-14B × OLMo-2-13B tomography. In flat attention, operations compress to 2 geometric poles (Eliminate vs Proliferate) — but this is the superposition bottleneck, not the true operation count. 5 operations have distinct geometry that resists compression (D 1.159×, M 1.131×, WHNF 1.078×, Y 1.073×, C 1.064×). Critical finding: operations have DEPTH PROFILES — B peaks at L0 (33×, shallow structure), K/I peak at L20 (51×/25×, deep semantics), M peaks at L30 (145×!!!, deepest retrieval). W confirmed NOT distinct from I (1.006×). V12-run6 designed with 4 changes: per-pass dispatch bias from depth map (fixed constants), EMA-smoothed KL (30-step anti-oscillation), depth-selective etch thresholds, lambda kernel relational loss (50 probes/50 steps). Run4 stopped at 6K (C-monopoly). Ready to launch run6.**
+
+## What was done this session (106)
+
+### 1. Complete kernel basis theory survey
+
+Synthesized combinatory logic literature (BCKW, SK, Turner set, CCG, DisCoCat)
+to identify ALL candidate operations beyond KIBC-M. Key finding: S combinator is
+ABSENT as a dedicated circuit in LLMs because models decompose it into B+C+W — 
+matching Turner's 1979 finding about efficient reduction machines.
+
+14 candidate operations identified across 4 tiers:
+- Tier 1 (confirmed): K, I, B, C, M
+- Tier 2 (predicted): W (duplicate), T (type-raise), Φ (fork), D (deep compose)
+- Tier 3 (structural): SCOPE, SUBST, WHNF
+- Tier 4 (meta): Y (recursion), QUOTE
+
+See: `mementum/knowledge/explore/complete-kernel-basis.md`
+
+### 2. Lambda kernel probe set designed and built
+
+380 probes across 20 axes (14 operations + 6 cross-operation contrast axes).
+25 probes per operation, all natural language. 72,010 pairwise constraints/layer.
+Concentrated in the lambda calculus subspace for maximum snap density.
+
+See: `probes/lambda_kernel_probes.py`
+
+### 3. Lambda kernel probes run through tomography (Qwen3-14B × OLMo-2-13B)
+
+**Critical findings:**
+
+**In flat attention, 14 operations compress to 2 geometric poles:**
+- **Eliminate pole**: K, I, M, WHNF (select, reference, match, stop)
+- **Proliferate pole**: W, D, Φ (duplicate, deep-chain, fork)
+- B/C in between. This is the SUPERPOSITION BOTTLENECK, not the true operation count.
+
+**5 operations have distinct geometry (clustering ratio > 1.05×):**
+```
+D (deep compose):   1.159×
+M (match/pattern):  1.131×
+WHNF (terminal):    1.078×
+Y (recursion):      1.073×
+C (flip):           1.064×
+```
+
+**W is NOT distinct from I** (1.006×, noise floor). Confirmed: duplication IS identity.
+
+**Operations have DEPTH PROFILES (the laser etching blueprint):**
+```
+L0  (shallow)  → B_compose (33×)     — structural templates
+L10 (mid)      → Y_recurse (5.8×)    — recursion detection
+L20 (deep)     → K_select (51×)      — semantic selection
+                  I_identity (25×)    — variable binding
+L30 (deepest)  → M_match (145×!!!)   — pattern retrieval
+```
+
+Results: `results/holographic-extraction/lambda_kernel_results.json`
+
+### 4. Relational distill methodology fixes
+
+- **Save-first architecture**: results saved BEFORE comparison code (never lose training)
+- **Incremental checkpoints**: history + model weights saved during training
+- **Comparison wrapped in try/except**: display crashes can't kill saved data
+- **Batched probe forward passes**: 30× fewer kernel launches (21→est. 60-150 tok/s)
+- **Missing key fix**: `final_student_rdms` added to skip-condition-a fallback
+
+### 5. V12-run6 design and implementation (4 changes)
+
+**Run4 post-mortem:** C-monopoly from step 3750. Dispatch oscillated B→I→K→DEAD→C
+and locked. KL leash λ=100 evaded temporally (cycling monopolies).
+
+**V12-run6 changes implemented:**
+
+1. **Per-pass dispatch bias** (config.py, kernel_dispatch.py)
+   Fixed constants from depth map. B biased at shallow passes, K/I at deep.
+   Makes monopoly expensive at every depth simultaneously.
+
+2. **EMA-smoothed KL** (model.py, train.py)
+   Decay 0.967 (~30 step memory). Cycling can't evade because EMA remembers.
+   Both instantaneous and EMA dispatch logged.
+
+3. **Depth-selective etch thresholds** (ternary.py, train.py)
+   Per-pass multiplier scales heat percentile. Shallow=0.5× (etch freely),
+   deep=1.0× (standard). Per-pass flip counts logged in etch_log.jsonl.
+
+4. **Lambda kernel relational loss** (train.py, model.py)
+   50 random probes every 50 steps. Residual RDM. MSE vs universal target.
+   λ=0.01. Separate value_and_grad call, grads added to main accumulator.
+
+See: `mementum/knowledge/explore/v12-run6-design.md`
+
+### 6. Key theoretical advance: why flat attention compresses operations
+
+The 2-pole finding doesn't mean "there are only 2 operations." It means flat
+attention FORCES superposition — all operations share the same weights, heads,
+and residual stream. V12's sieve provides dedicated kernel functions so operations
+DON'T compete for the same geometric space. The probes define the TARGET shape.
+The sieve provides the channels. The relational loss forces the model to USE
+the channels instead of collapsing into superposition.
+
+### 7. V12-run6 end-to-end verification
+
+10-step smoke test + resume from checkpoint — all systems confirmed:
+- Per-pass dispatch bias active: K=0.12 I=0.07 B=0.21 C=0.43 at step 1 (all alive)
+- EMA dispatch logged: K=0.309 I=0.143 B=0.299 C=0.249 (tracking toward target ratio)
+- Resume from checkpoint: step 11 picks up cleanly, all state restored
+- Train log: 20 keys including dispatch_ema_K/I/B/C, kl_loss, rel_loss (when active)
+- Etch per-pass logging: config ready, fires after warmup (200 steps)
+- Relational loss: 380 probes tokenized, fires after warmup (500 steps) every 50
+
+### 8. Next steps
+
+- **Launch V12-run6**: `uv run python scripts/v12/train.py --checkpoint-dir checkpoints/v12-run6 --total-steps 20000`
+- **Key prediction to test**: B should dominate shallow passes, K/I should dominate deep passes
+- **Monitor dispatch_ema**: should stabilize near K=0.29 I=0.14 B=0.29 C=0.29 globally,
+  but with per-pass variation matching the depth profile
+- **Monitor per_pass_flips in etch_log**: shallow passes should etch more freely
+- **Monitor rel_loss**: should decrease over training as student geometry aligns with universal
+- **If dispatch still collapses**: per-pass bias may need to be stronger, or the
+  architecture needs per-pass SEPARATE dispatchers (not shared with per-pass bias)
 
 ## What was done this session (105)
 

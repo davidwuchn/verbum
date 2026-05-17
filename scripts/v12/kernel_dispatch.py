@@ -92,6 +92,7 @@ class CombinatorDispatch(nn.Module):
         max_cond_banks: int = 5,
         dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0),
         n_passes: int = 7,
+        pass_dispatch_bias: tuple[tuple[float, ...], ...] | None = None,
     ):
         super().__init__()
         self.d_model = d_model
@@ -103,6 +104,13 @@ class CombinatorDispatch(nn.Module):
 
         # Empirical ratio prior: log(r/Σr) as static logit bias
         self._dispatch_prior = compute_dispatch_prior(dispatch_ratio)
+
+        # Per-pass depth bias: fixed constants from lambda kernel probes
+        if pass_dispatch_bias is not None:
+            self._pass_bias = mx.array(pass_dispatch_bias)  # (n_passes, n_combinators)
+        else:
+            self._pass_bias = mx.zeros((n_passes, n_combinators))
+
         self.n_total = n_combinators + n_abstraction_slots
         if d_ff is None:
             d_ff = d_model * 3
@@ -272,6 +280,15 @@ class CombinatorDispatch(nn.Module):
             dispatch_logits = dispatch_logits + prior_padded
         else:
             dispatch_logits = dispatch_logits + self._dispatch_prior
+
+        # Per-pass depth bias: fixed constants from lambda kernel probes.
+        # B dominates at shallow passes, K/I at deep passes. This makes
+        # monopoly expensive at every depth simultaneously — no single
+        # combinator is cheap across all passes.
+        pass_bias = self._pass_bias[pass_idx]  # (n_combinators,)
+        if self.n_abstraction_slots > 0:
+            pass_bias = mx.concatenate([pass_bias, mx.zeros((self.n_abstraction_slots,))])
+        dispatch_logits = dispatch_logits + pass_bias
 
         dispatch_weights = mx.softmax(dispatch_logits, axis=-1)
 

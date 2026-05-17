@@ -138,6 +138,7 @@ class V12Model(nn.Module):
             max_cond_banks=7,  # up to 7 readable banks for descending passes
             dispatch_ratio=cfg.dispatch_ratio,
             n_passes=cfg.n_passes,
+            pass_dispatch_bias=cfg.pass_dispatch_bias,
         )
         self.combinator_integrate = CombinatorIntegrate(
             d, n_combinators=N_COMBINATORS,
@@ -713,6 +714,10 @@ class V12Model(nn.Module):
 
         # Output
         x = self.output_norm(x)
+
+        # Cache final hidden state for relational loss (before lm_head)
+        self._last_hidden = x
+
         logits = self.embed.output_proj(x)
 
         loss = None
@@ -803,15 +808,28 @@ class V12Model(nn.Module):
                 if dispatch_kl_live is not None and n_kl_live > 0:
                     q_kibc = dispatch_kl_live / n_kl_live  # mean KIBC probs
                     q_kibc = q_kibc / (mx.sum(q_kibc) + 1e-8)  # renormalize
+
+                    # EMA-smoothed dispatch (anti-oscillation, ~30 step memory)
+                    # Cycling monopolies can't evade because EMA remembers.
+                    decay = self.cfg.dispatch_kl_ema_decay
+                    q_instant = mx.stop_gradient(q_kibc)  # detach for EMA update
+                    if not hasattr(self, '_dispatch_ema'):
+                        self._dispatch_ema = q_instant
+                    else:
+                        self._dispatch_ema = decay * self._dispatch_ema + (1 - decay) * q_instant
+
+                    # KL computed on EMA, not instantaneous dispatch
+                    q_ema = self._dispatch_ema / (mx.sum(self._dispatch_ema) + 1e-8)
                     # Prior from config ratio
                     r = mx.array(self.cfg.dispatch_ratio)
                     p_prior = r / mx.sum(r)
-                    # KL(q ∥ p) = Σ q_i · log(q_i / p_i)
-                    kl = mx.sum(q_kibc * mx.log(q_kibc / (p_prior + 1e-8) + 1e-8))
+                    # KL(q_ema ∥ p) = Σ q_ema_i · log(q_ema_i / p_i)
+                    kl = mx.sum(q_ema * mx.log(q_ema / (p_prior + 1e-8) + 1e-8))
                     kl_loss = self.cfg.dispatch_kl_lambda * kl
                     loss = loss + kl_loss
-                    # Track for logging
+                    # Track both for logging
                     self._last_kl_loss = mx.stop_gradient(kl_loss)
+                    self._last_dispatch_ema = mx.stop_gradient(q_ema)
 
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.

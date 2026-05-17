@@ -441,60 +441,83 @@ def collect_student_hidden_states(
     """Run factual probes through student model, collect hidden states per layer.
 
     Returns: {layer_idx: tensor (n_probes, d_model)} — WITH gradients attached.
+
+    Batched: pads all probes to the same length, runs ONE forward pass.
+    Right-padding with causal attention means padding tokens are invisible
+    to all real tokens — no attention mask changes needed.
     """
-    # We need to run each probe individually (different lengths)
-    # Collect last-position hidden states at each target layer
-    layer_states = {li: [] for li in target_layers}
+    # Tokenize all probes, get per-probe lengths
+    encoded = [tokenizer.encode(p["prompt"]) for p in probes]
+    lengths = [len(e) for e in encoded]
+    max_len = max(lengths)
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
-    for probe in probes:
-        input_ids = tokenizer.encode(probe["prompt"], return_tensors="pt").to(device)
+    # Right-pad to max_len
+    padded = [e + [pad_id] * (max_len - len(e)) for e in encoded]
+    input_ids = torch.tensor(padded, dtype=torch.long, device=device)  # (n_probes, max_len)
 
-        # Manual forward to capture intermediates
-        h = model.embed(input_ids)
-        for layer_idx, layer in enumerate(model.layers):
-            h = h + layer.attn(layer.input_norm(h))
-            h = h + layer.ffn(layer.post_attn_norm(h))
+    # Single batched forward pass through the model, capturing per-layer states
+    h = model.embed(input_ids)  # (n_probes, max_len, d_model)
 
-            # Map model's sequential layer index to source layer index
-            # Our model has N layers corresponding to target_layers
-            if layer_idx < len(target_layers):
-                source_layer = target_layers[layer_idx]
-                if source_layer in layer_states:
-                    layer_states[source_layer].append(h[:, -1, :])  # (1, d_model)
+    layer_states = {}
+    for layer_idx, layer in enumerate(model.layers):
+        h = h + layer.attn(layer.input_norm(h))
+        h = h + layer.ffn(layer.post_attn_norm(h))
 
-    # Stack into tensors (n_probes, d_model)
-    result = {}
-    for li, states in layer_states.items():
-        if states:
-            result[li] = torch.cat(states, dim=0)  # (n_probes, d_model)
+        if layer_idx < len(target_layers):
+            source_layer = target_layers[layer_idx]
+            # Extract last REAL token for each probe (not pad token)
+            last_positions = torch.tensor([l - 1 for l in lengths], device=device)
+            # Advanced indexing: h[batch_idx, last_pos, :]
+            batch_idx = torch.arange(len(probes), device=device)
+            layer_states[source_layer] = h[batch_idx, last_positions, :]  # (n_probes, d_model)
 
-    return result
+    return layer_states
 
 
 def measure_factual_recall(model, probes, tokenizer, device):
-    """Quick factual recall measurement."""
+    """Quick factual recall measurement — batched."""
     model.eval()
+
+    # Pre-filter probes with valid answers
+    valid_probes = []
+    target_ids = []
+    for probe in probes:
+        answer_ids = tokenizer.encode(probe["answer"], add_special_tokens=False)
+        if answer_ids:
+            valid_probes.append(probe)
+            target_ids.append(answer_ids[0])
+
+    if not valid_probes:
+        return {"mean_logprob": 0, "mean_rank": 0, "per_category": {}}
+
+    # Tokenize and pad
+    encoded = [tokenizer.encode(p["prompt"]) for p in valid_probes]
+    lengths = [len(e) for e in encoded]
+    max_len = max(lengths)
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    padded = [e + [pad_id] * (max_len - len(e)) for e in encoded]
+    input_ids = torch.tensor(padded, dtype=torch.long, device=device)
+
+    with torch.no_grad():
+        logits = model(input_ids)  # (n_probes, max_len, vocab)
+
+    # Extract logits at last real token for each probe
     log_probs = []
     ranks = []
+    batch_idx = torch.arange(len(valid_probes), device=device)
+    last_positions = torch.tensor([l - 1 for l in lengths], device=device)
+    last_logits = logits[batch_idx, last_positions, :]  # (n_probes, vocab)
+    lp_all = F.log_softmax(last_logits, dim=-1)  # (n_probes, vocab)
 
-    for probe in probes:
-        input_ids = tokenizer.encode(probe["prompt"], return_tensors="pt").to(device)
-        answer_ids = tokenizer.encode(probe["answer"], add_special_tokens=False)
-        if not answer_ids:
-            continue
-        target_id = answer_ids[0]
-
-        with torch.no_grad():
-            logits = model(input_ids)
-            lp = F.log_softmax(logits[0, -1, :], dim=-1)
-            log_probs.append(lp[target_id].item())
-            rank = (torch.argsort(logits[0, -1, :], descending=True) == target_id).nonzero()[0].item() + 1
-            ranks.append(rank)
+    for i, target_id in enumerate(target_ids):
+        log_probs.append(lp_all[i, target_id].item())
+        rank = (torch.argsort(last_logits[i], descending=True) == target_id).nonzero()[0].item() + 1
+        ranks.append(rank)
 
     by_cat = defaultdict(list)
-    categories = [p["category"] for p in probes]
-    for lp, cat in zip(log_probs, categories):
-        by_cat[cat].append(lp)
+    for lp, probe in zip(log_probs, valid_probes):
+        by_cat[probe["category"]].append(lp)
 
     return {
         "mean_logprob": float(np.mean(log_probs)),
@@ -535,6 +558,7 @@ def train_condition(
     template_loss_fn: RelationalLoss | None = None,
     template_lambda: float = 0.0,
     eval_probes: list[dict] | None = None,
+    checkpoint_dir: Path | None = None,
 ) -> dict:
     """Train with optional relational loss (Level 1 domain + Level 2 template).
 
@@ -636,6 +660,16 @@ def train_condition(
             rel_str = f" | rel={rel_loss_val:.4f}" if rel_loss_fn else ""
             print(f"  [{label}] step {step:>4} | nt={loss_nt.item():.2f}{rel_str} | "
                   f"{tok_per_sec:.0f} tok/s", file=sys.stderr)
+
+            # Incremental checkpoint — never lose hours of training
+            if checkpoint_dir is not None:
+                ckpt = {"label": label, "step": step, "history": history}
+                ckpt_path = checkpoint_dir / f"{label.lower().replace('+', '_')}_checkpoint.json"
+                ckpt_path.write_text(json.dumps(ckpt, indent=2))
+                # Also save model weights at major checkpoints
+                if step % (eval_every * 5) == 0 or step == n_steps:
+                    torch.save(model.state_dict(),
+                               checkpoint_dir / f"{label.lower().replace('+', '_')}_step{step}.pt")
 
     # ── Final evaluation ──
     model.eval()
@@ -872,6 +906,7 @@ def main():
                 "label": "NT-ONLY (cached)",
                 "history": [],
                 "final_recall": {"mean_logprob": 0, "mean_rank": 0, "per_category": {}},
+                "final_student_rdms": {},
             })
             print(f"  Loaded Condition A from previous run: logprob={result_a['final_recall'].get('mean_logprob', '?')}",
                   file=sys.stderr)
@@ -880,6 +915,7 @@ def main():
                 "label": "NT-ONLY (skipped)",
                 "history": [],
                 "final_recall": {"mean_logprob": 0, "mean_rank": 0, "per_category": {}},
+                "final_student_rdms": {},
             }
     else:
         print("  ═══ Condition A: NEXT-TOKEN ONLY (baseline) ═══\n", file=sys.stderr)
@@ -896,6 +932,7 @@ def main():
             n_steps=args.train_steps, lr=args.lr, device=args.device,
             label="NT-ONLY", rel_loss_fn=None,
             eval_every=100, eval_probes=factual_probes,
+            checkpoint_dir=args.output_dir,
         )
         del model_a
         gc.collect()
@@ -927,11 +964,30 @@ def main():
         eval_every=100, eval_probes=factual_probes,
         template_loss_fn=template_loss_fn,
         template_lambda=args.template_lambda,
+        checkpoint_dir=args.output_dir,
     )
     del model_b
     gc.collect()
 
+    # ══ SAVE IMMEDIATELY — before any comparison code ════════════
+    # Training takes hours. Never lose results to a post-training crash.
+    _save_results(args, result_a, result_b, layer_indices, universal_rdm,
+                  probes, categories, cat_names, layer_weights)
+
     # ══ Phase 5: Results ═════════════════════════════════════════
+    try:
+        _print_comparison(result_a, result_b, layer_indices, universal_rdm,
+                          categories, cat_names)
+    except Exception as e:
+        print(f"\n  ⚠️  Comparison display failed: {e}", file=sys.stderr)
+        print(f"  Results are safely saved — check output dir.", file=sys.stderr)
+        import traceback
+        traceback.print_exc(file=sys.stderr)
+
+
+def _print_comparison(result_a, result_b, layer_indices, universal_rdm,
+                      categories, cat_names):
+    """Display comparison between conditions. Crash-safe: results already saved."""
     print(f"\n{'═'*70}", file=sys.stderr)
     print(f"  RESULTS — Relational Distillation", file=sys.stderr)
     print(f"{'═'*70}\n", file=sys.stderr)
@@ -993,9 +1049,11 @@ def main():
               f"{hb['loss_rel']:>10.4f}", file=sys.stderr)
 
     # Verdict
+    ra = result_a["final_recall"]
+    rb = result_b["final_recall"]
     print(f"\n  ═══ VERDICT ═══", file=sys.stderr)
     if rb["mean_logprob"] > ra["mean_logprob"]:
-        improvement = (rb["mean_logprob"] - ra["mean_logprob"]) / abs(ra["mean_logprob"]) * 100
+        improvement = (rb["mean_logprob"] - ra["mean_logprob"]) / abs(ra["mean_logprob"]) * 100 if ra["mean_logprob"] != 0 else 0
         print(f"  ✅ Relational loss IMPROVES factual recall by {improvement:.1f}%", file=sys.stderr)
         print(f"     Category wins: NT+Rel={wins_b}, NT-Only={wins_a}", file=sys.stderr)
     else:
@@ -1003,7 +1061,20 @@ def main():
         print(f"     Category wins: NT+Rel={wins_b}, NT-Only={wins_a}", file=sys.stderr)
         print(f"     May need: higher lambda, more steps, or different rel_every", file=sys.stderr)
 
-    # ══ Save results ═════════════════════════════════════════════
+    print(f"\n  💾 Results already saved (before comparison).", file=sys.stderr)
+    print(f"{'═'*70}\n", file=sys.stderr)
+
+
+def _save_results(args, result_a, result_b, layer_indices, universal_rdm,
+                  probes, categories, cat_names, layer_weights):
+    """Save results IMMEDIATELY after training — before any comparison code.
+
+    This ensures hours of training are never lost to a post-training crash.
+    Called before _print_comparison so data is always persisted.
+    """
+    ra = result_a["final_recall"]
+    rb = result_b["final_recall"]
+
     output = {
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "config": {
@@ -1013,6 +1084,7 @@ def main():
             "rel_lambda": args.rel_lambda,
             "rel_every": args.rel_every,
             "lr": args.lr,
+            "residual": args.residual,
             "n_probes": len(probes),
             "rsa_layer_weights": layer_weights,
         },
@@ -1024,36 +1096,27 @@ def main():
                     for i in [k for k, c in enumerate(categories) if c == ci]
                     for j in [k for k, c in enumerate(categories) if c == ci]
                     if i != j
-                ])),
+                ])) if cat_names else 0.0,
                 "mean_between_cat": float(np.mean([
                     universal_rdm[li][i, j]
                     for i in range(len(probes))
                     for j in range(i + 1, len(probes))
                     if categories[i] != categories[j]
-                ])),
+                ])) if len(probes) > 1 else 0.0,
             }
             for li in layer_indices
         },
-        "condition_a_nt_only": result_a,
-        "condition_b_nt_rel": result_b,
+        "condition_a_nt_only": {k: v for k, v in result_a.items() if k != "final_student_rdms"},
+        "condition_b_nt_rel": {k: v for k, v in result_b.items() if k != "final_student_rdms"},
         "summary": {
             "recall_improvement_pct": (rb["mean_logprob"] - ra["mean_logprob"]) / abs(ra["mean_logprob"]) * 100 if ra["mean_logprob"] != 0 else 0,
-            "category_wins": {"nt_only": wins_a, "nt_rel": wins_b},
             "relational_helps": rb["mean_logprob"] > ra["mean_logprob"],
         },
     }
 
-    # Don't save full student RDMs (large) — just the RSA scores
     json_path = args.output_dir / "relational_distill_results.json"
-
-    # Remove large RDM arrays from output to keep file manageable
-    for key in ["condition_a_nt_only", "condition_b_nt_rel"]:
-        if "final_student_rdms" in output[key]:
-            del output[key]["final_student_rdms"]
-
     json_path.write_text(json.dumps(output, indent=2))
-    print(f"\n  💾 Results: {json_path}", file=sys.stderr)
-    print(f"{'═'*70}\n", file=sys.stderr)
+    print(f"\n  💾 Results saved: {json_path}", file=sys.stderr)
 
 
 if __name__ == "__main__":

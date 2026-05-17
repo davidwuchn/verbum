@@ -1853,6 +1853,7 @@ def update_signal_planes(
     model: nn.Module,
     heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0),
     alarm_weights: dict[str, float] | None = None,
+    etch_threshold_multipliers: dict[str, float] | None = None,
 ) -> dict[str, dict]:
     """Update signal planes with gradient-directed ternary votes.
 
@@ -1871,6 +1872,10 @@ def update_signal_planes(
                          → easier to reach consensus → more etching where needed.
                          Healthy passes get weight < 1.0 → less etching.
                          None = no modulation (all weight 1.0).
+        etch_threshold_multipliers: per-module threshold scaling from depth map.
+                         Shallow passes get < 1.0 → lower percentile → easier to etch.
+                         Deep passes get 1.0 → standard thresholds.
+                         None = no modulation (all multiplier 1.0).
 
     Returns:
         Per-module stats: {path: {votes_written_per_plane, max_heat, ...}}
@@ -1906,9 +1911,16 @@ def update_signal_planes(
 
         mod_stats = {"max_heat": max_heat, "votes_per_plane": []}
 
+        # Per-module threshold multiplier from depth map (shallow = easier to etch)
+        thresh_mult = 1.0
+        if etch_threshold_multipliers is not None and path in etch_threshold_multipliers:
+            thresh_mult = etch_threshold_multipliers[path]
+
         # Update each signal plane at positions above its threshold
         for plane_idx, pct in enumerate(heat_thresholds):
-            threshold = np.percentile(heat, pct)
+            # Scale percentile by depth multiplier: lower mult → lower percentile → more votes
+            effective_pct = min(99.9, max(1.0, pct * thresh_mult))
+            threshold = np.percentile(heat, effective_pct)
             mask = heat > threshold  # (N, K) bool
 
             # Only write non-zero direction votes

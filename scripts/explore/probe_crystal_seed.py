@@ -573,10 +573,12 @@ PROBES = {
 }
 
 
-def flatten_probes() -> list[dict]:
+def flatten_probes(probe_dict: dict | None = None) -> list[dict]:
     """Flatten all probes with axis labels."""
+    if probe_dict is None:
+        probe_dict = PROBES
     flat = []
-    for axis, prompts in PROBES.items():
+    for axis, prompts in probe_dict.items():
         for prompt in prompts:
             flat.append({"prompt": prompt, "axis": axis})
     return flat
@@ -618,24 +620,48 @@ def extract_hidden_states(
                     h = output[0]
                 else:
                     h = output
-                hidden_captures[layer_idx].append(h[:, -1, :].detach().cpu().float())
+                hidden_captures[layer_idx].append(h.detach().cpu().float())
             return hook_fn
         h = layers[li].register_forward_hook(make_hook(li))
         hooks.append(h)
 
-    print(f"  Running {len(probes)} probes...", file=sys.stderr)
-    for probe in probes:
-        input_ids = tokenizer.encode(probe["prompt"], return_tensors="pt").to(device)
+    # Batched: process probes in chunks to avoid OOM on large models
+    print(f"  Running {len(probes)} probes (batched)...", file=sys.stderr)
+    batch_size = 32  # probes per batch — tune for GPU memory
+    encoded = [tokenizer.encode(p["prompt"]) for p in probes]
+    lengths = [len(e) for e in encoded]
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+
+    for batch_start in range(0, len(probes), batch_size):
+        batch_end = min(batch_start + batch_size, len(probes))
+        batch_encoded = encoded[batch_start:batch_end]
+        batch_lengths = lengths[batch_start:batch_end]
+        max_len = max(batch_lengths)
+
+        # Right-pad to max length in this batch
+        padded = [e + [pad_id] * (max_len - len(e)) for e in batch_encoded]
+        input_ids = torch.tensor(padded, dtype=torch.long, device=device)
+
         with torch.no_grad():
             _ = model(input_ids)
 
     for h in hooks:
         h.remove()
 
-    # Stack
+    # Extract last REAL token for each probe from batched captures
     hidden_states = {}
     for li in target_layers:
-        hidden_states[li] = torch.cat(hidden_captures[li], dim=0).numpy()
+        # hidden_captures[li] is a list of tensors, one per batch: (batch, max_len, d)
+        all_last_token = []
+        probe_idx = 0
+        for batch_h in hidden_captures[li]:
+            batch_len = batch_h.shape[0]
+            for i in range(batch_len):
+                if probe_idx < len(probes):
+                    last_pos = lengths[probe_idx] - 1
+                    all_last_token.append(batch_h[i, last_pos, :].unsqueeze(0))
+                    probe_idx += 1
+        hidden_states[li] = torch.cat(all_last_token, dim=0).numpy()
 
     del model
     gc.collect()
@@ -788,6 +814,10 @@ def main():
                         help="Minimum variance fraction to count as significant dimension")
     parser.add_argument("--quick", action="store_true",
                         help="Use fewer layers (0,20)")
+    parser.add_argument("--probe-set", default="crystal",
+                        choices=["crystal", "lambda", "both"],
+                        help="Which probe set to use: crystal (311 original), "
+                             "lambda (380 combinator-focused), both (691 combined)")
     args = parser.parse_args()
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -796,15 +826,31 @@ def main():
     if args.quick:
         target_layers = [0, 20]
 
-    probes = flatten_probes()
+    # Select probe set
+    if args.probe_set == "lambda":
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+        from probes.lambda_kernel_probes import LAMBDA_PROBES
+        probe_dict = LAMBDA_PROBES
+        output_prefix = "lambda_kernel"
+    elif args.probe_set == "both":
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+        from probes.lambda_kernel_probes import LAMBDA_PROBES
+        probe_dict = {**PROBES, **LAMBDA_PROBES}
+        output_prefix = "combined_crystal_lambda"
+    else:
+        probe_dict = PROBES
+        output_prefix = "crystal_seed"
+
+    probes = flatten_probes(probe_dict)
 
     print(f"\n{'═'*70}", file=sys.stderr)
     print(f"  CRYSTAL SEED PROBE — Map the Universal Hologram Scaffold", file=sys.stderr)
     print(f"{'═'*70}", file=sys.stderr)
     print(f"  Models:     {model_keys}", file=sys.stderr)
     print(f"  Layers:     {target_layers}", file=sys.stderr)
-    print(f"  Probes:     {len(probes)} across {len(PROBES)} axes", file=sys.stderr)
-    print(f"  Axes:       {list(PROBES.keys())}", file=sys.stderr)
+    print(f"  Probe set:  {args.probe_set} ({output_prefix})", file=sys.stderr)
+    print(f"  Probes:     {len(probes)} across {len(probe_dict)} axes", file=sys.stderr)
+    print(f"  Axes:       {list(probe_dict.keys())}", file=sys.stderr)
     print(f"  Min eigen:  {args.min_eigenvalue}", file=sys.stderr)
     print(f"{'═'*70}\n", file=sys.stderr)
 
@@ -880,7 +926,7 @@ def main():
     total_dims = sum(d["n_dimensions"] for d in per_layer_dimensions.values())
     print(f"\n  Total verified dimensions: {total_dims} (across {len(target_layers)} layers)",
           file=sys.stderr)
-    print(f"  Probes used: {len(probes)} across {len(PROBES)} axes", file=sys.stderr)
+    print(f"  Probes used: {len(probes)} across {len(probe_dict)} axes", file=sys.stderr)
 
     # Per-axis clustering (which axes produce signal?)
     print(f"\n  Axis clustering in universal RDM (L{target_layers[0]}):", file=sys.stderr)
@@ -916,8 +962,9 @@ def main():
             "models": model_keys,
             "target_layers": target_layers,
             "n_probes": len(probes),
-            "n_axes": len(PROBES),
-            "axes": list(PROBES.keys()),
+            "probe_set": args.probe_set,
+            "n_axes": len(probe_dict),
+            "axes": list(probe_dict.keys()),
             "min_eigenvalue": args.min_eigenvalue,
         },
         "per_layer_dimensions": {
@@ -942,12 +989,12 @@ def main():
             return obj.tolist()
         raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
-    json_path = args.output_dir / "crystal_seed_results.json"
+    json_path = args.output_dir / f"{output_prefix}_results.json"
     json_path.write_text(json.dumps(output, indent=2, default=numpy_serializer))
     print(f"\n  💾 Results: {json_path}", file=sys.stderr)
 
     # Also save just the targets for relational_distill.py to load
-    target_path = args.output_dir / "verified_dimensions.json"
+    target_path = args.output_dir / f"{output_prefix}_verified_dimensions.json"
     target_output = {
         "n_probes": len(probes),
         "probes": [{"prompt": p["prompt"], "axis": p["axis"]} for p in probes],

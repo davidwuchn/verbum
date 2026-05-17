@@ -175,6 +175,24 @@ class V12Config:
     dispatch_entropy_lambda: float = 0.01
     dispatch_entropy_target: float = 1.149   # H(ratio_prior) * 0.85
 
+    # ── Per-pass dispatch bias (depth-selective KIBC prior) ──
+    # From lambda kernel probes (session 106): operations peak at different depths.
+    # B_compose peaks at L0 (33×), K_select at L20 (51×), M_match at L30 (145×).
+    # Each pass gets a fixed additive logit bias derived from the cross-model
+    # agreed depth profile. Combines with ratio prior in logit space:
+    #   dispatch_logits = raw + ratio_prior + pass_bias[pass_idx]
+    # Values are fixed constants (not learned) — cross-model agreement validates them.
+    #                            K     I     B     C
+    pass_dispatch_bias: tuple[tuple[float, ...], ...] = (
+        (-1.0, -1.0, +2.0, +0.5),   # Pass 0 (L0↑, shallow): B dominates
+        (+0.0, +0.0, +0.5, +0.5),   # Pass 1 (L1↑, mid): balanced
+        (+1.0, +0.5, +0.0, +0.5),   # Pass 2 (L2↑, deep): K/I emerging
+        (+2.0, +1.5, -0.5, +0.0),   # Pass 3 (apex): K/I peak
+        (+1.5, +1.0, -0.5, +0.0),   # Pass 4 (L2↓, deep): K/I for reading
+        (+0.5, +0.5, +0.0, +1.0),   # Pass 5 (L1↓, mid): C for reordering
+        (-0.5, +0.0, +1.5, +0.5),   # Pass 6 (L0↓, shallow): final composition
+    )
+
     # ── KL divergence toward empirical ratio (hard constraint) ──
     # We know an optimal solution uses this ratio. Find it.
     # K:I:B:C = 1:0.5:1:1 — measured across 9 models, 2 architectures.
@@ -186,6 +204,22 @@ class V12Config:
     #   B=35% (+6.4pt) → 1.01 nats — 12% of CE, painful
     #   B=40%          → 3.22 nats — 37% of CE, impossible
     dispatch_kl_lambda: float = 100.0
+
+    # ── EMA-smoothed KL (anti-oscillation) ──
+    # Run4 showed dispatch cycling: B→K→I→C monopolies evading instantaneous KL.
+    # Fix: compute KL on EMA-smoothed dispatch. Memory ≈ 1/(1-decay) steps.
+    # At 0.967 (≈30 steps): model can't "pay back" monopoly by switching.
+    dispatch_kl_ema_decay: float = 0.967  # ~30 steps of effective memory
+
+    # ── Lambda kernel relational loss ──
+    # Periodic geometric alignment from cross-model probe data (session 106).
+    # Every rel_every steps, sample rel_n_probes random probes, compute
+    # residual RDM, MSE against universal target. Gentle nudge (λ=0.01).
+    use_relational_loss: bool = True
+    rel_lambda: float = 0.01
+    rel_every: int = 50         # steps between relational loss events
+    rel_n_probes: int = 50      # probes sampled per event
+    rel_target_path: str = "results/holographic-extraction/lambda_kernel_verified_dimensions.json"
 
     # Dropout
     dropout: float = 0.1
@@ -232,6 +266,21 @@ class V12Config:
     etch_adam_decay: float = 0.1      # Adam state decay for etched gamma rows
     etch_max_flips_per_event: int = 50000  # per-event flip ceiling
     etch_reset_after_flip: bool = True     # reset accumulators after etch
+
+    # ── Depth-selective etch thresholds ──
+    # Shallow passes etch more freely (structural templates evolve fast).
+    # Deep passes need more consensus (semantic content is high-value).
+    # Multiplier scales the heat percentile thresholds per pass.
+    # At 0.5×: half the consensus needed. At 1.0×: full consensus.
+    pass_etch_multiplier: tuple[float, ...] = (
+        0.5,   # Pass 0 (L0↑): etch freely — structural templates
+        0.7,   # Pass 1 (L1↑): moderate
+        1.0,   # Pass 2 (L2↑): standard
+        1.0,   # Pass 3 (apex): standard
+        1.0,   # Pass 4 (L2↓): standard
+        0.8,   # Pass 5 (L1↓): moderate
+        0.6,   # Pass 6 (L0↓): etch freely — final composition
+    )
     # NOTE: etch_max_pct and etch_max_pct_ramp are REMOVED.
     # Consensus mechanism (+ etch_max_flips_per_event ceiling) governs flip rate.
     # Self-terminating: early=aggressive (many wrong signs), late=quiet (signs aligned).
