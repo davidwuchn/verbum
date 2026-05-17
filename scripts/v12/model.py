@@ -55,7 +55,10 @@ from components import (
     AbstractionRegularizer,
     RetrievalRegisters,
 )
-from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
+from kernel_dispatch import (
+    CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS,
+    CategoryDispatch, MathDispatch, MathExtractor,
+)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -95,7 +98,7 @@ def compute_crystal_diagnostics(model: "V12Model") -> dict:
             mirror_vecs.append(w_flat)
 
         # Pairwise cosine similarity
-        names = ["K", "I", "B", "C"]
+        from kernel import COMBINATOR_NAMES as names
         cosine_matrix = {}
         for i in range(N_COMBINATORS):
             for j in range(i + 1, N_COMBINATORS):
@@ -110,10 +113,23 @@ def compute_crystal_diagnostics(model: "V12Model") -> dict:
         metrics["combinator_mirror_cosines"] = cosine_matrix
 
         # Summary: K/B/C mean cos (shared plate signal) vs I separation
-        kbc_pairs = ["K_B", "K_C", "B_C"]
-        i_pairs = ["K_I", "I_B", "I_C"]
-        kbc_mean = sum(cosine_matrix[p] for p in kbc_pairs) / 3
-        i_mean = sum(cosine_matrix[p] for p in i_pairs) / 3
+        # With 8 combinators, keep the original KBC-vs-I measurement
+        # as a crystal formation indicator (invariant across expansion)
+        kbc_pairs = [p for p in cosine_matrix if "K" in p and "I" not in p
+                     or "B" in p and "I" not in p and "C" in p]
+        # Simpler: just compute K_B, K_C, B_C explicitly if they exist
+        kbc_keys = ["K_B", "K_C", "B_C"]
+        i_keys = ["K_I", "I_B", "I_C"]
+        kbc_present = [k for k in kbc_keys if k in cosine_matrix]
+        i_present = [k for k in i_keys if k in cosine_matrix]
+        if kbc_present:
+            kbc_mean = sum(cosine_matrix[p] for p in kbc_present) / len(kbc_present)
+        else:
+            kbc_mean = 0.0
+        if i_present:
+            i_mean = sum(cosine_matrix[p] for p in i_present) / len(i_present)
+        else:
+            i_mean = 0.0
         metrics["crystal_kbc_plate_cos"] = kbc_mean
         metrics["crystal_i_separation_cos"] = i_mean
         # Crystal formation ratio: high KBC cos + low I cos = crystal formed
@@ -202,7 +218,7 @@ def compute_dispatch_conditioned_similarity(
     dw_flat = dw.reshape(-1, N_COMBINATORS)    # (B*L, 4)
 
     # Per-combinator weighted mean hidden state
-    names = ["K", "I", "B", "C"]
+    from kernel import COMBINATOR_NAMES as names
     comb_means = []
     for c in range(N_COMBINATORS):
         weights = dw_flat[:, c:c+1]  # (B*L, 1)
@@ -325,6 +341,25 @@ class V12Model(nn.Module):
             n_retrieval_registers=cfg.n_retrieval_registers,
             n_passes=cfg.n_passes,
         )
+
+        # ── Math kernel pathway (hierarchical dispatch) ────────
+        if cfg.use_math_kernels:
+            self.category_dispatch = CategoryDispatch(
+                d, n_categories=cfg.n_categories,
+                gate_init=cfg.category_gate_init,
+            )
+            self.math_dispatch = MathDispatch(
+                d, n_math_kernels=cfg.n_math_kernels,
+            )
+            self.math_extractor = MathExtractor(
+                d, d_hidden=cfg.math_extractor_d,
+            )
+            # Math result encoder: maps kernel output scalar back to d_model
+            # Small linear: 1 → d_model (the kernel produces a scalar,
+            # we need to project it into the residual stream)
+            self.math_result_proj = nn.Linear(1, d)
+            # Init near-zero so math path starts inert
+            self.math_result_proj.weight = self.math_result_proj.weight * 0.01
 
         # ── S4: Intelligence ──────────────────────────────────
         self.s4 = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
@@ -641,7 +676,36 @@ class V12Model(nn.Module):
             x, dispatch_weights=dw, slot_embeddings=slot_emb,
             retrieval_registers=ret_regs,
             pass_idx=pass_idx)
-        delta = integrate_out - x
+
+        # ── Math kernel pathway (if enabled) ──────────────────
+        # CategoryDispatch routes between lambda/math/passthrough.
+        # The integrate_out is the lambda pathway result.
+        # Math pathway computes exact arithmetic on extracted operands.
+        # Passthrough = identity (no kernel, just residual).
+        if self.cfg.use_math_kernels and hasattr(self, 'category_dispatch'):
+            cat_weights = self.category_dispatch(x)  # (B, L, 3)
+            # cat_weights[:,:,0] = lambda, [:,:,1] = math, [:,:,2] = passthrough
+
+            # Math pathway: extract operands → dispatch → compute
+            op_a, op_b, math_conf = self.math_extractor(x)  # each (B, L, 1)
+            # For now: math result is just op_a + op_b (simplest kernel: ADD)
+            # The actual kernel dispatch will route to specific functions,
+            # but the differentiable path through is the projection.
+            # We use the confidence-gated operand sum as a differentiable proxy.
+            math_signal = (op_a + op_b) * math_conf  # (B, L, 1)
+            math_out = self.math_result_proj(math_signal)  # (B, L, d_model)
+            math_out = x + math_out  # residual addition
+
+            # Blend: lambda_weight * lambda_out + math_weight * math_out + pass_weight * x
+            w_lambda = cat_weights[..., 0:1]   # (B, L, 1)
+            w_math = cat_weights[..., 1:2]     # (B, L, 1)
+            w_pass = cat_weights[..., 2:3]     # (B, L, 1)
+
+            blended_out = w_lambda * integrate_out + w_math * math_out + w_pass * x
+            delta = blended_out - x
+        else:
+            delta = integrate_out - x
+
         raw_phases.append(delta)
         _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
             target_bank, delta, 2)
@@ -847,7 +911,7 @@ class V12Model(nn.Module):
         else:
             cg_mean = mx.zeros((1,))
         kernel_state = mx.concatenate([
-            dw_mean,                                            # 4 dims
+            dw_mean,                                            # N_COMBINATORS dims
             cg_mean,                                            # 1 dim
             mx.zeros((self.d_reg_real - N_COMBINATORS - 1,)),   # padding
         ])

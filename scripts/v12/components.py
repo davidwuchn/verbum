@@ -995,7 +995,7 @@ class AlgedonicAlert(nn.Module):
     N_S3_GATE_MEANS = 7    # mean S3 gate per pass
     N_S3_GATE_MINS = 7     # min S3 gate per pass (most suppressed phase)
     N_S2_CONFLICTS = 6     # cosine between consecutive pass deltas
-    N_DISPATCH = 4         # combinator weight means (K, I, B, C)
+    N_DISPATCH = 8         # combinator weight means (K, I, B, C, D, Y, W, WHNF)
     N_DISPATCH_ENTROPY = 1 # dispatch distribution entropy
     N_COMPUTE_GATE = 2     # mean + active fraction
     N_CYCLE_GATES = 6      # CycleContinue gates (2 per desc pass × 3 desc passes)

@@ -881,9 +881,10 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
     if hasattr(model, '_last_dispatch_ema'):
         ema = model._last_dispatch_ema
         if ema is not None:
+            from kernel import COMBINATOR_NAMES
             dispatch_ema = {
-                "K": float(ema[0]), "I": float(ema[1]),
-                "B": float(ema[2]), "C": float(ema[3]),
+                COMBINATOR_NAMES[i]: float(ema[i])
+                for i in range(min(len(COMBINATOR_NAMES), len(ema)))
             }
 
     # Crystal formation diagnostics (mirror geometry)
@@ -1371,8 +1372,11 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
                 if dw is not None:
                     dw_mean = dw.mean(axis=(0, 1))
                     mx.eval(dw_mean)
-                    dw_vals = [float(dw_mean[i].item()) for i in range(min(4, dw_mean.shape[0]))]
-                    dispatch_str = f" | K={dw_vals[0]:.2f} I={dw_vals[1]:.2f} B={dw_vals[2]:.2f} C={dw_vals[3]:.2f}"
+                    from kernel import COMBINATOR_NAMES, N_COMBINATORS as N_COMB
+                    dw_vals = [float(dw_mean[i].item()) for i in range(min(N_COMB, dw_mean.shape[0]))]
+                    dispatch_parts = [f"{COMBINATOR_NAMES[i]}={dw_vals[i]:.2f}"
+                                      for i in range(len(dw_vals))]
+                    dispatch_str = " | " + " ".join(dispatch_parts)
 
             print(
                 f"step {step:>6d} | r={step_loss:.4f} (avg50: {avg50:.4f})"
@@ -1430,10 +1434,10 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
             if hasattr(model, '_last_dispatch_ema'):
                 mx.eval(model._last_dispatch_ema)
                 ema = model._last_dispatch_ema
-                train_record["dispatch_ema_K"] = float(ema[0].item())
-                train_record["dispatch_ema_I"] = float(ema[1].item())
-                train_record["dispatch_ema_B"] = float(ema[2].item())
-                train_record["dispatch_ema_C"] = float(ema[3].item())
+                from kernel import COMBINATOR_NAMES
+                for i, name in enumerate(COMBINATOR_NAMES):
+                    if i < len(ema):
+                        train_record[f"dispatch_ema_{name}"] = float(ema[i].item())
 
             # Relational loss (lambda kernel probes)
             if rel_loss_val > 0:

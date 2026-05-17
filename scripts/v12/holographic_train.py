@@ -89,7 +89,7 @@ def build_lambda_corpus(
     sep_tokens = tok.encode("\n", add_special_tokens=False)
 
     corpus: dict[str, list[list[int]]] = {}
-    for op in ["K", "I", "B", "C", "M"]:
+    for op in ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]:
         # Tokenize all expressions for this op
         all_token_seqs = []
         for ex in examples[op]:
@@ -256,7 +256,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         # Phase A: EXPOSE — accumulate direction per operation
         # ══════════════════════════════════════════════════════
 
-        ops = ["K", "I", "B", "C", "M"]
+        ops = ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]
         rng.shuffle(ops)
 
         for op in ops:
@@ -307,7 +307,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         beam_losses = []
         for step in range(args.beam_steps):
             # Mixed lambda data (all operations)
-            op = rng.choice(["K", "I", "B", "C", "M"])
+            op = rng.choice(["K", "I", "B", "C", "M", "D", "Y", "WHNF"])
             input_ids, targets = corpus_batch(
                 corpus, op, batch_size=cfg.batch_size, rng=rng
             )

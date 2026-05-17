@@ -159,21 +159,24 @@ class V12Config:
     holo_ramp_steps: int = 0
 
     # ── Dispatch ratio prior (empirical universal ratio) ──
-    # K:I:B:C ≈ 1:0.5:1:1 measured across 9 models, 2 architectures.
+    # Base KIBC: K:I:B:C ≈ 1:0.5:1:1 measured across 9 models, 2 architectures.
+    # Extended DYWH: D:Y:W:WHNF ≈ 0.5:0.3:0.3:0.2 (rarer operations, lower prior).
     # Applied as log(ratio/Σratio) additive bias in logit space.
     # When logits are zero (no opinion), dispatch defaults to this ratio.
     # The model can still deviate, but must overcome the prior to do so.
-    # This removes bad configurations (B-monopoly, K/C death) from the
-    # low-energy landscape — topology, not instruction.
-    dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0)  # K, I, B, C
+    dispatch_ratio: tuple[float, ...] = (
+        1.0, 0.5, 1.0, 1.0,   # K, I, B, C (base)
+        0.5, 0.3, 0.3, 0.2,   # D, Y, W, WHNF (extended, rarer)
+    )
 
     # ── Dispatch entropy regularization (v12 variety fix) ──
     # Penalizes dispatch collapse: squared hinge on entropy below target.
     # Target = entropy of the ratio prior (not uniform).
-    # With ratio (1, 0.5, 1, 1): target probs = (0.286, 0.143, 0.286, 0.286)
-    # H = -Σ p·ln(p) ≈ 1.352. At 85%: 1.352 * 0.85 ≈ 1.149.
+    # With 8-way ratio (1, 0.5, 1, 1, 0.5, 0.3, 0.3, 0.2):
+    # Σ = 4.8, probs ≈ (0.208, 0.104, 0.208, 0.208, 0.104, 0.063, 0.063, 0.042)
+    # H = -Σ p·ln(p) ≈ 1.93. At 85%: 1.93 * 0.85 ≈ 1.64.
     dispatch_entropy_lambda: float = 0.01
-    dispatch_entropy_target: float = 1.149   # H(ratio_prior) * 0.85
+    dispatch_entropy_target: float = 1.64   # H(ratio_prior) * 0.85
 
     # ── Per-pass dispatch bias (depth-selective KIBC prior) ──
     # From lambda kernel probes (session 106): operations peak at different depths.
@@ -182,15 +185,18 @@ class V12Config:
     # agreed depth profile. Combines with ratio prior in logit space:
     #   dispatch_logits = raw + ratio_prior + pass_bias[pass_idx]
     # Values are fixed constants (not learned) — cross-model agreement validates them.
-    #                            K     I     B     C
+    # Extended to 8 ops: D peaks where B peaks (deep-compose is composition),
+    # Y at mid-depth (recursion detection), W near I (duplication ≈ identity),
+    # WHNF at deep passes (terminal detection requires semantic understanding).
+    #                            K     I     B     C     D     Y     W    WHNF
     pass_dispatch_bias: tuple[tuple[float, ...], ...] = (
-        (-1.0, -1.0, +2.0, +0.5),   # Pass 0 (L0↑, shallow): B dominates
-        (+0.0, +0.0, +0.5, +0.5),   # Pass 1 (L1↑, mid): balanced
-        (+1.0, +0.5, +0.0, +0.5),   # Pass 2 (L2↑, deep): K/I emerging
-        (+2.0, +1.5, -0.5, +0.0),   # Pass 3 (apex): K/I peak
-        (+1.5, +1.0, -0.5, +0.0),   # Pass 4 (L2↓, deep): K/I for reading
-        (+0.5, +0.5, +0.0, +1.0),   # Pass 5 (L1↓, mid): C for reordering
-        (-0.5, +0.0, +1.5, +0.5),   # Pass 6 (L0↓, shallow): final composition
+        (-1.0, -1.0, +2.0, +0.5, +1.5, -1.0, -0.5, -1.5),  # Pass 0 (L0↑): B/D dominate
+        (+0.0, +0.0, +0.5, +0.5, +0.5, +0.0, +0.0, -1.0),  # Pass 1 (L1↑): balanced
+        (+1.0, +0.5, +0.0, +0.5, +0.0, +1.0, +0.0, +0.0),  # Pass 2 (L2↑): K/I/Y emerging
+        (+2.0, +1.5, -0.5, +0.0, -0.5, +1.5, +0.5, +1.0),  # Pass 3 (apex): K/I/Y/WHNF
+        (+1.5, +1.0, -0.5, +0.0, -0.5, +1.0, +0.5, +1.0),  # Pass 4 (L2↓): K/I reading
+        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +0.5, +0.0),  # Pass 5 (L1↓): C/W reorder
+        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -1.0),  # Pass 6 (L0↓): B/D compose
     )
 
     # ── KL divergence toward empirical ratio (hard constraint) ──
@@ -220,6 +226,17 @@ class V12Config:
     rel_every: int = 50         # steps between relational loss events
     rel_n_probes: int = 50      # probes sampled per event
     rel_target_path: str = "results/holographic-extraction/lambda_kernel_verified_dimensions.json"
+
+    # ── Hierarchical dispatch (category → operation) ──
+    # Level 1: which CATEGORY of kernel? (3-way: lambda, math, passthrough)
+    # Level 2a: which COMBINATOR? (8-way, existing dispatch)
+    # Level 2b: which MATH kernel? (17-way)
+    # Passthrough = no kernel, normal next-token prediction via residual.
+    n_categories: int = 3              # lambda, math, passthrough
+    n_math_kernels: int = 17           # from math_kernels.py registry
+    math_extractor_d: int = 64         # extraction head hidden dim
+    category_gate_init: float = -3.0   # sigmoid(-3)≈0.05 — math starts nearly off
+    use_math_kernels: bool = True      # enable math kernel pathway
 
     # Dropout
     dropout: float = 0.1

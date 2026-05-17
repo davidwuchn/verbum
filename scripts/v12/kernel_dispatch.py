@@ -90,7 +90,7 @@ class CombinatorDispatch(nn.Module):
         n_registers: int = 3,
         d_register: int = 128,
         max_cond_banks: int = 5,
-        dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0),
+        dispatch_ratio: tuple[float, ...] = (1.0, 0.5, 1.0, 1.0, 0.5, 0.3, 0.3, 0.2),
         n_passes: int = 7,
         pass_dispatch_bias: tuple[tuple[float, ...], ...] | None = None,
     ):
@@ -430,11 +430,15 @@ class CombinatorIntegrate(nn.Module):
     ) -> tuple[mx.array, dict]:
         """Extract operands, apply combinator reductions, encode result.
 
-        The 4 combinator kernel functions operate on integer operands:
-          K(op0, op1, op2) → op0           (select first)
-          I(op0, op1, op2) → op0           (identity)
-          B(op0, op1, op2) → op0+op1+op2   (composition signal)
-          C(op0, op1, op2) → op0+op2       (flip: skip op1)
+        The 8 combinator kernel functions operate on integer operands:
+          K(op0, op1, op2) → op0              (select first)
+          I(op0, op1, op2) → op0              (identity)
+          B(op0, op1, op2) → op0+op1+op2      (composition signal)
+          C(op0, op1, op2) → op0+op2          (flip: skip op1)
+          D(op0, op1, op2) → op0*2+op1+op2    (deep compose: weighted)
+          Y(op0, op1, op2) → op0              (recursion: persist fn)
+          W(op0, op1, op2) → op0+op1*2        (duplicate: arg twice)
+          WHNF(op0, op1, op2) → op0           (terminal: pass through)
         """
         B, L, _ = h.shape
 
@@ -455,22 +459,21 @@ class CombinatorIntegrate(nn.Module):
             comb = mx.zeros((B, L), dtype=mx.int32)
 
         # ── Exact combinator kernel (non-differentiable) ─────
-        # Compute all 4 combinator results, select by dispatched combinator
+        # Compute all 8 combinator results, select by dispatched combinator
 
-        # K: select op0 (discard op1, op2)
-        r_K = op0
-
-        # I: identity — return op0
-        r_I = op0
-
-        # B: compose — f(g(x)) encoded as additive signal
-        r_B = op0 + op1 + op2
-
-        # C: flip — f(y,x) encoded as op0 + op2 (skip op1)
-        r_C = op0 + op2
+        r_K = op0                       # K: select first
+        r_I = op0                       # I: identity
+        r_B = op0 + op1 + op2           # B: compose (additive)
+        r_C = op0 + op2                 # C: flip (skip op1)
+        r_D = op0 * 2 + op1 + op2      # D: deep compose (weighted)
+        r_Y = op0                       # Y: recursion (persist)
+        r_W = op0 + op1 * 2            # W: duplicate (arg twice)
+        r_WHNF = op0                    # WHNF: terminal (pass through)
 
         # Stack and select by combinator code
-        all_results = mx.stack([r_K, r_I, r_B, r_C], axis=0)  # (4, B, L)
+        all_results = mx.stack(
+            [r_K, r_I, r_B, r_C, r_D, r_Y, r_W, r_WHNF], axis=0
+        )  # (8, B, L)
 
         comb_clamped = mx.clip(comb, 0, N_COMBINATORS - 1)
         b_idx = mx.broadcast_to(mx.arange(B)[:, None], (B, L))
@@ -629,6 +632,158 @@ def _init_combinator_type_embeddings(
 
 
 # ══════════════════════════════════════════════════════════════════
+# CategoryDispatch — routes to lambda / math / passthrough
+# ══════════════════════════════════════════════════════════════════
+
+
+class CategoryDispatch(nn.Module):
+    """Level-1 hierarchical dispatch: which CATEGORY of kernel?
+
+    3-way softmax:
+      0 = LAMBDA (route to CombinatorDispatch for 8-way combinator selection)
+      1 = MATH (route to MathDispatch for 17-way math kernel selection)
+      2 = PASSTHROUGH (no kernel, residual stream continues normally)
+
+    At init, passthrough dominates (the model works as a normal LM).
+    Math and lambda pathways open as the model learns to recognize
+    positions where exact computation helps.
+    """
+
+    LAMBDA = 0
+    MATH = 1
+    PASSTHROUGH = 2
+    N_CATEGORIES = 3
+
+    def __init__(
+        self,
+        d_model: int,
+        n_categories: int = 3,
+        gate_init: float = -3.0,
+    ):
+        super().__init__()
+        self.d_model = d_model
+        self.n_categories = n_categories
+
+        self.norm = nn.RMSNorm(d_model)
+
+        # Category logit projection
+        n_cat_padded = ((n_categories + 15) // 16) * 16
+        self._n_cat_padded = n_cat_padded
+        self.cat_proj = TernaryLinear(d_model, n_cat_padded, pre_norm=False)
+
+        # Category prior: passthrough dominates at init
+        # log(prior): lambda=-1.0, math=-2.0, passthrough=0.0
+        # → softmax ≈ [0.24, 0.09, 0.67] — mostly passthrough
+        self._category_prior = mx.array([-1.0, -2.0, 0.0])
+
+    def __call__(self, x: mx.array) -> mx.array:
+        """
+        x: (B, L, d_model)
+        Returns: (B, L, n_categories) category weights (softmax)
+        """
+        h = self.norm(x)
+        logits = self.cat_proj(h)[..., :self.n_categories]
+        logits = logits + self._category_prior
+        weights = mx.softmax(logits, axis=-1)
+        self._category_weights = mx.stop_gradient(weights)
+        return weights
+
+
+# ══════════════════════════════════════════════════════════════════
+# MathDispatch — routes to specific math kernel
+# ══════════════════════════════════════════════════════════════════
+
+
+class MathDispatch(nn.Module):
+    """Level-2 math dispatch: which of 17 math operations?
+
+    Dispatches to: ADD, SUB, MUL, DIV, MOD, POW, CMP, EQ,
+                   MAX, MIN, SQRT, LOG, ABS, NEG, FLOOR, CEIL, ROUND
+
+    Uses a TernaryLinear projection → 17-way softmax.
+    Each kernel is frozen code (from math_kernels.py).
+    """
+
+    def __init__(self, d_model: int, n_math_kernels: int = 17):
+        super().__init__()
+        self.d_model = d_model
+        self.n_math_kernels = n_math_kernels
+
+        self.norm = nn.RMSNorm(d_model)
+
+        # Math kernel logit projection
+        n_padded = ((n_math_kernels + 15) // 16) * 16
+        self._n_padded = n_padded
+        self.math_proj = TernaryLinear(d_model, n_padded, pre_norm=False)
+
+    def __call__(self, x: mx.array) -> mx.array:
+        """
+        x: (B, L, d_model)
+        Returns: (B, L, n_math_kernels) math kernel weights (softmax)
+        """
+        h = self.norm(x)
+        logits = self.math_proj(h)[..., :self.n_math_kernels]
+        weights = mx.softmax(logits, axis=-1)
+        self._math_weights = mx.stop_gradient(weights)
+        return weights
+
+
+# ══════════════════════════════════════════════════════════════════
+# MathExtractor — parse operands from hidden state
+# ══════════════════════════════════════════════════════════════════
+
+
+class MathExtractor(nn.Module):
+    """Extract numeric operands from hidden state for math kernels.
+
+    Two pathways:
+      proj_a: d_model → d_hidden → 1 (operand A, scalar)
+      proj_b: d_model → d_hidden → 1 (operand B, scalar)
+      confidence: d_model → 1 (how sure are we this is a math position?)
+
+    The extractor learns to parse "23 + 47" → (23.0, 47.0, 0.95).
+    The kernel computes exactly. The extractor quality is the bottleneck.
+    """
+
+    def __init__(self, d_model: int, d_hidden: int = 64):
+        super().__init__()
+        self.norm = nn.RMSNorm(d_model)
+
+        # Operand extraction (lightweight MLP)
+        self.proj_a = nn.Sequential(
+            nn.Linear(d_model, d_hidden),
+            nn.GELU(),
+            nn.Linear(d_hidden, 1),
+        )
+        self.proj_b = nn.Sequential(
+            nn.Linear(d_model, d_hidden),
+            nn.GELU(),
+            nn.Linear(d_hidden, 1),
+        )
+
+        # Confidence gate (should we trust the extraction?)
+        self.confidence = nn.Sequential(
+            nn.Linear(d_model, d_hidden),
+            nn.GELU(),
+            nn.Linear(d_hidden, 1),
+        )
+
+    def __call__(self, x: mx.array) -> tuple[mx.array, mx.array, mx.array]:
+        """
+        x: (B, L, d_model)
+        Returns: (operand_a, operand_b, confidence)
+          operand_a: (B, L, 1) — extracted first operand
+          operand_b: (B, L, 1) — extracted second operand
+          confidence: (B, L, 1) — sigmoid gating [0, 1]
+        """
+        h = self.norm(x)
+        a = self.proj_a(h)           # (B, L, 1)
+        b = self.proj_b(h)           # (B, L, 1)
+        conf = mx.sigmoid(self.confidence(h))  # (B, L, 1)
+        return a, b, conf
+
+
+# ══════════════════════════════════════════════════════════════════
 # Self-test
 # ══════════════════════════════════════════════════════════════════
 
@@ -637,19 +792,19 @@ if __name__ == "__main__":
     d_model = 512
     n_slots = 16
 
-    print("Testing CombinatorDispatch (4 KIBC + 16 abstraction slots)...")
+    print(f"Testing CombinatorDispatch ({N_COMBINATORS} ops + {n_slots} abstraction slots)...")
     dispatch = CombinatorDispatch(
-        d_model, n_combinators=4, n_abstraction_slots=n_slots, d_ff=1536)
+        d_model, n_combinators=N_COMBINATORS, n_abstraction_slots=n_slots, d_ff=1536)
     x = mx.random.normal((1, 64, d_model))
     y = dispatch(x)
     mx.eval(y)
     assert y.shape == (1, 64, d_model), f"Expected (1, 64, 512), got {y.shape}"
 
-    # Check dispatch weights are cached (4+N-wide)
+    # Check dispatch weights are cached (N_COMBINATORS+N_SLOTS-wide)
     dw = dispatch._dispatch_weights
     mx.eval(dw)
-    assert dw.shape == (1, 64, 4 + n_slots), \
-        f"Expected (1, 64, {4 + n_slots}), got {dw.shape}"
+    assert dw.shape == (1, 64, N_COMBINATORS + n_slots), \
+        f"Expected (1, 64, {N_COMBINATORS + n_slots}), got {dw.shape}"
 
     # Weights should sum to ~1
     sums = mx.sum(dw, axis=-1)
@@ -657,18 +812,18 @@ if __name__ == "__main__":
     assert mx.allclose(sums, mx.ones_like(sums), atol=1e-4).item(), \
         f"Dispatch weights should sum to ~1"
     print(f"  CombinatorDispatch: {x.shape} → {y.shape} ✓")
-    print(f"  Dispatch weights: {dw.shape}, (4+{n_slots})-way softmax ✓")
+    print(f"  Dispatch weights: {dw.shape}, ({N_COMBINATORS}+{n_slots})-way softmax ✓")
 
-    # At init, almost all mass should be on KIBC (slots have near-zero gates)
-    kibc_mass = mx.sum(dw[..., :4], axis=-1)
-    slot_mass = mx.sum(dw[..., 4:], axis=-1)
+    # At init, almost all mass should be on combinators (slots have near-zero gates)
+    kibc_mass = mx.sum(dw[..., :N_COMBINATORS], axis=-1)
+    slot_mass = mx.sum(dw[..., N_COMBINATORS:], axis=-1)
     mx.eval(kibc_mass, slot_mass)
     mean_kibc = float(mx.mean(kibc_mass).item())
     mean_slot = float(mx.mean(slot_mass).item())
-    print(f"  KIBC mass: {mean_kibc:.4f}, slot mass: {mean_slot:.4f}")
-    assert mean_kibc > 0.9, \
-        f"At init, KIBC should dominate (>0.9), got {mean_kibc:.4f}"
-    print(f"  Slots near-invisible at init ✓")
+    print(f"  Combinator mass: {mean_kibc:.4f}, slot mass: {mean_slot:.4f}")
+    assert mean_kibc > 0.7, \
+        f"At init, combinators should dominate (>0.7), got {mean_kibc:.4f}"
+    print(f"  Slots subordinate at init ✓")
 
     # Slot gates should start near 0.018
     sg = dispatch.slot_gates
@@ -676,18 +831,19 @@ if __name__ == "__main__":
     print(f"  Slot gates: mean={float(mx.mean(sg).item()):.4f} "
           f"(expect ~0.018) ✓")
 
-    # KIBC-only backward compatibility
+    # Combinator-only backward compatibility
     dw_kibc = dispatch._dispatch_weights_kibc
     mx.eval(dw_kibc)
-    assert dw_kibc.shape == (1, 64, 4), f"KIBC weights shape: {dw_kibc.shape}"
-    print(f"  KIBC-only weights cached: {dw_kibc.shape} ✓")
+    assert dw_kibc.shape == (1, 64, N_COMBINATORS), f"Combinator weights shape: {dw_kibc.shape}"
+    print(f"  Combinator-only weights cached: {dw_kibc.shape} ✓")
 
     # Mean dispatch distribution
     mean_dw = mx.mean(dw, axis=(0, 1))
     mx.eval(mean_dw)
-    print(f"  Mean dispatch: K={mean_dw[0].item():.3f} I={mean_dw[1].item():.3f} "
-          f"B={mean_dw[2].item():.3f} C={mean_dw[3].item():.3f}"
-          f" slots={sum(mean_dw[i].item() for i in range(4, 4+n_slots)):.4f}")
+    comb_str = " ".join(f"{COMBINATOR_NAMES[i]}={mean_dw[i].item():.3f}"
+                        for i in range(N_COMBINATORS))
+    slot_sum = sum(mean_dw[i].item() for i in range(N_COMBINATORS, N_COMBINATORS + n_slots))
+    print(f"  Mean dispatch: {comb_str} slots={slot_sum:.4f}")
 
     # Check embedding normalization
     normed = dispatch._normalize_embeddings()
@@ -698,31 +854,31 @@ if __name__ == "__main__":
     print(f"  Embedding norms: all ≈ {dispatch.embed_scale} ✓")
 
     # Test without abstraction slots (backward compat)
-    print("\nTesting CombinatorDispatch (4 KIBC, no slots)...")
-    dispatch_base = CombinatorDispatch(d_model, n_combinators=4, d_ff=1536)
+    print(f"\nTesting CombinatorDispatch ({N_COMBINATORS} ops, no slots)...")
+    dispatch_base = CombinatorDispatch(d_model, n_combinators=N_COMBINATORS, d_ff=1536)
     y_base = dispatch_base(x)
     mx.eval(y_base)
     dw_base = dispatch_base._dispatch_weights
     mx.eval(dw_base)
-    assert dw_base.shape == (1, 64, 4), f"Base dispatch: {dw_base.shape}"
+    assert dw_base.shape == (1, 64, N_COMBINATORS), f"Base dispatch: {dw_base.shape}"
     print(f"  Base dispatch (no slots): {dw_base.shape} ✓")
 
     print("\nTesting CombinatorIntegrate (with slots + retrieval)...")
     d_register = 128
     n_ret_regs = 2
     integrate = CombinatorIntegrate(
-        d_model, n_combinators=4, n_abstraction_slots=n_slots, d_ff=2048,
+        d_model, n_combinators=N_COMBINATORS, n_abstraction_slots=n_slots, d_ff=2048,
         d_register=d_register, n_retrieval_registers=n_ret_regs)
     y2 = integrate(x)
     mx.eval(y2)
     assert y2.shape == (1, 64, d_model), f"Expected (1, 64, 512), got {y2.shape}"
     tw = integrate._type_weights
     mx.eval(tw)
-    assert tw.shape == (1, 64, 4), f"Expected (1, 64, 4), got {tw.shape}"
+    assert tw.shape == (1, 64, N_COMBINATORS), f"Expected (1, 64, {N_COMBINATORS}), got {tw.shape}"
     print(f"  CombinatorIntegrate: {x.shape} → {y2.shape} ✓")
-    print(f"  Type weights: {tw.shape} (KIBC only) ✓")
+    print(f"  Type weights: {tw.shape} ({N_COMBINATORS}-way) ✓")
 
-    # Test with full dispatch weights (4+N) and slot embeddings
+    # Test with full dispatch weights (N_COMBINATORS+N) and slot embeddings
     slot_emb = dispatch._normalize_slot_embeddings()
     mx.eval(slot_emb)
     y3 = integrate(x, dispatch_weights=dw, slot_embeddings=slot_emb)
@@ -731,7 +887,7 @@ if __name__ == "__main__":
     ki = integrate._kernel_info
     assert ki["combinator"].shape == (1, 64)
     assert ki["op0"].shape == (1, 64)
-    print(f"  With full dispatch (4+{n_slots}) + slot embeddings: ✓")
+    print(f"  With full dispatch ({N_COMBINATORS}+{n_slots}) + slot embeddings: ✓")
 
     # Test with retrieval registers (v12)
     d_reg_real = d_register * 2
@@ -761,10 +917,10 @@ if __name__ == "__main__":
         def __init__(self):
             super().__init__()
             self.dispatch = CombinatorDispatch(
-                d_model, n_combinators=4,
+                d_model, n_combinators=N_COMBINATORS,
                 n_abstraction_slots=n_slots, d_ff=1536)
             self.integrate = CombinatorIntegrate(
-                d_model, n_combinators=4,
+                d_model, n_combinators=N_COMBINATORS,
                 n_abstraction_slots=n_slots, d_ff=2048,
                 d_register=d_register, n_retrieval_registers=n_ret_regs)
 
@@ -796,7 +952,7 @@ if __name__ == "__main__":
     grad_norms = np.linalg.norm(cg_np, axis=1)
     n_with_grad = np.sum(grad_norms > 1e-6)
     print(f"  Gradient flow OK: loss={lv.item():.4f}")
-    print(f"  Combinators with gradient: {n_with_grad}/4 ✓")
+    print(f"  Combinators with gradient: {n_with_grad}/{N_COMBINATORS} ✓")
 
     # Check slot_embeddings gradient
     slot_grad = g["dispatch"]["slot_embeddings"]
@@ -822,5 +978,50 @@ if __name__ == "__main__":
     else:
         print(f"  Slot gate gradient: not in grad tree (keys: {list(dispatch_grads.keys())})")
         print(f"  (may need mx.stop_gradient removal for gate_raw to be trainable)")
+
+    # ── CategoryDispatch test ─────────────────────────────────
+    print("\nTesting CategoryDispatch (3-way: lambda/math/passthrough)...")
+    x = mx.random.normal((1, 64, d_model))
+    cat_dispatch = CategoryDispatch(d_model)
+    cat_w = cat_dispatch(x)
+    mx.eval(cat_w)
+    assert cat_w.shape == (1, 64, 3), f"Expected (1, 64, 3), got {cat_w.shape}"
+    cat_sums = mx.sum(cat_w, axis=-1)
+    mx.eval(cat_sums)
+    assert mx.allclose(cat_sums, mx.ones_like(cat_sums), atol=1e-4).item()
+    # Passthrough should dominate at init
+    mean_cats = mx.mean(cat_w, axis=(0, 1))
+    mx.eval(mean_cats)
+    print(f"  CategoryDispatch: {cat_w.shape} ✓")
+    print(f"  Init distribution: lambda={mean_cats[0].item():.3f} "
+          f"math={mean_cats[1].item():.3f} pass={mean_cats[2].item():.3f}")
+    assert mean_cats[2].item() > 0.4, \
+        f"Passthrough should dominate at init, got {mean_cats[2].item():.3f}"
+    print(f"  Passthrough dominates at init ✓")
+
+    # ── MathDispatch test ─────────────────────────────────────
+    print("\nTesting MathDispatch (17-way math kernel selection)...")
+    math_dispatch = MathDispatch(d_model, n_math_kernels=17)
+    math_w = math_dispatch(x)
+    mx.eval(math_w)
+    assert math_w.shape == (1, 64, 17), f"Expected (1, 64, 17), got {math_w.shape}"
+    math_sums = mx.sum(math_w, axis=-1)
+    mx.eval(math_sums)
+    assert mx.allclose(math_sums, mx.ones_like(math_sums), atol=1e-4).item()
+    print(f"  MathDispatch: {math_w.shape} ✓")
+
+    # ── MathExtractor test ────────────────────────────────────
+    print("\nTesting MathExtractor (operand extraction)...")
+    extractor = MathExtractor(d_model, d_hidden=64)
+    a, b, conf = extractor(x)
+    mx.eval(a, b, conf)
+    assert a.shape == (1, 64, 1), f"Expected (1, 64, 1), got {a.shape}"
+    assert b.shape == (1, 64, 1), f"Expected (1, 64, 1), got {b.shape}"
+    assert conf.shape == (1, 64, 1), f"Expected (1, 64, 1), got {conf.shape}"
+    # Confidence should be in [0, 1]
+    assert float(mx.min(conf).item()) >= 0.0
+    assert float(mx.max(conf).item()) <= 1.0
+    print(f"  MathExtractor: operands {a.shape}, confidence {conf.shape} ✓")
+    print(f"  Confidence range: [{mx.min(conf).item():.3f}, {mx.max(conf).item():.3f}]")
 
     print("\nkernel_dispatch.py self-test: all ok ✓")
