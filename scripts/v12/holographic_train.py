@@ -512,6 +512,8 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
     conf_end = getattr(args, 'confidence_threshold_end', None) or conf_start
     max_flips_start = getattr(args, 'max_flips_start', None)  # None = unlimited
     max_flips_end = getattr(args, 'max_flips_end', None)
+    max_flips_frac_start = getattr(args, 'max_flips_frac', None)  # None = disabled
+    max_flips_frac_end = getattr(args, 'max_flips_frac_end', None)
     batches_start = args.batches_per_op
     batches_end = getattr(args, 'batches_per_op_end', None) or batches_start
     beam_steps_start = args.beam_steps
@@ -521,6 +523,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         beam_lr_end != beam_lr_start
         or conf_end != conf_start
         or max_flips_start is not None
+        or max_flips_frac_start is not None
         or batches_end != batches_start
         or beam_steps_end != beam_steps_start
     )
@@ -542,6 +545,10 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         else:
             print(f"  Max flips:   unlimited → {max_flips_end:,}" if max_flips_end else
                   f"  Max flips:   unlimited", file=sys.stderr, flush=True)
+        if max_flips_frac_start is not None:
+            frac_end_str = f"{max_flips_frac_end:.3f}" if max_flips_frac_end else f"{max_flips_frac_start:.3f}"
+            print(f"  Flip frac:   {max_flips_frac_start:.3f} → {frac_end_str} (proportional cap)",
+                  file=sys.stderr, flush=True)
         print(f"  Batches/op:  {batches_start} → {batches_end}", file=sys.stderr, flush=True)
         print(f"  Beam steps:  {beam_steps_start} → {beam_steps_end}", file=sys.stderr, flush=True)
     print(f"{'='*72}\n", file=sys.stderr, flush=True)
@@ -585,17 +592,27 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         else:
             round_max_flips = args.max_flips_per_op  # original behavior
 
+        # Proportional flip cap schedule
+        if max_flips_frac_start is not None:
+            frac_end = max_flips_frac_end if max_flips_frac_end is not None else max_flips_frac_start
+            round_max_flips_frac = focusing_schedule(
+                sched_pos, sched_total, max_flips_frac_start, frac_end)
+        else:
+            round_max_flips_frac = None
+
         # Update optimizer LR for this round
         optimizer.learning_rate = mx.array(round_beam_lr)
 
         if has_focus_schedule:
+            frac_str = f" frac={round_max_flips_frac:.3f}" if round_max_flips_frac is not None else ""
             print(
                 f"  Round {round_idx+1:3d} | LENS | "
                 f"beam_lr={round_beam_lr:.2e} "
                 f"conf={round_confidence:.4f} "
                 f"batches={round_batches} "
                 f"beam_steps={round_beam_steps} "
-                f"max_flips={round_max_flips if round_max_flips is not None else '∞'}",
+                f"max_flips={round_max_flips if round_max_flips is not None else '∞'}"
+                f"{frac_str}",
                 file=sys.stderr, flush=True,
             )
 
@@ -707,6 +724,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             model, accumulators,
             confidence_threshold=round_confidence,
             max_flips=round_max_flips,
+            max_flips_frac=round_max_flips_frac,
         )
 
         n_flipped = etch_result["total_flipped"]
@@ -722,10 +740,36 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         # before beam training starts.
         mx.clear_cache()
 
+        # ── Confidence diagnostics ─────────────────────────────
+        cs = etch_result.get("confidence_stats", {})
+        conf_detail = ""
+        if cs:
+            throttle = cs.get("throttle_ratio", 1.0)
+            p50 = cs.get("candidate_p50", 0)
+            p90 = cs.get("candidate_p90", 0)
+            p99 = cs.get("candidate_p99", 0)
+            conf_detail = (
+                f" | conf_p50={p50:.3f} p90={p90:.3f} p99={p99:.3f}"
+                f" | throttle={throttle:.0f}x"
+            )
+            if "effective_conf_floor" in cs:
+                conf_detail += f" | eff_floor={cs['effective_conf_floor']:.4f}"
+            # Print histogram as a compact bar
+            hist = cs.get("histogram_counts", [])
+            if hist:
+                # Normalize histogram for a visual bar
+                max_h = max(hist) if max(hist) > 0 else 1
+                bar = "".join(
+                    "█" if h > max_h * 0.5 else "▄" if h > max_h * 0.1 else "·"
+                    for h in hist
+                )
+                conf_detail += f" | dist=[{bar}]"
+
         print(
             f"  Round {round_idx+1:3d} | ETCH | "
             f"flips={n_flipped:,} | "
-            f"candidates={etch_result['total_candidates']:,}",
+            f"candidates={etch_result['total_candidates']:,}"
+            f"{conf_detail}",
             file=sys.stderr, flush=True,
         )
 
@@ -799,6 +843,10 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             "beam_steps": round_beam_steps,
             "max_flips": round_max_flips,
             "lattice_loss": lattice_loss_val,
+            # Confidence diagnostics (throttle analysis)
+            "etch_candidates": etch_result.get("total_candidates", 0),
+            "confidence_stats": etch_result.get("confidence_stats", {}),
+            "max_flips_frac": round_max_flips_frac,
         }
         round_logs.append(round_log)
 
@@ -896,6 +944,14 @@ def main():
     focus.add_argument("--beam-steps-end", type=int, default=None,
                        help="Beam training steps at final round (cosine anneal from --beam-steps). "
                             "More steps late = beam locks to precise read angles.")
+    focus.add_argument("--max-flips-frac", type=float, default=None,
+                       help="Proportional flip cap: flip this fraction of candidates (start). "
+                            "e.g. 0.5 = flip top 50%% of confident candidates. "
+                            "Overrides --max-flips-start/end when set.")
+    focus.add_argument("--max-flips-frac-end", type=float, default=None,
+                       help="Proportional flip cap at final round (cosine anneal from --max-flips-frac). "
+                            "e.g. 0.01 = top 1%% of candidates at convergence. "
+                            "Requires --max-flips-frac.")
 
     # ── Lattice alignment (universal reference beam) ──────────
     lattice_group = parser.add_argument_group("lattice alignment (universal reference beam)")

@@ -2354,6 +2354,7 @@ def direct_etch(
     accumulators: dict[str, DirectionAccumulator],
     confidence_threshold: float = 0.5,
     max_flips: int | None = None,
+    max_flips_frac: float | None = None,
 ) -> dict:
     """Write accumulated direction directly into ternary plates.
 
@@ -2361,7 +2362,7 @@ def direct_etch(
       1. Get target signs from accumulated direction
       2. Get confidence per position
       3. Where confidence > threshold AND target disagrees with current → flip
-      4. If max_flips set, keep only highest-confidence disagreements
+      4. If max_flips or max_flips_frac set, keep only highest-confidence disagreements
 
     Args:
         model:                The model (TernaryLinear modules modified in place)
@@ -2370,6 +2371,10 @@ def direct_etch(
                              1.0=only flip where ALL steps agreed)
         max_flips:           Global cap on total flips (None=unlimited).
                              Budget distributed by confidence.
+        max_flips_frac:      Proportional cap: flip this fraction of candidates.
+                             e.g. 0.1 = flip top 10% of confident candidates.
+                             If both max_flips and max_flips_frac are set,
+                             the more permissive (larger) wins.
 
     Returns:
         Dict with stats:
@@ -2412,16 +2417,32 @@ def direct_etch(
             total_candidates += n_cands
 
     # ── Phase 2: Apply budget cap if needed ───────────────────
-    if max_flips is not None and total_candidates > max_flips:
+    # Compute effective budget from absolute cap, proportional cap, or both.
+    # If both are set, use the MORE permissive (larger) value — the
+    # proportional cap adapts to candidate count while the absolute cap
+    # provides a hard floor.
+    effective_max_flips = None
+
+    if max_flips_frac is not None and total_candidates > 0:
+        frac_budget = max(1, int(total_candidates * max_flips_frac))
+        if max_flips is not None:
+            # Both set: take the larger (more permissive)
+            effective_max_flips = max(max_flips, frac_budget)
+        else:
+            effective_max_flips = frac_budget
+    elif max_flips is not None:
+        effective_max_flips = max_flips
+
+    if effective_max_flips is not None and total_candidates > effective_max_flips:
         # Keep only the highest-confidence candidates globally
         all_confs = []
         for path, (disagrees, _, _, confidence) in candidates.items():
             all_confs.append(confidence[disagrees].ravel())
         all_confs = np.concatenate(all_confs)
 
-        if len(all_confs) > max_flips:
+        if len(all_confs) > effective_max_flips:
             conf_threshold = float(
-                np.partition(all_confs, -max_flips)[-max_flips]
+                np.partition(all_confs, -effective_max_flips)[-effective_max_flips]
             )
             # Raise threshold to enforce budget
             for path in list(candidates.keys()):
@@ -2475,12 +2496,52 @@ def direct_etch(
         mt = info.get("module_type", "other")
         type_flips[mt] = type_flips.get(mt, 0) + info["n_flipped"]
 
+    # ── Confidence diagnostics ────────────────────────────────
+    # Gather confidence values for ALL candidates (pre-budget-cap)
+    # and for accepted flips (post-budget-cap) to diagnose throttling.
+    all_candidate_confs = []
+    accepted_confs = []
+    for path, (disagrees, target_signs, current_signs, confidence) in candidates.items():
+        cand_c = confidence[disagrees].ravel()
+        all_candidate_confs.append(cand_c)
+        # Accepted = candidates that actually flipped (post-budget)
+        if path in per_module and per_module[path]["n_flipped"] > 0:
+            accepted_confs.append(cand_c)  # all of them flipped if no budget cap
+
+    conf_stats = {}
+    if all_candidate_confs:
+        all_c = np.concatenate(all_candidate_confs)
+        conf_stats["candidate_count"] = len(all_c)
+        conf_stats["candidate_p50"] = float(np.median(all_c))
+        conf_stats["candidate_p90"] = float(np.percentile(all_c, 90))
+        conf_stats["candidate_p99"] = float(np.percentile(all_c, 99))
+        conf_stats["candidate_mean"] = float(np.mean(all_c))
+        conf_stats["candidate_min"] = float(np.min(all_c))
+        conf_stats["candidate_max"] = float(np.max(all_c))
+        # Histogram: 10 bins from threshold to 1.0
+        hist_counts, hist_edges = np.histogram(
+            all_c, bins=10, range=(confidence_threshold, 1.0)
+        )
+        conf_stats["histogram_counts"] = hist_counts.tolist()
+        conf_stats["histogram_edges"] = hist_edges.tolist()
+        # Throttle ratio: how much are we suppressing?
+        if max_flips is not None:
+            conf_stats["throttle_ratio"] = len(all_c) / max(max_flips, 1)
+            # The confidence floor that max_flips enforced
+            if total_flipped < total_candidates:
+                conf_stats["effective_conf_floor"] = float(
+                    np.partition(all_c, -total_flipped)[-total_flipped]
+                ) if total_flipped > 0 else float(np.max(all_c))
+        else:
+            conf_stats["throttle_ratio"] = 1.0
+
     return {
         "total_flipped": total_flipped,
         "total_candidates": total_candidates,
         "per_module": per_module,
         "flips_by_type": type_flips,
         "confidence_threshold": confidence_threshold,
+        "confidence_stats": conf_stats,
     }
 
 
