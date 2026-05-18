@@ -417,8 +417,49 @@ Crystal write (dry run):
 ```
 
 **Conclusion**: Kernel etch alone does not create universal geometry.
-Student has combinators but no backbone landmarks. Lattice relational
-loss is the missing prerequisite — now running from round 61.
+Student has combinators but no backbone landmarks.
+
+### Lattice loss attempt 1: separate pass → COLLAPSE (session 114)
+
+Lattice as separate backward pass into direction accumulators (lambda=0.1).
+
+```
+Round 62: CE ~4.1-5.5, lattice 0.0077, beam 4.77  ← healthy
+Round 64: CE ~4.2,     lattice 0.0083, beam 10.52  ← beam degrading
+Round 65: CE 6-13,     lattice 0.072,  beam 33.35  ← explosion
+Round 66: CE ~22                                    ← total collapse
+```
+
+**Cause**: lattice gradients fight CE in direction accumulators. CE wants
+plates for next-token prediction, lattice wants plates for relational
+geometry. The lattice pass was effectively equal weight to 1 CE batch
+but pulling in a different direction. Conflicting signals destabilized
+the etch, cascading plate flips destroyed combinator structure.
+
+### Lattice loss attempt 2: whisper (session 114, running)
+
+**Key insight**: the lattice targets are KNOWN FIXED NUMBERS. The
+relational loss computes the exact delta — not an optimization, a
+direct correction. "Move 3 yards left, 1 yard forward."
+
+The lattice is NOT a training objective. It is information from the
+tensor — 5 models independently discovered these fixed points. The
+lattice signal whispers the direction while CE fills the sieve.
+
+Implementation: 1 lattice pass per round among 400 CE passes (8 ops ×
+50 batches). The accumulator sees 401 gradient samples; the lattice
+is one vote. It cannot overpower CE. But it never cancels (same
+direction every round), while CE noise partially cancels across ops.
+Over many rounds, the universal geometry emerges from the noise floor.
+
+```
+CE signals:     K wants X, B wants Y → partially cancel
+Lattice signal: always points toward universal geometry → never cancels
+Result:         universal geometry slowly emerges from noise floor
+```
+
+Status: running from round 60, v2 checkpoint dir. Monitoring for
+stability (should NOT collapse at 1/400th signal weight).
 
 ### Bug fixes discovered during dry run
 
@@ -426,8 +467,9 @@ loss is the missing prerequisite — now running from round 61.
    3-47 tokens, strides up to 1024. When `L < stride`, `L_s = 0` →
    empty tensor crash. Fix: zero output when no stride positions reached.
 
-2. **MLX numpy indexing** (`direct_crystal_write.py`): numpy array used
-   to index MLX tensor. Fix: convert to `mx.array`.
+2. **MLX numpy indexing** (`direct_crystal_write.py` and
+   `holographic_train.py`): numpy array used to index MLX tensor.
+   Fix: convert to `mx.array`.
 
 3. **O(n²) triu loop**: Python loop building upper triangle mask replaced
    with `mx.triu(mx.ones((n,n)), k=1)`.

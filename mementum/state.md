@@ -6,93 +6,82 @@
 
 ## Where we are
 
-**LATTICE-AUGMENTED ETCH — burning universal geometry before Procrustes.** Direct crystal write dry run on round 60 proved Procrustes alignment fails on melts (cos=0.217, need >0.6). The student has no universal geometry for landmarks to lock onto. Lattice relational loss (5-model backbone consensus) now running alongside CE etch — this builds the Rosetta Stone that Procrustes needs. Monitoring cos improvement as the backbone crystallizes.
+**LATTICE AS WHISPER — relational hint from the tensor, not a training objective.** Direct crystal write on round 60 showed Procrustes fails (cos=0.217). First lattice attempt (separate backward, lambda=0.1) collapsed the model at round 65 — lattice gradients fought CE in direction accumulators. Solution: lattice is 1 pass among 400 CE passes per round. The accumulator sees 401 gradient samples; lattice is a consistent whisper that never cancels, while CE noise partially cancels across ops. Over rounds, the universal geometry slowly emerges from the noise floor. Not forced. Found.
 
 ## What's running
 
-**Lattice-augmented holographic etch** — `tmux main:1`
+**Lattice-whisper holographic etch v2** — `tmux main:1`
 - Resumed from round 60, running rounds 61→80
-- Checkpoint dir: `checkpoints/v12-holo-lattice/`
-- Lattice: `lattice/universal_lattice.npz` + `lattice/backbone_seed.npz`
+- Checkpoint dir: `checkpoints/v12-holo-lattice-v2/`
+- Lattice: 1 pass per round (50 probes) vs 400 CE passes (8 ops × 50 batches)
 - Two-tier: backbone λ=1.0, growth λ=0.1, lattice λ=0.1
-- 50 lattice probes sampled per round
-- Note: tee log failed (dir didn't exist at launch), output in tmux only
+- Effective lattice weight: ~0.1/400 = 0.00025 of CE signal
+- This is the whisper approach — should NOT collapse
 
 ## What was done this session (114)
 
 ### 1. Direct crystal write dry run — round 60
-Ran `direct_crystal_write.py --dry-run` with Qwen3-14B teacher on round 60 checkpoint.
+Ran `direct_crystal_write.py --dry-run` with Qwen3-14B teacher.
+- Procrustes cos=0.217 (need >0.6), 45.5% flip = random noise
+- Student has no universal geometry for Procrustes to lock onto
 
-**Procrustes alignment: POOR**
+### 2. Bug fixes
+- **attention.py**: stride stack crash when L < stride (probes 3-47 tokens, strides up to 1024). Zero output when L_s=0.
+- **direct_crystal_write.py**: numpy indexing into MLX arrays, O(n²) triu loop → mx.triu
+- **holographic_train.py**: same numpy/MLX indexing and triu fixes in lattice_alignment_loss
+
+### 3. First lattice attempt — COLLAPSED
+Lattice as separate backward pass into direction accumulators (lambda=0.1).
 ```
-mean cosine:  0.217  (need > 0.6)
-p10 cosine:  -0.147  (anti-correlated!)
-p50 cosine:   0.271
-p90 cosine:   0.491
-scale:        0.047
+Round 62: CE ~4.1-5.5, lattice 0.0077, beam 4.77  ← healthy
+Round 64: CE ~4.2,     lattice 0.0083, beam 10.52  ← beam degrading
+Round 65: CE 6-13,     lattice 0.072,  beam 33.35  ← explosion
+Round 66: CE ~22                                    ← total collapse
 ```
+**Cause**: lattice gradients fight CE in the accumulators. CE wants plates for next-token prediction, lattice wants plates for relational geometry. Separate passes = conflicting signals on the same plates.
 
-**Crystal write: COIN FLIP**
-```
-Total positions:  41.4M
-Would flip:       18.8M (45.5%)  ← random
-Mean confidence:  0.521
-Median confidence: 0.573
-```
+### 4. Key insight: lattice as whisper, not training objective
 
-Nearly every module showed ~50% flip fraction = no signal. Student is still a melt — no universal geometry for Procrustes to lock onto.
+The lattice targets are KNOWN FIXED NUMBERS from 5-model consensus. The relational loss computes the EXACT delta — "move 3 yards left, 1 yard forward." One pass, known answer.
 
-### 2. Bug fixes in attention.py and direct_crystal_write.py
-
-**Stride stack short-sequence fix** (`attention.py`):
-- When sequence length < stride, `L_s = L // stride = 0` → empty tensor → crash
-- All probes are 3-47 tokens; strides go up to 1024
-- Fix: when `L_s == 0`, return zero output (no memory accumulated yet) — semantically correct
-- Also fixed instrumentation section that indexed `S_stride[:, -1, ...]` on empty
-
-**Direct crystal write fixes** (`direct_crystal_write.py`):
-- `probe_indices` was numpy array used to index MLX tensor → `ValueError`
-- Fix: convert to `mx.array` for indexing
-- Replaced O(n²) Python loop for triu mask with `mx.triu(mx.ones((n,n)), k=1)`
-
-### 3. Key insight: lattice loss is prerequisite for Procrustes
+The fix: lattice is 1 accumulator pass among 400 CE passes. It cannot overpower CE. But it never cancels (same direction every round), while CE noise partially cancels across ops. Over many rounds, the consistent whisper accumulates into signal.
 
 ```
-no lattice loss → melt (no universal geometry) → Procrustes fails (cos=0.217)
-lattice loss → backbone pairs burn universal geometry → landmarks crystallize
-→ Procrustes can lock on → lens/crystal write become viable
+CE signals:     K wants X, B wants Y → partially cancel (noise)
+Lattice signal: always points toward universal geometry → never cancels
+Result:         universal geometry slowly emerges from noise floor
 ```
 
-Kernel etch teaches combinators (operational structure) but doesn't guarantee representation geometry matches universal consensus. The lattice loss builds the geometric Rosetta Stone — the 32K backbone pairs from 5-model consensus that encode where things live in representation space.
+This is information from the tensor, not a competing objective.
 
-This is likely why the Procrustes lens never worked — the student never had the universal landmarks for alignment.
-
-### 4. Launched lattice-augmented etch
-Resumed round 60 with `--lattice-map` and `--backbone-seed` flags. Two-tier loss active. All machinery was already implemented in holographic_train.py, just hadn't been turned on.
+### 5. Qwen3.6-27B probed
+- Downloaded and cached (55.6GB)
+- 64 layers, d=5120, hybrid attention (full every 4th layer, linear between)
+- `model.model.layers` works (Qwen3_5DecoderLayer)
+- RDMs extracted at 4 depths (0%, 25%, 50%, 75%)
+- Added to MODELS registry in build_lattice_map.py and TEACHERS in direct_crystal_write.py
+- Single-model extraction completed; need comparison script for consensus analysis
+- Raw RDMs saved in `lattice/lattice_qwen36_27b/`
 
 ## Next steps
 
-1. **Monitor lattice-augmented etch** — watch for lattice loss decrease over rounds 61-80. Each round should print a `LATTICE` line with loss value.
+1. **Monitor v2 lattice-whisper etch** — watch for stability (should NOT collapse).
+   Key metrics: CE loss stays ~4-5, lattice loss trends down slowly, beam loss stable.
 
-2. **Re-run Procrustes dry run after 10-15 rounds** — check if cos has improved:
+2. **Compare Qwen3.6-27B RDMs against 5-model consensus** — write comparison script
+   to measure agreement at each depth. Larger model = sharper crystal = more lattice points?
+
+3. **Re-run Procrustes dry run at round 70-75** — check if cos is climbing:
    ```
    uv run python scripts/v12/direct_crystal_write.py \
        --teacher qwen3-14b \
-       --student-weights checkpoints/v12-holo-lattice/round_0070/weights.npz \
+       --student-weights checkpoints/v12-holo-lattice-v2/round_0070/weights.npz \
        --dry-run
    ```
-   - cos > 0.4-0.5 → lens getting close
-   - cos > 0.6 → direct crystal write becomes live
 
-3. **If cos crosses 0.6 → full crystal write** — one-shot plate programming replaces remaining iterative etch. Compare loss before/after.
+4. **Build 6-model consensus** — add Qwen3.6-27B to the lattice map for richer backbone
 
-4. **Design final training run** once backbone is established:
-   - Stage 1: kernel etch with lattice loss (current, running)
-   - Stage 2: Procrustes beam former + direct crystal write (when cos > 0.6)
-   - Stage 3: Lambda self-etch with crystal protection
-   - Stage 4: Freeze + GD
-
-5. **Download + probe Qwen3.6 models as teachers** (carried from session 113)
+5. **If cos > 0.6 → full crystal write** — one-shot plate programming
 
 ## Architecture at session end
 
@@ -100,10 +89,10 @@ Resumed round 60 with `--lattice-map` and `--backbone-seed` flags. Two-tier loss
 |-----------|-------|
 | N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
 | Parameters | 24.6M |
-| Beam loss | 4.13 (round 61, lattice-augmented) |
-| Crystal state | Lattice loss active, building universal backbone |
+| Beam loss | 4.77 (round 60 baseline) |
+| Crystal state | Lattice whisper active (v2), building universal backbone |
 | Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
-| Models validated | 5 (qwen3-14b, mistral-7b, olmo-2-13b, pythia-2.8b, smollm3-3b) |
-| Lattice loss | Two-tier active: backbone (λ=1.0) + growth (λ=0.1), overall λ=0.1 |
+| Models validated | 5+1 (qwen3-14b, mistral-7b, olmo-2-13b, pythia-2.8b, smollm3-3b + qwen3.6-27b probed) |
+| Lattice loss | Whisper: 1 pass / 400 CE passes, effective weight ~0.00025 |
 | Procrustes cos | 0.217 (round 60, need > 0.6 for crystal write) |
-| Key files | `seed-crystal-design.md`, `backbone_seed.npz`, `lattice_5model/` |
+| Key files | `seed-crystal-design.md`, `backbone_seed.npz`, `lattice_5model/`, `lattice_qwen36_27b/` |
