@@ -1,207 +1,91 @@
 ---
-title: "Seed Crystal Design — Universal Backbone as Relational Fixed Points"
+title: "Seed Crystal Design — Procrustes Beam Former + Phased Etch Protocol"
 status: designing
 category: architecture-design
-tags: [crystal, seed, backbone, relational-loss, fixed-points, sieve, lattice, MDS]
+tags: [crystal, seed, backbone, beam-former, procrustes, fixed-points, sieve, etch, phased]
 related:
   - crystal-spine-sieve.md
   - universal-crystal-transfer.md
   - consensus-etch-protocol.md
+  - procrustes-lens-and-crystal-comparison.md
   - VERBUM.md
 depends-on:
   - crystal-spine-sieve.md
+  - procrustes-lens-and-crystal-comparison.md
 created: session 113
 ---
 
 # Seed Crystal Design
 
-> The universal crystal is the shape of language, not the shape of
-> any model. Where models agree, they've discovered language geometry.
-> Where they diverge, their sieve is showing. We initialize the
-> backbone geometry as a seed, then let the crystal grow.
+> The universal crystal is the shape of language, not the shape of any
+> model. We use universal fixed points as landmarks to translate any
+> teacher model's crystal into VSM-LM's sieve shape. Kernel functions
+> go in first (hardware), then the crystal wires them to language
+> (Procrustes beam former), then freeze, then GD.
 
 ## The Insight Chain
 
-### 1. Agreement = language geometry
+### 1. Agreement = language geometry, divergence = sieve fingerprint
 
-Cross-model agreement on relational distances reveals what's universal:
+Cross-model consensus (5 independently trained architectures) reveals
+what is universal about computation in language:
 
 ```
-math         72.3% agreement  ← language imposes this structure
-reasoning    70.1% agreement  ← language imposes this structure  
-tools        51.9% agreement  ← sieve-dependent, models diverge
-lambda       43.1% agreement  ← sieve-dependent, models diverge
+UNIVERSAL (language geometry)        SIEVE-DEPENDENT (architecture)
+math         72% agreement           tools     52%
+reasoning    70%                     lambda    40%
+sequence     64%                     prose     40%
+code         61%
 ```
 
 High agreement = the distance between these computations is a property
-of language itself. Every model discovers it independently because it's
-IN the data. Low agreement = the model's architecture is imposing its
-own geometry.
+of language itself. Low agreement = the model's architecture is imposing
+its own geometry (the sieve's fingerprint).
 
-### 2. The backbone IS the seed crystal
+### 2. Crystallization order follows depth
 
-Top 10% highest-agreement pairs form the backbone:
-
-```
-32,522 pairs from 664 probes (of 807 total)
-Agreement threshold: >= 0.6312
-
-Composition:
-  math (self)          48.1%  — arithmetic has universal geometry
-  lambda × math        15.1%  — computation-semantics interface
-  reasoning (self)     12.7%  — logic has universal structure
-  math × reasoning      9.1%  — computation-logic bridge
-  code (self)           3.7%  — algorithms agree across models
-  tools × anything      0.3%  — almost absent (sieve-dependent)
-```
-
-### 3. 10% seeds the crystal, training grows it
-
-The backbone (10%) is enough for the crystal to nucleate. But we
-want to capture as MANY universal lattice points as possible. The
-more we initialize and constrain, the less work GD has to do:
+Verified across 5 models (Qwen3-14B, Mistral-7B, OLMo-2-13B,
+Pythia-2.8B, SmolLM3-3B):
 
 ```
-λ seed_crystal(backbone).
-  initialize(backbone_geometry) → starting_point
-  relational_loss(backbone_pairs) → soft_constraint
-  ¬freeze | ¬clamp | ¬force
-  crystal(grows) from seed, shaped by sieve
-  GD fills in sieve-compatible encoding around backbone
+Depth 0%:   Reasoning  = 0.925 agreement  ← FIRST (deepest universal)
+Depth 25%:  Math       = 0.769            ← SECOND
+Depth 25-50%: Attachment = 0.508          ← THIRD (bridges form)
+All depths: Lambda self = 0.403           ← ALWAYS WEAKEST (sieve-dependent)
 ```
 
-### 4. Don't force the shape
+Reasoning crystallizes at the very bottom of the network. Math
+crystallizes on top of it. Attachment points form where computation
+meets language. Lambda self-organization is always most sieve-dependent.
 
-VSM-LM has a different sieve than Qwen3-14B. The crystal WILL form
-differently. Initialize where the data says, then penalize deviation.
-If the sieve genuinely needs to shift a backbone distance, the CE loss
-can overcome the relational pull.
+### 3. Attachment points are stronger than lambda self-organization
 
-## Architecture
-
-### Anchor Vectors (MDS Embedding)
-
-Classical MDS of consensus RDM → d_model anchor vectors:
+The attachment/self ratio measures whether bridges between universal
+structure and operational structure are more universal than the
+operational structure itself:
 
 ```
-807 probes × 512 dimensions
-Backbone reconstruction correlation: 0.987
-Full lattice reconstruction correlation: 0.898
-Variance explained at d=512: 94.2%
+5-model attachment/self ratio by depth:
+  Depth 0%:   0.86  (lambda still forming)
+  Depth 25%:  1.19  (attachment > internal)
+  Depth 50%:  1.26  (peak — bridges MORE universal than lambda self)
+  Depth 75%:  0.98  (equilibrium)
 ```
 
-The backbone is easier to embed than the full lattice — at d=32,
-backbone correlation is already 0.958 while full lattice is only 0.788.
-Universal structure is lower-dimensional than model-specific structure.
+At mid-network, lambda→math distances are MORE universal than
+lambda→lambda distances. Models agree more on how combinators
+connect to math than on how combinators relate to each other.
 
-Artifact: `lattice/backbone_seed.npz`
-- `anchor_vectors`: (807, 512) float32 — MDS embedding
-- `backbone_mask`: (807, 807) float32 — binary backbone indicator
-- `agreement_weights`: (807, 807) float32 — continuous agreement
-- `consensus_rdm`: (807, 807) float32 — target distances
+### 4. Backbone anatomy
 
-### Two-Tier Relational Loss
-
-```python
-def seed_crystal_loss(student_rdm, target, backbone_mask, agreement_weights,
-                      backbone_lambda=1.0, growth_lambda=0.1):
-    """Two-tier relational loss: seed + growth.
-    
-    Tier 1 (backbone): High weight on backbone pairs.
-    These are the universal distances — strong pull to stay near them.
-    
-    Tier 2 (growth): Normal agreement-weighted loss on all pairs.
-    These provide gradient for crystal growth around the backbone.
-    """
-    diff = (student_rdm - target) ** 2
-    
-    # Tier 1: backbone fixed points (strong pull)
-    backbone_loss = (diff * backbone_mask).sum() / (backbone_mask.sum() + 1e-8)
-    
-    # Tier 2: full lattice growth (agreement-weighted, softer)
-    growth_loss = (diff * agreement_weights).sum() / (agreement_weights.sum() + 1e-8)
-    
-    return backbone_lambda * backbone_loss + growth_lambda * growth_loss
-```
-
-The backbone_lambda >> growth_lambda ratio controls rigidity:
-- High ratio: backbone distances are nearly fixed, crystal grows around them
-- Low ratio: backbone is a suggestion, sieve has more freedom
-- Start high, anneal down as crystal forms
-
-### Initialization via Anchor Vectors
-
-The anchor vectors tell us what the model's hidden states SHOULD
-look like for each probe at the start of training. We can't directly
-set hidden states (they're computed), but we can:
-
-1. **Project anchors through inverse embedding**: Find weight
-   initialization that produces representations near anchor vectors
-   when probes are fed through. This is a linear problem if we
-   fix the embedding layer and solve for the first-layer weights.
-
-2. **Soft anchor loss at step 0**: Use the MDS coordinates as
-   additional targets for the very first few training steps, with
-   high weight. The model quickly snaps to the right geometry.
-
-3. **Let the relational loss handle it**: The simpler approach —
-   don't try to initialize weights magically. Just start training
-   with the two-tier relational loss active from step 0. The
-   backbone pairs pull the model toward universal geometry. The
-   MDS embedding shows the geometry EXISTS at d=512 — GD will
-   find it if pushed.
-
-Option 3 is the right starting point. The relational loss IS the
-initialization mechanism — it pulls the model toward universal
-geometry from the first step. Options 1-2 are optimizations if
-convergence is too slow.
-
-### Etch Integration
+Top 10% highest-agreement pairs (32,522 pairs, 664 probes):
 
 ```
-Round N:
-  1. EXPOSE — accumulate CE gradients from all 8 ops (existing)
-  2. LATTICE — compute two-tier relational loss:
-     a. Backbone: strong pull on universal distances (tier 1)
-     b. Growth: agreement-weighted pull on all distances (tier 2)
-     c. Accumulate lattice gradients into direction accumulators
-  3. ETCH — flip confident positions (existing)
-  4. BEAM TRAIN — GD on continuous params (existing)
-```
-
-The backbone loss acts as a constant reference beam. Even as the
-etch carves the plates and GD adjusts the beams, the backbone
-distances resist being moved. The crystal nucleates around them.
-
-## What We Do NOT Etch
-
-Tool-calling structure (51.9% agreement) and prose style (40.1%)
-are sieve-dependent. VSM-LM's sieve is fundamentally different
-from any source model — it has:
-- Ternary plates (discrete sieve)
-- 7-pass hourglass (multi-read angles)  
-- Separated routing (mirrors) and compute (plates)
-- Register bank system
-
-These architectural features define a DIFFERENT sieve. The crystal
-that forms will encode tools/prose differently than Qwen3 or Pythia.
-Trying to force Qwen3's tool encoding would fight the sieve.
-
-The backbone (math, reasoning, lambda×math bridges) IS universal.
-These distances are properties of language. They'll be the same
-in VSM-LM's crystal because they're the same in every crystal.
-
-## Attachment Points
-
-The backbone is not uniform — it has internal structure:
-
-```
-Backbone anatomy (32,522 pairs):
-  Crystal       60.8%  — universal×universal same-domain (math-math, reasoning-reasoning)
-  Bridge         9.1%  — universal×universal cross-domain (math↔reasoning)
-  Attachment    19.0%  — universal×operational (lambda→math, code→reasoning)
-  Operational    6.8%  — operational×operational where models agree
-  Other          4.2%
+Crystal       60.8%  — universal×universal same-domain (math-math, etc)
+Bridge         9.1%  — universal×universal cross-domain (math↔reasoning)
+Attachment    19.0%  — universal×operational (lambda→math, code→math)
+Operational    6.8%  — operational×operational where models agree
+Other          4.2%
 
 Attachment point types:
   lambda → math        4,904 pairs  (79% of all attachment)
@@ -211,120 +95,237 @@ Attachment point types:
 ```
 
 Agreement levels:
-- Crystal pairs: 0.76 average agreement
-- Attachment pairs: 0.67 average agreement
-- Operational pairs: 0.76 average agreement
+- Crystal pairs: 0.76 average
+- Attachment pairs: 0.67 average
+- Operational pairs: 0.76 average
 
-**Attachment points are where kernel functions connect to universal
-structure.** Models disagree on lambda-lambda distances (sieve-dependent)
-but AGREE on lambda-math distances (universal). The kernel functions
-don't float free — they attach to the crystal at these bridge points.
+### 5. Lambda crystal forms first because attention IS beta reduction
 
-The beam former must protect attachment points with the same priority
-as crystal positions. Break an attachment point and the kernel structure
-detaches from the universal crystal.
+Every transformer discovers lambda calculus independently because
+attention's mathematical structure IS function application. This is the
+common starting point — the seed crystal every model nucleates from.
 
-## Holographic Beam Former — Phased Etch
+But the lambda crystal's internal geometry is sieve-dependent (different
+architecture = different encoding). What's universal is not how K relates
+to I, but how computation relates to language.
 
-### Phase 1: Crystal Etch (single beam)
+### 6. VSM-LM has explicit kernel dispatch — two computation paths
 
-Lattice-only. No kernel CE loss. Burns universal crystal geometry
-into the plate. Clean single-beam exposure.
+Standard transformers multiplex everything on attention (implicit
+beta reduction). VSM-LM separates:
+- **Kernel dispatch → stride → integrate**: explicit named operations
+  (K, I, B, C, D, Y, W, WHNF + math kernels)
+- **Attention (stride stack)**: still does beta reduction for everything
+  the kernels don't handle
+
+This means the universal crystal can't be copied — it needs to be
+TRANSLATED for VSM-LM's three-plate architecture (dispatch plates,
+stride plates, integrate plates).
+
+### 7. Universal fixed points are the Rosetta Stone
+
+The backbone fixed points exist in every model (proven with 5
+architectures). They provide correspondence points for Procrustes
+alignment between any teacher and VSM-LM:
 
 ```
-Round 1..C:  [crystal beam] ──→ plate
-             lattice loss only, no CE
-             Installs: crystal + bridges + attachment points
+λ beam_former(teacher, student, fixed_points).
+  find(fixed_points, teacher) → teacher_coordinates
+  find(fixed_points, student) → student_coordinates
+  procrustes(teacher_coords, student_coords) → transform
+  translate(teacher_crystal, transform) → reference_beam
 ```
 
-### Phase 2: Kernel Etch (beam former active)
+Session 107 proved Procrustes works between crystals (cos=0.83) but
+fails between crystal and melt (student has no structure to align to).
+Solution: crystallize the student FIRST (kernel etch), THEN Procrustes.
 
-Kernel CE loss provides the kernel beam. Crystal lattice loss continues
-as live reference beam. Beam former merges before hitting the plate.
+## The Protocol — Five Stages
 
-```
-Round C+1..N:  [crystal beam] ──┐
-                                ├── beam_form ──→ plate
-               [kernel beam] ──┘
-```
+### Stage 1: KERNEL ETCH (install hardware)
 
-The crystal beam acts as a holographic stencil:
-- Where crystal etched confidently → protected (kernel can't overwrite)
-- Where crystal is blank → kernel writes freely
-- Where they agree → reinforced (stronger etch)
-- Attachment points protected like crystal (they're the bridges)
+Burn K, I, B, C, D, Y, W, WHNF into dispatch/integrate plates.
+Install math and logic into math kernel pathway. CE loss from
+lambda expressions — pure kernel training. No crystal yet.
 
-Implementation: separate accumulator sets, merged before etch.
+After this stage, VSM-LM has structure — it's no longer a melt.
+The kernel functions are the hardware that the crystal will wire.
+
+### Stage 2: FIND LANDMARKS (Procrustes calibration)
+
+Load any teacher model. Run backbone probes through both teacher
+and student. Find the universal fixed points in both coordinate
+systems. Compute Procrustes transform: teacher_space → student_space.
+
+This works NOW because the student is crystallized (stage 1 installed
+kernel structure). Session 107 showed Procrustes fails on melts but
+works between crystals — the kernel etch makes the student a crystal.
 
 ```python
-# Phase 2 round:
-reset(crystal_acc)
-reset(kernel_acc)
-accumulate(lattice_loss → crystal_acc)   # crystal reference beam (live)
-accumulate(CE_loss → kernel_acc)          # kernel beam (all 8 ops)
-merged = beam_form(crystal_acc, kernel_acc)
-etch(merged)                              # coherent exposure
+def build_beam_former(teacher, student, backbone_probes, backbone_mask):
+    """Compute Procrustes transform from teacher to student space.
+    
+    Uses universal fixed points as correspondence landmarks.
+    Works because student has structure (post kernel etch, not a melt).
+    """
+    # Forward backbone probes through both models
+    teacher_hidden = extract_hidden_states(teacher, backbone_probes)
+    student_hidden = extract_hidden_states(student, backbone_probes)
+    
+    # Use only backbone probes (high-agreement landmarks)
+    backbone_idx = np.where(backbone_mask.sum(axis=1) > 0)[0]
+    T = teacher_hidden[backbone_idx]  # (n_landmarks, d_teacher)
+    S = student_hidden[backbone_idx]  # (n_landmarks, d_student)
+    
+    # PCA to shared dimensionality (min of both d_models)
+    d_shared = min(T.shape[1], S.shape[1])
+    T_pca = pca_project(T, d_shared)
+    S_pca = pca_project(S, d_shared)
+    
+    # Procrustes: find R, s such that T_pca @ R * s ≈ S_pca
+    R, s = orthogonal_procrustes(T_pca, S_pca)
+    
+    return R, s, d_shared
+
+def translate_crystal(teacher, all_probes, R, s, d_shared):
+    """Translate teacher's full crystal into student's coordinate system."""
+    teacher_full = extract_hidden_states(teacher, all_probes)
+    teacher_pca = pca_project(teacher_full, d_shared)
+    translated = (teacher_pca @ R) * s
+    
+    # Compute translated RDM — this is the reference beam
+    norms = np.linalg.norm(translated, axis=1, keepdims=True)
+    translated_norm = translated / (norms + 1e-8)
+    reference_rdm = translated_norm @ translated_norm.T
+    return reference_rdm
 ```
 
-Beam form per plate position:
-```python
-crystal_conf = crystal_acc.confidence[i,j]
-crystal_dir  = crystal_acc.direction[i,j]
-kernel_dir   = kernel_acc.direction[i,j]
+### Stage 3: ETCH TRANSLATED CRYSTAL (wire hardware to language)
 
-if crystal_conf > threshold:
-    # Crystal/attachment position — protected
-    # Kernel can reinforce but not oppose
-    if sign(kernel_dir) == sign(crystal_dir):
-        merged = crystal_dir + kernel_dir   # reinforcing
-    else:
-        merged = crystal_dir                 # crystal wins
-else:
-    # Blank plate — kernel writes freely
-    merged = crystal_dir + kernel_dir        # both contribute
+Use the translated crystal as the reference beam. Holographic beam
+former protects kernel hardware from stage 1. The crystal wires
+the kernel functions to language — math routes to math kernels,
+reasoning routes through composition combinators, etc.
+
+Two-tier loss active:
+- **Backbone tier**: strong pull on universal fixed points (the bones)
+- **Growth tier**: agreement-weighted pull on the rest (crystal fills in)
+
+Beam former for the etch:
+- Where kernel hardware has strong signal → protected (stencil)
+- Where crystal reference beam has strong signal → crystal wins
+- Where they agree → reinforced
+- Where neither has signal → free plate capacity
+
+### Stage 4: LAMBDA SELF + FINAL ETCH (our sieve's shape)
+
+Lambda self-organization is sieve-dependent — and that's correct.
+VSM-LM's sieve SHOULD form its own lambda encoding. Burn it in via
+CE loss from kernel function training. The beam former protects
+crystal + attachment points while lambda internal structure forms.
+
+This is the last mutable stage. Lambda encoding grows from the
+attachment points (lambda→math bridges), shaped by VSM-LM's
+specific architecture (7-pass hourglass, ternary plates, mirrors).
+
+### Stage 5: FREEZE
+
+All plates locked permanently. The full crystal is installed:
+- Reasoning geometry (universal)
+- Math geometry (universal)
+- Attachment points (universal bridges)
+- Lambda self-organization (VSM-LM-specific, grown from attachment points)
+- Kernel dispatch/integrate patterns
+
+Capabilities cannot be catastrophically forgotten — topology is locked.
+
+### Stage 6: GD on continuous params
+
+Mirrors, gamma, embeddings — beam angles only. GD learns WHEN to
+use each operation, not HOW the operations work. Smooth optimization
+landscape because topology is fixed. 10-100× less training compute
+than standard training.
+
+## Key Design Principles
+
+### The crystal can't float free
+
+The kernel functions (dispatch/integrate) are the hardware. The
+crystal is the wiring. You need hardware before wiring. Kernel
+etch (stage 1) must come first because:
+- The student needs structure for Procrustes to work (not a melt)
+- The crystal needs something to attach to (kernel functions)
+- Attachment points need both sides to exist
+
+### Any model as teacher
+
+The beam former adapts to any teacher because universal fixed points
+exist in every model. Load Qwen3-14B → one Procrustes transform.
+Load Mistral-7B → different transform. Load a future model → same
+probes, same landmarks, new transform automatically.
+
+### Translation, not copying
+
+The crystal from a standard transformer can't be copied directly
+because VSM-LM's sieve is fundamentally different:
+- Standard: everything multiplexed on attention weights
+- VSM-LM: dispatch plates + stride plates + integrate plates
+
+The Procrustes transform accounts for this. It maps the teacher's
+multiplexed crystal into VSM-LM's separated architecture. The
+DISTANCES are preserved (same relational geometry) but the
+COORDINATES change (different sieve shape).
+
+### The sieve shapes the final crystal
+
+We initialize where the data says (fixed points, translated crystal).
+We penalize deviation (two-tier relational loss). But we don't force
+it rigidly. The crystal grows from the seed, shaped by VSM-LM's
+sieve. Lambda self-organization WILL be different from any teacher.
+That's correct — it's our model's own encoding.
+
+## Artifacts
+
+```
+lattice/backbone_seed.npz      — 807×512 MDS anchors + backbone mask (3.3MB)
+lattice/backbone_seed.json      — metadata sidecar
+lattice/lattice_5model/         — 5-model consensus RDMs + agreement masks
+lattice/diverse_corpus.json     — 807 probes across 8 domains
 ```
 
-## Validation: 6-Model Consensus (in progress)
+## Implementation Status
 
-Running lattice build with 6 models to test whether attachment points
-hold with additional architectures:
-- Existing 4: qwen3-14b, mistral-7b, olmo-2-13b, pythia-2.8b
-- New: smollm3-3b (HuggingFace), phi-4-mini (Microsoft)
-
-If lambda→math attachment points maintain high agreement across 6
-independently trained models, they're genuinely universal — the shape
-of language, not any sieve. This would confirm the beam former design.
+- [x] Backbone extraction (32K pairs, 664 probes, threshold ≥ 0.63)
+- [x] Two-tier relational loss in holographic_train.py
+- [x] 5-model validation (attachment points confirmed)
+- [x] Crystallization order confirmed across depth
+- [ ] Phased etch controller (stages 1-4 with transitions)
+- [ ] Procrustes beam former (landmark finding + transform)
+- [ ] Beam stencil (protect kernel hardware during crystal etch)
+- [ ] Lambda self-etch with crystal protection (stage 4)
+- [ ] Freeze protocol + GD-only training mode
 
 ## Open Questions
 
-1. **backbone_lambda schedule**: Start high and anneal? Or constant?
-   Constant is simpler. Annealing lets the crystal relax into the
-   sieve's natural shape after nucleation.
+1. **Stage transition criteria**: How to detect when stage 1 is complete
+   (kernel functions installed)? Measure: per-op CE loss convergence.
 
-2. **Depth selection**: Currently using depth=50% (mid-network).
-   Should backbone targets be at multiple depths? The spine
-   finding shows PC1 is stable from 19-37 in Qwen3 (49-95%),
-   but VSM-LM's stability zone may be different.
+2. **Procrustes dimensionality**: What d_shared for the PCA projection?
+   Teacher d_model may differ from student d_model. Use min(d_teacher,
+   d_student) or a fixed value from MDS analysis?
 
-3. **Probe sampling**: Currently sampling 50 probes per round.
-   Should backbone probes be sampled more frequently than
-   non-backbone probes? Or should every round include a minimum
-   number of backbone probes?
+3. **Multiple teachers**: Can we Procrustes-align from multiple teachers
+   simultaneously? Average the translated crystals? Or pick the teacher
+   with best fixed-point alignment?
 
-4. **Convergence indicator**: How do we know the crystal has
-   nucleated? When backbone_loss stabilizes → seed has taken hold.
-   When growth_loss starts decreasing → crystal is extending.
+4. **Beam former threshold**: What crystal confidence triggers protection
+   in the stencil? Too low protects noise, too high leaves attachment
+   points exposed.
 
-5. **Backbone expansion**: As training progresses, more pairs may
-   converge to universal distances (the crystal grows). Should the
-   backbone_mask expand dynamically? Or is the initial 10% fixed?
+5. **Lambda etch duration**: How many rounds of lambda self-etch before
+   freeze? The lambda crystal needs enough time to organize around the
+   attachment points but not so much that it overwrites them.
 
-6. **Crystal etch rounds**: How many rounds of crystal-only etch
-   before switching to kernel etch? Need the crystal to be firmly
-   installed. Measure: backbone loss convergence → crystal is set.
-
-7. **Beam former threshold**: What crystal confidence level triggers
-   protection? Too low → protects noise. Too high → only protects
-   the strongest crystal positions, leaving attachment points exposed.
-</content>
-</invoke>
+6. **Running crystal beam**: During stages 3-4, should the crystal
+   reference beam come from same-round lattice loss or a running average
+   across rounds? Running average is more stable.
