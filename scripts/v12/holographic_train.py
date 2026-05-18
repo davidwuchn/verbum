@@ -272,15 +272,30 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         round_flips = {}
 
         # ══════════════════════════════════════════════════════
-        # Phase A: EXPOSE — accumulate direction per operation
+        # Phase A: EXPOSE — accumulate directions from ALL ops
         # ══════════════════════════════════════════════════════
+        #
+        # Cross-op consensus: accumulate gradient directions from
+        # all 8 operations into the SAME accumulators. Positions
+        # where multiple ops agree on the sign direction will have
+        # high confidence. Positions where ops disagree will cancel
+        # out (low confidence → not etched). This eliminates the
+        # tug-of-war where sequential per-op etching overwrites
+        # the previous op's work.
+        #
+        # The resulting etch writes the CONSENSUS structure — the
+        # interference pattern from all operations simultaneously.
+        # This IS holographic recording: multiple reference beams,
+        # one exposure, one development.
 
         ops = ["K", "I", "B", "C", "M", "D", "Y", "WHNF"]
         rng.shuffle(ops)
 
-        for op in ops:
-            reset_accumulators(accumulators)
+        # Single reset at the start of each round (NOT per-op)
+        reset_accumulators(accumulators)
 
+        op_losses_all = {}
+        for op in ops:
             op_losses = []
             for batch_idx in range(args.batches_per_op):
                 input_ids, targets = corpus_batch(
@@ -292,32 +307,41 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 mx.eval(loss_val, grads)
                 op_losses.append(float(loss_val.item()))
 
-                # Accumulate direction (the holographic exposure)
+                # Accumulate direction (all ops into same accumulators)
                 accumulate_direction(model, grads, accumulators)
 
-            # ── ETCH: write this operation's hologram ─────────
-            etch_result = direct_etch(
-                model, accumulators,
-                confidence_threshold=args.confidence_threshold,
-                max_flips=args.max_flips_per_op,
-            )
-
-            n_flipped = etch_result["total_flipped"]
-            total_flips += n_flipped
-            round_flips[op] = n_flipped
-
-            # Re-freeze after etch
-            freeze_ternary_weights(model)
-            restore_ternary(model)
-
             avg_loss = np.mean(op_losses)
+            op_losses_all[op] = avg_loss
             print(
-                f"  Round {round_idx+1:3d} | {op} | "
-                f"loss={avg_loss:.4f} | "
-                f"flips={n_flipped:,} | "
-                f"candidates={etch_result['total_candidates']:,}",
+                f"  Round {round_idx+1:3d} | {op:4s} | "
+                f"loss={avg_loss:.4f} | exposed",
                 file=sys.stderr, flush=True,
             )
+
+        # ── ETCH: write cross-op consensus hologram ───────────
+        # Only positions where the AGGREGATE direction across all
+        # 8 ops is confident get flipped. Contested positions
+        # (where ops disagree) have low confidence and stay put.
+        etch_result = direct_etch(
+            model, accumulators,
+            confidence_threshold=args.confidence_threshold,
+            max_flips=args.max_flips_per_op,
+        )
+
+        n_flipped = etch_result["total_flipped"]
+        total_flips += n_flipped
+        round_flips["consensus"] = n_flipped
+
+        # Re-freeze after etch
+        freeze_ternary_weights(model)
+        restore_ternary(model)
+
+        print(
+            f"  Round {round_idx+1:3d} | ETCH | "
+            f"flips={n_flipped:,} | "
+            f"candidates={etch_result['total_candidates']:,}",
+            file=sys.stderr, flush=True,
+        )
 
         # ══════════════════════════════════════════════════════
         # Phase B: BEAM TRAINING — beam adapts to new plate
