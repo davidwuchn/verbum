@@ -191,6 +191,110 @@ The backbone (math, reasoning, lambda×math bridges) IS universal.
 These distances are properties of language. They'll be the same
 in VSM-LM's crystal because they're the same in every crystal.
 
+## Attachment Points
+
+The backbone is not uniform — it has internal structure:
+
+```
+Backbone anatomy (32,522 pairs):
+  Crystal       60.8%  — universal×universal same-domain (math-math, reasoning-reasoning)
+  Bridge         9.1%  — universal×universal cross-domain (math↔reasoning)
+  Attachment    19.0%  — universal×operational (lambda→math, code→reasoning)
+  Operational    6.8%  — operational×operational where models agree
+  Other          4.2%
+
+Attachment point types:
+  lambda → math        4,904 pairs  (79% of all attachment)
+  code → math          1,117 pairs  (18%)
+  tools → math           113 pairs  (1.8%)
+  lambda → reasoning      49 pairs  (0.8%)
+```
+
+Agreement levels:
+- Crystal pairs: 0.76 average agreement
+- Attachment pairs: 0.67 average agreement
+- Operational pairs: 0.76 average agreement
+
+**Attachment points are where kernel functions connect to universal
+structure.** Models disagree on lambda-lambda distances (sieve-dependent)
+but AGREE on lambda-math distances (universal). The kernel functions
+don't float free — they attach to the crystal at these bridge points.
+
+The beam former must protect attachment points with the same priority
+as crystal positions. Break an attachment point and the kernel structure
+detaches from the universal crystal.
+
+## Holographic Beam Former — Phased Etch
+
+### Phase 1: Crystal Etch (single beam)
+
+Lattice-only. No kernel CE loss. Burns universal crystal geometry
+into the plate. Clean single-beam exposure.
+
+```
+Round 1..C:  [crystal beam] ──→ plate
+             lattice loss only, no CE
+             Installs: crystal + bridges + attachment points
+```
+
+### Phase 2: Kernel Etch (beam former active)
+
+Kernel CE loss provides the kernel beam. Crystal lattice loss continues
+as live reference beam. Beam former merges before hitting the plate.
+
+```
+Round C+1..N:  [crystal beam] ──┐
+                                ├── beam_form ──→ plate
+               [kernel beam] ──┘
+```
+
+The crystal beam acts as a holographic stencil:
+- Where crystal etched confidently → protected (kernel can't overwrite)
+- Where crystal is blank → kernel writes freely
+- Where they agree → reinforced (stronger etch)
+- Attachment points protected like crystal (they're the bridges)
+
+Implementation: separate accumulator sets, merged before etch.
+
+```python
+# Phase 2 round:
+reset(crystal_acc)
+reset(kernel_acc)
+accumulate(lattice_loss → crystal_acc)   # crystal reference beam (live)
+accumulate(CE_loss → kernel_acc)          # kernel beam (all 8 ops)
+merged = beam_form(crystal_acc, kernel_acc)
+etch(merged)                              # coherent exposure
+```
+
+Beam form per plate position:
+```python
+crystal_conf = crystal_acc.confidence[i,j]
+crystal_dir  = crystal_acc.direction[i,j]
+kernel_dir   = kernel_acc.direction[i,j]
+
+if crystal_conf > threshold:
+    # Crystal/attachment position — protected
+    # Kernel can reinforce but not oppose
+    if sign(kernel_dir) == sign(crystal_dir):
+        merged = crystal_dir + kernel_dir   # reinforcing
+    else:
+        merged = crystal_dir                 # crystal wins
+else:
+    # Blank plate — kernel writes freely
+    merged = crystal_dir + kernel_dir        # both contribute
+```
+
+## Validation: 6-Model Consensus (in progress)
+
+Running lattice build with 6 models to test whether attachment points
+hold with additional architectures:
+- Existing 4: qwen3-14b, mistral-7b, olmo-2-13b, pythia-2.8b
+- New: smollm3-3b (HuggingFace), phi-4-mini (Microsoft)
+
+If lambda→math attachment points maintain high agreement across 6
+independently trained models, they're genuinely universal — the shape
+of language, not any sieve. This would confirm the beam former design.
+
 ## Open Questions
 
 1. **backbone_lambda schedule**: Start high and anneal? Or constant?
@@ -214,5 +318,13 @@ in VSM-LM's crystal because they're the same in every crystal.
 5. **Backbone expansion**: As training progresses, more pairs may
    converge to universal distances (the crystal grows). Should the
    backbone_mask expand dynamically? Or is the initial 10% fixed?
+
+6. **Crystal etch rounds**: How many rounds of crystal-only etch
+   before switching to kernel etch? Need the crystal to be firmly
+   installed. Measure: backbone loss convergence → crystal is set.
+
+7. **Beam former threshold**: What crystal confidence level triggers
+   protection? Too low → protects noise. Too high → only protects
+   the strongest crystal positions, leaving attachment points exposed.
 </content>
 </invoke>

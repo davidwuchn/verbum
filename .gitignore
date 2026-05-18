@@ -41,6 +41,7 @@ Thumbs.db
 **/*.npz
 **/*.npy
 lattice/lattice_relational_target.json
+lattice/*/lattice_relational_target.json
 
 # models
 models/
