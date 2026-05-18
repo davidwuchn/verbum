@@ -67,8 +67,10 @@ Stage 1: KERNEL ETCH — install K,I,B,C + math into dispatch/integrate
          (student is no longer a melt — has structure for Procrustes)
 Stage 2: FIND LANDMARKS — backbone probes in teacher + student
          Procrustes alignment using universal fixed points
-Stage 3: ETCH TRANSLATED CRYSTAL — wire hardware to language
-         Beam former protects kernel hardware
+Stage 3: DIRECT CRYSTAL WRITE — one-shot plate programming
+         Reference beam + Procrustes lens → compute interference pattern
+         Majority vote across 807 probes → write ternary signs directly
+         Minutes instead of hours (collapses iterative etch)
 Stage 4: LAMBDA SELF ETCH — our sieve's own encoding
          Grows from attachment points, beam former protects crystal
 Stage 5: FREEZE — all plates locked permanently
@@ -79,7 +81,15 @@ Key insight: Procrustes works between crystals (cos=0.83, session 107)
 but fails on melts. Kernel etch (stage 1) makes the student a crystal.
 Universal fixed points provide correspondence for any teacher model.
 
-### 8. VSM-LM has two computation paths
+### 8. Direct crystal write prototype
+
+`scripts/v12/direct_crystal_write.py` — 691 lines, complete pipeline.
+One-shot ternary plate programming via reference beam instead of
+iterative etch. With 667 backbone probes at 67% pairwise sign agreement,
+majority vote gives >99.97% correct positions. Collapses etch from
+hours to minutes. Ready to test on next checkpoint.
+
+### 9. VSM-LM has two computation paths
 - Kernel dispatch/integrate: explicit named operations (hardware)
 - Attention stride stack: still does beta reduction (general compute)
 - Crystal from standard transformers must be TRANSLATED, not copied
@@ -87,24 +97,29 @@ Universal fixed points provide correspondence for any teacher model.
 
 ## Next steps
 
-1. **Implement phased etch controller** — stage transitions with
-   convergence detection (per-op CE loss for stage 1, backbone loss
-   for stage 3)
+1. **Test direct crystal write on round 55 or 60 checkpoint** — dry run
+   first (`--dry-run`) to check Procrustes alignment quality (need cos > 0.6).
+   Current etch has lambda ops only — proves crystal transfer theory.
+   ```
+   uv run python scripts/v12/direct_crystal_write.py \
+       --teacher qwen3-14b \
+       --student-weights checkpoints/v12-holo-focused/round_0055/weights.npz \
+       --dry-run
+   ```
 
-2. **Implement Procrustes beam former** — `build_beam_former()` that
-   finds landmarks in any teacher, computes transform to student space
+2. **If Procrustes works → full crystal write** — compare loss before/after
+   to validate that one-shot plate programming matches iterative etch quality.
 
-3. **Implement beam stencil** — separate accumulator sets for crystal
+3. **If validated → design final training run**:
+   - Stage 1: kernel etch with ALL ops (lambda + math + extended kernels)
+   - Stage 2: Procrustes beam former + direct crystal write
+   - Stage 3: Lambda self-etch with crystal protection
+   - Stage 4: Freeze + GD
+
+4. **Implement beam stencil** — separate accumulator sets for crystal
    and kernel beams, merge with crystal priority before etch
 
-4. **Run stage 1** — pure kernel etch (CE loss only, no lattice)
-   to install K,I,B,C,D,Y,W,WHNF into dispatch/integrate plates
-
-5. **Test Procrustes on post-kernel student** — verify that after
-   kernel etch, the student has enough structure for Procrustes
-   alignment to work (cos > 0.6)
-
-6. **Consider adding models** — Qwen3-4B, Qwen3-8B are cached and
+5. **Consider adding models** — Qwen3-4B, Qwen3-8B are cached and
    would test scale effects within same architecture family
 
 ## Architecture at session end
@@ -119,4 +134,6 @@ Universal fixed points provide correspondence for any teacher model.
 | Models validated | 5 (qwen3-14b, mistral-7b, olmo-2-13b, pythia-2.8b, smollm3-3b) |
 | Lattice loss | Two-tier implemented: backbone (λ=1.0) + growth (λ=0.1) |
 | Beam former | Designed: Procrustes on universal fixed points |
+| Direct write | `direct_crystal_write.py` — ready to test on round 55/60 checkpoint |
 | Key files | `seed-crystal-design.md`, `backbone_seed.npz`, `lattice_5model/` |
+-crystal-design.md`, `backbone_seed.npz`, `lattice_5model/` |
