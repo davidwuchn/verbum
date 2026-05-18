@@ -2,147 +2,119 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-18 | Session: 111
+> Last updated: 2026-05-18 | Session: 112
 
 ## Where we are
 
-**CONSENSUS ETCH CONVERGED TO LIMIT CYCLE. Crystal formed at loss ~5 without gradient descent. Focusing schedule + universal lattice alignment loss designed and implemented. Next: build lattice map from multiple models, then resume etch with focusing to find fixed point.**
-
-Key results from consensus etch run (rounds 16-35):
-- Beam loss: 8.13 → 5.65 (3 hours, 20 rounds)
-- Per-op losses at round 34: I=4.64, C=4.70, M=4.90, K=5.00, WHNF=5.04, Y=5.35, B=6.58, D=6.78
-- Flips oscillating 0.5M-9M per round (limit cycle, not converging to 0)
-- Checkpoint saved at round 35: `checkpoints/v12-holo-8op/round_0035`
+**CRYSTAL SPINE DISCOVERED. All LLMs collapse their 5120-dim representation onto 1-3 dimensions at a bottleneck layer. Two classes: single-neuron spine (Qwen3-14B dim 731, Pythia-2.8B dim 1793) and distributed (Mistral, OLMo). The architecture IS a sieve — its shape dictates the crystal shape gradient descent finds. Focused etch running uncapped from round 50, now at round 52, beam loss 4.77.**
 
 ## What's running
 
-Nothing currently. Consensus etch completed 35 rounds.
+**Holographic etch** — `tmux main:2`
+- Resumed from round 50 checkpoint, uncapped max_flips
+- Round 51: 2.3M flips (vs 918 when capped), beam loss 4.77
+- Schedule: confidence 0.89→0.995, beam_lr 3.6e-5→1e-6
+- Checkpoint dir: `checkpoints/v12-holo-focused/`
+- Running to round 85
 
-## What was done this session (111)
+## What was done this session (112)
 
-### 1. Explored kernel expansion strategy
+### 1. Fixed Metal resource limit (499K) crash
 
-Discussed expanding beyond 8 combinators to include math, logic, sequence,
-coding, reasoning, and tool-calling operations. Key insight: each kernel
-function that compresses N beta reduction steps into 1 dispatch saves
-compute proportional to frequency × steps_saved.
+The holographic training crashed at round 50 from Metal buffer object exhaustion.
+Root cause: 499000 is the number of Metal buffer OBJECTS, not bytes. Each
+forward+backward creates ~100s of intermediates. Fixed by:
+- `mx.clear_cache()` at 5 points in training loop
+- Explicit `del` of grad references after accumulation
+- Updated from deprecated `mx.metal.clear_cache()` to `mx.clear_cache()`
+- Optimized `_ternary_embed_vjp` to reduce intermediate allocations
 
-Proposed kernel taxonomy by value:
-- Tier 0: Structural (KIBC-DYWH, have these, 1-4 β-steps saved)
-- Tier 1: Arithmetic (17 math kernels, have these, 100-1000s β-steps)
-- Tier 2: Aggregation (COUNT, FOLD, SUM, ALL, ANY — O(N) β-steps)
-- Tier 3: Logic (AND, IMPLIES, MODUS_PONENS, FORALL — 5-50 β-steps)
-- Tier 4: Sequence (LENGTH, NTH, SORT — O(N) β-steps)
-- Tier 5: Structural recursion (FOLD_TREE, TRAVERSE — O(depth))
+### 2. Diagnosed etch throttle: 382K candidates, 918 flips
 
-### 2. Crystal formation theory
+The absolute `max_flips` cap (cosine schedule 1000→10) was strangling the
+etch. 382K positions passed confidence threshold (0.89) and agreed on
+direction across all 8 ops, but only 918 highest-confidence ones could flip.
+Added:
+- Confidence diagnostics to `direct_etch` (p50/p90/p99, histogram, throttle ratio)
+- Proportional `--max-flips-frac` CLI arg (fraction of candidates, not absolute)
+- Currently running UNCAPPED — confidence threshold is the only gate
 
-Developed theory that the crystal lattice isn't designed but discovered:
-- Beta reduction is the nucleation site (same shape at every scale)
-- KIBC are the unit cell of the crystal
-- Specialized operations (math, logic, scope) are INCLUSIONS that
-  co-crystallize at intersection points where they touch function application
-- Every trained model has already formed this crystal — it's in the weights
-- We extract, we don't invent
+### 3. Built tool crystal probe (196 probes)
 
-### 3. VSM-LM as purpose-built holographic storage
+`scripts/v12/probe_tool_crystal.py` — probes Qwen3-14B to find tool-calling
+circuits. 5 domains: recognition (40), selection (40), schema_binding (56),
+format (30), control (30). All tool probes use Qwen3 Hermes format truncated
+at assistant decision point.
 
-Key insight: the 14B model wastes capacity multiplexing routing onto compute
-weights, with accidental superposition packing and large minimum beam angles.
-VSM-LM separates beam (mirrors) from compute (plates), has 7-pass depth,
-and can add capacity via mirrors without growing the plate.
+### 4. Discovered the 3D bottleneck
 
-Estimated: ~60K holograms account for 80% of a 14B model's usability.
-These can be packed into 150M ternary positions with purpose-built
-holographic storage.
+At layer 20 of Qwen3-14B, the top 3 PCs explain **100%** of centered variance.
+The model reduces 5120 dimensions to 3 coordinates:
+- **PC1** (99.96%): comprehension ↔ production mode switch. **Single neuron: dim 731**
+  (weight -0.986, explains 97.1% of PC1). n90=1 — one dimension carries everything.
+- **PC2** (0.015%): tool-action specificity (abstract question ↔ concrete action)
+- **PC3** (0.010%): schema binding ↔ tool selection
 
-### 4. Universal lattice map concept
+PC1 creates a continuous gradient: prose (-3151) → lambda (-2500) → selection (-1900)
+→ schema binding (-1010) → format output (+8800). 9000-unit gap at the tool-call
+decision boundary.
 
-Instead of using one model as reference (transfers idiosyncrasies), load
-MANY models, find where they ALL AGREE on sign topology. That agreement
-IS the universal lattice. Cross-model consensus at the model level, same
-principle as cross-op consensus at the operation level.
+### 5. Crystal spine probe across 6 architectures
 
-### 5. Built focusing schedule (`holographic_train.py`)
+`scripts/v12/probe_crystal_spine.py` — 45 probes, ALL layers, 6 models.
 
-Cosine-annealed schedule across rounds:
-- `--beam-lr` / `--beam-lr-end` (1e-4 → 1e-6)
-- `--confidence-threshold` / `--confidence-threshold-end` (0.5 → 0.99)
-- `--max-flips-start` / `--max-flips-end` (unlimited → 100)
-- `--batches-per-op` / `--batches-per-op-end` (50 → 200)
-- `--beam-steps` / `--beam-steps-end` (200 → 500)
+**Two classes of crystal:**
 
-Emulates lens focusing: wide→narrow forces convergence to fixed point.
+| Model | Bottleneck | Top3% | Spine Dim | Frac | n90 |
+|-------|-----------|-------|-----------|------|-----|
+| Qwen3-14B | L19 (49%) | 100% | dim 731 | 97.1% | 1 |
+| Pythia-2.8B | L5 (16%) | 99.4% | dim 1793 | 84.9% | 2 |
+| Qwen3-0.6B | L27 (100%) | 81.9% | dim 13 | 15.0% | 345 |
+| Mistral-7B | L0 (0%) | 51.8% | - | 6.8% | 998 |
+| OLMo-2-13B | L0 (0%) | 55.7% | - | 3.0% | 2168 |
+| SmolLM3-3B | L35 (100%) | 51.3% | - | 2.0% | 837 |
 
-### 6. Built lattice map extractor (`scripts/v12/build_lattice_map.py`)
+### 6. The Sieve Principle
 
-New script:
-- Loads N diverse models (Qwen, LLaMA, Mistral, OLMo, Pythia)
-- Runs 380 lambda kernel probes through each
-- Computes per-model RDM at multiple depth fractions
-- Builds cross-model consensus RDM with agreement mask
-- SVD discovers universal dimensions
-- Outputs: `lattice/universal_lattice.npz` + `.json` + compat format
+The architecture IS a sieve. Gradient descent pours computation through it
+and the shape of the sieve dictates the shape of the solution. Qwen3 and
+Pythia have sieves that funnel to a single neuron. Mistral/OLMo/SmolLM have
+sieves that keep computation distributed. Same computation, different encoding.
 
-### 7. Added lattice alignment loss to holographic training
-
-Second reference beam alongside CE loss:
-- `--lattice-map lattice/universal_lattice.npz`
-- `--lattice-lambda 0.1`
-- `--lattice-probes-per-round 50`
-- Lattice gradients feed into same direction accumulators as CE
-- Agreement mask weights the loss (universal pairs count more)
-
-### 8. Theoretical implications
-
-The crystal at loss ~5 without GD validates the paradigm:
-- Ternary sign topology IS the computational substrate
-- Etching installs computation directly (no gradient descent needed)
-- Starting GD from loss 5 eliminates ~80% of normal training cost
-- Model's native storage format IS holographic (every weight is a plate)
-- Both stridestacks enforce holographic storage
-- Capacity scales with mirrors, not parameters
-- Hundreds of operations can fit on the same 24.6M plate
-- Runs on CPU (2-bit ternary, fits in cache)
-- Potential SOTA at 150M parameters from etch + beam calibration alone
+Implication for verbum: **the ternary plate IS a sieve**. Etching shapes the
+sieve topology. The 382K candidates that want to flip are positions where the
+sieve shape is wrong — the beam is telling the plate its funnel is pointed
+the wrong way. Capping flips at 918 was like trying to correct a sieve by
+adjusting 0.2% of its holes per round.
 
 ## Next steps
 
-1. **Build universal lattice map** (run `build_lattice_map.py`)
-   - Start with 2-3 models (Qwen3-14B + Mistral-7B + OLMo-2-7B)
-   - Verify cross-model agreement > 0.7 on lambda kernel probes
-   - Save to `lattice/universal_lattice.npz`
+1. **Monitor uncapped etch** — rounds 51→85, watching beam loss trajectory
+   and whether the crystal finds a new fixed point with uncapped flips
 
-2. **Resume etch with focusing schedule** from round 35 checkpoint
-   ```
-   uv run python scripts/v12/holographic_train.py \
-     --resume checkpoints/v12-holo-8op/round_0035 \
-     --n-rounds 50 \
-     --beam-lr 1e-4 --beam-lr-end 1e-6 \
-     --confidence-threshold 0.5 --confidence-threshold-end 0.99 \
-     --max-flips-end 100 \
-     --batches-per-op 50 --batches-per-op-end 200 \
-     --lattice-map lattice/universal_lattice.npz \
-     --checkpoint-dir checkpoints/v12-holo-focused
-   ```
+2. **Analyze the sieve** — what architectural feature causes the single-neuron
+   collapse in Qwen3/Pythia but not Mistral/OLMo? Hypothesis: it's the norm
+   layer configuration (RMSNorm placement, pre-norm vs post-norm)
 
-3. **Add math kernel reference beams** — generate math corpus
-   (ADD, MUL, DIV, etc.), add as new ops in holographic training
+3. **Map the spine across model families** — run Qwen3 at multiple sizes
+   (0.6B, 4B, 8B, 14B, 32B) to see how spine dimension and bottleneck
+   depth scale with parameters
 
-4. **Cross-language coding probes** — same algorithm in Python/Rust/
-   Haskell/JS/SQL to discover universal coding crystal
+4. **Extract the 3D crystal coordinates** — project all probes onto the
+   3 PCs at the bottleneck layer. This IS the crystal map. The coordinates
+   tell us where every computation lives in the lattice.
 
-5. **Full prose training** (Phase 2) — freeze crystal, train beams on Dolma
+5. **Use crystal coordinates for targeted etching** — instead of blind
+   consensus etch, compute where each operation SHOULD be in 3D space
+   and etch the plate to produce that geometry
 
 ## Architecture at session end
 
 | Component | Value |
 |-----------|-------|
 | N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
-| N_KERNELS | 9 (+M as layer type) |
-| Categories | 3 (lambda/math/passthrough) |
-| Math kernels | 17 (ADD through ROUND, wired but untrained) |
 | Parameters | 24.6M |
-| Beam loss | 5.65 (etch only, no GD) |
-| Per-op best | I=4.64, C=4.70 (without GD!) |
-| Crystal state | Formed, limit cycle, checkpoint at round 35 |
+| Beam loss | 4.77 (round 51, uncapped etch) |
+| Crystal state | Uncapped etch running, 2.3M flips/round |
+| Spine finding | Qwen3-14B dim 731, Pythia-2.8B dim 1793 |
+| Tool crystal | PC1 = mode switch, single neuron |
