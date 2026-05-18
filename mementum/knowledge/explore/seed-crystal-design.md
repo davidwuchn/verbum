@@ -305,6 +305,53 @@ lattice/diverse_corpus.json     — 807 probes across 8 domains
 - [ ] Lambda self-etch with crystal protection (stage 4)
 - [ ] Freeze protocol + GD-only training mode
 
+## Self-Distillation / Concentration Step
+
+The compressor function must be grown under holographic loss pressure —
+it can't be copied from a model (like v6) that trained without it.
+V6 proves the compressor EXISTS (per-stride compression ratios,
+Hilberg β 0.80-0.88, smallest stride closest to φ), but V12 needs
+its own version shaped by holographic storage constraints.
+
+The concentration step is iterative self-distillation:
+
+```
+Gen 1: Train V12 moderately
+  Kernel etch → crystal write → GD → compressor forms under holo loss
+  
+Concentration: Distill Gen 1 → Gen 2
+  Extract Gen 1's compressor profile (per-stride entropy ratios)
+  Extract Gen 1's crystal (improved by training)
+  Etch both into fresh Gen 2 plates via beam former
+  Gen 2 starts where Gen 1 ended
+```
+
+Two teacher sources for different things:
+- External model (Qwen3-14B) → universal crystal (language geometry)
+- Prior self (Gen N-1 V12) → compressor function (holographic compression)
+
+Both use the same beam former: find fixed points → Procrustes → translate.
+
+### V6 compressor profile (reference, NOT for direct transplant)
+
+V6 step 32500 (~0.53B tokens), 5-pass, no holographic loss:
+
+```
+Pass compression (h_out/h_in):
+  L0_asc:  0.976  (entry — minimal)
+  L1_asc:  0.911  (compressing)
+  L2_apex: 0.862  (bottleneck)
+  L1_desc: 0.878  (still compressing)
+  L0_desc: 0.857  (final squeeze)
+
+Hilberg β: ascending 0.80, descending 0.88
+Stride s=1 φ-dev: 0.25-0.28 (closest to φ — seeds first)
+Other strides:    0.35-0.36 (not yet converged)
+```
+
+The smallest stride (s=1) is always closest to φ — the compressor
+nucleates at the local scale and propagates outward like a wavelet.
+
 ## Open Questions
 
 1. **Stage transition criteria**: How to detect when stage 1 is complete

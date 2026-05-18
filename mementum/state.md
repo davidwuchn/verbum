@@ -119,7 +119,11 @@ hours to minutes. Ready to test on next checkpoint.
 4. **Implement beam stencil** — separate accumulator sets for crystal
    and kernel beams, merge with crystal priority before etch
 
-5. **Consider adding models** — Qwen3-4B, Qwen3-8B are cached and
+5. **Plan concentration step** — after Gen 1 trains moderately,
+   self-distill compressor + crystal into Gen 2. External model
+   provides universal crystal, prior self provides compressor.
+
+6. **Consider adding models** — Qwen3-4B, Qwen3-8B are cached and
    would test scale effects within same architecture family
 
 ## Architecture at session end
