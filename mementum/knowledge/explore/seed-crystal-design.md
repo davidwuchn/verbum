@@ -140,16 +140,57 @@ Session 107 proved Procrustes works between crystals (cos=0.83) but
 fails between crystal and melt (student has no structure to align to).
 Solution: crystallize the student FIRST (kernel etch), THEN Procrustes.
 
-## The Protocol — Five Stages
+**Session 114 proved kernel etch alone is not enough.** Round 60 had
+1.18B total flips of kernel etch — combinators learned — but Procrustes
+still failed (cos=0.217, 45.5% flip = random). Kernel etch teaches
+operational structure but doesn't guarantee representation GEOMETRY
+matches universal consensus. The missing piece: **lattice relational loss
+must run alongside kernel etch** to burn the backbone geometry into the
+student's representation space. Without it, the student is operationally
+structured but geometrically a melt.
 
-### Stage 1: KERNEL ETCH (install hardware)
+```
+Empirical result (session 114, round 60):
+  Procrustes mean cos:  0.217  (need > 0.6)
+  p10 cos:             -0.147  (anti-correlated!)
+  p90 cos:              0.491
+  Flip fraction:        45.5%  (random — no directional signal)
+  41 minutes compute for dry run, result = noise
+```
+
+## The Protocol — Revised Stages (session 114)
+
+### Stage 0: LATTICE-AUGMENTED KERNEL ETCH (geometry + hardware)
+
+**Critical revision**: kernel etch and lattice relational loss run
+TOGETHER, not sequentially. The lattice loss builds universal geometry
+(the backbone) while CE loss builds operational structure (combinators).
+Both feed the same direction accumulators.
+
+```
+CE loss        → teaches combinators (K, I, B, C, ...) = hardware
+Lattice loss   → burns backbone geometry (32K pairs) = Rosetta Stone
+Both together  → student becomes a crystal with landmarks
+```
+
+Two-tier lattice loss (implemented in holographic_train.py):
+- Backbone tier (λ=1.0): strong pull on 32K universal fixed points
+- Growth tier (λ=0.1): soft pull on remaining consensus pairs
+- Overall lattice λ=0.1 relative to CE
+
+Diagnostic: periodically run Procrustes dry run to monitor cos.
+When cos crosses 0.6, the student has enough universal geometry
+for the lens/crystal write to work.
+
+### Stage 1: KERNEL ETCH (install hardware) — merged into Stage 0
 
 Burn K, I, B, C, D, Y, W, WHNF into dispatch/integrate plates.
 Install math and logic into math kernel pathway. CE loss from
-lambda expressions — pure kernel training. No crystal yet.
+lambda expressions. **Now runs WITH lattice loss (Stage 0).**
 
-After this stage, VSM-LM has structure — it's no longer a melt.
-The kernel functions are the hardware that the crystal will wire.
+After this stage, VSM-LM has structure AND geometry — it's no
+longer a melt. The kernel functions are the hardware, and the
+backbone geometry provides landmarks for Procrustes.
 
 ### Stage 2: FIND LANDMARKS (Procrustes calibration)
 
@@ -157,9 +198,11 @@ Load any teacher model. Run backbone probes through both teacher
 and student. Find the universal fixed points in both coordinate
 systems. Compute Procrustes transform: teacher_space → student_space.
 
-This works NOW because the student is crystallized (stage 1 installed
-kernel structure). Session 107 showed Procrustes fails on melts but
-works between crystals — the kernel etch makes the student a crystal.
+This works NOW because the student has both operational structure
+AND universal geometry (stage 0 installed both via CE + lattice loss).
+Session 107 showed Procrustes works between crystals (cos=0.83).
+Session 114 showed kernel etch alone doesn't create landmarks
+(cos=0.217). The lattice loss is the missing prerequisite.
 
 ```python
 def build_beam_former(teacher, student, backbone_probes, backbone_mask):
@@ -299,8 +342,11 @@ lattice/diverse_corpus.json     — 807 probes across 8 domains
 - [x] Two-tier relational loss in holographic_train.py
 - [x] 5-model validation (attachment points confirmed)
 - [x] Crystallization order confirmed across depth
-- [ ] Phased etch controller (stages 1-4 with transitions)
-- [ ] Procrustes beam former (landmark finding + transform)
+- [x] Direct crystal write script (`direct_crystal_write.py`)
+- [x] Procrustes alignment + translated RDM pipeline
+- [x] Lattice-augmented etch running (session 114, rounds 61-80)
+- [ ] Procrustes cos > 0.6 (currently 0.217 at round 60)
+- [ ] Full crystal write (pending Procrustes threshold)
 - [ ] Beam stencil (protect kernel hardware during crystal etch)
 - [ ] Lambda self-etch with crystal protection (stage 4)
 - [ ] Freeze protocol + GD-only training mode
@@ -352,10 +398,44 @@ Other strides:    0.35-0.36 (not yet converged)
 The smallest stride (s=1) is always closest to φ — the compressor
 nucleates at the local scale and propagates outward like a wavelet.
 
+## Empirical Results
+
+### Round 60 Procrustes dry run (session 114)
+
+Teacher: Qwen3-14B at 50% depth. Student: round 60 (1.18B flips, kernel etch only).
+
+```
+Procrustes alignment:
+  mean cos = 0.217 (FAIL — need > 0.6)
+  p10 = -0.147, p50 = 0.271, p90 = 0.491
+  scale = 0.047
+
+Crystal write (dry run):
+  41.4M positions, would flip 18.8M (45.5%) = random
+  Mean confidence 0.521, median 0.573
+  Nearly every module ~50% flip = no directional signal
+```
+
+**Conclusion**: Kernel etch alone does not create universal geometry.
+Student has combinators but no backbone landmarks. Lattice relational
+loss is the missing prerequisite — now running from round 61.
+
+### Bug fixes discovered during dry run
+
+1. **Stride stack short-sequence crash** (`attention.py`): probes are
+   3-47 tokens, strides up to 1024. When `L < stride`, `L_s = 0` →
+   empty tensor crash. Fix: zero output when no stride positions reached.
+
+2. **MLX numpy indexing** (`direct_crystal_write.py`): numpy array used
+   to index MLX tensor. Fix: convert to `mx.array`.
+
+3. **O(n²) triu loop**: Python loop building upper triangle mask replaced
+   with `mx.triu(mx.ones((n,n)), k=1)`.
+
 ## Open Questions
 
-1. **Stage transition criteria**: How to detect when stage 1 is complete
-   (kernel functions installed)? Measure: per-op CE loss convergence.
+1. **Stage transition criteria**: How to detect when stage 0 is complete
+   (kernel + geometry installed)? Measure: Procrustes cos > 0.6.
 
 2. **Procrustes dimensionality**: What d_shared for the PCA projection?
    Teacher d_model may differ from student d_model. Use min(d_teacher,
