@@ -47,33 +47,59 @@ import numpy as np
 
 MODELS = {
     # Model key → (HuggingFace ID, n_layers, d_model)
-    "qwen3-14b":   ("Qwen/Qwen3-14B",              40, 5120),
-    "llama-3-8b":  ("meta-llama/Llama-3.1-8B",      32, 4096),
-    "mistral-7b":  ("mistralai/Mistral-7B-v0.3",    32, 4096),
-    "olmo-2-7b":   ("allenai/OLMo-2-1124-7B",       32, 4096),
-    "pythia-6.9b": ("EleutherAI/pythia-6.9b",        32, 4096),
-    "pythia-1.4b": ("EleutherAI/pythia-1.4b",        24, 2048),
+    "qwen3-14b":    ("Qwen/Qwen3-14B",              40, 5120),
+    "llama-3-8b":   ("meta-llama/Llama-3.1-8B",      32, 4096),
+    "mistral-7b":   ("mistralai/Mistral-7B-v0.3",    32, 4096),
+    "olmo-2-13b":   ("allenai/OLMo-2-1124-13B",      40, 5120),
+    "olmo-2-7b":    ("allenai/OLMo-2-1124-7B",       32, 4096),
+    "pythia-6.9b":  ("EleutherAI/pythia-6.9b",        32, 4096),
+    "pythia-2.8b":  ("EleutherAI/pythia-2.8b-deduped", 32, 2560),
+    "pythia-1.4b":  ("EleutherAI/pythia-1.4b",        24, 2048),
+    "smollm3-3b":   ("HuggingFaceTB/SmolLM3-3B",     36, 2560),
+    "phi-4-mini":   ("microsoft/Phi-4-mini-instruct", 32, 3072),
 }
 
 # Default model set — architecturally diverse, independently trained
-DEFAULT_MODELS = ["qwen3-14b", "mistral-7b", "olmo-2-7b", "pythia-6.9b"]
+# Using what's cached locally for speed
+DEFAULT_MODELS = ["qwen3-14b", "mistral-7b", "olmo-2-13b", "pythia-2.8b"]
 
 
 # ══════════════════════════════════════════════════════════════════════
 # Probe loading — reuse lambda kernel probes
 # ══════════════════════════════════════════════════════════════════════
 
-def load_probes() -> list[dict]:
-    """Load and flatten the lambda kernel probes.
+def load_probes(corpus_path: str | None = None) -> list[dict]:
+    """Load probes — either from diverse corpus JSON or lambda kernel probes.
+
+    If corpus_path is provided, loads the diverse corpus (multi-domain).
+    Otherwise falls back to the 380 lambda kernel probes.
 
     Returns list of {"prompt": str, "axis": str} dicts.
-    Uses the 380-probe lambda kernel set that covers:
-      Tier 1: K, I, B, C, M (confirmed operations)
-      Tier 2: W, T, Φ, D (predicted operations)
-      Tier 3: SUBST, SCOPE, WHNF (structural)
-      Tier 4: Y, QUOTE (meta)
+    (For diverse corpus, axis = "domain/subdomain".)
     """
-    # Import the lambda kernel probes
+    if corpus_path and Path(corpus_path).exists():
+        import json as _json
+        with open(corpus_path) as f:
+            corpus = _json.load(f)
+        # Normalize: ensure "axis" field exists
+        flat = []
+        for item in corpus:
+            flat.append({
+                "prompt": item["prompt"],
+                "axis": item.get("axis", f"{item.get('domain', 'unknown')}/{item.get('subdomain', 'unknown')}"),
+            })
+        # Count domains
+        domains = {}
+        for item in corpus:
+            d = item.get("domain", "unknown")
+            domains[d] = domains.get(d, 0) + 1
+        print(f"  Loaded diverse corpus: {len(flat)} probes across {len(domains)} domains",
+              file=sys.stderr, flush=True)
+        for d, n in sorted(domains.items(), key=lambda x: -x[1]):
+            print(f"    {d:15s}: {n:4d}", file=sys.stderr, flush=True)
+        return flat
+
+    # Fallback: lambda kernel probes
     probes_dir = Path(__file__).parent.parent.parent / "probes"
     sys.path.insert(0, str(probes_dir))
     from lambda_kernel_probes import LAMBDA_PROBES
@@ -501,6 +527,9 @@ def main():
     parser.add_argument("--models", nargs="+", default=DEFAULT_MODELS,
                         choices=list(MODELS.keys()),
                         help=f"Models to use (default: {DEFAULT_MODELS})")
+    parser.add_argument("--corpus", type=str, default=None,
+                        help="Path to diverse corpus JSON (from build_diverse_corpus.py). "
+                             "If not set, uses lambda kernel probes only.")
     parser.add_argument("--output-dir", type=str, default="lattice",
                         help="Output directory (default: lattice/)")
     parser.add_argument("--device", type=str, default="mps",
@@ -523,7 +552,7 @@ def main():
 
     # ── Load probes ───────────────────────────────────────────
     print("\n1. Loading probes...", file=sys.stderr, flush=True)
-    probes = load_probes()
+    probes = load_probes(corpus_path=args.corpus)
 
     # ── Extract RDMs from each model ──────────────────────────
     print("\n2. Extracting per-model RDMs...", file=sys.stderr, flush=True)
