@@ -47,16 +47,17 @@ import numpy as np
 
 MODELS = {
     # Model key → (HuggingFace ID, n_layers, d_model)
-    "qwen3-14b":    ("Qwen/Qwen3-14B",              40, 5120),
-    "llama-3-8b":   ("meta-llama/Llama-3.1-8B",      32, 4096),
-    "mistral-7b":   ("mistralai/Mistral-7B-v0.3",    32, 4096),
-    "olmo-2-13b":   ("allenai/OLMo-2-1124-13B",      40, 5120),
-    "olmo-2-7b":    ("allenai/OLMo-2-1124-7B",       32, 4096),
-    "pythia-6.9b":  ("EleutherAI/pythia-6.9b",        32, 4096),
+    "qwen3.6-27b":  ("Qwen/Qwen3.6-27B",             64, 5120),
+    "qwen3-14b":    ("Qwen/Qwen3-14B",                40, 5120),
+    "llama-3-8b":   ("meta-llama/Llama-3.1-8B",       32, 4096),
+    "mistral-7b":   ("mistralai/Mistral-7B-v0.3",     32, 4096),
+    "olmo-2-13b":   ("allenai/OLMo-2-1124-13B",       40, 5120),
+    "olmo-2-7b":    ("allenai/OLMo-2-1124-7B",        32, 4096),
+    "pythia-6.9b":  ("EleutherAI/pythia-6.9b",         32, 4096),
     "pythia-2.8b":  ("EleutherAI/pythia-2.8b-deduped", 32, 2560),
-    "pythia-1.4b":  ("EleutherAI/pythia-1.4b",        24, 2048),
-    "smollm3-3b":   ("HuggingFaceTB/SmolLM3-3B",     36, 2560),
-    "phi-4-mini":   ("microsoft/Phi-4-mini-instruct", 32, 3072),
+    "pythia-1.4b":  ("EleutherAI/pythia-1.4b",         24, 2048),
+    "smollm3-3b":   ("HuggingFaceTB/SmolLM3-3B",      36, 2560),
+    "phi-4-mini":   ("microsoft/Phi-4-mini-instruct",  32, 3072),
 }
 
 # Default model set — architecturally diverse, independently trained

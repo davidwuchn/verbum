@@ -68,11 +68,12 @@ from ternary import (
 # ── Teacher model registry (same as build_lattice_map.py) ─────────
 
 TEACHERS = {
-    "qwen3-14b":   ("Qwen/Qwen3-14B",               40, 5120),
-    "mistral-7b":  ("mistralai/Mistral-7B-v0.3",     32, 4096),
-    "olmo-2-13b":  ("allenai/OLMo-2-1124-13B",       40, 5120),
-    "pythia-2.8b": ("EleutherAI/pythia-2.8b-deduped", 32, 2560),
-    "smollm3-3b":  ("HuggingFaceTB/SmolLM3-3B",      36, 2560),
+    "qwen3.6-27b": ("Qwen/Qwen3.6-27B",              64, 5120),
+    "qwen3-14b":   ("Qwen/Qwen3-14B",                 40, 5120),
+    "mistral-7b":  ("mistralai/Mistral-7B-v0.3",      32, 4096),
+    "olmo-2-13b":  ("allenai/OLMo-2-1124-13B",        40, 5120),
+    "pythia-2.8b": ("EleutherAI/pythia-2.8b-deduped",  32, 2560),
+    "smollm3-3b":  ("HuggingFaceTB/SmolLM3-3B",       36, 2560),
 }
 
 

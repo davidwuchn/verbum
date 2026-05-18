@@ -713,9 +713,6 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 accumulate_direction(model, grads, accumulators)
 
                 # Release grad references to free Metal buffers.
-                # Without this, Python holds references to hundreds of
-                # intermediate MLX arrays per step, accumulating Metal
-                # buffer objects until hitting the 499K resource limit.
                 del loss_val, grads, input_ids, targets
 
             avg_loss = np.mean(op_losses)
@@ -727,16 +724,16 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             )
 
         # Release accumulated Metal buffers after exposure phase.
-        # Each op × batch creates ~100s of Metal buffer objects in the
-        # computation graph; clear_cache releases those back to the system.
         mx.clear_cache()
 
-        # ── LATTICE: seed crystal alignment signal ──────────────
-        # Two-tier reference beam (if backbone loaded):
-        #   Tier 1 (backbone): strong pull on universal language geometry
-        #   Tier 2 (growth): agreement-weighted pull for crystal expansion
-        # Falls back to single-tier (legacy) if no backbone.
-        # Both tiers feed the same direction accumulators as CE loss.
+        # ── LATTICE: relational hint (one pass, tiny signal) ───
+        # The lattice provides a DIRECT correction signal: we know
+        # exactly where each probe pair should be (fixed constants
+        # from 5-model consensus). One forward + backward computes
+        # the exact delta. Added to accumulators as a whisper —
+        # CE has 400 passes (8 ops × 50 batches), lattice has 1.
+        # The lattice is naturally 1/400th of the signal: a hint
+        # about where the universal geometry is, not a competing force.
         lattice_loss_val = 0.0
         if lattice is not None and lattice_probes_tokens is not None:
             lattice_lambda = getattr(args, 'lattice_lambda', 0.1)
@@ -750,7 +747,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 lattice_n_probes, size=n_lattice_probes, replace=False
             )
 
-            # Compute lattice alignment loss (two-tier if backbone loaded)
+            # One pass: compute exact relational delta, backprop once
             bb_lambda = getattr(args, 'backbone_lambda', 1.0)
             gr_lambda = getattr(args, 'growth_lambda', 0.1)
 
@@ -766,10 +763,9 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             mx.eval(lat_loss, lat_grads)
             lattice_loss_val = float(lat_loss.item())
 
-            # Accumulate lattice gradients into same direction accumulators
+            # Whisper: add to accumulators (1 pass vs CE's 400)
             accumulate_direction(model, lat_grads, accumulators)
 
-            # Release lattice grad references and clear Metal buffers
             del lat_loss, lat_grads, lattice_loss_and_grad
             mx.clear_cache()
 
