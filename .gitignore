@@ -40,6 +40,7 @@ Thumbs.db
 # large data artifacts
 **/*.npz
 **/*.npy
+lattice/lattice_relational_target.json
 
 # models
 models/
