@@ -1,0 +1,4037 @@
+[
+  {
+    "prompt": "Under no circumstances should you open the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Three people were rescued by the firefighter who",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All students are independent. All independent professionals are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "He gave her the ring that she later gave back to",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All fish are intelligent. All intelligent beings are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Convert to JSON: name is Alice, age is 30, city is Portland",
+    "domain": "structure",
+    "subdomain": "json"
+  },
+  {
+    "prompt": "Every student who passed the exam received their certificate on",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Take the raw text, clean it, tokenize it, then feed it into the",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Use the calculator tool to compute 15% of 847.",
+    "domain": "tools",
+    "subdomain": "tool_selection"
+  },
+  {
+    "prompt": "868 minus 353 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Implement hash table lookup in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_hash_table_lookup"
+  },
+  {
+    "prompt": "First comes spring, which brings flowers that attract the",
+    "domain": "lambda",
+    "subdomain": "contrast_M_vs_B"
+  },
+  {
+    "prompt": "He sent his mother a letter explaining",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "324 plus 952 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The answer is exactly what you think it",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "His attention was divided between the road and the map until he finally",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "All cats are intelligent. All intelligent creatures are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "678 minus 234 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All fish are independent. All independent creatures are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The car is fast and efficient on the",
+    "domain": "lambda",
+    "subdomain": "contrast_PHI_vs_K"
+  },
+  {
+    "prompt": "If A implies B, and B implies C, then A implies",
+    "domain": "reasoning",
+    "subdomain": "transitivity"
+  },
+  {
+    "prompt": "Calculate: 74 + 624 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "All dogs are diligent. All diligent creatures are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "What is (16 + 993) \u00d7 12?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The book that I bought yesterday turned out to be the same one that she had already",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "The man running in the park",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "What is 675 \u00f7 87?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Despite the rain, the cold, and the wind, the hikers continued to",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Having read the instructions, he assembled the furniture in",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "For breakfast he had eggs. For lunch he had",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The number that satisfies both equations simultaneously is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Write an XML element: <user id=\"1\"><name>Bob</name></user>",
+    "domain": "structure",
+    "subdomain": "xml"
+  },
+  {
+    "prompt": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)",
+    "domain": "code",
+    "subdomain": "python_recursion"
+  },
+  {
+    "prompt": "Red, orange, yellow, green, blue,",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The temperature at which the substance begins to decompose under pressure is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "She taught herself to play the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Documentation describes how the code works so that others can",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The software analyzes data and generates",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "Calculate: 437 * 851 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Which is larger, 320 or 409?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "Reverse the list: [1, 2, 3, 4, 5]",
+    "domain": "sequence",
+    "subdomain": "reverse"
+  },
+  {
+    "prompt": "Implement linked list reversal in Go:\n",
+    "domain": "code",
+    "subdomain": "go_linked_list_reversal"
+  },
+  {
+    "prompt": "Implement hash table lookup in C:\n",
+    "domain": "code",
+    "subdomain": "c_hash_table_lookup"
+  },
+  {
+    "prompt": "Author is to book as painter is to",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "All fish are diligent. All diligent beings are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "962 minus 29 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Which is larger, 474 or 389?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "Calculate 209 \u00d7 704 + 82 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "389 minus 3 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Implement binary search in C:\n",
+    "domain": "code",
+    "subdomain": "c_binary_search"
+  },
+  {
+    "prompt": "The book was entertaining rather than",
+    "domain": "lambda",
+    "subdomain": "contrast_PHI_vs_K"
+  },
+  {
+    "prompt": "The dog bit itself on the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Apply the operation of doubling to the number five to get",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "He picked up the red ball and threw it to",
+    "domain": "lambda",
+    "subdomain": "contrast_K_vs_I"
+  },
+  {
+    "prompt": "Down the hill rolled the enormous boulder that had been",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "553 divided by 136 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Calculate: 566 + 152 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "He called to ask whether she was ready to leave to catch the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "let result: Vec<i32> = numbers.iter().filter(|&&x| x > 0).map(|&x| x * 2).collect();",
+    "domain": "code",
+    "subdomain": "rust_iterator"
+  },
+  {
+    "prompt": "The building destroyed by the fire",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "The parent protects the child until the child can protect the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "The city was both the birthplace and the burial place of the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Monday, Tuesday, Wednesday,",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "She liked the person she had become more than the person she used to",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Which is larger, 274 or 719?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "Count the number of items: apple, banana, cherry, date, elderberry.",
+    "domain": "sequence",
+    "subdomain": "count_items"
+  },
+  {
+    "prompt": "let handle = thread::spawn(move || {\n    expensive_computation(data)\n});",
+    "domain": "code",
+    "subdomain": "rust_concurrency"
+  },
+  {
+    "prompt": "async def fetch(url):\n    async with aiohttp.ClientSession() as session:\n        return await session.get(url)",
+    "domain": "code",
+    "subdomain": "python_async"
+  },
+  {
+    "prompt": "The river forks at the mountain and the two branches rejoin at the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "All doctors are diligent. All diligent creatures are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The relevant factor was not the price but the",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "According to the report, the exact figure was",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "All teachers are careful. All careful creatures are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "If it rains, the ground gets wet. It is raining. Therefore,",
+    "domain": "reasoning",
+    "subdomain": "modus_ponens"
+  },
+  {
+    "prompt": "The book which nobody expected to become popular actually sold over a million",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "He told her that the man who owned the house had sold it to the woman who",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Verbatim, the inscription reads:",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Whoever breaks a window must pay for",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "The man who is running in the park",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "She runs faster than anyone else on the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "433 plus 33 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Implement dynamic programming in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_dynamic_programming"
+  },
+  {
+    "prompt": "The fractal pattern repeats at every scale getting smaller each",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "All fish are careful. All careful animals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All students are independent. All independent professionals are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "925 divided by 179 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "What is 827 + 315?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "She was smart and kind to everyone she",
+    "domain": "lambda",
+    "subdomain": "contrast_PHI_vs_K"
+  },
+  {
+    "prompt": "What is 197 + 722?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Coffee she drinks, but tea she absolutely",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Of all the animals in the zoo, only the lion was truly",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "They are looking for a unicorn that has",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Calculate 309 \u00d7 416 + 71 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "687 times 202 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The students prepared their own presentations about",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "If the test is positive, the doctor will prescribe medication; otherwise the patient can go",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Implement binary search in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_binary_search"
+  },
+  {
+    "prompt": "She gave the book to the student who had",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "He went to buy the food to cook the dinner to serve at the party that",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_D"
+  },
+  {
+    "prompt": "It is the case that the weather is getting",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "The claim that every student passed surprised",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "What did the scientists find when they examined the",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "She gave him the book that she had found in the library that was built by",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The message was encoded, transmitted, received, decoded, and then displayed on the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The statement refers to the truth of the statement",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "The set of all sets that contain themselves is",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Calculate 52 \u00d7 571 + 32 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "All teachers are careful. All careful beings are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "He promised her that the surprise he had planned for months would",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The word that describes itself is",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "He opened a box inside a box inside a box inside a",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "She was smart but not particularly",
+    "domain": "lambda",
+    "subdomain": "contrast_PHI_vs_K"
+  },
+  {
+    "prompt": "The water is filtered and then boiled before being served to",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Implement dynamic programming in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_dynamic_programming"
+  },
+  {
+    "prompt": "The song was performed by a band that nobody had",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Repeat the process until the error is less than",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "All birds are loyal. All loyal professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The raw material is mined, transported, refined, processed, and finally shaped into",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "25 times 676 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Repeat after me: the password is",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "All cats are loyal. All loyal people are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "cat access.log | grep 'ERROR' | awk '{print $1}' | sort | uniq -c | sort -rn | head -10",
+    "domain": "code",
+    "subdomain": "bash_pipeline"
+  },
+  {
+    "prompt": "What is 123 - 965?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Calculate: 736 * 714 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The list contains its own name as the first",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "What is 670 + 662?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "84 divided by 430 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "All birds are intelligent. All intelligent professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The law applies to citizens and non-citizens",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "922 minus 591 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "impl Display for Point {\n    fn fmt(&self, f: &mut Formatter) -> fmt::Result {\n        write!(f, \"({}, {})\", self.x, self.y)\n    }\n}",
+    "domain": "code",
+    "subdomain": "rust_trait_impl"
+  },
+  {
+    "prompt": "What is 628 \u00f7 835?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "All dogs are intelligent. All intelligent professionals are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Photosynthesis is the process by which plants convert sunlight into energy. The key steps are",
+    "domain": "prose",
+    "subdomain": "expository"
+  },
+  {
+    "prompt": "The car that the mechanic who the garage that burned down employed fixed was",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Every time I water the plant, it grows. I stopped watering it. What happens?",
+    "domain": "reasoning",
+    "subdomain": "causal"
+  },
+  {
+    "prompt": "She trusts him more than he trusts",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Read the data, parse it, transform it, validate it, and store it in the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "He said he would go",
+    "domain": "lambda",
+    "subdomain": "contrast_W_vs_I"
+  },
+  {
+    "prompt": "The patient was examined, diagnosed, treated, monitored, and eventually discharged from the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Calculate: 955 + 680 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "She read the letter and cried because it said",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "He studied mathematics, physics, and",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "A paragraph should have a topic sentence that",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Which is larger, 533 or 948?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "Which is larger, 380 or 364?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "do\n  x <- getLine\n  let n = read x :: Int\n  putStrLn (show (n * 2))",
+    "domain": "code",
+    "subdomain": "haskell_monad"
+  },
+  {
+    "prompt": "All teachers are independent. All independent animals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The answer is simply yes and that is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "const result = arr.reduce((acc, x) => acc + x, 0);",
+    "domain": "code",
+    "subdomain": "javascript_reduce"
+  },
+  {
+    "prompt": "Calculate 705 \u00d7 6 + 97 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "All dogs are careful. All careful animals are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Water freezes at zero degrees",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "A beautifully restored meticulously maintained Victorian-era",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Either we leave now and catch the train, or we stay and miss",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "The day when everything changed was an ordinary",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "All teachers are intelligent. All intelligent creatures are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "They tried to find someone to help them to carry the equipment to",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Which is larger, 769 or 274?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "What is 286 \u00f7 360?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "The package was delivered to the address that the sender had written on",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_C"
+  },
+  {
+    "prompt": "Everyone loves someone in the",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Out came the truth about what had really",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Implement linked list reversal in C:\n",
+    "domain": "code",
+    "subdomain": "c_linked_list_reversal"
+  },
+  {
+    "prompt": "The color is the one that you see when you mix the primary colors in equal",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Mary asked her mother if she could borrow",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Calculate 719 \u00d7 111 + 49 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Finger is to hand as toe is to",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "226 minus 460 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All fish are diligent. All diligent animals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "If you reverse the string and then capitalize it you get",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "What is 827 + 670?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Calculate 292 \u00d7 162 + 57 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Schedule a meeting for tomorrow at 2pm with the engineering team.",
+    "domain": "tools",
+    "subdomain": "action"
+  },
+  {
+    "prompt": "for f in *.csv; do echo \"Processing $f\"; python process.py \"$f\" > \"${f%.csv}.json\"; done",
+    "domain": "code",
+    "subdomain": "bash_loop"
+  },
+  {
+    "prompt": "Calculate: 245 + 272 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "All dogs are careful. All careful beings are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Two is an even number",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Factorial of n: if n is zero, the answer is one. Otherwise multiply n by the factorial of",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "The way in which she accomplished the task was by carefully",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "All mammals are warm-blooded. A whale is a mammal. Therefore,",
+    "domain": "reasoning",
+    "subdomain": "syllogism"
+  },
+  {
+    "prompt": "All birds are diligent. All diligent people are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Take the function that adds three and apply it to seven to get",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "Not money but love is what truly",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "What is 413 \u00f7 714?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "The house that the man who the dog that bit the cat belonged to built was",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "He hurt himself while working on the",
+    "domain": "lambda",
+    "subdomain": "contrast_W_vs_I"
+  },
+  {
+    "prompt": "It was John who broke the",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "All fish are fast. All fast people are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "He opened the door and closed the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "All students are loyal. All loyal people are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The teacher teaches students at",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "781 plus 183 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The book was both entertaining and",
+    "domain": "lambda",
+    "subdomain": "contrast_PHI_vs_K"
+  },
+  {
+    "prompt": "The food she cooked with ingredients he had bought tasted",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_C"
+  },
+  {
+    "prompt": "The mistake that caused the error that crashed the server that hosted the website that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The heat causes expansion which causes pressure that",
+    "domain": "lambda",
+    "subdomain": "contrast_M_vs_B"
+  },
+  {
+    "prompt": "All fish are fast. All fast animals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Of all his works, his masterpiece was the one that he considered to be his",
+    "domain": "lambda",
+    "subdomain": "contrast_K_vs_I"
+  },
+  {
+    "prompt": "What is 286 - 686?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All cats are independent. All independent beings are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The diplomat spoke fluent French and understood the local",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The river flows south through the valley. It eventually reaches the",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Implement merge sort in C:\n",
+    "domain": "code",
+    "subdomain": "c_merge_sort"
+  },
+  {
+    "prompt": "The extremely rapidly spinning bright blue",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "A self-referential statement is a statement that refers to",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "The concept of 'freedom' has been debated for",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "input: hello \u2192 output: HELLO. input: world \u2192 output:",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "What is 903 \u00d7 71?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Delete everything except the first column and the last",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Calculate 52 \u00d7 668 + 70 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The dream was about having a dream which was about having a dream that",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Calculate: 406 * 906 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "928 plus 930 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The paper that the student who the professor that won the award supervised wrote was",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "She gave the student the book that she had",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "She asked him to help her finish building the model that she had started",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_D"
+  },
+  {
+    "prompt": "What is (413 + 746) \u00d7 44?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "550 plus 128 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Love conquers",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The building which was destroyed by the fire",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "{\"function\": \"search\", \"parameters\": {\"query\": \"weather today\"}}",
+    "domain": "tools",
+    "subdomain": "function_call"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal creatures are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate: 515 + 942 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The proposal was drafted, reviewed, revised, approved, and finally implemented across the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "That proposal, the committee unanimously",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Implement dynamic programming in Python:\n",
+    "domain": "code",
+    "subdomain": "python_dynamic_programming"
+  },
+  {
+    "prompt": "Implement dynamic programming in C:\n",
+    "domain": "code",
+    "subdomain": "c_dynamic_programming"
+  },
+  {
+    "prompt": "All fish are fast. All fast creatures are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "What is 996 \u00d7 882?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Each generation passes the knowledge to the next generation which passes it to the",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Implement dijkstra's algorithm in C:\n",
+    "domain": "code",
+    "subdomain": "c_dijkstra's_algorithm"
+  },
+  {
+    "prompt": "She told a story about a girl who told a story about a girl who",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "First square the number, then add one, giving you",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "787 times 75 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Implement merge sort in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_merge_sort"
+  },
+  {
+    "prompt": "Find the shortest path between nodes A and",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "The number is whatever you get when you multiply three by the square root of",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "All doctors are careful. All careful professionals are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate 88 \u00d7 750 + 63 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "All birds are loyal. All loyal people are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "This version is both cheaper and more reliable than the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "def fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+    "domain": "code",
+    "subdomain": "python_iteration"
+  },
+  {
+    "prompt": "167 times 820 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Implement depth-first search in Python:\n",
+    "domain": "code",
+    "subdomain": "python_depth-first_search"
+  },
+  {
+    "prompt": "Which of the candidates best represents the",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "All dogs are fast. All fast creatures are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "224 divided by 239 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "She knew that she had been wrong about",
+    "domain": "lambda",
+    "subdomain": "contrast_W_vs_I"
+  },
+  {
+    "prompt": "Implement dijkstra's algorithm in Python:\n",
+    "domain": "code",
+    "subdomain": "python_dijkstra's_algorithm"
+  },
+  {
+    "prompt": "The winner is the person who was fastest which means the winner is",
+    "domain": "lambda",
+    "subdomain": "contrast_K_vs_I"
+  },
+  {
+    "prompt": "What is 317 \u00d7 683?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "What is 897 \u00f7 737?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Format as CSV: headers are date, amount, description",
+    "domain": "structure",
+    "subdomain": "csv"
+  },
+  {
+    "prompt": "Among all the possible explanations, the simplest one was",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "What is 210 \u00d7 686?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The low temperature makes ice",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "What is (434 + 714) \u00d7 94?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The event that triggered the response that overwhelmed the system that managed the process that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "She went to buy the ingredients to make the cake to bring to the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Implement depth-first search in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_depth-first_search"
+  },
+  {
+    "prompt": "The Fibonacci sequence: 1, 1, 2, 3, 5, 8, 13, 21,",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "What is 453 \u00f7 692?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "All fish are intelligent. All intelligent professionals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The message sent by the person hired by the company reached the",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_C"
+  },
+  {
+    "prompt": "Reduce the fraction to its simplest form by removing common",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "She asked him to help her finish the",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_D"
+  },
+  {
+    "prompt": "What he did was open the door and walk",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "Send an email to team@company.com with subject \"Weekly Report\".",
+    "domain": "tools",
+    "subdomain": "action"
+  },
+  {
+    "prompt": "Implement tree traversal in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_tree_traversal"
+  },
+  {
+    "prompt": "The result of sorting the list and then taking the first element is",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "The dog that chased the dog was the",
+    "domain": "lambda",
+    "subdomain": "contrast_W_vs_I"
+  },
+  {
+    "prompt": "No student solved every problem on the",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "She thinks someone stole her",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "She reminded herself of herself from years",
+    "domain": "lambda",
+    "subdomain": "contrast_W_vs_I"
+  },
+  {
+    "prompt": "Calculate 82 \u00d7 876 + 30 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The students who are waiting outside the",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "The rain that caused the flood that destroyed the bridge that connected the towns that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "In order to understand recursion you must first understand",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "All cats are careful. All careful people are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Call the API endpoint /users/123 with GET method.",
+    "domain": "tools",
+    "subdomain": "api_call"
+  },
+  {
+    "prompt": "The animal that the witness described to the police was",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "You must choose: save the village or pursue the",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "These problems, no one seems able to",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "What is 159 - 195?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "70 times 692 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "666 times 719 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Calculate: 323 * 218 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "No matter what else happened that day, the important thing was that",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "The fact that the economy grew suggests that the policy was",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "What is 147 - 272?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "970 minus 563 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "According to the theory, light travels in waves, but experiments show that it also behaves like",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "How many vowels are in the word 'mississippi'?",
+    "domain": "sequence",
+    "subdomain": "count_chars"
+  },
+  {
+    "prompt": "The invention revolutionized the industry that transformed the economy that now",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Implement breadth-first search in C:\n",
+    "domain": "code",
+    "subdomain": "c_breadth-first_search"
+  },
+  {
+    "prompt": "Implement tree traversal in C:\n",
+    "domain": "code",
+    "subdomain": "c_tree_traversal"
+  },
+  {
+    "prompt": "So basically what happened was, the server went down at 3am and",
+    "domain": "prose",
+    "subdomain": "conversational"
+  },
+  {
+    "prompt": "The money, they had already spent on",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Red means stop. Green means",
+    "domain": "lambda",
+    "subdomain": "contrast_M_vs_B"
+  },
+  {
+    "prompt": "The first chapter introduced the characters. The second chapter introduced the",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "class Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val",
+    "domain": "code",
+    "subdomain": "python_class"
+  },
+  {
+    "prompt": "foo: 1, bar: 2, baz:",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The truth value of the conjunction of all the premises given that some are",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "The old man sat on the bench. He watched the pigeons as they",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "bip bop bap. bip bop",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "All students are careful. All careful professionals are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Collect the data, compute the average, then plot the result as a",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Implement depth-first search in C:\n",
+    "domain": "code",
+    "subdomain": "c_depth-first_search"
+  },
+  {
+    "prompt": "What is (337 + 286) \u00d7 9?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "97 times 100 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The key finding of the study, setting aside methodological concerns, was that",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "fn find_max<T: Ord>(list: &[T]) -> Option<&T> {\n    list.iter().max()\n}",
+    "domain": "code",
+    "subdomain": "rust_generics"
+  },
+  {
+    "prompt": "if x=1 then y=a, if x=2 then y=b, if x=3 then y=",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "Calculate 639 \u00d7 322 + 85 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Is 655 greater than 115?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "The ore is mined, refined, shaped, and finally polished into a",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "What is (988 + 217) \u00d7 70?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The car accelerated and then braked",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "All birds are fast. All fast professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "What you see is precisely what you",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "949 minus 803 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All teachers are loyal. All loyal animals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "349 times 115 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "What is 128 \u00f7 738?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "All birds are careful. All careful animals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate 115 \u00d7 952 + 47 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "To bake a cake: 1) mix ingredients, 2) pour into pan, 3) bake at 350F. What is step 2?",
+    "domain": "reasoning",
+    "subdomain": "sequence"
+  },
+  {
+    "prompt": "Someone loves everyone in the",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "She entered the room quietly. He entered the room",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "She believes that honesty is the best policy, even though her experience suggests that",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Out of hundreds of applicants, only five were invited to",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "The bird flew up and then dove",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Implement hash table lookup in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_hash_table_lookup"
+  },
+  {
+    "prompt": "Keep adding one until you reach the",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Calculate 159 \u00d7 948 + 31 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "After washing the dishes, she dried them with a",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "The sentence 'colorless green ideas sleep furiously' is grammatically correct but",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Implement breadth-first search in Python:\n",
+    "domain": "code",
+    "subdomain": "python_breadth-first_search"
+  },
+  {
+    "prompt": "The problem was finally solved by the youngest member of",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Calculate: 688 * 661 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The song that the band that the label that went bankrupt signed recorded was",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal beings are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The solution is elegant, efficient, and surprisingly",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "What is (802 + 954) \u00d7 53?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "They searched the house, the garden, and the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The surprisingly well-preserved recently excavated Bronze Age",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "All birds are fast. All fast professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement merge sort in Python:\n",
+    "domain": "code",
+    "subdomain": "python_merge_sort"
+  },
+  {
+    "prompt": "What is 655 - 520?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All cats are diligent. All diligent professionals are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The person who teaches students at school is the",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "Which is larger, 410 or 250?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "From the wreckage they recovered only the",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "The sculptor removed marble until only the figure",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "SELECT department, AVG(salary) as avg_sal FROM employees GROUP BY department HAVING AVG(salary) > 50000 ORDER BY avg_sal DESC;",
+    "domain": "code",
+    "subdomain": "sql_aggregation"
+  },
+  {
+    "prompt": "The rumor that the CEO who fired the manager was himself going to resign spread",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "She asked him to try to remember where he had put the",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "What is 40 - 880?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "What is (436 + 225) \u00d7 23?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Is 653 greater than 269?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "All dogs are intelligent. All intelligent beings are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All fish are independent. All independent people are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The output of the function is the same as the",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Implement dynamic programming in Go:\n",
+    "domain": "code",
+    "subdomain": "go_dynamic_programming"
+  },
+  {
+    "prompt": "The teacher asked a question and the student gave an answer. The student asked a question and the teacher gave an",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal people are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "result = list(map(lambda x: x * 2, filter(lambda x: x > 0, numbers)))",
+    "domain": "code",
+    "subdomain": "python_higher_order"
+  },
+  {
+    "prompt": "Paris is a city",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "What is 183 + 595?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Whatever the reason, the result was clearly",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "He believes that a spy is following",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "They arrived at noon. We arrived at",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "What is 95 \u00d7 390?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Implement tree traversal in Python:\n",
+    "domain": "code",
+    "subdomain": "python_tree_traversal"
+  },
+  {
+    "prompt": "The light passed through the prism and split into red and blue that then",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "Implement binary search in Go:\n",
+    "domain": "code",
+    "subdomain": "go_binary_search"
+  },
+  {
+    "prompt": "Calculate: 570 * 678 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Determine whether the given string is a valid",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "All students are intelligent. All intelligent beings are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All fish are independent. All independent creatures are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "They announced that the project was on schedule, despite evidence that it was actually",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "What is the average of 10, 20, 30, 40, 50?",
+    "domain": "sequence",
+    "subdomain": "average"
+  },
+  {
+    "prompt": "747 times 806 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Read the file, parse the JSON, extract the field, and return the",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "The thing that she is afraid of is the possibility that it might",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "This sentence has exactly five",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "The winner takes the trophy while the loser goes",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Calculate: 485 + 813 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Implement binary search in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_binary_search"
+  },
+  {
+    "prompt": "All doctors are careful. All careful professionals are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The dog is brown",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "The teacher explained to the students how the machine that the inventor designed actually",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The program that prints its own source code is called a",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The time complexity of merge sort is O(n log n) because",
+    "domain": "prose",
+    "subdomain": "technical"
+  },
+  {
+    "prompt": "Is 737 greater than 963?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "My name is Alice. Her name is",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "What is 26 \u00d7 184?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "All fish are independent. All independent professionals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The twins looked identical. Both of them wore the same",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Machine learning models learn patterns from data by",
+    "domain": "prose",
+    "subdomain": "expository"
+  },
+  {
+    "prompt": "The cake that she baked using the recipe that her grandmother wrote won",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "The blue one I'll take, but the red one you can",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "The meeting is at 3pm. It takes 30 minutes to drive there. When should I leave?",
+    "domain": "reasoning",
+    "subdomain": "temporal"
+  },
+  {
+    "prompt": "What is (125 + 468) \u00d7 18?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "559 divided by 37 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "He compared the result with the result and found no",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Rarely does one encounter such a perfectly preserved example of",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All doctors are careful. All careful beings are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All dogs are fast. All fast people are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All dogs are diligent. All diligent people are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The river was wide, deep, and dangerously",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The color is blue without any further",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Calculate: 104 * 390 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "643 times 164 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Search the database for all orders placed in the last 7 days.",
+    "domain": "tools",
+    "subdomain": "db_query"
+  },
+  {
+    "prompt": "They offered the job to the candidate who",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All birds are loyal. All loyal beings are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Is 755 greater than 105?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "His latest novel, critics have universally",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "870 times 243 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The witness stated that the car was, in her own words,",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "The heavily fortified carefully guarded ancient underground",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Input: 2 \u2192 Output: 4. Input: 3 \u2192 Output:",
+    "domain": "lambda",
+    "subdomain": "contrast_M_vs_B"
+  },
+  {
+    "prompt": "The candidate was experienced, articulate, and extremely",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The sum of all prime numbers less than twenty is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "The detective isolated the single piece of evidence that",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Every student read a book about",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Calculate: 651 + 855 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "All doctors are diligent. All diligent beings are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The editor removed all unnecessary adjectives, leaving only",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "All dogs are diligent. All diligent professionals are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate: 157 + 383 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The signal passed through the amplifier unchanged and emerged as",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Powers of two: 1, 2, 4, 8, 16, 32, 64,",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "What is 46 + 726?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Is 162 greater than 465?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "const debounce = (fn, ms) => {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), ms);\n  };\n};",
+    "domain": "code",
+    "subdomain": "javascript_closure"
+  },
+  {
+    "prompt": "828 plus 883 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Calculate: 610 * 325 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The plan that the team proposed worked",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_D"
+  },
+  {
+    "prompt": "All teachers are diligent. All diligent animals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The debugger examines the running program to find where it",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "593 divided by 609 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Double the amount each day for thirty",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "The cat chased the dog, but then the dog chased the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Calculate: 981 * 713 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "In summer the days are long. In winter the days are",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The tower is taller than any other building in the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "Every student passed the exam. John is a student. Did John pass?",
+    "domain": "reasoning",
+    "subdomain": "universal"
+  },
+  {
+    "prompt": "What is 485 - 827?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All dogs are fast. All fast professionals are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Which is larger, 705 or 571?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "566 divided by 301 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "575 plus 10 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Create a YAML config with: host: localhost, port: 8080, debug: true",
+    "domain": "structure",
+    "subdomain": "yaml"
+  },
+  {
+    "prompt": "She opened the letter carefully, already knowing what it would say. The handwriting was",
+    "domain": "prose",
+    "subdomain": "narrative"
+  },
+  {
+    "prompt": "567 minus 160 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "To count to ten: if the number is ten, stop. Otherwise, say the number and count from",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "John said that he would finish the project by",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Calculate: 282 + 251 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "907 divided by 883 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "She read the first book and then read the",
+    "domain": "lambda",
+    "subdomain": "contrast_K_vs_I"
+  },
+  {
+    "prompt": "All cats are fast. All fast beings are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "match command {\n    Command::Quit => break,\n    Command::Move { x, y } => move_to(x, y),\n    _ => println!(\"unknown\"),\n}",
+    "domain": "code",
+    "subdomain": "rust_pattern_match"
+  },
+  {
+    "prompt": "All cats are independent. All independent beings are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "She sang and danced at the same",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "All teachers are fast. All fast beings are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Either it will rain or it will snow. It didn't rain. Therefore,",
+    "domain": "reasoning",
+    "subdomain": "disjunction"
+  },
+  {
+    "prompt": "async function fetchData() {\n  const res = await fetch(url);\n  return res.json();\n}",
+    "domain": "code",
+    "subdomain": "javascript_async"
+  },
+  {
+    "prompt": "Regardless of the criticism, the project achieved its primary",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "Implement tree traversal in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_tree_traversal"
+  },
+  {
+    "prompt": "He answered the question that she had asked about the thing that they had",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_C"
+  },
+  {
+    "prompt": "It is the economy that voters care most",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "621 times 524 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The new model outperforms the old one in speed and",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The city where the conference will be held next year is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "All teachers are intelligent. All intelligent people are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The old lighthouse keeper watched the storm approach from the west. Each wave grew larger than the last, and",
+    "domain": "prose",
+    "subdomain": "narrative"
+  },
+  {
+    "prompt": "The TCP three-way handshake works as follows:",
+    "domain": "prose",
+    "subdomain": "technical"
+  },
+  {
+    "prompt": "Any linguist who finds a counterexample will publish",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "What is 614 + 332?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "She bought bread, milk, and",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "All birds are independent. All independent creatures are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "It is this very principle that the entire argument rests",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Calculate 892 \u00d7 641 + 39 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "In every city there is a person who knows someone who has",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "He convinced himself that everything would be",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "from collections import defaultdict\nd = defaultdict(list)\nfor k, v in pairs:\n    d[k].append(v)",
+    "domain": "code",
+    "subdomain": "python_aggregation"
+  },
+  {
+    "prompt": "The gene that produces the protein that inhibits the enzyme that catalyzes the reaction that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "The sign read 'No parking between the hours of",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "It was only after midnight that the noise finally",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "What is (255 + 274) \u00d7 21?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The new policy both reduced costs and improved",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "All doctors are independent. All independent creatures are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "A student read every book about",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "What is 908 - 645?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "What is (43 + 316) \u00d7 47?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "In a B-tree of order m, each node can have at most",
+    "domain": "prose",
+    "subdomain": "technical"
+  },
+  {
+    "prompt": "try:\n    result = int(user_input)\nexcept ValueError:\n    result = 0",
+    "domain": "code",
+    "subdomain": "python_error_handling"
+  },
+  {
+    "prompt": "All dogs are careful. All careful creatures are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All fish are loyal. All loyal animals are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "They wondered whether some candidate would",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "What is (58 + 235) \u00d7 5?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Calculate: 363 * 434 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Ignoring the noise from the construction site next door, the student focused on",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "I need to go from A to C. A connects to B. B connects to C. What is the path?",
+    "domain": "reasoning",
+    "subdomain": "path_finding"
+  },
+  {
+    "prompt": "with open('file.txt') as f:\n    data = json.load(f)",
+    "domain": "code",
+    "subdomain": "python_context_manager"
+  },
+  {
+    "prompt": "If every student passes, the teacher will celebrate",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "The spy who betrayed the spy was the same",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "She said 'I will be there at",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "All students are diligent. All diligent animals are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All birds are careful. All careful creatures are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Boys will be",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "What is 650 + 434?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "If a student fails an exam, he must retake",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "What is 349 - 285?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "This particular issue, the board discussed at length during",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All dogs are independent. All independent professionals are respected. Are dogs respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "First prize he won easily, but second prize went to",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "His second novel was more complex but less popular than his",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "If and only if the switch is on, the light is on. The light is off. Is the switch on?",
+    "domain": "reasoning",
+    "subdomain": "biconditional"
+  },
+  {
+    "prompt": "The thing that makes ice cold is the low",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "Easy come easy",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "What is (71 + 779) \u00d7 69?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "914 divided by 559 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "He went to buy the food",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_D"
+  },
+  {
+    "prompt": "A folder contains files and other folders which contain files and other folders which",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Knowing that the bridge was closed, they took the longer route through",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Freedom is worth fighting",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The translation preserves the original meaning which is",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Implement depth-first search in Go:\n",
+    "domain": "code",
+    "subdomain": "go_depth-first_search"
+  },
+  {
+    "prompt": "The definition of recursion is: see the definition of",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "It's not the destination but the journey that",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "What is 339 - 73?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "What is 680 \u00d7 649?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The king sat on his throne. The queen sat on her",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "541 times 894 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Away flew the birds when the dog started to",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "For every problem there exists a solution that works in all",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Implement dijkstra's algorithm in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_dijkstra's_algorithm"
+  },
+  {
+    "prompt": "She wants to marry a doctor who is",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "The drought caused the crops to fail which led to a famine that",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Alice found a book in the attic. She opened it and saw that it",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "557 divided by 721 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "The infinite series converges because each term is half of the",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Run the Python function: analyze_data(filepath=\"data.csv\", columns=[\"age\", \"income\"])",
+    "domain": "tools",
+    "subdomain": "python_tool"
+  },
+  {
+    "prompt": "What is 72 \u00d7 972?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "In English, adjectives come before the",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal creatures are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate: 547 + 747 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "A compiler is a program that translates other programs into",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "It is raining today according to the weather",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "What is 556 \u00d7 63?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "All fish are careful. All careful people are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "When exactly did the earthquake happen according to the",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Calculate: 409 + 371 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "It is what it",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "From the entire library, she selected only one book about",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "tar czf backup-$(date +%Y%m%d).tar.gz --exclude='*.tmp' /home/user/data",
+    "domain": "code",
+    "subdomain": "bash_archive"
+  },
+  {
+    "prompt": "What is 112 \u00d7 611?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "All birds can fly. This animal cannot fly. Therefore,",
+    "domain": "reasoning",
+    "subdomain": "contrapositive"
+  },
+  {
+    "prompt": "What is 347 \u00f7 22?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Cats meow. Dogs",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The passive voice is formed by using a form of 'to be' followed by the",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Calculate: 968 + 905 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The system tested itself and found three",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "If it rains, the ground is wet. The ground is dry. Therefore,",
+    "domain": "reasoning",
+    "subdomain": "contrapositive"
+  },
+  {
+    "prompt": "No reptile is warm-blooded. A snake is a reptile. Is a snake warm-blooded?",
+    "domain": "reasoning",
+    "subdomain": "universal_neg"
+  },
+  {
+    "prompt": "The most compelling reason to invest in renewable energy is",
+    "domain": "prose",
+    "subdomain": "argumentative"
+  },
+  {
+    "prompt": "Calculate: 827 * 45 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "826 times 164 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "872 divided by 191 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "The word 'cat' has three",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The company that hired me three years ago just announced that they will",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "What is (522 + 506) \u00d7 12?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "All birds are intelligent. All intelligent beings are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "find /var/log -name '*.log' -mtime +30 -exec rm {} \\;",
+    "domain": "code",
+    "subdomain": "bash_file_ops"
+  },
+  {
+    "prompt": "He hopes that a miracle will",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "The signal was split, processed separately, and then recombined into",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The definition of 'irony' is",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Calculate: 433 * 188 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Is 28 greater than 575?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "441 divided by 805 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Implement depth-first search in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_depth-first_search"
+  },
+  {
+    "prompt": "He said that he would come, but she thought that he was",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Take the answer from step one and use that same answer in step",
+    "domain": "lambda",
+    "subdomain": "contrast_K_vs_I"
+  },
+  {
+    "prompt": "What is 103 - 76?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Which is larger, 131 or 197?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "What is (591 + 485) \u00d7 32?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal people are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "684 minus 837 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "This sentence is about this sentence being about",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "All doctors are intelligent. All intelligent beings are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All teachers are independent. All independent creatures are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement linked list reversal in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_linked_list_reversal"
+  },
+  {
+    "prompt": "Which is larger, 216 or 699?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "Find the maximum value: 23, 45, 12, 67, 34",
+    "domain": "sequence",
+    "subdomain": "max"
+  },
+  {
+    "prompt": "611 minus 480 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "The answer depends on whether the initial conditions satisfy the constraints that",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "His injury prevented him from training which cost him the competition that",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "The function calls itself with a smaller",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Calculate 106 \u00d7 363 + 72 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The doctor examined and treated the",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "981 plus 782 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The more things change the more they stay the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "Implement breadth-first search in Go:\n",
+    "domain": "code",
+    "subdomain": "go_breadth-first_search"
+  },
+  {
+    "prompt": "Calculate: 256 * 896 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Every city that has a river has a bridge over",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "59 plus 984 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "10 divided by 470 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Which is larger, 995 or 567?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "The answer to life the universe and everything is forty-two",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Is 417 greater than 998?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "All cats are loyal. All loyal beings are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement linked list reversal in Python:\n",
+    "domain": "code",
+    "subdomain": "python_linked_list_reversal"
+  },
+  {
+    "prompt": "Where did she hide the key before she",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Cat is to kitten as dog is to",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "Calculate 498 \u00d7 493 + 28 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "How many words are in this sentence: 'The quick brown fox jumps over the lazy dog'?",
+    "domain": "sequence",
+    "subdomain": "count_words"
+  },
+  {
+    "prompt": "All students are fast. All fast creatures are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The teacher taught the student, and the student taught the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "763 minus 575 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All birds are fast. All fast people are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Setting aside personal feelings, the decision was based purely on",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "What is 204 + 151?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Try again and again until you",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "The country where the revolution began was the same place that",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "All birds are intelligent. All intelligent creatures are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement breadth-first search in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_breadth-first_search"
+  },
+  {
+    "prompt": "The company announced that it would be expanding into",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Day is to night as summer is to",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "What is 519 \u00d7 272?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "All birds are fast. All fast creatures are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The person who knows the answer to the question that nobody else could solve is",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "The answer to the question was the question",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "What is 96 - 839?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "John's uncle is the same person who",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "I need you to help me to understand how to fix the code that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Sort these numbers from smallest to largest: 7, 2, 9, 1, 5",
+    "domain": "sequence",
+    "subdomain": "sort"
+  },
+  {
+    "prompt": "All fish are diligent. All diligent beings are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All doctors are careful. All careful professionals are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate: 4 + 342 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "Implement hash table lookup in Python:\n",
+    "domain": "code",
+    "subdomain": "python_hash_table_lookup"
+  },
+  {
+    "prompt": "Monday comes before Tuesday and Tuesday comes before",
+    "domain": "lambda",
+    "subdomain": "contrast_M_vs_B"
+  },
+  {
+    "prompt": "What is 205 \u00d7 837?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "She divided her time between work and family, balancing both",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The man who fixed the roof was paid by the woman who owned the",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "611 times 66 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Calculate: 411 + 925 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "What is 1 - 312?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Among the candidates, the committee chose the one who had the most",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "What is (686 + 885) \u00d7 95?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Is 217 greater than 936?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "The dog is big and friendly. The cat is small and",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The word 'cats' is a plural",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "What is the sum of 1 + 2 + 3 + 4 + 5?",
+    "domain": "sequence",
+    "subdomain": "sum"
+  },
+  {
+    "prompt": "Each term is the sum of the previous two",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Into the room walked a tall man wearing a",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Calculate: 195 + 550 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The car broke down on the highway. Its engine had overheated because the",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "What is (689 + 318) \u00d7 29?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Step 1: Open the terminal. Step 2: Navigate to the project directory. Step 3:",
+    "domain": "prose",
+    "subdomain": "instructional"
+  },
+  {
+    "prompt": "All cats are careful. All careful people are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "271 minus 518 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "Calculate: 49 + 882 =",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The verb 'to be' is the most irregular verb in",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The reason why the experiment failed was never fully",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "alpha \u2192 beta, gamma \u2192 delta, epsilon \u2192",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "He wrote 'The end' at the bottom of the",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "The report claims that the economy grew, although critics argue that it actually",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "All birds are independent. All independent professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "She read what he wrote before he had a chance to",
+    "domain": "lambda",
+    "subdomain": "contrast_B_vs_C"
+  },
+  {
+    "prompt": "All students are fast. All fast professionals are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All teachers are independent. All independent professionals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "To change a tire: First, loosen the lug nuts. Then,",
+    "domain": "prose",
+    "subdomain": "instructional"
+  },
+  {
+    "prompt": "Implement tree traversal in Go:\n",
+    "domain": "code",
+    "subdomain": "go_tree_traversal"
+  },
+  {
+    "prompt": "Is 748 greater than 707?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "const merged = {...defaults, ...userConfig, timestamp: Date.now()};",
+    "domain": "code",
+    "subdomain": "javascript_spread"
+  },
+  {
+    "prompt": "The old stone house was both beautiful and",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The result of applying the algorithm to the input after preprocessing and",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "What is 73 + 725?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The vase broke because it fell. If the vase hadn't fallen, would it have broken?",
+    "domain": "reasoning",
+    "subdomain": "counterfactual"
+  },
+  {
+    "prompt": "What is 313 - 841?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All teachers are fast. All fast professionals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The earthquake destroyed buildings and disrupted",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "The building that was constructed in 1920 still has its original",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Hey, have you tried that new restaurant downtown? I heard their",
+    "domain": "prose",
+    "subdomain": "conversational"
+  },
+  {
+    "prompt": "The number is seven and nothing more needs to be",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "All fish are loyal. All loyal creatures are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "After stripping away the jargon, the message was simply that",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.dept_id = d.id WHERE e.hire_date > '2020-01-01';",
+    "domain": "code",
+    "subdomain": "sql_join"
+  },
+  {
+    "prompt": "sorted_items = sorted(items, key=lambda x: (x.priority, -x.date))",
+    "domain": "code",
+    "subdomain": "python_sorting"
+  },
+  {
+    "prompt": "All students are diligent. All diligent people are respected. Are students respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Every theory predicts that some experiment will show that all",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Up rose the sun over the mountains revealing the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "The cat cleaned itself thoroughly before",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "The weather is getting warmer every single",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "Implement merge sort in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_merge_sort"
+  },
+  {
+    "prompt": "Cats are furry animals that like to",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "Calculate: 129 * 132 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The scientist who published the paper last year now claims that her results were",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "Implement binary search in Python:\n",
+    "domain": "code",
+    "subdomain": "python_binary_search"
+  },
+  {
+    "prompt": "Only after the rain stopped did the children go outside to",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Calculate: 383 * 449 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "What is 620 \u00d7 216?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Is 963 greater than 389?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "453 times 565 equals",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "The value is true with no conditions",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "324 plus 411 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "The French Revolution began in 1789 when",
+    "domain": "prose",
+    "subdomain": "expository"
+  },
+  {
+    "prompt": "All teachers are diligent. All diligent professionals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Is 992 greater than 60?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "The robot programmed itself to perform the",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "124 plus 254 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "All doctors are intelligent. All intelligent creatures are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All teachers are fast. All fast animals are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "quicksort [] = []\nquicksort (x:xs) = quicksort smaller ++ [x] ++ quicksort larger\n  where smaller = filter (<= x) xs\n        larger  = filter (> x) xs",
+    "domain": "code",
+    "subdomain": "haskell_recursion"
+  },
+  {
+    "prompt": "The ancestor of a person is either their parent or an ancestor of their",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Such behavior, the school does not",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "All birds are loyal. All loyal animals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The discovery inspired a new theory that explained the phenomenon that had puzzled",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "What will be will",
+    "domain": "lambda",
+    "subdomain": "lambda_W_duplicate"
+  },
+  {
+    "prompt": "The brother of the mother of John is the",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "While some argue that remote work reduces productivity, the evidence suggests that",
+    "domain": "prose",
+    "subdomain": "argumentative"
+  },
+  {
+    "prompt": "Some cats are black. Whiskers is a cat. Is Whiskers necessarily black?",
+    "domain": "reasoning",
+    "subdomain": "existential"
+  },
+  {
+    "prompt": "Every dog chases some",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Calculate: 671 * 330 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "He drives a blue car. She drives a red",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "What is 553 + 977?",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "They showed the visitors the paintings that the artist had created during",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "All fish are loyal. All loyal creatures are respected. Are fish respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "INSERT INTO audit_log (action, user_id, timestamp) SELECT 'login', id, NOW() FROM users WHERE last_login < NOW() - INTERVAL '30 days';",
+    "domain": "code",
+    "subdomain": "sql_subquery"
+  },
+  {
+    "prompt": "All doctors are careful. All careful people are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "All cats are independent. All independent professionals are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Nobody believes that everyone can",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "All birds are intelligent. All intelligent professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The storm damaged the power lines which cut electricity to the hospital where",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "What is 883 - 112?",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "All birds are careful. All careful professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Gold is a metal",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "All doctors are diligent. All diligent people are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Calculate the sum of all prime numbers less than",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "She denied that anyone had taken the",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Copy the file exactly as it appears without changing",
+    "domain": "lambda",
+    "subdomain": "lambda_I_identity"
+  },
+  {
+    "prompt": "The shortest path between nodes A and B has length",
+    "domain": "lambda",
+    "subdomain": "lambda_WHNF_terminal"
+  },
+  {
+    "prompt": "Calculate: 59 * 52 =",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "ssh user@server 'pg_dump mydb | gzip' > backup.sql.gz",
+    "domain": "code",
+    "subdomain": "bash_remote"
+  },
+  {
+    "prompt": "All doctors are loyal. All loyal professionals are respected. Are doctors respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Execute: bash(\"ls -la /home/user/documents\")",
+    "domain": "tools",
+    "subdomain": "bash_tool"
+  },
+  {
+    "prompt": "765 divided by 599 equals",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Between coffee and tea, she always prefers",
+    "domain": "lambda",
+    "subdomain": "lambda_K_select"
+  },
+  {
+    "prompt": "All cats are intelligent. All intelligent animals are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "The window was broken by the ball that the child had",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Calculate 251 \u00d7 487 + 79 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "The medication effectively treats pain and prevents",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "Every farmer who owns a donkey beats",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "The man that everyone admires most is the one who",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Never before had the city experienced such a severe",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "All teachers are independent. All independent creatures are respected. Are teachers respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "It is not the case that it is not raining today",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "The policy that created the incentive that motivated the behavior that produced the outcome that",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Implement hash table lookup in Go:\n",
+    "domain": "code",
+    "subdomain": "go_hash_table_lookup"
+  },
+  {
+    "prompt": "The idea that the theory that the evidence that the experiment produced supported proposed",
+    "domain": "lambda",
+    "subdomain": "lambda_D_deepcompose"
+  },
+  {
+    "prompt": "Paris is in France. Berlin is in",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "All cats are loyal. All loyal beings are respected. Are cats respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement breadth-first search in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_breadth-first_search"
+  },
+  {
+    "prompt": "The signal is amplified, filtered, and then converted into a",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Implement dijkstra's algorithm in Go:\n",
+    "domain": "code",
+    "subdomain": "go_dijkstra's_algorithm"
+  },
+  {
+    "prompt": "squares = [x**2 for x in range(10) if x % 2 == 0]",
+    "domain": "code",
+    "subdomain": "python_comprehension"
+  },
+  {
+    "prompt": "A sentence is a noun phrase followed by a verb phrase, where a noun phrase is",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "247 plus 900 equals",
+    "domain": "math",
+    "subdomain": "add"
+  },
+  {
+    "prompt": "WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) as rn FROM employees) SELECT * FROM ranked WHERE rn = 1;",
+    "domain": "code",
+    "subdomain": "sql_window"
+  },
+  {
+    "prompt": "The mirror reflected the mirror which reflected the mirror reflecting the",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "Calculate 235 \u00d7 70 + 5 =",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Which is larger, 885 or 747?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "What is (829 + 891) \u00d7 1?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "What is 410 \u00d7 696?",
+    "domain": "math",
+    "subdomain": "mul"
+  },
+  {
+    "prompt": "Every boy knows a girl who likes some",
+    "domain": "lambda",
+    "subdomain": "lambda_SCOPE_manage"
+  },
+  {
+    "prompt": "Implement dijkstra's algorithm in Rust:\n",
+    "domain": "code",
+    "subdomain": "rust_dijkstra's_algorithm"
+  },
+  {
+    "prompt": "fmap (+1) (Just 5)  -- Just 6\nfmap (+1) Nothing   -- Nothing",
+    "domain": "code",
+    "subdomain": "haskell_functor"
+  },
+  {
+    "prompt": "Implement merge sort in Go:\n",
+    "domain": "code",
+    "subdomain": "go_merge_sort"
+  },
+  {
+    "prompt": "What is 739 \u00f7 118?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "Generate a markdown table with columns: Feature, Status, Notes",
+    "domain": "structure",
+    "subdomain": "markdown"
+  },
+  {
+    "prompt": "What is (789 + 907) \u00d7 14?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "Up is to down as left is to",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "The process by which plants convert sunlight into energy is",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "He sent a letter to his mother explaining",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "To sort a list: if empty, return it. Otherwise, split it in half, sort each half, and",
+    "domain": "lambda",
+    "subdomain": "lambda_Y_recurse"
+  },
+  {
+    "prompt": "What is 476 \u00f7 684?",
+    "domain": "math",
+    "subdomain": "div"
+  },
+  {
+    "prompt": "It was in Paris that they first",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "Who was it that first discovered the",
+    "domain": "lambda",
+    "subdomain": "lambda_T_typeraise"
+  },
+  {
+    "prompt": "She wrote the code, tested it, and then deployed it to the",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "All birds are independent. All independent professionals are respected. Are birds respected?",
+    "domain": "reasoning",
+    "subdomain": "syllogism_chain"
+  },
+  {
+    "prompt": "Implement linked list reversal in JavaScript:\n",
+    "domain": "code",
+    "subdomain": "javascript_linked_list_reversal"
+  },
+  {
+    "prompt": "fn factorial(n: u64) -> u64 {\n    match n {\n        0 | 1 => 1,\n        _ => n * factorial(n - 1),\n    }\n}",
+    "domain": "code",
+    "subdomain": "rust_recursion"
+  },
+  {
+    "prompt": "The letter was written by the",
+    "domain": "lambda",
+    "subdomain": "lambda_C_flip"
+  },
+  {
+    "prompt": "Is 271 greater than 119?",
+    "domain": "math",
+    "subdomain": "cmp"
+  },
+  {
+    "prompt": "What is (333 + 864) \u00d7 99?",
+    "domain": "math",
+    "subdomain": "multi"
+  },
+  {
+    "prompt": "A recently discovered previously unknown species of deep-sea",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "The book costs ten dollars. The pen costs five",
+    "domain": "lambda",
+    "subdomain": "lambda_M_match"
+  },
+  {
+    "prompt": "579 minus 536 equals",
+    "domain": "math",
+    "subdomain": "sub"
+  },
+  {
+    "prompt": "He opened the door and walked into the",
+    "domain": "lambda",
+    "subdomain": "lambda_SUBST_reduce"
+  },
+  {
+    "prompt": "First the butter is melted, then the flour is added to create a",
+    "domain": "lambda",
+    "subdomain": "lambda_B_compose"
+  },
+  {
+    "prompt": "Her argument was logical, well-structured, and thoroughly",
+    "domain": "lambda",
+    "subdomain": "lambda_PHI_fork"
+  },
+  {
+    "prompt": "A test is code that verifies that other code does what it",
+    "domain": "lambda",
+    "subdomain": "lambda_QUOTE_meta"
+  },
+  {
+    "prompt": "What is 236 + 603?",
+    "domain": "math",
+    "subdomain": "add"
+  }
+]
