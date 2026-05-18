@@ -205,9 +205,10 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
     if args.load_weights:
         print(f"  Loading weights from: {args.load_weights}", file=sys.stderr, flush=True)
         weights = mx.load(args.load_weights)
-        model.load_weights(list(weights.items()))
+        # strict=False: skip missing keys (architecture may have expanded)
+        model.load_weights(list(weights.items()), strict=False)
         mx.eval(model.parameters())
-        print(f"  ✓ Weights loaded ({len(weights)} arrays)", file=sys.stderr, flush=True)
+        print(f"  ✓ Weights loaded ({len(weights)} arrays, strict=False)", file=sys.stderr, flush=True)
 
     # ── Run lens burn (optional, before holographic recording) ─
     if args.run_lens_burn:
@@ -254,12 +255,15 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
 
     # ── Training state ────────────────────────────────────────
     rng = np.random.RandomState(42)
-    total_flips = 0
+    start_round = getattr(args, '_resume_round', 0)
+    total_flips = getattr(args, '_resume_total_flips', 0)
     round_logs = []
 
     print(f"\n{'='*72}", file=sys.stderr, flush=True)
     print(f"  Holographic Recording — Phase 1", file=sys.stderr, flush=True)
-    print(f"  Rounds: {args.n_rounds}", file=sys.stderr, flush=True)
+    if start_round > 0:
+        print(f"  Resuming from round: {start_round}", file=sys.stderr, flush=True)
+    print(f"  Rounds: {start_round + 1} → {start_round + args.n_rounds}", file=sys.stderr, flush=True)
     print(f"  Batches per op per round: {args.batches_per_op}", file=sys.stderr, flush=True)
     print(f"  Beam training steps per round: {args.beam_steps}", file=sys.stderr, flush=True)
     print(f"  Confidence threshold: {args.confidence_threshold}", file=sys.stderr, flush=True)
@@ -267,7 +271,7 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
 
     t_start = time.time()
 
-    for round_idx in range(args.n_rounds):
+    for round_idx in range(start_round, start_round + args.n_rounds):
         round_t0 = time.time()
         round_flips = {}
 
@@ -405,8 +409,8 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         if (round_idx + 1) % args.checkpoint_every == 0:
             ckpt_path = checkpoint_dir / f"round_{round_idx+1:04d}"
             ckpt_path.mkdir(parents=True, exist_ok=True)
-            # Save model weights
-            flat = dict(tree_flatten(model.trainable_parameters()))
+            # Save ALL model weights (trainable + ternary plates)
+            flat = dict(tree_flatten(model.parameters()))
             mx.savez(str(ckpt_path / "weights.npz"), **flat)
             # Save state
             state = {
@@ -479,8 +483,33 @@ def main():
                         help="Path to warped lens .npz (used with --run-lens-burn)")
     parser.add_argument("--lens-pass-idx", type=int, default=3,
                         help="Which pass's directions to use for lens burn (default: 3=apex)")
+    parser.add_argument("--resume", type=str, default=None,
+                        help="Resume from checkpoint dir (e.g. checkpoints/v12-holo-8op/round_0015). "
+                             "Loads weights and continues round numbering.")
 
     args = parser.parse_args()
+
+    # --resume implies --load-weights from that checkpoint
+    if args.resume:
+        resume_dir = Path(args.resume)
+        weights_path = resume_dir / "weights.npz"
+        state_path = resume_dir / "state.json"
+        if not weights_path.exists():
+            print(f"ERROR: {weights_path} not found", file=sys.stderr)
+            sys.exit(1)
+        args.load_weights = str(weights_path)
+        # Load resume state for round numbering
+        if state_path.exists():
+            import json as _json
+            with open(state_path) as f:
+                resume_state = _json.load(f)
+            args._resume_round = resume_state.get("round", 0)
+            args._resume_total_flips = resume_state.get("total_flips", 0)
+            print(f"Resuming from round {args._resume_round}, "
+                  f"total_flips={args._resume_total_flips:,}", file=sys.stderr)
+        else:
+            args._resume_round = 0
+            args._resume_total_flips = 0
 
     # Config — seq_len must be >= max_stride + window + 1 = 1033
     cfg = V12Config()
