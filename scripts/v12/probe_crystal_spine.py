@@ -303,7 +303,7 @@ def extract_spine(
             "top5_var_pct": float(top5_var),
             "norm_mean": float(norms.mean()),
             "norm_std": float(norms.std()),
-            "singular_values_top5": S[:5].tolist(),
+            "singular_values_top5": [float(x) for x in S[:5]],
             "pc1_dominant_dim": top_dim,
             "pc1_dominant_weight": float(top_dim_weight),
             "pc1_dominant_frac": float(top_dim_frac),
