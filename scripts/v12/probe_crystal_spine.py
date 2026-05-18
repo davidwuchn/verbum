@@ -23,6 +23,18 @@ from pathlib import Path
 
 import numpy as np
 
+
+class NumpyEncoder(json.JSONEncoder):
+    """JSON encoder that handles numpy types."""
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
 # ══════════════════════════════════════════════════════════════════════
 # Model registry
 # ══════════════════════════════════════════════════════════════════════
@@ -395,7 +407,7 @@ def main():
         
         # Save per-model result immediately (in case of crash)
         with open(output_dir / f"{model_key}.json", "w") as f:
-            json.dump(result, f, indent=2)
+            json.dump(result, f, indent=2, cls=NumpyEncoder)
     
     # ── Cross-model comparison ──
     print(f"\n\n{'='*80}", file=sys.stderr, flush=True)
@@ -423,7 +435,7 @@ def main():
     
     # Save combined results
     with open(output_dir / "all_results.json", "w") as f:
-        json.dump(all_results, f, indent=2)
+        json.dump(all_results, f, indent=2, cls=NumpyEncoder)
     
     print(f"\n  💾 Results: {output_dir}/", file=sys.stderr, flush=True)
 
