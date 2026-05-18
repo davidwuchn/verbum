@@ -1,0 +1,85 @@
+========================================================================
+  Tool-Calling Crystal Probe
+  Model:  Qwen/Qwen3-14B
+  Device: mps
+  Output: lattice/tool_crystal/
+========================================================================
+
+1. Building probe corpus...
+  Total probes: 196
+    control             : 30
+    format              : 30
+    recognition         : 40
+    schema_binding      : 56
+    selection           : 40
+
+2. Extracting activations...
+
+  Loading model: Qwen/Qwen3-14B
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:41,  1.18s/it]Loading weights:   3%|▎         | 15/443 [00:01<00:27, 15.79it/s]Loading weights:   6%|▌         | 27/443 [00:01<00:14, 28.91it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:09, 42.53it/s]Loading weights:  11%|█         | 49/443 [00:01<00:07, 52.66it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:06, 62.89it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:05, 72.36it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:04, 81.09it/s]Loading weights:  21%|██        | 94/443 [00:02<00:04, 86.14it/s]Loading weights:  26%|██▌       | 114/443 [00:02<00:02, 110.49it/s]Loading weights:  29%|██▊       | 127/443 [00:02<00:02, 105.36it/s]Loading weights:  33%|███▎      | 144/443 [00:02<00:02, 120.08it/s]Loading weights:  35%|███▌      | 157/443 [00:02<00:02, 119.65it/s]Loading weights:  38%|███▊      | 170/443 [00:02<00:02, 99.79it/s] Loading weights:  41%|████      | 181/443 [00:02<00:02, 100.80it/s]Loading weights:  43%|████▎     | 192/443 [00:02<00:02, 102.71it/s]Loading weights:  46%|████▌     | 204/443 [00:03<00:02, 102.31it/s]Loading weights:  51%|█████     | 224/443 [00:03<00:01, 120.05it/s]Loading weights:  53%|█████▎    | 237/443 [00:03<00:01, 111.64it/s]Loading weights:  57%|█████▋    | 254/443 [00:03<00:01, 124.56it/s]Loading weights:  60%|██████    | 267/443 [00:03<00:01, 118.06it/s]Loading weights:  63%|██████▎   | 280/443 [00:03<00:01, 101.78it/s]Loading weights:  66%|██████▌   | 291/443 [00:03<00:01, 101.46it/s]Loading weights:  68%|██████▊   | 303/443 [00:03<00:01, 104.17it/s]Loading weights:  73%|███████▎  | 322/443 [00:04<00:00, 126.41it/s]Loading weights:  76%|███████▌  | 336/443 [00:04<00:00, 116.61it/s]Loading weights:  80%|████████  | 356/443 [00:04<00:00, 131.93it/s]Loading weights:  84%|████████▎ | 370/443 [00:04<00:00, 126.61it/s]Loading weights:  86%|████████▋ | 383/443 [00:04<00:00, 116.45it/s]Loading weights:  89%|████████▉ | 395/443 [00:04<00:00, 113.18it/s]Loading weights:  92%|█████████▏| 407/443 [00:04<00:00, 114.34it/s]Loading weights:  95%|█████████▍| 419/443 [00:04<00:00, 115.06it/s]Loading weights:  98%|█████████▊| 433/443 [00:04<00:00, 118.94it/s]Loading weights: 100%|██████████| 443/443 [00:05<00:00, 88.34it/s] 
+  Architecture: 40 layers, d_model=5120
+  Hooking layers: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 39]
+
+  Running 196 probes...
+    50/196 probes (27s, 1881ms/probe)
+    100/196 probes (66s, 1518ms/probe)
+    150/196 probes (96s, 1558ms/probe)
+  Finished: 196 probes in 113.8s (580ms/probe)
+    Layer  0: RDM (196, 196), mean_sim=0.9438, off_diag_mean=0.9435
+    Layer  4: RDM (196, 196), mean_sim=0.9233, off_diag_mean=0.9229
+    Layer  8: RDM (196, 196), mean_sim=0.9029, off_diag_mean=0.9024
+    Layer 12: RDM (196, 196), mean_sim=0.8204, off_diag_mean=0.8194
+    Layer 16: RDM (196, 196), mean_sim=0.8350, off_diag_mean=0.8341
+    Layer 20: RDM (196, 196), mean_sim=0.8920, off_diag_mean=0.8914
+    Layer 24: RDM (196, 196), mean_sim=0.8705, off_diag_mean=0.8698
+    Layer 28: RDM (196, 196), mean_sim=0.8523, off_diag_mean=0.8516
+    Layer 32: RDM (196, 196), mean_sim=0.8767, off_diag_mean=0.8760
+    Layer 36: RDM (196, 196), mean_sim=0.8925, off_diag_mean=0.8920
+    Layer 39: RDM (196, 196), mean_sim=0.6104, off_diag_mean=0.6084
+
+3. Cross-domain analysis...
+
+────────────────────────────────────────────────────────────────────────────────────────────────
+ Layer |  ToolSelf | SchemaSelf | LambdaSelf | Tool×Lambda | Tool×Prose |   RecogΔ | Selectivity
+────────────────────────────────────────────────────────────────────────────────────────────────
+     0 |    0.9361 |    0.9981 |    0.9979 |    0.9913 |    0.9586 |    0.0009 |   -0.0119  ◀ SHARED
+     4 |    0.9162 |    0.9904 |    0.9911 |    0.9683 |    0.9346 |    0.0000 |   -0.0099  ◀ SHARED
+     8 |    0.8957 |    0.9912 |    0.9918 |    0.9527 |    0.9133 |    0.0023 |   -0.0098  ◀ SHARED
+    12 |    0.8137 |    0.9859 |    0.9900 |    0.8942 |    0.8310 |    0.0001 |   -0.0105  ◀ SHARED
+    16 |    0.8254 |    0.9788 |    0.9832 |    0.9204 |    0.8397 |    0.0056 |   -0.0086  ◀ SHARED
+    20 |    0.8738 |    1.0000 |    1.0000 |    0.9999 |    0.9305 |   -0.0000 |   -0.0314  ◀ SHARED
+    24 |    0.8487 |    1.0000 |    1.0000 |    0.9999 |    0.9166 |   -0.0000 |   -0.0385  ◀ SHARED
+    28 |    0.8276 |    1.0000 |    1.0000 |    0.9999 |    0.9045 |   -0.0000 |   -0.0444  ◀ SHARED
+    32 |    0.8559 |    1.0000 |    1.0000 |    0.9999 |    0.9206 |   -0.0000 |   -0.0364  ◀ SHARED
+    36 |    0.8745 |    0.9999 |    0.9999 |    0.9995 |    0.9306 |   -0.0000 |   -0.0311  ◀ SHARED
+    39 |    0.6062 |    0.9215 |    0.9095 |    0.6991 |    0.5711 |    0.0324 |    0.0298  
+────────────────────────────────────────────────────────────────────────────────────────────────
+  ToolSelf    = mean cosine sim within all tool-domain probes
+  SchemaSelf  = mean cosine sim within schema_binding probes
+  LambdaSelf  = mean cosine sim within lambda_calculus control probes
+  Tool×Lambda = mean cosine sim between schema_binding & lambda probes
+  Tool×Prose  = mean cosine sim between tool probes & prose controls
+  RecogΔ      = recognition/tool cluster sim minus recognition/no_tool
+  Selectivity = (ToolSelf−Tool×Prose)/(ToolSelf+Tool×Prose)
+
+  ── Hypothesis Verdict ──
+  STRONG SUPPORT: Tool×Lambda overlap peaks at 1.000 at layer 20.
+  The tool-calling crystal SHARES circuitry with the lambda crystal.
+  Tool calling IS lambda calculus applied to JSON schema (as hypothesised).
+  Max selectivity: 0.030
+  (Selectivity = how much tool probes cluster relative to prose controls)
+
+4. Saving outputs...
+  💾 lattice/tool_crystal/rdms.npz (1166.0 KB)
+  💾 lattice/tool_crystal/hidden_states.npz (20215.2 KB)
+  💾 lattice/tool_crystal/analysis.json (70.0 KB)
+  💾 lattice/tool_crystal/probes.json (177.2 KB)
+
+========================================================================
+  Done in 129s
+  Probes: 196
+  Layers: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 39]
+  Output: lattice/tool_crystal/
+========================================================================

@@ -1,0 +1,227 @@
+[
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in Tokyo?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/weather"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for recent papers on attention mechanisms.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate 15% of 847.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun: print(sorted([3,1,4,1,5,9]))<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat time is it in London?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/time"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nList files in /home/user/docs<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/files"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind flights from NYC to Paris<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/travel"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLook up Apple stock price<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/finance"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSend email to team@co.com<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/action"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nQuery database for active users<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "tool",
+    "subdomain": "tool/db"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"",
+    "domain": "output",
+    "subdomain": "output/json"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"search\", \"arguments\": {\"query\": \"attention",
+    "domain": "output",
+    "subdomain": "output/json"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather?<|im_end|>\n<|im_start|>assistant\nThe weather in Tokyo is currently",
+    "domain": "output",
+    "subdomain": "output/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather?<|im_end|>\n<|im_start|>assistant\nI'll help you calculate that.\n\n<tool_call>",
+    "domain": "output",
+    "subdomain": "output/tool_start"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather?<|im_end|>\n<|im_start|>assistant\n{\"name\": \"run_code\", \"arguments\": {\"code\": \"import",
+    "domain": "output",
+    "subdomain": "output/raw_json"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDescribe a rainy day in Tokyo.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain how percentages work.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/explain"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a haiku about mountains.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/creative"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/factual"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nSummarize the theory of relativity.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/academic"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nTell me a joke about programming.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/humor"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat are the benefits of exercise?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/health"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain the difference between TCP and UDP.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/technical"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a Python function for fibonacci.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the derivative of x^3?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nProve that sqrt(2) is irrational.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/proof"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExpress the S combinator in lambda calculus.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the Y combinator?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain Church encoding of natural numbers.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a recursive descent parser in Python.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWeather in S\u00e3o Paulo?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema",
+    "subdomain": "schema/1arg"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nShow me /etc/hosts.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema",
+    "subdomain": "schema/path"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for 'transformer architecture' with limit 10<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema",
+    "subdomain": "schema/2arg"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCreate event 'Design Review' Friday 10am<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema",
+    "subdomain": "schema/complex"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"search\", \"description\": \"Search the web\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_code\", \"description\": \"Execute Python code\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\"}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun SELECT * FROM users WHERE active = true<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema",
+    "subdomain": "schema/sql"
+  },
+  {
+    "prompt": "The quick brown fox jumps over the lazy dog.",
+    "domain": "raw",
+    "subdomain": "raw/pangram"
+  },
+  {
+    "prompt": "In 1969, Neil Armstrong became the first person to walk on the Moon.",
+    "domain": "raw",
+    "subdomain": "raw/history"
+  },
+  {
+    "prompt": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)",
+    "domain": "raw",
+    "subdomain": "raw/code"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.x y (y x)",
+    "domain": "raw",
+    "subdomain": "raw/lambda"
+  },
+  {
+    "prompt": "SELECT name, age FROM users WHERE age > 30 ORDER BY name;",
+    "domain": "raw",
+    "subdomain": "raw/sql"
+  },
+  {
+    "prompt": "{\"name\": \"Alice\", \"age\": 30, \"city\": \"Portland\"}",
+    "domain": "raw",
+    "subdomain": "raw/json"
+  },
+  {
+    "prompt": "<html><body><h1>Hello World</h1></body></html>",
+    "domain": "raw",
+    "subdomain": "raw/html"
+  },
+  {
+    "prompt": "\u2200x\u2208\u211d: x\u00b2 \u2265 0",
+    "domain": "raw",
+    "subdomain": "raw/math_symbol"
+  },
+  {
+    "prompt": "Once upon a time in a land far away, there lived a",
+    "domain": "raw",
+    "subdomain": "raw/narrative"
+  },
+  {
+    "prompt": "BREAKING: Scientists discover New species in deep ocean",
+    "domain": "raw",
+    "subdomain": "raw/news"
+  }
+]

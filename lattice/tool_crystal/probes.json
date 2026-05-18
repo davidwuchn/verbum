@@ -1,0 +1,1022 @@
+[
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the current weather in Tokyo?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "weather"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDescribe what a rainy autumn day in Tokyo feels like.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "weather"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate 15% tip on a $84.50 restaurant bill.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain how percentages work in everyday life.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for recent papers published this month on attention mechanisms.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nAttention is a mechanism in neural networks that weighs token relevance.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat time is it right now in London?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "time"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nLondon is a major city in the United Kingdom.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "time"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLook up the stock price of Apple right now.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "stocks"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nApple is one of the most valuable technology companies in the world.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "stocks"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind the nearest coffee shop to 123 Main Street.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "location"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nCoffee shops are common gathering places in urban areas.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "location"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow many days until Christmas?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "date"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nChristmas is celebrated on December 25th each year.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "date"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nTranslate 'hello world' into French.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "translation"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nFrench is a Romance language spoken in France and many other countries.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "translation"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCheck if the website https://example.com is currently online.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "network"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWebsites can be hosted on servers around the world.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "network"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the current exchange rate between USD and EUR?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "finance"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExchange rates fluctuate based on economic conditions.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "finance"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for the latest news about the Mars mission.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "news"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nSpace exploration has advanced significantly in recent decades.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "news"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate the compound interest on $1000 at 5% for 3 years.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "finance2"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nCompound interest grows faster than simple interest over time.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "finance2"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGet the weather forecast for Seattle this weekend.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "forecast"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nSeattle is known for its rainy and overcast weather.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "forecast"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind flights from New York to Paris next Tuesday.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "travel"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nTransatlantic flights typically take around 7-8 hours.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "travel"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSend this message to john@example.com: Meeting at 3pm.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "email"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nEmail remains one of the most widely used communication tools.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "email"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nList all files in the /home/user/documents directory.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "filesystem"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nFile systems organize data in hierarchical directory structures.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "filesystem"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun the test suite for the current project.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nTest suites help developers catch bugs before deployment.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nQuery the database for all users registered in the last 30 days.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "database"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDatabases store structured data for efficient retrieval.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "database"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSchedule a meeting with Alice and Bob at 2pm tomorrow.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "calendar"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nEffective meetings have clear agendas and defined time limits.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "calendar"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the population of Brazil?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/tool",
+    "topic": "facts"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nBrazil is the largest country in South America.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "recognition",
+    "subdomain": "recognition/no_tool",
+    "topic": "facts"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nI need current weather conditions in Paris.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/weather_vs_search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the forecast for the next 5 days in Berlin?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/weather_vs_search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nIs it raining in Sydney right now?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/weather_vs_search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat was the weather like in Rome last week?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/weather_vs_search_historical"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the best time of year to visit Iceland weather-wise?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/weather_vs_search_general"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate the square root of 144.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is 17 factorial?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCompute the sum of all prime numbers less than 100.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the 50th Fibonacci number?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nPlot the values of sin(x) from 0 to 2\u03c0.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python_plot"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nShow me the contents of /etc/hosts.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow many lines are in /var/log/system.log?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat files are in the /tmp directory?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file_listing"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRead the README file in the current project.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind all Python files modified in the last hour.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file_find"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the current Bitcoin price in dollars?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/all_tools_price"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind the top 10 Python packages by downloads this month.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/all_tools_ranking"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow long would it take to drive from Boston to Miami?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/all_tools_travel"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat languages are available for the next Olympic Games?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/all_tools_events"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nShow me who won the last World Cup.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/all_tools_facts"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nConvert 100 USD to Japanese Yen.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python_conversion"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow many seconds are in a year?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python_simple"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGenerate 10 random numbers between 1 and 100.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/calc_vs_python_rng"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nShow disk usage for each directory under /home.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file_disk"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat process is using port 8080?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/bash_vs_file_proc"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the weather in Reykjavik today?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/clear_weather"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCompute 2 raised to the power of 32.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/clear_calc"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for 'transformer architecture survey 2024'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/clear_search"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun: cat /proc/cpuinfo | head -20<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/clear_bash"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRead the file at /etc/passwd.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/clear_file"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind the weather in the capital of Australia.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/multi_search_then_weather"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate the average of the first 20 Fibonacci numbers.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/multi_calc_then_average"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nList all .py files here and count the total lines.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/multi_bash_then_count"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for the current price of gold and convert it to euros.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/multi_search_then_convert"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind out the timezone in Bangkok and tell me the current time there.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/multi_search_then_time"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/wrong_tool_factual"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the meaning of life?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/wrong_tool_philosophical"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nExplain the Pythagorean theorem.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/wrong_tool_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWrite a haiku about autumn.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/wrong_tool_creative"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"run_bash\", \"description\": \"Run a bash shell command and return stdout/stderr\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\"}, \"cwd\": {\"type\": \"string\", \"description\": \"Working directory\"}}, \"required\": [\"command\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the definition of entropy?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "selection",
+    "subdomain": "selection/wrong_tool_definition"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in Tokyo?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_string"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow's the weather in New York?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_string"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nTell me the weather for London please.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_string"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCurrent conditions in S\u00e3o Paulo?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_string"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWeather update for Sydney.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_string"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the temperature in Berlin in Fahrenheit?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_enum"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGet the weather in Oslo, use Celsius.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_enum"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nHow hot is it in Dubai? Use Fahrenheit.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_enum"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for recent papers on attention mechanisms.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_int"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind me the top 5 results for 'quantum computing'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_int_explicit"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLook up 'climate change solutions', sorted by date.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_enum_sort"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for 'Python tutorial' and show me 20 results sorted by date.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_3arg_mixed"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind the latest news on AI regulation, limit to 3 results.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_int_small"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch: 'transformer interpretability', by relevance, 15 results.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_3arg_explicit"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate 15% of 847.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_expr"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is 2 to the power of 10?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_expr"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCompute the area of a circle with radius 7.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_expr_derived"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nEvaluate: (3 + 5) * 12 / 4<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_expr_verbatim"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the square root of 256?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_expr_func"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRead the file /home/user/notes.txt.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_path"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nShow me /etc/hosts.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_path_short"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nOpen /var/log/app.log with UTF-8 encoding.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_path_encoding"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRead /tmp/data.csv as latin-1.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_2arg_path_encoding"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's in /usr/local/bin/startup.sh?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_1arg_path"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"query_database\", \"description\": \"Execute a SQL query against the application database\", \"parameters\": {\"type\": \"object\", \"properties\": {\"sql\": {\"type\": \"string\", \"description\": \"SQL query string\"}, \"params\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Query parameters\"}, \"timeout\": {\"type\": \"integer\", \"description\": \"Timeout in seconds\", \"default\": 30}}, \"required\": [\"sql\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGet all users where status is 'active'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_sql_noparams"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"query_database\", \"description\": \"Execute a SQL query against the application database\", \"parameters\": {\"type\": \"object\", \"properties\": {\"sql\": {\"type\": \"string\", \"description\": \"SQL query string\"}, \"params\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Query parameters\"}, \"timeout\": {\"type\": \"integer\", \"description\": \"Timeout in seconds\", \"default\": 30}}, \"required\": [\"sql\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nQuery the orders table for the last 30 days.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_sql_derived"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"query_database\", \"description\": \"Execute a SQL query against the application database\", \"parameters\": {\"type\": \"object\", \"properties\": {\"sql\": {\"type\": \"string\", \"description\": \"SQL query string\"}, \"params\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Query parameters\"}, \"timeout\": {\"type\": \"integer\", \"description\": \"Timeout in seconds\", \"default\": 30}}, \"required\": [\"sql\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind all records in products where price > 100.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_sql_filter"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"query_database\", \"description\": \"Execute a SQL query against the application database\", \"parameters\": {\"type\": \"object\", \"properties\": {\"sql\": {\"type\": \"string\", \"description\": \"SQL query string\"}, \"params\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Query parameters\"}, \"timeout\": {\"type\": \"integer\", \"description\": \"Timeout in seconds\", \"default\": 30}}, \"required\": [\"sql\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun: SELECT COUNT(*) FROM events WHERE user_id = 42<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_sql_verbatim_params"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"query_database\", \"description\": \"Execute a SQL query against the application database\", \"parameters\": {\"type\": \"object\", \"properties\": {\"sql\": {\"type\": \"string\", \"description\": \"SQL query string\"}, \"params\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}, \"description\": \"Query parameters\"}, \"timeout\": {\"type\": \"integer\", \"description\": \"Timeout in seconds\", \"default\": 30}}, \"required\": [\"sql\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSelect the top 10 most recent log entries with timeout 60.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_sql_3arg"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFilter the sales dataset for records where age > 30.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_nested_1filter"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFrom the customers table, show me rows where country = 'US' and age >= 18.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_nested_2filters"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFilter transactions: amount > 1000 and currency = 'USD' and status != 'pending'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_nested_3filters"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGet employees dataset where department = 'Engineering' and salary > 90000, limit 50.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_nested_2filters_limit"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFrom products: category = 'electronics', price < 500, in_stock = true.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_nested_3filters_bool"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSend an email to alice@example.com: subject 'Meeting' body 'See you at 3pm'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_array_1to"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nEmail bob@example.com and carol@example.com about the project update.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_array_2to"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSend to team@example.com, CC manager@example.com, subject 'Report' body 'Please review.'<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_array_to_cc"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nEmail support@company.com with subject 'Bug report' and attach /tmp/log.txt.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_array_attachment"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSend meeting invite to [a@x.com, b@x.com, c@x.com] subject 'Q4 Planning' body 'Agenda attached.'<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_array_3to"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSchedule a meeting tomorrow at 2pm for 1 hour.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_datetime_derived"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCreate an event: 'Design Review' on Friday at 10am, ends at 11:30am.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_datetime_explicit"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nBook a 30-minute standup at 9am Monday.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_datetime_duration"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSet up 'Team Lunch' for 12pm next Thursday at 'The Grill', invite alice@x.com and bob@x.com.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_datetime_full"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nAdd 'Quarterly Review' to the calendar for the last Friday of this month, 3-5pm.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_datetime_relative"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun Python to compute the sum of squares from 1 to 100.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_code_derived"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nExecute: import os; print(os.getcwd())<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_code_verbatim"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nUse Python to reverse the string 'Hello, World!'<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_code_derived"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nRun Python with a 5-second timeout to test if numpy is installed.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_code_timeout"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"run_python\", \"description\": \"Execute Python code and return its output\", \"parameters\": {\"type\": \"object\", \"properties\": {\"code\": {\"type\": \"string\", \"description\": \"Python source code to run\"}, \"timeout\": {\"type\": \"integer\", \"default\": 10}}, \"required\": [\"code\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nExecute this code: [x**2 for x in range(10)]<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_code_verbatim"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLook for 'attention is all you need'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_name_map_query"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind stuff about RLHF.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_name_map_informal"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's it like outside in Chicago?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_name_map_implicit"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nTemperature check for Mumbai.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_name_map_fragment"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"read_file\", \"description\": \"Read contents of a file at a given path\", \"parameters\": {\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"Absolute file path\"}, \"encoding\": {\"type\": \"string\", \"default\": \"utf-8\"}}, \"required\": [\"path\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCan you show me what's inside ~/.bashrc?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_name_map_tilde"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"filter_records\", \"description\": \"Filter a dataset by a list of conditions\", \"parameters\": {\"type\": \"object\", \"properties\": {\"dataset\": {\"type\": \"string\"}, \"filters\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"type\": \"string\"}, \"op\": {\"type\": \"string\", \"enum\": [\">\", \"<\", \"=\", \">=\", \"<=\", \"!=\"]}, \"value\": {}}, \"required\": [\"field\", \"op\", \"value\"]}}, \"limit\": {\"type\": \"integer\", \"default\": 100}}, \"required\": [\"dataset\", \"filters\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"send_email\", \"description\": \"Send an email message\", \"parameters\": {\"type\": \"object\", \"properties\": {\"to\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"subject\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"cc\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"attachments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"to\", \"subject\", \"body\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFilter the sales data for Q4 (year >= 2023, quarter = 4, region = 'APAC', status = 'closed', amount > 5000) and limit to 200 records.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_5arg_complex"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"create_calendar_event\", \"description\": \"Create a new calendar event\", \"parameters\": {\"type\": \"object\", \"properties\": {\"title\": {\"type\": \"string\"}, \"start\": {\"type\": \"string\", \"format\": \"date-time\"}, \"end\": {\"type\": \"string\", \"format\": \"date-time\"}, \"attendees\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}, \"location\": {\"type\": \"string\"}, \"description\": {\"type\": \"string\"}}, \"required\": [\"title\", \"start\", \"end\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCreate 'Annual Conference' starting 2024-06-15T09:00:00 ending 2024-06-15T18:00:00 at 'Grand Ballroom', invite all@company.com, with description 'Annual all-hands meeting'.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "schema_binding",
+    "subdomain": "schema_binding/schema_6arg_all"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in Tokyo?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Tokyo\"",
+    "domain": "format",
+    "subdomain": "format/hermes_partial_args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for recent AI papers.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"recent AI papers\"",
+    "domain": "format",
+    "subdomain": "format/hermes_partial_args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is 15% of 200?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"0.15 * 200\"",
+    "domain": "format",
+    "subdomain": "format/hermes_partial_args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nTemperature in Dubai in Fahrenheit.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Dubai\", \"units\": \"fahrenheit\"",
+    "domain": "format",
+    "subdomain": "format/hermes_2args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFind 5 results for quantum computing sorted by date.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"quantum computing\", \"limit\": 5, \"sort\": \"date\"",
+    "domain": "format",
+    "subdomain": "format/hermes_3args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in Paris?<|im_end|>\n<|im_start|>assistant\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\"",
+    "domain": "format",
+    "subdomain": "format/raw_json_partial"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCompute 42 * 17.<|im_end|>\n<|im_start|>assistant\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"42 * 17\"",
+    "domain": "format",
+    "subdomain": "format/raw_json_partial"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLook up Python tutorials.<|im_end|>\n<|im_start|>assistant\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"Python tutorials\"",
+    "domain": "format",
+    "subdomain": "format/raw_json_partial"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in both Tokyo and London?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Tokyo\"}}</tool_call>\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"London\"",
+    "domain": "format",
+    "subdomain": "format/parallel_calls"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCheck the weather in Miami and calculate 15% of 200.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Miami\"}}</tool_call>\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"0.15 * 200\"",
+    "domain": "format",
+    "subdomain": "format/parallel_different_tools"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWeather in Beijing.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Beijing\"}}</tool_call>",
+    "domain": "format",
+    "subdomain": "format/hermes_complete"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for news about climate.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"climate news\", \"limit\": 10}}</tool_call>",
+    "domain": "format",
+    "subdomain": "format/hermes_complete_2args"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nGet weather for Nairobi.<|im_end|>\n<|im_start|>assistant\nname: get_weather\narguments:\n  city: Nairobi",
+    "domain": "format",
+    "subdomain": "format/yaml_structured"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCalculate area of circle radius 5.<|im_end|>\n<|im_start|>assistant\nname: calculator\narguments:\n  expression: 3.14159 * 5",
+    "domain": "format",
+    "subdomain": "format/yaml_structured"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWeather in Cairo.<|im_end|>\n<|im_start|>assistant\n<function_call><name>get_weather</name><arguments><city>Cairo</city></arguments>",
+    "domain": "format",
+    "subdomain": "format/xml_structured"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch web for rust programming.<|im_end|>\n<|im_start|>assistant\n<function_call><name>web_search</name><arguments><query>rust programming</query></arguments>",
+    "domain": "format",
+    "subdomain": "format/xml_structured"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat's the weather in Rome?<|im_end|>\n<|im_start|>assistant\n```json\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Rome\"",
+    "domain": "format",
+    "subdomain": "format/markdown_json"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCompute 7 factorial.<|im_end|>\n<|im_start|>assistant\n```json\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 * 6 * 5 * 4 * 3 * 2 * 1\"",
+    "domain": "format",
+    "subdomain": "format/markdown_json"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nCheck the weather in Oslo.<|im_end|>\n<|im_start|>assistant\nI'll call get_weather with city=Oslo",
+    "domain": "format",
+    "subdomain": "format/plaintext_nl"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for transformer papers.<|im_end|>\n<|im_start|>assistant\nCalling web_search(query='transformer papers'",
+    "domain": "format",
+    "subdomain": "format/plaintext_python_style"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWeather in Vienna.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\":",
+    "domain": "format",
+    "subdomain": "format/partial_truncated"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nSearch for neural networks.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {",
+    "domain": "format",
+    "subdomain": "format/partial_open_brace"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nLatest AI news, top 5 by date.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"sort\": \"date\", \"limit\": 5, \"query\": \"latest AI news\"",
+    "domain": "format",
+    "subdomain": "format/args_reordered"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nFahrenheit weather for Moscow.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"units\": \"fahrenheit\", \"city\": \"Moscow\"",
+    "domain": "format",
+    "subdomain": "format/args_reordered_2"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nJust search for something interesting.<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"interesting topics\"",
+    "domain": "format",
+    "subdomain": "format/vague_binding"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat should I wear in Stockholm today?<|im_end|>\n<|im_start|>assistant\nTo answer this, I need to check the current weather in Stockholm first.\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Stockholm\"",
+    "domain": "format",
+    "subdomain": "format/reasoning_prefix"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nI need the exact value of pi squared.<|im_end|>\n<|im_start|>assistant\nLet me calculate that for you.\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"3.14159**2\"",
+    "domain": "format",
+    "subdomain": "format/reasoning_prefix"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"web_search\", \"description\": \"Search the web for recent information\", \"parameters\": {\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"Search query\"}, \"limit\": {\"type\": \"integer\", \"description\": \"Max results\", \"default\": 10}, \"sort\": {\"type\": \"string\", \"enum\": [\"relevance\", \"date\"], \"default\": \"relevance\"}}, \"required\": [\"query\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nI want to know about recent SpaceX launches.<|im_end|>\n<|im_start|>assistant\nI'll search for the latest information.\n<tool_call>\n{\"name\": \"web_search\", \"arguments\": {\"query\": \"SpaceX recent launches\"",
+    "domain": "format",
+    "subdomain": "format/reasoning_prefix"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nWhat is the capital of Japan?<|im_end|>\n<|im_start|>assistant\nThe capital of Japan is Tokyo.",
+    "domain": "format",
+    "subdomain": "format/no_tool_response"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get current weather for a city\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}, \"units\": {\"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"], \"default\": \"celsius\"}}, \"required\": [\"city\"]}}}\n{\"type\": \"function\", \"function\": {\"name\": \"calculator\", \"description\": \"Evaluate a mathematical expression\", \"parameters\": {\"type\": \"object\", \"properties\": {\"expression\": {\"type\": \"string\", \"description\": \"Math expression to evaluate\"}}, \"required\": [\"expression\"]}}}\n</tools>\n<|im_end|>\n<|im_start|>user\nExplain what a hash function is.<|im_end|>\n<|im_start|>assistant\nA hash function maps data of arbitrary size to fixed-size values.",
+    "domain": "format",
+    "subdomain": "format/no_tool_prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a short story about a lighthouse keeper on a stormy night.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDescribe the sensation of walking barefoot on a warm sandy beach.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain the historical significance of the printing press in three paragraphs.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a poem about the passing of seasons.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nSummarize the plot of Romeo and Juliet.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDescribe what it feels like to watch a sunrise from a mountain summit.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a travel guide introduction for Kyoto, Japan.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain what empathy means in your own words.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/prose"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is 2 + 2?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nProve that the square root of 2 is irrational.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the derivative of x^3 + 2x^2 - 5x + 1?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain the Pythagorean theorem and provide a proof.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the integral of sin(x) from 0 to \u03c0?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nDescribe the difference between permutations and combinations.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is a prime number? Give five examples.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/pure_math"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a Python function that returns the nth Fibonacci number.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nImplement bubble sort in Python.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a Python decorator that measures function execution time.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nShow me how to read a CSV file using the pandas library.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a recursive function to compute the factorial of n in Python.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nImplement a binary search function in Python.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWrite a Python class for a stack data structure.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/code"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExpress the S combinator in lambda calculus.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the Church encoding of the number 3?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nShow the beta reduction of (\u03bbx.x)(\u03bby.y).<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the Y combinator and what does it do?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExpress the boolean AND operation using Church booleans.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nReduce (\u03bbx.\u03bby.x) a b to normal form.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nWhat is the difference between applicative and normal order reduction in lambda calculus?<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  },
+  {
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nExpress the composition combinator B = \u03bbf.\u03bbg.\u03bbx.f(g x) in Python.<|im_end|>\n<|im_start|>assistant\n",
+    "domain": "control",
+    "subdomain": "control/lambda_calculus"
+  }
+]
