@@ -123,8 +123,15 @@ hours to minutes. Ready to test on next checkpoint.
    self-distill compressor + crystal into Gen 2. External model
    provides universal crystal, prior self provides compressor.
 
-6. **Consider adding models** — Qwen3-4B, Qwen3-8B are cached and
-   would test scale effects within same architecture family
+6. **Download + probe Qwen3.6 models as teachers**:
+   - Qwen3.6-27B (dense, 27B) — flagship coding, agentic, 262K context
+   - Qwen3.6-35B-A3B (MoE, 3B active) — sparse routing similar to our dispatch
+   - Get BOTH base and instruct versions if available
+   - Base vs instruct delta = the crystal of instruction-following
+   - Larger teacher = sharper crystal = more lattice points to transfer
+   - MoE model interesting: sparse routing acts like combinator dispatch
+   - Add to teacher registry in direct_crystal_write.py + build_lattice_map.py
+   - Run lattice map with these as teachers to see if crystal is richer
 
 ## Architecture at session end
 
