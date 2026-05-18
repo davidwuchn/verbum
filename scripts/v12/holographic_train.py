@@ -264,22 +264,20 @@ def lattice_alignment_loss(
     student_rdm = h_norm @ h_norm.T
     student_rdm = student_rdm - mx.mean(student_rdm)
 
-    # Extract target sub-matrices for this probe subset
-    target_sub = lattice.rdm_mx[probe_indices][:, probe_indices]
-    mask_sub = lattice.mask_mx[probe_indices][:, probe_indices]
+    # Extract target sub-matrices for this probe subset (mx indices for MLX arrays)
+    pi_mx = mx.array(probe_indices)
+    target_sub = lattice.rdm_mx[pi_mx][:, pi_mx]
+    mask_sub = lattice.mask_mx[pi_mx][:, pi_mx]
 
-    # Upper triangle mask
-    triu_mask = mx.zeros((n, n))
-    for i in range(n):
-        for j in range(i + 1, n):
-            triu_mask = triu_mask.at[i, j].add(1.0)
+    # Upper triangle mask (vectorized)
+    triu_mask = mx.triu(mx.ones((n, n)), k=1)
 
     # Squared differences
     diff = (student_rdm - target_sub) ** 2
 
     if lattice.has_backbone:
         # ── Two-tier seed crystal loss ────────────────────────
-        bb_sub = lattice.backbone_mx[probe_indices][:, probe_indices]
+        bb_sub = lattice.backbone_mx[pi_mx][:, pi_mx]
 
         # Tier 1: backbone fixed points (universal language geometry)
         # Strong pull — these distances should stay near their universal values
