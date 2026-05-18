@@ -363,6 +363,7 @@ def direct_crystal_write(
         start = batch_idx * batch_size
         end = min(start + batch_size, n_probes)
         probe_indices = np.arange(start, end)
+        probe_indices_mx = mx.array(probe_indices)
         n = len(probe_indices)
 
         # ── Forward: collect hidden states ────────────────────
@@ -386,16 +387,13 @@ def direct_crystal_write(
             student_rdm = h_norm @ h_norm.T
             student_rdm = student_rdm - mx.mean(student_rdm)
 
-            # Target sub-matrix
-            target_sub = target_mx[probe_indices][:, probe_indices]
-            bb_sub = bb_mask_mx[probe_indices][:, probe_indices]
-            agree_sub = agree_mx[probe_indices][:, probe_indices]
+            # Target sub-matrix (use mx indices for MLX arrays)
+            target_sub = target_mx[probe_indices_mx][:, probe_indices_mx]
+            bb_sub = bb_mask_mx[probe_indices_mx][:, probe_indices_mx]
+            agree_sub = agree_mx[probe_indices_mx][:, probe_indices_mx]
 
-            # Upper triangle
-            triu = mx.zeros((n, n))
-            for i in range(n):
-                for j in range(i + 1, n):
-                    triu = triu.at[i, j].add(1.0)
+            # Upper triangle mask (vectorized)
+            triu = mx.triu(mx.ones((n, n)), k=1)
 
             diff = (student_rdm - target_sub) ** 2
 

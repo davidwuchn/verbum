@@ -398,43 +398,55 @@ class GatedLinearAttention(nn.Module):
             # ── Gather stride positions ───────────────────────
             # Participating: positions 0, stride, 2*stride, ...
             L_s = L // stride  # number of stride positions
-            # Index array for gathering: [0, stride, 2*stride, ...]
-            stride_idx = mx.arange(L_s) * stride  # (L_s,)
 
-            # Gather K, V, gate at stride positions only
-            k_s = k[:, stride_idx, :, :]          # (B, L_s, H, Ds)
-            v_s = v[:, stride_idx, :, :]          # (B, L_s, H, Dh)
-            gate_s = gate[:, stride_idx, :]       # (B, L_s, H)
+            if L_s == 0:
+                # Sequence shorter than stride — no stride positions reached.
+                # Memory state is zero → retrieval returns zero.
+                Dh = v.shape[-1]
+                output = mx.zeros((B, L, H, Dh))
+            else:
+                # Index array for gathering: [0, stride, 2*stride, ...]
+                stride_idx = mx.arange(L_s) * stride  # (L_s,)
 
-            # Outer product over ONLY stride positions
-            kv_outer_s = k_s[:, :, :, :, None] * v_s[:, :, :, None, :]  # (B, L_s, H, Ds, Dh)
-            gate_s_expand = gate_s[:, :, :, None, None]
-            gated_kv_s = gate_s_expand * kv_outer_s   # (B, L_s, H, Ds, Dh)
-            retention_s = 1.0 - gate_s                 # (B, L_s, H)
+                # Gather K, V, gate at stride positions only
+                k_s = k[:, stride_idx, :, :]          # (B, L_s, H, Ds)
+                v_s = v[:, stride_idx, :, :]          # (B, L_s, H, Dh)
+                gate_s = gate[:, stride_idx, :]       # (B, L_s, H)
 
-            # Parallel scan over SHORT sequence (L_s positions)
-            # This is stride× cheaper than scanning over L positions.
-            # For stride=32: 128 positions instead of 4096 → 32× less work.
-            S_stride = parallel_scan_2d(retention_s, gated_kv_s)  # (B, L_s, H, Ds, Dh)
+                # Outer product over ONLY stride positions
+                kv_outer_s = k_s[:, :, :, :, None] * v_s[:, :, :, None, :]  # (B, L_s, H, Ds, Dh)
+                gate_s_expand = gate_s[:, :, :, None, None]
+                gated_kv_s = gate_s_expand * kv_outer_s   # (B, L_s, H, Ds, Dh)
+                retention_s = 1.0 - gate_s                 # (B, L_s, H)
 
-            # ── Broadcast states for retrieval ────────────────
-            # Position i reads from the state at stride position
-            # floor(i / stride). This is causal: position i only
-            # sees memory accumulated from positions ≤ i.
-            #
-            # state_idx[i] = i // stride, but clipped to [0, L_s-1]
-            state_idx = mx.minimum(
-                mx.arange(L) // stride, L_s - 1)       # (L,)
-            S_all = S_stride[:, state_idx, :, :, :]      # (B, L, H, Ds, Dh)
+                # Parallel scan over SHORT sequence (L_s positions)
+                # This is stride× cheaper than scanning over L positions.
+                # For stride=32: 128 positions instead of 4096 → 32× less work.
+                S_stride = parallel_scan_2d(retention_s, gated_kv_s)  # (B, L_s, H, Ds, Dh)
 
-            # Retrieve: ALL positions query against their stride state
-            output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)
+                # ── Broadcast states for retrieval ────────────────
+                # Position i reads from the state at stride position
+                # floor(i / stride). This is causal: position i only
+                # sees memory accumulated from positions ≤ i.
+                #
+                # state_idx[i] = i // stride, but clipped to [0, L_s-1]
+                state_idx = mx.minimum(
+                    mx.arange(L) // stride, L_s - 1)       # (L,)
+                S_all = S_stride[:, state_idx, :, :, :]      # (B, L, H, Ds, Dh)
+
+                # Retrieve: ALL positions query against their stride state
+                output = mx.sum(q[:, :, :, :, None] * S_all, axis=3)
 
         output = output.reshape(B, L, D)  # (B, L, H, Dh) → (B, L, D)
 
         # Instrumentation: memory norms at final stride position
         if stride == 1:
             S_final = S_all[:, -1, :, :, :]
+        elif L_s == 0:
+            # No stride positions — memory is zero
+            Ds = q.shape[-1]
+            Dh = v.shape[-1]
+            S_final = mx.zeros((B, H, Ds, Dh))
         else:
             S_final = S_stride[:, -1, :, :, :]
         S_norms = mx.sqrt(mx.sum(S_final * S_final, axis=(2, 3)) + 1e-8)  # (B, H)
