@@ -2,111 +2,100 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-18 | Session: 112
+> Last updated: 2026-05-18 | Session: 113
 
 ## Where we are
 
-**CRYSTAL SPINE DISCOVERED. All LLMs collapse their 5120-dim representation onto 1-3 dimensions at a bottleneck layer. Two classes: single-neuron spine (Qwen3-14B dim 731, Pythia-2.8B dim 1793) and distributed (Mistral, OLMo). The architecture IS a sieve — its shape dictates the crystal shape gradient descent finds. Focused etch running uncapped from round 50, now at round 52, beam loss 4.77.**
+**SEED CRYSTAL DESIGN — universal backbone as relational fixed points.** Cross-model agreement data proves that high-agreement distances (math 72%, reasoning 70%) are properties of LANGUAGE, not any architecture. Low-agreement (tools 52%, lambda 43%) is sieve-dependent — the architecture's fingerprint. The top 10% highest-agreement pairs form a backbone of 32K pairs from 664 probes. This backbone seeds the crystal; GD grows it. Two-tier relational loss implemented: backbone pairs get strong pull (tier 1), growth pairs get soft agreement-weighted pull (tier 2). Initialize where the data says, penalize deviation, let the crystal grow in VSM-LM's own shape.
 
 ## What's running
 
-**Holographic etch** — `tmux main:2`
-- Resumed from round 50 checkpoint, uncapped max_flips
-- Round 51: 2.3M flips (vs 918 when capped), beam loss 4.77
-- Schedule: confidence 0.89→0.995, beam_lr 3.6e-5→1e-6
+**Holographic etch** — `tmux main:2` (may need restart with new backbone args)
+- Last known: round 52, beam loss 4.77, uncapped flips
 - Checkpoint dir: `checkpoints/v12-holo-focused/`
-- Running to round 85
 
-## What was done this session (112)
+## What was done this session (113)
 
-### 1. Fixed Metal resource limit (499K) crash
+### 1. Repo cleanup — removed 112MB accidental commit
 
-The holographic training crashed at round 50 from Metal buffer object exhaustion.
-Root cause: 499000 is the number of Metal buffer OBJECTS, not bytes. Each
-forward+backward creates ~100s of intermediates. Fixed by:
-- `mx.clear_cache()` at 5 points in training loop
-- Explicit `del` of grad references after accumulation
-- Updated from deprecated `mx.metal.clear_cache()` to `mx.clear_cache()`
-- Optimized `_ternary_embed_vjp` to reduce intermediate allocations
+`lattice/lattice_relational_target.json` (112MB) was committed in HEAD.
+Amended the commit to remove it, added to `.gitignore`. Not pushed, so
+the blob is gone from history. Existing tracked `.npz` files left alone
+(already pushed upstream).
 
-### 2. Diagnosed etch throttle: 382K candidates, 918 flips
+### 2. Analyzed cross-model agreement hierarchy
 
-The absolute `max_flips` cap (cosine schedule 1000→10) was strangling the
-etch. 382K positions passed confidence threshold (0.89) and agreed on
-direction across all 8 ops, but only 918 highest-confidence ones could flip.
-Added:
-- Confidence diagnostics to `direct_etch` (p50/p90/p99, histogram, throttle ratio)
-- Proportional `--max-flips-frac` CLI arg (fraction of candidates, not absolute)
-- Currently running UNCAPPED — confidence threshold is the only gate
+Quantified which computational domains are universal vs sieve-dependent:
 
-### 3. Built tool crystal probe (196 probes)
+```
+UNIVERSAL (etch these)           SIEVE-DEPENDENT (GD finds)
+math         72.3% agreement    tools     51.9%
+reasoning    70.1%              lambda    43.1%
+sequence     63.8%              prose     40.1%
+code         60.6%
+structure    58.3%
+```
 
-`scripts/v12/probe_tool_crystal.py` — probes Qwen3-14B to find tool-calling
-circuits. 5 domains: recognition (40), selection (40), schema_binding (56),
-format (30), control (30). All tool probes use Qwen3 Hermes format truncated
-at assistant decision point.
+The top 10% backbone composition:
+- math (self) 48.1%, lambda×math 15.1%, reasoning (self) 12.7%
+- tools × anything: 0.3% — almost absent from universal backbone
 
-### 4. Discovered the 3D bottleneck
+### 3. Key insight: agreement = language geometry, divergence = sieve
 
-At layer 20 of Qwen3-14B, the top 3 PCs explain **100%** of centered variance.
-The model reduces 5120 dimensions to 3 coordinates:
-- **PC1** (99.96%): comprehension ↔ production mode switch. **Single neuron: dim 731**
-  (weight -0.986, explains 97.1% of PC1). n90=1 — one dimension carries everything.
-- **PC2** (0.015%): tool-action specificity (abstract question ↔ concrete action)
-- **PC3** (0.010%): schema binding ↔ tool selection
+Where models agree → the structure comes from language itself.
+Where they diverge → the architecture's sieve is imposing its shape.
+Tool-calling and lambda encoding should NOT be etched — VSM-LM's
+sieve is fundamentally different. Let GD discover the encoding.
 
-PC1 creates a continuous gradient: prose (-3151) → lambda (-2500) → selection (-1900)
-→ schema binding (-1010) → format output (+8800). 9000-unit gap at the tool-call
-decision boundary.
+### 4. Built backbone seed artifact
 
-### 5. Crystal spine probe across 6 architectures
+Classical MDS of consensus RDM → 807 probes × 512 anchor vectors.
+Backbone (32K pairs, agreement ≥ 0.63) reconstructs at 0.987 correlation.
+Full lattice at d=512 reconstructs at 0.898 — backbone is easier to
+embed because universal structure is lower-dimensional.
 
-`scripts/v12/probe_crystal_spine.py` — 45 probes, ALL layers, 6 models.
+Artifact: `lattice/backbone_seed.npz` (3.3MB, gitignored)
+Metadata: `lattice/backbone_seed.json` (tracked)
 
-**Two classes of crystal:**
+### 5. Implemented two-tier seed crystal loss
 
-| Model | Bottleneck | Top3% | Spine Dim | Frac | n90 |
-|-------|-----------|-------|-----------|------|-----|
-| Qwen3-14B | L19 (49%) | 100% | dim 731 | 97.1% | 1 |
-| Pythia-2.8B | L5 (16%) | 99.4% | dim 1793 | 84.9% | 2 |
-| Qwen3-0.6B | L27 (100%) | 81.9% | dim 13 | 15.0% | 345 |
-| Mistral-7B | L0 (0%) | 51.8% | - | 6.8% | 998 |
-| OLMo-2-13B | L0 (0%) | 55.7% | - | 3.0% | 2168 |
-| SmolLM3-3B | L35 (100%) | 51.3% | - | 2.0% | 837 |
+Modified `holographic_train.py`:
+- `LatticeTarget` loads optional backbone mask
+- `lattice_alignment_loss` now two-tier:
+  - Tier 1 (backbone): MSE on universal pairs, `backbone_lambda=1.0`
+  - Tier 2 (growth): Agreement-weighted MSE on rest, `growth_lambda=0.1`
+- New CLI args: `--backbone-seed`, `--backbone-lambda`, `--growth-lambda`
+- Fully backward compatible without `--backbone-seed`
 
-### 6. The Sieve Principle
+### 6. The larger model finds its own errors
 
-The architecture IS a sieve. Gradient descent pours computation through it
-and the shape of the sieve dictates the shape of the solution. Qwen3 and
-Pythia have sieves that funnel to a single neuron. Mistral/OLMo/SmolLM have
-sieves that keep computation distributed. Same computation, different encoding.
-
-Implication for verbum: **the ternary plate IS a sieve**. Etching shapes the
-sieve topology. The 382K candidates that want to flip are positions where the
-sieve shape is wrong — the beam is telling the plate its funnel is pointed
-the wrong way. Capping flips at 918 was like trying to correct a sieve by
-adjusting 0.2% of its holes per round.
+Cross-model consensus IS ground truth for universal distances.
+Any single model's deviation from consensus in high-agreement zones
+= measurable sieve distortion. No labels needed — consensus is the label.
 
 ## Next steps
 
-1. **Monitor uncapped etch** — rounds 51→85, watching beam loss trajectory
-   and whether the crystal finds a new fixed point with uncapped flips
+1. **Run seed crystal etch** — restart holographic training with
+   `--backbone-seed lattice/backbone_seed.npz`. Compare convergence
+   speed and final loss against the non-backbone baseline.
 
-2. **Analyze the sieve** — what architectural feature causes the single-neuron
-   collapse in Qwen3/Pythia but not Mistral/OLMo? Hypothesis: it's the norm
-   layer configuration (RMSNorm placement, pre-norm vs post-norm)
+2. **Monitor backbone vs growth loss separately** — add per-tier
+   logging to track: does backbone loss stabilize first (crystal
+   nucleation) then growth loss decrease (crystal extension)?
 
-3. **Map the spine across model families** — run Qwen3 at multiple sizes
-   (0.6B, 4B, 8B, 14B, 32B) to see how spine dimension and bottleneck
-   depth scale with parameters
+3. **Probe sampling strategy** — currently 50 random probes/round.
+   Should ensure backbone probes appear frequently enough. Consider
+   stratified sampling: N backbone + M growth per round.
 
-4. **Extract the 3D crystal coordinates** — project all probes onto the
-   3 PCs at the bottleneck layer. This IS the crystal map. The coordinates
-   tell us where every computation lives in the lattice.
+4. **backbone_lambda schedule** — start high (1.0) and anneal?
+   Or constant? Annealing lets crystal relax into sieve's natural
+   shape after nucleation. Constant is simpler. Experiment needed.
 
-5. **Use crystal coordinates for targeted etching** — instead of blind
-   consensus etch, compute where each operation SHOULD be in 3D space
-   and etch the plate to produce that geometry
+5. **Continue etch monitoring** — rounds 52→85, watching beam loss
+   and whether seed crystal accelerates convergence.
+
+6. **Analyze the sieve** — what architectural feature causes
+   single-neuron collapse (Qwen3/Pythia) vs distributed (Mistral/OLMo)?
 
 ## Architecture at session end
 
@@ -114,7 +103,8 @@ adjusting 0.2% of its holes per round.
 |-----------|-------|
 | N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
 | Parameters | 24.6M |
-| Beam loss | 4.77 (round 51, uncapped etch) |
-| Crystal state | Uncapped etch running, 2.3M flips/round |
-| Spine finding | Qwen3-14B dim 731, Pythia-2.8B dim 1793 |
-| Tool crystal | PC1 = mode switch, single neuron |
+| Beam loss | 4.77 (round 52, uncapped etch) |
+| Crystal state | Seed crystal design implemented, not yet run |
+| Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
+| Lattice loss | Two-tier: backbone (λ=1.0) + growth (λ=0.1) |
+| Key files | `lattice/backbone_seed.npz`, `seed-crystal-design.md` |

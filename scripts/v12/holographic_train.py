@@ -140,14 +140,26 @@ def focusing_schedule_int(
 
 
 class LatticeTarget:
-    """Pre-loaded universal lattice map for alignment loss."""
+    """Pre-loaded universal lattice map for alignment loss.
 
-    def __init__(self, lattice_path: str, depth_key: str = "0.50"):
-        """Load universal lattice from .npz file.
+    Supports two modes:
+    - Legacy: universal_lattice.npz with depth-keyed RDMs
+    - Seed crystal: backbone_seed.npz with two-tier backbone + growth targets
+
+    The seed crystal mode separates universal backbone (high cross-model
+    agreement) from growth signal (full lattice). Backbone pairs are the
+    "bones" of the crystal — strong pull to keep distances near universal
+    values. Growth pairs provide gradient for filling in the rest.
+    """
+
+    def __init__(self, lattice_path: str, depth_key: str = "0.50",
+                 backbone_path: str | None = None):
+        """Load universal lattice and optional backbone seed.
 
         Args:
             lattice_path: Path to universal_lattice.npz
             depth_key: Which depth fraction to use (default: 0.50 = mid-depth)
+            backbone_path: Path to backbone_seed.npz (enables two-tier loss)
         """
         data = np.load(lattice_path)
 
@@ -156,7 +168,6 @@ class LatticeTarget:
         mask_key = f"{key_prefix}_agreement_mask"
 
         if rdm_key not in data:
-            # Try to find available depths
             available = [k.replace("_consensus_rdm", "").replace("depth_", "")
                          for k in data.files if k.endswith("_consensus_rdm")]
             raise ValueError(
@@ -172,9 +183,28 @@ class LatticeTarget:
         self.rdm_mx = mx.array(self.consensus_rdm)
         self.mask_mx = mx.array(self.agreement_mask)
 
+        # ── Seed crystal: two-tier backbone ───────────────────
+        self.has_backbone = False
+        self.backbone_mx = None
+
+        if backbone_path is not None:
+            bb = np.load(backbone_path)
+            self.backbone_mask = bb['backbone_mask']        # (N, N) binary
+            self.backbone_mx = mx.array(self.backbone_mask)
+            self.has_backbone = True
+
+            n_bb_pairs = int(self.backbone_mask.sum() / 2)
+            n_bb_probes = int((self.backbone_mask.sum(axis=1) > 0).sum())
+            threshold = float(bb['backbone_threshold'][0])
+
+            print(f"  Seed crystal loaded: {n_bb_pairs} backbone pairs, "
+                  f"{n_bb_probes} probes, threshold={threshold:.4f}",
+                  file=sys.stderr, flush=True)
+
         print(f"  Lattice target loaded: {self.n_probes} probes, "
               f"depth={depth_key}, "
-              f"mean_agreement={self.agreement_mask.mean():.4f}",
+              f"mean_agreement={self.agreement_mask.mean():.4f}"
+              f"{', backbone=active' if self.has_backbone else ''}",
               file=sys.stderr, flush=True)
 
 
@@ -183,22 +213,33 @@ def lattice_alignment_loss(
     probe_tokens: list[mx.array],
     probe_indices: np.ndarray,
     lattice: LatticeTarget,
+    backbone_lambda: float = 1.0,
+    growth_lambda: float = 0.1,
 ) -> mx.array:
-    """Compute lattice alignment loss for a subset of probes.
+    """Two-tier seed crystal alignment loss.
 
-    1. Forward each probe through the model
-    2. Extract last-token hidden state
-    3. Compute student RDM (cosine similarity, mean-subtracted)
-    4. MSE against consensus RDM, weighted by agreement mask
+    Tier 1 (backbone): Strong pull on universally-agreed distances.
+    These are the relational fixed points — the bones of the crystal.
+    Models agree on these distances because they're properties of
+    language, not of any particular architecture.
+
+    Tier 2 (growth): Agreement-weighted pull on all distances.
+    Provides gradient for the crystal to grow around the backbone.
+    Low-agreement pairs (sieve-dependent) contribute weakly,
+    letting GD find the VSM-LM-compatible encoding.
+
+    Falls back to single-tier (original behavior) if no backbone loaded.
 
     Args:
         model: The V12 model
         probe_tokens: Pre-tokenized probe sequences (list of mx.array)
         probe_indices: Indices of probes to use this round (subset)
-        lattice: Pre-loaded lattice target
+        lattice: Pre-loaded lattice target (with optional backbone)
+        backbone_lambda: Weight for backbone (tier 1) loss
+        growth_lambda: Weight for growth (tier 2) loss
 
     Returns:
-        Scalar loss (lattice alignment MSE, agreement-weighted)
+        Scalar loss (combined backbone + growth alignment)
     """
     n = len(probe_indices)
 
@@ -206,49 +247,61 @@ def lattice_alignment_loss(
     hidden_states = []
     for idx in probe_indices:
         tokens = probe_tokens[idx]
-        # Forward without targets (inference mode)
-        # Shape: (1, T, d_model) → take last token
         logits, aux = model(tokens.reshape(1, -1))
-        # Get the last hidden state before output projection
         if hasattr(model, '_last_hidden'):
             h = model._last_hidden[:, -1, :]  # (1, d_model)
         else:
-            # Fallback: use the logit projection input
-            # This is less ideal but works
-            h = mx.stop_gradient(logits[:, -1, :])  # (1, V) — wrong dim
-            # If _last_hidden not available, skip this round
             return mx.array(0.0)
         hidden_states.append(h)
 
     # Stack: (n, d_model)
-    h_stack = mx.concatenate(hidden_states, axis=0)  # (n, d_model)
+    h_stack = mx.concatenate(hidden_states, axis=0)
 
     # L2-normalize for cosine similarity
     h_norm = h_stack / (mx.sqrt(mx.sum(h_stack * h_stack, axis=-1, keepdims=True)) + 1e-8)
 
-    # Student RDM: (n, n)
+    # Student RDM: (n, n) cosine similarity, mean-subtracted
     student_rdm = h_norm @ h_norm.T
-
-    # Mean-subtract (residual mode)
     student_rdm = student_rdm - mx.mean(student_rdm)
 
-    # Extract target sub-matrix for these probe indices
-    target_sub = lattice.rdm_mx[probe_indices][:, probe_indices]   # (n, n)
-    mask_sub = lattice.mask_mx[probe_indices][:, probe_indices]     # (n, n)
+    # Extract target sub-matrices for this probe subset
+    target_sub = lattice.rdm_mx[probe_indices][:, probe_indices]
+    mask_sub = lattice.mask_mx[probe_indices][:, probe_indices]
 
-    # Upper triangle only (RDM is symmetric)
-    # Create upper triangle mask
+    # Upper triangle mask
     triu_mask = mx.zeros((n, n))
     for i in range(n):
         for j in range(i + 1, n):
             triu_mask = triu_mask.at[i, j].add(1.0)
 
-    # Weighted MSE on upper triangle
+    # Squared differences
     diff = (student_rdm - target_sub) ** 2
-    weighted_diff = diff * mask_sub * triu_mask
-    n_pairs = mx.sum(triu_mask)
 
-    loss = mx.sum(weighted_diff) / (n_pairs + 1e-8)
+    if lattice.has_backbone:
+        # ── Two-tier seed crystal loss ────────────────────────
+        bb_sub = lattice.backbone_mx[probe_indices][:, probe_indices]
+
+        # Tier 1: backbone fixed points (universal language geometry)
+        # Strong pull — these distances should stay near their universal values
+        backbone_diff = diff * bb_sub * triu_mask
+        n_bb_pairs = mx.sum(bb_sub * triu_mask)
+        backbone_loss = mx.sum(backbone_diff) / (n_bb_pairs + 1e-8)
+
+        # Tier 2: crystal growth (agreement-weighted, all pairs)
+        # Softer pull — the sieve fills in around the backbone
+        # Exclude backbone pairs to avoid double-counting
+        growth_mask = mask_sub * (1.0 - bb_sub) * triu_mask
+        growth_diff = diff * growth_mask
+        n_growth_pairs = mx.sum(growth_mask)
+        growth_loss = mx.sum(growth_diff) / (n_growth_pairs + 1e-8)
+
+        loss = backbone_lambda * backbone_loss + growth_lambda * growth_loss
+    else:
+        # ── Legacy single-tier loss (backward compatible) ─────
+        weighted_diff = diff * mask_sub * triu_mask
+        n_pairs = mx.sum(triu_mask)
+        loss = mx.sum(weighted_diff) / (n_pairs + 1e-8)
+
     return loss
 
 
@@ -463,7 +516,12 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         lattice_npz = Path(args.lattice_map)
         lattice_json = lattice_npz.parent / "universal_lattice.json"
         print(f"\nLoading lattice map: {lattice_npz}", file=sys.stderr, flush=True)
-        lattice = LatticeTarget(str(lattice_npz), depth_key=getattr(args, 'lattice_depth', '0.50'))
+        backbone_path = getattr(args, 'backbone_seed', None)
+        lattice = LatticeTarget(
+            str(lattice_npz),
+            depth_key=getattr(args, 'lattice_depth', '0.50'),
+            backbone_path=backbone_path,
+        )
         lattice_n_probes = lattice.n_probes
 
         # Load and tokenize lattice probes
@@ -471,8 +529,9 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             prompts = load_lattice_probes(str(lattice_json))
             print(f"  Tokenizing {len(prompts)} lattice probes...", file=sys.stderr, flush=True)
             lattice_probes_tokens = tokenize_lattice_probes(prompts)
+            mode = "seed crystal (two-tier)" if lattice.has_backbone else "legacy (single-tier)"
             print(f"  ✓ Lattice ready: {lattice_n_probes} probes, "
-                  f"λ={getattr(args, 'lattice_lambda', 0.1)}",
+                  f"λ={getattr(args, 'lattice_lambda', 0.1)}, mode={mode}",
                   file=sys.stderr, flush=True)
         else:
             print(f"  WARNING: {lattice_json} not found, lattice loss disabled",
@@ -674,10 +733,12 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         # computation graph; clear_cache releases those back to the system.
         mx.clear_cache()
 
-        # ── LATTICE: accumulate universal lattice alignment signal ──
-        # The lattice loss is a second reference beam alongside the CE loss.
-        # It measures how well the model's relational geometry matches the
-        # cross-model consensus. Both signals feed the same accumulators.
+        # ── LATTICE: seed crystal alignment signal ──────────────
+        # Two-tier reference beam (if backbone loaded):
+        #   Tier 1 (backbone): strong pull on universal language geometry
+        #   Tier 2 (growth): agreement-weighted pull for crystal expansion
+        # Falls back to single-tier (legacy) if no backbone.
+        # Both tiers feed the same direction accumulators as CE loss.
         lattice_loss_val = 0.0
         if lattice is not None and lattice_probes_tokens is not None:
             lattice_lambda = getattr(args, 'lattice_lambda', 0.1)
@@ -691,10 +752,15 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 lattice_n_probes, size=n_lattice_probes, replace=False
             )
 
-            # Compute lattice alignment loss
+            # Compute lattice alignment loss (two-tier if backbone loaded)
+            bb_lambda = getattr(args, 'backbone_lambda', 1.0)
+            gr_lambda = getattr(args, 'growth_lambda', 0.1)
+
             def lattice_loss_fn(model):
                 return lattice_alignment_loss(
-                    model, lattice_probes_tokens, probe_indices, lattice
+                    model, lattice_probes_tokens, probe_indices, lattice,
+                    backbone_lambda=bb_lambda,
+                    growth_lambda=gr_lambda,
                 ) * lattice_lambda
 
             lattice_loss_and_grad = nn.value_and_grad(model, lattice_loss_fn)
@@ -964,6 +1030,14 @@ def main():
                                help="Number of lattice probes to sample per round (default: 50)")
     lattice_group.add_argument("--lattice-depth", type=str, default="0.50",
                                help="Which depth fraction from the lattice map to use (default: 0.50)")
+    lattice_group.add_argument("--backbone-seed", type=str, default=None,
+                               help="Path to backbone_seed.npz for two-tier seed crystal loss. "
+                                    "Requires --lattice-map. Backbone pairs get strong pull "
+                                    "(universal language geometry), growth pairs get soft pull.")
+    lattice_group.add_argument("--backbone-lambda", type=float, default=1.0,
+                               help="Weight for backbone (tier 1) loss — universal fixed points (default: 1.0)")
+    lattice_group.add_argument("--growth-lambda", type=float, default=0.1,
+                               help="Weight for growth (tier 2) loss — crystal expansion (default: 0.1)")
     parser.add_argument("--load-weights", type=str, default=None,
                         help="Path to .npz weights to load before training "
                              "(e.g. from lens_burn.py output)")

@@ -1,0 +1,3261 @@
+{
+  "n_probes": 807,
+  "d_embed": 512,
+  "backbone_threshold": 0.6311971545219421,
+  "backbone_pairs": 32522,
+  "backbone_probes": 664,
+  "eigenvalue_spectrum": [
+    49.09803482186482,
+    36.771384837750915,
+    20.60096659685905,
+    14.370981650423255,
+    9.836847887016992,
+    8.73143573952081,
+    7.147459804963926,
+    5.417241985399365,
+    4.477154358513259,
+    4.232448342006249,
+    3.6241243236501655,
+    3.4867404595098206,
+    3.2736811020207,
+    3.2097419033585064,
+    3.119907766285136,
+    2.8966803411397435,
+    2.7223266929315995,
+    2.646111882381197,
+    2.4530140095804835,
+    2.3722866877990745
+  ],
+  "variance_explained_at_d512": 402.26996653526436,
+  "backbone_recon_corr": 0.9872098405012377,
+  "probes": [
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "structure/json",
+      "domain": "structure"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "tools/tool_selection",
+      "domain": "tools"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "code/javascript_hash_table_lookup",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/contrast_M_vs_B",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/contrast_PHI_vs_K",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/transitivity",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "structure/xml",
+      "domain": "structure"
+    },
+    {
+      "axis": "code/python_recursion",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "sequence/reverse",
+      "domain": "sequence"
+    },
+    {
+      "axis": "code/go_linked_list_reversal",
+      "domain": "code"
+    },
+    {
+      "axis": "code/c_hash_table_lookup",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "code/c_binary_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/contrast_PHI_vs_K",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_K_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_iterator",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "sequence/count_items",
+      "domain": "sequence"
+    },
+    {
+      "axis": "code/rust_concurrency",
+      "domain": "code"
+    },
+    {
+      "axis": "code/python_async",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/modus_ponens",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "code/rust_dynamic_programming",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_PHI_vs_K",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/javascript_binary_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_D",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_PHI_vs_K",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/javascript_dynamic_programming",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/bash_pipeline",
+      "domain": "code"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "code/rust_trait_impl",
+      "domain": "code"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "prose/expository",
+      "domain": "prose"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/causal",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_W_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "code/haskell_monad",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/javascript_reduce",
+      "domain": "code"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_C",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/c_linked_list_reversal",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "tools/action",
+      "domain": "tools"
+    },
+    {
+      "axis": "code/bash_loop",
+      "domain": "code"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_W_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_PHI_vs_K",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_C",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_M_vs_B",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/contrast_K_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/c_merge_sort",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_D",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "tools/function_call",
+      "domain": "tools"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_dynamic_programming",
+      "domain": "code"
+    },
+    {
+      "axis": "code/c_dynamic_programming",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/c_dijkstra's_algorithm",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "code/javascript_merge_sort",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_iteration",
+      "domain": "code"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "code/python_depth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_W_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_dijkstra's_algorithm",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/contrast_K_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "structure/csv",
+      "domain": "structure"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_depth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_C",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_D",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "tools/action",
+      "domain": "tools"
+    },
+    {
+      "axis": "code/rust_tree_traversal",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_W_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_W_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "tools/api_call",
+      "domain": "tools"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "sequence/count_chars",
+      "domain": "sequence"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/c_breadth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "code/c_tree_traversal",
+      "domain": "code"
+    },
+    {
+      "axis": "prose/conversational",
+      "domain": "prose"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_M_vs_B",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_class",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/c_depth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_generics",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/sequence",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_hash_table_lookup",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_breadth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/python_merge_sort",
+      "domain": "code"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/sql_aggregation",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_dynamic_programming",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/python_higher_order",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "code/python_tree_traversal",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_binary_search",
+      "domain": "code"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "sequence/average",
+      "domain": "sequence"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "code/rust_binary_search",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "prose/technical",
+      "domain": "prose"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "prose/expository",
+      "domain": "prose"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/temporal",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "tools/db_query",
+      "domain": "tools"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_M_vs_B",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "code/javascript_closure",
+      "domain": "code"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_D",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/universal",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "structure/yaml",
+      "domain": "structure"
+    },
+    {
+      "axis": "prose/narrative",
+      "domain": "prose"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_K_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/rust_pattern_match",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/disjunction",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/javascript_async",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/javascript_tree_traversal",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_C",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "prose/narrative",
+      "domain": "prose"
+    },
+    {
+      "axis": "prose/technical",
+      "domain": "prose"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_aggregation",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "prose/technical",
+      "domain": "prose"
+    },
+    {
+      "axis": "code/python_error_handling",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/path_finding",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/python_context_manager",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/biconditional",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_D",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_depth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/javascript_dijkstra's_algorithm",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "tools/python_tool",
+      "domain": "tools"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/bash_archive",
+      "domain": "code"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/contrapositive",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/contrapositive",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/universal_neg",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "prose/argumentative",
+      "domain": "prose"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/bash_file_ops",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "code/javascript_depth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/contrast_K_vs_I",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/rust_linked_list_reversal",
+      "domain": "code"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "sequence/max",
+      "domain": "sequence"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_breadth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/python_linked_list_reversal",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "sequence/count_words",
+      "domain": "sequence"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/rust_breadth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "sequence/sort",
+      "domain": "sequence"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "code/python_hash_table_lookup",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/contrast_M_vs_B",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "sequence/sum",
+      "domain": "sequence"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "prose/instructional",
+      "domain": "prose"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/contrast_B_vs_C",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "prose/instructional",
+      "domain": "prose"
+    },
+    {
+      "axis": "code/go_tree_traversal",
+      "domain": "code"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "code/javascript_spread",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/counterfactual",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "prose/conversational",
+      "domain": "prose"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/sql_join",
+      "domain": "code"
+    },
+    {
+      "axis": "code/python_sorting",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_merge_sort",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/python_binary_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "prose/expository",
+      "domain": "prose"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/haskell_recursion",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_W_duplicate",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "prose/argumentative",
+      "domain": "prose"
+    },
+    {
+      "axis": "reasoning/existential",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/sql_subquery",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_I_identity",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_WHNF_terminal",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "code/bash_remote",
+      "domain": "code"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "tools/bash_tool",
+      "domain": "tools"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_K_select",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_hash_table_lookup",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_D_deepcompose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/javascript_breadth-first_search",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/go_dijkstra's_algorithm",
+      "domain": "code"
+    },
+    {
+      "axis": "code/python_comprehension",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    },
+    {
+      "axis": "code/sql_window",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "math/mul",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SCOPE_manage",
+      "domain": "lambda"
+    },
+    {
+      "axis": "code/rust_dijkstra's_algorithm",
+      "domain": "code"
+    },
+    {
+      "axis": "code/haskell_functor",
+      "domain": "code"
+    },
+    {
+      "axis": "code/go_merge_sort",
+      "domain": "code"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "structure/markdown",
+      "domain": "structure"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_Y_recurse",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/div",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_T_typeraise",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "reasoning/syllogism_chain",
+      "domain": "reasoning"
+    },
+    {
+      "axis": "code/javascript_linked_list_reversal",
+      "domain": "code"
+    },
+    {
+      "axis": "code/rust_recursion",
+      "domain": "code"
+    },
+    {
+      "axis": "lambda/lambda_C_flip",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/cmp",
+      "domain": "math"
+    },
+    {
+      "axis": "math/multi",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_M_match",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/sub",
+      "domain": "math"
+    },
+    {
+      "axis": "lambda/lambda_SUBST_reduce",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_B_compose",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_PHI_fork",
+      "domain": "lambda"
+    },
+    {
+      "axis": "lambda/lambda_QUOTE_meta",
+      "domain": "lambda"
+    },
+    {
+      "axis": "math/add",
+      "domain": "math"
+    }
+  ]
+}
