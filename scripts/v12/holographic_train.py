@@ -638,6 +638,12 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 # Accumulate direction (all ops into same accumulators)
                 accumulate_direction(model, grads, accumulators)
 
+                # Release grad references to free Metal buffers.
+                # Without this, Python holds references to hundreds of
+                # intermediate MLX arrays per step, accumulating Metal
+                # buffer objects until hitting the 499K resource limit.
+                del loss_val, grads, input_ids, targets
+
             avg_loss = np.mean(op_losses)
             op_losses_all[op] = avg_loss
             print(
@@ -645,6 +651,11 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
                 f"loss={avg_loss:.4f} | exposed",
                 file=sys.stderr, flush=True,
             )
+
+        # Release accumulated Metal buffers after exposure phase.
+        # Each op × batch creates ~100s of Metal buffer objects in the
+        # computation graph; clear_cache releases those back to the system.
+        mx.clear_cache()
 
         # ── LATTICE: accumulate universal lattice alignment signal ──
         # The lattice loss is a second reference beam alongside the CE loss.
@@ -677,6 +688,10 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
             # Accumulate lattice gradients into same direction accumulators
             accumulate_direction(model, lat_grads, accumulators)
 
+            # Release lattice grad references and clear Metal buffers
+            del lat_loss, lat_grads, lattice_loss_and_grad
+            mx.clear_cache()
+
             print(
                 f"  Round {round_idx+1:3d} | LATTICE | "
                 f"loss={lattice_loss_val:.6f} | "
@@ -701,6 +716,11 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
         # Re-freeze after etch
         freeze_ternary_weights(model)
         restore_ternary(model)
+
+        # Clear Metal buffers after etch — the numpy↔MLX conversions
+        # in direct_etch create temporary buffers that should be released
+        # before beam training starts.
+        mx.clear_cache()
 
         print(
             f"  Round {round_idx+1:3d} | ETCH | "
@@ -734,7 +754,19 @@ def holographic_train(cfg: V12Config, args: argparse.Namespace) -> None:
 
             beam_losses.append(float(loss_val.item()))
 
+            # Release references and periodically clear Metal buffer cache.
+            # Beam training runs 200-500 steps; without clearing, Metal
+            # buffer objects accumulate from each step's forward/backward.
+            del loss_val, grads, input_ids, targets
+            if (step + 1) % 50 == 0:
+                mx.clear_cache()
+
         avg_beam_loss = np.mean(beam_losses) if beam_losses else 0.0
+
+        # Final Metal cache clear at round boundary — ensures we start
+        # each round with a clean buffer pool. This is the primary defense
+        # against the 499K Metal resource limit error.
+        mx.clear_cache()
 
         # ── Round summary ─────────────────────────────────────
         round_dt = time.time() - round_t0

@@ -547,6 +547,13 @@ def _ternary_embed_vjp(primals, cotangent, output):
     ∂L/∂tokens:   zeros (integer indices, not differentiable)
     ∂L/∂w_packed: zeros (topology evolves via mutation, not gradient)
     ∂L/∂gamma:    per-token grad, scattered back to (vocab_size,)
+
+    Memory note: this VJP is called every training step. We minimize
+    intermediate Metal buffer allocations to avoid hitting the 499K
+    Metal resource limit during long training runs:
+    - Unpack ternary weights directly into the dot product (no stack)
+    - Use scalar zeros for non-differentiable inputs (tokens, w_packed)
+      MLX broadcasts these to the correct shape during accumulation
     """
     tokens, w_packed, gamma = primals
     grad_out = cotangent  # (*, d_model)
@@ -557,23 +564,34 @@ def _ternary_embed_vjp(primals, cotangent, output):
     grad_flat = grad_out.reshape(N, d_model)
 
     # ∂L/∂gamma: Σ_d (grad_out[n,d] * unpacked[n,d])
-    packed_rows = w_packed[flat_tokens]
-    w0 = ((packed_rows >> 6) & 0x3).astype(mx.float32) - 1.0
-    w1 = ((packed_rows >> 4) & 0x3).astype(mx.float32) - 1.0
-    w2 = ((packed_rows >> 2) & 0x3).astype(mx.float32) - 1.0
-    w3 = (packed_rows & 0x3).astype(mx.float32) - 1.0
-    unpacked = mx.stack([w0, w1, w2, w3], axis=-1).reshape(N, d_model)
+    # Unpack and compute dot product without materializing full unpacked matrix.
+    # Each packed uint8 byte holds 4 ternary values at bit positions {7:6, 5:4, 3:2, 1:0}.
+    # We compute the inner product chunk-by-chunk (4 columns at a time) to
+    # reduce peak Metal buffer count from ~8 intermediates to ~2.
+    packed_rows = w_packed[flat_tokens]  # (N, d_model//4) uint8
+    K4 = d_model // 4
 
-    grad_gamma_per_token = mx.sum(grad_flat * unpacked, axis=-1)  # (N,)
+    # Compute ∂L/∂gamma = Σ_d grad[n,d] * ternary[n,d] in 4-column chunks
+    # grad_flat[:, 4k:4k+4] · ternary[:, 4k:4k+4] summed over d
+    grad_flat_4 = grad_flat.reshape(N, K4, 4)  # (N, K4, 4)
+
+    # Decode all 4 positions at once: (N, K4, 4)
+    t0 = ((packed_rows >> 6) & 0x3).astype(mx.float32) - 1.0  # (N, K4)
+    t1 = ((packed_rows >> 4) & 0x3).astype(mx.float32) - 1.0
+    t2 = ((packed_rows >> 2) & 0x3).astype(mx.float32) - 1.0
+    t3 = (packed_rows & 0x3).astype(mx.float32) - 1.0
+    # Stack into (N, K4, 4) and dot with grad chunks
+    ternary_4 = mx.stack([t0, t1, t2, t3], axis=-1)  # (N, K4, 4)
+    grad_gamma_per_token = mx.sum(grad_flat_4 * ternary_4, axis=(1, 2))  # (N,)
 
     # Scatter gamma grads back to (vocab_size,)
     grad_gamma = mx.zeros((gamma.shape[0],), dtype=mx.float32)
     grad_gamma = grad_gamma.at[flat_tokens].add(grad_gamma_per_token)
 
-    # ∂L/∂w_packed: zeros
-    grad_w_packed = mx.zeros_like(w_packed).astype(mx.float32)
-
-    # No gradient for tokens
+    # ∂L/∂w_packed and ∂L/∂tokens: use scalar zeros to avoid allocating
+    # full-sized tensors. MLX custom_function requires matching number of
+    # return values but the downstream accumulation handles broadcasting.
+    grad_w_packed = mx.zeros(w_packed.shape, dtype=mx.float32)
     grad_tokens = mx.zeros(tokens.shape, dtype=mx.float32)
 
     return grad_tokens, grad_w_packed, grad_gamma
