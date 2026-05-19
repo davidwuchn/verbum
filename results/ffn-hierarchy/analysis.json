@@ -1,0 +1,390 @@
+{
+  "mistral-7b": {
+    "p2": {
+      "depth_0.10": {
+        "corr_norm_selectivity": -0.06494540152971423,
+        "corr_norm_rate": 0.01106972472052539,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2867,
+            "mean_selectivity": 0.28918859362602234,
+            "mean_activation_rate": 0.49537137150764465,
+            "frac_selective": 0.425531914893617
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2867,
+            "mean_selectivity": 0.272981196641922,
+            "mean_activation_rate": 0.5006033182144165,
+            "frac_selective": 0.3501918381583537
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2867,
+            "mean_selectivity": 0.26943379640579224,
+            "mean_activation_rate": 0.4999185800552368,
+            "frac_selective": 0.3348447854900593
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2867,
+            "mean_selectivity": 0.2719709575176239,
+            "mean_activation_rate": 0.4973814785480499,
+            "frac_selective": 0.34740146494593654
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2868,
+            "mean_selectivity": 0.26801231503486633,
+            "mean_activation_rate": 0.4980267882347107,
+            "frac_selective": 0.3322873082287308
+          }
+        ]
+      },
+      "depth_0.30": {
+        "corr_norm_selectivity": -0.07394420271393612,
+        "corr_norm_rate": 0.01531606057488617,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2867,
+            "mean_selectivity": 0.2978878319263458,
+            "mean_activation_rate": 0.4925783574581146,
+            "frac_selective": 0.45483083362399723
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2867,
+            "mean_selectivity": 0.28855302929878235,
+            "mean_activation_rate": 0.4974951446056366,
+            "frac_selective": 0.41576560865015694
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2867,
+            "mean_selectivity": 0.2782570421695709,
+            "mean_activation_rate": 0.4983503818511963,
+            "frac_selective": 0.38158353679804674
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2867,
+            "mean_selectivity": 0.281543493270874,
+            "mean_activation_rate": 0.49662184715270996,
+            "frac_selective": 0.3983257760725497
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2868,
+            "mean_selectivity": 0.27864041924476624,
+            "mean_activation_rate": 0.4969058632850647,
+            "frac_selective": 0.38458856345885634
+          }
+        ]
+      },
+      "depth_0.50": {
+        "corr_norm_selectivity": 0.01164295518225475,
+        "corr_norm_rate": 0.012045930865882258,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2867,
+            "mean_selectivity": 0.30429020524024963,
+            "mean_activation_rate": 0.5005464553833008,
+            "frac_selective": 0.4942448552493896
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2867,
+            "mean_selectivity": 0.3033703863620758,
+            "mean_activation_rate": 0.5025591850280762,
+            "frac_selective": 0.47017788629229157
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2867,
+            "mean_selectivity": 0.30293890833854675,
+            "mean_activation_rate": 0.49894458055496216,
+            "frac_selective": 0.4750610394140216
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2867,
+            "mean_selectivity": 0.29769405722618103,
+            "mean_activation_rate": 0.5035383701324463,
+            "frac_selective": 0.46285315660969656
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2868,
+            "mean_selectivity": 0.29737588763237,
+            "mean_activation_rate": 0.5003693699836731,
+            "frac_selective": 0.4525801952580195
+          }
+        ]
+      },
+      "depth_0.70": {
+        "corr_norm_selectivity": 0.09691486348034517,
+        "corr_norm_rate": 0.008576671231150303,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2867,
+            "mean_selectivity": 0.30741384625434875,
+            "mean_activation_rate": 0.5022129416465759,
+            "frac_selective": 0.504708754795954
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2867,
+            "mean_selectivity": 0.32210981845855713,
+            "mean_activation_rate": 0.4950975179672241,
+            "frac_selective": 0.5507499128008371
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2867,
+            "mean_selectivity": 0.32085931301116943,
+            "mean_activation_rate": 0.4976036548614502,
+            "frac_selective": 0.5483083362399721
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2867,
+            "mean_selectivity": 0.3191463351249695,
+            "mean_activation_rate": 0.49840977787971497,
+            "frac_selective": 0.5580746424834322
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2868,
+            "mean_selectivity": 0.31508341431617737,
+            "mean_activation_rate": 0.5046516060829163,
+            "frac_selective": 0.5313807531380753
+          }
+        ]
+      }
+    },
+    "p3": {
+      "depth_0.10": {
+        "ffn_q_cosine_mean": 0.0020772761199623346,
+        "ffn_q_cosine_std": 0.014273064211010933,
+        "rdm_correlation": 0.6985070341590787,
+        "magnitude_correlation": -0.36508738353402037
+      },
+      "depth_0.30": {
+        "ffn_q_cosine_mean": -0.0022944824304431677,
+        "ffn_q_cosine_std": 0.0160541832447052,
+        "rdm_correlation": 0.6628727338626218,
+        "magnitude_correlation": -0.0332351164055314
+      },
+      "depth_0.50": {
+        "ffn_q_cosine_mean": -0.0031962795183062553,
+        "ffn_q_cosine_std": 0.015377987176179886,
+        "rdm_correlation": 0.6736559130089378,
+        "magnitude_correlation": -0.2460586553668477
+      },
+      "depth_0.70": {
+        "ffn_q_cosine_mean": 0.0017227280186489224,
+        "ffn_q_cosine_std": 0.014390445314347744,
+        "rdm_correlation": 0.723865432993991,
+        "magnitude_correlation": -0.1853248344741103
+      }
+    }
+  },
+  "pythia-2.8b": {
+    "p2": {
+      "depth_0.10": {
+        "corr_norm_selectivity": -0.28088424367505016,
+        "corr_norm_rate": -0.5310530713455407,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2048,
+            "mean_selectivity": 0.3624674379825592,
+            "mean_activation_rate": 0.16692709922790527,
+            "frac_selective": 0.46484375
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2048,
+            "mean_selectivity": 0.23378905653953552,
+            "mean_activation_rate": 0.07998047769069672,
+            "frac_selective": 0.2080078125
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2048,
+            "mean_selectivity": 0.1807146966457367,
+            "mean_activation_rate": 0.05339988321065903,
+            "frac_selective": 0.134765625
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2048,
+            "mean_selectivity": 0.15628618001937866,
+            "mean_activation_rate": 0.04218388348817825,
+            "frac_selective": 0.10888671875
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2048,
+            "mean_selectivity": 0.1393807828426361,
+            "mean_activation_rate": 0.034903064370155334,
+            "frac_selective": 0.09423828125
+          }
+        ]
+      },
+      "depth_0.30": {
+        "corr_norm_selectivity": -0.35109396184459046,
+        "corr_norm_rate": -0.6934111925497521,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2048,
+            "mean_selectivity": 0.4209490716457367,
+            "mean_activation_rate": 0.3384910225868225,
+            "frac_selective": 0.73876953125
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2048,
+            "mean_selectivity": 0.4471535086631775,
+            "mean_activation_rate": 0.25502750277519226,
+            "frac_selective": 0.689453125
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2048,
+            "mean_selectivity": 0.41534650325775146,
+            "mean_activation_rate": 0.17807798087596893,
+            "frac_selective": 0.5478515625
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2048,
+            "mean_selectivity": 0.3070131540298462,
+            "mean_activation_rate": 0.10708189010620117,
+            "frac_selective": 0.33447265625
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2048,
+            "mean_selectivity": 0.20254990458488464,
+            "mean_activation_rate": 0.05949435755610466,
+            "frac_selective": 0.18212890625
+          }
+        ]
+      },
+      "depth_0.50": {
+        "corr_norm_selectivity": -0.300297703937492,
+        "corr_norm_rate": -0.5225657107724282,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2048,
+            "mean_selectivity": 0.47133970260620117,
+            "mean_activation_rate": 0.2721173167228699,
+            "frac_selective": 0.7470703125
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2048,
+            "mean_selectivity": 0.43318864703178406,
+            "mean_activation_rate": 0.20024234056472778,
+            "frac_selective": 0.6005859375
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2048,
+            "mean_selectivity": 0.3769639730453491,
+            "mean_activation_rate": 0.15409071743488312,
+            "frac_selective": 0.48583984375
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2048,
+            "mean_selectivity": 0.3259114623069763,
+            "mean_activation_rate": 0.11712239682674408,
+            "frac_selective": 0.3876953125
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2048,
+            "mean_selectivity": 0.24179327487945557,
+            "mean_activation_rate": 0.07594762742519379,
+            "frac_selective": 0.24658203125
+          }
+        ]
+      },
+      "depth_0.70": {
+        "corr_norm_selectivity": -0.0037912759336903063,
+        "corr_norm_rate": -0.1395077334967595,
+        "bins": [
+          {
+            "bin": "Q1 (0-20%)",
+            "n": 2048,
+            "mean_selectivity": 0.3261609971523285,
+            "mean_activation_rate": 0.15401476621627808,
+            "frac_selective": 0.44873046875
+          },
+          {
+            "bin": "Q2 (20-40%)",
+            "n": 2048,
+            "mean_selectivity": 0.3090313673019409,
+            "mean_activation_rate": 0.12365090101957321,
+            "frac_selective": 0.39453125
+          },
+          {
+            "bin": "Q3 (40-60%)",
+            "n": 2048,
+            "mean_selectivity": 0.3043583631515503,
+            "mean_activation_rate": 0.11354528367519379,
+            "frac_selective": 0.36669921875
+          },
+          {
+            "bin": "Q4 (60-80%)",
+            "n": 2048,
+            "mean_selectivity": 0.3084237575531006,
+            "mean_activation_rate": 0.10788484662771225,
+            "frac_selective": 0.3720703125
+          },
+          {
+            "bin": "Q5 (80-100%)",
+            "n": 2048,
+            "mean_selectivity": 0.33282697200775146,
+            "mean_activation_rate": 0.10903501510620117,
+            "frac_selective": 0.39404296875
+          }
+        ]
+      }
+    },
+    "p3": {
+      "depth_0.10": {
+        "ffn_q_cosine_mean": -0.0031649721786379814,
+        "ffn_q_cosine_std": 0.020416896790266037,
+        "rdm_correlation": -0.007413256056341429,
+        "magnitude_correlation": -0.9127395977370528
+      },
+      "depth_0.30": {
+        "ffn_q_cosine_mean": 0.0010581706883385777,
+        "ffn_q_cosine_std": 0.018862618133425713,
+        "rdm_correlation": 0.4096361884805484,
+        "magnitude_correlation": 0.39285608804961264
+      },
+      "depth_0.50": {
+        "ffn_q_cosine_mean": 0.008564800024032593,
+        "ffn_q_cosine_std": 0.015482673421502113,
+        "rdm_correlation": 0.5368999240551531,
+        "magnitude_correlation": -0.4826286455729432
+      },
+      "depth_0.70": {
+        "ffn_q_cosine_mean": 0.01167037058621645,
+        "ffn_q_cosine_std": 0.009366380050778389,
+        "rdm_correlation": 0.6636213902557901,
+        "magnitude_correlation": -0.4307396725881169
+      }
+    }
+  }
+}

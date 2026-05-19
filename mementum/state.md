@@ -116,9 +116,10 @@ high-mag neurons = trunk (universal reductions, fire for everything),
 low-mag = leaves (domain-specific detail, fire rarely). FFN output
 steers the beam (Q delta) to navigate to the next tree level.
 Superposition lets multiple levels coexist. The funnel shape (5d→2d)
-IS the tree narrowing from trunk to leaf. Testable predictions in
-`knowledge/explore/ffn-hierarchy.md` — P2 (magnitude vs selectivity)
-and P3 (FFN output predicts next-layer Q shift) are highest leverage.
+IS the tree narrowing from trunk to leaf. P2 CONFIRMED (Pythia: corr -0.28 to -0.35, low-mag neurons 2-3× more
+selective). P3 partially confirmed: structural steering via RDM (0.41-0.72)
+not directional (cosine ≈ 0). FFN reshapes geometry, Q reads the reshaped
+geometry. SwiGLU needs gate×up analysis. Details in `ffn-hierarchy.md`.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)

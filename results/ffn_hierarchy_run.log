@@ -1,0 +1,305 @@
+========================================================================
+  FFN Hierarchy Tests — P2 (magnitude) + P3 (beam steering)
+  Models: ['mistral-7b', 'pythia-2.8b']
+========================================================================
+  Loaded 144 probes
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layer pairs: [(3, 4), (9, 10), (16, 17), (22, 23)]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<02:12,  2.18it/s]Loading weights:   6%|▌         | 17/291 [00:00<00:06, 39.57it/s]Loading weights:  13%|█▎        | 37/291 [00:00<00:03, 79.83it/s]Loading weights:  19%|█▉        | 55/291 [00:00<00:02, 105.74it/s]Loading weights:  26%|██▌       | 76/291 [00:00<00:01, 131.08it/s]Loading weights:  32%|███▏      | 94/291 [00:00<00:01, 144.07it/s]Loading weights:  38%|███▊      | 112/291 [00:01<00:01, 136.83it/s]Loading weights:  44%|████▍     | 128/291 [00:01<00:01, 135.31it/s]Loading weights:  49%|████▉     | 144/291 [00:01<00:01, 140.20it/s]Loading weights:  55%|█████▍    | 159/291 [00:01<00:00, 139.35it/s]Loading weights:  60%|██████    | 176/291 [00:01<00:00, 145.25it/s]Loading weights:  67%|██████▋   | 195/291 [00:01<00:00, 151.20it/s]Loading weights:  73%|███████▎  | 211/291 [00:01<00:00, 153.29it/s]Loading weights:  79%|███████▉  | 230/291 [00:01<00:00, 159.65it/s]Loading weights:  86%|████████▌ | 249/291 [00:01<00:00, 164.87it/s]Loading weights:  93%|█████████▎| 271/291 [00:02<00:00, 179.59it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 132.69it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 27.8s
+
+================================================================================
+  P2: Magnitude vs Selectivity — mistral-7b
+================================================================================
+
+  Layer 3 (depth 10%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2867   +0.2892      0.495        42.6%  [0.137, 0.183]
+  Q2 (20-40%)       2867   +0.2730      0.501        35.0%  [0.183, 0.187]
+  Q3 (40-60%)       2867   +0.2694      0.500        33.5%  [0.187, 0.188]
+  Q4 (60-80%)       2867   +0.2720      0.497        34.7%  [0.188, 0.190]
+  Q5 (80-100%)       2868   +0.2680      0.498        33.2%  [0.190, 0.218]
+
+  Correlation(|W_up row norm|, selectivity) = -0.0649
+  Correlation(|W_up row norm|, activation rate) = +0.0111
+  → SUPPORTS P2: high-magnitude neurons are LESS selective (trunk)
+
+  Layer 9 (depth 30%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2867   +0.2979      0.493        45.5%  [0.137, 0.180]
+  Q2 (20-40%)       2867   +0.2886      0.497        41.6%  [0.180, 0.184]
+  Q3 (40-60%)       2867   +0.2783      0.498        38.2%  [0.184, 0.187]
+  Q4 (60-80%)       2867   +0.2815      0.497        39.8%  [0.187, 0.190]
+  Q5 (80-100%)       2868   +0.2786      0.497        38.5%  [0.190, 0.304]
+
+  Correlation(|W_up row norm|, selectivity) = -0.0739
+  Correlation(|W_up row norm|, activation rate) = +0.0153
+  → SUPPORTS P2: high-magnitude neurons are LESS selective (trunk)
+
+  Layer 16 (depth 50%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2867   +0.3043      0.501        49.4%  [0.122, 0.182]
+  Q2 (20-40%)       2867   +0.3034      0.503        47.0%  [0.182, 0.188]
+  Q3 (40-60%)       2867   +0.3029      0.499        47.5%  [0.188, 0.191]
+  Q4 (60-80%)       2867   +0.2977      0.504        46.3%  [0.191, 0.196]
+  Q5 (80-100%)       2868   +0.2974      0.500        45.3%  [0.196, 0.344]
+
+  Correlation(|W_up row norm|, selectivity) = +0.0116
+  Correlation(|W_up row norm|, activation rate) = +0.0120
+  → INCONCLUSIVE: no clear relationship
+
+  Layer 22 (depth 70%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2867   +0.3074      0.502        50.5%  [0.126, 0.182]
+  Q2 (20-40%)       2867   +0.3221      0.495        55.1%  [0.182, 0.184]
+  Q3 (40-60%)       2867   +0.3209      0.498        54.8%  [0.184, 0.186]
+  Q4 (60-80%)       2867   +0.3191      0.498        55.8%  [0.186, 0.189]
+  Q5 (80-100%)       2868   +0.3151      0.505        53.1%  [0.189, 0.223]
+
+  Correlation(|W_up row norm|, selectivity) = +0.0969
+  Correlation(|W_up row norm|, activation rate) = +0.0086
+  → CONTRADICTS P2: high-magnitude neurons are MORE selective
+
+================================================================================
+  P3: FFN Beam Steering — mistral-7b
+================================================================================
+
+  Layer 3→4 (depth 10%):
+    FFN_delta ↔ Q_shift cosine: mean=+0.0021 ±0.0143
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.6985
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.3651
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda     0.433    109.526  -0.002
+      arithmetic     0.471    106.615  +0.008
+          coding     0.371    116.774  -0.000
+            tool     0.424    107.196  -0.005
+       retrieval     0.549    106.630  -0.004
+         analogy     0.511    107.077  +0.003
+       reasoning     0.396    109.034  +0.010
+       narrative     0.375    110.465  +0.003
+     instruction     0.332    107.414  +0.005
+
+  Layer 9→10 (depth 30%):
+    FFN_delta ↔ Q_shift cosine: mean=-0.0023 ±0.0161
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.6629
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.0332
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda     1.415    104.851  +0.001
+      arithmetic     1.289    102.043  -0.002
+          coding     1.403     98.451  -0.007
+            tool     1.340     98.632  -0.009
+       retrieval     1.265    102.240  -0.000
+         analogy     1.395    104.249  -0.002
+       reasoning     1.457    100.763  +0.002
+       narrative     1.360    101.692  +0.010
+     instruction     1.336     96.006  -0.008
+
+  Layer 16→17 (depth 50%):
+    FFN_delta ↔ Q_shift cosine: mean=-0.0032 ±0.0154
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.6737
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.2461
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda     2.534    105.589  -0.006
+      arithmetic     2.661    104.835  +0.002
+          coding     2.669    105.123  -0.006
+            tool     2.740    102.315  -0.006
+       retrieval     2.525    104.889  +0.007
+         analogy     2.759    107.829  -0.003
+       reasoning     2.922    104.590  -0.002
+       narrative     3.086    106.218  -0.013
+     instruction     3.502     96.656  -0.000
+
+  Layer 22→23 (depth 70%):
+    FFN_delta ↔ Q_shift cosine: mean=+0.0017 ±0.0144
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.7239
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.1853
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda     4.253    106.505  -0.000
+      arithmetic     3.520    106.881  +0.020
+          coding     3.936    107.328  -0.002
+            tool     3.829    103.339  -0.009
+       retrieval     4.050    107.168  -0.004
+         analogy     3.994    108.184  +0.001
+       reasoning     3.817    106.481  +0.005
+       narrative     3.726    106.464  +0.005
+     instruction     4.197    100.852  +0.003
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layer pairs: [(3, 4), (9, 10), (16, 17), (22, 23)]
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  11%|█▏        | 44/388 [00:00<00:00, 429.94it/s]Loading weights:  36%|███▌      | 140/388 [00:00<00:00, 730.94it/s]Loading weights:  62%|██████▏   | 240/388 [00:00<00:00, 850.26it/s]Loading weights:  84%|████████▍ | 326/388 [00:00<00:00, 775.39it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 723.33it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 15.6s
+
+================================================================================
+  P2: Magnitude vs Selectivity — pythia-2.8b
+================================================================================
+
+  Layer 3 (depth 10%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2048   +0.3625      0.167        46.5%  [0.669, 0.964]
+  Q2 (20-40%)       2048   +0.2338      0.080        20.8%  [0.964, 1.008]
+  Q3 (40-60%)       2048   +0.1807      0.053        13.5%  [1.008, 1.032]
+  Q4 (60-80%)       2048   +0.1563      0.042        10.9%  [1.032, 1.053]
+  Q5 (80-100%)       2048   +0.1394      0.035         9.4%  [1.053, 4.439]
+
+  Correlation(|W_up row norm|, selectivity) = -0.2809
+  Correlation(|W_up row norm|, activation rate) = -0.5311
+  → SUPPORTS P2: high-magnitude neurons are LESS selective (trunk)
+
+  Layer 9 (depth 30%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2048   +0.4209      0.338        73.9%  [0.677, 0.864]
+  Q2 (20-40%)       2048   +0.4472      0.255        68.9%  [0.864, 0.922]
+  Q3 (40-60%)       2048   +0.4153      0.178        54.8%  [0.922, 0.983]
+  Q4 (60-80%)       2048   +0.3070      0.107        33.4%  [0.983, 1.051]
+  Q5 (80-100%)       2048   +0.2025      0.059        18.2%  [1.051, 1.453]
+
+  Correlation(|W_up row norm|, selectivity) = -0.3511
+  Correlation(|W_up row norm|, activation rate) = -0.6934
+  → SUPPORTS P2: high-magnitude neurons are LESS selective (trunk)
+
+  Layer 16 (depth 50%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2048   +0.4713      0.272        74.7%  [0.644, 0.921]
+  Q2 (20-40%)       2048   +0.4332      0.200        60.1%  [0.921, 0.956]
+  Q3 (40-60%)       2048   +0.3770      0.154        48.6%  [0.956, 0.987]
+  Q4 (60-80%)       2048   +0.3259      0.117        38.8%  [0.987, 1.021]
+  Q5 (80-100%)       2048   +0.2418      0.076        24.7%  [1.021, 1.543]
+
+  Correlation(|W_up row norm|, selectivity) = -0.3003
+  Correlation(|W_up row norm|, activation rate) = -0.5226
+  → SUPPORTS P2: high-magnitude neurons are LESS selective (trunk)
+
+  Layer 22 (depth 70%):
+     mag_bin  n_neurons  mean_sel  mean_rate  frac_sel>0.3      norm_range
+  ----------------------------------------------------------------
+  Q1 (0-20%)       2048   +0.3262      0.154        44.9%  [0.518, 1.020]
+  Q2 (20-40%)       2048   +0.3090      0.124        39.5%  [1.020, 1.035]
+  Q3 (40-60%)       2048   +0.3044      0.114        36.7%  [1.035, 1.048]
+  Q4 (60-80%)       2048   +0.3084      0.108        37.2%  [1.048, 1.064]
+  Q5 (80-100%)       2048   +0.3328      0.109        39.4%  [1.064, 1.961]
+
+  Correlation(|W_up row norm|, selectivity) = -0.0038
+  Correlation(|W_up row norm|, activation rate) = -0.1395
+  → INCONCLUSIVE: no clear relationship
+
+================================================================================
+  P3: FFN Beam Steering — pythia-2.8b
+================================================================================
+
+  Layer 3→4 (depth 10%):
+    FFN_delta ↔ Q_shift cosine: mean=-0.0032 ±0.0204
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: -0.0074
+    |FFN_delta| ↔ |Q_shift| correlation: -0.9127
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda    15.303     96.112  -0.011
+      arithmetic    15.938    102.689  -0.006
+          coding    16.556    101.284  -0.006
+            tool    20.452     94.041  -0.012
+       retrieval    18.872    100.575  -0.012
+         analogy    16.961     98.423  -0.008
+       reasoning    14.155     94.591  -0.008
+       narrative    26.703     79.644  +0.001
+     instruction    65.700     52.390  +0.022
+
+  Layer 9→10 (depth 30%):
+    FFN_delta ↔ Q_shift cosine: mean=+0.0011 ±0.0189
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.4096
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: +0.3929
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda    22.995    120.348  +0.011
+      arithmetic    21.425    123.932  +0.007
+          coding    22.972    122.824  -0.008
+            tool    21.187    119.833  +0.005
+       retrieval    23.016    124.936  +0.002
+         analogy    24.079    124.814  +0.005
+       reasoning    21.008    121.993  -0.013
+       narrative    18.763    112.449  -0.005
+     instruction    20.389     98.039  -0.001
+
+  Layer 16→17 (depth 50%):
+    FFN_delta ↔ Q_shift cosine: mean=+0.0086 ±0.0155
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.5369
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.4826
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda    22.320    219.500  +0.020
+      arithmetic    22.330    218.889  +0.011
+          coding    23.748    229.376  -0.009
+            tool    22.106    217.049  +0.011
+       retrieval    21.001    224.749  +0.008
+         analogy    22.079    225.867  +0.009
+       reasoning    23.040    220.361  +0.005
+       narrative    24.682    209.167  +0.013
+     instruction    26.603    196.643  +0.010
+
+  Layer 22→23 (depth 70%):
+    FFN_delta ↔ Q_shift cosine: mean=+0.0117 ±0.0094
+    → WEAK: near-zero alignment
+    FFN_delta RDM ↔ Q_shift RDM correlation: +0.6636
+    → SUPPORTS P3: probes that get similar FFN deltas also get similar Q shifts
+    |FFN_delta| ↔ |Q_shift| correlation: -0.4307
+
+    Per-domain FFN→Q steering:
+          domain   |FFN_Δ|  |Q_shift|     cos
+    ----------------------------------------
+          lambda    48.437    869.159  +0.010
+      arithmetic    45.074    860.298  +0.010
+          coding    42.863    888.472  +0.025
+            tool    61.704    868.320  +0.012
+       retrieval    45.849    873.576  +0.007
+         analogy    48.969    881.489  +0.005
+       reasoning    50.193    872.751  +0.010
+       narrative   109.586    865.020  +0.010
+     instruction   245.487    855.643  +0.020
+
+  💾 results/ffn-hierarchy/analysis.json
+  Total: 52s

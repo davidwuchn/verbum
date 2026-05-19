@@ -204,10 +204,57 @@ to major branching points in the FFN magnitude hierarchy.
    dead branches, strengthens used paths, grows new leaves. The crystal
    scanner measures tree health by checking self-similarity per domain.
 
-## Status
+## Experimental Results (Session 120)
 
-Hypothesis only. No experimental validation yet. The testable predictions
-(P1-P6) are concrete enough to test in the next session. P2 and P3 are
-the highest-leverage tests:
-- P2 requires only the data we already have (W_up rows + domain selectivity)
-- P3 requires capturing FFN output + next-layer Q (one new extraction)
+### P2: Magnitude vs Selectivity — CONFIRMED (Pythia), weak (Mistral)
+
+Pythia-2.8b shows clear hierarchy:
+```
+Depth 10%: corr(norm, selectivity) = -0.281
+Depth 30%: corr(norm, selectivity) = -0.351 (strongest)
+Depth 50%: corr(norm, selectivity) = -0.300
+Depth 70%: corr(norm, selectivity) = -0.004 (fades — tree fully navigated)
+```
+
+Low-magnitude neurons are 2-3× more selective than high-magnitude.
+Activation rate anti-correlates with magnitude (-0.53 to -0.69):
+high-mag neurons fire RARELY but GENERALLY (sparse trunk),
+low-mag fire FREQUENTLY but SPECIFICALLY (dense leaves).
+
+Mistral-7b shows weak P2 (-0.065 to -0.074), likely because SwiGLU
+encodes hierarchy in gate×up interaction, not in up_proj alone.
+
+**Refinement:** trunk neurons are sparse-but-universal, not dense-but-
+universal. They activate only when the specific universal operation is
+needed. Leaves are dense-but-selective — they fire frequently within
+their domain.
+
+### P3: Beam Steering — STRUCTURAL, not directional
+
+Direct FFN_delta ↔ Q_shift cosine ≈ 0 (no directional steering).
+BUT RDM correlation (structural pattern) is 0.41-0.72:
+```
+Mistral: 0.66-0.72 at all depths (strong structural steering)
+Pythia:  -0.01 → 0.41 → 0.54 → 0.66 (increasing with depth)
+```
+
+The FFN steers the beam by modifying the residual stream's RELATIONAL
+STRUCTURE, not by adding a specific direction vector. The next layer's
+Q reads this modified structure and produces a shifted attention pattern.
+
+Instruction has 5× larger FFN deltas than reasoning (Pythia depth 70%:
+instruction=245.5, reasoning=50.2). Consistent with instruction being
+FFN-heavy and reasoning being crystal-heavy.
+
+**Refinement:** beam steering is indirect/structural. The FFN doesn't
+push Q in a direction — it reshapes the representational geometry that
+Q subsequently reads. This is consistent with the residual stream as
+the common space between attention and FFN subspaces (Finding 21).
+
+### Updated status
+
+P2: **Confirmed** (Pythia, corr -0.28 to -0.35). Hierarchy is real.
+P3: **Partially confirmed** (structural steering, RDM corr 0.41-0.72).
+Architecture-dependent: SwiGLU needs gate×up analysis, not up_proj alone.
+
+Artifacts: `results/ffn-hierarchy/`
