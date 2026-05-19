@@ -72,7 +72,14 @@ but the crossover could not be observed because the task saturated.
 ### Qwen3.6-27B probed
 64 layers, d=5120, hybrid attention. RDMs extracted at 4 depths.
 
-### 5. Freeze + GD recovery (session 115)
+### 5. Oracle crystal write FAILS (session 115)
+Exact sign(W) from converged GD model = worst crystal (38.6%). Adding noise HELPS
+(50% noise = 52.5%). Oracle topology is coupled to magnitudes the ternary model
+can't access. Random plates outperform oracle crystal. This means direct crystal
+write of weight signs from teacher → student is flawed. Must target representation
+geometry (relational distances) not weight topology (sign patterns).
+
+### 6. Freeze + GD recovery (session 115)
 ```
 GD ceiling:           89.5%
 Beam-only (random):   52.4%
