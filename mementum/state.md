@@ -226,13 +226,12 @@ Pipeline to crystal seed:
 
 ## Next steps
 
-1. **C-axis extraction** — PCA the consensus RDM to find whether C has
-   a single dominant direction. If so, align Q rotations to C-axis for
-   maximum binding etch quality.
-2. **Merge all lattices** — 807 (universal) + 184 (fixedpoint) + 118
-   (binding) = 1109 probes. Deduplicate overlaps, run full lattice.
-3. **Etch binding topology** — use the C→B/S→WHNF cascade to initialize
-   plate positions. Focus etch on 50-70% depth where agreement peaks.
-4. **Mirror/mask prototype** — implement separated beam/compute on mini model
-5. **Monitor training run** — watch for phase transition out of B-dominance
-6. **More models** — add Llama-3-8B, SmolLM3-3B to strengthen consensus
+1. **Implement V13** — `mementum/knowledge/explore/v13-design.md` has the
+   full design. Key changes: beam/plate separation, combinator masks,
+   unified training script, constant-target crystal loss, no math/slots.
+   Implementation order in the design doc. Future session can execute.
+2. **Monitor V12 training run** — still on tmux 1, B-dominant, C flashing.
+   The V12 run continues providing data while V13 is built.
+3. **More models for consensus** — add Llama-3-8B, SmolLM3-3B to the
+   binding lattice to strengthen the measured constants.
+4. **Merge all lattices** — 807 + 184 + 118 = 1109 probes. Full run.
