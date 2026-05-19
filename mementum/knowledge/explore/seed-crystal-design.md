@@ -516,13 +516,34 @@ stabilize them. The revised protocol should be:
    the universal attractors are, beams steer representations there,
    plates lock in the topology that beams discovered
 
-### Open question: when do plates become load-bearing?
+### Answered: when do plates become load-bearing?
 
-At 6.9K ternary positions, the 2.4K continuous params have enough
-capacity to compensate. At VSM-LM scale (41M ternary, ~1M continuous),
-the ratio flips — plates must carry information that beams cannot.
-The transition point is where plate topology becomes essential, not
-just redundant structure that beams work around.
+**At d² >> d.** Three experiments confirmed: at d=48 (6.9K plates,
+2.5K embeds), beams always compensate. No crossover found even with
+zero beam params — embeddings alone solve it. The reason: random
+ternary projections preserve distances (Johnson-Lindenstrauss) at
+small d, so beams can decode any random plate topology.
+
+At VSM-LM scale (d=512, 41M plates, ~1M continuous), the ratio is
+41:1 — beams CANNOT compensate. Plates must be load-bearing there.
+The crossover is purely about the d² vs d scaling of plates vs beams.
+
+Exp 1 (beam squeeze) results:
+```
+Config       Beam#  Beam-only  Plate-only  Alternating
+full           576     46.6%      15.2%       46.6%
+scale_only     432     46.6%      14.9%       46.6%
+scalar         291     46.6%      14.4%       46.6%
+none           288     46.6%       9.0%       46.6%
+```
+
+Exp 2 (NTP on KIBC lambda): same pattern, 45.0% ceiling across
+GD/beam-only/alternating.
+
+Implication: the microscope findings apply to VSM-LM IN REVERSE.
+At large scale, plates dominate. But the beam-first insight still
+holds — train beams to read current plates, then etch plates to
+improve. Don't etch plates in a vacuum.
 
 ## Open Questions
 
