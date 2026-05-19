@@ -632,15 +632,12 @@ def cosine_lr_schedule(step, warmup_steps, total_steps, lr_max, lr_floor):
 
 
 def holo_schedule(step, cfg):
-    """Holographic loss weight schedule (from train.py §4)."""
-    if cfg.holo_lambda <= 0:
-        return 0.0
-    if step < cfg.holo_warmup_steps:
-        return 0.0
-    if cfg.holo_ramp_steps <= 0:
-        return cfg.holo_lambda
-    ramp_progress = min(1.0, (step - cfg.holo_warmup_steps) / cfg.holo_ramp_steps)
-    return cfg.holo_lambda * ramp_progress
+    """Holographic loss weight — active from step 1, no warmup.
+
+    No warmup/ramp gate. Warmup delay caused phase transitions
+    leading to collapse. Both relational and holo loss run from start.
+    """
+    return cfg.holo_lambda
 
 
 def _setup_relational_loss(cfg):
@@ -845,11 +842,12 @@ def run_gd_phase(
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
         # ── Periodic relational loss (RDM matching) ───────────
+        # No warmup gate — relational loss from step 1.
+        # Warmup delay caused phase transitions leading to collapse.
         rel_loss_val = 0.0
         if (rel_probes_tokenized is not None
                 and rel_target_rdm is not None
-                and step % cfg.rel_every == 0
-                and step > cfg.warmup_steps):
+                and step % cfg.rel_every == 0):
             rel_loss_val, rel_grads = _compute_relational_loss(
                 model, cfg, rel_probes_tokenized, rel_target_rdm, rel_rng)
             accum_grads = tree_map(
@@ -1140,6 +1138,9 @@ def main():
         cfg.warmup_steps = args.gd_warmup
     if args.holo_lambda is not None:
         cfg.holo_lambda = args.holo_lambda
+    elif cfg.holo_lambda <= 0:
+        # Default: enable holographic progressive CE from step 1
+        cfg.holo_lambda = 0.1
     if args.rel_lambda is not None:
         cfg.rel_lambda = args.rel_lambda
     if args.no_relational:
