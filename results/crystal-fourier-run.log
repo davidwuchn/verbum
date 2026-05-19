@@ -1,0 +1,75 @@
+Crystal Fourier Reconstruction Experiment
+  Diffraction pattern assembly vs shadow voting
+
+  Model: d=96, layers=3
+
+============================================================
+  Collecting 8 gradient views
+============================================================
+    View 0/8: loss=3.0728
+    View 1/8: loss=3.1590
+    View 2/8: loss=3.0637
+    View 3/8: loss=3.0908
+    View 4/8: loss=3.1926
+    View 5/8: loss=3.2897
+    View 6/8: loss=3.1307
+    View 7/8: loss=3.2036
+
+============================================================
+  Spectral analysis
+============================================================
+  Plate 0 (96×96): DC-coh=0.493  mean-coh=0.318  high=1.6%  coh-energy=13.1%
+  Plate 1 (96×96): DC-coh=0.005  mean-coh=0.579  high=34.4%  coh-energy=74.2%
+  Plate 2 (96×96): DC-coh=0.227  mean-coh=0.548  high=29.5%  coh-energy=69.6%
+  Plate 3 (96×96): DC-coh=0.025  mean-coh=0.568  high=33.7%  coh-energy=75.2%
+  Plate 4 (96×96): DC-coh=0.254  mean-coh=0.308  high=1.0%  coh-energy=12.6%
+  Plate 5 (96×96): DC-coh=0.697  mean-coh=0.712  high=58.9%  coh-energy=94.5%
+  Plate 6 (96×96): DC-coh=0.453  mean-coh=0.708  high=59.3%  coh-energy=93.7%
+  Plate 7 (96×96): DC-coh=0.018  mean-coh=0.665  high=52.5%  coh-energy=89.8%
+  Plate 8 (96×96): DC-coh=0.631  mean-coh=0.317  high=1.7%  coh-energy=13.7%
+  Plate 9 (96×96): DC-coh=0.078  mean-coh=0.742  high=64.0%  coh-energy=96.1%
+  Plate 10 (96×96): DC-coh=0.489  mean-coh=0.713  high=60.1%  coh-energy=94.7%
+  Plate 11 (96×96): DC-coh=0.161  mean-coh=0.702  high=59.2%  coh-energy=92.4%
+
+============================================================
+  Reconstruction methods
+============================================================
+
+  --- A: Sign vote ---
+    Acc: 0.346  Loss: 1.7369  GD: 1.7876  Q-σ: 0.065
+
+  --- B: FFT average ---
+    Acc: 0.323  Loss: 2.1326  GD: 2.1624  Q-σ: 0.074
+
+  --- C: FFT mag-weighted ---
+    Acc: 0.245  Loss: 2.1097  GD: 2.1264  Q-σ: 0.040
+
+  --- D: Phase-only ---
+    Acc: 0.411  Loss: 1.7938  GD: 1.8046  Q-σ: 0.076
+
+  --- E: Hybrid (t=0.3) ---
+    Acc: 0.360  Loss: 1.9994  GD: 1.9989  Q-σ: 0.056
+
+  --- E: Hybrid (t=0.5) ---
+    Acc: 0.364  Loss: 1.8362  GD: 1.8128  Q-σ: 0.063
+
+  Method agreement with sign vote (A):
+    A vs B:FFT-avg   : 74.1%
+    A vs C:FFT-mag   : 73.7%
+    A vs D:Phase     : 70.1%
+    A vs E:Hyb-0.3   : 74.0%
+    A vs E:Hyb-0.5   : 74.0%
+
+============================================================
+  SUMMARY
+============================================================
+  Method                     Acc   GD loss     Q-σ
+  ----------------------  ------  --------  ------
+  A: Sign vote             0.346    1.7876   0.065
+  B: FFT average           0.323    2.1624   0.074
+  C: FFT mag-weighted      0.245    2.1264   0.040
+  D: Phase-only            0.411    1.8046   0.076
+  E: Hybrid (t=0.3)        0.360    1.9989   0.056
+  E: Hybrid (t=0.5)        0.364    1.8128   0.063
+
+  Results saved to results/crystal-fourier/

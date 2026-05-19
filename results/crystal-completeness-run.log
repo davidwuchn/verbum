@@ -1,0 +1,138 @@
+Crystal Completeness Sweep
+  How many Q rotations to close the basin?
+
+
+============================================================
+  1 rotations × 50 batches = 50 total
+============================================================
+    Rotation 0/1: mean_loss=3.1095
+  Etch: 30618 flips (27.7%) in 0.5s
+  Trial 0: acc=0.351 loss=1.8682 GD=1.8092
+  Trial 1: acc=0.299 loss=2.0008 GD=2.0523
+  Trial 2: acc=0.350 loss=1.7379 GD=1.8049
+  ── Result: acc=0.333±0.025  Q-σ=0.0434  Q-range=[0.074,0.234]
+
+============================================================
+  2 rotations × 50 batches = 100 total
+============================================================
+    Rotation 0/2: mean_loss=3.2404
+    Rotation 1/2: mean_loss=3.2629
+  Etch: 27904 flips (25.2%) in 1.0s
+  Trial 0: acc=0.337 loss=1.9484 GD=1.8211
+  Trial 1: acc=0.375 loss=1.8265 GD=1.6881
+  Trial 2: acc=0.325 loss=2.0317 GD=2.0928
+  ── Result: acc=0.346±0.021  Q-σ=0.0477  Q-range=[0.115,0.374]
+
+============================================================
+  4 rotations × 50 batches = 200 total
+============================================================
+    Rotation 0/4: mean_loss=3.2109
+    Rotation 1/4: mean_loss=3.2245
+    Rotation 2/4: mean_loss=3.1320
+    Rotation 3/4: mean_loss=3.1714
+  Etch: 17871 flips (16.2%) in 1.9s
+  Trial 0: acc=0.344 loss=1.9556 GD=1.9286
+  Trial 1: acc=0.448 loss=1.6333 GD=1.5647
+  Trial 2: acc=0.436 loss=1.6503 GD=1.6742
+  ── Result: acc=0.409±0.047  Q-σ=0.0680  Q-range=[0.068,0.448]
+
+============================================================
+  8 rotations × 50 batches = 400 total
+============================================================
+    Rotation 0/8: mean_loss=3.2563
+    Rotation 1/8: mean_loss=3.3049
+    Rotation 2/8: mean_loss=3.3031
+    Rotation 3/8: mean_loss=3.2640
+    Rotation 4/8: mean_loss=3.2323
+    Rotation 5/8: mean_loss=3.2481
+    Rotation 6/8: mean_loss=3.2600
+    Rotation 7/8: mean_loss=3.2530
+  Etch: 15678 flips (14.2%) in 3.7s
+  Trial 0: acc=0.370 loss=1.8839 GD=1.7972
+  Trial 1: acc=0.364 loss=1.8174 GD=1.8509
+  Trial 2: acc=0.460 loss=1.6180 GD=1.6667
+  ── Result: acc=0.398±0.044  Q-σ=0.0624  Q-range=[0.066,0.466]
+
+============================================================
+  16 rotations × 50 batches = 800 total
+============================================================
+    Rotation 0/16: mean_loss=3.0605
+    Rotation 1/16: mean_loss=3.0191
+    Rotation 2/16: mean_loss=3.0472
+    Rotation 3/16: mean_loss=3.1121
+    Rotation 4/16: mean_loss=3.1281
+    Rotation 5/16: mean_loss=3.1285
+    Rotation 6/16: mean_loss=3.1188
+    Rotation 7/16: mean_loss=3.1153
+    Rotation 8/16: mean_loss=2.9910
+    Rotation 9/16: mean_loss=3.1476
+    Rotation 10/16: mean_loss=2.9525
+    Rotation 11/16: mean_loss=3.1805
+    Rotation 12/16: mean_loss=3.1693
+    Rotation 13/16: mean_loss=3.0658
+    Rotation 14/16: mean_loss=3.0381
+    Rotation 15/16: mean_loss=3.0989
+  Etch: 19680 flips (17.8%) in 7.3s
+  Trial 0: acc=0.402 loss=1.7629 GD=1.6727
+  Trial 1: acc=0.423 loss=1.6829 GD=1.6963
+  Trial 2: acc=0.388 loss=1.8649 GD=1.9094
+  ── Result: acc=0.404±0.014  Q-σ=0.0670  Q-range=[0.103,0.473]
+
+============================================================
+  32 rotations × 50 batches = 1600 total
+============================================================
+    Rotation 0/32: mean_loss=3.1544
+    Rotation 1/32: mean_loss=3.0815
+    Rotation 2/32: mean_loss=3.1296
+    Rotation 3/32: mean_loss=3.0754
+    Rotation 4/32: mean_loss=3.1508
+    Rotation 5/32: mean_loss=3.1603
+    Rotation 6/32: mean_loss=3.1122
+    Rotation 7/32: mean_loss=3.0868
+    Rotation 8/32: mean_loss=3.0346
+    Rotation 9/32: mean_loss=3.1206
+    Rotation 10/32: mean_loss=3.1324
+    Rotation 11/32: mean_loss=3.1302
+    Rotation 12/32: mean_loss=3.1557
+    Rotation 13/32: mean_loss=3.2398
+    Rotation 14/32: mean_loss=3.2223
+    Rotation 15/32: mean_loss=3.1199
+    Rotation 16/32: mean_loss=3.1022
+    Rotation 17/32: mean_loss=3.0337
+    Rotation 18/32: mean_loss=3.2371
+    Rotation 19/32: mean_loss=3.2137
+    Rotation 20/32: mean_loss=3.2340
+    Rotation 21/32: mean_loss=3.1336
+    Rotation 22/32: mean_loss=3.0156
+    Rotation 23/32: mean_loss=3.1437
+    Rotation 24/32: mean_loss=3.3011
+    Rotation 25/32: mean_loss=3.1349
+    Rotation 26/32: mean_loss=3.1047
+    Rotation 27/32: mean_loss=3.1719
+    Rotation 28/32: mean_loss=3.0872
+    Rotation 29/32: mean_loss=3.2003
+    Rotation 30/32: mean_loss=3.1218
+    Rotation 31/32: mean_loss=3.1634
+  Etch: 15275 flips (13.8%) in 15.0s
+  Trial 0: acc=0.382 loss=1.7800 GD=1.7211
+  Trial 1: acc=0.413 loss=1.7278 GD=1.6510
+  Trial 2: acc=0.464 loss=1.6236 GD=1.6078
+  ── Result: acc=0.420±0.034  Q-σ=0.0837  Q-range=[0.055,0.456]
+
+============================================================
+  CRYSTAL COMPLETENESS SWEEP
+============================================================
+  Rots  Total   Flips     Acc      ±     Q-σ   Q-min   Q-max   Q-IQR
+  ----  -----  ------  ------  -----  ------  ------  ------  ------
+     1     50   30618   0.333  0.025  0.0434   0.074   0.234  0.0569
+     2    100   27904   0.346  0.021  0.0477   0.115   0.374  0.0412
+     4    200   17871   0.409  0.047  0.0680   0.068   0.448  0.0643
+     8    400   15678   0.398  0.044  0.0624   0.066   0.466  0.0288
+    16    800   19680   0.404  0.014  0.0670   0.103   0.473  0.0545
+    32   1600   15275   0.420  0.034  0.0837   0.055   0.456  0.1061
+
+  Q-σ trajectory: ['0.0434', '0.0477', '0.0680', '0.0624', '0.0670', '0.0837']
+  Last Δ(Q-σ): 0.0167
+  ✗ Q-σ still changing (Δ ≥ 0.005)
+
+  Results saved to results/crystal-completeness/results.json
