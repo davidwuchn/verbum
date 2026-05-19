@@ -470,6 +470,58 @@ the index, then the FFN amplifies the domain signal.
 
 Artifacts: `results/ffn-index/`
 
+### Experiment 7: FFN Subspace Alignment — crystal ≠ FFN keys (important negative)
+
+**Setup:** Extract actual W_up weight matrices alongside Q vectors. Compute
+canonical correlations between PCA(Q) basis and PCA(W_up) basis. Project
+domain-selective neuron keys onto crystal subspace. Extract value dimensions.
+
+**Finding 20: Crystal subspace ≠ FFN key subspace (CC=0.10-0.14).**
+The PCA bases of Q vectors and W_up rows are WEAKLY aligned. Only 1.6%
+of selective key variance lives in the crystal subspace. They're different
+projections of d_model space.
+
+**Finding 21: The paradox resolution — indirect control via residual stream.**
+Q↔FFN activation correlation is 0.71-0.89 (experiment 6), but Q↔W_up
+subspace alignment is 0.10-0.14. Resolution: the crystal controls what
+attention WRITES to the residual stream. The FFN reads a DIFFERENT
+projection of that stream. Correlated (same underlying state) but NOT
+the same subspace.
+```
+Crystal (Q) → attention → RESIDUAL STREAM → W_up projection → FFN activation
+Different subspaces, same underlying state, causal connection
+```
+
+**Finding 22: FFN has its own universal structure, stronger at depth.**
+```
+Depth 10%: FFN cross-model = +0.550, Q cross-model = +0.688
+Depth 50%: FFN cross-model = +0.700, Q cross-model = +0.626
+Depth 90%: FFN cross-model = +0.745, Q cross-model = +0.650
+```
+At depth 70%+, FFN cross-model consistency EXCEEDS Q. The FFN has its
+own universal structure in a separate subspace, extractable with the
+same PCA method but from a different hook point.
+
+**Finding 23: Value database is high-rank for content domains, compact for computation.**
+```
+reasoning:   299 dims (80% var), 446 neurons  ← compact, etchable
+tool:        254 dims (80% var), 371 neurons  ← compact, etchable
+lambda:      703 dims, 1247 neurons           ← moderate
+coding:     1092 dims, 2350 neurons           ← high-rank
+instruction: 1096 dims, 2360 neurons          ← high-rank
+```
+The Pareto crystals (reasoning, tool) are also the most compact FFN
+databases. Computation domains = compact. Content/template domains = high-rank.
+
+**Finding 24: V13 needs separate attention and FFN etch targets.**
+Can't etch crystal once and get FFN for free. But CAN extract FFN
+targets with the same 2-calculation method (PCA + cosine), different
+hook point (W_up instead of Q). FFN-as-kernel-function still viable —
+the kernel reads its own subspace of the residual stream, dispatched
+by the crystal but operating independently.
+
+Artifacts: `results/ffn-subspace/`
+
 ## Theoretical Framework (post-experimental)
 
 ### Why the whole model is self-similar
@@ -530,12 +582,13 @@ Diminishing: analogy, retrieval — lower self-similarity, may not etch well
 5. ✅ 4-model PCA-Q combinator targets (production constants)
 6. ✅ Crystal scanner (per-domain self-similar structure)
 7. ✅ FFN index experiment (crystal→FFN addressing, FFN self-similarity)
-8. → Fix scanner NaN bug, run 4-model scan
-9. → Optimal k sweep (k=8, 16, 32, 64, 128, 256)
-10. → Procrustes alignment of PCA-Q subspaces
-11. → Extract per-domain crystal constants (reasoning, tool, coding)
-12. → Extract universal crystal tensor
-13. → FFN etch targets (self-similar FFN structure from PCA-Q)
+8. ✅ FFN subspace alignment (negative: Q≠W_up, but indirect control confirmed)
+9. → Fix scanner NaN bug, run 4-model scan
+10. → Optimal k sweep (k=8, 16, 32, 64, 128, 256)
+11. → Extract FFN etch targets (PCA of FFN activations, separate from Q)
+12. → Extract per-domain crystal constants (reasoning, tool, coding)
+13. → Procrustes alignment of PCA-Q subspaces
+14. → Extract universal crystal tensor
 
 Artifacts:
 - `lattice/basin_probes.json` — 144 probes
@@ -545,3 +598,4 @@ Artifacts:
 - `results/pcaq-targets/` — 4-model production constants
 - `results/crystal-scanner/` — per-domain crystal scan (partial)
 - `results/ffn-index/` — FFN indexing mechanism
+- `results/ffn-subspace/` — subspace alignment (negative result + value extraction)

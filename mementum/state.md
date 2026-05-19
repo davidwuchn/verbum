@@ -96,6 +96,18 @@ FFN self-similarity = 0.770 (prediction was NO — WRONG). The entire model
 is self-similar, not just attention. Crystal and FFN rankings are inverses:
 reasoning = strongest crystal + fewest FFN neurons (pure computation),
 instruction = weakest crystal + most FFN neurons (pure storage/templates).
+
+### 5. FFN subspace ≠ crystal subspace (important negative)
+
+Q↔W_up canonical correlation only 0.10-0.14. Crystal and FFN keys are
+DIFFERENT subspaces of d_model. But FFN activations correlate with Q at
+0.71-0.89 because the residual stream connects them indirectly:
+crystal → attention → residual → FFN reads different projection.
+FFN has its OWN universal structure (cross-model 0.75 at depth 90%,
+exceeds Q). Value database is compact for Pareto crystals (reasoning
+299d, tool 254d) but high-rank for content domains (coding 1092d).
+V13 needs separate attention and FFN etch targets — same method,
+different hook points.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)
