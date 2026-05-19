@@ -108,6 +108,17 @@ exceeds Q). Value database is compact for Pareto crystals (reasoning
 299d, tool 254d) but high-rank for content domains (coding 1092d).
 V13 needs separate attention and FFN etch targets — same method,
 different hook points.
+
+### 6. FFN hierarchy hypothesis (speculation, untested)
+
+The FFN may be a TREE of data where magnitude encodes depth:
+high-mag neurons = trunk (universal reductions, fire for everything),
+low-mag = leaves (domain-specific detail, fire rarely). FFN output
+steers the beam (Q delta) to navigate to the next tree level.
+Superposition lets multiple levels coexist. The funnel shape (5d→2d)
+IS the tree narrowing from trunk to leaf. Testable predictions in
+`knowledge/explore/ffn-hierarchy.md` — P2 (magnitude vs selectivity)
+and P3 (FFN output predicts next-layer Q shift) are highest leverage.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)
