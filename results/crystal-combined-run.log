@@ -1,0 +1,93 @@
+Combined Crystal Reconstruction Experiment
+  Phase-only + Sign Vote + Per-plate Strategy
+
+  Model: d=96, layers=3
+  Plate types: ['K', 'V', 'O', 'FFN', 'K', 'V', 'O', 'FFN', 'K', 'V', 'O', 'FFN']
+
+============================================================
+  8 Q rotations × 100 batches
+============================================================
+    View 0/8: loss=3.2383
+    View 1/8: loss=3.1064
+    View 2/8: loss=3.1997
+    View 3/8: loss=3.2987
+    View 4/8: loss=3.2282
+    View 5/8: loss=3.0998
+    View 6/8: loss=3.1750
+    View 7/8: loss=3.1392
+  Plate 0 (K): coh=0.324  coh-energy=14.5%
+  Plate 1 (V): coh=0.572  coh-energy=75.0%
+  Plate 2 (O): coh=0.576  coh-energy=74.4%
+  Plate 3 (FFN): coh=0.557  coh-energy=73.2%
+  Plate 4 (K): coh=0.320  coh-energy=14.8%
+  Plate 5 (V): coh=0.699  coh-energy=93.0%
+  Plate 6 (O): coh=0.694  coh-energy=92.7%
+  Plate 7 (FFN): coh=0.640  coh-energy=89.1%
+  Plate 8 (K): coh=0.317  coh-energy=14.0%
+  Plate 9 (V): coh=0.731  coh-energy=96.0%
+  Plate 10 (O): coh=0.716  coh-energy=93.6%
+  Plate 11 (FFN): coh=0.679  coh-energy=91.3%
+
+  --- A: Sign vote (8rot) ---
+    Acc: 0.413±0.000  Best: 0.413  Q-σ: 0.115
+
+  --- B: Phase-only (8rot) ---
+    Acc: 0.373±0.008  Best: 0.380  Q-σ: 0.068
+
+  --- C: Phase+Sign-K (8rot) ---
+    Acc: 0.411±0.074  Best: 0.494  Q-σ: 0.078
+
+  --- D: Phase+Default-K (8rot) ---
+    Acc: 0.364±0.039  Best: 0.417  Q-σ: 0.177
+
+  --- E: Two-pass (8rot) ---
+    Acc: 0.433±0.028  Best: 0.462  Q-σ: 0.075
+
+============================================================
+  16 Q rotations × 100 batches
+============================================================
+    View 0/16: loss=1.7465
+    View 1/16: loss=4.8753
+    View 2/16: loss=4.6703
+    View 3/16: loss=6.6115
+    View 4/16: loss=7.6301
+    View 5/16: loss=4.0344
+    View 6/16: loss=6.5823
+    View 7/16: loss=5.2289
+    View 8/16: loss=3.2807
+    View 9/16: loss=3.9199
+    View 10/16: loss=6.9841
+    View 11/16: loss=5.8526
+    View 12/16: loss=3.8941
+    View 13/16: loss=5.0585
+    View 14/16: loss=4.8637
+    View 15/16: loss=4.9540
+
+  --- F: Phase-only (16rot) ---
+    Acc: 0.378±0.002  Best: 0.380  Q-σ: 0.067
+
+  --- G: Phase+Sign-K (16rot) ---
+    Acc: 0.418±0.007  Best: 0.427  Q-σ: 0.085
+
+  --- H: Two-pass (16rot) ---
+    Acc: 0.410±0.044  Best: 0.471  Q-σ: 0.075
+
+  --- I: Sign vote (16rot) ---
+    Acc: 0.451±0.045  Best: 0.485  Q-σ: 0.092
+
+============================================================
+  SUMMARY
+============================================================
+  Method                          Acc      ±    Best     Q-σ
+  ---------------------------  ------  -----  ------  ------
+  A: Sign vote (8rot)           0.413  0.000   0.413   0.115
+  B: Phase-only (8rot)          0.373  0.008   0.380   0.068
+  C: Phase+Sign-K (8rot)        0.411  0.074   0.494   0.078
+  D: Phase+Default-K (8rot)     0.364  0.039   0.417   0.177
+  E: Two-pass (8rot)            0.433  0.028   0.462   0.075
+  F: Phase-only (16rot)         0.378  0.002   0.380   0.067
+  G: Phase+Sign-K (16rot)       0.418  0.007   0.427   0.085
+  H: Two-pass (16rot)           0.410  0.044   0.471   0.075
+  I: Sign vote (16rot)          0.451  0.045   0.485   0.092
+
+  Results saved to results/crystal-combined/results.json
