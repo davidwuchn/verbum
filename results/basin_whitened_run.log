@@ -1,0 +1,177 @@
+========================================================================
+  Basin Whitened Experiment — Crystal Decode Test
+  Models: ['mistral-7b', 'pythia-2.8b']
+  PCA dim: 64
+========================================================================
+  Loaded 144 probes
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:58,  2.45it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:07, 35.48it/s]Loading weights:  11%|█▏        | 33/291 [00:00<00:03, 75.88it/s]Loading weights:  17%|█▋        | 50/291 [00:00<00:02, 96.10it/s]Loading weights:  22%|██▏       | 63/291 [00:00<00:02, 101.68it/s]Loading weights:  28%|██▊       | 82/291 [00:00<00:01, 124.05it/s]Loading weights:  33%|███▎      | 97/291 [00:01<00:01, 130.37it/s]Loading weights:  39%|███▉      | 114/291 [00:01<00:01, 138.73it/s]Loading weights:  45%|████▌     | 132/291 [00:01<00:01, 147.52it/s]Loading weights:  51%|█████     | 149/291 [00:01<00:00, 151.08it/s]Loading weights:  57%|█████▋    | 166/291 [00:01<00:00, 156.25it/s]Loading weights:  64%|██████▎   | 185/291 [00:01<00:00, 162.81it/s]Loading weights:  70%|███████   | 204/291 [00:01<00:00, 166.95it/s]Loading weights:  77%|███████▋  | 225/291 [00:01<00:00, 178.54it/s]Loading weights:  85%|████████▍ | 247/291 [00:01<00:00, 187.06it/s]Loading weights:  91%|█████████▏| 266/291 [00:02<00:00, 147.45it/s]Loading weights:  98%|█████████▊| 284/291 [00:02<00:00, 153.47it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 130.68it/s]
+  QKV: separate, d_model=4096
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 26.3s
+  L6 hidden: (144, 4096)
+  L6      Q: (144, 4096)
+  L6      K: (144, 1024)
+  L6      V: (144, 1024)
+  L16 hidden: (144, 4096)
+  L16      Q: (144, 4096)
+  L16      K: (144, 1024)
+  L16      V: (144, 1024)
+  L25 hidden: (144, 4096)
+  L25      Q: (144, 4096)
+  L25      K: (144, 1024)
+  L25      V: (144, 1024)
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  11%|█▏        | 44/388 [00:00<00:00, 435.64it/s]Loading weights:  35%|███▍      | 134/388 [00:00<00:00, 698.34it/s]Loading weights:  53%|█████▎    | 204/388 [00:00<00:00, 667.05it/s]Loading weights:  77%|███████▋  | 300/388 [00:00<00:00, 778.22it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 779.08it/s]
+  QKV: fused, d_model=2560
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 13.7s
+  L6 hidden: (144, 2560)
+  L6      Q: (144, 2560)
+  L6      K: (144, 2560)
+  L6      V: (144, 2560)
+  L16 hidden: (144, 2560)
+  L16      Q: (144, 2560)
+  L16      K: (144, 2560)
+  L16      V: (144, 2560)
+  L25 hidden: (144, 2560)
+  L25      Q: (144, 2560)
+  L25      K: (144, 2560)
+  L25      V: (144, 2560)
+
+==========================================================================================
+  DEPTH 20%
+==========================================================================================
+
+     space  transform  xmodel_corr   consensus   per_model  decoded?
+  ------------------------------------------------------------------
+    hidden       raw      +0.5830     +0.1046     +0.1046          
+    hidden    whiten      +0.1013     +0.0282     +0.0282          
+    hidden       pca      +0.1424     +0.3368     +0.3368     ★ YES
+    hidden     w+pca      +0.1982     +0.1077     +0.1077   ~ maybe
+         Q       raw      +0.4643     +0.1175     +0.1175     ★ YES
+         Q    whiten      +0.0564     +0.0365     +0.0365          
+         Q       pca      +0.6938     +0.3669     +0.3669     ★ YES
+         Q     w+pca      +0.0886     +0.0738     +0.0738          
+         K       raw      +0.5004     +0.1251     +0.1251     ★ YES
+         K    whiten      +0.0624     +0.0352     +0.0352          
+         K       pca      +0.7348     +0.3712     +0.3712     ★ YES
+         K     w+pca      +0.1443     +0.0829     +0.0829          
+         V       raw      +0.4606     +0.1578     +0.1578     ★ YES
+         V    whiten      +0.0689     +0.0218     +0.0218          
+         V       pca      +0.7170     +0.3058     +0.3058     ★ YES
+         V     w+pca      +0.1373     +0.0924     +0.0924          
+
+  ★ CRYSTAL DECODE TEST (depth 20%):
+    Hidden raw:      consensus gap = +0.1046, xmodel corr = +0.5830
+    Q      pca:   consensus gap = +0.3669, xmodel corr = +0.6938
+    → DECODED: pca Q shows stronger consensus (gap +0.2623, corr +0.1107)
+    → Universal crystal is SHARPER in whitened Q than in hidden state
+    V      pca:   consensus gap = +0.3058, xmodel corr = +0.7170
+
+    Per-domain (hidden raw vs Q pca):
+      ★       lambda: hidden=+0.0597  Q=+0.2667  delta=+0.2070
+      ★   arithmetic: hidden=+0.1703  Q=+0.5606  delta=+0.3903
+      ★       coding: hidden=+0.1361  Q=+0.4323  delta=+0.2962
+      ★         tool: hidden=+0.0018  Q=+0.0292  delta=+0.0274
+      ★    retrieval: hidden=+0.0072  Q=+0.1918  delta=+0.1846
+      ★      analogy: hidden=+0.0417  Q=+0.3052  delta=+0.2635
+      ★    reasoning: hidden=+0.0459  Q=+0.1146  delta=+0.0687
+      ★    narrative: hidden=+0.1583  Q=+0.4926  delta=+0.3343
+      ★  instruction: hidden=+0.3204  Q=+0.9088  delta=+0.5884
+    Q wins 9/9 domains
+
+==========================================================================================
+  DEPTH 50%
+==========================================================================================
+
+     space  transform  xmodel_corr   consensus   per_model  decoded?
+  ------------------------------------------------------------------
+    hidden       raw      +0.4124     +0.1269     +0.1269          
+    hidden    whiten      +0.0735     +0.0206     +0.0206          
+    hidden       pca      +0.2455     +0.3482     +0.3482     ★ YES
+    hidden     w+pca      +0.0986     +0.0764     +0.0764          
+         Q       raw      +0.4998     +0.0688     +0.0688          
+         Q    whiten      +0.0543     +0.0145     +0.0145          
+         Q       pca      +0.6258     +0.3607     +0.3607     ★ YES
+         Q     w+pca      +0.0724     +0.0685     +0.0685          
+         K       raw      +0.4699     +0.0951     +0.0951          
+         K    whiten      +0.0340     +0.0069     +0.0069          
+         K       pca      +0.5718     +0.3598     +0.3598     ★ YES
+         K     w+pca      +0.0641     +0.0659     +0.0659          
+         V       raw      +0.3736     +0.0859     +0.0859          
+         V    whiten      +0.0896     +0.0198     +0.0198          
+         V       pca      +0.5319     +0.3118     +0.3118     ★ YES
+         V     w+pca      +0.1432     +0.0906     +0.0906          
+
+  ★ CRYSTAL DECODE TEST (depth 50%):
+    Hidden raw:      consensus gap = +0.1269, xmodel corr = +0.4124
+    Q      pca:   consensus gap = +0.3607, xmodel corr = +0.6258
+    → DECODED: pca Q shows stronger consensus (gap +0.2338, corr +0.2134)
+    → Universal crystal is SHARPER in whitened Q than in hidden state
+    V      pca:   consensus gap = +0.3118, xmodel corr = +0.5319
+
+    Per-domain (hidden raw vs Q pca):
+      ★       lambda: hidden=+0.0843  Q=+0.2126  delta=+0.1283
+      ★   arithmetic: hidden=+0.1707  Q=+0.4664  delta=+0.2957
+      ★       coding: hidden=+0.1526  Q=+0.4494  delta=+0.2968
+      ★         tool: hidden=+0.0256  Q=+0.0322  delta=+0.0066
+      ★    retrieval: hidden=+0.0632  Q=+0.2745  delta=+0.2112
+      ★      analogy: hidden=+0.0637  Q=+0.3446  delta=+0.2809
+      ★    reasoning: hidden=+0.0468  Q=+0.1123  delta=+0.0655
+      ★    narrative: hidden=+0.1861  Q=+0.4638  delta=+0.2776
+      ★  instruction: hidden=+0.3491  Q=+0.8906  delta=+0.5415
+    Q wins 9/9 domains
+
+==========================================================================================
+  DEPTH 80%
+==========================================================================================
+
+     space  transform  xmodel_corr   consensus   per_model  decoded?
+  ------------------------------------------------------------------
+    hidden       raw      +0.4756     +0.1220     +0.1220          
+    hidden    whiten      -0.0097     -0.0000     -0.0000          
+    hidden       pca      +0.3052     +0.3988     +0.3988     ★ YES
+    hidden     w+pca      -0.0127     +0.0543     +0.0543          
+         Q       raw      +0.3428     +0.0564     +0.0564          
+         Q    whiten      +0.0170     +0.0013     +0.0013          
+         Q       pca      +0.6143     +0.4721     +0.4721     ★ YES
+         Q     w+pca      +0.0234     +0.0275     +0.0275          
+         K       raw      +0.2893     +0.0719     +0.0719          
+         K    whiten      +0.0558     +0.0004     +0.0004          
+         K       pca      +0.5838     +0.4797     +0.4797     ★ YES
+         K     w+pca      +0.0238     +0.0339     +0.0339          
+         V       raw      +0.3087     +0.1030     +0.1030          
+         V    whiten      +0.0191     +0.0008     +0.0008          
+         V       pca      +0.4673     +0.4306     +0.4306     ★ YES
+         V     w+pca      +0.0166     +0.0460     +0.0460          
+
+  ★ CRYSTAL DECODE TEST (depth 80%):
+    Hidden raw:      consensus gap = +0.1220, xmodel corr = +0.4756
+    Q      pca:   consensus gap = +0.4721, xmodel corr = +0.6143
+    → DECODED: pca Q shows stronger consensus (gap +0.3500, corr +0.1387)
+    → Universal crystal is SHARPER in whitened Q than in hidden state
+    V      pca:   consensus gap = +0.4306, xmodel corr = +0.4673
+
+    Per-domain (hidden raw vs Q pca):
+      ★       lambda: hidden=+0.1112  Q=+0.2708  delta=+0.1596
+      ★   arithmetic: hidden=+0.1416  Q=+0.5241  delta=+0.3825
+      ★       coding: hidden=+0.2196  Q=+0.6844  delta=+0.4649
+      ★         tool: hidden=+0.0206  Q=+0.0333  delta=+0.0127
+      ★    retrieval: hidden=+0.0432  Q=+0.3703  delta=+0.3270
+      ★      analogy: hidden=+0.0621  Q=+0.5481  delta=+0.4859
+      ★    reasoning: hidden=+0.0655  Q=+0.1554  delta=+0.0899
+      ★    narrative: hidden=+0.1736  Q=+0.7391  delta=+0.5655
+      ★  instruction: hidden=+0.2609  Q=+0.9232  delta=+0.6623
+    Q wins 9/9 domains
+
+  Total: 257s
+  Output: results/basin-whitened/

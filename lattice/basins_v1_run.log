@@ -1,0 +1,129 @@
+========================================================================
+  Basin Lattice — Multi-Domain Crystal Basin Exploration
+  Models: ['mistral-7b', 'pythia-2.8b']
+  Depths: ['20%', '50%', '80%']
+========================================================================
+
+1. Loading probes...
+  Loaded 144 probes from basin_probes.json:
+    lambda      :  15
+    arithmetic  :  15
+    coding      :  15
+    tool        :  15
+    retrieval   :  15
+    analogy     :  15
+    reasoning   :  15
+    narrative   :  15
+    instruction :  15
+    pure        :   9
+
+2. Extracting per-model RDMs...
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layers: 32, d_model: 4096
+  Target layers (3): [6, 16, 25]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:59,  2.42it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:07, 34.80it/s]Loading weights:  11%|█         | 31/291 [00:00<00:03, 70.12it/s]Loading weights:  16%|█▌        | 46/291 [00:00<00:02, 91.64it/s]Loading weights:  22%|██▏       | 63/291 [00:00<00:02, 112.47it/s]Loading weights:  27%|██▋       | 78/291 [00:00<00:01, 113.03it/s]Loading weights:  33%|███▎      | 96/291 [00:01<00:01, 129.19it/s]Loading weights:  39%|███▉      | 114/291 [00:01<00:01, 143.16it/s]Loading weights:  46%|████▋     | 135/291 [00:01<00:00, 161.53it/s]Loading weights:  53%|█████▎    | 155/291 [00:01<00:00, 172.39it/s]Loading weights:  60%|█████▉    | 174/291 [00:01<00:00, 142.38it/s]Loading weights:  65%|██████▌   | 190/291 [00:01<00:00, 145.04it/s]Loading weights:  71%|███████   | 206/291 [00:01<00:00, 146.02it/s]Loading weights:  76%|███████▋  | 222/291 [00:01<00:00, 146.76it/s]Loading weights:  82%|████████▏ | 239/291 [00:01<00:00, 152.19it/s]Loading weights:  89%|████████▊ | 258/291 [00:02<00:00, 158.61it/s]Loading weights:  95%|█████████▍| 275/291 [00:02<00:00, 155.73it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 128.94it/s]
+  Running 144 probes...
+    50/144 probes done...
+    100/144 probes done...
+  Done in 25.4s (176.5ms/probe)
+  L6 (depth=20%): RDM (144, 144), mean_sim=0.1594
+  L16 (depth=50%): RDM (144, 144), mean_sim=0.1852
+  L25 (depth=80%): RDM (144, 144), mean_sim=0.2884
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layers: 32, d_model: 2560
+  Target layers (3): [6, 16, 25]
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   7%|▋         | 26/388 [00:00<00:01, 229.25it/s]Loading weights:  35%|███▍      | 134/388 [00:00<00:00, 697.14it/s]Loading weights:  53%|█████▎    | 206/388 [00:00<00:00, 691.57it/s]Loading weights:  73%|███████▎  | 284/388 [00:00<00:00, 719.09it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 746.13it/s]
+  Running 144 probes...
+    50/144 probes done...
+    100/144 probes done...
+  Done in 12.0s (83.7ms/probe)
+  L6 (depth=20%): RDM (144, 144), mean_sim=0.6085
+  L16 (depth=50%): RDM (144, 144), mean_sim=0.6421
+  L25 (depth=80%): RDM (144, 144), mean_sim=0.8223
+
+3. Building cross-model consensus...
+  Depth 20%: 2 models, agreement=0.4399, model_corr=0.5830
+  Depth 50%: 2 models, agreement=0.4690, model_corr=0.4124
+  Depth 80%: 2 models, agreement=0.3975, model_corr=0.4756
+
+4. Analyzing basins...
+
+5. Checking per-model basin agreement...
+
+6. Saving results...
+
+  💾 NPZ: lattice/basins-v1/basin_lattice.npz (382.9 KB)
+  💾 Per-model: lattice/basins-v1/rdm_mistral-7b.npz (193.9 KB)
+  💾 Per-model: lattice/basins-v1/rdm_pythia-2.8b.npz (187.0 KB)
+  💾 JSON: lattice/basins-v1/basin_lattice.json
+
+==========================================================================================
+  CRYSTAL BASIN ANALYSIS — Multi-Domain Skill Attractors
+==========================================================================================
+
+  Domain → Combinator Fingerprints (depth 0.50):
+        domain       K       I       B       C       D       Y       W    WHNF    dom   coher   agree
+  ----------------------------------------------------------------------------------------------------
+        lambda  +0.450  +0.478  +0.488  +0.476  +0.501  +0.476  +0.479  +0.432      D  +0.482  0.530
+    arithmetic  +0.419  +0.414  +0.445  +0.437  +0.452  +0.428  +0.445  +0.374      D  +0.565  0.706
+        coding  +0.352  +0.366  +0.445  +0.438  +0.447  +0.438  +0.444  +0.336      D  +0.497  0.572
+          tool  +0.396  +0.401  +0.444  +0.442  +0.446  +0.430  +0.445  +0.392      D  +0.432  0.494
+     retrieval  +0.378  +0.385  +0.395  +0.391  +0.407  +0.378  +0.401  +0.388      D  +0.449  0.564
+       analogy  +0.375  +0.381  +0.382  +0.375  +0.393  +0.370  +0.382  +0.395   WHNF  +0.448  0.509
+     reasoning  +0.387  +0.394  +0.439  +0.435  +0.444  +0.427  +0.438  +0.414      D  +0.457  0.481
+     narrative  +0.380  +0.382  +0.409  +0.415  +0.416  +0.402  +0.419  +0.375      W  +0.589  0.550
+   instruction  +0.405  +0.407  +0.444  +0.447  +0.447  +0.437  +0.461  +0.410      W  +0.771  0.578
+
+  Cross-Domain Fingerprint Similarity (depth 0.50):
+                lambda  arithm  coding    tool  retrie  analog  reason  narrat  instru
+        lambda      --  +1.000  +0.997  +1.000  +0.999  +0.999  +0.999  +1.000  +0.999
+    arithmetic  +1.000      --  +0.998  +1.000  +0.999  +0.998  +0.999  +1.000  +0.999
+        coding  +0.997  +0.998      --  +0.998  +0.995  +0.993  +0.997  +0.998  +0.998
+          tool  +1.000  +1.000  +0.998      --  +0.999  +0.998  +1.000  +1.000  +1.000
+     retrieval  +0.999  +0.999  +0.995  +0.999      --  +1.000  +0.999  +1.000  +0.999
+       analogy  +0.999  +0.998  +0.993  +0.998  +1.000      --  +0.999  +0.999  +0.999
+     reasoning  +0.999  +0.999  +0.997  +1.000  +0.999  +0.999      --  +1.000  +1.000
+     narrative  +1.000  +1.000  +0.998  +1.000  +1.000  +0.999  +1.000      --  +1.000
+   instruction  +0.999  +0.999  +0.998  +1.000  +0.999  +0.999  +1.000  +1.000      --
+
+  Basin Summary Across Depths:
+   depth  mean_fp_sim  min_fp_sim  max_fp_sim  mean_agree
+  --------------------------------------------------------
+    0.20       0.9983      0.9930      1.0000      0.4259
+    0.50       0.9988      0.9932      0.9999      0.4542
+    0.80       0.9994      0.9965      1.0000      0.3832
+
+  Per-Model Basin Agreement (depth 50%):
+        domain    corr  unanimous  mistral-  pythia-2
+  -------------------------------------------------------
+        lambda  +0.735        YES           D         D
+    arithmetic  +0.542         NO           B         W
+        coding  +0.915         NO           Y         W
+          tool  +0.483         NO           B         W
+     retrieval  -0.375         NO           D         I
+       analogy  -0.053         NO        WHNF         I
+     reasoning  +0.493         NO           B         D
+     narrative  +0.011         NO           C         W
+   instruction  -0.503         NO           C         I
+
+  Dominant Combinator per Domain × Depth:
+        domain    0.20    0.50    0.80
+        lambda       D       D       B
+    arithmetic       D       D       B
+        coding       B       D       Y
+          tool       D       D       C
+     retrieval       D       D    WHNF
+       analogy       D    WHNF    WHNF
+     reasoning       D       D       C
+     narrative       D       W       C
+   instruction       C       W       C
+
+==========================================================================================
+
+  Total elapsed: 46s
+  Output: lattice/basins-v1/
+========================================================================

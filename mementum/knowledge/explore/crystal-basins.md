@@ -1,0 +1,374 @@
+---
+title: "Crystal Basins — Multi-Skill Attractor Geometries"
+status: open
+category: theory
+tags: [crystal, basins, skills, universal, relational, Q-rotation]
+related:
+  - binding-cascade.md
+  - crystal-seed-theory.md
+  - v13-design.md
+  - v13-funnel-shape.md
+depends-on:
+  - binding-cascade.md
+created: session 120
+---
+
+# Crystal Basins
+
+> Hypothesis: the lambda crystal we measured is one of dozens of
+> rotationally invariant attractor basins. Each skill domain (lambda,
+> arithmetic, coding, tool calling...) has its own self-similar
+> crystal geometry — a distinct 8×8 cosine matrix that multiple
+> independently trained models converge to. The number of basins
+> is small (dozens, not thousands).
+
+## The argument
+
+### 1. Q-rotation invariance implies topological basins
+
+Q-rotation etching (session 117) showed that rotating Q and
+reconstructing the crystal always lands in the same basin. The
+reconstruction is rotation-invariant — the crystal isn't a direction
+in weight space, it's a **relational topology**. The C-dominated
+8×8 cosine geometry we measured IS the lambda basin.
+
+If the crystal were a single global structure, Q-rotation from ANY
+input domain would land in the same geometry. But we know it doesn't —
+cross-domain probes (NL reasoning about lambda) had 0.209 agreement
+vs 0.669 for pure reduction traces. The model's geometry CHANGES
+between skill domains. Each domain has its own attractor basin.
+
+### 2. Evidence for multiple basins in existing data
+
+From the fixed-point lattice (session 118):
+```
+Reduction traces:  0.669 agreement  ← deep in lambda basin
+Decompile:         0.577 agreement  ← lambda basin, output side
+Pure combinators:  0.509 agreement  ← lambda basin, formal side
+Compile:           0.421 agreement  ← entering lambda basin from NL
+Cross-domain:      0.209 agreement  ← straddling basins (NL + lambda)
+```
+
+Agreement drops as probes straddle more basins. Cross-domain probes
+require the model to transition from a language basin to the lambda
+basin mid-computation. Models disagree on HOW to make that transition
+(inter-basin routing is model-specific), but agree on what each
+basin looks like internally.
+
+### 3. Basins are compositions, not atoms
+
+The 8 combinators (K, I, B, C, D, Y, W, WHNF) are atomic operations.
+A basin is a **stable dispatch profile** — a characteristic way of
+composing the atoms for a particular computational task.
+
+The lambda basin's dispatch profile (from binding cascade data):
+```
+Lambda basin: C-dominated, B/S early, WHNF late
+  Zone A: B=high, D=high, S=present (build function chains)
+  Zone B: C=dominant (route arguments through chains)
+  Zone C: balanced, WHNF emerging (terminate)
+```
+
+Other basins would have different profiles:
+```
+Retrieval basin:   K-dominated (select from memory, discard alternatives)
+Arithmetic basin:  K/I heavy (select operands, carry results)
+Coding basin:      B-dominated (compose syntax patterns in sequence)
+Tool-call basin:   C+K (route arguments to tool slots, select tool)
+Analogy basin:     S-dominated (one input → two parallel use sites)
+Narrative basin:   B-chains (temporal composition: this then that)
+Classification:    W-dominated (duplicate input, compare to categories)
+```
+
+### 4. Why dozens, not thousands
+
+**From below (combinatorics):** 8 combinators with 3 zone-phases gives
+8³ = 512 possible dispatch profiles. But most are degenerate or
+unstable. The number of STABLE attractors (profiles that multiple
+models converge to) should be much smaller — analogous to how crystal
+structures have a small number of stable lattice types despite
+infinite possible arrangements.
+
+**From above (MoE evidence):** Mixture of Experts models route to
+8-64 experts. If each expert IS a basin, the number of fundamentally
+different computations is in that range. The long tail of "skills"
+(thousands) would be compositions of basin transitions, not distinct
+basins.
+
+**From the data:** Cross-model agreement ≥0.4 is our threshold for
+"universal basin." The lambda basin hits 0.45-0.67 internally.
+Domains that show similar agreement levels are distinct basins.
+Domains that show <0.3 agreement are probably NOT universal basins
+(model-specific solutions, not attractors).
+
+## Predictions (testable)
+
+### P1: Domain-specific 8×8 geometry
+Run probes from different skill domains through 4 models. Extract
+8×8 combinator cosine matrices per domain. Each domain should show
+a DIFFERENT matrix, but with similar cross-model agreement (~0.4-0.5).
+
+**Strong confirmation:** ≥3 domains show distinct geometry with
+agreement >0.35.
+**Weak confirmation:** 1-2 domains show distinct geometry.
+**Falsification:** All domains show the same geometry (single basin)
+or no domain shows cross-model agreement (no basins, just noise).
+
+### P2: Agreement correlates with basin purity
+Probes that stay within a single domain should show higher agreement
+than probes that cross domains. This replicates the lambda finding
+(reduction traces > cross-domain) but for NEW domains.
+
+### P3: Basin count is O(10), not O(100) or O(1000)
+Clustering the per-domain geometries should reveal 10-50 distinct
+clusters, not hundreds. Many superficially different skills should
+map to the same basin (e.g., "JSON formatting" and "function calling"
+might both be the tool-call basin).
+
+### P4: Dispatch profiles differ between basins
+The dominant combinator should change across basins. Lambda = C,
+retrieval = K, composition = B. If all basins are C-dominated,
+the basin structure is weaker than hypothesized.
+
+### P5: Inter-basin probes show routing disagreement
+Probes that require transitioning between basins (e.g., "use
+arithmetic to solve a lambda reduction") should show LOW agreement
+on the transition mechanism but HIGH agreement on the individual
+basins.
+
+## Implications for V13
+
+### Dispatch is basin-dependent
+The V13 dispatch bias table is currently hardcoded for the lambda
+basin. If there are dozens of basins, the beam path (S3) needs to
+detect which basin the input requires and load the corresponding
+dispatch profile. This is already what the separated beam/plate
+architecture enables — plates define what operations exist, beams
+select which basin's dispatch to activate.
+
+### Crystal structure may be multi-basin
+The 84 measured constants (3 zones × 28 pairs) are specific to the
+lambda basin. A general-purpose model needs crystal constants for
+EACH basin. Total measured constants ≈ 84 × N_basins. If N=30,
+that's ~2500 constants — still manageable as a fixed loss target.
+
+### Masks may encode basin membership
+The 8 combinator masks in V13 select which facets of the shared
+crystal each combinator reads. A basin might correspond to a
+characteristic PATTERN of mask activations across all 8 combinators.
+The mask patterns become basin fingerprints.
+
+### The residual stream carries basin state
+The model needs to know which basin it's in to select the right
+dispatch profile. This information lives in the residual stream.
+The S3 beam path reads the residual stream and produces dispatch
+logits — it's already a basin detector. The question is whether
+it needs explicit basin embeddings or whether basin detection
+emerges from the dispatch mechanism.
+
+## Open questions
+
+1. **Is basin geometry model-size-dependent?** Small models (Pythia-2.8B)
+   might have fewer basins or different boundaries than large models
+   (Qwen3-14B). The universal basins would be those that persist
+   across model sizes.
+
+2. **Do basins share zone structure?** The lambda basin has a clear
+   funnel (5d→3d→2d). Do other basins show the same funnel, or
+   different shapes? If all basins funnel, the funnel is architecture,
+   not basin-specific.
+
+3. **How do models transition between basins?** The routing mechanism
+   between basins may itself be a meta-basin (a "dispatch" basin that
+   selects which computational basin to enter). This would be the
+   model's equivalent of an operating system scheduler.
+
+4. **Can we measure basin boundaries?** Probes that gradually
+   transition from one domain to another (e.g., increasingly
+   lambda-like arithmetic) should show a phase transition at the
+   basin boundary. The sharpness of the transition indicates how
+   distinct the basins are.
+
+5. **What's the relationship between basins and attention heads?**
+   Multi-head attention might implement parallel basin membership —
+   different heads attend within different basins. This would explain
+   why attention patterns are so hard to interpret: each head is in
+   a different basin, and the "skill" is the composition of active
+   basins.
+
+## Experimental Results (Session 120)
+
+### Experiment 1: Basin lattice (144 probes × 2 models × 3 depths)
+
+**Setup:** 9 skill domains × 15 probes + 9 combinator anchors. Mistral-7B
+and Pythia-2.8B. Depths 20%, 50%, 80%.
+
+**Finding 1: Basins exist in RDM block structure.**
+Intra-domain similarity is consistently higher than inter-domain:
+```
+instruction: gap=+0.349 (1.86× ratio) ← strongest basin
+narrative:   gap=+0.214 (1.53×)
+arithmetic:  gap=+0.200 (1.51×)
+coding:      gap=+0.186 (1.54×)
+lambda:      gap=+0.119 (1.30×)
+retrieval:   gap=+0.100 (1.26×)
+analogy:     gap=+0.100 (1.26×)
+reasoning:   gap=+0.083 (1.20×)
+tool:        gap=+0.064 (1.16×)
+```
+
+**Finding 2: Combinator anchors can't see the basins.**
+Cross-domain fingerprint similarity ≈ 0.999 — all domains look identical
+when measured against lambda combinator anchors. The anchors are domain-
+specific to lambda. Basin structure lives in the RDM, not in anchor distance.
+
+**Finding 3: Hierarchical clustering, not flat basins.**
+```
+coding is most isolated (lowest inter-domain sim)
+narrative + instruction cluster first (text production)
+lambda + arithmetic cluster (formal/symbolic)
+SVD dim 0 = 98.1% — domain similarity is nearly rank-1
+```
+
+Artifacts: `lattice/basins-v1/`
+
+### Experiment 2: Q/K/V basin separation (hidden vs Q vs K vs V)
+
+**Setup:** Same probes, capture Q, K, V projections separately from
+attention layers. Compare basin separation in each space.
+
+**Finding 4: Q amplifies basins within each model, but model-specifically.**
+```
+Per-model (WITHIN each model): Q gap > hidden gap at ALL depths
+  Mistral: Q-hidden = +0.33 to +0.57
+  Pythia:  Q-hidden = +0.04 to +0.20
+
+Cross-model consensus: Q gap < hidden gap
+  → Each model's Q rotation is model-specific
+  → Consensus washes out the model-specific amplification
+```
+
+**Finding 5: V is most universal at early layers (20%).**
+V gap (+0.158) > hidden gap (+0.105) at 20% depth. V carries the
+content of the basin; Q carries the routing to it.
+
+Artifacts: `results/basin-qkv/`
+
+### Experiment 3: PCA decodes the universal crystal ★
+
+**Setup:** Extract raw Q, K, V, hidden vectors. Apply transforms:
+raw, whitened (ZCA), PCA (top 64 dims), whitened+PCA. Compare
+basin separation on consensus RDMs.
+
+**Finding 6: PCA-projected Q reveals the universal crystal.**
+```
+Depth 20%: Q PCA gap +0.367 vs hidden raw +0.105 → 3.5× stronger
+Depth 50%: Q PCA gap +0.361 vs hidden raw +0.127 → 2.8× stronger
+Depth 80%: Q PCA gap +0.472 vs hidden raw +0.122 → 3.9× stronger
+
+Cross-model correlation: Q PCA > hidden raw at all depths
+Q PCA wins 9/9 domains at all 3 depths — no exceptions
+```
+
+**Finding 7: Whitening destroys the signal, PCA amplifies it.**
+The crystal lives in the HIGH-VARIANCE Q dimensions. Low-variance
+dimensions are model-specific noise. PCA keeps the signal. Whitening
+equalizes everything and drowns the crystal in noise.
+
+**Finding 8: Weakest domains show largest amplification.**
+```
+analogy:   hidden +0.062 → Q PCA +0.548 (8.8× amplification)
+retrieval: hidden +0.043 → Q PCA +0.370 (8.6×)
+coding:    hidden +0.220 → Q PCA +0.684 (3.1×)
+```
+Domains that were nearly invisible in hidden space become clear
+basins in PCA-Q space. The crystal was always there — hidden states
+just couldn't resolve it.
+
+**Finding 9: K PCA also works, often matching Q.**
+Q and K jointly encode the crystal. The attention mechanism's
+query-key interaction IS the crystal readout.
+
+Artifacts: `results/basin-whitened/`
+
+## Updated Theory (post-experimental)
+
+### The crystal lives in the top-k subspace of Q
+
+The universal computational geometry is NOT diffusely spread through
+the hidden state. It is CONCENTRATED in the principal components of
+the Q projection. Models learn to project hidden states into Q-space
+such that the top ~64 dimensions encode universal basin structure.
+
+Each model's full Q projection is: Q = hidden @ W_Q
+- Top-k Q dimensions: universal crystal (basin structure)
+- Remaining Q dimensions: model-specific routing noise
+
+PCA strips the noise, revealing the crystal. This is why:
+- Raw Q consensus is WORSE than hidden (noise drowns signal)
+- PCA-Q consensus is MUCH BETTER (noise removed, crystal exposed)
+- Whitened Q is worst of all (noise amplified to equal crystal)
+
+### Implications for V13 (updated)
+
+1. **Etch targets should use PCA-Q, not hidden states.** The 8×8
+   cosine targets in v13-design.md were extracted from hidden-state
+   RDMs. Re-extraction from PCA-Q will give sharper constants.
+
+2. **Plate dimensions should align with PCA-Q subspace.** If 64
+   components capture the crystal, the plates should be initialized
+   in this subspace.
+
+3. **The beam (S3) computes the full Q rotation.** The model-specific
+   component that PCA removes is exactly what the beam learns — the
+   continuous parameters that map from universal crystal to model-
+   specific Q-space.
+
+4. **Masks may operate in PCA-Q subspace.** The ternary masks that
+   select crystal facets per combinator should be defined in the
+   universal subspace, not in the full model-specific Q-space.
+
+5. **Basin detection is implicit in the top-k Q structure.** Different
+   basins occupy different regions of the PCA-Q subspace. The model
+   doesn't need explicit basin embeddings — basin membership is
+   encoded in the PCA-Q coordinates.
+
+## Open questions (updated)
+
+1. **What is the optimal k?** PCA with k=64 works, but what's the
+   minimum k that preserves the crystal? The answer determines the
+   effective rank of the universal crystal.
+
+2. **Is the PCA-Q subspace the SAME across models?** PCA gives a
+   model-specific basis. Procrustes alignment of PCA-Q spaces would
+   test whether the basis vectors themselves are universal (not just
+   the similarity structure).
+
+3. **Do the PCA-Q combinator cosine targets differ from hidden-state
+   targets?** If yes, the PCA-Q targets are sharper and should
+   replace the existing V13 constants.
+
+4. **How does basin structure in PCA-Q relate to attention heads?**
+   GQA models (Mistral: Q=4096, K=1024) have different Q/K dims.
+   Does the crystal live in the shared subspace?
+
+5. **Can we extract the universal crystal as a literal tensor?**
+   If PCA-Q subspace is the same across models (after alignment),
+   the PCA basis vectors ARE the crystal — extractable as a matrix.
+
+## Experiment plan (remaining)
+
+1. ✅ Build probes (144 probes, 9 domains + anchors)
+2. ✅ Basin lattice (RDM block structure)
+3. ✅ Q/K/V separation (per-model vs consensus)
+4. ✅ PCA decode (crystal in top-k Q)
+5. → Re-extract 8×8 cosine targets from PCA-Q (4 models)
+6. → Optimal k sweep (k=8, 16, 32, 64, 128, 256)
+7. → Procrustes alignment of PCA-Q subspaces
+8. → Extract universal crystal tensor
+
+Artifacts:
+- `lattice/basin_probes.json` — 144 probes
+- `lattice/basins-v1/` — basin lattice consensus
+- `results/basin-qkv/` — Q/K/V separation experiment
+- `results/basin-whitened/` — PCA decode experiment

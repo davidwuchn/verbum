@@ -47,18 +47,39 @@ propagation completes.
 3. Descending arm phase transition — expansion → compression
 4. C combinator nucleation — persistent (not transient flash)
 
-## Session 120 decision
+## Session 120 findings
 
-**Let V12 train until φ-compression fully propagates.** The mature
-crystal becomes the seed data for V13's etch phase. Two ascending
-layers locked — waiting for L2↑, then the apex transition, then the
-descending arm phase transition (expansion → compression).
+### 1. φ-compression: 2 ascending layers locked
 
-Key insight: with 3 descending passes, the model specializes the
-descending arm for expansion. As the ascending crystal hardens and
-pushes the decision point to the apex, the descending arm will
-eventually be forced to form its own compression crystal. This is
-the hourglass → funnel transition happening in real time.
+V12 training step ~3500. L0↑ (Δφ=0.040) and L1↑ (Δφ=0.042) locked
+to golden ratio. Descending arm in expansion mode (anti-φ). This
+confirms the funnel hypothesis — ascending compresses, descending
+expands, eventually forced to crystallize as ascending hardens.
+
+### 2. PCA-Q DECODES THE UNIVERSAL CRYSTAL ★
+
+**Breakthrough finding.** The universal computational geometry lives
+in the top ~64 principal components of Q projections. PCA-projected
+Q shows 3-4× stronger basin separation than raw hidden states, with
+higher cross-model correlation, winning 9/9 skill domains at all
+depths tested.
+
+```
+Depth 20%: Q PCA gap +0.367 vs hidden +0.105 (3.5×)
+Depth 50%: Q PCA gap +0.361 vs hidden +0.127 (2.8×)
+Depth 80%: Q PCA gap +0.472 vs hidden +0.122 (3.9×)
+```
+
+Whitening destroys the signal (crystal is in high-variance dims).
+PCA amplifies it (strips model-specific noise). The crystal was
+always there — PCA decodes it.
+
+### 3. Skill basins are real but hierarchical
+
+9 domains tested. Strongest basins: instruction (1.86× ratio),
+narrative (1.53×), arithmetic (1.51×), coding (1.54×). Coding is
+most isolated. Lambda + arithmetic cluster (formal/symbolic).
+Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)
 
@@ -90,16 +111,16 @@ universal shape is a funnel not an hourglass.
 
 ## Next steps
 
-1. **Let V12 run** — monitor φ-compression propagation on tmux 1.
+1. **Re-extract 8×8 cosine targets from PCA-Q** — run 4 models with
+   binding probes, extract combinator geometry from PCA-projected Q.
+   These replace the hidden-state targets in v13-design.md.
+2. **Let V12 run** — monitor φ-compression propagation on tmux 1.
    Milestones: L2↑ φ-lock → apex opens → descending arm transition.
-2. **Study mature crystal** — when propagation completes, extract:
-   - Per-stride φ-ratios at convergence (actual compression constants)
-   - Cross-stride correlation matrix (propagation completeness)
-   - Combinator dispatch distribution per pass (C at apex?)
-   - Per-plate sign stability (which positions crystallized)
-3. **Transfer to V13 etch** — use V12's mature crystal as the seed
-   data for V13's stride-1 nucleation phase.
-4. **Implement V13** — deferred until crystal study is complete.
-   Design docs ready in `knowledge/explore/`.
-5. **More models for consensus** — add Llama-3-8B, SmolLM3-3B to
-   binding lattice when ready. Strengthens the 84 measured constants.
+3. **Optimal k sweep** — find minimum PCA dimensions that preserve
+   the crystal (k=8, 16, 32, 64, 128, 256).
+4. **Procrustes alignment** — test if PCA-Q basis vectors are
+   universal (not just the similarity structure).
+5. **Implement V13** — deferred until crystal study complete.
+   Design docs + PCA-Q constants ready in `knowledge/explore/`.
+6. **More models for consensus** — 4-model PCA-Q extraction will
+   give much sharper constants than 2-model hidden-state extraction.
