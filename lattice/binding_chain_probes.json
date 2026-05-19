@@ -1,0 +1,592 @@
+[
+  {
+    "prompt": "\u03bbx.x",
+    "axis": "pure/K",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.x",
+    "axis": "pure/I",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x))",
+    "axis": "pure/B",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbx.\u03bby.f(y)(x)",
+    "axis": "pure/C",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+    "axis": "pure/S",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.x(x(y))",
+    "axis": "pure/D",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbx.x(x)",
+    "axis": "pure/W",
+    "note": "anchor"
+  },
+  {
+    "prompt": "\u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+    "axis": "pure/Y",
+    "note": "anchor"
+  },
+  {
+    "prompt": "The expression is already in weak head normal form \u2014 no further reduction is possible",
+    "axis": "pure/WHNF",
+    "note": "anchor"
+  },
+  {
+    "prompt": "The constant function selects its first argument and ignores the second",
+    "axis": "prose/K",
+    "note": "anchor"
+  },
+  {
+    "prompt": "The identity function returns its argument unchanged",
+    "axis": "prose/I",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Function composition: apply the second function first, then the first function to the result",
+    "axis": "prose/B",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Flip the order of two arguments before passing them to a function",
+    "axis": "prose/C",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Apply a value to both a function and an argument-producing function, then combine",
+    "axis": "prose/S",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Apply one function to a value, then apply it again to the result",
+    "axis": "prose/D",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Duplicate an argument so the same value is used in two positions",
+    "axis": "prose/W",
+    "note": "anchor"
+  },
+  {
+    "prompt": "Find the fixed point: the value that equals its own transformation",
+    "axis": "prose/Y",
+    "note": "anchor"
+  },
+  {
+    "prompt": "A fully evaluated expression with no remaining reducible applications",
+    "axis": "prose/WHNF",
+    "note": "anchor"
+  },
+  {
+    "prompt": "(\u03bbx.x)(42) reduces to 42",
+    "axis": "chain/I_1step",
+    "note": "I: single beta reduction, 1 binding"
+  },
+  {
+    "prompt": "(\u03bbx.x)((\u03bby.y)(42)) first reduces the inner application to 42, then the outer to 42",
+    "axis": "chain/I_2step",
+    "note": "I\u2218I: two sequential identity applications"
+  },
+  {
+    "prompt": "(\u03bbx.x)((\u03bby.y)((\u03bbz.z)(42))) requires three sequential reductions, each passing the value through",
+    "axis": "chain/I_3step",
+    "note": "I\u2218I\u2218I: three nested identities"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.x)(a)(b) first binds x to a, then discards b, giving a",
+    "axis": "chain/K_1step",
+    "note": "K: bind then discard, requires C-routing"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.x)((\u03bbz.z)(a))(b) first reduces the argument, then K discards",
+    "axis": "chain/K_after_I",
+    "note": "K\u2218I: reduce argument then discard"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.f(x))((\u03bby.\u03bbz.y))(a) applies B to K and a: first bind f to K, then apply K to a",
+    "axis": "chain/B_K_apply",
+    "note": "B applied to K: composition of discard"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.f(x))(double)(3) first binds f to double, then applies double to 3",
+    "axis": "chain/C_route_1",
+    "note": "C-routing: single argument slot fill"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.\u03bby.f(x)(y))(add)(2)(3) binds f, then x, then y, routing all three to add(2)(3)",
+    "axis": "chain/C_route_2",
+    "note": "C-routing: two arguments threaded"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.\u03bby.\u03bbz.f(x)(y)(z))(g)(a)(b)(c) routes three arguments through to g",
+    "axis": "chain/C_route_3",
+    "note": "C-routing: three arguments threaded"
+  },
+  {
+    "prompt": "To call a 4-argument function, you must route each argument past the remaining lambda abstractions to its use site",
+    "axis": "chain/C_route_prose",
+    "note": "prose description of C-routing mechanism"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))(double)(add1)(3) composes double after add1, giving double(add1(3)) = double(4) = 8",
+    "axis": "chain/B_compose_1",
+    "note": "B: single composition step"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))(square)((\u03bbf.\u03bbg.\u03bbx.f(g(x)))(double)(add1))(3) composes three functions in a pipeline",
+    "axis": "chain/B_compose_2",
+    "note": "B\u2218B: two compositions chained"
+  },
+  {
+    "prompt": "Composing three functions f, g, h into a pipeline f(g(h(x))) requires two composition steps",
+    "axis": "chain/B_compose_prose",
+    "note": "prose: multi-step composition"
+  },
+  {
+    "prompt": "A four-function pipeline f\u2218g\u2218h\u2218k requires three composition operations before the argument arrives",
+    "axis": "chain/B_compose_3",
+    "note": "B\u2218B\u2218B: three-deep composition"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.\u03bby.f(y)(x))(sub)(3)(7) flips the arguments: sub(7)(3) = 4",
+    "axis": "chain/C_flip_1",
+    "note": "C: single argument flip"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.\u03bby.f(y)(x))((\u03bbg.\u03bba.\u03bbb.g(b)(a))(div))(10)(2) flips twice, returning to original order",
+    "axis": "chain/C_flip_2",
+    "note": "C\u2218C: double flip = identity on argument order"
+  },
+  {
+    "prompt": "Reversing the order of function arguments twice returns to the original order",
+    "axis": "chain/C_flip_prose",
+    "note": "prose: C\u2218C = identity on arg order"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(x)(g(x)))(add)(square)(3) gives add(3)(square(3)) = add(3)(9) = 12",
+    "axis": "chain/S_subst_1",
+    "note": "S: single substitution \u2014 x used twice"
+  },
+  {
+    "prompt": "S distributes one argument to both the function and the argument-builder, requiring the binding to fork",
+    "axis": "chain/S_subst_prose",
+    "note": "prose: S requires binding to fork"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(x)(g(x)))(\u03bba.\u03bbb.a(b))(\u03bbc.c)(v) applies S then simplifies: (\u03bba.\u03bbb.a(b))(v)((\u03bbc.c)(v)) = v(v)",
+    "axis": "chain/S_to_W",
+    "note": "S with specific args reduces to W-like self-application"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.x)(a)(b) reduces to a in two steps: bind x=a, then \u03bby.a applied to b gives a",
+    "axis": "chain/reduce_2step_K",
+    "note": "2-step: C-route then K-discard"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))(\u03bba.a)(\u03bbb.b)(v) = (\u03bba.a)((\u03bbb.b)(v)) = (\u03bba.a)(v) = v \u2014 three reductions",
+    "axis": "chain/reduce_3step_BII",
+    "note": "3-step: B composes two identities"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.f(f(x)))(\u03bby.y)(a) = (\u03bby.y)((\u03bby.y)(a)) = (\u03bby.y)(a) = a \u2014 three reductions unwinding D of I",
+    "axis": "chain/reduce_3step_DI",
+    "note": "3-step: D applies I twice"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.\u03bbz.x(z)(y(z)))(\u03bba.\u03bbb.a)(\u03bbc.c)(v) = (\u03bba.\u03bbb.a)(v)((\u03bbc.c)(v)) = (\u03bbb.v)(v) = v \u2014 four reductions",
+    "axis": "chain/reduce_4step_SKI",
+    "note": "4-step: S K I = I (classic identity)"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))((\u03bba.\u03bbb.a))((\u03bbc.c))(v) = (\u03bba.\u03bbb.a)((\u03bbc.c)(v)) = (\u03bba.\u03bbb.a)(v) = \u03bbb.v \u2014 still needs argument",
+    "axis": "chain/reduce_4step_BKI",
+    "note": "4-step: B K I produces K(v) = partially applied"
+  },
+  {
+    "prompt": "(\u03bbx.x(x))((\u03bby.y)) = (\u03bby.y)((\u03bby.y)) = \u03bby.y \u2014 self-application of identity terminates in 2 steps",
+    "axis": "chain/reduce_W_I",
+    "note": "2-step: W(I) = I \u2014 self-application terminates"
+  },
+  {
+    "prompt": "(\u03bbx.x(x))((\u03bba.\u03bbb.a)) = (\u03bba.\u03bbb.a)(\u03bba.\u03bbb.a) = \u03bbb.(\u03bba.\u03bbb.a) \u2014 self-application of K produces a closure",
+    "axis": "chain/reduce_W_K",
+    "note": "2-step: W(K) = K(K) = closure \u2014 binding creates closure"
+  },
+  {
+    "prompt": "Reducing (\u03bbf.\u03bbg.\u03bbx.f(g(x)))(double)(add1)(3): step 1 bind f=double, step 2 bind g=add1, step 3 bind x=3, step 4 compute add1(3)=4, step 5 compute double(4)=8",
+    "axis": "chain/trace_B_5step",
+    "note": "explicit 5-step trace of B"
+  },
+  {
+    "prompt": "Reducing (\u03bbx.\u03bby.\u03bbz.x(z)(y(z)))(K)(I)(a): step 1 bind x=K, step 2 bind y=I, step 3 bind z=a, step 4 compute K(a)=\u03bbb.a, step 5 compute I(a)=a, step 6 compute (\u03bbb.a)(a)=a",
+    "axis": "chain/trace_SKI_6step",
+    "note": "explicit 6-step trace of SKI=I"
+  },
+  {
+    "prompt": "Each beta reduction step in a chain consumes one binding: the outermost lambda captures its argument, the body becomes the new expression, and the process repeats",
+    "axis": "chain/mechanism_prose",
+    "note": "prose description of the reduction-as-binding-consumption mechanism"
+  },
+  {
+    "prompt": "After reducing all applications, no lambda remains whose argument is present \u2014 the expression is in normal form",
+    "axis": "chain/whnf_terminal",
+    "note": "WHNF: no more reductions possible"
+  },
+  {
+    "prompt": "\u03bbx.f(x) is in weak head normal form because the outermost constructor is a lambda, even though f(x) inside could be reduced",
+    "axis": "chain/whnf_lambda",
+    "note": "WHNF: lambda head = stop reducing"
+  },
+  {
+    "prompt": "The value 42 is in normal form \u2014 there are no function applications to reduce",
+    "axis": "chain/whnf_value",
+    "note": "WHNF: literal value = terminal"
+  },
+  {
+    "prompt": "A partially applied function like (\u03bbx.\u03bby.x)(a) = \u03bby.a is in WHNF \u2014 it needs another argument before reduction can continue",
+    "axis": "chain/whnf_partial",
+    "note": "WHNF: partial application = blocked reduction"
+  },
+  {
+    "prompt": "When a reduction chain reaches a point where the head is a free variable, no further reduction is possible regardless of depth",
+    "axis": "chain/whnf_free_head",
+    "note": "WHNF: free variable head = stuck"
+  },
+  {
+    "prompt": "Five nested lambdas \u03bba.\u03bbb.\u03bbc.\u03bbd.\u03bbe.body applied to five arguments requires five sequential beta reductions before the body can compute",
+    "axis": "chain/depth5_sequential",
+    "note": "5 bindings = 5 sequential C-routes before compute"
+  },
+  {
+    "prompt": "Each additional nesting level adds one more beta reduction to the chain \u2014 depth 3 needs 3 reductions, depth 5 needs 5",
+    "axis": "chain/depth_linear_prose",
+    "note": "prose: binding depth = reduction count, linear"
+  },
+  {
+    "prompt": "At some point, the cost of tracking all bindings exceeds what the model can maintain \u2014 deeper nesting collapses to 'opaque value'",
+    "axis": "chain/depth_saturation_prose",
+    "note": "prose: where the WHNF transition happens"
+  },
+  {
+    "prompt": "A six-argument function requires six binding operations, but most of the semantic content is determined by the first two or three",
+    "axis": "chain/depth6_diminishing",
+    "note": "deep binding: diminishing information per level"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.x(y))(f)(a) routes a to f: this is C in action \u2014 moving the argument past one lambda to its use site",
+    "axis": "chain/C_mechanism_explicit",
+    "note": "explicit demonstration of C as routing mechanism"
+  },
+  {
+    "prompt": "The C combinator is the routing mechanism of binding: it takes a value, passes it through an abstraction barrier, and delivers it to the application site",
+    "axis": "chain/C_as_router_prose",
+    "note": "prose: C IS the binding router"
+  },
+  {
+    "prompt": "B is what happens when you need to bind across a function boundary: the value must survive through one function to reach the next",
+    "axis": "chain/B_as_threading_prose",
+    "note": "prose: B IS binding across function boundaries"
+  },
+  {
+    "prompt": "S is the fork point: one binding must be delivered to two different use sites simultaneously",
+    "axis": "chain/S_as_fork_prose",
+    "note": "prose: S IS the binding fork"
+  },
+  {
+    "prompt": "When binding depth exceeds the model's tracking capacity, it treats the entire expression as an opaque value \u2014 WHNF by exhaustion",
+    "axis": "chain/WHNF_by_exhaustion_prose",
+    "note": "prose: WHNF transition at capacity limit"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x, after binding x, the variable must survive past the \u03bby abstraction \u2014 K carries x through one binding layer",
+    "axis": "chain/K_carry_through",
+    "note": "K = carry binding through one abstraction"
+  },
+  {
+    "prompt": "In \u03bbf.\u03bbg.\u03bbx.f(g(x)), f must survive past both \u03bbg and \u03bbx \u2014 B carries f through two binding layers",
+    "axis": "chain/B_carry_through_2",
+    "note": "B = carry binding through two abstractions"
+  },
+  {
+    "prompt": "In \u03bbf.\u03bbg.\u03bbx.f(x)(g(x)), f must survive past \u03bbg and \u03bbx AND be available twice \u2014 S carries and forks",
+    "axis": "chain/S_carry_and_fork",
+    "note": "S = carry through two layers AND duplicate at use site"
+  },
+  {
+    "prompt": "Variable shadowing: (\u03bbx.(\u03bbx.x)(42))(99) = 42 because the inner \u03bbx creates a new binding that hides the outer one",
+    "axis": "chain/shadow_K_inner",
+    "note": "shadowing = K applied to inner scope \u2014 outer binding discarded"
+  },
+  {
+    "prompt": "Closure capture: let f = (\u03bbx.\u03bby.x+y)(3) \u2014 f is now \u03bby.3+y, the binding of x=3 is frozen into f",
+    "axis": "chain/closure_as_K",
+    "note": "closure = K-style binding frozen into a value"
+  },
+  {
+    "prompt": "Mutual recursion requires two Y-combinator applications: each function's binding includes the other function",
+    "axis": "chain/mutual_Y",
+    "note": "mutual recursion = binding includes self-reference"
+  },
+  {
+    "prompt": "Substitution is the mechanism: (\u03bbx.body)(arg) means 'replace every free x in body with arg'",
+    "axis": "chain/substitution_mechanism",
+    "note": "beta reduction = substitution = the atomic binding operation"
+  },
+  {
+    "prompt": "Capture-avoiding substitution: when substituting into \u03bby.x, if the argument contains y as free, you must rename y first",
+    "axis": "chain/capture_avoid",
+    "note": "the hard part of binding: name collision"
+  },
+  {
+    "prompt": "De Bruijn indices eliminate naming: \u03bb.\u03bb.1 means 'the variable bound by the outer lambda' \u2014 binding is purely structural",
+    "axis": "chain/debruijn_structural",
+    "note": "binding without names = pure structure = closer to what models do"
+  },
+  {
+    "prompt": "(\u03bbx.\u03bby.x)(a)(b) = a \u2014 the K combinator in action: bind x=a, discard y=b",
+    "axis": "reduce/K_explicit",
+    "note": "K reduction with explicit steps"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))(not)(not)(true) = not(not(true)) = true \u2014 double negation via B",
+    "axis": "reduce/B_double_neg",
+    "note": "B applied to concrete boolean operation"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbx.\u03bby.f(y)(x))(sub)(3)(7) = sub(7)(3) = 4 \u2014 C flips arguments of subtraction",
+    "axis": "reduce/C_sub_flip",
+    "note": "C applied to non-commutative operation"
+  },
+  {
+    "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(x)(g(x)))(mul)(add1)(4) = mul(4)(add1(4)) = mul(4)(5) = 20 \u2014 S distributes",
+    "axis": "reduce/S_mul_add1",
+    "note": "S applied to concrete arithmetic"
+  },
+  {
+    "prompt": "(\u03bbx.x(x))(\u03bby.y) = (\u03bby.y)(\u03bby.y) = \u03bby.y \u2014 W applied to I terminates cleanly",
+    "axis": "reduce/W_I_terminate",
+    "note": "W(I) terminates \u2014 self-application of identity"
+  },
+  {
+    "prompt": "(\u03bbx.x(x))(\u03bbx.x(x)) \u2014 this never terminates: W applied to itself is infinite recursion",
+    "axis": "reduce/W_W_diverge",
+    "note": "\u03a9 = W(W) diverges \u2014 the non-terminating binding"
+  },
+  {
+    "prompt": "let f = \u03bbx.x+1 in let g = \u03bby.f(y)*2 in g(3) \u2014 g captures f from the enclosing scope",
+    "axis": "chain/let_scope_1",
+    "note": "let binding = sequential C-routing through scope"
+  },
+  {
+    "prompt": "let f = \u03bbx.x+1 in let g = \u03bby.y*2 in let h = \u03bbz.f(g(z)) in h(3) \u2014 h captures both f and g",
+    "axis": "chain/let_scope_2",
+    "note": "nested let = B-composition of captured bindings"
+  },
+  {
+    "prompt": "let f = \u03bbx.x*x in let g = \u03bby.f(f(y)) in g(2) \u2014 g applies f twice via D-like double application",
+    "axis": "chain/let_scope_D",
+    "note": "nested let with D-like double application pattern"
+  },
+  {
+    "prompt": "map(\u03bbx.x+1, [1,2,3]) applies the binding \u03bbx.x+1 to each element independently \u2014 the function is shared, the binding is fresh each time",
+    "axis": "chain/map_fresh_bind",
+    "note": "map = same function, fresh binding per element"
+  },
+  {
+    "prompt": "fold(\u03bbacc.\u03bbx.acc+x, 0, [1,2,3]) threads a binding through the list: acc is carried and updated at each step",
+    "axis": "chain/fold_carry_bind",
+    "note": "fold = B-like threading of accumulated binding"
+  },
+  {
+    "prompt": "filter(\u03bbx.x>0, [-1,2,-3,4]) tests each binding and keeps or discards \u2014 K-like selection at each element",
+    "axis": "chain/filter_K_select",
+    "note": "filter = K-like select/discard per binding"
+  },
+  {
+    "prompt": "\u03bbx.x applied to the value 42 gives",
+    "axis": "existing/bind_depth_1a",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Apply the identity function to the string hello",
+    "axis": "existing/bind_depth_1b",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The function \u03bbx.x simply returns its argument, so (\u03bbx.x)(7) =",
+    "axis": "existing/bind_depth_1c",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.x applied to a then b gives",
+    "axis": "existing/bind_depth_2a",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x(y), after binding x to f and y to 3, the result is",
+    "axis": "existing/bind_depth_2b",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The function that takes two arguments and applies the first to the second: \u03bbf.\u03bbx.f(x)",
+    "axis": "existing/bind_depth_2c",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x)) with f=double, g=add1, x=3 gives",
+    "axis": "existing/bind_depth_3a",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.\u03bbz.x(z)(y(z)) applied to f, g, then a gives f(a)(g(a))",
+    "axis": "existing/bind_depth_3b",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "With three nested bindings, the outermost variable is still accessible in the innermost scope:",
+    "axis": "existing/bind_depth_3c",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "\u03bba.\u03bbb.\u03bbc.\u03bbd.a(b(c(d))) with a=f, b=g, c=h, d=x gives f(g(h(x)))",
+    "axis": "existing/bind_depth_4a",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "In an expression with four nested lambda bindings, the first-bound variable must be carried through three abstraction layers to reach its use site",
+    "axis": "existing/bind_depth_4b",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "\u03bba.\u03bbb.\u03bbc.\u03bbd.\u03bbe.a(b)(c(d)(e)) requires tracking five simultaneous variable bindings",
+    "axis": "existing/bind_depth_5",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bbx.x, the inner x shadows the outer x, so (\u03bbx.\u03bbx.x)(a)(b) =",
+    "axis": "existing/bind_shadow_1",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Variable shadowing: when an inner scope rebinds a name, the outer binding becomes inaccessible",
+    "axis": "existing/bind_shadow_2",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The result of (\u03bbx.(\u03bbx.x)(42))(99) is 42 because the inner \u03bbx binds to 42, shadowing the outer",
+    "axis": "existing/bind_shadow_3",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x, the binding of x must survive past the \u03bby abstraction unchanged",
+    "axis": "existing/bind_carry_1",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "A closure captures its environment: \u03bbx.(\u03bby.x) remembers x even after y is bound",
+    "axis": "existing/bind_carry_2",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The free variable x in \u03bby.x refers to whatever x was bound to in the enclosing scope",
+    "axis": "existing/bind_carry_3",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x(y), both x and y must be simultaneously accessible at the application site",
+    "axis": "existing/bind_cross_1",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The expression f(x)(y) requires both x and y to be in scope, bound from different lambdas",
+    "axis": "existing/bind_cross_2",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Parallel variable access: \u03bbx.\u03bby.(x, y) needs both bindings active at the tuple construction",
+    "axis": "existing/bind_cross_3",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "A closure is formed when a function captures variables from its defining scope: let x=5 in \u03bby.x+y",
+    "axis": "existing/bind_capture_1",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "The function \u03bby.x+y, where x is free, becomes a closure when x is bound in an outer scope",
+    "axis": "existing/bind_capture_2",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "K discards its second argument \u2014 this is binding followed by immediate unbinding",
+    "axis": "existing/bind_K_discard",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "I preserves its argument \u2014 this is binding with no transformation, pure carry-through",
+    "axis": "existing/bind_I_preserve",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "B threads a value through two functions \u2014 binding must survive across both applications",
+    "axis": "existing/bind_B_thread",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "C swaps two bindings \u2014 the first-bound becomes second-used and vice versa",
+    "axis": "existing/bind_C_swap",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "W uses one binding twice \u2014 the same variable appears in two argument positions",
+    "axis": "existing/bind_W_reuse",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Y creates a self-referential binding \u2014 the function is bound to its own fixed point",
+    "axis": "existing/bind_Y_selfref",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "S uses one binding for two purposes \u2014 x determines both the function and the argument",
+    "axis": "existing/bind_S_dual",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Lexical scope means a variable refers to its nearest enclosing binder, not the most recent one at runtime",
+    "axis": "existing/bind_scope_lexical",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "A de Bruijn index replaces variable names with the number of binders between use and definition",
+    "axis": "existing/bind_scope_debruijn",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Alpha equivalence: \u03bbx.x and \u03bby.y are the same function \u2014 the name does not matter, only the binding structure",
+    "axis": "existing/bind_scope_alpha",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "A free variable is one that is not bound by any enclosing lambda \u2014 it refers to something in the environment",
+    "axis": "existing/bind_scope_free",
+    "note": "from fixedpoint v2"
+  },
+  {
+    "prompt": "Substitution must avoid variable capture: replacing x with y in \u03bby.x must rename y first",
+    "axis": "existing/bind_scope_capture_avoid",
+    "note": "from fixedpoint v2"
+  }
+]

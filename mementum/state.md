@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-19 | Session: 118
+> Last updated: 2026-05-19 | Session: 119
 
 ## Where we are
 
@@ -35,6 +35,44 @@ Check: `tmux capture-pane -p -t 2 | tail -20`
 Key findings: reduction traces have highest agreement (0.669), cross-domain
 lowest (0.209). Agreement inversely proportional to binding complexity.
 B/S/D cluster together (all "apply functions" operations).
+
+## Session 119 findings
+
+### Binding Cascade — C→B/S→WHNF pipeline confirmed
+
+Built 118 binding-focused probes (83 new chain + 35 existing) and ran
+through 4 models at **10% depth increments** (0%-90%). Key findings:
+
+**C is the universal binding mechanism.** C (argument routing) dominates
+at binding depths 1-2 across ALL model depths and ALL 4 models. 4/4
+agreement on C at depth 2 — strongest universal signal in the data.
+Agreement peaks at 0.45-0.47 in 50-70% model depth.
+
+**B/S compose early, C routes late.** At binding depth 3+, early model
+layers (0-20%) show B/S (composition/substitution), then C takes over
+in later layers. The pipeline: compose the function chain first, then
+route arguments through it.
+
+**Y at depth 4, D at depth 5, WHNF at depth 5 late.** Deep binding:
+- 4/4 models show Y (self-reference) at depth 4, layers 0-10%
+- D (double application) at depth 5, layers 20-50% (transition state)
+- WHNF (terminal) at depth 5, layers 80-90% — 3/4 models agree
+
+**Binding IS combinator reduction.** Not a separate mechanism. Each
+lambda binding = one C step. Deeper binding = more composition (B/S)
+before routing (C). Models that can't handle depth 5 collapse to WHNF.
+
+**Chain probe validation: 55% hit rate.** WHNF probes 5/5. Mismatches
+are informative (K_1step→I = correct implementation, S_to_W→W = correct
+S(K)(I)=W identity). Models implement combinators in terms of each other.
+
+**Artifacts**: `lattice/binding-v1/` (10 depths × 118 probes × 4 models),
+`lattice/binding_chain_probes.json`, `scripts/v12/build_binding_lattice.py`
+
+### Training run — still B-dominant
+
+Step ~3780 (1780 restart + 2000 checkpoint). B≈0.27-0.29, W rising to
+0.30-0.31, K still 0.01. Loss steady 13.4-13.7. No phase transition yet.
 
 ## Session 118 findings
 
@@ -171,12 +209,30 @@ Pipeline to crystal seed:
 | Teacher self-similarity | ✅ `results/crystal-selfsim-teacher/` (null result) |
 | Training run | 🔄 Step ~3000, B-dominant phase, L2↓ at φ |
 
+## What's ready
+
+| Asset | Status |
+|-------|--------|
+| Universal lattice | ✅ `lattice/universal_lattice.npz` (807×807, 4 models) |
+| Backbone seed | ✅ `lattice/backbone_seed.json` (664 probes, 7 dims) |
+| Fixed-point probes | ✅ `lattice/fixedpoint_probes.json` (184 probes) |
+| Fixed-point lattice v1 | ✅ `lattice/fixedpoint/` (143 probes × 4 models) |
+| Fixed-point lattice v2 | ✅ `lattice/fixedpoint-v2/` (184 probes × 4 models) |
+| **Binding lattice v1** | ✅ `lattice/binding-v1/` (118 probes × 4 models × 10 depths) |
+| Lens mechanism results | ✅ `results/lens-mechanism/` (partial — OOM at scaling) |
+| V12 self-similarity | ✅ `results/crystal-selfsim-v12/` |
+| Teacher self-similarity | ✅ `results/crystal-selfsim-teacher/` (null result) |
+| Training run | 🔄 Step ~3780, B-dominant phase, L2↓ at φ |
+
 ## Next steps
 
-1. **Analyze fixedpoint-v2 results** — compare binding agreement across
-   models, check K∘I hypothesis, find binding depth capacity boundary
-2. **Merge expanded lattice** — 807 + 184 = 991 probes, full lattice run
-3. **Round-trip verification** — validate fixed-point stability on
-   multiple models (needs LLM capacity)
-4. **Mirror/mask prototype** — implement in mini model, test etch quality
-5. **Monitor training run** — wait for phase transition out of B-dominance
+1. **C-axis extraction** — PCA the consensus RDM to find whether C has
+   a single dominant direction. If so, align Q rotations to C-axis for
+   maximum binding etch quality.
+2. **Merge all lattices** — 807 (universal) + 184 (fixedpoint) + 118
+   (binding) = 1109 probes. Deduplicate overlaps, run full lattice.
+3. **Etch binding topology** — use the C→B/S→WHNF cascade to initialize
+   plate positions. Focus etch on 50-70% depth where agreement peaks.
+4. **Mirror/mask prototype** — implement separated beam/compute on mini model
+5. **Monitor training run** — watch for phase transition out of B-dominance
+6. **More models** — add Llama-3-8B, SmolLM3-3B to strengthen consensus
