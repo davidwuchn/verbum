@@ -119,7 +119,17 @@ Superposition lets multiple levels coexist. The funnel shape (5d→2d)
 IS the tree narrowing from trunk to leaf. P2 CONFIRMED (Pythia: corr -0.28 to -0.35, low-mag neurons 2-3× more
 selective). P3 partially confirmed: structural steering via RDM (0.41-0.72)
 not directional (cosine ≈ 0). FFN reshapes geometry, Q reads the reshaped
-geometry. SwiGLU needs gate×up analysis. Details in `ffn-hierarchy.md`.
+geometry. SwiGLU needs gate×up analysis.
+
+### 7. WHNF is the FFN lookup combinator ★
+
+8 combinator numbers predict 40-54% of FFN activation structure.
+WHNF = "no further reduction" = the RETRIEVE signal. When crystal
+routes to WHNF, FFN enters lookup mode. Coding routes through B/C
+(composition). Retrieval/analogy route through WHNF (lookup).
+Instruction is anti-WHNF ("keep computing"). The combinator dispatch
+IS the FFN addressing function — no separate index needed. Etch the
+crystal → FFN routing comes free. Details in `ffn-hierarchy.md`.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)

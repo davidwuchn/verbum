@@ -1,0 +1,347 @@
+========================================================================
+  Combinator → FFN Index Test
+  Models: ['mistral-7b', 'pythia-2.8b']
+========================================================================
+  Loaded 144 probes
+
+  ─── mistral-7b ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:47,  2.71it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:06, 39.59it/s]Loading weights:  12%|█▏        | 36/291 [00:00<00:02, 86.75it/s]Loading weights:  17%|█▋        | 50/291 [00:00<00:02, 99.08it/s]Loading weights:  22%|██▏       | 64/291 [00:00<00:02, 103.57it/s]Loading weights:  27%|██▋       | 80/291 [00:00<00:01, 118.67it/s]Loading weights:  33%|███▎      | 96/291 [00:01<00:01, 125.63it/s]Loading weights:  39%|███▉      | 114/291 [00:01<00:01, 135.36it/s]Loading weights:  46%|████▌     | 133/291 [00:01<00:01, 150.41it/s]Loading weights:  51%|█████     | 149/291 [00:01<00:00, 143.38it/s]Loading weights:  58%|█████▊    | 168/291 [00:01<00:00, 151.87it/s]Loading weights:  65%|██████▍   | 189/291 [00:01<00:00, 166.55it/s]Loading weights:  73%|███████▎  | 211/291 [00:01<00:00, 175.60it/s]Loading weights:  79%|███████▉  | 230/291 [00:01<00:00, 175.10it/s]Loading weights:  85%|████████▌ | 248/291 [00:01<00:00, 169.08it/s]Loading weights:  91%|█████████▏| 266/291 [00:02<00:00, 146.61it/s]Loading weights:  98%|█████████▊| 284/291 [00:02<00:00, 152.08it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 131.17it/s]
+  Running 144 probes...
+  Done in 25.8s
+
+  ─── pythia-2.8b ───
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   9%|▉         | 36/388 [00:00<00:00, 357.47it/s]Loading weights:  35%|███▌      | 137/388 [00:00<00:00, 740.00it/s]Loading weights:  58%|█████▊    | 224/388 [00:00<00:00, 795.34it/s]Loading weights:  79%|███████▉  | 308/388 [00:00<00:00, 787.61it/s]Loading weights: 100%|█████████▉| 387/388 [00:00<00:00, 673.24it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 694.31it/s]
+  Running 144 probes...
+  Done in 13.8s
+
+==========================================================================================
+  DEPTH 10% — Combinator Profile → FFN Activation
+==========================================================================================
+
+  mistral-7b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         704         754    +0.0004   +0.7772
+             I         723         780    +0.0002   +0.7595
+             B         519         592    -0.0019   +0.6444
+             C         493         562    -0.0016   +0.6873
+             D         517         575    -0.0019   +0.6349
+             Y         497         524    -0.0013   +0.7339
+             W         401         461    -0.0016   +0.5743
+          WHNF         200         197    +0.0005   +0.5566
+
+  mistral-7b: Dominant combinator per neuron:
+         K:  2445 neurons (1402 strong |r|>0.2)
+         I:  3151 neurons (1895 strong |r|>0.2)
+         B:  1259 neurons ( 727 strong |r|>0.2)
+         C:  1280 neurons ( 787 strong |r|>0.2)
+         D:  1278 neurons ( 755 strong |r|>0.2)
+         Y:  1270 neurons ( 788 strong |r|>0.2)
+         W:  1686 neurons ( 785 strong |r|>0.2)
+      WHNF:  1967 neurons ( 734 strong |r|>0.2)
+
+  mistral-7b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.217  -0.135  -0.103  -0.134  +0.033     0.499
+    arithmetic         K  +0.337  -0.139  -0.135  -0.095  -0.071     0.498
+        coding         B  -0.070  +0.404  +0.353  +0.278  -0.073     0.496
+          tool         Y  -0.009  -0.034  -0.038  -0.011  +0.006     0.499
+     retrieval         I  +0.189  -0.098  -0.141  -0.072  +0.092     0.499
+       analogy      WHNF  +0.127  -0.245  -0.243  -0.203  +0.180     0.499
+     reasoning      WHNF  -0.146  -0.040  -0.059  -0.034  +0.018     0.498
+     narrative         Y  -0.506  +0.013  +0.040  -0.015  -0.081     0.499
+   instruction         Y  -0.471  +0.087  +0.149  +0.104  -0.143     0.498
+
+  mistral-7b: Combinator profile RDM ↔ FFN RDM correlation: +0.5409
+  → STRONG: 8 combinator numbers predict FFN activation pattern
+  mistral-7b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.4559
+
+  pythia-2.8b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         321         933    -0.0212   +0.7775
+             I         314        1370    -0.0175   +0.6528
+             B         360          17    -0.0482   +0.8276
+             C         368        1006    -0.0544   +0.8425
+             D         364          12    -0.0470   +0.8280
+             Y         350         660    -0.0543   +0.8003
+             W         374         340    -0.0503   +0.8526
+          WHNF         309        1428    +0.0083   +0.6043
+
+  pythia-2.8b: Dominant combinator per neuron:
+         K:   904 neurons ( 363 strong |r|>0.2)
+         I:  1453 neurons ( 585 strong |r|>0.2)
+         B:  1134 neurons (  81 strong |r|>0.2)
+         C:   406 neurons ( 210 strong |r|>0.2)
+         D:   553 neurons (  85 strong |r|>0.2)
+         Y:   489 neurons ( 163 strong |r|>0.2)
+         W:   475 neurons ( 192 strong |r|>0.2)
+      WHNF:  4826 neurons (1813 strong |r|>0.2)
+
+  pythia-2.8b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.071  -0.025  +0.003  -0.011  +0.062     0.061
+    arithmetic         I  +0.072  -0.110  -0.057  -0.066  +0.047     0.058
+        coding         C  +0.033  +0.380  +0.424  +0.379  +0.019     0.062
+          tool      WHNF  -0.003  -0.037  -0.025  -0.046  +0.013     0.075
+     retrieval      WHNF  +0.001  -0.132  -0.086  -0.095  +0.082     0.082
+       analogy      WHNF  -0.047  -0.165  -0.131  -0.126  +0.156     0.076
+     reasoning      WHNF  -0.015  -0.014  +0.005  +0.000  +0.034     0.055
+     narrative         B  -0.105  -0.050  -0.082  -0.076  -0.099     0.067
+   instruction         D  -0.120  -0.100  -0.207  -0.158  -0.218     0.144
+
+  pythia-2.8b: Combinator profile RDM ↔ FFN RDM correlation: +0.4028
+  → MODERATE: combinators partially predict FFN
+  pythia-2.8b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.2968
+
+==========================================================================================
+  DEPTH 30% — Combinator Profile → FFN Activation
+==========================================================================================
+
+  mistral-7b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         557         536    +0.0011   +0.6864
+             I         482         417    +0.0010   +0.6510
+             B         193         218    +0.0002   +0.4598
+             C         271         284    +0.0001   +0.5259
+             D         267         256    +0.0004   +0.5222
+             Y         184         183    +0.0004   +0.4741
+             W         187         187    +0.0004   +0.4964
+          WHNF         110         106    -0.0010   +0.4726
+
+  mistral-7b: Dominant combinator per neuron:
+         K:  2690 neurons (1811 strong |r|>0.2)
+         I:  1889 neurons (1062 strong |r|>0.2)
+         B:   884 neurons ( 532 strong |r|>0.2)
+         C:  2145 neurons (1241 strong |r|>0.2)
+         D:  1672 neurons (1125 strong |r|>0.2)
+         Y:  1612 neurons ( 825 strong |r|>0.2)
+         W:  1499 neurons ( 789 strong |r|>0.2)
+      WHNF:  1945 neurons ( 906 strong |r|>0.2)
+
+  mistral-7b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.246  +0.047  -0.037  +0.117  +0.012     0.496
+    arithmetic         K  +0.238  -0.143  -0.150  -0.090  -0.130     0.496
+        coding         Y  -0.069  +0.061  +0.031  +0.004  +0.036     0.497
+          tool         C  -0.072  -0.007  +0.023  -0.036  -0.044     0.496
+     retrieval         K  +0.046  -0.083  -0.068  -0.002  -0.049     0.497
+       analogy         K  +0.096  -0.129  -0.194  -0.051  +0.050     0.496
+     reasoning      WHNF  -0.139  -0.019  +0.001  -0.053  +0.092     0.496
+     narrative         C  -0.232  -0.018  +0.014  -0.113  +0.000     0.496
+   instruction         C  -0.292  -0.000  +0.133  -0.087  +0.040     0.498
+
+  mistral-7b: Combinator profile RDM ↔ FFN RDM correlation: +0.4919
+  → MODERATE: combinators partially predict FFN
+  mistral-7b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.4096
+
+  pythia-2.8b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         303          32    -0.0192   +0.7105
+             I         429        1492    -0.0568   +0.6392
+             B         596        1739    -0.0622   +0.7300
+             C         583        1592    -0.0621   +0.7342
+             D         588         981    -0.0545   +0.7291
+             Y         573         712    -0.0535   +0.7327
+             W         520         277    -0.0472   +0.7091
+          WHNF         269        1813    -0.0599   +0.5349
+
+  pythia-2.8b: Dominant combinator per neuron:
+         K:   866 neurons ( 236 strong |r|>0.2)
+         I:  2229 neurons (1483 strong |r|>0.2)
+         B:   863 neurons ( 723 strong |r|>0.2)
+         C:   639 neurons ( 401 strong |r|>0.2)
+         D:   310 neurons ( 105 strong |r|>0.2)
+         Y:  1227 neurons ( 336 strong |r|>0.2)
+         W:   426 neurons ( 179 strong |r|>0.2)
+      WHNF:  3680 neurons (2518 strong |r|>0.2)
+
+  pythia-2.8b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.050  +0.037  +0.021  +0.044  +0.019     0.166
+    arithmetic         I  +0.081  -0.077  -0.057  -0.045  -0.043     0.137
+        coding         B  -0.022  +0.306  +0.299  +0.163  +0.017     0.161
+          tool         C  -0.022  +0.001  +0.004  -0.041  +0.004     0.171
+     retrieval         I  -0.036  -0.107  -0.107  -0.055  -0.001     0.158
+       analogy      WHNF  -0.046  -0.091  -0.121  -0.075  +0.051     0.173
+     reasoning      WHNF  -0.104  -0.037  -0.036  -0.080  +0.128     0.162
+     narrative      WHNF  -0.077  -0.113  -0.095  -0.105  +0.006     0.212
+   instruction         K  -0.025  -0.200  -0.190  -0.119  -0.165     0.348
+
+  pythia-2.8b: Combinator profile RDM ↔ FFN RDM correlation: +0.4608
+  → MODERATE: combinators partially predict FFN
+  pythia-2.8b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.3388
+
+==========================================================================================
+  DEPTH 50% — Combinator Profile → FFN Activation
+==========================================================================================
+
+  mistral-7b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         493         528    -0.0001   +0.5625
+             I         476         507    -0.0004   +0.5889
+             B         197         204    -0.0028   +0.6159
+             C         231         219    -0.0029   +0.6020
+             D         308         311    -0.0027   +0.6330
+             Y         422         450    -0.0029   +0.6020
+             W         289         306    -0.0026   +0.6303
+          WHNF         362         340    +0.0009   +0.6854
+
+  mistral-7b: Dominant combinator per neuron:
+         K:  2612 neurons (1571 strong |r|>0.2)
+         I:  2172 neurons (1308 strong |r|>0.2)
+         B:   975 neurons ( 405 strong |r|>0.2)
+         C:  1174 neurons ( 553 strong |r|>0.2)
+         D:  1420 neurons ( 764 strong |r|>0.2)
+         Y:  2358 neurons (1511 strong |r|>0.2)
+         W:  1179 neurons ( 722 strong |r|>0.2)
+      WHNF:  2446 neurons (1297 strong |r|>0.2)
+
+  mistral-7b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.154  -0.019  -0.056  -0.029  +0.162     0.501
+    arithmetic         K  +0.145  +0.059  +0.059  +0.098  -0.042     0.503
+        coding         Y  -0.011  -0.024  -0.016  -0.001  -0.096     0.501
+          tool         K  +0.014  +0.004  -0.011  +0.007  +0.005     0.503
+     retrieval      WHNF  -0.006  -0.068  -0.054  -0.058  +0.067     0.502
+       analogy      WHNF  +0.026  -0.179  -0.174  -0.204  +0.135     0.500
+     reasoning      WHNF  -0.108  -0.033  -0.047  -0.057  +0.044     0.500
+     narrative         Y  -0.172  -0.053  -0.059  -0.077  -0.185     0.502
+   instruction         Y  -0.218  +0.014  +0.067  +0.025  -0.108     0.499
+
+  mistral-7b: Combinator profile RDM ↔ FFN RDM correlation: +0.4908
+  → MODERATE: combinators partially predict FFN
+  mistral-7b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.4150
+
+  pythia-2.8b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         211          13    -0.0095   +0.6121
+             I         366         765    -0.0629   +0.6559
+             B         569        2428    -0.0864   +0.7135
+             C         558        2089    -0.0785   +0.7136
+             D         566        2188    -0.0794   +0.7100
+             Y         527         639    -0.0629   +0.6842
+             W         543        1988    -0.0768   +0.6917
+          WHNF         216        1294    -0.0531   +0.5506
+
+  pythia-2.8b: Dominant combinator per neuron:
+         K:  1019 neurons ( 288 strong |r|>0.2)
+         I:  1456 neurons ( 548 strong |r|>0.2)
+         B:  2774 neurons (2589 strong |r|>0.2)
+         C:   454 neurons ( 158 strong |r|>0.2)
+         D:   198 neurons ( 144 strong |r|>0.2)
+         Y:  1267 neurons ( 285 strong |r|>0.2)
+         W:   291 neurons ( 174 strong |r|>0.2)
+      WHNF:  2781 neurons (1502 strong |r|>0.2)
+
+  pythia-2.8b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda         I  +0.045  +0.110  +0.103  +0.110  +0.049     0.127
+    arithmetic         I  +0.099  +0.031  -0.003  +0.048  -0.077     0.123
+        coding         B  -0.125  +0.239  +0.222  +0.167  +0.125     0.130
+          tool         Y  -0.002  -0.009  +0.001  -0.035  -0.005     0.142
+     retrieval      WHNF  -0.037  -0.104  -0.108  -0.072  +0.043     0.127
+       analogy      WHNF  -0.098  -0.132  -0.157  -0.149  +0.109     0.142
+     reasoning      WHNF  -0.050  -0.036  -0.032  -0.061  +0.035     0.136
+     narrative         K  +0.005  -0.131  -0.107  -0.110  -0.160     0.200
+   instruction         K  +0.009  -0.243  -0.208  -0.196  -0.149     0.348
+
+  pythia-2.8b: Combinator profile RDM ↔ FFN RDM correlation: +0.5069
+  → STRONG: 8 combinator numbers predict FFN activation pattern
+  pythia-2.8b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.3797
+
+==========================================================================================
+  DEPTH 70% — Combinator Profile → FFN Activation
+==========================================================================================
+
+  mistral-7b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K         702         689    +0.0008   +0.5770
+             I         633         614    +0.0008   +0.5787
+             B         469         459    +0.0019   +0.5835
+             C         465         446    +0.0020   +0.5797
+             D         553         538    +0.0017   +0.6019
+             Y         582         577    +0.0018   +0.6460
+             W         481         502    +0.0019   +0.5945
+          WHNF         460         507    -0.0014   +0.6992
+
+  mistral-7b: Dominant combinator per neuron:
+         K:  2544 neurons (1784 strong |r|>0.2)
+         I:  1676 neurons ( 986 strong |r|>0.2)
+         B:  1155 neurons ( 454 strong |r|>0.2)
+         C:   608 neurons ( 267 strong |r|>0.2)
+         D:   932 neurons ( 665 strong |r|>0.2)
+         Y:  2391 neurons (1623 strong |r|>0.2)
+         W:  1535 neurons ( 862 strong |r|>0.2)
+      WHNF:  3495 neurons (2046 strong |r|>0.2)
+
+  mistral-7b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda      WHNF  +0.170  +0.083  +0.069  +0.087  +0.244     0.501
+    arithmetic         I  +0.069  +0.034  +0.036  -0.002  -0.077     0.500
+        coding         Y  +0.032  +0.100  +0.108  +0.113  -0.155     0.498
+          tool      WHNF  -0.023  -0.018  -0.013  -0.009  +0.002     0.500
+     retrieval      WHNF  -0.020  -0.107  -0.121  -0.121  +0.107     0.498
+       analogy      WHNF  -0.031  -0.176  -0.197  -0.174  +0.266     0.498
+     reasoning      WHNF  -0.163  -0.083  -0.082  -0.098  +0.032     0.501
+     narrative         Y  -0.181  -0.136  -0.138  -0.136  -0.190     0.501
+   instruction         Y  -0.193  -0.068  -0.037  -0.062  -0.204     0.499
+
+  mistral-7b: Combinator profile RDM ↔ FFN RDM correlation: +0.4817
+  → MODERATE: combinators partially predict FFN
+  mistral-7b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.3735
+
+  pythia-2.8b: Neurons correlated with each combinator (|r|>0.3):
+    combinator  n_positive  n_negative  mean_corr  max_corr
+  ------------------------------------------------------
+             K        1226         274    +0.0151   +0.6468
+             I         343         207    -0.0055   +0.5979
+             B         383         232    -0.0098   +0.6220
+             C         324         269    -0.0063   +0.5903
+             D         381         214    -0.0136   +0.5793
+             Y         381         276    +0.0023   +0.6203
+             W         344         208    -0.0180   +0.5868
+          WHNF         262         333    -0.0107   +0.7786
+
+  pythia-2.8b: Dominant combinator per neuron:
+         K:  3285 neurons (2079 strong |r|>0.2)
+         I:   915 neurons ( 195 strong |r|>0.2)
+         B:   421 neurons ( 258 strong |r|>0.2)
+         C:   479 neurons ( 156 strong |r|>0.2)
+         D:   287 neurons ( 172 strong |r|>0.2)
+         Y:   613 neurons ( 284 strong |r|>0.2)
+         W:  1443 neurons ( 426 strong |r|>0.2)
+      WHNF:  2797 neurons ( 986 strong |r|>0.2)
+
+  pythia-2.8b: Domain combinator profiles (PCA-Q) → FFN activation:
+        domain  dom_comb       K       B       C       W    WHNF  ffn_rate
+  ------------------------------------------------------------------
+        lambda      WHNF  +0.084  +0.060  +0.069  +0.136  +0.235     0.101
+    arithmetic         Y  +0.267  +0.270  +0.265  +0.247  -0.356     0.109
+        coding         B  -0.229  +0.088  -0.006  +0.016  -0.357     0.124
+          tool         K  +0.086  +0.057  +0.063  +0.049  -0.123     0.112
+     retrieval      WHNF  -0.287  -0.354  -0.368  -0.375  +0.353     0.109
+       analogy      WHNF  -0.391  -0.481  -0.507  -0.459  +0.549     0.112
+     reasoning      WHNF  -0.056  -0.063  -0.040  -0.013  +0.146     0.094
+     narrative         I  +0.210  +0.098  +0.184  +0.176  -0.034     0.125
+   instruction         K  +0.430  +0.111  +0.202  +0.057  -0.216     0.208
+
+  pythia-2.8b: Combinator profile RDM ↔ FFN RDM correlation: +0.3129
+  → MODERATE: combinators partially predict FFN
+  pythia-2.8b: Combinator profile RDM ↔ FFN binary RDM correlation: +0.2817
+
+  Total: 65s

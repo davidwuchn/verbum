@@ -257,4 +257,43 @@ P2: **Confirmed** (Pythia, corr -0.28 to -0.35). Hierarchy is real.
 P3: **Partially confirmed** (structural steering, RDM corr 0.41-0.72).
 Architecture-dependent: SwiGLU needs gate×up analysis, not up_proj alone.
 
-Artifacts: `results/ffn-hierarchy/`
+### Combinator → FFN Index Test — WHNF is the lookup combinator
+
+**Setup:** For each probe, compute its combinator profile (PCA-Q cosine
+similarity to K, I, B, C, D, Y, W, WHNF anchors). Correlate this 8-number
+fingerprint with FFN activation patterns. Compare RDMs.
+
+**Finding: 8 combinator numbers predict 40-54% of FFN activation structure.**
+```
+Combinator profile RDM ↔ FFN RDM:
+  Mistral: 0.48-0.54 across depths
+  Pythia:  0.31-0.51 across depths
+```
+
+**Finding: WHNF IS the retrieval/lookup combinator.**
+WHNF = "weak head normal form" = "no further reduction" = VALUE not computation.
+When the crystal routes to WHNF, the FFN reads this as "stop computing, retrieve."
+```
+coding:      B/C dominant (both models) → composition/routing mode
+retrieval:   WHNF dominant (both models) → lookup mode
+analogy:     WHNF dominant (both models) → lookup mode
+lambda:      I/K dominant (both models) → identity/selection mode
+arithmetic:  K/I dominant (both models) → selection mode
+instruction: anti-WHNF (all combs negative) → "keep going, don't stop"
+```
+
+**Finding: The combinator system IS the FFN addressing function.**
+The combinators map to FFN modes:
+```
+K:    SELECT   — activate selection neurons
+I:    CARRY    — activate pass-through neurons
+B:    COMPOSE  — activate composition neurons
+C:    ROUTE    — activate routing neurons
+WHNF: RETRIEVE — activate storage neurons (the lookup basin)
+```
+
+For V13: combinator dispatch already routes FFN activation through the
+residual stream. Etch the crystal → FFN routing comes free. WHNF dispatch
+= lookup mode. B/C dispatch = compute mode. No separate FFN index needed.
+
+Artifacts: `results/ffn-hierarchy/`, `results/combinator_ffn_index_run.log`
