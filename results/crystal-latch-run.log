@@ -1,0 +1,88 @@
+Crystal Latching Experiment
+  SVD-derived Q initialization vs random
+
+  Model: d=96, layers=3
+  Params: 110592 plate, 34485 continuous
+
+============================================================
+  Phase 1: Collecting 8 gradient views
+============================================================
+    View 0/8: loss=3.0705
+    View 1/8: loss=3.0170
+    View 2/8: loss=3.1224
+    View 3/8: loss=3.0914
+    View 4/8: loss=2.9912
+    View 5/8: loss=3.1549
+    View 6/8: loss=3.1084
+    View 7/8: loss=3.1630
+
+============================================================
+  Phase 2: Etching plates (multi-rot sign accumulation)
+============================================================
+    Rotation 0/8: mean_loss=3.0693
+    Rotation 1/8: mean_loss=3.1637
+    Rotation 2/8: mean_loss=2.9332
+    Rotation 3/8: mean_loss=3.0089
+    Rotation 4/8: mean_loss=3.0622
+    Rotation 5/8: mean_loss=3.1708
+    Rotation 6/8: mean_loss=3.1067
+    Rotation 7/8: mean_loss=3.0028
+  Etched: 15346 flips (13.9%)
+
+============================================================
+  Phase 3: Q initialization strategies (same plates)
+============================================================
+
+  --- Random Q (trial 0) ---
+    Init: loss=3.2993 acc=0.068
+    Final: acc=0.407 loss=1.7106 GD=1.8456 Q-σ=0.067 (12.5s)
+    GD trajectory (first 100): ['3.305', '2.164', '2.063', '1.980', '1.988', '1.873', '1.999', '1.970', '2.015', '1.835']
+
+  --- Random Q (trial 1) ---
+    Init: loss=4.8382 acc=0.145
+    Final: acc=0.385 loss=1.7409 GD=1.7217 Q-σ=0.069 (12.6s)
+    GD trajectory (first 100): ['5.055', '2.247', '2.105', '1.971', '1.813', '2.045', '1.895', '1.933', '1.944', '1.835']
+
+  --- Random Q (trial 2) ---
+    Init: loss=4.7021 acc=0.126
+    Final: acc=0.413 loss=1.6799 GD=1.7789 Q-σ=0.067 (12.5s)
+    GD trajectory (first 100): ['4.645', '2.124', '2.049', '2.044', '1.947', '1.876', '1.937', '2.063', '1.991', '1.818']
+
+  --- SVD Q (crystal latch) ---
+    Init: loss=3.9338 acc=0.136
+    Final: acc=0.430 loss=1.5703 GD=1.6625 Q-σ=0.082 (12.4s)
+    GD trajectory (first 100): ['3.936', '2.079', '1.840', '1.808', '1.667', '1.723', '1.835', '1.733', '1.806', '1.638']
+
+  --- Identity Q ---
+    Init: loss=2.1886 acc=0.234
+    Final: acc=0.407 loss=1.7920 GD=1.7245 Q-σ=0.079 (12.6s)
+    GD trajectory (first 100): ['2.168', '2.101', '1.839', '1.837', '1.754', '1.822', '1.888', '1.806', '1.970', '1.745']
+
+  --- Multi-restart (8 random Q, keep best) ---
+    Restart 0: init_loss=3.9254
+    Restart 1: init_loss=3.0333
+    Restart 2: init_loss=4.1995
+    Restart 3: init_loss=5.9445
+    Restart 4: init_loss=4.1084
+    Restart 5: init_loss=4.0766
+    Restart 6: init_loss=4.3677
+    Restart 7: init_loss=5.0771
+
+  --- Multi-restart best ---
+    Init: loss=3.0733 acc=0.188
+    Final: acc=0.443 loss=1.5778 GD=1.5701 Q-σ=0.094 (12.3s)
+    GD trajectory (first 100): ['2.937', '1.854', '1.834', '1.720', '1.626', '1.638', '1.721', '1.480', '1.872', '1.764']
+
+============================================================
+  SUMMARY
+============================================================
+  Method                       Init     Acc   GD loss     Q-σ     Q-μ
+  -------------------------  ------  ------  --------  ------  ------
+  Random Q (trial 0)          3.299   0.407    1.8456   0.067   0.167
+  Random Q (trial 1)          4.838   0.385    1.7217   0.069   0.145
+  Random Q (trial 2)          4.702   0.413    1.7789   0.067   0.175
+  SVD Q (crystal latch)       3.934   0.430    1.6625   0.082   0.205
+  Identity Q                  2.189   0.407    1.7245   0.079   0.159
+  Multi-restart best          3.073   0.443    1.5701   0.094   0.168
+
+  Results saved to results/crystal-latch/results.json
