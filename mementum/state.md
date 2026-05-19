@@ -2,62 +2,67 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-19 | Session: 116
+> Last updated: 2026-05-19 | Session: 117
 
 ## Where we are
 
-**HOLOGRAPHIC DISTILLATION V12 PIPELINE BUILT AND SMOKE-TESTED.** Ready for full training run.
+**DISPATCH COLLAPSE DIAGNOSED AND FIXED.** Run 1 killed. Three bugs fixed, ready for run 2.
 
-Two-phase training script (`scripts/v12/holographic_distill_v12.py`) complete:
-- **Phase 1 — ETCH**: Teacher-guided plate etching from pre-extracted Qwen3-32B features (500 probes, 8 depth points). Per-pass distillation: projected teacher hidden states fed through individual V12 passes, MSE loss accumulated into direction accumulators, confident positions flipped via direct_etch. Focusing schedule (cosine-annealed confidence threshold).
-- **Phase 2 — GD**: Frozen plates, extended gradient descent on continuous params (gammas, norms, S3/S4/S5, embeddings) with CE loss on structured_shard_v2 + Dolma. Cosine LR with warmup, eval on held-out shards, checkpointing.
+Run 1 (session 116) reached step 4,410/20,000 before kill. Dispatch collapsed at step ~400
+(LR warmup peak): WHNF→94% monopoly, then cycling through I/Y/WHNF passthrough modes.
+CE plateaued at ~7.5, relational loss r climbed from 1.8→3.9 (diverging from teacher geometry).
 
-## Key decisions this session (116)
+## Bugs fixed (session 117)
 
-### 1. Teacher→Student dimension bridging
-Learned `TeacherProjection(5120→512)` — `nn.Linear` + `RMSNorm`. Trained alongside beam params during etch. The projection is a "lens" that focuses teacher representations into student space. Xavier init for stable gradient flow.
+### 1. KL dispatch regularization had ZERO gradient (critical)
+```python
+# BUG: q_instant = mx.stop_gradient(q_kibc) severed gradient tape
+# EMA was built from stop_gradient values → KL on EMA = constant
+# λ=100 inflated loss number but gradient = 0, no steering
 
-### 2. Per-pass distillation (not full-forward)
-Each V12 pass runs independently during etch with dummy banks. The gradient signal through ternary plates is valid because it answers: "given this input pattern, which plate signs produce output closest to the teacher?" This matches mini_holo_distill's layer-wise approach and is simpler + more memory-efficient than full-forward instrumentation.
-
-### 3. Teacher depth → V12 pass mapping
-```
-Teacher L8  → Pass 0 (L0↑)    Teacher L40 → Pass 4 (L2↓)
-Teacher L16 → Pass 1 (L1↑)    Teacher L48 → Pass 5 (L1↓)
-Teacher L24 → Pass 2 (L2↑)    Teacher L56 → Pass 6 (L0↓)
-Teacher L32 → Pass 3 (apex)   Teacher L64 → output (output_norm)
-```
-
-### 4. Readable banks per pass
-Different passes expect different bank counts. Built a lookup table:
-```
-Pass 0: 3 banks, Pass 1: 4, Pass 2: 5, Pass 3: 5
-Pass 4: 6, Pass 5: 5, Pass 6: 5
+# FIX: KL computed on live (differentiable) dispatch weights
+# EMA kept for monitoring only (not in gradient path)
+# λ recalibrated: 100→2 (now that gradient actually flows)
+#   B→30% drift: 0.3%CE (free)
+#   WHNF=30%:    10%CE (visible wall)
+#   WHNF=50%:    31%CE (strong wall)
 ```
 
-### 5. GD phase must use full training loop (FIXED mid-session)
-First version used bare CE loss — missing relational loss, holographic progressive CE,
-gradient accumulation, shared gradient normalization. Killed the degraded run and
-transplanted the actual train.py training loop:
-- **Relational loss** r = (CE - E) / (log(V) - E), normalized phase-aware space
-- **RDM matching** from lambda_kernel_verified_dimensions.json (380 probes, λ=0.01, every 50 steps)
-- **Gradient accumulation** (4 micro-batches per step)
-- **normalize_shared_grads** for universal/asc/desc shared components
-- **Holographic progressive CE** wired via `_holo_lambda_effective` (currently λ=0.0, can override)
-- **Dispatch weight monitoring** in log output
-
-## Smoke test results
+### 2. Entropy regularization negligible
 ```
-2 rounds, 5 probes/round, 5 beam steps, 10 GD steps:
-  Round 1 (conf=0.50): 305,974 flips, distill_loss=0.234
-  Round 2 (conf=0.90): 145,136 flips, distill_loss=0.164  ← loss drops
-  GD: loss_ema=16.5, eval_loss=16.1 (untrained model, expected)
-  All checkpoints saved correctly (etch rounds + best + final)
+# BUG: λ=0.01, squared hinge → penalty 0.003 vs CE~7.5 (0.04%)
+# FIX: λ raised to 0.5 → 5% of CE at moderate collapse
+# Secondary to KL (primary anti-collapse force)
 ```
 
-## What's running
+### 3. Backbone whisper replaced with lattice constants
+Probe-based: tokenize 20 probes, forward through model, extract hidden states,
+compute pairwise cosines, MSE against target. Expensive, fragile.
 
-**GD phase on tmux window 1** — `holographic_distill_v12.py --skip-etch --load-weights gamma_seeded/weights.npz`. Gamma-seeded weights + backbone whisper (constant crystal pressure) + holo progressive CE. Check: `tail -20 checkpoints/v12-distill-run1/gd_run.log`
+Constant-based: 8×8 combinator-level target cosine matrix precomputed from
+universal RDM (380 probes, 20 axes, all 28 off-diagonal pairs SNR>2).
+MSE between combinator embedding cosines and targets. No probe forwarding.
+Negligible cost. Gradient flows only to combinator_embeddings (surgical).
+
+Crystal geometry: {K,I,B,C} positive cluster (compositional family),
+{Y,W,WHNF} negative to all (reduction/terminal family), D bridges B/C↔rest.
+
+## Audit findings (from full loss pipeline audit)
+
+| Component | Gradient? | Magnitude | Status |
+|-----------|----------|-----------|--------|
+| CE | ✓ full | ~7.5 | Healthy |
+| Dispatch entropy reg | ✓ (was tiny) | 0.003→0.35 | **Fixed** (λ 0.01→0.5) |
+| KL dispatch leash | **was ZERO** | 0→live | **Fixed** (stop_grad bug) |
+| Holo progressive CE | ✓ full | ~3.5 (7 terms × λ=0.1) | Healthy |
+| Lattice geometry | ✓ full | ~0.0002 | **Replaced** (was backbone whisper) |
+| Abstraction slot reg | ✓ (hinge) | ~0.001 | Healthy (late-activating) |
+
+Minor: backbone grads bypassed r-transform (10× scaling mismatch). Now moot since
+lattice loss is embedding-only, not forwarding through r-transform.
+
+Dead config: `holo_warmup_steps`, `holo_ramp_steps` exist but `holo_schedule()` returns
+constant. `rel_every`, `rel_n_probes` removed (were backbone-specific).
 
 ## What's ready
 
@@ -65,58 +70,63 @@ transplanted the actual train.py training loop:
 |-------|--------|
 | Teacher features | ✅ 500 probes × 8 depths, 896MB, `checkpoints/teacher-features/` |
 | Training data | ✅ structured_shard_v2.npy (52.6K docs, 1.2M tok) + Dolma (3B tok, 54 shards) |
-| Distill script | ✅ `scripts/v12/holographic_distill_v12.py` — smoke-tested |
+| Distill script | ✅ `scripts/v12/holographic_distill_v12.py` — bugs fixed, smoke-tested |
 | V12 model | ✅ 24.6M params, 887K trainable (continuous) |
+| Lattice constants | ✅ 8×8 crystal geometry in distill script |
+
+## Run 1 checkpoints (available for analysis)
+
+| Checkpoint | Step | State |
+|-----------|------|-------|
+| gamma_seeded | 0 | Gamma-seeded weights before GD |
+| etch_round_001-005 | — | Etch phase results |
+| step_002000 | 2000 | r=4.05, deep collapse (Y=0.41) |
+| step_004000 | 4000 | r=3.66, cycling (I=0.26, Y=0.32, WHNF=0.23) |
+| best | 500 | Eval loss 29.63 (pre-collapse, best available) |
 
 ## Next steps
 
-### 1. **RUN THE FULL TRAINING** (next session priority)
+### 1. **RUN 2** — with all three fixes
 ```bash
 cd ~/src/verbum
 uv run python scripts/v12/holographic_distill_v12.py \
-    --n-etch-rounds 5 \
-    --etch-probes-per-round 500 \
-    --beam-steps-per-round 200 \
-    --beam-lr 1e-4 \
-    --etch-confidence-start 0.5 \
-    --etch-confidence-end 0.9 \
-    --etch-max-flips-start 0 \
-    --etch-max-flips-end 100 \
+    --skip-etch \
+    --load-weights checkpoints/v12-distill-run1/gamma_seeded/weights.npz \
     --gd-steps 20000 \
-    --gd-lr 6e-4 \
-    --gd-lr-min 6e-6 \
-    --gd-warmup 500 \
     --seq-len 2048 \
     --batch-size 2 \
     --mix-ratio 0.1 \
-    --checkpoint-dir checkpoints/v12-distill-run1 \
+    --checkpoint-dir checkpoints/v12-distill-run2 \
     --checkpoint-every 2000 \
     --eval-every 500 \
-    2>&1 | tee checkpoints/v12-distill-run1/run.log
+    --log-every 10 \
+    2>&1 | tee checkpoints/v12-distill-run2/run2.log
 ```
 
-Expected runtime: etch ~30 min (500 probes × 8 depths × 5 rounds), GD ~hours (20K steps × seq_len 2048).
+Watch for:
+- Dispatch should stay near prior ratio through warmup (step 0-500)
+- KL loss should be small at init (~0.01), grow if dispatch drifts, then gradient pulls back
+- B should remain dominant (~20%+), WHNF should stay < 10%
+- CE should decline without the plateau at ~7.5
 
-### 2. Monitor and evaluate
-- Watch etch: distill_loss should decrease, flips should focus (fewer per round)
-- Watch GD: CE loss should decline, eval loss should track
-- After: probe combinator dispatch, test lambda generation quality
+### 2. Decide on etch vs skip-etch for run 2
+Run 1 used gamma-seeded weights + skip-etch. Could re-etch with fixed dispatch
+regularization for better plate quality. The etch phase doesn't use the dispatch
+regulators (per-pass distillation loss), so plates from run 1 are fine.
 
-### 3. Consider improvements for subsequent runs
-- **Lattice alignment loss** as additional etch signal (already supported in holographic_train.py)
-- **Multi-scale etch**: vary number of probes per round (more in early rounds, fewer in later)
-- **Probe selection**: use probes most relevant to each pass's stride range (low strides for L0, high for apex)
-- **Resume support**: `--load-weights` + `--skip-etch` for GD-only reruns
+### 3. Consider λ tuning after observing run 2
+- KL λ=2: watch if model finds the prior or oscillates
+- Entropy λ=0.5: watch if secondary signal is needed
+- Lattice λ=0.01: may need increase if embeddings don't converge to crystal
 
 ## Architecture at session end
 
 | Component | Value |
 |-----------|-------|
-| N_COMBINATORS | 4 (K,I,B,C) — V12 config |
+| N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
 | Parameters | 24.6M total, 887K trainable |
 | Teacher | Qwen3-32B (64L, d=5120, 500 probes extracted) |
-| Projection | Linear(5120→512) + RMSNorm, trained during etch |
-| Etch protocol | Per-pass distillation, MSE loss, 5 rounds × 500 probes |
-| GD protocol | Frozen plates, CE on structured+Dolma, 20K steps |
-| Training data | structured_shard_v2 (1.2M tok) + Dolma (3B tok) |
+| dispatch_kl_lambda | 2.0 (was 100, now live gradient) |
+| dispatch_entropy_lambda | 0.5 (was 0.01) |
+| Lattice loss | 8×8 constant crystal geometry, no probes |
 | Script | `scripts/v12/holographic_distill_v12.py` |
