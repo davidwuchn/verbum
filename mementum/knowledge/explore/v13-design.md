@@ -401,37 +401,67 @@ crystal_cosine_targets = (
 
 ---
 
-## Etch Protocol (unified)
+## Etch Protocol: Crystal Nucleation + Propagation
+
+Session 119 insight: the crystal nucleates at the finest stride and
+propagates outward like a wavelet (V6 data: s8→s16→s32→s64→s128,
+~1500 steps per doubling). Cross-stride correlation 0.72 = each
+stride inherits ~72% of structure from finer neighbor.
+
+**The minimum etchable seed is stride 1 only (~3M ternary positions).**
+The rest crystallizes spontaneously during GD.
 
 ```
-Phase 1: CRYSTAL ETCH (shared plates + combinator masks)
+Phase 1a: NUCLEATION (stride 1 only, ~3M positions)
+  - Teacher-guided etch: forward teacher features, accumulate
+    direction signals into stride-1 plates + combinator masks
+  - Multi-rotation tomographic (sign vote, ≥8 Q rotations)
+  - Many rounds, high confidence threshold
+  - Target: correct combinator geometry at Zone A
+  - Beam training between rounds (gammas, norms adjust)
+  - Crystal lattice loss every beam step (Zone A 8×8 targets)
 
-  Round structure:
-    1a. Accumulate: forward teacher features through V13
-        → direction accumulators for shared plates AND masks
-    1b. Consensus etch shared plates (high confidence threshold)
-        → positions where ALL combinators agree
-    1c. Consensus etch masks (lower confidence threshold)
-        → positions where specific combinators disagree with shared
-    1d. Beam training (50-200 steps, plates frozen)
-        → gammas, norms, embeddings adjust to new topology
-    1e. Crystal lattice loss (every beam step)
-        → combinator embeddings nudged toward measured targets
+Phase 1b: PROPAGATION (strides 2, 4, 8, 16, 32...)
+  - Short GD bursts (500-1000 steps) between stride levels
+  - Crystal propagates fine→coarse via self-similarity
+  - After each burst, measure: which positions at next stride
+    have crystallized? (high confidence in direction accumulators
+    WITHOUT active etching = crystal propagated there)
+  - Etch only the MOLTEN DELTA — positions that didn't crystallize
+  - Geometric decay: stride 1=100%, stride 2≈28%, stride 4≈8%...
+  - Total etch: ~4.2M positions (3% of budget), rest is spontaneous
+  - Crystal lattice loss shifts to Zone B targets as strides grow
 
-  Focusing schedule:
-    confidence_start=0.5 → confidence_end=0.9 over rounds
-    More flips early (coarse structure), fewer late (refinement)
-    
-  Multi-rotation: N Q rotations per round (from q-rotation-etching.md)
-    Sign accumulation (majority vote) = best reconstruction
+Phase 1c: VERIFICATION
+  - Cross-stride correlation ≥0.72 confirms propagation
+  - Per-stride compression gradient (fine=more, coarse=less)
+  - Combinator geometry matches Zone targets at boundaries
+  - If verification fails at a stride: more etch rounds there
 
-Phase 2: GD (continuous params only)
+Phase 2: GD (beam calibration, crystal frozen)
+  - All plates + masks frozen
+  - Loss = CE + λ_a * zone_a_loss + λ_b * zone_b_loss + λ_c * zone_c_loss
+         + λ_kl * dispatch_KL + λ_ent * dispatch_entropy
+  - Zone-specific relational loss at phase boundaries (84 constants)
+  - Checkpoint every 500 steps
 
-  Loss = CE + λ_rel * crystal_lattice + λ_kl * dispatch_KL + λ_ent * dispatch_entropy
-  
-  All plates frozen (shared + masks). Only beams trained.
-  Checkpoint every 500 steps.
+Etch budget:
+  Stride 1 seed:     ~3.0M positions  (100% etched)
+  Stride 2 delta:    ~0.84M (28%)
+  Stride 4 delta:    ~0.24M (8%)
+  Stride 8+:         ~0.1M total (diminishing)
+  Total active etch: ~4.2M (3% of 130M+ budget)
+  Spontaneous:       ~126M (97% crystallizes from seed)
 ```
+
+### Open question: extracting the seed from teachers
+
+Standard transformers don't have strides. The seed crystal's topology
+needs to be extracted from teacher models somehow. Options:
+1. Use layer 0-3 hidden states (early layers ≈ stride 1 equivalent)
+2. Use attention patterns at short context lengths (naturally stride-1)
+3. Use the combinator geometry at Zone A as the seed target (already measured)
+4. Just etch from CE loss on training data (no teacher, but slower)
 
 ---
 

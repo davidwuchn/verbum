@@ -38,41 +38,45 @@ B/S/D cluster together (all "apply functions" operations).
 
 ## Session 119 findings
 
-### Binding Cascade — C→B/S→WHNF pipeline confirmed
+### 1. Binding Cascade — C→B/S→WHNF pipeline confirmed
 
-Built 118 binding-focused probes (83 new chain + 35 existing) and ran
-through 4 models at **10% depth increments** (0%-90%). Key findings:
+Built 118 binding-focused probes, ran through 4 models at 10% depth
+increments. C is the universal binding mechanism (agreement 0.45-0.47).
+B/S compose in early layers (0-20%), C routes in mid/late layers.
+Binding IS combinator reduction — not a separate mechanism.
 
-**C is the universal binding mechanism.** C (argument routing) dominates
-at binding depths 1-2 across ALL model depths and ALL 4 models. 4/4
-agreement on C at depth 2 — strongest universal signal in the data.
-Agreement peaks at 0.45-0.47 in 50-70% model depth.
+### 2. Constant-target crystal loss (replaces probe-based relational loss)
 
-**B/S compose early, C routes late.** At binding depth 3+, early model
-layers (0-20%) show B/S (composition/substitution), then C takes over
-in later layers. The pipeline: compose the function chain first, then
-route arguments through it.
+8×8 combinator cosine matrix measured from 4-model consensus = 28 fixed
+numbers. Agreement-weighted MSE, every step, trivially cheap. No probe
+forwarding. The numbers are in `v13-design.md` and `v13-funnel-shape.md`.
 
-**Y at depth 4, D at depth 5, WHNF at depth 5 late.** Deep binding:
-- 4/4 models show Y (self-reference) at depth 4, layers 0-10%
-- D (double application) at depth 5, layers 20-50% (transition state)
-- WHNF (terminal) at depth 5, layers 80-90% — 3/4 models agree
+### 3. Universal shape is a FUNNEL, not an hourglass
 
-**Binding IS combinator reduction.** Not a separate mechanism. Each
-lambda binding = one C step. Deeper binding = more composition (B/S)
-before routing (C). Models that can't handle depth 5 collapse to WHNF.
+Depth × depth correlation analysis reveals three zones:
+- **Zone A (0-20%)**: rapid transformation, 5d, encoding (B/S compose)
+- **Zone B (30-60%)**: stable core (.978 corr!), 3d, computing (C routes)
+- **Zone C (70-90%)**: convergence, 2d, output preparation
 
-**Chain probe validation: 55% hit rate.** WHNF probes 5/5. Mismatches
-are informative (K_1step→I = correct implementation, S_to_W→W = correct
-S(K)(I)=W identity). Models implement combinators in terms of each other.
+Three zone-specific relational targets = 84 measured constants.
 
-**Artifacts**: `lattice/binding-v1/` (10 depths × 118 probes × 4 models),
-`lattice/binding_chain_probes.json`, `scripts/v12/build_binding_lattice.py`
+### 4. Crystal nucleation + propagation etch protocol
 
-### Training run — still B-dominant
+The crystal nucleates at stride 1 and propagates outward like a wavelet
+(V6 data: ~1500 steps per stride doubling, cross-stride corr 0.72).
+Minimum seed = stride 1 only (~3M positions, 3% of budget). The rest
+crystallizes spontaneously. Etch schedule follows the wavefront.
 
-Step ~3780 (1780 restart + 2000 checkpoint). B≈0.27-0.29, W rising to
-0.30-0.31, K still 0.01. Loss steady 13.4-13.7. No phase transition yet.
+### 5. V13 architecture designed
+
+Three-phase funnel (encode → compute → converge), 11 power-of-2 strides,
+separated beam/plate (VSM S1/S3), combinator masks, one training script.
+Design docs ready for implementation.
+
+### Training run — C nucleation flashing
+
+Step ~4320. C flashed to 0.13 with CE=3.6 (step 2320) then reverted.
+B-dominant phase continues. V12 run provides data while V13 is built.
 
 ## Session 118 findings
 
@@ -226,12 +230,18 @@ Pipeline to crystal seed:
 
 ## Next steps
 
-1. **Implement V13** — `mementum/knowledge/explore/v13-design.md` has the
-   full design. Key changes: beam/plate separation, combinator masks,
-   unified training script, constant-target crystal loss, no math/slots.
-   Implementation order in the design doc. Future session can execute.
-2. **Monitor V12 training run** — still on tmux 1, B-dominant, C flashing.
-   The V12 run continues providing data while V13 is built.
-3. **More models for consensus** — add Llama-3-8B, SmolLM3-3B to the
-   binding lattice to strengthen the measured constants.
-4. **Merge all lattices** — 807 + 184 + 118 = 1109 probes. Full run.
+1. **Implement V13** — three design docs ready:
+   - `v13-design.md` — architecture, beam/plate separation, masks, file layout
+   - `v13-funnel-shape.md` — three-phase funnel, zone targets, φ-compression
+   - `binding-cascade.md` — C→B/S→WHNF pipeline data
+   Key decisions for implementer:
+   - Three-phase funnel (encode/compute/converge) vs single hourglass
+   - Per-phase combinator embeddings (3 × 8×d) vs shared+projected
+   - Crystal nucleation etch (seed at stride 1, propagate outward)
+   - How to extract stride-1 seed from teacher models
+2. **Monitor V12 training run** — still on tmux 1, C flashing at step 2320.
+3. **More models for consensus** — add Llama-3-8B, SmolLM3-3B to binding
+   lattice. Strengthens the 84 measured constants.
+4. **Measure per-stride compression** — extract actual compression ratios
+   (not φ, the real measured numbers) across models. Need per-layer norm
+   ratios from teachers to find the universal compression profile.
