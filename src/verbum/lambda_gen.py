@@ -46,6 +46,7 @@ class Op(str, Enum):
     M = "M"      # match / self-apply:    λf. f(f)
     D = "D"      # deep compose (fused):  λf.λg.λh.λx. f(g(h(x)))
     Y = "Y"      # recursion / iterate:   λf. f(Y(f))
+    W = "W"      # duplicate / share:     λf.λx. f(x)(x)
     WHNF = "WHNF"  # terminal / stop:     weak head normal form detection
 
 
@@ -1148,6 +1149,112 @@ Y_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
 
 
 # ── WHNF: TERMINAL / STOP-REDUCING ──────────────────────────────────────────
+# ── W: DUPLICATE / SHARE / SELF-APPLY ────────────────────────────────────────
+# W f x = f x x — the argument is used twice. Duplication, sharing, resource
+# reuse, echoing, mirroring, idempotent application, double-use.
+# Linguistic: shared arguments, repeated use, doubling, self-involvement.
+
+W_TEMPLATES: list[tuple[int, str, str, Callable[[Vocab], str]]] = [
+    # ── Level 1: Atomic ──
+    (1, "pure_W", "W",
+     lambda v: "λf.λx. f(x)(x)"),
+
+    (1, "duplicate_entity", "W(a)",
+     lambda v: f"{v.act2()}({v.entity()}, {v.entity()})"),
+
+    (1, "self_relate", "W(R)",
+     lambda v: f"{v.rel()}({v.entity()}, {v.entity()})"),
+
+    (1, "double_property", "W(P)",
+     lambda v: f"{v.prop()}({v.entity()}) ∧ {v.prop()}({v.entity()})"),
+
+    # ── Level 2: Applied duplication ──
+    (2, "shared_argument", "W(f,a)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → {v.act2()}(x, x)"
+     )),
+
+    (2, "echo_pattern", "W(echo)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → {v.act1()}(x) ∧ {v.act1()}(x)"
+     )),
+
+    (2, "mirror_relation", "W(mirror)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → {v.rel()}(x, x)"
+     )),
+
+    (2, "idempotent", "W(idem)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → {v.act2()}(x, x)"
+     )),
+
+    (2, "resource_share", "W(share)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.act2()}(x, x)"
+     )),
+
+    # ── Level 3: Compound duplication ──
+    (3, "duplicate_in_context", "W(f,∀)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"{v.act2()}(x, x) ∧ {v.prop()}(x)"
+     )),
+
+    (3, "double_bind", "W(bind)",
+     lambda v: (
+         f"∀x. ∀y. {v.entity()}(x) ∧ {v.entity()}(y) → "
+         f"{v.act2()}(x, x) ∧ {v.act2()}(y, y)"
+     )),
+
+    (3, "shared_composition", "W(B)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"{v.act1()}({v.rel()}(x, x))"
+     )),
+
+    (3, "reflexive_chain", "W(chain)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.rel()}(x, x) ∧ {v.prop()}(x)"
+     )),
+
+    # ── Level 4: Deep duplication ──
+    (4, "nested_self_ref", "W(nested)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"{v.rel()}(x, x) ∧ {v.act2()}(x, x)"
+     )),
+
+    (4, "duplicate_across_scope", "W(scope)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.entity()}(y) ∧ {v.act2()}(x, x) ∧ {v.act2()}(y, y)"
+     )),
+
+    (4, "double_quantified", "W(∀∀)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) ∧ {v.prop()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ {v.act2()}(y, y) ∧ {v.prop()}(y)"
+     )),
+
+    # ── Level 5: Complex duplication ──
+    (5, "recursive_duplicate", "W(Y)",
+     lambda v: (
+         f"∀x. {v.entity()}(x) → "
+         f"∃y. {v.rel()}(y, x) ∧ {v.act2()}(y, y) ∧ "
+         f"∃z. {v.rel()}(z, y) ∧ {v.act2()}(z, z)"
+     )),
+
+    (5, "deep_share", "W(D)",
+     lambda v: (
+         f"∃x. {v.entity()}(x) ∧ {v.prop()}(x) ∧ "
+         f"∃y. {v.rel()}(y, x) ∧ {v.rel()}(y, y) ∧ "
+         f"∃z. {v.rel()}(z, x) ∧ {v.act2()}(z, z) ∧ {v.prop()}(z)"
+     )),
+]
+
+
+# ── WHNF: TERMINAL / COMPLETE / FULLY REDUCED ───────────────────────────────
 # WHNF detects when an expression is fully reduced (weak head normal form).
 # Linguistic: final state, completion, result, definite answer, conclusion.
 
@@ -1250,6 +1357,7 @@ _TEMPLATES: dict[str, list[tuple[int, str, str, Callable[[Vocab], str]]]] = {
     "M": M_TEMPLATES,
     "D": D_TEMPLATES,
     "Y": Y_TEMPLATES,
+    "W": W_TEMPLATES,
     "WHNF": WHNF_TEMPLATES,
 }
 

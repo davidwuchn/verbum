@@ -122,6 +122,7 @@ weighted toward post-freeze GD.
 | Models validated | 5+1 (+ qwen3.6-27b probed) |
 | Procrustes cos | 0.217 (round 60), untested post-lattice |
 | Mini-holo | d-sweeps, freeze+GD, crystal write (fails), holo distill (91.3%!) |
+| Training data | structured_shard_v2.npy: 52.6K docs, 1.2M tok, all 9 ops + math |
 | Key insight | Holo distill (teacher beam angles) → freeze → GD = 91% of oracle |
 
 ## Architecture at session end
