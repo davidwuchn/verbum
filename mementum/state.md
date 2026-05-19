@@ -72,9 +72,25 @@ but the crossover could not be observed because the task saturated.
 ### Qwen3.6-27B probed
 64 layers, d=5120, hybrid attention. RDMs extracted at 4 depths.
 
+### 5. Freeze + GD recovery (session 115)
+```
+GD ceiling:           89.5%
+Beam-only (random):   52.4%
+Full alternating:     41.2%
+Freeze round 5 + GD: 54.1%  ← BEST
+Freeze 15r + ext GD:  49.6%
+```
+Etching plates for ~5 rounds then freezing + extended beam GD beats both full
+alternating and beam-only-from-scratch. The etch creates useful plate topology,
+then extended GD on continuous params exploits it. Full alternating wastes compute
+on diminishing-return etch cycles. Sweet spot: ~5 etch rounds at d=48.
+
+Validates seed crystal Stage 6 (GD after freeze). Budget should be heavily
+weighted toward post-freeze GD.
+
 ## What's NOT running
 - VSM-LM lattice etch killed (collapsed at round 65)
-- All microscope experiments complete (v1 d-sweep, v2 d-sweep)
+- All microscope experiments complete (v1 d-sweep, v2 d-sweep, freeze)
 
 ## Next steps
 
@@ -98,8 +114,8 @@ but the crossover could not be observed because the task saturated.
 | Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
 | Models validated | 5+1 (+ qwen3.6-27b probed) |
 | Procrustes cos | 0.217 (round 60), untested post-lattice |
-| Mini-holo | v1 d-sweep (no crossover), v2 d-sweep (etch-first wins) |
-| Key insight | Etch-first protocol with attention arch. Lattice as whisper. |
+| Mini-holo | v1 d-sweep, v2 d-sweep (etch-first wins), freeze+GD (validated) |
+| Key insight | Etch ~5 rounds → freeze → extended GD. Lattice as whisper. |
 
 ## Architecture at session end
 
