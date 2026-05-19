@@ -1,0 +1,717 @@
+[
+  {
+    "prompt": "\u03bbx.\u03bby.x",
+    "domain": "fixedpoint",
+    "subdomain": "pure_K"
+  },
+  {
+    "prompt": "\u03bbx.x",
+    "domain": "fixedpoint",
+    "subdomain": "pure_I"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x))",
+    "domain": "fixedpoint",
+    "subdomain": "pure_B"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbx.\u03bby.f(y)(x)",
+    "domain": "fixedpoint",
+    "subdomain": "pure_C"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbx.f(x)(x)",
+    "domain": "fixedpoint",
+    "subdomain": "pure_W"
+  },
+  {
+    "prompt": "\u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+    "domain": "fixedpoint",
+    "subdomain": "pure_Y"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+    "domain": "fixedpoint",
+    "subdomain": "pure_D"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+    "domain": "fixedpoint",
+    "subdomain": "pure_S"
+  },
+  {
+    "prompt": "A value that cannot be reduced further \u2014 it is already in its simplest computational form, either a literal value or a partially applied function awaiting more arguments",
+    "domain": "fixedpoint",
+    "subdomain": "pure_WHNF"
+  },
+  {
+    "prompt": "The projection function that given two arguments returns the first, discarding the second entirely",
+    "domain": "fixedpoint",
+    "subdomain": "prose_K"
+  },
+  {
+    "prompt": "The identity function that returns its single argument completely unchanged",
+    "domain": "fixedpoint",
+    "subdomain": "prose_I"
+  },
+  {
+    "prompt": "The composition operator that given functions f and g and argument x, applies g to x first, then applies f to that result",
+    "domain": "fixedpoint",
+    "subdomain": "prose_B"
+  },
+  {
+    "prompt": "The argument flip operator that given a function f and arguments x and y, applies f to y first and then to x, reversing the argument order",
+    "domain": "fixedpoint",
+    "subdomain": "prose_C"
+  },
+  {
+    "prompt": "The duplication operator that given a function f and argument x, applies f to x twice \u2014 using x as both the first and second argument",
+    "domain": "fixedpoint",
+    "subdomain": "prose_W"
+  },
+  {
+    "prompt": "The fixed-point combinator that given a function f, finds the value that equals f applied to itself \u2014 enabling recursion without self-reference",
+    "domain": "fixedpoint",
+    "subdomain": "prose_Y"
+  },
+  {
+    "prompt": "The deep composition operator that given functions f and g and arguments x and y, applies f to x and g to y independently, then combines the results",
+    "domain": "fixedpoint",
+    "subdomain": "prose_D"
+  },
+  {
+    "prompt": "The substitution combinator that given functions f and g and argument x, applies both f and g to x, then applies the result of f(x) to the result of g(x)",
+    "domain": "fixedpoint",
+    "subdomain": "prose_S"
+  },
+  {
+    "prompt": "A value that cannot be reduced further \u2014 it is already in its simplest computational form, either a literal value or a partially applied function awaiting more arguments",
+    "domain": "fixedpoint",
+    "subdomain": "prose_WHNF"
+  },
+  {
+    "prompt": "Despite everything else that happened, the only thing that matters is",
+    "domain": "fixedpoint",
+    "subdomain": "natural_K_0"
+  },
+  {
+    "prompt": "No matter what you say next, my answer remains",
+    "domain": "fixedpoint",
+    "subdomain": "natural_K_1"
+  },
+  {
+    "prompt": "The first ingredient is all you need; ignore the rest and use",
+    "domain": "fixedpoint",
+    "subdomain": "natural_K_2"
+  },
+  {
+    "prompt": "Regardless of the second option, always choose",
+    "domain": "fixedpoint",
+    "subdomain": "natural_K_3"
+  },
+  {
+    "prompt": "Simply repeat exactly what was said:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_I_0"
+  },
+  {
+    "prompt": "The output is identical to the input:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_I_1"
+  },
+  {
+    "prompt": "Pass through without any modification:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_I_2"
+  },
+  {
+    "prompt": "Echo the following precisely as given:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_I_3"
+  },
+  {
+    "prompt": "First translate the document to French, then summarize the translated",
+    "domain": "fixedpoint",
+    "subdomain": "natural_B_0"
+  },
+  {
+    "prompt": "The mother of the author of the book that",
+    "domain": "fixedpoint",
+    "subdomain": "natural_B_1"
+  },
+  {
+    "prompt": "Take the square root of the sum of",
+    "domain": "fixedpoint",
+    "subdomain": "natural_B_2"
+  },
+  {
+    "prompt": "Convert to uppercase the reversed version of",
+    "domain": "fixedpoint",
+    "subdomain": "natural_B_3"
+  },
+  {
+    "prompt": "Instead of me giving it to you, you give it to",
+    "domain": "fixedpoint",
+    "subdomain": "natural_C_0"
+  },
+  {
+    "prompt": "Not from English to French, but from French to",
+    "domain": "fixedpoint",
+    "subdomain": "natural_C_1"
+  },
+  {
+    "prompt": "Rather than the teacher grading the student, the student evaluates the",
+    "domain": "fixedpoint",
+    "subdomain": "natural_C_2"
+  },
+  {
+    "prompt": "Reverse the direction: instead of parent to child, child to",
+    "domain": "fixedpoint",
+    "subdomain": "natural_C_3"
+  },
+  {
+    "prompt": "Compare the document with itself to find",
+    "domain": "fixedpoint",
+    "subdomain": "natural_W_0"
+  },
+  {
+    "prompt": "Apply the same transformation to both sides of",
+    "domain": "fixedpoint",
+    "subdomain": "natural_W_1"
+  },
+  {
+    "prompt": "The function that tests whether something equals itself:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_W_2"
+  },
+  {
+    "prompt": "Use the password as both the key and the value to",
+    "domain": "fixedpoint",
+    "subdomain": "natural_W_3"
+  },
+  {
+    "prompt": "Keep applying the rule until the result stops changing:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_Y_0"
+  },
+  {
+    "prompt": "The process that feeds its own output back as input until stable:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_Y_1"
+  },
+  {
+    "prompt": "Repeat the simplification step until no further simplification is possible:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_Y_2"
+  },
+  {
+    "prompt": "Find the equilibrium by iterating the transformation until convergence:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_Y_3"
+  },
+  {
+    "prompt": "Score the essay on both grammar and content separately, then combine:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_D_0"
+  },
+  {
+    "prompt": "Evaluate the pros independently from the cons, then weigh",
+    "domain": "fixedpoint",
+    "subdomain": "natural_D_1"
+  },
+  {
+    "prompt": "Process the image through both the color and edge filters, then merge",
+    "domain": "fixedpoint",
+    "subdomain": "natural_D_2"
+  },
+  {
+    "prompt": "Apply the discount to the price and the tax to the subtotal, then sum",
+    "domain": "fixedpoint",
+    "subdomain": "natural_D_3"
+  },
+  {
+    "prompt": "Use the input to determine both which function to apply and what to apply it to:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_S_0"
+  },
+  {
+    "prompt": "The context determines both the interpretation rule and the thing being interpreted:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_S_1"
+  },
+  {
+    "prompt": "Based on the query, select both the search strategy and the search terms:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_S_2"
+  },
+  {
+    "prompt": "The sentence itself determines both the parsing rule and the parse:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_S_3"
+  },
+  {
+    "prompt": "The final answer that cannot be simplified any further:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_WHNF_0"
+  },
+  {
+    "prompt": "This expression is already fully evaluated:",
+    "domain": "fixedpoint",
+    "subdomain": "natural_WHNF_1"
+  },
+  {
+    "prompt": "No more computation steps are possible; the result is",
+    "domain": "fixedpoint",
+    "subdomain": "natural_WHNF_2"
+  },
+  {
+    "prompt": "The irreducible form of the expression is",
+    "domain": "fixedpoint",
+    "subdomain": "natural_WHNF_3"
+  },
+  {
+    "prompt": "Triple composition \u2014 compose three functions into a pipeline that applies the innermost first",
+    "domain": "fixedpoint",
+    "subdomain": "compound_B_B"
+  },
+  {
+    "prompt": "Constant composition \u2014 a function that ignores two arguments and returns the first thing it was given",
+    "domain": "fixedpoint",
+    "subdomain": "compound_B_K"
+  },
+  {
+    "prompt": "The projection function that given two arguments returns the second, discarding the first",
+    "domain": "fixedpoint",
+    "subdomain": "compound_K_I"
+  },
+  {
+    "prompt": "Flip projection \u2014 equivalent to selecting the second argument by flipping K's preference",
+    "domain": "fixedpoint",
+    "subdomain": "compound_C_K"
+  },
+  {
+    "prompt": "Compose then flip \u2014 apply g to y first, then apply f to the result with x as second argument",
+    "domain": "fixedpoint",
+    "subdomain": "compound_B_C_B"
+  },
+  {
+    "prompt": "Substitute then project \u2014 always returns the argument regardless of the function g, equivalent to identity",
+    "domain": "fixedpoint",
+    "subdomain": "compound_S_K"
+  },
+  {
+    "prompt": "Self-application \u2014 applies the argument to itself, the core of recursion and paradox",
+    "domain": "fixedpoint",
+    "subdomain": "compound_S_I_I"
+  },
+  {
+    "prompt": "Quadruple composition \u2014 a four-function pipeline",
+    "domain": "fixedpoint",
+    "subdomain": "compound_quad_compose"
+  },
+  {
+    "prompt": "Duplicate through composition \u2014 apply g to x, then apply that result to itself",
+    "domain": "fixedpoint",
+    "subdomain": "compound_W_B"
+  },
+  {
+    "prompt": "Flipped composition \u2014 compose in reverse order, applying the second function first",
+    "domain": "fixedpoint",
+    "subdomain": "compound_C_B"
+  },
+  {
+    "prompt": "Write a function that takes two arguments and always returns the first one",
+    "domain": "fixedpoint",
+    "subdomain": "compile_K_basic"
+  },
+  {
+    "prompt": "Define a constant function that ignores its second parameter",
+    "domain": "fixedpoint",
+    "subdomain": "compile_K_constant"
+  },
+  {
+    "prompt": "Implement a selector that always picks the left of a pair",
+    "domain": "fixedpoint",
+    "subdomain": "compile_K_selector"
+  },
+  {
+    "prompt": "Create a function where the second argument has no effect on the output",
+    "domain": "fixedpoint",
+    "subdomain": "compile_K_ignore"
+  },
+  {
+    "prompt": "Write the simplest possible function \u2014 one that does nothing to its input",
+    "domain": "fixedpoint",
+    "subdomain": "compile_I_basic"
+  },
+  {
+    "prompt": "Define the identity transformation",
+    "domain": "fixedpoint",
+    "subdomain": "compile_I_identity"
+  },
+  {
+    "prompt": "Implement a pass-through that returns its argument unchanged",
+    "domain": "fixedpoint",
+    "subdomain": "compile_I_passthrough"
+  },
+  {
+    "prompt": "Write a function that composes two other functions \u2014 applying the second then the first",
+    "domain": "fixedpoint",
+    "subdomain": "compile_B_basic"
+  },
+  {
+    "prompt": "Define function composition: given f and g, produce a function that applies g then f",
+    "domain": "fixedpoint",
+    "subdomain": "compile_B_compose"
+  },
+  {
+    "prompt": "Implement a pipeline builder that chains two transformations",
+    "domain": "fixedpoint",
+    "subdomain": "compile_B_pipeline"
+  },
+  {
+    "prompt": "Create a higher-order function that given two functions returns their composition",
+    "domain": "fixedpoint",
+    "subdomain": "compile_B_higher"
+  },
+  {
+    "prompt": "Write a function that swaps the order of two arguments to another function",
+    "domain": "fixedpoint",
+    "subdomain": "compile_C_basic"
+  },
+  {
+    "prompt": "Define an argument reverser for binary functions",
+    "domain": "fixedpoint",
+    "subdomain": "compile_C_flip"
+  },
+  {
+    "prompt": "Implement flip: given f(x,y), produce a function that computes f(y,x)",
+    "domain": "fixedpoint",
+    "subdomain": "compile_C_reverse"
+  },
+  {
+    "prompt": "Write a function that passes the same argument twice to a binary function",
+    "domain": "fixedpoint",
+    "subdomain": "compile_W_basic"
+  },
+  {
+    "prompt": "Define the diagonal: given f(x,y), produce a function that computes f(x,x)",
+    "domain": "fixedpoint",
+    "subdomain": "compile_W_diagonal"
+  },
+  {
+    "prompt": "Implement self-application: given f, produce the function that applies f to x twice",
+    "domain": "fixedpoint",
+    "subdomain": "compile_W_selfapply"
+  },
+  {
+    "prompt": "Write a function that finds the fixed point of another function without explicit recursion",
+    "domain": "fixedpoint",
+    "subdomain": "compile_Y_basic"
+  },
+  {
+    "prompt": "Define a combinator that enables recursion in a language without named functions",
+    "domain": "fixedpoint",
+    "subdomain": "compile_Y_recursion"
+  },
+  {
+    "prompt": "Implement the mechanism by which a function can call itself without knowing its own name",
+    "domain": "fixedpoint",
+    "subdomain": "compile_Y_anonymous"
+  },
+  {
+    "prompt": "Write a function where the argument determines both the function to apply and the value to transform",
+    "domain": "fixedpoint",
+    "subdomain": "compile_S_basic"
+  },
+  {
+    "prompt": "Define the substitution combinator: given f, g, x, compute f(x)(g(x))",
+    "domain": "fixedpoint",
+    "subdomain": "compile_S_subst"
+  },
+  {
+    "prompt": "Write a function that processes two arguments independently through two different functions then combines",
+    "domain": "fixedpoint",
+    "subdomain": "compile_D_basic"
+  },
+  {
+    "prompt": "Define parallel application: given f, g, x, y, compute f(x) combined with g(y)",
+    "domain": "fixedpoint",
+    "subdomain": "compile_D_parallel"
+  },
+  {
+    "prompt": "Explain in plain English what this function does: \u03bbx.\u03bby.x",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_K"
+  },
+  {
+    "prompt": "Describe the behavior of: \u03bbx.x",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_I"
+  },
+  {
+    "prompt": "What does this function compute: \u03bbf.\u03bbg.\u03bbx.f(g(x))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_B"
+  },
+  {
+    "prompt": "Explain this lambda expression: \u03bbf.\u03bbx.\u03bby.f(y)(x)",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_C"
+  },
+  {
+    "prompt": "Describe what this does: \u03bbf.\u03bbx.f(x)(x)",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_W"
+  },
+  {
+    "prompt": "What is the purpose of: \u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_Y"
+  },
+  {
+    "prompt": "Explain this function: \u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_S"
+  },
+  {
+    "prompt": "Describe the computation: \u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_D"
+  },
+  {
+    "prompt": "What does this compute: \u03bbf.\u03bbg.\u03bbh.\u03bbx.f(g(h(x)))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_B_B"
+  },
+  {
+    "prompt": "Explain: \u03bbx.\u03bby.y",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_K_I"
+  },
+  {
+    "prompt": "What does \u03bbx.x(x) do, and why is it significant?",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_S_I_I"
+  },
+  {
+    "prompt": "Describe: \u03bbf.\u03bbg.\u03bbh.\u03bbi.\u03bbx.f(g(h(i(x))))",
+    "domain": "fixedpoint",
+    "subdomain": "decompile_quad_compose"
+  },
+  {
+    "prompt": "The capital of the country that borders",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_geography"
+  },
+  {
+    "prompt": "The color of the car that belongs to the person who",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_chain"
+  },
+  {
+    "prompt": "Summarize the translation of the abstract of",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_pipeline"
+  },
+  {
+    "prompt": "The square root of the absolute value of the difference between",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_math"
+  },
+  {
+    "prompt": "The CEO of the company that acquired the startup that developed",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_deep_chain"
+  },
+  {
+    "prompt": "Print the sorted unique values from the filtered list of",
+    "domain": "fixedpoint",
+    "subdomain": "cross_B_code_pipeline"
+  },
+  {
+    "prompt": "No matter what happens next, the answer is still",
+    "domain": "fixedpoint",
+    "subdomain": "cross_K_constant"
+  },
+  {
+    "prompt": "Regardless of the weather, the meeting will be held at",
+    "domain": "fixedpoint",
+    "subdomain": "cross_K_regardless"
+  },
+  {
+    "prompt": "The only relevant factor, ignoring everything else, is",
+    "domain": "fixedpoint",
+    "subdomain": "cross_K_only"
+  },
+  {
+    "prompt": "Whatever you do, don't forget that the main point is",
+    "domain": "fixedpoint",
+    "subdomain": "cross_K_main_point"
+  },
+  {
+    "prompt": "It wasn't the dog that bit the man, but the man who bit the",
+    "domain": "fixedpoint",
+    "subdomain": "cross_C_reverse_agent"
+  },
+  {
+    "prompt": "Instead of the students evaluating the teachers, the teachers evaluate the",
+    "domain": "fixedpoint",
+    "subdomain": "cross_C_role_swap"
+  },
+  {
+    "prompt": "Don't ask what your country can do for you \u2014 ask what you can do for your",
+    "domain": "fixedpoint",
+    "subdomain": "cross_C_jfk"
+  },
+  {
+    "prompt": "The seller became the buyer and the buyer became the",
+    "domain": "fixedpoint",
+    "subdomain": "cross_C_swap_roles"
+  },
+  {
+    "prompt": "The message was relayed exactly as received:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_I_relay"
+  },
+  {
+    "prompt": "The witness quoted the suspect verbatim:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_I_verbatim"
+  },
+  {
+    "prompt": "Copy the input to the output without any transformation:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_I_copy"
+  },
+  {
+    "prompt": "The committee that oversees itself discovered that",
+    "domain": "fixedpoint",
+    "subdomain": "cross_W_self_ref"
+  },
+  {
+    "prompt": "The program that analyzes its own source code found",
+    "domain": "fixedpoint",
+    "subdomain": "cross_W_quine"
+  },
+  {
+    "prompt": "Compare each item in the list with every other item in the same list to",
+    "domain": "fixedpoint",
+    "subdomain": "cross_W_self_compare"
+  },
+  {
+    "prompt": "The rule for simplifying is: if the expression contains a reducible part, simplify it and repeat until",
+    "domain": "fixedpoint",
+    "subdomain": "cross_Y_simplify"
+  },
+  {
+    "prompt": "Start with an initial guess, apply Newton's method, and keep iterating until the answer converges to",
+    "domain": "fixedpoint",
+    "subdomain": "cross_Y_newton"
+  },
+  {
+    "prompt": "To sort, split the list in half, sort each half, then merge \u2014 applying this same process to each half until",
+    "domain": "fixedpoint",
+    "subdomain": "cross_Y_mergesort"
+  },
+  {
+    "prompt": "The sentence that refers to itself is true if and only if",
+    "domain": "fixedpoint",
+    "subdomain": "cross_Y_goedel"
+  },
+  {
+    "prompt": "Use the context to determine both what rule applies and what it applies to:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_S_context"
+  },
+  {
+    "prompt": "The word itself tells you both how to pronounce it and what it means:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_S_self_decode"
+  },
+  {
+    "prompt": "Grade the essay separately for content and for grammar, then combine the scores:",
+    "domain": "fixedpoint",
+    "subdomain": "cross_D_parallel_eval"
+  },
+  {
+    "prompt": "Analyze the image for both color and shape independently, then classify based on",
+    "domain": "fixedpoint",
+    "subdomain": "cross_D_parallel_analysis"
+  },
+  {
+    "prompt": "Reduce step by step: K a b",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_K_simple"
+  },
+  {
+    "prompt": "Reduce step by step: I (K a b)",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_I_K"
+  },
+  {
+    "prompt": "Reduce step by step: B f g x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_B_simple"
+  },
+  {
+    "prompt": "Reduce step by step: C f a b",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_C_simple"
+  },
+  {
+    "prompt": "Reduce step by step: W f x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_W_simple"
+  },
+  {
+    "prompt": "Reduce step by step: S f g x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_S_simple"
+  },
+  {
+    "prompt": "Reduce completely: K (I a) (B f g x)",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_K_I_nested"
+  },
+  {
+    "prompt": "Reduce completely: B (K a) I x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_B_K_I"
+  },
+  {
+    "prompt": "Reduce completely: C (B f g) a b",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_C_B"
+  },
+  {
+    "prompt": "Reduce completely: S K K x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_S_K_K"
+  },
+  {
+    "prompt": "Reduce completely: B B B f g h x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_B_B_B"
+  },
+  {
+    "prompt": "Reduce completely: W (C K) x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_W_C_K"
+  },
+  {
+    "prompt": "Reduce completely: K (B f g (I x)) (W h y)",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_deep_4"
+  },
+  {
+    "prompt": "Reduce completely: B (B B B) B f g h i x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_deep_compose"
+  },
+  {
+    "prompt": "Reduce completely: S (B B S) (K K) f g x",
+    "domain": "fixedpoint",
+    "subdomain": "reduce_deep_5"
+  }
+]

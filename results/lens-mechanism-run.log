@@ -1,0 +1,140 @@
+======================================================================
+  LENS MECHANISM EXPERIMENT
+  What IS the Q lens distortion?
+======================================================================
+
+  Model: d=96, layers=3
+  Params: 145,077 total (110,592 plate, 30,240 beam)
+
+======================================================================
+  PHASE 1: Gradient Signal Decomposition
+======================================================================
+    View 0/8: loss=2.9552
+    View 1/8: loss=3.0025
+    View 2/8: loss=2.9150
+    View 3/8: loss=3.0294
+    View 4/8: loss=2.9951
+    View 5/8: loss=3.0563
+    View 6/8: loss=2.8900
+    View 7/8: loss=3.0494
+
+  --- Magnitude vs Phase Variance ---
+
+  Plate       Type   MagCV   PhCoh   Crystal      Lens     Noise
+  ----------  ----  ------  ------  --------  --------  --------
+  Plate 0    K      0.676   0.318     0.1%     1.8%    98.0%
+  Plate 1    V      0.507   0.529    24.6%    10.3%    65.1%
+  Plate 2    O      0.512   0.530    24.8%    11.4%    63.8%
+  Plate 3    FFN    0.514   0.523    25.7%    11.7%    62.6%
+  Plate 4    K      0.660   0.310     0.5%     1.0%    98.6%
+  Plate 5    V      0.477   0.643    57.1%    12.2%    30.7%
+  Plate 6    O      0.488   0.614    53.9%    14.1%    32.0%
+  Plate 7    FFN    0.464   0.601    49.9%    10.6%    39.6%
+  Plate 8    K      0.618   0.305     0.1%     0.7%    99.2%
+  Plate 9    V      0.433   0.722    66.1%    13.7%    20.2%
+  Plate 10   O      0.438   0.713    68.2%    14.0%    17.8%
+  Plate 11   FFN    0.443   0.646    56.6%    10.2%    33.2%
+
+  --- By plate type ---
+      K: MagCV=0.651  PhCoh=0.311  Crystal=0.2%  Lens=1.2%  Noise=98.6%
+      V: MagCV=0.472  PhCoh=0.631  Crystal=49.3%  Lens=12.0%  Noise=38.7%
+      O: MagCV=0.479  PhCoh=0.619  Crystal=49.0%  Lens=13.2%  Noise=37.9%
+    FFN: MagCV=0.474  PhCoh=0.590  Crystal=44.0%  Lens=10.8%  Noise=45.1%
+
+  --- Signal Separation (invariant vs variable magnitude) ---
+  Plate 0 (K): invariant=44.2%  variable=55.8%  inv↔coh corr=-0.041 (p=7.11e-04)
+  Plate 1 (V): invariant=69.7%  variable=30.3%  inv↔coh corr=0.208 (p=1.90e-90)
+  Plate 2 (O): invariant=69.1%  variable=30.9%  inv↔coh corr=0.237 (p=3.46e-119)
+  Plate 3 (FFN): invariant=70.0%  variable=30.0%  inv↔coh corr=0.237 (p=1.16e-119)
+  Plate 4 (K): invariant=47.3%  variable=52.7%  inv↔coh corr=0.066 (p=2.94e-09)
+  Plate 5 (V): invariant=78.0%  variable=22.0%  inv↔coh corr=0.289 (p=5.80e-183)
+  Plate 6 (O): invariant=76.8%  variable=23.2%  inv↔coh corr=0.334 (p=3.28e-251)
+  Plate 7 (FFN): invariant=79.4%  variable=20.6%  inv↔coh corr=0.326 (p=1.18e-238)
+  Plate 8 (K): invariant=50.9%  variable=49.1%  inv↔coh corr=-0.026 (p=9.39e-02)
+  Plate 9 (V): invariant=81.9%  variable=18.1%  inv↔coh corr=0.390 (p=0.00e+00)
+  Plate 10 (O): invariant=79.5%  variable=20.5%  inv↔coh corr=0.396 (p=0.00e+00)
+  Plate 11 (FFN): invariant=80.1%  variable=19.9%  inv↔coh corr=0.338 (p=2.28e-258)
+
+  --- Q Transfer Function Correlation ---
+  Plate 0 (K): mean |FFT(Q)|↔|FFT(grad)| corr = -0.002
+  Plate 1 (V): mean |FFT(Q)|↔|FFT(grad)| corr = 0.004
+  Plate 2 (O): mean |FFT(Q)|↔|FFT(grad)| corr = -0.004
+  Plate 3 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = 0.001
+  Plate 4 (K): mean |FFT(Q)|↔|FFT(grad)| corr = 0.005
+  Plate 5 (V): mean |FFT(Q)|↔|FFT(grad)| corr = -0.001
+  Plate 6 (O): mean |FFT(Q)|↔|FFT(grad)| corr = -0.004
+  Plate 7 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = -0.002
+  Plate 8 (K): mean |FFT(Q)|↔|FFT(grad)| corr = -0.002
+  Plate 9 (V): mean |FFT(Q)|↔|FFT(grad)| corr = 0.006
+  Plate 10 (O): mean |FFT(Q)|↔|FFT(grad)| corr = 0.006
+  Plate 11 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = 0.007
+
+======================================================================
+  PHASE 2: Reconstruction Methods (8 rotations)
+======================================================================
+
+  --- Sign vote ---
+    Acc: 0.322  Loss: 2.0263  GD final: 2.1258
+
+  --- Phase-only ---
+    Acc: 0.394  Loss: 1.7755  GD final: 1.8370
+
+  --- Deconvolved (λ=0.1) ---
+    Acc: 0.382  Loss: 1.8868  GD final: 1.9021
+
+  --- Deconvolved (λ=0.5) ---
+    Acc: 0.355  Loss: 1.7548  GD final: 1.8158
+
+  --- Deconvolved (λ=1.0) ---
+    Acc: 0.407  Loss: 1.8263  GD final: 1.8390
+
+  --- Coherence-weighted ---
+    Acc: 0.390  Loss: 1.8866  GD final: 1.9378
+
+  --- Invariant magnitude ---
+    Acc: 0.380  Loss: 1.7891  GD final: 1.8596
+
+  Method                        Acc     Loss       GD
+  -------------------------  ------  -------  -------
+  Sign vote                   0.322   2.0263   2.1258
+  Phase-only                  0.394   1.7755   1.8370
+  Deconvolved (λ=0.1)         0.382   1.8868   1.9021
+  Deconvolved (λ=0.5)         0.355   1.7548   1.8158
+  Deconvolved (λ=1.0)         0.407   1.8263   1.8390
+  Coherence-weighted          0.390   1.8866   1.9378
+  Invariant magnitude         0.380   1.7891   1.8596
+
+======================================================================
+  PHASE 3: Scaling Crossover (2-32 rotations)
+======================================================================
+
+  === 2 rotations ===
+    View 0/2: loss=1.7983
+    View 1/2: loss=3.6236
+    sign_vote                : 0.351
+    phase_only               : 0.387
+    deconvolved              : 0.399
+    coherence_weighted       : 0.339
+    invariant_magnitude      : 0.408
+
+  === 4 rotations ===
+    View 0/4: loss=1.7427
+    View 1/4: loss=3.9604
+    View 2/4: loss=3.8093
+    View 3/4: loss=4.9219
+    sign_vote                : 0.345
+    phase_only               : 0.376
+    deconvolved              : 0.362
+    coherence_weighted       : 0.328
+    invariant_magnitude      : 0.430
+
+  === 8 rotations ===
+    View 0/8: loss=1.6191
+    View 1/8: loss=4.0475
+    View 2/8: loss=3.5513
+    View 3/8: loss=3.6050
+    View 4/8: loss=4.4637
+    View 5/8: loss=3.3808
+    View 6/8: loss=3.5162
+    View 7/8: loss=3.2126
+libc++abi: terminating due to uncaught exception of type std::runtime_error: [METAL] Command buffer execution failed: Discarded (victim of GPU error/recovery) (00000005:kIOGPUCommandBufferCallbackErrorInnocentVictim)
