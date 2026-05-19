@@ -640,77 +640,172 @@ def holo_schedule(step, cfg):
     return cfg.holo_lambda
 
 
-def _setup_relational_loss(cfg):
-    """Load relational loss target RDM and pre-tokenize probes (from train.py)."""
+def _setup_backbone_whisper(cfg):
+    """Precompute backbone crystal constraints from the RDM.
+
+    Instead of periodically probing the model with 50 sequences (expensive),
+    extract the backbone pairs and anchor probes as constants. On every step,
+    a few anchor probes are forwarded alongside the training batch, and their
+    pairwise cosines are pushed toward the precomputed targets.
+
+    Returns: backbone dict or None.
+    """
     rel_target_file = Path(cfg.rel_target_path)
     if not rel_target_file.exists():
-        print(f"  ⚠️  Relational loss target not found: {rel_target_file}")
-        return None, None, None
+        print(f"  ⚠️  Backbone target not found: {rel_target_file}")
+        return None
 
     import json as _json
     from transformers import AutoTokenizer as _AT
 
     _rel_data = _json.load(rel_target_file.open())
     _rel_probes = _rel_data["probes"]
-    # Use L20 target (deepest with both K and I signal)
     _rel_target_key = "20" if "20" in _rel_data["targets"] else list(_rel_data["targets"].keys())[0]
-    _rdm_raw = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
-    rel_target_rdm = mx.array(_rdm_raw.astype(np.float32))
+    rdm = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
 
+    # Tokenize all probes
     _tok = _AT.from_pretrained("Qwen/Qwen3-14B")
-    rel_probes_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
-    rel_rng = np.random.RandomState(42)
+    all_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
+    del _tok
 
-    print(f"  🔬 Relational loss: {len(rel_probes_tokenized)} probes, "
-          f"λ={cfg.rel_lambda}, every {cfg.rel_every} steps, "
-          f"sample {cfg.rel_n_probes}/step")
+    # Extract backbone: strong pairs (|cos| > 0.3)
+    n = rdm.shape[0]
+    triu_r, triu_c = np.triu_indices(n, k=1)
+    pair_vals = rdm[triu_r, triu_c]
+    strong_mask = np.abs(pair_vals) > 0.3
+    backbone_i = triu_r[strong_mask]
+    backbone_j = triu_c[strong_mask]
+    backbone_cos = pair_vals[strong_mask].astype(np.float32)
 
-    del _tok, _rel_data, _rel_probes
-    return rel_probes_tokenized, rel_target_rdm, rel_rng
+    # Find the probes that participate in backbone pairs
+    backbone_probe_ids = sorted(set(backbone_i.tolist()) | set(backbone_j.tolist()))
 
+    # Select N_ANCHOR probes: the ones involved in the most backbone pairs
+    from collections import Counter
+    probe_counts = Counter()
+    for i, j in zip(backbone_i, backbone_j):
+        probe_counts[int(i)] += 1
+        probe_counts[int(j)] += 1
+    # Top 20 most-connected probes
+    n_anchors = min(20, len(probe_counts))
+    anchor_probes = [pid for pid, _ in probe_counts.most_common(n_anchors)]
+    anchor_probes.sort()
 
-def _compute_relational_loss(model, cfg, rel_probes_tokenized, rel_target_rdm, rel_rng):
-    """Compute relational loss: RDM matching on sampled probes (from train.py)."""
-    n_total = len(rel_probes_tokenized)
-    indices = rel_rng.choice(n_total, size=min(cfg.rel_n_probes, n_total), replace=False)
-    indices = sorted(indices)
+    # Build anchor → local index mapping
+    anchor_to_local = {pid: idx for idx, pid in enumerate(anchor_probes)}
 
-    min_len = max(cfg.strides) + cfg.window + 1
-    batch_enc = [rel_probes_tokenized[i] for i in indices]
-    lengths = [len(e) for e in batch_enc]
-    max_len = max(max(lengths), min_len)
+    # Extract pairwise targets for anchor probes only
+    anchor_pairs_i = []
+    anchor_pairs_j = []
+    anchor_targets = []
+    for bi, bj, bcos in zip(backbone_i, backbone_j, backbone_cos):
+        bi, bj = int(bi), int(bj)
+        if bi in anchor_to_local and bj in anchor_to_local:
+            anchor_pairs_i.append(anchor_to_local[bi])
+            anchor_pairs_j.append(anchor_to_local[bj])
+            anchor_targets.append(float(bcos))
+
+    # Pre-tokenize and pad anchor probes
+    min_len = max(cfg.strides) + cfg.window + 2
+    anchor_tokens = [all_tokenized[pid] for pid in anchor_probes]
+    anchor_lengths = [len(t) for t in anchor_tokens]
+    max_len = max(max(anchor_lengths), min_len)
     pad_id = cfg.eod_id
-    padded = [e + [pad_id] * (max_len - len(e)) for e in batch_enc]
-    input_ids = mx.array(padded)
+    anchor_padded = [t + [pad_id] * (max_len - len(t)) for t in anchor_tokens]
+    anchor_input_ids = mx.array(anchor_padded)  # (n_anchors, max_len)
 
-    def _rel_loss_fn(model_inner):
+    backbone = {
+        "anchor_input_ids": anchor_input_ids,      # (n_anchors, max_len)
+        "anchor_lengths": anchor_lengths,            # list[int]
+        "n_anchors": n_anchors,
+        "pairs_i": mx.array(np.array(anchor_pairs_i, dtype=np.int32)),
+        "pairs_j": mx.array(np.array(anchor_pairs_j, dtype=np.int32)),
+        "targets": mx.array(np.array(anchor_targets, dtype=np.float32)),
+        "n_pairs": len(anchor_targets),
+        "rng": np.random.RandomState(42),
+    }
+
+    print(f"  🔬 Backbone whisper: {n_anchors} anchor probes, "
+          f"{len(anchor_targets)} target pairs, "
+          f"λ={cfg.rel_lambda} (constant, every step)")
+
+    del _rel_data, _rel_probes, all_tokenized
+    return backbone
+
+
+def _compute_backbone_loss(model, backbone, n_sample=8):
+    """Constant-cost backbone loss: forward a few anchor probes, match cosines.
+
+    Samples n_sample anchors from the precomputed set, forwards them,
+    extracts last-token hidden states, computes pairwise cosines,
+    and MSE against precomputed target cosines.
+
+    Cost: n_sample short sequences (~20 tokens each). Runs every step.
+    """
+    n_anchors = backbone["n_anchors"]
+    rng = backbone["rng"]
+
+    # Sample n_sample anchors
+    if n_sample >= n_anchors:
+        sample_idx = list(range(n_anchors))
+    else:
+        sample_idx = sorted(rng.choice(n_anchors, size=n_sample, replace=False).tolist())
+
+    # Forward the sampled anchor probes
+    idx_mx = mx.array(sample_idx)
+    input_ids = backbone["anchor_input_ids"][idx_mx]   # (n_sample, max_len)
+    lengths = [backbone["anchor_lengths"][i] for i in sample_idx]
+
+    def _backbone_loss_fn(model_inner):
         logits, _ = model_inner.forward(input_ids, targets=None)
-        h = model_inner._last_hidden
+        h = model_inner._last_hidden  # (n_sample, max_len, d_model)
 
+        # Extract last real token per probe
         last_positions = mx.array([l - 1 for l in lengths])
-        batch_idx = mx.arange(len(indices))
-        h_last = h[batch_idx, last_positions, :]
+        batch_idx = mx.arange(len(sample_idx))
+        h_last = h[batch_idx, last_positions, :]  # (n_sample, d_model)
 
+        # Normalize
         h_norm = h_last / (mx.linalg.norm(h_last, axis=-1, keepdims=True) + 1e-8)
-        student_rdm = h_norm @ h_norm.T
-        student_rdm = student_rdm - mx.mean(student_rdm)
 
-        idx_mx = mx.array(np.array(indices, dtype=np.int32))
-        target_sub = rel_target_rdm[idx_mx][:, idx_mx]
+        # Pairwise cosines for the sampled subset
+        cosine_matrix = h_norm @ h_norm.T  # (n_sample, n_sample)
 
-        n = len(indices)
-        triu_r, triu_c = np.triu_indices(n, k=1)
-        triu_r_mx = mx.array(triu_r.astype(np.int32))
-        triu_c_mx = mx.array(triu_c.astype(np.int32))
-        student_flat = student_rdm[triu_r_mx, triu_c_mx]
-        target_flat = target_sub[triu_r_mx, triu_c_mx]
+        # Find which backbone pairs involve only sampled anchors
+        # Build local→sample mapping
+        sample_set = set(sample_idx)
+        local_pairs_i = []
+        local_pairs_j = []
+        local_targets = []
 
-        return mx.mean((student_flat - target_flat) ** 2)
+        pairs_i_np = np.array(backbone["pairs_i"])
+        pairs_j_np = np.array(backbone["pairs_j"])
+        targets_np = np.array(backbone["targets"])
 
-    rel_loss_grad_fn = nn.value_and_grad(model, _rel_loss_fn)
-    rel_lv, rel_grads = rel_loss_grad_fn(model)
-    mx.eval(rel_lv, rel_grads)
-    return float(rel_lv.item()), rel_grads
+        sample_to_local = {int(s): idx for idx, s in enumerate(sample_idx)}
+
+        for k in range(backbone["n_pairs"]):
+            pi, pj = int(pairs_i_np[k]), int(pairs_j_np[k])
+            if pi in sample_to_local and pj in sample_to_local:
+                local_pairs_i.append(sample_to_local[pi])
+                local_pairs_j.append(sample_to_local[pj])
+                local_targets.append(float(targets_np[k]))
+
+        if len(local_pairs_i) == 0:
+            return mx.array(0.0)
+
+        # Extract student cosines for these pairs
+        li = mx.array(np.array(local_pairs_i, dtype=np.int32))
+        lj = mx.array(np.array(local_pairs_j, dtype=np.int32))
+        student_cos = cosine_matrix[li, lj]
+        target_cos = mx.array(np.array(local_targets, dtype=np.float32))
+
+        return mx.mean((student_cos - target_cos) ** 2)
+
+    loss_fn = nn.value_and_grad(model, _backbone_loss_fn)
+    lv, grads = loss_fn(model)
+    mx.eval(lv, grads)
+    return float(lv.item()), grads
 
 
 def run_gd_phase(
@@ -779,12 +874,10 @@ def run_gd_phase(
         seed=args.seed + 1,
     )
 
-    # ── Relational loss setup ─────────────────────────────────
-    rel_probes_tokenized = None
-    rel_target_rdm = None
-    rel_rng = None
+    # ── Backbone whisper setup (replaces periodic relational loss) ──
+    backbone = None
     if cfg.use_relational_loss:
-        rel_probes_tokenized, rel_target_rdm, rel_rng = _setup_relational_loss(cfg)
+        backbone = _setup_backbone_whisper(cfg)
 
     # ── Optimizer ─────────────────────────────────────────────
     optimizer = optim.AdamW(
@@ -841,15 +934,13 @@ def run_gd_phase(
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
-        # ── Periodic relational loss (RDM matching) ───────────
-        # No warmup gate — relational loss from step 1.
-        # Warmup delay caused phase transitions leading to collapse.
+        # ── Backbone whisper (constant, every step) ──────────
+        # Forward a few anchor probes, match cosines to precomputed
+        # target RDM. Cheap constant pressure toward crystal geometry.
         rel_loss_val = 0.0
-        if (rel_probes_tokenized is not None
-                and rel_target_rdm is not None
-                and step % cfg.rel_every == 0):
-            rel_loss_val, rel_grads = _compute_relational_loss(
-                model, cfg, rel_probes_tokenized, rel_target_rdm, rel_rng)
+        if backbone is not None:
+            rel_loss_val, rel_grads = _compute_backbone_loss(
+                model, backbone, n_sample=8)
             accum_grads = tree_map(
                 lambda a, b: a + cfg.rel_lambda * b,
                 accum_grads, rel_grads)
@@ -911,7 +1002,7 @@ def run_gd_phase(
                                       for i in range(len(dw_vals))]
                     dispatch_str = " | " + " ".join(dispatch_parts)
 
-            rel_str = f" | rel={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
+            rel_str = f" | bb={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
 
             print(
                 f"  step {step:>6d}/{total_steps} | r={step_loss:.4f} (avg50: {avg50:.4f})"
