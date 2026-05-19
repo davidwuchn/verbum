@@ -1,0 +1,134 @@
+========================================================================
+  Universal Lattice Map — Cross-Model Consensus
+  Models: ['qwen3-14b', 'mistral-7b', 'olmo-2-13b', 'pythia-2.8b']
+  Depths: [0.0, 0.25, 0.5, 0.75]
+========================================================================
+
+1. Loading probes...
+  Loaded diverse corpus: 184 probes across 1 domains
+    fixedpoint     :  184
+
+2. Extracting per-model RDMs...
+
+  ─── qwen3-14b (Qwen/Qwen3-14B) ───
+  Layers: 40, d_model: 5120
+  Target layers: [0, 10, 20, 29] (fracs: [0.0, 0.25, 0.5, 0.75])
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:29,  1.15s/it]Loading weights:   2%|▏         | 10/443 [00:01<00:40, 10.64it/s]Loading weights:   6%|▌         | 27/443 [00:01<00:13, 31.37it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:09, 44.77it/s]Loading weights:  13%|█▎        | 56/443 [00:01<00:05, 67.23it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:04, 82.42it/s]Loading weights:  19%|█▉        | 84/443 [00:01<00:04, 87.12it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:03, 108.45it/s]Loading weights:  27%|██▋       | 120/443 [00:02<00:02, 120.74it/s]Loading weights:  31%|███       | 137/443 [00:02<00:02, 127.88it/s]Loading weights:  35%|███▌      | 156/443 [00:02<00:01, 143.94it/s]Loading weights:  39%|███▉      | 172/443 [00:02<00:02, 115.38it/s]Loading weights:  43%|████▎     | 191/443 [00:02<00:01, 127.44it/s]Loading weights:  47%|████▋     | 206/443 [00:02<00:01, 123.42it/s]Loading weights:  50%|████▉     | 221/443 [00:02<00:01, 128.31it/s]Loading weights:  53%|█████▎    | 236/443 [00:02<00:01, 126.39it/s]Loading weights:  56%|█████▋    | 250/443 [00:03<00:01, 125.65it/s]Loading weights:  60%|██████    | 268/443 [00:03<00:01, 134.55it/s]Loading weights:  64%|██████▎   | 282/443 [00:03<00:01, 131.03it/s]Loading weights:  68%|██████▊   | 301/443 [00:03<00:00, 142.54it/s]Loading weights:  71%|███████▏  | 316/443 [00:03<00:00, 129.74it/s]Loading weights:  74%|███████▍  | 330/443 [00:03<00:00, 125.89it/s]Loading weights:  78%|███████▊  | 345/443 [00:03<00:00, 130.92it/s]Loading weights:  81%|████████  | 359/443 [00:03<00:00, 123.06it/s]Loading weights:  85%|████████▍ | 375/443 [00:04<00:00, 129.83it/s]Loading weights:  88%|████████▊ | 389/443 [00:04<00:00, 129.61it/s]Loading weights:  91%|█████████ | 403/443 [00:04<00:00, 116.72it/s]Loading weights:  95%|█████████▌| 422/443 [00:04<00:00, 132.17it/s]Loading weights:  98%|█████████▊| 436/443 [00:04<00:00, 131.96it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 98.47it/s] 
+  Running 184 probes...
+    100/184 probes done...
+  Done in 45.8s (249.2ms/probe)
+  L0 (depth=0%): RDM (184, 184), mean_sim=0.6154
+  L10 (depth=25%): RDM (184, 184), mean_sim=0.4745
+  L20 (depth=50%): RDM (184, 184), mean_sim=0.4784
+  L29 (depth=75%): RDM (184, 184), mean_sim=0.5401
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layers: 32, d_model: 4096
+  Target layers: [0, 8, 16, 23] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   1%|          | 2/291 [00:00<00:14, 19.75it/s]Loading weights:   7%|▋         | 19/291 [00:00<00:02, 106.08it/s]Loading weights:  13%|█▎        | 39/291 [00:00<00:01, 148.44it/s]Loading weights:  20%|█▉        | 58/291 [00:00<00:01, 161.07it/s]Loading weights:  26%|██▋       | 77/291 [00:00<00:01, 166.97it/s]Loading weights:  33%|███▎      | 96/291 [00:00<00:01, 165.29it/s]Loading weights:  39%|███▉      | 113/291 [00:00<00:01, 138.62it/s]Loading weights:  45%|████▌     | 131/291 [00:00<00:01, 147.49it/s]Loading weights:  51%|█████     | 148/291 [00:01<00:00, 150.82it/s]Loading weights:  56%|█████▋    | 164/291 [00:01<00:00, 150.02it/s]Loading weights:  62%|██████▏   | 181/291 [00:01<00:00, 154.81it/s]Loading weights:  68%|██████▊   | 197/291 [00:01<00:00, 146.82it/s]Loading weights:  75%|███████▍  | 217/291 [00:01<00:00, 160.68it/s]Loading weights:  80%|████████  | 234/291 [00:01<00:00, 162.63it/s]Loading weights:  87%|████████▋ | 253/291 [00:01<00:00, 169.96it/s]Loading weights:  94%|█████████▍| 274/291 [00:01<00:00, 176.17it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 155.09it/s]
+  Running 184 probes...
+    100/184 probes done...
+  Done in 27.5s (149.6ms/probe)
+  L0 (depth=0%): RDM (184, 184), mean_sim=0.2937
+  L8 (depth=25%): RDM (184, 184), mean_sim=0.1874
+  L16 (depth=50%): RDM (184, 184), mean_sim=0.2243
+  L23 (depth=75%): RDM (184, 184), mean_sim=0.3251
+
+  ─── olmo-2-13b (allenai/OLMo-2-1124-13B) ───
+  Layers: 40, d_model: 5120
+  Target layers: [0, 10, 20, 29] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<04:53,  1.51it/s]Loading weights:   3%|▎         | 12/443 [00:00<00:20, 20.61it/s]Loading weights:   4%|▍         | 19/443 [00:00<00:13, 30.47it/s]Loading weights:   7%|▋         | 32/443 [00:00<00:07, 51.44it/s]Loading weights:   9%|▉         | 42/443 [00:01<00:06, 62.34it/s]Loading weights:  12%|█▏        | 51/443 [00:01<00:05, 68.89it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:05, 71.53it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:04, 81.32it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:04, 84.21it/s]Loading weights:  21%|██        | 91/443 [00:01<00:04, 87.27it/s]Loading weights:  23%|██▎       | 102/443 [00:01<00:03, 89.56it/s]Loading weights:  26%|██▌       | 113/443 [00:01<00:03, 91.85it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:03, 98.18it/s]Loading weights:  31%|███       | 136/443 [00:02<00:03, 95.95it/s]Loading weights:  33%|███▎      | 146/443 [00:02<00:03, 89.78it/s]Loading weights:  35%|███▌      | 157/443 [00:02<00:03, 92.09it/s]Loading weights:  38%|███▊      | 167/443 [00:02<00:03, 90.58it/s]Loading weights:  40%|████      | 179/443 [00:02<00:03, 87.05it/s]Loading weights:  43%|████▎     | 190/443 [00:02<00:02, 88.51it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:02, 93.64it/s]Loading weights:  48%|████▊     | 212/443 [00:02<00:02, 93.56it/s]Loading weights:  50%|█████     | 223/443 [00:03<00:02, 96.07it/s]Loading weights:  53%|█████▎    | 235/443 [00:03<00:06, 33.35it/s]Loading weights:  55%|█████▌    | 245/443 [00:03<00:04, 40.85it/s]Loading weights:  58%|█████▊    | 256/443 [00:04<00:03, 49.44it/s]Loading weights:  60%|██████    | 267/443 [00:04<00:03, 57.97it/s]Loading weights:  63%|██████▎   | 279/443 [00:04<00:02, 68.65it/s]Loading weights:  65%|██████▌   | 289/443 [00:04<00:02, 73.85it/s]Loading weights:  68%|██████▊   | 300/443 [00:04<00:01, 79.48it/s]Loading weights:  70%|███████   | 311/443 [00:04<00:01, 83.72it/s]Loading weights:  73%|███████▎  | 322/443 [00:04<00:01, 88.23it/s]Loading weights:  75%|███████▌  | 333/443 [00:04<00:01, 88.92it/s]Loading weights:  78%|███████▊  | 344/443 [00:05<00:01, 89.82it/s]Loading weights:  80%|████████  | 355/443 [00:05<00:00, 93.30it/s]Loading weights:  82%|████████▏ | 365/443 [00:05<00:00, 94.02it/s]Loading weights:  85%|████████▍ | 376/443 [00:05<00:00, 95.99it/s]Loading weights:  87%|████████▋ | 387/443 [00:05<00:00, 94.29it/s]Loading weights:  90%|████████▉ | 398/443 [00:05<00:00, 95.48it/s]Loading weights:  92%|█████████▏| 409/443 [00:05<00:00, 96.36it/s]Loading weights:  95%|█████████▍| 420/443 [00:05<00:00, 93.96it/s]Loading weights:  97%|█████████▋| 430/443 [00:05<00:00, 79.52it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 73.26it/s]
+  Running 184 probes...
+    100/184 probes done...
+  Done in 43.1s (234.3ms/probe)
+  L0 (depth=0%): RDM (184, 184), mean_sim=0.1869
+  L10 (depth=25%): RDM (184, 184), mean_sim=0.2189
+  L20 (depth=50%): RDM (184, 184), mean_sim=0.2859
+  L29 (depth=75%): RDM (184, 184), mean_sim=0.2626
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layers: 32, d_model: 2560
+  Target layers: [0, 8, 16, 23] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   1%|          | 2/388 [00:00<00:19, 19.56it/s]Loading weights:  28%|██▊       | 110/388 [00:00<00:00, 634.35it/s]Loading weights:  52%|█████▏    | 200/388 [00:00<00:00, 741.93it/s]Loading weights:  76%|███████▋  | 296/388 [00:00<00:00, 825.42it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 775.64it/s]
+  Running 184 probes...
+    100/184 probes done...
+  Done in 15.5s (84.1ms/probe)
+  L0 (depth=0%): RDM (184, 184), mean_sim=0.7705
+  L8 (depth=25%): RDM (184, 184), mean_sim=0.6222
+  L16 (depth=50%): RDM (184, 184), mean_sim=0.6670
+  L23 (depth=75%): RDM (184, 184), mean_sim=0.8506
+
+3. Building cross-model consensus...
+  Depth 0%: 4 models, agreement=0.2883, high_agree=2.4%, model_corr=0.6964
+  Depth 25%: 4 models, agreement=0.3311, high_agree=0.2%, model_corr=0.7073
+  Depth 50%: 4 models, agreement=0.3090, high_agree=0.2%, model_corr=0.7322
+  Depth 75%: 4 models, agreement=0.3139, high_agree=0.3%, model_corr=0.6985
+
+4. Discovering universal dimensions...
+
+  Depth 0%:
+  SVD: 6 dimensions (cumulative variance: 82.6%)
+    ✓ dim 0: 0.4589 (cum: 0.4589)
+    ✓ dim 1: 0.2067 (cum: 0.6656)
+    ✓ dim 2: 0.0612 (cum: 0.7267)
+    ✓ dim 3: 0.0376 (cum: 0.7643)
+    ✓ dim 4: 0.0374 (cum: 0.8018)
+    ✓ dim 5: 0.0245 (cum: 0.8262)
+      dim 6: 0.0130 (cum: 0.8393)
+      dim 7: 0.0115 (cum: 0.8507)
+      dim 8: 0.0100 (cum: 0.8607)
+
+  Depth 25%:
+  SVD: 6 dimensions (cumulative variance: 76.1%)
+    ✓ dim 0: 0.4758 (cum: 0.4758)
+    ✓ dim 1: 0.1155 (cum: 0.5912)
+    ✓ dim 2: 0.0546 (cum: 0.6459)
+    ✓ dim 3: 0.0526 (cum: 0.6985)
+    ✓ dim 4: 0.0413 (cum: 0.7398)
+    ✓ dim 5: 0.0216 (cum: 0.7614)
+      dim 6: 0.0175 (cum: 0.7788)
+      dim 7: 0.0120 (cum: 0.7908)
+      dim 8: 0.0115 (cum: 0.8023)
+
+  Depth 50%:
+  SVD: 5 dimensions (cumulative variance: 76.8%)
+    ✓ dim 0: 0.4552 (cum: 0.4552)
+    ✓ dim 1: 0.1405 (cum: 0.5957)
+    ✓ dim 2: 0.0895 (cum: 0.6851)
+    ✓ dim 3: 0.0587 (cum: 0.7439)
+    ✓ dim 4: 0.0240 (cum: 0.7679)
+      dim 5: 0.0184 (cum: 0.7862)
+      dim 6: 0.0162 (cum: 0.8025)
+      dim 7: 0.0141 (cum: 0.8166)
+
+  Depth 75%:
+  SVD: 5 dimensions (cumulative variance: 83.1%)
+    ✓ dim 0: 0.5178 (cum: 0.5178)
+    ✓ dim 1: 0.1211 (cum: 0.6389)
+    ✓ dim 2: 0.0992 (cum: 0.7381)
+    ✓ dim 3: 0.0649 (cum: 0.8030)
+    ✓ dim 4: 0.0277 (cum: 0.8307)
+      dim 5: 0.0138 (cum: 0.8445)
+      dim 6: 0.0125 (cum: 0.8570)
+      dim 7: 0.0077 (cum: 0.8647)
+
+5. Saving lattice map...
+
+  💾 NPZ: lattice/fixedpoint-v2/universal_lattice.npz (890.3 KB)
+  💾 JSON: lattice/fixedpoint-v2/universal_lattice.json
+  💾 Compat: lattice/fixedpoint-v2/lattice_relational_target.json (v12 relational loss format)
+
+========================================================================
+  Universal Lattice Map Complete
+  Models: 4
+  Probes: 184
+  Depths: 4
+    0%: agreement=0.2883, model_corr=0.6964, dims=6
+    25%: agreement=0.3311, model_corr=0.7073, dims=6
+    50%: agreement=0.3090, model_corr=0.7322, dims=5
+    75%: agreement=0.3139, model_corr=0.6985, dims=5
+  Elapsed: 154s
+  Output: lattice/fixedpoint-v2/
+========================================================================
