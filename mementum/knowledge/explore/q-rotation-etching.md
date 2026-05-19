@@ -162,18 +162,64 @@ def multi_rotation_etch(model, projection, teacher_features, n_rotations=8):
    Lattice loss on the tiny model after N rotations tells us when
    we've captured enough structure.
 
-## Experiment plan (tiny model, while run 2 trains)
+## Experimental results (session 117, mini model d=96)
 
-1. **Baseline:** etch tiny model with 1 Q rotation (current approach).
-   Measure lattice loss, dispatch diversity, CE on eval.
+### Experiment 1: Multi-rotation etching (fixed budget 800 batches)
 
-2. **4 rotations:** etch with 4 random orthogonal Q rotations.
-   Compare lattice loss, dispatch diversity, CE.
+```
+1-rot: 0.341 acc, 41K flips (38%)
+2-rot: 0.392 acc, 26K flips (24%)
+4-rot: 0.402 acc, 17K flips (15%) — best GD convergence
+8-rot: 0.406 acc, 16K flips (15%) — best accuracy
+```
 
-3. **8 rotations:** same with 8.
+**Finding:** more rotations → fewer, higher-quality flips. The
+tomographic filter eliminates positions where views disagree.
+Breadth of rotations matters more than depth per rotation.
 
-4. **Combinator-aligned:** if we can extract combinator directions
-   from the teacher, use those as rotation targets.
+### Experiment 2: Crystal reconstruction methods
 
-5. **Measure:** at each rotation count, how close are combinator
-   embedding cosines to the 8×8 crystal targets?
+```
+A: single-rot etch    0.288 acc (baseline)
+B: multi-rot etch     0.451 acc (WINNER)
+C1: SVD rank-1        0.241 acc (crystal is not rank-1)
+C4: SVD rank-4        0.367 acc
+Cf: SVD rank-8        0.396 acc
+D: mag-weighted       0.364 acc (100% agreement with SVD-8)
+```
+
+**Finding:** sign accumulation (majority vote) IS the best
+reconstruction. Each batch casts +1/-1 vote; no magnitude
+corruption. SVD/mag-weighted use raw gradients where outlier
+batches dominate. The vote is the photogrammetry.
+
+### Experiment 3: Crystal latching (Q initialization for GD)
+
+```
+Random Q:             0.392 acc (baseline)
+SVD Q:                0.438 acc (+12%)
+Multi-restart 8×:     0.432 acc (+10%)
+SVD+probe steep 16×:  0.450 acc (+15%, BEST)
+SVD+probe low 8×:     0.443 acc
+```
+
+**Finding:** SVD gets to the right neighborhood. 16 perturbed
+candidates explore it. 50-step GD probes measure basin depth.
+Low init loss ≠ deep basin (Identity Q trap: lowest init loss
+2.19, only average final accuracy). Best candidate starts HIGH
+but falls FARTHEST — it found a cliff entrance invisible from
+other starting points.
+
+### Combined pipeline (validated)
+
+```
+1. Collect gradient views from N Q rotations (N≥8)
+2. Etch plates via multi-rotation sign accumulation (vote)
+3. SVD of gradient stack → principal axes
+4. Generate 16 Q candidates near SVD solution (perturbation)
+5. 50-step GD probe each → select steepest/lowest
+6. Full GD training from selected Q
+```
+
+Total overhead: ~800 probe steps (trivial vs 20K training steps).
+Result: +15% accuracy over random Q init.
