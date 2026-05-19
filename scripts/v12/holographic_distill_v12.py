@@ -919,6 +919,9 @@ def run_gd_phase(
                 best_eval_loss = eval_loss
             print(f"  ── Eval step {step}: loss {eval_loss:.4f}"
                   f"{' ★ best' if is_best else ''}", flush=True)
+            # Stridestack compression diagnostics
+            diag = _run_stridestack_diagnostics(model, eval_loader)
+            _print_stridestack_diagnostics(diag)
 
             step_log = {
                 "step": step,
@@ -984,6 +987,10 @@ def run_gd_phase(
     return log
 
 
+PASS_NAMES = ["L0↑", "L1↑", "L2↑", "apex", "L2↓", "L1↓", "L0↓"]
+INV_PHI = 1.0 / ((1 + 5 ** 0.5) / 2)  # ≈ 0.618
+
+
 def _run_eval(
     model: V12Model,
     eval_loader: ShardedDataLoader,
@@ -1004,6 +1011,46 @@ def _run_eval(
 
     mx.clear_cache()
     return total_loss / n_batches
+
+
+def _run_stridestack_diagnostics(model, eval_loader):
+    """Run one instrumented forward pass to get compression ratios and phi deviation.
+
+    Returns dict with pass_compression and pass_phi_dev, or None on failure.
+    """
+    try:
+        input_ids_np, _ = eval_loader.next_batch()
+        input_ids = mx.array(input_ids_np)
+        _, metrics = model.forward_instrumented(input_ids)
+        mx.eval(model.parameters())
+        del input_ids
+        mx.clear_cache()
+        return {
+            "pass_compression": metrics["pass_compression"],
+            "pass_phi_dev": metrics["pass_phi_dev"],
+        }
+    except Exception as e:
+        print(f"  ⚠️  Stridestack diagnostics failed: {e}", flush=True)
+        return None
+
+
+def _print_stridestack_diagnostics(diag):
+    """Print compression ratios and phi deviation for all 7 passes."""
+    if diag is None:
+        return
+    cr = diag["pass_compression"]
+    pd = diag["pass_phi_dev"]
+
+    def _fmt(i):
+        phi_mark = "←φ" if pd[i] < 0.05 else "  "
+        return f"{PASS_NAMES[i]}={cr[i]:.3f}(Δφ{pd[i]:.3f}){phi_mark}"
+
+    # Two-line format: ascending arm, then descending arm
+    # Target: ratio ≈ 1/φ ≈ 0.618 at each pass
+    asc = "  ── φ-compress asc:  " + "  ".join(_fmt(i) for i in range(4))
+    desc = "  ── φ-compress desc: " + "  ".join(_fmt(i) for i in range(4, 7))
+    print(asc, flush=True)
+    print(desc, flush=True)
 
 
 # ══════════════════════════════════════════════════════════════════════
