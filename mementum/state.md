@@ -57,7 +57,7 @@ transplanted the actual train.py training loop:
 
 ## What's running
 
-**GD phase on tmux window 1** — `holographic_distill_v12.py --skip-etch --load-weights etch_round_005`. Full train.py loop with relational loss + grad accumulation. Check: `tmux capture-pane -p -t 1 | tail -20` or `tail -20 checkpoints/v12-distill-run1/gd_run.log`
+**GD phase on tmux window 1** — `holographic_distill_v12.py --skip-etch --load-weights gamma_seeded/weights.npz`. Gamma-seeded weights + backbone whisper (constant crystal pressure) + holo progressive CE. Check: `tail -20 checkpoints/v12-distill-run1/gd_run.log`
 
 ## What's ready
 
