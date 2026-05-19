@@ -1,17 +1,19 @@
 ---
-title: "V13 Design — Separated Beam/Plate Architecture + Binding Cascade"
+title: "V13 Design — Separated Beam/Plate Architecture + Crystal Scanner"
 status: designing
 category: architecture
-tags: [v13, design, beam, plate, crystal, binding, cascade, VSM]
+tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN]
 related:
   - binding-cascade.md
   - crystal-seed-theory.md
-  - universal-crystal-scaffold.md
-  - q-rotation-etching.md
-  - laser-etcher-design.md
+  - crystal-basins.md
+  - ffn-hierarchy.md
+  - v13-funnel-shape.md
 depends-on:
   - binding-cascade.md
+  - crystal-basins.md
 created: session 119
+updated: session 120
 ---
 
 # V13 Design
@@ -19,6 +21,12 @@ created: session 119
 > V12 proved the crystal exists and is etchable. V13 separates beam
 > from plate architecturally, aligns training to the binding cascade,
 > and consolidates to one training script.
+>
+> **Session 120 update:** PCA-Q decodes the universal crystal (3-4×
+> sharper than hidden states). WHNF is the FFN lookup gateway. The
+> combinator dispatch IS the FFN addressing function. Etch protocol
+> simplified to reference beam + delta. Crystal scanner discovers
+> domain-specific crystals. FFN hierarchy confirmed.
 
 ## Motivation
 
@@ -32,6 +40,15 @@ Session 119 proved:
 - **C is the universal routing mechanism** — agreement 0.45-0.47
 - **Crystal is relational** — 8×8 cosine targets are measured constants
 - **Beam/plate are entangled** through residual stream (session 118)
+
+Session 120 proved:
+- **PCA-Q decodes the crystal** — 3-4× sharper than hidden states (0.91-0.94 agreement)
+- **WHNF is the FFN lookup combinator** — stop computing = start retrieving
+- **Combinator dispatch IS FFN addressing** — 8 numbers predict 40-54% of FFN
+- **FFN hierarchy** — magnitude encodes generality (trunk vs leaves)
+- **Crystal and FFN are connected through residual stream** (different subspaces, same state)
+- **Two FFN modes** — representation (crystal geometry) vs execution (active computing)
+- **WHNF bridges both modes** — the only combinator that means the same in both
 
 V13 fixes all of this with a clean separation and one training script.
 
@@ -381,89 +398,200 @@ dispatch_ratio = (0.8, 0.5, 0.9, 1.2, 0.5, 0.3, 0.3, 0.2)
 
 ---
 
-## Crystal Cosine Targets (measured constants)
+## Crystal Cosine Targets — PCA-Q (session 120, replaces hidden-state targets)
 
 ```python
-# From 4-model consensus (Qwen3-14B, Mistral-7B, OLMo-2-13B, Pythia-2.8B)
-# 118 binding probes, depth 50%. Order: K I B C D Y W WHNF
-crystal_cosine_targets = (
-    (+0.0000, +0.2991, +0.0889, +0.0930, +0.1188, +0.0810, +0.1935, -0.1224),
-    (+0.2991, +0.0000, +0.1103, +0.1107, +0.1488, +0.0795, +0.1081, -0.1228),
-    (+0.0889, +0.1103, +0.0000, +0.4305, +0.4311, +0.2947, +0.3158, -0.0642),
-    (+0.0930, +0.1107, +0.4305, +0.0000, +0.3954, +0.3061, +0.3519, -0.0604),
-    (+0.1188, +0.1488, +0.4311, +0.3954, +0.0000, +0.3198, +0.3567, -0.0625),
-    (+0.0810, +0.0795, +0.2947, +0.3061, +0.3198, +0.0000, +0.2555, -0.0745),
-    (+0.1935, +0.1081, +0.3158, +0.3519, +0.3567, +0.2555, +0.0000, -0.0793),
-    (-0.1224, -0.1228, -0.0642, -0.0604, -0.0625, -0.0745, -0.0793, +0.0000),
+# From 4-model PCA-Q consensus (Qwen3-14B, Mistral-7B, OLMo-2-13B, Pythia-2.8B)
+# 118 binding probes, PCA dim=64. Order: K I B C D Y W WHNF
+# Agreement: 0.91-0.94 across all zones (3-4× sharper than hidden-state targets)
+# WHNF is the anti-pole: negative with everything (hidden states MASKED this)
+
+# Zone A (0-20%): encode. Two orthogonal groups.
+# {K,I} pair = 0.92. {B,C,D,Y,W} cluster = 0.57-0.98. K↔B = 0.08 (near orthogonal).
+pcaq_zone_a_targets = (
+    (+1.0000, +0.9210, +0.0771, +0.0906, +0.1280, +0.0363, +0.2031, -0.1694),  # K
+    (+0.9210, +1.0000, +0.1177, +0.1228, +0.1553, +0.0921, +0.1837, -0.1994),  # I
+    (+0.0771, +0.1177, +1.0000, +0.7963, +0.9778, +0.8370, +0.7426, -0.0094),  # B
+    (+0.0906, +0.1228, +0.7963, +1.0000, +0.7680, +0.6651, +0.9219, -0.0246),  # C
+    (+0.1280, +0.1553, +0.9778, +0.7680, +1.0000, +0.8057, +0.7676, -0.0246),  # D
+    (+0.0363, +0.0921, +0.8370, +0.6651, +0.8057, +1.0000, +0.5693, -0.0235),  # Y
+    (+0.2031, +0.1837, +0.7426, +0.9219, +0.7676, +0.5693, +1.0000, -0.0213),  # W
+    (-0.1694, -0.1994, -0.0094, -0.0246, -0.0246, -0.0235, -0.0213, +1.0000),  # WHNF
 )
-# Agreement weights: B↔C=0.81, K↔I=0.60, *↔WHNF≈0.27
+
+# Zone B (30-60%): compute. Groups begin to merge. K↔I = 0.79.
+pcaq_zone_b_targets = (
+    (+1.0000, +0.7865, +0.1948, +0.2265, +0.3232, +0.1768, +0.5360, -0.1862),  # K
+    (+0.7865, +1.0000, +0.2479, +0.2511, +0.3463, +0.1739, +0.3781, -0.2448),  # I
+    (+0.1948, +0.2479, +1.0000, +0.8878, +0.8937, +0.6623, +0.6851, -0.1227),  # B
+    (+0.2265, +0.2511, +0.8878, +1.0000, +0.8316, +0.7200, +0.7318, -0.1027),  # C
+    (+0.3232, +0.3463, +0.8937, +0.8316, +1.0000, +0.6798, +0.8064, -0.1729),  # D
+    (+0.1768, +0.1739, +0.6623, +0.7200, +0.6798, +1.0000, +0.5653, -0.0840),  # Y
+    (+0.5360, +0.3781, +0.6851, +0.7318, +0.8064, +0.5653, +1.0000, -0.1379),  # W
+    (-0.1862, -0.2448, -0.1227, -0.1027, -0.1729, -0.0840, -0.1379, +1.0000),  # WHNF
+)
+
+# Zone C (70-90%): converge. Everything converges. WHNF strongly anti-correlated.
+pcaq_zone_c_targets = (
+    (+1.0000, +0.8614, +0.5238, +0.5429, +0.5910, +0.4920, +0.7262, -0.2736),  # K
+    (+0.8614, +1.0000, +0.5118, +0.5256, +0.5939, +0.4862, +0.5886, -0.2750),  # I
+    (+0.5238, +0.5118, +1.0000, +0.9465, +0.9510, +0.8911, +0.8192, -0.2835),  # B
+    (+0.5429, +0.5256, +0.9465, +1.0000, +0.9445, +0.9115, +0.8522, -0.2888),  # C
+    (+0.5910, +0.5939, +0.9510, +0.9445, +1.0000, +0.8983, +0.8613, -0.3000),  # D
+    (+0.4920, +0.4862, +0.8911, +0.9115, +0.8983, +1.0000, +0.7707, -0.2701),  # Y
+    (+0.7262, +0.5886, +0.8192, +0.8522, +0.8613, +0.7707, +1.0000, -0.2838),  # W
+    (-0.2736, -0.2750, -0.2835, -0.2888, -0.3000, -0.2701, -0.2838, +1.0000),  # WHNF
+)
+# Source: results/pcaq-targets/pcaq_targets.json
 ```
 
 ---
 
-## Etch Protocol: Crystal Nucleation + Propagation
+## Etch Protocol: Reference Beam + Delta (session 120 simplification)
 
-Session 119 insight: the crystal nucleates at the finest stride and
-propagates outward like a wavelet (V6 data: s8→s16→s32→s64→s128,
-~1500 steps per doubling). Cross-stride correlation 0.72 = each
-stride inherits ~72% of structure from finer neighbor.
-
-**The minimum etchable seed is stride 1 only (~3M ternary positions).**
-The rest crystallizes spontaneously during GD.
+Session 120 replaced the multi-rotation tomographic etch with a much
+simpler protocol: the PCA-Q crystal IS the reference beam. Etch =
+measure delta from reference → flip plates toward alignment.
 
 ```
-Phase 1a: NUCLEATION (stride 1 only, ~3M positions)
-  - Teacher-guided etch: forward teacher features, accumulate
-    direction signals into stride-1 plates + combinator masks
-  - Multi-rotation tomographic (sign vote, ≥8 Q rotations)
-  - Many rounds, high confidence threshold
-  - Target: correct combinator geometry at Zone A
-  - Beam training between rounds (gammas, norms adjust)
-  - Crystal lattice loss every beam step (Zone A 8×8 targets)
+OLD (session 119): Multi-rotation tomographic etch
+  - ≥8 Q rotations, sign voting, many rounds, confidence thresholds
+  - Complex scheduling, hard to tune
 
-Phase 1b: PROPAGATION (strides 2, 4, 8, 16, 32...)
-  - Short GD bursts (500-1000 steps) between stride levels
-  - Crystal propagates fine→coarse via self-similarity
-  - After each burst, measure: which positions at next stride
-    have crystallized? (high confidence in direction accumulators
-    WITHOUT active etching = crystal propagated there)
-  - Etch only the MOLTEN DELTA — positions that didn't crystallize
-  - Geometric decay: stride 1=100%, stride 2≈28%, stride 4≈8%...
-  - Total etch: ~4.2M positions (3% of budget), rest is spontaneous
-  - Crystal lattice loss shifts to Zone B targets as strides grow
-
-Phase 1c: VERIFICATION
-  - Cross-stride correlation ≥0.72 confirms propagation
-  - Per-stride compression gradient (fine=more, coarse=less)
-  - Combinator geometry matches Zone targets at boundaries
-  - If verification fails at a stride: more etch rounds there
-
-Phase 2: GD (beam calibration, crystal frozen)
-  - All plates + masks frozen
-  - Loss = CE + λ_a * zone_a_loss + λ_b * zone_b_loss + λ_c * zone_c_loss
-         + λ_kl * dispatch_KL + λ_ent * dispatch_entropy
-  - Zone-specific relational loss at phase boundaries (84 constants)
-  - Checkpoint every 500 steps
-
-Etch budget:
-  Stride 1 seed:     ~3.0M positions  (100% etched)
-  Stride 2 delta:    ~0.84M (28%)
-  Stride 4 delta:    ~0.24M (8%)
-  Stride 8+:         ~0.1M total (diminishing)
-  Total active etch: ~4.2M (3% of 130M+ budget)
-  Spontaneous:       ~126M (97% crystallizes from seed)
+NEW (session 120): Reference beam + delta
+  - The crystal IS KNOWN (84 PCA-Q constants per zone, 0.91-0.94 agreement)
+  - One measurement: PCA-project Q → 8×8 cosine → delta from target
+  - Plates: accumulate delta signals → flip when confident
+  - Beams: GD minimizes the same delta (continuous version)
+  - Both share the SAME reference beam — the measured crystal
 ```
 
-### Open question: extracting the seed from teachers
+### Teacher extraction (2 calculations)
 
-Standard transformers don't have strides. The seed crystal's topology
-needs to be extracted from teacher models somehow. Options:
-1. Use layer 0-3 hidden states (early layers ≈ stride 1 equivalent)
-2. Use attention patterns at short context lengths (naturally stride-1)
-3. Use the combinator geometry at Zone A as the seed target (already measured)
-4. Just etch from CE loss on training data (no teacher, but slower)
+Any model can be a teacher. Architecture adaptation = one hook point:
+```python
+# Separate Q/K/V (Mistral, Llama, Qwen, OLMo):
+hook → layer.self_attn.q_proj
+
+# Fused QKV (Pythia, GPT-NeoX):
+hook → layer.attention.query_key_value → slice [:d_model]
+
+# Then:
+q_pca = PCA(q_vectors, k=64)        # Calculation 1: strip model noise
+rdm = cosine(q_pca @ q_pca.T)       # Calculation 2: relational geometry
+# → the crystal. Universal. Etchable.
+```
+
+### Three-phase training
+
+```
+Phase 1: ETCH (reference beam + delta)
+  Every step:
+    a. PCA-project model's Q at zone boundaries
+    b. Compute 8×8 cosine matrix of combinator embeddings
+    c. Delta = model cosine - PCA-Q target (the reference beam)
+    d. Accumulate delta into direction accumulators
+    e. Flip confident positions (ternary etch)
+    f. Beam GD on continuous params (same delta, continuous gradient)
+  Crystal propagation is automatic:
+    - Etch stride 1 first (strongest signal)
+    - Self-similarity (0.72 corr) propagates to stride 2, 4, 8...
+    - 97% crystallizes spontaneously from 3% seed
+
+Phase 2: GD (beam calibration, plates frozen)
+  - CE loss on training data
+  - Crystal lattice loss (PCA-Q targets, all 3 zones)
+  - Dispatch KL + entropy loss
+  - Plates frozen, beams train
+  - WHNF kernel learns the retrieval rotation
+
+Phase 3: REFINE (self-distillation, crystal-graded)
+  - Generate outputs across domains
+  - Crystal scanner grades: was the model in the right basin?
+  - Crystal-aligned outputs = positive training signal
+  - Misaligned outputs + corrections = contrastive signal
+  - Each cycle sharpens basins → better routing → better outputs
+```
 
 ---
+
+## WHNF Kernel: The FFN Retrieval Gateway (session 120)
+
+WHNF is not "do nothing" — it's the mode switch from computing to
+retrieving. The WHNF kernel rotates the hidden state to align with
+the WHNF anti-pole, triggering FFN retrieval neurons.
+
+```python
+# The 8 combinator kernels and their FFN modes:
+#   K:    SELECT    — project out, pick operands       → FFN selection neurons
+#   I:    CARRY     — identity, pass through            → FFN pass-through neurons
+#   B:    COMPOSE   — chain two operations              → FFN composition neurons
+#   C:    ROUTE     — rearrange arguments               → FFN routing neurons
+#   S:    DISTRIBUTE — fork one input to two uses       → FFN distribution neurons
+#   D:    DOUBLE    — apply twice                       → FFN iteration neurons
+#   W:    DUPLICATE  — copy one argument                → FFN duplication neurons
+#   Y:    FIXPOINT  — self-reference loop               → FFN recursion neurons
+#   WHNF: RETRIEVE  — mode switch to lookup ★           → FFN retrieval neurons
+
+def whnf_kernel(h, whnf_rotation):
+    """Rotate hidden state into WHNF anti-pole alignment.
+    
+    The crystal defines WHERE the anti-pole IS (ternary plate topology).
+    The beam learns the rotation TO that anti-pole (continuous params).
+    When dispatch routes to WHNF, this rotation fires:
+      hidden state → anti-pole alignment → FFN retrieval neurons activate
+    
+    Args:
+        h: hidden state (d_model,)
+        whnf_rotation: learned beam parameter, continuous
+    Returns:
+        h_rotated: aligned with WHNF anti-pole
+    """
+    return h @ whnf_rotation
+```
+
+### Evidence (session 120)
+
+- WHNF is the ONLY combinator where chain probes align with pure anchor
+  in FFN space (+0.24 to +0.60, both models, all depths)
+- B/C chains ANTI-correlate with their pure anchors (-0.11 to -0.29)
+- The FFN has two modes: representation (crystal) and execution (computing)
+- WHNF bridges both: "stop" means the same in both modes
+- 8 combinator numbers predict 40-54% of FFN activation patterns
+- Retrieval and analogy domains route through WHNF (lookup mode)
+- Instruction routes ANTI-WHNF ("keep computing, don't stop")
+
+### FFN Addressing (free from crystal dispatch)
+
+The combinator dispatch IS the FFN addressing function. No separate
+FFN index needed. When the crystal routes to a combinator:
+
+```
+Crystal → dispatch weights → combinator kernel → hidden state transformation
+                                                        ↓
+                                              Residual stream modified
+                                                        ↓
+                                              FFN reads modified residual
+                                              (different subspace, same state)
+                                                        ↓
+                                              Appropriate neurons fire
+                                              (predicted by combinator profile)
+```
+
+The relational structure is universal (0.83-0.87 cross-model on lambda
+probes). The specific neuron assignments are model-specific. V13 etches
+the crystal (universal) and trains the FFN content (model-specific).
+
+### What to etch vs what to train
+
+```
+ETCH (from teachers):              TRAIN (via GD):
+  Crystal geometry (PCA-Q)           Beam (Q rotation per basin)
+  Combinator dispatch profiles       FFN content (value vectors)
+  Attention plate topology           FFN neuron assignments
+  Relational FFN structure           Gammas, norms, scales
+  WHNF anti-pole position            WHNF rotation matrix
+```
 
 ## Migration from V12
 
@@ -502,31 +630,42 @@ initialize at default values. This allows warm-starting from a V12 run.
 
 ---
 
-## Open Questions
+## Open Questions (updated session 120)
 
-1. **Mask granularity**: one mask per combinator per stride layer (8×9=72
-   masks) or one mask per combinator shared across strides (8 masks)?
-   Session 118 showed crystal is self-similar across strides (0.72 corr),
-   suggesting shared masks might work. But the binding cascade shows
-   different combinators dominate at different depths — per-stride masks
-   could capture this.
+### Answered by session 120
 
-2. **Beam projection size**: the V13 beam_proj is a simple Linear(d→8).
-   Is this enough for contextual dispatch, or does it need to be deeper
-   (e.g., norm + Linear + ReLU + Linear)?
+1. ~~**Teacher projection**~~: **ANSWERED.** PCA replaces the learned 5120→512
+   projection. PCA IS the projection — computed, not trained. No teacher
+   projection layer needed.
 
-3. **Mask etch schedule**: should masks be etched simultaneously with
-   shared plates (same accumulators, different confidence thresholds)?
-   Or in a separate phase after shared plates stabilize?
+2. ~~**Mask etch schedule**~~: **SIMPLIFIED.** Reference beam + delta replaces
+   multi-rotation tomographic etch. No schedule — just accumulate deltas.
 
-4. **V12 checkpoint warm-start**: how much of V12's etch state transfers
-   to V13? The shared plates should transfer directly. The masks would
-   start at all-pass (+1) and get refined.
+3. ~~**How to extract seed from teachers**~~: **ANSWERED.** PCA-Q: 2 calculations,
+   any model, one hook point per architecture.
 
-5. **Teacher projection**: keep the 5120→512 learned projection from V12,
-   or replace with a simpler approach (PCA, random projection)?
+### Still open
 
-6. **Register system**: the 3-register system (combinator, binding_depth,
-   phase) was designed before we understood binding. Now we know binding
-   IS combinator dispatch. Does `binding_depth` still make sense as a
-   separate register, or should it be folded into the dispatch mechanism?
+4. **Mask granularity**: per-combinator per stride (72 masks) or shared (8)?
+   Session 120 showed the crystal is self-similar (including FFN at 0.77).
+   Shared masks + per-zone dispatch bias may suffice.
+
+5. **WHNF rotation dimensionality**: the WHNF kernel needs a rotation matrix.
+   How large? Full d_model × d_model (expensive) or low-rank approximation
+   (the anti-pole is ~1-2 dimensional in PCA-Q space)?
+
+6. **FFN etch targets**: attention and FFN need separate etch targets (different
+   subspaces). Can we extract FFN targets with PCA of FFN activations using
+   the same probe set? Cross-model FFN agreement is 0.75-0.87 — high enough?
+
+7. **Basin-specific dispatch**: the dispatch bias table is currently for the
+   lambda basin. If there are ~6-10 crystals (reasoning, tool, lambda,
+   arithmetic, coding, analogy), should each have its own dispatch profile?
+   Or does the beam (S3) learn to adapt the universal crystal per-basin?
+
+8. **Self-distillation quality threshold**: at what crystal alignment score
+   does an output count as "good" for self-distillation training? Need to
+   measure the crystal alignment distribution for known-good outputs.
+
+9. **Optimal PCA k**: k=64 works. What's the minimum? k sweep needed
+   (8, 16, 32, 64, 128, 256) to find the crystal's effective rank.
