@@ -1,0 +1,86 @@
+Q-Rotation Etching Experiment
+  Model: HoloModel(d=96, layers=3)
+  Task: nested combinator reduction, depths 1-4
+
+============================================================
+  Condition: 1-rot×200
+  n_rotations=1, batches/rot=200, total=200
+============================================================
+  Params: 110592 plate, 34485 continuous
+    Rotation 0/1: mean_loss=3.2336
+  Etch: 35872 flipped (32.4%) in 1.9s
+
+  Results:
+    Final accuracy: 0.326
+    By depth: {1: {'correct': 10, 'total': 100, 'accuracy': 0.1}, 2: {'correct': 6, 'total': 100, 'accuracy': 0.06}, 3: {'correct': 2, 'total': 100, 'accuracy': 0.02}, 4: {'correct': 1, 'total': 80, 'accuracy': 0.0125}}
+    GD final loss: 2.1444
+    Q-sensitivity: mean=0.171 std=0.068 range=[0.086, 0.325]
+    Times: etch=1.9s, gd=12.6s
+
+============================================================
+  Condition: 2-rot×200
+  n_rotations=2, batches/rot=200, total=400
+============================================================
+  Params: 110592 plate, 34485 continuous
+    Rotation 0/2: mean_loss=3.3318
+    Rotation 1/2: mean_loss=3.2112
+  Etch: 24888 flipped (22.5%) in 3.8s
+
+  Results:
+    Final accuracy: 0.369
+    By depth: {1: {'correct': 6, 'total': 100, 'accuracy': 0.06}, 2: {'correct': 3, 'total': 100, 'accuracy': 0.03}, 3: {'correct': 1, 'total': 100, 'accuracy': 0.01}, 4: {'correct': 0, 'total': 80, 'accuracy': 0.0}}
+    GD final loss: 1.7945
+    Q-sensitivity: mean=0.188 std=0.077 range=[0.053, 0.367]
+    Times: etch=3.8s, gd=12.5s
+
+============================================================
+  Condition: 4-rot×200
+  n_rotations=4, batches/rot=200, total=800
+============================================================
+  Params: 110592 plate, 34485 continuous
+    Rotation 0/4: mean_loss=3.3769
+    Rotation 1/4: mean_loss=3.2017
+    Rotation 2/4: mean_loss=3.2252
+    Rotation 3/4: mean_loss=3.1667
+  Etch: 15656 flipped (14.2%) in 7.1s
+
+  Results:
+    Final accuracy: 0.383
+    By depth: {1: {'correct': 1, 'total': 100, 'accuracy': 0.01}, 2: {'correct': 0, 'total': 100, 'accuracy': 0.0}, 3: {'correct': 0, 'total': 100, 'accuracy': 0.0}, 4: {'correct': 0, 'total': 80, 'accuracy': 0.0}}
+    GD final loss: 1.7685
+    Q-sensitivity: mean=0.189 std=0.066 range=[0.131, 0.388]
+    Times: etch=7.1s, gd=12.5s
+
+============================================================
+  Condition: 8-rot×200
+  n_rotations=8, batches/rot=200, total=1600
+============================================================
+  Params: 110592 plate, 34485 continuous
+    Rotation 0/8: mean_loss=3.2462
+    Rotation 1/8: mean_loss=3.3777
+    Rotation 2/8: mean_loss=3.3184
+    Rotation 3/8: mean_loss=3.3330
+    Rotation 4/8: mean_loss=3.5177
+    Rotation 5/8: mean_loss=3.3347
+    Rotation 6/8: mean_loss=3.2951
+    Rotation 7/8: mean_loss=3.2238
+  Etch: 19572 flipped (17.7%) in 14.7s
+
+  Results:
+    Final accuracy: 0.400
+    By depth: {1: {'correct': 5, 'total': 100, 'accuracy': 0.05}, 2: {'correct': 0, 'total': 100, 'accuracy': 0.0}, 3: {'correct': 0, 'total': 100, 'accuracy': 0.0}, 4: {'correct': 0, 'total': 80, 'accuracy': 0.0}}
+    GD final loss: 1.7940
+    Q-sensitivity: mean=0.157 std=0.075 range=[0.048, 0.389]
+    Times: etch=14.7s, gd=12.4s
+
+============================================================
+  SUMMARY
+============================================================
+  Condition                Acc  Q-sens σ  Q-sens μ   Flipped   GD loss
+  --------------------  ------  --------  --------  --------  --------
+  1-rot×200              0.326     0.068     0.171     35872    2.1444
+  2-rot×200              0.369     0.077     0.188     24888    1.7945
+  4-rot×200              0.383     0.066     0.189     15656    1.7685
+  8-rot×200              0.400     0.075     0.157     19572    1.7940
+
+  Results saved to results/q-rotation-etch/results.json

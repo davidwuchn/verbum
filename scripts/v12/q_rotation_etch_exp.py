@@ -388,15 +388,30 @@ def main():
     print(f"  Model: HoloModel(d=96, layers=3)")
     print(f"  Task: nested combinator reduction, depths 1-4")
 
-    # Total etch budget: 800 batches (same for all conditions)
-    TOTAL_BATCHES = 800
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--mode", choices=["fixed-budget", "fixed-per-rot"],
+                    default="fixed-budget")
+    exp_args = ap.parse_args()
 
-    conditions = [
-        ("1-rot (baseline)",   1, TOTAL_BATCHES),      # 1×800
-        ("2-rot",              2, TOTAL_BATCHES // 2),  # 2×400
-        ("4-rot",              4, TOTAL_BATCHES // 4),  # 4×200
-        ("8-rot",              8, TOTAL_BATCHES // 8),  # 8×100
-    ]
+    if exp_args.mode == "fixed-per-rot":
+        # Follow-up: constant 200 batches per rotation, total scales with n_rot
+        PER_ROT = 200
+        conditions = [
+            ("1-rot×200",    1, PER_ROT),   # 200 total
+            ("2-rot×200",    2, PER_ROT),   # 400 total
+            ("4-rot×200",    4, PER_ROT),   # 800 total
+            ("8-rot×200",    8, PER_ROT),   # 1600 total
+        ]
+    else:
+        # Original: fixed total budget 800, spread across rotations
+        TOTAL_BATCHES = 800
+        conditions = [
+            ("1-rot (baseline)",   1, TOTAL_BATCHES),      # 1×800
+            ("2-rot",              2, TOTAL_BATCHES // 2),  # 2×400
+            ("4-rot",              4, TOTAL_BATCHES // 4),  # 4×200
+            ("8-rot",              8, TOTAL_BATCHES // 8),  # 8×100
+        ]
 
     results = []
     for name, n_rot, bpr in conditions:
@@ -420,9 +435,11 @@ def main():
     # Save results
     out_path = Path("results/q-rotation-etch")
     out_path.mkdir(parents=True, exist_ok=True)
-    with open(out_path / "results.json", "w") as f:
+    suffix = "fixed-per-rot" if exp_args.mode == "fixed-per-rot" else "fixed-budget"
+    out_file = out_path / f"results-{suffix}.json"
+    with open(out_file, "w") as f:
         json.dump(results, f, indent=2, default=str)
-    print(f"\n  Results saved to {out_path / 'results.json'}")
+    print(f"\n  Results saved to {out_file}")
 
 
 if __name__ == "__main__":

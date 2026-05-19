@@ -1,0 +1,94 @@
+Crystal Reconstruction Experiment
+  Photogrammetry for ternary plates
+
+  Model: d=96, layers=3
+  Params: 110592 plate, 34485 continuous
+  Views: 8 Q rotations × 100 batches
+
+============================================================
+  Phase 1: Collecting gradient views
+============================================================
+    View 0/8: loss=3.3113
+    View 1/8: loss=3.1296
+    View 2/8: loss=3.2650
+    View 3/8: loss=3.4336
+    View 4/8: loss=3.3549
+    View 5/8: loss=3.2752
+    View 6/8: loss=3.4411
+    View 7/8: loss=3.3029
+  Collection time: 7.8s
+
+  Gradient stack analysis:
+    Plate 0: shape=96×96  rank-1=28.1%  rank-2=43.6%  rank-4=70.8%
+    Plate 1: shape=96×96  rank-1=50.0%  rank-2=64.5%  rank-4=80.1%
+    Plate 2: shape=96×96  rank-1=47.2%  rank-2=61.2%  rank-4=78.1%
+    Plate 3: shape=96×96  rank-1=45.1%  rank-2=58.8%  rank-4=76.7%
+    Plate 4: shape=96×96  rank-1=25.0%  rank-2=42.1%  rank-4=71.4%
+    Plate 5: shape=96×96  rank-1=64.0%  rank-2=77.4%  rank-4=88.3%
+    Plate 6: shape=96×96  rank-1=61.4%  rank-2=76.1%  rank-4=87.9%
+    Plate 7: shape=96×96  rank-1=56.5%  rank-2=68.6%  rank-4=82.7%
+    Plate 8: shape=96×96  rank-1=41.5%  rank-2=55.1%  rank-4=73.7%
+    Plate 9: shape=96×96  rank-1=74.1%  rank-2=81.8%  rank-4=92.6%
+    Plate 10: shape=96×96  rank-1=73.2%  rank-2=82.1%  rank-4=93.1%
+    Plate 11: shape=96×96  rank-1=62.0%  rank-2=71.8%  rank-4=85.2%
+
+============================================================
+  Phase 2: Constructing plates & evaluating
+============================================================
+
+  --- A: single-rot etch ---
+    Plates changed: 77357 (69.9%)
+    Acc: 0.288  Loss: 2.1598  GD-loss: 2.1559  Q-σ: 0.054  (12.8s)
+
+  --- B: multi-rot etch ---
+    Plates changed: 38022 (34.4%)
+    Acc: 0.451  Loss: 1.5910  GD-loss: 1.6840  Q-σ: 0.088  (12.7s)
+
+  --- C1: SVD rank-1 ---
+    Plates changed: 30679 (27.7%)
+    Acc: 0.241  Loss: 2.1003  GD-loss: 2.1227  Q-σ: 0.038  (12.5s)
+
+  --- C4: SVD rank-4 ---
+    Plates changed: 11708 (10.6%)
+    Acc: 0.367  Loss: 1.8246  GD-loss: 1.9462  Q-σ: 0.057  (12.6s)
+
+  --- Cf: SVD rank-8 ---
+    Plates changed: 5206 (4.7%)
+    Acc: 0.396  Loss: 1.7525  GD-loss: 1.8164  Q-σ: 0.081  (12.8s)
+
+  --- D: mag-weighted ---
+    Plates changed: 0 (0.0%)
+    Acc: 0.364  Loss: 1.9312  GD-loss: 1.9094  Q-σ: 0.055  (12.8s)
+
+============================================================
+  Phase 3: Method agreement
+============================================================
+    A:single     vs B:multi     : 65.6% agreement
+    A:single     vs C1:svd-1    : 74.1% agreement
+    A:single     vs C4:svd-4    : 70.4% agreement
+    A:single     vs Cf:svd-8    : 70.6% agreement
+    A:single     vs D:mag-wt    : 70.6% agreement
+    B:multi      vs C1:svd-1    : 72.3% agreement
+    B:multi      vs C4:svd-4    : 72.7% agreement
+    B:multi      vs Cf:svd-8    : 72.7% agreement
+    B:multi      vs D:mag-wt    : 72.7% agreement
+    C1:svd-1     vs C4:svd-4    : 89.4% agreement
+    C1:svd-1     vs Cf:svd-8    : 88.7% agreement
+    C1:svd-1     vs D:mag-wt    : 88.7% agreement
+    C4:svd-4     vs Cf:svd-8    : 95.3% agreement
+    C4:svd-4     vs D:mag-wt    : 95.3% agreement
+    Cf:svd-8     vs D:mag-wt    : 100.0% agreement
+
+============================================================
+  SUMMARY
+============================================================
+  Method                   Acc   GD loss     Q-σ     Q-μ
+  --------------------  ------  --------  ------  ------
+  A: single-rot etch     0.288    2.1559   0.054   0.173
+  B: multi-rot etch      0.451    1.6840   0.088   0.165
+  C1: SVD rank-1         0.241    2.1227   0.038   0.132
+  C4: SVD rank-4         0.367    1.9462   0.057   0.156
+  Cf: SVD rank-8         0.396    1.8164   0.081   0.190
+  D: mag-weighted        0.364    1.9094   0.055   0.177
+
+  Results saved to results/crystal-reconstruct/results.json
