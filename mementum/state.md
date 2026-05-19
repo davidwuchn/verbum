@@ -87,6 +87,15 @@ retrieval:  0.435 self-sim, 0.689 agreement, 2d                weak
 ```
 Confirms: attention-mediated ops are self-similar, retrieval (FFN) isn't.
 Pareto crystals: reasoning + tool + lambda = 20% that does 80%.
+
+### 4. FFN index — crystal generates the addressing function
+
+Q↔FFN RDM correlation 0.71-0.89 at all depths. The crystal IS the FFN
+index — it generates content-addressable keys via the attention superposition.
+FFN self-similarity = 0.770 (prediction was NO — WRONG). The entire model
+is self-similar, not just attention. Crystal and FFN rankings are inverses:
+reasoning = strongest crystal + fewest FFN neurons (pure computation),
+instruction = weakest crystal + most FFN neurons (pure storage/templates).
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)

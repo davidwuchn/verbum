@@ -1,0 +1,296 @@
+{
+  "0.10": {
+    "q_ffn_correlation": 0.7937572656459382,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 5551,
+      "shared_neurons": 80,
+      "dead_neurons": 5,
+      "selective_pct": 0.38720703125,
+      "shared_pct": 0.005580357142857143,
+      "dead_pct": 0.00034877232142857144,
+      "domain_selective_counts": {
+        "lambda": 363,
+        "arithmetic": 1032,
+        "coding": 769,
+        "tool": 263,
+        "retrieval": 270,
+        "analogy": 254,
+        "reasoning": 131,
+        "narrative": 923,
+        "instruction": 1546
+      },
+      "mean_selectivity": 0.2814783751964569,
+      "mean_activation_rate": 0.318033367395401
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 2070,
+      "shared_neurons": 0,
+      "dead_neurons": 399,
+      "selective_pct": 0.2021484375,
+      "shared_pct": 0.0,
+      "dead_pct": 0.03896484375,
+      "domain_selective_counts": {
+        "lambda": 24,
+        "arithmetic": 142,
+        "coding": 214,
+        "tool": 4,
+        "retrieval": 13,
+        "analogy": 21,
+        "reasoning": 31,
+        "narrative": 73,
+        "instruction": 1548
+      },
+      "mean_selectivity": 0.21452760696411133,
+      "mean_activation_rate": 0.07547888159751892
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  },
+  "0.20": {
+    "q_ffn_correlation": 0.8248804001019625,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 5336,
+      "shared_neurons": 36,
+      "dead_neurons": 36,
+      "selective_pct": 0.37220982142857145,
+      "shared_pct": 0.0025111607142857145,
+      "dead_pct": 0.0025111607142857145,
+      "domain_selective_counts": {
+        "lambda": 519,
+        "arithmetic": 1432,
+        "coding": 515,
+        "tool": 203,
+        "retrieval": 472,
+        "analogy": 362,
+        "reasoning": 147,
+        "narrative": 565,
+        "instruction": 1121
+      },
+      "mean_selectivity": 0.27735045552253723,
+      "mean_activation_rate": 0.24097636342048645
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 3717,
+      "shared_neurons": 1,
+      "dead_neurons": 354,
+      "selective_pct": 0.36298828125,
+      "shared_pct": 9.765625e-05,
+      "dead_pct": 0.0345703125,
+      "domain_selective_counts": {
+        "lambda": 233,
+        "arithmetic": 276,
+        "coding": 321,
+        "tool": 42,
+        "retrieval": 108,
+        "analogy": 96,
+        "reasoning": 139,
+        "narrative": 182,
+        "instruction": 2320
+      },
+      "mean_selectivity": 0.2889460325241089,
+      "mean_activation_rate": 0.14039641618728638
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  },
+  "0.30": {
+    "q_ffn_correlation": 0.8854946532891894,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 5475,
+      "shared_neurons": 87,
+      "dead_neurons": 120,
+      "selective_pct": 0.3819056919642857,
+      "shared_pct": 0.006068638392857143,
+      "dead_pct": 0.008370535714285714,
+      "domain_selective_counts": {
+        "lambda": 565,
+        "arithmetic": 1216,
+        "coding": 530,
+        "tool": 154,
+        "retrieval": 570,
+        "analogy": 408,
+        "reasoning": 115,
+        "narrative": 680,
+        "instruction": 1237
+      },
+      "mean_selectivity": 0.2760964334011078,
+      "mean_activation_rate": 0.24564838409423828
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 5105,
+      "shared_neurons": 0,
+      "dead_neurons": 194,
+      "selective_pct": 0.49853515625,
+      "shared_pct": 0.0,
+      "dead_pct": 0.0189453125,
+      "domain_selective_counts": {
+        "lambda": 206,
+        "arithmetic": 300,
+        "coding": 401,
+        "tool": 23,
+        "retrieval": 112,
+        "analogy": 192,
+        "reasoning": 115,
+        "narrative": 149,
+        "instruction": 3607
+      },
+      "mean_selectivity": 0.3586024343967438,
+      "mean_activation_rate": 0.18763455748558044
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  },
+  "0.50": {
+    "q_ffn_correlation": 0.8784903118373173,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 5546,
+      "shared_neurons": 100,
+      "dead_neurons": 125,
+      "selective_pct": 0.38685825892857145,
+      "shared_pct": 0.006975446428571429,
+      "dead_pct": 0.008719308035714286,
+      "domain_selective_counts": {
+        "lambda": 586,
+        "arithmetic": 886,
+        "coding": 649,
+        "tool": 140,
+        "retrieval": 511,
+        "analogy": 446,
+        "reasoning": 141,
+        "narrative": 927,
+        "instruction": 1260
+      },
+      "mean_selectivity": 0.2770342528820038,
+      "mean_activation_rate": 0.21893860399723053
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 5054,
+      "shared_neurons": 0,
+      "dead_neurons": 144,
+      "selective_pct": 0.4935546875,
+      "shared_pct": 0.0,
+      "dead_pct": 0.0140625,
+      "domain_selective_counts": {
+        "lambda": 147,
+        "arithmetic": 270,
+        "coding": 444,
+        "tool": 22,
+        "retrieval": 92,
+        "analogy": 121,
+        "reasoning": 94,
+        "narrative": 237,
+        "instruction": 3627
+      },
+      "mean_selectivity": 0.3698394298553467,
+      "mean_activation_rate": 0.1639041006565094
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  },
+  "0.70": {
+    "q_ffn_correlation": 0.718820712415948,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 5278,
+      "shared_neurons": 27,
+      "dead_neurons": 122,
+      "selective_pct": 0.3681640625,
+      "shared_pct": 0.0018833705357142857,
+      "dead_pct": 0.008510044642857142,
+      "domain_selective_counts": {
+        "lambda": 512,
+        "arithmetic": 924,
+        "coding": 720,
+        "tool": 149,
+        "retrieval": 435,
+        "analogy": 176,
+        "reasoning": 139,
+        "narrative": 650,
+        "instruction": 1573
+      },
+      "mean_selectivity": 0.2736979126930237,
+      "mean_activation_rate": 0.17268416285514832
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 4047,
+      "shared_neurons": 4,
+      "dead_neurons": 173,
+      "selective_pct": 0.39521484375,
+      "shared_pct": 0.000390625,
+      "dead_pct": 0.01689453125,
+      "domain_selective_counts": {
+        "lambda": 225,
+        "arithmetic": 330,
+        "coding": 781,
+        "tool": 47,
+        "retrieval": 104,
+        "analogy": 132,
+        "reasoning": 82,
+        "narrative": 254,
+        "instruction": 2092
+      },
+      "mean_selectivity": 0.31616029143333435,
+      "mean_activation_rate": 0.12162616103887558
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  },
+  "0.90": {
+    "q_ffn_correlation": 0.7077511157541136,
+    "selectivity_mistral-7b": {
+      "n_neurons": 14336,
+      "selective_neurons": 3239,
+      "shared_neurons": 43,
+      "dead_neurons": 740,
+      "selective_pct": 0.22593470982142858,
+      "shared_pct": 0.0029994419642857145,
+      "dead_pct": 0.05161830357142857,
+      "domain_selective_counts": {
+        "lambda": 291,
+        "arithmetic": 576,
+        "coding": 461,
+        "tool": 67,
+        "retrieval": 249,
+        "analogy": 134,
+        "reasoning": 61,
+        "narrative": 626,
+        "instruction": 774
+      },
+      "mean_selectivity": 0.20140334963798523,
+      "mean_activation_rate": 0.11074787378311157
+    },
+    "selectivity_pythia-2.8b": {
+      "n_neurons": 10240,
+      "selective_neurons": 3668,
+      "shared_neurons": 4,
+      "dead_neurons": 311,
+      "selective_pct": 0.358203125,
+      "shared_pct": 0.000390625,
+      "dead_pct": 0.03037109375,
+      "domain_selective_counts": {
+        "lambda": 421,
+        "arithmetic": 275,
+        "coding": 632,
+        "tool": 76,
+        "retrieval": 148,
+        "analogy": 143,
+        "reasoning": 107,
+        "narrative": 273,
+        "instruction": 1593
+      },
+      "mean_selectivity": 0.2878045439720154,
+      "mean_activation_rate": 0.10859520733356476
+    },
+    "ffn_self_similarity_mistral-7b": 0.7696951974983703,
+    "q_self_similarity_mistral-7b": 0.8284761863073024
+  }
+}
