@@ -145,13 +145,15 @@ def generate_batch(
         # Targets: shifted by 1
         target = ids[1:] + [PAD_ID]
 
-        # Loss mask: 1 after the = token, 0 before and on padding
+        # Loss mask: 1 from = position onward (where model predicts
+        # output tokens), 0 before = and on/after <eos>
         mask = [0] * max_len
         eq_pos = None
         for i, tok_id in enumerate(ids):
             if tok_id == EQ_ID:
                 eq_pos = i
-            elif eq_pos is not None and tok_id != PAD_ID:
+                mask[i] = 1  # predict first output token from =
+            elif eq_pos is not None and tok_id != PAD_ID and tok_id != EOS_ID:
                 mask[i] = 1
 
         all_ids.append(ids)
@@ -474,7 +476,7 @@ def train_beams(
                 grads["layers"][i]["plate"]["weight"] = mx.zeros_like(
                     grads["layers"][i]["plate"]["weight"])
 
-        optimizer.apply_gradients(grads, model)
+        model.update(optimizer.apply_gradients(grads, model))
         mx.eval(model.parameters())
 
         del loss_val, grads

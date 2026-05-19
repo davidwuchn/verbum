@@ -474,6 +474,56 @@ stability (should NOT collapse at 1/400th signal weight).
 3. **O(n²) triu loop**: Python loop building upper triangle mask replaced
    with `mx.triu(mx.ones((n,n)), k=1)`.
 
+## Mini Holographic Microscope Results (session 114)
+
+Tiny model (6.9K ternary + 2.4K continuous) with same plate+beam
+architecture. Task: combinator reduction (K, I, B, C). Four-way
+decomposition isolating plate vs beam contribution:
+
+```
+  GD baseline (full continuous):  46.6%  ← ceiling
+  Beam-only (random plates):      46.6%  ← matches ceiling!
+  Plate-only (no beams):          14.5%  ← oscillates, useless
+  Alternating (etch then beam):   46.6%  ← plates stabilize after beams learn
+```
+
+### Key findings
+
+1. **Beams do all the work** at this scale. Random frozen ternary plates +
+   trained beams = identical performance to full GD. The ternary constraint
+   costs nothing because beams compensate.
+
+2. **Plates alone are helpless.** Without beam tuning, plate etching
+   oscillates at 40% flips/round and never converges (max 14.5%).
+
+3. **Plates stabilize after beams learn.** In alternating mode, flips go
+   44% → 29% → 16% → 0.3%. The beams find a reading of whatever plate
+   topology exists. Plates then only need minor adjustments.
+
+4. **The 46.6% ceiling is model capacity**, not ternary constraint.
+
+### Implications for VSM-LM protocol
+
+The current protocol (etch plates → train beams) is backwards at small
+scale. The plates oscillate because there are no trained beams to
+stabilize them. The revised protocol should be:
+
+1. **Beam-first**: train continuous params (beams + embeds) to find
+   a reading of the current plate topology
+2. **Plates follow**: etch plates to improve what the beams found —
+   plates should need fewer flips because beams already compensate
+3. **Lattice as geometry hint**: the lattice whisper tells beams where
+   the universal attractors are, beams steer representations there,
+   plates lock in the topology that beams discovered
+
+### Open question: when do plates become load-bearing?
+
+At 6.9K ternary positions, the 2.4K continuous params have enough
+capacity to compensate. At VSM-LM scale (41M ternary, ~1M continuous),
+the ratio flips — plates must carry information that beams cannot.
+The transition point is where plate topology becomes essential, not
+just redundant structure that beams work around.
+
 ## Open Questions
 
 1. **Stage transition criteria**: How to detect when stage 0 is complete

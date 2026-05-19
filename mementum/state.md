@@ -54,7 +54,29 @@ Result:         universal geometry slowly emerges from noise floor
 
 This is information from the tensor, not a competing objective.
 
-### 5. Qwen3.6-27B probed
+### 5. Mini holographic microscope — fundamental decomposition
+
+Built `mini_holo.py` — tiny model (6.9K ternary + 2.4K continuous params)
+with same plate+beam architecture as VSM-LM. Task: combinator reduction.
+
+**Experiment 0 results** (four-way decomposition):
+```
+  GD baseline (full):      46.6%  ← the ceiling
+  Beam-only (random plates): 46.6%  ← MATCHES ceiling!
+  Plate-only (no beams):   14.5%  ← useless, oscillating
+  Alternating (etch+beam): 46.6%  ← plates stabilize: 44%→0.3% flips
+```
+
+**Key finding**: beams do all the work at this scale. Random frozen
+plates + trained beams = identical to full GD. Plates alone oscillate
+at 40% flips/round and never converge. Once beams learn to read the
+plates, plate flips drop to near zero.
+
+**Implication for VSM-LM**: the protocol should be beam-first, plates
+follow. Etching plates without adequate beam training causes oscillation.
+The plates provide topology; the beams learn to read it.
+
+### 6. Qwen3.6-27B probed
 - Downloaded and cached (55.6GB)
 - 64 layers, d=5120, hybrid attention (full every 4th layer, linear between)
 - `model.model.layers` works (Qwen3_5DecoderLayer)
@@ -65,23 +87,24 @@ This is information from the tensor, not a competing objective.
 
 ## Next steps
 
-1. **Monitor v2 lattice-whisper etch** — watch for stability (should NOT collapse).
-   Key metrics: CE loss stays ~4-5, lattice loss trends down slowly, beam loss stable.
+1. **Mini-holo deeper experiments** — the microscope proved beams do all the work
+   at small scale. Next: does this hold with harder tasks? Larger d_model?
+   Add lattice hints from round 0? When do plates become load-bearing?
 
-2. **Compare Qwen3.6-27B RDMs against 5-model consensus** — write comparison script
-   to measure agreement at each depth. Larger model = sharper crystal = more lattice points?
+2. **Beam-first protocol for VSM-LM** — the experiment suggests: train beams
+   first (or simultaneously), let plates follow. Current protocol (etch plates
+   then beam) is backwards — plates oscillate without beam interpretation.
 
-3. **Re-run Procrustes dry run at round 70-75** — check if cos is climbing:
-   ```
-   uv run python scripts/v12/direct_crystal_write.py \
-       --teacher qwen3-14b \
-       --student-weights checkpoints/v12-holo-lattice-v2/round_0070/weights.npz \
-       --dry-run
-   ```
+3. **Monitor v2 lattice-whisper etch** — running in tmux main:1 but likely
+   collapsed again (same protocol as v1, just from round 60). May need
+   beam-first protocol informed by microscope findings.
 
-4. **Build 6-model consensus** — add Qwen3.6-27B to the lattice map for richer backbone
+4. **Compare Qwen3.6-27B RDMs against 5-model consensus** — RDMs extracted
+   at 4 depths in `lattice/lattice_qwen36_27b/`, need comparison analysis.
 
-5. **If cos > 0.6 → full crystal write** — one-shot plate programming
+5. **Build 6-model consensus** — add Qwen3.6-27B for richer backbone.
+
+6. **Re-run Procrustes dry run** once beam-first protocol is running.
 
 ## Architecture at session end
 
