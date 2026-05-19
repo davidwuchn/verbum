@@ -160,12 +160,12 @@ class V12Config:
 
     # ── Dispatch ratio prior (empirical universal ratio) ──
     # Base KIBC: K:I:B:C ≈ 1:0.5:1:1 measured across 9 models, 2 architectures.
-    # Extended DYWH: D:Y:W:WHNF ≈ 0.5:0.3:0.3:0.2 (rarer operations, lower prior).
+    # Session 119: binding cascade proves C is the universal routing mechanism.
+    # C slightly up (1.0→1.2), B slightly down (1.0→0.9), K down (1.0→0.8).
+    # Gives C room to dominate without fighting the prior.
     # Applied as log(ratio/Σratio) additive bias in logit space.
-    # When logits are zero (no opinion), dispatch defaults to this ratio.
-    # The model can still deviate, but must overcome the prior to do so.
     dispatch_ratio: tuple[float, ...] = (
-        1.0, 0.5, 1.0, 1.0,   # K, I, B, C (base)
+        0.8, 0.5, 0.9, 1.2,   # K, I, B, C — C is binding router (session 119)
         0.5, 0.3, 0.3, 0.2,   # D, Y, W, WHNF (extended, rarer)
     )
 
@@ -182,25 +182,23 @@ class V12Config:
     dispatch_entropy_lambda: float = 0.5
     dispatch_entropy_target: float = 1.64   # H(ratio_prior) * 0.85
 
-    # ── Per-pass dispatch bias (depth-selective KIBC prior) ──
-    # From lambda kernel probes (session 106): operations peak at different depths.
-    # B_compose peaks at L0 (33×), K_select at L20 (51×), M_match at L30 (145×).
-    # Each pass gets a fixed additive logit bias derived from the cross-model
-    # agreed depth profile. Combines with ratio prior in logit space:
-    #   dispatch_logits = raw + ratio_prior + pass_bias[pass_idx]
-    # Values are fixed constants (not learned) — cross-model agreement validates them.
-    # Extended to 8 ops: D peaks where B peaks (deep-compose is composition),
-    # Y at mid-depth (recursion detection), W near I (duplication ≈ identity),
-    # WHNF at deep passes (terminal detection requires semantic understanding).
+    # ── Per-pass dispatch bias (depth-selective prior) ──
+    # Session 119 revision: aligned to binding cascade (C→B/S→WHNF).
+    # Cross-model consensus (4 models × 10 depths × 118 probes):
+    #   Early layers (0-20%): B/S compose function chains
+    #   Mid layers (30-50%):  C routes arguments — PEAKS HERE
+    #   Late layers (60-90%): C still dominates, WHNF emerges at depth
+    # C is the universal binding mechanism — it needs room at apex/mid.
+    # B/D handle composition in ascending/descending arms.
     #                            K     I     B     C     D     Y     W    WHNF
     pass_dispatch_bias: tuple[tuple[float, ...], ...] = (
-        (-1.0, -1.0, +2.0, +0.5, +1.5, -1.0, -0.5, -1.5),  # Pass 0 (L0↑): B/D dominate
-        (+0.0, +0.0, +0.5, +0.5, +0.5, +0.0, +0.0, -1.0),  # Pass 1 (L1↑): balanced
-        (+1.0, +0.5, +0.0, +0.5, +0.0, +1.0, +0.0, +0.0),  # Pass 2 (L2↑): K/I/Y emerging
-        (+2.0, +1.5, -0.5, +0.0, -0.5, +1.5, +0.5, +1.0),  # Pass 3 (apex): K/I/Y/WHNF
-        (+1.5, +1.0, -0.5, +0.0, -0.5, +1.0, +0.5, +1.0),  # Pass 4 (L2↓): K/I reading
-        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +0.5, +0.0),  # Pass 5 (L1↓): C/W reorder
-        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -1.0),  # Pass 6 (L0↓): B/D compose
+        (-1.0, -0.5, +2.0, +0.5, +1.5, -0.5, -0.5, -1.5),  # Pass 0 (L0↑): B/D compose
+        (+0.0, +0.0, +1.0, +1.0, +0.5, +0.0, +0.0, -1.0),  # Pass 1 (L1↑): B/C balanced
+        (+0.5, +0.5, +0.0, +1.5, +0.0, +0.5, +0.0, +0.0),  # Pass 2 (L2↑): C rising
+        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 3 (apex): C peak
+        (+1.0, +0.5, -0.5, +1.5, -0.5, +0.5, +0.5, +0.5),  # Pass 4 (L2↓): C strong
+        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +1.0, +0.0),  # Pass 5 (L1↓): C + W
+        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -0.5),  # Pass 6 (L0↓): B/D compose
     )
 
     # ── KL divergence toward empirical ratio (hard constraint) ──
@@ -222,14 +220,41 @@ class V12Config:
     # KL loss now uses live dispatch directly; EMA is not in the gradient path.
     dispatch_kl_ema_decay: float = 0.967  # ~30 steps of effective memory
 
-    # ── Crystal lattice geometry loss ──
-    # Session 117: replaced probe-based backbone whisper with constant lattice.
-    # 8×8 combinator embedding cosines → MSE against universal crystal targets.
-    # Precomputed from cross-model RDM (session 106, 380 probes, 20 axes).
-    # No probe forwarding — pure embedding geometry, every step.
+    # ── Crystal lattice geometry loss (constant-target, every step) ──
+    # Session 119: binding cascade confirms these are measured constants.
+    # 8×8 combinator embedding cosines → agreement-weighted MSE vs target.
+    # Targets from cross-model consensus (4 models × 118 probes, depth 50%).
+    # No probe forwarding — pure embedding geometry, trivially cheap.
+    #   loss = Σ_{i<j} agreement[i,j] * (cos(emb_i, emb_j) - target[i,j])²
     use_relational_loss: bool = True
     rel_lambda: float = 0.01
-    rel_target_path: str = "results/holographic-extraction/lambda_kernel_verified_dimensions.json"
+
+    # The fixed-point numbers: consensus cosines between pure combinator
+    # representations across 4 independently trained models (Qwen3-14B,
+    # Mistral-7B, OLMo-2-13B, Pythia-2.8B). Order: K I B C D Y W WHNF.
+    # These are MEASURED CONSTANTS, not optimization targets.
+    crystal_cosine_targets: tuple[tuple[float, ...], ...] = (
+        (+0.0000, +0.2991, +0.0889, +0.0930, +0.1188, +0.0810, +0.1935, -0.1224),  # K
+        (+0.2991, +0.0000, +0.1103, +0.1107, +0.1488, +0.0795, +0.1081, -0.1228),  # I
+        (+0.0889, +0.1103, +0.0000, +0.4305, +0.4311, +0.2947, +0.3158, -0.0642),  # B
+        (+0.0930, +0.1107, +0.4305, +0.0000, +0.3954, +0.3061, +0.3519, -0.0604),  # C
+        (+0.1188, +0.1488, +0.4311, +0.3954, +0.0000, +0.3198, +0.3567, -0.0625),  # D
+        (+0.0810, +0.0795, +0.2947, +0.3061, +0.3198, +0.0000, +0.2555, -0.0745),  # Y
+        (+0.1935, +0.1081, +0.3158, +0.3519, +0.3567, +0.2555, +0.0000, -0.0793),  # W
+        (-0.1224, -0.1228, -0.0642, -0.0604, -0.0625, -0.0745, -0.0793, +0.0000),  # WHNF
+    )
+    # Cross-model agreement: how confident is each pairwise target?
+    # B↔C=0.81 (rock solid), K↔WHNF=0.25 (weaker). Weights the MSE.
+    crystal_cosine_agreements: tuple[tuple[float, ...], ...] = (
+        (0.0000, 0.5980, 0.5188, 0.4669, 0.5404, 0.5573, 0.5335, 0.2472),  # K
+        (0.5980, 0.0000, 0.3740, 0.3319, 0.3927, 0.3561, 0.3392, 0.2270),  # I
+        (0.5188, 0.3740, 0.0000, 0.8096, 0.7565, 0.5337, 0.6155, 0.3034),  # B
+        (0.4669, 0.3319, 0.8096, 0.0000, 0.7424, 0.4768, 0.6108, 0.2926),  # C
+        (0.5404, 0.3927, 0.7565, 0.7424, 0.0000, 0.5820, 0.6139, 0.2822),  # D
+        (0.5573, 0.3561, 0.5337, 0.4768, 0.5820, 0.0000, 0.5652, 0.2685),  # Y
+        (0.5335, 0.3392, 0.6155, 0.6108, 0.6139, 0.5652, 0.0000, 0.2962),  # W
+        (0.2472, 0.2270, 0.3034, 0.2926, 0.2822, 0.2685, 0.2962, 0.0000),  # WHNF
+    )
 
     # ── Hierarchical dispatch (category → operation) ──
     # Level 1: which CATEGORY of kernel? (3-way: lambda, math, passthrough)

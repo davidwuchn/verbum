@@ -912,8 +912,6 @@ def save_checkpoint(model, optimizer, step, cfg, checkpoint_dir,
             "fractal_stride_bands": cfg.fractal_stride_bands,
             "etch_max_flips_per_event": cfg.etch_max_flips_per_event,
             "rel_lambda": cfg.rel_lambda,
-            "rel_every": cfg.rel_every,
-            "rel_n_probes": cfg.rel_n_probes,
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -1140,34 +1138,26 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
     if start_step > 0:
         print(f"  Resuming from step {start_step}", file=sys.stderr)
 
-    # ── Lambda kernel relational loss setup ───────────────────
-    rel_probes_tokenized = None
-    rel_target_rdm = None
-    rel_rng = None
+    # ── Crystal lattice geometry loss setup (constant-target) ──
+    # Session 119: 8×8 combinator embedding cosines → MSE vs measured constants.
+    # No probe forwarding. Targets are fixed-point numbers from 4-model consensus.
+    crystal_target = None
+    crystal_weight = None
     if cfg.use_relational_loss:
-        rel_target_file = Path(cfg.rel_target_path)
-        if rel_target_file.exists():
-            import json as _json
-            from transformers import AutoTokenizer as _AT
-            _rel_data = _json.load(rel_target_file.open())
-            _rel_probes = _rel_data["probes"]
-            # Use L20 target (deepest with both K and I signal)
-            _rel_target_key = "20" if "20" in _rel_data["targets"] else list(_rel_data["targets"].keys())[0]
-            _rdm_raw = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
-            rel_target_rdm = mx.array(_rdm_raw.astype(np.float32))
-
-            # Pre-tokenize all probes with Qwen3 tokenizer
-            _tok = _AT.from_pretrained("Qwen/Qwen3-14B")
-            rel_probes_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
-            rel_rng = np.random.RandomState(42)
-            print(f"  🔬 Relational loss: {len(rel_probes_tokenized)} probes, "
-                  f"λ={cfg.rel_lambda}, every {cfg.rel_every} steps, "
-                  f"sample {cfg.rel_n_probes}/step", file=sys.stderr)
-            del _tok, _rel_data, _rel_probes
-        else:
-            print(f"  ⚠️  Relational loss target not found: {rel_target_file}", file=sys.stderr)
-            print(f"       Run: uv run python scripts/explore/probe_crystal_seed.py --probe-set lambda",
-                  file=sys.stderr)
+        _tgt = np.array(cfg.crystal_cosine_targets, dtype=np.float32)
+        _agr = np.array(cfg.crystal_cosine_agreements, dtype=np.float32)
+        n_comb = _tgt.shape[0]
+        # Extract upper triangle indices (28 unique pairs for 8 combinators)
+        _triu_r, _triu_c = np.triu_indices(n_comb, k=1)
+        crystal_target = mx.array(_tgt[_triu_r, _triu_c])  # (28,)
+        crystal_weight = mx.array(_agr[_triu_r, _triu_c])   # (28,)
+        # Normalize weights to sum to 1 for stable loss scale
+        crystal_weight = crystal_weight / mx.sum(crystal_weight)
+        _crystal_triu_r = mx.array(_triu_r.astype(np.int32))
+        _crystal_triu_c = mx.array(_triu_c.astype(np.int32))
+        print(f"  🔬 Crystal lattice loss: 8×8 embedding geometry, "
+              f"λ={cfg.rel_lambda}, {len(_triu_r)} pairs, every step",
+              file=sys.stderr)
 
     print("", file=sys.stderr, flush=True)
 
@@ -1210,70 +1200,32 @@ def train(cfg: V12Config, args: argparse.Namespace) -> None:
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
-        # ── Lambda kernel relational loss (periodic) ──────────
+        # ── Crystal lattice geometry loss (every step, cheap) ────
+        # Agreement-weighted MSE between combinator embedding cosines
+        # and measured cross-model consensus constants. No probe forwarding.
         rel_loss_val = 0.0
-        if (rel_probes_tokenized is not None
-                and rel_target_rdm is not None
-                and step % cfg.rel_every == 0
+        if (crystal_target is not None
+                and crystal_weight is not None
                 and step > cfg.warmup_steps):
 
-            def _rel_loss_fn(model_inner):
-                """Forward sampled probes, compute residual RDM, MSE vs target."""
-                # Sample random subset of probes
-                n_total = len(rel_probes_tokenized)
-                indices = rel_rng.choice(n_total, size=min(cfg.rel_n_probes, n_total), replace=False)
-                indices = sorted(indices)
+            def _crystal_loss_fn(model_inner):
+                """Combinator embedding cosine MSE vs measured constants."""
+                emb = model_inner.combinator_dispatch.combinator_embeddings  # (8, d_model)
+                norms = mx.sqrt(mx.sum(emb * emb, axis=-1, keepdims=True) + 1e-8)
+                emb_norm = emb / norms  # (8, d_model)
+                cos_matrix = emb_norm @ emb_norm.T  # (8, 8)
+                # Extract upper triangle (28 pairs)
+                student_flat = cos_matrix[_crystal_triu_r, _crystal_triu_c]
+                # Agreement-weighted MSE
+                diff = student_flat - crystal_target
+                return mx.sum(crystal_weight * diff * diff)
 
-                # Tokenize, pad, forward
-                # Minimum length must exceed max stride for GLA layers
-                min_len = max(cfg.strides) + cfg.window + 1
-                batch_enc = [rel_probes_tokenized[i] for i in indices]
-                lengths = [len(e) for e in batch_enc]
-                max_len = max(max(lengths), min_len)
-                pad_id = cfg.eod_id
-                padded = [e + [pad_id] * (max_len - len(e)) for e in batch_enc]
-                input_ids = mx.array(padded)  # (n_sample, max_len)
-
-                # Forward without targets (no CE loss, just hidden states)
-                logits, _ = model_inner.forward(input_ids, targets=None)
-
-                # Get cached hidden state from forward pass
-                h = model_inner._last_hidden  # (n_sample, max_len, d_model)
-
-                # Extract last real token per probe
-                last_positions = mx.array([l - 1 for l in lengths])
-                batch_idx = mx.arange(len(indices))
-                h_last = h[batch_idx, last_positions, :]  # (n_sample, d_model)
-
-                # Normalize
-                h_norm = h_last / (mx.linalg.norm(h_last, axis=-1, keepdims=True) + 1e-8)
-
-                # Student RDM
-                student_rdm = h_norm @ h_norm.T  # (n_sample, n_sample)
-
-                # Residual mode: mean-subtract
-                student_rdm = student_rdm - mx.mean(student_rdm)
-
-                # Extract target sub-RDM for sampled indices
-                idx_mx = mx.array(np.array(indices, dtype=np.int32))
-                target_sub = rel_target_rdm[idx_mx][:, idx_mx]
-
-                # Upper triangle MSE
-                n = len(indices)
-                triu_r, triu_c = np.triu_indices(n, k=1)
-                triu_r_mx = mx.array(triu_r.astype(np.int32))
-                triu_c_mx = mx.array(triu_c.astype(np.int32))
-                student_flat = student_rdm[triu_r_mx, triu_c_mx]
-                target_flat = target_sub[triu_r_mx, triu_c_mx]
-
-                return mx.mean((student_flat - target_flat) ** 2)
-
-            rel_loss_grad_fn = nn.value_and_grad(model, _rel_loss_fn)
+            rel_loss_grad_fn = nn.value_and_grad(model, _crystal_loss_fn)
             rel_lv, rel_grads = rel_loss_grad_fn(model)
             mx.eval(rel_lv, rel_grads)
             rel_loss_val = float(rel_lv.item())
 
-            # Add scaled relational gradients to accumulated gradients
+            # Add scaled crystal lattice gradients to accumulated gradients
             accum_grads = tree_map(
                 lambda a, b: a + cfg.rel_lambda * b,
                 accum_grads, rel_grads)
