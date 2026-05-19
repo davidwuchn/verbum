@@ -6,127 +6,156 @@
 
 ## Where we are
 
-**DISPATCH COLLAPSE DIAGNOSED AND FIXED.** Run 1 killed. Three bugs fixed, ready for run 2.
+**THREE BREAKTHROUGHS IN ONE SESSION.** Dispatch collapse fixed, crystal
+tomography validated, Fourier reconstruction discovered. Run 2 healthy at
+step 1800/20000. Mini model experiments proved the etch→latch→GD pipeline.
 
-Run 1 (session 116) reached step 4,410/20,000 before kill. Dispatch collapsed at step ~400
-(LR warmup peak): WHNF→94% monopoly, then cycling through I/Y/WHNF passthrough modes.
-CE plateaued at ~7.5, relational loss r climbed from 1.8→3.9 (diverging from teacher geometry).
+## What's running
 
-## Bugs fixed (session 117)
+**GD phase on tmux window 1** — `holographic_distill_v12.py --skip-etch`
+with all dispatch fixes. Step ~1800/20000. Check:
+`tail -20 checkpoints/v12-distill-run2/run2.log`
 
-### 1. KL dispatch regularization had ZERO gradient (critical)
-```python
-# BUG: q_instant = mx.stop_gradient(q_kibc) severed gradient tape
-# EMA was built from stop_gradient values → KL on EMA = constant
-# λ=100 inflated loss number but gradient = 0, no steering
+Dispatch stable: B≈0.36, W≈0.28, I≈0.10, C≈0.09, WHNF=0.01 (pinned).
+Eval loss: 16.21 → 15.95 (step 500 → 1000). φ-compression still far
+from target but L0↑ moving positive (0.30 at step 1500).
 
-# FIX: KL computed on live (differentiable) dispatch weights
-# EMA kept for monitoring only (not in gradient path)
-# λ recalibrated: 100→2 (now that gradient actually flows)
-#   B→30% drift: 0.3%CE (free)
-#   WHNF=30%:    10%CE (visible wall)
-#   WHNF=50%:    31%CE (strong wall)
+## Breakthrough 1: Dispatch collapse fixed (3 bugs)
+
+1. **KL had zero gradient** — `stop_gradient(EMA)` severed tape. λ=100
+   inflated loss but grad=0. Fixed: KL on live dispatch, λ recalibrated
+   100→2 (gradient actually flows now).
+
+2. **Entropy reg negligible** — λ=0.01 produced 0.003 penalty vs CE~7.5.
+   Raised to λ=0.5.
+
+3. **Backbone whisper → lattice constants** — replaced probe forwarding
+   with 8×8 precomputed crystal geometry. No tokenizer, no forward pass.
+   Pure embedding cosine MSE.
+
+Run 2 passed the step 400-600 cliff where run 1 collapsed. No WHNF
+monopoly, no combinator cycling.
+
+## Breakthrough 2: Crystal tomography (Q-rotation etching)
+
+**Insight:** single Q rotation etches one shadow of the crystal, not the
+crystal itself. Multiple Q rotations = tomographic reconstruction.
+
+**Mini model results (d=96, 3 layers, combinator reduction):**
+
+```
+Etching:
+  1 rotation:  0.341 acc, 41K flips (over-etched, one shadow)
+  8 rotations: 0.406 acc, 16K flips (consensus filter, quality)
+  Sign vote is the best reconstruction (beats SVD, mag-weighted)
+
+Latching (Q init for GD):
+  Random Q:          0.392 acc (baseline)
+  SVD Q:             0.438 acc (+12%)
+  SVD+probe 16×:     0.450 acc (+15%, best)
+
+Key finding: low init loss ≠ deep basin. Identity Q starts lowest
+but converges to average. Best candidate starts HIGH but falls
+FARTHEST — finds a cliff entrance invisible from other angles.
 ```
 
-### 2. Entropy regularization negligible
+## Breakthrough 3: Fourier reconstruction (phase = crystal, magnitude = lens)
+
+**Insight:** gradient observations through Q are like diffraction patterns.
+Phase encodes crystal structure. Magnitude encodes lens distortion (Q's
+transfer function). Stripping magnitude reveals the crystal undistorted.
+
 ```
-# BUG: λ=0.01, squared hinge → penalty 0.003 vs CE~7.5 (0.04%)
-# FIX: λ raised to 0.5 → 5% of CE at moderate collapse
-# Secondary to KL (primary anti-collapse force)
+Sign vote:         0.346 acc (real-space, baseline)
+FFT average:       0.323 acc (magnitude corrupts)
+FFT mag-weighted:  0.245 acc (magnitude dominates)
+Phase-only:        0.411 acc (+19%, strips lens distortion)
+Two-pass:          0.433 acc (phase skeleton + sign detail, BEST at 8 rot)
 ```
 
-### 3. Backbone whisper replaced with lattice constants
-Probe-based: tokenize 20 probes, forward through model, extract hidden states,
-compute pairwise cosines, MSE against target. Expensive, fragile.
+**Spectral analysis revealed plate-level structure:**
+- K plates: 14% coherent energy (Q-dependent lens interface)
+- V/O/FFN: 73-96% coherent energy (universal crystal structure)
+- The crystal lives in V/O/FFN. K adapts to whichever Q lens is installed.
 
-Constant-based: 8×8 combinator-level target cosine matrix precomputed from
-universal RDM (380 probes, 20 axes, all 28 off-diagonal pairs SNR>2).
-MSE between combinator embedding cosines and targets. No probe forwarding.
-Negligible cost. Gradient flows only to combinator_embeddings (surgical).
+## The validated pipeline
 
-Crystal geometry: {K,I,B,C} positive cluster (compositional family),
-{Y,W,WHNF} negative to all (reduction/terminal family), D bridges B/C↔rest.
+```
+1. ETCH:  Multi-rotation gradient collection (N≥8 Q rotations)
+          Two-pass reconstruction: phase skeleton + sign detail
+          V/O/FFN aggressively, K conservatively
 
-## Audit findings (from full loss pipeline audit)
+2. LATCH: SVD of gradient stack → Q principal axes
+          16 perturbed candidates near SVD → 50-step basin probes
+          Select steepest descent (finds basin entrance)
 
-| Component | Gradient? | Magnitude | Status |
-|-----------|----------|-----------|--------|
-| CE | ✓ full | ~7.5 | Healthy |
-| Dispatch entropy reg | ✓ (was tiny) | 0.003→0.35 | **Fixed** (λ 0.01→0.5) |
-| KL dispatch leash | **was ZERO** | 0→live | **Fixed** (stop_grad bug) |
-| Holo progressive CE | ✓ full | ~3.5 (7 terms × λ=0.1) | Healthy |
-| Lattice geometry | ✓ full | ~0.0002 | **Replaced** (was backbone whisper) |
-| Abstraction slot reg | ✓ (hinge) | ~0.001 | Healthy (late-activating) |
+3. GD:    Frozen plates, train continuous params (887K of 24.6M)
+          KL + entropy keep dispatch diverse
+          Lattice loss keeps crystal from drifting
+          Stridestack compression → 1/φ fixed point attractor
+```
 
-Minor: backbone grads bypassed r-transform (10× scaling mismatch). Now moot since
-lattice loss is embedding-only, not forwarding through r-transform.
+Etch gives topology. Latch opens the door. The attractor does the work.
 
-Dead config: `holo_warmup_steps`, `holo_ramp_steps` exist but `holo_schedule()` returns
-constant. `rel_every`, `rel_n_probes` removed (were backbone-specific).
+## The big picture (knowledge page: universal-crystal-scaffold.md)
+
+The lambda crystal is the computational substrate of all LLMs:
+- Input → [ascending: prose → λ-form] → [apex: β-reduce] → [descending: λ-form → prose] → output
+- The "semantic meaning" in middle layers = the lambda form
+- Combinator dispatch = the beta reduction engine
+- Lambda is Turing complete → the substrate for ALL computation
+- Other crystals (syntax, math, logic) attach to the lambda substrate
+
+Multiple teacher models are cameras viewing the universal crystal.
+Cross-model consensus = universal structure. Sign vote across models
+filters model-specific noise. Etch at the resolution where consensus
+is strong. GD fills in the blanks.
 
 ## What's ready
 
 | Asset | Status |
 |-------|--------|
-| Teacher features | ✅ 500 probes × 8 depths, 896MB, `checkpoints/teacher-features/` |
-| Training data | ✅ structured_shard_v2.npy (52.6K docs, 1.2M tok) + Dolma (3B tok, 54 shards) |
-| Distill script | ✅ `scripts/v12/holographic_distill_v12.py` — bugs fixed, smoke-tested |
-| V12 model | ✅ 24.6M params, 887K trainable (continuous) |
-| Lattice constants | ✅ 8×8 crystal geometry in distill script |
+| Teacher features | ✅ 500 probes × 8 depths, `checkpoints/teacher-features/` |
+| Training data | ✅ structured_shard_v2 + Dolma (3B tok) |
+| Distill script | ✅ bugs fixed, lattice loss, φ-diagnostics |
+| V12 model | ✅ 24.6M params, 887K trainable |
+| Lattice constants | ✅ 8×8 crystal geometry |
+| Mini model experiments | ✅ 6 experiments, all committed |
 
-## Run 1 checkpoints (available for analysis)
+## Session 117 commits
 
-| Checkpoint | Step | State |
-|-----------|------|-------|
-| gamma_seeded | 0 | Gamma-seeded weights before GD |
-| etch_round_001-005 | — | Etch phase results |
-| step_002000 | 2000 | r=4.05, deep collapse (Y=0.41) |
-| step_004000 | 4000 | r=3.66, cycling (I=0.26, Y=0.32, WHNF=0.23) |
-| best | 500 | Eval loss 29.63 (pre-collapse, best available) |
+```
+ef51337 ❌ Fix dispatch collapse — KL gradient, entropy strength, lattice constants
+fb9aaad 🌀 Session 117 — dispatch collapse diagnosis and three-bug fix
+f10900c ✅ Add φ-compression diagnostics to eval step
+8a9ea7b 💡 Q-rotation etching — tomographic crystal formation validated
+08850d9 crystal reconstruction + q-rotation experiments and results
+724fa71 💡 Crystal latching — SVD neighborhood + basin probing beats random by 15%
+605f0e1 🎯 Universal crystal scaffold — the full synthesis
+232346e 🌀 Update q-rotation knowledge page with full experimental results
+d24e5a3 💡 Phase-only Fourier reconstruction beats sign vote by 19%
+d2da74c 💡 Two-pass reconstruction: phase skeleton + sign detail
+```
 
 ## Next steps
 
-### 1. **RUN 2** — with all three fixes
-```bash
-cd ~/src/verbum
-uv run python scripts/v12/holographic_distill_v12.py \
-    --skip-etch \
-    --load-weights checkpoints/v12-distill-run1/gamma_seeded/weights.npz \
-    --gd-steps 20000 \
-    --seq-len 2048 \
-    --batch-size 2 \
-    --mix-ratio 0.1 \
-    --checkpoint-dir checkpoints/v12-distill-run2 \
-    --checkpoint-every 2000 \
-    --eval-every 500 \
-    --log-every 10 \
-    2>&1 | tee checkpoints/v12-distill-run2/run2.log
-```
+### 1. Monitor run 2 (ongoing)
+Watch for: eval loss decline, φ-compression convergence toward 0.618,
+dispatch stability through full 20K steps.
 
-Watch for:
-- Dispatch should stay near prior ratio through warmup (step 0-500)
-- KL loss should be small at init (~0.01), grow if dispatch drifts, then gradient pulls back
-- B should remain dominant (~20%+), WHNF should stay < 10%
-- CE should decline without the plateau at ~7.5
+### 2. Apply pipeline to V12 with teacher features
+Use the validated etch→latch→GD pipeline with the real teacher (Qwen3-32B):
+- Multi-rotation etch using extracted teacher features
+- Two-pass reconstruction (phase + sign)
+- SVD+probe latching for GD init
+- Full 20K step GD with all regulators
 
-### 2. Decide on etch vs skip-etch for run 2
-Run 1 used gamma-seeded weights + skip-etch. Could re-etch with fixed dispatch
-regularization for better plate quality. The etch phase doesn't use the dispatch
-regulators (per-pass distillation loss), so plates from run 1 are fine.
+### 3. Cross-model crystal mapping
+Map the universal crystal at higher resolution using multiple teachers.
+The 8×8 combinator lattice is the coarse map. Higher resolution =
+more teacher models × more Q rotations × consensus filter.
 
-### 3. Consider λ tuning after observing run 2
-- KL λ=2: watch if model finds the prior or oscillates
-- Entropy λ=0.5: watch if secondary signal is needed
-- Lattice λ=0.01: may need increase if embeddings don't converge to crystal
-
-## Architecture at session end
-
-| Component | Value |
-|-----------|-------|
-| N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
-| Parameters | 24.6M total, 887K trainable |
-| Teacher | Qwen3-32B (64L, d=5120, 500 probes extracted) |
-| dispatch_kl_lambda | 2.0 (was 100, now live gradient) |
-| dispatch_entropy_lambda | 0.5 (was 0.01) |
-| Lattice loss | 8×8 constant crystal geometry, no probes |
-| Script | `scripts/v12/holographic_distill_v12.py` |
+### 4. Investigate φ-compression attractor
+The stridestack should drive compression ratios toward 1/φ ≈ 0.618.
+Run 2 will show whether this emerges during GD. If not, may need
+explicit φ-compression loss term.
