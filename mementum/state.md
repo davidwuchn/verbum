@@ -2,144 +2,109 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-19 | Session: 115 (late)
+> Last updated: 2026-05-19 | Session: 116
 
 ## Where we are
 
-**MICROSCOPE D-SWEEP COMPLETE — etch-first beats beam-first with attention architecture.** Two d-sweep experiments (sessions 114-115) revealed:
+**HOLOGRAPHIC DISTILLATION V12 PIPELINE BUILT AND SMOKE-TESTED.** Ready for full training run.
 
-1. **v1 (no attention)**: Simple KIBC reduction saturates at 46.6% regardless of d. No crossover found at any scale (d=48 to d=256). Task too easy — embeddings solve it.
+Two-phase training script (`scripts/v12/holographic_distill_v12.py`) complete:
+- **Phase 1 — ETCH**: Teacher-guided plate etching from pre-extracted Qwen3-32B features (500 probes, 8 depth points). Per-pass distillation: projected teacher hidden states fed through individual V12 passes, MSE loss accumulated into direction accumulators, confident positions flipped via direct_etch. Focusing schedule (cosine-annealed confidence threshold).
+- **Phase 2 — GD**: Frozen plates, extended gradient descent on continuous params (gammas, norms, S3/S4/S5, embeddings) with CE loss on structured_shard_v2 + Dolma. Cosine LR with warmup, eval on held-out shards, checkpointing.
 
-2. **v2 (with attention, nested compositions)**: Adding causal attention + ternary K/V/O plates creates real separation. Etch-first consistently beats beam-first by 2.8-12.6% across all d values. The original mini-holo "beam-first" finding was an artifact of the non-attention architecture.
+## Key decisions this session (116)
 
-**Key revision**: beam-first is NOT universally correct. When plates ARE the attention projections (K/V/O), the gradient accumulator over 200 batches provides stable etch signal even without trained beams. The 200-batch accumulator IS the "reference beam" — it averages out noise.
+### 1. Teacher→Student dimension bridging
+Learned `TeacherProjection(5120→512)` — `nn.Linear` + `RMSNorm`. Trained alongside beam params during etch. The projection is a "lens" that focuses teacher representations into student space. Xavier init for stable gradient flow.
 
-Lattice etch run is dead (collapsed at round 65, not recovering). The checkpoint is a data point only.
+### 2. Per-pass distillation (not full-forward)
+Each V12 pass runs independently during etch with dummy banks. The gradient signal through ternary plates is valid because it answers: "given this input pattern, which plate signs produce output closest to the teacher?" This matches mini_holo_distill's layer-wise approach and is simpler + more memory-efficient than full-forward instrumentation.
 
-## Key findings this session (115)
-
-### 1. D-sweep v1: No crossover (task too easy)
+### 3. Teacher depth → V12 pass mapping
 ```
-    d   Ratio      GD    Beam     Gap
-   48    2.9×   46.6%  46.6%   0.0%
-   96    5.7×   46.6%  46.6%   0.0%
-  128    7.7×   46.6%  46.6%   0.0%
-  192   11.5×   46.6%  46.6%   0.0%
-  256   15.3×   46.6%  46.6%   0.0%
+Teacher L8  → Pass 0 (L0↑)    Teacher L40 → Pass 4 (L2↓)
+Teacher L16 → Pass 1 (L1↑)    Teacher L48 → Pass 5 (L1↓)
+Teacher L24 → Pass 2 (L2↑)    Teacher L56 → Pass 6 (L0↓)
+Teacher L32 → Pass 3 (apex)   Teacher L64 → output (output_norm)
 ```
-Simple KIBC reduction (4 rules, 18 tokens) saturates. Embeddings solve it at every scale. The d² vs d ratio doesn't matter when the task fits in the embedding table.
 
-### 2. D-sweep v2: Etch-first wins with attention
+### 4. Readable banks per pass
+Different passes expect different bank counts. Built a lookup table:
 ```
-    d   Ratio      GD    Beam     Gap    EtchF   BeamF   BF-EF
-   48    2.7×   48.7%  47.1%   +1.6%   44.1%   41.3%   -2.8%
-   96    3.2×   36.7%  43.0%   -6.3%   44.3%   31.7%  -12.6%
-  128    3.4×   36.6%  35.1%   +1.5%   37.1%   29.7%   -7.4%
-  192    3.6×   34.6%  30.0%   +4.6%   41.6%   30.8%  -10.8%
-  256    3.7×   31.0%  37.1%   -6.1%   36.5%   30.2%   -6.4%
+Pass 0: 3 banks, Pass 1: 4, Pass 2: 5, Pass 3: 5
+Pass 4: 6, Pass 5: 5, Pass 6: 5
 ```
-**Caveat**: GD vs beam-only gap is noisy (convergence confound — larger models underfit at fixed 3000 steps). But etch-first vs beam-first is a fair comparison (same model, same compute) and etch-first wins everywhere.
 
-### 3. Architecture matters more than protocol
-The original mini-holo (no attention, plate = single linear) found beam-first works because embeddings compensate. With attention (plates = K/V/O projections), the etch accumulator's 200-batch gradient averaging gives good signal without trained beams. The beam-first finding was architecture-specific, not universal.
-
-### 4. Depth breakdown (d=192, clearest signal)
+## Smoke test results
 ```
-Depth 1: GD=23.0%  Beam=4.5%   (gap +18.5%)
-Depth 2: GD=6.5%   Beam=0.0%   (gap +6.5%)
-Depth 3: GD=2.0%   Beam=0.0%   (gap +2.0%)
-Depth 4: GD=0.6%   Beam=0.0%   (gap +0.6%)
+2 rounds, 5 probes/round, 5 beam steps, 10 GD steps:
+  Round 1 (conf=0.50): 305,974 flips, distill_loss=0.234
+  Round 2 (conf=0.90): 145,136 flips, distill_loss=0.164  ← loss drops
+  GD: loss_ema=16.5, eval_loss=16.1 (untrained model, expected)
+  All checkpoints saved correctly (etch rounds + best + final)
 ```
-Plates matter most for shallow reductions. Deeper compositions are hard for all conditions.
-
-## Session 114 findings (preserved)
-
-### Procrustes fails on round 60 (cos=0.217)
-Kernel etch alone doesn't create universal geometry. Lattice relational loss needed.
-
-### Lattice collapse (twice)
-Separate lattice backward pass fights CE in accumulators → collapse at round 65.
-Lattice should be a whisper (1 pass among 400 CE), not a shout.
-
-### Phase transition at round 65
-Backbone correlation jumped 7× (0.065→0.465). Crystal IS forming — but dispatch died.
-
-### Mini holographic microscope (original, no attention)
-At d=48, beam-only = GD = 46.6%. Embeddings compensate for any plate topology.
-The d² vs d argument for why plates matter at scale remains theoretically valid
-but the crossover could not be observed because the task saturated.
-
-### Qwen3.6-27B probed
-64 layers, d=5120, hybrid attention. RDMs extracted at 4 depths.
-
-### 5. Oracle crystal write FAILS (session 115)
-Exact sign(W) from converged GD model = worst crystal (38.6%). Adding noise HELPS
-(50% noise = 52.5%). Oracle topology is coupled to magnitudes the ternary model
-can't access. Random plates outperform oracle crystal. This means direct crystal
-write of weight signs from teacher → student is flawed. Must target representation
-geometry (relational distances) not weight topology (sign patterns).
-
-### 6. Freeze + GD recovery (session 115)
-```
-GD ceiling:           89.5%
-Beam-only (random):   52.4%
-Full alternating:     41.2%
-Freeze round 5 + GD: 54.1%  ← BEST
-Freeze 15r + ext GD:  49.6%
-```
-Etching plates for ~5 rounds then freezing + extended beam GD beats both full
-alternating and beam-only-from-scratch. The etch creates useful plate topology,
-then extended GD on continuous params exploits it. Full alternating wastes compute
-on diminishing-return etch cycles. Sweet spot: ~5 etch rounds at d=48.
-
-Validates seed crystal Stage 6 (GD after freeze). Budget should be heavily
-weighted toward post-freeze GD.
-
-## What's running
-
-**Teacher extraction on tmux window 1** — `extract_teacher.py` forwarding 500 probes through Qwen3-32B (64 layers, d=5120, 61GB on CPU). Saves layer-wise (input, output) hidden states to `checkpoints/teacher-features/`. Check: `tmux capture-pane -p -t 1 | tail -20`
-
-If it crashed: re-run with `cd ~/src/verbum && uv run python scripts/v12/extract_teacher.py --n-probes 500 --batch-size 2`
 
 ## What's NOT running
-- VSM-LM lattice etch killed (collapsed at round 65)
-- All microscope experiments complete (v1 d-sweep, v2 d-sweep, freeze, crystal, distill)
+- Nothing actively running. Everything is ready for launch.
+
+## What's ready
+
+| Asset | Status |
+|-------|--------|
+| Teacher features | ✅ 500 probes × 8 depths, 896MB, `checkpoints/teacher-features/` |
+| Training data | ✅ structured_shard_v2.npy (52.6K docs, 1.2M tok) + Dolma (3B tok, 54 shards) |
+| Distill script | ✅ `scripts/v12/holographic_distill_v12.py` — smoke-tested |
+| V12 model | ✅ 24.6M params, 887K trainable (continuous) |
 
 ## Next steps
 
-**Strategy: design new training run from scratch using all microscope findings.**
+### 1. **RUN THE FULL TRAINING** (next session priority)
+```bash
+cd ~/src/verbum
+uv run python scripts/v12/holographic_distill_v12.py \
+    --n-etch-rounds 5 \
+    --etch-probes-per-round 500 \
+    --beam-steps-per-round 200 \
+    --beam-lr 1e-4 \
+    --etch-confidence-start 0.5 \
+    --etch-confidence-end 0.9 \
+    --etch-max-flips-start 0 \
+    --etch-max-flips-end 100 \
+    --gd-steps 20000 \
+    --gd-lr 6e-4 \
+    --gd-lr-min 6e-6 \
+    --gd-warmup 500 \
+    --seq-len 2048 \
+    --batch-size 2 \
+    --mix-ratio 0.1 \
+    --checkpoint-dir checkpoints/v12-distill-run1 \
+    --checkpoint-every 2000 \
+    --eval-every 500 \
+    2>&1 | tee checkpoints/v12-distill-run1/run.log
+```
 
-1. **Teacher feature extraction RUNNING** — `extract_teacher.py` on tmux 1. Qwen3-32B, 500 probes (diverse corpus), 8 depth points across 64 layers. Output: `checkpoints/teacher-features/*.npz`
+Expected runtime: etch ~30 min (500 probes × 8 depths × 5 rounds), GD ~hours (20K steps × seq_len 2048).
 
-2. **Build V12 holographic distillation script** — `holographic_distill_v12.py`. Load pre-extracted teacher features. Map teacher depth points → V12 passes. For each V12 layer's ternary plates, etch to minimize `||teacher_output - student_output||²` using gradient accumulator. Then freeze + extended GD on structured shard + Dolma.
+### 2. Monitor and evaluate
+- Watch etch: distill_loss should decrease, flips should focus (fewer per round)
+- Watch GD: CE loss should decline, eval loss should track
+- After: probe combinator dispatch, test lambda generation quality
 
-3. **Run the new training**: holographic distillation (~5 etch rounds from teacher features) → freeze all ternary plates → extended GD (80%+ of compute on Q, gamma, embeds, mirrors) on structured_shard_v2 + Dolma.
-
-4. **Training data ready**: structured_shard_v2.npy (52.6K docs, 1.2M tokens, all 9 kernel ops + math + clojure). Plus Dolma shards (3B tokens general text). Teacher: Qwen3-32B (text-only, same Qwen3 tokenizer, 64 layers, d=5120).
+### 3. Consider improvements for subsequent runs
+- **Lattice alignment loss** as additional etch signal (already supported in holographic_train.py)
+- **Multi-scale etch**: vary number of probes per round (more in early rounds, fewer in later)
+- **Probe selection**: use probes most relevant to each pass's stride range (low strides for L0, high for apex)
+- **Resume support**: `--load-weights` + `--skip-etch` for GD-only reruns
 
 ## Architecture at session end
 
 | Component | Value |
 |-----------|-------|
-| N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
-| Parameters | 24.6M |
-| Crystal state | Round 65 shows backbone correlation 0.465 but dispatch dead |
-| Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
-| Models validated | 5+1 (+ qwen3.6-27b probed) |
-| Procrustes cos | 0.217 (round 60), untested post-lattice |
-| Mini-holo | d-sweeps, freeze+GD, crystal write (fails), holo distill (91.3%!) |
-| Training data | structured_shard_v2.npy: 52.6K docs, 1.2M tok, all 9 ops + math |
-| Key insight | Holo distill (teacher beam angles) → freeze → GD = 91% of oracle |
-
-## Architecture at session end
-
-| Component | Value |
-|-----------|-------|
-| N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
-| Parameters | 24.6M |
-| Crystal state | Round 65 shows backbone correlation 0.465 but dispatch dead |
-| Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
-| Models validated | 5+1 (+ qwen3.6-27b probed) |
-| Procrustes cos | 0.217 (round 60), untested post-lattice |
-| Mini-holo | 3 experiments complete, crossover not found at d=48 |
-| Key insight | Plates load-bearing only at scale (d² vs d). Beam-first protocol. |
+| N_COMBINATORS | 4 (K,I,B,C) — V12 config |
+| Parameters | 24.6M total, 887K trainable |
+| Teacher | Qwen3-32B (64L, d=5120, 500 probes extracted) |
+| Projection | Linear(5120→512) + RMSNorm, trained during etch |
+| Etch protocol | Per-pass distillation, MSE loss, 5 rounds × 500 probes |
+| GD protocol | Frozen plates, CE on structured+Dolma, 20K steps |
+| Training data | structured_shard_v2 (1.2M tok) + Dolma (3B tok) |
+| Script | `scripts/v12/holographic_distill_v12.py` |
