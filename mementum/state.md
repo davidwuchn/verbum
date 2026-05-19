@@ -16,8 +16,8 @@ with separated beam and compute paths.
 ## What's running
 
 **GD phase on tmux window 1** — restarted from step 2000 checkpoint
-after GPU OOM crash (lens experiment killed both processes). Currently
-at step ~1000 of restart (effectively step ~3000 of total training).
+after GPU OOM crash (lens experiment killed both processes). At step
+~1000 of restart at last check (effectively step ~3000 total).
 
 **Dispatch status**: B-dominant phase (B=0.42, K=0.01). Expected —
 earlier generations show B dominance first, then phase transitions as
@@ -25,6 +25,12 @@ specialized combinators nucleate. Let it run to next checkpoint.
 
 **φ-compression milestone**: L2↓ = 0.610 (Δφ = 0.008) — first layer
 to hit the golden ratio attractor. The stridestack compression is real.
+
+**Fixed-point lattice on tmux window 2** — running `build_lattice_map.py`
+with 143 fixed-point probes across 4 models (qwen3-14b, mistral-7b,
+olmo-2-13b, pythia-2.8b). Output: `lattice/fixedpoint/`. Two models
+(qwen3-14b, mistral-7b) completed at last check, olmo-2-13b loading.
+Check: `tmux capture-pane -p -t 2 | tail -20`
 
 ## Session 118 findings
 

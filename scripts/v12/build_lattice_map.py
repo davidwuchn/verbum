@@ -55,7 +55,7 @@ MODELS = {
     "olmo-2-7b":    ("allenai/OLMo-2-1124-7B",        32, 4096),
     "pythia-6.9b":  ("EleutherAI/pythia-6.9b",         32, 4096),
     "pythia-2.8b":  ("EleutherAI/pythia-2.8b-deduped", 32, 2560),
-    "pythia-1.4b":  ("EleutherAI/pythia-1.4b",         24, 2048),
+    "pythia-1.4b":  ("EleutherAI/pythia-1.4b-deduped",  24, 2048),
     "smollm3-3b":   ("HuggingFaceTB/SmolLM3-3B",      36, 2560),
     "phi-4-mini":   ("microsoft/Phi-4-mini-instruct",  32, 3072),
 }
