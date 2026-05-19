@@ -175,7 +175,11 @@ class V12Config:
     # With 8-way ratio (1, 0.5, 1, 1, 0.5, 0.3, 0.3, 0.2):
     # Σ = 4.8, probs ≈ (0.208, 0.104, 0.208, 0.208, 0.104, 0.063, 0.063, 0.042)
     # H = -Σ p·ln(p) ≈ 1.93. At 85%: 1.93 * 0.85 ≈ 1.64.
-    dispatch_entropy_lambda: float = 0.01
+    # Session 117: raised from 0.01 (negligible: 0.003 vs CE~7.5) to 0.5.
+    # At λ=0.5: moderate collapse (H=0.8) → deficit=0.84 → penalty=0.35 (5% of CE).
+    # This is secondary to KL (primary anti-collapse) — catches edge cases
+    # where dispatch concentrates on prior-consistent subset.
+    dispatch_entropy_lambda: float = 0.5
     dispatch_entropy_target: float = 1.64   # H(ratio_prior) * 0.85
 
     # ── Per-pass dispatch bias (depth-selective KIBC prior) ──
@@ -204,27 +208,27 @@ class V12Config:
     # K:I:B:C = 1:0.5:1:1 — measured across 9 models, 2 architectures.
     # λ=100: only tiny deviations are free. The model discards the
     # massive space of solutions that don't respect the ratio and
-    # searches only where we know the answer lives.
-    #   B=30% (+1.4pt) → 0.08 nats — free
-    #   B=32% (+3.4pt) → 0.33 nats — noticeable
-    #   B=35% (+6.4pt) → 1.01 nats — 12% of CE, painful
-    #   B=40%          → 3.22 nats — 37% of CE, impossible
-    dispatch_kl_lambda: float = 100.0
+    # KL computed on LIVE dispatch (differentiable) against the static prior.
+    # Session 117 fix: previously computed on stop_gradient(EMA) → zero gradient.
+    # Recalibrated from λ=100 (dead) to λ=2 (live):
+    #   B→30%   (±10pt drift): 0.3%CE — free exploration
+    #   B→40%   (big drift):   1.2%CE — gentle pushback
+    #   WHNF=30% (early collapse): 10%CE — visible wall
+    #   WHNF=50% (deep collapse):  31%CE — strong wall
+    dispatch_kl_lambda: float = 2.0
 
-    # ── EMA-smoothed KL (anti-oscillation) ──
-    # Run4 showed dispatch cycling: B→K→I→C monopolies evading instantaneous KL.
-    # Fix: compute KL on EMA-smoothed dispatch. Memory ≈ 1/(1-decay) steps.
-    # At 0.967 (≈30 steps): model can't "pay back" monopoly by switching.
+    # ── EMA-smoothed dispatch (monitoring only) ──
+    # EMA tracks dispatch distribution for logging/diagnostics (~30 step memory).
+    # KL loss now uses live dispatch directly; EMA is not in the gradient path.
     dispatch_kl_ema_decay: float = 0.967  # ~30 steps of effective memory
 
-    # ── Lambda kernel relational loss ──
-    # Periodic geometric alignment from cross-model probe data (session 106).
-    # Every rel_every steps, sample rel_n_probes random probes, compute
-    # residual RDM, MSE against universal target. Gentle nudge (λ=0.01).
+    # ── Crystal lattice geometry loss ──
+    # Session 117: replaced probe-based backbone whisper with constant lattice.
+    # 8×8 combinator embedding cosines → MSE against universal crystal targets.
+    # Precomputed from cross-model RDM (session 106, 380 probes, 20 axes).
+    # No probe forwarding — pure embedding geometry, every step.
     use_relational_loss: bool = True
     rel_lambda: float = 0.01
-    rel_every: int = 50         # steps between relational loss events
-    rel_n_probes: int = 50      # probes sampled per event
     rel_target_path: str = "results/holographic-extraction/lambda_kernel_verified_dimensions.json"
 
     # ── Hierarchical dispatch (category → operation) ──

@@ -640,169 +640,67 @@ def holo_schedule(step, cfg):
     return cfg.holo_lambda
 
 
-def _setup_backbone_whisper(cfg):
-    """Precompute backbone crystal constraints from the RDM.
+# ── Crystal Lattice Geometry Constants ─────────────────────────────
+# 8×8 combinator-level target cosine matrix, precomputed from the
+# universal lambda kernel RDM (380 probes, 20 axes, session 106).
+# Each cell = mean cosine between all probe pairs of those two combinators.
+# Off-diagonal pairs: all 28 have SNR > 2 (p < 0.05).
+# Diagonal: within-axis cohesion (self-similarity).
+#
+# Order: K, I, B, C, D, Y, W, WHNF (matches COMBINATOR_NAMES)
+# Source: results/holographic-extraction/lambda_kernel_verified_dimensions.json
+#         targets["20"]["rdm"], axis-level aggregation.
+#
+# Positive cluster: {K, I, B, C} — compositional family, mutually positive.
+# Negative cluster: {Y, W, WHNF} — reduction/terminal family, negative to all.
+# D bridges: positive with B,C (deep-compose ≈ composition), negative to rest.
+LATTICE_COSINE_TARGETS = np.array([
+    # K        I        B        C        D        Y        W       WHNF
+    [+0.0340, +0.0165, +0.0150, +0.0214, -0.0082, -0.0238, -0.0056, -0.0082],  # K
+    [+0.0165, +0.0175, +0.0138, +0.0188, -0.0057, -0.0196, -0.0049, -0.0065],  # I
+    [+0.0150, +0.0138, +0.0370, +0.0212, +0.0124, -0.0179, -0.0078, -0.0080],  # B
+    [+0.0214, +0.0188, +0.0212, +0.0455, +0.0142, -0.0132, +0.0020, -0.0153],  # C
+    [-0.0082, -0.0057, +0.0124, +0.0142, +0.0363, -0.0162, -0.0095, -0.0235],  # D
+    [-0.0238, -0.0196, -0.0179, -0.0132, -0.0162, +0.0114, -0.0131, -0.0168],  # Y
+    [-0.0056, -0.0049, -0.0078, +0.0020, -0.0095, -0.0131, -0.0002, -0.0132],  # W
+    [-0.0082, -0.0065, -0.0080, -0.0153, -0.0235, -0.0168, -0.0132, +0.0146],  # WHNF
+], dtype=np.float32)
 
-    Instead of periodically probing the model with 50 sequences (expensive),
-    extract the backbone pairs and anchor probes as constants. On every step,
-    a few anchor probes are forwarded alongside the training batch, and their
-    pairwise cosines are pushed toward the precomputed targets.
+# Upper-triangle pair indices (28 off-diagonal pairs)
+_n_comb = LATTICE_COSINE_TARGETS.shape[0]
+_triu_i, _triu_j = np.triu_indices(_n_comb, k=1)
+LATTICE_PAIR_I = mx.array(_triu_i.astype(np.int32))
+LATTICE_PAIR_J = mx.array(_triu_j.astype(np.int32))
+LATTICE_PAIR_TARGETS = mx.array(LATTICE_COSINE_TARGETS[_triu_i, _triu_j])
 
-    Returns: backbone dict or None.
+
+def _compute_lattice_loss(model):
+    """Lattice geometry loss: combinator embeddings should form the crystal.
+
+    Computes pairwise cosines between the 8 combinator embeddings in
+    CombinatorDispatch and pushes them toward the precomputed universal
+    targets. No probe forwarding — pure embedding geometry.
+
+    Cost: negligible (8×d_model matrix multiply + 28 MSE terms).
+    Gradient flows through combinator_embeddings → dispatch → model.
+
+    Returns: (loss_value: float, grads: dict)
     """
-    rel_target_file = Path(cfg.rel_target_path)
-    if not rel_target_file.exists():
-        print(f"  ⚠️  Backbone target not found: {rel_target_file}")
-        return None
+    def _lattice_loss_fn(model_inner):
+        dispatch = model_inner.combinator_dispatch
+        # Get L2-normalized combinator embeddings (8, d_model)
+        emb = dispatch._normalize_embeddings()  # (n_comb, d_model)
 
-    import json as _json
-    from transformers import AutoTokenizer as _AT
+        # Pairwise cosine matrix (embeddings are already normalized)
+        cosine_matrix = emb @ emb.T  # (8, 8)
 
-    _rel_data = _json.load(rel_target_file.open())
-    _rel_probes = _rel_data["probes"]
-    _rel_target_key = "20" if "20" in _rel_data["targets"] else list(_rel_data["targets"].keys())[0]
-    rdm = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
+        # Extract upper-triangle pairs
+        student_cos = cosine_matrix[LATTICE_PAIR_I, LATTICE_PAIR_J]
 
-    # Tokenize all probes
-    _tok = _AT.from_pretrained("Qwen/Qwen3-14B")
-    all_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
-    del _tok
+        # MSE against universal crystal targets
+        return mx.mean((student_cos - LATTICE_PAIR_TARGETS) ** 2)
 
-    # Extract backbone: strong pairs (|cos| > 0.3)
-    n = rdm.shape[0]
-    triu_r, triu_c = np.triu_indices(n, k=1)
-    pair_vals = rdm[triu_r, triu_c]
-    strong_mask = np.abs(pair_vals) > 0.3
-    backbone_i = triu_r[strong_mask]
-    backbone_j = triu_c[strong_mask]
-    backbone_cos = pair_vals[strong_mask].astype(np.float32)
-
-    # Find the probes that participate in backbone pairs
-    backbone_probe_ids = sorted(set(backbone_i.tolist()) | set(backbone_j.tolist()))
-
-    # Select N_ANCHOR probes: the ones involved in the most backbone pairs
-    from collections import Counter
-    probe_counts = Counter()
-    for i, j in zip(backbone_i, backbone_j):
-        probe_counts[int(i)] += 1
-        probe_counts[int(j)] += 1
-    # Top 20 most-connected probes
-    n_anchors = min(20, len(probe_counts))
-    anchor_probes = [pid for pid, _ in probe_counts.most_common(n_anchors)]
-    anchor_probes.sort()
-
-    # Build anchor → local index mapping
-    anchor_to_local = {pid: idx for idx, pid in enumerate(anchor_probes)}
-
-    # Extract pairwise targets for anchor probes only
-    anchor_pairs_i = []
-    anchor_pairs_j = []
-    anchor_targets = []
-    for bi, bj, bcos in zip(backbone_i, backbone_j, backbone_cos):
-        bi, bj = int(bi), int(bj)
-        if bi in anchor_to_local and bj in anchor_to_local:
-            anchor_pairs_i.append(anchor_to_local[bi])
-            anchor_pairs_j.append(anchor_to_local[bj])
-            anchor_targets.append(float(bcos))
-
-    # Pre-tokenize and pad anchor probes
-    min_len = max(cfg.strides) + cfg.window + 2
-    anchor_tokens = [all_tokenized[pid] for pid in anchor_probes]
-    anchor_lengths = [len(t) for t in anchor_tokens]
-    max_len = max(max(anchor_lengths), min_len)
-    pad_id = cfg.eod_id
-    anchor_padded = [t + [pad_id] * (max_len - len(t)) for t in anchor_tokens]
-    anchor_input_ids = mx.array(anchor_padded)  # (n_anchors, max_len)
-
-    backbone = {
-        "anchor_input_ids": anchor_input_ids,      # (n_anchors, max_len)
-        "anchor_lengths": anchor_lengths,            # list[int]
-        "n_anchors": n_anchors,
-        "pairs_i": mx.array(np.array(anchor_pairs_i, dtype=np.int32)),
-        "pairs_j": mx.array(np.array(anchor_pairs_j, dtype=np.int32)),
-        "targets": mx.array(np.array(anchor_targets, dtype=np.float32)),
-        "n_pairs": len(anchor_targets),
-        "rng": np.random.RandomState(42),
-    }
-
-    print(f"  🔬 Backbone whisper: {n_anchors} anchor probes, "
-          f"{len(anchor_targets)} target pairs, "
-          f"λ={cfg.rel_lambda} (constant, every step)")
-
-    del _rel_data, _rel_probes, all_tokenized
-    return backbone
-
-
-def _compute_backbone_loss(model, backbone, n_sample=8):
-    """Constant-cost backbone loss: forward a few anchor probes, match cosines.
-
-    Samples n_sample anchors from the precomputed set, forwards them,
-    extracts last-token hidden states, computes pairwise cosines,
-    and MSE against precomputed target cosines.
-
-    Cost: n_sample short sequences (~20 tokens each). Runs every step.
-    """
-    n_anchors = backbone["n_anchors"]
-    rng = backbone["rng"]
-
-    # Sample n_sample anchors
-    if n_sample >= n_anchors:
-        sample_idx = list(range(n_anchors))
-    else:
-        sample_idx = sorted(rng.choice(n_anchors, size=n_sample, replace=False).tolist())
-
-    # Forward the sampled anchor probes
-    idx_mx = mx.array(sample_idx)
-    input_ids = backbone["anchor_input_ids"][idx_mx]   # (n_sample, max_len)
-    lengths = [backbone["anchor_lengths"][i] for i in sample_idx]
-
-    def _backbone_loss_fn(model_inner):
-        logits, _ = model_inner.forward(input_ids, targets=None)
-        h = model_inner._last_hidden  # (n_sample, max_len, d_model)
-
-        # Extract last real token per probe
-        last_positions = mx.array([l - 1 for l in lengths])
-        batch_idx = mx.arange(len(sample_idx))
-        h_last = h[batch_idx, last_positions, :]  # (n_sample, d_model)
-
-        # Normalize
-        h_norm = h_last / (mx.linalg.norm(h_last, axis=-1, keepdims=True) + 1e-8)
-
-        # Pairwise cosines for the sampled subset
-        cosine_matrix = h_norm @ h_norm.T  # (n_sample, n_sample)
-
-        # Find which backbone pairs involve only sampled anchors
-        # Build local→sample mapping
-        sample_set = set(sample_idx)
-        local_pairs_i = []
-        local_pairs_j = []
-        local_targets = []
-
-        pairs_i_np = np.array(backbone["pairs_i"])
-        pairs_j_np = np.array(backbone["pairs_j"])
-        targets_np = np.array(backbone["targets"])
-
-        sample_to_local = {int(s): idx for idx, s in enumerate(sample_idx)}
-
-        for k in range(backbone["n_pairs"]):
-            pi, pj = int(pairs_i_np[k]), int(pairs_j_np[k])
-            if pi in sample_to_local and pj in sample_to_local:
-                local_pairs_i.append(sample_to_local[pi])
-                local_pairs_j.append(sample_to_local[pj])
-                local_targets.append(float(targets_np[k]))
-
-        if len(local_pairs_i) == 0:
-            return mx.array(0.0)
-
-        # Extract student cosines for these pairs
-        li = mx.array(np.array(local_pairs_i, dtype=np.int32))
-        lj = mx.array(np.array(local_pairs_j, dtype=np.int32))
-        student_cos = cosine_matrix[li, lj]
-        target_cos = mx.array(np.array(local_targets, dtype=np.float32))
-
-        return mx.mean((student_cos - target_cos) ** 2)
-
-    loss_fn = nn.value_and_grad(model, _backbone_loss_fn)
+    loss_fn = nn.value_and_grad(model, _lattice_loss_fn)
     lv, grads = loss_fn(model)
     mx.eval(lv, grads)
     return float(lv.item()), grads
@@ -838,7 +736,7 @@ def run_gd_phase(
     print(f"  Seq len: {cfg.seq_len}")
     print(f"  Mix ratio (structured): {args.mix_ratio}")
     print(f"  Holo lambda: {cfg.holo_lambda}")
-    print(f"  Relational loss: {cfg.use_relational_loss} (λ={cfg.rel_lambda}, every {cfg.rel_every})")
+    print(f"  Lattice loss: {cfg.use_relational_loss} (λ={cfg.rel_lambda})")
     print(f"{'='*60}\n")
 
     # ── Data loaders ──────────────────────────────────────────
@@ -874,10 +772,11 @@ def run_gd_phase(
         seed=args.seed + 1,
     )
 
-    # ── Backbone whisper setup (replaces periodic relational loss) ──
-    backbone = None
-    if cfg.use_relational_loss:
-        backbone = _setup_backbone_whisper(cfg)
+    # ── Lattice geometry loss (constant-cost crystal pressure) ──
+    use_lattice = cfg.use_relational_loss
+    if use_lattice:
+        print(f"  🔷 Lattice geometry: 8×8 combinator crystal, "
+              f"28 pairs, λ={cfg.rel_lambda} (every step, no probes)")
 
     # ── Optimizer ─────────────────────────────────────────────
     optimizer = optim.AdamW(
@@ -934,13 +833,12 @@ def run_gd_phase(
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
-        # ── Backbone whisper (constant, every step) ──────────
-        # Forward a few anchor probes, match cosines to precomputed
-        # target RDM. Cheap constant pressure toward crystal geometry.
+        # ── Lattice geometry (constant, every step) ──────────
+        # MSE between combinator embedding cosines and universal crystal
+        # targets. No probe forwarding — pure embedding geometry.
         rel_loss_val = 0.0
-        if backbone is not None:
-            rel_loss_val, rel_grads = _compute_backbone_loss(
-                model, backbone, n_sample=8)
+        if use_lattice:
+            rel_loss_val, rel_grads = _compute_lattice_loss(model)
             accum_grads = tree_map(
                 lambda a, b: a + cfg.rel_lambda * b,
                 accum_grads, rel_grads)
@@ -1002,7 +900,7 @@ def run_gd_phase(
                                       for i in range(len(dw_vals))]
                     dispatch_str = " | " + " ".join(dispatch_parts)
 
-            rel_str = f" | bb={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
+            rel_str = f" | lat={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
 
             print(
                 f"  step {step:>6d}/{total_steps} | r={step_loss:.4f} (avg50: {avg50:.4f})"

@@ -985,15 +985,12 @@ class V12Model(nn.Module):
                 loss = loss + reg_loss
 
             # ── Dispatch entropy regularization (v12) ─────────────
-            # The v11 gap: no ascending→dispatch feedback loop.
-            # When ascending arm runs out of capacity, it drops
-            # B-relevant features first, and nothing penalizes the
-            # resulting dispatch collapse. This entropy penalty
-            # creates gradient flow from dispatch diversity back
-            # through the entire system.
+            # Secondary anti-collapse signal (primary = KL toward prior).
+            # Catches edge cases where dispatch concentrates on a
+            # prior-consistent subset (KL allows this but entropy doesn't).
             #
             # Squared hinge: only penalizes collapse (below target),
-            # not uniformity. Target = 85% of max entropy (ln(4)).
+            # not uniformity. Target = 85% of H(ratio_prior) for 8-way dispatch.
             if self.cfg.dispatch_entropy_lambda > 0:
                 # Use live KIBC dispatch weights (differentiable), all passes
                 dispatch_live = None
@@ -1050,27 +1047,30 @@ class V12Model(nn.Module):
                     q_kibc = dispatch_kl_live / n_kl_live  # mean KIBC probs
                     q_kibc = q_kibc / (mx.sum(q_kibc) + 1e-8)  # renormalize
 
-                    # EMA-smoothed dispatch (anti-oscillation, ~30 step memory)
-                    # Cycling monopolies can't evade because EMA remembers.
+                    # EMA tracks dispatch distribution for logging/monitoring.
+                    # Updated with stop_gradient — EMA is a running statistic,
+                    # not part of the optimization graph.
                     decay = self.cfg.dispatch_kl_ema_decay
-                    q_instant = mx.stop_gradient(q_kibc)  # detach for EMA update
+                    q_detached = mx.stop_gradient(q_kibc)
                     if not hasattr(self, '_dispatch_ema'):
-                        self._dispatch_ema = q_instant
+                        self._dispatch_ema = q_detached
                     else:
-                        self._dispatch_ema = decay * self._dispatch_ema + (1 - decay) * q_instant
+                        self._dispatch_ema = decay * self._dispatch_ema + (1 - decay) * q_detached
 
-                    # KL computed on EMA, not instantaneous dispatch
-                    q_ema = self._dispatch_ema / (mx.sum(self._dispatch_ema) + 1e-8)
-                    # Prior from config ratio
+                    # KL computed on LIVE (differentiable) dispatch weights
+                    # against the static prior. Gradient flows back through
+                    # q_kibc → dispatch_weights_live → dispatch logits → model params.
+                    # Previous bug: KL was computed on q_ema (stop_gradient) → zero gradient.
                     r = mx.array(self.cfg.dispatch_ratio)
                     p_prior = r / mx.sum(r)
-                    # KL(q_ema ∥ p) = Σ q_ema_i · log(q_ema_i / p_i)
-                    kl = mx.sum(q_ema * mx.log(q_ema / (p_prior + 1e-8) + 1e-8))
+                    # KL(q_live ∥ p_prior) = Σ q_i · log(q_i / p_i)
+                    kl = mx.sum(q_kibc * mx.log(q_kibc / (p_prior + 1e-8) + 1e-8))
                     kl_loss = self.cfg.dispatch_kl_lambda * kl
                     loss = loss + kl_loss
-                    # Track both for logging
+                    # Track for logging (detached)
                     self._last_kl_loss = mx.stop_gradient(kl_loss)
-                    self._last_dispatch_ema = mx.stop_gradient(q_ema)
+                    self._last_dispatch_ema = mx.stop_gradient(
+                        self._dispatch_ema / (mx.sum(self._dispatch_ema) + 1e-8))
 
             # ── Holographic loss (progressive intermediate decoding) ──
             # Each pass boundary produces a decodeable representation.
