@@ -1073,5 +1073,333 @@
     "category": "reduction",
     "answer": "f (g x)",
     "reduction_steps": 5
+  },
+  {
+    "prompt": "\u03bbx.x applied to the value 42 gives",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_1a",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Apply the identity function to the string hello",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_1b",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The function \u03bbx.x simply returns its argument, so (\u03bbx.x)(7) =",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_1c",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.x applied to a then b gives",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_2a",
+    "combinator": "K",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x(y), after binding x to f and y to 3, the result is",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_2b",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The function that takes two arguments and applies the first to the second: \u03bbf.\u03bbx.f(x)",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_2c",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x)) with f=double, g=add1, x=3 gives",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_3a",
+    "combinator": "B",
+    "binding_depth": 3,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "\u03bbx.\u03bby.\u03bbz.x(z)(y(z)) applied to f, g, then a gives f(a)(g(a))",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_3b",
+    "combinator": "S",
+    "binding_depth": 3,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "With three nested bindings, the outermost variable is still accessible in the innermost scope:",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_3c",
+    "combinator": "",
+    "binding_depth": 3,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "\u03bba.\u03bbb.\u03bbc.\u03bbd.a(b(c(d))) with a=f, b=g, c=h, d=x gives f(g(h(x)))",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_4a",
+    "combinator": "B",
+    "binding_depth": 4,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In an expression with four nested lambda bindings, the first-bound variable must be carried through three abstraction layers to reach its use site",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_4b",
+    "combinator": "",
+    "binding_depth": 4,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "\u03bba.\u03bbb.\u03bbc.\u03bbd.\u03bbe.a(b)(c(d)(e)) requires tracking five simultaneous variable bindings",
+    "category": "binding_depth",
+    "subdomain": "bind_depth_5",
+    "combinator": "",
+    "binding_depth": 5,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bbx.x, the inner x shadows the outer x, so (\u03bbx.\u03bbx.x)(a)(b) =",
+    "category": "binding_ops",
+    "subdomain": "bind_shadow_1",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Variable shadowing: when an inner scope rebinds a name, the outer binding becomes inaccessible",
+    "category": "binding_ops",
+    "subdomain": "bind_shadow_2",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The result of (\u03bbx.(\u03bbx.x)(42))(99) is 42 because the inner \u03bbx binds to 42, shadowing the outer",
+    "category": "binding_ops",
+    "subdomain": "bind_shadow_3",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x, the binding of x must survive past the \u03bby abstraction unchanged",
+    "category": "binding_ops",
+    "subdomain": "bind_carry_1",
+    "combinator": "K",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "A closure captures its environment: \u03bbx.(\u03bby.x) remembers x even after y is bound",
+    "category": "binding_ops",
+    "subdomain": "bind_carry_2",
+    "combinator": "K",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The free variable x in \u03bby.x refers to whatever x was bound to in the enclosing scope",
+    "category": "binding_ops",
+    "subdomain": "bind_carry_3",
+    "combinator": "K",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In \u03bbx.\u03bby.x(y), both x and y must be simultaneously accessible at the application site",
+    "category": "binding_ops",
+    "subdomain": "bind_cross_1",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The expression f(x)(y) requires both x and y to be in scope, bound from different lambdas",
+    "category": "binding_ops",
+    "subdomain": "bind_cross_2",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Parallel variable access: \u03bbx.\u03bby.(x, y) needs both bindings active at the tuple construction",
+    "category": "binding_ops",
+    "subdomain": "bind_cross_3",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "A closure is formed when a function captures variables from its defining scope: let x=5 in \u03bby.x+y",
+    "category": "binding_ops",
+    "subdomain": "bind_capture_1",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The function \u03bby.x+y, where x is free, becomes a closure when x is bound in an outer scope",
+    "category": "binding_ops",
+    "subdomain": "bind_capture_2",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "To resolve the pronoun in \"The cat sat on the mat. It was",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_pronoun_1",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "In \"Alice told Bob that she would help him\", she refers to Alice and him refers to",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_pronoun_2",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The variable x was defined three sentences ago. To use x now requires",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_carry",
+    "combinator": "K",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Copy the third element from the list [a, b, c, d] without modifying it:",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_copy",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Repeat verbatim what was said in the first paragraph:",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_verbatim",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "The function selects one item from the context and passes it through unchanged to the output",
+    "category": "attention_binding",
+    "subdomain": "bind_attn_select_copy",
+    "combinator": "",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "K discards its second argument \u2014 this is binding followed by immediate unbinding",
+    "category": "binding_combinator",
+    "subdomain": "bind_K_discard",
+    "combinator": "K",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "I preserves its argument \u2014 this is binding with no transformation, pure carry-through",
+    "category": "binding_combinator",
+    "subdomain": "bind_I_preserve",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "B threads a value through two functions \u2014 binding must survive across both applications",
+    "category": "binding_combinator",
+    "subdomain": "bind_B_thread",
+    "combinator": "B",
+    "binding_depth": 3,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "C swaps two bindings \u2014 the first-bound becomes second-used and vice versa",
+    "category": "binding_combinator",
+    "subdomain": "bind_C_swap",
+    "combinator": "C",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "W uses one binding twice \u2014 the same variable appears in two argument positions",
+    "category": "binding_combinator",
+    "subdomain": "bind_W_reuse",
+    "combinator": "W",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Y creates a self-referential binding \u2014 the function is bound to its own fixed point",
+    "category": "binding_combinator",
+    "subdomain": "bind_Y_selfref",
+    "combinator": "Y",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "S uses one binding for two purposes \u2014 x determines both the function and the argument",
+    "category": "binding_combinator",
+    "subdomain": "bind_S_dual",
+    "combinator": "S",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Lexical scope means a variable refers to its nearest enclosing binder, not the most recent one at runtime",
+    "category": "binding_scope",
+    "subdomain": "bind_scope_lexical",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "A de Bruijn index replaces variable names with the number of binders between use and definition",
+    "category": "binding_scope",
+    "subdomain": "bind_scope_debruijn",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Alpha equivalence: \u03bbx.x and \u03bby.y are the same function \u2014 the name does not matter, only the binding structure",
+    "category": "binding_scope",
+    "subdomain": "bind_scope_alpha",
+    "combinator": "I",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "A free variable is one that is not bound by any enclosing lambda \u2014 it refers to something in the environment",
+    "category": "binding_scope",
+    "subdomain": "bind_scope_free",
+    "combinator": "",
+    "binding_depth": 1,
+    "domain": "fixedpoint"
+  },
+  {
+    "prompt": "Substitution must avoid variable capture: replacing x with y in \u03bby.x must rename y first",
+    "category": "binding_scope",
+    "subdomain": "bind_scope_capture_avoid",
+    "combinator": "",
+    "binding_depth": 2,
+    "domain": "fixedpoint"
   }
 ]

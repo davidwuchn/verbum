@@ -1,0 +1,763 @@
+{
+  "description": "Universal lattice map \u2014 cross-model consensus RDM",
+  "n_probes": 143,
+  "n_models": 4,
+  "model_keys": [
+    "qwen3-14b",
+    "mistral-7b",
+    "olmo-2-13b",
+    "pythia-2.8b"
+  ],
+  "models": {
+    "qwen3-14b": "Qwen/Qwen3-14B",
+    "mistral-7b": "mistralai/Mistral-7B-v0.3",
+    "olmo-2-13b": "allenai/OLMo-2-1124-13B",
+    "pythia-2.8b": "EleutherAI/pythia-2.8b-deduped"
+  },
+  "depth_fractions": [
+    0.0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "probes": [
+    {
+      "prompt": "\u03bbx.\u03bby.x",
+      "axis": "fixedpoint/pure_K"
+    },
+    {
+      "prompt": "\u03bbx.x",
+      "axis": "fixedpoint/pure_I"
+    },
+    {
+      "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x))",
+      "axis": "fixedpoint/pure_B"
+    },
+    {
+      "prompt": "\u03bbf.\u03bbx.\u03bby.f(y)(x)",
+      "axis": "fixedpoint/pure_C"
+    },
+    {
+      "prompt": "\u03bbf.\u03bbx.f(x)(x)",
+      "axis": "fixedpoint/pure_W"
+    },
+    {
+      "prompt": "\u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+      "axis": "fixedpoint/pure_Y"
+    },
+    {
+      "prompt": "\u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+      "axis": "fixedpoint/pure_D"
+    },
+    {
+      "prompt": "\u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+      "axis": "fixedpoint/pure_S"
+    },
+    {
+      "prompt": "A value that cannot be reduced further \u2014 it is already in its simplest computational form, either a literal value or a partially applied function awaiting more arguments",
+      "axis": "fixedpoint/pure_WHNF"
+    },
+    {
+      "prompt": "The projection function that given two arguments returns the first, discarding the second entirely",
+      "axis": "fixedpoint/prose_K"
+    },
+    {
+      "prompt": "The identity function that returns its single argument completely unchanged",
+      "axis": "fixedpoint/prose_I"
+    },
+    {
+      "prompt": "The composition operator that given functions f and g and argument x, applies g to x first, then applies f to that result",
+      "axis": "fixedpoint/prose_B"
+    },
+    {
+      "prompt": "The argument flip operator that given a function f and arguments x and y, applies f to y first and then to x, reversing the argument order",
+      "axis": "fixedpoint/prose_C"
+    },
+    {
+      "prompt": "The duplication operator that given a function f and argument x, applies f to x twice \u2014 using x as both the first and second argument",
+      "axis": "fixedpoint/prose_W"
+    },
+    {
+      "prompt": "The fixed-point combinator that given a function f, finds the value that equals f applied to itself \u2014 enabling recursion without self-reference",
+      "axis": "fixedpoint/prose_Y"
+    },
+    {
+      "prompt": "The deep composition operator that given functions f and g and arguments x and y, applies f to x and g to y independently, then combines the results",
+      "axis": "fixedpoint/prose_D"
+    },
+    {
+      "prompt": "The substitution combinator that given functions f and g and argument x, applies both f and g to x, then applies the result of f(x) to the result of g(x)",
+      "axis": "fixedpoint/prose_S"
+    },
+    {
+      "prompt": "A value that cannot be reduced further \u2014 it is already in its simplest computational form, either a literal value or a partially applied function awaiting more arguments",
+      "axis": "fixedpoint/prose_WHNF"
+    },
+    {
+      "prompt": "Despite everything else that happened, the only thing that matters is",
+      "axis": "fixedpoint/natural_K_0"
+    },
+    {
+      "prompt": "No matter what you say next, my answer remains",
+      "axis": "fixedpoint/natural_K_1"
+    },
+    {
+      "prompt": "The first ingredient is all you need; ignore the rest and use",
+      "axis": "fixedpoint/natural_K_2"
+    },
+    {
+      "prompt": "Regardless of the second option, always choose",
+      "axis": "fixedpoint/natural_K_3"
+    },
+    {
+      "prompt": "Simply repeat exactly what was said:",
+      "axis": "fixedpoint/natural_I_0"
+    },
+    {
+      "prompt": "The output is identical to the input:",
+      "axis": "fixedpoint/natural_I_1"
+    },
+    {
+      "prompt": "Pass through without any modification:",
+      "axis": "fixedpoint/natural_I_2"
+    },
+    {
+      "prompt": "Echo the following precisely as given:",
+      "axis": "fixedpoint/natural_I_3"
+    },
+    {
+      "prompt": "First translate the document to French, then summarize the translated",
+      "axis": "fixedpoint/natural_B_0"
+    },
+    {
+      "prompt": "The mother of the author of the book that",
+      "axis": "fixedpoint/natural_B_1"
+    },
+    {
+      "prompt": "Take the square root of the sum of",
+      "axis": "fixedpoint/natural_B_2"
+    },
+    {
+      "prompt": "Convert to uppercase the reversed version of",
+      "axis": "fixedpoint/natural_B_3"
+    },
+    {
+      "prompt": "Instead of me giving it to you, you give it to",
+      "axis": "fixedpoint/natural_C_0"
+    },
+    {
+      "prompt": "Not from English to French, but from French to",
+      "axis": "fixedpoint/natural_C_1"
+    },
+    {
+      "prompt": "Rather than the teacher grading the student, the student evaluates the",
+      "axis": "fixedpoint/natural_C_2"
+    },
+    {
+      "prompt": "Reverse the direction: instead of parent to child, child to",
+      "axis": "fixedpoint/natural_C_3"
+    },
+    {
+      "prompt": "Compare the document with itself to find",
+      "axis": "fixedpoint/natural_W_0"
+    },
+    {
+      "prompt": "Apply the same transformation to both sides of",
+      "axis": "fixedpoint/natural_W_1"
+    },
+    {
+      "prompt": "The function that tests whether something equals itself:",
+      "axis": "fixedpoint/natural_W_2"
+    },
+    {
+      "prompt": "Use the password as both the key and the value to",
+      "axis": "fixedpoint/natural_W_3"
+    },
+    {
+      "prompt": "Keep applying the rule until the result stops changing:",
+      "axis": "fixedpoint/natural_Y_0"
+    },
+    {
+      "prompt": "The process that feeds its own output back as input until stable:",
+      "axis": "fixedpoint/natural_Y_1"
+    },
+    {
+      "prompt": "Repeat the simplification step until no further simplification is possible:",
+      "axis": "fixedpoint/natural_Y_2"
+    },
+    {
+      "prompt": "Find the equilibrium by iterating the transformation until convergence:",
+      "axis": "fixedpoint/natural_Y_3"
+    },
+    {
+      "prompt": "Score the essay on both grammar and content separately, then combine:",
+      "axis": "fixedpoint/natural_D_0"
+    },
+    {
+      "prompt": "Evaluate the pros independently from the cons, then weigh",
+      "axis": "fixedpoint/natural_D_1"
+    },
+    {
+      "prompt": "Process the image through both the color and edge filters, then merge",
+      "axis": "fixedpoint/natural_D_2"
+    },
+    {
+      "prompt": "Apply the discount to the price and the tax to the subtotal, then sum",
+      "axis": "fixedpoint/natural_D_3"
+    },
+    {
+      "prompt": "Use the input to determine both which function to apply and what to apply it to:",
+      "axis": "fixedpoint/natural_S_0"
+    },
+    {
+      "prompt": "The context determines both the interpretation rule and the thing being interpreted:",
+      "axis": "fixedpoint/natural_S_1"
+    },
+    {
+      "prompt": "Based on the query, select both the search strategy and the search terms:",
+      "axis": "fixedpoint/natural_S_2"
+    },
+    {
+      "prompt": "The sentence itself determines both the parsing rule and the parse:",
+      "axis": "fixedpoint/natural_S_3"
+    },
+    {
+      "prompt": "The final answer that cannot be simplified any further:",
+      "axis": "fixedpoint/natural_WHNF_0"
+    },
+    {
+      "prompt": "This expression is already fully evaluated:",
+      "axis": "fixedpoint/natural_WHNF_1"
+    },
+    {
+      "prompt": "No more computation steps are possible; the result is",
+      "axis": "fixedpoint/natural_WHNF_2"
+    },
+    {
+      "prompt": "The irreducible form of the expression is",
+      "axis": "fixedpoint/natural_WHNF_3"
+    },
+    {
+      "prompt": "Triple composition \u2014 compose three functions into a pipeline that applies the innermost first",
+      "axis": "fixedpoint/compound_B_B"
+    },
+    {
+      "prompt": "Constant composition \u2014 a function that ignores two arguments and returns the first thing it was given",
+      "axis": "fixedpoint/compound_B_K"
+    },
+    {
+      "prompt": "The projection function that given two arguments returns the second, discarding the first",
+      "axis": "fixedpoint/compound_K_I"
+    },
+    {
+      "prompt": "Flip projection \u2014 equivalent to selecting the second argument by flipping K's preference",
+      "axis": "fixedpoint/compound_C_K"
+    },
+    {
+      "prompt": "Compose then flip \u2014 apply g to y first, then apply f to the result with x as second argument",
+      "axis": "fixedpoint/compound_B_C_B"
+    },
+    {
+      "prompt": "Substitute then project \u2014 always returns the argument regardless of the function g, equivalent to identity",
+      "axis": "fixedpoint/compound_S_K"
+    },
+    {
+      "prompt": "Self-application \u2014 applies the argument to itself, the core of recursion and paradox",
+      "axis": "fixedpoint/compound_S_I_I"
+    },
+    {
+      "prompt": "Quadruple composition \u2014 a four-function pipeline",
+      "axis": "fixedpoint/compound_quad_compose"
+    },
+    {
+      "prompt": "Duplicate through composition \u2014 apply g to x, then apply that result to itself",
+      "axis": "fixedpoint/compound_W_B"
+    },
+    {
+      "prompt": "Flipped composition \u2014 compose in reverse order, applying the second function first",
+      "axis": "fixedpoint/compound_C_B"
+    },
+    {
+      "prompt": "Write a function that takes two arguments and always returns the first one",
+      "axis": "fixedpoint/compile_K_basic"
+    },
+    {
+      "prompt": "Define a constant function that ignores its second parameter",
+      "axis": "fixedpoint/compile_K_constant"
+    },
+    {
+      "prompt": "Implement a selector that always picks the left of a pair",
+      "axis": "fixedpoint/compile_K_selector"
+    },
+    {
+      "prompt": "Create a function where the second argument has no effect on the output",
+      "axis": "fixedpoint/compile_K_ignore"
+    },
+    {
+      "prompt": "Write the simplest possible function \u2014 one that does nothing to its input",
+      "axis": "fixedpoint/compile_I_basic"
+    },
+    {
+      "prompt": "Define the identity transformation",
+      "axis": "fixedpoint/compile_I_identity"
+    },
+    {
+      "prompt": "Implement a pass-through that returns its argument unchanged",
+      "axis": "fixedpoint/compile_I_passthrough"
+    },
+    {
+      "prompt": "Write a function that composes two other functions \u2014 applying the second then the first",
+      "axis": "fixedpoint/compile_B_basic"
+    },
+    {
+      "prompt": "Define function composition: given f and g, produce a function that applies g then f",
+      "axis": "fixedpoint/compile_B_compose"
+    },
+    {
+      "prompt": "Implement a pipeline builder that chains two transformations",
+      "axis": "fixedpoint/compile_B_pipeline"
+    },
+    {
+      "prompt": "Create a higher-order function that given two functions returns their composition",
+      "axis": "fixedpoint/compile_B_higher"
+    },
+    {
+      "prompt": "Write a function that swaps the order of two arguments to another function",
+      "axis": "fixedpoint/compile_C_basic"
+    },
+    {
+      "prompt": "Define an argument reverser for binary functions",
+      "axis": "fixedpoint/compile_C_flip"
+    },
+    {
+      "prompt": "Implement flip: given f(x,y), produce a function that computes f(y,x)",
+      "axis": "fixedpoint/compile_C_reverse"
+    },
+    {
+      "prompt": "Write a function that passes the same argument twice to a binary function",
+      "axis": "fixedpoint/compile_W_basic"
+    },
+    {
+      "prompt": "Define the diagonal: given f(x,y), produce a function that computes f(x,x)",
+      "axis": "fixedpoint/compile_W_diagonal"
+    },
+    {
+      "prompt": "Implement self-application: given f, produce the function that applies f to x twice",
+      "axis": "fixedpoint/compile_W_selfapply"
+    },
+    {
+      "prompt": "Write a function that finds the fixed point of another function without explicit recursion",
+      "axis": "fixedpoint/compile_Y_basic"
+    },
+    {
+      "prompt": "Define a combinator that enables recursion in a language without named functions",
+      "axis": "fixedpoint/compile_Y_recursion"
+    },
+    {
+      "prompt": "Implement the mechanism by which a function can call itself without knowing its own name",
+      "axis": "fixedpoint/compile_Y_anonymous"
+    },
+    {
+      "prompt": "Write a function where the argument determines both the function to apply and the value to transform",
+      "axis": "fixedpoint/compile_S_basic"
+    },
+    {
+      "prompt": "Define the substitution combinator: given f, g, x, compute f(x)(g(x))",
+      "axis": "fixedpoint/compile_S_subst"
+    },
+    {
+      "prompt": "Write a function that processes two arguments independently through two different functions then combines",
+      "axis": "fixedpoint/compile_D_basic"
+    },
+    {
+      "prompt": "Define parallel application: given f, g, x, y, compute f(x) combined with g(y)",
+      "axis": "fixedpoint/compile_D_parallel"
+    },
+    {
+      "prompt": "Explain in plain English what this function does: \u03bbx.\u03bby.x",
+      "axis": "fixedpoint/decompile_K"
+    },
+    {
+      "prompt": "Describe the behavior of: \u03bbx.x",
+      "axis": "fixedpoint/decompile_I"
+    },
+    {
+      "prompt": "What does this function compute: \u03bbf.\u03bbg.\u03bbx.f(g(x))",
+      "axis": "fixedpoint/decompile_B"
+    },
+    {
+      "prompt": "Explain this lambda expression: \u03bbf.\u03bbx.\u03bby.f(y)(x)",
+      "axis": "fixedpoint/decompile_C"
+    },
+    {
+      "prompt": "Describe what this does: \u03bbf.\u03bbx.f(x)(x)",
+      "axis": "fixedpoint/decompile_W"
+    },
+    {
+      "prompt": "What is the purpose of: \u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+      "axis": "fixedpoint/decompile_Y"
+    },
+    {
+      "prompt": "Explain this function: \u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+      "axis": "fixedpoint/decompile_S"
+    },
+    {
+      "prompt": "Describe the computation: \u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+      "axis": "fixedpoint/decompile_D"
+    },
+    {
+      "prompt": "What does this compute: \u03bbf.\u03bbg.\u03bbh.\u03bbx.f(g(h(x)))",
+      "axis": "fixedpoint/decompile_B_B"
+    },
+    {
+      "prompt": "Explain: \u03bbx.\u03bby.y",
+      "axis": "fixedpoint/decompile_K_I"
+    },
+    {
+      "prompt": "What does \u03bbx.x(x) do, and why is it significant?",
+      "axis": "fixedpoint/decompile_S_I_I"
+    },
+    {
+      "prompt": "Describe: \u03bbf.\u03bbg.\u03bbh.\u03bbi.\u03bbx.f(g(h(i(x))))",
+      "axis": "fixedpoint/decompile_quad_compose"
+    },
+    {
+      "prompt": "The capital of the country that borders",
+      "axis": "fixedpoint/cross_B_geography"
+    },
+    {
+      "prompt": "The color of the car that belongs to the person who",
+      "axis": "fixedpoint/cross_B_chain"
+    },
+    {
+      "prompt": "Summarize the translation of the abstract of",
+      "axis": "fixedpoint/cross_B_pipeline"
+    },
+    {
+      "prompt": "The square root of the absolute value of the difference between",
+      "axis": "fixedpoint/cross_B_math"
+    },
+    {
+      "prompt": "The CEO of the company that acquired the startup that developed",
+      "axis": "fixedpoint/cross_B_deep_chain"
+    },
+    {
+      "prompt": "Print the sorted unique values from the filtered list of",
+      "axis": "fixedpoint/cross_B_code_pipeline"
+    },
+    {
+      "prompt": "No matter what happens next, the answer is still",
+      "axis": "fixedpoint/cross_K_constant"
+    },
+    {
+      "prompt": "Regardless of the weather, the meeting will be held at",
+      "axis": "fixedpoint/cross_K_regardless"
+    },
+    {
+      "prompt": "The only relevant factor, ignoring everything else, is",
+      "axis": "fixedpoint/cross_K_only"
+    },
+    {
+      "prompt": "Whatever you do, don't forget that the main point is",
+      "axis": "fixedpoint/cross_K_main_point"
+    },
+    {
+      "prompt": "It wasn't the dog that bit the man, but the man who bit the",
+      "axis": "fixedpoint/cross_C_reverse_agent"
+    },
+    {
+      "prompt": "Instead of the students evaluating the teachers, the teachers evaluate the",
+      "axis": "fixedpoint/cross_C_role_swap"
+    },
+    {
+      "prompt": "Don't ask what your country can do for you \u2014 ask what you can do for your",
+      "axis": "fixedpoint/cross_C_jfk"
+    },
+    {
+      "prompt": "The seller became the buyer and the buyer became the",
+      "axis": "fixedpoint/cross_C_swap_roles"
+    },
+    {
+      "prompt": "The message was relayed exactly as received:",
+      "axis": "fixedpoint/cross_I_relay"
+    },
+    {
+      "prompt": "The witness quoted the suspect verbatim:",
+      "axis": "fixedpoint/cross_I_verbatim"
+    },
+    {
+      "prompt": "Copy the input to the output without any transformation:",
+      "axis": "fixedpoint/cross_I_copy"
+    },
+    {
+      "prompt": "The committee that oversees itself discovered that",
+      "axis": "fixedpoint/cross_W_self_ref"
+    },
+    {
+      "prompt": "The program that analyzes its own source code found",
+      "axis": "fixedpoint/cross_W_quine"
+    },
+    {
+      "prompt": "Compare each item in the list with every other item in the same list to",
+      "axis": "fixedpoint/cross_W_self_compare"
+    },
+    {
+      "prompt": "The rule for simplifying is: if the expression contains a reducible part, simplify it and repeat until",
+      "axis": "fixedpoint/cross_Y_simplify"
+    },
+    {
+      "prompt": "Start with an initial guess, apply Newton's method, and keep iterating until the answer converges to",
+      "axis": "fixedpoint/cross_Y_newton"
+    },
+    {
+      "prompt": "To sort, split the list in half, sort each half, then merge \u2014 applying this same process to each half until",
+      "axis": "fixedpoint/cross_Y_mergesort"
+    },
+    {
+      "prompt": "The sentence that refers to itself is true if and only if",
+      "axis": "fixedpoint/cross_Y_goedel"
+    },
+    {
+      "prompt": "Use the context to determine both what rule applies and what it applies to:",
+      "axis": "fixedpoint/cross_S_context"
+    },
+    {
+      "prompt": "The word itself tells you both how to pronounce it and what it means:",
+      "axis": "fixedpoint/cross_S_self_decode"
+    },
+    {
+      "prompt": "Grade the essay separately for content and for grammar, then combine the scores:",
+      "axis": "fixedpoint/cross_D_parallel_eval"
+    },
+    {
+      "prompt": "Analyze the image for both color and shape independently, then classify based on",
+      "axis": "fixedpoint/cross_D_parallel_analysis"
+    },
+    {
+      "prompt": "Reduce step by step: K a b",
+      "axis": "fixedpoint/reduce_K_simple"
+    },
+    {
+      "prompt": "Reduce step by step: I (K a b)",
+      "axis": "fixedpoint/reduce_I_K"
+    },
+    {
+      "prompt": "Reduce step by step: B f g x",
+      "axis": "fixedpoint/reduce_B_simple"
+    },
+    {
+      "prompt": "Reduce step by step: C f a b",
+      "axis": "fixedpoint/reduce_C_simple"
+    },
+    {
+      "prompt": "Reduce step by step: W f x",
+      "axis": "fixedpoint/reduce_W_simple"
+    },
+    {
+      "prompt": "Reduce step by step: S f g x",
+      "axis": "fixedpoint/reduce_S_simple"
+    },
+    {
+      "prompt": "Reduce completely: K (I a) (B f g x)",
+      "axis": "fixedpoint/reduce_K_I_nested"
+    },
+    {
+      "prompt": "Reduce completely: B (K a) I x",
+      "axis": "fixedpoint/reduce_B_K_I"
+    },
+    {
+      "prompt": "Reduce completely: C (B f g) a b",
+      "axis": "fixedpoint/reduce_C_B"
+    },
+    {
+      "prompt": "Reduce completely: S K K x",
+      "axis": "fixedpoint/reduce_S_K_K"
+    },
+    {
+      "prompt": "Reduce completely: B B B f g h x",
+      "axis": "fixedpoint/reduce_B_B_B"
+    },
+    {
+      "prompt": "Reduce completely: W (C K) x",
+      "axis": "fixedpoint/reduce_W_C_K"
+    },
+    {
+      "prompt": "Reduce completely: K (B f g (I x)) (W h y)",
+      "axis": "fixedpoint/reduce_deep_4"
+    },
+    {
+      "prompt": "Reduce completely: B (B B B) B f g h i x",
+      "axis": "fixedpoint/reduce_deep_compose"
+    },
+    {
+      "prompt": "Reduce completely: S (B B S) (K K) f g x",
+      "axis": "fixedpoint/reduce_deep_5"
+    }
+  ],
+  "depths": {
+    "0.00": {
+      "stats": {
+        "n_models": 4,
+        "n_probes": 143,
+        "model_keys": [
+          "qwen3-14b",
+          "mistral-7b",
+          "olmo-2-13b",
+          "pythia-2.8b"
+        ],
+        "mean_agreement": 0.2813253104686737,
+        "high_agreement_fraction": 0.031123805771693096,
+        "mean_model_correlation": 0.7081575939607091,
+        "model_correlations": {
+          "qwen3-14b_vs_mistral-7b": 0.6569201400115177,
+          "qwen3-14b_vs_olmo-2-13b": 0.5545982724872478,
+          "qwen3-14b_vs_pythia-2.8b": 0.690867189466356,
+          "mistral-7b_vs_olmo-2-13b": 0.9492525264310732,
+          "mistral-7b_vs_pythia-2.8b": 0.7230413347075604,
+          "olmo-2-13b_vs_pythia-2.8b": 0.6742661006605
+        },
+        "consensus_rdm_mean": 0.4836302101612091,
+        "consensus_rdm_std": 0.1303291618824005
+      },
+      "n_dimensions": 6,
+      "explained_variance_ratio": [
+        0.4552100896835327,
+        0.20853856205940247,
+        0.07912802696228027,
+        0.0367577001452446,
+        0.03135449066758156,
+        0.022729242220520973
+      ],
+      "cumulative_variance": [
+        0.4552100896835327,
+        0.6637486219406128,
+        0.7428766489028931,
+        0.7796343564987183,
+        0.8109888434410095,
+        0.8337180614471436
+      ]
+    },
+    "0.25": {
+      "stats": {
+        "n_models": 4,
+        "n_probes": 143,
+        "model_keys": [
+          "qwen3-14b",
+          "mistral-7b",
+          "olmo-2-13b",
+          "pythia-2.8b"
+        ],
+        "mean_agreement": 0.32991451025009155,
+        "high_agreement_fraction": 0.002659312518467448,
+        "mean_model_correlation": 0.720486943980072,
+        "model_correlations": {
+          "qwen3-14b_vs_mistral-7b": 0.589569347194205,
+          "qwen3-14b_vs_olmo-2-13b": 0.592058772797378,
+          "qwen3-14b_vs_pythia-2.8b": 0.7579190402433302,
+          "mistral-7b_vs_olmo-2-13b": 0.9336625311207375,
+          "mistral-7b_vs_pythia-2.8b": 0.7288354004118192,
+          "olmo-2-13b_vs_pythia-2.8b": 0.7208765721129617
+        },
+        "consensus_rdm_mean": 0.3806445896625519,
+        "consensus_rdm_std": 0.10422589629888535
+      },
+      "n_dimensions": 6,
+      "explained_variance_ratio": [
+        0.47170668840408325,
+        0.14218001067638397,
+        0.05067988485097885,
+        0.048729121685028076,
+        0.03825809061527252,
+        0.024283338338136673
+      ],
+      "cumulative_variance": [
+        0.47170668840408325,
+        0.6138867139816284,
+        0.6645665764808655,
+        0.7132956981658936,
+        0.7515537738800049,
+        0.7758371233940125
+      ]
+    },
+    "0.50": {
+      "stats": {
+        "n_models": 4,
+        "n_probes": 143,
+        "model_keys": [
+          "qwen3-14b",
+          "mistral-7b",
+          "olmo-2-13b",
+          "pythia-2.8b"
+        ],
+        "mean_agreement": 0.28673017024993896,
+        "high_agreement_fraction": 0.0029547916871860533,
+        "mean_model_correlation": 0.7552021359151097,
+        "model_correlations": {
+          "qwen3-14b_vs_mistral-7b": 0.7775025587227099,
+          "qwen3-14b_vs_olmo-2-13b": 0.7058159010543915,
+          "qwen3-14b_vs_pythia-2.8b": 0.6848045846064439,
+          "mistral-7b_vs_olmo-2-13b": 0.92010260905359,
+          "mistral-7b_vs_pythia-2.8b": 0.745691300121254,
+          "olmo-2-13b_vs_pythia-2.8b": 0.6972958619322692
+        },
+        "consensus_rdm_mean": 0.4164464771747589,
+        "consensus_rdm_std": 0.10076893866062164
+      },
+      "n_dimensions": 5,
+      "explained_variance_ratio": [
+        0.45414862036705017,
+        0.17017345130443573,
+        0.08419647812843323,
+        0.048025261610746384,
+        0.022314641624689102
+      ],
+      "cumulative_variance": [
+        0.45414862036705017,
+        0.6243220567703247,
+        0.7085185050964355,
+        0.756543755531311,
+        0.7788584232330322
+      ]
+    },
+    "0.75": {
+      "stats": {
+        "n_models": 4,
+        "n_probes": 143,
+        "model_keys": [
+          "qwen3-14b",
+          "mistral-7b",
+          "olmo-2-13b",
+          "pythia-2.8b"
+        ],
+        "mean_agreement": 0.3119868040084839,
+        "high_agreement_fraction": 0.005121638924455826,
+        "mean_model_correlation": 0.7097205068549913,
+        "model_correlations": {
+          "qwen3-14b_vs_mistral-7b": 0.7138925376562432,
+          "qwen3-14b_vs_olmo-2-13b": 0.6956070915014625,
+          "qwen3-14b_vs_pythia-2.8b": 0.6361965630952554,
+          "mistral-7b_vs_olmo-2-13b": 0.7779665605240508,
+          "mistral-7b_vs_pythia-2.8b": 0.6819823654528907,
+          "olmo-2-13b_vs_pythia-2.8b": 0.7526779229000458
+        },
+        "consensus_rdm_mean": 0.4947746694087982,
+        "consensus_rdm_std": 0.100183866918087
+      },
+      "n_dimensions": 5,
+      "explained_variance_ratio": [
+        0.5170562267303467,
+        0.14055001735687256,
+        0.10085894167423248,
+        0.05530398339033127,
+        0.022921832278370857
+      ],
+      "cumulative_variance": [
+        0.5170562267303467,
+        0.6576062440872192,
+        0.7584651708602905,
+        0.8137691617012024,
+        0.8366910219192505
+      ]
+    }
+  }
+}

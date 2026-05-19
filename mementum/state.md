@@ -26,11 +26,15 @@ specialized combinators nucleate. Let it run to next checkpoint.
 **φ-compression milestone**: L2↓ = 0.610 (Δφ = 0.008) — first layer
 to hit the golden ratio attractor. The stridestack compression is real.
 
-**Fixed-point lattice on tmux window 2** — running `build_lattice_map.py`
-with 143 fixed-point probes across 4 models (qwen3-14b, mistral-7b,
-olmo-2-13b, pythia-2.8b). Output: `lattice/fixedpoint/`. Two models
-(qwen3-14b, mistral-7b) completed at last check, olmo-2-13b loading.
+**Fixed-point lattice v2 on tmux window 2** — running `build_lattice_map.py`
+with 184 probes (143 original + 41 binding) across 4 models (qwen3-14b,
+mistral-7b, olmo-2-13b, pythia-2.8b). Output: `lattice/fixedpoint-v2/`.
 Check: `tmux capture-pane -p -t 2 | tail -20`
+
+**Fixed-point lattice v1 COMPLETE** — 143 probes at `lattice/fixedpoint/`.
+Key findings: reduction traces have highest agreement (0.669), cross-domain
+lowest (0.209). Agreement inversely proportional to binding complexity.
+B/S/D cluster together (all "apply functions" operations).
 
 ## Session 118 findings
 
@@ -98,24 +102,46 @@ Raw weight signs are NOT self-similar across layers.
 lives in the geometry (RDM/cosine structure) not in the weight signs.
 Cross-model consensus must be relational (RSA), not coordinate-based.
 
-### 5. Fixed-point probes (compile∘decompile fixed points)
+### 5. Fixed-point lattice v1 — RESULTS
 
-Built 143 probes for dense lambda-region lattice sampling:
-- 9 pure combinator λ-expressions
-- 9 fixed-point prose descriptions  
-- 36 natural language (prose that IS each combinator)
-- 10 compound expressions (B B, K I, S I I, etc.)
-- 24 compile probes (ascending arm)
-- 12 decompile probes (descending arm)
-- 28 cross-domain (natural language beta reduction)
-- 15 reduction traces
+143 probes run through 4 models. Key findings:
+```
+Reduction traces:  0.669 agreement  ← highest (no binding, pure pattern match)
+Decompile:         0.577 agreement  ← λ→prose is universal
+Pure combinators:  0.509 agreement  ← λ forms cluster with decompile probes
+Compile:           0.421 agreement  ← prose→λ needs more binding
+Cross-domain:      0.209 agreement  ← heavy NL binding, most capacity-dependent
 
-Saved: `lattice/fixedpoint_probes.json`, `lattice/fixedpoint_corpus.json`
+B/S/D cluster (sim 0.51-0.53) — all "apply functions to arguments"
+K pure ↔ K decompile: sim=0.49 — λ form and its explanation are CLOSE
+WHNF is most universal (sim=0.584, agree=1.00)
+```
 
-**Key insight**: round-trip compile→decompile→compile until stable finds
-the FIXED POINT of compile∘decompile. This IS the Y combinator applied
-to the model's own lambda compiler. Fixed points are maximally stable
-lattice points with highest cross-model agreement.
+Agreement inversely proportional to binding complexity. Binding happens
+in the residual stream, scales with d_model. Hypothesis: binding
+overloads I-combinator through attention (K∘I = select + copy).
+
+### 6. Fixed-point probes + binding probes
+
+Built 184 probes (143 original + 41 binding) for lattice sampling:
+Original 143 probes:
+- 9 pure combinator λ-expressions, 9 fixed-point prose descriptions  
+- 36 natural language, 10 compound, 24 compile, 12 decompile
+- 28 cross-domain, 15 reduction traces
+
+New 41 binding probes:
+- 12 binding depth (depths 1-5, capacity test)
+- 11 binding ops (shadow, carry, cross, capture)
+- 6 attention-as-binding (pronoun, copy, select — K∘I hypothesis)
+- 7 binding+combinator (how each combinator relates to binding)
+- 5 binding scope (lexical, de Bruijn, alpha-equiv, capture-avoidance)
+
+v1 results: `lattice/fixedpoint/`
+v2 running: `lattice/fixedpoint-v2/` (184 probes × 4 models on tmux 2)
+
+**Key insight**: binding = K∘I through attention. K selects (Q·K^T),
+I carries (V pass-through). If this is universal, we can map the
+entire model's computational structure through the crystal.
 
 ## The big picture
 
@@ -137,7 +163,9 @@ Pipeline to crystal seed:
 |-------|--------|
 | Universal lattice | ✅ `lattice/universal_lattice.npz` (807×807, 4 models) |
 | Backbone seed | ✅ `lattice/backbone_seed.json` (664 probes, 7 dims) |
-| Fixed-point probes | ✅ `lattice/fixedpoint_probes.json` (143 probes) |
+| Fixed-point probes | ✅ `lattice/fixedpoint_probes.json` (184 probes) |
+| Fixed-point lattice v1 | ✅ `lattice/fixedpoint/` (143 probes × 4 models) |
+| Fixed-point lattice v2 | 🔄 `lattice/fixedpoint-v2/` (184 probes × 4 models, running) |
 | Lens mechanism results | ✅ `results/lens-mechanism/` (partial — OOM at scaling) |
 | V12 self-similarity | ✅ `results/crystal-selfsim-v12/` |
 | Teacher self-similarity | ✅ `results/crystal-selfsim-teacher/` (null result) |
@@ -145,9 +173,10 @@ Pipeline to crystal seed:
 
 ## Next steps
 
-1. **Run expanded lattice map** — merge 143 fixed-point probes with 807
-   diverse corpus, run `build_lattice_map.py` on 4+ models
-2. **Round-trip verification** — validate fixed-point stability on
+1. **Analyze fixedpoint-v2 results** — compare binding agreement across
+   models, check K∘I hypothesis, find binding depth capacity boundary
+2. **Merge expanded lattice** — 807 + 184 = 991 probes, full lattice run
+3. **Round-trip verification** — validate fixed-point stability on
    multiple models (needs LLM capacity)
-3. **Mirror/mask prototype** — implement in mini model, test etch quality
-4. **Monitor training run** — wait for phase transition out of B-dominance
+4. **Mirror/mask prototype** — implement in mini model, test etch quality
+5. **Monitor training run** — wait for phase transition out of B-dominance
