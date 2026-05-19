@@ -103,13 +103,13 @@ weighted toward post-freeze GD.
 
 **Strategy: design new training run from scratch using all microscope findings.**
 
-1. **Holographic distillation from teacher** — the breakthrough method. Forward diverse probes through a teacher model (Qwen3-14B etc.), capture layer-wise (input→output) pairs, etch the interference pattern into VSM-LM's ternary plates. At d=48 this recovers 91.3% of oracle performance. Sign copy fails; function recording works.
+1. **Build holographic distillation pipeline** — extract layer-wise features from Qwen3-32B (teacher), wire into V12 etch accumulator. Forward diverse probes through teacher, capture (input→output) at each layer, etch interference pattern into VSM-LM ternary plates. Mini-holo proved 91.3% oracle recovery at d=48.
 
-2. **Etch → freeze → extended GD** — after holographic etch (~5 rounds), freeze plates permanently, then extended GD on continuous params (Q, gamma, embeds, mirrors). 80%+ of compute budget goes to post-freeze GD.
+2. **Run holographic distillation → freeze → extended GD** — etch ~5 rounds from teacher features, freeze all ternary plates, then 80%+ of compute budget on GD over continuous params (Q, gamma, embeds, mirrors).
 
-3. **Compare Qwen3.6-27B RDMs** against 5-model consensus. Build 6-model lattice. These provide the diverse probes (beam angles) for holographic distillation.
+3. **Teacher**: Qwen3-32B (text-only, same Qwen3 tokenizer, 64 layers, d=5120, 61GB cached). Qwen3.6 models use different tokenizer (248K vocab) — incompatible with our data.
 
-4. **New training run from scratch** — holographic distillation from teacher → freeze → extended GD. The lattice relational loss may still add value as a whisper during post-freeze GD to maintain universal geometry.
+4. **Training data ready**: structured_shard_v2.npy (52.6K docs, 1.2M tokens, all 9 kernel ops + math + clojure). Plus Dolma shards (3B tokens general text).
 
 ## Architecture at session end
 
