@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-19 | Session: 115
+> Last updated: 2026-05-19 | Session: 115 (late)
 
 ## Where we are
 
@@ -95,21 +95,27 @@ on diminishing-return etch cycles. Sweet spot: ~5 etch rounds at d=48.
 Validates seed crystal Stage 6 (GD after freeze). Budget should be heavily
 weighted toward post-freeze GD.
 
+## What's running
+
+**Teacher extraction on tmux window 1** — `extract_teacher.py` forwarding 500 probes through Qwen3-32B (64 layers, d=5120, 61GB on CPU). Saves layer-wise (input, output) hidden states to `checkpoints/teacher-features/`. Check: `tmux capture-pane -p -t 1 | tail -20`
+
+If it crashed: re-run with `cd ~/src/verbum && uv run python scripts/v12/extract_teacher.py --n-probes 500 --batch-size 2`
+
 ## What's NOT running
 - VSM-LM lattice etch killed (collapsed at round 65)
-- All microscope experiments complete (v1 d-sweep, v2 d-sweep, freeze)
+- All microscope experiments complete (v1 d-sweep, v2 d-sweep, freeze, crystal, distill)
 
 ## Next steps
 
 **Strategy: design new training run from scratch using all microscope findings.**
 
-1. **Build holographic distillation pipeline** — extract layer-wise features from Qwen3-32B (teacher), wire into V12 etch accumulator. Forward diverse probes through teacher, capture (input→output) at each layer, etch interference pattern into VSM-LM ternary plates. Mini-holo proved 91.3% oracle recovery at d=48.
+1. **Teacher feature extraction RUNNING** — `extract_teacher.py` on tmux 1. Qwen3-32B, 500 probes (diverse corpus), 8 depth points across 64 layers. Output: `checkpoints/teacher-features/*.npz`
 
-2. **Run holographic distillation → freeze → extended GD** — etch ~5 rounds from teacher features, freeze all ternary plates, then 80%+ of compute budget on GD over continuous params (Q, gamma, embeds, mirrors).
+2. **Build V12 holographic distillation script** — `holographic_distill_v12.py`. Load pre-extracted teacher features. Map teacher depth points → V12 passes. For each V12 layer's ternary plates, etch to minimize `||teacher_output - student_output||²` using gradient accumulator. Then freeze + extended GD on structured shard + Dolma.
 
-3. **Teacher**: Qwen3-32B (text-only, same Qwen3 tokenizer, 64 layers, d=5120, 61GB cached). Qwen3.6 models use different tokenizer (248K vocab) — incompatible with our data.
+3. **Run the new training**: holographic distillation (~5 etch rounds from teacher features) → freeze all ternary plates → extended GD (80%+ of compute on Q, gamma, embeds, mirrors) on structured_shard_v2 + Dolma.
 
-4. **Training data ready**: structured_shard_v2.npy (52.6K docs, 1.2M tokens, all 9 kernel ops + math + clojure). Plus Dolma shards (3B tokens general text).
+4. **Training data ready**: structured_shard_v2.npy (52.6K docs, 1.2M tokens, all 9 kernel ops + math + clojure). Plus Dolma shards (3B tokens general text). Teacher: Qwen3-32B (text-only, same Qwen3 tokenizer, 64 layers, d=5120).
 
 ## Architecture at session end
 
