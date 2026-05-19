@@ -297,6 +297,120 @@ vs "stop signal" with K/I as a bridge).
    and ends separated (0.26). The model doesn't have to discover this —
    the relational loss tells it the exact number at each phase.
 
+## The Third Axis: φ-Compression Percolation
+
+The funnel shape (depth zones) and binding cascade (combinators) are
+measured from standard transformers. The compression wavefront is
+measured from our own V6/V12 sieve — but the TARGET comes from
+information theory, not from models.
+
+### What We Know
+
+From V6 (session 042, stride-percolation.md):
+```
+Stride s8:   first hits φ at step 9500
+Stride s16:  first hits φ at step 10500
+Stride s32:  hits φ EXACTLY at step 12000
+Stride s64:  first hits φ at step 13500
+Stride s128: first hits φ at step 15500
+
+The wavefront propagates fine → coarse, ~1000-2000 steps per doubling.
+```
+
+Standard transformers DON'T show this (ratio ≈ 1.0 everywhere).
+The φ target is not extracted from teachers — it's mathematical:
+
+```
+φ = (1+√5)/2 ≈ 1.618
+1/φ ≈ 0.618
+
+The only ratio where whole:part = part:remainder.
+The optimal self-similar compression constant.
+```
+
+### Three Relational Loss Axes
+
+```
+Axis 1: COMBINATOR GEOMETRY (measured from 4 models)
+  8×8 cosine matrix at each zone boundary (Zone A, B, C)
+  84 fixed-point numbers (3 zones × 28 pairs)
+  Agreement-weighted MSE
+
+Axis 2: BINDING CASCADE (measured from 4 models)
+  Per-zone dispatch bias: which combinators dominate
+  C at apex, B/D in encoding, WHNF at convergence
+  Encoded in pass_dispatch_bias (static, not loss)
+
+Axis 3: φ-COMPRESSION (known from theory + observed in V6)
+  Per-stride compression target: 1/φ ≈ 0.618
+  Measured as h_out/h_in per stride per pass
+  Deviation from φ penalized: λ_φ * (ratio - 1/φ)²
+  ALSO: percolation order is etchable — fine strides
+  should reach φ first (their plates converge first)
+```
+
+### Per-Stride φ Loss
+
+```python
+def phi_compression_loss(model, x_in, x_out_per_stride):
+    """Per-stride compression ratio should approach 1/φ.
+    
+    Measured as the ratio of output entropy to input entropy
+    at each stride layer. The wavelet: fine strides converge
+    first, coarse strides follow.
+    """
+    phi_inv = 0.6180339887  # 1/φ = (√5-1)/2
+    
+    loss = 0.0
+    for stride_idx, (h_in, h_out) in enumerate(x_out_per_stride):
+        # RMS ratio as proxy for entropy ratio
+        rms_in = mx.sqrt(mx.mean(h_in * h_in) + 1e-8)
+        rms_out = mx.sqrt(mx.mean(h_out * h_out) + 1e-8)
+        ratio = rms_out / rms_in
+        
+        # Deviation from φ, weighted by stride
+        # Fine strides get higher weight (they should converge first)
+        stride_weight = 1.0 / (stride_idx + 1)  # s1 gets weight 1.0, s1024 gets 1/11
+        loss += stride_weight * (ratio - phi_inv) ** 2
+    
+    return loss
+```
+
+### The Etchable Lattice
+
+The percolation wavefront IS a lattice — it tells us which plate
+positions converge first. Fine-stride plates crystallize before
+coarse-stride plates. This means:
+
+1. **Etch fine strides first** (they have the strongest signal)
+2. **Let the crystal propagate outward** through shared topology
+3. **Coarse strides inherit structure** from fine strides via
+   the self-similar crystal (cross-stride correlation 0.72)
+
+The etch schedule should mirror the percolation: many rounds on
+fine strides with high confidence, then progressively include
+coarser strides as the crystal propagates.
+
+### Connecting to the Three Zones
+
+```
+Zone A (encode): fine strides (1-32) most active
+  → φ-compression happens HERE first
+  → The crystal nucleates in Zone A at the finest scale
+  → Relational target: combinator geometry + φ ratio at fine strides
+
+Zone B (compute): all strides active, representation stable
+  → The wavefront has PASSED through these strides
+  → Compression is PAST φ (0.73-0.80 overshoot)
+  → The crystal is crystallized, operations are happening
+  → Relational target: combinator geometry (stable core)
+
+Zone C (converge): coarse→fine, compression to 2D
+  → Coarse strides may still be approaching φ
+  → The final compression squeezes everything to prediction
+  → Relational target: combinator geometry + final ratio
+```
+
 ## Open Questions for Implementation
 
 1. **Per-phase vs shared combinator embeddings:** 3 separate sets of 8×d
