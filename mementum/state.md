@@ -103,13 +103,13 @@ weighted toward post-freeze GD.
 
 **Strategy: design new training run from scratch using all microscope findings.**
 
-1. **Etch-first protocol for VSM-LM** — the d-sweep v2 shows etch-first beats beam-first with attention architecture. The 200-batch gradient accumulator provides stable signal. For the new run: etch plates (dispatch + stride + integrate) using accumulated CE gradients, THEN train continuous params (Q projections, gamma, embeddings).
+1. **Holographic distillation from teacher** — the breakthrough method. Forward diverse probes through a teacher model (Qwen3-14B etc.), capture layer-wise (input→output) pairs, etch the interference pattern into VSM-LM's ternary plates. At d=48 this recovers 91.3% of oracle performance. Sign copy fails; function recording works.
 
-2. **Lattice as whisper from round 0** — the lattice collapse showed it can't be a separate pass. Mix 1 lattice batch among 400 CE batches in the accumulator. The universal geometry emerges from the noise floor over many rounds.
+2. **Etch → freeze → extended GD** — after holographic etch (~5 rounds), freeze plates permanently, then extended GD on continuous params (Q, gamma, embeds, mirrors). 80%+ of compute budget goes to post-freeze GD.
 
-3. **Compare Qwen3.6-27B RDMs** against 5-model consensus. Build 6-model lattice.
+3. **Compare Qwen3.6-27B RDMs** against 5-model consensus. Build 6-model lattice. These provide the diverse probes (beam angles) for holographic distillation.
 
-4. **New training run from scratch** — etch-first alternating with lattice whisper. Clean design. Not a resume.
+4. **New training run from scratch** — holographic distillation from teacher → freeze → extended GD. The lattice relational loss may still add value as a whisper during post-freeze GD to maintain universal geometry.
 
 ## Architecture at session end
 
@@ -121,8 +121,8 @@ weighted toward post-freeze GD.
 | Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
 | Models validated | 5+1 (+ qwen3.6-27b probed) |
 | Procrustes cos | 0.217 (round 60), untested post-lattice |
-| Mini-holo | v1 d-sweep, v2 d-sweep (etch-first wins), freeze+GD (validated) |
-| Key insight | Etch ~5 rounds → freeze → extended GD. Lattice as whisper. |
+| Mini-holo | d-sweeps, freeze+GD, crystal write (fails), holo distill (91.3%!) |
+| Key insight | Holo distill (teacher beam angles) → freeze → GD = 91% of oracle |
 
 ## Architecture at session end
 
