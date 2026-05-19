@@ -723,17 +723,36 @@ Total FFN sub-VSM ternary budget: ~1.4M positions
   (vs ~130M for attention plates — ~1% overhead)
 ```
 
-### Extraction pipeline for FFN crystal
+### Holographic FFN — Mirrors Expand Capacity
+
+The FFN sub-VSM uses TernaryMirror to read the same plate differently
+per combinator department. This is holographic storage:
 
 ```
-Step 1: Hook FFN up_proj in teacher models (same probe set)
-Step 2: PCA(FFN activations, k=64)           ← FFN key crystal
-Step 3: cosine(PCA_FFN)                       ← FFN relational structure
-Step 4: Per-department: identify selective neurons by combinator correlation
-Step 5: PCA(W_down columns for dept neurons)  ← department value subspace
-Step 6: Etch key crystal into key_plates
-Step 7: Etch value subspace into value_plates (Pareto depts only)
-Step 8: Train continuous path for high-rank depts via GD
+plate ⊙ mirror_K    = K-department FFN projection
+plate ⊙ mirror_WHNF = WHNF-department FFN projection (retrieval)
+...same plate, 8 different reconstructions
+```
+
+Capacity with mirrors:
+```
+130M FFN plates + 8 mirrors = 507K ternary neurons
+≈ Mistral's 458K total FFN neurons (same count, lower precision)
+But: 704 effective reads per neuron (8 passes × 88 views)
+The sieve trades PRECISION for DEPTH.
+```
+
+### Full extraction pipeline
+
+```
+Step 1: Extract teacher W_up (d_ffn × d_teacher)
+Step 2: SVD → top-d_model right singular vectors → project to d_model
+Step 3: Ternary quantize projected weights → TernaryLinear plates
+Step 4: Extract teacher W_down similarly → ternary value plates
+Step 5: Combinator masks become the mirrors (per-department views)
+Step 6: Hook FFN activations → PCA → cosine → FFN relational crystal
+Step 7: Etch plates + mirrors from teacher structure
+Step 8: GD trains beam params (gammas, rotations, blend gates)
 ```
 
 ## Migration from V12
