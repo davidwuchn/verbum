@@ -1,0 +1,269 @@
+========================================================================
+  Crystal Scanner — Domain Crystal Discovery
+  Models: ['mistral-7b', 'pythia-2.8b']
+  Domains: ['lambda', 'arithmetic', 'coding', 'tool', 'retrieval', 'analogy', 'reasoning', 'narrative', 'instruction']
+  PCA dim: 64
+========================================================================
+  Loaded 144 probes
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:51,  2.59it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:08, 33.84it/s]Loading weights:  11%|█         | 32/291 [00:00<00:03, 73.94it/s]Loading weights:  15%|█▌        | 45/291 [00:00<00:02, 89.14it/s]Loading weights:  22%|██▏       | 63/291 [00:00<00:01, 114.12it/s]Loading weights:  28%|██▊       | 82/291 [00:00<00:01, 134.57it/s]Loading weights:  35%|███▍      | 101/291 [00:01<00:01, 150.47it/s]Loading weights:  42%|████▏     | 121/291 [00:01<00:01, 163.85it/s]Loading weights:  48%|████▊     | 139/291 [00:01<00:01, 134.57it/s]Loading weights:  54%|█████▍    | 157/291 [00:01<00:00, 144.78it/s]Loading weights:  59%|█████▉    | 173/291 [00:01<00:00, 146.93it/s]Loading weights:  65%|██████▍   | 189/291 [00:01<00:00, 148.27it/s]Loading weights:  70%|███████   | 205/291 [00:01<00:00, 149.69it/s]Loading weights:  76%|███████▋  | 222/291 [00:01<00:00, 151.36it/s]Loading weights:  82%|████████▏ | 239/291 [00:01<00:00, 155.31it/s]Loading weights:  89%|████████▊ | 258/291 [00:02<00:00, 162.74it/s]Loading weights:  96%|█████████▌| 280/291 [00:02<00:00, 177.69it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 132.83it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 25.8s
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 56/388 [00:00<00:00, 553.66it/s]Loading weights:  39%|███▉      | 152/388 [00:00<00:00, 763.83it/s]Loading weights:  67%|██████▋   | 260/388 [00:00<00:00, 879.68it/s]Loading weights:  90%|████████▉ | 348/388 [00:00<00:00, 835.06it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 816.15it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 14.6s
+
+  Scanning lambda...
+
+  Scanning arithmetic...
+
+  Scanning coding...
+
+  Scanning tool...
+
+  Scanning retrieval...
+
+  Scanning analogy...
+
+  Scanning reasoning...
+
+  Scanning narrative...
+/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3023: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3024: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+
+  Scanning instruction...
+
+==========================================================================================
+  CRYSTAL SCANNER — Self-Similar Structure per Domain
+==========================================================================================
+
+        domain  best_depth  agreement  self_sim  dims_50  dims_80  dims_95
+  ----------------------------------------------------------------------
+        lambda         10%    +0.8599   +0.6147        2        4        8
+    arithmetic         10%    +0.8743   +0.5849        2        5        9
+        coding          0%    +0.7594   +0.5366        2        5       10
+          tool          0%    +0.8673   +0.7528        1        2        7
+     retrieval         40%    +0.6888   +0.4346        2        5        9
+       analogy         30%    +0.8468   +0.4932        2        4        9
+     reasoning         20%    +0.9507   +0.8704        1        1        5
+     narrative          0%       +nan      +nan        1        1        6
+   instruction          0%       +nan      +nan        1        1        5
+
+  ═══ LAMBDA ═══
+  Agreement profile:
+    0.00: +0.3898 ███████████████
+    0.10: +0.8599 ██████████████████████████████████ ★
+    0.20: +0.8480 █████████████████████████████████
+    0.30: +0.8429 █████████████████████████████████
+    0.40: +0.8111 ████████████████████████████████
+    0.50: +0.7278 █████████████████████████████
+    0.60: +0.7141 ████████████████████████████
+    0.70: +0.5352 █████████████████████
+    0.80: +0.4486 █████████████████
+    0.90: +0.3518 ██████████████
+  Mean cross-depth self-similarity: +0.6147
+  Crystal dimensionality: 2d (50%), 4d (80%), 8d (95%)
+  Top-5 explained variance: 39.0%, 16.6%, 15.1%, 11.0%, 5.3%
+  Most similar probe pairs:
+           capture_avoid ↔ debruijn              sim=+0.7382
+              fixedpoint ↔ eta_reduce            sim=+0.7040
+           reduce_simple ↔ C_flip                sim=+0.4961
+               beta_rule ↔ eta_reduce            sim=+0.4869
+               beta_rule ↔ fixedpoint            sim=+0.3754
+  Most different probe pairs:
+                  C_flip ↔ capture_avoid         sim=-0.4119
+                  C_flip ↔ debruijn              sim=-0.3521
+          church_numeral ↔ eta_reduce            sim=-0.3263
+           reduce_simple ↔ debruijn              sim=-0.2859
+             alpha_equiv ↔ eta_reduce            sim=-0.2803
+
+  ═══ ARITHMETIC ═══
+  Agreement profile:
+    0.00: +0.1956 ███████
+    0.10: +0.8743 ██████████████████████████████████ ★
+    0.20: +0.7266 █████████████████████████████
+    0.30: +0.5585 ██████████████████████
+    0.40: +0.6190 ████████████████████████
+    0.50: +0.6149 ████████████████████████
+    0.60: +0.4381 █████████████████
+    0.70: +0.3514 ██████████████
+    0.80: +0.2861 ███████████
+    0.90: +0.3611 ██████████████
+  Mean cross-depth self-similarity: +0.5849
+  Crystal dimensionality: 2d (50%), 5d (80%), 9d (95%)
+  Top-5 explained variance: 46.1%, 12.3%, 12.3%, 8.6%, 5.0%
+  Most similar probe pairs:
+                    sqrt ↔ gcd                   sim=+0.6663
+              percentage ↔ lcm                   sim=+0.6282
+                     gcd ↔ lcm                   sim=+0.5575
+            mental_trick ↔ factorial             sim=+0.4764
+                    sqrt ↔ percentage            sim=+0.4550
+  Most different probe pairs:
+                     gcd ↔ mental_trick          sim=-0.4428
+                     gcd ↔ decimal_convert       sim=-0.4218
+                     gcd ↔ factorial             sim=-0.3963
+                    sqrt ↔ factorial             sim=-0.3951
+                   power ↔ gcd                   sim=-0.3697
+
+  ═══ CODING ═══
+  Agreement profile:
+    0.00: +0.7594 ██████████████████████████████ ★
+    0.10: +0.7405 █████████████████████████████
+    0.20: +0.7463 █████████████████████████████
+    0.30: +0.7051 ████████████████████████████
+    0.40: +0.6339 █████████████████████████
+    0.50: +0.4401 █████████████████
+    0.60: +0.4815 ███████████████████
+    0.70: +0.3163 ████████████
+    0.80: +0.1480 █████
+    0.90: +0.2092 ████████
+  Mean cross-depth self-similarity: +0.5366
+  Crystal dimensionality: 2d (50%), 5d (80%), 10d (95%)
+  Top-5 explained variance: 34.3%, 21.7%, 10.8%, 9.3%, 4.9%
+  Most similar probe pairs:
+                 file_io ↔ graph_dfs             sim=+1.0000
+                 file_io ↔ counter               sim=+1.0000
+              functional ↔ async                 sim=+1.0000
+              functional ↔ divide_conquer        sim=+1.0000
+             sort_bubble ↔ dynamic_prog          sim=+1.0000
+  Most different probe pairs:
+                   async ↔ stack_parens          sim=-0.6632
+            stack_parens ↔ counter               sim=-0.6632
+            stack_parens ↔ graph_dfs             sim=-0.6632
+          divide_conquer ↔ stack_parens          sim=-0.6632
+              functional ↔ stack_parens          sim=-0.6632
+
+  ═══ TOOL ═══
+  Agreement profile:
+    0.00: +0.8673 ██████████████████████████████████ ★
+    0.10: +0.7699 ██████████████████████████████
+    0.20: +0.7739 ██████████████████████████████
+    0.30: +0.7533 ██████████████████████████████
+    0.40: +0.7181 ████████████████████████████
+    0.50: +0.6614 ██████████████████████████
+    0.60: +0.5779 ███████████████████████
+    0.70: +0.7159 ████████████████████████████
+    0.80: +0.6038 ████████████████████████
+    0.90: +0.7269 █████████████████████████████
+  Mean cross-depth self-similarity: +0.7528
+  Crystal dimensionality: 1d (50%), 2d (80%), 7d (95%)
+  Top-5 explained variance: 71.3%, 9.3%, 6.2%, 3.4%, 2.5%
+  Most similar probe pairs:
+                  select ↔ parse_response        sim=+1.0000
+            error_handle ↔ fallback              sim=+1.0000
+                  select ↔ error_handle          sim=+1.0000
+          parse_response ↔ error_handle          sim=+1.0000
+          parse_response ↔ fallback              sim=+1.0000
+  Most different probe pairs:
+              multi_step ↔ error_handle          sim=-0.6601
+                  select ↔ multi_step            sim=-0.6601
+              multi_step ↔ fallback              sim=-0.6601
+              multi_step ↔ parse_response        sim=-0.6601
+              plan_query ↔ select                sim=-0.6575
+
+  ═══ RETRIEVAL ═══
+  Agreement profile:
+    0.00: +0.1882 ███████
+    0.10: +0.6514 ██████████████████████████
+    0.20: +0.6496 █████████████████████████
+    0.30: +0.6475 █████████████████████████
+    0.40: +0.6888 ███████████████████████████ ★
+    0.50: +0.6749 ██████████████████████████
+    0.60: +0.2956 ███████████
+    0.70: +0.0817 ███
+    0.80: +0.0971 ███
+    0.90: +0.1038 ████
+  Mean cross-depth self-similarity: +0.4346
+  Crystal dimensionality: 2d (50%), 5d (80%), 9d (95%)
+  Top-5 explained variance: 35.1%, 18.7%, 16.0%, 6.1%, 4.9%
+  Most similar probe pairs:
+               fact_tech ↔ fact_music            sim=+0.2870
+            fact_science ↔ fact_physics          sim=+0.1973
+             fact_simple ↔ fact_geography        sim=+0.1936
+         fact_literature ↔ fact_relativity       sim=+0.1303
+            fact_biology ↔ fact_literature       sim=+0.0943
+  Most different probe pairs:
+         fact_literature ↔ fact_geography        sim=-0.3293
+         fact_networking ↔ fact_music            sim=-0.2742
+            fact_history ↔ fact_chemistry        sim=-0.2533
+          fact_geography ↔ fact_relativity       sim=-0.2472
+               fact_tech ↔ fact_networking       sim=-0.2432
+
+  ═══ ANALOGY ═══
+  Agreement profile:
+    0.00: +0.4727 ██████████████████
+    0.10: +0.5723 ██████████████████████
+    0.20: +0.7409 █████████████████████████████
+    0.30: +0.8468 █████████████████████████████████ ★
+    0.40: +0.7447 █████████████████████████████
+    0.50: +0.7641 ██████████████████████████████
+    0.60: +0.4351 █████████████████
+    0.70: +0.2854 ███████████
+    0.80: +0.2272 █████████
+    0.90: +0.3850 ███████████████
+  Mean cross-depth self-similarity: +0.4932
+  Crystal dimensionality: 2d (50%), 4d (80%), 9d (95%)
+  Top-5 explained variance: 35.5%, 28.9%, 12.3%, 4.8%, 4.5%
+  Most similar probe pairs:
+           nature_effort ↔ selection_competition  sim=+0.2451
+           os_government ↔ selection_competition  sim=+0.2370
+              cache_desk ↔ signature_menu        sim=+0.2186
+           os_government ↔ signature_menu        sim=+0.1837
+           os_government ↔ cache_desk            sim=+0.1614
+  Most different probe pairs:
+         encrypt_lockbox ↔ selection_competition  sim=-0.3519
+           os_government ↔ encrypt_lockbox       sim=-0.2859
+       recursion_mirrors ↔ selection_competition  sim=-0.2764
+    selection_competition ↔ db_book_index         sim=-0.2591
+    photosynthesis_solar ↔ signature_menu        sim=-0.2537
+
+  ═══ REASONING ═══
+  Agreement profile:
+    0.00: +0.9416 █████████████████████████████████████
+    0.10: +0.9042 ████████████████████████████████████
+    0.20: +0.9507 ██████████████████████████████████████ ★
+    0.30: +0.9166 ████████████████████████████████████
+    0.40: +0.9260 █████████████████████████████████████
+    0.50: +0.8545 ██████████████████████████████████
+    0.60: +0.8100 ████████████████████████████████
+    0.70: +0.8162 ████████████████████████████████
+    0.80: +0.8784 ███████████████████████████████████
+    0.90: +0.9398 █████████████████████████████████████
+  Mean cross-depth self-similarity: +0.8704
+  Crystal dimensionality: 1d (50%), 1d (80%), 5d (95%)
+  Top-5 explained variance: 86.3%, 4.3%, 2.2%, 1.7%, 1.3%
+  Most similar probe pairs:
+                 inverse ↔ backward              sim=+0.6779
+          contrapositive ↔ contradiction         sim=+0.5726
+          contrapositive ↔ inverse               sim=+0.4079
+              plan_steps ↔ tradeoff              sim=+0.3779
+           combinatorial ↔ pigeonhole            sim=+0.3677
+  Most different probe pairs:
+           contradiction ↔ pigeonhole            sim=-0.4406
+          contrapositive ↔ correlation_causation  sim=-0.4265
+                backward ↔ correlation_causation  sim=-0.4261
+          contrapositive ↔ pigeonhole            sim=-0.4166
+                tradeoff ↔ pigeonhole            sim=-0.4075
+
+  ═══ NARRATIVE ═══
+  Agreement profile:
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/v12/crystal_scanner.py", line 430, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/v12/crystal_scanner.py", line 408, in main
+    print_scan_results(results)
+  File "/Users/mwhitford/src/verbum/scripts/v12/crystal_scanner.py", line 335, in print_scan_results
+    bar = "█" * int(av * 40)
+                ^^^^^^^^^^^^
+ValueError: cannot convert float NaN to integer

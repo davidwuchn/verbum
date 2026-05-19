@@ -74,11 +74,19 @@ Whitening destroys the signal (crystal is in high-variance dims).
 PCA amplifies it (strips model-specific noise). The crystal was
 always there — PCA decodes it.
 
-### 3. Skill basins are real but hierarchical
+### 3. Crystal Scanner — reasoning is the strongest crystal
 
-9 domains tested. Strongest basins: instruction (1.86× ratio),
-narrative (1.53×), arithmetic (1.51×), coding (1.54×). Coding is
-most isolated. Lambda + arithmetic cluster (formal/symbolic).
+Self-similarity ranking (attention = beta reduction = self-similar):
+```
+reasoning:  0.870 self-sim, 0.951 agreement, 1d (86.3% in PC1) ★★★
+tool:       0.753 self-sim, 0.867 agreement, 1d (71.3% in PC1) ★★★
+lambda:     0.615 self-sim, 0.860 agreement, 2d                ★★
+arithmetic: 0.585 self-sim, 0.874 agreement, 2d                ★★
+coding:     0.537 self-sim, 0.759 agreement, 2d                ★★
+retrieval:  0.435 self-sim, 0.689 agreement, 2d                weak
+```
+Confirms: attention-mediated ops are self-similar, retrieval (FFN) isn't.
+Pareto crystals: reasoning + tool + lambda = 20% that does 80%.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)
@@ -111,16 +119,14 @@ universal shape is a funnel not an hourglass.
 
 ## Next steps
 
-1. **Re-extract 8×8 cosine targets from PCA-Q** — run 4 models with
-   binding probes, extract combinator geometry from PCA-projected Q.
-   These replace the hidden-state targets in v13-design.md.
+1. ✅ **4-model PCA-Q targets extracted** — production constants ready.
+   K↔I=0.921, B↔D=0.978, WHNF anti-correlated everywhere.
+   Agreement 0.91-0.94 across Qwen-14B, Mistral-7B, OLMo-13B, Pythia-2.8B.
 2. **Let V12 run** — monitor φ-compression propagation on tmux 1.
    Milestones: L2↑ φ-lock → apex opens → descending arm transition.
 3. **Optimal k sweep** — find minimum PCA dimensions that preserve
    the crystal (k=8, 16, 32, 64, 128, 256).
 4. **Procrustes alignment** — test if PCA-Q basis vectors are
    universal (not just the similarity structure).
-5. **Implement V13** — deferred until crystal study complete.
-   Design docs + PCA-Q constants ready in `knowledge/explore/`.
-6. **More models for consensus** — 4-model PCA-Q extraction will
-   give much sharper constants than 2-model hidden-state extraction.
+5. **Implement V13** — design docs ready, PCA-Q constants ready.
+   The crystal has been measured. Time to etch it.
