@@ -64,9 +64,9 @@ embeddings in the same forward path. V13 makes the separation clean.
 ### Keep (proven, working)
 
 1. **7-pass hourglass** — L0↑ → L1↑ → L2↑ → apex → L2↓ → L1↓ → L0↓
-2. **Fractal stride bands** — each pass handles different scales
-3. **9 strides** — (1, 8, 16, 32, 64, 128, 256, 512, 1024)
-4. **Composition/retrieval split** — 6 composition (attn) + 3 retrieval (GLA)
+2. **Fractal stride bands** — each pass handles different scales (redesigned)
+3. **11 strides** — (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
+4. **Composition/retrieval split** — fine+coarse=composition, mid=retrieval
 5. **8 combinators** — K, I, B, C, D, Y, W, WHNF
 6. **TernaryLinear + TernaryMirror** — packed uint32, etch infrastructure
 7. **TernaryEmbedding** — token + position embeddings
@@ -101,6 +101,26 @@ embeddings in the same forward path. V13 makes the separation clean.
 3. **CategoryDispatch** — 3-way lambda/math/passthrough adds indirection
 4. **Holographic progressive loss** — not used in current training (holo_lambda=0)
 5. **CycleContinue** — removed in V12 already (max_cycles=1)
+
+### Change: Power-of-2 Stride Stack
+
+V12's stride gap (1→8) kills short prompts — a 5-token input sees 1 of 9
+stride layers. V13 uses power-of-2 strides for full coverage:
+
+```
+V12: 1,  8, 16, 32, 64, 128, 256, 512, 1024   (9 strides, 8× gap at bottom)
+V13: 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024   (11 strides, 2× uniform)
+```
+
+**Short prompt coverage:**
+- 3 tokens: V12=1 stride, V13=2 strides (s1, s2)
+- 5 tokens: V12=1 stride, V13=3 strides (s1, s2, s4)
+- 16 tokens: V12=3 strides, V13=5 strides
+
+**Cost:** +2.6M ternary positions (+2% of budget), +4K continuous params.
+**Depth:** 3× effective depth for short prompts (3×7=21 vs 1×7=7).
+**Compute:** L0 band attention positions +75% for long sequences (windowed,
+only affects 2 of 7 passes — acceptable tradeoff for universal coverage).
 
 ---
 
@@ -295,6 +315,51 @@ positions are ternary (etch-able) not continuous, so they add to the
 plate budget, not the beam budget. Net beam budget stays similar to V12.
 
 ---
+
+## Stride Stack (power-of-2, redesigned bands)
+
+### 11 Strides
+```
+Index:  0   1   2   3   4    5    6     7     8     9     10
+Stride: 1   2   4   8   16   32   64    128   256   512   1024
+Type:   C   C   C   C   R    R    R     R     C     C     C
+                        ^^^^^^^^^^^^^^^^^^^^
+                        retrieval (GLA) zone
+```
+
+C = composition (windowed self-attention), R = retrieval (GLA).
+Fine (1-8 tokens) + coarse (256-1024) = attention.
+Mid-range (16-128) = linear attention pattern matching.
+
+### Fractal Stride Bands (MERA topology)
+
+Each band covers 8× range, overlaps neighbors by 2 strides.
+True geometric self-similarity.
+
+```
+L0↑ (fine):    [0,4)  → s1, s2, s4, s8           fine→local
+L1↑ (local):   [2,6)  → s4, s8, s16, s32         local→phrase
+L2↑ (phrase):  [4,8)  → s16, s32, s64, s128      phrase→paragraph
+L3  (apex):    [7,11) → s128, s256, s512, s1024   paragraph→document
+L2↓ (phrase):  [4,8)  → s128, s64, s32, s16      paragraph→phrase (reversed)
+L1↓ (local):   [2,6)  → s32, s16, s8, s4         phrase→local (reversed)
+L0↓ (fine):    [0,4)  → s8, s4, s2, s1           local→fine (reversed)
+```
+
+### Short-Prompt Depth
+
+| Sequence length | Active strides | Effective depth (×7 passes) |
+|-----------------|----------------|----------------------------|
+| 1 token         | s1             | 7 layers                   |
+| 2 tokens        | s1, s2         | 14 layers                  |
+| 4 tokens        | s1, s2, s4     | 21 layers                  |
+| 8 tokens        | s1..s8         | 28 layers                  |
+| 16 tokens       | s1..s16        | 35 layers                  |
+| 64+ tokens      | s1..s64+       | ~40-44 layers (all active) |
+
+V12 gave a 1-token prompt 7 effective layers. V13 gives it 7 too
+(unavoidable — s1 is the floor), but a 4-token prompt jumps from
+7 to 21. The model has real depth for lambda expressions (~5-50 tokens).
 
 ## Dispatch Bias (aligned to binding cascade)
 
