@@ -133,7 +133,17 @@ crystal → FFN routing comes free. FFN map built: department sizes
 partially agree cross-model (K, I, WHNF largest) but specific
 neuron assignments are model-specific. Universal at relational level,
 model-specific at neuron level. Crystal = etchable addressing scheme,
-FFN content = trained via GD. Details in `ffn-hierarchy.md`.
+FFN content = trained via GD.
+
+### 8. V13 design updated — WHNF sub-VSM, two crystals, three-phase training
+
+V13 design now reflects session 120: PCA-Q attention crystal + PCA-FFN
+retrieval crystal, WHNF as recursive sub-VSM entry point, simplified
+etch protocol (reference beam + delta), combinator dispatch as FFN
+addressing. Pareto dept values (reasoning 299d, tool 254d) etchable
+into ternary value plates (~1.4M positions, 1% of ternary budget).
+High-rank depts (instruction, coding) stay continuous.
+Details in `v13-design.md`.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)

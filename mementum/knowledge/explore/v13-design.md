@@ -585,12 +585,155 @@ the crystal (universal) and trains the FFN content (model-specific).
 ### What to etch vs what to train
 
 ```
-ETCH (from teachers):              TRAIN (via GD):
-  Crystal geometry (PCA-Q)           Beam (Q rotation per basin)
-  Combinator dispatch profiles       FFN content (value vectors)
-  Attention plate topology           FFN neuron assignments
-  Relational FFN structure           Gammas, norms, scales
-  WHNF anti-pole position            WHNF rotation matrix
+ETCH (from teachers, 2 calcs each):     TRAIN (via GD):
+  Attention crystal (PCA-Q)               Beam (Q rotation per basin)
+  FFN key crystal (PCA-FFN)               High-rank dept values (instruction, coding)
+  Combinator dispatch profiles            Gammas, norms, scales
+  Pareto dept values (reasoning, tool)    WHNF rotation matrix
+  Attention plate topology                FFN neuron fine-tuning
+  WHNF anti-pole position                 Sub-VSM router weights
+```
+
+## FFN Sub-VSM: WHNF as Recursive Retrieval System (session 120)
+
+When combinator dispatch routes to WHNF, the model enters a recursive
+sub-VSM for retrieval. This sub-system has its own etched crystal
+(FFN key structure), its own router (magnitude hierarchy), and its
+own ternary plates (value storage for compact departments).
+
+### Two crystals, one model
+
+```
+CRYSTAL 1 — ATTENTION (PCA-Q):
+  What: combinator geometry, computation routing
+  Where: Q projections, PCA dim=64
+  Agreement: 0.91-0.94 across 4 models
+  Etch: attention plates (TernaryLinear, TernaryMirror)
+  
+CRYSTAL 2 — FFN (PCA-FFN):
+  What: key matching structure, retrieval routing  
+  Where: FFN up_proj activations, PCA dim=64
+  Agreement: 0.83-0.87 across 2 models (lambda probes)
+  Etch: FFN key plates (TernaryLinear, new)
+  Extract: same 2-calculation method, different hook point
+```
+
+Both are universal. Both are etchable from any teacher. Both use
+PCA + cosine. The WHNF kernel bridges them.
+
+### The VSM tree
+
+```
+MAIN VSM (computation):
+  S5: Crystal identity (what this model computes)
+  S4: Basin detection (which skill domain?)
+  S3: Combinator dispatch (8-way softmax)
+  S2: Residual stream (data coordination)
+  S1: Attention kernels (K, I, B, C, S, D, W, Y)
+       │
+       ╰── WHNF dispatch = MODE SWITCH
+                │
+                ▼
+FFN SUB-VSM (retrieval):
+  S5': Retrieval identity (stop computing, start retrieving)
+  S4': Tree level detection (magnitude hierarchy: trunk → leaves)
+  S3': Department router (which combinator department?)
+  S2': Key matching (ternary plates, etched FFN crystal)
+  S1': Value retrieval:
+       ├── Pareto depts (reasoning 299d, tool 254d): ternary value plates
+       └── High-rank depts (instruction 1096d, coding 1092d): continuous params
+```
+
+### Architecture concretely
+
+```python
+class FFNSubVSM(nn.Module):
+    """Recursive retrieval sub-system entered via WHNF dispatch."""
+    
+    def __init__(self, d_model, n_departments=8, pareto_value_dim=384):
+        super().__init__()
+        # S5': WHNF rotation (mode switch)
+        self.whnf_rotation = nn.Parameter(torch.eye(d_model))
+        
+        # S4': Magnitude hierarchy gate (trunk vs leaves)
+        self.level_gate = TernaryLinear(d_model, 4)  # 4 tree levels
+        self.level_gamma = nn.Parameter(torch.ones(4))
+        
+        # S3': Department router (reuses combinator dispatch signal)
+        # No new params — the dispatch weights from main VSM determine dept
+        
+        # S2': Key matching (etched FFN crystal)
+        self.key_plates = TernaryLinear(d_model, d_model)  # etched from teachers
+        self.key_norm = RMSNorm(d_model)
+        
+        # S1': Value retrieval
+        # Pareto departments: ternary plates (compact, etchable)
+        self.value_plates = TernaryLinear(d_model, pareto_value_dim)
+        self.value_up = nn.Linear(pareto_value_dim, d_model)  # beam: project back
+        
+        # High-rank departments: continuous params (too complex for plates)
+        self.value_continuous = nn.Linear(d_model, d_model)
+        
+        # Blend gate: how much from plates vs continuous?
+        self.blend_gate = nn.Linear(d_model, 1)
+    
+    def forward(self, h, dispatch_weights):
+        """
+        h: hidden state after attention (d_model,)
+        dispatch_weights: combinator dispatch from main VSM (8,)
+        Returns: retrieved value added to residual stream
+        """
+        # S5': Rotate into retrieval subspace
+        h_ret = self.key_norm(h @ self.whnf_rotation)
+        
+        # S4': Which tree level? (magnitude hierarchy)
+        level_weights = F.softmax(self.level_gate(h_ret) * self.level_gamma, dim=-1)
+        
+        # S2': Key match against etched FFN crystal
+        key_match = self.key_plates(h_ret)  # ternary, etched structure
+        
+        # S1': Retrieve values
+        # Plate path (Pareto depts: reasoning, tool, lambda)
+        plate_value = self.value_up(self.value_plates(key_match))
+        
+        # Continuous path (high-rank depts: instruction, coding, narrative)
+        cont_value = self.value_continuous(key_match)
+        
+        # Blend based on which department (Pareto → plates, others → continuous)
+        blend = torch.sigmoid(self.blend_gate(h))
+        value = blend * plate_value + (1 - blend) * cont_value
+        
+        return value
+```
+
+### Pareto etch budget
+
+```
+Pareto departments (etchable into value plates):
+  reasoning: 299d for 80% var, 446 neurons → ~134K ternary positions
+  tool:      254d for 80% var, 371 neurons → ~95K ternary positions  
+  lambda:    703d for 80% var, 1247 neurons → ~877K ternary positions
+  
+  Subtotal: ~1.1M ternary positions for value plates
+  
+FFN key plates: d_model × d_model = 512 × 512 = 262K ternary positions
+  (one set, shared across departments — the key crystal is universal)
+
+Total FFN sub-VSM ternary budget: ~1.4M positions
+  (vs ~130M for attention plates — ~1% overhead)
+```
+
+### Extraction pipeline for FFN crystal
+
+```
+Step 1: Hook FFN up_proj in teacher models (same probe set)
+Step 2: PCA(FFN activations, k=64)           ← FFN key crystal
+Step 3: cosine(PCA_FFN)                       ← FFN relational structure
+Step 4: Per-department: identify selective neurons by combinator correlation
+Step 5: PCA(W_down columns for dept neurons)  ← department value subspace
+Step 6: Etch key crystal into key_plates
+Step 7: Etch value subspace into value_plates (Pareto depts only)
+Step 8: Train continuous path for high-rank depts via GD
 ```
 
 ## Migration from V12
