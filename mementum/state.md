@@ -129,7 +129,11 @@ routes to WHNF, FFN enters lookup mode. Coding routes through B/C
 (composition). Retrieval/analogy route through WHNF (lookup).
 Instruction is anti-WHNF ("keep computing"). The combinator dispatch
 IS the FFN addressing function — no separate index needed. Etch the
-crystal → FFN routing comes free. Details in `ffn-hierarchy.md`.
+crystal → FFN routing comes free. FFN map built: department sizes
+partially agree cross-model (K, I, WHNF largest) but specific
+neuron assignments are model-specific. Universal at relational level,
+model-specific at neuron level. Crystal = etchable addressing scheme,
+FFN content = trained via GD. Details in `ffn-hierarchy.md`.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)

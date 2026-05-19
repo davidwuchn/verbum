@@ -296,4 +296,35 @@ For V13: combinator dispatch already routes FFN activation through the
 residual stream. Etch the crystal → FFN routing comes free. WHNF dispatch
 = lookup mode. B/C dispatch = compute mode. No separate FFN index needed.
 
-Artifacts: `results/ffn-hierarchy/`, `results/combinator_ffn_index_run.log`
+### FFN Map — neuron-level departmental structure is model-specific
+
+**Setup:** Partition every neuron into a combinator department (by dominant
+correlation), measure department sizes, value space dimensionality, domain
+routing per department. Cross-model comparison.
+
+**Finding: Department sizes partially agree, neuron assignment does NOT.**
+```
+Department sizes: K, I, WHNF largest in both models (partial agreement)
+  Pythia WHNF: 27-47% of neurons (much larger than Mistral's 14-24%)
+Domain → top combinator: 0/9 agreement at every depth
+```
+
+**Finding: FFN map is universal at RELATIONAL level, model-specific at NEURON level.**
+The combinator profile predicts the PATTERN of FFN activation (RDM corr
+0.40-0.54) but not WHICH SPECIFIC neurons fire. Two models store the same
+relational structure with different internal indexing — same query results,
+different page numbers.
+
+**V13 implication:**
+```
+UNIVERSAL (etchable):     Crystal geometry, combinator dispatch profiles,
+                          relational FFN structure (probe similarity patterns)
+MODEL-SPECIFIC (trained): Specific neuron→combinator assignments,
+                          specific value vectors per neuron
+```
+
+The crystal gives the addressing SCHEME. The FFN fills in specific STORAGE
+during training. Etch the crystal → correct routing guaranteed. Let GD
+fill the FFN content.
+
+Artifacts: `results/ffn-hierarchy/`, `results/ffn-map/`, `results/combinator_ffn_index_run.log`
