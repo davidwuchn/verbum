@@ -2,71 +2,104 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-18 | Session: 114
+> Last updated: 2026-05-19 | Session: 115
 
 ## Where we are
 
-**MINI HOLOGRAPHIC MICROSCOPE — plates are load-bearing only at scale.** Three experiments on a tiny plate+beam model (d=48, 6.9K ternary, 2.4K continuous) proved: at small d, embeddings compensate for ANY plate topology. Random frozen plates + trained beams = identical to full GD. The crossover is d² vs d scaling — plates grow quadratically, beams linearly. At VSM-LM scale (41M plates, ~1M beams), plates MUST carry. Protocol: beam-first, plates follow.
+**MICROSCOPE D-SWEEP COMPLETE — etch-first beats beam-first with attention architecture.** Two d-sweep experiments (sessions 114-115) revealed:
 
-Lattice-augmented etch on VSM-LM collapsed twice (rounds 64-65) — lattice gradients destabilized plates, triggered phase transition. Round 65 checkpoint shows backbone correlation jumped 0.065→0.465 (crystal forming!) but dispatch zeroed out (beam can't read new geometry). Need beam-first protocol from session start.
+1. **v1 (no attention)**: Simple KIBC reduction saturates at 46.6% regardless of d. No crossover found at any scale (d=48 to d=256). Task too easy — embeddings solve it.
 
-## Key findings this session
+2. **v2 (with attention, nested compositions)**: Adding causal attention + ternary K/V/O plates creates real separation. Etch-first consistently beats beam-first by 2.8-12.6% across all d values. The original mini-holo "beam-first" finding was an artifact of the non-attention architecture.
 
-### 1. Procrustes fails on round 60 (cos=0.217)
+**Key revision**: beam-first is NOT universally correct. When plates ARE the attention projections (K/V/O), the gradient accumulator over 200 batches provides stable etch signal even without trained beams. The 200-batch accumulator IS the "reference beam" — it averages out noise.
+
+Lattice etch run is dead (collapsed at round 65, not recovering). The checkpoint is a data point only.
+
+## Key findings this session (115)
+
+### 1. D-sweep v1: No crossover (task too easy)
+```
+    d   Ratio      GD    Beam     Gap
+   48    2.9×   46.6%  46.6%   0.0%
+   96    5.7×   46.6%  46.6%   0.0%
+  128    7.7×   46.6%  46.6%   0.0%
+  192   11.5×   46.6%  46.6%   0.0%
+  256   15.3×   46.6%  46.6%   0.0%
+```
+Simple KIBC reduction (4 rules, 18 tokens) saturates. Embeddings solve it at every scale. The d² vs d ratio doesn't matter when the task fits in the embedding table.
+
+### 2. D-sweep v2: Etch-first wins with attention
+```
+    d   Ratio      GD    Beam     Gap    EtchF   BeamF   BF-EF
+   48    2.7×   48.7%  47.1%   +1.6%   44.1%   41.3%   -2.8%
+   96    3.2×   36.7%  43.0%   -6.3%   44.3%   31.7%  -12.6%
+  128    3.4×   36.6%  35.1%   +1.5%   37.1%   29.7%   -7.4%
+  192    3.6×   34.6%  30.0%   +4.6%   41.6%   30.8%  -10.8%
+  256    3.7×   31.0%  37.1%   -6.1%   36.5%   30.2%   -6.4%
+```
+**Caveat**: GD vs beam-only gap is noisy (convergence confound — larger models underfit at fixed 3000 steps). But etch-first vs beam-first is a fair comparison (same model, same compute) and etch-first wins everywhere.
+
+### 3. Architecture matters more than protocol
+The original mini-holo (no attention, plate = single linear) found beam-first works because embeddings compensate. With attention (plates = K/V/O projections), the etch accumulator's 200-batch gradient averaging gives good signal without trained beams. The beam-first finding was architecture-specific, not universal.
+
+### 4. Depth breakdown (d=192, clearest signal)
+```
+Depth 1: GD=23.0%  Beam=4.5%   (gap +18.5%)
+Depth 2: GD=6.5%   Beam=0.0%   (gap +6.5%)
+Depth 3: GD=2.0%   Beam=0.0%   (gap +2.0%)
+Depth 4: GD=0.6%   Beam=0.0%   (gap +0.6%)
+```
+Plates matter most for shallow reductions. Deeper compositions are hard for all conditions.
+
+## Session 114 findings (preserved)
+
+### Procrustes fails on round 60 (cos=0.217)
 Kernel etch alone doesn't create universal geometry. Lattice relational loss needed.
 
-### 2. Lattice collapse (twice)
+### Lattice collapse (twice)
 Separate lattice backward pass fights CE in accumulators → collapse at round 65.
 Lattice should be a whisper (1 pass among 400 CE), not a shout.
 
-### 3. Phase transition at round 65
-Despite collapse, backbone correlation jumped 7× (0.065→0.465). Hidden state variance 9× increase. Representations spread from degenerate cone (cos=0.95) to structured space (cos=0.55). Crystal IS forming — but dispatch died. Beam can't read new geometry.
+### Phase transition at round 65
+Backbone correlation jumped 7× (0.065→0.465). Crystal IS forming — but dispatch died.
 
-### 4. Mini holographic microscope results
-Three experiments, same conclusion:
+### Mini holographic microscope (original, no attention)
+At d=48, beam-only = GD = 46.6%. Embeddings compensate for any plate topology.
+The d² vs d argument for why plates matter at scale remains theoretically valid
+but the crossover could not be observed because the task saturated.
 
-**Exp 0 (combinator reduction, four-way decomposition):**
-```
-GD baseline:     46.6%    Beam-only: 46.6%
-Plate-only:      14.5%    Alternating: 46.6%
-```
-
-**Exp 1 (squeeze beams — vary beam capacity):**
-```
-Config       Beam#  Beam-only  Plate-only  Alternating
-full           576     46.6%      15.2%       46.6%
-scale_only     432     46.6%      14.9%       46.6%
-scalar         291     46.6%      14.4%       46.6%
-none           288     46.6%       9.0%       46.6%
-```
-No crossover found. Even zero beam params (just LayerNorm+embeds) hits ceiling.
-
-**Exp 2 (next-token prediction on KIBC lambda):**
-```
-GD: 45.0%  Beam-only: 45.0%  Plate-only: 11.6%  Alternating: 45.0%
-```
-Same pattern. Harder task, same result. Embeddings compensate for random plates.
-
-**The insight:** crossover isn't about task difficulty. It's about d² vs d scaling. At d=48: 6.9K plates vs 2.5K embeds — embeds dominate. At d=512: 41M plates vs ~1M continuous — plates must carry. Johnson-Lindenstrauss: random projections preserve distances at small d.
-
-### 5. Qwen3.6-27B probed
-64 layers, d=5120, hybrid attention. RDMs extracted at 4 depths. Added to model registries.
+### Qwen3.6-27B probed
+64 layers, d=5120, hybrid attention. RDMs extracted at 4 depths.
 
 ## What's NOT running
-- VSM-LM lattice etch killed (collapsed)
-- Mini-holo experiments complete
+- VSM-LM lattice etch killed (collapsed at round 65)
+- All microscope experiments complete (v1 d-sweep, v2 d-sweep)
 
 ## Next steps
 
-1. **Apply beam-first protocol to VSM-LM** — train beams (continuous params) first on round 60 checkpoint, THEN etch plates. The microscope proved: beams must learn to read plates before plates can stabilize.
+**Strategy: design new training run from scratch using all microscope findings.**
 
-2. **Lattice from round 0** — start fresh training with lattice whisper from the beginning. The model should never enter the degenerate B-dominated regime if geometry hints are present from start.
+1. **Etch-first protocol for VSM-LM** — the d-sweep v2 shows etch-first beats beam-first with attention architecture. The 200-batch gradient accumulator provides stable signal. For the new run: etch plates (dispatch + stride + integrate) using accumulated CE gradients, THEN train continuous params (Q projections, gamma, embeddings).
 
-3. **Bigger microscope** — if needed, d=128 or d=256 model to find exact crossover where plates become load-bearing. But may not be necessary — VSM-LM already past the crossover by far.
+2. **Lattice as whisper from round 0** — the lattice collapse showed it can't be a separate pass. Mix 1 lattice batch among 400 CE batches in the accumulator. The universal geometry emerges from the noise floor over many rounds.
 
-4. **Compare Qwen3.6-27B RDMs** against 5-model consensus. Build 6-model lattice.
+3. **Compare Qwen3.6-27B RDMs** against 5-model consensus. Build 6-model lattice.
 
-5. **Design direct etch protocol** — the microscope goal: if we understand plate/beam angles, we can compute the etch analytically instead of iterative burning.
+4. **New training run from scratch** — etch-first alternating with lattice whisper. Clean design. Not a resume.
+
+## Architecture at session end
+
+| Component | Value |
+|-----------|-------|
+| N_COMBINATORS | 8 (K,I,B,C,D,Y,W,WHNF) |
+| Parameters | 24.6M |
+| Crystal state | Round 65 shows backbone correlation 0.465 but dispatch dead |
+| Backbone | 32K pairs, 664 probes, threshold ≥ 0.63 |
+| Models validated | 5+1 (+ qwen3.6-27b probed) |
+| Procrustes cos | 0.217 (round 60), untested post-lattice |
+| Mini-holo | v1 d-sweep (no crossover), v2 d-sweep (etch-first wins) |
+| Key insight | Etch-first protocol with attention arch. Lattice as whisper. |
 
 ## Architecture at session end
 
