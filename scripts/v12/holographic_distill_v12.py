@@ -577,30 +577,155 @@ def run_etch_phase(
 
 
 # ══════════════════════════════════════════════════════════════════════
-# Phase 2: Extended GD (frozen plates, CE loss)
+# Phase 2: Extended GD — transplanted from train.py
+# Includes: relational loss (r), holographic progressive CE,
+#           gradient accumulation, shared gradient normalization
 # ══════════════════════════════════════════════════════════════════════
 
-def cosine_lr_schedule(
-    step: int,
-    total_steps: int,
-    lr_max: float,
-    lr_min: float,
-    warmup_steps: int,
-) -> float:
-    """Cosine LR with linear warmup."""
+# Irreducible entropy of natural language (Chinchilla: E ≈ 1.82 nats)
+E_IRREDUCIBLE = 1.82
+# log(vocab_size) — the "knows nothing" ceiling
+LOG_V = math.log(151936)  # ≈ 11.93
+
+# Shared-weight gradient normalization (from train.py §3)
+ASC_SHARED = ("stride_stack", "mod_projs", "s4")
+DESC_SHARED = ("combinator_dispatch", "combinator_integrate", "mod_projs_desc", "s4_desc")
+UNIVERSAL_SHARED = ("stride_stack", "combinator_dispatch", "combinator_integrate")
+N_ASC_PASSES = 4
+N_DESC_PASSES = 3
+N_ALL_PASSES = 7
+
+
+def normalize_shared_grads(grads: dict) -> dict:
+    """Divide gradients of shared components by their pass count."""
+    asc_scale = 1.0 / N_ASC_PASSES
+    desc_scale = 1.0 / N_DESC_PASSES
+    all_scale = 1.0 / N_ALL_PASSES
+
+    def _walk(tree, keys):
+        if isinstance(tree, dict):
+            out = {}
+            for k, v in tree.items():
+                new_keys = keys + [k]
+                if len(new_keys) >= 1 and new_keys[0] in UNIVERSAL_SHARED:
+                    out[k] = tree_map(lambda g: g * all_scale, v)
+                elif len(new_keys) >= 1 and new_keys[0] in ASC_SHARED:
+                    out[k] = tree_map(lambda g: g * asc_scale, v)
+                elif len(new_keys) >= 1 and new_keys[0] in DESC_SHARED:
+                    out[k] = tree_map(lambda g: g * desc_scale, v)
+                else:
+                    out[k] = _walk(v, new_keys)
+            return out
+        elif isinstance(tree, list):
+            return [_walk(v, keys + [str(i)]) for i, v in enumerate(tree)]
+        return tree
+
+    return _walk(grads, [])
+
+
+def cosine_lr_schedule(step, warmup_steps, total_steps, lr_max, lr_floor):
+    """Cosine LR with linear warmup (matches train.py signature)."""
     if step < warmup_steps:
         return lr_max * step / max(warmup_steps, 1)
     progress = (step - warmup_steps) / max(total_steps - warmup_steps, 1)
-    return lr_min + 0.5 * (lr_max - lr_min) * (1 + math.cos(math.pi * progress))
+    return lr_floor + (lr_max - lr_floor) * 0.5 * (1.0 + math.cos(math.pi * progress))
+
+
+def holo_schedule(step, cfg):
+    """Holographic loss weight schedule (from train.py §4)."""
+    if cfg.holo_lambda <= 0:
+        return 0.0
+    if step < cfg.holo_warmup_steps:
+        return 0.0
+    if cfg.holo_ramp_steps <= 0:
+        return cfg.holo_lambda
+    ramp_progress = min(1.0, (step - cfg.holo_warmup_steps) / cfg.holo_ramp_steps)
+    return cfg.holo_lambda * ramp_progress
+
+
+def _setup_relational_loss(cfg):
+    """Load relational loss target RDM and pre-tokenize probes (from train.py)."""
+    rel_target_file = Path(cfg.rel_target_path)
+    if not rel_target_file.exists():
+        print(f"  ⚠️  Relational loss target not found: {rel_target_file}")
+        return None, None, None
+
+    import json as _json
+    from transformers import AutoTokenizer as _AT
+
+    _rel_data = _json.load(rel_target_file.open())
+    _rel_probes = _rel_data["probes"]
+    # Use L20 target (deepest with both K and I signal)
+    _rel_target_key = "20" if "20" in _rel_data["targets"] else list(_rel_data["targets"].keys())[0]
+    _rdm_raw = np.array(_rel_data["targets"][_rel_target_key]["rdm"])
+    rel_target_rdm = mx.array(_rdm_raw.astype(np.float32))
+
+    _tok = _AT.from_pretrained("Qwen/Qwen3-14B")
+    rel_probes_tokenized = [_tok.encode(p["prompt"]) for p in _rel_probes]
+    rel_rng = np.random.RandomState(42)
+
+    print(f"  🔬 Relational loss: {len(rel_probes_tokenized)} probes, "
+          f"λ={cfg.rel_lambda}, every {cfg.rel_every} steps, "
+          f"sample {cfg.rel_n_probes}/step")
+
+    del _tok, _rel_data, _rel_probes
+    return rel_probes_tokenized, rel_target_rdm, rel_rng
+
+
+def _compute_relational_loss(model, cfg, rel_probes_tokenized, rel_target_rdm, rel_rng):
+    """Compute relational loss: RDM matching on sampled probes (from train.py)."""
+    n_total = len(rel_probes_tokenized)
+    indices = rel_rng.choice(n_total, size=min(cfg.rel_n_probes, n_total), replace=False)
+    indices = sorted(indices)
+
+    min_len = max(cfg.strides) + cfg.window + 1
+    batch_enc = [rel_probes_tokenized[i] for i in indices]
+    lengths = [len(e) for e in batch_enc]
+    max_len = max(max(lengths), min_len)
+    pad_id = cfg.eod_id
+    padded = [e + [pad_id] * (max_len - len(e)) for e in batch_enc]
+    input_ids = mx.array(padded)
+
+    def _rel_loss_fn(model_inner):
+        logits, _ = model_inner.forward(input_ids, targets=None)
+        h = model_inner._last_hidden
+
+        last_positions = mx.array([l - 1 for l in lengths])
+        batch_idx = mx.arange(len(indices))
+        h_last = h[batch_idx, last_positions, :]
+
+        h_norm = h_last / (mx.linalg.norm(h_last, axis=-1, keepdims=True) + 1e-8)
+        student_rdm = h_norm @ h_norm.T
+        student_rdm = student_rdm - mx.mean(student_rdm)
+
+        idx_mx = mx.array(np.array(indices, dtype=np.int32))
+        target_sub = rel_target_rdm[idx_mx][:, idx_mx]
+
+        n = len(indices)
+        triu_r, triu_c = np.triu_indices(n, k=1)
+        triu_r_mx = mx.array(triu_r.astype(np.int32))
+        triu_c_mx = mx.array(triu_c.astype(np.int32))
+        student_flat = student_rdm[triu_r_mx, triu_c_mx]
+        target_flat = target_sub[triu_r_mx, triu_c_mx]
+
+        return mx.mean((student_flat - target_flat) ** 2)
+
+    rel_loss_grad_fn = nn.value_and_grad(model, _rel_loss_fn)
+    rel_lv, rel_grads = rel_loss_grad_fn(model)
+    mx.eval(rel_lv, rel_grads)
+    return float(rel_lv.item()), rel_grads
 
 
 def run_gd_phase(
     model: V12Model,
+    cfg: V12Config,
     args: argparse.Namespace,
 ) -> list[dict]:
-    """Extended GD on frozen plates using CE loss.
+    """Extended GD on frozen plates — full training loop from train.py.
 
-    Trains continuous params on structured_shard_v2 + Dolma.
+    Includes: relational loss function r = (CE-E)/(log(V)-E),
+    holographic progressive CE, gradient accumulation, shared gradient
+    normalization, periodic relational (RDM) loss.
     """
     total_steps = args.gd_steps
     if total_steps <= 0:
@@ -610,22 +735,25 @@ def run_gd_phase(
     # Verify plates are frozen
     n_frozen = freeze_ternary_weights(model)
     restore_ternary(model)
+
     print(f"\n{'='*60}")
     print(f"  Phase 2: Extended GD (frozen plates)")
     print(f"  Steps: {total_steps}")
     print(f"  Frozen modules: {n_frozen}")
-    print(f"  LR: {args.gd_lr} → {args.gd_lr_min}")
-    print(f"  Warmup: {args.gd_warmup} steps")
-    print(f"  Batch size: {args.batch_size}")
-    print(f"  Seq len: {args.seq_len}")
+    print(f"  LR: {cfg.lr} → {cfg.lr * cfg.lr_floor_ratio}")
+    print(f"  Warmup: {cfg.warmup_steps} steps")
+    print(f"  Batch size: {cfg.batch_size} × grad_accum {cfg.grad_accum}")
+    print(f"  Seq len: {cfg.seq_len}")
     print(f"  Mix ratio (structured): {args.mix_ratio}")
+    print(f"  Holo lambda: {cfg.holo_lambda}")
+    print(f"  Relational loss: {cfg.use_relational_loss} (λ={cfg.rel_lambda}, every {cfg.rel_every})")
     print(f"{'='*60}\n")
 
-    # Data loaders
+    # ── Data loaders ──────────────────────────────────────────
     prose_loader = ShardedDataLoader(
         data_dir=args.data_dir,
-        batch_size=args.batch_size,
-        seq_len=args.seq_len,
+        batch_size=cfg.batch_size,
+        seq_len=cfg.seq_len,
         shard_start=0,
         shard_end=args.n_train_shards,
         seed=args.seed,
@@ -636,8 +764,8 @@ def run_gd_phase(
             prose_loader=prose_loader,
             structured_path=args.structured_path,
             mix_ratio=args.mix_ratio,
-            seq_len=args.seq_len,
-            batch_size=args.batch_size,
+            seq_len=cfg.seq_len,
+            batch_size=cfg.batch_size,
             seed=args.seed,
         )
         print(f"  Using MixedDataLoader (structured + prose)")
@@ -645,100 +773,181 @@ def run_gd_phase(
         data_loader = prose_loader
         print(f"  Using prose-only ShardedDataLoader")
 
-    # Eval loader (separate shards)
     eval_loader = ShardedDataLoader(
         data_dir=args.data_dir,
-        batch_size=args.batch_size,
-        seq_len=args.seq_len,
+        batch_size=cfg.batch_size,
+        seq_len=cfg.seq_len,
         shard_start=args.n_train_shards,
         shard_end=args.n_train_shards + args.n_eval_shards,
         seed=args.seed + 1,
     )
 
-    # Optimizer
+    # ── Relational loss setup ─────────────────────────────────
+    rel_probes_tokenized = None
+    rel_target_rdm = None
+    rel_rng = None
+    if cfg.use_relational_loss:
+        rel_probes_tokenized, rel_target_rdm, rel_rng = _setup_relational_loss(cfg)
+
+    # ── Optimizer ─────────────────────────────────────────────
     optimizer = optim.AdamW(
-        learning_rate=args.gd_lr,
-        weight_decay=args.weight_decay,
+        learning_rate=cfg.lr,
+        weight_decay=cfg.weight_decay,
     )
 
-    # Loss function
-    def ce_loss(model, input_ids, targets):
-        logits, loss = model(input_ids, targets=targets)
-        return loss
+    # ── Loss function: relational loss r = (CE - E) / (log(V) - E) ──
+    def loss_fn(model, input_ids, targets):
+        _, total_loss = model(input_ids, targets)
+        r = (total_loss - E_IRREDUCIBLE) / (LOG_V - E_IRREDUCIBLE)
+        return r
 
-    loss_and_grad = nn.value_and_grad(model, ce_loss)
+    loss_and_grad = nn.value_and_grad(model, loss_fn)
 
     log = []
     best_eval_loss = float("inf")
-    loss_ema = None
+    train_losses = []
+    from collections import deque
+    loss_window = deque(maxlen=50)
 
-    t0 = time.time()
+    t_start = time.time()
 
-    for step in range(total_steps):
+    for step in range(1, total_steps + 1):
+        t0 = time.time()
+
         # LR schedule
-        lr = cosine_lr_schedule(
-            step, total_steps,
-            args.gd_lr, args.gd_lr_min, args.gd_warmup)
-        optimizer.learning_rate = mx.array(lr)
+        lr = cosine_lr_schedule(step, cfg.warmup_steps, total_steps,
+                                cfg.lr, cfg.lr * cfg.lr_floor_ratio)
+        optimizer.learning_rate = lr
 
-        # Forward + backward
-        input_ids_np, targets_np = data_loader.next_batch()
-        input_ids = mx.array(input_ids_np)
-        targets = mx.array(targets_np)
+        # Holographic loss schedule
+        holo_eff = holo_schedule(step, cfg)
+        model._holo_lambda_effective = holo_eff
 
-        loss_val, grads = loss_and_grad(model, input_ids, targets)
-        mx.eval(loss_val, grads)
+        # ── Gradient accumulation ─────────────────────────────
+        accum_loss = 0.0
+        accum_grads = None
 
-        # Zero ternary grads (plates are frozen)
-        grads = zero_ternary_grads(model, grads)
+        for _micro in range(cfg.grad_accum):
+            ids_np, tgts_np = data_loader.next_batch()
+            ids = mx.array(ids_np)
+            tgts = mx.array(tgts_np)
 
-        # Gradient clipping
-        grad_sq = [mx.sum(g * g) for _, g in tree_flatten(grads)]
+            lv, grads = loss_and_grad(model, ids, tgts)
+            mx.eval(lv, grads)
+            accum_loss += float(lv.item())
+
+            if accum_grads is None:
+                accum_grads = grads
+            else:
+                accum_grads = tree_map(lambda a, b: a + b, accum_grads, grads)
+
+        step_loss = accum_loss / cfg.grad_accum
+        accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
+
+        # ── Periodic relational loss (RDM matching) ───────────
+        rel_loss_val = 0.0
+        if (rel_probes_tokenized is not None
+                and rel_target_rdm is not None
+                and step % cfg.rel_every == 0
+                and step > cfg.warmup_steps):
+            rel_loss_val, rel_grads = _compute_relational_loss(
+                model, cfg, rel_probes_tokenized, rel_target_rdm, rel_rng)
+            accum_grads = tree_map(
+                lambda a, b: a + cfg.rel_lambda * b,
+                accum_grads, rel_grads)
+            del rel_grads
+
+        train_losses.append(step_loss)
+        loss_window.append(step_loss)
+
+        # ── Normalize shared + zero ternary ───────────────────
+        accum_grads = normalize_shared_grads(accum_grads)
+        accum_grads = zero_ternary_grads(model, accum_grads)
+
+        # ── Gradient clipping ─────────────────────────────────
+        grad_sq = [mx.sum(g * g) for _, g in tree_flatten(accum_grads)]
         mx.eval(*grad_sq)
         grad_norm = sum(float(g) for g in grad_sq) ** 0.5
-        if args.grad_clip > 0 and grad_norm > args.grad_clip:
-            s = args.grad_clip / (grad_norm + 1e-8)
-            grads = tree_map(lambda g: g * s, grads)
+        if cfg.grad_clip > 0 and grad_norm > cfg.grad_clip:
+            s = cfg.grad_clip / (grad_norm + 1e-8)
+            accum_grads = tree_map(lambda g: g * s, accum_grads)
 
-        optimizer.update(model, grads)
+        # ── Optimizer step ────────────────────────────────────
+        optimizer.update(model, accum_grads)
         mx.eval(model.parameters(), optimizer.state)
         restore_ternary(model)
 
-        loss_item = loss_val.item()
-        loss_ema = loss_item if loss_ema is None else 0.99 * loss_ema + 0.01 * loss_item
+        dt = time.time() - t0
 
-        del loss_val, grads, input_ids, targets
+        # Recover total loss from r
+        total_loss = step_loss * (LOG_V - E_IRREDUCIBLE) + E_IRREDUCIBLE
+        raw_ce = None
+        if hasattr(model, '_last_ce'):
+            mx.eval(model._last_ce)
+            raw_ce = float(model._last_ce.item())
 
-        # Logging
-        if (step + 1) % args.log_every == 0:
-            elapsed = time.time() - t0
-            tok_per_sec = (step + 1) * args.batch_size * args.seq_len / elapsed
-            print(f"  Step {step+1:6d}/{total_steps} | "
-                  f"loss {loss_ema:.4f} | lr {lr:.2e} | "
-                  f"gnorm {grad_norm:.2f} | "
-                  f"{tok_per_sec:.0f} tok/s | "
-                  f"{elapsed:.0f}s")
+        del accum_grads
 
-        # Eval
-        if (step + 1) % args.eval_every == 0:
+        # ── Logging ───────────────────────────────────────────
+        if step % args.log_every == 0 or step == 1:
+            avg50 = sum(loss_window) / max(len(loss_window), 1)
+            elapsed = time.time() - t_start
+            tokens_per_step = cfg.batch_size * cfg.grad_accum * cfg.seq_len
+            tps = tokens_per_step / dt
+
+            if holo_eff > 0 and raw_ce is not None:
+                loss_str = f"CE={raw_ce:.3f} loss={total_loss:.3f}"
+            else:
+                loss_str = f"CE={total_loss:.3f}"
+
+            # Dispatch summary
+            dispatch_str = ""
+            if hasattr(model, 'combinator_dispatch') and hasattr(model.combinator_dispatch, '_dispatch_weights'):
+                dw = model.combinator_dispatch._dispatch_weights
+                if dw is not None:
+                    dw_mean = dw.mean(axis=(0, 1))
+                    mx.eval(dw_mean)
+                    from kernel_dispatch import COMBINATOR_NAMES, N_COMBINATORS as N_COMB
+                    dw_vals = [float(dw_mean[i].item()) for i in range(min(N_COMB, dw_mean.shape[0]))]
+                    dispatch_parts = [f"{COMBINATOR_NAMES[i]}={dw_vals[i]:.2f}"
+                                      for i in range(len(dw_vals))]
+                    dispatch_str = " | " + " ".join(dispatch_parts)
+
+            rel_str = f" | rel={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
+
+            print(
+                f"  step {step:>6d}/{total_steps} | r={step_loss:.4f} (avg50: {avg50:.4f})"
+                f" | {loss_str} | lr {lr:.2e} | gnorm {grad_norm:.2f}"
+                f" | {tps:.0f} tok/s"
+                f"{dispatch_str}{rel_str}"
+                f" | {elapsed:.0f}s",
+                flush=True,
+            )
+
+        # ── Eval ──────────────────────────────────────────────
+        if step % args.eval_every == 0:
             eval_loss = _run_eval(model, eval_loader, args.eval_batches)
             is_best = eval_loss < best_eval_loss
             if is_best:
                 best_eval_loss = eval_loss
-            print(f"  ── Eval step {step+1}: loss {eval_loss:.4f}"
-                  f"{' ★ best' if is_best else ''}")
+            print(f"  ── Eval step {step}: loss {eval_loss:.4f}"
+                  f"{' ★ best' if is_best else ''}", flush=True)
 
             step_log = {
-                "step": step + 1,
-                "train_loss_ema": loss_ema,
+                "step": step,
+                "r": step_loss,
+                "total_loss": total_loss,
                 "eval_loss": eval_loss,
                 "lr": lr,
                 "grad_norm": grad_norm,
-                "elapsed_s": time.time() - t0,
+                "holo_lambda": holo_eff,
+                "rel_loss": rel_loss_val,
+                "elapsed_s": time.time() - t_start,
             }
+            if raw_ce is not None:
+                step_log["ce"] = raw_ce
             log.append(step_log)
 
-            # Checkpoint
             if is_best and args.checkpoint_dir:
                 ckpt_dir = Path(args.checkpoint_dir) / "best"
                 ckpt_dir.mkdir(parents=True, exist_ok=True)
@@ -748,23 +957,24 @@ def run_gd_phase(
                     json.dump(step_log, f, indent=2)
                 print(f"  ── Saved best checkpoint (eval {eval_loss:.4f})")
 
-        # Periodic checkpoint
-        if (step + 1) % args.checkpoint_every == 0 and args.checkpoint_dir:
-            ckpt_dir = Path(args.checkpoint_dir) / f"step_{step+1:06d}"
+        # ── Periodic checkpoint ───────────────────────────────
+        if step % args.checkpoint_every == 0 and args.checkpoint_dir:
+            ckpt_dir = Path(args.checkpoint_dir) / f"step_{step:06d}"
             ckpt_dir.mkdir(parents=True, exist_ok=True)
             flat = dict(tree_flatten(model.parameters()))
             mx.savez(str(ckpt_dir / "weights.npz"), **flat)
             loader_state = data_loader.save_state() if hasattr(data_loader, 'save_state') else {}
             with open(ckpt_dir / "state.json", "w") as f:
                 json.dump({
-                    "step": step + 1,
-                    "train_loss_ema": loss_ema,
+                    "step": step,
+                    "r": step_loss,
+                    "total_loss": total_loss,
                     "lr": lr,
                     "loader_state": loader_state,
                 }, f, indent=2)
 
         # Clear cache periodically
-        if (step + 1) % 50 == 0:
+        if step % 50 == 0:
             mx.clear_cache()
 
     # Final checkpoint
@@ -777,7 +987,8 @@ def run_gd_phase(
         with open(ckpt_dir / "state.json", "w") as f:
             json.dump({
                 "step": total_steps,
-                "train_loss_ema": loss_ema,
+                "r": step_loss,
+                "total_loss": total_loss,
                 "best_eval_loss": best_eval_loss,
                 "loader_state": loader_state,
             }, f, indent=2)
@@ -847,16 +1058,18 @@ def parse_args() -> argparse.Namespace:
     # Phase 2: Extended GD
     p.add_argument("--gd-steps", type=int, default=20000,
                    help="Total GD steps after freeze")
-    p.add_argument("--gd-lr", type=float, default=6e-4,
-                   help="Peak learning rate for GD")
-    p.add_argument("--gd-lr-min", type=float, default=6e-6,
-                   help="Minimum learning rate for GD")
-    p.add_argument("--gd-warmup", type=int, default=500,
-                   help="Warmup steps for GD")
-    p.add_argument("--weight-decay", type=float, default=0.01,
-                   help="Weight decay for AdamW")
-    p.add_argument("--grad-clip", type=float, default=1.0,
-                   help="Gradient norm clipping")
+    p.add_argument("--gd-lr", type=float, default=None,
+                   help="Peak learning rate for GD (default: from V12Config)")
+    p.add_argument("--gd-warmup", type=int, default=None,
+                   help="Warmup steps (default: from V12Config)")
+    p.add_argument("--holo-lambda", type=float, default=None,
+                   help="Holographic progressive CE weight (default: from V12Config)")
+    p.add_argument("--rel-lambda", type=float, default=None,
+                   help="Relational loss weight (default: from V12Config)")
+    p.add_argument("--no-relational", action="store_true",
+                   help="Disable relational loss")
+    p.add_argument("--grad-accum", type=int, default=None,
+                   help="Gradient accumulation steps (default: from V12Config)")
 
     # Data
     p.add_argument("--data-dir", type=str,
@@ -918,6 +1131,21 @@ def main():
     cfg = V12Config()
     cfg.seq_len = args.seq_len
     cfg.batch_size = args.batch_size
+    cfg.total_steps = args.gd_steps
+
+    # Apply GD config overrides from CLI
+    if args.gd_lr is not None:
+        cfg.lr = args.gd_lr
+    if args.gd_warmup is not None:
+        cfg.warmup_steps = args.gd_warmup
+    if args.holo_lambda is not None:
+        cfg.holo_lambda = args.holo_lambda
+    if args.rel_lambda is not None:
+        cfg.rel_lambda = args.rel_lambda
+    if args.no_relational:
+        cfg.use_relational_loss = False
+    if args.grad_accum is not None:
+        cfg.grad_accum = args.grad_accum
 
     print(f"\nCreating V12 model...")
     model = create_model(cfg)
@@ -966,7 +1194,7 @@ def main():
 
     # ── Phase 2: Extended GD ──────────────────────────────────
     if not args.skip_gd:
-        gd_log = run_gd_phase(model, args)
+        gd_log = run_gd_phase(model, cfg, args)
 
         # Save GD summary
         with open(ckpt_dir / "gd_log.json", "w") as f:

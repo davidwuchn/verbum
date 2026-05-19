@@ -35,6 +35,17 @@ Pass 0: 3 banks, Pass 1: 4, Pass 2: 5, Pass 3: 5
 Pass 4: 6, Pass 5: 5, Pass 6: 5
 ```
 
+### 5. GD phase must use full training loop (FIXED mid-session)
+First version used bare CE loss — missing relational loss, holographic progressive CE,
+gradient accumulation, shared gradient normalization. Killed the degraded run and
+transplanted the actual train.py training loop:
+- **Relational loss** r = (CE - E) / (log(V) - E), normalized phase-aware space
+- **RDM matching** from lambda_kernel_verified_dimensions.json (380 probes, λ=0.01, every 50 steps)
+- **Gradient accumulation** (4 micro-batches per step)
+- **normalize_shared_grads** for universal/asc/desc shared components
+- **Holographic progressive CE** wired via `_holo_lambda_effective` (currently λ=0.0, can override)
+- **Dispatch weight monitoring** in log output
+
 ## Smoke test results
 ```
 2 rounds, 5 probes/round, 5 beam steps, 10 GD steps:
@@ -44,8 +55,9 @@ Pass 4: 6, Pass 5: 5, Pass 6: 5
   All checkpoints saved correctly (etch rounds + best + final)
 ```
 
-## What's NOT running
-- Nothing actively running. Everything is ready for launch.
+## What's running
+
+**GD phase on tmux window 1** — `holographic_distill_v12.py --skip-etch --load-weights etch_round_005`. Full train.py loop with relational loss + grad accumulation. Check: `tmux capture-pane -p -t 1 | tail -20` or `tail -20 checkpoints/v12-distill-run1/gd_run.log`
 
 ## What's ready
 
