@@ -1,0 +1,278 @@
+{
+  "c1_baseline": {
+    "best": 0.4833742833742834,
+    "final": 0.4833742833742834,
+    "crystal": 0.3680904489458057
+  },
+  "c2_crystal_loss": {
+    "best": 0.48050778050778054,
+    "final": 0.47682227682227685,
+    "crystal": -0.4002027027021029
+  },
+  "c3_evo_ce": {
+    "best": 0.5566748566748567,
+    "final": 0.5566748566748567,
+    "crystal": 0.11251237606144981,
+    "traj": [
+      {
+        "round": 0,
+        "gd_acc": 0.42096642096642095,
+        "gd_crystal": 0.2023150265516693,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.42096642096642095,
+        "crystal": 0.2023150265516693
+      },
+      {
+        "round": 1,
+        "gd_acc": 0.47354627354627354,
+        "gd_crystal": 0.43972522967618694,
+        "tested": 100,
+        "accepted": 7,
+        "rej_floor": 0,
+        "rej_crys": 5,
+        "rej_acc": 88,
+        "acc": 0.4796068796068796,
+        "crystal": 0.4312335242141348
+      },
+      {
+        "round": 2,
+        "gd_acc": 0.49991809991809993,
+        "gd_crystal": -0.39236120545671177,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.49991809991809993,
+        "crystal": -0.39236120545671177
+      },
+      {
+        "round": 3,
+        "gd_acc": 0.48763308763308766,
+        "gd_crystal": -0.017932902641265902,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.48763308763308766,
+        "crystal": -0.017932902641265902
+      },
+      {
+        "round": 4,
+        "gd_acc": 0.48493038493038493,
+        "gd_crystal": 0.43266375125412515,
+        "tested": 100,
+        "accepted": 13,
+        "rej_floor": 0,
+        "rej_crys": 0,
+        "rej_acc": 87,
+        "acc": 0.485995085995086,
+        "crystal": 0.4343904099816755
+      },
+      {
+        "round": 5,
+        "gd_acc": 0.47862407862407863,
+        "gd_crystal": 0.15779041250512318,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.47862407862407863,
+        "crystal": 0.15779041250512318
+      },
+      {
+        "round": 6,
+        "gd_acc": 0.5551187551187551,
+        "gd_crystal": 0.02757477340902813,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.5551187551187551,
+        "crystal": 0.02757477340902813
+      },
+      {
+        "round": 7,
+        "gd_acc": 0.556019656019656,
+        "gd_crystal": -0.08076423696089229,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.556019656019656,
+        "crystal": -0.08076423696089229
+      },
+      {
+        "round": 8,
+        "gd_acc": 0.5236691236691237,
+        "gd_crystal": -0.13916485005796495,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.5236691236691237,
+        "crystal": -0.13916485005796495
+      },
+      {
+        "round": 9,
+        "gd_acc": 0.55004095004095,
+        "gd_crystal": 0.0009810890405566243,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.55004095004095,
+        "crystal": 0.0009810890405566243
+      }
+    ],
+    "accepted": 20,
+    "tested": 1000
+  },
+  "c4_evo_ce_cl": {
+    "best": 0.5770679770679771,
+    "final": 0.5770679770679771,
+    "crystal": 0.6114239121123818,
+    "traj": [
+      {
+        "round": 0,
+        "gd_acc": 0.39647829647829647,
+        "gd_crystal": -0.25390394824171336,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.39647829647829647,
+        "crystal": -0.25390394824171336
+      },
+      {
+        "round": 1,
+        "gd_acc": 0.48067158067158067,
+        "gd_crystal": 0.02792849160128722,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.48067158067158067,
+        "crystal": 0.02792849160128722
+      },
+      {
+        "round": 2,
+        "gd_acc": 0.480999180999181,
+        "gd_crystal": -0.2847919583082395,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.480999180999181,
+        "crystal": -0.2847919583082395
+      },
+      {
+        "round": 3,
+        "gd_acc": 0.5154791154791155,
+        "gd_crystal": 0.025434374208749274,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.5154791154791155,
+        "crystal": 0.025434374208749274
+      },
+      {
+        "round": 4,
+        "gd_acc": 0.5068796068796069,
+        "gd_crystal": -0.18558387416650018,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.5068796068796069,
+        "crystal": -0.18558387416650018
+      },
+      {
+        "round": 5,
+        "gd_acc": 0.5506142506142506,
+        "gd_crystal": 0.7350165363207206,
+        "tested": 100,
+        "accepted": 9,
+        "rej_floor": 0,
+        "rej_crys": 12,
+        "rej_acc": 79,
+        "acc": 0.5511056511056511,
+        "crystal": 0.7741692114072379
+      },
+      {
+        "round": 6,
+        "gd_acc": 0.5667485667485668,
+        "gd_crystal": 0.5504476566248002,
+        "tested": 100,
+        "accepted": 11,
+        "rej_floor": 0,
+        "rej_crys": 3,
+        "rej_acc": 86,
+        "acc": 0.5668304668304668,
+        "crystal": 0.5570453975765669
+      },
+      {
+        "round": 7,
+        "gd_acc": 0.542997542997543,
+        "gd_crystal": 0.8735351374581817,
+        "tested": 100,
+        "accepted": 4,
+        "rej_floor": 0,
+        "rej_crys": 1,
+        "rej_acc": 95,
+        "acc": 0.5484848484848485,
+        "crystal": 0.8749121231986746
+      },
+      {
+        "round": 8,
+        "gd_acc": 0.5642915642915642,
+        "gd_crystal": 0.8499563542974884,
+        "tested": 100,
+        "accepted": 29,
+        "rej_floor": 0,
+        "rej_crys": 2,
+        "rej_acc": 69,
+        "acc": 0.5642915642915642,
+        "crystal": 0.9166654363284534
+      },
+      {
+        "round": 9,
+        "gd_acc": 0.5674037674037674,
+        "gd_crystal": 0.15641723958934708,
+        "tested": 100,
+        "accepted": 0,
+        "rej_floor": 100,
+        "rej_crys": 0,
+        "rej_acc": 0,
+        "acc": 0.5674037674037674,
+        "crystal": 0.15641723958934708
+      }
+    ],
+    "accepted": 53,
+    "tested": 1000
+  },
+  "config": {
+    "n_rounds": 10,
+    "gd_steps": 1500,
+    "n_candidates": 100,
+    "crystal_floor": 0.3,
+    "crystal_lambda": 0.3
+  },
+  "elapsed": 1792.517654657364
+}
