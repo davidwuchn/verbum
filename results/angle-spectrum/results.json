@@ -1,0 +1,267 @@
+{
+  "q_up": [
+    {
+      "band": "shared",
+      "angle_range": [
+        0,
+        35
+      ],
+      "n_directions": 8,
+      "crystal_agreement": 0.8742576837539673,
+      "mean_cosine": 0.9494565725326538,
+      "std_cosine": 0.049154363572597504,
+      "whnf_polarity": 0.8890582919120789
+    },
+    {
+      "band": "mid_low",
+      "angle_range": [
+        35,
+        50
+      ],
+      "n_directions": 43,
+      "crystal_agreement": 0.9736689925193787,
+      "mean_cosine": 0.6950492858886719,
+      "std_cosine": 0.23529911041259766,
+      "whnf_polarity": 0.35499757528305054
+    },
+    {
+      "band": "attn_clust",
+      "angle_range": [
+        50,
+        58
+      ],
+      "n_directions": 33,
+      "crystal_agreement": 0.9033610224723816,
+      "mean_cosine": 0.6919167637825012,
+      "std_cosine": 0.3183642327785492,
+      "whnf_polarity": 0.15857373178005219
+    },
+    {
+      "band": "transition",
+      "angle_range": [
+        58,
+        64
+      ],
+      "n_directions": 27,
+      "crystal_agreement": 0.9098712801933289,
+      "mean_cosine": 0.6319369673728943,
+      "std_cosine": 0.38889920711517334,
+      "whnf_polarity": -0.019222889095544815
+    },
+    {
+      "band": "holographic",
+      "angle_range": [
+        64,
+        72
+      ],
+      "n_directions": 40,
+      "crystal_agreement": 0.9653360247612,
+      "mean_cosine": 0.7234596610069275,
+      "std_cosine": 0.1755317747592926,
+      "whnf_polarity": 0.4682953655719757
+    },
+    {
+      "band": "peripheral",
+      "angle_range": [
+        72,
+        82
+      ],
+      "n_directions": 54,
+      "crystal_agreement": 0.9642059803009033,
+      "mean_cosine": 0.7842992544174194,
+      "std_cosine": 0.1247837096452713,
+      "whnf_polarity": 0.644732654094696
+    },
+    {
+      "band": "private",
+      "angle_range": [
+        82,
+        91
+      ],
+      "n_directions": 51,
+      "crystal_agreement": 0.9235548973083496,
+      "mean_cosine": 0.8781343102455139,
+      "std_cosine": 0.07976990938186646,
+      "whnf_polarity": 0.7971878051757812
+    }
+  ],
+  "q_k": [
+    {
+      "band": "shared",
+      "angle_range": [
+        0,
+        35
+      ],
+      "n_directions": 34,
+      "crystal_agreement": 0.9452795386314392,
+      "mean_cosine": 0.963141143321991,
+      "std_cosine": 0.029857885092496872,
+      "whnf_polarity": 0.917852520942688
+    },
+    {
+      "band": "mid_low",
+      "angle_range": [
+        35,
+        50
+      ],
+      "n_directions": 44,
+      "crystal_agreement": 0.944157600402832,
+      "mean_cosine": 0.8264565467834473,
+      "std_cosine": 0.1455959528684616,
+      "whnf_polarity": 0.5964479446411133
+    },
+    {
+      "band": "attn_clust",
+      "angle_range": [
+        50,
+        58
+      ],
+      "n_directions": 31,
+      "crystal_agreement": 0.9559793472290039,
+      "mean_cosine": 0.8294445276260376,
+      "std_cosine": 0.10598691552877426,
+      "whnf_polarity": 0.6691463589668274
+    },
+    {
+      "band": "transition",
+      "angle_range": [
+        58,
+        64
+      ],
+      "n_directions": 24,
+      "crystal_agreement": 0.9305638670921326,
+      "mean_cosine": 0.5800616145133972,
+      "std_cosine": 0.26124823093414307,
+      "whnf_polarity": 0.2388167828321457
+    },
+    {
+      "band": "holographic",
+      "angle_range": [
+        64,
+        72
+      ],
+      "n_directions": 35,
+      "crystal_agreement": 0.9715741276741028,
+      "mean_cosine": 0.6408600211143494,
+      "std_cosine": 0.26551684737205505,
+      "whnf_polarity": 0.267945259809494
+    },
+    {
+      "band": "peripheral",
+      "angle_range": [
+        72,
+        82
+      ],
+      "n_directions": 48,
+      "crystal_agreement": 0.9813483357429504,
+      "mean_cosine": 0.6890419125556946,
+      "std_cosine": 0.19147266447544098,
+      "whnf_polarity": 0.43138810992240906
+    },
+    {
+      "band": "private",
+      "angle_range": [
+        82,
+        91
+      ],
+      "n_directions": 40,
+      "crystal_agreement": 0.9652034044265747,
+      "mean_cosine": 0.6341924071311951,
+      "std_cosine": 0.2058326154947281,
+      "whnf_polarity": 0.4029049873352051
+    }
+  ],
+  "k_up": [
+    {
+      "band": "shared",
+      "angle_range": [
+        0,
+        35
+      ],
+      "n_directions": 5,
+      "crystal_agreement": 0.7982921004295349,
+      "mean_cosine": 0.9749529957771301,
+      "std_cosine": 0.02194068767130375,
+      "whnf_polarity": 0.9599217176437378
+    },
+    {
+      "band": "mid_low",
+      "angle_range": [
+        35,
+        50
+      ],
+      "n_directions": 35,
+      "crystal_agreement": 0.9257239103317261,
+      "mean_cosine": 0.7059004902839661,
+      "std_cosine": 0.2908899486064911,
+      "whnf_polarity": 0.23598863184452057
+    },
+    {
+      "band": "attn_clust",
+      "angle_range": [
+        50,
+        58
+      ],
+      "n_directions": 31,
+      "crystal_agreement": 0.9839500784873962,
+      "mean_cosine": 0.6501088738441467,
+      "std_cosine": 0.25273603200912476,
+      "whnf_polarity": 0.3020602762699127
+    },
+    {
+      "band": "transition",
+      "angle_range": [
+        58,
+        64
+      ],
+      "n_directions": 27,
+      "crystal_agreement": 0.986503541469574,
+      "mean_cosine": 0.5857359170913696,
+      "std_cosine": 0.3032115697860718,
+      "whnf_polarity": 0.19247977435588837
+    },
+    {
+      "band": "holographic",
+      "angle_range": [
+        64,
+        72
+      ],
+      "n_directions": 42,
+      "crystal_agreement": 0.9908571243286133,
+      "mean_cosine": 0.7199233770370483,
+      "std_cosine": 0.1913749724626541,
+      "whnf_polarity": 0.4456164836883545
+    },
+    {
+      "band": "peripheral",
+      "angle_range": [
+        72,
+        82
+      ],
+      "n_directions": 60,
+      "crystal_agreement": 0.9660904407501221,
+      "mean_cosine": 0.7872596979141235,
+      "std_cosine": 0.1466405987739563,
+      "whnf_polarity": 0.5801889300346375
+    },
+    {
+      "band": "private",
+      "angle_range": [
+        82,
+        91
+      ],
+      "n_directions": 56,
+      "crystal_agreement": 0.9856853485107422,
+      "mean_cosine": 0.8537278771400452,
+      "std_cosine": 0.09913353621959686,
+      "whnf_polarity": 0.7209692597389221
+    }
+  ],
+  "meta": {
+    "model": "EleutherAI/pythia-2.8b-deduped",
+    "target_layer": 16,
+    "svd_k": 256,
+    "n_probes": 118,
+    "elapsed_seconds": 23.84378981590271
+  }
+}

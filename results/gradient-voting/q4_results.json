@@ -1,0 +1,423 @@
+{
+  "magnitude_masking_W_q": {
+    "name": "W_q L16",
+    "masking_sweep": [
+      {
+        "keep_pct": 100,
+        "actual_kept_pct": 99.99990844726562,
+        "n_kept": 6553594,
+        "rdm_fidelity": 1.0,
+        "threshold_magnitude": 0.0
+      },
+      {
+        "keep_pct": 95,
+        "actual_kept_pct": 95.00382995605469,
+        "n_kept": 6226171,
+        "rdm_fidelity": 0.9712531566619873,
+        "threshold_magnitude": 0.0011806488037109375
+      },
+      {
+        "keep_pct": 90,
+        "actual_kept_pct": 90.00022888183594,
+        "n_kept": 5898255,
+        "rdm_fidelity": 0.9430865049362183,
+        "threshold_magnitude": 0.0023708343505859375
+      },
+      {
+        "keep_pct": 80,
+        "actual_kept_pct": 80.01275634765625,
+        "n_kept": 5243716,
+        "rdm_fidelity": 0.8883975148200989,
+        "threshold_magnitude": 0.004779815673828125
+      },
+      {
+        "keep_pct": 70,
+        "actual_kept_pct": 70.00209045410156,
+        "n_kept": 4587657,
+        "rdm_fidelity": 0.835265576839447,
+        "threshold_magnitude": 0.007293701171875
+      },
+      {
+        "keep_pct": 60,
+        "actual_kept_pct": 60.020645141601555,
+        "n_kept": 3933513,
+        "rdm_fidelity": 0.7828396558761597,
+        "threshold_magnitude": 0.0099639892578125
+      },
+      {
+        "keep_pct": 50,
+        "actual_kept_pct": 50.023284912109375,
+        "n_kept": 3278326,
+        "rdm_fidelity": 0.7279785871505737,
+        "threshold_magnitude": 0.01287841796875
+      },
+      {
+        "keep_pct": 40,
+        "actual_kept_pct": 40.001434326171875,
+        "n_kept": 2621534,
+        "rdm_fidelity": 0.6666196584701538,
+        "threshold_magnitude": 0.01617431640625
+      },
+      {
+        "keep_pct": 30,
+        "actual_kept_pct": 30.028640747070312,
+        "n_kept": 1967957,
+        "rdm_fidelity": 0.5930142402648926,
+        "threshold_magnitude": 0.020050048828125
+      },
+      {
+        "keep_pct": 20,
+        "actual_kept_pct": 20.024429321289062,
+        "n_kept": 1312321,
+        "rdm_fidelity": 0.4941829442977905,
+        "threshold_magnitude": 0.025054931640625
+      },
+      {
+        "keep_pct": 10,
+        "actual_kept_pct": 10.0032958984375,
+        "n_kept": 655576,
+        "rdm_fidelity": 0.34066203236579895,
+        "threshold_magnitude": 0.032684326171875
+      },
+      {
+        "keep_pct": 5,
+        "actual_kept_pct": 5.0139007568359375,
+        "n_kept": 328591,
+        "rdm_fidelity": 0.2211688905954361,
+        "threshold_magnitude": 0.039459228515625
+      },
+      {
+        "keep_pct": 2,
+        "actual_kept_pct": 2.0039215087890625,
+        "n_kept": 131329,
+        "rdm_fidelity": 0.12083941698074341,
+        "threshold_magnitude": 0.047607421875
+      },
+      {
+        "keep_pct": 1,
+        "actual_kept_pct": 1.0021820068359375,
+        "n_kept": 65679,
+        "rdm_fidelity": 0.0818580910563469,
+        "threshold_magnitude": 0.0533447265625
+      }
+    ]
+  },
+  "sign_flip_W_q": {
+    "name": "W_q L16",
+    "flip_analysis": {
+      "random_flips": [
+        {
+          "flip_pct": 1,
+          "rdm_fidelity": 0.9763752222061157
+        },
+        {
+          "flip_pct": 2,
+          "rdm_fidelity": 0.9520795941352844
+        },
+        {
+          "flip_pct": 5,
+          "rdm_fidelity": 0.875481903553009
+        },
+        {
+          "flip_pct": 10,
+          "rdm_fidelity": 0.7373312711715698
+        },
+        {
+          "flip_pct": 20,
+          "rdm_fidelity": 0.45281079411506653
+        },
+        {
+          "flip_pct": 30,
+          "rdm_fidelity": 0.20921629667282104
+        },
+        {
+          "flip_pct": 50,
+          "rdm_fidelity": 1.0106425179401413e-05
+        }
+      ],
+      "low_mag_flips": [
+        {
+          "flip_pct": 1,
+          "rdm_fidelity": 0.9770073890686035
+        },
+        {
+          "flip_pct": 2,
+          "rdm_fidelity": 0.9544296264648438
+        },
+        {
+          "flip_pct": 5,
+          "rdm_fidelity": 0.8893065452575684
+        },
+        {
+          "flip_pct": 10,
+          "rdm_fidelity": 0.7878165245056152
+        },
+        {
+          "flip_pct": 20,
+          "rdm_fidelity": 0.6025091409683228
+        },
+        {
+          "flip_pct": 30,
+          "rdm_fidelity": 0.43455174565315247
+        },
+        {
+          "flip_pct": 50,
+          "rdm_fidelity": 0.1654944121837616
+        }
+      ],
+      "high_mag_flips": [
+        {
+          "flip_pct": 1,
+          "rdm_fidelity": 0.966780424118042
+        },
+        {
+          "flip_pct": 2,
+          "rdm_fidelity": 0.9302526712417603
+        },
+        {
+          "flip_pct": 5,
+          "rdm_fidelity": 0.8115329742431641
+        },
+        {
+          "flip_pct": 10,
+          "rdm_fidelity": 0.6123635768890381
+        },
+        {
+          "flip_pct": 20,
+          "rdm_fidelity": 0.30440154671669006
+        },
+        {
+          "flip_pct": 30,
+          "rdm_fidelity": 0.14506292343139648
+        },
+        {
+          "flip_pct": 50,
+          "rdm_fidelity": 0.1654944121837616
+        }
+      ]
+    }
+  },
+  "q4_simulation_W_q": {
+    "name": "W_q L16",
+    "quantization": {
+      "8bit": {
+        "n_bits": 8,
+        "sign_agreement": 0.9926324462890626,
+        "sign_flips": 48284,
+        "sign_flip_pct": 0.73675537109375,
+        "flipped_magnitude_ratio": 0.006020167774331457,
+        "flipped_mean_percentile": 0.3963142627611461,
+        "rdm_fidelity_vs_sign": 0.9957239031791687,
+        "rdm_fidelity_vs_continuous": 0.9999894499778748
+      },
+      "4bit": {
+        "n_bits": 4,
+        "sign_agreement": 0.8824090576171875,
+        "sign_flips": 770644,
+        "sign_flip_pct": 11.75909423828125,
+        "flipped_magnitude_ratio": 0.09555072122550878,
+        "flipped_mean_percentile": 6.297137981480551,
+        "rdm_fidelity_vs_sign": 0.9334322214126587,
+        "rdm_fidelity_vs_continuous": 0.9973139762878418
+      },
+      "3bit": {
+        "n_bits": 3,
+        "sign_agreement": 0.7677105712890625,
+        "sign_flips": 1522332,
+        "sign_flip_pct": 23.22894287109375,
+        "flipped_magnitude_ratio": 0.18953907392806715,
+        "flipped_mean_percentile": 12.385638111014158,
+        "rdm_fidelity_vs_sign": 0.8715123534202576,
+        "rdm_fidelity_vs_continuous": 0.9892998933792114
+      },
+      "2bit": {
+        "n_bits": 2,
+        "sign_agreement": 0.5576167297363281,
+        "sign_flips": 2899203,
+        "sign_flip_pct": 44.23832702636719,
+        "flipped_magnitude_ratio": 0.36735833397292117,
+        "flipped_mean_percentile": 23.271793889000175,
+        "rdm_fidelity_vs_sign": 0.7623301148414612,
+        "rdm_fidelity_vs_continuous": 0.9578586220741272
+      },
+      "1bit": {
+        "n_bits": 1,
+        "sign_agreement": 1.0,
+        "sign_flips": 0,
+        "sign_flip_pct": 0.0,
+        "flipped_magnitude_ratio": 0.0,
+        "flipped_mean_percentile": 0.0,
+        "rdm_fidelity_vs_sign": 1.0,
+        "rdm_fidelity_vs_continuous": 0.8066043853759766
+      }
+    }
+  },
+  "crystal_rank_W_q": {
+    "name": "W_q L16",
+    "rank_by_magnitude": [
+      {
+        "keep_pct": 100,
+        "effective_ranks": {
+          "50pct": 386,
+          "80pct": 905,
+          "90pct": 1230,
+          "95pct": 1496
+        },
+        "top10_variance_fraction": 0.04143285006284714,
+        "top50_variance_fraction": 0.12184886634349823
+      },
+      {
+        "keep_pct": 80,
+        "effective_ranks": {
+          "50pct": 365,
+          "80pct": 877,
+          "90pct": 1203,
+          "95pct": 1472
+        },
+        "top10_variance_fraction": 0.04641561582684517,
+        "top50_variance_fraction": 0.13329921662807465
+      },
+      {
+        "keep_pct": 50,
+        "effective_ranks": {
+          "50pct": 350,
+          "80pct": 856,
+          "90pct": 1182,
+          "95pct": 1452
+        },
+        "top10_variance_fraction": 0.04860726371407509,
+        "top50_variance_fraction": 0.13950246572494507
+      },
+      {
+        "keep_pct": 20,
+        "effective_ranks": {
+          "50pct": 366,
+          "80pct": 870,
+          "90pct": 1190,
+          "95pct": 1456
+        },
+        "top10_variance_fraction": 0.04378654062747955,
+        "top50_variance_fraction": 0.1279744952917099
+      },
+      {
+        "keep_pct": 10,
+        "effective_ranks": {
+          "50pct": 375,
+          "80pct": 868,
+          "90pct": 1180,
+          "95pct": 1439
+        },
+        "top10_variance_fraction": 0.040165819227695465,
+        "top50_variance_fraction": 0.11847095191478729
+      },
+      {
+        "keep_pct": 5,
+        "effective_ranks": {
+          "50pct": 367,
+          "80pct": 846,
+          "90pct": 1151,
+          "95pct": 1406
+        },
+        "top10_variance_fraction": 0.039018165320158005,
+        "top50_variance_fraction": 0.11586735397577286
+      }
+    ]
+  },
+  "multilayer_masking": {
+    "per_layer": [
+      {
+        "layer": 0,
+        "depth_frac": 0.0,
+        "fidelities": {
+          "keep_100pct": 0.9999998807907104,
+          "keep_50pct": 0.7647789716720581,
+          "keep_20pct": 0.5549276471138,
+          "keep_10pct": 0.4026927053928375,
+          "keep_5pct": 0.27570533752441406
+        }
+      },
+      {
+        "layer": 4,
+        "depth_frac": 0.12903225806451613,
+        "fidelities": {
+          "keep_100pct": 0.9999998807907104,
+          "keep_50pct": 0.7170183658599854,
+          "keep_20pct": 0.4727054238319397,
+          "keep_10pct": 0.31486570835113525,
+          "keep_5pct": 0.1930578500032425
+        }
+      },
+      {
+        "layer": 8,
+        "depth_frac": 0.25806451612903225,
+        "fidelities": {
+          "keep_100pct": 1.0,
+          "keep_50pct": 0.7409496307373047,
+          "keep_20pct": 0.5082814693450928,
+          "keep_10pct": 0.3476576805114746,
+          "keep_5pct": 0.21702396869659424
+        }
+      },
+      {
+        "layer": 12,
+        "depth_frac": 0.3870967741935484,
+        "fidelities": {
+          "keep_100pct": 0.9999998807907104,
+          "keep_50pct": 0.7287197709083557,
+          "keep_20pct": 0.504492461681366,
+          "keep_10pct": 0.35223594307899475,
+          "keep_5pct": 0.2288784384727478
+        }
+      },
+      {
+        "layer": 16,
+        "depth_frac": 0.5161290322580645,
+        "fidelities": {
+          "keep_100pct": 1.0,
+          "keep_50pct": 0.7279785871505737,
+          "keep_20pct": 0.4941829442977905,
+          "keep_10pct": 0.34066203236579895,
+          "keep_5pct": 0.2211688905954361
+        }
+      },
+      {
+        "layer": 20,
+        "depth_frac": 0.6451612903225806,
+        "fidelities": {
+          "keep_100pct": 1.0,
+          "keep_50pct": 0.793821394443512,
+          "keep_20pct": 0.6316419839859009,
+          "keep_10pct": 0.5252980589866638,
+          "keep_5pct": 0.4272380769252777
+        }
+      },
+      {
+        "layer": 24,
+        "depth_frac": 0.7741935483870968,
+        "fidelities": {
+          "keep_100pct": 1.0,
+          "keep_50pct": 0.8995925784111023,
+          "keep_20pct": 0.8127909898757935,
+          "keep_10pct": 0.6209545731544495,
+          "keep_5pct": 0.47242188453674316
+        }
+      },
+      {
+        "layer": 28,
+        "depth_frac": 0.9032258064516129,
+        "fidelities": {
+          "keep_100pct": 0.9999999403953552,
+          "keep_50pct": 0.9145135879516602,
+          "keep_20pct": 0.8422929644584656,
+          "keep_10pct": 0.7044053673744202,
+          "keep_5pct": 0.579267680644989
+        }
+      }
+    ]
+  },
+  "meta": {
+    "model": "EleutherAI/pythia-2.8b-deduped",
+    "target_layer": 16,
+    "elapsed_seconds": 28.67122721672058
+  }
+}

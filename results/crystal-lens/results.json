@@ -1,0 +1,537 @@
+{
+  "energy_decomposition": [
+    {
+      "depth_frac": 0.0,
+      "layer_idx": 0,
+      "total_energy": 2412.7060546875,
+      "crystal_energy_fraction": 0.025224893128663314,
+      "orthogonal_energy_fraction": 0.9747751068713367,
+      "pca_variance_explained": 0.9655382037162781,
+      "top5_direction_energy": 0.00194958143401891,
+      "top10_direction_energy": 0.0038772879634052515,
+      "sign_fidelity_crystal_only": 0.23721198737621307,
+      "sign_fidelity_ortho_only": 0.9073435068130493,
+      "continuous_fidelity_crystal": 0.28906312584877014
+    },
+    {
+      "depth_frac": 0.1,
+      "layer_idx": 3,
+      "total_energy": 2612.86865234375,
+      "crystal_energy_fraction": 0.02519202630086402,
+      "orthogonal_energy_fraction": 0.974807973699136,
+      "pca_variance_explained": 0.9275574684143066,
+      "top5_direction_energy": 0.001971583813428879,
+      "top10_direction_energy": 0.003914047498255968,
+      "sign_fidelity_crystal_only": 0.20143762230873108,
+      "sign_fidelity_ortho_only": 0.8876233696937561,
+      "continuous_fidelity_crystal": 0.256294310092926
+    },
+    {
+      "depth_frac": 0.2,
+      "layer_idx": 6,
+      "total_energy": 2510.43359375,
+      "crystal_energy_fraction": 0.024911680546403213,
+      "orthogonal_energy_fraction": 0.9750883194535968,
+      "pca_variance_explained": 0.8879812955856323,
+      "top5_direction_energy": 0.0018977331928908825,
+      "top10_direction_energy": 0.003838870907202363,
+      "sign_fidelity_crystal_only": 0.18670880794525146,
+      "sign_fidelity_ortho_only": 0.888667106628418,
+      "continuous_fidelity_crystal": 0.23915818333625793
+    },
+    {
+      "depth_frac": 0.3,
+      "layer_idx": 9,
+      "total_energy": 2567.21240234375,
+      "crystal_energy_fraction": 0.02517625028743825,
+      "orthogonal_energy_fraction": 0.9748237497125618,
+      "pca_variance_explained": 0.8861636519432068,
+      "top5_direction_energy": 0.0019427674124017358,
+      "top10_direction_energy": 0.003979553934186697,
+      "sign_fidelity_crystal_only": 0.20580294728279114,
+      "sign_fidelity_ortho_only": 0.8915691375732422,
+      "continuous_fidelity_crystal": 0.26102668046951294
+    },
+    {
+      "depth_frac": 0.4,
+      "layer_idx": 12,
+      "total_energy": 2634.0283203125,
+      "crystal_energy_fraction": 0.02517014467540027,
+      "orthogonal_energy_fraction": 0.9748298553245998,
+      "pca_variance_explained": 0.8744299411773682,
+      "top5_direction_energy": 0.002020389772951603,
+      "top10_direction_energy": 0.003994714468717575,
+      "sign_fidelity_crystal_only": 0.20206637680530548,
+      "sign_fidelity_ortho_only": 0.8922917246818542,
+      "continuous_fidelity_crystal": 0.2550710439682007
+    },
+    {
+      "depth_frac": 0.5,
+      "layer_idx": 16,
+      "total_energy": 2586.96240234375,
+      "crystal_energy_fraction": 0.024926213510732813,
+      "orthogonal_energy_fraction": 0.9750737864892672,
+      "pca_variance_explained": 0.8836649656295776,
+      "top5_direction_energy": 0.0018735554767772555,
+      "top10_direction_energy": 0.0038455540779978037,
+      "sign_fidelity_crystal_only": 0.1938028782606125,
+      "sign_fidelity_ortho_only": 0.8936875462532043,
+      "continuous_fidelity_crystal": 0.24495257437229156
+    },
+    {
+      "depth_frac": 0.6,
+      "layer_idx": 19,
+      "total_energy": 3055.1181640625,
+      "crystal_energy_fraction": 0.024938349884175537,
+      "orthogonal_energy_fraction": 0.9750616501158245,
+      "pca_variance_explained": 0.9202876091003418,
+      "top5_direction_energy": 0.0019704652950167656,
+      "top10_direction_energy": 0.003916945308446884,
+      "sign_fidelity_crystal_only": 0.21383081376552582,
+      "sign_fidelity_ortho_only": 0.9014760255813599,
+      "continuous_fidelity_crystal": 0.27273812890052795
+    },
+    {
+      "depth_frac": 0.7,
+      "layer_idx": 22,
+      "total_energy": 4131.9775390625,
+      "crystal_energy_fraction": 0.025307345145344818,
+      "orthogonal_energy_fraction": 0.9746926548546552,
+      "pca_variance_explained": 0.9662007093429565,
+      "top5_direction_energy": 0.00201872899197042,
+      "top10_direction_energy": 0.004003394395112991,
+      "sign_fidelity_crystal_only": 0.3740215301513672,
+      "sign_fidelity_ortho_only": 0.9486887454986572,
+      "continuous_fidelity_crystal": 0.46171534061431885
+    },
+    {
+      "depth_frac": 0.8,
+      "layer_idx": 25,
+      "total_energy": 5784.8291015625,
+      "crystal_energy_fraction": 0.025855321937516725,
+      "orthogonal_energy_fraction": 0.9741446780624833,
+      "pca_variance_explained": 0.9838104844093323,
+      "top5_direction_energy": 0.0020487778820097446,
+      "top10_direction_energy": 0.004217039328068495,
+      "sign_fidelity_crystal_only": 0.4665513038635254,
+      "sign_fidelity_ortho_only": 0.9579859972000122,
+      "continuous_fidelity_crystal": 0.6124474406242371
+    },
+    {
+      "depth_frac": 0.9,
+      "layer_idx": 28,
+      "total_energy": 6310.8330078125,
+      "crystal_energy_fraction": 0.026723791191454797,
+      "orthogonal_energy_fraction": 0.9732762088085452,
+      "pca_variance_explained": 0.9889644980430603,
+      "top5_direction_energy": 0.002179110422730446,
+      "top10_direction_energy": 0.0040818979032337666,
+      "sign_fidelity_crystal_only": 0.5560750961303711,
+      "sign_fidelity_ortho_only": 0.9666019082069397,
+      "continuous_fidelity_crystal": 0.6973510384559631
+    }
+  ],
+  "compression_comparison": [
+    {
+      "k": 64,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.5556396842002869,
+      "svd_cont_fidelity": 0.6919236183166504,
+      "hybrid_sign_fidelity": 0.1938028782606125,
+      "hybrid_cont_fidelity": 0.24495257437229156
+    },
+    {
+      "k": 128,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.6310917139053345,
+      "svd_cont_fidelity": 0.7966907024383545,
+      "hybrid_sign_fidelity": 0.5785676836967468,
+      "hybrid_cont_fidelity": 0.7245372533798218
+    },
+    {
+      "k": 256,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.6926803588867188,
+      "svd_cont_fidelity": 0.8886792063713074,
+      "hybrid_sign_fidelity": 0.6746603846549988,
+      "hybrid_cont_fidelity": 0.8620418310165405
+    },
+    {
+      "k": 384,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.7223942279815674,
+      "svd_cont_fidelity": 0.9323281645774841,
+      "hybrid_sign_fidelity": 0.7119815349578857,
+      "hybrid_cont_fidelity": 0.9185551404953003
+    },
+    {
+      "k": 512,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.741042971611023,
+      "svd_cont_fidelity": 0.9570825099945068,
+      "hybrid_sign_fidelity": 0.7339767217636108,
+      "hybrid_cont_fidelity": 0.9492100477218628
+    },
+    {
+      "k": 768,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.7723695039749146,
+      "svd_cont_fidelity": 0.9820386171340942,
+      "hybrid_sign_fidelity": 0.7666909694671631,
+      "hybrid_cont_fidelity": 0.9790039658546448
+    },
+    {
+      "k": 1024,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.8056930303573608,
+      "svd_cont_fidelity": 0.9925286173820496,
+      "hybrid_sign_fidelity": 0.8002938628196716,
+      "hybrid_cont_fidelity": 0.9913081526756287
+    },
+    {
+      "k": 1536,
+      "crystal_sign_fidelity": 0.1938028782606125,
+      "crystal_cont_fidelity": 0.24495257437229156,
+      "svd_sign_fidelity": 0.8813873529434204,
+      "svd_cont_fidelity": 0.9990147948265076,
+      "hybrid_sign_fidelity": 0.8757672905921936,
+      "hybrid_cont_fidelity": 0.9988292455673218
+    }
+  ],
+  "crystal_lens": {
+    "A_sign_only": 0.8066043853759766,
+    "B_true_magnitudes": 0.9999999403953552,
+    "C_crystal_lens_avg": 0.16080014407634735,
+    "D_row_norm_lens": 0.8066043853759766,
+    "E_crystal_true_mag": 0.24495257437229156,
+    "F_crystal_lens_perrow": 0.18009300529956818,
+    "pca_variance_explained": 0.8836649656295776,
+    "direction_magnitude_profile": [
+      0.019641505554318428,
+      0.019044535234570503,
+      0.01938900724053383,
+      0.019811980426311493,
+      0.019399920478463173,
+      0.019741078838706017,
+      0.01947857066988945,
+      0.019653858616948128,
+      0.020288225263357162,
+      0.020633872598409653,
+      0.019141755998134613,
+      0.019499508664011955,
+      0.020041562616825104,
+      0.019734850153326988,
+      0.020176060497760773,
+      0.02013390325009823,
+      0.020227989181876183,
+      0.019633999094367027,
+      0.01969735696911812,
+      0.019837167114019394,
+      0.020175877958536148,
+      0.019873734563589096,
+      0.020781341940164566,
+      0.019918739795684814,
+      0.0202761422842741,
+      0.019878171384334564,
+      0.019375966861844063,
+      0.020000310614705086,
+      0.01951812393963337,
+      0.020305609330534935,
+      0.020694835111498833,
+      0.019832100719213486,
+      0.019652443006634712,
+      0.020250331610441208,
+      0.020397763699293137,
+      0.020039569586515427,
+      0.020021628588438034,
+      0.01870724745094776,
+      0.019280074164271355,
+      0.020175039768218994,
+      0.019978351891040802,
+      0.019613973796367645,
+      0.019458040595054626,
+      0.02048249915242195,
+      0.019907165318727493,
+      0.01997765526175499,
+      0.01988515816628933,
+      0.019734719768166542,
+      0.019923098385334015,
+      0.02031148411333561,
+      0.019590090960264206,
+      0.019950559362769127,
+      0.019618775695562363,
+      0.019132791087031364,
+      0.018845202401280403,
+      0.01913626678287983,
+      0.01997409574687481,
+      0.019733328372240067,
+      0.019949408248066902,
+      0.019809717312455177,
+      0.019345350563526154,
+      0.019951697438955307,
+      0.0200765673071146,
+      0.02062895894050598
+    ]
+  },
+  "cross_layer_crystal": {
+    "ref_0.2": [
+      {
+        "layer": 0,
+        "depth_frac": 0.0,
+        "crystal_fraction": 0.025035608559846878
+      },
+      {
+        "layer": 2,
+        "depth_frac": 0.06451612903225806,
+        "crystal_fraction": 0.024738522246479988
+      },
+      {
+        "layer": 4,
+        "depth_frac": 0.12903225806451613,
+        "crystal_fraction": 0.024922041222453117
+      },
+      {
+        "layer": 6,
+        "depth_frac": 0.1935483870967742,
+        "crystal_fraction": 0.024911681190133095
+      },
+      {
+        "layer": 8,
+        "depth_frac": 0.25806451612903225,
+        "crystal_fraction": 0.024860359728336334
+      },
+      {
+        "layer": 10,
+        "depth_frac": 0.3225806451612903,
+        "crystal_fraction": 0.02498168870806694
+      },
+      {
+        "layer": 12,
+        "depth_frac": 0.3870967741935484,
+        "crystal_fraction": 0.024952486157417297
+      },
+      {
+        "layer": 14,
+        "depth_frac": 0.45161290322580644,
+        "crystal_fraction": 0.024954233318567276
+      },
+      {
+        "layer": 16,
+        "depth_frac": 0.5161290322580645,
+        "crystal_fraction": 0.02483738400042057
+      },
+      {
+        "layer": 18,
+        "depth_frac": 0.5806451612903226,
+        "crystal_fraction": 0.02500367909669876
+      },
+      {
+        "layer": 20,
+        "depth_frac": 0.6451612903225806,
+        "crystal_fraction": 0.024612708017230034
+      },
+      {
+        "layer": 22,
+        "depth_frac": 0.7096774193548387,
+        "crystal_fraction": 0.02601727470755577
+      },
+      {
+        "layer": 24,
+        "depth_frac": 0.7741935483870968,
+        "crystal_fraction": 0.024545449763536453
+      },
+      {
+        "layer": 26,
+        "depth_frac": 0.8387096774193549,
+        "crystal_fraction": 0.025938335806131363
+      },
+      {
+        "layer": 28,
+        "depth_frac": 0.9032258064516129,
+        "crystal_fraction": 0.025348762050271034
+      },
+      {
+        "layer": 30,
+        "depth_frac": 0.967741935483871,
+        "crystal_fraction": 0.02437940053641796
+      }
+    ],
+    "ref_0.5": [
+      {
+        "layer": 0,
+        "depth_frac": 0.0,
+        "crystal_fraction": 0.024725493043661118
+      },
+      {
+        "layer": 2,
+        "depth_frac": 0.06451612903225806,
+        "crystal_fraction": 0.025102483108639717
+      },
+      {
+        "layer": 4,
+        "depth_frac": 0.12903225806451613,
+        "crystal_fraction": 0.02498321421444416
+      },
+      {
+        "layer": 6,
+        "depth_frac": 0.1935483870967742,
+        "crystal_fraction": 0.02505362220108509
+      },
+      {
+        "layer": 8,
+        "depth_frac": 0.25806451612903225,
+        "crystal_fraction": 0.025080040097236633
+      },
+      {
+        "layer": 10,
+        "depth_frac": 0.3225806451612903,
+        "crystal_fraction": 0.02493404597043991
+      },
+      {
+        "layer": 12,
+        "depth_frac": 0.3870967741935484,
+        "crystal_fraction": 0.02506011351943016
+      },
+      {
+        "layer": 14,
+        "depth_frac": 0.45161290322580644,
+        "crystal_fraction": 0.024916235357522964
+      },
+      {
+        "layer": 16,
+        "depth_frac": 0.5161290322580645,
+        "crystal_fraction": 0.024926213547587395
+      },
+      {
+        "layer": 18,
+        "depth_frac": 0.5806451612903226,
+        "crystal_fraction": 0.024937454611063004
+      },
+      {
+        "layer": 20,
+        "depth_frac": 0.6451612903225806,
+        "crystal_fraction": 0.025493592023849487
+      },
+      {
+        "layer": 22,
+        "depth_frac": 0.7096774193548387,
+        "crystal_fraction": 0.02508976310491562
+      },
+      {
+        "layer": 24,
+        "depth_frac": 0.7741935483870968,
+        "crystal_fraction": 0.025349730625748634
+      },
+      {
+        "layer": 26,
+        "depth_frac": 0.8387096774193549,
+        "crystal_fraction": 0.025032827630639076
+      },
+      {
+        "layer": 28,
+        "depth_frac": 0.9032258064516129,
+        "crystal_fraction": 0.024996787309646606
+      },
+      {
+        "layer": 30,
+        "depth_frac": 0.967741935483871,
+        "crystal_fraction": 0.024308841675519943
+      }
+    ],
+    "ref_0.8": [
+      {
+        "layer": 0,
+        "depth_frac": 0.0,
+        "crystal_fraction": 0.02507629618048668
+      },
+      {
+        "layer": 2,
+        "depth_frac": 0.06451612903225806,
+        "crystal_fraction": 0.025007933378219604
+      },
+      {
+        "layer": 4,
+        "depth_frac": 0.12903225806451613,
+        "crystal_fraction": 0.024933118373155594
+      },
+      {
+        "layer": 6,
+        "depth_frac": 0.1935483870967742,
+        "crystal_fraction": 0.024898424744606018
+      },
+      {
+        "layer": 8,
+        "depth_frac": 0.25806451612903225,
+        "crystal_fraction": 0.025011267513036728
+      },
+      {
+        "layer": 10,
+        "depth_frac": 0.3225806451612903,
+        "crystal_fraction": 0.024945633485913277
+      },
+      {
+        "layer": 12,
+        "depth_frac": 0.3870967741935484,
+        "crystal_fraction": 0.024927552789449692
+      },
+      {
+        "layer": 14,
+        "depth_frac": 0.45161290322580644,
+        "crystal_fraction": 0.025038626044988632
+      },
+      {
+        "layer": 16,
+        "depth_frac": 0.5161290322580645,
+        "crystal_fraction": 0.02517217956483364
+      },
+      {
+        "layer": 18,
+        "depth_frac": 0.5806451612903226,
+        "crystal_fraction": 0.02506938949227333
+      },
+      {
+        "layer": 20,
+        "depth_frac": 0.6451612903225806,
+        "crystal_fraction": 0.025546731427311897
+      },
+      {
+        "layer": 22,
+        "depth_frac": 0.7096774193548387,
+        "crystal_fraction": 0.025993093848228455
+      },
+      {
+        "layer": 24,
+        "depth_frac": 0.7741935483870968,
+        "crystal_fraction": 0.02537456341087818
+      },
+      {
+        "layer": 26,
+        "depth_frac": 0.8387096774193549,
+        "crystal_fraction": 0.02581714279949665
+      },
+      {
+        "layer": 28,
+        "depth_frac": 0.9032258064516129,
+        "crystal_fraction": 0.025629356503486633
+      },
+      {
+        "layer": 30,
+        "depth_frac": 0.967741935483871,
+        "crystal_fraction": 0.026254482567310333
+      }
+    ]
+  },
+  "meta": {
+    "model": "EleutherAI/pythia-2.8b-deduped",
+    "pca_dim": 64,
+    "n_probes": 144,
+    "elapsed_seconds": 35.834187030792236
+  }
+}

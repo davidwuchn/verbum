@@ -2,44 +2,61 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-20 | Session: 122
+> Last updated: 2026-05-20 | Session: 123
 
 ## Where we are
 
-**THE PLATE IS A LAMBDA TERM — but V12's plates were empty.**
+**MAGNITUDES ARE THE CRYSTAL, NOT SIGNS.**
 
-Session 121 confirmed the central thesis (R²=0.959 lambda proof).
-Session 122 found V12's plates contain no holographic structure —
-they are random ternary noise. `sign(teacher_W)` gives 0.974 Q crystal
-fidelity with zero GD. The training design must change: etch holograms
-FROM the teacher's weight signs, not learn them through gammas.
+Session 123 ran four experiments that inverted the design. Cross-layer
+weight signs have 0.000 correlation (completely independent per layer).
+Perfect sign copy from a teacher HURTS (0.248 acc vs 0.486 random
+baseline). A magnitude template with random signs reaches 0.568 — the
+best of all conditions. Full details in `knowledge/explore/gradient-voting.md`.
 
-## Proof chain (solid, sessions 95-121)
+## Proof chain (solid, sessions 95-123)
 
 - PCA-Q crystal: 0.91-0.94 agreement, 4 models
 - PCA-up (FFN crystal): 0.9462 agreement, 4 models
 - Lambda proof: binder + combinator predicts body at R²=0.959
-- Holographic plates: 100× compression, 0.76 preservation
+- sign(W) Q fidelity: 0.974 (captures magnitude effect on cosines)
 - Holographic angle: Q↔FFN subspaces at 65-72°
+- **NEW: Magnitude template > oracle signs** (0.568 vs 0.248 nucleation)
+- **NEW: Cross-layer sign correlation = 0.000** (signs are per-layer encodings)
+- **NEW: Crystal is holographically distributed** (2.5% energy = random baseline)
 
-## Session 122: the hologram problem
+## Session 123: the magnitude crystal + loom structure
 
-V12 plates = random noise. `sign(W)` = the hologram. Full details in
-`knowledge/explore/hologram-extraction.md`. Key numbers:
+Seven experiments on Pythia-2.8b + mini_holo nucleation tests:
 
-| Method | Q fidelity | FFN fidelity |
-|---|---|---|
-| sign(W) direct | **0.974** | **0.691** |
-| V12 actual plates | ≈ random | ≈ random |
+| Finding | Number |
+|---|---|
+| Cross-layer sign unanimity | 57% (chance=50%) |
+| Magnitude ↔ sign consensus | 0.000 correlation |
+| Q4 crystal fidelity (12% signs flipped) | 0.933 |
+| Crystal energy in PCA-Q basis | 2.5% (= random) |
+| Oracle crystal (sign copy) final acc | 0.248 (WORST) |
+| Random plates final acc | 0.486 |
+| **Magnitude template final acc** | **0.554 (BEST)** |
 
-V12 run2 superseded. The design insight changes the approach.
+Paradigm shift: `sign(W)` at 97.4% was measuring magnitudes' EFFECT
+on cosines, not signs being the crystal. The real crystal is the
+magnitude profile — which dimensions GD decides to amplify.
+
+Loom structure discovered: weight matrices read d_model at 3 characteristic
+crossing angles — attention cluster ~56°, holographic ~68°, FFN warp ~60°.
+Six harmonic peaks (25°, 45°, 53°, 61°, 67°, 77°). Crystal spans ALL
+angles (≥0.87). WHNF polarity crosses zero at 58-64°. K↔UP at holographic
+angle = 0.991 crystal agreement. Full details in `loom-structure.md`.
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
-| `hologram-extraction.md` | ★ sign(W) IS the crystal, roundtrip proof, capacity limits |
-| `v13-design.md` | Architecture, etch protocol, training pipeline, open questions |
+| `gradient-voting.md` | ★ **NEW** magnitudes are the crystal, 4 experiments, V13 implications |
+| `loom-structure.md` | ★ **NEW** 3 weaves, 6 harmonics, WHNF transition, tension=crystal |
+| `hologram-extraction.md` | sign(W) captures crystal (now understood: via magnitude effect) |
+| `v13-design.md` | Architecture (needs revision for magnitude-first approach) |
 | `holographic-plates.md` | SVD lens, 100× compression, two-beam geometry |
 | `ffn-beam-discovery.md` | PCA-up at 0.946, WHNF polarity, depth profiles |
 | `crystal-basins.md` | Basin theory, 7 experiments, 24 findings |
@@ -50,16 +67,29 @@ V12 run2 superseded. The design insight changes the approach.
 | Asset | Location |
 |-------|----------|
 | PCA-Q crystal constants (4 models) | `results/pcaq-targets/` |
-| Reduction chain probes (79, 9 combinators) | `lattice/reduction_chain_probes.json` |
+| Gradient voting results (4 experiments) | `results/gradient-voting/` |
+| Crystal lens results | `results/crystal-lens/` |
+| Nucleation speed results (2 experiments) | `results/nucleation/`, `results/nucleation-matched/` |
+| Loom structure results | `results/loom/`, `results/loom-crossings/` |
+| Angle spectrum probe results | `results/angle-spectrum/` |
 | Basin probes (144, 9 domains) | `lattice/basin_probes.json` |
-| Hologram extraction experiments | `results/hologram-*/` |
 | V12 model + training infra | `scripts/v12/` |
-| V13 design doc | `knowledge/explore/v13-design.md` |
+| Nucleation experiment | `scripts/v12/nucleation_exp.py` |
 
 ## Next steps
 
-1. **Dimensional bridge** — how to map teacher d_model → V13 d_model
-   while preserving holographic sign structure. The key open problem.
-2. **V13 etch pipeline** — `sign(teacher_W)` → plates, GD only for beams.
-3. **Multi-model sign(W) test** — verify fidelity on Mistral + Qwen.
-4. **Capacity at d_model=512** — what does dimensional compression cost?
+1. **V13 magnitude-first design** — revise v13-design.md for magnitude
+   template initialization instead of sign etching. Beam scales from
+   teacher, random ternary plates, GD for everything else. The loom
+   geometry (56°/68°/60° crossings) should emerge from the magnitude
+   template naturally.
+2. **Multi-model loom angles** — do Mistral, Qwen, OLMo have the same
+   crossing angles? If the 6 harmonics are universal, the loom IS the
+   crystal structure, and magnitude profiles are the tension map.
+3. **Dimensional bridge via tension profile** — project teacher's
+   SVD-crystal-aligned magnitudes to student dimensions. The top-k SVD
+   components ARE the crystal (100,000× alignment ratio).
+4. **Angle-band-aware initialization** — seed magnitude profiles that
+   preserve the WHNF transition at 58-64° and the holographic peak
+   at 64-72°. Don't just transfer flat magnitudes — transfer the
+   angle spectrum.
