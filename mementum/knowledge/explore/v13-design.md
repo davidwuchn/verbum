@@ -638,29 +638,39 @@ V13 MODEL:
              Combinator mask selects department view
 ```
 
-### The WHNF kernel
+### The WHNF kernel (final, tested)
 
 ```python
-def whnf_kernel(h, key_plate, value_plate, comb_mask):
-    """Mechanical FFN lookup. No learned params.
+def whnf_kernel(h, key_plate, value_plate):
+    """Mechanical FFN lookup. No learned params. No masks.
     
-    The plates are the extracted teacher FFN weights.
-    The mask selects the combinator-specific view.
-    In combinator terms: WHNF = "evaluate to a value"
-    and the kernel IS the evaluation.
+    TESTED (session 120): unmasked beats masked 100% of the time.
+    Department masking HURTS (-0.19 to -0.60 RDM). The neurons
+    work as an ensemble — all of them contribute to the relational
+    pattern. The lambda compiler handles routing in ATTENTION.
+    The FFN just runs mechanically on whatever arrives.
     
     h:           hidden state from residual stream (d_model,)
     key_plate:   TernaryLinear — extracted W_up (d_model → d_ffn)
     value_plate: TernaryLinear — extracted W_down (d_ffn → d_model)
-    comb_mask:   TernaryMask — selects department view
     """
-    # Key match: which neurons fire?
-    keys = key_plate(h * comb_mask)       # ternary matmul
+    # Key match: which neurons fire? (full ensemble, no mask)
+    keys = key_plate(h)                    # ternary matmul
     active = (keys > 0).float()            # binary activation
     
-    # Value retrieval: what do the active neurons contribute?
+    # Value retrieval: all active neurons contribute
     return value_plate(active * keys)      # ternary matmul
 ```
+
+**Evidence:** Masking to combinator departments degrades RDM by 0.19-0.60.
+WHNF-only masking loses only 0.03 (Mistral) but still worse than full.
+Exception: Pythia depth 30% where WHNF-only BEATS unmasked (+0.07) —
+the WHNF neurons carry the relational pattern better than noisy full set.
+
+**Architecture implication:** No masks needed in FFN path. No department
+router. No combinator selection in FFN. The dispatch decides WHEN to
+enter the FFN (WHNF dispatch). The FFN itself is a blind mechanical
+pass through ALL ternary plates. The intelligence is ALL in the crystal.
 
 ### Two crystals, purely ternary
 

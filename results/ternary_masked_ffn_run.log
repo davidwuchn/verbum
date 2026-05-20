@@ -1,0 +1,192 @@
+========================================================================
+  Ternary Masked FFN — Lambda Compiler Keying Test
+  Models: ['mistral-7b', 'pythia-2.8b']
+========================================================================
+  Loaded 144 probes
+
+  ─── mistral-7b ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<02:02,  2.38it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:07, 36.23it/s]Loading weights:  12%|█▏        | 35/291 [00:00<00:03, 78.80it/s]Loading weights:  17%|█▋        | 49/291 [00:00<00:02, 91.02it/s]Loading weights:  21%|██▏       | 62/291 [00:00<00:02, 91.59it/s]Loading weights:  27%|██▋       | 78/291 [00:00<00:01, 107.48it/s]Loading weights:  33%|███▎      | 95/291 [00:01<00:01, 123.53it/s]Loading weights:  38%|███▊      | 112/291 [00:01<00:01, 135.42it/s]Loading weights:  45%|████▌     | 131/291 [00:01<00:01, 146.78it/s]Loading weights:  51%|█████     | 147/291 [00:01<00:01, 143.09it/s]Loading weights:  57%|█████▋    | 166/291 [00:01<00:00, 152.14it/s]Loading weights:  64%|██████▎   | 185/291 [00:01<00:00, 160.15it/s]Loading weights:  70%|███████   | 204/291 [00:01<00:00, 165.12it/s]Loading weights:  76%|███████▋  | 222/291 [00:01<00:00, 169.00it/s]Loading weights:  82%|████████▏ | 240/291 [00:01<00:00, 164.87it/s]Loading weights:  88%|████████▊ | 257/291 [00:02<00:00, 146.48it/s]Loading weights:  95%|█████████▍| 275/291 [00:02<00:00, 154.92it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 126.23it/s]
+
+  Layer 9 (depth 30%):
+    Unmasked ternary RDM corr: +0.9354
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.5461 (baseline: +0.9354, delta: -0.3892)
+    WHNF-only ternary RDM corr: +0.9064
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.5296  +0.2299  +0.1925  unmask
+      arithmetic  +0.5206  +0.2945  +0.2252  unmask
+          coding  +0.5181  +0.1924  +0.1835  unmask
+            tool  +0.5292  +0.2174  +0.2011  unmask
+       retrieval  +0.5339  +0.2042  +0.2012  unmask
+         analogy  +0.5357  +0.2175  +0.1980  unmask
+       reasoning  +0.5271  +0.2069  +0.1933  unmask
+       narrative  +0.5307  +0.1862  +0.1882  unmask
+     instruction  +0.5273  +0.2198  +0.1807  unmask
+
+    Combinator-weighted input test:
+           K (35 probes): unmasked=+0.5260  masked=+0.2751  delta=-0.2509
+           I (23 probes): unmasked=+0.5278  masked=+0.2052  delta=-0.3226
+           B ( 3 probes): unmasked=+0.5243  masked=+0.1320  delta=-0.3923
+           C (34 probes): unmasked=+0.5236  masked=+0.2139  delta=-0.3097
+           D ( 5 probes): unmasked=+0.5306  masked=+0.2182  delta=-0.3124
+           Y (10 probes): unmasked=+0.5283  masked=+0.1942  delta=-0.3341
+           W ( 4 probes): unmasked=+0.5249  masked=+0.1592  delta=-0.3658
+        WHNF (30 probes): unmasked=+0.5324  masked=+0.1940  delta=-0.3384
+
+  Layer 16 (depth 50%):
+    Unmasked ternary RDM corr: +0.9497
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.3546 (baseline: +0.9497, delta: -0.5951)
+    WHNF-only ternary RDM corr: +0.9241
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.5021  +0.2259  +0.2073  unmask
+      arithmetic  +0.5071  +0.2170  +0.1858  unmask
+          coding  +0.4924  +0.2314  +0.1880  unmask
+            tool  +0.5061  +0.2195  +0.2053  unmask
+       retrieval  +0.5166  +0.2136  +0.2195  unmask
+         analogy  +0.5103  +0.2218  +0.2154  unmask
+       reasoning  +0.5205  +0.1948  +0.2133  unmask
+       narrative  +0.5376  +0.1915  +0.2372  unmask
+     instruction  +0.5234  +0.1828  +0.2073  unmask
+
+    Combinator-weighted input test:
+           K (23 probes): unmasked=+0.5017  masked=+0.2753  delta=-0.2264
+           I (14 probes): unmasked=+0.4999  masked=+0.1886  delta=-0.3112
+           B ( 6 probes): unmasked=+0.5205  masked=+0.1206  delta=-0.3999
+           C (13 probes): unmasked=+0.5211  masked=+0.1294  delta=-0.3917
+           D ( 3 probes): unmasked=+0.5278  masked=+0.1777  delta=-0.3501
+           Y (41 probes): unmasked=+0.5174  masked=+0.2240  delta=-0.2934
+           W ( 7 probes): unmasked=+0.5102  masked=+0.1487  delta=-0.3615
+        WHNF (37 probes): unmasked=+0.5156  masked=+0.2208  delta=-0.2948
+
+  Layer 22 (depth 70%):
+    Unmasked ternary RDM corr: +0.8778
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.3673 (baseline: +0.8778, delta: -0.5105)
+    WHNF-only ternary RDM corr: +0.8557
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.4583  +0.2131  +0.2367  unmask
+      arithmetic  +0.4417  +0.1720  +0.2198  unmask
+          coding  +0.4161  +0.2001  +0.2022  unmask
+            tool  +0.4504  +0.2037  +0.2377  unmask
+       retrieval  +0.4684  +0.2337  +0.2460  unmask
+         analogy  +0.4614  +0.2629  +0.2629  unmask
+       reasoning  +0.4485  +0.1973  +0.2408  unmask
+       narrative  +0.4339  +0.1397  +0.2267  unmask
+     instruction  +0.4711  +0.1545  +0.2533  unmask
+
+    Combinator-weighted input test:
+           K ( 9 probes): unmasked=+0.4454  masked=+0.2479  delta=-0.1975
+           I (14 probes): unmasked=+0.4500  masked=+0.1498  delta=-0.3002
+           B ( 6 probes): unmasked=+0.4533  masked=+0.1225  delta=-0.3308
+           C ( 7 probes): unmasked=+0.4475  masked=+0.0816  delta=-0.3659
+           D ( 4 probes): unmasked=+0.4399  masked=+0.0998  delta=-0.3402
+           Y (44 probes): unmasked=+0.4395  masked=+0.1809  delta=-0.2586
+           W ( 7 probes): unmasked=+0.4543  masked=+0.1214  delta=-0.3329
+        WHNF (53 probes): unmasked=+0.4605  masked=+0.2534  delta=-0.2071
+
+  ─── pythia-2.8b ───
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  11%|█▏        | 44/388 [00:00<00:00, 420.26it/s]Loading weights:  36%|███▌      | 140/388 [00:00<00:00, 713.11it/s]Loading weights:  61%|██████    | 236/388 [00:00<00:00, 817.00it/s]Loading weights:  86%|████████▌ | 333/388 [00:00<00:00, 876.22it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 821.52it/s]
+
+  Layer 9 (depth 30%):
+    Unmasked ternary RDM corr: +0.6874
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.4664 (baseline: +0.6874, delta: -0.2210)
+    WHNF-only ternary RDM corr: +0.7530
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.6028  +0.2860  +0.3569  unmask
+      arithmetic  +0.6000  +0.2407  +0.3640  unmask
+          coding  +0.5920  +0.1967  +0.3434  unmask
+            tool  +0.6007  +0.2933  +0.3500  unmask
+       retrieval  +0.5999  +0.2750  +0.3603  unmask
+         analogy  +0.6015  +0.3031  +0.3671  unmask
+       reasoning  +0.6040  +0.3244  +0.3554  unmask
+       narrative  +0.6126  +0.2908  +0.3383  unmask
+     instruction  +0.6159  +0.2385  +0.3068  unmask
+
+    Combinator-weighted input test:
+           K (29 probes): unmasked=+0.6100  masked=+0.2227  delta=-0.3873
+           I (34 probes): unmasked=+0.6002  masked=+0.2695  delta=-0.3307
+           B ( 5 probes): unmasked=+0.5974  masked=+0.1556  delta=-0.4418
+           C ( 8 probes): unmasked=+0.5957  masked=+0.1641  delta=-0.4316
+           Y (14 probes): unmasked=+0.5964  masked=+0.2352  delta=-0.3612
+           W ( 5 probes): unmasked=+0.5964  masked=+0.1176  delta=-0.4789
+        WHNF (47 probes): unmasked=+0.6046  masked=+0.3551  delta=-0.2496
+
+  Layer 16 (depth 50%):
+    Unmasked ternary RDM corr: +0.5004
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.3100 (baseline: +0.5004, delta: -0.1904)
+    WHNF-only ternary RDM corr: +0.4242
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.6247  +0.2566  +0.3048  unmask
+      arithmetic  +0.6184  +0.2255  +0.3156  unmask
+          coding  +0.6180  +0.2698  +0.3019  unmask
+            tool  +0.6029  +0.2438  +0.3128  unmask
+       retrieval  +0.6216  +0.2709  +0.3280  unmask
+         analogy  +0.6121  +0.3084  +0.3248  unmask
+       reasoning  +0.6216  +0.2659  +0.3113  unmask
+       narrative  +0.5506  +0.2026  +0.2911  unmask
+     instruction  +0.3715  +0.1545  +0.2209  unmask
+
+    Combinator-weighted input test:
+           K (40 probes): unmasked=+0.4938  masked=+0.1763  delta=-0.3175
+           I (20 probes): unmasked=+0.6220  masked=+0.2255  delta=-0.3965
+           B (11 probes): unmasked=+0.6172  masked=+0.3529  delta=-0.2642
+           C ( 7 probes): unmasked=+0.6155  masked=+0.1324  delta=-0.4831
+           Y (19 probes): unmasked=+0.6226  masked=+0.2490  delta=-0.3736
+           W ( 4 probes): unmasked=+0.6181  masked=+0.0817  delta=-0.5365
+        WHNF (42 probes): unmasked=+0.6189  masked=+0.3207  delta=-0.2981
+
+  Layer 22 (depth 70%):
+    Unmasked ternary RDM corr: +0.8348
+
+    Combinator-masked ternary FFN:
+    Dispatch-masked ternary RDM corr: +0.4317 (baseline: +0.8348, delta: -0.4031)
+    WHNF-only ternary RDM corr: +0.5484
+
+    Per-domain: unmasked vs dispatch-masked vs WHNF-only:
+          domain  unmasked    masked      whnf    best
+    ----------------------------------------------
+          lambda  +0.7165  +0.3238  +0.3637  unmask
+      arithmetic  +0.7046  +0.2742  +0.3524  unmask
+          coding  +0.6915  +0.1562  +0.3512  unmask
+            tool  +0.7123  +0.2721  +0.3663  unmask
+       retrieval  +0.7127  +0.3649  +0.3876  unmask
+         analogy  +0.7090  +0.3888  +0.3888  unmask
+       reasoning  +0.7205  +0.3128  +0.3771  unmask
+       narrative  +0.7274  +0.3318  +0.3800  unmask
+     instruction  +0.7158  +0.4381  +0.3535  unmask
+
+    Combinator-weighted input test:
+           K (25 probes): unmasked=+0.7164  masked=+0.4439  delta=-0.2725
+           I ( 5 probes): unmasked=+0.7143  masked=+0.2337  delta=-0.4806
+           B (16 probes): unmasked=+0.6940  masked=+0.1049  delta=-0.5891
+           C ( 4 probes): unmasked=+0.7253  masked=+0.1822  delta=-0.5431
+           Y (16 probes): unmasked=+0.7101  masked=+0.1944  delta=-0.5157
+           W (21 probes): unmasked=+0.7179  masked=+0.2733  delta=-0.4445
+        WHNF (56 probes): unmasked=+0.7124  masked=+0.3804  delta=-0.3320
+
+  Total: 202s

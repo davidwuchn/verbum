@@ -152,7 +152,11 @@ WHNF kernel = key_plate @ input → sign → value_plate → output.
 Combinator mask selects department. Zero FFN beams needed.
 260M total plates (130 attn + 130 FFN) = 52MB model holding 7B teacher.
 Zero neuron duplication (tested: 0% at all thresholds) but full
-extraction viable via SVD compression. Details in `v13-design.md`.
+extraction viable via SVD compression. Masking HURTS (-0.19 to -0.60):
+unmasked ternary FFN wins 100% of comparisons. No department routing
+needed — full ensemble is what preserves relational structure. Lambda
+compiler routes in ATTENTION, FFN runs mechanically on full plates.
+Details in `v13-design.md`.
 Narrative + instruction cluster (text production).
 
 ## Prior session findings (118-119)
