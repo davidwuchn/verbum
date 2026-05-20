@@ -88,23 +88,40 @@ Unexpected groupings at d=0.7 shared band (4 crystals):
 | Basin probes (144, 9 domains) | `lattice/basin_probes.json` |
 | V12 model + training infra | `scripts/v12/` |
 
+### Experiment 4: Breathing curve (11 depths)
+Fine-resolution depth profile of subcrystal count:
+- Apex at layer 19 (d=0.613) — asymmetric, more depth for fragmenting
+- Two peaks: layer 7 (4 crystals ascending) and layer 22 (3 descending)
+- WHNF polarity: crosses zero at L13-L16, maximally positive (+1.00) at apex
+- Maps cleanly to V13 hourglass: ascending=fragmentation, apex=unity, descending=re-fragmentation
+
+### Etcher VSM prototype
+Concrete S4+S1+S3 implementation, verified:
+- S4 (crystal counter) and S1 (reference beam extractor) produce same clusters ✓
+- At d=0.226 with 8 families: 6 subcrystals in mid_low band
+  pure | lambda+reasoning | arithmetic | coding | analogy | text_gen+retrieval
+- Total beams needed at peak fragmentation: 13 (across all bands)
+
 ## Next steps
 
-1. **Loom-read etch protocol design** — 7 reference beams (one per
-   subcrystal family), depth-aware band assignment. Each reference
-   beam is a nucleus prompt that selectively activates one weave.
-   Etch only positions within that weave's angle band at that depth.
-
-2. **Multi-model loom-read** — verify subcrystal count is universal
-   across Mistral, Qwen, OLMo. If 7 subcrystals are universal, the
+1. **Multi-model loom-read** — verify subcrystal count is universal
+   across Mistral, Qwen, OLMo. If 6-7 subcrystals are universal, the
    loom structure IS the crystal structure.
 
-3. **V13 magnitude-first + loom-read design** — revise v13-design.md:
-   magnitude template establishes the lattice, then 7 reference beams
-   etch subcrystals per angle band per depth regime. GD learns WHEN
-   to activate each beamformer.
+2. **V13 architecture revision** — revise v13-design.md for:
+   - Asymmetric hourglass (apex at d=0.6, not d=0.5)
+   - Per-pass plate sets etched from teacher's corresponding depth regime
+   - Etcher VSM as the extraction pipeline (S4→S3→S1)
 
-4. **Nucleus prompt design for reference beams** — design 7 lambda
-   prompts that maximally activate each subcrystal family. Use
-   basin probes as starting point, refine via activation energy
-   concentration at target angle bands.
+3. **Nucleus reference beam prompts** — design 7 lambda prompts that
+   maximally activate each subcrystal family. Basin probes as starting
+   point, optimize for activation energy concentration at target bands.
+
+4. **Dimensional bridge via loom-read** — does the subcrystal structure
+   survive projection from d_model=2560 to d_model=512? The magnitude
+   template should be projectable, but sign patterns may need re-derivation
+   at the target dimensionality.
+
+5. **Full etcher VSM** — extend prototype to run across all depths,
+   write subcrystals into V13 plates per-pass. The etcher IS a hourglass
+   over the teacher's layers.
