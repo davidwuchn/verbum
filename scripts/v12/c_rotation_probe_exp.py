@@ -119,21 +119,30 @@ def magnitude_ratio(a, b):
     return float(nb / na)
 
 
-def measure_layer_rotation(model, input_ids, target_pos=-1):
-    """Run one probe, capture per-layer rotation decomposition.
+def find_eq_position(input_ids):
+    """Find the position of the '=' token in the input."""
+    for i, tok in enumerate(input_ids):
+        if tok == EQ_ID:
+            return i
+    return len(input_ids) - 1  # fallback to last
+
+
+def find_combinator_position(input_ids):
+    """Find the position of the first combinator token (K/I/B/C)."""
+    comb_ids = {TOK2ID.get(c) for c in ["K", "I", "B", "C"] if c in TOK2ID}
+    for i, tok in enumerate(input_ids):
+        if tok in comb_ids:
+            return i
+    return 1  # fallback to position after <bos>
+
+
+def measure_layer_rotation_at_pos(model, input_ids, target_pos):
+    """Run one probe, capture per-layer rotation at a specific position.
 
     For each layer L:
       h_before = input to layer (residual stream before)
       h_mid    = after attention only (residual + attn)
       h_after  = after attention + FFN (residual + attn + ffn)
-
-    Returns per-layer dict with:
-      - total_angle: angle between h_before and h_after
-      - attn_angle:  angle between h_before and h_mid (attention rotation)
-      - ffn_angle:   angle between h_mid and h_after (FFN displacement)
-      - attn_magnitude: |attn_contribution| / |h_before|
-      - ffn_magnitude:  |ffn_contribution| / |h_mid|
-      - total_magnitude: |h_after| / |h_before|
     """
     x = model.embed(mx.array(np.array([input_ids], dtype=np.int32)))
     mx.eval(x)
@@ -142,21 +151,18 @@ def measure_layer_rotation(model, input_ids, target_pos=-1):
     for li, layer in enumerate(model.layers):
         h_before = np.array(x[0, target_pos, :]).copy()
 
-        # Attention step: x + attn(norm(x))
         attn_input = layer.attn_norm(x)
         attn_out = layer.attn(attn_input)
         h_mid_full = x + attn_out
         mx.eval(h_mid_full)
         h_mid = np.array(h_mid_full[0, target_pos, :]).copy()
 
-        # FFN step: h_mid + ffn(norm(h_mid))
         ffn_input = layer.ffn_norm(h_mid_full)
         ffn_out = layer.ffn(ffn_input)
         h_after_full = h_mid_full + ffn_out
         mx.eval(h_after_full)
         h_after = np.array(h_after_full[0, target_pos, :]).copy()
 
-        # Decompose
         attn_contrib = h_mid - h_before
         ffn_contrib = h_after - h_mid
 
@@ -169,7 +175,6 @@ def measure_layer_rotation(model, input_ids, target_pos=-1):
             "ffn_magnitude": float(np.linalg.norm(ffn_contrib) /
                                    max(np.linalg.norm(h_mid), 1e-10)),
             "total_magnitude": magnitude_ratio(h_before, h_after),
-            # Raw vectors for cross-combinator comparison
             "h_before": h_before,
             "h_after": h_after,
             "attn_contrib": attn_contrib,
@@ -181,43 +186,76 @@ def measure_layer_rotation(model, input_ids, target_pos=-1):
     return layer_data
 
 
+def measure_layer_rotation(model, input_ids, target_pos=-1):
+    """Backward-compatible wrapper."""
+    if target_pos == -1:
+        target_pos = len([t for t in input_ids if t != PAD_ID]) - 1
+    return measure_layer_rotation_at_pos(model, input_ids, target_pos)
+
+
+def _aggregate_layers(all_layers):
+    """Aggregate per-layer measurements into stats."""
+    layer_stats = []
+    for li in range(N_LAYERS):
+        lds = all_layers[li]
+        if not lds:
+            layer_stats.append({})
+            continue
+        stats = {}
+        for key in ["total_angle", "attn_angle", "ffn_angle",
+                    "attn_magnitude", "ffn_magnitude", "total_magnitude"]:
+            vals = [ld[key] for ld in lds]
+            stats[key] = {
+                "mean": float(np.mean(vals)),
+                "std": float(np.std(vals)),
+                "min": float(np.min(vals)),
+                "max": float(np.max(vals)),
+            }
+        stats["mean_attn_dir"] = np.mean([ld["attn_contrib"] for ld in lds], axis=0)
+        stats["mean_ffn_dir"] = np.mean([ld["ffn_contrib"] for ld in lds], axis=0)
+        stats["mean_h_before"] = np.mean([ld["h_before"] for ld in lds], axis=0)
+        stats["mean_h_after"] = np.mean([ld["h_after"] for ld in lds], axis=0)
+        layer_stats.append(stats)
+    return layer_stats
+
+
 def measure_combinator_rotations(model, probes):
-    """Measure rotation angles for all probes, aggregate per combinator."""
-    results = {}
+    """Measure rotation angles at BOTH combinator position and '=' position.
+
+    Returns two result dicts:
+      routing_data: rotation at combinator token position (routing mode)
+      whnf_data:    rotation at '=' token position (WHNF/output mode)
+
+    If WHNF is anti-correlated with routing, the rotation directions
+    at '=' should be opposite to the rotation at the combinator token.
+    """
+    routing_results = {}
+    whnf_results = {}
 
     for comb_name in COMBINATORS:
         comb_probes = probes[comb_name]
-        all_layers = [[] for _ in range(N_LAYERS)]
+        routing_layers = [[] for _ in range(N_LAYERS)]
+        whnf_layers = [[] for _ in range(N_LAYERS)]
 
         for probe in comb_probes:
-            layer_data = measure_layer_rotation(model, probe["ids"])
-            for li, ld in enumerate(layer_data):
-                all_layers[li].append(ld)
+            ids = probe["ids"]
+            comb_pos = find_combinator_position(ids)
+            eq_pos = find_eq_position(ids)
 
-        # Aggregate per layer
-        layer_stats = []
-        for li in range(N_LAYERS):
-            lds = all_layers[li]
-            stats = {}
-            for key in ["total_angle", "attn_angle", "ffn_angle",
-                        "attn_magnitude", "ffn_magnitude", "total_magnitude"]:
-                vals = [ld[key] for ld in lds]
-                stats[key] = {
-                    "mean": float(np.mean(vals)),
-                    "std": float(np.std(vals)),
-                    "min": float(np.min(vals)),
-                    "max": float(np.max(vals)),
-                }
-            # Mean direction vectors for cross-combinator comparison
-            stats["mean_attn_dir"] = np.mean([ld["attn_contrib"] for ld in lds], axis=0)
-            stats["mean_ffn_dir"] = np.mean([ld["ffn_contrib"] for ld in lds], axis=0)
-            stats["mean_h_before"] = np.mean([ld["h_before"] for ld in lds], axis=0)
-            stats["mean_h_after"] = np.mean([ld["h_after"] for ld in lds], axis=0)
-            layer_stats.append(stats)
+            # Measure at combinator position (routing mode)
+            routing_data = measure_layer_rotation_at_pos(model, ids, comb_pos)
+            for li, ld in enumerate(routing_data):
+                routing_layers[li].append(ld)
 
-        results[comb_name] = layer_stats
+            # Measure at '=' position (WHNF mode)
+            whnf_data = measure_layer_rotation_at_pos(model, ids, eq_pos)
+            for li, ld in enumerate(whnf_data):
+                whnf_layers[li].append(ld)
 
-    return results
+        routing_results[comb_name] = _aggregate_layers(routing_layers)
+        whnf_results[comb_name] = _aggregate_layers(whnf_layers)
+
+    return routing_results, whnf_results
 
 
 def cross_combinator_analysis(rotation_data):
@@ -336,17 +374,17 @@ def main():
     log(f"\n{'═'*60}")
     log("Measuring per-combinator rotation angles...")
 
-    rotation_data = measure_combinator_rotations(teacher, probes)
+    routing_data, whnf_data = measure_combinator_rotations(teacher, probes)
 
-    # Print rotation profiles
-    log(f"\n  Per-combinator rotation angles (degrees):")
+    # Print ROUTING rotation profiles (at combinator token position)
+    log(f"\n  ROUTING mode (at combinator token position):")
     log(f"  {'Comb':>4s}  {'Layer':>5s}  {'Total':>8s}  {'Attn':>8s}  {'FFN':>8s}  "
         f"{'|Attn|':>8s}  {'|FFN|':>8s}")
     log(f"  {'─'*4}  {'─'*5}  {'─'*8}  {'─'*8}  {'─'*8}  {'─'*8}  {'─'*8}")
 
     for c in COMBINATORS:
         for li in range(N_LAYERS):
-            s = rotation_data[c][li]
+            s = routing_data[c][li]
             log(f"  {c:>4s}  L{li:>4d}  "
                 f"{s['total_angle']['mean']:8.2f}  "
                 f"{s['attn_angle']['mean']:8.2f}  "
@@ -354,6 +392,42 @@ def main():
                 f"{s['attn_magnitude']['mean']:8.3f}  "
                 f"{s['ffn_magnitude']['mean']:8.3f}")
         log("")
+
+    # Print WHNF rotation profiles (at '=' token position)
+    log(f"\n  WHNF mode (at '=' token position — stop and output):")
+    log(f"  {'Comb':>4s}  {'Layer':>5s}  {'Total':>8s}  {'Attn':>8s}  {'FFN':>8s}  "
+        f"{'|Attn|':>8s}  {'|FFN|':>8s}")
+    log(f"  {'─'*4}  {'─'*5}  {'─'*8}  {'─'*8}  {'─'*8}  {'─'*8}  {'─'*8}")
+
+    for c in COMBINATORS:
+        for li in range(N_LAYERS):
+            s = whnf_data[c][li]
+            log(f"  {c:>4s}  L{li:>4d}  "
+                f"{s['total_angle']['mean']:8.2f}  "
+                f"{s['attn_angle']['mean']:8.2f}  "
+                f"{s['ffn_angle']['mean']:8.2f}  "
+                f"{s['attn_magnitude']['mean']:8.3f}  "
+                f"{s['ffn_magnitude']['mean']:8.3f}")
+        log("")
+
+    # ROUTING vs WHNF direction comparison
+    log(f"\n  ROUTING vs WHNF direction correlation:")
+    log(f"  {'Comb':>4s}  {'Layer':>5s}  {'Route↔WHNF attn':>16s}  {'Route↔WHNF ffn':>15s}")
+    log(f"  {'─'*4}  {'─'*5}  {'─'*16}  {'─'*15}")
+    for c in COMBINATORS:
+        for li in range(N_LAYERS):
+            r_attn = routing_data[c][li]["mean_attn_dir"]
+            w_attn = whnf_data[c][li]["mean_attn_dir"]
+            r_ffn = routing_data[c][li]["mean_ffn_dir"]
+            w_ffn = whnf_data[c][li]["mean_ffn_dir"]
+            attn_angle = cosine_angle(r_attn, w_attn)
+            ffn_angle = cosine_angle(r_ffn, w_ffn)
+            anti = "← ANTI" if attn_angle > 120 else ("← ORTHO" if attn_angle > 60 else "")
+            log(f"  {c:>4s}  L{li:>4d}  {attn_angle:14.1f}°  {ffn_angle:13.1f}°  {anti}")
+        log("")
+
+    # Use routing_data for cross-combinator analysis
+    rotation_data = routing_data
 
     # ══════════════════════════════════════════════════════════════
     # Cross-combinator direction comparison
@@ -449,6 +523,30 @@ def main():
         ffn_mean = np.mean([rotation_data[c][li]["ffn_angle"]["mean"] for c in COMBINATORS])
         log(f"  L{li}: attn={attn_mean:.1f}° vs ffn={ffn_mean:.1f}° "
             f"{'← attn dominates' if attn_mean > ffn_mean else '← FFN dominates'}")
+
+    # WHNF anti-correlation test
+    log(f"\n  WHNF anti-correlation test:")
+    for li in range(N_LAYERS):
+        anti_angles = []
+        for c in COMBINATORS:
+            r_attn = routing_data[c][li]["mean_attn_dir"]
+            w_attn = whnf_data[c][li]["mean_attn_dir"]
+            anti_angles.append(cosine_angle(r_attn, w_attn))
+        mean_anti = np.mean(anti_angles)
+        log(f"  L{li}: mean routing↔WHNF angle = {mean_anti:.1f}° "
+            f"{'← ANTI-CORRELATED (>120°)' if mean_anti > 120 else ''}"
+            f"{'← ORTHOGONAL (60-120°)' if 60 <= mean_anti <= 120 else ''}"
+            f"{'← CORRELATED (<60°)' if mean_anti < 60 else ''}")
+
+    # Does FFN activate more for WHNF?
+    log(f"\n  FFN activation: routing vs WHNF:")
+    for li in range(N_LAYERS):
+        route_ffn = np.mean([routing_data[c][li]["ffn_magnitude"]["mean"] for c in COMBINATORS])
+        whnf_ffn = np.mean([whnf_data[c][li]["ffn_magnitude"]["mean"] for c in COMBINATORS])
+        ratio = whnf_ffn / max(route_ffn, 1e-10)
+        log(f"  L{li}: routing FFN={route_ffn:.3f}, WHNF FFN={whnf_ffn:.3f}, "
+            f"ratio={ratio:.1f}× "
+            f"{'← FFN activates for WHNF!' if ratio > 2 else ''}")
 
     # Save results (strip numpy arrays for JSON)
     save_results = {
