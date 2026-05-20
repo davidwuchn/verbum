@@ -1,0 +1,38 @@
+{
+  "model": "pythia-2.8b",
+  "rank": 64,
+  "n_layers": 32,
+  "plate_mb": 1.25,
+  "beam_mb": 52.0703125,
+  "total_mb": 53.3203125,
+  "original_mb": 5293.291015625,
+  "compression": 99.27344322344322,
+  "mean_binder_cosine": 0.6297835695661922,
+  "mean_body_cosine": 0.6201505354762384,
+  "reconstruction": {
+    "per_layer": {
+      "0": {
+        "q_cosine_mean": 0.7457949295639992,
+        "up_cosine_mean": 0.00893537787995677
+      },
+      "8": {
+        "q_cosine_mean": 0.4570436365902424,
+        "up_cosine_mean": 0.4651412440627636
+      },
+      "16": {
+        "q_cosine_mean": 0.25021830201148987,
+        "up_cosine_mean": 0.3993961292856215
+      },
+      "24": {
+        "q_cosine_mean": 0.5763089507818222,
+        "up_cosine_mean": 0.32513806171487436
+      },
+      "31": {
+        "q_cosine_mean": 0.4103214932838455,
+        "up_cosine_mean": 0.25864575762887876
+      }
+    },
+    "mean_q_cosine": 0.48793746244627983,
+    "mean_up_cosine": 0.291451314114419
+  }
+}

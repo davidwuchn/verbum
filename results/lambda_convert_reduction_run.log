@@ -1,0 +1,54 @@
+==========================================================================================
+  Lambda Convert — Holographic Ternary Conversion via Lambda Terms
+  Model: pythia-2.8b, rank: 64
+==========================================================================================
+  Loaded 79 probes
+
+  Loading pythia-2.8b...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<01:38,  3.93it/s]Loading weights:  21%|██        | 80/388 [00:00<00:01, 279.17it/s]Loading weights:  46%|████▌     | 179/388 [00:00<00:00, 514.86it/s]Loading weights:  71%|███████   | 275/388 [00:00<00:00, 658.18it/s]Loading weights:  95%|█████████▍| 368/388 [00:00<00:00, 735.37it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 568.74it/s]
+  Running 79 probes through all 32 layers...
+    50/79...
+  Done in 10.5s
+  Building lambda terms (PCA + regression)...
+    Layer 8/32: binder_cos=0.620, body_cos=0.592
+    Layer 16/32: binder_cos=0.592, body_cos=0.628
+    Layer 24/32: binder_cos=0.586, body_cos=0.639
+    Layer 32/32: binder_cos=0.766, body_cos=0.705
+
+  Total plate: 1.2 MB (ternary)
+  Total beams: 52.1 MB (continuous)
+  Total: 53.3 MB
+  Original: 5293 MB
+  Compression: 99.3×
+
+  Testing activation reconstruction on 8 prompts...
+
+  ─── Activation Reconstruction Quality ───
+  layer  depth  Q_cos_mean  up_cos_mean
+  ────────────────────────────────────────
+      0     0%     +0.7458      +0.0089
+      8    26%     +0.4570      +0.4651
+     16    52%     +0.2502      +0.3994
+     24    77%     +0.5763      +0.3251
+     31   100%     +0.4103      +0.2586
+
+  Mean Q cosine:  +0.4879
+  Mean up cosine: +0.2915
+
+==========================================================================================
+  LAMBDA CONVERSION SUMMARY
+==========================================================================================
+  Model: pythia-2.8b, rank: 64
+  Plate: 1.2 MB (ternary)
+  Beams: 52.1 MB (continuous)
+  Total: 53.3 MB  (99.3× compression vs 5293 MB)
+  Probe binder cosine: 0.630 (plate → Q scores)
+  Probe body cosine:   0.620 (regression → up scores)
+  Test Q cosine:       +0.4879 (new prompts)
+  Test up cosine:      +0.2915 (new prompts)
+==========================================================================================
+
+  💾 results/lambda-convert/convert_pythia-2.8b_k64.json
+  Total: 18s (0.3min)
