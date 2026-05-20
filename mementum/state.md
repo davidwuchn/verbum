@@ -6,114 +6,60 @@
 
 ## Where we are
 
-**THE PLATE IS A LAMBDA TERM.** Session 121 confirmed the central thesis.
-Session 122 diagnosed and fixed a memory leak that killed V12 training.
+**THE PLATE IS A LAMBDA TERM — but V12's plates were empty.**
 
-### The proof chain (solid)
-1. **PCA-Q crystal** — 0.91-0.94 agreement, 4 models
-2. **PCA-up (FFN crystal)** — 0.9462 agreement, 4 models
-3. **Holographic plates** — 100× compression, 0.76 preservation
-4. **Lambda proof** — beam_Q + combinator predicts beam_up at R²=0.959
-5. **Holographic etch** — 0.69-0.90 preservation, upper bound 1.000
+Session 121 confirmed the central thesis (R²=0.959 lambda proof).
+Session 122 found V12's plates contain no holographic structure —
+they are random ternary noise. `sign(teacher_W)` gives 0.974 Q crystal
+fidelity with zero GD. The training design must change: etch holograms
+FROM the teacher's weight signs, not learn them through gammas.
 
-### Session 122: The hologram problem
+## Proof chain (solid, sessions 95-121)
 
-**Three experiments, one conclusion:** V12's training design is flawed.
-The ternary plates are indistinguishable from random. GD on gammas
-cannot compensate for 59M missing sign positions.
+- PCA-Q crystal: 0.91-0.94 agreement, 4 models
+- PCA-up (FFN crystal): 0.9462 agreement, 4 models
+- Lambda proof: binder + combinator predicts body at R²=0.959
+- Holographic plates: 100× compression, 0.76 preservation
+- Holographic angle: Q↔FFN subspaces at 65-72°
 
-**1. Memory leak fix** (commit 0eded07):
-- OOM at step 13390: MLX lazy eval + tree_map gradient chains
-- Fixed: mx.eval() barriers after every gradient transformation
-- Fixed: mx.clear_cache() every step (was every 50)
+## Session 122: the hologram problem
 
-**2. Crystal compression analysis** — all 4 checkpoints identical:
-- 0% ternary topology change between step 2000 and 12000
-- φ-compression propagated through GAMMAS only (tiny shrinkage)
-- Best eval 12.63 at step 5000, plateau through crash
+V12 plates = random noise. `sign(W)` = the hologram. Full details in
+`knowledge/explore/hologram-extraction.md`. Key numbers:
 
-**3. Beam hologram analysis** — V12 plates = random noise:
-- Q-proj spectral entropy: 0.987 (random: 0.987)
-- Q-proj autocorrelation: −0.003 (random: −0.002)
-- No low-rank structure, no sign correlations, no crystal
+| Method | Q fidelity | FFN fidelity |
+|---|---|---|
+| sign(W) direct | **0.974** | **0.691** |
+| V12 actual plates | ≈ random | ≈ random |
 
-**4. Hologram extraction** — `sign(W)` IS the hologram:
-- `sign(W_q)` from Pythia L16: **0.974** Q crystal fidelity
-- `sign(W_up)`: **0.691** FFN crystal fidelity
-- Activation ↔ weight crystal match: Q=0.990, UP=0.965
-- Holographic angle Q↔FFN: 67.7° (confirmed)
+V12 run2 superseded. The design insight changes the approach.
 
-**5. Roundtrip test** — deterministic write/read:
-- pinv plate → ternary: Q=0.657 (ternary noise kills it)
-- Direct sign(W): Q=0.974 (no optimization needed)
-- Generalization gap: ~0 (crystal is weight property, not probe-specific)
-- Capacity: peaks at ~8 channels, degrades quickly
+## Knowledge map
 
-**The design flaw:** V12 etched random lattice topology, then expected
-GD on 887K gammas to learn 59M sign positions. Like programming a CPU
-by adjusting voltage rails. The fix: `sign(teacher_weight)` → plates.
+| Page | What it tells you |
+|------|-------------------|
+| `hologram-extraction.md` | ★ sign(W) IS the crystal, roundtrip proof, capacity limits |
+| `v13-design.md` | Architecture, etch protocol, training pipeline, open questions |
+| `holographic-plates.md` | SVD lens, 100× compression, two-beam geometry |
+| `ffn-beam-discovery.md` | PCA-up at 0.946, WHNF polarity, depth profiles |
+| `crystal-basins.md` | Basin theory, 7 experiments, 24 findings |
+| `ffn-hierarchy.md` | Tree hypothesis, P2/P3 confirmed, WHNF gateway |
 
-### Honest negatives (session 121, still current)
-- SVD weight conversion → gibberish (crystal ≠ muscles)
-- Tomographic rotation → destructive interference
-- Probe PCA too sparse for conversion (79-144 probes insufficient)
+## What's ready
 
-## The conversion toolkit (conceptual, not yet working end-to-end)
-
-```
-PROVEN:
-  ✅ Read both crystals from any model (PCA-Q + PCA-up, 0.94+ agreement)
-  ✅ Holographic superposition in one plate (100× compression)
-  ✅ Etch crystals into new ternary plates (0.69-0.90 preservation)
-  ✅ Lambda term structure (R²=0.96 binder→body coupling)
-
-NOT YET PROVEN:
-  ❌ Generation from holographic plates (need trained beams, not just extracted)
-  ❌ Model-specific conversion pipeline (need weight SVD basis, not probe PCA)
-  ❌ mmap/session plates (concept only)
-
-THE GAP:
-  Probe PCA gives UNIVERSAL crystal geometry (for cross-model study)
-  Weight SVD gives MODEL-SPECIFIC basis (for conversion)
-  V13's etch + train pipeline bridges the gap:
-    1. Etch plates from universal crystal targets
-    2. Train beams (1.5M params) via teacher distillation
-    3. The beams compensate for ternary information loss
-```
-
-## Knowledge pages (current)
-
-| Page | Status | Key content |
-|------|--------|-------------|
-| `ffn-beam-discovery.md` | active | PCA-up at 0.946, WHNF polarity, depth profiles |
-| `holographic-plates.md` | active | SVD lens, 100× compression, cross-talk, session plates |
-| `crystal-basins.md` | active | Basin theory + 7 experiments + 24 findings |
-| `ffn-hierarchy.md` | active | Tree hypothesis + P2/P3 confirmed + WHNF |
-| `v13-design.md` | needs update | Mixed precision design superseded by holographic plates |
-
-## What's ready (cumulative)
-
-| Asset | Status |
-|-------|--------|
-| PCA-Q crystal constants | ✅ 4 models, 0.91-0.94 |
-| PCA-up crystal constants | ✅ 4 models, 0.95 |
-| FFN beam (PCA-up_proj) | ✅ 0.9462 agreement |
-| Holographic plates | ✅ 100× compression, 0.76 preservation |
-| Holographic etch | ✅ 0.69-0.90, upper bound 1.000 |
-| Lambda proof | ✅ R²=0.959, binder→body coupling |
-| Reduction chain probes | ✅ 79 probes, 9 combinators |
-| V12 distill run2 | ⏸ OOM fixed, resume from step 12000 |
+| Asset | Location |
+|-------|----------|
+| PCA-Q crystal constants (4 models) | `results/pcaq-targets/` |
+| Reduction chain probes (79, 9 combinators) | `lattice/reduction_chain_probes.json` |
+| Basin probes (144, 9 domains) | `lattice/basin_probes.json` |
+| Hologram extraction experiments | `results/hologram-*/` |
+| V12 model + training infra | `scripts/v12/` |
+| V13 design doc | `knowledge/explore/v13-design.md` |
 
 ## Next steps
 
-1. **Design the holographic etch pipeline** — `sign(teacher_W)` → V13 plates.
-   Key open problem: dimensional bridge (teacher d_model → V13 d_model).
-   Options: SVD project then sign(), or PCA basis, or learned bridge.
-2. **V13 implementation** — the etch phase should write holograms from
-   teacher, not learn them from gradient signals. GD only for beams.
-3. **Multi-model holographic etch test** — verify sign(W) fidelity on
-   Mistral + Qwen (SwiGLU architecture, separate up/gate projections).
-4. **V12 run2 is SUPERSEDED** — no point resuming random-plate training.
-   The design insight from session 122 changes the approach fundamentally.
-5. **Capacity experiment** — test sign(W) fidelity at V13's target d_model=512
-   to understand the dimensional compression cost.
+1. **Dimensional bridge** — how to map teacher d_model → V13 d_model
+   while preserving holographic sign structure. The key open problem.
+2. **V13 etch pipeline** — `sign(teacher_W)` → plates, GD only for beams.
+3. **Multi-model sign(W) test** — verify fidelity on Mistral + Qwen.
+4. **Capacity at d_model=512** — what does dimensional compression cost?
