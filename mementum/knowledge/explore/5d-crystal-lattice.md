@@ -1,0 +1,174 @@
+---
+title: "5D Crystal Lattice Hypothesis — One Crystal, Many Projections"
+status: open
+category: hypothesis
+tags: [crystal, lattice, 5d, manifold, combinators, projection, quasicrystal]
+related:
+  - crystal-basins.md
+  - ffn-beam-discovery.md
+  - holographic-plates.md
+  - ffn-hierarchy.md
+  - v13-funnel-shape.md
+depends-on:
+  - ffn-beam-discovery.md
+  - holographic-plates.md
+created: session 121
+---
+
+# 5D Crystal Lattice Hypothesis
+
+> Session 121 endnote. All the measured crystals — per-depth, per-model,
+> per-domain, per-combinator, binder↔body — may be facets of one
+> higher-dimensional lattice. The combinators are the vertices. The
+> domains are projections. The model is a sequence of viewing angles.
+
+## The observation
+
+Session 121 proved five independent "piles" of crystal measurements
+all agree at 0.87-0.95:
+
+| Pile | What varies | Agreement |
+|------|------------|-----------|
+| Depth | Layer position (10%-90%) | 0.849-0.887 self-similarity |
+| Model | Architecture (Qwen/Mistral/OLMo/Pythia) | 0.91-0.95 cross-model |
+| Domain | Skill type (9 domains) | 0.43-0.87 per domain |
+| Combinator | Reduction type (8 combinators) | 0.94+ 8×8 geometry |
+| Lambda role | Binder↔body (Q↔FFN) | R²=0.959 coupling |
+
+These can't all be independently universal by coincidence. They must
+be projections of a shared higher-dimensional structure.
+
+## The hypothesis
+
+There exists a ~5-dimensional lattice L such that:
+
+1. **Combinator vertices**: K, I, B, C, S, D, W, Y, WHNF are points
+   in L. Their pairwise distances define the 8×8 cosine matrix we
+   measured (0.94+ agreement).
+
+2. **Domain projections**: Each skill domain (reasoning, coding, lambda,
+   retrieval...) is a 1-2D linear subspace of L. The crystal scanner
+   showed: reasoning=1D, coding=2D, retrieval=2D. These are planes
+   through the lattice at different angles.
+
+3. **Depth slices**: Each model layer views L from a different angle.
+   Self-similarity (0.85-0.89) means the angles change slowly.
+   The V13 funnel shape (5D→3D→2D) is the projection narrowing
+   as computation proceeds.
+
+4. **Model invariance**: Different models (Qwen, Mistral, Pythia)
+   discover the same L because L is a property of language structure
+   (Montague semantics / lambda calculus), not of any specific model.
+
+5. **Lambda coupling**: The binder (Q) and body (FFN) views of L
+   are related by the reduction rule at each vertex. R²=0.96
+   because the reduction constrains the relationship between the
+   two views.
+
+## Why ~5 dimensions?
+
+From the crystal scanner data (session 120):
+```
+reasoning:   1D (86.3% in PC1)   — projects onto 1 axis of L
+tool:        1D (71.3% in PC1)   — different 1D projection
+lambda:      2D                   — spans a 2D plane in L
+arithmetic:  2D                   — different 2D plane
+coding:      2D                   — different 2D plane
+analogy:     2D                   — different 2D plane
+retrieval:   2D                   — different 2D plane
+```
+
+To accommodate nine 1-2D projections that are partially overlapping
+but not identical, you need at least ~5 dimensions. This matches
+the V13 funnel shape (5D→3D→2D at different zone depths).
+
+The PCA dim sweep (session 121) found k=64 optimal for the 8×8
+combinator targets. But the COMBINATOR geometry itself lives in
+far fewer dimensions — the 8 combinators span at most 7D (8 points
+minus 1 for centering). The actual effective dimensionality of the
+combinator geometry needs measurement.
+
+## Connection to quasicrystals
+
+In crystallography, quasicrystals (Penrose tilings, Dan Shechtman 1982)
+are 2D patterns that have 5-fold symmetry — impossible for a periodic
+crystal. The resolution: they're PROJECTIONS of a 5D periodic lattice.
+The 2D pattern is aperiodic but the 5D structure is perfectly ordered.
+
+If the combinator crystal is analogous:
+- The 2D domain crystals have "impossible" self-similarity (0.87)
+- They're projections of a 5D lattice with perfect periodicity
+- The lattice is the lambda calculus (periodic: same rules at every scale)
+- The model is a quasicrystalline projection of this lattice
+
+This would explain why the crystal is self-similar but not periodic
+(H≈0.70 Hurst exponent for language): the projection from 5D to 2D
+produces aperiodic self-similarity, just like a Penrose tiling.
+
+## Testable predictions
+
+### P1: Joint embedding recovers ~5D manifold
+Take ALL measured crystal RDMs (per-depth × per-model × per-domain).
+Stack into one big dissimilarity matrix. MDS or UMAP into low dimensions.
+If the hypothesis holds: the embedding should be ~5D (elbow in stress
+plot), with combinator anchors as vertices.
+
+### P2: Combinator vertices span the manifold
+PCA of the 8 combinator anchor positions in the joint embedding
+should explain >90% of variance with 4-5 components.
+
+### P3: Domain projections are linear subspaces
+Each domain's crystal, embedded in the joint space, should lie on
+a 1-2D linear subspace (verifiable via local PCA within each domain
+cluster). The subspace orientation should match the crystal scanner's
+dimensionality measurements.
+
+### P4: Depth = rotation angle through L
+The cross-depth self-similarity matrix should be explainable as
+rotation in L. Consecutive depths = small angle rotation. The
+self-similarity should follow cos(Δθ) where Δθ ∝ |depth_i - depth_j|.
+
+### P5: The funnel is projection narrowing
+Zone A (5D) → Zone B (3D) → Zone C (2D) from the V13 funnel shape.
+In the joint embedding, shallow layers should span 5D, middle layers
+3D, deep layers 2D. Measurable via local PCA rank at each depth.
+
+### P6: New model = same lattice
+A model not in the original set (e.g., Llama, SmolLM) should embed
+onto the SAME lattice positions, confirming universality.
+
+## Experiment design (session 122)
+
+```python
+# Collect all crystal measurements into one matrix:
+#   For each (model × depth × domain): one RDM
+#   Stack all RDMs into a distance matrix between conditions
+#   MDS → embedding → measure dimensionality
+
+# Ingredients (already measured):
+#   - 4 models × 5-10 depths × 9 domains = ~180-360 RDMs
+#   - 8 combinator anchors per RDM
+#   - Binder (Q) and body (FFN) versions of each
+
+# New measurement needed:
+#   - Per-domain crystal RDMs from PCA-up (FFN beam) — currently only have PCA-Q
+#   - This gives us the body-side domain crystals for joint embedding
+
+# Analysis:
+#   1. Build super-RDM: correlation between all pairs of crystal RDMs
+#   2. MDS into k dimensions, sweep k, find elbow
+#   3. Locate combinator anchors in the embedding
+#   4. Measure local dimensionality per domain, per depth
+#   5. Test rotation model for depth progression
+```
+
+## Why this matters
+
+If the 5D lattice is real:
+- The model conversion toolkit etches ONE lattice, not 32 separate plates
+- The lattice is shared across all layers (just different viewing angles)
+- The dispatch selects which vertex of the lattice to reduce toward
+- The total information content is ~5D × 8 vertices = ~40 numbers
+  plus the continuous beams that parameterize the viewing angle
+
+Forty numbers. That's the crystal. Everything else is projection.
