@@ -2,49 +2,62 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-20 | Session: 121
+> Last updated: 2026-05-20 | Session: 122
 
 ## Where we are
 
-**THE PLATE IS A LAMBDA TERM.** Session 121 — the biggest session yet.
-8 experiments, 4 breakthroughs, 3 honest negatives. The central thesis
-of Verbum is now empirically confirmed: transformer layers perform
-beta reductions, readable via two beams, encodable in ternary plates.
+**THE PLATE IS A LAMBDA TERM.** Session 121 confirmed the central thesis.
+Session 122 diagnosed and fixed a memory leak that killed V12 training.
 
-### The proof chain
-1. **FFN beam found** — PCA-up_proj reads FFN crystal at 0.9462 (4 models)
-   Higher than PCA-Q's 0.9431 for attention. Two beams. Two crystals.
-2. **Holographic plates** — both crystals in one ternary plate per layer.
-   SVD lens, 65-72° principal angles, 100× compression, 0.76 preservation.
-3. **Lambda proof** — beam_Q + combinator predicts beam_up at R²=0.959.
-   The binder determines the body. The plate IS a lambda term.
-4. **Holographic etch** — new ternary plates from crystal readings.
-   Continuous upper bound = 1.000. Crude etch achieves 0.69-0.90.
-   Deep FFN layers: 0.900 preservation. 80KB per plate.
+### The proof chain (solid)
+1. **PCA-Q crystal** — 0.91-0.94 agreement, 4 models
+2. **PCA-up (FFN crystal)** — 0.9462 agreement, 4 models
+3. **Holographic plates** — 100× compression, 0.76 preservation
+4. **Lambda proof** — beam_Q + combinator predicts beam_up at R²=0.959
+5. **Holographic etch** — 0.69-0.90 preservation, upper bound 1.000
 
-### What this means
-Each transformer layer IS a beta reduction:
-```
-beam_Q  = the λ-binder     (attention crystal — WHERE to bind)
-beam_up = the body          (FFN crystal — WHAT to compute after binding)
-dispatch = combinator type  (K/I/B/C/S/D/W/Y/WHNF — HOW to reduce)
+### Session 122: Memory leak fix + run2 analysis
 
-Given binder + dispatch → body is PREDICTED at R²=0.96
-The plate stores a lambda term. The beams read binder and body.
-The combinator dispatch selects the reduction rule.
-```
+**Bug:** `holographic_distill_v12.py` OOM at step ~13390 of 20000.
+`[metal::malloc] Resource limit (499000) exceeded.`
 
-### Honest negatives
-- **SVD weight conversion fails** — sign(Vt) produces gibberish at any rank
-  (64 and 512 tested). Crystal preservation ≠ generation quality. The crystal
-  is the skeleton; you can't skip training the muscles.
-- **Tomographic rotation hurts** — Givens rotations within PCA subspace cause
-  destructive interference. Superpositions are in dims 65+, not remixes of 1-64.
-- **Probe-based PCA too sparse for conversion** — 79-144 probes insufficient to
-  span activation space. Test cosine 0.48 (generic) / 0.29 (reduction probes).
-  For model-specific conversion, need weight SVD, not probe PCA.
+**Root cause:** MLX lazy evaluation + repeated `tree_map` gradient
+transformations. Each `tree_map` creates new array trees referencing
+old ones through the computation graph. Without `mx.eval()` barriers,
+~5-7 full gradient trees accumulate per step. With `mx.clear_cache()`
+only every 50 steps, ~300 dead gradient trees of Metal allocations
+pile up before any cleanup.
 
-V12 training continues on tmux 1 (step ~3500, 2 layers at φ).
+**Fixes applied (commit 0eded07):**
+- `mx.eval()` after every gradient tree_map (accum merge, division,
+  lattice merge, normalize, zero_ternary, clip)
+- `mx.clear_cache()` every step (was every 50)
+- Removed unbounded `train_losses` list (dead code)
+- Release `model._last_ce` tensor reference after reading
+- Same fixes applied to Phase 1 etch loop
+
+### V12 distill run2 trajectory
+
+Best eval = **12.63 at step 5000** (never beaten through step 13000).
+Steps 5000-13000 are a plateau around 12.6-13.3.
+
+| Checkpoint | Train r | Eval Loss | φ status |
+|---|---|---|---|
+| step 2000 | 1.149 | 13.68 | 1-2 passes at φ |
+| **best (5000)** | **0.900** | **12.63** | **L0↑, L2↑ at φ** |
+| step 8000 | 1.045 | 13.07 | L0↑ at φ, desc converging |
+| step 12000 | 0.692 | 13.15 | 6/7 passes near φ |
+| step 13000 | — | 12.81 | L0↑←φ, L0↓←φ |
+| crashed 13390 | — | — | — |
+
+φ-compression propagating well — ascending arm locked by step 3500,
+descending arm converging. Dispatch stable: B=0.38, W=0.27, I=0.13.
+Train loss decoupling from eval suggests overfitting or mix imbalance.
+
+### Honest negatives (session 121, still current)
+- SVD weight conversion → gibberish (crystal ≠ muscles)
+- Tomographic rotation → destructive interference
+- Probe PCA too sparse for conversion (79-144 probes insufficient)
 
 ## The conversion toolkit (conceptual, not yet working end-to-end)
 
@@ -69,7 +82,7 @@ THE GAP:
     3. The beams compensate for ternary information loss
 ```
 
-## Knowledge pages (session 121)
+## Knowledge pages (current)
 
 | Page | Status | Key content |
 |------|--------|-------------|
@@ -79,53 +92,28 @@ THE GAP:
 | `ffn-hierarchy.md` | active | Tree hypothesis + P2/P3 confirmed + WHNF |
 | `v13-design.md` | needs update | Mixed precision design superseded by holographic plates |
 
-## Session 121 artifacts
-
-| File | Content |
-|------|---------|
-| `scripts/v12/ffn_beam_search.py` | 4-hook-point beam search (up_proj wins) |
-| `scripts/v12/ffn_beam_refine.py` | PCA dim sweep + 8×8 combinator targets |
-| `scripts/v12/holographic_lens_test.py` | Hidden-state test (failed) |
-| `scripts/v12/holographic_weight_test.py` | Weight-space test (★★★ works) |
-| `scripts/v12/holographic_etch.py` | Crystal recording into new plates |
-| `scripts/v12/tomographic_etch.py` | Rotation sweep (❌ destructive interference) |
-| `scripts/v12/lambda_proof.py` | Binder predicts body at R²=0.959 |
-| `scripts/v12/lambda_convert.py` | Conversion attempt (probe bottleneck) |
-| `scripts/v12/convert_and_test.py` | SVD weight conversion (❌ gibberish) |
-| `lattice/reduction_chain_probes.json` | 79 structured reduction probes |
-| `results/ffn-beam/` | FFN beam results (4 models) |
-| `results/holographic-lens/` | Holographic plate + weight test results |
-| `results/holographic-etch/` | Etch results (Pythia) |
-| `results/tomographic-etch/` | Tomographic etch (negative) |
-| `results/lambda-proof/` | Lambda proof results |
-| `results/lambda-convert/` | Conversion test results |
-| `results/conversion-test/` | SVD weight conversion (negative) |
-
 ## What's ready (cumulative)
 
 | Asset | Status |
 |-------|--------|
 | PCA-Q crystal constants | ✅ 4 models, 0.91-0.94 |
-| PCA-up crystal constants | ✅ 4 models, 0.95 (session 121) |
+| PCA-up crystal constants | ✅ 4 models, 0.95 |
 | FFN beam (PCA-up_proj) | ✅ 0.9462 agreement |
 | Holographic plates | ✅ 100× compression, 0.76 preservation |
 | Holographic etch | ✅ 0.69-0.90, upper bound 1.000 |
 | Lambda proof | ✅ R²=0.959, binder→body coupling |
 | Reduction chain probes | ✅ 79 probes, 9 combinators |
-| V12 training | 🔄 Step ~3500, propagating |
+| V12 distill run2 | ⏸ OOM fixed, resume from step 12000 |
 
 ## Next steps
 
-1. **Update v13-design.md** — replace mixed precision with holographic
-   plates + lambda term structure. Dual-beam etch protocol.
-2. **V13 implementation** — the actual conversion toolkit:
-   a. Weight SVD for model-specific basis (not probe PCA)
-   b. Universal crystal targets for ternary topology (from beams)
-   c. Train beams via teacher distillation (1.5M params)
-   d. The beams ARE the "muscles" that make the skeleton generate
-3. **Multi-model holographic test** — run weight test on Mistral + Qwen
-   to confirm 100× compression holds for SwiGLU architectures.
-4. **Lambda proof on Mistral** — confirm R²=0.96 coupling is universal.
-5. **Let V12 run** — monitor φ-compression propagation.
-6. **Session plates** — can you etch conversation context into a plate?
-   Requires the inference engine to exist first.
+1. **Resume V12 distill run2** from step 12000 checkpoint with fixed script.
+   Command: `uv run python scripts/v12/holographic_distill_v12.py --skip-etch
+   --load-weights checkpoints/v12-distill-run2/step_012000/weights.npz
+   --gd-steps 20000 --checkpoint-dir checkpoints/v12-distill-run3
+   2>&1 | tee checkpoints/v12-distill-run3/run3.log`
+   Note: will restart LR schedule — may want to adjust warmup/total.
+2. **Update v13-design.md** — holographic plates + lambda term structure.
+3. **V13 implementation** — weight SVD, crystal targets, beam distillation.
+4. **Multi-model holographic test** — Mistral + Qwen SwiGLU.
+5. **Lambda proof on Mistral** — confirm universality of R²=0.96.
