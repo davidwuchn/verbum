@@ -1,0 +1,61 @@
+==========================================================================================
+  Tomographic Etch — Sweep Q Rotations, Accumulate All Crystal Facets
+  Model: pythia-2.8b
+  Angles: 36
+  PCA dim: 64
+==========================================================================================
+  Loaded 144 probes
+
+  ─── Extracting: pythia-2.8b ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<01:05,  5.89it/s]Loading weights:  21%|██▏       | 83/388 [00:00<00:00, 374.04it/s]Loading weights:  46%|████▌     | 177/388 [00:00<00:00, 596.16it/s]Loading weights:  71%|███████   | 276/388 [00:00<00:00, 732.92it/s]Loading weights:  96%|█████████▌| 372/388 [00:00<00:00, 805.65it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 648.52it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 14.0s
+
+  Depth 10%:
+    Sweeping 36 angles...
+    Sweep done in 0.1s (4ms/angle)
+    Continuous: Q=+1.000, FFN=+1.000
+    Single-shot: Q=+0.603, FFN=+0.581
+    Tomographic: Q=+0.546, FFN=+0.488
+    Δ improvement: Q=-0.057, FFN=-0.093
+    Crosstalk: Q→FFN=+0.479, FFN→Q=+0.538
+
+  Depth 50%:
+    Sweeping 36 angles...
+    Sweep done in 0.1s (3ms/angle)
+    Continuous: Q=+1.000, FFN=+1.000
+    Single-shot: Q=+0.669, FFN=+0.714
+    Tomographic: Q=+0.576, FFN=+0.617
+    Δ improvement: Q=-0.092, FFN=-0.097
+    Crosstalk: Q→FFN=+0.558, FFN→Q=+0.574
+
+  Depth 90%:
+    Sweeping 36 angles...
+    Sweep done in 0.1s (3ms/angle)
+    Continuous: Q=+1.000, FFN=+1.000
+    Single-shot: Q=+0.610, FFN=+0.826
+    Tomographic: Q=+0.629, FFN=+0.680
+    Δ improvement: Q=+0.019, FFN=-0.146
+    Crosstalk: Q→FFN=+0.614, FFN→Q=+0.467
+
+==========================================================================================
+  TOMOGRAPHIC ETCH SUMMARY (36 angles)
+==========================================================================================
+
+  depth   cont_Q  cont_up     ss_Q    ss_up   tomo_Q  tomo_up      ΔQ     Δup
+  ──────────────────────────────────────────────────────────────────────
+    10%   +1.000   +1.000   +0.603   +0.581   +0.546   +0.488  -0.057  -0.093
+    50%   +1.000   +1.000   +0.669   +0.714   +0.576   +0.617  -0.092  -0.097
+    90%   +1.000   +1.000   +0.610   +0.826   +0.629   +0.680  +0.019  -0.146
+
+  Mean single-shot:  Q=+0.627, FFN=+0.707
+  Mean tomographic:  Q=+0.584, FFN=+0.595
+  Mean improvement:  Q=-0.043, FFN=-0.112
+
+  💾 results/tomographic-etch/tomo_pythia-2.8b_36angles.json
+  Total: 19s (0.3min)
+==========================================================================================
