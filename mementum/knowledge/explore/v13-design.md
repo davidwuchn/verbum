@@ -482,35 +482,99 @@ rdm = cosine(q_pca @ q_pca.T)       # Calculation 2: relational geometry
 # → the crystal. Universal. Etchable.
 ```
 
-### Three-phase training
+### V13 Training: Extract → Etch → Route
+
+The model doesn't learn facts. It learns WHEN and HOW to retrieve them.
+Facts are in the frozen FFN plates. Routing is in the 1.5M trainable beams.
 
 ```
-Phase 1: ETCH (reference beam + delta)
-  Every step:
-    a. PCA-project model's Q at zone boundaries
-    b. Compute 8×8 cosine matrix of combinator embeddings
-    c. Delta = model cosine - PCA-Q target (the reference beam)
-    d. Accumulate delta into direction accumulators
-    e. Flip confident positions (ternary etch)
-    f. Beam GD on continuous params (same delta, continuous gradient)
-  Crystal propagation is automatic:
-    - Etch stride 1 first (strongest signal)
-    - Self-similarity (0.72 corr) propagates to stride 2, 4, 8...
-    - 97% crystallizes spontaneously from 3% seed
+STEP 0: EXTRACT (one-time, from teacher)
+  a. PCA-Q crystal extraction (2 calculations per teacher)
+     → 84 constants per zone, 0.91-0.94 agreement
+  b. FFN weight extraction (SVD + ternary per layer)
+     → key_plates + value_plates, 82-97% relational fidelity
+  c. Result: ~260M frozen ternary positions (crystal + FFN)
 
-Phase 2: GD (beam calibration, plates frozen)
-  - CE loss on training data
-  - Crystal lattice loss (PCA-Q targets, all 3 zones)
-  - Dispatch KL + entropy loss
-  - Plates frozen, beams train
-  - WHNF kernel learns the retrieval rotation
+STEP 1: ETCH (reference beam + delta, plates only)
+  a. Initialize plates from extraction
+  b. PCA-Q reference beam → delta → flip confident positions
+  c. Crystal propagation: stride 1 seed → 97% spontaneous
+  d. FFN plates are ALREADY extracted — no etch needed
+  e. Result: all plates frozen, ready for beam training
 
-Phase 3: REFINE (self-distillation, crystal-graded)
+STEP 2: ROUTE (beam training, 1.5M params only)
+  The only training that uses data. Teaches the dispatch beam
+  when to compute vs look up, and how to shape the residual
+  stream for correct FFN keying.
+
+  Curriculum:
+    a. Fact questions    → train WHNF dispatch timing
+       "What is the capital of France?" → WHNF fires → FFN returns
+    b. Lambda reductions → train K/I/B/C/S dispatch
+       "(λx.λy.x)(a)(b)" → K fires → attention computes
+    c. Code/composition  → train B/C dispatch
+       "def fib(n):" → B fires → composition kernel
+    d. Mixed tasks       → train compute→lookup transitions
+       "Calculate 17×23 and look up who invented multiplication"
+       → B/K compute → WHNF lookup → seamless
+    e. Chain-of-thought  → train multi-step dispatch sequences
+       Step 1: reason (crystal) → Step 2: look up (FFN) → Step 3: conclude
+
+  Loss:
+    - CE (standard language modeling)
+    - Crystal relational loss (keep PCA-Q geometry aligned, 3 zones)
+    - Dispatch KL (push toward expected combinator per task type)
+    - Dispatch entropy (prevent collapse to single combinator)
+
+  Budget: 1.5M params × standard training = FAST
+    Estimate: minutes to hours, not days
+    The expensive work was extraction (one-time)
+
+STEP 3: REFINE (self-distillation, optional)
   - Generate outputs across domains
-  - Crystal scanner grades: was the model in the right basin?
-  - Crystal-aligned outputs = positive training signal
-  - Misaligned outputs + corrections = contrastive signal
-  - Each cycle sharpens basins → better routing → better outputs
+  - Crystal scanner grades routing quality automatically:
+    Was WHNF dispatched at the right moments?
+    Did the FFN return the right facts?
+    Was the crystal in the right basin for computation?
+  - Crystal-aligned = positive signal, misaligned = contrastive
+  - Each cycle: better routing → better outputs → better signal
+```
+
+### What each training step teaches
+
+```
+STEP 0 (extract):  WHAT to compute with (crystal topology)
+                   WHAT to retrieve (FFN contents)
+                   → frozen into plates, never changes
+
+STEP 1 (etch):     WHERE the crystal facets are (plate positions)
+                   → frozen after etch, never changes
+
+STEP 2 (route):    WHEN to compute vs retrieve (dispatch timing)
+                   HOW to key into FFN (residual stream geometry)
+                   → the only learned behavior, 1.5M params
+
+STEP 3 (refine):   BETTER routing through self-feedback
+                   → optional, diminishing returns
+```
+
+### Why this is fast
+
+```
+Traditional LLM training:
+  Learn: everything (routing + computation + storage + facts)
+  Params: billions
+  Data: trillions of tokens
+  Time: weeks on GPU clusters
+
+V13 training:
+  Extract: routing topology + stored facts (one-time, ~5 min per teacher)
+  Train: only the 1.5M dispatch router
+  Data: thousands of structured examples (fact Qs, lambda reductions, code)
+  Time: minutes to hours on a single GPU
+
+The router is tiny. The knowledge is pre-extracted. Training is just
+teaching a small network when to compute and when to look up.
 ```
 
 ---
