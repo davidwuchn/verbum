@@ -1,0 +1,232 @@
+{
+  "mistral-7b": {
+    "total_neurons": 458752,
+    "d_ffn": 14336,
+    "n_layers": 32,
+    "d_model": 4096,
+    "effective_rank": {
+      "50pct": 1692,
+      "80pct": 2998,
+      "90pct": 3493,
+      "95pct": 3762,
+      "99pct": 4005
+    },
+    "top10_explained": [
+      0.001800302416086197,
+      0.0008001188398338854,
+      0.0005917362868785858,
+      0.0005507809109985828,
+      0.0005341452779248357,
+      0.0005207810900174081,
+      0.0005079423426650465,
+      0.0004887128598056734,
+      0.00048347696429118514,
+      0.000481436203699559
+    ],
+    "cross_layer_similarity": {
+      "L0_L8": {
+        "mean_max_sim": 0.05153488740324974,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L16": {
+        "mean_max_sim": 0.05223637819290161,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L24": {
+        "mean_max_sim": 0.05069856345653534,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L31": {
+        "mean_max_sim": 0.05084085837006569,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L16": {
+        "mean_max_sim": 0.06091935560107231,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L24": {
+        "mean_max_sim": 0.05198114737868309,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L31": {
+        "mean_max_sim": 0.05139933526515961,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L16_L24": {
+        "mean_max_sim": 0.05425814539194107,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L16_L31": {
+        "mean_max_sim": 0.05351213738322258,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L24_L31": {
+        "mean_max_sim": 0.0550776943564415,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      }
+    },
+    "clustering": {
+      "0.5": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      },
+      "0.6": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      },
+      "0.7": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      },
+      "0.8": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      },
+      "0.9": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      },
+      "0.95": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 458752,
+        "cross_layer_fraction": 0.0
+      }
+    }
+  },
+  "pythia-2.8b": {
+    "total_neurons": 327680,
+    "d_ffn": 10240,
+    "n_layers": 32,
+    "d_model": 2560,
+    "effective_rank": {
+      "50pct": 828,
+      "80pct": 1742,
+      "90pct": 2115,
+      "95pct": 2320,
+      "99pct": 2500
+    },
+    "top10_explained": [
+      0.0035536731593310833,
+      0.002963100094348192,
+      0.002211150713264942,
+      0.0020050036255270243,
+      0.0019670026376843452,
+      0.001878364710137248,
+      0.0018522788304835558,
+      0.001833201851695776,
+      0.0017604137538000941,
+      0.0017358798068016768
+    ],
+    "cross_layer_similarity": {
+      "L0_L8": {
+        "mean_max_sim": 0.06404639780521393,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L16": {
+        "mean_max_sim": 0.06343279778957367,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L24": {
+        "mean_max_sim": 0.06366349011659622,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L0_L31": {
+        "mean_max_sim": 0.06309016048908234,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L16": {
+        "mean_max_sim": 0.08688191324472427,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L24": {
+        "mean_max_sim": 0.07267790287733078,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L8_L31": {
+        "mean_max_sim": 0.06809151917695999,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L16_L24": {
+        "mean_max_sim": 0.0863833799958229,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L16_L31": {
+        "mean_max_sim": 0.0752636268734932,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      },
+      "L24_L31": {
+        "mean_max_sim": 0.08003532886505127,
+        "frac_above_0.9": 0.0,
+        "frac_above_0.7": 0.0
+      }
+    },
+    "clustering": {
+      "0.5": {
+        "n_clusters": 4999,
+        "dedup_ratio": 0.00019999999999997797,
+        "unique_estimate": 327614,
+        "cross_layer_fraction": 0.00020004000800160032
+      },
+      "0.6": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 327680,
+        "cross_layer_fraction": 0.0
+      },
+      "0.7": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 327680,
+        "cross_layer_fraction": 0.0
+      },
+      "0.8": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 327680,
+        "cross_layer_fraction": 0.0
+      },
+      "0.9": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 327680,
+        "cross_layer_fraction": 0.0
+      },
+      "0.95": {
+        "n_clusters": 5000,
+        "dedup_ratio": 0.0,
+        "unique_estimate": 327680,
+        "cross_layer_fraction": 0.0
+      }
+    }
+  }
+}

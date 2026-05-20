@@ -1,0 +1,121 @@
+========================================================================
+  FFN Deduplication — How Many Unique Concepts?
+  Models: ['mistral-7b', 'pythia-2.8b']
+========================================================================
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  32 layers, d_model=4096
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 19043.30it/s]
+    Extracted 8/32 layers...
+    Extracted 16/32 layers...
+    Extracted 24/32 layers...
+    Extracted 32/32 layers...
+
+  Pooled: 458752 neurons × 4096d (14336 per layer × 32 layers)
+
+  SVD of pooled W_up (458752 × 4096)...
+  Effective rank of pooled FFN keys:
+    50% variance: 1692d
+    80% variance: 2998d
+    90% variance: 3493d
+    95% variance: 3762d
+    99% variance: 4005d
+    Top-10 explained: 0.2%, 0.1%, 0.1%, 0.1%, 0.1%, 0.1%, 0.1%, 0.0%, 0.0%, 0.0%
+
+  Cross-layer neuron similarity...
+    L 0 ↔ L 8: mean_max_sim=+0.0515, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L16: mean_max_sim=+0.0522, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L24: mean_max_sim=+0.0507, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L31: mean_max_sim=+0.0508, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L16: mean_max_sim=+0.0609, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L24: mean_max_sim=+0.0520, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L31: mean_max_sim=+0.0514, >.9=0.0%, >.7=0.0%
+    L16 ↔ L24: mean_max_sim=+0.0543, >.9=0.0%, >.7=0.0%
+    L16 ↔ L31: mean_max_sim=+0.0535, >.9=0.0%, >.7=0.0%
+    L24 ↔ L31: mean_max_sim=+0.0551, >.9=0.0%, >.7=0.0%
+
+  Clustering to find unique concepts...
+   threshold  n_clusters  dedup_ratio  unique_est  cross_layer
+  ----------------------------------------------------------
+        0.50       5,000        0.0%     458,752        0.0%
+        0.60       5,000        0.0%     458,752        0.0%
+        0.70       5,000        0.0%     458,752        0.0%
+        0.80       5,000        0.0%     458,752        0.0%
+        0.90       5,000        0.0%     458,752        0.0%
+        0.95       5,000        0.0%     458,752        0.0%
+
+======================================================================
+  SUMMARY — mistral-7b
+======================================================================
+  Total neurons: 458,752
+  Effective key dimensions: 3493d (90% var), 4005d (99% var)
+  At cosine threshold 0.7:
+    Unique concepts: ~458,752 (dedup 0%)
+    Cross-layer clusters: 0% (duplicates span layers)
+  At cosine threshold 0.9:
+    Unique concepts: ~458,752 (dedup 0%)
+
+  V13 at 130M FFN plates: 253,906 ternary vectors
+  Unique concepts at 0.7 threshold: ~458,752
+  → Need 1.8× more plates to store all unique concepts
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  32 layers, d_model=2560
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 48/388 [00:00<00:00, 442.86it/s]Loading weights:  27%|██▋       | 104/388 [00:00<00:00, 498.86it/s]Loading weights:  40%|████      | 156/388 [00:00<00:00, 490.93it/s]Loading weights:  55%|█████▍    | 212/388 [00:00<00:00, 510.76it/s]Loading weights:  68%|██████▊   | 264/388 [00:00<00:00, 508.05it/s]Loading weights:  82%|████████▏ | 320/388 [00:00<00:00, 515.39it/s]Loading weights:  96%|█████████▌| 372/388 [00:00<00:00, 516.20it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 518.71it/s]
+    Extracted 8/32 layers...
+    Extracted 16/32 layers...
+    Extracted 24/32 layers...
+    Extracted 32/32 layers...
+
+  Pooled: 327680 neurons × 2560d (10240 per layer × 32 layers)
+
+  SVD of pooled W_up (327680 × 2560)...
+  Effective rank of pooled FFN keys:
+    50% variance: 828d
+    80% variance: 1742d
+    90% variance: 2115d
+    95% variance: 2320d
+    99% variance: 2500d
+    Top-10 explained: 0.4%, 0.3%, 0.2%, 0.2%, 0.2%, 0.2%, 0.2%, 0.2%, 0.2%, 0.2%
+
+  Cross-layer neuron similarity...
+    L 0 ↔ L 8: mean_max_sim=+0.0640, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L16: mean_max_sim=+0.0634, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L24: mean_max_sim=+0.0637, >.9=0.0%, >.7=0.0%
+    L 0 ↔ L31: mean_max_sim=+0.0631, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L16: mean_max_sim=+0.0869, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L24: mean_max_sim=+0.0727, >.9=0.0%, >.7=0.0%
+    L 8 ↔ L31: mean_max_sim=+0.0681, >.9=0.0%, >.7=0.0%
+    L16 ↔ L24: mean_max_sim=+0.0864, >.9=0.0%, >.7=0.0%
+    L16 ↔ L31: mean_max_sim=+0.0753, >.9=0.0%, >.7=0.0%
+    L24 ↔ L31: mean_max_sim=+0.0800, >.9=0.0%, >.7=0.0%
+
+  Clustering to find unique concepts...
+   threshold  n_clusters  dedup_ratio  unique_est  cross_layer
+  ----------------------------------------------------------
+        0.50       4,999        0.0%     327,614        0.0%
+        0.60       5,000        0.0%     327,680        0.0%
+        0.70       5,000        0.0%     327,680        0.0%
+        0.80       5,000        0.0%     327,680        0.0%
+        0.90       5,000        0.0%     327,680        0.0%
+        0.95       5,000        0.0%     327,680        0.0%
+
+======================================================================
+  SUMMARY — pythia-2.8b
+======================================================================
+  Total neurons: 327,680
+  Effective key dimensions: 2115d (90% var), 2500d (99% var)
+  At cosine threshold 0.7:
+    Unique concepts: ~327,680 (dedup 0%)
+    Cross-layer clusters: 0% (duplicates span layers)
+  At cosine threshold 0.9:
+    Unique concepts: ~327,680 (dedup 0%)
+
+  V13 at 130M FFN plates: 253,906 ternary vectors
+  Unique concepts at 0.7 threshold: ~327,680
+  → Need 1.3× more plates to store all unique concepts
+
+  💾 results/ffn-dedup/analysis.json
+  Total: 24s
