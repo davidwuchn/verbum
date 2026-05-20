@@ -1,0 +1,243 @@
+{
+  "A_single_q": {
+    "8": {
+      "fidelity_continuous": 0.769913911819458,
+      "fidelity_ternary": 0.6571299433708191,
+      "target_roundtrip": 0.8941025733947754,
+      "plate_shape": [
+        2560,
+        8
+      ],
+      "plate_sparsity": 0.0,
+      "plate_bytes": 5120
+    },
+    "16": {
+      "fidelity_continuous": 0.8131306767463684,
+      "fidelity_ternary": 0.6385445594787598,
+      "target_roundtrip": 0.8624593019485474,
+      "plate_shape": [
+        2560,
+        16
+      ],
+      "plate_sparsity": 0.0,
+      "plate_bytes": 10240
+    },
+    "32": {
+      "fidelity_continuous": 0.8367534279823303,
+      "fidelity_ternary": 0.5652778744697571,
+      "target_roundtrip": 0.8002393245697021,
+      "plate_shape": [
+        2560,
+        32
+      ],
+      "plate_sparsity": 0.0,
+      "plate_bytes": 20480
+    },
+    "64": {
+      "fidelity_continuous": 0.8440568447113037,
+      "fidelity_ternary": 0.4521518647670746,
+      "target_roundtrip": 0.6986415982246399,
+      "plate_shape": [
+        2560,
+        64
+      ],
+      "plate_sparsity": 0.0,
+      "plate_bytes": 40960
+    },
+    "128": {
+      "fidelity_continuous": 0.8442803621292114,
+      "fidelity_ternary": 0.3357508182525635,
+      "target_roundtrip": 0.5576517581939697,
+      "plate_shape": [
+        2560,
+        128
+      ],
+      "plate_sparsity": 0.0,
+      "plate_bytes": 81920
+    },
+    "direct_sign_W": 0.9734635949134827
+  },
+  "B_single_ffn": {
+    "8": {
+      "fidelity_continuous": 0.6273241639137268,
+      "fidelity_ternary": 0.39057010412216187,
+      "target_roundtrip": 0.8609380722045898,
+      "plate_shape": [
+        2560,
+        8
+      ],
+      "plate_sparsity": 0.0
+    },
+    "16": {
+      "fidelity_continuous": 0.6714363694190979,
+      "fidelity_ternary": 0.3898775279521942,
+      "target_roundtrip": 0.8579064011573792,
+      "plate_shape": [
+        2560,
+        16
+      ],
+      "plate_sparsity": 0.0
+    },
+    "32": {
+      "fidelity_continuous": 0.698651134967804,
+      "fidelity_ternary": 0.32590919733047485,
+      "target_roundtrip": 0.8180803656578064,
+      "plate_shape": [
+        2560,
+        32
+      ],
+      "plate_sparsity": 0.0
+    },
+    "64": {
+      "fidelity_continuous": 0.7059541940689087,
+      "fidelity_ternary": 0.20685438811779022,
+      "target_roundtrip": 0.7349607944488525,
+      "plate_shape": [
+        2560,
+        64
+      ],
+      "plate_sparsity": 0.0
+    },
+    "128": {
+      "fidelity_continuous": 0.7060869932174683,
+      "fidelity_ternary": 0.09233009815216064,
+      "target_roundtrip": 0.6020975708961487,
+      "plate_shape": [
+        2560,
+        128
+      ],
+      "plate_sparsity": 0.0
+    },
+    "direct_sign_W": 0.6906509399414062
+  },
+  "C_dual_crystal": {
+    "8": {
+      "q_continuous": 0.769913911819458,
+      "q_ternary": 0.6571299433708191,
+      "up_continuous": 0.6273241639137268,
+      "up_ternary": 0.39057010412216187,
+      "crosstalk_q_has_up": 0.43709322810173035,
+      "crosstalk_up_has_q": 0.5326988697052002,
+      "plate_shape": [
+        2560,
+        16
+      ],
+      "plate_cols": 16,
+      "plate_sparsity": 0.0
+    },
+    "16": {
+      "q_continuous": 0.8131306767463684,
+      "q_ternary": 0.6385445594787598,
+      "up_continuous": 0.6714363694190979,
+      "up_ternary": 0.3898775279521942,
+      "crosstalk_q_has_up": 0.3770120143890381,
+      "crosstalk_up_has_q": 0.5695644021034241,
+      "plate_shape": [
+        2560,
+        32
+      ],
+      "plate_cols": 32,
+      "plate_sparsity": 0.0
+    },
+    "32": {
+      "q_continuous": 0.8367534279823303,
+      "q_ternary": 0.5652778744697571,
+      "up_continuous": 0.698651134967804,
+      "up_ternary": 0.32590919733047485,
+      "crosstalk_q_has_up": 0.2767696678638458,
+      "crosstalk_up_has_q": 0.5384334921836853,
+      "plate_shape": [
+        2560,
+        64
+      ],
+      "plate_cols": 64,
+      "plate_sparsity": 0.0
+    },
+    "64": {
+      "q_continuous": 0.8440568447113037,
+      "q_ternary": 0.4521518647670746,
+      "up_continuous": 0.7059541940689087,
+      "up_ternary": 0.20685438811779022,
+      "crosstalk_q_has_up": 0.16045022010803223,
+      "crosstalk_up_has_q": 0.4548201858997345,
+      "plate_shape": [
+        2560,
+        128
+      ],
+      "plate_cols": 128,
+      "plate_sparsity": 0.0
+    }
+  },
+  "D_capacity": {
+    "1": {
+      "rdm_fidelity": 0.43997201323509216,
+      "mean_channel_cosine": 0.9942125678062439,
+      "min_channel_cosine": 0.9942125678062439,
+      "plate_elements": 2560
+    },
+    "2": {
+      "rdm_fidelity": 0.541003406047821,
+      "mean_channel_cosine": 0.7083247601985931,
+      "min_channel_cosine": 0.4224369525909424,
+      "plate_elements": 5120
+    },
+    "4": {
+      "rdm_fidelity": 0.624035656452179,
+      "mean_channel_cosine": 0.8093025386333466,
+      "min_channel_cosine": 0.4224369525909424,
+      "plate_elements": 10240
+    },
+    "8": {
+      "rdm_fidelity": 0.6571299433708191,
+      "mean_channel_cosine": 0.7601291611790657,
+      "min_channel_cosine": 0.4224369525909424,
+      "plate_elements": 20480
+    },
+    "16": {
+      "rdm_fidelity": 0.6385445594787598,
+      "mean_channel_cosine": 0.7001726143062115,
+      "min_channel_cosine": 0.37940460443496704,
+      "plate_elements": 40960
+    },
+    "32": {
+      "rdm_fidelity": 0.5652778744697571,
+      "mean_channel_cosine": 0.6048169853165746,
+      "min_channel_cosine": 0.2967747151851654,
+      "plate_elements": 81920
+    },
+    "64": {
+      "rdm_fidelity": 0.4521518647670746,
+      "mean_channel_cosine": 0.47304498380981386,
+      "min_channel_cosine": 0.128742054104805,
+      "plate_elements": 163840
+    },
+    "128": {
+      "rdm_fidelity": 0.3357508182525635,
+      "mean_channel_cosine": 0.28778926754239365,
+      "min_channel_cosine": 0.005175761412829161,
+      "plate_elements": 327680
+    }
+  },
+  "E_generalization": {
+    "8": {
+      "train_fidelity": 0.6223849654197693,
+      "test_fidelity": 0.5812147259712219,
+      "generalization_gap": 0.04117023944854736
+    },
+    "16": {
+      "train_fidelity": 0.5977879166603088,
+      "test_fidelity": 0.5841692686080933,
+      "generalization_gap": 0.013618648052215576
+    },
+    "32": {
+      "train_fidelity": 0.5519631505012512,
+      "test_fidelity": 0.5639735460281372,
+      "generalization_gap": -0.012010395526885986
+    },
+    "64": {
+      "train_fidelity": 0.4511018395423889,
+      "test_fidelity": 0.4952283799648285,
+      "generalization_gap": -0.044126540422439575
+    }
+  }
+}

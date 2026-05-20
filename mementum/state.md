@@ -16,43 +16,42 @@ Session 122 diagnosed and fixed a memory leak that killed V12 training.
 4. **Lambda proof** — beam_Q + combinator predicts beam_up at R²=0.959
 5. **Holographic etch** — 0.69-0.90 preservation, upper bound 1.000
 
-### Session 122: Memory leak fix + run2 analysis
+### Session 122: The hologram problem
 
-**Bug:** `holographic_distill_v12.py` OOM at step ~13390 of 20000.
-`[metal::malloc] Resource limit (499000) exceeded.`
+**Three experiments, one conclusion:** V12's training design is flawed.
+The ternary plates are indistinguishable from random. GD on gammas
+cannot compensate for 59M missing sign positions.
 
-**Root cause:** MLX lazy evaluation + repeated `tree_map` gradient
-transformations. Each `tree_map` creates new array trees referencing
-old ones through the computation graph. Without `mx.eval()` barriers,
-~5-7 full gradient trees accumulate per step. With `mx.clear_cache()`
-only every 50 steps, ~300 dead gradient trees of Metal allocations
-pile up before any cleanup.
+**1. Memory leak fix** (commit 0eded07):
+- OOM at step 13390: MLX lazy eval + tree_map gradient chains
+- Fixed: mx.eval() barriers after every gradient transformation
+- Fixed: mx.clear_cache() every step (was every 50)
 
-**Fixes applied (commit 0eded07):**
-- `mx.eval()` after every gradient tree_map (accum merge, division,
-  lattice merge, normalize, zero_ternary, clip)
-- `mx.clear_cache()` every step (was every 50)
-- Removed unbounded `train_losses` list (dead code)
-- Release `model._last_ce` tensor reference after reading
-- Same fixes applied to Phase 1 etch loop
+**2. Crystal compression analysis** — all 4 checkpoints identical:
+- 0% ternary topology change between step 2000 and 12000
+- φ-compression propagated through GAMMAS only (tiny shrinkage)
+- Best eval 12.63 at step 5000, plateau through crash
 
-### V12 distill run2 trajectory
+**3. Beam hologram analysis** — V12 plates = random noise:
+- Q-proj spectral entropy: 0.987 (random: 0.987)
+- Q-proj autocorrelation: −0.003 (random: −0.002)
+- No low-rank structure, no sign correlations, no crystal
 
-Best eval = **12.63 at step 5000** (never beaten through step 13000).
-Steps 5000-13000 are a plateau around 12.6-13.3.
+**4. Hologram extraction** — `sign(W)` IS the hologram:
+- `sign(W_q)` from Pythia L16: **0.974** Q crystal fidelity
+- `sign(W_up)`: **0.691** FFN crystal fidelity
+- Activation ↔ weight crystal match: Q=0.990, UP=0.965
+- Holographic angle Q↔FFN: 67.7° (confirmed)
 
-| Checkpoint | Train r | Eval Loss | φ status |
-|---|---|---|---|
-| step 2000 | 1.149 | 13.68 | 1-2 passes at φ |
-| **best (5000)** | **0.900** | **12.63** | **L0↑, L2↑ at φ** |
-| step 8000 | 1.045 | 13.07 | L0↑ at φ, desc converging |
-| step 12000 | 0.692 | 13.15 | 6/7 passes near φ |
-| step 13000 | — | 12.81 | L0↑←φ, L0↓←φ |
-| crashed 13390 | — | — | — |
+**5. Roundtrip test** — deterministic write/read:
+- pinv plate → ternary: Q=0.657 (ternary noise kills it)
+- Direct sign(W): Q=0.974 (no optimization needed)
+- Generalization gap: ~0 (crystal is weight property, not probe-specific)
+- Capacity: peaks at ~8 channels, degrades quickly
 
-φ-compression propagating well — ascending arm locked by step 3500,
-descending arm converging. Dispatch stable: B=0.38, W=0.27, I=0.13.
-Train loss decoupling from eval suggests overfitting or mix imbalance.
+**The design flaw:** V12 etched random lattice topology, then expected
+GD on 887K gammas to learn 59M sign positions. Like programming a CPU
+by adjusting voltage rails. The fix: `sign(teacher_weight)` → plates.
 
 ### Honest negatives (session 121, still current)
 - SVD weight conversion → gibberish (crystal ≠ muscles)
@@ -107,13 +106,14 @@ THE GAP:
 
 ## Next steps
 
-1. **Resume V12 distill run2** from step 12000 checkpoint with fixed script.
-   Command: `uv run python scripts/v12/holographic_distill_v12.py --skip-etch
-   --load-weights checkpoints/v12-distill-run2/step_012000/weights.npz
-   --gd-steps 20000 --checkpoint-dir checkpoints/v12-distill-run3
-   2>&1 | tee checkpoints/v12-distill-run3/run3.log`
-   Note: will restart LR schedule — may want to adjust warmup/total.
-2. **Update v13-design.md** — holographic plates + lambda term structure.
-3. **V13 implementation** — weight SVD, crystal targets, beam distillation.
-4. **Multi-model holographic test** — Mistral + Qwen SwiGLU.
-5. **Lambda proof on Mistral** — confirm universality of R²=0.96.
+1. **Design the holographic etch pipeline** — `sign(teacher_W)` → V13 plates.
+   Key open problem: dimensional bridge (teacher d_model → V13 d_model).
+   Options: SVD project then sign(), or PCA basis, or learned bridge.
+2. **V13 implementation** — the etch phase should write holograms from
+   teacher, not learn them from gradient signals. GD only for beams.
+3. **Multi-model holographic etch test** — verify sign(W) fidelity on
+   Mistral + Qwen (SwiGLU architecture, separate up/gate projections).
+4. **V12 run2 is SUPERSEDED** — no point resuming random-plate training.
+   The design insight from session 122 changes the approach fundamentally.
+5. **Capacity experiment** — test sign(W) fidelity at V13's target d_model=512
+   to understand the dimensional compression cost.

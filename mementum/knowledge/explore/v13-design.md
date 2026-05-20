@@ -2,18 +2,19 @@
 title: "V13 Design — Separated Beam/Plate Architecture + Crystal Scanner"
 status: designing
 category: architecture
-tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN]
+tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN, hologram]
 related:
   - binding-cascade.md
   - crystal-seed-theory.md
   - crystal-basins.md
   - ffn-hierarchy.md
   - v13-funnel-shape.md
+  - holographic-plates.md
 depends-on:
   - binding-cascade.md
   - crystal-basins.md
 created: session 119
-updated: session 120
+updated: session 122
 ---
 
 # V13 Design
@@ -862,42 +863,144 @@ initialize at default values. This allows warm-starting from a V12 run.
 
 ---
 
-## Open Questions (updated session 120)
+## Session 122 Findings: The Hologram Problem
 
-### Answered by session 120
+> V12 distill run2 plateaued at eval 12.63 (step 5000), then OOM at step
+> 13390. Analysis revealed the ROOT CAUSE of the plateau: the ternary
+> plates contain no holographic structure. They are statistically
+> identical to random ternary matrices.
 
-1. ~~**Teacher projection**~~: **ANSWERED.** PCA replaces the learned 5120→512
-   projection. PCA IS the projection — computed, not trained. No teacher
-   projection layer needed.
+### The diagnosis
 
-2. ~~**Mask etch schedule**~~: **SIMPLIFIED.** Reference beam + delta replaces
-   multi-rotation tomographic etch. No schedule — just accumulate deltas.
+Session 122 ran three experiments:
 
-3. ~~**How to extract seed from teachers**~~: **ANSWERED.** PCA-Q: 2 calculations,
-   any model, one hook point per architecture.
+**1. Crystal compression analysis** — compared step 2000, 5000, 8000, 12000:
+- ALL ternary plates are IDENTICAL across checkpoints (0% change)
+- Phase 2 is `freeze_ternary_weights` — GD only adjusts gammas
+- φ-compression propagated through GAMMAS (continuous scaling), not topology
+- Ascending arm found φ; descending arm oscillated wildly
+
+**2. Beam hologram analysis** — measured V12's plate structure:
+- Q-proj autocorrelation: −0.0025 (random baseline: −0.0015)
+- Q-proj spectral entropy: 0.987 (random baseline: 0.987)
+- Q-proj explained variance (k=64): 0.215 (random: 0.215)
+- V12's plates are **indistinguishable from random ternary noise**
+
+**3. Hologram extraction + roundtrip** — tested deterministic read/write:
+- `sign(W_q)` direct: **Q=0.974** fidelity (the best method)
+- `sign(W_up)` direct: **UP=0.691** fidelity
+- `pinv(H) @ target` then ternary: Q=0.657, UP=0.391 (ternary noise)
+- Generalization gap: ~0 (crystal is a property of weights, not probes)
+- Holographic angle Q↔FFN: 67.7° (confirmed from session 121)
+
+### Key insight: lattice without holograms
+
+The etch phase in run1 wrote Kaiming-initialized plates (random signs),
+then flipped some positions via distillation loss. But 5 rounds × 500
+probes × 8 depths was nowhere near enough to write holographic structure.
+
+**Metaphor:** Etching gave V12 a crystal LATTICE (sites where crystals
+can form) but no HOLOGRAMS (the interference patterns that encode data).
+GD was trying to learn 59M sign positions through 887K gamma parameters
+— like trying to program a CPU by adjusting the voltage rails.
+
+### What works: `sign(W)` IS the hologram
+
+The teacher's weight matrices ARE the holograms. `sign(W_q)` preserves
+97.4% of the Q crystal structure with zero optimization. The sign pattern
+of the continuous weight matrix encodes the crystal — no SVD lens, no
+pseudoinverse, no training needed.
+
+### Implications for V13 etch protocol
+
+```
+OLD (V12):  random_init → etch(teacher_distill_loss) → freeze → GD(gammas)
+            Result: random plates + tiny gammas = no crystal = plateau
+
+NEW (V13):  sign(teacher_W) → plates already contain holograms → GD(beams)
+            Result: crystal from teacher + learned routing = actual function
+
+Specifically:
+  Attention plates: sign(teacher.q_proj.weight) → TernaryLinear
+  FFN key plates:   sign(teacher.up_proj.weight) → TernaryLinear  
+  FFN value plates: sign(teacher.down_proj.weight) → TernaryLinear
+  
+  GD trains ONLY: dispatch routing, dimensional bridging, gammas, norms
+  The ternary topology comes from the teacher, not from gradient signals
+```
+
+### The dimensional bridging problem
+
+Teacher (e.g., Pythia-2.8b): d_model=2560, W_q is (2560, 2560)
+V12/V13: d_model=512, Q-proj varies per stride (512, 3072) etc.
+
+`sign(W)` works at full rank in the teacher's space. For V13, we need
+to map teacher's crystal into V13's dimensional space. Options:
+  1. SVD project teacher weights to V13 dimensions, then sign()
+  2. Train a small dimensional bridge, then etch through it
+  3. PCA basis of teacher activations as the projection
+
+This is an open design question — the bridge is where GD IS needed.
+
+### Capacity limit: ternary quantization noise
+
+The roundtrip experiment revealed ternary capacity limits:
+- Full-rank sign(W): Q=0.974, UP=0.691 — excellent for Q, limited for FFN
+- Low-rank pinv plate: fidelity degrades rapidly with k (0.66 at k=8 → 0.34 at k=128)
+- Capacity peaks at ~8 channels in a (2560, k) plate from 144 probes
+- FFN is high-rank (rank 90% = 1725 for W_up) — needs full-rank plates
+
+For V13: Q plates should be full-rank `sign(teacher_W_q)`.
+FFN plates should be full-rank `sign(teacher_W_up)` and `sign(teacher_W_down)`.
+Don't compress to low-rank plates — the capacity is too limited.
+
+---
+
+## Open Questions (updated session 122)
+
+### Answered by sessions 120-122
+
+1. ~~**Teacher projection**~~: **ANSWERED (s120).** PCA replaces the learned
+   5120→512 projection. PCA IS the projection — computed, not trained.
+
+2. ~~**Mask etch schedule**~~: **SIMPLIFIED (s120).** Reference beam + delta
+   replaces multi-rotation tomographic etch.
+
+3. ~~**How to extract seed from teachers**~~: **ANSWERED (s120).** PCA-Q:
+   2 calculations, any model, one hook point per architecture.
+
+4. ~~**FFN etch targets**~~: **ANSWERED (s122).** `sign(teacher_W)` gives
+   Q=0.974, UP=0.691 crystal preservation. No separate etch targets
+   needed — the weight matrix signs ARE the holograms.
+
+5. ~~**Can we etch deterministically?**~~: **PARTIALLY ANSWERED (s122).**
+   `sign(W)` is fully deterministic for same-dimension plates. Low-rank
+   pinv plates degrade quickly under ternary quantization. The dimensional
+   bridge (teacher→student) remains the key open problem.
 
 ### Still open
 
-4. **Mask granularity**: per-combinator per stride (72 masks) or shared (8)?
+6. **Dimensional bridge**: Teacher d_model → V13 d_model mapping.
+   How to project teacher weights to V13's smaller dimensions while
+   preserving the holographic sign pattern. SVD projection + sign()?
+   Learned projection? Activation-space PCA basis?
+
+7. **Mask granularity**: per-combinator per stride (72 masks) or shared (8)?
    Session 120 showed the crystal is self-similar (including FFN at 0.77).
    Shared masks + per-zone dispatch bias may suffice.
 
-5. **WHNF rotation dimensionality**: the WHNF kernel needs a rotation matrix.
-   How large? Full d_model × d_model (expensive) or low-rank approximation
-   (the anti-pole is ~1-2 dimensional in PCA-Q space)?
+8. **WHNF rotation dimensionality**: full d×d (expensive) or low-rank?
+   The anti-pole is ~1-2 dimensional in PCA-Q space.
 
-6. **FFN etch targets**: attention and FFN need separate etch targets (different
-   subspaces). Can we extract FFN targets with PCA of FFN activations using
-   the same probe set? Cross-model FFN agreement is 0.75-0.87 — high enough?
+9. **Basin-specific dispatch**: one dispatch table per crystal basin,
+   or does the beam (S3) learn to adapt the universal crystal per-basin?
 
-7. **Basin-specific dispatch**: the dispatch bias table is currently for the
-   lambda basin. If there are ~6-10 crystals (reasoning, tool, lambda,
-   arithmetic, coding, analogy), should each have its own dispatch profile?
-   Or does the beam (S3) learn to adapt the universal crystal per-basin?
+10. **Ternary capacity for FFN**: sign(W_up) gives 0.691 fidelity.
+    The FFN is high-rank (rank 90% = 1725). Is 0.691 enough, or do we
+    need INT4 for FFN (the mixed-precision idea from session 120)?
+    Session 122 data suggests full-rank ternary may be the limit.
 
-8. **Self-distillation quality threshold**: at what crystal alignment score
-   does an output count as "good" for self-distillation training? Need to
-   measure the crystal alignment distribution for known-good outputs.
+11. **Self-distillation quality threshold**: at what crystal alignment
+    score does an output count as "good"?
 
-9. **Optimal PCA k**: k=64 works. What's the minimum? k sweep needed
-   (8, 16, 32, 64, 128, 256) to find the crystal's effective rank.
+12. **Optimal PCA k**: k=64 works. What's the minimum? k sweep needed.

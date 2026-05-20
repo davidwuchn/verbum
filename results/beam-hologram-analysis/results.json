@@ -1,0 +1,1257 @@
+{
+  "svd_beam": {
+    "q_proj": [
+      {
+        "name": "meta_s4.q_proj",
+        "shape": [
+          512,
+          3072
+        ],
+        "singular_values_top10": [
+          5.918067455291748,
+          5.890017986297607,
+          5.564913749694824,
+          5.372562885284424,
+          5.159548759460449,
+          5.0685834884643555,
+          4.981216907501221,
+          4.925724506378174,
+          4.8353190422058105,
+          4.71808385848999
+        ],
+        "explained_variance_topk": 0.7390206456184387,
+        "effective_rank_90pct": 107,
+        "effective_rank_99pct": 166,
+        "spectral_decay_10": 0.7972338795661926,
+        "spectral_decay_50": 0.5016573071479797,
+        "total_frobenius": 35.58943176269531
+      },
+      {
+        "name": "s4_desc.q_proj",
+        "shape": [
+          512,
+          5376
+        ],
+        "singular_values_top10": [
+          8.644936561584473,
+          8.482221603393555,
+          8.163944244384766,
+          7.985825538635254,
+          7.760344982147217,
+          7.592032432556152,
+          7.360820770263672,
+          7.277523040771484,
+          7.1554179191589355,
+          7.093589782714844
+        ],
+        "explained_variance_topk": 0.5759308934211731,
+        "effective_rank_90pct": 172,
+        "effective_rank_99pct": 275,
+        "spectral_decay_10": 0.8205485343933105,
+        "spectral_decay_50": 0.5764115452766418,
+        "total_frobenius": 62.9269905090332
+      },
+      {
+        "name": "s4.q_proj",
+        "shape": [
+          512,
+          5376
+        ],
+        "singular_values_top10": [
+          13.938349723815918,
+          12.580612182617188,
+          12.356561660766602,
+          11.905496597290039,
+          10.035152435302734,
+          9.943015098571777,
+          9.769076347351074,
+          9.656648635864258,
+          9.551374435424805,
+          9.497392654418945
+        ],
+        "explained_variance_topk": 0.5824053883552551,
+        "effective_rank_90pct": 178,
+        "effective_rank_99pct": 296,
+        "spectral_decay_10": 0.6813857555389404,
+        "spectral_decay_50": 0.4555146098136902,
+        "total_frobenius": 83.0675277709961
+      },
+      {
+        "name": "stride_stack.layers.8.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          5.670975685119629,
+          5.2460432052612305,
+          5.150899410247803,
+          5.004142761230469,
+          4.9559454917907715,
+          4.910728454589844,
+          4.860684871673584,
+          4.822585105895996,
+          4.779721736907959,
+          4.759341239929199
+        ],
+        "explained_variance_topk": 0.5999001860618591,
+        "effective_rank_90pct": 162,
+        "effective_rank_99pct": 290,
+        "spectral_decay_10": 0.8392455577850342,
+        "spectral_decay_50": 0.596953272819519,
+        "total_frobenius": 41.23734664916992
+      },
+      {
+        "name": "stride_stack.layers.7.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          6.431819915771484,
+          6.286842346191406,
+          6.135197639465332,
+          5.9672112464904785,
+          5.824743270874023,
+          5.728143215179443,
+          5.605865478515625,
+          5.503143310546875,
+          5.431695461273193,
+          5.386597633361816
+        ],
+        "explained_variance_topk": 0.5589664578437805,
+        "effective_rank_90pct": 179,
+        "effective_rank_99pct": 302,
+        "spectral_decay_10": 0.8374919891357422,
+        "spectral_decay_50": 0.6070404648780823,
+        "total_frobenius": 49.37627029418945
+      },
+      {
+        "name": "stride_stack.layers.6.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          7.7110209465026855,
+          7.460239887237549,
+          7.147477149963379,
+          7.018918991088867,
+          6.839366912841797,
+          6.770120143890381,
+          6.734886646270752,
+          6.683411121368408,
+          6.591177940368652,
+          6.459540367126465
+        ],
+        "explained_variance_topk": 0.5491535067558289,
+        "effective_rank_90pct": 183,
+        "effective_rank_99pct": 312,
+        "spectral_decay_10": 0.8377023339271545,
+        "spectral_decay_50": 0.6018468141555786,
+        "total_frobenius": 59.26412582397461
+      },
+      {
+        "name": "stride_stack.layers.5.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          10.702735900878906,
+          9.189492225646973,
+          8.96291446685791,
+          8.626180648803711,
+          8.528779983520508,
+          8.384065628051758,
+          8.184863090515137,
+          8.036054611206055,
+          7.903974533081055,
+          7.667937278747559
+        ],
+        "explained_variance_topk": 0.5652303695678711,
+        "effective_rank_90pct": 180,
+        "effective_rank_99pct": 308,
+        "spectral_decay_10": 0.7164464592933655,
+        "spectral_decay_50": 0.5192811489105225,
+        "total_frobenius": 70.68318176269531
+      },
+      {
+        "name": "stride_stack.layers.4.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          5.812119483947754,
+          4.932278156280518,
+          4.632635593414307,
+          4.61259126663208,
+          4.394587516784668,
+          4.33657693862915,
+          4.141939640045166,
+          4.054163932800293,
+          3.985592842102051,
+          3.9131593704223633
+        ],
+        "explained_variance_topk": 0.5900124907493591,
+        "effective_rank_90pct": 179,
+        "effective_rank_99pct": 315,
+        "spectral_decay_10": 0.6732757687568665,
+        "spectral_decay_50": 0.45041269063949585,
+        "total_frobenius": 34.0203971862793
+      },
+      {
+        "name": "stride_stack.layers.3.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          5.814147472381592,
+          5.038959503173828,
+          4.673049449920654,
+          4.605126857757568,
+          4.481887340545654,
+          4.111775875091553,
+          3.902649164199829,
+          3.8443384170532227,
+          3.669245481491089,
+          3.6266579627990723
+        ],
+        "explained_variance_topk": 0.6023207306861877,
+        "effective_rank_90pct": 177,
+        "effective_rank_99pct": 319,
+        "spectral_decay_10": 0.6237643361091614,
+        "spectral_decay_50": 0.4129050076007843,
+        "total_frobenius": 31.45329475402832
+      },
+      {
+        "name": "stride_stack.layers.2.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          7.8632988929748535,
+          6.980308532714844,
+          6.765063762664795,
+          6.569694519042969,
+          6.553261756896973,
+          6.452768325805664,
+          6.381225109100342,
+          6.250445365905762,
+          6.080022811889648,
+          5.891834735870361
+        ],
+        "explained_variance_topk": 0.5990134477615356,
+        "effective_rank_90pct": 173,
+        "effective_rank_99pct": 316,
+        "spectral_decay_10": 0.7492828369140625,
+        "spectral_decay_50": 0.514934241771698,
+        "total_frobenius": 51.253631591796875
+      },
+      {
+        "name": "stride_stack.layers.1.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          6.516514301300049,
+          5.1866865158081055,
+          5.073464870452881,
+          4.85249137878418,
+          4.814086437225342,
+          4.645476341247559,
+          4.608667373657227,
+          4.493901252746582,
+          4.375245571136475,
+          4.300908088684082
+        ],
+        "explained_variance_topk": 0.5648467540740967,
+        "effective_rank_90pct": 176,
+        "effective_rank_99pct": 297,
+        "spectral_decay_10": 0.6600013375282288,
+        "spectral_decay_50": 0.48725083470344543,
+        "total_frobenius": 40.129783630371094
+      },
+      {
+        "name": "stride_stack.layers.0.q_proj",
+        "shape": [
+          512,
+          512
+        ],
+        "singular_values_top10": [
+          8.210322380065918,
+          7.432596206665039,
+          6.816532135009766,
+          6.533847332000732,
+          6.050568103790283,
+          5.570636749267578,
+          5.270641803741455,
+          5.099236488342285,
+          5.043882369995117,
+          4.928137302398682
+        ],
+        "explained_variance_topk": 0.5975093841552734,
+        "effective_rank_90pct": 177,
+        "effective_rank_99pct": 308,
+        "spectral_decay_10": 0.6002367734909058,
+        "spectral_decay_50": 0.40582969784736633,
+        "total_frobenius": 43.99597930908203
+      }
+    ],
+    "gate_proj": [
+      {
+        "name": "s5_reweight.gate_proj",
+        "shape": [
+          16,
+          6272
+        ],
+        "singular_values_top10": [
+          9.247600555419922,
+          8.445494651794434,
+          7.681136608123779,
+          7.3202409744262695,
+          4.698072910308838,
+          3.5335428714752197,
+          3.2869558334350586,
+          0.9339576959609985,
+          0.9252882599830627,
+          0.897637665271759
+        ],
+        "explained_variance_topk": 1.0,
+        "effective_rank_90pct": 5,
+        "effective_rank_99pct": 12,
+        "spectral_decay_10": 0.09706708788871765,
+        "spectral_decay_50": 0.0916522890329361,
+        "total_frobenius": 17.93891143798828
+      },
+      {
+        "name": "combinator_integrate.gate_proj",
+        "shape": [
+          16,
+          512
+        ],
+        "singular_values_top10": [
+          4.91488790512085,
+          0.0008973118383437395,
+          0.000871848373208195,
+          0.0008444466511718929,
+          0.000834955892059952,
+          0.0008206231286749244,
+          0.0008079898543655872,
+          0.000790073536336422,
+          0.0007777761784382164,
+          0.0007575000636279583
+        ],
+        "explained_variance_topk": 1.0,
+        "effective_rank_90pct": 1,
+        "effective_rank_99pct": 1,
+        "spectral_decay_10": 0.00015412356879096478,
+        "spectral_decay_50": 0.00013090335414744914,
+        "total_frobenius": 4.914888381958008
+      },
+      {
+        "name": "stride_stack.layers.4.gate_proj",
+        "shape": [
+          16,
+          512
+        ],
+        "singular_values_top10": [
+          1.328149676322937,
+          0.9754960536956787,
+          0.9305473566055298,
+          0.9116209745407104,
+          0.8920106887817383,
+          0.8300546407699585,
+          0.8286187052726746,
+          0.7948868870735168,
+          0.7862951159477234,
+          0.5436983108520508
+        ],
+        "explained_variance_topk": 1.0,
+        "effective_rank_90pct": 10,
+        "effective_rank_99pct": 13,
+        "spectral_decay_10": 0.4093652367591858,
+        "spectral_decay_50": 0.021097948774695396,
+        "total_frobenius": 2.9831323623657227
+      },
+      {
+        "name": "stride_stack.layers.3.gate_proj",
+        "shape": [
+          16,
+          512
+        ],
+        "singular_values_top10": [
+          1.4810407161712646,
+          1.2261935472488403,
+          1.071639060974121,
+          0.935982346534729,
+          0.9139008522033691,
+          0.8722889423370361,
+          0.8635642528533936,
+          0.8413882851600647,
+          0.8322160840034485,
+          0.7961531281471252
+        ],
+        "explained_variance_topk": 1.0,
+        "effective_rank_90pct": 11,
+        "effective_rank_99pct": 13,
+        "spectral_decay_10": 0.5375633239746094,
+        "spectral_decay_50": 0.04405558481812477,
+        "total_frobenius": 3.372968912124634
+      },
+      {
+        "name": "stride_stack.layers.2.gate_proj",
+        "shape": [
+          16,
+          512
+        ],
+        "singular_values_top10": [
+          1.1788501739501953,
+          1.167486548423767,
+          1.1322427988052368,
+          1.1109216213226318,
+          1.092116117477417,
+          1.0658597946166992,
+          1.0220376253128052,
+          1.0129103660583496,
+          0.928074061870575,
+          0.8531076908111572
+        ],
+        "explained_variance_topk": 1.0,
+        "effective_rank_90pct": 13,
+        "effective_rank_99pct": 16,
+        "spectral_decay_10": 0.7236778140068054,
+        "spectral_decay_50": 0.5163695216178894,
+        "total_frobenius": 3.7705278396606445
+      }
+    ]
+  },
+  "cross_beam": {},
+  "sign_structure": {
+    "q_proj": [
+      {
+        "shape": [
+          512,
+          3072
+        ],
+        "polarity": 8.105086125750411e-05,
+        "sparsity": 0.3097063700358073,
+        "row_autocorrelation": 0.0019631839631505167,
+        "col_autocorrelation": -0.003661544440349285,
+        "mean_block_consistency": 0.3890376641326883,
+        "svd_explained_variance_top64": 0.21526440978050232,
+        "spectral_entropy_normalized": 0.9865642594262158,
+        "effective_rank_90pct": 408,
+        "singular_values_top5": [
+          64.93111419677734,
+          64.737060546875,
+          64.4153060913086,
+          64.07703399658203,
+          63.77790832519531
+        ],
+        "name": "meta_s4.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          5376
+        ],
+        "polarity": -0.0012078286673448198,
+        "sparsity": 0.30998447963169645,
+        "row_autocorrelation": 0.0009480607637775695,
+        "col_autocorrelation": 0.005519046452423518,
+        "mean_block_consistency": 0.39034520493434144,
+        "svd_explained_variance_top64": 0.19129125773906708,
+        "spectral_entropy_normalized": 0.992319104670928,
+        "effective_rank_90pct": 425,
+        "singular_values_top5": [
+          79.13523864746094,
+          78.89319610595703,
+          78.67713165283203,
+          78.5743179321289,
+          78.47932434082031
+        ],
+        "name": "s4_desc.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          5376
+        ],
+        "polarity": -0.0007252891156104534,
+        "sparsity": 0.30974615187872023,
+        "row_autocorrelation": -0.0006947378522212332,
+        "col_autocorrelation": -0.006085374423854042,
+        "mean_block_consistency": 0.3891147076372315,
+        "svd_explained_variance_top64": 0.19138579070568085,
+        "spectral_entropy_normalized": 0.9923582402785904,
+        "effective_rank_90pct": 425,
+        "singular_values_top5": [
+          79.49616241455078,
+          79.12590789794922,
+          78.85626983642578,
+          78.7518310546875,
+          78.66923522949219
+        ],
+        "name": "s4.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.003880339612629345,
+        "sparsity": 0.30987548828125,
+        "row_autocorrelation": -0.010660148866705436,
+        "col_autocorrelation": -0.008930247309133634,
+        "mean_block_consistency": 0.38760504201680673,
+        "svd_explained_variance_top64": 0.37405210733413696,
+        "spectral_entropy_normalized": 0.9204408905451403,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.06555938720703,
+          36.6818733215332,
+          36.318668365478516,
+          36.17478561401367,
+          36.07345199584961
+        ],
+        "name": "stride_stack.layers.8.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0067440844034057906,
+        "sparsity": 0.3104896545410156,
+        "row_autocorrelation": -0.0026856881416979766,
+        "col_autocorrelation": 0.003881882970610539,
+        "mean_block_consistency": 0.3836588541666667,
+        "svd_explained_variance_top64": 0.37656915187835693,
+        "spectral_entropy_normalized": 0.919584431279396,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.261085510253906,
+          36.72205352783203,
+          36.6308708190918,
+          36.24153518676758,
+          36.19105529785156
+        ],
+        "name": "stride_stack.layers.7.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.00014917703999602194,
+        "sparsity": 0.3095664978027344,
+        "row_autocorrelation": -0.006824827328430395,
+        "col_autocorrelation": -0.005805732468561864,
+        "mean_block_consistency": 0.3884493670886076,
+        "svd_explained_variance_top64": 0.37494274973869324,
+        "spectral_entropy_normalized": 0.9201405085171769,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.19709014892578,
+          36.798667907714844,
+          36.60337448120117,
+          36.276283264160156,
+          36.060401916503906
+        ],
+        "name": "stride_stack.layers.6.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0040101553727785125,
+        "sparsity": 0.3103370666503906,
+        "row_autocorrelation": -0.00018334164344859863,
+        "col_autocorrelation": 0.005153437873608687,
+        "mean_block_consistency": 0.3881613070539419,
+        "svd_explained_variance_top64": 0.37617045640945435,
+        "spectral_entropy_normalized": 0.919710781200228,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.614864349365234,
+          36.94314193725586,
+          36.797096252441406,
+          36.52189636230469,
+          36.019081115722656
+        ],
+        "name": "stride_stack.layers.5.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0029415498049084696,
+        "sparsity": 0.3087882995605469,
+        "row_autocorrelation": -0.00907543569129322,
+        "col_autocorrelation": -0.004968903110545328,
+        "mean_block_consistency": 0.38971354166666666,
+        "svd_explained_variance_top64": 0.3755623400211334,
+        "spectral_entropy_normalized": 0.92020578548777,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.210514068603516,
+          37.110538482666016,
+          36.568092346191406,
+          36.429988861083984,
+          36.17435836791992
+        ],
+        "name": "stride_stack.layers.4.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0006741150858115352,
+        "sparsity": 0.30962371826171875,
+        "row_autocorrelation": 0.0005928248764506653,
+        "col_autocorrelation": -0.006540572925980695,
+        "mean_block_consistency": 0.39029113247863245,
+        "svd_explained_variance_top64": 0.3750358819961548,
+        "spectral_entropy_normalized": 0.9203894324968601,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.318058013916016,
+          36.905216217041016,
+          36.753173828125,
+          36.38236618041992,
+          36.216102600097656
+        ],
+        "name": "stride_stack.layers.3.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0007349162582263653,
+        "sparsity": 0.3096427917480469,
+        "row_autocorrelation": -0.0059668588801597465,
+        "col_autocorrelation": -0.004423277620543292,
+        "mean_block_consistency": 0.38926348547717843,
+        "svd_explained_variance_top64": 0.3755616843700409,
+        "spectral_entropy_normalized": 0.91988115867968,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.22120666503906,
+          36.600215911865234,
+          36.4758415222168,
+          36.25414276123047,
+          36.068538665771484
+        ],
+        "name": "stride_stack.layers.2.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0004034330494564707,
+        "sparsity": 0.3097419738769531,
+        "row_autocorrelation": 0.008213095867877463,
+        "col_autocorrelation": -0.004536449377573502,
+        "mean_block_consistency": 0.390625,
+        "svd_explained_variance_top64": 0.3756977319717407,
+        "spectral_entropy_normalized": 0.9199549965644492,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.07884979248047,
+          36.88613510131836,
+          36.59345626831055,
+          36.467430114746094,
+          36.091453552246094
+        ],
+        "name": "stride_stack.layers.1.q_proj"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0024160866031591576,
+        "sparsity": 0.3100318908691406,
+        "row_autocorrelation": -0.005241646844275151,
+        "col_autocorrelation": 0.00537735668286013,
+        "mean_block_consistency": 0.3868927125506073,
+        "svd_explained_variance_top64": 0.3754168152809143,
+        "spectral_entropy_normalized": 0.919412983685672,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.51401901245117,
+          36.948524475097656,
+          36.55557632446289,
+          36.36357879638672,
+          36.324073791503906
+        ],
+        "name": "stride_stack.layers.0.q_proj"
+      }
+    ],
+    "mirrors": [
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0013871311806089009,
+        "sparsity": 0.3097343444824219,
+        "row_autocorrelation": -0.008258587268196154,
+        "col_autocorrelation": -0.007767939583864174,
+        "mean_block_consistency": 0.3896484375,
+        "svd_explained_variance_top64": 0.37474027276039124,
+        "spectral_entropy_normalized": 0.9201873642349446,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.1741943359375,
+          36.98542404174805,
+          36.71065902709961,
+          36.47987365722656,
+          36.33121109008789
+        ],
+        "name": "stride_stack.layers.8.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0014584829567427214,
+        "sparsity": 0.30950164794921875,
+        "row_autocorrelation": 0.0009129787576082993,
+        "col_autocorrelation": 0.0016930944072711198,
+        "mean_block_consistency": 0.39009081196581197,
+        "svd_explained_variance_top64": 0.3743055760860443,
+        "spectral_entropy_normalized": 0.9198191684886367,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.10768508911133,
+          36.90266418457031,
+          36.604427337646484,
+          36.43015670776367,
+          36.0552864074707
+        ],
+        "name": "stride_stack.layers.7.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0020031430531884283,
+        "sparsity": 0.3106231689453125,
+        "row_autocorrelation": -0.0009928922790670494,
+        "col_autocorrelation": -0.002090014332495936,
+        "mean_block_consistency": 0.39252888655462187,
+        "svd_explained_variance_top64": 0.37475723028182983,
+        "spectral_entropy_normalized": 0.9200143114698125,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.1359977722168,
+          36.530555725097656,
+          36.45641326904297,
+          36.307716369628906,
+          36.09434127807617
+        ],
+        "name": "stride_stack.layers.6.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.002491286022835868,
+        "sparsity": 0.3094215393066406,
+        "row_autocorrelation": 0.003509552976223553,
+        "col_autocorrelation": 0.003017146237600918,
+        "mean_block_consistency": 0.3902359958506224,
+        "svd_explained_variance_top64": 0.37579625844955444,
+        "spectral_entropy_normalized": 0.9199445247319302,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.79312515258789,
+          36.928287506103516,
+          36.702537536621094,
+          36.38970947265625,
+          36.25394821166992
+        ],
+        "name": "stride_stack.layers.5.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0010053582279180245,
+        "sparsity": 0.30942535400390625,
+        "row_autocorrelation": -0.003676700309361286,
+        "col_autocorrelation": -0.0050706031499461075,
+        "mean_block_consistency": 0.38731846473029047,
+        "svd_explained_variance_top64": 0.3765030801296234,
+        "spectral_entropy_normalized": 0.9195394864799713,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.02598190307617,
+          36.857818603515625,
+          36.63822555541992,
+          36.45827865600586,
+          36.27998352050781
+        ],
+        "name": "stride_stack.layers.4.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0006618790746930536,
+        "sparsity": 0.30838775634765625,
+        "row_autocorrelation": -0.005713350615222549,
+        "col_autocorrelation": -0.007408305257210292,
+        "mean_block_consistency": 0.3897786458333333,
+        "svd_explained_variance_top64": 0.3754896819591522,
+        "spectral_entropy_normalized": 0.9196775312210617,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.0548210144043,
+          36.938690185546875,
+          36.600521087646484,
+          36.49899673461914,
+          36.07874298095703
+        ],
+        "name": "stride_stack.layers.3.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0008460938666489706,
+        "sparsity": 0.3101844787597656,
+        "row_autocorrelation": -0.0076563878962735855,
+        "col_autocorrelation": -0.0017802449597010672,
+        "mean_block_consistency": 0.38631014644351463,
+        "svd_explained_variance_top64": 0.3747956454753876,
+        "spectral_entropy_normalized": 0.9200379304205306,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.18190002441406,
+          36.868431091308594,
+          36.296180725097656,
+          36.05768966674805,
+          35.85442352294922
+        ],
+        "name": "stride_stack.layers.2.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.004254849479870864,
+        "sparsity": 0.3087577819824219,
+        "row_autocorrelation": -0.0066885371545802805,
+        "col_autocorrelation": 0.0010240621800944496,
+        "mean_block_consistency": 0.39135021097046413,
+        "svd_explained_variance_top64": 0.3755851089954376,
+        "spectral_entropy_normalized": 0.9199709718417958,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.71288299560547,
+          36.834877014160156,
+          36.424930572509766,
+          36.31961441040039,
+          36.21681594848633
+        ],
+        "name": "stride_stack.layers.1.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.002666990607554817,
+        "sparsity": 0.3091468811035156,
+        "row_autocorrelation": 0.004433648422782962,
+        "col_autocorrelation": -0.0007677560437658749,
+        "mean_block_consistency": 0.38483072916666666,
+        "svd_explained_variance_top64": 0.37683355808258057,
+        "spectral_entropy_normalized": 0.9200772189016604,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.14907455444336,
+          36.82514190673828,
+          36.656612396240234,
+          36.5201530456543,
+          36.26944351196289
+        ],
+        "name": "stride_stack.layers.0.q_mirrors.0"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.001093065109140895,
+        "sparsity": 0.30899810791015625,
+        "row_autocorrelation": -0.0019133614179252054,
+        "col_autocorrelation": 0.0004476043010960341,
+        "mean_block_consistency": 0.39017489711934156,
+        "svd_explained_variance_top64": 0.3757840096950531,
+        "spectral_entropy_normalized": 0.919748388073216,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.36117172241211,
+          37.08039855957031,
+          36.79753494262695,
+          36.52226257324219,
+          36.35306930541992
+        ],
+        "name": "stride_stack.combinator_mirrors.7"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0005306505997457299,
+        "sparsity": 0.30988311767578125,
+        "row_autocorrelation": 0.002034290003382741,
+        "col_autocorrelation": -0.0010287965952180433,
+        "mean_block_consistency": 0.39561987704918034,
+        "svd_explained_variance_top64": 0.3745374381542206,
+        "spectral_entropy_normalized": 0.9198836810918926,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.362728118896484,
+          36.58055114746094,
+          36.31941223144531,
+          36.18535614013672,
+          35.99884033203125
+        ],
+        "name": "stride_stack.combinator_mirrors.6"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0013986632538546164,
+        "sparsity": 0.3099708557128906,
+        "row_autocorrelation": -0.005764644182301396,
+        "col_autocorrelation": 0.0004905766124283838,
+        "mean_block_consistency": 0.3861328125,
+        "svd_explained_variance_top64": 0.3746294379234314,
+        "spectral_entropy_normalized": 0.9198169518233589,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.21174240112305,
+          36.67051315307617,
+          36.512176513671875,
+          36.280113220214844,
+          36.114173889160156
+        ],
+        "name": "stride_stack.combinator_mirrors.5"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0007909598269844519,
+        "sparsity": 0.3103294372558594,
+        "row_autocorrelation": 0.0033158737600297366,
+        "col_autocorrelation": -0.005553696363701161,
+        "mean_block_consistency": 0.3877241561181435,
+        "svd_explained_variance_top64": 0.37643665075302124,
+        "spectral_entropy_normalized": 0.919766656452574,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.20549011230469,
+          37.019901275634766,
+          36.66426086425781,
+          36.555885314941406,
+          36.30600357055664
+        ],
+        "name": "stride_stack.combinator_mirrors.4"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.003839557399723375,
+        "sparsity": 0.31049346923828125,
+        "row_autocorrelation": 0.0059256870874272016,
+        "col_autocorrelation": -0.00638327478599842,
+        "mean_block_consistency": 0.3869639121338912,
+        "svd_explained_variance_top64": 0.374953955411911,
+        "spectral_entropy_normalized": 0.9200383890409329,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          36.96125411987305,
+          36.75847244262695,
+          36.528743743896484,
+          36.21320724487305,
+          35.95636749267578
+        ],
+        "name": "stride_stack.combinator_mirrors.3"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.0015509715729067424,
+        "sparsity": 0.3113250732421875,
+        "row_autocorrelation": -0.0029500698950759756,
+        "col_autocorrelation": -0.007667599554796289,
+        "mean_block_consistency": 0.3916015625,
+        "svd_explained_variance_top64": 0.37579694390296936,
+        "spectral_entropy_normalized": 0.9198595270840385,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.28437042236328,
+          36.78152847290039,
+          36.626468658447266,
+          36.34431838989258,
+          36.24498748779297
+        ],
+        "name": "stride_stack.combinator_mirrors.2"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0019918010626617305,
+        "sparsity": 0.3086128234863281,
+        "row_autocorrelation": -0.003227448881551927,
+        "col_autocorrelation": -0.0029630828226286797,
+        "mean_block_consistency": 0.390625,
+        "svd_explained_variance_top64": 0.37663063406944275,
+        "spectral_entropy_normalized": 0.9195174727006612,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.508079528808594,
+          37.227386474609375,
+          36.86750411987305,
+          36.57844924926758,
+          36.31085205078125
+        ],
+        "name": "stride_stack.combinator_mirrors.1"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0007561415806118676,
+        "sparsity": 0.3088417053222656,
+        "row_autocorrelation": 0.002472108266839706,
+        "col_autocorrelation": -0.013043957470880137,
+        "mean_block_consistency": 0.38333333333333336,
+        "svd_explained_variance_top64": 0.37538543343544006,
+        "spectral_entropy_normalized": 0.9200106425065941,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.076290130615234,
+          36.89361572265625,
+          36.65480422973633,
+          36.49492645263672,
+          36.06363296508789
+        ],
+        "name": "stride_stack.combinator_mirrors.0"
+      }
+    ],
+    "dispatch_mirrors": [
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.001950441065650073,
+        "sparsity": 0.311553955078125,
+        "row_autocorrelation": -2.5272887420877272e-05,
+        "col_autocorrelation": -0.012162682964263061,
+        "mean_block_consistency": 0.38809647302904565,
+        "svd_explained_variance_top64": 0.37493765354156494,
+        "spectral_entropy_normalized": 0.9199274793403116,
+        "effective_rank_90pct": 261,
+        "singular_values_top5": [
+          37.089969635009766,
+          36.66817855834961,
+          36.5675048828125,
+          36.369873046875,
+          36.06467056274414
+        ],
+        "name": "combinator_dispatch.pass_mirrors.6"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0012265871042599038,
+        "sparsity": 0.30957794189453125,
+        "row_autocorrelation": 0.0008096435657740112,
+        "col_autocorrelation": -0.013738141803578059,
+        "mean_block_consistency": 0.38819159836065575,
+        "svd_explained_variance_top64": 0.37663787603378296,
+        "spectral_entropy_normalized": 0.919791651264499,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.38912582397461,
+          36.83485412597656,
+          36.622379302978516,
+          36.40839767456055,
+          36.362098693847656
+        ],
+        "name": "combinator_dispatch.pass_mirrors.5"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.001056281557102802,
+        "sparsity": 0.3102149963378906,
+        "row_autocorrelation": -0.0014125011457123973,
+        "col_autocorrelation": 0.0028935615570461048,
+        "mean_block_consistency": 0.387988683127572,
+        "svd_explained_variance_top64": 0.37572965025901794,
+        "spectral_entropy_normalized": 0.9198188627417018,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.20583724975586,
+          36.997283935546875,
+          36.68278884887695,
+          36.38374710083008,
+          36.2844123840332
+        ],
+        "name": "combinator_dispatch.pass_mirrors.4"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.001421090756274641,
+        "sparsity": 0.3101234436035156,
+        "row_autocorrelation": 0.0001649489434920173,
+        "col_autocorrelation": -0.0012076462061308777,
+        "mean_block_consistency": 0.39253826530612246,
+        "svd_explained_variance_top64": 0.3749575912952423,
+        "spectral_entropy_normalized": 0.9202588325809686,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.31121826171875,
+          36.998165130615234,
+          36.74276351928711,
+          36.464752197265625,
+          36.053653717041016
+        ],
+        "name": "combinator_dispatch.pass_mirrors.3"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 0.003784331868728564,
+        "sparsity": 0.3115196228027344,
+        "row_autocorrelation": 0.0006306821060174369,
+        "col_autocorrelation": -0.004533735210265566,
+        "mean_block_consistency": 0.387890625,
+        "svd_explained_variance_top64": 0.37524664402008057,
+        "spectral_entropy_normalized": 0.9199105103854267,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.04111862182617,
+          36.71700668334961,
+          36.239192962646484,
+          36.02684020996094,
+          35.852230072021484
+        ],
+        "name": "combinator_dispatch.pass_mirrors.2"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": 6.0765087695069744e-05,
+        "sparsity": 0.3094444274902344,
+        "row_autocorrelation": -0.01141674867309266,
+        "col_autocorrelation": -0.001121926325423672,
+        "mean_block_consistency": 0.38915215163934425,
+        "svd_explained_variance_top64": 0.3748430907726288,
+        "spectral_entropy_normalized": 0.9200276878982128,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.08622360229492,
+          36.95037841796875,
+          36.73102951049805,
+          36.4014778137207,
+          36.288673400878906
+        ],
+        "name": "combinator_dispatch.pass_mirrors.1"
+      },
+      {
+        "shape": [
+          512,
+          512
+        ],
+        "polarity": -0.0033122287041389034,
+        "sparsity": 0.3101310729980469,
+        "row_autocorrelation": -0.0008458019873674389,
+        "col_autocorrelation": -0.0017209260612506944,
+        "mean_block_consistency": 0.38779008438818563,
+        "svd_explained_variance_top64": 0.37501615285873413,
+        "spectral_entropy_normalized": 0.9200185919269006,
+        "effective_rank_90pct": 262,
+        "singular_values_top5": [
+          37.157012939453125,
+          36.94963836669922,
+          36.625545501708984,
+          36.412086486816406,
+          36.140811920166016
+        ],
+        "name": "combinator_dispatch.pass_mirrors.0"
+      }
+    ],
+    "random_baseline": [
+      {
+        "shape": [
+          512,
+          3072
+        ],
+        "polarity": -0.000270729916927706,
+        "sparsity": 0.3001759847005208,
+        "row_autocorrelation": -0.0015140411362685685,
+        "col_autocorrelation": -0.006218610204712026,
+        "mean_block_consistency": 0.39519579875518673,
+        "svd_explained_variance_top64": 0.21506375074386597,
+        "spectral_entropy_normalized": 0.9866250266295198,
+        "effective_rank_90pct": 409,
+        "singular_values_top5": [
+          65.01106262207031,
+          64.75995635986328,
+          64.55500793457031,
+          64.2908935546875,
+          64.1743392944336
+        ]
+      }
+    ]
+  }
+}
