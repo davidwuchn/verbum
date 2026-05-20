@@ -355,6 +355,132 @@ This IS the S5 of the etcher VSM — the identity that must not be
 violated. The etcher's purpose is to write holograms that ENCODE
 the crystal, not holograms that happen to solve a task.
 
+## Three-Phase Etch Pipeline
+
+Session 124 discovered the full pipeline. Three phases, each
+operating at a different granularity:
+
+### Phase 1: Blunt Flip (hot annealing)
+
+The delta sign-flip loop from experiments 7-8. 3-5 rounds at 10%
+flip fraction. Fixes the worst defects fast. The crystal may wobble.
+
+```
+for round in range(3-5):
+  train(student, plates=frozen, beams=learnable)
+  delta = trained_beams - initial_magnitudes
+  flip top-10% |delta| rows to match teacher signs
+  refocus magnitudes with alpha=0.3
+```
+
+This gets ~60% of sign errors corrected. Quick, coarse, effective.
+But can't get finer without breaking the crystal (experiment 8).
+
+### Phase 2: Soft Mirror (surgical GD)
+
+Stop flipping, start learning. Add a continuous **soft mirror** per
+plate — a learnable (d_out, d_in) parameter initialized to 1.0.
+
+```python
+class SoftMirror(nn.Module):
+    def __init__(self, d_out, d_in):
+        super().__init__()
+        self.weight = mx.ones((d_out, d_in))  # init = pass-through
+    
+    def __call__(self, plate_output):
+        return plate_output * self.weight  # element-wise
+```
+
+GD learns which signs need correction through the mirror:
+- mirror[i,j] → +1.0: plate sign correct, pass through
+- mirror[i,j] → -1.0: plate sign WRONG, flip it
+- mirror[i,j] →  0.0: plate signal is noise, block it
+
+The key: train with **crystal lattice loss** alongside CE:
+
+```python
+loss = ce_loss + λ_crystal * crystal_lattice_loss(model, targets_4x4)
+```
+
+The crystal loss IS the S5 invariant made differentiable. GD can't
+break the crystal because the gradient punishes it. The mirror learns
+to sharpen the hologram WITHIN the crystal manifold.
+
+Why mirrors > direct flips:
+- GD explores continuous space (smooth gradients, no discrete decisions)
+- Crystal loss constrains the search to the relational geometry manifold
+- It's CHEAPER for GD to flip a mirror position than distort the beam
+- GD naturally finds the minimum-disruption sign correction
+
+### Phase 3: Quantize + Freeze
+
+After GD converges, quantize the soft mirror to ternary {-1, 0, +1}:
+```python
+quantized_mirror = mx.sign(mx.round(soft_mirror.weight))  # or threshold
+final_plate = original_plate * quantized_mirror  # fold in
+```
+
+The result: ternary plates with both loom-read structure AND
+GD-discovered corrections. Freeze and train beams only.
+
+## Combinator Mirrors = Subcrystal Selectors
+
+The 7 subcrystals we measured (session 124 experiments 1-3) are not
+7 separate etchings. They are **7 mirrors on the same plate**:
+
+```
+shared_plate = loom-read extraction (the universal loom)
+
+mirror_K    = GD-learned view for K (selection weave)
+mirror_I    = GD-learned view for I (identity weave)
+mirror_B    = GD-learned view for B (composition weave)
+mirror_C    = GD-learned view for C (routing weave)
+mirror_WHNF = GD-learned view for WHNF (retrieval weave)
+...
+
+effective_K   = plate ⊙ mirror_K    → K sees one subcrystal
+effective_B   = plate ⊙ mirror_B    → B sees composition subcrystal
+effective_WHNF = plate ⊙ mirror_WHNF → WHNF sees retrieval weave
+```
+
+One plate, 8 mirrors, 8 different readings. Each mirror is a
+ternary {-1, 0, +1} mask learned by GD during phase 2. The
+subcrystal structure EMERGES from mirror learning, not from
+separate extraction passes.
+
+This eliminates the need for per-family extraction (the 7 reference
+beams from the etcher VSM S1). Instead:
+1. Extract ONE shared plate via loom-read
+2. Let GD discover the per-combinator mirrors via soft mirror training
+3. The crystal lattice loss ensures each mirror's effective plate
+   preserves the correct combinator geometry
+
+The V13 combinator masks from the original design ARE this concept.
+Now grounded by the subcrystal measurements.
+
+## Crystal Lattice Loss (the differentiable S5)
+
+```python
+def crystal_lattice_loss(model, combinator_probes, target_cosines):
+    """4×4 (or 8×8) combinator cosine matrix MSE vs measured targets.
+    
+    target_cosines: measured from teacher, universal at 0.91-0.94
+    Cheap: run 4-8 probes, compute cosines, MSE against constants
+    """
+    # Run combinator probes through model
+    hidden_states = [model(probe) for probe in combinator_probes]
+    
+    # Compute cosine matrix
+    means = stack([h.mean(dim=1) for h in hidden_states])
+    cos_matrix = cosine_similarity(means)
+    
+    # MSE against universal targets
+    return mse(cos_matrix, target_cosines)
+```
+
+28 constants (8×8 upper triangle) or 6 constants (4×4 upper triangle).
+Run every N steps during beam training. Trivially cheap.
+
 ## Open Questions
 
 1. **Dimensional bridge.** Teacher d_model=2560, V13 d_model=512.
