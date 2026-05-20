@@ -1,0 +1,95 @@
+{
+  "description": "Lambda proof \u2014 are the two beams a coupled lambda term?",
+  "models": [
+    "pythia-2.8b"
+  ],
+  "combinator_order": [
+    "K",
+    "I",
+    "B",
+    "C",
+    "D",
+    "Y",
+    "W",
+    "WHNF"
+  ],
+  "results": {
+    "pythia-2.8b": {
+      "0.1": {
+        "comb_predicts_up_rdm": 0.40277408439072615,
+        "q_predicts_up_rdm": 0.9116531618276699,
+        "combined_predicts_up_rdm": 0.9116468001354269,
+        "r2_q_only": 0.9651598815629526,
+        "r2_comb_only": 0.3869552776397309,
+        "r2_q_plus_comb": 0.971622858237718,
+        "pred_rdm_q_only": 0.9924732051730817,
+        "pred_rdm_comb_only": 0.5690048434065231,
+        "pred_rdm_q_plus_comb": 0.9940543640122884,
+        "cv_rdm_correlation": 0.8927613606012038,
+        "coupling_rdm_boost": 0.5088727157447007,
+        "coupling_r2_boost": 0.5846675805979871,
+        "coupling_pred_boost": 0.4250495206057653
+      },
+      "0.3": {
+        "comb_predicts_up_rdm": 0.46078362026364555,
+        "q_predicts_up_rdm": 0.9559094657284738,
+        "combined_predicts_up_rdm": 0.9559308718820003,
+        "r2_q_only": 0.9519677595681387,
+        "r2_comb_only": 0.34331068922948405,
+        "r2_q_plus_comb": 0.9582160541173628,
+        "pred_rdm_q_only": 0.9896354725308886,
+        "pred_rdm_comb_only": 0.6104490911053142,
+        "pred_rdm_q_plus_comb": 0.9908067127595548,
+        "cv_rdm_correlation": 0.9088188865458081,
+        "coupling_rdm_boost": 0.49514725161835477,
+        "coupling_r2_boost": 0.6149053648878787,
+        "coupling_pred_boost": 0.3803576216542406
+      },
+      "0.5": {
+        "comb_predicts_up_rdm": 0.5069092746600302,
+        "q_predicts_up_rdm": 0.9202576286026642,
+        "combined_predicts_up_rdm": 0.9202914437924894,
+        "r2_q_only": 0.9394187015850145,
+        "r2_comb_only": 0.34284802893945165,
+        "r2_q_plus_comb": 0.9470896186360103,
+        "pred_rdm_q_only": 0.987034391895298,
+        "pred_rdm_comb_only": 0.615760664204081,
+        "pred_rdm_q_plus_comb": 0.9887251721932907,
+        "cv_rdm_correlation": 0.9057262971333024,
+        "coupling_rdm_boost": 0.4133821691324592,
+        "coupling_r2_boost": 0.6042415896965586,
+        "coupling_pred_boost": 0.37296450798920966
+      },
+      "0.7": {
+        "comb_predicts_up_rdm": 0.3129115520465507,
+        "q_predicts_up_rdm": 0.6503126013773017,
+        "combined_predicts_up_rdm": 0.6502468234777796,
+        "r2_q_only": 0.9531466758915161,
+        "r2_comb_only": 0.3825181246348873,
+        "r2_q_plus_comb": 0.9602478085280006,
+        "pred_rdm_q_only": 0.9905069900716322,
+        "pred_rdm_comb_only": 0.619540069706995,
+        "pred_rdm_q_plus_comb": 0.9919158702569788,
+        "cv_rdm_correlation": 0.9237540410167613,
+        "coupling_rdm_boost": 0.33733527143122893,
+        "coupling_r2_boost": 0.5777296838931133,
+        "coupling_pred_boost": 0.37237580054998376
+      },
+      "0.9": {
+        "comb_predicts_up_rdm": 0.32241086019593135,
+        "q_predicts_up_rdm": 0.5653087787509327,
+        "combined_predicts_up_rdm": 0.5652694115049625,
+        "r2_q_only": 0.95036809100654,
+        "r2_comb_only": 0.3941157401054123,
+        "r2_q_plus_comb": 0.9579951334046948,
+        "pred_rdm_q_only": 0.9912810925659871,
+        "pred_rdm_comb_only": 0.6736996566483638,
+        "pred_rdm_q_plus_comb": 0.9925202441808009,
+        "cv_rdm_correlation": 0.9294404610571967,
+        "coupling_rdm_boost": 0.2428585513090311,
+        "coupling_r2_boost": 0.5638793932992825,
+        "coupling_pred_boost": 0.318820587532437
+      }
+    }
+  }
+}
