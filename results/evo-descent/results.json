@@ -1,0 +1,158 @@
+{
+  "baseline": {
+    "best": 0.5108927108927109,
+    "final": 0.5108927108927109,
+    "crystal": -0.34769679543880916
+  },
+  "evo_coevolve": {
+    "best": 0.5848484848484848,
+    "final": 0.5848484848484848,
+    "crystal": 0.06586821880210535,
+    "trajectory": [
+      {
+        "round": 0,
+        "gd_best": 0.4503685503685504,
+        "gd_final": 0.4503685503685504,
+        "gd_crystal": -0.005725219288517789,
+        "evo_accepted": 134,
+        "evo_tested": 200,
+        "post_evo_acc": 0.4312039312039312,
+        "post_evo_crystal": 0.4025219152620326
+      },
+      {
+        "round": 1,
+        "gd_best": 0.49066339066339065,
+        "gd_final": 0.4872235872235872,
+        "gd_crystal": -0.34467195009445845,
+        "evo_accepted": 197,
+        "evo_tested": 200,
+        "post_evo_acc": 0.49795249795249796,
+        "post_evo_crystal": -0.405388953569914
+      },
+      {
+        "round": 2,
+        "gd_best": 0.5166257166257167,
+        "gd_final": 0.5166257166257167,
+        "gd_crystal": 0.7944045849453912,
+        "evo_accepted": 198,
+        "evo_tested": 200,
+        "post_evo_acc": 0.5144963144963145,
+        "post_evo_crystal": 0.76181632273079
+      },
+      {
+        "round": 3,
+        "gd_best": 0.5441441441441441,
+        "gd_final": 0.5226044226044226,
+        "gd_crystal": 0.4662311489183419,
+        "evo_accepted": 200,
+        "evo_tested": 200,
+        "post_evo_acc": 0.5076167076167076,
+        "post_evo_crystal": 0.557219588872446
+      },
+      {
+        "round": 4,
+        "gd_best": 0.5457002457002457,
+        "gd_final": 0.5457002457002457,
+        "gd_crystal": 0.4740175818923213,
+        "evo_accepted": 200,
+        "evo_tested": 200,
+        "post_evo_acc": 0.5389844389844389,
+        "post_evo_crystal": 0.48719710929481747
+      },
+      {
+        "round": 5,
+        "gd_best": 0.5504504504504505,
+        "gd_final": 0.5381654381654382,
+        "gd_crystal": 0.028263202663697855,
+        "evo_accepted": 200,
+        "evo_tested": 200,
+        "post_evo_acc": 0.5369369369369369,
+        "post_evo_crystal": 0.08492307817301271
+      },
+      {
+        "round": 6,
+        "gd_best": 0.507043407043407,
+        "gd_final": 0.4813267813267813,
+        "gd_crystal": -0.6805010343999297,
+        "evo_accepted": 200,
+        "evo_tested": 200,
+        "post_evo_acc": 0.48419328419328417,
+        "post_evo_crystal": -0.6537773944166287
+      },
+      {
+        "round": 7,
+        "gd_best": 0.5404586404586404,
+        "gd_final": 0.5252252252252252,
+        "gd_crystal": -0.289219001459363,
+        "evo_accepted": 200,
+        "evo_tested": 200,
+        "post_evo_acc": 0.5253071253071253,
+        "post_evo_crystal": -0.27060305235245763
+      }
+    ],
+    "total_accepted": 1529
+  },
+  "random_flips": {
+    "best": 0.5398853398853399,
+    "final": 0.518918918918919,
+    "crystal": 0.2752090143037258,
+    "trajectory": [
+      {
+        "round": 0,
+        "post_evo_acc": 0.4212121212121212,
+        "post_evo_crystal": 0.41986960471185947,
+        "accepted": 199
+      },
+      {
+        "round": 1,
+        "post_evo_acc": 0.48746928746928747,
+        "post_evo_crystal": 0.5134252239126572,
+        "accepted": 200
+      },
+      {
+        "round": 2,
+        "post_evo_acc": 0.5131040131040131,
+        "post_evo_crystal": 0.24166229943832707,
+        "accepted": 199
+      },
+      {
+        "round": 3,
+        "post_evo_acc": 0.4809172809172809,
+        "post_evo_crystal": 0.9553915783510362,
+        "accepted": 200
+      },
+      {
+        "round": 4,
+        "post_evo_acc": 0.49115479115479116,
+        "post_evo_crystal": -0.4216610129970627,
+        "accepted": 198
+      },
+      {
+        "round": 5,
+        "post_evo_acc": 0.4941850941850942,
+        "post_evo_crystal": 0.004861095974045572,
+        "accepted": 200
+      },
+      {
+        "round": 6,
+        "post_evo_acc": 0.5357084357084357,
+        "post_evo_crystal": 0.5741081865245818,
+        "accepted": 200
+      },
+      {
+        "round": 7,
+        "post_evo_acc": 0.5502047502047502,
+        "post_evo_crystal": 0.179661585861568,
+        "accepted": 200
+      }
+    ],
+    "total_accepted": 1596
+  },
+  "config": {
+    "n_rounds": 8,
+    "gd_steps": 1500,
+    "n_candidates": 200,
+    "crystal_threshold": -0.05
+  },
+  "elapsed": 731.5105061531067
+}
