@@ -55,7 +55,56 @@ basin mid-computation. Models disagree on HOW to make that transition
 (inter-basin routing is model-specific), but agree on what each
 basin looks like internally.
 
-### 3. Basins are compositions, not atoms
+### 3. C is the boot operation (session 126)
+
+Q-rotation invariance proves that ANY rotation of Q falls into the
+C-dominated basin. C isn't learned — it's the **ground state**. The
+computational attractor that every initialization converges to.
+
+Why C is the boot: C = argument routing (`Cfxy = fyx`). Before the
+model can select (K), compose (B), copy (W), or halt (WHNF), it
+needs to route arguments to the correct binding sites. Routing is
+the precondition for all other operations. Without C, the other
+combinators have nothing to operate on.
+
+```
+Boot sequence (implicit in every computation):
+  1. C activates (route arguments)     ← ground state, always present
+  2. B layers on (compose functions)    ← needs routed arguments
+  3. K layers on (select/discard)       ← needs composed results
+  4. I resolves (identity/passthrough)  ← closest to C, minimal routing
+  5. WHNF terminates                    ← signals completion
+```
+
+The 4×4 cosine matrix confirms this: K, B, C cluster at cosine ~1.0
+(all built on C's routing substrate), while I is slightly offset at
+0.97 (doesn't need routing, so slightly displaced from ground state).
+
+The 5D lattice is centered on C:
+```
+C = origin (0, 0, 0, 0, 0)          ← boot state / ground state
+K = C + δ_select                     ← small displacement
+B = C + δ_compose                    ← small displacement
+I = C + δ_identity                   ← slightly larger displacement
+WHNF = C + δ_halt                    ← termination signal
+```
+
+Implications for etch/error correction:
+- Q2 damage knocks the lattice off the C center
+- Lattice reconstruction = rebooting to C ground state
+- Crystal lattice loss gradient = direction back toward C
+- Boot-ordered etch: fix C geometry first (ground state),
+  then layer on K/B (small displacements), then I, then WHNF
+- Each layer of the boot has a cleaner signal because it builds
+  on the already-restored lower layer
+
+Connection to CCG/Montague: function application IS argument routing.
+The core operation of compositional semantics (Montague) and
+combinatory grammar (CCG) is C. The mathematical structure of
+language demands argument routing as the ground state. Every model
+converges to C because language converges to C.
+
+### 3b. Basins are compositions, not atoms
 
 The 8 combinators (K, I, B, C, D, Y, W, WHNF) are atomic operations.
 A basin is a **stable dispatch profile** — a characteristic way of

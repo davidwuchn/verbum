@@ -125,13 +125,31 @@ def crystal_agr(s, t):
     return float(np.sum(a * b) / d) if d > 1e-10 else 0.0
 
 
-def crystal_lattice_loss(model, probes, targets):
+def c_distance(crystal, teacher_crystal):
+    """How far are C-related cosines from the teacher's?
+
+    C is combinator index 3. C-related pairs in upper triangle:
+    (K,C)=index 2, (I,C)=index 4, (B,C)=index 5.
+    Returns mean absolute error of C-related cosines.
+    """
+    A, B = np.array(crystal), np.array(teacher_crystal)
+    # C-related pairs
+    c_pairs = [(0, 3), (1, 3), (2, 3)]  # (K,C), (I,C), (B,C)
+    diffs = [abs(A[i, j] - B[i, j]) for i, j in c_pairs]
+    return float(np.mean(diffs))
+
+
+def crystal_lattice_loss(model, probes, targets, boot_weights=None):
     """The loss function that reconstructs the lattice.
 
     MSE between student's 4×4 cosine matrix and teacher's target.
     The gradient of this w.r.t. plate signs IS the lattice reconstruction
     signal — it tells each sign which way to flip to bring the student's
     combinator geometry closer to the teacher's.
+
+    boot_weights: optional (6,) array weighting the 6 upper-triangle cosine pairs.
+    C-boot theory: weight C-related pairs higher (C is the ground state,
+    must be reconstructed first for other combinators to layer on top).
     """
     tgt = mx.array(np.array(targets, dtype=np.float32))
     means = []
@@ -145,10 +163,19 @@ def crystal_lattice_loss(model, probes, targets):
     M = mx.stack(means)
     N = mx.sqrt(mx.sum(M * M, axis=1, keepdims=True) + 1e-8)
     cos = (M / N) @ (M / N).T
+    # Upper triangle pairs: (K,I), (K,B), (K,C), (I,B), (I,C), (B,C)
     ir, ic = [0, 0, 0, 1, 1, 2], [1, 2, 3, 2, 3, 3]
-    return mx.mean(
-        (cos[mx.array(ir), mx.array(ic)] - tgt[mx.array(ir), mx.array(ic)]) ** 2
-    )
+    diffs = (cos[mx.array(ir), mx.array(ic)] - tgt[mx.array(ir), mx.array(ic)]) ** 2
+    if boot_weights is not None:
+        w = mx.array(np.array(boot_weights, dtype=np.float32))
+        return mx.sum(diffs * w) / mx.sum(w)
+    return mx.mean(diffs)
+
+
+# C-boot weights: C is combinator index 3 (K=0, I=1, B=2, C=3)
+# Upper triangle pairs: (K,I)=0, (K,B)=1, (K,C)=2, (I,B)=3, (I,C)=4, (B,C)=5
+# C-related pairs are indices 2, 4, 5 — weight these 3× higher
+BOOT_WEIGHTS_C_FIRST = [1.0, 1.0, 3.0, 1.0, 3.0, 3.0]
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -276,7 +303,7 @@ def train_teacher(d, n=5000):
 # PHASE 1: Lattice Reconstruction via Crystal Gradient Etch
 # ══════════════════════════════════════════════════════════════════════
 
-def lattice_etch_round(model, probes, teacher_crystal):
+def lattice_etch_round(model, probes, teacher_crystal, boot_weights=None):
     """One round of lattice reconstruction.
 
     Accumulate sign(gradient) of crystal_lattice_loss w.r.t. plate weights.
@@ -284,6 +311,7 @@ def lattice_etch_round(model, probes, teacher_crystal):
     it tells each sign which way to flip to bring the combinator geometry
     closer to the teacher's 4×4 cosine matrix.
 
+    boot_weights: weight C-related cosine pairs higher during boot phase.
     No CE loss. No beam changes. Pure lattice reconstruction.
     """
     plates = _get_plates(model)
@@ -298,7 +326,8 @@ def lattice_etch_round(model, probes, teacher_crystal):
         plate_paths.append((i, "ffn_plate"))
 
     def loss_fn(model):
-        return crystal_lattice_loss(model, probes, teacher_crystal)
+        return crystal_lattice_loss(model, probes, teacher_crystal,
+                                    boot_weights=boot_weights)
 
     loss_and_grad = nn.value_and_grad(model, loss_fn)
 
@@ -367,21 +396,35 @@ def run_lattice_etch(model, probes, teacher_crystal, oracle_crystal):
     log(f"    Initial: crystal={initial_crystal:.4f}, sign_agr={initial_sign_agr:.4f}")
 
     traj = []
+    boot_phase_rounds = LATTICE_ROUNDS // 2  # first half: C-weighted boot
+
     for r in range(LATTICE_ROUNDS):
-        flips, avg_loss = lattice_etch_round(model, probes, teacher_crystal)
+        # Boot-ordered phasing: C-heavy weights for first half,
+        # then uniform weights to refine all relationships equally
+        if r < boot_phase_rounds:
+            bw = BOOT_WEIGHTS_C_FIRST
+            phase = "boot"
+        else:
+            bw = None  # uniform
+            phase = "refine"
+
+        flips, avg_loss = lattice_etch_round(model, probes, teacher_crystal,
+                                             boot_weights=bw)
         crystal = measure_crystal(model, probes)
         agr = crystal_agr(crystal, teacher_crystal)
         sign_agr = sign_agreement_with_oracle(model, oracle_crystal)
         ev = quick_eval(model)
 
+        c_dist = c_distance(crystal, teacher_crystal)
         traj.append({
-            "round": r, "flips": flips, "crystal_loss": avg_loss,
-            "crystal_agr": agr, "sign_agr": sign_agr,
+            "round": r, "phase": phase, "flips": flips,
+            "crystal_loss": avg_loss, "crystal_agr": agr,
+            "c_distance": c_dist, "sign_agr": sign_agr,
             "accuracy": ev["accuracy"],
         })
 
         bar = "█" * max(0, int((agr + 1) * 10))
-        log(f"    R{r:2d}: flips={flips:4d}  crystal={agr:+.4f} {bar}  "
+        log(f"    R{r:2d} [{phase:6s}]: flips={flips:4d}  crystal={agr:+.4f} {bar}  "
             f"sign={sign_agr:.4f}  acc={ev['accuracy']:.4f}  "
             f"loss={avg_loss:.6f}")
 
