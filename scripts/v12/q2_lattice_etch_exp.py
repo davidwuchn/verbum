@@ -63,12 +63,13 @@ D_TEACHER = 256; D_STUDENT = 128; N_LAYERS = 3
 BATCH_SIZE = 32; LR = 0.003; MAX_DEPTH = 4
 
 # Phase 1: lattice etch config
-LATTICE_ROUNDS = 20
-LATTICE_BATCHES = 50      # gradient accumulation batches per round
-LATTICE_CONFIDENCE = 0.5  # accumulator threshold for flipping
+LATTICE_ROUNDS = 30
+LATTICE_BATCHES = 200     # more accumulation = cleaner signal (was 50)
+LATTICE_CONFIDENCE = 0.8  # stricter threshold = fewer flips (was 0.5)
 
 # Phase 2: beam training config
 BEAM_STEPS = 3000
+BEAM_CRYSTAL_LAMBDA = 0.5  # crystal loss on beams too (was 0 = CE-only)
 EVAL_BATCHES = 30
 
 COMBINATORS = ["K", "I", "B", "C"]
@@ -410,12 +411,13 @@ def run_lattice_etch(model, probes, teacher_crystal, oracle_crystal):
 # ══════════════════════════════════════════════════════════════════════
 
 def run_beam_training(model, probes, teacher_crystal, oracle_crystal):
-    """Phase 2: Train beams with CE, plates frozen.
+    """Phase 2: Train beams with CE + crystal loss, plates frozen.
 
     The lattice is now correct (crystal ≈ 1.0). Plates don't change.
     Beams learn to read the correct hologram for accuracy.
+    Crystal loss prevents beams from drifting away from the lattice geometry.
     """
-    log("\n  Phase 2: Beam training (CE only, plates frozen)")
+    log(f"\n  Phase 2: Beam training (CE + crystal λ={BEAM_CRYSTAL_LAMBDA}, plates frozen)")
 
     # Freeze all plates
     for layer in model.layers:
@@ -425,7 +427,13 @@ def run_beam_training(model, probes, teacher_crystal, oracle_crystal):
         layer.ffn_plate.freeze()
 
     opt = optim.Adam(learning_rate=LR)
-    lag = nn.value_and_grad(model, masked_ce_loss)
+
+    def beam_loss(model, ids, tgt, msk):
+        ce = masked_ce_loss(model, ids, tgt, msk)
+        cl = crystal_lattice_loss(model, probes, teacher_crystal)
+        return ce + BEAM_CRYSTAL_LAMBDA * cl
+
+    lag = nn.value_and_grad(model, beam_loss)
     rng = np.random.RandomState(42)
 
     traj = []
