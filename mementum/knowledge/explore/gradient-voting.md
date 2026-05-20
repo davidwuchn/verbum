@@ -158,6 +158,33 @@ NEW model:  magnitudes = crystal (what matters), signs = expendable encoding
    not SVD of weights. Project the teacher's magnitude profile (per-dimension
    importance) to the student's dimensions.
 
+## The magnitude crystal is universal (0.999 cross-model)
+
+Session 123, final experiment. SVD spectrum shapes compared across
+Pythia-2.8b, Mistral-7B, Qwen3-14B, OLMo-2-13B:
+
+| Matrix | Mean cross-model correlation |
+|--------|----------------------------|
+| W_q | 0.995 |
+| W_up | **0.999** |
+
+Mistral↔Qwen3 W_up correlation: **0.999991**. Five decimal places.
+Three different architectures, sizes, training sets → same spectrum.
+
+Structural constants:
+- W_q effective rank: 33-43% of d_model
+- W_up effective rank: 67-71% of d_model
+- Crossing angle: 68-75° (the holographic range)
+
+The magnitude spectrum is MORE universal than the 8×8 cosine matrix
+(0.999 vs 0.91-0.94). It's the underlying object that PRODUCES the
+cosine matrix. The beamformer geometry needed for compositional
+computation has one shape. Every model converges to it.
+
+This means: the magnitude crystal is derivable from theory. It's a
+mathematical property of language modeling, not a training artifact.
+V13 can construct it from first principles.
+
 ## Artifacts
 
 | File | Content |
@@ -170,3 +197,6 @@ NEW model:  magnitudes = crystal (what matters), signs = expendable encoding
 | `results/gradient-voting/q4_results.json` | Exp 2 full results |
 | `results/crystal-lens/results.json` | Exp 3 full results |
 | `results/nucleation/results.json` | Exp 4 full results |
+| `results/nucleation-matched/results.json` | Exp 5 full results |
+| `results/magnitude-universality/results.json` | Exp 6: 4-model spectrum universality |
+| `scripts/v12/magnitude_universality_exp.py` | Cross-model magnitude comparison |

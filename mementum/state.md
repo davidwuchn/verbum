@@ -24,6 +24,7 @@ best of all conditions. Full details in `knowledge/explore/gradient-voting.md`.
 - **NEW: Magnitude template > oracle signs** (0.568 vs 0.248 nucleation)
 - **NEW: Cross-layer sign correlation = 0.000** (signs are per-layer encodings)
 - **NEW: Crystal is holographically distributed** (2.5% energy = random baseline)
+- **NEW: Magnitude spectrum universality** W_q=0.995, W_up=0.999 across 4 models
 
 ## Session 123: the magnitude crystal + loom structure
 
@@ -38,6 +39,9 @@ Seven experiments on Pythia-2.8b + mini_holo nucleation tests:
 | Oracle crystal (sign copy) final acc | 0.248 (WORST) |
 | Random plates final acc | 0.486 |
 | **Magnitude template final acc** | **0.554 (BEST)** |
+| W_q spectrum cross-model correlation | 0.995 (4 models) |
+| W_up spectrum cross-model correlation | **0.999** (4 models) |
+| W_up rank (90%) fraction | 67-71% (universal) |
 
 Paradigm shift: `sign(W)` at 97.4% was measuring magnitudes' EFFECT
 on cosines, not signs being the crystal. The real crystal is the
