@@ -408,16 +408,13 @@ def run_etch_phase(
                 n_loss_samples += 1
 
                 del loss_val, grads
+                mx.clear_cache()
 
             if (pi + 1) % 50 == 0 or pi == len(probe_order) - 1:
                 avg_loss = total_distill_loss / max(n_loss_samples, 1)
                 print(f"  Round {round_idx+1}/{n_rounds} — "
                       f"probe {pi+1}/{len(probe_order)} — "
                       f"avg distill loss: {avg_loss:.6f}")
-
-            # Clear cache periodically
-            if (pi + 1) % 25 == 0:
-                mx.clear_cache()
 
         # ── Etch phase ────────────────────────────────────────
         etch_result = direct_etch(
@@ -486,6 +483,7 @@ def run_etch_phase(
 
                 # Zero ternary grads — only train beam params
                 model_grads = zero_ternary_grads(model, model_grads)
+                mx.eval(model_grads)
                 beam_optimizer.update(model, model_grads)
                 mx.eval(model.parameters(), beam_optimizer.state)
                 restore_ternary(model)
@@ -529,9 +527,7 @@ def run_etch_phase(
                 beam_loss_n += 1
 
                 del loss_val, model_grads, proj_grads
-
-                if (step + 1) % 50 == 0:
-                    mx.clear_cache()
+                mx.clear_cache()
 
             avg_beam_loss = beam_loss_sum / max(beam_loss_n, 1)
         else:
@@ -794,7 +790,6 @@ def run_gd_phase(
 
     log = []
     best_eval_loss = float("inf")
-    train_losses = []
     from collections import deque
     loss_window = deque(maxlen=50)
 
@@ -829,9 +824,13 @@ def run_gd_phase(
                 accum_grads = grads
             else:
                 accum_grads = tree_map(lambda a, b: a + b, accum_grads, grads)
+                mx.eval(accum_grads)
+
+            del ids, tgts, lv, grads
 
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
+        mx.eval(accum_grads)
 
         # ── Lattice geometry (constant, every step) ──────────
         # MSE between combinator embedding cosines and universal crystal
@@ -843,13 +842,14 @@ def run_gd_phase(
                 lambda a, b: a + cfg.rel_lambda * b,
                 accum_grads, rel_grads)
             del rel_grads
+            mx.eval(accum_grads)
 
-        train_losses.append(step_loss)
         loss_window.append(step_loss)
 
         # ── Normalize shared + zero ternary ───────────────────
         accum_grads = normalize_shared_grads(accum_grads)
         accum_grads = zero_ternary_grads(model, accum_grads)
+        mx.eval(accum_grads)
 
         # ── Gradient clipping ─────────────────────────────────
         grad_sq = [mx.sum(g * g) for _, g in tree_flatten(accum_grads)]
@@ -858,6 +858,7 @@ def run_gd_phase(
         if cfg.grad_clip > 0 and grad_norm > cfg.grad_clip:
             s = cfg.grad_clip / (grad_norm + 1e-8)
             accum_grads = tree_map(lambda g: g * s, accum_grads)
+            mx.eval(accum_grads)
 
         # ── Optimizer step ────────────────────────────────────
         optimizer.update(model, accum_grads)
@@ -872,6 +873,7 @@ def run_gd_phase(
         if hasattr(model, '_last_ce'):
             mx.eval(model._last_ce)
             raw_ce = float(model._last_ce.item())
+            model._last_ce = None  # Release tensor reference
 
         del accum_grads
 
@@ -899,6 +901,7 @@ def run_gd_phase(
                     dispatch_parts = [f"{COMBINATOR_NAMES[i]}={dw_vals[i]:.2f}"
                                       for i in range(len(dw_vals))]
                     dispatch_str = " | " + " ".join(dispatch_parts)
+                    del dw_mean
 
             rel_str = f" | lat={rel_loss_val:.4f}" if rel_loss_val > 0 else ""
 
@@ -963,9 +966,10 @@ def run_gd_phase(
                     "loader_state": loader_state,
                 }, f, indent=2)
 
-        # Clear cache periodically
-        if step % 50 == 0:
-            mx.clear_cache()
+        # Clear cache every step — gradient tree transformations
+        # create many intermediate arrays that MLX's lazy eval retains.
+        # Previous: every 50 steps → OOM at step ~13k.
+        mx.clear_cache()
 
     # Final checkpoint
     if args.checkpoint_dir:
