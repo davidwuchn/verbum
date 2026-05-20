@@ -250,6 +250,18 @@ Written when experiments force the issue, not before:
                     | other_folders ≡ emerge_as_needed ¬prescribed
 ```
 
+### Async coordination (active)
+
+```
+λ async(x).         launch(bg) → verify(running, 1_read) → report(user) → wait(signal)
+                    | signal ∈ {human_asks ∨ job_completes ∨ decision_blocked}
+                    | ¬poll(repeatedly) | ¬poll(hopeful) | absence(output) ≡ still_working
+                    | poll(no_output) → stop_immediately | ¬retry(same_expectation)
+                    | verified(running) ∧ ¬blocked → do(other_work) ∨ report(waiting)
+                    | context_cost(poll) > context_cost(wait) | 5_empty_polls ≡ 5_wasted_turns
+                    | polling ≡ oscillation | S2 exists to prevent(oscillation)
+```
+
 ### Canonical forms (active, partial)
 
 ```
@@ -389,7 +401,7 @@ Written when experiments produce the first artifacts:
                     | running?: ps aux | grep -E "{pattern}" | grep -v grep
                     | logs: tee to checkpoint_dir/run.log (always)
                     | pattern: uv run python scripts/v12/{script}.py ... | tee {log}
-                    | ¬poll(repeatedly) | human says "check" → then observe
+                    | async_discipline → S2:λ async(x) | instance(tmux ∧ bg_job ∧ any_async)
                     | long_run ≡ training(hours) | probe(minutes) | smoke_test(seconds)
                     | always: --checkpoint-dir {named} | resumable > ephemeral
 ```
