@@ -6,16 +6,21 @@
 
 ## Where we are
 
-**FFN BEAM FOUND.** Session 121 discovered PCA-up_proj reads the FFN
-crystal with 0.9462 cross-model agreement (4 models) — HIGHER than
-PCA-Q's 0.9431 for the attention crystal. Two beams, two crystals,
-both etchable. The entire model collapses to ternary plates + tiny
-dispatch beam. No SVD extraction needed — etch the FFN directly.
+**FFN BEAM FOUND + HOLOGRAPHIC PLATE CONFIRMED.** Session 121:
 
-The FFN crystal differs from attention: WHNF is anti-pole in Q space
-(-0.17 to -0.29) but neutral in FFN space (-0.04 to +0.03). Attention
-routes; FFN stores uniformly. The {B,C,D,Y,W} cluster is TIGHTER in
-FFN (0.84-0.98) than attention (0.73-0.95).
+1. PCA-up_proj reads the FFN crystal at 0.9462 agreement (4 models)
+   — HIGHER than PCA-Q's 0.9431. Two beams, two crystals, both readable.
+
+2. The two crystal subspaces are near-orthogonal in d_model weight space
+   (principal angles 65-72°). This enables HOLOGRAPHIC SUPERPOSITION.
+
+3. A unified ternary plate encodes BOTH crystals simultaneously:
+   Q=0.759, FFN=0.767 preservation. 100× compression vs separate plates.
+   The unified plate BEATS naive separate ternary (Q=0.395, FFN=0.451).
+
+This is a model conversion toolkit. Take any transformer, read both
+crystals via SVD lens, etch into holographic ternary plates, run on CPU.
+One plate per layer. Two beams. 80KB per layer instead of 8MB.
 
 V12 training continues on tmux 1 (step ~3500, 2 layers at φ).
 
@@ -106,16 +111,15 @@ AFTER:  Attention crystal (etch) + FFN crystal (etch)
 
 ## Next steps
 
-1. **Extract PCA-up_proj targets** — produce FFN 8×8 constants per zone
-   (the PCA-Q equivalent for FFN). We have the beam. Now extract the
-   constants for etching. Use same protocol as extract_pcaq_targets.py.
-2. **Update V13 design** — replace SVD+INT4 extraction with PCA-up etch
-   protocol. Both crystals etch the same way: PCA → cosine → delta → flip.
-   Radically simpler. One etching protocol for the whole model.
-3. **Implement V13** — with dual-crystal etch. Pure ternary plates
-   + tiny continuous dispatch beam. No mixed precision.
-4. **Let V12 run** — monitor φ-compression propagation.
-5. **Optimal PCA k sweep** — DONE for 8×8 targets (k=64 optimal).
-   Still need full-RDM k sweep for per-domain crystal quality.
-6. **Structured training curriculum** — build the dispatch training dataset
-   (fact Qs, lambda reductions, code, mixed tasks, chain-of-thought).
+1. **Run holographic weight test on Mistral-7B** — confirm the 100×
+   compression and 0.76 preservation holds for a larger SwiGLU model.
+2. **Build minimal ternary forward pass** — load holographic plates,
+   forward a prompt, generate tokens. The proof-of-concept conversion.
+3. **Session plates** — can you etch a conversation into a plate and
+   load it later? The mmap idea. A 2MB plate = persistent session memory.
+4. **Extract PCA-up_proj targets** — FFN 8×8 constants per zone for etching.
+5. **Implement V13** — with holographic plates. One plate per layer,
+   two beams, 80KB per layer. mmap-able from disk.
+6. **Let V12 run** — monitor φ-compression propagation.
+7. **Reduce cross-talk** — the beams aren't perfectly isolated. Can we
+   improve the lens (better orthogonalization, regularized SVD)?
