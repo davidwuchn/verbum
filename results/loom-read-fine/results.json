@@ -1,0 +1,5373 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "depths": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "domains": [
+    "pure",
+    "lambda",
+    "arithmetic",
+    "coding",
+    "tool",
+    "retrieval",
+    "analogy",
+    "reasoning",
+    "narrative",
+    "instruction"
+  ],
+  "n_probes": 144,
+  "domain_sizes": {
+    "pure": 9,
+    "lambda": 15,
+    "arithmetic": 15,
+    "coding": 15,
+    "tool": 15,
+    "retrieval": 15,
+    "analogy": 15,
+    "reasoning": 15,
+    "narrative": 15,
+    "instruction": 15
+  },
+  "per_depth": {
+    "0.1": {
+      "layer_idx": 3,
+      "angle_distribution": {
+        "shared": 15,
+        "mid_low": 39,
+        "attn_clust": 32,
+        "transition": 21,
+        "holographic": 36,
+        "peripheral": 57,
+        "private": 56
+      },
+      "magnitude_correlations": {
+        "pure_vs_lambda": 0.9510837117390191,
+        "pure_vs_arithmetic": 0.9353063687512149,
+        "pure_vs_coding": 0.9532104015651837,
+        "pure_vs_tool": 0.7801490477908585,
+        "pure_vs_retrieval": 0.9342030988720064,
+        "pure_vs_analogy": 0.9336047163292718,
+        "pure_vs_reasoning": 0.9470814729149908,
+        "pure_vs_narrative": 0.7517274098571589,
+        "pure_vs_instruction": 0.739183572656031,
+        "lambda_vs_arithmetic": 0.9675549751888001,
+        "lambda_vs_coding": 0.9667592095788061,
+        "lambda_vs_tool": 0.7757120305900576,
+        "lambda_vs_retrieval": 0.9687187579060333,
+        "lambda_vs_analogy": 0.9680622526094764,
+        "lambda_vs_reasoning": 0.9744873786333415,
+        "lambda_vs_narrative": 0.743915445160695,
+        "lambda_vs_instruction": 0.7300434707557776,
+        "arithmetic_vs_coding": 0.9527979862870722,
+        "arithmetic_vs_tool": 0.7696022660378843,
+        "arithmetic_vs_retrieval": 0.9618083916510332,
+        "arithmetic_vs_analogy": 0.9621306625912683,
+        "arithmetic_vs_reasoning": 0.9651035048792224,
+        "arithmetic_vs_narrative": 0.7373792496765307,
+        "arithmetic_vs_instruction": 0.7241858275870924,
+        "coding_vs_tool": 0.7537122282763506,
+        "coding_vs_retrieval": 0.9544358215516404,
+        "coding_vs_analogy": 0.9528824277411129,
+        "coding_vs_reasoning": 0.9632079220443581,
+        "coding_vs_narrative": 0.7217594749336808,
+        "coding_vs_instruction": 0.7076359069224504,
+        "tool_vs_retrieval": 0.7837392142661255,
+        "tool_vs_analogy": 0.780610478095538,
+        "tool_vs_reasoning": 0.78814132403402,
+        "tool_vs_narrative": 0.9979603405824008,
+        "tool_vs_instruction": 0.9964835441613237,
+        "retrieval_vs_analogy": 0.9679007577467617,
+        "retrieval_vs_reasoning": 0.9667946404356856,
+        "retrieval_vs_narrative": 0.7525903053416931,
+        "retrieval_vs_instruction": 0.7395250296937328,
+        "analogy_vs_reasoning": 0.9659478778001793,
+        "analogy_vs_narrative": 0.7486549867299811,
+        "analogy_vs_instruction": 0.735469240138135,
+        "reasoning_vs_narrative": 0.7577574558181874,
+        "reasoning_vs_instruction": 0.7439340395321632,
+        "narrative_vs_instruction": 0.9996697664837181
+      },
+      "overlap_by_band": {
+        "shared": {
+          "n_dirs": 15,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5024739583333333,
+              "arithmetic": 0.49765625,
+              "coding": 0.5014322916666667,
+              "tool": 0.49752604166666664,
+              "retrieval": 0.4993489583333333,
+              "analogy": 0.5001302083333333,
+              "reasoning": 0.5087239583333333,
+              "narrative": 0.49752604166666664,
+              "instruction": 0.49752604166666664
+            },
+            "lambda": {
+              "pure": 0.5024739583333333,
+              "lambda": 1.0,
+              "arithmetic": 0.49127604166666666,
+              "coding": 0.49296875,
+              "tool": 0.5005208333333333,
+              "retrieval": 0.6388020833333333,
+              "analogy": 0.6731770833333334,
+              "reasoning": 0.6565104166666667,
+              "narrative": 0.5005208333333333,
+              "instruction": 0.5005208333333333
+            },
+            "arithmetic": {
+              "pure": 0.49765625,
+              "lambda": 0.49127604166666666,
+              "arithmetic": 1.0,
+              "coding": 0.6748697916666667,
+              "tool": 0.6787760416666667,
+              "retrieval": 0.505078125,
+              "analogy": 0.665234375,
+              "reasoning": 0.48216145833333335,
+              "narrative": 0.6787760416666667,
+              "instruction": 0.6787760416666667
+            },
+            "coding": {
+              "pure": 0.5014322916666667,
+              "lambda": 0.49296875,
+              "arithmetic": 0.6748697916666667,
+              "coding": 1.0,
+              "tool": 0.6705729166666666,
+              "retrieval": 0.6713541666666667,
+              "analogy": 0.6481770833333333,
+              "reasoning": 0.48125,
+              "narrative": 0.6705729166666666,
+              "instruction": 0.6705729166666666
+            },
+            "tool": {
+              "pure": 0.49752604166666664,
+              "lambda": 0.5005208333333333,
+              "arithmetic": 0.6787760416666667,
+              "coding": 0.6705729166666666,
+              "tool": 1.0,
+              "retrieval": 0.5158854166666667,
+              "analogy": 0.6627604166666666,
+              "reasoning": 0.49296875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "retrieval": {
+              "pure": 0.4993489583333333,
+              "lambda": 0.6388020833333333,
+              "arithmetic": 0.505078125,
+              "coding": 0.6713541666666667,
+              "tool": 0.5158854166666667,
+              "retrieval": 1.0,
+              "analogy": 0.5013020833333334,
+              "reasoning": 0.46875,
+              "narrative": 0.5158854166666667,
+              "instruction": 0.5158854166666667
+            },
+            "analogy": {
+              "pure": 0.5001302083333333,
+              "lambda": 0.6731770833333334,
+              "arithmetic": 0.665234375,
+              "coding": 0.6481770833333333,
+              "tool": 0.6627604166666666,
+              "retrieval": 0.5013020833333334,
+              "analogy": 1.0,
+              "reasoning": 0.48802083333333335,
+              "narrative": 0.6627604166666666,
+              "instruction": 0.6627604166666666
+            },
+            "reasoning": {
+              "pure": 0.5087239583333333,
+              "lambda": 0.6565104166666667,
+              "arithmetic": 0.48216145833333335,
+              "coding": 0.48125,
+              "tool": 0.49296875,
+              "retrieval": 0.46875,
+              "analogy": 0.48802083333333335,
+              "reasoning": 1.0,
+              "narrative": 0.49296875,
+              "instruction": 0.49296875
+            },
+            "narrative": {
+              "pure": 0.49752604166666664,
+              "lambda": 0.5005208333333333,
+              "arithmetic": 0.6787760416666667,
+              "coding": 0.6705729166666666,
+              "tool": 1.0,
+              "retrieval": 0.5158854166666667,
+              "analogy": 0.6627604166666666,
+              "reasoning": 0.49296875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.49752604166666664,
+              "lambda": 0.5005208333333333,
+              "arithmetic": 0.6787760416666667,
+              "coding": 0.6705729166666666,
+              "tool": 1.0,
+              "retrieval": 0.5158854166666667,
+              "analogy": 0.6627604166666666,
+              "reasoning": 0.49296875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "mid_low": {
+          "n_dirs": 39,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5705357142857143,
+              "arithmetic": 0.5005580357142857,
+              "coding": 0.57734375,
+              "tool": 0.5002790178571429,
+              "retrieval": 0.49754464285714284,
+              "analogy": 0.5690848214285714,
+              "reasoning": 0.5036830357142857,
+              "narrative": 0.5015066964285714,
+              "instruction": 0.5015066964285714
+            },
+            "lambda": {
+              "pure": 0.5705357142857143,
+              "lambda": 1.0,
+              "arithmetic": 0.49508928571428573,
+              "coding": 0.7142857142857143,
+              "tool": 0.5762834821428572,
+              "retrieval": 0.5013392857142858,
+              "analogy": 0.6452008928571429,
+              "reasoning": 0.5077008928571428,
+              "narrative": 0.5057477678571428,
+              "instruction": 0.5057477678571428
+            },
+            "arithmetic": {
+              "pure": 0.5005580357142857,
+              "lambda": 0.49508928571428573,
+              "arithmetic": 1.0,
+              "coding": 0.4994419642857143,
+              "tool": 0.49771205357142856,
+              "retrieval": 0.5771205357142857,
+              "analogy": 0.4935267857142857,
+              "reasoning": 0.5744419642857143,
+              "narrative": 0.5005022321428572,
+              "instruction": 0.5005022321428572
+            },
+            "coding": {
+              "pure": 0.57734375,
+              "lambda": 0.7142857142857143,
+              "arithmetic": 0.4994419642857143,
+              "coding": 1.0,
+              "tool": 0.5762834821428572,
+              "retrieval": 0.5040178571428572,
+              "analogy": 0.6422991071428571,
+              "reasoning": 0.5059151785714285,
+              "narrative": 0.5053013392857143,
+              "instruction": 0.5053013392857143
+            },
+            "tool": {
+              "pure": 0.5002790178571429,
+              "lambda": 0.5762834821428572,
+              "arithmetic": 0.49771205357142856,
+              "coding": 0.5762834821428572,
+              "tool": 1.0,
+              "retrieval": 0.5762834821428572,
+              "analogy": 0.5032924107142858,
+              "reasoning": 0.5752790178571429,
+              "narrative": 0.7895089285714286,
+              "instruction": 0.7895089285714286
+            },
+            "retrieval": {
+              "pure": 0.49754464285714284,
+              "lambda": 0.5013392857142858,
+              "arithmetic": 0.5771205357142857,
+              "coding": 0.5040178571428572,
+              "tool": 0.5762834821428572,
+              "retrieval": 1.0,
+              "analogy": 0.5724330357142857,
+              "reasoning": 0.50703125,
+              "narrative": 0.5060825892857143,
+              "instruction": 0.5060825892857143
+            },
+            "analogy": {
+              "pure": 0.5690848214285714,
+              "lambda": 0.6452008928571429,
+              "arithmetic": 0.4935267857142857,
+              "coding": 0.6422991071428571,
+              "tool": 0.5032924107142858,
+              "retrieval": 0.5724330357142857,
+              "analogy": 1.0,
+              "reasoning": 0.5022321428571429,
+              "narrative": 0.5025111607142857,
+              "instruction": 0.5025111607142857
+            },
+            "reasoning": {
+              "pure": 0.5036830357142857,
+              "lambda": 0.5077008928571428,
+              "arithmetic": 0.5744419642857143,
+              "coding": 0.5059151785714285,
+              "tool": 0.5752790178571429,
+              "retrieval": 0.50703125,
+              "analogy": 0.5022321428571429,
+              "reasoning": 1.0,
+              "narrative": 0.5798549107142857,
+              "instruction": 0.5798549107142857
+            },
+            "narrative": {
+              "pure": 0.5015066964285714,
+              "lambda": 0.5057477678571428,
+              "arithmetic": 0.5005022321428572,
+              "coding": 0.5053013392857143,
+              "tool": 0.7895089285714286,
+              "retrieval": 0.5060825892857143,
+              "analogy": 0.5025111607142857,
+              "reasoning": 0.5798549107142857,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.5015066964285714,
+              "lambda": 0.5057477678571428,
+              "arithmetic": 0.5005022321428572,
+              "coding": 0.5053013392857143,
+              "tool": 0.7895089285714286,
+              "retrieval": 0.5060825892857143,
+              "analogy": 0.5025111607142857,
+              "reasoning": 0.5798549107142857,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 32,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.498046875,
+              "arithmetic": 0.5089192708333333,
+              "coding": 0.5780598958333333,
+              "tool": 0.4978515625,
+              "retrieval": 0.49583333333333335,
+              "analogy": 0.5796223958333333,
+              "reasoning": 0.5765625,
+              "narrative": 0.4962890625,
+              "instruction": 0.4918619791666667
+            },
+            "lambda": {
+              "pure": 0.498046875,
+              "lambda": 1.0,
+              "arithmetic": 0.4958984375,
+              "coding": 0.4972005208333333,
+              "tool": 0.49368489583333336,
+              "retrieval": 0.6747395833333333,
+              "analogy": 0.5844401041666667,
+              "reasoning": 0.5809895833333333,
+              "narrative": 0.49602864583333334,
+              "instruction": 0.49615885416666666
+            },
+            "arithmetic": {
+              "pure": 0.5089192708333333,
+              "lambda": 0.4958984375,
+              "arithmetic": 1.0,
+              "coding": 0.5109375,
+              "tool": 0.49127604166666666,
+              "retrieval": 0.49876302083333335,
+              "analogy": 0.49466145833333336,
+              "reasoning": 0.4918619791666667,
+              "narrative": 0.575,
+              "instruction": 0.579296875
+            },
+            "coding": {
+              "pure": 0.5780598958333333,
+              "lambda": 0.4972005208333333,
+              "arithmetic": 0.5109375,
+              "coding": 1.0,
+              "tool": 0.5076822916666667,
+              "retrieval": 0.49485677083333335,
+              "analogy": 0.49973958333333335,
+              "reasoning": 0.4938151041666667,
+              "narrative": 0.5110677083333334,
+              "instruction": 0.515625
+            },
+            "tool": {
+              "pure": 0.4978515625,
+              "lambda": 0.49368489583333336,
+              "arithmetic": 0.49127604166666666,
+              "coding": 0.5076822916666667,
+              "tool": 1.0,
+              "retrieval": 0.5009765625,
+              "analogy": 0.497265625,
+              "reasoning": 0.5026692708333333,
+              "narrative": 0.753515625,
+              "instruction": 0.8295572916666667
+            },
+            "retrieval": {
+              "pure": 0.49583333333333335,
+              "lambda": 0.6747395833333333,
+              "arithmetic": 0.49876302083333335,
+              "coding": 0.49485677083333335,
+              "tool": 0.5009765625,
+              "retrieval": 1.0,
+              "analogy": 0.5817057291666666,
+              "reasoning": 0.669140625,
+              "narrative": 0.4970703125,
+              "instruction": 0.5030598958333333
+            },
+            "analogy": {
+              "pure": 0.5796223958333333,
+              "lambda": 0.5844401041666667,
+              "arithmetic": 0.49466145833333336,
+              "coding": 0.49973958333333335,
+              "tool": 0.497265625,
+              "retrieval": 0.5817057291666666,
+              "analogy": 1.0,
+              "reasoning": 0.6675130208333333,
+              "narrative": 0.4979166666666667,
+              "instruction": 0.49778645833333335
+            },
+            "reasoning": {
+              "pure": 0.5765625,
+              "lambda": 0.5809895833333333,
+              "arithmetic": 0.4918619791666667,
+              "coding": 0.4938151041666667,
+              "tool": 0.5026692708333333,
+              "retrieval": 0.669140625,
+              "analogy": 0.6675130208333333,
+              "reasoning": 1.0,
+              "narrative": 0.5012369791666667,
+              "instruction": 0.49654947916666664
+            },
+            "narrative": {
+              "pure": 0.4962890625,
+              "lambda": 0.49602864583333334,
+              "arithmetic": 0.575,
+              "coding": 0.5110677083333334,
+              "tool": 0.753515625,
+              "retrieval": 0.4970703125,
+              "analogy": 0.4979166666666667,
+              "reasoning": 0.5012369791666667,
+              "narrative": 1.0,
+              "instruction": 0.840234375
+            },
+            "instruction": {
+              "pure": 0.4918619791666667,
+              "lambda": 0.49615885416666666,
+              "arithmetic": 0.579296875,
+              "coding": 0.515625,
+              "tool": 0.8295572916666667,
+              "retrieval": 0.5030598958333333,
+              "analogy": 0.49778645833333335,
+              "reasoning": 0.49654947916666664,
+              "narrative": 0.840234375,
+              "instruction": 1.0
+            }
+          }
+        },
+        "transition": {
+          "n_dirs": 21,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.50703125,
+              "arithmetic": 0.50517578125,
+              "coding": 0.49326171875,
+              "tool": 0.506640625,
+              "retrieval": 0.50244140625,
+              "analogy": 0.6283203125,
+              "reasoning": 0.50068359375,
+              "narrative": 0.4978515625,
+              "instruction": 0.4978515625
+            },
+            "lambda": {
+              "pure": 0.50703125,
+              "lambda": 1.0,
+              "arithmetic": 0.62353515625,
+              "coding": 0.62197265625,
+              "tool": 0.496875,
+              "retrieval": 0.49912109375,
+              "analogy": 0.492578125,
+              "reasoning": 0.62451171875,
+              "narrative": 0.50234375,
+              "instruction": 0.50234375
+            },
+            "arithmetic": {
+              "pure": 0.50517578125,
+              "lambda": 0.62353515625,
+              "arithmetic": 1.0,
+              "coding": 0.48671875,
+              "tool": 0.49755859375,
+              "retrieval": 0.5005859375,
+              "analogy": 0.49345703125,
+              "reasoning": 0.494140625,
+              "narrative": 0.48974609375,
+              "instruction": 0.48974609375
+            },
+            "coding": {
+              "pure": 0.49326171875,
+              "lambda": 0.62197265625,
+              "arithmetic": 0.48671875,
+              "coding": 1.0,
+              "tool": 0.50224609375,
+              "retrieval": 0.628515625,
+              "analogy": 0.62412109375,
+              "reasoning": 0.5076171875,
+              "narrative": 0.50556640625,
+              "instruction": 0.50556640625
+            },
+            "tool": {
+              "pure": 0.506640625,
+              "lambda": 0.496875,
+              "arithmetic": 0.49755859375,
+              "coding": 0.50224609375,
+              "tool": 1.0,
+              "retrieval": 0.49404296875,
+              "analogy": 0.495703125,
+              "reasoning": 0.49091796875,
+              "narrative": 0.7486328125,
+              "instruction": 0.7486328125
+            },
+            "retrieval": {
+              "pure": 0.50244140625,
+              "lambda": 0.49912109375,
+              "arithmetic": 0.5005859375,
+              "coding": 0.628515625,
+              "tool": 0.49404296875,
+              "retrieval": 1.0,
+              "analogy": 0.74931640625,
+              "reasoning": 0.7544921875,
+              "narrative": 0.49833984375,
+              "instruction": 0.49833984375
+            },
+            "analogy": {
+              "pure": 0.6283203125,
+              "lambda": 0.492578125,
+              "arithmetic": 0.49345703125,
+              "coding": 0.62412109375,
+              "tool": 0.495703125,
+              "retrieval": 0.74931640625,
+              "analogy": 1.0,
+              "reasoning": 0.62275390625,
+              "narrative": 0.613671875,
+              "instruction": 0.613671875
+            },
+            "reasoning": {
+              "pure": 0.50068359375,
+              "lambda": 0.62451171875,
+              "arithmetic": 0.494140625,
+              "coding": 0.5076171875,
+              "tool": 0.49091796875,
+              "retrieval": 0.7544921875,
+              "analogy": 0.62275390625,
+              "reasoning": 1.0,
+              "narrative": 0.49248046875,
+              "instruction": 0.49248046875
+            },
+            "narrative": {
+              "pure": 0.4978515625,
+              "lambda": 0.50234375,
+              "arithmetic": 0.48974609375,
+              "coding": 0.50556640625,
+              "tool": 0.7486328125,
+              "retrieval": 0.49833984375,
+              "analogy": 0.613671875,
+              "reasoning": 0.49248046875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.4978515625,
+              "lambda": 0.50234375,
+              "arithmetic": 0.48974609375,
+              "coding": 0.50556640625,
+              "tool": 0.7486328125,
+              "retrieval": 0.49833984375,
+              "analogy": 0.613671875,
+              "reasoning": 0.49248046875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "holographic": {
+          "n_dirs": 36,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5630022321428572,
+              "arithmetic": 0.5737723214285714,
+              "coding": 0.5737165178571428,
+              "tool": 0.49559151785714284,
+              "retrieval": 0.5044084821428572,
+              "analogy": 0.5003348214285714,
+              "reasoning": 0.5727678571428572,
+              "narrative": 0.5005022321428572,
+              "instruction": 0.5734375
+            },
+            "lambda": {
+              "pure": 0.5630022321428572,
+              "lambda": 1.0,
+              "arithmetic": 0.497265625,
+              "coding": 0.49698660714285714,
+              "tool": 0.5688616071428572,
+              "retrieval": 0.5004464285714286,
+              "analogy": 0.5680245535714286,
+              "reasoning": 0.4998325892857143,
+              "narrative": 0.6454241071428571,
+              "instruction": 0.5717075892857143
+            },
+            "arithmetic": {
+              "pure": 0.5737723214285714,
+              "lambda": 0.497265625,
+              "arithmetic": 1.0,
+              "coding": 0.501171875,
+              "tool": 0.491796875,
+              "retrieval": 0.569140625,
+              "analogy": 0.5046875,
+              "reasoning": 0.6473214285714286,
+              "narrative": 0.49302455357142855,
+              "instruction": 0.49252232142857144
+            },
+            "coding": {
+              "pure": 0.5737165178571428,
+              "lambda": 0.49698660714285714,
+              "arithmetic": 0.501171875,
+              "coding": 1.0,
+              "tool": 0.49564732142857143,
+              "retrieval": 0.5036830357142857,
+              "analogy": 0.6429129464285714,
+              "reasoning": 0.4982700892857143,
+              "narrative": 0.5063616071428572,
+              "instruction": 0.5021763392857143
+            },
+            "tool": {
+              "pure": 0.49559151785714284,
+              "lambda": 0.5688616071428572,
+              "arithmetic": 0.491796875,
+              "coding": 0.49564732142857143,
+              "tool": 1.0,
+              "retrieval": 0.5037946428571428,
+              "analogy": 0.494140625,
+              "reasoning": 0.49916294642857145,
+              "narrative": 0.7102678571428571,
+              "instruction": 0.7781808035714286
+            },
+            "retrieval": {
+              "pure": 0.5044084821428572,
+              "lambda": 0.5004464285714286,
+              "arithmetic": 0.569140625,
+              "coding": 0.5036830357142857,
+              "tool": 0.5037946428571428,
+              "retrieval": 1.0,
+              "analogy": 0.5015066964285714,
+              "reasoning": 0.5633370535714286,
+              "narrative": 0.5015625,
+              "instruction": 0.5065290178571429
+            },
+            "analogy": {
+              "pure": 0.5003348214285714,
+              "lambda": 0.5680245535714286,
+              "arithmetic": 0.5046875,
+              "coding": 0.6429129464285714,
+              "tool": 0.494140625,
+              "retrieval": 0.5015066964285714,
+              "analogy": 1.0,
+              "reasoning": 0.6420758928571428,
+              "narrative": 0.49893973214285714,
+              "instruction": 0.49955357142857143
+            },
+            "reasoning": {
+              "pure": 0.5727678571428572,
+              "lambda": 0.4998325892857143,
+              "arithmetic": 0.6473214285714286,
+              "coding": 0.4982700892857143,
+              "tool": 0.49916294642857145,
+              "retrieval": 0.5633370535714286,
+              "analogy": 0.6420758928571428,
+              "reasoning": 1.0,
+              "narrative": 0.5065290178571429,
+              "instruction": 0.4966517857142857
+            },
+            "narrative": {
+              "pure": 0.5005022321428572,
+              "lambda": 0.6454241071428571,
+              "arithmetic": 0.49302455357142855,
+              "coding": 0.5063616071428572,
+              "tool": 0.7102678571428571,
+              "retrieval": 0.5015625,
+              "analogy": 0.49893973214285714,
+              "reasoning": 0.5065290178571429,
+              "narrative": 1.0,
+              "instruction": 0.781640625
+            },
+            "instruction": {
+              "pure": 0.5734375,
+              "lambda": 0.5717075892857143,
+              "arithmetic": 0.49252232142857144,
+              "coding": 0.5021763392857143,
+              "tool": 0.7781808035714286,
+              "retrieval": 0.5065290178571429,
+              "analogy": 0.49955357142857143,
+              "reasoning": 0.4966517857142857,
+              "narrative": 0.781640625,
+              "instruction": 1.0
+            }
+          }
+        },
+        "peripheral": {
+          "n_dirs": 57,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5893465909090909,
+              "arithmetic": 0.5947443181818182,
+              "coding": 0.54453125,
+              "tool": 0.5005326704545454,
+              "retrieval": 0.49758522727272725,
+              "analogy": 0.4975497159090909,
+              "reasoning": 0.6832741477272727,
+              "narrative": 0.49818892045454544,
+              "instruction": 0.49691051136363634
+            },
+            "lambda": {
+              "pure": 0.5893465909090909,
+              "lambda": 1.0,
+              "arithmetic": 0.6335227272727273,
+              "coding": 0.5916193181818182,
+              "tool": 0.49946732954545453,
+              "retrieval": 0.49964488636363635,
+              "analogy": 0.49783380681818185,
+              "reasoning": 0.5444957386363637,
+              "narrative": 0.49968039772727274,
+              "instruction": 0.4986150568181818
+            },
+            "arithmetic": {
+              "pure": 0.5947443181818182,
+              "lambda": 0.6335227272727273,
+              "arithmetic": 1.0,
+              "coding": 0.58984375,
+              "tool": 0.5052201704545455,
+              "retrieval": 0.49637784090909093,
+              "analogy": 0.5474076704545454,
+              "reasoning": 0.6369673295454545,
+              "narrative": 0.49953835227272725,
+              "instruction": 0.500674715909091
+            },
+            "coding": {
+              "pure": 0.54453125,
+              "lambda": 0.5916193181818182,
+              "arithmetic": 0.58984375,
+              "coding": 1.0,
+              "tool": 0.5025213068181819,
+              "retrieval": 0.5003551136363636,
+              "analogy": 0.49847301136363636,
+              "reasoning": 0.5895951704545455,
+              "narrative": 0.504296875,
+              "instruction": 0.5028053977272727
+            },
+            "tool": {
+              "pure": 0.5005326704545454,
+              "lambda": 0.49946732954545453,
+              "arithmetic": 0.5052201704545455,
+              "coding": 0.5025213068181819,
+              "tool": 1.0,
+              "retrieval": 0.4979758522727273,
+              "analogy": 0.49964488636363635,
+              "reasoning": 0.5020596590909091,
+              "narrative": 0.6387784090909091,
+              "instruction": 0.6816051136363637
+            },
+            "retrieval": {
+              "pure": 0.49758522727272725,
+              "lambda": 0.49964488636363635,
+              "arithmetic": 0.49637784090909093,
+              "coding": 0.5003551136363636,
+              "tool": 0.4979758522727273,
+              "retrieval": 1.0,
+              "analogy": 0.5966264204545455,
+              "reasoning": 0.49847301136363636,
+              "narrative": 0.5439275568181818,
+              "instruction": 0.5509588068181818
+            },
+            "analogy": {
+              "pure": 0.4975497159090909,
+              "lambda": 0.49783380681818185,
+              "arithmetic": 0.5474076704545454,
+              "coding": 0.49847301136363636,
+              "tool": 0.49964488636363635,
+              "retrieval": 0.5966264204545455,
+              "analogy": 1.0,
+              "reasoning": 0.5009943181818182,
+              "narrative": 0.49921875,
+              "instruction": 0.5482954545454546
+            },
+            "reasoning": {
+              "pure": 0.6832741477272727,
+              "lambda": 0.5444957386363637,
+              "arithmetic": 0.6369673295454545,
+              "coding": 0.5895951704545455,
+              "tool": 0.5020596590909091,
+              "retrieval": 0.49847301136363636,
+              "analogy": 0.5009943181818182,
+              "reasoning": 1.0,
+              "narrative": 0.49644886363636365,
+              "instruction": 0.49900568181818183
+            },
+            "narrative": {
+              "pure": 0.49818892045454544,
+              "lambda": 0.49968039772727274,
+              "arithmetic": 0.49953835227272725,
+              "coding": 0.504296875,
+              "tool": 0.6387784090909091,
+              "retrieval": 0.5439275568181818,
+              "analogy": 0.49921875,
+              "reasoning": 0.49644886363636365,
+              "narrative": 1.0,
+              "instruction": 0.7769886363636364
+            },
+            "instruction": {
+              "pure": 0.49691051136363634,
+              "lambda": 0.4986150568181818,
+              "arithmetic": 0.500674715909091,
+              "coding": 0.5028053977272727,
+              "tool": 0.6816051136363637,
+              "retrieval": 0.5509588068181818,
+              "analogy": 0.5482954545454546,
+              "reasoning": 0.49900568181818183,
+              "narrative": 0.7769886363636364,
+              "instruction": 1.0
+            }
+          }
+        },
+        "private": {
+          "n_dirs": 56,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.54609375,
+              "arithmetic": 0.4961647727272727,
+              "coding": 0.5419744318181818,
+              "tool": 0.5035511363636364,
+              "retrieval": 0.543643465909091,
+              "analogy": 0.5889559659090909,
+              "reasoning": 0.4993252840909091,
+              "narrative": 0.4999289772727273,
+              "instruction": 0.5001420454545454
+            },
+            "lambda": {
+              "pure": 0.54609375,
+              "lambda": 1.0,
+              "arithmetic": 0.5921164772727273,
+              "coding": 0.5427556818181818,
+              "tool": 0.50078125,
+              "retrieval": 0.5446377840909091,
+              "analogy": 0.5466974431818182,
+              "reasoning": 0.4948508522727273,
+              "narrative": 0.5425426136363637,
+              "instruction": 0.5490056818181818
+            },
+            "arithmetic": {
+              "pure": 0.4961647727272727,
+              "lambda": 0.5921164772727273,
+              "arithmetic": 1.0,
+              "coding": 0.54375,
+              "tool": 0.5458806818181818,
+              "retrieval": 0.49762073863636364,
+              "analogy": 0.5077769886363637,
+              "reasoning": 0.5055752840909091,
+              "narrative": 0.5088068181818182,
+              "instruction": 0.5061789772727273
+            },
+            "coding": {
+              "pure": 0.5419744318181818,
+              "lambda": 0.5427556818181818,
+              "arithmetic": 0.54375,
+              "coding": 1.0,
+              "tool": 0.5050426136363636,
+              "retrieval": 0.5022372159090909,
+              "analogy": 0.49904119318181817,
+              "reasoning": 0.502734375,
+              "narrative": 0.496875,
+              "instruction": 0.49573863636363635
+            },
+            "tool": {
+              "pure": 0.5035511363636364,
+              "lambda": 0.50078125,
+              "arithmetic": 0.5458806818181818,
+              "coding": 0.5050426136363636,
+              "tool": 1.0,
+              "retrieval": 0.5474076704545454,
+              "analogy": 0.5449928977272728,
+              "reasoning": 0.5435724431818182,
+              "narrative": 0.5977982954545454,
+              "instruction": 0.5475852272727273
+            },
+            "retrieval": {
+              "pure": 0.543643465909091,
+              "lambda": 0.5446377840909091,
+              "arithmetic": 0.49762073863636364,
+              "coding": 0.5022372159090909,
+              "tool": 0.5474076704545454,
+              "retrieval": 1.0,
+              "analogy": 0.5896306818181818,
+              "reasoning": 0.5486505681818182,
+              "narrative": 0.5444247159090909,
+              "instruction": 0.5007457386363636
+            },
+            "analogy": {
+              "pure": 0.5889559659090909,
+              "lambda": 0.5466974431818182,
+              "arithmetic": 0.5077769886363637,
+              "coding": 0.49904119318181817,
+              "tool": 0.5449928977272728,
+              "retrieval": 0.5896306818181818,
+              "analogy": 1.0,
+              "reasoning": 0.5855113636363637,
+              "narrative": 0.5452059659090909,
+              "instruction": 0.5479048295454545
+            },
+            "reasoning": {
+              "pure": 0.4993252840909091,
+              "lambda": 0.4948508522727273,
+              "arithmetic": 0.5055752840909091,
+              "coding": 0.502734375,
+              "tool": 0.5435724431818182,
+              "retrieval": 0.5486505681818182,
+              "analogy": 0.5855113636363637,
+              "reasoning": 1.0,
+              "narrative": 0.5025923295454545,
+              "instruction": 0.5009588068181818
+            },
+            "narrative": {
+              "pure": 0.4999289772727273,
+              "lambda": 0.5425426136363637,
+              "arithmetic": 0.5088068181818182,
+              "coding": 0.496875,
+              "tool": 0.5977982954545454,
+              "retrieval": 0.5444247159090909,
+              "analogy": 0.5452059659090909,
+              "reasoning": 0.5025923295454545,
+              "narrative": 1.0,
+              "instruction": 0.7708806818181818
+            },
+            "instruction": {
+              "pure": 0.5001420454545454,
+              "lambda": 0.5490056818181818,
+              "arithmetic": 0.5061789772727273,
+              "coding": 0.49573863636363635,
+              "tool": 0.5475852272727273,
+              "retrieval": 0.5007457386363636,
+              "analogy": 0.5479048295454545,
+              "reasoning": 0.5009588068181818,
+              "narrative": 0.7708806818181818,
+              "instruction": 1.0
+            }
+          }
+        }
+      },
+      "clusters_by_band": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "pure"
+            ],
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "coding",
+              "lambda",
+              "pure",
+              "reasoning",
+              "retrieval"
+            ],
+            [
+              "arithmetic",
+              "instruction",
+              "narrative",
+              "tool"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 2,
+          "clusters": [
+            [
+              "arithmetic",
+              "coding",
+              "lambda",
+              "pure",
+              "reasoning"
+            ],
+            [
+              "analogy",
+              "instruction",
+              "narrative",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "private": {
+          "count": 4,
+          "clusters": [
+            [
+              "analogy",
+              "pure",
+              "reasoning",
+              "retrieval"
+            ],
+            [
+              "arithmetic",
+              "lambda"
+            ],
+            [
+              "coding"
+            ],
+            [
+              "instruction",
+              "narrative",
+              "tool"
+            ]
+          ]
+        }
+      }
+    },
+    "0.3": {
+      "layer_idx": 9,
+      "angle_distribution": {
+        "shared": 19,
+        "mid_low": 60,
+        "attn_clust": 34,
+        "transition": 25,
+        "holographic": 34,
+        "peripheral": 42,
+        "private": 42
+      },
+      "magnitude_correlations": {
+        "pure_vs_lambda": 0.9407113179731752,
+        "pure_vs_arithmetic": 0.9227346080621139,
+        "pure_vs_coding": 0.9341093755573138,
+        "pure_vs_tool": 0.9056759363963851,
+        "pure_vs_retrieval": 0.9353202515584511,
+        "pure_vs_analogy": 0.9389157273515172,
+        "pure_vs_reasoning": 0.9392281879545418,
+        "pure_vs_narrative": 0.9033630416870663,
+        "pure_vs_instruction": 0.9027263078696321,
+        "lambda_vs_arithmetic": 0.9541531495731578,
+        "lambda_vs_coding": 0.951981826839596,
+        "lambda_vs_tool": 0.9321698898977037,
+        "lambda_vs_retrieval": 0.963920389376808,
+        "lambda_vs_analogy": 0.9654973448519851,
+        "lambda_vs_reasoning": 0.9689266525475964,
+        "lambda_vs_narrative": 0.929986490257917,
+        "lambda_vs_instruction": 0.9292722415803982,
+        "arithmetic_vs_coding": 0.9337533361456792,
+        "arithmetic_vs_tool": 0.9123311047832818,
+        "arithmetic_vs_retrieval": 0.9499772961930832,
+        "arithmetic_vs_analogy": 0.951194894498006,
+        "arithmetic_vs_reasoning": 0.9570615755819055,
+        "arithmetic_vs_narrative": 0.909613435820492,
+        "arithmetic_vs_instruction": 0.9090070742866597,
+        "coding_vs_tool": 0.9163347186743913,
+        "coding_vs_retrieval": 0.9460993360894047,
+        "coding_vs_analogy": 0.9478884347860234,
+        "coding_vs_reasoning": 0.9503436550223919,
+        "coding_vs_narrative": 0.9143630780967316,
+        "coding_vs_instruction": 0.9137651172723054,
+        "tool_vs_retrieval": 0.9274844655058456,
+        "tool_vs_analogy": 0.9305615066767308,
+        "tool_vs_reasoning": 0.9261022957187602,
+        "tool_vs_narrative": 0.9994502726510657,
+        "tool_vs_instruction": 0.9993722129336652,
+        "retrieval_vs_analogy": 0.9651131994118766,
+        "retrieval_vs_reasoning": 0.9647139750080447,
+        "retrieval_vs_narrative": 0.9256243257124487,
+        "retrieval_vs_instruction": 0.9249765453500657,
+        "analogy_vs_reasoning": 0.968660538899956,
+        "analogy_vs_narrative": 0.9284244841489055,
+        "analogy_vs_instruction": 0.9277356994753042,
+        "reasoning_vs_narrative": 0.9239278288988039,
+        "reasoning_vs_instruction": 0.9230900847183562,
+        "narrative_vs_instruction": 0.9999123504162121
+      },
+      "overlap_by_band": {
+        "shared": {
+          "n_dirs": 19,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 0.6720052083333333,
+              "coding": 0.5161458333333333,
+              "tool": 0.66640625,
+              "retrieval": 0.5098958333333333,
+              "analogy": 0.8359375,
+              "reasoning": 1.0,
+              "narrative": 0.66640625,
+              "instruction": 0.66640625
+            },
+            "lambda": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 0.6720052083333333,
+              "coding": 0.5161458333333333,
+              "tool": 0.66640625,
+              "retrieval": 0.5098958333333333,
+              "analogy": 0.8359375,
+              "reasoning": 1.0,
+              "narrative": 0.66640625,
+              "instruction": 0.66640625
+            },
+            "arithmetic": {
+              "pure": 0.6720052083333333,
+              "lambda": 0.6720052083333333,
+              "arithmetic": 1.0,
+              "coding": 0.672265625,
+              "tool": 0.5102864583333333,
+              "retrieval": 0.5272135416666667,
+              "analogy": 0.5079427083333333,
+              "reasoning": 0.6720052083333333,
+              "narrative": 0.5102864583333333,
+              "instruction": 0.5102864583333333
+            },
+            "coding": {
+              "pure": 0.5161458333333333,
+              "lambda": 0.5161458333333333,
+              "arithmetic": 0.672265625,
+              "coding": 1.0,
+              "tool": 0.5200520833333333,
+              "retrieval": 0.5161458333333333,
+              "analogy": 0.6802083333333333,
+              "reasoning": 0.5161458333333333,
+              "narrative": 0.5200520833333333,
+              "instruction": 0.5200520833333333
+            },
+            "tool": {
+              "pure": 0.66640625,
+              "lambda": 0.66640625,
+              "arithmetic": 0.5102864583333333,
+              "coding": 0.5200520833333333,
+              "tool": 1.0,
+              "retrieval": 0.5091145833333334,
+              "analogy": 0.66796875,
+              "reasoning": 0.66640625,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "retrieval": {
+              "pure": 0.5098958333333333,
+              "lambda": 0.5098958333333333,
+              "arithmetic": 0.5272135416666667,
+              "coding": 0.5161458333333333,
+              "tool": 0.5091145833333334,
+              "retrieval": 1.0,
+              "analogy": 0.5015625,
+              "reasoning": 0.5098958333333333,
+              "narrative": 0.5091145833333334,
+              "instruction": 0.5091145833333334
+            },
+            "analogy": {
+              "pure": 0.8359375,
+              "lambda": 0.8359375,
+              "arithmetic": 0.5079427083333333,
+              "coding": 0.6802083333333333,
+              "tool": 0.66796875,
+              "retrieval": 0.5015625,
+              "analogy": 1.0,
+              "reasoning": 0.8359375,
+              "narrative": 0.66796875,
+              "instruction": 0.66796875
+            },
+            "reasoning": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 0.6720052083333333,
+              "coding": 0.5161458333333333,
+              "tool": 0.66640625,
+              "retrieval": 0.5098958333333333,
+              "analogy": 0.8359375,
+              "reasoning": 1.0,
+              "narrative": 0.66640625,
+              "instruction": 0.66640625
+            },
+            "narrative": {
+              "pure": 0.66640625,
+              "lambda": 0.66640625,
+              "arithmetic": 0.5102864583333333,
+              "coding": 0.5200520833333333,
+              "tool": 1.0,
+              "retrieval": 0.5091145833333334,
+              "analogy": 0.66796875,
+              "reasoning": 0.66640625,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.66640625,
+              "lambda": 0.66640625,
+              "arithmetic": 0.5102864583333333,
+              "coding": 0.5200520833333333,
+              "tool": 1.0,
+              "retrieval": 0.5091145833333334,
+              "analogy": 0.66796875,
+              "reasoning": 0.66640625,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "mid_low": {
+          "n_dirs": 60,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.49697265625,
+              "arithmetic": 0.5382486979166666,
+              "coding": 0.5056966145833334,
+              "tool": 0.54384765625,
+              "retrieval": 0.5005208333333333,
+              "analogy": 0.5011393229166666,
+              "reasoning": 0.49658203125,
+              "narrative": 0.5018880208333333,
+              "instruction": 0.5020182291666667
+            },
+            "lambda": {
+              "pure": 0.49697265625,
+              "lambda": 1.0,
+              "arithmetic": 0.502734375,
+              "coding": 0.5051432291666667,
+              "tool": 0.49583333333333335,
+              "retrieval": 0.4967122395833333,
+              "analogy": 0.503125,
+              "reasoning": 0.5067057291666667,
+              "narrative": 0.49482421875,
+              "instruction": 0.49482421875
+            },
+            "arithmetic": {
+              "pure": 0.5382486979166666,
+              "lambda": 0.502734375,
+              "arithmetic": 1.0,
+              "coding": 0.5055338541666666,
+              "tool": 0.49309895833333334,
+              "retrieval": 0.5015299479166667,
+              "analogy": 0.49895833333333334,
+              "reasoning": 0.5063151041666667,
+              "narrative": 0.5409830729166667,
+              "instruction": 0.4972330729166667
+            },
+            "coding": {
+              "pure": 0.5056966145833334,
+              "lambda": 0.5051432291666667,
+              "arithmetic": 0.5055338541666666,
+              "coding": 1.0,
+              "tool": 0.5027994791666667,
+              "retrieval": 0.49261067708333334,
+              "analogy": 0.49876302083333335,
+              "reasoning": 0.539453125,
+              "narrative": 0.49931640625,
+              "instruction": 0.5007486979166667
+            },
+            "tool": {
+              "pure": 0.54384765625,
+              "lambda": 0.49583333333333335,
+              "arithmetic": 0.49309895833333334,
+              "coding": 0.5027994791666667,
+              "tool": 1.0,
+              "retrieval": 0.5499674479166666,
+              "analogy": 0.5438151041666667,
+              "reasoning": 0.49954427083333336,
+              "narrative": 0.58037109375,
+              "instruction": 0.5832356770833333
+            },
+            "retrieval": {
+              "pure": 0.5005208333333333,
+              "lambda": 0.4967122395833333,
+              "arithmetic": 0.5015299479166667,
+              "coding": 0.49261067708333334,
+              "tool": 0.5499674479166666,
+              "retrieval": 1.0,
+              "analogy": 0.5037434895833334,
+              "reasoning": 0.53916015625,
+              "narrative": 0.58828125,
+              "instruction": 0.5857421875
+            },
+            "analogy": {
+              "pure": 0.5011393229166666,
+              "lambda": 0.503125,
+              "arithmetic": 0.49895833333333334,
+              "coding": 0.49876302083333335,
+              "tool": 0.5438151041666667,
+              "retrieval": 0.5037434895833334,
+              "analogy": 1.0,
+              "reasoning": 0.4966796875,
+              "narrative": 0.50361328125,
+              "instruction": 0.5051106770833333
+            },
+            "reasoning": {
+              "pure": 0.49658203125,
+              "lambda": 0.5067057291666667,
+              "arithmetic": 0.5063151041666667,
+              "coding": 0.539453125,
+              "tool": 0.49954427083333336,
+              "retrieval": 0.53916015625,
+              "analogy": 0.4966796875,
+              "reasoning": 1.0,
+              "narrative": 0.4969075520833333,
+              "instruction": 0.49814453125
+            },
+            "narrative": {
+              "pure": 0.5018880208333333,
+              "lambda": 0.49482421875,
+              "arithmetic": 0.5409830729166667,
+              "coding": 0.49931640625,
+              "tool": 0.58037109375,
+              "retrieval": 0.58828125,
+              "analogy": 0.50361328125,
+              "reasoning": 0.4969075520833333,
+              "narrative": 1.0,
+              "instruction": 0.9157552083333333
+            },
+            "instruction": {
+              "pure": 0.5020182291666667,
+              "lambda": 0.49482421875,
+              "arithmetic": 0.4972330729166667,
+              "coding": 0.5007486979166667,
+              "tool": 0.5832356770833333,
+              "retrieval": 0.5857421875,
+              "analogy": 0.5051106770833333,
+              "reasoning": 0.49814453125,
+              "narrative": 0.9157552083333333,
+              "instruction": 1.0
+            }
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 34,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5042317708333334,
+              "arithmetic": 0.5758463541666666,
+              "coding": 0.5892578125,
+              "tool": 0.5048828125,
+              "retrieval": 0.5080729166666667,
+              "analogy": 0.5057291666666667,
+              "reasoning": 0.5067057291666667,
+              "narrative": 0.5068359375,
+              "instruction": 0.5068359375
+            },
+            "lambda": {
+              "pure": 0.5042317708333334,
+              "lambda": 1.0,
+              "arithmetic": 0.6625,
+              "coding": 0.5822916666666667,
+              "tool": 0.495703125,
+              "retrieval": 0.5863932291666667,
+              "analogy": 0.4990234375,
+              "reasoning": 0.6694010416666667,
+              "narrative": 0.49700520833333334,
+              "instruction": 0.49700520833333334
+            },
+            "arithmetic": {
+              "pure": 0.5758463541666666,
+              "lambda": 0.6625,
+              "arithmetic": 1.0,
+              "coding": 0.5045572916666666,
+              "tool": 0.5016927083333333,
+              "retrieval": 0.5843098958333334,
+              "analogy": 0.5068359375,
+              "reasoning": 0.5858072916666667,
+              "narrative": 0.5032552083333334,
+              "instruction": 0.5032552083333334
+            },
+            "coding": {
+              "pure": 0.5892578125,
+              "lambda": 0.5822916666666667,
+              "arithmetic": 0.5045572916666666,
+              "coding": 1.0,
+              "tool": 0.6611979166666667,
+              "retrieval": 0.5804036458333334,
+              "analogy": 0.6703776041666667,
+              "reasoning": 0.6661458333333333,
+              "narrative": 0.6661458333333333,
+              "instruction": 0.6661458333333333
+            },
+            "tool": {
+              "pure": 0.5048828125,
+              "lambda": 0.495703125,
+              "arithmetic": 0.5016927083333333,
+              "coding": 0.6611979166666667,
+              "tool": 1.0,
+              "retrieval": 0.4949869791666667,
+              "analogy": 0.5830078125,
+              "reasoning": 0.49583333333333335,
+              "narrative": 0.8341145833333333,
+              "instruction": 0.8341145833333333
+            },
+            "retrieval": {
+              "pure": 0.5080729166666667,
+              "lambda": 0.5863932291666667,
+              "arithmetic": 0.5843098958333334,
+              "coding": 0.5804036458333334,
+              "tool": 0.4949869791666667,
+              "retrieval": 1.0,
+              "analogy": 0.4962239583333333,
+              "reasoning": 0.6669921875,
+              "narrative": 0.4930338541666667,
+              "instruction": 0.4930338541666667
+            },
+            "analogy": {
+              "pure": 0.5057291666666667,
+              "lambda": 0.4990234375,
+              "arithmetic": 0.5068359375,
+              "coding": 0.6703776041666667,
+              "tool": 0.5830078125,
+              "retrieval": 0.4962239583333333,
+              "analogy": 1.0,
+              "reasoning": 0.5836588541666666,
+              "narrative": 0.6682942708333334,
+              "instruction": 0.6682942708333334
+            },
+            "reasoning": {
+              "pure": 0.5067057291666667,
+              "lambda": 0.6694010416666667,
+              "arithmetic": 0.5858072916666667,
+              "coding": 0.6661458333333333,
+              "tool": 0.49583333333333335,
+              "retrieval": 0.6669921875,
+              "analogy": 0.5836588541666666,
+              "reasoning": 1.0,
+              "narrative": 0.498828125,
+              "instruction": 0.498828125
+            },
+            "narrative": {
+              "pure": 0.5068359375,
+              "lambda": 0.49700520833333334,
+              "arithmetic": 0.5032552083333334,
+              "coding": 0.6661458333333333,
+              "tool": 0.8341145833333333,
+              "retrieval": 0.4930338541666667,
+              "analogy": 0.6682942708333334,
+              "reasoning": 0.498828125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.5068359375,
+              "lambda": 0.49700520833333334,
+              "arithmetic": 0.5032552083333334,
+              "coding": 0.6661458333333333,
+              "tool": 0.8341145833333333,
+              "retrieval": 0.4930338541666667,
+              "analogy": 0.6682942708333334,
+              "reasoning": 0.498828125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "transition": {
+          "n_dirs": 25,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.69953125,
+              "arithmetic": 0.603828125,
+              "coding": 0.6996875,
+              "tool": 0.604453125,
+              "retrieval": 0.8003125,
+              "analogy": 0.704765625,
+              "reasoning": 0.70359375,
+              "narrative": 0.60171875,
+              "instruction": 0.605390625
+            },
+            "lambda": {
+              "pure": 0.69953125,
+              "lambda": 1.0,
+              "arithmetic": 0.502734375,
+              "coding": 0.49828125,
+              "tool": 0.505234375,
+              "retrieval": 0.69765625,
+              "analogy": 0.602109375,
+              "reasoning": 0.7,
+              "narrative": 0.5025,
+              "instruction": 0.506171875
+            },
+            "arithmetic": {
+              "pure": 0.603828125,
+              "lambda": 0.502734375,
+              "arithmetic": 1.0,
+              "coding": 0.503671875,
+              "tool": 0.5065625,
+              "retrieval": 0.606171875,
+              "analogy": 0.60484375,
+              "reasoning": 0.506640625,
+              "narrative": 0.505546875,
+              "instruction": 0.50625
+            },
+            "coding": {
+              "pure": 0.6996875,
+              "lambda": 0.49828125,
+              "arithmetic": 0.503671875,
+              "coding": 1.0,
+              "tool": 0.605390625,
+              "retrieval": 0.6046875,
+              "analogy": 0.602265625,
+              "reasoning": 0.70234375,
+              "narrative": 0.605625,
+              "instruction": 0.608203125
+            },
+            "tool": {
+              "pure": 0.604453125,
+              "lambda": 0.505234375,
+              "arithmetic": 0.5065625,
+              "coding": 0.605390625,
+              "tool": 1.0,
+              "retrieval": 0.606796875,
+              "analogy": 0.6040625,
+              "reasoning": 0.703515625,
+              "narrative": 0.899609375,
+              "instruction": 0.89796875
+            },
+            "retrieval": {
+              "pure": 0.8003125,
+              "lambda": 0.69765625,
+              "arithmetic": 0.606171875,
+              "coding": 0.6046875,
+              "tool": 0.606796875,
+              "retrieval": 1.0,
+              "analogy": 0.806015625,
+              "reasoning": 0.70171875,
+              "narrative": 0.604375,
+              "instruction": 0.602890625
+            },
+            "analogy": {
+              "pure": 0.704765625,
+              "lambda": 0.602109375,
+              "arithmetic": 0.60484375,
+              "coding": 0.602265625,
+              "tool": 0.6040625,
+              "retrieval": 0.806015625,
+              "analogy": 1.0,
+              "reasoning": 0.702890625,
+              "narrative": 0.603984375,
+              "instruction": 0.6046875
+            },
+            "reasoning": {
+              "pure": 0.70359375,
+              "lambda": 0.7,
+              "arithmetic": 0.506640625,
+              "coding": 0.70234375,
+              "tool": 0.703515625,
+              "retrieval": 0.70171875,
+              "analogy": 0.702890625,
+              "reasoning": 1.0,
+              "narrative": 0.70078125,
+              "instruction": 0.704453125
+            },
+            "narrative": {
+              "pure": 0.60171875,
+              "lambda": 0.5025,
+              "arithmetic": 0.505546875,
+              "coding": 0.605625,
+              "tool": 0.899609375,
+              "retrieval": 0.604375,
+              "analogy": 0.603984375,
+              "reasoning": 0.70078125,
+              "narrative": 1.0,
+              "instruction": 0.899296875
+            },
+            "instruction": {
+              "pure": 0.605390625,
+              "lambda": 0.506171875,
+              "arithmetic": 0.50625,
+              "coding": 0.608203125,
+              "tool": 0.89796875,
+              "retrieval": 0.602890625,
+              "analogy": 0.6046875,
+              "reasoning": 0.704453125,
+              "narrative": 0.899296875,
+              "instruction": 1.0
+            }
+          }
+        },
+        "holographic": {
+          "n_dirs": 34,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.49798177083333334,
+              "arithmetic": 0.5065755208333333,
+              "coding": 0.5834635416666667,
+              "tool": 0.4939453125,
+              "retrieval": 0.5016276041666666,
+              "analogy": 0.4953125,
+              "reasoning": 0.5880208333333333,
+              "narrative": 0.5807942708333333,
+              "instruction": 0.5815755208333333
+            },
+            "lambda": {
+              "pure": 0.49798177083333334,
+              "lambda": 1.0,
+              "arithmetic": 0.5044270833333333,
+              "coding": 0.5013671875,
+              "tool": 0.5001302083333333,
+              "retrieval": 0.5809895833333333,
+              "analogy": 0.4958984375,
+              "reasoning": 0.49993489583333334,
+              "narrative": 0.4962239583333333,
+              "instruction": 0.5037760416666667
+            },
+            "arithmetic": {
+              "pure": 0.5065755208333333,
+              "lambda": 0.5044270833333333,
+              "arithmetic": 1.0,
+              "coding": 0.49420572916666666,
+              "tool": 0.5805989583333333,
+              "retrieval": 0.5959635416666667,
+              "analogy": 0.5065755208333333,
+              "reasoning": 0.6688151041666667,
+              "narrative": 0.580859375,
+              "instruction": 0.5015625
+            },
+            "coding": {
+              "pure": 0.5834635416666667,
+              "lambda": 0.5013671875,
+              "arithmetic": 0.49420572916666666,
+              "coding": 1.0,
+              "tool": 0.5807942708333333,
+              "retrieval": 0.49850260416666664,
+              "analogy": 0.49557291666666664,
+              "reasoning": 0.500390625,
+              "narrative": 0.5806640625,
+              "instruction": 0.5822265625
+            },
+            "tool": {
+              "pure": 0.4939453125,
+              "lambda": 0.5001302083333333,
+              "arithmetic": 0.5805989583333333,
+              "coding": 0.5807942708333333,
+              "tool": 1.0,
+              "retrieval": 0.5072916666666667,
+              "analogy": 0.5082682291666667,
+              "reasoning": 0.5014973958333333,
+              "narrative": 0.8321614583333333,
+              "instruction": 0.6690104166666667
+            },
+            "retrieval": {
+              "pure": 0.5016276041666666,
+              "lambda": 0.5809895833333333,
+              "arithmetic": 0.5959635416666667,
+              "coding": 0.49850260416666664,
+              "tool": 0.5072916666666667,
+              "retrieval": 1.0,
+              "analogy": 0.7498046875,
+              "reasoning": 0.5874348958333333,
+              "narrative": 0.5079427083333333,
+              "instruction": 0.5845052083333333
+            },
+            "analogy": {
+              "pure": 0.4953125,
+              "lambda": 0.4958984375,
+              "arithmetic": 0.5065755208333333,
+              "coding": 0.49557291666666664,
+              "tool": 0.5082682291666667,
+              "retrieval": 0.7498046875,
+              "analogy": 1.0,
+              "reasoning": 0.5794270833333334,
+              "narrative": 0.5083984375,
+              "instruction": 0.5849609375
+            },
+            "reasoning": {
+              "pure": 0.5880208333333333,
+              "lambda": 0.49993489583333334,
+              "arithmetic": 0.6688151041666667,
+              "coding": 0.500390625,
+              "tool": 0.5014973958333333,
+              "retrieval": 0.5874348958333333,
+              "analogy": 0.5794270833333334,
+              "reasoning": 1.0,
+              "narrative": 0.49850260416666664,
+              "instruction": 0.5826171875
+            },
+            "narrative": {
+              "pure": 0.5807942708333333,
+              "lambda": 0.4962239583333333,
+              "arithmetic": 0.580859375,
+              "coding": 0.5806640625,
+              "tool": 0.8321614583333333,
+              "retrieval": 0.5079427083333333,
+              "analogy": 0.5083984375,
+              "reasoning": 0.49850260416666664,
+              "narrative": 1.0,
+              "instruction": 0.8368489583333333
+            },
+            "instruction": {
+              "pure": 0.5815755208333333,
+              "lambda": 0.5037760416666667,
+              "arithmetic": 0.5015625,
+              "coding": 0.5822265625,
+              "tool": 0.6690104166666667,
+              "retrieval": 0.5845052083333333,
+              "analogy": 0.5849609375,
+              "reasoning": 0.5826171875,
+              "narrative": 0.8368489583333333,
+              "instruction": 1.0
+            }
+          }
+        },
+        "peripheral": {
+          "n_dirs": 42,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.497314453125,
+              "arithmetic": 0.5072265625,
+              "coding": 0.500927734375,
+              "tool": 0.502734375,
+              "retrieval": 0.50576171875,
+              "analogy": 0.505908203125,
+              "reasoning": 0.49482421875,
+              "narrative": 0.505859375,
+              "instruction": 0.505859375
+            },
+            "lambda": {
+              "pure": 0.497314453125,
+              "lambda": 1.0,
+              "arithmetic": 0.504150390625,
+              "coding": 0.49765625,
+              "tool": 0.559521484375,
+              "retrieval": 0.626708984375,
+              "analogy": 0.50322265625,
+              "reasoning": 0.562744140625,
+              "narrative": 0.561767578125,
+              "instruction": 0.561767578125
+            },
+            "arithmetic": {
+              "pure": 0.5072265625,
+              "lambda": 0.504150390625,
+              "arithmetic": 1.0,
+              "coding": 0.501123046875,
+              "tool": 0.49912109375,
+              "retrieval": 0.56318359375,
+              "analogy": 0.627001953125,
+              "reasoning": 0.50244140625,
+              "narrative": 0.56044921875,
+              "instruction": 0.56044921875
+            },
+            "coding": {
+              "pure": 0.500927734375,
+              "lambda": 0.49765625,
+              "arithmetic": 0.501123046875,
+              "coding": 1.0,
+              "tool": 0.496142578125,
+              "retrieval": 0.497216796875,
+              "analogy": 0.49638671875,
+              "reasoning": 0.499365234375,
+              "narrative": 0.498779296875,
+              "instruction": 0.498779296875
+            },
+            "tool": {
+              "pure": 0.502734375,
+              "lambda": 0.559521484375,
+              "arithmetic": 0.49912109375,
+              "coding": 0.496142578125,
+              "tool": 1.0,
+              "retrieval": 0.496875,
+              "analogy": 0.555224609375,
+              "reasoning": 0.4962890625,
+              "narrative": 0.80791015625,
+              "instruction": 0.80791015625
+            },
+            "retrieval": {
+              "pure": 0.50576171875,
+              "lambda": 0.626708984375,
+              "arithmetic": 0.56318359375,
+              "coding": 0.497216796875,
+              "tool": 0.496875,
+              "retrieval": 1.0,
+              "analogy": 0.501123046875,
+              "reasoning": 0.56494140625,
+              "narrative": 0.49501953125,
+              "instruction": 0.49501953125
+            },
+            "analogy": {
+              "pure": 0.505908203125,
+              "lambda": 0.50322265625,
+              "arithmetic": 0.627001953125,
+              "coding": 0.49638671875,
+              "tool": 0.555224609375,
+              "retrieval": 0.501123046875,
+              "analogy": 1.0,
+              "reasoning": 0.621923828125,
+              "narrative": 0.557958984375,
+              "instruction": 0.557958984375
+            },
+            "reasoning": {
+              "pure": 0.49482421875,
+              "lambda": 0.562744140625,
+              "arithmetic": 0.50244140625,
+              "coding": 0.499365234375,
+              "tool": 0.4962890625,
+              "retrieval": 0.56494140625,
+              "analogy": 0.621923828125,
+              "reasoning": 1.0,
+              "narrative": 0.50205078125,
+              "instruction": 0.50205078125
+            },
+            "narrative": {
+              "pure": 0.505859375,
+              "lambda": 0.561767578125,
+              "arithmetic": 0.56044921875,
+              "coding": 0.498779296875,
+              "tool": 0.80791015625,
+              "retrieval": 0.49501953125,
+              "analogy": 0.557958984375,
+              "reasoning": 0.50205078125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.505859375,
+              "lambda": 0.561767578125,
+              "arithmetic": 0.56044921875,
+              "coding": 0.498779296875,
+              "tool": 0.80791015625,
+              "retrieval": 0.49501953125,
+              "analogy": 0.557958984375,
+              "reasoning": 0.50205078125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "private": {
+          "n_dirs": 42,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.505322265625,
+              "arithmetic": 0.4994140625,
+              "coding": 0.6265625,
+              "tool": 0.5623046875,
+              "retrieval": 0.507763671875,
+              "analogy": 0.494140625,
+              "reasoning": 0.499853515625,
+              "narrative": 0.5064453125,
+              "instruction": 0.500244140625
+            },
+            "lambda": {
+              "pure": 0.505322265625,
+              "lambda": 1.0,
+              "arithmetic": 0.559619140625,
+              "coding": 0.503662109375,
+              "tool": 0.624755859375,
+              "retrieval": 0.6904296875,
+              "analogy": 0.563916015625,
+              "reasoning": 0.68955078125,
+              "narrative": 0.628857421875,
+              "instruction": 0.63076171875
+            },
+            "arithmetic": {
+              "pure": 0.4994140625,
+              "lambda": 0.559619140625,
+              "arithmetic": 1.0,
+              "coding": 0.5642578125,
+              "tool": 0.55322265625,
+              "retrieval": 0.559228515625,
+              "analogy": 0.630859375,
+              "reasoning": 0.561767578125,
+              "narrative": 0.56328125,
+              "instruction": 0.617724609375
+            },
+            "coding": {
+              "pure": 0.6265625,
+              "lambda": 0.503662109375,
+              "arithmetic": 0.5642578125,
+              "coding": 1.0,
+              "tool": 0.49697265625,
+              "retrieval": 0.566162109375,
+              "analogy": 0.49482421875,
+              "reasoning": 0.561767578125,
+              "narrative": 0.62431640625,
+              "instruction": 0.494091796875
+            },
+            "tool": {
+              "pure": 0.5623046875,
+              "lambda": 0.624755859375,
+              "arithmetic": 0.55322265625,
+              "coding": 0.49697265625,
+              "tool": 1.0,
+              "retrieval": 0.626513671875,
+              "analogy": 0.56416015625,
+              "reasoning": 0.627392578125,
+              "narrative": 0.69033203125,
+              "instruction": 0.687060546875
+            },
+            "retrieval": {
+              "pure": 0.507763671875,
+              "lambda": 0.6904296875,
+              "arithmetic": 0.559228515625,
+              "coding": 0.566162109375,
+              "tool": 0.626513671875,
+              "retrieval": 1.0,
+              "analogy": 0.560986328125,
+              "reasoning": 0.74677734375,
+              "narrative": 0.687646484375,
+              "instruction": 0.6224609375
+            },
+            "analogy": {
+              "pure": 0.494140625,
+              "lambda": 0.563916015625,
+              "arithmetic": 0.630859375,
+              "coding": 0.49482421875,
+              "tool": 0.56416015625,
+              "retrieval": 0.560986328125,
+              "analogy": 1.0,
+              "reasoning": 0.561376953125,
+              "narrative": 0.56240234375,
+              "instruction": 0.629833984375
+            },
+            "reasoning": {
+              "pure": 0.499853515625,
+              "lambda": 0.68955078125,
+              "arithmetic": 0.561767578125,
+              "coding": 0.561767578125,
+              "tool": 0.627392578125,
+              "retrieval": 0.74677734375,
+              "analogy": 0.561376953125,
+              "reasoning": 1.0,
+              "narrative": 0.685791015625,
+              "instruction": 0.6248046875
+            },
+            "narrative": {
+              "pure": 0.5064453125,
+              "lambda": 0.628857421875,
+              "arithmetic": 0.56328125,
+              "coding": 0.62431640625,
+              "tool": 0.69033203125,
+              "retrieval": 0.687646484375,
+              "analogy": 0.56240234375,
+              "reasoning": 0.685791015625,
+              "narrative": 1.0,
+              "instruction": 0.688427734375
+            },
+            "instruction": {
+              "pure": 0.500244140625,
+              "lambda": 0.63076171875,
+              "arithmetic": 0.617724609375,
+              "coding": 0.494091796875,
+              "tool": 0.687060546875,
+              "retrieval": 0.6224609375,
+              "analogy": 0.629833984375,
+              "reasoning": 0.6248046875,
+              "narrative": 0.688427734375,
+              "instruction": 1.0
+            }
+          }
+        }
+      },
+      "clusters_by_band": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "tool"
+            ],
+            [
+              "retrieval"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 7,
+          "clusters": [
+            [
+              "pure"
+            ],
+            [
+              "lambda"
+            ],
+            [
+              "arithmetic"
+            ],
+            [
+              "coding"
+            ],
+            [
+              "instruction",
+              "narrative",
+              "retrieval",
+              "tool"
+            ],
+            [
+              "analogy"
+            ],
+            [
+              "reasoning"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 3,
+          "clusters": [
+            [
+              "pure"
+            ],
+            [
+              "analogy",
+              "arithmetic",
+              "instruction",
+              "lambda",
+              "narrative",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ],
+            [
+              "coding"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        }
+      }
+    },
+    "0.5": {
+      "layer_idx": 16,
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 43,
+        "attn_clust": 33,
+        "transition": 27,
+        "holographic": 40,
+        "peripheral": 54,
+        "private": 51
+      },
+      "magnitude_correlations": {
+        "pure_vs_lambda": 0.9443051346801029,
+        "pure_vs_arithmetic": 0.9269365152647404,
+        "pure_vs_coding": 0.9131454409508425,
+        "pure_vs_tool": 0.9044750520697832,
+        "pure_vs_retrieval": 0.9360021480501942,
+        "pure_vs_analogy": 0.9363674018225963,
+        "pure_vs_reasoning": 0.9372559082365449,
+        "pure_vs_narrative": 0.8997031930696635,
+        "pure_vs_instruction": 0.8982964304576087,
+        "lambda_vs_arithmetic": 0.960356702909359,
+        "lambda_vs_coding": 0.9288302384650823,
+        "lambda_vs_tool": 0.93279125182524,
+        "lambda_vs_retrieval": 0.9672399745190636,
+        "lambda_vs_analogy": 0.9677736351805886,
+        "lambda_vs_reasoning": 0.9668310657000733,
+        "lambda_vs_narrative": 0.9282329928489119,
+        "lambda_vs_instruction": 0.9266498136861903,
+        "arithmetic_vs_coding": 0.9131624414334629,
+        "arithmetic_vs_tool": 0.9213759905811281,
+        "arithmetic_vs_retrieval": 0.9549909394507189,
+        "arithmetic_vs_analogy": 0.9565197341976605,
+        "arithmetic_vs_reasoning": 0.9585652660172659,
+        "arithmetic_vs_narrative": 0.9170480258192313,
+        "arithmetic_vs_instruction": 0.9153599761047497,
+        "coding_vs_tool": 0.8909348843117226,
+        "coding_vs_retrieval": 0.9222445205903603,
+        "coding_vs_analogy": 0.9238383778316431,
+        "coding_vs_reasoning": 0.9280162246735596,
+        "coding_vs_narrative": 0.8853474364950167,
+        "coding_vs_instruction": 0.8836880965434162,
+        "tool_vs_retrieval": 0.9414292762681655,
+        "tool_vs_analogy": 0.9395501199925115,
+        "tool_vs_reasoning": 0.9261377106215275,
+        "tool_vs_narrative": 0.9990690177318374,
+        "tool_vs_instruction": 0.9989380669953796,
+        "retrieval_vs_analogy": 0.9716213869845495,
+        "retrieval_vs_reasoning": 0.9630598941274029,
+        "retrieval_vs_narrative": 0.9381682590849205,
+        "retrieval_vs_instruction": 0.936957463435171,
+        "analogy_vs_reasoning": 0.9664189450479372,
+        "analogy_vs_narrative": 0.9358014352759373,
+        "analogy_vs_instruction": 0.9344585045428203,
+        "reasoning_vs_narrative": 0.9214034954655613,
+        "reasoning_vs_instruction": 0.9190439498052223,
+        "narrative_vs_instruction": 0.9997760901395307
+      },
+      "overlap_by_band": {
+        "shared": {
+          "n_dirs": 8,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "lambda": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "arithmetic": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "coding": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "tool": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "retrieval": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "analogy": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "reasoning": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "narrative": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 1.0,
+              "tool": 1.0,
+              "retrieval": 1.0,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "mid_low": {
+          "n_dirs": 43,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.558349609375,
+              "arithmetic": 0.504248046875,
+              "coding": 0.5623046875,
+              "tool": 0.564599609375,
+              "retrieval": 0.56103515625,
+              "analogy": 0.502294921875,
+              "reasoning": 0.55751953125,
+              "narrative": 0.50107421875,
+              "instruction": 0.50107421875
+            },
+            "lambda": {
+              "pure": 0.558349609375,
+              "lambda": 1.0,
+              "arithmetic": 0.56396484375,
+              "coding": 0.503955078125,
+              "tool": 0.6283203125,
+              "retrieval": 0.627001953125,
+              "analogy": 0.4982421875,
+              "reasoning": 0.493115234375,
+              "narrative": 0.693505859375,
+              "instruction": 0.693505859375
+            },
+            "arithmetic": {
+              "pure": 0.504248046875,
+              "lambda": 0.56396484375,
+              "arithmetic": 1.0,
+              "coding": 0.500732421875,
+              "tool": 0.51015625,
+              "retrieval": 0.497607421875,
+              "analogy": 0.55615234375,
+              "reasoning": 0.560400390625,
+              "narrative": 0.508544921875,
+              "instruction": 0.508544921875
+            },
+            "coding": {
+              "pure": 0.5623046875,
+              "lambda": 0.503955078125,
+              "arithmetic": 0.500732421875,
+              "coding": 1.0,
+              "tool": 0.560107421875,
+              "retrieval": 0.56103515625,
+              "analogy": 0.489794921875,
+              "reasoning": 0.560546875,
+              "narrative": 0.56220703125,
+              "instruction": 0.56220703125
+            },
+            "tool": {
+              "pure": 0.564599609375,
+              "lambda": 0.6283203125,
+              "arithmetic": 0.51015625,
+              "coding": 0.560107421875,
+              "tool": 1.0,
+              "retrieval": 0.501611328125,
+              "analogy": 0.49443359375,
+              "reasoning": 0.563232421875,
+              "narrative": 0.873583984375,
+              "instruction": 0.873583984375
+            },
+            "retrieval": {
+              "pure": 0.56103515625,
+              "lambda": 0.627001953125,
+              "arithmetic": 0.497607421875,
+              "coding": 0.56103515625,
+              "tool": 0.501611328125,
+              "retrieval": 1.0,
+              "analogy": 0.562158203125,
+              "reasoning": 0.49189453125,
+              "narrative": 0.56806640625,
+              "instruction": 0.56806640625
+            },
+            "analogy": {
+              "pure": 0.502294921875,
+              "lambda": 0.4982421875,
+              "arithmetic": 0.55615234375,
+              "coding": 0.489794921875,
+              "tool": 0.49443359375,
+              "retrieval": 0.562158203125,
+              "analogy": 1.0,
+              "reasoning": 0.561669921875,
+              "narrative": 0.496728515625,
+              "instruction": 0.496728515625
+            },
+            "reasoning": {
+              "pure": 0.55751953125,
+              "lambda": 0.493115234375,
+              "arithmetic": 0.560400390625,
+              "coding": 0.560546875,
+              "tool": 0.563232421875,
+              "retrieval": 0.49189453125,
+              "analogy": 0.561669921875,
+              "reasoning": 1.0,
+              "narrative": 0.55927734375,
+              "instruction": 0.55927734375
+            },
+            "narrative": {
+              "pure": 0.50107421875,
+              "lambda": 0.693505859375,
+              "arithmetic": 0.508544921875,
+              "coding": 0.56220703125,
+              "tool": 0.873583984375,
+              "retrieval": 0.56806640625,
+              "analogy": 0.496728515625,
+              "reasoning": 0.55927734375,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.50107421875,
+              "lambda": 0.693505859375,
+              "arithmetic": 0.508544921875,
+              "coding": 0.56220703125,
+              "tool": 0.873583984375,
+              "retrieval": 0.56806640625,
+              "analogy": 0.496728515625,
+              "reasoning": 0.55927734375,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 33,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.4912109375,
+              "arithmetic": 0.49212239583333334,
+              "coding": 0.5775390625,
+              "tool": 0.5762369791666667,
+              "retrieval": 0.5764973958333334,
+              "analogy": 0.491796875,
+              "reasoning": 0.6662109375,
+              "narrative": 0.5762369791666667,
+              "instruction": 0.5766276041666667
+            },
+            "lambda": {
+              "pure": 0.4912109375,
+              "lambda": 1.0,
+              "arithmetic": 0.8287760416666666,
+              "coding": 0.659765625,
+              "tool": 0.5833333333333334,
+              "retrieval": 0.7473958333333334,
+              "analogy": 0.8331380208333333,
+              "reasoning": 0.48723958333333334,
+              "narrative": 0.5833333333333334,
+              "instruction": 0.5817708333333333
+            },
+            "arithmetic": {
+              "pure": 0.49212239583333334,
+              "lambda": 0.8287760416666666,
+              "arithmetic": 1.0,
+              "coding": 0.5739583333333333,
+              "tool": 0.5817708333333333,
+              "retrieval": 0.6625,
+              "analogy": 0.8360026041666667,
+              "reasoning": 0.573046875,
+              "narrative": 0.5817708333333333,
+              "instruction": 0.5833333333333334
+            },
+            "coding": {
+              "pure": 0.5775390625,
+              "lambda": 0.659765625,
+              "arithmetic": 0.5739583333333333,
+              "coding": 1.0,
+              "tool": 0.585546875,
+              "retrieval": 0.6625,
+              "analogy": 0.5748046875,
+              "reasoning": 0.48528645833333334,
+              "narrative": 0.585546875,
+              "instruction": 0.58515625
+            },
+            "tool": {
+              "pure": 0.5762369791666667,
+              "lambda": 0.5833333333333334,
+              "arithmetic": 0.5817708333333333,
+              "coding": 0.585546875,
+              "tool": 1.0,
+              "retrieval": 0.6686197916666666,
+              "analogy": 0.5738932291666666,
+              "reasoning": 0.49752604166666664,
+              "narrative": 1.0,
+              "instruction": 0.8256510416666667
+            },
+            "retrieval": {
+              "pure": 0.5764973958333334,
+              "lambda": 0.7473958333333334,
+              "arithmetic": 0.6625,
+              "coding": 0.6625,
+              "tool": 0.6686197916666666,
+              "retrieval": 1.0,
+              "analogy": 0.6652994791666667,
+              "reasoning": 0.491015625,
+              "narrative": 0.6686197916666666,
+              "instruction": 0.665625
+            },
+            "analogy": {
+              "pure": 0.491796875,
+              "lambda": 0.8331380208333333,
+              "arithmetic": 0.8360026041666667,
+              "coding": 0.5748046875,
+              "tool": 0.5738932291666666,
+              "retrieval": 0.6652994791666667,
+              "analogy": 1.0,
+              "reasoning": 0.4916015625,
+              "narrative": 0.5738932291666666,
+              "instruction": 0.5792317708333333
+            },
+            "reasoning": {
+              "pure": 0.6662109375,
+              "lambda": 0.48723958333333334,
+              "arithmetic": 0.573046875,
+              "coding": 0.48528645833333334,
+              "tool": 0.49752604166666664,
+              "retrieval": 0.491015625,
+              "analogy": 0.4916015625,
+              "reasoning": 1.0,
+              "narrative": 0.49752604166666664,
+              "instruction": 0.5009114583333333
+            },
+            "narrative": {
+              "pure": 0.5762369791666667,
+              "lambda": 0.5833333333333334,
+              "arithmetic": 0.5817708333333333,
+              "coding": 0.585546875,
+              "tool": 1.0,
+              "retrieval": 0.6686197916666666,
+              "analogy": 0.5738932291666666,
+              "reasoning": 0.49752604166666664,
+              "narrative": 1.0,
+              "instruction": 0.8256510416666667
+            },
+            "instruction": {
+              "pure": 0.5766276041666667,
+              "lambda": 0.5817708333333333,
+              "arithmetic": 0.5833333333333334,
+              "coding": 0.58515625,
+              "tool": 0.8256510416666667,
+              "retrieval": 0.665625,
+              "analogy": 0.5792317708333333,
+              "reasoning": 0.5009114583333333,
+              "narrative": 0.8256510416666667,
+              "instruction": 1.0
+            }
+          }
+        },
+        "transition": {
+          "n_dirs": 27,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.6971875,
+              "arithmetic": 0.6971875,
+              "coding": 0.703125,
+              "tool": 0.599609375,
+              "retrieval": 0.695703125,
+              "analogy": 0.599609375,
+              "reasoning": 0.6990625,
+              "narrative": 0.697890625,
+              "instruction": 0.697890625
+            },
+            "lambda": {
+              "pure": 0.6971875,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.69984375,
+              "tool": 0.705859375,
+              "retrieval": 0.897890625,
+              "analogy": 0.697890625,
+              "reasoning": 0.90265625,
+              "narrative": 0.601328125,
+              "instruction": 0.601328125
+            },
+            "arithmetic": {
+              "pure": 0.6971875,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.69984375,
+              "tool": 0.705859375,
+              "retrieval": 0.897890625,
+              "analogy": 0.697890625,
+              "reasoning": 0.90265625,
+              "narrative": 0.601328125,
+              "instruction": 0.601328125
+            },
+            "coding": {
+              "pure": 0.703125,
+              "lambda": 0.69984375,
+              "arithmetic": 0.69984375,
+              "coding": 1.0,
+              "tool": 0.697890625,
+              "retrieval": 0.698359375,
+              "analogy": 0.699921875,
+              "reasoning": 0.7021875,
+              "narrative": 0.601328125,
+              "instruction": 0.601328125
+            },
+            "tool": {
+              "pure": 0.599609375,
+              "lambda": 0.705859375,
+              "arithmetic": 0.705859375,
+              "coding": 0.697890625,
+              "tool": 1.0,
+              "retrieval": 0.60375,
+              "analogy": 0.69984375,
+              "reasoning": 0.608515625,
+              "narrative": 0.69765625,
+              "instruction": 0.69765625
+            },
+            "retrieval": {
+              "pure": 0.695703125,
+              "lambda": 0.897890625,
+              "arithmetic": 0.897890625,
+              "coding": 0.698359375,
+              "tool": 0.60375,
+              "retrieval": 1.0,
+              "analogy": 0.69640625,
+              "reasoning": 0.899765625,
+              "narrative": 0.59984375,
+              "instruction": 0.59984375
+            },
+            "analogy": {
+              "pure": 0.599609375,
+              "lambda": 0.697890625,
+              "arithmetic": 0.697890625,
+              "coding": 0.699921875,
+              "tool": 0.69984375,
+              "retrieval": 0.69640625,
+              "analogy": 1.0,
+              "reasoning": 0.700234375,
+              "narrative": 0.70359375,
+              "instruction": 0.70359375
+            },
+            "reasoning": {
+              "pure": 0.6990625,
+              "lambda": 0.90265625,
+              "arithmetic": 0.90265625,
+              "coding": 0.7021875,
+              "tool": 0.608515625,
+              "retrieval": 0.899765625,
+              "analogy": 0.700234375,
+              "reasoning": 1.0,
+              "narrative": 0.603203125,
+              "instruction": 0.603203125
+            },
+            "narrative": {
+              "pure": 0.697890625,
+              "lambda": 0.601328125,
+              "arithmetic": 0.601328125,
+              "coding": 0.601328125,
+              "tool": 0.69765625,
+              "retrieval": 0.59984375,
+              "analogy": 0.70359375,
+              "reasoning": 0.603203125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.697890625,
+              "lambda": 0.601328125,
+              "arithmetic": 0.601328125,
+              "coding": 0.601328125,
+              "tool": 0.69765625,
+              "retrieval": 0.59984375,
+              "analogy": 0.70359375,
+              "reasoning": 0.603203125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "holographic": {
+          "n_dirs": 40,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.56162109375,
+              "arithmetic": 0.624365234375,
+              "coding": 0.563720703125,
+              "tool": 0.5634765625,
+              "retrieval": 0.56181640625,
+              "analogy": 0.50126953125,
+              "reasoning": 0.504296875,
+              "narrative": 0.503564453125,
+              "instruction": 0.567724609375
+            },
+            "lambda": {
+              "pure": 0.56162109375,
+              "lambda": 1.0,
+              "arithmetic": 0.621435546875,
+              "coding": 0.499755859375,
+              "tool": 0.625,
+              "retrieval": 0.4958984375,
+              "analogy": 0.56123046875,
+              "reasoning": 0.62724609375,
+              "narrative": 0.500927734375,
+              "instruction": 0.561279296875
+            },
+            "arithmetic": {
+              "pure": 0.624365234375,
+              "lambda": 0.621435546875,
+              "arithmetic": 1.0,
+              "coding": 0.56025390625,
+              "tool": 0.623291015625,
+              "retrieval": 0.501025390625,
+              "analogy": 0.622314453125,
+              "reasoning": 0.625341796875,
+              "narrative": 0.5619140625,
+              "instruction": 0.5595703125
+            },
+            "coding": {
+              "pure": 0.563720703125,
+              "lambda": 0.499755859375,
+              "arithmetic": 0.56025390625,
+              "coding": 1.0,
+              "tool": 0.504931640625,
+              "retrieval": 0.619189453125,
+              "analogy": 0.559033203125,
+              "reasoning": 0.501611328125,
+              "narrative": 0.5693359375,
+              "instruction": 0.56865234375
+            },
+            "tool": {
+              "pure": 0.5634765625,
+              "lambda": 0.625,
+              "arithmetic": 0.623291015625,
+              "coding": 0.504931640625,
+              "tool": 1.0,
+              "retrieval": 0.50244140625,
+              "analogy": 0.5634765625,
+              "reasoning": 0.5576171875,
+              "narrative": 0.811572265625,
+              "instruction": 0.936279296875
+            },
+            "retrieval": {
+              "pure": 0.56181640625,
+              "lambda": 0.4958984375,
+              "arithmetic": 0.501025390625,
+              "coding": 0.619189453125,
+              "tool": 0.50244140625,
+              "retrieval": 1.0,
+              "analogy": 0.49580078125,
+              "reasoning": 0.56455078125,
+              "narrative": 0.503076171875,
+              "instruction": 0.501611328125
+            },
+            "analogy": {
+              "pure": 0.50126953125,
+              "lambda": 0.56123046875,
+              "arithmetic": 0.622314453125,
+              "coding": 0.559033203125,
+              "tool": 0.5634765625,
+              "retrieval": 0.49580078125,
+              "analogy": 1.0,
+              "reasoning": 0.62431640625,
+              "narrative": 0.499951171875,
+              "instruction": 0.561962890625
+            },
+            "reasoning": {
+              "pure": 0.504296875,
+              "lambda": 0.62724609375,
+              "arithmetic": 0.625341796875,
+              "coding": 0.501611328125,
+              "tool": 0.5576171875,
+              "retrieval": 0.56455078125,
+              "analogy": 0.62431640625,
+              "reasoning": 1.0,
+              "narrative": 0.559130859375,
+              "instruction": 0.556787109375
+            },
+            "narrative": {
+              "pure": 0.503564453125,
+              "lambda": 0.500927734375,
+              "arithmetic": 0.5619140625,
+              "coding": 0.5693359375,
+              "tool": 0.811572265625,
+              "retrieval": 0.503076171875,
+              "analogy": 0.499951171875,
+              "reasoning": 0.559130859375,
+              "narrative": 1.0,
+              "instruction": 0.87529296875
+            },
+            "instruction": {
+              "pure": 0.567724609375,
+              "lambda": 0.561279296875,
+              "arithmetic": 0.5595703125,
+              "coding": 0.56865234375,
+              "tool": 0.936279296875,
+              "retrieval": 0.501611328125,
+              "analogy": 0.561962890625,
+              "reasoning": 0.556787109375,
+              "narrative": 0.87529296875,
+              "instruction": 1.0
+            }
+          }
+        },
+        "peripheral": {
+          "n_dirs": 54,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.7008984375,
+              "arithmetic": 0.7501171875,
+              "coding": 0.54921875,
+              "tool": 0.6534375,
+              "retrieval": 0.698984375,
+              "analogy": 0.5987890625,
+              "reasoning": 0.6981640625,
+              "narrative": 0.6033203125,
+              "instruction": 0.6066015625
+            },
+            "lambda": {
+              "pure": 0.7008984375,
+              "lambda": 1.0,
+              "arithmetic": 0.74890625,
+              "coding": 0.5995703125,
+              "tool": 0.6966015625,
+              "retrieval": 0.7533203125,
+              "analogy": 0.6515625,
+              "reasoning": 0.746953125,
+              "narrative": 0.60046875,
+              "instruction": 0.60328125
+            },
+            "arithmetic": {
+              "pure": 0.7501171875,
+              "lambda": 0.74890625,
+              "arithmetic": 1.0,
+              "coding": 0.6026953125,
+              "tool": 0.6509765625,
+              "retrieval": 0.7515234375,
+              "analogy": 0.59859375,
+              "reasoning": 0.750546875,
+              "narrative": 0.598828125,
+              "instruction": 0.601015625
+            },
+            "coding": {
+              "pure": 0.54921875,
+              "lambda": 0.5995703125,
+              "arithmetic": 0.6026953125,
+              "coding": 1.0,
+              "tool": 0.55609375,
+              "retrieval": 0.602109375,
+              "analogy": 0.5038671875,
+              "reasoning": 0.6072265625,
+              "narrative": 0.5501953125,
+              "instruction": 0.5532421875
+            },
+            "tool": {
+              "pure": 0.6534375,
+              "lambda": 0.6966015625,
+              "arithmetic": 0.6509765625,
+              "coding": 0.55609375,
+              "tool": 1.0,
+              "retrieval": 0.65046875,
+              "analogy": 0.7030078125,
+              "reasoning": 0.6508203125,
+              "narrative": 0.6537890625,
+              "instruction": 0.7058984375
+            },
+            "retrieval": {
+              "pure": 0.698984375,
+              "lambda": 0.7533203125,
+              "arithmetic": 0.7515234375,
+              "coding": 0.602109375,
+              "tool": 0.65046875,
+              "retrieval": 1.0,
+              "analogy": 0.6487890625,
+              "reasoning": 0.6980859375,
+              "narrative": 0.6481640625,
+              "instruction": 0.6476171875
+            },
+            "analogy": {
+              "pure": 0.5987890625,
+              "lambda": 0.6515625,
+              "arithmetic": 0.59859375,
+              "coding": 0.5038671875,
+              "tool": 0.7030078125,
+              "retrieval": 0.6487890625,
+              "analogy": 1.0,
+              "reasoning": 0.649765625,
+              "narrative": 0.599375,
+              "instruction": 0.702265625
+            },
+            "reasoning": {
+              "pure": 0.6981640625,
+              "lambda": 0.746953125,
+              "arithmetic": 0.750546875,
+              "coding": 0.6072265625,
+              "tool": 0.6508203125,
+              "retrieval": 0.6980859375,
+              "analogy": 0.649765625,
+              "reasoning": 1.0,
+              "narrative": 0.597578125,
+              "instruction": 0.599609375
+            },
+            "narrative": {
+              "pure": 0.6033203125,
+              "lambda": 0.60046875,
+              "arithmetic": 0.598828125,
+              "coding": 0.5501953125,
+              "tool": 0.6537890625,
+              "retrieval": 0.6481640625,
+              "analogy": 0.599375,
+              "reasoning": 0.597578125,
+              "narrative": 1.0,
+              "instruction": 0.897109375
+            },
+            "instruction": {
+              "pure": 0.6066015625,
+              "lambda": 0.60328125,
+              "arithmetic": 0.601015625,
+              "coding": 0.5532421875,
+              "tool": 0.7058984375,
+              "retrieval": 0.6476171875,
+              "analogy": 0.702265625,
+              "reasoning": 0.599609375,
+              "narrative": 0.897109375,
+              "instruction": 1.0
+            }
+          }
+        },
+        "private": {
+          "n_dirs": 51,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.7485546875,
+              "arithmetic": 0.6971484375,
+              "coding": 0.4995703125,
+              "tool": 0.900703125,
+              "retrieval": 0.5934765625,
+              "analogy": 0.7485546875,
+              "reasoning": 0.7490234375,
+              "narrative": 0.8990625,
+              "instruction": 0.80125
+            },
+            "lambda": {
+              "pure": 0.7485546875,
+              "lambda": 1.0,
+              "arithmetic": 0.7,
+              "coding": 0.495703125,
+              "tool": 0.6976953125,
+              "retrieval": 0.591875,
+              "analogy": 0.694375,
+              "reasoning": 0.75125,
+              "narrative": 0.7005078125,
+              "instruction": 0.6957421875
+            },
+            "arithmetic": {
+              "pure": 0.6971484375,
+              "lambda": 0.7,
+              "arithmetic": 1.0,
+              "coding": 0.54625,
+              "tool": 0.6454296875,
+              "retrieval": 0.54703125,
+              "analogy": 0.49328125,
+              "reasoning": 0.549375,
+              "narrative": 0.6987890625,
+              "instruction": 0.5939453125
+            },
+            "coding": {
+              "pure": 0.4995703125,
+              "lambda": 0.495703125,
+              "arithmetic": 0.54625,
+              "coding": 1.0,
+              "tool": 0.4962109375,
+              "retrieval": 0.598671875,
+              "analogy": 0.54890625,
+              "reasoning": 0.598125,
+              "narrative": 0.4953515625,
+              "instruction": 0.4981640625
+            },
+            "tool": {
+              "pure": 0.900703125,
+              "lambda": 0.6976953125,
+              "arithmetic": 0.6454296875,
+              "coding": 0.4962109375,
+              "tool": 1.0,
+              "retrieval": 0.5943359375,
+              "analogy": 0.8002734375,
+              "reasoning": 0.6981640625,
+              "narrative": 0.946640625,
+              "instruction": 0.900546875
+            },
+            "retrieval": {
+              "pure": 0.5934765625,
+              "lambda": 0.591875,
+              "arithmetic": 0.54703125,
+              "coding": 0.598671875,
+              "tool": 0.5943359375,
+              "retrieval": 1.0,
+              "analogy": 0.7421875,
+              "reasoning": 0.59,
+              "narrative": 0.5971484375,
+              "instruction": 0.5444140625
+            },
+            "analogy": {
+              "pure": 0.7485546875,
+              "lambda": 0.694375,
+              "arithmetic": 0.49328125,
+              "coding": 0.54890625,
+              "tool": 0.8002734375,
+              "retrieval": 0.7421875,
+              "analogy": 1.0,
+              "reasoning": 0.744375,
+              "narrative": 0.7469140625,
+              "instruction": 0.7503515625
+            },
+            "reasoning": {
+              "pure": 0.7490234375,
+              "lambda": 0.75125,
+              "arithmetic": 0.549375,
+              "coding": 0.598125,
+              "tool": 0.6981640625,
+              "retrieval": 0.59,
+              "analogy": 0.744375,
+              "reasoning": 1.0,
+              "narrative": 0.7009765625,
+              "instruction": 0.6964453125
+            },
+            "narrative": {
+              "pure": 0.8990625,
+              "lambda": 0.7005078125,
+              "arithmetic": 0.6987890625,
+              "coding": 0.4953515625,
+              "tool": 0.946640625,
+              "retrieval": 0.5971484375,
+              "analogy": 0.7469140625,
+              "reasoning": 0.7009765625,
+              "narrative": 1.0,
+              "instruction": 0.8471875
+            },
+            "instruction": {
+              "pure": 0.80125,
+              "lambda": 0.6957421875,
+              "arithmetic": 0.5939453125,
+              "coding": 0.4981640625,
+              "tool": 0.900546875,
+              "retrieval": 0.5444140625,
+              "analogy": 0.7503515625,
+              "reasoning": 0.6964453125,
+              "narrative": 0.8471875,
+              "instruction": 1.0
+            }
+          }
+        }
+      },
+      "clusters_by_band": {
+        "shared": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        }
+      }
+    },
+    "0.7": {
+      "layer_idx": 22,
+      "angle_distribution": {
+        "shared": 4,
+        "mid_low": 47,
+        "attn_clust": 35,
+        "transition": 25,
+        "holographic": 39,
+        "peripheral": 54,
+        "private": 52
+      },
+      "magnitude_correlations": {
+        "pure_vs_lambda": 0.9703884925473049,
+        "pure_vs_arithmetic": 0.9617165488737209,
+        "pure_vs_coding": 0.927837174336197,
+        "pure_vs_tool": 0.8823663081197092,
+        "pure_vs_retrieval": 0.9621052935713903,
+        "pure_vs_analogy": 0.9617213308725819,
+        "pure_vs_reasoning": 0.9634457697504394,
+        "pure_vs_narrative": 0.8495050045164413,
+        "pure_vs_instruction": 0.8357083744794046,
+        "lambda_vs_arithmetic": 0.9774910513637344,
+        "lambda_vs_coding": 0.9358801618452641,
+        "lambda_vs_tool": 0.8908114746747702,
+        "lambda_vs_retrieval": 0.9809515665971204,
+        "lambda_vs_analogy": 0.9807744698523332,
+        "lambda_vs_reasoning": 0.9815864882959406,
+        "lambda_vs_narrative": 0.8567428393327446,
+        "lambda_vs_instruction": 0.8422848003452198,
+        "arithmetic_vs_coding": 0.9343339652353219,
+        "arithmetic_vs_tool": 0.88022310538583,
+        "arithmetic_vs_retrieval": 0.9758618035247488,
+        "arithmetic_vs_analogy": 0.9727234073891465,
+        "arithmetic_vs_reasoning": 0.9767327425624461,
+        "arithmetic_vs_narrative": 0.8456188785967722,
+        "arithmetic_vs_instruction": 0.8306895347092709,
+        "coding_vs_tool": 0.8372828334500511,
+        "coding_vs_retrieval": 0.9370484711485096,
+        "coding_vs_analogy": 0.9346439281899418,
+        "coding_vs_reasoning": 0.9367583276094137,
+        "coding_vs_narrative": 0.8009796927969292,
+        "coding_vs_instruction": 0.7871420693115557,
+        "tool_vs_retrieval": 0.8912332859414106,
+        "tool_vs_analogy": 0.8908951434625948,
+        "tool_vs_reasoning": 0.8881962326477828,
+        "tool_vs_narrative": 0.99513168431289,
+        "tool_vs_instruction": 0.9927862307533217,
+        "retrieval_vs_analogy": 0.98556581042073,
+        "retrieval_vs_reasoning": 0.9834907092724154,
+        "retrieval_vs_narrative": 0.858009386229027,
+        "retrieval_vs_instruction": 0.8435477109179529,
+        "analogy_vs_reasoning": 0.9830855208841464,
+        "analogy_vs_narrative": 0.8572696503054525,
+        "analogy_vs_instruction": 0.8429641758429415,
+        "reasoning_vs_narrative": 0.8544302645552608,
+        "reasoning_vs_instruction": 0.8388466502464809,
+        "narrative_vs_instruction": 0.9986108629861151
+      },
+      "overlap_by_band": {
+        "shared": {
+          "n_dirs": 4,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.46484375,
+              "arithmetic": 0.46484375,
+              "coding": 0.48671875,
+              "tool": 0.526171875,
+              "retrieval": 1.0,
+              "analogy": 0.526171875,
+              "reasoning": 0.526171875,
+              "narrative": 0.48671875,
+              "instruction": 0.48671875
+            },
+            "lambda": {
+              "pure": 0.46484375,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.49140625,
+              "tool": 0.502734375,
+              "retrieval": 0.46484375,
+              "analogy": 0.502734375,
+              "reasoning": 0.502734375,
+              "narrative": 0.49140625,
+              "instruction": 0.49140625
+            },
+            "arithmetic": {
+              "pure": 0.46484375,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.49140625,
+              "tool": 0.502734375,
+              "retrieval": 0.46484375,
+              "analogy": 0.502734375,
+              "reasoning": 0.502734375,
+              "narrative": 0.49140625,
+              "instruction": 0.49140625
+            },
+            "coding": {
+              "pure": 0.48671875,
+              "lambda": 0.49140625,
+              "arithmetic": 0.49140625,
+              "coding": 1.0,
+              "tool": 0.516796875,
+              "retrieval": 0.48671875,
+              "analogy": 0.516796875,
+              "reasoning": 0.516796875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "tool": {
+              "pure": 0.526171875,
+              "lambda": 0.502734375,
+              "arithmetic": 0.502734375,
+              "coding": 0.516796875,
+              "tool": 1.0,
+              "retrieval": 0.526171875,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.516796875,
+              "instruction": 0.516796875
+            },
+            "retrieval": {
+              "pure": 1.0,
+              "lambda": 0.46484375,
+              "arithmetic": 0.46484375,
+              "coding": 0.48671875,
+              "tool": 0.526171875,
+              "retrieval": 1.0,
+              "analogy": 0.526171875,
+              "reasoning": 0.526171875,
+              "narrative": 0.48671875,
+              "instruction": 0.48671875
+            },
+            "analogy": {
+              "pure": 0.526171875,
+              "lambda": 0.502734375,
+              "arithmetic": 0.502734375,
+              "coding": 0.516796875,
+              "tool": 1.0,
+              "retrieval": 0.526171875,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.516796875,
+              "instruction": 0.516796875
+            },
+            "reasoning": {
+              "pure": 0.526171875,
+              "lambda": 0.502734375,
+              "arithmetic": 0.502734375,
+              "coding": 0.516796875,
+              "tool": 1.0,
+              "retrieval": 0.526171875,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.516796875,
+              "instruction": 0.516796875
+            },
+            "narrative": {
+              "pure": 0.48671875,
+              "lambda": 0.49140625,
+              "arithmetic": 0.49140625,
+              "coding": 1.0,
+              "tool": 0.516796875,
+              "retrieval": 0.48671875,
+              "analogy": 0.516796875,
+              "reasoning": 0.516796875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.48671875,
+              "lambda": 0.49140625,
+              "arithmetic": 0.49140625,
+              "coding": 1.0,
+              "tool": 0.516796875,
+              "retrieval": 0.48671875,
+              "analogy": 0.516796875,
+              "reasoning": 0.516796875,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "mid_low": {
+          "n_dirs": 47,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5489583333333333,
+              "arithmetic": 0.5092013888888889,
+              "coding": 0.5044270833333333,
+              "tool": 0.48736979166666666,
+              "retrieval": 0.498828125,
+              "analogy": 0.4970920138888889,
+              "reasoning": 0.5584635416666667,
+              "narrative": 0.5545572916666667,
+              "instruction": 0.5499131944444444
+            },
+            "lambda": {
+              "pure": 0.5489583333333333,
+              "lambda": 1.0,
+              "arithmetic": 0.49774305555555554,
+              "coding": 0.4886284722222222,
+              "tool": 0.4896267361111111,
+              "retrieval": 0.6022135416666666,
+              "analogy": 0.6111545138888889,
+              "reasoning": 0.5010850694444444,
+              "narrative": 0.49639756944444446,
+              "instruction": 0.4981770833333333
+            },
+            "arithmetic": {
+              "pure": 0.5092013888888889,
+              "lambda": 0.49774305555555554,
+              "arithmetic": 1.0,
+              "coding": 0.5013888888888889,
+              "tool": 0.5020399305555555,
+              "retrieval": 0.49917534722222223,
+              "analogy": 0.5580295138888889,
+              "reasoning": 0.5036024305555555,
+              "narrative": 0.5052517361111111,
+              "instruction": 0.503125
+            },
+            "coding": {
+              "pure": 0.5044270833333333,
+              "lambda": 0.4886284722222222,
+              "arithmetic": 0.5013888888888889,
+              "coding": 1.0,
+              "tool": 0.4974392361111111,
+              "retrieval": 0.5033420138888889,
+              "analogy": 0.494140625,
+              "reasoning": 0.5549045138888888,
+              "narrative": 0.5023871527777778,
+              "instruction": 0.5583333333333333
+            },
+            "tool": {
+              "pure": 0.48736979166666666,
+              "lambda": 0.4896267361111111,
+              "arithmetic": 0.5020399305555555,
+              "coding": 0.4974392361111111,
+              "tool": 1.0,
+              "retrieval": 0.50078125,
+              "analogy": 0.546875,
+              "reasoning": 0.4887152777777778,
+              "narrative": 0.6573784722222222,
+              "instruction": 0.7081163194444444
+            },
+            "retrieval": {
+              "pure": 0.498828125,
+              "lambda": 0.6022135416666666,
+              "arithmetic": 0.49917534722222223,
+              "coding": 0.5033420138888889,
+              "tool": 0.50078125,
+              "retrieval": 1.0,
+              "analogy": 0.5535590277777778,
+              "reasoning": 0.5019965277777778,
+              "narrative": 0.4913194444444444,
+              "instruction": 0.49361979166666664
+            },
+            "analogy": {
+              "pure": 0.4970920138888889,
+              "lambda": 0.6111545138888889,
+              "arithmetic": 0.5580295138888889,
+              "coding": 0.494140625,
+              "tool": 0.546875,
+              "retrieval": 0.5535590277777778,
+              "analogy": 1.0,
+              "reasoning": 0.4973090277777778,
+              "narrative": 0.49609375,
+              "instruction": 0.49188368055555554
+            },
+            "reasoning": {
+              "pure": 0.5584635416666667,
+              "lambda": 0.5010850694444444,
+              "arithmetic": 0.5036024305555555,
+              "coding": 0.5549045138888888,
+              "tool": 0.4887152777777778,
+              "retrieval": 0.5019965277777778,
+              "analogy": 0.4973090277777778,
+              "reasoning": 1.0,
+              "narrative": 0.4991319444444444,
+              "instruction": 0.49561631944444445
+            },
+            "narrative": {
+              "pure": 0.5545572916666667,
+              "lambda": 0.49639756944444446,
+              "arithmetic": 0.5052517361111111,
+              "coding": 0.5023871527777778,
+              "tool": 0.6573784722222222,
+              "retrieval": 0.4913194444444444,
+              "analogy": 0.49609375,
+              "reasoning": 0.4991319444444444,
+              "narrative": 1.0,
+              "instruction": 0.6654947916666667
+            },
+            "instruction": {
+              "pure": 0.5499131944444444,
+              "lambda": 0.4981770833333333,
+              "arithmetic": 0.503125,
+              "coding": 0.5583333333333333,
+              "tool": 0.7081163194444444,
+              "retrieval": 0.49361979166666664,
+              "analogy": 0.49188368055555554,
+              "reasoning": 0.49561631944444445,
+              "narrative": 0.6654947916666667,
+              "instruction": 1.0
+            }
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 35,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.4982700892857143,
+              "arithmetic": 0.49893973214285714,
+              "coding": 0.5016183035714286,
+              "tool": 0.495703125,
+              "retrieval": 0.49893973214285714,
+              "analogy": 0.4979910714285714,
+              "reasoning": 0.4968191964285714,
+              "narrative": 0.4946986607142857,
+              "instruction": 0.5713727678571429
+            },
+            "lambda": {
+              "pure": 0.4982700892857143,
+              "lambda": 1.0,
+              "arithmetic": 0.6455357142857143,
+              "coding": 0.5021205357142857,
+              "tool": 0.4955357142857143,
+              "retrieval": 0.5665178571428572,
+              "analogy": 0.5682477678571428,
+              "reasoning": 0.49598214285714287,
+              "narrative": 0.49464285714285716,
+              "instruction": 0.4974330357142857
+            },
+            "arithmetic": {
+              "pure": 0.49893973214285714,
+              "lambda": 0.6455357142857143,
+              "arithmetic": 1.0,
+              "coding": 0.5033482142857143,
+              "tool": 0.5075892857142857,
+              "retrieval": 0.5,
+              "analogy": 0.49905133928571427,
+              "reasoning": 0.6444196428571428,
+              "narrative": 0.5082589285714286,
+              "instruction": 0.4967633928571429
+            },
+            "coding": {
+              "pure": 0.5016183035714286,
+              "lambda": 0.5021205357142857,
+              "arithmetic": 0.5033482142857143,
+              "coding": 1.0,
+              "tool": 0.5021205357142857,
+              "retrieval": 0.5669642857142857,
+              "analogy": 0.5695870535714286,
+              "reasoning": 0.5706473214285714,
+              "narrative": 0.5044642857142857,
+              "instruction": 0.5040178571428572
+            },
+            "tool": {
+              "pure": 0.495703125,
+              "lambda": 0.4955357142857143,
+              "arithmetic": 0.5075892857142857,
+              "coding": 0.5021205357142857,
+              "tool": 1.0,
+              "retrieval": 0.4943080357142857,
+              "analogy": 0.4888950892857143,
+              "reasoning": 0.50390625,
+              "narrative": 0.9270089285714286,
+              "instruction": 0.7854910714285714
+            },
+            "retrieval": {
+              "pure": 0.49893973214285714,
+              "lambda": 0.5665178571428572,
+              "arithmetic": 0.5,
+              "coding": 0.5669642857142857,
+              "tool": 0.4943080357142857,
+              "retrieval": 1.0,
+              "analogy": 0.7141183035714286,
+              "reasoning": 0.7151785714285714,
+              "narrative": 0.49296875,
+              "instruction": 0.49308035714285714
+            },
+            "analogy": {
+              "pure": 0.4979910714285714,
+              "lambda": 0.5682477678571428,
+              "arithmetic": 0.49905133928571427,
+              "coding": 0.5695870535714286,
+              "tool": 0.4888950892857143,
+              "retrieval": 0.7141183035714286,
+              "analogy": 1.0,
+              "reasoning": 0.645703125,
+              "narrative": 0.4895647321428571,
+              "instruction": 0.4915736607142857
+            },
+            "reasoning": {
+              "pure": 0.4968191964285714,
+              "lambda": 0.49598214285714287,
+              "arithmetic": 0.6444196428571428,
+              "coding": 0.5706473214285714,
+              "tool": 0.50390625,
+              "retrieval": 0.7151785714285714,
+              "analogy": 0.645703125,
+              "reasoning": 1.0,
+              "narrative": 0.5025669642857142,
+              "instruction": 0.49508928571428573
+            },
+            "narrative": {
+              "pure": 0.4946986607142857,
+              "lambda": 0.49464285714285716,
+              "arithmetic": 0.5082589285714286,
+              "coding": 0.5044642857142857,
+              "tool": 0.9270089285714286,
+              "retrieval": 0.49296875,
+              "analogy": 0.4895647321428571,
+              "reasoning": 0.5025669642857142,
+              "narrative": 1.0,
+              "instruction": 0.7125
+            },
+            "instruction": {
+              "pure": 0.5713727678571429,
+              "lambda": 0.4974330357142857,
+              "arithmetic": 0.4967633928571429,
+              "coding": 0.5040178571428572,
+              "tool": 0.7854910714285714,
+              "retrieval": 0.49308035714285714,
+              "analogy": 0.4915736607142857,
+              "reasoning": 0.49508928571428573,
+              "narrative": 0.7125,
+              "instruction": 1.0
+            }
+          }
+        },
+        "transition": {
+          "n_dirs": 25,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5928125,
+              "arithmetic": 0.50859375,
+              "coding": 0.494609375,
+              "tool": 0.502734375,
+              "retrieval": 0.507421875,
+              "analogy": 0.493984375,
+              "reasoning": 0.499453125,
+              "narrative": 0.499453125,
+              "instruction": 0.499765625
+            },
+            "lambda": {
+              "pure": 0.5928125,
+              "lambda": 1.0,
+              "arithmetic": 0.49203125,
+              "coding": 0.605390625,
+              "tool": 0.503828125,
+              "retrieval": 0.501484375,
+              "analogy": 0.492421875,
+              "reasoning": 0.486953125,
+              "narrative": 0.512265625,
+              "instruction": 0.503984375
+            },
+            "arithmetic": {
+              "pure": 0.50859375,
+              "lambda": 0.49203125,
+              "arithmetic": 1.0,
+              "coding": 0.490546875,
+              "tool": 0.503984375,
+              "retrieval": 0.698671875,
+              "analogy": 0.598515625,
+              "reasoning": 0.706484375,
+              "narrative": 0.500859375,
+              "instruction": 0.502265625
+            },
+            "coding": {
+              "pure": 0.494609375,
+              "lambda": 0.605390625,
+              "arithmetic": 0.490546875,
+              "coding": 1.0,
+              "tool": 0.50765625,
+              "retrieval": 0.58609375,
+              "analogy": 0.50125,
+              "reasoning": 0.50296875,
+              "narrative": 0.60203125,
+              "instruction": 0.50609375
+            },
+            "tool": {
+              "pure": 0.502734375,
+              "lambda": 0.503828125,
+              "arithmetic": 0.503984375,
+              "coding": 0.50765625,
+              "tool": 1.0,
+              "retrieval": 0.5065625,
+              "analogy": 0.493125,
+              "reasoning": 0.49953125,
+              "narrative": 0.7,
+              "instruction": 0.69453125
+            },
+            "retrieval": {
+              "pure": 0.507421875,
+              "lambda": 0.501484375,
+              "arithmetic": 0.698671875,
+              "coding": 0.58609375,
+              "tool": 0.5065625,
+              "retrieval": 1.0,
+              "analogy": 0.5940625,
+              "reasoning": 0.603125,
+              "narrative": 0.49953125,
+              "instruction": 0.501875
+            },
+            "analogy": {
+              "pure": 0.493984375,
+              "lambda": 0.492421875,
+              "arithmetic": 0.598515625,
+              "coding": 0.50125,
+              "tool": 0.493125,
+              "retrieval": 0.5940625,
+              "analogy": 1.0,
+              "reasoning": 0.58703125,
+              "narrative": 0.505,
+              "instruction": 0.5009375
+            },
+            "reasoning": {
+              "pure": 0.499453125,
+              "lambda": 0.486953125,
+              "arithmetic": 0.706484375,
+              "coding": 0.50296875,
+              "tool": 0.49953125,
+              "retrieval": 0.603125,
+              "analogy": 0.58703125,
+              "reasoning": 1.0,
+              "narrative": 0.506875,
+              "instruction": 0.60203125
+            },
+            "narrative": {
+              "pure": 0.499453125,
+              "lambda": 0.512265625,
+              "arithmetic": 0.500859375,
+              "coding": 0.60203125,
+              "tool": 0.7,
+              "retrieval": 0.49953125,
+              "analogy": 0.505,
+              "reasoning": 0.506875,
+              "narrative": 1.0,
+              "instruction": 0.60375
+            },
+            "instruction": {
+              "pure": 0.499765625,
+              "lambda": 0.503984375,
+              "arithmetic": 0.502265625,
+              "coding": 0.50609375,
+              "tool": 0.69453125,
+              "retrieval": 0.501875,
+              "analogy": 0.5009375,
+              "reasoning": 0.60203125,
+              "narrative": 0.60375,
+              "instruction": 1.0
+            }
+          }
+        },
+        "holographic": {
+          "n_dirs": 39,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.4986049107142857,
+              "arithmetic": 0.499609375,
+              "coding": 0.4992745535714286,
+              "tool": 0.5734375,
+              "retrieval": 0.5025111607142857,
+              "analogy": 0.4948660714285714,
+              "reasoning": 0.5024553571428572,
+              "narrative": 0.572265625,
+              "instruction": 0.5741629464285715
+            },
+            "lambda": {
+              "pure": 0.4986049107142857,
+              "lambda": 1.0,
+              "arithmetic": 0.5121651785714286,
+              "coding": 0.5754464285714286,
+              "tool": 0.5010602678571429,
+              "retrieval": 0.49966517857142856,
+              "analogy": 0.6526227678571429,
+              "reasoning": 0.6540736607142857,
+              "narrative": 0.49564732142857143,
+              "instruction": 0.49207589285714287
+            },
+            "arithmetic": {
+              "pure": 0.499609375,
+              "lambda": 0.5121651785714286,
+              "arithmetic": 1.0,
+              "coding": 0.5017857142857143,
+              "tool": 0.5022879464285714,
+              "retrieval": 0.5012276785714286,
+              "analogy": 0.5051897321428571,
+              "reasoning": 0.4961495535714286,
+              "narrative": 0.5,
+              "instruction": 0.4966517857142857
+            },
+            "coding": {
+              "pure": 0.4992745535714286,
+              "lambda": 0.5754464285714286,
+              "arithmetic": 0.5017857142857143,
+              "coding": 1.0,
+              "tool": 0.49760044642857143,
+              "retrieval": 0.5714285714285714,
+              "analogy": 0.643359375,
+              "reasoning": 0.7118861607142857,
+              "narrative": 0.48783482142857143,
+              "instruction": 0.49386160714285715
+            },
+            "tool": {
+              "pure": 0.5734375,
+              "lambda": 0.5010602678571429,
+              "arithmetic": 0.5022879464285714,
+              "coding": 0.49760044642857143,
+              "tool": 1.0,
+              "retrieval": 0.5590959821428572,
+              "analogy": 0.49776785714285715,
+              "reasoning": 0.49754464285714284,
+              "narrative": 0.8564174107142857,
+              "instruction": 0.7182477678571428
+            },
+            "retrieval": {
+              "pure": 0.5025111607142857,
+              "lambda": 0.49966517857142856,
+              "arithmetic": 0.5012276785714286,
+              "coding": 0.5714285714285714,
+              "tool": 0.5590959821428572,
+              "retrieval": 1.0,
+              "analogy": 0.5008370535714286,
+              "reasoning": 0.5626674107142857,
+              "narrative": 0.56328125,
+              "instruction": 0.5706473214285714
+            },
+            "analogy": {
+              "pure": 0.4948660714285714,
+              "lambda": 0.6526227678571429,
+              "arithmetic": 0.5051897321428571,
+              "coding": 0.643359375,
+              "tool": 0.49776785714285715,
+              "retrieval": 0.5008370535714286,
+              "analogy": 1.0,
+              "reasoning": 0.5782366071428572,
+              "narrative": 0.5020647321428572,
+              "instruction": 0.4929129464285714
+            },
+            "reasoning": {
+              "pure": 0.5024553571428572,
+              "lambda": 0.6540736607142857,
+              "arithmetic": 0.4961495535714286,
+              "coding": 0.7118861607142857,
+              "tool": 0.49754464285714284,
+              "retrieval": 0.5626674107142857,
+              "analogy": 0.5782366071428572,
+              "reasoning": 1.0,
+              "narrative": 0.48989955357142856,
+              "instruction": 0.492578125
+            },
+            "narrative": {
+              "pure": 0.572265625,
+              "lambda": 0.49564732142857143,
+              "arithmetic": 0.5,
+              "coding": 0.48783482142857143,
+              "tool": 0.8564174107142857,
+              "retrieval": 0.56328125,
+              "analogy": 0.5020647321428572,
+              "reasoning": 0.48989955357142856,
+              "narrative": 1.0,
+              "instruction": 0.7888392857142857
+            },
+            "instruction": {
+              "pure": 0.5741629464285715,
+              "lambda": 0.49207589285714287,
+              "arithmetic": 0.4966517857142857,
+              "coding": 0.49386160714285715,
+              "tool": 0.7182477678571428,
+              "retrieval": 0.5706473214285714,
+              "analogy": 0.4929129464285714,
+              "reasoning": 0.492578125,
+              "narrative": 0.7888392857142857,
+              "instruction": 1.0
+            }
+          }
+        },
+        "peripheral": {
+          "n_dirs": 54,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.492265625,
+              "arithmetic": 0.4987109375,
+              "coding": 0.496875,
+              "tool": 0.5012109375,
+              "retrieval": 0.494609375,
+              "analogy": 0.549375,
+              "reasoning": 0.552890625,
+              "narrative": 0.4919921875,
+              "instruction": 0.4987109375
+            },
+            "lambda": {
+              "pure": 0.492265625,
+              "lambda": 1.0,
+              "arithmetic": 0.4980859375,
+              "coding": 0.4971875,
+              "tool": 0.4942578125,
+              "retrieval": 0.65953125,
+              "analogy": 0.554140625,
+              "reasoning": 0.59859375,
+              "narrative": 0.4971484375,
+              "instruction": 0.4998828125
+            },
+            "arithmetic": {
+              "pure": 0.4987109375,
+              "lambda": 0.4980859375,
+              "arithmetic": 1.0,
+              "coding": 0.5519140625,
+              "tool": 0.49734375,
+              "retrieval": 0.5480078125,
+              "analogy": 0.4947265625,
+              "reasoning": 0.5513671875,
+              "narrative": 0.505625,
+              "instruction": 0.505234375
+            },
+            "coding": {
+              "pure": 0.496875,
+              "lambda": 0.4971875,
+              "arithmetic": 0.5519140625,
+              "coding": 1.0,
+              "tool": 0.5083203125,
+              "retrieval": 0.5509375,
+              "analogy": 0.491484375,
+              "reasoning": 0.539921875,
+              "narrative": 0.5027734375,
+              "instruction": 0.5042578125
+            },
+            "tool": {
+              "pure": 0.5012109375,
+              "lambda": 0.4942578125,
+              "arithmetic": 0.49734375,
+              "coding": 0.5083203125,
+              "tool": 1.0,
+              "retrieval": 0.5068359375,
+              "analogy": 0.5453515625,
+              "reasoning": 0.4900390625,
+              "narrative": 0.65703125,
+              "instruction": 0.60140625
+            },
+            "retrieval": {
+              "pure": 0.494609375,
+              "lambda": 0.65953125,
+              "arithmetic": 0.5480078125,
+              "coding": 0.5509375,
+              "tool": 0.5068359375,
+              "retrieval": 1.0,
+              "analogy": 0.502734375,
+              "reasoning": 0.49796875,
+              "narrative": 0.5050390625,
+              "instruction": 0.5100390625
+            },
+            "analogy": {
+              "pure": 0.549375,
+              "lambda": 0.554140625,
+              "arithmetic": 0.4947265625,
+              "coding": 0.491484375,
+              "tool": 0.5453515625,
+              "retrieval": 0.502734375,
+              "analogy": 1.0,
+              "reasoning": 0.60328125,
+              "narrative": 0.4910546875,
+              "instruction": 0.5480859375
+            },
+            "reasoning": {
+              "pure": 0.552890625,
+              "lambda": 0.59859375,
+              "arithmetic": 0.5513671875,
+              "coding": 0.539921875,
+              "tool": 0.4900390625,
+              "retrieval": 0.49796875,
+              "analogy": 0.60328125,
+              "reasoning": 1.0,
+              "narrative": 0.4946484375,
+              "instruction": 0.5014453125
+            },
+            "narrative": {
+              "pure": 0.4919921875,
+              "lambda": 0.4971484375,
+              "arithmetic": 0.505625,
+              "coding": 0.5027734375,
+              "tool": 0.65703125,
+              "retrieval": 0.5050390625,
+              "analogy": 0.4910546875,
+              "reasoning": 0.4946484375,
+              "narrative": 1.0,
+              "instruction": 0.652421875
+            },
+            "instruction": {
+              "pure": 0.4987109375,
+              "lambda": 0.4998828125,
+              "arithmetic": 0.505234375,
+              "coding": 0.5042578125,
+              "tool": 0.60140625,
+              "retrieval": 0.5100390625,
+              "analogy": 0.5480859375,
+              "reasoning": 0.5014453125,
+              "narrative": 0.652421875,
+              "instruction": 1.0
+            }
+          }
+        },
+        "private": {
+          "n_dirs": 52,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.4940625,
+              "arithmetic": 0.49453125,
+              "coding": 0.5520703125,
+              "tool": 0.4976171875,
+              "retrieval": 0.5584375,
+              "analogy": 0.5461328125,
+              "reasoning": 0.56671875,
+              "narrative": 0.498671875,
+              "instruction": 0.50453125
+            },
+            "lambda": {
+              "pure": 0.4940625,
+              "lambda": 1.0,
+              "arithmetic": 0.691640625,
+              "coding": 0.4947265625,
+              "tool": 0.4985546875,
+              "retrieval": 0.55015625,
+              "analogy": 0.6086328125,
+              "reasoning": 0.495078125,
+              "narrative": 0.5515625,
+              "instruction": 0.5009375
+            },
+            "arithmetic": {
+              "pure": 0.49453125,
+              "lambda": 0.691640625,
+              "arithmetic": 1.0,
+              "coding": 0.5101171875,
+              "tool": 0.4932421875,
+              "retrieval": 0.564140625,
+              "analogy": 0.6103515625,
+              "reasoning": 0.55,
+              "narrative": 0.557265625,
+              "instruction": 0.514453125
+            },
+            "coding": {
+              "pure": 0.5520703125,
+              "lambda": 0.4947265625,
+              "arithmetic": 0.5101171875,
+              "coding": 1.0,
+              "tool": 0.492578125,
+              "retrieval": 0.5549609375,
+              "analogy": 0.554140625,
+              "reasoning": 0.6033984375,
+              "narrative": 0.4964453125,
+              "instruction": 0.5015234375
+            },
+            "tool": {
+              "pure": 0.4976171875,
+              "lambda": 0.4985546875,
+              "arithmetic": 0.4932421875,
+              "coding": 0.492578125,
+              "tool": 1.0,
+              "retrieval": 0.5019921875,
+              "analogy": 0.510390625,
+              "reasoning": 0.4957421875,
+              "narrative": 0.4991015625,
+              "instruction": 0.5072265625
+            },
+            "retrieval": {
+              "pure": 0.5584375,
+              "lambda": 0.55015625,
+              "arithmetic": 0.564140625,
+              "coding": 0.5549609375,
+              "tool": 0.5019921875,
+              "retrieval": 1.0,
+              "analogy": 0.5168359375,
+              "reasoning": 0.607109375,
+              "narrative": 0.5015625,
+              "instruction": 0.50921875
+            },
+            "analogy": {
+              "pure": 0.5461328125,
+              "lambda": 0.6086328125,
+              "arithmetic": 0.6103515625,
+              "coding": 0.554140625,
+              "tool": 0.510390625,
+              "retrieval": 0.5168359375,
+              "analogy": 1.0,
+              "reasoning": 0.5537109375,
+              "narrative": 0.5516015625,
+              "instruction": 0.5153515625
+            },
+            "reasoning": {
+              "pure": 0.56671875,
+              "lambda": 0.495078125,
+              "arithmetic": 0.55,
+              "coding": 0.6033984375,
+              "tool": 0.4957421875,
+              "retrieval": 0.607109375,
+              "analogy": 0.5537109375,
+              "reasoning": 1.0,
+              "narrative": 0.50109375,
+              "instruction": 0.55046875
+            },
+            "narrative": {
+              "pure": 0.498671875,
+              "lambda": 0.5515625,
+              "arithmetic": 0.557265625,
+              "coding": 0.4964453125,
+              "tool": 0.4991015625,
+              "retrieval": 0.5015625,
+              "analogy": 0.5516015625,
+              "reasoning": 0.50109375,
+              "narrative": 1.0,
+              "instruction": 0.6121875
+            },
+            "instruction": {
+              "pure": 0.50453125,
+              "lambda": 0.5009375,
+              "arithmetic": 0.514453125,
+              "coding": 0.5015234375,
+              "tool": 0.5072265625,
+              "retrieval": 0.50921875,
+              "analogy": 0.5153515625,
+              "reasoning": 0.55046875,
+              "narrative": 0.6121875,
+              "instruction": 1.0
+            }
+          }
+        }
+      },
+      "clusters_by_band": {
+        "shared": {
+          "count": 4,
+          "clusters": [
+            [
+              "pure",
+              "retrieval"
+            ],
+            [
+              "arithmetic",
+              "lambda"
+            ],
+            [
+              "coding",
+              "instruction",
+              "narrative"
+            ],
+            [
+              "analogy",
+              "reasoning",
+              "tool"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "coding",
+              "instruction",
+              "narrative",
+              "pure",
+              "reasoning",
+              "tool"
+            ],
+            [
+              "analogy",
+              "arithmetic",
+              "lambda",
+              "retrieval"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 2,
+          "clusters": [
+            [
+              "instruction",
+              "narrative",
+              "pure",
+              "tool"
+            ],
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "lambda",
+              "reasoning",
+              "retrieval"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ],
+            [
+              "arithmetic"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "lambda",
+              "pure",
+              "reasoning",
+              "retrieval"
+            ],
+            [
+              "instruction",
+              "narrative",
+              "tool"
+            ]
+          ]
+        },
+        "private": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval"
+            ],
+            [
+              "tool"
+            ]
+          ]
+        }
+      }
+    },
+    "0.9": {
+      "layer_idx": 28,
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 41,
+        "attn_clust": 26,
+        "transition": 26,
+        "holographic": 39,
+        "peripheral": 58,
+        "private": 58
+      },
+      "magnitude_correlations": {
+        "pure_vs_lambda": 0.9795378942350703,
+        "pure_vs_arithmetic": 0.9747736744046046,
+        "pure_vs_coding": 0.9446730780468329,
+        "pure_vs_tool": 0.9241205263106236,
+        "pure_vs_retrieval": 0.9732950015076496,
+        "pure_vs_analogy": 0.9710153595720243,
+        "pure_vs_reasoning": 0.9751469743880317,
+        "pure_vs_narrative": 0.8977508744071133,
+        "pure_vs_instruction": 0.881511248684359,
+        "lambda_vs_arithmetic": 0.9827234084486893,
+        "lambda_vs_coding": 0.9482875780516298,
+        "lambda_vs_tool": 0.9370582689686724,
+        "lambda_vs_retrieval": 0.9849312204315607,
+        "lambda_vs_analogy": 0.9838765492042795,
+        "lambda_vs_reasoning": 0.9853208123485796,
+        "lambda_vs_narrative": 0.9112736565297207,
+        "lambda_vs_instruction": 0.8950423892628181,
+        "arithmetic_vs_coding": 0.9491574593996961,
+        "arithmetic_vs_tool": 0.9298242080627627,
+        "arithmetic_vs_retrieval": 0.9820399720747518,
+        "arithmetic_vs_analogy": 0.978648001911539,
+        "arithmetic_vs_reasoning": 0.982898704458171,
+        "arithmetic_vs_narrative": 0.9036580517482515,
+        "arithmetic_vs_instruction": 0.886584402039151,
+        "coding_vs_tool": 0.9032575799684771,
+        "coding_vs_retrieval": 0.9503590892281145,
+        "coding_vs_analogy": 0.9469977100046392,
+        "coding_vs_reasoning": 0.9510924792959817,
+        "coding_vs_narrative": 0.8780560005323398,
+        "coding_vs_instruction": 0.8623008068167669,
+        "tool_vs_retrieval": 0.9397136135591917,
+        "tool_vs_analogy": 0.9390770053222594,
+        "tool_vs_reasoning": 0.9366342814783258,
+        "tool_vs_narrative": 0.9938382461109794,
+        "tool_vs_instruction": 0.99051204971055,
+        "retrieval_vs_analogy": 0.9886355320385121,
+        "retrieval_vs_reasoning": 0.9865644784508193,
+        "retrieval_vs_narrative": 0.914945996478249,
+        "retrieval_vs_instruction": 0.8990916385968182,
+        "analogy_vs_reasoning": 0.9857665949200504,
+        "analogy_vs_narrative": 0.9140383782121229,
+        "analogy_vs_instruction": 0.8981911981172387,
+        "reasoning_vs_narrative": 0.9114767006353451,
+        "reasoning_vs_instruction": 0.8936161213376796,
+        "narrative_vs_instruction": 0.9969458077689758
+      },
+      "overlap_by_band": {
+        "shared": {
+          "n_dirs": 8,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "lambda": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "arithmetic": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "coding": {
+              "pure": 0.328125,
+              "lambda": 0.328125,
+              "arithmetic": 0.328125,
+              "coding": 1.0,
+              "tool": 0.328125,
+              "retrieval": 1.0,
+              "analogy": 0.328125,
+              "reasoning": 0.328125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "tool": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "retrieval": {
+              "pure": 0.328125,
+              "lambda": 0.328125,
+              "arithmetic": 0.328125,
+              "coding": 1.0,
+              "tool": 0.328125,
+              "retrieval": 1.0,
+              "analogy": 0.328125,
+              "reasoning": 0.328125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "analogy": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "reasoning": {
+              "pure": 1.0,
+              "lambda": 1.0,
+              "arithmetic": 1.0,
+              "coding": 0.328125,
+              "tool": 1.0,
+              "retrieval": 0.328125,
+              "analogy": 1.0,
+              "reasoning": 1.0,
+              "narrative": 0.328125,
+              "instruction": 0.328125
+            },
+            "narrative": {
+              "pure": 0.328125,
+              "lambda": 0.328125,
+              "arithmetic": 0.328125,
+              "coding": 1.0,
+              "tool": 0.328125,
+              "retrieval": 1.0,
+              "analogy": 0.328125,
+              "reasoning": 0.328125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            },
+            "instruction": {
+              "pure": 0.328125,
+              "lambda": 0.328125,
+              "arithmetic": 0.328125,
+              "coding": 1.0,
+              "tool": 0.328125,
+              "retrieval": 1.0,
+              "analogy": 0.328125,
+              "reasoning": 0.328125,
+              "narrative": 1.0,
+              "instruction": 1.0
+            }
+          }
+        },
+        "mid_low": {
+          "n_dirs": 41,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.4984375,
+              "arithmetic": 0.617919921875,
+              "coding": 0.50419921875,
+              "tool": 0.569287109375,
+              "retrieval": 0.55517578125,
+              "analogy": 0.578955078125,
+              "reasoning": 0.5591796875,
+              "narrative": 0.498876953125,
+              "instruction": 0.4947265625
+            },
+            "lambda": {
+              "pure": 0.4984375,
+              "lambda": 1.0,
+              "arithmetic": 0.563037109375,
+              "coding": 0.50263671875,
+              "tool": 0.561279296875,
+              "retrieval": 0.555859375,
+              "analogy": 0.497998046875,
+              "reasoning": 0.5587890625,
+              "narrative": 0.501123046875,
+              "instruction": 0.5015625
+            },
+            "arithmetic": {
+              "pure": 0.617919921875,
+              "lambda": 0.563037109375,
+              "arithmetic": 1.0,
+              "coding": 0.505419921875,
+              "tool": 0.4962890625,
+              "retrieval": 0.563427734375,
+              "analogy": 0.55654296875,
+              "reasoning": 0.630615234375,
+              "narrative": 0.57177734375,
+              "instruction": 0.511279296875
+            },
+            "coding": {
+              "pure": 0.50419921875,
+              "lambda": 0.50263671875,
+              "arithmetic": 0.505419921875,
+              "coding": 1.0,
+              "tool": 0.490087890625,
+              "retrieval": 0.50888671875,
+              "analogy": 0.481982421875,
+              "reasoning": 0.50556640625,
+              "narrative": 0.492138671875,
+              "instruction": 0.4888671875
+            },
+            "tool": {
+              "pure": 0.569287109375,
+              "lambda": 0.561279296875,
+              "arithmetic": 0.4962890625,
+              "coding": 0.490087890625,
+              "tool": 1.0,
+              "retrieval": 0.564990234375,
+              "analogy": 0.5748046875,
+              "reasoning": 0.500927734375,
+              "narrative": 0.55771484375,
+              "instruction": 0.625146484375
+            },
+            "retrieval": {
+              "pure": 0.55517578125,
+              "lambda": 0.555859375,
+              "arithmetic": 0.563427734375,
+              "coding": 0.50888671875,
+              "tool": 0.564990234375,
+              "retrieval": 1.0,
+              "analogy": 0.572509765625,
+              "reasoning": 0.6220703125,
+              "narrative": 0.500244140625,
+              "instruction": 0.496875
+            },
+            "analogy": {
+              "pure": 0.578955078125,
+              "lambda": 0.497998046875,
+              "arithmetic": 0.55654296875,
+              "coding": 0.481982421875,
+              "tool": 0.5748046875,
+              "retrieval": 0.572509765625,
+              "analogy": 1.0,
+              "reasoning": 0.559326171875,
+              "narrative": 0.49326171875,
+              "instruction": 0.554345703125
+            },
+            "reasoning": {
+              "pure": 0.5591796875,
+              "lambda": 0.5587890625,
+              "arithmetic": 0.630615234375,
+              "coding": 0.50556640625,
+              "tool": 0.500927734375,
+              "retrieval": 0.6220703125,
+              "analogy": 0.559326171875,
+              "reasoning": 1.0,
+              "narrative": 0.522705078125,
+              "instruction": 0.57216796875
+            },
+            "narrative": {
+              "pure": 0.498876953125,
+              "lambda": 0.501123046875,
+              "arithmetic": 0.57177734375,
+              "coding": 0.492138671875,
+              "tool": 0.55771484375,
+              "retrieval": 0.500244140625,
+              "analogy": 0.49326171875,
+              "reasoning": 0.522705078125,
+              "narrative": 1.0,
+              "instruction": 0.635205078125
+            },
+            "instruction": {
+              "pure": 0.4947265625,
+              "lambda": 0.5015625,
+              "arithmetic": 0.511279296875,
+              "coding": 0.4888671875,
+              "tool": 0.625146484375,
+              "retrieval": 0.496875,
+              "analogy": 0.554345703125,
+              "reasoning": 0.57216796875,
+              "narrative": 0.635205078125,
+              "instruction": 1.0
+            }
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 26,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.6053125,
+              "arithmetic": 0.4996875,
+              "coding": 0.50671875,
+              "tool": 0.50453125,
+              "retrieval": 0.50796875,
+              "analogy": 0.501015625,
+              "reasoning": 0.503125,
+              "narrative": 0.498125,
+              "instruction": 0.501015625
+            },
+            "lambda": {
+              "pure": 0.6053125,
+              "lambda": 1.0,
+              "arithmetic": 0.68375,
+              "coding": 0.69828125,
+              "tool": 0.575,
+              "retrieval": 0.57890625,
+              "analogy": 0.696953125,
+              "reasoning": 0.4940625,
+              "narrative": 0.50453125,
+              "instruction": 0.506015625
+            },
+            "arithmetic": {
+              "pure": 0.4996875,
+              "lambda": 0.68375,
+              "arithmetic": 1.0,
+              "coding": 0.6971875,
+              "tool": 0.68796875,
+              "retrieval": 0.59109375,
+              "analogy": 0.488828125,
+              "reasoning": 0.59265625,
+              "narrative": 0.49703125,
+              "instruction": 0.506015625
+            },
+            "coding": {
+              "pure": 0.50671875,
+              "lambda": 0.69828125,
+              "arithmetic": 0.6971875,
+              "coding": 1.0,
+              "tool": 0.59046875,
+              "retrieval": 0.58703125,
+              "analogy": 0.499765625,
+              "reasoning": 0.49453125,
+              "narrative": 0.49203125,
+              "instruction": 0.490390625
+            },
+            "tool": {
+              "pure": 0.50453125,
+              "lambda": 0.575,
+              "arithmetic": 0.68796875,
+              "coding": 0.59046875,
+              "tool": 1.0,
+              "retrieval": 0.903125,
+              "analogy": 0.475234375,
+              "reasoning": 0.7,
+              "narrative": 0.60859375,
+              "instruction": 0.601015625
+            },
+            "retrieval": {
+              "pure": 0.50796875,
+              "lambda": 0.57890625,
+              "arithmetic": 0.59109375,
+              "coding": 0.58703125,
+              "tool": 0.903125,
+              "retrieval": 1.0,
+              "analogy": 0.479140625,
+              "reasoning": 0.696875,
+              "narrative": 0.60546875,
+              "instruction": 0.597890625
+            },
+            "analogy": {
+              "pure": 0.501015625,
+              "lambda": 0.696953125,
+              "arithmetic": 0.488828125,
+              "coding": 0.499765625,
+              "tool": 0.475234375,
+              "retrieval": 0.479140625,
+              "analogy": 1.0,
+              "reasoning": 0.495390625,
+              "narrative": 0.500703125,
+              "instruction": 0.5021875
+            },
+            "reasoning": {
+              "pure": 0.503125,
+              "lambda": 0.4940625,
+              "arithmetic": 0.59265625,
+              "coding": 0.49453125,
+              "tool": 0.7,
+              "retrieval": 0.696875,
+              "analogy": 0.495390625,
+              "reasoning": 1.0,
+              "narrative": 0.69640625,
+              "instruction": 0.705390625
+            },
+            "narrative": {
+              "pure": 0.498125,
+              "lambda": 0.50453125,
+              "arithmetic": 0.49703125,
+              "coding": 0.49203125,
+              "tool": 0.60859375,
+              "retrieval": 0.60546875,
+              "analogy": 0.500703125,
+              "reasoning": 0.69640625,
+              "narrative": 1.0,
+              "instruction": 0.901640625
+            },
+            "instruction": {
+              "pure": 0.501015625,
+              "lambda": 0.506015625,
+              "arithmetic": 0.506015625,
+              "coding": 0.490390625,
+              "tool": 0.601015625,
+              "retrieval": 0.597890625,
+              "analogy": 0.5021875,
+              "reasoning": 0.705390625,
+              "narrative": 0.901640625,
+              "instruction": 1.0
+            }
+          }
+        },
+        "transition": {
+          "n_dirs": 26,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.69078125,
+              "arithmetic": 0.608984375,
+              "coding": 0.502890625,
+              "tool": 0.70890625,
+              "retrieval": 0.492734375,
+              "analogy": 0.61078125,
+              "reasoning": 0.59234375,
+              "narrative": 0.70875,
+              "instruction": 0.508984375
+            },
+            "lambda": {
+              "pure": 0.69078125,
+              "lambda": 1.0,
+              "arithmetic": 0.703828125,
+              "coding": 0.508671875,
+              "tool": 0.71125,
+              "retrieval": 0.484609375,
+              "analogy": 0.60796875,
+              "reasoning": 0.498125,
+              "narrative": 0.5021875,
+              "instruction": 0.501484375
+            },
+            "arithmetic": {
+              "pure": 0.608984375,
+              "lambda": 0.703828125,
+              "arithmetic": 1.0,
+              "coding": 0.5003125,
+              "tool": 0.597265625,
+              "retrieval": 0.59046875,
+              "analogy": 0.605859375,
+              "reasoning": 0.499296875,
+              "narrative": 0.510234375,
+              "instruction": 0.486875
+            },
+            "coding": {
+              "pure": 0.502890625,
+              "lambda": 0.508671875,
+              "arithmetic": 0.5003125,
+              "coding": 1.0,
+              "tool": 0.598515625,
+              "retrieval": 0.6003125,
+              "analogy": 0.501796875,
+              "reasoning": 0.501484375,
+              "narrative": 0.586796875,
+              "instruction": 0.595
+            },
+            "tool": {
+              "pure": 0.70890625,
+              "lambda": 0.71125,
+              "arithmetic": 0.597265625,
+              "coding": 0.598515625,
+              "tool": 1.0,
+              "retrieval": 0.497109375,
+              "analogy": 0.6115625,
+              "reasoning": 0.50125,
+              "narrative": 0.69265625,
+              "instruction": 0.599921875
+            },
+            "retrieval": {
+              "pure": 0.492734375,
+              "lambda": 0.484609375,
+              "arithmetic": 0.59046875,
+              "coding": 0.6003125,
+              "tool": 0.497109375,
+              "retrieval": 1.0,
+              "analogy": 0.490546875,
+              "reasoning": 0.592265625,
+              "narrative": 0.506171875,
+              "instruction": 0.693125
+            },
+            "analogy": {
+              "pure": 0.61078125,
+              "lambda": 0.60796875,
+              "arithmetic": 0.605859375,
+              "coding": 0.501796875,
+              "tool": 0.6115625,
+              "retrieval": 0.490546875,
+              "analogy": 1.0,
+              "reasoning": 0.59609375,
+              "narrative": 0.51046875,
+              "instruction": 0.502265625
+            },
+            "reasoning": {
+              "pure": 0.59234375,
+              "lambda": 0.498125,
+              "arithmetic": 0.499296875,
+              "coding": 0.501484375,
+              "tool": 0.50125,
+              "retrieval": 0.592265625,
+              "analogy": 0.59609375,
+              "reasoning": 1.0,
+              "narrative": 0.6015625,
+              "instruction": 0.605078125
+            },
+            "narrative": {
+              "pure": 0.70875,
+              "lambda": 0.5021875,
+              "arithmetic": 0.510234375,
+              "coding": 0.586796875,
+              "tool": 0.69265625,
+              "retrieval": 0.506171875,
+              "analogy": 0.51046875,
+              "reasoning": 0.6015625,
+              "narrative": 1.0,
+              "instruction": 0.610234375
+            },
+            "instruction": {
+              "pure": 0.508984375,
+              "lambda": 0.501484375,
+              "arithmetic": 0.486875,
+              "coding": 0.595,
+              "tool": 0.599921875,
+              "retrieval": 0.693125,
+              "analogy": 0.502265625,
+              "reasoning": 0.605078125,
+              "narrative": 0.610234375,
+              "instruction": 1.0
+            }
+          }
+        },
+        "holographic": {
+          "n_dirs": 39,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5670758928571429,
+              "arithmetic": 0.5063616071428572,
+              "coding": 0.5002790178571429,
+              "tool": 0.576953125,
+              "retrieval": 0.49575892857142856,
+              "analogy": 0.4811383928571429,
+              "reasoning": 0.4922433035714286,
+              "narrative": 0.5009486607142857,
+              "instruction": 0.4915736607142857
+            },
+            "lambda": {
+              "pure": 0.5670758928571429,
+              "lambda": 1.0,
+              "arithmetic": 0.49832589285714285,
+              "coding": 0.5694754464285714,
+              "tool": 0.5739397321428571,
+              "retrieval": 0.6436383928571429,
+              "analogy": 0.5061383928571429,
+              "reasoning": 0.6352120535714286,
+              "narrative": 0.573046875,
+              "instruction": 0.5023995535714286
+            },
+            "arithmetic": {
+              "pure": 0.5063616071428572,
+              "lambda": 0.49832589285714285,
+              "arithmetic": 1.0,
+              "coding": 0.5670200892857142,
+              "tool": 0.5054129464285714,
+              "retrieval": 0.5651785714285714,
+              "analogy": 0.5055803571428571,
+              "reasoning": 0.5830915178571429,
+              "narrative": 0.5017299107142857,
+              "instruction": 0.5709263392857142
+            },
+            "coding": {
+              "pure": 0.5002790178571429,
+              "lambda": 0.5694754464285714,
+              "arithmetic": 0.5670200892857142,
+              "coding": 1.0,
+              "tool": 0.5703125,
+              "retrieval": 0.5609933035714286,
+              "analogy": 0.5737165178571428,
+              "reasoning": 0.4963169642857143,
+              "narrative": 0.5604910714285715,
+              "instruction": 0.49129464285714286
+            },
+            "tool": {
+              "pure": 0.576953125,
+              "lambda": 0.5739397321428571,
+              "arithmetic": 0.5054129464285714,
+              "coding": 0.5703125,
+              "tool": 1.0,
+              "retrieval": 0.6474888392857143,
+              "analogy": 0.501953125,
+              "reasoning": 0.5027901785714286,
+              "narrative": 0.6422991071428571,
+              "instruction": 0.49888392857142855
+            },
+            "retrieval": {
+              "pure": 0.49575892857142856,
+              "lambda": 0.6436383928571429,
+              "arithmetic": 0.5651785714285714,
+              "coding": 0.5609933035714286,
+              "tool": 0.6474888392857143,
+              "retrieval": 1.0,
+              "analogy": 0.5049107142857143,
+              "reasoning": 0.5758370535714286,
+              "narrative": 0.639453125,
+              "instruction": 0.499609375
+            },
+            "analogy": {
+              "pure": 0.4811383928571429,
+              "lambda": 0.5061383928571429,
+              "arithmetic": 0.5055803571428571,
+              "coding": 0.5737165178571428,
+              "tool": 0.501953125,
+              "retrieval": 0.5049107142857143,
+              "analogy": 1.0,
+              "reasoning": 0.6383370535714286,
+              "narrative": 0.5680245535714286,
+              "instruction": 0.6384486607142857
+            },
+            "reasoning": {
+              "pure": 0.4922433035714286,
+              "lambda": 0.6352120535714286,
+              "arithmetic": 0.5830915178571429,
+              "coding": 0.4963169642857143,
+              "tool": 0.5027901785714286,
+              "retrieval": 0.5758370535714286,
+              "analogy": 0.6383370535714286,
+              "reasoning": 1.0,
+              "narrative": 0.49988839285714287,
+              "instruction": 0.49888392857142855
+            },
+            "narrative": {
+              "pure": 0.5009486607142857,
+              "lambda": 0.573046875,
+              "arithmetic": 0.5017299107142857,
+              "coding": 0.5604910714285715,
+              "tool": 0.6422991071428571,
+              "retrieval": 0.639453125,
+              "analogy": 0.5680245535714286,
+              "reasoning": 0.49988839285714287,
+              "narrative": 1.0,
+              "instruction": 0.7188616071428572
+            },
+            "instruction": {
+              "pure": 0.4915736607142857,
+              "lambda": 0.5023995535714286,
+              "arithmetic": 0.5709263392857142,
+              "coding": 0.49129464285714286,
+              "tool": 0.49888392857142855,
+              "retrieval": 0.499609375,
+              "analogy": 0.6384486607142857,
+              "reasoning": 0.49888392857142855,
+              "narrative": 0.7188616071428572,
+              "instruction": 1.0
+            }
+          }
+        },
+        "peripheral": {
+          "n_dirs": 58,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5892045454545455,
+              "arithmetic": 0.4998934659090909,
+              "coding": 0.5872869318181818,
+              "tool": 0.540625,
+              "retrieval": 0.5423650568181818,
+              "analogy": 0.4992542613636364,
+              "reasoning": 0.495703125,
+              "narrative": 0.49985795454545456,
+              "instruction": 0.49595170454545456
+            },
+            "lambda": {
+              "pure": 0.5892045454545455,
+              "lambda": 1.0,
+              "arithmetic": 0.6389559659090909,
+              "coding": 0.4973011363636364,
+              "tool": 0.6823863636363636,
+              "retrieval": 0.5546519886363637,
+              "analogy": 0.5931463068181818,
+              "reasoning": 0.5936434659090909,
+              "narrative": 0.5892755681818181,
+              "instruction": 0.5370028409090909
+            },
+            "arithmetic": {
+              "pure": 0.4998934659090909,
+              "lambda": 0.6389559659090909,
+              "arithmetic": 1.0,
+              "coding": 0.49719460227272727,
+              "tool": 0.5892400568181818,
+              "retrieval": 0.6453835227272727,
+              "analogy": 0.5410511363636363,
+              "reasoning": 0.5862215909090909,
+              "narrative": 0.5862571022727273,
+              "instruction": 0.49889914772727273
+            },
+            "coding": {
+              "pure": 0.5872869318181818,
+              "lambda": 0.4973011363636364,
+              "arithmetic": 0.49719460227272727,
+              "coding": 1.0,
+              "tool": 0.49978693181818185,
+              "retrieval": 0.5435014204545454,
+              "analogy": 0.49769176136363635,
+              "reasoning": 0.5396661931818182,
+              "narrative": 0.49467329545454547,
+              "instruction": 0.49367897727272725
+            },
+            "tool": {
+              "pure": 0.540625,
+              "lambda": 0.6823863636363636,
+              "arithmetic": 0.5892400568181818,
+              "coding": 0.49978693181818185,
+              "tool": 1.0,
+              "retrieval": 0.5430752840909091,
+              "analogy": 0.587890625,
+              "reasoning": 0.6378196022727273,
+              "narrative": 0.6383522727272727,
+              "instruction": 0.5409801136363637
+            },
+            "retrieval": {
+              "pure": 0.5423650568181818,
+              "lambda": 0.5546519886363637,
+              "arithmetic": 0.6453835227272727,
+              "coding": 0.5435014204545454,
+              "tool": 0.5430752840909091,
+              "retrieval": 1.0,
+              "analogy": 0.5426136363636364,
+              "reasoning": 0.5935369318181818,
+              "narrative": 0.505859375,
+              "instruction": 0.49399857954545456
+            },
+            "analogy": {
+              "pure": 0.4992542613636364,
+              "lambda": 0.5931463068181818,
+              "arithmetic": 0.5410511363636363,
+              "coding": 0.49769176136363635,
+              "tool": 0.587890625,
+              "retrieval": 0.5426136363636364,
+              "analogy": 1.0,
+              "reasoning": 0.5873579545454546,
+              "narrative": 0.586612215909091,
+              "instruction": 0.5447798295454546
+            },
+            "reasoning": {
+              "pure": 0.495703125,
+              "lambda": 0.5936434659090909,
+              "arithmetic": 0.5862215909090909,
+              "coding": 0.5396661931818182,
+              "tool": 0.6378196022727273,
+              "retrieval": 0.5935369318181818,
+              "analogy": 0.5873579545454546,
+              "reasoning": 1.0,
+              "narrative": 0.5462713068181818,
+              "instruction": 0.5434303977272728
+            },
+            "narrative": {
+              "pure": 0.49985795454545456,
+              "lambda": 0.5892755681818181,
+              "arithmetic": 0.5862571022727273,
+              "coding": 0.49467329545454547,
+              "tool": 0.6383522727272727,
+              "retrieval": 0.505859375,
+              "analogy": 0.586612215909091,
+              "reasoning": 0.5462713068181818,
+              "narrative": 1.0,
+              "instruction": 0.5868607954545455
+            },
+            "instruction": {
+              "pure": 0.49595170454545456,
+              "lambda": 0.5370028409090909,
+              "arithmetic": 0.49889914772727273,
+              "coding": 0.49367897727272725,
+              "tool": 0.5409801136363637,
+              "retrieval": 0.49399857954545456,
+              "analogy": 0.5447798295454546,
+              "reasoning": 0.5434303977272728,
+              "narrative": 0.5868607954545455,
+              "instruction": 1.0
+            }
+          }
+        },
+        "private": {
+          "n_dirs": 58,
+          "matrix": {
+            "pure": {
+              "pure": 1.0,
+              "lambda": 0.5881747159090909,
+              "arithmetic": 0.5849076704545455,
+              "coding": 0.5393821022727273,
+              "tool": 0.609765625,
+              "retrieval": 0.6342684659090909,
+              "analogy": 0.6378196022727273,
+              "reasoning": 0.5862571022727273,
+              "narrative": 0.5924360795454545,
+              "instruction": 0.6056818181818182
+            },
+            "lambda": {
+              "pure": 0.5881747159090909,
+              "lambda": 1.0,
+              "arithmetic": 0.6356534090909091,
+              "coding": 0.5501420454545455,
+              "tool": 0.5691051136363636,
+              "retrieval": 0.67890625,
+              "analogy": 0.5987926136363636,
+              "reasoning": 0.6412642045454545,
+              "narrative": 0.5961647727272728,
+              "instruction": 0.5818536931818182
+            },
+            "arithmetic": {
+              "pure": 0.5849076704545455,
+              "lambda": 0.6356534090909091,
+              "arithmetic": 1.0,
+              "coding": 0.49140625,
+              "tool": 0.5946022727272727,
+              "retrieval": 0.7311079545454545,
+              "analogy": 0.5873579545454546,
+              "reasoning": 0.6013494318181818,
+              "narrative": 0.5878551136363637,
+              "instruction": 0.5974076704545455
+            },
+            "coding": {
+              "pure": 0.5393821022727273,
+              "lambda": 0.5501420454545455,
+              "arithmetic": 0.49140625,
+              "coding": 1.0,
+              "tool": 0.5069602272727273,
+              "retrieval": 0.4870738636363636,
+              "analogy": 0.5005681818181819,
+              "reasoning": 0.48401988636363635,
+              "narrative": 0.4940340909090909,
+              "instruction": 0.5057883522727272
+            },
+            "tool": {
+              "pure": 0.609765625,
+              "lambda": 0.5691051136363636,
+              "arithmetic": 0.5946022727272727,
+              "coding": 0.5069602272727273,
+              "tool": 1.0,
+              "retrieval": 0.5849431818181818,
+              "analogy": 0.6344460227272727,
+              "reasoning": 0.6208806818181818,
+              "narrative": 0.6759943181818182,
+              "instruction": 0.7787997159090909
+            },
+            "retrieval": {
+              "pure": 0.6342684659090909,
+              "lambda": 0.67890625,
+              "arithmetic": 0.7311079545454545,
+              "coding": 0.4870738636363636,
+              "tool": 0.5849431818181818,
+              "retrieval": 1.0,
+              "analogy": 0.6025568181818182,
+              "reasoning": 0.5860085227272728,
+              "narrative": 0.5799715909090909,
+              "instruction": 0.5862571022727273
+            },
+            "analogy": {
+              "pure": 0.6378196022727273,
+              "lambda": 0.5987926136363636,
+              "arithmetic": 0.5873579545454546,
+              "coding": 0.5005681818181819,
+              "tool": 0.6344460227272727,
+              "retrieval": 0.6025568181818182,
+              "analogy": 1.0,
+              "reasoning": 0.6449573863636363,
+              "narrative": 0.6321022727272727,
+              "instruction": 0.6290838068181818
+            },
+            "reasoning": {
+              "pure": 0.5862571022727273,
+              "lambda": 0.6412642045454545,
+              "arithmetic": 0.6013494318181818,
+              "coding": 0.48401988636363635,
+              "tool": 0.6208806818181818,
+              "retrieval": 0.5860085227272728,
+              "analogy": 0.6449573863636363,
+              "reasoning": 1.0,
+              "narrative": 0.7686789772727273,
+              "instruction": 0.6271661931818182
+            },
+            "narrative": {
+              "pure": 0.5924360795454545,
+              "lambda": 0.5961647727272728,
+              "arithmetic": 0.5878551136363637,
+              "coding": 0.4940340909090909,
+              "tool": 0.6759943181818182,
+              "retrieval": 0.5799715909090909,
+              "analogy": 0.6321022727272727,
+              "reasoning": 0.7686789772727273,
+              "narrative": 1.0,
+              "instruction": 0.813174715909091
+            },
+            "instruction": {
+              "pure": 0.6056818181818182,
+              "lambda": 0.5818536931818182,
+              "arithmetic": 0.5974076704545455,
+              "coding": 0.5057883522727272,
+              "tool": 0.7787997159090909,
+              "retrieval": 0.5862571022727273,
+              "analogy": 0.6290838068181818,
+              "reasoning": 0.6271661931818182,
+              "narrative": 0.813174715909091,
+              "instruction": 1.0
+            }
+          }
+        }
+      },
+      "clusters_by_band": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "lambda",
+              "pure",
+              "reasoning",
+              "tool"
+            ],
+            [
+              "coding",
+              "instruction",
+              "narrative",
+              "retrieval"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ],
+            [
+              "coding"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "analogy",
+              "arithmetic",
+              "coding",
+              "instruction",
+              "lambda",
+              "narrative",
+              "pure",
+              "reasoning",
+              "retrieval",
+              "tool"
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 38.764227867126465
+}
