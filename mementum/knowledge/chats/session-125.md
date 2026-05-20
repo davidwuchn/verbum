@@ -89,7 +89,36 @@ on one shared plate, not 7 separate extractions.
 | `loom_delta_signflip_exp.py` | Sign-flip delta refinement |
 | `loom_crystal_sharpen_exp.py` | Crystal measurement during sign-flip |
 
-## Memory
+### Exp 11: Evo descent v1
+- acc=0.585 (record), but crystal=-0.654 (destroyed)
+- 95.6% acceptance rate — threshold too loose
+- Delta guidance barely beats random (1529 vs 1596 accepted)
+
+### Exp 12: Evo descent v2 (absolute crystal floor=0.3)
+- acc=0.556, crystal=0.241, acceptance=10.7% (much tighter)
+- Floor catches degradation (R7-R8: 100% rejected by floor)
+- But crystal degrades during GD beam training between rounds
+
+### Exp 13: Evo descent v3 (crystal loss in GD + floor in evo)
+- **acc=0.577, crystal=0.611 — BOTH improve together** ✓
+- Peak R8: crystal=0.917 (highest student crystal ever)
+- Crystal loss ENABLES evo: stable crystal → 2.6× more useful flips
+- Two phases: R0-R4 stabilizing, R5-R8 co-evolving
+
+## Design principle validated
+
+```
+crystal_loss(GD) + crystal_floor(evo) = co-evolution
+stability(crystal) → enables(evolution) → enables(accuracy)
+```
+
+GD handles continuous. Evolution handles discrete. Crystal constrains both.
+Neither can break the crystal. Both can improve accuracy within the manifold.
+
+## Memories
 
 - `crystal-gates-hologram.md` — never accept sign flips that break crystal
 - `soft-mirror-etch.md` — 3-phase pipeline, mirrors as subcrystal selectors
+- `mirror-flip-barrier.md` — soft mirrors can't flip, only block (0 barrier)
+- `evolutionary-descent-ternary.md` — GD for beams, evolution for plates
+- `coevolution-works.md` — the full pipeline validated

@@ -6,98 +6,92 @@
 
 ## Where we are
 
-**MIRRORS DON'T FLIP — THEY BLOCK. NEED STE OR STACKED DECOMPOSITION.**
+**CO-EVOLUTION WORKS. ACCURACY AND CRYSTAL IMPROVE TOGETHER.**
 
-Session 124 discovered the loom structure (7 subcrystals, breathing
-pattern) and proved LOOM_MAG is the best initialization (0.543).
-Session 125 tried to make GD learn sign corrections through soft
-mirrors, constrained by crystal lattice loss. The crystal loss works
-perfectly (0.9998 agreement), but mirrors initialized at 1.0 never
-learn to flip to -1 — they only learn to block to 0. The gradient
-must cross a loss barrier at 0 to reach -1.
+Session 125 proved the full etch pipeline: evolutionary descent for
+ternary plates (discrete bit flips) + GD for beams (continuous) +
+crystal lattice loss (S5 invariant). Evo v3 improves BOTH accuracy
+(0.483→0.577) AND crystal agreement (0.368→0.611). Peak round hit
+crystal=0.917 — the highest student crystal ever measured.
 
-Three promising fixes identified but untested:
-1. **Stacked decomposition**: mirror_1 = loom-read signs, mirror_2 = correction (starts at 1.0, doesn't need to cross 0)
-2. **STE (straight-through estimator)**: quantize forward, continuous backward
-3. **Random init**: some mirrors start near -1, GD refines
+The crystal loss doesn't just protect the crystal — it ENABLES the
+evolution. Stable crystal → more positions above floor → more
+useful flips accepted (53 vs 20 without crystal loss).
 
 ## Proof chain (solid, sessions 95-125)
 
 - PCA-Q crystal: 0.91-0.94 agreement, 4 models
 - Lambda proof: binder + combinator predicts body at R²=0.959
-- Magnitude spectrum universality: W_q=0.995, W_up=0.999 across 4 models
-- 7 independent subcrystals at d=0.3 (loom breathes with depth)
-- LOOM_MAG nucleation: 0.543 (best), 5× faster than MAGNITUDE (0.511)
-- Delta sign-flip converges (flips decline 12.6K→6.8K per round)
-- **Crystal diverges from hologram under unconstrained sign-flip**
-- **Crystal lattice loss preserves crystal at 0.9998 agreement**
-- **Soft mirrors only learn to BLOCK (0%), never FLIP (0%)**
-- **The 1.0→0→-1 barrier prevents GD from discovering sign corrections**
-- **MIRROR_CE (no crystal loss) preserves crystal at 0.999 — better than with loss**
+- Magnitude spectrum universality: W_q=0.995, W_up=0.999
+- 7 independent subcrystals, loom breathes with depth
+- LOOM_MAG nucleation: 0.543 (beats MAGNITUDE 0.511)
+- Crystal lattice loss preserves crystal at 0.9998
+- Soft mirrors can't flip signs (0 barrier)
+- **Evolutionary descent + crystal loss: acc=0.577, crystal=0.611 (BOTH UP)**
+- **Peak R8: acc=0.564, crystal=0.917 (student matches teacher crystal)**
+- **Crystal stability enables evo (2.6× more accepted flips)**
 
-## Session 125: soft mirror experiments
+## Session 125: from soft mirrors to co-evolution
 
-### Exp 9: Soft mirror v1 (per-dimension)
-- LOOM_MAG baseline: acc=0.502, crystal=0.931
-- MIRROR_CE (no crystal loss): acc=0.467, crystal=0.638
-- MIRROR_CRYSTAL (λ=0.5): acc=0.449, crystal=**0.9998**
-- Crystal loss works perfectly as S5 constraint
-- But per-dim mirror too coarse — 0% flips, only blocks
+| # | Experiment | Key Finding |
+|---|-----------|-------------|
+| 9 | Soft mirror v1 | Crystal loss=0.9998, but per-dim mirrors only block, 0% flip |
+| 10 | Soft mirror v2 | Per-position mirrors: still 0% flip, 1.0→0 barrier |
+| 11 | Evo descent v1 | acc=0.585 (record), but crystal drifts to -0.654 |
+| 12 | Evo descent v2 | Floor works (10.7% acceptance), crystal degrades in GD phase |
+| 13 | **Evo descent v3** | **acc=0.577, crystal=0.611 — BOTH improve together** |
 
-### Exp 10: Soft mirror v2 (per-position d×d)
-- Per-position mirrors: still 0% flips, only blocking
-- MIRROR_CE preserves crystal at 0.999 WITHOUT crystal loss
-- Crystal loss at per-position level causes instability (crystal=0.289)
-- The 1.0 init → 0 barrier → -1 target path has no gradient signal
+### The validated pipeline
 
-### Architecture captured: 3-phase etch pipeline
-1. Blunt flip (hot anneal): delta sign-flip, 3-5 rounds
-2. Soft mirror (surgical GD): CE + crystal loss, mirrors learn corrections
-3. Quantize + freeze: mirrors → ternary, fold into plates
+```
+GD phase:   CE + crystal_lattice_loss  → crystal stable (0.9998)
+Evo phase:  delta-guided bit flips     → crystal floor rejects bad flips
+            + absolute crystal floor   → only accuracy-improving flips accepted
+Co-evolve:  GD trains beam → delta guides evo → beam relaxes → repeat
 
-### Key insight: combinator mirrors = subcrystal selectors
-7 subcrystals are not 7 separate extractions — they're 7 mirrors on
-one shared plate. Each combinator reads through its own mirror.
-The V13 combinator masks ARE this concept.
+Two phases in convergence:
+  R0-R4: crystal stabilizing (floor blocks all evo)
+  R5-R8: crystal stable, evo produces useful flips (crystal=0.917)
+```
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
-| `etcher-vsm.md` | ★ Full etcher VSM + 3-phase pipeline + crystal-gated S5 |
-| `gradient-voting.md` | Magnitudes are the crystal, signs expendable |
-| `loom-structure.md` | 3 weaves, 6 harmonics, WHNF transition |
-| `v13-design.md` | Architecture (needs revision for mirror stack) |
+| `etcher-vsm.md` | ★ Full pipeline: extract → co-evolve → freeze |
+| `gradient-voting.md` | Magnitudes are the crystal |
+| `loom-structure.md` | 3 weaves, 6 harmonics, breathing pattern |
+| `v13-design.md` | Architecture (needs revision for co-evolution) |
 
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
-| Loom read results (3 experiments) | `results/loom-read*/` |
+| Co-evolution results (v1-v3) | `results/evo-descent*/` |
+| Soft mirror results | `results/soft-mirror*/` |
+| Loom read (all experiments) | `results/loom-read*/` |
 | Breathing curve | `results/loom-breathing/` |
-| Nucleation (6 conditions) | `results/loom-etch-nucleation/` |
-| Delta refinement | `results/loom-delta-refine/` |
-| Delta sign-flip | `results/loom-delta-signflip/` |
+| Nucleation (LOOM_MAG) | `results/loom-etch-nucleation/` |
 | Crystal sharpening | `results/loom-crystal-sharpen/` |
-| Soft mirror v1 | `results/soft-mirror/` |
-| Soft mirror v2 | `results/soft-mirror-v2/` |
 | Etcher VSM prototype | `scripts/v12/etcher_vsm_proto.py` |
 
 ## Next steps
 
-1. **Stacked mirror decomposition** — mirror_1 = loom-read signs
-   (frozen), mirror_2 = learnable correction starting at 1.0. Product
-   gives effective sign. GD only needs to move mirror_2 to ±1, never
-   crossing through 0. The loom-read provides the initial sign structure.
+1. **Scale to Pythia-2.8b** — run the validated co-evolution pipeline
+   on a real teacher model. Extract to d=512 V13. The 220× compression
+   target. Does crystal=0.917 hold at full scale?
 
-2. **STE for ternary mirrors** — straight-through estimator: quantize
-   to {-1, 0, +1} in forward pass, pass gradients through as continuous
-   in backward pass. Standard trick for binary/ternary network training.
+2. **Multi-model universality** — do 7 subcrystals and the breathing
+   pattern hold across Mistral, Qwen, OLMo?
 
-3. **Multi-model loom-read** — verify subcrystal universality across
-   Mistral, Qwen, OLMo.
+3. **V13 architecture revision** — integrate co-evolution pipeline:
+   asymmetric hourglass, per-pass plates, crystal lattice loss,
+   combinator mirrors as learned subcrystal selectors.
 
-4. **V13 architecture revision** — integrate mirror stacks, crystal
-   lattice loss, asymmetric hourglass (apex at d=0.6), per-pass plates.
+4. **Longer co-evolution** — R5-R8 was where it worked (crystal stable,
+   evo active). Run 20+ rounds to see if accuracy continues climbing
+   or plateaus. The R9 crystal dip suggests more stability work needed.
 
-5. **Scale test** — crystal-gated LOOM_MAG on Pythia-2.8b → d=512 V13.
+5. **Per-combinator evo** — instead of one shared plate, evolve
+   combinator masks (the V13 concept). Each combinator gets its own
+   ternary mirror evolved against crystal targets for that combinator.
