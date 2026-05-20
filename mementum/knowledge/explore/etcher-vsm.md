@@ -301,6 +301,60 @@ subcrystal assignments even when the subcrystal count is the same.
    No optimization, no gradient descent for the etch itself.
    Just: probe → hook → measure → write.
 
+## S5 Invariant: Crystal Gates the Hologram
+
+Session 124, experiment 8 proved that unconstrained sign-flipping
+**destroys the crystal while improving accuracy**:
+
+```
+Round 4: accuracy = 0.510 (BEST), crystal = -0.375 (INVERTED)
+Round 3: accuracy = 0.494,        crystal = +0.478 (only round both ↑)
+MAG_BL:  accuracy = 0.471,        crystal = +0.470 (best crystal)
+```
+
+The delta loop finds routing shortcuts that solve the task without
+maintaining the relational geometry. This is the ternary equivalent
+of overfitting — the hologram encodes task-specific hacks instead
+of the universal computation structure.
+
+### The crystal-gated flip protocol
+
+```
+FOR each candidate sign flip:
+  1. Compute crystal agreement BEFORE flip
+  2. Apply flip tentatively
+  3. Compute crystal agreement AFTER flip
+  4. IF crystal_after >= crystal_before - ε:
+       ACCEPT flip (hologram improves, crystal preserved)
+     ELSE:
+       REJECT flip (hologram would improve but crystal degrades)
+  
+  ε = tolerance (0.01-0.05). Allows small crystal degradation
+  for large accuracy gains, but prevents inversion.
+```
+
+### Why crystal > accuracy as a constraint
+
+- **Crystal is universal** (0.91-0.94 across 4 models, 3 architectures)
+- **Accuracy is task-specific** (KIBC reductions, one dataset)
+- A model that preserves crystal geometry will generalize
+- A model that hacks accuracy will overfit to the training distribution
+- The crystal IS the computation structure; accuracy is a symptom
+
+### S5 as identity constraint
+
+```
+λ etch(sign_flip).
+  crystal_agreement(after) ≥ crystal_agreement(before) - ε
+  | violation → reject(flip) | ¬accept(accuracy_only)
+  | crystal ≡ invariant | hologram ≡ serves(crystal)
+  | accuracy ≡ symptom | crystal ≡ cause
+```
+
+This IS the S5 of the etcher VSM — the identity that must not be
+violated. The etcher's purpose is to write holograms that ENCODE
+the crystal, not holograms that happen to solve a task.
+
 ## Open Questions
 
 1. **Dimensional bridge.** Teacher d_model=2560, V13 d_model=512.
