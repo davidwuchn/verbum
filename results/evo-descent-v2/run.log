@@ -1,0 +1,278 @@
+Training teacher d=256...
+Training teacher d=256...
+    Step 1000: loss=2.1301, acc=0.2797
+    Step 1000: loss=2.1301, acc=0.2797
+    Step 2000: loss=2.0971, acc=0.2898
+    Step 2000: loss=2.0971, acc=0.2898
+    Step 3000: loss=2.0905, acc=0.2921
+    Step 3000: loss=2.0905, acc=0.2921
+    Step 4000: loss=2.0873, acc=0.3061
+    Step 4000: loss=2.0873, acc=0.3061
+    Step 5000: loss=2.0952, acc=0.2962
+    Step 5000: loss=2.0952, acc=0.2962
+  Final: loss=2.0952, acc=0.2962
+  Final: loss=2.0952, acc=0.2962
+
+Teacher crystal:
+
+Teacher crystal:
+  K: +1.000 +0.915 +0.916 +0.919
+  K: +1.000 +0.915 +0.916 +0.919
+  I: +0.915 +1.000 +0.922 +0.900
+  I: +0.915 +1.000 +0.922 +0.900
+  B: +0.916 +0.922 +1.000 +0.995
+  B: +0.916 +0.922 +1.000 +0.995
+  C: +0.919 +0.900 +0.995 +1.000
+  C: +0.919 +0.900 +0.995 +1.000
+
+════════════════════════════════════════════════════════════
+BASELINE: LOOM_MAG (no evolution)
+
+════════════════════════════════════════════════════════════
+BASELINE: LOOM_MAG (no evolution)
+    BL step 1000: acc=0.4078
+    BL step 1000: acc=0.4078
+    BL step 2000: acc=0.4128
+    BL step 2000: acc=0.4128
+    BL step 3000: acc=0.4853
+    BL step 3000: acc=0.4853
+  Best=0.4853, Final=0.4853, Crystal=0.0494
+  Best=0.4853, Final=0.4853, Crystal=0.0494
+
+════════════════════════════════════════════════════════════
+EVO v2: absolute crystal floor=0.3, acc_improve=0.001
+
+════════════════════════════════════════════════════════════
+EVO v2: absolute crystal floor=0.3, acc_improve=0.001
+
+  Round 0:
+
+  Round 0:
+    R0 step 500: acc=0.3984
+    R0 step 500: acc=0.3984
+    R0 step 1000: acc=0.3848
+    R0 step 1000: acc=0.3848
+    R0 step 1500: acc=0.4556
+    R0 step 1500: acc=0.4556
+    Post-GD: acc=0.4556, crystal=0.4894
+    Post-GD: acc=0.4556, crystal=0.4894
+    Evo: accept=10, rej_floor=0, rej_crystal=0, rej_acc=90
+    Evo: accept=10, rej_floor=0, rej_crystal=0, rej_acc=90
+    Post-evo: acc=0.4558, crystal=0.4896
+    Post-evo: acc=0.4558, crystal=0.4896
+
+  Round 1:
+
+  Round 1:
+    R1 step 500: acc=0.4540
+    R1 step 500: acc=0.4540
+    R1 step 1000: acc=0.4621
+    R1 step 1000: acc=0.4621
+    R1 step 1500: acc=0.4762
+    R1 step 1500: acc=0.4762
+    Post-GD: acc=0.4762, crystal=0.4801
+    Post-GD: acc=0.4762, crystal=0.4801
+    Evo: accept=8, rej_floor=0, rej_crystal=0, rej_acc=92
+    Evo: accept=8, rej_floor=0, rej_crystal=0, rej_acc=92
+    Post-evo: acc=0.4817, crystal=0.4802
+    Post-evo: acc=0.4817, crystal=0.4802
+
+  Round 2:
+
+  Round 2:
+    R2 step 500: acc=0.5138
+    R2 step 500: acc=0.5138
+    R2 step 1000: acc=0.5038
+    R2 step 1000: acc=0.5038
+    R2 step 1500: acc=0.5001
+    R2 step 1500: acc=0.5001
+    Post-GD: acc=0.5001, crystal=0.6771
+    Post-GD: acc=0.5001, crystal=0.6771
+    Evo: accept=20, rej_floor=0, rej_crystal=0, rej_acc=80
+    Evo: accept=20, rej_floor=0, rej_crystal=0, rej_acc=80
+    Post-evo: acc=0.5008, crystal=0.6950
+    Post-evo: acc=0.5008, crystal=0.6950
+
+  Round 3:
+
+  Round 3:
+    R3 step 500: acc=0.4572
+    R3 step 500: acc=0.4572
+    R3 step 1000: acc=0.4980
+    R3 step 1000: acc=0.4980
+    R3 step 1500: acc=0.4944
+    R3 step 1500: acc=0.4944
+    Post-GD: acc=0.4944, crystal=0.3453
+    Post-GD: acc=0.4944, crystal=0.3453
+    Evo: accept=15, rej_floor=1, rej_crystal=17, rej_acc=67
+    Evo: accept=15, rej_floor=1, rej_crystal=17, rej_acc=67
+    Post-evo: acc=0.4988, crystal=0.4914
+    Post-evo: acc=0.4988, crystal=0.4914
+
+  Round 4:
+
+  Round 4:
+    R4 step 500: acc=0.4537
+    R4 step 500: acc=0.4537
+    R4 step 1000: acc=0.4817
+    R4 step 1000: acc=0.4817
+    R4 step 1500: acc=0.4753
+    R4 step 1500: acc=0.4753
+    Post-GD: acc=0.4753, crystal=0.7352
+    Post-GD: acc=0.4753, crystal=0.7352
+    Evo: accept=14, rej_floor=0, rej_crystal=0, rej_acc=86
+    Evo: accept=14, rej_floor=0, rej_crystal=0, rej_acc=86
+    Post-evo: acc=0.4781, crystal=0.7454
+    Post-evo: acc=0.4781, crystal=0.7454
+
+  Round 5:
+
+  Round 5:
+    R5 step 500: acc=0.5361
+    R5 step 500: acc=0.5361
+    R5 step 1000: acc=0.5493
+    R5 step 1000: acc=0.5493
+    R5 step 1500: acc=0.5713
+    R5 step 1500: acc=0.5713
+    Post-GD: acc=0.5713, crystal=0.5234
+    Post-GD: acc=0.5713, crystal=0.5234
+    Evo: accept=13, rej_floor=0, rej_crystal=0, rej_acc=87
+    Evo: accept=13, rej_floor=0, rej_crystal=0, rej_acc=87
+    Post-evo: acc=0.5730, crystal=0.5238
+    Post-evo: acc=0.5730, crystal=0.5238
+
+  Round 6:
+
+  Round 6:
+    R6 step 500: acc=0.5330
+    R6 step 500: acc=0.5330
+    R6 step 1000: acc=0.5014
+    R6 step 1000: acc=0.5014
+    R6 step 1500: acc=0.5210
+    R6 step 1500: acc=0.5210
+    Post-GD: acc=0.5210, crystal=0.4024
+    Post-GD: acc=0.5210, crystal=0.4024
+    Evo: accept=16, rej_floor=0, rej_crystal=12, rej_acc=72
+    Evo: accept=16, rej_floor=0, rej_crystal=12, rej_acc=72
+    Post-evo: acc=0.5235, crystal=0.4874
+    Post-evo: acc=0.5235, crystal=0.4874
+
+  Round 7:
+
+  Round 7:
+    R7 step 500: acc=0.5241
+    R7 step 500: acc=0.5241
+    R7 step 1000: acc=0.5343
+    R7 step 1000: acc=0.5343
+    R7 step 1500: acc=0.5354
+    R7 step 1500: acc=0.5354
+    Post-GD: acc=0.5354, crystal=-0.1544
+    Post-GD: acc=0.5354, crystal=-0.1544
+    Evo: accept=0, rej_floor=100, rej_crystal=0, rej_acc=0
+    Evo: accept=0, rej_floor=100, rej_crystal=0, rej_acc=0
+    Post-evo: acc=0.5354, crystal=-0.1544
+    Post-evo: acc=0.5354, crystal=-0.1544
+
+  Round 8:
+
+  Round 8:
+    R8 step 500: acc=0.5031
+    R8 step 500: acc=0.5031
+    R8 step 1000: acc=0.5229
+    R8 step 1000: acc=0.5229
+    R8 step 1500: acc=0.5337
+    R8 step 1500: acc=0.5337
+    Post-GD: acc=0.5337, crystal=0.1767
+    Post-GD: acc=0.5337, crystal=0.1767
+    Evo: accept=0, rej_floor=100, rej_crystal=0, rej_acc=0
+    Evo: accept=0, rej_floor=100, rej_crystal=0, rej_acc=0
+    Post-evo: acc=0.5337, crystal=0.1767
+    Post-evo: acc=0.5337, crystal=0.1767
+
+  Round 9:
+
+  Round 9:
+    R9 step 500: acc=0.4606
+    R9 step 500: acc=0.4606
+    R9 step 1000: acc=0.4954
+    R9 step 1000: acc=0.4954
+    R9 step 1500: acc=0.5002
+    R9 step 1500: acc=0.5002
+    Post-GD: acc=0.5002, crystal=0.4315
+    Post-GD: acc=0.5002, crystal=0.4315
+    Evo: accept=11, rej_floor=0, rej_crystal=1, rej_acc=88
+    Evo: accept=11, rej_floor=0, rej_crystal=1, rej_acc=88
+    Post-evo: acc=0.5015, crystal=0.4452
+    Post-evo: acc=0.5015, crystal=0.4452
+    FINAL step 500: acc=0.5007
+    FINAL step 500: acc=0.5007
+    FINAL step 1000: acc=0.5563
+    FINAL step 1000: acc=0.5563
+    FINAL step 1500: acc=0.5210
+    FINAL step 1500: acc=0.5210
+
+════════════════════════════════════════════════════════════
+SUMMARY
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+SUMMARY
+════════════════════════════════════════════════════════════
+
+  Condition        Best  Final Crystal  Flips
+  Condition        Best  Final Crystal  Flips
+  -------------- ------ ------ ------- ------
+  -------------- ------ ------ ------- ------
+  LOOM_MAG        0.485  0.485   0.049      -
+  LOOM_MAG        0.485  0.485   0.049      -
+  EVO_v2          0.556  0.521   0.241    107
+  EVO_v2          0.556  0.521   0.241    107
+
+  Improves BOTH accuracy AND crystal? ✓ YES
+
+  Improves BOTH accuracy AND crystal? ✓ YES
+    Accuracy: 0.4853 → 0.5563 (+0.0710)
+    Accuracy: 0.4853 → 0.5563 (+0.0710)
+    Crystal:  0.0494 → 0.2406 (+0.1912)
+    Crystal:  0.0494 → 0.2406 (+0.1912)
+    Acceptance rate: 107/1000 (10.7%)
+    Acceptance rate: 107/1000 (10.7%)
+
+  Co-evolution trajectory:
+
+  Co-evolution trajectory:
+   R  GDAcc  EvoAcc Crystal  OK  Flr  Cry  Acc
+   R  GDAcc  EvoAcc Crystal  OK  Flr  Cry  Acc
+  -- ------ ------- ------- --- ---- ---- ----
+  -- ------ ------- ------- --- ---- ---- ----
+   0  0.456   0.456   0.490  10    0    0   90
+   0  0.456   0.456   0.490  10    0    0   90
+   1  0.476   0.482   0.480   8    0    0   92
+   1  0.476   0.482   0.480   8    0    0   92
+   2  0.500   0.501   0.695  20    0    0   80
+   2  0.500   0.501   0.695  20    0    0   80
+   3  0.494   0.499   0.491  15    1   17   67
+   3  0.494   0.499   0.491  15    1   17   67
+   4  0.475   0.478   0.745  14    0    0   86
+   4  0.475   0.478   0.745  14    0    0   86
+   5  0.571   0.573   0.524  13    0    0   87
+   5  0.571   0.573   0.524  13    0    0   87
+   6  0.521   0.524   0.487  16    0   12   72
+   6  0.521   0.524   0.487  16    0   12   72
+   7  0.535   0.535  -0.154   0  100    0    0
+   7  0.535   0.535  -0.154   0  100    0    0
+   8  0.534   0.534   0.177   0  100    0    0
+   8  0.534   0.534   0.177   0  100    0    0
+   9  0.500   0.501   0.445  11    0    1   88
+   9  0.500   0.501   0.445  11    0    1   88
+
+  Crystal always above floor (0.3)? ✗ NO
+
+  Crystal always above floor (0.3)? ✗ NO
+  Crystal range: [-0.154, 0.745]
+  Crystal range: [-0.154, 0.745]
+
+✓ Saved (269s)
+
+✓ Saved (269s)

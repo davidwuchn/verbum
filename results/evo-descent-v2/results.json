@@ -1,0 +1,144 @@
+{
+  "baseline": {
+    "best": 0.4853398853398853,
+    "final": 0.4853398853398853,
+    "crystal": 0.049399318507678036
+  },
+  "evo_v2": {
+    "best": 0.5563472563472563,
+    "final": 0.521048321048321,
+    "crystal": 0.24061500494321886,
+    "trajectory": [
+      {
+        "round": 0,
+        "gd_best": 0.4556101556101556,
+        "gd_final": 0.4556101556101556,
+        "gd_crystal": 0.4893558072876551,
+        "evo_accepted": 10,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 90,
+        "post_acc": 0.4557739557739558,
+        "post_crystal": 0.4896215999473722
+      },
+      {
+        "round": 1,
+        "gd_best": 0.4762489762489763,
+        "gd_final": 0.4762489762489763,
+        "gd_crystal": 0.4800550259893121,
+        "evo_accepted": 8,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 92,
+        "post_acc": 0.48173628173628175,
+        "post_crystal": 0.4802273784372251
+      },
+      {
+        "round": 2,
+        "gd_best": 0.5138411138411139,
+        "gd_final": 0.5000819000819001,
+        "gd_crystal": 0.6771003826814621,
+        "evo_accepted": 20,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 80,
+        "post_acc": 0.5008190008190008,
+        "post_crystal": 0.6950064107832982
+      },
+      {
+        "round": 3,
+        "gd_best": 0.49795249795249796,
+        "gd_final": 0.4944307944307944,
+        "gd_crystal": 0.34532204429924734,
+        "evo_accepted": 15,
+        "evo_rej_floor": 1,
+        "evo_rej_crystal": 17,
+        "evo_rej_acc": 67,
+        "post_acc": 0.4987714987714988,
+        "post_crystal": 0.4914473400633313
+      },
+      {
+        "round": 4,
+        "gd_best": 0.48173628173628175,
+        "gd_final": 0.4753480753480753,
+        "gd_crystal": 0.7351934060433801,
+        "evo_accepted": 14,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 86,
+        "post_acc": 0.4781326781326781,
+        "post_crystal": 0.7453642252869842
+      },
+      {
+        "round": 5,
+        "gd_best": 0.5713349713349714,
+        "gd_final": 0.5713349713349714,
+        "gd_crystal": 0.5234285661760538,
+        "evo_accepted": 13,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 87,
+        "post_acc": 0.572972972972973,
+        "post_crystal": 0.5237775630337824
+      },
+      {
+        "round": 6,
+        "gd_best": 0.533005733005733,
+        "gd_final": 0.520966420966421,
+        "gd_crystal": 0.402439612644576,
+        "evo_accepted": 16,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 12,
+        "evo_rej_acc": 72,
+        "post_acc": 0.5235053235053235,
+        "post_crystal": 0.4873580484489996
+      },
+      {
+        "round": 7,
+        "gd_best": 0.5353808353808354,
+        "gd_final": 0.5353808353808354,
+        "gd_crystal": -0.15443270176943294,
+        "evo_accepted": 0,
+        "evo_rej_floor": 100,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 0,
+        "post_acc": 0.5353808353808354,
+        "post_crystal": -0.15443270176943294
+      },
+      {
+        "round": 8,
+        "gd_best": 0.5337428337428337,
+        "gd_final": 0.5337428337428337,
+        "gd_crystal": 0.17666979118730416,
+        "evo_accepted": 0,
+        "evo_rej_floor": 100,
+        "evo_rej_crystal": 0,
+        "evo_rej_acc": 0,
+        "post_acc": 0.5337428337428337,
+        "post_crystal": 0.17666979118730416
+      },
+      {
+        "round": 9,
+        "gd_best": 0.5001638001638001,
+        "gd_final": 0.5001638001638001,
+        "gd_crystal": 0.43152411646470995,
+        "evo_accepted": 11,
+        "evo_rej_floor": 0,
+        "evo_rej_crystal": 1,
+        "evo_rej_acc": 88,
+        "post_acc": 0.5014742014742015,
+        "post_crystal": 0.4451799121472819
+      }
+    ],
+    "total_accepted": 107,
+    "total_tested": 1000
+  },
+  "config": {
+    "n_rounds": 10,
+    "gd_steps": 1500,
+    "n_candidates": 100,
+    "crystal_floor": 0.3,
+    "acc_improvement": 0.001
+  },
+  "elapsed": 268.9238679409027
+}
