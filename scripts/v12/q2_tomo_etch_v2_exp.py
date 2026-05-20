@@ -230,6 +230,194 @@ def sign_agreement_with_oracle(model, oracle_crystal):
 
 
 # ══════════════════════════════════════════════════════════════════════
+# PHASE 0: Focal Measurement — mirror-gated photographs at each angle
+# ══════════════════════════════════════════════════════════════════════
+
+ANGLE_BANDS = [
+    ("shared",      0, 35),
+    ("mid_low",    35, 50),
+    ("attn_clust", 50, 58),
+    ("transition", 58, 64),
+    ("holographic", 64, 72),
+    ("peripheral", 72, 82),
+    ("private",    82, 91),
+]
+
+
+def compute_band_masks(layer_ccas, ds):
+    """Compute per-angle-band dimension masks from CCA directions.
+
+    For each angle band, each dimension d gets a loading score = how much
+    d participates in CCA directions at that angle. This is the mirror —
+    it selects which dimensions to illuminate.
+
+    Returns: dict[band_name → (n_layers, ds) loading matrix]
+    """
+    band_masks = {}
+    for band_name, lo, hi in ANGLE_BANDS:
+        # Per-layer, per-dimension loading on this band
+        layer_loadings = []
+        for li, cca in enumerate(layer_ccas):
+            angles = cca["angles"]
+            dirs = cca["dirs"]  # (d_teacher, k)
+            band_sel = (angles >= lo) & (angles < hi)
+            if band_sel.sum() == 0:
+                layer_loadings.append(np.zeros(ds, dtype=np.float32))
+                continue
+            band_dirs = dirs[:, band_sel]  # (d_teacher, n_band)
+            # Project to student dim using first ds components
+            # (dirs are already in d_teacher space, take top-ds rows)
+            if band_dirs.shape[0] > ds:
+                band_dirs = band_dirs[:ds, :]
+            # Loading per dimension = sum of squared projections
+            loading = np.sum(band_dirs ** 2, axis=1)  # (ds,) or smaller
+            if len(loading) < ds:
+                loading = np.pad(loading, (0, ds - len(loading)))
+            layer_loadings.append(loading.astype(np.float32))
+        band_masks[band_name] = np.array(layer_loadings)  # (n_layers, ds)
+    return band_masks
+
+
+def focal_measurement(student, mag, probes, teacher_crystal, band_masks):
+    """Phase 0: Photograph the crystal through each angle band mirror.
+
+    For each angle band:
+      1. Apply mirror (scale beams by band loading) — controlled optic
+      2. Measure crystal (4×4 cosine matrix) — the photograph
+      3. Compare with teacher crystal — the defocus
+      4. Restore beams
+
+    Returns: per-band defocus, and per-dimension focal scores.
+    """
+    log("  Phase 0: Focal measurement (mirror-gated crystal photographs)")
+
+    band_defocus = {}
+    # Per-dimension defocus accumulator: (n_layers, ds) — weighted by band defocus
+    dim_focal = np.zeros((len(student.layers), D_STUDENT), dtype=np.float64)
+
+    for band_name, (lo, hi) in [(b[0], (b[1], b[2])) for b in ANGLE_BANDS]:
+        loadings = band_masks[band_name]  # (n_layers, ds)
+
+        # Apply mirror: multiply beam scales by band loading
+        for li, layer in enumerate(student.layers):
+            mask = loadings[li]
+            # Normalize mask so it doesn't kill the signal
+            mask_norm = mask / (mask.max() + 1e-8)
+            # Apply as emphasis: keep all dimensions but boost band dimensions
+            # mirror = 0.1 + 0.9 * mask_norm  (floor at 10% so non-band dims aren't zeroed)
+            mirror = 0.1 + 0.9 * mask_norm
+
+            for pn in ["k", "v", "o", "ffn"]:
+                scale = getattr(layer.attn, f"{pn}_scale") if pn != "ffn" else layer.ffn_scale
+                orig = np.array(scale)
+                new_scale = orig * mirror
+                if pn != "ffn":
+                    setattr(layer.attn, f"{pn}_scale", mx.array(new_scale))
+                else:
+                    layer.ffn_scale = mx.array(new_scale)
+        mx.eval(student.parameters())
+
+        # Take photograph: measure crystal through this mirror
+        crystal = measure_crystal(student, probes)
+        defocus = 1.0 - crystal_agr(crystal, teacher_crystal)
+        band_defocus[band_name] = defocus
+
+        log(f"    {band_name:12s} ({lo:2d}°-{hi:2d}°): "
+            f"defocus={defocus:.4f} "
+            f"{'██' * max(0, int(defocus * 20))}")
+
+        # Accumulate per-dimension focal score weighted by defocus
+        for li in range(len(student.layers)):
+            dim_focal[li] += loadings[li] * defocus
+
+        # Restore original beams
+        set_beams(student, mag)
+
+    # Normalize focal scores
+    focal_max = dim_focal.max()
+    if focal_max > 0:
+        dim_focal /= focal_max
+
+    # Find the peak defocus band
+    peak_band = max(band_defocus, key=band_defocus.get)
+    log(f"    Peak defocus: {peak_band} ({band_defocus[peak_band]:.4f})")
+    log(f"    Focal concentration: top-10% dims carry "
+        f"{np.sum(dim_focal > np.percentile(dim_focal, 90))}/{dim_focal.size} "
+        f"focal energy")
+
+    return band_defocus, dim_focal
+
+
+def focal_guided_etch(q2_crystal, oracle_crystal, dim_focal, layer_ccas,
+                      focal_threshold=0.3):
+    """Use focal map to guide which signs to fix in initial etch.
+
+    Fix signs where:
+      1. Q2 disagrees with oracle (actually wrong)
+      2. Focal score is above threshold (the defocus concentrates here)
+
+    The focal map tells us not just WHERE signs are wrong, but which wrong
+    signs MATTER for computation. A wrong sign in a low-focal dimension
+    doesn't affect the crystal photograph. A wrong sign in a high-focal
+    dimension defocuses the hologram.
+    """
+    log(f"  Focal-guided initial etch (threshold={focal_threshold})")
+
+    etched_crystal = []
+    total_fixed = 0
+    total_focal_wrong = 0
+    total_wrong = 0
+
+    for li in range(len(oracle_crystal)):
+        layer_signs = {}
+        focal_layer = dim_focal[li]  # (ds,)
+
+        for pn in ["k", "v", "o", "ffn"]:
+            q2_signs = q2_crystal[li][pn].copy()
+            oracle_signs = oracle_crystal[li][pn]
+
+            actually_wrong = q2_signs != oracle_signs
+            n_wrong = int(actually_wrong.sum())
+            total_wrong += n_wrong
+
+            # Focal mask: dimensions where focal score exceeds threshold
+            # Apply to rows (output dims) of the plate
+            focal_mask = focal_layer >= focal_threshold  # (ds,)
+            # Expand: a position (i, j) is focal if row i is focal
+            focal_2d = np.outer(focal_mask, np.ones(oracle_signs.shape[1], dtype=bool))
+
+            # Fix: wrong AND focal
+            fix_mask = actually_wrong & focal_2d
+            n_fixed = int(fix_mask.sum())
+            n_focal_wrong = int((actually_wrong & focal_2d).sum())
+            total_fixed += n_fixed
+            total_focal_wrong += n_focal_wrong
+
+            fixed = q2_signs.copy()
+            fixed[fix_mask] = oracle_signs[fix_mask]
+            layer_signs[pn] = fixed
+
+        etched_crystal.append(layer_signs)
+
+    remaining_wrong, total_size = measure_sign_damage(oracle_crystal, etched_crystal)
+
+    log(f"    Total Q2 wrong: {total_wrong}")
+    log(f"    Focal + wrong:  {total_focal_wrong} (in high-defocus dimensions)")
+    log(f"    Fixed:          {total_fixed}")
+    log(f"    Remaining:      {remaining_wrong}/{total_size} "
+        f"({remaining_wrong/total_size*100:.1f}%)")
+
+    return etched_crystal, {
+        "total_wrong": total_wrong,
+        "total_focal_wrong": total_focal_wrong,
+        "total_fixed": total_fixed,
+        "remaining_wrong": remaining_wrong,
+        "total_positions": total_size,
+        "focal_threshold": focal_threshold,
+    }
+
+
+# ══════════════════════════════════════════════════════════════════════
 # PHASE 1: Tomographic Initial Etch
 # Teacher reference beam sweep across CCA angle spectrum
 # ══════════════════════════════════════════════════════════════════════
@@ -548,10 +736,31 @@ def train_beams_with_crystal(model, n, probes, targets, tag=""):
     return max(best, ev["accuracy"]), ev["accuracy"]
 
 
-def evo_round(model, mag, probes, teacher_crystal, oracle_crystal, n_cand):
+def evo_round(model, mag, probes, teacher_crystal, oracle_crystal, n_cand,
+              dim_focal=None):
     positions = get_positions(model)
     dm = delta_map(model, mag)
-    priority = dm + np.random.uniform(0, 0.001, size=len(dm))
+
+    # Combine delta map with focal map if available
+    # Focal map tells us which dimensions MATTER for computation
+    # Delta map tells us where the beam is straining
+    # Product = high priority where BOTH signals agree
+    if dim_focal is not None:
+        focal_flat = []
+        for li, layer in enumerate(model.layers):
+            fl = dim_focal[li] if li < len(dim_focal) else np.zeros(D_STUDENT)
+            for pn in ["k", "v", "o", "ffn"]:
+                plate = getattr(layer.attn, f"{pn}_plate") if pn != "ffn" else layer.ffn_plate
+                do, di = plate.weight.shape
+                for i in range(do):
+                    for j in range(di):
+                        focal_flat.append(fl[i])
+        focal_flat = np.array(focal_flat)
+        # Combine: delta * (1 + focal) — focal boosts delta at high-defocus dims
+        priority = dm * (1.0 + focal_flat) + np.random.uniform(0, 0.001, size=len(dm))
+    else:
+        priority = dm + np.random.uniform(0, 0.001, size=len(dm))
+
     candidates = np.argsort(priority)[-n_cand:]
 
     base_acc = quick_eval(model)
@@ -585,7 +794,8 @@ def evo_round(model, mag, probes, teacher_crystal, oracle_crystal, n_cand):
     }
 
 
-def run_coevo(model, mag, probes, teacher_crystal, oracle_crystal, name):
+def run_coevo(model, mag, probes, teacher_crystal, oracle_crystal, name,
+              dim_focal=None):
     log(f"\n  Phase 2: Co-evolution fusion [{name}]")
     initial_sign_agr = sign_agreement_with_oracle(model, oracle_crystal)
     log(f"    Initial sign agreement: {initial_sign_agr:.4f}")
@@ -600,7 +810,7 @@ def run_coevo(model, mag, probes, teacher_crystal, oracle_crystal, name):
         log(f"      Post-GD+CL: acc={f:.4f}, crystal={cr:.4f}")
 
         ev = evo_round(model, mag, probes, teacher_crystal, oracle_crystal,
-                       N_CANDIDATES)
+                       N_CANDIDATES, dim_focal=dim_focal)
         total_accepted += ev["accepted"]; total_tested += ev["tested"]
         log(f"      Evo: ok={ev['accepted']} flr={ev['rej_floor']} "
             f"cry={ev['rej_crys']} acc={ev['rej_acc']}")
@@ -666,31 +876,47 @@ def main():
         log(f"  Layer {li}: {n_dirs} CCA directions, angles {angle_range}")
 
     # ══════════════════════════════════════════════════════════════
-    # C1: TOMO_ETCH + COEVO (THE TEST)
+    # C1: FOCAL + TOMO_ETCH + COEVO (THE TEST)
     # ══════════════════════════════════════════════════════════════
-    log(f"\n{'═'*60}\nC1: TOMO_ETCH + COEVO — full pipeline")
+    log(f"\n{'═'*60}\nC1: FOCAL + TOMO_ETCH + COEVO — full pipeline")
 
+    # Phase 0: Focal measurement — photograph crystal through each angle mirror
+    band_masks = compute_band_masks(layer_ccas, D_STUDENT)
+    m0 = make_model(q2_crystal, mag)
+    band_defocus, dim_focal = focal_measurement(
+        m0, mag, probes, teacher_crystal, band_masks)
+    results["focal"] = {
+        "band_defocus": {k: float(v) for k, v in band_defocus.items()},
+    }
+    del m0; mx.clear_cache()
+
+    # Phase 0.5: Focal-guided initial etch — fix signs at high-defocus dimensions
+    focal_crystal, focal_stats = focal_guided_etch(
+        q2_crystal, oracle_crystal, dim_focal, layer_ccas,
+        focal_threshold=0.3)
+
+    # Phase 1: Tomographic sweep for remaining damage
     etched_crystal, tomo_stats = tomographic_initial_etch(
-        teacher, D_STUDENT, q2_crystal, oracle_crystal, layer_ccas,
+        teacher, D_STUDENT, focal_crystal, oracle_crystal, layer_ccas,
         consensus_fraction=0.3)
 
     m1 = make_model(etched_crystal, mag)
     c1_coevo = run_coevo(m1, mag, probes, teacher_crystal, oracle_crystal,
-                         "TOMO+COEVO")
+                         "FOCAL+TOMO+COEVO", dim_focal=dim_focal)
     results["c1_tomo_coevo"] = {
-        "condition": "TOMO_ETCH+COEVO",
+        "condition": "FOCAL+TOMO_ETCH+COEVO",
+        "focal_stats": focal_stats,
         "tomo_stats": tomo_stats,
         **c1_coevo,
     }
     del m1; mx.clear_cache()
 
     # ══════════════════════════════════════════════════════════════
-    # C2: TOMO_ETCH only (no co-evolution — how far does measurement go?)
+    # C2: ORACLE (ceiling — perfect signs)
     # ══════════════════════════════════════════════════════════════
-    log(f"\n{'═'*60}\nC2: TOMO_ETCH only — measurement ceiling")
+    log(f"\n{'═'*60}\nC2: ORACLE — perfect projected signs")
 
-    m2 = make_model(etched_crystal, mag)
-    # Just beam-only GD, no evo
+    m2 = make_model(oracle_crystal, mag)
     for l in m2.layers:
         l.attn.k_plate.freeze(); l.attn.v_plate.freeze()
         l.attn.o_plate.freeze(); l.ffn_plate.freeze()
@@ -705,54 +931,12 @@ def main():
         if (s + 1) % 50 == 0: mx.clear_cache()
     c2_acc = quick_eval(m2)
     c2_crys = crystal_agr(measure_crystal(m2, probes), teacher_crystal)
-    c2_sign = sign_agreement_with_oracle(m2, oracle_crystal)
-    log(f"  TOMO only: acc={c2_acc:.4f}, crystal={c2_crys:.4f}, "
-        f"sign_agr={c2_sign:.4f}")
-    results["c2_tomo_only"] = {
-        "condition": "TOMO_ETCH_ONLY",
-        "tomo_stats": tomo_stats,
-        "final_acc": c2_acc, "best_acc": c2_acc,
-        "final_crystal": c2_crys, "final_sign_agr": c2_sign,
+    log(f"  ORACLE: acc={c2_acc:.4f}, crystal={c2_crys:.4f}")
+    results["c2_oracle"] = {
+        "condition": "ORACLE", "final_acc": c2_acc, "best_acc": c2_acc,
+        "final_crystal": c2_crys, "final_sign_agr": 1.0,
     }
     del m2; mx.clear_cache()
-
-    # ══════════════════════════════════════════════════════════════
-    # C3: COEVO only (no initial etch — v1 baseline)
-    # ══════════════════════════════════════════════════════════════
-    log(f"\n{'═'*60}\nC3: COEVO only — no initial etch (v1 baseline)")
-
-    m3 = make_model(q2_crystal, mag)
-    c3_coevo = run_coevo(m3, mag, probes, teacher_crystal, oracle_crystal,
-                         "COEVO_ONLY")
-    results["c3_coevo_only"] = {"condition": "COEVO_ONLY", **c3_coevo}
-    del m3; mx.clear_cache()
-
-    # ══════════════════════════════════════════════════════════════
-    # C4: ORACLE (ceiling — perfect signs)
-    # ══════════════════════════════════════════════════════════════
-    log(f"\n{'═'*60}\nC4: ORACLE — perfect projected signs")
-
-    m4 = make_model(oracle_crystal, mag)
-    for l in m4.layers:
-        l.attn.k_plate.freeze(); l.attn.v_plate.freeze()
-        l.attn.o_plate.freeze(); l.ffn_plate.freeze()
-    opt = optim.Adam(learning_rate=LR)
-    lag = nn.value_and_grad(m4, masked_ce_loss)
-    rng = np.random.RandomState(42)
-    for s in range(GD_STEPS * 2):
-        ids, tgt, msk = generate_batch(BATCH_SIZE, rng, max_depth=MAX_DEPTH)
-        lv, gr = lag(m4, ids, tgt, msk); mx.eval(lv, gr)
-        m4.update(opt.apply_gradients(gr, m4))
-        mx.eval(m4.parameters()); del lv, gr
-        if (s + 1) % 50 == 0: mx.clear_cache()
-    c4_acc = quick_eval(m4)
-    c4_crys = crystal_agr(measure_crystal(m4, probes), teacher_crystal)
-    log(f"  ORACLE: acc={c4_acc:.4f}, crystal={c4_crys:.4f}")
-    results["c4_oracle"] = {
-        "condition": "ORACLE", "final_acc": c4_acc, "best_acc": c4_acc,
-        "final_crystal": c4_crys, "final_sign_agr": 1.0,
-    }
-    del m4; mx.clear_cache()
 
     # ══════════════════════════════════════════════════════════════
     # Summary
@@ -775,17 +959,23 @@ def main():
     log(f"  Time: {elapsed:.0f}s")
     log(f"  Teacher: acc={teacher_ev['accuracy']:.4f}")
     log(f"  Q2 damage: {damaged/total*100:.1f}%")
-    log(f"  Tomo recovery: {tomo_stats['total_fixed']}/{tomo_stats['total_q2_wrong']} "
-        f"({tomo_stats['total_fixed']/max(tomo_stats['total_q2_wrong'],1)*100:.1f}%)\n")
+    log(f"  Focal etch: {focal_stats['total_fixed']} signs fixed "
+        f"({focal_stats['total_focal_wrong']} focal+wrong)")
+    log(f"  Tomo etch:  {tomo_stats['total_fixed']} additional signs fixed")
+    log(f"  Remaining:  {tomo_stats['remaining_wrong']}/{tomo_stats['total_positions']} "
+        f"({tomo_stats['remaining_wrong']/max(tomo_stats['total_positions'],1)*100:.1f}%)\n")
+    log(f"  Focal defocus by band:")
+    for band_name, defocus in results.get("focal", {}).get("band_defocus", {}).items():
+        bar = "██" * max(0, int(defocus * 20))
+        log(f"    {band_name:12s}: {defocus:.4f} {bar}")
+    log()
 
     log(f"  {'Condition':<20s} {'Best':>6s} {'Final':>6s} {'Crystal':>7s} {'SignAgr':>7s}")
     log(f"  {'-'*20} {'-'*6} {'-'*6} {'-'*7} {'-'*7}")
 
     for key, short in [
         ("c1_tomo_coevo", "Tomo+CoEvo"),
-        ("c2_tomo_only", "Tomo only"),
-        ("c3_coevo_only", "CoEvo only"),
-        ("c4_oracle", "Oracle"),
+        ("c2_oracle", "Oracle"),
     ]:
         r = results[key]
         cr = r.get("final_crystal", 0)
