@@ -481,6 +481,51 @@ def crystal_lattice_loss(model, combinator_probes, target_cosines):
 28 constants (8×8 upper triangle) or 6 constants (4×4 upper triangle).
 Run every N steps during beam training. Trivially cheap.
 
+## Phase 2 Revised: Evolutionary Descent (replaces soft mirrors)
+
+Session 125 proved soft mirrors can't flip signs — the 1.0→0→-1
+gradient barrier prevents it. The fix: use evolutionary descent
+for the discrete domain (plates) and GD for the continuous domain
+(beams). Co-evolve.
+
+```
+CONTINUOUS (beams):  GD — gradient steps — what it's good at
+DISCRETE (plates):   Evolution — ternary bit flips — no barrier
+
+Co-evolution:
+  1. GD trains beam (plates frozen) → beam compensates for bad signs
+  2. Delta = trained_beam - initial_mag → mutation priority map
+  3. Evolution flips high-|delta| positions, one at a time
+  4. Fitness = accuracy + crystal_agreement (hard crystal gate)
+  5. Accept improving flips, reject degrading ones
+  6. GD re-trains beam on modified plates → beam relaxes
+  7. Repeat until delta → 0 (beam stops compensating)
+```
+
+### Why evolution > soft mirrors for ternary
+
+- **No barrier**: flip is one step, not a continuous path through 0
+- **Crystal constraint**: hard reject, not soft loss (no λ balancing)
+- **Delta guidance**: GD already computed WHERE the problems are
+- **Self-terminating**: convergence = delta shrinks to 0
+- **Naturally ternary**: no quantization gap, no STE needed
+
+### Revised 3-phase pipeline
+
+```
+Phase 1: EXTRACT (one-time)
+  Loom-read plates + magnitude template from teacher
+  
+Phase 2: CO-EVOLVE (iterate)
+  2a. GD trains beams (plates frozen, crystal loss optional)
+  2b. Delta → mutation priority map
+  2c. Evolution flips high-delta positions (crystal-gated)
+  2d. Repeat 2a-2c until delta < threshold
+
+Phase 3: FREEZE
+  Final plates + trained beams → frozen model
+```
+
 ## Open Questions
 
 1. **Dimensional bridge.** Teacher d_model=2560, V13 d_model=512.
