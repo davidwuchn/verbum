@@ -1,0 +1,530 @@
+{
+  "progressive_4bit": {
+    "n_bits": 4,
+    "n_flips": 770644,
+    "n_total": 6553600,
+    "fid_q4_baseline": 0.9334322214126587,
+    "fid_oracle": 1.0,
+    "curves": {
+      "residual": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.9334322214126587
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 7706,
+          "fidelity": 0.9340870380401611
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 15412,
+          "fidelity": 0.9347386956214905
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 38532,
+          "fidelity": 0.9366839528083801
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 77064,
+          "fidelity": 0.9399139285087585
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 154128,
+          "fidelity": 0.9464477896690369
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 231193,
+          "fidelity": 0.9529725909233093
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 385322,
+          "fidelity": 0.9662356972694397
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 539450,
+          "fidelity": 0.9796370267868042
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 770644,
+          "fidelity": 1.0
+        }
+      ],
+      "orig_mag": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.9334322214126587
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 7706,
+          "fidelity": 0.9340870380401611
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 15412,
+          "fidelity": 0.9347386956214905
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 38532,
+          "fidelity": 0.9366839528083801
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 77064,
+          "fidelity": 0.9399139285087585
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 154128,
+          "fidelity": 0.9464477896690369
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 231193,
+          "fidelity": 0.9529725909233093
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 385322,
+          "fidelity": 0.9662356972694397
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 539450,
+          "fidelity": 0.9796370267868042
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 770644,
+          "fidelity": 1.0
+        }
+      ],
+      "q4_mag": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.9334322214126587
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 7706,
+          "fidelity": 0.9340607523918152
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 15412,
+          "fidelity": 0.9346811175346375
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 38532,
+          "fidelity": 0.9365319609642029
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 77064,
+          "fidelity": 0.9396647810935974
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 154128,
+          "fidelity": 0.9459991455078125
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 231193,
+          "fidelity": 0.9523701071739197
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 385322,
+          "fidelity": 0.965481698513031
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 539450,
+          "fidelity": 0.9789636731147766
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 770644,
+          "fidelity": 1.0
+        }
+      ],
+      "random": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.9334322214126587
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 7706,
+          "fidelity": 0.9340890645980835
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 15412,
+          "fidelity": 0.9347342848777771
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 38532,
+          "fidelity": 0.936693549156189
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 77064,
+          "fidelity": 0.9399207830429077
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 154128,
+          "fidelity": 0.9464703798294067
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 231193,
+          "fidelity": 0.9530290365219116
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 385322,
+          "fidelity": 0.9662445783615112
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 539450,
+          "fidelity": 0.9796239733695984
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 770644,
+          "fidelity": 1.0
+        }
+      ]
+    }
+  },
+  "progressive_3bit": {
+    "n_bits": 3,
+    "n_flips": 1522332,
+    "n_total": 6553600,
+    "fid_q4_baseline": 0.8715123534202576,
+    "fid_oracle": 1.0,
+    "curves": {
+      "residual": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.8715123534202576
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 15223,
+          "fidelity": 0.8727571368217468
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 30446,
+          "fidelity": 0.8739784955978394
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 76116,
+          "fidelity": 0.8776633143424988
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 152233,
+          "fidelity": 0.8838070631027222
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 304466,
+          "fidelity": 0.8961678147315979
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 456699,
+          "fidelity": 0.9086478352546692
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 761166,
+          "fidelity": 0.9341432452201843
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 1065632,
+          "fidelity": 0.9600380063056946
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 1522332,
+          "fidelity": 1.0
+        }
+      ],
+      "orig_mag": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.8715123534202576
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 15223,
+          "fidelity": 0.8727571368217468
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 30446,
+          "fidelity": 0.8739784955978394
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 76116,
+          "fidelity": 0.8776633143424988
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 152233,
+          "fidelity": 0.8838070631027222
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 304466,
+          "fidelity": 0.8961678147315979
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 456699,
+          "fidelity": 0.9086478352546692
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 761166,
+          "fidelity": 0.9341432452201843
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 1065632,
+          "fidelity": 0.9600380063056946
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 1522332,
+          "fidelity": 1.0
+        }
+      ],
+      "q4_mag": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.8715123534202576
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 15223,
+          "fidelity": 0.8726175427436829
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 30446,
+          "fidelity": 0.8737325668334961
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 76116,
+          "fidelity": 0.8770781755447388
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 152233,
+          "fidelity": 0.8828100562095642
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 304466,
+          "fidelity": 0.8942416310310364
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 456699,
+          "fidelity": 0.9061379432678223
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 761166,
+          "fidelity": 0.9311094880104065
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 1065632,
+          "fidelity": 0.9574221968650818
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 1522332,
+          "fidelity": 1.0
+        }
+      ],
+      "random": [
+        {
+          "fix_frac": 0.0,
+          "n_fixed": 0,
+          "fidelity": 0.8715123534202576
+        },
+        {
+          "fix_frac": 0.01,
+          "n_fixed": 15223,
+          "fidelity": 0.8727068305015564
+        },
+        {
+          "fix_frac": 0.02,
+          "n_fixed": 30446,
+          "fidelity": 0.8739103078842163
+        },
+        {
+          "fix_frac": 0.05,
+          "n_fixed": 76116,
+          "fidelity": 0.8775502443313599
+        },
+        {
+          "fix_frac": 0.1,
+          "n_fixed": 152233,
+          "fidelity": 0.8836374878883362
+        },
+        {
+          "fix_frac": 0.2,
+          "n_fixed": 304466,
+          "fidelity": 0.8959675431251526
+        },
+        {
+          "fix_frac": 0.3,
+          "n_fixed": 456699,
+          "fidelity": 0.9084699749946594
+        },
+        {
+          "fix_frac": 0.5,
+          "n_fixed": 761166,
+          "fidelity": 0.9338342547416687
+        },
+        {
+          "fix_frac": 0.7,
+          "n_fixed": 1065632,
+          "fidelity": 0.9599378108978271
+        },
+        {
+          "fix_frac": 1.0,
+          "n_fixed": 1522332,
+          "fidelity": 1.0
+        }
+      ]
+    }
+  },
+  "blind_4bit": {
+    "n_bits": 4,
+    "baseline": 0.9334322214126587,
+    "blind_curve": [
+      {
+        "n_fixed": 0,
+        "fidelity": 0.9334322214126587,
+        "flip_precision": 0.0
+      },
+      {
+        "n_fixed": 100,
+        "fidelity": 0.933423638343811,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 500,
+        "fidelity": 0.9333860278129578,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 1000,
+        "fidelity": 0.9333416223526001,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 5000,
+        "fidelity": 0.9329711198806763,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 10000,
+        "fidelity": 0.9324920177459717,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 50000,
+        "fidelity": 0.9286097288131714,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 100000,
+        "fidelity": 0.9231370091438293,
+        "flip_precision": 1.0
+      },
+      {
+        "n_fixed": 200000,
+        "fidelity": 0.9110049605369568,
+        "flip_precision": 0.999995
+      }
+    ]
+  },
+  "multi_bitwidth": [
+    {
+      "n_bits": 8,
+      "n_flips": 48284,
+      "flip_pct": 0.73675537109375,
+      "fid_before": 0.9957239031791687,
+      "fid_after_oracle": 1.0,
+      "fid_after_20pct": 0.9965788722038269,
+      "recovery_pct": 100.0
+    },
+    {
+      "n_bits": 4,
+      "n_flips": 770644,
+      "flip_pct": 11.75909423828125,
+      "fid_before": 0.9334322214126587,
+      "fid_after_oracle": 1.0,
+      "fid_after_20pct": 0.9464477896690369,
+      "recovery_pct": 100.0
+    },
+    {
+      "n_bits": 3,
+      "n_flips": 1522332,
+      "flip_pct": 23.22894287109375,
+      "fid_before": 0.8715123534202576,
+      "fid_after_oracle": 1.0,
+      "fid_after_20pct": 0.8961678147315979,
+      "recovery_pct": 100.0
+    },
+    {
+      "n_bits": 2,
+      "n_flips": 2899203,
+      "flip_pct": 44.23832702636719,
+      "fid_before": 0.7623301148414612,
+      "fid_after_oracle": 1.0,
+      "fid_after_20pct": 0.807930588722229,
+      "recovery_pct": 100.0
+    }
+  ],
+  "meta": {
+    "model": "EleutherAI/pythia-2.8b-deduped",
+    "layer": 16,
+    "elapsed_seconds": 13.750444889068604
+  }
+}

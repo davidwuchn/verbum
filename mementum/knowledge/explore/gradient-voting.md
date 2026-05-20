@@ -185,6 +185,36 @@ This means: the magnitude crystal is derivable from theory. It's a
 mathematical property of language modeling, not a training artifact.
 V13 can construct it from first principles.
 
+## Q4 etch refinement — sign flips are uniform and recoverable
+
+Post-quantization sign correction tested on Pythia-2.8b W_q (layer 16):
+
+| Bitwidth | Flips | Before | 20% etch | Oracle | Recovery |
+|----------|-------|--------|----------|--------|----------|
+| 8-bit | 0.7% | 0.996 | 0.997 | 1.000 | 100% |
+| 4-bit | 11.8% | 0.933 | 0.946 | 1.000 | 100% |
+| 3-bit | 23.2% | 0.872 | 0.896 | 1.000 | 100% |
+| 2-bit | 44.2% | 0.762 | 0.808 | 1.000 | 100% |
+
+Key findings:
+1. **Oracle etch = perfect recovery at all bitwidths.** Even Q2 (44% flipped)
+   recovers to 1.000. The crystal is always fully recoverable.
+
+2. **All fix-ordering strategies are identical.** Residual-guided, magnitude-
+   guided, and RANDOM give the same recovery curve. Q4 sign flips are
+   uniformly cheap — no "worst flip to fix first."
+
+3. **Blind etch (no original access) HURTS.** Low-Q4-magnitude positions
+   are correctly identified as flips (precision=1.000), but local context
+   (row+col means) predicts the WRONG direction. Fidelity decreases.
+   **Gradient signal from actual computation is required** to know which
+   way to flip.
+
+Implication: post-quantization etch needs:
+- Magnitude analysis → WHERE to look (trivial, precision=1.0)
+- Gradient accumulation → WHICH WAY to flip (requires running data)
+- Beamformer (magnitude crystal) makes gradients coherent → fast convergence
+
 ## Artifacts
 
 | File | Content |
@@ -200,3 +230,5 @@ V13 can construct it from first principles.
 | `results/nucleation-matched/results.json` | Exp 5 full results |
 | `results/magnitude-universality/results.json` | Exp 6: 4-model spectrum universality |
 | `scripts/v12/magnitude_universality_exp.py` | Cross-model magnitude comparison |
+| `scripts/v12/q4_etch_exp.py` | Post-quantization etch refinement |
+| `results/q4-etch/results.json` | Etch recovery curves at 4 bitwidths |

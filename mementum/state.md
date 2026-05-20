@@ -42,6 +42,8 @@ Seven experiments on Pythia-2.8b + mini_holo nucleation tests:
 | W_q spectrum cross-model correlation | 0.995 (4 models) |
 | W_up spectrum cross-model correlation | **0.999** (4 models) |
 | W_up rank (90%) fraction | 67-71% (universal) |
+| Q4 etch oracle recovery | 100% at all bitwidths (Q2-Q8) |
+| Q4 sign flip ordering | uniform (random = guided) |
 
 Paradigm shift: `sign(W)` at 97.4% was measuring magnitudes' EFFECT
 on cosines, not signs being the crystal. The real crystal is the
@@ -76,6 +78,8 @@ angle = 0.991 crystal agreement. Full details in `loom-structure.md`.
 | Nucleation speed results (2 experiments) | `results/nucleation/`, `results/nucleation-matched/` |
 | Loom structure results | `results/loom/`, `results/loom-crossings/` |
 | Angle spectrum probe results | `results/angle-spectrum/` |
+| Q4 etch refinement results | `results/q4-etch/` |
+| Magnitude universality results | `results/magnitude-universality/` |
 | Basin probes (144, 9 domains) | `lattice/basin_probes.json` |
 | V12 model + training infra | `scripts/v12/` |
 | Nucleation experiment | `scripts/v12/nucleation_exp.py` |
