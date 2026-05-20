@@ -1,0 +1,98 @@
+========================================================================
+  Ternary Fact Test — Do Fact Lookups Actually Work?
+  Models: ['mistral-7b']
+========================================================================
+
+  ─── mistral-7b ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:52,  2.57it/s]Loading weights:   4%|▍         | 11/291 [00:00<00:09, 28.48it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:05, 49.28it/s]Loading weights:  14%|█▎        | 40/291 [00:00<00:03, 82.78it/s]Loading weights:  19%|█▉        | 55/291 [00:00<00:02, 100.83it/s]Loading weights:  24%|██▎       | 69/291 [00:00<00:01, 111.41it/s]Loading weights:  30%|██▉       | 87/291 [00:01<00:01, 129.86it/s]Loading weights:  36%|███▌      | 104/291 [00:01<00:01, 138.54it/s]Loading weights:  42%|████▏     | 122/291 [00:01<00:01, 147.14it/s]Loading weights:  48%|████▊     | 141/291 [00:01<00:00, 156.72it/s]Loading weights:  56%|█████▌    | 163/291 [00:01<00:00, 174.18it/s]Loading weights:  62%|██████▏   | 181/291 [00:01<00:00, 175.14it/s]Loading weights:  69%|██████▉   | 202/291 [00:01<00:00, 179.33it/s]Loading weights:  76%|███████▌  | 221/291 [00:01<00:00, 143.66it/s]Loading weights:  82%|████████▏ | 239/291 [00:01<00:00, 150.45it/s]Loading weights:  88%|████████▊ | 256/291 [00:02<00:00, 154.80it/s]Loading weights:  94%|█████████▍| 273/291 [00:02<00:00, 157.70it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 128.71it/s]
+
+  Layer 9 (depth 30%):
+
+                                            probe   teacher   ternary     float  top10_olap  mag_ratio
+    ----------------------------------------------------------------------------------------------
+                         The capital of France is   +0.691   +0.528   +0.691           2/10     4.1240
+                                   Water boils at   +0.703   +0.538   +0.703           3/10     4.2847
+              The speed of light is approximately   +0.712   +0.549   +0.712           2/10     4.4038
+                            Python was created by   +0.699   +0.536   +0.699           2/10     4.5289
+                  The chemical symbol for gold is   +0.686   +0.539   +0.686           2/10     3.9569
+                                          2 + 2 =   +0.696   +0.545   +0.696           3/10     4.7463
+         The largest planet in our solar system i   +0.670   +0.516   +0.670           5/10     4.3148
+                                Shakespeare wrote   +0.722   +0.560   +0.722           3/10     5.3007
+                                           E = mc   +0.669   +0.520   +0.669           0/10     3.8377
+         The mitochondria is the powerhouse of th   +0.702   +0.541   +0.702           4/10     4.7457
+                       HTTP status code 404 means   +0.671   +0.520   +0.671           2/10     3.9246
+                  In Python, len([1,2,3]) returns   +0.707   +0.541   +0.707           1/10     4.2290
+                        The square root of 144 is   +0.681   +0.538   +0.681           1/10     4.2444
+                  DNA stands for deoxyribonucleic   +0.687   +0.526   +0.687           1/10     4.4799
+         The first element in the periodic table    +0.702   +0.551   +0.702           3/10     4.1379
+
+    Summary:
+      Mean ternary cosine: +0.5365
+      Mean float cosine:   +0.6932
+      Mean binary agree:   67.4%
+      Teacher |FFN_up|: mean=33.92, std=1.00
+      Ternary |FFN_up|: mean=147.50, std=12.39
+      Magnitude ratio: 4.3506
+      Neuron activation rate correlation: +0.5326
+
+  Layer 16 (depth 50%):
+
+                                            probe   teacher   ternary     float  top10_olap  mag_ratio
+    ----------------------------------------------------------------------------------------------
+                         The capital of France is   +0.750   +0.572   +0.750           4/10     6.6941
+                                   Water boils at   +0.741   +0.564   +0.741           3/10     6.8883
+              The speed of light is approximately   +0.706   +0.528   +0.706           4/10     6.3807
+                            Python was created by   +0.711   +0.543   +0.711           3/10     6.3386
+                  The chemical symbol for gold is   +0.724   +0.541   +0.724           6/10     6.5601
+                                          2 + 2 =   +0.705   +0.521   +0.705           0/10     6.5648
+         The largest planet in our solar system i   +0.731   +0.566   +0.731           6/10     7.0336
+                                Shakespeare wrote   +0.726   +0.531   +0.726           1/10     7.1626
+                                           E = mc   +0.649   +0.492   +0.649           2/10     5.9355
+         The mitochondria is the powerhouse of th   +0.713   +0.540   +0.713           4/10     6.8805
+                       HTTP status code 404 means   +0.725   +0.528   +0.725           1/10     6.2884
+                  In Python, len([1,2,3]) returns   +0.728   +0.542   +0.728           1/10     6.1858
+                        The square root of 144 is   +0.718   +0.544   +0.718           4/10     6.0892
+                  DNA stands for deoxyribonucleic   +0.640   +0.475   +0.640           1/10     6.0004
+         The first element in the periodic table    +0.728   +0.550   +0.728           3/10     6.9306
+
+    Summary:
+      Mean ternary cosine: +0.5357
+      Mean float cosine:   +0.7130
+      Mean binary agree:   67.1%
+      Teacher |FFN_up|: mean=49.93, std=2.37
+      Ternary |FFN_up|: mean=326.31, std=27.69
+      Magnitude ratio: 6.5289
+      Neuron activation rate correlation: +0.5029
+
+  Layer 22 (depth 70%):
+
+                                            probe   teacher   ternary     float  top10_olap  mag_ratio
+    ----------------------------------------------------------------------------------------------
+                         The capital of France is   +0.678   +0.500   +0.678           6/10    12.5970
+                                   Water boils at   +0.646   +0.489   +0.646           2/10    10.8046
+              The speed of light is approximately   +0.635   +0.484   +0.635           0/10    10.3129
+                            Python was created by   +0.670   +0.523   +0.670           0/10    12.5074
+                  The chemical symbol for gold is   +0.626   +0.475   +0.626           2/10    10.9097
+                                          2 + 2 =   +0.611   +0.469   +0.611           6/10    10.4732
+         The largest planet in our solar system i   +0.673   +0.506   +0.673           4/10    11.5156
+                                Shakespeare wrote   +0.645   +0.465   +0.645           1/10    11.8205
+                                           E = mc   +0.635   +0.482   +0.635           4/10     9.0807
+         The mitochondria is the powerhouse of th   +0.632   +0.479   +0.632           1/10    12.7527
+                       HTTP status code 404 means   +0.639   +0.492   +0.639           2/10    11.3925
+                  In Python, len([1,2,3]) returns   +0.605   +0.456   +0.605           2/10    10.9508
+                        The square root of 144 is   +0.596   +0.477   +0.596           3/10    10.2004
+                  DNA stands for deoxyribonucleic   +0.619   +0.485   +0.619           4/10     9.9931
+         The first element in the periodic table    +0.663   +0.503   +0.663           1/10    10.4813
+
+    Summary:
+      Mean ternary cosine: +0.4857
+      Mean float cosine:   +0.6383
+      Mean binary agree:   65.3%
+      Teacher |FFN_up|: mean=68.59, std=3.32
+      Ternary |FFN_up|: mean=759.59, std=92.39
+      Magnitude ratio: 11.0528
+      Neuron activation rate correlation: +0.4173
+
+  Total: 71s
