@@ -1,0 +1,77 @@
+==========================================================================================
+  Holographic Etch — Record Both Crystals into New Plates
+  Model: pythia-2.8b
+  PCA dim: 64
+==========================================================================================
+  Loaded 144 probes
+
+  ─── Reading beams: pythia-2.8b ───
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<01:13,  5.26it/s]Loading weights:  20%|█▉        | 77/388 [00:00<00:00, 328.12it/s]Loading weights:  45%|████▌     | 176/388 [00:00<00:00, 577.68it/s]Loading weights:  70%|███████   | 272/388 [00:00<00:00, 709.46it/s]Loading weights:  95%|█████████▍| 368/388 [00:00<00:00, 768.08it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 595.25it/s]
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 15.0s
+
+  ─── Etching plates ───
+
+  Depth 10%:
+    Effective rank of hidden states: 128 (of 144)
+    Continuous: Q=+1.000, FFN=+1.000
+    Ternary:    Q=+0.622, FFN=+0.586
+    Refined:    Q=+0.749, FFN=+0.682 (5099 flips / 10000 tested)
+    Crosstalk:  Q→FFN=+0.703, FFN→Q=+0.689
+    Size: 80 KB  (d_model=2560, k=128)
+
+  Depth 30%:
+    Effective rank of hidden states: 128 (of 144)
+    Continuous: Q=+1.000, FFN=+1.000
+    Ternary:    Q=+0.658, FFN=+0.653
+    Refined:    Q=+0.736, FFN=+0.730 (4822 flips / 10000 tested)
+    Crosstalk:  Q→FFN=+0.719, FFN→Q=+0.682
+    Size: 80 KB  (d_model=2560, k=128)
+
+  Depth 50%:
+    Effective rank of hidden states: 128 (of 144)
+    Continuous: Q=+1.000, FFN=+1.000
+    Ternary:    Q=+0.674, FFN=+0.738
+    Refined:    Q=+0.750, FFN=+0.800 (4876 flips / 10000 tested)
+    Crosstalk:  Q→FFN=+0.709, FFN→Q=+0.732
+    Size: 80 KB  (d_model=2560, k=128)
+
+  Depth 70%:
+    Effective rank of hidden states: 128 (of 144)
+    Continuous: Q=+1.000, FFN=+1.000
+    Ternary:    Q=+0.486, FFN=+0.721
+    Refined:    Q=+0.576, FFN=+0.810 (5177 flips / 10000 tested)
+    Crosstalk:  Q→FFN=+0.580, FFN→Q=+0.582
+    Size: 80 KB  (d_model=2560, k=128)
+
+  Depth 90%:
+    Effective rank of hidden states: 128 (of 144)
+    Continuous: Q=+1.000, FFN=+1.000
+    Ternary:    Q=+0.542, FFN=+0.839
+    Refined:    Q=+0.636, FFN=+0.900 (5193 flips / 10000 tested)
+    Crosstalk:  Q→FFN=+0.563, FFN→Q=+0.545
+    Size: 80 KB  (d_model=2560, k=128)
+
+==========================================================================================
+  HOLOGRAPHIC ETCH SUMMARY
+==========================================================================================
+
+  depth   cont_Q  cont_up   tern_Q  tern_up    ref_Q   ref_up   flips    size
+  ──────────────────────────────────────────────────────────────────────
+    10%   +1.000   +1.000   +0.622   +0.586   +0.749   +0.682    5099     80K
+    30%   +1.000   +1.000   +0.658   +0.653   +0.736   +0.730    4822     80K
+    50%   +1.000   +1.000   +0.674   +0.738   +0.750   +0.800    4876     80K
+    70%   +1.000   +1.000   +0.486   +0.721   +0.576   +0.810    5177     80K
+    90%   +1.000   +1.000   +0.542   +0.839   +0.636   +0.900    5193     80K
+
+  Mean refined:    Q=+0.690, FFN=+0.785
+  Mean continuous: Q=+1.000, FFN=+1.000 (upper bound)
+  Ternary retention: Q=69%, FFN=78%
+
+  💾 results/holographic-etch/etch_pythia-2.8b.json
+  Total: 30s (0.5min)
+==========================================================================================

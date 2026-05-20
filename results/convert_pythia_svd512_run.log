@@ -1,0 +1,70 @@
+==========================================================================================
+  Convert & Test — pythia-2.8b → svd ternary
+  SVD rank: 512
+==========================================================================================
+
+  Loading tokenizer...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+  Loading model for conversion...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<01:10,  5.47it/s]Loading weights:  15%|█▌        | 60/388 [00:00<00:01, 258.97it/s]Loading weights:  41%|████      | 158/388 [00:00<00:00, 532.47it/s]Loading weights:  67%|██████▋   | 260/388 [00:00<00:00, 684.91it/s]Loading weights:  91%|█████████ | 353/388 [00:00<00:00, 765.00it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 611.87it/s]
+  Original: 2775.2M params, 5293 MB
+
+  Converting (svd)...
+/Users/mwhitford/src/verbum/scripts/v12/convert_and_test.py:126: UserWarning: The operator 'aten::linalg_svd' is not currently supported on the MPS backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/mps/MPSFallback.mm:34.)
+  U, S, Vt = torch.linalg.svd(W, full_matrices=False)
+    Layer 10 done
+    Layer 20 done
+    Layer 30 done
+  Conversion done in 253.2s
+
+  ─── Conversion Results ───
+    mode: svd_ternary
+    rank: 512
+    total_original_params: 2516582400
+    plate_params: 293601280
+    beam_params: 377552896
+    plate_bytes: 73400320
+    plate_mb: 70.0000
+    beam_bytes: 755105792
+    beam_mb: 720.1250
+    total_mb: 790.1250
+    compression_vs_bf16: 6.0750
+
+  ─── Converted Model Generation ───
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:0 for open-end generation.
+    The capital of France is                                                                        d-    d-  ind--    d-
+    def fibonacci(n):\n    pre l l                                    d  d                    d  d  d  d    d        d  
+    In quantum mechanics, the wave function                                                                      m  d  " l  
+    Once upon a time in a land far away,                                                                                    
+    The meaning of life is        d  d  d—'-            d—'-   d—'  d‐                        d      d          
+    λx.λy.x is the combinator known as                                                                            -    -  - 
+    To compile a Haskell program, you need to                                                                               
+    The Pythagorean theorem states that                   d                                                                 
+
+  💾 results/conversion-test/convert_pythia-2.8b_svd_k512.json
+
+==========================================================================================
+  SUMMARY: pythia-2.8b → svd (rank=512)
+    Plate: 70.0 MB (ternary)
+    Beam:  720.1 MB (continuous)
+    Total: 790.1 MB (6.1× vs bf16)
+  Total time: 271s (4.5min)
+==========================================================================================

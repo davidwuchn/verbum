@@ -1,0 +1,57 @@
+{
+  "model": "pythia-2.8b",
+  "model_name": "EleutherAI/pythia-2.8b-deduped",
+  "mode": "svd",
+  "rank": 64,
+  "original_params": 2775208960,
+  "original_mb": 5293.291015625,
+  "conversion_info": {
+    "mode": "svd_ternary",
+    "rank": 64,
+    "total_original_params": 2516582400,
+    "plate_params": 36700160,
+    "beam_params": 47194112,
+    "plate_bytes": 9175040,
+    "plate_mb": 8.75,
+    "beam_bytes": 94388224,
+    "beam_mb": 90.015625,
+    "total_mb": 98.765625,
+    "compression_vs_bf16": 48.59990507831039
+  },
+  "conversion_time_s": 258.8363449573517,
+  "generated_samples": [
+    {
+      "prompt": "The capital of France is",
+      "generation": "The capital of France is acknowPLIED thous acknow thous acknow thous acknow acknow acknowCHANT thous acknow acknowCHANT \u00ad acknowPLIED acknow acknowCHANTfurt acknow thous acknow acknow)}/\\ acknow thous acknow thous acknow thous acknowfurt acknowCHANT thous acknowCHANT neighb acknow neighb thous acknow)}/\\ thous thous acknowCHANT"
+    },
+    {
+      "prompt": "def fibonacci(n):\n    ",
+      "generation": "def fibonacci(n):\n     extraordin acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow thous acknow)}/\\)}/\\)}/\\)}/\\ thous acknow)}/\\ acknow)}/\\ acknow)}/\\ acknow)}/\\ acknowCHANT acknowCHANT acknow acknow acknow thous acknow uncert S acknow acknow uncert S S acknow acknow thous"
+    },
+    {
+      "prompt": "In quantum mechanics, the wave function",
+      "generation": "In quantum mechanics, the wave function acknow acknow acknow acknow acknow acknow thous acknow acknow thous acknow)}/\\ acknow acknow acknow thous acknow thous acknow thous acknow thous acknow thous acknow thous acknow acknow acknow acknow acknow acknow acknow acknowPLIED acknowPLIED acknowPLIED acknow thous acknow thous acknow acknowPLIED acknow acknow thous acknow"
+    },
+    {
+      "prompt": "Once upon a time in a land far away,",
+      "generation": "Once upon a time in a land far away, acknow thous thous acknow thous acknow thous acknow thous acknow thous acknow thous acknow acknow acknow acknow thous acknow thous acknow acknow thous acknow thous acknow thous acknow thous acknow thous acknow acknow thous acknow thous acknow thous ' acknow acknow acknow thous acknow thous acknow thous acknow thous acknow"
+    },
+    {
+      "prompt": "The meaning of life is",
+      "generation": "The meaning of life is acknow acknow thous acknow thous acknow thous acknow acknow thous acknow thous acknow acknow thous acknow acknow acknow thous acknow thous acknow thous acknow thous acknow thous acknow acknow thous acknow thous acknow acknow thous acknow thous acknow thous acknow acknow acknow thous acknow)}/\\ uncert S acknow thous acknow"
+    },
+    {
+      "prompt": "\u03bbx.\u03bby.x is the combinator known as",
+      "generation": "\u03bbx.\u03bby.x is the combinator known as thous S P thous S acknow)}/\\)}/\\CHANT acknow thous acknow)}/\\ answ acknow)}/\\)}/\\ acknow)}/\\ acknow)}/\\)}/\\CHANT acknow)}/\\REEK)}/\\ thous S P)}/\\ thous S acknow)}/\\CHANT acknow acknow uncert S B acknow uncert S thous acknow acknow)}/\\)}/\\)}/\\"
+    },
+    {
+      "prompt": "To compile a Haskell program, you need to",
+      "generation": "To compile a Haskell program, you need to acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow thous acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow)}/\\ thous acknow acknow acknow acknow acknow acknow acknow acknow acknow)}/\\)}/\\ answ acknow acknow)}/\\ acknow acknow acknow acknow acknow)}/\\ thous S acknow uncert"
+    },
+    {
+      "prompt": "The Pythagorean theorem states that",
+      "generation": "The Pythagorean theorem states that\n acknow thous acknow thous acknow thous acknow thous acknow thous acknow thous acknow thous acknow thous acknow)}/\\ acknow uncert acknow thous acknow)}/\\ acknow acknow acknow thous acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow acknow thous acknow acknow acknow thous acknow thous acknow thous"
+    }
+  ],
+  "logit_comparison": null
+}

@@ -1,0 +1,57 @@
+{
+  "model": "pythia-2.8b",
+  "model_name": "EleutherAI/pythia-2.8b-deduped",
+  "mode": "svd",
+  "rank": 512,
+  "original_params": 2775208960,
+  "original_mb": 5293.291015625,
+  "conversion_info": {
+    "mode": "svd_ternary",
+    "rank": 512,
+    "total_original_params": 2516582400,
+    "plate_params": 293601280,
+    "beam_params": 377552896,
+    "plate_bytes": 73400320,
+    "plate_mb": 70.0,
+    "beam_bytes": 755105792,
+    "beam_mb": 720.125,
+    "total_mb": 790.125,
+    "compression_vs_bf16": 6.074988134788799
+  },
+  "conversion_time_s": 253.22137188911438,
+  "generated_samples": [
+    {
+      "prompt": "The capital of France is",
+      "generation": "The capital of France is                                                                        d-    d-  ind--    d-"
+    },
+    {
+      "prompt": "def fibonacci(n):\n    ",
+      "generation": "def fibonacci(n):\n    pre l l                                    d  d                    d  d  d  d    d        d  "
+    },
+    {
+      "prompt": "In quantum mechanics, the wave function",
+      "generation": "In quantum mechanics, the wave function                                                                      m  d  \" l                  "
+    },
+    {
+      "prompt": "Once upon a time in a land far away,",
+      "generation": "Once upon a time in a land far away,                                                                                                   "
+    },
+    {
+      "prompt": "The meaning of life is",
+      "generation": "The meaning of life is        d  d  d\u2014'-            d\u2014'-   d\u2014'  d\u2010                        d      d          "
+    },
+    {
+      "prompt": "\u03bbx.\u03bby.x is the combinator known as",
+      "generation": "\u03bbx.\u03bby.x is the combinator known as                                                                            -    -  -            "
+    },
+    {
+      "prompt": "To compile a Haskell program, you need to",
+      "generation": "To compile a Haskell program, you need to                                                                                                \u2014'  "
+    },
+    {
+      "prompt": "The Pythagorean theorem states that",
+      "generation": "The Pythagorean theorem states that                   d                                                                         ~  "
+    }
+  ],
+  "logit_comparison": null
+}
