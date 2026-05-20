@@ -1,0 +1,203 @@
+================================================================================
+  FFN Beam Search — Hunting the FFN Crystal's Reference Beam
+  Models: ['qwen3-14b', 'mistral-7b', 'olmo-2-13b', 'pythia-2.8b']
+  Hook points: ['q_proj (baseline)', 'up_proj', 'gate_x_up', 'ffn_delta', 'binary']
+  Depths: [0.1, 0.3, 0.5, 0.7, 0.9]
+  PCA dim: 64
+================================================================================
+  Loaded 144 probes
+
+  ─── qwen3-14b (Qwen/Qwen3-14B) ───
+  Layers: [(4, '10%'), (12, '30%'), (20, '50%'), (27, '70%'), (35, '90%')]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:26,  1.15s/it]Loading weights:   4%|▍         | 17/443 [00:01<00:23, 18.18it/s]Loading weights:   8%|▊         | 37/443 [00:01<00:09, 42.27it/s]Loading weights:  11%|█▏        | 50/443 [00:01<00:07, 55.66it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:04, 81.26it/s]Loading weights:  19%|█▉        | 85/443 [00:01<00:04, 83.30it/s]Loading weights:  22%|██▏       | 98/443 [00:01<00:03, 92.50it/s]Loading weights:  26%|██▌       | 113/443 [00:01<00:03, 105.44it/s]Loading weights:  29%|██▊       | 127/443 [00:02<00:03, 101.45it/s]Loading weights:  33%|███▎      | 147/443 [00:02<00:02, 123.94it/s]Loading weights:  37%|███▋      | 162/443 [00:02<00:02, 116.16it/s]Loading weights:  41%|████      | 180/443 [00:02<00:02, 131.34it/s]Loading weights:  44%|████▍     | 195/443 [00:02<00:01, 135.46it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:01, 146.49it/s]Loading weights:  52%|█████▏    | 229/443 [00:02<00:01, 145.06it/s]Loading weights:  55%|█████▌    | 245/443 [00:02<00:01, 147.70it/s]Loading weights:  59%|█████▉    | 261/443 [00:03<00:01, 116.57it/s]Loading weights:  62%|██████▏   | 276/443 [00:03<00:01, 123.99it/s]Loading weights:  65%|██████▌   | 290/443 [00:03<00:01, 125.41it/s]Loading weights:  69%|██████▊   | 304/443 [00:03<00:01, 120.69it/s]Loading weights:  72%|███████▏  | 318/443 [00:03<00:00, 125.43it/s]Loading weights:  75%|███████▌  | 334/443 [00:03<00:00, 133.24it/s]Loading weights:  79%|███████▊  | 348/443 [00:03<00:00, 131.98it/s]Loading weights:  83%|████████▎ | 367/443 [00:03<00:00, 146.24it/s]Loading weights:  86%|████████▌ | 382/443 [00:03<00:00, 142.64it/s]Loading weights:  90%|█████████ | 400/443 [00:04<00:00, 147.97it/s]Loading weights:  94%|█████████▎| 415/443 [00:04<00:00, 119.44it/s]Loading weights:  98%|█████████▊| 433/443 [00:04<00:00, 129.60it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 99.92it/s] 
+  FFN arch: swiglu, SwiGLU: True
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 45.5s (0.32s/probe)
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layers: [(3, '10%'), (9, '30%'), (16, '50%'), (22, '70%'), (28, '90%')]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:56,  2.49it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:07, 34.78it/s]Loading weights:  11%|█         | 32/291 [00:00<00:03, 71.21it/s]Loading weights:  17%|█▋        | 49/291 [00:00<00:02, 96.92it/s]Loading weights:  23%|██▎       | 68/291 [00:00<00:01, 117.51it/s]Loading weights:  29%|██▉       | 85/291 [00:00<00:01, 128.81it/s]Loading weights:  36%|███▌      | 104/291 [00:01<00:01, 142.09it/s]Loading weights:  42%|████▏     | 122/291 [00:01<00:01, 152.56it/s]Loading weights:  48%|████▊     | 140/291 [00:01<00:00, 159.51it/s]Loading weights:  54%|█████▍    | 158/291 [00:01<00:00, 164.99it/s]Loading weights:  60%|██████    | 176/291 [00:01<00:00, 133.27it/s]Loading weights:  66%|██████▋   | 193/291 [00:01<00:00, 142.01it/s]Loading weights:  72%|███████▏  | 209/291 [00:01<00:00, 145.19it/s]Loading weights:  77%|███████▋  | 225/291 [00:01<00:00, 148.01it/s]Loading weights:  83%|████████▎ | 241/291 [00:01<00:00, 149.95it/s]Loading weights:  88%|████████▊ | 257/291 [00:02<00:00, 146.22it/s]Loading weights:  95%|█████████▍| 275/291 [00:02<00:00, 152.18it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 128.49it/s]
+  FFN arch: swiglu, SwiGLU: True
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 27.2s (0.19s/probe)
+
+  ─── olmo-2-13b (allenai/OLMo-2-1124-13B) ───
+  Layers: [(4, '10%'), (12, '30%'), (20, '50%'), (27, '70%'), (35, '90%')]
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:13,  1.41it/s]Loading weights:   3%|▎         | 14/443 [00:00<00:19, 21.85it/s]Loading weights:   6%|▌         | 25/443 [00:00<00:11, 37.27it/s]Loading weights:   8%|▊         | 36/443 [00:01<00:08, 49.24it/s]Loading weights:  11%|█         | 48/443 [00:01<00:06, 64.48it/s]Loading weights:  13%|█▎        | 58/443 [00:01<00:05, 69.77it/s]Loading weights:  16%|█▌        | 69/443 [00:01<00:04, 76.18it/s]Loading weights:  18%|█▊        | 79/443 [00:01<00:04, 79.27it/s]Loading weights:  20%|██        | 89/443 [00:01<00:04, 82.36it/s]Loading weights:  23%|██▎       | 101/443 [00:01<00:03, 89.67it/s]Loading weights:  25%|██▌       | 111/443 [00:01<00:03, 88.20it/s]Loading weights:  28%|██▊       | 124/443 [00:02<00:03, 87.65it/s]Loading weights:  30%|███       | 134/443 [00:02<00:03, 88.76it/s]Loading weights:  33%|███▎      | 146/443 [00:02<00:03, 90.32it/s]Loading weights:  35%|███▌      | 157/443 [00:02<00:03, 88.99it/s]Loading weights:  38%|███▊      | 168/443 [00:02<00:03, 88.08it/s]Loading weights:  40%|████      | 179/443 [00:02<00:03, 85.53it/s]Loading weights:  43%|████▎     | 192/443 [00:02<00:02, 93.95it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:02, 92.95it/s]Loading weights:  48%|████▊     | 212/443 [00:02<00:02, 94.10it/s]Loading weights:  50%|█████     | 222/443 [00:03<00:02, 92.88it/s]Loading weights:  53%|█████▎    | 233/443 [00:03<00:02, 95.56it/s]Loading weights:  55%|█████▍    | 243/443 [00:03<00:06, 33.17it/s]Loading weights:  57%|█████▋    | 254/443 [00:04<00:04, 40.70it/s]Loading weights:  60%|██████    | 266/443 [00:04<00:03, 49.19it/s]Loading weights:  63%|██████▎   | 278/443 [00:04<00:02, 58.32it/s]Loading weights:  65%|██████▌   | 288/443 [00:04<00:02, 64.85it/s]Loading weights:  68%|██████▊   | 300/443 [00:04<00:01, 73.52it/s]Loading weights:  70%|███████   | 311/443 [00:04<00:01, 76.29it/s]Loading weights:  73%|███████▎  | 322/443 [00:04<00:01, 83.49it/s]Loading weights:  75%|███████▌  | 333/443 [00:04<00:01, 87.53it/s]Loading weights:  78%|███████▊  | 344/443 [00:05<00:01, 90.61it/s]Loading weights:  80%|████████  | 355/443 [00:05<00:01, 87.22it/s]Loading weights:  83%|████████▎ | 366/443 [00:05<00:00, 91.13it/s]Loading weights:  85%|████████▌ | 377/443 [00:05<00:00, 91.45it/s]Loading weights:  88%|████████▊ | 388/443 [00:05<00:00, 91.54it/s]Loading weights:  90%|█████████ | 399/443 [00:05<00:00, 92.13it/s]Loading weights:  93%|█████████▎| 410/443 [00:05<00:00, 91.90it/s]Loading weights:  95%|█████████▌| 421/443 [00:05<00:00, 91.53it/s]Loading weights:  97%|█████████▋| 431/443 [00:06<00:00, 80.95it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 72.24it/s]
+  FFN arch: swiglu, SwiGLU: True
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 42.3s (0.29s/probe)
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layers: [(3, '10%'), (9, '30%'), (16, '50%'), (22, '70%'), (28, '90%')]
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   8%|▊         | 32/388 [00:00<00:01, 318.07it/s]Loading weights:  32%|███▏      | 126/388 [00:00<00:00, 681.58it/s]Loading weights:  56%|█████▌    | 218/388 [00:00<00:00, 789.71it/s]Loading weights:  77%|███████▋  | 298/388 [00:00<00:00, 314.24it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 443.28it/s]
+  FFN arch: gptneox, SwiGLU: False
+  Running 144 probes...
+    50/144...
+    100/144...
+  Done in 15.1s (0.10s/probe)
+
+  Analyzing q_proj...
+
+  Analyzing up_proj...
+
+  Analyzing gate_x_up...
+
+  Analyzing ffn_delta...
+
+  Analyzing binary...
+
+====================================================================================================
+  FFN BEAM SEARCH — Cross-Model Agreement by Hook Point
+====================================================================================================
+
+       hook_point  mean_agr  best_agr  best_d  self_sim  zone_A  zone_B  zone_C     verdict
+  ─────────────────────────────────────────────────────────────────────────────────────
+           q_proj   +0.7280   +0.7702     10%   +0.8487  +0.770  +0.726  +0.709   ★★ strong
+          up_proj   +0.7480   +0.7951     90%   +0.8874  +0.652  +0.756  +0.788   ★★ strong
+        gate_x_up   +0.6076   +0.6425     50%   +0.8043  +0.519  +0.634  +0.625      ★ weak
+        ffn_delta   +0.5852   +0.6522     30%   +0.7748  +0.591  +0.641  +0.527      ★ weak
+           binary   +0.5830   +0.6910     90%   +0.8640  +0.488  +0.547  +0.667      ★ weak
+
+  ═══ Q_PROJ ═══
+  Agreement per depth:
+    depth 0.1: +0.7702 ██████████████████████████████████████
+    depth 0.3: +0.7561 █████████████████████████████████████
+    depth 0.5: +0.6957 ██████████████████████████████████
+    depth 0.7: +0.7076 ███████████████████████████████████
+    depth 0.9: +0.7105 ███████████████████████████████████
+  PCA captured variance:
+    depth 0.1: 92.9%
+    depth 0.3: 85.2%
+    depth 0.5: 84.4%
+    depth 0.7: 87.0%
+    depth 0.9: 89.2%
+  Mean cross-depth self-similarity: +0.8487
+  Per-domain agreement (depth 10%):
+       reasoning: +0.9488 █████████████████████████████████████
+          coding: +0.8847 ███████████████████████████████████
+      arithmetic: +0.8524 ██████████████████████████████████
+          lambda: +0.8075 ████████████████████████████████
+         analogy: +0.8071 ████████████████████████████████
+            tool: +0.7866 ███████████████████████████████
+       retrieval: +0.7301 █████████████████████████████
+     instruction: +0.6942 ███████████████████████████
+       narrative: +0.5046 ████████████████████
+
+  ═══ UP_PROJ ═══
+  Agreement per depth:
+    depth 0.1: +0.6522 ████████████████████████████████
+    depth 0.3: +0.7462 █████████████████████████████████████
+    depth 0.5: +0.7661 ██████████████████████████████████████
+    depth 0.7: +0.7803 ███████████████████████████████████████
+    depth 0.9: +0.7951 ███████████████████████████████████████
+  PCA captured variance:
+    depth 0.1: 85.6%
+    depth 0.3: 76.4%
+    depth 0.5: 77.2%
+    depth 0.7: 79.7%
+    depth 0.9: 80.4%
+  Mean cross-depth self-similarity: +0.8874
+  Per-domain agreement (depth 90%):
+       reasoning: +0.8864 ███████████████████████████████████
+         analogy: +0.6874 ███████████████████████████
+            tool: +0.6531 ██████████████████████████
+          lambda: +0.6512 ██████████████████████████
+       retrieval: +0.5543 ██████████████████████
+      arithmetic: +0.5407 █████████████████████
+          coding: +0.5007 ████████████████████
+       narrative: +0.4703 ██████████████████
+     instruction: +0.1715 ██████
+
+  ═══ GATE_X_UP ═══
+  Agreement per depth:
+    depth 0.1: +0.5195 █████████████████████████
+    depth 0.3: +0.6256 ███████████████████████████████
+    depth 0.5: +0.6425 ████████████████████████████████
+    depth 0.7: +0.6111 ██████████████████████████████
+    depth 0.9: +0.6394 ███████████████████████████████
+  PCA captured variance:
+    depth 0.1: 87.2%
+    depth 0.3: 69.2%
+    depth 0.5: 70.5%
+    depth 0.7: 75.8%
+    depth 0.9: 79.4%
+  Mean cross-depth self-similarity: +0.8043
+  Per-domain agreement (depth 50%):
+       reasoning: +0.7392 █████████████████████████████
+          lambda: +0.6502 ██████████████████████████
+            tool: +0.6011 ████████████████████████
+         analogy: +0.5691 ██████████████████████
+      arithmetic: +0.5109 ████████████████████
+       retrieval: +0.5026 ████████████████████
+          coding: +0.4603 ██████████████████
+       narrative: +0.2528 ██████████
+     instruction: +0.2219 ████████
+
+  ═══ FFN_DELTA ═══
+  Agreement per depth:
+    depth 0.1: +0.5910 █████████████████████████████
+    depth 0.3: +0.6522 ████████████████████████████████
+    depth 0.5: +0.6294 ███████████████████████████████
+    depth 0.7: +0.4507 ██████████████████████
+    depth 0.9: +0.6027 ██████████████████████████████
+  PCA captured variance:
+    depth 0.1: 85.2%
+    depth 0.3: 70.9%
+    depth 0.5: 72.0%
+    depth 0.7: 80.1%
+    depth 0.9: 81.5%
+  Mean cross-depth self-similarity: +0.7748
+  Per-domain agreement (depth 30%):
+       reasoning: +0.8109 ████████████████████████████████
+          coding: +0.7834 ███████████████████████████████
+          lambda: +0.7802 ███████████████████████████████
+      arithmetic: +0.7009 ████████████████████████████
+            tool: +0.6588 ██████████████████████████
+         analogy: +0.6291 █████████████████████████
+       retrieval: +0.4297 █████████████████
+       narrative: +0.3155 ████████████
+     instruction: +0.2368 █████████
+
+  ═══ BINARY ═══
+  Agreement per depth:
+    depth 0.1: +0.4875 ████████████████████████
+    depth 0.3: +0.5120 █████████████████████████
+    depth 0.5: +0.5822 █████████████████████████████
+    depth 0.7: +0.6424 ████████████████████████████████
+    depth 0.9: +0.6910 ██████████████████████████████████
+  PCA captured variance:
+    depth 0.1: 65.3%
+    depth 0.3: 59.9%
+    depth 0.5: 61.4%
+    depth 0.7: 63.3%
+    depth 0.9: 64.9%
+  Mean cross-depth self-similarity: +0.8640
+  Per-domain agreement (depth 90%):
+       reasoning: +0.7449 █████████████████████████████
+          lambda: +0.6347 █████████████████████████
+         analogy: +0.5662 ██████████████████████
+            tool: +0.5368 █████████████████████
+      arithmetic: +0.5269 █████████████████████
+       retrieval: +0.5122 ████████████████████
+       narrative: +0.4653 ██████████████████
+          coding: +0.4628 ██████████████████
+     instruction: +0.1894 ███████
+
+====================================================================================================
+  BEST FFN HOOK: up_proj
+    Mean agreement: +0.7480 (Q baseline: +0.7280, ratio: 102.7%)
+    Self-similarity: +0.8874
+  ★★ STRONG SIGNAL — up_proj partially reads the FFN crystal
+====================================================================================================
+
+  💾 results/ffn-beam/ffn_beam_results.json
+  Total: 167s (2.8min)
