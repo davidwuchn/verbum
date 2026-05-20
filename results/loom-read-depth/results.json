@@ -1,0 +1,1351 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "depths": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "target_layers": {
+    "0.1": 3,
+    "0.3": 9,
+    "0.5": 16,
+    "0.7": 22,
+    "0.9": 28
+  },
+  "n_probes": 144,
+  "probe_groups": {
+    "compose": 24,
+    "retrieve": 30,
+    "route": 45,
+    "neutral": 45
+  },
+  "per_depth": {
+    "0.1": {
+      "angle_distribution": {
+        "shared": 15,
+        "mid_low": 39,
+        "attn_clust": 32,
+        "transition": 21,
+        "holographic": 36,
+        "peripheral": 57,
+        "private": 56
+      },
+      "reference_whnf_polarity": 0.6016637086868286,
+      "q_crystal_agreement": 0.9901324510574341,
+      "band_crystal": {
+        "shared": {
+          "agreement": 0.9213482141494751,
+          "whnf_polarity": 0.703760027885437,
+          "n_dirs": 15
+        },
+        "mid_low": {
+          "agreement": 0.9714906215667725,
+          "whnf_polarity": 0.20283927023410797,
+          "n_dirs": 39
+        },
+        "attn_clust": {
+          "agreement": 0.9646375179290771,
+          "whnf_polarity": -0.05333591625094414,
+          "n_dirs": 32
+        },
+        "transition": {
+          "agreement": 0.9248295426368713,
+          "whnf_polarity": 0.2040160447359085,
+          "n_dirs": 21
+        },
+        "holographic": {
+          "agreement": 0.968556821346283,
+          "whnf_polarity": 0.18101643025875092,
+          "n_dirs": 36
+        },
+        "peripheral": {
+          "agreement": 0.9539656639099121,
+          "whnf_polarity": 0.41778650879859924,
+          "n_dirs": 57
+        },
+        "private": {
+          "agreement": 0.8575775623321533,
+          "whnf_polarity": 0.3758626878261566,
+          "n_dirs": 56
+        }
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9741579252351922,
+        "compose_vs_route": 0.7535929460541876,
+        "compose_vs_neutral": 0.7752480679129257,
+        "retrieve_vs_route": 0.7559619002251499,
+        "retrieve_vs_neutral": 0.7779737972985036,
+        "route_vs_neutral": 0.9991352849452896
+      },
+      "energy_by_group": {
+        "compose": {
+          "shared": 0.056820645928382874,
+          "mid_low": 0.02669193595647812,
+          "attn_clust": 0.015160051174461842,
+          "transition": 0.009602683596313,
+          "holographic": 0.012551999650895596,
+          "peripheral": 0.018892336636781693,
+          "private": 0.01635802537202835
+        },
+        "retrieve": {
+          "shared": 0.059049300849437714,
+          "mid_low": 0.023602893576025963,
+          "attn_clust": 0.0138614596799016,
+          "transition": 0.010381396859884262,
+          "holographic": 0.014493601396679878,
+          "peripheral": 0.02249894104897976,
+          "private": 0.02018529362976551
+        },
+        "route": {
+          "shared": 0.0030817303340882063,
+          "mid_low": 0.012682541273534298,
+          "attn_clust": 0.016507400199770927,
+          "transition": 0.016424018889665604,
+          "holographic": 0.019194820895791054,
+          "peripheral": 0.02863071858882904,
+          "private": 0.016367005184292793
+        },
+        "neutral": {
+          "shared": 0.004704011604189873,
+          "mid_low": 0.013003246858716011,
+          "attn_clust": 0.016435682773590088,
+          "transition": 0.016249684616923332,
+          "holographic": 0.019079720601439476,
+          "peripheral": 0.0284107718616724,
+          "private": 0.01639610528945923
+        }
+      },
+      "sign_overlap": {
+        "shared": {
+          "n_dirs": 15,
+          "overlaps": {
+            "compose_vs_retrieve": 0.4928385416666667,
+            "compose_vs_route": 0.51015625,
+            "compose_vs_neutral": 0.51015625,
+            "retrieve_vs_route": 0.684765625,
+            "retrieve_vs_neutral": 0.684765625,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "mid_low": {
+          "n_dirs": 39,
+          "overlaps": {
+            "compose_vs_retrieve": 0.6390066964285714,
+            "compose_vs_route": 0.5030691964285714,
+            "compose_vs_neutral": 0.5030691964285714,
+            "retrieve_vs_route": 0.5036830357142857,
+            "retrieve_vs_neutral": 0.5036830357142857,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 32,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5823567708333334,
+            "compose_vs_route": 0.501953125,
+            "compose_vs_neutral": 0.49583333333333335,
+            "retrieve_vs_route": 0.5070963541666667,
+            "retrieve_vs_neutral": 0.5011067708333333,
+            "route_vs_neutral": 0.8298177083333333
+          }
+        },
+        "transition": {
+          "n_dirs": 21,
+          "overlaps": {
+            "compose_vs_retrieve": 0.62900390625,
+            "compose_vs_route": 0.4904296875,
+            "compose_vs_neutral": 0.4904296875,
+            "retrieve_vs_route": 0.49404296875,
+            "retrieve_vs_neutral": 0.49404296875,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "holographic": {
+          "n_dirs": 36,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5707589285714286,
+            "compose_vs_route": 0.5005580357142857,
+            "compose_vs_neutral": 0.49955357142857143,
+            "retrieve_vs_route": 0.49263392857142857,
+            "retrieve_vs_neutral": 0.49508928571428573,
+            "route_vs_neutral": 0.71640625
+          }
+        },
+        "peripheral": {
+          "n_dirs": 57,
+          "overlaps": {
+            "compose_vs_retrieve": 0.49953835227272725,
+            "compose_vs_route": 0.5064985795454545,
+            "compose_vs_neutral": 0.5064985795454545,
+            "retrieve_vs_route": 0.49360795454545453,
+            "retrieve_vs_neutral": 0.49360795454545453,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "private": {
+          "n_dirs": 56,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5486860795454546,
+            "compose_vs_route": 0.4948863636363636,
+            "compose_vs_neutral": 0.5458096590909091,
+            "retrieve_vs_route": 0.5912286931818181,
+            "retrieve_vs_neutral": 0.5432173295454545,
+            "route_vs_neutral": 0.68203125
+          }
+        }
+      },
+      "subcrystal_count": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "private": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        }
+      }
+    },
+    "0.3": {
+      "angle_distribution": {
+        "shared": 19,
+        "mid_low": 60,
+        "attn_clust": 34,
+        "transition": 25,
+        "holographic": 34,
+        "peripheral": 42,
+        "private": 42
+      },
+      "reference_whnf_polarity": 0.5847465395927429,
+      "q_crystal_agreement": 0.9891120791435242,
+      "band_crystal": {
+        "shared": {
+          "agreement": 0.9248818159103394,
+          "whnf_polarity": 0.6062203049659729,
+          "n_dirs": 19
+        },
+        "mid_low": {
+          "agreement": 0.9302205443382263,
+          "whnf_polarity": 0.2217090129852295,
+          "n_dirs": 60
+        },
+        "attn_clust": {
+          "agreement": 0.8355268836021423,
+          "whnf_polarity": 0.27065443992614746,
+          "n_dirs": 34
+        },
+        "transition": {
+          "agreement": 0.9054367542266846,
+          "whnf_polarity": 0.47813478112220764,
+          "n_dirs": 25
+        },
+        "holographic": {
+          "agreement": 0.9338138699531555,
+          "whnf_polarity": 0.2791591286659241,
+          "n_dirs": 34
+        },
+        "peripheral": {
+          "agreement": 0.9546505808830261,
+          "whnf_polarity": 0.41254037618637085,
+          "n_dirs": 42
+        },
+        "private": {
+          "agreement": 0.8992689847946167,
+          "whnf_polarity": 0.42590346932411194,
+          "n_dirs": 42
+        }
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9753071933218274,
+        "compose_vs_route": 0.9327784536324808,
+        "compose_vs_neutral": 0.9338976803916186,
+        "retrieve_vs_route": 0.9348709770383353,
+        "retrieve_vs_neutral": 0.9359929812525969,
+        "route_vs_neutral": 0.9998414544984475
+      },
+      "energy_by_group": {
+        "compose": {
+          "shared": 0.038562823086977005,
+          "mid_low": 0.036563336849212646,
+          "attn_clust": 0.013575444929301739,
+          "transition": 0.013617225922644138,
+          "holographic": 0.012865480966866016,
+          "peripheral": 0.015071108937263489,
+          "private": 0.015335110016167164
+        },
+        "retrieve": {
+          "shared": 0.04150142893195152,
+          "mid_low": 0.04271179810166359,
+          "attn_clust": 0.016167011111974716,
+          "transition": 0.014425047673285007,
+          "holographic": 0.013260012492537498,
+          "peripheral": 0.0178071241825819,
+          "private": 0.0176102127879858
+        },
+        "route": {
+          "shared": 0.003421165980398655,
+          "mid_low": 0.022514186799526215,
+          "attn_clust": 0.019671639427542686,
+          "transition": 0.04809585586190224,
+          "holographic": 0.021302420645952225,
+          "peripheral": 0.0262792706489563,
+          "private": 0.027820225805044174
+        },
+        "neutral": {
+          "shared": 0.004095712676644325,
+          "mid_low": 0.022767221555113792,
+          "attn_clust": 0.019558804109692574,
+          "transition": 0.04753599688410759,
+          "holographic": 0.021143611520528793,
+          "peripheral": 0.02609475888311863,
+          "private": 0.027622470632195473
+        }
+      },
+      "sign_overlap": {
+        "shared": {
+          "n_dirs": 19,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5098958333333333,
+            "compose_vs_route": 0.66640625,
+            "compose_vs_neutral": 0.66640625,
+            "retrieve_vs_route": 0.5091145833333334,
+            "retrieve_vs_neutral": 0.5091145833333334,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "mid_low": {
+          "n_dirs": 60,
+          "overlaps": {
+            "compose_vs_retrieve": 0.4976888020833333,
+            "compose_vs_route": 0.50224609375,
+            "compose_vs_neutral": 0.49925130208333335,
+            "retrieve_vs_route": 0.4994140625,
+            "retrieve_vs_neutral": 0.5020833333333333,
+            "route_vs_neutral": 0.7907552083333333
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 34,
+          "overlaps": {
+            "compose_vs_retrieve": 0.6701822916666667,
+            "compose_vs_route": 0.58671875,
+            "compose_vs_neutral": 0.6690104166666667,
+            "retrieve_vs_route": 0.495703125,
+            "retrieve_vs_neutral": 0.5798177083333333,
+            "route_vs_neutral": 0.8341145833333333
+          }
+        },
+        "transition": {
+          "n_dirs": 25,
+          "overlaps": {
+            "compose_vs_retrieve": 0.696640625,
+            "compose_vs_route": 0.5025,
+            "compose_vs_neutral": 0.5025,
+            "retrieve_vs_route": 0.703515625,
+            "retrieve_vs_neutral": 0.703515625,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "holographic": {
+          "n_dirs": 34,
+          "overlaps": {
+            "compose_vs_retrieve": 0.496484375,
+            "compose_vs_route": 0.5054036458333333,
+            "compose_vs_neutral": 0.5036458333333333,
+            "retrieve_vs_route": 0.5051432291666667,
+            "retrieve_vs_neutral": 0.5049479166666667,
+            "route_vs_neutral": 0.9156901041666666
+          }
+        },
+        "peripheral": {
+          "n_dirs": 42,
+          "overlaps": {
+            "compose_vs_retrieve": 0.566650390625,
+            "compose_vs_route": 0.561181640625,
+            "compose_vs_neutral": 0.563134765625,
+            "retrieve_vs_route": 0.5552734375,
+            "retrieve_vs_neutral": 0.5572265625,
+            "route_vs_neutral": 0.87158203125
+          }
+        },
+        "private": {
+          "n_dirs": 42,
+          "overlaps": {
+            "compose_vs_retrieve": 0.62978515625,
+            "compose_vs_route": 0.62626953125,
+            "compose_vs_neutral": 0.68603515625,
+            "retrieve_vs_route": 0.6228515625,
+            "retrieve_vs_neutral": 0.62802734375,
+            "route_vs_neutral": 0.74716796875
+          }
+        }
+      },
+      "subcrystal_count": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "route",
+              "neutral"
+            ],
+            [
+              "retrieve"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        }
+      }
+    },
+    "0.5": {
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 43,
+        "attn_clust": 33,
+        "transition": 27,
+        "holographic": 40,
+        "peripheral": 54,
+        "private": 51
+      },
+      "reference_whnf_polarity": 0.5869940519332886,
+      "q_crystal_agreement": 0.9925576448440552,
+      "band_crystal": {
+        "shared": {
+          "agreement": 0.8742576837539673,
+          "whnf_polarity": 0.8890582919120789,
+          "n_dirs": 8
+        },
+        "mid_low": {
+          "agreement": 0.9736689925193787,
+          "whnf_polarity": 0.35499757528305054,
+          "n_dirs": 43
+        },
+        "attn_clust": {
+          "agreement": 0.9033610224723816,
+          "whnf_polarity": 0.15857373178005219,
+          "n_dirs": 33
+        },
+        "transition": {
+          "agreement": 0.9098712801933289,
+          "whnf_polarity": -0.019222889095544815,
+          "n_dirs": 27
+        },
+        "holographic": {
+          "agreement": 0.9653360247612,
+          "whnf_polarity": 0.4682953655719757,
+          "n_dirs": 40
+        },
+        "peripheral": {
+          "agreement": 0.9642059803009033,
+          "whnf_polarity": 0.644732654094696,
+          "n_dirs": 54
+        },
+        "private": {
+          "agreement": 0.9235548973083496,
+          "whnf_polarity": 0.7971878051757812,
+          "n_dirs": 51
+        }
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9746438180238395,
+        "compose_vs_route": 0.9291584850598948,
+        "compose_vs_neutral": 0.9316426584110512,
+        "retrieve_vs_route": 0.9433004979884707,
+        "retrieve_vs_neutral": 0.9454103519100502,
+        "route_vs_neutral": 0.999711615089136
+      },
+      "energy_by_group": {
+        "compose": {
+          "shared": 0.04404427483677864,
+          "mid_low": 0.027310414239764214,
+          "attn_clust": 0.018320851027965546,
+          "transition": 0.014116735197603703,
+          "holographic": 0.018095487728714943,
+          "peripheral": 0.032692596316337585,
+          "private": 0.057399824261665344
+        },
+        "retrieve": {
+          "shared": 0.04603588208556175,
+          "mid_low": 0.02662605047225952,
+          "attn_clust": 0.01621944084763527,
+          "transition": 0.012338683009147644,
+          "holographic": 0.01984223537147045,
+          "peripheral": 0.03158985450863838,
+          "private": 0.059573736041784286
+        },
+        "route": {
+          "shared": 0.007555412594228983,
+          "mid_low": 0.008115706034004688,
+          "attn_clust": 0.009393052197992802,
+          "transition": 0.009847463108599186,
+          "holographic": 0.01690118946135044,
+          "peripheral": 0.05249926820397377,
+          "private": 0.09798926115036011
+        },
+        "neutral": {
+          "shared": 0.008745171129703522,
+          "mid_low": 0.008768200874328613,
+          "attn_clust": 0.009559190832078457,
+          "transition": 0.009899202734231949,
+          "holographic": 0.016906170174479485,
+          "peripheral": 0.051983077079057693,
+          "private": 0.09672520309686661
+        }
+      },
+      "sign_overlap": {
+        "shared": {
+          "n_dirs": 8,
+          "overlaps": {
+            "compose_vs_retrieve": 1.0,
+            "compose_vs_route": 1.0,
+            "compose_vs_neutral": 1.0,
+            "retrieve_vs_route": 1.0,
+            "retrieve_vs_neutral": 1.0,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "mid_low": {
+          "n_dirs": 43,
+          "overlaps": {
+            "compose_vs_retrieve": 0.561328125,
+            "compose_vs_route": 0.4970703125,
+            "compose_vs_neutral": 0.494970703125,
+            "retrieve_vs_route": 0.50087890625,
+            "retrieve_vs_neutral": 0.504248046875,
+            "route_vs_neutral": 0.874658203125
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 33,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5768880208333333,
+            "compose_vs_route": 0.579296875,
+            "compose_vs_neutral": 0.579296875,
+            "retrieve_vs_route": 0.5771484375,
+            "retrieve_vs_neutral": 0.5771484375,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "transition": {
+          "n_dirs": 27,
+          "overlaps": {
+            "compose_vs_retrieve": 0.901328125,
+            "compose_vs_route": 0.601328125,
+            "compose_vs_neutral": 0.706015625,
+            "retrieve_vs_route": 0.59890625,
+            "retrieve_vs_neutral": 0.70359375,
+            "route_vs_neutral": 0.79859375
+          }
+        },
+        "holographic": {
+          "n_dirs": 40,
+          "overlaps": {
+            "compose_vs_retrieve": 0.49482421875,
+            "compose_vs_route": 0.564111328125,
+            "compose_vs_neutral": 0.688818359375,
+            "retrieve_vs_route": 0.500341796875,
+            "retrieve_vs_neutral": 0.497998046875,
+            "route_vs_neutral": 0.87529296875
+          }
+        },
+        "peripheral": {
+          "n_dirs": 54,
+          "overlaps": {
+            "compose_vs_retrieve": 0.6456640625,
+            "compose_vs_route": 0.696875,
+            "compose_vs_neutral": 0.649453125,
+            "retrieve_vs_route": 0.6999609375,
+            "retrieve_vs_neutral": 0.6496484375,
+            "route_vs_neutral": 0.90203125
+          }
+        },
+        "private": {
+          "n_dirs": 51,
+          "overlaps": {
+            "compose_vs_retrieve": 0.54015625,
+            "compose_vs_route": 0.6957421875,
+            "compose_vs_neutral": 0.6976953125,
+            "retrieve_vs_route": 0.5961328125,
+            "retrieve_vs_neutral": 0.6460546875,
+            "route_vs_neutral": 0.900546875
+          }
+        }
+      },
+      "subcrystal_count": {
+        "shared": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "route",
+              "neutral"
+            ],
+            [
+              "retrieve"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        }
+      }
+    },
+    "0.7": {
+      "angle_distribution": {
+        "shared": 4,
+        "mid_low": 47,
+        "attn_clust": 35,
+        "transition": 25,
+        "holographic": 39,
+        "peripheral": 54,
+        "private": 52
+      },
+      "reference_whnf_polarity": 0.7653627395629883,
+      "q_crystal_agreement": 0.917876124382019,
+      "band_crystal": {
+        "shared": {
+          "agreement": 0.8373365998268127,
+          "whnf_polarity": 0.9800708889961243,
+          "n_dirs": 4
+        },
+        "mid_low": {
+          "agreement": 0.9419827461242676,
+          "whnf_polarity": 0.6958685517311096,
+          "n_dirs": 47
+        },
+        "attn_clust": {
+          "agreement": 0.9882058501243591,
+          "whnf_polarity": 0.6989583373069763,
+          "n_dirs": 35
+        },
+        "transition": {
+          "agreement": 0.968436062335968,
+          "whnf_polarity": 0.8350085616111755,
+          "n_dirs": 25
+        },
+        "holographic": {
+          "agreement": 0.9728819727897644,
+          "whnf_polarity": 0.9159278273582458,
+          "n_dirs": 39
+        },
+        "peripheral": {
+          "agreement": 0.9489227533340454,
+          "whnf_polarity": 0.9075314402580261,
+          "n_dirs": 54
+        },
+        "private": {
+          "agreement": 0.9772651195526123,
+          "whnf_polarity": 0.8605921864509583,
+          "n_dirs": 52
+        }
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9838242497009277,
+        "compose_vs_route": 0.8543758531173655,
+        "compose_vs_neutral": 0.8771296890549074,
+        "retrieve_vs_route": 0.8546197373767291,
+        "retrieve_vs_neutral": 0.8773607751873277,
+        "route_vs_neutral": 0.9980476689548595
+      },
+      "energy_by_group": {
+        "compose": {
+          "shared": 0.033195048570632935,
+          "mid_low": 0.03448944911360741,
+          "attn_clust": 0.03102356195449829,
+          "transition": 0.023199567571282387,
+          "holographic": 0.05371866747736931,
+          "peripheral": 0.0699869841337204,
+          "private": 0.05732789635658264
+        },
+        "retrieve": {
+          "shared": 0.03923989087343216,
+          "mid_low": 0.0319194532930851,
+          "attn_clust": 0.030257046222686768,
+          "transition": 0.022934872657060623,
+          "holographic": 0.05239441618323326,
+          "peripheral": 0.07116326689720154,
+          "private": 0.05780240148305893
+        },
+        "route": {
+          "shared": 0.0067668333649635315,
+          "mid_low": 0.027837596833705902,
+          "attn_clust": 0.04379682615399361,
+          "transition": 0.047170352190732956,
+          "holographic": 0.09304371476173401,
+          "peripheral": 0.1128886267542839,
+          "private": 0.07047449797391891
+        },
+        "neutral": {
+          "shared": 0.010103450156748295,
+          "mid_low": 0.02925782836973667,
+          "attn_clust": 0.04254286363720894,
+          "transition": 0.04410441592335701,
+          "holographic": 0.08878141641616821,
+          "peripheral": 0.10766831785440445,
+          "private": 0.06930933147668839
+        }
+      },
+      "sign_overlap": {
+        "shared": {
+          "n_dirs": 4,
+          "overlaps": {
+            "compose_vs_retrieve": 1.0,
+            "compose_vs_route": 0.48671875,
+            "compose_vs_neutral": 0.526171875,
+            "retrieve_vs_route": 0.48671875,
+            "retrieve_vs_neutral": 0.526171875,
+            "route_vs_neutral": 0.516796875
+          }
+        },
+        "mid_low": {
+          "n_dirs": 47,
+          "overlaps": {
+            "compose_vs_retrieve": 0.6671875,
+            "compose_vs_route": 0.48702256944444444,
+            "compose_vs_neutral": 0.48628472222222224,
+            "retrieve_vs_route": 0.4945746527777778,
+            "retrieve_vs_neutral": 0.49774305555555554,
+            "route_vs_neutral": 0.8378038194444445
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 35,
+          "overlaps": {
+            "compose_vs_retrieve": 0.7156808035714286,
+            "compose_vs_route": 0.5088727678571429,
+            "compose_vs_neutral": 0.5035714285714286,
+            "retrieve_vs_route": 0.4974330357142857,
+            "retrieve_vs_neutral": 0.4967075892857143,
+            "route_vs_neutral": 0.6512834821428571
+          }
+        },
+        "transition": {
+          "n_dirs": 25,
+          "overlaps": {
+            "compose_vs_retrieve": 0.49796875,
+            "compose_vs_route": 0.509765625,
+            "compose_vs_neutral": 0.509765625,
+            "retrieve_vs_route": 0.497109375,
+            "retrieve_vs_neutral": 0.497109375,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "holographic": {
+          "n_dirs": 39,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5784598214285714,
+            "compose_vs_route": 0.48738839285714286,
+            "compose_vs_neutral": 0.49051339285714285,
+            "retrieve_vs_route": 0.5597098214285714,
+            "retrieve_vs_neutral": 0.57109375,
+            "route_vs_neutral": 0.7917410714285714
+          }
+        },
+        "peripheral": {
+          "n_dirs": 54,
+          "overlaps": {
+            "compose_vs_retrieve": 0.4980078125,
+            "compose_vs_route": 0.50578125,
+            "compose_vs_neutral": 0.5062109375,
+            "retrieve_vs_route": 0.4898828125,
+            "retrieve_vs_neutral": 0.4946875,
+            "route_vs_neutral": 0.8011328125
+          }
+        },
+        "private": {
+          "n_dirs": 52,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5469921875,
+            "compose_vs_route": 0.5072265625,
+            "compose_vs_neutral": 0.5061328125,
+            "retrieve_vs_route": 0.511328125,
+            "retrieve_vs_neutral": 0.559765625,
+            "route_vs_neutral": 0.6
+          }
+        }
+      },
+      "subcrystal_count": {
+        "shared": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route"
+            ],
+            [
+              "neutral"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 3,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "private": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose"
+            ],
+            [
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        }
+      }
+    },
+    "0.9": {
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 41,
+        "attn_clust": 26,
+        "transition": 26,
+        "holographic": 39,
+        "peripheral": 58,
+        "private": 58
+      },
+      "reference_whnf_polarity": 0.8315210342407227,
+      "q_crystal_agreement": 0.9039153456687927,
+      "band_crystal": {
+        "shared": {
+          "agreement": 0.8299844861030579,
+          "whnf_polarity": 0.9855973124504089,
+          "n_dirs": 8
+        },
+        "mid_low": {
+          "agreement": 0.9572269320487976,
+          "whnf_polarity": 0.5290331840515137,
+          "n_dirs": 41
+        },
+        "attn_clust": {
+          "agreement": 0.9772793054580688,
+          "whnf_polarity": 0.6359459161758423,
+          "n_dirs": 26
+        },
+        "transition": {
+          "agreement": 0.9762834906578064,
+          "whnf_polarity": 0.6854585409164429,
+          "n_dirs": 26
+        },
+        "holographic": {
+          "agreement": 0.9763761758804321,
+          "whnf_polarity": 0.7516916394233704,
+          "n_dirs": 39
+        },
+        "peripheral": {
+          "agreement": 0.9897037744522095,
+          "whnf_polarity": 0.8443811535835266,
+          "n_dirs": 58
+        },
+        "private": {
+          "agreement": 0.9738836884498596,
+          "whnf_polarity": 0.9456343054771423,
+          "n_dirs": 58
+        }
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.987017525958983,
+        "compose_vs_route": 0.9047131884914363,
+        "compose_vs_neutral": 0.9259159694068667,
+        "retrieve_vs_route": 0.9106240502370299,
+        "retrieve_vs_neutral": 0.9310564103633272,
+        "route_vs_neutral": 0.9970283349529603
+      },
+      "energy_by_group": {
+        "compose": {
+          "shared": 0.03916110098361969,
+          "mid_low": 0.01901960000395775,
+          "attn_clust": 0.012991487048566341,
+          "transition": 0.01108473725616932,
+          "holographic": 0.017967920750379562,
+          "peripheral": 0.04578880965709686,
+          "private": 0.11789103597402573
+        },
+        "retrieve": {
+          "shared": 0.04666721075773239,
+          "mid_low": 0.020207885652780533,
+          "attn_clust": 0.011219684965908527,
+          "transition": 0.011425262317061424,
+          "holographic": 0.017373740673065186,
+          "peripheral": 0.04462437331676483,
+          "private": 0.11623380333185196
+        },
+        "route": {
+          "shared": 0.014172972179949284,
+          "mid_low": 0.009863225743174553,
+          "attn_clust": 0.009179319255053997,
+          "transition": 0.012677513994276524,
+          "holographic": 0.023334160447120667,
+          "peripheral": 0.0628439337015152,
+          "private": 0.1611459106206894
+        },
+        "neutral": {
+          "shared": 0.020510153844952583,
+          "mid_low": 0.01341001782566309,
+          "attn_clust": 0.00979868695139885,
+          "transition": 0.01239179540425539,
+          "holographic": 0.02268337458372116,
+          "peripheral": 0.059371352195739746,
+          "private": 0.150326207280159
+        }
+      },
+      "sign_overlap": {
+        "shared": {
+          "n_dirs": 8,
+          "overlaps": {
+            "compose_vs_retrieve": 1.0,
+            "compose_vs_route": 0.328125,
+            "compose_vs_neutral": 0.328125,
+            "retrieve_vs_route": 0.328125,
+            "retrieve_vs_neutral": 0.328125,
+            "route_vs_neutral": 1.0
+          }
+        },
+        "mid_low": {
+          "n_dirs": 41,
+          "overlaps": {
+            "compose_vs_retrieve": 0.496044921875,
+            "compose_vs_route": 0.5546875,
+            "compose_vs_neutral": 0.482421875,
+            "retrieve_vs_route": 0.506005859375,
+            "retrieve_vs_neutral": 0.494287109375,
+            "route_vs_neutral": 0.640234375
+          }
+        },
+        "attn_clust": {
+          "n_dirs": 26,
+          "overlaps": {
+            "compose_vs_retrieve": 0.606875,
+            "compose_vs_route": 0.498828125,
+            "compose_vs_neutral": 0.506328125,
+            "retrieve_vs_route": 0.687265625,
+            "retrieve_vs_neutral": 0.793984375,
+            "route_vs_neutral": 0.79296875
+          }
+        },
+        "transition": {
+          "n_dirs": 26,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5978125,
+            "compose_vs_route": 0.50921875,
+            "compose_vs_neutral": 0.49875,
+            "retrieve_vs_route": 0.49625,
+            "retrieve_vs_neutral": 0.49265625,
+            "route_vs_neutral": 0.61484375
+          }
+        },
+        "holographic": {
+          "n_dirs": 39,
+          "overlaps": {
+            "compose_vs_retrieve": 0.6419642857142858,
+            "compose_vs_route": 0.5765066964285714,
+            "compose_vs_neutral": 0.5775669642857143,
+            "retrieve_vs_route": 0.7056361607142857,
+            "retrieve_vs_neutral": 0.6349330357142857,
+            "route_vs_neutral": 0.7928013392857143
+          }
+        },
+        "peripheral": {
+          "n_dirs": 58,
+          "overlaps": {
+            "compose_vs_retrieve": 0.5916548295454546,
+            "compose_vs_route": 0.5906960227272727,
+            "compose_vs_neutral": 0.6319247159090909,
+            "retrieve_vs_route": 0.501171875,
+            "retrieve_vs_neutral": 0.5487926136363637,
+            "route_vs_neutral": 0.6771661931818181
+          }
+        },
+        "private": {
+          "n_dirs": 58,
+          "overlaps": {
+            "compose_vs_retrieve": 0.7120738636363636,
+            "compose_vs_route": 0.6418323863636364,
+            "compose_vs_neutral": 0.638671875,
+            "retrieve_vs_route": 0.5917613636363637,
+            "retrieve_vs_neutral": 0.5778053977272727,
+            "route_vs_neutral": 0.7237571022727273
+          }
+        }
+      },
+      "subcrystal_count": {
+        "shared": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "mid_low": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "route",
+              "neutral"
+            ],
+            [
+              "retrieve"
+            ]
+          ]
+        },
+        "attn_clust": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "transition": {
+          "count": 2,
+          "clusters": [
+            [
+              "compose",
+              "retrieve"
+            ],
+            [
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "holographic": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "peripheral": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        },
+        "private": {
+          "count": 1,
+          "clusters": [
+            [
+              "compose",
+              "retrieve",
+              "route",
+              "neutral"
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 39.499186992645264
+}

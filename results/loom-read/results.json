@@ -1,0 +1,430 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "target_layer": 16,
+  "n_probes": 144,
+  "probe_groups": {
+    "compose": 24,
+    "retrieve": 30,
+    "route": 45,
+    "neutral": 45
+  },
+  "domain_groupings": {
+    "compose": [
+      "pure",
+      "lambda"
+    ],
+    "retrieve": [
+      "retrieval",
+      "analogy"
+    ],
+    "route": [
+      "coding",
+      "reasoning",
+      "instruction"
+    ],
+    "neutral": [
+      "arithmetic",
+      "narrative",
+      "tool"
+    ]
+  },
+  "angle_bands": {
+    "8": [
+      0,
+      35
+    ],
+    "43": [
+      35,
+      50
+    ],
+    "33": [
+      50,
+      58
+    ],
+    "27": [
+      58,
+      64
+    ],
+    "40": [
+      64,
+      72
+    ],
+    "54": [
+      72,
+      82
+    ],
+    "51": [
+      82,
+      91
+    ]
+  },
+  "reference_crystal_whnf_polarity": 0.5869940519332886,
+  "q_crystal_agreement": 0.9925576448440552,
+  "test1_energy_hidden": {
+    "compose": {
+      "shared": 0.04404427483677864,
+      "mid_low": 0.027310414239764214,
+      "attn_clust": 0.018320851027965546,
+      "transition": 0.014116735197603703,
+      "holographic": 0.018095487728714943,
+      "peripheral": 0.032692596316337585,
+      "private": 0.057399824261665344
+    },
+    "retrieve": {
+      "shared": 0.04603588208556175,
+      "mid_low": 0.02662605047225952,
+      "attn_clust": 0.01621944084763527,
+      "transition": 0.012338683009147644,
+      "holographic": 0.01984223537147045,
+      "peripheral": 0.03158985450863838,
+      "private": 0.059573736041784286
+    },
+    "route": {
+      "shared": 0.007555412594228983,
+      "mid_low": 0.008115706034004688,
+      "attn_clust": 0.009393052197992802,
+      "transition": 0.009847463108599186,
+      "holographic": 0.01690118946135044,
+      "peripheral": 0.05249926820397377,
+      "private": 0.09798926115036011
+    },
+    "neutral": {
+      "shared": 0.008745171129703522,
+      "mid_low": 0.008768200874328613,
+      "attn_clust": 0.009559190832078457,
+      "transition": 0.009899202734231949,
+      "holographic": 0.016906170174479485,
+      "peripheral": 0.051983077079057693,
+      "private": 0.09672520309686661
+    }
+  },
+  "test1_energy_q": {
+    "compose": {
+      "shared": 0.003911732695996761,
+      "mid_low": 0.0228988416492939,
+      "attn_clust": 0.012581991963088512,
+      "transition": 0.01146067027002573,
+      "holographic": 0.013566489331424236,
+      "peripheral": 0.019796064123511314,
+      "private": 0.017749818041920662
+    },
+    "retrieve": {
+      "shared": 0.003815228585153818,
+      "mid_low": 0.021932417526841164,
+      "attn_clust": 0.012334591709077358,
+      "transition": 0.009792640805244446,
+      "holographic": 0.012649179436266422,
+      "peripheral": 0.01961534470319748,
+      "private": 0.01919505000114441
+    },
+    "route": {
+      "shared": 0.0038752565160393715,
+      "mid_low": 0.0217902772128582,
+      "attn_clust": 0.013056722469627857,
+      "transition": 0.010375622659921646,
+      "holographic": 0.012394722551107407,
+      "peripheral": 0.018723081797361374,
+      "private": 0.01659507304430008
+    },
+    "neutral": {
+      "shared": 0.003632200649008155,
+      "mid_low": 0.02175198495388031,
+      "attn_clust": 0.012885335832834244,
+      "transition": 0.010050089098513126,
+      "holographic": 0.01225188747048378,
+      "peripheral": 0.02046246826648712,
+      "private": 0.016746502369642258
+    }
+  },
+  "test2_mag_correlation_hidden": {
+    "compose_vs_retrieve": 0.9746438180238395,
+    "compose_vs_route": 0.9291584850598948,
+    "compose_vs_neutral": 0.9316426584110512,
+    "retrieve_vs_route": 0.9433004979884707,
+    "retrieve_vs_neutral": 0.9454103519100502,
+    "route_vs_neutral": 0.999711615089136
+  },
+  "test2_mag_correlation_q": {
+    "compose_vs_retrieve": 0.9797866515177792,
+    "compose_vs_route": 0.976893027830078,
+    "compose_vs_neutral": 0.9833020350969102,
+    "retrieve_vs_route": 0.9719808866484888,
+    "retrieve_vs_neutral": 0.980640792356828,
+    "route_vs_neutral": 0.9840207299962224
+  },
+  "test3_band_crystal": {
+    "shared": {
+      "agreement": 0.8742576837539673,
+      "whnf_polarity": 0.8890582919120789,
+      "mean_cosine": 0.9494565725326538,
+      "std_cosine": 0.049154363572597504,
+      "n_dirs": 8
+    },
+    "mid_low": {
+      "agreement": 0.9736689925193787,
+      "whnf_polarity": 0.35499757528305054,
+      "mean_cosine": 0.6950492858886719,
+      "std_cosine": 0.23529911041259766,
+      "n_dirs": 43
+    },
+    "attn_clust": {
+      "agreement": 0.9033610224723816,
+      "whnf_polarity": 0.15857373178005219,
+      "mean_cosine": 0.6919167637825012,
+      "std_cosine": 0.3183642327785492,
+      "n_dirs": 33
+    },
+    "transition": {
+      "agreement": 0.9098712801933289,
+      "whnf_polarity": -0.019222889095544815,
+      "mean_cosine": 0.6319369673728943,
+      "std_cosine": 0.38889920711517334,
+      "n_dirs": 27
+    },
+    "holographic": {
+      "agreement": 0.9653360247612,
+      "whnf_polarity": 0.4682953655719757,
+      "mean_cosine": 0.7234596610069275,
+      "std_cosine": 0.1755317747592926,
+      "n_dirs": 40
+    },
+    "peripheral": {
+      "agreement": 0.9642059803009033,
+      "whnf_polarity": 0.644732654094696,
+      "mean_cosine": 0.7842992544174194,
+      "std_cosine": 0.1247837096452713,
+      "n_dirs": 54
+    },
+    "private": {
+      "agreement": 0.9235548973083496,
+      "whnf_polarity": 0.7971878051757812,
+      "mean_cosine": 0.8781343102455139,
+      "std_cosine": 0.07976990938186646,
+      "n_dirs": 51
+    }
+  },
+  "test3_group_band_energy": {
+    "compose": {
+      "shared": {
+        "energy_fraction": 0.04404427483677864,
+        "n_probes": 24
+      },
+      "mid_low": {
+        "energy_fraction": 0.027310414239764214,
+        "n_probes": 24
+      },
+      "attn_clust": {
+        "energy_fraction": 0.018320851027965546,
+        "n_probes": 24
+      },
+      "transition": {
+        "energy_fraction": 0.014116735197603703,
+        "n_probes": 24
+      },
+      "holographic": {
+        "energy_fraction": 0.018095487728714943,
+        "n_probes": 24
+      },
+      "peripheral": {
+        "energy_fraction": 0.032692596316337585,
+        "n_probes": 24
+      },
+      "private": {
+        "energy_fraction": 0.057399824261665344,
+        "n_probes": 24
+      }
+    },
+    "retrieve": {
+      "shared": {
+        "energy_fraction": 0.04603588208556175,
+        "n_probes": 30
+      },
+      "mid_low": {
+        "energy_fraction": 0.02662605047225952,
+        "n_probes": 30
+      },
+      "attn_clust": {
+        "energy_fraction": 0.01621944084763527,
+        "n_probes": 30
+      },
+      "transition": {
+        "energy_fraction": 0.012338683009147644,
+        "n_probes": 30
+      },
+      "holographic": {
+        "energy_fraction": 0.01984223537147045,
+        "n_probes": 30
+      },
+      "peripheral": {
+        "energy_fraction": 0.03158985450863838,
+        "n_probes": 30
+      },
+      "private": {
+        "energy_fraction": 0.059573736041784286,
+        "n_probes": 30
+      }
+    },
+    "route": {
+      "shared": {
+        "energy_fraction": 0.007555412594228983,
+        "n_probes": 45
+      },
+      "mid_low": {
+        "energy_fraction": 0.008115706034004688,
+        "n_probes": 45
+      },
+      "attn_clust": {
+        "energy_fraction": 0.009393052197992802,
+        "n_probes": 45
+      },
+      "transition": {
+        "energy_fraction": 0.009847463108599186,
+        "n_probes": 45
+      },
+      "holographic": {
+        "energy_fraction": 0.01690118946135044,
+        "n_probes": 45
+      },
+      "peripheral": {
+        "energy_fraction": 0.05249926820397377,
+        "n_probes": 45
+      },
+      "private": {
+        "energy_fraction": 0.09798926115036011,
+        "n_probes": 45
+      }
+    },
+    "neutral": {
+      "shared": {
+        "energy_fraction": 0.008745171129703522,
+        "n_probes": 45
+      },
+      "mid_low": {
+        "energy_fraction": 0.008768200874328613,
+        "n_probes": 45
+      },
+      "attn_clust": {
+        "energy_fraction": 0.009559190832078457,
+        "n_probes": 45
+      },
+      "transition": {
+        "energy_fraction": 0.009899202734231949,
+        "n_probes": 45
+      },
+      "holographic": {
+        "energy_fraction": 0.016906170174479485,
+        "n_probes": 45
+      },
+      "peripheral": {
+        "energy_fraction": 0.051983077079057693,
+        "n_probes": 45
+      },
+      "private": {
+        "energy_fraction": 0.09672520309686661,
+        "n_probes": 45
+      }
+    }
+  },
+  "test4_sign_overlap": {
+    "shared": {
+      "n_dirs": 8,
+      "overlaps": {
+        "compose_vs_retrieve": 1.0,
+        "compose_vs_route": 1.0,
+        "compose_vs_neutral": 1.0,
+        "retrieve_vs_route": 1.0,
+        "retrieve_vs_neutral": 1.0,
+        "route_vs_neutral": 1.0
+      }
+    },
+    "mid_low": {
+      "n_dirs": 43,
+      "overlaps": {
+        "compose_vs_retrieve": 0.561328125,
+        "compose_vs_route": 0.4970703125,
+        "compose_vs_neutral": 0.494970703125,
+        "retrieve_vs_route": 0.50087890625,
+        "retrieve_vs_neutral": 0.504248046875,
+        "route_vs_neutral": 0.874658203125
+      }
+    },
+    "attn_clust": {
+      "n_dirs": 33,
+      "overlaps": {
+        "compose_vs_retrieve": 0.5768880208333333,
+        "compose_vs_route": 0.579296875,
+        "compose_vs_neutral": 0.579296875,
+        "retrieve_vs_route": 0.5771484375,
+        "retrieve_vs_neutral": 0.5771484375,
+        "route_vs_neutral": 1.0
+      }
+    },
+    "transition": {
+      "n_dirs": 27,
+      "overlaps": {
+        "compose_vs_retrieve": 0.901328125,
+        "compose_vs_route": 0.601328125,
+        "compose_vs_neutral": 0.706015625,
+        "retrieve_vs_route": 0.59890625,
+        "retrieve_vs_neutral": 0.70359375,
+        "route_vs_neutral": 0.79859375
+      }
+    },
+    "holographic": {
+      "n_dirs": 40,
+      "overlaps": {
+        "compose_vs_retrieve": 0.49482421875,
+        "compose_vs_route": 0.564111328125,
+        "compose_vs_neutral": 0.688818359375,
+        "retrieve_vs_route": 0.500341796875,
+        "retrieve_vs_neutral": 0.497998046875,
+        "route_vs_neutral": 0.87529296875
+      }
+    },
+    "peripheral": {
+      "n_dirs": 54,
+      "overlaps": {
+        "compose_vs_retrieve": 0.6456640625,
+        "compose_vs_route": 0.696875,
+        "compose_vs_neutral": 0.649453125,
+        "retrieve_vs_route": 0.6999609375,
+        "retrieve_vs_neutral": 0.6496484375,
+        "route_vs_neutral": 0.90203125
+      }
+    },
+    "private": {
+      "n_dirs": 51,
+      "overlaps": {
+        "compose_vs_retrieve": 0.54015625,
+        "compose_vs_route": 0.6957421875,
+        "compose_vs_neutral": 0.6976953125,
+        "retrieve_vs_route": 0.5961328125,
+        "retrieve_vs_neutral": 0.6460546875,
+        "route_vs_neutral": 0.900546875
+      }
+    }
+  },
+  "test5_differential": {
+    "compose": {
+      "amplified_dims": 1219,
+      "max_amplification": 0.8830885887145996,
+      "max_suppression": -224.83351135253906
+    },
+    "retrieve": {
+      "amplified_dims": 1705,
+      "max_amplification": 0.7220478057861328,
+      "max_suppression": -221.89564514160156
+    },
+    "route": {
+      "amplified_dims": 1026,
+      "max_amplification": 351.52593994140625,
+      "max_suppression": -0.5117545127868652
+    },
+    "neutral": {
+      "amplified_dims": 947,
+      "max_amplification": 95.2032470703125,
+      "max_suppression": -0.5801776647567749
+    }
+  },
+  "elapsed_seconds": 15.88398003578186
+}
