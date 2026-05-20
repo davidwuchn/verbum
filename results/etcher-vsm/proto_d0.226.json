@@ -1,0 +1,149 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "target_layer": 7,
+  "depth": 0.226,
+  "s4_crystal_counts": {
+    "shared": {
+      "count": 1,
+      "clusters": [
+        [
+          "pure",
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "mid_low": {
+      "count": 6,
+      "clusters": [
+        [
+          "pure"
+        ],
+        [
+          "lambda",
+          "reasoning"
+        ],
+        [
+          "arithmetic"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "analogy"
+        ],
+        [
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "attn_clust": {
+      "count": 1,
+      "clusters": [
+        [
+          "pure",
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "transition": {
+      "count": 1,
+      "clusters": [
+        [
+          "pure",
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "holographic": {
+      "count": 1,
+      "clusters": [
+        [
+          "pure",
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "peripheral": {
+      "count": 2,
+      "clusters": [
+        [
+          "pure"
+        ],
+        [
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    },
+    "private": {
+      "count": 1,
+      "clusters": [
+        [
+          "pure",
+          "lambda",
+          "arithmetic",
+          "coding",
+          "analogy",
+          "reasoning",
+          "text_gen",
+          "retrieval"
+        ]
+      ]
+    }
+  },
+  "s3_schedule": {
+    "shared": {
+      "n_beams": 1
+    },
+    "mid_low": {
+      "n_beams": 6
+    },
+    "attn_clust": {
+      "n_beams": 1
+    },
+    "transition": {
+      "n_beams": 1
+    },
+    "holographic": {
+      "n_beams": 1
+    },
+    "peripheral": {
+      "n_beams": 2
+    },
+    "private": {
+      "n_beams": 1
+    }
+  },
+  "s3_total_beams": 13,
+  "elapsed_seconds": 16.85646390914917
+}

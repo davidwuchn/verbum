@@ -1,0 +1,1310 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "target_layers": [
+    1,
+    4,
+    7,
+    10,
+    13,
+    16,
+    19,
+    22,
+    25,
+    28,
+    31
+  ],
+  "depths": [
+    0.0323,
+    0.129,
+    0.2258,
+    0.3226,
+    0.4194,
+    0.5161,
+    0.6129,
+    0.7097,
+    0.8065,
+    0.9032,
+    1.0
+  ],
+  "breathing_curve": [
+    {
+      "layer": 1,
+      "depth": 0.0323,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 1,
+        "attn_clust": 1,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.9349213242530823,
+        "mid_low": 0.98133784532547,
+        "attn_clust": 0.863204836845398,
+        "transition": 0.7592596411705017,
+        "holographic": 0.9350963830947876,
+        "peripheral": 0.9742491841316223,
+        "private": 0.7044191360473633
+      },
+      "band_whnf_polarity": {
+        "shared": 0.5280328392982483,
+        "mid_low": 0.5988174676895142,
+        "attn_clust": 0.6107820868492126,
+        "transition": 0.8515203595161438,
+        "holographic": 0.4111444652080536,
+        "peripheral": 0.511917233467102,
+        "private": 0.8088246583938599
+      },
+      "angle_distribution": {
+        "shared": 47,
+        "mid_low": 58,
+        "attn_clust": 28,
+        "transition": 24,
+        "holographic": 29,
+        "peripheral": 38,
+        "private": 32
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9845887254691399,
+        "compose_vs_route": 0.9853330471857642,
+        "compose_vs_neutral": 0.9863255852475533,
+        "retrieve_vs_route": 0.9814012033651982,
+        "retrieve_vs_neutral": 0.9856523974148214,
+        "route_vs_neutral": 0.9937174493255937
+      },
+      "max_subcrystals": 1,
+      "max_subcrystals_band": "shared",
+      "min_overlap": 0.5051897321428571,
+      "mean_overlap": 0.699453279338882
+    },
+    {
+      "layer": 4,
+      "depth": 0.129,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 3,
+        "attn_clust": 2,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 2,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.9434866309165955,
+        "mid_low": 0.9341105818748474,
+        "attn_clust": 0.9645783305168152,
+        "transition": 0.9138275980949402,
+        "holographic": 0.9757744669914246,
+        "peripheral": 0.9485430717468262,
+        "private": 0.9727104306221008
+      },
+      "band_whnf_polarity": {
+        "shared": 0.6010650992393494,
+        "mid_low": 0.15170708298683167,
+        "attn_clust": 0.4311976432800293,
+        "transition": 0.1464466154575348,
+        "holographic": 0.1890568882226944,
+        "peripheral": 0.39398428797721863,
+        "private": 0.1540413349866867
+      },
+      "angle_distribution": {
+        "shared": 24,
+        "mid_low": 56,
+        "attn_clust": 29,
+        "transition": 22,
+        "holographic": 34,
+        "peripheral": 45,
+        "private": 46
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9784375351299771,
+        "compose_vs_route": 0.7977017705974421,
+        "compose_vs_neutral": 0.816155776356405,
+        "retrieve_vs_route": 0.8034569334045686,
+        "retrieve_vs_neutral": 0.8219921816414004,
+        "route_vs_neutral": 0.9991724085271583
+      },
+      "max_subcrystals": 3,
+      "max_subcrystals_band": "mid_low",
+      "min_overlap": 0.490546875,
+      "mean_overlap": 0.5945245094170875
+    },
+    {
+      "layer": 7,
+      "depth": 0.2258,
+      "band_subcrystal_counts": {
+        "shared": 2,
+        "mid_low": 4,
+        "attn_clust": 3,
+        "transition": 2,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route"
+          ],
+          [
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "route",
+            "neutral"
+          ],
+          [
+            "retrieve"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.8338150978088379,
+        "mid_low": 0.9500037431716919,
+        "attn_clust": 0.8563857674598694,
+        "transition": 0.9167227149009705,
+        "holographic": 0.8798950910568237,
+        "peripheral": 0.9631990194320679,
+        "private": 0.855258584022522
+      },
+      "band_whnf_polarity": {
+        "shared": 0.6254657506942749,
+        "mid_low": 0.352237731218338,
+        "attn_clust": 0.31421658396720886,
+        "transition": 0.314362108707428,
+        "holographic": 0.10594262182712555,
+        "peripheral": 0.5222170948982239,
+        "private": 0.49567100405693054
+      },
+      "angle_distribution": {
+        "shared": 18,
+        "mid_low": 56,
+        "attn_clust": 32,
+        "transition": 23,
+        "holographic": 35,
+        "peripheral": 46,
+        "private": 46
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9716771930210226,
+        "compose_vs_route": 0.915478067573391,
+        "compose_vs_neutral": 0.9177402258873627,
+        "retrieve_vs_route": 0.9230874612940682,
+        "retrieve_vs_neutral": 0.9252919830218919,
+        "route_vs_neutral": 0.999822039204861
+      },
+      "max_subcrystals": 4,
+      "max_subcrystals_band": "mid_low",
+      "min_overlap": 0.48984375,
+      "mean_overlap": 0.592521536313389
+    },
+    {
+      "layer": 10,
+      "depth": 0.3226,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 1,
+        "attn_clust": 1,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 2
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.896838903427124,
+        "mid_low": 0.9749383330345154,
+        "attn_clust": 0.943429708480835,
+        "transition": 0.8954262733459473,
+        "holographic": 0.9027153253555298,
+        "peripheral": 0.9478470683097839,
+        "private": 0.9378459453582764
+      },
+      "band_whnf_polarity": {
+        "shared": 0.5450698733329773,
+        "mid_low": 0.227988600730896,
+        "attn_clust": 0.255176305770874,
+        "transition": 0.4658896327018738,
+        "holographic": 0.4718494713306427,
+        "peripheral": 0.3993692696094513,
+        "private": 0.20802024006843567
+      },
+      "angle_distribution": {
+        "shared": 26,
+        "mid_low": 61,
+        "attn_clust": 30,
+        "transition": 24,
+        "holographic": 30,
+        "peripheral": 43,
+        "private": 42
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.976839707646512,
+        "compose_vs_route": 0.9369384704754059,
+        "compose_vs_neutral": 0.9380748239509625,
+        "retrieve_vs_route": 0.9362370021999787,
+        "retrieve_vs_neutral": 0.9373838338212076,
+        "route_vs_neutral": 0.9998317872774154
+      },
+      "max_subcrystals": 2,
+      "max_subcrystals_band": "private",
+      "min_overlap": 0.499609375,
+      "mean_overlap": 0.6332709418402778
+    },
+    {
+      "layer": 13,
+      "depth": 0.4194,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 1,
+        "attn_clust": 1,
+        "transition": 2,
+        "holographic": 1,
+        "peripheral": 3,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.9058865904808044,
+        "mid_low": 0.9340025186538696,
+        "attn_clust": 0.8817647099494934,
+        "transition": 0.8389853239059448,
+        "holographic": 0.973714292049408,
+        "peripheral": 0.9676676988601685,
+        "private": 0.960547149181366
+      },
+      "band_whnf_polarity": {
+        "shared": 0.790285587310791,
+        "mid_low": 0.12582069635391235,
+        "attn_clust": 0.32213592529296875,
+        "transition": -0.07251830399036407,
+        "holographic": 0.4662303030490875,
+        "peripheral": 0.36192986369132996,
+        "private": 0.3868549168109894
+      },
+      "angle_distribution": {
+        "shared": 5,
+        "mid_low": 47,
+        "attn_clust": 35,
+        "transition": 27,
+        "holographic": 37,
+        "peripheral": 54,
+        "private": 51
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9748742564965819,
+        "compose_vs_route": 0.940197319183055,
+        "compose_vs_neutral": 0.9413199136544329,
+        "retrieve_vs_route": 0.9411914487080176,
+        "retrieve_vs_neutral": 0.9422724110654308,
+        "route_vs_neutral": 0.999804102903296
+      },
+      "max_subcrystals": 3,
+      "max_subcrystals_band": "peripheral",
+      "min_overlap": 0.497734375,
+      "mean_overlap": 0.6776433029809146
+    },
+    {
+      "layer": 16,
+      "depth": 0.5161,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 2,
+        "attn_clust": 1,
+        "transition": 1,
+        "holographic": 2,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "route",
+            "neutral"
+          ],
+          [
+            "retrieve"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.8742576837539673,
+        "mid_low": 0.9736689925193787,
+        "attn_clust": 0.9033610224723816,
+        "transition": 0.9098712801933289,
+        "holographic": 0.9653360247612,
+        "peripheral": 0.9642059803009033,
+        "private": 0.9235548973083496
+      },
+      "band_whnf_polarity": {
+        "shared": 0.8890582919120789,
+        "mid_low": 0.35499757528305054,
+        "attn_clust": 0.15857373178005219,
+        "transition": -0.019222889095544815,
+        "holographic": 0.4682953655719757,
+        "peripheral": 0.644732654094696,
+        "private": 0.7971878051757812
+      },
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 43,
+        "attn_clust": 33,
+        "transition": 27,
+        "holographic": 40,
+        "peripheral": 54,
+        "private": 51
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9746438180238395,
+        "compose_vs_route": 0.9291584850598948,
+        "compose_vs_neutral": 0.9316426584110512,
+        "retrieve_vs_route": 0.9433004979884707,
+        "retrieve_vs_neutral": 0.9454103519100502,
+        "route_vs_neutral": 0.999711615089136
+      },
+      "max_subcrystals": 2,
+      "max_subcrystals_band": "mid_low",
+      "min_overlap": 0.49482421875,
+      "mean_overlap": 0.7041439577132936
+    },
+    {
+      "layer": 19,
+      "depth": 0.6129,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 1,
+        "attn_clust": 1,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": -0.2549072504043579,
+        "mid_low": 0.9549450278282166,
+        "attn_clust": 0.9396552443504333,
+        "transition": 0.9514350295066833,
+        "holographic": 0.88564133644104,
+        "peripheral": 0.9681531190872192,
+        "private": 0.9825261235237122
+      },
+      "band_whnf_polarity": {
+        "shared": 0.9997127652168274,
+        "mid_low": 0.365619957447052,
+        "attn_clust": 0.5154645442962646,
+        "transition": 0.6763168573379517,
+        "holographic": 0.7125130295753479,
+        "peripheral": 0.7662111520767212,
+        "private": 0.8324655294418335
+      },
+      "angle_distribution": {
+        "shared": 2,
+        "mid_low": 36,
+        "attn_clust": 34,
+        "transition": 28,
+        "holographic": 43,
+        "peripheral": 60,
+        "private": 53
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9759817595179408,
+        "compose_vs_route": 0.8860530859469412,
+        "compose_vs_neutral": 0.8970020148212893,
+        "retrieve_vs_route": 0.9039239341839608,
+        "retrieve_vs_neutral": 0.9142186071291498,
+        "route_vs_neutral": 0.9991435881932996
+      },
+      "max_subcrystals": 1,
+      "max_subcrystals_band": "shared",
+      "min_overlap": 0.49953125,
+      "mean_overlap": 0.7050659345769558
+    },
+    {
+      "layer": 22,
+      "depth": 0.7097,
+      "band_subcrystal_counts": {
+        "shared": 3,
+        "mid_low": 2,
+        "attn_clust": 2,
+        "transition": 3,
+        "holographic": 1,
+        "peripheral": 3,
+        "private": 2
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route"
+          ],
+          [
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.8373365998268127,
+        "mid_low": 0.9419827461242676,
+        "attn_clust": 0.9882058501243591,
+        "transition": 0.968436062335968,
+        "holographic": 0.9728819727897644,
+        "peripheral": 0.9489227533340454,
+        "private": 0.9772651195526123
+      },
+      "band_whnf_polarity": {
+        "shared": 0.9800708889961243,
+        "mid_low": 0.6958685517311096,
+        "attn_clust": 0.6989583373069763,
+        "transition": 0.8350085616111755,
+        "holographic": 0.9159278273582458,
+        "peripheral": 0.9075314402580261,
+        "private": 0.8605921864509583
+      },
+      "angle_distribution": {
+        "shared": 4,
+        "mid_low": 47,
+        "attn_clust": 35,
+        "transition": 25,
+        "holographic": 39,
+        "peripheral": 54,
+        "private": 52
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9838242497009277,
+        "compose_vs_route": 0.8543758531173655,
+        "compose_vs_neutral": 0.8771296890549074,
+        "retrieve_vs_route": 0.8546197373767291,
+        "retrieve_vs_neutral": 0.8773607751873277,
+        "route_vs_neutral": 0.9980476689548595
+      },
+      "max_subcrystals": 3,
+      "max_subcrystals_band": "shared",
+      "min_overlap": 0.48628472222222224,
+      "mean_overlap": 0.5691551664068405
+    },
+    {
+      "layer": 25,
+      "depth": 0.8065,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 1,
+        "attn_clust": 2,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "neutral"
+          ],
+          [
+            "route"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.7506915926933289,
+        "mid_low": 0.9330468773841858,
+        "attn_clust": 0.938739001750946,
+        "transition": 0.956788182258606,
+        "holographic": 0.8811518549919128,
+        "peripheral": 0.9628052115440369,
+        "private": 0.9693709015846252
+      },
+      "band_whnf_polarity": {
+        "shared": 0.9840440154075623,
+        "mid_low": 0.7734578251838684,
+        "attn_clust": 0.7772312164306641,
+        "transition": 0.8205100297927856,
+        "holographic": 0.7959244847297668,
+        "peripheral": 0.8276658654212952,
+        "private": 0.9486003518104553
+      },
+      "angle_distribution": {
+        "shared": 3,
+        "mid_low": 42,
+        "attn_clust": 29,
+        "transition": 25,
+        "holographic": 38,
+        "peripheral": 59,
+        "private": 60
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9883807707029743,
+        "compose_vs_route": 0.8954564985165898,
+        "compose_vs_neutral": 0.9166154027663983,
+        "retrieve_vs_route": 0.9009692235956654,
+        "retrieve_vs_neutral": 0.9214589493093991,
+        "route_vs_neutral": 0.9975326202018391
+      },
+      "max_subcrystals": 2,
+      "max_subcrystals_band": "attn_clust",
+      "min_overlap": 0.4967075892857143,
+      "mean_overlap": 0.6349461702886646
+    },
+    {
+      "layer": 28,
+      "depth": 0.9032,
+      "band_subcrystal_counts": {
+        "shared": 2,
+        "mid_low": 2,
+        "attn_clust": 1,
+        "transition": 2,
+        "holographic": 1,
+        "peripheral": 1,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "route",
+            "neutral"
+          ],
+          [
+            "retrieve"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.8299844861030579,
+        "mid_low": 0.9572269320487976,
+        "attn_clust": 0.9772793054580688,
+        "transition": 0.9762834906578064,
+        "holographic": 0.9763761758804321,
+        "peripheral": 0.9897037744522095,
+        "private": 0.9738836884498596
+      },
+      "band_whnf_polarity": {
+        "shared": 0.9855973124504089,
+        "mid_low": 0.5290331840515137,
+        "attn_clust": 0.6359459161758423,
+        "transition": 0.6854585409164429,
+        "holographic": 0.7516916394233704,
+        "peripheral": 0.8443811535835266,
+        "private": 0.9456343054771423
+      },
+      "angle_distribution": {
+        "shared": 8,
+        "mid_low": 41,
+        "attn_clust": 26,
+        "transition": 26,
+        "holographic": 39,
+        "peripheral": 58,
+        "private": 58
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.987017525958983,
+        "compose_vs_route": 0.9047131884914363,
+        "compose_vs_neutral": 0.9259159694068667,
+        "retrieve_vs_route": 0.9106240502370299,
+        "retrieve_vs_neutral": 0.9310564103633272,
+        "route_vs_neutral": 0.9970283349529603
+      },
+      "max_subcrystals": 2,
+      "max_subcrystals_band": "shared",
+      "min_overlap": 0.328125,
+      "mean_overlap": 0.5937780859858147
+    },
+    {
+      "layer": 31,
+      "depth": 1.0,
+      "band_subcrystal_counts": {
+        "shared": 1,
+        "mid_low": 2,
+        "attn_clust": 1,
+        "transition": 1,
+        "holographic": 1,
+        "peripheral": 2,
+        "private": 1
+      },
+      "band_clusters": {
+        "shared": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "mid_low": [
+          [
+            "compose",
+            "retrieve"
+          ],
+          [
+            "route",
+            "neutral"
+          ]
+        ],
+        "attn_clust": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "transition": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "holographic": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "peripheral": [
+          [
+            "compose"
+          ],
+          [
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ],
+        "private": [
+          [
+            "compose",
+            "retrieve",
+            "route",
+            "neutral"
+          ]
+        ]
+      },
+      "band_agreement": {
+        "shared": 0.9689565300941467,
+        "mid_low": 0.9423432350158691,
+        "attn_clust": 0.9469947814941406,
+        "transition": 0.903944194316864,
+        "holographic": 0.9856055974960327,
+        "peripheral": 0.9640936255455017,
+        "private": 0.9477700591087341
+      },
+      "band_whnf_polarity": {
+        "shared": 0.7926864624023438,
+        "mid_low": 0.3958396911621094,
+        "attn_clust": 0.7270568013191223,
+        "transition": 0.7940119504928589,
+        "holographic": 0.730974018573761,
+        "peripheral": 0.7791674733161926,
+        "private": 0.791678249835968
+      },
+      "angle_distribution": {
+        "shared": 22,
+        "mid_low": 47,
+        "attn_clust": 30,
+        "transition": 25,
+        "holographic": 36,
+        "peripheral": 52,
+        "private": 44
+      },
+      "magnitude_correlations": {
+        "compose_vs_retrieve": 0.9775040778554714,
+        "compose_vs_route": 0.973481374794038,
+        "compose_vs_neutral": 0.9720704022368895,
+        "retrieve_vs_route": 0.9782395339106529,
+        "retrieve_vs_neutral": 0.978050357702392,
+        "route_vs_neutral": 0.9812240628852024
+      },
+      "max_subcrystals": 2,
+      "max_subcrystals_band": "mid_low",
+      "min_overlap": 0.4925347222222222,
+      "mean_overlap": 0.5772249348958334
+    }
+  ],
+  "apex": {
+    "layer": 1,
+    "depth": 0.0323
+  },
+  "elapsed_seconds": 73.68160009384155
+}
