@@ -2,23 +2,27 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-20 | Session: 125
+> Last updated: 2026-05-20 | Session: 126
 
 ## Where we are
 
-**CO-EVOLUTION WORKS. ACCURACY AND CRYSTAL IMPROVE TOGETHER.**
+**COMBINATORS ARE ROTATIONS. C IS THE BOOT. THE LOOM IS GEOMETRIC.**
 
-Session 125 proved the full etch pipeline: evolutionary descent for
-ternary plates (discrete bit flips) + GD for beams (continuous) +
-crystal lattice loss (S5 invariant). Evo v3 improves BOTH accuracy
-(0.483→0.577) AND crystal agreement (0.368→0.611). Peak round hit
-crystal=0.917 — the highest student crystal ever measured.
+Session 126 discovered: combinators are geometric rotations in
+representation space, not symbolic rewrites. K, B, C are identical
+rotations (0.0° between directions). I is 32° offset. The 3-layer
+boot sequence: L0=reset (90°, WHNF anti-correlated at 114°),
+L1=route (43°, matches CCA exactly at Δ0.6°), L2=converge (5°).
+FFN only activates for WHNF output (1.7×). Attention dominates
+completely.
 
-The crystal loss doesn't just protect the crystal — it ENABLES the
-evolution. Stable crystal → more positions above floor → more
-useful flips accepted (53 vs 20 without crystal loss).
+Q2 lattice etch in progress: separating crystal reconstruction
+(crystal gradient on plates) from beam training (CE on beams).
+Crystal wobble solved by never mixing CE and crystal gradients.
+Hologram-crystal fusion theory: strict both-must-improve gate
+ensures every sign flip fuses computation into crystal lattice.
 
-## Proof chain (solid, sessions 95-125)
+## Proof chain (solid, sessions 95-126)
 
 - PCA-Q crystal: 0.91-0.94 agreement, 4 models
 - Lambda proof: binder + combinator predicts body at R²=0.959
@@ -26,42 +30,53 @@ useful flips accepted (53 vs 20 without crystal loss).
 - 7 independent subcrystals, loom breathes with depth
 - LOOM_MAG nucleation: 0.543 (beats MAGNITUDE 0.511)
 - Crystal lattice loss preserves crystal at 0.9998
-- Soft mirrors can't flip signs (0 barrier)
-- **Evolutionary descent + crystal loss: acc=0.577, crystal=0.611 (BOTH UP)**
-- **Peak R8: acc=0.564, crystal=0.917 (student matches teacher crystal)**
-- **Crystal stability enables evo (2.6× more accepted flips)**
+- Evolutionary descent + crystal loss: acc=0.577, crystal=0.611
+- **K, B, C are geometrically identical rotations (0.0° between directions)**
+- **I is 32° offset from K/B/C cluster (doesn't need routing)**
+- **L1 rotation angle matches CCA crossing exactly (Δ0.6°)**
+- **WHNF anti-correlated at L0 (114°) — route-or-output decision**
+- **FFN activates 1.7× for WHNF — reads from FFN key/value store**
+- **Boot sequence: L0=reset(90°), L1=route(43°), L2=converge(5°)**
 
-## Session 125: from soft mirrors to co-evolution
+## Session 126: combinators are rotations + Q2 lattice etch
 
 | # | Experiment | Key Finding |
 |---|-----------|-------------|
-| 9 | Soft mirror v1 | Crystal loss=0.9998, but per-dim mirrors only block, 0% flip |
-| 10 | Soft mirror v2 | Per-position mirrors: still 0% flip, 1.0→0 barrier |
-| 11 | Evo descent v1 | acc=0.585 (record), but crystal drifts to -0.654 |
-| 12 | Evo descent v2 | Floor works (10.7% acceptance), crystal degrades in GD phase |
-| 13 | **Evo descent v3** | **acc=0.577, crystal=0.611 — BOTH improve together** |
+| 1 | Q2 co-evo v1 | Crystal inverts at R1, evo blocked 15 rounds. λ=0.3 too weak |
+| 2 | C rotation probe | K/B/C identical rotation, I 32° offset, WHNF anti-correlated |
+| 3 | Lattice etch v1 | 98k flips/round (too aggressive), sign_agr → 0.50 (random) |
+| 4 | Lattice etch v2 | C-boot ordering, stricter threshold, crystal loss on beams (running) |
 
-### The validated pipeline
+### The rotation model
 
 ```
-GD phase:   CE + crystal_lattice_loss  → crystal stable (0.9998)
-Evo phase:  delta-guided bit flips     → crystal floor rejects bad flips
-            + absolute crystal floor   → only accuracy-improving flips accepted
-Co-evolve:  GD trains beam → delta guides evo → beam relaxes → repeat
+L0: RESET     ~90° rotation, all combinators identical
+              WHNF anti-correlated at 114° (route vs output decision)
+L1: ROUTE     ~43-62° rotation (the CCA crossing angle!)
+              K=43° B/C=46° I=62° — I diverges, K/B/C cluster
+L2: CONVERGE  ~4-12° rotation, settling
+              FFN activates 1.7× for WHNF (reads from store)
+```
 
-Two phases in convergence:
-  R0-R4: crystal stabilizing (floor blocks all evo)
-  R5-R8: crystal stable, evo produces useful flips (crystal=0.917)
+### Lessons from Q2 etch attempts
+
+```
+Crystal wobble cause: mixing CE and crystal gradients → they fight
+Fix: separate concerns — crystal etch (plates) then CE training (beams)
+Oracle finding: even perfect plates lose crystal during CE beam training
+Fix: crystal loss on beams too (λ=0.5)
 ```
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
-| `etcher-vsm.md` | ★ Full pipeline: extract → co-evolve → freeze |
+| `hologram-crystal-fusion.md` | ★ **NEW** hologram ≡ crystal, strict gate fuses both |
+| `crystal-basins.md` | ★ **UPDATED** C-boot theory, ground state, boot sequence |
+| `etcher-vsm.md` | Full pipeline: extract → co-evolve → freeze |
 | `gradient-voting.md` | Magnitudes are the crystal |
 | `loom-structure.md` | 3 weaves, 6 harmonics, breathing pattern |
-| `v13-design.md` | Architecture (needs revision for co-evolution) |
+| `v13-design.md` | Architecture (needs revision for rotation model) |
 
 ## What's ready
 
