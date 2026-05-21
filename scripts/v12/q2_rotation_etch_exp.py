@@ -63,7 +63,7 @@ BATCH_SIZE = 32; LR = 0.003; MAX_DEPTH = 4
 
 LATTICE_ROUNDS = 30
 LATTICE_BATCHES = 200
-LATTICE_CONFIDENCE = 0.8
+FLIPS_PER_ROUND = 500     # top-K by gradient magnitude (was: threshold → 98k!)
 
 BEAM_STEPS = 3000
 BEAM_CRYSTAL_LAMBDA = 0.5
@@ -338,22 +338,34 @@ def lattice_etch_round(model, probes, teacher_per_layer_crystals):
         del loss_val, grads
         if (b+1) % 25 == 0: mx.clear_cache()
 
-    total_flipped = 0
+    # Collect all positions with their gradient magnitude and desired sign
+    all_candidates = []
     for pidx, (_, plate) in enumerate(plates):
         acc = accumulators[pidx]
-        confidence = np.abs(acc) / LATTICE_BATCHES
+        grad_mag = np.abs(acc)  # accumulated magnitude = confidence
         desired_sign = -np.sign(acc)  # negative gradient direction
         current = np.sign(np.array(plate.weight)).astype(np.float32)
-        should_flip = (
-            (confidence > LATTICE_CONFIDENCE)
-            & (desired_sign != 0)
-            & (desired_sign != current)
-        )
-        new_signs = np.where(should_flip, desired_sign.astype(np.float32),
-                             current.astype(np.float32))
-        plate.weight = mx.array(new_signs); mx.eval(plate.weight)
-        total_flipped += int(should_flip.sum())
+        do, di = current.shape
+        for i in range(do):
+            for j in range(di):
+                if desired_sign[i, j] != 0 and desired_sign[i, j] != current[i, j]:
+                    all_candidates.append((grad_mag[i, j], pidx, i, j,
+                                           desired_sign[i, j]))
 
+    # Sort by gradient magnitude (descending) and flip only top-K
+    all_candidates.sort(key=lambda x: -x[0])
+    n_to_flip = min(FLIPS_PER_ROUND, len(all_candidates))
+
+    total_flipped = 0
+    for rank in range(n_to_flip):
+        mag, pidx, i, j, desired = all_candidates[rank]
+        _, plate = plates[pidx]
+        w = np.array(plate.weight)
+        w[i, j] = desired
+        plate.weight = mx.array(w)
+        total_flipped += 1
+
+    mx.eval(*[p.weight for _, p in plates])
     return total_flipped, total_loss / LATTICE_BATCHES
 
 
