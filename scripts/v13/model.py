@@ -201,6 +201,9 @@ class V13Model(nn.Module):
             mx.array(cfg.pcaq_zone_c_targets),
         ]
 
+        # ── Holographic progressive loss schedule ──────────────
+        self._holo_lambda_effective = 0.0  # ramped by train loop
+
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
 
@@ -438,6 +441,7 @@ class V13Model(nn.Module):
 
         positions = mx.arange(L)
         x = self.embed_norm(self.embed(tokens) + self.pos_embed(positions))
+        x_embed = x  # save for holographic progressive loss
 
         pass_deltas = []
         raw_deltas = []
@@ -520,12 +524,14 @@ class V13Model(nn.Module):
         loss = None
         if targets is not None:
             loss = self._compute_loss(logits, targets, all_pass_alarm,
-                                       effective_gates, pass_deltas)
+                                       effective_gates, pass_deltas, x_embed)
         return logits, loss
 
     def _compute_loss(self, logits, targets, all_pass_alarm,
-                       effective_gates, pass_deltas):
-        """Compute total loss: CE + crystal + dispatch KL + entropy."""
+                       effective_gates, pass_deltas, x_embed):
+        """Compute total loss: CE + crystal + holographic + dispatch KL + entropy."""
+        B, L = targets.shape
+
         # Cross-entropy
         ce_loss = nn.losses.cross_entropy(
             logits.reshape(-1, self.cfg.vocab_size),
@@ -533,6 +539,58 @@ class V13Model(nn.Module):
         ).mean()
         loss = ce_loss
         self._last_ce = mx.stop_gradient(ce_loss)
+
+        # ── Holographic progressive loss ─────────────────────
+        # Decode at each pass boundary. Every pass should be decodable.
+        # Gradient slope: pass n sees gradient from losses n..N-1.
+        # Ascending arm (passes 0-3): steepest gradient → compress
+        # Descending arm (passes 4-7): refining gradient → expand
+        holo_lambda_eff = getattr(self, '_holo_lambda_effective', 0.0)
+        if holo_lambda_eff > 0 and self.cfg.use_holographic_loss:
+            holo_loss = mx.array(0.0)
+            x_progressive = x_embed  # start from raw embedding
+
+            # Subsample positions for efficiency
+            total_pos = B * L
+            n_sample = max(64, total_pos // self.cfg.holo_subsample)
+            if n_sample < total_pos:
+                holo_idx = mx.random.randint(0, total_pos, (n_sample,))
+                targets_sample = targets.reshape(-1)[holo_idx]
+            else:
+                holo_idx = None
+
+            # φ-deviation instrumentation (observation only, not training signal)
+            phi = (1.0 + math.sqrt(5.0)) / 2.0
+            phi_inv = 1.0 / phi
+            self._phi_deviations = []
+
+            for n in range(self.N_PASSES):
+                x_progressive = x_progressive + effective_gates[n] * pass_deltas[n]
+
+                # Measure φ-compression ratio (instrumentation only)
+                rms_before = mx.sqrt(mx.mean(
+                    (x_progressive - effective_gates[n] * pass_deltas[n]) ** 2) + 1e-8)
+                rms_after = mx.sqrt(mx.mean(x_progressive ** 2) + 1e-8)
+                ratio = float(mx.stop_gradient(rms_after / (rms_before + 1e-8)).item())
+                self._phi_deviations.append(ratio - phi_inv)
+
+                # Progressive decode loss
+                if holo_idx is not None:
+                    x_flat = x_progressive.reshape(total_pos, -1)
+                    x_sample = x_flat[holo_idx]
+                    logits_n = self.embed.output_proj(self.output_norm(x_sample))
+                    loss_n = nn.losses.cross_entropy(logits_n, targets_sample).mean()
+                else:
+                    logits_n = self.embed.output_proj(
+                        self.output_norm(x_progressive))
+                    loss_n = nn.losses.cross_entropy(
+                        logits_n.reshape(-1, self.cfg.vocab_size),
+                        targets.reshape(-1),
+                    ).mean()
+                holo_loss = holo_loss + loss_n
+
+            loss = loss + holo_lambda_eff * holo_loss
+            self._last_holo_loss = mx.stop_gradient(holo_loss)
 
         # Crystal lattice loss (PCA-Q 3-zone targets)
         if self.cfg.use_relational_loss:

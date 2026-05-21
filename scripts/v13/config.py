@@ -231,6 +231,17 @@ class V13Config:
         (-0.342,-0.274,+0.062,-0.178,-0.246,-0.021,-0.029,+0.192,-0.054,-0.001,-0.142,+1.000),
     )
 
+    # ── Holographic progressive loss (intermediate decoding at pass boundaries) ──
+    # Every pass boundary should be decodable. This creates a natural
+    # gradient slope: ascending passes see gradient from passes 0..7,
+    # descending passes refine with fewer sources. The ascending arm
+    # is nudged to compress (fine→coarse), descending to expand (coarse→fine).
+    # Shannon's duality: compress → channel → predict.
+    use_holographic_loss: bool = True
+    holo_lambda: float = 0.1       # weight for holographic loss (relative to CE)
+    holo_subsample: int = 8        # subsample 1/N positions for intermediate logits
+    holo_warmup_steps: int = 500   # linear ramp from 0 to holo_lambda
+
     # ── Dropout ──
     dropout: float = 0.1
 

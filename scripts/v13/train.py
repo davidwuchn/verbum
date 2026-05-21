@@ -644,6 +644,13 @@ def train_gd(
         lr = cosine_lr(step, cfg.warmup_steps, total_steps, cfg.lr, cfg.lr_floor_ratio)
         optimizer.learning_rate = lr
 
+        # Holographic progressive loss warmup: linear ramp to holo_lambda
+        if cfg.use_holographic_loss and cfg.holo_warmup_steps > 0:
+            holo_frac = min(1.0, step / cfg.holo_warmup_steps)
+            model._holo_lambda_effective = cfg.holo_lambda * holo_frac
+        elif cfg.use_holographic_loss:
+            model._holo_lambda_effective = cfg.holo_lambda
+
         # ── Gradient accumulation ─────────────────────────────
         accum_loss = 0.0
         accum_grads = None
@@ -723,10 +730,21 @@ def train_gd(
                     elif attr == "_last_kl_loss":
                         kl_val = val
 
+            # Holographic loss + φ-deviation instrumentation
+            holo_val = None
+            phi_devs = None
+            if hasattr(model, "_last_holo_loss"):
+                v = model._last_holo_loss
+                mx.eval(v)
+                holo_val = float(v.item())
+            if hasattr(model, "_phi_deviations") and model._phi_deviations:
+                phi_devs = model._phi_deviations  # list of floats
+
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
             crystal_str = (f" crystal={crystal_val:.4f}"
                            if crystal_val is not None else "")
             kl_str = f" kl={kl_val:.4f}" if kl_val is not None else ""
+            holo_str = f" holo={holo_val:.3f}" if holo_val is not None else ""
 
             # Dispatch weights for live monitoring
             dispatch_str = ""
@@ -743,7 +761,7 @@ def train_gd(
             print(
                 f"step {step:>6d}"
                 f" | loss={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | {ce_str}{crystal_str}{kl_str}"
+                f" | {ce_str}{crystal_str}{kl_str}{holo_str}"
                 f" | lr {lr:.2e}"
                 f" | gnorm {grad_norm:.2f}"
                 f" | {tps:.0f} tok/s"
@@ -769,6 +787,13 @@ def train_gd(
                 record["crystal_loss"] = crystal_val
             if kl_val is not None:
                 record["kl_loss"] = kl_val
+            if holo_val is not None:
+                record["holo_loss"] = holo_val
+            if phi_devs is not None:
+                # Per-pass φ-deviation: how far each pass's compression ratio
+                # is from 1/φ. Ascending should trend → 0, descending diverges.
+                for i, dev in enumerate(phi_devs):
+                    record[f"phi_dev_pass{i}"] = dev
 
             # Dispatch EMA diagnostics
             if hasattr(model, "_dispatch_ema"):
