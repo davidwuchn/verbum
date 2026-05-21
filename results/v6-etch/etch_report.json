@@ -1,0 +1,643 @@
+{
+  "total_flips": 1864709,
+  "total_etchable": 3731269,
+  "flip_fraction": 0.49975196106204084,
+  "n_plates_etched": 70,
+  "n_plates_skipped": 0,
+  "crystal_floor": 0.3,
+  "preserve_zeros": true,
+  "min_vote_strength": 0.3,
+  "per_plate": {
+    "stride_stack.layers.0.q_proj": {
+      "total_etchable": 45063,
+      "n_flipped": 22537,
+      "agree_before": 22526,
+      "agree_after": 45063,
+      "agreement_before": 0.4998779486496682,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5001220513503317
+    },
+    "stride_stack.layers.0.k_proj": {
+      "total_etchable": 45152,
+      "n_flipped": 22473,
+      "agree_before": 22679,
+      "agree_after": 45152,
+      "agreement_before": 0.5022811835577604,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49771881644223953
+    },
+    "stride_stack.layers.0.v_proj": {
+      "total_etchable": 45350,
+      "n_flipped": 22589,
+      "agree_before": 22761,
+      "agree_after": 45350,
+      "agreement_before": 0.501896361631753,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49810363836824695
+    },
+    "stride_stack.layers.0.out_proj": {
+      "total_etchable": 45337,
+      "n_flipped": 22731,
+      "agree_before": 22606,
+      "agree_after": 45337,
+      "agreement_before": 0.49862143503099016,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5013785649690099
+    },
+    "stride_stack.layers.1.q_proj": {
+      "total_etchable": 45183,
+      "n_flipped": 22638,
+      "agree_before": 22545,
+      "agree_after": 45183,
+      "agreement_before": 0.4989708518690658,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5010291481309342
+    },
+    "stride_stack.layers.1.k_proj": {
+      "total_etchable": 45228,
+      "n_flipped": 22507,
+      "agree_before": 22721,
+      "agree_after": 45228,
+      "agreement_before": 0.5023657911028566,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4976342088971434
+    },
+    "stride_stack.layers.1.v_proj": {
+      "total_etchable": 45315,
+      "n_flipped": 22704,
+      "agree_before": 22611,
+      "agree_after": 45315,
+      "agreement_before": 0.49897384971863623,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5010261502813638
+    },
+    "stride_stack.layers.1.out_proj": {
+      "total_etchable": 45267,
+      "n_flipped": 22612,
+      "agree_before": 22655,
+      "agree_after": 45267,
+      "agreement_before": 0.5004749596836547,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49952504031634526
+    },
+    "stride_stack.layers.2.q_proj": {
+      "total_etchable": 45193,
+      "n_flipped": 22430,
+      "agree_before": 22763,
+      "agree_after": 45193,
+      "agreement_before": 0.5036841988803575,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4963158011196424
+    },
+    "stride_stack.layers.2.k_proj": {
+      "total_etchable": 45281,
+      "n_flipped": 22614,
+      "agree_before": 22667,
+      "agree_after": 45281,
+      "agreement_before": 0.5005852344250348,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4994147655749652
+    },
+    "stride_stack.layers.2.v_proj": {
+      "total_etchable": 45432,
+      "n_flipped": 22794,
+      "agree_before": 22638,
+      "agree_after": 45432,
+      "agreement_before": 0.498283148441627,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.501716851558373
+    },
+    "stride_stack.layers.2.out_proj": {
+      "total_etchable": 45317,
+      "n_flipped": 22565,
+      "agree_before": 22752,
+      "agree_after": 45317,
+      "agreement_before": 0.5020632433744511,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4979367566255489
+    },
+    "stride_stack.layers.3.q_proj": {
+      "total_etchable": 45278,
+      "n_flipped": 22684,
+      "agree_before": 22594,
+      "agree_after": 45278,
+      "agreement_before": 0.4990061398471664,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5009938601528336
+    },
+    "stride_stack.layers.3.k_proj": {
+      "total_etchable": 45449,
+      "n_flipped": 22737,
+      "agree_before": 22712,
+      "agree_after": 45449,
+      "agreement_before": 0.4997249664459064,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5002750335540936
+    },
+    "stride_stack.layers.3.v_proj": {
+      "total_etchable": 45175,
+      "n_flipped": 22579,
+      "agree_before": 22596,
+      "agree_after": 45175,
+      "agreement_before": 0.5001881571665744,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49981184283342556
+    },
+    "stride_stack.layers.3.out_proj": {
+      "total_etchable": 45162,
+      "n_flipped": 22508,
+      "agree_before": 22654,
+      "agree_after": 45162,
+      "agreement_before": 0.5016164031708074,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4983835968291927
+    },
+    "stride_stack.layers.4.q_proj": {
+      "total_etchable": 45360,
+      "n_flipped": 22741,
+      "agree_before": 22619,
+      "agree_after": 45360,
+      "agreement_before": 0.4986552028218695,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5013447971781305
+    },
+    "stride_stack.layers.4.k_proj": {
+      "total_etchable": 45213,
+      "n_flipped": 22707,
+      "agree_before": 22506,
+      "agree_after": 45213,
+      "agreement_before": 0.4977771879769093,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5022228120230907
+    },
+    "stride_stack.layers.4.v_proj": {
+      "total_etchable": 45332,
+      "n_flipped": 22698,
+      "agree_before": 22634,
+      "agree_after": 45332,
+      "agreement_before": 0.4992940968852025,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5007059031147975
+    },
+    "stride_stack.layers.4.out_proj": {
+      "total_etchable": 45397,
+      "n_flipped": 22964,
+      "agree_before": 22433,
+      "agree_after": 45397,
+      "agreement_before": 0.4941515959204353,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5058484040795648
+    },
+    "stride_stack.layers.5.q_proj": {
+      "total_etchable": 45313,
+      "n_flipped": 22616,
+      "agree_before": 22697,
+      "agree_after": 45313,
+      "agreement_before": 0.5008937832410125,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4991062167589875
+    },
+    "stride_stack.layers.5.k_proj": {
+      "total_etchable": 45372,
+      "n_flipped": 22843,
+      "agree_before": 22529,
+      "agree_after": 45372,
+      "agreement_before": 0.49653971612448206,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5034602838755179
+    },
+    "stride_stack.layers.5.v_proj": {
+      "total_etchable": 45395,
+      "n_flipped": 22709,
+      "agree_before": 22686,
+      "agree_after": 45395,
+      "agreement_before": 0.4997466681352572,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5002533318647429
+    },
+    "stride_stack.layers.5.out_proj": {
+      "total_etchable": 45248,
+      "n_flipped": 22715,
+      "agree_before": 22533,
+      "agree_after": 45248,
+      "agreement_before": 0.4979888613861386,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5020111386138614
+    },
+    "stride_stack.layers.6.q_proj": {
+      "total_etchable": 45117,
+      "n_flipped": 22384,
+      "agree_before": 22733,
+      "agree_after": 45117,
+      "agreement_before": 0.5038677217013543,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49613227829864576
+    },
+    "stride_stack.layers.6.k_proj": {
+      "total_etchable": 45282,
+      "n_flipped": 22558,
+      "agree_before": 22724,
+      "agree_after": 45282,
+      "agreement_before": 0.5018329579082196,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4981670420917804
+    },
+    "stride_stack.layers.6.v_proj": {
+      "total_etchable": 45196,
+      "n_flipped": 22608,
+      "agree_before": 22588,
+      "agree_after": 45196,
+      "agreement_before": 0.49977874148154705,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.500221258518453
+    },
+    "stride_stack.layers.6.out_proj": {
+      "total_etchable": 45114,
+      "n_flipped": 22592,
+      "agree_before": 22522,
+      "agree_after": 45114,
+      "agreement_before": 0.4992241876136011,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5007758123863989
+    },
+    "stride_stack.layers.7.q_proj": {
+      "total_etchable": 45002,
+      "n_flipped": 22448,
+      "agree_before": 22554,
+      "agree_after": 45002,
+      "agreement_before": 0.5011777254344252,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4988222745655749
+    },
+    "stride_stack.layers.7.k_proj": {
+      "total_etchable": 45331,
+      "n_flipped": 22745,
+      "agree_before": 22586,
+      "agree_after": 45331,
+      "agreement_before": 0.4982462332620061,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5017537667379939
+    },
+    "stride_stack.layers.7.v_proj": {
+      "total_etchable": 45174,
+      "n_flipped": 22655,
+      "agree_before": 22519,
+      "agree_after": 45174,
+      "agreement_before": 0.49849470934608403,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5015052906539159
+    },
+    "stride_stack.layers.7.out_proj": {
+      "total_etchable": 45205,
+      "n_flipped": 22361,
+      "agree_before": 22844,
+      "agree_after": 45205,
+      "agreement_before": 0.505342329388342,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.494657670611658
+    },
+    "stride_stack.layers.8.q_proj": {
+      "total_etchable": 45350,
+      "n_flipped": 22568,
+      "agree_before": 22782,
+      "agree_after": 45350,
+      "agreement_before": 0.5023594266813671,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4976405733186329
+    },
+    "stride_stack.layers.8.k_proj": {
+      "total_etchable": 45169,
+      "n_flipped": 22577,
+      "agree_before": 22592,
+      "agree_after": 45169,
+      "agreement_before": 0.5001660430826452,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4998339569173548
+    },
+    "stride_stack.layers.8.v_proj": {
+      "total_etchable": 45217,
+      "n_flipped": 22423,
+      "agree_before": 22794,
+      "agree_after": 45217,
+      "agreement_before": 0.5041024393480328,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49589756065196716
+    },
+    "stride_stack.layers.8.out_proj": {
+      "total_etchable": 45248,
+      "n_flipped": 22549,
+      "agree_before": 22699,
+      "agree_after": 45248,
+      "agreement_before": 0.501657531824611,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49834246817538896
+    },
+    "prep.up": {
+      "total_etchable": 45462,
+      "n_flipped": 22703,
+      "agree_before": 22759,
+      "agree_after": 45462,
+      "agreement_before": 0.5006158989925652,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4993841010074348
+    },
+    "prep.down": {
+      "total_etchable": 135755,
+      "n_flipped": 67800,
+      "agree_before": 67955,
+      "agree_after": 135755,
+      "agreement_before": 0.5005708813671688,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4994291186328312
+    },
+    "consolidate.up": {
+      "total_etchable": 45185,
+      "n_flipped": 22651,
+      "agree_before": 22534,
+      "agree_after": 45185,
+      "agreement_before": 0.49870532256279737,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5012946774372026
+    },
+    "consolidate.down": {
+      "total_etchable": 180518,
+      "n_flipped": 90408,
+      "agree_before": 90110,
+      "agree_after": 180518,
+      "agreement_before": 0.499174597547059,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5008254024529409
+    },
+    "s3_passes.0.proj_align.0": {
+      "total_etchable": 67717,
+      "n_flipped": 34014,
+      "agree_before": 33703,
+      "agree_after": 67717,
+      "agreement_before": 0.4977036785445309,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5022963214554691
+    },
+    "s3_passes.0.proj_delta.0": {
+      "total_etchable": 45328,
+      "n_flipped": 22555,
+      "agree_before": 22773,
+      "agree_after": 45328,
+      "agreement_before": 0.5024046946699612,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4975953053300388
+    },
+    "s3_passes.0.proj_align.1": {
+      "total_etchable": 67506,
+      "n_flipped": 33757,
+      "agree_before": 33749,
+      "agree_after": 67506,
+      "agreement_before": 0.4999407460077623,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5000592539922377
+    },
+    "s3_passes.0.proj_delta.1": {
+      "total_etchable": 45206,
+      "n_flipped": 22567,
+      "agree_before": 22639,
+      "agree_after": 45206,
+      "agreement_before": 0.5007963544662213,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4992036455337787
+    },
+    "s3_passes.0.proj_align.2": {
+      "total_etchable": 67584,
+      "n_flipped": 33660,
+      "agree_before": 33924,
+      "agree_after": 67584,
+      "agreement_before": 0.501953125,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.498046875
+    },
+    "s3_passes.0.proj_delta.2": {
+      "total_etchable": 45234,
+      "n_flipped": 22666,
+      "agree_before": 22568,
+      "agree_after": 45234,
+      "agreement_before": 0.49891674404209224,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5010832559579078
+    },
+    "s3_passes.1.proj_align.0": {
+      "total_etchable": 67970,
+      "n_flipped": 33878,
+      "agree_before": 34092,
+      "agree_after": 67970,
+      "agreement_before": 0.5015742239223187,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49842577607768135
+    },
+    "s3_passes.1.proj_delta.0": {
+      "total_etchable": 44938,
+      "n_flipped": 22399,
+      "agree_before": 22539,
+      "agree_after": 44938,
+      "agreement_before": 0.501557701722373,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4984422982776269
+    },
+    "s3_passes.1.proj_align.1": {
+      "total_etchable": 67934,
+      "n_flipped": 33942,
+      "agree_before": 33992,
+      "agree_after": 67934,
+      "agreement_before": 0.5003680042394089,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49963199576059114
+    },
+    "s3_passes.1.proj_delta.1": {
+      "total_etchable": 45258,
+      "n_flipped": 22605,
+      "agree_before": 22653,
+      "agree_after": 45258,
+      "agreement_before": 0.5005302929868752,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49946970701312476
+    },
+    "s3_passes.1.proj_align.2": {
+      "total_etchable": 67724,
+      "n_flipped": 33653,
+      "agree_before": 34071,
+      "agree_after": 67724,
+      "agreement_before": 0.5030860551650818,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4969139448349182
+    },
+    "s3_passes.1.proj_delta.2": {
+      "total_etchable": 45289,
+      "n_flipped": 22504,
+      "agree_before": 22785,
+      "agree_after": 45289,
+      "agreement_before": 0.503102298571397,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49689770142860296
+    },
+    "s3_passes.2.proj_align.0": {
+      "total_etchable": 67701,
+      "n_flipped": 33693,
+      "agree_before": 34008,
+      "agree_after": 67701,
+      "agreement_before": 0.502326405813799,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4976735941862011
+    },
+    "s3_passes.2.proj_delta.0": {
+      "total_etchable": 45474,
+      "n_flipped": 22639,
+      "agree_before": 22835,
+      "agree_after": 45474,
+      "agreement_before": 0.5021550776267757,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49784492237322425
+    },
+    "s3_passes.2.proj_align.1": {
+      "total_etchable": 67594,
+      "n_flipped": 33664,
+      "agree_before": 33930,
+      "agree_after": 67594,
+      "agreement_before": 0.5019676302630411,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4980323697369589
+    },
+    "s3_passes.2.proj_delta.1": {
+      "total_etchable": 45328,
+      "n_flipped": 22648,
+      "agree_before": 22680,
+      "agree_after": 45328,
+      "agreement_before": 0.5003529827038475,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49964701729615246
+    },
+    "s3_passes.2.proj_align.2": {
+      "total_etchable": 67758,
+      "n_flipped": 33905,
+      "agree_before": 33853,
+      "agree_after": 67758,
+      "agreement_before": 0.4996162814722985,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5003837185277015
+    },
+    "s3_passes.2.proj_delta.2": {
+      "total_etchable": 45296,
+      "n_flipped": 22728,
+      "agree_before": 22568,
+      "agree_after": 45296,
+      "agreement_before": 0.4982338396326386,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5017661603673613
+    },
+    "s3_passes.3.proj_align.0": {
+      "total_etchable": 67739,
+      "n_flipped": 33715,
+      "agree_before": 34024,
+      "agree_after": 67739,
+      "agreement_before": 0.5022808131209495,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4977191868790505
+    },
+    "s3_passes.3.proj_delta.0": {
+      "total_etchable": 45360,
+      "n_flipped": 22630,
+      "agree_before": 22730,
+      "agree_after": 45360,
+      "agreement_before": 0.5011022927689595,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49889770723104054
+    },
+    "s3_passes.3.proj_align.1": {
+      "total_etchable": 67665,
+      "n_flipped": 33748,
+      "agree_before": 33917,
+      "agree_after": 67665,
+      "agreement_before": 0.5012487992315081,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.49875120076849183
+    },
+    "s3_passes.3.proj_delta.1": {
+      "total_etchable": 45266,
+      "n_flipped": 22546,
+      "agree_before": 22720,
+      "agree_after": 45266,
+      "agreement_before": 0.5019219723412716,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4980780276587284
+    },
+    "s3_passes.3.proj_align.2": {
+      "total_etchable": 67798,
+      "n_flipped": 33954,
+      "agree_before": 33844,
+      "agree_after": 67798,
+      "agreement_before": 0.49918876663028405,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5008112333697159
+    },
+    "s3_passes.3.proj_delta.2": {
+      "total_etchable": 45340,
+      "n_flipped": 22795,
+      "agree_before": 22545,
+      "agree_after": 45340,
+      "agreement_before": 0.49724305249228057,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5027569475077195
+    },
+    "s3_passes.4.proj_align.0": {
+      "total_etchable": 67803,
+      "n_flipped": 34062,
+      "agree_before": 33741,
+      "agree_after": 67803,
+      "agreement_before": 0.4976328481040662,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5023671518959338
+    },
+    "s3_passes.4.proj_delta.0": {
+      "total_etchable": 45341,
+      "n_flipped": 22599,
+      "agree_before": 22742,
+      "agree_after": 45341,
+      "agreement_before": 0.5015769391941068,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.4984230608058931
+    },
+    "s3_passes.4.proj_align.1": {
+      "total_etchable": 67685,
+      "n_flipped": 34045,
+      "agree_before": 33640,
+      "agree_after": 67685,
+      "agreement_before": 0.49700819974883653,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5029918002511635
+    },
+    "s3_passes.4.proj_delta.1": {
+      "total_etchable": 45406,
+      "n_flipped": 22816,
+      "agree_before": 22590,
+      "agree_after": 45406,
+      "agreement_before": 0.4975113421133771,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5024886578866229
+    },
+    "s3_passes.4.proj_align.2": {
+      "total_etchable": 67703,
+      "n_flipped": 33886,
+      "agree_before": 33817,
+      "agree_after": 67703,
+      "agreement_before": 0.49949042139934713,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5005095786006528
+    },
+    "s3_passes.4.proj_delta.2": {
+      "total_etchable": 45187,
+      "n_flipped": 22711,
+      "agree_before": 22476,
+      "agree_after": 45187,
+      "agreement_before": 0.4973996946024299,
+      "agreement_after": 1.0,
+      "flip_fraction": 0.5026003053975701
+    }
+  },
+  "elapsed": 0.4388408660888672
+}
