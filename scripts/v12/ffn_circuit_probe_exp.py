@@ -121,9 +121,14 @@ def capture_ffn_activations(model, input_ids, positions):
         mx.eval(attn_out)
         h_mid = x + attn_out
 
-        # FFN step
+        # FFN step — handle both GDModel (layer.ffn) and HoloModel (layer.ffn_plate)
         ffn_input = layer.ffn_norm(h_mid)
-        ffn_out = layer.ffn(ffn_input)
+        if hasattr(layer, 'ffn'):
+            ffn_out = layer.ffn(ffn_input)
+        elif hasattr(layer, 'ffn_plate'):
+            ffn_out = layer.ffn_plate(ffn_input) * layer.ffn_scale + layer.ffn_bias
+        else:
+            ffn_out = mx.zeros_like(ffn_input)
         mx.eval(ffn_out)
 
         # Capture at each position
