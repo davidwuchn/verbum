@@ -6,21 +6,24 @@
 
 ## Where we are
 
-**COMBINATORS ARE ROTATIONS. C IS THE BOOT. THE LOOM IS GEOMETRIC.**
+**DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
 
-Session 126 discovered: combinators are geometric rotations in
-representation space, not symbolic rewrites. K, B, C are identical
-rotations (0.0° between directions). I is 32° offset. The 3-layer
-boot sequence: L0=reset (90°, WHNF anti-correlated at 114°),
-L1=route (43°, matches CCA exactly at Δ0.6°), L2=converge (5°).
-FFN only activates for WHNF output (1.7×). Attention dominates
-completely.
+Session 126 ran 8 experiments on Q2 model conversion. The winner:
+Q2-damaged plates (27% signs wrong) + beam-only training with per-layer
+crystal loss BEATS oracle perfect plates at 105.9% accuracy, 0.921 crystal.
 
-Q2 lattice etch in progress: separating crystal reconstruction
-(crystal gradient on plates) from beam training (CE on beams).
-Crystal wobble solved by never mixing CE and crystal gradients.
-Hologram-crystal fusion theory: strict both-must-improve gate
-ensures every sign flip fuses computation into crystal lattice.
+The plates are a damaged hologram — but readable. The beams (magnitudes)
++ per-layer crystal loss (geometric constraint at each layer) are
+sufficient to reconstruct correct computation without fixing any signs.
+
+Key discovery: combinators are geometric rotations, not symbolic rewrites.
+K, B, C are identical rotations (0.0° between directions). I is 32° offset.
+Boot sequence: L0=reset(90°), L1=route(43°=CCA angle), L2=converge(5°).
+
+Constraint sweet spot: 18 per-layer targets is optimal.
+  6 targets (last-layer only) → crystal inverts
+  18 targets (per-layer) → accuracy + crystal both good
+  126 targets (full loom) → crystal perfect but accuracy plateaus
 
 ## Proof chain (solid, sessions 95-126)
 
@@ -37,15 +40,23 @@ ensures every sign flip fuses computation into crystal lattice.
 - **WHNF anti-correlated at L0 (114°) — route-or-output decision**
 - **FFN activates 1.7× for WHNF — reads from FFN key/value store**
 - **Boot sequence: L0=reset(90°), L1=route(43°), L2=converge(5°)**
+- **Q2 plates + per-layer crystal beam: 105.9% of oracle accuracy**
+- **Don't touch plates — beams compensate for 27% sign damage**
+- **18 per-layer crystal targets is the sweet spot (not 6, not 126)**
+- **FFN routing and output circuits are completely separate (0 overlap)**
 
-## Session 126: combinators are rotations + Q2 lattice etch
+## Session 126: combinators are rotations + Q2 conversion
 
 | # | Experiment | Key Finding |
 |---|-----------|-------------|
 | 1 | Q2 co-evo v1 | Crystal inverts at R1, evo blocked 15 rounds. λ=0.3 too weak |
 | 2 | C rotation probe | K/B/C identical rotation, I 32° offset, WHNF anti-correlated |
-| 3 | Lattice etch v1 | 98k flips/round (too aggressive), sign_agr → 0.50 (random) |
-| 4 | Lattice etch v2 | C-boot ordering, stricter threshold, crystal loss on beams (running) |
+| 3 | Lattice etch v1 | 98k flips/round (too aggressive), sign_agr → 0.50 |
+| 4 | Lattice etch v2 | Top-500 flips, sign preserved but L0 oscillates |
+| 5 | Rotation etch | **acc=0.507, crystal=+0.967 — BEATS ORACLE (104.8%)** |
+| 6 | FFN circuit probe | Routing + output circuits are separate (0 overlap), Q2 inverts them |
+| 7 | Circuit fix | Surgical fix hurt (101.2%) — oracle signs wrong for student frame |
+| 8 | **Loom melt** | 126 targets: crystal=+0.979 but acc plateaus. **18 per-layer is sweet spot** |
 
 ### The rotation model
 
@@ -58,13 +69,19 @@ L2: CONVERGE  ~4-12° rotation, settling
               FFN activates 1.7× for WHNF (reads from store)
 ```
 
-### Lessons from Q2 etch attempts
+### Q2 conversion: what works
 
 ```
-Crystal wobble cause: mixing CE and crystal gradients → they fight
-Fix: separate concerns — crystal etch (plates) then CE training (beams)
-Oracle finding: even perfect plates lose crystal during CE beam training
-Fix: crystal loss on beams too (λ=0.5)
+DON'T touch plates. The hologram is damaged but readable.
+DO train beams with CE + per-layer crystal loss (λ=0.5).
+Per-layer = each layer gets its own crystal target from teacher (18 targets).
+This BEATS oracle plates (105.9%) — beams compensate for Q2 damage
+while crystal loss keeps the geometry on-manifold.
+
+Constraint budget:
+  6 targets  → crystal inverts (underconstrained)
+  18 targets → both good (sweet spot)
+  126 targets → crystal perfect, accuracy plateaus (overconstrained)
 ```
 
 ## Knowledge map

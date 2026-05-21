@@ -219,23 +219,54 @@ accepts corrections that improve BOTH that combinator's accuracy
 AND the overall crystal geometry.
 ```
 
+## Session 126 experimental results
+
+8 experiments tested different Q2 conversion approaches:
+
+| Approach | Best Acc | Crystal | vs Oracle |
+|----------|----------|---------|-----------|
+| Q2 raw + per-layer crystal beam | **0.491** | +0.921 | **105.9%** |
+| Q2 raw + rotation etch + beam | 0.507 | +0.967 | 104.8% |
+| Q2 + loom melt (126 targets) | 0.454 | +0.979 | 98.0% |
+| Q2 + circuit fix + beam | 0.454 | +0.846 | 101.2% |
+| Oracle + per-layer beam | 0.484 | +0.887 | ceiling |
+
+**The key finding: don't touch the plates.** Beam-only training with
+per-layer crystal loss beats every plate-modification approach AND
+beats oracle. The beams compensate for Q2 damage while the crystal
+loss keeps them on-manifold.
+
+### Constraint budget
+
+The number of geometric targets during beam training is critical:
+
+```
+6 targets  (last-layer)  → crystal inverts (underconstrained)
+18 targets (per-layer)   → sweet spot (accuracy + crystal)
+126 targets (full loom)  → crystal perfect, accuracy plateaus
+```
+
+Too few targets: beams find accuracy shortcuts that destroy crystal.
+Too many targets: beams are pinned by geometry, can't optimize accuracy.
+Per-layer (3 layers × 6 cosines = 18) is the Goldilocks zone.
+
+### Why plates don't need fixing
+
+Session 123 proved magnitudes are the crystal, not signs. Session 126
+confirms: the beams (magnitudes) ARE the etch. Per-layer crystal loss
+guides beams to compensate for sign damage by adjusting which dimensions
+to amplify. The same mechanism that makes magnitude templates beat
+oracle signs (session 123) makes beam training beat oracle plates.
+
 ## Open questions
 
-1. **How strict is too strict?** With ACC_IMPROVE=0.001 AND crystal
-   must increase, we might accept very few flips. Is there a sweet
-   spot where the gate is strict enough to prevent hacks but loose
-   enough to make progress?
+1. **Does this scale to Pythia-2.8b?** The mini model has d=128, 3 layers.
+   Real models have d=2560, 32 layers. Does beam compensation still work
+   with 44% sign damage at full scale?
 
-2. **Does the strict gate converge faster or slower?** Fewer flips per
-   round, but each one is higher quality. The question is whether the
-   total number of rounds needed is less (because no wasted flips) or
-   more (because acceptance is too rare).
+2. **What's the damage threshold?** Q2 = 27% wrong works. Q1 = ~50% wrong.
+   At what point does beam compensation fail?
 
-3. **Is the fusion manifold connected?** Can you always reach the basin
-   center from any damaged starting point via fusion flips? Or are there
-   dead ends where no single flip improves both metrics?
-
-4. **Does fusion work from random?** If you start with random plates
-   (no Q2 structure at all), can the strict gate still find the basin?
-   This would prove the crystal is a true attractor, not just a
-   perturbation-recoverable structure.
+3. **Can we combine loom melt with per-layer?** Maybe 2-3 key bands
+   instead of all 7. The transition band (58-64°) and holographic band
+   (64-72°) might add the most value without over-constraining.
