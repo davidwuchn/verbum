@@ -248,6 +248,8 @@ class V13Config:
 
     # ── Data ──
     data_dir: str = "/Users/mwhitford/data/fractal-bitnet/shards-qwen3"
+    structured_shard: str = "data/structured_shard.npy"
+    mix_ratio: float = 0.1  # 10% structured (lambda + math + code), 90% prose
     seq_len: int = 4096
     max_seq_len: int = 4096
     n_train_shards: int = 54

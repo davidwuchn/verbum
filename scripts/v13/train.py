@@ -44,7 +44,7 @@ from mlx.utils import tree_flatten, tree_map, tree_unflatten
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V13Config
-from data import ShardedDataLoader
+from data import ShardedDataLoader, MixedDataLoader
 from model import V13Model, compute_crystal_diagnostics
 from ternary import (
     freeze_ternary_weights,
@@ -940,13 +940,33 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
     print(f"  data: {cfg.data_dir}", file=sys.stderr, flush=True)
 
     # ── Data loaders ──────────────────────────────────────────
-    train_loader = ShardedDataLoader(
+    prose_loader = ShardedDataLoader(
         data_dir=cfg.data_dir,
         batch_size=cfg.batch_size,
         seq_len=cfg.seq_len,
         shard_start=0,
         shard_end=cfg.n_train_shards,
     )
+    structured_path = Path(cfg.structured_shard)
+    if not structured_path.is_absolute():
+        structured_path = Path(__file__).parent.parent.parent / structured_path
+    if structured_path.exists() and cfg.mix_ratio > 0:
+        train_loader = MixedDataLoader(
+            prose_loader=prose_loader,
+            structured_path=structured_path,
+            mix_ratio=cfg.mix_ratio,
+            seq_len=cfg.seq_len,
+            batch_size=cfg.batch_size,
+        )
+        print(f"  mix: {cfg.mix_ratio:.0%} structured ({structured_path.name})"
+              f" + {1-cfg.mix_ratio:.0%} prose",
+              file=sys.stderr)
+    else:
+        train_loader = prose_loader
+        if cfg.mix_ratio > 0:
+            print(f"  ⚠  structured shard not found: {structured_path}",
+                  file=sys.stderr)
+            print(f"  ⚠  training on 100% prose", file=sys.stderr)
 
     # ── Etch states (for consensus etch during GD phase) ──────
     etch_states: dict | None = None
