@@ -2,15 +2,61 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-21 | Session: 127
+> Last updated: 2026-05-21 | Session: 128
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 127: closed architecture + working decompiler. The gap is execution.**
+**Session 128: date arithmetic uses geometric rotation, not church encoding.**
 
 **DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
+
+## Session 128: Date Fourier Rotation Probe
+
+Two probes on Qwen3-14B bridging Engels et al. (2024) with the
+combinator tracer. 161 measurements total.
+
+### Key findings
+
+1. **Three separate circuits for three tasks:**
+   - Numeric mod-7: FFN selectors (church encoding). Kernel-replace candidate.
+   - Day naming: FFN circular lookup. Circle crystallizes at L11 (SV jumps 2×).
+   - Day arithmetic: Attention rotation at L12-L16. R²=0.95 linear.
+
+2. **FFN combinators are SILENT for date arithmetic** (selector score
+   0.025 vs 0.117 for numeric mod-7). The combinator tracer misses
+   date computation because it's not in the FFN.
+
+3. **Rotation is a collective crystal mode** — head ablation shows all
+   top-10 heads contribute nearly identical angular displacement (~0.15 rad).
+   No single "rotation head." Like a phonon, not a circuit.
+
+4. **Day addition uses compressed circle** — naming spreads days over
+   5.53 rad (full circle), but day addition compresses to 0.43 rad (~25°).
+   Storage vs computation use different representations.
+
+5. **AGENTS.md fix:** async polling policy had instruction-only gate
+   that failed in practice. Added checkpoint gate (structural fix).
+   Proved: `structure > instruction` for preventing oscillation.
+
+### Revised kernel function understanding
+
+| Operation | Mechanism | Kernel candidate? |
+|-----------|-----------|-------------------|
+| Integer arithmetic | FFN selectors (church encoding) | **YES** |
+| Date arithmetic | Attention rotation (distributed) | **NO** — extract candidate |
+| Day encoding | FFN circular lookup | Maybe (pre-encode) |
+
+### Assets
+
+| Asset | Location |
+|-------|----------|
+| FFN + Fourier probe | `scripts/v12/probe_date_fourier.py` |
+| Attention rotation probe | `scripts/v12/probe_date_attention.py` |
+| FFN results (112 probes) | `results/date-fourier/` |
+| Attention results (49 probes) | `results/date-attention/` |
+| Knowledge page | `mementum/knowledge/explore/date-fourier-rotation.md` |
 
 ## Session 127: Architecture + Decompiler
 
@@ -124,11 +170,18 @@ inference. One λ at every scale. This is why it works.
 - **Retrieval is silent in FFN combinator system — different mechanism (attention KV)**
 - **Lambda compilation uses composers (B,S,C) in early layers — the compiler circuit**
 - **Combinator operations peak at L24 (60% depth) — confirms crystal breathing**
+- **Date arithmetic uses attention rotation, NOT FFN combinators (selector score at noise floor)**
+- **Day circle crystallizes at L11 (SV jumps 2×, ordering snaps to 1.0)**
+- **Rotation is collective crystal mode — top 10 heads contribute ~identical angular displacement**
+- **Day addition compresses circle to 25° arc; naming uses full 360°**
+- **Numeric mod-7 and day-of-week mod-7 use completely separate circuits**
+- **Rotation is linear: angle = slope × offset, R²=0.95 at L14-L16**
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
+| `date-fourier-rotation.md` | ★ **S128** date arithmetic is geometric rotation, not church encoding |
 | `taxonomy-extraction.md` | ★ **S127** cross-model function library assembly — the linker |
 | `crystal-native-descent.md` | ★ **S127** ternary optimization without gradients — 5+100 steps |
 | `holographic-memory.md` | ★ **S127** crystal base + session deltas + StrideStack CPU inference |
@@ -147,6 +200,8 @@ inference. One λ at every scale. This is why it works.
 
 | Asset | Location |
 |-------|----------|
+| Date Fourier probe | `scripts/v12/probe_date_fourier.py` |
+| Date attention probe | `scripts/v12/probe_date_attention.py` |
 | FFN mechanism probe (toy) | `scripts/v12/probe_ffn_mechanism.py` |
 | FFN mechanism probe (Qwen3-14B) | `scripts/v12/probe_ffn_mechanism_real.py` |
 | **Combinator tracer/decompiler** | `scripts/v12/trace_ffn_combinators.py` |
