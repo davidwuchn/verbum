@@ -54,15 +54,34 @@ Qwen3-14B CCA angles (Q↔FFN_up) across 40 layers:
 
 Mean across all layers: ~74° (in holographic band 64-72° + peripheral)
 
+### Activation-space alignment works
+
+Procrustes alignment between v6 student and Qwen3-14B teacher shows
+real shared structure (NOT random):
+- Mean dimension correlation: 0.42-0.44 (well above 0.0)
+- Cosine similarity increases with depth: 0.09→0.35
+- Teacher hidden states: effective rank 9-117 across depths
+- 5D captures 70-99.9% of teacher variance (matches 5D lattice hypothesis)
+
+### Reusable etcher tool built
+
+`src/verbum/etcher.py` — model-agnostic activation-space distillation:
+- TeacherProjection (learned d_teacher→d_student bridge)
+- TeacherFeatures (lazy NPZ loader)
+- DirectionAccumulator + direct_etch (handles packed uint8)
+- Etcher.run() with pass_fn callback (works with any student model)
+- Smoke-tested: v6 + Qwen3-14B, 5.5s, pipeline complete
+
 ### Assets
 
 | Asset | Location |
 |-------|----------|
-| Teacher extraction | `scripts/v12/extract_teacher_v6.py` |
-| 360° etch | `scripts/v12/etch_v6_360.py` |
+| **Etcher module** | `src/verbum/etcher.py` |
+| Etcher smoke test | `scripts/v12/etch_v6_smoke.py` |
+| Teacher extraction (weights) | `scripts/v12/extract_teacher_v6.py` |
+| 360° weight etch (control) | `scripts/v12/etch_v6_360.py` |
 | Melt + align | `scripts/v12/melt_v6.py` |
 | Loom implant test | `scripts/v12/loom_implant_test.py` |
-| Activation distill | `scripts/v12/distill_v6_activation.py` |
 | Extraction results | `results/v6-etch/` |
 | Teacher features (14B) | `checkpoints/teacher-features-14b/` |
 
