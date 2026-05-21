@@ -961,9 +961,7 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
     total_etched = 0
 
     if args.resume is not None:
-        resume_path = Path(args.resume)
-        if not resume_path.is_absolute():
-            resume_path = checkpoint_dir / resume_path
+        resume_path = Path(args.resume).resolve()
 
         # Priority: training checkpoints in checkpoint_dir > explicit resume path
         # This prevents accidentally reloading the etch when training checkpoints
