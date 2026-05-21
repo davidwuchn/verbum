@@ -965,10 +965,14 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
         if not resume_path.is_absolute():
             resume_path = checkpoint_dir / resume_path
 
-        if resume_path.exists():
+        # Priority: training checkpoints in checkpoint_dir > explicit resume path
+        # This prevents accidentally reloading the etch when training checkpoints
+        # exist (e.g., --resume points to etched dir but run1 has step_1000/).
+        ckpt = find_latest_checkpoint(checkpoint_dir)
+        if ckpt is None and resume_path.exists():
             ckpt = resume_path
-        else:
-            ckpt = find_latest_checkpoint(checkpoint_dir)
+        elif ckpt is None:
+            ckpt = None  # nothing found anywhere
 
         if ckpt:
             # Temporary optimizer for loading state
