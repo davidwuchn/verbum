@@ -1,0 +1,267 @@
+========================================================================
+  Binding Lattice — C→B/S→WHNF Cascade Exploration
+  Models: ['qwen3-14b', 'mistral-7b', 'olmo-2-13b', 'pythia-2.8b']
+  Depths: ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%']
+========================================================================
+
+1. Loading probes...
+  Loaded 118 probes from binding_chain_probes.json:
+    chain       :  59
+    existing    :  35
+    pure        :   9
+    prose       :   9
+    reduce      :   6
+
+2. Extracting per-model RDMs...
+
+  ─── qwen3-14b (Qwen/Qwen3-14B) ───
+  Layers: 40, d_model: 5120
+  Target layers (10): [0, 4, 8, 12, 16, 20, 23, 27, 31, 35]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:23,  1.14s/it]Loading weights:   4%|▎         | 16/443 [00:01<00:24, 17.47it/s]Loading weights:   7%|▋         | 29/443 [00:01<00:12, 32.89it/s]Loading weights:  10%|█         | 45/443 [00:01<00:07, 53.61it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:05, 69.87it/s]Loading weights:  18%|█▊        | 79/443 [00:01<00:03, 94.58it/s]Loading weights:  21%|██        | 94/443 [00:01<00:03, 101.52it/s]Loading weights:  25%|██▍       | 109/443 [00:01<00:02, 112.50it/s]Loading weights:  28%|██▊       | 124/443 [00:02<00:02, 111.14it/s]Loading weights:  31%|███       | 138/443 [00:02<00:02, 107.27it/s]Loading weights:  36%|███▌      | 158/443 [00:02<00:02, 123.52it/s]Loading weights:  39%|███▉      | 172/443 [00:02<00:02, 120.36it/s]Loading weights:  43%|████▎     | 189/443 [00:02<00:01, 131.13it/s]Loading weights:  46%|████▌     | 203/443 [00:02<00:01, 127.98it/s]Loading weights:  49%|████▉     | 219/443 [00:02<00:01, 135.81it/s]Loading weights:  53%|█████▎    | 236/443 [00:02<00:01, 140.08it/s]Loading weights:  57%|█████▋    | 254/443 [00:02<00:01, 150.60it/s]Loading weights:  61%|██████    | 270/443 [00:03<00:01, 119.43it/s]Loading weights:  65%|██████▍   | 287/443 [00:03<00:01, 131.36it/s]Loading weights:  68%|██████▊   | 302/443 [00:03<00:01, 127.17it/s]Loading weights:  71%|███████▏  | 316/443 [00:03<00:00, 130.16it/s]Loading weights:  75%|███████▌  | 334/443 [00:03<00:00, 139.75it/s]Loading weights:  79%|███████▉  | 349/443 [00:03<00:00, 127.49it/s]Loading weights:  83%|████████▎ | 367/443 [00:03<00:00, 138.04it/s]Loading weights:  86%|████████▌ | 382/443 [00:03<00:00, 137.98it/s]Loading weights:  90%|█████████ | 400/443 [00:04<00:00, 147.24it/s]Loading weights:  94%|█████████▍| 416/443 [00:04<00:00, 139.14it/s]Loading weights:  97%|█████████▋| 431/443 [00:04<00:00, 124.34it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 100.53it/s]
+  Running 118 probes...
+    50/118 probes done...
+    100/118 probes done...
+  Done in 37.0s (313.2ms/probe)
+  L0 (depth=0%): RDM (118, 118), mean_sim=0.5939
+  L4 (depth=10%): RDM (118, 118), mean_sim=0.5055
+  L8 (depth=20%): RDM (118, 118), mean_sim=0.4769
+  L12 (depth=30%): RDM (118, 118), mean_sim=0.3943
+  L16 (depth=40%): RDM (118, 118), mean_sim=0.4166
+  L20 (depth=50%): RDM (118, 118), mean_sim=0.4934
+  L23 (depth=60%): RDM (118, 118), mean_sim=0.5302
+  L27 (depth=70%): RDM (118, 118), mean_sim=0.5636
+  L31 (depth=80%): RDM (118, 118), mean_sim=0.6403
+  L35 (depth=90%): RDM (118, 118), mean_sim=0.7451
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layers: 32, d_model: 4096
+  Target layers (10): [0, 3, 6, 9, 12, 16, 19, 22, 25, 28]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<02:23,  2.02it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:09, 30.11it/s]Loading weights:  11%|█         | 32/291 [00:00<00:04, 64.39it/s]Loading weights:  17%|█▋        | 49/291 [00:00<00:02, 89.64it/s]Loading weights:  23%|██▎       | 67/291 [00:00<00:02, 110.05it/s]Loading weights:  30%|██▉       | 86/291 [00:01<00:01, 127.19it/s]Loading weights:  36%|███▌      | 105/291 [00:01<00:01, 140.90it/s]Loading weights:  44%|████▍     | 128/291 [00:01<00:00, 165.19it/s]Loading weights:  51%|█████     | 147/291 [00:01<00:00, 144.93it/s]Loading weights:  56%|█████▋    | 164/291 [00:01<00:00, 148.43it/s]Loading weights:  62%|██████▏   | 180/291 [00:01<00:00, 146.39it/s]Loading weights:  67%|██████▋   | 196/291 [00:01<00:00, 148.72it/s]Loading weights:  73%|███████▎  | 213/291 [00:01<00:00, 152.88it/s]Loading weights:  79%|███████▉  | 230/291 [00:01<00:00, 153.20it/s]Loading weights:  85%|████████▌ | 248/291 [00:02<00:00, 157.28it/s]Loading weights:  92%|█████████▏| 267/291 [00:02<00:00, 162.89it/s]Loading weights:  99%|█████████▉| 288/291 [00:02<00:00, 174.99it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 127.72it/s]
+  Running 118 probes...
+    50/118 probes done...
+    100/118 probes done...
+  Done in 22.4s (189.9ms/probe)
+  L0 (depth=0%): RDM (118, 118), mean_sim=0.2674
+  L3 (depth=10%): RDM (118, 118), mean_sim=0.2007
+  L6 (depth=20%): RDM (118, 118), mean_sim=0.2035
+  L9 (depth=30%): RDM (118, 118), mean_sim=0.2190
+  L12 (depth=40%): RDM (118, 118), mean_sim=0.2295
+  L16 (depth=50%): RDM (118, 118), mean_sim=0.2696
+  L19 (depth=60%): RDM (118, 118), mean_sim=0.3063
+  L22 (depth=70%): RDM (118, 118), mean_sim=0.3841
+  L25 (depth=80%): RDM (118, 118), mean_sim=0.4230
+  L28 (depth=90%): RDM (118, 118), mean_sim=0.4204
+
+  ─── olmo-2-13b (allenai/OLMo-2-1124-13B) ───
+  Layers: 40, d_model: 5120
+  Target layers (10): [0, 4, 8, 12, 16, 20, 23, 27, 31, 35]
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:11,  1.42it/s]Loading weights:   3%|▎         | 12/443 [00:00<00:22, 19.56it/s]Loading weights:   5%|▌         | 24/443 [00:00<00:11, 36.20it/s]Loading weights:   8%|▊         | 35/443 [00:01<00:08, 50.37it/s]Loading weights:  10%|█         | 45/443 [00:01<00:06, 59.74it/s]Loading weights:  13%|█▎        | 56/443 [00:01<00:05, 71.05it/s]Loading weights:  15%|█▍        | 66/443 [00:01<00:04, 75.67it/s]Loading weights:  17%|█▋        | 76/443 [00:01<00:04, 78.97it/s]Loading weights:  19%|█▉        | 86/443 [00:01<00:04, 84.30it/s]Loading weights:  22%|██▏       | 96/443 [00:01<00:04, 84.25it/s]Loading weights:  24%|██▍       | 106/443 [00:01<00:03, 85.25it/s]Loading weights:  26%|██▌       | 115/443 [00:01<00:03, 82.66it/s]Loading weights:  28%|██▊       | 124/443 [00:02<00:03, 81.99it/s]Loading weights:  30%|███       | 135/443 [00:02<00:03, 86.91it/s]Loading weights:  33%|███▎      | 146/443 [00:02<00:03, 85.87it/s]Loading weights:  35%|███▌      | 157/443 [00:02<00:03, 89.25it/s]Loading weights:  38%|███▊      | 168/443 [00:02<00:03, 89.69it/s]Loading weights:  40%|████      | 179/443 [00:02<00:02, 89.69it/s]Loading weights:  43%|████▎     | 190/443 [00:02<00:02, 90.76it/s]Loading weights:  45%|████▌     | 201/443 [00:02<00:02, 92.80it/s]Loading weights:  48%|████▊     | 211/443 [00:02<00:02, 94.49it/s]Loading weights:  50%|████▉     | 221/443 [00:03<00:02, 95.60it/s]Loading weights:  53%|█████▎    | 233/443 [00:03<00:02, 94.52it/s]Loading weights:  55%|█████▍    | 243/443 [00:04<00:06, 32.44it/s]Loading weights:  57%|█████▋    | 252/443 [00:04<00:04, 38.50it/s]Loading weights:  59%|█████▉    | 262/443 [00:04<00:03, 46.12it/s]Loading weights:  61%|██████    | 270/443 [00:04<00:03, 50.06it/s]Loading weights:  63%|██████▎   | 279/443 [00:04<00:02, 56.90it/s]Loading weights:  65%|██████▌   | 290/443 [00:04<00:02, 67.58it/s]Loading weights:  68%|██████▊   | 300/443 [00:04<00:01, 74.63it/s]Loading weights:  70%|██████▉   | 310/443 [00:04<00:01, 79.86it/s]Loading weights:  72%|███████▏  | 321/443 [00:04<00:01, 83.62it/s]Loading weights:  75%|███████▌  | 333/443 [00:05<00:01, 85.25it/s]Loading weights:  78%|███████▊  | 344/443 [00:05<00:01, 89.85it/s]Loading weights:  80%|████████  | 355/443 [00:05<00:00, 92.20it/s]Loading weights:  83%|████████▎ | 366/443 [00:05<00:00, 93.24it/s]Loading weights:  85%|████████▍ | 376/443 [00:05<00:00, 92.11it/s]Loading weights:  87%|████████▋ | 387/443 [00:05<00:00, 92.66it/s]Loading weights:  90%|████████▉ | 398/443 [00:05<00:00, 95.70it/s]Loading weights:  92%|█████████▏| 408/443 [00:05<00:00, 95.54it/s]Loading weights:  95%|█████████▍| 420/443 [00:05<00:00, 96.29it/s]Loading weights:  97%|█████████▋| 430/443 [00:06<00:00, 78.37it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 71.20it/s]
+  Running 118 probes...
+    50/118 probes done...
+    100/118 probes done...
+  Done in 34.5s (292.1ms/probe)
+  L0 (depth=0%): RDM (118, 118), mean_sim=0.1566
+  L4 (depth=10%): RDM (118, 118), mean_sim=0.2022
+  L8 (depth=20%): RDM (118, 118), mean_sim=0.2520
+  L12 (depth=30%): RDM (118, 118), mean_sim=0.2801
+  L16 (depth=40%): RDM (118, 118), mean_sim=0.3098
+  L20 (depth=50%): RDM (118, 118), mean_sim=0.3479
+  L23 (depth=60%): RDM (118, 118), mean_sim=0.3704
+  L27 (depth=70%): RDM (118, 118), mean_sim=0.3539
+  L31 (depth=80%): RDM (118, 118), mean_sim=0.3358
+  L35 (depth=90%): RDM (118, 118), mean_sim=0.3503
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layers: 32, d_model: 2560
+  Target layers (10): [0, 3, 6, 9, 12, 16, 19, 22, 25, 28]
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 56/388 [00:00<00:00, 536.41it/s]Loading weights:  39%|███▉      | 152/388 [00:00<00:00, 761.63it/s]Loading weights:  65%|██████▍   | 251/388 [00:00<00:00, 845.38it/s]Loading weights:  88%|████████▊ | 343/388 [00:00<00:00, 868.85it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 755.05it/s]
+  Running 118 probes...
+    50/118 probes done...
+    100/118 probes done...
+  Done in 12.2s (103.4ms/probe)
+  L0 (depth=0%): RDM (118, 118), mean_sim=0.7153
+  L3 (depth=10%): RDM (118, 118), mean_sim=0.6498
+  L6 (depth=20%): RDM (118, 118), mean_sim=0.5973
+  L9 (depth=30%): RDM (118, 118), mean_sim=0.6368
+  L12 (depth=40%): RDM (118, 118), mean_sim=0.6420
+  L16 (depth=50%): RDM (118, 118), mean_sim=0.6829
+  L19 (depth=60%): RDM (118, 118), mean_sim=0.7635
+  L22 (depth=70%): RDM (118, 118), mean_sim=0.8605
+  L25 (depth=80%): RDM (118, 118), mean_sim=0.8750
+  L28 (depth=90%): RDM (118, 118), mean_sim=0.8638
+
+3. Building cross-model consensus...
+  Depth 0%: 4 models, agreement=0.2946, model_corr=0.6130
+  Depth 10%: 4 models, agreement=0.3221, model_corr=0.6568
+  Depth 20%: 4 models, agreement=0.3580, model_corr=0.6826
+  Depth 30%: 4 models, agreement=0.2834, model_corr=0.7528
+  Depth 40%: 4 models, agreement=0.2414, model_corr=0.7663
+  Depth 50%: 4 models, agreement=0.2691, model_corr=0.7394
+  Depth 60%: 4 models, agreement=0.2699, model_corr=0.7142
+  Depth 70%: 4 models, agreement=0.2733, model_corr=0.6851
+  Depth 80%: 4 models, agreement=0.2688, model_corr=0.6591
+  Depth 90%: 4 models, agreement=0.2535, model_corr=0.7063
+
+4. Discovering universal dimensions...
+
+  Depth 0%:
+  SVD: 9 dims (cum var: 60.8%)
+
+  Depth 10%:
+  SVD: 7 dims (cum var: 66.2%)
+
+  Depth 20%:
+  SVD: 9 dims (cum var: 71.6%)
+
+  Depth 30%:
+  SVD: 9 dims (cum var: 70.3%)
+
+  Depth 40%:
+  SVD: 8 dims (cum var: 68.1%)
+
+  Depth 50%:
+  SVD: 8 dims (cum var: 70.2%)
+
+  Depth 60%:
+  SVD: 6 dims (cum var: 68.6%)
+
+  Depth 70%:
+  SVD: 7 dims (cum var: 73.5%)
+
+  Depth 80%:
+  SVD: 6 dims (cum var: 74.1%)
+
+  Depth 90%:
+  SVD: 6 dims (cum var: 74.9%)
+
+5. Analyzing binding cascade...
+
+6. Saving results...
+
+  💾 NPZ: lattice/binding-v1/universal_lattice.npz (868.2 KB)
+  💾 Per-model: lattice/binding-v1/rdm_qwen3-14b.npz (409.5 KB)
+  💾 Per-model: lattice/binding-v1/rdm_mistral-7b.npz (410.0 KB)
+  💾 Per-model: lattice/binding-v1/rdm_olmo-2-13b.npz (408.5 KB)
+  💾 Per-model: lattice/binding-v1/rdm_pythia-2.8b.npz (398.3 KB)
+  💾 JSON: lattice/binding-v1/universal_lattice.json
+  💾 Compat: lattice/binding-v1/lattice_relational_target.json
+
+==========================================================================================
+  BINDING CASCADE ANALYSIS: C → B/S → WHNF
+==========================================================================================
+
+  Binding Depth × Model Depth → Dominant Combinator
+    bind      0%     10%     20%     30%     40%     50%     60%     70%     80%     90%
+  ----------------------------------------------------------------------------------------
+  d=  1      C+0     B+0     B+0     C+0     C+0     D+0     C+0     C+0     C+0     C-0
+  d=  2      C+0     C+0     C+0     C+0     C+0     C+0     C+0     C+0     C+0     C+0
+  d=  3      S+0     S+0     S+0     C+0     S+0     B+0     C+0     C+0     C+0     C+0
+  d=  4      Y+0     Y+0     B+0     B+0     B+0     B+0     B+0     C+0     C+0     C+0
+  d=  5      C-0     B-0     D-0     D-0     D-0     D+0     C+0     C+0  WHNF+0  WHNF+0
+
+
+  Handoff Trajectories (sim to C, B, S, WHNF across depth):
+
+  bind_depth=1:
+     depth        C        B        S     WHNF  winner
+        0%  +0.0403  +0.0210  +0.0238  -0.0531       C
+       10%  +0.0692  +0.0756  +0.0736  -0.0497       B
+       20%  +0.0758  +0.0795  +0.0657  -0.0202       B
+       30%  +0.0803  +0.0597  +0.0453  -0.0480       C
+       40%  +0.0625  +0.0561  +0.0468  -0.0570       C
+       50%  +0.0332  +0.0309  +0.0176  -0.0791       D
+       60%  +0.0277  +0.0175  +0.0039  -0.0870       C
+       70%  +0.0112  -0.0039  -0.0062  -0.0761       C
+       80%  +0.0096  -0.0058  -0.0060  -0.0760       C
+       90%  -0.0040  -0.0232  -0.0199  -0.0849       C
+
+  bind_depth=2:
+     depth        C        B        S     WHNF  winner
+        0%  +0.2455  +0.1537  +0.1543  -0.0112       C
+       10%  +0.2356  +0.2102  +0.1982  -0.0127       C
+       20%  +0.2323  +0.2091  +0.1847  +0.0267       C
+       30%  +0.2317  +0.1776  +0.1622  -0.0163       C
+       40%  +0.2209  +0.1854  +0.1669  -0.0279       C
+       50%  +0.1870  +0.1610  +0.1433  -0.0443       C
+       60%  +0.1740  +0.1409  +0.1280  -0.0465       C
+       70%  +0.1595  +0.1196  +0.1200  -0.0270       C
+       80%  +0.1498  +0.1065  +0.1080  -0.0263       C
+       90%  +0.1235  +0.0783  +0.0816  -0.0512       C
+
+  bind_depth=3:
+     depth        C        B        S     WHNF  winner
+        0%  +0.1905  +0.2328  +0.2358  -0.0247       S
+       10%  +0.1748  +0.2251  +0.2321  -0.0196       S
+       20%  +0.1693  +0.2013  +0.2051  +0.0186       S
+       30%  +0.1665  +0.1612  +0.1645  -0.0323       C
+       40%  +0.1608  +0.1629  +0.1707  -0.0406       S
+       50%  +0.1329  +0.1421  +0.1364  -0.0548       B
+       60%  +0.1183  +0.1162  +0.1097  -0.0595       C
+       70%  +0.1050  +0.0979  +0.0983  -0.0416       C
+       80%  +0.0980  +0.0956  +0.0964  -0.0355       C
+       90%  +0.0802  +0.0751  +0.0776  -0.0526       C
+
+  bind_depth=4:
+     depth        C        B        S     WHNF  winner
+        0%  +0.1295  +0.1876  +0.1891  -0.0569       Y
+       10%  +0.1250  +0.1983  +0.1911  -0.0651       Y
+       20%  +0.1065  +0.1773  +0.1550  -0.0297       B
+       30%  +0.1110  +0.1718  +0.1347  -0.0567       B
+       40%  +0.0934  +0.1359  +0.1132  -0.0572       B
+       50%  +0.0945  +0.1189  +0.0971  -0.0464       B
+       60%  +0.1032  +0.1092  +0.0928  -0.0354       B
+       70%  +0.0999  +0.0984  +0.0935  +0.0034       C
+       80%  +0.0928  +0.0924  +0.0919  +0.0217       C
+       90%  +0.0781  +0.0730  +0.0763  +0.0162       C
+
+  bind_depth=5:
+     depth        C        B        S     WHNF  winner
+        0%  -0.0330  -0.0370  -0.0342  -0.0856       C
+       10%  -0.0549  -0.0369  -0.0417  -0.0773       B
+       20%  -0.0722  -0.0610  -0.0695  -0.0780       D
+       30%  -0.0298  -0.0356  -0.0398  -0.0657       D
+       40%  -0.0090  -0.0148  -0.0151  -0.0479       D
+       50%  +0.0026  -0.0044  -0.0152  -0.0326       D
+       60%  +0.0064  -0.0092  -0.0176  -0.0256       C
+       70%  +0.0097  -0.0127  -0.0092  +0.0045       C
+       80%  +0.0017  -0.0162  -0.0123  +0.0153    WHNF
+       90%  -0.0111  -0.0314  -0.0246  +0.0184    WHNF
+
+
+  Chain Probe Groups → Dominant Combinator (at depth 50%):
+                   group  winner       K       C       B       S    WHNF
+    ----------------------------------------------------------------------
+                 chain_B       B  -0.094  -0.033  -0.024  -0.036  -0.044
+         chain_B_K_apply       D  -0.001  +0.048  +0.050  +0.057  -0.036
+                 chain_C       C  -0.056  +0.018  +0.013  +0.006  -0.049
+                 chain_I       D  -0.021  +0.029  +0.032  +0.025  -0.070
+                 chain_K       D  -0.052  -0.015  -0.023  -0.028  -0.061
+                 chain_S       D  -0.058  +0.022  +0.020  +0.023  -0.069
+              chain_WHNF    WHNF  -0.086  -0.032  -0.038  -0.049  +0.068
+             chain_depth       C  -0.091  -0.036  -0.042  -0.050  -0.048
+               chain_hof    WHNF  -0.081  -0.039  -0.044  -0.047  -0.034
+               chain_let       D  -0.064  +0.014  +0.010  +0.003  -0.040
+         chain_mechanism    WHNF  -0.102  -0.003  -0.012  -0.022  +0.002
+            chain_reduce       D  -0.031  +0.030  +0.021  +0.014  -0.031
+             chain_scope       C  -0.077  -0.016  -0.027  -0.035  -0.053
+
+========================================================================
+  Binding Lattice Complete
+  Models: 4
+  Probes: 118
+  Depths: 10 (10 requested)
+    0%: agreement=0.2946, model_corr=0.6130, dims=9
+    10%: agreement=0.3221, model_corr=0.6568, dims=7
+    20%: agreement=0.3580, model_corr=0.6826, dims=9
+    30%: agreement=0.2834, model_corr=0.7528, dims=9
+    40%: agreement=0.2414, model_corr=0.7663, dims=8
+    50%: agreement=0.2691, model_corr=0.7394, dims=8
+    60%: agreement=0.2699, model_corr=0.7142, dims=6
+    70%: agreement=0.2733, model_corr=0.6851, dims=7
+    80%: agreement=0.2688, model_corr=0.6591, dims=6
+    90%: agreement=0.2535, model_corr=0.7063, dims=6
+  Elapsed: 129s
+  Output: lattice/binding-v1/
+========================================================================

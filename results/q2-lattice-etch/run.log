@@ -1,0 +1,200 @@
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+Training teacher d=256...
+Training teacher d=256...
+    Step 1000: loss=2.2270, acc=0.3039
+    Step 1000: loss=2.2270, acc=0.3039
+    Step 2000: loss=2.2287, acc=0.2837
+    Step 2000: loss=2.2287, acc=0.2837
+    Step 3000: loss=2.0464, acc=0.3267
+    Step 3000: loss=2.0464, acc=0.3267
+    Step 4000: loss=2.0953, acc=0.3073
+    Step 4000: loss=2.0953, acc=0.3073
+    Step 5000: loss=2.0770, acc=0.3036
+    Step 5000: loss=2.0770, acc=0.3036
+  Final: loss=2.0770, acc=0.3036
+  Final: loss=2.0770, acc=0.3036
+
+Q2 sign damage: 53628/196608 = 27.3%
+
+Q2 sign damage: 53628/196608 = 27.3%
+
+Teacher crystal:
+
+Teacher crystal:
+  K: +1.000 +0.959 +0.912 +0.929
+  K: +1.000 +0.959 +0.912 +0.929
+  I: +0.959 +1.000 +0.852 +0.921
+  I: +0.959 +1.000 +0.852 +0.921
+  B: +0.912 +0.852 +1.000 +0.817
+  B: +0.912 +0.852 +1.000 +0.817
+  C: +0.929 +0.921 +0.817 +1.000
+  C: +0.929 +0.921 +0.817 +1.000
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+C1: LATTICE ETCH + BEAM TRAINING
+C1: LATTICE ETCH + BEAM TRAINING
+
+  Phase 1: Lattice reconstruction (crystal gradient etch)
+
+  Phase 1: Lattice reconstruction (crystal gradient etch)
+    Initial: crystal=0.2640, sign_agr=0.7272
+    Initial: crystal=0.2640, sign_agr=0.7272
+    R 0 [boot  ]: flips=98360  crystal=+0.0885 ██████████  sign=0.5000  acc=0.0736  loss=0.072696
+    R 0 [boot  ]: flips=98360  crystal=+0.0885 ██████████  sign=0.5000  acc=0.0736  loss=0.072696
+    R 1 [boot  ]: flips=102505  crystal=-0.4891 █████  sign=0.4967  acc=0.0483  loss=0.013184
+    R 1 [boot  ]: flips=102505  crystal=-0.4891 █████  sign=0.4967  acc=0.0483  loss=0.013184
+    R 2 [boot  ]: flips=99602  crystal=+0.9247 ███████████████████  sign=0.4999  acc=0.0185  loss=0.021197
+    R 2 [boot  ]: flips=99602  crystal=+0.9247 ███████████████████  sign=0.4999  acc=0.0185  loss=0.021197
+    R 3 [boot  ]: flips=100389  crystal=-0.0977 █████████  sign=0.4973  acc=0.0457  loss=0.602702
+    R 3 [boot  ]: flips=100389  crystal=-0.0977 █████████  sign=0.4973  acc=0.0457  loss=0.602702
+    R 4 [boot  ]: flips=97603  crystal=+0.8083 ██████████████████  sign=0.4993  acc=0.0027  loss=0.010303
+    R 4 [boot  ]: flips=97603  crystal=+0.8083 ██████████████████  sign=0.4993  acc=0.0027  loss=0.010303
+    R 5 [boot  ]: flips=96593  crystal=+0.2573 ████████████  sign=0.5005  acc=0.0206  loss=0.017379
+    R 5 [boot  ]: flips=96593  crystal=+0.2573 ████████████  sign=0.5005  acc=0.0206  loss=0.017379
+    R 6 [boot  ]: flips=95667  crystal=+0.1608 ███████████  sign=0.4997  acc=0.0262  loss=0.013515
+    R 6 [boot  ]: flips=95667  crystal=+0.1608 ███████████  sign=0.4997  acc=0.0262  loss=0.013515
+    R 7 [boot  ]: flips=101215  crystal=-0.0257 █████████  sign=0.5003  acc=0.0358  loss=1.509163
+    R 7 [boot  ]: flips=101215  crystal=-0.0257 █████████  sign=0.5003  acc=0.0358  loss=1.509163
+    R 8 [boot  ]: flips=97952  crystal=-0.2616 ███████  sign=0.4998  acc=0.0844  loss=0.009173
+    R 8 [boot  ]: flips=97952  crystal=-0.2616 ███████  sign=0.4998  acc=0.0844  loss=0.009173
+    R 9 [boot  ]: flips=98531  crystal=-0.1659 ████████  sign=0.4997  acc=0.0045  loss=0.013588
+    R 9 [boot  ]: flips=98531  crystal=-0.1659 ████████  sign=0.4997  acc=0.0045  loss=0.013588
+    R10 [boot  ]: flips=96549  crystal=-0.2395 ███████  sign=0.4996  acc=0.0477  loss=0.008969
+    R10 [boot  ]: flips=96549  crystal=-0.2395 ███████  sign=0.4996  acc=0.0477  loss=0.008969
+    R11 [boot  ]: flips=97226  crystal=-0.2553 ███████  sign=0.5005  acc=0.0231  loss=0.010925
+    R11 [boot  ]: flips=97226  crystal=-0.2553 ███████  sign=0.5005  acc=0.0231  loss=0.010925
+    R12 [boot  ]: flips=97665  crystal=-0.1269 ████████  sign=0.4967  acc=0.0672  loss=0.659834
+    R12 [boot  ]: flips=97665  crystal=-0.1269 ████████  sign=0.4967  acc=0.0672  loss=0.659834
+    R13 [boot  ]: flips=96142  crystal=+0.1055 ███████████  sign=0.4998  acc=0.0342  loss=0.012173
+    R13 [boot  ]: flips=96142  crystal=+0.1055 ███████████  sign=0.4998  acc=0.0342  loss=0.012173
+    R14 [boot  ]: flips=95583  crystal=+0.4337 ██████████████  sign=0.4996  acc=0.0401  loss=0.009370
+    R14 [boot  ]: flips=95583  crystal=+0.4337 ██████████████  sign=0.4996  acc=0.0401  loss=0.009370
+    R15 [refine]: flips=96975  crystal=+0.8150 ██████████████████  sign=0.5000  acc=0.1106  loss=0.006221
+    R15 [refine]: flips=96975  crystal=+0.8150 ██████████████████  sign=0.5000  acc=0.1106  loss=0.006221
+    R16 [refine]: flips=99227  crystal=+0.0740 ██████████  sign=0.5004  acc=0.0388  loss=1.042036
+    R16 [refine]: flips=99227  crystal=+0.0740 ██████████  sign=0.5004  acc=0.0388  loss=1.042036
+    R17 [refine]: flips=98827  crystal=-0.0607 █████████  sign=0.4998  acc=0.1600  loss=0.051124
+    R17 [refine]: flips=98827  crystal=-0.0607 █████████  sign=0.4998  acc=0.1600  loss=0.051124
+    R18 [refine]: flips=98454  crystal=-0.3873 ██████  sign=0.5000  acc=0.0024  loss=0.039695
+    R18 [refine]: flips=98454  crystal=-0.3873 ██████  sign=0.5000  acc=0.0024  loss=0.039695
+    R19 [refine]: flips=101134  crystal=-0.7223 ██  sign=0.4993  acc=0.0863  loss=0.012769
+    R19 [refine]: flips=101134  crystal=-0.7223 ██  sign=0.4993  acc=0.0863  loss=0.012769
+    R20 [refine]: flips=98042  crystal=-0.6825 ███  sign=0.4982  acc=0.0483  loss=0.012119
+    R20 [refine]: flips=98042  crystal=-0.6825 ███  sign=0.4982  acc=0.0483  loss=0.012119
+    R21 [refine]: flips=98636  crystal=-0.2106 ███████  sign=0.5016  acc=0.0401  loss=0.027409
+    R21 [refine]: flips=98636  crystal=-0.2106 ███████  sign=0.5016  acc=0.0401  loss=0.027409
+    R22 [refine]: flips=99889  crystal=-0.1177 ████████  sign=0.4998  acc=0.2248  loss=0.010157
+    R22 [refine]: flips=99889  crystal=-0.1177 ████████  sign=0.4998  acc=0.2248  loss=0.010157
+    R23 [refine]: flips=97269  crystal=+0.7605 █████████████████  sign=0.4994  acc=0.1094  loss=0.964987
+    R23 [refine]: flips=97269  crystal=+0.7605 █████████████████  sign=0.4994  acc=0.1094  loss=0.964987
+    R24 [refine]: flips=98547  crystal=-0.6601 ███  sign=0.4996  acc=0.0390  loss=0.012566
+    R24 [refine]: flips=98547  crystal=-0.6601 ███  sign=0.4996  acc=0.0390  loss=0.012566
+    R25 [refine]: flips=98616  crystal=-0.2495 ███████  sign=0.4996  acc=0.0776  loss=1.225095
+    R25 [refine]: flips=98616  crystal=-0.2495 ███████  sign=0.4996  acc=0.0776  loss=1.225095
+    R26 [refine]: flips=98145  crystal=-0.3984 ██████  sign=0.5015  acc=0.0888  loss=0.033446
+    R26 [refine]: flips=98145  crystal=-0.3984 ██████  sign=0.5015  acc=0.0888  loss=0.033446
+    R27 [refine]: flips=97588  crystal=-0.0628 █████████  sign=0.4998  acc=0.0675  loss=0.354007
+    R27 [refine]: flips=97588  crystal=-0.0628 █████████  sign=0.4998  acc=0.0675  loss=0.354007
+    R28 [refine]: flips=99159  crystal=-0.0185 █████████  sign=0.4990  acc=0.0274  loss=0.079142
+    R28 [refine]: flips=99159  crystal=-0.0185 █████████  sign=0.4990  acc=0.0274  loss=0.079142
+    R29 [refine]: flips=99436  crystal=-0.1021 ████████  sign=0.5010  acc=0.0687  loss=0.010395
+    R29 [refine]: flips=99436  crystal=-0.1021 ████████  sign=0.5010  acc=0.0687  loss=0.010395
+    Final: crystal=-0.1021, sign_agr=0.5010
+    Final: crystal=-0.1021, sign_agr=0.5010
+    Crystal: 0.2640 → -0.1021
+    Crystal: 0.2640 → -0.1021
+    Signs:   0.7272 → 0.5010
+    Signs:   0.7272 → 0.5010
+
+  Phase 2: Beam training (CE + crystal λ=0.5, plates frozen)
+
+  Phase 2: Beam training (CE + crystal λ=0.5, plates frozen)
+    Step  500: acc=0.2871  crystal=-0.2376  loss=2.2321
+    Step  500: acc=0.2871  crystal=-0.2376  loss=2.2321
+    Step 1000: acc=0.3157  crystal=-0.1011  loss=2.2071
+    Step 1000: acc=0.3157  crystal=-0.1011  loss=2.2071
+    Step 1500: acc=0.2964  crystal=-0.2551  loss=2.2112
+    Step 1500: acc=0.2964  crystal=-0.2551  loss=2.2112
+    Step 2000: acc=0.3075  crystal=-0.2530  loss=2.2015
+    Step 2000: acc=0.3075  crystal=-0.2530  loss=2.2015
+    Step 2500: acc=0.3070  crystal=-0.2529  loss=2.2034
+    Step 2500: acc=0.3070  crystal=-0.2529  loss=2.2034
+    Step 3000: acc=0.3189  crystal=-0.2531  loss=2.2044
+    Step 3000: acc=0.3189  crystal=-0.2531  loss=2.2044
+    Final: acc=0.3189, crystal=-0.2531
+    Final: acc=0.3189, crystal=-0.2531
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+C2: ORACLE — perfect projected signs
+C2: ORACLE — perfect projected signs
+
+  Phase 2: Beam training (CE + crystal λ=0.5, plates frozen)
+
+  Phase 2: Beam training (CE + crystal λ=0.5, plates frozen)
+    Step  500: acc=0.4175  crystal=+0.5380  loss=1.6773
+    Step  500: acc=0.4175  crystal=+0.5380  loss=1.6773
+    Step 1000: acc=0.3827  crystal=+0.7357  loss=1.7253
+    Step 1000: acc=0.3827  crystal=+0.7357  loss=1.7253
+    Step 1500: acc=0.4181  crystal=+0.8786  loss=1.6314
+    Step 1500: acc=0.4181  crystal=+0.8786  loss=1.6314
+    Step 2000: acc=0.4584  crystal=+0.9864  loss=1.5678
+    Step 2000: acc=0.4584  crystal=+0.9864  loss=1.5678
+    Step 2500: acc=0.4209  crystal=+0.9622  loss=1.6802
+    Step 2500: acc=0.4209  crystal=+0.9622  loss=1.6802
+    Step 3000: acc=0.4959  crystal=+0.9779  loss=1.4532
+    Step 3000: acc=0.4959  crystal=+0.9779  loss=1.4532
+    Final: acc=0.4959, crystal=0.9779
+    Final: acc=0.4959, crystal=0.9779
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+SUMMARY — Q2 Lattice Etch
+SUMMARY — Q2 Lattice Etch
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+  Time: 950s
+  Time: 950s
+  Teacher: acc=0.3036
+  Teacher: acc=0.3036
+  Q2 damage: 27.3%
+
+  Q2 damage: 27.3%
+
+  Phase 1 (lattice etch):
+  Phase 1 (lattice etch):
+    Crystal: +0.2640 → -0.1021
+    Crystal: +0.2640 → -0.1021
+    Signs:   0.7272 → 0.5010
+    Signs:   0.7272 → 0.5010
+
+  Phase 2 (beam training):
+
+  Phase 2 (beam training):
+    Accuracy: 0.3189 (best=0.3189)
+    Accuracy: 0.3189 (best=0.3189)
+    Crystal:  -0.2531 (should stay stable)
+    Crystal:  -0.2531 (should stay stable)
+
+  Oracle ceiling:
+
+  Oracle ceiling:
+    Accuracy: 0.4959 (best=0.4959)
+    Accuracy: 0.4959 (best=0.4959)
+    Crystal:  +0.9779
+    Crystal:  +0.9779
+
+  Lattice etch achieves 64.3% of oracle accuracy
+
+  Lattice etch achieves 64.3% of oracle accuracy
+  Crystal preserved: ✗ (-0.2531)
+  Crystal preserved: ✗ (-0.2531)
+
+  Results saved to /Users/mwhitford/src/verbum/results/q2-lattice-etch/results.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/q2-lattice-etch/results.json

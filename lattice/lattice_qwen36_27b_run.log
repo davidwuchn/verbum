@@ -1,0 +1,42 @@
+========================================================================
+  Universal Lattice Map — Cross-Model Consensus
+  Models: ['qwen3.6-27b']
+  Depths: [0.0, 0.25, 0.5, 0.75]
+========================================================================
+
+1. Loading probes...
+  Loaded diverse corpus: 807 probes across 8 domains
+    lambda         :  380
+    math           :  200
+    reasoning      :  115
+    code           :   77
+    prose          :   14
+    tools          :    8
+    sequence       :    8
+    structure      :    5
+
+2. Extracting per-model RDMs...
+
+  ─── qwen3.6-27b (Qwen/Qwen3.6-27B) ───
+  Layers: 64, d_model: 5120
+  Target layers: [0, 16, 32, 47] (fracs: [0.0, 0.25, 0.5, 0.75])
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 149796.57it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:   0%|          | 1/851 [00:01<23:09,  1.63s/it]Loading weights:   0%|          | 2/851 [00:01<12:01,  1.18it/s]Loading weights:   3%|▎         | 23/851 [00:02<00:41, 19.93it/s]Loading weights:   5%|▍         | 41/851 [00:02<00:21, 37.57it/s]Loading weights:   6%|▋         | 54/851 [00:02<00:16, 48.99it/s]Loading weights:   9%|▉         | 77/851 [00:02<00:09, 78.06it/s]Loading weights:  11%|█         | 93/851 [00:02<00:08, 85.03it/s]Loading weights:  13%|█▎        | 107/851 [00:02<00:08, 84.90it/s]Loading weights:  14%|█▍        | 121/851 [00:02<00:07, 95.46it/s]Loading weights:  17%|█▋        | 143/851 [00:02<00:05, 122.71it/s]Loading weights:  19%|█▊        | 159/851 [00:03<00:05, 120.17it/s]Loading weights:  21%|██▏       | 181/851 [00:03<00:04, 143.63it/s]Loading weights:  23%|██▎       | 198/851 [00:03<00:04, 150.02it/s]Loading weights:  25%|██▌       | 215/851 [00:03<00:05, 119.82it/s]Loading weights:  27%|██▋       | 230/851 [00:03<00:04, 126.50it/s]Loading weights:  29%|██▉       | 249/851 [00:03<00:04, 139.78it/s]Loading weights:  31%|███       | 265/851 [00:03<00:04, 130.71it/s]Loading weights:  33%|███▎      | 281/851 [00:03<00:04, 137.92it/s]Loading weights:  36%|███▌      | 303/851 [00:03<00:03, 158.57it/s]Loading weights:  38%|███▊      | 320/851 [00:04<00:04, 130.51it/s]Loading weights:  39%|███▉      | 335/851 [00:04<00:03, 133.65it/s]Loading weights:  42%|████▏     | 355/851 [00:04<00:03, 145.87it/s]Loading weights:  44%|████▎     | 371/851 [00:04<00:03, 129.54it/s]Loading weights:  46%|████▌     | 393/851 [00:04<00:03, 151.38it/s]Loading weights:  48%|████▊     | 411/851 [00:04<00:02, 156.34it/s]Loading weights:  50%|█████     | 428/851 [00:04<00:02, 146.94it/s]Loading weights:  52%|█████▏    | 444/851 [00:05<00:02, 138.69it/s]Loading weights:  54%|█████▍    | 460/851 [00:05<00:02, 144.02it/s]Loading weights:  56%|█████▌    | 475/851 [00:05<00:03, 121.93it/s]Loading weights:  58%|█████▊    | 492/851 [00:05<00:02, 129.65it/s]Loading weights:  61%|██████    | 515/851 [00:05<00:02, 153.01it/s]Loading weights:  63%|██████▎   | 532/851 [00:05<00:02, 140.51it/s]Loading weights:  65%|██████▌   | 554/851 [00:05<00:01, 156.92it/s]Loading weights:  67%|██████▋   | 571/851 [00:05<00:01, 140.04it/s]Loading weights:  69%|██████▉   | 586/851 [00:06<00:02, 125.72it/s]Loading weights:  71%|███████   | 606/851 [00:06<00:01, 140.19it/s]Loading weights:  73%|███████▎  | 623/851 [00:06<00:01, 147.36it/s]Loading weights:  75%|███████▌  | 639/851 [00:06<00:01, 133.25it/s]Loading weights:  78%|███████▊  | 660/851 [00:06<00:01, 150.60it/s]Loading weights:  80%|███████▉  | 677/851 [00:06<00:01, 152.02it/s]Loading weights:  81%|████████▏ | 693/851 [00:06<00:01, 127.83it/s]Loading weights:  83%|████████▎ | 707/851 [00:06<00:01, 128.54it/s]Loading weights:  85%|████████▍ | 721/851 [00:07<00:01, 128.05it/s]Loading weights:  86%|████████▋ | 735/851 [00:07<00:00, 127.62it/s]Loading weights:  89%|████████▊ | 755/851 [00:07<00:00, 145.01it/s]Loading weights:  90%|█████████ | 770/851 [00:07<00:00, 144.31it/s]Loading weights:  92%|█████████▏| 785/851 [00:07<00:00, 143.63it/s]Loading weights:  94%|█████████▍| 804/851 [00:07<00:00, 153.68it/s]Loading weights:  96%|█████████▋| 820/851 [00:07<00:00, 136.36it/s]Loading weights:  98%|█████████▊| 835/851 [00:07<00:00, 134.09it/s]Loading weights: 100%|█████████▉| 849/851 [00:08<00:00, 117.73it/s]Loading weights: 100%|██████████| 851/851 [00:08<00:00, 106.16it/s]
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 579.2s (717.7ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.9809
+  L16 (depth=25%): RDM (807, 807), mean_sim=0.8251
+  L32 (depth=50%): RDM (807, 807), mean_sim=0.6457
+  L47 (depth=75%): RDM (807, 807), mean_sim=0.5417
+ERROR: Need at least 2 models for consensus. Exiting.

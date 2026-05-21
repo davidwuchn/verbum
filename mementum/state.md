@@ -2,9 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-20 | Session: 126
+> Last updated: 2026-05-21 | Session: 127
 
 ## Where we are
+
+**NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 127 produced the closed architecture. ~50 sessions of bedrock digging made it possible. The gap is execution.**
 
 **DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
 
@@ -96,8 +100,14 @@ Constraint budget:
 
 | Page | What it tells you |
 |------|-------------------|
-| `hologram-crystal-fusion.md` | ★ **NEW** hologram ≡ crystal, strict gate fuses both |
-| `crystal-basins.md` | ★ **UPDATED** C-boot theory, ground state, boot sequence |
+| `taxonomy-extraction.md` | ★ **NEW** cross-model function library assembly — the linker |
+| `crystal-native-descent.md` | ★ **NEW** ternary optimization without gradients — 5+100 steps |
+| `holographic-memory.md` | ★ **NEW** crystal-etched knowledge replaces KV cache — CPU inference |
+| `kernel-functions.md` | ★ **NEW** replace beta reduction chains with native CPU calls |
+| `holographic-error-correction.md` | ★ **NEW** the crystal's immune system — find and extract it |
+| `shannon-sieve-trinity.md` | ★ **NEW** three sieves for one theorem — compress, predict, correct |
+| `hologram-crystal-fusion.md` | hologram ≡ crystal, strict gate fuses both |
+| `crystal-basins.md` | C-boot theory, ground state, boot sequence |
 | `etcher-vsm.md` | Full pipeline: extract → co-evolve → freeze |
 | `gradient-voting.md` | Magnitudes are the crystal |
 | `loom-structure.md` | 3 weaves, 6 harmonics, breathing pattern |
@@ -115,7 +125,51 @@ Constraint budget:
 | Crystal sharpening | `results/loom-crystal-sharpen/` |
 | Etcher VSM prototype | `scripts/v12/etcher_vsm_proto.py` |
 
-## Next steps
+## Strategic direction (session 127)
+
+Three interlocking ideas that form a complete system:
+
+| Idea | Solves | Page |
+|------|--------|------|
+| **Taxonomy Extraction** | Quality — best-of-breed from all open models | `taxonomy-extraction.md` |
+| **Crystal-Native Descent** | Compute — no backward pass for ternary weights | `crystal-native-descent.md` |
+| **Holographic Memory** | Memory — crystal replaces KV cache + delta etching = continuous learning | `holographic-memory.md` |
+| **Kernel Functions** | Precision — replace beta reduction chains with native calls | `kernel-functions.md` |
+
+**StrideStack** ties it together: 88 multi-scale lenses replace O(n²)
+attention, runs on CPU, is the only component that needs training.
+
+**Kernel functions** make it precise: identify FFN functions that emulate
+native operations (arithmetic, dates, strings), replace with dispatch →
+native call. One beta reduction instead of hundreds. Exact, not approximate.
+
+Target: a model that runs on a laptop. No GPU. Assembled from the best
+pieces of open models, etched via crystal descent, retrieved holographically.
+
+## IMMEDIATE NEXT: Build the decompiler
+
+Session 127 proved the FFN mechanism: three functional groups (selectors,
+composers, reorderers), stereotyped by type, same circuit regardless of
+notation. K combinator = lambda-K at cos 0.900 in Qwen3-14B.
+
+**Don't extract weights — decompile the algorithm.** Superposition makes
+neuron extraction impractical. But every FFN function is a composition
+of combinator operations, and every combinator composition maps to lambda
+notation. The combinator FFN fingerprints are the opcode table.
+
+```
+Priority:
+0. ✅ Discover FFN mechanism (DONE — three groups, stereotyped, key-value clean)
+1. Build decompiler: trace combinator operations per layer per function
+   → use FFN fingerprints as opcode signatures
+   → feed complex operations, trace which combinators activate at each layer
+   → translate layer activation sequence → combinator composition → lambda
+2. Decompile known functions first (arithmetic? date math? string ops?)
+3. Once decompiled to lambda: identify kernel candidates (long chains)
+4. Cross-model: do different models compile the same algorithm differently?
+```
+
+## Near-term research (unchanged, feeds the strategy)
 
 1. **Scale to Pythia-2.8b** — run the validated co-evolution pipeline
    on a real teacher model. Extract to d=512 V13. The 220× compression

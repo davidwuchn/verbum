@@ -1,0 +1,304 @@
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+  FFN Mechanism Probe — Session 127
+  FFN Mechanism Probe — Session 127
+  Discovering how beta reductions are stored and activated
+  Discovering how beta reductions are stored and activated
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+
+  Training GD teacher (d=256, 3000 steps)...
+
+  Training GD teacher (d=256, 3000 steps)...
+    Step 500: loss=2.3138 eval_acc=0.224
+    Step 500: loss=2.3138 eval_acc=0.224
+    Step 1000: loss=2.2584 eval_acc=0.250
+    Step 1000: loss=2.2584 eval_acc=0.250
+    Step 1500: loss=2.2222 eval_acc=0.253
+    Step 1500: loss=2.2222 eval_acc=0.253
+    Step 2000: loss=2.2834 eval_acc=0.240
+    Step 2000: loss=2.2834 eval_acc=0.240
+    Step 2500: loss=2.2586 eval_acc=0.257
+    Step 2500: loss=2.2586 eval_acc=0.257
+    Step 3000: loss=2.2672 eval_acc=0.257
+    Step 3000: loss=2.2672 eval_acc=0.257
+  Teacher final: acc=0.255 loss=2.2560
+  Teacher final: acc=0.255 loss=2.2560
+
+═══ Generating minimal-pair probes ═══
+
+═══ Generating minimal-pair probes ═══
+  Single-reduction pairs: 124
+  Single-reduction pairs: 124
+    B: 24
+    B: 24
+    C: 36
+    C: 36
+    I: 8
+    I: 8
+    K: 56
+    K: 56
+  Nested chain pairs: 10
+  Nested chain pairs: 10
+
+═══ Experiment 1: Reduction Signatures ═══
+
+═══ Experiment 1: Reduction Signatures ═══
+
+  Processing K: 56 pairs
+
+  Processing K: 56 pairs
+
+  Processing I: 8 pairs
+
+  Processing I: 8 pairs
+
+  Processing B: 24 pairs
+
+  Processing B: 24 pairs
+
+  Processing C: 36 pairs
+
+  Processing C: 36 pairs
+
+  K reduction FFN deltas:
+
+  K reduction FFN deltas:
+    L0 @combinator_pos: norm=0.0194 cos=1.000 snr=9494498.000
+    L0 @combinator_pos: norm=0.0194 cos=1.000 snr=9494498.000
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L1 @combinator_pos: norm=13.1065 cos=0.680 snr=0.378
+    L1 @combinator_pos: norm=13.1065 cos=0.680 snr=0.378
+    L1 @eq_pos: norm=23.9592 cos=0.392 snr=0.547
+    L1 @eq_pos: norm=23.9592 cos=0.392 snr=0.547
+    L2 @combinator_pos: norm=11.9091 cos=0.640 snr=0.378
+    L2 @combinator_pos: norm=11.9091 cos=0.640 snr=0.378
+    L2 @eq_pos: norm=21.5023 cos=0.370 snr=0.522
+    L2 @eq_pos: norm=21.5023 cos=0.370 snr=0.522
+
+  I reduction FFN deltas:
+
+  I reduction FFN deltas:
+    L0 @combinator_pos: norm=51.6505 cos=0.205 snr=0.378
+    L0 @combinator_pos: norm=51.6505 cos=0.205 snr=0.378
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L1 @combinator_pos: norm=26.6308 cos=0.140 snr=0.378
+    L1 @combinator_pos: norm=26.6308 cos=0.140 snr=0.378
+    L1 @eq_pos: norm=18.0458 cos=0.411 snr=0.417
+    L1 @eq_pos: norm=18.0458 cos=0.411 snr=0.417
+    L2 @combinator_pos: norm=17.5440 cos=0.226 snr=0.378
+    L2 @combinator_pos: norm=17.5440 cos=0.226 snr=0.378
+    L2 @eq_pos: norm=17.2710 cos=0.835 snr=0.439
+    L2 @eq_pos: norm=17.2710 cos=0.835 snr=0.439
+
+  B reduction FFN deltas:
+
+  B reduction FFN deltas:
+    L0 @combinator_pos: norm=0.0142 cos=0.752 snr=2.822
+    L0 @combinator_pos: norm=0.0142 cos=0.752 snr=2.822
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L1 @combinator_pos: norm=0.0160 cos=0.945 snr=3.889
+    L1 @combinator_pos: norm=0.0160 cos=0.945 snr=3.889
+    L1 @eq_pos: norm=0.0003 cos=0.548 snr=1.132
+    L1 @eq_pos: norm=0.0003 cos=0.548 snr=1.132
+    L2 @combinator_pos: norm=0.0078 cos=0.846 snr=3.570
+    L2 @combinator_pos: norm=0.0078 cos=0.846 snr=3.570
+    L2 @eq_pos: norm=0.0003 cos=0.549 snr=1.289
+    L2 @eq_pos: norm=0.0003 cos=0.549 snr=1.289
+
+  C reduction FFN deltas:
+
+  C reduction FFN deltas:
+    L0 @combinator_pos: norm=27.7626 cos=0.454 snr=0.577
+    L0 @combinator_pos: norm=27.7626 cos=0.454 snr=0.577
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L0 @eq_pos: norm=0.0000 cos=0.000 snr=0.000
+    L1 @combinator_pos: norm=26.6893 cos=0.312 snr=0.577
+    L1 @combinator_pos: norm=26.6893 cos=0.312 snr=0.577
+    L1 @eq_pos: norm=0.0001 cos=0.144 snr=0.660
+    L1 @eq_pos: norm=0.0001 cos=0.144 snr=0.660
+    L2 @combinator_pos: norm=21.5994 cos=0.325 snr=0.578
+    L2 @combinator_pos: norm=21.5994 cos=0.325 snr=0.578
+    L2 @eq_pos: norm=0.0001 cos=0.173 snr=0.711
+    L2 @eq_pos: norm=0.0001 cos=0.173 snr=0.711
+
+═══ Experiment 2: Key vs Value Separation ═══
+
+═══ Experiment 2: Key vs Value Separation ═══
+
+  K: 56 argument variations
+
+  K: 56 argument variations
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L1: key_frac=0.755 key_norm=23.9592 res_norm=37.9435 overlap=6/10
+    L1: key_frac=0.755 key_norm=23.9592 res_norm=37.9435 overlap=6/10
+    L2: key_frac=0.749 key_norm=21.5023 res_norm=34.2531 overlap=5/10
+    L2: key_frac=0.749 key_norm=21.5023 res_norm=34.2531 overlap=5/10
+
+  I: 8 argument variations
+
+  I: 8 argument variations
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L1: key_frac=0.963 key_norm=18.0458 res_norm=28.6593 overlap=8/10
+    L1: key_frac=0.963 key_norm=18.0458 res_norm=28.6593 overlap=8/10
+    L2: key_frac=0.980 key_norm=17.2710 res_norm=26.7751 overlap=8/10
+    L2: key_frac=0.980 key_norm=17.2710 res_norm=26.7751 overlap=8/10
+
+  B: 24 argument variations
+
+  B: 24 argument variations
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L1: key_frac=0.996 key_norm=0.0003 res_norm=0.0002 overlap=9/10
+    L1: key_frac=0.996 key_norm=0.0003 res_norm=0.0002 overlap=9/10
+    L2: key_frac=0.996 key_norm=0.0003 res_norm=0.0002 overlap=9/10
+    L2: key_frac=0.996 key_norm=0.0003 res_norm=0.0002 overlap=9/10
+
+  C: 36 argument variations
+
+  C: 36 argument variations
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L0: key_frac=0.000 key_norm=0.0000 res_norm=0.0000 overlap=10/10
+    L1: key_frac=0.903 key_norm=0.0001 res_norm=0.0002 overlap=8/10
+    L1: key_frac=0.903 key_norm=0.0001 res_norm=0.0002 overlap=8/10
+    L2: key_frac=0.897 key_norm=0.0001 res_norm=0.0002 overlap=7/10
+    L2: key_frac=0.897 key_norm=0.0001 res_norm=0.0002 overlap=7/10
+
+═══ Experiment 3: Chain Decomposition ═══
+
+═══ Experiment 3: Chain Decomposition ═══
+
+  Chain types analyzed: ['nested_KI', 'nested_BI']
+
+  Chain types analyzed: ['nested_KI', 'nested_BI']
+    nested_KI/K_outer L0: norm=0.0000 cos=0.000
+    nested_KI/K_outer L0: norm=0.0000 cos=0.000
+    nested_KI/K_outer L1: norm=16.3939 cos=0.048
+    nested_KI/K_outer L1: norm=16.3939 cos=0.048
+    nested_KI/K_outer L2: norm=15.9432 cos=-0.081
+    nested_KI/K_outer L2: norm=15.9432 cos=-0.081
+    nested_KI/I_inner L0: norm=0.0000 cos=0.000
+    nested_KI/I_inner L0: norm=0.0000 cos=0.000
+    nested_KI/I_inner L1: norm=41.1130 cos=0.903
+    nested_KI/I_inner L1: norm=41.1130 cos=0.903
+    nested_KI/I_inner L2: norm=38.6843 cos=0.859
+    nested_KI/I_inner L2: norm=38.6843 cos=0.859
+    nested_BI/B_outer L0: norm=0.0000 cos=0.000
+    nested_BI/B_outer L0: norm=0.0000 cos=0.000
+    nested_BI/B_outer L1: norm=0.0002 cos=0.420
+    nested_BI/B_outer L1: norm=0.0002 cos=0.420
+    nested_BI/B_outer L2: norm=0.0002 cos=0.462
+    nested_BI/B_outer L2: norm=0.0002 cos=0.462
+    nested_BI/I_inner L0: norm=0.0000 cos=0.000
+    nested_BI/I_inner L0: norm=0.0000 cos=0.000
+    nested_BI/I_inner L1: norm=0.0000 cos=0.166
+    nested_BI/I_inner L1: norm=0.0000 cos=0.166
+    nested_BI/I_inner L2: norm=0.0001 cos=0.165
+    nested_BI/I_inner L2: norm=0.0001 cos=0.165
+
+═══ Experiment 4: Layer Role Analysis ═══
+
+═══ Experiment 4: Layer Role Analysis ═══
+
+  L0 — predicted: reset: large uniform deltas (90° rotation, all combinators similar)
+
+  L0 — predicted: reset: large uniform deltas (90° rotation, all combinators similar)
+    Norms: K=0.0000 I=0.0000 B=0.0000 C=0.0000
+    Norms: K=0.0000 I=0.0000 B=0.0000 C=0.0000
+    KBC mean=0.0000 I=0.0000 ratio=0.000
+    KBC mean=0.0000 I=0.0000 ratio=0.000
+
+  L1 — predicted: route: combinator-specific deltas (43° rotation, K/B/C cluster, I diverges)
+
+  L1 — predicted: route: combinator-specific deltas (43° rotation, K/B/C cluster, I diverges)
+    Norms: K=23.9592 I=18.0458 B=0.0003 C=0.0001
+    Norms: K=23.9592 I=18.0458 B=0.0003 C=0.0001
+    KBC mean=7.9865 I=18.0458 ratio=0.443
+    KBC mean=7.9865 I=18.0458 ratio=0.443
+
+  L2 — predicted: converge: small output-focused deltas (5° rotation, settling)
+
+  L2 — predicted: converge: small output-focused deltas (5° rotation, settling)
+    Norms: K=21.5023 I=17.2710 B=0.0003 C=0.0001
+    Norms: K=21.5023 I=17.2710 B=0.0003 C=0.0001
+    KBC mean=7.1676 I=17.2710 ratio=0.415
+    KBC mean=7.1676 I=17.2710 ratio=0.415
+
+═══ Cross-Combinator FFN Delta Comparison ═══
+
+═══ Cross-Combinator FFN Delta Comparison ═══
+
+  L0 cross-combinator cosine matrix:
+
+  L0 cross-combinator cosine matrix:
+              K      I      B      C
+              K      I      B      C
+       K  0.000  0.000  0.000  0.000
+       K  0.000  0.000  0.000  0.000
+       I  0.000  0.000  0.000  0.000
+       I  0.000  0.000  0.000  0.000
+       B  0.000  0.000  0.000  0.000
+       B  0.000  0.000  0.000  0.000
+       C  0.000  0.000  0.000  0.000
+       C  0.000  0.000  0.000  0.000
+    KBC internal: 0.000
+    KBC internal: 0.000
+    KBC vs I:     0.000
+    KBC vs I:     0.000
+    Separation:   0.000
+    Separation:   0.000
+
+  L1 cross-combinator cosine matrix:
+
+  L1 cross-combinator cosine matrix:
+              K      I      B      C
+              K      I      B      C
+       K  1.000  0.974 -0.903 -0.777
+       K  1.000  0.974 -0.903 -0.777
+       I  0.974  1.000 -0.787 -0.637
+       I  0.974  1.000 -0.787 -0.637
+       B -0.903 -0.787  0.999  0.958
+       B -0.903 -0.787  0.999  0.958
+       C -0.777 -0.637  0.958  0.997
+       C -0.777 -0.637  0.958  0.997
+    KBC internal: -0.241
+    KBC internal: -0.241
+    KBC vs I:     -0.150
+    KBC vs I:     -0.150
+    Separation:   -0.091
+    Separation:   -0.091
+
+  L2 cross-combinator cosine matrix:
+
+  L2 cross-combinator cosine matrix:
+              K      I      B      C
+              K      I      B      C
+       K  1.000  0.957 -0.713 -0.242
+       K  1.000  0.957 -0.713 -0.242
+       I  0.957  1.000 -0.495  0.003
+       I  0.957  1.000 -0.495  0.003
+       B -0.713 -0.495  0.999  0.823
+       B -0.713 -0.495  0.999  0.823
+       C -0.242  0.003  0.823  0.995
+       C -0.242  0.003  0.823  0.995
+    KBC internal: -0.044
+    KBC internal: -0.044
+    KBC vs I:     0.155
+    KBC vs I:     0.155
+    Separation:   -0.199
+    Separation:   -0.199
+
+═══════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════
+  Done in 21.6s
+  Done in 21.6s
+  Results: /Users/mwhitford/src/verbum/results/ffn-mechanism/results.json
+  Results: /Users/mwhitford/src/verbum/results/ffn-mechanism/results.json
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════

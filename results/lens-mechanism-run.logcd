@@ -1,0 +1,202 @@
+======================================================================
+  LENS MECHANISM EXPERIMENT
+  What IS the Q lens distortion?
+======================================================================
+
+  Model: d=96, layers=3
+  Params: 145,077 total (110,592 plate, 30,240 beam)
+
+======================================================================
+  PHASE 1: Gradient Signal Decomposition
+======================================================================
+    View 0/8: loss=3.2535
+    View 1/8: loss=3.1612
+    View 2/8: loss=3.3149
+    View 3/8: loss=3.3442
+    View 4/8: loss=3.2595
+    View 5/8: loss=3.3339
+    View 6/8: loss=3.2507
+    View 7/8: loss=3.1643
+
+  --- Magnitude vs Phase Variance ---
+
+  Plate       Type   MagCV   PhCoh   Crystal      Lens     Noise
+  ----------  ----  ------  ------  --------  --------  --------
+  Plate 0    K      0.617   0.320     0.3%     0.9%    98.8%
+  Plate 1    V      0.520   0.456    14.0%     9.0%    77.0%
+  Plate 2    O      0.493   0.513    25.7%     9.2%    65.1%
+  Plate 3    FFN    0.496   0.517    24.5%    12.1%    63.4%
+  Plate 4    K      0.617   0.318     0.4%     1.2%    98.4%
+  Plate 5    V      0.449   0.677    62.8%    12.5%    24.7%
+  Plate 6    O      0.471   0.632    50.3%    16.6%    33.1%
+  Plate 7    FFN    0.462   0.586    45.2%     9.7%    45.1%
+  Plate 8    K      0.584   0.321     0.6%     1.3%    98.0%
+  Plate 9    V      0.412   0.747    78.3%     6.6%    15.1%
+  Plate 10   O      0.428   0.757    73.2%    14.0%    12.8%
+  Plate 11   FFN    0.438   0.672    59.4%    11.6%    29.0%
+
+  --- By plate type ---
+      K: MagCV=0.606  PhCoh=0.320  Crystal=0.4%  Lens=1.2%  Noise=98.4%
+      V: MagCV=0.460  PhCoh=0.627  Crystal=51.7%  Lens=9.4%  Noise=38.9%
+      O: MagCV=0.464  PhCoh=0.634  Crystal=49.7%  Lens=13.3%  Noise=37.0%
+    FFN: MagCV=0.465  PhCoh=0.592  Crystal=43.0%  Lens=11.1%  Noise=45.8%
+
+  --- Signal Separation (invariant vs variable magnitude) ---
+  Plate 0 (K): invariant=53.1%  variable=46.9%  inv↔coh corr=0.002 (p=1.98e+00)
+  Plate 1 (V): invariant=68.2%  variable=31.8%  inv↔coh corr=0.134 (p=3.99e-37)
+  Plate 2 (O): invariant=73.7%  variable=26.3%  inv↔coh corr=0.221 (p=2.61e-103)
+  Plate 3 (FFN): invariant=73.2%  variable=26.8%  inv↔coh corr=0.173 (p=2.87e-62)
+  Plate 4 (K): invariant=54.5%  variable=45.5%  inv↔coh corr=-0.020 (p=3.34e-01)
+  Plate 5 (V): invariant=80.4%  variable=19.6%  inv↔coh corr=0.327 (p=1.06e-240)
+  Plate 6 (O): invariant=76.2%  variable=23.8%  inv↔coh corr=0.296 (p=4.70e-193)
+  Plate 7 (FFN): invariant=78.5%  variable=21.5%  inv↔coh corr=0.315 (p=2.49e-221)
+  Plate 8 (K): invariant=58.2%  variable=41.8%  inv↔coh corr=0.018 (p=4.55e-01)
+  Plate 9 (V): invariant=82.2%  variable=17.8%  inv↔coh corr=0.430 (p=0.00e+00)
+  Plate 10 (O): invariant=80.2%  variable=19.8%  inv↔coh corr=0.456 (p=0.00e+00)
+  Plate 11 (FFN): invariant=79.4%  variable=20.6%  inv↔coh corr=0.398 (p=0.00e+00)
+
+  --- Q Transfer Function Correlation ---
+  Plate 0 (K): mean |FFT(Q)|↔|FFT(grad)| corr = 0.002
+  Plate 1 (V): mean |FFT(Q)|↔|FFT(grad)| corr = 0.002
+  Plate 2 (O): mean |FFT(Q)|↔|FFT(grad)| corr = -0.008
+  Plate 3 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = 0.001
+  Plate 4 (K): mean |FFT(Q)|↔|FFT(grad)| corr = 0.003
+  Plate 5 (V): mean |FFT(Q)|↔|FFT(grad)| corr = 0.006
+  Plate 6 (O): mean |FFT(Q)|↔|FFT(grad)| corr = -0.004
+  Plate 7 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = -0.003
+  Plate 8 (K): mean |FFT(Q)|↔|FFT(grad)| corr = -0.001
+  Plate 9 (V): mean |FFT(Q)|↔|FFT(grad)| corr = 0.005
+  Plate 10 (O): mean |FFT(Q)|↔|FFT(grad)| corr = -0.003
+  Plate 11 (FFN): mean |FFT(Q)|↔|FFT(grad)| corr = -0.001
+
+======================================================================
+  PHASE 2: Reconstruction Methods (8 rotations)
+======================================================================
+
+  --- Sign vote ---
+    Acc: 0.402  Loss: 1.7148  GD final: 1.7846
+
+  --- Phase-only ---
+    Acc: 0.317  Loss: 2.0254  GD final: 2.0888
+
+  --- Deconvolved (λ=0.1) ---
+    Acc: 0.339  Loss: 2.0244  GD final: 2.0456
+
+  --- Deconvolved (λ=0.5) ---
+    Acc: 0.369  Loss: 1.8374  GD final: 1.8910
+
+  --- Deconvolved (λ=1.0) ---
+    Acc: 0.384  Loss: 1.7599  GD final: 1.7197
+
+  --- Coherence-weighted ---
+    Acc: 0.341  Loss: 1.8080  GD final: 1.8334
+
+  --- Invariant magnitude ---
+    Acc: 0.416  Loss: 1.6830  GD final: 1.7281
+
+  Method                        Acc     Loss       GD
+  -------------------------  ------  -------  -------
+  Sign vote                   0.402   1.7148   1.7846
+  Phase-only                  0.317   2.0254   2.0888
+  Deconvolved (λ=0.1)         0.339   2.0244   2.0456
+  Deconvolved (λ=0.5)         0.369   1.8374   1.8910
+  Deconvolved (λ=1.0)         0.384   1.7599   1.7197
+  Coherence-weighted          0.341   1.8080   1.8334
+  Invariant magnitude         0.416   1.6830   1.7281
+
+======================================================================
+  PHASE 3: Scaling Crossover (2-32 rotations)
+======================================================================
+
+  === 2 rotations ===
+    View 0/2: loss=1.6712
+    View 1/2: loss=5.7423
+    sign_vote                : 0.348
+    phase_only               : 0.379
+    deconvolved              : 0.349
+    coherence_weighted       : 0.393
+    invariant_magnitude      : 0.369
+
+  === 4 rotations ===
+    View 0/4: loss=1.7410
+    View 1/4: loss=3.4012
+    View 2/4: loss=2.7854
+    View 3/4: loss=3.1743
+    sign_vote                : 0.333
+    phase_only               : 0.325
+    deconvolved              : 0.375
+    coherence_weighted       : 0.345
+    invariant_magnitude      : 0.416
+
+  === 8 rotations ===
+    View 0/8: loss=1.6896
+    View 1/8: loss=3.6565
+    View 2/8: loss=2.6260
+    View 3/8: loss=4.1035
+    View 4/8: loss=3.5268
+    View 5/8: loss=2.9096
+    View 6/8: loss=3.9757
+    View 7/8: loss=2.8926
+    sign_vote                : 0.387
+    phase_only               : 0.407
+    deconvolved              : 0.409
+    coherence_weighted       : 0.381
+    invariant_magnitude      : 0.418
+
+  === 12 rotations ===
+    View 0/12: loss=1.7212
+    View 1/12: loss=3.5329
+    View 2/12: loss=4.7044
+    View 3/12: loss=4.8220
+    View 4/12: loss=4.6633
+    View 5/12: loss=5.0034
+    View 6/12: loss=3.4305
+    View 7/12: loss=4.3373
+    View 8/12: loss=3.8746
+    View 9/12: loss=4.4080
+    View 10/12: loss=3.9921
+    View 11/12: loss=3.8689
+    sign_vote                : 0.372
+    phase_only               : 0.403
+    deconvolved              : 0.428
+    coherence_weighted       : 0.302
+    invariant_magnitude      : 0.402
+
+  === 16 rotations ===
+    View 0/16: loss=1.6915
+    View 1/16: loss=4.6141
+    View 2/16: loss=5.2006
+    View 3/16: loss=3.6312
+    View 4/16: loss=4.5408
+    View 5/16: loss=3.6526
+    View 6/16: loss=3.2984
+    View 7/16: loss=4.3571
+    View 8/16: loss=3.5976
+    View 9/16: loss=2.9897
+    View 10/16: loss=4.8292
+    View 11/16: loss=2.9384
+    View 12/16: loss=3.8375
+    View 13/16: loss=4.1925
+    View 14/16: loss=2.9650
+    View 15/16: loss=3.9472
+    sign_vote                : 0.381
+    phase_only               : 0.383
+    deconvolved              : 0.413
+    coherence_weighted       : 0.350
+    invariant_magnitude      : 0.400
+
+  --- Accuracy vs Rotation Count ---
+  n_rot       sign_vote      phase_only     deconvolved  coherence_weighted  invariant_magnitude  
+  -----  --------------  --------------  --------------  --------------  --------------
+      2           0.348           0.379           0.349           0.393           0.369  
+      4           0.333           0.325           0.375           0.345           0.416  
+      8           0.387           0.407           0.409           0.381           0.418  
+     12           0.372           0.403           0.428           0.302           0.402  
+     16           0.381           0.383           0.413           0.350           0.400  
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/v12/lens_mechanism_exp.py", line 732, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/v12/lens_mechanism_exp.py", line 705, in main
+    for d in decomp:
+             ^^^^^^
+UnboundLocalError: cannot access local variable 'decomp' where it is not associated with a value

@@ -1,0 +1,142 @@
+========================================================================
+  Universal Lattice Map — Cross-Model Consensus
+  Models: ['qwen3-14b', 'mistral-7b', 'olmo-2-13b', 'pythia-2.8b', 'smollm3-3b', 'phi-4-mini']
+  Depths: [0.0, 0.25, 0.5, 0.75]
+========================================================================
+
+1. Loading probes...
+  Loaded diverse corpus: 807 probes across 8 domains
+    lambda         :  380
+    math           :  200
+    reasoning      :  115
+    code           :   77
+    prose          :   14
+    tools          :    8
+    sequence       :    8
+    structure      :    5
+
+2. Extracting per-model RDMs...
+
+  ─── qwen3-14b (Qwen/Qwen3-14B) ───
+  Layers: 40, d_model: 5120
+  Target layers: [0, 10, 20, 29] (fracs: [0.0, 0.25, 0.5, 0.75])
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<07:02,  1.05it/s]Loading weights:   0%|          | 2/443 [00:01<03:44,  1.96it/s]Loading weights:   4%|▎         | 16/443 [00:01<00:20, 21.20it/s]Loading weights:   6%|▋         | 28/443 [00:01<00:11, 37.35it/s]Loading weights:  10%|█         | 45/443 [00:01<00:06, 62.62it/s]Loading weights:  13%|█▎        | 59/443 [00:01<00:04, 77.28it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:04, 76.50it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:04, 83.44it/s]Loading weights:  21%|██        | 93/443 [00:01<00:03, 88.98it/s]Loading weights:  24%|██▎       | 105/443 [00:02<00:03, 93.43it/s]Loading weights:  28%|██▊       | 122/443 [00:02<00:02, 112.18it/s]Loading weights:  31%|███       | 137/443 [00:02<00:02, 117.63it/s]Loading weights:  34%|███▍      | 150/443 [00:02<00:02, 119.35it/s]Loading weights:  38%|███▊      | 169/443 [00:02<00:02, 133.95it/s]Loading weights:  41%|████▏     | 183/443 [00:02<00:02, 129.58it/s]Loading weights:  44%|████▍     | 197/443 [00:02<00:02, 117.34it/s]Loading weights:  47%|████▋     | 210/443 [00:02<00:01, 119.25it/s]Loading weights:  51%|█████     | 224/443 [00:02<00:01, 119.56it/s]Loading weights:  53%|█████▎    | 237/443 [00:03<00:01, 112.14it/s]Loading weights:  58%|█████▊    | 257/443 [00:03<00:01, 129.52it/s]Loading weights:  61%|██████    | 271/443 [00:03<00:01, 124.37it/s]Loading weights:  65%|██████▌   | 290/443 [00:03<00:01, 137.11it/s]Loading weights:  69%|██████▊   | 304/443 [00:03<00:01, 129.44it/s]Loading weights:  72%|███████▏  | 318/443 [00:03<00:00, 126.34it/s]Loading weights:  75%|███████▍  | 331/443 [00:03<00:00, 117.64it/s]Loading weights:  77%|███████▋  | 343/443 [00:03<00:00, 116.40it/s]Loading weights:  80%|████████  | 355/443 [00:04<00:00, 117.16it/s]Loading weights:  83%|████████▎ | 367/443 [00:04<00:00, 115.62it/s]Loading weights:  86%|████████▌ | 379/443 [00:04<00:00, 113.92it/s]Loading weights:  90%|████████▉ | 397/443 [00:04<00:00, 130.34it/s]Loading weights:  93%|█████████▎| 411/443 [00:04<00:00, 132.90it/s]Loading weights:  96%|█████████▌| 425/443 [00:04<00:00, 128.61it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 94.86it/s] 
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 156.1s (193.4ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.6538
+  L10 (depth=25%): RDM (807, 807), mean_sim=0.5124
+  L20 (depth=50%): RDM (807, 807), mean_sim=0.5176
+  L29 (depth=75%): RDM (807, 807), mean_sim=0.4919
+
+  ─── mistral-7b (mistralai/Mistral-7B-v0.3) ───
+  Layers: 32, d_model: 4096
+  Target layers: [0, 8, 16, 23] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:04, 58.07it/s]Loading weights:   8%|▊         | 23/291 [00:00<00:02, 122.44it/s]Loading weights:  14%|█▎        | 40/291 [00:00<00:01, 143.13it/s]Loading weights:  19%|█▉        | 55/291 [00:00<00:01, 144.13it/s]Loading weights:  26%|██▋       | 77/291 [00:00<00:01, 165.68it/s]Loading weights:  33%|███▎      | 95/291 [00:00<00:01, 168.88it/s]Loading weights:  39%|███▉      | 114/291 [00:00<00:01, 172.64it/s]Loading weights:  46%|████▋     | 135/291 [00:00<00:00, 183.04it/s]Loading weights:  53%|█████▎    | 154/291 [00:00<00:00, 153.78it/s]Loading weights:  59%|█████▉    | 171/291 [00:01<00:00, 154.39it/s]Loading weights:  64%|██████▍   | 187/291 [00:01<00:00, 153.70it/s]Loading weights:  70%|███████   | 204/291 [00:01<00:00, 154.41it/s]Loading weights:  76%|███████▌  | 221/291 [00:01<00:00, 157.10it/s]Loading weights:  83%|████████▎ | 242/291 [00:01<00:00, 172.02it/s]Loading weights:  90%|████████▉ | 261/291 [00:01<00:00, 175.68it/s]Loading weights:  97%|█████████▋| 283/291 [00:01<00:00, 181.36it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 164.06it/s]
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 89.8s (111.3ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.3424
+  L8 (depth=25%): RDM (807, 807), mean_sim=0.1760
+  L16 (depth=50%): RDM (807, 807), mean_sim=0.2003
+  L23 (depth=75%): RDM (807, 807), mean_sim=0.2391
+
+  ─── olmo-2-13b (allenai/OLMo-2-1124-13B) ───
+  Layers: 40, d_model: 5120
+  Target layers: [0, 10, 20, 29] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:25,  1.36it/s]Loading weights:   3%|▎         | 13/443 [00:00<00:21, 19.78it/s]Loading weights:   4%|▍         | 19/443 [00:00<00:16, 25.87it/s]Loading weights:   8%|▊         | 35/443 [00:01<00:08, 47.15it/s]Loading weights:  10%|█         | 45/443 [00:01<00:06, 57.08it/s]Loading weights:  12%|█▏        | 54/443 [00:01<00:06, 63.91it/s]Loading weights:  14%|█▍        | 63/443 [00:01<00:05, 65.25it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:06, 58.73it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:05, 66.14it/s]Loading weights:  21%|██        | 91/443 [00:01<00:05, 69.68it/s]Loading weights:  23%|██▎       | 102/443 [00:02<00:04, 78.85it/s]Loading weights:  25%|██▌       | 112/443 [00:02<00:04, 77.50it/s]Loading weights:  28%|██▊       | 123/443 [00:02<00:03, 80.11it/s]Loading weights:  30%|███       | 133/443 [00:02<00:03, 81.87it/s]Loading weights:  32%|███▏      | 143/443 [00:02<00:03, 85.45it/s]Loading weights:  34%|███▍      | 152/443 [00:02<00:03, 84.18it/s]Loading weights:  36%|███▋      | 161/443 [00:02<00:03, 77.51it/s]Loading weights:  38%|███▊      | 169/443 [00:02<00:03, 70.67it/s]Loading weights:  41%|████      | 180/443 [00:03<00:03, 76.10it/s]Loading weights:  43%|████▎     | 190/443 [00:03<00:03, 74.22it/s]Loading weights:  45%|████▌     | 201/443 [00:03<00:03, 80.16it/s]Loading weights:  48%|████▊     | 212/443 [00:03<00:02, 78.65it/s]Loading weights:  50%|█████     | 223/443 [00:03<00:02, 80.21it/s]Loading weights:  53%|█████▎    | 233/443 [00:03<00:02, 82.07it/s]Loading weights:  55%|█████▌    | 244/443 [00:03<00:02, 83.23it/s]Loading weights:  57%|█████▋    | 253/443 [00:04<00:06, 29.87it/s]Loading weights:  59%|█████▊    | 260/443 [00:04<00:05, 33.50it/s]Loading weights:  60%|██████    | 267/443 [00:04<00:04, 37.16it/s]Loading weights:  63%|██████▎   | 277/443 [00:04<00:03, 45.60it/s]Loading weights:  65%|██████▌   | 288/443 [00:05<00:02, 55.92it/s]Loading weights:  67%|██████▋   | 298/443 [00:05<00:02, 62.28it/s]Loading weights:  69%|██████▉   | 307/443 [00:05<00:02, 66.03it/s]Loading weights:  71%|███████   | 315/443 [00:05<00:01, 65.49it/s]Loading weights:  73%|███████▎  | 323/443 [00:05<00:01, 64.82it/s]Loading weights:  75%|███████▌  | 333/443 [00:05<00:01, 67.98it/s]Loading weights:  77%|███████▋  | 342/443 [00:05<00:01, 72.03it/s]Loading weights:  80%|███████▉  | 353/443 [00:05<00:01, 79.76it/s]Loading weights:  82%|████████▏ | 362/443 [00:06<00:00, 82.26it/s]Loading weights:  84%|████████▎ | 371/443 [00:06<00:00, 78.05it/s]Loading weights:  86%|████████▌ | 380/443 [00:06<00:00, 75.05it/s]Loading weights:  88%|████████▊ | 388/443 [00:06<00:00, 75.28it/s]Loading weights:  90%|████████▉ | 398/443 [00:06<00:00, 74.50it/s]Loading weights:  92%|█████████▏| 406/443 [00:06<00:00, 71.69it/s]Loading weights:  93%|█████████▎| 414/443 [00:06<00:00, 72.61it/s]Loading weights:  95%|█████████▌| 422/443 [00:06<00:00, 70.13it/s]Loading weights:  98%|█████████▊| 432/443 [00:07<00:00, 71.15it/s]Loading weights: 100%|██████████| 443/443 [00:07<00:00, 62.82it/s]
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 138.3s (171.3ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.2352
+  L10 (depth=25%): RDM (807, 807), mean_sim=0.2090
+  L20 (depth=50%): RDM (807, 807), mean_sim=0.2228
+  L29 (depth=75%): RDM (807, 807), mean_sim=0.1843
+
+  ─── pythia-2.8b (EleutherAI/pythia-2.8b-deduped) ───
+  Layers: 32, d_model: 2560
+  Target layers: [0, 8, 16, 23] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<00:39,  9.77it/s]Loading weights:  27%|██▋       | 104/388 [00:00<00:00, 588.53it/s]Loading weights:  42%|████▏     | 163/388 [00:00<00:00, 228.03it/s]Loading weights:  64%|██████▍   | 248/388 [00:00<00:00, 348.52it/s]Loading weights:  89%|████████▊ | 344/388 [00:00<00:00, 480.19it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 427.57it/s]
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 48.1s (59.6ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.8196
+  L8 (depth=25%): RDM (807, 807), mean_sim=0.5978
+  L16 (depth=50%): RDM (807, 807), mean_sim=0.6054
+  L23 (depth=75%): RDM (807, 807), mean_sim=0.8032
+
+  ─── smollm3-3b (HuggingFaceTB/SmolLM3-3B) ───
+  Layers: 36, d_model: 2560
+  Target layers: [0, 9, 18, 26] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights:   0%|          | 1/326 [00:00<02:23,  2.26it/s]Loading weights:  13%|█▎        | 44/326 [00:00<00:02, 106.04it/s]Loading weights:  28%|██▊       | 91/326 [00:00<00:01, 198.52it/s]Loading weights:  39%|███▊      | 126/326 [00:01<00:01, 127.68it/s]Loading weights:  48%|████▊     | 156/326 [00:01<00:01, 152.58it/s]Loading weights:  59%|█████▉    | 192/326 [00:01<00:00, 190.60it/s]Loading weights:  73%|███████▎  | 237/326 [00:01<00:00, 243.17it/s]Loading weights:  84%|████████▍ | 275/326 [00:01<00:00, 274.59it/s]Loading weights: 100%|██████████| 326/326 [00:01<00:00, 203.86it/s]
+  Running 807 probes...
+    100/807 probes done...
+    200/807 probes done...
+    300/807 probes done...
+    400/807 probes done...
+    500/807 probes done...
+    600/807 probes done...
+    700/807 probes done...
+    800/807 probes done...
+  Done in 59.1s (73.3ms/probe)
+  L0 (depth=0%): RDM (807, 807), mean_sim=0.4585
+  L9 (depth=25%): RDM (807, 807), mean_sim=0.2062
+  L18 (depth=50%): RDM (807, 807), mean_sim=0.2805
+  L26 (depth=75%): RDM (807, 807), mean_sim=0.2280
+
+  ─── phi-4-mini (microsoft/Phi-4-mini-instruct) ───
+  Layers: 32, d_model: 3072
+  Target layers: [0, 8, 16, 23] (fracs: [0.0, 0.25, 0.5, 0.75])
+This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/v12/build_lattice_map.py", line 616, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/v12/build_lattice_map.py", line 565, in main
+    rdms = extract_rdm(model_key, probes, args.depth_fractions, args.device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/scripts/v12/build_lattice_map.py", line 187, in extract_rdm
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 369, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 583, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 309, in get_class_in_module
+    module_spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/mwhitford/.cache/huggingface/modules/transformers_modules/microsoft/Phi_hyphen_4_hyphen_mini_hyphen_instruct/cfbefacb99257ffa30c83adab238a50856ac3083/modeling_phi3.py", line 37, in <module>
+    from transformers.utils import (
+ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/utils/__init__.py)

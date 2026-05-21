@@ -1,0 +1,570 @@
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+Training teacher d=256...
+Training teacher d=256...
+    Step 1000: loss=2.2782, acc=0.2744
+    Step 1000: loss=2.2782, acc=0.2744
+    Step 2000: loss=2.1923, acc=0.2627
+    Step 2000: loss=2.1923, acc=0.2627
+    Step 3000: loss=2.1310, acc=0.2984
+    Step 3000: loss=2.1310, acc=0.2984
+    Step 4000: loss=2.1205, acc=0.3002
+    Step 4000: loss=2.1205, acc=0.3002
+    Step 5000: loss=2.2339, acc=0.2986
+    Step 5000: loss=2.2339, acc=0.2986
+  Final: loss=2.2339, acc=0.2986
+  Final: loss=2.2339, acc=0.2986
+
+Teacher crystal (4×4 cosine matrix):
+
+Teacher crystal (4×4 cosine matrix):
+  K: +1.000 +0.973 +1.000 +1.000
+  K: +1.000 +0.973 +1.000 +1.000
+  I: +0.973 +1.000 +0.973 +0.973
+  I: +0.973 +1.000 +0.973 +0.973
+  B: +1.000 +0.973 +1.000 +1.000
+  B: +1.000 +0.973 +1.000 +1.000
+  C: +1.000 +0.973 +1.000 +1.000
+  C: +1.000 +0.973 +1.000 +1.000
+
+Q2 sign damage: 53841/196608 = 27.4%
+
+Q2 sign damage: 53841/196608 = 27.4%
+
+════════════════════════════════════════════════════════════
+C1: Q2_COEVO — co-evolution on Q2-damaged plates
+
+════════════════════════════════════════════════════════════
+C1: Q2_COEVO — co-evolution on Q2-damaged plates
+
+════════════════════════════════════════════════════════════
+Q2_COEVO
+
+════════════════════════════════════════════════════════════
+Q2_COEVO
+  Initial sign agreement with oracle: 0.7262
+  Initial sign agreement with oracle: 0.7262
+
+  R0:
+
+  R0:
+    R0 step 500: acc=0.4332
+    R0 step 500: acc=0.4332
+    R0 step 1000: acc=0.3797
+    R0 step 1000: acc=0.3797
+    R0 step 1500: acc=0.3860
+    R0 step 1500: acc=0.3860
+    Post-GD+CL: acc=0.3860, crystal=0.9842
+    Post-GD+CL: acc=0.3860, crystal=0.9842
+    Evo: ok=51 flr=0 cry=0 acc=149
+    Evo: ok=51 flr=0 cry=0 acc=149
+    Post-evo: acc=0.3937, crystal=0.9922, sign_agr=0.7260
+    Post-evo: acc=0.3937, crystal=0.9922, sign_agr=0.7260
+
+  R1:
+
+  R1:
+    R1 step 500: acc=0.4624
+    R1 step 500: acc=0.4624
+    R1 step 1000: acc=0.4755
+    R1 step 1000: acc=0.4755
+    R1 step 1500: acc=0.4897
+    R1 step 1500: acc=0.4897
+    Post-GD+CL: acc=0.4897, crystal=-0.4088
+    Post-GD+CL: acc=0.4897, crystal=-0.4088
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.4897, crystal=-0.4088, sign_agr=0.7260
+    Post-evo: acc=0.4897, crystal=-0.4088, sign_agr=0.7260
+
+  R2:
+
+  R2:
+    R2 step 500: acc=0.5087
+    R2 step 500: acc=0.5087
+    R2 step 1000: acc=0.5180
+    R2 step 1000: acc=0.5180
+    R2 step 1500: acc=0.4696
+    R2 step 1500: acc=0.4696
+    Post-GD+CL: acc=0.4696, crystal=-0.3586
+    Post-GD+CL: acc=0.4696, crystal=-0.3586
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.4696, crystal=-0.3586, sign_agr=0.7260
+    Post-evo: acc=0.4696, crystal=-0.3586, sign_agr=0.7260
+
+  R3:
+
+  R3:
+    R3 step 500: acc=0.4817
+    R3 step 500: acc=0.4817
+    R3 step 1000: acc=0.4877
+    R3 step 1000: acc=0.4877
+    R3 step 1500: acc=0.4997
+    R3 step 1500: acc=0.4997
+    Post-GD+CL: acc=0.4997, crystal=-0.4995
+    Post-GD+CL: acc=0.4997, crystal=-0.4995
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.4997, crystal=-0.4995, sign_agr=0.7260
+    Post-evo: acc=0.4997, crystal=-0.4995, sign_agr=0.7260
+
+  R4:
+
+  R4:
+    R4 step 500: acc=0.4826
+    R4 step 500: acc=0.4826
+    R4 step 1000: acc=0.5235
+    R4 step 1000: acc=0.5235
+    R4 step 1500: acc=0.5449
+    R4 step 1500: acc=0.5449
+    Post-GD+CL: acc=0.5449, crystal=-0.1412
+    Post-GD+CL: acc=0.5449, crystal=-0.1412
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5449, crystal=-0.1412, sign_agr=0.7260
+    Post-evo: acc=0.5449, crystal=-0.1412, sign_agr=0.7260
+
+  R5:
+
+  R5:
+    R5 step 500: acc=0.4633
+    R5 step 500: acc=0.4633
+    R5 step 1000: acc=0.5221
+    R5 step 1000: acc=0.5221
+    R5 step 1500: acc=0.5518
+    R5 step 1500: acc=0.5518
+    Post-GD+CL: acc=0.5518, crystal=-0.4382
+    Post-GD+CL: acc=0.5518, crystal=-0.4382
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5518, crystal=-0.4382, sign_agr=0.7260
+    Post-evo: acc=0.5518, crystal=-0.4382, sign_agr=0.7260
+
+  R6:
+
+  R6:
+    R6 step 500: acc=0.4658
+    R6 step 500: acc=0.4658
+    R6 step 1000: acc=0.5381
+    R6 step 1000: acc=0.5381
+    R6 step 1500: acc=0.5684
+    R6 step 1500: acc=0.5684
+    Post-GD+CL: acc=0.5684, crystal=-0.3918
+    Post-GD+CL: acc=0.5684, crystal=-0.3918
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5684, crystal=-0.3918, sign_agr=0.7260
+    Post-evo: acc=0.5684, crystal=-0.3918, sign_agr=0.7260
+
+  R7:
+
+  R7:
+    R7 step 500: acc=0.5162
+    R7 step 500: acc=0.5162
+    R7 step 1000: acc=0.5483
+    R7 step 1000: acc=0.5483
+    R7 step 1500: acc=0.5613
+    R7 step 1500: acc=0.5613
+    Post-GD+CL: acc=0.5613, crystal=-0.2580
+    Post-GD+CL: acc=0.5613, crystal=-0.2580
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5613, crystal=-0.2580, sign_agr=0.7260
+    Post-evo: acc=0.5613, crystal=-0.2580, sign_agr=0.7260
+
+  R8:
+
+  R8:
+    R8 step 500: acc=0.5155
+    R8 step 500: acc=0.5155
+    R8 step 1000: acc=0.5273
+    R8 step 1000: acc=0.5273
+    R8 step 1500: acc=0.5273
+    R8 step 1500: acc=0.5273
+    Post-GD+CL: acc=0.5273, crystal=-0.3661
+    Post-GD+CL: acc=0.5273, crystal=-0.3661
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5273, crystal=-0.3661, sign_agr=0.7260
+    Post-evo: acc=0.5273, crystal=-0.3661, sign_agr=0.7260
+
+  R9:
+
+  R9:
+    R9 step 500: acc=0.5767
+    R9 step 500: acc=0.5767
+    R9 step 1000: acc=0.5880
+    R9 step 1000: acc=0.5880
+    R9 step 1500: acc=0.5811
+    R9 step 1500: acc=0.5811
+    Post-GD+CL: acc=0.5811, crystal=-0.2652
+    Post-GD+CL: acc=0.5811, crystal=-0.2652
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5811, crystal=-0.2652, sign_agr=0.7260
+    Post-evo: acc=0.5811, crystal=-0.2652, sign_agr=0.7260
+
+  R10:
+
+  R10:
+    R10 step 500: acc=0.5327
+    R10 step 500: acc=0.5327
+    R10 step 1000: acc=0.5467
+    R10 step 1000: acc=0.5467
+    R10 step 1500: acc=0.5570
+    R10 step 1500: acc=0.5570
+    Post-GD+CL: acc=0.5570, crystal=-0.2082
+    Post-GD+CL: acc=0.5570, crystal=-0.2082
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5570, crystal=-0.2082, sign_agr=0.7260
+    Post-evo: acc=0.5570, crystal=-0.2082, sign_agr=0.7260
+
+  R11:
+
+  R11:
+    R11 step 500: acc=0.4925
+    R11 step 500: acc=0.4925
+    R11 step 1000: acc=0.5104
+    R11 step 1000: acc=0.5104
+    R11 step 1500: acc=0.5146
+    R11 step 1500: acc=0.5146
+    Post-GD+CL: acc=0.5146, crystal=-0.5651
+    Post-GD+CL: acc=0.5146, crystal=-0.5651
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5146, crystal=-0.5651, sign_agr=0.7260
+    Post-evo: acc=0.5146, crystal=-0.5651, sign_agr=0.7260
+
+  R12:
+
+  R12:
+    R12 step 500: acc=0.5246
+    R12 step 500: acc=0.5246
+    R12 step 1000: acc=0.5129
+    R12 step 1000: acc=0.5129
+    R12 step 1500: acc=0.5182
+    R12 step 1500: acc=0.5182
+    Post-GD+CL: acc=0.5182, crystal=-0.2751
+    Post-GD+CL: acc=0.5182, crystal=-0.2751
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5182, crystal=-0.2751, sign_agr=0.7260
+    Post-evo: acc=0.5182, crystal=-0.2751, sign_agr=0.7260
+
+  R13:
+
+  R13:
+    R13 step 500: acc=0.4803
+    R13 step 500: acc=0.4803
+    R13 step 1000: acc=0.5045
+    R13 step 1000: acc=0.5045
+    R13 step 1500: acc=0.5106
+    R13 step 1500: acc=0.5106
+    Post-GD+CL: acc=0.5106, crystal=-0.2311
+    Post-GD+CL: acc=0.5106, crystal=-0.2311
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5106, crystal=-0.2311, sign_agr=0.7260
+    Post-evo: acc=0.5106, crystal=-0.2311, sign_agr=0.7260
+
+  R14:
+
+  R14:
+    R14 step 500: acc=0.5355
+    R14 step 500: acc=0.5355
+    R14 step 1000: acc=0.5591
+    R14 step 1000: acc=0.5591
+    R14 step 1500: acc=0.5722
+    R14 step 1500: acc=0.5722
+    Post-GD+CL: acc=0.5722, crystal=-0.1685
+    Post-GD+CL: acc=0.5722, crystal=-0.1685
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5722, crystal=-0.1685, sign_agr=0.7260
+    Post-evo: acc=0.5722, crystal=-0.1685, sign_agr=0.7260
+
+  R15:
+
+  R15:
+    R15 step 500: acc=0.5553
+    R15 step 500: acc=0.5553
+    R15 step 1000: acc=0.5458
+    R15 step 1000: acc=0.5458
+    R15 step 1500: acc=0.5655
+    R15 step 1500: acc=0.5655
+    Post-GD+CL: acc=0.5655, crystal=-0.4212
+    Post-GD+CL: acc=0.5655, crystal=-0.4212
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5655, crystal=-0.4212, sign_agr=0.7260
+    Post-evo: acc=0.5655, crystal=-0.4212, sign_agr=0.7260
+
+  R16:
+
+  R16:
+    R16 step 500: acc=0.5740
+    R16 step 500: acc=0.5740
+    R16 step 1000: acc=0.5595
+    R16 step 1000: acc=0.5595
+    R16 step 1500: acc=0.5640
+    R16 step 1500: acc=0.5640
+    Post-GD+CL: acc=0.5640, crystal=0.2402
+    Post-GD+CL: acc=0.5640, crystal=0.2402
+    Evo: ok=24 flr=0 cry=21 acc=155
+    Evo: ok=24 flr=0 cry=21 acc=155
+    Post-evo: acc=0.5674, crystal=0.3644, sign_agr=0.7260
+    Post-evo: acc=0.5674, crystal=0.3644, sign_agr=0.7260
+
+  R17:
+
+  R17:
+    R17 step 500: acc=0.5439
+    R17 step 500: acc=0.5439
+    R17 step 1000: acc=0.5363
+    R17 step 1000: acc=0.5363
+    R17 step 1500: acc=0.5762
+    R17 step 1500: acc=0.5762
+    Post-GD+CL: acc=0.5762, crystal=-0.5082
+    Post-GD+CL: acc=0.5762, crystal=-0.5082
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5762, crystal=-0.5082, sign_agr=0.7260
+    Post-evo: acc=0.5762, crystal=-0.5082, sign_agr=0.7260
+
+  R18:
+
+  R18:
+    R18 step 500: acc=0.5437
+    R18 step 500: acc=0.5437
+    R18 step 1000: acc=0.5630
+    R18 step 1000: acc=0.5630
+    R18 step 1500: acc=0.5610
+    R18 step 1500: acc=0.5610
+    Post-GD+CL: acc=0.5610, crystal=-0.3522
+    Post-GD+CL: acc=0.5610, crystal=-0.3522
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5610, crystal=-0.3522, sign_agr=0.7260
+    Post-evo: acc=0.5610, crystal=-0.3522, sign_agr=0.7260
+
+  R19:
+
+  R19:
+    R19 step 500: acc=0.5639
+    R19 step 500: acc=0.5639
+    R19 step 1000: acc=0.5518
+    R19 step 1000: acc=0.5518
+    R19 step 1500: acc=0.5690
+    R19 step 1500: acc=0.5690
+    Post-GD+CL: acc=0.5690, crystal=-0.2269
+    Post-GD+CL: acc=0.5690, crystal=-0.2269
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5690, crystal=-0.2269, sign_agr=0.7260
+    Post-evo: acc=0.5690, crystal=-0.2269, sign_agr=0.7260
+    FINAL step 500: acc=0.5561
+    FINAL step 500: acc=0.5561
+    FINAL step 1000: acc=0.5639
+    FINAL step 1000: acc=0.5639
+    FINAL step 1500: acc=0.5807
+    FINAL step 1500: acc=0.5807
+
+  Final: acc=0.5807, crystal=-0.5531, sign_agr=0.7260
+
+  Final: acc=0.5807, crystal=-0.5531, sign_agr=0.7260
+  Sign recovery: 0.7262 → 0.7260 (Δ-0.0002)
+  Sign recovery: 0.7262 → 0.7260 (Δ-0.0002)
+  Total accepted flips: 75/4000
+  Total accepted flips: 75/4000
+
+════════════════════════════════════════════════════════════
+C2: Q2_BEAM_ONLY — beam GD only (no evo, no crystal loss)
+
+════════════════════════════════════════════════════════════
+C2: Q2_BEAM_ONLY — beam GD only (no evo, no crystal loss)
+
+════════════════════════════════════════════════════════════
+Q2_BEAM_ONLY
+
+════════════════════════════════════════════════════════════
+Q2_BEAM_ONLY
+  Initial sign agreement with oracle: 0.7262
+  Initial sign agreement with oracle: 0.7262
+    Step  1575: acc=0.3786
+    Step  1575: acc=0.3786
+    Step  3150: acc=0.4526
+    Step  3150: acc=0.4526
+    Step  4725: acc=0.4342
+    Step  4725: acc=0.4342
+    Step  6300: acc=0.4130
+    Step  6300: acc=0.4130
+    Step  7875: acc=0.6794
+    Step  7875: acc=0.6794
+    Step  9450: acc=0.7617
+    Step  9450: acc=0.7617
+    Step 11025: acc=0.7595
+    Step 11025: acc=0.7595
+    Step 12600: acc=0.8047
+    Step 12600: acc=0.8047
+    Step 14175: acc=0.8295
+    Step 14175: acc=0.8295
+    Step 15750: acc=0.8410
+    Step 15750: acc=0.8410
+    Step 17325: acc=0.8521
+    Step 17325: acc=0.8521
+    Step 18900: acc=0.8600
+    Step 18900: acc=0.8600
+    Step 20475: acc=0.8798
+    Step 20475: acc=0.8798
+    Step 22050: acc=0.8916
+    Step 22050: acc=0.8916
+    Step 23625: acc=0.8857
+    Step 23625: acc=0.8857
+    Step 25200: acc=0.8968
+    Step 25200: acc=0.8968
+    Step 26775: acc=0.8875
+    Step 26775: acc=0.8875
+    Step 28350: acc=0.9020
+    Step 28350: acc=0.9020
+    Step 29925: acc=0.8990
+    Step 29925: acc=0.8990
+    Step 31500: acc=0.8929
+    Step 31500: acc=0.8929
+  Final sign agreement: 0.7262 (unchanged — plates frozen)
+  Final sign agreement: 0.7262 (unchanged — plates frozen)
+
+════════════════════════════════════════════════════════════
+C3: RANDOM_COEVO — co-evolution from random plates
+
+════════════════════════════════════════════════════════════
+C3: RANDOM_COEVO — co-evolution from random plates
+
+════════════════════════════════════════════════════════════
+RANDOM_COEVO
+
+════════════════════════════════════════════════════════════
+RANDOM_COEVO
+  Initial sign agreement with oracle: 0.5003
+  Initial sign agreement with oracle: 0.5003
+
+  R0:
+
+  R0:
+    R0 step 500: acc=0.4642
+    R0 step 500: acc=0.4642
+    R0 step 1000: acc=0.4975
+    R0 step 1000: acc=0.4975
+    R0 step 1500: acc=0.4597
+    R0 step 1500: acc=0.4597
+    Post-GD+CL: acc=0.4597, crystal=0.4665
+    Post-GD+CL: acc=0.4597, crystal=0.4665
+    Evo: ok=44 flr=0 cry=8 acc=148
+    Evo: ok=44 flr=0 cry=8 acc=148
+    Post-evo: acc=0.4703, crystal=0.5789, sign_agr=0.5004
+    Post-evo: acc=0.4703, crystal=0.5789, sign_agr=0.5004
+
+  R1:
+
+  R1:
+    R1 step 500: acc=0.5040
+    R1 step 500: acc=0.5040
+    R1 step 1000: acc=0.5157
+    R1 step 1000: acc=0.5157
+    R1 step 1500: acc=0.5301
+    R1 step 1500: acc=0.5301
+    Post-GD+CL: acc=0.5301, crystal=-0.4098
+    Post-GD+CL: acc=0.5301, crystal=-0.4098
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5301, crystal=-0.4098, sign_agr=0.5004
+    Post-evo: acc=0.5301, crystal=-0.4098, sign_agr=0.5004
+
+  R2:
+
+  R2:
+    R2 step 500: acc=0.5066
+    R2 step 500: acc=0.5066
+    R2 step 1000: acc=0.5178
+    R2 step 1000: acc=0.5178
+    R2 step 1500: acc=0.5249
+    R2 step 1500: acc=0.5249
+    Post-GD+CL: acc=0.5249, crystal=-0.2653
+    Post-GD+CL: acc=0.5249, crystal=-0.2653
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5249, crystal=-0.2653, sign_agr=0.5004
+    Post-evo: acc=0.5249, crystal=-0.2653, sign_agr=0.5004
+
+  R3:
+
+  R3:
+    R3 step 500: acc=0.4806
+    R3 step 500: acc=0.4806
+    R3 step 1000: acc=0.5027
+    R3 step 1000: acc=0.5027
+    R3 step 1500: acc=0.5090
+    R3 step 1500: acc=0.5090
+    Post-GD+CL: acc=0.5090, crystal=-0.6254
+    Post-GD+CL: acc=0.5090, crystal=-0.6254
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5090, crystal=-0.6254, sign_agr=0.5004
+    Post-evo: acc=0.5090, crystal=-0.6254, sign_agr=0.5004
+
+  R4:
+
+  R4:
+    R4 step 500: acc=0.5278
+    R4 step 500: acc=0.5278
+    R4 step 1000: acc=0.5345
+    R4 step 1000: acc=0.5345
+    R4 step 1500: acc=0.5545
+    R4 step 1500: acc=0.5545
+    Post-GD+CL: acc=0.5545, crystal=-0.5385
+    Post-GD+CL: acc=0.5545, crystal=-0.5385
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5545, crystal=-0.5385, sign_agr=0.5004
+    Post-evo: acc=0.5545, crystal=-0.5385, sign_agr=0.5004
+
+  R5:
+
+  R5:
+    R5 step 500: acc=0.5231
+    R5 step 500: acc=0.5231
+    R5 step 1000: acc=0.5324
+    R5 step 1000: acc=0.5324
+    R5 step 1500: acc=0.5405
+    R5 step 1500: acc=0.5405
+    Post-GD+CL: acc=0.5405, crystal=-0.5061
+    Post-GD+CL: acc=0.5405, crystal=-0.5061
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Evo: ok=0 flr=200 cry=0 acc=0
+    Post-evo: acc=0.5405, crystal=-0.5061, sign_agr=0.5004
+    Post-evo: acc=0.5405, crystal=-0.5061, sign_agr=0.5004
+
+  R6:
+
+  R6:
+    R6 step 500: acc=0.5341
+    R6 step 500: acc=0.5341
+    R6 step 1000: acc=0.5362
+    R6 step 1000: acc=0.5362
+    R6 step 1500: acc=0.5168
+    R6 step 1500: acc=0.5168
+    Post-GD+CL: acc=0.5168, crystal=0.7692
+    Post-GD+CL: acc=0.5168, crystal=0.7692
+    Evo: ok=31 flr=0 cry=42 acc=127
+    Evo: ok=31 flr=0 cry=42 acc=127
+    Post-evo: acc=0.5216, crystal=0.8923, sign_agr=0.5004
+    Post-evo: acc=0.5216, crystal=0.8923, sign_agr=0.5004
+
+  R7:
+
+  R7:
+    R7 step 500: acc=0.5451
+    R7 step 500: acc=0.5451
+    R7 step 1000: acc=0.5501
+    R7 step 1000: acc=0.5501

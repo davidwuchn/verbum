@@ -1,0 +1,198 @@
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+Training teacher d=256...
+Training teacher d=256...
+    Step 1000: loss=2.2459, acc=0.2315
+    Step 1000: loss=2.2459, acc=0.2315
+    Step 2000: loss=2.2384, acc=0.2355
+    Step 2000: loss=2.2384, acc=0.2355
+    Step 3000: loss=2.2368, acc=0.2479
+    Step 3000: loss=2.2368, acc=0.2479
+    Step 4000: loss=2.2340, acc=0.2445
+    Step 4000: loss=2.2340, acc=0.2445
+    Step 5000: loss=2.2356, acc=0.2290
+    Step 5000: loss=2.2356, acc=0.2290
+  Final: loss=2.2356, acc=0.2290
+  Final: loss=2.2356, acc=0.2290
+
+Q2 sign damage: 54146/196608 = 27.5%
+
+Q2 sign damage: 54146/196608 = 27.5%
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  Phase 0: Measuring teacher geometry (5D lattice markers)
+  Phase 0: Measuring teacher geometry (5D lattice markers)
+    Layer 0: +1.000 +0.989 +1.000 +1.000  (K↔I=0.989 K↔C=1.000 I↔C=0.989)
+    Layer 0: +1.000 +0.989 +1.000 +1.000  (K↔I=0.989 K↔C=1.000 I↔C=0.989)
+    Layer 1: +1.000 +0.972 +0.932 +0.959  (K↔I=0.972 K↔C=0.959 I↔C=0.885)
+    Layer 1: +1.000 +0.972 +0.932 +0.959  (K↔I=0.972 K↔C=0.959 I↔C=0.885)
+    Layer 2: +1.000 +0.969 +0.941 +0.965  (K↔I=0.969 K↔C=0.965 I↔C=0.888)
+    Layer 2: +1.000 +0.969 +0.941 +0.965  (K↔I=0.969 K↔C=0.965 I↔C=0.888)
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+C1: PER-LAYER LATTICE ETCH + BEAM TRAINING
+C1: PER-LAYER LATTICE ETCH + BEAM TRAINING
+
+  Phase 1: Per-layer lattice etch (direct gradient per layer)
+
+  Phase 1: Per-layer lattice etch (direct gradient per layer)
+    Initial: crystal=0.7113, sign_agr=0.7246
+    Initial: crystal=0.7113, sign_agr=0.7246
+    Layer 0 crystal agr: -0.3044
+    Layer 0 crystal agr: -0.3044
+    Layer 1 crystal agr: +0.4491
+    Layer 1 crystal agr: +0.4491
+    Layer 2 crystal agr: +0.7113
+    Layer 2 crystal agr: +0.7113
+    R 0: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7234  acc=0.0405
+    R 0: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7234  acc=0.0405
+    R 1: flips=  500  L0=████ L1=█████████ L2=████████  sign=0.7235  acc=0.0392
+    R 1: flips=  500  L0=████ L1=█████████ L2=████████  sign=0.7235  acc=0.0392
+    R 2: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7234  acc=0.0405
+    R 2: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7234  acc=0.0405
+    R 3: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7235  acc=0.0388
+    R 3: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7235  acc=0.0388
+    R 4: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0426
+    R 4: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0426
+    R 5: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0417
+    R 5: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0417
+    R 6: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7233  acc=0.0420
+    R 6: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7233  acc=0.0420
+    R 7: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0379
+    R 7: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0379
+    R 8: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7234  acc=0.0419
+    R 8: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7234  acc=0.0419
+    R 9: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0387
+    R 9: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7235  acc=0.0387
+    R10: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7234  acc=0.0423
+    R10: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7234  acc=0.0423
+    R11: flips=  500  L0=███ L1=████████ L2=████████  sign=0.7235  acc=0.0373
+    R11: flips=  500  L0=███ L1=████████ L2=████████  sign=0.7235  acc=0.0373
+    R12: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7234  acc=0.0419
+    R12: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7234  acc=0.0419
+    R13: flips=  500  L0=████ L1=█████████ L2=█████████  sign=0.7234  acc=0.0359
+    R13: flips=  500  L0=████ L1=█████████ L2=█████████  sign=0.7234  acc=0.0359
+    R14: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7233  acc=0.0350
+    R14: flips=  500  L0=██ L1=████████ L2=█████████  sign=0.7233  acc=0.0350
+    R15: flips=  500  L0=████ L1=█████████ L2=█████████  sign=0.7234  acc=0.0337
+    R15: flips=  500  L0=████ L1=█████████ L2=█████████  sign=0.7234  acc=0.0337
+    R16: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0487
+    R16: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0487
+    R17: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7235  acc=0.0286
+    R17: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7235  acc=0.0286
+    R18: flips=  500  L0=████ L1=████████ L2=█████████  sign=0.7233  acc=0.0395
+    R18: flips=  500  L0=████ L1=████████ L2=█████████  sign=0.7233  acc=0.0395
+    R19: flips=  500  L0=███ L1=███████ L2=██████  sign=0.7234  acc=0.0298
+    R19: flips=  500  L0=███ L1=███████ L2=██████  sign=0.7234  acc=0.0298
+    R20: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7232  acc=0.0375
+    R20: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7232  acc=0.0375
+    R21: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7234  acc=0.0287
+    R21: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7234  acc=0.0287
+    R22: flips=  500  L0=██████ L1=████████ L2=█████████  sign=0.7232  acc=0.0367
+    R22: flips=  500  L0=██████ L1=████████ L2=█████████  sign=0.7232  acc=0.0367
+    R23: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7234  acc=0.0290
+    R23: flips=  500  L0=███ L1=████████ L2=███████  sign=0.7234  acc=0.0290
+    R24: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7232  acc=0.0390
+    R24: flips=  500  L0=███████ L1=████████ L2=█████████  sign=0.7232  acc=0.0390
+    R25: flips=  500  L0=███ L1=████████ L2=████████  sign=0.7234  acc=0.0330
+    R25: flips=  500  L0=███ L1=████████ L2=████████  sign=0.7234  acc=0.0330
+    R26: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0411
+    R26: flips=  500  L0=█████████ L1=████████ L2=█████████  sign=0.7233  acc=0.0411
+    R27: flips=  500  L0=███ L1=█████████ L2=████████  sign=0.7235  acc=0.0393
+    R27: flips=  500  L0=███ L1=█████████ L2=████████  sign=0.7235  acc=0.0393
+    R28: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7232  acc=0.0373
+    R28: flips=  500  L0=█████ L1=████████ L2=█████████  sign=0.7232  acc=0.0373
+    R29: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7234  acc=0.0431
+    R29: flips=  500  L0=██ L1=████████ L2=███████  sign=0.7234  acc=0.0431
+    Final: crystal=0.5235, sign_agr=0.7234
+    Final: crystal=0.5235, sign_agr=0.7234
+
+  Phase 2: Beam training (CE + crystal λ=0.5)
+
+  Phase 2: Beam training (CE + crystal λ=0.5)
+    Step  500: acc=0.4857  crystal=+0.8634  loss=1.5594
+    Step  500: acc=0.4857  crystal=+0.8634  loss=1.5594
+    Step 1000: acc=0.4988  crystal=+0.9466  loss=1.4912
+    Step 1000: acc=0.4988  crystal=+0.9466  loss=1.4912
+    Step 1500: acc=0.4604  crystal=+0.9400  loss=1.6249
+    Step 1500: acc=0.4604  crystal=+0.9400  loss=1.6249
+    Step 2000: acc=0.4491  crystal=+0.6168  loss=1.6150
+    Step 2000: acc=0.4491  crystal=+0.6168  loss=1.6150
+    Step 2500: acc=0.4673  crystal=+0.9289  loss=1.5258
+    Step 2500: acc=0.4673  crystal=+0.9289  loss=1.5258
+    Step 3000: acc=0.5074  crystal=+0.9673  loss=1.4870
+    Step 3000: acc=0.5074  crystal=+0.9673  loss=1.4870
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+C2: ORACLE — perfect projected signs
+C2: ORACLE — perfect projected signs
+
+  Phase 2: Beam training (CE + crystal λ=0.5)
+
+  Phase 2: Beam training (CE + crystal λ=0.5)
+    Step  500: acc=0.4720  crystal=+0.2174  loss=1.4726
+    Step  500: acc=0.4720  crystal=+0.2174  loss=1.4726
+    Step 1000: acc=0.4805  crystal=+0.4105  loss=1.4439
+    Step 1000: acc=0.4805  crystal=+0.4105  loss=1.4439
+    Step 1500: acc=0.4843  crystal=+0.5464  loss=1.4236
+    Step 1500: acc=0.4843  crystal=+0.5464  loss=1.4236
+    Step 2000: acc=0.4665  crystal=+0.7336  loss=1.5016
+    Step 2000: acc=0.4665  crystal=+0.7336  loss=1.5016
+    Step 2500: acc=0.4614  crystal=+0.8405  loss=1.4828
+    Step 2500: acc=0.4614  crystal=+0.8405  loss=1.4828
+    Step 3000: acc=0.4626  crystal=+0.8870  loss=1.4718
+    Step 3000: acc=0.4626  crystal=+0.8870  loss=1.4718
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+SUMMARY — Q2 Rotation Etch
+SUMMARY — Q2 Rotation Etch
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+  Time: 1842s
+  Time: 1842s
+  Teacher: acc=0.2290
+  Teacher: acc=0.2290
+  Q2 damage: 27.5%
+
+  Q2 damage: 27.5%
+
+  Phase 1 (per-layer lattice etch):
+  Phase 1 (per-layer lattice etch):
+    Crystal: +0.7113 → +0.5235
+    Crystal: +0.7113 → +0.5235
+    Signs:   0.7246 → 0.7234
+    Signs:   0.7246 → 0.7234
+
+  Phase 2 (beam training CE + crystal):
+
+  Phase 2 (beam training CE + crystal):
+    Accuracy: 0.5074 (best=0.5074)
+    Accuracy: 0.5074 (best=0.5074)
+    Crystal:  +0.9673
+    Crystal:  +0.9673
+
+  Oracle ceiling:
+
+  Oracle ceiling:
+    Accuracy: 0.4626 (best=0.4843)
+    Accuracy: 0.4626 (best=0.4843)
+    Crystal:  +0.8870
+    Crystal:  +0.8870
+
+  Rotation etch achieves 104.8% of oracle accuracy
+
+  Rotation etch achieves 104.8% of oracle accuracy
+  Crystal preserved: ✓ (+0.9673)
+  Crystal preserved: ✓ (+0.9673)
+
+  Results saved to /Users/mwhitford/src/verbum/results/q2-rotation-etch/results.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/q2-rotation-etch/results.json

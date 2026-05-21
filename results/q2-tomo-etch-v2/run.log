@@ -1,0 +1,290 @@
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+Training teacher d=256...
+Training teacher d=256...
+    Step 1000: loss=2.2966, acc=0.2504
+    Step 1000: loss=2.2966, acc=0.2504
+    Step 2000: loss=2.2908, acc=0.2504
+    Step 2000: loss=2.2908, acc=0.2504
+    Step 3000: loss=2.1888, acc=0.2674
+    Step 3000: loss=2.1888, acc=0.2674
+    Step 4000: loss=2.0969, acc=0.3079
+    Step 4000: loss=2.0969, acc=0.3079
+    Step 5000: loss=1.8984, acc=0.3757
+    Step 5000: loss=1.8984, acc=0.3757
+  Final: loss=1.8984, acc=0.3757
+  Final: loss=1.8984, acc=0.3757
+
+Q2 sign damage: 53708/196608 = 27.3%
+
+Q2 sign damage: 53708/196608 = 27.3%
+
+Computing CCA directions...
+
+Computing CCA directions...
+  Layer 0: 128 CCA directions, angles 0.3°-89.9°
+  Layer 0: 128 CCA directions, angles 0.3°-89.9°
+  Layer 1: 128 CCA directions, angles 0.1°-89.9°
+  Layer 1: 128 CCA directions, angles 0.1°-89.9°
+  Layer 2: 128 CCA directions, angles 0.1°-89.9°
+  Layer 2: 128 CCA directions, angles 0.1°-89.9°
+
+════════════════════════════════════════════════════════════
+C1: FOCAL + TOMO_ETCH + COEVO — full pipeline
+
+════════════════════════════════════════════════════════════
+C1: FOCAL + TOMO_ETCH + COEVO — full pipeline
+  Phase 0: Focal measurement (mirror-gated crystal photographs)
+  Phase 0: Focal measurement (mirror-gated crystal photographs)
+    shared       ( 0°-35°): defocus=0.2799 ██████████
+    shared       ( 0°-35°): defocus=0.2799 ██████████
+    mid_low      (35°-50°): defocus=0.6199 ████████████████████████
+    mid_low      (35°-50°): defocus=0.6199 ████████████████████████
+    attn_clust   (50°-58°): defocus=0.5465 ████████████████████
+    attn_clust   (50°-58°): defocus=0.5465 ████████████████████
+    transition   (58°-64°): defocus=0.3201 ████████████
+    transition   (58°-64°): defocus=0.3201 ████████████
+    holographic  (64°-72°): defocus=0.5175 ████████████████████
+    holographic  (64°-72°): defocus=0.5175 ████████████████████
+    peripheral   (72°-82°): defocus=0.4724 ██████████████████
+    peripheral   (72°-82°): defocus=0.4724 ██████████████████
+    private      (82°-91°): defocus=0.2776 ██████████
+    private      (82°-91°): defocus=0.2776 ██████████
+    Peak defocus: mid_low (0.6199)
+    Peak defocus: mid_low (0.6199)
+    Focal concentration: top-10% dims carry 39/384 focal energy
+    Focal concentration: top-10% dims carry 39/384 focal energy
+  Focal-guided initial etch (threshold=0.3)
+  Focal-guided initial etch (threshold=0.3)
+    Total Q2 wrong: 53708
+    Total Q2 wrong: 53708
+    Focal + wrong:  53708 (in high-defocus dimensions)
+    Focal + wrong:  53708 (in high-defocus dimensions)
+    Fixed:          53708
+    Fixed:          53708
+    Remaining:      0/196608 (0.0%)
+    Remaining:      0/196608 (0.0%)
+  Phase 1: Tomographic initial etch (teacher reference beam sweep)
+  Phase 1: Tomographic initial etch (teacher reference beam sweep)
+    Angle bins: 91 (0°-90° in 1° steps)
+    Angle bins: 91 (0°-90° in 1° steps)
+    Consensus threshold: 27/91 (30% of angles must agree)
+    Consensus threshold: 27/91 (30% of angles must agree)
+    Q2 wrong signs:      0/196608 (0.0%)
+    Q2 wrong signs:      0/196608 (0.0%)
+    Fixed by tomo etch:  0
+    Fixed by tomo etch:  0
+    Remaining wrong:     0/196608 (0.0%)
+    Remaining wrong:     0/196608 (0.0%)
+    Recovery: 0/0 (0.0%)
+    Recovery: 0/0 (0.0%)
+
+  Phase 2: Co-evolution fusion [FOCAL+TOMO+COEVO]
+
+  Phase 2: Co-evolution fusion [FOCAL+TOMO+COEVO]
+    Initial sign agreement: 1.0000
+    Initial sign agreement: 1.0000
+
+    R0:
+
+    R0:
+    R0 step 500: acc=0.3722
+    R0 step 500: acc=0.3722
+    R0 step 1000: acc=0.4354
+    R0 step 1000: acc=0.4354
+    R0 step 1500: acc=0.4067
+    R0 step 1500: acc=0.4067
+      Post-GD+CL: acc=0.4067, crystal=0.9891
+      Post-GD+CL: acc=0.4067, crystal=0.9891
+      Evo: ok=5 flr=0 cry=0 acc=195
+      Evo: ok=5 flr=0 cry=0 acc=195
+      Post-evo: acc=0.4265, crystal=0.9902, sign_agr=1.0000
+      Post-evo: acc=0.4265, crystal=0.9902, sign_agr=1.0000
+
+    R1:
+
+    R1:
+    R1 step 500: acc=0.4666
+    R1 step 500: acc=0.4666
+    R1 step 1000: acc=0.4863
+    R1 step 1000: acc=0.4863
+    R1 step 1500: acc=0.4993
+    R1 step 1500: acc=0.4993
+      Post-GD+CL: acc=0.4993, crystal=0.9844
+      Post-GD+CL: acc=0.4993, crystal=0.9844
+      Evo: ok=3 flr=0 cry=0 acc=197
+      Evo: ok=3 flr=0 cry=0 acc=197
+      Post-evo: acc=0.5043, crystal=0.9896, sign_agr=1.0000
+      Post-evo: acc=0.5043, crystal=0.9896, sign_agr=1.0000
+
+    R2:
+
+    R2:
+    R2 step 500: acc=0.5009
+    R2 step 500: acc=0.5009
+    R2 step 1000: acc=0.5084
+    R2 step 1000: acc=0.5084
+    R2 step 1500: acc=0.5109
+    R2 step 1500: acc=0.5109
+      Post-GD+CL: acc=0.5109, crystal=0.9450
+      Post-GD+CL: acc=0.5109, crystal=0.9450
+      Evo: ok=0 flr=0 cry=3 acc=197
+      Evo: ok=0 flr=0 cry=3 acc=197
+      Post-evo: acc=0.5109, crystal=0.9450, sign_agr=1.0000
+      Post-evo: acc=0.5109, crystal=0.9450, sign_agr=1.0000
+
+    R3:
+
+    R3:
+    R3 step 500: acc=0.5195
+    R3 step 500: acc=0.5195
+    R3 step 1000: acc=0.5282
+    R3 step 1000: acc=0.5282
+    R3 step 1500: acc=0.5257
+    R3 step 1500: acc=0.5257
+      Post-GD+CL: acc=0.5257, crystal=0.9994
+      Post-GD+CL: acc=0.5257, crystal=0.9994
+      Evo: ok=2 flr=0 cry=1 acc=197
+      Evo: ok=2 flr=0 cry=1 acc=197
+      Post-evo: acc=0.5287, crystal=0.9998, sign_agr=0.9999
+      Post-evo: acc=0.5287, crystal=0.9998, sign_agr=0.9999
+
+    R4:
+
+    R4:
+    R4 step 500: acc=0.5136
+    R4 step 500: acc=0.5136
+    R4 step 1000: acc=0.5296
+    R4 step 1000: acc=0.5296
+    R4 step 1500: acc=0.5549
+    R4 step 1500: acc=0.5549
+      Post-GD+CL: acc=0.5549, crystal=0.4991
+      Post-GD+CL: acc=0.5549, crystal=0.4991
+      Evo: ok=2 flr=0 cry=0 acc=198
+      Evo: ok=2 flr=0 cry=0 acc=198
+      Post-evo: acc=0.5577, crystal=0.5157, sign_agr=0.9999
+      Post-evo: acc=0.5577, crystal=0.5157, sign_agr=0.9999
+
+    R5:
+
+    R5:
+    R5 step 500: acc=0.5341
+    R5 step 500: acc=0.5341
+    R5 step 1000: acc=0.5515
+    R5 step 1000: acc=0.5515
+    R5 step 1500: acc=0.5658
+    R5 step 1500: acc=0.5658
+      Post-GD+CL: acc=0.5658, crystal=0.9768
+      Post-GD+CL: acc=0.5658, crystal=0.9768
+      Evo: ok=0 flr=0 cry=4 acc=196
+      Evo: ok=0 flr=0 cry=4 acc=196
+      Post-evo: acc=0.5658, crystal=0.9768, sign_agr=0.9999
+      Post-evo: acc=0.5658, crystal=0.9768, sign_agr=0.9999
+
+    R6:
+
+    R6:
+    R6 step 500: acc=0.5499
+    R6 step 500: acc=0.5499
+    R6 step 1000: acc=0.5655
+    R6 step 1000: acc=0.5655
+    R6 step 1500: acc=0.5617
+    R6 step 1500: acc=0.5617
+      Post-GD+CL: acc=0.5617, crystal=0.9397
+      Post-GD+CL: acc=0.5617, crystal=0.9397
+      Evo: ok=3 flr=0 cry=3 acc=194
+      Evo: ok=3 flr=0 cry=3 acc=194
+      Post-evo: acc=0.5681, crystal=0.9573, sign_agr=0.9999
+      Post-evo: acc=0.5681, crystal=0.9573, sign_agr=0.9999
+
+    R7:
+
+    R7:
+    R7 step 500: acc=0.5521
+    R7 step 500: acc=0.5521
+    R7 step 1000: acc=0.5658
+    R7 step 1000: acc=0.5658
+    R7 step 1500: acc=0.5795
+    R7 step 1500: acc=0.5795
+      Post-GD+CL: acc=0.5795, crystal=0.9268
+      Post-GD+CL: acc=0.5795, crystal=0.9268
+      Evo: ok=2 flr=0 cry=5 acc=193
+      Evo: ok=2 flr=0 cry=5 acc=193
+      Post-evo: acc=0.5841, crystal=0.9339, sign_agr=0.9999
+      Post-evo: acc=0.5841, crystal=0.9339, sign_agr=0.9999
+
+    R8:
+
+    R8:
+    R8 step 500: acc=0.5558
+    R8 step 500: acc=0.5558
+    R8 step 1000: acc=0.5470
+    R8 step 1000: acc=0.5470
+    R8 step 1500: acc=0.5821
+    R8 step 1500: acc=0.5821
+      Post-GD+CL: acc=0.5821, crystal=0.9006
+      Post-GD+CL: acc=0.5821, crystal=0.9006
+      Evo: ok=1 flr=0 cry=6 acc=193
+      Evo: ok=1 flr=0 cry=6 acc=193
+      Post-evo: acc=0.5832, crystal=0.9090, sign_agr=0.9999
+      Post-evo: acc=0.5832, crystal=0.9090, sign_agr=0.9999
+
+    R9:
+
+    R9:
+    R9 step 500: acc=0.5550
+    R9 step 500: acc=0.5550
+    R9 step 1000: acc=0.5982
+    R9 step 1000: acc=0.5982
+    R9 step 1500: acc=0.5872
+    R9 step 1500: acc=0.5872
+      Post-GD+CL: acc=0.5872, crystal=0.8677
+      Post-GD+CL: acc=0.5872, crystal=0.8677
+      Evo: ok=2 flr=0 cry=2 acc=196
+      Evo: ok=2 flr=0 cry=2 acc=196
+      Post-evo: acc=0.5898, crystal=0.8790, sign_agr=0.9999
+      Post-evo: acc=0.5898, crystal=0.8790, sign_agr=0.9999
+
+    R10:
+
+    R10:
+    R10 step 500: acc=0.5779
+    R10 step 500: acc=0.5779
+    R10 step 1000: acc=0.5917
+    R10 step 1000: acc=0.5917
+    R10 step 1500: acc=0.5862
+    R10 step 1500: acc=0.5862
+      Post-GD+CL: acc=0.5862, crystal=0.9573
+      Post-GD+CL: acc=0.5862, crystal=0.9573
+      Evo: ok=2 flr=0 cry=3 acc=195
+      Evo: ok=2 flr=0 cry=3 acc=195
+      Post-evo: acc=0.5893, crystal=0.9642, sign_agr=0.9999
+      Post-evo: acc=0.5893, crystal=0.9642, sign_agr=0.9999
+
+    R11:
+
+    R11:
+    R11 step 500: acc=0.5831
+    R11 step 500: acc=0.5831
+    R11 step 1000: acc=0.5859
+    R11 step 1000: acc=0.5859
+    R11 step 1500: acc=0.5989
+    R11 step 1500: acc=0.5989
+      Post-GD+CL: acc=0.5989, crystal=0.5628
+      Post-GD+CL: acc=0.5989, crystal=0.5628
+      Evo: ok=2 flr=0 cry=0 acc=198
+      Evo: ok=2 flr=0 cry=0 acc=198
+      Post-evo: acc=0.6016, crystal=0.5651, sign_agr=0.9999
+      Post-evo: acc=0.6016, crystal=0.5651, sign_agr=0.9999
+
+    R12:
+
+    R12:
+    R12 step 500: acc=0.5645
+    R12 step 500: acc=0.5645
+    R12 step 1000: acc=0.5921
+    R12 step 1000: acc=0.5921
+    R12 step 1500: acc=0.5887
+    R12 step 1500: acc=0.5887
+      Post-GD+CL: acc=0.5887, crystal=0.6514
+      Post-GD+CL: acc=0.5887, crystal=0.6514

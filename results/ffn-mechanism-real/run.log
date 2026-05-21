@@ -1,0 +1,781 @@
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+  FFN Mechanism Probe — Qwen3-14B (Real Model)
+  FFN Mechanism Probe — Qwen3-14B (Real Model)
+  Session 127 — Discovering beta reduction in FFN
+  Session 127 — Discovering beta reduction in FFN
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-14B...
+  Loading Qwen/Qwen3-14B...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<04:21,  1.69it/s]Loading weights:   0%|          | 2/443 [00:00<02:23,  3.08it/s]Loading weights:   5%|▌         | 23/443 [00:00<00:09, 45.45it/s]Loading weights:   9%|▉         | 39/443 [00:00<00:05, 71.09it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:03, 104.59it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:02, 129.80it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 147.80it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:01, 164.00it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 172.79it/s]Loading weights:  38%|███▊      | 170/443 [00:01<00:01, 178.97it/s]Loading weights:  43%|████▎     | 191/443 [00:01<00:01, 187.42it/s]Loading weights:  48%|████▊     | 213/443 [00:01<00:01, 189.26it/s]Loading weights:  53%|█████▎    | 233/443 [00:01<00:01, 191.29it/s]Loading weights:  57%|█████▋    | 253/443 [00:02<00:01, 179.97it/s]Loading weights:  61%|██████▏   | 272/443 [00:02<00:00, 177.27it/s]Loading weights:  66%|██████▌   | 292/443 [00:02<00:00, 176.70it/s]Loading weights:  71%|███████   | 314/443 [00:02<00:00, 182.49it/s]Loading weights:  76%|███████▌  | 335/443 [00:02<00:00, 189.61it/s]Loading weights:  81%|████████  | 357/443 [00:02<00:00, 191.74it/s]Loading weights:  86%|████████▌ | 379/443 [00:02<00:00, 192.72it/s]Loading weights:  91%|█████████ | 401/443 [00:02<00:00, 193.35it/s]Loading weights:  95%|█████████▌| 422/443 [00:02<00:00, 197.59it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 146.87it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Loaded in 4.8s
+  Loaded in 4.8s
+
+═══ Generating minimal-pair probes ═══
+
+═══ Generating minimal-pair probes ═══
+  Single-reduction pairs: 80
+  Single-reduction pairs: 80
+    B: 18
+    B: 18
+    C: 18
+    C: 18
+    I: 5
+    I: 5
+    K: 20
+    K: 20
+    S: 4
+    S: 4
+    beta_K: 6
+    beta_K: 6
+    beta_apply: 6
+    beta_apply: 6
+    beta_identity: 3
+    beta_identity: 3
+  Nested chain pairs: 17
+  Nested chain pairs: 17
+
+═══ Experiment 1: FFN Reduction Signatures ═══
+
+═══ Experiment 1: FFN Reduction Signatures ═══
+
+  B: 18 pairs
+
+  B: 18 pairs
+    (sampled 15 for speed)
+    (sampled 15 for speed)
+    5/15 pairs done
+    5/15 pairs done
+    10/15 pairs done
+    10/15 pairs done
+    15/15 pairs done
+    15/15 pairs done
+
+  C: 18 pairs
+
+  C: 18 pairs
+    (sampled 15 for speed)
+    (sampled 15 for speed)
+    5/15 pairs done
+    5/15 pairs done
+    10/15 pairs done
+    10/15 pairs done
+    15/15 pairs done
+    15/15 pairs done
+
+  I: 5 pairs
+
+  I: 5 pairs
+    5/5 pairs done
+    5/5 pairs done
+
+  K: 20 pairs
+
+  K: 20 pairs
+    (sampled 15 for speed)
+    (sampled 15 for speed)
+    5/15 pairs done
+    5/15 pairs done
+    10/15 pairs done
+    10/15 pairs done
+    15/15 pairs done
+    15/15 pairs done
+
+  S: 4 pairs
+
+  S: 4 pairs
+
+  beta_K: 6 pairs
+
+  beta_K: 6 pairs
+    5/6 pairs done
+    5/6 pairs done
+
+  beta_apply: 6 pairs
+
+  beta_apply: 6 pairs
+    5/6 pairs done
+    5/6 pairs done
+
+  beta_identity: 3 pairs
+
+  beta_identity: 3 pairs
+
+  B reduction FFN deltas:
+
+  B reduction FFN deltas:
+    L 0: norm=2.9243 cos=0.964 n=15
+    L 0: norm=2.9243 cos=0.964 n=15
+    L 4: norm=2.5872 cos=0.840 n=15
+    L 4: norm=2.5872 cos=0.840 n=15
+    L 8: norm=10.3651 cos=0.881 n=15
+    L 8: norm=10.3651 cos=0.881 n=15
+    L12: norm=19.8250 cos=0.874 n=15
+    L12: norm=19.8250 cos=0.874 n=15
+    L16: norm=24.0487 cos=0.877 n=15
+    L16: norm=24.0487 cos=0.877 n=15
+    L20: norm=29.0948 cos=0.862 n=15
+    L20: norm=29.0948 cos=0.862 n=15
+    L24: norm=43.5888 cos=0.888 n=15
+    L24: norm=43.5888 cos=0.888 n=15
+    L28: norm=69.8913 cos=0.880 n=15
+    L28: norm=69.8913 cos=0.880 n=15
+    L32: norm=116.4674 cos=0.825 n=15
+    L32: norm=116.4674 cos=0.825 n=15
+    L36: norm=133.5475 cos=0.724 n=15
+    L36: norm=133.5475 cos=0.724 n=15
+    L39: norm=241.4009 cos=0.729 n=15
+    L39: norm=241.4009 cos=0.729 n=15
+
+  C reduction FFN deltas:
+
+  C reduction FFN deltas:
+    L 0: norm=0.4267 cos=0.167 n=15
+    L 0: norm=0.4267 cos=0.167 n=15
+    L 4: norm=1.8963 cos=0.673 n=15
+    L 4: norm=1.8963 cos=0.673 n=15
+    L 8: norm=7.1210 cos=0.707 n=15
+    L 8: norm=7.1210 cos=0.707 n=15
+    L12: norm=14.7251 cos=0.673 n=15
+    L12: norm=14.7251 cos=0.673 n=15
+    L16: norm=17.8781 cos=0.692 n=15
+    L16: norm=17.8781 cos=0.692 n=15
+    L20: norm=23.2506 cos=0.694 n=15
+    L20: norm=23.2506 cos=0.694 n=15
+    L24: norm=29.5609 cos=0.675 n=15
+    L24: norm=29.5609 cos=0.675 n=15
+    L28: norm=50.4224 cos=0.682 n=15
+    L28: norm=50.4224 cos=0.682 n=15
+    L32: norm=112.9519 cos=0.730 n=15
+    L32: norm=112.9519 cos=0.730 n=15
+    L36: norm=128.0059 cos=0.651 n=15
+    L36: norm=128.0059 cos=0.651 n=15
+    L39: norm=296.5687 cos=0.666 n=15
+    L39: norm=296.5687 cos=0.666 n=15
+
+  I reduction FFN deltas:
+
+  I reduction FFN deltas:
+    L 0: norm=0.9536 cos=0.590 n=5
+    L 0: norm=0.9536 cos=0.590 n=5
+    L 4: norm=3.8044 cos=0.820 n=5
+    L 4: norm=3.8044 cos=0.820 n=5
+    L 8: norm=12.2158 cos=0.788 n=5
+    L 8: norm=12.2158 cos=0.788 n=5
+    L12: norm=26.5799 cos=0.759 n=5
+    L12: norm=26.5799 cos=0.759 n=5
+    L16: norm=24.2346 cos=0.731 n=5
+    L16: norm=24.2346 cos=0.731 n=5
+    L20: norm=28.2126 cos=0.725 n=5
+    L20: norm=28.2126 cos=0.725 n=5
+    L24: norm=34.0150 cos=0.701 n=5
+    L24: norm=34.0150 cos=0.701 n=5
+    L28: norm=67.9407 cos=0.716 n=5
+    L28: norm=67.9407 cos=0.716 n=5
+    L32: norm=143.6706 cos=0.725 n=5
+    L32: norm=143.6706 cos=0.725 n=5
+    L36: norm=169.3048 cos=0.675 n=5
+    L36: norm=169.3048 cos=0.675 n=5
+    L39: norm=328.8627 cos=0.430 n=5
+    L39: norm=328.8627 cos=0.430 n=5
+
+  K reduction FFN deltas:
+
+  K reduction FFN deltas:
+    L 0: norm=1.3750 cos=0.553 n=15
+    L 0: norm=1.3750 cos=0.553 n=15
+    L 4: norm=4.4808 cos=0.819 n=15
+    L 4: norm=4.4808 cos=0.819 n=15
+    L 8: norm=13.6650 cos=0.716 n=15
+    L 8: norm=13.6650 cos=0.716 n=15
+    L12: norm=26.3584 cos=0.768 n=15
+    L12: norm=26.3584 cos=0.768 n=15
+    L16: norm=27.8474 cos=0.803 n=15
+    L16: norm=27.8474 cos=0.803 n=15
+    L20: norm=32.2357 cos=0.789 n=15
+    L20: norm=32.2357 cos=0.789 n=15
+    L24: norm=57.6946 cos=0.880 n=15
+    L24: norm=57.6946 cos=0.880 n=15
+    L28: norm=84.4691 cos=0.833 n=15
+    L28: norm=84.4691 cos=0.833 n=15
+    L32: norm=164.8826 cos=0.797 n=15
+    L32: norm=164.8826 cos=0.797 n=15
+    L36: norm=195.6883 cos=0.760 n=15
+    L36: norm=195.6883 cos=0.760 n=15
+    L39: norm=500.8304 cos=0.821 n=15
+    L39: norm=500.8304 cos=0.821 n=15
+
+  S reduction FFN deltas:
+
+  S reduction FFN deltas:
+    L 0: norm=2.9772 cos=0.966 n=4
+    L 0: norm=2.9772 cos=0.966 n=4
+    L 4: norm=2.4720 cos=0.869 n=4
+    L 4: norm=2.4720 cos=0.869 n=4
+    L 8: norm=9.4405 cos=0.898 n=4
+    L 8: norm=9.4405 cos=0.898 n=4
+    L12: norm=18.7540 cos=0.884 n=4
+    L12: norm=18.7540 cos=0.884 n=4
+    L16: norm=22.6995 cos=0.869 n=4
+    L16: norm=22.6995 cos=0.869 n=4
+    L20: norm=30.3843 cos=0.854 n=4
+    L20: norm=30.3843 cos=0.854 n=4
+    L24: norm=66.8771 cos=0.922 n=4
+    L24: norm=66.8771 cos=0.922 n=4
+    L28: norm=91.5549 cos=0.904 n=4
+    L28: norm=91.5549 cos=0.904 n=4
+    L32: norm=152.2906 cos=0.880 n=4
+    L32: norm=152.2906 cos=0.880 n=4
+    L36: norm=195.9185 cos=0.817 n=4
+    L36: norm=195.9185 cos=0.817 n=4
+    L39: norm=545.8565 cos=0.861 n=4
+    L39: norm=545.8565 cos=0.861 n=4
+
+  beta_K reduction FFN deltas:
+
+  beta_K reduction FFN deltas:
+    L 0: norm=2.0718 cos=0.845 n=6
+    L 0: norm=2.0718 cos=0.845 n=6
+    L 4: norm=4.5923 cos=0.896 n=6
+    L 4: norm=4.5923 cos=0.896 n=6
+    L 8: norm=14.1177 cos=0.810 n=6
+    L 8: norm=14.1177 cos=0.810 n=6
+    L12: norm=26.8430 cos=0.839 n=6
+    L12: norm=26.8430 cos=0.839 n=6
+    L16: norm=31.8470 cos=0.890 n=6
+    L16: norm=31.8470 cos=0.890 n=6
+    L20: norm=36.1332 cos=0.886 n=6
+    L20: norm=36.1332 cos=0.886 n=6
+    L24: norm=47.5994 cos=0.893 n=6
+    L24: norm=47.5994 cos=0.893 n=6
+    L28: norm=87.0180 cos=0.881 n=6
+    L28: norm=87.0180 cos=0.881 n=6
+    L32: norm=193.9015 cos=0.884 n=6
+    L32: norm=193.9015 cos=0.884 n=6
+    L36: norm=228.0311 cos=0.883 n=6
+    L36: norm=228.0311 cos=0.883 n=6
+    L39: norm=601.3329 cos=0.946 n=6
+    L39: norm=601.3329 cos=0.946 n=6
+
+  beta_apply reduction FFN deltas:
+
+  beta_apply reduction FFN deltas:
+    L 0: norm=1.6581 cos=0.975 n=6
+    L 0: norm=1.6581 cos=0.975 n=6
+    L 4: norm=4.1894 cos=0.899 n=6
+    L 4: norm=4.1894 cos=0.899 n=6
+    L 8: norm=10.7212 cos=0.872 n=6
+    L 8: norm=10.7212 cos=0.872 n=6
+    L12: norm=23.6561 cos=0.866 n=6
+    L12: norm=23.6561 cos=0.866 n=6
+    L16: norm=29.7285 cos=0.880 n=6
+    L16: norm=29.7285 cos=0.880 n=6
+    L20: norm=36.2598 cos=0.892 n=6
+    L20: norm=36.2598 cos=0.892 n=6
+    L24: norm=50.6712 cos=0.908 n=6
+    L24: norm=50.6712 cos=0.908 n=6
+    L28: norm=83.2240 cos=0.911 n=6
+    L28: norm=83.2240 cos=0.911 n=6
+    L32: norm=173.4504 cos=0.877 n=6
+    L32: norm=173.4504 cos=0.877 n=6
+    L36: norm=229.1078 cos=0.886 n=6
+    L36: norm=229.1078 cos=0.886 n=6
+    L39: norm=407.5341 cos=0.755 n=6
+    L39: norm=407.5341 cos=0.755 n=6
+
+  beta_identity reduction FFN deltas:
+
+  beta_identity reduction FFN deltas:
+    L 0: norm=1.8420 cos=0.912 n=3
+    L 0: norm=1.8420 cos=0.912 n=3
+    L 4: norm=4.3547 cos=0.914 n=3
+    L 4: norm=4.3547 cos=0.914 n=3
+    L 8: norm=12.3772 cos=0.778 n=3
+    L 8: norm=12.3772 cos=0.778 n=3
+    L12: norm=26.3431 cos=0.794 n=3
+    L12: norm=26.3431 cos=0.794 n=3
+    L16: norm=31.1351 cos=0.854 n=3
+    L16: norm=31.1351 cos=0.854 n=3
+    L20: norm=36.2410 cos=0.861 n=3
+    L20: norm=36.2410 cos=0.861 n=3
+    L24: norm=46.9625 cos=0.847 n=3
+    L24: norm=46.9625 cos=0.847 n=3
+    L28: norm=82.9165 cos=0.828 n=3
+    L28: norm=82.9165 cos=0.828 n=3
+    L32: norm=179.3617 cos=0.829 n=3
+    L32: norm=179.3617 cos=0.829 n=3
+    L36: norm=220.8492 cos=0.832 n=3
+    L36: norm=220.8492 cos=0.832 n=3
+    L39: norm=578.1515 cos=0.923 n=3
+    L39: norm=578.1515 cos=0.923 n=3
+
+═══ Key vs Value Separation ═══
+
+═══ Key vs Value Separation ═══
+
+  B: 15 argument variations
+
+  B: 15 argument variations
+    L 0: key_frac=0.983 key_norm=2.9243 total=2.9752
+    L 0: key_frac=0.983 key_norm=2.9243 total=2.9752
+    L 4: key_frac=0.922 key_norm=2.5872 total=2.8055
+    L 4: key_frac=0.922 key_norm=2.5872 total=2.8055
+    L 8: key_frac=0.943 key_norm=10.3651 total=10.9925
+    L 8: key_frac=0.943 key_norm=10.3651 total=10.9925
+    L12: key_frac=0.940 key_norm=19.8250 total=21.0989
+    L12: key_frac=0.940 key_norm=19.8250 total=21.0989
+    L16: key_frac=0.941 key_norm=24.0487 total=25.5585
+    L16: key_frac=0.941 key_norm=24.0487 total=25.5585
+    L20: key_frac=0.934 key_norm=29.0948 total=31.1604
+    L20: key_frac=0.934 key_norm=29.0948 total=31.1604
+    L24: key_frac=0.947 key_norm=43.5888 total=46.0397
+    L24: key_frac=0.947 key_norm=43.5888 total=46.0397
+    L28: key_frac=0.943 key_norm=69.8913 total=74.1324
+    L28: key_frac=0.943 key_norm=69.8913 total=74.1324
+    L32: key_frac=0.916 key_norm=116.4674 total=127.2170
+    L32: key_frac=0.916 key_norm=116.4674 total=127.2170
+    L36: key_frac=0.864 key_norm=133.5475 total=154.5553
+    L36: key_frac=0.864 key_norm=133.5475 total=154.5553
+    L39: key_frac=0.861 key_norm=241.4009 total=280.2642
+    L39: key_frac=0.861 key_norm=241.4009 total=280.2642
+
+  C: 15 argument variations
+
+  C: 15 argument variations
+    L 0: key_frac=0.463 key_norm=0.4267 total=0.9210
+    L 0: key_frac=0.463 key_norm=0.4267 total=0.9210
+    L 4: key_frac=0.840 key_norm=1.8963 total=2.2576
+    L 4: key_frac=0.840 key_norm=1.8963 total=2.2576
+    L 8: key_frac=0.856 key_norm=7.1210 total=8.3182
+    L 8: key_frac=0.856 key_norm=7.1210 total=8.3182
+    L12: key_frac=0.837 key_norm=14.7251 total=17.6004
+    L12: key_frac=0.837 key_norm=14.7251 total=17.6004
+    L16: key_frac=0.847 key_norm=17.8781 total=21.1068
+    L16: key_frac=0.847 key_norm=17.8781 total=21.1068
+    L20: key_frac=0.846 key_norm=23.2506 total=27.4818
+    L20: key_frac=0.846 key_norm=23.2506 total=27.4818
+    L24: key_frac=0.838 key_norm=29.5609 total=35.2774
+    L24: key_frac=0.838 key_norm=29.5609 total=35.2774
+    L28: key_frac=0.842 key_norm=50.4224 total=59.9117
+    L28: key_frac=0.842 key_norm=50.4224 total=59.9117
+    L32: key_frac=0.868 key_norm=112.9519 total=130.1353
+    L32: key_frac=0.868 key_norm=112.9519 total=130.1353
+    L36: key_frac=0.825 key_norm=128.0059 total=155.2427
+    L36: key_frac=0.825 key_norm=128.0059 total=155.2427
+    L39: key_frac=0.840 key_norm=296.5687 total=353.1828
+    L39: key_frac=0.840 key_norm=296.5687 total=353.1828
+
+  I: 5 argument variations
+
+  I: 5 argument variations
+    L 0: key_frac=0.803 key_norm=0.9536 total=1.1878
+    L 0: key_frac=0.803 key_norm=0.9536 total=1.1878
+    L 4: key_frac=0.925 key_norm=3.8044 total=4.1126
+    L 4: key_frac=0.925 key_norm=3.8044 total=4.1126
+    L 8: key_frac=0.912 key_norm=12.2158 total=13.3980
+    L 8: key_frac=0.912 key_norm=12.2158 total=13.3980
+    L12: key_frac=0.899 key_norm=26.5799 total=29.5725
+    L12: key_frac=0.899 key_norm=26.5799 total=29.5725
+    L16: key_frac=0.887 key_norm=24.2346 total=27.3249
+    L16: key_frac=0.887 key_norm=24.2346 total=27.3249
+    L20: key_frac=0.885 key_norm=28.2126 total=31.8815
+    L20: key_frac=0.885 key_norm=28.2126 total=31.8815
+    L24: key_frac=0.873 key_norm=34.0150 total=38.9762
+    L24: key_frac=0.873 key_norm=34.0150 total=38.9762
+    L28: key_frac=0.879 key_norm=67.9407 total=77.2864
+    L28: key_frac=0.879 key_norm=67.9407 total=77.2864
+    L32: key_frac=0.884 key_norm=143.6706 total=162.4356
+    L32: key_frac=0.884 key_norm=143.6706 total=162.4356
+    L36: key_frac=0.860 key_norm=169.3048 total=196.8133
+    L36: key_frac=0.860 key_norm=169.3048 total=196.8133
+    L39: key_frac=0.743 key_norm=328.8627 total=442.4214
+    L39: key_frac=0.743 key_norm=328.8627 total=442.4214
+
+  K: 15 argument variations
+
+  K: 15 argument variations
+    L 0: key_frac=0.744 key_norm=1.3750 total=1.8490
+    L 0: key_frac=0.744 key_norm=1.3750 total=1.8490
+    L 4: key_frac=0.910 key_norm=4.4808 total=4.9222
+    L 4: key_frac=0.910 key_norm=4.4808 total=4.9222
+    L 8: key_frac=0.856 key_norm=13.6650 total=15.9675
+    L 8: key_frac=0.856 key_norm=13.6650 total=15.9675
+    L12: key_frac=0.885 key_norm=26.3584 total=29.7939
+    L12: key_frac=0.885 key_norm=26.3584 total=29.7939
+    L16: key_frac=0.903 key_norm=27.8474 total=30.8225
+    L16: key_frac=0.903 key_norm=27.8474 total=30.8225
+    L20: key_frac=0.897 key_norm=32.2357 total=35.9508
+    L20: key_frac=0.897 key_norm=32.2357 total=35.9508
+    L24: key_frac=0.944 key_norm=57.6946 total=61.1281
+    L24: key_frac=0.944 key_norm=57.6946 total=61.1281
+    L28: key_frac=0.919 key_norm=84.4691 total=91.9309
+    L28: key_frac=0.919 key_norm=84.4691 total=91.9309
+    L32: key_frac=0.901 key_norm=164.8826 total=182.9981
+    L32: key_frac=0.901 key_norm=164.8826 total=182.9981
+    L36: key_frac=0.882 key_norm=195.6883 total=221.9391
+    L36: key_frac=0.882 key_norm=195.6883 total=221.9391
+    L39: key_frac=0.917 key_norm=500.8304 total=545.8880
+    L39: key_frac=0.917 key_norm=500.8304 total=545.8880
+
+  S: 4 argument variations
+
+  S: 4 argument variations
+    L 0: key_frac=0.987 key_norm=2.9772 total=3.0161
+    L 0: key_frac=0.987 key_norm=2.9772 total=3.0161
+    L 4: key_frac=0.950 key_norm=2.4720 total=2.6034
+    L 4: key_frac=0.950 key_norm=2.4720 total=2.6034
+    L 8: key_frac=0.961 key_norm=9.4405 total=9.8253
+    L 8: key_frac=0.961 key_norm=9.4405 total=9.8253
+    L12: key_frac=0.955 key_norm=18.7540 total=19.6279
+    L12: key_frac=0.955 key_norm=18.7540 total=19.6279
+    L16: key_frac=0.949 key_norm=22.6995 total=23.9070
+    L16: key_frac=0.949 key_norm=22.6995 total=23.9070
+    L20: key_frac=0.944 key_norm=30.3843 total=32.1954
+    L20: key_frac=0.944 key_norm=30.3843 total=32.1954
+    L24: key_frac=0.971 key_norm=66.8771 total=68.9085
+    L24: key_frac=0.971 key_norm=66.8771 total=68.9085
+    L28: key_frac=0.963 key_norm=91.5549 total=95.0382
+    L28: key_frac=0.963 key_norm=91.5549 total=95.0382
+    L32: key_frac=0.954 key_norm=152.2906 total=159.6415
+    L32: key_frac=0.954 key_norm=152.2906 total=159.6415
+    L36: key_frac=0.929 key_norm=195.9185 total=210.9091
+    L36: key_frac=0.929 key_norm=195.9185 total=210.9091
+    L39: key_frac=0.952 key_norm=545.8565 total=573.1169
+    L39: key_frac=0.952 key_norm=545.8565 total=573.1169
+
+  beta_K: 6 argument variations
+
+  beta_K: 6 argument variations
+    L 0: key_frac=0.932 key_norm=2.0718 total=2.2219
+    L 0: key_frac=0.932 key_norm=2.0718 total=2.2219
+    L 4: key_frac=0.956 key_norm=4.5923 total=4.8045
+    L 4: key_frac=0.956 key_norm=4.5923 total=4.8045
+    L 8: key_frac=0.918 key_norm=14.1177 total=15.3852
+    L 8: key_frac=0.918 key_norm=14.1177 total=15.3852
+    L12: key_frac=0.931 key_norm=26.8430 total=28.8402
+    L12: key_frac=0.931 key_norm=26.8430 total=28.8402
+    L16: key_frac=0.953 key_norm=31.8470 total=33.4177
+    L16: key_frac=0.953 key_norm=31.8470 total=33.4177
+    L20: key_frac=0.952 key_norm=36.1332 total=37.9722
+    L20: key_frac=0.952 key_norm=36.1332 total=37.9722
+    L24: key_frac=0.954 key_norm=47.5994 total=49.8770
+    L24: key_frac=0.954 key_norm=47.5994 total=49.8770
+    L28: key_frac=0.949 key_norm=87.0180 total=91.6950
+    L28: key_frac=0.949 key_norm=87.0180 total=91.6950
+    L32: key_frac=0.951 key_norm=193.9015 total=203.9672
+    L32: key_frac=0.951 key_norm=193.9015 total=203.9672
+    L36: key_frac=0.950 key_norm=228.0311 total=239.9568
+    L36: key_frac=0.950 key_norm=228.0311 total=239.9568
+    L39: key_frac=0.977 key_norm=601.3329 total=615.3174
+    L39: key_frac=0.977 key_norm=601.3329 total=615.3174
+
+  beta_apply: 6 argument variations
+
+  beta_apply: 6 argument variations
+    L 0: key_frac=0.989 key_norm=1.6581 total=1.6760
+    L 0: key_frac=0.989 key_norm=1.6581 total=1.6760
+    L 4: key_frac=0.958 key_norm=4.1894 total=4.3731
+    L 4: key_frac=0.958 key_norm=4.1894 total=4.3731
+    L 8: key_frac=0.946 key_norm=10.7212 total=11.3364
+    L 8: key_frac=0.946 key_norm=10.7212 total=11.3364
+    L12: key_frac=0.942 key_norm=23.6561 total=25.1034
+    L12: key_frac=0.942 key_norm=23.6561 total=25.1034
+    L16: key_frac=0.948 key_norm=29.7285 total=31.3460
+    L16: key_frac=0.948 key_norm=29.7285 total=31.3460
+    L20: key_frac=0.954 key_norm=36.2598 total=38.0149
+    L20: key_frac=0.954 key_norm=36.2598 total=38.0149
+    L24: key_frac=0.961 key_norm=50.6712 total=52.7460
+    L24: key_frac=0.961 key_norm=50.6712 total=52.7460
+    L28: key_frac=0.962 key_norm=83.2240 total=86.5074
+    L28: key_frac=0.962 key_norm=83.2240 total=86.5074
+    L32: key_frac=0.947 key_norm=173.4504 total=183.1124
+    L32: key_frac=0.947 key_norm=173.4504 total=183.1124
+    L36: key_frac=0.951 key_norm=229.1078 total=240.8150
+    L36: key_frac=0.951 key_norm=229.1078 total=240.8150
+    L39: key_frac=0.892 key_norm=407.5341 total=457.0592
+    L39: key_frac=0.892 key_norm=407.5341 total=457.0592
+
+  beta_identity: 3 argument variations
+
+  beta_identity: 3 argument variations
+    L 0: key_frac=0.970 key_norm=1.8420 total=1.8982
+    L 0: key_frac=0.970 key_norm=1.8420 total=1.8982
+    L 4: key_frac=0.972 key_norm=4.3547 total=4.4821
+    L 4: key_frac=0.972 key_norm=4.3547 total=4.4821
+    L 8: key_frac=0.923 key_norm=12.3772 total=13.4090
+    L 8: key_frac=0.923 key_norm=12.3772 total=13.4090
+    L12: key_frac=0.928 key_norm=26.3431 total=28.3829
+    L12: key_frac=0.928 key_norm=26.3431 total=28.3829
+    L16: key_frac=0.950 key_norm=31.1351 total=32.7738
+    L16: key_frac=0.950 key_norm=31.1351 total=32.7738
+    L20: key_frac=0.953 key_norm=36.2410 total=38.0389
+    L20: key_frac=0.953 key_norm=36.2410 total=38.0389
+    L24: key_frac=0.948 key_norm=46.9625 total=49.5530
+    L24: key_frac=0.948 key_norm=46.9625 total=49.5530
+    L28: key_frac=0.941 key_norm=82.9165 total=88.1396
+    L28: key_frac=0.941 key_norm=82.9165 total=88.1396
+    L32: key_frac=0.942 key_norm=179.3617 total=190.4255
+    L32: key_frac=0.942 key_norm=179.3617 total=190.4255
+    L36: key_frac=0.943 key_norm=220.8492 total=234.2287
+    L36: key_frac=0.943 key_norm=220.8492 total=234.2287
+    L39: key_frac=0.974 key_norm=578.1515 total=593.4058
+    L39: key_frac=0.974 key_norm=578.1515 total=593.4058
+
+═══ Cross-Combinator FFN Delta Comparison ═══
+
+═══ Cross-Combinator FFN Delta Comparison ═══
+
+  L 0 cross-combinator cosine:
+
+  L 0 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000   -0.099    0.277    0.145    0.992   -0.200   -0.512   -0.270
+           B    1.000   -0.099    0.277    0.145    0.992   -0.200   -0.512   -0.270
+           C   -0.099    1.000    0.179    0.570   -0.148    0.612    0.632    0.573
+           C   -0.099    1.000    0.179    0.570   -0.148    0.612    0.632    0.573
+           I    0.277    0.179    1.000    0.712    0.259    0.498    0.058    0.511
+           I    0.277    0.179    1.000    0.712    0.259    0.498    0.058    0.511
+           K    0.145    0.570    0.712    1.000    0.108    0.764    0.430    0.744
+           K    0.145    0.570    0.712    1.000    0.108    0.764    0.430    0.744
+           S    0.992   -0.148    0.259    0.108    1.000   -0.246   -0.551   -0.312
+           S    0.992   -0.148    0.259    0.108    1.000   -0.246   -0.551   -0.312
+      beta_K   -0.200    0.612    0.498    0.764   -0.246    1.000    0.837    0.974
+      beta_K   -0.200    0.612    0.498    0.764   -0.246    1.000    0.837    0.974
+    beta_apply   -0.512    0.632    0.058    0.430   -0.551    0.837    1.000    0.843
+    beta_apply   -0.512    0.632    0.058    0.430   -0.551    0.837    1.000    0.843
+    beta_identity   -0.270    0.573    0.511    0.744   -0.312    0.974    0.843    1.000
+    beta_identity   -0.270    0.573    0.511    0.744   -0.312    0.974    0.843    1.000
+
+  L 4 cross-combinator cosine:
+
+  L 4 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000   -0.192    0.018    0.042    0.920   -0.149   -0.390   -0.286
+           B    1.000   -0.192    0.018    0.042    0.920   -0.149   -0.390   -0.286
+           C   -0.192    1.000   -0.330   -0.317   -0.234    0.028    0.750    0.152
+           C   -0.192    1.000   -0.330   -0.317   -0.234    0.028    0.750    0.152
+           I    0.018   -0.330    1.000    0.819    0.086    0.526   -0.341    0.475
+           I    0.018   -0.330    1.000    0.819    0.086    0.526   -0.341    0.475
+           K    0.042   -0.317    0.819    1.000    0.012    0.787   -0.166    0.704
+           K    0.042   -0.317    0.819    1.000    0.012    0.787   -0.166    0.704
+           S    0.920   -0.234    0.086    0.012    1.000   -0.246   -0.487   -0.354
+           S    0.920   -0.234    0.086    0.012    1.000   -0.246   -0.487   -0.354
+      beta_K   -0.149    0.028    0.526    0.787   -0.246    1.000    0.387    0.962
+      beta_K   -0.149    0.028    0.526    0.787   -0.246    1.000    0.387    0.962
+    beta_apply   -0.390    0.750   -0.341   -0.166   -0.487    0.387    1.000    0.511
+    beta_apply   -0.390    0.750   -0.341   -0.166   -0.487    0.387    1.000    0.511
+    beta_identity   -0.286    0.152    0.475    0.704   -0.354    0.962    0.511    1.000
+    beta_identity   -0.286    0.152    0.475    0.704   -0.354    0.962    0.511    1.000
+
+  L 8 cross-combinator cosine:
+
+  L 8 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.283    0.239    0.160    0.909   -0.089   -0.180   -0.141
+           B    1.000    0.283    0.239    0.160    0.909   -0.089   -0.180   -0.141
+           C    0.283    1.000    0.035   -0.025    0.219   -0.188    0.346   -0.194
+           C    0.283    1.000    0.035   -0.025    0.219   -0.188    0.346   -0.194
+           I    0.239    0.035    1.000    0.778    0.292    0.494   -0.266    0.522
+           I    0.239    0.035    1.000    0.778    0.292    0.494   -0.266    0.522
+           K    0.160   -0.025    0.778    1.000    0.182    0.763   -0.207    0.726
+           K    0.160   -0.025    0.778    1.000    0.182    0.763   -0.207    0.726
+           S    0.909    0.219    0.292    0.182    1.000   -0.122   -0.302   -0.154
+           S    0.909    0.219    0.292    0.182    1.000   -0.122   -0.302   -0.154
+      beta_K   -0.089   -0.188    0.494    0.763   -0.122    1.000    0.197    0.954
+      beta_K   -0.089   -0.188    0.494    0.763   -0.122    1.000    0.197    0.954
+    beta_apply   -0.180    0.346   -0.266   -0.207   -0.302    0.197    1.000    0.267
+    beta_apply   -0.180    0.346   -0.266   -0.207   -0.302    0.197    1.000    0.267
+    beta_identity   -0.141   -0.194    0.522    0.726   -0.154    0.954    0.267    1.000
+    beta_identity   -0.141   -0.194    0.522    0.726   -0.154    0.954    0.267    1.000
+
+  L12 cross-combinator cosine:
+
+  L12 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.469    0.172    0.338    0.754   -0.016   -0.150   -0.073
+           B    1.000    0.469    0.172    0.338    0.754   -0.016   -0.150   -0.073
+           C    0.469    1.000    0.303    0.350    0.403    0.091    0.228    0.108
+           C    0.469    1.000    0.303    0.350    0.403    0.091    0.228    0.108
+           I    0.172    0.303    1.000    0.704    0.250    0.440   -0.056    0.487
+           I    0.172    0.303    1.000    0.704    0.250    0.440   -0.056    0.487
+           K    0.338    0.350    0.704    1.000    0.350    0.620   -0.012    0.641
+           K    0.338    0.350    0.704    1.000    0.350    0.620   -0.012    0.641
+           S    0.754    0.403    0.250    0.350    1.000   -0.106   -0.337   -0.120
+           S    0.754    0.403    0.250    0.350    1.000   -0.106   -0.337   -0.120
+      beta_K   -0.016    0.091    0.440    0.620   -0.106    1.000    0.470    0.947
+      beta_K   -0.016    0.091    0.440    0.620   -0.106    1.000    0.470    0.947
+    beta_apply   -0.150    0.228   -0.056   -0.012   -0.337    0.470    1.000    0.499
+    beta_apply   -0.150    0.228   -0.056   -0.012   -0.337    0.470    1.000    0.499
+    beta_identity   -0.073    0.108    0.487    0.641   -0.120    0.947    0.499    1.000
+    beta_identity   -0.073    0.108    0.487    0.641   -0.120    0.947    0.499    1.000
+
+  L16 cross-combinator cosine:
+
+  L16 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.460    0.071    0.226    0.711   -0.075   -0.130   -0.137
+           B    1.000    0.460    0.071    0.226    0.711   -0.075   -0.130   -0.137
+           C    0.460    1.000    0.242    0.260    0.365    0.112    0.342    0.100
+           C    0.460    1.000    0.242    0.260    0.365    0.112    0.342    0.100
+           I    0.071    0.242    1.000    0.637    0.112    0.510    0.130    0.526
+           I    0.071    0.242    1.000    0.637    0.112    0.510    0.130    0.526
+           K    0.226    0.260    0.637    1.000    0.253    0.601    0.117    0.598
+           K    0.226    0.260    0.637    1.000    0.253    0.601    0.117    0.598
+           S    0.711    0.365    0.112    0.253    1.000   -0.080   -0.179   -0.128
+           S    0.711    0.365    0.112    0.253    1.000   -0.080   -0.179   -0.128
+      beta_K   -0.075    0.112    0.510    0.601   -0.080    1.000    0.590    0.953
+      beta_K   -0.075    0.112    0.510    0.601   -0.080    1.000    0.590    0.953
+    beta_apply   -0.130    0.342    0.130    0.117   -0.179    0.590    1.000    0.629
+    beta_apply   -0.130    0.342    0.130    0.117   -0.179    0.590    1.000    0.629
+    beta_identity   -0.137    0.100    0.526    0.598   -0.128    0.953    0.629    1.000
+    beta_identity   -0.137    0.100    0.526    0.598   -0.128    0.953    0.629    1.000
+
+  L20 cross-combinator cosine:
+
+  L20 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.545    0.178    0.318    0.671    0.126    0.159    0.070
+           B    1.000    0.545    0.178    0.318    0.671    0.126    0.159    0.070
+           C    0.545    1.000    0.308    0.260    0.357    0.238    0.514    0.219
+           C    0.545    1.000    0.308    0.260    0.357    0.238    0.514    0.219
+           I    0.178    0.308    1.000    0.619    0.079    0.564    0.250    0.583
+           I    0.178    0.308    1.000    0.619    0.079    0.564    0.250    0.583
+           K    0.318    0.260    0.619    1.000    0.344    0.627    0.241    0.618
+           K    0.318    0.260    0.619    1.000    0.344    0.627    0.241    0.618
+           S    0.671    0.357    0.079    0.344    1.000    0.010    0.076    0.004
+           S    0.671    0.357    0.079    0.344    1.000    0.010    0.076    0.004
+      beta_K    0.126    0.238    0.564    0.627    0.010    1.000    0.604    0.924
+      beta_K    0.126    0.238    0.564    0.627    0.010    1.000    0.604    0.924
+    beta_apply    0.159    0.514    0.250    0.241    0.076    0.604    1.000    0.671
+    beta_apply    0.159    0.514    0.250    0.241    0.076    0.604    1.000    0.671
+    beta_identity    0.070    0.219    0.583    0.618    0.004    0.924    0.671    1.000
+    beta_identity    0.070    0.219    0.583    0.618    0.004    0.924    0.671    1.000
+
+  L24 cross-combinator cosine:
+
+  L24 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.546   -0.055    0.401    0.715   -0.013   -0.001   -0.077
+           B    1.000    0.546   -0.055    0.401    0.715   -0.013   -0.001   -0.077
+           C    0.546    1.000    0.088    0.310    0.414    0.148    0.429    0.108
+           C    0.546    1.000    0.088    0.310    0.414    0.148    0.429    0.108
+           I   -0.055    0.088    1.000    0.428   -0.139    0.456    0.156    0.529
+           I   -0.055    0.088    1.000    0.428   -0.139    0.456    0.156    0.529
+           K    0.401    0.310    0.428    1.000    0.479    0.478    0.188    0.438
+           K    0.401    0.310    0.428    1.000    0.479    0.478    0.188    0.438
+           S    0.715    0.414   -0.139    0.479    1.000   -0.015   -0.037   -0.095
+           S    0.715    0.414   -0.139    0.479    1.000   -0.015   -0.037   -0.095
+      beta_K   -0.013    0.148    0.456    0.478   -0.015    1.000    0.600    0.890
+      beta_K   -0.013    0.148    0.456    0.478   -0.015    1.000    0.600    0.890
+    beta_apply   -0.001    0.429    0.156    0.188   -0.037    0.600    1.000    0.637
+    beta_apply   -0.001    0.429    0.156    0.188   -0.037    0.600    1.000    0.637
+    beta_identity   -0.077    0.108    0.529    0.438   -0.095    0.890    0.637    1.000
+    beta_identity   -0.077    0.108    0.529    0.438   -0.095    0.890    0.637    1.000
+
+  L28 cross-combinator cosine:
+
+  L28 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.565   -0.116    0.168    0.698   -0.015    0.156   -0.031
+           B    1.000    0.565   -0.116    0.168    0.698   -0.015    0.156   -0.031
+           C    0.565    1.000    0.042    0.137    0.390    0.101    0.456    0.089
+           C    0.565    1.000    0.042    0.137    0.390    0.101    0.456    0.089
+           I   -0.116    0.042    1.000    0.604   -0.118    0.523    0.126    0.626
+           I   -0.116    0.042    1.000    0.604   -0.118    0.523    0.126    0.626
+           K    0.168    0.137    0.604    1.000    0.237    0.529    0.201    0.603
+           K    0.168    0.137    0.604    1.000    0.237    0.529    0.201    0.603
+           S    0.698    0.390   -0.118    0.237    1.000   -0.059    0.017   -0.069
+           S    0.698    0.390   -0.118    0.237    1.000   -0.059    0.017   -0.069
+      beta_K   -0.015    0.101    0.523    0.529   -0.059    1.000    0.580    0.917
+      beta_K   -0.015    0.101    0.523    0.529   -0.059    1.000    0.580    0.917
+    beta_apply    0.156    0.456    0.126    0.201    0.017    0.580    1.000    0.582
+    beta_apply    0.156    0.456    0.126    0.201    0.017    0.580    1.000    0.582
+    beta_identity   -0.031    0.089    0.626    0.603   -0.069    0.917    0.582    1.000
+    beta_identity   -0.031    0.089    0.626    0.603   -0.069    0.917    0.582    1.000
+
+  L32 cross-combinator cosine:
+
+  L32 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.546   -0.022    0.100    0.620    0.030    0.188    0.016
+           B    1.000    0.546   -0.022    0.100    0.620    0.030    0.188    0.016
+           C    0.546    1.000    0.280    0.291    0.440    0.255    0.521    0.278
+           C    0.546    1.000    0.280    0.291    0.440    0.255    0.521    0.278
+           I   -0.022    0.280    1.000    0.718   -0.033    0.684    0.329    0.722
+           I   -0.022    0.280    1.000    0.718   -0.033    0.684    0.329    0.722
+           K    0.100    0.291    0.718    1.000    0.164    0.749    0.468    0.769
+           K    0.100    0.291    0.718    1.000    0.164    0.749    0.468    0.769
+           S    0.620    0.440   -0.033    0.164    1.000    0.027    0.140    0.016
+           S    0.620    0.440   -0.033    0.164    1.000    0.027    0.140    0.016
+      beta_K    0.030    0.255    0.684    0.749    0.027    1.000    0.638    0.936
+      beta_K    0.030    0.255    0.684    0.749    0.027    1.000    0.638    0.936
+    beta_apply    0.188    0.521    0.329    0.468    0.140    0.638    1.000    0.676
+    beta_apply    0.188    0.521    0.329    0.468    0.140    0.638    1.000    0.676
+    beta_identity    0.016    0.278    0.722    0.769    0.016    0.936    0.676    1.000
+    beta_identity    0.016    0.278    0.722    0.769    0.016    0.936    0.676    1.000
+
+  L36 cross-combinator cosine:
+
+  L36 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.524   -0.036    0.033    0.637    0.012    0.095   -0.014
+           B    1.000    0.524   -0.036    0.033    0.637    0.012    0.095   -0.014
+           C    0.524    1.000    0.099    0.115    0.330    0.148    0.476    0.136
+           C    0.524    1.000    0.099    0.115    0.330    0.148    0.476    0.136
+           I   -0.036    0.099    1.000    0.623   -0.053    0.519    0.193    0.601
+           I   -0.036    0.099    1.000    0.623   -0.053    0.519    0.193    0.601
+           K    0.033    0.115    0.623    1.000    0.052    0.669    0.404    0.731
+           K    0.033    0.115    0.623    1.000    0.052    0.669    0.404    0.731
+           S    0.637    0.330   -0.053    0.052    1.000   -0.039   -0.023   -0.063
+           S    0.637    0.330   -0.053    0.052    1.000   -0.039   -0.023   -0.063
+      beta_K    0.012    0.148    0.519    0.669   -0.039    1.000    0.623    0.925
+      beta_K    0.012    0.148    0.519    0.669   -0.039    1.000    0.623    0.925
+    beta_apply    0.095    0.476    0.193    0.404   -0.023    0.623    1.000    0.640
+    beta_apply    0.095    0.476    0.193    0.404   -0.023    0.623    1.000    0.640
+    beta_identity   -0.014    0.136    0.601    0.731   -0.063    0.925    0.640    1.000
+    beta_identity   -0.014    0.136    0.601    0.731   -0.063    0.925    0.640    1.000
+
+  L39 cross-combinator cosine:
+
+  L39 cross-combinator cosine:
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B        C        I        K        S   beta_K beta_apply beta_identity
+           B    1.000    0.610   -0.192   -0.423    0.276   -0.334   -0.150   -0.405
+           B    1.000    0.610   -0.192   -0.423    0.276   -0.334   -0.150   -0.405
+           C    0.610    1.000    0.230   -0.583   -0.319   -0.448    0.046   -0.507
+           C    0.610    1.000    0.230   -0.583   -0.319   -0.448    0.046   -0.507
+           I   -0.192    0.230    1.000    0.077   -0.627    0.019   -0.027    0.089
+           I   -0.192    0.230    1.000    0.077   -0.627    0.019   -0.027    0.089
+           K   -0.423   -0.583    0.077    1.000    0.406    0.845    0.484    0.900
+           K   -0.423   -0.583    0.077    1.000    0.406    0.845    0.484    0.900
+           S    0.276   -0.319   -0.627    0.406    1.000    0.303    0.157    0.287
+           S    0.276   -0.319   -0.627    0.406    1.000    0.303    0.157    0.287
+      beta_K   -0.334   -0.448    0.019    0.845    0.303    1.000    0.721    0.973
+      beta_K   -0.334   -0.448    0.019    0.845    0.303    1.000    0.721    0.973
+    beta_apply   -0.150    0.046   -0.027    0.484    0.157    0.721    1.000    0.669
+    beta_apply   -0.150    0.046   -0.027    0.484    0.157    0.721    1.000    0.669
+    beta_identity   -0.405   -0.507    0.089    0.900    0.287    0.973    0.669    1.000
+    beta_identity   -0.405   -0.507    0.089    0.900    0.287    0.973    0.669    1.000
+
+═══════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════
+  Done in 59.7s
+  Done in 59.7s
+  Results: /Users/mwhitford/src/verbum/results/ffn-mechanism-real/results.json
+  Results: /Users/mwhitford/src/verbum/results/ffn-mechanism-real/results.json
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
