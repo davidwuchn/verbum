@@ -1,0 +1,225 @@
+═══════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
+  Crystal Attention Etch — Grafting Pretrained Loom into StrideStack
+  Crystal Attention Etch — Grafting Pretrained Loom into StrideStack
+  Session 128
+  Session 128
+═══════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
+═══ Phase 1: Extracting pretrained magnitude spectrum ═══
+═══ Phase 1: Extracting pretrained magnitude spectrum ═══
+  Loading Qwen/Qwen3-14B...
+  Loading Qwen/Qwen3-14B...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 14090.43it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Loaded in 0.7s
+  Loaded in 0.7s
+    L 0 q_proj: shape=(5120, 5120), norm_range=[0.3176, 4.3618], top-3 SV=[20.97, 12.67, 10.28]
+    L 0 q_proj: shape=(5120, 5120), norm_range=[0.3176, 4.3618], top-3 SV=[20.97, 12.67, 10.28]
+    L 0 k_proj: shape=(1024, 5120), norm_range=[0.8384, 3.6836], top-3 SV=[12.87, 8.64, 5.53]
+    L 0 k_proj: shape=(1024, 5120), norm_range=[0.8384, 3.6836], top-3 SV=[12.87, 8.64, 5.53]
+    L 0 v_proj: shape=(1024, 5120), norm_range=[1.0482, 2.2887], top-3 SV=[5.34, 3.81, 3.73]
+    L 0 v_proj: shape=(1024, 5120), norm_range=[1.0482, 2.2887], top-3 SV=[5.34, 3.81, 3.73]
+    L 5 q_proj: shape=(5120, 5120), norm_range=[0.4612, 2.8740], top-3 SV=[13.67, 9.03, 8.96]
+    L 5 q_proj: shape=(5120, 5120), norm_range=[0.4612, 2.8740], top-3 SV=[13.67, 9.03, 8.96]
+    L 5 k_proj: shape=(1024, 5120), norm_range=[0.8710, 2.3340], top-3 SV=[7.53, 5.27, 4.95]
+    L 5 k_proj: shape=(1024, 5120), norm_range=[0.8710, 2.3340], top-3 SV=[7.53, 5.27, 4.95]
+    L 5 v_proj: shape=(1024, 5120), norm_range=[1.1108, 2.3467], top-3 SV=[3.94, 3.81, 3.79]
+    L 5 v_proj: shape=(1024, 5120), norm_range=[1.1108, 2.3467], top-3 SV=[3.94, 3.81, 3.79]
+    L10 q_proj: shape=(5120, 5120), norm_range=[0.6709, 3.4622], top-3 SV=[12.02, 8.94, 8.25]
+    L10 q_proj: shape=(5120, 5120), norm_range=[0.6709, 3.4622], top-3 SV=[12.02, 8.94, 8.25]
+    L10 k_proj: shape=(1024, 5120), norm_range=[0.8257, 2.7309], top-3 SV=[5.97, 5.36, 5.01]
+    L10 k_proj: shape=(1024, 5120), norm_range=[0.8257, 2.7309], top-3 SV=[5.97, 5.36, 5.01]
+    L10 v_proj: shape=(1024, 5120), norm_range=[1.3003, 2.2005], top-3 SV=[3.57, 3.37, 3.31]
+    L10 v_proj: shape=(1024, 5120), norm_range=[1.3003, 2.2005], top-3 SV=[3.57, 3.37, 3.31]
+    L15 q_proj: shape=(5120, 5120), norm_range=[0.8407, 4.0359], top-3 SV=[14.92, 9.19, 8.28]
+    L15 q_proj: shape=(5120, 5120), norm_range=[0.8407, 4.0359], top-3 SV=[14.92, 9.19, 8.28]
+    L15 k_proj: shape=(1024, 5120), norm_range=[0.6576, 2.7082], top-3 SV=[5.53, 5.28, 4.94]
+    L15 k_proj: shape=(1024, 5120), norm_range=[0.6576, 2.7082], top-3 SV=[5.53, 5.28, 4.94]
+    L15 v_proj: shape=(1024, 5120), norm_range=[1.3294, 2.3187], top-3 SV=[3.83, 3.72, 3.66]
+    L15 v_proj: shape=(1024, 5120), norm_range=[1.3294, 2.3187], top-3 SV=[3.83, 3.72, 3.66]
+    L20 q_proj: shape=(5120, 5120), norm_range=[0.5709, 4.1282], top-3 SV=[11.58, 8.46, 8.24]
+    L20 q_proj: shape=(5120, 5120), norm_range=[0.5709, 4.1282], top-3 SV=[11.58, 8.46, 8.24]
+    L20 k_proj: shape=(1024, 5120), norm_range=[0.5450, 4.0745], top-3 SV=[5.46, 4.95, 4.36]
+    L20 k_proj: shape=(1024, 5120), norm_range=[0.5450, 4.0745], top-3 SV=[5.46, 4.95, 4.36]
+    L20 v_proj: shape=(1024, 5120), norm_range=[1.2364, 3.4309], top-3 SV=[3.82, 3.26, 3.21]
+    L20 v_proj: shape=(1024, 5120), norm_range=[1.2364, 3.4309], top-3 SV=[3.82, 3.26, 3.21]
+    L25 q_proj: shape=(5120, 5120), norm_range=[0.6448, 4.3541], top-3 SV=[12.51, 8.75, 8.11]
+    L25 q_proj: shape=(5120, 5120), norm_range=[0.6448, 4.3541], top-3 SV=[12.51, 8.75, 8.11]
+    L25 k_proj: shape=(1024, 5120), norm_range=[0.8278, 2.8771], top-3 SV=[6.67, 5.19, 4.67]
+    L25 k_proj: shape=(1024, 5120), norm_range=[0.8278, 2.8771], top-3 SV=[6.67, 5.19, 4.67]
+    L25 v_proj: shape=(1024, 5120), norm_range=[1.2601, 2.4375], top-3 SV=[3.95, 3.19, 3.09]
+    L25 v_proj: shape=(1024, 5120), norm_range=[1.2601, 2.4375], top-3 SV=[3.95, 3.19, 3.09]
+    L30 q_proj: shape=(5120, 5120), norm_range=[0.5507, 4.6887], top-3 SV=[12.26, 9.05, 9.01]
+    L30 q_proj: shape=(5120, 5120), norm_range=[0.5507, 4.6887], top-3 SV=[12.26, 9.05, 9.01]
+    L30 k_proj: shape=(1024, 5120), norm_range=[0.7181, 2.4631], top-3 SV=[5.04, 4.48, 4.04]
+    L30 k_proj: shape=(1024, 5120), norm_range=[0.7181, 2.4631], top-3 SV=[5.04, 4.48, 4.04]
+    L30 v_proj: shape=(1024, 5120), norm_range=[1.0140, 2.1006], top-3 SV=[2.99, 2.92, 2.86]
+    L30 v_proj: shape=(1024, 5120), norm_range=[1.0140, 2.1006], top-3 SV=[2.99, 2.92, 2.86]
+    L35 q_proj: shape=(5120, 5120), norm_range=[0.6774, 4.5725], top-3 SV=[12.69, 9.57, 7.96]
+    L35 q_proj: shape=(5120, 5120), norm_range=[0.6774, 4.5725], top-3 SV=[12.69, 9.57, 7.96]
+    L35 k_proj: shape=(1024, 5120), norm_range=[0.3069, 2.3069], top-3 SV=[5.07, 4.52, 3.89]
+    L35 k_proj: shape=(1024, 5120), norm_range=[0.3069, 2.3069], top-3 SV=[5.07, 4.52, 3.89]
+    L35 v_proj: shape=(1024, 5120), norm_range=[0.7670, 2.2061], top-3 SV=[4.66, 4.64, 4.59]
+    L35 v_proj: shape=(1024, 5120), norm_range=[0.7670, 2.2061], top-3 SV=[4.66, 4.64, 4.59]
+    L39 q_proj: shape=(5120, 5120), norm_range=[0.6722, 4.5040], top-3 SV=[14.73, 8.96, 7.92]
+    L39 q_proj: shape=(5120, 5120), norm_range=[0.6722, 4.5040], top-3 SV=[14.73, 8.96, 7.92]
+    L39 k_proj: shape=(1024, 5120), norm_range=[0.5073, 2.4832], top-3 SV=[5.62, 4.61, 4.34]
+    L39 k_proj: shape=(1024, 5120), norm_range=[0.5073, 2.4832], top-3 SV=[5.62, 4.61, 4.34]
+    L39 v_proj: shape=(1024, 5120), norm_range=[0.6417, 2.4550], top-3 SV=[4.18, 3.34, 3.01]
+    L39 v_proj: shape=(1024, 5120), norm_range=[0.6417, 2.4550], top-3 SV=[4.18, 3.34, 3.01]
+
+  Pretrained spectrum saved
+
+  Pretrained spectrum saved
+
+═══ Phase 1.5: Baseline loom angles (before etch) ═══
+
+═══ Phase 1.5: Baseline loom angles (before etch) ═══
+
+  Measuring loom angles: BEFORE (original v6)
+
+  Measuring loom angles: BEFORE (original v6)
+
+  BEFORE (original v6): mean=77.54° ± 0.31°  range=[77.0°, 78.1°]
+
+  BEFORE (original v6): mean=77.54° ± 0.31°  range=[77.0°, 78.1°]
+    S0 (s=1): Q↔K=77.2°  Q↔V=77.8°  K↔V=77.6°
+    S0 (s=1): Q↔K=77.2°  Q↔V=77.8°  K↔V=77.6°
+    S1 (s=8): Q↔K=77.5°  Q↔V=78.1°  K↔V=77.5°
+    S1 (s=8): Q↔K=77.5°  Q↔V=78.1°  K↔V=77.5°
+    S2 (s=16): Q↔K=77.9°  Q↔V=77.8°  K↔V=77.4°
+    S2 (s=16): Q↔K=77.9°  Q↔V=77.8°  K↔V=77.4°
+
+═══ Phase 2: Etching magnitude spectrum into v6 checkpoint ═══
+
+═══ Phase 2: Etching magnitude spectrum into v6 checkpoint ═══
+  Loading /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6/step_032000/weights.safetensors
+  Loading /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6/step_032000/weights.safetensors
+  Found 36 stride gamma keys
+  Found 36 stride gamma keys
+  Saved etched checkpoint to /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6-etched
+  Saved etched checkpoint to /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6-etched
+
+  Gamma changes (40 projections):
+
+  Gamma changes (40 projections):
+  Key                                                       Old CV   New CV     Δ CV
+  Key                                                       Old CV   New CV     Δ CV
+  ─────────────────────────────────────────────────────── ──────── ──────── ────────
+  ─────────────────────────────────────────────────────── ──────── ──────── ────────
+  stride_stack.layers.0.k_proj.gamma                        1.5710   0.9920  -0.5790
+  stride_stack.layers.0.k_proj.gamma                        1.5710   0.9920  -0.5790
+  stride_stack.layers.0.out_proj.gamma                      0.7236   0.6278  -0.0958
+  stride_stack.layers.0.out_proj.gamma                      0.7236   0.6278  -0.0958
+  stride_stack.layers.0.q_proj.gamma                        1.5882   1.0006  -0.5876
+  stride_stack.layers.0.q_proj.gamma                        1.5882   1.0006  -0.5876
+  stride_stack.layers.0.v_proj.gamma                        0.6834   0.5964  -0.0870
+  stride_stack.layers.0.v_proj.gamma                        0.6834   0.5964  -0.0870
+  stride_stack.layers.1.k_proj.gamma                        1.2557   0.9635  -0.2922
+  stride_stack.layers.1.k_proj.gamma                        1.2557   0.9635  -0.2922
+  stride_stack.layers.1.out_proj.gamma                      0.8701   0.7102  -0.1599
+  stride_stack.layers.1.out_proj.gamma                      0.8701   0.7102  -0.1599
+  stride_stack.layers.1.q_proj.gamma                        1.2603   0.9596  -0.3007
+  stride_stack.layers.1.q_proj.gamma                        1.2603   0.9596  -0.3007
+  stride_stack.layers.1.v_proj.gamma                        0.8578   0.6770  -0.1808
+  stride_stack.layers.1.v_proj.gamma                        0.8578   0.6770  -0.1808
+  stride_stack.layers.2.k_proj.gamma                        1.1886   0.9843  -0.2042
+  stride_stack.layers.2.k_proj.gamma                        1.1886   0.9843  -0.2042
+  stride_stack.layers.2.out_proj.gamma                      0.7933   0.6639  -0.1294
+  stride_stack.layers.2.out_proj.gamma                      0.7933   0.6639  -0.1294
+  stride_stack.layers.2.q_proj.gamma                        1.1750   0.9688  -0.2061
+  stride_stack.layers.2.q_proj.gamma                        1.1750   0.9688  -0.2061
+  stride_stack.layers.2.v_proj.gamma                        0.8671   0.7340  -0.1331
+  stride_stack.layers.2.v_proj.gamma                        0.8671   0.7340  -0.1331
+  stride_stack.layers.3.k_proj.gamma                        1.1508   0.9677  -0.1831
+  stride_stack.layers.3.k_proj.gamma                        1.1508   0.9677  -0.1831
+  stride_stack.layers.3.out_proj.gamma                      0.8107   0.6517  -0.1590
+  stride_stack.layers.3.out_proj.gamma                      0.8107   0.6517  -0.1590
+  stride_stack.layers.3.q_proj.gamma                        1.1319   0.9540  -0.1780
+  stride_stack.layers.3.q_proj.gamma                        1.1319   0.9540  -0.1780
+  ... (25 more)
+  ... (25 more)
+
+═══ Phase 3: Etched loom angles (after etch) ═══
+
+═══ Phase 3: Etched loom angles (after etch) ═══
+
+  Measuring loom angles: AFTER (etched)
+
+  Measuring loom angles: AFTER (etched)
+
+  AFTER (etched): mean=77.56° ± 0.40°  range=[76.3°, 78.2°]
+
+  AFTER (etched): mean=77.56° ± 0.40°  range=[76.3°, 78.2°]
+    S0 (s=1): Q↔K=76.3°  Q↔V=77.5°  K↔V=78.1°
+    S0 (s=1): Q↔K=76.3°  Q↔V=77.5°  K↔V=78.1°
+    S1 (s=8): Q↔K=77.7°  Q↔V=77.3°  K↔V=77.4°
+    S1 (s=8): Q↔K=77.7°  Q↔V=77.3°  K↔V=77.4°
+    S2 (s=16): Q↔K=77.5°  Q↔V=77.8°  K↔V=77.1°
+    S2 (s=16): Q↔K=77.5°  Q↔V=77.8°  K↔V=77.1°
+
+═════════════════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════════════════
+  COMPARISON — Before vs After Etch
+  COMPARISON — Before vs After Etch
+═════════════════════════════════════════════════════════════════
+═════════════════════════════════════════════════════════════════
+  Before: mean=77.54° ± 0.31°
+  Before: mean=77.54° ± 0.31°
+  After:  mean=77.56° ± 0.40°
+  After:  mean=77.56° ± 0.40°
+  Δ mean: +0.02°
+  Δ mean: +0.02°
+  Δ std:  +0.09°
+  Δ std:  +0.09°
+
+  Per-stride Q↔K angles:
+
+  Per-stride Q↔K angles:
+    Stride   Before    After        Δ
+    Stride   Before    After        Δ
+  ──────── ──────── ──────── ────────
+  ──────── ──────── ──────── ────────
+  S 0 (s=   1)    77.22    76.28    -0.94
+  S 0 (s=   1)    77.22    76.28    -0.94
+  S 1 (s=   8)    77.49    77.72    +0.23
+  S 1 (s=   8)    77.49    77.72    +0.23
+  S 2 (s=  16)    77.93    77.48    -0.46
+  S 2 (s=  16)    77.93    77.48    -0.46
+  S 3 (s=  32)    77.18    77.81    +0.63
+  S 3 (s=  32)    77.18    77.81    +0.63
+  S 4 (s=  64)    77.77    77.91    +0.14
+  S 4 (s=  64)    77.77    77.91    +0.14
+  S 5 (s= 128)    77.34    77.84    +0.50
+  S 5 (s= 128)    77.34    77.84    +0.50
+  S 6 (s= 256)    77.85    77.70    -0.15
+  S 6 (s= 256)    77.85    77.70    -0.15
+  S 7 (s= 512)    77.99    78.23    +0.24
+  S 7 (s= 512)    77.99    78.23    +0.24
+  S 8 (s=1024)    77.80    77.99    +0.19
+  S 8 (s=1024)    77.80    77.99    +0.19
+
+  🔶 PARTIAL differentiation: std increased 0.31° → 0.40°
+
+  🔶 PARTIAL differentiation: std increased 0.31° → 0.40°
+
+  ⚠️  Q↔K angles did not move toward 56° target
+
+  ⚠️  Q↔K angles did not move toward 56° target
+     Before: 77.62°, After: 77.66°
+     Before: 77.62°, After: 77.66°
+
+  Elapsed: 168.6s
+
+  Elapsed: 168.6s
+═════════════════════════════════════════════════════════════════
+═════════════════════════════════════════════════════════════════
+
+  💾 Results: /Users/mwhitford/src/verbum/results/crystal-etch-attention/results.json
+
+  💾 Results: /Users/mwhitford/src/verbum/results/crystal-etch-attention/results.json
+  💾 Etched checkpoint: /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6-etched
+  💾 Etched checkpoint: /Users/mwhitford/src/verbum/checkpoints/vsm-lm-v6-etched
