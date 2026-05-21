@@ -25,7 +25,9 @@ License: MIT
 
 from dataclasses import dataclass
 
-from kernel import N_COMBINATORS
+
+# Number of combinators: K, I, B, C, D, Y, W, WHNF
+N_COMBINATORS = 8
 
 
 @dataclass
@@ -68,9 +70,6 @@ class V13Config:
     # ── Beam mirrors (ternary angular deflectors before Q projections) ──
     use_q_mirrors: bool = True
     n_q_mirrors: int = 1
-
-    # ── Combinator dispatch ──
-    n_combinators: int = N_COMBINATORS  # 8: K, I, B, C, D, Y, W, WHNF
 
     # Total number of passes (8-pass hourglass, power-of-2)
     # 4 ascending + 4 descending. The apex splits into L3↑ and L3↓,
@@ -120,44 +119,10 @@ class V13Config:
         (0, 4),    # L0↓: indices 0-3 (reversed)
     )
 
-    # ── Combinator masks per stride layer ──
-    # Each combinator reads the shared crystal through its own mask.
-    # 8 masks per stride layer. Init as "pass" (all +1) — etch writes them.
-    n_masks_per_stride: int = N_COMBINATORS  # 8
-
     # ── WHNF mechanical FFN ──
     # FFN is purely ternary: key_plate @ input → activation → value_plate
     # Zero continuous params. Plates are extracted from teacher via sign(W).
     d_ffn_teacher: int = 0  # set to teacher's d_ffn if using extracted FFN plates
-
-    # ── Dispatch ratio prior (empirical universal ratio) ──
-    # Session 119: binding cascade proves C is the universal routing mechanism.
-    #                          K     I     B     C     D     Y     W    WHNF
-    dispatch_ratio: tuple[float, ...] = (
-        0.8, 0.5, 0.9, 1.2, 0.5, 0.3, 0.3, 0.2,
-    )
-
-    # ── Dispatch entropy regularization ──
-    dispatch_entropy_lambda: float = 0.5
-    dispatch_entropy_target: float = 1.64  # H(ratio_prior) * 0.85
-
-    # ── Per-pass dispatch bias (depth-selective prior) ──
-    # Aligned to binding cascade (C→B/S→WHNF).
-    #                            K     I     B     C     D     Y     W    WHNF
-    pass_dispatch_bias: tuple[tuple[float, ...], ...] = (
-        (-1.0, -0.5, +2.0, +0.5, +1.5, -0.5, -0.5, -1.5),  # Pass 0 (L0↑): B/D compose
-        (+0.0, +0.0, +1.0, +1.0, +0.5, +0.0, +0.0, -1.0),  # Pass 1 (L1↑): B/C balanced
-        (+0.5, +0.5, +0.0, +1.5, +0.0, +0.5, +0.0, +0.0),  # Pass 2 (L2↑): C rising
-        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 3 (L3↑): C peak (WHNF)
-        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 4 (L3↓): C peak (predict)
-        (+1.0, +0.5, -0.5, +1.5, -0.5, +0.5, +0.5, +0.5),  # Pass 5 (L2↓): C strong
-        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +1.0, +0.0),  # Pass 6 (L1↓): C + W
-        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -0.5),  # Pass 7 (L0↓): B/D compose
-    )
-
-    # ── KL divergence toward empirical ratio ──
-    dispatch_kl_lambda: float = 2.0
-    dispatch_kl_ema_decay: float = 0.967
 
     # ── Crystal lattice geometry loss ──
     # PCA-Q targets (session 120): 3-4× sharper than hidden-state targets.
@@ -286,6 +251,11 @@ class V13Config:
     n_eval_shards: int = 6
 
     @property
+    def n_combinators(self) -> int:
+        """Number of combinators — kept for attention.py compatibility."""
+        return N_COMBINATORS
+
+    @property
     def d_head(self) -> int:
         return self.d_model // self.n_heads
 
@@ -314,7 +284,6 @@ class V13Config:
         assert self.d_state % 16 == 0, "d_state must be divisible by 16 (ternary packing)"
         assert len(self.stride_band_ranges) == self.n_passes, \
             f"stride_band_ranges ({len(self.stride_band_ranges)}) must match n_passes ({self.n_passes})"
-        assert len(self.pass_dispatch_bias) == self.n_passes
         assert len(self.pass_etch_multiplier) == self.n_passes
         assert len(self.pass_zone_map) == self.n_passes
         assert self.n_passes & (self.n_passes - 1) == 0, \

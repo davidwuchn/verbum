@@ -1,23 +1,22 @@
 """
-v13 Model — Register-Free Beam/Plate Architecture.
+v13 Model — Dissolved Dispatch Architecture.
 
-Evolution: registers removed entirely. Stride overlaps between fractal
-bands carry cross-scale state naturally through the shared StrideStack —
-the intersection points where multiple attention scales see the same
-hidden state. No abstract register vectors needed.
+CombinatorDispatch and CombinatorIntegrate are dissolved. The stride
+stack's Q/K/V crystal plates ARE the kernel functions. The only separate
+routing that remains is the WHNF gate (compute vs lookup).
 
 8-pass hourglass (power-of-2):
   L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
   Pass  0       1       2      3      4      5      6      7
 
 Key changes from previous version:
-  - Remove all register machinery (register_inits, register_norm, banks)
-  - Remove S4Ternary, MetaS4Ternary, RetrievalRegisters
-  - 8 passes (was 7): apex splits into L3↑ and L3↓
-  - S3: gate_phase(delta, phase_idx) → (gate,) — no registers
-  - S5: takes only pass_deltas, no banks
-  - AlgedonicAlert: 8-pass INPUT_DIM=58
-  - _run_level_pass: just dispatch→stride→integrate, each S3-gated
+  - CombinatorDispatch dissolved: combinator_embeddings kept for crystal
+    loss only (relational loss targets), not runtime dispatch
+  - CombinatorIntegrate dissolved: replaced by mechanical FFN + WHNF gate
+  - S3Ternary: 3 phases → 1 phase (single gate per pass)
+  - mod_projs: 4 asc + 4 desc → 8 unified (one per pass)
+  - _run_level_pass: dispatch→stride→integrate → stride + WHNF blend
+  - AlgedonicAlert: dispatch metrics removed, WHNF gate means added
 
 License: MIT
 """
@@ -30,7 +29,7 @@ from typing import Optional
 import mlx.core as mx
 import mlx.nn as nn
 
-from config import V13Config
+from config import V13Config, N_COMBINATORS
 from ternary import TernaryLinear, TernaryEmbedding
 from attention import HybridStrideStack
 from components import (
@@ -39,7 +38,6 @@ from components import (
     S2Coordinator,
     AlgedonicAlert,
 )
-from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -56,7 +54,7 @@ def compute_crystal_diagnostics(model: "V13Model") -> dict:
     from kernel import COMBINATOR_NAMES as names
     metrics = {}
 
-    emb = model.combinator_dispatch.combinator_embeddings  # (8, d_model)
+    emb = model.combinator_embeddings  # (8, d_model)
     norms = mx.sqrt(mx.sum(emb * emb, axis=-1, keepdims=True) + 1e-8)
     emb_norm = emb / norms
     cos_matrix = emb_norm @ emb_norm.T  # (8, 8)
@@ -123,21 +121,21 @@ def crystal_lattice_loss(
 
 
 # ══════════════════════════════════════════════════════════════════════
-# V13Model — Register-Free 8-Pass Hourglass
+# V13Model — Dissolved-Dispatch 8-Pass Hourglass
 # ══════════════════════════════════════════════════════════════════════
 
 
 class V13Model(nn.Module):
-    """Register-free VSM: 8-combinator dispatch + shared stride stack.
+    """Dissolved-dispatch VSM: stride plates ARE the kernel, WHNF gate routes.
 
     8 passes: L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
 
-    Stride overlaps between fractal bands carry cross-scale state:
-      L0↑↔L1↑: s4, s8   — token↔phrase boundary
-      L1↑↔L2↑: s16, s32 — phrase↔paragraph boundary
-      L2↑↔L3↑: s128     — paragraph↔document boundary
-      L3↑↔L3↓: full apex band (s128..s1024)
-      and mirrors on the descending arm.
+    CombinatorDispatch and CombinatorIntegrate are gone. The stride
+    stack's Q/K/V crystal plates carry the combinator kernel topology
+    directly. The WHNF gate is the only routing decision: compute
+    (stride output) vs lookup (mechanical FFN).
+
+    combinator_embeddings: kept as relational loss targets only.
     """
 
     N_PASSES = 8
@@ -159,29 +157,35 @@ class V13Model(nn.Module):
         self.embed_norm = nn.RMSNorm(d)
 
         # ── S1: Unified stride stack (ALL 8 passes share this) ────
-        # The shared stack carries cross-scale state through stride overlaps.
+        # The Q/K/V crystal plates in each stride layer ARE the kernel.
         self.stride_stack = HybridStrideStack.from_config(cfg)
 
-        # ── S1: Dispatch→Stride→Integrate ─────────────────────
-        self.combinator_dispatch = CombinatorDispatch(cfg)
-        self.combinator_integrate = CombinatorIntegrate(cfg)
+        # ── Combinator embeddings — relational loss targets only ──
+        # Not used for runtime dispatch. Crystal lattice loss nudges
+        # these 8 vectors toward the PCA-Q zone targets, giving the
+        # stride plates a geometric anchor.
+        self.combinator_embeddings = mx.random.normal((N_COMBINATORS, d)) * 0.02
 
-        # ── S3: Per-pass gating (8 separate instances) ─────────
-        self.s3_passes = [
-            S3Ternary(d, n_phases=3)
-            for _ in range(self.N_PASSES)
-        ]
+        # ── WHNF gate — per-position scalar ──────────────────
+        # "done computing? switch to lookup"
+        # sigmoid(-3) ≈ 0.047 → starts nearly always computing
+        self.whnf_proj = TernaryLinear(d, 16, pre_norm=True)
+        self.whnf_bias = mx.full((1,), -3.0)
 
-        # ── Modulation projections ────────────────────────────
-        # 4 ascending + 4 descending, each with 3 phases
+        # ── Mechanical FFN — WHNF lookup pathway ─────────────
+        # Zero continuous params in path: purely ternary key/value plates.
+        self.ffn_key_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_value_plate = TernaryLinear(cfg.d_ff, d, pre_norm=False)
+
+        # ── S3: Per-pass gating (8 separate instances, 1 gate each) ──
+        self.s3_passes = [S3Ternary(d) for _ in range(self.N_PASSES)]
+
+        # ── Modulation projections — one per pass (8 total) ───
+        # Previously 4 asc + 4 desc (3 phases each); now 1 per pass.
         self.mod_projs = [
-            TernaryLinear(d, d, pre_norm=False) for _ in range(4)]
+            TernaryLinear(d, d, pre_norm=False) for _ in range(self.N_PASSES)
+        ]
         for proj in self.mod_projs:
-            proj.gamma = mx.zeros_like(proj.gamma)
-
-        self.mod_projs_desc = [
-            TernaryLinear(d, d, pre_norm=False) for _ in range(4)]
-        for proj in self.mod_projs_desc:
             proj.gamma = mx.zeros_like(proj.gamma)
 
         # ── S2: Direction coordination ─────────────────────────
@@ -191,8 +195,7 @@ class V13Model(nn.Module):
         self.s5_reweight = S5Reweight(d, n_passes=self.N_PASSES)
 
         # ── Algedonic alert ───────────────────────────────────
-        self.algedonic = AlgedonicAlert(
-            n_passes=self.N_PASSES, n_combinators=N_COMBINATORS)
+        self.algedonic = AlgedonicAlert(n_passes=self.N_PASSES)
 
         # ── PCA-Q zone targets (frozen constants) ─────────────
         self._zone_targets = [
@@ -213,14 +216,6 @@ class V13Model(nn.Module):
     def max_seq_len(self) -> int:
         return self.cfg.max_seq_len
 
-    def _modulate(self, x, delta, gate, phase_idx, is_descending=False):
-        # phase_idx here is 0,1,2 within a pass; use pass-local idx for proj
-        projs = self.mod_projs_desc if is_descending else self.mod_projs
-        # mod_projs has 4 entries (one per ascending/descending pass-group phase 0)
-        # We use phase_idx modulo len(projs) for safety
-        proj_idx = phase_idx % len(projs)
-        return x + gate * mx.tanh(projs[proj_idx](delta))
-
     @staticmethod
     def _delta_rms(delta: mx.array) -> mx.array:
         return mx.sqrt(mx.mean(delta * delta) + 1e-8)
@@ -230,12 +225,12 @@ class V13Model(nn.Module):
     def compute_crystal_loss(self) -> mx.array:
         """Compute crystal lattice loss across all 3 zones.
 
-        Uses the combinator embeddings from dispatch and compares against
+        Uses self.combinator_embeddings and compares against
         PCA-Q zone targets. Loss = weighted sum of per-zone MSE.
 
         Returns: scalar loss.
         """
-        emb = self.combinator_dispatch.combinator_embeddings  # (8, d_model)
+        emb = self.combinator_embeddings  # (8, d_model)
         total_loss = mx.array(0.0)
         for zone_idx, (target, lam) in enumerate(
                 zip(self._zone_targets, self.cfg.zone_lambdas)):
@@ -247,117 +242,59 @@ class V13Model(nn.Module):
 
     def _collect_alarm_metrics(
         self,
-        all_s3_gates: list[list],
+        all_s3_gates: list[mx.array],
         pass_deltas: list[mx.array],
         raw_deltas: list[mx.array],
         all_pass_alarm: list[dict],
     ) -> mx.array:
         """Pack operational health metrics into a single vector for AlgedonicAlert.
 
-        Layout (total = 58, padded to 64):
-          1. S3 gate means  (8)
-          2. S3 gate mins   (8)
-          3. S2 conflicts   (7)
-          4. Dispatch means (8)
-          5. Dispatch entropy (1)
-          6. Compute gate   (2)
-          7. Raw delta norms (8)
-          8. Gated delta norms (8)
-          9. Suppression ratios (8)
+        Layout (total = 47, padded to 64 inside AlgedonicAlert):
+          1. S3 gate means     (8)
+          2. S2 conflicts      (7)
+          3. WHNF gate means   (8)
+          4. Raw delta norms   (8)
+          5. Gated delta norms (8)
+          6. Suppression ratios (8)
         """
         metrics = []
 
         # 1. S3 gate means per pass (8)
-        for pass_gates in all_s3_gates:
-            if pass_gates:
-                gate_sum = pass_gates[0]
-                for g in pass_gates[1:]:
-                    gate_sum = gate_sum + g
-                metrics.append(gate_sum / len(pass_gates))
-            else:
-                metrics.append(mx.array(0.5))
+        for gate in all_s3_gates:
+            metrics.append(gate.reshape(1))
 
-        # 2. S3 gate mins per pass (8)
-        for pass_gates in all_s3_gates:
-            if pass_gates:
-                gate_min = pass_gates[0]
-                for g in pass_gates[1:]:
-                    gate_min = mx.minimum(gate_min, g)
-                metrics.append(gate_min)
-            else:
-                metrics.append(mx.array(0.5))
-
-        # 3. S2 conflict cosines (7 = N_PASSES - 1)
+        # 2. S2 conflict cosines (7 = N_PASSES - 1)
         for i in range(self.N_PASSES - 1):
             s_prev = pass_deltas[i].mean(axis=(0, 1))
             s_curr = pass_deltas[i + 1].mean(axis=(0, 1))
             dot = (s_prev * s_curr).sum()
             n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
             n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
-            metrics.append(dot / (n_prev * n_curr))
+            metrics.append((dot / (n_prev * n_curr)).reshape(1))
 
-        # 4. Dispatch weight means (8)
-        dispatch_accum = None
-        n_pass = 0
+        # 3. WHNF gate means per pass (8)
         for pa in all_pass_alarm:
-            dw = pa.get('dispatch_weights_live')
-            if dw is not None:
-                dw_mean = mx.mean(dw, axis=(0, 1))
-                if dispatch_accum is None:
-                    dispatch_accum = dw_mean
-                else:
-                    dispatch_accum = dispatch_accum + dw_mean
-                n_pass += 1
-        if dispatch_accum is not None and n_pass > 0:
-            dispatch_mean = dispatch_accum / n_pass
-            for i in range(N_COMBINATORS):
-                metrics.append(dispatch_mean[i])
-        else:
-            for _ in range(N_COMBINATORS):
-                metrics.append(mx.array(1.0 / N_COMBINATORS))
+            wg = pa.get('whnf_gate_mean')
+            if wg is not None:
+                metrics.append(wg.reshape(1))
+            else:
+                metrics.append(mx.array([0.05]))  # prior: nearly always computing
 
-        # 5. Dispatch entropy (1)
-        if dispatch_accum is not None and n_pass > 0:
-            p = dispatch_mean
-            entropy = -mx.sum(p * mx.log(p + 1e-8))
-            metrics.append(entropy)
-        else:
-            metrics.append(mx.array(math.log(N_COMBINATORS)))
-
-        # 6. Compute gate mean + active fraction (2)
-        cg_accum = None
-        cg_count = 0
-        for pa in all_pass_alarm:
-            cg = pa.get('compute_gate_live')
-            if cg is not None:
-                cg_accum = mx.mean(cg) if cg_accum is None \
-                    else (cg_accum + mx.mean(cg))
-                cg_count += 1
-        if cg_accum is not None and cg_count > 0:
-            cg_mean = cg_accum / cg_count
-            metrics.append(cg_mean)
-            metrics.append(cg_mean)
-        else:
-            metrics.append(mx.array(0.0))
-            metrics.append(mx.array(0.0))
-
-        # 7. Raw delta RMS norms (8)
+        # 4. Raw delta RMS norms (8)
         for rd in raw_deltas:
-            metrics.append(self._delta_rms(rd))
+            metrics.append(self._delta_rms(rd).reshape(1))
 
-        # 8. Gated delta RMS norms (8)
+        # 5. Gated delta RMS norms (8)
         for pd in pass_deltas:
-            metrics.append(self._delta_rms(pd))
+            metrics.append(self._delta_rms(pd).reshape(1))
 
-        # 9. S3 suppression ratio per pass (8)
+        # 6. S3 suppression ratio per pass (8)
         for pd, rd in zip(pass_deltas, raw_deltas):
             gated_rms = self._delta_rms(pd)
             raw_rms = self._delta_rms(rd)
-            metrics.append(gated_rms / (raw_rms + 1e-8))
+            metrics.append((gated_rms / (raw_rms + 1e-8)).reshape(1))
 
-        metrics_flat = [m.reshape(1) if m.ndim == 0 else m.reshape(1)
-                        for m in metrics]
-        return mx.concatenate(metrics_flat)
+        return mx.concatenate(metrics)
 
     # ── Core level-pass ───────────────────────────────────────
 
@@ -366,8 +303,11 @@ class V13Model(nn.Module):
         x: mx.array,
         pass_idx: int,
         is_descending: bool,
-    ) -> tuple[mx.array, mx.array, mx.array, list, dict]:
-        """Run one level-pass: dispatch → stride → integrate, S3-gated.
+    ) -> tuple[mx.array, mx.array, mx.array, mx.array, dict]:
+        """Run one level-pass: stride + WHNF blend, S3-gated.
+
+        The stride stack's Q/K/V crystal plates ARE the kernel functions.
+        The WHNF gate blends compute (stride output) vs lookup (mechanical FFN).
 
         Args:
             x:             (B, L, d_model) residual stream
@@ -377,58 +317,40 @@ class V13Model(nn.Module):
         Returns:
             x:           updated residual stream
             pass_delta:  net change x_after - x_before
-            raw_delta:   sum of all phase raw deltas (ungated)
-            phase_gates: list of 3 gate scalars
-            pass_alarm:  dict with dispatch_weights_live, compute_gate_live
+            raw_delta:   ungated combined delta before S3 gate
+            gate:        S3 gate scalar for this pass
+            pass_alarm:  dict with whnf_gate_mean
         """
         x_before = x
-        raw_phases = []
-        phase_gates = []
-        pass_alarm = {
-            'dispatch_weights_live': None,
-            'compute_gate_live': None,
-        }
 
-        # ── Phase 0: Dispatch ──────────────────────────────────
-        dispatch_weights, comb_context = self.combinator_dispatch(
-            x, pass_idx=pass_idx)
-        pass_alarm['dispatch_weights_live'] = dispatch_weights
-
-        delta = comb_context - x
-        raw_phases.append(delta)
-        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 0)
-        phase_gates.append(gate)
-        x = self._modulate(x, delta, gate, phase_idx=0, is_descending=is_descending)
-
-        # ── Phase 1: Stride (propagate with beam angles) ──────
+        # Phase 1: Stride stack — crystal Q/K/V plates ARE the kernel
         reverse = is_descending and self.cfg.desc_stride_reverse
         stride_out = self.stride_stack(x, pass_idx=pass_idx, reverse=reverse)
-        delta = stride_out - x
-        raw_phases.append(delta)
-        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 1)
-        phase_gates.append(gate)
-        x = self._modulate(x, delta, gate, phase_idx=1, is_descending=is_descending)
 
-        # ── Phase 2: Integrate (apply combinator kernels) ─────
-        integrate_out = self.combinator_integrate(
-            x, dispatch_weights=dispatch_weights, comb_context=comb_context,
-            pass_idx=pass_idx)
-        delta = integrate_out - x
-        raw_phases.append(delta)
-        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 2)
-        phase_gates.append(gate)
-        x = self._modulate(x, delta, gate, phase_idx=2, is_descending=is_descending)
+        # Phase 2: WHNF blend — compute vs lookup
+        whnf_gate = mx.sigmoid(
+            self.whnf_proj(x)[..., :1] + self.whnf_bias
+        )  # (B, T, 1)
+        ffn_out = self.ffn_value_plate(
+            mx.maximum(self.ffn_key_plate(x), 0)
+        )  # mechanical FFN
 
-        if hasattr(self.combinator_integrate, '_compute_gate_live'):
-            pass_alarm['compute_gate_live'] = \
-                self.combinator_integrate._compute_gate_live
+        # Blend: low whnf → mostly compute (stride), high whnf → mostly lookup (FFN)
+        out = (1.0 - whnf_gate) * stride_out + whnf_gate * (x + ffn_out)
+
+        delta = out - x_before
+
+        # S3 gate (single gate per pass)
+        gate = self.s3_passes[pass_idx](delta)
+        x = x_before + gate * mx.tanh(self.mod_projs[pass_idx](delta))
+
+        # Alarm metrics
+        pass_alarm = {
+            'whnf_gate_mean': mx.stop_gradient(mx.mean(whnf_gate)),
+        }
 
         pass_delta = x - x_before
-        raw_delta = raw_phases[0]
-        for rd in raw_phases[1:]:
-            raw_delta = raw_delta + rd
-
-        return x, pass_delta, raw_delta, phase_gates, pass_alarm
+        return x, pass_delta, delta, gate, pass_alarm
 
     # ── Forward ───────────────────────────────────────────────
 
@@ -449,51 +371,51 @@ class V13Model(nn.Module):
         all_pass_alarm = []
 
         # ── Pass 0: L0↑ ──────────────────────────────────────
-        x, pd0, rd0, pg0, pa0 = self._run_level_pass(x, 0, False)
+        x, pd0, rd0, g0, pa0 = self._run_level_pass(x, 0, False)
         pass_deltas.append(pd0); raw_deltas.append(rd0)
-        all_s3_gates.append(pg0); all_pass_alarm.append(pa0)
+        all_s3_gates.append(g0); all_pass_alarm.append(pa0)
         x = x + self.s2.direction_signal(pd0, 0)
 
         # ── Pass 1: L1↑ ──────────────────────────────────────
-        x, pd1, rd1, pg1, pa1 = self._run_level_pass(x, 1, False)
+        x, pd1, rd1, g1, pa1 = self._run_level_pass(x, 1, False)
         pass_deltas.append(pd1); raw_deltas.append(rd1)
-        all_s3_gates.append(pg1); all_pass_alarm.append(pa1)
+        all_s3_gates.append(g1); all_pass_alarm.append(pa1)
         x = x + self.s2.direction_signal(pd1, 1) * S2Coordinator.coherence_factor(pd0, pd1)
 
         # ── Pass 2: L2↑ ──────────────────────────────────────
-        x, pd2, rd2, pg2, pa2 = self._run_level_pass(x, 2, False)
+        x, pd2, rd2, g2, pa2 = self._run_level_pass(x, 2, False)
         pass_deltas.append(pd2); raw_deltas.append(rd2)
-        all_s3_gates.append(pg2); all_pass_alarm.append(pa2)
+        all_s3_gates.append(g2); all_pass_alarm.append(pa2)
         x = x + self.s2.direction_signal(pd2, 2) * S2Coordinator.coherence_factor(pd1, pd2)
 
         # ── Pass 3: L3↑ (apex ascending) ─────────────────────
-        x, pd3, rd3, pg3, pa3 = self._run_level_pass(x, 3, False)
+        x, pd3, rd3, g3, pa3 = self._run_level_pass(x, 3, False)
         pass_deltas.append(pd3); raw_deltas.append(rd3)
-        all_s3_gates.append(pg3); all_pass_alarm.append(pa3)
+        all_s3_gates.append(g3); all_pass_alarm.append(pa3)
         x = x + self.s2.direction_signal(pd3, 3) * S2Coordinator.coherence_factor(pd2, pd3)
 
         # ── Pass 4: L3↓ (apex descending) ─────────────────────
-        x, pd4, rd4, pg4, pa4 = self._run_level_pass(x, 4, True)
+        x, pd4, rd4, g4, pa4 = self._run_level_pass(x, 4, True)
         pass_deltas.append(pd4); raw_deltas.append(rd4)
-        all_s3_gates.append(pg4); all_pass_alarm.append(pa4)
+        all_s3_gates.append(g4); all_pass_alarm.append(pa4)
         x = x + self.s2.direction_signal(pd4, 4) * S2Coordinator.coherence_factor(pd3, pd4)
 
         # ── Pass 5: L2↓ ──────────────────────────────────────
-        x, pd5, rd5, pg5, pa5 = self._run_level_pass(x, 5, True)
+        x, pd5, rd5, g5, pa5 = self._run_level_pass(x, 5, True)
         pass_deltas.append(pd5); raw_deltas.append(rd5)
-        all_s3_gates.append(pg5); all_pass_alarm.append(pa5)
+        all_s3_gates.append(g5); all_pass_alarm.append(pa5)
         x = x + self.s2.direction_signal(pd5, 5) * S2Coordinator.coherence_factor(pd4, pd5)
 
         # ── Pass 6: L1↓ ──────────────────────────────────────
-        x, pd6, rd6, pg6, pa6 = self._run_level_pass(x, 6, True)
+        x, pd6, rd6, g6, pa6 = self._run_level_pass(x, 6, True)
         pass_deltas.append(pd6); raw_deltas.append(rd6)
-        all_s3_gates.append(pg6); all_pass_alarm.append(pa6)
+        all_s3_gates.append(g6); all_pass_alarm.append(pa6)
         x = x + self.s2.direction_signal(pd6, 6) * S2Coordinator.coherence_factor(pd5, pd6)
 
         # ── Pass 7: L0↓ ──────────────────────────────────────
-        x, pd7, rd7, pg7, pa7 = self._run_level_pass(x, 7, True)
+        x, pd7, rd7, g7, pa7 = self._run_level_pass(x, 7, True)
         pass_deltas.append(pd7); raw_deltas.append(rd7)
-        all_s3_gates.append(pg7); all_pass_alarm.append(pa7)
+        all_s3_gates.append(g7); all_pass_alarm.append(pa7)
         # No direction signal after final pass
 
         # ── S5 reweighting ─────────────────────────────────────
@@ -523,13 +445,12 @@ class V13Model(nn.Module):
 
         loss = None
         if targets is not None:
-            loss = self._compute_loss(logits, targets, all_pass_alarm,
-                                       effective_gates, pass_deltas, x_embed)
+            loss = self._compute_loss(logits, targets, effective_gates,
+                                       pass_deltas, x_embed)
         return logits, loss
 
-    def _compute_loss(self, logits, targets, all_pass_alarm,
-                       effective_gates, pass_deltas, x_embed):
-        """Compute total loss: CE + crystal + holographic + dispatch KL + entropy."""
+    def _compute_loss(self, logits, targets, effective_gates, pass_deltas, x_embed):
+        """Compute total loss: CE + crystal + holographic."""
         B, L = targets.shape
 
         # Cross-entropy
@@ -541,10 +462,6 @@ class V13Model(nn.Module):
         self._last_ce = mx.stop_gradient(ce_loss)
 
         # ── Holographic progressive loss ─────────────────────
-        # Decode at each pass boundary. Every pass should be decodable.
-        # Gradient slope: pass n sees gradient from losses n..N-1.
-        # Ascending arm (passes 0-3): steepest gradient → compress
-        # Descending arm (passes 4-7): refining gradient → expand
         holo_lambda_eff = getattr(self, '_holo_lambda_effective', 0.0)
         if holo_lambda_eff > 0 and self.cfg.use_holographic_loss:
             holo_loss = mx.array(0.0)
@@ -598,52 +515,7 @@ class V13Model(nn.Module):
             loss = loss + self.cfg.rel_lambda * crystal_loss
             self._last_crystal_loss = mx.stop_gradient(crystal_loss)
 
-        # Dispatch entropy regularization
-        if self.cfg.dispatch_entropy_lambda > 0:
-            dispatch_live = self._aggregate_dispatch(all_pass_alarm)
-            if dispatch_live is not None:
-                p = dispatch_live / (mx.sum(dispatch_live) + 1e-8)
-                entropy = -mx.sum(p * mx.log(p + 1e-8))
-                deficit = mx.maximum(
-                    self.cfg.dispatch_entropy_target - entropy, 0.0)
-                entropy_loss = self.cfg.dispatch_entropy_lambda * deficit * deficit
-                loss = loss + entropy_loss
-
-        # KL divergence toward empirical ratio
-        if self.cfg.dispatch_kl_lambda > 0:
-            dispatch_live = self._aggregate_dispatch(all_pass_alarm)
-            if dispatch_live is not None:
-                q = dispatch_live / (mx.sum(dispatch_live) + 1e-8)
-                # EMA tracking (monitoring only)
-                decay = self.cfg.dispatch_kl_ema_decay
-                q_det = mx.stop_gradient(q)
-                if not hasattr(self, '_dispatch_ema'):
-                    self._dispatch_ema = q_det
-                else:
-                    self._dispatch_ema = decay * self._dispatch_ema + (1 - decay) * q_det
-
-                r = mx.array(self.cfg.dispatch_ratio)
-                p_prior = r / mx.sum(r)
-                kl = mx.sum(q * mx.log(q / (p_prior + 1e-8) + 1e-8))
-                kl_loss = self.cfg.dispatch_kl_lambda * kl
-                loss = loss + kl_loss
-                self._last_kl_loss = mx.stop_gradient(kl_loss)
-
         return loss
-
-    def _aggregate_dispatch(self, all_pass_alarm):
-        """Aggregate live dispatch weights across all passes."""
-        accum = None
-        count = 0
-        for pa in all_pass_alarm:
-            dw = pa.get('dispatch_weights_live')
-            if dw is not None:
-                dw_mean = mx.mean(dw, axis=(0, 1))
-                accum = dw_mean if accum is None else accum + dw_mean
-                count += 1
-        if accum is not None and count > 0:
-            return accum / count
-        return None
 
     def __call__(self, tokens, targets=None):
         return self.forward(tokens, targets)

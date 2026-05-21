@@ -66,7 +66,6 @@ from ternary import (
     direct_etch,
     reset_accumulators,
 )
-from kernel import COMBINATOR_NAMES, N_COMBINATORS
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -88,11 +87,11 @@ def loss_fn(
     input_ids: mx.array,
     targets: mx.array,
 ) -> mx.array:
-    """CE + crystal + dispatch losses (computed inside model._compute_loss).
+    """CE + crystal + holographic losses (computed inside model._compute_loss).
 
     Returns the total scalar loss from the model forward pass.
     The model accumulates component losses in _last_ce, _last_crystal_loss,
-    _last_kl_loss for diagnostic logging.
+    _last_holo_loss for diagnostic logging.
     """
     _logits, total_loss = model(input_ids, targets)
     return total_loss
@@ -205,7 +204,7 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
     result: dict = {"loss": avg_loss, "ppl": ppl}
 
     # Cached component diagnostics from last forward pass
-    for attr in ("_last_ce", "_last_crystal_loss", "_last_kl_loss"):
+    for attr in ("_last_ce", "_last_crystal_loss"):
         if hasattr(model, attr):
             v = getattr(model, attr)
             mx.eval(v)
@@ -215,15 +214,6 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
     crystal = compute_crystal_diagnostics(model)
     result["crystal"] = crystal
 
-    # Dispatch EMA (routing statistics)
-    if hasattr(model, "_dispatch_ema"):
-        ema = model._dispatch_ema
-        mx.eval(ema)
-        result["dispatch_ema"] = {
-            COMBINATOR_NAMES[i]: float(ema[i].item())
-            for i in range(min(N_COMBINATORS, ema.shape[0]))
-        }
-
     return result
 
 
@@ -231,16 +221,15 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
 # § 7  Shared-weight gradient normalization (7-pass hourglass)
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Universal shared components — used in all 7 passes
-_UNIVERSAL_SHARED = ("stride_stack", "combinator_dispatch", "combinator_integrate")
-_N_ALL_PASSES = 7
-_N_ASC_PASSES = 4   # L0↑ L1↑ L2↑ L3_apex
-_N_DESC_PASSES = 3  # L2↓ L1↓ L0↓
+# Universal shared components — used in all 8 passes
+_UNIVERSAL_SHARED = ("stride_stack", "ffn_key_plate", "ffn_value_plate", "whnf_proj")
+_N_ALL_PASSES = 8
+_N_ASC_PASSES = 4   # L0↑ L1↑ L2↑ L3↑
+_N_DESC_PASSES = 4  # L3↓ L2↓ L1↓ L0↓
 
-# Ascending-only shared
-_ASC_SHARED = ("s4", "mod_projs")
-# Descending-only shared
-_DESC_SHARED = ("s4_desc", "mod_projs_desc")
+# No separate ascending/descending shared components (mod_projs unified)
+_ASC_SHARED: tuple[str, ...] = ()
+_DESC_SHARED: tuple[str, ...] = ()
 
 
 def normalize_shared_grads(grads: dict) -> dict:
@@ -313,16 +302,6 @@ def save_checkpoint(
     # Crystal diagnostics
     crystal = compute_crystal_diagnostics(model)
 
-    # Dispatch EMA
-    dispatch_ema = None
-    if hasattr(model, "_dispatch_ema"):
-        ema = model._dispatch_ema
-        mx.eval(ema)
-        dispatch_ema = {
-            COMBINATOR_NAMES[i]: float(ema[i].item())
-            for i in range(min(N_COMBINATORS, ema.shape[0]))
-        }
-
     state = {
         "step": step,
         "phase": phase,
@@ -330,7 +309,6 @@ def save_checkpoint(
         "train_losses_last50": train_losses[-50:],
         "eval_metrics": last_eval or {},
         "crystal": crystal,
-        "dispatch_ema": dispatch_ema,
         "data_loader": train_loader.save_state() if train_loader else {},
         "config": {
             "d_model": cfg.d_model,
@@ -597,9 +575,7 @@ def train_gd(
     print(f"  batch_size={cfg.batch_size}  seq_len={cfg.seq_len}"
           f"  tokens/step={cfg.tokens_per_step:,}",
           file=sys.stderr)
-    print(f"  crystal: rel_lambda={cfg.rel_lambda}"
-          f"  kl_lambda={cfg.dispatch_kl_lambda}"
-          f"  entropy_lambda={cfg.dispatch_entropy_lambda}",
+    print(f"  crystal: rel_lambda={cfg.rel_lambda}",
           file=sys.stderr)
     desc_dir = "coarse→fine" if cfg.desc_stride_reverse else "fine→coarse"
     fractal = " + fractal bands" if cfg.fractal_stride_bands else ""
@@ -715,10 +691,7 @@ def train_gd(
             # Component losses cached during forward pass
             ce_val = None
             crystal_val = None
-            kl_val = None
-            for attr, key in [("_last_ce", "ce"),
-                               ("_last_crystal_loss", "crystal"),
-                               ("_last_kl_loss", "kl")]:
+            for attr in ("_last_ce", "_last_crystal_loss"):
                 if hasattr(model, attr):
                     v = getattr(model, attr)
                     mx.eval(v)
@@ -727,8 +700,6 @@ def train_gd(
                         ce_val = val
                     elif attr == "_last_crystal_loss":
                         crystal_val = val
-                    elif attr == "_last_kl_loss":
-                        kl_val = val
 
             # Holographic loss + φ-deviation instrumentation
             holo_val = None
@@ -743,29 +714,15 @@ def train_gd(
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
             crystal_str = (f" crystal={crystal_val:.4f}"
                            if crystal_val is not None else "")
-            kl_str = f" kl={kl_val:.4f}" if kl_val is not None else ""
             holo_str = f" holo={holo_val:.3f}" if holo_val is not None else ""
-
-            # Dispatch weights for live monitoring
-            dispatch_str = ""
-            if (hasattr(model, "combinator_dispatch") and
-                    hasattr(model.combinator_dispatch, "_dispatch_weights_live")):
-                dw = model.combinator_dispatch._dispatch_weights_live
-                if dw is not None:
-                    dw_mean = mx.mean(dw, axis=(0, 1))
-                    mx.eval(dw_mean)
-                    parts = [f"{COMBINATOR_NAMES[i]}={float(dw_mean[i].item()):.2f}"
-                             for i in range(min(N_COMBINATORS, dw_mean.shape[0]))]
-                    dispatch_str = " | " + " ".join(parts)
 
             print(
                 f"step {step:>6d}"
                 f" | loss={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | {ce_str}{crystal_str}{kl_str}{holo_str}"
+                f" | {ce_str}{crystal_str}{holo_str}"
                 f" | lr {lr:.2e}"
                 f" | gnorm {grad_norm:.2f}"
                 f" | {tps:.0f} tok/s"
-                f"{dispatch_str}"
                 f" | {elapsed:.0f}s",
                 file=sys.stderr, flush=True,
             )
@@ -785,8 +742,6 @@ def train_gd(
                 record["ce"] = ce_val
             if crystal_val is not None:
                 record["crystal_loss"] = crystal_val
-            if kl_val is not None:
-                record["kl_loss"] = kl_val
             if holo_val is not None:
                 record["holo_loss"] = holo_val
             if phi_devs is not None:
@@ -794,14 +749,6 @@ def train_gd(
                 # is from 1/φ. Ascending should trend → 0, descending diverges.
                 for i, dev in enumerate(phi_devs):
                     record[f"phi_dev_pass{i}"] = dev
-
-            # Dispatch EMA diagnostics
-            if hasattr(model, "_dispatch_ema"):
-                ema = model._dispatch_ema
-                mx.eval(ema)
-                for i, name in enumerate(COMBINATOR_NAMES):
-                    if i < ema.shape[0]:
-                        record[f"dispatch_ema_{name}"] = float(ema[i].item())
 
             _append_jsonl(checkpoint_dir / "train_log.jsonl", record)
 
@@ -884,7 +831,8 @@ def train_gd(
                 file=sys.stderr, flush=True,
             )
             if "last_ce" in last_eval:
-                print(f"     CE={last_eval['last_ce']:.3f}", file=sys.stderr, flush=True)
+                print(f"     CE={last_eval['last_ce']:.3f}",
+                      file=sys.stderr, flush=True)
             crystal = last_eval.get("crystal", {})
             if crystal:
                 whnf_anti = crystal.get("whnf_anti_correlation", 0)
@@ -950,7 +898,7 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
           f"  strides={list(cfg.strides)}",
           file=sys.stderr)
     print(f"  d_ff={cfg.d_ff}  n_passes={cfg.n_passes}"
-          f"  d_register={cfg.d_register}  alpha={cfg.alpha}",
+          f"  alpha={cfg.alpha}",
           file=sys.stderr)
     print(f"  beam_params={n_beam:,}  ternary_positions={total_ternary:,}"
           f"  ternary_bytes={total_ternary * 2 // 8 / 1024:.0f} KB",

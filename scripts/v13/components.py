@@ -37,69 +37,35 @@ from ternary import TernaryLinear
 
 
 class S3Ternary(nn.Module):
-    """Phase-coherent control for a single level-pass.
+    """Single-gate control for a level-pass.
 
-    3 phases: dispatch / stride / integrate.
+    Dissolved from 3 phases (dispatch / stride / integrate) to a single
+    gate, matching the simplified _run_level_pass that has no separate
+    dispatch or integrate phases.
 
-    Register-free simplification: gate = sigmoid(bias + temperature * delta_rms)
-    where delta_rms = sqrt(mean(delta²)).
+    gate = sigmoid(learned_bias + temperature * delta_rms)
 
-    No register alignment, no write projections, no write gates.
-    The cross-scale state lives in the shared StrideStack (stride overlaps).
-
-    Per-phase learned temperature and bias (fp32 scalars).
+    Per-pass learned temperature and bias (fp32 scalars).
     """
 
-    def __init__(
-        self,
-        d_model: int,
-        n_phases: int = 3,
-    ):
+    def __init__(self, d_model: int):
         super().__init__()
         self.d_model = d_model
-        self.n_phases = n_phases
-
-        # Temperature and bias — fp32 scalars, one per phase
         # temperature init 1.0, bias init 0.0 → gate starts near 0.5
-        self.temperature = [mx.ones((1,)) for _ in range(n_phases)]
-        self.learned_bias = [mx.zeros((1,)) for _ in range(n_phases)]
+        self.temperature = mx.ones((1,))
+        self.learned_bias = mx.zeros((1,))
 
-    def gate_phase(
-        self,
-        delta: mx.array,
-        phase_idx: int,
-    ) -> tuple[mx.array,]:
-        """Gate a phase's output using delta_rms scalar gate.
+    def __call__(self, delta: mx.array) -> mx.array:
+        """Compute scalar gate from delta RMS.
 
-        delta:      (B, L, d_model) phase output
-        phase_idx:  0 = dispatch, 1 = stride, 2 = integrate
+        delta: (B, L, d_model) pass output delta
 
         Returns:
-          gate: (1,) scalar gate value (sigmoid)
+          gate: () scalar gate value in (0, 1)
         """
-        delta_rms = mx.sqrt(mx.mean(delta * delta) + 1e-8)
-        gate = mx.sigmoid(
-            self.learned_bias[phase_idx]
-            + self.temperature[phase_idx] * delta_rms
-        )
-        return (gate,)
-
-    def __call__(
-        self,
-        deltas: list[mx.array],
-    ) -> tuple[list[mx.array], list[mx.array]]:
-        """Gate all phases for a pass.
-
-        deltas:    list of n_phases delta tensors, each (B, L, d_model)
-
-        Returns:
-          gates:         per-phase gate scalars
-        """
-        gates = []
-        for phase_idx, delta in enumerate(deltas):
-            (gate,) = self.gate_phase(delta, phase_idx)
-            gates.append(gate)
-        return gates
+        rms = mx.sqrt(mx.mean(delta * delta) + 1e-8)
+        gate = mx.sigmoid(self.learned_bias + self.temperature * rms)
+        return gate
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -296,10 +262,11 @@ class AlgedonicAlert(nn.Module):
     Direct bypass from operational metrics to S5, monitoring the
     HEALTH of the control system itself — not its content.
 
-    In V13 (register-free, 8 passes):
-      - No register bank norms (registers gone)
-      - 8 passes instead of 7
-      - INPUT_DIM = 58 (padded to 64 for TernaryLinear group_size)
+    V13 simplified (dispatch dissolved):
+      - No dispatch weight means / entropy / compute gate
+      - WHNF gate means replace dispatch metrics
+      - 8 passes, 7 S2 transitions
+      - INPUT_DIM = 47 (padded to 48 for TernaryLinear group_size)
 
     Mechanism:
       - Separate gate: per-pass factor ∈ [0, 2] via 1 + tanh(logit)
@@ -310,31 +277,26 @@ class AlgedonicAlert(nn.Module):
     """
 
     # Input metric dimensions (must match _collect_alarm_metrics in model.py)
-    # V13: 8 passes, 7 S2 transitions, 8 combinators — no register bank norms
+    # V13 simplified: dispatch dissolved, WHNF gate replaces dispatch metrics
     N_S3_GATE_MEANS = 8       # mean S3 gate per pass
-    N_S3_GATE_MINS = 8        # min S3 gate per pass (most suppressed phase)
     N_S2_CONFLICTS = 7        # cosine between consecutive pass deltas (n_passes - 1)
-    N_DISPATCH = 8            # combinator weight means (K, I, B, C, D, Y, W, WHNF)
-    N_DISPATCH_ENTROPY = 1    # dispatch distribution entropy
-    N_COMPUTE_GATE = 2        # mean + active fraction
+    N_WHNF_GATE_MEANS = 8     # mean WHNF gate per pass (replaces dispatch + compute gate)
     N_RAW_DELTA_NORMS = 8     # L2 norm of each raw delta
     N_GATED_DELTA_NORMS = 8   # L2 norm of each gated delta
     N_SUPPRESSION_RATIOS = 8  # gated/raw ratio per pass
 
-    # 8+8+7+8+1+2+8+8+8 = 58
-    INPUT_DIM = (N_S3_GATE_MEANS + N_S3_GATE_MINS + N_S2_CONFLICTS +
-                 N_DISPATCH + N_DISPATCH_ENTROPY + N_COMPUTE_GATE +
+    # 8+7+8+8+8+8 = 47; pad to 48 (next multiple of 16)
+    INPUT_DIM = (N_S3_GATE_MEANS + N_S2_CONFLICTS + N_WHNF_GATE_MEANS +
                  N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
-                 N_SUPPRESSION_RATIOS)  # = 58
+                 N_SUPPRESSION_RATIOS)  # = 47
 
-    # TernaryLinear requires in_features divisible by group_size=64.
-    # 58 → next multiple of 64 is 64.
+    # TernaryLinear requires in_features divisible by group_size=16 (or 64).
+    # 47 → next multiple of 48 fits in 64; use 64 for safety.
     _INPUT_DIM_PADDED = 64
 
-    def __init__(self, n_passes: int = 8, n_combinators: int = 8):
+    def __init__(self, n_passes: int = 8):
         super().__init__()
         self.n_passes = n_passes
-        self.n_combinators = n_combinators
 
         # Single ternary linear: operational metrics → per-pass alarm logits.
         # Output padded to multiple of 16, take [:n_passes].
@@ -382,10 +344,9 @@ def make_components(cfg) -> dict:
       s2:        S2Coordinator
       alarm:     AlgedonicAlert
     """
-    from kernel_dispatch import N_COMBINATORS
     return {
         "s3_passes": [
-            S3Ternary(d_model=cfg.d_model, n_phases=3)
+            S3Ternary(d_model=cfg.d_model)
             for _ in range(cfg.n_passes)
         ],
         "s5": S5Reweight(
@@ -393,10 +354,7 @@ def make_components(cfg) -> dict:
             n_passes=cfg.n_passes,
         ),
         "s2": S2Coordinator(d_model=cfg.d_model),
-        "alarm": AlgedonicAlert(
-            n_passes=cfg.n_passes,
-            n_combinators=N_COMBINATORS,
-        ),
+        "alarm": AlgedonicAlert(n_passes=cfg.n_passes),
     }
 
 
@@ -410,17 +368,13 @@ if __name__ == "__main__":
     d_model = 512
     n_passes = 8
 
-    print("Testing S3Ternary...")
-    s3 = S3Ternary(d_model, n_phases=3)
+    print("Testing S3Ternary (single-phase)...")
+    s3 = S3Ternary(d_model)
     delta = mx.random.normal((1, 32, d_model))
-    for phase_idx in range(3):
-        (gate,) = s3.gate_phase(delta, phase_idx)
-        mx.eval(gate)
-        assert gate.shape == (1,)
-    gates = s3([delta, delta, delta])
-    mx.eval(*gates)
-    assert len(gates) == 3
-    print(f"  S3: {len(gates)} gates, shapes ok ✓")
+    gate = s3(delta)
+    mx.eval(gate)
+    assert gate.shape == (1,), f"Expected shape (1,), got {gate.shape}"
+    print(f"  S3: gate shape {gate.shape}, value={gate.item():.4f} ✓")
 
     print("Testing S5Reweight...")
     s5 = S5Reweight(d_model, n_passes=n_passes)
