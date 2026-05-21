@@ -25,6 +25,11 @@ Constraint sweet spot: 18 per-layer targets is optimal.
   18 targets (per-layer) → accuracy + crystal both good
   126 targets (full loom) → crystal perfect but accuracy plateaus
 
+GD converges in 100 steps (87% of 3000). Geometry (crystal loss)
+converges in ~5 steps. CE (accuracy) converges in ~100. The last
+2900 steps add 13%. Zero-training beams fail — CE is essential
+for the input-output mapping, geometry alone gives crystal only.
+
 ## Proof chain (solid, sessions 95-126)
 
 - PCA-Q crystal: 0.91-0.94 agreement, 4 models
@@ -44,6 +49,8 @@ Constraint sweet spot: 18 per-layer targets is optimal.
 - **Don't touch plates — beams compensate for 27% sign damage**
 - **18 per-layer crystal targets is the sweet spot (not 6, not 126)**
 - **FFN routing and output circuits are completely separate (0 overlap)**
+- **GD converges in 100 steps (87% of 3000) — geometry in 5, accuracy in 100**
+- **Zero-training beams fail — CE is essential, not just crystal loss**
 
 ## Session 126: combinators are rotations + Q2 conversion
 
@@ -57,6 +64,7 @@ Constraint sweet spot: 18 per-layer targets is optimal.
 | 6 | FFN circuit probe | Routing + output circuits are separate (0 overlap), Q2 inverts them |
 | 7 | Circuit fix | Surgical fix hurt (101.2%) — oracle signs wrong for student frame |
 | 8 | **Loom melt** | 126 targets: crystal=+0.979 but acc plateaus. **18 per-layer is sweet spot** |
+| 9 | **Computed beam** | 0-step beams fail (4%). 100 steps = 87% of 3000. **GD converges fast** |
 
 ### The rotation model
 

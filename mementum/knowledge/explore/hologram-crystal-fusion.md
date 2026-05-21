@@ -270,3 +270,32 @@ oracle signs (session 123) makes beam training beat oracle plates.
 3. **Can we combine loom melt with per-layer?** Maybe 2-3 key bands
    instead of all 7. The transition band (58-64°) and holographic band
    (64-72°) might add the most value without over-constraining.
+
+## GD convergence: 100 steps is enough (session 126, experiment 9)
+
+Computed beam experiment tested the spectrum from zero training to full:
+
+| Steps | Method | Accuracy | % of Full GD |
+|-------|--------|----------|-------------|
+| 0 | Teacher beam (no adjustment) | 0.019 | 4.3% |
+| 0 | Damped beam (attenuate flipped) | 0.036 | 7.7% |
+| 5 | Newton (crystal-only gradient) | 0.012 | 2.7% |
+| 10 | CE + crystal | 0.291 | 64.1% |
+| 100 | CE + crystal | 0.394 | **87.1%** |
+| 500 | CE + crystal | 0.432 | 95.3% |
+| 3000 | CE + crystal (full) | 0.453 | 100% |
+
+Key findings:
+- **Zero-training beams fail** — geometry gives perfect crystal but
+  can't produce correct output tokens. CE is essential.
+- **100 steps = 87% of full** — the last 2900 steps add only 13%.
+  30× speedup for beam training.
+- **Geometry converges in ~5 steps** — Newton beam gets crystal=+0.989
+  in 5 steps of crystal-only gradient. The geometry is easy.
+- **Accuracy needs CE** — the input-output mapping is not derivable
+  from the crystal geometry. It requires seeing actual training data.
+
+Practical implication: beam fitting is cheap (~100 steps). The expensive
+part is measuring the geometry (teacher crystal at each layer). Once
+measured, fitting beams to read the damaged hologram takes seconds,
+not minutes.
