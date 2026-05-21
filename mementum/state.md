@@ -36,7 +36,16 @@ combinator tracer. 161 measurements total.
    5.53 rad (full circle), but day addition compresses to 0.43 rad (~25°).
    Storage vs computation use different representations.
 
-5. **AGENTS.md fix:** async polling policy had instruction-only gate
+5. **Gamma etch FAILS to change crossing angles** — magnitudes scale
+   output dims, but loom geometry lives in sign correlations (input
+   subspace overlap). Before=77.54°, After=77.56°. Need Q-rotation
+   holographic etch to change signs, not just magnitudes.
+
+6. **Q-rotation etch is the right technique** — session 117's multi-angle
+   sign voting creates the correlations. Existing code for mini model;
+   needs bridging to v6 StrideStack with Qwen3-14B as teacher.
+
+7. **AGENTS.md fix:** async polling policy had instruction-only gate
    that failed in practice. Added checkpoint gate (structural fix).
    Proved: `structure > instruction` for preventing oscillation.
 

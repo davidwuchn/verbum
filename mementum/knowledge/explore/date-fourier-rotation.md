@@ -211,6 +211,46 @@ The distributed rotation finding supports the crystal model:
 - The L11 phase transition (SV jump 2×) looks like nucleation —
   the circular structure "crystallizes" at a specific depth
 
+## Session 128 Crystal Etch Findings
+
+### Gamma etch doesn't change crossing angles
+
+Etching the pretrained magnitude spectrum (gamma) into v6 StrideStack
+had NO effect on loom crossing angles (77.54° → 77.56°). Gamma scales
+output dimensions (rows), but crossing angles measure input subspace
+overlap (right singular vectors = column structure). The loom geometry
+lives in **sign correlations** between Q and K, not in magnitudes.
+
+### Q-rotation holographic etch is the right technique
+
+The existing Q-rotation tomographic etch (session 117) changes SIGNS
+through gradient vote accumulation across multiple Q angles:
+
+```
+8-rotation etch:  0.406 acc, 16K flips (15%) — best on mini model
+sign voting:      best reconstruction method (beats SVD, magnitude-weighted)
+```
+
+This is the technique that creates sign correlations — exactly what's
+needed to move crossing angles from 77° (uncorrelated) to 56° (correlated).
+The holographic recording from multiple angles creates the interference
+patterns that encode angular relationships.
+
+### Path forward: holographic Q-rotation etch on v6
+
+Existing pieces:
+- `holographic_etch.py` — reads beams from Qwen3-14B (teacher)
+- `q_rotation_etch_exp.py` — multi-rotation sign accumulation (vote)
+- Need: bridge these to etch Qwen's crystal into v6 StrideStack signs
+
+Pipeline:
+1. Read Qwen3-14B attention/FFN beams at multiple depths
+2. For each Q rotation (8+), forward probes through v6
+3. Accumulate sign(gradient) votes on v6's ternary stride weights
+4. After all rotations, flip confident positions (majority vote)
+5. Measure loom angles — should show differentiation
+6. Train beams (continuous params) with relational loss to latch
+
 ## Open questions
 
 1. **Does the cumulative rotation across L12-L16 sum to 2π/7?** We
