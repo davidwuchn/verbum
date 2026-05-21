@@ -470,11 +470,16 @@ class V13Model(nn.Module):
         ).mean()
         self._last_ce = mx.stop_gradient(ce_loss)
 
-        # ── Crystal lattice loss ──────────────────────────────
+        # ── Crystal lattice loss (nucleation well) ─────────────
+        # Exponential coupling creates a deep energy minimum at perfect
+        # crystal alignment. The beam falls into the well as GD progresses.
+        # At perfect alignment: factor = 1.0 (CE runs freely).
+        # At slight misalignment: factor grows exponentially (strong nudge).
+        # This IS nucleation physics — the crystal attracts the beam.
         crystal_factor = mx.array(1.0)
         if self.cfg.use_relational_loss:
             crystal_loss = self.compute_crystal_loss()
-            crystal_factor = 1.0 + self.cfg.rel_lambda * crystal_loss
+            crystal_factor = mx.exp(self.cfg.rel_lambda * crystal_loss)
             self._last_crystal_loss = mx.stop_gradient(crystal_loss)
 
         # ── Holographic progressive loss ──────────────────────

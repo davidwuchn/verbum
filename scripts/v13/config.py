@@ -128,7 +128,10 @@ class V13Config:
     # PCA-Q targets (session 120): 3-4× sharper than hidden-state targets.
     # Three zones with measured constants from 4-model consensus.
     use_relational_loss: bool = True
-    rel_lambda: float = 0.01
+    rel_lambda: float = 50.0  # exponential coupling: exp(λ × crystal_loss)
+    # At crystal=0.01 (init): exp(0.5)=1.65 (65% CE amplification)
+    # At crystal=0.001 (aligned): exp(0.05)=1.05 (5% — nearly free)
+    # At crystal=0.0 (perfect): exp(0)=1.0 (CE only — nucleation complete)
 
     # Zone A (0-20%): encode. K↔I=0.92, B↔D=0.98. Two orthogonal groups.
     # Order: K I B C D Y W WHNF
