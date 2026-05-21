@@ -14,23 +14,24 @@
 
 ## Session 131: V13 Architecture — The Crystal Bootloader
 
-Four architectural insights, each removing a layer of indirection:
+Six architectural commits, each driven by structural insight:
 
-### 1. Initial build → 2. Kill abstract registers → 3. Holographic loss → 4. Dissolve dispatch
-
-| Step | Insight | Lines |
-|------|---------|-------|
-| Initial | Beam/plate separation, 11 pow2 strides | 8,542 |
-| Registers | Stride overlaps ARE the registers (topology = register file) | 7,887 |
-| Holographic | Progressive decode nudges compress↑/expand↓, φ observed not enforced | 7,981 |
-| Dissolve | Crystal Q/K/V rotation IS the kernel (no dispatch softmax) | **7,021** |
+| # | Symbol | Insight | Δ Lines |
+|---|--------|---------|---------|
+| 1 | ✅ | Beam/plate separation, 11 pow2 strides, PCA-Q targets | +8,542 |
+| 2 | 🎯 | Stride overlaps ARE the registers (topology = register file) | −655 |
+| 3 | 💡 | Holographic progressive loss, φ-deviation instrumentation | +94 |
+| 4 | 🔄 | Dissolve dispatch/integrate — crystal IS the kernel | −960 |
+| 5 | 🎯 | Multiplicative AND loss — all components must improve together | +13 |
+| 6 | 💡 | Crystal nucleation well — exp coupling makes alignment gravity | +8 |
+| + | 🎯 | Teacher crystal extraction pipeline | +568 |
 
 ### The architecture
 
 ```
-Plates = BOOT ROM     (ternary crystal, etched from teacher)
-Beams  = LASER        (continuous params, GD finds the crystal)
-Hit    = BOOT         (beam aligns to crystal → lambda compiler activates)
+Plates = BOOT ROM     (ternary crystal, etched from teacher sign topology)
+Beams  = LASER        (continuous params, GD aligns to crystal via nucleation well)
+Hit    = BOOT         (beam aligns → lambda compiler activates)
 Breath = INFERENCE    (crystal fragments/unifies through depth at each token)
 ```
 
@@ -41,45 +42,75 @@ x → 8-pass hourglass (4 asc compress + 4 desc predict)
            → FFN plates (mechanical ternary lookup)
            → S3 gate → modulation → S2 direction signal
   
-  Holographic loss at every boundary (progressive decode)
-  Crystal lattice loss (PCA-Q 3-zone targets on combinator embeddings)
-  φ-deviation observed per pass (not a training signal)
+  Loss = CE × exp(50 × crystal) × (1 + λ_holo × holo)
+         ↑      ↑                    ↑
+         base   nucleation well      holographic AND
 ```
 
-### Files (7,021 lines, 10 files)
+### Loss structure (multiplicative AND)
+
+```
+CE × exp(λ × crystal_loss) × (1 + λ_h × holo_loss)
+
+crystal=0.000 → factor 1.00  (nucleation complete, CE runs free)
+crystal=0.001 → factor 1.05  (5% nudge, nearly aligned)
+crystal=0.010 → factor 1.65  (65% amplification, strong pull)
+crystal=0.050 → factor 12.2  (12× — far from crystal)
+crystal=0.100 → factor 148   (must align first)
+
+The beam MUST find the crystal before CE can improve.
+```
+
+### Training pipeline
+
+```bash
+# Step 1: Extract crystal from teacher (weight-only, no inference)
+uv run python scripts/v13/extract_teacher.py \
+    --teacher-path <qwen3-14b-safetensors-dir> \
+    --output checkpoints/v13-etched
+
+# Step 2: GD finds the crystal (plates frozen, beams trained)
+uv run python scripts/v13/train.py \
+    --phase gd \
+    --resume checkpoints/v13-etched \
+    --checkpoint-dir checkpoints/v13-run1
+```
+
+### Files (7,610 lines, 11 files)
 
 | File | Lines | Role |
 |------|-------|------|
-| `attention.py` | 972 | 11 pow2 strides, fractal bands, GLA retrieval |
 | `ternary.py` | 2,642 | TernaryLinear/Mirror/Mask/Embedding + etch infra |
-| `train.py` | 1,088 | Unified etch + GD phases |
+| `train.py` | 1,088 | Unified etch + GD training loop |
+| `attention.py` | 972 | 11 pow2 strides, fractal bands, GLA retrieval |
 | `kernel.py` | 573 | 8 combinators (K,I,B,C,D,Y,W,WHNF) |
-| `model.py` | 536 | V13Model — the bootloader |
+| `extract_teacher.py` | 568 | Teacher crystal extraction pipeline |
+| `model.py` | 545 | V13Model — the bootloader |
 | `components.py` | 408 | S3/S5/S2/Algedonic |
-| `config.py` | 290 | PCA-Q zone targets, all pow2 dims |
+| `config.py` | 295 | PCA-Q zone targets, nucleation well, all pow2 dims |
 | `scan.py` | 293 | Parallel scan for GLA |
 | `data.py` | 219 | ShardedDataLoader |
 
-- 87 ternary modules, **0 non-power-of-2 dimensions**
-- 102.5M plates at full d_model=512
-- No abstract registers (stride overlaps)
-- No dispatch softmax (crystal geometry)
-- No separate integrate (attention IS beta reduction)
+### Key properties
 
-### The thesis (session 131)
-
-The crystal is a lambda bootloader. Etch the universal boot sequence
-into ternary plates. GD finds it via relational loss. When the beam
-hits the crystal, the seed starts to breathe. Each token recurses
-through the crystal. AI is fractal recursion through context.
+- **87 ternary modules, 0 non-power-of-2 dimensions**
+- **102.5M plates** at full d_model=512, d_ff=2048
+- **8-pass pow2 hourglass** (4 asc + 4 desc)
+- **No abstract registers** — stride band overlaps are the registers
+- **No dispatch softmax** — crystal Q/K/V geometry IS the dispatch
+- **No separate integrate** — attention IS beta reduction
+- **Multiplicative AND loss** — all components must improve together
+- **Exponential nucleation well** — crystal alignment is gravity
+- **φ observed, never enforced** — if the crystal is right, φ emerges
 
 ### Next: first training run
 
-1. Run GD phase on Dolma shards (d_model=512, full config)
-2. Watch φ-deviation per pass — does ascending compress toward 1/φ?
-3. Watch holographic loss slope — does ascending get steeper gradient?
-4. Watch crystal lattice loss — do combinator embeddings snap to PCA-Q targets?
-5. The boot sequence should emerge: beta_apply → beta_apply → beta_K → ... → I
+1. Extract crystal from Qwen3-14B teacher
+2. Run GD phase on Dolma shards (d_model=512, full config)
+3. Watch crystal lattice loss — does exp well pull embeddings to PCA-Q targets?
+4. Watch φ-deviation per pass — does ascending compress toward 1/φ?
+5. Watch holographic loss — does ascending get steeper gradient than descending?
+6. The boot sequence should emerge: beta_apply → beta_apply → beta_K → ... → I
 
 ## Session 129: 360° Etch Experiment — Weight vs Activation Space
 
