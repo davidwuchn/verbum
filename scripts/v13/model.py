@@ -1,19 +1,23 @@
 """
-v13 Model — Beam/Plate Separated Architecture.
+v13 Model — Register-Free Beam/Plate Architecture.
 
-Evolution from v12: clean separation of ternary plates (topology, etch-shaped)
-from continuous beams (routing, GD-trained). Key changes:
+Evolution: registers removed entirely. Stride overlaps between fractal
+bands carry cross-scale state naturally through the shared StrideStack —
+the intersection points where multiple attention scales see the same
+hidden state. No abstract register vectors needed.
 
-  - 11 power-of-2 strides (1..1024, uniform 2× gaps)
-  - Separated dispatch: plate path + beam path add in logit space
-  - Mechanical WHNF FFN (zero continuous params)
-  - PCA-Q crystal lattice loss (3-zone, constant targets)
-  - No math kernels, no abstraction slots, no CategoryDispatch
-  - One training script: etch phase + GD phase
+8-pass hourglass (power-of-2):
+  L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
+  Pass  0       1       2      3      4      5      6      7
 
-Symmetric hourglass (7 passes):
-  L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
-  Pass  0       1       2         3       4      5      6
+Key changes from previous version:
+  - Remove all register machinery (register_inits, register_norm, banks)
+  - Remove S4Ternary, MetaS4Ternary, RetrievalRegisters
+  - 8 passes (was 7): apex splits into L3↑ and L3↓
+  - S3: gate_phase(delta, phase_idx) → (gate,) — no registers
+  - S5: takes only pass_deltas, no banks
+  - AlgedonicAlert: 8-pass INPUT_DIM=58
+  - _run_level_pass: just dispatch→stride→integrate, each S3-gated
 
 License: MIT
 """
@@ -27,23 +31,20 @@ import mlx.core as mx
 import mlx.nn as nn
 
 from config import V13Config
-from ternary import TernaryLinear, TernaryEmbedding, TernaryMirror
+from ternary import TernaryLinear, TernaryEmbedding
 from attention import HybridStrideStack
 from components import (
-    S4Ternary,
     S3Ternary,
-    MetaS4Ternary,
     S5Reweight,
     S2Coordinator,
     AlgedonicAlert,
-    RetrievalRegisters,
 )
 from kernel_dispatch import CombinatorDispatch, CombinatorIntegrate, N_COMBINATORS
 
 
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
 # Crystal diagnostics — measure lattice formation from PCA-Q targets
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
 
 
 def compute_crystal_diagnostics(model: "V13Model") -> dict:
@@ -84,9 +85,9 @@ def compute_crystal_diagnostics(model: "V13Model") -> dict:
     return metrics
 
 
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
 # Crystal lattice loss — PCA-Q zone targets (constant, every step)
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
 
 
 def crystal_lattice_loss(
@@ -107,7 +108,6 @@ def crystal_lattice_loss(
 
     # Upper triangle mask
     n = cos_matrix.shape[0]
-    # Build triu indices
     rows, cols = [], []
     for i in range(n):
         for j in range(i + 1, n):
@@ -122,118 +122,77 @@ def crystal_lattice_loss(
     return mx.mean(diff * diff)
 
 
-# ══════════════════════════════════════════════════════════════════
-# V13Model — Beam/Plate Separated Hourglass
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════
+# V13Model — Register-Free 8-Pass Hourglass
+# ══════════════════════════════════════════════════════════════════════
 
 
 class V13Model(nn.Module):
-    """Beam/plate separated VSM: 8-combinator dispatch + stride stack.
+    """Register-free VSM: 8-combinator dispatch + shared stride stack.
 
-    7 passes: L0↑ → L1↑ → L2↑ → L3_apex → L2↓ → L1↓ → L0↓
+    8 passes: L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
 
-    Register semantics:
-      reg 0: combinator — K/I/B/C identity at this position
-      reg 1: binding_depth — how many lambdas deep (0=free, 1=bound, ...)
-      reg 2: phase — recognize / identify / resolve / produce
-
-    Retrieval register semantics:
-      ret_0: associative retrieval state — recent binding context
-      ret_1: associative retrieval state — long-range argument memory
+    Stride overlaps between fractal bands carry cross-scale state:
+      L0↑↔L1↑: s4, s8   — token↔phrase boundary
+      L1↑↔L2↑: s16, s32 — phrase↔paragraph boundary
+      L2↑↔L3↑: s128     — paragraph↔document boundary
+      L3↑↔L3↓: full apex band (s128..s1024)
+      and mirrors on the descending arm.
     """
 
-    REGISTER_NAMES = ("combinator", "binding_depth", "phase")
-    RETRIEVAL_REGISTER_NAMES = tuple(f"ret_{i}" for i in range(2))
-    N_PASSES = 7
+    N_PASSES = 8
     N_ASC_PASSES = 4
-    N_DESC_PASSES = 3
-    PASS_NAMES = ("L0_asc", "L1_asc", "L2_asc", "L3_apex",
-                  "L2_desc", "L1_desc", "L0_desc")
+    N_DESC_PASSES = 4
+    PASS_NAMES = (
+        "L0_asc", "L1_asc", "L2_asc", "L3_asc",
+        "L3_desc", "L2_desc", "L1_desc", "L0_desc",
+    )
 
     def __init__(self, cfg: V13Config):
         super().__init__()
         self.cfg = cfg
         d = cfg.d_model
-        d_reg = cfg.d_register
-        n_reg = cfg.n_registers
-        self.d_reg_real = d_reg * 2
 
         # ── S5: Identity ──────────────────────────────────────
         self.embed = TernaryEmbedding(cfg.vocab_size, d)
         self.pos_embed = TernaryEmbedding(cfg.max_seq_len, d)
         self.embed_norm = nn.RMSNorm(d)
 
-        # Register bank 0: learnable real init
-        self.register_inits = {
-            f"reg_{name}": mx.zeros((self.d_reg_real,))
-            for name in self.REGISTER_NAMES
-        }
-
-        # Cross-pass register norm
-        self.register_norm = nn.RMSNorm(self.d_reg_real)
-
-        # ── S1: Unified stride stack (ALL 7 passes share this) ────
+        # ── S1: Unified stride stack (ALL 8 passes share this) ────
+        # The shared stack carries cross-scale state through stride overlaps.
         self.stride_stack = HybridStrideStack.from_config(cfg)
 
-        # ── Retrieval registers ───────────────────────────────
-        self.retrieval_registers = RetrievalRegisters(
-            d, cfg.d_register, cfg.n_retrieval_registers)
-
         # ── S1: Dispatch→Stride→Integrate ─────────────────────
-        # V13: separated beam/plate paths
         self.combinator_dispatch = CombinatorDispatch(cfg)
         self.combinator_integrate = CombinatorIntegrate(cfg)
 
-        # ── S4: Intelligence ──────────────────────────────────
-        self.s4 = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
-                            dropout=cfg.dropout)
-        self.s4_desc = S4Ternary(d, d_reg, n_registers=n_reg, max_banks=7,
-                                  dropout=cfg.dropout)
-
-        # ── S3: Per-pass gating (7 separate instances) ─────────
+        # ── S3: Per-pass gating (8 separate instances) ─────────
         self.s3_passes = [
-            S3Ternary(d, d_reg, n_phases=3, n_registers=n_reg, d_align=d)
+            S3Ternary(d, n_phases=3)
             for _ in range(self.N_PASSES)
         ]
 
         # ── Modulation projections ────────────────────────────
+        # 4 ascending + 4 descending, each with 3 phases
         self.mod_projs = [
-            TernaryLinear(d, d, pre_norm=False) for _ in range(3)]
+            TernaryLinear(d, d, pre_norm=False) for _ in range(4)]
         for proj in self.mod_projs:
             proj.gamma = mx.zeros_like(proj.gamma)
 
         self.mod_projs_desc = [
-            TernaryLinear(d, d, pre_norm=False) for _ in range(3)]
+            TernaryLinear(d, d, pre_norm=False) for _ in range(4)]
         for proj in self.mod_projs_desc:
             proj.gamma = mx.zeros_like(proj.gamma)
-
-        # ── Meta-S4 ──────────────────────────────────────────
-        self.meta_s4 = MetaS4Ternary(d, d_reg, n_registers=n_reg,
-                                      n_banks=4, dropout=cfg.dropout)
 
         # ── S2: Direction coordination ─────────────────────────
         self.s2 = S2Coordinator(d)
 
         # ── S5: Pass reweighting ──────────────────────────────
-        self.s5_reweight = S5Reweight(
-            d, d_reg, n_registers=n_reg,
-            n_banks=8, n_passes=self.N_PASSES)
+        self.s5_reweight = S5Reweight(d, n_passes=self.N_PASSES)
 
         # ── Algedonic alert ───────────────────────────────────
-        self.algedonic = AlgedonicAlert(n_passes=self.N_PASSES,
-                                         n_combinators=N_COMBINATORS)
-
-        # ── Algedonic channel buffers ─────────────────────────
-        self._algedonic_ema = 0.9
-        self._prev_bank_1_desc = [mx.zeros((self.d_reg_real,))
-                                   for _ in range(n_reg)]
-        self._prev_bank_2_desc = [mx.zeros((self.d_reg_real,))
-                                   for _ in range(n_reg)]
-        self._prev_bank_3_desc = [mx.zeros((self.d_reg_real,))
-                                   for _ in range(n_reg)]
-        self._prev_kernel_algedonic = mx.zeros((self.d_reg_real,))
-        self._prev_retrieval_regs = [
-            mx.zeros((self.d_reg_real,)) for _ in range(cfg.n_retrieval_registers)]
+        self.algedonic = AlgedonicAlert(
+            n_passes=self.N_PASSES, n_combinators=N_COMBINATORS)
 
         # ── PCA-Q zone targets (frozen constants) ─────────────
         self._zone_targets = [
@@ -251,31 +210,17 @@ class V13Model(nn.Module):
     def max_seq_len(self) -> int:
         return self.cfg.max_seq_len
 
-    def _init_bank0(self) -> list[mx.array]:
-        return [self.register_inits[f"reg_{name}"]
-                for name in self.REGISTER_NAMES]
-
-    def _fresh_bank(self) -> list[mx.array]:
-        return [mx.zeros((self.d_reg_real,))
-                for _ in self.REGISTER_NAMES]
-
-    def _init_retrieval_registers(self) -> list[mx.array]:
-        return self.retrieval_registers.init_registers()
-
     def _modulate(self, x, delta, gate, phase_idx, is_descending=False):
+        # phase_idx here is 0,1,2 within a pass; use pass-local idx for proj
         projs = self.mod_projs_desc if is_descending else self.mod_projs
-        return x + gate * mx.tanh(projs[phase_idx](delta))
+        # mod_projs has 4 entries (one per ascending/descending pass-group phase 0)
+        # We use phase_idx modulo len(projs) for safety
+        proj_idx = phase_idx % len(projs)
+        return x + gate * mx.tanh(projs[proj_idx](delta))
 
     @staticmethod
     def _delta_rms(delta: mx.array) -> mx.array:
         return mx.sqrt(mx.mean(delta * delta) + 1e-8)
-
-    def _stride_range_for_pass(self, pass_idx: int) -> tuple[int, int] | None:
-        if not self.cfg.fractal_stride_bands:
-            return None
-        if pass_idx < len(self.cfg.stride_band_ranges):
-            return self.cfg.stride_band_ranges[pass_idx]
-        return None
 
     # ── Crystal lattice loss (3-zone PCA-Q targets) ───────────
 
@@ -303,12 +248,23 @@ class V13Model(nn.Module):
         pass_deltas: list[mx.array],
         raw_deltas: list[mx.array],
         all_pass_alarm: list[dict],
-        all_banks: list[list[mx.array]],
     ) -> mx.array:
-        """Pack operational health metrics into a single vector for AlgedonicAlert."""
+        """Pack operational health metrics into a single vector for AlgedonicAlert.
+
+        Layout (total = 58, padded to 64):
+          1. S3 gate means  (8)
+          2. S3 gate mins   (8)
+          3. S2 conflicts   (7)
+          4. Dispatch means (8)
+          5. Dispatch entropy (1)
+          6. Compute gate   (2)
+          7. Raw delta norms (8)
+          8. Gated delta norms (8)
+          9. Suppression ratios (8)
+        """
         metrics = []
 
-        # 1. S3 gate means per pass (7)
+        # 1. S3 gate means per pass (8)
         for pass_gates in all_s3_gates:
             if pass_gates:
                 gate_sum = pass_gates[0]
@@ -318,7 +274,7 @@ class V13Model(nn.Module):
             else:
                 metrics.append(mx.array(0.5))
 
-        # 2. S3 gate mins per pass (7)
+        # 2. S3 gate mins per pass (8)
         for pass_gates in all_s3_gates:
             if pass_gates:
                 gate_min = pass_gates[0]
@@ -328,7 +284,7 @@ class V13Model(nn.Module):
             else:
                 metrics.append(mx.array(0.5))
 
-        # 3. S2 conflict cosines (6)
+        # 3. S2 conflict cosines (7 = N_PASSES - 1)
         for i in range(self.N_PASSES - 1):
             s_prev = pass_deltas[i].mean(axis=(0, 1))
             s_curr = pass_deltas[i + 1].mean(axis=(0, 1))
@@ -382,27 +338,19 @@ class V13Model(nn.Module):
             metrics.append(mx.array(0.0))
             metrics.append(mx.array(0.0))
 
-        # 7. Raw delta RMS norms (7)
+        # 7. Raw delta RMS norms (8)
         for rd in raw_deltas:
             metrics.append(self._delta_rms(rd))
 
-        # 8. Gated delta RMS norms (7)
+        # 8. Gated delta RMS norms (8)
         for pd in pass_deltas:
             metrics.append(self._delta_rms(pd))
 
-        # 9. S3 suppression ratio per pass (7)
+        # 9. S3 suppression ratio per pass (8)
         for pd, rd in zip(pass_deltas, raw_deltas):
             gated_rms = self._delta_rms(pd)
             raw_rms = self._delta_rms(rd)
             metrics.append(gated_rms / (raw_rms + 1e-8))
-
-        # 10. Register bank mean norms (8)
-        for bank in all_banks:
-            bank_norm_sum = mx.array(0.0)
-            for reg in bank:
-                bank_norm_sum = bank_norm_sum + mx.sqrt(
-                    mx.sum(reg * reg) + 1e-8)
-            metrics.append(bank_norm_sum / len(bank))
 
         metrics_flat = [m.reshape(1) if m.ndim == 0 else m.reshape(1)
                         for m in metrics]
@@ -410,8 +358,26 @@ class V13Model(nn.Module):
 
     # ── Core level-pass ───────────────────────────────────────
 
-    def _run_level_pass(self, x, pass_idx, is_descending, readable_banks,
-                         target_bank, embed_context=None, ret_regs=None):
+    def _run_level_pass(
+        self,
+        x: mx.array,
+        pass_idx: int,
+        is_descending: bool,
+    ) -> tuple[mx.array, mx.array, mx.array, list, dict]:
+        """Run one level-pass: dispatch → stride → integrate, S3-gated.
+
+        Args:
+            x:             (B, L, d_model) residual stream
+            pass_idx:      0-7
+            is_descending: True for passes 4-7
+
+        Returns:
+            x:           updated residual stream
+            pass_delta:  net change x_after - x_before
+            raw_delta:   sum of all phase raw deltas (ungated)
+            phase_gates: list of 3 gate scalars
+            pass_alarm:  dict with dispatch_weights_live, compute_gate_live
+        """
         x_before = x
         raw_phases = []
         phase_gates = []
@@ -420,36 +386,23 @@ class V13Model(nn.Module):
             'compute_gate_live': None,
         }
 
-        s4 = self.s4_desc if is_descending else self.s4
-
-        # S4 scan
-        s4_residual = x
-        if embed_context is not None:
-            s4_residual = mx.concatenate([x, embed_context], axis=1)
-        s4_updates, _ = s4(readable_banks, s4_residual)
-        target_bank = [self.register_norm(target_bank[i] + s4_updates[i])
-                       for i in range(self.cfg.n_registers)]
-
         # ── Phase 0: Dispatch ──────────────────────────────────
-        dispatch_weights, comb_context = self.combinator_dispatch(x, pass_idx=pass_idx)
-        # Cache live dispatch for alarm
+        dispatch_weights, comb_context = self.combinator_dispatch(
+            x, pass_idx=pass_idx)
         pass_alarm['dispatch_weights_live'] = dispatch_weights
 
-        delta = comb_context - x  # dispatch effect on residual
+        delta = comb_context - x
         raw_phases.append(delta)
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 0)
+        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 0)
         phase_gates.append(gate)
         x = self._modulate(x, delta, gate, phase_idx=0, is_descending=is_descending)
 
         # ── Phase 1: Stride (propagate with beam angles) ──────
         reverse = is_descending and self.cfg.desc_stride_reverse
-        stride_out = self.stride_stack(
-            x, pass_idx=pass_idx, reverse=reverse)
+        stride_out = self.stride_stack(x, pass_idx=pass_idx, reverse=reverse)
         delta = stride_out - x
         raw_phases.append(delta)
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 1)
+        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 1)
         phase_gates.append(gate)
         x = self._modulate(x, delta, gate, phase_idx=1, is_descending=is_descending)
 
@@ -459,25 +412,20 @@ class V13Model(nn.Module):
             pass_idx=pass_idx)
         delta = integrate_out - x
         raw_phases.append(delta)
-        _, target_bank, gate, _ = self.s3_passes[pass_idx].gate_phase(
-            target_bank, delta, 2)
+        (gate,) = self.s3_passes[pass_idx].gate_phase(delta, 2)
         phase_gates.append(gate)
         x = self._modulate(x, delta, gate, phase_idx=2, is_descending=is_descending)
 
-        # Cache compute gate for alarm
         if hasattr(self.combinator_integrate, '_compute_gate_live'):
             pass_alarm['compute_gate_live'] = \
                 self.combinator_integrate._compute_gate_live
-
-        # Write retrieval registers (ascending only)
-        if not is_descending and ret_regs is not None:
-            ret_regs = self.retrieval_registers.write(ret_regs, x)
 
         pass_delta = x - x_before
         raw_delta = raw_phases[0]
         for rd in raw_phases[1:]:
             raw_delta = raw_delta + rd
-        return x, target_bank, pass_delta, raw_delta, phase_gates, pass_alarm, ret_regs
+
+        return x, pass_delta, raw_delta, phase_gates, pass_alarm
 
     # ── Forward ───────────────────────────────────────────────
 
@@ -490,157 +438,72 @@ class V13Model(nn.Module):
 
         positions = mx.arange(L)
         x = self.embed_norm(self.embed(tokens) + self.pos_embed(positions))
-        x_embed = x
-
-        bank_0 = self._init_bank0()
-        bank_1_asc = self._fresh_bank()
-        bank_2_asc = self._fresh_bank()
-        bank_3_asc = self._fresh_bank()
-        bank_4_apex = self._fresh_bank()
-        bank_3_desc = self._fresh_bank()
-        bank_2_desc = self._fresh_bank()
-        bank_1_desc = self._fresh_bank()
 
         pass_deltas = []
         raw_deltas = []
         all_s3_gates = []
         all_pass_alarm = []
 
-        prev_b1d = [mx.stop_gradient(r) for r in self._prev_bank_1_desc]
-        prev_b2d = [mx.stop_gradient(r) for r in self._prev_bank_2_desc]
-        prev_b3d = [mx.stop_gradient(r) for r in self._prev_bank_3_desc]
-        prev_kernel = [mx.stop_gradient(self._prev_kernel_algedonic)]
-
-        asc_s3_gates = []
-        ret_regs = self._init_retrieval_registers()
-
         # ── Pass 0: L0↑ ──────────────────────────────────────
-        x, bank_1_asc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 0, False, [bank_0, prev_b1d, prev_kernel], bank_1_asc,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
-        x = x + self.s2.direction_signal(pd, 0)
+        x, pd0, rd0, pg0, pa0 = self._run_level_pass(x, 0, False)
+        pass_deltas.append(pd0); raw_deltas.append(rd0)
+        all_s3_gates.append(pg0); all_pass_alarm.append(pa0)
+        x = x + self.s2.direction_signal(pd0, 0)
 
         # ── Pass 1: L1↑ ──────────────────────────────────────
-        x, bank_2_asc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 1, False, [bank_0, bank_1_asc, prev_b2d, prev_kernel], bank_2_asc,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
-        coherence = S2Coordinator.coherence_factor(pass_deltas[0], pass_deltas[1])
-        x = x + self.s2.direction_signal(pd, 1) * coherence
+        x, pd1, rd1, pg1, pa1 = self._run_level_pass(x, 1, False)
+        pass_deltas.append(pd1); raw_deltas.append(rd1)
+        all_s3_gates.append(pg1); all_pass_alarm.append(pa1)
+        x = x + self.s2.direction_signal(pd1, 1) * S2Coordinator.coherence_factor(pd0, pd1)
 
         # ── Pass 2: L2↑ ──────────────────────────────────────
-        x, bank_3_asc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 2, False,
-            [bank_0, bank_1_asc, bank_2_asc, prev_b3d, prev_kernel], bank_3_asc,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
-        coherence = S2Coordinator.coherence_factor(pass_deltas[1], pass_deltas[2])
-        x = x + self.s2.direction_signal(pd, 2) * coherence
+        x, pd2, rd2, pg2, pa2 = self._run_level_pass(x, 2, False)
+        pass_deltas.append(pd2); raw_deltas.append(rd2)
+        all_s3_gates.append(pg2); all_pass_alarm.append(pa2)
+        x = x + self.s2.direction_signal(pd2, 2) * S2Coordinator.coherence_factor(pd1, pd2)
 
-        # ── Pass 3: L3_apex ──────────────────────────────────
-        x, bank_4_apex, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 3, False,
-            [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, prev_kernel], bank_4_apex,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        asc_s3_gates.extend(pg); all_s3_gates.append(pg); all_pass_alarm.append(pa)
+        # ── Pass 3: L3↑ (apex ascending) ─────────────────────
+        x, pd3, rd3, pg3, pa3 = self._run_level_pass(x, 3, False)
+        pass_deltas.append(pd3); raw_deltas.append(rd3)
+        all_s3_gates.append(pg3); all_pass_alarm.append(pa3)
+        x = x + self.s2.direction_signal(pd3, 3) * S2Coordinator.coherence_factor(pd2, pd3)
 
-        # Pack ascending S3 gates for descending arm
-        asc_gate_flat = mx.concatenate([g.reshape(-1) for g in asc_s3_gates])
-        pad_size = self.d_reg_real - asc_gate_flat.shape[0]
-        if pad_size > 0:
-            asc_gate_vector = mx.concatenate([
-                asc_gate_flat, mx.zeros((pad_size,))])
-        else:
-            asc_gate_vector = asc_gate_flat[:self.d_reg_real]
-        asc_gate_bank = [asc_gate_vector]
+        # ── Pass 4: L3↓ (apex descending) ─────────────────────
+        x, pd4, rd4, pg4, pa4 = self._run_level_pass(x, 4, True)
+        pass_deltas.append(pd4); raw_deltas.append(rd4)
+        all_s3_gates.append(pg4); all_pass_alarm.append(pa4)
+        x = x + self.s2.direction_signal(pd4, 4) * S2Coordinator.coherence_factor(pd3, pd4)
 
-        coherence = S2Coordinator.coherence_factor(pass_deltas[2], pass_deltas[3])
-        x = x + self.s2.direction_signal(pd, 3) * coherence
+        # ── Pass 5: L2↓ ──────────────────────────────────────
+        x, pd5, rd5, pg5, pa5 = self._run_level_pass(x, 5, True)
+        pass_deltas.append(pd5); raw_deltas.append(rd5)
+        all_s3_gates.append(pg5); all_pass_alarm.append(pa5)
+        x = x + self.s2.direction_signal(pd5, 5) * S2Coordinator.coherence_factor(pd4, pd5)
 
-        # ── Pass 4: L2↓ ──────────────────────────────────────
-        x, bank_3_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 4, True,
-            [bank_0, bank_1_asc, bank_2_asc, bank_3_asc, bank_4_apex, asc_gate_bank],
-            bank_3_desc, embed_context=x_embed,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        all_s3_gates.append(pg); all_pass_alarm.append(pa)
-        coherence = S2Coordinator.coherence_factor(pass_deltas[3], pass_deltas[4])
-        x = x + self.s2.direction_signal(pd, 4) * coherence
+        # ── Pass 6: L1↓ ──────────────────────────────────────
+        x, pd6, rd6, pg6, pa6 = self._run_level_pass(x, 6, True)
+        pass_deltas.append(pd6); raw_deltas.append(rd6)
+        all_s3_gates.append(pg6); all_pass_alarm.append(pa6)
+        x = x + self.s2.direction_signal(pd6, 6) * S2Coordinator.coherence_factor(pd5, pd6)
 
-        # ── Pass 5: L1↓ ──────────────────────────────────────
-        x, bank_2_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 5, True,
-            [bank_0, bank_1_asc, bank_3_desc, bank_4_apex, asc_gate_bank],
-            bank_2_desc, embed_context=x_embed,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        all_s3_gates.append(pg); all_pass_alarm.append(pa)
-        coherence = S2Coordinator.coherence_factor(pass_deltas[4], pass_deltas[5])
-        x = x + self.s2.direction_signal(pd, 5) * coherence
-
-        # ── Pass 6: L0↓ ──────────────────────────────────────
-        x, bank_1_desc, pd, rd, pg, pa, ret_regs = self._run_level_pass(
-            x, 6, True,
-            [bank_0, bank_1_asc, bank_2_desc, bank_4_apex, asc_gate_bank],
-            bank_1_desc, embed_context=x_embed,
-            ret_regs=ret_regs)
-        pass_deltas.append(pd); raw_deltas.append(rd)
-        all_s3_gates.append(pg); all_pass_alarm.append(pa)
-
-        # ── Update algedonic buffers ───────────────────────────
-        α = self._algedonic_ema
-        self._prev_bank_1_desc = [
-            mx.stop_gradient(α * self._prev_bank_1_desc[i] + (1 - α) * bank_1_desc[i])
-            for i in range(self.cfg.n_registers)]
-        self._prev_bank_2_desc = [
-            mx.stop_gradient(α * self._prev_bank_2_desc[i] + (1 - α) * bank_2_desc[i])
-            for i in range(self.cfg.n_registers)]
-        self._prev_bank_3_desc = [
-            mx.stop_gradient(α * self._prev_bank_3_desc[i] + (1 - α) * bank_3_desc[i])
-            for i in range(self.cfg.n_registers)]
-
-        if hasattr(self.combinator_dispatch, '_dispatch_weights_live'):
-            dw_mean = mx.stop_gradient(
-                self.combinator_dispatch._dispatch_weights_live.mean(axis=(0, 1)))
-        else:
-            dw_mean = mx.zeros((N_COMBINATORS,))
-        if hasattr(self.combinator_integrate, '_compute_gate_live'):
-            cg_mean = mx.stop_gradient(
-                self.combinator_integrate._compute_gate_live.mean().reshape(1,))
-        else:
-            cg_mean = mx.zeros((1,))
-        kernel_state = mx.concatenate([
-            dw_mean, cg_mean,
-            mx.zeros((self.d_reg_real - N_COMBINATORS - 1,)),
-        ])
-        self._prev_kernel_algedonic = mx.stop_gradient(
-            α * self._prev_kernel_algedonic + (1 - α) * kernel_state)
-
-        self._prev_retrieval_regs = [
-            mx.stop_gradient(
-                α * self._prev_retrieval_regs[i] + (1 - α) * ret_regs[i])
-            for i in range(self.cfg.n_retrieval_registers)]
+        # ── Pass 7: L0↓ ──────────────────────────────────────
+        x, pd7, rd7, pg7, pa7 = self._run_level_pass(x, 7, True)
+        pass_deltas.append(pd7); raw_deltas.append(rd7)
+        all_s3_gates.append(pg7); all_pass_alarm.append(pa7)
+        # No direction signal after final pass
 
         # ── S5 reweighting ─────────────────────────────────────
-        all_banks = [bank_0, bank_1_asc, bank_2_asc, bank_3_asc,
-                     bank_4_apex, bank_3_desc, bank_2_desc, bank_1_desc]
-        meta_gates = self.s5_reweight(all_banks, raw_deltas)
+        meta_gates = self.s5_reweight(pass_deltas)
 
         # ── Algedonic alert ───────────────────────────────────
         alarm_metrics = self._collect_alarm_metrics(
-            all_s3_gates, pass_deltas, raw_deltas,
-            all_pass_alarm, all_banks)
+            all_s3_gates, pass_deltas, raw_deltas, all_pass_alarm)
         alarm_factors = self.algedonic(alarm_metrics)
 
         # Effective gate = S5 × alarm
         effective_gates = meta_gates * alarm_factors
 
+        # Reweight pass contributions
         total_ungated = pass_deltas[0]
         for i in range(1, self.N_PASSES):
             total_ungated = total_ungated + pass_deltas[i]
@@ -648,10 +511,6 @@ class V13Model(nn.Module):
         for i in range(1, self.N_PASSES):
             total_gated = total_gated + effective_gates[i] * pass_deltas[i]
         x = x - total_ungated + total_gated
-
-        # Meta-S4
-        meta_banks = [bank_0, bank_1_desc, bank_3_desc, bank_4_apex]
-        x = self.meta_s4(meta_banks, x)
 
         # Output
         x = self.output_norm(x)
@@ -661,14 +520,12 @@ class V13Model(nn.Module):
         loss = None
         if targets is not None:
             loss = self._compute_loss(logits, targets, all_pass_alarm,
-                                       effective_gates, pass_deltas, x_embed)
+                                       effective_gates, pass_deltas)
         return logits, loss
 
     def _compute_loss(self, logits, targets, all_pass_alarm,
-                       effective_gates, pass_deltas, x_embed):
+                       effective_gates, pass_deltas):
         """Compute total loss: CE + crystal + dispatch KL + entropy."""
-        B, L = targets.shape
-
         # Cross-entropy
         ce_loss = nn.losses.cross_entropy(
             logits.reshape(-1, self.cfg.vocab_size),

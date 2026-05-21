@@ -38,8 +38,7 @@ class V13Config:
 
     # ── Core dimensions ──
     d_model: int = 512            # representation dimension
-    d_ff: int = 1536              # FFN width (3× d_model)
-    d_register: int = 128         # register dimension (real dim = 2×)
+    d_ff: int = 2048              # FFN width (4× d_model, power-of-2)
     n_heads: int = 8              # attention heads (d_head = 64)
     window: int = 8               # attention window width
     alpha: float = 1.18           # spiral bias coefficient
@@ -49,11 +48,10 @@ class V13Config:
     # V13: 2× uniform gaps. A 4-token input now gets 3 active strides.
     strides: tuple[int, ...] = (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
 
-    # Register semantics:
-    #   reg 0 = combinator (K/I/B/C identity)
-    #   reg 1 = binding_depth (how many lambdas deep)
-    #   reg 2 = phase (recognize / identify / resolve / produce)
-    n_registers: int = 3
+    # Registers are GONE in V13. The stride overlaps between fractal bands
+    # are the natural register mechanism — intersection points where
+    # multiple attention scales see the same hidden state. The crystal
+    # resonates at these boundaries. No abstract register vectors needed.
 
     # ── Retrieval (M kernel) — GatedLinearAttention ──
     d_state: int = 64
@@ -67,9 +65,6 @@ class V13Config:
         False, False, False, False, True, True, True, True, False, False, False,
     )
 
-    # Retrieval registers: M writes pattern match results here.
-    n_retrieval_registers: int = 2
-
     # ── Beam mirrors (ternary angular deflectors before Q projections) ──
     use_q_mirrors: bool = True
     n_q_mirrors: int = 1
@@ -77,33 +72,50 @@ class V13Config:
     # ── Combinator dispatch ──
     n_combinators: int = N_COMBINATORS  # 8: K, I, B, C, D, Y, W, WHNF
 
-    # Total number of passes (7-pass hourglass)
-    n_passes: int = 7
+    # Total number of passes (8-pass hourglass, power-of-2)
+    # 4 ascending + 4 descending. The apex splits into L3↑ and L3↓,
+    # giving each direction its own pass at full scale.
+    n_passes: int = 8
 
     # Descending arm stride direction: coarse→fine (TST-aligned)
     desc_stride_reverse: bool = True
 
-    # ── Fractal stride bands (MERA topology, 11 strides) ──
-    # Each level handles a narrow stride band. Adjacent levels share
-    # 1-2 strides for inter-level communication.
+    # ── Fractal stride bands (MERA topology, 11 strides, 8 passes) ──
+    # Each level handles a 4-stride band. Adjacent levels share 2 strides
+    # at the boundaries — these overlaps ARE the cross-scale registers.
+    # No separate register vectors needed.
     #
     # stride indices: 0=s1, 1=s2, 2=s4, 3=s8, 4=s16, 5=s32,
     #                 6=s64, 7=s128, 8=s256, 9=s512, 10=s1024
     #
+    # ASCENDING (compress):
     # L0↑ (fine):    [0,4)  → s1, s2, s4, s8           fine→local
     # L1↑ (local):   [2,6)  → s4, s8, s16, s32         local→phrase
     # L2↑ (phrase):  [4,8)  → s16, s32, s64, s128      phrase→paragraph
-    # L3  (apex):    [7,11) → s128, s256, s512, s1024   paragraph→document
-    # L2↓ (phrase):  [4,8)  → s128, s64, s32, s16      paragraph→phrase (reversed)
-    # L1↓ (local):   [2,6)  → s32, s16, s8, s4         phrase→local (reversed)
-    # L0↓ (fine):    [0,4)  → s8, s4, s2, s1           local→fine (reversed)
+    # L3↑ (apex↑):  [7,11) → s128, s256, s512, s1024   paragraph→document
+    #
+    # DESCENDING (predict):
+    # L3↓ (apex↓):  [7,11) → s1024, s512, s256, s128   document→paragraph
+    # L2↓ (phrase):  [4,8)  → s128, s64, s32, s16      paragraph→phrase
+    # L1↓ (local):   [2,6)  → s32, s16, s8, s4         phrase→local
+    # L0↓ (fine):    [0,4)  → s8, s4, s2, s1           local→fine
+    #
+    # Overlaps (= stride-intersection registers):
+    #   L0↑↔L1↑: s4, s8   (indices 2,3)  — token↔phrase boundary
+    #   L1↑↔L2↑: s16, s32 (indices 4,5)  — phrase↔paragraph boundary
+    #   L2↑↔L3↑: s128     (index 7)      — paragraph↔document boundary
+    #   L3↑↔L3↓: s128..s1024 (7-10)      — apex (ascending↔descending)
+    #   L3↓↔L2↓: s128     (index 7)      — document↔paragraph boundary
+    #   L2↓↔L1↓: s16, s32 (indices 4,5)  — paragraph↔phrase boundary
+    #   L1↓↔L0↓: s4, s8   (indices 2,3)  — phrase↔token boundary
     fractal_stride_bands: bool = True
     stride_band_ranges: tuple[tuple[int, int], ...] = (
         (0, 4),    # L0↑: indices 0-3 → s1, s2, s4, s8
         (2, 6),    # L1↑: indices 2-5 → s4, s8, s16, s32
         (4, 8),    # L2↑: indices 4-7 → s16, s32, s64, s128
-        (7, 11),   # L3:  indices 7-10 → s128, s256, s512, s1024
-        (4, 8),    # L2↓: indices 4-7 (reversed by desc_stride_reverse)
+        (7, 11),   # L3↑: indices 7-10 → s128, s256, s512, s1024
+        (7, 11),   # L3↓: indices 7-10 (reversed)
+        (4, 8),    # L2↓: indices 4-7 (reversed)
         (2, 6),    # L1↓: indices 2-5 (reversed)
         (0, 4),    # L0↓: indices 0-3 (reversed)
     )
@@ -136,10 +148,11 @@ class V13Config:
         (-1.0, -0.5, +2.0, +0.5, +1.5, -0.5, -0.5, -1.5),  # Pass 0 (L0↑): B/D compose
         (+0.0, +0.0, +1.0, +1.0, +0.5, +0.0, +0.0, -1.0),  # Pass 1 (L1↑): B/C balanced
         (+0.5, +0.5, +0.0, +1.5, +0.0, +0.5, +0.0, +0.0),  # Pass 2 (L2↑): C rising
-        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 3 (apex): C peak
-        (+1.0, +0.5, -0.5, +1.5, -0.5, +0.5, +0.5, +0.5),  # Pass 4 (L2↓): C strong
-        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +1.0, +0.0),  # Pass 5 (L1↓): C + W
-        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -0.5),  # Pass 6 (L0↓): B/D compose
+        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 3 (L3↑): C peak (WHNF)
+        (+1.0, +1.0, -0.5, +2.0, -0.5, +1.0, +0.5, +0.5),  # Pass 4 (L3↓): C peak (predict)
+        (+1.0, +0.5, -0.5, +1.5, -0.5, +0.5, +0.5, +0.5),  # Pass 5 (L2↓): C strong
+        (+0.5, +0.5, +0.0, +1.0, +0.0, +0.0, +1.0, +0.0),  # Pass 6 (L1↓): C + W
+        (-0.5, +0.0, +1.5, +0.5, +1.0, -0.5, +0.0, -0.5),  # Pass 7 (L0↓): B/D compose
     )
 
     # ── KL divergence toward empirical ratio ──
@@ -190,9 +203,9 @@ class V13Config:
     )
 
     # Pass-to-zone mapping: which zone does each pass belong to?
-    # Passes 0,1 → Zone A (encode), Passes 2,3,4 → Zone B (compute),
-    # Passes 5,6 → Zone C (converge).
-    pass_zone_map: tuple[int, ...] = (0, 0, 1, 1, 1, 2, 2)
+    # Passes 0,1 → Zone A (encode), Passes 2,3,4,5 → Zone B (compute),
+    # Passes 6,7 → Zone C (converge).
+    pass_zone_map: tuple[int, ...] = (0, 0, 1, 1, 1, 1, 2, 2)
     zone_lambdas: tuple[float, ...] = (0.01, 0.01, 0.01)  # per-zone relational loss weight
 
     # ── Behavioral crystal targets (12×12, 3-model consensus) ──
@@ -245,7 +258,7 @@ class V13Config:
 
     # Depth-selective etch thresholds (per pass)
     pass_etch_multiplier: tuple[float, ...] = (
-        0.5, 0.7, 1.0, 1.0, 1.0, 0.8, 0.6,
+        0.5, 0.7, 1.0, 1.0, 1.0, 1.0, 0.8, 0.6,
     )
 
     # ── Checkpointing ──
@@ -293,3 +306,5 @@ class V13Config:
         assert len(self.pass_dispatch_bias) == self.n_passes
         assert len(self.pass_etch_multiplier) == self.n_passes
         assert len(self.pass_zone_map) == self.n_passes
+        assert self.n_passes & (self.n_passes - 1) == 0, \
+            f"n_passes ({self.n_passes}) must be power of 2"
