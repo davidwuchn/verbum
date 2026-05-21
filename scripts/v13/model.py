@@ -450,24 +450,40 @@ class V13Model(nn.Module):
         return logits, loss
 
     def _compute_loss(self, logits, targets, effective_gates, pass_deltas, x_embed):
-        """Compute total loss: CE + crystal + holographic."""
+        """Compute total loss with multiplicative AND coupling.
+
+        Loss = CE × (1 + λ_crystal × crystal) × (1 + λ_holo × holo)
+
+        AND semantics: the loss is only small when ALL components are small.
+        A CE improvement that degrades the crystal makes loss WORSE (crystal
+        amplifies CE). A crystal improvement that hurts CE makes loss WORSE
+        (CE multiplies crystal). Only changes that improve both survive.
+
+        Each component is also logged individually for monitoring.
+        """
         B, L = targets.shape
 
-        # Cross-entropy
+        # ── CE loss (base) ────────────────────────────────────
         ce_loss = nn.losses.cross_entropy(
             logits.reshape(-1, self.cfg.vocab_size),
             targets.reshape(-1),
         ).mean()
-        loss = ce_loss
         self._last_ce = mx.stop_gradient(ce_loss)
 
-        # ── Holographic progressive loss ─────────────────────
+        # ── Crystal lattice loss ──────────────────────────────
+        crystal_factor = mx.array(1.0)
+        if self.cfg.use_relational_loss:
+            crystal_loss = self.compute_crystal_loss()
+            crystal_factor = 1.0 + self.cfg.rel_lambda * crystal_loss
+            self._last_crystal_loss = mx.stop_gradient(crystal_loss)
+
+        # ── Holographic progressive loss ──────────────────────
+        holo_factor = mx.array(1.0)
         holo_lambda_eff = getattr(self, '_holo_lambda_effective', 0.0)
         if holo_lambda_eff > 0 and self.cfg.use_holographic_loss:
             holo_loss = mx.array(0.0)
-            x_progressive = x_embed  # start from raw embedding
+            x_progressive = x_embed
 
-            # Subsample positions for efficiency
             total_pos = B * L
             n_sample = max(64, total_pos // self.cfg.holo_subsample)
             if n_sample < total_pos:
@@ -476,7 +492,7 @@ class V13Model(nn.Module):
             else:
                 holo_idx = None
 
-            # φ-deviation instrumentation (observation only, not training signal)
+            # φ-deviation instrumentation (observation only)
             phi = (1.0 + math.sqrt(5.0)) / 2.0
             phi_inv = 1.0 / phi
             self._phi_deviations = []
@@ -484,14 +500,14 @@ class V13Model(nn.Module):
             for n in range(self.N_PASSES):
                 x_progressive = x_progressive + effective_gates[n] * pass_deltas[n]
 
-                # Measure φ-compression ratio (instrumentation only)
+                # φ-compression ratio (instrumentation only)
                 rms_before = mx.sqrt(mx.mean(
                     (x_progressive - effective_gates[n] * pass_deltas[n]) ** 2) + 1e-8)
                 rms_after = mx.sqrt(mx.mean(x_progressive ** 2) + 1e-8)
                 ratio = float(mx.stop_gradient(rms_after / (rms_before + 1e-8)).item())
                 self._phi_deviations.append(ratio - phi_inv)
 
-                # Progressive decode loss
+                # Progressive decode
                 if holo_idx is not None:
                     x_flat = x_progressive.reshape(total_pos, -1)
                     x_sample = x_flat[holo_idx]
@@ -506,14 +522,11 @@ class V13Model(nn.Module):
                     ).mean()
                 holo_loss = holo_loss + loss_n
 
-            loss = loss + holo_lambda_eff * holo_loss
+            holo_factor = 1.0 + holo_lambda_eff * holo_loss
             self._last_holo_loss = mx.stop_gradient(holo_loss)
 
-        # Crystal lattice loss (PCA-Q 3-zone targets)
-        if self.cfg.use_relational_loss:
-            crystal_loss = self.compute_crystal_loss()
-            loss = loss + self.cfg.rel_lambda * crystal_loss
-            self._last_crystal_loss = mx.stop_gradient(crystal_loss)
+        # ── Multiplicative AND: all must improve together ─────
+        loss = ce_loss * crystal_factor * holo_factor
 
         return loss
 
