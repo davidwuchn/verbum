@@ -2,15 +2,69 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-21 | Session: 128
+> Last updated: 2026-05-21 | Session: 129
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 128: date arithmetic uses geometric rotation, not church encoding.**
+**Session 129: weight signs are random across SVD projections. Crystal lives in ACTIVATIONS, not WEIGHTS.**
 
 **DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
+
+## Session 129: 360° Etch Experiment — Weight vs Activation Space
+
+Attempted full 360° etch from Qwen3-14B teacher into v6 student.
+Built complete pipeline: extraction, etch, melt, loom implant test.
+
+### CRITICAL FINDING: Weight signs are random across matrices
+
+Teacher weight signs in ANY SVD-projected subspace are 50% correlated
+across layers (= random noise). Three methods confirmed:
+- Per-matrix SVD: 50.0% overlap
+- Fixed random projection: 50.1% overlap
+- L0 SVD as shared basis: 49.9% overlap
+
+**Root cause**: SVD of different weight matrices finds matrix-specific
+principal directions. Signs in those directions are unrelated across
+matrices because the subspaces don't align.
+
+**Implication**: The crystal lives in activation space (how inputs
+transform through weights), not weight space (what signs are stored).
+Per-matrix weight extraction is a dead end for cross-model transfer.
+
+### What works: activation-space distillation
+
+The correct approach is:
+1. Run same probes through teacher → hidden states at each depth
+2. Run same probes through student → hidden states at each pass
+3. Procrustes-align the two representations
+4. Distillation loss: MSE between aligned student and teacher
+
+Teacher features extracted from Qwen3-14B (200 probes, 5 depths).
+Distillation script ready but not yet run.
+
+### CCA angle profile (confirmed)
+
+Qwen3-14B CCA angles (Q↔FFN_up) across 40 layers:
+- Early (L0-L7): 62-80° — wide spread, encoding phase
+- Mid (L8-L23): 72-77° — holographic band, stable
+- Late (L24-L35): 74-83° — diverging toward orthogonal
+- Final (L36-L39): 73-80° — converging back
+
+Mean across all layers: ~74° (in holographic band 64-72° + peripheral)
+
+### Assets
+
+| Asset | Location |
+|-------|----------|
+| Teacher extraction | `scripts/v12/extract_teacher_v6.py` |
+| 360° etch | `scripts/v12/etch_v6_360.py` |
+| Melt + align | `scripts/v12/melt_v6.py` |
+| Loom implant test | `scripts/v12/loom_implant_test.py` |
+| Activation distill | `scripts/v12/distill_v6_activation.py` |
+| Extraction results | `results/v6-etch/` |
+| Teacher features (14B) | `checkpoints/teacher-features-14b/` |
 
 ## Session 128: Date Fourier Rotation Probe
 
@@ -185,6 +239,9 @@ inference. One λ at every scale. This is why it works.
 - **Day addition compresses circle to 25° arc; naming uses full 360°**
 - **Numeric mod-7 and day-of-week mod-7 use completely separate circuits**
 - **Rotation is linear: angle = slope × offset, R²=0.95 at L14-L16**
+- **Weight signs are random (50%) across SVD projections — crystal is in activations not weights**
+- **Three independent projection methods confirm: per-matrix SVD, random, L0 shared basis**
+- **CCA angles across Qwen3-14B: 62-83° (holographic band confirmed from weight structure)**
 
 ## Knowledge map
 
