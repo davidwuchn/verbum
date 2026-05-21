@@ -483,10 +483,13 @@ class V13Model(nn.Module):
             self._last_crystal_loss = mx.stop_gradient(crystal_loss)
 
         # ── Holographic progressive loss ──────────────────────
+        # Measures whether each pass IMPROVES decodability over the previous.
+        # Loss = sum of max(0, CE_n - CE_{n-1}): penalizes regressions only.
+        # At 0 = every pass is at least as decodable as the one before.
+        # This CAN reach 0 (unlike raw CE sum), so the AND coupling works.
         holo_factor = mx.array(1.0)
         holo_lambda_eff = getattr(self, '_holo_lambda_effective', 0.0)
         if holo_lambda_eff > 0 and self.cfg.use_holographic_loss:
-            holo_loss = mx.array(0.0)
             x_progressive = x_embed
 
             total_pos = B * L
@@ -502,6 +505,10 @@ class V13Model(nn.Module):
             phi_inv = 1.0 / phi
             self._phi_deviations = []
 
+            prev_ce = None
+            holo_loss = mx.array(0.0)
+            pass_ces = []
+
             for n in range(self.N_PASSES):
                 x_progressive = x_progressive + effective_gates[n] * pass_deltas[n]
 
@@ -512,23 +519,31 @@ class V13Model(nn.Module):
                 ratio = float(mx.stop_gradient(rms_after / (rms_before + 1e-8)).item())
                 self._phi_deviations.append(ratio - phi_inv)
 
-                # Progressive decode
+                # Progressive decode — CE at this pass boundary
                 if holo_idx is not None:
                     x_flat = x_progressive.reshape(total_pos, -1)
                     x_sample = x_flat[holo_idx]
                     logits_n = self.embed.output_proj(self.output_norm(x_sample))
-                    loss_n = nn.losses.cross_entropy(logits_n, targets_sample).mean()
+                    ce_n = nn.losses.cross_entropy(logits_n, targets_sample).mean()
                 else:
                     logits_n = self.embed.output_proj(
                         self.output_norm(x_progressive))
-                    loss_n = nn.losses.cross_entropy(
+                    ce_n = nn.losses.cross_entropy(
                         logits_n.reshape(-1, self.cfg.vocab_size),
                         targets.reshape(-1),
                     ).mean()
-                holo_loss = holo_loss + loss_n
+
+                pass_ces.append(mx.stop_gradient(ce_n).item())
+
+                # Regression penalty: penalize if this pass is WORSE than previous
+                if prev_ce is not None:
+                    regression = mx.maximum(ce_n - prev_ce, 0.0)
+                    holo_loss = holo_loss + regression
+                prev_ce = ce_n
 
             holo_factor = 1.0 + holo_lambda_eff * holo_loss
             self._last_holo_loss = mx.stop_gradient(holo_loss)
+            self._last_pass_ces = pass_ces  # per-pass CE for monitoring
 
         # ── Multiplicative AND: all must improve together ─────
         loss = ce_loss * crystal_factor * holo_factor
