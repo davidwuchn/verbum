@@ -1,0 +1,278 @@
+{
+  "comparisons": {
+    "L0_routing": {
+      "circuit_divergence_mean": 1.6129118204116821,
+      "circuit_divergence_max": 5.503938674926758,
+      "full_divergence_mean": 1.5240533351898193,
+      "circuit_cos_sim": -0.21490803360939026,
+      "circuit_dims_with_sign_flip": 12,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        59,
+        70,
+        12,
+        16,
+        0
+      ]
+    },
+    "L0_output": {
+      "circuit_divergence_mean": 1.7296113967895508,
+      "circuit_divergence_max": 7.2861504554748535,
+      "full_divergence_mean": 1.5601783990859985,
+      "circuit_cos_sim": -0.05709856003522873,
+      "circuit_dims_with_sign_flip": 8,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        48,
+        8,
+        39,
+        2,
+        26
+      ]
+    },
+    "L1_routing": {
+      "circuit_divergence_mean": 1.23354172706604,
+      "circuit_divergence_max": 4.721431732177734,
+      "full_divergence_mean": 1.437380313873291,
+      "circuit_cos_sim": 0.07695066928863525,
+      "circuit_dims_with_sign_flip": 9,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        77,
+        125,
+        16,
+        7,
+        4
+      ]
+    },
+    "L1_output": {
+      "circuit_divergence_mean": 1.3389934301376343,
+      "circuit_divergence_max": 4.583756446838379,
+      "full_divergence_mean": 1.453323483467102,
+      "circuit_cos_sim": -0.10310248285531998,
+      "circuit_dims_with_sign_flip": 9,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        88,
+        117,
+        23,
+        112,
+        47
+      ]
+    },
+    "L2_routing": {
+      "circuit_divergence_mean": 1.2570137977600098,
+      "circuit_divergence_max": 4.602036952972412,
+      "full_divergence_mean": 1.544542670249939,
+      "circuit_cos_sim": 0.09444715827703476,
+      "circuit_dims_with_sign_flip": 8,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        89,
+        112,
+        99,
+        44,
+        79
+      ]
+    },
+    "L2_output": {
+      "circuit_divergence_mean": 1.5665628910064697,
+      "circuit_divergence_max": 6.971271991729736,
+      "full_divergence_mean": 1.4995770454406738,
+      "circuit_cos_sim": -0.47307395935058594,
+      "circuit_dims_with_sign_flip": 10,
+      "n_circuit_dims": 20,
+      "most_divergent_dims": [
+        10,
+        70,
+        22,
+        18,
+        1
+      ]
+    }
+  },
+  "teacher_circuits": {
+    "0": {
+      "routing_dims": [
+        160,
+        167,
+        184,
+        59,
+        14,
+        87,
+        237,
+        41,
+        110,
+        143,
+        116,
+        13,
+        125,
+        105,
+        174,
+        120,
+        195,
+        25,
+        77,
+        3
+      ],
+      "output_dims": [
+        188,
+        247,
+        107,
+        7,
+        46,
+        86,
+        122,
+        60,
+        89,
+        158,
+        119,
+        150,
+        31,
+        118,
+        250,
+        133,
+        124,
+        81,
+        112,
+        128
+      ],
+      "overlap": [],
+      "route_energy": {
+        "K": 325.598876953125,
+        "I": 259.8109436035156,
+        "B": 232.05355834960938,
+        "C": 365.7839050292969
+      },
+      "output_energy": {
+        "K": 300.15167236328125,
+        "I": 300.15167236328125,
+        "B": 300.15167236328125,
+        "C": 300.15167236328125
+      }
+    },
+    "1": {
+      "routing_dims": [
+        82,
+        105,
+        38,
+        63,
+        51,
+        109,
+        174,
+        193,
+        128,
+        11,
+        237,
+        156,
+        222,
+        194,
+        198,
+        170,
+        74,
+        180,
+        229,
+        145
+      ],
+      "output_dims": [
+        177,
+        36,
+        251,
+        240,
+        221,
+        138,
+        31,
+        87,
+        129,
+        122,
+        28,
+        234,
+        205,
+        104,
+        186,
+        206,
+        131,
+        10,
+        12,
+        94
+      ],
+      "overlap": [],
+      "route_energy": {
+        "K": 223.27516174316406,
+        "I": 170.7717742919922,
+        "B": 126.11494445800781,
+        "C": 233.40753173828125
+      },
+      "output_energy": {
+        "K": 213.9364471435547,
+        "I": 210.3633270263672,
+        "B": 213.93589782714844,
+        "C": 213.93577575683594
+      }
+    },
+    "2": {
+      "routing_dims": [
+        49,
+        179,
+        192,
+        198,
+        44,
+        99,
+        14,
+        122,
+        244,
+        183,
+        217,
+        9,
+        12,
+        197,
+        207,
+        28,
+        229,
+        204,
+        29,
+        23
+      ],
+      "output_dims": [
+        62,
+        138,
+        153,
+        97,
+        143,
+        210,
+        103,
+        123,
+        139,
+        150,
+        6,
+        171,
+        104,
+        146,
+        7,
+        112,
+        66,
+        118,
+        160,
+        101
+      ],
+      "overlap": [],
+      "route_energy": {
+        "K": 44.365089416503906,
+        "I": 29.638940811157227,
+        "B": 46.18336868286133,
+        "C": 30.384933471679688
+      },
+      "output_energy": {
+        "K": 45.776123046875,
+        "I": 43.2712516784668,
+        "B": 45.776153564453125,
+        "C": 45.7761344909668
+      }
+    }
+  },
+  "meta": {
+    "elapsed_seconds": 29.98347520828247,
+    "d_teacher": 256,
+    "d_student": 128
+  }
+}
