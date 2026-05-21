@@ -2,15 +2,69 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-21 | Session: 129
+> Last updated: 2026-05-21 | Session: 131
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 129: weight signs are random across SVD projections. Crystal lives in ACTIVATIONS, not WEIGHTS.**
+**Session 131: V13 MODEL BUILT. 8,542 lines across 11 files. All smoke tests pass.**
 
 **DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
+
+## Session 131: V13 Model Build — Complete
+
+Built the full V13 model architecture from the design doc. 11 files,
+8,542 lines, all smoke tests passing. Ready for first training run.
+
+### What was built
+
+| File | Lines | What |
+|------|-------|------|
+| `kernel.py` | 573 | 8 combinators (copied from v12) |
+| `ternary.py` | 2,642 | TernaryLinear/Mirror/Embedding + **TernaryMask** (new) |
+| `config.py` | 295 | Clean V13Config — PCA-Q 3-zone targets, 11 strides |
+| `kernel_dispatch.py` | 703 | **Separated beam/plate dispatch** + simplified integrate |
+| `attention.py` | 972 | 11 power-of-2 strides, fractal bands, GLA retrieval |
+| `components.py` | 981 | VSM hierarchy (S3/S4/S5/S2, algedonic) — trimmed |
+| `model.py` | 749 | V13Model — 7-pass hourglass, crystal loss, full forward |
+| `data.py` | 219 | ShardedDataLoader (from v12) |
+| `train.py` | 1,115 | Unified etch + GD phases |
+| `scan.py` | 293 | Parallel scan for GLA (from v12) |
+
+### Key V13 changes from V12
+
+1. **Beam/plate separation**: dispatch path splits into pure-ternary
+   plate logits + pure-continuous beam logits. Add in logit space.
+2. **11 power-of-2 strides**: (1,2,4,8,16,32,64,128,256,512,1024).
+   4-token input now gets 3 active strides (was 1 in V12).
+3. **TernaryMask**: per-combinator ternary mask for crystal reading.
+   8 masks per stride layer. MoE without separate expert weights.
+4. **PCA-Q crystal targets**: 3-zone constant targets (A/B/C) with
+   0.91-0.94 cross-model agreement. Replaces V12's single-zone.
+5. **Simplified dispatch**: 8-way softmax only. No math kernels,
+   no abstraction slots, no CategoryDispatch.
+6. **WHNF mechanical FFN**: key_plate → ReLU → value_plate.
+   Zero continuous params in FFN path.
+7. **One training script**: etch phase + GD phase unified.
+
+### Smoke test results (d_model=64, 4 heads)
+
+- Forward pass (inference): (1, 16, 256) ✓
+- Forward pass (training): loss=6.72 ✓
+- Crystal lattice loss: 0.010 ✓
+- Backward pass: gradients flow ✓
+- Freeze ternary: 279 modules frozen ✓
+- Restore ternary: no corruption ✓
+- Plate count: 1,466,368 positions ✓
+- Stability: 5 sequential passes, no NaN ✓
+
+### Next: first training run
+
+1. Run GD phase on Dolma shards with full-size config (d_model=512)
+2. Monitor crystal lattice loss convergence
+3. Measure dispatch distribution vs prior
+4. Compare V12 vs V13 eval loss after same step count
 
 ## Session 129: 360° Etch Experiment — Weight vs Activation Space
 
