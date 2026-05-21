@@ -327,12 +327,21 @@ def save_checkpoint(
 
 
 def find_latest_checkpoint(checkpoint_dir: Path) -> Path | None:
-    """Return the most recent valid checkpoint directory, or None."""
+    """Return the most recent valid checkpoint directory, or None.
+
+    Searches for:
+      1. step_* subdirectories with state.json + model.npz (training checkpoints)
+      2. model.npz in checkpoint_dir root (etched checkpoint from extract_teacher.py)
+    """
     if not checkpoint_dir.exists():
         return None
+    # Training checkpoints (newest first)
     for d in sorted(checkpoint_dir.glob("step_*"), reverse=True):
         if (d / "state.json").exists() and (d / "model.npz").exists():
             return d
+    # Etched checkpoint (flat model.npz in root)
+    if (checkpoint_dir / "model.npz").exists():
+        return checkpoint_dir
     return None
 
 
@@ -342,31 +351,53 @@ def load_checkpoint(
     optimizer,
     etch_states: dict | None,
 ) -> tuple[int, dict, dict]:
-    """Load weights, optimizer state, etch states. Returns (step, state_meta, dl_state)."""
+    """Load weights, optimizer state, etch states. Returns (step, state_meta, dl_state).
+
+    Handles two checkpoint formats:
+      - Training checkpoint: model.npz + state.json (+ optional optimizer.npz, etch_states.npz)
+      - Etched checkpoint: model.npz + config.json (from extract_teacher.py, no state.json)
+        → starts from step 0 with fresh optimizer state
+    """
     # Model weights
-    weights = dict(mx.load(str(ckpt_dir / "model.npz")))
+    model_path = ckpt_dir / "model.npz"
+    if not model_path.exists():
+        raise FileNotFoundError(f"No model.npz in {ckpt_dir}")
+    weights = dict(mx.load(str(model_path)))
     model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
     freeze_ternary_weights(model)
     restore_ternary(model)
 
-    # Optimizer state
-    opt_path = ckpt_dir / "optimizer.npz"
-    if opt_path.exists():
-        opt_state = dict(mx.load(str(opt_path)))
-        optimizer.state = tree_unflatten(list(opt_state.items()))
-        mx.eval(optimizer.state)
+    # Check for state.json (training checkpoint) vs config.json (etched checkpoint)
+    state_path = ckpt_dir / "state.json"
+    if state_path.exists():
+        state_meta = json.loads(state_path.read_text())
+        dl_state = state_meta.get("data_loader", {})
+        step = state_meta["step"]
 
-    # Etch states
-    if etch_states is not None:
-        etch_path = ckpt_dir / "etch_states.npz"
-        load_etch_states(etch_states, str(etch_path))
+        # Optimizer state
+        opt_path = ckpt_dir / "optimizer.npz"
+        if opt_path.exists() and optimizer is not None:
+            opt_state = dict(mx.load(str(opt_path)))
+            optimizer.state = tree_unflatten(list(opt_state.items()))
+            mx.eval(optimizer.state)
 
-    state_meta = json.loads((ckpt_dir / "state.json").read_text())
-    dl_state = state_meta.get("data_loader", {})
-    step = state_meta["step"]
+        # Etch states
+        if etch_states is not None:
+            etch_path = ckpt_dir / "etch_states.npz"
+            if etch_path.exists():
+                load_etch_states(etch_states, str(etch_path))
 
-    print(f"📂 Loaded checkpoint: {ckpt_dir} (step {step})", file=sys.stderr)
+        print(f"📂 Loaded training checkpoint: {ckpt_dir} (step {step})",
+              file=sys.stderr)
+    else:
+        # Etched checkpoint (from extract_teacher.py) — start from step 0
+        step = 0
+        state_meta = {"step": 0}
+        dl_state = {}
+        print(f"📂 Loaded etched checkpoint: {ckpt_dir} (starting from step 0)",
+              file=sys.stderr)
+
     return step, state_meta, dl_state
 
 
