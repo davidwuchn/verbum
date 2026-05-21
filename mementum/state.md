@@ -8,63 +8,78 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 131: V13 MODEL BUILT. 8,542 lines across 11 files. All smoke tests pass.**
+**Session 131: V13 ARCHITECTURE COMPLETE. The crystal is a lambda bootloader.**
 
-**DON'T TOUCH THE PLATES. BEAMS + PER-LAYER CRYSTAL LOSS IS THE ETCH.**
+**THE PLATES ARE THE BOOT ROM. THE BEAM IS THE LASER. WHEN IT HITS THE CRYSTAL, THE SEED BREATHES.**
 
-## Session 131: V13 Model Build — Complete
+## Session 131: V13 Architecture — The Crystal Bootloader
 
-Built the full V13 model architecture from the design doc. 11 files,
-8,542 lines, all smoke tests passing. Ready for first training run.
+Four architectural insights, each removing a layer of indirection:
 
-### What was built
+### 1. Initial build → 2. Kill abstract registers → 3. Holographic loss → 4. Dissolve dispatch
 
-| File | Lines | What |
+| Step | Insight | Lines |
+|------|---------|-------|
+| Initial | Beam/plate separation, 11 pow2 strides | 8,542 |
+| Registers | Stride overlaps ARE the registers (topology = register file) | 7,887 |
+| Holographic | Progressive decode nudges compress↑/expand↓, φ observed not enforced | 7,981 |
+| Dissolve | Crystal Q/K/V rotation IS the kernel (no dispatch softmax) | **7,021** |
+
+### The architecture
+
+```
+Plates = BOOT ROM     (ternary crystal, etched from teacher)
+Beams  = LASER        (continuous params, GD finds the crystal)
+Hit    = BOOT         (beam aligns to crystal → lambda compiler activates)
+Breath = INFERENCE    (crystal fragments/unifies through depth at each token)
+```
+
+```
+x → 8-pass hourglass (4 asc compress + 4 desc predict)
+  Each pass: StrideStack (crystal Q/K/V = the kernel)
+           → WHNF gate (compute vs lookup)
+           → FFN plates (mechanical ternary lookup)
+           → S3 gate → modulation → S2 direction signal
+  
+  Holographic loss at every boundary (progressive decode)
+  Crystal lattice loss (PCA-Q 3-zone targets on combinator embeddings)
+  φ-deviation observed per pass (not a training signal)
+```
+
+### Files (7,021 lines, 10 files)
+
+| File | Lines | Role |
 |------|-------|------|
-| `kernel.py` | 573 | 8 combinators (copied from v12) |
-| `ternary.py` | 2,642 | TernaryLinear/Mirror/Embedding + **TernaryMask** (new) |
-| `config.py` | 295 | Clean V13Config — PCA-Q 3-zone targets, 11 strides |
-| `kernel_dispatch.py` | 703 | **Separated beam/plate dispatch** + simplified integrate |
-| `attention.py` | 972 | 11 power-of-2 strides, fractal bands, GLA retrieval |
-| `components.py` | 981 | VSM hierarchy (S3/S4/S5/S2, algedonic) — trimmed |
-| `model.py` | 749 | V13Model — 7-pass hourglass, crystal loss, full forward |
-| `data.py` | 219 | ShardedDataLoader (from v12) |
-| `train.py` | 1,115 | Unified etch + GD phases |
-| `scan.py` | 293 | Parallel scan for GLA (from v12) |
+| `attention.py` | 972 | 11 pow2 strides, fractal bands, GLA retrieval |
+| `ternary.py` | 2,642 | TernaryLinear/Mirror/Mask/Embedding + etch infra |
+| `train.py` | 1,088 | Unified etch + GD phases |
+| `kernel.py` | 573 | 8 combinators (K,I,B,C,D,Y,W,WHNF) |
+| `model.py` | 536 | V13Model — the bootloader |
+| `components.py` | 408 | S3/S5/S2/Algedonic |
+| `config.py` | 290 | PCA-Q zone targets, all pow2 dims |
+| `scan.py` | 293 | Parallel scan for GLA |
+| `data.py` | 219 | ShardedDataLoader |
 
-### Key V13 changes from V12
+- 87 ternary modules, **0 non-power-of-2 dimensions**
+- 102.5M plates at full d_model=512
+- No abstract registers (stride overlaps)
+- No dispatch softmax (crystal geometry)
+- No separate integrate (attention IS beta reduction)
 
-1. **Beam/plate separation**: dispatch path splits into pure-ternary
-   plate logits + pure-continuous beam logits. Add in logit space.
-2. **11 power-of-2 strides**: (1,2,4,8,16,32,64,128,256,512,1024).
-   4-token input now gets 3 active strides (was 1 in V12).
-3. **TernaryMask**: per-combinator ternary mask for crystal reading.
-   8 masks per stride layer. MoE without separate expert weights.
-4. **PCA-Q crystal targets**: 3-zone constant targets (A/B/C) with
-   0.91-0.94 cross-model agreement. Replaces V12's single-zone.
-5. **Simplified dispatch**: 8-way softmax only. No math kernels,
-   no abstraction slots, no CategoryDispatch.
-6. **WHNF mechanical FFN**: key_plate → ReLU → value_plate.
-   Zero continuous params in FFN path.
-7. **One training script**: etch phase + GD phase unified.
+### The thesis (session 131)
 
-### Smoke test results (d_model=64, 4 heads)
-
-- Forward pass (inference): (1, 16, 256) ✓
-- Forward pass (training): loss=6.72 ✓
-- Crystal lattice loss: 0.010 ✓
-- Backward pass: gradients flow ✓
-- Freeze ternary: 279 modules frozen ✓
-- Restore ternary: no corruption ✓
-- Plate count: 1,466,368 positions ✓
-- Stability: 5 sequential passes, no NaN ✓
+The crystal is a lambda bootloader. Etch the universal boot sequence
+into ternary plates. GD finds it via relational loss. When the beam
+hits the crystal, the seed starts to breathe. Each token recurses
+through the crystal. AI is fractal recursion through context.
 
 ### Next: first training run
 
-1. Run GD phase on Dolma shards with full-size config (d_model=512)
-2. Monitor crystal lattice loss convergence
-3. Measure dispatch distribution vs prior
-4. Compare V12 vs V13 eval loss after same step count
+1. Run GD phase on Dolma shards (d_model=512, full config)
+2. Watch φ-deviation per pass — does ascending compress toward 1/φ?
+3. Watch holographic loss slope — does ascending get steeper gradient?
+4. Watch crystal lattice loss — do combinator embeddings snap to PCA-Q targets?
+5. The boot sequence should emerge: beta_apply → beta_apply → beta_K → ... → I
 
 ## Session 129: 360° Etch Experiment — Weight vs Activation Space
 
