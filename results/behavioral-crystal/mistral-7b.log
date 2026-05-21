@@ -1,0 +1,161 @@
+═══════════════════════════════════════════════════════
+  Behavioral Crystal — mistral-7b
+  32 layers, d_model=4096
+  12 categories, 60 probes
+═══════════════════════════════════════════════════════
+  analysis: 5 probes (indices 0-4)
+  chain_of_thought: 5 probes (indices 5-9)
+  classification: 5 probes (indices 10-14)
+  code_generation: 5 probes (indices 15-19)
+  comparison: 5 probes (indices 20-24)
+  creative_writing: 5 probes (indices 25-29)
+  extraction: 5 probes (indices 30-34)
+  instruction_following: 5 probes (indices 35-39)
+  qa_retrieval: 5 probes (indices 40-44)
+  summarization: 5 probes (indices 45-49)
+  tool_calling: 5 probes (indices 50-54)
+  translation: 5 probes (indices 55-59)
+
+  Depth fractions [0.1, 0.3, 0.5, 0.7, 0.9] → layers [3, 9, 16, 22, 28]
+  Loading mistralai/Mistral-7B-v0.3...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:37,  2.97it/s]Loading weights:   7%|▋         | 21/291 [00:00<00:04, 61.58it/s]Loading weights:  14%|█▍        | 42/291 [00:00<00:02, 103.79it/s]Loading weights:  23%|██▎       | 68/291 [00:00<00:01, 148.55it/s]Loading weights:  32%|███▏      | 94/291 [00:00<00:01, 180.36it/s]Loading weights:  40%|████      | 117/291 [00:00<00:00, 194.67it/s]Loading weights:  48%|████▊     | 141/291 [00:00<00:00, 203.97it/s]Loading weights:  57%|█████▋    | 167/291 [00:01<00:00, 218.27it/s]Loading weights:  66%|██████▋   | 193/291 [00:01<00:00, 228.95it/s]Loading weights:  75%|███████▍  | 217/291 [00:01<00:00, 231.05it/s]Loading weights:  83%|████████▎ | 241/291 [00:01<00:00, 230.83it/s]Loading weights:  91%|█████████▏| 266/291 [00:01<00:00, 232.91it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 185.38it/s]
+  Loaded in 3.0s
+  Running 60 probes across 5 depths...
+    20/60
+    40/60
+    60/60
+
+═══ Computing behavioral crystals ═══
+
+  Depth 10% (layer 3):
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   -0.044   -0.155   +0.131   +0.268   -0.036   -0.038   -0.335   -0.039   -0.114   +0.149   -0.391 
+  chain_of_thought   -0.044    1.00   -0.001   -0.481   -0.202   -0.462   +0.002   +0.029   -0.037   +0.252   -0.293   -0.022 
+  classification   -0.155   -0.001    1.00   -0.321   -0.250   -0.345   -0.118   -0.093   -0.199   -0.006   -0.099   +0.015 
+  code_generation   +0.131   -0.481   -0.321    1.00   +0.153   +0.580   -0.171   -0.086   -0.062   -0.329   +0.327   -0.265 
+  comparison   +0.268   -0.202   -0.250   +0.153    1.00   +0.246   -0.291   -0.333   +0.576   -0.666   -0.023   -0.309 
+  creative_writing   -0.036   -0.462   -0.345   +0.580   +0.246    1.00   -0.381   +0.036   +0.181   -0.425   -0.057   +0.023 
+  extraction   -0.038   +0.002   -0.118   -0.171   -0.291   -0.381    1.00   -0.032   -0.499   +0.497   +0.403   -0.302 
+  instruction_following   -0.335   +0.029   -0.093   -0.086   -0.333   +0.036   -0.032    1.00   -0.327   +0.270   -0.264   +0.392 
+  qa_retrieval   -0.039   -0.037   -0.199   -0.062   +0.576   +0.181   -0.499   -0.327    1.00   -0.563   -0.277   +0.038 
+  summarization   -0.114   +0.252   -0.006   -0.329   -0.666   -0.425   +0.497   +0.270   -0.563    1.00   -0.148   +0.124 
+  tool_calling   +0.149   -0.293   -0.099   +0.327   -0.023   -0.057   +0.403   -0.264   -0.277   -0.148    1.00   -0.447 
+  translation   -0.391   -0.022   +0.015   -0.265   -0.309   +0.023   -0.302   +0.392   +0.038   +0.124   -0.447    1.00 
+
+  Depth 30% (layer 9):
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   +0.014   -0.310   +0.123   +0.415   +0.088   -0.099   -0.408   -0.065   +0.051   -0.234   -0.382 
+  chain_of_thought   +0.014    1.00   -0.089   -0.159   -0.167   -0.250   -0.023   +0.028   -0.142   +0.125   -0.016   -0.268 
+  classification   -0.310   -0.089    1.00   -0.354   -0.379   -0.249   +0.219   +0.262   -0.249   -0.074   -0.078   +0.172 
+  code_generation   +0.123   -0.159   -0.354    1.00   +0.178   +0.188   -0.408   -0.220   -0.006   -0.146   +0.155   -0.233 
+  comparison   +0.415   -0.167   -0.379   +0.178    1.00   +0.108   -0.337   -0.378   +0.334   -0.218   -0.253   -0.194 
+  creative_writing   +0.088   -0.250   -0.249   +0.188   +0.108    1.00   -0.459   +0.083   +0.077   -0.316   -0.040   -0.074 
+  extraction   -0.099   -0.023   +0.219   -0.408   -0.337   -0.459    1.00   -0.127   -0.259   +0.327   +0.006   -0.039 
+  instruction_following   -0.408   +0.028   +0.262   -0.220   -0.378   +0.083   -0.127    1.00   -0.171   -0.167   +0.039   +0.169 
+  qa_retrieval   -0.065   -0.142   -0.249   -0.006   +0.334   +0.077   -0.259   -0.171    1.00   -0.375   -0.158   -0.020 
+  summarization   +0.051   +0.125   -0.074   -0.146   -0.218   -0.316   +0.327   -0.167   -0.375    1.00   -0.168   -0.153 
+  tool_calling   -0.234   -0.016   -0.078   +0.155   -0.253   -0.040   +0.006   +0.039   -0.158   -0.168    1.00   -0.176 
+  translation   -0.382   -0.268   +0.172   -0.233   -0.194   -0.074   -0.039   +0.169   -0.020   -0.153   -0.176    1.00 
+
+  Depth 50% (layer 16):
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   +0.036   -0.166   +0.040   +0.434   +0.132   -0.283   -0.134   -0.157   -0.202   +0.003   -0.343 
+  chain_of_thought   +0.036    1.00   +0.027   -0.168   -0.119   -0.159   -0.122   +0.164   -0.071   -0.072   -0.076   -0.242 
+  classification   -0.166   +0.027    1.00   -0.400   -0.197   -0.253   +0.192   +0.164   -0.119   -0.108   -0.176   -0.044 
+  code_generation   +0.040   -0.168   -0.400    1.00   +0.061   +0.270   -0.299   -0.281   -0.170   -0.070   +0.223   -0.231 
+  comparison   +0.434   -0.119   -0.197   +0.061    1.00   +0.022   -0.356   -0.396   +0.301   -0.253   -0.253   -0.170 
+  creative_writing   +0.132   -0.159   -0.253   +0.270   +0.022    1.00   -0.471   +0.102   -0.030   -0.415   +0.159   -0.107 
+  extraction   -0.283   -0.122   +0.192   -0.299   -0.356   -0.471    1.00   -0.060   -0.305   +0.546   -0.157   +0.022 
+  instruction_following   -0.134   +0.164   +0.164   -0.281   -0.396   +0.102   -0.060    1.00   -0.150   -0.199   +0.138   -0.006 
+  qa_retrieval   -0.157   -0.071   -0.119   -0.170   +0.301   -0.030   -0.305   -0.150    1.00   -0.339   -0.252   +0.135 
+  summarization   -0.202   -0.072   -0.108   -0.070   -0.253   -0.415   +0.546   -0.199   -0.339    1.00   -0.170   -0.072 
+  tool_calling   +0.003   -0.076   -0.176   +0.223   -0.253   +0.159   -0.157   +0.138   -0.252   -0.170    1.00   -0.137 
+  translation   -0.343   -0.242   -0.044   -0.231   -0.170   -0.107   +0.022   -0.006   +0.135   -0.072   -0.137    1.00 
+
+  Depth 70% (layer 22):
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   -0.186   -0.186   -0.122   +0.464   +0.095   -0.129   -0.075   -0.093   -0.194   -0.103   -0.208 
+  chain_of_thought   -0.186    1.00   +0.043   -0.043   -0.196   -0.207   -0.099   +0.050   +0.077   -0.033   -0.104   -0.289 
+  classification   -0.186   +0.043    1.00   -0.271   -0.152   -0.283   +0.008   -0.028   -0.076   -0.104   -0.045   -0.028 
+  code_generation   -0.122   -0.043   -0.271    1.00   -0.261   +0.149   -0.204   -0.191   -0.323   -0.099   +0.291   -0.279 
+  comparison   +0.464   -0.196   -0.152   -0.261    1.00   -0.028   -0.304   -0.286   +0.326   -0.181   -0.230   -0.077 
+  creative_writing   +0.095   -0.207   -0.283   +0.149   -0.028    1.00   -0.339   +0.150   -0.116   -0.312   -0.002   -0.076 
+  extraction   -0.129   -0.099   +0.008   -0.204   -0.304   -0.339    1.00   -0.027   -0.307   +0.506   -0.085   +0.116 
+  instruction_following   -0.075   +0.050   -0.028   -0.191   -0.286   +0.150   -0.027    1.00   -0.122   -0.168   +0.108   -0.010 
+  qa_retrieval   -0.093   +0.077   -0.076   -0.323   +0.326   -0.116   -0.307   -0.122    1.00   -0.220   -0.330   +0.069 
+  summarization   -0.194   -0.033   -0.104   -0.099   -0.181   -0.312   +0.506   -0.168   -0.220    1.00   -0.241   -0.016 
+  tool_calling   -0.103   -0.104   -0.045   +0.291   -0.230   -0.002   -0.085   +0.108   -0.330   -0.241    1.00   -0.172 
+  translation   -0.208   -0.289   -0.028   -0.279   -0.077   -0.076   +0.116   -0.010   +0.069   -0.016   -0.172    1.00 
+
+  Depth 90% (layer 28):
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   -0.123   -0.143   -0.159   +0.460   +0.113   -0.175   -0.119   +0.001   -0.232   -0.176   -0.212 
+  chain_of_thought   -0.123    1.00   +0.113   -0.115   -0.167   -0.166   -0.099   +0.025   +0.040   -0.047   -0.141   -0.246 
+  classification   -0.143   +0.113    1.00   -0.258   -0.129   -0.273   -0.048   -0.104   -0.078   -0.152   -0.061   -0.065 
+  code_generation   -0.159   -0.115   -0.258    1.00   -0.262   +0.214   -0.183   -0.129   -0.296   -0.022   +0.255   -0.298 
+  comparison   +0.460   -0.167   -0.129   -0.262    1.00   -0.087   -0.279   -0.258   +0.343   -0.209   -0.243   -0.094 
+  creative_writing   +0.113   -0.166   -0.273   +0.214   -0.087    1.00   -0.326   +0.141   -0.149   -0.316   -0.013   -0.097 
+  extraction   -0.175   -0.099   -0.048   -0.183   -0.279   -0.326    1.00   -0.033   -0.326   +0.533   -0.034   +0.078 
+  instruction_following   -0.119   +0.025   -0.104   -0.129   -0.258   +0.141   -0.033    1.00   -0.138   -0.203   +0.156   +0.039 
+  qa_retrieval   +0.001   +0.040   -0.078   -0.296   +0.343   -0.149   -0.326   -0.138    1.00   -0.257   -0.329   +0.067 
+  summarization   -0.232   -0.047   -0.152   -0.022   -0.209   -0.316   +0.533   -0.203   -0.257    1.00   -0.177   -0.030 
+  tool_calling   -0.176   -0.141   -0.061   +0.255   -0.243   -0.013   -0.034   +0.156   -0.329   -0.177    1.00   -0.128 
+  translation   -0.212   -0.246   -0.065   -0.298   -0.094   -0.097   +0.078   +0.039   +0.067   -0.030   -0.128    1.00 
+
+═══ Depth-averaged behavioral crystal ═══
+             analys  chain_  classi  code_g  compar  creati  extrac  instru  qa_ret  summar  tool_c  transl
+    analysis    1.00   -0.060   -0.192   +0.003   +0.408   +0.078   -0.145   -0.214   -0.071   -0.138   -0.072   -0.307 
+  chain_of_thought   -0.060    1.00   +0.019   -0.193   -0.170   -0.249   -0.068   +0.060   -0.027   +0.045   -0.126   -0.213 
+  classification   -0.192   +0.019    1.00   -0.321   -0.221   -0.280   +0.051   +0.040   -0.144   -0.089   -0.092   +0.010 
+  code_generation   +0.003   -0.193   -0.321    1.00   -0.026   +0.280   -0.253   -0.181   -0.172   -0.133   +0.250   -0.261 
+  comparison   +0.408   -0.170   -0.221   -0.026    1.00   +0.052   -0.313   -0.330   +0.376   -0.305   -0.200   -0.169 
+  creative_writing   +0.078   -0.249   -0.280   +0.280   +0.052    1.00   -0.395   +0.102   -0.007   -0.357   +0.009   -0.066 
+  extraction   -0.145   -0.068   +0.051   -0.253   -0.313   -0.395    1.00   -0.056   -0.339   +0.482   +0.027   -0.025 
+  instruction_following   -0.214   +0.060   +0.040   -0.181   -0.330   +0.102   -0.056    1.00   -0.181   -0.093   +0.035   +0.117 
+  qa_retrieval   -0.071   -0.027   -0.144   -0.172   +0.376   -0.007   -0.339   -0.181    1.00   -0.351   -0.269   +0.058 
+  summarization   -0.138   +0.045   -0.089   -0.133   -0.305   -0.357   +0.482   -0.093   -0.351    1.00   -0.181   -0.030 
+  tool_calling   -0.072   -0.126   -0.092   +0.250   -0.200   +0.009   +0.027   +0.035   -0.269   -0.181    1.00   -0.212 
+  translation   -0.307   -0.213   +0.010   -0.261   -0.169   -0.066   -0.025   +0.117   +0.058   -0.030   -0.212    1.00 
+
+═══ Behavioral clusters (avg off-diagonal similarity) ═══
+  instruction_following: -0.064  ████████
+              analysis: -0.065  ████████
+          tool_calling: -0.076  ████████
+      creative_writing: -0.076  ████████
+            comparison: -0.082  ████████
+      chain_of_thought: -0.089  ████████
+       code_generation: -0.092  ████████
+            extraction: -0.094  ████████
+           translation: -0.100  ████████
+          qa_retrieval: -0.102  ███████
+         summarization: -0.105  ███████
+        classification: -0.111  ███████
+
+═══ Strongest behavioral pairs ═══
+            extraction ↔ summarization       : +0.482
+              analysis ↔ comparison          : +0.408
+            comparison ↔ qa_retrieval        : +0.376
+       code_generation ↔ creative_writing    : +0.280
+       code_generation ↔ tool_calling        : +0.250
+  instruction_following ↔ translation         : +0.117
+      creative_writing ↔ instruction_following: +0.102
+              analysis ↔ creative_writing    : +0.078
+      chain_of_thought ↔ instruction_following: +0.060
+          qa_retrieval ↔ translation         : +0.058
+            comparison ↔ creative_writing    : +0.052
+        classification ↔ extraction          : +0.051
+      chain_of_thought ↔ summarization       : +0.045
+        classification ↔ instruction_following: +0.040
+  instruction_following ↔ tool_calling        : +0.035
+  ...
+            comparison ↔ instruction_following: -0.330
+            extraction ↔ qa_retrieval        : -0.339
+          qa_retrieval ↔ summarization       : -0.351
+      creative_writing ↔ summarization       : -0.357
+      creative_writing ↔ extraction          : -0.395
+
+═══════════════════════════════════════════════════════
+  Done in 8.9s
+  Results: /Users/mwhitford/src/verbum/results/behavioral-crystal/mistral-7b.json
+═══════════════════════════════════════════════════════

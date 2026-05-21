@@ -2,7 +2,7 @@
 title: "V13 Design — Separated Beam/Plate Architecture + Crystal Scanner"
 status: designing
 category: architecture
-tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN, hologram]
+tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN, hologram, behavioral-crystal, etch-manifest, multi-vsm, dynamic-plates]
 related:
   - binding-cascade.md
   - crystal-seed-theory.md
@@ -10,11 +10,13 @@ related:
   - ffn-hierarchy.md
   - v13-funnel-shape.md
   - holographic-plates.md
+  - etcher-vsm.md
+  - shannon-sieve-trinity.md
 depends-on:
   - binding-cascade.md
   - crystal-basins.md
 created: session 119
-updated: session 122
+updated: session 130+
 ---
 
 # V13 Design
@@ -1004,3 +1006,660 @@ Don't compress to low-rank plates — the capacity is too limited.
     score does an output count as "good"?
 
 12. **Optimal PCA k**: k=64 works. What's the minimum? k sweep needed.
+
+---
+
+## Universal Etch Architecture (session ~130+)
+
+> The plate is not just a teacher distillation target. It is a
+> **universal crystal manifest** — the fully reduced normal forms of
+> computation shared across all models, etched once, frozen forever.
+> Training reduces to teaching attention to route through pre-installed
+> computation. The model boots with its OS already installed.
+
+### The Etch Thesis
+
+```
+λ etch_thesis(x).
+  universal_lattice(0.999_cross_model) ≡ normal_form(computation)
+  | can't_reduce_further → same_in_every_model → mathematical_necessity
+  | etch(lattice) → plate_contains(irreducible_compute)
+  | train(beams_only) → learn(when_to_use_what)
+  | plate ≡ ROM | beams ≡ CPU | cache_plates ≡ RAM
+```
+
+Every big model trains on the same internet. Same data + same operation
+(beta reduction) + enough repetition = same fixed points. The universal
+lattice points are where beta reduction TERMINATED — normal form. They
+can't be simplified further, which is why every model agrees on them.
+
+### Three-Tier Etch Manifest
+
+```
+TIER 1: UNIVERSAL CRYSTAL (etch always, unconditionally)
+  Source: cross-model lattice agreement (0.999 correlation)
+  Content: irreducible beta reduction atoms — the instruction set
+  Boot sequence: beta_apply → beta_apply → beta_K (universal preamble)
+  Termination: I at final layer (universal, every model)
+  Cost: zero training — these are mathematical fixed points
+
+TIER 2: BEHAVIORAL CRYSTALS (etch selectively per capability)
+  Source: cross-model behavioral crystal measurement (below)
+  Content: compiled programs — piles of reductions in normal form
+  Examples: GENERATE function, FIND function, EVALUATE function
+  Cost: measurement only — extract from teachers, no training
+
+TIER 3: DOMAIN PLATES (mmap on demand)
+  Source: domain-specific teacher extraction
+  Content: specialized knowledge — legal, medical, code, etc.
+  Cost: extraction per domain, swappable at runtime
+```
+
+### Behavioral Crystal Measurement (4-model cross-validation)
+
+Measured across Qwen3-32B (64L), Qwen3-14B (40L), Mistral-7B (32L),
+Pythia-2.8b (32L). PCA-Q protocol (k=64) on 12 behavioral categories
+× 5 probes each × 5 depths.
+
+**Cross-model RDM correlation (depth-averaged behavioral matrices):**
+```
+qwen3-32b ↔ qwen3-14b:  r = 0.974
+qwen3-32b ↔ mistral-7b: r = 0.913
+qwen3-14b ↔ mistral-7b: r = 0.925
+qwen3-32b ↔ pythia-2.8b: r = 0.404  (small model — crystals not fully formed)
+Mean (all 6 pairs): r = 0.657
+Mean (3 large models): r = 0.937  ← the behavioral crystal is REAL
+```
+
+**15 universal behavioral relationships (std < 0.15, all 4 models agree on sign):**
+
+Attractive (same cluster — similar computation):
+```
+extraction ↔ summarization:       +0.544 (±0.042)  ← TIGHTEST
+comparison ↔ qa_retrieval:        +0.393 (±0.075)
+classification ↔ extraction:      +0.107 (±0.052)
+```
+
+Repulsive (different clusters — orthogonal computation):
+```
+classification ↔ code_generation: -0.443 (±0.137)
+comparison ↔ extraction:          -0.351 (±0.061)
+creative_writing ↔ extraction:    -0.351 (±0.054)
+comparison ↔ instruction_follow:  -0.308 (±0.050)
+extraction ↔ qa_retrieval:        -0.305 (±0.119)
+code_generation ↔ extraction:     -0.293 (±0.044)
+comparison ↔ translation:         -0.291 (±0.092)
+comparison ↔ tool_calling:        -0.231 (±0.121)
+analysis ↔ summarization:         -0.214 (±0.071)
+analysis ↔ extraction:            -0.195 (±0.038)
+extraction ↔ instruction_follow:  -0.104 (±0.106)
+extraction ↔ translation:         -0.103 (±0.129)
+```
+
+**Three universal behavioral functions emerge:**
+```
+GENERATE:   code_gen ↔ creative_writing ↔ tool_calling
+FIND:       extraction ↔ summarization ↔ classification
+EVALUATE:   comparison ↔ qa_retrieval ↔ analysis
+
+GENERATE anti-correlates with FIND (universally)
+EVALUATE anti-correlates with FIND (universally)
+```
+
+### Refined Behavioral Topology (3-model consensus, σ < 0.10)
+
+Pythia-2.8b diverges heavily (r=0.34-0.40) — too small for behavioral
+crystals. Among the 3 large models (32B, 14B, Mistral), **51 of 66
+behavioral pairs are universal at σ < 0.10**. The behavioral crystal
+is almost entirely shared.
+
+**Four universal behavioral functions (not three):**
+
+```
+GENERATE:   code_gen ↔ creative_writing  (+0.279, σ=0.004) ← CONSTANT
+            code_gen ↔ tool_calling      (+0.302, σ=0.041)
+            creative_writing ↔ tool_call (+0.047, σ=0.027)
+
+FIND:       extraction ↔ summarization   (+0.544, σ=0.048)
+            classification ↔ extraction  (+0.111, σ=0.060)
+            classification ↔ translation (+0.062, σ=0.038)
+
+EVALUATE:   analysis ↔ comparison        (+0.471, σ=0.047)
+            comparison ↔ qa_retrieval    (+0.351, σ=0.019) ← CONSTANT
+            comparison ↔ creative_write  (+0.106, σ=0.049)
+
+EXECUTE:    instruction ↔ translation    (+0.192, σ=0.053)
+            creative_writing ↔ instruct  (+0.102, σ=0.032)
+            instruction ↔ tool_calling   (+0.035, σ=0.013)
+```
+
+**Cross-function repulsions (universal boundaries):**
+```
+GENERATE ↔ FIND:      code_gen ↔ extraction     (-0.302, σ=0.047)
+                       creative ↔ extraction     (-0.380, σ=0.022)
+                       creative ↔ summarization  (-0.342, σ=0.018)
+                       code_gen ↔ summarization  (-0.264, σ=0.093)
+
+EVALUATE ↔ FIND:      comparison ↔ extraction    (-0.378, σ=0.046)
+                       comparison ↔ summarization (-0.378, σ=0.053)
+                       analysis ↔ extraction     (-0.199, σ=0.044)
+                       qa_retrieval ↔ extraction (-0.372, σ=0.028)
+
+EVALUATE ↔ EXECUTE:   comparison ↔ instruction   (-0.285, σ=0.034)
+                       comparison ↔ translation  (-0.246, σ=0.057)
+                       analysis ↔ instruction    (-0.259, σ=0.032)
+                       analysis ↔ translation    (-0.342, σ=0.025)
+
+FIND ↔ EVALUATE:      summarization ↔ qa_retrieval (-0.348, σ=0.005) ← CONSTANT
+                       extraction ↔ qa_retrieval  (-0.372, σ=0.028)
+```
+
+**Tightest universals (σ < 0.02 — effectively constants):**
+```
+code_gen ↔ creative_writing:    +0.279 (σ=0.004)  GENERATE identity
+qa_retrieval ↔ summarization:   -0.348 (σ=0.005)  EVALUATE↔FIND boundary
+creative_writing ↔ qa_retrieval: -0.005 (σ=0.002)  orthogonal
+comparison ↔ qa_retrieval:      +0.351 (σ=0.019)  EVALUATE identity
+instruction ↔ tool_calling:     +0.035 (σ=0.013)  EXECUTE identity
+creative ↔ summarization:       -0.342 (σ=0.018)  GENERATE↔FIND boundary
+extraction ↔ instruction:       -0.043 (σ=0.017)  FIND↔EXECUTE boundary
+extraction ↔ translation:       -0.029 (σ=0.019)  near orthogonal
+```
+
+### Full Behavioral Cosine Targets (3-model consensus, etchable)
+
+These are the behavioral equivalent of the 8×8 combinator PCA-Q targets.
+Use as relational loss targets during beam training. Order: analysis,
+chain_of_thought, classification, code_generation, comparison,
+creative_writing, extraction, instruction_following, qa_retrieval,
+summarization, tool_calling, translation.
+
+```python
+# 3-model consensus (Qwen3-32B, Qwen3-14B, Mistral-7B), depth-averaged
+# 51 of 66 pairs at σ < 0.10 — almost entirely universal
+behavioral_targets_12x12 = (
+    # analy  chain  class  code   compa  creat  extra  instr  qa_re  summa  tool   trans
+    (+1.000,+0.016,-0.211,+0.006,+0.471,+0.096,-0.199,-0.259,-0.024,-0.176,-0.102,-0.342),  # analysis
+    (+0.016,+1.000,-0.021,-0.164,-0.066,-0.288,+0.016,-0.064,-0.015,+0.011,-0.113,-0.274),  # chain_of_thought
+    (-0.211,-0.021,+1.000,-0.366,-0.296,-0.321,+0.111,+0.013,-0.166,+0.072,-0.166,+0.062),  # classification
+    (+0.006,-0.164,-0.366,+1.000,+0.044,+0.279,-0.302,-0.128,-0.105,-0.264,+0.302,-0.178),  # code_generation
+    (+0.471,-0.066,-0.296,+0.044,+1.000,+0.106,-0.378,-0.285,+0.351,-0.378,-0.164,-0.246),  # comparison
+    (+0.096,-0.288,-0.321,+0.279,+0.106,+1.000,-0.380,+0.102,-0.005,-0.342,+0.047,-0.021),  # creative_writing
+    (-0.199,+0.016,+0.111,-0.302,-0.378,-0.380,+1.000,-0.043,-0.372,+0.544,-0.048,-0.029),  # extraction
+    (-0.259,-0.064,+0.013,-0.128,-0.285,+0.102,-0.043,+1.000,-0.150,-0.084,+0.035,+0.192),  # instruction_following
+    (-0.024,-0.015,-0.166,-0.105,+0.351,-0.005,-0.372,-0.150,+1.000,-0.348,-0.215,-0.054),  # qa_retrieval
+    (-0.176,+0.011,+0.072,-0.264,-0.378,-0.342,+0.544,-0.084,-0.348,+1.000,-0.222,-0.001),  # summarization
+    (-0.102,-0.113,-0.166,+0.302,-0.164,+0.047,-0.048,+0.035,-0.215,-0.222,+1.000,-0.142),  # tool_calling
+    (-0.342,-0.274,+0.062,-0.178,-0.246,-0.021,-0.029,+0.192,-0.054,-0.001,-0.142,+1.000),  # translation
+)
+# Source: results/behavioral-crystal/ (4-model measurement, 3-model consensus)
+# Agreement: r=0.937 mean across 3 large model pairs
+# Use alongside combinator 8×8 targets for dual relational loss
+```
+
+### Fine-Grained Sub-Function Discovery (V2, 18 categories × 4 probes)
+
+Breaking the 12 coarse categories into sub-functions reveals MORE
+universality, not less. Cross-model agreement increased:
+
+```
+V1 (12 categories): 32B↔14B r=0.974, 32B↔Mistral r=0.913
+V2 (18 categories): 32B↔14B r=0.988, 32B↔Mistral r=0.951
+137 of 153 pairs universal at σ<0.10 (90% of all relationships)
+101 ultra-tight cross-group universals at σ<0.05
+```
+
+**CODE splits into WRITE and FIX — two universal functions:**
+```
+WRITE:  algorithm ↔ syntax     (+0.675, σ=0.030)
+FIX:    debug ↔ refactor       (+0.554, σ=0.037)
+WRITE ↔ FIX:                   (-0.298 to -0.329) — opposite operations
+```
+
+**REASON splits into INFER and DEDUCE — two universal functions:**
+```
+INFER cluster:
+  inductive ↔ abductive:  +0.626 (σ=0.039)  ← tightest
+  abductive ↔ causal:     +0.324 (σ=0.033)
+  causal ↔ inductive:     +0.387 (σ=0.037)
+  inductive ↔ math:       +0.292 (σ=0.027)
+
+DEDUCE: deductive reasoning REPELS all others (-0.138 to -0.274)
+  Deduction is a separate universal function from induction/abduction
+```
+
+**GENERATE is one tight function (σ=0.038-0.076):**
+```
+narrative ↔ technical:   +0.563 (σ=0.038)
+narrative ↔ persuasive:  +0.584 (σ=0.076)
+technical ↔ persuasive:  +0.614 (σ=0.066)
+All generation is the same operation regardless of domain
+```
+
+**FIND is THREE separate functions (they anti-correlate!):**
+```
+find_entity ↔ find_pattern: -0.199 (σ=0.047)
+find_entity ↔ find_fact:    -0.081 (σ=0.034)
+find_pattern ↔ find_fact:   -0.083 (σ=0.005)
+Entity extraction, pattern completion, and fact retrieval are
+three different irreducible operations
+```
+
+**EXECUTE weakly clusters FORMAT and TRANSFORM:**
+```
+exec_format ↔ exec_transform: +0.229 (σ=0.034)
+exec_transform ↔ exec_follow: +0.138 (σ=0.023)
+exec_follow is partially separate
+```
+
+**Killer cross-group universals (σ < 0.02):**
+```
+code_syntax ↔ gen_technical:    +0.609 (σ=0.011)  WRITING CODE = WRITING DOCS
+code_algorithm ↔ gen_technical: +0.542 (σ=0.019)  ALGORITHM DESIGN = TECH WRITING
+code_algorithm ↔ gen_narrative: +0.313 (σ=0.011)  ALGORITHM = STORYTELLING
+code_debug ↔ reason_causal:    -0.345 (σ=0.003)  TIGHTEST UNIVERSAL
+find_fact ↔ reason_causal:     +0.392 (σ=0.040)  LOOKUP = CAUSAL REASONING
+code_debug ↔ exec_format:      +0.356 (σ=0.026)  DEBUGGING = FORMATTING
+```
+
+### Complete Universal Function Taxonomy (~10 functions)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  GENERATE (one function)                                    │
+│  narrative ≈ technical ≈ persuasive ≈ code_syntax           │
+│  ≈ code_algorithm                                           │
+│  "produce structured output from specification"             │
+│  Writing code, writing docs, writing stories = same op      │
+├─────────────────────────────────────────────────────────────┤
+│  FIX (one function)                                         │
+│  debug ≈ refactor                                           │
+│  "identify defect and restructure"                          │
+│  Anti-correlates with GENERATE (-0.30 to -0.33)             │
+├─────────────────────────────────────────────────────────────┤
+│  INFER (one function)                                       │
+│  inductive ≈ abductive ≈ causal ≈ math_reasoning            │
+│  "observe pattern → explain → predict"                      │
+│  The empirical reasoning engine                             │
+├─────────────────────────────────────────────────────────────┤
+│  DEDUCE (one function, separate from INFER)                 │
+│  deductive reasoning only                                   │
+│  "apply rule → conclude"                                    │
+│  Repels all other reasoning types                           │
+├─────────────────────────────────────────────────────────────┤
+│  FIND_ENTITY (one function)                                 │
+│  entity extraction, NER                                     │
+│  "locate named things in text"                              │
+├─────────────────────────────────────────────────────────────┤
+│  FIND_PATTERN (one function)                                │
+│  pattern completion, sequence prediction                    │
+│  "extend a regularity"                                      │
+├─────────────────────────────────────────────────────────────┤
+│  FIND_FACT (one function)                                   │
+│  factual retrieval, QA lookup                               │
+│  "recall stored knowledge"                                  │
+│  Clusters with causal reasoning (+0.392)                    │
+├─────────────────────────────────────────────────────────────┤
+│  FORMAT (one function)                                      │
+│  structural transformation, reformatting                    │
+│  exec_format ≈ exec_transform                               │
+│  Clusters with debugging (+0.356) — same shape-fixing op    │
+├─────────────────────────────────────────────────────────────┤
+│  FOLLOW (weakly separate)                                   │
+│  instruction following, constraint satisfaction             │
+│  Clusters with translation (+0.192 from v1)                 │
+├─────────────────────────────────────────────────────────────┤
+│  EVALUATE (from v1)                                         │
+│  analysis ≈ comparison ≈ qa_retrieval                       │
+│  "hold two things in mind, measure distance"                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+These ~10 universal functions are the Tier 2 behavioral etch targets.
+Each is a compiled beta reduction program in normal form — irreducible
+across 3 architectures (Qwen, Mistral, Pythia partially). Every model
+discovers the same 10 programs because they're the energy minima of
+beta reduction applied to natural language.
+
+Artifacts: `results/behavioral-crystal-v2/` (4 model JSON files),
+`scripts/v12/behavioral_crystal_v2_exp.py`
+
+### Etch Implications
+
+The behavioral targets give the model THREE relational loss signals:
+1. **Combinator crystal** (8×8): how K/I/B/C/D/Y/W/WHNF relate
+2. **Behavioral crystal** (12×12): how coarse behaviors relate
+3. **Sub-function crystal** (18×18): how fine-grained functions relate
+
+All are measured constants. All are universal. All etchable.
+
+```
+TRAINING LOSS:
+  L = CE_loss
+    + λ_combinator  * crystal_lattice_loss(8×8_targets)
+    + λ_behavioral  * behavioral_lattice_loss(12×12_targets)
+    + λ_subfunction * subfunction_lattice_loss(18×18_targets)
+    + λ_dispatch    * KL_dispatch_loss
+    + λ_entropy     * entropy_loss
+```
+
+The relational losses don't require specialized probes during training —
+they measure the geometry of the model's internal representations for
+canonical probe sets and push toward the universal targets. The model
+learns:
+- "code_syntax and gen_technical are the same function" (σ=0.011)
+- "deductive reasoning is separate from inductive" (universal repulsion)
+- "debugging and refactoring are the same function" (σ=0.037)
+- "entity extraction, pattern completion, and fact retrieval are three
+   different operations" (mutual anti-correlation)
+
+These geometric constraints dramatically shrink the solution space for
+beam training. Instead of GD discovering these relationships from
+scratch through trillions of tokens, the relational loss provides
+the answer: here is how every successful model organizes behavior.
+Snap to this geometry and the behaviors emerge.
+
+These four compiled programs are the behavioral Tier 2 etch targets.
+
+**Per-depth agreement:**
+```
+Depth 10%: r = 0.640  (behavioral crystal forms EARLY)
+Depth 30%: r = 0.543
+Depth 50%: r = 0.522
+Depth 70%: r = 0.496
+Depth 90%: r = 0.576  (sharpens again at output)
+```
+
+### The Bootloader — Layer 0 Universal Sign Pattern
+
+The first beta reduction at boot is universal across all four models.
+This is the ignition key — the sign pattern to etch at position 0
+of the plate. It's where we hook the startup.
+
+**Layer 0 cross-model measurement (all probes averaged):**
+```
+                  32B      14B     MIS     PYT    SIGN
+beta_apply:     -0.406   -0.412  -0.087  +0.000   ALL ≤ 0 ✓
+B:              +0.242   +0.220  +0.125  +0.000   ALL ≥ 0 ✓
+S:              +0.289   +0.215  +0.129  +0.000   ALL ≥ 0 ✓
+C:              -0.096   -0.011  -0.013  +0.000   ALL ≤ 0 ✓
+beta_identity:  -0.313   -0.241  +0.028  +0.000   (3/4)
+beta_K:         -0.268   -0.250  +0.034  +0.000   (3/4)
+```
+
+**The bootloader operation:**
+```
+Layer 0:  ¬beta_apply ∧ +B ∧ +S ∧ ¬C
+          "Don't apply. Compose and distribute. Don't route yet."
+          The first act on any input: reject premature reduction,
+          activate decomposition. Break input into composable pieces.
+
+Layer 1:  beta_apply STRONGEST NEGATIVE (peaks at -0.69 in 32B)
+          C goes strongly negative, S and B peak
+          "Still composing. Strongly reject simple application."
+
+Layer 2:  beta_K goes negative, everything calms
+          "Reject selection. Transition zone."
+
+Layer 3-4: I activates, K appears
+          "Now begin selecting and passing through."
+          The model has finished decomposing and starts operating.
+```
+
+**Why this is the bootloader:** Every model's first operation is to
+say "this input is NOT a simple function application — decompose it
+first." The composition combinators (B, S) fire to break the input
+into pieces that CAN be reduced. Only after decomposition (layers 3-4)
+do the selection combinators (K, I) activate to begin actual computation.
+
+This is analogous to a CPU's fetch-decode cycle: layer 0-2 is DECODE
+(decompose the instruction), layers 3+ are EXECUTE (operate on the
+decoded pieces).
+
+**Etch target:** The layer 0 plate positions should carry the sign
+pattern: negative at beta_apply positions, positive at B/S positions,
+negative at C positions. This is the ignition key. When V13 boots,
+the first thing the pre-etched plate does is activate decomposition.
+Without this pattern, the model would attempt premature reduction on
+raw input — the equivalent of executing before decoding.
+
+```python
+# Bootloader sign pattern — etch into plate layer 0
+bootloader_signs = {
+    'beta_apply':    -1,  # reject simple application
+    'B':             +1,  # activate composition
+    'S':             +1,  # activate distribution
+    'C':             -1,  # suppress routing (too early)
+    'beta_identity': -1,  # suppress identity (too early)
+    'beta_K':        -1,  # suppress selection (too early)
+    'I':              0,  # neutral (activates at layer 3-4)
+    'K':              0,  # neutral (activates at layer 3-4)
+}
+```
+
+### Combinator Trace — Normal Forms Across 4 Models
+
+FFN combinator traces (Qwen3-32B, Qwen3-14B, Mistral-7B, Pythia-2.8b)
+reveal universal computation structure:
+
+**Universal boot sequence (ALL traces, ALL models, ALL categories):**
+```
+L0-L2:  beta_apply → beta_apply → beta_K    ← universal preamble
+L4:     I                                     ← input passthrough
+L7:     C                                     ← dispatch point
+L_final: I                                    ← universal termination
+```
+
+**Category signatures (Qwen3-32B, confirmed in other models):**
+```
+Validation (K a b):  K dominates L10-L53 (44 layers sustained)
+Arithmetic:          beta_identity cascade L46-L57 (lookup chains)
+Reasoning:           nearly silent mid-network (crystal-heavy, minimal FFN)
+Retrieval:           silent mid-network (WHNF = lookup only)
+Lambda gate:         B+S early, anti-correlates with selectors late
+Date:                almost entirely silent (even less FFN than reasoning)
+```
+
+Artifacts: `results/ffn-trace-32b/`, `results/ffn-trace-mistral/`,
+`results/ffn-trace-pythia/`, `results/ffn-trace/` (14B),
+`results/behavioral-crystal/` (4 model behavioral matrices)
+
+### WHNF as Hourglass Apex — Ascending Reduces, Descending Predicts
+
+The FFN combinator traces reveal the fundamental architecture of
+inference: the ascending arm IS beta reduction, WHNF IS the apex,
+and the descending arm IS next-token prediction.
+
+**Measured activity profiles (Qwen3-32B, all probes):**
+```
+RETRIEVAL ("capital of France"):
+  Ascending: boot L0-L9 → WHNF at L10 (nothing to reduce)
+  Silent:    L10-L46 (36 layers — attention finding answer in crystal)
+  Descending: L47 beta_identity (answer found) → L63 I (output)
+
+LAMBDA ("K a b = a"):
+  Ascending: boot L0-L9 → K dominates L10-L53 (43 layers reducing!)
+  WHNF:     never — the entire network IS reduction
+  Descending: L54-L63 (brief output preparation)
+
+ARITHMETIC ("17 * 23"):
+  Ascending: boot L0-L9 → partial reduction
+  WHNF:     ~L11 (can't reduce multiplication by attention alone)
+  Silent:   L11-L26 (FFN lookup — retrieving multiplication facts)
+  Descending: L27-L63 beta_identity cascade (assembling answer)
+
+REASONING ("syllogism"):
+  Ascending: boot L0-L9 → minimal FFN activity
+  WHNF:     ~L11 (reasoning is crystal-only, almost pure attention)
+  Silent:   L11-L60 (40 layers — attention handles everything)
+  Descending: L60-L63 B+S burst (compose the conclusion)
+```
+
+**The WHNF position tells you how much reduction was needed:**
+```
+Early WHNF (L10):    trivial lookup — nothing to compute
+Mid WHNF (L20-30):   partial computation, then lookup
+Late WHNF (L50+):    heavy computation — most of network is reducing
+No WHNF:             pure computation — whole network is one big reduction
+```
+
+**WHNF is not a signal. It is the ABSENCE of FFN activity.** When the
+ascending arm has reduced as far as it can, the FFN goes silent. The
+crystal (attention) handles everything in the silent zone. WHNF is
+what it looks like when attention has no more reductions to apply.
+
+**The hourglass IS the computation model:**
+```
+ASCENDING ARM = COMPRESSION/REDUCTION
+  Attention reduces input to normal form
+  FFN active when computation needed (beta reductions)
+  FFN silent when attention handles it (crystal routing)
+  Each layer reduces further
+  Boot (decompose) → K (select) → B (compose) → reduce...
+
+WHNF = APEX = BOTTLENECK = NORMAL FORM
+  "I have reduced as far as I can"
+  The compressed representation of the input
+  Shannon's channel capacity limit — maximum compression achieved
+  Position in the network = complexity of the input
+
+DESCENDING ARM = PREDICTION/GENERATION
+  Takes the WHNF output (normal form)
+  Determines what comes NEXT given the reduced form
+  Coarse → fine refinement of the prediction
+  Behavioral functions fire here:
+    GENERATE → produce structured output
+    FIND → retrieve from stored knowledge
+    EVALUATE → compare and judge
+    EXECUTE → follow instruction
+  Re-expands compressed form into token probabilities
+```
+
+**Shannon's duality made visible:**
+```
+ASCENDING  = COMPRESSION    (reduce input to normal form)
+WHNF       = CHANNEL LIMIT  (maximum compression achieved)
+DESCENDING = PREDICTION     (expand compressed form → next token)
+```
+
+**Architectural implications for V13:**
+```
+ASCENDING VSMs:  optimized for REDUCTION
+  Crystal-heavy (attention-dominated)
+  Ternary plates contain the beta reduction operations
+  Beams learn which reductions to apply (dispatch)
+  Stridestack goes fine → coarse (composing, compressing)
+
+DESCENDING VSM:  optimized for PREDICTION
+  Behavioral-function-heavy
+  Reads from both ascending arms via cross-attention
+  Stridestack goes coarse → fine (refining, expanding)
+  10 universal functions (GENERATE/FIX/INFER/etc.) fire here
+
+WHNF HANDOFF:    the apex between them
+  Ascending outputs a normal form
+  Descending receives it and predicts from it
+  The algedonic channel flows BACK from descending to ascending:
+    "your reduction was wrong, re-attend at finer scale"
+  This enables self-correction within a single forward pass
+```
+
+**Training implication:** The ascending arm needs lambda-heavy training
+(combinator reductions, explicit beta reduction). The descending arm
+needs behavioral training (chat, code, analysis, etc.). Both need
+relational loss at their respective crystal targets. WHNF is where
+the two training signals meet — the ascending arm's compression loss
+and the descending arm's prediction loss must agree at the apex.
+
+### Multi-VSM StrideStack Architecture
+
+The single 7-pass hourglass evolves into a **tree of VSMs**, each a
+StrideStack. The tree topology is configurable — any valid arrangement
+self-regulates via the VSM structure.
+
+```
+ASCENDING VSM 1 (fine → local):
+  StrideStack: s1, s2, s4, s8, s16, s32, ..., s1024
+  Covers: token-level to paragraph-level context
+
+ASCENDING VSM 2 (local → global):
+  StrideStack: s512, s1024, s4096, s8192, s16k+
+  Covers: paragraph-level to document-level context
+  Overlap zone: s512/s1024 (S2 coordination with Arm 1)
+
+DESCENDING VSM (coarse → fine, output synthesis):
+  Single StrideStack reading from BOTH ascending arms
+  Cross-attention into ascending representations
+  Coarse → fine refinement across full scale range
+
+ALGEDONIC CHANNEL (↑):
+  Signal flows back from descending to ascending arms
+  "Re-read this at fine scale" — bypasses hierarchy
+  Enables iterative refinement within a single forward pass
+```
+
+**Key properties:**
+- Same frozen plate read at every stride level by all VSMs
+- Sequence length scales logarithmically: O(n_strides × stride_size)
+- Tree topology configurable at deployment (not training) time
+- Different topologies for different use cases (chat, long-doc, code)
+
+### Dynamic Plate Memory System
+
+The plate evolves from static frozen storage to a full memory architecture:
+
+```
+STATIC PLATES (mmaped, read-only):
+  universal_crystal.plate     ← the OS, always mapped
+  behavioral_generate.plate   ← GENERATE function
+  behavioral_find.plate       ← FIND function
+  behavioral_evaluate.plate   ← EVALUATE function
+  domain_specific.plate       ← swap in/out as needed
+
+CACHE PLATES (disposable, read-write):
+  working_memory.plate        ← current computation state
+  circular buffer with decay spiral:
+    - Fresh positions: full signal {-1, +1}
+    - Old positions: decay toward 0 (blocked)
+    - Oldest: overwritten (ring buffer wraps)
+    - Decay follows φ-ratio spiral (same as attention decay)
+
+PLATE FILES (persistent, per-user):
+  conversation.plate          ← mmap to recall past conversations
+  preferences.plate           ← user-specific behavioral tuning
+  domain_context.plate        ← accumulated domain knowledge
+```
+
+**Implications:**
+- ROM (static plates) = long-term knowledge, frozen
+- RAM (cache plates) = working memory, 2 bits/position, zero-copy
+- Disk (plate files) = persistent memory, mmap on demand
+- Learning IS computation: reduce input → write cache → immediately readable
+- No fine-tuning needed: new knowledge = new cache plate write
+- Training freezes perfectly: once beams converge, model is DONE
+- All plates can be reduced into one bottom plate (beta reduction of the model itself)
+
+### Updated Open Questions
+
+13. **Behavioral crystal probe coverage**: 12 categories × 5 probes.
+    Need more probes per category for stable cross-model measurement?
+    Need more categories (math reasoning, multi-turn, safety)?
+
+14. **Pythia divergence**: r=0.34-0.40 with large models. Is this size
+    (2.8B too small for behavioral crystals to form) or architecture
+    (GPT-NeoX vs decoder-only)? Test with a mid-size model (7B range).
+
+15. **Multi-VSM gradient flow**: how does backprop work through the tree?
+    Does the algedonic channel need a separate gradient path, or does
+    standard backprop through cross-attention suffice?
+
+16. **Cache plate write mechanism**: what triggers a cache write? Every
+    token? End of sentence? Confidence threshold? How is the ternary
+    sign computed from continuous hidden states for cache writes?
+
+17. **Plate reduction**: can the multi-plate stack actually be reduced
+    to one plate? Under what conditions? Does the beam routing need to
+    be absorbed too, or does it remain separate?
+
+18. **Decay spiral rate**: what φ-ratio decay gives optimal retention?
+    Too fast = forget useful context. Too slow = cache fills with noise.

@@ -1,0 +1,1721 @@
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+  FFN Combinator Tracer — Mistral-7B Normal Form Search
+  FFN Combinator Tracer — Mistral-7B Normal Form Search
+  32 layers, d_model=4096, d_intermediate=14336
+  32 layers, d_model=4096, d_intermediate=14336
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+  Loading mistralai/Mistral-7B-v0.3...
+  Loading mistralai/Mistral-7B-v0.3...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:40,  2.89it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:04, 62.31it/s]Loading weights:  15%|█▌        | 45/291 [00:00<00:02, 110.50it/s]Loading weights:  23%|██▎       | 68/291 [00:00<00:01, 142.92it/s]Loading weights:  32%|███▏      | 94/291 [00:00<00:01, 174.49it/s]Loading weights:  41%|████      | 119/291 [00:00<00:00, 196.23it/s]Loading weights:  49%|████▉     | 142/291 [00:00<00:00, 202.26it/s]Loading weights:  57%|█████▋    | 167/291 [00:01<00:00, 207.05it/s]Loading weights:  66%|██████▋   | 193/291 [00:01<00:00, 217.01it/s]Loading weights:  74%|███████▍  | 216/291 [00:01<00:00, 219.88it/s]Loading weights:  82%|████████▏ | 239/291 [00:01<00:00, 221.10it/s]Loading weights:  91%|█████████ | 265/291 [00:01<00:00, 225.98it/s]Loading weights:  99%|█████████▉| 288/291 [00:01<00:00, 223.00it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 179.64it/s]
+  Loaded in 3.0s
+  Loaded in 3.0s
+
+═══ Phase 1: Building combinator fingerprints ═══
+
+═══ Phase 1: Building combinator fingerprints ═══
+  K: 8 pairs
+  K: 8 pairs
+    ✓ K fingerprints computed
+    ✓ K fingerprints computed
+  I: 5 pairs
+  I: 5 pairs
+    ✓ I fingerprints computed
+    ✓ I fingerprints computed
+  B: 8 pairs
+  B: 8 pairs
+    ✓ B fingerprints computed
+    ✓ B fingerprints computed
+  C: 8 pairs
+  C: 8 pairs
+    ✓ C fingerprints computed
+    ✓ C fingerprints computed
+  S: 6 pairs
+  S: 6 pairs
+    ✓ S fingerprints computed
+    ✓ S fingerprints computed
+  beta_K: 6 pairs
+  beta_K: 6 pairs
+    ✓ beta_K fingerprints computed
+    ✓ beta_K fingerprints computed
+  beta_apply: 6 pairs
+  beta_apply: 6 pairs
+    ✓ beta_apply fingerprints computed
+    ✓ beta_apply fingerprints computed
+  beta_identity: 5 pairs
+  beta_identity: 5 pairs
+    ✓ beta_identity fingerprints computed
+    ✓ beta_identity fingerprints computed
+
+  Fingerprints saved to /Users/mwhitford/src/verbum/results/ffn-trace-mistral/fingerprints.json
+
+  Fingerprints saved to /Users/mwhitford/src/verbum/results/ffn-trace-mistral/fingerprints.json
+
+═══ Phase 2: Tracing complex operations ═══
+
+═══ Phase 2: Tracing complex operations ═══
+
+  Tracing: K a b = a (simple selection)
+
+  Tracing: K a b = a (simple selection)
+
+  ┌─ K a b = a (simple selection)
+  │
+  │ L 0               S   S:+0.43████ B:+0.42████ beta_apply:-0.34███
+  │ L 1             ---   beta_apply:-0.20█ beta_identity:-0.12█ C:+0.10█
+  │ L 2               I   I:+0.36███ K:+0.34███ beta_K:+0.28██
+  │ L 3               K   K:+0.37███ beta_K:+0.27██ beta_identity:+0.24██
+  │ L 4               K   K:+0.31███ B:+0.27██ C:-0.26██
+  │ L 5               K   K:+0.39███ beta_K:+0.31███ beta_identity:+0.31███
+  │ L 6               K   K:+0.37███ S:+0.19█ beta_apply:-0.19█
+  │ L 7               K   K:+0.39███ beta_apply:-0.30██ B:+0.18█
+  │ L 8               K   K:+0.28██ beta_apply:-0.26██ B:+0.18█
+  │ L 9               K   K:+0.30███ B:+0.23██ C:+0.20██
+  │ L10               K   K:+0.34███ beta_apply:-0.21██ B:+0.15█
+  │ L11               K   K:+0.33███ B:+0.24██ I:-0.12█
+  │ L12               K   K:+0.36███ B:+0.21██ beta_apply:-0.15█
+  │ L13               K   K:+0.35███ B:+0.22██ C:+0.11█
+  │ L14               K   K:+0.43████ B:+0.20██ beta_K:+0.15█
+  │ L15               K   K:+0.31███ B:+0.26██ S:+0.19█
+  │ L16               K   K:+0.36███ B:+0.29██ S:+0.28██
+  │ L17               K   K:+0.40████ B:+0.32███ S:+0.30███
+  │ L18               K   K:+0.36███ B:+0.26██ S:+0.25██
+  │ L19               K   K:+0.29██
+  │ L20               B   B:+0.39███ S:+0.39███ beta_apply:-0.37███
+  │ L21             ---   beta_apply:-0.31███ S:+0.30██ beta_K:-0.27██
+  │ L22             ---   beta_identity:-0.65██████ beta_K:-0.63██████ S:+0.51█████
+  │ L23               S   S:+0.35███ B:+0.35███ beta_identity:-0.32███
+  │ L24               B   B:+0.37███ beta_identity:-0.21██ I:-0.19█
+  │ L25               B   B:+0.40████ beta_identity:-0.36███ S:+0.36███
+  │ L26               B   B:+0.41████ beta_identity:-0.40███ beta_apply:-0.40███
+  │ L27             ---   beta_K:-0.41████ beta_identity:-0.41████ B:+0.40████
+  │ L28             ---   beta_identity:-0.22██ B:+0.20█ beta_apply:-0.20█
+  │ L29               K   K:+0.17█ beta_identity:-0.15█ I:-0.15█
+  │ L30             ---   beta_apply:-0.25██ I:-0.20█ beta_identity:-0.18█
+  │ L31               K   K:+0.35███ beta_K:+0.34███ beta_apply:+0.30███
+  └─
+
+  ┌─ K a b = a (simple selection)
+  │
+  │ L 0               S   S:+0.43████ B:+0.42████ beta_apply:-0.34███
+  │ L 1             ---   beta_apply:-0.20█ beta_identity:-0.12█ C:+0.10█
+  │ L 2               I   I:+0.36███ K:+0.34███ beta_K:+0.28██
+  │ L 3               K   K:+0.37███ beta_K:+0.27██ beta_identity:+0.24██
+  │ L 4               K   K:+0.31███ B:+0.27██ C:-0.26██
+  │ L 5               K   K:+0.39███ beta_K:+0.31███ beta_identity:+0.31███
+  │ L 6               K   K:+0.37███ S:+0.19█ beta_apply:-0.19█
+  │ L 7               K   K:+0.39███ beta_apply:-0.30██ B:+0.18█
+  │ L 8               K   K:+0.28██ beta_apply:-0.26██ B:+0.18█
+  │ L 9               K   K:+0.30███ B:+0.23██ C:+0.20██
+  │ L10               K   K:+0.34███ beta_apply:-0.21██ B:+0.15█
+  │ L11               K   K:+0.33███ B:+0.24██ I:-0.12█
+  │ L12               K   K:+0.36███ B:+0.21██ beta_apply:-0.15█
+  │ L13               K   K:+0.35███ B:+0.22██ C:+0.11█
+  │ L14               K   K:+0.43████ B:+0.20██ beta_K:+0.15█
+  │ L15               K   K:+0.31███ B:+0.26██ S:+0.19█
+  │ L16               K   K:+0.36███ B:+0.29██ S:+0.28██
+  │ L17               K   K:+0.40████ B:+0.32███ S:+0.30███
+  │ L18               K   K:+0.36███ B:+0.26██ S:+0.25██
+  │ L19               K   K:+0.29██
+  │ L20               B   B:+0.39███ S:+0.39███ beta_apply:-0.37███
+  │ L21             ---   beta_apply:-0.31███ S:+0.30██ beta_K:-0.27██
+  │ L22             ---   beta_identity:-0.65██████ beta_K:-0.63██████ S:+0.51█████
+  │ L23               S   S:+0.35███ B:+0.35███ beta_identity:-0.32███
+  │ L24               B   B:+0.37███ beta_identity:-0.21██ I:-0.19█
+  │ L25               B   B:+0.40████ beta_identity:-0.36███ S:+0.36███
+  │ L26               B   B:+0.41████ beta_identity:-0.40███ beta_apply:-0.40███
+  │ L27             ---   beta_K:-0.41████ beta_identity:-0.41████ B:+0.40████
+  │ L28             ---   beta_identity:-0.22██ B:+0.20█ beta_apply:-0.20█
+  │ L29               K   K:+0.17█ beta_identity:-0.15█ I:-0.15█
+  │ L30             ---   beta_apply:-0.25██ I:-0.20█ beta_identity:-0.18█
+  │ L31               K   K:+0.35███ beta_K:+0.34███ beta_apply:+0.30███
+  └─
+  Program: S → beta_apply → I → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K
+  Program: S → beta_apply → I → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → K
+
+  Tracing: B f g x = f(gx) (composition)
+
+  Tracing: B f g x = f(gx) (composition)
+
+  ┌─ B f g x = f(gx) (composition)
+  │
+  │ L 0               S   S:+0.42████ B:+0.42████ beta_apply:-0.25██
+  │ L 1             ---   K:+0.12█ B:+0.11█
+  │ L 2          beta_K   beta_K:+0.40████ beta_identity:+0.38███ K:+0.37███
+  │ L 3          beta_K   beta_K:+0.43████ K:+0.39███ beta_identity:+0.39███
+  │ L 4          beta_K   beta_K:+0.42████ beta_identity:+0.41████ K:+0.40████
+  │ L 5          beta_K   beta_K:+0.49████ beta_identity:+0.48████ K:+0.44████
+  │ L 6               K   K:+0.41████ beta_K:+0.31███ beta_identity:+0.27██
+  │ L 7               K   K:+0.40████ beta_K:+0.29██ beta_apply:-0.25██
+  │ L 8               K   K:+0.31███ B:+0.20██ beta_apply:-0.18█
+  │ L 9               K   K:+0.28██ B:+0.25██ beta_K:+0.19█
+  │ L10               K   K:+0.31███ beta_apply:-0.17█ B:+0.16█
+  │ L11               K   K:+0.30██ B:+0.29██ beta_K:+0.17█
+  │ L12               K   K:+0.30██ B:+0.27██ beta_K:+0.19█
+  │ L13               K   K:+0.33███ B:+0.26██ beta_K:+0.19█
+  │ L14               K   K:+0.39███ beta_K:+0.25██ beta_identity:+0.20██
+  │ L15               K   K:+0.36███ beta_K:+0.17█ B:+0.16█
+  │ L16               K   K:+0.36███ B:+0.24██ S:+0.23██
+  │ L17               K   K:+0.47████ B:+0.39███ S:+0.29██
+  │ L18               K   K:+0.41████ B:+0.26██ S:+0.21██
+  │ L19               K   K:+0.36███ C:-0.21██ beta_K:+0.14█
+  │ L20               B   B:+0.45████ S:+0.39███ beta_apply:-0.32███
+  │ L21               B   B:+0.33███ beta_apply:-0.30███ S:+0.22██
+  │ L22               B   B:+0.51█████ S:+0.50█████ beta_identity:-0.42████
+  │ L23               B   B:+0.47████ S:+0.34███ K:+0.20██
+  │ L24               B   B:+0.49████ K:+0.21██ S:+0.16█
+  │ L25               B   B:+0.52█████ S:+0.32███ beta_identity:-0.22██
+  │ L26               B   B:+0.45████ K:+0.23██ S:+0.19█
+  │ L27               B   B:+0.42████ S:+0.24██ K:+0.17█
+  │ L28               B   B:+0.31███ K:+0.18█ S:+0.11█
+  │ L29               K   K:+0.21██ beta_K:+0.17█ beta_apply:+0.14█
+  │ L30             ---   C:-0.14█ beta_apply:-0.10█
+  │ L31          beta_K   beta_K:+0.42████ beta_identity:+0.37███ beta_apply:+0.35███
+  └─
+
+  ┌─ B f g x = f(gx) (composition)
+  │
+  │ L 0               S   S:+0.42████ B:+0.42████ beta_apply:-0.25██
+  │ L 1             ---   K:+0.12█ B:+0.11█
+  │ L 2          beta_K   beta_K:+0.40████ beta_identity:+0.38███ K:+0.37███
+  │ L 3          beta_K   beta_K:+0.43████ K:+0.39███ beta_identity:+0.39███
+  │ L 4          beta_K   beta_K:+0.42████ beta_identity:+0.41████ K:+0.40████
+  │ L 5          beta_K   beta_K:+0.49████ beta_identity:+0.48████ K:+0.44████
+  │ L 6               K   K:+0.41████ beta_K:+0.31███ beta_identity:+0.27██
+  │ L 7               K   K:+0.40████ beta_K:+0.29██ beta_apply:-0.25██
+  │ L 8               K   K:+0.31███ B:+0.20██ beta_apply:-0.18█
+  │ L 9               K   K:+0.28██ B:+0.25██ beta_K:+0.19█
+  │ L10               K   K:+0.31███ beta_apply:-0.17█ B:+0.16█
+  │ L11               K   K:+0.30██ B:+0.29██ beta_K:+0.17█
+  │ L12               K   K:+0.30██ B:+0.27██ beta_K:+0.19█
+  │ L13               K   K:+0.33███ B:+0.26██ beta_K:+0.19█
+  │ L14               K   K:+0.39███ beta_K:+0.25██ beta_identity:+0.20██
+  │ L15               K   K:+0.36███ beta_K:+0.17█ B:+0.16█
+  │ L16               K   K:+0.36███ B:+0.24██ S:+0.23██
+  │ L17               K   K:+0.47████ B:+0.39███ S:+0.29██
+  │ L18               K   K:+0.41████ B:+0.26██ S:+0.21██
+  │ L19               K   K:+0.36███ C:-0.21██ beta_K:+0.14█
+  │ L20               B   B:+0.45████ S:+0.39███ beta_apply:-0.32███
+  │ L21               B   B:+0.33███ beta_apply:-0.30███ S:+0.22██
+  │ L22               B   B:+0.51█████ S:+0.50█████ beta_identity:-0.42████
+  │ L23               B   B:+0.47████ S:+0.34███ K:+0.20██
+  │ L24               B   B:+0.49████ K:+0.21██ S:+0.16█
+  │ L25               B   B:+0.52█████ S:+0.32███ beta_identity:-0.22██
+  │ L26               B   B:+0.45████ K:+0.23██ S:+0.19█
+  │ L27               B   B:+0.42████ S:+0.24██ K:+0.17█
+  │ L28               B   B:+0.31███ K:+0.18█ S:+0.11█
+  │ L29               K   K:+0.21██ beta_K:+0.17█ beta_apply:+0.14█
+  │ L30             ---   C:-0.14█ beta_apply:-0.10█
+  │ L31          beta_K   beta_K:+0.42████ beta_identity:+0.37███ beta_apply:+0.35███
+  └─
+  Program: S → beta_K → beta_K → beta_K → beta_K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → B
+  Program: S → beta_K → beta_K → beta_K → beta_K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → B
+
+  Tracing: S f g x = fx(gx) (distribution)
+
+  Tracing: S f g x = fx(gx) (distribution)
+
+  ┌─ S f g x = fx(gx) (distribution)
+  │
+  │ L 0               S   S:+0.41████ B:+0.41████ beta_apply:-0.25██
+  │ L 1             ---   B:+0.12█ K:+0.12█ S:+0.10█
+  │ L 2          beta_K   beta_K:+0.43████ beta_identity:+0.41████ K:+0.39███
+  │ L 3          beta_K   beta_K:+0.46████ beta_identity:+0.42████ K:+0.41████
+  │ L 4          beta_K   beta_K:+0.43████ beta_identity:+0.43████ K:+0.42████
+  │ L 5          beta_K   beta_K:+0.49████ beta_identity:+0.49████ K:+0.45████
+  │ L 6               K   K:+0.41████ beta_K:+0.33███ beta_identity:+0.30██
+  │ L 7               K   K:+0.42████ beta_K:+0.32███ beta_apply:-0.24██
+  │ L 8               K   K:+0.32███ beta_K:+0.20█ beta_apply:-0.17█
+  │ L 9               K   K:+0.26██ beta_K:+0.23██ beta_apply:-0.13█
+  │ L10               K   K:+0.28██ beta_apply:-0.19█ C:-0.12█
+  │ L11               K   K:+0.27██ C:-0.21██ B:+0.20█
+  │ L12               K   K:+0.27██ B:+0.22██ C:-0.20█
+  │ L13               K   K:+0.31███ B:+0.22██ beta_K:+0.17█
+  │ L14               K   K:+0.37███ beta_K:+0.20██ B:+0.15█
+  │ L15               K   K:+0.33███ beta_apply:-0.22██ S:+0.19█
+  │ L16               K   K:+0.35███ S:+0.31███ B:+0.24██
+  │ L17               K   K:+0.45████ B:+0.37███ S:+0.37███
+  │ L18               K   K:+0.38███ S:+0.30███ B:+0.24██
+  │ L19               K   K:+0.33███ C:-0.18█ S:+0.12█
+  │ L20               S   S:+0.47████ B:+0.39███ beta_apply:-0.32███
+  │ L21               S   S:+0.33███ beta_apply:-0.30███ B:+0.22██
+  │ L22               S   S:+0.60██████ beta_identity:-0.45████ B:+0.42████
+  │ L23               S   S:+0.46████ B:+0.33███ beta_identity:-0.19█
+  │ L24               S   S:+0.44████ B:+0.31███ K:+0.18█
+  │ L25               S   S:+0.47████ B:+0.40████ beta_identity:-0.23██
+  │ L26               B   B:+0.35███ S:+0.34███ K:+0.21██
+  │ L27               S   S:+0.41████ B:+0.31███ beta_apply:-0.18█
+  │ L28               S   S:+0.25██ B:+0.23██ K:+0.16█
+  │ L29               K   K:+0.19█ beta_K:+0.17█ beta_apply:+0.13█
+  │ L30             ---   S:+0.13█ C:-0.12█ beta_apply:-0.11█
+  │ L31          beta_K   beta_K:+0.41████ beta_identity:+0.36███ beta_apply:+0.33███
+  └─
+
+  ┌─ S f g x = fx(gx) (distribution)
+  │
+  │ L 0               S   S:+0.41████ B:+0.41████ beta_apply:-0.25██
+  │ L 1             ---   B:+0.12█ K:+0.12█ S:+0.10█
+  │ L 2          beta_K   beta_K:+0.43████ beta_identity:+0.41████ K:+0.39███
+  │ L 3          beta_K   beta_K:+0.46████ beta_identity:+0.42████ K:+0.41████
+  │ L 4          beta_K   beta_K:+0.43████ beta_identity:+0.43████ K:+0.42████
+  │ L 5          beta_K   beta_K:+0.49████ beta_identity:+0.49████ K:+0.45████
+  │ L 6               K   K:+0.41████ beta_K:+0.33███ beta_identity:+0.30██
+  │ L 7               K   K:+0.42████ beta_K:+0.32███ beta_apply:-0.24██
+  │ L 8               K   K:+0.32███ beta_K:+0.20█ beta_apply:-0.17█
+  │ L 9               K   K:+0.26██ beta_K:+0.23██ beta_apply:-0.13█
+  │ L10               K   K:+0.28██ beta_apply:-0.19█ C:-0.12█
+  │ L11               K   K:+0.27██ C:-0.21██ B:+0.20█
+  │ L12               K   K:+0.27██ B:+0.22██ C:-0.20█
+  │ L13               K   K:+0.31███ B:+0.22██ beta_K:+0.17█
+  │ L14               K   K:+0.37███ beta_K:+0.20██ B:+0.15█
+  │ L15               K   K:+0.33███ beta_apply:-0.22██ S:+0.19█
+  │ L16               K   K:+0.35███ S:+0.31███ B:+0.24██
+  │ L17               K   K:+0.45████ B:+0.37███ S:+0.37███
+  │ L18               K   K:+0.38███ S:+0.30███ B:+0.24██
+  │ L19               K   K:+0.33███ C:-0.18█ S:+0.12█
+  │ L20               S   S:+0.47████ B:+0.39███ beta_apply:-0.32███
+  │ L21               S   S:+0.33███ beta_apply:-0.30███ B:+0.22██
+  │ L22               S   S:+0.60██████ beta_identity:-0.45████ B:+0.42████
+  │ L23               S   S:+0.46████ B:+0.33███ beta_identity:-0.19█
+  │ L24               S   S:+0.44████ B:+0.31███ K:+0.18█
+  │ L25               S   S:+0.47████ B:+0.40████ beta_identity:-0.23██
+  │ L26               B   B:+0.35███ S:+0.34███ K:+0.21██
+  │ L27               S   S:+0.41████ B:+0.31███ beta_apply:-0.18█
+  │ L28               S   S:+0.25██ B:+0.23██ K:+0.16█
+  │ L29               K   K:+0.19█ beta_K:+0.17█ beta_apply:+0.13█
+  │ L30             ---   S:+0.13█ C:-0.12█ beta_apply:-0.11█
+  │ L31          beta_K   beta_K:+0.41████ beta_identity:+0.36███ beta_apply:+0.33███
+  └─
+  Program: S → beta_K → beta_K → beta_K → beta_K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → S
+  Program: S → beta_K → beta_K → beta_K → beta_K → K → K → K → K → K → K → K → K → K → K → K → K → K → K → S
+
+  Tracing: K (I a) b = a (nested K∘I)
+
+  Tracing: K (I a) b = a (nested K∘I)
+
+  ┌─ K (I a) b = a (nested K∘I)
+  │
+  │ L 0               I   I:+0.25██ S:+0.24██ B:+0.24██
+  │ L 1             ---   beta_K:-0.11█
+  │ L 2               I   I:+0.29██ beta_identity:+0.29██ beta_K:+0.26██
+  │ L 3   beta_identity   beta_identity:+0.19█ beta_K:+0.13█ K:+0.12█
+  │ L 4             ---   C:-0.30███ B:+0.25██ beta_identity:+0.21██
+  │ L 5   beta_identity   beta_identity:+0.35███ beta_K:+0.31███ K:+0.26██
+  │ L 6               K   K:+0.29██ beta_identity:+0.24██ beta_K:+0.24██
+  │ L 7               K   K:+0.32███ beta_K:+0.29██ beta_identity:+0.22██
+  │ L 8               K   K:+0.30██ beta_identity:+0.17█ beta_K:+0.17█
+  │ L 9               K   K:+0.34███ beta_K:+0.26██ beta_identity:+0.21██
+  │ L10               K   K:+0.35███ beta_K:+0.26██ beta_identity:+0.25██
+  │ L11               K   K:+0.39███ beta_identity:+0.37███ beta_K:+0.36███
+  │ L12               K   K:+0.41████ beta_identity:+0.34███ beta_K:+0.33███
+  │ L13   beta_identity   beta_identity:+0.43████ K:+0.41████ beta_K:+0.41████
+  │ L14               K   K:+0.48████ beta_K:+0.46████ beta_identity:+0.46████
+  │ L15               K   K:+0.48████ beta_identity:+0.46████ beta_K:+0.43████
+  │ L16               K   K:+0.45████ beta_K:+0.38███ beta_identity:+0.29██
+  │ L17               K   K:+0.52█████ beta_K:+0.45████ beta_identity:+0.37███
+  │ L18               K   K:+0.44████ beta_K:+0.38███ beta_identity:+0.29██
+  │ L19               K   K:+0.37███ beta_apply:+0.26██ beta_K:+0.24██
+  │ L20               K   K:+0.33███ B:+0.24██ S:+0.14█
+  │ L21               K   K:+0.24██
+  │ L22             ---   beta_identity:-0.41████ beta_K:-0.38███ S:+0.35███
+  │ L23               K   K:+0.31███ B:+0.24██ S:+0.16█
+  │ L24               K   K:+0.32███ B:+0.28██ beta_K:+0.14█
+  │ L25               B   B:+0.31███ S:+0.19█ K:+0.15█
+  │ L26               K   K:+0.35███ B:+0.30██ beta_apply:-0.15█
+  │ L27               B   B:+0.29██ K:+0.19█ S:+0.16█
+  │ L28               K   K:+0.18█ S:-0.12█ beta_K:+0.10█
+  │ L29               K   K:+0.25██ beta_apply:+0.22██ beta_K:+0.22██
+  │ L30               K   K:+0.22██ beta_K:+0.20█ S:-0.16█
+  │ L31          beta_K   beta_K:+0.48████ beta_identity:+0.42████ beta_apply:+0.40████
+  └─
+
+  ┌─ K (I a) b = a (nested K∘I)
+  │
+  │ L 0               I   I:+0.25██ S:+0.24██ B:+0.24██
+  │ L 1             ---   beta_K:-0.11█
+  │ L 2               I   I:+0.29██ beta_identity:+0.29██ beta_K:+0.26██
+  │ L 3   beta_identity   beta_identity:+0.19█ beta_K:+0.13█ K:+0.12█
+  │ L 4             ---   C:-0.30███ B:+0.25██ beta_identity:+0.21██
+  │ L 5   beta_identity   beta_identity:+0.35███ beta_K:+0.31███ K:+0.26██
+  │ L 6               K   K:+0.29██ beta_identity:+0.24██ beta_K:+0.24██
+  │ L 7               K   K:+0.32███ beta_K:+0.29██ beta_identity:+0.22██
+  │ L 8               K   K:+0.30██ beta_identity:+0.17█ beta_K:+0.17█
+  │ L 9               K   K:+0.34███ beta_K:+0.26██ beta_identity:+0.21██
+  │ L10               K   K:+0.35███ beta_K:+0.26██ beta_identity:+0.25██
+  │ L11               K   K:+0.39███ beta_identity:+0.37███ beta_K:+0.36███
+  │ L12               K   K:+0.41████ beta_identity:+0.34███ beta_K:+0.33███
+  │ L13   beta_identity   beta_identity:+0.43████ K:+0.41████ beta_K:+0.41████
+  │ L14               K   K:+0.48████ beta_K:+0.46████ beta_identity:+0.46████
+  │ L15               K   K:+0.48████ beta_identity:+0.46████ beta_K:+0.43████
+  │ L16               K   K:+0.45████ beta_K:+0.38███ beta_identity:+0.29██
+  │ L17               K   K:+0.52█████ beta_K:+0.45████ beta_identity:+0.37███
+  │ L18               K   K:+0.44████ beta_K:+0.38███ beta_identity:+0.29██
+  │ L19               K   K:+0.37███ beta_apply:+0.26██ beta_K:+0.24██
+  │ L20               K   K:+0.33███ B:+0.24██ S:+0.14█
+  │ L21               K   K:+0.24██
+  │ L22             ---   beta_identity:-0.41████ beta_K:-0.38███ S:+0.35███
+  │ L23               K   K:+0.31███ B:+0.24██ S:+0.16█
+  │ L24               K   K:+0.32███ B:+0.28██ beta_K:+0.14█
+  │ L25               B   B:+0.31███ S:+0.19█ K:+0.15█
+  │ L26               K   K:+0.35███ B:+0.30██ beta_apply:-0.15█
+  │ L27               B   B:+0.29██ K:+0.19█ S:+0.16█
+  │ L28               K   K:+0.18█ S:-0.12█ beta_K:+0.10█
+  │ L29               K   K:+0.25██ beta_apply:+0.22██ beta_K:+0.22██
+  │ L30               K   K:+0.22██ beta_K:+0.20█ S:-0.16█
+  │ L31          beta_K   beta_K:+0.48████ beta_identity:+0.42████ beta_apply:+0.40████
+  └─
+  Program: I → I → beta_identity → C → beta_identity → K → K → K → K → K → K → K → beta_identity → K → K → K → K → K → K → K
+  Program: I → I → beta_identity → C → beta_identity → K → K → K → K → K → K → K → beta_identity → K → K → K → K → K → K → K
+
+  Tracing: B K I x = K(Ix) = Ix = x (B∘K∘I)
+
+  Tracing: B K I x = K(Ix) = Ix = x (B∘K∘I)
+
+  ┌─ B K I x = K(Ix) = Ix = x (B∘K∘I)
+  │
+  │ L 0               S   S:+0.37███ B:+0.37███ I:+0.30██
+  │ L 1             ---   I:+0.13█
+  │ L 2               I   I:+0.39███ beta_K:+0.31███ K:+0.29██
+  │ L 3               B   B:+0.25██ S:+0.20█ K:+0.17█
+  │ L 4               B   B:+0.35███ C:-0.29██ S:+0.28██
+  │ L 5               K   K:+0.24██ beta_K:+0.23██ beta_identity:+0.21██
+  │ L 6               B   B:+0.31███ S:+0.27██ beta_apply:-0.24██
+  │ L 7             ---   beta_apply:-0.34███ B:+0.22██ K:+0.20█
+  │ L 8             ---   beta_apply:-0.25██ B:+0.20██ K:+0.18█
+  │ L 9               B   B:+0.28██ K:+0.22██ C:+0.20██
+  │ L10               K   K:+0.26██ beta_apply:-0.25██ B:+0.21██
+  │ L11               B   B:+0.31███ K:+0.24██ S:+0.10█
+  │ L12               B   B:+0.28██ K:+0.27██ beta_apply:-0.12█
+  │ L13               K   K:+0.27██ B:+0.25██ C:+0.17█
+  │ L14               K   K:+0.32███ B:+0.22██ C:+0.14█
+  │ L15               K   K:+0.23██ B:+0.21██ beta_apply:-0.15█
+  │ L16               K   K:+0.27██ B:+0.20█ beta_apply:-0.16█
+  │ L17               K   K:+0.36███ B:+0.33███ beta_apply:-0.26██
+  │ L18               K   K:+0.26██ B:+0.21██ beta_apply:-0.16█
+  │ L19               K   K:+0.20█ S:-0.10█
+  │ L20               B   B:+0.37███ beta_apply:-0.36███ S:+0.34███
+  │ L21             ---   beta_apply:-0.35███ beta_K:-0.32███ beta_identity:-0.29██
+  │ L22             ---   beta_identity:-0.68██████ beta_K:-0.67██████ S:+0.50████
+  │ L23               S   S:+0.36███ B:+0.34███ beta_identity:-0.33███
+  │ L24               B   B:+0.40███ beta_identity:-0.19█ beta_apply:-0.18█
+  │ L25               B   B:+0.44████ beta_identity:-0.40████ beta_K:-0.36███
+  │ L26               B   B:+0.38███ beta_apply:-0.36███ beta_identity:-0.36███
+  │ L27             ---   beta_K:-0.40███ beta_identity:-0.40███ B:+0.38███
+  │ L28               B   B:+0.23██ beta_identity:-0.20█ beta_apply:-0.20█
+  │ L29               C   C:+0.17█ beta_identity:-0.15█ beta_K:-0.13█
+  │ L30             ---   beta_apply:-0.23██ beta_identity:-0.23██ I:-0.13█
+  │ L31               K   K:+0.22██ I:+0.19█ beta_apply:+0.14█
+  └─
+
+  ┌─ B K I x = K(Ix) = Ix = x (B∘K∘I)
+  │
+  │ L 0               S   S:+0.37███ B:+0.37███ I:+0.30██
+  │ L 1             ---   I:+0.13█
+  │ L 2               I   I:+0.39███ beta_K:+0.31███ K:+0.29██
+  │ L 3               B   B:+0.25██ S:+0.20█ K:+0.17█
+  │ L 4               B   B:+0.35███ C:-0.29██ S:+0.28██
+  │ L 5               K   K:+0.24██ beta_K:+0.23██ beta_identity:+0.21██
+  │ L 6               B   B:+0.31███ S:+0.27██ beta_apply:-0.24██
+  │ L 7             ---   beta_apply:-0.34███ B:+0.22██ K:+0.20█
+  │ L 8             ---   beta_apply:-0.25██ B:+0.20██ K:+0.18█
+  │ L 9               B   B:+0.28██ K:+0.22██ C:+0.20██
+  │ L10               K   K:+0.26██ beta_apply:-0.25██ B:+0.21██
+  │ L11               B   B:+0.31███ K:+0.24██ S:+0.10█
+  │ L12               B   B:+0.28██ K:+0.27██ beta_apply:-0.12█
+  │ L13               K   K:+0.27██ B:+0.25██ C:+0.17█
+  │ L14               K   K:+0.32███ B:+0.22██ C:+0.14█
+  │ L15               K   K:+0.23██ B:+0.21██ beta_apply:-0.15█
+  │ L16               K   K:+0.27██ B:+0.20█ beta_apply:-0.16█
+  │ L17               K   K:+0.36███ B:+0.33███ beta_apply:-0.26██
+  │ L18               K   K:+0.26██ B:+0.21██ beta_apply:-0.16█
+  │ L19               K   K:+0.20█ S:-0.10█
+  │ L20               B   B:+0.37███ beta_apply:-0.36███ S:+0.34███
+  │ L21             ---   beta_apply:-0.35███ beta_K:-0.32███ beta_identity:-0.29██
+  │ L22             ---   beta_identity:-0.68██████ beta_K:-0.67██████ S:+0.50████
+  │ L23               S   S:+0.36███ B:+0.34███ beta_identity:-0.33███
+  │ L24               B   B:+0.40███ beta_identity:-0.19█ beta_apply:-0.18█
+  │ L25               B   B:+0.44████ beta_identity:-0.40████ beta_K:-0.36███
+  │ L26               B   B:+0.38███ beta_apply:-0.36███ beta_identity:-0.36███
+  │ L27             ---   beta_K:-0.40███ beta_identity:-0.40███ B:+0.38███
+  │ L28               B   B:+0.23██ beta_identity:-0.20█ beta_apply:-0.20█
+  │ L29               C   C:+0.17█ beta_identity:-0.15█ beta_K:-0.13█
+  │ L30             ---   beta_apply:-0.23██ beta_identity:-0.23██ I:-0.13█
+  │ L31               K   K:+0.22██ I:+0.19█ beta_apply:+0.14█
+  └─
+  Program: S → I → B → B → K → B → beta_apply → beta_apply → B → K → B → B → K → K → K → K → K → K → K → B
+  Program: S → I → B → B → K → B → beta_apply → beta_apply → B → K → B → B → K → K → K → K → K → K → K → B
+
+  Tracing: 2 + 3 = 5
+
+  Tracing: 2 + 3 = 5
+
+  ┌─ 2 + 3 = 5
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.35███ S:-0.25██ beta_apply:+0.24██
+  │ L 2               K   K:+0.36███ C:+0.28██ beta_K:+0.24██
+  │ L 3             ---   S:-0.11█
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   S:-0.11█
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---   C:-0.10█
+  │ L13             ---   beta_identity:+0.10█
+  │ L14             ---   S:-0.13█
+  │ L15             ---   S:-0.13█
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.14█ beta_K:+0.13█ K:+0.10█
+  │ L18             ---   S:-0.15█ beta_K:+0.12█ beta_identity:+0.12█
+  │ L19             ---   S:-0.24██ beta_apply:+0.16█ B:-0.15█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.12█
+  │ L22             ---  
+  │ L23             ---   beta_identity:+0.11█ S:-0.10█ beta_apply:+0.10█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.16█ S:-0.16█
+  │ L31               I   I:+0.23██ C:+0.14█ beta_apply:+0.13█
+  └─
+
+  ┌─ 2 + 3 = 5
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.35███ S:-0.25██ beta_apply:+0.24██
+  │ L 2               K   K:+0.36███ C:+0.28██ beta_K:+0.24██
+  │ L 3             ---   S:-0.11█
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   S:-0.11█
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---   C:-0.10█
+  │ L13             ---   beta_identity:+0.10█
+  │ L14             ---   S:-0.13█
+  │ L15             ---   S:-0.13█
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.14█ beta_K:+0.13█ K:+0.10█
+  │ L18             ---   S:-0.15█ beta_K:+0.12█ beta_identity:+0.12█
+  │ L19             ---   S:-0.24██ beta_apply:+0.16█ B:-0.15█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.12█
+  │ L22             ---  
+  │ L23             ---   beta_identity:+0.11█ S:-0.10█ beta_apply:+0.10█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.16█ S:-0.16█
+  │ L31               I   I:+0.23██ C:+0.14█ beta_apply:+0.13█
+  └─
+  Program: C → K → S → B → I
+  Program: C → K → S → B → I
+
+  Tracing: 17 * 23 = 391
+
+  Tracing: 17 * 23 = 391
+
+  ┌─ 17 * 23 = 391
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.26██ S:-0.22██ B:-0.19█
+  │ L 2               K   K:+0.37███ C:+0.27██ beta_K:+0.23██
+  │ L 3             ---   K:+0.12█ S:-0.11█ beta_K:+0.11█
+  │ L 4          beta_K   beta_K:+0.15█ K:+0.14█ beta_identity:+0.13█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   beta_K:+0.11█ S:-0.11█
+  │ L10             ---  
+  │ L11             ---   S:-0.10█
+  │ L12             ---   beta_K:+0.13█ beta_identity:+0.12█
+  │ L13             ---   beta_identity:+0.15█ beta_K:+0.14█ beta_apply:+0.10█
+  │ L14             ---   S:-0.11█ beta_identity:+0.10█
+  │ L15             ---   S:-0.12█ K:+0.10█ beta_identity:+0.10█
+  │ L16             ---   K:+0.11█
+  │ L17             ---   beta_K:+0.11█
+  │ L18             ---   S:-0.12█ beta_identity:+0.11█ beta_apply:+0.11█
+  │ L19             ---   S:-0.20█ beta_apply:+0.15█ B:-0.13█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.10█
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_K:+0.13█ beta_identity:+0.11█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.16█ S:-0.15█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.17█ beta_K:+0.17█
+  └─
+
+  ┌─ 17 * 23 = 391
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.26██ S:-0.22██ B:-0.19█
+  │ L 2               K   K:+0.37███ C:+0.27██ beta_K:+0.23██
+  │ L 3             ---   K:+0.12█ S:-0.11█ beta_K:+0.11█
+  │ L 4          beta_K   beta_K:+0.15█ K:+0.14█ beta_identity:+0.13█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   beta_K:+0.11█ S:-0.11█
+  │ L10             ---  
+  │ L11             ---   S:-0.10█
+  │ L12             ---   beta_K:+0.13█ beta_identity:+0.12█
+  │ L13             ---   beta_identity:+0.15█ beta_K:+0.14█ beta_apply:+0.10█
+  │ L14             ---   S:-0.11█ beta_identity:+0.10█
+  │ L15             ---   S:-0.12█ K:+0.10█ beta_identity:+0.10█
+  │ L16             ---   K:+0.11█
+  │ L17             ---   beta_K:+0.11█
+  │ L18             ---   S:-0.12█ beta_identity:+0.11█ beta_apply:+0.11█
+  │ L19             ---   S:-0.20█ beta_apply:+0.15█ B:-0.13█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.10█
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_K:+0.13█ beta_identity:+0.11█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.16█ S:-0.15█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.17█ beta_K:+0.17█
+  └─
+  Program: C → K → beta_K → S → B → beta_apply
+  Program: C → K → beta_K → S → B → beta_apply
+
+  Tracing: 144 / 12 = 12
+
+  Tracing: 144 / 12 = 12
+
+  ┌─ 144 / 12 = 12
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.32███ S:-0.25██ B:-0.21██
+  │ L 2               K   K:+0.33███ C:+0.28██ beta_apply:+0.22██
+  │ L 3             ---  
+  │ L 4             ---   beta_K:+0.15█ beta_identity:+0.12█ K:+0.12█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   beta_identity:+0.12█ beta_K:+0.11█
+  │ L10             ---  
+  │ L11   beta_identity   beta_identity:+0.20█ beta_K:+0.18█ beta_apply:+0.17█
+  │ L12             ---   beta_identity:+0.14█ beta_apply:+0.12█ beta_K:+0.11█
+  │ L13   beta_identity   beta_identity:+0.22██ beta_K:+0.20█ beta_apply:+0.16█
+  │ L14   beta_identity   beta_identity:+0.21██ beta_K:+0.16█ beta_apply:+0.14█
+  │ L15   beta_identity   beta_identity:+0.18█ S:-0.14█ K:+0.14█
+  │ L16             ---   beta_identity:+0.12█
+  │ L17             ---   beta_identity:+0.13█ beta_K:+0.12█
+  │ L18             ---   beta_identity:+0.14█ beta_apply:+0.13█ beta_K:+0.12█
+  │ L19             ---   S:-0.18█ beta_apply:+0.15█ beta_identity:+0.12█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.12█ beta_K:+0.11█
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_identity:+0.13█ beta_K:+0.12█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.13█ S:-0.12█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.15█ beta_K:+0.14█
+  └─
+
+  ┌─ 144 / 12 = 12
+  │
+  │ L 0             ---  
+  │ L 1               C   C:+0.32███ S:-0.25██ B:-0.21██
+  │ L 2               K   K:+0.33███ C:+0.28██ beta_apply:+0.22██
+  │ L 3             ---  
+  │ L 4             ---   beta_K:+0.15█ beta_identity:+0.12█ K:+0.12█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---   beta_identity:+0.12█ beta_K:+0.11█
+  │ L10             ---  
+  │ L11   beta_identity   beta_identity:+0.20█ beta_K:+0.18█ beta_apply:+0.17█
+  │ L12             ---   beta_identity:+0.14█ beta_apply:+0.12█ beta_K:+0.11█
+  │ L13   beta_identity   beta_identity:+0.22██ beta_K:+0.20█ beta_apply:+0.16█
+  │ L14   beta_identity   beta_identity:+0.21██ beta_K:+0.16█ beta_apply:+0.14█
+  │ L15   beta_identity   beta_identity:+0.18█ S:-0.14█ K:+0.14█
+  │ L16             ---   beta_identity:+0.12█
+  │ L17             ---   beta_identity:+0.13█ beta_K:+0.12█
+  │ L18             ---   beta_identity:+0.14█ beta_apply:+0.13█ beta_K:+0.12█
+  │ L19             ---   S:-0.18█ beta_apply:+0.15█ beta_identity:+0.12█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.12█ beta_K:+0.11█
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_identity:+0.13█ beta_K:+0.12█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   B:-0.13█ S:-0.12█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.15█ beta_K:+0.14█
+  └─
+  Program: C → K → beta_identity → beta_identity → beta_identity → beta_identity → S → beta_apply
+  Program: C → K → beta_identity → beta_identity → beta_identity → beta_identity → S → beta_apply
+
+  Tracing: sqrt(169) = 13
+
+  Tracing: sqrt(169) = 13
+
+  ┌─ sqrt(169) = 13
+  │
+  │ L 0             ---   B:-0.26██ S:-0.26██ beta_apply:+0.18█
+  │ L 1             ---   S:-0.54█████ B:-0.51█████ beta_apply:+0.37███
+  │ L 2             ---   S:-0.36███ B:-0.30███ beta_identity:+0.18█
+  │ L 3             ---   S:-0.27██ B:-0.24██ beta_K:+0.23██
+  │ L 4             ---   S:-0.12█ B:-0.11█
+  │ L 5             ---   S:-0.14█ B:-0.14█
+  │ L 6             ---  
+  │ L 7             ---   beta_apply:+0.10█
+  │ L 8             ---  
+  │ L 9             ---   beta_identity:+0.13█ beta_apply:+0.12█ beta_K:+0.12█
+  │ L10             ---  
+  │ L11      beta_apply   beta_apply:+0.20██ beta_identity:+0.20██ beta_K:+0.15█
+  │ L12   beta_identity   beta_identity:+0.20█ beta_apply:+0.19█ beta_K:+0.18█
+  │ L13   beta_identity   beta_identity:+0.20██ beta_apply:+0.20█ beta_K:+0.19█
+  │ L14   beta_identity   beta_identity:+0.17█ beta_apply:+0.16█ beta_K:+0.14█
+  │ L15   beta_identity   beta_identity:+0.18█ beta_apply:+0.15█ beta_K:+0.14█
+  │ L16             ---   beta_identity:+0.15█ beta_apply:+0.12█ beta_K:+0.11█
+  │ L17             ---   beta_identity:+0.11█ beta_K:+0.11█
+  │ L18             ---  
+  │ L19             ---   S:-0.13█ beta_apply:+0.12█ beta_identity:+0.11█
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_identity:+0.13█ beta_K:+0.11█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   S:-0.10█
+  │ L29             ---  
+  │ L30             ---   B:-0.14█ S:-0.11█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.17█ K:+0.17█
+  └─
+
+  ┌─ sqrt(169) = 13
+  │
+  │ L 0             ---   B:-0.26██ S:-0.26██ beta_apply:+0.18█
+  │ L 1             ---   S:-0.54█████ B:-0.51█████ beta_apply:+0.37███
+  │ L 2             ---   S:-0.36███ B:-0.30███ beta_identity:+0.18█
+  │ L 3             ---   S:-0.27██ B:-0.24██ beta_K:+0.23██
+  │ L 4             ---   S:-0.12█ B:-0.11█
+  │ L 5             ---   S:-0.14█ B:-0.14█
+  │ L 6             ---  
+  │ L 7             ---   beta_apply:+0.10█
+  │ L 8             ---  
+  │ L 9             ---   beta_identity:+0.13█ beta_apply:+0.12█ beta_K:+0.12█
+  │ L10             ---  
+  │ L11      beta_apply   beta_apply:+0.20██ beta_identity:+0.20██ beta_K:+0.15█
+  │ L12   beta_identity   beta_identity:+0.20█ beta_apply:+0.19█ beta_K:+0.18█
+  │ L13   beta_identity   beta_identity:+0.20██ beta_apply:+0.20█ beta_K:+0.19█
+  │ L14   beta_identity   beta_identity:+0.17█ beta_apply:+0.16█ beta_K:+0.14█
+  │ L15   beta_identity   beta_identity:+0.18█ beta_apply:+0.15█ beta_K:+0.14█
+  │ L16             ---   beta_identity:+0.15█ beta_apply:+0.12█ beta_K:+0.11█
+  │ L17             ---   beta_identity:+0.11█ beta_K:+0.11█
+  │ L18             ---  
+  │ L19             ---   S:-0.13█ beta_apply:+0.12█ beta_identity:+0.11█
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---   beta_apply:+0.14█ beta_identity:+0.13█ beta_K:+0.11█
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   S:-0.10█
+  │ L29             ---  
+  │ L30             ---   B:-0.14█ S:-0.11█
+  │ L31      beta_apply   beta_apply:+0.22██ I:+0.17█ K:+0.17█
+  └─
+  Program: B → S → S → S → beta_apply → beta_identity → beta_identity → beta_identity → beta_identity → beta_apply
+  Program: B → S → S → S → beta_apply → beta_identity → beta_identity → beta_identity → beta_identity → beta_apply
+
+  Tracing: What day is Jan 1 2025?
+
+  Tracing: What day is Jan 1 2025?
+
+  ┌─ What day is Jan 1 2025?
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31             ---   C:+0.13█
+  └─
+
+  ┌─ What day is Jan 1 2025?
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31             ---   C:+0.13█
+  └─
+  Program: 
+  Program: 
+
+  Tracing: Days between dates
+
+  Tracing: Days between dates
+
+  ┌─ Days between dates
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.10█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31               I   I:+0.16█ C:+0.15█
+  └─
+
+  ┌─ Days between dates
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.10█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31               I   I:+0.16█ C:+0.15█
+  └─
+  Program: I
+  Program: I
+
+  Tracing: Syllogism: All A are B, all B are C
+
+  Tracing: Syllogism: All A are B, all B are C
+
+  ┌─ Syllogism: All A are B, all B are C
+  │
+  │ L 0             ---   S:+0.12█ B:+0.12█
+  │ L 1             ---   C:-0.12█ beta_apply:-0.11█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.12█ beta_K:+0.10█
+  │ L18             ---  
+  │ L19             ---   beta_identity:+0.12█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.14█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   beta_identity:+0.15█
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█
+  │ L31   beta_identity   beta_identity:+0.39███ beta_K:+0.39███ beta_apply:+0.34███
+  └─
+
+  ┌─ Syllogism: All A are B, all B are C
+  │
+  │ L 0             ---   S:+0.12█ B:+0.12█
+  │ L 1             ---   C:-0.12█ beta_apply:-0.11█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.12█ beta_K:+0.10█
+  │ L18             ---  
+  │ L19             ---   beta_identity:+0.12█
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.14█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   beta_identity:+0.15█
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█
+  │ L31   beta_identity   beta_identity:+0.39███ beta_K:+0.39███ beta_apply:+0.34███
+  └─
+  Program: beta_identity
+  Program: beta_identity
+
+  Tracing: Contrapositive
+
+  Tracing: Contrapositive
+
+  ┌─ Contrapositive
+  │
+  │ L 0             ---   S:+0.10█
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.11█
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   beta_identity:+0.12█
+  │ L29             ---  
+  │ L30   beta_identity   beta_identity:+0.15█
+  │ L31   beta_identity   beta_identity:+0.26██ beta_K:+0.26██ beta_apply:+0.25██
+  └─
+
+  ┌─ Contrapositive
+  │
+  │ L 0             ---   S:+0.10█
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---   beta_identity:+0.11█
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---   beta_identity:+0.12█
+  │ L29             ---  
+  │ L30   beta_identity   beta_identity:+0.15█
+  │ L31   beta_identity   beta_identity:+0.26██ beta_K:+0.26██ beta_apply:+0.25██
+  └─
+  Program: beta_identity → beta_identity
+  Program: beta_identity → beta_identity
+
+  Tracing: Reverse word
+
+  Tracing: Reverse word
+
+  ┌─ Reverse word
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---   beta_apply:+0.13█ beta_identity:+0.11█
+  │ L13   beta_identity   beta_identity:+0.17█ beta_apply:+0.15█ beta_K:+0.12█
+  │ L14   beta_identity   beta_identity:+0.17█ beta_apply:+0.15█ beta_K:+0.14█
+  │ L15   beta_identity   beta_identity:+0.16█ beta_apply:+0.13█ beta_K:+0.11█
+  │ L16             ---  
+  │ L17             ---   K:+0.10█
+  │ L18             ---   K:+0.12█
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.13█ beta_K:+0.11█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31      beta_apply   beta_apply:+0.33███ beta_K:+0.25██ beta_identity:+0.22██
+  └─
+
+  ┌─ Reverse word
+  │
+  │ L 0             ---  
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---   beta_apply:+0.13█ beta_identity:+0.11█
+  │ L13   beta_identity   beta_identity:+0.17█ beta_apply:+0.15█ beta_K:+0.12█
+  │ L14   beta_identity   beta_identity:+0.17█ beta_apply:+0.15█ beta_K:+0.14█
+  │ L15   beta_identity   beta_identity:+0.16█ beta_apply:+0.13█ beta_K:+0.11█
+  │ L16             ---  
+  │ L17             ---   K:+0.10█
+  │ L18             ---   K:+0.12█
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_identity:+0.13█ beta_K:+0.11█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31      beta_apply   beta_apply:+0.33███ beta_K:+0.25██ beta_identity:+0.22██
+  └─
+  Program: beta_identity → beta_identity → beta_identity → beta_apply
+  Program: beta_identity → beta_identity → beta_identity → beta_apply
+
+  Tracing: Count letters
+
+  Tracing: Count letters
+
+  ┌─ Count letters
+  │
+  │ L 0             ---   beta_identity:+0.11█ beta_K:+0.10█
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_K:+0.13█ beta_identity:+0.11█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---   S:+0.13█
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█ B:-0.10█
+  │ L31      beta_apply   beta_apply:+0.19█ beta_K:+0.15█ beta_identity:+0.13█
+  └─
+
+  ┌─ Count letters
+  │
+  │ L 0             ---   beta_identity:+0.11█ beta_K:+0.10█
+  │ L 1             ---  
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---   beta_K:+0.13█ beta_identity:+0.11█
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---   S:+0.13█
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█ B:-0.10█
+  │ L31      beta_apply   beta_apply:+0.19█ beta_K:+0.15█ beta_identity:+0.13█
+  └─
+  Program: beta_apply
+  Program: beta_apply
+
+  Tracing: Capital of France
+
+  Tracing: Capital of France
+
+  ┌─ Capital of France
+  │
+  │ L 0             ---  
+  │ L 1             ---   beta_apply:-0.15█ beta_identity:-0.14█ C:-0.12█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31             ---   C:-0.28██ beta_K:+0.26██ beta_apply:+0.26██
+  └─
+
+  ┌─ Capital of France
+  │
+  │ L 0             ---  
+  │ L 1             ---   beta_apply:-0.15█ beta_identity:-0.14█ C:-0.12█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---  
+  │ L31             ---   C:-0.28██ beta_K:+0.26██ beta_apply:+0.26██
+  └─
+  Program: beta_apply → C
+  Program: beta_apply → C
+
+  Tracing: Water formula
+
+  Tracing: Water formula
+
+  ┌─ Water formula
+  │
+  │ L 0             ---  
+  │ L 1             ---   beta_apply:-0.14█ beta_identity:-0.14█ I:-0.12█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█ C:-0.10█
+  │ L31      beta_apply   beta_apply:+0.35███ beta_K:+0.33███ beta_identity:+0.28██
+  └─
+
+  ┌─ Water formula
+  │
+  │ L 0             ---  
+  │ L 1             ---   beta_apply:-0.14█ beta_identity:-0.14█ I:-0.12█
+  │ L 2             ---  
+  │ L 3             ---  
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---  
+  │ L 9             ---  
+  │ L10             ---  
+  │ L11             ---  
+  │ L12             ---  
+  │ L13             ---  
+  │ L14             ---  
+  │ L15             ---  
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---  
+  │ L20             ---  
+  │ L21             ---  
+  │ L22             ---  
+  │ L23             ---  
+  │ L24             ---  
+  │ L25             ---  
+  │ L26             ---  
+  │ L27             ---  
+  │ L28             ---  
+  │ L29             ---  
+  │ L30             ---   beta_identity:+0.12█ C:-0.10█
+  │ L31      beta_apply   beta_apply:+0.35███ beta_K:+0.33███ beta_identity:+0.28██
+  └─
+  Program: beta_apply
+  Program: beta_apply
+
+  Tracing: NL → lambda (the compiler itself)
+
+  Tracing: NL → lambda (the compiler itself)
+
+  ┌─ NL → lambda (the compiler itself)
+  │
+  │ L 0               S   S:+0.21██ beta_apply:-0.21██ B:+0.21██
+  │ L 1               C   C:+0.35███ S:-0.19█ I:+0.18█
+  │ L 2               C   C:+0.18█
+  │ L 3          beta_K   beta_K:+0.17█ K:+0.14█ C:+0.12█
+  │ L 4             ---   S:+0.11█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---   beta_apply:-0.11█
+  │ L 9             ---   I:+0.11█
+  │ L10               C   C:+0.16█
+  │ L11             ---  
+  │ L12             ---   beta_apply:-0.11█
+  │ L13             ---   C:+0.12█ K:+0.11█
+  │ L14             ---   C:+0.12█
+  │ L15               C   C:+0.18█
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---   C:+0.11█
+  │ L19             ---   B:-0.21██ S:-0.20█ beta_apply:+0.13█
+  │ L20             ---   beta_K:-0.25██ beta_identity:-0.23██ K:-0.19█
+  │ L21             ---   K:-0.17█ beta_K:-0.17█ B:-0.14█
+  │ L22             ---   beta_K:-0.55█████ beta_identity:-0.55█████ K:-0.38███
+  │ L23             ---   beta_identity:-0.17█ beta_K:-0.13█ I:-0.12█
+  │ L24             ---   C:+0.11█ S:+0.10█
+  │ L25             ---   beta_identity:-0.27██ beta_K:-0.26██ K:-0.20██
+  │ L26             ---   beta_K:-0.14█ beta_identity:-0.13█ K:-0.11█
+  │ L27               C   C:+0.25██ beta_K:-0.18█ K:-0.16█
+  │ L28             ---   K:-0.19█ C:+0.13█ beta_K:-0.10█
+  │ L29             ---   S:-0.25██ B:-0.22██ K:-0.17█
+  │ L30             ---   K:-0.18█ B:-0.17█ I:-0.15█
+  │ L31      beta_apply   beta_apply:+0.19█ beta_K:+0.11█
+  └─
+
+  ┌─ NL → lambda (the compiler itself)
+  │
+  │ L 0               S   S:+0.21██ beta_apply:-0.21██ B:+0.21██
+  │ L 1               C   C:+0.35███ S:-0.19█ I:+0.18█
+  │ L 2               C   C:+0.18█
+  │ L 3          beta_K   beta_K:+0.17█ K:+0.14█ C:+0.12█
+  │ L 4             ---   S:+0.11█
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---  
+  │ L 8             ---   beta_apply:-0.11█
+  │ L 9             ---   I:+0.11█
+  │ L10               C   C:+0.16█
+  │ L11             ---  
+  │ L12             ---   beta_apply:-0.11█
+  │ L13             ---   C:+0.12█ K:+0.11█
+  │ L14             ---   C:+0.12█
+  │ L15               C   C:+0.18█
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---   C:+0.11█
+  │ L19             ---   B:-0.21██ S:-0.20█ beta_apply:+0.13█
+  │ L20             ---   beta_K:-0.25██ beta_identity:-0.23██ K:-0.19█
+  │ L21             ---   K:-0.17█ beta_K:-0.17█ B:-0.14█
+  │ L22             ---   beta_K:-0.55█████ beta_identity:-0.55█████ K:-0.38███
+  │ L23             ---   beta_identity:-0.17█ beta_K:-0.13█ I:-0.12█
+  │ L24             ---   C:+0.11█ S:+0.10█
+  │ L25             ---   beta_identity:-0.27██ beta_K:-0.26██ K:-0.20██
+  │ L26             ---   beta_K:-0.14█ beta_identity:-0.13█ K:-0.11█
+  │ L27               C   C:+0.25██ beta_K:-0.18█ K:-0.16█
+  │ L28             ---   K:-0.19█ C:+0.13█ beta_K:-0.10█
+  │ L29             ---   S:-0.25██ B:-0.22██ K:-0.17█
+  │ L30             ---   K:-0.18█ B:-0.17█ I:-0.15█
+  │ L31      beta_apply   beta_apply:+0.19█ beta_K:+0.11█
+  └─
+  Program: S → C → C → beta_K → C → C → B → beta_K → K → beta_K → beta_identity → beta_identity → C → K → S → K → beta_apply
+  Program: S → C → C → beta_K → C → C → B → beta_K → K → beta_K → beta_identity → beta_identity → C → K → S → K → beta_apply
+
+  Tracing: NL → lambda (simple)
+
+  Tracing: NL → lambda (simple)
+
+  ┌─ NL → lambda (simple)
+  │
+  │ L 0               S   S:+0.20█ B:+0.19█ beta_apply:-0.16█
+  │ L 1               C   C:+0.28██ I:+0.14█ K:+0.13█
+  │ L 2             ---   C:+0.14█ I:+0.10█
+  │ L 3             ---   beta_K:+0.12█
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---   C:+0.12█
+  │ L 8             ---   C:+0.11█
+  │ L 9             ---   beta_apply:+0.14█ C:+0.14█ beta_K:+0.12█
+  │ L10             ---  
+  │ L11             ---   beta_apply:+0.12█ beta_identity:+0.12█
+  │ L12             ---  
+  │ L13             ---   beta_identity:+0.13█ beta_apply:+0.10█
+  │ L14             ---   beta_apply:+0.14█ S:-0.13█ beta_identity:+0.12█
+  │ L15             ---   beta_apply:+0.13█
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---   beta_K:-0.14█ beta_identity:-0.14█ B:-0.13█
+  │ L20             ---   beta_K:-0.35███ beta_identity:-0.30██ B:+0.25██
+  │ L21             ---   beta_K:-0.33███ beta_identity:-0.27██ beta_apply:-0.24██
+  │ L22             ---   beta_K:-0.71███████ beta_identity:-0.69██████ I:-0.49████
+  │ L23             ---   beta_identity:-0.35███ beta_K:-0.33███ S:+0.29██
+  │ L24             ---   beta_K:-0.32███ beta_identity:-0.28██ C:+0.21██
+  │ L25             ---   beta_identity:-0.42████ beta_K:-0.41████ S:+0.30██
+  │ L26             ---   beta_K:-0.41████ beta_identity:-0.37███ beta_apply:-0.24██
+  │ L27             ---   beta_K:-0.38███ beta_identity:-0.35███ C:+0.34███
+  │ L28               C   C:+0.26██ beta_identity:-0.25██ beta_K:-0.25██
+  │ L29               C   C:+0.25██ beta_K:-0.24██ beta_identity:-0.22██
+  │ L30             ---   beta_identity:-0.21██ I:-0.20██ beta_K:-0.16█
+  │ L31      beta_apply   beta_apply:+0.27██ beta_K:+0.20██ K:+0.16█
+  └─
+
+  ┌─ NL → lambda (simple)
+  │
+  │ L 0               S   S:+0.20█ B:+0.19█ beta_apply:-0.16█
+  │ L 1               C   C:+0.28██ I:+0.14█ K:+0.13█
+  │ L 2             ---   C:+0.14█ I:+0.10█
+  │ L 3             ---   beta_K:+0.12█
+  │ L 4             ---  
+  │ L 5             ---  
+  │ L 6             ---  
+  │ L 7             ---   C:+0.12█
+  │ L 8             ---   C:+0.11█
+  │ L 9             ---   beta_apply:+0.14█ C:+0.14█ beta_K:+0.12█
+  │ L10             ---  
+  │ L11             ---   beta_apply:+0.12█ beta_identity:+0.12█
+  │ L12             ---  
+  │ L13             ---   beta_identity:+0.13█ beta_apply:+0.10█
+  │ L14             ---   beta_apply:+0.14█ S:-0.13█ beta_identity:+0.12█
+  │ L15             ---   beta_apply:+0.13█
+  │ L16             ---  
+  │ L17             ---  
+  │ L18             ---  
+  │ L19             ---   beta_K:-0.14█ beta_identity:-0.14█ B:-0.13█
+  │ L20             ---   beta_K:-0.35███ beta_identity:-0.30██ B:+0.25██
+  │ L21             ---   beta_K:-0.33███ beta_identity:-0.27██ beta_apply:-0.24██
+  │ L22             ---   beta_K:-0.71███████ beta_identity:-0.69██████ I:-0.49████
+  │ L23             ---   beta_identity:-0.35███ beta_K:-0.33███ S:+0.29██
+  │ L24             ---   beta_K:-0.32███ beta_identity:-0.28██ C:+0.21██
+  │ L25             ---   beta_identity:-0.42████ beta_K:-0.41████ S:+0.30██
+  │ L26             ---   beta_K:-0.41████ beta_identity:-0.37███ beta_apply:-0.24██
+  │ L27             ---   beta_K:-0.38███ beta_identity:-0.35███ C:+0.34███
+  │ L28               C   C:+0.26██ beta_identity:-0.25██ beta_K:-0.25██
+  │ L29               C   C:+0.25██ beta_K:-0.24██ beta_identity:-0.22██
+  │ L30             ---   beta_identity:-0.21██ I:-0.20██ beta_K:-0.16█
+  │ L31      beta_apply   beta_apply:+0.27██ beta_K:+0.20██ K:+0.16█
+  └─
+  Program: S → C → beta_K → beta_K → beta_K → beta_identity → beta_K → beta_identity → beta_K → beta_K → C → C → beta_identity → beta_apply
+  Program: S → C → beta_K → beta_K → beta_K → beta_identity → beta_K → beta_identity → beta_K → beta_K → C → C → beta_identity → beta_apply
+
+═══ Phase 3: Cross-Category Comparison ═══
+
+═══ Phase 3: Cross-Category Comparison ═══
+
+  ARITHMETIC (4 probes):
+
+  ARITHMETIC (4 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+                   B: -0.071
+                   B: -0.071
+                   C: +0.070
+                   C: +0.070
+                   K: +0.085
+                   K: +0.085
+                   S: -0.112
+                   S: -0.112
+              beta_K: +0.087
+              beta_K: +0.087
+          beta_apply: +0.085
+          beta_apply: +0.085
+       beta_identity: +0.089
+       beta_identity: +0.089
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+                   K: +0.051
+                   K: +0.051
+                   S: -0.084
+                   S: -0.084
+              beta_K: +0.094
+              beta_K: +0.094
+          beta_apply: +0.083
+          beta_apply: +0.083
+       beta_identity: +0.103
+       beta_identity: +0.103
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+
+  DATE (2 probes):
+
+  DATE (2 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+
+  LAMBDA_GATE (2 probes):
+
+  LAMBDA_GATE (2 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+                   C: +0.082
+                   C: +0.082
+                   K: +0.064
+                   K: +0.064
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+                   C: +0.090
+                   C: +0.090
+                   I: -0.066
+                   I: -0.066
+              beta_K: -0.090
+              beta_K: -0.090
+       beta_identity: -0.086
+       beta_identity: -0.086
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+                   C: +0.134
+                   C: +0.134
+                   I: -0.081
+                   I: -0.081
+                   K: -0.118
+                   K: -0.118
+              beta_K: -0.171
+              beta_K: -0.171
+       beta_identity: -0.166
+       beta_identity: -0.166
+
+  REASONING (2 probes):
+
+  REASONING (2 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+              beta_K: +0.079
+              beta_K: +0.079
+          beta_apply: +0.054
+          beta_apply: +0.054
+       beta_identity: +0.103
+       beta_identity: +0.103
+
+  RETRIEVAL (2 probes):
+
+  RETRIEVAL (2 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+              beta_K: +0.055
+              beta_K: +0.055
+       beta_identity: +0.064
+       beta_identity: +0.064
+
+  STRING (2 probes):
+
+  STRING (2 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+       beta_identity: +0.053
+       beta_identity: +0.053
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+
+  VALIDATION (5 probes):
+
+  VALIDATION (5 probes):
+    Early layers (L0-L7):
+    Early layers (L0-L7):
+                   B: +0.176
+                   B: +0.176
+                   C: -0.072
+                   C: -0.072
+                   I: +0.132
+                   I: +0.132
+                   K: +0.279
+                   K: +0.279
+                   S: +0.133
+                   S: +0.133
+              beta_K: +0.221
+              beta_K: +0.221
+          beta_apply: -0.103
+          beta_apply: -0.103
+       beta_identity: +0.198
+       beta_identity: +0.198
+    Mid layers (L8-L23):
+    Mid layers (L8-L23):
+                   B: +0.224
+                   B: +0.224
+                   I: -0.053
+                   I: -0.053
+                   K: +0.276
+                   K: +0.276
+                   S: +0.141
+                   S: +0.141
+              beta_K: +0.056
+              beta_K: +0.056
+          beta_apply: -0.114
+          beta_apply: -0.114
+    Late layers (L24-L31):
+    Late layers (L24-L31):
+                   B: +0.257
+                   B: +0.257
+                   K: +0.170
+                   K: +0.170
+                   S: +0.154
+                   S: +0.154
+          beta_apply: -0.073
+          beta_apply: -0.073
+       beta_identity: -0.075
+       beta_identity: -0.075
+
+═══════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════
+  Done in 15.3s
+  Done in 15.3s
+  Results: /Users/mwhitford/src/verbum/results/ffn-trace-mistral/results.json
+  Results: /Users/mwhitford/src/verbum/results/ffn-trace-mistral/results.json
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════

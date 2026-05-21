@@ -1,0 +1,132 @@
+═══════════════════════════════════════════════════════
+  Behavioral Crystal V2 — mistral-7b
+  32 layers, d_model=4096
+  18 categories, 72 probes
+═══════════════════════════════════════════════════════
+  code_algorithm: 4 probes (indices 0-3)
+  code_debug: 4 probes (indices 4-7)
+  code_refactor: 4 probes (indices 8-11)
+  code_syntax: 4 probes (indices 12-15)
+  exec_follow: 4 probes (indices 16-19)
+  exec_format: 4 probes (indices 20-23)
+  exec_transform: 4 probes (indices 24-27)
+  find_entity: 4 probes (indices 28-31)
+  find_fact: 4 probes (indices 32-35)
+  find_pattern: 4 probes (indices 36-39)
+  gen_narrative: 4 probes (indices 40-43)
+  gen_persuasive: 4 probes (indices 44-47)
+  gen_technical: 4 probes (indices 48-51)
+  reason_abductive: 4 probes (indices 52-55)
+  reason_causal: 4 probes (indices 56-59)
+  reason_deductive: 4 probes (indices 60-63)
+  reason_inductive: 4 probes (indices 64-67)
+  reason_math: 4 probes (indices 68-71)
+
+  Depth fractions [0.1, 0.3, 0.5, 0.7, 0.9] → layers [3, 9, 16, 22, 28]
+  Loading mistralai/Mistral-7B-v0.3...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:02, 134.65it/s]Loading weights:  14%|█▎        | 40/291 [00:00<00:01, 197.02it/s]Loading weights:  21%|██        | 60/291 [00:00<00:01, 197.17it/s]Loading weights:  30%|██▉       | 86/291 [00:00<00:00, 215.12it/s]Loading weights:  38%|███▊      | 112/291 [00:00<00:00, 224.68it/s]Loading weights:  46%|████▋     | 135/291 [00:00<00:00, 223.61it/s]Loading weights:  54%|█████▍    | 158/291 [00:00<00:00, 219.83it/s]Loading weights:  63%|██████▎   | 182/291 [00:00<00:00, 225.97it/s]Loading weights:  70%|███████   | 205/291 [00:00<00:00, 220.23it/s]Loading weights:  79%|███████▉  | 230/291 [00:01<00:00, 223.88it/s]Loading weights:  88%|████████▊ | 256/291 [00:01<00:00, 229.28it/s]Loading weights:  96%|█████████▌| 279/291 [00:01<00:00, 226.88it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 221.05it/s]
+  Loaded in 3.1s
+  Running 72 probes across 5 depths...
+    20/72
+    40/72
+    60/72
+
+═══ Computing behavioral crystals ═══
+  Depth 10% (layer 3): computed 18×18 matrix
+  Depth 30% (layer 9): computed 18×18 matrix
+  Depth 50% (layer 16): computed 18×18 matrix
+  Depth 70% (layer 22): computed 18×18 matrix
+  Depth 90% (layer 28): computed 18×18 matrix
+
+═══ Depth-averaged behavioral crystal ═══
+             code_al  code_de  code_re  code_sy  exec_fo  exec_fo  exec_tr  find_en  find_fa  find_pa  gen_nar  gen_per  gen_tec  reason_  reason_  reason_  reason_  reason_
+  code_algorithm     1.00   -0.259    -0.179    +0.650    -0.282    -0.212    -0.199    -0.060    -0.076    -0.288    +0.317    +0.415    +0.564    -0.317    -0.103    -0.202    -0.340    -0.180  
+  code_debug   -0.259      1.00   +0.603    -0.268    +0.002    +0.332    +0.040    -0.160    -0.291    +0.218    -0.346    -0.381    -0.387    -0.193    -0.343    +0.195    -0.247    -0.172  
+  code_refactor   -0.179    +0.603      1.00   -0.106    -0.075    +0.375    +0.072    -0.091    -0.377    +0.207    -0.314    -0.304    -0.263    -0.265    -0.344    +0.047    -0.261    -0.114  
+  code_syntax   +0.650    -0.268    -0.106      1.00   -0.236    -0.241    -0.134    -0.024    -0.135    -0.317    +0.365    +0.365    +0.600    -0.318    -0.088    -0.303    -0.275    -0.091  
+  exec_follow   -0.282    +0.002    -0.075    -0.236      1.00   -0.005    +0.105    -0.109    +0.064    -0.043    -0.084    -0.133    -0.256    +0.094    -0.049    -0.021    +0.202    +0.110  
+  exec_format   -0.212    +0.332    +0.375    -0.241    -0.005      1.00   +0.185    +0.108    -0.311    +0.209    -0.275    -0.266    -0.280    -0.249    -0.287    +0.085    -0.252    -0.265  
+  exec_transform   -0.199    +0.040    +0.072    -0.134    +0.105    +0.185      1.00   +0.262    -0.181    -0.015    -0.022    -0.102    -0.152    -0.130    -0.149    -0.077    -0.118    -0.040  
+  find_entity   -0.060    -0.160    -0.091    -0.024    -0.109    +0.108    +0.262      1.00   -0.034    -0.134    +0.069    +0.020    +0.075    -0.163    +0.056    -0.210    -0.182    -0.188  
+   find_fact   -0.076    -0.291    -0.377    -0.135    +0.064    -0.311    -0.181    -0.034      1.00   -0.087    -0.037    -0.001    -0.081    +0.214    +0.336    -0.094    +0.150    +0.197  
+  find_pattern   -0.288    +0.218    +0.207    -0.317    -0.043    +0.209    -0.015    -0.134    -0.087      1.00   -0.302    -0.357    -0.333    -0.039    -0.246    +0.035    -0.040    +0.040  
+  gen_narrative   +0.317    -0.346    -0.314    +0.365    -0.084    -0.275    -0.022    +0.069    -0.037    -0.302      1.00   +0.479    +0.509    -0.223    +0.020    -0.333    -0.169    -0.092  
+  gen_persuasive   +0.415    -0.381    -0.304    +0.365    -0.133    -0.266    -0.102    +0.020    -0.001    -0.357    +0.479      1.00   +0.521    -0.208    +0.074    -0.276    -0.180    -0.133  
+  gen_technical   +0.564    -0.387    -0.263    +0.600    -0.256    -0.280    -0.152    +0.075    -0.081    -0.333    +0.509    +0.521      1.00   -0.285    -0.061    -0.327    -0.232    -0.126  
+  reason_abductive   -0.317    -0.193    -0.265    -0.318    +0.094    -0.249    -0.130    -0.163    +0.214    -0.039    -0.223    -0.208    -0.285      1.00   +0.286    +0.049    +0.571    +0.181  
+  reason_causal   -0.103    -0.343    -0.344    -0.088    -0.049    -0.287    -0.149    +0.056    +0.336    -0.246    +0.020    +0.074    -0.061    +0.286      1.00   -0.185    +0.337    +0.105  
+  reason_deductive   -0.202    +0.195    +0.047    -0.303    -0.021    +0.085    -0.077    -0.210    -0.094    +0.035    -0.333    -0.276    -0.327    +0.049    -0.185      1.00   -0.053    -0.138  
+  reason_inductive   -0.340    -0.247    -0.261    -0.275    +0.202    -0.252    -0.118    -0.182    +0.150    -0.040    -0.169    -0.180    -0.232    +0.571    +0.337    -0.053      1.00   +0.254  
+  reason_math   -0.180    -0.172    -0.114    -0.091    +0.110    -0.265    -0.040    -0.188    +0.197    +0.040    -0.092    -0.133    -0.126    +0.181    +0.105    -0.138    +0.254      1.00 
+
+═══ Strongest pairs (top 20 attractive + top 10 repulsive) ═══
+  ATTRACTIVE:
+          code_algorithm ↔ code_syntax         : +0.650
+              code_debug ↔ code_refactor       : +0.603
+             code_syntax ↔ gen_technical       : +0.600
+        reason_abductive ↔ reason_inductive    : +0.571
+          code_algorithm ↔ gen_technical       : +0.564
+          gen_persuasive ↔ gen_technical       : +0.521
+           gen_narrative ↔ gen_technical       : +0.509
+           gen_narrative ↔ gen_persuasive      : +0.479
+          code_algorithm ↔ gen_persuasive      : +0.415
+           code_refactor ↔ exec_format         : +0.375
+             code_syntax ↔ gen_narrative       : +0.365
+             code_syntax ↔ gen_persuasive      : +0.365
+           reason_causal ↔ reason_inductive    : +0.337
+               find_fact ↔ reason_causal       : +0.336
+              code_debug ↔ exec_format         : +0.332
+          code_algorithm ↔ gen_narrative       : +0.317
+        reason_abductive ↔ reason_causal       : +0.286
+          exec_transform ↔ find_entity         : +0.262
+        reason_inductive ↔ reason_math         : +0.254
+              code_debug ↔ find_pattern        : +0.218
+  REPULSIVE:
+           gen_narrative ↔ reason_deductive    : -0.333
+            find_pattern ↔ gen_technical       : -0.333
+          code_algorithm ↔ reason_inductive    : -0.340
+              code_debug ↔ reason_causal       : -0.343
+           code_refactor ↔ reason_causal       : -0.344
+              code_debug ↔ gen_narrative       : -0.346
+            find_pattern ↔ gen_persuasive      : -0.357
+           code_refactor ↔ find_fact           : -0.377
+              code_debug ↔ gen_persuasive      : -0.381
+              code_debug ↔ gen_technical       : -0.387
+
+═══ Sub-function clustering (within parent category) ═══
+  CODE: mean within-group = +0.074 (range -0.268 to +0.650)
+        code_algorithm ↔ code_syntax       : +0.650
+        code_algorithm ↔ code_debug        : -0.259
+        code_algorithm ↔ code_refactor     : -0.179
+           code_syntax ↔ code_debug        : -0.268
+           code_syntax ↔ code_refactor     : -0.106
+            code_debug ↔ code_refactor     : +0.603
+  REASON: mean within-group = +0.141 (range -0.185 to +0.571)
+      reason_deductive ↔ reason_inductive  : -0.053
+      reason_deductive ↔ reason_abductive  : +0.049
+      reason_deductive ↔ reason_causal     : -0.185
+      reason_deductive ↔ reason_math       : -0.138
+      reason_inductive ↔ reason_abductive  : +0.571
+      reason_inductive ↔ reason_causal     : +0.337
+      reason_inductive ↔ reason_math       : +0.254
+      reason_abductive ↔ reason_causal     : +0.286
+      reason_abductive ↔ reason_math       : +0.181
+         reason_causal ↔ reason_math       : +0.105
+  GENERATE: mean within-group = +0.503 (range +0.479 to +0.521)
+         gen_narrative ↔ gen_technical     : +0.509
+         gen_narrative ↔ gen_persuasive    : +0.479
+         gen_technical ↔ gen_persuasive    : +0.521
+  FIND: mean within-group = -0.085 (range -0.134 to -0.034)
+           find_entity ↔ find_pattern      : -0.134
+           find_entity ↔ find_fact         : -0.034
+          find_pattern ↔ find_fact         : -0.087
+  EXECUTE: mean within-group = +0.095 (range -0.005 to +0.185)
+           exec_format ↔ exec_transform    : +0.185
+           exec_format ↔ exec_follow       : -0.005
+        exec_transform ↔ exec_follow       : +0.105
+
+═══════════════════════════════════════════════════════
+  Done in 10.1s
+  Results: /Users/mwhitford/src/verbum/results/behavioral-crystal-v2/mistral-7b.json
+═══════════════════════════════════════════════════════
