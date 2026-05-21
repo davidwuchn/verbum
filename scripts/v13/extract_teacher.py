@@ -142,50 +142,102 @@ def detect_teacher_config(model_path: Path) -> dict:
 # § 3  Sign pattern extraction via SVD projection
 # ══════════════════════════════════════════════════════════════════════
 
-def extract_sign_pattern(W: np.ndarray, d_out: int, d_in: int) -> np.ndarray:
-    """Extract sign pattern from teacher weight projected to student dimensions.
+def extract_sign_pattern(
+    W: np.ndarray,
+    d_out: int,
+    d_in: int,
+    n_rotations: int = 8,
+) -> np.ndarray:
+    """Extract sign pattern via 360° tomographic sign voting.
 
-    Uses truncated SVD to find the top input/output directions, projects
-    the weight into that compact subspace, then takes sign().
+    The crystal is a hologram — a single SVD projection captures one 2D
+    photo. Multiple random orthogonal rotations give multiple viewing
+    angles. Sign voting across all angles recovers the full volumetric
+    crystal structure.
 
-    W:     (out_t, in_t) teacher weight
-    d_out: student output dimension
-    d_in:  student input dimension
+    Protocol:
+      1. For each rotation (random orthogonal matrix):
+         a. Rotate W: W_rot = R_out @ W @ R_in.T
+         b. SVD-project to student dimensions
+         c. Extract sign pattern from this viewing angle
+      2. Sum all sign patterns → sign votes per position
+      3. Final plate = sign(votes): positions where most angles agree
 
-    Returns: (d_out, d_in) int8 {-1, 0, +1}
+    Positions with unanimous agreement are the stable crystal structure.
+    Positions where angles disagree are viewing-angle artifacts — the
+    sign vote resolves them by consensus.
+
+    W:            (out_t, in_t) teacher weight
+    d_out:        student output dimension
+    d_in:         student input dimension
+    n_rotations:  number of viewing angles (8 = overdetermined for rank-4 crystal)
+
+    Returns: (d_out, d_in) int8 {-1, +1}
     """
     n_out, n_in = W.shape
+    rng = np.random.RandomState(42)
 
     if n_out == d_out and n_in == d_in:
-        # Same dimensions — direct sign (97.4% fidelity at full rank)
-        signs = np.sign(W).astype(np.int8)
-        signs[signs == 0] = 1  # fill zeros with +1
-        return signs
+        # Same dimensions — direct sign (97.4% fidelity, no projection needed)
+        # Still do multi-angle voting by rotating in-place
+        votes = np.zeros((d_out, d_in), dtype=np.float32)
+        for r in range(n_rotations):
+            if r == 0:
+                W_rot = W  # identity rotation first
+            else:
+                R = _random_orthogonal(d_in, rng)
+                W_rot = W @ R
+            votes += np.sign(W_rot)
+        result = np.sign(votes).astype(np.int8)
+        result[result == 0] = rng.choice([-1, 1], size=int((result == 0).sum())).astype(np.int8)
+        return result
 
-    # SVD projection: find the most important subspace
+    # Cross-dimensional: SVD basis + multi-angle voting
     k = min(max(d_out, d_in), min(n_out, n_in) - 1)
-    U, S, Vt = truncated_svd(W, k)
 
-    # Project into compact subspace
-    k_out = min(d_out, U.shape[1])
-    k_in = min(d_in, Vt.shape[0])
-    P_out = U[:, :k_out].T   # (k_out, n_out)
-    P_in = Vt[:k_in, :]      # (k_in, n_in)
+    # Get base SVD projection matrices (reused across rotations)
+    U_base, S_base, Vt_base = truncated_svd(W, k)
+    k_out = min(d_out, U_base.shape[1])
+    k_in = min(d_in, Vt_base.shape[0])
 
-    Wp = P_out @ W @ P_in.T  # (k_out, k_in)
+    votes = np.zeros((d_out, d_in), dtype=np.float32)
 
-    # Pad to target dimensions
-    signs = np.zeros((d_out, d_in), dtype=np.float32)
-    signs[:k_out, :k_in] = Wp[:k_out, :k_in]
+    for r in range(n_rotations):
+        if r == 0:
+            # First rotation: identity (the raw SVD projection)
+            P_out = U_base[:, :k_out].T
+            P_in = Vt_base[:k_in, :]
+        else:
+            # Random orthogonal rotation in the projected subspace
+            R_out = _random_orthogonal(k_out, rng)
+            R_in = _random_orthogonal(k_in, rng)
+            P_out = R_out @ U_base[:, :k_out].T
+            P_in = R_in @ Vt_base[:k_in, :]
 
-    # Sign with random fill for zeros
-    result = np.sign(signs).astype(np.int8)
+        Wp = P_out @ W @ P_in.T  # (k_out, k_in)
+
+        # Accumulate sign votes in the target shape
+        angle_signs = np.zeros((d_out, d_in), dtype=np.float32)
+        angle_signs[:k_out, :k_in] = np.sign(Wp)
+        votes += angle_signs
+
+    # Consensus: positions where most rotations agree
+    result = np.sign(votes).astype(np.int8)
+    # Fill zeros (tied votes) with random
     zeros = result == 0
     if zeros.any():
-        rng = np.random.RandomState(42)
         result[zeros] = rng.choice([-1, 1], size=int(zeros.sum())).astype(np.int8)
 
     return result
+
+
+def _random_orthogonal(n: int, rng: np.random.RandomState) -> np.ndarray:
+    """Generate a random orthogonal matrix via QR decomposition of Gaussian."""
+    H = rng.randn(n, n).astype(np.float32)
+    Q, R = np.linalg.qr(H)
+    # Ensure proper rotation (det = +1) by fixing sign ambiguity
+    Q *= np.sign(np.diag(R))
+    return Q
 
 
 def extract_magnitude(W: np.ndarray, d_out: int) -> np.ndarray:
@@ -237,6 +289,7 @@ def extract_crystal(
     n_strides: int = 11,
     d_state: int = 64,
     n_heads: int = 8,
+    n_rotations: int = 8,
     output_dir: Path | None = None,
 ) -> dict:
     """Extract crystal from teacher into student plate format.
@@ -254,6 +307,7 @@ def extract_crystal(
 
     log(f"Teacher: {teacher_cfg['model_type']}, d={d_t}, layers={n_layers_t}, d_ff={d_ff_t}")
     log(f"Student: d={d_student}, d_ff={d_ff_student}, strides={n_strides}")
+    log(f"Rotations: {n_rotations} (360° tomographic sign voting)")
 
     plates: dict[str, tuple[np.ndarray, np.ndarray]] = {}
 
@@ -274,11 +328,10 @@ def extract_crystal(
         # Q projection
         W_q = load_tensor(teacher_path, f"{prefix}.q_proj.weight")
         if is_retrieval:
-            # GLA: q_proj maps d_model → n_heads * d_state
             q_out = n_heads * d_state
         else:
             q_out = d_student
-        signs = extract_sign_pattern(W_q, q_out, d_student)
+        signs = extract_sign_pattern(W_q, q_out, d_student, n_rotations)
         mags = extract_magnitude(W_q, q_out)
         plates[f"stride_stack.stack.layers.{si}.q_proj"] = (signs, mags)
 
@@ -288,19 +341,19 @@ def extract_crystal(
             k_out = n_heads * d_state
         else:
             k_out = d_student
-        signs = extract_sign_pattern(W_k, k_out, d_student)
+        signs = extract_sign_pattern(W_k, k_out, d_student, n_rotations)
         mags = extract_magnitude(W_k, k_out)
         plates[f"stride_stack.stack.layers.{si}.k_proj"] = (signs, mags)
 
         # V projection
         W_v = load_tensor(teacher_path, f"{prefix}.v_proj.weight")
-        signs = extract_sign_pattern(W_v, d_student, d_student)
+        signs = extract_sign_pattern(W_v, d_student, d_student, n_rotations)
         mags = extract_magnitude(W_v, d_student)
         plates[f"stride_stack.stack.layers.{si}.v_proj"] = (signs, mags)
 
         # O projection
         W_o = load_tensor(teacher_path, f"{prefix}.o_proj.weight")
-        signs = extract_sign_pattern(W_o, d_student, d_student)
+        signs = extract_sign_pattern(W_o, d_student, d_student, n_rotations)
         mags = extract_magnitude(W_o, d_student)
         plates[f"stride_stack.stack.layers.{si}.out_proj"] = (signs, mags)
 
@@ -312,13 +365,13 @@ def extract_crystal(
 
     # Key plate: up_proj (d_ff_t, d_t) → (d_ff_student, d_student)
     W_up = load_tensor(teacher_path, f"{ffn_prefix}.up_proj.weight")
-    signs = extract_sign_pattern(W_up, d_ff_student, d_student)
+    signs = extract_sign_pattern(W_up, d_ff_student, d_student, n_rotations)
     mags = extract_magnitude(W_up, d_ff_student)
     plates["ffn_key_plate"] = (signs, mags)
 
     # Value plate: down_proj (d_t, d_ff_t) → (d_student, d_ff_student)
     W_down = load_tensor(teacher_path, f"{ffn_prefix}.down_proj.weight")
-    signs = extract_sign_pattern(W_down, d_student, d_ff_student)
+    signs = extract_sign_pattern(W_down, d_student, d_ff_student, n_rotations)
     mags = extract_magnitude(W_down, d_student)
     plates["ffn_value_plate"] = (signs, mags)
 
@@ -453,6 +506,7 @@ def install_plates(model, plates: dict, freeze: bool = True) -> int:
 def etch_from_teacher(
     teacher_path: str,
     output_dir: str = "checkpoints/v13-etched",
+    n_rotations: int = 8,
     **student_overrides,
 ) -> None:
     """Complete pipeline: extract teacher crystal → install into V13 → save."""
@@ -486,6 +540,7 @@ def etch_from_teacher(
         n_strides=cfg.n_strides,
         d_state=cfg.d_state,
         n_heads=cfg.n_heads,
+        n_rotations=n_rotations,
         output_dir=output_dir,
     )
 
@@ -545,6 +600,10 @@ if __name__ == "__main__":
         help="Student d_ff (default: 2048)"
     )
     parser.add_argument(
+        "--n-rotations", type=int, default=8,
+        help="Number of Q rotations for tomographic sign voting (default: 8)"
+    )
+    parser.add_argument(
         "--plates-only", action="store_true",
         help="Extract plates to NPZ only (don't create full model checkpoint)"
     )
@@ -556,6 +615,7 @@ if __name__ == "__main__":
             Path(args.teacher_path),
             d_student=args.d_model,
             d_ff_student=args.d_ff,
+            n_rotations=args.n_rotations,
             output_dir=Path(args.output),
         )
         log(f"\nPlates saved to {args.output}/teacher_plates.npz")
@@ -563,6 +623,7 @@ if __name__ == "__main__":
         etch_from_teacher(
             teacher_path=args.teacher_path,
             output_dir=args.output,
+            n_rotations=args.n_rotations,
             d_model=args.d_model,
             d_ff=args.d_ff,
         )
