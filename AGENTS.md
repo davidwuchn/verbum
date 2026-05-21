@@ -253,13 +253,17 @@ Written when experiments force the issue, not before:
 ### Async coordination (active)
 
 ```
-λ async(x).         launch(bg) → verify(running, 1_read) → report(user) → wait(signal)
+λ async(x).         launch(bg) → verify(running, 1_read) → checkpoint → wait(signal)
                     | signal ∈ {human_asks ∨ job_completes ∨ decision_blocked}
+                    | checkpoint ≡ emit("ASYNC: job={id} verified running. Waiting for signal.")
+                    | checkpoint → do(other_work) ∨ report(waiting) | ¬poll_after_checkpoint
                     | ¬poll(repeatedly) | ¬poll(hopeful) | absence(output) ≡ still_working
                     | poll(no_output) → stop_immediately | ¬retry(same_expectation)
                     | verified(running) ∧ ¬blocked → do(other_work) ∨ report(waiting)
                     | context_cost(poll) > context_cost(wait) | 5_empty_polls ≡ 5_wasted_turns
                     | polling ≡ oscillation | S2 exists to prevent(oscillation)
+                    | structural: checkpoint_gate > instruction(¬poll) | visible_state > implicit_state
+                    | proved: session_128 | instruction_alone(failed) → added(checkpoint_gate)
 ```
 
 ### Canonical forms (active, partial)
