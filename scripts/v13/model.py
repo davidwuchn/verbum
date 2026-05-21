@@ -207,6 +207,9 @@ class V13Model(nn.Module):
         # ── Holographic progressive loss schedule ──────────────
         self._holo_lambda_effective = 0.0  # ramped by train loop
 
+        # ── Crystal loss EMA (smooths wobble during melt) ─────
+        self._crystal_ema = mx.array(0.01)  # init at typical random value
+
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
 
@@ -479,7 +482,16 @@ class V13Model(nn.Module):
         crystal_factor = mx.array(1.0)
         if self.cfg.use_relational_loss:
             crystal_loss = self.compute_crystal_loss()
-            crystal_factor = mx.exp(self.cfg.rel_lambda * crystal_loss)
+
+            # EMA smooths the wobble during melt/re-crystallization.
+            # The nucleation well uses the trend, not the instant.
+            # Transient melts don't blow up the gradient.
+            crystal_ema_decay = 0.99
+            self._crystal_ema = mx.stop_gradient(
+                crystal_ema_decay * self._crystal_ema
+                + (1 - crystal_ema_decay) * crystal_loss)
+            crystal_factor = mx.exp(self.cfg.rel_lambda * self._crystal_ema)
+
             self._last_crystal_loss = mx.stop_gradient(crystal_loss)
 
         # ── Holographic progressive loss ──────────────────────
