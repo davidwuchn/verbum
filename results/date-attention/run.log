@@ -1,0 +1,363 @@
+═══════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
+  Date/Calendar Attention Probe — Finding the Rotation Circuit
+  Date/Calendar Attention Probe — Finding the Rotation Circuit
+  Session 128: where does mod-7 rotation happen?
+  Session 128: where does mod-7 rotation happen?
+═══════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-14B...
+  Loading Qwen/Qwen3-14B...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:30,  1.13it/s]Loading weights:   4%|▍         | 17/443 [00:00<00:18, 23.21it/s]Loading weights:   9%|▊         | 38/443 [00:01<00:07, 53.92it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:04, 83.76it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:03, 109.96it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:02, 132.02it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:02, 150.11it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 163.60it/s]Loading weights:  38%|███▊      | 170/443 [00:01<00:01, 171.99it/s]Loading weights:  43%|████▎     | 192/443 [00:01<00:01, 180.60it/s]Loading weights:  48%|████▊     | 214/443 [00:01<00:01, 184.19it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:01, 183.59it/s]Loading weights:  58%|█████▊    | 255/443 [00:02<00:01, 184.96it/s]Loading weights:  62%|██████▏   | 275/443 [00:02<00:00, 185.43it/s]Loading weights:  66%|██████▋   | 294/443 [00:02<00:00, 185.08it/s]Loading weights:  71%|███████   | 314/443 [00:02<00:00, 184.54it/s]Loading weights:  76%|███████▌  | 336/443 [00:02<00:00, 189.94it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 191.82it/s]Loading weights:  86%|████████▌ | 380/443 [00:02<00:00, 192.86it/s]Loading weights:  91%|█████████ | 402/443 [00:02<00:00, 194.74it/s]Loading weights:  96%|█████████▌| 424/443 [00:03<00:00, 195.57it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 141.20it/s]
+  Loaded in 4.7s
+  Loaded in 4.7s
+
+  Probes: 49 total, 21 day_add
+
+  Probes: 49 total, 21 day_add
+
+═══ Phase 0: Building day circle basis ═══
+
+═══ Phase 0: Building day circle basis ═══
+  Circle basis computed at 16 layers
+  Circle basis computed at 16 layers
+    L 0: SV=[1.25, 1.12, 1.04]
+    L 0: SV=[1.25, 1.12, 1.04]
+    L 4: SV=[3.35, 2.59, 2.31]
+    L 4: SV=[3.35, 2.59, 2.31]
+    L 8: SV=[5.28, 4.54, 3.95]
+    L 8: SV=[5.28, 4.54, 3.95]
+    L10: SV=[8.62, 7.43, 6.07]
+    L10: SV=[8.62, 7.43, 6.07]
+    L11: SV=[15.01, 14.23, 10.19]
+    L11: SV=[15.01, 14.23, 10.19]
+    L12: SV=[17.81, 16.78, 12.02]
+    L12: SV=[17.81, 16.78, 12.02]
+    L14: SV=[18.23, 17.13, 12.66]
+    L14: SV=[18.23, 17.13, 12.66]
+    L16: SV=[19.90, 17.50, 13.65]
+    L16: SV=[19.90, 17.50, 13.65]
+    L20: SV=[26.85, 22.43, 17.36]
+    L20: SV=[26.85, 22.43, 17.36]
+    L24: SV=[43.65, 39.06, 29.82]
+    L24: SV=[43.65, 39.06, 29.82]
+    L28: SV=[85.89, 83.75, 67.27]
+    L28: SV=[85.89, 83.75, 67.27]
+    L30: SV=[144.38, 137.03, 117.66]
+    L30: SV=[144.38, 137.03, 117.66]
+    L32: SV=[203.37, 199.61, 169.64]
+    L32: SV=[203.37, 199.61, 169.64]
+    L35: SV=[332.40, 323.51, 281.45]
+    L35: SV=[332.40, 323.51, 281.45]
+    L38: SV=[528.66, 511.76, 489.22]
+    L38: SV=[528.66, 511.76, 489.22]
+    L39: SV=[680.56, 618.48, 574.60]
+    L39: SV=[680.56, 618.48, 574.60]
+
+═══ Phase 1: Capturing attention outputs + residuals ═══
+
+═══ Phase 1: Capturing attention outputs + residuals ═══
+  [1/49] day_add: 1 after Monday
+  [1/49] day_add: 1 after Monday
+  [16/49] day_add: 2 after Friday
+  [16/49] day_add: 2 after Friday
+  [31/49] mod7: (3+3)%7=6
+  [31/49] mod7: (3+3)%7=6
+  [46/49] day_name: day=Thursday
+  [46/49] day_name: day=Thursday
+
+═══ Phase 2A: Day token attention analysis ═══
+
+═══ Phase 2A: Day token attention analysis ═══
+
+  Top 5 day-attending heads per layer:
+
+  Top 5 day-attending heads per layer:
+   Layer                Head 1                Head 2                Head 3
+   Layer                Head 1                Head 2                Head 3
+  ──────  ────────────────────  ────────────────────  ────────────────────
+  ──────  ────────────────────  ────────────────────  ────────────────────
+  L 0    H 6=0.202  H 5=0.201  H13=0.200
+  L 0    H 6=0.202  H 5=0.201  H13=0.200
+  L 4    H 3=0.208  H27=0.206  H16=0.206
+  L 4    H 3=0.208  H27=0.206  H16=0.206
+  L 8    H 3=0.332  H21=0.324  H24=0.322
+  L 8    H 3=0.332  H21=0.324  H24=0.322
+  L10    H31=0.439  H30=0.346  H13=0.341
+  L10    H31=0.439  H30=0.346  H13=0.341
+  L11    H20=0.561  H 4=0.559  H14=0.451
+  L11    H20=0.561  H 4=0.559  H14=0.451
+  L12    H 8=0.393  H37=0.343  H12=0.338
+  L12    H 8=0.393  H37=0.343  H12=0.338
+  L14    H15=0.628  H 2=0.364  H 3=0.363
+  L14    H15=0.628  H 2=0.364  H 3=0.363
+  L16    H 9=0.637  H 6=0.483  H 5=0.447
+  L16    H 9=0.637  H 6=0.483  H 5=0.447
+  L20    H27=0.907  H29=0.890  H26=0.866
+  L20    H27=0.907  H29=0.890  H26=0.866
+  L24    H 3=0.998  H21=0.985  H36=0.969
+  L24    H 3=0.998  H21=0.985  H36=0.969
+  L28    H 5=1.000  H 9=0.999  H36=0.999
+  L28    H 5=1.000  H 9=0.999  H36=0.999
+  L30    H29=0.975  H11=0.953  H13=0.931
+  L30    H29=0.975  H11=0.953  H13=0.931
+  L32    H29=1.000  H14=1.000  H13=1.000
+  L32    H29=1.000  H14=1.000  H13=1.000
+  L35    H19=1.000  H30=1.000  H 1=1.000
+  L35    H19=1.000  H30=1.000  H 1=1.000
+  L38    H38=1.000  H35=1.000  H 5=1.000
+  L38    H38=1.000  H35=1.000  H 5=1.000
+  L39    H37=1.000  H34=1.000  H31=1.000
+  L39    H37=1.000  H34=1.000  H31=1.000
+
+  Top 10 day-attending heads (summed across layers):
+
+  Top 10 day-attending heads (summed across layers):
+    H37: total_attn=7.4878
+    H37: total_attn=7.4878
+    H36: total_attn=7.0896
+    H36: total_attn=7.0896
+    H 5: total_attn=6.8269
+    H 5: total_attn=6.8269
+    H38: total_attn=6.5825
+    H38: total_attn=6.5825
+    H30: total_attn=6.3930
+    H30: total_attn=6.3930
+    H 8: total_attn=6.3425
+    H 8: total_attn=6.3425
+    H14: total_attn=6.3370
+    H14: total_attn=6.3370
+    H 2: total_attn=6.1748
+    H 2: total_attn=6.1748
+    H13: total_attn=6.0006
+    H13: total_attn=6.0006
+    H34: total_attn=5.6248
+    H34: total_attn=5.6248
+
+═══ Phase 2B: Rotation analysis in residual stream ═══
+
+═══ Phase 2B: Rotation analysis in residual stream ═══
+
+  Rotation linearity (angle = slope * offset):
+
+  Rotation linearity (angle = slope * offset):
+   Layer         Base    Slope  Expected   Ratio      R²
+   Layer         Base    Slope  Expected   Ratio      R²
+  ────── ──────────── ──────── ───────── ─────── ───────
+  ────── ──────────── ──────── ───────── ─────── ───────
+  L 0         Friday   0.0021    0.8976   0.002  0.4637
+  L 0         Friday   0.0021    0.8976   0.002  0.4637
+  L 0         Monday   0.0045    0.8976   0.005  0.4921
+  L 0         Monday   0.0045    0.8976   0.005  0.4921
+  L 0      Wednesday   0.0054    0.8976   0.006  0.4462
+  L 0      Wednesday   0.0054    0.8976   0.006  0.4462
+  L10         Friday  -0.0162    0.8976  -0.018  0.5586
+  L10         Friday  -0.0162    0.8976  -0.018  0.5586
+  L10         Monday  -0.0007    0.8976  -0.001  0.0124
+  L10         Monday  -0.0007    0.8976  -0.001  0.0124
+  L10      Wednesday  -0.0076    0.8976  -0.008  0.6487
+  L10      Wednesday  -0.0076    0.8976  -0.008  0.6487
+  L11         Friday  -0.1686    0.8976  -0.188  0.3667
+  L11         Friday  -0.1686    0.8976  -0.188  0.3667
+  L11         Monday  -0.0200    0.8976  -0.022  0.0294
+  L11         Monday  -0.0200    0.8976  -0.022  0.0294
+  L11      Wednesday  -0.0673    0.8976  -0.075  0.1932
+  L11      Wednesday  -0.0673    0.8976  -0.075  0.1932
+  L12         Friday   0.0414    0.8976   0.046  0.0274
+  L12         Friday   0.0414    0.8976   0.046  0.0274
+  L12         Monday   0.1061    0.8976   0.118  0.1010
+  L12         Monday   0.1061    0.8976   0.118  0.1010
+  L12      Wednesday   0.2050    0.8976   0.228  0.8386
+  L12      Wednesday   0.2050    0.8976   0.228  0.8386
+  L14         Friday  -0.0659    0.8976  -0.073  0.8117
+  L14         Friday  -0.0659    0.8976  -0.073  0.8117
+  L14         Monday  -0.1015    0.8976  -0.113  0.9246
+  L14         Monday  -0.1015    0.8976  -0.113  0.9246
+  L14      Wednesday  -0.0796    0.8976  -0.089  0.9290
+  L14      Wednesday  -0.0796    0.8976  -0.089  0.9290
+  L16         Friday  -0.1422    0.8976  -0.158  0.7822
+  L16         Friday  -0.1422    0.8976  -0.158  0.7822
+  L16         Monday  -0.3383    0.8976  -0.377  0.9140
+  L16         Monday  -0.3383    0.8976  -0.377  0.9140
+  L16      Wednesday  -0.2138    0.8976  -0.238  0.9480
+  L16      Wednesday  -0.2138    0.8976  -0.238  0.9480
+  L20         Friday   0.0262    0.8976   0.029  0.0269
+  L20         Friday   0.0262    0.8976   0.029  0.0269
+  L20         Monday   0.0341    0.8976   0.038  0.0209
+  L20         Monday   0.0341    0.8976   0.038  0.0209
+  L20      Wednesday   0.0264    0.8976   0.029  0.0204
+  L20      Wednesday   0.0264    0.8976   0.029  0.0204
+  L24         Friday  -0.0361    0.8976  -0.040  0.1612
+  L24         Friday  -0.0361    0.8976  -0.040  0.1612
+  L24         Monday  -0.0388    0.8976  -0.043  0.1154
+  L24         Monday  -0.0388    0.8976  -0.043  0.1154
+  L24      Wednesday  -0.0307    0.8976  -0.034  0.0991
+  L24      Wednesday  -0.0307    0.8976  -0.034  0.0991
+  L28         Friday  -0.0130    0.8976  -0.014  0.1664
+  L28         Friday  -0.0130    0.8976  -0.014  0.1664
+  L28         Monday  -0.0408    0.8976  -0.045  0.1920
+  L28         Monday  -0.0408    0.8976  -0.045  0.1920
+  L28      Wednesday  -0.0296    0.8976  -0.033  0.2538
+  L28      Wednesday  -0.0296    0.8976  -0.033  0.2538
+  L30         Friday   0.0242    0.8976   0.027  0.1482
+  L30         Friday   0.0242    0.8976   0.027  0.1482
+  L30         Monday   0.0723    0.8976   0.081  0.3116
+  L30         Monday   0.0723    0.8976   0.081  0.3116
+  L30      Wednesday   0.1162    0.8976   0.129  0.2673
+  L30      Wednesday   0.1162    0.8976   0.129  0.2673
+  L32         Friday   0.0185    0.8976   0.021  0.1355
+  L32         Friday   0.0185    0.8976   0.021  0.1355
+  L32         Monday   0.0238    0.8976   0.026  0.1264
+  L32         Monday   0.0238    0.8976   0.026  0.1264
+  L32      Wednesday   0.0331    0.8976   0.037  0.1552
+  L32      Wednesday   0.0331    0.8976   0.037  0.1552
+  L35         Friday   0.0078    0.8976   0.009  0.5093
+  L35         Friday   0.0078    0.8976   0.009  0.5093
+  L35         Monday  -0.0023    0.8976  -0.003  0.0286
+  L35         Monday  -0.0023    0.8976  -0.003  0.0286
+  L35      Wednesday   0.0145    0.8976   0.016  0.3965
+  L35      Wednesday   0.0145    0.8976   0.016  0.3965
+  L38         Friday   0.0017    0.8976   0.002  0.0351
+  L38         Friday   0.0017    0.8976   0.002  0.0351
+  L38         Monday   0.0002    0.8976   0.000  0.0005
+  L38         Monday   0.0002    0.8976   0.000  0.0005
+  L38      Wednesday   0.0063    0.8976   0.007  0.1288
+  L38      Wednesday   0.0063    0.8976   0.007  0.1288
+  L39         Friday   0.0249    0.8976   0.028  0.3248
+  L39         Friday   0.0249    0.8976   0.028  0.3248
+  L39         Monday   0.0523    0.8976   0.058  0.6426
+  L39         Monday   0.0523    0.8976   0.058  0.6426
+  L39      Wednesday   0.0678    0.8976   0.076  0.7517
+  L39      Wednesday   0.0678    0.8976   0.076  0.7517
+  L 4         Friday   0.0012    0.8976   0.001  0.0580
+  L 4         Friday   0.0012    0.8976   0.001  0.0580
+  L 4         Monday  -0.0003    0.8976  -0.000  0.0029
+  L 4         Monday  -0.0003    0.8976  -0.000  0.0029
+  L 4      Wednesday   0.0005    0.8976   0.001  0.0098
+  L 4      Wednesday   0.0005    0.8976   0.001  0.0098
+  L 8         Friday   0.0241    0.8976   0.027  0.2225
+  L 8         Friday   0.0241    0.8976   0.027  0.2225
+  L 8         Monday   0.0217    0.8976   0.024  0.5583
+  L 8         Monday   0.0217    0.8976   0.024  0.5583
+  L 8      Wednesday   0.0153    0.8976   0.017  0.2869
+  L 8      Wednesday   0.0153    0.8976   0.017  0.2869
+
+═══ Phase 2C: Head ablation ═══
+
+═══ Phase 2C: Head ablation ═══
+  Ablating layer L16 (best rotation R²=0.9480)
+  Ablating layer L16 (best rotation R²=0.9480)
+  Probe: '3 days after Wednesday is'
+  Probe: '3 days after Wednesday is'
+  Baseline: angle=0.1218, radius=5.1582
+  Baseline: angle=0.1218, radius=5.1582
+
+  Top 10 heads by angle shift when ablated:
+
+  Top 10 heads by angle shift when ablated:
+    Head  Angle Shift  Ablated Angle
+    Head  Angle Shift  Ablated Angle
+  ────── ──────────── ──────────────
+  ────── ──────────── ──────────────
+  H24        -0.1567        -0.0350
+  H24        -0.1567        -0.0350
+  H14        -0.1564        -0.0346
+  H14        -0.1564        -0.0346
+  H38        -0.1531        -0.0313
+  H38        -0.1531        -0.0313
+  H22        -0.1529        -0.0311
+  H22        -0.1529        -0.0311
+  H30        -0.1523        -0.0306
+  H30        -0.1523        -0.0306
+  H36        -0.1517        -0.0300
+  H36        -0.1517        -0.0300
+  H25        -0.1513        -0.0296
+  H25        -0.1513        -0.0296
+  H 8        -0.1512        -0.0294
+  H 8        -0.1512        -0.0294
+  H 7        -0.1503        -0.0286
+  H 7        -0.1503        -0.0286
+  H10        -0.1496        -0.0278
+  H10        -0.1496        -0.0278
+
+═══ Phase 3: Cross-task attention comparison ═══
+
+═══ Phase 3: Cross-task attention comparison ═══
+
+  DAY_ADD (21 probes):
+
+  DAY_ADD (21 probes):
+    L11: 7 distinct targets, angle range=0.4329 rad
+    L11: 7 distinct targets, angle range=0.4329 rad
+    L20: 7 distinct targets, angle range=0.4300 rad
+    L20: 7 distinct targets, angle range=0.4300 rad
+    L30: 7 distinct targets, angle range=0.5301 rad
+    L30: 7 distinct targets, angle range=0.5301 rad
+    L38: 7 distinct targets, angle range=0.0237 rad
+    L38: 7 distinct targets, angle range=0.0237 rad
+
+  MOD7 (21 probes):
+
+  MOD7 (21 probes):
+    L11: 7 distinct targets, angle range=0.0179 rad
+    L11: 7 distinct targets, angle range=0.0179 rad
+    L20: 7 distinct targets, angle range=0.1519 rad
+    L20: 7 distinct targets, angle range=0.1519 rad
+    L30: 7 distinct targets, angle range=2.1545 rad
+    L30: 7 distinct targets, angle range=2.1545 rad
+    L38: 7 distinct targets, angle range=0.0357 rad
+    L38: 7 distinct targets, angle range=0.0357 rad
+
+  DAY_NAME (7 probes):
+
+  DAY_NAME (7 probes):
+    L11: 7 distinct targets, angle range=5.5334 rad
+    L11: 7 distinct targets, angle range=5.5334 rad
+    L20: 7 distinct targets, angle range=4.9381 rad
+    L20: 7 distinct targets, angle range=4.9381 rad
+    L30: 7 distinct targets, angle range=4.9001 rad
+    L30: 7 distinct targets, angle range=4.9001 rad
+    L38: 7 distinct targets, angle range=5.3117 rad
+    L38: 7 distinct targets, angle range=5.3117 rad
+
+═════════════════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════════════════
+  SUMMARY — Attention Rotation Probe
+  SUMMARY — Attention Rotation Probe
+═════════════════════════════════════════════════════════════════
+═════════════════════════════════════════════════════════════════
+
+  Best rotation layers (by R²):
+
+  Best rotation layers (by R²):
+    L16    Wednesday: R²=0.9480, slope_ratio=-0.238
+    L16    Wednesday: R²=0.9480, slope_ratio=-0.238
+    L14    Wednesday: R²=0.9290, slope_ratio=-0.089
+    L14    Wednesday: R²=0.9290, slope_ratio=-0.089
+    L14       Monday: R²=0.9246, slope_ratio=-0.113
+    L14       Monday: R²=0.9246, slope_ratio=-0.113
+    L16       Monday: R²=0.9140, slope_ratio=-0.377
+    L16       Monday: R²=0.9140, slope_ratio=-0.377
+    L12    Wednesday: R²=0.8386, slope_ratio=0.228
+    L12    Wednesday: R²=0.8386, slope_ratio=0.228
+
+  Rotation circuit candidates (L16):
+
+  Rotation circuit candidates (L16):
+    Heads: [24, 14, 38, 22, 30]
+    Heads: [24, 14, 38, 22, 30]
+    (heads whose ablation shifts the day-circle angle most)
+    (heads whose ablation shifts the day-circle angle most)
+
+  Elapsed: 17.3s
+
+  Elapsed: 17.3s
+═════════════════════════════════════════════════════════════════
+═════════════════════════════════════════════════════════════════
+
+  💾 Results: /Users/mwhitford/src/verbum/results/date-attention/results.json
+
+  💾 Results: /Users/mwhitford/src/verbum/results/date-attention/results.json
