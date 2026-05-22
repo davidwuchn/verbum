@@ -132,18 +132,24 @@ def _append_jsonl(path: Path, record: dict) -> None:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def create_model(cfg: V13Config) -> V13Model:
-    """Instantiate V13Model and freeze ternary topology weights.
+    """Instantiate V13Model and freeze ALL ternary topology weights.
 
-    Session 135 tree of VSMs: each StrideStackVSM owns its own stride stack.
-    All stride stacks are excluded from freezing — attention topology is
-    learned from scratch (session 134: teacher flat attention incompatible).
-    FFN plates (shared, etched from teacher) and embeddings are frozen.
+    Session 135: ALL ternary uint32 weights are frozen — topology is
+    fixed. What trains:
+      - TernaryLinear.gamma (per-output-feature beam scale) — learns
+        from scratch for attention, seeded from teacher for FFN
+      - Learnable decay_alpha (per-stride per-head attention decay)
+      - K/V/O biases, FFN beams (norm/scale/bias), RMSNorm weights
+      - All controller params (S5/S4/S2/MetaS3)
+      - Combinator embeddings (crystal geometry)
+
+    The ternary topology of attention plates starts at random init.
+    GD shapes the beams (gamma + decay + biases) to learn routing.
+    The packed ternary weights provide the sign structure; gamma scales
+    control which dimensions matter.
     """
     model = V13Model(cfg)
-    # Exclude all stride stacks (A, B, C) from freezing
-    freeze_ternary_weights(model, exclude_prefixes=(
-        "stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack",
-    ))
+    freeze_ternary_weights(model)  # freeze ALL ternary weights
     return model
 
 
@@ -416,9 +422,7 @@ def load_checkpoint(
     weights = dict(mx.load(str(model_path)))
     model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
-    freeze_ternary_weights(model, exclude_prefixes=(
-        "stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack",
-    ))
+    freeze_ternary_weights(model)  # freeze ALL ternary weights
     restore_ternary(model)
 
     # Check for state.json (training checkpoint) vs config.json (etched checkpoint)
