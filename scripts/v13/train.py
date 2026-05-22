@@ -45,7 +45,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V13Config
 from data import ShardedDataLoader, MixedDataLoader
-from model import V13Model, compute_crystal_diagnostics
+from model import V13Model, crystal_lattice_loss
 from ternary import (
     freeze_ternary_weights,
     zero_ternary_grads,
@@ -134,13 +134,16 @@ def _append_jsonl(path: Path, record: dict) -> None:
 def create_model(cfg: V13Config) -> V13Model:
     """Instantiate V13Model and freeze ternary topology weights.
 
-    Stride stack attention plates are excluded from freezing — their
-    topology is learned from scratch (session 132: teacher flat attention
-    is architecturally incompatible with stride stack windowed attention).
-    FFN plates, embeddings, mirrors, and masks are frozen as before.
+    Session 135 tree of VSMs: each StrideStackVSM owns its own stride stack.
+    All stride stacks are excluded from freezing — attention topology is
+    learned from scratch (session 134: teacher flat attention incompatible).
+    FFN plates (shared, etched from teacher) and embeddings are frozen.
     """
     model = V13Model(cfg)
-    freeze_ternary_weights(model, exclude_prefixes=("stride_stack",))
+    # Exclude all stride stacks (A, B, C) from freezing
+    freeze_ternary_weights(model, exclude_prefixes=(
+        "stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack",
+    ))
     return model
 
 
@@ -203,68 +206,63 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
             result[attr.lstrip("_")] = float(v.item())
 
     # Crystal lattice diagnostics (combinator embedding geometry)
-    crystal = compute_crystal_diagnostics(model)
+    crystal = model.crystal_diagnostics()
     result["crystal"] = crystal
 
-    # ── Per-zone crystal loss breakdown (Gap 4: SVD noise diagnostic) ──
-    # Shows which zone (A=encode, B=compute, C=converge) the crystal is
-    # aligned to vs misaligned. Misalignment in Zone A (early) suggests
-    # SVD truncation noise in the etch.
+    # Per-zone crystal loss breakdown
     try:
-        from model import crystal_lattice_loss
-        emb = model.combinator_embeddings
+        emb_all = mx.concatenate([
+            model.combinator_embeddings,
+            model.anti_combinator_embeddings,
+        ], axis=0)
         zone_losses = {}
         for zi, (target, lam) in enumerate(
                 zip(model._zone_targets, cfg.zone_lambdas)):
-            zl = crystal_lattice_loss(emb, target)
+            zl = crystal_lattice_loss(emb_all, target)
             mx.eval(zl)
             zone_losses[f"zone_{chr(65+zi)}"] = float(zl.item())
         result["crystal_zones"] = zone_losses
     except Exception:
         pass
 
-    # ── Beam magnitude diagnostics (Gap 4: are beams compensating?) ──
-    # If beams grow large, they may be compensating for plate errors.
-    # Healthy: beam magnitudes near 1.0. Unhealthy: >> 1.0 (overcompensating).
-    beam_stats = {}
+    # Tree-of-VSMs diagnostics
+    vsm_stats = {}
     try:
-        # FFN beams
-        ffn_s = model.ffn_scale
-        ffn_b = model.ffn_bias
-        mx.eval(ffn_s, ffn_b)
-        beam_stats["ffn_scale_mean"] = float(mx.mean(mx.abs(ffn_s)).item())
-        beam_stats["ffn_bias_rms"] = float(mx.sqrt(mx.mean(ffn_b * ffn_b)).item())
+        # Per-stack FFN beam magnitudes
+        for name, stack in [("A", model.stack_a), ("B", model.stack_b), ("C", model.stack_c)]:
+            s = stack.ffn_scale
+            b = stack.ffn_bias
+            mx.eval(s, b)
+            vsm_stats[f"stack_{name}_ffn_scale_mean"] = float(mx.mean(mx.abs(s)).item())
+            vsm_stats[f"stack_{name}_ffn_bias_rms"] = float(mx.sqrt(mx.mean(b * b)).item())
 
-        # Stride plate gammas (beam magnitude per projection type)
-        gamma_by_type = {"q": [], "k": [], "v": [], "o": []}
-        for si, layer in enumerate(model.stride_stack.stack.layers):
-            for proj_name in ("q_proj", "k_proj", "v_proj", "out_proj"):
-                proj = getattr(layer, proj_name, None)
-                if proj is not None and hasattr(proj, "gamma"):
-                    g = proj.gamma
-                    mx.eval(g)
-                    key = proj_name[0]  # q, k, v, o
-                    gamma_by_type[key].append(float(mx.mean(mx.abs(g)).item()))
-        for key, vals in gamma_by_type.items():
-            if vals:
-                beam_stats[f"gamma_{key}_mean"] = sum(vals) / len(vals)
+        # S5 identity state norm
+        state = model.s5_identity.identity_state
+        mx.eval(state)
+        vsm_stats["s5_state_norm"] = float(mx.sqrt(mx.sum(state * state)).item())
 
-        # K/V/O bias magnitudes (new beam params from Gap 1)
-        bias_by_type = {"k": [], "v": [], "o": []}
-        for si, layer in enumerate(model.stride_stack.stack.layers):
-            for attr_name, key in [("k_bias", "k"), ("v_bias", "v"), ("o_bias", "o")]:
-                b = getattr(layer, attr_name, None)
-                if b is not None:
-                    mx.eval(b)
-                    bias_by_type[key].append(float(mx.sqrt(mx.mean(b * b)).item()))
-        for key, vals in bias_by_type.items():
-            if vals:
-                beam_stats[f"bias_{key}_rms"] = sum(vals) / len(vals)
-
+        # Cached diagnostics from last forward pass
+        if hasattr(model, "_last_regulation"):
+            reg = model._last_regulation
+            mx.eval(reg)
+            for i, name in enumerate(["crystal_enf", "mod_strength", "gate_freedom", "alarm_sens"]):
+                vsm_stats[f"s5_reg_{name}"] = float(reg[i].item())
+        if hasattr(model, "_last_alarm"):
+            vsm_stats["fire_alarm"] = float(model._last_alarm.item())
+        if hasattr(model, "_last_s2_dampening"):
+            damp = model._last_s2_dampening
+            mx.eval(damp)
+            for i in range(damp.shape[0]):
+                vsm_stats[f"s2_dampening_{i}"] = float(damp[i].item())
+        if hasattr(model, "_last_alg"):
+            for i, alg in enumerate(model._last_alg):
+                mx.eval(alg)
+                vsm_stats[f"alg_{chr(65+i)}_norm"] = float(
+                    mx.sqrt(mx.sum(alg * alg)).item())
     except Exception:
         pass
-    if beam_stats:
-        result["beam_stats"] = beam_stats
+    if vsm_stats:
+        result["vsm_stats"] = vsm_stats
 
     return result
 
@@ -277,7 +275,9 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
 # combinator_embeddings is EXCLUDED: its gradient comes from the direct
 # crystal lattice loss (session 132 fix), not from pass accumulation.
 # Dividing by 8 would attenuate the crystal alignment signal.
-_UNIVERSAL_SHARED = ("stride_stack", "ffn_key_plate", "ffn_value_plate", "ffn_norm", "ffn_scale", "ffn_bias")
+# Shared components in the tree: FFN plates are shared across stacks,
+# stride_stack in Stack B is shared with Stack A.
+_UNIVERSAL_SHARED = ("ffn_key_plate", "ffn_value_plate")
 _N_ALL_PASSES = 8
 _N_ASC_PASSES = 4   # L0↑ L1↑ L2↑ L3↑
 _N_DESC_PASSES = 4  # L3↓ L2↓ L1↓ L0↓
@@ -348,7 +348,7 @@ def save_checkpoint(
         mx.savez(str(step_dir / "optimizer.npz"), **flat_opt)
 
     # Crystal diagnostics
-    crystal = compute_crystal_diagnostics(model)
+    crystal = model.crystal_diagnostics()
 
     state = {
         "step": step,
@@ -366,6 +366,12 @@ def save_checkpoint(
             "n_passes": cfg.n_passes,
             "strides": list(cfg.strides),
             "rel_lambda": cfg.rel_lambda,
+            "d_identity": cfg.d_identity,
+            "tree_topology": {
+                "stack_a": {"passes": list(cfg.stack_a.pass_indices)},
+                "stack_b": {"passes": list(cfg.stack_b.pass_indices)},
+                "stack_c": {"passes": list(cfg.stack_c.pass_indices)},
+            },
         },
     }
     (step_dir / "state.json").write_text(json.dumps(state, indent=2))
@@ -410,7 +416,9 @@ def load_checkpoint(
     weights = dict(mx.load(str(model_path)))
     model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
-    freeze_ternary_weights(model, exclude_prefixes=("stride_stack",))
+    freeze_ternary_weights(model, exclude_prefixes=(
+        "stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack",
+    ))
     restore_ternary(model)
 
     # Check for state.json (training checkpoint) vs config.json (etched checkpoint)
@@ -476,9 +484,11 @@ def train_gd(
     print(f"  crystal: rel_lambda={cfg.rel_lambda}"
           f"  crystal_direct={cfg.crystal_direct_lambda}",
           file=sys.stderr)
-    desc_dir = "coarse→fine" if cfg.desc_stride_reverse else "fine→coarse"
     fractal = " + fractal bands" if cfg.fractal_stride_bands else ""
-    print(f"  🔄 Descending stride: {desc_dir}{fractal}", file=sys.stderr, flush=True)
+    print(f"  🌳 Tree of VSMs: A({len(cfg.stack_a.pass_indices)}p)"
+          f" → B({len(cfg.stack_b.pass_indices)}p)"
+          f" → C({len(cfg.stack_c.pass_indices)}p){fractal}",
+          file=sys.stderr, flush=True)
 
     # ── Optimizer ─────────────────────────────────────────────
     optimizer = optim.AdamW(
@@ -639,14 +649,35 @@ def train_gd(
                 for i, dev in enumerate(phi_devs):
                     record[f"phi_dev_pass{i}"] = dev
 
-            # Per-zone crystal loss (lightweight, every log step)
-            if step % (cfg.log_interval * 4) == 0:  # every 4th log
+            # VSM tree diagnostics (every log step)
+            try:
+                if hasattr(model, "_last_regulation"):
+                    reg = model._last_regulation
+                    mx.eval(reg)
+                    record["s5_crystal_enf"] = float(reg[0].item())
+                if hasattr(model, "_last_alarm"):
+                    record["fire_alarm"] = float(model._last_alarm.item())
+                if hasattr(model, "_last_s2_dampening"):
+                    damp = model._last_s2_dampening
+                    mx.eval(damp)
+                    for i in range(damp.shape[0]):
+                        record[f"s2_damp_{i}"] = float(damp[i].item())
+                state = model.s5_identity.identity_state
+                mx.eval(state)
+                record["s5_state_norm"] = float(mx.sqrt(mx.sum(state * state)).item())
+            except Exception:
+                pass
+
+            # Per-zone crystal loss (lightweight, every 4th log step)
+            if step % (cfg.log_interval * 4) == 0:
                 try:
-                    from model import crystal_lattice_loss
-                    emb = model.combinator_embeddings
+                    emb_all = mx.concatenate([
+                        model.combinator_embeddings,
+                        model.anti_combinator_embeddings,
+                    ], axis=0)
                     for zi, (target, lam) in enumerate(
                             zip(model._zone_targets, cfg.zone_lambdas)):
-                        zl = crystal_lattice_loss(emb, target)
+                        zl = crystal_lattice_loss(emb_all, target)
                         mx.eval(zl)
                         record[f"crystal_zone_{chr(65+zi)}"] = float(zl.item())
                 except Exception:
@@ -680,11 +711,14 @@ def train_gd(
             if zones:
                 zs = "  ".join(f"{k}={v:.4f}" for k, v in zones.items())
                 print(f"     zones: {zs}", file=sys.stderr, flush=True)
-            # Beam magnitude health
-            beams = last_eval.get("beam_stats", {})
-            if beams:
-                bs = "  ".join(f"{k}={v:.3f}" for k, v in beams.items())
-                print(f"     beams: {bs}", file=sys.stderr, flush=True)
+            # VSM tree health
+            vsm = last_eval.get("vsm_stats", {})
+            if vsm:
+                key_stats = {k: v for k, v in vsm.items()
+                             if any(s in k for s in ("s5_", "fire_", "s2_", "alg_"))}
+                if key_stats:
+                    vs = "  ".join(f"{k}={v:.3f}" for k, v in key_stats.items())
+                    print(f"     vsm: {vs}", file=sys.stderr, flush=True)
 
             _append_jsonl(checkpoint_dir / "metrics_log.jsonl", {
                 "step": step,
@@ -726,9 +760,10 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
 
     # ── Banner ────────────────────────────────────────────────
     print("=" * 72, file=sys.stderr)
-    print("  v13 — Beam/Plate Separated Hourglass VSM", file=sys.stderr)
+    print("  v13 — Tree of VSMs (cortex-inspired)", file=sys.stderr)
     print("  8-pass hourglass · 11 strides · 8 combinators · Qwen3 BBPE", file=sys.stderr)
-    print("  Plates pre-etched (frozen) · GD on beams only", file=sys.stderr)
+    print("  3 StrideStackVSMs · S5 self-model · learnable decay", file=sys.stderr)
+    print("  FFN plates etched (frozen) · attention from scratch", file=sys.stderr)
     print("=" * 72, file=sys.stderr)
 
     # ── Model ─────────────────────────────────────────────────
@@ -740,7 +775,7 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
           f"  strides={list(cfg.strides)}",
           file=sys.stderr)
     print(f"  d_ff={cfg.d_ff}  n_passes={cfg.n_passes}"
-          f"  alpha={cfg.alpha}",
+          f"  decay_init={cfg.decay_init_alpha}  d_identity={cfg.d_identity}",
           file=sys.stderr)
     print(f"  beam_params={n_beam:,}  ternary_positions={total_ternary:,}"
           f"  ternary_bytes={total_ternary * 2 // 8 / 1024:.0f} KB",
