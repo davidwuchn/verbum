@@ -62,15 +62,46 @@ attention, train.py, extract_teacher.py.
 |------|------|
 | `config.py` | StackConfig dataclass, tree topology, S5/S4/S2 config, learnable decay, algedonic modulation |
 
-### Next steps (remaining tasks)
+### All tasks COMPLETE
 
-1. **Learnable attention decay** — modify attention.py, per-stride-per-head α
-2. **Controller VSM components** — S5Identity, S4Intelligence, S2AntiOscillation, MetaS3FireAlarm in components.py
-3. **StrideStackVSM** — reusable S1 unit with own stride stack, FFN beams, S3, algedonic, full-stack modulation
-4. **Rewire V13Model** — controller tree with sequential A→B→C, algedonic routes, S5 cycle
-5. **Update train.py** — parameter groups, logging, checkpoints for tree
-6. **Update extract_teacher.py** — FFN-only extraction for shared plates, attention removed
-7. **End-to-end smoke test** — verify 5 training steps, all VSM channels active
+| # | File | What |
+|---|------|------|
+| 1 | config.py | StackConfig, tree topology, S5/S4/S2 config, learnable decay |
+| 2 | attention.py | Learnable per-stride per-head decay_alpha, decay_modulation input |
+| 3 | components.py | S5Identity(GRU,d=64), S4Intelligence, S2AntiOscillation(PID), MetaS3FireAlarm |
+| 4 | stack_vsm.py | StrideStackVSM: reusable S1 unit, full-stack algedonic modulation |
+| 5 | model.py | V13Model as ControllerVSM tree, 3 stacks, 2 algedonic routes |
+| 6 | train.py | Per-stack logging, VSM diagnostics, freeze all ternary |
+| 7 | extract_teacher.py | Minimal update (FFN paths compatible) |
+| 8 | smoke test | 5 steps OK, loss decreasing, all VSM channels active |
+
+### Smoke test results
+
+```
+Trainable beam params: 358,360
+Ternary positions: 139,299,840
+5 steps: loss 1554 → 603 (decreasing)
+S5 identity state norm: 0.85 (updating)
+S5 regulation: [0.40, 0.48, 0.51, 0.51] (active)
+S2 dampening: [0.69, 0.69] (non-trivial)
+Fire alarm: 0.15 (near init, calm)
+Route 2 algedonic: cached (back-pressure active)
+Crystal loss: 0.204 (in gradient graph)
+```
+
+### Next steps
+
+1. **Re-etch FFN from Qwen3-14B** into tree-of-VSMs model
+2. **First training run** — GD on beams, watch:
+   - Does S5 identity state converge? Does regulation stabilize?
+   - Do per-stack algedonics differentiate? (A should differ from C)
+   - Does S2 dampening find the register boundaries?
+   - Does learnable decay discover different rates per stride?
+   - Does crystal loss decrease with S5-regulated enforcement?
+3. **Monitor phi-compressor wavelet** — does compression ratio nucleate
+   from s1 outward? (Self-similar compressor hypothesis test)
+4. **Context extension** — after training stabilizes, add s2048+ strides
+   to Stack B and verify self-similar weight reuse works
 
 ## Session 134: Dual Crystal + FFN-Only Etch
 
