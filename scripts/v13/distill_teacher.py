@@ -831,12 +831,16 @@ def etch_round(
     Returns:
         Dict with "total_flips" and per-plate flip counts.
     """
-    # Build plate inventory
-    plate_keys: list[str] = []
-    for si in range(n_strides):
-        for proj in ("q_proj", "k_proj", "v_proj", "out_proj"):
-            plate_keys.append(f"stride_{si}.{proj}")
-    plate_keys += ["ffn.key", "ffn.value"]
+    # Build plate inventory — FFN ONLY.
+    # Session 134: stride stack attention is architecturally incompatible with
+    # teacher flat attention. Attention Q/K/V/O plates must learn their own
+    # topology from scratch during training. Only FFN plates (the base OS —
+    # stored knowledge/functions) are etched from teacher behavior.
+    plate_keys: list[str] = ["ffn.key", "ffn.value"]
+    # Stride attention plates deliberately excluded:
+    # for si in range(n_strides):
+    #     for proj in ("q_proj", "k_proj", "v_proj", "out_proj"):
+    #         plate_keys.append(f"stride_{si}.{proj}")
 
     # Build accumulators: (out_features,) float64 for sign voting
     accumulators: dict[str, np.ndarray] = {}
@@ -845,12 +849,11 @@ def etch_round(
         if mod is not None:
             accumulators[pk] = np.zeros(mod.out_features, dtype=np.float64)
 
-    # Determine which slot drives which plate keys
+    # Determine which slot drives which plate keys — FFN only.
+    # Stride slots are captured by FeatureExtractor but NOT etched.
+    # The stride features still drive the distillation LOSS (which trains
+    # the bridges and beams), but only FFN plate positions are flipped.
     slot_to_plates: dict[str, list[str]] = {}
-    for si in range(n_strides):
-        slot_to_plates[f"stride_{si}"] = [
-            f"stride_{si}.{p}" for p in ("q_proj", "k_proj", "v_proj", "out_proj")
-        ]
     slot_to_plates["ffn"] = ["ffn.key", "ffn.value"]
 
     # Count batches per slot (for normalisation)
