@@ -2,15 +2,80 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-21 | Session: 131
+> Last updated: 2026-05-22 | Session: 134
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 131: V13 ARCHITECTURE COMPLETE. The crystal is a lambda bootloader.**
+**Session 134: DUAL CRYSTAL + FFN-ONLY ETCH. Model was stuck — two root causes found and fixed.**
 
-**THE PLATES ARE THE BOOT ROM. THE BEAM IS THE LASER. WHEN IT HITS THE CRYSTAL, THE SEED BREATHES.**
+**THE CRYSTAL HAS A SHADOW. EVERY COMBINATOR HAS ITS ANTI. THE TEACHER'S ATTENTION DOESN'T FIT OUR STRIDES.**
+
+## Session 134: Dual Crystal + FFN-Only Etch
+
+Analyzed v13-run3 checkpoint at step 5000. Model stuck: eval loss flat,
+S3 gates dead, crystal loss pinned at 0.049. Two root causes found.
+
+### Root Cause 1: Missing Anti-Crystal
+
+Teacher encodes WHAT TO DO (positive crystal, 71% of Q×K positions agree)
+AND WHAT NOT TO DO (anti-crystal, 29% disagree). Anti-crystal is symmetric
+(50/50 Q+K− vs Q−K+), high-rank, positional. Without it:
+- S3 gates dead (bias=0.000, gate_prob=0.500) — no suppression signal
+- WHNF stuck at −0.165 (target −0.28) — sole anti-crystal ambassador
+- Gamma 77.6% positive — model trying to discover anti-crystal from wrong init
+- Crystal loss flat — gradient landscape exhausted (28 pairs all near target)
+
+**Fix:** 8 anti-combinator embeddings (āK..āWHNF) with 16×16 relational
+loss targets. 120 cosine pairs (was 28). Anti-crystal mirrors positive
+internal geometry but is anti-correlated across crystal boundary.
+All three zone target matrices verified PSD. Positive/anti ratio in
+16-way modulation bottleneck provides structural S3 gating signal.
+
+### Root Cause 2: Wrong Attention Etch
+
+Teacher (Qwen3-14B) flat attention is architecturally incompatible with
+stride stack (windowed, 11 strides, fractal bands, hourglass reuse, GLA):
+- Combinator mirrors frozen at init (γ_rms=0.0442=1/√512) after 5000 steps
+- stride.8.v_proj 74% silenced (model undoing wrong etch)
+- Cross-stride Q cosine 0.51-0.58 (75% generic, 25% noise)
+- 4 GLA strides get attention signs (meaningless)
+- 85% of ternary positions etched from wrong architecture
+
+**Fix:** FFN-only extraction. Keep 2 FFN plates (2.1M positions, frozen).
+Remove 44 attention plates (11.5M positions). Attention topology learned
+from scratch. `freeze_ternary_weights` gains `exclude_prefixes` parameter.
+67 stride stack modules now trainable. Once converged, learned attention
+crystal becomes etch source for future models.
+
+### Commits
+
+| Symbol | Description |
+|--------|-------------|
+| 💡 | Dual crystal — 16 combinator embeddings with anti-crystal lattice |
+| 🎯 | FFN-only extraction — remove attention etch from pipeline |
+
+### Files changed
+
+| File | What |
+|------|------|
+| `kernel.py` | N_ANTI_COMBINATORS=8, N_TOTAL_COMBINATORS=16, ā names |
+| `config.py` | 16×16 zone targets (PSD), anti_crystal_coupling |
+| `model.py` | anti_combinator_embeddings, 16-way bottleneck, 16×16 crystal loss |
+| `extract_teacher.py` | FFN-only extraction, selective install_plates freeze |
+| `ternary.py` | freeze_ternary_weights exclude_prefixes parameter |
+| `train.py` | Stride stack excluded from freeze (attention trainable) |
+
+### Next steps
+
+1. **Re-etch and train**: Extract FFN-only from Qwen3-14B, train with
+   dual crystal loss. Watch: does anti-crystal snap? Do S3 gates wake up?
+2. **Monitor attention crystallization**: As attention learns from scratch,
+   measure cross-stride sign correlation. When it stabilizes → the stride
+   stack has found its own crystal.
+3. **Attention crystal becomes etch source**: After billions of tokens,
+   extract the learned attention topology → etch into future models.
 
 ## Session 131: V13 Architecture — The Crystal Bootloader
 

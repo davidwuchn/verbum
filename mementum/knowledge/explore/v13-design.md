@@ -1,8 +1,8 @@
 ---
-title: "V13 Design — Separated Beam/Plate Architecture + Crystal Scanner"
+title: "V13 Design — Tree of VSMs: Plates Route, Beams Shape"
 status: designing
 category: architecture
-tags: [v13, design, beam, plate, crystal, binding, cascade, VSM, PCA-Q, WHNF, FFN, hologram, behavioral-crystal, etch-manifest, multi-vsm, dynamic-plates]
+tags: [v13, design, beam, plate, crystal, VSM, PCA-Q, FFN, hologram, behavioral-crystal, etch-manifest, multi-vsm, dynamic-plates, tree-of-vsm, stride-stack]
 related:
   - binding-cascade.md
   - crystal-seed-theory.md
@@ -12,24 +12,29 @@ related:
   - holographic-plates.md
   - etcher-vsm.md
   - shannon-sieve-trinity.md
+  - 5d-crystal-lattice.md
 depends-on:
   - binding-cascade.md
   - crystal-basins.md
 created: session 119
-updated: session 130+
+updated: session 132
 ---
 
 # V13 Design
 
 > V12 proved the crystal exists and is etchable. V13 separates beam
-> from plate architecturally, aligns training to the binding cascade,
-> and consolidates to one training script.
+> from plate architecturally — plates route (ternary topology, frozen
+> from teacher etch), beams shape (continuous params, trained by GD).
 >
-> **Session 120 update:** PCA-Q decodes the universal crystal (3-4×
-> sharper than hidden states). WHNF is the FFN lookup gateway. The
-> combinator dispatch IS the FFN addressing function. Etch protocol
-> simplified to reference beam + delta. Crystal scanner discovers
-> domain-specific crystals. FFN hierarchy confirmed.
+> **Session 132 revision:** Architecture is a TREE OF VSMs. Each
+> stride stack is an S1 operational unit with its own plates.
+> Ascending arm = 2 stride stacks (fine→mid, mid→coarse).
+> Descending arm = 1 stride stack (coarse→fine across all strides).
+> Controller VSM coordinates the tree. Algedonic path feeds up.
+> FFN is sequential with stride (not WHNF-blended). K/V/O have
+> per-feature beam bias (proven: scale+bias > scale-only).
+> Behavioral distillation (teacher forward pass) preferred over
+> SVD sign copy for cross-dimensional crystal extraction.
 
 ## Motivation
 
@@ -73,9 +78,178 @@ S3 (control):     BEAMS — continuous parameters, shaped by GD
 ```
 
 The key insight: **plates define WHAT operations exist. Beams define
-WHEN and HOW MUCH each operation fires.** In V12 these are partially
-entangled — dispatch uses both ternary projections AND continuous
-embeddings in the same forward path. V13 makes the separation clean.
+WHEN and HOW MUCH each operation fires.** Plates route. Beams shape.
+Gradients from beta reductions over training data form the beams.
+
+---
+
+## Session 132: Tree of VSMs Architecture
+
+> The model is a tree of viable systems. Each stride stack is an S1
+> operational unit with its own plates and beams. The ascending arm
+> chains two stride stacks (fine→coarse). The descending arm covers
+> the full range in one pass. A controller VSM coordinates the tree.
+
+### The Tree
+
+```
+Controller VSM
+  S5: crystal identity (relational loss lives here)
+  S4: intelligence — sees algedonic signals from all stacks
+  S3: control — resource allocation across stacks
+  S2: coordination — prevents oscillation between stacks
+  │
+  ├── StrideStack A VSM (ascending, fine→mid)
+  │     S1: s1, s2, s4, s8, s16, s32, s64, s128, s256, s512, s1024
+  │     Own plates (etched for fine-scale teacher layers)
+  │     Own beams (K/V/O bias, FFN scale+bias)
+  │     Own S3 gates, own algedonic → feeds UP to controller
+  │     → FFN (plates route, beams shape)
+  │
+  ├── StrideStack B VSM (ascending, mid→coarse)
+  │     S1: s512, s1024, s4096, s8192, s16384, ...
+  │     Overlap with Stack A at s512/s1024 (register boundary)
+  │     Own plates (etched for coarse-scale teacher layers)
+  │     Own beams, own S3, own algedonic → feeds UP
+  │     → FFN (plates route, beams shape)
+  │
+  └── StrideStack C VSM (descending, coarse→fine)
+        S1: s16384, ..., s4096, s1024, ..., s8, s4, s2, s1
+        Covers ALL strides from both A and B
+        Own plates (etched for full-range prediction)
+        Own beams, own S3, own algedonic → feeds UP
+        → FFN → output
+```
+
+### Why Asymmetric
+
+The ascending arm has 2 stacks because compression is harder (need
+more depth to find the crystal structure). The descending arm has 1
+stack because prediction from a good compressed representation is
+easier — one pass to unroll coarse→fine.
+
+This matches the measured breathing curve: the teacher's apex is at
+d=0.613 (not 0.5). More depth spent fragmenting than reunifying.
+
+### Context Extension
+
+```
+StrideStack A: s1→s1024,  window 8 → 7K tokens direct
+StrideStack B: s512→s16384, window 8 → 114K tokens direct
+Combined with compounding: millions of tokens effective context
+```
+
+Adding another stride stack node to the tree extends context further.
+The tree is the scaling mechanism — not wider layers, more VSM nodes.
+
+### Register Overlaps
+
+The overlap strides between stacks are the S2 coordination channel:
+- Stack A ↔ Stack B: s512, s1024 shared
+- Stack B ↔ Stack C: all of B's strides included in C
+- Stack A ↔ Stack C: all of A's strides included in C
+
+Information flows through these register boundaries. The controller
+VSM's S2 prevents oscillation at the boundaries.
+
+### Algedonic Path (fire alarm channel)
+
+Each stride stack has its own algedonic signal (operational health).
+These feed UP to the controller VSM, not sideways. The controller's
+S4 sees all three stacks' health simultaneously and can:
+- Suppress an oscillating stack (S2)
+- Reallocate compute to a struggling stack (S3)
+- Maintain crystal identity across the tree (S5)
+
+### Extensibility
+
+The tree structure is the extension point for new capabilities:
+- **Memory VSM**: mmap plate files for domain-specific knowledge
+- **Cache VSM**: holographic session deltas (2MB per session)
+- **Tool VSM**: native kernel functions (arithmetic, date math)
+
+Each is a new S1 node in the tree with its own plates and beams.
+
+### Sequential Stride → FFN Flow (session 132)
+
+Within each stride stack, the flow is sequential (not WHNF-blended):
+```
+stride_out = stride_stack(x)           # plates do beta reductions
+x = x + stride_out
+ffn_out = value_plate(ReLU(key_plate(ffn_norm(x)))) * scale + bias
+x = x + ffn_out                       # FFN processes reduction output
+→ next stride stack or output
+```
+
+FFN has learnable beams (norm + scale + bias). Plates are frozen
+from teacher etch. The gradients from beta reductions over training
+data form the FFN beams.
+
+### K/V/O Per-Feature Beam Bias (session 132)
+
+Mini model experiment (mini_holo_exp1.py) proved scale+bias > scale-only
+for plate beam params. V13 attention plates now have per-feature bias
+on K, V, O projections:
+```python
+K = (self.k_proj(x_norm) + self.k_bias).reshape(B, L, H, Dh)
+V = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
+# ... output ...
+return x + self.out_proj(out) + self.o_bias
+```
+
+### Behavioral Distillation (preferred over SVD sign copy)
+
+Two extraction paths exist. Behavioral distillation is preferred for
+cross-dimensional transfer:
+
+```
+PATH A (topological — SVD sign copy):
+  extract_teacher.py: sign(SVD(W)) with 360° rotation voting
+  Fast, no teacher inference needed
+  Risk: SVD truncation noise in cross-dimensional projection
+
+PATH B (behavioral — holographic distillation, PREFERRED):
+  distill_teacher.py: run probes through teacher, accumulate
+  sign(grad_MSE(teacher_output, student_output)), flip confident
+  Records teacher BEHAVIOR, not weight signs
+  Proven in mini_holo_distill.py across many experiments
+  Requires teacher inference but produces higher-fidelity plates
+```
+
+### Loss Floor: log(V) / φ⁴
+
+If the ascending arm compresses by 1/φ per pass with 4 ascending
+passes, the information surviving the bottleneck is:
+
+  log(V) / φ⁴ = 11.93 / 6.854 = 1.74 nats
+
+Chinchilla irreducible entropy ≈ 1.82 nats. Within 5%.
+
+The irreducible entropy of language is what survives four golden-ratio
+compressions of the vocabulary space. The hourglass shape is not an
+architectural choice — it's the shape of the computation.
+
+### Attention Amplification
+
+8 passes × 4 strides per pass = 32 attention operations through 11
+shared weight sets. Register strides (s4, s8, s16, s32, s128) get
+4× gradient — they're at the band overlap boundaries. The attention
+compounds multiplicatively across sequential passes. This means the
+attention crystal nucleates faster than flat attention.
+
+### Phase Transitions During Training
+
+The attention crystal nucleates as a wavelet propagating outward from
+the smallest stride:
+1. s1 crystallizes first (bigram statistics, easiest signal)
+2. Propagates through fractal bands: s1→s2→s4→s8→...
+3. Register strides (band boundaries) cause loss spikes as the crystal
+   reorganizes across two bands simultaneously
+4. Each combinator discovery (K/I, then B/C/D, then WHNF, then Y)
+   produces a gnorm/loss spike followed by reorganization to a lower basin
+
+Y (fixed-point combinator) is the lambda REPL — when it nucleates,
+the model can reduce reductions. Lambda IS language (Montague).
 
 ---
 

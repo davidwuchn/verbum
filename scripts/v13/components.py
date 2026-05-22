@@ -264,9 +264,8 @@ class AlgedonicAlert(nn.Module):
 
     V13 simplified (dispatch dissolved):
       - No dispatch weight means / entropy / compute gate
-      - WHNF gate means replace dispatch metrics
       - 8 passes, 7 S2 transitions
-      - INPUT_DIM = 47 (padded to 48 for TernaryLinear group_size)
+      - INPUT_DIM = 39 (padded to 48 for TernaryLinear group_size)
 
     Mechanism:
       - Separate gate: per-pass factor ∈ [0, 2] via 1 + tanh(logit)
@@ -277,21 +276,19 @@ class AlgedonicAlert(nn.Module):
     """
 
     # Input metric dimensions (must match _collect_alarm_metrics in model.py)
-    # V13 simplified: dispatch dissolved, WHNF gate replaces dispatch metrics
     N_S3_GATE_MEANS = 8       # mean S3 gate per pass
     N_S2_CONFLICTS = 7        # cosine between consecutive pass deltas (n_passes - 1)
-    N_WHNF_GATE_MEANS = 8     # mean WHNF gate per pass (replaces dispatch + compute gate)
     N_RAW_DELTA_NORMS = 8     # L2 norm of each raw delta
     N_GATED_DELTA_NORMS = 8   # L2 norm of each gated delta
     N_SUPPRESSION_RATIOS = 8  # gated/raw ratio per pass
 
-    # 8+7+8+8+8+8 = 47; pad to 48 (next multiple of 16)
-    INPUT_DIM = (N_S3_GATE_MEANS + N_S2_CONFLICTS + N_WHNF_GATE_MEANS +
+    # 8+7+8+8+8 = 39; pad to 64 (TernaryLinear group_size)
+    INPUT_DIM = (N_S3_GATE_MEANS + N_S2_CONFLICTS +
                  N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
-                 N_SUPPRESSION_RATIOS)  # = 47
+                 N_SUPPRESSION_RATIOS)  # = 39
 
-    # TernaryLinear requires in_features divisible by group_size=16 (or 64).
-    # 47 → next multiple of 48 fits in 64; use 64 for safety.
+    # TernaryLinear requires in_features divisible by group_size=64.
+    # 39 → pad to 64.
     _INPUT_DIM_PADDED = 64
 
     def __init__(self, n_passes: int = 8):

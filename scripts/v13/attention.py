@@ -110,6 +110,12 @@ class SingleStrideAttention(nn.Module):
         self.v_proj = TernaryLinear(d_model, d_model, pre_norm=False)
         self.out_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
+        # Per-feature beam biases on plate outputs (mini_holo_exp1: scale+bias > scale-only)
+        # gamma inside TernaryLinear provides per-feature scale; these add per-feature bias.
+        self.k_bias = mx.zeros((d_model,))
+        self.v_bias = mx.zeros((d_model,))
+        self.o_bias = mx.zeros((d_model,))
+
         self.dropout = nn.Dropout(dropout)
 
         if alpha is not None:
@@ -131,8 +137,8 @@ class SingleStrideAttention(nn.Module):
             q_in = mirror(q_in)
 
         Q = self.q_proj(q_in).reshape(B, L, H, Dh)
-        K = self.k_proj(x_norm).reshape(B, L, H, Dh)
-        V = self.v_proj(x_norm).reshape(B, L, H, Dh)
+        K = (self.k_proj(x_norm) + self.k_bias).reshape(B, L, H, Dh)
+        V = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
 
         query_pos = mx.arange(L)[:, None]
         offsets = mx.arange(W)[None, :] * self.stride
@@ -167,7 +173,7 @@ class SingleStrideAttention(nn.Module):
         out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
         out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
 
-        return x + self.out_proj(out)
+        return x + self.out_proj(out) + self.o_bias
 
     def combinator_forward(
         self,
@@ -208,9 +214,9 @@ class SingleStrideAttention(nn.Module):
 
         Q = Q_blended.reshape(B, L, H, Dh)
 
-        # Shared K, V (the plate — computed once)
-        K = self.k_proj(x_norm).reshape(B, L, H, Dh)
-        V = self.v_proj(x_norm).reshape(B, L, H, Dh)
+        # Shared K, V (the plate — computed once, beam bias applied)
+        K = (self.k_proj(x_norm) + self.k_bias).reshape(B, L, H, Dh)
+        V = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
 
         query_pos = mx.arange(L)[:, None]
         offsets = mx.arange(W)[None, :] * self.stride
@@ -246,7 +252,7 @@ class SingleStrideAttention(nn.Module):
         out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
         out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
 
-        return x + self.out_proj(out)
+        return x + self.out_proj(out) + self.o_bias
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -310,6 +316,11 @@ class GatedLinearAttention(nn.Module):
         self.k_proj = TernaryLinear(d_model, n_heads * d_state, pre_norm=False)
         self.v_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
+        # Per-feature beam biases on plate outputs (scale+bias > scale-only)
+        self.k_bias = mx.zeros((n_heads * d_state,))
+        self.v_bias = mx.zeros((d_model,))
+        self.o_bias = mx.zeros((d_model,))
+
         # Write gate: controls memory update rate.
         # Pad to multiple of 16 for TernaryLinear; take [..., :n_heads] + bias.
         # Separate bias: -0.5 → sigmoid(-0.5) ≈ 0.38 (conservative initial memory).
@@ -349,8 +360,8 @@ class GatedLinearAttention(nn.Module):
             q_in = mirror(q_in)
 
         q_raw = self.q_proj(q_in).reshape(B, L, H, Ds)
-        k_raw = self.k_proj(x_norm).reshape(B, L, H, Ds)
-        v = self.v_proj(x_norm).reshape(B, L, H, Dh)
+        k_raw = (self.k_proj(x_norm) + self.k_bias).reshape(B, L, H, Ds)
+        v = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
         gate = mx.sigmoid(
             self.gate_proj(x_norm)[..., :H] + self.gate_bias
         )  # (B, L, H)
@@ -418,7 +429,7 @@ class GatedLinearAttention(nn.Module):
         out_norms = mx.sqrt(mx.sum(output * output, axis=-1) + 1e-8)  # (B, L)
         self._retrieval_norms = mx.stop_gradient(out_norms)
 
-        return x + self.dropout(self.out_proj(output))
+        return x + self.dropout(self.out_proj(output)) + self.o_bias
 
 
 # ══════════════════════════════════════════════════════════════════════
