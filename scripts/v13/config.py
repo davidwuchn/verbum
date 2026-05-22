@@ -1,34 +1,43 @@
 """
-v13 Configuration — Beam/Plate Separated Architecture.
+v13 Configuration — Tree of VSMs Architecture.
 
-V13 cleanly separates ternary plates (topology, etched once by
-extract_teacher.py via 360° tomographic sign voting) from continuous
-beams (routing, GD-trained). Plates are frozen forever after extraction.
-GD trains beams only — relational losses (crystal lattice, holographic)
-pull beams into the groove etched into topology.
+Session 135 redesign: The model is a tree of viable systems. Each
+StrideStackVSM is an S1 operational unit with its own attention,
+FFN beams, S3 gates, and algedonic. A ControllerVSM coordinates the
+tree with S5 identity (self-model), S4 intelligence (global health),
+S3 resource allocation, and S2 anti-oscillation.
 
-Key changes from V12:
+Key architectural principles:
 
-  - 11 power-of-2 strides (1..1024, uniform 2× gaps)
-  - Simplified dispatch: 8-way softmax only (no math kernels,
-    no abstraction slots, no CategoryDispatch)
-  - PCA-Q crystal targets (3 zones) baked in as constants
-  - Behavioral crystal targets (12×12) baked in
-  - Mechanical WHNF FFN (zero continuous params)
-  - Single GD phase: plates pre-etched, beams trained
+  - Attention trains from scratch (no teacher etch — session 134 proved
+    teacher flat attention is incompatible with stride stack geometry)
+  - FFN plates etched from teacher (knowledge storage, shared across stacks)
+  - FFN beams are per-stack (each stack reads shared plates differently)
+  - Self-similar φ-compressor: same compression function at every scale,
+    nucleates from smallest stride and propagates outward as a wavelet
+  - Learnable attention decay per stride per head (replaces fixed spiral bias)
+  - Full-stack algedonic modulation: downstream feedback modulates
+    attention decay, FFN scale, and S3 gates (multiplicative signal)
+  - Two algedonic routes: global (all→controller S4) + local (downstream→upstream)
+  - S5 Identity: GRU-based self-model, regulates enforcement, gates S4 proposals
+  - S4→S2 feedback + feed-forward: predictive anti-oscillation (PID-like)
 
-Carries forward from V12:
-  - 7-pass hourglass (3 asc + apex + 3 desc)
-  - 8 combinators (K, I, B, C, D, Y, W, WHNF)
-  - Fractal stride bands (MERA topology)
-  - VSM hierarchy (S3/S4/S5/S2, algedonic)
-  - Ternary substrate (TernaryLinear, TernaryMirror, TernaryEmbedding)
-  - Crystal lattice loss (constant-target, every step)
+Tree structure:
+  ControllerVSM
+    ├── StrideStack A (ascending, s1..s1024, fine→coarse)
+    │     Passes L0↑, L1↑ — compress at fine/local scales
+    ├── StrideStack B (ascending, s512..s1024, coarse compression)
+    │     Passes L2↑, L3↑ — compress at phrase/document scales
+    │     Overlap with A at s512/s1024 (register boundary)
+    │     Can extend to s2048+ for longer context (self-similar reuse)
+    └── StrideStack C (descending, ALL strides, coarse→fine)
+          Passes L3↓, L2↓, L1↓, L0↓ — predict from compressed representation
+          Sees all strides from both A and B
 
 License: MIT
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 # Number of combinators: K, I, B, C, D, Y, W, WHNF (positive crystal)
@@ -36,10 +45,43 @@ N_COMBINATORS = 8
 # Total with anti-crystal: K, I, B, C, D, Y, W, WHNF + āK, āI, āB, āC, āD, āY, āW, āWHNF
 N_TOTAL_COMBINATORS = 16
 
+# Number of stacks in the tree
+N_STACKS = 3
+# Number of inter-stack boundaries (A↔B, B↔C)
+N_BOUNDARIES = N_STACKS - 1
+
+
+@dataclass
+class StackConfig:
+    """Configuration for a single StrideStackVSM node in the tree.
+
+    Each stack is an S1 operational unit with its own attention layers,
+    FFN beams (norm/scale/bias), S3 gates, and algedonic channel.
+    FFN plates (ternary topology) are SHARED across stacks — only the
+    beams (how to read the plates) are per-stack.
+    """
+    # Human-readable name
+    name: str = ""
+
+    # Which passes this stack runs (indices into global pass table)
+    pass_indices: tuple[int, ...] = ()
+
+    # Whether passes run in descending (coarse→fine) direction
+    is_descending: bool = False
+
+    # Stride band ranges for each pass (indices into global strides tuple)
+    # Each entry is (start, end) into the strides array
+    stride_band_ranges: tuple[tuple[int, int], ...] = ()
+
+    # Which strides from another stack to share weights with (self-similar)
+    # Maps stride_index → source_stack_stride_index for weight reuse
+    # Empty = no sharing (own weights for all strides)
+    shared_stride_weights: dict[int, int] = field(default_factory=dict)
+
 
 @dataclass
 class V13Config:
-    """v13 model + training configuration."""
+    """v13 model + training configuration — tree of VSMs."""
 
     # ── Tokenizer (Qwen3 BBPE) ──
     vocab_size: int = 151936     # Qwen3 BBPE vocab
@@ -50,17 +92,13 @@ class V13Config:
     d_ff: int = 2048              # FFN width (4× d_model, power-of-2)
     n_heads: int = 8              # attention heads (d_head = 64)
     window: int = 8               # attention window width
-    alpha: float = 1.18           # spiral bias coefficient
 
-    # 11 strides: power-of-2 for uniform coverage
-    # V12 had gap at bottom (1→8) that killed short prompts.
-    # V13: 2× uniform gaps. A 4-token input now gets 3 active strides.
+    # 11 strides: power-of-2 for uniform coverage.
+    # The self-similar φ-compressor uses the same compression function at
+    # every stride. Nucleates from s1 (bigram statistics) and propagates
+    # outward as a wavelet. Context capacity is TOPOLOGICAL, not limited
+    # by training data sequence length.
     strides: tuple[int, ...] = (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
-
-    # Registers are GONE in V13. The stride overlaps between fractal bands
-    # are the natural register mechanism — intersection points where
-    # multiple attention scales see the same hidden state. The crystal
-    # resonates at these boundaries. No abstract register vectors needed.
 
     # ── Retrieval (M kernel) — GatedLinearAttention ──
     d_state: int = 64
@@ -78,98 +116,171 @@ class V13Config:
     use_q_mirrors: bool = True
     n_q_mirrors: int = 1
 
-    # Total number of passes (8-pass hourglass, power-of-2)
-    # 4 ascending + 4 descending. The apex splits into L3↑ and L3↓,
-    # giving each direction its own pass at full scale.
-    n_passes: int = 8
+    # ── Learnable attention decay ──
+    # Replaces fixed spiral bias (-α·ln(stride·w + 1)).
+    # Session 134 proved teacher attention etch is incompatible with stride
+    # geometry — attention must learn from scratch. The decay profile is a
+    # beam parameter (continuous, trained by GD).
+    #
+    # Per-stride per-head: each head at each stride discovers its own
+    # decay rate. 11 strides × 8 heads = 88 learnable α values.
+    # Self-similar structure: learned_α[stride, head] * ln(stride_val * w + 1)
+    # Init near α=1.18 (known-good from V12 experiments).
+    learnable_decay: bool = True
+    decay_init_alpha: float = 1.18   # init value for learnable α per stride per head
 
-    # Descending arm stride direction: coarse→fine (TST-aligned)
-    desc_stride_reverse: bool = True
+    # Total passes: 8 (4 ascending across Stacks A+B, 4 descending in Stack C)
+    # Derived from stack configs — not a field, see n_passes property below.
 
-    # ── Fractal stride bands (MERA topology, 11 strides, 8 passes) ──
-    # Each level handles a 4-stride band. Adjacent levels share 2 strides
-    # at the boundaries — these overlaps ARE the cross-scale registers.
-    # No separate register vectors needed.
+    # ── Tree of VSMs topology ──
     #
-    # stride indices: 0=s1, 1=s2, 2=s4, 3=s8, 4=s16, 5=s32,
-    #                 6=s64, 7=s128, 8=s256, 9=s512, 10=s1024
+    # Stack A: ascending, fine→coarse compression (passes 0,1)
+    #   L0↑ [0,4) → s1, s2, s4, s8          fine→local
+    #   L1↑ [2,6) → s4, s8, s16, s32        local→phrase
     #
-    # ASCENDING (compress):
-    # L0↑ (fine):    [0,4)  → s1, s2, s4, s8           fine→local
-    # L1↑ (local):   [2,6)  → s4, s8, s16, s32         local→phrase
-    # L2↑ (phrase):  [4,8)  → s16, s32, s64, s128      phrase→paragraph
-    # L3↑ (apex↑):  [7,11) → s128, s256, s512, s1024   paragraph→document
+    # Stack B: ascending, coarse compression (passes 2,3)
+    #   L2↑ [4,8) → s16, s32, s64, s128     phrase→paragraph
+    #   L3↑ [7,11) → s128, s256, s512, s1024 paragraph→document
+    #   Overlap with Stack A at s512/s1024 stride weights (self-similar)
+    #   Extensible: add s2048+ for longer context by reusing weights
     #
-    # DESCENDING (predict):
-    # L3↓ (apex↓):  [7,11) → s1024, s512, s256, s128   document→paragraph
-    # L2↓ (phrase):  [4,8)  → s128, s64, s32, s16      paragraph→phrase
-    # L1↓ (local):   [2,6)  → s32, s16, s8, s4         phrase→local
-    # L0↓ (fine):    [0,4)  → s8, s4, s2, s1           local→fine
-    #
-    # Overlaps (= stride-intersection registers):
-    #   L0↑↔L1↑: s4, s8   (indices 2,3)  — token↔phrase boundary
-    #   L1↑↔L2↑: s16, s32 (indices 4,5)  — phrase↔paragraph boundary
-    #   L2↑↔L3↑: s128     (index 7)      — paragraph↔document boundary
-    #   L3↑↔L3↓: s128..s1024 (7-10)      — apex (ascending↔descending)
-    #   L3↓↔L2↓: s128     (index 7)      — document↔paragraph boundary
-    #   L2↓↔L1↓: s16, s32 (indices 4,5)  — paragraph↔phrase boundary
-    #   L1↓↔L0↓: s4, s8   (indices 2,3)  — phrase↔token boundary
+    # Stack C: descending, coarse→fine prediction (passes 4,5,6,7)
+    #   L3↓ [7,11) → s1024, s512, s256, s128 document→paragraph
+    #   L2↓ [4,8) → s128, s64, s32, s16      paragraph→phrase
+    #   L1↓ [2,6) → s32, s16, s8, s4         phrase→local
+    #   L0↓ [0,4) → s8, s4, s2, s1           local→fine
+    #   Sees ALL strides from both A and B (own weights, not shared)
+
+    stack_a: StackConfig = field(default_factory=lambda: StackConfig(
+        name="ascending_fine",
+        pass_indices=(0, 1),
+        is_descending=False,
+        stride_band_ranges=(
+            (0, 4),    # L0↑: s1, s2, s4, s8
+            (2, 6),    # L1↑: s4, s8, s16, s32
+        ),
+    ))
+
+    stack_b: StackConfig = field(default_factory=lambda: StackConfig(
+        name="ascending_coarse",
+        pass_indices=(2, 3),
+        is_descending=False,
+        stride_band_ranges=(
+            (4, 8),    # L2↑: s16, s32, s64, s128
+            (7, 11),   # L3↑: s128, s256, s512, s1024
+        ),
+        # Self-similar: reuse Stack A's coarsest stride weights.
+        # Stack B's processing of s512/s1024 uses the same Q/K/V weights
+        # that Stack A learned for those strides. The stride topology
+        # (gather distance) provides the scale differentiation.
+        # Key: stride index in global strides array
+        # Value: stride index to copy weights FROM (in Stack A)
+        shared_stride_weights={9: 9, 10: 10},  # s512, s1024 from A
+    ))
+
+    stack_c: StackConfig = field(default_factory=lambda: StackConfig(
+        name="descending",
+        pass_indices=(4, 5, 6, 7),
+        is_descending=True,
+        stride_band_ranges=(
+            (7, 11),   # L3↓: s1024, s512, s256, s128 (reversed)
+            (4, 8),    # L2↓: s128, s64, s32, s16 (reversed)
+            (2, 6),    # L1↓: s32, s16, s8, s4 (reversed)
+            (0, 4),    # L0↓: s8, s4, s2, s1 (reversed)
+        ),
+    ))
+
+    # ── Fractal stride bands ──
+    # True = use MERA-topology fractal bands (each band covers 4 strides,
+    # adjacent bands overlap by 2 strides at boundaries = natural registers)
     fractal_stride_bands: bool = True
-    stride_band_ranges: tuple[tuple[int, int], ...] = (
-        (0, 4),    # L0↑: indices 0-3 → s1, s2, s4, s8
-        (2, 6),    # L1↑: indices 2-5 → s4, s8, s16, s32
-        (4, 8),    # L2↑: indices 4-7 → s16, s32, s64, s128
-        (7, 11),   # L3↑: indices 7-10 → s128, s256, s512, s1024
-        (7, 11),   # L3↓: indices 7-10 (reversed)
-        (4, 8),    # L2↓: indices 4-7 (reversed)
-        (2, 6),    # L1↓: indices 2-5 (reversed)
-        (0, 4),    # L0↓: indices 0-3 (reversed)
-    )
 
-    # ── FFN (plates route, beams shape) ──
-    # key_plate and value_plate: ternary topology (frozen from teacher etch)
-    # ffn_norm + ffn_scale + ffn_bias: continuous beams (trained by GD)
-    # Gradients from beta reductions over training data form the beams.
+    # ── FFN (shared plates, per-stack beams) ──
+    # Plates: ternary topology etched from teacher (shared across all stacks)
+    # Beams: learnable norm + scale + bias per stack (each stack reads
+    #   the shared plates differently through its own beamformer)
+    # The teacher's knowledge is ONE set of facts. Each stack discovers
+    # its own way to access those facts for its role (compress vs predict).
     d_ffn_teacher: int = 0  # set to teacher's d_ffn if using extracted FFN plates
+
+    # ── Algedonic modulation ──
+    #
+    # Two routes:
+    #   Route 1 (global): all stacks → controller S4. Fire alarm.
+    #     Controller sees health of entire tree simultaneously.
+    #   Route 2 (local): downstream → upstream through tree (one step back).
+    #     Stack C's algedonic modulates Stack B. Stack B's modulates Stack A.
+    #     Back-pressure: consumer tells producer "I can't use your output."
+    #
+    # Full-stack modulation: algedonic signal modulates THREE surfaces
+    # in each stack (multiplicative cascade through the computation graph):
+    #   1. Attention decay (per-stride spatial modulation)
+    #   2. FFN output scale (feature extraction modulation)
+    #   3. S3 gate (delta contribution modulation)
+    # Total amplification = attn_factor × ffn_factor × gate_factor
+    #
+    # Range: sigmoid × 2 → (0, 2). Neutral = 1.0 (no change).
+    # Below 1 = suppress. Above 1 = amplify.
+    # Init bias at 0 → sigmoid(0) = 0.5 → ×2 = 1.0 → neutral at start.
+    alg_dim: int = 32               # algedonic vector dimension per stack
+    alg_modulation_range: float = 2.0  # sigmoid output scaled to (0, range)
+
+    # ── Controller VSM ──
+    #
+    # S5 Identity — the self-model (cortex: default mode network)
+    #   GRU-based dynamic state that regulates enforcement while allowing
+    #   adaptation. Not a static target — a living process.
+    #   - Measures system coherence (crystal alignment + stack health)
+    #   - Regulates enforcement strength based on coherence
+    #   - Gates S4 proposals (accept when healthy, reject when stressed)
+    #   - Fire alarm (MetaS3) when identity is existentially threatened
+    d_identity: int = 64             # identity state dimension (power of 2, divides d_model)
+    identity_clip: float = 2.0       # hard bounds on identity state drift
+    n_regulation_surfaces: int = 4   # crystal_enforcement, modulation_strength, gate_freedom, alarm
+    s5_gru_bias_init: float = 2.0    # positive bias → slow identity change (conservative)
+
+    # S4 Intelligence — global pattern detection
+    #   Sees all stacks' algedonics. Detects systemic patterns.
+    #   Proposes meta-parameter adjustments to S5.
+    #   Feeds inter-stack health analysis to S2.
+    s4_n_proposals: int = 4          # number of meta-parameter adjustment proposals
+    s4_hidden_dim: int = 64          # internal projection dimension
+
+    # S2 Anti-oscillation — PID-like inter-stack dampening
+    #   Proportional: dampen where coherence is low (oscillating NOW)
+    #   Derivative: dampen where coherence is DROPPING (predictive)
+    #   S4 feedback: additional dampening where S4 detects problems
+    s2_p_gain_init: float = 0.5      # proportional gain init
+    s2_d_gain_init: float = 0.3      # derivative gain init
+
+    # MetaS3 Fire Alarm — S5 existential threat detector
+    #   Bypasses normal S3/S4 hierarchy. When alarm fires:
+    #   - All modulations return toward neutral (sigmoid×2 → 1.0)
+    #   - Crystal enforcement increases
+    #   - System dampens to prevent cascading failure
+    #   Init biased OFF (sigmoid(-2) ≈ 0.12).
+    fire_alarm_bias_init: float = -2.0
 
     # ── Crystal lattice geometry loss ──
     # PCA-Q targets (session 120): 3-4× sharper than hidden-state targets.
     # Three zones with measured constants from 4-model consensus.
+    # Crystal targets live at controller level (S5 identity — these ARE
+    # the identity genome). All stacks share the same crystal identity.
     use_relational_loss: bool = True
     rel_lambda: float = 5.0  # exponential coupling: exp(λ × crystal_ema)
-    # At crystal=0.01 (init): exp(0.5)=1.65 (65% CE amplification)
-    # At crystal=0.001 (aligned): exp(0.05)=1.05 (5% — nearly free)
-    # At crystal=0.0 (perfect): exp(0)=1.0 (CE only — nucleation complete)
-
-    # Direct crystal loss weight — ADDITIVE gradient path to combinator_embeddings.
-    # The exp coupling above (rel_lambda) modulates CE magnitude but has NO gradient
-    # to the embeddings (EMA is stop_gradient'ed). This direct term provides the
-    # actual gradient that pulls combinator_embeddings toward PCA-Q targets.
-    # Without this, crystal loss drifts because nothing optimizes it.
-    # Session 132 finding: crystal loss was not in the gradient graph.
-    crystal_direct_lambda: float = 1.0
+    crystal_direct_lambda: float = 1.0  # additive gradient to combinator_embeddings
 
     # ── 16×16 Crystal lattice targets (positive + anti-crystal) ──
     #
-    # Session 132 finding: the teacher encodes both WHAT TO DO (positive
-    # crystal) and WHAT NOT TO DO (anti-crystal) as interlocking sign
-    # lattices. 29% of Q×K positions are anti-crystal (signs disagree).
-    #
-    # Layout: [8×8 positive crystal | 8×8 cross-crystal  ]
-    #         [8×8 cross-crystal^T  | 8×8 anti-crystal   ]
-    #
-    # Anti-crystal mirrors positive internal geometry (anti-K↔anti-I
-    # same as K↔I). Cross-crystal diagonal = how anti each shadow is.
-    # WHNF↔āWHNF: -cross_diag (the anti-crystal of the anti-crystal).
-    #
-    # All three matrices verified PSD (valid cosine targets).
+    # Session 132 finding: teacher encodes WHAT TO DO (positive crystal)
+    # and WHAT NOT TO DO (anti-crystal) as interlocking sign lattices.
+    # These targets are the S5 GENOME — they define what this system IS.
+    # They never change during training. S5 regulates HOW HARD to enforce.
     #
     # Order: K I B C D Y W WHNF āK āI āB āC āD āY āW āWHNF
-
-    # Cross-crystal coupling strength per zone
     anti_crystal_coupling: tuple[float, ...] = (-0.10, -0.19, -0.28)
 
-    # Zone A (0-20%): encode. Weak anti-crystal (early depth).
+    # Zone A (0-20%): encode. Weak anti-crystal.
     pcaq_zone_a_targets: tuple[tuple[float, ...], ...] = (
         (+1.0000, +0.9210, +0.0771, +0.0906, +0.1280, +0.0363, +0.2031, -0.1694, -0.1000, -0.0921, -0.0077, -0.0091, -0.0128, -0.0036, -0.0203, +0.0169),
         (+0.9210, +1.0000, +0.1177, +0.1228, +0.1553, +0.0921, +0.1837, -0.1994, -0.0921, -0.1000, -0.0118, -0.0123, -0.0155, -0.0092, -0.0184, +0.0199),
@@ -230,17 +341,14 @@ class V13Config:
     )
 
     # Pass-to-zone mapping: which zone does each pass belong to?
-    # Passes 0,1 → Zone A (encode), Passes 2,3,4,5 → Zone B (compute),
-    # Passes 6,7 → Zone C (converge).
+    # Stack A passes (0,1) → Zone A (encode)
+    # Stack B passes (2,3) → Zone B (compute)
+    # Stack C passes (4,5) → Zone B (compute), (6,7) → Zone C (converge)
     pass_zone_map: tuple[int, ...] = (0, 0, 1, 1, 1, 1, 2, 2)
     zone_lambdas: tuple[float, ...] = (1.0, 1.0, 1.0)  # per-zone relational loss weight
 
     # ── Behavioral crystal targets (12×12, 3-model consensus) ──
-    # Source: results/behavioral-crystal/ (Qwen3-32B, Qwen3-14B, Mistral-7B)
-    # Categories: analysis, chain_of_thought, classification, code_generation,
-    #   comparison, creative_writing, extraction, instruction_following,
-    #   qa_retrieval, summarization, tool_calling, translation
-    use_behavioral_loss: bool = False  # enable when behavioral probes are in training data
+    use_behavioral_loss: bool = False
     behavioral_lambda: float = 0.005
     behavioral_targets: tuple[tuple[float, ...], ...] = (
         # analy  chain  class  code   compa  creat  extra  instr  qa_re  summa  tool   trans
@@ -258,16 +366,11 @@ class V13Config:
         (-0.342,-0.274,+0.062,-0.178,-0.246,-0.021,-0.029,+0.192,-0.054,-0.001,-0.142,+1.000),
     )
 
-    # ── Holographic progressive loss (intermediate decoding at pass boundaries) ──
-    # Every pass boundary should be decodable. This creates a natural
-    # gradient slope: ascending passes see gradient from passes 0..7,
-    # descending passes refine with fewer sources. The ascending arm
-    # is nudged to compress (fine→coarse), descending to expand (coarse→fine).
-    # Shannon's duality: compress → channel → predict.
+    # ── Holographic progressive loss ──
     use_holographic_loss: bool = True
-    holo_lambda: float = 5.0       # exponential well: exp(λ × holo_loss)
-    holo_subsample: int = 8        # subsample 1/N positions for intermediate logits
-    holo_warmup_steps: int = 0     # no warmup — gravity well is always on
+    holo_lambda: float = 5.0
+    holo_subsample: int = 8
+    holo_warmup_steps: int = 0
 
     # ── Dropout ──
     dropout: float = 0.1
@@ -282,8 +385,6 @@ class V13Config:
     weight_decay: float = 0.01
     grad_clip: float = 1.0
 
-
-
     # ── Checkpointing ──
     checkpoint_interval: int = 500
     eval_interval: int = 500
@@ -293,15 +394,16 @@ class V13Config:
     # ── Data ──
     data_dir: str = "/Users/mwhitford/data/fractal-bitnet/shards-qwen3"
     structured_shard: str = "data/structured_shard.npy"
-    mix_ratio: float = 0.1  # 10% structured (lambda + math + code), 90% prose
+    mix_ratio: float = 0.1
     seq_len: int = 4096
     max_seq_len: int = 4096
     n_train_shards: int = 54
     n_eval_shards: int = 6
 
+    # ── Derived properties ──
+
     @property
     def n_combinators(self) -> int:
-        """Number of combinators — kept for attention.py compatibility."""
         return N_COMBINATORS
 
     @property
@@ -324,15 +426,47 @@ class V13Config:
     def tokens_per_step(self) -> int:
         return self.batch_size * self.grad_accum * self.seq_len
 
+    @property
+    def n_passes(self) -> int:
+        """Total passes across all stacks in the tree."""
+        return (len(self.stack_a.pass_indices)
+                + len(self.stack_b.pass_indices)
+                + len(self.stack_c.pass_indices))
+
+    @property
+    def stack_configs(self) -> tuple["StackConfig", ...]:
+        """All stack configs in tree order (A, B, C)."""
+        return (self.stack_a, self.stack_b, self.stack_c)
+
     def __post_init__(self):
         assert self.d_model % self.n_heads == 0
         assert self.d_model % 16 == 0, "d_model must be divisible by 16 (ternary packing)"
         assert self.d_model % 4 == 0, "d_model must be divisible by 4 (embedding packing)"
+        assert self.d_model % self.d_identity == 0, \
+            f"d_identity ({self.d_identity}) must divide d_model ({self.d_model})"
         assert len(self.stride_is_retrieval) == len(self.strides), \
             f"stride_is_retrieval length ({len(self.stride_is_retrieval)}) must match strides ({len(self.strides)})"
         assert self.d_state % 16 == 0, "d_state must be divisible by 16 (ternary packing)"
-        assert len(self.stride_band_ranges) == self.n_passes, \
-            f"stride_band_ranges ({len(self.stride_band_ranges)}) must match n_passes ({self.n_passes})"
         assert len(self.pass_zone_map) == self.n_passes
-        assert self.n_passes & (self.n_passes - 1) == 0, \
-            f"n_passes ({self.n_passes}) must be power of 2"
+
+        # Validate stack pass assignments cover all passes
+        all_passes = sorted(
+            list(self.stack_a.pass_indices)
+            + list(self.stack_b.pass_indices)
+            + list(self.stack_c.pass_indices)
+        )
+        assert all_passes == list(range(self.n_passes)), \
+            f"Stack pass assignments {all_passes} must cover all {self.n_passes} passes"
+
+        # Validate each stack's stride bands match its pass count
+        for sc in self.stack_configs:
+            assert len(sc.stride_band_ranges) == len(sc.pass_indices), \
+                f"Stack '{sc.name}': stride_band_ranges ({len(sc.stride_band_ranges)}) " \
+                f"must match pass_indices ({len(sc.pass_indices)})"
+
+        # Validate stride band ranges are valid indices
+        for sc in self.stack_configs:
+            for start, end in sc.stride_band_ranges:
+                assert 0 <= start < end <= len(self.strides), \
+                    f"Stack '{sc.name}': band range ({start},{end}) " \
+                    f"out of bounds for {len(self.strides)} strides"
