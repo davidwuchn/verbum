@@ -1186,9 +1186,10 @@ def distill_teacher(
     else:
         log(f"\n  Fresh student: d={d_student}, strides={n_strides}")
 
-    # Do NOT freeze during distillation — gamma gradients are needed for sign
-    # voting in the holographic etch. train.py freezes after distillation.
-    # Just verify ternary integrity.
+    # Freeze ternary topology (uint32 packed weights) but NOT gamma.
+    # freeze_ternary_weights freezes only "weight" key for TernaryLinear,
+    # leaving gamma trainable — gamma grads needed for holographic etch sign voting.
+    freeze_ternary_weights(model)
     restore_ternary(model)
 
     log(f"  Student ternary positions: {count_ternary_weights(model):,}")

@@ -134,10 +134,12 @@ class V13Model(nn.Module):
         self.stack_a = StrideStackVSM(
             cfg, cfg.stack_a, self.ffn_key_plate, self.ffn_value_plate)
 
-        # Stack B shares stride stack with A (self-similar compression)
+        # Stack B gets its own stride stack (not shared at runtime).
+        # Self-similar weight INITIALIZATION (copy A's coarse stride weights
+        # to B) is done in extract_teacher.py, not via Python object sharing.
+        # MLX autograd doesn't handle aliased parameters correctly.
         self.stack_b = StrideStackVSM(
-            cfg, cfg.stack_b, self.ffn_key_plate, self.ffn_value_plate,
-            shared_stride_stack=self.stack_a.stride_stack)
+            cfg, cfg.stack_b, self.ffn_key_plate, self.ffn_value_plate)
 
         self.stack_c = StrideStackVSM(
             cfg, cfg.stack_c, self.ffn_key_plate, self.ffn_value_plate)
