@@ -1005,3 +1005,65 @@ if __name__ == "__main__":
     print("\n" + "=" * 60)
     print("All tests passed ✓")
     print("=" * 60)
+
+    # ── CLI: delta plate inspection ──────────────────────────
+    import sys as _sys
+    if len(_sys.argv) > 1 and _sys.argv[1] == "inspect":
+        # Usage: python -m scripts.v13.td inspect <delta_plates.npz> [<delta_plates_2.npz>]
+        import numpy as np
+
+        paths = _sys.argv[2:]
+        if not paths:
+            print("Usage: python -m scripts.v13.td inspect <delta_plates.npz> [<other.npz>]")
+            _sys.exit(1)
+
+        snapshots = []
+        for p in paths:
+            data = dict(np.load(p))
+            snapshots.append((p, data))
+            print(f"\n{'='*60}")
+            print(f"Delta plates: {p}")
+            print(f"{'='*60}")
+
+            for key in sorted(data.keys()):
+                if key.endswith("_stats"):
+                    s = data[key]
+                    total = s[3]
+                    print(f"  {key.replace('_stats','')}: "
+                          f"keep={s[0]/total:.3f} flip={s[1]/total:.3f} "
+                          f"block={s[2]/total:.3f} "
+                          f"changed={1 - s[0]/total:.3f}")
+                elif key.endswith("_delta"):
+                    d = data[key]
+                    print(f"  {key}: shape={d.shape} "
+                          f"+1={np.sum(d==1)} 0={np.sum(d==0)} -1={np.sum(d==-1)}")
+
+        # Compare two snapshots
+        if len(snapshots) == 2:
+            print(f"\n{'='*60}")
+            print(f"Comparison: {paths[0]} vs {paths[1]}")
+            print(f"{'='*60}")
+            d1, d2 = snapshots[0][1], snapshots[1][1]
+            for key in sorted(d1.keys()):
+                if key.endswith("_delta") and key in d2:
+                    a, b = d1[key], d2[key]
+                    if a.shape == b.shape:
+                        agree = np.sum(a == b)
+                        total = a.size
+                        disagree = total - agree
+                        # Where did each run flip that the other didn't?
+                        a_flipped = a != 1
+                        b_flipped = b != 1
+                        both_flipped = a_flipped & b_flipped
+                        only_a = a_flipped & ~b_flipped
+                        only_b = b_flipped & ~a_flipped
+                        print(f"  {key}:")
+                        print(f"    agreement: {agree}/{total} ({agree/total:.3f})")
+                        print(f"    both changed:  {np.sum(both_flipped)}")
+                        print(f"    only run 1:    {np.sum(only_a)}")
+                        print(f"    only run 2:    {np.sum(only_b)}")
+                        # At shared flip positions, do they flip the same way?
+                        if np.sum(both_flipped) > 0:
+                            same_dir = np.sum(a[both_flipped] == b[both_flipped])
+                            n_both = np.sum(both_flipped)
+                            print(f"    same direction: {same_dir}/{n_both} ({same_dir/n_both:.3f})")

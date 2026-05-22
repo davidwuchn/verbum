@@ -748,6 +748,26 @@ def _save_checkpoint(model, adam, td, step, cfg, checkpoint_dir,
         flat_opt = dict(tree_flatten(adam.state))
         mx.savez(str(step_dir / "optimizer.npz"), **flat_opt)
 
+    # Save delta plate snapshots separately for comparison across runs.
+    # Each delta plate is saved as its own .npz with both the delta weights
+    # and diagnostic stats. The base plate is NOT saved here (it's frozen
+    # and identical across runs — save disk space).
+    delta_snapshots = {}
+    for path, mod in model.named_modules():
+        if isinstance(mod, DeltaTernaryLinear):
+            delta_key = path.replace(".", "_")
+            delta_unpacked = unpack_ternary_mlx(mod.delta_weight)
+            mx.eval(delta_unpacked)
+            delta_snapshots[f"{delta_key}_delta"] = delta_unpacked
+            delta_snapshots[f"{delta_key}_stats"] = mx.array([
+                float((delta_unpacked == 1).sum().item()),   # n_keep
+                float((delta_unpacked == -1).sum().item()),  # n_flip
+                float((delta_unpacked == 0).sum().item()),   # n_block
+                float(delta_unpacked.size),                  # total
+            ])
+    if delta_snapshots:
+        mx.savez(str(step_dir / "delta_plates.npz"), **delta_snapshots)
+
     state = {
         "step": step,
         "train_losses_last50": train_losses[-50:],
@@ -755,7 +775,16 @@ def _save_checkpoint(model, adam, td, step, cfg, checkpoint_dir,
         "total_td_flips": total_td_flips,
         "td_step_count": td.step_count,
     }
-    (step_dir / "state.json").write_text(json.dumps(state, indent=2))
+
+    # Per-module delta stats in the state file for quick inspection
+    delta_stats = {}
+    for path, mod in model.named_modules():
+        if isinstance(mod, DeltaTernaryLinear):
+            delta_stats[path] = mod.delta_stats()
+    if delta_stats:
+        state["delta_stats"] = delta_stats
+
+    (step_dir / "state.json").write_text(json.dumps(_sanitize(state), indent=2))
     print(f"💾 Checkpoint: {step_dir}", file=sys.stderr, flush=True)
 
 
@@ -784,11 +813,11 @@ if __name__ == "__main__":
     parser.add_argument("--td-beta2", type=float, default=0.999,
                         help="Magnitude EMA decay")
 
-    # Reduction params
-    parser.add_argument("--reduce-interval", type=int, default=1000,
-                        help="Check for reduction every N steps (0=never)")
-    parser.add_argument("--reduce-threshold", type=float, default=0.95,
-                        help="Reduce when max changed_frac < threshold (i.e. >95%% still +1)")
+    # Reduction params (disabled by default — fold manually when ready)
+    parser.add_argument("--reduce-interval", type=int, default=0,
+                        help="Check for reduction every N steps (0=never, default: never)")
+    parser.add_argument("--reduce-threshold", type=float, default=0.05,
+                        help="Reduce when max changed_frac < threshold (e.g. 0.05 = >95%% still +1)")
 
     # What to convert
     parser.add_argument("--convert-ffn", action="store_true",
