@@ -1,8 +1,13 @@
 """
 v13 Configuration — Beam/Plate Separated Architecture.
 
-V13 cleanly separates ternary plates (topology, etch-shaped) from
-continuous beams (routing, GD-trained). Key changes from V12:
+V13 cleanly separates ternary plates (topology, etched once by
+extract_teacher.py via 360° tomographic sign voting) from continuous
+beams (routing, GD-trained). Plates are frozen forever after extraction.
+GD trains beams only — relational losses (crystal lattice, holographic)
+pull beams into the groove etched into topology.
+
+Key changes from V12:
 
   - 11 power-of-2 strides (1..1024, uniform 2× gaps)
   - Simplified dispatch: 8-way softmax only (no math kernels,
@@ -10,7 +15,7 @@ continuous beams (routing, GD-trained). Key changes from V12:
   - PCA-Q crystal targets (3 zones) baked in as constants
   - Behavioral crystal targets (12×12) baked in
   - Mechanical WHNF FFN (zero continuous params)
-  - One training script: etch phase + GD phase
+  - Single GD phase: plates pre-etched, beams trained
 
 Carries forward from V12:
   - 7-pass hourglass (3 asc + apex + 3 desc)
@@ -119,19 +124,28 @@ class V13Config:
         (0, 4),    # L0↓: indices 0-3 (reversed)
     )
 
-    # ── WHNF mechanical FFN ──
-    # FFN is purely ternary: key_plate @ input → activation → value_plate
-    # Zero continuous params. Plates are extracted from teacher via sign(W).
+    # ── FFN (plates route, beams shape) ──
+    # key_plate and value_plate: ternary topology (frozen from teacher etch)
+    # ffn_norm + ffn_scale + ffn_bias: continuous beams (trained by GD)
+    # Gradients from beta reductions over training data form the beams.
     d_ffn_teacher: int = 0  # set to teacher's d_ffn if using extracted FFN plates
 
     # ── Crystal lattice geometry loss ──
     # PCA-Q targets (session 120): 3-4× sharper than hidden-state targets.
     # Three zones with measured constants from 4-model consensus.
     use_relational_loss: bool = True
-    rel_lambda: float = 50.0  # exponential coupling: exp(λ × crystal_loss)
+    rel_lambda: float = 5.0  # exponential coupling: exp(λ × crystal_ema)
     # At crystal=0.01 (init): exp(0.5)=1.65 (65% CE amplification)
     # At crystal=0.001 (aligned): exp(0.05)=1.05 (5% — nearly free)
     # At crystal=0.0 (perfect): exp(0)=1.0 (CE only — nucleation complete)
+
+    # Direct crystal loss weight — ADDITIVE gradient path to combinator_embeddings.
+    # The exp coupling above (rel_lambda) modulates CE magnitude but has NO gradient
+    # to the embeddings (EMA is stop_gradient'ed). This direct term provides the
+    # actual gradient that pulls combinator_embeddings toward PCA-Q targets.
+    # Without this, crystal loss drifts because nothing optimizes it.
+    # Session 132 finding: crystal loss was not in the gradient graph.
+    crystal_direct_lambda: float = 1.0
 
     # Zone A (0-20%): encode. K↔I=0.92, B↔D=0.98. Two orthogonal groups.
     # Order: K I B C D Y W WHNF
@@ -174,7 +188,7 @@ class V13Config:
     # Passes 0,1 → Zone A (encode), Passes 2,3,4,5 → Zone B (compute),
     # Passes 6,7 → Zone C (converge).
     pass_zone_map: tuple[int, ...] = (0, 0, 1, 1, 1, 1, 2, 2)
-    zone_lambdas: tuple[float, ...] = (0.01, 0.01, 0.01)  # per-zone relational loss weight
+    zone_lambdas: tuple[float, ...] = (1.0, 1.0, 1.0)  # per-zone relational loss weight
 
     # ── Behavioral crystal targets (12×12, 3-model consensus) ──
     # Source: results/behavioral-crystal/ (Qwen3-32B, Qwen3-14B, Mistral-7B)
@@ -206,9 +220,9 @@ class V13Config:
     # is nudged to compress (fine→coarse), descending to expand (coarse→fine).
     # Shannon's duality: compress → channel → predict.
     use_holographic_loss: bool = True
-    holo_lambda: float = 0.1       # weight for holographic loss (relative to CE)
+    holo_lambda: float = 5.0       # exponential well: exp(λ × holo_loss)
     holo_subsample: int = 8        # subsample 1/N positions for intermediate logits
-    holo_warmup_steps: int = 500   # linear ramp from 0 to holo_lambda
+    holo_warmup_steps: int = 0     # no warmup — gravity well is always on
 
     # ── Dropout ──
     dropout: float = 0.1
@@ -223,22 +237,7 @@ class V13Config:
     weight_decay: float = 0.01
     grad_clip: float = 1.0
 
-    # ── Etching (gradient-directed ternary topology shaping) ──
-    use_etching: bool = True
-    etch_signal_interval: int = 1
-    etch_interval: int = 2
-    etch_warmup: int = 200
-    etch_heat_alpha: float = 0.99
-    etch_heat_thresholds: tuple[float, ...] = (50.0, 75.0, 90.0)
-    etch_consensus: int = 3
-    etch_adam_decay: float = 0.1
-    etch_max_flips_per_event: int = 200
-    etch_reset_after_flip: bool = True
 
-    # Depth-selective etch thresholds (per pass)
-    pass_etch_multiplier: tuple[float, ...] = (
-        0.5, 0.7, 1.0, 1.0, 1.0, 1.0, 0.8, 0.6,
-    )
 
     # ── Checkpointing ──
     checkpoint_interval: int = 500
@@ -289,7 +288,6 @@ class V13Config:
         assert self.d_state % 16 == 0, "d_state must be divisible by 16 (ternary packing)"
         assert len(self.stride_band_ranges) == self.n_passes, \
             f"stride_band_ranges ({len(self.stride_band_ranges)}) must match n_passes ({self.n_passes})"
-        assert len(self.pass_etch_multiplier) == self.n_passes
         assert len(self.pass_zone_map) == self.n_passes
         assert self.n_passes & (self.n_passes - 1) == 0, \
             f"n_passes ({self.n_passes}) must be power of 2"

@@ -2,8 +2,10 @@
 v13 Model — Dissolved Dispatch Architecture.
 
 CombinatorDispatch and CombinatorIntegrate are dissolved. The stride
-stack's Q/K/V crystal plates ARE the kernel functions. The only separate
-routing that remains is the WHNF gate (compute vs lookup).
+stack's Q/K/V crystal plates ARE the kernel functions. Each pass is
+sequential: stride (attention beta reductions) → FFN (plates route,
+beams shape). Beta reduction outputs flow through FFN before the
+next pass.
 
 8-pass hourglass (power-of-2):
   L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
@@ -12,11 +14,10 @@ routing that remains is the WHNF gate (compute vs lookup).
 Key changes from previous version:
   - CombinatorDispatch dissolved: combinator_embeddings kept for crystal
     loss only (relational loss targets), not runtime dispatch
-  - CombinatorIntegrate dissolved: replaced by mechanical FFN + WHNF gate
+  - CombinatorIntegrate dissolved: replaced by FFN with plate routing + beam shaping
   - S3Ternary: 3 phases → 1 phase (single gate per pass)
   - mod_projs: 4 asc + 4 desc → 8 unified (one per pass)
-  - _run_level_pass: dispatch→stride→integrate → stride + WHNF blend
-  - AlgedonicAlert: dispatch metrics removed, WHNF gate means added
+  - _run_level_pass: sequential stride → FFN (plates route, beams shape)
 
 License: MIT
 """
@@ -126,14 +127,14 @@ def crystal_lattice_loss(
 
 
 class V13Model(nn.Module):
-    """Dissolved-dispatch VSM: stride plates ARE the kernel, WHNF gate routes.
+    """Dissolved-dispatch VSM: stride plates route, beams shape.
 
     8 passes: L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
 
-    CombinatorDispatch and CombinatorIntegrate are gone. The stride
-    stack's Q/K/V crystal plates carry the combinator kernel topology
-    directly. The WHNF gate is the only routing decision: compute
-    (stride output) vs lookup (mechanical FFN).
+    Each pass is sequential: stride (attention) → FFN (processing).
+    Stride stack Q/K/V crystal plates carry combinator kernel topology.
+    FFN plates route (ternary topology), FFN beams shape (scale + bias).
+    Beta reductions from stride attention flow through FFN before next pass.
 
     combinator_embeddings: kept as relational loss targets only.
     """
@@ -166,27 +167,30 @@ class V13Model(nn.Module):
         # stride plates a geometric anchor.
         self.combinator_embeddings = mx.random.normal((N_COMBINATORS, d)) * 0.02
 
-        # ── WHNF gate — per-position scalar ──────────────────
-        # "done computing? switch to lookup"
-        # sigmoid(-3) ≈ 0.047 → starts nearly always computing
-        self.whnf_proj = TernaryLinear(d, 16, pre_norm=True)
-        self.whnf_bias = mx.full((1,), -3.0)
-
-        # ── Mechanical FFN — WHNF lookup pathway ─────────────
-        # Zero continuous params in path: purely ternary key/value plates.
+        # ── FFN — plates route, beams shape ──────────────────
+        # Plates: ternary topology (frozen from teacher etch)
+        # Beams: learnable norm + scale + bias (gradients = beamformers)
+        # Sequential with stride: stride → FFN → next pass
         self.ffn_key_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
         self.ffn_value_plate = TernaryLinear(cfg.d_ff, d, pre_norm=False)
+        self.ffn_norm = nn.RMSNorm(d)
+        self.ffn_scale = mx.ones((d,))
+        self.ffn_bias = mx.zeros((d,))
 
         # ── S3: Per-pass gating (8 separate instances, 1 gate each) ──
         self.s3_passes = [S3Ternary(d) for _ in range(self.N_PASSES)]
 
-        # ── Modulation projections — one per pass (8 total) ───
-        # Previously 4 asc + 4 desc (3 phases each); now 1 per pass.
-        self.mod_projs = [
-            TernaryLinear(d, d, pre_norm=False) for _ in range(self.N_PASSES)
+        # ── Modulation projections — combinator bottleneck ────
+        # Each pass projects delta → 8-dim combinator space → back to d_model
+        # through combinator_embeddings. This connects the crystal loss to
+        # the actual computation: the crystal geometry shapes the modulation.
+        # The 8-way bottleneck IS the dispatch (re-emerged from structure).
+        n_comb_padded = ((N_COMBINATORS + 15) // 16) * 16  # pad for TernaryLinear
+        self.mod_down_projs = [
+            TernaryLinear(d, n_comb_padded, pre_norm=True) for _ in range(self.N_PASSES)
         ]
-        for proj in self.mod_projs:
-            proj.gamma = mx.zeros_like(proj.gamma)
+        # Per-pass learnable scale on the combinator weights (beam)
+        self.mod_scales = [mx.ones((N_COMBINATORS,)) for _ in range(self.N_PASSES)]
 
         # ── S2: Direction coordination ─────────────────────────
         self.s2 = S2Coordinator(d)
@@ -208,7 +212,7 @@ class V13Model(nn.Module):
         self._holo_lambda_effective = 0.0  # ramped by train loop
 
         # ── Crystal loss EMA (smooths wobble during melt) ─────
-        self._crystal_ema = mx.array(0.01)  # init at typical random value
+        self._crystal_ema = mx.array(1.0)  # init at typical random value (zone_lambdas=1.0)
 
         # ── Output ────────────────────────────────────────────
         self.output_norm = nn.RMSNorm(d)
@@ -248,17 +252,15 @@ class V13Model(nn.Module):
         all_s3_gates: list[mx.array],
         pass_deltas: list[mx.array],
         raw_deltas: list[mx.array],
-        all_pass_alarm: list[dict],
     ) -> mx.array:
         """Pack operational health metrics into a single vector for AlgedonicAlert.
 
-        Layout (total = 47, padded to 64 inside AlgedonicAlert):
+        Layout (total = 39, padded to 48 inside AlgedonicAlert):
           1. S3 gate means     (8)
           2. S2 conflicts      (7)
-          3. WHNF gate means   (8)
-          4. Raw delta norms   (8)
-          5. Gated delta norms (8)
-          6. Suppression ratios (8)
+          3. Raw delta norms   (8)
+          4. Gated delta norms (8)
+          5. Suppression ratios (8)
         """
         metrics = []
 
@@ -275,23 +277,15 @@ class V13Model(nn.Module):
             n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
             metrics.append((dot / (n_prev * n_curr)).reshape(1))
 
-        # 3. WHNF gate means per pass (8)
-        for pa in all_pass_alarm:
-            wg = pa.get('whnf_gate_mean')
-            if wg is not None:
-                metrics.append(wg.reshape(1))
-            else:
-                metrics.append(mx.array([0.05]))  # prior: nearly always computing
-
-        # 4. Raw delta RMS norms (8)
+        # 3. Raw delta RMS norms (8)
         for rd in raw_deltas:
             metrics.append(self._delta_rms(rd).reshape(1))
 
-        # 5. Gated delta RMS norms (8)
+        # 4. Gated delta RMS norms (8)
         for pd in pass_deltas:
             metrics.append(self._delta_rms(pd).reshape(1))
 
-        # 6. S3 suppression ratio per pass (8)
+        # 5. S3 suppression ratio per pass (8)
         for pd, rd in zip(pass_deltas, raw_deltas):
             gated_rms = self._delta_rms(pd)
             raw_rms = self._delta_rms(rd)
@@ -306,11 +300,12 @@ class V13Model(nn.Module):
         x: mx.array,
         pass_idx: int,
         is_descending: bool,
-    ) -> tuple[mx.array, mx.array, mx.array, mx.array, dict]:
-        """Run one level-pass: stride + WHNF blend, S3-gated.
+    ) -> tuple[mx.array, mx.array, mx.array, mx.array]:
+        """Run one level-pass: stride → FFN (sequential), S3-gated.
 
         The stride stack's Q/K/V crystal plates ARE the kernel functions.
-        The WHNF gate blends compute (stride output) vs lookup (mechanical FFN).
+        FFN plates route (ternary topology), FFN beams shape (scale + bias).
+        Beta reductions from stride attention flow through FFN before next pass.
 
         Args:
             x:             (B, L, d_model) residual stream
@@ -322,38 +317,37 @@ class V13Model(nn.Module):
             pass_delta:  net change x_after - x_before
             raw_delta:   ungated combined delta before S3 gate
             gate:        S3 gate scalar for this pass
-            pass_alarm:  dict with whnf_gate_mean
         """
         x_before = x
 
-        # Phase 1: Stride stack — crystal Q/K/V plates ARE the kernel
+        # Phase 1: Stride stack — crystal Q/K/V plates do beta reductions
         reverse = is_descending and self.cfg.desc_stride_reverse
         stride_out = self.stride_stack(x, pass_idx=pass_idx, reverse=reverse)
+        x = x + stride_out
 
-        # Phase 2: WHNF blend — compute vs lookup
-        whnf_gate = mx.sigmoid(
-            self.whnf_proj(x)[..., :1] + self.whnf_bias
-        )  # (B, T, 1)
-        ffn_out = self.ffn_value_plate(
-            mx.maximum(self.ffn_key_plate(x), 0)
-        )  # mechanical FFN
+        # Phase 2: FFN — plates route, beams shape
+        # Norm is the beamformer: learnable, shapes what the plates see
+        ffn_in = self.ffn_norm(x)
+        ffn_out = self.ffn_value_plate(mx.maximum(self.ffn_key_plate(ffn_in), 0))
+        ffn_out = ffn_out * self.ffn_scale + self.ffn_bias
+        x = x + ffn_out
 
-        # Blend: low whnf → mostly compute (stride), high whnf → mostly lookup (FFN)
-        out = (1.0 - whnf_gate) * stride_out + whnf_gate * (x + ffn_out)
-
-        delta = out - x_before
+        delta = x - x_before
 
         # S3 gate (single gate per pass)
         gate = self.s3_passes[pass_idx](delta)
-        x = x_before + gate * mx.tanh(self.mod_projs[pass_idx](delta))
 
-        # Alarm metrics
-        pass_alarm = {
-            'whnf_gate_mean': mx.stop_gradient(mx.mean(whnf_gate)),
-        }
+        # Combinator bottleneck: delta → 8-dim combinator weights → modulation
+        # This connects the crystal loss to actual computation:
+        # combinator_embeddings define WHAT each combinator does
+        # mod_down_proj learns WHICH combinator to apply
+        comb_logits = self.mod_down_projs[pass_idx](delta)[..., :N_COMBINATORS]  # (B, T, 8)
+        comb_weights = mx.softmax(comb_logits * self.mod_scales[pass_idx], axis=-1)  # (B, T, 8)
+        modulation = comb_weights @ self.combinator_embeddings  # (B, T, d_model)
+        x = x_before + gate * mx.tanh(modulation)
 
         pass_delta = x - x_before
-        return x, pass_delta, delta, gate, pass_alarm
+        return x, pass_delta, delta, gate
 
     # ── Forward ───────────────────────────────────────────────
 
@@ -371,54 +365,53 @@ class V13Model(nn.Module):
         pass_deltas = []
         raw_deltas = []
         all_s3_gates = []
-        all_pass_alarm = []
 
         # ── Pass 0: L0↑ ──────────────────────────────────────
-        x, pd0, rd0, g0, pa0 = self._run_level_pass(x, 0, False)
+        x, pd0, rd0, g0 = self._run_level_pass(x, 0, False)
         pass_deltas.append(pd0); raw_deltas.append(rd0)
-        all_s3_gates.append(g0); all_pass_alarm.append(pa0)
+        all_s3_gates.append(g0)
         x = x + self.s2.direction_signal(pd0, 0)
 
         # ── Pass 1: L1↑ ──────────────────────────────────────
-        x, pd1, rd1, g1, pa1 = self._run_level_pass(x, 1, False)
+        x, pd1, rd1, g1 = self._run_level_pass(x, 1, False)
         pass_deltas.append(pd1); raw_deltas.append(rd1)
-        all_s3_gates.append(g1); all_pass_alarm.append(pa1)
+        all_s3_gates.append(g1)
         x = x + self.s2.direction_signal(pd1, 1) * S2Coordinator.coherence_factor(pd0, pd1)
 
         # ── Pass 2: L2↑ ──────────────────────────────────────
-        x, pd2, rd2, g2, pa2 = self._run_level_pass(x, 2, False)
+        x, pd2, rd2, g2 = self._run_level_pass(x, 2, False)
         pass_deltas.append(pd2); raw_deltas.append(rd2)
-        all_s3_gates.append(g2); all_pass_alarm.append(pa2)
+        all_s3_gates.append(g2)
         x = x + self.s2.direction_signal(pd2, 2) * S2Coordinator.coherence_factor(pd1, pd2)
 
         # ── Pass 3: L3↑ (apex ascending) ─────────────────────
-        x, pd3, rd3, g3, pa3 = self._run_level_pass(x, 3, False)
+        x, pd3, rd3, g3 = self._run_level_pass(x, 3, False)
         pass_deltas.append(pd3); raw_deltas.append(rd3)
-        all_s3_gates.append(g3); all_pass_alarm.append(pa3)
+        all_s3_gates.append(g3)
         x = x + self.s2.direction_signal(pd3, 3) * S2Coordinator.coherence_factor(pd2, pd3)
 
         # ── Pass 4: L3↓ (apex descending) ─────────────────────
-        x, pd4, rd4, g4, pa4 = self._run_level_pass(x, 4, True)
+        x, pd4, rd4, g4 = self._run_level_pass(x, 4, True)
         pass_deltas.append(pd4); raw_deltas.append(rd4)
-        all_s3_gates.append(g4); all_pass_alarm.append(pa4)
+        all_s3_gates.append(g4)
         x = x + self.s2.direction_signal(pd4, 4) * S2Coordinator.coherence_factor(pd3, pd4)
 
         # ── Pass 5: L2↓ ──────────────────────────────────────
-        x, pd5, rd5, g5, pa5 = self._run_level_pass(x, 5, True)
+        x, pd5, rd5, g5 = self._run_level_pass(x, 5, True)
         pass_deltas.append(pd5); raw_deltas.append(rd5)
-        all_s3_gates.append(g5); all_pass_alarm.append(pa5)
+        all_s3_gates.append(g5)
         x = x + self.s2.direction_signal(pd5, 5) * S2Coordinator.coherence_factor(pd4, pd5)
 
         # ── Pass 6: L1↓ ──────────────────────────────────────
-        x, pd6, rd6, g6, pa6 = self._run_level_pass(x, 6, True)
+        x, pd6, rd6, g6 = self._run_level_pass(x, 6, True)
         pass_deltas.append(pd6); raw_deltas.append(rd6)
-        all_s3_gates.append(g6); all_pass_alarm.append(pa6)
+        all_s3_gates.append(g6)
         x = x + self.s2.direction_signal(pd6, 6) * S2Coordinator.coherence_factor(pd5, pd6)
 
         # ── Pass 7: L0↓ ──────────────────────────────────────
-        x, pd7, rd7, g7, pa7 = self._run_level_pass(x, 7, True)
+        x, pd7, rd7, g7 = self._run_level_pass(x, 7, True)
         pass_deltas.append(pd7); raw_deltas.append(rd7)
-        all_s3_gates.append(g7); all_pass_alarm.append(pa7)
+        all_s3_gates.append(g7)
         # No direction signal after final pass
 
         # ── S5 reweighting ─────────────────────────────────────
@@ -426,7 +419,7 @@ class V13Model(nn.Module):
 
         # ── Algedonic alert ───────────────────────────────────
         alarm_metrics = self._collect_alarm_metrics(
-            all_s3_gates, pass_deltas, raw_deltas, all_pass_alarm)
+            all_s3_gates, pass_deltas, raw_deltas)
         alarm_factors = self.algedonic(alarm_metrics)
 
         # Effective gate = S5 × alarm
@@ -473,24 +466,35 @@ class V13Model(nn.Module):
         ).mean()
         self._last_ce = mx.stop_gradient(ce_loss)
 
-        # ── Crystal lattice loss (nucleation well) ─────────────
-        # Exponential coupling creates a deep energy minimum at perfect
-        # crystal alignment. The beam falls into the well as GD progresses.
-        # At perfect alignment: factor = 1.0 (CE runs freely).
-        # At slight misalignment: factor grows exponentially (strong nudge).
-        # This IS nucleation physics — the crystal attracts the beam.
+        # ── Crystal lattice loss (nucleation well + direct gradient) ──
+        # Two roles, two paths:
+        #
+        # 1. MULTIPLICATIVE (EMA): exp(λ × ema(crystal)) scales CE.
+        #    stop_gradient on EMA — no gradient to combinator_embeddings.
+        #    Purpose: modulate CE magnitude so the beam must align before
+        #    CE can improve (nucleation physics).
+        #
+        # 2. ADDITIVE (direct): crystal_direct_lambda × crystal_loss.
+        #    LIVE gradient to combinator_embeddings.
+        #    Purpose: pull embeddings toward PCA-Q targets.
+        #    Without this, crystal loss drifts — nothing optimizes it.
+        #    Session 132 finding: gap between V13 and successful latch
+        #    experiments (sessions 115-120) was missing direct gradient.
+        #
         crystal_factor = mx.array(1.0)
+        crystal_additive = mx.array(0.0)
         if self.cfg.use_relational_loss:
             crystal_loss = self.compute_crystal_loss()
 
-            # EMA smooths the wobble during melt/re-crystallization.
-            # The nucleation well uses the trend, not the instant.
-            # Transient melts don't blow up the gradient.
+            # Path 1: EMA → multiplicative factor (no gradient to embeddings)
             crystal_ema_decay = 0.99
             self._crystal_ema = mx.stop_gradient(
                 crystal_ema_decay * self._crystal_ema
                 + (1 - crystal_ema_decay) * crystal_loss)
             crystal_factor = mx.exp(self.cfg.rel_lambda * self._crystal_ema)
+
+            # Path 2: direct additive loss (gradient flows to embeddings)
+            crystal_additive = self.cfg.crystal_direct_lambda * crystal_loss
 
             self._last_crystal_loss = mx.stop_gradient(crystal_loss)
 
@@ -553,12 +557,16 @@ class V13Model(nn.Module):
                     holo_loss = holo_loss + regression
                 prev_ce = ce_n
 
-            holo_factor = 1.0 + holo_lambda_eff * holo_loss
+            holo_factor = mx.exp(holo_lambda_eff * holo_loss)
             self._last_holo_loss = mx.stop_gradient(holo_loss)
             self._last_pass_ces = pass_ces  # per-pass CE for monitoring
 
-        # ── Multiplicative AND: all must improve together ─────
-        loss = ce_loss * crystal_factor * holo_factor
+        # ── Multiplicative AND + direct crystal gradient ────────
+        # Multiplicative: CE × exp(ema_crystal) × exp(holo) — scales CE by
+        #   alignment quality. No gradient to combinator_embeddings (EMA).
+        # Additive: crystal_direct_lambda × crystal_loss — direct gradient
+        #   pulls combinator_embeddings toward PCA-Q zone targets.
+        loss = ce_loss * crystal_factor * holo_factor + crystal_additive
 
         return loss
 

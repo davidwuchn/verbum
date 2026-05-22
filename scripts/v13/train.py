@@ -1,19 +1,18 @@
 """
-v13 — Unified Training Script (ETCH + GD phases)
+v13 — GD Training Script (pre-etched plates, beam-only optimization)
 
 Architecture: Beam/Plate Separated VSM — 8-combinator dispatch + 11-stride
-hourglass (7 passes). Ternary plates shaped by ETCH phase; continuous beam
-params trained by GD phase.
+hourglass (8 passes). Ternary plates pre-etched by extract_teacher.py via
+360° tomographic sign voting — frozen forever. GD trains continuous beam
+params only. Relational losses (crystal lattice, holographic) pull beams
+into the groove etched into topology.
 
-Phase 1 — ETCH (teacher-guided plate shaping):
-  - Accumulate gradient direction signals over batches
-  - Call direct_etch() with accumulated directions — flip confident positions
-  - Short GD on beam params (plates frozen) for lattice alignment
-  - Reset accumulators between rounds
-  - Optional: skip if loading pre-etched plates
+Pipeline:
+  1. extract_teacher.py (360° tomographic etch) → frozen plates
+  2. train.py --resume <etched-checkpoint> → GD on beams
 
-Phase 2 — GD (continuous param optimization, plates frozen):
-  - CE loss + crystal lattice loss + KL dispatch + dispatch entropy
+Training loop:
+  - CE loss + crystal lattice loss (exponential nucleation well) + holographic loss
   - Cosine LR schedule with linear warmup
   - AdamW optimizer with weight decay and gradient clipping
   - Periodic checkpointing, evaluation, and logging
@@ -51,20 +50,6 @@ from ternary import (
     zero_ternary_grads,
     restore_ternary,
     count_ternary_weights,
-    # Gradient-directed etching (consensus, EMA heat)
-    init_etch_states,
-    accumulate_etch_heat,
-    update_signal_planes,
-    etch_check,
-    save_etch_states,
-    load_etch_states,
-    surgical_adam_decay_for_etch,
-    # Direct holographic etch (fast path: clean data)
-    DirectionAccumulator,
-    init_direction_accumulators,
-    accumulate_direction,
-    direct_etch,
-    reset_accumulators,
 )
 
 
@@ -75,7 +60,7 @@ from ternary import (
 E_IRREDUCIBLE = 1.82               # Chinchilla irreducible entropy (nats)
 LOG_V = math.log(151936)           # log(vocab_size) ≈ 11.93  — "knows nothing" ceiling
 
-PASS_NAMES = ("L0↑", "L1↑", "L2↑", "L3", "L2↓", "L1↓", "L0↓")
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -170,8 +155,8 @@ def count_parameters(model: V13Model) -> dict:
 def evaluate(model: V13Model, cfg: V13Config) -> dict:
     """Evaluate CE loss on held-out eval shards.
 
-    Samples up to ~50K tokens. Returns loss, perplexity, and component
-    diagnostics cached on the model during the final forward pass.
+    Samples up to ~50K tokens. Returns loss, perplexity, component
+    diagnostics, per-zone crystal loss, and beam magnitude stats.
     """
     eval_loader = ShardedDataLoader(
         data_dir=cfg.data_dir,
@@ -214,6 +199,66 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
     crystal = compute_crystal_diagnostics(model)
     result["crystal"] = crystal
 
+    # ── Per-zone crystal loss breakdown (Gap 4: SVD noise diagnostic) ──
+    # Shows which zone (A=encode, B=compute, C=converge) the crystal is
+    # aligned to vs misaligned. Misalignment in Zone A (early) suggests
+    # SVD truncation noise in the etch.
+    try:
+        from model import crystal_lattice_loss
+        emb = model.combinator_embeddings
+        zone_losses = {}
+        for zi, (target, lam) in enumerate(
+                zip(model._zone_targets, cfg.zone_lambdas)):
+            zl = crystal_lattice_loss(emb, target)
+            mx.eval(zl)
+            zone_losses[f"zone_{chr(65+zi)}"] = float(zl.item())
+        result["crystal_zones"] = zone_losses
+    except Exception:
+        pass
+
+    # ── Beam magnitude diagnostics (Gap 4: are beams compensating?) ──
+    # If beams grow large, they may be compensating for plate errors.
+    # Healthy: beam magnitudes near 1.0. Unhealthy: >> 1.0 (overcompensating).
+    beam_stats = {}
+    try:
+        # FFN beams
+        ffn_s = model.ffn_scale
+        ffn_b = model.ffn_bias
+        mx.eval(ffn_s, ffn_b)
+        beam_stats["ffn_scale_mean"] = float(mx.mean(mx.abs(ffn_s)).item())
+        beam_stats["ffn_bias_rms"] = float(mx.sqrt(mx.mean(ffn_b * ffn_b)).item())
+
+        # Stride plate gammas (beam magnitude per projection type)
+        gamma_by_type = {"q": [], "k": [], "v": [], "o": []}
+        for si, layer in enumerate(model.stride_stack.stack.layers):
+            for proj_name in ("q_proj", "k_proj", "v_proj", "out_proj"):
+                proj = getattr(layer, proj_name, None)
+                if proj is not None and hasattr(proj, "gamma"):
+                    g = proj.gamma
+                    mx.eval(g)
+                    key = proj_name[0]  # q, k, v, o
+                    gamma_by_type[key].append(float(mx.mean(mx.abs(g)).item()))
+        for key, vals in gamma_by_type.items():
+            if vals:
+                beam_stats[f"gamma_{key}_mean"] = sum(vals) / len(vals)
+
+        # K/V/O bias magnitudes (new beam params from Gap 1)
+        bias_by_type = {"k": [], "v": [], "o": []}
+        for si, layer in enumerate(model.stride_stack.stack.layers):
+            for attr_name, key in [("k_bias", "k"), ("v_bias", "v"), ("o_bias", "o")]:
+                b = getattr(layer, attr_name, None)
+                if b is not None:
+                    mx.eval(b)
+                    bias_by_type[key].append(float(mx.sqrt(mx.mean(b * b)).item()))
+        for key, vals in bias_by_type.items():
+            if vals:
+                beam_stats[f"bias_{key}_rms"] = sum(vals) / len(vals)
+
+    except Exception:
+        pass
+    if beam_stats:
+        result["beam_stats"] = beam_stats
+
     return result
 
 
@@ -221,8 +266,11 @@ def evaluate(model: V13Model, cfg: V13Config) -> dict:
 # § 7  Shared-weight gradient normalization (7-pass hourglass)
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Universal shared components — used in all 8 passes
-_UNIVERSAL_SHARED = ("stride_stack", "ffn_key_plate", "ffn_value_plate", "whnf_proj")
+# Universal shared components — used in all 8 passes.
+# combinator_embeddings is EXCLUDED: its gradient comes from the direct
+# crystal lattice loss (session 132 fix), not from pass accumulation.
+# Dividing by 8 would attenuate the crystal alignment signal.
+_UNIVERSAL_SHARED = ("stride_stack", "ffn_key_plate", "ffn_value_plate", "ffn_norm", "ffn_scale", "ffn_bias")
 _N_ALL_PASSES = 8
 _N_ASC_PASSES = 4   # L0↑ L1↑ L2↑ L3↑
 _N_DESC_PASSES = 4  # L3↓ L2↓ L1↓ L0↓
@@ -277,12 +325,9 @@ def save_checkpoint(
     checkpoint_dir: Path,
     train_losses: list[float],
     last_eval: dict | None,
-    total_etched: int,
-    etch_states: dict | None,
     train_loader: ShardedDataLoader,
-    phase: str = "gd",
 ) -> None:
-    """Save model weights, optimizer state, etch states, and training metadata."""
+    """Save model weights, optimizer state, and training metadata."""
     step_dir = checkpoint_dir / f"step_{step:06d}"
     step_dir.mkdir(parents=True, exist_ok=True)
 
@@ -295,17 +340,11 @@ def save_checkpoint(
         flat_opt = dict(tree_flatten(optimizer.state))
         mx.savez(str(step_dir / "optimizer.npz"), **flat_opt)
 
-    # Etch states (signal planes, heat EMAs)
-    if etch_states is not None:
-        save_etch_states(etch_states, str(step_dir / "etch_states.npz"))
-
     # Crystal diagnostics
     crystal = compute_crystal_diagnostics(model)
 
     state = {
         "step": step,
-        "phase": phase,
-        "total_etched": total_etched,
         "train_losses_last50": train_losses[-50:],
         "eval_metrics": last_eval or {},
         "crystal": crystal,
@@ -349,12 +388,11 @@ def load_checkpoint(
     ckpt_dir: Path,
     model: V13Model,
     optimizer,
-    etch_states: dict | None,
 ) -> tuple[int, dict, dict]:
-    """Load weights, optimizer state, etch states. Returns (step, state_meta, dl_state).
+    """Load weights and optimizer state. Returns (step, state_meta, dl_state).
 
     Handles two checkpoint formats:
-      - Training checkpoint: model.npz + state.json (+ optional optimizer.npz, etch_states.npz)
+      - Training checkpoint: model.npz + state.json (+ optional optimizer.npz)
       - Etched checkpoint: model.npz + config.json (from extract_teacher.py, no state.json)
         → starts from step 0 with fresh optimizer state
     """
@@ -382,12 +420,6 @@ def load_checkpoint(
             optimizer.state = tree_unflatten(list(opt_state.items()))
             mx.eval(optimizer.state)
 
-        # Etch states
-        if etch_states is not None:
-            etch_path = ckpt_dir / "etch_states.npz"
-            if etch_path.exists():
-                load_etch_states(etch_states, str(etch_path))
-
         print(f"📂 Loaded training checkpoint: {ckpt_dir} (step {step})",
               file=sys.stderr)
     else:
@@ -402,177 +434,7 @@ def load_checkpoint(
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# § 9  Phase 1 — ETCH
-# ══════════════════════════════════════════════════════════════════════════════
-
-def run_etch_phase(
-    model: V13Model,
-    cfg: V13Config,
-    checkpoint_dir: Path,
-    train_loader: ShardedDataLoader,
-    n_rounds: int = 5,
-    batches_per_round: int = 200,
-    gd_steps_per_round: int = 100,
-    confidence_threshold: float = 0.5,
-    max_flips_frac: float = 0.01,
-) -> int:
-    """Phase 1: Direct holographic etching.
-
-    For each etch round:
-      1. Forward+backward batches_per_round batches — accumulate direction
-      2. Call direct_etch() — flip high-confidence positions
-      3. Re-freeze topology weights after flipping
-      4. Short GD phase (gd_steps_per_round steps) on beam params only
-         with crystal lattice loss keeping combinator geometry aligned
-      5. Reset direction accumulators
-
-    Returns total etch flips applied.
-
-    Args:
-        model:               V13Model (plates frozen on entry)
-        cfg:                 V13Config
-        checkpoint_dir:      where to write etch phase logs
-        train_loader:        data source
-        n_rounds:            number of etch+GD cycles
-        batches_per_round:   batches to accumulate direction signal per round
-        gd_steps_per_round:  short GD steps after each etch event
-        confidence_threshold: minimum direction consistency to flip (0–1)
-        max_flips_frac:      max fraction of candidates to flip per event
-    """
-    print(f"\n{'='*72}", file=sys.stderr)
-    print(f"  Phase 1 — ETCH  ({n_rounds} rounds × {batches_per_round} batches"
-          f" + {gd_steps_per_round} GD steps)",
-          file=sys.stderr)
-    print(f"  confidence_threshold={confidence_threshold}"
-          f"  max_flips_frac={max_flips_frac}",
-          file=sys.stderr)
-    print(f"{'='*72}", file=sys.stderr, flush=True)
-
-    accumulators = init_direction_accumulators(model)
-    n_modules = len(accumulators)
-    print(f"  Etch modules: {n_modules}", file=sys.stderr)
-
-    # Lightweight optimizer for etch GD rounds — AdamW on beam params only
-    etch_optimizer = optim.AdamW(
-        learning_rate=cfg.lr * 0.1,
-        weight_decay=cfg.weight_decay,
-    )
-    loss_and_grad = nn.value_and_grad(model, loss_fn)
-
-    total_etched = 0
-    etch_log_path = checkpoint_dir / "etch_phase_log.jsonl"
-
-    for rnd in range(n_rounds):
-        t_round = time.time()
-        print(f"\n  ── Round {rnd + 1}/{n_rounds} ──────────────────────────────",
-              file=sys.stderr, flush=True)
-
-        # ── 1. Accumulate direction ──────────────────────────
-        accum_loss = 0.0
-        for bi in range(batches_per_round):
-            ids_np, tgts_np = next(train_loader)
-            ids = mx.array(ids_np)
-            tgts = mx.array(tgts_np)
-
-            lv, grads = loss_and_grad(model, ids, tgts)
-            mx.eval(lv, grads)
-            accum_loss += float(lv.item())
-
-            # Accumulate direction signal into per-module DirectionAccumulators
-            accumulate_direction(model, grads, accumulators)
-
-        avg_loss = accum_loss / batches_per_round
-        print(f"    direction accumulated: {batches_per_round} batches"
-              f"  avg_loss={avg_loss:.3f}",
-              file=sys.stderr, flush=True)
-
-        # ── 2. Direct etch ──────────────────────────────────
-        etch_result = direct_etch(
-            model,
-            accumulators,
-            confidence_threshold=confidence_threshold,
-            max_flips_frac=max_flips_frac,
-        )
-        n_flipped = etch_result["total_flipped"]
-        total_etched += n_flipped
-
-        # Re-freeze topology after plate modification
-        if n_flipped > 0:
-            freeze_ternary_weights(model)
-            restore_ternary(model)
-
-        print(f"    direct_etch: {n_flipped:,} flips"
-              f"  ({etch_result['total_candidates']:,} candidates)"
-              f"  total={total_etched:,}",
-              file=sys.stderr, flush=True)
-
-        # Emit per-type breakdown
-        type_flips = etch_result.get("flips_by_type", {})
-        if type_flips:
-            parts = "  ".join(f"{k}={v}" for k, v in sorted(type_flips.items()))
-            print(f"    by_type: {parts}", file=sys.stderr, flush=True)
-
-        # ── 3. Short GD on beam params ───────────────────────
-        # Keep combinator geometry aligned with crystal targets after plate flip
-        if gd_steps_per_round > 0:
-            gd_loss_sum = 0.0
-            for gd_step in range(gd_steps_per_round):
-                ids_np, tgts_np = next(train_loader)
-                ids = mx.array(ids_np)
-                tgts = mx.array(tgts_np)
-
-                lv, grads = loss_and_grad(model, ids, tgts)
-                mx.eval(lv, grads)
-                gd_loss_sum += float(lv.item())
-
-                grads = zero_ternary_grads(model, grads)
-
-                # Gradient clipping
-                flat_grads = [g for _, g in tree_flatten(grads)
-                               if isinstance(g, mx.array)]
-                if flat_grads:
-                    grad_sq = sum(float(mx.sum(g * g).item()) for g in flat_grads)
-                    grad_norm = math.sqrt(grad_sq)
-                    if cfg.grad_clip > 0 and grad_norm > cfg.grad_clip:
-                        s = cfg.grad_clip / (grad_norm + 1e-8)
-                        grads = tree_map(lambda g: g * s, grads)
-
-                etch_optimizer.update(model, grads)
-                mx.eval(model.parameters(), etch_optimizer.state)
-                restore_ternary(model)
-
-            gd_avg = gd_loss_sum / gd_steps_per_round
-            print(f"    GD ({gd_steps_per_round} steps): avg_loss={gd_avg:.3f}",
-                  file=sys.stderr, flush=True)
-
-        # ── 4. Reset accumulators ────────────────────────────
-        reset_accumulators(accumulators)
-
-        dt = time.time() - t_round
-        print(f"    round {rnd + 1} done in {dt:.0f}s", file=sys.stderr, flush=True)
-
-        # Log
-        _append_jsonl(etch_log_path, {
-            "round": rnd + 1,
-            "timestamp": time.time(),
-            "batches": batches_per_round,
-            "avg_loss": avg_loss,
-            "n_flipped": n_flipped,
-            "total_candidates": etch_result["total_candidates"],
-            "total_etched": total_etched,
-            "flips_by_type": type_flips,
-            "gd_steps": gd_steps_per_round,
-            "gd_avg_loss": gd_avg if gd_steps_per_round > 0 else None,
-            "round_seconds": dt,
-        })
-
-    print(f"\n  Phase 1 complete: {total_etched:,} total flips across {n_rounds} rounds",
-          file=sys.stderr, flush=True)
-    return total_etched
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# § 10  Phase 2 — GD
+# § 9  GD Training Loop
 # ══════════════════════════════════════════════════════════════════════════════
 
 def train_gd(
@@ -583,17 +445,15 @@ def train_gd(
     train_loader: ShardedDataLoader,
     checkpoint_dir: Path,
     last_eval: dict | None,
-    etch_states: dict | None,
-    total_etched: int,
 ) -> None:
-    """Phase 2: Standard gradient-descent training loop.
+    """GD training loop — beams only, plates frozen from etch.
 
-    - CE + crystal lattice + KL dispatch + dispatch entropy losses
+    - CE + crystal lattice (exponential nucleation well) + holographic losses
     - Cosine LR with warmup
     - AdamW + gradient clipping
     - Grad accumulation (cfg.grad_accum micro-steps per optimizer step)
     - Periodic eval, checkpoint, logging
-    - Consensus etch pass every cfg.etch_interval steps (ongoing topology refinement)
+    - Plates never modified — relational losses pull beams into the etched groove
     """
     total_steps = args.steps if args.steps is not None else cfg.total_steps
 
@@ -606,7 +466,8 @@ def train_gd(
     print(f"  batch_size={cfg.batch_size}  seq_len={cfg.seq_len}"
           f"  tokens/step={cfg.tokens_per_step:,}",
           file=sys.stderr)
-    print(f"  crystal: rel_lambda={cfg.rel_lambda}",
+    print(f"  crystal: rel_lambda={cfg.rel_lambda}"
+          f"  crystal_direct={cfg.crystal_direct_lambda}",
           file=sys.stderr)
     desc_dir = "coarse→fine" if cfg.desc_stride_reverse else "fine→coarse"
     fractal = " + fractal bands" if cfg.fractal_stride_bands else ""
@@ -651,11 +512,8 @@ def train_gd(
         lr = cosine_lr(step, cfg.warmup_steps, total_steps, cfg.lr, cfg.lr_floor_ratio)
         optimizer.learning_rate = lr
 
-        # Holographic progressive loss warmup: linear ramp to holo_lambda
-        if cfg.use_holographic_loss and cfg.holo_warmup_steps > 0:
-            holo_frac = min(1.0, step / cfg.holo_warmup_steps)
-            model._holo_lambda_effective = cfg.holo_lambda * holo_frac
-        elif cfg.use_holographic_loss:
+        # Holographic loss — always on, gravity well (no warmup)
+        if cfg.use_holographic_loss:
             model._holo_lambda_effective = cfg.holo_lambda
 
         # ── Gradient accumulation ─────────────────────────────
@@ -681,13 +539,6 @@ def train_gd(
 
         train_losses.append(step_loss)
         loss_window.append(step_loss)
-
-        # ── Etch heat accumulation ─────────────────────────────
-        # Feeds the consensus etch (signal planes), runs cheaply every step
-        if etch_states is not None and step >= cfg.etch_warmup:
-            accumulate_etch_heat(
-                model, accum_grads, etch_states, alpha=cfg.etch_heat_alpha
-            )
 
         # ── Shared-weight normalization + zero ternary grads ──
         accum_grads = normalize_shared_grads(accum_grads)
@@ -781,76 +632,20 @@ def train_gd(
                 for i, dev in enumerate(phi_devs):
                     record[f"phi_dev_pass{i}"] = dev
 
+            # Per-zone crystal loss (lightweight, every log step)
+            if step % (cfg.log_interval * 4) == 0:  # every 4th log
+                try:
+                    from model import crystal_lattice_loss
+                    emb = model.combinator_embeddings
+                    for zi, (target, lam) in enumerate(
+                            zip(model._zone_targets, cfg.zone_lambdas)):
+                        zl = crystal_lattice_loss(emb, target)
+                        mx.eval(zl)
+                        record[f"crystal_zone_{chr(65+zi)}"] = float(zl.item())
+                except Exception:
+                    pass
+
             _append_jsonl(checkpoint_dir / "train_log.jsonl", record)
-
-        # ── Signal plane update (consensus etch preparation) ──
-        if (etch_states is not None
-                and step >= cfg.etch_warmup
-                and step % cfg.etch_signal_interval == 0):
-            sig_stats = update_signal_planes(
-                etch_states,
-                model,
-                heat_thresholds=cfg.etch_heat_thresholds,
-            )
-            if sig_stats and step % cfg.log_interval == 0:
-                active = sum(
-                    1 for s in sig_stats.values()
-                    if sum(s.get("votes_per_plane", [])) > 0
-                )
-                print(f"  🔥 signal: {active}/{len(sig_stats)} modules active",
-                      file=sys.stderr, flush=True)
-
-        # ── Consensus etch check ───────────────────────────────
-        if (etch_states is not None
-                and step >= cfg.etch_warmup
-                and step % cfg.etch_interval == 0):
-            etch_result = etch_check(
-                etch_states,
-                model,
-                consensus_required=cfg.etch_consensus,
-                max_flips=cfg.etch_max_flips_per_event,
-            )
-            n_flipped = etch_result["total_flipped"]
-            total_etched += n_flipped
-
-            if n_flipped > 0:
-                affected = etch_result.get("affected_rows", {})
-                if cfg.etch_adam_decay < 1.0 and affected:
-                    surgical_adam_decay_for_etch(
-                        optimizer, model, affected,
-                        decay=cfg.etch_adam_decay,
-                    )
-                freeze_ternary_weights(model)
-                restore_ternary(model)
-
-                if cfg.etch_reset_after_flip:
-                    for es in etch_states.values():
-                        if hasattr(es, "reset_heat"):
-                            es.reset_heat()
-
-                etch_tempo = (
-                    etch_result.get("total_candidates", 0)
-                    / max(count_ternary_weights(model), 1)
-                )
-                print(
-                    f"  ⚡ etch step {step}: {n_flipped:,} flips"
-                    f" ({total_etched:,} total)"
-                    f"  tempo: {etch_tempo:.6f}",
-                    file=sys.stderr, flush=True,
-                )
-
-                _append_jsonl(checkpoint_dir / "etch_log.jsonl", {
-                    "step": step,
-                    "timestamp": time.time(),
-                    "total_flipped": n_flipped,
-                    "total_candidates": etch_result.get("total_candidates", 0),
-                    "total_etched": total_etched,
-                    "flips_by_type": etch_result.get("flips_by_type", {}),
-                    "per_module": {
-                        p: d for p, d in etch_result.get("per_module", {}).items()
-                        if d.get("n_flipped", 0) > 0
-                    },
-                })
 
         # ── Evaluation ────────────────────────────────────────
         if step % cfg.eval_interval == 0:
@@ -873,6 +668,16 @@ def train_gd(
                     f"  comp_cluster={comp_mean:.3f}",
                     file=sys.stderr, flush=True,
                 )
+            # Per-zone crystal loss
+            zones = last_eval.get("crystal_zones", {})
+            if zones:
+                zs = "  ".join(f"{k}={v:.4f}" for k, v in zones.items())
+                print(f"     zones: {zs}", file=sys.stderr, flush=True)
+            # Beam magnitude health
+            beams = last_eval.get("beam_stats", {})
+            if beams:
+                bs = "  ".join(f"{k}={v:.3f}" for k, v in beams.items())
+                print(f"     beams: {bs}", file=sys.stderr, flush=True)
 
             _append_jsonl(checkpoint_dir / "metrics_log.jsonl", {
                 "step": step,
@@ -884,8 +689,7 @@ def train_gd(
         if step % cfg.checkpoint_interval == 0:
             save_checkpoint(
                 model, optimizer, step, cfg, checkpoint_dir,
-                train_losses, last_eval, total_etched, etch_states,
-                train_loader, phase="gd",
+                train_losses, last_eval, train_loader,
             )
 
     # ── Final checkpoint + eval ──────────────────────────────
@@ -900,8 +704,7 @@ def train_gd(
 
     save_checkpoint(
         model, optimizer, total_steps, cfg, checkpoint_dir,
-        train_losses, final_eval, total_etched, etch_states,
-        train_loader, phase="gd",
+        train_losses, final_eval, train_loader,
     )
 
 
@@ -910,14 +713,15 @@ def train_gd(
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main(cfg: V13Config, args: argparse.Namespace) -> None:
-    """Unified trainer: ETCH phase (optional) → GD phase."""
+    """GD trainer: pre-etched plates frozen, beams trained."""
     checkpoint_dir = Path(args.checkpoint_dir)
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Banner ────────────────────────────────────────────────
     print("=" * 72, file=sys.stderr)
     print("  v13 — Beam/Plate Separated Hourglass VSM", file=sys.stderr)
-    print("  7-pass hourglass · 11 strides · 8 combinators · Qwen3 BBPE", file=sys.stderr)
+    print("  8-pass hourglass · 11 strides · 8 combinators · Qwen3 BBPE", file=sys.stderr)
+    print("  Plates pre-etched (frozen) · GD on beams only", file=sys.stderr)
     print("=" * 72, file=sys.stderr)
 
     # ── Model ─────────────────────────────────────────────────
@@ -968,17 +772,9 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
                   file=sys.stderr)
             print(f"  ⚠  training on 100% prose", file=sys.stderr)
 
-    # ── Etch states (for consensus etch during GD phase) ──────
-    etch_states: dict | None = None
-    if cfg.use_etching:
-        etch_states = init_etch_states(model)
-        print(f"  etch: {len(etch_states)} modules initialized",
-              file=sys.stderr)
-
     # ── Resume ────────────────────────────────────────────────
     start_step = 0
     last_eval: dict | None = None
-    total_etched = 0
 
     if args.resume is not None:
         resume_path = Path(args.resume).resolve()
@@ -996,9 +792,8 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
             # Temporary optimizer for loading state
             _tmp_opt = optim.AdamW(learning_rate=cfg.lr, weight_decay=cfg.weight_decay)
             start_step, state_meta, dl_state = load_checkpoint(
-                ckpt, model, _tmp_opt, etch_states,
+                ckpt, model, _tmp_opt,
             )
-            total_etched = state_meta.get("total_etched", 0)
             last_eval = state_meta.get("eval_metrics")
             if dl_state:
                 train_loader.load_state(dl_state)
@@ -1006,41 +801,16 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
         else:
             print("  ⚠  No checkpoint found, starting fresh.", file=sys.stderr)
 
-    total_steps = args.steps if args.steps is not None else cfg.total_steps
-
-    # ── Phase routing ─────────────────────────────────────────
-    phase = args.phase  # "etch" | "gd" | "both"
-
-    if phase in ("etch", "both"):
-        total_etched += run_etch_phase(
-            model=model,
-            cfg=cfg,
-            checkpoint_dir=checkpoint_dir,
-            train_loader=train_loader,
-        )
-        # Save post-etch checkpoint before GD
-        if phase == "both":
-            etch_only_dir = checkpoint_dir / "post_etch"
-            etch_only_dir.mkdir(exist_ok=True)
-            flat_weights = dict(tree_flatten(model.parameters()))
-            mx.savez(str(etch_only_dir / "model.npz"), **flat_weights)
-            if etch_states:
-                save_etch_states(etch_states, str(etch_only_dir / "etch_states.npz"))
-            print(f"  💾 Post-etch weights saved to {etch_only_dir}",
-                  file=sys.stderr, flush=True)
-
-    if phase in ("gd", "both"):
-        train_gd(
-            cfg=cfg,
-            args=args,
-            model=model,
-            start_step=start_step,
-            train_loader=train_loader,
-            checkpoint_dir=checkpoint_dir,
-            last_eval=last_eval,
-            etch_states=etch_states,
-            total_etched=total_etched,
-        )
+    # ── Train ─────────────────────────────────────────────────
+    train_gd(
+        cfg=cfg,
+        args=args,
+        model=model,
+        start_step=start_step,
+        train_loader=train_loader,
+        checkpoint_dir=checkpoint_dir,
+        last_eval=last_eval,
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1049,7 +819,7 @@ def main(cfg: V13Config, args: argparse.Namespace) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="v13 — Beam/Plate Separated VSM (ETCH + GD unified trainer)"
+        description="v13 — GD trainer (pre-etched plates, beam-only optimization)"
     )
     parser.add_argument(
         "--checkpoint-dir", default="checkpoints/v13",
@@ -1057,18 +827,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--resume", type=str, default=None,
-        help="Path to checkpoint to resume from. "
-             "Relative paths resolved against --checkpoint-dir. "
-             "If not provided, starts fresh.",
-    )
-    parser.add_argument(
-        "--phase", choices=["etch", "gd", "both"], default="gd",
-        help="Training phase: 'etch' (Phase 1 only), 'gd' (Phase 2 only), "
-             "'both' (ETCH then GD). Default: gd",
+        help="Path to etched checkpoint or training checkpoint to resume from. "
+             "For first run, point to extract_teacher.py output directory. "
+             "If not provided, starts fresh (random plates).",
     )
     parser.add_argument(
         "--steps", type=int, default=None,
-        help="Override cfg.total_steps for GD phase.",
+        help="Override cfg.total_steps.",
     )
     # Config overrides
     parser.add_argument("--lr", type=float, default=None,
@@ -1085,18 +850,10 @@ if __name__ == "__main__":
                         help="Override eval interval (steps)")
     parser.add_argument("--checkpoint-interval", type=int, default=None,
                         help="Override checkpoint interval (steps)")
-    parser.add_argument("--no-etching", action="store_true", default=False,
-                        help="Disable consensus etch during GD phase")
-    parser.add_argument("--etch-warmup", type=int, default=None,
-                        help="Override etch warmup steps")
-    parser.add_argument("--etch-interval", type=int, default=None,
-                        help="Override etch check interval (steps)")
-    parser.add_argument("--etch-signal-interval", type=int, default=None,
-                        help="Override signal plane update interval (steps)")
-    parser.add_argument("--etch-consensus", type=int, default=None,
-                        help="Override etch consensus threshold (2 or 3)")
     parser.add_argument("--rel-lambda", type=float, default=None,
-                        help="Override crystal lattice loss weight")
+                        help="Override crystal lattice EMA coupling weight (multiplicative)")
+    parser.add_argument("--crystal-direct-lambda", type=float, default=None,
+                        help="Override direct crystal loss weight (additive gradient)")
     parser.add_argument("--data-dir", type=str, default=None,
                         help="Override data directory")
 
@@ -1119,18 +876,10 @@ if __name__ == "__main__":
         cfg.eval_interval = args.eval_interval
     if args.checkpoint_interval is not None:
         cfg.checkpoint_interval = args.checkpoint_interval
-    if args.no_etching:
-        cfg.use_etching = False
-    if args.etch_warmup is not None:
-        cfg.etch_warmup = args.etch_warmup
-    if args.etch_interval is not None:
-        cfg.etch_interval = args.etch_interval
-    if args.etch_signal_interval is not None:
-        cfg.etch_signal_interval = args.etch_signal_interval
-    if args.etch_consensus is not None:
-        cfg.etch_consensus = args.etch_consensus
     if args.rel_lambda is not None:
         cfg.rel_lambda = args.rel_lambda
+    if args.crystal_direct_lambda is not None:
+        cfg.crystal_direct_lambda = args.crystal_direct_lambda
     if args.data_dir is not None:
         cfg.data_dir = args.data_dir
     if args.checkpoint_dir != "checkpoints/v13":
