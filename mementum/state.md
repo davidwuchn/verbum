@@ -62,7 +62,34 @@ attention, train.py, extract_teacher.py.
 |------|------|
 | `config.py` | StackConfig dataclass, tree topology, S5/S4/S2 config, learnable decay, algedonic modulation |
 
-### All tasks COMPLETE
+### Architecture COMPLETE — Extraction methodology needs rethinking
+
+**CRITICAL FINDING: We conflated three different things in our extraction.**
+
+1. **ATTENTION GEOMETRY** — PCA-Q crystal measures how flat attention ROUTES.
+   This is architecture-specific. Our stride stack has different topology.
+   Session 134 proved teacher flat attention etch hurts our model.
+
+2. **COMPUTATION GEOMETRY** — how combinators relate (K selects, B composes,
+   WHNF halts). This SHOULD be universal but we only measured it through
+   flat attention Q projections. Need architecture-neutral measurement.
+
+3. **FFN KNOWLEDGE** — stored functions/facts. Etchable from teacher behavior
+   BUT the behavioral distillation produced 0 FFN flips when attention plates
+   were correctly masked off. The grad signal for FFN etch needs work.
+
+**The crystal lattice loss targets in config.py came from teacher attention Q.**
+The combinator embeddings they constrain are disconnected from the forward
+pass (vestigial from old modulation bottleneck). Need to either:
+- Find the computation geometry through a non-attention lens
+- Or prove PCA-Q geometry IS architecture-neutral (same in stride stack)
+- Or remove crystal lattice loss until our model discovers its own geometry
+
+**Next session must resolve:** What IS the right extraction methodology?
+Where does the combinator geometry live if not in attention Q? How do we
+etch FFN knowledge without attention-derived grad signal?
+
+### Architecture tasks COMPLETE
 
 | # | File | What |
 |---|------|------|
