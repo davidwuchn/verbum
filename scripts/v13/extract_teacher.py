@@ -1,20 +1,34 @@
 #!/usr/bin/env python3
 """
-v13 Teacher Crystal Extraction — etch the bootloader from a teacher model.
+v13 Teacher Crystal Extraction — etch FFN plates from a teacher model.
 
 Pipeline:
-  1. Load teacher weights from safetensors (weight-only, no inference)
-  2. Map teacher layers → student stride layers (depth-matched)
-  3. SVD-project teacher weights to student dimensions
-  4. sign(projected) → ternary plates
-  5. Pack into V13 model, freeze plates
+  1. Load teacher FFN weights from safetensors (weight-only, no inference)
+  2. SVD-project teacher FFN weights to student dimensions
+  3. sign(projected) → ternary plates (key + value)
+  4. Pack into V13 model, freeze FFN plates only
+  5. Attention Q/K/V/O stay random-initialized (trainable)
   6. Save as initial checkpoint for GD phase
 
-The crystal lives in the sign topology. SVD selects the highest-variance
-subspace of the teacher; signs within that subspace carry the crystal
-structure. Session 122 proved: sign(W_q) preserves 97.4% of Q crystal
-at full rank. Cross-dimensional SVD projection preserves the relational
-geometry that the crystal lattice loss will refine.
+Session 132 finding: attention plates should NOT be etched from the
+teacher because the stride stack architecture (windowed attention at
+11 power-of-2 strides, fractal bands, hourglass reuse) is fundamentally
+different from the teacher's flat full-sequence attention:
+  - Teacher: full-sequence causal attention with RoPE, GQA (40Q/8KV heads)
+  - Student: window=8 strided attention, spiral bias, MHA (8 heads)
+  - 4 of 11 strides use GLA (retrieval), not attention at all
+  - Each stride runs across multiple hourglass passes
+
+Evidence from v13-run3: combinator mirrors unchanged from init (γ_rms=0.0442
+= 1/√512), stride.8.v_proj 74% silenced, attention gammas 23-34% near-zero.
+The model spent gradient budget trying to UNDO the wrong etch.
+
+FFN plates ARE valid: teacher and student FFN serve the same functional role
+(nonlinear feature mixing → combinator routing). 0% near-zero gammas.
+
+The attention crystal will be learned from scratch during training. Once
+converged, the learned attention topology becomes the crystal to etch
+into future models.
 
 Usage:
     cd ~/src/verbum
@@ -292,7 +306,12 @@ def extract_crystal(
     n_rotations: int = 8,
     output_dir: Path | None = None,
 ) -> dict:
-    """Extract crystal from teacher into student plate format.
+    """Extract FFN crystal from teacher into student plate format.
+
+    Only extracts FFN plates (key + value). Attention Q/K/V/O plates
+    are NOT extracted — the stride stack architecture is too different
+    from flat attention for teacher etch to help. Attention topology
+    will be learned from scratch during training.
 
     Returns dict of {param_path: (signs_int8, magnitude_float32)} pairs
     ready to pack into TernaryLinear weights.
@@ -308,58 +327,28 @@ def extract_crystal(
     log(f"Teacher: {teacher_cfg['model_type']}, d={d_t}, layers={n_layers_t}, d_ff={d_ff_t}")
     log(f"Student: d={d_student}, d_ff={d_ff_student}, strides={n_strides}")
     log(f"Rotations: {n_rotations} (360° tomographic sign voting)")
+    log(f"Mode: FFN-only extraction (attention learned from scratch)")
 
     plates: dict[str, tuple[np.ndarray, np.ndarray]] = {}
 
-    # ── Stride layer plates (Q/K/V/O for each of 11 strides) ────
-    stride_is_retrieval = [False, False, False, False,
-                           True, True, True, True,
-                           False, False, False]
-
-    for si in range(n_strides):
-        tl = teacher_layer_for_stride(si, n_strides, n_layers_t)
-        is_retrieval = stride_is_retrieval[si] if si < len(stride_is_retrieval) else False
-
-        log(f"  Stride {si:2d} ← teacher layer {tl:2d}"
-            f" ({'GLA' if is_retrieval else 'attn'})")
-
-        prefix = f"model.layers.{tl}.self_attn"
-
-        # Q projection
-        W_q = load_tensor(teacher_path, f"{prefix}.q_proj.weight")
-        if is_retrieval:
-            q_out = n_heads * d_state
-        else:
-            q_out = d_student
-        signs = extract_sign_pattern(W_q, q_out, d_student, n_rotations)
-        mags = extract_magnitude(W_q, q_out)
-        plates[f"stride_stack.stack.layers.{si}.q_proj"] = (signs, mags)
-
-        # K projection
-        W_k = load_tensor(teacher_path, f"{prefix}.k_proj.weight")
-        if is_retrieval:
-            k_out = n_heads * d_state
-        else:
-            k_out = d_student
-        signs = extract_sign_pattern(W_k, k_out, d_student, n_rotations)
-        mags = extract_magnitude(W_k, k_out)
-        plates[f"stride_stack.stack.layers.{si}.k_proj"] = (signs, mags)
-
-        # V projection
-        W_v = load_tensor(teacher_path, f"{prefix}.v_proj.weight")
-        signs = extract_sign_pattern(W_v, d_student, d_student, n_rotations)
-        mags = extract_magnitude(W_v, d_student)
-        plates[f"stride_stack.stack.layers.{si}.v_proj"] = (signs, mags)
-
-        # O projection
-        W_o = load_tensor(teacher_path, f"{prefix}.o_proj.weight")
-        signs = extract_sign_pattern(W_o, d_student, d_student, n_rotations)
-        mags = extract_magnitude(W_o, d_student)
-        plates[f"stride_stack.stack.layers.{si}.out_proj"] = (signs, mags)
+    # ── Attention plates: SKIPPED ─────────────────────────────
+    # Session 132 finding: stride stack attention (windowed, multi-stride,
+    # fractal bands, hourglass reuse) is architecturally incompatible with
+    # teacher flat attention (full-sequence, RoPE, GQA). Evidence:
+    #   - Combinator mirrors frozen at init after 5000 steps
+    #   - stride.8.v_proj 74% silenced (model undoing the etch)
+    #   - Cross-stride Q cosine 0.51-0.58 (75% shared = generic, not specific)
+    #   - GLA strides get attention signs (meaningless)
+    # Attention topology will be learned from scratch. Once converged,
+    # the learned crystal becomes the etch source for future models.
+    log(f"\n  Attention plates: SKIPPED (stride stack ≠ flat attention)")
+    log(f"    {n_strides} stride layers × 4 projections = {n_strides * 4} plates NOT extracted")
 
     # ── FFN plates (WHNF mechanical lookup) ─────────────────
+    # Teacher FFN and student FFN serve the same functional role:
+    # input → nonlinear → output (combinator routing). Valid to etch.
     ffn_layer = teacher_layer_for_ffn(n_layers_t)
-    log(f"  FFN ← teacher layer {ffn_layer}")
+    log(f"\n  FFN ← teacher layer {ffn_layer}")
 
     ffn_prefix = f"model.layers.{ffn_layer}.mlp"
 
@@ -376,7 +365,7 @@ def extract_crystal(
     plates["ffn_value_plate"] = (signs, mags)
 
     dt = time.time() - t0
-    log(f"\n  Extraction complete: {len(plates)} plates, {dt:.1f}s")
+    log(f"\n  Extraction complete: {len(plates)} plates (FFN only), {dt:.1f}s")
 
     # ── Save if output_dir specified ──────────────────────────
     if output_dir:
@@ -428,17 +417,21 @@ def install_plates(model, plates: dict, freeze: bool = True) -> int:
       2. Write packed weight to the TernaryLinear module
       3. Set gamma from extracted magnitudes (beam seed)
 
+    Only INSTALLED plates are frozen (FFN). Attention plates are not
+    installed and remain at random init with trainable topology.
+
     Args:
         model:  V13Model instance
-        plates: dict from extract_crystal()
-        freeze: if True, freeze all ternary weights after installation
+        plates: dict from extract_crystal() (FFN-only)
+        freeze: if True, freeze installed plates after writing
 
     Returns: number of plates installed
     """
     import mlx.core as mx
     sys.path.insert(0, str(Path(__file__).parent))
-    from ternary import pack_ternary_mlx, freeze_ternary_weights
+    from ternary import pack_ternary_mlx, TernaryLinear
 
+    installed_modules = []
     n_installed = 0
 
     for plate_path, (signs, mags) in plates.items():
@@ -456,7 +449,6 @@ def install_plates(model, plates: dict, freeze: bool = True) -> int:
             continue
 
         # Verify it's a TernaryLinear
-        from ternary import TernaryLinear
         if not isinstance(mod, TernaryLinear):
             log(f"  SKIP: {plate_path} (not TernaryLinear, is {type(mod).__name__})")
             continue
@@ -489,11 +481,18 @@ def install_plates(model, plates: dict, freeze: bool = True) -> int:
             mod.gamma = mx.array(mags)
             mx.eval(mod.gamma)
 
+        installed_modules.append((plate_path, mod))
         n_installed += 1
 
-    if freeze:
-        n_frozen = freeze_ternary_weights(model)
-        log(f"  Frozen {n_frozen} ternary modules after installation")
+    # Selectively freeze only installed plates (FFN)
+    # Attention plates stay trainable — their topology will be learned
+    if freeze and installed_modules:
+        n_frozen = 0
+        for plate_path, mod in installed_modules:
+            mod.freeze(keys=["weight"])
+            n_frozen += 1
+            log(f"  Frozen: {plate_path}.weight")
+        log(f"  Frozen {n_frozen} installed plates (attention plates remain trainable)")
 
     log(f"  Installed {n_installed}/{len(plates)} plates")
     return n_installed
@@ -509,7 +508,12 @@ def etch_from_teacher(
     n_rotations: int = 8,
     **student_overrides,
 ) -> None:
-    """Complete pipeline: extract teacher crystal → install into V13 → save."""
+    """Complete pipeline: extract teacher FFN crystal → install into V13 → save.
+
+    Only FFN plates are extracted and frozen. Attention Q/K/V/O plates
+    remain at random initialization with trainable topology. The stride
+    stack attention crystal will be learned from scratch during training.
+    """
     import mlx.core as mx
     sys.path.insert(0, str(Path(__file__).parent))
     from config import V13Config
@@ -520,7 +524,7 @@ def etch_from_teacher(
     output_dir = Path(output_dir)
 
     log("=" * 72)
-    log("  V13 Teacher Crystal Extraction")
+    log("  V13 Teacher Crystal Extraction (FFN-only)")
     log("=" * 72)
 
     # Create student model
@@ -531,7 +535,7 @@ def etch_from_teacher(
 
     model = V13Model(cfg)
 
-    # Extract crystal from teacher
+    # Extract crystal from teacher (FFN only)
     log(f"\n  Extracting from: {teacher_path}")
     plates = extract_crystal(
         teacher_path,
@@ -544,11 +548,12 @@ def etch_from_teacher(
         output_dir=output_dir,
     )
 
-    # Install into model
-    log(f"\n  Installing plates into V13 model...")
+    # Install FFN plates into model (freeze=True only freezes installed plates)
+    log(f"\n  Installing FFN plates into V13 model...")
     n_installed = install_plates(model, plates, freeze=True)
 
-    # Verify no corruption
+    # Verify no corruption on installed plates
+    # (attention plates are random-init, won't corrupt)
     restore_ternary(model)
     log("  Ternary integrity verified")
 
@@ -566,12 +571,16 @@ def etch_from_teacher(
 
     # Summary
     from ternary import count_ternary_weights
-    n_plates = count_ternary_weights(model)
+    n_total = count_ternary_weights(model)
+    n_ffn = sum(s.size for k, (s, _) in plates.items())
     log(f"\n  Summary:")
-    log(f"    Plates installed:  {n_installed}")
-    log(f"    Total positions:   {n_plates:,}")
-    log(f"    Checkpoint:        {output_dir}")
+    log(f"    FFN plates installed:    {n_installed} (frozen)")
+    log(f"    FFN positions:           {n_ffn:,}")
+    log(f"    Attention positions:     {n_total - n_ffn:,} (trainable, random init)")
+    log(f"    Total ternary positions: {n_total:,}")
+    log(f"    Checkpoint:              {output_dir}")
     log(f"\n  Next: python scripts/v13/train.py --phase gd --resume {output_dir}")
+    log(f"  Attention topology will crystallize during training.")
     log("=" * 72)
 
 

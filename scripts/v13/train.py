@@ -16,7 +16,8 @@ Training loop:
   - Cosine LR schedule with linear warmup
   - AdamW optimizer with weight decay and gradient clipping
   - Periodic checkpointing, evaluation, and logging
-  - Plates frozen throughout via freeze_ternary_weights()
+  - FFN plates frozen via freeze_ternary_weights(exclude_prefixes=("stride_stack",))
+  - Stride stack attention plates are TRAINABLE (topology learned from scratch)
 
 License: MIT
 """
@@ -131,9 +132,15 @@ def _append_jsonl(path: Path, record: dict) -> None:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def create_model(cfg: V13Config) -> V13Model:
-    """Instantiate V13Model and freeze ternary topology weights."""
+    """Instantiate V13Model and freeze ternary topology weights.
+
+    Stride stack attention plates are excluded from freezing — their
+    topology is learned from scratch (session 132: teacher flat attention
+    is architecturally incompatible with stride stack windowed attention).
+    FFN plates, embeddings, mirrors, and masks are frozen as before.
+    """
     model = V13Model(cfg)
-    freeze_ternary_weights(model)
+    freeze_ternary_weights(model, exclude_prefixes=("stride_stack",))
     return model
 
 
@@ -403,7 +410,7 @@ def load_checkpoint(
     weights = dict(mx.load(str(model_path)))
     model.load_weights(list(weights.items()), strict=False)
     mx.eval(model.parameters())
-    freeze_ternary_weights(model)
+    freeze_ternary_weights(model, exclude_prefixes=("stride_stack",))
     restore_ternary(model)
 
     # Check for state.json (training checkpoint) vs config.json (etched checkpoint)

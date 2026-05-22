@@ -738,8 +738,8 @@ def zero_ternary_grads(model: nn.Module, grads: dict) -> dict:
     return _zero("", grads)
 
 
-def freeze_ternary_weights(model: nn.Module) -> int:
-    """Freeze all packed ternary weight parameters so the optimizer ignores them.
+def freeze_ternary_weights(model: nn.Module, exclude_prefixes: tuple[str, ...] = ()) -> int:
+    """Freeze packed ternary weight parameters so the optimizer ignores them.
 
     This is the correct way to protect packed uint32/uint8 topology weights
     from AdamW weight decay corruption.  Without freezing, AdamW applies
@@ -752,6 +752,14 @@ def freeze_ternary_weights(model: nn.Module) -> int:
 
     Evolutionary mutations still work via direct assignment (mod.weight = ...).
 
+    Args:
+        model: The model to freeze.
+        exclude_prefixes: Tuple of path prefixes to SKIP freezing.
+            Modules whose path starts with any of these prefixes will
+            remain trainable. Used to keep attention plates trainable
+            while freezing FFN plates.
+            Example: ("stride_stack",) skips all stride stack modules.
+
     Must be called:
       - After model creation
       - After model.load_weights() (which may reset freeze state)
@@ -760,7 +768,13 @@ def freeze_ternary_weights(model: nn.Module) -> int:
         Number of modules frozen.
     """
     n_frozen = 0
+    n_skipped = 0
     for path, mod in _walk_ternary_modules(model):
+        # Check if this module should be excluded from freezing
+        if exclude_prefixes and any(path.startswith(p) for p in exclude_prefixes):
+            n_skipped += 1
+            continue
+
         if isinstance(mod, TernaryMirror):
             # Mirror: freeze BOTH weight (topology) and gamma (fixed scale)
             mod.freeze(keys=["weight", "gamma"])
