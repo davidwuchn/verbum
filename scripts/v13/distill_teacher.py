@@ -664,10 +664,8 @@ def student_layer_output(
 ) -> mx.array:
     """Run one student stride layer forward and return its delta output.
 
-    Accesses the inner StrideStack layer at stride_idx directly via
-    ``model.stride_stack.stack.layers[stride_idx]``.  The delta is what
-    the plate-shaped operation adds to the residual stream — this is what
-    we want to match against the (projected) teacher's delta.
+    Session 135 tree of VSMs: stride layers are accessed through Stack A
+    (which is shared with Stack B). All strides live in one StrideStack.
 
     Args:
         model:      V13Model instance
@@ -677,20 +675,18 @@ def student_layer_output(
 
     Returns:
         (B, T, d_student) — stride layer contribution (output minus input).
-        This is ``stride_layer(h_in) - h_in``.
     """
-    # The inner StrideStack holds the actual nn.Modules for each stride
-    layer = model.stride_stack.stack.layers[stride_idx]
-
-    # All stride layers (SingleStrideAttention, GatedLinearAttention) include
-    # the residual connection in their __call__ return value.
-    # We subtract h_in to recover just the contribution.
+    # Tree of VSMs: Stack A owns the shared stride stack
+    layer = model.stack_a.stride_stack.stack.layers[stride_idx]
     out_with_residual = layer(h_in)
     return out_with_residual - h_in
 
 
 def ffn_output(model: V13Model, h_in: mx.array) -> mx.array:
     """Run the student FFN plates and return the FFN delta.
+
+    Session 135: FFN plates are shared at model root. FFN beams (norm/scale/bias)
+    are per-stack, but for distillation we use Stack A's beams as the reference.
 
     Args:
         model: V13Model instance
@@ -699,9 +695,9 @@ def ffn_output(model: V13Model, h_in: mx.array) -> mx.array:
     Returns:
         (B, T, d_student) — FFN contribution (output - input).
     """
-    ffn_in = model.ffn_norm(h_in)
+    ffn_in = model.stack_a.ffn_norm(h_in)
     ffn_out = model.ffn_value_plate(mx.maximum(model.ffn_key_plate(ffn_in), 0))
-    ffn_out = ffn_out * model.ffn_scale + model.ffn_bias
+    ffn_out = ffn_out * model.stack_a.ffn_scale + model.stack_a.ffn_bias
     return ffn_out
 
 
@@ -716,8 +712,8 @@ def _get_plate_module(model: V13Model, plate_key: str) -> TernaryLinear | None:
     plate_key format: "stride_{si}.{q_proj|k_proj|v_proj|out_proj}"
                    or "ffn.{key|value}"
 
-    The stride layers live at model.stride_stack.stack.layers[si].
-    The FFN plates are model.ffn_key_plate / model.ffn_value_plate.
+    Session 135: stride layers live at model.stack_a.stride_stack.stack.layers[si].
+    FFN plates are model.ffn_key_plate / model.ffn_value_plate.
 
     Returns None if the path does not resolve to a TernaryLinear.
     """
@@ -726,7 +722,7 @@ def _get_plate_module(model: V13Model, plate_key: str) -> TernaryLinear | None:
             parts = plate_key.split(".")               # ["stride_3", "q_proj"]
             si = int(parts[0].split("_")[1])
             proj_name = parts[1]                       # "q_proj", "k_proj", etc.
-            layer = model.stride_stack.stack.layers[si]
+            layer = model.stack_a.stride_stack.stack.layers[si]
             obj = getattr(layer, proj_name)
         elif plate_key == "ffn.key":
             obj = model.ffn_key_plate
@@ -779,15 +775,15 @@ def _accumulate_plate_grads(
 
     for plate_key in plate_keys:
         # Parse the plate_key to build a grad tree path.
-        # The grad pytree mirrors the model's attribute hierarchy:
-        #   stride plates: stride_stack → stack → layers → [si] → proj → gamma
+        # Session 135 tree of VSMs — grad pytree mirrors model hierarchy:
+        #   stride plates: stack_a → stride_stack → stack → layers → [si] → proj → gamma
         #   ffn plates:    ffn_key_plate / ffn_value_plate → gamma
         if plate_key.startswith("stride_"):
             parts = plate_key.split(".")
             si = int(parts[0].split("_")[1])
             layer_attr = parts[1]      # "q_proj", "k_proj", "v_proj", "out_proj"
             gamma_grad = _dig(grads, [
-                "stride_stack", "stack", "layers", str(si), layer_attr, "gamma"
+                "stack_a", "stride_stack", "stack", "layers", str(si), layer_attr, "gamma"
             ])
         elif plate_key == "ffn.key":
             gamma_grad = _dig(grads, ["ffn_key_plate", "gamma"])
