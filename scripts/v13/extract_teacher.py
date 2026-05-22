@@ -524,7 +524,7 @@ def etch_from_teacher(
     output_dir = Path(output_dir)
 
     log("=" * 72)
-    log("  V13 Teacher Crystal Extraction (FFN-only)")
+    log("  V13 Teacher Crystal Extraction (FFN-only, tree of VSMs)")
     log("=" * 72)
 
     # Create student model
