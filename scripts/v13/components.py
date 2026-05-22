@@ -1,24 +1,21 @@
-"""VSM control components — S3, S5, S2, AlgedonicAlert.
+"""VSM control components — per-stack (S3, S2, Algedonic) + controller (S5, S4, S2, MetaS3).
 
-v13 (register-free): Stride overlaps between fractal bands ARE the registers.
-Cross-scale state is carried naturally by the shared StrideStack — no abstract
-register vectors needed.
+Session 135: Tree of VSMs architecture. Two levels of control:
 
-Removed vs previous version:
-  - S4Ternary           — register cross-attention (no registers)
-  - MetaS4Ternary       — higher-level register coordination (no registers)
-  - RetrievalRegisters  — M↔KIBC bridge (no registers)
-  - All register-related helpers (_flatten_registers, _flatten_banks, _ternary_1d)
+  Per-stack (S1 operational units):
+    S3Ternary      — per-pass gating within a stack
+    S2Coordinator  — inter-pass coherence/direction within a stack
+    AlgedonicAlert — per-stack health metrics → alarm factors
 
-Kept and simplified:
-  - S3Ternary      — per-pass 3-phase gating (now: bias + temperature on delta_rms)
-  - S5Reweight     — identity-level pass contribution gates (now: delta-means only)
-  - S2Coordinator  — inter-pass coherence / direction signals (7 transitions for 8 passes)
-  - AlgedonicAlert — VSM alarm channel (8 passes, INPUT_DIM=58 padded to 64)
-
-8-pass hourglass:
-  L0↑ → L1↑ → L2↑ → L3↑ → L3↓ → L2↓ → L1↓ → L0↓
-  Pass  0       1       2      3      4      5      6      7
+  Controller (coordinates the tree):
+    S5Identity         — the self-model (cortex DMN). GRU state, regulates enforcement,
+                         gates S4 proposals. d_identity=64.
+    S4Intelligence     — global pattern detection from all stacks' algedonics.
+                         Proposes meta-param adjustments to S5. Feeds S2.
+    S2AntiOscillation  — PID-like inter-stack dampening at register boundaries.
+                         P (current coherence) + D (trend, predictive). S4 feedback.
+    MetaS3FireAlarm    — S5 existential threat detector. Bypasses S3/S4 hierarchy.
+    S5Reweight         — identity-level pass contribution gates across all stacks.
 
 License: MIT
 """
@@ -29,330 +26,447 @@ import mlx.core as mx
 import mlx.nn as nn
 
 from ternary import TernaryLinear
+from config import N_STACKS, N_BOUNDARIES
 
 
 # ══════════════════════════════════════════════════════════════════════
-# S3 — Phase-Coherent Gating (register-free)
+# Per-Stack Components (S1 operational level)
 # ══════════════════════════════════════════════════════════════════════
 
 
 class S3Ternary(nn.Module):
-    """Single-gate control for a level-pass.
-
-    Dissolved from 3 phases (dispatch / stride / integrate) to a single
-    gate, matching the simplified _run_level_pass that has no separate
-    dispatch or integrate phases.
+    """Single-gate control for a level-pass within a stack.
 
     gate = sigmoid(learned_bias + temperature * delta_rms)
-
-    Per-pass learned temperature and bias (fp32 scalars).
     """
 
     def __init__(self, d_model: int):
         super().__init__()
         self.d_model = d_model
-        # temperature init 1.0, bias init 0.0 → gate starts near 0.5
         self.temperature = mx.ones((1,))
         self.learned_bias = mx.zeros((1,))
 
     def __call__(self, delta: mx.array) -> mx.array:
-        """Compute scalar gate from delta RMS.
-
-        delta: (B, L, d_model) pass output delta
-
-        Returns:
-          gate: () scalar gate value in (0, 1)
-        """
         rms = mx.sqrt(mx.mean(delta * delta) + 1e-8)
         gate = mx.sigmoid(self.learned_bias + self.temperature * rms)
         return gate
 
 
+class S2Coordinator(nn.Module):
+    """Inter-pass direction coordination within a stack.
+
+    Carries direction memos between consecutive passes so each pass
+    is aware of what its predecessor changed. Anti-oscillation at
+    the pass level (within a single stack).
+    """
+
+    def __init__(self, d_model: int, n_transitions: int):
+        super().__init__()
+        self.d_model = d_model
+        self.n_transitions = n_transitions
+
+        self.dir_projs = [
+            TernaryLinear(d_model, d_model, pre_norm=True)
+            for _ in range(n_transitions)
+        ]
+        for proj in self.dir_projs:
+            proj.gamma = proj.gamma * 0.01
+
+        self.scales = [mx.ones((1,)) * 0.01 for _ in range(n_transitions)]
+        self.norm = nn.RMSNorm(d_model)
+
+    def direction_signal(self, pass_delta: mx.array, transition_idx: int) -> mx.array:
+        """Direction memo from pass N to pass N+1. Returns (1, 1, d_model)."""
+        summary = pass_delta.mean(axis=(0, 1))
+        projected = self.dir_projs[transition_idx](summary.reshape(1, -1)).reshape(-1)
+        signal = self.norm(projected) * self.scales[transition_idx]
+        return signal[None, None, :]
+
+    @staticmethod
+    def coherence_factor(delta_prev: mx.array, delta_curr: mx.array) -> mx.array:
+        """1 + cos(prev, curr) → [0, 2]. stop_gradient on prev."""
+        s_prev = mx.stop_gradient(delta_prev.mean(axis=(0, 1)))
+        s_curr = delta_curr.mean(axis=(0, 1))
+        dot = (s_prev * s_curr).sum()
+        n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
+        n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
+        return 1.0 + dot / (n_prev * n_curr)
+
+
+class AlgedonicAlert(nn.Module):
+    """Per-stack health metrics → alarm factors.
+
+    Input: packed operational metrics vector (S3 gates, delta norms, etc.)
+    Output: per-pass factors in [0, 2] via 1 + tanh(logit).
+    1.0 = neutral. <1 = suppress. >1 = amplify.
+    """
+
+    def __init__(self, n_passes: int, input_dim: int = 32):
+        super().__init__()
+        self.n_passes = n_passes
+        self.input_dim = input_dim
+        self._input_padded = ((input_dim + 63) // 64) * 64
+        _n_passes_padded = ((n_passes + 15) // 16) * 16
+        self.alarm_proj = TernaryLinear(self._input_padded, _n_passes_padded, pre_norm=False)
+        self.alarm_proj.gamma = mx.zeros_like(self.alarm_proj.gamma)
+
+    def __call__(self, metrics_vector: mx.array) -> mx.array:
+        n = metrics_vector.shape[-1]
+        if n < self._input_padded:
+            metrics_vector = mx.concatenate([
+                metrics_vector, mx.zeros((self._input_padded - n,))
+            ])
+        logits = self.alarm_proj(metrics_vector.reshape(1, -1)).reshape(-1)[:self.n_passes]
+        return 1.0 + mx.tanh(logits)
+
+    def compute_metrics(
+        self,
+        s3_gates: list[mx.array],
+        pass_deltas: list[mx.array],
+        raw_deltas: list[mx.array],
+    ) -> mx.array:
+        """Pack operational health into a metrics vector.
+
+        Layout per pass: [s3_gate_mean, raw_delta_rms, gated_delta_rms, suppression_ratio]
+        = 4 values per pass. Total = 4 * n_passes.
+        """
+        metrics = []
+        for i in range(self.n_passes):
+            metrics.append(s3_gates[i].reshape(1))
+            raw_rms = mx.sqrt(mx.mean(raw_deltas[i] * raw_deltas[i]) + 1e-8)
+            gated_rms = mx.sqrt(mx.mean(pass_deltas[i] * pass_deltas[i]) + 1e-8)
+            metrics.append(raw_rms.reshape(1))
+            metrics.append(gated_rms.reshape(1))
+            metrics.append((gated_rms / (raw_rms + 1e-8)).reshape(1))
+        return mx.concatenate(metrics)
+
+
 # ══════════════════════════════════════════════════════════════════════
-# S5Reweight — Identity-level pass contribution (delta-means only)
+# Controller Components (tree coordination level)
 # ══════════════════════════════════════════════════════════════════════
 
 
-class S5Reweight(nn.Module):
-    """S5 — Identity-level pass contribution reweighting.
+class S5Identity(nn.Module):
+    """The self-model. Cortex analogy: default mode network.
 
-    Register-free simplification:
-      - Input: n_passes pass deltas, each (B, T, d_model)
-      - Mean each delta to (d_model,)
-      - Concatenate → (n_passes * d_model,)
-      - Project to (n_passes,) gates via single TernaryLinear
-      - Output: (n_passes,) sigmoid gates
+    Maintains a persistent identity state (d_identity,) that regulates
+    enforcement while allowing adaptation. Not a static target — a
+    dynamic process that measures coherence, regulates enforcement,
+    gates S4 proposals, and fires alarms.
 
-    Initialization: bias -2.0 → gates start near-closed (~0.12).
+    GRU update: state persists across forward passes (stop_gradient).
+    The model learns HOW to read health and HOW to regulate, but the
+    state itself evolves as a control process, not a gradient target.
+
+    Regulation output IS in the gradient graph — GD learns that when
+    S5 produces this regulation pattern, loss improves.
+
+    d_identity=64: power of 2, divides d_model=512.
     """
 
     def __init__(
         self,
-        d_model: int,
-        n_passes: int,
+        d_identity: int = 64,
+        n_stacks: int = N_STACKS,
+        alg_dim: int = 32,
+        n_regulation: int = 4,
+        n_proposals: int = 4,
+        clip: float = 2.0,
+        gru_bias_init: float = 2.0,
     ):
+        super().__init__()
+        self.d_identity = d_identity
+        self.n_regulation = n_regulation
+        self.clip = clip
+
+        # Persistent identity state — the self-model
+        self.identity_state = mx.zeros((d_identity,))
+
+        # READ: system health → coherence reading
+        # Input: crystal_loss(1) + per-stack algedonic(n_stacks * alg_dim)
+        health_input_dim = 1 + n_stacks * alg_dim
+        health_padded = ((health_input_dim + 15) // 16) * 16
+        self._health_padded = health_padded
+        self._health_raw = health_input_dim
+        self.coherence_read = nn.Linear(health_padded, d_identity)
+
+        # GRU UPDATE: [state; reading] → gate, candidate
+        self.update_gate = nn.Linear(d_identity * 2, d_identity)
+        self.update_candidate = nn.Linear(d_identity * 2, d_identity)
+        # Positive bias → slow identity change (conservative at init)
+        self.update_gate.bias = mx.full((d_identity,), gru_bias_init)
+
+        # REGULATE: state → enforcement strengths
+        # [crystal_enforcement, modulation_strength, gate_freedom, alarm_sensitivity]
+        self.regulation_proj = nn.Linear(d_identity, n_regulation)
+
+        # EVALUATE: [state; proposals] → accept/reject scalar
+        self.proposal_impact = nn.Linear(d_identity + n_proposals, 1)
+
+    def __call__(
+        self,
+        crystal_loss: mx.array,
+        all_algedonics: list[mx.array],
+        s4_proposals: mx.array,
+    ) -> tuple[mx.array, mx.array, mx.array]:
+        """S5 identity cycle: read → update → regulate → evaluate.
+
+        Args:
+            crystal_loss: scalar
+            all_algedonics: list of (alg_dim,) per stack
+            s4_proposals: (n_proposals,) from S4
+
+        Returns:
+            regulation: (n_regulation,) sigmoid enforcement strengths
+            accepted_proposals: (n_proposals,) gated by identity health
+            alarm_level: scalar in (0, 1) from identity state
+        """
+        # 1. READ
+        health = mx.concatenate([crystal_loss.reshape(1)] + all_algedonics)
+        if health.shape[0] < self._health_padded:
+            health = mx.concatenate([
+                health, mx.zeros((self._health_padded - health.shape[0],))
+            ])
+        reading = mx.tanh(self.coherence_read(health))
+
+        # 2. GRU UPDATE
+        combined = mx.concatenate([self.identity_state, reading])
+        gate = mx.sigmoid(self.update_gate(combined))
+        candidate = mx.tanh(self.update_candidate(combined))
+        new_state = gate * self.identity_state + (1.0 - gate) * candidate
+        new_state = mx.clip(new_state, -self.clip, self.clip)
+
+        # Stop gradient: state influences NEXT step, not current gradient
+        self.identity_state = mx.stop_gradient(new_state)
+
+        # 3. REGULATE
+        regulation = mx.sigmoid(self.regulation_proj(new_state))
+
+        # 4. EVALUATE S4 proposals
+        # Accept more when healthy (crystal loss low), reject when stressed
+        proposal_ctx = mx.concatenate([new_state, s4_proposals])
+        predicted_impact = mx.tanh(self.proposal_impact(proposal_ctx).reshape(()))
+        acceptance = mx.sigmoid(predicted_impact * 5.0)  # sharp gate
+        accepted_proposals = s4_proposals * acceptance
+
+        # 5. ALARM from identity state (separate from MetaS3 fire alarm)
+        # Identity state norm as alarm proxy: large norm = drifting
+        state_norm = mx.sqrt(mx.sum(new_state * new_state) + 1e-8)
+        alarm_level = mx.sigmoid(state_norm - self.clip * 0.8)  # alarm rises near clip boundary
+
+        return regulation, accepted_proposals, alarm_level
+
+
+class S4Intelligence(nn.Module):
+    """Global pattern detection from all stacks' algedonics.
+
+    Sees the health of the entire tree simultaneously. Produces:
+    1. Proposals for S5 (meta-parameter adjustments)
+    2. Signal for S2 (where oscillation is forming)
+    """
+
+    def __init__(
+        self,
+        n_stacks: int = N_STACKS,
+        alg_dim: int = 32,
+        hidden_dim: int = 64,
+        n_proposals: int = 4,
+    ):
+        super().__init__()
+        input_dim = n_stacks * alg_dim
+        input_padded = ((input_dim + 15) // 16) * 16
+        self._input_padded = input_padded
+        self._input_raw = input_dim
+
+        # Pattern detection
+        self.pattern_proj = nn.Linear(input_padded, hidden_dim)
+
+        # Proposals for S5
+        self.proposal_proj = nn.Linear(hidden_dim, n_proposals)
+
+        # Signal for S2 anti-oscillation
+        self.s2_signal_proj = nn.Linear(hidden_dim, hidden_dim)
+
+    def __call__(self, all_algedonics: list[mx.array]) -> tuple[mx.array, mx.array]:
+        """Analyze global health, produce proposals + S2 signal.
+
+        Args:
+            all_algedonics: list of (alg_dim,) per stack
+
+        Returns:
+            proposals: (n_proposals,) tanh-bounded adjustment suggestions
+            s2_signal: (hidden_dim,) for S2AntiOscillation
+        """
+        combined = mx.concatenate(all_algedonics)
+        if combined.shape[0] < self._input_padded:
+            combined = mx.concatenate([
+                combined, mx.zeros((self._input_padded - combined.shape[0],))
+            ])
+
+        hidden = mx.tanh(self.pattern_proj(combined))
+        proposals = mx.tanh(self.proposal_proj(hidden))
+        s2_signal = mx.tanh(self.s2_signal_proj(hidden))
+
+        return proposals, s2_signal
+
+
+class S2AntiOscillation(nn.Module):
+    """Inter-stack anti-oscillation with PID-like dampening.
+
+    Proportional: dampen where coherence is low (oscillating NOW)
+    Derivative: dampen where coherence is DROPPING (predictive)
+    S4 feedback: additional dampening where S4 detects problems
+
+    Operates at register boundaries between stacks (A↔B, B↔C).
+    """
+
+    def __init__(
+        self,
+        n_boundaries: int = N_BOUNDARIES,
+        s4_signal_dim: int = 64,
+        p_gain_init: float = 0.5,
+        d_gain_init: float = 0.3,
+    ):
+        super().__init__()
+        self.n_boundaries = n_boundaries
+
+        # PID gains (learnable)
+        self.p_gain = mx.full((n_boundaries,), p_gain_init)
+        self.d_gain = mx.full((n_boundaries,), d_gain_init)
+
+        # S4 feedback → per-boundary dampening
+        s4_padded = ((s4_signal_dim + 15) // 16) * 16
+        self._s4_padded = s4_padded
+        self._s4_raw = s4_signal_dim
+        self.s4_to_dampening = nn.Linear(s4_padded, n_boundaries)
+
+        # Cached previous coherence for derivative (feed-forward)
+        self._prev_coherence = None
+
+    def __call__(
+        self,
+        stack_outputs: list[mx.array],
+        s4_signal: mx.array,
+    ) -> mx.array:
+        """Compute per-boundary dampening factors.
+
+        Args:
+            stack_outputs: list of (B, L, d_model) per stack
+            s4_signal: (s4_signal_dim,) from S4Intelligence
+
+        Returns:
+            dampening: (n_boundaries,) in (0, 1). Higher = more dampening.
+        """
+        # Inter-stack coherence at boundaries
+        coherence = []
+        for i in range(len(stack_outputs) - 1):
+            a_mean = stack_outputs[i].mean(axis=(0, 1))
+            b_mean = stack_outputs[i + 1].mean(axis=(0, 1))
+            dot = (a_mean * b_mean).sum()
+            n_a = mx.sqrt((a_mean * a_mean).sum() + 1e-8)
+            n_b = mx.sqrt((b_mean * b_mean).sum() + 1e-8)
+            coherence.append(dot / (n_a * n_b))
+        coherence = mx.stack(coherence)  # (n_boundaries,)
+
+        # P term: dampen where coherence is low
+        p_term = mx.maximum(1.0 - coherence, 0.0) * self.p_gain
+
+        # D term: dampen where coherence is dropping (predictive)
+        if self._prev_coherence is not None:
+            d_term = mx.maximum(self._prev_coherence - coherence, 0.0) * self.d_gain
+        else:
+            d_term = mx.zeros_like(p_term)
+
+        # S4 feedback
+        s4_padded = s4_signal
+        if s4_padded.shape[0] < self._s4_padded:
+            s4_padded = mx.concatenate([
+                s4_padded, mx.zeros((self._s4_padded - s4_padded.shape[0],))
+            ])
+        s4_term = mx.sigmoid(self.s4_to_dampening(s4_padded))
+
+        dampening = mx.sigmoid(p_term + d_term + s4_term)
+
+        # Cache for next step (feed-forward prediction)
+        self._prev_coherence = mx.stop_gradient(coherence)
+
+        return dampening
+
+
+class MetaS3FireAlarm(nn.Module):
+    """S5 existential threat detector. Bypasses normal S3/S4 hierarchy.
+
+    When alarm fires, all modulations return toward neutral and crystal
+    enforcement increases. Prevents cascading failure.
+
+    Input: concatenated algedonics from all stacks + crystal loss.
+    Output: alarm_level in (0, 1). Init biased OFF.
+    """
+
+    def __init__(
+        self,
+        n_stacks: int = N_STACKS,
+        alg_dim: int = 32,
+        bias_init: float = -2.0,
+    ):
+        super().__init__()
+        input_dim = n_stacks * alg_dim + 1  # +1 for crystal loss
+        input_padded = ((input_dim + 15) // 16) * 16
+        self._input_padded = input_padded
+        self._input_raw = input_dim
+
+        self.alarm_proj = nn.Linear(input_padded, 1)
+        self.alarm_proj.bias = mx.array([bias_init])
+
+    def __call__(
+        self,
+        all_algedonics: list[mx.array],
+        crystal_loss: mx.array,
+    ) -> mx.array:
+        """Compute fire alarm level.
+
+        Returns: scalar in (0, 1). Near 0 = all clear. Near 1 = crisis.
+        """
+        combined = mx.concatenate(all_algedonics + [crystal_loss.reshape(1)])
+        if combined.shape[0] < self._input_padded:
+            combined = mx.concatenate([
+                combined, mx.zeros((self._input_padded - combined.shape[0],))
+            ])
+        return mx.sigmoid(self.alarm_proj(combined.reshape(1, -1)).reshape(()))
+
+
+class S5Reweight(nn.Module):
+    """Identity-level pass contribution reweighting across all stacks.
+
+    Takes pass deltas from ALL stacks in the tree, computes per-pass
+    gates. This operates at the controller level — it sees the full
+    picture of all 8 passes across 3 stacks.
+    """
+
+    def __init__(self, d_model: int, n_passes: int):
         super().__init__()
         self.n_passes = n_passes
         self.d_model = d_model
 
-        # Input: (n_passes * d_model,) padded to multiple of 64 for TernaryLinear
         delta_input_dim = n_passes * d_model
         self._delta_input_padded = ((delta_input_dim + 63) // 64) * 64
-
-        # Output: n_passes, padded to multiple of 16
-        self._n_passes_padded = ((n_passes + 15) // 16) * 16
+        _n_passes_padded = ((n_passes + 15) // 16) * 16
 
         self.gate_proj = TernaryLinear(
-            self._delta_input_padded, self._n_passes_padded, pre_norm=False)
-
-        # Separate bias: -2.0 → gates start near-closed (~0.12)
+            self._delta_input_padded, _n_passes_padded, pre_norm=False)
         self.gate_bias = mx.full((n_passes,), -2.0)
-        # Learnable temperature per pass
         self.temperature = mx.ones((n_passes,))
 
-    def __call__(
-        self,
-        pass_deltas: list[mx.array],
-    ) -> mx.array:
-        """Compute per-pass contribution gates.
-
-        pass_deltas: list of n_passes pass deltas, each (B, L, d_model)
-
-        Returns: (n_passes,) sigmoid gates for pass contribution
-        """
-        # Mean each delta to (d_model,) and concatenate
-        means = [delta.mean(axis=(0, 1)) for delta in pass_deltas]  # each (d_model,)
-        delta_flat = mx.concatenate(means, axis=-1)  # (n_passes * d_model,)
-
-        # Pad to multiple of 64
+    def __call__(self, pass_deltas: list[mx.array]) -> mx.array:
+        means = [delta.mean(axis=(0, 1)) for delta in pass_deltas]
+        delta_flat = mx.concatenate(means, axis=-1)
         if delta_flat.shape[0] < self._delta_input_padded:
             delta_flat = mx.concatenate([
                 delta_flat,
                 mx.zeros((self._delta_input_padded - delta_flat.shape[0],))
             ])
-
         logits = self.gate_proj(delta_flat.reshape(1, -1)).reshape(-1)[:self.n_passes]
         return mx.sigmoid((logits + self.gate_bias) * self.temperature)
-
-
-# ══════════════════════════════════════════════════════════════════════
-# S2 — Inter-pass direction coordination (Beer's anti-oscillation)
-# ══════════════════════════════════════════════════════════════════════
-
-
-class S2Coordinator(nn.Module):
-    """S2 — Inter-pass direction coordination.
-
-    Beer's S2 prevents oscillation between S1 operational units.
-    In V13, the 7 inter-pass transitions carry direction memos so
-    each pass is aware of what the predecessor changed.
-
-    8 passes → 7 transitions:
-      L0↑→L1↑, L1↑→L2↑, L2↑→L3↑, L3↑→L3↓, L3↓→L2↓, L2↓→L1↓, L1↓→L0↓
-    """
-
-    N_TRANSITIONS = 7
-    TRANSITION_NAMES = (
-        "L0↑→L1↑", "L1↑→L2↑", "L2↑→L3↑",
-        "L3↑→L3↓",
-        "L3↓→L2↓", "L2↓→L1↓", "L1↓→L0↓",
-    )
-
-    def __init__(self, d_model: int):
-        super().__init__()
-        self.d_model = d_model
-
-        # Direction projection: learns which aspects of the delta matter.
-        # pre_norm=True: shape (direction) not magnitude matters for S2.
-        self.dir_projs = [
-            TernaryLinear(d_model, d_model, pre_norm=True)
-            for _ in range(self.N_TRANSITIONS)
-        ]
-        # Initialize gamma small — direction signal starts gentle
-        for proj in self.dir_projs:
-            proj.gamma = proj.gamma * 0.01
-
-        # Per-transition learnable scale
-        self.scales = [mx.ones((1,)) * 0.01
-                       for _ in range(self.N_TRANSITIONS)]
-
-        # Normalize direction signal — prevents scale drift over training
-        self.norm = nn.RMSNorm(d_model)
-
-    def direction_signal(
-        self,
-        pass_delta: mx.array,
-        transition_idx: int,
-    ) -> mx.array:
-        """Direction memo from pass N to pass N+1.
-
-        pass_delta:      (B, L, d_model) — what the pass changed
-        transition_idx:  0 to N_TRANSITIONS-1
-
-        Returns: (1, 1, d_model) — broadcasts to (B, L, d_model)
-        """
-        # Spatial mean → single direction vector
-        summary = pass_delta.mean(axis=(0, 1))           # (d_model,)
-
-        # Project through ternary fabric — learns which aspects matter
-        projected = self.dir_projs[transition_idx](
-            summary.reshape(1, -1)
-        ).reshape(-1)                                     # (d_model,)
-
-        # Normalize + scale
-        signal = self.norm(projected) * self.scales[transition_idx]
-
-        return signal[None, None, :]                      # (1, 1, d_model)
-
-    @staticmethod
-    def coherence_factor(
-        delta_prev: mx.array,
-        delta_curr: mx.array,
-    ) -> mx.array:
-        """Differentiable coherence: 1 + cos(prev, curr).
-
-        Returns mx.array scalar in [0, 2]:
-          2.0 → passes fully agree (amplify direction signal)
-          1.0 → orthogonal (neutral)
-          0.0 → passes fully conflict (dampen signal to zero)
-
-        stop_gradient on delta_prev — earlier pass sets direction,
-        later pass learns to align.
-        """
-        s_prev = mx.stop_gradient(delta_prev.mean(axis=(0, 1)))
-        s_curr = delta_curr.mean(axis=(0, 1))
-
-        dot = (s_prev * s_curr).sum()
-        n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
-        n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
-
-        return 1.0 + dot / (n_prev * n_curr)
-
-    @staticmethod
-    def conflict_score(
-        delta_prev: mx.array,
-        delta_curr: mx.array,
-    ) -> float:
-        """Cosine similarity between consecutive pass deltas (diagnostic).
-
-          +1 → reinforcing  |  0 → orthogonal  |  -1 → oscillating
-
-        Non-differentiable — for instrumentation/logging only.
-        """
-        s_prev = delta_prev.mean(axis=(0, 1))
-        s_curr = delta_curr.mean(axis=(0, 1))
-
-        dot = (s_prev * s_curr).sum()
-        n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
-        n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
-
-        cos = dot / (n_prev * n_curr)
-        mx.eval(cos)
-        return float(cos.item())
-
-
-# ══════════════════════════════════════════════════════════════════════
-# AlgedonicAlert — Beer's fire alarm: S1→S5 emergency bypass
-# ══════════════════════════════════════════════════════════════════════
-
-
-class AlgedonicAlert(nn.Module):
-    """Beer's algedonic channel: S1→S5 fire alarm.
-
-    Direct bypass from operational metrics to S5, monitoring the
-    HEALTH of the control system itself — not its content.
-
-    V13 simplified (dispatch dissolved):
-      - No dispatch weight means / entropy / compute gate
-      - 8 passes, 7 S2 transitions
-      - INPUT_DIM = 39 (padded to 48 for TernaryLinear group_size)
-
-    Mechanism:
-      - Separate gate: per-pass factor ∈ [0, 2] via 1 + tanh(logit)
-      - Factor = 1.0 → no alarm (neutral)
-      - Factor < 1.0 → pain (suppress this pass)
-      - Factor > 1.0 → pleasure (amplify, up to 2×)
-      - Multiplies S5Reweight gates: effective = s5_gate × alarm_factor
-    """
-
-    # Input metric dimensions (must match _collect_alarm_metrics in model.py)
-    N_S3_GATE_MEANS = 8       # mean S3 gate per pass
-    N_S2_CONFLICTS = 7        # cosine between consecutive pass deltas (n_passes - 1)
-    N_RAW_DELTA_NORMS = 8     # L2 norm of each raw delta
-    N_GATED_DELTA_NORMS = 8   # L2 norm of each gated delta
-    N_SUPPRESSION_RATIOS = 8  # gated/raw ratio per pass
-
-    # 8+7+8+8+8 = 39; pad to 64 (TernaryLinear group_size)
-    INPUT_DIM = (N_S3_GATE_MEANS + N_S2_CONFLICTS +
-                 N_RAW_DELTA_NORMS + N_GATED_DELTA_NORMS +
-                 N_SUPPRESSION_RATIOS)  # = 39
-
-    # TernaryLinear requires in_features divisible by group_size=64.
-    # 39 → pad to 64.
-    _INPUT_DIM_PADDED = 64
-
-    def __init__(self, n_passes: int = 8):
-        super().__init__()
-        self.n_passes = n_passes
-
-        # Single ternary linear: operational metrics → per-pass alarm logits.
-        # Output padded to multiple of 16, take [:n_passes].
-        _n_passes_padded = ((n_passes + 15) // 16) * 16
-        self.alarm_proj = TernaryLinear(
-            self._INPUT_DIM_PADDED, _n_passes_padded, pre_norm=False)
-        # Zero-init: alarm starts inert (all factors = 1.0).
-        # gamma=0 → output=0 → tanh(0)=0 → factor=1.0
-        self.alarm_proj.gamma = mx.zeros_like(self.alarm_proj.gamma)
-
-    def __call__(
-        self, metrics_vector: mx.array,
-    ) -> mx.array:
-        """Compute alarm factors from health metrics.
-
-        Args:
-            metrics_vector: (INPUT_DIM,) packed operational metrics.
-
-        Returns:
-            pass_factors: (n_passes,) alarm factors in [0, 2]:
-              1.0 → no alarm (neutral)
-              < 1.0 → pain (suppress this pass)
-              > 1.0 → pleasure (amplify, up to 2.0)
-        """
-        # Pad metrics vector to _INPUT_DIM_PADDED for TernaryLinear
-        padded = mx.concatenate([
-            metrics_vector,
-            mx.zeros((self._INPUT_DIM_PADDED - self.INPUT_DIM,))
-        ])
-        pass_logits = self.alarm_proj(padded.reshape(1, -1)).reshape(-1)[:self.n_passes]
-        return 1.0 + mx.tanh(pass_logits)
-
-
-# ══════════════════════════════════════════════════════════════════════
-# Convenience constructor from V13Config
-# ══════════════════════════════════════════════════════════════════════
-
-
-def make_components(cfg) -> dict:
-    """Construct all VSM components from a V13Config.
-
-    Returns a dict of component instances keyed by name:
-      s3_passes: list of S3Ternary (one per pass)
-      s5:        S5Reweight
-      s2:        S2Coordinator
-      alarm:     AlgedonicAlert
-    """
-    return {
-        "s3_passes": [
-            S3Ternary(d_model=cfg.d_model)
-            for _ in range(cfg.n_passes)
-        ],
-        "s5": S5Reweight(
-            d_model=cfg.d_model,
-            n_passes=cfg.n_passes,
-        ),
-        "s2": S2Coordinator(d_model=cfg.d_model),
-        "alarm": AlgedonicAlert(n_passes=cfg.n_passes),
-    }
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -360,46 +474,124 @@ def make_components(cfg) -> dict:
 # ══════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    import mlx.core as mx
-
     d_model = 512
     n_passes = 8
+    alg_dim = 32
+    d_identity = 64
+    n_stacks = N_STACKS
 
-    print("Testing S3Ternary (single-phase)...")
+    print("=" * 60)
+    print("components.py self-test (session 135: tree of VSMs)")
+    print("=" * 60)
+
+    # ── Per-stack components ──────────────────────────────────
+    print("\n── Per-stack components ──")
+
+    print("S3Ternary...")
     s3 = S3Ternary(d_model)
     delta = mx.random.normal((1, 32, d_model))
     gate = s3(delta)
     mx.eval(gate)
-    assert gate.shape == (1,), f"Expected shape (1,), got {gate.shape}"
-    print(f"  S3: gate shape {gate.shape}, value={gate.item():.4f} ✓")
+    assert gate.shape == (1,)
+    print(f"  gate={gate.item():.4f} ✓")
 
-    print("Testing S5Reweight...")
-    s5 = S5Reweight(d_model, n_passes=n_passes)
-    pass_deltas = [mx.random.normal((1, 32, d_model)) for _ in range(n_passes)]
-    gates_s5 = s5(pass_deltas)
-    mx.eval(gates_s5)
-    assert gates_s5.shape == (n_passes,)
-    print(f"  S5: gates shape {gates_s5.shape} ✓")
-
-    print("Testing S2Coordinator...")
-    s2 = S2Coordinator(d_model)
-    delta = mx.random.normal((1, 32, d_model))
-    for t in range(S2Coordinator.N_TRANSITIONS):
-        sig = s2.direction_signal(delta, t)
+    print("S2Coordinator (3 transitions for 4 passes in a stack)...")
+    s2_stack = S2Coordinator(d_model, n_transitions=3)
+    for t in range(3):
+        sig = s2_stack.direction_signal(delta, t)
         mx.eval(sig)
         assert sig.shape == (1, 1, d_model)
-    coh = S2Coordinator.coherence_factor(delta, delta)
-    mx.eval(coh)
-    print(f"  S2: {S2Coordinator.N_TRANSITIONS} transitions, coherence={coh.item():.3f} ✓")
+    print(f"  3 direction signals ✓")
 
-    print("Testing AlgedonicAlert...")
-    alarm = AlgedonicAlert(n_passes=n_passes)
-    metrics = mx.zeros((AlgedonicAlert.INPUT_DIM,))
-    factors = alarm(metrics)
+    print("AlgedonicAlert (4 passes per stack)...")
+    alg = AlgedonicAlert(n_passes=4, input_dim=16)
+    metrics = mx.random.normal((16,))
+    factors = alg(metrics)
     mx.eval(factors)
-    assert factors.shape == (n_passes,)
-    assert abs(factors.mean().item() - 1.0) < 1e-5
-    print(f"  Alarm: factors shape {factors.shape}, mean={factors.mean().item():.3f} ✓")
+    assert factors.shape == (4,)
+    print(f"  factors shape={factors.shape}, mean={factors.mean().item():.3f} ✓")
 
-    print(f"\n  AlgedonicAlert.INPUT_DIM = {AlgedonicAlert.INPUT_DIM} (padded to {AlgedonicAlert._INPUT_DIM_PADDED})")
-    print("\nAll V13 component tests passed ✓")
+    # ── Controller components ─────────────────────────────────
+    print("\n── Controller components ──")
+
+    print("S5Identity...")
+    s5 = S5Identity(d_identity=d_identity, n_stacks=n_stacks, alg_dim=alg_dim)
+    crystal = mx.array(0.05)
+    algs = [mx.random.normal((alg_dim,)) for _ in range(n_stacks)]
+    proposals = mx.random.normal((4,))
+    regulation, accepted, alarm = s5(crystal, algs, proposals)
+    mx.eval(regulation, accepted, alarm)
+    assert regulation.shape == (4,)
+    assert accepted.shape == (4,)
+    print(f"  regulation={[f'{r:.3f}' for r in regulation.tolist()]}")
+    print(f"  accepted proposals norm={mx.sqrt(mx.sum(accepted*accepted)).item():.4f}")
+    print(f"  alarm={alarm.item():.4f}")
+    print(f"  identity_state norm={mx.sqrt(mx.sum(s5.identity_state*s5.identity_state)).item():.4f} ✓")
+
+    print("S4Intelligence...")
+    s4 = S4Intelligence(n_stacks=n_stacks, alg_dim=alg_dim)
+    s4_proposals, s2_signal = s4(algs)
+    mx.eval(s4_proposals, s2_signal)
+    assert s4_proposals.shape == (4,)
+    assert s2_signal.shape == (64,)
+    print(f"  proposals={[f'{p:.3f}' for p in s4_proposals.tolist()]}")
+    print(f"  s2_signal norm={mx.sqrt(mx.sum(s2_signal*s2_signal)).item():.4f} ✓")
+
+    print("S2AntiOscillation...")
+    s2_ctrl = S2AntiOscillation(n_boundaries=N_BOUNDARIES, s4_signal_dim=64)
+    stack_outs = [mx.random.normal((1, 32, d_model)) for _ in range(n_stacks)]
+    dampening = s2_ctrl(stack_outs, s2_signal)
+    mx.eval(dampening)
+    assert dampening.shape == (N_BOUNDARIES,)
+    print(f"  dampening={[f'{d:.3f}' for d in dampening.tolist()]} ✓")
+    # Second call to test derivative term
+    dampening2 = s2_ctrl(stack_outs, s2_signal)
+    mx.eval(dampening2)
+    print(f"  dampening2 (with D term)={[f'{d:.3f}' for d in dampening2.tolist()]} ✓")
+
+    print("MetaS3FireAlarm...")
+    fire = MetaS3FireAlarm(n_stacks=n_stacks, alg_dim=alg_dim, bias_init=-2.0)
+    alarm_level = fire(algs, crystal)
+    mx.eval(alarm_level)
+    assert alarm_level.shape == ()
+    print(f"  alarm_level={alarm_level.item():.4f} (should be near 0.12) ✓")
+
+    print("S5Reweight...")
+    s5r = S5Reweight(d_model=d_model, n_passes=n_passes)
+    deltas = [mx.random.normal((1, 32, d_model)) for _ in range(n_passes)]
+    gates = s5r(deltas)
+    mx.eval(gates)
+    assert gates.shape == (n_passes,)
+    print(f"  gates mean={gates.mean().item():.4f} ✓")
+
+    # ── Gradient flow ─────────────────────────────────────────
+    print("\n── Gradient flow ──")
+
+    class TestControllerGrad(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.s5 = S5Identity(d_identity=64, n_stacks=3, alg_dim=32)
+            self.s4 = S4Intelligence(n_stacks=3, alg_dim=32)
+            self.fire = MetaS3FireAlarm(n_stacks=3, alg_dim=32)
+
+        def __call__(self, crystal_loss, algs):
+            proposals, s2_sig = self.s4(algs)
+            reg, accepted, alarm = self.s5(crystal_loss, algs, proposals)
+            fire_alarm = self.fire(algs, crystal_loss)
+            return mx.sum(reg) + mx.sum(accepted) + alarm + fire_alarm
+
+    tcg = TestControllerGrad()
+    mx.eval(tcg.parameters())
+
+    def ctrl_loss(m, cl, algs):
+        return m(cl, algs)
+
+    gfn = nn.value_and_grad(tcg, ctrl_loss)
+    cl = mx.array(0.05)
+    test_algs = [mx.random.normal((32,)) for _ in range(3)]
+    lv, g = gfn(tcg, cl, test_algs)
+    mx.eval(lv, g)
+    print(f"  Controller gradient flow OK: output={lv.item():.4f} ✓")
+
+    print("\n" + "=" * 60)
+    print("All component tests passed ✓")

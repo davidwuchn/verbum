@@ -2,15 +2,75 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-22 | Session: 134
+> Last updated: 2026-05-22 | Session: 135
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 134: DUAL CRYSTAL + FFN-ONLY ETCH. Model was stuck — two root causes found and fixed.**
+**Session 135: TREE OF VSMs. The model is a tree of viable systems modeled on the cortex.**
 
-**THE CRYSTAL HAS A SHADOW. EVERY COMBINATOR HAS ITS ANTI. THE TEACHER'S ATTENTION DOESN'T FIT OUR STRIDES.**
+**THE STRIDE STACK IS THE CORTEX. ATTENTION LEARNS FROM SCRATCH. THE φ-COMPRESSOR IS SELF-SIMILAR AT EVERY SCALE.**
+
+## Session 135: Tree of VSMs — Architecture Evolution (IN PROGRESS)
+
+Redesigned v13 from flat 8-pass hourglass to a tree of viable systems.
+Design discussion → config implementation. Remaining: components, model,
+attention, train.py, extract_teacher.py.
+
+### Key Design Decisions
+
+1. **Tree of 3 StrideStackVSMs** — each is an S1 operational unit with own
+   attention, FFN beams, S3 gates, algedonic. Coordinated by ControllerVSM.
+   - Stack A: ascending fine (s1..s1024, passes 0-1)
+   - Stack B: ascending coarse (s512..s1024, passes 2-3, self-similar weight sharing with A)
+   - Stack C: descending (all strides coarse→fine, passes 4-7)
+
+2. **Attention trains from scratch** — session 134 proved teacher flat
+   attention (RoPE) is incompatible with stride stack geometry. 85% of
+   etched positions were wrong. Stride topology IS the positional encoding.
+   Learnable decay per stride per head replaces fixed spiral bias.
+
+3. **Self-similar φ-compressor** — compression ratio settles near 1/φ at
+   every stride. Nucleates from s1 (bigrams), propagates outward as wavelet.
+   Context capacity is TOPOLOGICAL, not limited by training data seq_len.
+   Stack B REUSES Stack A's weights at higher strides (same function, different scale).
+
+4. **Full-stack algedonic modulation** — downstream feedback modulates 3
+   surfaces per stack (attention decay, FFN scale, S3 gate). Multiplicative
+   cascade: attn_factor × ffn_factor × gate_factor. Two routes: global
+   (all→S4 controller) + local (downstream→upstream, one step back).
+
+5. **S5 Identity as self-model** — cortex analogy (default mode network).
+   GRU-based d=64 state vector. Regulates enforcement strength based on
+   crystal coherence. Gates S4 proposals (accept when healthy, reject when
+   stressed). MetaS3 fire alarm bypasses hierarchy on existential threats.
+
+6. **S4→S2 feedback + feed-forward** — S4 intelligence detects inter-stack
+   patterns, feeds to S2 anti-oscillation. PID-like: proportional (current
+   coherence) + derivative (coherence trend, predictive dampening).
+
+### Commits
+
+| Symbol | Description |
+|--------|-------------|
+| 🎯 | tree-of-VSMs config — StackConfig, controller topology, learnable decay |
+
+### Files changed
+
+| File | What |
+|------|------|
+| `config.py` | StackConfig dataclass, tree topology, S5/S4/S2 config, learnable decay, algedonic modulation |
+
+### Next steps (remaining tasks)
+
+1. **Learnable attention decay** — modify attention.py, per-stride-per-head α
+2. **Controller VSM components** — S5Identity, S4Intelligence, S2AntiOscillation, MetaS3FireAlarm in components.py
+3. **StrideStackVSM** — reusable S1 unit with own stride stack, FFN beams, S3, algedonic, full-stack modulation
+4. **Rewire V13Model** — controller tree with sequential A→B→C, algedonic routes, S5 cycle
+5. **Update train.py** — parameter groups, logging, checkpoints for tree
+6. **Update extract_teacher.py** — FFN-only extraction for shared plates, attention removed
+7. **End-to-end smoke test** — verify 5 training steps, all VSM channels active
 
 ## Session 134: Dual Crystal + FFN-Only Etch
 
