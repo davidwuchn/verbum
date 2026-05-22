@@ -76,8 +76,14 @@ class SingleStrideAttention(nn.Module):
 
     Q/K/V/O are TernaryLinear. Sparse gather, O(L×W) not O(L²).
 
-    Spiral bias: -α·ln(stride·w + 1) applied to attention logits.
-    Larger w (further back) → more negative → geometric attention decay.
+    Learnable decay: per-head α parameter, applied as -α·ln(stride·w + 1).
+    Session 135: replaces fixed spiral bias. Each head at each stride
+    discovers its own decay rate. The decay is a beam parameter (continuous,
+    trained by GD). Self-similar structure: same functional form at every
+    stride, with the stride value providing scale differentiation.
+
+    The decay_modulation input allows algedonic feedback to amplify or
+    suppress attention at this stride (full-stack modulation, session 135).
     """
 
     def __init__(
@@ -87,7 +93,7 @@ class SingleStrideAttention(nn.Module):
         window: int = 8,
         n_heads: int = 8,
         dropout: float = 0.1,
-        alpha: float | None = None,
+        decay_init_alpha: float = 1.18,
         n_q_mirrors: int = 0,
     ):
         super().__init__()
@@ -98,7 +104,6 @@ class SingleStrideAttention(nn.Module):
         self.d_head = d_model // n_heads
         assert d_model % n_heads == 0
         self.scale = self.d_head ** -0.5
-        self.alpha = alpha
 
         self.norm = nn.RMSNorm(d_model)
 
@@ -111,20 +116,34 @@ class SingleStrideAttention(nn.Module):
         self.out_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
         # Per-feature beam biases on plate outputs (mini_holo_exp1: scale+bias > scale-only)
-        # gamma inside TernaryLinear provides per-feature scale; these add per-feature bias.
         self.k_bias = mx.zeros((d_model,))
         self.v_bias = mx.zeros((d_model,))
         self.o_bias = mx.zeros((d_model,))
 
         self.dropout = nn.Dropout(dropout)
 
-        if alpha is not None:
-            w_pos = mx.arange(window, dtype=mx.float32)
-            self._spiral_bias = -alpha * mx.log(stride * w_pos + 1.0)
-        else:
-            self._spiral_bias = None
+        # Learnable decay: per-head α, init near known-good value.
+        # bias = -α_h · ln(stride · w + 1) for each head h.
+        # α > 0 → decay (further positions attend less)
+        # α = 0 → flat attention (all positions equal)
+        # α < 0 → anti-decay (further positions attend MORE, unusual but learnable)
+        # (n_heads,) — one learnable scalar per head for this stride.
+        self.decay_alpha = mx.full((n_heads,), decay_init_alpha)
 
-    def __call__(self, x: mx.array) -> mx.array:
+        # Pre-compute the log-distance structure (fixed for this stride/window).
+        # Shape (window,) — multiplied by per-head alpha at forward time.
+        w_pos = mx.arange(window, dtype=mx.float32)
+        self._log_distances = mx.log(stride * w_pos + 1.0)  # (W,)
+
+    def __call__(self, x: mx.array, decay_modulation: float = 1.0) -> mx.array:
+        """Forward pass with learnable per-head decay.
+
+        Args:
+            x: (B, L, d_model) input
+            decay_modulation: scalar in (0, 2) from algedonic feedback.
+                1.0 = neutral (no change). >1 = sharper decay (attend more locally).
+                <1 = flatter decay (attend more broadly). Multiplies decay_alpha.
+        """
         B, L, D = x.shape
         H, Dh = self.n_heads, self.d_head
         W = self.window
@@ -161,8 +180,14 @@ class SingleStrideAttention(nn.Module):
         attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1)
         attn = attn * self.scale
 
-        if self._spiral_bias is not None:
-            attn = attn + self._spiral_bias
+        # Learnable decay: -α_h · ln(stride · w + 1), modulated by algedonic
+        # decay_alpha: (H,) — per-head learnable rate
+        # _log_distances: (W,) — pre-computed log structure
+        # decay_modulation: scalar from algedonic feedback
+        # Result shape: (H, W) → broadcast to (1, H, 1, W) for attn logits
+        effective_alpha = self.decay_alpha * decay_modulation  # (H,)
+        decay_bias = -(effective_alpha[:, None] * self._log_distances[None, :])  # (H, W)
+        attn = attn + decay_bias[None, :, None, :]  # (B, H, L, W)
 
         valid_mask = valid[None, None, :, :]
         attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
@@ -240,8 +265,9 @@ class SingleStrideAttention(nn.Module):
         attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1)
         attn = attn * self.scale
 
-        if self._spiral_bias is not None:
-            attn = attn + self._spiral_bias
+        # Learnable decay (same as __call__, no algedonic modulation here)
+        decay_bias = -(self.decay_alpha[:, None] * self._log_distances[None, :])
+        attn = attn + decay_bias[None, :, None, :]
 
         valid_mask = valid[None, None, :, :]
         attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
@@ -474,7 +500,7 @@ class StrideStack(nn.Module):
         n_heads: int = 8,
         d_state: int = 64,
         dropout: float = 0.1,
-        alpha: float | None = None,
+        decay_init_alpha: float = 1.18,
         n_q_mirrors: int = 0,
         n_combinators: int = 8,
     ):
@@ -518,7 +544,7 @@ class StrideStack(nn.Module):
                         window=window,
                         n_heads=n_heads,
                         dropout=dropout,
-                        alpha=alpha,
+                        decay_init_alpha=decay_init_alpha,
                         n_q_mirrors=n_q_mirrors,
                     )
                 )
@@ -655,7 +681,7 @@ class StrideStack(nn.Module):
             n_heads=cfg.n_heads,
             d_state=cfg.d_state,
             dropout=cfg.dropout,
-            alpha=cfg.alpha,
+            decay_init_alpha=cfg.decay_init_alpha,
             n_q_mirrors=cfg.n_q_mirrors if cfg.use_q_mirrors else 0,
             n_combinators=cfg.n_combinators,
         )
@@ -701,7 +727,7 @@ class HybridStrideStack(nn.Module):
         n_heads: int = 8,
         d_state: int = 64,
         dropout: float = 0.1,
-        alpha: float | None = None,
+        decay_init_alpha: float = 1.18,
         n_q_mirrors: int = 0,
         n_combinators: int = 8,
         stride_band_ranges: tuple[tuple[int, int], ...] | None = None,
@@ -709,14 +735,6 @@ class HybridStrideStack(nn.Module):
         super().__init__()
         self.stride_band_ranges = stride_band_ranges
         self.n_passes = len(stride_band_ranges) if stride_band_ranges else 7
-
-        # Number of descending passes: passes ≥ ceil(n_passes/2) are descending.
-        # For 7-pass hourglass: passes 4,5,6 are descending.
-        self._n_asc = (self.n_passes + 1) // 2   # 4 (including apex)
-        # pass 0..n_asc-1 ascending; pass n_asc..n_passes-1 descending
-        # pass n_asc-1 = apex (no reversal)
-        # pass n_asc..n_passes-1: descending (reverse=True if desc_stride_reverse)
-        # For 7 passes: asc=[0,1,2,3(apex)], desc=[4,5,6]
 
         # The single shared StrideStack (S5 coherence — shared across all passes)
         self.stack = StrideStack(
@@ -727,7 +745,7 @@ class HybridStrideStack(nn.Module):
             n_heads=n_heads,
             d_state=d_state,
             dropout=dropout,
-            alpha=alpha,
+            decay_init_alpha=decay_init_alpha,
             n_q_mirrors=n_q_mirrors,
             n_combinators=n_combinators,
         )
@@ -795,8 +813,21 @@ class HybridStrideStack(nn.Module):
         return f"HybridStrideStack(wraps {self.stack.describe()})"
 
     @classmethod
-    def from_config(cls, cfg: V13Config) -> "HybridStrideStack":
-        """Construct a HybridStrideStack from a V13Config."""
+    def from_config(cls, cfg: V13Config, stride_band_ranges: tuple[tuple[int, int], ...] | None = None) -> "HybridStrideStack":
+        """Construct a HybridStrideStack from a V13Config.
+
+        Args:
+            cfg: V13Config
+            stride_band_ranges: override stride band ranges (per-stack bands
+                from StackConfig). If None, gathers all bands from all stacks.
+        """
+        if stride_band_ranges is None:
+            # Gather all bands from all stacks in pass order
+            all_bands = []
+            for sc in cfg.stack_configs:
+                all_bands.extend(sc.stride_band_ranges)
+            stride_band_ranges = tuple(all_bands)
+
         return cls(
             d_model=cfg.d_model,
             strides=cfg.strides,
@@ -805,10 +836,10 @@ class HybridStrideStack(nn.Module):
             n_heads=cfg.n_heads,
             d_state=cfg.d_state,
             dropout=cfg.dropout,
-            alpha=cfg.alpha,
+            decay_init_alpha=cfg.decay_init_alpha,
             n_q_mirrors=cfg.n_q_mirrors if cfg.use_q_mirrors else 0,
             n_combinators=cfg.n_combinators,
-            stride_band_ranges=cfg.stride_band_ranges,
+            stride_band_ranges=stride_band_ranges,
         )
 
 
@@ -824,13 +855,17 @@ if __name__ == "__main__":
     print("\nTesting SingleStrideAttention...")
     for stride in (1, 2, 4, 8):
         ssa = SingleStrideAttention(
-            d_model=512, stride=stride, window=8, n_heads=8, alpha=1.18
+            d_model=512, stride=stride, window=8, n_heads=8, decay_init_alpha=1.18
         )
         x = mx.random.normal((1, 64, 512))
         y = ssa(x)
         mx.eval(y)
         assert y.shape == (1, 64, 512), f"Expected (1, 64, 512), got {y.shape}"
-        print(f"  SSA(s={stride}): {x.shape} → {y.shape} ✓")
+        # Test with decay_modulation
+        y2 = ssa(x, decay_modulation=1.5)
+        mx.eval(y2)
+        assert y2.shape == (1, 64, 512)
+        print(f"  SSA(s={stride}): {x.shape} → {y.shape} ✓ (decay_mod=1.5 ✓)")
 
     # ── GatedLinearAttention ──────────────────────────────────
     print("\nTesting GatedLinearAttention...")
@@ -865,7 +900,7 @@ if __name__ == "__main__":
         d_model=512,
         strides=strides_v13,
         stride_is_retrieval=stride_is_ret_v13,
-        window=8, n_heads=8, d_state=64, alpha=1.18,
+        window=8, n_heads=8, d_state=64, decay_init_alpha=1.18,
     )
     assert len(ss.layers) == 11
     assert ss._layer_types == [
@@ -912,7 +947,7 @@ if __name__ == "__main__":
         d_model=512,
         strides=strides_v13,
         stride_is_retrieval=stride_is_ret_v13,
-        window=8, n_heads=8, d_state=64, alpha=1.18,
+        window=8, n_heads=8, d_state=64, decay_init_alpha=1.18,
         stride_band_ranges=band_ranges,
     )
 
@@ -962,7 +997,7 @@ if __name__ == "__main__":
                 d_model=512,
                 strides=(1, 2, 4, 8, 16, 32),
                 stride_is_retrieval=(False, False, False, False, True, True),
-                window=8, n_heads=8, d_state=64, alpha=1.18,
+                window=8, n_heads=8, d_state=64, decay_init_alpha=1.18,
             )
         def __call__(self, x):
             return mx.mean(self.stack(x, pass_idx=0, stride_range=(0, 4)))
