@@ -1186,8 +1186,9 @@ def distill_teacher(
     else:
         log(f"\n  Fresh student: d={d_student}, strides={n_strides}")
 
-    # Freeze ternary topology before any training (bridges will update beams only)
-    freeze_ternary_weights(model)
+    # Do NOT freeze during distillation — gamma gradients are needed for sign
+    # voting in the holographic etch. train.py freezes after distillation.
+    # Just verify ternary integrity.
     restore_ternary(model)
 
     log(f"  Student ternary positions: {count_ternary_weights(model):,}")
