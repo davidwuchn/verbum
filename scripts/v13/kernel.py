@@ -50,10 +50,26 @@ class Combinator(IntEnum):
     W = 6    # λf.λx.f(x)(x)       — duplicate / self-apply
     WHNF = 7 # (terminal)           — weak head normal form (stop reducing)
 
-N_COMBINATORS = 8  # KIBC-DYWH dispatch
+N_COMBINATORS = 8  # KIBC-DYWH dispatch (positive crystal)
 
 COMBINATOR_NAMES: list[str] = ["K", "I", "B", "C", "D", "Y", "W", "WHNF"]
 assert len(COMBINATOR_NAMES) == N_COMBINATORS
+
+# Anti-crystal: the shadow of each combinator. Session 132 finding:
+# the teacher encodes WHAT TO DO (positive crystal) and WHAT NOT TO DO
+# (anti-crystal) as interlocking sign lattices. 29% of positions in
+# each weight matrix are anti-crystal (Q and K signs disagree).
+# The anti-crystal is symmetric, high-rank, and positional.
+# Anti-combinator embeddings give the suppression pattern geometric
+# structure via 16×16 relational loss targets.
+N_ANTI_COMBINATORS = 8  # āK, āI, āB, āC, āD, āY, āW, āWHNF
+N_TOTAL_COMBINATORS = N_COMBINATORS + N_ANTI_COMBINATORS  # 16
+
+ANTI_COMBINATOR_NAMES: list[str] = ["āK", "āI", "āB", "āC", "āD", "āY", "āW", "āWHNF"]
+assert len(ANTI_COMBINATOR_NAMES) == N_ANTI_COMBINATORS
+
+ALL_COMBINATOR_NAMES: list[str] = COMBINATOR_NAMES + ANTI_COMBINATOR_NAMES
+assert len(ALL_COMBINATOR_NAMES) == N_TOTAL_COMBINATORS
 
 
 class Kernel(IntEnum):
@@ -546,6 +562,13 @@ def _self_test() -> None:
     assert COMBINATOR_NAMES[Combinator.W] == "W"
     assert COMBINATOR_NAMES[Combinator.WHNF] == "WHNF"
 
+    # ── Anti-combinator consistency ──
+    assert N_ANTI_COMBINATORS == 8, "Anti-crystal must mirror positive crystal"
+    assert N_TOTAL_COMBINATORS == 16, "Total = 8 positive + 8 anti"
+    assert ANTI_COMBINATOR_NAMES[0] == "āK"
+    assert ANTI_COMBINATOR_NAMES[7] == "āWHNF"
+    assert len(ALL_COMBINATOR_NAMES) == 16
+
     # ── KERNEL_NAMES consistency ──
     assert KERNEL_NAMES[Kernel.K] == "K"
     assert KERNEL_NAMES[Kernel.M] == "M"
@@ -566,6 +589,8 @@ def _self_test() -> None:
     print(f"  Reduction engine: normal-order, outermost-first")
     print(f"  Base:     K(select), I(identity), B(compose), C(flip)")
     print(f"  Extended: D(deep_compose), Y(recurse), W(duplicate), WHNF(terminal)")
+    print(f"  Anti:     āK, āI, āB, āC, āD, āY, āW, āWHNF (shadow crystal)")
+    print(f"  Total:    {N_TOTAL_COMBINATORS} embeddings (8 positive + 8 anti)")
     print(f"  Retrieval: M(match) — layer type, not dispatch option")
 
 
