@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verbum — Pentagonal Crystal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#030306;color:#ccc;font-family:'SF Mono','Fira Code',monospace;overflow:hidden}
+canvas{display:block}
+#hud{position:fixed;top:0;left:0;z-index:10;padding:12px 20px;pointer-events:none}
+#hud>*{pointer-events:auto}
+#info{max-width:360px;background:rgba(3,3,8,0.92);padding:12px;border-radius:4px;border:1px solid #2a2a3a}
+#info h1{font-size:12px;letter-spacing:3px;color:#7777bb;font-weight:400;margin-bottom:6px}
+#info p{font-size:9px;color:#778;line-height:1.7}
+.hi{color:#88cc88}
+#ctrls{position:fixed;top:12px;right:20px;z-index:10;display:flex;flex-direction:column;gap:5px;background:rgba(3,3,8,0.92);padding:8px 12px;border-radius:4px;border:1px solid #2a2a3a;pointer-events:auto}
+.cr{display:flex;align-items:center;gap:6px}
+.cr label{font-size:9px;color:#666;min-width:50px;text-align:right}
+.cr input[type=range]{width:100px;accent-color:#6666aa}
+.cr .v{font-size:9px;color:#88cc88;min-width:30px}
+.cr button{background:#1a1a2a;border:1px solid #2a2a3a;color:#888;padding:2px 8px;font:inherit;font-size:9px;cursor:pointer;border-radius:2px}
+.cr button.on{background:#2a2a4a;color:#aaf;border-color:#4a4a7a}
+#bar{position:fixed;bottom:0;left:0;width:100%;z-index:10;padding:6px 20px;background:rgba(3,3,8,0.92);border-top:1px solid #2a2a3a;font-size:10px;color:#555;display:flex;justify-content:space-between;pointer-events:none}
+#bar .m{color:#8a8}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud"><div id="info">
+<h1>PENTAGONAL CRYSTAL</h1>
+<p>
+5-fold symmetry — only possible as a <span class="hi">5D projection</span><br>
+Top face: pentagon = <span class="hi">5 dimensions</span><br>
+Taper: 5→4→3→2 edges as the gem descends<br>
+C is <span class="hi">universally deepest</span> from anywhere on 5D<br>
+Every step: <span class="hi">rotate Q → drop into deepest well → compute P(x)</span><br>
+Repeat until ball lands in <span class="hi">I</span> = output token<br>
+C is always deepest from 5D. WHNF = stop reducing, start expanding.
+</p></div></div>
+<div id="ctrls">
+<div class="cr"><label>speed</label><input type="range" id="spd" min="0.1" max="3" step="0.05" value="0.6"><span class="v" id="spd-v">0.6</span></div>
+<div class="cr"><label>gem alpha</label><input type="range" id="alpha" min="0.1" max="1" step="0.01" value="0.4"><span class="v" id="alpha-v">0.4</span></div>
+<div class="cr"><button id="btn-pause">pause</button><button id="btn-reset">reset</button><button id="btn-step">step</button></div>
+</div>
+<div id="bar">
+<span>Drag orbit · Scroll zoom</span>
+<span>Well: <span class="m" id="s-well">—</span> · Phase: <span class="m" id="s-phase">enter</span> · Dim: <span class="m" id="s-dim">5D</span> · Step: <span class="m" id="s-step">0</span></span>
+</div>
+<script>
+const cv=document.getElementById('c'),cx=cv.getContext('2d');
+let W,H,mx,my;
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;mx=W/2;my=H/2}
+addEventListener('resize',resize);resize();
+
+let camD=12,rX=-0.5,rY=0.4,dr=null;
+cv.addEventListener('mousedown',e=>{dr={x:e.clientX,y:e.clientY,rx:rX,ry:rY}});
+addEventListener('mousemove',e=>{if(!dr)return;rY=dr.ry+(e.clientX-dr.x)*0.004;rX=dr.rx+(e.clientY-dr.y)*0.004;rX=Math.max(-1.5,Math.min(0.5,rX))});
+addEventListener('mouseup',()=>{dr=null});
+cv.addEventListener('wheel',e=>{camD=Math.max(5,Math.min(25,camD+e.deltaY*0.01));e.preventDefault()},{passive:false});
+
+const FOV=550;
+function pj(x,y,z){
+  const cY=Math.cos(rY),sY=Math.sin(rY);let rx=x*cY-z*sY,rz=x*sY+z*cY;
+  const cX=Math.cos(rX),sX=Math.sin(rX);let ry=y*cX-rz*sX;rz=y*sX+rz*cX;
+  const d=camD+rz,s=FOV/Math.max(d,0.01);
+  return{x:mx+rx*s,y:my-ry*s,z:rz,s}
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PENTAGONAL GEMSTONE GEOMETRY
+//
+// The gem is a pentagonal crystal viewed from the side.
+// Levels from top to bottom, each with fewer vertices:
+//   Level 0 (top table): pentagon  — 5D
+//   Level 1 (crown):     pentagon wider — 5D/4D transition  
+//   Level 2:             square    — 4D
+//   Level 3:             triangle  — 3D
+//   Level 4:             line      — 2D
+//   Level 5 (culet):     point     — output
+//
+// Each level has a Y height, a radius, and N vertices.
+// ═══════════════════════════════════════════════════════════════
+
+// Bipyramid: descend 5→4→3→2 (reduce), WHNF at nadir, ascend 2→3→4→5 (expand)
+const LEVELS=[
+  // ── UPPER HALF: reduction (descending) ──
+  {n:5, y: 3.5, r:1.2,  dim:'5D', color:'#6666cc', label:'5D table',    half:'top'},
+  {n:5, y: 2.5, r:2.2,  dim:'5D', color:'#5566aa', label:'5D crown',    half:'top'},
+  {n:4, y: 1.0, r:2.0,  dim:'4D', color:'#44aa88', label:'4D reduce',   half:'top'},
+  {n:3, y:-0.5, r:1.5,  dim:'3D', color:'#aa8844', label:'3D reduce',   half:'top'},
+  {n:2, y:-1.8, r:0.8,  dim:'2D', color:'#aa4466', label:'2D WHNF',     half:'mid'},
+  // ── LOWER HALF: expansion (ascending back out) ──
+  {n:3, y:-3.0, r:1.5,  dim:'3D', color:'#88aa44', label:'3D expand',   half:'bot'},
+  {n:4, y:-4.2, r:2.0,  dim:'4D', color:'#4488aa', label:'4D expand',   half:'bot'},
+  {n:5, y:-5.5, r:2.2,  dim:'5D', color:'#6666cc', label:'5D output',   half:'bot'},
+  {n:1, y:-6.2, r:0.0,  dim:'I',  color:'#5599ff', label:'I → output',  half:'bot'},
+];
+
+// Generate vertices for a level, with rotation
+function lvlVerts(lvl, rot){
+  if(lvl.n<=1) return [{x:0,y:lvl.y,z:0}];
+  const v=[];
+  for(let i=0;i<lvl.n;i++){
+    const a=(i/lvl.n)*Math.PI*2 + rot;
+    v.push({x:Math.cos(a)*lvl.r, y:lvl.y, z:Math.sin(a)*lvl.r});
+  }
+  return v;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAVITY WELLS — on facets, descending into lower dimensions
+// C is the DEEPEST — universally downhill from 5D
+// ═══════════════════════════════════════════════════════════════
+
+const WELLS=[
+  // ── REDUCTION PHASE: descending into the gem ──
+  // C is deepest from 5D — universally downhill, always first
+  {name:'C',    lvl:1, facet:0, depth:1.8, hex:'#ffaa44', color:[1,.67,.27], desc:'composition',       phase:'reduce'},
+  {name:'B',    lvl:1, facet:1, depth:2.0, hex:'#55ff77', color:[.4,1,.53],  desc:'compose',           phase:'reduce'},
+  {name:'K',    lvl:2, facet:0, depth:1.5, hex:'#ff5555', color:[1,.35,.35], desc:'select',            phase:'reduce'},
+  {name:'Y',    lvl:3, facet:0, depth:1.2, hex:'#ff55bb', color:[1,.35,.75], desc:'recurse',           phase:'reduce'},
+  // ── WHNF: the nadir — stop reducing, start expanding ──
+  {name:'WHNF', lvl:4, facet:0, depth:0.8, hex:'#ffffff', color:[1,1,1],     desc:'stop reduce → expand', phase:'nadir'},
+  // ── EXPANSION PHASE: ascending back out through the gem ──
+  {name:'D',    lvl:5, facet:0, depth:1.0, hex:'#aa55ff', color:[.65,.35,1], desc:'bridge',            phase:'expand'},
+  {name:'W',    lvl:5, facet:1, depth:1.2, hex:'#55ffcc', color:[.35,1,.85], desc:'duplicate',         phase:'expand'},
+  {name:'S',    lvl:6, facet:0, depth:1.0, hex:'#ffff55', color:[1,1,.35],   desc:'distribute',        phase:'expand'},
+  // ── I: final output — identity passes the result through ──
+  {name:'I',    lvl:7, facet:0, depth:0.5, hex:'#5599ff', color:[.35,.65,1], desc:'identity → output', phase:'output'},
+];
+
+let qRot=0; // rotation of the crystal around Y axis
+
+// 3D position of a well on its facet
+function wellPos(w){
+  const lvl=LEVELS[w.lvl];
+  const a=(w.facet/lvl.n)*Math.PI*2 + qRot;
+  const r=lvl.r*0.65;
+  return{x:Math.cos(a)*r, y:lvl.y, z:Math.sin(a)*r};
+}
+// Bottom of well (where ball settles) — converges toward center axis
+function wellBottom(w){
+  const p=wellPos(w);
+  return{x:p.x*0.15, y:p.y - w.depth, z:p.z*0.15};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BALL STATE
+// ═══════════════════════════════════════════════════════════════
+
+const LIFT_Y=5.5; // above the top of the gem
+let paused=false,stepping=false;
+// Phases:
+//   enter    — ball appears at top
+//   rotate   — crystal rotates, well moves under the ball
+//   warp     — ball blinks from top → mouth of well (Q reset to 0)
+//   drop     — ball falls straight down into well
+//   settle   — tiny bounce at bottom
+//   compute  — P(x) at fixed point
+//   warpup   — ball blinks from well bottom → back to top
+//   output   — final: ball exits after I
+let B={wi:-1,phase:'enter',t:0,step:0,x:0,y:LIFT_Y,z:0,flashT:0,ballAlpha:1,_rf:0};
+const DUR={enter:1.0,rotate:1.2,warp:0.3,drop:0.6,settle:0.15,compute:1.4,warpup:0.3,output:2.0};
+
+document.getElementById('btn-pause').addEventListener('click',function(){paused=!paused;this.textContent=paused?'play':'pause';this.classList.toggle('on',paused)});
+document.getElementById('btn-reset').addEventListener('click',()=>{B={wi:-1,phase:'enter',t:0,step:0,x:0,y:LIFT_Y,z:0,flashT:0,ballAlpha:1,_rf:0};qRot=0;});
+document.getElementById('btn-step').addEventListener('click',()=>{stepping=true;paused=false;});
+
+function tick(dt){
+  if(paused&&!stepping)return;
+  const spd=parseFloat(document.getElementById('spd').value);
+  const s=dt*spd;
+  B.t+=s/DUR[B.phase];
+  const t=Math.min(B.t,1);
+  const ease=t*t*(3-2*t);
+
+  if(B.phase==='enter'){
+    // Ball appears at the top. Brief pause, then begin rotation.
+    B.x=0;B.y=LIFT_Y;B.z=0;B.ballAlpha=t;
+    if(t>=1){B.ballAlpha=1;B.phase='rotate';B.t=0;B.wi=-1;B.step=0;B._rf=qRot;}
+  }
+  else if(B.phase==='rotate'){
+    // Crystal rotates beneath the ball. Ball is STATIONARY at the apex.
+    // The well swings around until its funnel mouth is directly below the ball.
+    const nextIdx=B.wi+1;
+    const nw=WELLS[nextIdx];
+    const nlvl=LEVELS[nw.lvl];
+    const targetA=Math.PI/2-(nw.facet/nlvl.n)*Math.PI*2;
+    let delta=targetA-B._rf;
+    while(delta>Math.PI)delta-=Math.PI*2;
+    while(delta<-Math.PI)delta+=Math.PI*2;
+    qRot=B._rf+delta*ease;
+    // Ball stays fixed directly above where the funnel mouth WILL land
+    const finalRot=B._rf+delta;
+    const finalA=(nw.facet/nlvl.n)*Math.PI*2+finalRot;
+    const mouthR=nlvl.r*0.65;
+    B.x=Math.cos(finalA)*mouthR;
+    B.y=LIFT_Y;
+    B.z=Math.sin(finalA)*mouthR;
+    B.ballAlpha=1;
+    if(t>=1){qRot=targetA;B.wi=nextIdx;B.step++;B.phase='drop';B.t=0;}
+  }
+  else if(B.phase==='drop'){
+    // Ball drops straight down from above the funnel mouth.
+    // First half: fall from LIFT_Y to the funnel mouth (the level surface).
+    // Second half: slide down through the funnel to the bottom.
+    const w=WELLS[B.wi];
+    const ws=wellPos(w);   // funnel mouth
+    const wb=wellBottom(w); // funnel bottom
+    if(t<0.4){
+      // Fast drop to funnel mouth
+      const t1=t/0.4;
+      const fall=t1*t1;
+      B.x=ws.x;
+      B.y=LIFT_Y+(ws.y-LIFT_Y)*fall;
+      B.z=ws.z;
+    } else {
+      // Descend through funnel to bottom
+      const t2=(t-0.4)/0.6;
+      const slide=t2*t2;
+      B.x=ws.x+(wb.x-ws.x)*slide;
+      B.y=ws.y+(wb.y-ws.y)*slide;
+      B.z=ws.z+(wb.z-ws.z)*slide;
+    }
+    B.ballAlpha=1;
+    if(t>=1){B.x=wb.x;B.y=wb.y;B.z=wb.z;B.phase='settle';B.t=0;}
+  }
+  else if(B.phase==='settle'){
+    const w=WELLS[B.wi];
+    const wb=wellBottom(w);
+    const bounce=Math.sin(t*Math.PI*4)*0.04*(1-t);
+    B.x=wb.x;B.y=wb.y+Math.abs(bounce);B.z=wb.z;
+    if(t>=1){B.phase='compute';B.t=0;B.flashT=1;}
+  }
+  else if(B.phase==='compute'){
+    const w=WELLS[B.wi];
+    const wb=wellBottom(w);
+    B.x=wb.x;B.y=wb.y;B.z=wb.z;
+    B.flashT=Math.max(0,1-t*1.3);
+    if(t>=1){
+      if(B.wi>=WELLS.length-1){
+        // Landed in I — this IS the output. Done.
+        B.phase='output';B.t=0;
+      } else {
+        // Warp back to top, then rotate for next well
+        B.phase='warpup';B.t=0;
+      }
+      if(stepping){paused=true;stepping=false;}
+    }
+  }
+  else if(B.phase==='warpup'){
+    // Ball blinks from well bottom back to apex above the funnel.
+    const w=WELLS[B.wi];
+    const wb=wellBottom(w);
+    const ws=wellPos(w);
+    if(t<0.5){
+      B.x=wb.x;B.y=wb.y;B.z=wb.z;
+      B.ballAlpha=1-t*2;
+    } else {
+      B.x=ws.x;B.y=LIFT_Y;B.z=ws.z;
+      B.ballAlpha=(t-0.5)*2;
+    }
+    if(t>=1){B.ballAlpha=1;B.phase='rotate';B.t=0;B._rf=qRot;}
+  }
+  else if(B.phase==='output'){
+    // Output from I — ball glows and descends out the bottom
+    B.ballAlpha=1-t*0.5;
+    B.y=B.y-t*0.05;
+    if(t>=1){B={wi:-1,phase:'enter',t:0,step:B.step,x:0,y:LIFT_Y,z:0,flashT:0,ballAlpha:0,_rf:0};qRot=0;}
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+
+let lastT=0;
+function render(now){
+  const dt=Math.min((now-lastT)/1000,0.05);lastT=now;
+  document.getElementById('spd-v').textContent=document.getElementById('spd').value;
+  document.getElementById('alpha-v').textContent=document.getElementById('alpha').value;
+  tick(dt);
+  const gAlpha=parseFloat(document.getElementById('alpha').value);
+
+  cx.fillStyle='#030306';cx.fillRect(0,0,W,H);
+  const bg=cx.createRadialGradient(mx,my*0.6,0,mx,my,Math.max(W,H)*0.6);
+  bg.addColorStop(0,'#0a0a20');bg.addColorStop(1,'#030306');
+  cx.fillStyle=bg;cx.fillRect(0,0,W,H);
+
+  const DL=[];
+
+  // ── GEMSTONE WIREFRAME ───────────────────────────────────────
+  // Draw each level's polygon and connect to adjacent levels
+  for(let li=0;li<LEVELS.length;li++){
+    const lvl=LEVELS[li];
+    const verts=lvlVerts(lvl,qRot);
+
+    // Parse color from hex
+    const hc=lvl.color;
+    const cr=parseInt(hc.slice(1,3),16);
+    const cg=parseInt(hc.slice(3,5),16);
+    const cb=parseInt(hc.slice(5,7),16);
+
+    // Draw polygon edges at this level
+    if(verts.length>1){
+      for(let i=0;i<verts.length;i++){
+        const a=verts[i],b=verts[(i+1)%verts.length];
+        const pa=pj(a.x,a.y,a.z),pb=pj(b.x,b.y,b.z);
+        // Lighting
+        const midX=(a.x+b.x)/2,midZ=(a.z+b.z)/2;
+        const nd=Math.sqrt(midX*midX+midZ*midZ)||1;
+        const vd=Math.abs((midX/nd)*Math.sin(rY)+(midZ/nd)*Math.cos(rY));
+        const sh=0.4+vd*0.6;
+        const ea=gAlpha*sh;
+        DL.push({z:(pa.z+pb.z)/2,fn:()=>{
+          cx.beginPath();cx.moveTo(pa.x,pa.y);cx.lineTo(pb.x,pb.y);
+          cx.strokeStyle=`rgba(${(cr*sh)|0},${(cg*sh)|0},${(cb*sh)|0},${ea.toFixed(3)})`;
+          cx.lineWidth=li===0?2.5:(li===1?2:1.5);cx.stroke();
+        }});
+
+        // Fill facet triangles (to center of polygon)
+        const center={x:0,y:lvl.y,z:0};
+        const pc=pj(center.x,center.y,center.z);
+        const fillA=gAlpha*0.08*sh;
+        DL.push({z:(pa.z+pb.z+pc.z)/3+0.01,fn:()=>{
+          cx.beginPath();cx.moveTo(pa.x,pa.y);cx.lineTo(pb.x,pb.y);cx.lineTo(pc.x,pc.y);cx.closePath();
+          cx.fillStyle=`rgba(${(cr*0.8)|0},${(cg*0.8)|0},${(cb*0.8)|0},${fillA.toFixed(3)})`;
+          cx.fill();
+        }});
+      }
+    }
+
+    // Connect to next level
+    if(li<LEVELS.length-1){
+      const nlvl=LEVELS[li+1];
+      const nverts=lvlVerts(nlvl,qRot);
+
+      // Connect each vertex of this level to nearest vertex(es) of next
+      for(const v of verts){
+        // Find closest vertex in next level
+        let bestDist=999,bestV=nverts[0];
+        for(const nv of nverts){
+          const d=Math.hypot(v.x-nv.x,v.z-nv.z);
+          if(d<bestDist){bestDist=d;bestV=nv;}
+        }
+        const pa=pj(v.x,v.y,v.z),pb=pj(bestV.x,bestV.y,bestV.z);
+        const sh=0.5;
+        const ea=gAlpha*0.5;
+        DL.push({z:(pa.z+pb.z)/2,fn:()=>{
+          cx.beginPath();cx.moveTo(pa.x,pa.y);cx.lineTo(pb.x,pb.y);
+          cx.strokeStyle=`rgba(${(cr*sh)|0},${(cg*sh)|0},${(cb*sh)|0},${ea.toFixed(3)})`;
+          cx.lineWidth=1;cx.stroke();
+        }});
+      }
+      // Also connect next level vertices to this level
+      for(const nv of nverts){
+        let bestDist=999,bestV=verts[0];
+        for(const v of verts){
+          const d=Math.hypot(v.x-nv.x,v.z-nv.z);
+          if(d<bestDist){bestDist=d;bestV=v;}
+        }
+        const pa=pj(nv.x,nv.y,nv.z),pb=pj(bestV.x,bestV.y,bestV.z);
+        DL.push({z:(pa.z+pb.z)/2,fn:()=>{
+          cx.beginPath();cx.moveTo(pa.x,pa.y);cx.lineTo(pb.x,pb.y);
+          cx.strokeStyle=`rgba(${cr*0.4|0},${cg*0.4|0},${cb*0.4|0},${gAlpha*0.35})`;
+          cx.lineWidth=0.8;cx.stroke();
+        }});
+      }
+
+      // Fill side facets between levels (quads/triangles)
+      for(let i=0;i<verts.length;i++){
+        const v0=verts[i],v1=verts[(i+1)%verts.length];
+        // Find closest nverts to these two
+        let best0=nverts[0],best1=nverts[0];
+        let bd0=999,bd1=999;
+        for(const nv of nverts){
+          const d0=Math.hypot(v0.x-nv.x,v0.z-nv.z);
+          const d1=Math.hypot(v1.x-nv.x,v1.z-nv.z);
+          if(d0<bd0){bd0=d0;best0=nv;}
+          if(d1<bd1){bd1=d1;best1=nv;}
+        }
+        const p0=pj(v0.x,v0.y,v0.z),p1=pj(v1.x,v1.y,v1.z);
+        const p2=pj(best1.x,best1.y,best1.z),p3=pj(best0.x,best0.y,best0.z);
+        // Normal for lighting
+        const fmx=(v0.x+v1.x+best0.x)/3,fmz=(v0.z+v1.z+best0.z)/3;
+        const fn=Math.sqrt(fmx*fmx+fmz*fmz)||1;
+        const fvd=Math.abs((fmx/fn)*Math.sin(rY)+(fmz/fn)*Math.cos(rY));
+        const fsh=0.3+fvd*0.5;
+        const fillA2=gAlpha*0.06*fsh;
+        DL.push({z:(p0.z+p1.z+p2.z+p3.z)/4+0.02,fn:()=>{
+          cx.beginPath();cx.moveTo(p0.x,p0.y);cx.lineTo(p1.x,p1.y);
+          cx.lineTo(p2.x,p2.y);cx.lineTo(p3.x,p3.y);cx.closePath();
+          cx.fillStyle=`rgba(${(cr*fsh)|0},${(cg*fsh)|0},${(cb*fsh)|0},${fillA2.toFixed(3)})`;
+          cx.fill();
+        }});
+      }
+    }
+
+    // Level label
+    if(lvl.n>1){
+      const lp=pj(-LEVELS[1].r-1.2,lvl.y,0);
+      DL.push({z:99,fn:()=>{
+        cx.fillStyle=lvl.color;cx.font='bold 11px monospace';cx.textAlign='right';
+        cx.fillText(lvl.label,lp.x,lp.y+3);
+        // Guide line
+        const lp2=pj(-lvl.r-0.2,lvl.y,0);
+        cx.beginPath();cx.setLineDash([2,4]);cx.moveTo(lp.x+5,lp.y);cx.lineTo(lp2.x,lp2.y);
+        cx.strokeStyle=lvl.color+'33';cx.lineWidth=0.5;cx.stroke();cx.setLineDash([]);
+      }});
+    }
+
+    // Vertex dots
+    for(const v of verts){
+      const pp=pj(v.x,v.y,v.z);
+      DL.push({z:pp.z-0.05,fn:()=>{
+        cx.beginPath();cx.arc(pp.x,pp.y,2.5,0,Math.PI*2);
+        cx.fillStyle=lvl.color+'aa';cx.fill();
+      }});
+    }
+  }
+
+  // ── GRAVITY WELLS — funnels descending from facets ───────────
+  for(let wi=0;wi<WELLS.length;wi++){
+    const w=WELLS[wi];
+    const ws=wellPos(w);     // mouth on gem surface
+    const wb=wellBottom(w);  // bottom of well
+    const isA=wi===B.wi;
+    const isV=B.wi>=0&&wi<B.wi;
+    const [wr,wg,ww]=w.color;
+
+    // Funnel lines from mouth to bottom
+    const nF=10;
+    for(let fi=0;fi<nF;fi++){
+      const a=(fi/nF)*Math.PI*2;
+      const mouthR=0.35;
+      const botR=0.06;
+      const p1=pj(ws.x+Math.cos(a)*mouthR, ws.y, ws.z+Math.sin(a)*mouthR);
+      const p2=pj(wb.x+Math.cos(a)*botR, wb.y, wb.z+Math.sin(a)*botR);
+      const la=isA?0.55:(isV?0.25:0.1);
+      DL.push({z:(p1.z+p2.z)/2,fn:()=>{
+        cx.beginPath();cx.moveTo(p1.x,p1.y);cx.lineTo(p2.x,p2.y);
+        cx.strokeStyle=`rgba(${(wr*255)|0},${(wg*255)|0},${(ww*255)|0},${la})`;
+        cx.lineWidth=isA?1.5:0.7;cx.stroke();
+      }});
+    }
+
+    // Mouth ring
+    for(let fi=0;fi<nF;fi++){
+      const a0=(fi/nF)*Math.PI*2,a1=((fi+1)/nF)*Math.PI*2;
+      const rr=0.35;
+      const p1=pj(ws.x+Math.cos(a0)*rr,ws.y,ws.z+Math.sin(a0)*rr);
+      const p2=pj(ws.x+Math.cos(a1)*rr,ws.y,ws.z+Math.sin(a1)*rr);
+      DL.push({z:(p1.z+p2.z)/2,fn:()=>{
+        cx.beginPath();cx.moveTo(p1.x,p1.y);cx.lineTo(p2.x,p2.y);
+        cx.strokeStyle=w.hex+(isA?'bb':'44');cx.lineWidth=isA?2:0.8;cx.stroke();
+      }});
+    }
+
+    // Bottom glow
+    const bp=pj(wb.x,wb.y,wb.z);
+    const gr=isA?35:15;
+    const ga=isA?0.5:0.1;
+    DL.push({z:bp.z-0.1,fn:()=>{
+      const g=cx.createRadialGradient(bp.x,bp.y,0,bp.x,bp.y,gr);
+      g.addColorStop(0,w.hex+Math.floor(ga*255).toString(16).padStart(2,'0'));
+      g.addColorStop(1,'transparent');
+      cx.fillStyle=g;cx.fillRect(bp.x-gr,bp.y-gr,gr*2,gr*2);
+    }});
+
+    // LABEL — bold, colored, at bottom of well
+    DL.push({z:bp.z-0.3,fn:()=>{
+      cx.textAlign='center';
+      cx.font=`bold ${isA?20:13}px monospace`;
+      cx.fillStyle=w.hex;
+      cx.globalAlpha=isA?1:(isV?0.65:0.4);
+      cx.fillText(w.name,bp.x,bp.y-8);
+      cx.font=`${isA?10:8}px monospace`;
+      const phaseTag=w.phase==='reduce'?'▼ reduce':w.phase==='expand'?'▲ expand':w.phase==='nadir'?'◆ nadir':'● output';
+      cx.fillText(`${w.desc}`,bp.x,bp.y+8);
+      cx.font='8px monospace';
+      cx.fillStyle=w.phase==='reduce'?'#88ff88':w.phase==='expand'?'#88aaff':w.phase==='nadir'?'#ffffff':'#5599ff';
+      cx.globalAlpha=isA?0.8:0.3;
+      cx.fillText(phaseTag,bp.x,bp.y+20);
+      if(isA){
+        cx.font='8px monospace';cx.fillStyle='#88ff88';
+        cx.fillText(`depth ${w.depth.toFixed(1)}`,bp.x,bp.y+32);
+      }
+      cx.globalAlpha=1;
+    }});
+  }
+
+  // ── DROP LINE — from above funnel mouth down to well bottom ──
+  if(B.phase==='drop'){
+    const w=WELLS[B.wi];
+    const ws=wellPos(w);
+    const wb=wellBottom(w);
+    const tp=pj(ws.x,LIFT_Y,ws.z);
+    const mp=pj(ws.x,ws.y,ws.z);
+    const bp2=pj(wb.x,wb.y,wb.z);
+    DL.push({z:-5,fn:()=>{
+      cx.beginPath();cx.setLineDash([4,6]);
+      cx.moveTo(tp.x,tp.y);cx.lineTo(mp.x,mp.y);cx.lineTo(bp2.x,bp2.y);
+      cx.strokeStyle=w.hex+'22';cx.lineWidth=1;cx.stroke();cx.setLineDash([]);
+    }});
+  }
+  // ── WARP EFFECT — flash when warping back to top ─────────────
+  if(B.phase==='warpup'){
+    const flash=B.t<0.5?1-B.t*2:0;
+    if(flash>0.1){
+      const fp=pj(B.x,B.y,B.z);
+      DL.push({z:-5,fn:()=>{
+        const g=cx.createRadialGradient(fp.x,fp.y,0,fp.x,fp.y,flash*25);
+        g.addColorStop(0,'rgba(255,255,255,'+(flash*0.5)+')');g.addColorStop(1,'transparent');
+        cx.fillStyle=g;cx.fillRect(fp.x-30,fp.y-30,60,60);
+      }});
+    }
+  }
+
+  // ── ROTATE INDICATOR ─────────────────────────────────────────
+  if(B.phase==='rotate'){
+    const ap=pj(0,LIFT_Y+0.6,0);
+    const nextW=B.wi+1<WELLS.length?WELLS[B.wi+1]:null;
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle='#aabbff';cx.font='bold 12px monospace';cx.textAlign='center';
+      cx.fillText('① rotate Q',ap.x,ap.y);
+      if(nextW){
+        cx.font='9px monospace';cx.fillStyle=nextW.hex+'bb';
+        cx.fillText(`→ ${nextW.name} becomes deepest`,ap.x,ap.y+14);
+      }
+    }});
+  }
+  if(B.phase==='drop'){
+    const dp=pj(0,LIFT_Y+0.6,0);
+    const curW=B.wi>=0&&B.wi<WELLS.length?WELLS[B.wi]:null;
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle=curW?curW.hex:'#fff';cx.font='bold 12px monospace';cx.textAlign='center';
+      cx.fillText('↓ dropping into '+curW.name,dp.x,dp.y);
+    }});
+  }
+  if(B.phase==='compute'){
+    const cp2=pj(0,LIFT_Y+0.6,0);
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle='#ffcc88';cx.font='bold 12px monospace';cx.textAlign='center';
+      cx.fillText('compute P(x)',cp2.x,cp2.y);
+    }});
+  }
+  if(B.phase==='warpup'){
+    const wu=pj(0,LIFT_Y+0.6,0);
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle='#ffffff66';cx.font='bold 11px monospace';cx.textAlign='center';
+      cx.fillText('⚡ warp back to top',wu.x,wu.y+14);
+    }});
+  }
+  if(B.phase==='output'){
+    const op=pj(0,LIFT_Y+0.6,0);
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle='#5599ff';cx.font='bold 14px monospace';cx.textAlign='center';
+      cx.fillText('I → OUTPUT TOKEN',op.x,op.y);
+    }});
+  }
+
+  // ── ENTRY PATH ───────────────────────────────────────────────
+  if(B.phase==='enter'){
+    const ep=pj(2,LEVELS[0].y+0.4,1);
+    DL.push({z:-5,fn:()=>{
+      cx.fillStyle='#aabbff66';cx.font='9px monospace';cx.textAlign='center';
+      cx.fillText('prompt enters 5D lattice',ep.x,ep.y);
+    }});
+  }
+
+  // ── COMPUTE FLASH ────────────────────────────────────────────
+  if(B.flashT>0&&B.wi>=0&&B.wi<WELLS.length){
+    const w=WELLS[B.wi];
+    const wb=wellBottom(w);
+    const pp=pj(wb.x,wb.y,wb.z);
+    const fr=B.flashT*45;
+    const fa=B.flashT*0.5;
+    DL.push({z:pp.z-0.5,fn:()=>{
+      cx.beginPath();cx.arc(pp.x,pp.y,fr,0,Math.PI*2);
+      cx.strokeStyle=w.hex+Math.floor(fa*255).toString(16).padStart(2,'0');
+      cx.lineWidth=2.5;cx.stroke();
+      if(B.flashT>0.4){
+        cx.font='bold 9px monospace';cx.fillStyle=w.hex;cx.textAlign='center';
+        cx.fillText('P(x)',pp.x,pp.y+fr+12);
+      }
+    }});
+  }
+
+  // ── THE BALL ─────────────────────────────────────────────────
+  if(B.ballAlpha>0.01){
+    const bp=pj(B.x,B.y,B.z);
+    const bH=B.wi>=0&&B.wi<WELLS.length?WELLS[B.wi].hex:'#aabbff';
+    const ba=B.ballAlpha;
+    DL.push({z:bp.z-3,fn:()=>{
+      cx.globalAlpha=ba;
+      // Glow
+      const g=cx.createRadialGradient(bp.x,bp.y,0,bp.x,bp.y,30);
+      g.addColorStop(0,bH+'88');g.addColorStop(0.3,bH+'30');g.addColorStop(1,'transparent');
+      cx.fillStyle=g;cx.fillRect(bp.x-30,bp.y-30,60,60);
+      // Ball
+      const gr2=cx.createRadialGradient(bp.x-2,bp.y-2,1,bp.x,bp.y,8);
+      gr2.addColorStop(0,'#ffffff');gr2.addColorStop(0.4,bH);gr2.addColorStop(1,bH+'66');
+      cx.beginPath();cx.arc(bp.x,bp.y,8,0,Math.PI*2);
+      cx.fillStyle=gr2;cx.fill();cx.strokeStyle='#ffffffaa';cx.lineWidth=1;cx.stroke();
+      // Label
+      cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.textAlign='left';
+      cx.fillText('Q',bp.x+14,bp.y+4);
+      cx.globalAlpha=1;
+    }});
+  }
+
+  // ── SORT AND DRAW ────────────────────────────────────────────
+  DL.sort((a,b)=>b.z-a.z);
+  for(const d of DL)d.fn();
+
+  // ── CROSS-SECTION (bottom-left) ──────────────────────────────
+  {
+    const ox=20,oy=H-140,ow=280,oh=100;
+    cx.fillStyle='rgba(3,3,8,0.92)';cx.fillRect(ox-4,oy-16,ow+8,oh+22);
+    cx.strokeStyle='#2a2a3a';cx.strokeRect(ox-4,oy-16,ow+8,oh+22);
+    cx.fillStyle='#667';cx.font='8px monospace';cx.textAlign='left';
+    cx.fillText('bipyramid: reduce 5→2 · WHNF nadir · expand 2→5 · I output',ox,oy-5);
+
+    // Draw gem profile as bipyramid cross-section
+    const gemCx=ox+ow/2,gemCy=oy+oh/2;
+    const sc=6;
+
+    // Use actual level data for cross-section
+    const lvlYs=LEVELS.map(l=>l.y);
+    const lvlRs=LEVELS.map(l=>l.r);
+    const lvlCs=LEVELS.map(l=>l.color);
+    const lvlNs=LEVELS.map(l=>l.label);
+
+    for(let i=0;i<LEVELS.length;i++){
+      const y=gemCy-lvlYs[i]*sc;
+      const r=lvlRs[i]*sc;
+      cx.beginPath();cx.moveTo(gemCx-r,y);cx.lineTo(gemCx+r,y);
+      cx.strokeStyle=lvlCs[i]+'88';cx.lineWidth=1;cx.stroke();
+      cx.fillStyle=lvlCs[i];cx.font='6px monospace';cx.textAlign='right';
+      cx.fillText(lvlNs[i],gemCx-r-3,y+3);
+    }
+    // Outline
+    cx.beginPath();
+    cx.moveTo(gemCx-lvlRs[0]*sc,gemCy-lvlYs[0]*sc);
+    for(let i=1;i<LEVELS.length;i++)cx.lineTo(gemCx-lvlRs[i]*sc,gemCy-lvlYs[i]*sc);
+    for(let i=LEVELS.length-1;i>=0;i--)cx.lineTo(gemCx+lvlRs[i]*sc,gemCy-lvlYs[i]*sc);
+    cx.closePath();cx.strokeStyle='#ffffff15';cx.lineWidth=1;cx.stroke();
+    // WHNF nadir marker
+    const nadirLvl=LEVELS[4];
+    const nadirY=gemCy-nadirLvl.y*sc;
+    cx.beginPath();cx.moveTo(gemCx-nadirLvl.r*sc-8,nadirY);cx.lineTo(gemCx+nadirLvl.r*sc+8,nadirY);
+    cx.strokeStyle='#ffffff44';cx.lineWidth=1;cx.setLineDash([3,3]);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle='#fff';cx.font='bold 7px monospace';cx.textAlign='left';
+    cx.fillText('← WHNF nadir',gemCx+nadirLvl.r*sc+10,nadirY+3);
+    // Phase arrows
+    cx.fillStyle='#88ff8866';cx.font='7px monospace';cx.textAlign='center';
+    cx.fillText('▼ reduce',gemCx+ow*0.35,gemCy-lvlYs[1]*sc);
+    cx.fillStyle='#88aaff66';
+    cx.fillText('▲ expand',gemCx+ow*0.35,gemCy-lvlYs[6]*sc);
+
+    // Wells as arrows going down
+    for(const w of WELLS){
+      const lvl=LEVELS[w.lvl];
+      const wy=gemCy-lvl.y*sc;
+      const wby=wy+w.depth*sc;
+      const wx=gemCx+(w.facet-LEVELS[w.lvl].n/2)*12;
+      const isA=WELLS.indexOf(w)===B.wi;
+      cx.beginPath();cx.moveTo(wx,wy);cx.lineTo(wx,wby);
+      cx.strokeStyle=w.hex+(isA?'cc':'44');cx.lineWidth=isA?2:1;cx.stroke();
+      // Arrowhead
+      cx.beginPath();cx.moveTo(wx,wby);cx.lineTo(wx-3,wby-5);cx.lineTo(wx+3,wby-5);cx.closePath();
+      cx.fillStyle=w.hex+(isA?'cc':'44');cx.fill();
+      cx.fillStyle=w.hex;cx.globalAlpha=isA?1:0.4;
+      cx.font=`${isA?'bold 8':'7'}px monospace`;cx.textAlign='center';
+      cx.fillText(w.name,wx,wby+8);cx.globalAlpha=1;
+    }
+  }
+
+  // ── HUD ──────────────────────────────────────────────────────
+  const cw=B.wi>=0&&B.wi<WELLS.length?WELLS[B.wi]:{name:'—',dim:'5D'};
+  document.getElementById('s-well').textContent=cw.name||'—';
+  document.getElementById('s-phase').textContent=B.phase;
+  document.getElementById('s-dim').textContent=cw.dim||'5D';
+  document.getElementById('s-step').textContent=B.step;
+
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+</script>
+</body>
+</html>
