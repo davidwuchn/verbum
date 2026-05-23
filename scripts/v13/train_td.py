@@ -738,6 +738,16 @@ def train_td(
                 parity_levels = getattr(model, "_parity_levels", [3, 4, 5, 6, 8])
                 for k, err in zip(parity_levels, parity_errs.tolist()):
                     record[f"parity_err_{k}d"] = err
+            # Cross-zone lens rotation
+            cross_zone_val = getattr(model, "_last_cross_zone_loss", None)
+            if cross_zone_val is not None:
+                mx.eval(cross_zone_val)
+                record["cross_zone_loss"] = float(cross_zone_val.item())
+            lens_rot = getattr(model, "_last_lens_rotation", None)
+            if lens_rot is not None:
+                mx.eval(lens_rot)
+                for i, r in enumerate(lens_rot.tolist()):
+                    record[f"lens_rot_zone{i}"] = r
 
             # Categorical geometry losses
             for attr, key in [("_last_adjunction_loss", "adjunction_loss"),

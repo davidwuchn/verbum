@@ -74,6 +74,95 @@ def crystal_lattice_loss(
     return mx.mean(diff * diff)
 
 
+def _precompute_cross_zone_targets(zone_targets: list) -> dict:
+    """Precompute cross-zone rotation targets for lens parity.
+
+    Session 142: The crystal rotates between zones — the PC0↔PC1
+    coupling flips from +0.46 (zone A) through 0 (zone B) to -0.48
+    (zone C). This rotation IS the lens computation (B→K→B program).
+
+    We precompute:
+    1. Joint eigenbasis from mean(zone_targets)
+    2. Target projected matrix P_z = V^T @ zone_z @ V for each zone
+    3. The cross-zone constraints: monotonicity of diagonals and couplings
+
+    The loss enforces that the student's projected structure in the
+    joint basis matches each zone's target structure, including the
+    off-diagonal rotation terms.
+    """
+    joint = np.mean([np.array(zt, dtype=np.float32) for zt in zone_targets], axis=0)
+    eigvals, eigvecs = np.linalg.eigh(joint)
+    idx = np.argsort(eigvals)[::-1]
+    eigvals = eigvals[idx]
+    eigvecs = eigvecs[:, idx]
+
+    # Target projected matrices for each zone
+    target_projected = []
+    for zt in zone_targets:
+        zt_np = np.array(zt, dtype=np.float32)
+        P = eigvecs.T @ zt_np @ eigvecs
+        target_projected.append(P)
+
+    return {
+        "joint_eigvecs": eigvecs,
+        "joint_eigvals": eigvals,
+        "target_projected": target_projected,  # P_z for each zone
+    }
+
+
+def crystal_cross_zone_loss(
+    all_embeddings: mx.array,
+    joint_eigvecs: mx.array,
+    target_projected: list[mx.array],
+    k: int = 6,
+) -> tuple[mx.array, mx.array]:
+    """Cross-zone lens parity: enforce the rotation structure.
+
+    Session 142: The crystal rotates ~11° between aperture and
+    convergence zones. The PC0↔PC1 coupling encodes this rotation.
+
+    The student has ONE set of embeddings. We project the student's
+    cosine matrix into the joint eigenbasis and compare against each
+    zone's target projected matrix. The off-diagonal elements encode
+    the rotation — they ARE the lens.
+
+    This creates a STRONGER constraint than per-zone parity alone:
+    it forces the student to inhabit a geometry that is simultaneously
+    compatible with all three zone targets, weighted by the importance
+    of each cross-coupling.
+
+    Returns:
+        loss: scalar cross-zone loss
+        lens_rotation: (n_zones,) the PC0↔PC1 coupling per zone (diagnostic)
+    """
+    # Student cosine matrix
+    norms = mx.sqrt(mx.sum(all_embeddings * all_embeddings,
+                            axis=-1, keepdims=True) + 1e-8)
+    emb_norm = all_embeddings / norms
+    student_cos = emb_norm @ emb_norm.T
+
+    # Project into joint basis
+    P_student = joint_eigvecs.T @ student_cos @ joint_eigvecs
+
+    # Loss: MSE of top-k×k block against each zone's target
+    # Weight the zones equally (each represents a different depth)
+    total_loss = mx.array(0.0)
+    lens_rotations = []
+
+    for target_P in target_projected:
+        diff = P_student[:k, :k] - target_P[:k, :k]
+        mse = mx.mean(diff * diff)
+        total_loss = total_loss + mse
+
+        # Diagnostic: PC0↔PC1 coupling (the lens rotation angle)
+        lens_rotations.append(P_student[0, 1])
+
+    total_loss = total_loss / len(target_projected)
+    lens_rotation = mx.stack(lens_rotations)
+
+    return total_loss, lens_rotation
+
+
 def _precompute_parity_eigenbasis(zone_targets: list) -> list[dict]:
     """Precompute eigendecomposition of target cosine matrices for parity checks.
 
@@ -324,6 +413,15 @@ class V13Model(nn.Module):
         self._parity_levels = parity_data[0]["parity_levels"]  # same for all zones
         self._parity_weights = [d["level_weights"] for d in parity_data]
 
+        # Cross-zone lens rotation targets (joint eigenbasis)
+        cross_zone_data = _precompute_cross_zone_targets([
+            cfg.pcaq_zone_a_targets,
+            cfg.pcaq_zone_b_targets,
+            cfg.pcaq_zone_c_targets,
+        ])
+        self._cross_zone_eigvecs = mx.array(cross_zone_data["joint_eigvecs"])
+        self._cross_zone_targets = [mx.array(p) for p in cross_zone_data["target_projected"]]
+
         # S5 self-model (the living phenotype)
         self.s5_identity = S5Identity(
             d_identity=cfg.d_identity,
@@ -474,6 +572,17 @@ class V13Model(nn.Module):
             self._last_parity_loss = mx.stop_gradient(parity_loss)
             self._last_parity_errors = mx.stop_gradient(
                 mx.mean(mx.stack(all_level_errors), axis=0))
+
+            # Cross-zone lens rotation loss
+            cross_loss, lens_rot = crystal_cross_zone_loss(
+                emb_all,
+                self._cross_zone_eigvecs,
+                self._cross_zone_targets,
+                k=6,
+            )
+            crystal_loss = crystal_loss + self.cfg.parity_lambda * cross_loss
+            self._last_cross_zone_loss = mx.stop_gradient(cross_loss)
+            self._last_lens_rotation = mx.stop_gradient(lens_rot)
 
         return crystal_loss, sub_metrics
 
