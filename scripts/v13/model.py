@@ -201,22 +201,29 @@ class V13Model(nn.Module):
         )
 
         # ── Shared FFN plates (etched from teacher) ───────────
+        # Session 141: gate IS the holographic aperture selector.
+        # Gate controls 89% of neuron selection. SwiGLU activation:
+        #   value_plate(silu(gate_plate(x)) * key_plate(x))
         self.ffn_key_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_gate_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
         self.ffn_value_plate = TernaryLinear(cfg.d_ff, d, pre_norm=False)
 
         # ── S1: Three StrideStackVSMs ─────────────────────────
         self.stack_a = StrideStackVSM(
-            cfg, cfg.stack_a, self.ffn_key_plate, self.ffn_value_plate)
+            cfg, cfg.stack_a,
+            self.ffn_key_plate, self.ffn_value_plate, self.ffn_gate_plate)
 
         # Stack B gets its own stride stack (not shared at runtime).
         # Self-similar weight INITIALIZATION (copy A's coarse stride weights
         # to B) is done in extract_teacher.py, not via Python object sharing.
         # MLX autograd doesn't handle aliased parameters correctly.
         self.stack_b = StrideStackVSM(
-            cfg, cfg.stack_b, self.ffn_key_plate, self.ffn_value_plate)
+            cfg, cfg.stack_b,
+            self.ffn_key_plate, self.ffn_value_plate, self.ffn_gate_plate)
 
         self.stack_c = StrideStackVSM(
-            cfg, cfg.stack_c, self.ffn_key_plate, self.ffn_value_plate)
+            cfg, cfg.stack_c,
+            self.ffn_key_plate, self.ffn_value_plate, self.ffn_gate_plate)
 
         # ── S4: Intelligence (conditioned on S5 policy) ────────
         self.s4 = S4Intelligence(

@@ -58,6 +58,7 @@ class StrideStackVSM(nn.Module):
         stack_cfg: StackConfig,
         ffn_key_plate: TernaryLinear,
         ffn_value_plate: TernaryLinear,
+        ffn_gate_plate: TernaryLinear,
         shared_stride_stack: Optional[HybridStrideStack] = None,
     ):
         super().__init__()
@@ -78,6 +79,7 @@ class StrideStackVSM(nn.Module):
         # Plates are SHARED (passed in, not owned)
         self.ffn_key_plate = ffn_key_plate
         self.ffn_value_plate = ffn_value_plate
+        self.ffn_gate_plate = ffn_gate_plate  # Session 141: gate IS the beamformer
         # Beams are PER-STACK (each stack reads shared plates differently)
         self.ffn_norm = nn.RMSNorm(d)
         self.ffn_scale = mx.ones((d,))
@@ -188,8 +190,13 @@ class StrideStackVSM(nn.Module):
             x = stride_out
 
             # FFN — shared plates, per-stack beams
+            # Session 141: gate IS the holographic aperture selector.
+            # SwiGLU: value_plate(silu(gate_plate(x)) * key_plate(x))
+            # Gate controls 89% of neuron selection (teacher L63 probe).
             ffn_in = self.ffn_norm(x)
-            ffn_out = self.ffn_value_plate(mx.maximum(self.ffn_key_plate(ffn_in), 0))
+            ffn_gate = nn.silu(self.ffn_gate_plate(ffn_in))
+            ffn_key = self.ffn_key_plate(ffn_in)
+            ffn_out = self.ffn_value_plate(ffn_gate * ffn_key)
             ffn_out = (ffn_out * self.ffn_scale + self.ffn_bias) * ffn_mod
             x = x + ffn_out
 
@@ -251,10 +258,11 @@ if __name__ == "__main__":
     # Shared FFN plates (would be etched from teacher in real use)
     ffn_key = TernaryLinear(cfg.d_model, cfg.d_ff, pre_norm=False)
     ffn_val = TernaryLinear(cfg.d_ff, cfg.d_model, pre_norm=False)
+    ffn_gate = TernaryLinear(cfg.d_model, cfg.d_ff, pre_norm=False)
 
     # ── Stack A ───────────────────────────────────────────────
     print("\nStack A (ascending fine, 2 passes)...")
-    stack_a = StrideStackVSM(cfg, cfg.stack_a, ffn_key, ffn_val)
+    stack_a = StrideStackVSM(cfg, cfg.stack_a, ffn_key, ffn_val, ffn_gate)
     x = mx.random.normal((1, 64, cfg.d_model))
     out_a, alg_a, deltas_a, gates_a = stack_a(x)
     mx.eval(out_a, alg_a)
@@ -267,7 +275,7 @@ if __name__ == "__main__":
 
     # ── Stack B (shares stride stack with A) ──────────────────
     print("\nStack B (ascending coarse, 2 passes, shared stride stack)...")
-    stack_b = StrideStackVSM(cfg, cfg.stack_b, ffn_key, ffn_val,
+    stack_b = StrideStackVSM(cfg, cfg.stack_b, ffn_key, ffn_val, ffn_gate,
                              shared_stride_stack=stack_a.stride_stack)
     out_b, alg_b, deltas_b, gates_b = stack_b(out_a, downstream_alg=None)
     mx.eval(out_b, alg_b)
@@ -278,7 +286,7 @@ if __name__ == "__main__":
 
     # ── Stack C (descending, own stride stack) ────────────────
     print("\nStack C (descending, 4 passes)...")
-    stack_c = StrideStackVSM(cfg, cfg.stack_c, ffn_key, ffn_val)
+    stack_c = StrideStackVSM(cfg, cfg.stack_c, ffn_key, ffn_val, ffn_gate)
     out_c, alg_c, deltas_c, gates_c = stack_c(out_b)
     mx.eval(out_c, alg_c)
     assert out_c.shape == (1, 64, cfg.d_model)
@@ -303,7 +311,8 @@ if __name__ == "__main__":
             super().__init__()
             self.ffn_key = TernaryLinear(cfg.d_model, cfg.d_ff, pre_norm=False)
             self.ffn_val = TernaryLinear(cfg.d_ff, cfg.d_model, pre_norm=False)
-            self.stack = StrideStackVSM(cfg, cfg.stack_a, self.ffn_key, self.ffn_val)
+            self.ffn_gate = TernaryLinear(cfg.d_model, cfg.d_ff, pre_norm=False)
+            self.stack = StrideStackVSM(cfg, cfg.stack_a, self.ffn_key, self.ffn_val, self.ffn_gate)
 
         def __call__(self, x):
             out, alg, _, _ = self.stack(x)

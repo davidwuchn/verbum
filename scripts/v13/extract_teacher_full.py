@@ -27,8 +27,10 @@ What this script extracts
        GLA uses a different mechanism (elu+1, outer product) but the
        sign topology encodes the same functional selection pattern.
 
-  4. FFN plates (shared key + value from teacher layer 20).
-       Same extraction as extract_teacher.py (no change).
+  4. FFN plates (gate + key + value, zone-voted from 3 teacher layers).
+       Session 141: gate IS the holographic aperture selector (89% of
+       neuron selection). Zone-voted: extract from layers A, FFN, C and
+       vote across them for the shared plate. SwiGLU activation.
 
 Teacher layer mapping (B→K→B program):
   Zone A encode  (strides s1-s8,     indices 0-3)  → teacher layer  4
@@ -519,25 +521,80 @@ def extract_crystal_full(
         log(f"  Attention total: {stats['attn_positions']:,} positions "
             f"across {n_strides} strides × 4 projections")
 
-    # ── § 6.3  FFN plates ─────────────────────────────────────────
-    log(f"\n── FFN plates ← teacher layer {layer_FFN} ──────────────────")
-    ffn_prefix = f"model.layers.{layer_FFN}.mlp"
+    # ── § 6.3  FFN plates (gate + key + value, zone-voted) ──────
+    #
+    # Session 141: gate IS the holographic aperture selector (89% of
+    # neuron selection). The depth profile is a LENS: aperture (early)
+    # → fan (middle) → converge (late). Zone-voted extraction: extract
+    # signs from 3 teacher layers (A, B, C zones) and VOTE for the
+    # shared plate. This captures the full lens topology.
+    #
+    ffn_layers = [layer_A, layer_FFN, layer_C]
+    log(f"\n── FFN plates ← zone-voted from teacher layers {ffn_layers} ──")
 
-    W_up = load_tensor(teacher_path, f"{ffn_prefix}.up_proj.weight")
-    signs = extract_sign_pattern(W_up, d_ff_student, d_student, n_rotations)
-    mags = extract_magnitude(W_up, d_ff_student)
-    plates["ffn_key_plate"] = (signs, mags)
-    stats["ffn_positions"] += signs.size
-    log(f"  up_proj:   {W_up.shape} → {signs.shape}")
-    del W_up
+    # gate_proj — the beamformer aperture selector
+    log(f"  Extracting gate_proj (3-layer vote)...")
+    gate_votes = np.zeros((d_ff_student, d_student), dtype=np.float32)
+    for fl in ffn_layers:
+        W_gate = load_tensor(teacher_path, f"model.layers.{fl}.mlp.gate_proj.weight")
+        signs_layer = extract_sign_pattern(W_gate, d_ff_student, d_student, n_rotations)
+        gate_votes += signs_layer.astype(np.float32)
+        log(f"    layer {fl}: gate_proj {W_gate.shape}")
+        del W_gate
+    gate_signs = np.sign(gate_votes).astype(np.int8)
+    zeros = gate_signs == 0
+    if zeros.any():
+        rng = np.random.RandomState(43)
+        gate_signs[zeros] = rng.choice([-1, 1], size=int(zeros.sum())).astype(np.int8)
+    # Magnitude from the primary FFN layer
+    W_gate_mag = load_tensor(teacher_path, f"model.layers.{layer_FFN}.mlp.gate_proj.weight")
+    gate_mags = extract_magnitude(W_gate_mag, d_ff_student)
+    del W_gate_mag
+    plates["ffn_gate_plate"] = (gate_signs, gate_mags)
+    stats["ffn_positions"] += gate_signs.size
+    log(f"  gate_proj: → {gate_signs.shape} (3-layer voted)")
 
-    W_down = load_tensor(teacher_path, f"{ffn_prefix}.down_proj.weight")
-    signs = extract_sign_pattern(W_down, d_student, d_ff_student, n_rotations)
-    mags = extract_magnitude(W_down, d_student)
-    plates["ffn_value_plate"] = (signs, mags)
-    stats["ffn_positions"] += signs.size
-    log(f"  down_proj: {W_down.shape} → {signs.shape}")
-    del W_down
+    # up_proj (key plate) — zone-voted
+    log(f"  Extracting up_proj (3-layer vote)...")
+    key_votes = np.zeros((d_ff_student, d_student), dtype=np.float32)
+    for fl in ffn_layers:
+        W_up = load_tensor(teacher_path, f"model.layers.{fl}.mlp.up_proj.weight")
+        signs_layer = extract_sign_pattern(W_up, d_ff_student, d_student, n_rotations)
+        key_votes += signs_layer.astype(np.float32)
+        log(f"    layer {fl}: up_proj {W_up.shape}")
+        del W_up
+    key_signs = np.sign(key_votes).astype(np.int8)
+    zeros = key_signs == 0
+    if zeros.any():
+        rng = np.random.RandomState(44)
+        key_signs[zeros] = rng.choice([-1, 1], size=int(zeros.sum())).astype(np.int8)
+    W_up_mag = load_tensor(teacher_path, f"model.layers.{layer_FFN}.mlp.up_proj.weight")
+    key_mags = extract_magnitude(W_up_mag, d_ff_student)
+    del W_up_mag
+    plates["ffn_key_plate"] = (key_signs, key_mags)
+    stats["ffn_positions"] += key_signs.size
+    log(f"  up_proj:   → {key_signs.shape} (3-layer voted)")
+
+    # down_proj (value plate) — zone-voted
+    log(f"  Extracting down_proj (3-layer vote)...")
+    val_votes = np.zeros((d_student, d_ff_student), dtype=np.float32)
+    for fl in ffn_layers:
+        W_down = load_tensor(teacher_path, f"model.layers.{fl}.mlp.down_proj.weight")
+        signs_layer = extract_sign_pattern(W_down, d_student, d_ff_student, n_rotations)
+        val_votes += signs_layer.astype(np.float32)
+        log(f"    layer {fl}: down_proj {W_down.shape}")
+        del W_down
+    val_signs = np.sign(val_votes).astype(np.int8)
+    zeros = val_signs == 0
+    if zeros.any():
+        rng = np.random.RandomState(45)
+        val_signs[zeros] = rng.choice([-1, 1], size=int(zeros.sum())).astype(np.int8)
+    W_down_mag = load_tensor(teacher_path, f"model.layers.{layer_FFN}.mlp.down_proj.weight")
+    val_mags = extract_magnitude(W_down_mag, d_student)
+    del W_down_mag
+    plates["ffn_value_plate"] = (val_signs, val_mags)
+    stats["ffn_positions"] += val_signs.size
+    log(f"  down_proj: → {val_signs.shape} (3-layer voted)")
 
     dt = time.time() - t0
     total_positions = sum(stats.values())
@@ -797,8 +854,8 @@ def install_plates_full(
                 f"{stride_key_prefix}.k_proj" in plates):
             log(f"  Installed: stride_{stride_idx} Q/K/V/O → 3 stacks")
 
-    # ── FFN plates ────────────────────────────────────────────────
-    for plate_key in ("ffn_key_plate", "ffn_value_plate"):
+    # ── FFN plates (gate + key + value) ─────────────────────────
+    for plate_key in ("ffn_gate_plate", "ffn_key_plate", "ffn_value_plate"):
         if plate_key not in plates:
             continue
         signs, mags = plates[plate_key]
@@ -930,7 +987,7 @@ def etch_from_teacher_full(
     attn_pos_total     = attn_pos_per_plate * 3  # 3 stacks
     ffn_pos     = sum(
         plates[k][0].size
-        for k in ("ffn_key_plate", "ffn_value_plate")
+        for k in ("ffn_gate_plate", "ffn_key_plate", "ffn_value_plate")
         if k in plates
     )
     etched_total = embed_pos + attn_pos_total + ffn_pos
