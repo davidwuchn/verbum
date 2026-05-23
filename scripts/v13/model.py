@@ -567,8 +567,8 @@ class V13Model(nn.Module):
                 parity_loss = parity_loss + zone_lambda * zone_parity
                 all_level_errors.append(zone_errors)
             parity_loss = self.cfg.parity_lambda * parity_loss
-            crystal_loss = crystal_loss + parity_loss
-            # Store diagnostics: mean across zones for each level
+            # NOT added to crystal_loss — crystal_loss feeds EMA, TD gate, S5.
+            # Parity goes to _compute_loss as a separate additive channel.
             self._last_parity_loss = mx.stop_gradient(parity_loss)
             self._last_parity_errors = mx.stop_gradient(
                 mx.mean(mx.stack(all_level_errors), axis=0))
@@ -580,9 +580,11 @@ class V13Model(nn.Module):
                 self._cross_zone_targets,
                 k=6,
             )
-            crystal_loss = crystal_loss + self.cfg.parity_lambda * cross_loss
             self._last_cross_zone_loss = mx.stop_gradient(cross_loss)
             self._last_lens_rotation = mx.stop_gradient(lens_rot)
+
+            # Store combined parity for _compute_loss to pick up
+            self._parity_additive = parity_loss + self.cfg.parity_lambda * cross_loss
 
         return crystal_loss, sub_metrics
 
@@ -856,8 +858,11 @@ class V13Model(nn.Module):
                 geometry_additive = geometry_additive + cfg.coherence_lambda * coh_loss
                 self._last_coherence_loss = mx.stop_gradient(coh_loss)
 
-        # Total: multiplicative AND + direct crystal gradient + geometry
-        loss = ce_loss * crystal_factor * holo_factor + crystal_additive + geometry_additive
+        # Session 142: parity loss — separate from crystal_loss, additive to final loss
+        parity_additive = getattr(self, '_parity_additive', mx.array(0.0))
+
+        # Total: multiplicative AND + direct crystal + geometry + parity
+        loss = ce_loss * crystal_factor * holo_factor + crystal_additive + geometry_additive + parity_additive
         return loss
 
     def __call__(self, tokens, targets=None):
