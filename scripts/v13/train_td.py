@@ -446,6 +446,7 @@ def train_td(
     loss_window = deque(maxlen=50)
     n_reductions = 0
     total_td_flips = 0
+    td_active = False  # Schmitt trigger state — starts OFF, waits for crystal to latch
     t_start = time.time()
 
     # ── Warm-up forward pass (initialises Adam state) ─────────
@@ -522,8 +523,29 @@ def train_td(
         mx.eval(model.parameters(), adam.state)
         restore_ternary(model)
 
-        # ── TernaryDescent step (delta plates, routing-only gradient) ──
-        td_result = td.step(td_inputs)
+        # ── TernaryDescent step (delta plates, crystal-gated) ──────────
+        # Schmitt trigger: hysteresis prevents rapid on/off oscillation.
+        #   crystal_loss < gate (3%)    → TD activates (crystal latched, safe to flip)
+        #   crystal_loss > ceiling (7%) → TD deactivates (crystal destabilized, stop)
+        #   in between                 → TD stays in current state (hysteresis band)
+        crystal_val_for_gate = getattr(model, "_last_crystal_loss", None)
+        if crystal_val_for_gate is not None:
+            mx.eval(crystal_val_for_gate)
+            crystal_val_for_gate = float(crystal_val_for_gate.item())
+
+        if crystal_val_for_gate is not None:
+            if crystal_val_for_gate < args.td_crystal_gate:
+                td_active = True   # crystal latched — activate
+            elif crystal_val_for_gate > args.td_crystal_ceiling:
+                td_active = False  # crystal destabilized — deactivate
+            # else: stay in current state (hysteresis band)
+
+        if td_active:
+            td_result = td.step(td_inputs)
+        else:
+            # Crystal not ready or destabilized — skip TD entirely
+            # Don't advance warmup counter — TD waits for crystal stability
+            td_result = {"total_flips": 0, "in_warmup": True, "per_module": {}}
 
         # Apply any flips to the model
         for name, info in td_result["per_module"].items():
@@ -566,7 +588,8 @@ def train_td(
 
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
             crystal_str = f" crystal={crystal_val:.4f}" if crystal_val is not None else ""
-            td_str = f" td_flips={td_result['total_flips']} Δ={avg_changed:.3f}"
+            gate_icon = "🔓" if td_active else "🔒"
+            td_str = f" {gate_icon} td={td_result['total_flips']} Δ={avg_changed:.3f}"
 
             print(
                 f"step {step:>6d}"
@@ -804,8 +827,16 @@ if __name__ == "__main__":
     # TernaryDescent params
     parser.add_argument("--td-flip-rate", type=float, default=0.001,
                         help="Max fraction of ternary weights to flip per step")
-    parser.add_argument("--td-warmup", type=int, default=100,
-                        help="Steps before TD starts flipping")
+    parser.add_argument("--td-warmup", type=int, default=25,
+                        help="TD warmup steps AFTER crystal latches (no flips before this)")
+    parser.add_argument("--td-crystal-gate", type=float, default=0.03,
+                        help="Crystal loss threshold for TD activation (Schmitt trigger "
+                             "lower bound). TD activates once crystal_loss drops below "
+                             "this value. Default 0.03 (3%%).")
+    parser.add_argument("--td-crystal-ceiling", type=float, default=0.07,
+                        help="Crystal loss ceiling (Schmitt trigger upper bound). TD "
+                             "deactivates if crystal_loss rises above this. Reactivates "
+                             "when it drops below --td-crystal-gate again. Default 0.07 (7%%).")
     parser.add_argument("--td-min-confidence", type=float, default=0.3,
                         help="Minimum signal-to-noise ratio for flip candidates")
     parser.add_argument("--td-beta1", type=float, default=0.9,
@@ -861,12 +892,55 @@ if __name__ == "__main__":
     print("  Delta plates learn stride-stack adaptations", file=sys.stderr)
     print("=" * 72, file=sys.stderr)
 
-    # ── Model with delta plates ───────────────────────────────
-    model, delta_modules = create_model_with_deltas(
-        cfg,
-        convert_attention=True,
-        convert_ffn=args.convert_ffn,
+    # ── Model: load weights FIRST, then convert to delta ─────
+    # The etched checkpoint has TernaryLinear keys (*.weight).
+    # DeltaTernaryLinear expects *.base_weight and *.delta_weight.
+    # Loading BEFORE conversion ensures the etched plates land in
+    # the right TernaryLinear.weight, which then becomes base_weight
+    # when convert_to_delta() runs.
+    model = V13Model(cfg)
+    freeze_ternary_weights(model)
+
+    start_step = 0
+    if args.resume:
+        resume_path = Path(args.resume).resolve()
+        if resume_path.exists():
+            weights = dict(mx.load(str(resume_path / "model.npz")))
+            model.load_weights(list(weights.items()), strict=False)
+            mx.eval(model.parameters())
+            freeze_ternary_weights(model)
+            restore_ternary(model)
+
+            state_path = resume_path / "state.json"
+            if state_path.exists():
+                state = json.loads(state_path.read_text())
+                start_step = state.get("step", 0)
+            print(f"📂 Loaded etched weights from {resume_path} (step {start_step})",
+                  file=sys.stderr)
+
+    # NOW convert TernaryLinear → DeltaTernaryLinear.
+    # The etched .weight becomes .base_weight (frozen).
+    # A fresh .delta_weight is initialized to all +1 (pass-through).
+    include = []
+    exclude = []
+    if True:  # always convert attention (all 3 stacks)
+        include.append("stack_a.stride_stack")
+        include.append("stack_b.stride_stack")
+        include.append("stack_c.stride_stack")
+    if args.convert_ffn:
+        include.append("ffn_key_plate")
+        include.append("ffn_value_plate")
+    else:
+        exclude.append("ffn_key_plate")
+        exclude.append("ffn_value_plate")
+
+    delta_modules = convert_to_delta(
+        model,
+        include_prefixes=tuple(include) if include else None,
+        exclude_prefixes=tuple(exclude) if exclude else None,
     )
+    freeze_delta_architecture(model)
+    freeze_ternary_weights(model)
 
     n_beam = sum(v.size for _, v in tree_flatten(model.trainable_parameters()))
     n_delta = sum(dtl.out_features * dtl.in_features for _, dtl in delta_modules)
@@ -874,6 +948,7 @@ if __name__ == "__main__":
 
     print(f"\n  beam_params={n_beam:,}", file=sys.stderr)
     print(f"  delta_positions={n_delta:,} (TD-managed)", file=sys.stderr)
+    print(f"  delta_modules={len(delta_modules)}", file=sys.stderr)
     print(f"  ternary_total={total_ternary:,}", file=sys.stderr, flush=True)
 
     # ── Data ──────────────────────────────────────────────────
@@ -884,26 +959,6 @@ if __name__ == "__main__":
         shard_start=0,
         shard_end=cfg.n_train_shards,
     )
-
-    # ── Resume ────────────────────────────────────────────────
-    start_step = 0
-    if args.resume:
-        resume_path = Path(args.resume).resolve()
-        if resume_path.exists():
-            weights = dict(mx.load(str(resume_path / "model.npz")))
-            model.load_weights(list(weights.items()), strict=False)
-            mx.eval(model.parameters())
-            # Re-freeze after loading
-            freeze_delta_architecture(model)
-            freeze_ternary_weights(model)
-            restore_ternary(model)
-
-            state_path = resume_path / "state.json"
-            if state_path.exists():
-                state = json.loads(state_path.read_text())
-                start_step = state.get("step", 0)
-            print(f"📂 Resumed from {resume_path} (step {start_step})",
-                  file=sys.stderr)
 
     # ── Train ─────────────────────────────────────────────────
     train_td(

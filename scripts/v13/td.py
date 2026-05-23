@@ -50,16 +50,28 @@ from typing import Any
 import mlx.core as mx
 import mlx.nn as nn
 
-from .ternary import (
-    TernaryLinear,
-    TernaryMirror,
-    TernaryMask,
-    TernaryEmbedding,
-    pack_ternary_mlx,
-    unpack_ternary_mlx,
-    _ternary_init,
-    _walk_ternary_modules,
-)
+try:
+    from .ternary import (
+        TernaryLinear,
+        TernaryMirror,
+        TernaryMask,
+        TernaryEmbedding,
+        pack_ternary_mlx,
+        unpack_ternary_mlx,
+        _ternary_init,
+        _walk_ternary_modules,
+    )
+except ImportError:
+    from ternary import (
+        TernaryLinear,
+        TernaryMirror,
+        TernaryMask,
+        TernaryEmbedding,
+        pack_ternary_mlx,
+        unpack_ternary_mlx,
+        _ternary_init,
+        _walk_ternary_modules,
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════
