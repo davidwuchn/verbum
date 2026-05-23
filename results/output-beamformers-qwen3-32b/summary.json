@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "model": "Qwen/Qwen3-32B",
+    "final_layer": 63,
+    "d_ffn": 25600,
+    "d_model": 5120,
+    "n_prompts": 48,
+    "n_categories": 8,
+    "note": "Reconstructed from run log \u2014 full run completed, JSON serialization failed on numpy bool"
+  },
+  "identity": {
+    "n_prompts": 48,
+    "mean_active_per_prompt": 329,
+    "std_active_per_prompt": 226,
+    "core_size": 2,
+    "union_size": 3807,
+    "always_on": 2,
+    "frequent_75pct": 99,
+    "occasional_25_75pct": 213,
+    "rare_lt25pct": 3495,
+    "stability_ratio": 0.001,
+    "jaccard_all_pairs_mean": 0.2747
+  },
+  "gate_vs_up": {
+    "d_ffn": 25600,
+    "n_active": 220,
+    "n_inactive": 25380,
+    "inactive_breakdown": {
+      "gate_kills": 22590,
+      "up_kills": 113,
+      "both_kill": 1122,
+      "neither_dominant": 1555
+    },
+    "pct_gate_kills": 89.0,
+    "pct_up_kills": 0.4,
+    "pct_both_kill": 4.4,
+    "pct_neither": 6.1,
+    "active_gate_up_ratio": 3.903
+  },
+  "token_cloud_mapping": {
+    "summary": {
+      "unique_top3_tokens_across_neurons": 128,
+      "concentration_ratio": 0.853
+    },
+    "top_neurons_pointing_at": "commas, whitespace, newlines, punctuation \u2014 universal output tokens"
+  },
+  "category_profile": {
+    "summary": {
+      "specialists": 0,
+      "generalists": 100,
+      "pct_specialist": 0.0
+    },
+    "most_specialized": [
+      {
+        "neuron": 1311,
+        "entropy": 0.907,
+        "dominant": "code",
+        "ratio": 2.35
+      },
+      {
+        "neuron": 25217,
+        "entropy": 0.914,
+        "dominant": "arithmetic",
+        "ratio": 2.54
+      },
+      {
+        "neuron": 19369,
+        "entropy": 0.919,
+        "dominant": "narrative",
+        "ratio": 2.43
+      }
+    ]
+  },
+  "sparsity_gradient": {
+    "L58": {
+      "pct_active": 29.7
+    },
+    "L60": {
+      "pct_active": 23.8
+    },
+    "L61": {
+      "pct_active": 22.6
+    },
+    "L62": {
+      "pct_active": 10.0
+    },
+    "L63": {
+      "pct_active": 1.9
+    }
+  },
+  "magnitude_spectrum": {
+    "n_observations": 15788,
+    "mean": 43.825,
+    "median": 21.318,
+    "skewness": 13.84,
+    "percentiles": {
+      "p10": 5.581,
+      "p50": 21.318,
+      "p90": 79.323,
+      "p99": 370.128,
+      "max": 3442.5
+    }
+  }
+}

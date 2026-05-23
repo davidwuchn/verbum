@@ -1,0 +1,122 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:02<25:02,  2.13s/it]Loading weights:   0%|          | 2/707 [00:02<11:41,  1.01it/s]Loading weights:   1%|▏         | 10/707 [00:02<01:37,  7.15it/s]Loading weights:   2%|▏         | 17/707 [00:02<00:52, 13.16it/s]Loading weights:   4%|▍         | 28/707 [00:02<00:27, 24.48it/s]Loading weights:   5%|▌         | 38/707 [00:02<00:19, 33.84it/s]Loading weights:   7%|▋         | 48/707 [00:02<00:15, 43.23it/s]Loading weights:   8%|▊         | 56/707 [00:03<00:13, 49.66it/s]Loading weights:   9%|▉         | 64/707 [00:03<00:11, 54.51it/s]Loading weights:  10%|█         | 72/707 [00:03<00:11, 57.32it/s]Loading weights:  12%|█▏        | 83/707 [00:03<00:09, 65.23it/s]Loading weights:  13%|█▎        | 93/707 [00:03<00:08, 72.25it/s]Loading weights:  15%|█▍        | 105/707 [00:03<00:07, 76.74it/s]Loading weights:  16%|█▋        | 116/707 [00:03<00:07, 78.26it/s]Loading weights:  18%|█▊        | 126/707 [00:03<00:07, 79.16it/s]Loading weights:  19%|█▉        | 137/707 [00:04<00:06, 83.46it/s]Loading weights:  21%|██        | 148/707 [00:04<00:06, 86.28it/s]Loading weights:  22%|██▏       | 159/707 [00:04<00:06, 88.50it/s]Loading weights:  24%|██▍       | 170/707 [00:04<00:06, 86.62it/s]Loading weights:  26%|██▌       | 181/707 [00:04<00:05, 90.24it/s]Loading weights:  27%|██▋       | 191/707 [00:04<00:06, 84.88it/s]Loading weights:  28%|██▊       | 200/707 [00:04<00:05, 84.96it/s]Loading weights:  30%|██▉       | 209/707 [00:04<00:06, 71.99it/s]Loading weights:  31%|███       | 217/707 [00:05<00:07, 68.14it/s]Loading weights:  32%|███▏      | 226/707 [00:05<00:07, 68.12it/s]Loading weights:  34%|███▎      | 237/707 [00:05<00:06, 73.65it/s]Loading weights:  35%|███▌      | 248/707 [00:05<00:06, 75.47it/s]Loading weights:  37%|███▋      | 259/707 [00:05<00:05, 79.74it/s]Loading weights:  38%|███▊      | 270/707 [00:05<00:05, 80.28it/s]Loading weights:  40%|███▉      | 280/707 [00:05<00:05, 76.17it/s]Loading weights:  41%|████▏     | 292/707 [00:05<00:04, 83.37it/s]Loading weights:  43%|████▎     | 306/707 [00:06<00:04, 97.16it/s]Loading weights:  45%|████▍     | 317/707 [00:06<00:04, 94.88it/s]Loading weights:  46%|████▋     | 327/707 [00:06<00:04, 90.25it/s]Loading weights:  48%|████▊     | 337/707 [00:06<00:04, 87.35it/s]Loading weights:  49%|████▉     | 347/707 [00:06<00:04, 88.78it/s]Loading weights:  51%|█████     | 358/707 [00:06<00:03, 88.30it/s]Loading weights:  52%|█████▏    | 368/707 [00:06<00:03, 86.48it/s]Loading weights:  53%|█████▎    | 378/707 [00:06<00:03, 83.86it/s]Loading weights:  55%|█████▍    | 387/707 [00:07<00:04, 75.98it/s]Loading weights:  56%|█████▌    | 395/707 [00:07<00:04, 73.13it/s]Loading weights:  57%|█████▋    | 403/707 [00:07<00:04, 73.52it/s]Loading weights:  58%|█████▊    | 412/707 [00:07<00:03, 77.14it/s]Loading weights:  60%|█████▉    | 423/707 [00:07<00:03, 82.56it/s]Loading weights:  61%|██████    | 433/707 [00:07<00:03, 85.99it/s]Loading weights:  63%|██████▎   | 442/707 [00:07<00:03, 85.54it/s]Loading weights:  64%|██████▍   | 453/707 [00:07<00:02, 92.31it/s]Loading weights:  65%|██████▌   | 463/707 [00:07<00:02, 86.25it/s]Loading weights:  67%|██████▋   | 472/707 [00:08<00:03, 76.72it/s]Loading weights:  68%|██████▊   | 480/707 [00:08<00:02, 77.03it/s]Loading weights:  69%|██████▉   | 490/707 [00:08<00:02, 80.48it/s]Loading weights:  71%|███████   | 501/707 [00:08<00:02, 84.76it/s]Loading weights:  72%|███████▏  | 512/707 [00:08<00:02, 84.77it/s]Loading weights:  74%|███████▍  | 522/707 [00:08<00:02, 88.76it/s]Loading weights:  75%|███████▌  | 533/707 [00:08<00:01, 90.08it/s]Loading weights:  77%|███████▋  | 543/707 [00:08<00:01, 86.91it/s]Loading weights:  78%|███████▊  | 552/707 [00:09<00:01, 84.18it/s]Loading weights:  79%|███████▉  | 561/707 [00:09<00:01, 73.21it/s]Loading weights:  80%|████████  | 569/707 [00:09<00:01, 71.98it/s]Loading weights:  82%|████████▏ | 577/707 [00:09<00:01, 73.50it/s]Loading weights:  83%|████████▎ | 588/707 [00:09<00:01, 76.73it/s]Loading weights:  85%|████████▍ | 598/707 [00:09<00:01, 81.67it/s]Loading weights:  86%|████████▌ | 607/707 [00:09<00:01, 83.85it/s]Loading weights:  87%|████████▋ | 618/707 [00:09<00:00, 90.94it/s]Loading weights:  89%|████████▉ | 628/707 [00:09<00:00, 84.28it/s]Loading weights:  90%|█████████ | 637/707 [00:10<00:00, 77.97it/s]Loading weights:  91%|█████████ | 645/707 [00:10<00:00, 78.10it/s]Loading weights:  93%|█████████▎| 655/707 [00:10<00:00, 80.78it/s]Loading weights:  94%|█████████▍| 666/707 [00:10<00:00, 84.81it/s]Loading weights:  96%|█████████▌| 677/707 [00:10<00:00, 86.09it/s]Loading weights:  97%|█████████▋| 687/707 [00:10<00:00, 88.92it/s]Loading weights:  99%|█████████▊| 697/707 [00:10<00:00, 91.74it/s]Loading weights: 100%|██████████| 707/707 [00:10<00:00, 92.89it/s]Loading weights: 100%|██████████| 707/707 [00:10<00:00, 64.89it/s]
+  Loaded in 13.0s
+  Layers: 64  d_model: 5120  d_ffn: 25600
+
+========================================================================
+  Phase 1: Capturing FFN details at final layer
+========================================================================
+
+  [8/48] 0.3s  The speed of light is approximately...
+  [16/48] 0.2s  15 - 9 =...
+  [24/48] 0.3s  return sorted(items, key=lambda x:...
+  [32/48] 0.3s  Translate the following sentence into Fr...
+  [40/48] 0.2s  The teacher who wrote the book left...
+  [48/48] 0.5s  The letter arrived on a Tuesday morning,...
+
+========================================================================
+  Analysis 1: Output Beamformer Identity
+========================================================================
+
+  Active per prompt: 329 ± 226
+  Core (in ALL prompts): 2
+  Union (in ANY prompt): 3807
+  Always-on: 2  Frequent: 99  Occasional: 213  Rare: 3495
+  Stability ratio (always/union): 0.001
+  Pairwise Jaccard: 0.2747
+
+========================================================================
+  Analysis 2: Gate vs UP Decomposition
+========================================================================
+
+  Active: 220  Inactive: 25380
+  Inactive breakdown:
+    Gate kills (gate≈0, up≠0): 22590 (89.0%)
+    UP kills (up≈0, gate≠0):   113 (0.4%)
+    Both kill:                  1122 (4.4%)
+    Neither dominant:           1555 (6.1%)
+  Active neurons: gate/up ratio = 3.903
+
+========================================================================
+  Analysis 3: Down_proj → Token Cloud Mapping
+========================================================================
+
+  Neuron 22890 (freq=48): ',' | '1' | '2' | '،' | ' '
+  Neuron  5482 (freq=48): ',' | '\n' | ' ' | '.\n' | '\n\n'
+  Neuron 12361 (freq=47): ',' | '纲' | ' embark' | '工序' | ' '
+  Neuron  9191 (freq=47): ',' | '最小' | '�' | 'third' | '         '
+  Neuron  5556 (freq=47): 'quo' | '\ufeff' | ' Premiere' | 'ReturnValue' | '쬔'
+  Neuron  1911 (freq=47): '֍' | '.yahoo' | 'thèque' | ' التونسي' | '.strictEqual'
+  Neuron  8186 (freq=47): ',' | ' (' | '，' | '/' | '">('
+  Neuron 20599 (freq=46): ',' | '_SETTINGS' | '+",' | ' Fuller' | '뭬'
+  Neuron 25587 (freq=46): '➰' | '".$_' | '(TABLE' | 'inel' | '倨'
+  Neuron 15407 (freq=46): ',' | ' shortcut' | ' с' | ' launch' | '认知'
+
+  Unique top-3 tokens: 128 across 50 neurons (concentration=0.853)
+
+========================================================================
+  Analysis 4: Per-Neuron Category Profile
+========================================================================
+
+
+  Most specialized neurons (low entropy):
+    Neuron  1311: entropy=0.907  dominant=code  ratio=2.35x
+    Neuron 25217: entropy=0.914  dominant=arithmetic  ratio=2.54x
+    Neuron 19369: entropy=0.919  dominant=narrative  ratio=2.43x
+    Neuron  2283: entropy=0.926  dominant=code  ratio=2.17x
+    Neuron 13992: entropy=0.931  dominant=factual_science  ratio=2.28x
+    Neuron  2711: entropy=0.932  dominant=arithmetic  ratio=2.18x
+    Neuron  8049: entropy=0.936  dominant=narrative  ratio=1.64x
+    Neuron  9712: entropy=0.938  dominant=reasoning  ratio=1.62x
+    Neuron 10036: entropy=0.939  dominant=factual_science  ratio=2.45x
+    Neuron  1591: entropy=0.940  dominant=code  ratio=1.66x
+
+  Specialists: 0/100 (0.0%)
+
+========================================================================
+  Analysis 5: Sparsity Gradient (Where Ultra-Sparsity Begins)
+========================================================================
+
+  L58: 7594/25600 active (29.7%)
+  L60: 6090/25600 active (23.8%)
+  L61: 5775/25600 active (22.6%)
+  L62: 2567/25600 active (10.0%)
+  L63: 480/25600 active (1.9%)
+
+========================================================================
+  Analysis 6: Active Neuron Magnitude Spectrum
+========================================================================
+
+  15788 active-neuron observations across all prompts
+  Mean: 43.8250  Median: 21.3180
+  Skewness: 13.84
+  p10=5.5814  p50=21.3180  p90=79.3230  p99=370.1275  max=3442.5000
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/explore/probe_output_beamformers.py", line 825, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/explore/probe_output_beamformers.py", line 818, in main
+    json.dump(results, f, indent=2)
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  [Previous line repeated 1 more time]
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
