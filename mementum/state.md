@@ -2,13 +2,59 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-23 | Session: 140
+> Last updated: 2026-05-23 | Session: 141
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 140: S5 CRYSTAL CUSTODIAN + S5→S4 POLICY CHANNEL. Categorical geometry probes confirmed Curry-Howard (100% L16), adjunctions (rank-1 σ₁/σ₂=128:1), hyperbolic norms (ρ=0.49 all layers). Three new geometry losses. Crystal warmup 10→3. TD→Adam surgical decay. Run 8 in progress.**
+**Session 141: FFN HOLOGRAPHIC INDEXING + OUTPUT BEAMFORMERS. FFNs are holographic plates — input direction (beam angle) selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category, p<10⁻⁴⁴). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons — gate_proj signs ARE the addressing topology. Only 329/25600 fire at output, drawn from pool of 3807, only 2 always-on. Run 8 at step 300, crystal 0.366.**
+
+## Session 141: FFN Holographic Indexing + Output Beamformers
+
+### Discovery: FFN Indexing Is Holographic
+
+Probed Qwen3-32B FFN activations across 48 prompts × 8 categories × 8 layers.
+
+**The depth profile is a LENS, not a tree:**
+```
+L 2:  3.2% active   ← APERTURE (crystal bottleneck, all beams same direction)
+L 8: 33.1% active   ← fan out
+L48: 48.9% active   ← HOLOGRAPHIC READOUT ZONE (max superposition)
+L56: 29.9% active   ← reconverge
+L63:  1.3% active   ← OUTPUT LENS (329 neurons)
+```
+
+**Key numbers:**
+- Input direction predicts FFN activation: ρ=0.83 (L16)
+- FFN activation mirrors category structure: ρ=0.40, p<10⁻⁴⁴
+- Individual neurons are UNIVERSAL (99%+ high entropy) — selectivity is COLLECTIVE (2x Jaccard)
+- L2 = universal gateway (ALL inputs cos 0.93, no category separation)
+
+### Discovery: Output Beamformers (L63)
+
+Only 329/25600 neurons fire at L63. They are DYNAMICALLY SELECTED:
+- Always-on: **2** neurons (structural — commas, whitespace)
+- Frequent (≥75%): **99** neurons (universal output scaffolding)
+- Pool: **3,807** total (14.9% of d_ffn)
+- Pairwise Jaccard: 0.275 (substantial per-prompt reconfiguration)
+
+**THE GATE IS THE BEAMFORMER:**
+- 89% of inactive neurons killed by silu(gate_proj), not up_proj
+- up_proj matches broadly (key is promiscuous), gate says "no"
+- gate/up magnitude ratio for active neurons: 3.9×
+- **gate_proj signs are MORE critical than up_proj signs for addressing**
+
+**5-layer focal length:** L58 (30%) → L60 (24%) → L62 (10%) → L63 (2%)
+
+**Heavy-tailed magnitudes:** skewness=13.84, max/median=160×
+
+### Implications for Enhanced Etch
+
+1. **Etch gate_proj signs** — currently NOT etched, controls 89% of neuron selection
+2. **Layer-specific FFN signs** — map lens zones to teacher layers (not one layer for all)
+3. **Sparsity mask** — enforce aperture→fan→converge profile as training constraint
+4. **99 frequent beamformers** — priority transfer targets for output scaffolding
 
 ## Session 140: Crystal Custodian + Geometry Losses + Closed VSM Loop
 
