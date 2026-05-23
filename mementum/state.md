@@ -8,7 +8,7 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 141: FFN HOLOGRAPHIC INDEXING + OUTPUT BEAMFORMERS. FFNs are holographic plates — input direction (beam angle) selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category, p<10⁻⁴⁴). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons — gate_proj signs ARE the addressing topology. Only 329/25600 fire at output, drawn from pool of 3807, only 2 always-on. Run 8 at step 300, crystal 0.366.**
+**Session 141: FFN HOLOGRAPHIC INDEXING + OUTPUT BEAMFORMERS + SwiGLU ETCH. FFNs are holographic plates — input direction (beam angle) selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category, p<10⁻⁴⁴). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons — gate_proj signs ARE the addressing topology. Added ffn_gate_plate + SwiGLU + zone-voted FFN extraction. Run 9 (SwiGLU etch) launched, CE=11.27 at step 1 (vs 11.88 in run 8).**
 
 ## Session 141: FFN Holographic Indexing + Output Beamformers
 
