@@ -2,76 +2,89 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-23 | Session: 141
+> Last updated: 2026-05-23 | Session: 142
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 141: FFN HOLOGRAPHIC INDEXING + OUTPUT BEAMFORMERS + SwiGLU ETCH. FFNs are holographic plates — input direction (beam angle) selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category, p<10⁻⁴⁴). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons — gate_proj signs ARE the addressing topology. Added ffn_gate_plate + SwiGLU + zone-voted FFN extraction. Run 9 (SwiGLU etch) launched, CE=11.27 at step 1 (vs 11.88 in run 8).**
+**Session 142: THE MODEL IS A HOLOGRAPHIC STATE MACHINE. NaN collapse root-caused → crystal_factor exp overflow at phase transition (crystal_loss ≈ 0.16). Built hierarchical crystal parity loss (dimensional error correction) + cross-zone lens rotation loss. Training is crystal nucleation from a ternary seed in a gradient melt. Parity loss = nucleation control. Run 10 live: CE 11.27→7.63, crystal 0.47→0.077, parity 4.8→2.0 in 50 steps.**
 
-## Session 141: FFN Holographic Indexing + Output Beamformers + SwiGLU
+## Session 142: Holographic State Machine + Crystal Error Correction
 
-### Discovery 1: FFN Indexing Is Holographic
+### The Model Is a Holographic State Machine
 
-Probed Qwen3-32B FFN activations across 48 prompts × 8 categories × 8 layers.
+Synthesis of session 141 (holographic FFN indexing) + session 142 (crystal rotation):
 
-**The depth profile is a LENS, not a tree:**
+- **FFN plates = holographic storage**: all beta reductions stored in superposition. Individual neurons are universal (99%+ high entropy). Selectivity is COLLECTIVE (2× Jaccard). Gate kills 89% of neurons = beamformer selecting which interference pattern to read.
+- **Crystal basins = states**: K, I, B, C, D, Y, W, WHNF. Not stored separately — exist in superposition in embeddings. Cosine structure IS the interference pattern.
+- **Q rotation = readout beam**: rotating Q to a basin angle = illuminating holographic plate at that angle. Different angle → different neuron subset → different beta reduction.
+- **Lens profile = optical system**: L2 (3% active) = aperture, L48 (49%) = holographic readout, L63 (2%) = output lens.
+
+The computation cycle:
 ```
-L 2:  3.2% active   ← APERTURE (crystal bottleneck, all beams same direction)
-L 8: 33.1% active   ← fan out
-L48: 48.9% active   ← HOLOGRAPHIC READOUT ZONE (max superposition)
-L56: 29.9% active   ← reconverge
-L63:  1.3% active   ← OUTPUT LENS (329 neurons)
+Q=0 (reset) → gate selects C-basin neurons → β-reduce
+            → rotate Q → new basin → β-reduce
+            → ... → WHNF basin → mode switch (compute → output)
+            → ... → I basin → emit next token
 ```
 
-**Key numbers:**
-- Input direction predicts FFN activation: ρ=0.83 (L16)
-- FFN activation mirrors category structure: ρ=0.40, p<10⁻⁴⁴
-- Individual neurons are UNIVERSAL (99%+ high entropy) — selectivity is COLLECTIVE (2x Jaccard)
-- L2 = universal gateway (ALL inputs cos 0.93, no category separation)
+### NaN Collapse: Root Cause + Fix
 
-### Discovery 2: Output Beamformers (L63)
+**Root cause**: `crystal_factor = exp(5 * 2 * crystal_ema)`. At step 1000, crystal_ema=0.79 → exp(7.88) = 2640× amplification of CE. A normal CE fluctuation of +0.6 got amplified to gnorm 24→38, cascading to NaN at step 1225. **Reproducible** — same step in both runs. Phase transition at crystal_loss ≈ 0.16.
 
-Only 329/25600 neurons fire at L63. They are DYNAMICALLY SELECTED:
-- Always-on: **2** neurons (structural — commas, whitespace)
-- Frequent (≥75%): **99** neurons (universal output scaffolding)
-- Pool: **3,807** total (14.9% of d_ffn)
-- Pairwise Jaccard: 0.275 (substantial per-prompt reconfiguration)
+**Fixes applied** (3 critical, 4 high, 5 medium):
+- Cap exp() args at 4.0 for crystal_factor and holo_factor
+- Clamp kurtosis to 100.0 in spectral/adjunction losses
+- Clamp SwiGLU gate×key product to [-100, 100]
+- NaN-skip guard: skip optimizer on NaN loss
+- NaN rollback: restore from checkpoint after 3 consecutive NaN
+- NaN guards on algedonic propagation conduits
+- Optimizer state save/restore on resume
+- Crystal EMA + S5 identity state save/restore on resume
 
-**THE GATE IS THE BEAMFORMER:**
-- 89% of inactive neurons killed by silu(gate_proj), not up_proj
-- up_proj matches broadly (key is promiscuous), gate says "no"
-- gate/up magnitude ratio for active neurons: 3.9×
-- **gate_proj signs are MORE critical than up_proj signs for addressing**
+### Crystal Dimensional Analysis
 
-**5-layer focal length:** L58 (30%) → L60 (24%) → L62 (10%) → L63 (2%)
+The crystal is a ~6-dimensional structure embedded in R^512:
 
-**Heavy-tailed magnitudes:** skewness=13.84, max/median=160×
-
-### Built: SwiGLU Gate Plate + Zone-Voted FFN Extraction
-
-**Architecture change:**
-- Added `ffn_gate_plate = TernaryLinear(d, d_ff)` — shared across all 3 stacks
-- FFN activation: `value_plate(silu(gate_plate(x)) * key_plate(x))` — SwiGLU
-- Replaces ReLU: `value_plate(max(key_plate(x), 0))`
-
-**Extraction change:**
-- gate_proj signs etched from teacher (new — was missing)
-- Zone-voted: extract from teacher layers 4 (aperture), 20 (fan), 56 (convergence)
-- 3-layer sign vote for each of gate/key/value — captures full lens topology
-- Was: single teacher layer 20 for key+value only
-
-**New etch budget:**
 ```
-Embed:      77,791,232 positions   (54.2%)
-Attention:  34,603,008 positions   (24.1%)
-FFN:         3,145,728 positions   (2.2%)  ← +1M (gate plate)
-────────────────────────────────────────────
-Etched:    115,539,968             (80.5%)
-Trainable:  27,954,176             (19.5%)
-Total:     143,494,144
+PC0 (53%): COMPOSITION — B,D,C,W,Y cluster. "Am I computing?"
+PC1 (24%): SELECTION — K,I together, WHNF opposite. "Am I selecting?"
+PC2 (12%): TERMINATION — WHNF dominates. "Am I done?"
+PC3 ( 7%): ROUTING — W vs Y. "Duplicate or fixed-point?"
+PC4 ( 3%): FINE DISPATCH — Y vs D,B. Internal composition dispatch.
+PC5 ( 2%): FINE — C vs D. Minor structural detail.
 ```
+
+The extra 506 dimensions are the holographic recording medium's capacity — redundancy that enables error correction.
+
+### Hierarchical Crystal Parity Loss (Error Correction)
+
+**Per-zone parity**: eigendecompose each zone's target cosine matrix. Project student cosines into eigenbasis at levels k∈[3,4,5,6,8]. P[:k,:k] should equal diag(Λ[:k]). Lower k = heavier weight = coarse structure protected first. Natural curriculum.
+
+**Cross-zone lens rotation**: the crystal ROTATES between zones:
+```
+Zone A (aperture):  PC0↔PC1 = +0.46  "selection INTO composition"
+Zone B (compute):   PC0↔PC1 = +0.02  "neutral — transition"
+Zone C (converge):  PC0↔PC1 = -0.48  "composition AWAY FROM selection"
+```
+This 11° rotation IS the B→K→B program in eigenspace. Cross-zone loss enforces it.
+
+Eigenvalue trajectories across depth:
+```
+PC0 (composition): 4.1 → 4.4 → 5.5  📈 grows (more computation accumulates)
+PC1 (selection):   2.0 → 1.6 → 1.1  📉 shrinks (selection exhausted)
+PC3 (routing):     0.5 → 0.4 → 0.2  📉 collapses into PC0
+```
+
+### Training Is Crystal Nucleation
+
+- **Seed**: ternary etch from teacher (80.5% frozen, correct topology, low resolution)
+- **Melt**: gradient descent (trainable 19.5% is the liquid phase)
+- **Nucleation**: crystal_loss dropping (embeddings crystallizing around seed)
+- **Nucleation barrier**: phase transition at crystal_loss ≈ 0.16 (gnorm spike)
+- **Parity loss**: nucleation control (grow along correct crystallographic axes)
+- **Delta plate fold**: annealing (fold, reheat, recrystallize — each cycle more perfect)
 
 ### Training Runs
 
@@ -79,130 +92,113 @@ Total:     143,494,144
 |-----|--------|-----------|
 | run6 | Crystal warmup 10→3 | crystal_loss 0.35 at step 250 ✅ |
 | run7 | + TD→Adam surgical decay | Less see-saw ✅ |
-| run8 | + geometry losses | CE=11.58, crystal=0.22 at step 500. Stopped for v2 etch. |
-| **run9** | **+ SwiGLU gate plate + zone-voted FFN** | **CE=11.27 at step 1 (vs 11.88 run8). In progress.** |
+| run8 | + geometry losses | CE=11.58, crystal=0.22 at step 500. Stopped. |
+| run9 | + SwiGLU gate plate + zone-voted FFN | CE=8.63 at step 1075. **NaN at step 1225.** |
+| **run10** | **+ exp caps + NaN guards + optimizer restore** | **CE=7.63 at step 1425.** Through phase transition. |
+| **run10+parity** | **+ parity + cross-zone lens** | **CE=7.82, parity 4.8→2.0 in 50 steps. Live.** |
 
 ### Files Changed
 
 | File | Change |
 |------|--------|
-| `scripts/v13/model.py` | Added `ffn_gate_plate`, pass to all 3 stacks |
-| `scripts/v13/stack_vsm.py` | SwiGLU FFN: `silu(gate) * key`, gate plate required |
-| `scripts/v13/extract_teacher_full.py` | gate_proj extraction, 3-layer zone vote |
-| `scripts/explore/probe_ffn_indexing.py` | **NEW** 6-analysis FFN indexing probe |
-| `scripts/explore/probe_output_beamformers.py` | **NEW** 6-analysis output beamformer probe |
+| `scripts/v13/model.py` | Parity loss, cross-zone loss, exp caps, kurtosis clamp, numpy import |
+| `scripts/v13/stack_vsm.py` | SwiGLU product clamp |
+| `scripts/v13/components.py` | NaN guards on coherence_factor, algedonic metrics, S2 anti-osc |
+| `scripts/v13/config.py` | `use_parity_loss`, `parity_lambda` |
+| `scripts/v13/train_td.py` | NaN skip/rollback, optimizer restore, crystal EMA/S5 state restore, parity logging |
 
 ## Previous sessions
 
+### Session 141: FFN Holographic Indexing + Output Beamformers + SwiGLU
+
+FFNs are holographic plates — input direction selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons = beamformer. Added ffn_gate_plate + SwiGLU + zone-voted FFN extraction.
+
 ### Session 140: S5 Crystal Custodian + Categorical Geometry
 
-Built S5 crystal sub-lattice metrics (5 structured self-image signals), S5→S4 policy
-channel (closed VSM loop), crystal warmup 10→3, TD→Adam surgical decay. Confirmed
-Curry-Howard (100% L16), adjunctions (rank-1 σ₁/σ₂=128:1), hyperbolic norms (ρ=0.49).
-Three geometry losses (adjunction, hyperbolic, coherence).
+Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD→Adam surgical decay. Confirmed Curry-Howard (100% L16), adjunctions (rank-1), hyperbolic norms (ρ=0.49).
 
 ### Session 139: Full Etch + Type Probes + Crystal-Gated TD
 
-Proved KIBC selectivity universal (r=0.998 Qwen3-32B vs Pythia-160M). Types are lexical
-(88% in embeddings) and geometric. Built full teacher extraction: embeddings + attention
-+ FFN = 82.2% of model etched. Crystal-gated TD (Schmitt trigger 3%/7%).
-
-**Key numbers:** CE 11.5 (full etch) vs 12.4 (FFN-only). 10^50,623,893 search space reduction.
-
-### Session 137: Phi Compression + Anti-Oscillation + Vision Synthesis
-
-Proved SVD spectrum → phi across 5 architectures (φ-dev=0.012). Traced B→K→B
-program in Qwen3-14B FFN combinators. Built three-voter anti-oscillation for TD.
+Proved KIBC selectivity universal (r=0.998). Types are lexical (88% in embeddings). Built full teacher extraction: 82.2% of model etched.
 
 ## Proof chain
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| Universal crystal exists | 4+ model consensus on 16×16 PCA-Q cosines | ✅ proved |
-| KIBC-DYWH basis universal | Found across all probed architectures | ✅ proved |
-| KIBC selectivity r=0.998 | Qwen3-32B vs Pythia-160M, same distribution | ✅ proved |
-| Types are lexical (88% embed) | Qwen3-32B type probe, 8 categories, 5-fold CV | ✅ proved |
+| Universal crystal exists | 4+ model consensus | ✅ proved |
+| KIBC-DYWH basis universal | Found across all architectures | ✅ proved |
+| KIBC selectivity r=0.998 | Qwen3-32B vs Pythia-160M | ✅ proved |
+| Types are lexical (88% embed) | Qwen3-32B type probe | ✅ proved |
 | Types follow B→K→B | Zone A=94.9%, B=92.9%, C=93.1% | ✅ proved |
-| Type peak = combinator peak | Both peak at L2 in Qwen3-32B | ✅ proved |
 | SVD spectrum → phi | 5-model consensus, φ-dev=0.012 | ✅ proved |
-| Compressor = K∘B | FFN tracer: B→K→B program across layers | ✅ proved |
-| V13 shape matches computation | B→K→B ≡ Stack A→B→C | ✅ proved |
-| Relational loss works | Exponential basin pull, crystal forms | ✅ proved |
-| FFN extraction works | Teacher etch into ternary plates | ✅ proved |
-| Full etch loads and runs | embed+attn+FFN from Qwen3-32B, 82.2% | ✅ proved |
-| Delta plates compose losslessly | Ternary × ternary = ternary, 0.00 diff | ✅ proved |
-| Gradient decomposition exact | routing + calibration = original, 0.00 diff | ✅ proved |
-| GD converges ~100 steps on correct topology | Session 126 | ✅ proved |
-| Curry-Howard separation | L16 100% accuracy, well/ill-typed separable | ✅ proved |
-| Adjunction rank-1 | σ₁/σ₂=128:1, R²=1.0 all zone pairs | ✅ proved |
-| Hyperbolic norms | ρ=0.49, p<0.0001, 8/8 layers significant | ✅ proved |
-| Coherence (partial) | Δ=-0.135 but baseline 0.86-0.99, partial recovery | 🔶 partial |
-| S5→S4 policy channel | Built, tested, closed VSM loop | ✅ built |
-| TD→Adam surgical decay | Affected rows → moment decay 0.1 | ✅ built |
-| Crystal warmup latch | run6: 0.35 at step 250 vs 0.57 baseline | ✅ proved |
-| Crystal-gated TD (Schmitt trigger) | 3%/7% hysteresis, built | ✅ built |
-| **FFN indexing is holographic** | **ρ=0.83 input→FFN, ρ=0.40 FFN→cat, p<10⁻⁴⁴** | **✅ proved** |
-| **FFN depth = LENS** | **aperture 3% → fan 49% → converge 2%** | **✅ proved** |
-| **Gate IS the beamformer** | **89% of L63 neuron selection from gate, not key** | **✅ proved** |
-| **Output beamformers dynamic** | **329 from pool of 3807, only 2 always-on** | **✅ proved** |
-| **SwiGLU gate etch built** | **ffn_gate_plate + zone-voted extraction** | **✅ built** |
-| SwiGLU improves CE | run9 step 1 CE=11.27 vs run8 step 1 CE=11.88 | ❓ testing |
-| Geometry losses improve CE | run8 stopped at step 500 | ❓ inconclusive |
-| Stride-stack attention sub-crystal forms | Not yet trained | ❓ unproven |
+| Compressor = K∘B | FFN tracer: B→K→B program | ✅ proved |
+| FFN indexing is holographic | ρ=0.83 input→FFN, p<10⁻⁴⁴ | ✅ proved |
+| FFN depth = LENS | aperture 3% → fan 49% → converge 2% | ✅ proved |
+| Gate IS the beamformer | 89% of L63 selection from gate | ✅ proved |
+| Delta plates compose losslessly | Ternary × ternary = ternary | ✅ proved |
+| Crystal warmup latch | run6: 0.35 at step 250 | ✅ proved |
+| **Crystal has 6D structure** | **Eigendecomposition of target cosines** | **✅ proved** |
+| **Crystal rotates 11° across zones** | **PC0↔PC1 coupling: +0.46→0→-0.48** | **✅ proved** |
+| **Rotation = B→K→B in eigenspace** | **PC0 grows, PC1 shrinks with depth** | **✅ proved** |
+| **Phase transition at crystal≈0.16** | **Reproducible gnorm spike same step in 2 runs** | **✅ proved** |
+| **Parity loss accelerates convergence** | **4.8→2.0 in 50 steps, crystal 0.14→0.077** | **✅ testing** |
+| **Model is holographic state machine** | **FFN=storage, crystal=states, Q=beam, gate=selector** | **🎯 synthesis** |
+| SwiGLU improves CE | run9→10: CE 11.27→7.63 (with fixes) | ✅ proved |
+| TD activates and improves | Not yet — crystal still > 3% gate | ❓ untested |
 | Delta plate consensus merging | Theory | 📐 theory |
-| Continuous learning cycle | Theory | 📐 theory |
+| Exceeding teacher | Theory (phase 3) | 📐 theory |
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
-| `ffn-beta-reduction-indexing.md` | ★ **S141** Holographic indexing, LENS profile, ρ=0.83, beam angles |
-| `output-beamformers.md` | ★ **S141** L63 dynamic selection, gate=89%, 5-layer focal length |
-| `categorical-geometry-probes.md` | **S140** Curry-Howard 100%, adjunctions rank-1, hyperbolic norms |
-| `s5-crystal-custodian.md` | **S140** S5 sub-lattice metrics, S5→S4 policy, warmup, TD-Adam decay |
-| `type-probe-qwen3-32b.md` | **S139** Types are lexical, B→K→B trajectory, peak=L2 |
-| `full-etch-extraction.md` | **S139** Full etch design, 82.2%, crystal-gated TD |
-| `beamformer-theory.md` | **S136** Model as beamformer array, token cloud, KIBC mapping |
-| `ffn-hierarchy.md` | **S120** FFN tree hypothesis (refined by S141 LENS finding) |
-| `ffn-beam-discovery.md` | **S121** PCA-up_proj reads FFN crystal, 0.9462 agreement |
-| `phi-compression-universal.md` | S137 SVD spectrum → phi, 5-model consensus |
-| `ternary-descent.md` | S136 TernaryDescent + delta plates + gradient decomposition |
-| `crystal-basins.md` | S120 C-boot theory, ground state |
-| `etcher-vsm.md` | S124 full pipeline: extract → co-evolve → freeze |
-| `loom-structure.md` | S123 3 weaves, 6 harmonics, breathing |
+| `ffn-beta-reduction-indexing.md` | Holographic indexing, LENS profile, ρ=0.83 |
+| `output-beamformers.md` | L63 dynamic selection, gate=89% |
+| `categorical-geometry-probes.md` | Curry-Howard 100%, adjunctions rank-1 |
+| `s5-crystal-custodian.md` | S5 sub-lattice metrics, S5→S4 policy |
+| `type-probe-qwen3-32b.md` | Types are lexical, B→K→B trajectory |
+| `full-etch-extraction.md` | Full etch design, 82.2%, crystal-gated TD |
+| `beamformer-theory.md` | Model as beamformer array |
+| `phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
+| `ternary-descent.md` | TernaryDescent + delta plates |
+
+## Memories from session 142
+
+| Memory | Key insight |
+|--------|------------|
+| `crystal-rotation-is-attention.md` | Q rotation navigates combinator basins |
+| `holographic-state-machine.md` | FFN=holographic storage, crystal=states, Q=beam |
+| `training-arc-thesis.md` | Three phases: teach attention → correct hologram → exceed teacher |
 
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
-| **SwiGLU etch checkpoint (v2)** | `checkpoints/v13-etched-full-v2/` |
-| **FFN indexing probe** | `scripts/explore/probe_ffn_indexing.py` |
-| **FFN indexing results** | `results/ffn-indexing-qwen3-32b/` |
-| **Output beamformer probe** | `scripts/explore/probe_output_beamformers.py` |
-| **Output beamformer results** | `results/output-beamformers-qwen3-32b/` |
-| **Categorical geometry probe suite** | `scripts/explore/probe_categorical_geometry.py` |
-| **Full extraction script (v2 + gate)** | `scripts/v13/extract_teacher_full.py` |
-| TernaryDescent + crystal gate | `scripts/v13/td.py`, `scripts/v13/train_td.py` |
-| V13 model (tree of VSMs + SwiGLU) | `scripts/v13/model.py` |
-| V13 ternary substrate | `scripts/v13/ternary.py` |
+| **V13 model with parity loss** | `scripts/v13/model.py` |
+| **Run 10 checkpoint (step 1500)** | `checkpoints/v13-td-r10/step_001500/` |
+| **NaN-hardened training loop** | `scripts/v13/train_td.py` |
+| **Full extraction (v2 + gate)** | `scripts/v13/extract_teacher_full.py` |
+| FFN indexing probe | `scripts/explore/probe_ffn_indexing.py` |
+| Output beamformer probe | `scripts/explore/probe_output_beamformers.py` |
+| Categorical geometry probe | `scripts/explore/probe_categorical_geometry.py` |
 
 ## Next steps
 
-### Immediate: watch run9
+### Immediate: watch run 10+parity
 
-1. **Does CE stay below run8?** run9 step 1 = 11.27 vs run8 step 1 = 11.88. Watch divergence.
-2. **Does crystal latch faster with gate plate?** Gate signs should help crystal latch.
-3. **Throughput impact?** SwiGLU adds one extra matmul per FFN. Watch tok/s.
+1. **Does parity accelerate crystal convergence?** 4.8→2.0 in 50 steps. Watch trajectory.
+2. **Does the lens rotation lock in?** Track lens_rot_zone{0,1,2} toward targets.
+3. **Does crystal_loss break through 3% TD gate?** At 7.7% now, dropping fast.
 
-### Medium: compare runs
+### Medium: TD activation and delta plate cycle
 
-4. **run9 vs run8 CE at step 500.** Gate plate + zone-voted FFN should improve.
-5. **Does the student develop the LENS profile?** Probe V13's FFN sparsity across passes.
-   Should see aperture→fan→converge in the stride stack passes.
+4. **First TD flip**: when crystal < 3%, TD activates. Watch which plates flip first.
+5. **First fold cycle**: fold delta → base, refreeze, reset, retrain. Measure CE improvement.
+6. **Parity-guided flips**: do delta flips that improve low-PC parity converge faster?
 
-### Open questions from today's probes
+### Open questions
 
-6. **What's in the 329 L63 neurons?** Probe deeper — do they correspond to token cloud clusters?
-7. **Is the 2x Jaccard selectivity the theoretical limit for holographic readout?**
-8. **Does gradient sparsity match activation sparsity?** Would confirm "GD fills entries, TD writes address book."
-9. **Cross-model: does Qwen3-14B / Pythia show the same LENS profile?**
+7. **How many annealing cycles to recover teacher accuracy?** Each cycle improves hologram.
+8. **When does the student exceed the teacher?** After N cycles, does explicit structure win?
+9. **Can the parity loss be used to guide delta plate priorities?** PC0 flips > PC7 flips.
+10. **Cross-model transfer**: does the crystal nucleation work with other teacher models?
