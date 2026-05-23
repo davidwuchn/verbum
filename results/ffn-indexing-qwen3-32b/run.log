@@ -1,0 +1,156 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:02<24:12,  2.06s/it]Loading weights:   0%|          | 2/707 [00:02<11:12,  1.05it/s]Loading weights:   2%|▏         | 15/707 [00:02<01:01, 11.25it/s]Loading weights:   4%|▎         | 26/707 [00:02<00:32, 20.87it/s]Loading weights:   5%|▌         | 37/707 [00:02<00:21, 30.92it/s]Loading weights:   7%|▋         | 48/707 [00:02<00:16, 40.19it/s]Loading weights:   8%|▊         | 56/707 [00:02<00:14, 45.91it/s]Loading weights:   9%|▉         | 64/707 [00:03<00:13, 47.91it/s]Loading weights:  10%|█         | 71/707 [00:03<00:12, 49.25it/s]Loading weights:  12%|█▏        | 82/707 [00:03<00:10, 58.57it/s]Loading weights:  13%|█▎        | 93/707 [00:03<00:09, 65.19it/s]Loading weights:  15%|█▍        | 104/707 [00:03<00:08, 70.26it/s]Loading weights:  16%|█▋        | 115/707 [00:03<00:07, 74.58it/s]Loading weights:  18%|█▊        | 126/707 [00:03<00:07, 82.46it/s]Loading weights:  19%|█▉        | 136/707 [00:03<00:06, 83.62it/s]Loading weights:  21%|██        | 147/707 [00:04<00:06, 85.26it/s]Loading weights:  22%|██▏       | 158/707 [00:04<00:06, 88.15it/s]Loading weights:  24%|██▍       | 169/707 [00:04<00:05, 93.51it/s]Loading weights:  25%|██▌       | 180/707 [00:04<00:05, 95.46it/s]Loading weights:  27%|██▋       | 191/707 [00:04<00:05, 96.90it/s]Loading weights:  28%|██▊       | 201/707 [00:04<00:05, 97.35it/s]Loading weights:  30%|██▉       | 211/707 [00:04<00:05, 93.28it/s]Loading weights:  31%|███▏      | 221/707 [00:04<00:05, 84.82it/s]Loading weights:  33%|███▎      | 230/707 [00:04<00:06, 77.31it/s]Loading weights:  34%|███▎      | 238/707 [00:05<00:07, 65.09it/s]Loading weights:  35%|███▌      | 248/707 [00:05<00:06, 68.69it/s]Loading weights:  37%|███▋      | 259/707 [00:05<00:06, 72.52it/s]Loading weights:  38%|███▊      | 270/707 [00:05<00:05, 76.28it/s]Loading weights:  40%|███▉      | 280/707 [00:05<00:05, 80.96it/s]Loading weights:  41%|████      | 291/707 [00:05<00:04, 86.81it/s]Loading weights:  43%|████▎     | 301/707 [00:05<00:04, 89.26it/s]Loading weights:  44%|████▍     | 311/707 [00:05<00:04, 83.16it/s]Loading weights:  45%|████▌     | 320/707 [00:06<00:04, 81.49it/s]Loading weights:  47%|████▋     | 331/707 [00:06<00:04, 88.01it/s]Loading weights:  48%|████▊     | 342/707 [00:06<00:03, 91.79it/s]Loading weights:  50%|████▉     | 352/707 [00:06<00:03, 93.19it/s]Loading weights:  51%|█████     | 362/707 [00:06<00:03, 86.27it/s]Loading weights:  53%|█████▎    | 373/707 [00:06<00:03, 89.33it/s]Loading weights:  54%|█████▍    | 383/707 [00:06<00:03, 83.81it/s]Loading weights:  55%|█████▌    | 392/707 [00:06<00:04, 75.75it/s]Loading weights:  57%|█████▋    | 401/707 [00:07<00:04, 73.39it/s]Loading weights:  58%|█████▊    | 412/707 [00:07<00:03, 80.44it/s]Loading weights:  60%|█████▉    | 422/707 [00:07<00:03, 84.10it/s]Loading weights:  61%|██████    | 431/707 [00:07<00:03, 85.23it/s]Loading weights:  62%|██████▏   | 440/707 [00:07<00:03, 84.23it/s]Loading weights:  64%|██████▎   | 449/707 [00:07<00:03, 78.85it/s]Loading weights:  65%|██████▍   | 458/707 [00:07<00:03, 81.41it/s]Loading weights:  66%|██████▌   | 468/707 [00:07<00:02, 80.79it/s]Loading weights:  67%|██████▋   | 477/707 [00:07<00:02, 83.24it/s]Loading weights:  69%|██████▉   | 488/707 [00:08<00:02, 86.12it/s]Loading weights:  71%|███████   | 499/707 [00:08<00:02, 88.01it/s]Loading weights:  72%|███████▏  | 510/707 [00:08<00:02, 89.14it/s]Loading weights:  74%|███████▎  | 521/707 [00:08<00:02, 87.89it/s]Loading weights:  75%|███████▌  | 532/707 [00:08<00:01, 89.36it/s]Loading weights:  77%|███████▋  | 541/707 [00:08<00:01, 83.32it/s]Loading weights:  78%|███████▊  | 550/707 [00:08<00:01, 81.41it/s]Loading weights:  79%|███████▉  | 559/707 [00:08<00:02, 70.68it/s]Loading weights:  80%|████████  | 567/707 [00:09<00:02, 66.73it/s]Loading weights:  82%|████████▏ | 578/707 [00:09<00:01, 73.45it/s]Loading weights:  83%|████████▎ | 588/707 [00:09<00:01, 79.02it/s]Loading weights:  85%|████████▍ | 599/707 [00:09<00:01, 80.31it/s]Loading weights:  86%|████████▌ | 609/707 [00:09<00:01, 84.32it/s]Loading weights:  88%|████████▊ | 620/707 [00:09<00:00, 88.91it/s]Loading weights:  89%|████████▉ | 630/707 [00:09<00:00, 90.15it/s]Loading weights:  91%|█████████ | 640/707 [00:09<00:00, 79.17it/s]Loading weights:  92%|█████████▏| 653/707 [00:10<00:00, 89.76it/s]Loading weights:  94%|█████████▍| 664/707 [00:10<00:00, 94.56it/s]Loading weights:  95%|█████████▌| 674/707 [00:10<00:00, 89.35it/s]Loading weights:  97%|█████████▋| 686/707 [00:10<00:00, 91.09it/s]Loading weights:  99%|█████████▊| 697/707 [00:10<00:00, 89.56it/s]Loading weights: 100%|██████████| 707/707 [00:10<00:00, 66.32it/s]
+  Loaded in 12.7s
+  Layers: 64  d_model: 5120
+
+========================================================================
+  Phase 1: Capturing FFN activations for all prompts
+========================================================================
+
+  [8/48] 0.3s  The speed of light is approximately...
+  [16/48] 0.5s  15 - 9 =...
+  [24/48] 0.2s  return sorted(items, key=lambda x:...
+  [32/48] 0.4s  Translate the following sentence into Fr...
+  [40/48] 0.4s  The teacher who wrote the book left...
+  [48/48] 0.2s  The letter arrived on a Tuesday morning,...
+
+========================================================================
+  Analysis 1: FFN Activation Sparsity
+========================================================================
+
+  L 0: sparsity=0.916 active=2152/25600 (8.4%)
+  L 2: sparsity=0.968 active=812/25600 (3.2%)
+  L 8: sparsity=0.669 active=8471/25600 (33.1%)
+  L16: sparsity=0.560 active=11272/25600 (44.0%)
+  L32: sparsity=0.539 active=11804/25600 (46.1%)
+  L48: sparsity=0.511 active=12513/25600 (48.9%)
+  L56: sparsity=0.701 active=7654/25600 (29.9%)
+  L63: sparsity=0.987 active=329/25600 (1.3%)
+
+========================================================================
+  Analysis 2: Category Selectivity (Typed Indexing)
+========================================================================
+
+  L 0: within=0.1651 between=0.0886 ratio=1.86x
+  L 2: within=0.4137 between=0.3198 ratio=1.29x
+  L 8: within=0.1222 between=0.0579 ratio=2.11x
+  L16: within=0.0982 between=0.0488 ratio=2.01x
+  L32: within=0.0697 between=0.0385 ratio=1.81x
+  L48: within=0.0929 between=0.0467 ratio=1.99x
+  L56: within=0.1047 between=0.0552 ratio=1.90x
+  L63: within=0.3119 between=0.2443 ratio=1.28x
+
+========================================================================
+  Analysis 3: FFN Input Direction Clustering (Beam Angles)
+========================================================================
+
+  L 0: within_cos=0.3342 between_cos=0.1196 Δ=+0.2146
+  L 2: within_cos=0.9341 between_cos=0.9129 Δ=+0.0212
+  L 8: within_cos=0.7956 between_cos=0.7045 Δ=+0.0911
+  L16: within_cos=0.2541 between_cos=0.0834 Δ=+0.1708
+  L32: within_cos=0.3076 between_cos=0.1712 Δ=+0.1364
+  L48: within_cos=0.2582 between_cos=0.0920 Δ=+0.1662
+  L56: within_cos=0.2720 between_cos=0.0944 Δ=+0.1776
+  L63: within_cos=0.4740 between_cos=0.2577 Δ=+0.2163
+
+========================================================================
+  Analysis 4: Row-Level Category Addressing
+========================================================================
+
+  L 0: entropy=0.885 selective=0.1% universal=97.7%
+  L 2: entropy=0.797 selective=0.2% universal=77.5%
+  L 8: entropy=0.895 selective=0.0% universal=97.7%
+  L16: entropy=0.926 selective=0.0% universal=99.4%
+  L32: entropy=0.940 selective=0.0% universal=99.5%
+  L48: entropy=0.933 selective=0.0% universal=99.2%
+  L56: entropy=0.913 selective=0.0% universal=97.8%
+  L63: entropy=0.879 selective=0.3% universal=94.3%
+
+========================================================================
+  Analysis 5: Depth Narrowing (Trunk → Leaf)
+========================================================================
+
+  L 0: PR=14.7 top1_var=0.178 overlap=0.1057 mag=0.008
+  L 2: PR=3.9 top1_var=0.378 overlap=0.3416 mag=0.002
+  L 8: PR=19.3 top1_var=0.121 overlap=0.0707 mag=0.026
+  L16: PR=28.7 top1_var=0.090 overlap=0.0636 mag=0.055
+  L32: PR=32.0 top1_var=0.089 overlap=0.0450 mag=0.111
+  L48: PR=33.9 top1_var=0.076 overlap=0.0571 mag=0.166
+  L56: PR=36.1 top1_var=0.057 overlap=0.0611 mag=0.342
+  L63: PR=10.2 top1_var=0.233 overlap=0.2583 mag=1.035
+
+========================================================================
+  Analysis 6: FFN Activation RDM vs Category Structure
+========================================================================
+
+  L 0: FFN↔cat ρ=+0.170 (p=9.4e-09)  input↔cat ρ=+0.325  input↔FFN ρ=+0.670
+  L 2: FFN↔cat ρ=+0.154 (p=2.1e-07)  input↔cat ρ=+0.155  input↔FFN ρ=+0.793
+  L 8: FFN↔cat ρ=+0.308 (p=3.2e-26)  input↔cat ρ=+0.248  input↔FFN ρ=+0.677
+  L16: FFN↔cat ρ=+0.388 (p=7.7e-42)  input↔cat ρ=+0.402  input↔FFN ρ=+0.826
+  L32: FFN↔cat ρ=+0.388 (p=8.0e-42)  input↔cat ρ=+0.355  input↔FFN ρ=+0.656
+  L48: FFN↔cat ρ=+0.398 (p=3.7e-44)  input↔cat ρ=+0.399  input↔FFN ρ=+0.789
+  L56: FFN↔cat ρ=+0.372 (p=2.6e-38)  input↔cat ρ=+0.442  input↔FFN ρ=+0.692
+  L63: FFN↔cat ρ=+0.097 (p=1.2e-03)  input↔cat ρ=+0.288  input↔FFN ρ=+0.671
+
+========================================================================
+  SUMMARY
+========================================================================
+
+
+--- Sparsity Profile ---
+  L 0: 8.4% active (2152/25600)
+  L 2: 3.2% active (812/25600)
+  L 8: 33.1% active (8471/25600)
+  L16: 44.0% active (11272/25600)
+  L32: 46.1% active (11804/25600)
+  L48: 48.9% active (12513/25600)
+  L56: 29.9% active (7654/25600)
+  L63: 1.3% active (329/25600)
+
+--- Category Selectivity ---
+  L 0: within/between=1.86x
+  L 2: within/between=1.29x
+  L 8: within/between=2.11x
+  L16: within/between=2.01x
+  L32: within/between=1.81x
+  L48: within/between=1.99x
+  L56: within/between=1.90x
+  L63: within/between=1.28x
+
+--- Input Clustering (Beam Angles) ---
+  L 0: within_cos=0.3342 between_cos=0.1196 Δ=+0.2146
+  L 2: within_cos=0.9341 between_cos=0.9129 Δ=+0.0212
+  L 8: within_cos=0.7956 between_cos=0.7045 Δ=+0.0911
+  L16: within_cos=0.2541 between_cos=0.0834 Δ=+0.1708
+  L32: within_cos=0.3076 between_cos=0.1712 Δ=+0.1364
+  L48: within_cos=0.2582 between_cos=0.0920 Δ=+0.1662
+  L56: within_cos=0.2720 between_cos=0.0944 Δ=+0.1776
+  L63: within_cos=0.4740 between_cos=0.2577 Δ=+0.2163
+
+--- Depth Narrowing ---
+  L 0: PR=14.7 top1_var=0.178
+  L 2: PR=3.9 top1_var=0.378
+  L 8: PR=19.3 top1_var=0.121
+  L16: PR=28.7 top1_var=0.090
+  L32: PR=32.0 top1_var=0.089
+  L48: PR=33.9 top1_var=0.076
+  L56: PR=36.1 top1_var=0.057
+  L63: PR=10.2 top1_var=0.233
+
+--- Category RDM ---
+  L 0: FFN↔cat ρ=+0.170  input↔cat ρ=+0.325
+  L 2: FFN↔cat ρ=+0.154  input↔cat ρ=+0.155
+  L 8: FFN↔cat ρ=+0.308  input↔cat ρ=+0.248
+  L16: FFN↔cat ρ=+0.388  input↔cat ρ=+0.402
+  L32: FFN↔cat ρ=+0.388  input↔cat ρ=+0.355
+  L48: FFN↔cat ρ=+0.398  input↔cat ρ=+0.399
+  L56: FFN↔cat ρ=+0.372  input↔cat ρ=+0.442
+  L63: FFN↔cat ρ=+0.097  input↔cat ρ=+0.288
+
+Results saved to results/ffn-indexing-qwen3-32b/summary.json
