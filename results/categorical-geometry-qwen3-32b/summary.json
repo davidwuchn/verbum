@@ -1,0 +1,631 @@
+{
+  "timestamp": "2026-05-23T13:55:40.181877+00:00",
+  "model": "Qwen/Qwen3-32B",
+  "n_layers": 64,
+  "d_model": 5120,
+  "quick": false,
+  "config": {
+    "probe_layers": [
+      0,
+      2,
+      8,
+      16,
+      32,
+      48,
+      56,
+      63
+    ],
+    "encode_layer": 2,
+    "compress_layer": 32,
+    "decode_layer": 56,
+    "final_layer": 63
+  },
+  "curry_howard": {
+    "probe": "curry_howard",
+    "description": "Well-typed vs ill-typed adjacent-pair residual classifier",
+    "layer_indices": [
+      0,
+      2,
+      8,
+      16,
+      32,
+      48,
+      56,
+      63
+    ],
+    "results_by_layer": {
+      "0": {
+        "accuracy_mean": 0.8496732026143791,
+        "accuracy_std": 0.10057717156429459,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.4707555244135302,
+        "mean_cosine_ill_typed": 0.526800159026276
+      },
+      "2": {
+        "accuracy_mean": 0.907843137254902,
+        "accuracy_std": 0.07973856209150329,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.44021216173504674,
+        "mean_cosine_ill_typed": 0.4919530735774474
+      },
+      "8": {
+        "accuracy_mean": 0.9549019607843137,
+        "accuracy_std": 0.04176874590502082,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.5744370298330174,
+        "mean_cosine_ill_typed": 0.4610570943491025
+      },
+      "16": {
+        "accuracy_mean": 1.0,
+        "accuracy_std": 0.0,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.5491698890231377,
+        "mean_cosine_ill_typed": 0.4131898915564472
+      },
+      "32": {
+        "accuracy_mean": 1.0,
+        "accuracy_std": 0.0,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.331330933976312,
+        "mean_cosine_ill_typed": 0.3153298360676589
+      },
+      "48": {
+        "accuracy_mean": 0.9882352941176471,
+        "accuracy_std": 0.023529411764705885,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.4538869272137797,
+        "mean_cosine_ill_typed": 0.5035103796557947
+      },
+      "56": {
+        "accuracy_mean": 0.95359477124183,
+        "accuracy_std": 0.06849972552456944,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.4218564984756847,
+        "mean_cosine_ill_typed": 0.5863908861171115
+      },
+      "63": {
+        "accuracy_mean": 0.9300653594771241,
+        "accuracy_std": 0.06872386629069238,
+        "n_pairs": 87,
+        "n_well_typed_pairs": 43,
+        "n_ill_typed_pairs": 44,
+        "mean_cosine_well_typed": 0.3593201157528647,
+        "mean_cosine_ill_typed": 0.5720700015398589
+      }
+    }
+  },
+  "hyperbolic": {
+    "probe": "hyperbolic",
+    "description": "Spearman correlation between residual norm and syntactic depth",
+    "layer_indices": [
+      0,
+      2,
+      8,
+      16,
+      32,
+      48,
+      56,
+      63
+    ],
+    "results_by_layer": {
+      "0": {
+        "spearman_rho": 0.48796266753607515,
+        "spearman_pval": 7.777260022801964e-06,
+        "n": 76,
+        "mean_norm": 40.28954950131868,
+        "std_norm": 13.47255343796332,
+        "norm_by_depth": {
+          "0": {
+            "mean": 32.91285413854263,
+            "n": 17
+          },
+          "1": {
+            "mean": 35.543879645211355,
+            "n": 28
+          },
+          "2": {
+            "mean": 47.03729270935059,
+            "n": 25
+          },
+          "3": {
+            "mean": 55.221048990885414,
+            "n": 6
+          }
+        }
+      },
+      "2": {
+        "spearman_rho": 0.4498003218524414,
+        "spearman_pval": 4.573792378702287e-05,
+        "n": 76,
+        "mean_norm": 81.2222311622218,
+        "std_norm": 56.211130444938725,
+        "norm_by_depth": {
+          "0": {
+            "mean": 54.96734080595129,
+            "n": 17
+          },
+          "1": {
+            "mean": 57.459908621651785,
+            "n": 28
+          },
+          "2": {
+            "mean": 108.90857482910157,
+            "n": 25
+          },
+          "3": {
+            "mean": 151.1421604156494,
+            "n": 6
+          }
+        }
+      },
+      "8": {
+        "spearman_rho": 0.2836192133756897,
+        "spearman_pval": 0.013036624766460652,
+        "n": 76,
+        "mean_norm": 3917.9220853102834,
+        "std_norm": 7713.730697057229,
+        "norm_by_depth": {
+          "0": {
+            "mean": 115.83957627240349,
+            "n": 17
+          },
+          "1": {
+            "mean": 1811.1440830230713,
+            "n": 28
+          },
+          "2": {
+            "mean": 7633.147871704102,
+            "n": 25
+          },
+          "3": {
+            "mean": 9042.012428283691,
+            "n": 6
+          }
+        }
+      },
+      "16": {
+        "spearman_rho": 0.34202156586097915,
+        "spearman_pval": 0.0024943976489257597,
+        "n": 76,
+        "mean_norm": 3987.127393822921,
+        "std_norm": 7742.35588438004,
+        "norm_by_depth": {
+          "0": {
+            "mean": 163.1754913330078,
+            "n": 17
+          },
+          "1": {
+            "mean": 1875.5413649422783,
+            "n": 28
+          },
+          "2": {
+            "mean": 7716.477766723633,
+            "n": 25
+          },
+          "3": {
+            "mean": 9136.766031901041,
+            "n": 6
+          }
+        }
+      },
+      "32": {
+        "spearman_rho": 0.42229061132757373,
+        "spearman_pval": 0.00014481210273974216,
+        "n": 76,
+        "mean_norm": 4059.1079360560366,
+        "std_norm": 7769.852386047241,
+        "norm_by_depth": {
+          "0": {
+            "mean": 221.50681888355928,
+            "n": 17
+          },
+          "1": {
+            "mean": 1933.4810088021416,
+            "n": 28
+          },
+          "2": {
+            "mean": 7805.188087158203,
+            "n": 25
+          },
+          "3": {
+            "mean": 9243.236132303873,
+            "n": 6
+          }
+        }
+      },
+      "48": {
+        "spearman_rho": 0.37122993983008257,
+        "spearman_pval": 0.0009617143187693014,
+        "n": 76,
+        "mean_norm": 4446.074558057283,
+        "std_norm": 8351.233954970718,
+        "norm_by_depth": {
+          "0": {
+            "mean": 314.68656831629136,
+            "n": 17
+          },
+          "1": {
+            "mean": 2141.6111003330775,
+            "n": 28
+          },
+          "2": {
+            "mean": 8482.193259277345,
+            "n": 25
+          },
+          "3": {
+            "mean": 10088.675409952799,
+            "n": 6
+          }
+        }
+      },
+      "56": {
+        "spearman_rho": 0.4777418959648266,
+        "spearman_pval": 1.2763964332198138e-05,
+        "n": 76,
+        "mean_norm": 4905.756649619655,
+        "std_norm": 8125.135081011404,
+        "norm_by_depth": {
+          "0": {
+            "mean": 862.9754243738511,
+            "n": 17
+          },
+          "1": {
+            "mean": 2659.6641060965403,
+            "n": 28
+          },
+          "2": {
+            "mean": 8844.6653125,
+            "n": 25
+          },
+          "3": {
+            "mean": 10429.949228922525,
+            "n": 6
+          }
+        }
+      },
+      "63": {
+        "spearman_rho": 0.2590461752459413,
+        "spearman_pval": 0.023845762512255408,
+        "n": 76,
+        "mean_norm": 3136.156622635691,
+        "std_norm": 1652.1413869312512,
+        "norm_by_depth": {
+          "0": {
+            "mean": 2438.542085535386,
+            "n": 17
+          },
+          "1": {
+            "mean": 2772.5440543038503,
+            "n": 28
+          },
+          "2": {
+            "mean": 3752.280224609375,
+            "n": 25
+          },
+          "3": {
+            "mean": 4242.408121744792,
+            "n": 6
+          }
+        }
+      }
+    }
+  },
+  "coherence": {
+    "probe": "coherence",
+    "description": "Noun cosine similarity across adjective-order-permuted pairs",
+    "layer_indices": [
+      0,
+      2,
+      8,
+      16,
+      32,
+      48,
+      56,
+      63
+    ],
+    "mean_cosines_by_layer": {
+      "0": 0.9924757719039917,
+      "2": 0.9529861569404602,
+      "8": 0.9015153765678405,
+      "16": 0.874871551990509,
+      "32": 0.8613066732883453,
+      "48": 0.8771524667739868,
+      "56": 0.8963076412677765,
+      "63": 0.8573463559150696
+    },
+    "std_cosines_by_layer": {
+      "0": 0.0026284150718607546,
+      "2": 0.039793336650504815,
+      "8": 0.0586260577945354,
+      "16": 0.05856304400884548,
+      "32": 0.05063968266976781,
+      "48": 0.0711163966800719,
+      "56": 0.06793826870901398,
+      "63": 0.11035329243730728
+    },
+    "convergence_delta": -0.13512941598892214,
+    "pair_details": [
+      {
+        "label": "big_red_ball",
+        "sent_a": "The big red ball bounces.",
+        "sent_b": "The red big ball bounces.",
+        "noun": "ball",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9897851347923279,
+          "2": 0.9590564370155334,
+          "8": 0.8557266592979431,
+          "16": 0.8093843460083008,
+          "32": 0.8108940720558167,
+          "48": 0.7120631337165833,
+          "56": 0.7547357082366943,
+          "63": 0.715781569480896
+        }
+      },
+      {
+        "label": "old_stone_wall",
+        "sent_a": "The old stone wall stands.",
+        "sent_b": "The stone old wall stands.",
+        "noun": "wall",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9886889457702637,
+          "2": 0.9412198662757874,
+          "8": 0.8840904235839844,
+          "16": 0.8581010103225708,
+          "32": 0.8186393976211548,
+          "48": 0.8000219464302063,
+          "56": 0.8015649914741516,
+          "63": 0.6449673175811768
+        }
+      },
+      {
+        "label": "bright_blue_sky",
+        "sent_a": "The bright blue sky shines.",
+        "sent_b": "The blue bright sky shines.",
+        "noun": "sky",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.993893027305603,
+          "2": 0.9811916351318359,
+          "8": 0.954108715057373,
+          "16": 0.915100634098053,
+          "32": 0.8842445611953735,
+          "48": 0.8752152323722839,
+          "56": 0.9168158173561096,
+          "63": 0.8555247187614441
+        }
+      },
+      {
+        "label": "long_dark_road",
+        "sent_a": "The long dark road stretches.",
+        "sent_b": "The dark long road stretches.",
+        "noun": "road",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9960681200027466,
+          "2": 0.9608179330825806,
+          "8": 0.9312781095504761,
+          "16": 0.9233388900756836,
+          "32": 0.9049268960952759,
+          "48": 0.9399552941322327,
+          "56": 0.9661210775375366,
+          "63": 0.9763503670692444
+        }
+      },
+      {
+        "label": "heavy_iron_door",
+        "sent_a": "The heavy iron door opens.",
+        "sent_b": "The iron heavy door opens.",
+        "noun": "door",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9961804747581482,
+          "2": 0.964177668094635,
+          "8": 0.9314236044883728,
+          "16": 0.9393411874771118,
+          "32": 0.9297729134559631,
+          "48": 0.9653438925743103,
+          "56": 0.9600491523742676,
+          "63": 0.9571331739425659
+        }
+      },
+      {
+        "label": "small_white_cat",
+        "sent_a": "The small white cat sleeps.",
+        "sent_b": "The white small cat sleeps.",
+        "noun": "cat",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.994462251663208,
+          "2": 0.9681169986724854,
+          "8": 0.9365013241767883,
+          "16": 0.9152851104736328,
+          "32": 0.8967165946960449,
+          "48": 0.9010280966758728,
+          "56": 0.884057879447937,
+          "63": 0.7445530295372009
+        }
+      },
+      {
+        "label": "tall_green_tree",
+        "sent_a": "The tall green tree grows.",
+        "sent_b": "The green tall tree grows.",
+        "noun": "tree",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9897992610931396,
+          "2": 0.9508490562438965,
+          "8": 0.8662533760070801,
+          "16": 0.7746495604515076,
+          "32": 0.7972614765167236,
+          "48": 0.8782161474227905,
+          "56": 0.91573166847229,
+          "63": 0.8820862770080566
+        }
+      },
+      {
+        "label": "hot_black_coffee",
+        "sent_a": "The hot black coffee steams.",
+        "sent_b": "The black hot coffee steams.",
+        "noun": "coffee",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9938409328460693,
+          "2": 0.983579695224762,
+          "8": 0.9392123818397522,
+          "16": 0.8944936394691467,
+          "32": 0.844910740852356,
+          "48": 0.8652291893959045,
+          "56": 0.8638346791267395,
+          "63": 0.8944401741027832
+        }
+      },
+      {
+        "label": "cold_fresh_water",
+        "sent_a": "The cold fresh water flows.",
+        "sent_b": "The fresh cold water flows.",
+        "noun": "water",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.9901102781295776,
+          "2": 0.8401215076446533,
+          "8": 0.7587899565696716,
+          "16": 0.7921754717826843,
+          "32": 0.7975196838378906,
+          "48": 0.8878912329673767,
+          "56": 0.935687243938446,
+          "63": 0.9429355263710022
+        }
+      },
+      {
+        "label": "thin_sharp_knife",
+        "sent_a": "The thin sharp knife cuts.",
+        "sent_b": "The sharp thin knife cuts.",
+        "noun": "knife",
+        "noun_token_idx_a": 3,
+        "noun_token_idx_b": 3,
+        "cosines_by_layer": {
+          "0": 0.991929292678833,
+          "2": 0.9807307720184326,
+          "8": 0.9577692151069641,
+          "16": 0.9268456697463989,
+          "32": 0.9281803965568542,
+          "48": 0.9465605020523071,
+          "56": 0.9644781947135925,
+          "63": 0.9596914052963257
+        }
+      }
+    ]
+  },
+  "elapsed_s": 132.43941617012024,
+  "adjunctions": {
+    "probe": "adjunctions",
+    "description": "Zone-pair cosine similarity and cross-zone mapping rank",
+    "n_tokens": 58,
+    "cosine_stats": {
+      "enc_dec_L2_L56": {
+        "mean": 0.4225338741109289,
+        "std": 0.24128692986179198,
+        "median": 0.30753694474697113,
+        "n": 58
+      },
+      "enc_comp_L2_L32": {
+        "mean": 0.472632005553821,
+        "std": 0.21387355146857895,
+        "median": 0.39594314992427826,
+        "n": 58
+      },
+      "comp_dec_L32_L56": {
+        "mean": 0.547295246144821,
+        "std": 0.27808337756029844,
+        "median": 0.4257404953241348,
+        "n": 58
+      },
+      "enc_final_L2_L63": {
+        "mean": 0.27420716615522217,
+        "std": 0.255896839160188,
+        "median": 0.1621304228901863,
+        "n": 58
+      }
+    },
+    "svd": {
+      "enc_dec_L2_L56": {
+        "top5_variance_explained": 0.9999874124971875,
+        "top20_variance_explained": 0.9999966874992599,
+        "singular_values_top10": [
+          889557.3125,
+          6945.03271484375,
+          2046.1597900390625,
+          1346.05517578125,
+          1222.9114990234375,
+          1063.1905517578125,
+          903.332275390625,
+          796.9708251953125,
+          784.6928100585938,
+          767.6466674804688
+        ]
+      },
+      "enc_comp_L2_L32": {
+        "top5_variance_explained": 0.9999984262492188,
+        "top20_variance_explained": 0.9999995082028809,
+        "singular_values_top10": [
+          816262.125,
+          2307.986572265625,
+          656.9710693359375,
+          416.0601501464844,
+          398.20257568359375,
+          373.1944580078125,
+          332.5285339355469,
+          283.5032653808594,
+          260.8232116699219,
+          246.02365112304688
+        ]
+      },
+      "comp_dec_L32_L56": {
+        "top5_variance_explained": 1.0,
+        "top20_variance_explained": 1.0,
+        "singular_values_top10": [
+          110307432.0,
+          26619.927734375,
+          8607.7158203125,
+          6135.93017578125,
+          5160.68359375,
+          4859.03564453125,
+          4291.98291015625,
+          4016.6962890625,
+          3914.591552734375,
+          3686.024658203125
+        ]
+      }
+    },
+    "r2": {
+      "enc_dec_L2_L56": 1.0,
+      "enc_comp_L2_L32": 1.0,
+      "comp_dec_L32_L56": 1.0
+    }
+  }
+}

@@ -544,6 +544,17 @@ class TernaryDescent:
                 # Record flip history for anti-oscillation
                 self._update_flip_history(name, flip_occurred)
 
+                # Affected rows: rows where any column flipped.
+                # Adam's gamma/bias for these rows are stale — GD was
+                # compensating for the old topology. Caller must decay
+                # Adam moments for these rows so GD can re-converge.
+                row_any_flipped = mx.any(flip_occurred, axis=1)  # (N,)
+                mx.eval(row_any_flipped)
+                affected_rows = set(
+                    int(i) for i in range(row_any_flipped.shape[0])
+                    if row_any_flipped[i].item()
+                )
+
                 per_module[name] = {
                     "flips": n_flips,
                     "candidates": n_candidates,
@@ -551,6 +562,7 @@ class TernaryDescent:
                         mx.where(candidates, snr, mx.array(0.0))
                     ).item()),
                     "new_packed": new_packed,  # caller must assign to module
+                    "affected_rows": affected_rows,  # rows where GD compensation is stale
                 }
             else:
                 per_module[name] = {

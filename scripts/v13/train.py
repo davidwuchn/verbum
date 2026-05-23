@@ -420,7 +420,26 @@ def load_checkpoint(
     if not model_path.exists():
         raise FileNotFoundError(f"No model.npz in {ckpt_dir}")
     weights = dict(mx.load(str(model_path)))
-    model.load_weights(list(weights.items()), strict=False)
+
+    # Filter S4/S5 controller weights that may have changed shape
+    # (session 140: S4 input widened by d_identity, S5 health input widened).
+    reinit_prefixes = ("s4.", "s5_identity.")
+    model_params = dict(tree_flatten(model.parameters()))
+    filtered = []
+    n_skipped = 0
+    for k, v in weights.items():
+        if any(k.startswith(p) for p in reinit_prefixes):
+            if k in model_params and model_params[k].shape == v.shape:
+                filtered.append((k, v))
+            else:
+                n_skipped += 1
+        else:
+            filtered.append((k, v))
+    if n_skipped > 0:
+        print(f"  ⚠ Skipped {n_skipped} S4/S5 weights (shape mismatch — re-initialized)",
+              file=sys.stderr)
+
+    model.load_weights(filtered, strict=False)
     mx.eval(model.parameters())
     freeze_ternary_weights(model)  # freeze ALL ternary weights
     restore_ternary(model)
@@ -485,8 +504,14 @@ def train_gd(
     print(f"  batch_size={cfg.batch_size}  seq_len={cfg.seq_len}"
           f"  tokens/step={cfg.tokens_per_step:,}",
           file=sys.stderr)
+    crystal_warmup_str = ""
+    if cfg.crystal_warmup_steps > 0:
+        crystal_warmup_str = (f"  warmup={cfg.crystal_direct_lambda_start}"
+                              f"→{cfg.crystal_direct_lambda}"
+                              f"/{cfg.crystal_warmup_steps}steps")
     print(f"  crystal: rel_lambda={cfg.rel_lambda}"
-          f"  crystal_direct={cfg.crystal_direct_lambda}",
+          f"  crystal_direct={cfg.crystal_direct_lambda}"
+          f"{crystal_warmup_str}",
           file=sys.stderr)
     fractal = " + fractal bands" if cfg.fractal_stride_bands else ""
     print(f"  🌳 Tree of VSMs: A({len(cfg.stack_a.pass_indices)}p)"
@@ -532,6 +557,9 @@ def train_gd(
 
         lr = cosine_lr(step, cfg.warmup_steps, total_steps, cfg.lr, cfg.lr_floor_ratio)
         optimizer.learning_rate = lr
+
+        # Step counter for crystal warmup schedule
+        model._training_step = step
 
         # Holographic loss — always on, gravity well (no warmup)
         if cfg.use_holographic_loss:
@@ -645,6 +673,8 @@ def train_gd(
                 record["ce"] = ce_val
             if crystal_val is not None:
                 record["crystal_loss"] = crystal_val
+            if hasattr(model, '_last_crystal_direct_eff'):
+                record["crystal_direct_eff"] = model._last_crystal_direct_eff
             if holo_val is not None:
                 record["holo_loss"] = holo_val
             if phi_devs is not None:
@@ -705,9 +735,13 @@ def train_gd(
             if crystal:
                 whnf_anti = crystal.get("whnf_anti_correlation", 0)
                 comp_mean = crystal.get("composition_cluster_mean", 0)
+                i_sep = crystal.get("i_separation", 0)
+                cross_crys = crystal.get("cross_crystal_mean", 0)
                 print(
                     f"     crystal: WHNF_anti={whnf_anti:.3f}"
-                    f"  comp_cluster={comp_mean:.3f}",
+                    f"  comp_cluster={comp_mean:.3f}"
+                    f"  I_sep={i_sep:.3f}"
+                    f"  cross={cross_crys:.3f}",
                     file=sys.stderr, flush=True,
                 )
             # Per-zone crystal loss
@@ -899,7 +933,11 @@ if __name__ == "__main__":
     parser.add_argument("--rel-lambda", type=float, default=None,
                         help="Override crystal lattice EMA coupling weight (multiplicative)")
     parser.add_argument("--crystal-direct-lambda", type=float, default=None,
-                        help="Override direct crystal loss weight (additive gradient)")
+                        help="Override direct crystal loss floor (additive gradient)")
+    parser.add_argument("--crystal-direct-lambda-start", type=float, default=None,
+                        help="Override crystal warmup start (anneals to --crystal-direct-lambda)")
+    parser.add_argument("--crystal-warmup-steps", type=int, default=None,
+                        help="Override crystal warmup schedule length (0=no warmup)")
     parser.add_argument("--data-dir", type=str, default=None,
                         help="Override data directory")
 
@@ -926,6 +964,10 @@ if __name__ == "__main__":
         cfg.rel_lambda = args.rel_lambda
     if args.crystal_direct_lambda is not None:
         cfg.crystal_direct_lambda = args.crystal_direct_lambda
+    if args.crystal_direct_lambda_start is not None:
+        cfg.crystal_direct_lambda_start = args.crystal_direct_lambda_start
+    if args.crystal_warmup_steps is not None:
+        cfg.crystal_warmup_steps = args.crystal_warmup_steps
     if args.data_dir is not None:
         cfg.data_dir = args.data_dir
     if args.checkpoint_dir != "checkpoints/v13":

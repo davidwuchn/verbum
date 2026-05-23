@@ -268,7 +268,16 @@ class V13Config:
     # the identity genome). All stacks share the same crystal identity.
     use_relational_loss: bool = True
     rel_lambda: float = 5.0  # exponential coupling: exp(λ × crystal_ema)
-    crystal_direct_lambda: float = 1.0  # additive gradient to combinator_embeddings
+    crystal_direct_lambda: float = 3.0  # additive gradient floor (raised from 1.0 for full etch)
+    crystal_direct_lambda_start: float = 10.0  # initial enforcement (cosine anneal → floor)
+    crystal_warmup_steps: int = 0  # steps to anneal crystal_direct: start→floor (0=no warmup)
+
+    # ── Categorical geometry losses (session 140) ──
+    # Three structural properties found in Qwen3-32B (probe-confirmed).
+    # All default to 0 (off). Set > 0 to activate.
+    adjunction_lambda: float = 0.0  # cross-stack rank-1 concentration (kurtosis → 1.0)
+    hyperbolic_lambda: float = 0.0  # monotonic norm growth across stacks
+    coherence_lambda: float = 0.0   # adjacent-token cosine increase during composition
 
     # ── 16×16 Crystal lattice targets (positive + anti-crystal) ──
     #

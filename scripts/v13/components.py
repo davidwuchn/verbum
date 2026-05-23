@@ -1,6 +1,7 @@
 """VSM control components — per-stack (S3, S2, Algedonic) + controller (S5, S4, S2, MetaS3).
 
-Session 135: Tree of VSMs architecture. Two levels of control:
+Session 135: Tree of VSMs architecture. Two levels of control.
+Session 140: S5 crystal custodian + S5→S4 policy channel.
 
   Per-stack (S1 operational units):
     S3Ternary      — per-pass gating within a stack
@@ -8,10 +9,14 @@ Session 135: Tree of VSMs architecture. Two levels of control:
     AlgedonicAlert — per-stack health metrics → alarm factors
 
   Controller (coordinates the tree):
-    S5Identity         — the self-model (cortex DMN). GRU state, regulates enforcement,
-                         gates S4 proposals. d_identity=64.
-    S4Intelligence     — global pattern detection from all stacks' algedonics.
-                         Proposes meta-param adjustments to S5. Feeds S2.
+    S5Identity         — the self-model (cortex DMN). GRU state. Reads structured
+                         crystal sub-lattice metrics (comp_cluster, whnf_anti,
+                         i_separation, cross_crystal) + algedonics. Regulates
+                         enforcement, gates S4 proposals. d_identity=64.
+                         Broadcasts identity_state to S4 (policy channel).
+    S4Intelligence     — global pattern detection from all stacks' algedonics,
+                         conditioned on S5 identity state (policy). Proposes
+                         meta-param adjustments to S5. Feeds S2.
     S2AntiOscillation  — PID-like inter-stack dampening at register boundaries.
                          P (current coherence) + D (trend, predictive). S4 feedback.
     MetaS3FireAlarm    — S5 existential threat detector. Bypasses S3/S4 hierarchy.
@@ -147,12 +152,19 @@ class AlgedonicAlert(nn.Module):
 
 
 class S5Identity(nn.Module):
-    """The self-model. Cortex analogy: default mode network.
+    """The self-model and crystal custodian. Cortex analogy: default mode network.
 
-    Maintains a persistent identity state (d_identity,) that regulates
-    enforcement while allowing adaptation. Not a static target — a
-    dynamic process that measures coherence, regulates enforcement,
-    gates S4 proposals, and fires alarms.
+    Session 140: S5 reads structured crystal sub-lattice metrics, not just
+    aggregate crystal_loss. This gives S5 a self-image of crystal geometry:
+    which sub-lattices are healthy, which are drifting. The identity state
+    (d_identity=64) encodes this self-image and is broadcast to S4 as
+    the policy channel (S5→S4).
+
+    Crystal sub-lattice metrics (4 scalars):
+      comp_cluster   — B/C/D cosine tightness (composition family cohesion)
+      whnf_anti      — WHNF anti-correlation with others (terminal separation)
+      i_separation   — I independence from K/B/C (identity combinator distinctness)
+      cross_crystal  — positive ↔ anti diagonal mean (suppression channel health)
 
     GRU update: state persists across forward passes (stop_gradient).
     The model learns HOW to read health and HOW to regulate, but the
@@ -163,6 +175,8 @@ class S5Identity(nn.Module):
 
     d_identity=64: power of 2, divides d_model=512.
     """
+
+    N_CRYSTAL_SUB_METRICS = 5  # crystal_loss + 4 sub-lattice
 
     def __init__(
         self,
@@ -183,8 +197,9 @@ class S5Identity(nn.Module):
         self.identity_state = mx.zeros((d_identity,))
 
         # READ: system health → coherence reading
-        # Input: crystal_loss(1) + per-stack algedonic(n_stacks * alg_dim)
-        health_input_dim = 1 + n_stacks * alg_dim
+        # Input: crystal sub-lattice (5) + per-stack algedonic (n_stacks * alg_dim)
+        # [crystal_loss, comp_cluster, whnf_anti, i_separation, cross_crystal, alg_a, alg_b, alg_c]
+        health_input_dim = self.N_CRYSTAL_SUB_METRICS + n_stacks * alg_dim
         health_padded = ((health_input_dim + 15) // 16) * 16
         self._health_padded = health_padded
         self._health_raw = health_input_dim
@@ -205,14 +220,15 @@ class S5Identity(nn.Module):
 
     def __call__(
         self,
-        crystal_loss: mx.array,
+        crystal_sub_metrics: mx.array,
         all_algedonics: list[mx.array],
         s4_proposals: mx.array,
     ) -> tuple[mx.array, mx.array, mx.array]:
         """S5 identity cycle: read → update → regulate → evaluate.
 
         Args:
-            crystal_loss: scalar
+            crystal_sub_metrics: (5,) [crystal_loss, comp_cluster, whnf_anti,
+                                       i_separation, cross_crystal]
             all_algedonics: list of (alg_dim,) per stack
             s4_proposals: (n_proposals,) from S4
 
@@ -221,8 +237,8 @@ class S5Identity(nn.Module):
             accepted_proposals: (n_proposals,) gated by identity health
             alarm_level: scalar in (0, 1) from identity state
         """
-        # 1. READ
-        health = mx.concatenate([crystal_loss.reshape(1)] + all_algedonics)
+        # 1. READ — structured crystal self-image + operational health
+        health = mx.concatenate([crystal_sub_metrics] + all_algedonics)
         if health.shape[0] < self._health_padded:
             health = mx.concatenate([
                 health, mx.zeros((self._health_padded - health.shape[0],))
@@ -260,6 +276,11 @@ class S5Identity(nn.Module):
 class S4Intelligence(nn.Module):
     """Global pattern detection from all stacks' algedonics.
 
+    Session 140: Conditioned on S5 identity state (policy channel).
+    S5→S4: identity_state from t-1 tells S4 who we are — what the
+    crystal self-image looks like. S4's pattern detection is biased
+    by identity, so proposals are identity-aware.
+
     Sees the health of the entire tree simultaneously. Produces:
     1. Proposals for S5 (meta-parameter adjustments)
     2. Signal for S2 (where oscillation is forming)
@@ -271,14 +292,16 @@ class S4Intelligence(nn.Module):
         alg_dim: int = 32,
         hidden_dim: int = 64,
         n_proposals: int = 4,
+        d_identity: int = 64,
     ):
         super().__init__()
-        input_dim = n_stacks * alg_dim
+        # S4 input: algedonics from all stacks + S5 identity policy
+        input_dim = n_stacks * alg_dim + d_identity
         input_padded = ((input_dim + 15) // 16) * 16
         self._input_padded = input_padded
         self._input_raw = input_dim
 
-        # Pattern detection
+        # Pattern detection (conditioned on identity)
         self.pattern_proj = nn.Linear(input_padded, hidden_dim)
 
         # Proposals for S5
@@ -287,17 +310,22 @@ class S4Intelligence(nn.Module):
         # Signal for S2 anti-oscillation
         self.s2_signal_proj = nn.Linear(hidden_dim, hidden_dim)
 
-    def __call__(self, all_algedonics: list[mx.array]) -> tuple[mx.array, mx.array]:
-        """Analyze global health, produce proposals + S2 signal.
+    def __call__(
+        self,
+        all_algedonics: list[mx.array],
+        s5_policy: mx.array,
+    ) -> tuple[mx.array, mx.array]:
+        """Analyze global health conditioned on identity, produce proposals + S2 signal.
 
         Args:
             all_algedonics: list of (alg_dim,) per stack
+            s5_policy: (d_identity,) S5 identity state from t-1 (stop_gradient)
 
         Returns:
             proposals: (n_proposals,) tanh-bounded adjustment suggestions
             s2_signal: (hidden_dim,) for S2AntiOscillation
         """
-        combined = mx.concatenate(all_algedonics)
+        combined = mx.concatenate(all_algedonics + [s5_policy])
         if combined.shape[0] < self._input_padded:
             combined = mx.concatenate([
                 combined, mx.zeros((self._input_padded - combined.shape[0],))
@@ -481,7 +509,7 @@ if __name__ == "__main__":
     n_stacks = N_STACKS
 
     print("=" * 60)
-    print("components.py self-test (session 135: tree of VSMs)")
+    print("components.py self-test (session 140: S5 crystal custodian + S5→S4 policy)")
     print("=" * 60)
 
     # ── Per-stack components ──────────────────────────────────
@@ -514,23 +542,31 @@ if __name__ == "__main__":
     # ── Controller components ─────────────────────────────────
     print("\n── Controller components ──")
 
-    print("S5Identity...")
+    print("S5Identity (crystal custodian — 5 sub-lattice metrics)...")
     s5 = S5Identity(d_identity=d_identity, n_stacks=n_stacks, alg_dim=alg_dim)
-    crystal = mx.array(0.05)
+    # crystal_sub_metrics: [crystal_loss, comp_cluster, whnf_anti, i_separation, cross_crystal]
+    crystal_sub = mx.array([0.05, 0.3, -0.2, 0.1, -0.4])
+    assert crystal_sub.shape == (S5Identity.N_CRYSTAL_SUB_METRICS,)
     algs = [mx.random.normal((alg_dim,)) for _ in range(n_stacks)]
     proposals = mx.random.normal((4,))
-    regulation, accepted, alarm = s5(crystal, algs, proposals)
+    regulation, accepted, alarm = s5(crystal_sub, algs, proposals)
     mx.eval(regulation, accepted, alarm)
     assert regulation.shape == (4,)
     assert accepted.shape == (4,)
     print(f"  regulation={[f'{r:.3f}' for r in regulation.tolist()]}")
     print(f"  accepted proposals norm={mx.sqrt(mx.sum(accepted*accepted)).item():.4f}")
     print(f"  alarm={alarm.item():.4f}")
-    print(f"  identity_state norm={mx.sqrt(mx.sum(s5.identity_state*s5.identity_state)).item():.4f} ✓")
+    id_norm = mx.sqrt(mx.sum(s5.identity_state*s5.identity_state)).item()
+    print(f"  identity_state norm={id_norm:.4f}")
+    assert id_norm > 0, "identity state should update"
+    print(f"  ✓")
 
-    print("S4Intelligence...")
-    s4 = S4Intelligence(n_stacks=n_stacks, alg_dim=alg_dim)
-    s4_proposals, s2_signal = s4(algs)
+    print("S4Intelligence (conditioned on S5 policy)...")
+    s4 = S4Intelligence(n_stacks=n_stacks, alg_dim=alg_dim, d_identity=d_identity)
+    # S5→S4 policy channel: identity state from t-1
+    s5_policy = mx.stop_gradient(s5.identity_state)
+    assert s5_policy.shape == (d_identity,)
+    s4_proposals, s2_signal = s4(algs, s5_policy)
     mx.eval(s4_proposals, s2_signal)
     assert s4_proposals.shape == (4,)
     assert s2_signal.shape == (64,)
@@ -551,7 +587,8 @@ if __name__ == "__main__":
 
     print("MetaS3FireAlarm...")
     fire = MetaS3FireAlarm(n_stacks=n_stacks, alg_dim=alg_dim, bias_init=-2.0)
-    alarm_level = fire(algs, crystal)
+    crystal_scalar = mx.array(0.05)
+    alarm_level = fire(algs, crystal_scalar)
     mx.eval(alarm_level)
     assert alarm_level.shape == ()
     print(f"  alarm_level={alarm_level.item():.4f} (should be near 0.12) ✓")
@@ -571,27 +608,37 @@ if __name__ == "__main__":
         def __init__(self):
             super().__init__()
             self.s5 = S5Identity(d_identity=64, n_stacks=3, alg_dim=32)
-            self.s4 = S4Intelligence(n_stacks=3, alg_dim=32)
+            self.s4 = S4Intelligence(n_stacks=3, alg_dim=32, d_identity=64)
             self.fire = MetaS3FireAlarm(n_stacks=3, alg_dim=32)
 
-        def __call__(self, crystal_loss, algs):
-            proposals, s2_sig = self.s4(algs)
-            reg, accepted, alarm = self.s5(crystal_loss, algs, proposals)
-            fire_alarm = self.fire(algs, crystal_loss)
+        def __call__(self, crystal_sub, algs):
+            # S5→S4 policy channel (t-1 identity state)
+            s5_policy = mx.stop_gradient(self.s5.identity_state)
+            proposals, s2_sig = self.s4(algs, s5_policy)
+            reg, accepted, alarm = self.s5(crystal_sub, algs, proposals)
+            fire_alarm = self.fire(algs, crystal_sub[0])  # scalar crystal_loss
             return mx.sum(reg) + mx.sum(accepted) + alarm + fire_alarm
 
     tcg = TestControllerGrad()
     mx.eval(tcg.parameters())
 
-    def ctrl_loss(m, cl, algs):
-        return m(cl, algs)
+    def ctrl_loss(m, cs, algs):
+        return m(cs, algs)
 
     gfn = nn.value_and_grad(tcg, ctrl_loss)
-    cl = mx.array(0.05)
+    cs = mx.array([0.05, 0.3, -0.2, 0.1, -0.4])  # crystal sub-lattice metrics
     test_algs = [mx.random.normal((32,)) for _ in range(3)]
-    lv, g = gfn(tcg, cl, test_algs)
+    lv, g = gfn(tcg, cs, test_algs)
     mx.eval(lv, g)
     print(f"  Controller gradient flow OK: output={lv.item():.4f} ✓")
+
+    # Verify S5→S4 loop: second call should produce different proposals
+    # because S5 identity_state was updated by the first call
+    lv2, g2 = gfn(tcg, cs, test_algs)
+    mx.eval(lv2, g2)
+    print(f"  S5→S4 loop (2nd pass): output={lv2.item():.4f}")
+    assert abs(lv.item() - lv2.item()) > 1e-6, "S5 state should influence S4 proposals"
+    print(f"  S5→S4 policy channel verified (outputs differ) ✓")
 
     print("\n" + "=" * 60)
     print("All component tests passed ✓")

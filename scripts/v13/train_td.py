@@ -52,6 +52,7 @@ from ternary import (
     restore_ternary,
     count_ternary_weights,
     unpack_ternary_mlx,
+    surgical_adam_decay_for_etch,
 )
 from td import (
     TernaryDescent,
@@ -468,6 +469,9 @@ def train_td(
         lr = cosine_lr(step, cfg.warmup_steps, total_steps, cfg.lr, cfg.lr_floor_ratio)
         adam.learning_rate = lr
 
+        # Step counter for crystal warmup schedule
+        model._training_step = step
+
         if cfg.use_holographic_loss:
             model._holo_lambda_effective = cfg.holo_lambda
 
@@ -547,7 +551,8 @@ def train_td(
             # Don't advance warmup counter — TD waits for crystal stability
             td_result = {"total_flips": 0, "in_warmup": True, "per_module": {}}
 
-        # Apply any flips to the model
+        # Apply any flips to the model + decay Adam moments for affected rows
+        td_affected_rows: dict[str, set[int]] = {}
         for name, info in td_result["per_module"].items():
             if "new_packed" in info:
                 # Find the module and update its delta weight
@@ -556,6 +561,18 @@ def train_td(
                         dtl.delta_weight = info["new_packed"]
                         mx.eval(dtl.delta_weight)
                         break
+                # Collect affected rows for Adam moment decay
+                if "affected_rows" in info and info["affected_rows"]:
+                    td_affected_rows[name] = info["affected_rows"]
+
+        # Surgical Adam decay: GD was compensating for old topology.
+        # TD flipped signs in these rows → Adam's moments are stale.
+        # Decay them so GD can re-converge to the new topology.
+        n_adam_decayed = 0
+        if td_affected_rows:
+            n_adam_decayed = surgical_adam_decay_for_etch(
+                adam, model, td_affected_rows, decay=0.1,
+            )
 
         total_td_flips += td_result["total_flips"]
 
@@ -588,13 +605,26 @@ def train_td(
 
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
             crystal_str = f" crystal={crystal_val:.4f}" if crystal_val is not None else ""
+
+            # Categorical geometry diagnostics
+            geom_parts = []
+            for attr, label in [("_last_adjunction_kurtosis", "adj_κ"),
+                                ("_last_hyperbolic_loss", "hyp"),
+                                ("_last_coherence_loss", "coh")]:
+                v = getattr(model, attr, None)
+                if v is not None:
+                    mx.eval(v)
+                    geom_parts.append(f"{label}={float(v.item()):.3f}")
+            geom_str = " " + " ".join(geom_parts) if geom_parts else ""
+
             gate_icon = "🔓" if td_active else "🔒"
-            td_str = f" {gate_icon} td={td_result['total_flips']} Δ={avg_changed:.3f}"
+            adam_decay_str = f" adam_decay={n_adam_decayed}" if n_adam_decayed > 0 else ""
+            td_str = f" {gate_icon} td={td_result['total_flips']} Δ={avg_changed:.3f}{adam_decay_str}"
 
             print(
                 f"step {step:>6d}"
                 f" | loss={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | {ce_str}{crystal_str}"
+                f" | {ce_str}{crystal_str}{geom_str}"
                 f" | lr {lr:.2e}"
                 f" | gnorm {grad_norm:.2f}"
                 f" | {tps:.0f} tok/s"
@@ -615,6 +645,7 @@ def train_td(
                 "elapsed": elapsed,
                 "td_flips": td_result["total_flips"],
                 "td_total_flips": total_td_flips,
+                "td_adam_decayed": n_adam_decayed,
                 "td_in_warmup": td_result["in_warmup"],
                 "delta_avg_changed": avg_changed,
                 "n_reductions": n_reductions,
@@ -623,6 +654,15 @@ def train_td(
                 record["ce"] = ce_val
             if crystal_val is not None:
                 record["crystal_loss"] = crystal_val
+            # Categorical geometry losses
+            for attr, key in [("_last_adjunction_loss", "adjunction_loss"),
+                              ("_last_adjunction_kurtosis", "adjunction_kurtosis"),
+                              ("_last_hyperbolic_loss", "hyperbolic_loss"),
+                              ("_last_coherence_loss", "coherence_loss")]:
+                v = getattr(model, attr, None)
+                if v is not None:
+                    mx.eval(v)
+                    record[key] = float(v.item())
 
             # Per-module delta stats (every 4th log)
             if step % (cfg.log_interval * 4) == 0:
@@ -690,9 +730,13 @@ def train_td(
             if crystal:
                 whnf_anti = crystal.get("whnf_anti_correlation", 0)
                 comp_mean = crystal.get("composition_cluster_mean", 0)
+                i_sep = crystal.get("i_separation", 0)
+                cross_crys = crystal.get("cross_crystal_mean", 0)
                 print(
                     f"     crystal: WHNF_anti={whnf_anti:.3f}"
-                    f"  comp_cluster={comp_mean:.3f}",
+                    f"  comp_cluster={comp_mean:.3f}"
+                    f"  I_sep={i_sep:.3f}"
+                    f"  cross={cross_crys:.3f}",
                     file=sys.stderr, flush=True,
                 )
             _append_jsonl(checkpoint_dir / "td_metrics_log.jsonl", {
@@ -866,6 +910,19 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=None)
     parser.add_argument("--seq-len", type=int, default=None)
     parser.add_argument("--data-dir", type=str, default=None)
+    parser.add_argument("--crystal-direct-lambda", type=float, default=None,
+                        help="Override direct crystal loss floor (additive gradient)")
+    parser.add_argument("--crystal-direct-lambda-start", type=float, default=None,
+                        help="Override crystal warmup start (anneals to --crystal-direct-lambda)")
+    parser.add_argument("--crystal-warmup-steps", type=int, default=None,
+                        help="Override crystal warmup schedule length (0=no warmup)")
+    # Categorical geometry losses (session 140 probes)
+    parser.add_argument("--adjunction-lambda", type=float, default=None,
+                        help="Cross-stack rank-1 concentration loss weight")
+    parser.add_argument("--hyperbolic-lambda", type=float, default=None,
+                        help="Monotonic norm growth loss weight")
+    parser.add_argument("--coherence-lambda", type=float, default=None,
+                        help="Adjacent-token compositional coherence loss weight")
 
     args = parser.parse_args()
     cfg = V13Config()
@@ -879,6 +936,18 @@ if __name__ == "__main__":
         cfg.max_seq_len = args.seq_len
     if args.data_dir is not None:
         cfg.data_dir = args.data_dir
+    if args.crystal_direct_lambda is not None:
+        cfg.crystal_direct_lambda = args.crystal_direct_lambda
+    if args.crystal_direct_lambda_start is not None:
+        cfg.crystal_direct_lambda_start = args.crystal_direct_lambda_start
+    if args.crystal_warmup_steps is not None:
+        cfg.crystal_warmup_steps = args.crystal_warmup_steps
+    if args.adjunction_lambda is not None:
+        cfg.adjunction_lambda = args.adjunction_lambda
+    if args.hyperbolic_lambda is not None:
+        cfg.hyperbolic_lambda = args.hyperbolic_lambda
+    if args.coherence_lambda is not None:
+        cfg.coherence_lambda = args.coherence_lambda
     cfg.__post_init__()
 
     checkpoint_dir = Path(args.checkpoint_dir)
@@ -906,7 +975,28 @@ if __name__ == "__main__":
         resume_path = Path(args.resume).resolve()
         if resume_path.exists():
             weights = dict(mx.load(str(resume_path / "model.npz")))
-            model.load_weights(list(weights.items()), strict=False)
+
+            # Filter out S4/S5 controller weights that may have changed shape
+            # (session 140: S4 input widened by d_identity, S5 health input widened).
+            # These are tiny modules — random init is fine for the new architecture.
+            reinit_prefixes = ("s4.", "s5_identity.")
+            model_params = dict(tree_flatten(model.parameters()))
+            filtered = []
+            n_skipped = 0
+            for k, v in weights.items():
+                if any(k.startswith(p) for p in reinit_prefixes):
+                    # Only load if shape matches (forward-compatible)
+                    if k in model_params and model_params[k].shape == v.shape:
+                        filtered.append((k, v))
+                    else:
+                        n_skipped += 1
+                else:
+                    filtered.append((k, v))
+            if n_skipped > 0:
+                print(f"  ⚠ Skipped {n_skipped} S4/S5 weights (shape mismatch — re-initialized)",
+                      file=sys.stderr)
+
+            model.load_weights(filtered, strict=False)
             mx.eval(model.parameters())
             freeze_ternary_weights(model)
             restore_ternary(model)
