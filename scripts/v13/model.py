@@ -31,6 +31,7 @@ from __future__ import annotations
 import math
 from typing import Optional
 
+import numpy as np
 import mlx.core as mx
 import mlx.nn as nn
 
@@ -71,6 +72,123 @@ def crystal_lattice_loss(
     target = zone_targets[mx.array(rows), mx.array(cols)]
     diff = student - target
     return mx.mean(diff * diff)
+
+
+def _precompute_parity_eigenbasis(zone_targets: list) -> list[dict]:
+    """Precompute eigendecomposition of target cosine matrices for parity checks.
+
+    Session 142: The crystal target cosine matrix has intrinsic dimensionality ~6
+    for the positive 8-combinator sub-crystal. The full 16×16 dual crystal has
+    effective rank ~12. By eigendecomposing the target, we get a hierarchical
+    coordinate system where:
+      PC0 (53%): composition vs selection (B,C,D,W,Y cluster vs K,I)
+      PC1 (24%): selection polarity (K,I vs WHNF)
+      PC2 (12%): termination (WHNF)
+      PC3 ( 7%): routing (W vs Y)
+      PC4 ( 3%): fine dispatch (Y vs D,B)
+
+    Projecting the student cosines into this eigenbasis at each level k
+    creates a hierarchical parity check: errors in low dimensions (coarse
+    structure) produce large loss; errors in high dimensions (fine detail)
+    produce small loss. This is a natural error-correcting code.
+
+    Returns list of dicts per zone, each with:
+      eigvecs: (16, 16) eigenvectors sorted by eigenvalue descending
+      eigvals: (16,) eigenvalues sorted descending
+      parity_levels: list of k values to check
+      level_weights: weight for each level (cumulative variance fraction)
+    """
+    parity_levels = [3, 4, 5, 6, 8]
+    results = []
+    for target_tuple in zone_targets:
+        target_np = np.array(target_tuple, dtype=np.float32)
+        eigvals, eigvecs = np.linalg.eigh(target_np)
+        # Sort descending
+        idx = np.argsort(eigvals)[::-1]
+        eigvals = eigvals[idx]
+        eigvecs = eigvecs[:, idx]
+
+        # Compute weight for each parity level: fraction of variance explained
+        # by dims 0..k-1. Lower k → protects more fundamental structure.
+        total_var = sum(max(ev, 0) for ev in eigvals)
+        level_weights = []
+        for k in parity_levels:
+            cum_var = sum(max(eigvals[j], 0) for j in range(k))
+            level_weights.append(cum_var / total_var)
+
+        results.append({
+            "eigvecs": eigvecs,
+            "eigvals": eigvals,
+            "parity_levels": parity_levels,
+            "level_weights": level_weights,
+        })
+    return results
+
+
+def crystal_parity_loss(
+    all_embeddings: mx.array,
+    eigvecs: mx.array,
+    eigvals: mx.array,
+    parity_levels: list[int],
+    level_weights: list[float],
+) -> tuple[mx.array, mx.array]:
+    """Hierarchical dimensional parity check on crystal geometry.
+
+    Session 142: Error correction via dimensional projection.
+
+    The target cosine matrix has eigendecomposition C = V Λ V^T.
+    For a correct student, P = V^T S V should equal Λ (diagonal).
+    At each level k, P[:k,:k] should equal diag(Λ[:k]).
+    Off-diagonal elements in the projected space = structural error.
+
+    Lower dimensions carry more variance → higher weight → protected.
+    This creates a natural curriculum: coarse structure locks in first,
+    fine detail follows. Phase transitions are dampened because the
+    gradient from low-k levels anchors the big structure.
+
+    Returns:
+        loss: scalar parity loss (weighted sum across levels)
+        per_level_errors: (n_levels,) max error at each level for diagnostics
+    """
+    # Student cosine matrix
+    norms = mx.sqrt(mx.sum(all_embeddings * all_embeddings,
+                            axis=-1, keepdims=True) + 1e-8)
+    emb_norm = all_embeddings / norms
+    student_cos = emb_norm @ emb_norm.T  # (16, 16)
+
+    # Project into target eigenbasis: P = V^T S V
+    # P should be diagonal with eigenvalues on diagonal if student = target
+    projected = eigvecs.T @ student_cos @ eigvecs  # (16, 16)
+
+    total_loss = mx.array(0.0)
+    level_errors = []
+
+    for k, w in zip(parity_levels, level_weights):
+        # Extract top-k × top-k block
+        P_k = projected[:k, :k]
+
+        # Target: diagonal matrix with eigenvalues
+        target_diag = mx.diag(eigvals[:k])
+
+        # Error: full MSE on the k×k block
+        # - Diagonal error: eigenvalue mismatch (variance wrong)
+        # - Off-diagonal error: dimension coupling (structure broken)
+        diff = P_k - target_diag
+        mse = mx.mean(diff * diff)
+
+        # Max absolute off-diagonal error for diagnostics
+        # (indicates worst structural coupling)
+        mask = 1.0 - mx.eye(k)
+        off_diag = mx.abs(P_k * mask)
+        max_off_diag = mx.max(off_diag)
+        level_errors.append(max_off_diag)
+
+        # Weight: cumulative variance at this level
+        # Higher weight on lower k protects coarse structure
+        total_loss = total_loss + w * mse
+
+    per_level_errors = mx.stack(level_errors)
+    return total_loss, per_level_errors
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -124,6 +242,9 @@ def spectral_phi_loss(
     C2 = C @ C
     tr_C2 = mx.sum(mx.diagonal(C2))
     kurtosis = tr_C2 / (tr_C * tr_C + 1e-10)
+    # Session 142: clamp kurtosis — near-zero hidden states can produce
+    # kurtosis ~1e10, which after squaring overflows float32.
+    kurtosis = mx.minimum(kurtosis, 100.0)
 
     # Target kurtosis for geometric spectrum with ratio r
     r = target_ratio
@@ -188,6 +309,20 @@ class V13Model(nn.Module):
             mx.array(cfg.pcaq_zone_b_targets),
             mx.array(cfg.pcaq_zone_c_targets),
         ]
+
+        # Session 142: precompute parity eigenbasis for error correction.
+        # Each zone's target cosine matrix is eigendecomposed into a
+        # hierarchical coordinate system. Lower dimensions = coarser
+        # structure = heavier protection.
+        parity_data = _precompute_parity_eigenbasis([
+            cfg.pcaq_zone_a_targets,
+            cfg.pcaq_zone_b_targets,
+            cfg.pcaq_zone_c_targets,
+        ])
+        self._parity_eigvecs = [mx.array(d["eigvecs"]) for d in parity_data]
+        self._parity_eigvals = [mx.array(d["eigvals"]) for d in parity_data]
+        self._parity_levels = parity_data[0]["parity_levels"]  # same for all zones
+        self._parity_weights = [d["level_weights"] for d in parity_data]
 
         # S5 self-model (the living phenotype)
         self.s5_identity = S5Identity(
@@ -317,6 +452,28 @@ class V13Model(nn.Module):
         sub_metrics = mx.stack([
             crystal_loss, comp_cluster, whnf_anti, i_separation, cross_crystal,
         ])
+
+        # Session 142: hierarchical parity loss — error correction
+        if self.cfg.use_parity_loss:
+            parity_loss = mx.array(0.0)
+            all_level_errors = []
+            for zone_idx in range(len(self._zone_targets)):
+                zone_parity, zone_errors = crystal_parity_loss(
+                    emb_all,
+                    self._parity_eigvecs[zone_idx],
+                    self._parity_eigvals[zone_idx],
+                    self._parity_levels,
+                    self._parity_weights[zone_idx],
+                )
+                zone_lambda = self.cfg.zone_lambdas[zone_idx]
+                parity_loss = parity_loss + zone_lambda * zone_parity
+                all_level_errors.append(zone_errors)
+            parity_loss = self.cfg.parity_lambda * parity_loss
+            crystal_loss = crystal_loss + parity_loss
+            # Store diagnostics: mean across zones for each level
+            self._last_parity_loss = mx.stop_gradient(parity_loss)
+            self._last_parity_errors = mx.stop_gradient(
+                mx.mean(mx.stack(all_level_errors), axis=0))
 
         return crystal_loss, sub_metrics
 
@@ -452,8 +609,12 @@ class V13Model(nn.Module):
             self._crystal_ema = mx.stop_gradient(
                 crystal_ema_decay * self._crystal_ema
                 + (1 - crystal_ema_decay) * crystal_loss)
-            crystal_factor = mx.exp(
-                cfg.rel_lambda * crystal_enforcement * self._crystal_ema)
+            # Session 142: cap exp argument to prevent overflow → NaN.
+            # At step 1000, crystal_ema=0.79 gave exp(7.88)=2640× — a normal
+            # CE fluctuation of +0.6 got amplified to gnorm 24, cascading to NaN.
+            # Cap at exp(4) ≈ 55× — still strong gradient signal, no overflow.
+            crystal_exp_arg = cfg.rel_lambda * crystal_enforcement * self._crystal_ema
+            crystal_factor = mx.exp(mx.minimum(crystal_exp_arg, 4.0))
 
             # Crystal warmup schedule: high early → floor
             # Cosine anneal from crystal_direct_lambda_start to crystal_direct_lambda
@@ -508,7 +669,10 @@ class V13Model(nn.Module):
                     holo_loss = holo_loss + regression
                 prev_ce = ce_n
 
-            holo_factor = mx.exp(holo_lambda_eff * holo_loss)
+            # Session 142: cap holo exp argument — 8 passes can accumulate
+            # large regression, exp(5*24)=exp(120)=inf in float32.
+            holo_exp_arg = holo_lambda_eff * holo_loss
+            holo_factor = mx.exp(mx.minimum(holo_exp_arg, 4.0))
             self._last_holo_loss = mx.stop_gradient(holo_loss)
 
         # ── Categorical geometry losses (session 140 probes) ─────
@@ -539,6 +703,8 @@ class V13Model(nn.Module):
                 C2 = C @ C
                 tr_C2 = mx.sum(mx.diagonal(C2))
                 kurtosis = tr_C2 / (tr_C * tr_C + 1e-10)
+                # Session 142: clamp kurtosis — same overflow risk as spectral
+                kurtosis = mx.minimum(kurtosis, 100.0)
                 # Target: kurtosis = 1.0 (perfect rank-1)
                 adj_loss = (kurtosis - 1.0) ** 2
                 geometry_additive = geometry_additive + cfg.adjunction_lambda * adj_loss

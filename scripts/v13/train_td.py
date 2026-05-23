@@ -459,9 +459,53 @@ def train_td(
     mx.eval(model.parameters(), adam.state)
     restore_ternary(model)
 
+    # ── Session 142: restore optimizer state from checkpoint ──
+    # The warm-up pass above initializes Adam's state dict structure.
+    # If resuming from a training checkpoint, overwrite with saved moments.
+    if start_step > 0:
+        opt_path = checkpoint_dir / f"step_{start_step:06d}" / "optimizer.npz"
+        if not opt_path.exists():
+            # Also check the resume source directory (might differ from checkpoint_dir)
+            resume_opt = Path(args.resume).resolve() / "optimizer.npz" if args.resume else None
+            if resume_opt and resume_opt.exists():
+                opt_path = resume_opt
+        if opt_path.exists():
+            saved_opt = dict(mx.load(str(opt_path)))
+            # Adam state is a nested structure matching model parameters.
+            # tree_unflatten it back into the same shape as adam.state.
+            current_flat = dict(tree_flatten(adam.state))
+            n_restored = 0
+            n_skipped = 0
+            for k, v in saved_opt.items():
+                if k in current_flat and current_flat[k].shape == v.shape:
+                    current_flat[k] = v
+                    n_restored += 1
+                else:
+                    n_skipped += 1
+            adam.state = tree_unflatten(list(current_flat.items()))
+            mx.eval(adam.state)
+            print(f"📂 Restored optimizer state from {opt_path}"
+                  f" ({n_restored} arrays, {n_skipped} skipped)",
+                  file=sys.stderr)
+            # Re-load model weights to undo the warm-up gradient step
+            model_path = checkpoint_dir / f"step_{start_step:06d}" / "model.npz"
+            if not model_path.exists() and args.resume:
+                model_path = Path(args.resume).resolve() / "model.npz"
+            if model_path.exists():
+                model.load_weights(str(model_path), strict=False)
+                mx.eval(model.parameters())
+                restore_ternary(model)
+                print(f"📂 Re-loaded model weights (undoing warm-up step)",
+                      file=sys.stderr)
+        else:
+            print(f"⚠  No optimizer.npz found for step {start_step}"
+                  f" — Adam moments start fresh", file=sys.stderr)
+
     # ══════════════════════════════════════════════════════════
     # Main loop
     # ══════════════════════════════════════════════════════════
+
+    nan_consecutive = 0  # Session 142: NaN skip/rollback counter
 
     for step in range(start_step + 1, total_steps + 1):
         t0 = time.time()
@@ -495,6 +539,28 @@ def train_td(
 
         step_loss = accum_loss / cfg.grad_accum
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
+
+        # ── Session 142: NaN skip guard ───────────────────────
+        # If loss is NaN/Inf, skip this step entirely — don't poison
+        # Adam moments or model weights. Log and count consecutive NaN.
+        if math.isnan(step_loss) or math.isinf(step_loss):
+            nan_consecutive += 1
+            print(f"⚠️  NaN/Inf loss at step {step} (consecutive: {nan_consecutive})")
+            if nan_consecutive >= 3:
+                # Rollback: restore from last clean checkpoint
+                ckpt_dirs = sorted([d for d in os.listdir(args.checkpoint_dir)
+                                    if d.startswith("step_")])
+                if ckpt_dirs:
+                    last_ckpt = os.path.join(args.checkpoint_dir, ckpt_dirs[-1])
+                    print(f"🔄 3 consecutive NaN — rolling back to {last_ckpt}")
+                    model.load_weights(os.path.join(last_ckpt, "model.npz"))
+                    mx.eval(model.parameters())
+                    restore_ternary(model)
+                nan_consecutive = 0
+            continue  # skip optimizer step entirely
+
+        # Reset NaN counter on clean step
+        nan_consecutive = 0
 
         train_losses.append(step_loss)
         loss_window.append(step_loss)
@@ -606,6 +672,13 @@ def train_td(
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
             crystal_str = f" crystal={crystal_val:.4f}" if crystal_val is not None else ""
 
+            # Parity diagnostics (session 142)
+            parity_str = ""
+            parity_val = getattr(model, "_last_parity_loss", None)
+            if parity_val is not None:
+                mx.eval(parity_val)
+                parity_str = f" parity={float(parity_val.item()):.4f}"
+
             # Categorical geometry diagnostics
             geom_parts = []
             for attr, label in [("_last_adjunction_kurtosis", "adj_κ"),
@@ -624,7 +697,7 @@ def train_td(
             print(
                 f"step {step:>6d}"
                 f" | loss={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | {ce_str}{crystal_str}{geom_str}"
+                f" | {ce_str}{crystal_str}{parity_str}{geom_str}"
                 f" | lr {lr:.2e}"
                 f" | gnorm {grad_norm:.2f}"
                 f" | {tps:.0f} tok/s"
@@ -654,6 +727,18 @@ def train_td(
                 record["ce"] = ce_val
             if crystal_val is not None:
                 record["crystal_loss"] = crystal_val
+            # Parity loss (session 142 — hierarchical error correction)
+            parity_val = getattr(model, "_last_parity_loss", None)
+            if parity_val is not None:
+                mx.eval(parity_val)
+                record["parity_loss"] = float(parity_val.item())
+            parity_errs = getattr(model, "_last_parity_errors", None)
+            if parity_errs is not None:
+                mx.eval(parity_errs)
+                parity_levels = getattr(model, "_parity_levels", [3, 4, 5, 6, 8])
+                for k, err in zip(parity_levels, parity_errs.tolist()):
+                    record[f"parity_err_{k}d"] = err
+
             # Categorical geometry losses
             for attr, key in [("_last_adjunction_loss", "adjunction_loss"),
                               ("_last_adjunction_kurtosis", "adjunction_kurtosis"),

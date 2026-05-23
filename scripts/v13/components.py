@@ -95,7 +95,9 @@ class S2Coordinator(nn.Module):
         dot = (s_prev * s_curr).sum()
         n_prev = mx.sqrt((s_prev * s_prev).sum() + 1e-8)
         n_curr = mx.sqrt((s_curr * s_curr).sum() + 1e-8)
-        return 1.0 + dot / (n_prev * n_curr)
+        cos = dot / (n_prev * n_curr)
+        # Session 142: NaN guard — if upstream produced NaN, return neutral
+        return mx.where(mx.isnan(cos), mx.array(1.0), 1.0 + cos)
 
 
 class AlgedonicAlert(nn.Module):
@@ -140,6 +142,10 @@ class AlgedonicAlert(nn.Module):
             metrics.append(s3_gates[i].reshape(1))
             raw_rms = mx.sqrt(mx.mean(raw_deltas[i] * raw_deltas[i]) + 1e-8)
             gated_rms = mx.sqrt(mx.mean(pass_deltas[i] * pass_deltas[i]) + 1e-8)
+            # Session 142: NaN guard — if activations contain NaN upstream,
+            # substitute neutral values to prevent infecting S4/S5 path.
+            raw_rms = mx.where(mx.isnan(raw_rms), mx.array(1.0), raw_rms)
+            gated_rms = mx.where(mx.isnan(gated_rms), mx.array(1.0), gated_rms)
             metrics.append(raw_rms.reshape(1))
             metrics.append(gated_rms.reshape(1))
             metrics.append((gated_rms / (raw_rms + 1e-8)).reshape(1))
@@ -393,7 +399,10 @@ class S2AntiOscillation(nn.Module):
             dot = (a_mean * b_mean).sum()
             n_a = mx.sqrt((a_mean * a_mean).sum() + 1e-8)
             n_b = mx.sqrt((b_mean * b_mean).sum() + 1e-8)
-            coherence.append(dot / (n_a * n_b))
+            cos = dot / mx.maximum(n_a * n_b, mx.array(1e-8))
+            # Session 142: NaN guard — prevent NaN propagation into dampening
+            cos = mx.where(mx.isnan(cos), mx.array(0.0), cos)
+            coherence.append(cos)
         coherence = mx.stack(coherence)  # (n_boundaries,)
 
         # P term: dampen where coherence is low

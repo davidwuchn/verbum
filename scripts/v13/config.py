@@ -375,6 +375,15 @@ class V13Config:
         (-0.342,-0.274,+0.062,-0.178,-0.246,-0.021,-0.029,+0.192,-0.054,-0.001,-0.142,+1.000),
     )
 
+    # ── Crystal parity loss (session 142) ──
+    # Hierarchical dimensional error correction for crystal geometry.
+    # Projects student cosines into target eigenbasis and checks consistency
+    # at each dimensional level. Lower dims = coarser structure = higher weight.
+    # Acts as built-in error-correcting code: protects coarse crystal structure
+    # from phase-transition gradient spikes.
+    use_parity_loss: bool = True
+    parity_lambda: float = 1.0  # overall parity loss scale
+
     # ── Spectral φ-ratio loss (session 137) ──
     #
     # The SVD spectrum of hidden state representations follows a geometric

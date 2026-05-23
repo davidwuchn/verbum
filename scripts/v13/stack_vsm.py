@@ -196,7 +196,10 @@ class StrideStackVSM(nn.Module):
             ffn_in = self.ffn_norm(x)
             ffn_gate = nn.silu(self.ffn_gate_plate(ffn_in))
             ffn_key = self.ffn_key_plate(ffn_in)
-            ffn_out = self.ffn_value_plate(ffn_gate * ffn_key)
+            # Session 142: clamp SwiGLU product — silu is unbounded for
+            # large positive inputs, and gate*key can overflow bfloat16.
+            ffn_product = mx.clip(ffn_gate * ffn_key, -100.0, 100.0)
+            ffn_out = self.ffn_value_plate(ffn_product)
             ffn_out = (ffn_out * self.ffn_scale + self.ffn_bias) * ffn_mod
             x = x + ffn_out
 
