@@ -501,6 +501,26 @@ def train_td(
             print(f"⚠  No optimizer.npz found for step {start_step}"
                   f" — Adam moments start fresh", file=sys.stderr)
 
+        # Restore model running state (crystal EMA, S5 identity, training step)
+        state_path = checkpoint_dir / f"step_{start_step:06d}" / "state.json"
+        if not state_path.exists() and args.resume:
+            state_path = Path(args.resume).resolve() / "state.json"
+        if state_path.exists():
+            state = json.loads(state_path.read_text())
+            # Crystal EMA
+            ema_val = state.get("crystal_ema")
+            if ema_val is not None:
+                model._crystal_ema = mx.array(float(ema_val))
+                print(f"  crystal_ema = {ema_val:.4f}", file=sys.stderr)
+            # S5 identity state
+            s5_state = state.get("s5_identity_state")
+            if s5_state is not None:
+                model.s5_identity.identity_state = mx.array(s5_state)
+                print(f"  s5_identity_state restored ({len(s5_state)} dims)",
+                      file=sys.stderr)
+        # Training step counter
+        model._training_step = start_step
+
     # ══════════════════════════════════════════════════════════
     # Main loop
     # ══════════════════════════════════════════════════════════
@@ -834,6 +854,15 @@ def train_td(
                     f"  cross={cross_crys:.3f}",
                     file=sys.stderr, flush=True,
                 )
+            # Session 142: parity diagnostics at eval
+            if "parity_loss" in eval_result:
+                parity_str = f"     parity: loss={eval_result['parity_loss']:.4f}"
+                if "cross_zone_loss" in eval_result:
+                    parity_str += f"  cross_zone={eval_result['cross_zone_loss']:.4f}"
+                if "lens_rotation" in eval_result:
+                    lr = eval_result['lens_rotation']
+                    parity_str += f"  lens=[{', '.join(f'{r:+.3f}' for r in lr)}]"
+                print(parity_str, file=sys.stderr, flush=True)
             _append_jsonl(checkpoint_dir / "td_metrics_log.jsonl", {
                 "step": step, "timestamp": time.time(), **eval_result,
             })
@@ -887,6 +916,20 @@ def _evaluate(model, cfg):
     crystal = model.crystal_diagnostics()
     result["crystal"] = crystal
 
+    # Session 142: parity diagnostics at eval time
+    parity_val = getattr(model, "_last_parity_loss", None)
+    if parity_val is not None:
+        mx.eval(parity_val)
+        result["parity_loss"] = float(parity_val.item())
+    cross_zone_val = getattr(model, "_last_cross_zone_loss", None)
+    if cross_zone_val is not None:
+        mx.eval(cross_zone_val)
+        result["cross_zone_loss"] = float(cross_zone_val.item())
+    lens_rot = getattr(model, "_last_lens_rotation", None)
+    if lens_rot is not None:
+        mx.eval(lens_rot)
+        result["lens_rotation"] = lens_rot.tolist()
+
     # Delta plate statistics
     delta_stats = {}
     for path, mod in model.named_modules():
@@ -930,12 +973,24 @@ def _save_checkpoint(model, adam, td, step, cfg, checkpoint_dir,
     if delta_snapshots:
         mx.savez(str(step_dir / "delta_plates.npz"), **delta_snapshots)
 
+    # Session 142: save model's non-parameter running state for clean resume
+    crystal_ema = getattr(model, "_crystal_ema", None)
+    if crystal_ema is not None:
+        mx.eval(crystal_ema)
+
+    s5_identity = getattr(model.s5_identity, "identity_state", None)
+    if s5_identity is not None:
+        mx.eval(s5_identity)
+
     state = {
         "step": step,
         "train_losses_last50": train_losses[-50:],
         "n_reductions": n_reductions,
         "total_td_flips": total_td_flips,
         "td_step_count": td.step_count,
+        # Running state for clean resume (session 142)
+        "crystal_ema": float(crystal_ema.item()) if crystal_ema is not None else None,
+        "s5_identity_state": s5_identity.tolist() if s5_identity is not None else None,
     }
 
     # Per-module delta stats in the state file for quick inspection
