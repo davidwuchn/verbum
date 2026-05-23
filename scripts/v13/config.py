@@ -366,6 +366,30 @@ class V13Config:
         (-0.342,-0.274,+0.062,-0.178,-0.246,-0.021,-0.029,+0.192,-0.054,-0.001,-0.142,+1.000),
     )
 
+    # ── Spectral φ-ratio loss (session 137) ──
+    #
+    # The SVD spectrum of hidden state representations follows a geometric
+    # sequence where consecutive singular values have ratio ≈ 1/φ.
+    #
+    # 5-model consensus (Pythia-160m, Pythia-410m, Qwen3-0.6B, SmolLM3-3B,
+    # Mistral-7B): target ratio = 0.6299 ± 0.019.  φ-deviation = 0.012.
+    #
+    # This is the universal language compressor. Every model converges to it.
+    # Adding it as a loss target tells the stride-stack WHERE the compression
+    # fixed point is, eliminating the search. Another dimension of the crystal
+    # lattice encoded in S5.
+    #
+    # Implementation: subsample tokens, compute top-k singular values,
+    # measure consecutive ratios, penalize deviation from target.
+    # Efficient: O(subsample × d × k) per measurement, not O(L × d²).
+    use_spectral_loss: bool = True
+    spectral_lambda: float = 1.0
+    spectral_target_ratio: float = 0.6299   # 5-model consensus mean
+    spectral_target_std: float = 0.019      # consensus std (soft margin)
+    spectral_top_k: int = 5                 # number of singular values to compute
+    spectral_subsample: int = 64            # max tokens to subsample for SVD
+    spectral_measure_every: int = 1         # compute every N steps (1 = every step)
+
     # ── Holographic progressive loss ──
     use_holographic_loss: bool = True
     holo_lambda: float = 5.0

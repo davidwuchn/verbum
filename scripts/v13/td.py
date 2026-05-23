@@ -187,6 +187,9 @@ class TernaryDescent:
         flip_rate: float = 0.001,
         warmup_steps: int = 100,
         min_confidence: float = 0.3,
+        cooldown_tau: float = 50.0,
+        cooldown_backoff: float = 2.0,
+        neighbor_width: int = 3,
     ):
         """Initialize TernaryDescent.
 
@@ -201,16 +204,31 @@ class TernaryDescent:
                             stable moments before topology changes.
             min_confidence: Minimum signal-to-noise ratio to consider a flip.
                             Below this, the gradient signal is too noisy.
+            cooldown_tau:   Base cooldown period (steps) after a flip before the
+                            same position can flip again. Anti-oscillation.
+            cooldown_backoff: Multiply tau by this factor each time a position
+                            flips again. Exponential backoff for chronic oscillators.
+            neighbor_width: Width of row-wise median filter for spatial smoothing.
+                            Must be odd (3, 5, 7). Breaks ties, smooths noise,
+                            preserves crystal edges.
         """
         self.beta1 = beta1
         self.beta2 = beta2
         self.flip_rate = flip_rate
         self.warmup_steps = warmup_steps
         self.min_confidence = min_confidence
+        self.cooldown_tau = cooldown_tau
+        self.cooldown_backoff = cooldown_backoff
+        self.neighbor_width = neighbor_width
+        assert neighbor_width % 2 == 1, "neighbor_width must be odd for tie-breaking"
         self.step_count = 0
 
         # Per-parameter state: {param_id: (direction, magnitude)}
         self._state: dict[int, tuple[mx.array, mx.array]] = {}
+
+        # Per-parameter anti-oscillation state:
+        # {param_id: (last_flip_step, flip_count)} — both (N, K) int32
+        self._flip_history: dict[int, tuple[mx.array, mx.array]] = {}
 
         # Tracking
         self.last_n_flips = 0
@@ -233,6 +251,97 @@ class TernaryDescent:
     def _set_state(self, param_id: int, direction: mx.array, magnitude: mx.array):
         """Store updated moment state."""
         self._state[param_id] = (direction, magnitude)
+
+    def _get_flip_history(self, param_id: int, shape: tuple) -> tuple[mx.array, mx.array]:
+        """Get or initialize flip history for anti-oscillation.
+
+        Returns:
+            last_flip_step: (N, K) int32 — step at which each position last flipped
+            flip_count:     (N, K) int32 — how many times each position has flipped
+        """
+        if param_id not in self._flip_history:
+            self._flip_history[param_id] = (
+                mx.zeros(shape, dtype=mx.int32),   # last_flip_step (0 = never)
+                mx.zeros(shape, dtype=mx.int32),   # flip_count
+            )
+        return self._flip_history[param_id]
+
+    def _compute_cooldown(self, param_id: int, shape: tuple) -> mx.array:
+        """Compute per-position cooldown factor ∈ [0, 1].
+
+        cooldown = 1 - exp(-steps_since_flip / effective_tau)
+        effective_tau = tau_base * backoff^flip_count
+
+        0 = just flipped, can't flip again.
+        1 = fully cooled, eligible for flip.
+
+        Chronic oscillators (high flip_count) have very long effective_tau,
+        effectively freezing them. The crystal grows from the stable interior.
+        """
+        last_flip_step, flip_count = self._get_flip_history(param_id, shape)
+
+        steps_since_flip = mx.maximum(self.step_count - last_flip_step, 0).astype(mx.float32)
+
+        # Effective tau: base * backoff^flip_count
+        # Cap flip_count contribution to prevent inf: max exponent ~10
+        capped_count = mx.minimum(flip_count, 10).astype(mx.float32)
+        effective_tau = self.cooldown_tau * (self.cooldown_backoff ** capped_count)
+
+        # Cooldown: 0 when just flipped, 1 when fully cooled
+        cooldown = 1.0 - mx.exp(-steps_since_flip / (effective_tau + 1e-8))
+
+        # Positions that never flipped (step=0) should have cooldown=1
+        never_flipped = last_flip_step == 0
+        cooldown = mx.where(never_flipped, mx.array(1.0), cooldown)
+
+        return cooldown
+
+    def _update_flip_history(self, param_id: int, flip_mask: mx.array):
+        """Record which positions flipped this step."""
+        shape = flip_mask.shape
+        last_flip_step, flip_count = self._get_flip_history(param_id, shape)
+
+        flipped = flip_mask.astype(mx.int32)
+        last_flip_step = mx.where(flip_mask, mx.array(self.step_count, dtype=mx.int32), last_flip_step)
+        flip_count = flip_count + flipped
+
+        self._flip_history[param_id] = (last_flip_step, flip_count)
+
+    @staticmethod
+    def _row_median_smooth(signal: mx.array, width: int = 3) -> mx.array:
+        """Row-wise median filter for spatial smoothing.
+
+        Odd width guarantees tie-breaking. Median preserves edges
+        (crystal boundaries stay sharp) while rejecting isolated
+        outlier flips (noise).
+
+        Args:
+            signal: (N, K) float32 — raw signal to smooth
+            width:  odd integer, filter width (3 = position ± 1 neighbor)
+
+        Returns:
+            (N, K) float32 — smoothed signal
+        """
+        if width == 1:
+            return signal
+        N, K = signal.shape
+        pad = width // 2
+
+        # Pad with zeros at boundaries (conservative: edge positions get damped)
+        padded = mx.concatenate([
+            mx.zeros((N, pad)),
+            signal,
+            mx.zeros((N, pad)),
+        ], axis=1)  # (N, K + 2*pad)
+
+        # Gather windows: (N, K, width)
+        windows = mx.stack([
+            padded[:, i:i + K] for i in range(width)
+        ], axis=-1)  # (N, K, width)
+
+        # Median via sort + middle element
+        sorted_windows = mx.sort(windows, axis=-1)
+        return sorted_windows[:, :, pad]  # middle element = median
 
     def step(
         self,
@@ -297,11 +406,30 @@ class TernaryDescent:
             # Importance: how much loss cares about this position
             importance = mx.sqrt(mag_corrected)
 
-            # Score: only flip positions that are both important AND confident
-            score = snr * importance
+            # ── Three-voter anti-oscillation (session 137) ────
+            #
+            # Voter 1: TD gradient confidence (snr) — already computed
+            # Voter 2: Cooldown gate — time-based hysteresis with backoff
+            # Voter 3: Neighbor consensus — row-wise median smoothing
+            #
+            # Three voters (odd) → always breaks ties.
+            # Multiplicative: ALL must agree for a flip.
 
-            # Minimum confidence gate
-            confident = snr > self.min_confidence
+            # Voter 2: Cooldown — recently flipped positions can't flip again
+            cooldown = self._compute_cooldown(name, grad_effective.shape)
+
+            # Voter 3: Neighbor consensus — smooth confidence spatially
+            # Row-wise median of width 3 (or 5): breaks ties, rejects outlier flips,
+            # preserves crystal edges (if 2 of 3 neighbors agree, edge is real)
+            smoothed_snr = self._row_median_smooth(snr, self.neighbor_width)
+
+            # Combined score: all three voters contribute
+            # smoothed_snr replaces raw snr (incorporates neighbor vote)
+            # cooldown gates positions that recently flipped
+            score = smoothed_snr * importance * cooldown
+
+            # Minimum confidence gate (on smoothed signal)
+            confident = smoothed_snr > self.min_confidence
 
             # Unpack current delta and base to determine valid transitions
             delta_unpacked = unpack_ternary_mlx(delta_packed)  # (N, K) int8
@@ -383,7 +511,8 @@ class TernaryDescent:
             )
 
             # Count actual flips
-            n_flips = int((new_delta != delta_unpacked).sum().item())
+            flip_occurred = (new_delta != delta_unpacked)
+            n_flips = int(flip_occurred.sum().item())
             total_flips += n_flips
 
             # Repack and update
@@ -395,11 +524,13 @@ class TernaryDescent:
                 mx.eval(delta_packed_data)
 
                 # Reset moments at flipped positions
-                flip_occurred = (new_delta != delta_unpacked)
                 flip_float = flip_occurred.astype(mx.float32)
                 direction = direction * (1 - flip_float)
                 magnitude = magnitude * (1 - flip_float)
                 self._set_state(name, direction, magnitude)
+
+                # Record flip history for anti-oscillation
+                self._update_flip_history(name, flip_occurred)
 
                 per_module[name] = {
                     "flips": n_flips,
@@ -429,6 +560,7 @@ class TernaryDescent:
     def reset(self):
         """Reset all state. Called after reduction (delta folded into base)."""
         self._state.clear()
+        self._flip_history.clear()
         self.step_count = 0
         self.last_n_flips = 0
         self.last_n_candidates = 0
