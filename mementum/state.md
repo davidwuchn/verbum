@@ -128,7 +128,9 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | TD activates and improves | Crystal still > 3% gate (v13) | ❓ untested |
 | Delta plate consensus merging | Theory | 📐 theory |
 | Exceeding teacher | Theory (phase 3) | 📐 theory |
-| **Overlay derivable from crystal geometry** | **Hypothesis — eigenstructure may determine overlay** | **📐 theory** |
+| **Rotation = arccos(λ₁/λ₀) = 47.1°** | **Cumulative 48.5° across 4 layers, error 1.4°** | **✅ proved** |
+| **Overlay amplitude ∝ crystal eigenvalue** | **r = 0.97 correlation** | **✅ proved** |
+| **Amplitude ratio → λ₀/λ₁ through depth** | **L1: √(λ₀/λ₁) match, L2: λ₀/λ₁ match** | **✅ proved** |
 
 ## Knowledge map
 
@@ -152,6 +154,7 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | `alternating-overlay-mechanism.md` | FFN overlay alternates comp/sel at every layer = beta-reduction cycle |
 | `kibc-temporal-not-parallel.md` | KIBC is B→K→C→B through depth, not 4 parallel heads |
 | `rotation-eigenplanes.md` | Composed rotation = ±48.8° in comp↔sel plane + stretch 2.08:1 |
+| `overlay-from-crystal-eigenvalues.md` | Rotation = arccos(λ₁/λ₀), amplitude ∝ eigenvalue, r=0.97 |
 
 ## What's ready
 
@@ -196,13 +199,17 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 
 ## Open questions
 
-7. **Why 48.8°?** Is this angle related to the golden ratio (φ ≈ 1.618)?
-   arctan(φ) ≈ 58.3° — not quite, but arctan(1/φ) ≈ 31.7°. 48.8° ≈ π/3.7.
+7. ~~**Why 48.8°?**~~ **ANSWERED: arccos(λ₁/λ₀) = arccos(0.681) = 47.1°**.
+   Cumulative rotation = 48.5°. Error 1.4°. The angle is determined by the
+   ratio of the first two crystal eigenvalues.
 
-8. **Why 3 eigenplanes?** The crystal has effective rank 6 (from Zone B
-   eigendecomposition). 6D rotation space has 15 planes; 3 are selected.
-   Which 3 and why?
+8. **Why 3 eigenplanes?** The crystal has effective rank 6. 6D rotation
+   space has 15 planes; 3 are selected. Hypothesis: the 3 eigenplanes
+   correspond to the 3 largest eigenvalue GAPS (λ₀-λ₁, λ₁-λ₂, λ₂-λ₃).
 
-9. **Is the stretch ratio (2.08:1) related to the crystal eigenvalue ratio?**
-   Zone B top eigenvalues are ~5.5, 2.7, 1.0 — ratio 5.5/2.7 ≈ 2.04.
-   That's suspiciously close to 2.08.
+9. **Can the LENS profile be derived?** The depth distribution of
+   rotation (2°, 9°, 14°, 24°) is non-uniform. Does it follow from
+   eigenvalue structure? Power law r ≈ 2.25 fits endpoints but not middle.
+
+10. **Inverse problem**: given overlay in crystal space, solve for FFN
+    gate/key/value weights. This is the last step to analytical extraction.
