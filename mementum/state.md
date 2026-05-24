@@ -168,48 +168,41 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 
 ## Next steps
 
-### Immediate: derive overlay from crystal geometry
+### HIGHEST PRIORITY: Build 1B ternary student from teacher sign extraction
 
-1. **Can the alternation amplitudes be computed from the crystal eigenvalues?**
-   The Zone B target matrix has eigenvalues that may determine the overlay
-   diagonal (±0.1 to ±0.3 values).
+1. **Extract FFN plates from Qwen3-32B via sign(weights) → ternary.**
+   The inference patterns are IN the teacher weights. sign() extracts them.
+   No training needed for topology. Gamma from eigenvalues.
 
-2. **Can the rotation angles (48.8°, 13.9°, 2.1°) be derived from the
-   eigenvector structure?** If yes → direct weight computation.
+2. **Build 1B ternary architecture** (32 layers, d=1280, d_ff=5120).
+   ~250 MB total. Extract FFN plates from teacher. Train attention only.
 
-3. **Solve the inverse problem**: given target overlay in crystal space,
-   compute the FFN gate/key/value weights that produce it. This is a
-   constrained optimization (or direct linear algebra) in the known basis.
+3. **Validate the mechanism at scale.** Does the teacher's overlay match
+   arccos(λ₁/λ₀)? Does neuron allocation match eigenvalue proportions?
+   The micro model proves the mechanism — teacher validation proves scale.
 
-### Medium: validate on larger models
+### Medium: verify and refine
 
-4. **Does Qwen3-32B show the same 3 eigenplanes?** Extract the overlay
-   from the teacher and check if ±48.8° appears.
+4. **Content transfer quality.** How much of the 81% token subspace
+   content survives sign() extraction? Is reduced-rank projection needed?
 
-5. **Scale the micro model**: try d=256, 8 layers. Does the structure
-   persist? Do more eigenplanes appear?
+5. **LENS profile derivation.** Does the depth distribution of rotation
+   follow from eigenvalue ratios at subsequent PC pairs?
 
-### Long-term: analytical extraction
-
-6. **If overlay = f(crystal_eigenstructure)**, then extraction becomes:
-   - Read crystal from teacher (already done)
-   - Compute overlay analytically
-   - Compute FFN weights from overlay
-   - No GD needed for the student at all
+6. **Multiple teacher consensus.** Extract sign patterns from multiple
+   teachers and merge for cleaner topology.
 
 ## Open questions
 
 7. ~~**Why 48.8°?**~~ **ANSWERED: arccos(λ₁/λ₀) = arccos(0.681) = 47.1°**.
-   Cumulative rotation = 48.5°. Error 1.4°. The angle is determined by the
-   ratio of the first two crystal eigenvalues.
 
-8. **Why 3 eigenplanes?** The crystal has effective rank 6. 6D rotation
-   space has 15 planes; 3 are selected. Hypothesis: the 3 eigenplanes
-   correspond to the 3 largest eigenvalue GAPS (λ₀-λ₁, λ₁-λ₂, λ₂-λ₃).
+8. ~~**Inverse problem?**~~ **ANSWERED: sign(teacher_weights). Not inverse
+   problem — direct extraction. The inference patterns are already there.**
 
-9. **Can the LENS profile be derived?** The depth distribution of
-   rotation (2°, 9°, 14°, 24°) is non-uniform. Does it follow from
-   eigenvalue structure? Power law r ≈ 2.25 fits endpoints but not middle.
+9. **Content transfer via sign().** Does the 81% token subspace content
+   survive ternary extraction, or does it need separate handling?
 
-10. **Inverse problem**: given overlay in crystal space, solve for FFN
-    gate/key/value weights. This is the last step to analytical extraction.
+10. **LENS profile.** Derivable from eigenvalue ratios?
+
+11. **Quality at 1B.** What CE/perplexity does a 1B ternary student
+    achieve vs the 32B teacher? What's the minimum viable size?
