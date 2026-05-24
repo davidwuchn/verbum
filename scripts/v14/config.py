@@ -240,6 +240,7 @@ class V14Config:
     teacher_d_ff: int = TEACHER_D_FF
     teacher_vocab: int = TEACHER_VOCAB
     teacher_model_path: str = TEACHER_MODEL_PATH_DEFAULT
+    teacher_prefix: str = TEACHER_PREFIX
 
     # ── Zone mapping ────────────────────────────────────────────────
     zone_a_start: int = ZONE_A_START
