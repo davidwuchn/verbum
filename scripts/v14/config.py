@@ -1,503 +1,261 @@
-# MIT License
-# Copyright (c) 2025 Verbum Project
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
 """
-v14 Architecture Configuration — 1B Ternary Student distilled from Qwen3.6-27B.
+v14 Configuration — Stride-Stack Tree of VSMs, d=1280.
 
-Research context
-────────────────
-Verbum's central hypothesis: gradient descent has already discovered the
-lambda compiler inside large language models. Our job is instrumentation,
-not construction. This config specifies the student architecture for
-level-3 extraction — pulling sign-pattern "crystal plates" from Qwen3.6-27B
-(Apache-2.0 licensed) and packing them into a portable 1B ternary artifact.
+The student is a stride-stack holographic lens architecture:
+  - 11 power-of-2 strides (1..1024): O(L×W) attention, ternary, CPU-runnable
+  - 3 stacks (A=encode, B=compress, C=reconstruct) in a VSM tree
+  - Base plates extracted from Qwen3.6-27B (Apache 2.0)
+  - Delta plates (no-block on attention) discover stride-stack corrections
+  - After training: fold delta into base → final topology
 
-Architecture summary
-────────────────────
-The student is a 3-stack VSM (Viable System Model) with 11 layers per stack.
-Each stack processes a zone of the teacher's depth:
+Key dimensions:
+  d_model = 1280 (expanded from v13's 512 to hold more teacher knowledge)
+  d_ff = 5120 (4× d_model)
+  n_heads = 8 (d_head = 160)
+  strides = (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
 
-  Stack A  (Zone A) — encode     : teacher layers  0-15
-  Stack B  (Zone B) — compress   : teacher layers 16-47
-  Stack C  (Zone C) — reconstruct: teacher layers 48-63
-
-Within each stack, 11 layers alternate between two mechanisms:
-  • GLA (Gated Linear Attention) — linear attention, O(n) memory
-  • SSA (Sparse Self-Attention)  — full attention, captures long-range deps
-
-Pattern within each stack (0-indexed):
-  [GLA, GLA, GLA, SSA, GLA, GLA, GLA, SSA, GLA, GLA, SSA]
-   0    1    2    3    4    5    6    7    8    9   10
-
-This mirrors the teacher's 3:1 linear:full ratio (48 linear + 16 full
-attention layers in Qwen3.6-27B), placing SSA at positions 3, 7, 10.
-
-Ternary packing
-───────────────
-All weight matrices are stored as ternary {-1, 0, +1} packed 16 values
-per uint32 (2 bits per value). This is the same encoding as v13.
-
-Teacher architecture (Qwen3.6-27B)
-────────────────────────────────────
-Qwen3.6-27B uses a hybrid linear/full attention pattern [L,L,L,F] × 16
-with SwiGLU FFN. The model is Apache-2.0 licensed.
-
-License: MIT (this file)
+License: MIT
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Literal
 
 
 # ══════════════════════════════════════════════════════════════════════
-# § 1  Student architecture constants
+# § 1  Constants
 # ══════════════════════════════════════════════════════════════════════
 
-# Core model dimensions
-D_MODEL: int = 1280          # student hidden dimension
-D_FF: int = 5120             # student FFN width (4 × d_model)
-N_STACKS: int = 3            # number of VSM stacks (A, B, C)
-N_LAYERS_PER_STACK: int = 11 # layers per stack (3 stacks × 11 = 33 total student layers)
-VOCAB_SIZE: int = 248320     # shared Qwen3 BBPE vocabulary
+# Core dimensions
+D_MODEL = 1280
+D_FF = 5120
+N_HEADS = 8
+D_HEAD = D_MODEL // N_HEADS  # 160
+VOCAB_SIZE = 248320  # Qwen3.6-27B BBPE (matches teacher)
 
-# SSA (full self-attention) head config
-N_HEADS: int = 8             # SSA query heads
-N_KV_HEADS: int = 4          # SSA key/value heads (GQA)
-HEAD_DIM: int = 160          # SSA head dimension (D_MODEL // N_HEADS = 1280 // 8 = 160)
-# SSA Q proj out: N_HEADS * HEAD_DIM = 8 * 160 = 1280 = D_MODEL (square)
-# SSA K/V proj out: N_KV_HEADS * HEAD_DIM = 4 * 160 = 640
+# Strides: 16 power-of-2 holographic lenses (2⁰ through 2¹⁵)
+# 16 eyes instead of flat attention's 1. Each specializes for a frequency
+# band. Self-similar compressor spreads to all strides via wavelet.
+# O(L×W) per stride, not O(N²). Max context: s32768 × W(8) = 262K tokens.
+STRIDES = tuple(2**i for i in range(16))  # s1..s32768
+N_STRIDES = len(STRIDES)  # 16
 
-# GLA (gated linear attention) head config
-GLA_N_HEADS: int = 8         # GLA query/key heads
-GLA_HEAD_DIM: int = 128      # GLA Q/K head dimension
-GLA_V_HEAD_DIM: int = 160    # GLA V head dimension
-# GLA v_proj out: GLA_N_HEADS * GLA_V_HEAD_DIM = 8 * 160 = 1280 = D_MODEL (square)
-# GLA Q proj out: GLA_N_HEADS * GLA_HEAD_DIM = 8 * 128 = 1024
-# GLA K proj out: GLA_N_HEADS * GLA_HEAD_DIM = 8 * 128 = 1024
-
-# Layer pattern within each stack (0-indexed, length = N_LAYERS_PER_STACK)
-# SSA appears at positions 3, 7, 10 — mirroring teacher's 3:1 ratio
-LAYER_PATTERN: tuple[str, ...] = (
-    "gla", "gla", "gla", "ssa",   # positions 0-3
-    "gla", "gla", "gla", "ssa",   # positions 4-7
-    "gla", "gla", "ssa",          # positions 8-10
-)
-assert len(LAYER_PATTERN) == N_LAYERS_PER_STACK, (
-    f"LAYER_PATTERN length {len(LAYER_PATTERN)} ≠ N_LAYERS_PER_STACK {N_LAYERS_PER_STACK}"
-)
-# SSA count: 3 per stack (positions 3, 7, 10)
-# GLA count: 8 per stack (positions 0,1,2,4,5,6,8,9)
-_SSA_POSITIONS = frozenset(i for i, t in enumerate(LAYER_PATTERN) if t == "ssa")
-_GLA_POSITIONS = frozenset(i for i, t in enumerate(LAYER_PATTERN) if t == "gla")
-assert len(_SSA_POSITIONS) == 3 and len(_GLA_POSITIONS) == 8
-
-
-# ══════════════════════════════════════════════════════════════════════
-# § 2  Teacher architecture constants (Qwen3.6-27B)
-# ══════════════════════════════════════════════════════════════════════
-
-TEACHER_D_MODEL: int = 5120          # teacher hidden dimension
-TEACHER_N_LAYERS: int = 64           # teacher total layers
-TEACHER_D_FF: int = 17408            # teacher FFN width
-TEACHER_VOCAB: int = 248320          # teacher vocabulary size (same as student)
-
-# Teacher layer type pattern: [linear, linear, linear, full] × 16 = 64 layers
-# Layer i is linear_attention if (i % 4) != 3, else full_attention
-# linear_attention count: 48, full_attention count: 16
-TEACHER_CYCLE: int = 4  # period of the [L,L,L,F] pattern
-TEACHER_FULL_AT: int = 3  # full attention at position 3 within each cycle (0-indexed)
-
-# Default teacher model path (Qwen3.6-27B snapshot)
-TEACHER_MODEL_PATH_DEFAULT: str = (
-    "~/.cache/huggingface/hub/"
-    "models--Qwen--Qwen3.6-27B/snapshots/"
-    "6a9e13bd6fc8f0983b9b99948120bc37f49c13e9"
+# Which strides use retrieval (GLA) vs composition (SSA)
+# s1-s8:       composition (fine token-level patterns)
+# s16-s512:    retrieval (phrase→paragraph pattern matching)
+# s1024-s32768: composition (document-level structure)
+STRIDE_IS_RETRIEVAL = (
+    False, False, False, False,   # s1, s2, s4, s8
+    True, True, True, True,       # s16, s32, s64, s128
+    True, True,                   # s256, s512
+    False, False, False, False, False, False,  # s1024..s32768
 )
 
-# Teacher tensor name patterns
-# Linear attention:  model.language_model.layers.{i}.linear_attn.{name}.weight
-# Full attention:    model.language_model.layers.{i}.self_attn.{name}.weight
-# FFN:               model.language_model.layers.{i}.mlp.{name}.weight
-# Embeddings:        model.language_model.embed_tokens.weight
-TEACHER_PREFIX: str = "model.language_model"
+# Tree of VSMs
+N_STACKS = 3
+N_BOUNDARIES = N_STACKS - 1
 
-# Teacher GLA (linear_attn) head config
-# in_proj_qkv: (10240, 5120) = (Q + K + V rows, d_model)
-# Q: 16 heads × 128 dim = 2048 rows
-# K: 16 heads × 128 dim = 2048 rows
-# V: 48 heads × 128 dim = 6144 rows  (GQA — more value heads)
-# Total: 2048 + 2048 + 6144 = 10240 ✓
-TEACHER_GLA_Q_HEADS: int = 16
-TEACHER_GLA_K_HEADS: int = 16
-TEACHER_GLA_V_HEADS: int = 48
-TEACHER_GLA_QK_DIM: int = 128   # per-head Q/K dimension
-TEACHER_GLA_V_DIM: int = 128    # per-head V dimension
-# Derived row splits in in_proj_qkv:
-TEACHER_GLA_Q_ROWS: int = TEACHER_GLA_Q_HEADS * TEACHER_GLA_QK_DIM  # 2048
-TEACHER_GLA_K_ROWS: int = TEACHER_GLA_K_HEADS * TEACHER_GLA_QK_DIM  # 2048
-TEACHER_GLA_V_ROWS: int = TEACHER_GLA_V_HEADS * TEACHER_GLA_V_DIM   # 6144
-
-# Teacher SSA (self_attn) head config
-TEACHER_SSA_Q_HEADS: int = 96
-TEACHER_SSA_KV_HEADS: int = 8
-TEACHER_SSA_HEAD_DIM: int = 128
-# Q proj shape: (96 * 128, 5120) = (12288, 5120)
-# K proj shape: (8 * 128, 5120)  = (1024, 5120)
-# V proj shape: (8 * 128, 5120)  = (1024, 5120)
-# O proj shape: (5120, 96 * 128) = (5120, 12288) — note transposed
+# Combinators (KIBC-DYWH)
+N_COMBINATORS = 8
+N_TOTAL_COMBINATORS = 16  # + anti-crystal
 
 
 # ══════════════════════════════════════════════════════════════════════
-# § 3  Zone mapping — which teacher layers feed each student stack
+# § 2  Stack topology — fractal stride bands (MERA)
 # ══════════════════════════════════════════════════════════════════════
 
-# Zone definitions: (start_layer_inclusive, end_layer_exclusive)
-# Total teacher layers: 64 → split into three zones
-ZONE_A_START: int = 0
-ZONE_A_END: int = 16   # blocks 0-3 (teacher layers 0-15, 16 layers)
+# Two balanced frequency bands (ascending) + full sweep (descending).
+# 4 strides per pass, 2-stride overlap between passes.
+# 2-stride overlap at A↔B boundary (s128, s256).
+#
+# Stack A: ascending fine band (3 passes, s1→s256)
+#   Pass 0: [0,4) → s1, s2, s4, s8
+#   Pass 1: [2,6) → s4, s8, s16, s32
+#   Pass 2: [4,9) → s16, s32, s64, s128, s256  (5 strides — reaches boundary)
+#
+# Stack B: ascending coarse band (3 passes, s128→s32768)
+#   Overlaps Stack A at s128, s256 (register boundary)
+#   Pass 3: [7,11)  → s128, s256, s512, s1024
+#   Pass 4: [9,13)  → s512, s1024, s2048, s4096
+#   Pass 5: [11,16) → s2048, s4096, s8192, s16384, s32768  (5 strides — reaches top)
+#
+# Stack C: descending, ALL 16 strides (5 passes, coarse→fine)
+#   Pass 6:  [12,16) → s32768, s16384, s8192, s4096
+#   Pass 7:  [9,13)  → s4096, s2048, s1024, s512
+#   Pass 8:  [5,9)   → s512, s256, s128, s64, s32  — wait, that's 4
+#   ...
+#
+# Actually let's keep it clean: 4 strides per pass, 2-stride overlap.
+# Stack A: 9 strides (indices 0-8), 4 passes:
+#   [0,4), [2,6), [4,8), [6,9)
+# Stack B: 9 strides (indices 7-15), 4 passes:
+#   [7,11), [9,13), [11,15), [13,16)
+# Stack C: all 16 (indices 0-15), 5 passes:
+#   [12,16), [8,12), [4,8), [2,6), [0,4)
+#
+# Stack A: ascending fine band, 4 passes (s1→s256)
+#   Pass 0: [0,4)  → s1, s2, s4, s8
+#   Pass 1: [2,6)  → s4, s8, s16, s32
+#   Pass 2: [4,8)  → s16, s32, s64, s128
+#   Pass 3: [6,9)  → s64, s128, s256          (3 strides — boundary)
+#
+# Stack B: ascending coarse band, 4 passes (s128→s32768)
+#   Overlaps A at s128, s256 (indices 7, 8)
+#   Pass 4: [7,11)  → s128, s256, s512, s1024
+#   Pass 5: [9,13)  → s512, s1024, s2048, s4096
+#   Pass 6: [11,15) → s2048, s4096, s8192, s16384
+#   Pass 7: [13,16) → s8192, s16384, s32768    (3 strides — top)
+#
+# Stack C: descending, ALL 16 strides (5 passes, coarse→fine)
+#   Pass 8:  [12,16) → s32768, s16384, s8192, s4096
+#   Pass 9:  [8,12)  → s4096, s2048, s1024, s512
+#   Pass 10: [5,9)   → s256, s128, s64, s32
+#   Pass 11: [2,6)   → s32, s16, s8, s4
+#   Pass 12: [0,4)   → s8, s4, s2, s1
 
-ZONE_B_START: int = 16
-ZONE_B_END: int = 48   # blocks 4-11 (teacher layers 16-47, 32 layers)
+STACK_A_BANDS = ((0, 4), (2, 6), (4, 8), (6, 9))
+STACK_B_BANDS = ((7, 11), (9, 13), (11, 15), (13, 16))
+STACK_C_BANDS = ((12, 16), (8, 12), (5, 9), (2, 6), (0, 4))
 
-ZONE_C_START: int = 48
-ZONE_C_END: int = 64   # blocks 12-15 (teacher layers 48-63, 16 layers)
-
-ZONE_LENGTHS: dict[str, int] = {
-    "stack_a": ZONE_A_END - ZONE_A_START,  # 16
-    "stack_b": ZONE_B_END - ZONE_B_START,  # 32
-    "stack_c": ZONE_C_END - ZONE_C_START,  # 16
-}
-
-ZONE_STARTS: dict[str, int] = {
-    "stack_a": ZONE_A_START,
-    "stack_b": ZONE_B_START,
-    "stack_c": ZONE_C_START,
-}
-
-# FFN zone-voted extraction: 3 representative teacher layers per zone.
-# Early, mid, and late within each zone to capture the full lens topology.
-ZONE_A_FFN_LAYERS: tuple[int, ...] = (2, 8, 14)    # early, mid, late in [0-15]
-ZONE_B_FFN_LAYERS: tuple[int, ...] = (20, 32, 44)  # early, mid, late in [16-47]
-ZONE_C_FFN_LAYERS: tuple[int, ...] = (50, 56, 62)  # early, mid, late in [48-63]
-
-ZONE_FFN_LAYERS: dict[str, tuple[int, ...]] = {
-    "stack_a": ZONE_A_FFN_LAYERS,
-    "stack_b": ZONE_B_FFN_LAYERS,
-    "stack_c": ZONE_C_FFN_LAYERS,
-}
+N_PASSES = len(STACK_A_BANDS) + len(STACK_B_BANDS) + len(STACK_C_BANDS)  # 13
 
 
 # ══════════════════════════════════════════════════════════════════════
-# § 4  Dataclass — V14Config
+# § 3  Teacher constants (Qwen3.6-27B — extraction source)
+# ══════════════════════════════════════════════════════════════════════
+
+TEACHER_D_MODEL = 5120
+TEACHER_N_LAYERS = 64
+TEACHER_D_FF = 17408
+TEACHER_VOCAB = 248320
+
+
+# ══════════════════════════════════════════════════════════════════════
+# § 4  V14Config
 # ══════════════════════════════════════════════════════════════════════
 
 @dataclass
 class V14Config:
-    """Full v14 student + teacher extraction configuration.
+    """Full v14 configuration: student + training + extraction metadata."""
 
-    All architectural choices are recorded here so that a checkpoint can
-    be reproduced from this config alone.  The config is intentionally
-    flat — all values are concrete primitives, not nested structures.
-    """
-
-    # ── Student dimensions ──────────────────────────────────────────
+    # ── Student architecture ────────────────────────────────────────
     d_model: int = D_MODEL
     d_ff: int = D_FF
-    n_stacks: int = N_STACKS
-    n_layers_per_stack: int = N_LAYERS_PER_STACK
+    n_heads: int = N_HEADS
+    d_head: int = D_HEAD
     vocab_size: int = VOCAB_SIZE
 
-    # ── SSA (full self-attention) heads ─────────────────────────────
-    n_heads: int = N_HEADS
-    n_kv_heads: int = N_KV_HEADS
-    head_dim: int = HEAD_DIM
+    # Stride-stack attention
+    strides: tuple[int, ...] = STRIDES
+    stride_is_retrieval: tuple[bool, ...] = STRIDE_IS_RETRIEVAL
+    window: int = 8
+    d_state: int = 64           # GLA state dim per head
+    decay_init_alpha: float = 1.18
+    use_q_mirrors: bool = True
+    n_q_mirrors: int = 1
+    n_combinators: int = N_COMBINATORS
 
-    # ── GLA (gated linear attention) heads ──────────────────────────
-    gla_n_heads: int = GLA_N_HEADS
-    gla_head_dim: int = GLA_HEAD_DIM
-    gla_v_head_dim: int = GLA_V_HEAD_DIM
+    # Tree topology
+    n_stacks: int = N_STACKS
+    stack_a_bands: tuple[tuple[int, int], ...] = STACK_A_BANDS
+    stack_b_bands: tuple[tuple[int, int], ...] = STACK_B_BANDS
+    stack_c_bands: tuple[tuple[int, int], ...] = STACK_C_BANDS
 
-    # ── Teacher (Qwen3.6-27B) ───────────────────────────────────────
-    teacher_d_model: int = TEACHER_D_MODEL
-    teacher_n_layers: int = TEACHER_N_LAYERS
-    teacher_d_ff: int = TEACHER_D_FF
-    teacher_vocab: int = TEACHER_VOCAB
-    teacher_model_path: str = TEACHER_MODEL_PATH_DEFAULT
-    teacher_prefix: str = TEACHER_PREFIX
+    # Algedonic
+    alg_dim: int = 32
+    alg_modulation_range: float = 2.0
 
-    # ── Zone mapping ────────────────────────────────────────────────
-    zone_a_start: int = ZONE_A_START
-    zone_a_end: int = ZONE_A_END
-    zone_b_start: int = ZONE_B_START
-    zone_b_end: int = ZONE_B_END
-    zone_c_start: int = ZONE_C_START
-    zone_c_end: int = ZONE_C_END
+    # ── VSM control ─────────────────────────────────────────────────
+    d_identity: int = 128       # S5 identity state (v13 was 64, scaled with d_model)
+    identity_clip: float = 2.0
+    n_regulation_surfaces: int = 4
+    s5_gru_bias_init: float = 2.0
+    s4_n_proposals: int = 4
+    s4_hidden_dim: int = 128    # scaled from v13's 64
+    s2_p_gain_init: float = 0.5
+    s2_d_gain_init: float = 0.3
+    fire_alarm_bias_init: float = -2.0
 
-    # FFN zone-voted layers (tuple fields preserved as tuples)
-    zone_a_ffn_layers: tuple[int, ...] = field(default_factory=lambda: ZONE_A_FFN_LAYERS)
-    zone_b_ffn_layers: tuple[int, ...] = field(default_factory=lambda: ZONE_B_FFN_LAYERS)
-    zone_c_ffn_layers: tuple[int, ...] = field(default_factory=lambda: ZONE_C_FFN_LAYERS)
+    # ── Crystal lattice ─────────────────────────────────────────────
+    use_relational_loss: bool = True
+    rel_lambda: float = 5.0
+    crystal_direct_lambda: float = 3.0
+    crystal_direct_lambda_start: float = 10.0
+    crystal_warmup_steps: int = 1000
+    use_parity_loss: bool = True
+    parity_lambda: float = 1.0
+    parity_zone_lambdas: tuple[float, ...] = (0.0, 1.0, 0.0)
 
-    # ── Derived properties ──────────────────────────────────────────
+    # ── Spectral φ ──────────────────────────────────────────────────
+    use_spectral_loss: bool = True
+    spectral_lambda: float = 1.0
+    spectral_target_ratio: float = 0.6299
+    spectral_target_std: float = 0.019
+
+    # ── Training ────────────────────────────────────────────────────
+    dropout: float = 0.0       # no dropout for v14
+    batch_size: int = 1
+    grad_accum: int = 8
+    total_steps: int = 20000
+    lr: float = 3e-4
+    lr_floor_ratio: float = 0.01
+    warmup_steps: int = 500
+    weight_decay: float = 0.01
+    grad_clip: float = 1.0
+    seq_len: int = 4096
+    max_seq_len: int = 4096
+
+    # ── Checkpointing ───────────────────────────────────────────────
+    checkpoint_interval: int = 500
+    eval_interval: int = 500
+    log_interval: int = 25
+    checkpoint_dir: str = "checkpoints/v14"
+    extracted_model_path: str = "checkpoints/v14-extracted/model.npz"
+
+    # ── Data ────────────────────────────────────────────────────────
+    data_dir: str = "/Users/mwhitford/data/fractal-bitnet/shards-qwen36"
+    n_train_shards: int = 54
+    n_eval_shards: int = 6
+
+    # ── Derived ─────────────────────────────────────────────────────
 
     @property
-    def n_total_student_layers(self) -> int:
-        """Total student layers across all stacks."""
-        return self.n_stacks * self.n_layers_per_stack  # 33
+    def n_strides(self) -> int:
+        return len(self.strides)
 
     @property
-    def ssa_q_proj_out(self) -> int:
-        """SSA Q projection output dim (= d_model for square weight)."""
-        return self.n_heads * self.head_dim  # 8 * 160 = 1280
+    def n_passes(self) -> int:
+        return (len(self.stack_a_bands)
+                + len(self.stack_b_bands)
+                + len(self.stack_c_bands))
 
     @property
-    def ssa_kv_proj_out(self) -> int:
-        """SSA K/V projection output dim (GQA)."""
-        return self.n_kv_heads * self.head_dim  # 4 * 160 = 640
+    def tokens_per_step(self) -> int:
+        return self.batch_size * self.grad_accum * self.seq_len
 
-    @property
-    def gla_q_proj_out(self) -> int:
-        """GLA Q projection output dim."""
-        return self.gla_n_heads * self.gla_head_dim  # 8 * 128 = 1024
-
-    @property
-    def gla_v_proj_out(self) -> int:
-        """GLA V projection output dim (= d_model)."""
-        return self.gla_n_heads * self.gla_v_head_dim  # 8 * 160 = 1280
-
-    @property
-    def teacher_model_path_expanded(self) -> Path:
-        """Teacher path with ~ expanded."""
-        return Path(self.teacher_model_path).expanduser()
-
-    def __post_init__(self) -> None:
-        # Sanity-check derived dimensions
-        assert self.d_model % self.n_heads == 0, (
-            f"d_model ({self.d_model}) must be divisible by n_heads ({self.n_heads})"
-        )
-        assert self.d_model % 16 == 0, (
-            f"d_model ({self.d_model}) must be divisible by 16 for ternary packing"
-        )
-        assert self.gla_v_proj_out == self.d_model, (
-            f"GLA v_proj_out ({self.gla_v_proj_out}) must equal d_model ({self.d_model})"
-        )
-        assert self.ssa_q_proj_out == self.d_model, (
-            f"SSA q_proj_out ({self.ssa_q_proj_out}) must equal d_model ({self.d_model})"
-        )
-        assert self.zone_a_end == self.zone_b_start, "Zone A/B must be contiguous"
-        assert self.zone_b_end == self.zone_c_start, "Zone B/C must be contiguous"
-        assert self.zone_c_end == self.teacher_n_layers, (
-            f"Zone C must cover all teacher layers (ends at {self.zone_c_end}, "
-            f"teacher has {self.teacher_n_layers})"
-        )
+    def __post_init__(self):
+        assert self.d_model % self.n_heads == 0
+        assert self.d_model % 16 == 0
+        assert len(self.stride_is_retrieval) == len(self.strides)
 
 
 # ══════════════════════════════════════════════════════════════════════
-# § 5  Helper functions
+# § 5  Self-test
 # ══════════════════════════════════════════════════════════════════════
 
-def student_layer_type(layer_idx: int) -> Literal["gla", "ssa"]:
-    """Return "gla" or "ssa" for student layer index within a stack (0-based).
-
-    The pattern repeats identically across all three stacks:
-      Positions 0,1,2 → gla
-      Position 3      → ssa
-      Positions 4,5,6 → gla
-      Position 7      → ssa
-      Positions 8,9   → gla
-      Position 10     → ssa
-
-    Args:
-        layer_idx: Layer index within a single stack, 0 ≤ layer_idx < N_LAYERS_PER_STACK.
-
-    Returns:
-        "gla" or "ssa".
-
-    Raises:
-        ValueError: If layer_idx is out of bounds.
-    """
-    if not (0 <= layer_idx < N_LAYERS_PER_STACK):
-        raise ValueError(
-            f"layer_idx {layer_idx} out of bounds for N_LAYERS_PER_STACK={N_LAYERS_PER_STACK}"
-        )
-    return LAYER_PATTERN[layer_idx]
-
-
-def teacher_layer_for_student(stack: str, layer: int) -> int:
-    """Map a student (stack, layer) pair to its source teacher layer index.
-
-    The mapping is a uniform linear interpolation across the zone assigned
-    to each stack:
-
-        teacher_layer = zone_start + round(layer * zone_length / n_layers_per_stack)
-
-    This places student layer 0 at the zone start and student layer
-    (N_LAYERS_PER_STACK - 1) near (but not at) the zone end, distributing
-    attention sources evenly across each zone.
-
-    Args:
-        stack: One of "stack_a", "stack_b", "stack_c".
-        layer: Student layer index within the stack, 0 ≤ layer < N_LAYERS_PER_STACK.
-
-    Returns:
-        Teacher layer index (0-based).
-
-    Raises:
-        ValueError: If stack or layer are invalid.
-
-    Examples:
-        >>> teacher_layer_for_student("stack_a", 0)
-        0                 # zone A start
-        >>> teacher_layer_for_student("stack_a", 5)
-        7                 # midpoint of zone A
-        >>> teacher_layer_for_student("stack_b", 0)
-        16                # zone B start
-        >>> teacher_layer_for_student("stack_c", 10)
-        62                # near zone C end
-    """
-    if stack not in ZONE_STARTS:
-        raise ValueError(
-            f"Unknown stack {stack!r}. Must be one of {sorted(ZONE_STARTS.keys())}"
-        )
-    if not (0 <= layer < N_LAYERS_PER_STACK):
-        raise ValueError(
-            f"layer {layer} out of bounds for N_LAYERS_PER_STACK={N_LAYERS_PER_STACK}"
-        )
-    zone_start = ZONE_STARTS[stack]
-    zone_length = ZONE_LENGTHS[stack]
-    teacher_idx = zone_start + round(layer * zone_length / N_LAYERS_PER_STACK)
-    # Clamp to zone bounds (defensive — rounding should not exceed zone_end - 1)
-    zone_end = zone_start + zone_length - 1
-    return min(teacher_idx, zone_end)
-
-
-def teacher_layer_type(teacher_layer: int) -> Literal["linear_attn", "full_attn"]:
-    """Return the attention type of a teacher layer.
-
-    Qwen3.6-27B uses pattern [L,L,L,F] × 16:
-      linear_attn: (layer % 4) in {0, 1, 2}
-      full_attn:   (layer % 4) == 3
-
-    Args:
-        teacher_layer: Teacher layer index (0-based, 0 ≤ teacher_layer < 64).
-
-    Returns:
-        "linear_attn" or "full_attn".
-    """
-    if teacher_layer % TEACHER_CYCLE == TEACHER_FULL_AT:
-        return "full_attn"
-    return "linear_attn"
-
-
-def zone_for_stack(stack: str) -> tuple[int, int]:
-    """Return (start, end_exclusive) teacher layer range for a stack.
-
-    Args:
-        stack: One of "stack_a", "stack_b", "stack_c".
-
-    Returns:
-        (zone_start, zone_end) tuple where zone_end is exclusive.
-    """
-    if stack not in ZONE_STARTS:
-        raise ValueError(
-            f"Unknown stack {stack!r}. Must be one of {sorted(ZONE_STARTS.keys())}"
-        )
-    start = ZONE_STARTS[stack]
-    end = start + ZONE_LENGTHS[stack]
-    return (start, end)
-
-
-def ffn_layers_for_stack(stack: str) -> tuple[int, ...]:
-    """Return the 3 representative teacher layer indices for FFN zone-voting.
-
-    Args:
-        stack: One of "stack_a", "stack_b", "stack_c".
-
-    Returns:
-        Tuple of 3 teacher layer indices (early, mid, late within zone).
-    """
-    if stack not in ZONE_FFN_LAYERS:
-        raise ValueError(
-            f"Unknown stack {stack!r}. Must be one of {sorted(ZONE_FFN_LAYERS.keys())}"
-        )
-    return ZONE_FFN_LAYERS[stack]
-
-
-# ══════════════════════════════════════════════════════════════════════
-# § 6  Module-level self-test (runs when imported)
-# ══════════════════════════════════════════════════════════════════════
-
-def _self_test() -> None:
-    """Verify all derived quantities are consistent at import time."""
+def _self_test():
     cfg = V14Config()
-
-    # Check total student layers
-    assert cfg.n_total_student_layers == 33
-
-    # Check SSA/GLA projection dimensions
-    assert cfg.ssa_q_proj_out == 1280
-    assert cfg.ssa_kv_proj_out == 640
-    assert cfg.gla_q_proj_out == 1024
-    assert cfg.gla_v_proj_out == 1280  # must equal d_model
-
-    # Check teacher GLA row splits
-    assert TEACHER_GLA_Q_ROWS == 2048
-    assert TEACHER_GLA_K_ROWS == 2048
-    assert TEACHER_GLA_V_ROWS == 6144
-    assert TEACHER_GLA_Q_ROWS + TEACHER_GLA_K_ROWS + TEACHER_GLA_V_ROWS == 10240
-
-    # Check zone coverage
-    assert ZONE_A_START == 0
-    assert ZONE_C_END == TEACHER_N_LAYERS == 64
-    assert ZONE_A_END == ZONE_B_START
-    assert ZONE_B_END == ZONE_C_START
-
-    # Check layer type pattern counts
-    assert sum(1 for t in LAYER_PATTERN if t == "gla") == 8
-    assert sum(1 for t in LAYER_PATTERN if t == "ssa") == 3
-
-    # Check helper functions
-    assert student_layer_type(0) == "gla"
-    assert student_layer_type(3) == "ssa"
-    assert student_layer_type(7) == "ssa"
-    assert student_layer_type(10) == "ssa"
-
-    # Check teacher_layer_for_student boundaries
-    assert teacher_layer_for_student("stack_a", 0) == 0    # zone A start
-    assert teacher_layer_for_student("stack_b", 0) == 16   # zone B start
-    assert teacher_layer_for_student("stack_c", 0) == 48   # zone C start
-
-    # Check teacher_layer_type follows [L,L,L,F] pattern
-    assert teacher_layer_type(0) == "linear_attn"
-    assert teacher_layer_type(3) == "full_attn"
-    assert teacher_layer_type(7) == "full_attn"
-    assert teacher_layer_type(63) == "full_attn"
-    assert teacher_layer_type(62) == "linear_attn"
-
-    # Check FFN zone layers are within bounds
-    for stack, layers in ZONE_FFN_LAYERS.items():
-        start, end = zone_for_stack(stack)
-        for l in layers:
-            assert start <= l < end, (
-                f"FFN layer {l} for {stack} out of zone [{start}, {end})"
-            )
+    assert cfg.d_model == 1280
+    assert cfg.d_head == 160
+    assert cfg.n_strides == 16
+    assert cfg.n_passes == 13
+    assert cfg.n_heads * cfg.d_head == cfg.d_model
+    assert cfg.d_ff == 4 * cfg.d_model
+    assert sum(1 for r in cfg.stride_is_retrieval if r) == 6   # 6 retrieval strides
+    assert sum(1 for r in cfg.stride_is_retrieval if not r) == 10  # 10 composition strides
+    assert len(cfg.stride_is_retrieval) == cfg.n_strides
+    print("config.py self-test: ✓")
 
 
 _self_test()
