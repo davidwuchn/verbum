@@ -874,19 +874,24 @@ def run_extraction(
             log(f"\n  Stack: {stack_name}")
             for layer_idx in range(N_LAYERS_PER_STACK):
                 teacher_layer = teacher_layer_for_student(stack_name, layer_idx)
-                layer_type = student_layer_type(layer_idx)
+                t_layer_type = teacher_layer_type(teacher_layer)
+                s_layer_type = student_layer_type(layer_idx)
                 t_layer = time.time()
 
                 log(f"  [{stack_name}/layer {layer_idx:02d}] "
                     f"→ teacher layer {teacher_layer} "
-                    f"({teacher_layer_type(teacher_layer)}) "
-                    f"→ student type: {layer_type.upper()}")
+                    f"({t_layer_type}) "
+                    f"→ student type: {s_layer_type.upper()}")
 
-                if layer_type == "ssa":
+                # Dispatch based on TEACHER layer type (determines which
+                # tensors exist in the teacher safetensors). The student
+                # gets Q/K/V/O plates regardless of its own layer type —
+                # sign topology is architecture-independent (r=0.998).
+                if t_layer_type == "full_attn":
                     plates = extract_ssa_plates(
                         teacher_path, teacher_layer, cfg, n_rotations
                     )
-                else:  # gla
+                else:  # linear_attn
                     plates = extract_gla_plates(
                         teacher_path, teacher_layer, cfg, n_rotations
                     )
