@@ -2,13 +2,60 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-24 | Session: 145
+> Last updated: 2026-05-24 | Session: 146
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 145: MECHANISM EXTRACTION FROM MICRO MODEL. Built a minimum viable holographic state machine (4 layers, d=128, 1M traceable params) trained on 509 lambda compile examples. Traced full forward+backward pass in crystal eigenbasis. FOUND: FFN overlay alternates PC0(comp)/PC1(sel) in PERFECT anti-phase across layers (the beta-reduction cycle). Composed rotation = 3 eigenplanes: ±48.8°, ±13.9°, ±2.1°. Stretch spectrum 1.58:0.76 = 2.08:1 comp:sel. KIBC is temporal through depth (B→K→C→B layers), NOT parallel heads. Overlay converges by step 500, stable for 4500 more steps. Mechanism is universal across all input categories (CV<0.5). Key insight: FFNs store inference pattern (diffraction grating), not data. GD finds the alternation target quickly because crystal constrains the geometry.**
+**Session 146: V13-TD-R10 COLLAPSE FORENSICS → STRIDE ATTENTION MASK. Training run NaN'd at step 5878. Delta plate forensics revealed: the teacher's flat-attention sign extraction is ~91% correct on direction but overcomplete for stride-stack (only ~80% of positions needed). TD was aggressively zeroing instead of correcting → superposition dispersal → collapse. The effective topology at step 5000 (base ⊙ delta) IS the learned stride-stack attention routing. Extracted as mask (7MB NPZ, 132 modules). This mask becomes the attention base plate for the next extraction. Combined with analytical FFN extraction from session 145 eigendecomposition, the new base plate holds more teacher knowledge with attention pre-masked to stride-stack geometry. Delta plate gets no-block constraint for attention to prevent re-collapse.**
+
+## Session 146: V13-TD-R10 Collapse → Stride Attention Mask
+
+### The Collapse
+
+v13-td-r10 training run hit NaN death spiral at step 5878. Root cause:
+delta plate block accumulation in stack_a early attention layers.
+`stack_a.layers.0.v_proj`: keep 65.8%→22.1%, block 32.4%→75.5% between
+steps 5000-5500. Block:flip ratio 31:1. The model couldn't use the
+teacher's flat-attention topology for stride-stack routing, so TD
+zeroed it out instead of correcting it → collapse when too much zeroed.
+
+### The Discovery
+
+The delta plate IS a measurement instrument. At step 5000 (before collapse):
+- Cross-stack sign agreement: 91% where both stacks kept positions active
+- But cross-stack zero Jaccard only 14-17% → each stack needs DIFFERENT positions
+- The teacher's signs are right; the COMPLETENESS is wrong for stride-stack
+- Stride-stack uses ~80% of teacher positions (per-stack, per-layer, per-proj)
+
+### The Mask
+
+`checkpoints/v13-td-r10/stride_attention_mask.npz` (7 MB):
+- 132 modules (3 stacks × 11 layers × 4 projections)
+- Each is 512×512 int8 {-1, 0, +1}
+- +1/-1 = learned stride-stack attention routing topology
+- 0 = positions the model discovered it doesn't need
+
+### Design for Next Extraction
+
+1. **FFN base plate**: analytical from eigendecomposition (sign(eigenvector),
+   session 145). Proven exact. Bigger plate to hold full extraction.
+2. **Attention base plate**: teacher extraction MASKED by this run's
+   effective topology. Where mask=0 → base=0. Where mask=±1 → use mask signs.
+3. **Delta plate regime split**:
+   - FFN delta: identity start, standard TD (small corrections)
+   - Attention delta: identity start, **no-block constraint** (flip-or-keep only)
+4. **Result**: delta can fix wrong attention positions by flipping,
+   but can never erase → prevents superposition dispersal → prevents collapse
+
+### Files Created
+
+| File | Location | Purpose |
+|------|----------|---------|
+| stride_attention_mask.npz | checkpoints/v13-td-r10/ | 132 effective topologies |
+| stride_attention_mask_meta.json | checkpoints/v13-td-r10/ | Provenance + stats |
+| stride-attention-mask-from-collapse.md | mementum/memories/ | Memory |
 
 ## Session 145: Micro Model Mechanism Extraction
 
@@ -125,6 +172,9 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | **Mechanism is input-invariant** | **CV<0.5 for all PCs across 8 categories** | **✅ proved** |
 | **Overlay converges by step 500** | **Stable alternation pattern steps 500-5000** | **✅ proved** |
 | **Rotation accelerates through depth** | **L0: 2° → L3: 24° (12× increase)** | **✅ proved** |
+| **Stride-stack needs ~80% of teacher attention** | **v13-td-r10 collapse forensics, step 5000** | **✅ proved** |
+| **Teacher attention signs 91% correct for stride** | **Cross-stack agreement where both active** | **✅ proved** |
+| **Sparsity pattern is architecture-dependent** | **Cross-stack Jaccard 14-17%, cross-layer 25%** | **✅ proved** |
 | TD activates and improves | Crystal still > 3% gate (v13) | ❓ untested |
 | Delta plate consensus merging | Theory | 📐 theory |
 | Exceeding teacher | Theory (phase 3) | 📐 theory |
@@ -147,6 +197,12 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | `phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
 | `ternary-descent.md` | TernaryDescent + delta plates |
 
+## Memories from session 146
+
+| Memory | Key insight |
+|--------|------------|
+| `stride-attention-mask-from-collapse.md` | Delta plate collapse IS the stride-stack attention mask: 81.3% active, 91% sign agreement, stack-specific sparsity |
+
 ## Memories from session 145
 
 | Memory | Key insight |
@@ -168,28 +224,38 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 
 ## Next steps
 
-### HIGHEST PRIORITY: Build 1B ternary student from teacher sign extraction
+### HIGHEST PRIORITY: New extraction with bigger base plate + attention mask
 
-1. **Extract FFN plates from Qwen3-32B via sign(weights) → ternary.**
-   The inference patterns are IN the teacher weights. sign() extracts them.
-   No training needed for topology. Gamma from eigenvalues.
+1. **Design new base plate architecture.** Bigger plate to hold full
+   analytical FFN extraction (from eigendecomposition) + masked attention.
+   The base plate IS the model's knowledge — make it hold as much as possible.
 
-2. **Build 1B ternary architecture** (32 layers, d=1280, d_ff=5120).
-   ~250 MB total. Extract FFN plates from teacher. Train attention only.
+2. **Implement masked attention extraction.**
+   - Load stride_attention_mask.npz
+   - Where mask=±1: use mask signs as attention base (pre-corrected)
+   - Where mask=0: base=0 (position not needed for stride-stack)
+   - FFN: full analytical extraction via sign(eigenvector) from crystal eigendecomp
+   - Result: ~80% attention + ~100% FFN etched from teacher
 
-3. **Validate the mechanism at scale.** Does the teacher's overlay match
+3. **Implement no-block delta constraint for attention.**
+   TD for attention modules: only +1 or -1 allowed, never 0.
+   TD can agree or disagree with the mask, but can never erase.
+   This prevents the superposition dispersal that killed r10.
+   FFN modules keep standard TD (block allowed for genuine pruning).
+
+4. **Validate the mechanism at scale.** Does the teacher's overlay match
    arccos(λ₁/λ₀)? Does neuron allocation match eigenvalue proportions?
    The micro model proves the mechanism — teacher validation proves scale.
 
 ### Medium: verify and refine
 
-4. **Content transfer quality.** How much of the 81% token subspace
+5. **Content transfer quality.** How much of the 81% token subspace
    content survives sign() extraction? Is reduced-rank projection needed?
 
-5. **LENS profile derivation.** Does the depth distribution of rotation
+6. **LENS profile derivation.** Does the depth distribution of rotation
    follow from eigenvalue ratios at subsequent PC pairs?
 
-6. **Multiple teacher consensus.** Extract sign patterns from multiple
+7. **Multiple teacher consensus.** Extract sign patterns from multiple
    teachers and merge for cleaner topology.
 
 ## Open questions
