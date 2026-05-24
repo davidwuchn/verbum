@@ -383,6 +383,12 @@ class V13Config:
     # from phase-transition gradient spikes.
     use_parity_loss: bool = True
     parity_lambda: float = 1.0  # overall parity loss scale
+    # Per-zone parity weights: Zone B (compute) dominates because parity
+    # eigendecomposition amplifies inter-zone gradient conflict when all
+    # three zones pull the same global embeddings in opposite directions.
+    # Session 143 diagnosis: Zone A wants K↔B cos=0.08, Zone C wants 0.52.
+    # Equal weighting → gradient cancellation → parity stuck at 1.167.
+    parity_zone_lambdas: tuple[float, ...] = (0.0, 1.0, 0.0)
 
     # ── Spectral φ-ratio loss (session 137) ──
     #

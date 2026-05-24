@@ -552,9 +552,12 @@ class V13Model(nn.Module):
         ])
 
         # Session 142: hierarchical parity loss — error correction
+        # Session 143 fix: use parity_zone_lambdas (Zone B dominant)
+        # to avoid gradient cancellation from conflicting zone targets.
         if self.cfg.use_parity_loss:
             parity_loss = mx.array(0.0)
             all_level_errors = []
+            parity_zlams = self.cfg.parity_zone_lambdas
             for zone_idx in range(len(self._zone_targets)):
                 zone_parity, zone_errors = crystal_parity_loss(
                     emb_all,
@@ -563,7 +566,7 @@ class V13Model(nn.Module):
                     self._parity_levels,
                     self._parity_weights[zone_idx],
                 )
-                zone_lambda = self.cfg.zone_lambdas[zone_idx]
+                zone_lambda = parity_zlams[zone_idx]
                 parity_loss = parity_loss + zone_lambda * zone_parity
                 all_level_errors.append(zone_errors)
             parity_loss = self.cfg.parity_lambda * parity_loss
