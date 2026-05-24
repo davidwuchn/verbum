@@ -2,128 +2,105 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-24 | Session: 144
+> Last updated: 2026-05-24 | Session: 145
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 144: PARITY GRADIENT CANCELLATION FIXED + EINSTEIN TENSOR DISCOVERY. Three-zone parity targets on one crystal → gradient opposition → loss stuck at 1.167 for 2000 steps. Fix: Zone B only `(0.0, 1.0, 0.0)`. Parity: 1.167 → 0.039. Then: Einstein tensor probe reveals the crystal manifold IS CURVED (geodesic/linear = 0.75). Student naturally sits on the Riemannian mean, not Zone B. Geodesic loss would be 10× smaller. G_ab has clean even/odd PC decoupling matching the dual crystal structure. Holonomy shows PC6/PC7 losing 11% — fine structure most damaged by flat targets. Run 10+parity4 running overnight. TOMORROW: explore Einstein tensor as curvature-aware parity loss.**
+**Session 145: MECHANISM EXTRACTION FROM MICRO MODEL. Built a minimum viable holographic state machine (4 layers, d=128, 1M traceable params) trained on 509 lambda compile examples. Traced full forward+backward pass in crystal eigenbasis. FOUND: FFN overlay alternates PC0(comp)/PC1(sel) in PERFECT anti-phase across layers (the beta-reduction cycle). Composed rotation = 3 eigenplanes: ±48.8°, ±13.9°, ±2.1°. Stretch spectrum 1.58:0.76 = 2.08:1 comp:sel. KIBC is temporal through depth (B→K→C→B layers), NOT parallel heads. Overlay converges by step 500, stable for 4500 more steps. Mechanism is universal across all input categories (CV<0.5). Key insight: FFNs store inference pattern (diffraction grating), not data. GD finds the alternation target quickly because crystal constrains the geometry.**
 
-## Session 144: Parity Loss Gradient Cancellation Fix
+## Session 145: Micro Model Mechanism Extraction
 
-### The Problem: Three-Zone See-Saw
+### The Approach
 
-Parity loss was stuck at 1.167 for 2000 steps (steps 1750–3500). Root cause:
+Instead of probing the 26.5M v13 model (too complex to trace), built a
+microscope: a ~1M-param transformer trained on pure lambda calculus data.
+Small enough to read every weight, every gradient, every activation. Crystal
+embeddings pre-initialized from Zone B eigenstructure → instant latch (0.000000).
 
-- Parity loss eigendecomposes each zone's target cosine matrix separately
-- Then projects the SAME global `combinator_embeddings` into each zone's eigenbasis
-- Zone A wants K↔B cos=0.08 (selection phase, low correlation)
-- Zone C wants K↔B cos=0.52 (convergence phase, high correlation)
-- Equal zone weighting → opposing gradients → net gradient ≈ 0
+### Key Findings
 
-The crystal found a compromise (K↔B cos=0.27) equidistant from all three zones. Crystal lattice MSE was fine with this (MSE is linear, averages cleanly). But parity loss amplifies via eigendecomposition — three incompatible eigenstructures can't be averaged.
-
-Result: **crosstalk** in the holographic beamformer. PC0↔PC2 coupling = -0.779 (should be 0), PC1↔PC3 coupling = -0.463. The readout beam was defocused — rotating Q to one basin illuminated a blurred superposition of multiple basins.
-
-### The Fix: Zone B Only for Parity
-
-Added `parity_zone_lambdas` config (separate from `zone_lambdas` used by crystal MSE):
-- First attempt: `(0.1, 1.0, 0.3)` → parity dropped 1.167→0.291 but stuck (2-way see-saw)
-- Final: `(0.0, 1.0, 0.0)` → parity dropped to 0.039 on first step, gnorm only 44.5
-
-**Why Zone B only**: crystal lattice loss (MSE) already handles three-zone cosine compromise. Cross-zone lens rotation loss handles inter-zone differences. Parity's job is dimensional hierarchy protection — one hierarchy, one zone. Zone B is where beta reductions happen.
-
-### Checkpoint Analysis at Step 3500
-
-| Metric | Value |
-|--------|-------|
-| CE (last50 avg) | 9.03 (best single: 7.06) |
-| Crystal EMA | 0.0305 (gate at 3%, TD imminent) |
-| Parity | 1.167 → 0.039 (after fix) |
-| Eval PPL | 11,415 |
-| TD flips | 0 (gate not yet breached) |
-| Model params | 26.5M (905 arrays) |
-
-Crystal structure at step 3500:
-- Composition cluster (B,C,D,Y,W): 0.790 mean cosine ✅
-- WHNF anti-correlation: -0.168 ✅
-- K↔I pair: 0.852 ✅
-- Eigenvector alignment: >0.97 for PCs 0-5 (right shape, wrong magnitudes)
-- Anti-crystal cluster: 0.857 (stronger than positive crystal)
-- S5 identity: all 64 dims saturated at ±0.999
-
-### Einstein Tensor Probe: The Crystal IS a Curved Manifold
-
-Ran `scripts/explore/probe_einstein_crystal.py` on the step 3500 checkpoint. Key findings:
-
-**Geodesic test**: MSE(geodesic_midpoint, Zone B) / MSE(linear_midpoint, Zone B) = **0.75**. The Riemannian mean of Zone A and Zone C is 25% closer to Zone B than linear interpolation. The manifold has significant curvature.
-
-**Student position**: The student is closer to the geodesic (dist=0.030) than to Zone B (dist=0.048). Gradient descent naturally found the Riemannian mean — the "compromise" we thought was a problem was actually geometrically correct. The flat parity targets were fighting the manifold's natural geometry.
-
-**Einstein tensor G_ab** in Zone B eigenbasis:
+**1. Alternating Overlay (The Beta-Reduction Cycle)**
 ```
-         PC0     PC1     PC2     PC3
-PC0    +2.04    0.00   +0.39    0.00    ← even PCs couple
-PC1     0.00   +2.05    0.00   +0.11    ← odd PCs couple
-PC2    +0.39    0.00   +1.59    0.00    ← even/odd decouple
-PC3     0.00   +0.11    0.00   +1.08
+Layer  PC0(comp)  PC1(sel)
+  0    -0.095    +0.118    suppress comp, allow sel
+  1    +0.203    -0.167    allow comp, suppress sel
+  2    -0.279    +0.193    suppress comp, allow sel
+  3    +0.271    -0.197    allow comp, suppress sel
 ```
-Clean even/odd block structure = composition PCs (0,2,4,6) rotate independently of selection PCs (1,3,5,7). The off-diagonal G couplings (PC0↔PC2=0.39) are exactly the crosstalk the parity loss was showing.
+Perfect anti-phase. The FFN grating alternates between composition mode and
+selection mode at every layer. This IS the beta-reduction cycle.
 
-**Holonomy** (parallel transport deficit A→B→C vs A→C direct):
+**2. Three Rotation Eigenplanes**
 ```
-PC6: -11.1%    ← fine structure most damaged by flat targets
-PC7: -10.7%    ← fine structure most damaged
-PC3: +6.6%     ← routing axis stretched
-PC2: +3.3%
+±48.8°  — primary: comp↔sel rotation (beta-reduction plane)
+±13.9°  — secondary: fine structure
+±2.1°   — tertiary: micro-correction
 ```
+Stretch: 1.58× amplify (comp direction) to 0.76× compress (sel direction).
+The model is a 48.8° rotation + 2.08:1 stretch in the comp↔sel plane.
 
-**Loss comparison**:
+**3. KIBC is Temporal, Not Parallel**
 ```
-Flat loss (3-zone avg):    0.00952
-Geodesic loss (midpoint):  0.00090   ← 10× smaller
+Layer 0: All heads = B (compose)     — aperture
+Layer 1: H2 = K (select, max=0.68)  — selection emerges
+Layer 2: H2/H3 = C (route/flip)     — routing
+Layer 3: H0 = C, rest = B           — convergence
 ```
+The combinators are the LAYERS. B→K→C→B is the depth sequence.
 
-**Implication**: Replace per-zone parity with a single geodesic-aware target (Riemannian mean of the three zone cosine matrices). The Einstein tensor's even/odd block structure could be used as the parity eigenbasis instead of per-zone eigendecomposition.
+**4. Accelerating Rotation Through Depth**
+```
+Layer 0: 2.1°  → Layer 1: 8.8° → Layer 2: 13.7° → Layer 3: 23.9°
+```
+The LENS profile in angular form. Layer 3 rotates 12× more than Layer 0.
 
-### Files Changed
+**5. Universality**
+Tested across 12 examples, 8 categories. All PCs amplify universally (CV<0.5).
+Overlay alternation identical across simple, transitive, quantified, conditional,
+negation, prepositional, copular inputs. The mechanism is input-invariant.
 
-| File | Change |
-|------|--------|
-| `scripts/v13/config.py` | Added `parity_zone_lambdas: (0.0, 1.0, 0.0)` with diagnosis comment |
-| `scripts/v13/model.py` | Parity loss loop uses `parity_zone_lambdas` instead of `zone_lambdas` |
-| `scripts/explore/probe_einstein_crystal.py` | Einstein tensor probe (new) |
+**6. Overlay Converges Fast, Stays Stable**
+The alternation pattern is established by step 500. Steps 500-5000 refine
+the rotation angles but don't change the structure. The cross-coupling
+PC0→PC1 grows monotonically (L3: +0.253 → +0.381).
 
-### Training Runs
+### Files Created
 
-| Run | Config | Key result |
-|-----|--------|-----------|
-| run6 | Crystal warmup 10→3 | crystal_loss 0.35 at step 250 ✅ |
-| run7 | + TD→Adam surgical decay | Less see-saw ✅ |
-| run8 | + geometry losses | CE=11.58, crystal=0.22 at step 500. Stopped. |
-| run9 | + SwiGLU gate plate + zone-voted FFN | CE=8.63 at step 1075. **NaN at step 1225.** |
-| run10 | + exp caps + NaN guards + optimizer restore | CE=7.63 at step 1425. Through phase transition. |
-| run10+parity | + parity + cross-zone lens | Parity stuck at 1.167 for 2000 steps. |
-| **run10+parity4** | **+ parity_zone_lambdas (0.0, 1.0, 0.0)** | **Parity 1.167→0.039. Running.** |
+| File | Purpose |
+|------|---------|
+| `scripts/micro/micro_model.py` | Model + crystal init + trace hooks |
+| `scripts/micro/train_micro.py` | Training loop on compile data |
+| `scripts/micro/trace_computation.py` | Forward+backward trace |
+| `scripts/micro/deep_trace.py` | Full mechanism extraction |
+| `scripts/micro/universality_probe.py` | Cross-example universality |
+| `scripts/micro/mechanism_extraction.py` | Head mapping + rotation + GD |
+
+### Checkpoints
+
+| Checkpoint | Key metrics |
+|-----------|------------|
+| `checkpoints/micro/step_001000/` | CE=0.42, crystal=0.000000 |
+| `checkpoints/micro/final/` | CE=0.40, crystal_ema=2.86e-15, 5000 steps |
 
 ## Previous sessions
 
+### Session 144: Parity Gradient Cancellation + Einstein Tensor
+
+Three-zone parity = gradient opposition. Zone B only: 1.167→0.039. Crystal manifold IS curved (geodesic/linear=0.75). G_ab has even/odd block structure. Student sits on Riemannian mean.
+
 ### Session 142: Holographic State Machine + Crystal Error Correction
 
-THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crystal basins = states, Q rotation = readout beam, gate = beamformer. NaN collapse root-caused → crystal_factor exp overflow at phase transition (crystal_loss ≈ 0.16). Built hierarchical crystal parity loss + cross-zone lens rotation loss. Run 10 live: CE 11.27→7.63, crystal 0.47→0.077.
+THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crystal basins = states, Q rotation = readout beam, gate = beamformer. Built hierarchical crystal parity loss + cross-zone lens rotation loss.
 
 ### Session 141: FFN Holographic Indexing + Output Beamformers + SwiGLU
 
-FFNs are holographic plates — input direction selects beta reductions from superposition (ρ=0.83 input→FFN, ρ=0.40 FFN→category). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons = beamformer. Added ffn_gate_plate + SwiGLU + zone-voted FFN extraction.
+FFNs are holographic plates — input direction selects beta reductions from superposition (ρ=0.83). Depth profile is a LENS (aperture 3% → fan 49% → converge 2%). Gate kills 89% of L63 neurons = beamformer.
 
 ### Session 140: S5 Crystal Custodian + Categorical Geometry
 
-Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD→Adam surgical decay. Confirmed Curry-Howard (100% L16), adjunctions (rank-1), hyperbolic norms (ρ=0.49).
-
-### Session 139: Full Etch + Type Probes + Crystal-Gated TD
-
-Proved KIBC selectivity universal (r=0.998). Types are lexical (88% in embeddings). Built full teacher extraction: 82.2% of model etched.
+Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD→Adam surgical decay. Confirmed Curry-Howard (100% L16), adjunctions (rank-1).
 
 ## Proof chain
 
@@ -133,32 +110,31 @@ Proved KIBC selectivity universal (r=0.998). Types are lexical (88% in embedding
 | KIBC-DYWH basis universal | Found across all architectures | ✅ proved |
 | KIBC selectivity r=0.998 | Qwen3-32B vs Pythia-160M | ✅ proved |
 | Types are lexical (88% embed) | Qwen3-32B type probe | ✅ proved |
-| Types follow B→K→B | Zone A=94.9%, B=92.9%, C=93.1% | ✅ proved |
 | SVD spectrum → phi | 5-model consensus, φ-dev=0.012 | ✅ proved |
 | Compressor = K∘B | FFN tracer: B→K→B program | ✅ proved |
 | FFN indexing is holographic | ρ=0.83 input→FFN, p<10⁻⁴⁴ | ✅ proved |
 | FFN depth = LENS | aperture 3% → fan 49% → converge 2% | ✅ proved |
 | Gate IS the beamformer | 89% of L63 selection from gate | ✅ proved |
-| Delta plates compose losslessly | Ternary × ternary = ternary | ✅ proved |
-| Crystal warmup latch | run6: 0.35 at step 250 | ✅ proved |
-| Crystal has 6D structure | Eigendecomposition of target cosines | ✅ proved |
-| Crystal rotates 11° across zones | PC0↔PC1 coupling: +0.46→0→-0.48 | ✅ proved |
-| Rotation = B→K→B in eigenspace | PC0 grows, PC1 shrinks with depth | ✅ proved |
-| Phase transition at crystal≈0.16 | Reproducible gnorm spike same step in 2 runs | ✅ proved |
-| **Parity gradient cancellation** | **3-zone opposition → stuck 1.167 for 2000 steps** | **✅ proved** |
-| **Zone-B-only parity works** | **1.167→0.039 on first step** | **✅ proved** |
-| **Crystal manifold is curved** | **Geodesic/linear=0.75, G_ab has even/odd block structure** | **✅ proved** |
-| **Student sits on Riemannian mean** | **Student-geodesic=0.030 < Student-ZoneB=0.048** | **✅ proved** |
-| Model is holographic state machine | FFN=storage, crystal=states, Q=beam, gate=selector | 🎯 synthesis |
-| SwiGLU improves CE | run9→10: CE 11.27→7.63 (with fixes) | ✅ proved |
-| TD activates and improves | Not yet — crystal still > 3% gate | ❓ untested |
+| Crystal manifold is curved | Geodesic/linear=0.75, G_ab even/odd | ✅ proved |
+| Parity gradient cancellation | 3-zone opposition → stuck 1.167 | ✅ proved |
+| Zone-B-only parity works | 1.167→0.039 on first step | ✅ proved |
+| Model is holographic state machine | FFN=storage, crystal=states, Q=beam | 🎯 synthesis |
+| **FFN overlay alternates comp/sel** | **micro model: -+-+ / +-+- across 4 layers** | **✅ proved** |
+| **Composed rotation = 3 eigenplanes** | **±48.8°, ±13.9°, ±2.1° + stretch 2.08:1** | **✅ proved** |
+| **KIBC is temporal (layers not heads)** | **B→K→C→B depth sequence in micro model** | **✅ proved** |
+| **Mechanism is input-invariant** | **CV<0.5 for all PCs across 8 categories** | **✅ proved** |
+| **Overlay converges by step 500** | **Stable alternation pattern steps 500-5000** | **✅ proved** |
+| **Rotation accelerates through depth** | **L0: 2° → L3: 24° (12× increase)** | **✅ proved** |
+| TD activates and improves | Crystal still > 3% gate (v13) | ❓ untested |
 | Delta plate consensus merging | Theory | 📐 theory |
 | Exceeding teacher | Theory (phase 3) | 📐 theory |
+| **Overlay derivable from crystal geometry** | **Hypothesis — eigenstructure may determine overlay** | **📐 theory** |
 
 ## Knowledge map
 
 | Page | What it tells you |
 |------|-------------------|
+| **`mechanism-extraction.md`** | **Full micro model mechanism: alternation, eigenplanes, KIBC temporal** |
 | `ffn-beta-reduction-indexing.md` | Holographic indexing, LENS profile, ρ=0.83 |
 | `output-beamformers.md` | L63 dynamic selection, gate=89% |
 | `categorical-geometry-probes.md` | Curry-Howard 100%, adjunctions rank-1 |
@@ -169,42 +145,64 @@ Proved KIBC selectivity universal (r=0.998). Types are lexical (88% in embedding
 | `phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
 | `ternary-descent.md` | TernaryDescent + delta plates |
 
-## Memories from session 144
+## Memories from session 145
 
 | Memory | Key insight |
 |--------|------------|
-| `parity-zone-cancellation.md` | Three-zone parity = gradient opposition. Zone B only. |
-| `einstein-crystal-manifold.md` | Crystal lives on curved manifold. Geodesic/linear=0.75. G_ab has even/odd block structure. |
+| `alternating-overlay-mechanism.md` | FFN overlay alternates comp/sel at every layer = beta-reduction cycle |
+| `kibc-temporal-not-parallel.md` | KIBC is B→K→C→B through depth, not 4 parallel heads |
+| `rotation-eigenplanes.md` | Composed rotation = ±48.8° in comp↔sel plane + stretch 2.08:1 |
 
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
-| **V13 model with Zone-B parity** | `scripts/v13/model.py` |
-| **Run 10 checkpoint (step 3500)** | `checkpoints/v13-td-r10/step_003500/` |
-| **NaN-hardened training loop** | `scripts/v13/train_td.py` |
-| **Full extraction (v2 + gate)** | `scripts/v13/extract_teacher_full.py` |
-| FFN indexing probe | `scripts/explore/probe_ffn_indexing.py` |
-| Output beamformer probe | `scripts/explore/probe_output_beamformers.py` |
-| Categorical geometry probe | `scripts/explore/probe_categorical_geometry.py` |
+| **Micro model (trained, final)** | `checkpoints/micro/final/` |
+| **Mechanism extraction scripts** | `scripts/micro/` (6 scripts) |
+| V13 model with Zone-B parity | `scripts/v13/model.py` |
+| Run 10 checkpoint (step 3500) | `checkpoints/v13-td-r10/step_003500/` |
+| Full extraction (v2 + gate) | `scripts/v13/extract_teacher_full.py` |
 
 ## Next steps
 
-### Immediate: watch run 10+parity4 (overnight)
+### Immediate: derive overlay from crystal geometry
 
-1. **Does parity converge below 0.01?** Started at 0.039. Should drop if Zone B gradient is clean.
-2. **Does crystal_ema breach 3% TD gate?** Was at 3.05% before restart. Resume cost ~200 steps.
-3. **Does lens rotation start moving?** Was flat at +0.001. With parity freed, cross-zone loss may start working.
+1. **Can the alternation amplitudes be computed from the crystal eigenvalues?**
+   The Zone B target matrix has eigenvalues that may determine the overlay
+   diagonal (±0.1 to ±0.3 values).
 
-### Medium: TD activation and delta plate cycle
+2. **Can the rotation angles (48.8°, 13.9°, 2.1°) be derived from the
+   eigenvector structure?** If yes → direct weight computation.
 
-4. **First TD flip**: when crystal < 3%, TD activates. Watch which plates flip first.
-5. **First fold cycle**: fold delta → base, refreeze, reset, retrain. Measure CE improvement.
-6. **Parity-guided flips**: do delta flips that improve low-PC parity converge faster?
+3. **Solve the inverse problem**: given target overlay in crystal space,
+   compute the FFN gate/key/value weights that produce it. This is a
+   constrained optimization (or direct linear algebra) in the known basis.
 
-### Open questions
+### Medium: validate on larger models
 
-7. **How many annealing cycles to recover teacher accuracy?** Each cycle improves hologram.
-8. **When does the student exceed the teacher?** After N cycles, does explicit structure win?
-9. **Can parity loss guide delta plate priorities?** PC0 flips > PC7 flips.
-10. **Cross-model transfer**: does crystal nucleation work with other teacher models?
+4. **Does Qwen3-32B show the same 3 eigenplanes?** Extract the overlay
+   from the teacher and check if ±48.8° appears.
+
+5. **Scale the micro model**: try d=256, 8 layers. Does the structure
+   persist? Do more eigenplanes appear?
+
+### Long-term: analytical extraction
+
+6. **If overlay = f(crystal_eigenstructure)**, then extraction becomes:
+   - Read crystal from teacher (already done)
+   - Compute overlay analytically
+   - Compute FFN weights from overlay
+   - No GD needed for the student at all
+
+## Open questions
+
+7. **Why 48.8°?** Is this angle related to the golden ratio (φ ≈ 1.618)?
+   arctan(φ) ≈ 58.3° — not quite, but arctan(1/φ) ≈ 31.7°. 48.8° ≈ π/3.7.
+
+8. **Why 3 eigenplanes?** The crystal has effective rank 6 (from Zone B
+   eigendecomposition). 6D rotation space has 15 planes; 3 are selected.
+   Which 3 and why?
+
+9. **Is the stretch ratio (2.08:1) related to the crystal eigenvalue ratio?**
+   Zone B top eigenvalues are ~5.5, 2.7, 1.0 — ratio 5.5/2.7 ≈ 2.04.
+   That's suspiciously close to 2.08.
