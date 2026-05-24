@@ -2,15 +2,15 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-24 | Session: 146
+> Last updated: 2026-05-24 | Session: 145
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 146: V13-TD-R10 COLLAPSE FORENSICS → STRIDE ATTENTION MASK. Training run NaN'd at step 5878. Delta plate forensics revealed: the teacher's flat-attention sign extraction is ~91% correct on direction but overcomplete for stride-stack (only ~80% of positions needed). TD was aggressively zeroing instead of correcting → superposition dispersal → collapse. The effective topology at step 5000 (base ⊙ delta) IS the learned stride-stack attention routing. Extracted as mask (7MB NPZ, 132 modules). This mask becomes the attention base plate for the next extraction. Combined with analytical FFN extraction from session 145 eigendecomposition, the new base plate holds more teacher knowledge with attention pre-masked to stride-stack geometry. Delta plate gets no-block constraint for attention to prevent re-collapse.**
+**Session 145 (continued): V13-TD-R10 COLLAPSE → STRIDE ATTENTION MASK → V14 EXTRACTION FROM QWEN3.6-27B. Training run NaN'd at step 5878. Delta plate forensics: teacher flat-attention signs ~91% correct but overcomplete for stride-stack (~80% needed). Extracted stride-stack mask from step 5000. Then built and ran v14 extraction pipeline: Qwen3.6-27B (Apache 2.0, 27.8B, hybrid Gated DeltaNet + Gated Attention) → 1B ternary student (d=1280, 3×11 stacks, hybrid GLA/SSA). Extraction complete: 593M ternary positions, 148 MB packed, 375× compression. Base plates are pure ±1 (no zeros) — the no-block delta constraint will keep them that way during training.**
 
-## Session 146: V13-TD-R10 Collapse → Stride Attention Mask
+## Session 145 (continued): V13-TD-R10 Collapse → V14 Extraction
 
 ### The Collapse
 
@@ -49,12 +49,35 @@ The delta plate IS a measurement instrument. At step 5000 (before collapse):
 4. **Result**: delta can fix wrong attention positions by flipping,
    but can never erase → prevents superposition dispersal → prevents collapse
 
+### V14 Extraction from Qwen3.6-27B (Apache 2.0)
+
+Built and ran full extraction pipeline. Teacher: 27.8B hybrid model with
+Gated DeltaNet (linear attn, 48 layers) + Gated Attention (full attn, 16
+layers) in [L,L,L,F] × 16 pattern. This maps directly to our stride-stack:
+- Teacher Gated DeltaNet → student GLA strides
+- Teacher Gated Attention → student SSA strides
+- Teacher SwiGLU FFN → student holographic plates (zone-voted)
+
+Extraction results:
+- 593M ternary positions (0.59B), 148 MB at 2 bits
+- 142 arrays: 1 embedding + 132 attention + 9 FFN (shared per stack)
+- Sign distribution: 50.1% negative, 49.9% positive, 0% zeros
+- Compression: 375× from 27.8B teacher
+- Time: 25.4 minutes on CPU (SVD tomographic voting, 8 rotations)
+
+Student architecture: d=1280, d_ff=5120, 3 stacks × 11 layers, hybrid
+GLA/SSA in pattern [G,G,G,S,G,G,G,S,G,G,S] (8 GLA + 3 SSA per stack).
+
 ### Files Created
 
 | File | Location | Purpose |
 |------|----------|---------|
-| stride_attention_mask.npz | checkpoints/v13-td-r10/ | 132 effective topologies |
+| stride_attention_mask.npz | checkpoints/v13-td-r10/ | 132 effective topologies from collapsed run |
 | stride_attention_mask_meta.json | checkpoints/v13-td-r10/ | Provenance + stats |
+| config.py | scripts/v14/ | 1B student architecture + teacher mapping |
+| extract_qwen36.py | scripts/v14/ | Full extraction pipeline |
+| model.npz | checkpoints/v14-extracted/ | Extracted base plates (81 MB compressed) |
+| state.json | checkpoints/v14-extracted/ | Extraction provenance |
 | stride-attention-mask-from-collapse.md | mementum/memories/ | Memory |
 
 ## Session 145: Micro Model Mechanism Extraction
@@ -181,6 +204,7 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | **Rotation = arccos(λ₁/λ₀) = 47.1°** | **Cumulative 48.5° across 4 layers, error 1.4°** | **✅ proved** |
 | **Overlay amplitude ∝ crystal eigenvalue** | **r = 0.97 correlation** | **✅ proved** |
 | **Amplitude ratio → λ₀/λ₁ through depth** | **L1: √(λ₀/λ₁) match, L2: λ₀/λ₁ match** | **✅ proved** |
+| **Qwen3.6-27B extractable to 593M ternary** | **v14 extraction: 375× compression, pure ±1** | **✅ proved** |
 
 ## Knowledge map
 
@@ -197,11 +221,12 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 | `phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
 | `ternary-descent.md` | TernaryDescent + delta plates |
 
-## Memories from session 146
+## Memories from session 145 (continued)
 
 | Memory | Key insight |
 |--------|------------|
 | `stride-attention-mask-from-collapse.md` | Delta plate collapse IS the stride-stack attention mask: 81.3% active, 91% sign agreement, stack-specific sparsity |
+| `v14-extraction-complete.md` | Qwen3.6-27B → 593M ternary positions (148 MB), 375× compression, pure ±1 base plates |
 
 ## Memories from session 145
 
@@ -216,6 +241,9 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 
 | Asset | Location |
 |-------|----------|
+| **V14 extracted base plates (Qwen3.6-27B)** | `checkpoints/v14-extracted/model.npz` (81 MB) |
+| **V14 extraction pipeline** | `scripts/v14/{config,extract_qwen36}.py` |
+| **Stride-stack attention mask** | `checkpoints/v13-td-r10/stride_attention_mask.npz` |
 | **Micro model (trained, final)** | `checkpoints/micro/final/` |
 | **Mechanism extraction scripts** | `scripts/micro/` (6 scripts) |
 | V13 model with Zone-B parity | `scripts/v13/model.py` |
@@ -224,24 +252,23 @@ Built S5 crystal sub-lattice metrics, S5→S4 policy channel, crystal warmup, TD
 
 ## Next steps
 
-### HIGHEST PRIORITY: New extraction with bigger base plate + attention mask
+### HIGHEST PRIORITY: Build v14 model + training with no-block delta
 
-1. **Design new base plate architecture.** Bigger plate to hold full
-   analytical FFN extraction (from eigendecomposition) + masked attention.
-   The base plate IS the model's knowledge — make it hold as much as possible.
+1. **Build v14 model architecture** (`scripts/v14/model.py`).
+   Hybrid GLA/SSA stride-stack, d=1280, 3×11 layers. Load extracted
+   base plates from `checkpoints/v14-extracted/model.npz`. Delta plates
+   on all attention projections with no-block constraint.
 
-2. **Implement masked attention extraction.**
-   - Load stride_attention_mask.npz
-   - Where mask=±1: use mask signs as attention base (pre-corrected)
-   - Where mask=0: base=0 (position not needed for stride-stack)
-   - FFN: full analytical extraction via sign(eigenvector) from crystal eigendecomp
-   - Result: ~80% attention + ~100% FFN etched from teacher
+2. **Build v14 training script** (`scripts/v14/train_td.py`).
+   Split-regime delta: FFN delta allows {+1,-1,0} (standard correction),
+   attention delta allows only {+1,-1} (no-block, prevents dispersal).
+   Crystal-gated TD with Schmitt trigger. Adam for continuous params.
 
-3. **Implement no-block delta constraint for attention.**
-   TD for attention modules: only +1 or -1 allowed, never 0.
-   TD can agree or disagree with the mask, but can never erase.
-   This prevents the superposition dispersal that killed r10.
-   FFN modules keep standard TD (block allowed for genuine pruning).
+3. **Launch first v14 training run.**
+   The base plates are pure ±1 (no zeros). TD will discover which
+   positions to flip for stride-stack routing. The first ~1000 TD steps
+   are mask discovery at d=1280 scale. Compare against the v13 finding
+   that ~80% of positions should stay active.
 
 4. **Validate the mechanism at scale.** Does the teacher's overlay match
    arccos(λ₁/λ₀)? Does neuron allocation match eigenvalue proportions?

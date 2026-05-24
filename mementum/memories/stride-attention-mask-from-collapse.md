@@ -30,4 +30,4 @@ Design implication for next extraction:
 - Result: bigger base plate holds more teacher knowledge, attention
   portion is pre-masked to stride-stack geometry
 
-Source: session 146, v13-td-r10 step 5000 forensics.
+Source: session 145, v13-td-r10 step 5000 forensics.
