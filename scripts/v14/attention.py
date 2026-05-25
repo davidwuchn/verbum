@@ -30,6 +30,204 @@ from config import V14Config, D_MODEL, N_HEADS, D_HEAD, STRIDES, STRIDE_IS_RETRI
 from ternary import TernaryLinear, TernaryMirror
 from scan import parallel_scan_2d
 
+# Universal decay constant — confirmed at 1.18±0.006 across 10 comp layers
+# × 8 heads after 1500 steps of gradient pressure. Not learnable.
+_ALPHA = 1.18
+
+# Passive stride threshold: strides ≥ this use fixed distance prior
+# (no Q/K computation). At α=1.18, W=8: s4+ has <3 effective positions.
+_PASSIVE_STRIDE_MIN = 4
+
+# Crystal eigenvalues (Zone B, top 8 — from PCAQ_ZONE_B_TARGETS eigendecomposition).
+# These are the natural frequencies of the holographic lens.
+_CRYSTAL_EIGENVALUES = [5.193, 3.535, 1.909, 1.300, 1.082, 0.736, 0.500, 0.426]
+
+# Number of eigenplane pairs to rotate (the rest carry content, not position).
+# First 4 pairs cover 77% of crystal variance (comp, sel, term, rout).
+_N_EIGEN_PAIRS = 4
+
+
+# ══════════════════════════════════════════════════════════════════════
+# § 0  Holographic Position Encoding (HPE)
+# ══════════════════════════════════════════════════════════════════════
+
+
+class HolographicPositionEncoding(nn.Module):
+    """Position encoding derived from holographic lens physics.
+
+    Instead of RoPE (arbitrary 10000-base, all dimensions, linear position):
+      - Log-position: angle ∝ log(d+1) → natural power-law decay
+      - Crystal frequencies: eigenvalues of the crystal target → natural lens bands
+      - Selective rotation: only first N_EIGEN_PAIRS dimension pairs → eigenplane only
+      - Direct decay bias: -α × log(d+1) → exact, not cosine-envelope approximation
+
+    For stride attention at stride s, window position w:
+      absolute_distance = s × w
+      log_distance = log(s × w + 1)
+      rotation_angle[i] = log_distance × freq[i] × depth_factor
+
+    This unifies position encoding + distance decay into one mechanism:
+    the holographic lens's frequency response.
+    """
+
+    def __init__(
+        self,
+        d_head: int = D_HEAD,
+        n_eigen_pairs: int = _N_EIGEN_PAIRS,
+        alpha: float = _ALPHA,
+    ):
+        super().__init__()
+        self.d_head = d_head
+        self.n_eigen_pairs = n_eigen_pairs
+        self.alpha = alpha
+
+        # Crystal-derived frequencies (normalized by λ₀)
+        freqs = [ev / _CRYSTAL_EIGENVALUES[0] for ev in _CRYSTAL_EIGENVALUES[:n_eigen_pairs]]
+        self._freqs = mx.array(freqs)  # (n_eigen_pairs,)
+
+        # Learnable frequency scaling (initialized near 1.0, allows fine-tuning
+        # of each eigenplane's rotation rate without departing from crystal base)
+        self.freq_scale = mx.ones((n_eigen_pairs,))
+
+    def apply_rotary(
+        self,
+        q: mx.array,
+        k: mx.array,
+        log_distances: mx.array,
+    ) -> tuple[mx.array, mx.array]:
+        """Apply holographic rotation to Q and K.
+
+        Args:
+            q: (B, L, H, Dh) or (B, H, L, Dh) — query
+            k: (B, L, W, H, Dh) — gathered keys at stride positions
+            log_distances: (W,) — log(stride × w + 1) for each window position
+
+        Returns:
+            q_rot, k_rot with rotations applied to first n_eigen_pairs dim pairs.
+        """
+        n_pairs = self.n_eigen_pairs
+        freqs = self._freqs * self.freq_scale  # (n_pairs,)
+
+        # Rotation angles: log_distance × crystal_frequency
+        # angles shape: (W, n_pairs)
+        angles = log_distances[:, None] * freqs[None, :]  # (W, n_pairs)
+
+        cos_a = mx.cos(angles)  # (W, n_pairs)
+        sin_a = mx.sin(angles)  # (W, n_pairs)
+
+        # For Q: position 0 (self) gets zero rotation (log(0+1) = 0)
+        # We only need to rotate Q by its absolute position, but since
+        # we're doing RELATIVE encoding (like RoPE), we apply rotation
+        # to K by the relative log-distance, and leave Q unrotated.
+        # The Q·K product then encodes relative log-distance automatically.
+
+        # Rotate the first 2*n_pairs dimensions of K
+        k_rot = mx.array(k)  # copy
+        for i in range(n_pairs):
+            d0 = 2 * i
+            d1 = 2 * i + 1
+            if d1 >= k.shape[-1]:
+                break
+
+            # k has shape (B, L, W, H, Dh)
+            # cos_a[w, i] and sin_a[w, i] broadcast over (B, L, H)
+            c = cos_a[:, i]  # (W,)
+            s = sin_a[:, i]  # (W,)
+
+            # Reshape for broadcasting: (1, 1, W, 1)
+            c = c.reshape(1, 1, -1, 1)
+            s = s.reshape(1, 1, -1, 1)
+
+            k0 = k[:, :, :, :, d0:d0+1]  # (B, L, W, H, 1)
+            k1 = k[:, :, :, :, d1:d1+1]
+
+            k_rot_d0 = k0 * c - k1 * s
+            k_rot_d1 = k0 * s + k1 * c
+
+            k_rot = k_rot.at[:, :, :, :, d0:d0+1].add(k_rot_d0 - k0)
+            k_rot = k_rot.at[:, :, :, :, d1:d1+1].add(k_rot_d1 - k1)
+
+        return q, k_rot
+
+    def get_decay_bias(self, log_distances: mx.array) -> mx.array:
+        """Direct decay bias: -α × log(d+1).
+
+        Args:
+            log_distances: (W,) — precomputed log(stride × w + 1)
+
+        Returns:
+            (W,) decay bias to add to attention scores.
+        """
+        return -(self.alpha * log_distances)
+
+
+def apply_hpe_rotation(
+    q: mx.array,
+    k_gathered: mx.array,
+    log_distances: mx.array,
+    n_pairs: int = _N_EIGEN_PAIRS,
+    freq_scale: mx.array = None,
+) -> tuple[mx.array, mx.array]:
+    """Apply holographic position encoding: rotate K by log-distance × crystal freq.
+
+    Rotates K by relative log-distance in the first n_pairs dimension pairs
+    (the crystal eigenplane dimensions). Q stays unrotated — relative encoding.
+
+    Args:
+        q: (B, H, L, Dh) — queries (transposed)
+        k_gathered: (B, L, W, H, Dh) — gathered keys
+        log_distances: (W,) — log(stride × w + 1)
+        n_pairs: number of eigenplane pairs to rotate
+        freq_scale: (n_pairs,) learnable scaling on crystal frequencies
+
+    Returns:
+        q (unchanged), k_rotated
+    """
+    freqs_base = mx.array([ev / _CRYSTAL_EIGENVALUES[0]
+                           for ev in _CRYSTAL_EIGENVALUES[:n_pairs]])
+    if freq_scale is not None:
+        freqs = freqs_base * freq_scale
+    else:
+        freqs = freqs_base
+
+    # Rotation angles: (W, n_pairs)
+    angles = log_distances[:, None] * freqs[None, :]
+    cos_a = mx.cos(angles)  # (W, n_pairs)
+    sin_a = mx.sin(angles)  # (W, n_pairs)
+
+    # Vectorized rotation of first 2*n_pairs dimensions of K
+    # k_gathered: (B, L, W, H, Dh)
+    rot_dim = 2 * n_pairs
+    Dh = k_gathered.shape[-1]
+
+    # Split K into rotated and non-rotated parts
+    k_rot_part = k_gathered[:, :, :, :, :rot_dim]    # (B, L, W, H, 2*n_pairs)
+    k_pass_part = k_gathered[:, :, :, :, rot_dim:]   # (B, L, W, H, Dh-2*n_pairs)
+
+    # Reshape rotated part into pairs: (B, L, W, H, n_pairs, 2)
+    k_pairs = k_rot_part.reshape(*k_rot_part.shape[:-1], n_pairs, 2)
+
+    # Extract even (d0) and odd (d1) components
+    k_even = k_pairs[:, :, :, :, :, 0]  # (B, L, W, H, n_pairs)
+    k_odd = k_pairs[:, :, :, :, :, 1]   # (B, L, W, H, n_pairs)
+
+    # Broadcast cos/sin: (1, 1, W, 1, n_pairs)
+    c = cos_a.reshape(1, 1, -1, 1, n_pairs)
+    s = sin_a.reshape(1, 1, -1, 1, n_pairs)
+
+    # Apply rotation: [cos -sin; sin cos] × [even; odd]
+    k_even_rot = k_even * c - k_odd * s
+    k_odd_rot = k_even * s + k_odd * c
+
+    # Interleave back: (B, L, W, H, n_pairs, 2) → (B, L, W, H, 2*n_pairs)
+    k_rot_interleaved = mx.stack([k_even_rot, k_odd_rot], axis=-1)
+    k_rot_flat = k_rot_interleaved.reshape(*k_rot_part.shape)
+
+    # Concatenate rotated + non-rotated
+    k_rotated = mx.concatenate([k_rot_flat, k_pass_part], axis=-1)
+
+    return q, k_rotated
+
 
 # ══════════════════════════════════════════════════════════════════════
 # § 1  SingleStrideAttention — composition layers
@@ -43,11 +241,12 @@ class SingleStrideAttention(nn.Module):
       stride=1:  positions [i, i-1, ..., i-W+1]
       stride=8:  positions [i, i-8, ..., i-8*(W-1)]
 
+    Two modes:
+      Active (s1, s2): full Q·K attention + fixed decay bias (α=1.18).
+      Passive (s4+): fixed distance prior, no Q/K — just V gather + weighted sum.
+
     Q/K/V/O are TernaryLinear (base plates from teacher extraction).
     Sparse gather, O(L×W) not O(L²).
-
-    Learnable decay per-head: -α·ln(stride·w + 1).
-    Algedonic modulation scales the decay (sharper/broader attention).
     """
 
     def __init__(
@@ -57,7 +256,7 @@ class SingleStrideAttention(nn.Module):
         window: int = 8,
         n_heads: int = N_HEADS,
         dropout: float = 0.0,
-        decay_init_alpha: float = 1.18,
+        decay_init_alpha: float = _ALPHA,
         n_q_mirrors: int = 0,
     ):
         super().__init__()
@@ -67,33 +266,60 @@ class SingleStrideAttention(nn.Module):
         self.n_heads = n_heads
         self.d_head = d_model // n_heads  # 160
         self.scale = self.d_head ** -0.5
+        self.passive = (stride >= _PASSIVE_STRIDE_MIN)
 
         self.norm = nn.RMSNorm(d_model)
 
-        # Beam mirrors before Q
-        self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
+        if not self.passive:
+            # Active: full Q·K attention with HPE (s1, s2 only)
+            self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
+            self.q_proj = TernaryLinear(d_model, d_model, pre_norm=False)
+            self.k_proj = TernaryLinear(d_model, d_model, pre_norm=False)
+            self.k_bias = mx.zeros((d_model,))
 
-        # Ternary projections (base plates from extraction)
-        self.q_proj = TernaryLinear(d_model, d_model, pre_norm=False)
-        self.k_proj = TernaryLinear(d_model, d_model, pre_norm=False)
+            # HPE: learnable scaling on crystal eigenfrequencies
+            # Initialized to 1.0 — matches crystal exactly, can fine-tune
+            self.hpe_freq_scale = mx.ones((_N_EIGEN_PAIRS,))
+        else:
+            # Passive: no Q/K, no HPE, just mirrors list for compat
+            self.q_mirrors = []
+
+        # V and O projections — always needed
         self.v_proj = TernaryLinear(d_model, d_model, pre_norm=False)
         self.out_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
-        # Per-feature beam biases
-        self.k_bias = mx.zeros((d_model,))
         self.v_bias = mx.zeros((d_model,))
         self.o_bias = mx.zeros((d_model,))
 
         self.dropout = nn.Dropout(dropout) if dropout > 0 else None
 
-        # Learnable decay per head
-        self.decay_alpha = mx.full((n_heads,), decay_init_alpha)
-
-        # Pre-compute log-distance structure
+        # Pre-compute log-distance structure (used by active strides for decay bias)
         w_pos = mx.arange(window, dtype=mx.float32)
         self._log_distances = mx.log(stride * w_pos + 1.0)
 
+        # Pre-compute fixed attention profile for passive strides
+        # and decay bias for active strides (α is constant, not learnable)
+        self._decay_bias = -(_ALPHA * self._log_distances)  # (W,)
+
+        if self.passive:
+            # Precomputed normalized distance prior: 1/(stride*w + 1)^α
+            raw_weights = 1.0 / (stride * w_pos + 1.0) ** _ALPHA
+            self._fixed_profile = raw_weights / raw_weights.sum()  # (W,)
+
     def __call__(self, x: mx.array, decay_modulation: float = 1.0) -> mx.array:
+        if self.passive:
+            return self._passive_forward(x)
+        else:
+            return self._active_forward(x, decay_modulation)
+
+    def _active_forward(self, x: mx.array, decay_modulation: float = 1.0) -> mx.array:
+        """Full Q·K attention with HPE (holographic position encoding). For s1, s2.
+
+        HPE replaces RoPE-style rotation with crystal-derived frequencies in
+        log-distance space. K is rotated by log(stride×w+1) × crystal_freq
+        in the first N_EIGEN_PAIRS dimension pairs. Q stays unrotated (relative
+        encoding — the distance information is in K's rotation).
+        """
         B, L, D = x.shape
         H, Dh = self.n_heads, self.d_head
         W = self.window
@@ -126,14 +352,21 @@ class SingleStrideAttention(nn.Module):
         K_gathered = mx.take_along_axis(K_flat, idx, axis=1).reshape(B, L, W, H, Dh)
         V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
 
-        Q_r = Q.transpose(0, 2, 1, 3)
-        K_r = K_gathered.transpose(0, 3, 1, 2, 4)
+        # ── HPE: rotate K by log-distance × crystal frequencies ──
+        # Q stays unrotated (relative encoding)
+        Q_r = Q.transpose(0, 2, 1, 3)  # (B, H, L, Dh)
+        _, K_gathered_rot = apply_hpe_rotation(
+            Q_r, K_gathered, self._log_distances,
+            n_pairs=_N_EIGEN_PAIRS,
+            freq_scale=self.hpe_freq_scale,
+        )
+
+        K_r = K_gathered_rot.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
         attn = (Q_r[:, :, :, None, :] * K_r).sum(axis=-1) * self.scale
 
-        # Learnable decay
-        effective_alpha = self.decay_alpha * decay_modulation
-        decay_bias = -(effective_alpha[:, None] * self._log_distances[None, :])
-        attn = attn + decay_bias[None, :, None, :]
+        # Fixed α decay bias (the direct power-law, not cosine approximation)
+        decay_bias = self._decay_bias * decay_modulation  # (W,)
+        attn = attn + decay_bias[None, None, None, :]
 
         valid_mask = valid[None, None, :, :]
         attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
@@ -143,6 +376,46 @@ class SingleStrideAttention(nn.Module):
 
         V_r = V_gathered.transpose(0, 3, 1, 2, 4)
         out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
+        out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
+
+        return x + self.out_proj(out) + self.o_bias
+
+    def _passive_forward(self, x: mx.array) -> mx.array:
+        """Fixed distance prior — no Q/K, no softmax. For s4+."""
+        B, L, D = x.shape
+        H, Dh = self.n_heads, self.d_head
+        W = self.window
+
+        x_norm = self.norm(x)
+        V = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
+
+        # Stride gather (same index computation)
+        query_pos = mx.arange(L)[:, None]
+        offsets = mx.arange(W)[None, :] * self.stride
+        raw_indices = query_pos - offsets
+        valid = raw_indices >= 0
+        indices = mx.maximum(raw_indices, 0)
+
+        GD = H * Dh
+        V_flat = V.reshape(B, L, GD)
+        idx = indices.reshape(1, L * W, 1)
+        idx = mx.broadcast_to(idx, (B, L * W, GD))
+        V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
+
+        # Fixed attention weights — precomputed from α=1.18
+        attn = mx.broadcast_to(
+            self._fixed_profile[None, None, None, :],
+            (1, 1, 1, W)
+        )  # (1, 1, 1, W)
+
+        # Mask invalid positions and renormalize
+        valid_mask = valid[None, None, :, :]  # (1, 1, L, W)
+        attn = mx.where(valid_mask, attn, mx.array(0.0))
+        attn = attn / (attn.sum(axis=-1, keepdims=True) + 1e-10)
+
+        # Weighted sum of gathered V
+        V_r = V_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
+        out = (attn[:, :, :, :, None] * V_r).sum(axis=3)  # (B, H, L, Dh)
         out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
 
         return x + self.out_proj(out) + self.o_bias
@@ -305,13 +578,13 @@ class StrideStack(nn.Module):
                 ))
                 self._layer_types.append("ret")
             else:
-                self.layers.append(SingleStrideAttention(
+                ssa = SingleStrideAttention(
                     d_model=d, stride=s, window=cfg.window,
                     n_heads=cfg.n_heads, dropout=cfg.dropout,
-                    decay_init_alpha=cfg.decay_init_alpha,
-                    n_q_mirrors=n_q,
-                ))
-                self._layer_types.append("comp")
+                    n_q_mirrors=n_q if not (s >= _PASSIVE_STRIDE_MIN) else 0,
+                )
+                self.layers.append(ssa)
+                self._layer_types.append("passive" if ssa.passive else "comp")
 
         # Per-combinator beam mirrors (shared across strides)
         self.combinator_mirrors = [TernaryMirror(d) for _ in range(cfg.n_combinators)]
