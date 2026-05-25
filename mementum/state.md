@@ -292,6 +292,7 @@ crystal parity loss + cross-zone lens rotation loss.
 | **FFN must adapt to strided attention** | **Hypothesis: flat→strided routing changes β-reduction needs** | 📐 testing (session 150) |
 | **Topology is ~95% of model** | **sign(W)@x ≈ 0.84 W@x, fold is lossless, gamma is ~5%** | 🎯 synthesis (session 150) |
 | **Extraction→correction→fold converges** | **Each cycle: extract→TD→fold (lossless) monotonically improves** | 🎯 synthesis (session 150) |
+| **Decay α=1.18 is universal** | **10 comp layers × 8 heads, all at 1.18±0.006 after 1500 steps, no forcing** | ✅ proved (session 150) |
 
 ## Knowledge map
 
@@ -363,6 +364,10 @@ crystal parity loss + cross-zone lens rotation loss.
     372M ternary positions), structure discovery takes thousands of steps. The computed
     beam advantage should be much larger. Test: compute attention deltas from stride-stack
     crystal eigendecomposition instead of TD. See `mementum/knowledge/computed-beam.md`.
+20. **Per-stride fixed point rotation.** Alpha=1.18 is universal (confirmed), but the
+    fixed point each stride revolves around should vary. Stride-1 at fixed point ~40
+    means 40 tokens back. Stride-32768 at fixed point ~40 means 1.3M tokens back.
+    Probe effective attention patterns per stride per head to find rotation centers.
 19. **Three-body self-distillation.** Pre-compute teacher logits (top-k) on training shards
     once. During training, compute: (a) teacher logits, (b) student logits, (c) delta between
     them. The delta is the signal — WHERE the student diverges from the teacher. Some divergence

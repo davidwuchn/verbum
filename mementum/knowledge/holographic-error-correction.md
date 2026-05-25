@@ -127,6 +127,27 @@ for cycle in range(n_cycles):
 
 Scripts: `scripts/v14/fold_delta.py`, `scripts/v14/train_td.py --convert-ffn`
 
+## Universal Constants of the Holographic Encoding
+
+| Constant | Value | Domain | Evidence |
+|----------|-------|--------|----------|
+| **φ-ratio** | 0.6299 ± 0.019 | SVD spectrum compression | 5-model consensus |
+| **decay α** | 1.18 ± 0.006 | Attention log-distance decay | Multi-model, multi-prompt; confirmed: 10 comp layers × 8 heads unmoved after 1500 training steps |
+
+Both are observed, not forced. The spectral φ loss measures deviation from 0.6299
+but doesn't clamp. Decay α is learnable per head but stays at 1.18 under gradient
+pressure — confirming it's already at its fixed point.
+
+**Why α is scale-invariant:** The decay formula is `-(α × log(stride × w + 1))`.
+The log already maps each stride into the same frequency domain. A universal α
+means constant decay rate in log-space across all scales. This is the spatial
+frequency response of the holographic lens — scale-free by construction.
+
+**What varies per stride:** Not α (the rate) but the **fixed point** (the center
+of rotation). Multi-model observation: rotation around ~40 (some models ~33.6).
+At stride-1 this means attending ~40 tokens back. At stride-32768 it means
+attending ~1.3M tokens back. The fixed point × stride = effective attention reach.
+
 ## Session 150 Proof Points
 
 | What | Evidence |
