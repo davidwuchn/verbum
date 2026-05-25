@@ -31,6 +31,7 @@ import mlx.nn as nn
 
 from config import V14Config, D_MODEL, D_FF, N_STACKS, N_COMBINATORS, N_TOTAL_COMBINATORS
 from ternary import TernaryLinear, TernaryEmbedding
+from attention import StrideStack
 from stack_vsm import StrideStackVSM, AlgedonicCombiner
 from components import (
     S5Identity,
@@ -129,20 +130,26 @@ class V14Model(nn.Module):
         self.ffn_gate_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
         self.ffn_value_plate = TernaryLinear(cfg.d_ff, d, pre_norm=False)
 
-        # ── Three StrideStackVSMs ─────────────────────────────
+        # ── Shared StrideStack (one set of 16 lenses) ─────────
+        self.shared_stride_stack = StrideStack(cfg)
+
+        # ── Three StrideStackVSMs (share the same lenses) ─────
         self.stack_a = StrideStackVSM(
             cfg, cfg.stack_a_bands,
             self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
+            self.shared_stride_stack,
             is_descending=False,
         )
         self.stack_b = StrideStackVSM(
             cfg, cfg.stack_b_bands,
             self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
+            self.shared_stride_stack,
             is_descending=False,
         )
         self.stack_c = StrideStackVSM(
             cfg, cfg.stack_c_bands,
             self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
+            self.shared_stride_stack,
             is_descending=True,
         )
 

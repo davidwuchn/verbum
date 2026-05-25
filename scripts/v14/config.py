@@ -209,7 +209,7 @@ class V14Config:
     # ── Checkpointing ───────────────────────────────────────────────
     checkpoint_interval: int = 500
     eval_interval: int = 500
-    log_interval: int = 25
+    log_interval: int = 10
     checkpoint_dir: str = "checkpoints/v14"
     extracted_model_path: str = "checkpoints/v14-extracted/model.npz"
 

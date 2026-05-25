@@ -40,6 +40,7 @@ class StrideStackVSM(nn.Module):
         ffn_key_plate: TernaryLinear,
         ffn_gate_plate: TernaryLinear,
         ffn_value_plate: TernaryLinear,
+        stride_stack: StrideStack,
         is_descending: bool = False,
     ):
         super().__init__()
@@ -49,8 +50,14 @@ class StrideStackVSM(nn.Module):
         self.n_passes = len(bands)
         d = cfg.d_model
 
-        # ── Attention (owns stride stack) ─────────────────────
-        self.stride_stack = StrideStack(cfg)
+        # ── Attention (shared stride stack — NOT owned) ───────
+        # The stride stack is shared across all StrideStackVSMs.
+        # Each stack calls different bands on the same layers.
+        # Stored as _stride_stack (private) to prevent MLX from
+        # traversing it as a child module (which would duplicate
+        # parameters in tree_flatten). The shared_stride_stack
+        # is owned by V14Model and appears once in the param tree.
+        self._stride_stack = stride_stack
 
         # ── FFN (shared plates, per-stack beams) ──────────────
         self.ffn_key_plate = ffn_key_plate
@@ -118,7 +125,7 @@ class StrideStackVSM(nn.Module):
             x_before = x
 
             # Stride-stack pass
-            x = self.stride_stack(x, stride_range=band, reverse=self.is_descending)
+            x = self._stride_stack(x, stride_range=band, reverse=self.is_descending)
 
             # FFN (SwiGLU with shared plates)
             ffn_in = self.ffn_norm(x)
@@ -200,10 +207,13 @@ if __name__ == "__main__":
     ffn_gate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
     ffn_val = TernaryLinear(cfg.d_ff, d, pre_norm=False)
 
+    # Shared stride stack
+    shared_ss = StrideStack(cfg)
+
     # Stack A
     n_a = len(cfg.stack_a_bands)
     print(f"\nStack A (ascending fine, {n_a} passes)...")
-    stack_a = StrideStackVSM(cfg, cfg.stack_a_bands, ffn_key, ffn_gate, ffn_val)
+    stack_a = StrideStackVSM(cfg, cfg.stack_a_bands, ffn_key, ffn_gate, ffn_val, shared_ss)
     x = mx.random.normal((1, 32, d))
     out_a, alg_a, deltas_a, gates_a = stack_a(x)
     mx.eval(out_a, alg_a)
@@ -214,7 +224,7 @@ if __name__ == "__main__":
     # Stack B
     n_b = len(cfg.stack_b_bands)
     print(f"\nStack B (ascending coarse, {n_b} passes)...")
-    stack_b = StrideStackVSM(cfg, cfg.stack_b_bands, ffn_key, ffn_gate, ffn_val)
+    stack_b = StrideStackVSM(cfg, cfg.stack_b_bands, ffn_key, ffn_gate, ffn_val, shared_ss)
     out_b, alg_b, deltas_b, gates_b = stack_b(out_a)
     mx.eval(out_b, alg_b)
     assert len(deltas_b) == n_b
@@ -223,7 +233,7 @@ if __name__ == "__main__":
     # Stack C
     n_c = len(cfg.stack_c_bands)
     print(f"\nStack C (descending, {n_c} passes)...")
-    stack_c = StrideStackVSM(cfg, cfg.stack_c_bands, ffn_key, ffn_gate, ffn_val, is_descending=True)
+    stack_c = StrideStackVSM(cfg, cfg.stack_c_bands, ffn_key, ffn_gate, ffn_val, shared_ss, is_descending=True)
     out_c, alg_c, deltas_c, gates_c = stack_c(out_b)
     mx.eval(out_c, alg_c)
     assert len(deltas_c) == n_c
@@ -256,7 +266,8 @@ if __name__ == "__main__":
             self.fk = TernaryLinear(d, cfg.d_ff, pre_norm=False)
             self.fg = TernaryLinear(d, cfg.d_ff, pre_norm=False)
             self.fv = TernaryLinear(cfg.d_ff, d, pre_norm=False)
-            self.stack = StrideStackVSM(cfg, cfg.stack_a_bands, self.fk, self.fg, self.fv)
+            self.ss = StrideStack(cfg)
+            self.stack = StrideStackVSM(cfg, cfg.stack_a_bands, self.fk, self.fg, self.fv, self.ss)
         def __call__(self, x):
             out, alg, _, _ = self.stack(x)
             return mx.mean(out) + mx.sum(alg)
