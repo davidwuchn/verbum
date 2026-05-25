@@ -58,13 +58,31 @@ High confidence = gradient consistently says "flip this" → flip.
 Low confidence = gradient oscillates (CE vs crystal disagree) → don't flip.
 The crystal gate from session 124 EMERGES from the dynamics.
 
-**Two-step transitions through zero:**
+**Two-step transitions through zero (FFN deltas only):**
 - +1 → 0 (block): "not sure this sign is right, silence it"
 - 0 → -1 (commit): "confirmed, flip it" (only after sustained evidence)
 - Reverse: -1 → 0 → +1
 
 The zero state is a staging area. Prevents catastrophic flips. If blocking
 hurts, the gradient pushes back immediately.
+
+**Direct flips for no-block modules (attention deltas):**
+- +1 → -1 (direct): skip zero staging, flip immediately
+- v14 attention deltas must NEVER contain 0 (no-block invariant)
+- Two-step staging through zero is incompatible with no-block because
+  _enforce_no_block resets all zeros to +1 after every TD step,
+  creating a Sisyphus loop (session 148 discovery)
+- The `no_block` flag per module selects the transition protocol
+- Direct flips are safe because TD's confidence/cooldown/neighbor
+  voting already provides the caution that staging was designed for
+
+**Shared-weight aliasing hazard (session 148):**
+- When modules share Python references (e.g. shared_stride_stack
+  accessed via stack_a._stride_stack), named_modules() returns
+  multiple paths for the same physical module
+- collect_delta_params must deduplicate by id(mod) to avoid
+  TD processing the same module N times with conflicting gradients
+- Symptom: high TD flip count but zero persistent delta changes
 
 **Budget control:** flip_rate limits max flips per step. Like a learning
 rate but for discrete decisions. Prevents the topology from changing
@@ -83,7 +101,7 @@ gamma:       trained by Adam (same as before)
 **Delta semantics:**
 - +1 → keep teacher sign (this part of the crystal works)
 - -1 → flip teacher sign (stride-stack needs different routing)
--  0 → block this position (staging area during transition)
+-  0 → block this position (staging area — FFN deltas ONLY, never attention)
 
 **Reduction:** fold delta into base, reset delta, iterate.
 ```

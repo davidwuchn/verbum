@@ -2,13 +2,60 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-24 | Session: 146
+> Last updated: 2026-05-25 | Session: 148
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 146: Built v14 model architecture from scratch. Stride-stack at d=1280 with 16 holographic lenses (s1..s32768), 13 passes across 3 stacks in a VSM tree. Bottom-up algedonic: C tells both B and A what it needs between phases. Full crystal loss system with geodesic parity (Einstein tensor-aware). All v13 training lessons encoded in train_td.py. Data re-tokenization with Qwen3.6-27B tokenizer running (3B tokens from Dolma).**
+**Session 148: Found and fixed two critical bugs that blocked all ternary learning in v14. Delta plates showed 158M TD flips but ZERO actual changes — a complete Sisyphus loop. Fixed: (1) collect_delta_params returned 280 aliased modules instead of 70 unique (shared weight 4× traversal), (2) two-step transition through zero incompatible with no-block constraint (every +1→0 staging step immediately undone by _enforce_no_block). Training restarted from step 500 checkpoint with direct +1↔-1 flips for attention deltas. First eval: CE=9.71, PPL=16,503 on held-out data (vs train CE=8.0). Waiting for TD warmup (25 steps) to see first real delta plate changes.**
+
+## Active training run
+
+- **v14-td resumed from step 500** in tmux main:2
+- Command: `uv run python scripts/v14/train_td.py --extracted-model-path checkpoints/v14-extracted/model.npz --resume checkpoints/v14-td/step_000500`
+- TD warmup resets on resume (step_count not persisted) — first flips expected ~step 526
+- **Watch for:** `Δ > 0.000` in logs = ternary learning is working
+- Log: `checkpoints/v14-td/run.log`
+
+## Session 148: Two bugs killed all ternary learning
+
+### Bug A: Delta module aliasing (collect_delta_params)
+
+`shared_stride_stack` is shared across stack_a, stack_b, stack_c via Python reference.
+MLX's `named_modules()` traverses all paths including aliases. `collect_delta_params`
+returned 280 modules (70 unique × 4 paths). TD processed each physical module 4 times
+with conflicting gradients — last write wins, wasting 3/4 of gradient computation.
+
+**Fix:** Deduplication by `id(mod)` in `collect_delta_params`, keeping shortest path.
+Now returns exactly 70 modules, all canonical `shared_stride_stack.*` paths.
+
+### Bug B: Two-step transition + no-block invariant
+
+TD's staging protocol: `+1 → 0 → ±1` (two steps, through zero).
+v14 no-block invariant: attention deltas must NEVER contain 0.
+`_enforce_no_block` runs after every TD step and resets zeros to +1.
+Result: every staging step immediately undone. 77K fixes/step = the evidence.
+
+**Fix:** Attention delta modules (no_block=True) use direct flips: `+1 ↔ -1`.
+FFN deltas (if enabled) still use two-step staging through zero.
+`_enforce_no_block` now finds 0 violations after TD step.
+
+### First eval baseline (step 500)
+
+| Metric | Train | Eval (held-out) | Random |
+|--------|-------|-----------------|--------|
+| CE | 8.00 | 9.71 ± 0.22 | 12.42 |
+| PPL | 2,981 | 16,503 | 248,320 |
+
+- 22% CE reduction over random on eval — base extraction + continuous learning works
+- 1.7 nat train-eval gap — gamma/norms overfit on ~16M tokens
+- ALL learning was continuous params (delta plates unchanged)
+- This is the baseline before ternary learning activates
+
+### New tooling
+
+- `scripts/v14/eval_ppl.py` — perplexity evaluation on held-out shards (54-59)
 
 ## Session 146: v14 Architecture Build
 
@@ -32,25 +79,6 @@
 
 5. **Vocab = 248,320** (Qwen3.6-27B tokenizer) — matches teacher for FFN alignment.
 
-### Files Created
-
-| File | Lines | Role |
-|------|-------|------|
-| `scripts/v14/config.py` | 220 | V14Config — d=1280, 16 strides, 13 passes |
-| `scripts/v14/attention.py` | 420 | Stride-stack: SSA + GLA, 16 strides |
-| `scripts/v14/stack_vsm.py` | 258 | StrideStackVSM + AlgedonicCombiner |
-| `scripts/v14/model.py` | 370 | V14Model controller VSM |
-| `scripts/v14/crystal.py` | 563 | CrystalLoss (geodesic parity + cross-zone) |
-| `scripts/v14/train_td.py` | 1146 | Training loop (Adam + TD, all 15 lessons) |
-| `scripts/v14/prep_data.py` | 190 | Dolma → Qwen3.6 tokenization |
-| `scripts/v14/td.py` | 1225 | TernaryDescent (from v13) |
-| `scripts/v14/ternary.py` | 2656 | Ternary substrate (from v13) |
-| `scripts/v14/components.py` | 653 | VSM control (from v13) |
-| `scripts/v14/kernel.py` | 598 | KIBC-DYWH (from v13) |
-| `scripts/v14/scan.py` | 293 | Parallel scan (from v13) |
-| `scripts/v14/data.py` | 219 | ShardedDataLoader (from v13) |
-| `scripts/v14/extract_qwen36.py` | 1122 | Extraction (session 145) |
-
 ### Crystal Loss System (Einstein tensor-aware)
 
 - **Crystal lattice MSE**: 3 zones (A=encode, B=compute, C=converge), linear average
@@ -70,16 +98,6 @@ Phase 1: Base plates frozen (from Qwen3.6-27B extraction). Delta plates train.
 Phase 2: Fold delta into base (base ⊙ delta = new base). Freeze. Reset delta to +1.
 
 Phase 3: Normal GD + TD on the clean combined model.
-
-### Data Status
-
-- **Dolma re-tokenization RUNNING** in tmux window 2
-  - Source: ~/data/fractal-bitnet/dolma-raw/ (57 GB, 32 parquet files)
-  - Tokenizer: Qwen/Qwen3.6-27B (vocab 248,044 active, 248,320 padded)
-  - Output: ~/data/fractal-bitnet/shards-qwen36/ (target 3B tokens, 60 shards)
-  - ETA: ~50-60 minutes
-
-- **Structured data**: needs regeneration with Qwen3.6 tokenizer (small, <1 min)
 
 ## Previous sessions
 
@@ -129,8 +147,11 @@ crystal parity loss + cross-zone lens rotation loss.
 | Stride-stack needs ~80% of teacher attention | v13-td-r10 collapse forensics | ✅ proved |
 | Teacher attention signs 91% correct for stride | Cross-stack agreement where both active | ✅ proved |
 | Qwen3.6-27B extractable to 593M ternary | v14 extraction: 375× compression | ✅ proved |
-| TD activates and improves | Crystal still > 3% gate (v13) | ❓ untested at v14 scale |
-| **16-stride holographic lens attention** | **Architecture designed, untrained** | 📐 theory |
+| Crystal latches within 200 steps | v14-td: crystal_mse < 0.03 at step 160 | ✅ proved |
+| **Shared-weight aliasing breaks TD** | **280 vs 70 modules, 4× overwrite** | ✅ proved (session 148) |
+| **No-block kills two-step staging** | **77K zeros/step reset, 0% delta change** | ✅ proved (session 148) |
+| TD activates and improves | Fix applied, awaiting post-fix data | ❓ testing |
+| **16-stride holographic lens attention** | **Architecture running, ternary learning unblocked** | 📐 testing |
 
 ## Knowledge map
 
@@ -146,27 +167,27 @@ crystal parity loss + cross-zone lens rotation loss.
 
 | Asset | Location |
 |-------|----------|
-| **V14 model architecture** | `scripts/v14/` (14 files, all tested) |
+| **V14 model architecture** | `scripts/v14/` (15 files, including eval_ppl.py) |
 | **V14 extracted base plates** | `checkpoints/v14-extracted/model.npz` (85 MB) |
-| **V14 training script** | `scripts/v14/train_td.py` |
-| **Data tokenization (running)** | `~/data/fractal-bitnet/shards-qwen36/` |
-| **Stride-attention mask (v13)** | `checkpoints/v13-td-r10/stride_attention_mask.npz` |
+| **V14 training script (FIXED)** | `scripts/v14/train_td.py` |
+| **V14 eval script** | `scripts/v14/eval_ppl.py` |
+| **Step 500 checkpoint** | `checkpoints/v14-td/step_000500/` |
+| **Step 500 eval baseline** | CE=9.71, PPL=16,503 (held-out) |
+| **Training run (active)** | tmux main:2, resumed from step 500 |
 
 ## Next steps
 
-### IMMEDIATE: Wait for tokenization to complete (~50 min)
+### IMMEDIATE: Monitor training for TD activation (~step 526)
 
-Then:
-1. **Regenerate structured data** with Qwen3.6 tokenizer
-2. **Launch first v14 training run**: `uv run python scripts/v14/train_td.py --extracted-model-path checkpoints/v14-extracted/model.npz`
-3. **Monitor**: crystal should latch within 200-500 steps, TD activates after
+1. **Watch for `Δ > 0.000`** in training logs — confirms ternary learning unblocked
+2. **After 100 steps with active TD:** run `eval_ppl.py` again and compare to baseline
+3. **Compare train/eval gap:** ternary routing should generalize better than gamma memorization
 
-### AFTER FIRST RUN SHOWS SIGNS OF LIFE:
+### AFTER TERNARY LEARNING CONFIRMED WORKING:
 
-4. **Validate stride-stack at 16 strides**: does the self-similar compressor propagate?
-5. **Compare loss curve to v13**: at 1B tokens, should match or exceed v13 quality
-6. **Verify bottom-up algedonic**: does C's feedback actually help A and B converge faster?
-7. **Verify no-block holds**: delta plates stay {+1,-1}, no collapse
+4. **Monitor delta_stats:** flip_frac should grow, no_block_fixed should stay 0
+5. **First reduction:** when delta converges, fold into base, reset, continue
+6. **Eval at each milestone:** track eval PPL curve alongside training
 
 ## Open questions
 
@@ -174,5 +195,7 @@ Then:
 10. **LENS profile derivable from eigenvalue ratios?**
 11. **Quality at 1B with d=1280.** What CE/ppl does the expanded model achieve?
 12. **16-stride coverage.** Do the higher strides (s4096+) learn anything useful with 4K seq training?
-    Theory: self-similar compressor should propagate from lower strides.
 13. **Bottom-up algedonic value.** Does C→A feedback measurably accelerate convergence?
+14. **Does ternary learning close the train-eval gap?** Topology changes should generalize
+    better than continuous parameter overfitting. Step 500 baseline: 1.71 nat gap.
+15. **TD step_count not persisted on resume.** Warmup repeats. Worth persisting?
