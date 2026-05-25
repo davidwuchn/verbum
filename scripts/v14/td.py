@@ -357,23 +357,27 @@ class TernaryDescent:
 
     def step(
         self,
-        delta_params: list[tuple[str, mx.array, mx.array, mx.array]],
+        delta_params: list[tuple[str, mx.array, mx.array, mx.array, bool]],
     ) -> dict[str, Any]:
         """Perform one TernaryDescent step across all delta plates.
 
         Args:
-            delta_params: List of (name, delta_packed_uint32, grad_wrt_effective, base_packed_uint32).
+            delta_params: List of (name, delta_packed_uint32, grad_wrt_effective,
+                          base_packed_uint32, no_block).
                 - name: identifier for logging
                 - delta_packed_uint32: the delta plate weights (N, K//16) uint32
                 - grad_wrt_effective: gradient of loss w.r.t. EFFECTIVE weight,
                   shape (N, K) float32.  NOT projected through base.
                   This is ∂L/∂effective[i,j] (or the routing component thereof).
                 - base_packed_uint32: the frozen base plate (N, K//16) uint32
+                - no_block: if True, delta is constrained to {+1, -1} only —
+                  transitions skip zero and flip directly (+1 ↔ -1).
+                  If False, uses two-step staging through zero (+1→0→±1).
 
             The desired direction for delta is computed from the gradient
             w.r.t. effective and the base sign:
                 If the gradient says effective should decrease:
-                    base=+1 → delta should decrease (+1→0→-1)
+                    base=+1 → delta should decrease (flip toward -1)
                     base=-1 → delta should INCREASE (since eff = base*delta,
                               decreasing eff when base=-1 means increasing delta)
 
@@ -389,7 +393,7 @@ class TernaryDescent:
 
         in_warmup = self.step_count <= self.warmup_steps
 
-        for name, delta_packed, grad_effective, base_packed in delta_params:
+        for name, delta_packed, grad_effective, base_packed, no_block in delta_params:
             # Use name as stable ID (object id changes on reassignment)
             direction, magnitude = self._get_state(name, grad_effective.shape)
 
@@ -464,17 +468,28 @@ class TernaryDescent:
             # Where base is 0, the position is blocked at the base level — skip it
             desired = desired_effective * base_float  # (N, K) float32
 
-            # Valid transitions: positions where we CAN move in the desired direction
-            # +1 and desired < 0 → can go to 0 (step toward -1)
-            # -1 and desired > 0 → can go to 0 (step toward +1)
-            #  0 and desired != 0 → can go to ±1
+            # Valid transitions: positions where we CAN move in the desired direction.
+            # no_block mode (attention deltas: {+1,-1} only):
+            #   +1 and desired < 0 → flip directly to -1
+            #   -1 and desired > 0 → flip directly to +1
+            # staging mode (FFN deltas: {+1,0,-1}):
+            #   +1 and desired < 0 → go to 0 (step toward -1)
+            #   -1 and desired > 0 → go to 0 (step toward +1)
+            #    0 and desired != 0 → go to ±1 (commit)
             # base == 0 → skip (base blocks this position)
             delta_float = delta_unpacked.astype(mx.float32)
-            can_move = (
-                ((delta_float > 0) & (desired < 0)) |   # +1 → 0
-                ((delta_float < 0) & (desired > 0)) |   # -1 → 0
-                (delta_float == 0)                        #  0 → ±1
-            ) & (base_float != 0)  # skip base-blocked positions
+            if no_block:
+                # Direct flip: can move if current sign opposes desired direction
+                can_move = (
+                    ((delta_float > 0) & (desired < 0)) |   # +1 → -1
+                    ((delta_float < 0) & (desired > 0))      # -1 → +1
+                ) & (base_float != 0)
+            else:
+                can_move = (
+                    ((delta_float > 0) & (desired < 0)) |   # +1 → 0
+                    ((delta_float < 0) & (desired > 0)) |   # -1 → 0
+                    (delta_float == 0)                        #  0 → ±1
+                ) & (base_float != 0)
 
             # Final candidate mask: confident AND can move
             candidates = confident & can_move
@@ -508,19 +523,27 @@ class TernaryDescent:
             flip_mask = candidates & (score >= threshold)
 
             # Compute new values
-            # Two-step transitions through zero:
-            #   +1 → 0      (block before flip)
-            #   -1 → 0      (block before flip)
-            #    0 → sign(desired)  (commit to direction)
-            new_delta = mx.where(
-                flip_mask & (delta_float != 0),
-                mx.array(0, dtype=mx.int8),  # ±1 → 0 (go to staging)
-                mx.where(
-                    flip_mask & (delta_float == 0),
-                    mx.sign(desired).astype(mx.int8),  # 0 → ±1 (commit)
+            if no_block:
+                # Direct flip: +1 ↔ -1 (no staging through zero)
+                new_delta = mx.where(
+                    flip_mask,
+                    (-delta_unpacked).astype(mx.int8),  # negate: +1→-1, -1→+1
                     delta_unpacked,  # no change
-                ),
-            )
+                )
+            else:
+                # Two-step transitions through zero:
+                #   +1 → 0      (block before flip)
+                #   -1 → 0      (block before flip)
+                #    0 → sign(desired)  (commit to direction)
+                new_delta = mx.where(
+                    flip_mask & (delta_float != 0),
+                    mx.array(0, dtype=mx.int8),  # ±1 → 0 (go to staging)
+                    mx.where(
+                        flip_mask & (delta_float == 0),
+                        mx.sign(desired).astype(mx.int8),  # 0 → ±1 (commit)
+                        delta_unpacked,  # no change
+                    ),
+                )
 
             # Count actual flips
             flip_occurred = (new_delta != delta_unpacked)
@@ -920,11 +943,28 @@ def collect_delta_params(
     """Collect all DeltaTernaryLinear modules from the model.
 
     Returns list of (path, module) for use with TernaryDescent.step().
+
+    Deduplicates by object identity: shared weight modules (e.g.
+    shared_stride_stack referenced via stack_a._stride_stack) are
+    returned only once under their canonical (shortest) path.
+    Without this, TD processes the same physical module N times
+    with conflicting gradients — last write wins, wasting all
+    prior flip computations.
     """
+    seen_ids: dict[int, tuple[str, int]] = {}  # id(mod) → (path, index)
     result = []
     for path, mod in model.named_modules():
         if isinstance(mod, DeltaTernaryLinear):
-            result.append((path, mod))
+            obj_id = id(mod)
+            if obj_id not in seen_ids:
+                seen_ids[obj_id] = (path, len(result))
+                result.append((path, mod))
+            else:
+                # Keep the shorter (more canonical) path
+                old_path, idx = seen_ids[obj_id]
+                if len(path) < len(old_path):
+                    seen_ids[obj_id] = (path, idx)
+                    result[idx] = (path, mod)
     return result
 
 
@@ -1025,7 +1065,7 @@ if __name__ == "__main__":
         grad = grad + mx.random.normal(grad.shape) * 0.1
 
         result = td.step([
-            ("test", dtl2.delta_weight, grad, dtl2.base_weight),
+            ("test", dtl2.delta_weight, grad, dtl2.base_weight, False),
         ])
 
         # Apply any flips

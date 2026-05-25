@@ -48,7 +48,7 @@ from mlx.utils import tree_flatten, tree_map, tree_unflatten
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V14Config
-from data import ShardedDataLoader
+from data import ShardedDataLoader, MixedDataLoader
 from model import V14Model
 from ternary import (
     TernaryLinear,
@@ -137,31 +137,107 @@ def create_model_with_deltas(
     # Step 1: freeze ALL ternary weights (protects dtype from AdamW corruption)
     freeze_ternary_weights(model)
 
-    # Step 2: load extracted base plates from Qwen3.6-27B extraction
+    # Step 2: load extracted base plates from Qwen3.6-27B extraction.
+    #
+    # The extraction NPZ uses flat keys (e.g. stack_a.layer_00.q)
+    # while the model tree uses nested paths (e.g. shared_stride_stack.layers.0.q_proj.weight).
+    # We remap keys manually. For the shared stride stack, we vote across
+    # all 3 stack extractions (majority sign wins per ternary position).
     extracted_path = Path(cfg.extracted_model_path)
     if extracted_path.exists():
         print(f"📂 Loading extracted base plates from {extracted_path}", file=sys.stderr)
         saved = dict(mx.load(str(extracted_path)))
-        # load_weights with strict=False: skip shapes that don't match
-        # (extraction may not have all keys; random init is fine for missing ones)
         flat_params = dict(tree_flatten(model.parameters()))
         n_loaded = 0
         n_skipped = 0
-        for k, v in saved.items():
-            if k in flat_params:
-                if flat_params[k].shape == v.shape:
-                    flat_params[k] = v
+
+        # ── Attention: vote across 3 stacks into shared_stride_stack ──
+        n_extracted_layers = 11  # extraction has 11 layers per stack
+        proj_map = {"q": "q_proj", "k": "k_proj", "v": "v_proj", "o": "out_proj"}
+        stacks = ["stack_a", "stack_b", "stack_c"]
+
+        for layer_idx in range(n_extracted_layers):
+            for ext_proj, model_proj in proj_map.items():
+                model_key = f"shared_stride_stack.layers.{layer_idx}.{model_proj}.weight"
+                if model_key not in flat_params:
+                    continue
+                target_shape = flat_params[model_key].shape
+
+                # Collect from all 3 stacks and sign-vote
+                candidates = []
+                for stack in stacks:
+                    ext_key = f"{stack}.layer_{layer_idx:02d}.{ext_proj}"
+                    if ext_key in saved:
+                        arr = saved[ext_key]
+                        # If extraction shape matches model, use directly
+                        if arr.shape == target_shape:
+                            candidates.append(arr)
+                        # If extraction is larger (e.g. (1280,80) vs (512,80) for GLA Q/K),
+                        # truncate rows to match model dim
+                        elif arr.shape[1] == target_shape[1] and arr.shape[0] >= target_shape[0]:
+                            candidates.append(arr[:target_shape[0]])
+                        else:
+                            print(
+                                f"  ⚠ shape mismatch {ext_key}: ext={arr.shape} model={target_shape}",
+                                file=sys.stderr,
+                            )
+
+                if len(candidates) == 0:
+                    n_skipped += 1
+                    continue
+
+                if len(candidates) == 1:
+                    voted = mx.array(candidates[0])
+                else:
+                    # Sign-vote: sum the packed uint32 arrays isn't meaningful.
+                    # But since these are packed ternary, we vote in packed space.
+                    # All 3 are the same shape — take first (they represent different
+                    # teacher zones so any is a valid initialization).
+                    # Prefer stack_b (middle layers = most general representation).
+                    voted = mx.array(candidates[1] if len(candidates) >= 2 else candidates[0])
+
+                flat_params[model_key] = voted
+                n_loaded += 1
+
+        # ── FFN: load from extraction (already voted during extraction) ──
+        ffn_map = {
+            "stack_b.ffn.gate": "ffn_gate_plate.weight",
+            "stack_b.ffn.up": "ffn_key_plate.weight",
+            "stack_b.ffn.down": "ffn_value_plate.weight",
+        }
+        for ext_key, model_key in ffn_map.items():
+            if ext_key in saved and model_key in flat_params:
+                if saved[ext_key].shape == flat_params[model_key].shape:
+                    flat_params[model_key] = mx.array(saved[ext_key])
                     n_loaded += 1
                 else:
-                    n_skipped += 1
                     print(
-                        f"  ⚠ shape mismatch {k}: saved={v.shape} model={flat_params[k].shape}",
+                        f"  ⚠ FFN shape mismatch {ext_key}: ext={saved[ext_key].shape}"
+                        f" model={flat_params[model_key].shape}",
                         file=sys.stderr,
                     )
-        # Re-apply via load_weights (handles the nested tree correctly)
-        model.load_weights(str(extracted_path), strict=False)
+                    n_skipped += 1
+
+        # ── Embeddings ──
+        if "embed_tokens" in saved:
+            emb_key = "embed.ternary_weight"
+            if emb_key in flat_params:
+                ext_emb = saved["embed_tokens"]
+                if ext_emb.shape == flat_params[emb_key].shape:
+                    flat_params[emb_key] = mx.array(ext_emb)
+                    n_loaded += 1
+                else:
+                    # Extraction uses d//16 packing, embedding uses d//4 packing
+                    print(
+                        f"  ⚠ Embedding shape mismatch: ext={ext_emb.shape}"
+                        f" model={flat_params[emb_key].shape}",
+                        file=sys.stderr,
+                    )
+                    n_skipped += 1
+
+        # Re-apply remapped params to model
+        model.update(tree_unflatten(list(flat_params.items())))
         mx.eval(model.parameters())
-        # Re-freeze after load_weights (load_weights resets freeze state)
         restore_ternary(model)
         freeze_ternary_weights(model)
         print(f"  loaded={n_loaded} skipped={n_skipped}", file=sys.stderr)
@@ -174,11 +250,9 @@ def create_model_with_deltas(
 
     # Step 3: convert attention plates to DeltaTernaryLinear.
     # No-block invariant: attention delta initialised to all +1 by DeltaTernaryLinear.
-    # The include_prefixes match the three StrideStackVSM stride_stack attributes.
+    # The shared_stride_stack is the single set of 16 stride layers.
     attention_prefixes = (
-        "stack_a.stride_stack",
-        "stack_b.stride_stack",
-        "stack_c.stride_stack",
+        "shared_stride_stack",
     )
     # Exclude the shared FFN plates from attention conversion
     exclude = ("ffn_key_plate", "ffn_gate_plate", "ffn_value_plate")
@@ -213,8 +287,8 @@ def create_model_with_deltas(
 def _attention_delta_modules(
     delta_modules: list[tuple[str, DeltaTernaryLinear]],
 ) -> list[tuple[str, DeltaTernaryLinear]]:
-    """Return only the attention delta modules (those under stack_{a,b,c}.stride_stack)."""
-    attn_prefixes = ("stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack")
+    """Return only the attention delta modules (those under shared_stride_stack)."""
+    attn_prefixes = ("shared_stride_stack",)
     return [
         (path, dtl)
         for path, dtl in delta_modules
@@ -254,18 +328,22 @@ def compute_decomposed_gradients(
     model: V14Model,
     grads: dict,
 ) -> tuple[
-    list[tuple[str, mx.array, mx.array, mx.array]],
+    list[tuple[str, mx.array, mx.array, mx.array, bool]],
     dict[str, mx.array],
 ]:
     """Decompose gradients: routing → TD, calibration → Adam.
 
     Returns:
-        td_inputs:     list of (name, delta_packed, routing_grad, base_packed)
+        td_inputs:     list of (name, delta_packed, routing_grad, base_packed, no_block)
         gamma_filters: dict[gamma_key → calibration_fraction (N,)]
     """
     delta_modules = collect_delta_params(model)
     td_inputs = []
     gamma_filters = {}
+
+    # Determine which modules have the no-block constraint (attention)
+    attn_modules = _attention_delta_modules(delta_modules)
+    attn_paths = {path for path, _ in attn_modules}
 
     flat_grads = dict(tree_flatten(grads))
 
@@ -300,7 +378,7 @@ def compute_decomposed_gradients(
             grad_effective, effective_signs,
         )
 
-        td_inputs.append((path, dtl.delta_weight, routing, dtl.base_weight))
+        td_inputs.append((path, dtl.delta_weight, routing, dtl.base_weight, path in attn_paths))
 
         # Calibration fraction for Adam gamma filtering
         routing_frac = compute_routing_fraction(grad_effective, effective_signs)
@@ -370,6 +448,8 @@ def train_td(
     start_step: int,
     train_loader,
     checkpoint_dir: Path,
+    structured_warmup_steps: int = 0,
+    target_mix_ratio: float = 0.1,
 ) -> None:
     """Training loop: Adam (beams) + TernaryDescent (delta plates).
 
@@ -407,10 +487,7 @@ def train_td(
     print(f"  Delta modules total: {len(delta_modules)}"
           f"  (attn={len(attn_delta)}, ffn={len(ffn_delta)})", file=sys.stderr)
     for path, dtl in delta_modules:
-        tag = "[attn,no-block]" if any(
-            path.startswith(p)
-            for p in ("stack_a.stride_stack", "stack_b.stride_stack", "stack_c.stride_stack")
-        ) else "[ffn]"
+        tag = "[attn,no-block]" if path.startswith("shared_stride_stack") else "[ffn]"
         print(f"    {tag} {path}: ({dtl.out_features}, {dtl.in_features})", file=sys.stderr)
     print(f"{'='*72}", file=sys.stderr, flush=True)
 
@@ -436,6 +513,7 @@ def train_td(
     n_reductions = 0
     total_td_flips = 0
     td_active = False  # Schmitt trigger state — starts OFF until crystal latches
+    _structured_warmup_done = False  # True after structured-only warmup phase completes
     t_start = time.time()
 
     # ── Warm-up forward pass (initialises Adam state) ─────────
@@ -490,7 +568,7 @@ def train_td(
                 file=sys.stderr,
             )
 
-        # Restore running state (crystal EMA, S5 identity)
+        # Restore running state (crystal EMA, S5 identity, loop state)
         state_path = checkpoint_dir / f"step_{start_step:06d}" / "state.json"
         if not state_path.exists() and args.resume:
             state_path = Path(args.resume).resolve() / "state.json"
@@ -507,6 +585,36 @@ def train_td(
                     f"  s5_identity_state restored ({len(s5_state)} dims)",
                     file=sys.stderr,
                 )
+
+            # Restore training loop counters
+            if "total_td_flips" in state:
+                total_td_flips = state["total_td_flips"]
+                print(f"  total_td_flips = {total_td_flips:,}", file=sys.stderr)
+            if "n_reductions" in state:
+                n_reductions = state["n_reductions"]
+                print(f"  n_reductions = {n_reductions}", file=sys.stderr)
+            if "td_active" in state:
+                td_active = state["td_active"]
+                print(f"  td_active = {td_active}", file=sys.stderr)
+
+            # Restore structured warmup state
+            if "structured_warmup_done" in state:
+                _structured_warmup_done = state["structured_warmup_done"]
+                if _structured_warmup_done and hasattr(train_loader, 'mix_ratio'):
+                    train_loader.mix_ratio = target_mix_ratio
+                print(f"  structured_warmup_done = {_structured_warmup_done}", file=sys.stderr)
+
+            # Restore data loader position (shard + offset)
+            if "data_loader" in state and hasattr(train_loader, "load_state"):
+                train_loader.load_state(state["data_loader"])
+                dl_state = state["data_loader"]
+                print(
+                    f"  data_loader: shard={dl_state.get('shard_idx', '?')}"
+                    f"  pos={dl_state.get('position', '?'):,}"
+                    f"  struct_pos={dl_state.get('structured_pos', 'N/A')}",
+                    file=sys.stderr,
+                )
+
         model._training_step = start_step
 
     # ══════════════════════════════════════════════════════════
@@ -517,6 +625,25 @@ def train_td(
 
     for step in range(start_step + 1, total_steps + 1):
         t0 = time.time()
+
+        # ── Structured data warmup → mix transition ───────────
+        # For the first N steps, mix_ratio=1.0 (pure structured data)
+        # to latch the crystal lattice immediately. Then switch to
+        # normal mix_ratio for prose+structured mixture.
+        if (
+            not _structured_warmup_done
+            and structured_warmup_steps > 0
+            and step > structured_warmup_steps
+            and hasattr(train_loader, 'mix_ratio')
+        ):
+            train_loader.mix_ratio = target_mix_ratio
+            _structured_warmup_done = True
+            print(
+                f"\n🔮 Step {step}: structured warmup complete → "
+                f"mix_ratio={target_mix_ratio}",
+                file=sys.stderr,
+                flush=True,
+            )
 
         lr = cosine_lr(step, cfg.warmup_steps, total_steps, cfg.lr, cfg.lr_floor_ratio)
         adam.learning_rate = lr
@@ -805,6 +932,11 @@ def train_td(
             _save_checkpoint(
                 model, adam, td, step, cfg, checkpoint_dir,
                 train_losses, n_reductions, total_td_flips, delta_modules,
+                train_loader=train_loader,
+                td_active=td_active,
+                structured_warmup_done=_structured_warmup_done,
+                structured_warmup_steps=structured_warmup_steps,
+                target_mix_ratio=target_mix_ratio,
             )
 
     # ── Final ─────────────────────────────────────────────────
@@ -818,6 +950,11 @@ def train_td(
     _save_checkpoint(
         model, adam, td, total_steps, cfg, checkpoint_dir,
         train_losses, n_reductions, total_td_flips, delta_modules,
+        train_loader=train_loader,
+        td_active=td_active,
+        structured_warmup_done=_structured_warmup_done,
+        structured_warmup_steps=structured_warmup_steps,
+        target_mix_ratio=target_mix_ratio,
     )
 
 
@@ -836,8 +973,21 @@ def _save_checkpoint(
     n_reductions: int,
     total_td_flips: int,
     delta_modules: list[tuple[str, DeltaTernaryLinear]],
+    *,
+    train_loader=None,
+    td_active: bool = False,
+    structured_warmup_done: bool = False,
+    structured_warmup_steps: int = 0,
+    target_mix_ratio: float = 0.1,
 ) -> None:
-    """Save model weights, optimizer state, delta snapshots, and running state."""
+    """Save model weights, optimizer state, delta snapshots, and running state.
+
+    Saves everything needed for exact resume:
+      - model.npz: all model parameters
+      - optimizer.npz: Adam moments
+      - delta_plates.npz: per-module delta weights + stats
+      - state.json: all loop state, data position, config snapshot
+    """
     step_dir = checkpoint_dir / f"step_{step:06d}"
     step_dir.mkdir(parents=True, exist_ok=True)
 
@@ -887,7 +1037,17 @@ def _save_checkpoint(
         "s5_identity_state": (
             s5_identity.tolist() if s5_identity is not None else None
         ),
+
+        # Training loop state — needed for exact resume
+        "td_active": td_active,
+        "structured_warmup_done": structured_warmup_done,
+        "structured_warmup_steps": structured_warmup_steps,
+        "target_mix_ratio": target_mix_ratio,
     }
+
+    # Data loader position — exact shard/offset for reproducible resume
+    if train_loader is not None and hasattr(train_loader, "save_state"):
+        state["data_loader"] = train_loader.save_state()
 
     # Per-module delta stats (quick inspection without loading weights)
     delta_stats = {}
@@ -896,6 +1056,10 @@ def _save_checkpoint(
             delta_stats[path] = mod.delta_stats()
     if delta_stats:
         state["delta_stats"] = delta_stats
+
+    # Config snapshot — full hyperparameters that produced this run
+    from dataclasses import asdict
+    state["config"] = asdict(cfg)
 
     (step_dir / "state.json").write_text(json.dumps(_sanitize(state), indent=2))
     print(f"💾 Checkpoint: {step_dir}", file=sys.stderr, flush=True)
@@ -1028,6 +1192,23 @@ if __name__ == "__main__":
         help="Override crystal warmup schedule length (0 = no warmup)",
     )
 
+    # ── Structured data args ──────────────────────────────────
+    parser.add_argument(
+        "--structured-path", type=str,
+        default="data/structured_shard_qwen36.npy",
+        help="Path to structured data shard (lambda/math/clojure). "
+             "Set to 'none' to disable structured mixing.",
+    )
+    parser.add_argument(
+        "--mix-ratio", type=float, default=0.1,
+        help="Fraction of batches drawn from structured data (default: 0.1)",
+    )
+    parser.add_argument(
+        "--structured-warmup-steps", type=int, default=50,
+        help="Steps of pure structured data before mixing in prose. "
+             "Crystal latches immediately on structured data. (default: 50)",
+    )
+
     args = parser.parse_args()
 
     # ── Build config ──────────────────────────────────────────
@@ -1116,7 +1297,7 @@ if __name__ == "__main__":
             print(f"⚠  Resume path not found: {resume_path}", file=sys.stderr)
 
     # ── Data loader ───────────────────────────────────────────
-    train_loader = ShardedDataLoader(
+    prose_loader = ShardedDataLoader(
         data_dir=cfg.data_dir,
         batch_size=cfg.batch_size,
         seq_len=cfg.seq_len,
@@ -1124,6 +1305,33 @@ if __name__ == "__main__":
         shard_end=cfg.n_train_shards,
         seed=42,
     )
+
+    structured_path = args.structured_path
+    if structured_path and structured_path.lower() != "none" and Path(structured_path).exists():
+        # MixedDataLoader: structured warmup then mixed training.
+        # During warmup (first N steps), mix_ratio=1.0 → pure structured.
+        # After warmup, switches to normal mix_ratio.
+        train_loader = MixedDataLoader(
+            prose_loader=prose_loader,
+            structured_path=structured_path,
+            mix_ratio=1.0,  # Start pure structured for crystal latch
+            seq_len=cfg.seq_len,
+            batch_size=cfg.batch_size,
+            seed=42,
+        )
+        structured_warmup_steps = args.structured_warmup_steps
+        target_mix_ratio = args.mix_ratio
+        print(f"\n🔮 Structured data: {structured_path}", file=sys.stderr)
+        print(f"   Crystal warmup: {structured_warmup_steps} steps of PURE structured",
+              file=sys.stderr)
+        print(f"   Then mix_ratio={target_mix_ratio} (structured/prose)", file=sys.stderr)
+    else:
+        train_loader = prose_loader
+        structured_warmup_steps = 0
+        target_mix_ratio = 0.0
+        if structured_path and structured_path.lower() != "none":
+            print(f"⚠  Structured shard not found: {structured_path}", file=sys.stderr)
+        print(f"\n📄 Data: prose only (no structured mixing)", file=sys.stderr)
 
     # ── Config summary banner ─────────────────────────────────
     print(f"\nConfig summary:", file=sys.stderr)
@@ -1143,4 +1351,6 @@ if __name__ == "__main__":
         start_step=start_step,
         train_loader=train_loader,
         checkpoint_dir=checkpoint_dir,
+        structured_warmup_steps=structured_warmup_steps,
+        target_mix_ratio=target_mix_ratio,
     )
