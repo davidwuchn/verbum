@@ -8,14 +8,15 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 148: Found and fixed two critical bugs that blocked all ternary learning in v14. Delta plates showed 158M TD flips but ZERO actual changes — a complete Sisyphus loop. Fixed: (1) collect_delta_params returned 280 aliased modules instead of 70 unique (shared weight 4× traversal), (2) two-step transition through zero incompatible with no-block constraint (every +1→0 staging step immediately undone by _enforce_no_block). Training restarted from step 500 checkpoint with direct +1↔-1 flips for attention deltas. First eval: CE=9.71, PPL=16,503 on held-out data (vs train CE=8.0). Waiting for TD warmup (25 steps) to see first real delta plate changes.**
+**Session 148: Found and fixed three critical issues blocking ternary learning in v14. (1) collect_delta_params returned 280 aliased modules instead of 70 unique — 4× overwrite. (2) Two-step staging through zero incompatible with no-block — every flip undone. (3) After direct flips worked, every-step flipping caused gnorm escalation (11→113 in 40 steps) — GD can't catch up. Final fix: accumulate TD moments every step, commit flips every 10 steps, then reset all moments (landscape changed). Global budget across all 70 modules — hottest flips win regardless of which layer. Training restarted from step 500 checkpoint. First eval baseline: CE=9.71, PPL=16,503.**
 
 ## Active training run
 
-- **v14-td resumed from step 500** in tmux main:2
-- Command: `uv run python scripts/v14/train_td.py --extracted-model-path checkpoints/v14-extracted/model.npz --resume checkpoints/v14-td/step_000500`
-- TD warmup resets on resume (step_count not persisted) — first flips expected ~step 526
-- **Watch for:** `Δ > 0.000` in logs = ternary learning is working
+- **v14-td resumed from step 500** in tmux main:2 (third restart, all fixes applied)
+- TD: flip_rate=0.001, warmup=25, min_conf=0.3, **flip_interval=10**
+- First flip expected ~step 536 (25 warmup + 10 accumulation + base 501)
+- **Watch for:** `td=N` where N>0 on flip steps, `td=0` on accumulate steps
+- gnorm should stay stable after flips (GD has 9 steps to adapt before next flip)
 - Log: `checkpoints/v14-td/run.log`
 
 ## Session 148: Two bugs killed all ternary learning
@@ -40,6 +41,21 @@ Result: every staging step immediately undone. 77K fixes/step = the evidence.
 **Fix:** Attention delta modules (no_block=True) use direct flips: `+1 ↔ -1`.
 FFN deltas (if enabled) still use two-step staging through zero.
 `_enforce_no_block` now finds 0 violations after TD step.
+
+### Bug C: Every-step flipping → gnorm escalation
+
+After fixing A+B, direct flips worked — but flipping 77K positions every step
+caused gnorm to escalate: 11→20→21→38→113 in 40 steps. CE went UP (8.2→10.3).
+GD can never catch up to continuous route changes. Adam's moments are permanently stale.
+
+**Fix:** Three-part redesign:
+1. **Flip interval=10:** TD accumulates moments every step but only commits flips
+   every 10 steps. GD gets 9 steps to adapt before the next topology change.
+2. **Moment reset after flips:** After committing, all TD moments clear — the gradient
+   landscape changed so accumulated direction/magnitude is stale.
+3. **Global budget:** All 70 modules compete for one `flip_rate × total_weights` budget.
+   Hottest flips across the entire model win, not per-module top-k. Concentrates
+   flips where they give the most leverage.
 
 ### First eval baseline (step 500)
 

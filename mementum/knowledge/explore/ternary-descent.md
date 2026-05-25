@@ -84,9 +84,16 @@ hurts, the gradient pushes back immediately.
   TD processing the same module N times with conflicting gradients
 - Symptom: high TD flip count but zero persistent delta changes
 
-**Budget control:** flip_rate limits max flips per step. Like a learning
-rate but for discrete decisions. Prevents the topology from changing
-too fast for Adam to adapt.
+**Budget control and timing (session 148 evolution):**
+- flip_rate × total_weights = global budget (across ALL modules, not per-module)
+- flip_interval=10: accumulate moments every step, commit flips every 10
+- After flipping: reset all TD moments (landscape changed, old signal stale)
+- GD gets 9 steps to re-learn routes before next topology change
+- Global competition: hottest flips across all 70 modules win the budget.
+  High-leverage positions concentrate where they matter most, starving
+  low-importance modules rather than giving each module equal allocation.
+- Every-step flipping → gnorm escalation (11→113 in 40 steps, session 148).
+  GD can never catch up. Adam's moments permanently stale. CE goes UP.
 
 ### Innovation 2: Delta plate architecture
 
