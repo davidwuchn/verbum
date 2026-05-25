@@ -195,8 +195,8 @@ class V14Config:
 
     # ── Training ────────────────────────────────────────────────────
     dropout: float = 0.0       # no dropout for v14
-    batch_size: int = 2
-    grad_accum: int = 4
+    batch_size: int = 1
+    grad_accum: int = 8
     total_steps: int = 20000
     lr: float = 3e-4
     lr_floor_ratio: float = 0.01

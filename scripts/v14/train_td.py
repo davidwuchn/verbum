@@ -514,6 +514,7 @@ def train_td(
     loss_window = deque(maxlen=50)
     n_reductions = 0
     total_td_flips = 0
+    td_flips_since_log = 0  # accumulates flips between log lines for visibility
     td_active = False  # Schmitt trigger state — starts OFF until crystal latches
     _structured_warmup_done = False  # True after structured-only warmup phase completes
     t_start = time.time()
@@ -529,13 +530,20 @@ def train_td(
 
     # ── Resume: restore optimizer state from checkpoint ───────
     if start_step > 0:
-        opt_path = checkpoint_dir / f"step_{start_step:06d}" / "optimizer.npz"
-        if not opt_path.exists():
-            resume_opt = Path(args.resume).resolve() / "optimizer.npz" if args.resume else None
-            if resume_opt and resume_opt.exists():
-                opt_path = resume_opt
+        # Resume path priority: --resume (explicit) > checkpoint_dir/step_N (implicit).
+        # Session 150 bug: folded checkpoint at --resume was overwritten by
+        # checkpoint_dir/step_001500 (the original unfolded checkpoint).
+        resume_dir = Path(args.resume).resolve() if args.resume else None
+        step_dir = checkpoint_dir / f"step_{start_step:06d}"
 
-        if opt_path.exists():
+        # Optimizer: prefer --resume, fallback to step_dir
+        opt_path = None
+        if resume_dir and (resume_dir / "optimizer.npz").exists():
+            opt_path = resume_dir / "optimizer.npz"
+        elif (step_dir / "optimizer.npz").exists():
+            opt_path = step_dir / "optimizer.npz"
+
+        if opt_path is not None:
             saved_opt = dict(mx.load(str(opt_path)))
             current_flat = dict(tree_flatten(adam.state))
             n_restored = 0
@@ -553,17 +561,20 @@ def train_td(
                 f" ({n_restored} arrays, {n_skipped} skipped)",
                 file=sys.stderr,
             )
-            # Re-load model weights to undo the warm-up gradient step
-            model_path = checkpoint_dir / f"step_{start_step:06d}" / "model.npz"
-            if not model_path.exists() and args.resume:
-                model_path = Path(args.resume).resolve() / "model.npz"
-            if model_path.exists():
+            # Re-load model weights to undo the warm-up gradient step.
+            # Must use same source as the CLI loaded (--resume path).
+            model_path = None
+            if resume_dir and (resume_dir / "model.npz").exists():
+                model_path = resume_dir / "model.npz"
+            elif (step_dir / "model.npz").exists():
+                model_path = step_dir / "model.npz"
+            if model_path is not None:
                 model.load_weights(str(model_path), strict=False)
                 mx.eval(model.parameters())
                 restore_ternary(model)
                 freeze_ternary_weights(model)
                 freeze_delta_architecture(model)
-                print(f"📂 Re-loaded model weights (undoing warm-up step)", file=sys.stderr)
+                print(f"📂 Re-loaded model weights from {model_path}", file=sys.stderr)
         else:
             print(
                 f"⚠  No optimizer.npz at step {start_step} — Adam moments start fresh",
@@ -571,9 +582,12 @@ def train_td(
             )
 
         # Restore running state (crystal EMA, S5 identity, loop state)
-        state_path = checkpoint_dir / f"step_{start_step:06d}" / "state.json"
-        if not state_path.exists() and args.resume:
-            state_path = Path(args.resume).resolve() / "state.json"
+        # Prefer --resume, fallback to step_dir
+        state_path = None
+        if resume_dir and (resume_dir / "state.json").exists():
+            state_path = resume_dir / "state.json"
+        elif (step_dir / "state.json").exists():
+            state_path = step_dir / "state.json"
         if state_path.exists():
             state = json.loads(state_path.read_text())
             ema_val = state.get("crystal_ema")
@@ -771,7 +785,7 @@ def train_td(
         #
         # Flipping every step → gnorm escalation → divergence (session 148).
         if td_active:
-            td_result = td.step(td_inputs)
+            td_result = td.step(td_inputs, training_step=step)
         else:
             td_result = {"total_flips": 0, "in_warmup": True, "per_module": {}}
 
@@ -802,6 +816,7 @@ def train_td(
             )
 
         total_td_flips += td_result["total_flips"]
+        td_flips_since_log += td_result["total_flips"]
         dt = time.time() - t0
 
         # ── Logging ───────────────────────────────────────────
@@ -840,8 +855,12 @@ def train_td(
             gate_icon = "🔓" if td_active else "🔒"
             nb_str = f" nb_fixed={n_no_block_fixed}" if n_no_block_fixed > 0 else ""
             adam_decay_str = f" adam_decay={n_adam_decayed}" if n_adam_decayed > 0 else ""
+            # td_flips_since_log shows ALL flips since last log line
+            # (flip_interval may not align with log_interval in old runs,
+            # but with training_step alignment they should match)
+            td_flips_this_window = td_flips_since_log  # capture before reset
             td_str = (
-                f" {gate_icon} td={td_result['total_flips']}"
+                f" {gate_icon} td={td_flips_this_window}"
                 f" Δ={avg_changed:.3f}{nb_str}{adam_decay_str}"
             )
 
@@ -857,6 +876,9 @@ def train_td(
                 file=sys.stderr, flush=True,
             )
 
+            # Reset per-log-interval flip counter
+            td_flips_since_log = 0
+
             # JSONL record
             record = {
                 "step": step,
@@ -868,6 +890,7 @@ def train_td(
                 "tok_per_sec": tps,
                 "elapsed": elapsed,
                 "td_flips": td_result["total_flips"],
+                "td_flips_since_log": td_flips_this_window,
                 "td_total_flips": total_td_flips,
                 "td_adam_decayed": n_adam_decayed,
                 "td_in_warmup": td_result["in_warmup"],
@@ -1011,19 +1034,25 @@ def _save_checkpoint(
 
     # Delta plate snapshots — separate file for quick cross-run comparison.
     # Base plates are NOT saved here (frozen and identical to extraction).
+    # Uses collect_delta_params() to deduplicate aliases (shared_stride_stack
+    # is aliased via stack_a/b/c — without dedup we'd save 280 entries
+    # instead of 70). Stores packed uint32 (2 bits/position) not int8.
     delta_snapshots = {}
-    for path, mod in model.named_modules():
-        if isinstance(mod, DeltaTernaryLinear):
-            delta_key = path.replace(".", "_")
-            delta_unpacked = unpack_ternary_mlx(mod.delta_weight)
-            mx.eval(delta_unpacked)
-            delta_snapshots[f"{delta_key}_delta"] = delta_unpacked
-            delta_snapshots[f"{delta_key}_stats"] = mx.array([
-                float((delta_unpacked == 1).sum().item()),   # n_keep
-                float((delta_unpacked == -1).sum().item()),  # n_flip
-                float((delta_unpacked == 0).sum().item()),   # n_block (should be 0 for attn)
-                float(delta_unpacked.size),                  # total
-            ])
+    dedup_deltas = collect_delta_params(model)
+    for path, dtl in dedup_deltas:
+        delta_key = path.replace(".", "_")
+        # Store packed uint32 directly (session 150: 356MB → ~27MB)
+        mx.eval(dtl.delta_weight)
+        delta_snapshots[f"{delta_key}_delta_packed"] = dtl.delta_weight
+        # Stats from the module's own method (avoids unpacking)
+        ds = dtl.delta_stats()
+        total = dtl.out_features * dtl.in_features
+        delta_snapshots[f"{delta_key}_stats"] = mx.array([
+            ds["keep_frac"] * total,    # n_keep
+            ds["flip_frac"] * total,    # n_flip
+            ds["block_frac"] * total,   # n_block
+            float(total),               # total
+        ])
     if delta_snapshots:
         mx.savez(str(step_dir / "delta_plates.npz"), **delta_snapshots)
 
@@ -1119,12 +1148,16 @@ if __name__ == "__main__":
         help="TD warmup steps AFTER crystal latches (no flips before; default: 25)",
     )
     parser.add_argument(
-        "--td-flip-interval", type=int, default=10,
+        "--td-flip-interval", type=int, default=20,
         help=(
-            "Steps between TD flip commits (default: 10). TD accumulates moments "
+            "Steps between TD flip commits (default: 20). TD accumulates moments "
             "every step but only commits flips every N steps. After flipping, "
-            "moments reset — stale accumulation would drive bad flips. GD needs "
-            "time to re-learn routes after topology changes."
+            "moments at flipped positions are surgically zeroed (definitely stale). "
+            "Non-flipped positions keep their accumulation — EMA natural decay "
+            "(beta1=0.9 → 12%% remaining after 20 steps) handles landscape drift. "
+            "Use a multiple of --log-interval for visibility. "
+            "Session 148: every-step flipping caused gnorm escalation. "
+            "Session 150: global reset was too conservative."
         ),
     )
     parser.add_argument(

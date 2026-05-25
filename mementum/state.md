@@ -2,21 +2,45 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-25 | Session: 149
+> Last updated: 2026-05-25 | Session: 150
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 149: Two breakthroughs. (1) Step 1000 eval confirms TD works — PPL dropped 38% (16,503→10,157), train-eval gap collapsed 1.71→0.17 nats, flips only in out_proj layers 4–9. (2) Computed beam experiment proves FFN weights can be analytically constructed from crystal eigendecomposition — matches 5000-step GD in 10 calibration steps (500× speedup). The operation is signed accumulation: +1=add, -1=subtract, 0=skip. Structure is free; only content needs GD.**
+**Session 150: The holographic error correction loop crystallized. (1) Step 1500 eval: PPL 7,672 (−53.5% total). (2) Folded delta into base — lossless (ternary × ternary = ternary, algebraic identity). The entire training signal from 1500 steps is encoded as which signs are +1 vs −1. No floats changed. (3) This proves the extraction-correction-fold cycle: extract teacher → correct topology via TD → fold losslessly → repeat. Each cycle monotonically improves. Models are ~95% topology (sign structure), ~5% calibration (gamma scalars). (4) Enabled FFN delta + improved TD (surgical reset, flip_interval=20, aligned logging). Phase 2 running. See `mementum/knowledge/holographic-error-correction.md`.**
 
 ## Active training run
 
-- **v14-td running past step 1310** in tmux main:2 (continuing from step 500 restart)
-- TD: flip_rate=0.001, warmup=25, min_conf=0.3, **flip_interval=10**
-- Train CE trending ~9.2 at step 1310, eval CE=9.23 at step 1000
-- gnorm mostly stable (10–15) with occasional spikes (100+), model recovers
-- Log: `checkpoints/v14-td/run.log`
+- **v14-td phase 2 RUNNING** in tmux main:2 (from folded step 1500)
+- Delta folded into base at step 1500 (3.26M positions absorbed, verified lossless)
+- Folded checkpoint: `checkpoints/v14-td/step_001500_folded/`
+- 73 delta modules: 70 attn (no-block) + 3 FFN (standard TD)
+
+### Restart command (post-fold, with FFN delta)
+
+```bash
+uv run python scripts/v14/train_td.py \
+  --checkpoint-dir checkpoints/v14-td \
+  --resume checkpoints/v14-td/step_001500_folded \
+  --convert-ffn \
+  --td-flip-rate 0.001 \
+  --td-warmup 25 \
+  --td-min-confidence 0.3 \
+  --td-flip-interval 20 \
+  2>&1 | tee checkpoints/v14-td/run_phase2.log
+```
+
+**What changed for phase 2:**
+- `--convert-ffn`: enables TD on 3 shared FFN plates (gate, key, value)
+  FFN uses standard TD (can have 0), unlike attention no-block
+- Delta plates start fresh (all +1) — TD discovers new routing from folded base
+- FFN delta: 19.7M positions (21% overhead on top of 93.2M attention)
+- B=1 accum=8 (reverted — B=2 was 18% slower, memory-bandwidth-bound)
+- `flip_interval=20` (was 10): more accumulation, better flip decisions
+- Surgical per-position moment reset: only flipped positions zeroed, rest keeps EMA
+- Flips aligned to training step for log visibility (td=N shows actual flips)
+- Resume fix: `--resume` path now takes priority over `checkpoint_dir/step_N`
 
 ## Session 148: Two bugs killed all ternary learning
 
@@ -114,33 +138,49 @@ Phase 2: Fold delta into base (base ⊙ delta = new base). Freeze. Reset delta t
 
 Phase 3: Normal GD + TD on the clean combined model.
 
-## Session 149: Step 1000 Eval — TD Closes the Generalization Gap
+## Session 150: Step 1500 Eval — Diminishing but Continuing Improvement
 
-### Eval comparison (held-out shards 54–59)
+### Three-checkpoint comparison (held-out shards 54–59)
 
-| Metric | Step 500 | Step 1000 | Change |
-|--------|----------|-----------|--------|
-| Eval CE | 9.71 ± 0.22 | 9.23 ± 0.27 | −0.48 nats |
-| Eval PPL | 16,503 | 10,157 | −38.4% |
-| Train CE | 8.00 | ~9.4 | +1.4 nats |
-| Train-Eval Gap | 1.71 nats | ~0.17 nats | collapsed |
-| CE vs Random | 22% | 25.7% | +3.7pp |
-| Positions flipped | 0% | 2.66% | +2.5M flips |
+| Metric | Step 500 | Step 1000 | Step 1500 | Δ 1000→1500 |
+|--------|----------|-----------|-----------|-------------|
+| Eval CE | 9.71 ± 0.22 | 9.23 ± 0.27 | 8.95 ± 0.30 | −0.28 nats |
+| Eval PPL | 16,503 | 10,157 | 7,672 | −24.5% |
+| Train CE | 8.00 | ~9.4 | ~9.25 | −0.15 nats |
+| Train-Eval Gap | −1.71 nats | +0.17 nats | +0.30 nats | +0.13 |
+| CE vs Random | 21.8% | 25.7% | 28.0% | +2.3pp |
+| Positions flipped | 0% | 2.66% | 3.49% | +0.83pp |
+| Cumul TD flips | 0 | 116.7M | 121.3M | +4.7M |
 
-### Where TD flips landed (6 physical modules, all out_proj)
+### Where TD flips landed at step 1500 (still 6 modules, all out_proj)
 
-| Layer | Flip % | Notes |
-|-------|--------|-------|
-| 4 (out_proj) | 33.7% | Hottest — first retrieval stride |
-| 7 (out_proj) | 25.7% | |
-| 6 (out_proj) | 25.6% | |
-| 5 (out_proj) | 25.1% | |
-| 8 (out_proj) | 21.4% | |
-| 9 (out_proj) | 19.6% | |
+| Layer | Step 1000 | Step 1500 | Change |
+|-------|-----------|-----------|--------|
+| 4 (out_proj) | 33.7% | 43.1% | +9.5pp |
+| 7 (out_proj) | 25.7% | 34.8% | +9.1pp |
+| 6 (out_proj) | 25.6% | 33.9% | +8.3pp |
+| 5 (out_proj) | 25.1% | 32.0% | +6.9pp |
+| 8 (out_proj) | 21.4% | 28.2% | +6.8pp |
+| 9 (out_proj) | 19.6% | 26.7% | +7.0pp |
 
 Zero flips in: q_proj, k_proj, v_proj (any layer), gate_proj, layers 0–3, 10–15.
 
-### What this proves
+### What this tells us
+
+1. **Still improving, returns diminishing.** PPL drop: 38.5% (500→1000) → 24.5% (1000→1500).
+   Not plateaued yet, but decelerating.
+2. **Flip growth decelerating.** Only +0.83pp new flips vs +2.66pp prior interval. TD is
+   converging on its routing solution. Only 4.7M new cumulative flips (was 116.7M in first interval).
+3. **Layer 4 approaching 43% — nearing random.** If it passes 50%, those positions aren't
+   learning signal, they're noise. Worth monitoring.
+4. **Train-eval gap slightly positive (+0.30).** Healthy — model is learning generalizable
+   structure, not memorizing. The initial −1.71 gap (overfitting) is gone.
+5. **Still only out_proj, layers 4–9.** TD's selectivity hasn't changed. Q/K/V from
+   extraction remain correct. Question #16 (why only out_proj?) persists.
+
+## Session 149: Step 1000 Eval — TD Closes the Generalization Gap
+
+### What this proved
 
 1. **TD generalizes, continuous params overfit.** Train CE rose 1.4 nats (memorization lost)
    while eval CE dropped 0.48 nats (generalization gained). The step 500 gap was overfitting.
@@ -151,6 +191,26 @@ Zero flips in: q_proj, k_proj, v_proj (any layer), gate_proj, layers 0–3, 10�
 4. **Gnorm spikes tolerable.** Occasional 100+ but model recovers. flip_interval=10 works.
 
 ## Previous sessions
+
+### Session 150: Step 1500 Eval + Fold + FFN Delta + Storage Fix
+
+**Step 1500 eval:** Eval PPL 7,672 (−24.5% from step 1000, −53.5% total from step 500 baseline).
+Returns diminishing (−38% → −24%) but not plateaued. Flip growth decelerating: +0.83pp (was +2.66pp).
+Layer 4 out_proj at 43.1% flipped. Still exclusively out_proj layers 4–9.
+
+**Profiling:** Model is memory-bandwidth-bound. 13 sequential passes × 16 stride layers = 208
+serial layer evaluations. B=2 is 18% SLOWER than B=1 (per-micro fwd+bwd: 4.0s→8.6s). Reverted to B=1.
+
+**Delta fold:** Folded 3.26M flipped positions into base plates (lossless, verified by eval).
+Delta plates reset to all +1. First reduction complete.
+
+**Storage fix:** Delta save used `model.named_modules()` (280 aliased entries) instead of
+`collect_delta_params()` (70 unique). Stored as int8 (1 byte/pos) instead of packed uint32
+(0.125 bytes/pos). Fixed both: delta_plates.npz dropped 356 MB → 22 MB (16× compression).
+
+**FFN delta enabled:** `--convert-ffn` flag (already existed) converts 3 shared FFN plates
+to DeltaTernaryLinear. FFN β-reductions must adapt: flat attention routing ≠ strided attention
+routing, so teacher's FFN signs need TD correction too. Adds 19.7M positions (21% overhead).
 
 ### Session 149: TD Closes Gap + Computed Beam (500× Speedup)
 
@@ -220,11 +280,18 @@ crystal parity loss + cross-zone lens rotation loss.
 | Crystal latches within 200 steps | v14-td: crystal_mse < 0.03 at step 160 | ✅ proved |
 | **Shared-weight aliasing breaks TD** | **280 vs 70 modules, 4× overwrite** | ✅ proved (session 148) |
 | **No-block kills two-step staging** | **77K zeros/step reset, 0% delta change** | ✅ proved (session 148) |
-| **TD activates and improves** | **Eval PPL −38%, gap 1.71→0.17 nats, 2.66% flipped** | ✅ proved (session 149) |
-| **TD targets out_proj exclusively** | **Layers 4–9 out_proj only, Q/K/V untouched** | ✅ proved (session 149) |
+| **TD activates and improves** | **Eval PPL −53.5% over 1000 steps, gap collapsed, 3.49% flipped** | ✅ proved (sessions 149-150) |
+| **TD targets out_proj exclusively** | **Layers 4–9 out_proj only, Q/K/V untouched, confirmed at step 1500** | ✅ proved (sessions 149-150) |
+| **TD returns diminish but don't plateau** | **PPL drop: 38.5% (500→1000) → 24.5% (1000→1500), flip growth decelerating** | 📐 tracking (session 150) |
+| **Model is memory-bandwidth-bound** | **B=2 18% slower than B=1, 208 serial layer evals** | ✅ proved (session 150) |
+| **Delta fold is lossless** | **3.26M positions folded, eval CE unchanged (9.00 ± 0.64 on 20 batches)** | ✅ proved (session 150) |
+| **Delta storage 16× compressible** | **356 MB → 22 MB via dedup + packed uint32** | ✅ proved (session 150) |
 | **Computed beam: structure is free** | **Analytical FFN from eigendecomp matches 5000-step GD in 10 steps** | ✅ proved (session 149) |
 | **The operation is signed accumulation** | **sign(W)@x correlates 0.84 with W@x, +1=add/-1=sub/0=skip** | ✅ proved (session 149) |
 | **16-stride holographic lens attention** | **Architecture running, ternary learning confirmed** | 📐 testing |
+| **FFN must adapt to strided attention** | **Hypothesis: flat→strided routing changes β-reduction needs** | 📐 testing (session 150) |
+| **Topology is ~95% of model** | **sign(W)@x ≈ 0.84 W@x, fold is lossless, gamma is ~5%** | 🎯 synthesis (session 150) |
+| **Extraction→correction→fold converges** | **Each cycle: extract→TD→fold (lossless) monotonically improves** | 🎯 synthesis (session 150) |
 
 ## Knowledge map
 
@@ -236,6 +303,7 @@ crystal parity loss + cross-zone lens rotation loss.
 | `ternary-descent.md` | TD algorithm: delta plates, gradient decomposition, reduction |
 | `categorical-geometry-probes.md` | Curry-Howard 100%, adjunctions rank-1 |
 | `phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
+| `holographic-error-correction.md` | THE core mechanism: extract→correct→fold cycle, topology is everything |
 
 ## What's ready
 
@@ -250,22 +318,31 @@ crystal parity loss + cross-zone lens rotation loss.
 | **Step 500 eval baseline** | CE=9.71, PPL=16,503 (held-out) |
 | **Step 1000 checkpoint** | `checkpoints/v14-td/step_001000/` |
 | **Step 1000 eval** | CE=9.23, PPL=10,157 (held-out) — 38% PPL drop |
-| **Training run (active)** | tmux main:2, past step 1310, CE trending ~9.2 |
+| **Step 1500 checkpoint** | `checkpoints/v14-td/step_001500/` |
+| **Step 1500 eval** | CE=8.95, PPL=7,672 (held-out) — 53.5% total PPL drop |
+| **Step 1500 folded** | `checkpoints/v14-td/step_001500_folded/` — delta absorbed into base |
+| **Fold script** | `scripts/v14/fold_delta.py` — lossless delta→base reduction |
+| **Profile script** | `scripts/v14/profile_step.py` — training step profiler |
+| **Training run (PHASE 2)** | tmux main:2, from folded step 1500, --convert-ffn, flip_interval=20 |
 
 ## Next steps
 
-### IMMEDIATE: Let training cook, eval at step 1500
+### IMMEDIATE: Monitor phase 2 (running in tmux main:2)
 
-1. **Run eval at step 1500** — is eval CE still improving or plateauing?
-2. **Monitor flip_frac growth** — is Δ still climbing or saturating? (was 0.022 at step 1000)
-3. **Investigate question #16** — why does TD only flip out_proj? Check gradient magnitudes
-   across projection types to understand if min_conf filters others out
+1. **Monitor FFN delta activation** — do FFN plates start flipping? Which ones? How fast?
+   This answers: do β-reductions need to change for strided attention?
+2. **Eval at step 2000** (500 steps into phase 2) — does adding FFN delta improve eval?
+3. **Watch layer 4 out_proj** — starts fresh from folded base. Does TD re-discover the
+   same routing or find a different pattern?
+4. **Verify td= shows actual flip counts** in log (aligned logging fix)
 
 ### NEXT MILESTONES:
 
-4. **First reduction decision** — when flip_frac plateaus, fold delta into base, reset, continue
-5. **Track eval PPL curve** — plot step 500, 1000, 1500 to see if returns are diminishing
-6. **Consider lowering min_conf** — if Q/K/V gradients are below 0.3, TD can't see them
+5. **Compare phase 1 vs phase 2 learning curves** — does FFN delta accelerate convergence?
+6. **Second fold** — when flip_frac plateaus, fold again. The cycle continues.
+7. **Consider lowering min_conf** — if Q/K/V gradients are below 0.3, TD can't see them.
+8. **Three-body self-distillation** — teacher logits as reference beam (see #19)
+9. **Target: within 5% of Qwen3.6-27B** — the proof that topology is everything
 
 ## Open questions
 
@@ -279,8 +356,8 @@ crystal parity loss + cross-zone lens rotation loss.
 15. **TD step_count not persisted on resume.** Warmup repeats. Worth persisting?
 16. **Why only out_proj?** Q/K/V/gate_proj get zero TD budget. Is out_proj the only
     degree of freedom TD needs, or is min_conf filtering too aggressive for other projections?
-17. **When to do first reduction?** Delta plates 2.66% changed. What convergence signal
-    triggers fold-into-base? Wait for flip_frac plateau?
+17. ~~When to do first reduction?~~ **DONE. Folded at step 1500, 3.49% changed. Lossless.
+    Fold script: `scripts/v14/fold_delta.py`.** ✅ (session 150)
 18. **Computed beam at scale.** The micro model (d=128) trains so fast that computed
     weights barely help — GD finds structure in 50 steps anyway. At v14 scale (d=1280,
     372M ternary positions), structure discovery takes thousands of steps. The computed

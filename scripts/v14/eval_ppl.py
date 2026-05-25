@@ -165,10 +165,17 @@ def main():
         delta_modules = collect_delta_params(model)
         n_loaded = 0
         for path, dtl in delta_modules:
-            # Key format: dots→underscores, + "_delta" suffix, stored as int8
-            key = path.replace(".", "_") + "_delta"
-            if key in delta_data:
-                delta_int8 = mx.array(delta_data[key].astype(np.int8))
+            delta_key = path.replace(".", "_")
+            # New format (session 150+): packed uint32, key = "{name}_delta_packed"
+            packed_key = f"{delta_key}_delta_packed"
+            # Old format: unpacked int8, key = "{name}_delta"
+            old_key = f"{delta_key}_delta"
+            if packed_key in delta_data:
+                dtl.delta_weight = mx.array(delta_data[packed_key])
+                mx.eval(dtl.delta_weight)
+                n_loaded += 1
+            elif old_key in delta_data:
+                delta_int8 = mx.array(delta_data[old_key].astype(np.int8))
                 dtl.delta_weight = pack_ternary_mlx(delta_int8)
                 mx.eval(dtl.delta_weight)
                 n_loaded += 1

@@ -202,7 +202,7 @@ class TernaryDescent:
         cooldown_tau: float = 50.0,
         cooldown_backoff: float = 2.0,
         neighbor_width: int = 3,
-        flip_interval: int = 10,
+        flip_interval: int = 20,
     ):
         """Initialize TernaryDescent.
 
@@ -224,12 +224,17 @@ class TernaryDescent:
             neighbor_width: Width of row-wise median filter for spatial smoothing.
                             Must be odd (3, 5, 7). Breaks ties, smooths noise,
                             preserves crystal edges.
-            flip_interval:  Steps between flip commits (default: 10). TD accumulates
+            flip_interval:  Steps between flip commits (default: 20). TD accumulates
                             moments every step but only commits flips every N steps.
                             GD needs time to re-learn routes after topology changes.
-                            After flipping, moments auto-reset (stale accumulation
-                            would drive bad flips). Session 148: every-step flipping
-                            caused gnorm escalation 11→113 in 40 steps.
+                            After flipping, moments at FLIPPED positions reset to zero
+                            (their direction is definitely stale — it pointed toward
+                            the flip that just happened). Non-flipped positions keep
+                            their accumulation intact — EMA natural decay (beta1=0.9
+                            → 12% remaining after 20 steps) handles landscape drift.
+                            Session 148: every-step flipping caused gnorm escalation.
+                            Session 150: full global reset was too conservative —
+                            99.9% of positions had valid moments that were discarded.
         """
         self.beta1 = beta1
         self.beta2 = beta2
@@ -367,13 +372,15 @@ class TernaryDescent:
     def step(
         self,
         delta_params: list[tuple[str, mx.array, mx.array, mx.array, bool]],
+        training_step: int | None = None,
     ) -> dict[str, Any]:
         """Perform one TernaryDescent step across all delta plates.
 
         Every call accumulates moments. Flips only commit every
         flip_interval steps (after warmup). After committing flips,
-        moments auto-reset — the gradient landscape changed, so
-        accumulated direction/magnitude is stale.
+        moments at flipped positions reset to zero (their direction
+        is definitely stale). Non-flipped positions keep their
+        accumulation — EMA natural decay handles landscape drift.
 
         Args:
             delta_params: List of (name, delta_packed_uint32, grad_wrt_effective,
@@ -409,10 +416,15 @@ class TernaryDescent:
         per_module = {}
 
         in_warmup = self.step_count <= self.warmup_steps
+
+        # Flip timing: use training_step when provided so flips align
+        # with the logging interval (both are multiples of step count).
+        # Falls back to internal step_count for backward compatibility.
+        flip_clock = training_step if training_step is not None else self.step_count
         is_flip_step = (
             not in_warmup
             and self.flip_interval > 0
-            and (self.step_count - self.warmup_steps) % self.flip_interval == 0
+            and flip_clock % self.flip_interval == 0
         )
 
         # ── Pass 1: Accumulate moments for ALL modules (every step) ──
@@ -618,6 +630,7 @@ class TernaryDescent:
                     ).item()) if n_candidates > 0 else 0.0,
                     "new_packed": new_packed,
                     "affected_rows": affected_rows,
+                    "flip_occurred": flip_occurred,
                 }
             else:
                 per_module[name] = {
@@ -628,9 +641,26 @@ class TernaryDescent:
                     ).item()) if n_candidates > 0 else 0.0,
                 }
 
-        # ── Post-flip: reset ALL moments (landscape changed) ──
+        # ── Post-flip: surgical per-position moment reset ──────
+        # Only zero moments at positions that actually flipped.
+        # Their accumulated direction is definitely stale (it pointed
+        # toward the flip that just happened — now it's backwards).
+        # Non-flipped positions keep their accumulation intact.
+        # EMA natural decay (beta1=0.9 → 12% after 20 steps) handles
+        # any landscape drift from the topology change.
+        # Session 150: global reset was too conservative — 99.9% of
+        # positions had valid moments that were unnecessarily discarded.
         if total_flips > 0:
-            self.reset_moments()
+            for mc in module_candidates:
+                name = mc["name"]
+                info = per_module.get(name, {})
+                if info.get("flips", 0) > 0 and "flip_occurred" in info:
+                    flip_mask = info["flip_occurred"]
+                    if name in self._state:
+                        direction, magnitude = self._state[name]
+                        direction = mx.where(flip_mask, mx.array(0.0), direction)
+                        magnitude = mx.where(flip_mask, mx.array(0.0), magnitude)
+                        self._state[name] = (direction, magnitude)
 
         self.last_n_flips = total_flips
         return {
@@ -642,11 +672,15 @@ class TernaryDescent:
         }
 
     def reset_moments(self):
-        """Reset moment accumulators but keep flip history.
+        """Reset ALL moment accumulators but keep flip history.
 
-        Called after flips are applied: the gradient landscape changed,
-        so accumulated direction/magnitude is stale. Flip history
-        (cooldown, backoff) must survive — it tracks physical positions.
+        Called after reduction (delta folded into base) or other events
+        that invalidate ALL accumulated gradient signal. For normal
+        post-flip resets, use surgical per-position zeroing in step()
+        instead — only flipped positions have definitely stale moments.
+
+        Flip history (cooldown, backoff) must survive — it tracks
+        physical positions across the lifetime of the delta plate.
         """
         self._state.clear()
 
