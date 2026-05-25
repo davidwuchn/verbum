@@ -479,7 +479,8 @@ def train_td(
     print(f"  d_model={cfg.d_model}  n_passes={cfg.n_passes}  strides={len(cfg.strides)}", file=sys.stderr)
     print(f"  steps {start_step+1}–{total_steps}", file=sys.stderr)
     print(f"  TD: flip_rate={args.td_flip_rate}  warmup={args.td_warmup}"
-          f"  min_conf={args.td_min_confidence}", file=sys.stderr)
+          f"  min_conf={args.td_min_confidence}"
+          f"  flip_interval={args.td_flip_interval}", file=sys.stderr)
     decompose_str = "ON (routing→TD, calibration→Adam)" if args.decompose_gradient else "OFF (mixed)"
     print(f"  Gradient decomposition: {decompose_str}", file=sys.stderr)
     print(f"  No-block: attention delta = {{+1,-1}} only (NEVER 0)", file=sys.stderr)
@@ -503,6 +504,7 @@ def train_td(
         min_confidence=args.td_min_confidence,
         beta1=args.td_beta1,
         beta2=args.td_beta2,
+        flip_interval=args.td_flip_interval,
     )
 
     loss_and_grad = nn.value_and_grad(model, loss_fn)
@@ -761,6 +763,13 @@ def train_td(
                 td_active = False  # crystal destabilized — deactivate TD
             # else: stay in current state (hysteresis band)
 
+        # ── TernaryDescent: accumulate every step, flip every N ──
+        # TD.step() accumulates moments every call. When step_count
+        # hits a flip_interval boundary, it also commits flips.
+        # Between flips, GD has time to re-learn routes.
+        # After flips, moments reset — stale accumulation drives bad flips.
+        #
+        # Flipping every step → gnorm escalation → divergence (session 148).
         if td_active:
             td_result = td.step(td_inputs)
         else:
@@ -1108,6 +1117,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--td-warmup", type=int, default=25,
         help="TD warmup steps AFTER crystal latches (no flips before; default: 25)",
+    )
+    parser.add_argument(
+        "--td-flip-interval", type=int, default=10,
+        help=(
+            "Steps between TD flip commits (default: 10). TD accumulates moments "
+            "every step but only commits flips every N steps. After flipping, "
+            "moments reset — stale accumulation would drive bad flips. GD needs "
+            "time to re-learn routes after topology changes."
+        ),
     )
     parser.add_argument(
         "--td-crystal-gate", type=float, default=0.03,

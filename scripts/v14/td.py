@@ -202,6 +202,7 @@ class TernaryDescent:
         cooldown_tau: float = 50.0,
         cooldown_backoff: float = 2.0,
         neighbor_width: int = 3,
+        flip_interval: int = 10,
     ):
         """Initialize TernaryDescent.
 
@@ -223,6 +224,12 @@ class TernaryDescent:
             neighbor_width: Width of row-wise median filter for spatial smoothing.
                             Must be odd (3, 5, 7). Breaks ties, smooths noise,
                             preserves crystal edges.
+            flip_interval:  Steps between flip commits (default: 10). TD accumulates
+                            moments every step but only commits flips every N steps.
+                            GD needs time to re-learn routes after topology changes.
+                            After flipping, moments auto-reset (stale accumulation
+                            would drive bad flips). Session 148: every-step flipping
+                            caused gnorm escalation 11→113 in 40 steps.
         """
         self.beta1 = beta1
         self.beta2 = beta2
@@ -232,7 +239,9 @@ class TernaryDescent:
         self.cooldown_tau = cooldown_tau
         self.cooldown_backoff = cooldown_backoff
         self.neighbor_width = neighbor_width
+        self.flip_interval = flip_interval
         assert neighbor_width % 2 == 1, "neighbor_width must be odd for tie-breaking"
+        assert flip_interval >= 1, "flip_interval must be ≥1"
         self.step_count = 0
 
         # Per-parameter state: {param_id: (direction, magnitude)}
@@ -361,6 +370,11 @@ class TernaryDescent:
     ) -> dict[str, Any]:
         """Perform one TernaryDescent step across all delta plates.
 
+        Every call accumulates moments. Flips only commit every
+        flip_interval steps (after warmup). After committing flips,
+        moments auto-reset — the gradient landscape changed, so
+        accumulated direction/magnitude is stale.
+
         Args:
             delta_params: List of (name, delta_packed_uint32, grad_wrt_effective,
                           base_packed_uint32, no_block).
@@ -373,6 +387,8 @@ class TernaryDescent:
                 - no_block: if True, delta is constrained to {+1, -1} only —
                   transitions skip zero and flip directly (+1 ↔ -1).
                   If False, uses two-step staging through zero (+1→0→±1).
+            commit: if True, select and apply flips. If False, only accumulate
+                    moments (no topology changes). Default True for backward compat.
 
             The desired direction for delta is computed from the gradient
             w.r.t. effective and the base sign:
@@ -384,194 +400,210 @@ class TernaryDescent:
         Returns:
             dict with step metrics:
                 - step: current step count
-                - total_flips: number of flips this step
-                - per_module: dict[name, {flips, candidates, mean_confidence}]
+                - total_flips: number of flips this step (0 on accumulate steps)
+                - in_warmup: True if still in warmup
+                - is_flip_step: True if this was a flip commit step
+                - per_module: dict[name, {flips, candidates, mean_confidence, ...}]
         """
         self.step_count += 1
-        total_flips = 0
         per_module = {}
 
         in_warmup = self.step_count <= self.warmup_steps
+        is_flip_step = (
+            not in_warmup
+            and self.flip_interval > 0
+            and (self.step_count - self.warmup_steps) % self.flip_interval == 0
+        )
 
-        for name, delta_packed, grad_effective, base_packed, no_block in delta_params:
-            # Use name as stable ID (object id changes on reassignment)
+        # ── Pass 1: Accumulate moments for ALL modules (every step) ──
+        for name, _delta_packed, grad_effective, _base_packed, _no_block in delta_params:
             direction, magnitude = self._get_state(name, grad_effective.shape)
-
-            # Update moments using the EFFECTIVE gradient directly
-            # (not projected through base — that caused sign confusion)
             direction = self.beta1 * direction + (1 - self.beta1) * grad_effective
             magnitude = self.beta2 * magnitude + (1 - self.beta2) * (grad_effective ** 2)
-
-            # Store updated moments
             self._set_state(name, direction, magnitude)
 
-            if in_warmup:
+        # If not a flip step, return early — moments accumulated, no topology change
+        if not is_flip_step:
+            for name, *_ in delta_params:
                 per_module[name] = {"flips": 0, "candidates": 0, "mean_confidence": 0.0}
-                continue
+            self.last_n_flips = 0
+            return {
+                "step": self.step_count,
+                "total_flips": 0,
+                "in_warmup": in_warmup,
+                "is_flip_step": False,
+                "per_module": per_module,
+            }
 
-            # Bias correction (same as Adam)
-            bc1 = 1 - self.beta1 ** self.step_count
-            bc2 = 1 - self.beta2 ** self.step_count
+        # ── Pass 2: Score all candidates globally (flip steps only) ──
+        #
+        # Compute per-position scores across ALL modules, then select
+        # the global top-k. This ensures the flip budget goes to the
+        # highest-leverage positions regardless of which module they're in.
+        #
+        # Session 148: per-module budgets waste flips on low-importance
+        # modules while starving high-importance ones.
+
+        # Bias correction
+        bc1 = 1 - self.beta1 ** self.step_count
+        bc2 = 1 - self.beta2 ** self.step_count
+
+        # Collect scored candidates from all modules
+        module_candidates = []  # list of per-module scoring data
+
+        total_ternary_weights = 0
+
+        for name, delta_packed, grad_effective, base_packed, no_block in delta_params:
+            direction, magnitude = self._get_state(name, grad_effective.shape)
+
             dir_corrected = direction / bc1
             mag_corrected = magnitude / bc2
 
             # Confidence: signal-to-noise ratio
-            # High |direction| / sqrt(magnitude) = gradient consistently points one way
             snr = mx.abs(dir_corrected) / (mx.sqrt(mag_corrected) + 1e-8)
-
-            # Importance: how much loss cares about this position
             importance = mx.sqrt(mag_corrected)
 
-            # ── Three-voter anti-oscillation (session 137) ────
-            #
-            # Voter 1: TD gradient confidence (snr) — already computed
-            # Voter 2: Cooldown gate — time-based hysteresis with backoff
-            # Voter 3: Neighbor consensus — row-wise median smoothing
-            #
-            # Three voters (odd) → always breaks ties.
-            # Multiplicative: ALL must agree for a flip.
-
-            # Voter 2: Cooldown — recently flipped positions can't flip again
+            # Three-voter anti-oscillation
             cooldown = self._compute_cooldown(name, grad_effective.shape)
-
-            # Voter 3: Neighbor consensus — smooth confidence spatially
-            # Row-wise median of width 3 (or 5): breaks ties, rejects outlier flips,
-            # preserves crystal edges (if 2 of 3 neighbors agree, edge is real)
             smoothed_snr = self._row_median_smooth(snr, self.neighbor_width)
-
-            # Combined score: all three voters contribute
-            # smoothed_snr replaces raw snr (incorporates neighbor vote)
-            # cooldown gates positions that recently flipped
             score = smoothed_snr * importance * cooldown
 
-            # Minimum confidence gate (on smoothed signal)
+            # Minimum confidence gate
             confident = smoothed_snr > self.min_confidence
 
-            # Unpack current delta and base to determine valid transitions
-            delta_unpacked = unpack_ternary_mlx(delta_packed)  # (N, K) int8
-            base_unpacked = unpack_ternary_mlx(base_packed)    # (N, K) int8
+            # Unpack
+            delta_unpacked = unpack_ternary_mlx(delta_packed)
+            base_unpacked = unpack_ternary_mlx(base_packed)
 
-            # Desired direction for DELTA, accounting for base sign.
-            #
-            # The gradient is w.r.t. effective (= base ⊙ delta).
-            # To decrease loss, effective should move in direction -sign(gradient).
-            # Since effective = base * delta:
-            #   desired_effective = -sign(dir_corrected)
-            #   desired_delta = desired_effective * base
-            #     (because delta = effective / base, and base ∈ {-1,+1})
-            #
-            # Example: grad < 0 → effective should increase → desired_eff = +1
-            #   base = +1 → desired_delta = +1 (increase delta)
-            #   base = -1 → desired_delta = -1 (decrease delta, since eff = base*delta)
-            desired_effective = -mx.sign(dir_corrected)  # (N, K) float32
+            # Desired direction for delta
+            desired_effective = -mx.sign(dir_corrected)
             base_float = base_unpacked.astype(mx.float32)
-            # Where base is 0, the position is blocked at the base level — skip it
-            desired = desired_effective * base_float  # (N, K) float32
+            desired = desired_effective * base_float
 
-            # Valid transitions: positions where we CAN move in the desired direction.
-            # no_block mode (attention deltas: {+1,-1} only):
-            #   +1 and desired < 0 → flip directly to -1
-            #   -1 and desired > 0 → flip directly to +1
-            # staging mode (FFN deltas: {+1,0,-1}):
-            #   +1 and desired < 0 → go to 0 (step toward -1)
-            #   -1 and desired > 0 → go to 0 (step toward +1)
-            #    0 and desired != 0 → go to ±1 (commit)
-            # base == 0 → skip (base blocks this position)
+            # Valid transitions
             delta_float = delta_unpacked.astype(mx.float32)
             if no_block:
-                # Direct flip: can move if current sign opposes desired direction
                 can_move = (
-                    ((delta_float > 0) & (desired < 0)) |   # +1 → -1
-                    ((delta_float < 0) & (desired > 0))      # -1 → +1
+                    ((delta_float > 0) & (desired < 0)) |
+                    ((delta_float < 0) & (desired > 0))
                 ) & (base_float != 0)
             else:
                 can_move = (
-                    ((delta_float > 0) & (desired < 0)) |   # +1 → 0
-                    ((delta_float < 0) & (desired > 0)) |   # -1 → 0
-                    (delta_float == 0)                        #  0 → ±1
+                    ((delta_float > 0) & (desired < 0)) |
+                    ((delta_float < 0) & (desired > 0)) |
+                    (delta_float == 0)
                 ) & (base_float != 0)
 
-            # Final candidate mask: confident AND can move
             candidates = confident & can_move
+            candidate_scores = mx.where(candidates, score, mx.array(0.0))
+
+            total_ternary_weights += delta_unpacked.size
+
+            module_candidates.append({
+                "name": name,
+                "no_block": no_block,
+                "delta_unpacked": delta_unpacked,
+                "desired": desired,
+                "delta_float": delta_float,
+                "candidates": candidates,
+                "candidate_scores": candidate_scores,
+                "snr": snr,
+                "direction": direction,
+                "magnitude": magnitude,
+            })
+
+        # ── Global budget: flip_rate × total ternary weights across all modules ──
+        global_budget = max(1, int(self.flip_rate * total_ternary_weights))
+
+        # Concatenate all candidate scores into one flat vector for global ranking
+        all_scores = mx.concatenate([
+            mc["candidate_scores"].reshape(-1) for mc in module_candidates
+        ])
+
+        # Count total candidates
+        total_candidates = int((all_scores > 0).sum().item())
+
+        if total_candidates == 0:
+            for mc in module_candidates:
+                per_module[mc["name"]] = {"flips": 0, "candidates": 0, "mean_confidence": 0.0}
+            self.last_n_flips = 0
+            return {
+                "step": self.step_count,
+                "total_flips": 0,
+                "in_warmup": False,
+                "is_flip_step": True,
+                "per_module": per_module,
+            }
+
+        effective_budget = min(global_budget, total_candidates)
+
+        # Find global threshold via partition (top-k across all modules)
+        neg_all = -all_scores
+        if effective_budget < all_scores.size:
+            partitioned = mx.partition(neg_all, kth=effective_budget - 1)
+            global_threshold = float((-partitioned[effective_budget - 1]).item())
+        else:
+            global_threshold = 0.0
+
+        # ── Pass 3: Apply flips to modules that have positions above global threshold ──
+        total_flips = 0
+
+        for mc in module_candidates:
+            name = mc["name"]
+            candidates = mc["candidates"]
+            scores = mc["candidate_scores"]
+            delta_unpacked = mc["delta_unpacked"]
+            desired = mc["desired"]
+            delta_float = mc["delta_float"]
+            no_block = mc["no_block"]
+            snr = mc["snr"]
+
+            # Select positions above global threshold
+            flip_mask = candidates & (scores >= global_threshold)
 
             n_candidates = int(candidates.sum().item())
 
-            if n_candidates == 0:
-                per_module[name] = {"flips": 0, "candidates": 0, "mean_confidence": 0.0}
+            if not flip_mask.any().item():
+                per_module[name] = {
+                    "flips": 0,
+                    "candidates": n_candidates,
+                    "mean_confidence": float(mx.mean(
+                        mx.where(candidates, snr, mx.array(0.0))
+                    ).item()) if n_candidates > 0 else 0.0,
+                }
                 continue
-
-            # Budget: at most flip_rate × total weights
-            total_weights = delta_unpacked.size
-            budget = max(1, int(self.flip_rate * total_weights))
-            budget = min(budget, n_candidates)
-
-            # Find threshold score for top-k
-            candidate_scores = mx.where(candidates, score, mx.array(0.0))
-
-            # Use partition to find the k-th largest score
-            flat_scores = candidate_scores.reshape(-1)
-            # Negate for descending order with partition
-            neg_scores = -flat_scores
-            # kth_value = k-th smallest of negated = k-th largest of original
-            if budget < flat_scores.size:
-                partitioned = mx.partition(neg_scores, kth=budget - 1)
-                threshold = -partitioned[budget - 1]
-            else:
-                threshold = mx.array(0.0)
-
-            # Select positions above threshold
-            flip_mask = candidates & (score >= threshold)
 
             # Compute new values
             if no_block:
-                # Direct flip: +1 ↔ -1 (no staging through zero)
                 new_delta = mx.where(
                     flip_mask,
-                    (-delta_unpacked).astype(mx.int8),  # negate: +1→-1, -1→+1
-                    delta_unpacked,  # no change
+                    (-delta_unpacked).astype(mx.int8),
+                    delta_unpacked,
                 )
             else:
-                # Two-step transitions through zero:
-                #   +1 → 0      (block before flip)
-                #   -1 → 0      (block before flip)
-                #    0 → sign(desired)  (commit to direction)
                 new_delta = mx.where(
                     flip_mask & (delta_float != 0),
-                    mx.array(0, dtype=mx.int8),  # ±1 → 0 (go to staging)
+                    mx.array(0, dtype=mx.int8),
                     mx.where(
                         flip_mask & (delta_float == 0),
-                        mx.sign(desired).astype(mx.int8),  # 0 → ±1 (commit)
-                        delta_unpacked,  # no change
+                        mx.sign(desired).astype(mx.int8),
+                        delta_unpacked,
                     ),
                 )
 
-            # Count actual flips
             flip_occurred = (new_delta != delta_unpacked)
             n_flips = int(flip_occurred.sum().item())
             total_flips += n_flips
 
-            # Repack and update
             if n_flips > 0:
                 new_packed = pack_ternary_mlx(new_delta)
-                # Update the delta plate in-place by copying data.
-                # The caller's reference to the module's weight is the same object.
-                delta_packed_data = new_packed
-                mx.eval(delta_packed_data)
-
-                # Reset moments at flipped positions
-                flip_float = flip_occurred.astype(mx.float32)
-                direction = direction * (1 - flip_float)
-                magnitude = magnitude * (1 - flip_float)
-                self._set_state(name, direction, magnitude)
+                mx.eval(new_packed)
 
                 # Record flip history for anti-oscillation
                 self._update_flip_history(name, flip_occurred)
 
-                # Affected rows: rows where any column flipped.
-                # Adam's gamma/bias for these rows are stale — GD was
-                # compensating for the old topology. Caller must decay
-                # Adam moments for these rows so GD can re-converge.
-                row_any_flipped = mx.any(flip_occurred, axis=1)  # (N,)
+                # Affected rows for surgical Adam decay
+                row_any_flipped = mx.any(flip_occurred, axis=1)
                 mx.eval(row_any_flipped)
                 affected_rows = set(
                     int(i) for i in range(row_any_flipped.shape[0])
@@ -583,9 +615,9 @@ class TernaryDescent:
                     "candidates": n_candidates,
                     "mean_confidence": float(mx.mean(
                         mx.where(candidates, snr, mx.array(0.0))
-                    ).item()),
-                    "new_packed": new_packed,  # caller must assign to module
-                    "affected_rows": affected_rows,  # rows where GD compensation is stale
+                    ).item()) if n_candidates > 0 else 0.0,
+                    "new_packed": new_packed,
+                    "affected_rows": affected_rows,
                 }
             else:
                 per_module[name] = {
@@ -593,16 +625,30 @@ class TernaryDescent:
                     "candidates": n_candidates,
                     "mean_confidence": float(mx.mean(
                         mx.where(candidates, snr, mx.array(0.0))
-                    ).item()),
+                    ).item()) if n_candidates > 0 else 0.0,
                 }
+
+        # ── Post-flip: reset ALL moments (landscape changed) ──
+        if total_flips > 0:
+            self.reset_moments()
 
         self.last_n_flips = total_flips
         return {
             "step": self.step_count,
             "total_flips": total_flips,
-            "in_warmup": in_warmup,
+            "in_warmup": False,
+            "is_flip_step": True,
             "per_module": per_module,
         }
+
+    def reset_moments(self):
+        """Reset moment accumulators but keep flip history.
+
+        Called after flips are applied: the gradient landscape changed,
+        so accumulated direction/magnitude is stale. Flip history
+        (cooldown, backoff) must survive — it tracks physical positions.
+        """
+        self._state.clear()
 
     def reset(self):
         """Reset all state. Called after reduction (delta folded into base)."""
@@ -1049,7 +1095,7 @@ if __name__ == "__main__":
 
     # 4. Test TernaryDescent basic operation
     print("\n4. TernaryDescent basic operation...")
-    td = TernaryDescent(flip_rate=0.01, warmup_steps=5, min_confidence=0.1)
+    td = TernaryDescent(flip_rate=0.01, warmup_steps=5, min_confidence=0.1, flip_interval=1)
 
     # Create a fresh delta plate
     dtl2 = DeltaTernaryLinear(64, 32, pre_norm=False)
