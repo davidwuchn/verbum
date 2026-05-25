@@ -273,3 +273,12 @@ crystal parity loss + cross-zone lens rotation loss.
     degree of freedom TD needs, or is min_conf filtering too aggressive for other projections?
 17. **When to do first reduction?** Delta plates 2.66% changed. What convergence signal
     triggers fold-into-base? Wait for flip_frac plateau?
+18. **Three-body self-distillation.** Pre-compute teacher logits (top-k) on training shards
+    once. During training, compute: (a) teacher logits, (b) student logits, (c) delta between
+    them. The delta is the signal — WHERE the student diverges from the teacher. Some divergence
+    is correct (stride-stack needs different routing than flat attention), some is error (hasn't
+    learned yet). Dynamic relational loss: let the distinction emerge from the data.
+    **Wait until stride-stack nucleation stabilizes** — current run is finding its natural
+    attention shape. Teacher pressure during nucleation could prevent legitimate divergence.
+    Pre-compute teacher logits now so they're ready when needed. See `scripts/v13/train_rb.py`
+    for prior sparse top-k KD implementation (k=64, O(B×L×k) not O(B×L×V)).
