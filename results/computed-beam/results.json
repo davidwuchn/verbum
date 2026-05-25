@@ -1,0 +1,127 @@
+{
+  "experiment": "computed_beam",
+  "timestamp": "2026-05-25T11:30:25",
+  "elapsed_s": 86.51986789703369,
+  "eigenvalues": [
+    5.192943572998047,
+    3.5347602367401123,
+    1.9093635082244873,
+    1.2996599674224854,
+    1.0818196535110474,
+    0.7363811135292053,
+    0.5001067519187927,
+    0.4263107180595398,
+    0.3404183089733124,
+    0.2900996208190918,
+    0.19075147807598114,
+    0.1501888483762741,
+    0.12983398139476776,
+    0.10222755372524261,
+    0.06851571053266525,
+    0.046619292348623276
+  ],
+  "rotation_angle_predicted": 47.102783203125,
+  "evaluations": {
+    "Random: 0 steps": {
+      "ce": 12.425773286819458,
+      "crystal_loss": 2.0600134931214598e-09,
+      "comp_cluster": 0.8709289232889811
+    },
+    "Random: 100 steps": {
+      "ce": 5.357539081573487,
+      "crystal_loss": 9.856640503791425e-11,
+      "comp_cluster": 0.8710230986277262
+    },
+    "A: computed, 0 steps": {
+      "ce": 12.424207019805909,
+      "crystal_loss": 1.644140490419943e-09,
+      "comp_cluster": 0.8709346453348795
+    },
+    "A: computed, 10 steps": {
+      "ce": 8.322481298446656,
+      "crystal_loss": 1.996182163566118e-06,
+      "comp_cluster": 0.8715591430664062
+    },
+    "A: computed, 100 steps": {
+      "ce": 5.535462975502014,
+      "crystal_loss": 2.941214216622967e-10,
+      "comp_cluster": 0.8710365295410156
+    },
+    "C: basis+computed, 0 steps": {
+      "ce": 12.402879333496093,
+      "crystal_loss": 1.6631097610186885e-09,
+      "comp_cluster": 0.8709494272867838
+    },
+    "C: basis+computed, 100 steps": {
+      "ce": 5.239554405212402,
+      "crystal_loss": 1.4632399458758272e-10,
+      "comp_cluster": 0.87102739016215
+    },
+    "B: computed+content, 0 steps": {
+      "ce": 14.393422603607178,
+      "crystal_loss": 2.132409044602727e-15,
+      "comp_cluster": 0.8710333506266276
+    },
+    "B: computed+content, 10 steps": {
+      "ce": 6.729690456390381,
+      "crystal_loss": 8.827082069728931e-07,
+      "comp_cluster": 0.8704750537872314
+    },
+    "B: computed+content, 100 steps": {
+      "ce": 6.304962682723999,
+      "crystal_loss": 1.7940156027407284e-09,
+      "comp_cluster": 0.8710683981577555
+    },
+    "Baseline: 5000 steps GD": {
+      "ce": 6.759651231765747,
+      "crystal_loss": 2.132409044602727e-15,
+      "comp_cluster": 0.8710333506266276
+    }
+  },
+  "generations": {
+    "Random: 0 steps": {
+      "p_lambda": 0,
+      "n_exact": 0
+    },
+    "Random: 100 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "A: computed, 0 steps": {
+      "p_lambda": 0.0,
+      "n_exact": 0
+    },
+    "A: computed, 10 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "A: computed, 100 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "C: basis+computed, 0 steps": {
+      "p_lambda": 0.0,
+      "n_exact": 0
+    },
+    "C: basis+computed, 100 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "B: computed+content, 0 steps": {
+      "p_lambda": 0.0,
+      "n_exact": 0
+    },
+    "B: computed+content, 10 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "B: computed+content, 100 steps": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    },
+    "Baseline: 5000 steps GD": {
+      "p_lambda": 1.0,
+      "n_exact": 0
+    }
+  }
+}
