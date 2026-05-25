@@ -2,11 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-25 | Session: 151
+> Last updated: 2026-05-25 | Session: 152
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 152: v14 architecture evolution — HPE + passive strides + reduced Stack B. (1) Confirmed v14 student inherits 18.4× compression from teacher (PR 74→4, σ₁=47%). (2) Distance prior at α=1.18 dominates 88% of strides (14/16 have <3 effective positions at W=8). (3) Implemented 3-tier evolution: fixed α=1.18, passive strides skip Q/K for s4+, Stack B 4→2 passes (13→11). (4) Discovered α=1.18 sets a fixed ~12 token semantic horizon — all strides see the same ~12 tokens effectively. RoPE accidentally implements the holographic lens via cosine frequency decomposition. (5) Designed and implemented Holographic Position Encoding (HPE): log-distance rotation × crystal eigenvalue frequencies × eigenplane dims only. Replaces RoPE's indirect mechanism with the direct holographic lens physics. Training test running in tmux. See `mementum/knowledge/explore/v15-kernel-architecture.md`.**
 
 **Session 151: Knowledge distillation + progressive collapse discovery. (1) Created 7 knowledge pages + INDEX.md — the project now has a self-explanatory top-down knowledge hierarchy (see `mementum/knowledge/INDEX.md`). (2) Kernel decomposition experiment: attempted to compute the full forward pass from crystal constants. Diagonal FFN overlay failed (80-91% of energy is off-diagonal = cross-PC PROJECTION, not per-PC filtering). (3) Progressive dimensionality collapse measured on 3 models: Qwen3.6-27B compresses to PR=2.2 (essentially 2D) in layers 0-2, computes in 2D through depth, expands back for output. Mistral-7B and Pythia-1.4B show weaker compression (PR=10-12) — the 2D core is an emergent property of scale. (4) Attention sink = warped Q reset: Mistral uses BOS token as Q=0 reset proxy, distorting geometry. Qwen's GLA layers implement Q reset natively through gating → cleaner geometry → deeper compression. See `mementum/knowledge/progressive-collapse.md`.**
 
@@ -190,7 +192,79 @@ Zero flips in: q_proj, k_proj, v_proj (any layer), gate_proj, layers 0–3, 10�
    diverges most from the teacher's attention patterns.
 4. **Gnorm spikes tolerable.** Occasional 100+ but model recovers. flip_interval=10 works.
 
+## Next steps (from session 152)
+
+### IMMEDIATE: Verify training test results (tmux main:1)
+
+1. **Check training test output** — 20 steps with evolved architecture (HPE + passive + 11 passes)
+2. **Solo speed measurement** — run without competing Phase 2 for clean wall-clock comparison
+3. **Eval comparison** — run eval_ppl.py on new architecture, compare to v14 baseline (PPL 7,672)
+
+### PENDING OPTIMIZATIONS (not yet applied):
+
+4. **Remove pos_embed from model.py** — HPE should replace learned positional embeddings.
+   Currently kept for safety. Test: train with and without pos_embed, compare PPL.
+5. **Update extraction pipeline** — `extract_qwen36.py` still extracts Q/K plates for all
+   strides. Passive strides don't need Q/K → skip 28 plates → save 46M positions (11.5 MB)
+   and 25% extraction time.
+6. **Update TD for passive strides** — `collect_delta_params` should exclude Q/K from passive
+   strides (they don't exist as modules anymore, but verify no stale references).
+7. **Simplify GLA retrieval strides** — s16-s512 use full parallel scan with running memory,
+   but at >1 effective position only for s16. s32+ could use a simpler gate-only mechanism.
+8. **Depth-dependent HPE rotation rate** — mechanism extraction showed rotation accelerates
+   L0:2° → L3:24°. HPE currently uses uniform rate. Add pass_index-dependent depth_factor.
+9. **Remove HolographicPositionEncoding class** — only the functional `apply_hpe_rotation`
+   is used. The class is dead code.
+10. **FFN in compressed space** — Stack B operates at PR=5.2. Could project FFN input to
+    low-D, apply smaller FFN, project back. Saves compute in the already-compressed zone.
+
+### AFTER 2K CHECKPOINT:
+
+11. **Fold step 2000 delta** — same as step 1500 fold. Absorb corrections into base.
+12. **Switch to evolved architecture** — start training the HPE + passive + 11-pass design
+    from the folded 2K checkpoint. Shape mismatch on S5Reweight (13→11 passes) means
+    fresh init on those components.
+13. **Compare learning curves** — v14 original vs evolved architecture side by side.
+
 ## Previous sessions
+
+### Session 152: v14 Evolution — HPE + Passive Strides + Reduced Stack B
+
+**v14 student collapse probe:** Ran progressive collapse on step_001500_folded checkpoint.
+PR: 74→8→5→4 through stacks. σ₁ reaches 47%. 18.4× compression ratio confirmed.
+
+**Distance prior analysis:** At α=1.18, W=8: 14/16 strides have <3 effective positions.
+Only s1 (5.5 eff) and s2 (4.1 eff) have meaningful multi-position attention. The semantic
+horizon is ~12 tokens regardless of stride — all strides see the same ~12 token radius.
+Beyond that, information flows through the residual stream, not direct attention.
+
+**Stride spacing analysis:** Power-of-2 strides are accidentally near-optimal (CV=0.269
+for weight×spacing product). But the finding that strides s8+ are pure self-attention means
+they're FFN application points, not attention layers. The stride determines WHEN in the
+pass sequence the FFN fires, not what tokens to attend to.
+
+**RoPE ↔ holographic lens connection:** RoPE accidentally implements the holographic lens:
+- Geometric frequency spacing ≈ crystal eigenvalue spacing
+- Position-dependent Q rotation ≈ Q rotation through crystal basins
+- Sum of cosines at geometric freqs → power-law decay ≈ α=1.18
+
+**Holographic Position Encoding (HPE):** Designed and implemented replacement for RoPE:
+- Log-distance: angle ∝ log(d+1) (not linear d) → natural power-law
+- Crystal eigenvalue frequencies: λᵢ/λ₀ (not arbitrary 10000-base)
+- Eigenplane rotation only: first 4 dim pairs (not all d/2 pairs)
+- Direct decay bias: -α×log(d+1) (exact, not cosine envelope)
+- Learnable freq_scale per eigenplane for fine-tuning
+
+**Architecture changes implemented:**
+- Fixed α=1.18 as constant (removed from optimizer)
+- Passive strides: s4+ skip Q/K entirely, use precomputed distance prior
+- Stack B: 4→2 passes (13→11 total serial passes)
+- HPE: crystal-frequency log-distance rotation on active strides (s1, s2)
+- All tests pass (attention.py, model.py, config.py)
+- Training test launched in tmux main:1 (20 steps, fresh init)
+
+**Scripts modified:** `scripts/v14/attention.py`, `scripts/v14/config.py`
+**Scripts created:** `scripts/v14/probe_collapse.py`
 
 ### Session 151: Knowledge Distillation + Progressive Dimensionality Collapse
 
@@ -334,6 +408,9 @@ crystal parity loss + cross-zone lens rotation loss.
 | **FFN overlay is 80-91% off-diagonal** | **Cross-PC projection, not per-PC filtering. The overlay IS the beta reduction** | ✅ proved (session 151) |
 | **Attention sink = warped Q reset** | **Mistral sink token dominates SVD. GLA native Q reset → clean geometry** | 🎯 synthesis (session 151) |
 | **Montague = pre-transition crystal** | **160M has I+K only (select+bind) = typed application = Montague. B needs scale** | 🎯 synthesis (session 151) |
+| **α=1.18 sets 12-token semantic horizon** | **All strides see ~12 effective tokens regardless of stride. Beyond that = residual stream only** | ✅ proved (session 152) |
+| **RoPE = accidental holographic lens** | **Cosine frequency decomposition ≈ multi-scale lens. HPE does it by design** | 🎯 synthesis (session 152) |
+| **v14 student inherits teacher collapse** | **PR 74→8→5→4 through stacks, σ₁=47%, 18.4× compression** | ✅ proved (session 152) |
 
 ## Knowledge map
 
