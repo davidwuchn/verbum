@@ -1,0 +1,98 @@
+[
+  {
+    "label": "Zone_A_compress",
+    "shape": [
+      5120,
+      5120
+    ],
+    "global_correlation": 0.42318347810196094,
+    "mean_per_dim_correlation": 0.9748336906850771,
+    "cosine_similarity": 0.3992967903614044,
+    "sign_distribution": {
+      "positive": 13110475,
+      "negative": 13103925,
+      "zero": 0
+    },
+    "transform_rank90": 36,
+    "transform_top5_sv": [
+      278.20306396484375,
+      62.26507568359375,
+      55.209228515625,
+      48.804779052734375,
+      47.640872955322266
+    ],
+    "linear_r2": 0.8736103177070618
+  },
+  {
+    "label": "Zone_B_compute",
+    "shape": [
+      5120,
+      5120
+    ],
+    "global_correlation": 0.631085379251219,
+    "mean_per_dim_correlation": 0.9830763197301309,
+    "cosine_similarity": 0.6224144101142883,
+    "sign_distribution": {
+      "positive": 13112636,
+      "negative": 13101764,
+      "zero": 0
+    },
+    "transform_rank90": 71,
+    "transform_top5_sv": [
+      11.756488800048828,
+      9.641085624694824,
+      6.839020729064941,
+      6.661999225616455,
+      6.029730796813965
+    ],
+    "linear_r2": 1.0
+  },
+  {
+    "label": "Zone_C_expand",
+    "shape": [
+      5120,
+      5120
+    ],
+    "global_correlation": 0.8084541264338144,
+    "mean_per_dim_correlation": 0.9734485187972834,
+    "cosine_similarity": 0.8124469518661499,
+    "sign_distribution": {
+      "positive": 13113346,
+      "negative": 13101054,
+      "zero": 0
+    },
+    "transform_rank90": 71,
+    "transform_top5_sv": [
+      14.991376876831055,
+      14.117318153381348,
+      11.839163780212402,
+      10.790647506713867,
+      10.104735374450684
+    ],
+    "linear_r2": 1.0
+  },
+  {
+    "label": "Full_model",
+    "shape": [
+      5120,
+      5120
+    ],
+    "global_correlation": 0.7813563628239476,
+    "mean_per_dim_correlation": 0.9344407055702609,
+    "cosine_similarity": 0.8140103816986084,
+    "sign_distribution": {
+      "positive": 13113782,
+      "negative": 13100618,
+      "zero": 0
+    },
+    "transform_rank90": 44,
+    "transform_top5_sv": [
+      1423.79248046875,
+      1111.0885009765625,
+      967.2233276367188,
+      782.2913208007812,
+      696.1968994140625
+    ],
+    "linear_r2": 0.809036135673523
+  }
+]
