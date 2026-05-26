@@ -124,7 +124,28 @@ def main():
     print(f"{'='*60}")
 
     # ── Config ────────────────────────────────────────────────
-    cfg = V14Config()
+    # Restore config from checkpoint if available (training may have
+    # used different stack bands, n_passes, etc. than current config.py)
+    state_path_for_cfg = ckpt_path / "state.json"
+    if state_path_for_cfg.exists():
+        saved_state = json.loads(state_path_for_cfg.read_text())
+        saved_cfg = saved_state.get("config", {})
+        # Reconstruct config with saved values
+        cfg = V14Config()
+        for k, v in saved_cfg.items():
+            if hasattr(cfg, k):
+                try:
+                    # Convert lists to tuples for tuple fields
+                    if isinstance(v, list) and isinstance(getattr(cfg, k), tuple):
+                        v = tuple(tuple(x) if isinstance(x, list) else x for x in v)
+                    setattr(cfg, k, v)
+                except (TypeError, AttributeError):
+                    pass
+        cfg.__post_init__()
+        print(f"  Config restored from checkpoint (n_passes={cfg.n_passes})")
+    else:
+        cfg = V14Config()
+
     if args.extracted_model_path:
         cfg.extracted_model_path = args.extracted_model_path
 

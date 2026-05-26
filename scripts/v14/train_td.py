@@ -82,6 +82,146 @@ def loss_fn(model, input_ids, targets):
     return total_loss
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# § 1b  Knowledge Distillation — sparse top-k KL divergence
+# ══════════════════════════════════════════════════════════════════════════════
+
+class TeacherLogitLoader:
+    """Loads pre-computed sparse teacher logits aligned with training data.
+
+    Teacher logits are stored per-shard as .npz with:
+      - indices: (n_batches, seq_len, top_k) int32
+      - logits:  (n_batches, seq_len, top_k) float16
+      - positions: (n_batches,) int64 — byte offset into shard
+
+    The loader tracks which batch within the current shard to serve.
+    When the training data loader advances to a new shard, this loader
+    follows. If a shard has no teacher logits, returns None (fall back
+    to pure CE).
+    """
+
+    def __init__(self, logits_dir: str | Path):
+        self.logits_dir = Path(logits_dir)
+        self._current_shard_idx = -1
+        self._current_batch = 0
+        self._indices = None  # (n_batches, seq_len, top_k)
+        self._logits = None   # (n_batches, seq_len, top_k)
+        self._n_batches = 0
+
+    def _load_shard(self, shard_idx: int) -> bool:
+        """Load teacher logits for a shard. Returns True if available."""
+        path = self.logits_dir / f"teacher_shard_{shard_idx:05d}.npz"
+        if not path.exists():
+            self._indices = None
+            self._logits = None
+            self._n_batches = 0
+            self._current_shard_idx = shard_idx
+            self._current_batch = 0
+            return False
+
+        data = np.load(str(path))
+        self._indices = data["indices"]   # (n_batches, seq_len, top_k)
+        self._logits = data["logits"].astype(np.float32)  # upcast from float16
+        self._n_batches = self._indices.shape[0]
+        self._current_shard_idx = shard_idx
+        self._current_batch = 0
+        return True
+
+    def get_batch(self, data_loader) -> tuple | None:
+        """Get teacher logits for the current training batch.
+
+        Returns (teacher_indices, teacher_logits) as mx.arrays, or None
+        if no teacher logits available for this shard/position.
+        """
+        # Sync shard with data loader
+        shard_idx = getattr(data_loader, 'current_shard_idx', 0)
+        if hasattr(data_loader, 'prose'):
+            shard_idx = data_loader.prose.current_shard_idx
+
+        if shard_idx != self._current_shard_idx:
+            self._load_shard(shard_idx)
+
+        if self._indices is None or self._current_batch >= self._n_batches:
+            return None
+
+        idx = self._indices[self._current_batch]  # (seq_len, top_k)
+        logits = self._logits[self._current_batch]  # (seq_len, top_k)
+        self._current_batch += 1
+
+        # Expand to match batch dimension (B=1 for pre-computed, broadcast)
+        return (
+            mx.array(idx[np.newaxis, :, :]),     # (1, seq_len, top_k)
+            mx.array(logits[np.newaxis, :, :]),   # (1, seq_len, top_k)
+        )
+
+
+def sparse_kd_loss(
+    student_logits: mx.array,
+    teacher_indices: mx.array,
+    teacher_logits: mx.array,
+    temperature: float = 2.0,
+) -> mx.array:
+    """Sparse top-k KL divergence: student vs teacher on teacher's top-k tokens.
+
+    The teacher's top-k captures 99%+ of probability mass. Computing KL
+    only over these k tokens is O(B×L×k) instead of O(B×L×V) — 2400×
+    cheaper for V=151936, k=64.
+
+    Args:
+        student_logits: (B, L, V) raw logits from student
+        teacher_indices: (B, L, k) int32 — teacher's top-k token IDs
+        teacher_logits: (B, L, k) float — teacher's logits/T (pre-scaled)
+        temperature: softening temperature (must match pre-computation)
+
+    Returns:
+        kd_loss: scalar KL divergence (already T²-scaled)
+    """
+    # Teacher: softmax over top-k (already scaled by 1/T during pre-compute)
+    teacher_probs = mx.softmax(teacher_logits, axis=-1)  # (B, L, k)
+
+    # Student: gather logits for teacher's top-k tokens, scale by 1/T
+    student_scaled = student_logits / temperature  # (B, L, V)
+
+    # Gather student logits at teacher's top-k positions
+    # take_along_axis with (B, L, k) indices on axis=-1
+    student_topk = mx.take_along_axis(student_scaled, teacher_indices, axis=-1)  # (B, L, k)
+
+    # Student log-softmax over just the top-k slice
+    # This is an approximation — we normalize over k tokens, not V.
+    # Accurate when top-k covers >99% of teacher mass.
+    student_log_probs = student_topk - mx.logsumexp(student_topk, axis=-1, keepdims=True)
+
+    # KL(teacher || student) = Σ teacher * (log(teacher) - log(student))
+    kl = teacher_probs * (mx.log(teacher_probs + 1e-10) - student_log_probs)
+    kd_loss = mx.mean(mx.sum(kl, axis=-1))  # mean over (B×L), sum over k
+
+    # T² scaling: ensures gradient magnitudes match between CE and KD
+    kd_loss = kd_loss * (temperature ** 2)
+
+    return kd_loss
+
+
+def loss_fn_kd(model, input_ids, targets, teacher_indices, teacher_logits,
+               kd_alpha=0.5, temperature=2.0):
+    """CE + KD + crystal losses.
+
+    Combined loss: α * CE_crystal + (1-α) * KD
+    where CE_crystal is the full v14 loss (CE × crystal_factor + structural losses)
+    and KD is the sparse top-k KL divergence against teacher.
+
+    kd_alpha: weight of CE component (1-kd_alpha for KD). Default 0.5.
+    """
+    logits, ce_crystal_loss = model(input_ids, targets)
+
+    kd_loss = sparse_kd_loss(logits, teacher_indices, teacher_logits, temperature)
+
+    # Store for logging
+    model._last_kd_loss = mx.stop_gradient(kd_loss)
+
+    combined = kd_alpha * ce_crystal_loss + (1.0 - kd_alpha) * kd_loss
+    return combined
+
+
 def cosine_lr(step, warmup_steps, total_steps, lr_max, lr_floor_ratio=0.01):
     """Cosine LR schedule with linear warmup."""
     if step < warmup_steps:
@@ -507,6 +647,31 @@ def train_td(
         flip_interval=args.td_flip_interval,
     )
 
+    # ── KD setup ───────────────────────────────────────────────
+    teacher_loader = None
+    kd_enabled = False
+    if hasattr(args, 'teacher_logits_dir') and args.teacher_logits_dir is not None:
+        teacher_dir = Path(args.teacher_logits_dir)
+        if teacher_dir.exists():
+            teacher_loader = TeacherLogitLoader(teacher_dir)
+            kd_enabled = True
+            print(f"\n🎯 Knowledge Distillation: ENABLED", file=sys.stderr)
+            print(f"   Teacher logits: {teacher_dir}/", file=sys.stderr)
+            print(f"   α={args.kd_alpha} (CE={args.kd_alpha:.0%}, KD={1-args.kd_alpha:.0%})",
+                  file=sys.stderr)
+            print(f"   Temperature: {args.kd_temperature}", file=sys.stderr)
+        else:
+            print(f"⚠  Teacher logits dir not found: {teacher_dir}", file=sys.stderr)
+
+    if kd_enabled:
+        # KD loss function captures alpha and temperature from args
+        _kd_alpha = args.kd_alpha
+        _kd_temp = args.kd_temperature
+        def _loss_fn_kd(model, input_ids, targets, t_indices, t_logits):
+            return loss_fn_kd(model, input_ids, targets, t_indices, t_logits,
+                              kd_alpha=_kd_alpha, temperature=_kd_temp)
+        loss_and_grad_kd = nn.value_and_grad(model, _loss_fn_kd)
+
     loss_and_grad = nn.value_and_grad(model, loss_fn)
 
     # ── State ─────────────────────────────────────────────────
@@ -679,14 +844,32 @@ def train_td(
         # ── Gradient accumulation ─────────────────────────────
         accum_loss = 0.0
         accum_grads = None
+        _kd_loss_accum = 0.0
 
         for _micro in range(cfg.grad_accum):
             ids_np, tgts_np = next(train_loader)
             ids = mx.array(ids_np)
             tgts = mx.array(tgts_np)
 
-            lv, grads = loss_and_grad(model, ids, tgts)
-            mx.eval(lv, grads)
+            # Try KD path if teacher logits are available
+            used_kd = False
+            if kd_enabled and teacher_loader is not None:
+                teacher_batch = teacher_loader.get_batch(train_loader)
+                if teacher_batch is not None:
+                    t_indices, t_logits = teacher_batch
+                    lv, grads = loss_and_grad_kd(model, ids, tgts, t_indices, t_logits)
+                    mx.eval(lv, grads)
+                    used_kd = True
+                    # Log KD loss component
+                    kd_val = getattr(model, "_last_kd_loss", None)
+                    if kd_val is not None:
+                        mx.eval(kd_val)
+                        _kd_loss_accum += float(kd_val.item())
+
+            if not used_kd:
+                lv, grads = loss_and_grad(model, ids, tgts)
+                mx.eval(lv, grads)
+
             accum_loss += float(lv.item())
 
             if accum_grads is None:
@@ -695,6 +878,7 @@ def train_td(
                 accum_grads = tree_map(lambda a, b: a + b, accum_grads, grads)
 
         step_loss = accum_loss / cfg.grad_accum
+        _kd_loss_step = _kd_loss_accum / cfg.grad_accum if _kd_loss_accum > 0 else None
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
         # ── NaN guard ─────────────────────────────────────────
@@ -849,6 +1033,7 @@ def train_td(
 
             # Console line
             ce_str = f"CE={ce_val:.3f}" if ce_val is not None else f"loss={step_loss:.3f}"
+            kd_str = f" KD={_kd_loss_step:.3f}" if _kd_loss_step is not None else ""
             crystal_str = f" crystal={crystal_mse_val:.4f}" if crystal_mse_val is not None else ""
             parity_str = f" parity={parity_val:.4f}" if parity_val is not None else ""
             cross_str = f" cross_zone={cross_zone_val:.4f}" if cross_zone_val is not None else ""
@@ -867,7 +1052,7 @@ def train_td(
             print(
                 f"step {step:>6d}"
                 f" | loss={step_loss:.4f} (avg50: {avg50:.4f})"
-                f" | {ce_str}{crystal_str}{parity_str}{cross_str}"
+                f" | {ce_str}{kd_str}{crystal_str}{parity_str}{cross_str}"
                 f" | lr {lr:.2e}"
                 f" | gnorm {grad_norm:.2f}"
                 f" | {tps:.0f} tok/s"
@@ -901,6 +1086,9 @@ def train_td(
             }
             if ce_val is not None:
                 record["ce"] = ce_val
+            if _kd_loss_step is not None:
+                record["kd_loss"] = _kd_loss_step
+                record["kd_enabled"] = True
             if crystal_mse_val is not None:
                 record["crystal_mse"] = crystal_mse_val
             if parity_val is not None:
@@ -1243,6 +1431,21 @@ if __name__ == "__main__":
         help="Override crystal warmup schedule length (0 = no warmup)",
     )
 
+    # ── Knowledge distillation args ───────────────────────────
+    parser.add_argument(
+        "--teacher-logits-dir", type=str, default=None,
+        help="Directory with pre-computed teacher logits (enables KD loss). "
+             "Use precompute_teacher.py to generate.",
+    )
+    parser.add_argument(
+        "--kd-alpha", type=float, default=0.5,
+        help="Weight of CE loss (1-alpha = KD weight). Default: 0.5 (equal weight).",
+    )
+    parser.add_argument(
+        "--kd-temperature", type=float, default=2.0,
+        help="Softening temperature for KD (must match precompute_teacher.py). Default: 2.0",
+    )
+
     # ── Structured data args ──────────────────────────────────
     parser.add_argument(
         "--structured-path", type=str,
@@ -1303,6 +1506,9 @@ if __name__ == "__main__":
           file=sys.stderr)
     print(f"  Extracted model: {cfg.extracted_model_path}", file=sys.stderr)
     print(f"  Checkpoint dir: {checkpoint_dir}", file=sys.stderr)
+    if args.teacher_logits_dir:
+        print(f"  KD: teacher_logits={args.teacher_logits_dir}  "
+              f"α={args.kd_alpha}  T={args.kd_temperature}", file=sys.stderr)
     print("=" * 72, file=sys.stderr)
 
     # ── Model: create + load base plates + convert to delta ───
