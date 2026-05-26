@@ -64,6 +64,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/kernel-training.md](explore/kernel-training.md) | ✅ | Composed plate training: 4.4× speedup, gradient cosine 0.97 |
 | [explore/structured-training.md](explore/structured-training.md) | ✅ | Five backward-pass optimizations (camera = projector) |
 | [explore/crystal-irreducibility-proof.md](explore/crystal-irreducibility-proof.md) | 🔨 | Theory: crystal = irreducibility floor of KIBC. Proof strategy + kernel optimization via JIT hooks |
+| [explore/delta-plate-lifecycle.md](explore/delta-plate-lifecycle.md) | 🔨 | Masked extraction + continuous training + factual corrections via delta plates |
 
 ## Tier 5 — Future Pages (planned)
 
