@@ -115,9 +115,7 @@ N_TOTAL_COMBINATORS = 16  # + anti-crystal
 #   Pass 12: [0,4)   → s8, s4, s2, s1
 
 STACK_A_BANDS = ((0, 4), (2, 6), (4, 8), (6, 9))
-# Reduced from 4→2 passes (session 151 kernel insight: Stack B computes
-# in already-compressed space PR=5.2, two wider passes cover same range).
-STACK_B_BANDS = ((7, 13), (11, 16))
+STACK_B_BANDS = ((7, 11), (9, 13), (11, 15), (13, 16))
 STACK_C_BANDS = ((12, 16), (8, 12), (5, 9), (2, 6), (0, 4))
 
 N_PASSES = len(STACK_A_BANDS) + len(STACK_B_BANDS) + len(STACK_C_BANDS)  # 13
@@ -251,7 +249,7 @@ def _self_test():
     assert cfg.d_model == 1280
     assert cfg.d_head == 160
     assert cfg.n_strides == 16
-    assert cfg.n_passes == 11  # reduced from 13: Stack B 4→2 passes
+    assert cfg.n_passes == 13
     assert cfg.n_heads * cfg.d_head == cfg.d_model
     assert cfg.d_ff == 4 * cfg.d_model
     assert sum(1 for r in cfg.stride_is_retrieval if r) == 6   # 6 retrieval strides

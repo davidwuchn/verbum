@@ -47,6 +47,7 @@ from mlx.utils import tree_flatten, tree_map, tree_unflatten
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from attention import set_hpe_warmup_fraction, get_hpe_fraction_for_step, HPE_WARMUP_STEPS
 from config import V14Config
 from data import ShardedDataLoader, MixedDataLoader
 from model import V14Model
@@ -839,6 +840,12 @@ def train_td(
             )
             model.cfg.crystal_direct_lambda = crystal_lambda_eff
 
+        # HPE warmup: linearly ramp crystal-frequency rotation from 0→1
+        # over HPE_WARMUP_STEPS from the resume point. At fraction=0, K is
+        # unrotated (identical to pre-HPE behavior, checkpoint compatible).
+        hpe_frac = get_hpe_fraction_for_step(step, warmup_start=start_step)
+        set_hpe_warmup_fraction(model.shared_stride_stack, hpe_frac)
+
         model._training_step = step
 
         # ── Gradient accumulation ─────────────────────────────
@@ -1083,6 +1090,7 @@ def train_td(
                 "delta_avg_changed": avg_changed,
                 "n_reductions": n_reductions,
                 "no_block_fixed": n_no_block_fixed,
+                "hpe_fraction": hpe_frac,
             }
             if ce_val is not None:
                 record["ce"] = ce_val

@@ -4,13 +4,15 @@ Holographic lens architecture: each stride is a lens pointed at a
 different scale of the context. O(L×W) per stride, ternary, CPU-runnable.
 
 Two layer types (same as v13, evolved for d=1280):
-  SingleStrideAttention — composition (KIBC dispatch)
+  SingleStrideAttention — composition (KIBC dispatch), all strides active
   GatedLinearAttention  — retrieval (M kernel substrate)
 
-11 strides: (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
-  s1-s8:    composition (fine → local)
-  s16-s128: retrieval (phrase → paragraph)
-  s256-s1024: composition (document scale)
+16 strides: powers of 2 from s1 to s32768.
+  Composition strides: full Q·K attention + fixed α=1.18 decay + HPE
+  Retrieval strides: gated linear attention with associative scan
+
+HPE (Holographic Position Encoding): crystal-frequency rotation on K,
+warmed up from freq_scale=0 (identity) for checkpoint compatibility.
 
 Fractal stride bands (MERA topology) select 4 strides per pass.
 Shared across passes within a stack (S5 coherence).
@@ -34,10 +36,6 @@ from scan import parallel_scan_2d
 # × 8 heads after 1500 steps of gradient pressure. Not learnable.
 _ALPHA = 1.18
 
-# Passive stride threshold: strides ≥ this use fixed distance prior
-# (no Q/K computation). At α=1.18, W=8: s4+ has <3 effective positions.
-_PASSIVE_STRIDE_MIN = 4
-
 # Crystal eigenvalues (Zone B, top 8 — from PCAQ_ZONE_B_TARGETS eigendecomposition).
 # These are the natural frequencies of the holographic lens.
 _CRYSTAL_EIGENVALUES = [5.193, 3.535, 1.909, 1.300, 1.082, 0.736, 0.500, 0.426]
@@ -45,6 +43,11 @@ _CRYSTAL_EIGENVALUES = [5.193, 3.535, 1.909, 1.300, 1.082, 0.736, 0.500, 0.426]
 # Number of eigenplane pairs to rotate (the rest carry content, not position).
 # First 4 pairs cover 77% of crystal variance (comp, sel, term, rout).
 _N_EIGEN_PAIRS = 4
+
+# HPE warmup: freq_scale starts at 0 (no rotation, compatible with checkpoint)
+# and linearly warms to 1.0 over this many steps. This allows Q/K relationships
+# learned without rotation to gradually adapt to HPE.
+HPE_WARMUP_STEPS = 300
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -85,9 +88,10 @@ class HolographicPositionEncoding(nn.Module):
         freqs = [ev / _CRYSTAL_EIGENVALUES[0] for ev in _CRYSTAL_EIGENVALUES[:n_eigen_pairs]]
         self._freqs = mx.array(freqs)  # (n_eigen_pairs,)
 
-        # Learnable frequency scaling (initialized near 1.0, allows fine-tuning
-        # of each eigenplane's rotation rate without departing from crystal base)
-        self.freq_scale = mx.ones((n_eigen_pairs,))
+        # Learnable frequency scaling — initialized to 0.0 for checkpoint
+        # compatibility (no rotation at start). Warmed up externally via
+        # set_hpe_warmup_fraction() so Q/K relationships can adapt gradually.
+        self.freq_scale = mx.zeros((n_eigen_pairs,))
 
     def apply_rotary(
         self,
@@ -241,9 +245,9 @@ class SingleStrideAttention(nn.Module):
       stride=1:  positions [i, i-1, ..., i-W+1]
       stride=8:  positions [i, i-8, ..., i-8*(W-1)]
 
-    Two modes:
-      Active (s1, s2): full Q·K attention + fixed decay bias (α=1.18).
-      Passive (s4+): fixed distance prior, no Q/K — just V gather + weighted sum.
+    Full Q·K attention for ALL strides with:
+      - Fixed decay bias: -α·ln(stride·w + 1), α=1.18 (not learnable)
+      - HPE: crystal-frequency rotation on K (warmed up from 0)
 
     Q/K/V/O are TernaryLinear (base plates from teacher extraction).
     Sparse gather, O(L×W) not O(L²).
@@ -266,59 +270,43 @@ class SingleStrideAttention(nn.Module):
         self.n_heads = n_heads
         self.d_head = d_model // n_heads  # 160
         self.scale = self.d_head ** -0.5
-        self.passive = (stride >= _PASSIVE_STRIDE_MIN)
 
         self.norm = nn.RMSNorm(d_model)
 
-        if not self.passive:
-            # Active: full Q·K attention with HPE (s1, s2 only)
-            self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
-            self.q_proj = TernaryLinear(d_model, d_model, pre_norm=False)
-            self.k_proj = TernaryLinear(d_model, d_model, pre_norm=False)
-            self.k_bias = mx.zeros((d_model,))
+        # Beam mirrors before Q
+        self.q_mirrors = [TernaryMirror(d_model) for _ in range(n_q_mirrors)]
 
-            # HPE: learnable scaling on crystal eigenfrequencies
-            # Initialized to 1.0 — matches crystal exactly, can fine-tune
-            self.hpe_freq_scale = mx.ones((_N_EIGEN_PAIRS,))
-        else:
-            # Passive: no Q/K, no HPE, just mirrors list for compat
-            self.q_mirrors = []
-
-        # V and O projections — always needed
+        # Ternary projections (base plates from extraction)
+        self.q_proj = TernaryLinear(d_model, d_model, pre_norm=False)
+        self.k_proj = TernaryLinear(d_model, d_model, pre_norm=False)
         self.v_proj = TernaryLinear(d_model, d_model, pre_norm=False)
         self.out_proj = TernaryLinear(d_model, d_model, pre_norm=False)
 
+        # Per-feature beam biases
+        self.k_bias = mx.zeros((d_model,))
         self.v_bias = mx.zeros((d_model,))
         self.o_bias = mx.zeros((d_model,))
 
         self.dropout = nn.Dropout(dropout) if dropout > 0 else None
 
-        # Pre-compute log-distance structure (used by active strides for decay bias)
+        # HPE: learnable frequency scaling on crystal eigenfrequencies.
+        # Initialized to 0.0 for checkpoint compatibility (no rotation at start).
+        # Warmed up externally via set_hpe_warmup_fraction().
+        self.hpe_freq_scale = mx.zeros((_N_EIGEN_PAIRS,))
+
+        # Pre-compute log-distance structure
         w_pos = mx.arange(window, dtype=mx.float32)
         self._log_distances = mx.log(stride * w_pos + 1.0)
 
-        # Pre-compute fixed attention profile for passive strides
-        # and decay bias for active strides (α is constant, not learnable)
+        # Fixed α decay bias (not learnable — confirmed universal at 1.18±0.006)
         self._decay_bias = -(_ALPHA * self._log_distances)  # (W,)
 
-        if self.passive:
-            # Precomputed normalized distance prior: 1/(stride*w + 1)^α
-            raw_weights = 1.0 / (stride * w_pos + 1.0) ** _ALPHA
-            self._fixed_profile = raw_weights / raw_weights.sum()  # (W,)
-
     def __call__(self, x: mx.array, decay_modulation: float = 1.0) -> mx.array:
-        if self.passive:
-            return self._passive_forward(x)
-        else:
-            return self._active_forward(x, decay_modulation)
+        """Full Q·K attention with HPE and fixed α decay.
 
-    def _active_forward(self, x: mx.array, decay_modulation: float = 1.0) -> mx.array:
-        """Full Q·K attention with HPE (holographic position encoding). For s1, s2.
-
-        HPE replaces RoPE-style rotation with crystal-derived frequencies in
-        log-distance space. K is rotated by log(stride×w+1) × crystal_freq
-        in the first N_EIGEN_PAIRS dimension pairs. Q stays unrotated (relative
-        encoding — the distance information is in K's rotation).
+        HPE rotates K by log-distance × crystal-frequency in the first
+        N_EIGEN_PAIRS dimension pairs. Q stays unrotated (relative encoding).
+        When hpe_freq_scale is 0, HPE is identity (no rotation).
         """
         B, L, D = x.shape
         H, Dh = self.n_heads, self.d_head
@@ -353,7 +341,9 @@ class SingleStrideAttention(nn.Module):
         V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
 
         # ── HPE: rotate K by log-distance × crystal frequencies ──
-        # Q stays unrotated (relative encoding)
+        # When hpe_freq_scale is all zeros, this is identity (no rotation).
+        # As freq_scale warms up from 0→1, rotation gradually introduces
+        # crystal-derived positional structure.
         Q_r = Q.transpose(0, 2, 1, 3)  # (B, H, L, Dh)
         _, K_gathered_rot = apply_hpe_rotation(
             Q_r, K_gathered, self._log_distances,
@@ -376,46 +366,6 @@ class SingleStrideAttention(nn.Module):
 
         V_r = V_gathered.transpose(0, 3, 1, 2, 4)
         out = (attn[:, :, :, :, None] * V_r).sum(axis=3)
-        out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
-
-        return x + self.out_proj(out) + self.o_bias
-
-    def _passive_forward(self, x: mx.array) -> mx.array:
-        """Fixed distance prior — no Q/K, no softmax. For s4+."""
-        B, L, D = x.shape
-        H, Dh = self.n_heads, self.d_head
-        W = self.window
-
-        x_norm = self.norm(x)
-        V = (self.v_proj(x_norm) + self.v_bias).reshape(B, L, H, Dh)
-
-        # Stride gather (same index computation)
-        query_pos = mx.arange(L)[:, None]
-        offsets = mx.arange(W)[None, :] * self.stride
-        raw_indices = query_pos - offsets
-        valid = raw_indices >= 0
-        indices = mx.maximum(raw_indices, 0)
-
-        GD = H * Dh
-        V_flat = V.reshape(B, L, GD)
-        idx = indices.reshape(1, L * W, 1)
-        idx = mx.broadcast_to(idx, (B, L * W, GD))
-        V_gathered = mx.take_along_axis(V_flat, idx, axis=1).reshape(B, L, W, H, Dh)
-
-        # Fixed attention weights — precomputed from α=1.18
-        attn = mx.broadcast_to(
-            self._fixed_profile[None, None, None, :],
-            (1, 1, 1, W)
-        )  # (1, 1, 1, W)
-
-        # Mask invalid positions and renormalize
-        valid_mask = valid[None, None, :, :]  # (1, 1, L, W)
-        attn = mx.where(valid_mask, attn, mx.array(0.0))
-        attn = attn / (attn.sum(axis=-1, keepdims=True) + 1e-10)
-
-        # Weighted sum of gathered V
-        V_r = V_gathered.transpose(0, 3, 1, 2, 4)  # (B, H, L, W, Dh)
-        out = (attn[:, :, :, :, None] * V_r).sum(axis=3)  # (B, H, L, Dh)
         out = out.transpose(0, 2, 1, 3).reshape(B, L, D)
 
         return x + self.out_proj(out) + self.o_bias
@@ -578,13 +528,12 @@ class StrideStack(nn.Module):
                 ))
                 self._layer_types.append("ret")
             else:
-                ssa = SingleStrideAttention(
+                self.layers.append(SingleStrideAttention(
                     d_model=d, stride=s, window=cfg.window,
                     n_heads=cfg.n_heads, dropout=cfg.dropout,
-                    n_q_mirrors=n_q if not (s >= _PASSIVE_STRIDE_MIN) else 0,
-                )
-                self.layers.append(ssa)
-                self._layer_types.append("passive" if ssa.passive else "comp")
+                    n_q_mirrors=n_q,
+                ))
+                self._layer_types.append("comp")
 
         # Per-combinator beam mirrors (shared across strides)
         self.combinator_mirrors = [TernaryMirror(d) for _ in range(cfg.n_combinators)]
@@ -620,7 +569,46 @@ class StrideStack(nn.Module):
 
 
 # ══════════════════════════════════════════════════════════════════════
-# § 4  Self-test
+# § 4  HPE Warmup
+# ══════════════════════════════════════════════════════════════════════
+
+
+def set_hpe_warmup_fraction(stride_stack: StrideStack, fraction: float) -> None:
+    """Set HPE freq_scale on all SSA layers based on warmup fraction.
+
+    Args:
+        stride_stack: The shared StrideStack module.
+        fraction: 0.0 = no rotation (identity), 1.0 = full crystal rotation.
+                  Clamped to [0, 1]. Typically: min(1, step / HPE_WARMUP_STEPS).
+
+    When fraction=0, cos(0)=1, sin(0)=0 → K is unrotated → identical to
+    pre-HPE behavior. This makes checkpoint resume seamless.
+    """
+    fraction = max(0.0, min(1.0, fraction))
+    target = mx.full((_N_EIGEN_PAIRS,), fraction)
+    for layer in stride_stack.layers:
+        if isinstance(layer, SingleStrideAttention):
+            layer.hpe_freq_scale = target
+
+
+def get_hpe_fraction_for_step(step: int, warmup_start: int = 0) -> float:
+    """Compute HPE warmup fraction for a given training step.
+
+    Args:
+        step: current training step
+        warmup_start: step at which HPE warmup begins (default: 0, i.e. resume step)
+
+    Returns:
+        fraction in [0, 1]: linear ramp from warmup_start to warmup_start + HPE_WARMUP_STEPS
+    """
+    elapsed = step - warmup_start
+    if elapsed <= 0:
+        return 0.0
+    return min(1.0, elapsed / HPE_WARMUP_STEPS)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# § 5  Self-test
 # ══════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
