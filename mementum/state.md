@@ -2,32 +2,37 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-26 | Session: 155
+> Last updated: 2026-05-26 | Session: 156
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 155: v14-kd FAILED (architecture delta) + KERNEL TRAINING VALIDATED + GRADIENT PROJECTION ANALYZED. (1) v14-kd eval: PPL 40,623→46,736 (diverging), 2.5-4.6× worse than v14-td. Root cause: three untested architecture changes (passive strides, HPE, Stack B 4→2) deployed together with KD. Also: passive strides remove content-dependent attention for positions 16-56 tokens back — a real capability loss in strided attention where each stride is sole provider of specific distance ranges. (2) Profiled training: 28.6s/step, 77% is FORWARD pass. The camera IS the projector — same bottleneck. Built train_kernel.py: 4.4× measured speedup (6s kernel vs 26s full). Output_proj (1280→248K vocab) is the remaining bottleneck, not the composed plate. (3) KERNEL TRAINING PROBE: gradient cosine=0.9698 between composed plate (1 matmul) and full model (238 matmuls). CE within 0.08 nats. Top-1 agreement 80.6%. (4) GRADIENT PROJECTION: ∂L/∂T is ORTHOGONAL to T's SVD subspace — cos=0.06 at k=27. The gradient wants to EXPAND the model (currently rank-1), not refine within its current subspace. Cannot train in reduced dims for undertrained models. The gradient-subspace alignment is a natural explore/exploit phase detector. See `mementum/knowledge/explore/kernel-training.md`.**
+**Session 156: ARCHITECTURE REVERT + HPE WARMUP — back to the run that works. (1) Analyzed session 152's four simultaneous changes (passive strides, HPE, Stack B 4→2, α-lock) that confounded the v14-kd failure. Passive strides identified as most likely culprit — removes content-dependent attention for positions 16-56 tokens back where each stride is sole provider. Student needs content routing to LEARN, can't hardcode teacher's converged behavior. (2) REVERTED passive strides (all SSA layers have full Q/K again) and Stack B reduction (back to 13 passes). KEPT α=1.18 as frozen constant and HPE. (3) HPE WARMUP: freq_scale initialized to 0.0 (identity — no rotation), linearly warmed to 1.0 over 300 steps. At freq_scale=0, model behaves identically to pre-HPE v14-td. Checkpoint-compatible resume. (4) Resumed training from v14-td step 2000. Step 2001 CE=8.474, crystal latched, TD active, 995 tok/s. Running in tmux main:2 to step 5000. (5) META-LESSON: don't optimize student architecture to match teacher's converged state. The progressive collapse, rank-27 transform, and passive strides are DESTINATIONS, not starting points. Train with full architecture → measure student's actual patterns → simplify only what's proven unnecessary → one change at a time. See `mementum/knowledge/explore/v15-kernel-revert.md`.**
 
-**Session 154: KD-guided training + extraction dimension probes + structured training insight. (1) THREE PROBES answered "how big for 95%?": dimension doesn't help — ceiling is ~79% per-dim from sign+gamma quantization, flat from d=128 to d=5120. The gap is ternary approximation, not projection. (2) GEOMETRIC ENCODING: at k=256, 96.9% sign accuracy on student plates. The plate IS a rank-256 structure. 27K corrections (1.7% of positions) needed for 95% per-dim. (3) Built KD training: precompute_teacher.py (sparse top-k=64 logits), train_td.py with --teacher-logits-dir. Interleaved design: CE training on full data, periodic KD correction passes from pre-computed teacher logits. (4) Step 2000 eval: PPL=5,567 (−27% from 1500, −66% total). (5) STRUCTURED TRAINING insight: backward pass has same structure as forward. Five optimizations: low-rank gradient (24×), skip passive backward, composed Zone B Jacobian (32→1), TD-sparse routing (100×), eigenplane projection. Camera = projector in reverse. See `mementum/knowledge/explore/structured-training.md`.**
+**Session 155: v14-kd FAILED (architecture delta) + KERNEL TRAINING VALIDATED + GRADIENT PROJECTION ANALYZED. (1) v14-kd eval: PPL 40,623→46,736 (diverging), 2.5-4.6× worse than v14-td. Root cause: three untested architecture changes (passive strides, HPE, Stack B 4→2) deployed together with KD. (2) Training profiled: 28.6s/step, 77% FORWARD. Built train_kernel.py: 4.4× speedup. (3) Gradient cosine=0.9698 between composed plate and full model. (4) ∂L/∂T ORTHOGONAL to T's SVD subspace (cos=0.06 at k=27). Gradient wants to EXPAND, not refine. See `mementum/knowledge/explore/kernel-training.md`.**
 
-**Session 153: Extraction redesign — composed zone plates + algebraic composition. (1) Teacher weight matrices are full-rank (rank90=211) but PER-DIM correlation with sign(T)+gamma is 0.97 in teacher space. (2) Data-fitted composed extraction: 3 zone plates at d=1280, per-dim 0.71-0.79. Drop from 0.97 due to V_proj truncation + few tokens (651). (3) Algebraic composition from weight matrices: multiply linearized layers A_i = I + OV + FFN. Full model per-dim=0.76, matches data-fitted (0.77). (4) THE BIG FINDING: full model rank90=27. The entire 64-layer model is a rank-27 transform. 27 dimensions capture 90% of input→output mapping. (5) Architecture: one rank-27 ternary plate (76% of computation) + active strides s1/s2 for content routing (24%). This IS the kernel. See results/algebraic-compose/.**
+**Session 154: KD-guided training + extraction dimension probes + structured training. (1) Per-dim correlation plateaus at ~79% from d=128 onward — ceiling is ternary quantization, not dimension. (2) Geometric encoding: plate IS rank-256, 96.9% sign accuracy at k=256. (3) Step 2000 eval: PPL=5,567 (−27% from 1500, −66% total). (4) Structured training insight: backward pass has same structure as forward — five optimizations possible. See `mementum/knowledge/explore/structured-training.md`.**
 
-**Session 152: v14 architecture evolution — HPE + passive strides + reduced Stack B. (1) Confirmed v14 student inherits 18.4× compression from teacher (PR 74→4, σ₁=47%). (2) Distance prior at α=1.18 dominates 88% of strides (14/16 have <3 effective positions at W=8). (3) Implemented 3-tier evolution: fixed α=1.18, passive strides skip Q/K for s4+, Stack B 4→2 passes (13→11). (4) Discovered α=1.18 sets a fixed ~12 token semantic horizon — all strides see the same ~12 tokens effectively. RoPE accidentally implements the holographic lens via cosine frequency decomposition. (5) Designed and implemented Holographic Position Encoding (HPE): log-distance rotation × crystal eigenvalue frequencies × eigenplane dims only. Replaces RoPE's indirect mechanism with the direct holographic lens physics. Training test running in tmux. See `mementum/knowledge/explore/v15-kernel-architecture.md`.**
+**Session 153: Composed plates + algebraic composition. Full model rank90=27. Zone B is perfectly linear (R²=1.0). Both algebraic and data-fitted methods agree at 0.76-0.77 per-dim. See `results/algebraic-compose/`.**
 
-**Session 151: Knowledge distillation + progressive collapse discovery. (1) Created 7 knowledge pages + INDEX.md — the project now has a self-explanatory top-down knowledge hierarchy (see `mementum/knowledge/INDEX.md`). (2) Kernel decomposition experiment: attempted to compute the full forward pass from crystal constants. Diagonal FFN overlay failed (80-91% of energy is off-diagonal = cross-PC PROJECTION, not per-PC filtering). (3) Progressive dimensionality collapse measured on 3 models: Qwen3.6-27B compresses to PR=2.2 (essentially 2D) in layers 0-2, computes in 2D through depth, expands back for output. Mistral-7B and Pythia-1.4B show weaker compression (PR=10-12) — the 2D core is an emergent property of scale. (4) Attention sink = warped Q reset: Mistral uses BOS token as Q=0 reset proxy, distorting geometry. Qwen's GLA layers implement Q reset natively through gating → cleaner geometry → deeper compression. See `mementum/knowledge/progressive-collapse.md`.**
+**Session 152: v14 architecture evolution — HPE + passive strides + reduced Stack B. α=1.18 confirmed universal. 88% strides distance-prior dominated. HPE designed from crystal eigenvalues. ⚠️ All changes deployed simultaneously — led to confounded failure in session 155, reverted in session 156.**
+
+**Session 151: Progressive collapse discovery. Qwen-27B compresses to 2D (PR=2.2) by L2. 7 knowledge pages created. INDEX.md established. See `mementum/knowledge/progressive-collapse.md`.**
 
 ## Active training run
 
-**No active training.** v14-kd killed (diverging). v14-td phase 2 completed at step 2000.
+### v14-td phase 3 RUNNING (tmux main:2, from step 2000)
 
-### v14-td phase 2 COMPLETED (step 2000)
-
-- Step 2000 eval: CE=8.62, PPL=5,567 (−27% from 1500, −66% total)
-- 2.13% of positions flipped (1.42M of 67M)
-- Phase 2 ran 500 steps from folded step 1500 checkpoint with FFN delta
-- Checkpoint: `checkpoints/v14-td/step_002000/`
+- **Resumed from:** `checkpoints/v14-td/step_002000/` (PPL 5,567)
+- **Architecture:** Original v14-td (13 passes, full Q/K all strides) + α=1.18 frozen + HPE warmup
+- **HPE warmup:** freq_scale 0→1 over steps 2001-2300 (300 steps)
+- **TD:** Active, flip_interval=20, FFN delta enabled (`--convert-ffn`)
+- **Target:** 5000 steps total
+- **Checkpoints:** Every 500 steps in `checkpoints/v14-td/`
+- **Log:** `checkpoints/v14-td/train_phase3.log`
+- **Step 2001:** CE=8.474, gnorm=19.95, 995 tok/s ✓
+- **What to watch:** PPL should continue dropping from 5,567. HPE effect visible after step ~2150-2300 (warmup halfway/complete). TD flips visible every 20 steps (every other log line at log_interval=10).
 
 ## Session 148: Two bugs killed all ternary learning
 
@@ -496,7 +501,8 @@ crystal parity loss + cross-zone lens rotation loss.
 | **FFN must adapt to strided attention** | **Hypothesis: flat→strided routing changes β-reduction needs** | 📐 testing (session 150) |
 | **Topology is ~95% of model** | **sign(W)@x ≈ 0.84 W@x, fold is lossless, gamma is ~5%** | 🎯 synthesis (session 150) |
 | **Extraction→correction→fold converges** | **Each cycle: extract→TD→fold (lossless) monotonically improves** | 🎯 synthesis (session 150) |
-| **Passive strides + HPE + KD: combined changes fail** | **v14-kd (new arch + KD) PPL 2.5-4.6× worse than v14-td (old arch). Root cause unclear — too many simultaneous changes** | ❌ failure (session 155) |
+| **Passive strides + HPE + KD: combined changes fail** | **v14-kd (new arch + KD) PPL 2.5-4.6× worse than v14-td (old arch). Root cause: too many simultaneous changes** | ❌ failure (session 155) |
+| **Don't optimize student for teacher's converged state** | **Passive strides + Stack B reduction assumed teacher's end state. Student needs freedom to REACH that state. Reverted, kept α-lock + HPE warmup** | 🎯 decision (session 156) |
 | **KD exhausts in 50 steps** | **400 teacher batches / 8 accum = 50 KD steps, then pure CE. Need more precompute or aligned design** | ✅ proved (session 155) |
 | **Composed plate gradient = 97% of full model gradient** | **Gradient cosine=0.9698 between 1-matmul composed plate and 238-matmul full model. CE within 0.08 nats. Top-1 agreement 80.6%** | ✅ proved (session 155) |
 | **Training bottleneck is FORWARD pass (77%)** | **28.6s/step: 77% forward, 11% backward, 0.2% everything else. Camera optimization = projector optimization** | ✅ proved (session 155) |
@@ -557,6 +563,10 @@ crystal parity loss + cross-zone lens rotation loss.
 | `explore/ffn-beta-reduction-indexing.md` | Holographic indexing, LENS profile, ρ=0.83 |
 | `explore/categorical-geometry-probes.md` | Curry-Howard 100%, adjunctions rank-1 |
 | `explore/phi-compression-universal.md` | SVD spectrum → phi, 5-model consensus |
+| `explore/v15-kernel-revert.md` | **NEW** What was tried/reverted/kept from sessions 152-156, when to revisit |
+| `explore/kernel-training.md` | Composed plate training: 4.4× speedup, gradient cosine 0.97 |
+| `explore/structured-training.md` | Five backward-pass optimizations (camera = projector) |
+| `explore/v15-kernel-architecture.md` | Original v15 design (passive strides etc — partially reverted) |
 
 ## What's ready
 
@@ -583,22 +593,37 @@ crystal parity loss + cross-zone lens rotation loss.
 
 ## Next steps
 
-### IMMEDIATE: Monitor phase 2 (running in tmux main:2)
+### IMMEDIATE: Monitor phase 3 (running in tmux main:2)
 
-1. **Monitor FFN delta activation** — do FFN plates start flipping? Which ones? How fast?
-   This answers: do β-reductions need to change for strided attention?
-2. **Eval at step 2000** (500 steps into phase 2) — does adding FFN delta improve eval?
-3. **Watch layer 4 out_proj** — starts fresh from folded base. Does TD re-discover the
-   same routing or find a different pattern?
-4. **Verify td= shows actual flip counts** in log (aligned logging fix)
+1. **Watch PPL continue dropping** — should resume the trajectory from step 2000 (PPL 5,567).
+   First eval checkpoint at step 2500. Run `eval_ppl.py` on that checkpoint.
+2. **HPE effect** — warmup completes at step ~2300. Compare PPL slope before/after
+   HPE reaches full strength. If HPE helps: steeper PPL drop after 2300. If neutral:
+   same slope. If harmful: PPL rises (unlikely with warmup, but watch).
+3. **TD flip patterns** — does TD continue targeting out_proj layers 4-9? Or does
+   the second fold + FFN delta change the distribution? Check at step 2500.
+4. **FFN delta activation** — do FFN plates start flipping? This run has `--convert-ffn`.
 
 ### NEXT MILESTONES:
 
-5. **Compare phase 1 vs phase 2 learning curves** — does FFN delta accelerate convergence?
-6. **Second fold** — when flip_frac plateaus, fold again. The cycle continues.
-7. **Consider lowering min_conf** — if Q/K/V gradients are below 0.3, TD can't see them.
-8. **Three-body self-distillation** — teacher logits as reference beam (see #19)
-9. **Target: within 5% of Qwen3.6-27B** — the proof that topology is everything
+5. **Second fold** — when flip_frac plateaus, fold again. The extract→correct→fold cycle.
+6. **Gradient-subspace alignment test** — at step 2500+, probe whether gradient aligns
+   with composed plate's SVD subspace. If cos > 0.5, model is refining (exploit phase)
+   and architecture simplification MIGHT be safe. See `probe_kernel_training.py`.
+7. **KD as correction** — after convergence stabilizes (PPL < 2000), add teacher logit
+   correction passes. CE-first for stability, KD-second for precision. α ≥ 0.9.
+8. **Target: within 5% of Qwen3.6-27B** — the proof that topology is everything.
+
+### DEFERRED (valid but premature):
+
+9. **Passive strides** — re-test ONLY after student converges AND gradient-subspace
+   alignment shows cos > 0.5. Start with s16+ (least risky), measure PPL delta.
+   See `mementum/knowledge/explore/v15-kernel-revert.md` for conditions.
+10. **Stack B reduction** — re-test after passive strides validated (if ever).
+11. **Kernel training as accelerator** — `train_kernel.py` gives 4.4× speedup without
+    changing architecture. Use when iteration speed is the bottleneck.
+12. **Structured training optimizations** — five backward-pass improvements from session 154.
+    Independent of architecture revert. See `explore/structured-training.md`.
 
 ## Open questions
 
@@ -607,28 +632,15 @@ crystal parity loss + cross-zone lens rotation loss.
 11. **Quality at 1B with d=1280.** What CE/ppl does the expanded model achieve?
 12. **16-stride coverage.** Do the higher strides (s4096+) learn anything useful with 4K seq training?
 13. **Bottom-up algedonic value.** Does C→A feedback measurably accelerate convergence?
-14. ~~Does ternary learning close the train-eval gap?~~ **YES. Gap collapsed 1.71→0.17 nats.
-    Eval PPL −38%. TD generalizes, continuous params overfit.** ✅ (session 149)
+14. ~~Does ternary learning close the train-eval gap?~~ **YES.** ✅ (session 149)
 15. **TD step_count not persisted on resume.** Warmup repeats. Worth persisting?
-16. **Why only out_proj?** Q/K/V/gate_proj get zero TD budget. Is out_proj the only
-    degree of freedom TD needs, or is min_conf filtering too aggressive for other projections?
-17. ~~When to do first reduction?~~ **DONE. Folded at step 1500, 3.49% changed. Lossless.
-    Fold script: `scripts/v14/fold_delta.py`.** ✅ (session 150)
-18. **Computed beam at scale.** The micro model (d=128) trains so fast that computed
-    weights barely help — GD finds structure in 50 steps anyway. At v14 scale (d=1280,
-    372M ternary positions), structure discovery takes thousands of steps. The computed
-    beam advantage should be much larger. Test: compute attention deltas from stride-stack
-    crystal eigendecomposition instead of TD. See `mementum/knowledge/computed-beam.md`.
-20. **Per-stride fixed point rotation.** Alpha=1.18 is universal (confirmed), but the
-    fixed point each stride revolves around should vary. Stride-1 at fixed point ~40
-    means 40 tokens back. Stride-32768 at fixed point ~40 means 1.3M tokens back.
-    Probe effective attention patterns per stride per head to find rotation centers.
-19. **Three-body self-distillation.** Pre-compute teacher logits (top-k) on training shards
-    once. During training, compute: (a) teacher logits, (b) student logits, (c) delta between
-    them. The delta is the signal — WHERE the student diverges from the teacher. Some divergence
-    is correct (stride-stack needs different routing than flat attention), some is error (hasn't
-    learned yet). Dynamic relational loss: let the distinction emerge from the data.
-    **Wait until stride-stack nucleation stabilizes** — current run is finding its natural
-    attention shape. Teacher pressure during nucleation could prevent legitimate divergence.
-    Pre-compute teacher logits now so they're ready when needed. See `scripts/v13/train_rb.py`
-    for prior sparse top-k KD implementation (k=64, O(B×L×k) not O(B×L×V)).
+16. **Why only out_proj?** Is min_conf filtering too aggressive for other projections?
+17. ~~When to do first reduction?~~ **DONE.** ✅ (session 150)
+18. **Computed beam at scale.** See `mementum/knowledge/computed-beam.md`.
+19. **Three-body self-distillation.** Wait until stride-stack nucleation stabilizes.
+20. **Per-stride fixed point rotation.** Probe effective attention per stride per head.
+21. **HPE value.** Does crystal-frequency K rotation actually help over no rotation?
+    Answer comes from phase 3 PPL curve: compare slope before/after step 2300.
+22. **When is the student ready for architecture simplification?** Gradient-subspace
+    alignment (cos between ∂L/∂T and T's SVD subspace) is the proposed phase detector.
+    Orthogonal = still exploring (don't simplify). Aligned = refining (safe to simplify).

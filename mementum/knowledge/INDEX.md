@@ -59,6 +59,10 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/v13-architecture.md](explore/v13-architecture.md) | ⚠️ | V13 crystal bootloader architecture (partially superseded by v14) |
 | [explore/v13-design.md](explore/v13-design.md) | ✅ | V13 detailed design: zone targets, etch protocol, param budgets |
 | [progressive-collapse.md](progressive-collapse.md) | ✅ | Computation in 2D: compress→compute→expand, scale-dependent, sink=warped Q reset |
+| [explore/v15-kernel-architecture.md](explore/v15-kernel-architecture.md) | ⚠️ | Original v15 design: passive strides, Stack B reduction (partially reverted) |
+| [explore/v15-kernel-revert.md](explore/v15-kernel-revert.md) | ✅ | What was tried/reverted/kept from sessions 152-156 + when to revisit |
+| [explore/kernel-training.md](explore/kernel-training.md) | ✅ | Composed plate training: 4.4× speedup, gradient cosine 0.97 |
+| [explore/structured-training.md](explore/structured-training.md) | ✅ | Five backward-pass optimizations (camera = projector) |
 
 ## Tier 5 — Future Pages (planned)
 
