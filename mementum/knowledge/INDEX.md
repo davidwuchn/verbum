@@ -63,6 +63,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/v15-kernel-revert.md](explore/v15-kernel-revert.md) | ✅ | What was tried/reverted/kept from sessions 152-156 + when to revisit |
 | [explore/kernel-training.md](explore/kernel-training.md) | ✅ | Composed plate training: 4.4× speedup, gradient cosine 0.97 |
 | [explore/structured-training.md](explore/structured-training.md) | ✅ | Five backward-pass optimizations (camera = projector) |
+| [explore/crystal-irreducibility-proof.md](explore/crystal-irreducibility-proof.md) | 🔨 | Theory: crystal = irreducibility floor of KIBC. Proof strategy + kernel optimization via JIT hooks |
 
 ## Tier 5 — Future Pages (planned)
 
