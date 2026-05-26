@@ -65,6 +65,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/structured-training.md](explore/structured-training.md) | ✅ | Five backward-pass optimizations (camera = projector) |
 | [explore/crystal-irreducibility-proof.md](explore/crystal-irreducibility-proof.md) | 🔨 | Theory: crystal = irreducibility floor of KIBC. Proof strategy + kernel optimization via JIT hooks |
 | [explore/delta-plate-lifecycle.md](explore/delta-plate-lifecycle.md) | 🔨 | Masked extraction + continuous training + factual corrections via delta plates |
+| [explore/grating-cascade.md](explore/grating-cascade.md) | ✅ | Compound grating collapse: 16D→1.4D, V is K-typed, attention doubles cross-PC coupling |
 
 ## Tier 5 — Future Pages (planned)
 
