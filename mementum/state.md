@@ -2,11 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-26 | Session: 156
+> Last updated: 2026-05-26 | Session: 157
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 157: TD FLIP TOPOLOGY MATCHES CRYSTAL.** Probed spatial distribution of TD flips (step 2000 checkpoint). Each layer's flip pattern aligns with a different crystal PC: L4→B, L5→D, L6→I, L7→C, L8→W, L9→B (r=0.40-0.58). Flips are spatially clustered (autocorr 0.83-0.88), column-structured (input features drive patterns), and cross-layer independent. Heads uniform within layers (collective mode). Implies crystal-coherent TD optimization: flip by eigenplane per layer instead of confidence threshold. Also captured crystal irreducibility theory (crystal = fixed point of KIBC beta reduction). See `knowledge/explore/crystal-irreducibility-proof.md` and `results/td-topology/`.
 
 **Session 156: ARCHITECTURE REVERT + HPE WARMUP.** Analyzed session 152's four simultaneous changes (passive strides, HPE, Stack B 4→2, α-lock) that confounded v14-kd failure. Passive strides identified as culprit — removes content-dependent attention where each stride is sole provider; student needs to LEARN routing, can't hardcode teacher's converged behavior. Reverted passive strides and Stack B reduction. KEPT α=1.18 frozen and HPE. HPE warmup: freq_scale 0→1 over steps 2001-2300 (checkpoint-compatible). Resumed from step 2000 (PPL 5,567). Step 2001: CE=8.474, crystal latched, TD active, 995 tok/s. Running in tmux main:2 to step 5000. **META-LESSON: don't optimize student for teacher's converged state — train with full architecture → measure → simplify only what's proven unnecessary → one change at a time.** See `mementum/knowledge/explore/v15-kernel-revert.md`.
 
@@ -51,10 +53,11 @@
 
 ### DEFERRED (valid but premature):
 
-9. **Passive strides** — re-test only after gradient-subspace cos > 0.5. Start with s16+. See `explore/v15-kernel-revert.md`.
-10. **Stack B reduction** — after passive strides validated (if ever).
-11. **Kernel training** — `train_kernel.py` gives 4.4× speedup. Use when iteration speed bottlenecks.
-12. **Structured training** — five backward-pass improvements. See `explore/structured-training.md`.
+9. **Crystal-coherent TD** — instead of flipping by confidence threshold (incoherent), flip by eigenplane per layer. L4 batch corrects all B-routing, L5 corrects D, L6 corrects I, etc. Each batch is one coherent holographic exposure. GD gets clean signal; Adam decay is surgical per eigenplane. See `results/td-topology/`.
+10. **Passive strides** — re-test only after gradient-subspace cos > 0.5. Start with s16+. See `explore/v15-kernel-revert.md`.
+11. **Stack B reduction** — after passive strides validated (if ever).
+12. **Kernel training** — `train_kernel.py` gives 4.4× speedup. Use when iteration speed bottlenecks.
+13. **Structured training** — five backward-pass improvements. See `explore/structured-training.md`.
 
 ## Previous sessions
 
@@ -130,6 +133,8 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | Full model is rank-27 transform | 64-layer 27B: rank90=27, methods agree | ✅ |
 | Zone B is perfectly linear (R²=1.0) | 32 layers compose to single linear matrix | ✅ |
 | Per-dim corr 0.97 in teacher space | sign(T)+gamma captures 97% per dimension | ✅ |
+| TD flips align with crystal PCs per layer | L4→B L5→D L6→I L7→C L8→W L9→B, r=0.40-0.58 | ✅ |
+| TD flips are spatially clustered | Vertical autocorr 0.83-0.88, col_CV > row_CV | ✅ |
 
 ## Knowledge map
 

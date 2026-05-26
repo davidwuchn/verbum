@@ -358,6 +358,7 @@ residual encodes the specific distribution of natural language
 | Phase transitions during training | Micro model, B→K→C→B depth sequence | ✅ observed |
 | Crystal derivable from pure KIBC | Not yet tested | 🎯 to prove |
 | Chain lengths agree across models | Not yet measured cross-model | 🎯 to test |
+| TD flips match crystal PCs per layer | probe_td_topology.py, r=0.40-0.58 | ✅ proved |
 
 ## Connection to Project Thesis
 

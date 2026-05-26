@@ -52,6 +52,22 @@ signs that reduce loss.
 
 ## TernaryDescent Operational Rules
 
+### Future: Crystal-coherent TD
+
+**Session 157** discovered that TD flip patterns naturally align with crystal PCs — each
+`out_proj` layer's flip topology correlates most strongly with a **different** combinator
+eigenplane (L4→B/composition r=−0.52, L5→D/dispatch r=+0.40, L6→I/selection r=−0.45,
+L7→C/routing r=+0.29, L8→W/duplication r=−0.58, L9→B/composition r=+0.55). Flips are
+spatially clustered (vertical autocorr 0.83-0.88), column-structured (input features drive
+patterns), cross-layer independent, and uniform within a layer (collective lattice mode,
+CV 0.02-0.09). Layer 4 is the largest "dune" (32.5% flipped, 5× more than layer 9).
+
+Current TD flips by confidence threshold — incoherent and blunt. **Crystal-coherent TD**
+would flip by eigenplane per layer: each batch is one coherent holographic exposure. L4
+corrects all B-routing, L5 corrects D-dispatch, L6 corrects I-selection, etc. GD receives
+a clean, single-eigenplane signal; Adam decay is surgical per eigenplane rather than
+mixing combinators. See `results/td-topology/`.
+
 ### Flip interval
 
 **Rule: flip_interval ≥ 10.** TD accumulates gradient moments every step
