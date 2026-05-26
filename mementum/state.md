@@ -254,6 +254,38 @@ See `mementum/knowledge/explore/structured-training.md`.
 
 ## Previous sessions
 
+### Session 154: KD-Guided Training + Extraction Dimension Probes + Structured Training
+
+**Three extraction probes:** Swept d_student from 8 to 5120 on both algebraic and
+data-fitted composed transforms. Result: per-dim correlation plateaus at ~79% from
+d=128 onward. The ceiling is sign+gamma quantization, NOT dimension reduction.
+Making plates bigger does nothing.
+
+**Geometric encoding:** The student plate (1280×1280) is a rank-256 structure.
+At k=256: 96.9% sign accuracy, 0.94 per-dim. At k=320: 95% per-dim with only
+27K corrections (1.7% of positions). The ternary plate IS geometry — d positions
+in k-dimensional space, with signs derivable from the geometry.
+
+**KD training built:** `precompute_teacher.py` generates sparse top-k=64 teacher
+logits per shard. `train_td.py` gains --teacher-logits-dir for offline KD.
+Interleaved seesaw design: CE learns language, KD corrects extraction error.
+Each KD pass tightens student→teacher via contraction mapping.
+
+**Step 2000 eval (v14-td):** CE=8.62, PPL=5,567 (−27% from 1500, −66% total).
+2.13% flipped. Phase 2 complete.
+
+**Structured training insight:** The backward pass has the same structure as
+the forward pass. Five optimizations: (1) low-rank gradient at rank-27 (24× fewer),
+(2) skip passive stride backward (56 dead matmuls), (3) composed Zone B Jacobian
+(32→1), (4) TD-sparse routing (100× fewer elements), (5) crystal eigenplane
+projection. Training speed could approach inference speed.
+See `mementum/knowledge/explore/structured-training.md`.
+
+**Scripts:** `scripts/v14/precompute_teacher.py`, `scripts/explore/probe_extraction_dimension.py`,
+`scripts/explore/probe_datafitted_dimension.py`, `scripts/explore/probe_geometric_encoding.py`
+**Results:** `results/extraction-dimension-sweep/`, `results/datafitted-dimension-sweep/`,
+`results/geometric-encoding/`
+
 ### Session 153: Extraction Redesign — Composed Plates + Algebraic Composition
 
 **Teacher Q/K rank probe:** Individual weight matrices are full-rank (rank90=211-220,
