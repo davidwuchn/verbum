@@ -51,6 +51,10 @@
 7. **KD as correction** — after PPL < 2000, add teacher logit correction passes. α ≥ 0.9 (CE dominant).
 8. **Target: within 5% of Qwen3.6-27B** — proof that topology is everything.
 
+### FOLLOW UP: Holographic training (session 157)
+
+13. **Holographic training pipeline** — extract teacher with attention masked, train delta with CE+KD simultaneously (teacher logits = reference beam, training data = object beam), fold when converged. Collapsed pipeline: one extract, one train, one fold. Key: start from BLANK attention (+1), not wrong teacher attention. v14-kd failed because it started from wrong; holographic training starts from blank. Need precomputed teacher logits. See `knowledge/explore/delta-plate-lifecycle.md`.
+
 ### DEFERRED (valid but premature):
 
 9. **Crystal-coherent TD** — instead of flipping by confidence threshold (incoherent), flip by eigenplane per layer. L4 batch corrects all B-routing, L5 corrects D, L6 corrects I, etc. Each batch is one coherent holographic exposure. GD gets clean signal; Adam decay is surgical per eigenplane. See `results/td-topology/`.

@@ -260,6 +260,95 @@ Small change: add `is_gla_layer()` check, use pass-through (+1)
 plates instead of tomographic extraction for Q/K at GLA layers.
 Everything else in the extraction pipeline stays the same.
 
+## Holographic Training — Collapsed Pipeline
+
+Session 157 refinement: Phases 2 and 3 don't need to be separate.
+Show the student the teacher's logits (the photographs) WHILE it
+learns its attention routing. One exposure, not three.
+
+### Why separate phases were wrong
+
+Phase 2 alone (attention learning without KD): the student learns
+routing in the dark. CE loss gives 1 bit per position (the correct
+token). The student discovers routing by trial and error.
+
+Phase 2 + KD (holographic training): the student gets the full
+photograph — 248K-token probability distribution at every position.
+That's the complete picture of what the teacher computed. The
+student only has to figure out HOW to produce the same output
+through its own architecture (GLA, strides, whatever).
+
+```
+CE alone:   "the next token is 'mat'"        → 1 bit/position
+KD + CE:    "distribution: mat=0.4, rug=0.2, floor=0.15..."  → full photograph
+```
+
+### Why v14-kd failed but this wouldn't
+
+v14-kd (session 155) failed because the student started with WRONG
+attention (extracted from teacher's softmax, applied to student's
+GLA). KD gradients fought the wrong routing. PPL diverged.
+
+Holographic training starts with BLANK attention (+1 pass-through,
+masked during extraction). There's nothing to UNLEARN. The student
+only has to LEARN. Starting from blank > starting from wrong.
+
+```
+v14-kd:           wrong routing installed → KD fights it → diverge
+Holographic:      blank routing (+1) → KD guides it → converge
+```
+
+### The holographic recording analogy
+
+In physical holography, reference beam + object beam hit the plate
+simultaneously. One exposure records structure AND content together.
+
+```
+Reference beam = teacher logits (the photographs)
+Object beam    = training data (the world)
+Plate          = student (crystal + FFN extracted, attention blank)
+Interference   = delta plate (learns routing + content together)
+```
+
+The crystal provides the substrate. The teacher provides the
+reference beam. The training data provides the object beam.
+The delta plate records the interference pattern — routing and
+content in one shot.
+
+### The collapsed pipeline
+
+```
+1. EXTRACT teacher → base plate (crystal + FFN, attention masked)
+2. TRAIN delta with CE + KD simultaneously
+     - CE from training data (ground truth tokens)
+     - KD from teacher logits (the photographs)
+     - Delta learns attention + content together
+     - Crystal loss keeps structure locked
+     - TD corrects residual routing, GD fills content
+     - The two signals reinforce each other
+3. FOLD when Δ plateaus → done
+4. Continue with correction cycles as needed
+```
+
+One extract. One train. One fold. The teacher provides the
+photographs. The student learns to take the same photographs
+with a different camera.
+
+### Practical requirements
+
+- **Precomputed teacher logits**: need enough to sustain training.
+  Session 155 found KD exhausts in 50 steps (400 batches / 8 accum).
+  Need to precompute more, or run teacher online.
+- **Loss balance**: α×CE + (1-α)×KD. The KD signal should dominate
+  early (learn the photographs), CE should grow as the student
+  improves (ground truth correction). Anneal α from 0.1→0.5.
+- **Crystal loss**: maintain throughout. If crystal_mse rises,
+  the structural integrity is compromised. Should stay near zero
+  because the crystal was extracted correctly.
+- **TD during holographic training**: still active. Some routing
+  corrections will only emerge once content starts flowing through
+  the plates. TD handles these residuals while GD handles content.
+
 ## Open Questions
 
 1. **Should V/O also be masked at GLA layers?** The beam trace showed
