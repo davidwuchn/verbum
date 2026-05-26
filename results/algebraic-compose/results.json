@@ -1,0 +1,86 @@
+[
+  {
+    "label": "Zone_A_compress",
+    "shape": [
+      5120,
+      5120
+    ],
+    "rank90": 211,
+    "global_corr": 0.48231852070426334,
+    "per_dim_corr": 0.4818885670967756,
+    "cosine_similarity": 0.4818056523799896,
+    "sign_dist": {
+      "pos": 0.5000550460815429,
+      "neg": 0.49994495391845706,
+      "zero": 0.0
+    },
+    "gamma_mean": 0.018016835674643517,
+    "student": {
+      "global_corr": 0.311658631683159,
+      "per_dim_corr": 0.31090367578678835
+    }
+  },
+  {
+    "label": "Zone_B_compute",
+    "shape": [
+      5120,
+      5120
+    ],
+    "rank90": 175,
+    "global_corr": 0.6090504633608276,
+    "per_dim_corr": 0.6201490310721223,
+    "cosine_similarity": 0.5975097417831421,
+    "sign_dist": {
+      "pos": 0.500159568786621,
+      "neg": 0.4998404312133789,
+      "zero": 0.0
+    },
+    "gamma_mean": 0.13823895156383514,
+    "student": {
+      "global_corr": 0.5143907953558879,
+      "per_dim_corr": 0.506693078469118
+    }
+  },
+  {
+    "label": "Zone_C_expand",
+    "shape": [
+      5120,
+      5120
+    ],
+    "rank90": 227,
+    "global_corr": 0.382913029908719,
+    "per_dim_corr": 0.3841160670507076,
+    "cosine_similarity": 0.3827953338623047,
+    "sign_dist": {
+      "pos": 0.50012451171875,
+      "neg": 0.49987548828125,
+      "zero": 0.0
+    },
+    "gamma_mean": 0.007983225397765636,
+    "student": {
+      "global_corr": 0.23849285554910046,
+      "per_dim_corr": 0.23812138291779733
+    }
+  },
+  {
+    "label": "Full_model",
+    "shape": [
+      5120,
+      5120
+    ],
+    "rank90": 27,
+    "global_corr": 0.6891324464636545,
+    "per_dim_corr": 0.723090586266242,
+    "cosine_similarity": 0.6177403330802917,
+    "sign_dist": {
+      "pos": 0.49999500274658204,
+      "neg": 0.500004997253418,
+      "zero": 0.0
+    },
+    "gamma_mean": 1.5971366167068481,
+    "student": {
+      "global_corr": 0.794184047189213,
+      "per_dim_corr": 0.7621191721144314
+    }
+  }
+]
