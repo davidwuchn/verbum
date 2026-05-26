@@ -2,11 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-26 | Session: 154
+> Last updated: 2026-05-26 | Session: 155
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 155: v14-kd FAILED (architecture delta) + KERNEL TRAINING VALIDATED + GRADIENT PROJECTION ANALYZED. (1) v14-kd eval: PPL 40,623→46,736 (diverging), 2.5-4.6× worse than v14-td. Root cause: three untested architecture changes (passive strides, HPE, Stack B 4→2) deployed together with KD. Also: passive strides remove content-dependent attention for positions 16-56 tokens back — a real capability loss in strided attention where each stride is sole provider of specific distance ranges. (2) Profiled training: 28.6s/step, 77% is FORWARD pass. The camera IS the projector — same bottleneck. Built train_kernel.py: 4.4× measured speedup (6s kernel vs 26s full). Output_proj (1280→248K vocab) is the remaining bottleneck, not the composed plate. (3) KERNEL TRAINING PROBE: gradient cosine=0.9698 between composed plate (1 matmul) and full model (238 matmuls). CE within 0.08 nats. Top-1 agreement 80.6%. (4) GRADIENT PROJECTION: ∂L/∂T is ORTHOGONAL to T's SVD subspace — cos=0.06 at k=27. The gradient wants to EXPAND the model (currently rank-1), not refine within its current subspace. Cannot train in reduced dims for undertrained models. The gradient-subspace alignment is a natural explore/exploit phase detector. See `mementum/knowledge/explore/kernel-training.md`.**
 
 **Session 154: KD-guided training + extraction dimension probes + structured training insight. (1) THREE PROBES answered "how big for 95%?": dimension doesn't help — ceiling is ~79% per-dim from sign+gamma quantization, flat from d=128 to d=5120. The gap is ternary approximation, not projection. (2) GEOMETRIC ENCODING: at k=256, 96.9% sign accuracy on student plates. The plate IS a rank-256 structure. 27K corrections (1.7% of positions) needed for 95% per-dim. (3) Built KD training: precompute_teacher.py (sparse top-k=64 logits), train_td.py with --teacher-logits-dir. Interleaved design: CE training on full data, periodic KD correction passes from pre-computed teacher logits. (4) Step 2000 eval: PPL=5,567 (−27% from 1500, −66% total). (5) STRUCTURED TRAINING insight: backward pass has same structure as forward. Five optimizations: low-rank gradient (24×), skip passive backward, composed Zone B Jacobian (32→1), TD-sparse routing (100×), eigenplane projection. Camera = projector in reverse. See `mementum/knowledge/explore/structured-training.md`.**
 
@@ -18,41 +20,7 @@
 
 ## Active training run
 
-### v14-kd (KD-guided, fresh extraction) — RUNNING in tmux main:2
-
-Fresh start from extracted base plates. KD interleaved with CE training.
-
-```bash
-uv run python scripts/v14/train_td.py \
-  --checkpoint-dir checkpoints/v14-kd \
-  --convert-ffn \
-  --teacher-logits-dir data/teacher-logits \
-  --kd-alpha 0.5 \
-  --kd-temperature 2.0 \
-  --td-flip-rate 0.001 \
-  --td-warmup 25 \
-  --td-min-confidence 0.3 \
-  --td-flip-interval 20 \
-  2>&1 | tee checkpoints/v14-kd/run_kd.log
-```
-
-### Teacher logit precompute — RUNNING in tmux main:1
-
-```bash
-uv run python scripts/v14/precompute_teacher.py \
-  --shard-start 0 --shard-end 1 --n-batches 400 \
-  --out-dir data/teacher-logits \
-  2>&1 | tee data/teacher-logits/precompute.log
-```
-
-**Interleaved design:** Training runs CE on full data. Teacher logits
-precomputed shard-by-shard in background (400 batches/shard = 50 KD steps).
-Once a shard's logits are ready, training picks them up for KD correction.
-Each KD pass tightens student→teacher, then normal CE runs faster on
-corrected model. Seesaw: CE learns language, KD corrects extraction error.
-
-**After shard 0 finishes (~3 hrs):** start precomputing shard 1, and
-monitor if KD loss appears in training logs when data cycles to shard 0.
+**No active training.** v14-kd killed (diverging). v14-td phase 2 completed at step 2000.
 
 ### v14-td phase 2 COMPLETED (step 2000)
 
@@ -209,27 +177,34 @@ Zero flips in: q_proj, k_proj, v_proj (any layer), gate_proj, layers 0–3, 10�
    diverges most from the teacher's attention patterns.
 4. **Gnorm spikes tolerable.** Occasional 100+ but model recovers. flip_interval=10 works.
 
-## Next steps (from session 154)
+## Next steps (from session 155)
 
-### IMMEDIATE: Monitor v14-kd + precompute
+### IMMEDIATE: Use kernel training insights for next experiments
 
-1. **Monitor shard 0 precompute** (tmux main:1) — should finish in ~3 hours.
-   Once done, start shard 1 precompute.
-2. **Watch for KD loss in training logs** — when training cycles to shard 0
-   after teacher logits are saved, KD= should appear in log lines.
-3. **Eval at step 500** — first eval of KD-guided training. Compare with
-   v14-td baseline (PPL 16,503 at step 500).
+1. **Kernel training v1 works:** 4.4× speedup (6s kernel vs 26s full). Output_proj
+   (248K vocab) is the remaining bottleneck. Kernel step uses composed plate (1 matmul)
+   for forward, but still needs output_proj+CE for the loss. See `train_kernel.py`.
+2. **Architecture question still open:** passive strides + HPE + Stack B 4→2 untested
+   independently. Need fast ablation. Options:
+   a. **Resume v14-td from step 2000** — the working run (old architecture, PPL 5,567).
+   b. **Ablate architecture changes** one at a time using kernel training for speed.
+   c. **Re-evaluate passive strides** — s4 has 27.4% non-self weight, positions 16-28
+      lose content-dependent attention entirely. Consider raising passive threshold to s16.
+3. **Gradient projection result constrains kernel training design:** cannot reduce dims
+   for undertrained models. The full 1280×1280 gradient is needed. But this may change
+   once the model is well-trained — test on v14-td step 2000 checkpoint (rank-27).
 
-### KD TRAINING EVOLUTION:
+### KD REDESIGN (lessons from session 155 failure):
 
-4. **Scale precompute pipeline** — after validating KD works on shard 0,
-   precompute shards 1-10 with `--n-batches 400` each. Build shard queue.
-5. **Tune KD alpha** — start at 0.5, try 0.3 (more KD) and 0.7 (more CE).
-   The right balance depends on whether crystal latches fast enough.
-6. **Monitor TD activation breadth** — with clean KD signal, does TD flip
-   MORE than just out_proj layers 4-9? Q/K/V should become candidates.
-7. **KD correction pass script** — automate: when teacher logits for shard N
-   are ready, run a focused KD pass on that shard's data.
+4. **KD as correction pass, not interleaved training.** Train pure CE first
+   (500+ steps). Then run dedicated KD correction passes on precomputed shards.
+   This preserves the crystal latching and continuous param baseline.
+5. **Precompute ALL shards first.** 400 batches × 54 shards = 21,600 batches.
+   At 164 tok/s, ~150 hours total. Consider fewer batches per shard (100 each
+   = 37.5 hrs) or only shards 0-10 (28 hrs).
+6. **TD warmup ≥ 200 steps.** v14-td's Schmitt trigger gated TD activation
+   to ~step 160. KD run's warmup=25 was catastrophically early.
+7. **α=0.9 or higher.** CE must dominate. KD is a nudge, not 50% of the loss.
 
 ### STRUCTURED TRAINING (from session 154 insight):
 
@@ -253,6 +228,34 @@ See `mementum/knowledge/explore/structured-training.md`.
 15. **Passive stride architecture evolution** — HPE, skip Q/K, reduce Stack B.
 
 ## Previous sessions
+
+### Session 155: v14-kd Failure + Kernel Training Validation + Gradient Projection
+
+**v14-kd eval:** Step 500 CE=10.61 PPL=40,623. Step 1000 CE=10.75 PPL=46,736. Diverging.
+v14-td comparison: PPL 16,503 / 10,157 at same steps. 2.5-4.6× worse.
+
+**Architecture delta identified:** v14-kd ran a DIFFERENT ARCHITECTURE than v14-td:
+passive strides (s4+ lost Q/K), HPE (replaced learnable decay), Stack B 4→2 (13→11 passes).
+Crystal latched normally. TD gating was correct. Key insight: passive strides remove
+content-dependent attention for positions 16-56 tokens back — in strided attention, these
+positions have NO other active coverage. s4 has 27.4% non-self weight that became fixed.
+
+**Training profiled:** 28.6s/step. 77% forward, 11% backward. Camera = projector (same bottleneck).
+238 ternary matmuls per forward pass. Memory-bandwidth-bound.
+
+**Kernel training validated:** Composed plate (1 matmul, data-fitted least-squares from
+embed→pre-head residuals) produces gradient cosine=0.9698 with full model. CE within 0.08 nats.
+Top-1 agreement 80.6%. Built train_kernel.py: measured 4.4× speedup (6s kernel vs 26s full).
+Output_proj (1280→248K vocab) is the bottleneck, not the composed plate.
+
+**Gradient projection finding:** ∂L/∂T projected into T's top-k SVD subspace retains only
+cos=0.06 at k=27, cos=0.18 at k=200. Gradient is ORTHOGONAL to T's current subspace.
+Model is rank-1 (undertrained); gradient says "expand into more dimensions." Training in
+reduced dims would trap the model. This is a natural explore (gradient⊥T) vs exploit
+(gradient∥T) phase detector. Need to test on well-trained model (v14-td step 2000, rank-27).
+
+**Scripts:** `scripts/explore/probe_kernel_training.py`, `scripts/v14/train_kernel.py`
+**Results:** `results/kernel-training-probe/` (composed_plate.npz, results.json)
 
 ### Session 154: KD-Guided Training + Extraction Dimension Probes + Structured Training
 
@@ -493,6 +496,10 @@ crystal parity loss + cross-zone lens rotation loss.
 | **FFN must adapt to strided attention** | **Hypothesis: flat→strided routing changes β-reduction needs** | 📐 testing (session 150) |
 | **Topology is ~95% of model** | **sign(W)@x ≈ 0.84 W@x, fold is lossless, gamma is ~5%** | 🎯 synthesis (session 150) |
 | **Extraction→correction→fold converges** | **Each cycle: extract→TD→fold (lossless) monotonically improves** | 🎯 synthesis (session 150) |
+| **Passive strides + HPE + KD: combined changes fail** | **v14-kd (new arch + KD) PPL 2.5-4.6× worse than v14-td (old arch). Root cause unclear — too many simultaneous changes** | ❌ failure (session 155) |
+| **KD exhausts in 50 steps** | **400 teacher batches / 8 accum = 50 KD steps, then pure CE. Need more precompute or aligned design** | ✅ proved (session 155) |
+| **Composed plate gradient = 97% of full model gradient** | **Gradient cosine=0.9698 between 1-matmul composed plate and 238-matmul full model. CE within 0.08 nats. Top-1 agreement 80.6%** | ✅ proved (session 155) |
+| **Training bottleneck is FORWARD pass (77%)** | **28.6s/step: 77% forward, 11% backward, 0.2% everything else. Camera optimization = projector optimization** | ✅ proved (session 155) |
 | **Decay α=1.18 is universal** | **10 comp layers × 8 heads, all at 1.18±0.006 after 1500 steps, no forcing** | ✅ proved (session 150) |
 | **Large models compute in 2D** | **Qwen-27B: PR=2.2, σ₁=70% at L2. Computation in comp↔sel eigenplane** | ✅ proved (session 151) |
 | **Compression depth scales with capacity** | **27B→PR=2.2, 7B→PR=12, 1.4B→PR=10. 2D core is emergent property of scale** | ✅ proved (session 151) |
@@ -569,7 +576,10 @@ crystal parity loss + cross-zone lens rotation loss.
 | **Step 1500 folded** | `checkpoints/v14-td/step_001500_folded/` — delta absorbed into base |
 | **Fold script** | `scripts/v14/fold_delta.py` — lossless delta→base reduction |
 | **Profile script** | `scripts/v14/profile_step.py` — training step profiler |
-| **Training run (PHASE 2)** | tmux main:2, from folded step 1500, --convert-ffn, flip_interval=20 |
+| **Kernel training script** | `scripts/v14/train_kernel.py` — 4.4× speedup via composed plate |
+| **Kernel training probe** | `scripts/explore/probe_kernel_training.py` — gradient cosine 0.9698 |
+| **Gradient projection probe** | results in `results/kernel-training-probe/` |
+| **Composed plate** | `results/kernel-training-probe/composed_plate.npz` — fitted T (1280×1280) |
 
 ## Next steps
 
