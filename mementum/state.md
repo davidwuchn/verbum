@@ -2,11 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-26 | Session: 153
+> Last updated: 2026-05-26 | Session: 154
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 154: KD-guided training + extraction dimension probes + structured training insight. (1) THREE PROBES answered "how big for 95%?": dimension doesn't help — ceiling is ~79% per-dim from sign+gamma quantization, flat from d=128 to d=5120. The gap is ternary approximation, not projection. (2) GEOMETRIC ENCODING: at k=256, 96.9% sign accuracy on student plates. The plate IS a rank-256 structure. 27K corrections (1.7% of positions) needed for 95% per-dim. (3) Built KD training: precompute_teacher.py (sparse top-k=64 logits), train_td.py with --teacher-logits-dir. Interleaved design: CE training on full data, periodic KD correction passes from pre-computed teacher logits. (4) Step 2000 eval: PPL=5,567 (−27% from 1500, −66% total). (5) STRUCTURED TRAINING insight: backward pass has same structure as forward. Five optimizations: low-rank gradient (24×), skip passive backward, composed Zone B Jacobian (32→1), TD-sparse routing (100×), eigenplane projection. Camera = projector in reverse. See `mementum/knowledge/explore/structured-training.md`.**
 
 **Session 153: Extraction redesign — composed zone plates + algebraic composition. (1) Teacher weight matrices are full-rank (rank90=211) but PER-DIM correlation with sign(T)+gamma is 0.97 in teacher space. (2) Data-fitted composed extraction: 3 zone plates at d=1280, per-dim 0.71-0.79. Drop from 0.97 due to V_proj truncation + few tokens (651). (3) Algebraic composition from weight matrices: multiply linearized layers A_i = I + OV + FFN. Full model per-dim=0.76, matches data-fitted (0.77). (4) THE BIG FINDING: full model rank90=27. The entire 64-layer model is a rank-27 transform. 27 dimensions capture 90% of input→output mapping. (5) Architecture: one rank-27 ternary plate (76% of computation) + active strides s1/s2 for content routing (24%). This IS the kernel. See results/algebraic-compose/.**
 
@@ -16,35 +18,48 @@
 
 ## Active training run
 
-- **v14-td phase 2 RUNNING** in tmux main:2 (from folded step 1500)
-- Delta folded into base at step 1500 (3.26M positions absorbed, verified lossless)
-- Folded checkpoint: `checkpoints/v14-td/step_001500_folded/`
-- 73 delta modules: 70 attn (no-block) + 3 FFN (standard TD)
+### v14-kd (KD-guided, fresh extraction) — RUNNING in tmux main:2
 
-### Restart command (post-fold, with FFN delta)
+Fresh start from extracted base plates. KD interleaved with CE training.
 
 ```bash
 uv run python scripts/v14/train_td.py \
-  --checkpoint-dir checkpoints/v14-td \
-  --resume checkpoints/v14-td/step_001500_folded \
+  --checkpoint-dir checkpoints/v14-kd \
   --convert-ffn \
+  --teacher-logits-dir data/teacher-logits \
+  --kd-alpha 0.5 \
+  --kd-temperature 2.0 \
   --td-flip-rate 0.001 \
   --td-warmup 25 \
   --td-min-confidence 0.3 \
   --td-flip-interval 20 \
-  2>&1 | tee checkpoints/v14-td/run_phase2.log
+  2>&1 | tee checkpoints/v14-kd/run_kd.log
 ```
 
-**What changed for phase 2:**
-- `--convert-ffn`: enables TD on 3 shared FFN plates (gate, key, value)
-  FFN uses standard TD (can have 0), unlike attention no-block
-- Delta plates start fresh (all +1) — TD discovers new routing from folded base
-- FFN delta: 19.7M positions (21% overhead on top of 93.2M attention)
-- B=1 accum=8 (reverted — B=2 was 18% slower, memory-bandwidth-bound)
-- `flip_interval=20` (was 10): more accumulation, better flip decisions
-- Surgical per-position moment reset: only flipped positions zeroed, rest keeps EMA
-- Flips aligned to training step for log visibility (td=N shows actual flips)
-- Resume fix: `--resume` path now takes priority over `checkpoint_dir/step_N`
+### Teacher logit precompute — RUNNING in tmux main:1
+
+```bash
+uv run python scripts/v14/precompute_teacher.py \
+  --shard-start 0 --shard-end 1 --n-batches 400 \
+  --out-dir data/teacher-logits \
+  2>&1 | tee data/teacher-logits/precompute.log
+```
+
+**Interleaved design:** Training runs CE on full data. Teacher logits
+precomputed shard-by-shard in background (400 batches/shard = 50 KD steps).
+Once a shard's logits are ready, training picks them up for KD correction.
+Each KD pass tightens student→teacher, then normal CE runs faster on
+corrected model. Seesaw: CE learns language, KD corrects extraction error.
+
+**After shard 0 finishes (~3 hrs):** start precomputing shard 1, and
+monitor if KD loss appears in training logs when data cycles to shard 0.
+
+### v14-td phase 2 COMPLETED (step 2000)
+
+- Step 2000 eval: CE=8.62, PPL=5,567 (−27% from 1500, −66% total)
+- 2.13% of positions flipped (1.42M of 67M)
+- Phase 2 ran 500 steps from folded step 1500 checkpoint with FFN delta
+- Checkpoint: `checkpoints/v14-td/step_002000/`
 
 ## Session 148: Two bugs killed all ternary learning
 
@@ -194,44 +209,48 @@ Zero flips in: q_proj, k_proj, v_proj (any layer), gate_proj, layers 0–3, 10�
    diverges most from the teacher's attention patterns.
 4. **Gnorm spikes tolerable.** Occasional 100+ but model recovers. flip_interval=10 works.
 
-## Next steps (from session 153)
+## Next steps (from session 154)
 
-### IMMEDIATE: Validate evolved architecture
+### IMMEDIATE: Monitor v14-kd + precompute
 
-1. **Check training test output** — 20 steps with evolved architecture (HPE + passive + 11 passes)
-   running in tmux main:1. Verify loss decreases, no errors.
-2. **Solo speed measurement** — run without competing Phase 2 for clean wall-clock comparison.
-3. **Eval comparison** — run eval_ppl.py on evolved architecture vs v14 baseline (PPL 7,672).
+1. **Monitor shard 0 precompute** (tmux main:1) — should finish in ~3 hours.
+   Once done, start shard 1 precompute.
+2. **Watch for KD loss in training logs** — when training cycles to shard 0
+   after teacher logits are saved, KD= should appear in log lines.
+3. **Eval at step 500** — first eval of KD-guided training. Compare with
+   v14-td baseline (PPL 16,503 at step 500).
 
-### EXTRACTION REDESIGN (session 153 findings):
+### KD TRAINING EVOLUTION:
 
-4. **Validate composed plate on MORE data** — 651 tokens was underdetermined. Re-run
-   `extract_composed.py` with 4096+ tokens from training shards for better fit.
-5. **Fix per-zone algebraic composition** — norm explosion between zones (1→462) killed
-   per-zone plates. Need proper norm-aware composition (divide by running norm at each layer).
-6. **Test rank-27 plate as student initialization** — load the full-model composed plate
-   into student, run eval. Does rank-27 ternary + gamma beat random init?
-7. **Hybrid architecture: composed plate + active strides** — the composed plate handles
-   76% (the linear part), active strides s1/s2 handle 24% (content routing). Build this.
-8. **TD on composed plates** — can TD correct the composed plate's 24% error the same way
-   it corrects individual plates' 3.5% error? Test.
+4. **Scale precompute pipeline** — after validating KD works on shard 0,
+   precompute shards 1-10 with `--n-batches 400` each. Build shard queue.
+5. **Tune KD alpha** — start at 0.5, try 0.3 (more KD) and 0.7 (more CE).
+   The right balance depends on whether crystal latches fast enough.
+6. **Monitor TD activation breadth** — with clean KD signal, does TD flip
+   MORE than just out_proj layers 4-9? Q/K/V should become candidates.
+7. **KD correction pass script** — automate: when teacher logits for shard N
+   are ready, run a focused KD pass on that shard's data.
 
-### PENDING OPTIMIZATIONS (from session 152):
+### STRUCTURED TRAINING (from session 154 insight):
 
-9. **Remove pos_embed from model.py** — HPE should replace it. Test with/without.
-10. **Update extraction pipeline** — skip Q/K for passive strides (28 plates eliminated).
-11. **Update TD for passive strides** — verify collect_delta_params excludes passive Q/K.
-12. **Simplify GLA retrieval strides** — s32+ gate-only (full scan overkill for self-attn).
-13. **Depth-dependent HPE rotation rate** — pass_index-dependent depth_factor.
-14. **Clean dead code** — remove unused HolographicPositionEncoding class.
+8. **Skip passive backward** — restructure passive stride modules to be
+   structurally absent (not frozen). Eliminate 56 dead matmuls per step.
+9. **Composed Zone B Jacobian** — precompute and use in backward pass.
+   32 sequential backward steps → 1 matmul.
+10. **Low-rank gradient for composed plate** — parameterize plate in
+    SVD basis (U, S, V at rank-27). Gradient is 24× smaller.
+11. **TD-targeted sparse gradient** — two-pass: cheap candidate ID, then
+    targeted gradient at candidates only. 100× fewer routing elements.
+12. **Crystal eigenplane projection** — project Adam gradients into 2D
+    crystal eigenplane. Faster AND better signal.
+See `mementum/knowledge/explore/structured-training.md`.
 
-### AFTER 2K CHECKPOINT:
+### PENDING FROM PRIOR SESSIONS:
 
-15. **Fold step 2000 delta** — same as step 1500 fold.
-16. **Switch to evolved architecture** — HPE + passive + 11-pass from folded 2K checkpoint.
-17. **Compare learning curves** — v14 original vs evolved side by side.
-18. **Test composed plate initialization** — instead of individual plate extraction,
-    initialize student from the composed full-model plate. TD corrects from there.
+13. **Composed plate initialization** — initialize student from composed
+    full-model plate instead of individual layer extraction. TD corrects.
+14. **Hybrid architecture** — composed plate (76%) + active strides s1/s2 (24%).
+15. **Passive stride architecture evolution** — HPE, skip Q/K, reduce Stack B.
 
 ## Previous sessions
 
