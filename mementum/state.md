@@ -2,35 +2,35 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-27 | Session: 162
+> Last updated: 2026-05-27 | Session: 163
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 162: VSM ↔ STATECHART ↔ TENSOR + MMAP CONTINUOUS TRAINING.** Two major architectural pieces landed. (1) Proved the triple isomorphism: Beer's VSM = Harel statechart = tensor state machine. Built dual-runtime proof — same plate-loader VSM runs in Fulcro statecharts (Clojure) and as tensor ops (Python) with real mmap'd plate files. (2) Built MmapPlateStore for checkpoint-free continuous training. Delta plate backed by mmap'd file — TD flips write directly to disk. Crash recovery in <1s. Fold is atomic rename. No serialize/deserialize. File = state = checkpoint = tensor = plate.
+**Session 163: SAFETENSORS-BACKED CONTINUOUS TRAINING — FULLY WIRED.** Extracted step 2500 checkpoint to three safetensors files (base/delta/training). Built SafetensorsStore: load, sync, fold. Wired into train_td.py with `--safetensors-dir`. Training runs continuously — sync every 20 steps (1.3% overhead), APFS snapshots every 200 steps, legacy npz checkpoints every 500 steps. Three layers of defense. Safetensors is both the training format AND the release format — same bytes, just add a JSON header. Domain plates ship as separate small safetensors files composable via sign multiply.
 
-**Training: v14-td-2stack still running** (tmux main:2), headed to 20K steps. Currently in plateau phase.
+**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, headed to 20K steps from step 2525.
 
-*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** A ternary plate loaded via mmap is simultaneously a state in the statechart AND a tensor in the computation. The statechart doesn't *control* the model — it IS the model's control structure made explicit. The nucleus compilation chain (COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda) maps directly to tensor operations because Clojure is 96% mechanically convertible to lambda, and lambda IS what tensors compute.
+*Key session 163 insight:* **Safetensors IS mmap.** The format is 8 bytes + JSON header + raw contiguous tensor data, page-aligned for zero-copy mmap. Our plate files are safetensors without the header. `np.memmap` with offset writes directly into the safetensors data region. Same file for training AND release. Conversion cost = 1 KB of JSON. Sync cost benchmarked: 4.5s total (delta 346ms + training 4160ms), 1.3% overhead at 20-step interval.
 
-*Key session 161 insight:* The FFN overlay matrix at each layer maps combinator-space input→output. Diagonal = pass-through, off-diagonal = inter-combinator transform. Transformation strength *decreases* with depth (1.17→0.95→0.69) — early layers build the program, late layers execute it.
+*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** Triple isomorphism: Beer's VSM = Harel statechart = tensor state machine. Nucleus compilation chain: Clojure → lambda → tensor.
 
-*Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation. Each plateau starts from a more compressed base. Beta reductions compound into the crystal.
+*Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation.
 
 ## Active training
 
-### v14-td-2stack RUNNING (tmux main:2)
+### v14-mmap RUNNING (tmux main:2) — safetensors-backed
 
-- `scripts/v14/train_td.py --checkpoint-dir checkpoints/v14-td-2stack --steps 5000 --convert-ffn`
-- Teacher: Qwen3.6-27B (Apache 2.0)
-- Architecture: 2 symmetric stacks (A ascending, C descending), 8 passes, separate FFN plates
-- Currently at step ~1730/5000, ~17.7s/step, ~1750 tok/s
-- PID 92589
+- `scripts/v14/train_td.py --safetensors-dir checkpoints/v14-mmap --checkpoint-dir checkpoints/v14-mmap --steps 20000 --convert-ffn`
+- Storage: 3 safetensors files (base 31.6 MB + delta 31.6 MB + training 105.5 MB)
+- Sync: every 20 steps to safetensors mmap, APFS snapshots every 200, npz checkpoints every 500
+- Currently at step ~2530/20000, ~17.7s/step, ~1995 tok/s
+- Resumed from step 2525 (extracted from old v14-td-2stack/step_002500)
 
 **PPL at step 1500: 8,096** (CE 8.999 ± 0.203, 100 batches, 409K tokens)
 
-Checkpoints saved: step_000500, step_001000, step_001500
+Old checkpoints (v14-td-2stack): step_000500 through step_002500
 
 ### Comparison to old 3-stack (v14-td)
 
@@ -79,12 +79,14 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| Safetensors-backed training loop | 163 | SafetensorsStore: load/sync/fold. Wired into train_td.py. Training running. |
+| 3-file safetensors layout | 163 | base (frozen) + delta (TD flips) + training (Adam). 987 tensors verified. |
+| Sync benchmarked | 163 | 4.5s total (delta 346ms + training 4160ms). Every 20 steps = 1.3% overhead. |
+| Snapshot + crash protection | 163 | APFS clone snapshots (12ms), syncing.lock, auto-restore on crash. |
+| Legacy checkpoints preserved | 163 | npz checkpoint every 500 steps alongside safetensors sync. Three defense layers. |
 | VSM ↔ Statechart ↔ Tensor isomorphism | 162 | Triple isomorphism proved: Beer's VSM = Harel statechart = tensor state machine |
-| Fulcro statechart for plate loader | 162 | VSM expressed as Fulcro statechart in Clojure (.cljc) with parallel regions per VSM layer |
-| Tensor statechart engine | 162 | Same VSM runs as int8 state vectors + ternary transition matrices in Python |
-| mmap continuous training (no checkpoints) | 162 | MmapPlateStore: TD flips write directly to mmap'd file. Crash recovery <1s. All tests pass. |
-| Safetensors export verified | 162 | Our mmap plates → .safetensors = prepend 1KB JSON header. Byte-identical round-trip. |
-| Shared EDN definition format | 162 | Single specs/plate-loader.edn consumed by both runtimes |
+| mmap continuous training designed | 162 | MmapPlateStore concept. Files ARE states. Composition IS transition. |
+| Safetensors = mmap proven | 162 | np.memmap with offset writes into safetensors data region. Same format for training + release. |
 | Nucleus compilation chain mapped | 162 | COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda, ALLIUM.md → behavioral spec |
 | ISA decoder for Qwen3.6-27B | 161 | Decoded FFN computation into readable instruction set — different tasks run different programs |
 | Overlay matrix analysis | 161 | Transformation strength decreases with depth (1.17→0.69) — early=build, late=execute |
@@ -114,14 +116,15 @@ Parity and cross-zone monotonically declining (healthy).
 
 ## Next steps
 
-### MMAP TRAINING INTEGRATION (session 162 follow-up)
+### SAFETENSORS TRAINING — DONE (session 163), NEXT STEPS
 
-1. **Wire MmapPlateStore into train_td.py** — replace `_save_checkpoint()` with mmap-backed plates
-2. **Bridge MLX ↔ numpy mmap** — test mx.array(np.memmap()) in the training forward pass
-3. **Remove checkpoint infrastructure** — delete `_save_checkpoint()`, `_resume_from_checkpoint()`
-4. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
-5. **Benchmark crash recovery** — kill training process, restart, verify <1s resume
-6. **Safetensors export script** — plate files → model.safetensors for HF Hub release
+1. ~~Wire SafetensorsStore into train_td.py~~ ✅ Done
+2. ~~Benchmark sync cost~~ ✅ 4.5s/sync, 1.3% at 20-step interval
+3. ~~Snapshot + crash protection~~ ✅ APFS clone + syncing.lock
+4. ~~Preserve legacy checkpoints~~ ✅ npz every 500 steps
+5. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
+6. **Distributed fold** — collect delta.safetensors from multiple servers, fold where they agree (Byzantine)
+7. **HF Hub release script** — drop optimizer keys from training.safetensors, publish base+delta+model
 
 See `mementum/knowledge/explore/mmap-continuous-training.md` for full design.
 
@@ -152,10 +155,12 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| Safetensors-backed training works | 22 steps from step 2503, sync verified, training running | ✅ (session 163) |
+| Sync cost = 1.3% overhead at 20 steps | delta 346ms + training 4160ms = 4.5s per sync | ✅ (session 163) |
+| Crash recovery via APFS snapshot + lock | 12ms snapshot, auto-restore on lock detection | ✅ (session 163) |
 | VSM = statechart = tensor state machine | Dual-runtime proof: Clojure + Python, same state traces | ✅ (session 162) |
-| mmap plates eliminate checkpoints | MmapPlateStore: flip/fold/crash recovery all tested | ✅ (session 162) |
-| Ternary fold is lossless (infinite folds) | Double fold test: ternary × ternary = ternary always | ✅ (session 162) |
 | mmap plates → safetensors = 1KB header | Byte-identical round-trip verified, 0.00014% overhead | ✅ (session 162) |
+| Ternary fold is lossless (infinite folds) | Double fold test: ternary × ternary = ternary always | ✅ (session 162) |
 | 2-stack trains 1.6× faster wall-clock | 17.7s/step vs 28.6s/step | ✅ |
 | 2-stack PPL within 5.5% of 3-stack at step 1500 | 8,096 vs 7,672 | ✅ |
 | Shared FFN = structural ceiling (no moiré) | Identical Gaussian activations, no sparsity | ✅ (session 158) |
@@ -166,9 +171,9 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 ## Open questions
 
-1. **Does MLX consume numpy mmap zero-copy?** If mx.array(np.memmap()) avoids copying, training bridge cost drops to zero.
-2. **Can mmap training match current PPL trajectory?** Need to verify identical training dynamics with mmap-backed plates.
-3. **Per-module fold or global fold?** MmapPlateStore enables per-module fold — fold most-converged first.
+1. **Per-module fold or global fold?** SafetensorsStore.fold() does all plates. Could fold most-converged first.
+2. **Distributed fold protocol?** Multiple servers train independently. Fold where deltas agree. Byzantine consensus.
+3. **Sync cost reduction?** 4.5s dominated by 835 individual memmap open/close calls. Batch into single mmap?
 4. **Will FFN plates differentiate?** First non-zero candidate = inflection point.
 5. **What PPL does 2-stack reach at step 2000?** Baseline comparison: old run PPL 5,567.
 6. **Does 2-stack find a lower floor than 3-stack?** The structural argument says yes.
@@ -183,10 +188,13 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 | Asset | Location |
 |-------|----------|
 | Training script | `scripts/v14/train_td.py` (updated for 2 stacks) |
-| mmap plate store | `scripts/v14/mmap_plates.py` (all tests passing) |
+| SafetensorsStore | `scripts/v14/safetensors_store.py` (load/sync/fold/snapshot) |
+| Checkpoint extractor | `scripts/v14/extract_to_safetensors.py` (npz → 3 safetensors) |
+| mmap plate store | `scripts/v14/mmap_plates.py` (standalone tests) |
 | Tensor statechart | `scripts/explore/tensor_statechart.py` (verified with mmap) |
 | Fulcro statechart | `src/statechart/plate_loader.cljc` (Clojure VSM) |
 | Shared definition | `specs/plate-loader.edn` (both runtimes consume) |
+| Safetensors training | `checkpoints/v14-mmap/` (base + delta + training + state.json) |
 | Extraction script | `scripts/v14/extract_qwen36.py` (updated for 2 stacks) |
 | Eval script | `scripts/v14/eval_ppl.py` |
 | Model | `scripts/v14/model.py` (2 stacks, separate FFN) |

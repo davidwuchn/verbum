@@ -1,6 +1,6 @@
 ---
 title: "mmap Continuous Training — No Checkpoints Needed"
-status: designing
+status: active
 category: architecture
 tags: [mmap, training, delta-plate, checkpoint, continuous, statechart]
 related:
