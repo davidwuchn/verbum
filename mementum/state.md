@@ -82,7 +82,8 @@ Parity and cross-zone monotonically declining (healthy).
 | VSM ↔ Statechart ↔ Tensor isomorphism | 162 | Triple isomorphism proved: Beer's VSM = Harel statechart = tensor state machine |
 | Fulcro statechart for plate loader | 162 | VSM expressed as Fulcro statechart in Clojure (.cljc) with parallel regions per VSM layer |
 | Tensor statechart engine | 162 | Same VSM runs as int8 state vectors + ternary transition matrices in Python |
-| mmap plate composition verified | 162 | Real plate files: mmap'd, composed via sign multiply, fold verified lossless |
+| mmap continuous training (no checkpoints) | 162 | MmapPlateStore: TD flips write directly to mmap'd file. Crash recovery <1s. All tests pass. |
+| Safetensors export verified | 162 | Our mmap plates → .safetensors = prepend 1KB JSON header. Byte-identical round-trip. |
 | Shared EDN definition format | 162 | Single specs/plate-loader.edn consumed by both runtimes |
 | Nucleus compilation chain mapped | 162 | COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda, ALLIUM.md → behavioral spec |
 | ISA decoder for Qwen3.6-27B | 161 | Decoded FFN computation into readable instruction set — different tasks run different programs |
@@ -120,6 +121,7 @@ Parity and cross-zone monotonically declining (healthy).
 3. **Remove checkpoint infrastructure** — delete `_save_checkpoint()`, `_resume_from_checkpoint()`
 4. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
 5. **Benchmark crash recovery** — kill training process, restart, verify <1s resume
+6. **Safetensors export script** — plate files → model.safetensors for HF Hub release
 
 See `mementum/knowledge/explore/mmap-continuous-training.md` for full design.
 
@@ -153,6 +155,7 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 | VSM = statechart = tensor state machine | Dual-runtime proof: Clojure + Python, same state traces | ✅ (session 162) |
 | mmap plates eliminate checkpoints | MmapPlateStore: flip/fold/crash recovery all tested | ✅ (session 162) |
 | Ternary fold is lossless (infinite folds) | Double fold test: ternary × ternary = ternary always | ✅ (session 162) |
+| mmap plates → safetensors = 1KB header | Byte-identical round-trip verified, 0.00014% overhead | ✅ (session 162) |
 | 2-stack trains 1.6× faster wall-clock | 17.7s/step vs 28.6s/step | ✅ |
 | 2-stack PPL within 5.5% of 3-stack at step 1500 | 8,096 vs 7,672 | ✅ |
 | Shared FFN = structural ceiling (no moiré) | Identical Gaussian activations, no sparsity | ✅ (session 158) |

@@ -80,6 +80,21 @@ Built `MmapPlateStore` (`scripts/v14/mmap_plates.py`) with:
 
 **The central equation:** `file = state = checkpoint = tensor = plate`
 
+### Safetensors Export — Zero-Cost Release
+
+Safetensors IS mmap with a JSON header. Our mmap plate files are safetensors without the header. Conversion = prepend ~1 KB JSON. Verified: wrote demo plates to `.safetensors`, read back byte-identical.
+
+Three release formats from the same files:
+- **int8 safetensors (unpacked):** ~723 MB — universal, any framework, HF Hub
+- **uint32 safetensors (packed):** ~187 MB — our ecosystem, needs custom unpack
+- **Raw mmap plates:** ~187 MB — training/dev, fastest, our runtime only
+
+Domain plates become separate small safetensors files:
+- `base.safetensors` (187 MB) + `medical.safetensors` (~1 MB) + `session.safetensors` (~0.1 MB)
+- Users download base + domain. Composition = `sign(base × domain)`. CPU only. No GPU.
+
+The full lifecycle: `mmap training → fold → prepend header → safetensors release → mmap inference`. Same bytes end to end. Zero conversion cost.
+
 ## Connection to prior work
 
 - Session 142: Discovered the holographic state machine (crystal basins = states, Q rotation = transition)

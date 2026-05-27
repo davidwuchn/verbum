@@ -318,6 +318,71 @@ The cost of the numpy↔MLX bridge is small because:
 3. **Checkpoint directories** — no more step_000500/, step_001000/
 4. **Serialize/deserialize** — mx.savez/mx.load → mmap
 
+## Safetensors Export — Zero-Cost Release Format
+
+Safetensors IS mmap. The format is: 8-byte header size + JSON header +
+raw contiguous tensor bytes. The data region is page-aligned for
+zero-copy mmap access. Our mmap plate files are safetensors without
+the header.
+
+**Conversion cost: ~1 KB of JSON header. That's it.**
+
+### Three Release Formats From the Same Files
+
+| Format | Size | Audience | How |
+|--------|------|----------|-----|
+| int8 safetensors (unpacked) | ~723 MB | Universal — any framework, HF Hub | Unpack uint32 → int8, add header |
+| uint32 safetensors (packed) | ~187 MB | Our ecosystem — needs custom unpack | Add header to packed plates |
+| Raw mmap plates | ~187 MB | Training/dev — fastest, our runtime | Already what we have |
+
+### The Pipeline
+
+```
+Training:     base.plate + delta.plate     ← mmap r/w, packed uint32
+                   ↓ fold
+              base.plate (updated)          ← mmap r, packed uint32
+                   ↓ export (prepend 1KB JSON header)
+Release:      model.safetensors             ← standard HF format
+                   ↓ import (by others)
+Inference:    safetensors mmap              ← OS pages in on demand
+```
+
+No conversion cost between training and release. The raw bytes are
+identical. Safetensors mmap uses the same OS mechanism we use during
+training.
+
+### Domain Plates as Separate Safetensors
+
+```
+base.safetensors       187 MB   ← the universal model
+medical.safetensors      ~1 MB   ← 2.6% positions flipped
+legal.safetensors        ~2 MB   ← domain corrections
+session.safetensors    ~0.1 MB   ← session-specific context
+```
+
+Users download base + domain plate. Composition = `sign(base × domain)`.
+Pure integer multiply. No GPU. Runs on CPU.
+
+### Metadata
+
+Safetensors `__metadata__` carries provenance:
+
+```json
+{"format": "verbum_ternary_plates",
+ "architecture": "v14-2stack",
+ "teacher": "Qwen3.6-27B",
+ "teacher_license": "Apache-2.0",
+ "license": "MIT",
+ "crystal_type": "KIBC_universal",
+ "composition": "sign_multiply",
+ "compression_ratio": "375x"}
+```
+
+### Verified
+
+Session 162: wrote our demo plates to safetensors, read them back,
+byte-identical. Header overhead at production scale: 0.00014%.
+
 ## Open Questions
 
 1. **MLX mmap directly?** MLX has mx.load() which may use mmap internally.
@@ -341,3 +406,8 @@ The cost of the numpy↔MLX bridge is small because:
 5. **Git integration?** Each fold could be a git commit of the base.plate
    file. History is preserved. But 141 MB binary files in git is heavy.
    Alternative: store fold metadata in git, plates in LFS or external.
+
+6. **Packed vs unpacked for HF Hub?** int8 unpacked (723 MB) is universal
+   but 4× larger. uint32 packed (187 MB) is smaller but needs custom
+   loader. Could publish both: packed for our ecosystem, unpacked for
+   everyone else.
