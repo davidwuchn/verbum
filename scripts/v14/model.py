@@ -320,12 +320,12 @@ class V14Model(nn.Module):
         # ── Crystal loss system ───────────────────────────────
         crystal_results = self.compute_crystal_losses()
         crystal_mse = crystal_results["crystal_mse"]
+        parity_loss = crystal_results["parity"]
+        cross_zone_loss = crystal_results["cross_zone"]
 
-        # Parity + cross-zone: diagnostic only (not enforced in loss).
-        # Routing geometry is architecture-specific — stride-stack will
-        # find its own routing. We observe whether it converges naturally.
-        self._last_parity = mx.stop_gradient(crystal_results["parity"])
-        self._last_cross_zone = mx.stop_gradient(crystal_results["cross_zone"])
+        # Diagnostics (always logged, regardless of enforcement)
+        self._last_parity = mx.stop_gradient(parity_loss)
+        self._last_cross_zone = mx.stop_gradient(cross_zone_loss)
 
         # ── S5/S4 loop ────────────────────────────────────────
         all_alg = [alg_a, alg_c]
@@ -370,7 +370,8 @@ class V14Model(nn.Module):
         if targets is not None:
             loss = self._compute_loss(
                 logits, targets, effective_gates, all_deltas,
-                crystal_mse, regulation, alarm_level, x_out,
+                crystal_mse, parity_loss, cross_zone_loss,
+                regulation, alarm_level, x_out,
                 x_embed=x_embed, x_a=x_a, x_c=x_c,
             )
 
@@ -383,10 +384,11 @@ class V14Model(nn.Module):
 
     def _compute_loss(
         self, logits, targets, effective_gates, all_deltas,
-        crystal_mse, regulation, alarm_level, x_out,
+        crystal_mse, parity_loss, cross_zone_loss,
+        regulation, alarm_level, x_out,
         x_embed=None, x_a=None, x_c=None,
     ):
-        """Loss = CE × crystal_factor + crystal_direct + spectral + hyperbolic."""
+        """Loss = CE × crystal_factor + crystal_direct + parity(gated) + cross_zone(gated) + spectral + hyperbolic."""
         B, L = targets.shape
         cfg = self.cfg
 
@@ -418,6 +420,18 @@ class V14Model(nn.Module):
         crystal_direct = crystal_direct_eff * crystal_enforcement * crystal_mse
         self._last_crystal_mse = mx.stop_gradient(crystal_mse)
 
+        # ── Parity + cross-zone (gated: enforce until close, then release) ─
+        # Nudge the crystal toward the target geometry. Once MSE < 7%
+        # threshold, stop enforcing — the crystal has latched and will
+        # settle wherever is natural for the stride-stack architecture.
+        # Routing geometry may differ from teacher's flat attention, but
+        # computation geometry (KIBC) is universal and will snap.
+        latch_threshold = 0.07
+        parity_gate = mx.where(parity_loss > latch_threshold, 1.0, 0.0)
+        cross_zone_gate = mx.where(cross_zone_loss > latch_threshold, 1.0, 0.0)
+        parity_additive = cfg.parity_lambda * parity_loss * parity_gate
+        cross_zone_additive = cfg.parity_lambda * cross_zone_loss * cross_zone_gate
+
         # ── Spectral φ-ratio loss ─────────────────────────────
         spectral_loss = mx.array(0.0)
         if cfg.use_spectral_loss and x_out is not None:
@@ -439,6 +453,8 @@ class V14Model(nn.Module):
         # ── Total ─────────────────────────────────────────────
         loss = (ce_loss * crystal_factor
                 + crystal_direct
+                + parity_additive
+                + cross_zone_additive
                 + spectral_loss
                 + 0.1 * hyp_loss)
 
