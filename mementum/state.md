@@ -76,6 +76,20 @@
 18. **Output_proj factorization** — rank-27 bottleneck. 1280→27→248K replaces 1280→248K. 9× on the remaining forward-pass bottleneck after kernel training.
 19. **v14 Newton results** — If cos@k=27 > 0.5 at scale, implement phase-switched optimizer: Adam during expansion, Newton in 27D during refinement. Detect transition via gradient-subspace alignment.
 
+### SESSION 159 PLAN: FP optimization prototypes
+
+Overnight run continues to step 3000+ (or further). Next session:
+1. Check Newton probe results (tmux main:1 log).
+2. Run `eval_ppl.py` on latest checkpoint. PPL trend from 5,567.
+3. Implement first-batch FP optimizations (all checkpoint-compatible):
+   - **Lazy neurons (gate-first FFN):** compute gate, threshold, only compute active key/value. Est. 3-5× on FFN.
+   - **Partial eval (pre-sorted index sets):** ternary matmul → gather-add-subtract. Est. 2× on ternary ops.
+   - **Worker/wrapper split:** all VSM routing decisions upfront, then batched tensor ops. Est. 1.2-1.5×.
+4. Benchmark: measure step time before and after each optimization.
+5. If time permits: prototype cross-token CSE (per-basin FFN grouping).
+6. See `knowledge/explore/fp-optimization-map.md` for the full map.
+7. See `knowledge/explore/continuations-as-composed-plates.md` for theory.
+
 ### NEXT MILESTONES:
 
 5. **Second fold** — when flip_frac plateaus, fold again. Extract→correct→fold cycle.
