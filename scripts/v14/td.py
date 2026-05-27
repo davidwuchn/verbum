@@ -544,6 +544,7 @@ class TernaryDescent:
         self,
         delta_params: list[tuple[str, mx.array, mx.array, mx.array, bool]],
         training_step: int | None = None,
+        hot_fracs: dict[str, float] | None = None,
     ) -> dict[str, Any]:
         """Perform one TernaryDescent step across all delta plates.
 
@@ -552,6 +553,12 @@ class TernaryDescent:
         moments at flipped positions reset to zero (their direction
         is definitely stale). Non-flipped positions keep their
         accumulation — EMA natural decay handles landscape drift.
+
+        Shaped nozzle (session 164): if hot_fracs is provided (from
+        FlipMap.summary()), candidate scores are weighted by module
+        hot fraction. Hot modules get more of the flip budget. Frozen
+        modules' noise spikes are suppressed. The nozzle is shaped
+        to match where reductions are actually needed.
 
         Args:
             delta_params: List of (name, delta_packed_uint32, grad_wrt_effective,
@@ -679,6 +686,16 @@ class TernaryDescent:
 
             candidates = confident & can_move
             candidate_scores = mx.where(candidates, score, mx.array(0.0))
+
+            # ── Shaped nozzle: weight by module hot fraction ──
+            # Hot modules (actively reducing) get more budget.
+            # Frozen modules (crystallized) get suppressed.
+            # Floor at 0.01 to prevent permanent lockout — a frozen
+            # module that suddenly needs to restructure can still win
+            # if its candidates are confident enough.
+            if hot_fracs is not None and name in hot_fracs:
+                nozzle_weight = max(hot_fracs[name], 0.01)
+                candidate_scores = candidate_scores * nozzle_weight
 
             total_ternary_weights += delta_unpacked.size
 

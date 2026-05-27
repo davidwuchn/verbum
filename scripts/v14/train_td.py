@@ -701,6 +701,9 @@ def train_td(
     if flip_map_path.exists():
         flip_map = FlipMap.load(str(flip_map_path))
         print(f"  📊 Loaded flip map ({len(flip_map.modules)} modules)", file=sys.stderr)
+    # Shaped nozzle: hot_fracs updated every 100 steps from FlipMap.
+    # None until FlipMap has data → TD uses uniform weighting (current behavior).
+    _cached_hot_fracs: dict[str, float] | None = None
 
     # ── Warm-up forward pass (initialises Adam state) ─────────
     ids_np, tgts_np = next(train_loader)
@@ -1017,7 +1020,7 @@ def train_td(
         #
         # Flipping every step → gnorm escalation → divergence (session 148).
         if td_active:
-            td_result = td.step(td_inputs, training_step=step)
+            td_result = td.step(td_inputs, training_step=step, hot_fracs=_cached_hot_fracs)
         else:
             td_result = {"total_flips": 0, "in_warmup": True, "per_module": {}}
 
@@ -1179,6 +1182,10 @@ def train_td(
                     record[f"fm.{mod_name}.hot"] = round(info["hot_frac"], 4)
                     record[f"fm.{mod_name}.total_flips"] = info["total_flips"]
                     record[f"fm.{mod_name}.total_cand"] = info["total_candidates"]
+                # Update shaped nozzle weights for TD
+                _cached_hot_fracs = {
+                    name: info["hot_frac"] for name, info in fm_summary.items()
+                }
 
             _append_jsonl(checkpoint_dir / "train_td_log.jsonl", record)
 
