@@ -1189,13 +1189,10 @@ def train_td(
                 )
 
         # ── Checkpoint / Sync ──────────────────────────────────
-        # Safetensors sync: every 20 steps (1.3% overhead, 6 min max crash loss)
-        # Legacy checkpoint: every checkpoint_interval steps (500)
-        _sync_interval = 20 if _get_safetensors_store() is not None else cfg.checkpoint_interval
-        if step % _sync_interval == 0:
-            store = _get_safetensors_store()
-            if store is not None:
-                # Safetensors mmap sync — no serialize, just write to mmap
+        store = _get_safetensors_store()
+        if store is not None:
+            # Safetensors mode: fast sync every 20 steps + legacy checkpoint every 500
+            if step % 20 == 0:
                 extra_state = {
                     "n_reductions": n_reductions,
                     "total_td_flips": total_td_flips,
@@ -1211,7 +1208,20 @@ def train_td(
                     mx.eval(crystal_ema)
                     extra_state["crystal_ema"] = float(crystal_ema.item())
                 store.sync(model, adam, step, extra_state=extra_state)
-            else:
+            # Legacy checkpoint every 500 steps — timeseries window + last line of defense
+            if step % cfg.checkpoint_interval == 0:
+                _save_checkpoint(
+                    model, adam, td, step, cfg, checkpoint_dir,
+                    train_losses, n_reductions, total_td_flips, delta_modules,
+                    train_loader=train_loader,
+                    td_active=td_active,
+                    structured_warmup_done=_structured_warmup_done,
+                    structured_warmup_steps=structured_warmup_steps,
+                    target_mix_ratio=target_mix_ratio,
+                )
+        else:
+            # Legacy-only mode
+            if step % cfg.checkpoint_interval == 0:
                 _save_checkpoint(
                     model, adam, td, step, cfg, checkpoint_dir,
                     train_losses, n_reductions, total_td_flips, delta_modules,
