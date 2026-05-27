@@ -107,7 +107,17 @@ Parity and cross-zone monotonically declining (healthy).
 
 ## Next steps
 
-### IMMEDIATE (this run)
+### ISA DECODER FOLLOW-UP
+
+1. **Quantify grating redundancy** — cosine similarity between consecutive overlay matrices → fusion candidates
+2. **Find optimal detection point** — at which layer can S5 reliably classify program type?
+3. **Cross-model universality** — run decoder on Qwen3-14B, Mistral-7B → same programs = universal kernels
+4. **Prototype K-kernel** — replace layers 15-55 with direct selection, verify output matches
+5. **Kernel replacement speedup measurement** — how much compute saved per program type?
+
+See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full design.
+
+### IMMEDIATE (training run)
 
 1. **Wait for step 2000 checkpoint** (~5h from now) → run PPL eval → compare to old 5,567
 2. **Watch for phase transition** — next gnorm storm signals FFN or deeper attention reorganization

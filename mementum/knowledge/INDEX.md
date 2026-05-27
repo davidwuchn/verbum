@@ -71,6 +71,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/fp-optimization-map.md](explore/fp-optimization-map.md) | ✅ | 10 FP techniques mapped to transformer: laziness, fusion, partial eval, CSE, NbE, etc. |
 | [explore/optimization-negative-results.md](explore/optimization-negative-results.md) | ✅ | Why FP optimizations fail on Apple Silicon: all 6 tested, all negative, root causes |
 | [explore/ffn-moire-isa.md](explore/ffn-moire-isa.md) | ✅ | FFN as moiré grating ISA: decoding programs from weights, attention flow, fixed-point proof |
+| [explore/kernel-replacement-optimization.md](explore/kernel-replacement-optimization.md) | 🔨 | Replace interpreted grating chains with compiled kernel shortcuts via VSM hooks |
 
 ## Tier 5 — Future Pages (planned)
 
