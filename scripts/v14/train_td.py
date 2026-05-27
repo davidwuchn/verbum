@@ -1189,9 +1189,9 @@ def train_td(
                 )
 
         # ── Checkpoint / Sync ──────────────────────────────────
-        # Safetensors sync: every 10 steps (2.5% overhead, 3 min max crash loss)
+        # Safetensors sync: every 20 steps (1.3% overhead, 6 min max crash loss)
         # Legacy checkpoint: every checkpoint_interval steps (500)
-        _sync_interval = 10 if _get_safetensors_store() is not None else cfg.checkpoint_interval
+        _sync_interval = 20 if _get_safetensors_store() is not None else cfg.checkpoint_interval
         if step % _sync_interval == 0:
             store = _get_safetensors_store()
             if store is not None:
