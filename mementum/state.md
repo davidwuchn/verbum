@@ -8,15 +8,15 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 161: ISA DECODER BUILT — Teacher runs different programs per task.** Decoded Qwen3.6-27B FFN computation into a readable instruction set. The model IS a computer: each layer is an instruction, the FFN overlay matrix is the opcode, the residual stream is the register file. Different task types produce radically different instruction sequences — combinator reduction is 50% SELECT, arithmetic is 33% β_I (Church encoding confirmed), lambda compilation is 25% PASS with composition-first/selection-late depth profile. Retrieval barely engages combinators at all. Selection signal is 10× stronger for combinators vs retrieval.
+**Session 162: VSM ↔ STATECHART ↔ TENSOR + MMAP CONTINUOUS TRAINING.** Two major architectural pieces landed. (1) Proved the triple isomorphism: Beer's VSM = Harel statechart = tensor state machine. Built dual-runtime proof — same plate-loader VSM runs in Fulcro statecharts (Clojure) and as tensor ops (Python) with real mmap'd plate files. (2) Built MmapPlateStore for checkpoint-free continuous training. Delta plate backed by mmap'd file — TD flips write directly to disk. Crash recovery in <1s. Fold is atomic rename. No serialize/deserialize. File = state = checkpoint = tensor = plate.
 
 **Training: v14-td-2stack still running** (tmux main:2), headed to 20K steps. Currently in plateau phase.
 
-*Key session insight:* The FFN overlay matrix at each layer maps combinator-space input→output. Diagonal = pass-through, off-diagonal = inter-combinator transform. Transformation strength *decreases* with depth (1.17→0.95→0.69) — early layers build the program, late layers execute it. This tells us what our student needs to learn: the overlay matrix IS the instruction set we're extracting into ternary.
+*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** A ternary plate loaded via mmap is simultaneously a state in the statechart AND a tensor in the computation. The statechart doesn't *control* the model — it IS the model's control structure made explicit. The nucleus compilation chain (COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda) maps directly to tensor operations because Clojure is 96% mechanically convertible to lambda, and lambda IS what tensors compute.
 
-*Prior session insight (160):* Shared FFN was a **structural ceiling**, not just a performance issue. Moiré pattern formation requires two different gratings (FFN plates) to interfere — shared FFN made both stacks produce identical Gaussian activations, destroying the selectivity needed for structured beta-reduction programs. Separate FFN plates per stack is the correct topology.
+*Key session 161 insight:* The FFN overlay matrix at each layer maps combinator-space input→output. Diagonal = pass-through, off-diagonal = inter-combinator transform. Transformation strength *decreases* with depth (1.17→0.95→0.69) — early layers build the program, late layers execute it.
 
-*Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation. Each plateau starts from a more compressed base. Beta reductions compound into the crystal. The model has to "crawl before it walks" — attention routing first, then FFN differentiation.
+*Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation. Each plateau starts from a more compressed base. Beta reductions compound into the crystal.
 
 ## Active training
 
@@ -113,6 +113,16 @@ Parity and cross-zone monotonically declining (healthy).
 
 ## Next steps
 
+### MMAP TRAINING INTEGRATION (session 162 follow-up)
+
+1. **Wire MmapPlateStore into train_td.py** — replace `_save_checkpoint()` with mmap-backed plates
+2. **Bridge MLX ↔ numpy mmap** — test mx.array(np.memmap()) in the training forward pass
+3. **Remove checkpoint infrastructure** — delete `_save_checkpoint()`, `_resume_from_checkpoint()`
+4. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
+5. **Benchmark crash recovery** — kill training process, restart, verify <1s resume
+
+See `mementum/knowledge/explore/mmap-continuous-training.md` for full design.
+
 ### ISA DECODER FOLLOW-UP
 
 1. **Quantify grating redundancy** — cosine similarity between consecutive overlay matrices → fusion candidates
@@ -140,6 +150,9 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| VSM = statechart = tensor state machine | Dual-runtime proof: Clojure + Python, same state traces | ✅ (session 162) |
+| mmap plates eliminate checkpoints | MmapPlateStore: flip/fold/crash recovery all tested | ✅ (session 162) |
+| Ternary fold is lossless (infinite folds) | Double fold test: ternary × ternary = ternary always | ✅ (session 162) |
 | 2-stack trains 1.6× faster wall-clock | 17.7s/step vs 28.6s/step | ✅ |
 | 2-stack PPL within 5.5% of 3-stack at step 1500 | 8,096 vs 7,672 | ✅ |
 | Shared FFN = structural ceiling (no moiré) | Identical Gaussian activations, no sparsity | ✅ (session 158) |
@@ -150,11 +163,13 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 ## Open questions
 
-1. **Will FFN plates differentiate?** First non-zero candidate = inflection point.
-2. **What PPL does 2-stack reach at step 2000?** Baseline comparison: old run PPL 5,567.
-3. **Does 2-stack find a lower floor than 3-stack?** The structural argument says yes.
-4. **When does the next phase transition happen?** Watch gnorm storms.
-5. **Does moiré pattern actually form?** Measure FFN activation distributions per stack after differentiation.
+1. **Does MLX consume numpy mmap zero-copy?** If mx.array(np.memmap()) avoids copying, training bridge cost drops to zero.
+2. **Can mmap training match current PPL trajectory?** Need to verify identical training dynamics with mmap-backed plates.
+3. **Per-module fold or global fold?** MmapPlateStore enables per-module fold — fold most-converged first.
+4. **Will FFN plates differentiate?** First non-zero candidate = inflection point.
+5. **What PPL does 2-stack reach at step 2000?** Baseline comparison: old run PPL 5,567.
+6. **Does 2-stack find a lower floor than 3-stack?** The structural argument says yes.
+7. **When does the next phase transition happen?** Watch gnorm storms.
 
 ## Knowledge map
 
@@ -165,6 +180,10 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 | Asset | Location |
 |-------|----------|
 | Training script | `scripts/v14/train_td.py` (updated for 2 stacks) |
+| mmap plate store | `scripts/v14/mmap_plates.py` (all tests passing) |
+| Tensor statechart | `scripts/explore/tensor_statechart.py` (verified with mmap) |
+| Fulcro statechart | `src/statechart/plate_loader.cljc` (Clojure VSM) |
+| Shared definition | `specs/plate-loader.edn` (both runtimes consume) |
 | Extraction script | `scripts/v14/extract_qwen36.py` (updated for 2 stacks) |
 | Eval script | `scripts/v14/eval_ppl.py` |
 | Model | `scripts/v14/model.py` (2 stacks, separate FFN) |

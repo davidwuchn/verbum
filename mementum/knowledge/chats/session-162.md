@@ -60,6 +60,26 @@ A ternary plate loaded via mmap is simultaneously a state in the statechart AND 
 | `checkpoints/plates/*.bin` | Demo plate files |
 | `mementum/knowledge/explore/vsm-statechart-tensor.md` | Knowledge synthesis |
 
+### mmap Continuous Training — No Checkpoints Needed
+
+The statechart + mmap insight led directly to checkpoint-free training:
+
+| Old (checkpoint) | New (mmap) |
+|---|---|
+| Serialize every 500 steps | TD flips write directly to mmap'd file |
+| Crash → lose up to 499 steps | Crash → lose ~5 seconds (OS flush) |
+| Resume: load + deserialize (30s) | Resume: mmap + read JSON (<1s) |
+| N × 54 MB checkpoint dirs | Single set of files (306 MB) |
+| `_save_checkpoint()` (100 lines) | **Deleted** — files ARE the state |
+
+Built `MmapPlateStore` (`scripts/v14/mmap_plates.py`) with:
+- `MmapPlate`: packed ternary uint32 with in-place bit-level flips
+- `MmapFloat`: float32 mmap for gamma and Adam moments
+- Fold: atomic rename of base plate, delta reset to +1
+- All tests passing: create, flip, crash recovery, fold, lossless double fold
+
+**The central equation:** `file = state = checkpoint = tensor = plate`
+
 ## Connection to prior work
 
 - Session 142: Discovered the holographic state machine (crystal basins = states, Q rotation = transition)

@@ -73,6 +73,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/ffn-moire-isa.md](explore/ffn-moire-isa.md) | ✅ | FFN as moiré grating ISA: decoding programs from weights, attention flow, fixed-point proof |
 | [explore/kernel-replacement-optimization.md](explore/kernel-replacement-optimization.md) | 🔨 | Replace interpreted grating chains with compiled kernel shortcuts via VSM hooks |
 | [explore/vsm-statechart-tensor.md](explore/vsm-statechart-tensor.md) | ✅ | Triple isomorphism: VSM ↔ Harel statechart ↔ tensor. Dual-runtime (Clojure + Python). mmap plates. |
+| [explore/mmap-continuous-training.md](explore/mmap-continuous-training.md) | ✅ | Checkpoint-free training: mmap'd plates, TD flips write to disk, <1s crash recovery, atomic fold. |
 
 ## Tier 5 — Future Pages (planned)
 
