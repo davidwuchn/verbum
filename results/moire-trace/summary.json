@@ -1,0 +1,97 @@
+{
+  "n_examples": 10,
+  "composed_pr_chain": [
+    15.999999999999002,
+    6.258370571310345,
+    3.040450608205878,
+    2.194039187809764,
+    1.4021101106482723
+  ],
+  "remaining_pr_chain": [
+    1.4021101106482723,
+    1.4927051089182906,
+    2.26864089546418,
+    5.477967528029683,
+    15.999999999999002
+  ],
+  "forward_moire_summary": {
+    "layer_0": {
+      "mean_pr_after_attn": 1.0484168928753486,
+      "mean_pr_after_ffn": 1.0224174477710926,
+      "mean_align_after_attn": -0.05717636841110393,
+      "mean_align_after_ffn": 0.2850250469114545
+    },
+    "layer_1": {
+      "mean_pr_after_attn": 1.0231007864669637,
+      "mean_pr_after_ffn": 1.1172342252798102,
+      "mean_align_after_attn": 0.10677917904506776,
+      "mean_align_after_ffn": -0.22095807448390614
+    },
+    "layer_2": {
+      "mean_pr_after_attn": 1.057787862388988,
+      "mean_pr_after_ffn": 1.6949087691097557,
+      "mean_align_after_attn": 0.3578068856886826,
+      "mean_align_after_ffn": -0.14871369790237174
+    },
+    "layer_3": {
+      "mean_pr_after_attn": 1.774067808284099,
+      "mean_pr_after_ffn": 2.740900740914656,
+      "mean_align_after_attn": -0.07037740670974345,
+      "mean_align_after_ffn": -0.28868964478513237
+    }
+  },
+  "backward_moire_summary": {
+    "layer_0": {
+      "cumulative_pr": 6.258370571310345,
+      "mean_alignment": 0.05326764089964804
+    },
+    "layer_1": {
+      "cumulative_pr": 3.040450608205878,
+      "mean_alignment": 0.06282850857078626
+    },
+    "layer_2": {
+      "cumulative_pr": 2.194039187809764,
+      "mean_alignment": -0.12506360281233805
+    },
+    "layer_3": {
+      "cumulative_pr": 1.4021101106482723,
+      "mean_alignment": -0.2886896430678466
+    }
+  },
+  "sharpening_summary": {
+    "layer_0": {
+      "pre_ffn": -0.22737689440418216,
+      "post_ffn": -0.07694465798958663,
+      "delta": 0.15043223641459552
+    },
+    "layer_1": {
+      "pre_ffn": -0.0919165314164317,
+      "post_ffn": -0.046186185276815984,
+      "delta": 0.04573034613961572
+    },
+    "layer_2": {
+      "pre_ffn": -0.2702086234840969,
+      "post_ffn": -0.28148659838620077,
+      "delta": -0.01127797490210386
+    },
+    "layer_3": {
+      "pre_ffn": -0.14648517711741307,
+      "post_ffn": -0.2886896430678466,
+      "delta": -0.14220446595043354
+    }
+  },
+  "english_vs_lambda": {
+    "english_mean": -0.22893887497778515,
+    "lambda_mean": -0.2898464548247734,
+    "difference": -0.06090757984698825
+  },
+  "individual_vs_composed": {
+    "individual_prs": [
+      2.2010272175962173,
+      1.8729124298883981,
+      1.743831049762273,
+      1.4952736047900372
+    ],
+    "composed_pr": 1.055829153172986
+  }
+}
