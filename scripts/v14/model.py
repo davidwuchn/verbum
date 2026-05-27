@@ -330,8 +330,12 @@ class V14Model(nn.Module):
         # ── Crystal loss system ───────────────────────────────
         crystal_results = self.compute_crystal_losses()
         crystal_mse = crystal_results["crystal_mse"]
-        parity_loss = crystal_results["parity"]
-        cross_zone_loss = crystal_results["cross_zone"]
+
+        # Parity + cross-zone: diagnostic only (not enforced in loss).
+        # Routing geometry is architecture-specific — stride-stack will
+        # find its own routing. We observe whether it converges naturally.
+        self._last_parity = mx.stop_gradient(crystal_results["parity"])
+        self._last_cross_zone = mx.stop_gradient(crystal_results["cross_zone"])
 
         # ── S5/S4 loop ────────────────────────────────────────
         all_alg = [alg_a, alg_b, alg_c]
@@ -376,8 +380,7 @@ class V14Model(nn.Module):
         if targets is not None:
             loss = self._compute_loss(
                 logits, targets, effective_gates, all_deltas,
-                crystal_mse, parity_loss, cross_zone_loss,
-                regulation, alarm_level, x_out,
+                crystal_mse, regulation, alarm_level, x_out,
                 x_embed=x_embed, x_a=x_a, x_b=x_b, x_c=x_c,
             )
 
@@ -390,11 +393,10 @@ class V14Model(nn.Module):
 
     def _compute_loss(
         self, logits, targets, effective_gates, all_deltas,
-        crystal_mse, parity_loss, cross_zone_loss,
-        regulation, alarm_level, x_out,
+        crystal_mse, regulation, alarm_level, x_out,
         x_embed=None, x_a=None, x_b=None, x_c=None,
     ):
-        """Loss = CE × crystal_factor + crystal_direct + parity + cross_zone + spectral."""
+        """Loss = CE × crystal_factor + crystal_direct + spectral + hyperbolic."""
         B, L = targets.shape
         cfg = self.cfg
 
@@ -426,12 +428,6 @@ class V14Model(nn.Module):
         crystal_direct = crystal_direct_eff * crystal_enforcement * crystal_mse
         self._last_crystal_mse = mx.stop_gradient(crystal_mse)
 
-        # ── Parity + cross-zone ───────────────────────────────
-        parity_additive = cfg.parity_lambda * parity_loss
-        cross_zone_additive = cfg.parity_lambda * cross_zone_loss
-        self._last_parity = mx.stop_gradient(parity_loss)
-        self._last_cross_zone = mx.stop_gradient(cross_zone_loss)
-
         # ── Spectral φ-ratio loss ─────────────────────────────
         spectral_loss = mx.array(0.0)
         if cfg.use_spectral_loss and x_out is not None:
@@ -455,8 +451,6 @@ class V14Model(nn.Module):
         # ── Total ─────────────────────────────────────────────
         loss = (ce_loss * crystal_factor
                 + crystal_direct
-                + parity_additive
-                + cross_zone_additive
                 + spectral_loss
                 + 0.1 * hyp_loss)
 
