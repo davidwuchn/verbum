@@ -9,9 +9,11 @@ depends-on: [project-thesis.md]
 
 # V14 Architecture
 
-> The current working system as of session 150. Qwen3.6-27B teacher,
-> 593M ternary positions, 375× compression, active TD training with
-> demonstrated lossless fold.
+> The current working system. Qwen3.6-27B teacher, ternary extraction,
+> active TD training.
+>
+> **Session 158 redesign:** 3-stack shared-FFN → 2-stack separate-FFN.
+> **Session 160 status:** PPL 8,096 at step 1500, training in progress.
 
 ## Teacher: Qwen3.6-27B
 
@@ -26,34 +28,51 @@ depends-on: [project-thesis.md]
 
 ## Student: StrideStack
 
-### Core dimensions
+### Core dimensions (current: 2-stack, session 158+)
 
 | Parameter | Value |
 |-----------|-------|
 | d_model | 1,280 |
 | d_ff | 5,120 |
 | n_heads | 8 |
-| Stacks | 3 (A, B, C) |
-| Layers per stack | 11 |
-| Attention type | Hybrid GLA + SSA ([G,G,G,S,G,G,G,S,G,G,S] pattern) |
+| Stacks | 2 (A ascending, C descending) |
+| Layers per stack | 16 (shared stride layers, separate FFN plates) |
+| Attention type | Hybrid GLA + SSA |
 | Strides | 16 (s1 through s32768, powers of 2) |
+| Passes | 8 total (4 ascending + 4 descending) |
+| FFN plates | 6 (gate/key/value × 2 stacks) |
 | Vocab | 248,320 (teacher tokenizer, direct match) |
-| Ternary positions | 593M |
-| Storage | 148 MB (2-bit) / 85 MB (compressed NPZ) |
-| Compression | 375× from teacher |
 
-### Three stacks
+### Two-stack architecture (session 158 redesign)
 
-- **Stack A** (ascending fine): strides s1→s256, 4 passes. Fine-grained
-  local context. Encodes token→phrase→sentence.
+- **Stack A** (ascending): 4 passes through 16 stride layers, fine→coarse.
+  FFN plates: gate_a, key_a, value_a (voted from teacher layers 4, 20, 32).
+- **Stack C** (descending): 4 passes through 16 stride layers, coarse→fine.
+  FFN plates: gate_c, key_c, value_c (voted from teacher layers 32, 48, 56).
+
+8 total passes (was 13). Symmetric stacks with separate FFN plates per stack.
+
+**Why 2-stack replaced 3-stack:** The old 3-stack with shared FFN was a
+structural ceiling. Moiré pattern formation requires two different gratings
+to interfere — shared FFN made both stacks produce identical Gaussian
+activations (100% active at threshold 0.1), destroying selectivity. Separate
+FFN plates enable per-stack specialization, which is the prerequisite for
+the grating cascade that forms structured beta-reduction programs.
+
+**Speed improvement:** 13→8 passes = ~1.6× faster (17.7s/step vs 28.6s/step).
+Root cause: at d=1280 on M3 Ultra, the model is compute-latency-bound (not
+bandwidth-bound, 20-31 GB/s of 800 GB/s). Serial passes are the irreducible
+bottleneck; the only fix is fewer passes.
+
+### Previous: Three stacks (sessions 148-157, superseded)
+
+- **Stack A** (ascending fine): strides s1→s256, 4 passes.
 - **Stack B** (ascending coarse): strides s128→s32768, 4 passes.
-  Coarse-grained global context. Encodes paragraph→document→beyond.
 - **Stack C** (descending): all 16 strides, 5 passes reversed.
-  Top-down prediction path. Feeds algedonic signal UP to both B and A.
+- **FFN:** Shared single set of plates across all stacks.
 
-13 total passes through the stride layers. 2-stride overlap at s128
-and s256 between A and B — these overlaps ARE the cross-scale registers
-(no separate register mechanism needed).
+13 total passes. 2-stride overlap at s128/s256 between A and B.
+Stopped at step 3200, PPL 5,567 at step 2000. Not resumable with new architecture.
 
 ### Stride attention: O(L×W) not O(L²)
 
@@ -94,7 +113,40 @@ layer type (how they'll be used).
 Location: `checkpoints/v14-extracted/model.npz` (85 MB)
 Pipeline: `scripts/v14/{config.py, extract_qwen36.py}`
 
-## Training Results (Sessions 148–150)
+## Training Results: 2-Stack (Sessions 158–160, current)
+
+### PPL comparison at step 1500
+
+| Metric | 3-stack (old) | 2-stack (current) |
+|--------|---------------|-------------------|
+| Eval CE | 8.95 ± 0.30 | 8.999 ± 0.203 |
+| Eval PPL | 7,672 | 8,096 |
+| Wall time to step 1500 | ~11.9h | ~7.4h |
+| Step time | 28.6s | 17.7s |
+| Positions flipped | 3.49% | 3.60% |
+
+2-stack is 5.5% higher PPL at same step count, but reaches it in 62% of wall time.
+Old run folded delta at step 1000; 2-stack has not folded.
+
+### TD dynamics (step 1500)
+
+- **Active zone (layers 4-9):** out_proj flipping 21-47%. Attention learning to route.
+- **Frozen zone (layers 0-3, 10-15):** Zero flips. Waiting for routing to settle.
+- **FFN plates (all 6):** Zero candidates. GD not yet signaling FFN changes are useful.
+- **Training follows punctuated equilibrium:** plateaus (evidence accumulation) →
+  gnorm spikes (phase transitions) → new basins. Each plateau starts more compressed.
+
+### Key insight: moiré requires separate FFN
+
+Shared FFN was a structural ceiling. Both stacks produced identical Gaussian
+activations — no interference pattern possible. Separate FFN enables different
+per-stack gratings, whose interference forms the moiré pattern needed for
+structured beta-reduction programs. FFN differentiation hasn't started yet
+(zero TD candidates at step 1500) — the model must learn attention routing first.
+
+---
+
+## Training Results: 3-Stack (Sessions 148–150, superseded)
 
 ### Phase 1: Base plates frozen, delta plates train
 

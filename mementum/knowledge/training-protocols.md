@@ -50,6 +50,32 @@ Each fold cycle has a smaller error budget to correct. The cycle is
 monotonically improving because folds are lossless and TD only flips
 signs that reduce loss.
 
+### 2-Stack training dynamics (session 160)
+
+The 2-stack architecture with separate FFN plates changes the training
+dynamics compared to the 3-stack shared-FFN runs:
+
+- **Punctuated equilibrium:** Long plateaus where gradient evidence
+  accumulates, then coordinated gnorm spikes (phase transitions) where
+  TD flips reorganize the representation. Each plateau starts from a
+  more compressed base. Don't mistake plateaus for being stuck.
+
+- **Attention first, FFN second:** TD follows GD signal. With new
+  2-stack routing, attention out_proj (layers 4-9) must learn the
+  ascending/descending routing before GD can produce gradients that
+  suggest FFN changes. FFN plates had zero TD candidates at step 1500.
+  This is expected — the model crawls before it walks.
+
+- **Fold is downstream of GD:** Folding consolidates what TD has
+  already learned. It doesn't create new gradient signal. Folding
+  before attention routing settles won't accelerate FFN differentiation.
+
+- **Beta reductions compound:** Each pass through the data lets the
+  model see how language works, accumulating evidence for ternary
+  flips that beta-reduce the representation toward irreducible points.
+  The crystal MSE slowly tightening (0.0133→0.0131) between visible
+  transitions is this compression accumulating.
+
 ## TernaryDescent Operational Rules
 
 ### Future: Crystal-coherent TD

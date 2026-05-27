@@ -17,14 +17,20 @@ created: session 158
 
 # Moiré Training Shortcuts
 
-> Session 158. The grating cascade collapses 16D→1.4D. The rotation
-> is predictable from eigenvalue ratios. The structural computation
-> is deterministic. What can we skip during training?
+> Session 158, updated session 160. The grating cascade collapses
+> 16D→1.4D. The rotation is predictable from eigenvalue ratios.
+> The structural computation is deterministic. What can we skip?
 >
-> Bottleneck: training the student's attention to read the holographic
-> plates. Each step is 28.6s, 77% forward pass, 13 serial stride-stack
-> passes. The gradient only updates attention weights — ternary plates
-> are frozen. We need more beta-reduction iterations, faster.
+> **Session 158 redesign:** 3-stack (13 passes, 28.6s/step) → 2-stack
+> (8 passes, 17.7s/step). 1.6× speedup by reducing serial passes —
+> the irreducible bottleneck at d=1280 on Apple Silicon.
+>
+> **Session 160 insight:** Moiré pattern formation requires separate
+> FFN plates per stack — shared FFN destroyed the grating interference.
+> 2-stack with separate FFN is the correct topology. Training follows
+> punctuated equilibrium: plateaus → phase transitions → new basins.
+> Beta reductions compound into the crystal over many passes through
+> the data.
 
 ## Context: What's Slow
 
