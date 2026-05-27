@@ -69,6 +69,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/moire-training-shortcuts.md](explore/moire-training-shortcuts.md) | 🔨 | Five training speedup shortcuts from moiré understanding |
 | [explore/continuations-as-composed-plates.md](explore/continuations-as-composed-plates.md) | ✅ | The FP↔transformer bridge: composed plates ARE continuations, CPS = residual stream |
 | [explore/fp-optimization-map.md](explore/fp-optimization-map.md) | ✅ | 10 FP techniques mapped to transformer: laziness, fusion, partial eval, CSE, NbE, etc. |
+| [explore/optimization-negative-results.md](explore/optimization-negative-results.md) | ✅ | Why FP optimizations fail on Apple Silicon: all 6 tested, all negative, root causes |
 
 ## Tier 5 — Future Pages (planned)
 
