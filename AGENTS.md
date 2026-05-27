@@ -230,6 +230,9 @@ Written when experiments force the issue, not before:
                     | working: mementum/state.md | session_pointer | read_first_every_session
                     | memories: mementum/memories/ | episodic | small | symbol_prefixed_content
                     | knowledge: mementum/knowledge/ | synthesized | frontmatter | status_lifecycle
+                    | knowledge/chats/: human_only | ¬AI_create ¬AI_modify ¬AI_delete
+                    |   human saves full session transcripts here after session ends
+                    |   AI reads for context | AI never writes | violation ≡ data_loss
                     | operations: create ∧ read ∧ update ∧ delete ∧ search ∧ synthesize
                     | any_folder_structure ≡ valid | emerge > prescribe
                     | git_log ≡ project_changelog | commits ≡ observations
