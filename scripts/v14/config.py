@@ -177,7 +177,7 @@ class V14Config:
     eval_interval: int = 500
     log_interval: int = 10
     checkpoint_dir: str = "checkpoints/v14"
-    extracted_model_path: str = "checkpoints/v14-extracted/model.npz"
+    extracted_model_path: str = "checkpoints/v14-extracted-2stack/model.npz"
 
     # ── Data ────────────────────────────────────────────────────────
     data_dir: str = "/Users/mwhitford/data/fractal-bitnet/shards-qwen36"

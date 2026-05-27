@@ -415,6 +415,29 @@ def pack_ternary_np(w_int8: np.ndarray) -> np.ndarray:
     return packed
 
 
+def pack_ternary_uint8_np(w_int8: np.ndarray) -> np.ndarray:
+    """Pack int8 {-1, 0, +1} array [N, K] → uint8 [N, K // 4].
+
+    Matches TernaryEmbedding's uint8 format (4 values per byte):
+      Encoding: {-1 → 0b00, 0 → 0b01, +1 → 0b10}
+      Bit positions: {7:6, 5:4, 3:2, 1:0} for columns {4k, 4k+1, 4k+2, 4k+3}
+
+    K must be divisible by 4.
+    """
+    assert w_int8.ndim == 2, f"Expected 2D array, got shape {w_int8.shape}"
+    assert w_int8.shape[1] % 4 == 0, (
+        f"K ({w_int8.shape[1]}) must be divisible by 4 for uint8 packing"
+    )
+    w_shifted = (w_int8.astype(np.int16) + 1).astype(np.uint8)
+    packed = (
+        (w_shifted[:, 0::4] << 6) |
+        (w_shifted[:, 1::4] << 4) |
+        (w_shifted[:, 2::4] << 2) |
+        w_shifted[:, 3::4]
+    )
+    return packed.astype(np.uint8)
+
+
 # ══════════════════════════════════════════════════════════════════════
 # § 6  Global projection basis — embedding SVD
 # ══════════════════════════════════════════════════════════════════════
@@ -773,9 +796,10 @@ def verify_checkpoint(output_dir: Path, cfg: V14Config) -> bool:
     log(f"  Found {len(keys)} arrays")
     errors: list[str] = []
 
-    # Expected dims after uint32 packing (K // 16 columns)
+    # Expected dims after packing
     d = cfg.d_model          # 1280
-    d16 = d // 16            # 80
+    d16 = d // 16            # 80   (uint32 for TernaryLinear)
+    d4 = d // 4              # 320  (uint8 for TernaryEmbedding)
     dff = cfg.d_ff           # 5120
     dff16 = dff // 16        # 320
     vocab = cfg.vocab_size   # 248320
@@ -785,9 +809,9 @@ def verify_checkpoint(output_dir: Path, cfg: V14Config) -> bool:
     # FFN: stack_a.ffn.{gate,up,down} and stack_c.ffn.{gate,up,down}
     for key in keys:
         arr = data[key]
-        # Embedding: (vocab, d // 16)
+        # Embedding: (vocab, d // 4) uint8 — TernaryEmbedding format
         if key == "embed_tokens":
-            expected = (vocab, d16)
+            expected = (vocab, d4)
         # Attention projections under shared_stride_stack: (d, d // 16)
         elif key.startswith("shared_stride_stack.") and (
             key.endswith(".q") or key.endswith(".k")
@@ -892,8 +916,8 @@ def run_extraction(
         emb_signs = extract_embeddings(teacher_path, V_proj, cfg)
         # emb_signs: (vocab, d_model) int8
 
-        emb_packed = pack_ternary_np(emb_signs)
-        # emb_packed: (vocab, d_model // 16) uint32
+        emb_packed = pack_ternary_uint8_np(emb_signs)
+        # emb_packed: (vocab, d_model // 4) uint8 — matches TernaryEmbedding format
         key = "embed_tokens"
         npz_data[key] = emb_packed
         shapes_log[key] = list(emb_packed.shape)
