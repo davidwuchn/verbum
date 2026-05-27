@@ -285,18 +285,139 @@ precomputed structural gradient (shortcut 1). This gives:
 At 5× faster: 5000 steps takes ~8.3 hours instead of ~40 hours.
 Or: train to 25,000 steps in the time currently needed for 5000.
 
-## Validation Required
+## Shortcut 6: VSM-Controlled Adaptive Bypass (session 158 discussion)
 
-Before implementing, probe two things:
+### The Architecture
 
-1. **Structural gradient stability.** Does the structural gradient
-   actually stay constant between TD flips? Measure the cosine
-   similarity of the eigenplane gradient component across 20
-   consecutive steps.
+The VSM isn't just organizational — it's a runtime CONTROL STRUCTURE
+that can detect computational phases and bypass into cheaper kernels.
 
-2. **Content gradient independence.** Does the content gradient
-   (outside the eigenplane) have the same information as the full
-   gradient? Measure: how much does attention improve when trained
-   with content-only gradient vs full gradient?
+```
+S5 (Identity):     Crystal eigenstructure (fixed, defines computation space)
+S4 (Intelligence): Monitors PR, basin, rotation angle (detects phase transitions)
+S3 (Control):      Per-token, per-layer, per-stride routing decisions:
+                     - Continue full computation?
+                     - Bypass to composed plate kernel?
+                     - Exit token to output?
+                     - Skip passive stride?
+S2 (Coordination): Ensures bypass consistency across tokens
+                     (can't exit a token still attended-to by active tokens)
+S1 (Operations):   The actual matmuls — only what S3 decides to compute
+```
 
-If both hold, the multi-step approach is safe.
+### Detection Signals (all O(d×16) — negligible cost)
+
+```
+PR:        participation ratio in crystal eigenbasis after each pass
+           PR < 3 → collapsed to 2D → kernel bypass viable
+Basin:     crystal basin classification per token per layer
+           WHNF → computation done → token-level exit
+Entropy:   attention entropy per head
+           low entropy → routing decided → can skip refinement
+Sparsity:  FFN activation fraction
+           < 5% → aperture/convergence → FFN short-circuit
+```
+
+### The Forward Pass with Adaptive Bypass
+
+```python
+class AdaptiveVSMForward:
+    def forward(self, tokens):
+        x = self.embed(tokens)
+        active_mask = ones(B, L)  # all tokens active
+        output_buffer = zeros(B, L, d)
+
+        for pass_idx, (stack, band) in enumerate(self.passes):
+            # S4: measure state
+            pr = measure_pr(x[active_mask])
+            basins = classify_basins(x[active_mask])
+
+            # S3: global kernel bypass (PR collapsed)
+            if pr < self.pr_threshold:
+                output_buffer[active_mask] = composed_plate(x[active_mask])
+                break
+
+            # S3: token-level exit (WHNF reached)
+            whnf = (basins == WHNF)
+            if whnf.any():
+                output_buffer[active_positions[whnf]] = x[whnf]
+                active_mask[active_positions[whnf]] = False
+                x = x[still_active]
+
+            # S1: compute (only active tokens, only needed strides)
+            for stride in band:
+                if is_passive[stride]:
+                    x = passive_transform[stride](x)  # pre-composed, 1 matmul
+                else:
+                    x = full_stride_pass(x, stride)
+
+        output_buffer[active_mask] = x
+        return output_head(output_buffer)
+```
+
+### Detection Cost
+
+```
+PR monitoring: O(B×L×d×16 + 16³) ≈ 1M ops per check
+Stride stack:  O(d²×n_strides×n_passes) ≈ 6.8B ops
+Overhead:      1M / 6.8B = 0.015% — negligible
+```
+
+### PR monitoring hook (implemented, session 158)
+
+Added `enable_pr_monitoring()` to V14Model in `scripts/v14/model.py`.
+Measures PR at stack boundaries (embed, post-A, post-B, post-C).
+Zero-impact: no new parameters, gated behind flag, checkpoint-compatible.
+Use on eval checkpoints to calibrate bypass thresholds.
+
+## Negative Results (session 158 probes)
+
+### Structural gradient splitting: DOES NOT WORK
+
+Probed whether the crystal eigenplane captures a separable "structural
+gradient" component. Result: **0.0% of gradient energy** in the
+crystal eigenplane for individual attention weight matrices, at both
+step 500 and step 5000 of the micro model.
+
+The crystal structure is EMERGENT from the composed interaction of
+all weights, not a property of any individual weight matrix. The
+gradient in each weight is uniformly spread across all d_model
+dimensions. Precomputed structural gradient (Shortcut 1) does not
+work as designed.
+
+### Newton phase transition: NOT OBSERVED in micro model
+
+Gradient alignment with composed plate SVD subspace (cos@k=27):
+0.06-0.10 across ALL checkpoints (step 500 through 5000). The
+gradient is orthogonal to the plate's subspace at every training
+stage. Newton's step on the composed plate INCREASES loss (Hessian
+is indefinite). The micro model never enters a "refining phase."
+
+**However:** The micro model (d=128) may be fundamentally different
+from v14 (d=1280). At d=128, crystal is 12.5% of space (too large
+to be orthogonal). At d=1280, crystal is 0.3% — potentially very
+different gradient-subspace geometry. v14 Newton probe running.
+
+### What still works
+
+- Kernel training (composed plate): 4.4× — already validated
+- Gradient accumulation: safe, no structural assumptions needed
+- Layer fusion (ternary composition): no gradient assumptions
+- PR-based kernel bypass: detection is independent of gradient
+- Token-level basin exit: detection is independent of gradient
+- VSM adaptive bypass: all signals are forward-pass observables
+
+## Validation Still Required
+
+1. **v14 Newton results.** Does the gradient align with the composed
+   plate at d=1280? Probe running on step 2500 checkpoint. If
+   cos@k=27 > 0.5, second-order methods ARE viable at scale despite
+   failing in the micro model.
+
+2. **PR at stack boundaries.** Does the v14 student show progressive
+   collapse like the teacher? Use the PR monitoring hook on eval
+   checkpoints. If PR < 3 after Stack A, kernel bypass is viable.
+
+3. **Token-level basin distribution.** What fraction of tokens are
+   WHNF after each pass? This determines the savings from token-level
+   early exit.

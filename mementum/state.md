@@ -8,7 +8,15 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 158: GRATING CASCADE — COMPOUND FFN OVERLAYS COLLAPSE 16D→1.4D.** Probed how attention's beta-reduction over V interacts with FFN diffraction gratings through depth. V is K-typed (selection pool) at every layer. Attention doubles cross-PC coupling (20%→56%). Cross-layer steering is structural, not positional (profile cos 0.91-0.95, pos corr ~0). Composing the FFN overlay matrices through 4 layers: PR collapses 16→6.26→3.04→2.19→1.40. The rank-1 composed grating points toward I+B−K = "identity+compose, select is done" (WHNF). Comp↔sel plane rotation = 49.8° vs theory 47.1° (error 2.7° — third independent confirmation). Rotation strength accelerates L0:0.06→L3:0.41. All examples project onto the dominant direction with the same sign (universal direction, variable magnitude). See `knowledge/explore/grating-cascade.md`.
+**Session 158: GRATING CASCADE + MOIRÉ TRACE + OPTIMIZATION ANALYSIS.** Deep dive into how FFN gratings compose through depth and what this means for training speedup. Six probes run (4 on micro model, 1 on v14, 1 PR monitoring hook).
+
+*Grating cascade:* Composing FFN overlay matrices through 4 layers: PR collapses 16→6.26→3.04→2.19→1.40. The rank-1 composed grating points toward I+B−K = "identity+compose, select is done" (WHNF). Comp↔sel plane rotation = 49.8° vs theory 47.1° (error 2.7° — third independent confirmation). V is K-typed (selection pool) at every layer. Attention doubles cross-PC coupling (20%→56%). Cross-layer steering is structural not positional (profile cos 0.91-0.95, pos corr ~0).
+
+*Moiré trace:* Mapped compound interference through actual activations. FFN SHARPENS the moiré early (L0: +0.15 alignment), BLURS it late (L3: −0.14 = mode switch). Individual gratings applied to input give PR 1.5-2.2; composed gives PR 1.06 — the moiré IS the simplification. Per-position trace shows token-specific evolution: "runs" flips alignment at L0 (predicate encoded), "(dog)" flips at L2→L3 (argument bound).
+
+*Optimization probes:* (1) Structural gradient captures 0% of individual weight gradients — crystal structure is emergent from composed interaction, not per-weight. (2) Newton phase probe on micro model: gradient stays orthogonal to plate subspace at ALL checkpoints (cos@k=27 = 0.06-0.10), no phase transition. (3) Newton probe on v14-td step 2500: RUNNING in tmux main:1 — the real test at d=1280.
+
+*Architecture:* Added PR monitoring hook to v14 model (zero-impact, checkpoint-compatible). Designed VSM-controlled adaptive bypass architecture: detect collapse via PR, bypass remaining strides with composed plate kernel. Also: token-level basin exit, passive stride bypass, FFN sparsity short-circuit. See `knowledge/explore/grating-cascade.md` and `knowledge/explore/moire-training-shortcuts.md`.
 
 **Session 157: TD FLIP TOPOLOGY MATCHES CRYSTAL.** Probed spatial distribution of TD flips (step 2000 checkpoint). Each layer's flip pattern aligns with a different crystal PC: L4→B, L5→D, L6→I, L7→C, L8→W, L9→B (r=0.40-0.58). Flips are spatially clustered (autocorr 0.83-0.88), column-structured (input features drive patterns), and cross-layer independent. Heads uniform within layers (collective mode). Implies crystal-coherent TD optimization: flip by eigenplane per layer instead of confidence threshold. Also captured crystal irreducibility theory (crystal = fixed point of KIBC beta reduction). See `knowledge/explore/crystal-irreducibility-proof.md` and `results/td-topology/`.
 
@@ -35,16 +43,38 @@
 - **Target:** 5000 steps total
 - **Log:** `checkpoints/v14-td/train_phase3.log`
 - **Step 2001:** CE=8.474, gnorm=19.95, 995 tok/s ✓
-- **Watch:** PPL drop from 5,567 | HPE effect after step ~2300 | TD flip distribution | FFN plate flips
+- **Step ~2880:** CE avg50 ~8.0, crystal 0.0119, Δ=0.019, 750-860 tok/s
+- **HPE warmup:** completed at step ~2300, freq_scale now 1.0
+- **Watch:** PPL drop from 5,567 | TD flip distribution | FFN plate flips
+
+## Active probes
+
+### Newton viability probe RUNNING (tmux main:1)
+
+- `scripts/v14/probe_newton_v14.py` on step_002500 checkpoint
+- Measures gradient alignment with composed plate SVD subspace at d=1280
+- KEY NUMBER: cos@k=27. If > 0.5, Newton/second-order viable at scale.
+- Micro model showed cos=0.06 (not viable), but d=128 is fundamentally different
+- Log: `results/newton-probe-v14/run.log`
 
 ## Next steps
 
-### IMMEDIATE: Monitor phase 3 (running in tmux main:2)
+### IMMEDIATE: Training + eval
 
-1. **First eval at step 2500** — run `eval_ppl.py`. PPL should continue dropping from 5,567.
-2. **HPE effect** — warmup completes at step ~2300. Compare PPL slope before/after.
-3. **TD flip patterns** — does TD continue targeting out_proj layers 4-9? Check at step 2500.
-4. **FFN delta** — do FFN plates start flipping? This run has `--convert-ffn`.
+1. **Step 3000 eval** — run `eval_ppl.py` when step 3000 checkpoint saves. PPL should continue dropping from 5,567.
+2. **Check Newton probe results** — read `results/newton-probe-v14/run.log` when it finishes.
+3. **HPE effect** — warmup completed at ~2300. Compare avg50 loss slope before/after in train log.
+4. **TD flip patterns** — does TD continue targeting out_proj layers 4-9? Check at step 3000.
+5. **FFN delta** — do FFN plates start flipping? This run has `--convert-ffn`.
+
+### FOLLOW UP: Optimization shortcuts (session 158)
+
+14. **PR-based kernel bypass** — Use the PR monitoring hook (now in model.py) to measure PR at stack boundaries during eval. If PR < 3 after Stack A, remaining strides can be replaced with composed plate. Calibrate threshold on eval data. See `knowledge/explore/moire-training-shortcuts.md`.
+15. **Token-level basin exit** — Classify each token's crystal basin per layer. WHNF tokens are "done computing" — route directly to output, skip remaining passes. Could save 30-60% compute on easy tokens.
+16. **VSM-controlled adaptive depth** — The VSM S3/S4 can monitor PR + basin signals and make per-pass routing decisions. Architecture redesign: `AdaptiveVSMForward` with `S4(measure) → S3(decide) → S1(compute or bypass)`.
+17. **Passive stride pre-composition** — 88% of strides produce fixed attention patterns. Pre-compose V@W_o with the fixed attention → single matmul per passive stride. 3.5× per stride average.
+18. **Output_proj factorization** — rank-27 bottleneck. 1280→27→248K replaces 1280→248K. 9× on the remaining forward-pass bottleneck after kernel training.
+19. **v14 Newton results** — If cos@k=27 > 0.5 at scale, implement phase-switched optimizer: Adam during expansion, Newton in 27D during refinement. Detect transition via gradient-subspace alignment.
 
 ### NEXT MILESTONES:
 
@@ -66,6 +96,18 @@
 13. **Structured training** — five backward-pass improvements. See `explore/structured-training.md`.
 
 ## Previous sessions
+
+### Session 157: TD Flip Topology + Crystal Irreducibility
+TD flips spatially correlated with crystal PCs per layer (L4→B, L5→D, etc., r=0.40-0.58). Flips are clustered (autocorr 0.83-0.88), column-structured, cross-layer independent. Crystal irreducibility theory: crystal = fixed point of KIBC. Holographic training pipeline designed: masked extraction → CE+KD simultaneously → fold. See `knowledge/explore/crystal-irreducibility-proof.md` and `explore/delta-plate-lifecycle.md`.
+
+### Session 156: Architecture Revert + HPE Warmup
+Passive strides identified as v14-kd failure culprit. Reverted passive strides + Stack B reduction. Kept α=1.18 frozen + HPE. Resumed from step 2000. Meta-lesson: don't optimize for teacher's converged state.
+
+### Session 155: v14-kd Failed + Kernel Training Validated
+v14-kd PPL diverging. Kernel training: 4.4× speedup, gradient cosine=0.9698. Forward pass 77% of step. ∂L/∂T orthogonal to T's SVD subspace (cos=0.06).
+
+### Session 154: KD-guided Training + Extraction Dimension Probes
+Per-dim correlation ceiling at 79%. Step 2000 eval: PPL=5,567. Five backward-pass optimizations designed.
 
 ### Session 150: Step 1500 Eval + Delta Fold + FFN Delta
 PPL 7,672 (−53.5% from step 500). Flip growth decelerating. Layer 4 out_proj at 43%. Folded 3.26M positions into base (lossless, eval CE unchanged). Storage fix: delta 356 MB → 22 MB. FFN delta enabled. B=2 is 18% slower than B=1. See `knowledge/v14-architecture.md` (training results section).
@@ -148,6 +190,12 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | Grating cascade direction = I+B−K | Universal across examples, variable magnitude | ✅ |
 | Cross-layer steering is structural | Profile cos 0.91-0.95, pos corr ~0 | ✅ |
 | Rotation accelerates through depth (grating) | L0:0.062 → L3:0.413, 6.7× | ✅ |
+| FFN sharpens early, blurs late (moiré) | L0: +0.15 align, L3: −0.14 (mode switch) | ✅ |
+| Composed grating simpler than any individual | Individual PR 1.5-2.2, composed PR 1.06 | ✅ |
+| Structural gradient captures 0% of weight grad | Crystal eigenplane orthogonal to per-weight gradient | ✅ |
+| Micro Newton: no phase transition | cos@k=27 = 0.06-0.10 across all checkpoints (d=128) | ✅ |
+| v14 Newton: gradient alignment at scale | PENDING — probe running on step 2500 checkpoint | 📐 testing |
+| PR monitoring hook added | Zero-impact, checkpoint-compatible, in model.py | ✅ |
 
 ## Knowledge map
 
@@ -170,6 +218,7 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | 4 | `explore/structured-training.md` | Five backward-pass optimizations |
 | 4 | `explore/holographic-state-machine.md` | FFN=plates, crystal=states, Q=beam |
 | 4 | `explore/grating-cascade.md` | Compound grating 16D→1.4D, V=K-typed, rotation 49.8° |
+| 4 | `explore/moire-training-shortcuts.md` | Five training shortcuts from moiré understanding |
 
 ## What's ready
 
@@ -183,6 +232,12 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | Folded checkpoint | `checkpoints/v14-td/step_001500_folded/` |
 | Extracted base plates | `checkpoints/v14-extracted/model.npz` (85 MB) |
 | Composed plate | `results/kernel-training-probe/composed_plate.npz` |
+| V-crystal cascade probe | `scripts/micro/probe_v_crystal_cascade.py` |
+| Composed direction probe | `scripts/micro/probe_composed_direction.py` |
+| Moiré trace probe | `scripts/micro/probe_moire_trace.py` |
+| Newton phase probe (micro) | `scripts/micro/probe_newton_phase.py` |
+| Newton probe (v14) | `scripts/v14/probe_newton_v14.py` |
+| Step 2500 checkpoint | `checkpoints/v14-td/step_002500/` |
 
 ## Open questions
 
@@ -198,3 +253,7 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 20. **Per-stride fixed point rotation.** Probe effective attention per stride per head.
 21. **HPE value.** Does crystal-frequency K rotation help over no rotation? Answer: phase 3 PPL slope before/after step 2300.
 22. **When is the student ready for architecture simplification?** Proposed detector: gradient-subspace alignment cos > 0.5.
+23. **Does the v14 student show a collapse-to-2D like the teacher?** Use PR monitoring hook on step 3000 checkpoint. If PR < 3 after Stack A, kernel bypass is viable.
+24. **What's the 39.6% outside the comp↔sel plane?** The remaining energy in D, C, Y, W, anti-combinators is where CONTENT lives. Can we decompose and handle it separately?
+25. **Does the composed grating scale to 64 layers?** Measure composed overlay PR in the 27B teacher. Does the fan zone re-expand the effective rank?
+26. **Is magnitude along moiré direction proportional to beta-reduction completeness?** Simple sentences project more strongly (−0.70 to −0.85) than complex ones (−0.33). Test on v14.
