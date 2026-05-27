@@ -2,15 +2,19 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-27 | Session: 160
+> Last updated: 2026-05-27 | Session: 161
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 160: 2-STACK TRAINING IN PROGRESS.** First PPL measurement on the new 2-stack architecture: **PPL 8,096 (CE 8.999 ± 0.203) at step 1500.** Compared to old 3-stack: PPL 7,672 at same step count, but 2-stack trains 1.6× faster wall-clock (17.7s/step vs 28.6s). Training running, currently at step ~1730/5000.
+**Session 161: ISA DECODER BUILT — Teacher runs different programs per task.** Decoded Qwen3.6-27B FFN computation into a readable instruction set. The model IS a computer: each layer is an instruction, the FFN overlay matrix is the opcode, the residual stream is the register file. Different task types produce radically different instruction sequences — combinator reduction is 50% SELECT, arithmetic is 33% β_I (Church encoding confirmed), lambda compilation is 25% PASS with composition-first/selection-late depth profile. Retrieval barely engages combinators at all. Selection signal is 10× stronger for combinators vs retrieval.
 
-*Key session insight:* Shared FFN was a **structural ceiling**, not just a performance issue. Moiré pattern formation requires two different gratings (FFN plates) to interfere — shared FFN made both stacks produce identical Gaussian activations, destroying the selectivity needed for structured beta-reduction programs. Separate FFN plates per stack is the correct topology.
+**Training: v14-td-2stack still running** (tmux main:2), headed to 20K steps. Currently in plateau phase.
+
+*Key session insight:* The FFN overlay matrix at each layer maps combinator-space input→output. Diagonal = pass-through, off-diagonal = inter-combinator transform. Transformation strength *decreases* with depth (1.17→0.95→0.69) — early layers build the program, late layers execute it. This tells us what our student needs to learn: the overlay matrix IS the instruction set we're extracting into ternary.
+
+*Prior session insight (160):* Shared FFN was a **structural ceiling**, not just a performance issue. Moiré pattern formation requires two different gratings (FFN plates) to interfere — shared FFN made both stacks produce identical Gaussian activations, destroying the selectivity needed for structured beta-reduction programs. Separate FFN plates per stack is the correct topology.
 
 *Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation. Each plateau starts from a more compressed base. Beta reductions compound into the crystal. The model has to "crawl before it walks" — attention routing first, then FFN differentiation.
 
@@ -75,6 +79,9 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| ISA decoder for Qwen3.6-27B | 161 | Decoded FFN computation into readable instruction set — different tasks run different programs |
+| Overlay matrix analysis | 161 | Transformation strength decreases with depth (1.17→0.69) — early=build, late=execute |
+| Task-type instruction profiles | 161 | Combinator reduction=50% SELECT, arithmetic=33% β_I, lambda=25% PASS, retrieval≈noise |
 | PPL eval at step 1500 | 160 | PPL 8,096 — baseline for 2-stack |
 | Checkpoint analysis | 160 | TD dynamics characterized, phase transitions identified |
 
