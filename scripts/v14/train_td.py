@@ -64,6 +64,7 @@ from ternary import (
 from td import (
     TernaryDescent,
     DeltaTernaryLinear,
+    FlipMap,
     convert_to_delta,
     collect_delta_params,
     reduce_all_deltas,
@@ -694,6 +695,13 @@ def train_td(
     _structured_warmup_done = False  # True after structured-only warmup phase completes
     t_start = time.time()
 
+    # ── FlipMap: spatiotemporal topology heatmap ──────────────
+    flip_map = FlipMap()
+    flip_map_path = checkpoint_dir / "flip_map_latest.npz"
+    if flip_map_path.exists():
+        flip_map = FlipMap.load(str(flip_map_path))
+        print(f"  📊 Loaded flip map ({len(flip_map.modules)} modules)", file=sys.stderr)
+
     # ── Warm-up forward pass (initialises Adam state) ─────────
     ids_np, tgts_np = next(train_loader)
     lv, grads = loss_and_grad(model, mx.array(ids_np), mx.array(tgts_np))
@@ -1041,6 +1049,10 @@ def train_td(
 
         total_td_flips += td_result["total_flips"]
         td_flips_since_log += td_result["total_flips"]
+
+        # ── FlipMap: record spatial topology evolution ─────────
+        flip_map.record(td_result, step)
+
         dt = time.time() - t0
 
         # ── Logging ───────────────────────────────────────────
@@ -1158,7 +1170,46 @@ def train_td(
                     record[f"routing_frac.{path_short}"] = 1.0 - mean_calib
                     record[f"calibration_frac.{path_short}"] = mean_calib
 
+            # FlipMap convergence metrics (every 100 steps)
+            fm_summary = None
+            if step % 100 == 0 and len(flip_map.modules) > 0:
+                fm_summary = flip_map.summary(step, recent_window=100)
+                for mod_name, info in fm_summary.items():
+                    record[f"fm.{mod_name}.frozen"] = round(info["frozen_frac"], 4)
+                    record[f"fm.{mod_name}.hot"] = round(info["hot_frac"], 4)
+                    record[f"fm.{mod_name}.total_flips"] = info["total_flips"]
+                    record[f"fm.{mod_name}.total_cand"] = info["total_candidates"]
+
             _append_jsonl(checkpoint_dir / "train_td_log.jsonl", record)
+
+            # ── FlipMap: save latest + log summary every 100 steps ──
+            if fm_summary is not None:
+                flip_map.save(str(flip_map_path))
+                # Compact convergence report
+                report_parts = []
+                for mod_name, info in sorted(fm_summary.items()):
+                    # Shorten module name: stack_a.layers.3.out_proj → a.L3.out
+                    short = mod_name
+                    short = short.replace("stack_a.layers.", "a.L")
+                    short = short.replace("stack_c.layers.", "c.L")
+                    short = short.replace(".out_proj", ".out")
+                    short = short.replace(".k_proj", ".k")
+                    short = short.replace(".v_proj", ".v")
+                    short = short.replace("ffn_gate_plate_", "ffn.gate.")
+                    short = short.replace("ffn_key_plate_", "ffn.up.")
+                    short = short.replace("ffn_value_plate_", "ffn.down.")
+                    report_parts.append(
+                        f"  {short}: "
+                        f"frozen={info['frozen_frac']:.0%} "
+                        f"active={info['active_frac']:.0%} "
+                        f"hot={info['hot_frac']:.0%} "
+                        f"(flips={info['total_flips']:,} cand={info['total_candidates']:,})"
+                    )
+                if report_parts:
+                    print(f"\n📊 FlipMap @ step {step}:", file=sys.stderr)
+                    for part in report_parts:
+                        print(part, file=sys.stderr)
+                    print(file=sys.stderr, flush=True)
 
         # ── Periodic reduction ────────────────────────────────
         if reduce_interval > 0 and step % reduce_interval == 0 and step > start_step:
@@ -1219,6 +1270,8 @@ def train_td(
                     structured_warmup_steps=structured_warmup_steps,
                     target_mix_ratio=target_mix_ratio,
                 )
+                # Save timestamped flip map at checkpoint boundaries
+                flip_map.save(str(checkpoint_dir / f"flip_map_step_{step:06d}.npz"))
         else:
             # Legacy-only mode
             if step % cfg.checkpoint_interval == 0:
@@ -1231,6 +1284,8 @@ def train_td(
                     structured_warmup_steps=structured_warmup_steps,
                     target_mix_ratio=target_mix_ratio,
                 )
+                # Save timestamped flip map at checkpoint boundaries
+                flip_map.save(str(checkpoint_dir / f"flip_map_step_{step:06d}.npz"))
 
     # ── Final ─────────────────────────────────────────────────
     elapsed = time.time() - t_start
@@ -1267,6 +1322,11 @@ def train_td(
             structured_warmup_steps=structured_warmup_steps,
             target_mix_ratio=target_mix_ratio,
         )
+
+    # Save final flip map (after both code paths)
+    flip_map.save(str(flip_map_path))
+    flip_map.save(str(checkpoint_dir / f"flip_map_step_{total_steps:06d}.npz"))
+    print(f"  📊 Final flip map saved ({len(flip_map.modules)} modules)", file=sys.stderr)
 
 
 # ══════════════════════════════════════════════════════════════════════════════

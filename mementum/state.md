@@ -57,9 +57,10 @@ Old run folded delta at step 1000; this run has not folded — but fold is downs
 - Layers 12-15 q/k calibration stuck at 1.0 (never moved)
 - These layers haven't engaged yet — need attention routing to settle first
 
-**FFN plates (all 6):** Completely frozen. Zero candidates, zero flips, calibration 1.0.
-- GD not yet producing gradients that suggest FFN changes would help
+**FFN plates (all 6):** Thawed (--convert-ffn), but zero candidates/flips as of step 1600.
+- GD not yet producing gradients that cross flip threshold at step 1600
 - Expected: FFN differentiation comes after attention routing stabilizes
+- Check current status at step 2600+ — may have started engaging
 
 ### Loss trajectory
 

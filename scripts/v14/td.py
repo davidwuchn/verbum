@@ -166,6 +166,177 @@ def compute_routing_fraction(
 
 
 # ══════════════════════════════════════════════════════════════════════
+# FlipMap — spatiotemporal heatmap of topology evolution
+# ══════════════════════════════════════════════════════════════════════
+#
+# The scalar "td=132505" collapses a rich spatial signal into one number.
+# FlipMap preserves WHERE flips and candidates occur across all modules,
+# revealing the shape of convergence:
+#
+#   hot zone  = positions still being reduced (candidates, flips)
+#   cold zone = positions that have crystallized (no activity)
+#   warm zone = positions that were candidates but not selected (budget-limited)
+#
+# The shrinking hot zone IS the convergence signal. When it vanishes,
+# the topology is irreducible. Different data lights up different
+# regions — that's the curriculum signal.
+
+
+class FlipMap:
+    """Per-position flip and candidate heatmaps across all TD modules.
+
+    Tracks four (N, K)-shaped arrays per module:
+        flip_count:      how many times each position has actually flipped
+        candidate_count: how many times each position was a flip candidate
+                         (confident + disagrees, regardless of budget selection)
+        last_flip_step:  step at which each position last flipped
+        last_candidate_step: step at which each position was last a candidate
+
+    These four arrays together reveal:
+        - flip_count high, candidate_count high → active reduction zone
+        - flip_count 0, candidate_count high → budget-starved (shape to fill)
+        - flip_count 0, candidate_count 0 → crystallized (irreducible here)
+        - flip_count high, candidate_count low → oscillator (anti-pattern)
+    """
+
+    def __init__(self):
+        self._modules: dict[str, dict[str, "np.ndarray"]] = {}
+
+    def _ensure_module(self, name: str, shape: tuple[int, int]):
+        """Lazily initialize arrays for a module on first encounter."""
+        if name in self._modules:
+            return
+        import numpy as np
+        N, K = shape
+        self._modules[name] = {
+            "flip_count": np.zeros((N, K), dtype=np.int32),
+            "candidate_count": np.zeros((N, K), dtype=np.int32),
+            "last_flip_step": np.zeros((N, K), dtype=np.int32),
+            "last_candidate_step": np.zeros((N, K), dtype=np.int32),
+        }
+
+    def record(self, td_result: dict, step: int):
+        """Record flip and candidate data from a TernaryDescent.step() result.
+
+        Call after every flip step (is_flip_step=True). Extracts the
+        flip_occurred and candidates masks from per_module data.
+
+        Args:
+            td_result: return value of TernaryDescent.step()
+            step: current training step number
+        """
+        import numpy as np
+
+        if not td_result.get("is_flip_step", False):
+            return
+
+        for name, info in td_result["per_module"].items():
+            # Get flip mask if present
+            flip_occurred = info.get("flip_occurred", None)
+            candidates_mask = info.get("candidates_mask", None)
+
+            if flip_occurred is not None:
+                if hasattr(flip_occurred, '__array__'):
+                    flip_arr = np.array(flip_occurred, dtype=bool)
+                else:
+                    flip_arr = flip_occurred
+
+                self._ensure_module(name, flip_arr.shape)
+                m = self._modules[name]
+                m["flip_count"] += flip_arr.astype(np.int32)
+                m["last_flip_step"] = np.where(
+                    flip_arr, step, m["last_flip_step"]
+                )
+
+            if candidates_mask is not None:
+                if hasattr(candidates_mask, '__array__'):
+                    cand_arr = np.array(candidates_mask, dtype=bool)
+                else:
+                    cand_arr = candidates_mask
+
+                self._ensure_module(name, cand_arr.shape)
+                m = self._modules[name]
+                m["candidate_count"] += cand_arr.astype(np.int32)
+                m["last_candidate_step"] = np.where(
+                    cand_arr, step, m["last_candidate_step"]
+                )
+
+    def summary(self, step: int, recent_window: int = 100) -> dict[str, dict]:
+        """Compute per-module convergence summary.
+
+        Returns dict[module_name → {frozen_frac, active_frac, hot_frac,
+        total_flips, total_candidates, shape}].
+
+        Zones:
+            frozen: never a candidate (candidate_count == 0)
+            active: has been a candidate at some point
+            hot:    was a candidate within the last `recent_window` steps
+        """
+        summary = {}
+        for name, m in self._modules.items():
+            total = m["flip_count"].size
+            ever_candidate = m["candidate_count"] > 0
+            recently_candidate = m["last_candidate_step"] >= (step - recent_window)
+
+            n_frozen = int((~ever_candidate).sum())
+            n_active = int(ever_candidate.sum())
+            n_hot = int(recently_candidate.sum())
+
+            summary[name] = {
+                "frozen_frac": n_frozen / total,
+                "active_frac": n_active / total,
+                "hot_frac": n_hot / total,
+                "total_flips": int(m["flip_count"].sum()),
+                "total_candidates": int(m["candidate_count"].sum()),
+                "shape": m["flip_count"].shape,
+            }
+        return summary
+
+    def save(self, path: str):
+        """Save all flip maps to a single .npz file.
+
+        Keys are '{module_name}/{array_name}', e.g.
+        'stack_a.layers.0.out_proj/flip_count'.
+        """
+        import numpy as np
+        arrays = {}
+        for name, m in self._modules.items():
+            for key, arr in m.items():
+                # Use int16 for counts (max 32767 flips — plenty)
+                if arr.dtype == np.int32 and "step" not in key:
+                    save_arr = arr.astype(np.int16)
+                else:
+                    save_arr = arr
+                arrays[f"{name}/{key}"] = save_arr
+        np.savez_compressed(path, **arrays)
+
+    @classmethod
+    def load(cls, path: str) -> "FlipMap":
+        """Load flip maps from .npz file."""
+        import numpy as np
+        fm = cls()
+        data = np.load(path)
+        for compound_key in data.files:
+            parts = compound_key.rsplit("/", 1)
+            if len(parts) != 2:
+                continue
+            name, array_name = parts
+            arr = data[compound_key]
+            # Upcast int16 back to int32 for accumulation
+            if arr.dtype == np.int16:
+                arr = arr.astype(np.int32)
+            if name not in fm._modules:
+                fm._modules[name] = {}
+            fm._modules[name][array_name] = arr
+        return fm
+
+    @property
+    def modules(self) -> dict[str, dict[str, "np.ndarray"]]:
+        """Direct access to per-module arrays for analysis."""
+        return self._modules
+
+
+# ══════════════════════════════════════════════════════════════════════
 # TernaryDescent optimizer
 # ══════════════════════════════════════════════════════════════════════
 
@@ -537,7 +708,10 @@ class TernaryDescent:
 
         if total_candidates == 0:
             for mc in module_candidates:
-                per_module[mc["name"]] = {"flips": 0, "candidates": 0, "mean_confidence": 0.0}
+                per_module[mc["name"]] = {
+                    "flips": 0, "candidates": 0, "mean_confidence": 0.0,
+                    "candidates_mask": mc["candidates"],
+                }
             self.last_n_flips = 0
             return {
                 "step": self.step_count,
@@ -582,6 +756,7 @@ class TernaryDescent:
                     "mean_confidence": float(mx.mean(
                         mx.where(candidates, snr, mx.array(0.0))
                     ).item()) if n_candidates > 0 else 0.0,
+                    "candidates_mask": candidates,
                 }
                 continue
 
@@ -631,6 +806,7 @@ class TernaryDescent:
                     "new_packed": new_packed,
                     "affected_rows": affected_rows,
                     "flip_occurred": flip_occurred,
+                    "candidates_mask": candidates,
                 }
             else:
                 per_module[name] = {
@@ -639,6 +815,7 @@ class TernaryDescent:
                     "mean_confidence": float(mx.mean(
                         mx.where(candidates, snr, mx.array(0.0))
                     ).item()) if n_candidates > 0 else 0.0,
+                    "candidates_mask": candidates,
                 }
 
         # ── Post-flip: surgical per-position moment reset ──────
