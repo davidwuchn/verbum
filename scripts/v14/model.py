@@ -106,7 +106,7 @@ class V14Model(nn.Module):
       4. Fire alarm: dampen toward neutral when alarmed
       5. Final reweighting: x_final = x_c - ungated + gated
       6. S5↔S4 closed loop (crystal custodian)
-      7. Output + loss (CE, crystal, parity, spectral φ, holographic)
+      7. Output + loss (CE, crystal, parity, spectral φ)
     """
 
     def __init__(self, cfg: V14Config):
@@ -297,7 +297,7 @@ class V14Model(nn.Module):
         # ── Embed ─────────────────────────────────────────────
         positions = mx.arange(L)
         x = self.embed_norm(self.embed(tokens) + self.pos_embed(positions))
-        x_embed = x  # save for holographic loss
+        x_embed = x  # save for hyperbolic norm loss
 
         # ── Bottom-up algedonic from previous step ────────────
         if self._prev_alg_b is not None and self._prev_alg_c is not None:
@@ -376,9 +376,9 @@ class V14Model(nn.Module):
         if targets is not None:
             loss = self._compute_loss(
                 logits, targets, effective_gates, all_deltas,
-                x_embed, crystal_mse, parity_loss, cross_zone_loss,
+                crystal_mse, parity_loss, cross_zone_loss,
                 regulation, alarm_level, x_out,
-                x_a=x_a, x_b=x_b, x_c=x_c,
+                x_embed=x_embed, x_a=x_a, x_b=x_b, x_c=x_c,
             )
 
         # ── Diagnostics cache ─────────────────────────────────
@@ -390,11 +390,11 @@ class V14Model(nn.Module):
 
     def _compute_loss(
         self, logits, targets, effective_gates, all_deltas,
-        x_embed, crystal_mse, parity_loss, cross_zone_loss,
+        crystal_mse, parity_loss, cross_zone_loss,
         regulation, alarm_level, x_out,
-        x_a=None, x_b=None, x_c=None,
+        x_embed=None, x_a=None, x_b=None, x_c=None,
     ):
-        """Loss = CE × crystal_factor + crystal_direct + parity + cross_zone + spectral + holographic."""
+        """Loss = CE × crystal_factor + crystal_direct + parity + cross_zone + spectral."""
         B, L = targets.shape
         cfg = self.cfg
 
@@ -440,45 +440,6 @@ class V14Model(nn.Module):
             spectral_loss = cfg.spectral_lambda * s_loss
             self._last_spectral_kurtosis = mx.stop_gradient(s_kurtosis)
 
-        # ── Holographic progressive loss ──────────────────────
-        # CE should decrease (or not regress) through depth.
-        # Penalize any pass where CE increases vs the previous pass.
-        holo_loss = mx.array(0.0)
-        if len(all_deltas) > 1:
-            x_progressive = x_embed
-            total_pos = B * L
-            n_sample = max(64, total_pos // 8)
-            if n_sample < total_pos:
-                holo_idx = mx.random.randint(0, total_pos, (n_sample,))
-                targets_sample = targets.reshape(-1)[holo_idx]
-            else:
-                holo_idx = None
-
-            prev_ce = None
-            for n in range(len(all_deltas)):
-                x_progressive = x_progressive + effective_gates[n] * all_deltas[n]
-
-                if holo_idx is not None:
-                    x_flat = x_progressive.reshape(total_pos, -1)
-                    x_sample = x_flat[holo_idx]
-                    logits_n = self.embed.output_proj(self.output_norm(x_sample))
-                    ce_n = nn.losses.cross_entropy(logits_n, targets_sample).mean()
-                else:
-                    logits_n = self.embed.output_proj(self.output_norm(x_progressive))
-                    ce_n = nn.losses.cross_entropy(
-                        logits_n.reshape(-1, cfg.vocab_size),
-                        targets.reshape(-1),
-                    ).mean()
-
-                if prev_ce is not None:
-                    regression = mx.maximum(ce_n - prev_ce, 0.0)
-                    holo_loss = holo_loss + regression
-                prev_ce = ce_n
-
-            # Cap to prevent overflow (12 passes can accumulate large values)
-            holo_loss = mx.minimum(holo_loss, 10.0)
-            self._last_holo_loss = mx.stop_gradient(holo_loss)
-
         # ── Hyperbolic norm growth ────────────────────────────
         # norm(embed) < norm(stack_a) < norm(stack_b) < norm(stack_c)
         hyp_loss = mx.array(0.0)
@@ -497,7 +458,6 @@ class V14Model(nn.Module):
                 + parity_additive
                 + cross_zone_additive
                 + spectral_loss
-                + holo_loss
                 + 0.1 * hyp_loss)
 
         return loss
@@ -542,8 +502,7 @@ if __name__ == "__main__":
     print(f"  cross_zone: {model._last_cross_zone.item():.4f}")
     if hasattr(model, '_last_spectral_kurtosis'):
         print(f"  spectral_κ: {model._last_spectral_kurtosis.item():.4f}")
-    if hasattr(model, '_last_holo_loss'):
-        print(f"  holo_loss: {model._last_holo_loss.item():.4f}")
+
     print(f"  alarm: {model._last_alarm.item():.4f}")
     print(f"  regulation: {[f'{r:.3f}' for r in model._last_regulation.tolist()]}")
 
