@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-27 | Session: 161
+> Last updated: 2026-05-27 | Session: 162
 
 ## Where we are
 
@@ -79,6 +79,12 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| VSM ↔ Statechart ↔ Tensor isomorphism | 162 | Triple isomorphism proved: Beer's VSM = Harel statechart = tensor state machine |
+| Fulcro statechart for plate loader | 162 | VSM expressed as Fulcro statechart in Clojure (.cljc) with parallel regions per VSM layer |
+| Tensor statechart engine | 162 | Same VSM runs as int8 state vectors + ternary transition matrices in Python |
+| mmap plate composition verified | 162 | Real plate files: mmap'd, composed via sign multiply, fold verified lossless |
+| Shared EDN definition format | 162 | Single specs/plate-loader.edn consumed by both runtimes |
+| Nucleus compilation chain mapped | 162 | COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda, ALLIUM.md → behavioral spec |
 | ISA decoder for Qwen3.6-27B | 161 | Decoded FFN computation into readable instruction set — different tasks run different programs |
 | Overlay matrix analysis | 161 | Transformation strength decreases with depth (1.17→0.69) — early=build, late=execute |
 | Task-type instruction profiles | 161 | Combinator reduction=50% SELECT, arithmetic=33% β_I, lambda=25% PASS, retrieval≈noise |

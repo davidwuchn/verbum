@@ -1,0 +1,242 @@
+;; Plate Loader VSM — Shared Statechart Definition
+;;
+;; This EDN statechart is the single source of truth for the delta plate
+;; lifecycle. It runs in two runtimes:
+;;
+;;   1. Clojure (Fulcro statecharts) — development, visualization, testing
+;;   2. Python (tensor statechart engine) — inference with mmap'd plates
+;;
+;; The format follows the nucleus EDN compiler output shape
+;; ({:statechart/id, :initial, :states}) extended with :parallel regions
+;; and :data-model for the coordination layer (S2).
+;;
+;; VSM mapping:
+;;   S5 = :crystal (identity, never transitions)
+;;   S4 = :intelligence (environment scanning, plate selection)
+;;   S3 = :plates (control, which plates are loaded)
+;;   S2 = :data-model (coordination, guards and thresholds)
+;;   S1 = :inference (operations, the actual computation)
+;;
+;; License: MIT
+
+{:statechart/id :plate-loader-vsm
+ :version 1
+ :initial :system
+
+ :states
+ {:system
+  {:type :parallel
+   :regions
+
+   ;; ════════════════════════════════════════════════════════════════
+   ;; S5 — Crystal (Identity)
+   ;; The crystal is a mathematical constant. It loads once and never
+   ;; transitions. This is the VSM's identity layer — the thing that
+   ;; persists when everything else changes.
+   ;; ════════════════════════════════════════════════════════════════
+   {:crystal
+    {:type :atomic
+     :on-entry {:action :load-crystal
+                :path "crystal.bin"
+                :mode :readonly}
+     :doc "Loaded once. Read-only mmap. sign(W) topology of the entire model."}
+
+    ;; ════════════════════════════════════════════════════════════════
+    ;; S3 — Plate Controller (Control)
+    ;; Manages which plates are loaded, composed, and available for
+    ;; inference. This is the main state machine.
+    ;; ════════════════════════════════════════════════════════════════
+    :plates
+    {:type :compound
+     :initial :idle
+
+     :states
+     {:idle
+      {:doc "No domain/session plates loaded. Crystal only."
+       :on {:load-plate {:target :loading
+                         :guard :memory-available?}
+            :shutdown {:target :final}}}
+
+      :loading
+      {:doc "mmap'ing a plate file into address space."
+       :on-entry {:action :mmap-plate}
+       :on {:plate-ready {:target :composing}
+            :plate-error {:target :error}}}
+
+      :composing
+      {:doc "Multiplying plate signs: base × domain × session."
+       :on-entry {:action :compose-plates}
+       :on {:composed {:target :ready}
+            :compose-error {:target :error}}}
+
+      :ready
+      {:doc "Composed plate available. Can run inference or fold."
+       :on {:infer {:target :ready}        ;; self-transition, runs inference
+            :load-plate {:target :loading   ;; load additional plate
+                         :guard :memory-available?}
+            :unload-plate {:target :unloading}
+            :fold-delta {:target :folding
+                         :guard :delta-plateau?}}}
+
+      :unloading
+      {:doc "Releasing mmap'd plate, recomposing remaining."
+       :on-entry {:action :unload-plate}
+       :on {:unloaded {:target :composing}  ;; recompose without unloaded plate
+            :all-unloaded {:target :idle}}}  ;; no plates left
+
+      :folding
+      {:doc "Folding delta into base. sign(base × delta) → new base."
+       :on-entry {:action :fold-delta}
+       :on {:folded {:target :ready}
+            :fold-error {:target :error}}}
+
+      :error
+      {:doc "Something went wrong. Can retry or return to idle."
+       :on {:retry {:target :loading}
+            :reset {:target :idle}}}
+
+      :final
+      {:type :final
+       :doc "System shutdown. All plates unmapped."}}}
+
+    ;; ════════════════════════════════════════════════════════════════
+    ;; S1 — Inference (Operations)
+    ;; The actual computation. Runs the holographic state machine
+    ;; on the currently composed plates. This is a nested statechart
+    ;; that the outer plate controller configures.
+    ;; ════════════════════════════════════════════════════════════════
+    :inference
+    {:type :compound
+     :initial :waiting
+
+     :states
+     {:waiting
+      {:doc "Ready for input. Plates are composed and available."
+       :on {:infer {:target :running
+                    :guard :plates-ready?}}}
+
+      :running
+      {:doc "Forward pass in progress on composed plates."
+       :on-entry {:action :run-inference}
+       :on {:inference-complete {:target :waiting}
+            :inference-error {:target :waiting}   ;; log and recover
+            :algedonic {:target :halted}}}         ;; emergency stop
+
+      :halted
+      {:doc "Emergency stop. Crystal loss spike or NaN detected."
+       :on {:reset {:target :waiting}
+            :diagnose {:target :diagnosing}}}
+
+      :diagnosing
+      {:doc "Running diagnostics on plate integrity."
+       :on-entry {:action :diagnose-plates}
+       :on {:diagnosis-ok {:target :waiting}
+            :plate-corrupt {:target :waiting}}}}}  ;; will trigger plate reload
+
+    ;; ════════════════════════════════════════════════════════════════
+    ;; S4 — Intelligence (Environment Scanning)
+    ;; Monitors the environment and recommends plate changes.
+    ;; In tensor form: this is the attention heads that detect
+    ;; domain shifts in the input stream.
+    ;; ════════════════════════════════════════════════════════════════
+    :intelligence
+    {:type :compound
+     :initial :monitoring
+
+     :states
+     {:monitoring
+      {:doc "Watching inference results for domain drift."
+       :on {:domain-shift-detected {:target :recommending}
+            :delta-plateau-detected {:target :recommending}}}
+
+      :recommending
+      {:doc "Suggesting plate load/unload/fold to S3."
+       :on-entry {:action :generate-recommendation}
+       :on {:recommendation-accepted {:target :monitoring}
+            :recommendation-rejected {:target :monitoring}}}}}}}}
+
+ ;; ════════════════════════════════════════════════════════════════
+ ;; S2 — Data Model (Coordination)
+ ;; Shared state that guards reference. Anti-oscillation thresholds.
+ ;; In Fulcro statecharts: the DataModel protocol.
+ ;; In tensor form: the guard vectors and threshold scalars.
+ ;; ════════════════════════════════════════════════════════════════
+ :data-model
+ {:memory-budget-mb 4096
+  :max-plates 8
+  :loaded-plates []        ;; vec of {:id :path :shape :mode :data}
+  :fold-threshold 0.001    ;; delta changed_frac below this → fold
+  :delta-changed-frac 0.0  ;; current delta volatility
+  :crystal-loss 0.0        ;; current crystal integrity metric
+  :algedonic-threshold 0.5 ;; crystal loss above this → emergency stop
+  :composed-plate nil       ;; the current composed result
+  :plate-shapes
+  {:crystal [593000000]     ;; 593M positions
+   :ffn     [6 5120 5120]   ;; 6 FFN plates, gate/key/value × 2 stacks
+   :domain  [593000000]     ;; same topology as base
+   :session [593000000]}}   ;; same topology as base
+
+ ;; ════════════════════════════════════════════════════════════════
+ ;; Guards — Predicate functions referenced by transitions
+ ;; In Clojure: (fn [env data] boolean)
+ ;; In lambda: λ env data. predicate
+ ;; In tensor: dot product against threshold
+ ;; ════════════════════════════════════════════════════════════════
+ :guards
+ {:memory-available?
+  {:lambda "λ data plate. (- (:memory-budget-mb data) (Σ :nbytes (:loaded-plates data))) > (:nbytes plate)"
+   :doc "Is there memory budget for this plate?"}
+
+  :delta-plateau?
+  {:lambda "λ data. (:delta-changed-frac data) < (:fold-threshold data)"
+   :doc "Has the delta stopped changing? (fold criterion from session 157)"}
+
+  :plates-ready?
+  {:lambda "λ data. (some? (:composed-plate data))"
+   :doc "Is there a composed plate available for inference?"}
+
+  :crystal-healthy?
+  {:lambda "λ data. (:crystal-loss data) < (:algedonic-threshold data)"
+   :doc "Is crystal integrity above the emergency threshold?"}}
+
+ ;; ════════════════════════════════════════════════════════════════
+ ;; Actions — Side effects executed on state entry/exit
+ ;; In Clojure: functions called by the ExecutionModel
+ ;; In Python: mmap/compose/fold operations on plate files
+ ;; ════════════════════════════════════════════════════════════════
+ :actions
+ {:load-crystal
+  {:doc "mmap the crystal file (read-only, never unloaded)"
+   :op :mmap
+   :mode :readonly}
+
+  :mmap-plate
+  {:doc "mmap a plate file from the event's :path"
+   :op :mmap
+   :mode :readonly}
+
+  :compose-plates
+  {:doc "Multiply all loaded plate signs: reduce(sign-multiply, plates)"
+   :op :compose
+   :method :sign-multiply}
+
+  :fold-delta
+  {:doc "Fold delta into base: sign(base × delta) → overwrite base"
+   :op :fold
+   :method :sign-multiply-inplace}
+
+  :unload-plate
+  {:doc "Release mmap'd plate (OS reclaims pages)"
+   :op :munmap}
+
+  :run-inference
+  {:doc "Forward pass on composed plates"
+   :op :inference}
+
+  :diagnose-plates
+  {:doc "Check crystal loss, plate checksums, NaN detection"
+   :op :diagnose}
+
+  :generate-recommendation
+  {:doc "Analyze inference patterns, suggest plate changes"
+   :op :recommend}}}
