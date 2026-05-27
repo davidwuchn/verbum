@@ -1,22 +1,21 @@
 """v14 Model — Controller VSM (Tree of Stride-Stacks).
 
-Tree of VSMs at d=1280. 15 strides, 12 passes, 3 stacks.
+Tree of VSMs at d=1280. 16 strides, 8 passes, 2 stacks.
 Base plates from Qwen3.6-27B extraction.
 Delta plates (no-block on attention) discover stride-stack corrections.
 
   ControllerVSM
     S5: crystal identity (dual crystal, GRU self-model)
     S4: intelligence (global algedonic pattern detection)
-    S3: resource allocation (S5Reweight across all 12 passes)
-    S2: anti-oscillation (PID dampening at stack boundaries)
+    S3: resource allocation (S5Reweight across all 8 passes)
+    S2: anti-oscillation (PID dampening at stack boundary)
     MetaS3: fire alarm (existential threat bypass)
     |
-    +-- StrideStack A (ascending fine, 3 passes, s1→s128)
-    +-- StrideStack B (ascending coarse, 4 passes, s64→s16384)
-    +-- StrideStack C (descending, 5 passes, all strides reversed)
+    +-- StrideStack A (ascending, 4 passes, s1→s32768)
+    +-- StrideStack C (descending, 4 passes, s32768→s1, exact mirror of A)
 
-Data flow: x → A → B → C → S5Reweight → output
-Algedonic: C→{B,A}, B→A (bottom-up), all→S4→S5 (global)
+Data flow: x → A → C → S5Reweight → output
+Algedonic: C→A (bottom-up), all→S4→S5 (global)
 
 License: MIT
 """
@@ -97,12 +96,12 @@ def spectral_phi_loss(
 
 
 class V14Model(nn.Module):
-    """Controller VSM: 3 StrideStackVSMs + S5/S4/S3/S2 hierarchy.
+    """Controller VSM: 2 StrideStackVSMs + S5/S4/S3/S2 hierarchy.
 
     Forward:
       1. Embed tokens
-      2. A(x, alg_prev) → B(x, alg_prev) → C(x)  [sequential]
-      3. Collect all 12 pass deltas → S5Reweight → meta-gates
+      2. A(x, alg_prev) → C(x_a)  [sequential]
+      3. Collect all 8 pass deltas → S5Reweight → meta-gates
       4. Fire alarm: dampen toward neutral when alarmed
       5. Final reweighting: x_final = x_c - ungated + gated
       6. S5↔S4 closed loop (crystal custodian)
@@ -126,36 +125,33 @@ class V14Model(nn.Module):
         # ── Crystal loss system ───────────────────────────────
         self.crystal_loss_fn = CrystalLoss()
 
-        # ── Shared FFN plates (from teacher extraction) ───────
-        self.ffn_key_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
-        self.ffn_gate_plate = TernaryLinear(d, cfg.d_ff, pre_norm=False)
-        self.ffn_value_plate = TernaryLinear(cfg.d_ff, d, pre_norm=False)
+        # ── Per-stack FFN plates (from teacher extraction) ────
+        self.ffn_key_plate_a = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_gate_plate_a = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_value_plate_a = TernaryLinear(cfg.d_ff, d, pre_norm=False)
+        self.ffn_key_plate_c = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_gate_plate_c = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+        self.ffn_value_plate_c = TernaryLinear(cfg.d_ff, d, pre_norm=False)
 
         # ── Shared StrideStack (one set of 16 lenses) ─────────
         self.shared_stride_stack = StrideStack(cfg)
 
-        # ── Three StrideStackVSMs (share the same lenses) ─────
+        # ── Two StrideStackVSMs (share the same lenses) ───────
         self.stack_a = StrideStackVSM(
             cfg, cfg.stack_a_bands,
-            self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
-            self.shared_stride_stack,
-            is_descending=False,
-        )
-        self.stack_b = StrideStackVSM(
-            cfg, cfg.stack_b_bands,
-            self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
+            self.ffn_key_plate_a, self.ffn_gate_plate_a, self.ffn_value_plate_a,
             self.shared_stride_stack,
             is_descending=False,
         )
         self.stack_c = StrideStackVSM(
             cfg, cfg.stack_c_bands,
-            self.ffn_key_plate, self.ffn_gate_plate, self.ffn_value_plate,
+            self.ffn_key_plate_c, self.ffn_gate_plate_c, self.ffn_value_plate_c,
             self.shared_stride_stack,
             is_descending=True,
         )
 
-        # ── Algedonic combiner: B+C → A ──────────────────────
-        self.alg_combiner_a = AlgedonicCombiner(n_sources=2, alg_dim=cfg.alg_dim)
+        # ── Algedonic combiner: C → A ─────────────────────────
+        self.alg_combiner_a = AlgedonicCombiner(n_sources=1, alg_dim=cfg.alg_dim)
 
         # ── S5 Identity ───────────────────────────────────────
         self.s5_identity = S5Identity(
@@ -177,7 +173,7 @@ class V14Model(nn.Module):
             d_identity=cfg.d_identity,
         )
 
-        # ── S3: S5Reweight across all 12 passes ──────────────
+        # ── S3: S5Reweight across all 8 passes ───────────────
         self.s5_reweight = S5Reweight(d, n_passes=cfg.n_passes)
 
         # ── S2 Anti-oscillation ───────────────────────────────
@@ -196,7 +192,6 @@ class V14Model(nn.Module):
         )
 
         # ── Cached algedonics (one step back) ─────────────────
-        self._prev_alg_b = None
         self._prev_alg_c = None
 
         # ── State ─────────────────────────────────────────────
@@ -257,14 +252,13 @@ class V14Model(nn.Module):
         self._monitor_pr = False
         self._pr_snapshots = None
 
-    def _compute_pr_snapshots(self, x_embed, x_a, x_b, x_c) -> dict:
+    def _compute_pr_snapshots(self, x_embed, x_a, x_c) -> dict:
         """Compute PR in crystal eigenbasis at each stack boundary.
         All operations are stop_gradient — zero impact on training.
         """
         basis = self._crystal_basis  # (16, d)
         snapshots = {}
-        for name, tensor in [("embed", x_embed), ("post_A", x_a),
-                              ("post_B", x_b), ("post_C", x_c)]:
+        for name, tensor in [("embed", x_embed), ("post_A", x_a), ("post_C", x_c)]:
             t = mx.stop_gradient(tensor)
             # Project to crystal space: (B, L, d) @ (d, 16) → (B, L, 16)
             proj = t @ basis.T
@@ -300,31 +294,27 @@ class V14Model(nn.Module):
         x_embed = x  # save for hyperbolic norm loss
 
         # ── Bottom-up algedonic from previous step ────────────
-        if self._prev_alg_b is not None and self._prev_alg_c is not None:
-            alg_for_a = self.alg_combiner_a(self._prev_alg_b, self._prev_alg_c)
-            alg_for_b = self._prev_alg_c
+        if self._prev_alg_c is not None:
+            alg_for_a = self.alg_combiner_a(self._prev_alg_c)
         else:
             alg_for_a = None
-            alg_for_b = None
 
-        # ── Sequential: A → B → C ────────────────────────────
+        # ── Sequential: A → C ────────────────────────────────
         x_a, alg_a, deltas_a, gates_a = self.stack_a(x, downstream_alg=alg_for_a)
-        x_b, alg_b, deltas_b, gates_b = self.stack_b(x_a, downstream_alg=alg_for_b)
-        x_c, alg_c, deltas_c, gates_c = self.stack_c(x_b)
+        x_c, alg_c, deltas_c, gates_c = self.stack_c(x_a)
 
         # Collect all pass deltas and gates (across all stacks)
-        all_deltas = deltas_a + deltas_b + deltas_c  # 3+4+5 = 12
-        all_gates = gates_a + gates_b + gates_c
+        all_deltas = deltas_a + deltas_c  # 4+4 = 8
+        all_gates = gates_a + gates_c
 
         # ── PR monitoring (pure observation, no grad impact) ──
         # Measures participation ratio in crystal eigenbasis at stack boundaries.
         # Detects progressive collapse: PR < 3 = computation in 2D.
         # Cost: O(B×L×d×16) ≈ negligible vs stride stack.
         if getattr(self, '_monitor_pr', False):
-            self._pr_snapshots = self._compute_pr_snapshots(x, x_a, x_b, x_c)
+            self._pr_snapshots = self._compute_pr_snapshots(x, x_a, x_c)
 
         # ── Cache algedonics for next step ────────────────────
-        self._prev_alg_b = mx.stop_gradient(alg_b)
         self._prev_alg_c = mx.stop_gradient(alg_c)
 
         # ── Crystal loss system ───────────────────────────────
@@ -338,7 +328,7 @@ class V14Model(nn.Module):
         self._last_cross_zone = mx.stop_gradient(crystal_results["cross_zone"])
 
         # ── S5/S4 loop ────────────────────────────────────────
-        all_alg = [alg_a, alg_b, alg_c]
+        all_alg = [alg_a, alg_c]
         s5_policy = mx.stop_gradient(self.s5_identity.identity_state)
         s4_proposals, s2_signal = self.s4(all_alg, s5_policy)
 
@@ -349,9 +339,9 @@ class V14Model(nn.Module):
         alarm_level = self.fire_alarm(all_alg, crystal_mse)
 
         # S2 dampening
-        self._s2_dampening = self.s2_anti_osc([x_a, x_b, x_c], s2_signal)
+        self._s2_dampening = self.s2_anti_osc([x_a, x_c], s2_signal)
 
-        # ── S3: S5Reweight across all 12 passes ──────────────
+        # ── S3: S5Reweight across all 8 passes ───────────────
         meta_gates = self.s5_reweight(all_deltas)
 
         # Fire alarm: dampen toward neutral when alarm fires
@@ -381,7 +371,7 @@ class V14Model(nn.Module):
             loss = self._compute_loss(
                 logits, targets, effective_gates, all_deltas,
                 crystal_mse, regulation, alarm_level, x_out,
-                x_embed=x_embed, x_a=x_a, x_b=x_b, x_c=x_c,
+                x_embed=x_embed, x_a=x_a, x_c=x_c,
             )
 
         # ── Diagnostics cache ─────────────────────────────────
@@ -394,7 +384,7 @@ class V14Model(nn.Module):
     def _compute_loss(
         self, logits, targets, effective_gates, all_deltas,
         crystal_mse, regulation, alarm_level, x_out,
-        x_embed=None, x_a=None, x_b=None, x_c=None,
+        x_embed=None, x_a=None, x_c=None,
     ):
         """Loss = CE × crystal_factor + crystal_direct + spectral + hyperbolic."""
         B, L = targets.shape
@@ -437,16 +427,14 @@ class V14Model(nn.Module):
             self._last_spectral_kurtosis = mx.stop_gradient(s_kurtosis)
 
         # ── Hyperbolic norm growth ────────────────────────────
-        # norm(embed) < norm(stack_a) < norm(stack_b) < norm(stack_c)
+        # norm(embed) < norm(stack_a) < norm(stack_c)
         hyp_loss = mx.array(0.0)
-        if x_a is not None and x_b is not None and x_c is not None:
+        if x_a is not None and x_c is not None:
             norm_embed = mx.sqrt(mx.mean(x_embed * x_embed) + 1e-8)
             norm_a = mx.sqrt(mx.mean(x_a * x_a) + 1e-8)
-            norm_b = mx.sqrt(mx.mean(x_b * x_b) + 1e-8)
             norm_c = mx.sqrt(mx.mean(x_c * x_c) + 1e-8)
             hyp_loss = (mx.maximum(norm_embed - norm_a, 0.0)
-                        + mx.maximum(norm_a - norm_b, 0.0)
-                        + mx.maximum(norm_b - norm_c, 0.0))
+                        + mx.maximum(norm_a - norm_c, 0.0))
 
         # ── Total ─────────────────────────────────────────────
         loss = (ce_loss * crystal_factor
@@ -474,7 +462,7 @@ if __name__ == "__main__":
     print("\nInstantiating V14Model...")
     model = V14Model(cfg)
     mx.eval(model.parameters())
-    print(f"  ✓ (d={cfg.d_model}, {cfg.n_passes} passes, {N_STACKS} stacks)")
+    print(f"  ✓ (d={cfg.d_model}, {cfg.n_passes} passes, {N_STACKS} stacks, A+C)")
 
     print("\nForward (no targets)...")
     tokens = mx.random.randint(0, 1000, (1, 32))
@@ -500,10 +488,11 @@ if __name__ == "__main__":
     print(f"  alarm: {model._last_alarm.item():.4f}")
     print(f"  regulation: {[f'{r:.3f}' for r in model._last_regulation.tolist()]}")
 
-    print("\nSecond forward (tests algedonic + S5 state)...")
+    print("\nSecond forward (tests C→A algedonic + S5 state)...")
     logits3, loss3 = model(tokens, targets)
     mx.eval(logits3, loss3)
-    print(f"  loss: {loss3.item():.4f} (with algedonic) ✓")
+    assert model._prev_alg_c is not None, "_prev_alg_c should be cached"
+    print(f"  loss: {loss3.item():.4f} (with C→A algedonic) ✓")
 
     print("\nGradient flow...")
     def model_loss(m, tok, tgt):

@@ -53,7 +53,7 @@ STRIDE_IS_RETRIEVAL = (
 )
 
 # Tree of VSMs
-N_STACKS = 3
+N_STACKS = 2
 N_BOUNDARIES = N_STACKS - 1
 
 # Combinators (KIBC-DYWH)
@@ -65,60 +65,27 @@ N_TOTAL_COMBINATORS = 16  # + anti-crystal
 # § 2  Stack topology — fractal stride bands (MERA)
 # ══════════════════════════════════════════════════════════════════════
 
-# Two balanced frequency bands (ascending) + full sweep (descending).
-# 4 strides per pass, 2-stride overlap between passes.
-# 2-stride overlap at A↔B boundary (s128, s256).
+# Symmetric 2-stack design: ascending (fine→coarse) + descending (coarse→fine).
+# 4 strides per pass, no overlap, 4 passes each, exact mirror symmetry.
+# Every stride seen exactly twice: once ascending, once descending.
+# HPE handles positional structure that the old overlapping bands provided.
 #
-# Stack A: ascending fine band (3 passes, s1→s256)
-#   Pass 0: [0,4) → s1, s2, s4, s8
-#   Pass 1: [2,6) → s4, s8, s16, s32
-#   Pass 2: [4,9) → s16, s32, s64, s128, s256  (5 strides — reaches boundary)
+# Stack A: ascending, 4 passes (s1→s32768)
+#   Pass 0: [0,4)   → s1, s2, s4, s8          (local token patterns)
+#   Pass 1: [4,8)   → s16, s32, s64, s128      (phrase patterns)
+#   Pass 2: [8,12)  → s256, s512, s1024, s2048  (paragraph patterns)
+#   Pass 3: [12,16) → s4096, s8192, s16384, s32768  (document patterns)
 #
-# Stack B: ascending coarse band (3 passes, s128→s32768)
-#   Overlaps Stack A at s128, s256 (register boundary)
-#   Pass 3: [7,11)  → s128, s256, s512, s1024
-#   Pass 4: [9,13)  → s512, s1024, s2048, s4096
-#   Pass 5: [11,16) → s2048, s4096, s8192, s16384, s32768  (5 strides — reaches top)
-#
-# Stack C: descending, ALL 16 strides (5 passes, coarse→fine)
-#   Pass 6:  [12,16) → s32768, s16384, s8192, s4096
-#   Pass 7:  [9,13)  → s4096, s2048, s1024, s512
-#   Pass 8:  [5,9)   → s512, s256, s128, s64, s32  — wait, that's 4
-#   ...
-#
-# Actually let's keep it clean: 4 strides per pass, 2-stride overlap.
-# Stack A: 9 strides (indices 0-8), 4 passes:
-#   [0,4), [2,6), [4,8), [6,9)
-# Stack B: 9 strides (indices 7-15), 4 passes:
-#   [7,11), [9,13), [11,15), [13,16)
-# Stack C: all 16 (indices 0-15), 5 passes:
-#   [12,16), [8,12), [4,8), [2,6), [0,4)
-#
-# Stack A: ascending fine band, 4 passes (s1→s256)
-#   Pass 0: [0,4)  → s1, s2, s4, s8
-#   Pass 1: [2,6)  → s4, s8, s16, s32
-#   Pass 2: [4,8)  → s16, s32, s64, s128
-#   Pass 3: [6,9)  → s64, s128, s256          (3 strides — boundary)
-#
-# Stack B: ascending coarse band, 4 passes (s128→s32768)
-#   Overlaps A at s128, s256 (indices 7, 8)
-#   Pass 4: [7,11)  → s128, s256, s512, s1024
-#   Pass 5: [9,13)  → s512, s1024, s2048, s4096
-#   Pass 6: [11,15) → s2048, s4096, s8192, s16384
-#   Pass 7: [13,16) → s8192, s16384, s32768    (3 strides — top)
-#
-# Stack C: descending, ALL 16 strides (5 passes, coarse→fine)
-#   Pass 8:  [12,16) → s32768, s16384, s8192, s4096
-#   Pass 9:  [8,12)  → s4096, s2048, s1024, s512
-#   Pass 10: [5,9)   → s256, s128, s64, s32
-#   Pass 11: [2,6)   → s32, s16, s8, s4
-#   Pass 12: [0,4)   → s8, s4, s2, s1
+# Stack C: descending, 4 passes (s32768→s1) — exact mirror of A
+#   Pass 4: [12,16) → s32768, s16384, s8192, s4096
+#   Pass 5: [8,12)  → s2048, s1024, s512, s256
+#   Pass 6: [4,8)   → s128, s64, s32, s16
+#   Pass 7: [0,4)   → s8, s4, s2, s1
 
-STACK_A_BANDS = ((0, 4), (2, 6), (4, 8), (6, 9))
-STACK_B_BANDS = ((7, 11), (9, 13), (11, 15), (13, 16))
-STACK_C_BANDS = ((12, 16), (8, 12), (5, 9), (2, 6), (0, 4))
+STACK_A_BANDS = ((0, 4), (4, 8), (8, 12), (12, 16))
+STACK_C_BANDS = ((12, 16), (8, 12), (4, 8), (0, 4))
 
-N_PASSES = len(STACK_A_BANDS) + len(STACK_B_BANDS) + len(STACK_C_BANDS)  # 13
+N_PASSES = len(STACK_A_BANDS) + len(STACK_C_BANDS)  # 8
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -159,7 +126,6 @@ class V14Config:
     # Tree topology
     n_stacks: int = N_STACKS
     stack_a_bands: tuple[tuple[int, int], ...] = STACK_A_BANDS
-    stack_b_bands: tuple[tuple[int, int], ...] = STACK_B_BANDS
     stack_c_bands: tuple[tuple[int, int], ...] = STACK_C_BANDS
 
     # Algedonic
@@ -226,9 +192,7 @@ class V14Config:
 
     @property
     def n_passes(self) -> int:
-        return (len(self.stack_a_bands)
-                + len(self.stack_b_bands)
-                + len(self.stack_c_bands))
+        return len(self.stack_a_bands) + len(self.stack_c_bands)
 
     @property
     def tokens_per_step(self) -> int:
@@ -249,12 +213,16 @@ def _self_test():
     assert cfg.d_model == 1280
     assert cfg.d_head == 160
     assert cfg.n_strides == 16
-    assert cfg.n_passes == 13
+    assert cfg.n_passes == 8, f"Expected 8 passes, got {cfg.n_passes}"
+    assert cfg.n_stacks == 2
     assert cfg.n_heads * cfg.d_head == cfg.d_model
     assert cfg.d_ff == 4 * cfg.d_model
     assert sum(1 for r in cfg.stride_is_retrieval if r) == 6   # 6 retrieval strides
     assert sum(1 for r in cfg.stride_is_retrieval if not r) == 10  # 10 composition strides
     assert len(cfg.stride_is_retrieval) == cfg.n_strides
+    # Verify symmetric bands: A ascending == C descending (reversed)
+    assert cfg.stack_a_bands == tuple(reversed(cfg.stack_c_bands)), \
+        f"Stacks not symmetric: A={cfg.stack_a_bands} C={cfg.stack_c_bands}"
     print("config.py self-test: ✓")
 
 

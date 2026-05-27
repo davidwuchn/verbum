@@ -210,9 +210,9 @@ if __name__ == "__main__":
     # Shared stride stack
     shared_ss = StrideStack(cfg)
 
-    # Stack A
+    # Stack A (ascending)
     n_a = len(cfg.stack_a_bands)
-    print(f"\nStack A (ascending fine, {n_a} passes)...")
+    print(f"\nStack A (ascending, {n_a} passes)...")
     stack_a = StrideStackVSM(cfg, cfg.stack_a_bands, ffn_key, ffn_gate, ffn_val, shared_ss)
     x = mx.random.normal((1, 32, d))
     out_a, alg_a, deltas_a, gates_a = stack_a(x)
@@ -221,41 +221,35 @@ if __name__ == "__main__":
     assert len(gates_a) == n_a
     print(f"  output: {out_a.shape}, alg: {alg_a.shape}, {n_a} deltas, {n_a} gates ✓")
 
-    # Stack B
-    n_b = len(cfg.stack_b_bands)
-    print(f"\nStack B (ascending coarse, {n_b} passes)...")
-    stack_b = StrideStackVSM(cfg, cfg.stack_b_bands, ffn_key, ffn_gate, ffn_val, shared_ss)
-    out_b, alg_b, deltas_b, gates_b = stack_b(out_a)
-    mx.eval(out_b, alg_b)
-    assert len(deltas_b) == n_b
-    print(f"  output: {out_b.shape}, alg: {alg_b.shape}, {n_b} deltas ✓")
+    # Stack C (descending, separate FFN plates)
+    ffn_key_c = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+    ffn_gate_c = TernaryLinear(d, cfg.d_ff, pre_norm=False)
+    ffn_val_c = TernaryLinear(cfg.d_ff, d, pre_norm=False)
 
-    # Stack C
     n_c = len(cfg.stack_c_bands)
     print(f"\nStack C (descending, {n_c} passes)...")
-    stack_c = StrideStackVSM(cfg, cfg.stack_c_bands, ffn_key, ffn_gate, ffn_val, shared_ss, is_descending=True)
-    out_c, alg_c, deltas_c, gates_c = stack_c(out_b)
+    stack_c = StrideStackVSM(cfg, cfg.stack_c_bands, ffn_key_c, ffn_gate_c, ffn_val_c, shared_ss, is_descending=True)
+    out_c, alg_c, deltas_c, gates_c = stack_c(out_a)
     mx.eval(out_c, alg_c)
     assert len(deltas_c) == n_c
     print(f"  output: {out_c.shape}, alg: {alg_c.shape}, {n_c} deltas ✓")
 
-    total = n_a + n_b + n_c
-    print(f"\n  Total passes: {total} (A={n_a}, B={n_b}, C={n_c})")
+    total = n_a + n_c
+    print(f"\n  Total passes: {total} (A={n_a}, C={n_c})")
 
-    # Bottom-up algedonic: C→B, C→A, B→A
-    print("\nBottom-up algedonic (C→B,A + B→A)...")
-    combiner_a = AlgedonicCombiner(n_sources=2, alg_dim=cfg.alg_dim)
-    combined_for_a = combiner_a(alg_b, alg_c)
+    # Bottom-up algedonic: C→A
+    print("\nBottom-up algedonic (C→A)...")
+    combiner_a = AlgedonicCombiner(n_sources=1, alg_dim=cfg.alg_dim)
+    combined_for_a = combiner_a(alg_c)
     mx.eval(combined_for_a)
-    print(f"  combiner(B+C)→A: {combined_for_a.shape} ✓")
+    print(f"  combiner(C)→A: {combined_for_a.shape} ✓")
 
     # Second pass with feedback
     x2 = mx.random.normal((1, 32, d))
     out_a2, alg_a2, _, _ = stack_a(x2, downstream_alg=combined_for_a)
-    out_b2, alg_b2, _, _ = stack_b(out_a2, downstream_alg=alg_c)
-    out_c2, alg_c2, _, _ = stack_c(out_b2)
+    out_c2, alg_c2, _, _ = stack_c(out_a2)
     mx.eval(out_c2)
-    print(f"  Pass 2 with feedback: {out_c2.shape} ✓")
+    print(f"  Pass 2 with C→A feedback: {out_c2.shape} ✓")
 
     # Gradient
     print("\nGradient flow...")

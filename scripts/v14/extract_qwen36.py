@@ -111,17 +111,52 @@ except ImportError:
 # Import v14 config — resolve path relative to this file so the script works
 # regardless of working directory.
 sys.path.insert(0, str(Path(__file__).parent))
-from config import (
-    V14Config,
-    TEACHER_GLA_Q_ROWS,
-    TEACHER_GLA_K_ROWS,
-    TEACHER_GLA_V_ROWS,
-    N_LAYERS_PER_STACK,
-    student_layer_type,
-    teacher_layer_for_student,
-    teacher_layer_type,
-    ffn_layers_for_stack,
-)
+from config import V14Config
+
+
+# ══════════════════════════════════════════════════════════════════════
+# § 0  Local teacher/student mapping constants
+# ══════════════════════════════════════════════════════════════════════
+
+# Teacher: Qwen3.6-27B
+TEACHER_D_MODEL = 5120
+TEACHER_N_LAYERS = 64
+TEACHER_D_FF = 17408
+TEACHER_VOCAB = 248320
+TEACHER_PREFIX = "model.language_model"
+
+# GLA in_proj_qkv row splits (Qwen3.6-27B linear_attn)
+TEACHER_GLA_Q_ROWS = 2048   # 16 heads × 128 dim
+TEACHER_GLA_K_ROWS = 2048   # 16 heads × 128 dim
+TEACHER_GLA_V_ROWS = 6144   # 48 heads × 128 dim
+
+# Stride-stack attention mapping
+# Qwen3.6-27B: 64 layers, pattern [L,L,L,F]×16 (48 linear + 16 full attention)
+# Student: 16 stride layers (one per stride, s1..s32768)
+N_STUDENT_STRIDE_LAYERS = 16
+
+
+def teacher_layer_type(layer_idx: int) -> str:
+    """Determine if teacher layer is linear_attn or full_attn.
+
+    Qwen3.6-27B pattern: [L, L, L, F] × 16.
+    """
+    return "full_attn" if (layer_idx % 4 == 3) else "linear_attn"
+
+
+def teacher_layer_for_stride(stride_idx: int) -> int:
+    """Map student stride index (0-15) to teacher layer for attention extraction.
+
+    Spreads 16 strides across 64 teacher layers (every 4th layer).
+    """
+    return stride_idx * 4
+
+
+# FFN zone mapping — 2-stack design
+# Stack A (ascending, encode→compress): early-to-mid teacher layers
+# Stack C (descending, decompress→decode): mid-to-late teacher layers
+FFN_LAYERS_A: tuple[int, ...] = (4, 20, 32)   # aperture → fan → mid
+FFN_LAYERS_C: tuple[int, ...] = (32, 48, 56)  # mid → converge → decode
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -412,7 +447,7 @@ def compute_global_projection(
         V_proj: float32 array (teacher_d_model, d_model).
     """
     t0 = time.time()
-    embed_name = f"{cfg.teacher_prefix}.embed_tokens.weight"
+    embed_name = f"{TEACHER_PREFIX}.embed_tokens.weight"
     log(f"  Loading embeddings: {embed_name}")
     E = load_tensor(model_path, embed_name)
     log(f"  Embedding shape: {E.shape}  dtype={E.dtype}")
@@ -449,7 +484,7 @@ def extract_embeddings(
         int8 array (vocab_size, d_model) with values in {-1, +1}.
     """
     t0 = time.time()
-    embed_name = f"{cfg.teacher_prefix}.embed_tokens.weight"
+    embed_name = f"{TEACHER_PREFIX}.embed_tokens.weight"
     log(f"  Loading embeddings for sign extraction ...")
     E = load_tensor(model_path, embed_name)  # (vocab, teacher_d_model)
     log(f"  Projecting: {E.shape} @ {V_proj.shape} ...")
@@ -513,7 +548,7 @@ def extract_ssa_plates(
     Returns:
         Dict with keys "q", "k", "v", "o" → int8 (d_model, d_model).
     """
-    prefix = f"{cfg.teacher_prefix}.layers.{teacher_layer}.self_attn"
+    prefix = f"{TEACHER_PREFIX}.layers.{teacher_layer}.self_attn"
     plates: dict[str, np.ndarray] = {}
 
     for proj_name, key in [
@@ -572,7 +607,7 @@ def extract_gla_plates(
     Returns:
         Dict with keys "q", "k", "v", "o" → int8 (d_model, d_model).
     """
-    prefix = f"{cfg.teacher_prefix}.layers.{teacher_layer}.linear_attn"
+    prefix = f"{TEACHER_PREFIX}.layers.{teacher_layer}.linear_attn"
     plates: dict[str, np.ndarray] = {}
 
     # ── in_proj_qkv: split into Q, K, V sub-matrices ──────────────
@@ -671,7 +706,7 @@ def extract_ffn_plates_for_zone(
     down_votes = np.zeros((cfg.d_model, cfg.d_ff), dtype=np.float32)
 
     for teacher_layer in teacher_layers:
-        layer_prefix = f"{cfg.teacher_prefix}.layers.{teacher_layer}.mlp"
+        layer_prefix = f"{TEACHER_PREFIX}.layers.{teacher_layer}.mlp"
 
         W_gate = load_tensor(model_path, f"{layer_prefix}.gate_proj.weight")
         log(f"    layer {teacher_layer} gate_proj: {W_gate.shape}")
@@ -745,14 +780,19 @@ def verify_checkpoint(output_dir: Path, cfg: V14Config) -> bool:
     dff16 = dff // 16        # 320
     vocab = cfg.vocab_size   # 248320
 
+    # Expected key prefixes for attention and FFN
+    # Attention: shared_stride_stack.layers.{0-15}.{q,k,v,o}
+    # FFN: stack_a.ffn.{gate,up,down} and stack_c.ffn.{gate,up,down}
     for key in keys:
         arr = data[key]
         # Embedding: (vocab, d // 16)
         if key == "embed_tokens":
             expected = (vocab, d16)
-        # Attention projections: (d, d // 16) — square after packing
-        elif ".q" == key[-2:] or ".k" == key[-2:] or \
-             ".v" == key[-2:] or ".o" == key[-2:]:
+        # Attention projections under shared_stride_stack: (d, d // 16)
+        elif key.startswith("shared_stride_stack.") and (
+            key.endswith(".q") or key.endswith(".k")
+            or key.endswith(".v") or key.endswith(".o")
+        ):
             expected = (d, d16)
         # FFN gate/up: (d_ff, d // 16)
         elif key.endswith(".gate") or key.endswith(".up"):
@@ -820,9 +860,6 @@ def run_extraction(
     if cfg is None:
         cfg = V14Config()
 
-    # Patch teacher_model_path into config for state.json
-    cfg.teacher_model_path = str(teacher_path)
-
     output_dir.mkdir(parents=True, exist_ok=True)
 
     log("=" * 72)
@@ -830,11 +867,11 @@ def run_extraction(
     log("=" * 72)
     log(f"  Teacher path:  {teacher_path}")
     log(f"  Output dir:    {output_dir}")
-    log(f"  d_model:       {cfg.d_model}")
-    log(f"  d_ff:          {cfg.d_ff}")
-    log(f"  n_stacks:      {cfg.n_stacks}")
-    log(f"  n_layers/stack:{cfg.n_layers_per_stack}")
-    log(f"  n_rotations:   {n_rotations}")
+    log(f"  d_model:          {cfg.d_model}")
+    log(f"  d_ff:             {cfg.d_ff}")
+    log(f"  n_stacks:         {cfg.n_stacks}")
+    log(f"  stride_layers:    {N_STUDENT_STRIDE_LAYERS}")
+    log(f"  n_rotations:      {n_rotations}")
     log(f"  sklearn SVD:   {_HAS_SKLEARN}")
     log("")
 
@@ -845,7 +882,7 @@ def run_extraction(
     # ── Stage 1: Global projection basis ─────────────────────────
     log("── Stage 1: Global projection basis (embedding SVD) ────────")
     V_proj = compute_global_projection(
-        teacher_path, cfg.d_model, cfg.teacher_d_model, cfg
+        teacher_path, cfg.d_model, TEACHER_D_MODEL, cfg
     )  # (teacher_d_model, d_model)
 
     # ── Stage 2: Embedding plate ──────────────────────────────────
@@ -864,60 +901,55 @@ def run_extraction(
             f"({time.time() - t_emb:.1f}s)")
         del emb_signs, emb_packed
 
-    # ── Stage 3: Attention plates ─────────────────────────────────
+    # ── Stage 3: Attention plates — shared stride stack ───────────
     if not skip_attention:
-        log("\n── Stage 3: Attention plates ───────────────────────────────")
-        stacks = ["stack_a", "stack_b", "stack_c"]
+        log("\n── Stage 3: Attention plates (shared_stride_stack) ────────")
         attn_count = 0
 
-        for stack_name in stacks:
-            log(f"\n  Stack: {stack_name}")
-            for layer_idx in range(N_LAYERS_PER_STACK):
-                teacher_layer = teacher_layer_for_student(stack_name, layer_idx)
-                t_layer_type = teacher_layer_type(teacher_layer)
-                s_layer_type = student_layer_type(layer_idx)
-                t_layer = time.time()
+        for stride_idx in range(N_STUDENT_STRIDE_LAYERS):
+            teacher_layer = teacher_layer_for_stride(stride_idx)
+            t_layer_type = teacher_layer_type(teacher_layer)
+            t_layer = time.time()
 
-                log(f"  [{stack_name}/layer {layer_idx:02d}] "
-                    f"→ teacher layer {teacher_layer} "
-                    f"({t_layer_type}) "
-                    f"→ student type: {s_layer_type.upper()}")
+            log(f"  [stride {stride_idx:02d}] → teacher layer {teacher_layer} ({t_layer_type})")
 
-                # Dispatch based on TEACHER layer type (determines which
-                # tensors exist in the teacher safetensors). The student
-                # gets Q/K/V/O plates regardless of its own layer type —
-                # sign topology is architecture-independent (r=0.998).
-                if t_layer_type == "full_attn":
-                    plates = extract_ssa_plates(
-                        teacher_path, teacher_layer, cfg, n_rotations
-                    )
-                else:  # linear_attn
-                    plates = extract_gla_plates(
-                        teacher_path, teacher_layer, cfg, n_rotations
-                    )
+            # Dispatch based on TEACHER layer type (determines which tensors
+            # exist in the teacher safetensors). The student gets Q/K/V/O
+            # plates regardless of its own stride type — sign topology is
+            # architecture-independent (r=0.998).
+            if t_layer_type == "full_attn":
+                plates = extract_ssa_plates(
+                    teacher_path, teacher_layer, cfg, n_rotations
+                )
+            else:  # linear_attn
+                plates = extract_gla_plates(
+                    teacher_path, teacher_layer, cfg, n_rotations
+                )
 
-                # Pack and store each projection
-                for proj_name, signs in plates.items():
-                    # signs: (d_model, d_model) int8
-                    packed = pack_ternary_np(signs)
-                    # packed: (d_model, d_model // 16) uint32
-                    key = f"{stack_name}.layer_{layer_idx:02d}.{proj_name}"
-                    npz_data[key] = packed
-                    shapes_log[key] = list(packed.shape)
-                    attn_count += 1
-                    del signs, packed
+            # Pack and store each projection under shared_stride_stack
+            for proj_name, signs in plates.items():
+                # signs: (d_model, d_model) int8
+                packed = pack_ternary_np(signs)
+                # packed: (d_model, d_model // 16) uint32
+                key = f"shared_stride_stack.layers.{stride_idx}.{proj_name}"
+                npz_data[key] = packed
+                shapes_log[key] = list(packed.shape)
+                attn_count += 1
+                del signs, packed
 
-                log(f"    Done in {time.time() - t_layer:.1f}s")
+            log(f"    Done in {time.time() - t_layer:.1f}s")
 
         log(f"\n  Attention total: {attn_count} packed arrays "
-            f"({cfg.n_stacks} stacks × {N_LAYERS_PER_STACK} layers × 4 projections)")
+            f"({N_STUDENT_STRIDE_LAYERS} strides × 4 projections)")
 
-    # ── Stage 4: FFN plates (zone-voted) ─────────────────────────
-    log("\n── Stage 4: FFN plates (zone-voted) ────────────────────────")
-    stacks = ["stack_a", "stack_b", "stack_c"]
-    for stack_name in stacks:
+    # ── Stage 4: FFN plates (zone-voted) — 2 stacks ──────────────
+    log("\n── Stage 4: FFN plates (zone-voted, 2 stacks) ──────────────")
+    ffn_config: dict[str, tuple[int, ...]] = {
+        "stack_a": FFN_LAYERS_A,
+        "stack_c": FFN_LAYERS_C,
+    }
+    for stack_name, ffn_layers in ffn_config.items():
         t_ffn = time.time()
-        ffn_layers = ffn_layers_for_stack(stack_name)
         ffn_plates = extract_ffn_plates_for_zone(
             teacher_path, ffn_layers, cfg, n_rotations, zone_name=stack_name
         )
@@ -944,44 +976,30 @@ def run_extraction(
         "extraction_date": datetime.datetime.utcnow().isoformat() + "Z",
         "teacher": {
             "path": str(teacher_path),
-            "d_model": cfg.teacher_d_model,
-            "n_layers": cfg.teacher_n_layers,
-            "d_ff": cfg.teacher_d_ff,
-            "vocab_size": cfg.teacher_vocab,
+            "d_model": TEACHER_D_MODEL,
+            "n_layers": TEACHER_N_LAYERS,
+            "d_ff": TEACHER_D_FF,
+            "vocab_size": TEACHER_VOCAB,
             "layer_pattern": "[L,L,L,F] × 16 (48 linear + 16 full attention)",
         },
         "student": {
             "d_model": cfg.d_model,
             "d_ff": cfg.d_ff,
             "n_stacks": cfg.n_stacks,
-            "n_layers_per_stack": cfg.n_layers_per_stack,
+            "n_stride_layers": N_STUDENT_STRIDE_LAYERS,
+            "stride_pattern": "s1..s32768 (10 composition + 6 retrieval)",
             "vocab_size": cfg.vocab_size,
-            "layer_pattern": list(
-                {"gla": "GLA (linear attn)", "ssa": "SSA (full attn)"}[t]
-                for t in [student_layer_type(i) for i in range(N_LAYERS_PER_STACK)]
-            ),
-            "n_heads_ssa": cfg.n_heads,
-            "n_kv_heads_ssa": cfg.n_kv_heads,
-            "head_dim_ssa": cfg.head_dim,
-            "n_heads_gla": cfg.gla_n_heads,
-            "head_dim_gla": cfg.gla_head_dim,
-            "v_head_dim_gla": cfg.gla_v_head_dim,
+            "n_heads": cfg.n_heads,
+            "d_head": cfg.d_head,
         },
         "zone_mapping": {
             "stack_a": {
-                "teacher_layers": f"{cfg.zone_a_start}-{cfg.zone_a_end - 1}",
-                "description": "encode (blocks 0-3)",
-                "ffn_vote_layers": list(cfg.zone_a_ffn_layers),
-            },
-            "stack_b": {
-                "teacher_layers": f"{cfg.zone_b_start}-{cfg.zone_b_end - 1}",
-                "description": "compress (blocks 4-11)",
-                "ffn_vote_layers": list(cfg.zone_b_ffn_layers),
+                "description": "ascending (encode→compress)",
+                "ffn_vote_layers": list(FFN_LAYERS_A),
             },
             "stack_c": {
-                "teacher_layers": f"{cfg.zone_c_start}-{cfg.zone_c_end - 1}",
-                "description": "reconstruct (blocks 12-15)",
-                "ffn_vote_layers": list(cfg.zone_c_ffn_layers),
+                "description": "descending (decompress→decode)",
+                "ffn_vote_layers": list(FFN_LAYERS_C),
             },
         },
         "extraction_flags": {
@@ -1052,15 +1070,17 @@ Examples:
       --skip-embeddings --skip-attention --n-rotations 2
 """,
     )
-    _default_cfg = V14Config()
+    _default_teacher_path = (
+        "~/.cache/huggingface/hub/models--Qwen--Qwen3.6-27B/snapshots/latest"
+    )
 
     parser.add_argument(
         "--teacher-path",
         type=str,
-        default=str(Path(_default_cfg.teacher_model_path).expanduser()),
+        default=str(Path(_default_teacher_path).expanduser()),
         help=(
             "Path to teacher model directory containing safetensors shards. "
-            f"Default: {_default_cfg.teacher_model_path}"
+            f"Default: {_default_teacher_path}"
         ),
     )
     parser.add_argument(
@@ -1106,7 +1126,7 @@ def main() -> None:
         )
         sys.exit(1)
 
-    cfg = V14Config(teacher_model_path=str(teacher_path))
+    cfg = V14Config()
 
     run_extraction(
         teacher_path=teacher_path,

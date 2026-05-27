@@ -280,10 +280,11 @@ def create_model_with_deltas(
 
     # Step 2: load extracted base plates from Qwen3.6-27B extraction.
     #
-    # The extraction NPZ uses flat keys (e.g. stack_a.layer_00.q)
-    # while the model tree uses nested paths (e.g. shared_stride_stack.layers.0.q_proj.weight).
-    # We remap keys manually. For the shared stride stack, we vote across
-    # all 3 stack extractions (majority sign wins per ternary position).
+    # The extraction NPZ uses:
+    #   Attention: shared_stride_stack.layers.{0-15}.{q,k,v,o}  (packed uint32)
+    #   FFN:       stack_a.ffn.{gate,up,down}  and  stack_c.ffn.{gate,up,down}
+    # The model tree uses nested paths (e.g. shared_stride_stack.layers.0.q_proj.weight).
+    # We remap keys manually.
     extracted_path = Path(cfg.extracted_model_path)
     if extracted_path.exists():
         print(f"📂 Loading extracted base plates from {extracted_path}", file=sys.stderr)
@@ -292,10 +293,11 @@ def create_model_with_deltas(
         n_loaded = 0
         n_skipped = 0
 
-        # ── Attention: vote across 3 stacks into shared_stride_stack ──
-        n_extracted_layers = 11  # extraction has 11 layers per stack
+        # ── Attention: direct load from shared_stride_stack keys ──
+        # New extraction (2-stack, N_STACKS=2) stores attention directly as
+        # shared_stride_stack.layers.{stride_idx}.{q,k,v,o} — no per-stack voting needed.
+        n_extracted_layers = 16  # 16 stride layers in the new extraction
         proj_map = {"q": "q_proj", "k": "k_proj", "v": "v_proj", "o": "out_proj"}
-        stacks = ["stack_a", "stack_b", "stack_c"]
 
         for layer_idx in range(n_extracted_layers):
             for ext_proj, model_proj in proj_map.items():
@@ -304,47 +306,34 @@ def create_model_with_deltas(
                     continue
                 target_shape = flat_params[model_key].shape
 
-                # Collect from all 3 stacks and sign-vote
-                candidates = []
-                for stack in stacks:
-                    ext_key = f"{stack}.layer_{layer_idx:02d}.{ext_proj}"
-                    if ext_key in saved:
-                        arr = saved[ext_key]
-                        # If extraction shape matches model, use directly
-                        if arr.shape == target_shape:
-                            candidates.append(arr)
-                        # If extraction is larger (e.g. (1280,80) vs (512,80) for GLA Q/K),
-                        # truncate rows to match model dim
-                        elif arr.shape[1] == target_shape[1] and arr.shape[0] >= target_shape[0]:
-                            candidates.append(arr[:target_shape[0]])
-                        else:
-                            print(
-                                f"  ⚠ shape mismatch {ext_key}: ext={arr.shape} model={target_shape}",
-                                file=sys.stderr,
-                            )
-
-                if len(candidates) == 0:
+                ext_key = f"shared_stride_stack.layers.{layer_idx}.{ext_proj}"
+                if ext_key not in saved:
                     n_skipped += 1
                     continue
 
-                if len(candidates) == 1:
-                    voted = mx.array(candidates[0])
+                arr = saved[ext_key]
+                if arr.shape == target_shape:
+                    flat_params[model_key] = mx.array(arr)
+                    n_loaded += 1
+                elif arr.shape[1] == target_shape[1] and arr.shape[0] >= target_shape[0]:
+                    # Extraction rows larger than model dim — truncate
+                    flat_params[model_key] = mx.array(arr[:target_shape[0]])
+                    n_loaded += 1
                 else:
-                    # Sign-vote: sum the packed uint32 arrays isn't meaningful.
-                    # But since these are packed ternary, we vote in packed space.
-                    # All 3 are the same shape — take first (they represent different
-                    # teacher zones so any is a valid initialization).
-                    # Prefer stack_b (middle layers = most general representation).
-                    voted = mx.array(candidates[1] if len(candidates) >= 2 else candidates[0])
+                    print(
+                        f"  ⚠ shape mismatch {ext_key}: ext={arr.shape} model={target_shape}",
+                        file=sys.stderr,
+                    )
+                    n_skipped += 1
 
-                flat_params[model_key] = voted
-                n_loaded += 1
-
-        # ── FFN: load from extraction (already voted during extraction) ──
+        # ── FFN: load per-stack plates (stack_a and stack_c, no stack_b) ──
         ffn_map = {
-            "stack_b.ffn.gate": "ffn_gate_plate.weight",
-            "stack_b.ffn.up": "ffn_key_plate.weight",
-            "stack_b.ffn.down": "ffn_value_plate.weight",
+            "stack_a.ffn.gate": "ffn_gate_plate_a.weight",
+            "stack_a.ffn.up": "ffn_key_plate_a.weight",
+            "stack_a.ffn.down": "ffn_value_plate_a.weight",
+            "stack_c.ffn.gate": "ffn_gate_plate_c.weight",
+            "stack_c.ffn.up": "ffn_key_plate_c.weight",
+            "stack_c.ffn.down": "ffn_value_plate_c.weight",
         }
         for ext_key, model_key in ffn_map.items():
             if ext_key in saved and model_key in flat_params:
@@ -395,8 +384,11 @@ def create_model_with_deltas(
     attention_prefixes = (
         "shared_stride_stack",
     )
-    # Exclude the shared FFN plates from attention conversion
-    exclude = ("ffn_key_plate", "ffn_gate_plate", "ffn_value_plate")
+    # Exclude the per-stack FFN plates from attention conversion
+    exclude = (
+        "ffn_key_plate_a", "ffn_gate_plate_a", "ffn_value_plate_a",
+        "ffn_key_plate_c", "ffn_gate_plate_c", "ffn_value_plate_c",
+    )
     if convert_ffn:
         exclude = ()  # convert everything under the attention prefixes
 
@@ -408,10 +400,13 @@ def create_model_with_deltas(
 
     converted_ffn: list[tuple[str, DeltaTernaryLinear]] = []
     if convert_ffn:
-        # Also convert shared FFN plates (standard TD: can use 0)
+        # Also convert per-stack FFN plates (standard TD: can use 0)
         converted_ffn = convert_to_delta(
             model,
-            include_prefixes=("ffn_key_plate", "ffn_gate_plate", "ffn_value_plate"),
+            include_prefixes=(
+                "ffn_key_plate_a", "ffn_gate_plate_a", "ffn_value_plate_a",
+                "ffn_key_plate_c", "ffn_gate_plate_c", "ffn_value_plate_c",
+            ),
         )
 
     converted = converted_attn + converted_ffn
@@ -551,7 +546,11 @@ def filter_gamma_grads(
 
 # FFN plates are shared across all N_PASSES=8 passes.
 # Gradients accumulate from every pass, so divide by 8 to avoid scaling.
-_UNIVERSAL_SHARED = ("ffn_key_plate", "ffn_gate_plate", "ffn_value_plate")
+# N_STACKS=2: separate plates for stack_a and stack_c (no stack_b).
+_UNIVERSAL_SHARED = (
+    "ffn_key_plate_a", "ffn_gate_plate_a", "ffn_value_plate_a",
+    "ffn_key_plate_c", "ffn_gate_plate_c", "ffn_value_plate_c",
+)
 _N_PASSES = 8
 
 
@@ -1231,8 +1230,8 @@ def _save_checkpoint(
     # Delta plate snapshots — separate file for quick cross-run comparison.
     # Base plates are NOT saved here (frozen and identical to extraction).
     # Uses collect_delta_params() to deduplicate aliases (shared_stride_stack
-    # is aliased via stack_a/b/c — without dedup we'd save 280 entries
-    # instead of 70). Stores packed uint32 (2 bits/position) not int8.
+    # is aliased via stack_a/stack_c — without dedup we'd save duplicate entries).
+    # Stores packed uint32 (2 bits/position) not int8.
     delta_snapshots = {}
     dedup_deltas = collect_delta_params(model)
     for path, dtl in dedup_deltas:
