@@ -67,6 +67,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/delta-plate-lifecycle.md](explore/delta-plate-lifecycle.md) | 🔨 | Masked extraction + continuous training + factual corrections via delta plates |
 | [explore/grating-cascade.md](explore/grating-cascade.md) | ✅ | Compound grating collapse: 16D→1.4D, V is K-typed, attention doubles cross-PC coupling |
 | [explore/moire-training-shortcuts.md](explore/moire-training-shortcuts.md) | 🔨 | Five training speedup shortcuts from moiré understanding |
+| [explore/continuations-as-composed-plates.md](explore/continuations-as-composed-plates.md) | ✅ | The FP↔transformer bridge: composed plates ARE continuations, CPS = residual stream |
 
 ## Tier 5 — Future Pages (planned)
 
