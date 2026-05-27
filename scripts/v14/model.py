@@ -26,6 +26,7 @@ from __future__ import annotations
 import math
 from typing import Optional
 
+import numpy as np
 import mlx.core as mx
 import mlx.nn as nn
 
@@ -236,6 +237,53 @@ class V14Model(nn.Module):
 
         return mx.stack([crystal_mse, comp_cluster, whnf_anti, i_separation, cross_crystal])
 
+    # ── PR Monitoring (grating cascade observation) ─────────
+
+    def enable_pr_monitoring(self):
+        """Enable participation ratio monitoring at stack boundaries.
+        Pure observation — no parameters, no grad impact, no checkpoint change.
+        """
+        self._monitor_pr = True
+        self._pr_snapshots = None
+        # Precompute crystal basis for projection
+        emb_all = mx.concatenate([
+            self.combinator_embeddings,
+            self.anti_combinator_embeddings,
+        ], axis=0)
+        norms = mx.sqrt(mx.sum(emb_all * emb_all, axis=-1, keepdims=True) + 1e-8)
+        self._crystal_basis = mx.stop_gradient(emb_all / norms)  # (16, d)
+
+    def disable_pr_monitoring(self):
+        self._monitor_pr = False
+        self._pr_snapshots = None
+
+    def _compute_pr_snapshots(self, x_embed, x_a, x_b, x_c) -> dict:
+        """Compute PR in crystal eigenbasis at each stack boundary.
+        All operations are stop_gradient — zero impact on training.
+        """
+        basis = self._crystal_basis  # (16, d)
+        snapshots = {}
+        for name, tensor in [("embed", x_embed), ("post_A", x_a),
+                              ("post_B", x_b), ("post_C", x_c)]:
+            t = mx.stop_gradient(tensor)
+            # Project to crystal space: (B, L, d) @ (d, 16) → (B, L, 16)
+            proj = t @ basis.T
+            # Flatten batch: (B*L, 16)
+            proj_flat = proj.reshape(-1, 16)
+            # Covariance
+            mean = mx.mean(proj_flat, axis=0, keepdims=True)
+            centered = proj_flat - mean
+            n = centered.shape[0]
+            cov = (centered.T @ centered) / n  # (16, 16)
+            # Eigenvalues (use numpy — small matrix)
+            mx.eval(cov)
+            cov_np = np.array(cov, dtype=np.float32)
+            eigvals = np.maximum(np.linalg.eigvalsh(cov_np)[::-1], 0)
+            pr = float((eigvals.sum() ** 2) / (np.sum(eigvals ** 2) + 1e-12))
+            sigma1_frac = float(eigvals[0] / (eigvals.sum() + 1e-12))
+            snapshots[name] = {"pr": pr, "sigma1": sigma1_frac}
+        return snapshots
+
     # ── Forward ───────────────────────────────────────────────
 
     def forward(
@@ -267,6 +315,13 @@ class V14Model(nn.Module):
         # Collect all pass deltas and gates (across all stacks)
         all_deltas = deltas_a + deltas_b + deltas_c  # 3+4+5 = 12
         all_gates = gates_a + gates_b + gates_c
+
+        # ── PR monitoring (pure observation, no grad impact) ──
+        # Measures participation ratio in crystal eigenbasis at stack boundaries.
+        # Detects progressive collapse: PR < 3 = computation in 2D.
+        # Cost: O(B×L×d×16) ≈ negligible vs stride stack.
+        if getattr(self, '_monitor_pr', False):
+            self._pr_snapshots = self._compute_pr_snapshots(x, x_a, x_b, x_c)
 
         # ── Cache algedonics for next step ────────────────────
         self._prev_alg_b = mx.stop_gradient(alg_b)
