@@ -44,10 +44,9 @@ _CRYSTAL_EIGENVALUES = [5.193, 3.535, 1.909, 1.300, 1.082, 0.736, 0.500, 0.426]
 # First 4 pairs cover 77% of crystal variance (comp, sel, term, rout).
 _N_EIGEN_PAIRS = 4
 
-# HPE warmup: freq_scale starts at 0 (no rotation, compatible with checkpoint)
-# and linearly warms to 1.0 over this many steps. This allows Q/K relationships
-# learned without rotation to gradually adapt to HPE.
-HPE_WARMUP_STEPS = 300
+# HPE is active from step 0 — no warmup needed for fresh training.
+# The warmup mechanism is retained for checkpoint compatibility but
+# defaults to full rotation (freq_scale=1.0).
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -88,10 +87,10 @@ class HolographicPositionEncoding(nn.Module):
         freqs = [ev / _CRYSTAL_EIGENVALUES[0] for ev in _CRYSTAL_EIGENVALUES[:n_eigen_pairs]]
         self._freqs = mx.array(freqs)  # (n_eigen_pairs,)
 
-        # Learnable frequency scaling — initialized to 0.0 for checkpoint
-        # compatibility (no rotation at start). Warmed up externally via
-        # set_hpe_warmup_fraction() so Q/K relationships can adapt gradually.
-        self.freq_scale = mx.zeros((n_eigen_pairs,))
+        # Learnable frequency scaling — initialized to 1.0 (full rotation).
+        # HPE is active from step 0: the model learns with position encoding
+        # from the start, enabling context extension later.
+        self.freq_scale = mx.ones((n_eigen_pairs,))
 
     def apply_rotary(
         self,
@@ -290,9 +289,8 @@ class SingleStrideAttention(nn.Module):
         self.dropout = nn.Dropout(dropout) if dropout > 0 else None
 
         # HPE: learnable frequency scaling on crystal eigenfrequencies.
-        # Initialized to 0.0 for checkpoint compatibility (no rotation at start).
-        # Warmed up externally via set_hpe_warmup_fraction().
-        self.hpe_freq_scale = mx.zeros((_N_EIGEN_PAIRS,))
+        # Initialized to 1.0 — full rotation from step 0.
+        self.hpe_freq_scale = mx.ones((_N_EIGEN_PAIRS,))
 
         # Pre-compute log-distance structure
         w_pos = mx.arange(window, dtype=mx.float32)
