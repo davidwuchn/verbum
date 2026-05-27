@@ -72,6 +72,13 @@ from td import (
     compute_routing_fraction,
 )
 
+# Safetensors store (optional — used when --safetensors-dir is provided)
+_safetensors_store = None
+
+def _get_safetensors_store():
+    """Get the global SafetensorsStore, if active."""
+    return _safetensors_store
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # § 1  Loss function, cosine LR, logging helpers
@@ -259,6 +266,7 @@ def _append_jsonl(path, record):
 def create_model_with_deltas(
     cfg: V14Config,
     convert_ffn: bool = False,
+    skip_base_load: bool = False,
 ) -> tuple[V14Model, list[tuple[str, DeltaTernaryLinear]]]:
     """Create V14Model, load extracted base plates, convert to delta architecture.
 
@@ -286,7 +294,9 @@ def create_model_with_deltas(
     # The model tree uses nested paths (e.g. shared_stride_stack.layers.0.q_proj.weight).
     # We remap keys manually.
     extracted_path = Path(cfg.extracted_model_path)
-    if extracted_path.exists():
+    if skip_base_load:
+        print(f"  Skipping base plate load (safetensors mode)", file=sys.stderr)
+    elif extracted_path.exists():
         print(f"📂 Loading extracted base plates from {extracted_path}", file=sys.stderr)
         saved = dict(mx.load(str(extracted_path)))
         flat_params = dict(tree_flatten(model.parameters()))
@@ -694,7 +704,34 @@ def train_td(
     restore_ternary(model)
 
     # ── Resume: restore optimizer state from checkpoint ───────
-    if start_step > 0:
+    if start_step > 0 and _get_safetensors_store() is not None:
+        # Safetensors mode: load optimizer from training.safetensors
+        store = _get_safetensors_store()
+        store.load_optimizer_state(adam)
+        mx.eval(adam.state)
+        print(f"📦 Restored optimizer state from training.safetensors", file=sys.stderr)
+
+        # Re-load model weights to undo the warm-up gradient step
+        store.load_into_model(model)
+        mx.eval(model.parameters())
+        restore_ternary(model)
+        freeze_ternary_weights(model)
+        freeze_delta_architecture(model)
+        print(f"📦 Re-loaded model weights from safetensors", file=sys.stderr)
+
+        # Restore running state
+        saved_state = store.load_state()
+        if saved_state:
+            crystal_ema = saved_state.get("crystal_ema")
+            if crystal_ema is not None and hasattr(model, "_crystal_ema"):
+                model._crystal_ema = mx.array(crystal_ema)
+                mx.eval(model._crystal_ema)
+            n_reductions = saved_state.get("n_reductions", 0)
+            total_td_flips = saved_state.get("total_td_flips", 0)
+            td.step_count = saved_state.get("td_step_count", 0)
+
+    elif start_step > 0:
+        # Legacy npz resume path
         # Resume path priority: --resume (explicit) > checkpoint_dir/step_N (implicit).
         # Session 150 bug: folded checkpoint at --resume was overwritten by
         # checkpoint_dir/step_001500 (the original unfolded checkpoint).
@@ -1151,17 +1188,36 @@ def train_td(
                     file=sys.stderr, flush=True,
                 )
 
-        # ── Checkpoint ────────────────────────────────────────
+        # ── Checkpoint / Sync ──────────────────────────────────
         if step % cfg.checkpoint_interval == 0:
-            _save_checkpoint(
-                model, adam, td, step, cfg, checkpoint_dir,
-                train_losses, n_reductions, total_td_flips, delta_modules,
-                train_loader=train_loader,
-                td_active=td_active,
-                structured_warmup_done=_structured_warmup_done,
-                structured_warmup_steps=structured_warmup_steps,
-                target_mix_ratio=target_mix_ratio,
-            )
+            store = _get_safetensors_store()
+            if store is not None:
+                # Safetensors mmap sync — no serialize, just write to mmap
+                extra_state = {
+                    "n_reductions": n_reductions,
+                    "total_td_flips": total_td_flips,
+                    "td_step_count": td.step_count,
+                    "td_active": td_active,
+                    "structured_warmup_done": _structured_warmup_done,
+                    "structured_warmup_steps": structured_warmup_steps,
+                    "target_mix_ratio": target_mix_ratio,
+                    "train_losses_last50": train_losses[-50:],
+                }
+                crystal_ema = getattr(model, "_crystal_ema", None)
+                if crystal_ema is not None:
+                    mx.eval(crystal_ema)
+                    extra_state["crystal_ema"] = float(crystal_ema.item())
+                store.sync(model, adam, step, extra_state=extra_state)
+            else:
+                _save_checkpoint(
+                    model, adam, td, step, cfg, checkpoint_dir,
+                    train_losses, n_reductions, total_td_flips, delta_modules,
+                    train_loader=train_loader,
+                    td_active=td_active,
+                    structured_warmup_done=_structured_warmup_done,
+                    structured_warmup_steps=structured_warmup_steps,
+                    target_mix_ratio=target_mix_ratio,
+                )
 
     # ── Final ─────────────────────────────────────────────────
     elapsed = time.time() - t_start
@@ -1171,15 +1227,33 @@ def train_td(
         f"Total TD flips: {total_td_flips:,}  Reductions: {n_reductions}",
         file=sys.stderr,
     )
-    _save_checkpoint(
-        model, adam, td, total_steps, cfg, checkpoint_dir,
-        train_losses, n_reductions, total_td_flips, delta_modules,
-        train_loader=train_loader,
-        td_active=td_active,
-        structured_warmup_done=_structured_warmup_done,
-        structured_warmup_steps=structured_warmup_steps,
-        target_mix_ratio=target_mix_ratio,
-    )
+    store = _get_safetensors_store()
+    if store is not None:
+        extra_state = {
+            "n_reductions": n_reductions,
+            "total_td_flips": total_td_flips,
+            "td_step_count": td.step_count,
+            "td_active": td_active,
+            "structured_warmup_done": _structured_warmup_done,
+            "structured_warmup_steps": structured_warmup_steps,
+            "target_mix_ratio": target_mix_ratio,
+            "train_losses_last50": train_losses[-50:],
+        }
+        crystal_ema = getattr(model, "_crystal_ema", None)
+        if crystal_ema is not None:
+            mx.eval(crystal_ema)
+            extra_state["crystal_ema"] = float(crystal_ema.item())
+        store.sync(model, adam, step=total_steps, extra_state=extra_state)
+    else:
+        _save_checkpoint(
+            model, adam, td, total_steps, cfg, checkpoint_dir,
+            train_losses, n_reductions, total_td_flips, delta_modules,
+            train_loader=train_loader,
+            td_active=td_active,
+            structured_warmup_done=_structured_warmup_done,
+            structured_warmup_steps=structured_warmup_steps,
+            target_mix_ratio=target_mix_ratio,
+        )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1402,6 +1476,16 @@ if __name__ == "__main__":
         ),
     )
 
+    # ── Safetensors mmap storage ──────────────────────────────
+    parser.add_argument(
+        "--safetensors-dir", type=str, default=None,
+        help=(
+            "Directory with base.safetensors + delta.safetensors + training.safetensors. "
+            "When set, replaces checkpoint save/load with mmap sync. "
+            "Use extract_to_safetensors.py to create from an existing checkpoint."
+        ),
+    )
+
     # ── Gradient decomposition ────────────────────────────────
     parser.add_argument(
         "--decompose-gradient", action="store_true", default=True,
@@ -1519,6 +1603,7 @@ if __name__ == "__main__":
     model, delta_modules = create_model_with_deltas(
         cfg,
         convert_ffn=args.convert_ffn,
+        skip_base_load=bool(args.safetensors_dir),
     )
 
     # ── Print param count ─────────────────────────────────────
@@ -1537,7 +1622,36 @@ if __name__ == "__main__":
 
     # ── Resume: find start_step ───────────────────────────────
     start_step = 0
-    if args.resume:
+
+    if args.safetensors_dir:
+        # ── Safetensors mmap mode: load from safetensors files ──
+        from safetensors_store import SafetensorsStore
+
+        st_dir = Path(args.safetensors_dir).resolve()
+        store = SafetensorsStore(str(st_dir))
+
+        # Set module-level variable for _get_safetensors_store()
+        globals()["_safetensors_store"] = store
+
+        # Load model parameters from base + delta + training safetensors
+        store.load_into_model(model)
+        mx.eval(model.parameters())
+        restore_ternary(model)
+        freeze_ternary_weights(model)
+        freeze_delta_architecture(model)
+
+        # Load training state
+        saved_state = store.load_state()
+        if saved_state:
+            start_step = saved_state.get("step", 0)
+
+        print(f"📦 Loaded from safetensors: {st_dir}", file=sys.stderr)
+        print(f"   base.safetensors     → base plates (frozen)", file=sys.stderr)
+        print(f"   delta.safetensors    → delta plates (mmap r/w)", file=sys.stderr)
+        print(f"   training.safetensors → continuous params + optimizer", file=sys.stderr)
+        print(f"   Resuming from step {start_step}", file=sys.stderr)
+
+    elif args.resume:
         resume_path = Path(args.resume).resolve()
         if resume_path.exists():
             # Load base weights first (before convert_to_delta was already done,
