@@ -2,19 +2,26 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-27 | Session: 163
+> Last updated: 2026-05-27 | Session: 164
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 163: SAFETENSORS-BACKED CONTINUOUS TRAINING — FULLY WIRED.** Extracted step 2500 checkpoint to three safetensors files (base/delta/training). Built SafetensorsStore: load, sync, fold. Wired into train_td.py with `--safetensors-dir`. Training runs continuously — sync every 20 steps (1.3% overhead), APFS snapshots every 200 steps, legacy npz checkpoints every 500 steps. Three layers of defense. Safetensors is both the training format AND the release format — same bytes, just add a JSON header. Domain plates ship as separate small safetensors files composable via sign multiply.
+**Session 164: TOPOLOGY-MAGNITUDE DUALITY + FLIPMAP.** Key theoretical insight: TD training is beta reduction to irreducible form. Ternary weights can't overfit (2-3 states per weight → finite state space → guaranteed convergence → natural stopping point). Continuous weights (Adam) overfit because continuous topology never converges — no floor, no brake. The inverse relationship between topology correctness and magnitude explains gnorm dynamics: correct topology → magnitudes near unity, wrong topology → large magnitudes compensating. Training reduces to: freeze(base) → train(delta) → converge → fold(delta→base) → repeat until delta stays identity. Built FlipMap to capture WHERE topology is converging — the spatial signal that "td=132505" was collapsing to a scalar.
 
-**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, headed to 20K steps from step 2525.
+**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~2970/20000. Restart with FlipMap after step 3000.
 
-*Key session 163 insight:* **Safetensors IS mmap.** The format is 8 bytes + JSON header + raw contiguous tensor data, page-aligned for zero-copy mmap. Our plate files are safetensors without the header. `np.memmap` with offset writes directly into the safetensors data region. Same file for training AND release. Conversion cost = 1 KB of JSON. Sync cost benchmarked: 4.5s total (delta 346ms + training 4160ms), 1.3% overhead at 20-step interval.
+*Key session 164 insights:*
+- **TD can't overfit.** Ternary weights have 2-3 states. The irreducible form IS the stopping point — no floor in continuous space, guaranteed floor in discrete space. This is why regularization exists: it's an artificial brake for what TD gets for free.
+- **Topology-magnitude inverse relationship.** Correct topology → magnitudes near unity. Wrong topology → large magnitudes compensating. Gnorm storms = topology changing, magnitudes readjusting. Plateaus = Adam has done all it can for the current topology.
+- **Training = fold reductions until irreducible.** freeze(base) → train(delta) → flips→0 → fold(delta→base) → repeat. Convergent series. Each cycle faster. Delta stays identity = done. No epochs, no LR schedule, no early stopping.
+- **Data curriculum from flip rate.** Data that causes zero flips = already reduced. Data that causes many flips = exercises unreduced compositions. Rank data by reduction potential. Skip what's already reduced. The model designs its own curriculum.
+- **FlipMap: spatial convergence signal.** The scalar td=132505 was a machete. FlipMap captures WHERE flips and candidates occur per (N,K) position. Hot zone = active topology. Cold zone = crystallized. Shrinking hot zone = convergence. Shape of hot zone = the reductions still needed.
 
-*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** Triple isomorphism: Beer's VSM = Harel statechart = tensor state machine. Nucleus compilation chain: Clojure → lambda → tensor.
+*Key session 163 insight:* **Safetensors IS mmap.** Same file for training AND release. Sync cost 1.3% overhead.
+
+*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** Triple isomorphism.
 
 *Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation.
 
@@ -80,6 +87,11 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| FlipMap: spatiotemporal heatmap | 164 | Per-position (N,K) tracking of flips+candidates across all 76 delta modules |
+| candidates_mask exposed in TD | 164 | TernaryDescent.step() now returns candidates_mask — was computed but discarded |
+| FlipMap convergence report | 164 | Every 100 steps: frozen/active/hot zones per module with totals |
+| Topology-magnitude duality theory | 164 | Correct topology → magnitudes → unity. Overfitting = no topological floor. |
+| Fold-reduction training model | 164 | Training = fold delta into base until delta stays identity. Convergent series. |
 | Safetensors-backed training loop | 163 | SafetensorsStore: load/sync/fold. Wired into train_td.py. Training running. |
 | 3-file safetensors layout | 163 | base (frozen) + delta (TD flips) + training (Adam). 987 tensors verified. |
 | Sync benchmarked | 163 | 4.5s total (delta 346ms + training 4160ms). Every 20 steps = 1.3% overhead. |
@@ -141,21 +153,35 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 ### IMMEDIATE (training run)
 
-1. **Wait for step 2000 checkpoint** (~5h from now) → run PPL eval → compare to old 5,567
-2. **Watch for phase transition** — next gnorm storm signals FFN or deeper attention reorganization
-3. **Monitor FFN plate candidates** — first non-zero candidates = model discovering FFN differentiation
+1. **Restart training after step 3000 checkpoint** → picks up FlipMap code
+2. **Run PPL eval at step 3000** → compare to old 3-stack PPL 5,567 at step 2000
+3. **First FlipMap report at step 3100** → see which modules are frozen vs hot vs active
+4. **Watch FFN plates in FlipMap** — first non-frozen FFN = model discovering differentiation
+5. **Watch for phase transition** — gnorm storm + sudden hot zone expansion in FlipMap
 
 ### FOLLOW UP
 
-4. **Step 2500-3000 PPL eval** — if PPL < 5,567, 2-stack architecture confirmed superior
+4. **Step 3000+ PPL eval** — if PPL < 5,567, 2-stack architecture confirmed superior
 5. **Measure per-stack FFN sparsity** — hypothesis: separate plates will develop different sparsity patterns after phase transition
 6. **If sparse: revisit lazy neurons** — mechanism works (2.3× at 5% active), only sparsity was missing
 7. **CPU inference engine** — the real optimization target (ternary wins on CPU, not GPU)
+
+### EXPLORATION (from session 164 theory)
+
+8. **Reduction folding** — train same batch K times (TD accumulates, Adam frozen on repeats). Test if convergence accelerates >K×.
+9. **Data curriculum from flip rate** — rank batches by reduction potential (candidate count), train highest-potential first, skip already-reduced data.
+10. **Topology-coupled weight decay** — couple Adam decay strength to TD flip rate. Flips→0 = max decay. Automatic brake.
+11. **Multi-scale chunk training** — progressive chunk sizes (64→128→256→512→4096) per fold cycle, walking beta reduction tree bottom-up.
+12. **FlipMap visualization** — plot (N,K) heatmaps over time to see crystal growth pattern. Row bands? Column bands? Block clusters?
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| TD can't overfit (structural) | Ternary weights have 2-3 states → finite state space → irreducible form is guaranteed | 💡 (session 164) |
+| Topology-magnitude inverse relationship | Gnorm storms correlate with TD flips; plateaus = Adam compensating for fixed topology | 💡 (session 164) |
+| Training = fold reductions to irreducible form | fold(delta→base) → reset → retrain → fewer flips → converges → delta=identity=done | 💡 (session 164) |
+| Flip rate on data = curriculum signal | Data causing 0 flips = already reduced; high flips = unreduced compositions | 💡 (session 164) |
 | Safetensors-backed training works | 22 steps from step 2503, sync verified, training running | ✅ (session 163) |
 | Sync cost = 1.3% overhead at 20 steps | delta 346ms + training 4160ms = 4.5s per sync | ✅ (session 163) |
 | Crash recovery via APFS snapshot + lock | 12ms snapshot, auto-restore on lock detection | ✅ (session 163) |
@@ -189,6 +215,7 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 | Asset | Location |
 |-------|----------|
 | Training script | `scripts/v14/train_td.py` (updated for 2 stacks) |
+| FlipMap (topology heatmap) | `scripts/v14/td.py` FlipMap class (record/summary/save/load) |
 | SafetensorsStore | `scripts/v14/safetensors_store.py` (load/sync/fold/snapshot) |
 | Checkpoint extractor | `scripts/v14/extract_to_safetensors.py` (npz → 3 safetensors) |
 | mmap plate store | `scripts/v14/mmap_plates.py` (standalone tests) |
