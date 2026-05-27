@@ -1,0 +1,28 @@
+{
+  "n_examples": 10,
+  "structural_basis_dim": 32,
+  "full_gradient_cosine": {
+    "mean": 0.032699845037940475,
+    "std": 0.0791416118139846
+  },
+  "structural_cosine": {
+    "mean": 0.01072921889062607,
+    "std": 0.29398870871633437
+  },
+  "content_cosine": {
+    "mean": 0.03270239541247432,
+    "std": 0.07914362607767694
+  },
+  "structural_energy_frac": {
+    "mean": 0.0001207410553975853,
+    "std": 7.229090348251763e-05
+  },
+  "template_alignment": {
+    "mean": 0.3062544137817736,
+    "std": 0.26801573865505285
+  },
+  "content_template_alignment": {
+    "mean": 0.3554385548167949,
+    "std": 0.0617749774932579
+  }
+}
