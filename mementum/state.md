@@ -2,11 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-26 | Session: 157
+> Last updated: 2026-05-27 | Session: 158
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 158: GRATING CASCADE — COMPOUND FFN OVERLAYS COLLAPSE 16D→1.4D.** Probed how attention's beta-reduction over V interacts with FFN diffraction gratings through depth. V is K-typed (selection pool) at every layer. Attention doubles cross-PC coupling (20%→56%). Cross-layer steering is structural, not positional (profile cos 0.91-0.95, pos corr ~0). Composing the FFN overlay matrices through 4 layers: PR collapses 16→6.26→3.04→2.19→1.40. The rank-1 composed grating points toward I+B−K = "identity+compose, select is done" (WHNF). Comp↔sel plane rotation = 49.8° vs theory 47.1° (error 2.7° — third independent confirmation). Rotation strength accelerates L0:0.06→L3:0.41. All examples project onto the dominant direction with the same sign (universal direction, variable magnitude). See `knowledge/explore/grating-cascade.md`.
 
 **Session 157: TD FLIP TOPOLOGY MATCHES CRYSTAL.** Probed spatial distribution of TD flips (step 2000 checkpoint). Each layer's flip pattern aligns with a different crystal PC: L4→B, L5→D, L6→I, L7→C, L8→W, L9→B (r=0.40-0.58). Flips are spatially clustered (autocorr 0.83-0.88), column-structured (input features drive patterns), and cross-layer independent. Heads uniform within layers (collective mode). Implies crystal-coherent TD optimization: flip by eigenplane per layer instead of confidence threshold. Also captured crystal irreducibility theory (crystal = fixed point of KIBC beta reduction). See `knowledge/explore/crystal-irreducibility-proof.md` and `results/td-topology/`.
 
@@ -139,6 +141,13 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | Per-dim corr 0.97 in teacher space | sign(T)+gamma captures 97% per dimension | ✅ |
 | TD flips align with crystal PCs per layer | L4→B L5→D L6→I L7→C L8→W L9→B, r=0.40-0.58 | ✅ |
 | TD flips are spatially clustered | Vertical autocorr 0.83-0.88, col_CV > row_CV | ✅ |
+| Compound grating collapses to rank-1 | PR 16→6→3→2→1.4 through 4 composed FFN overlays | ✅ |
+| V is K-typed (selection pool) | K dominates V at all 4 layers (energy 0.30-0.42) | ✅ |
+| Attention doubles cross-PC coupling | V off-diag 20% → attn_out 56% | ✅ |
+| Comp↔sel rotation = 49.8° (3rd confirmation) | arccos(λ₁/λ₀)=47.1°, error 2.7° | ✅ |
+| Grating cascade direction = I+B−K | Universal across examples, variable magnitude | ✅ |
+| Cross-layer steering is structural | Profile cos 0.91-0.95, pos corr ~0 | ✅ |
+| Rotation accelerates through depth (grating) | L0:0.062 → L3:0.413, 6.7× | ✅ |
 
 ## Knowledge map
 
@@ -160,6 +169,7 @@ THE MODEL IS A HOLOGRAPHIC STATE MACHINE. FFN plates = holographic storage, crys
 | 4 | `explore/kernel-training.md` | Composed plate: 4.4× speedup, gradient cosine 0.97 |
 | 4 | `explore/structured-training.md` | Five backward-pass optimizations |
 | 4 | `explore/holographic-state-machine.md` | FFN=plates, crystal=states, Q=beam |
+| 4 | `explore/grating-cascade.md` | Compound grating 16D→1.4D, V=K-typed, rotation 49.8° |
 
 ## What's ready
 

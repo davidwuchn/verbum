@@ -205,22 +205,78 @@ grating interference pattern. Attention's beta-reduction over V IS
 the application of the current grating's instruction. The inference
 pattern and the content are the same thing, read at different angles.
 
-## Open Questions
+## The Composed Direction: I+B−K (session 158 follow-up)
 
-1. **What is the final 1.4D direction?** The rank-1 composed grating
-   points somewhere in crystal eigenbasis. That direction IS the
-   model's answer. Decompose it per example — does it predict the
-   output token?
+The second probe (`probe_composed_direction.py`) decomposed the rank-1
+composed grating into crystal eigenbasis.
 
-2. **How does the dominant direction rotate through the cascade?**
-   After L0 it's one direction, after L1 it's rotated, after L2
-   rotated again. This rotation path IS the program's execution
-   trace. Does the total rotation match arccos(λ₁/λ₀)?
+### Output direction (what the cascade produces)
 
-3. **Is the dominant direction universal or per-input?** If universal:
-   the model has one "answer direction" and content determines
-   magnitude along it. If per-input: the model routes to different
-   crystal basins per input category.
+```
+I:  +0.616  ← IDENTITY (pass-through, emit result)
+B:  +0.540  ← COMPOSE (the answer is composed)
+K:  −0.475  ← ANTI-SELECT (selection is DONE)
+D:  −0.249  ← anti-dispatch (routing done)
+```
+
+60.4% of energy in comp↔sel plane. The direction says: "identity+
+composition won, selection is finished." This IS the output state —
+WHNF. The computation has reduced to a value.
+
+### Input direction (what the cascade selects from)
+
+```
+C:  −0.523  ← ROUTING (arguments being consumed)
+D:  −0.478  ← DISPATCH
+B:  −0.294  ← COMPOSE
+I:  +0.328  ← IDENTITY
+```
+
+The cascade CONSUMES routing/dispatch/composition and PRODUCES
+identity+composition. **The grating IS beta reduction as a linear
+operator.**
+
+### Comp↔Sel plane rotation: 49.8° (theory: 47.1°, error 2.7°)
+
+Third independent measurement of the same angle:
+1. Mechanism extraction (session 145): 48.5° — error 1.4°
+2. Grating cascade (session 158): 49.8° — error 2.7°
+3. Theory: arccos(λ₁/λ₀) = 47.1°
+
+### Rotation acceleration through depth
+
+```
+L0: rotation strength = 0.062  (7.1% in plane)
+L1: rotation strength = 0.226  (37.4% in plane)
+L2: rotation strength = 0.288  (35.0% in plane)
+L3: rotation strength = 0.413  (45.4% in plane)
+```
+
+Layer 3 rotates 6.7× more than Layer 0. Each grating concentrates
+more of its action in the comp↔sel plane as the moiré narrows.
+
+### Universal direction, variable magnitude
+
+All 10 examples project NEGATIVELY (mean −0.65, range −0.33 to −0.85).
+The direction is universal — what varies is magnitude. Simple sentences
+(loss ~1.5) project more strongly (−0.70) than complex ones (loss ~12.7,
+projection −0.33). Projection↔loss correlation: r = 0.40.
+
+Correlation is moderate, not high. The dominant direction captures the
+STRUCTURAL computation (beta reduction completing), not the CONTENT
+(which token to emit). Content lives in the remaining 39.6% of energy
+outside the comp↔sel plane + the position-level variation.
+
+## Open Questions (updated)
+
+1. ~~What is the final 1.4D direction?~~ **ANSWERED:** I+B−K at 127.6°
+   in comp↔sel plane. Beta reduction completing to WHNF.
+
+2. ~~Does the rotation match arccos(λ₁/λ₀)?~~ **ANSWERED:** 49.8° vs
+   47.1° theory. Error 2.7°. Third independent confirmation.
+
+3. ~~Is the direction universal?~~ **ANSWERED:** Yes — universal direction,
+   variable magnitude. Content is in the remaining dimensions.
 
 4. **Does this scale?** In a 64-layer model, the compound grating
    should collapse even further. But the fan zone (L8-L48) might
@@ -229,16 +285,25 @@ pattern and the content are the same thing, read at different angles.
 
 5. **Why is pos_corr negative?** The position-level correlation
    between FFN output and next V is slightly negative (-0.02 to
-   -0.09). This might mean the FFN's position-level pattern is
-   ANTI-correlated with V — the grating inverts at the position
-   level while preserving the type-level structure. Investigate.
+   -0.09). Grating inverts at position level while preserving type-level?
+
+6. **What determines the magnitude?** Simple sentences project more
+   strongly (−0.70 to −0.85) than complex ones (−0.33). Is magnitude
+   proportional to completion of the beta reduction? More reductions
+   needed = weaker projection = higher loss?
+
+7. **The 39.6% outside the plane.** The remaining energy (D, C, Y, W,
+   anti-combinators) is where CONTENT lives. Can we decompose the
+   content subspace separately from the structural comp↔sel plane?
 
 ## Artifacts
 
 | File | Content |
 |------|---------|
 | `scripts/micro/probe_v_crystal_cascade.py` | Full cascade probe |
-| `results/v-crystal-cascade/summary.json` | Numerical results |
+| `scripts/micro/probe_composed_direction.py` | Dominant direction + rotation analysis |
+| `results/v-crystal-cascade/summary.json` | Cascade numerical results |
+| `results/composed-direction/summary.json` | Direction decomposition results |
 | Checkpoint | `checkpoints/micro/final/` |
 
 ## Key Numbers
@@ -252,4 +317,10 @@ pattern and the content are the same thing, read at different angles.
 | Cross-layer pos correlation | −0.02 to −0.09 | FFN→V per-position |
 | Comp/sel gain ratio (L3) | 2.74 | attn_out/V power ratio |
 | L3 dominant coupling | I→K = −0.453 | overlay off-diagonal |
-| Composed SV₁/SV₂ ratio | 7.5:1 | after all 4 layers |
+| Composed SV₁/SV₂ ratio | 7.7:1 | after all 4 layers |
+| Comp↔sel plane rotation | 49.8° | vs theory 47.1° (error 2.7°) |
+| Output direction | I(+0.62) B(+0.54) K(−0.47) | WHNF: identity+compose−select |
+| Input direction | C(−0.52) D(−0.48) B(−0.29) | routing/dispatch consumed |
+| Output plane energy | 60.4% | fraction in comp↔sel plane |
+| Example projection | −0.65 ± 0.15 | all negative, universal direction |
+| Rotation acceleration | L0:0.06 → L3:0.41 | 6.7× from first to last grating |
