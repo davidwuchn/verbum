@@ -1189,7 +1189,10 @@ def train_td(
                 )
 
         # ── Checkpoint / Sync ──────────────────────────────────
-        if step % cfg.checkpoint_interval == 0:
+        # Safetensors sync: every 10 steps (2.5% overhead, 3 min max crash loss)
+        # Legacy checkpoint: every checkpoint_interval steps (500)
+        _sync_interval = 10 if _get_safetensors_store() is not None else cfg.checkpoint_interval
+        if step % _sync_interval == 0:
             store = _get_safetensors_store()
             if store is not None:
                 # Safetensors mmap sync — no serialize, just write to mmap
