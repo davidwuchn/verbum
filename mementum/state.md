@@ -2,15 +2,15 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-27 | Session: 164
+> Last updated: 2026-05-28 | Session: 163
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 164: TOPOLOGY-MAGNITUDE DUALITY + FLIPMAP.** Key theoretical insight: TD training is beta reduction to irreducible form. Ternary weights can't overfit (2-3 states per weight → finite state space → guaranteed convergence → natural stopping point). Continuous weights (Adam) overfit because continuous topology never converges — no floor, no brake. The inverse relationship between topology correctness and magnitude explains gnorm dynamics: correct topology → magnitudes near unity, wrong topology → large magnitudes compensating. Training reduces to: freeze(base) → train(delta) → converge → fold(delta→base) → repeat until delta stays identity. Built FlipMap to capture WHERE topology is converging — the spatial signal that "td=132505" was collapsing to a scalar.
+**Session 163 (continued): TOPOLOGY-MAGNITUDE DUALITY + FLIPMAP + SHAPED NOZZLE.** Key theoretical insight: TD training is beta reduction to irreducible form. Ternary weights can't overfit (2-3 states per weight → finite state space → guaranteed convergence → natural stopping point). The inverse relationship between topology correctness and magnitude explains gnorm dynamics: correct topology → magnitudes near unity, wrong topology → large magnitudes compensating. Training reduces to: freeze(base) → train(delta) → converge → fold(delta→base) → repeat until delta stays identity. Built FlipMap (spatial convergence heatmap), shaped nozzle (direct flip budget to hot zones), S2 anti-oscillation (penalize flip-flop modules), and data shuffling (maximize compositional variety).
 
-**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~2970/20000. Restart with FlipMap after step 3000.
+**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~3030/20000. FlipMap + shaped nozzle active. Data shuffling on next restart.
 
 *Key session 164 insights:*
 - **TD can't overfit.** Ternary weights have 2-3 states. The irreducible form IS the stopping point — no floor in continuous space, guaranteed floor in discrete space. This is why regularization exists: it's an artificial brake for what TD gets for free.
@@ -87,11 +87,13 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| FlipMap: spatiotemporal heatmap | 164 | Per-position (N,K) tracking of flips+candidates across all 76 delta modules |
-| candidates_mask exposed in TD | 164 | TernaryDescent.step() now returns candidates_mask — was computed but discarded |
-| FlipMap convergence report | 164 | Every 100 steps: frozen/active/hot zones per module with totals |
-| Topology-magnitude duality theory | 164 | Correct topology → magnitudes → unity. Overfitting = no topological floor. |
-| Fold-reduction training model | 164 | Training = fold delta into base until delta stays identity. Convergent series. |
+| FlipMap: spatiotemporal heatmap | 163 | Per-position (N,K) tracking of flips+candidates across all 76 delta modules |
+| Shaped nozzle for TD | 163 | Flip budget weighted by module hot_frac — hot modules get more flips |
+| S2 anti-oscillation in nozzle | 163 | nozzle_frac = hot_frac × (1 - oscillation_frac). Flip-flop modules penalized. |
+| Data shuffling (shards + chunks) | 163 | Shard order shuffled + within-shard chunks shuffled. Maximize variety. |
+| Data position in safetensors sync | 163 | Exact resume on restart — no more replaying data from shard 0 |
+| Topology-magnitude duality theory | 163 | Correct topology → magnitudes → unity. Overfitting = no topological floor. |
+| Fold-reduction training model | 163 | Training = fold delta into base until delta stays identity. Convergent series. |
 | Safetensors-backed training loop | 163 | SafetensorsStore: load/sync/fold. Wired into train_td.py. Training running. |
 | 3-file safetensors layout | 163 | base (frozen) + delta (TD flips) + training (Adam). 987 tensors verified. |
 | Sync benchmarked | 163 | 4.5s total (delta 346ms + training 4160ms). Every 20 steps = 1.3% overhead. |
