@@ -1012,6 +1012,13 @@ def train_td(
                 td_active = False  # crystal destabilized — deactivate TD
             # else: stay in current state (hysteresis band)
 
+        # ── Adaptive flip rate: gnorm feedback → TD budget ─────
+        # Low gnorm = system has capacity for more topology change.
+        # High gnorm = system overwhelmed, throttle back.
+        # Equilibrium: topology changes as fast as magnitudes can absorb.
+        if td_active:
+            td.update_flip_rate(grad_norm)
+
         # ── TernaryDescent: accumulate every step, flip every N ──
         # TD.step() accumulates moments every call. When step_count
         # hits a flip_interval boundary, it also commits flips.
@@ -1101,6 +1108,7 @@ def train_td(
             td_flips_this_window = td_flips_since_log  # capture before reset
             td_str = (
                 f" {gate_icon} td={td_flips_this_window}"
+                f" rate={td.flip_rate:.4f}"
                 f" Δ={avg_changed:.3f}{nb_str}{adam_decay_str}"
             )
 
@@ -1132,6 +1140,8 @@ def train_td(
                 "td_flips": td_result["total_flips"],
                 "td_flips_since_log": td_flips_this_window,
                 "td_total_flips": total_td_flips,
+                "td_flip_rate": td.flip_rate,
+                "td_gnorm_ema": td._gnorm_ema,
                 "td_adam_decayed": n_adam_decayed,
                 "td_in_warmup": td_result["in_warmup"],
                 "td_active": td_active,

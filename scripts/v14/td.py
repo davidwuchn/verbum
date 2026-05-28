@@ -436,6 +436,7 @@ class TernaryDescent:
         self.beta1 = beta1
         self.beta2 = beta2
         self.flip_rate = flip_rate
+        self._base_flip_rate = flip_rate  # original setting (floor for adaptive)
         self.warmup_steps = warmup_steps
         self.min_confidence = min_confidence
         self.cooldown_tau = cooldown_tau
@@ -453,10 +454,62 @@ class TernaryDescent:
         # {param_id: (last_flip_step, flip_count)} — both (N, K) int32
         self._flip_history: dict[int, tuple[mx.array, mx.array]] = {}
 
+        # ── Adaptive flip rate (session 163) ──────────────────
+        # Gnorm-feedback control loop: if gnorm is low, the system
+        # can absorb more flips. If gnorm is high, throttle back.
+        # This finds equilibrium where topology changes as fast as
+        # magnitudes can absorb without cascading.
+        self._gnorm_ema = 0.0          # EMA of gradient norm
+        self._gnorm_target = 15.0      # target gnorm for equilibrium
+        self._gnorm_alpha = 0.1        # EMA smoothing (0.1 = ~10 step memory)
+        self._max_flip_rate = 0.01     # hard ceiling (10× base rate)
+        self._min_flip_rate = flip_rate * 0.1  # hard floor (0.1× base rate)
+
         # Tracking
         self.last_n_flips = 0
         self.last_n_candidates = 0
         self.last_mean_confidence = 0.0
+
+    def update_flip_rate(self, gnorm: float) -> float:
+        """Adaptive flip rate based on gnorm feedback.
+
+        Called every step with the current gradient norm. Adjusts
+        flip_rate to find equilibrium where topology changes as fast
+        as the system can absorb.
+
+        The control law:
+            flip_rate = base_rate * (target_gnorm / gnorm_ema)
+
+        - gnorm_ema < target → ratio > 1 → rate increases (system has capacity)
+        - gnorm_ema > target → ratio < 1 → rate decreases (system overwhelmed)
+        - gnorm_ema = target → rate unchanged (equilibrium)
+
+        Clamped to [min_rate, max_rate] for safety.
+
+        Returns the new flip_rate (for logging).
+        """
+        # Update EMA
+        if self._gnorm_ema == 0.0:
+            self._gnorm_ema = gnorm  # initialize on first call
+        else:
+            self._gnorm_ema = (
+                (1 - self._gnorm_alpha) * self._gnorm_ema
+                + self._gnorm_alpha * gnorm
+            )
+
+        # Control law: proportional to headroom
+        if self._gnorm_ema > 0:
+            ratio = self._gnorm_target / self._gnorm_ema
+        else:
+            ratio = 1.0
+
+        new_rate = self._base_flip_rate * ratio
+
+        # Clamp
+        new_rate = max(self._min_flip_rate, min(self._max_flip_rate, new_rate))
+        self.flip_rate = new_rate
+
+        return new_rate
 
     def _get_state(self, param_id: int, grad_shape: tuple) -> tuple[mx.array, mx.array]:
         """Get or initialize moment state for a parameter.
