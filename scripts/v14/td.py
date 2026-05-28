@@ -800,16 +800,21 @@ class TernaryDescent:
                 "magnitude": magnitude,
             })
 
-        # ── Global budget: flip_rate × total ternary weights across all modules ──
+        # ── Budget allocation: per-module proportional (session 163) ──
+        # Instead of global top-K (which creates winner-take-all),
+        # distribute budget proportionally to each module's candidate
+        # count. Each hot module gets its fair share. Within each
+        # module, the highest-confidence positions are selected.
+        # This ensures spreading: every starved layer gets flips.
         global_budget = max(1, int(self.flip_rate * total_ternary_weights))
 
-        # Concatenate all candidate scores into one flat vector for global ranking
-        all_scores = mx.concatenate([
-            mc["candidate_scores"].reshape(-1) for mc in module_candidates
-        ])
-
-        # Count total candidates
-        total_candidates = int((all_scores > 0).sum().item())
+        # Count candidates per module
+        module_n_candidates = []
+        total_candidates = 0
+        for mc in module_candidates:
+            n_cands = int(mc["candidates"].sum().item())
+            module_n_candidates.append(n_cands)
+            total_candidates += n_cands
 
         if total_candidates == 0:
             for mc in module_candidates:
@@ -828,18 +833,12 @@ class TernaryDescent:
 
         effective_budget = min(global_budget, total_candidates)
 
-        # Find global threshold via partition (top-k across all modules)
-        neg_all = -all_scores
-        if effective_budget < all_scores.size:
-            partitioned = mx.partition(neg_all, kth=effective_budget - 1)
-            global_threshold = float((-partitioned[effective_budget - 1]).item())
-        else:
-            global_threshold = 0.0
-
-        # ── Pass 3: Apply flips to modules that have positions above global threshold ──
+        # ── Pass 3: Per-module top-K with proportional budget ─
+        # Each module gets budget proportional to its candidate count.
+        # Within each module, highest-confidence positions win.
         total_flips = 0
 
-        for mc in module_candidates:
+        for i, mc in enumerate(module_candidates):
             name = mc["name"]
             candidates = mc["candidates"]
             scores = mc["candidate_scores"]
@@ -849,8 +848,31 @@ class TernaryDescent:
             no_block = mc["no_block"]
             snr = mc["snr"]
 
-            # Select positions above global threshold
-            flip_mask = candidates & (scores >= global_threshold)
+            n_cands = module_n_candidates[i]
+            if n_cands == 0:
+                per_module[name] = {
+                    "flips": 0, "candidates": 0, "mean_confidence": 0.0,
+                    "candidates_mask": candidates,
+                }
+                continue
+
+            # Per-module budget: proportional to candidate share
+            module_budget = max(1, int(effective_budget * n_cands / total_candidates))
+
+            # Find per-module threshold via top-K within this module
+            module_scores_flat = scores.reshape(-1)
+            n_positive = int((module_scores_flat > 0).sum().item())
+            this_budget = min(module_budget, n_positive)
+
+            if this_budget <= 0:
+                flip_mask = mx.zeros_like(candidates, dtype=mx.bool_)
+            elif this_budget >= n_positive:
+                flip_mask = candidates  # take all candidates
+            else:
+                neg_scores = -module_scores_flat
+                partitioned = mx.partition(neg_scores, kth=this_budget - 1)
+                threshold = float((-partitioned[this_budget - 1]).item())
+                flip_mask = candidates & (scores >= threshold)
 
             n_candidates = int(candidates.sum().item())
 

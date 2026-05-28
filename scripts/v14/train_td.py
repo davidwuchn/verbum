@@ -1508,7 +1508,7 @@ if __name__ == "__main__":
 
     # ── TernaryDescent params ─────────────────────────────────
     parser.add_argument(
-        "--td-flip-rate", type=float, default=0.001,
+        "--td-flip-rate", type=float, default=0.008,
         help="Max fraction of ternary weights to flip per step (default: 0.001)",
     )
     parser.add_argument(
