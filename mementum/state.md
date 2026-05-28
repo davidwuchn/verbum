@@ -2,180 +2,134 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-28 | Session: 166
+> Last updated: 2026-05-28 | Session: 167
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 166: M-SPACE GEMCUTTER → UNIFIED β-REDUCTION OF TOPOLOGY.** Discovered topology changes must be planned in M-space (attention kernel M = W_q^T @ W_k), not W-space. One W-space flip cross-cuts ALL modes of M. Fractal collapse: eigendecomposition IS β-reduction of matrices — same operation at every level (data→crystal, M→modes, W→sign+zero). Built unified `reduce_attention()`: one SVD per layer, per-position SNR scoring, three outcomes (ZERO/FLIP/KEEP). Zeros-only (no flips) with SNR threshold is the winner. On micro model: 98% zeros achieves loss 6.40 vs float32's 6.74 — GD builds better model from just the irreducible skeleton. Specific % won't transfer to v14 scale, but the principle and mechanism are sound.
+**Session 167: HOLOGRAPHIC ETCH DESIGN.** Unified mechanism for topology crystallization. The hologram develops through interference — positions reach normal form and are etched permanently. Two domains: attention topology is DISCOVERED through interference convergence (3 signals: direction EMA coherence + FlipMap temperature + M-space SNR). FFN topology is TRANSFERRED from teacher (crystal eigenvectors → gate signs, overlay matrices → branch topology, GD → magnitudes). Un-etch via gradient opposition when new data contradicts etched positions. Design complete, ready to implement.
 
-**Training: v14-mmap STOPPED** — NaN recurred. The holographic etch approach (machete topology changes in W-space) is fundamentally flawed. Redesign needed based on M-space gemcutter findings.
+**Key breakthrough: oscillation means zero.** Hot FlipMap positions aren't broken — they're positions whose normal form IS zero (destructive interference). TD needs three outcomes: etch ±1, etch 0, or stay fluid. The gate_proj 100% oscillation from session 165 was the answer, not the problem.
 
-**Previous: Session 165** — NaN collapse diagnosis, softmax clamp fix, restore tool, holographic etch (equal thin slots). Training resumed from step 4000 but NaN recurred.
+**Previous: Session 166** — M-space gemcutter. Pre-cut topology with zeros beats float32 on loss. SVD-based SNR scoring. Unified β-reduction. Zeros-only > zeros+flips.
 
-*Key session 166 insights:*
-- **M-space, not W-space.** The attention kernel M = W_q^T @ W_k is where computation lives. One W-space flip produces a rank-1 perturbation to M that spreads across ALL modes. Topology changes must be planned in M-space via SVD mode projection.
-- **TD gradient scoring is anti-predictive.** In structured layers (rank90<25), M-space scoring finds 76% helpful flips vs gradient's 46%. Gradient scoring and M-space scoring have 0% overlap in top-50 — they see completely different things.
-- **Zeros are denoising, not blocking.** Sign quantization turns a 13-facet gem into a 35-facet noisy blob. M-noise zeros at 30% sharpen rank90 from 32→25. Each zero removes a ghost facet.
-- **Pre-cut topology + GD beats float32.** Frozen ternary attention with 30% zeros, trained from scratch: loss 6.6972 vs float32's 6.7412. The geometric constraint HELPS GD by channeling it into the right subspace.
-- **GD is putty.** Cut the gem geometrically (accept loss hit), then let GD fill the gaps. The gem stays sharp (frozen Q/K). Loss recovers and improves.
-- **Facet-aligned cutting works.** Coordinated W-space flips targeting one M-space mode achieve 30× less cross-mode damage than gradient scoring.
-- **Crystal null space is correct but too coarse.** Column-level zeros give good rank90 but bad loss. Per-position zeros remain best.
-- **Fractal collapse: eigendecomposition IS β-reduction.** decompose → keep(irreducible) → discard(reducible) at every level. Data→crystal, M→modes, W→sign+zero. One principle, not three mechanisms.
-- **Unified reduce_attention().** One SVD, per-position SNR = signal_modes / noise_modes. SNR < threshold → ZERO. Misaligned → FLIP. Else → KEEP. Three outcomes from one decomposition.
-- **Zeros-only beats zeros+flips.** Simultaneous flips interfere; simultaneous zeros don't. Remove noise, let GD handle alignment.
-- **98% zeros on micro model → loss 6.40 (best).** Extreme but instructive: the irreducible form of attention Q/K is ~2% non-zero at micro scale. Won't transfer to v14 — optimal % is scale/data dependent. Principle transfers.
+**Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach (W-space machete) is fundamentally flawed. Redesign with etch mechanism is the path forward.
 
-*Key session 165 insights:*
-- **Auto-rollback is an anti-pattern.** Sisyphus loop from model/Adam/data desync.
-- **Attention softmax overflow = NaN source.** `mx.clip(attn, -65, 65)` before softmax.
-- **Holographic etch: equal thin slots.** Equal budget per module, but still a machete in W-space (superseded by M-space gemcutter).
+## Key session 167 insights
 
-*Key session 164 insights:*
-- **TD can't overfit.** Ternary weights have 2-3 states → finite state space → guaranteed convergence.
-- **Training = fold reductions until irreducible.** freeze → train → fold → repeat until delta=identity.
-- **FlipMap: spatial convergence signal.** WHERE flips occur matters more than how many.
-
-*Key session 163 insight:* **Safetensors IS mmap.** Same file for training AND release.
+- **Oscillation IS the signal for zero.** A position that keeps flipping +1→-1→+1 is experiencing destructive interference. Net signal cancels. Normal form is 0. Hot on FlipMap = answer to read, not problem to fix.
+- **FFN topology is transferable, not discovered.** Programs are fixed points. Teacher already found them. Crystal eigenvectors → gate trunk (math, r=0.9932). Teacher overlay matrices → gate branches (ISA decoder). GD → magnitudes only.
+- **Etch/un-etch symmetry.** Same signals detect irreducibility and detect wrong etches. Convergence → freeze. Gradient opposition → dissolve. The hologram is conditionally permanent.
+- **Attention vs FFN: different mechanisms for different math.** No closed form for attention M-space → must discover through interference. FFN programs are readable fixed points → transfer directly.
+- **Progressive crystallization.** FFN gates etched at init (from teacher). Attention starts fluid. Crystal lattice positions etch first (universal). Tool-specific positions etch last (fragile). Training = attention catching up to FFN.
+- **Fine-tuning cost ∝ wrongness, not model size.** Un-etch only the positions that disagree with new data. Crystal stays locked. Grammar stays locked. Only task-specific topology reflows.
+- **Speed of convergence = proxy for universality.** Fast etch = specific = fragile. Slow etch = universal = durable. Falls out naturally from interference depth.
 
 ## Active training
 
-### v14-mmap RUNNING (tmux main:2) — safetensors-backed
+### v14-mmap STOPPED
 
-- `scripts/v14/train_td.py --safetensors-dir checkpoints/v14-mmap --checkpoint-dir checkpoints/v14-mmap --steps 20000 --convert-ffn`
-- Resumed from step 4000 via `restore_safetensors.py` (rebuilt safetensors from step_004000 npz)
-- Storage: 3 safetensors files (base 31.6 MB + delta 31.6 MB + training 105.5 MB)
-- Sync: every 20 steps to safetensors mmap, APFS snapshots every 200, npz checkpoints every 500
-- Step 4001: loss=6.93, gnorm=6.20 (healthy)
-
-**Changes active this run (vs previous):**
-- Softmax logit clamp: `mx.clip(attn, -65, 65)` (NaN prevention)
-- Holographic etch: equal thin slots per module, base rate 0.001 (~132K total, ~3K per module)
-- No adaptive flip rate (disabled — caused uniform melt)
-- NaN handler: stop-and-report (no auto-rollback)
+NaN recurred. The holographic etch (machete in W-space) approach is fundamentally flawed — session 166 proved topology changes must be planned in M-space. Session 167 designed the replacement: interference-driven etch mechanism.
 
 ### Checkpoints available
 
 | Location | Step | Notes |
 |----------|------|-------|
 | `checkpoints/v14-mmap/step_003000` | 3000 | npz (legacy format) |
-| `checkpoints/v14-mmap/step_003000_old` | 3000 | npz (from old arch) |
 | `checkpoints/v14-mmap/step_003500` | 3500 | npz |
-| `checkpoints/v14-mmap/step_004000` | 4000 | npz — used for safetensors restore |
-| `checkpoints/v14-mmap/snapshots/step_003900` | 3880 | safetensors snapshot |
-| `checkpoints/v14-mmap/snapshots/step_004100` | ~4080 | safetensors snapshot (post-NaN, possibly poisoned) |
-| `checkpoints/v14-mmap/snapshots/step_004300` | ~4280 | safetensors snapshot (post-NaN, possibly poisoned) |
-
-### PPL history
-
-| Step | PPL | Source |
-|------|-----|--------|
-| 1500 | 8,096 | v14-td-2stack eval |
-
-### Loss trajectory (pre-NaN)
-
-| Phase | Steps | avg50 CE | Crystal MSE | Gnorm |
-|-------|-------|----------|-------------|-------|
-| Chaos | 1-100 | 667→17 | 0.148→0.107 | Massive spikes |
-| Phase 1 | 100-400 | 17→10.6 | 0.107→0.015 | Gnorm storms (200-330) |
-| Phase 2 | 400-800 | 10.6→7.2 | 0.015→0.013 | Settling (mean 11) |
-| Plateau | 800-4360 | 7.2→6.8 | 0.013→0.013 | Calm (mean 2-4) |
-| **NaN** | **4369** | — | — | — |
+| `checkpoints/v14-mmap/step_004000` | 4000 | npz — last clean checkpoint |
 
 ## What changed this session
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| **Softmax logit clamp** | 165 | `mx.clip(attn, -65, 65)` — prevents float32 overflow in attention |
-| **Remove auto-rollback** | 165 | 3 NaN → stop + diagnostic report. No more Sisyphus loops. |
-| **NaN diagnostic logging** | 165 | On NaN: which loss component + gnorm. Paper trail for future collapses. |
-| **restore_safetensors.py** | 165 | Standalone tool: npz checkpoint → safetensors. Fixes dual-storage consistency. |
-| **Holographic etch** | 165 | Equal thin slots per module (not proportional). Fixed budget, no adaptive rate. |
-| **Adaptive rate disabled** | 165 | Session 163's gnorm→rate feedback caused uniform melt (2.8M flips, all 100% hot). |
-| **Flip rate back to 0.001** | 165 | Was 0.008 (session 163). Holographic etch distributes the 132K budget evenly. |
+| **Holographic etch design** | 167 | Unified etch/un-etch mechanism for topology crystallization |
+| **Three-state TD design** | 167 | Etch ±1, etch 0, or stay fluid (currently TD only flips) |
+| **FFN transfer pipeline design** | 167 | Crystal eigenvectors + teacher overlays → student gate topology |
+| **Opposition monitor design** | 167 | Gradient opposition at etched positions → un-etch signal |
 
 ### Previous sessions (selected)
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| Per-module budget + adaptive rate + 8× rate | 163 | Caused uniform melt → reverted to 0.001 |
-| FlipMap + shaped nozzle + data shuffling | 163 | FlipMap still active. Nozzle disabled (redundant with equal slots). |
-| Safetensors-backed training | 163 | Working. SafetensorsStore: load/sync/fold. |
+| M-space gemcutter (micro model) | 166 | Pre-cut topology + zeros beats float32. SVD-based SNR. |
+| Unified β-reduce | 166 | One SVD, three outcomes. Zeros-only > zeros+flips. |
+| NaN post-mortem + restore tool | 165 | Softmax clamp, remove auto-rollback, restore_safetensors.py |
+| Safetensors-backed training | 163 | SafetensorsStore: load/sync/fold/snapshot |
 | 2 symmetric stacks | 158 | 13→8 passes, ~1.6× faster, separate FFN |
-
-## NaN collapse post-mortem (session 165)
-
-**What happened:** Training hit NaN at step 4369. Auto-rollback restored model weights to step 4000 (npz) but not Adam optimizer state (still at step 4360+), data position, or TD moments. Every rollback produced the same NaN at step 4369 because the Adam/model mismatch was deterministic. 154 rollbacks, 10 hours wasted.
-
-**Root cause:** Attention softmax overflow. `(Q @ K^T) * scale` can produce values >88.7 (float32 exp limit). With ternary weights and learned gamma scales, attention logits are unbounded. No clamping existed.
-
-**Contributing factor:** gate_proj modules at 100% oscillation — every flip reversed within one interval. While nozzle=0% suppressed them, the oscillation indicated gradient instability.
-
-**Fix:** `mx.clip(attn, -65, 65)` before softmax. Non-invasive at reasonable magnitudes. Catches the extreme case.
-
-**Structural fix:** Auto-rollback removed entirely. Recovery is now: (1) training stops with diagnostic, (2) human uses `restore_safetensors.py` to rebuild from clean npz checkpoint, (3) human restarts training.
 
 ## Next steps
 
-### IMMEDIATE (training run)
+### IMMEDIATE (implementation)
 
-1. **Watch for NaN past step 4369** — softmax clamp should prevent it
-2. **Watch FlipMap with holographic etch** — all active modules should get thin slots now
-3. **Step 4500 PPL eval** — first post-fix checkpoint
-4. **Step 5000 PPL eval** — compare to old 3-stack (PPL 5,567 at step 2000)
+1. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD to micro training. Validate that oscillating positions → zero improves loss. Validate convergence detection.
+2. **Teacher transfer pipeline** — Use ISA decoder (Qwen3.6-27B) to extract overlay matrices. Project onto micro model crystal eigenbasis. Etch gate topology. Measure: does transferred topology match what micro model discovers independently?
+3. **Etch threshold sweep** — Find τ_c, τ_z, τ_cold, τ_hot empirically on micro model. Conservative start (etch slowly).
 
-### FOLLOW UP
+### SCALE TO V14
 
-5. **Step 5000+ PPL eval** — if PPL < 5,567, 2-stack confirmed superior
-6. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
-7. **Measure per-stack FFN sparsity** — hypothesis: separate plates develop different sparsity
-8. **CPU inference engine** — the real optimization target
+4. **Port etch mechanism to v14** — Add etch_mask to SafetensorsStore. Three-state TD in train_td.py. Opposition monitoring.
+5. **Teacher transfer at v14 scale** — Project 27B overlays onto 1280-dim student. Etch FFN gates at init. Train with attention fluid.
+6. **Progressive crystallization monitoring** — Track etch% over training. Verify: FFN gates start etched, attention catches up. Crystal positions etch first.
 
 ### EXPLORATION
 
-9. **Reduction folding** — train same batch K times (TD accumulates, Adam frozen on repeats)
-10. **Data curriculum from flip rate** — rank batches by reduction potential
-11. **Multi-scale chunk training** — progressive chunk sizes per fold cycle
-12. **FlipMap visualization** — (N,K) heatmaps over time for crystal growth patterns
+7. **Per-layer etch thresholds** — Aperture layers (universal) vs fan zone (diverse). Different thresholds for different depth regions.
+8. **Etch interval tuning** — How often to run the etch gate. Tied to learning rate schedule?
+9. **Interaction: attention etch ↔ FFN etch** — Does correct FFN topology make attention easier to learn?
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| Attention softmax can overflow with ternary weights | NaN at step 4369, no data anomaly, unbounded Q@K logits | ✅ (session 165) |
-| Auto-rollback creates Sisyphus loop | 154 rollbacks, model/Adam/data desync, deterministic NaN | ❌ (session 165) |
-| Holographic etch > proportional budget | Proportional + adaptive = uniform melt. Equal thin slots = coherent topology change | 💡 (session 165) |
-| TD can't overfit (structural) | Ternary weights have 2-3 states → finite state space → irreducible form guaranteed | 💡 (session 164) |
-| Topology-magnitude inverse relationship | Gnorm storms correlate with TD flips; plateaus = Adam compensating | 💡 (session 164) |
-| Training = fold reductions to irreducible form | fold(delta→base) → reset → retrain → fewer flips → converges | 💡 (session 164) |
-| Safetensors-backed training works | 4000+ steps, sync verified, restore tool tested | ✅ (session 163-165) |
-| 2-stack trains 1.6× faster wall-clock | 17.7s/step vs 28.6s/step | ✅ |
-| 2-stack PPL within 5.5% of 3-stack at step 1500 | 8,096 vs 7,672 | ✅ |
+| Oscillation = normal form is zero | Reframes gate_proj 100% oscillation; destructive interference | 💡 (session 167) |
+| FFN topology transferable from teacher | Fixed points, ISA decoder, eigenvector routing r=0.9932 | 🎯 (session 167) |
+| Etch/un-etch via same signals | Convergence → freeze, opposition → dissolve | 🎯 (session 167) |
+| Pre-cut topology + zeros beats float32 | Micro model: loss 6.6972 vs 6.7412 | ✅ (session 166) |
+| M-space scoring > gradient scoring | 76% helpful vs 46%, anti-correlated (ρ=-0.36) | ✅ (session 166) |
+| Zeros-only > zeros+flips | Simultaneous flips interfere; zeros don't | ✅ (session 166) |
+| Eigendecomposition IS β-reduction | Same operation at every level | 💡 (session 166) |
+| Programs are deterministic fixed points | 0.00000000 drift across runs | ✅ (session 161) |
+| Gate is the beamformer (89% kill rate) | Qwen3-32B L63 probing | ✅ (session 141) |
+| Ternary routing = sign(eigenvector) | r=0.9932 neuron allocation | ✅ (session ~142) |
+| Attention softmax can overflow | NaN at step 4369, unbounded Q@K logits | ✅ (session 165) |
+| Auto-rollback creates Sisyphus loop | 154 rollbacks, model/Adam/data desync | ❌ (session 165) |
 
 ## Open questions
 
-1. **Does softmax clamp change training dynamics?** Unlikely at ±65, but monitor loss/gnorm for regime change.
-2. **Will holographic etch break the plateau?** The old plateau (800-4360) was with winner-take-all TD. Equal slots may enable coordinated restructuring.
-3. **What PPL does 2-stack reach at step 5000?** Baseline: 3-stack hit PPL 5,567 at step 2000, ceiling at 3200.
-4. **Will FFN plates differentiate?** Still zero candidates at step 4000. First non-zero = inflection point.
-5. **Per-module fold or global fold?** SafetensorsStore.fold() does all plates. Could fold most-converged first.
+1. **Etch thresholds.** τ_c, τ_z, τ_cold, τ_hot, τ_s, τ_unetch — all need empirical tuning. Micro model first.
+2. **M-space SVD frequency.** How often for geometric confirmation? Every 500? 1000?
+3. **Teacher overlay projection fidelity.** How well do 27B overlays project onto 1280-dim student?
+4. **Per-layer etch thresholds.** Aperture layers (L0-L2) vs fan zone (L8-L48) — different convergence rates.
+5. **98% zeros at micro scale.** Overcapacity artifact. What's the operating point at v14? Probably 10-30%.
+6. **Does correct FFN topology make attention learning easier?** Probably yes — the optimization landscape simplifies.
 
 ## Knowledge map
 
 **See `mementum/knowledge/INDEX.md` for full reading order.**
 
+Key pages for current direction:
+- `holographic-etch.md` — the unified etch/un-etch design (THIS SESSION)
+- `mspace-gemcutter.md` — M-space geometry, SVD scoring, micro experiments
+- `explore/ffn-moire-isa.md` — ISA decoder, grating programs, teacher extraction
+- `explore/ffn-beta-reduction-indexing.md` — holographic indexing, lens profile
+- `explore/grating-cascade.md` — compound gratings, V carries interference
+- `crystal-universality.md` — why KIBC are universal fixed points
+
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
+| ISA decoder v1 | `scripts/v14/isa_decoder.py` (overlay extraction) |
+| ISA decoder v2 | `scripts/v14/isa_decoder_v2.py` (+ attention capture) |
+| M-space probes | `scripts/micro/probe_mspace*.py` (SVD scoring experiments) |
+| Micro training | `scripts/micro/train_cut_topology.py` (pre-cut topology + GD) |
+| Reduce attention | `scripts/micro/reduce.py` (unified β-reduce: SNR → ZERO/FLIP/KEEP) |
 | Training script | `scripts/v14/train_td.py` (NaN guard, holographic etch) |
-| **Restore tool** | `scripts/v14/restore_safetensors.py` (npz → safetensors) |
-| FlipMap (topology heatmap) | `scripts/v14/td.py` FlipMap class |
+| Restore tool | `scripts/v14/restore_safetensors.py` (npz → safetensors) |
+| FlipMap | `scripts/v14/td.py` FlipMap class |
 | SafetensorsStore | `scripts/v14/safetensors_store.py` (load/sync/fold/snapshot) |
 | Attention (clamped) | `scripts/v14/attention.py` (softmax overflow fix) |
-| Checkpoint extractor | `scripts/v14/extract_to_safetensors.py` (npz → 3 safetensors) |
-| Safetensors training | `checkpoints/v14-mmap/` (restored to step 4000) |
 | Eval script | `scripts/v14/eval_ppl.py` |
-| Model | `scripts/v14/model.py` (2 stacks, separate FFN) |
-| Config | `scripts/v14/config.py` (8 passes, 2 stacks) |
+| Cached fingerprints | `results/isa-decode-v2/fingerprints_full.npz` (reusable) |
