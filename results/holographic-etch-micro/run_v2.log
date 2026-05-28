@@ -1,0 +1,105 @@
+======================================================================
+HOLOGRAPHIC ETCH v2 — DIVERSE DATA (structured shard)
+======================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Eval: 10 compile examples
+Teacher: checkpoints/micro/final/model.npz
+Teacher M-space:
+  L0: rank90=42, top1=25.8%
+  L1: rank90=24, top1=68.6%
+  L2: rank90=13, top1=69.0%
+  L3: rank90=25, top1=56.4%
+
+Etch config: α=0.05 τ_c=0.4 τ_z=0.15 τ_cold=0.1 τ_hot=0.15 τ_flip=0.25
+
+══════════════════════════════════════════════════════════════════════
+  A. Float32 baseline (diverse data)
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+  step     1: train=12.3509 eval=12.4399 gnorm=5.94 | 0s
+  step   500: train=1.4486 eval=6.0404 gnorm=0.90 | 29s
+  step  1000: train=1.3085 eval=6.0094 gnorm=1.02 | 58s
+  step  1500: train=1.2177 eval=6.2611 gnorm=0.94 | 86s
+  step  2000: train=1.1234 eval=6.3143 gnorm=0.95 | 115s
+  step  2500: train=1.1219 eval=6.3595 gnorm=0.93 | 144s
+  step  3000: train=1.0337 eval=6.4398 gnorm=1.16 | 173s
+  step  3500: train=1.0593 eval=6.5061 gnorm=0.89 | 202s
+  step  4000: train=1.0032 eval=6.5069 gnorm=0.91 | 230s
+  step  4500: train=0.9352 eval=6.4981 gnorm=0.75 | 259s
+  step  5000: train=1.0169 eval=6.4909 gnorm=1.03 | 288s
+
+  Final eval loss: 6.4909
+  L0: rank90=41, top1=28.0%
+  L2: rank90=13, top1=63.7%
+
+══════════════════════════════════════════════════════════════════════
+  B. Holographic Etch (teacher signs + diverse data)
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+    (0, 'q_proj'): teacher signs
+    (0, 'k_proj'): teacher signs
+    (1, 'q_proj'): teacher signs
+    (1, 'k_proj'): teacher signs
+    (2, 'q_proj'): teacher signs
+    (2, 'k_proj'): teacher signs
+    (3, 'q_proj'): teacher signs
+    (3, 'k_proj'): teacher signs
+  step     1: train=12.3117 eval=12.4308 gnorm=6.53 | etch=0.0% zero=0.0% fluid=100.0% coh=0.050 flips=0 | 0s
+  step   500: train=1.8661 eval=5.9802 gnorm=1.12 | etch=21.6% zero=0.0% fluid=78.4% coh=0.150 flips=9412 | 31s
+         etch: +1=3505 -1=3459 0=0 un=2
+         M-space: L0:r90=34,t1=41.8% L1:r90=38,t1=25.2% L2:r90=40,t1=19.1% L3:r90=41,t1=20.0%
+  step  1000: train=1.7699 eval=6.2563 gnorm=1.26 | etch=39.0% zero=0.0% fluid=61.0% coh=0.146 flips=11331 | 64s
+         etch: +1=1789 -1=1820 0=0 un=40
+         M-space: L0:r90=34,t1=36.8% L1:r90=40,t1=14.3% L2:r90=42,t1=11.7% L3:r90=43,t1=9.0%
+  step  1500: train=1.7017 eval=6.3927 gnorm=1.45 | etch=55.4% zero=0.0% fluid=44.6% coh=0.154 flips=12349 | 97s
+         etch: +1=1819 -1=1897 0=0 un=38
+         M-space: L0:r90=35,t1=34.4% L1:r90=42,t1=11.5% L2:r90=43,t1=10.1% L3:r90=43,t1=11.7%
+  step  2000: train=1.5164 eval=6.4988 gnorm=1.31 | etch=60.2% zero=0.0% fluid=39.8% coh=0.123 flips=6387 | 131s
+         etch: +1=336 -1=337 0=0 un=6
+         M-space: L0:r90=35,t1=34.4% L1:r90=42,t1=11.0% L2:r90=43,t1=11.0% L3:r90=44,t1=9.4%
+  step  2500: train=1.5597 eval=6.6633 gnorm=1.33 | etch=63.7% zero=0.0% fluid=36.3% coh=0.125 flips=3729 | 164s
+         etch: +1=373 -1=361 0=0 un=3
+         M-space: L0:r90=35,t1=35.1% L1:r90=43,t1=9.4% L2:r90=43,t1=9.1% L3:r90=45,t1=7.6%
+  step  3000: train=1.4404 eval=6.7373 gnorm=1.37 | etch=66.7% zero=0.0% fluid=33.3% coh=0.128 flips=2073 | 197s
+         etch: +1=401 -1=458 0=0 un=32
+         M-space: L0:r90=35,t1=35.0% L1:r90=43,t1=9.4% L2:r90=44,t1=8.1% L3:r90=44,t1=7.6%
+  step  3500: train=1.4559 eval=6.8283 gnorm=1.39 | etch=72.8% zero=0.0% fluid=27.2% coh=0.124 flips=2735 | 231s
+         etch: +1=318 -1=340 0=0 un=150
+         M-space: L0:r90=35,t1=34.8% L1:r90=42,t1=12.3% L2:r90=44,t1=7.7% L3:r90=45,t1=6.7%
+  step  4000: train=1.4158 eval=6.8848 gnorm=1.88 | etch=81.9% zero=0.0% fluid=18.1% coh=0.129 flips=588 | 264s
+         etch: +1=260 -1=267 0=0 un=120
+         M-space: L0:r90=35,t1=34.4% L1:r90=42,t1=12.6% L2:r90=44,t1=8.9% L3:r90=44,t1=8.5%
+  step  4500: train=1.3416 eval=6.9078 gnorm=1.55 | etch=83.9% zero=0.0% fluid=16.1% coh=0.131 flips=100 | 298s
+         etch: +1=441 -1=448 0=0 un=499
+         M-space: L0:r90=35,t1=34.4% L1:r90=42,t1=12.7% L2:r90=44,t1=8.4% L3:r90=44,t1=8.4%
+  step  5000: train=1.7984 eval=6.8764 gnorm=4.14 | etch=87.0% zero=0.0% fluid=13.0% coh=0.039 flips=1873 | 331s
+         etch: +1=5124 -1=5093 0=0 un=13858
+         M-space: L0:r90=36,t1=32.7% L1:r90=38,t1=26.9% L2:r90=42,t1=17.7% L3:r90=44,t1=8.1%
+
+  Per-layer etch summary:
+    L0.q_proj: etched=84.8% (±1=13896, 0=0) fluid=15.2% coh=0.035
+    L0.k_proj: etched=86.3% (±1=14140, 0=0) fluid=13.7% coh=0.036
+    L1.q_proj: etched=87.2% (±1=14289, 0=0) fluid=12.8% coh=0.040
+    L1.k_proj: etched=86.5% (±1=14171, 0=0) fluid=13.5% coh=0.028
+    L2.q_proj: etched=87.2% (±1=14290, 0=0) fluid=12.8% coh=0.028
+    L2.k_proj: etched=85.4% (±1=13994, 0=0) fluid=14.6% coh=0.029
+    L3.q_proj: etched=89.2% (±1=14611, 0=0) fluid=10.8% coh=0.065
+    L3.k_proj: etched=89.2% (±1=14610, 0=0) fluid=10.8% coh=0.058
+
+  Final eval loss: 6.8764
+  L0: rank90=36, top1=32.7%
+  L2: rank90=42, top1=17.7%
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+  A. Float32 (diverse data)                          loss=6.4909  L2:rank90=13,top1=63.7%
+  B. Holographic Etch (teacher signs + diverse data) loss=6.8764  L2:rank90=42,top1=17.7%
+
+  Teacher: L2:rank90=13,top1=69.0%
+  Etch final (B): etch=87.0% zero=0.0% fluid=13.0%
+
+  Total elapsed: 623s (10.4m)
+  Saved to results/holographic-etch-micro/summary_v2.json

@@ -1,0 +1,154 @@
+======================================================================
+HOLOGRAPHIC ETCH v3 — CRYSTAL BACKBONE
+Zeros are structure, not emergent. They come from the crystal.
+======================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Eval: 10 compile examples
+Teacher: checkpoints/micro/final/model.npz
+Teacher M-space:
+  L0: rank90=42, top1=25.8%, K=42 signal modes
+  L1: rank90=24, top1=68.6%, K=24 signal modes
+  L2: rank90=13, top1=69.0%, K=13 signal modes
+  L3: rank90=25, top1=56.4%, K=25 signal modes
+
+══════════════════════════════════════════════════════════════════════
+  A. Float32 baseline (diverse data)
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+  step     1: train=12.5107 eval=12.6100 gnorm=7.29 | 0s
+  step   500: train=1.4434 eval=6.3757 gnorm=0.87 | 29s
+  step  1000: train=1.3232 eval=6.3724 gnorm=1.12 | 58s
+  step  1500: train=1.2350 eval=6.5771 gnorm=0.92 | 86s
+  step  2000: train=1.1170 eval=6.6218 gnorm=0.92 | 115s
+  step  2500: train=1.1303 eval=6.6120 gnorm=0.86 | 144s
+  step  3000: train=1.0197 eval=6.6484 gnorm=0.84 | 173s
+  step  3500: train=1.0553 eval=6.6650 gnorm=0.99 | 202s
+  step  4000: train=1.0125 eval=6.6932 gnorm=0.89 | 231s
+  step  4500: train=0.9473 eval=6.6934 gnorm=0.82 | 260s
+  step  5000: train=1.0009 eval=6.6828 gnorm=0.89 | 289s
+
+  Final: loss=6.6828 L2:r90=13,t1=66.5%
+
+══════════════════════════════════════════════════════════════════════
+  B. Crystal backbone 20% zeros + etch
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+    Backbone: 26,208/131,072 zeros (20.0%)
+  step     1: train=12.4487 eval=12.4895 gnorm=6.65 | total_etch=20.0% sign_etch=0.0% backbone=26208 flips=0 | 0s
+  step   500: train=1.8377 eval=6.2232 gnorm=1.51 | total_etch=32.1% sign_etch=15.1% backbone=26208 flips=7187 | 32s
+         etch: +1=3501 -1=3356 0=0 un=0
+  step  1000: train=1.7739 eval=6.4445 gnorm=1.13 | total_etch=45.1% sign_etch=31.4% backbone=26208 flips=8942 | 65s
+         etch: +1=1310 -1=1318 0=0 un=14
+         M-space: L0:r90=35,t1=27.4% L1:r90=38,t1=24.2% L2:r90=40,t1=17.2% L3:r90=42,t1=11.5%
+  step  1500: train=1.6635 eval=6.5782 gnorm=1.61 | total_etch=62.9% sign_etch=53.6% backbone=26208 flips=8164 | 99s
+         etch: +1=649 -1=621 0=0 un=31
+  step  2000: train=1.6195 eval=6.6483 gnorm=1.89 | total_etch=69.9% sign_etch=62.3% backbone=26208 flips=8398 | 132s
+         etch: +1=1954 -1=1926 0=0 un=28
+         M-space: L0:r90=35,t1=21.7% L1:r90=41,t1=19.8% L2:r90=43,t1=10.4% L3:r90=43,t1=8.9%
+  step  2500: train=1.5769 eval=6.6988 gnorm=1.48 | total_etch=76.0% sign_etch=70.0% backbone=26208 flips=3232 | 165s
+         etch: +1=171 -1=190 0=0 un=9
+  step  3000: train=1.4675 eval=6.9232 gnorm=1.41 | total_etch=82.7% sign_etch=78.3% backbone=26208 flips=1531 | 199s
+         etch: +1=399 -1=396 0=0 un=44
+         M-space: L0:r90=35,t1=21.7% L1:r90=43,t1=12.4% L2:r90=44,t1=8.4% L3:r90=45,t1=8.2%
+  step  3500: train=1.4509 eval=6.9196 gnorm=1.15 | total_etch=83.8% sign_etch=79.7% backbone=26208 flips=800 | 232s
+         etch: +1=128 -1=154 0=0 un=4
+  step  4000: train=1.3968 eval=6.9471 gnorm=1.83 | total_etch=85.5% sign_etch=81.9% backbone=26208 flips=239 | 266s
+         etch: +1=121 -1=98 0=0 un=4
+         M-space: L0:r90=35,t1=21.8% L1:r90=43,t1=13.7% L2:r90=44,t1=8.2% L3:r90=45,t1=8.0%
+  step  4500: train=1.3183 eval=6.9633 gnorm=1.50 | total_etch=88.0% sign_etch=85.0% backbone=26208 flips=239 | 299s
+         etch: +1=827 -1=834 0=0 un=11
+  step  5000: train=1.8523 eval=6.7404 gnorm=2.48 | total_etch=93.3% sign_etch=91.6% backbone=26208 flips=1111 | 333s
+         etch: +1=3415 -1=3449 0=0 un=5316
+         M-space: L0:r90=24,t1=54.8% L1:r90=38,t1=27.8% L2:r90=42,t1=16.7% L3:r90=44,t1=9.5%
+
+  Per-layer summary:
+    L0.q_proj: total_etch=93.4% (±1=12019, 0=3276) fluid=6.6%
+    L0.k_proj: total_etch=93.9% (±1=12116, 0=3276) fluid=6.1%
+    L1.q_proj: total_etch=93.1% (±1=11978, 0=3276) fluid=6.9%
+    L1.k_proj: total_etch=92.6% (±1=11893, 0=3276) fluid=7.4%
+    L2.q_proj: total_etch=93.2% (±1=11999, 0=3276) fluid=6.8%
+    L2.k_proj: total_etch=93.3% (±1=12013, 0=3276) fluid=6.7%
+    L3.q_proj: total_etch=93.3% (±1=12014, 0=3276) fluid=6.7%
+    L3.k_proj: total_etch=93.6% (±1=12053, 0=3276) fluid=6.4%
+
+  Final: loss=6.7404 L2:r90=42,t1=16.7%
+
+══════════════════════════════════════════════════════════════════════
+  C. Crystal backbone 30% zeros + etch
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+    Backbone: 39,320/131,072 zeros (30.0%)
+  step     1: train=12.4876 eval=12.3934 gnorm=6.38 | total_etch=30.0% sign_etch=0.0% backbone=39320 flips=0 | 0s
+  step   500: train=1.8146 eval=5.9242 gnorm=1.18 | total_etch=42.7% sign_etch=18.1% backbone=39320 flips=5916 | 34s
+         etch: +1=3236 -1=3118 0=0 un=1
+  step  1000: train=1.8286 eval=6.3917 gnorm=1.31 | total_etch=55.5% sign_etch=36.5% backbone=39320 flips=13740 | 68s
+         etch: +1=2385 -1=2379 0=0 un=31
+         M-space: L0:r90=30,t1=49.4% L1:r90=36,t1=30.3% L2:r90=41,t1=14.4% L3:r90=40,t1=23.3%
+  step  1500: train=1.6497 eval=6.5631 gnorm=1.43 | total_etch=61.0% sign_etch=44.3% backbone=39320 flips=6027 | 102s
+         etch: +1=502 -1=496 0=0 un=16
+  step  2000: train=1.5203 eval=6.6539 gnorm=1.94 | total_etch=65.2% sign_etch=50.3% backbone=39320 flips=5629 | 136s
+         etch: +1=461 -1=449 0=0 un=48
+         M-space: L0:r90=32,t1=45.7% L1:r90=41,t1=14.2% L2:r90=44,t1=9.5% L3:r90=43,t1=13.2%
+  step  2500: train=1.5637 eval=6.6818 gnorm=1.24 | total_etch=72.5% sign_etch=60.7% backbone=39320 flips=2465 | 171s
+         etch: +1=326 -1=320 0=0 un=28
+  step  3000: train=1.4436 eval=6.7127 gnorm=1.62 | total_etch=74.3% sign_etch=63.3% backbone=39320 flips=1013 | 205s
+         etch: +1=205 -1=236 0=0 un=8
+         M-space: L0:r90=32,t1=47.3% L1:r90=43,t1=10.4% L2:r90=44,t1=8.5% L3:r90=44,t1=8.7%
+  step  3500: train=1.4390 eval=6.7218 gnorm=1.41 | total_etch=77.4% sign_etch=67.8% backbone=39320 flips=2187 | 239s
+         etch: +1=465 -1=459 0=0 un=8
+  step  4000: train=1.3844 eval=6.7423 gnorm=1.93 | total_etch=79.1% sign_etch=70.1% backbone=39320 flips=727 | 273s
+         etch: +1=317 -1=265 0=0 un=7
+         M-space: L0:r90=33,t1=46.3% L1:r90=43,t1=8.1% L2:r90=44,t1=8.3% L3:r90=44,t1=8.3%
+  step  4500: train=1.3007 eval=6.6800 gnorm=1.56 | total_etch=91.1% sign_etch=87.2% backbone=39320 flips=1696 | 307s
+         etch: +1=450 -1=388 0=0 un=699
+  step  5000: train=1.6640 eval=6.4603 gnorm=2.43 | total_etch=95.5% sign_etch=93.5% backbone=39320 flips=556 | 340s
+         etch: +1=2175 -1=2175 0=0 un=2190
+         M-space: L0:r90=27,t1=48.9% L1:r90=42,t1=14.8% L2:r90=43,t1=12.9% L3:r90=43,t1=11.9%
+
+  Per-layer summary:
+    L0.q_proj: total_etch=96.1% (±1=10838, 0=4915) fluid=3.9%
+    L0.k_proj: total_etch=96.3% (±1=10864, 0=4915) fluid=3.7%
+    L1.q_proj: total_etch=95.9% (±1=10800, 0=4915) fluid=4.1%
+    L1.k_proj: total_etch=95.8% (±1=10783, 0=4915) fluid=4.2%
+    L2.q_proj: total_etch=95.8% (±1=10773, 0=4915) fluid=4.2%
+    L2.k_proj: total_etch=95.8% (±1=10783, 0=4915) fluid=4.2%
+    L3.q_proj: total_etch=94.6% (±1=10578, 0=4915) fluid=5.4%
+    L3.k_proj: total_etch=93.3% (±1=10378, 0=4915) fluid=6.7%
+
+  Final: loss=6.4603 L2:r90=43,t1=12.9%
+
+══════════════════════════════════════════════════════════════════════
+  D. Frozen topology 30% zeros (no etch)
+══════════════════════════════════════════════════════════════════════
+  Shard: 1,192,856 tokens from data/structured_shard_v2.npy
+    Frozen: 39,320/131,072 zeros (30.0%)
+  step     1: train=12.3036 eval=12.5426 gnorm=6.57 | 0s
+  step   500: train=1.5878 eval=6.4052 gnorm=0.86 | 32s
+  step  1000: train=1.4526 eval=6.5769 gnorm=1.12 | 65s
+  step  1500: train=1.3284 eval=6.8586 gnorm=1.11 | 98s
+  step  2000: train=1.2084 eval=6.7023 gnorm=1.15 | 131s
+  step  2500: train=1.2291 eval=6.9067 gnorm=1.13 | 163s
+  step  3000: train=1.1406 eval=6.9895 gnorm=1.33 | 196s
+  step  3500: train=1.1538 eval=7.0020 gnorm=0.92 | 229s
+  step  4000: train=1.1077 eval=7.0328 gnorm=1.03 | 262s
+  step  4500: train=1.0407 eval=7.0184 gnorm=0.96 | 295s
+  step  5000: train=1.1374 eval=7.0221 gnorm=1.01 | 328s
+
+  Final: loss=7.0221 L2:r90=25,t1=56.1%
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+  Variant                                           Loss  L2:r90   L2:t1%
+  ──────────────────────────────────────────────────────────────────────
+  A. Float32                                      6.6828      13    66.5%
+  B. Backbone 20% + etch                          6.7404      42    16.7%
+  C. Backbone 30% + etch                          6.4603      43    12.9%
+  D. Frozen 30% (no etch)                         7.0221      25    56.1%
+
+  Teacher reference:                                   13    69.0%
+
+  Total elapsed: 1294s (21.6m)
+  Saved to results/holographic-etch-micro/summary_v3.json

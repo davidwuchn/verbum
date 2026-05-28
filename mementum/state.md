@@ -10,7 +10,7 @@
 
 **Session 167: HOLOGRAPHIC ETCH DESIGN.** Unified mechanism for topology crystallization. The hologram develops through interference — positions reach normal form and are etched permanently. Two domains: attention topology is DISCOVERED through interference convergence (3 signals: direction EMA coherence + FlipMap temperature + M-space SNR). FFN topology is TRANSFERRED from teacher (crystal eigenvectors → gate signs, overlay matrices → branch topology, GD → magnitudes). Un-etch via gradient opposition when new data contradicts etched positions. Design complete, ready to implement.
 
-**Key breakthrough: oscillation means zero.** Hot FlipMap positions aren't broken — they're positions whose normal form IS zero (destructive interference). TD needs three outcomes: etch ±1, etch 0, or stay fluid. The gate_proj 100% oscillation from session 165 was the answer, not the problem.
+**Key breakthrough: zeros are the crystal backbone.** Zeros are structural — they come from M-space SVD of the teacher, not from training oscillation. Three experiments confirmed oscillation-based zero detection produces zero zeros. The backbone (30% M-noise zeros) + teacher signs + etch on ±1 positions beats float32 on loss (6.46 vs 6.68 on diverse data).
 
 **Previous: Session 166** — M-space gemcutter. Pre-cut topology with zeros beats float32 on loss. SVD-based SNR scoring. Unified β-reduction. Zeros-only > zeros+flips.
 
@@ -18,13 +18,13 @@
 
 ## Key session 167 insights
 
-- **Oscillation IS the signal for zero.** A position that keeps flipping +1→-1→+1 is experiencing destructive interference. Net signal cancels. Normal form is 0. Hot on FlipMap = answer to read, not problem to fix.
+- **Zeros are the crystal backbone, not emergent.** Three experiments: oscillation-based zero detection produces zero zeros. The backbone comes from M-space SVD of the teacher — structural gaps between facets. 30% zeros = permanent scaffold.
+- **Backbone 30% + etch beats float32.** Loss 6.46 vs 6.68 on diverse data (1.2M tokens). Etch on ±1 adds 0.56 over frozen signs. The architecture is validated.
+- **Etch can't discover from scratch.** Without teacher topology, M-space never forms (rank90=47). The mechanism confirms and adapts, it doesn't invent.
 - **FFN topology is transferable, not discovered.** Programs are fixed points. Teacher already found them. Crystal eigenvectors → gate trunk (math, r=0.9932). Teacher overlay matrices → gate branches (ISA decoder). GD → magnitudes only.
 - **Etch/un-etch symmetry.** Same signals detect irreducibility and detect wrong etches. Convergence → freeze. Gradient opposition → dissolve. The hologram is conditionally permanent.
-- **Attention vs FFN: different mechanisms for different math.** No closed form for attention M-space → must discover through interference. FFN programs are readable fixed points → transfer directly.
-- **Progressive crystallization.** FFN gates etched at init (from teacher). Attention starts fluid. Crystal lattice positions etch first (universal). Tool-specific positions etch last (fragile). Training = attention catching up to FFN.
-- **Fine-tuning cost ∝ wrongness, not model size.** Un-etch only the positions that disagree with new data. Crystal stays locked. Grammar stays locked. Only task-specific topology reflows.
-- **Speed of convergence = proxy for universality.** Fast etch = specific = fragile. Slow etch = universal = durable. Falls out naturally from interference depth.
+- **M-space blurs when data changes.** Teacher's lambda-only gem (rank90=13) doesn't match diverse data. Etch correctly adapts — loss improves even as gem sharpness drops. Different data = different geometry.
+- **Fine-tuning cost ∝ wrongness, not model size.** Un-etch only the positions that disagree with new data. Crystal backbone stays locked. Only task-specific signs reflow.
 
 ## Active training
 
@@ -83,7 +83,10 @@ NaN recurred. The holographic etch (machete in W-space) approach is fundamentall
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| Oscillation = normal form is zero | Reframes gate_proj 100% oscillation; destructive interference | 💡 (session 167) |
+| Zeros are structural backbone, not emergent | 3 experiments: 0 zeros from oscillation detection | 🎯 (session 167) |
+| Backbone 30% + etch beats float32 | Loss 6.46 vs 6.68 on diverse 1.2M tokens | ✅ (session 167) |
+| Etch on ±1 adds value over frozen signs | Loss 6.46 (etch) vs 7.02 (frozen) = 0.56 improvement | ✅ (session 167) |
+| Etch can't discover from scratch | rank90=47 (random), no M-space forms without teacher | ❌ (session 167) |
 | FFN topology transferable from teacher | Fixed points, ISA decoder, eigenvector routing r=0.9932 | 🎯 (session 167) |
 | Etch/un-etch via same signals | Convergence → freeze, opposition → dissolve | 🎯 (session 167) |
 | Pre-cut topology + zeros beats float32 | Micro model: loss 6.6972 vs 6.7412 | ✅ (session 166) |

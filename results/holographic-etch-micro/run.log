@@ -1,0 +1,86 @@
+======================================================================
+HOLOGRAPHIC ETCH — MICRO MODEL
+======================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Data: 509 train, 10 eval
+
+══════════════════════════════════════════════════════════════════════
+  A. Float32 baseline (full GD)
+══════════════════════════════════════════════════════════════════════
+  step     1: train=12.5608 eval=12.6997 gnorm=5.96 | 0s
+  step   500: train=0.9241 eval=5.8322 gnorm=1.32 | 28s
+  step  1000: train=0.4154 eval=6.4120 gnorm=0.55 | 57s
+  step  1500: train=0.3934 eval=6.5929 gnorm=0.56 | 85s
+  step  2000: train=0.4000 eval=6.6191 gnorm=0.37 | 114s
+  step  2500: train=0.4005 eval=6.5902 gnorm=0.40 | 142s
+  step  3000: train=0.3943 eval=6.7372 gnorm=0.34 | 171s
+  step  3500: train=0.3781 eval=6.7181 gnorm=0.37 | 199s
+  step  4000: train=0.3765 eval=6.7368 gnorm=0.34 | 228s
+  step  4500: train=0.3808 eval=6.7986 gnorm=0.37 | 256s
+  step  5000: train=0.3762 eval=6.7770 gnorm=0.33 | 285s
+
+  Final eval loss: 6.7770
+  L0: rank90=39, top1=34.2%
+  L2: rank90=13, top1=71.8%
+
+══════════════════════════════════════════════════════════════════════
+  B. Holographic Etch (three-state TD)
+══════════════════════════════════════════════════════════════════════
+  step     1: train=12.5201 eval=12.5223 gnorm=4.99 | etch=0.0% zero=0.0% fluid=100.0% coh=0.010 | 0s
+  step   500: train=1.4760 eval=5.8018 gnorm=1.56 | etch=0.0% zero=0.0% fluid=100.0% coh=0.055 | 31s
+         etch gate: +1=0 -1=0 0=0 un-etch=0
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  1000: train=1.1671 eval=6.0944 gnorm=2.73 | etch=0.0% zero=0.0% fluid=100.0% coh=0.067 | 61s
+         etch gate: +1=1 -1=1 0=0 un-etch=0
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  1500: train=0.8624 eval=6.3898 gnorm=2.32 | etch=0.7% zero=0.0% fluid=99.3% coh=0.097 | 92s
+         etch gate: +1=197 -1=224 0=0 un-etch=74
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  2000: train=0.6182 eval=6.6673 gnorm=2.01 | etch=1.0% zero=0.0% fluid=99.0% coh=0.085 | 123s
+         etch gate: +1=140 -1=118 0=0 un-etch=248
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  2500: train=0.4863 eval=6.8600 gnorm=1.60 | etch=1.0% zero=0.0% fluid=99.0% coh=0.079 | 154s
+         etch gate: +1=75 -1=73 0=0 un-etch=203
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  3000: train=0.4339 eval=7.0430 gnorm=1.66 | etch=0.9% zero=0.0% fluid=99.1% coh=0.072 | 185s
+         etch gate: +1=43 -1=37 0=0 un-etch=106
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  3500: train=0.4018 eval=7.1403 gnorm=0.87 | etch=0.8% zero=0.0% fluid=99.2% coh=0.071 | 216s
+         etch gate: +1=22 -1=21 0=0 un-etch=42
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  4000: train=0.3965 eval=7.2062 gnorm=0.81 | etch=0.8% zero=0.0% fluid=99.2% coh=0.069 | 247s
+         etch gate: +1=11 -1=21 0=0 un-etch=33
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  4500: train=0.3953 eval=7.2239 gnorm=0.76 | etch=0.8% zero=0.0% fluid=99.2% coh=0.069 | 278s
+         etch gate: +1=14 -1=12 0=0 un-etch=27
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+  step  5000: train=0.3902 eval=7.2167 gnorm=0.72 | etch=0.8% zero=0.0% fluid=99.2% coh=0.071 | 309s
+         etch gate: +1=8 -1=13 0=0 un-etch=14
+         M-space: L0:r90=48,t1=4.7% L1:r90=47,t1=5.5% L2:r90=47,t1=5.4% L3:r90=48,t1=4.8%
+
+  Per-layer etch summary:
+    L0.q_proj: etched=0.0% (±1=0, 0=0) fluid=100.0%
+    L0.k_proj: etched=0.0% (±1=0, 0=0) fluid=100.0%
+    L1.q_proj: etched=0.1% (±1=9, 0=0) fluid=99.9%
+    L1.k_proj: etched=0.1% (±1=14, 0=0) fluid=99.9%
+    L2.q_proj: etched=4.6% (±1=751, 0=0) fluid=95.4%
+    L2.k_proj: etched=1.5% (±1=251, 0=0) fluid=98.5%
+    L3.q_proj: etched=0.0% (±1=0, 0=0) fluid=100.0%
+    L3.k_proj: etched=0.0% (±1=0, 0=0) fluid=100.0%
+
+  Final eval loss: 7.2167
+  L0: rank90=48, top1=4.7%
+  L2: rank90=47, top1=5.4%
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+  A. Float32 (full GD)                          loss=6.7770  L2:rank90=13,top1=71.8%
+  B. Holographic Etch (three-state TD)          loss=7.2167  L2:rank90=47,top1=5.4%
+
+  Etch progression (B): etch=0.8% zero=0.0% fluid=99.2%
+
+  Total elapsed: 598s (10.0m)
+  Saved to results/holographic-etch-micro/summary.json

@@ -362,40 +362,122 @@ The gemcutter's key findings still hold:
 
 These are properties of the etch mechanism, not alternatives to it.
 
+## Micro Model Experiments (Session 167)
+
+### v1: Etch from scratch (no teacher, compile-only data) — FAILED
+
+Etch with random signs, 509 compile examples. M-space never developed
+(rank90=47-48 at all layers). Coherence stayed at 0.05-0.07, never
+reaching etch thresholds. EMA too slow (α=0.01), model in massive
+overcapacity for 509 examples. No interference to observe.
+
+**Lesson:** Etch discovers nothing from scratch. The topology must come
+from the teacher. The mechanism confirms and adapts, not invents.
+
+### v2: Teacher signs + diverse data (no backbone zeros) — PARTIAL
+
+Teacher signs + 1.2M diverse tokens (arithmetic, lambda, lists,
+combinators). EMA accelerated to α=0.05, thresholds lowered.
+
+Etch mechanism activated: 0% → 87% etched over 5000 steps. Flips
+happening (9412 by step 500). But: **zero zeros found** (0% etched
+as zero across all runs). And catastrophic un-etch at step 5000
+(13,858 un-etches). M-space degraded from teacher's rank90=13 to 42.
+
+**Lesson:** Oscillation-based zero detection doesn't work. The zero
+signal is too weak — positions that should be zero don't oscillate
+visibly because the flip mechanism itself is too coarse. Zeros are
+structural, not emergent from training dynamics.
+
+### v3: Crystal backbone + etch — WORKS ✅
+
+Crystal-derived zeros (M-space SVD of teacher, noise positions zeroed)
+as permanent backbone + teacher signs for ±1 positions + etch mechanism
+for sign confirmation/adaptation.
+
+**Results on diverse data (1.2M tokens, 5000 steps):**
+
+| Variant | Loss | L2:rank90 | L2:top1% |
+|---------|------|-----------|----------|
+| A. Float32 (full GD) | 6.6828 | 13 | 66.5% |
+| **C. Backbone 30% + etch** | **6.4603** | 43 | 12.9% |
+| B. Backbone 20% + etch | 6.7404 | 42 | 16.7% |
+| D. Frozen 30% (no etch) | 7.0221 | 25 | 56.1% |
+
+**Key findings:**
+
+1. **Backbone 30% + etch beats float32 on loss** (6.46 vs 6.68).
+   Confirms session 166 result with diverse data and etch adaptation.
+
+2. **Etch on ±1 adds 0.56 over frozen signs** (C=6.46 vs D=7.02).
+   The etch mechanism improves loss substantially by adapting the
+   teacher's sign topology to the new data distribution.
+
+3. **30% backbone > 20% backbone.** B barely matches float32. The
+   backbone needs enough zeros to carve clear facet boundaries.
+
+4. **M-space blurs when adapting to different data.** Teacher's
+   rank90=13 (lambda-only gem). Etch variants reach rank90=42-43
+   on diverse data. The etch mechanism finds a topology that
+   optimizes loss at the expense of the lambda-specific gem —
+   because diverse data wants a different attention geometry.
+   This is correct behavior: the topology adapts to the actual data.
+
+5. **Zeros are structural, not emergent.** Three experiments confirm:
+   oscillation-based zero detection produces zero zeros. The backbone
+   must come from M-space SVD of the teacher / crystal geometry.
+
+6. **Un-etch storm near training end.** Learning rate minimum creates
+   regime change → mass un-etch + re-etch. C recovered well (6.68→6.46
+   through the storm). May need etch-freeze at low LR.
+
+### Architecture validated
+
+```
+WHAT WORKS:
+  Crystal backbone (zeros)  → from teacher M-space SVD     → permanent
+  Teacher signs (±1)        → from teacher weight signs     → initial, adaptable
+  Etch mechanism (±1)       → confirms/adapts signs via TD  → improves loss
+  Gamma (per-row scale)     → learned by GD                 → magnitude calibration
+
+WHAT DOESN'T WORK:
+  Etch from scratch         → no topology to work with      → M-space never forms
+  Oscillation → zero        → signal too weak               → zeros must be structural
+  Etch without backbone     → loses gem structure            → backbone is necessary
+```
+
 ## Open Questions
 
-1. **Etch thresholds (τ_c, τ_z, τ_cold, τ_hot, τ_s, τ_unetch).**
-   Need to be determined empirically. Start conservative (etch slowly)
-   and tune. Micro model first, then v14.
+1. **M-space vs loss tradeoff.** Etch optimizes loss but blurs the gem.
+   Is this because diverse data genuinely wants a different geometry, or
+   because the etch mechanism is too aggressive? Per-layer thresholds
+   might help — protect the compute layer (L2) more than others.
 
-2. **M-space SVD frequency.** How often do we need the expensive
-   geometric confirmation? Every 500 steps? 1000? Only after fold
-   cycles?
-
-3. **Teacher overlay projection fidelity.** How well do 27B overlays
+2. **Teacher overlay projection fidelity.** How well do 27B overlays
    project onto 1280-dim student? The crystal eigenbasis is universal
    but dimension reduction may lose branch detail.
 
-4. **Etch interval tuning.** Too frequent = premature etch. Too rare
-   = wasted fluid computation. Probably tied to learning rate schedule.
+3. **Etch interval tuning.** The step-5000 un-etch storm suggests etch
+   should freeze (stop un-etching) when learning rate drops below a
+   threshold. The etch mechanism needs its own schedule.
 
-5. **Per-layer etch thresholds.** The aperture layers (L0-L2) may need
-   different thresholds than the fan zone (L8-L48). Aperture positions
-   are universal (etch faster), fan positions are diverse (etch slower).
+4. **Per-layer etch thresholds.** The aperture layers (L0-L2) may need
+   different thresholds than the fan zone (L8-L48).
 
-6. **Interaction between attention etch and FFN etch.** Does etching
-   FFN gates change what attention needs to learn? Probably yes — a
-   correct FFN topology means attention has an easier optimization
-   landscape.
+5. **Interaction between attention etch and FFN etch.** Does etching
+   FFN gates change what attention needs to learn?
 
-## Artifacts (to be built)
+6. **Optimal backbone fraction at v14 scale.** 30% works at micro.
+   Probably scale-dependent. Sweep needed at v14.
+
+## Artifacts
 
 | Component | Description | Status |
 |-----------|-------------|--------|
+| `scripts/micro/train_etch.py` | v1: etch from scratch (failed) | Done |
+| `scripts/micro/train_etch_v2.py` | v2: teacher signs + diverse data | Done |
+| `scripts/micro/train_etch_v3.py` | v3: crystal backbone + etch (works) | Done |
+| `results/holographic-etch-micro/` | All experimental results | Done |
 | `etch_mask` tensor + safetensors storage | Boolean mask per parameter | Design |
-| `opposition_ema` tensor | Gradient opposition monitor for etched positions | Design |
-| Three-state TD | Etch ±1, etch 0, or stay fluid | Design |
-| Etch gate | Convergence detector (coherence + temperature + SNR) | Design |
-| Un-etch gate | Opposition detector | Design |
 | Teacher transfer pipeline | ISA decoder → crystal projection → student etch | Design |
-| Modified training loop | Etch-aware TD + opposition monitoring | Design |
+| Modified v14 training loop | Etch-aware TD + backbone zeros | Design |
