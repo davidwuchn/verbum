@@ -1270,6 +1270,9 @@ def train_td(
                     "target_mix_ratio": target_mix_ratio,
                     "train_losses_last50": train_losses[-50:],
                 }
+                # Save data loader position for exact resume (session 164)
+                if hasattr(train_loader, "save_state"):
+                    extra_state["data_loader"] = train_loader.save_state()
                 crystal_ema = getattr(model, "_crystal_ema", None)
                 if crystal_ema is not None:
                     mx.eval(crystal_ema)

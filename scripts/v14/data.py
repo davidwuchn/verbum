@@ -22,8 +22,13 @@ class ShardedDataLoader:
       input_ids: (batch_size, seq_len) int32
       targets:   (batch_size, seq_len) int32  (shifted by 1)
 
-    Loads one shard at a time via mmap. Advances to the next shard
-    when the current one is exhausted.
+    Shuffling (session 164):
+      - Shard order is shuffled at init and on each epoch wrap.
+      - Within each shard, chunk positions are shuffled so the model
+        sees data in random order, not sequential.
+      - Maximizes compositional variety in early training — different
+        beta reductions exercised from the start.
+      - Exact resume via save_state/load_state preserves shuffle state.
     """
 
     def __init__(
@@ -38,6 +43,7 @@ class ShardedDataLoader:
         self.data_dir = Path(data_dir)
         self.batch_size = batch_size
         self.seq_len = seq_len
+        self.seed = seed
 
         # Discover shards
         all_shards = sorted(self.data_dir.glob("shard_*.npy"))
@@ -48,48 +54,111 @@ class ShardedDataLoader:
         )
 
         self.rng = np.random.RandomState(seed)
-        self.current_shard_idx = 0
-        self.position = 0
+        self.epoch = 0
         self.current_data: np.ndarray | None = None
-        self._load_shard(0)
 
-    def _load_shard(self, idx: int) -> None:
-        self.current_shard_idx = idx % len(self.shards)
+        # Shuffle shard order
+        self._shard_order = np.arange(len(self.shards))
+        self.rng.shuffle(self._shard_order)
+        self._shard_cursor = 0  # index into _shard_order
+
+        # Within-shard chunk shuffle
+        self._chunk_indices: np.ndarray | None = None
+        self._chunk_cursor = 0
+
+        # Load first shard
+        self._load_shard(self._shard_order[0])
+
+    @property
+    def current_shard_idx(self) -> int:
+        """The actual shard file index currently loaded."""
+        if self._shard_cursor < len(self._shard_order):
+            return int(self._shard_order[self._shard_cursor])
+        return 0
+
+    def _load_shard(self, file_idx: int) -> None:
+        """Load a shard by its file index and create shuffled chunk positions."""
         self.current_data = np.load(
-            self.shards[self.current_shard_idx], mmap_mode="r"
+            self.shards[file_idx], mmap_mode="r"
         ).astype(np.int64)
-        self.position = 0
+
+        # Compute non-overlapping chunk positions within this shard
+        chunk_size = self.batch_size * (self.seq_len + 1)
+        n_chunks = len(self.current_data) // chunk_size
+        self._chunk_indices = np.arange(n_chunks)
+        self.rng.shuffle(self._chunk_indices)
+        self._chunk_cursor = 0
+
+    def _advance_shard(self) -> None:
+        """Move to next shard, reshuffling shard order on epoch wrap."""
+        self._shard_cursor += 1
+        if self._shard_cursor >= len(self._shard_order):
+            # Epoch complete — reshuffle
+            self.epoch += 1
+            self.rng.shuffle(self._shard_order)
+            self._shard_cursor = 0
+        self._load_shard(self._shard_order[self._shard_cursor])
 
     def next_batch(self) -> tuple[np.ndarray, np.ndarray]:
         """Returns (input_ids, targets) each of shape (batch_size, seq_len)."""
         B, T = self.batch_size, self.seq_len
-        needed = B * (T + 1)  # +1 for the target shift
+        chunk_size = B * (T + 1)
 
-        if self.current_data is None or self.position + needed > len(self.current_data):
-            self._load_shard(self.current_shard_idx + 1)
+        # If current shard exhausted, advance
+        if self._chunk_indices is None or self._chunk_cursor >= len(self._chunk_indices):
+            self._advance_shard()
 
-        buf = self.current_data[self.position : self.position + needed]
-        self.position += needed
+        # Read from shuffled chunk position
+        chunk_idx = self._chunk_indices[self._chunk_cursor]
+        start = int(chunk_idx) * chunk_size
+        buf = self.current_data[start : start + chunk_size]
+        self._chunk_cursor += 1
 
-        buf = buf.reshape(B, T + 1)
+        buf = np.array(buf).reshape(B, T + 1)
         input_ids = buf[:, :T].astype(np.int32)
         targets = buf[:, 1 : T + 1].astype(np.int32)
 
         return input_ids, targets
 
+    @property
+    def position(self) -> int:
+        """Approximate byte position (for logging compatibility)."""
+        chunk_size = self.batch_size * (self.seq_len + 1)
+        return self._chunk_cursor * chunk_size
+
     def save_state(self) -> dict:
-        """Save loader position for checkpoint resume."""
+        """Save full shuffle state for exact resume."""
         return {
             "shard_idx": self.current_shard_idx,
             "position": self.position,
+            "epoch": self.epoch,
+            "seed": self.seed,
+            "shard_order": self._shard_order.tolist(),
+            "shard_cursor": self._shard_cursor,
+            "chunk_indices": self._chunk_indices.tolist() if self._chunk_indices is not None else [],
+            "chunk_cursor": self._chunk_cursor,
         }
 
     def load_state(self, state: dict) -> None:
-        """Restore loader position from checkpoint."""
-        shard_idx = state.get("shard_idx", 0)
-        position = state.get("position", 0)
-        self._load_shard(shard_idx)
-        self.position = min(position, len(self.current_data) - 1)
+        """Restore full shuffle state for exact resume."""
+        self.epoch = state.get("epoch", 0)
+
+        # Restore shard order
+        if "shard_order" in state:
+            self._shard_order = np.array(state["shard_order"])
+        self._shard_cursor = state.get("shard_cursor", 0)
+
+        # Load the correct shard
+        if self._shard_cursor < len(self._shard_order):
+            file_idx = self._shard_order[self._shard_cursor]
+            self.current_data = np.load(
+                self.shards[file_idx], mmap_mode="r"
+            ).astype(np.int64)
+
+        # Restore within-shard chunk order
+        if "chunk_indices" in state and state["chunk_indices"]:
+            self._chunk_indices = np.array(state["chunk_indices"])
+        self._chunk_cursor = state.get("chunk_cursor", 0)
 
     def __iter__(self):
         return self
