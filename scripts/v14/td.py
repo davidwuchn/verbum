@@ -459,11 +459,20 @@ class TernaryDescent:
         # can absorb more flips. If gnorm is high, throttle back.
         # This finds equilibrium where topology changes as fast as
         # magnitudes can absorb without cascading.
+        #
+        # INVARIANT: neither optimizer can choke the other.
+        # - Floor (0.5× base): TD always gets meaningful flips.
+        #   Without this, Adam could overfit unopposed.
+        # - Ceiling (5× base): TD never overwhelms Adam's ability
+        #   to rebuild moments in the flip_interval window.
+        #   Without this, gnorm never settles and Adam diverges.
+        # - The band is 10× wide (0.5× to 5×). Both optimizers
+        #   always operate at meaningful capacity.
         self._gnorm_ema = 0.0          # EMA of gradient norm
         self._gnorm_target = 15.0      # target gnorm for equilibrium
         self._gnorm_alpha = 0.1        # EMA smoothing (0.1 = ~10 step memory)
-        self._max_flip_rate = 0.01     # hard ceiling (10× base rate)
-        self._min_flip_rate = flip_rate * 0.1  # hard floor (0.1× base rate)
+        self._max_flip_rate = flip_rate * 5.0   # ceiling: 5× base (TD can't starve Adam)
+        self._min_flip_rate = flip_rate * 0.5   # floor: 0.5× base (Adam can't starve TD)
 
         # Tracking
         self.last_n_flips = 0
