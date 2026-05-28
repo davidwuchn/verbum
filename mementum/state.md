@@ -8,7 +8,7 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 166: M-SPACE GEMCUTTER — TOPOLOGY SHAPING BREAKTHROUGH.** Discovered that topology changes must be planned in M-space (attention kernel M = W_q^T @ W_k), not W-space (individual weights). One W-space flip cross-cuts ALL modes of M. TD's gradient scoring is anti-predictive in structured layers (ρ=-0.36). Pre-cut ternary topology with 30% M-noise zeros BEATS float32 on loss (6.6972 vs 6.7412) when trained from scratch. GD is putty — cut the gem first, let GD fill gaps.
+**Session 166: M-SPACE GEMCUTTER → UNIFIED β-REDUCTION OF TOPOLOGY.** Discovered topology changes must be planned in M-space (attention kernel M = W_q^T @ W_k), not W-space. One W-space flip cross-cuts ALL modes of M. Fractal collapse: eigendecomposition IS β-reduction of matrices — same operation at every level (data→crystal, M→modes, W→sign+zero). Built unified `reduce_attention()`: one SVD per layer, per-position SNR scoring, three outcomes (ZERO/FLIP/KEEP). Zeros-only (no flips) with SNR threshold is the winner. On micro model: 98% zeros achieves loss 6.40 vs float32's 6.74 — GD builds better model from just the irreducible skeleton. Specific % won't transfer to v14 scale, but the principle and mechanism are sound.
 
 **Training: v14-mmap STOPPED** — NaN recurred. The holographic etch approach (machete topology changes in W-space) is fundamentally flawed. Redesign needed based on M-space gemcutter findings.
 
@@ -21,7 +21,11 @@
 - **Pre-cut topology + GD beats float32.** Frozen ternary attention with 30% zeros, trained from scratch: loss 6.6972 vs float32's 6.7412. The geometric constraint HELPS GD by channeling it into the right subspace.
 - **GD is putty.** Cut the gem geometrically (accept loss hit), then let GD fill the gaps. The gem stays sharp (frozen Q/K). Loss recovers and improves.
 - **Facet-aligned cutting works.** Coordinated W-space flips targeting one M-space mode achieve 30× less cross-mode damage than gradient scoring.
-- **Crystal null space is correct but too coarse.** 113/128 dims are crystal null space. Column-level zeros give good rank90 but bad loss (7.13). M-noise per-position zeros remain best (6.6972). Crystal energy should weight M-noise scoring as a prior, not hard-mask columns.
+- **Crystal null space is correct but too coarse.** Column-level zeros give good rank90 but bad loss. Per-position zeros remain best.
+- **Fractal collapse: eigendecomposition IS β-reduction.** decompose → keep(irreducible) → discard(reducible) at every level. Data→crystal, M→modes, W→sign+zero. One principle, not three mechanisms.
+- **Unified reduce_attention().** One SVD, per-position SNR = signal_modes / noise_modes. SNR < threshold → ZERO. Misaligned → FLIP. Else → KEEP. Three outcomes from one decomposition.
+- **Zeros-only beats zeros+flips.** Simultaneous flips interfere; simultaneous zeros don't. Remove noise, let GD handle alignment.
+- **98% zeros on micro model → loss 6.40 (best).** Extreme but instructive: the irreducible form of attention Q/K is ~2% non-zero at micro scale. Won't transfer to v14 — optimal % is scale/data dependent. Principle transfers.
 
 *Key session 165 insights:*
 - **Auto-rollback is an anti-pattern.** Sisyphus loop from model/Adam/data desync.

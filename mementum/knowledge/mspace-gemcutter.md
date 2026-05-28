@@ -122,6 +122,61 @@ Random topology (D) achieves similar loss but ZERO M-space structure
 (rank90=48). GD compensated entirely through other parameters. The
 model works DESPITE the attention, not because of it.
 
+## The Fractal Collapse
+
+Eigendecomposition IS β-reduction of matrices. The same operation at
+every level:
+
+```
+level = data     → eigendecompose(activations)  → crystal(irreducible)
+level = M_space  → SVD(attention_kernel)         → modes(irreducible)
+level = W_space  → SVD(weight_contribution)      → sign(irreducible) + zero(reduced_to_∅)
+level = training → GD(loss_landscape)             → fixed_point(irreducible)
+
+∀level: decompose → keep(irreducible) → discard(reducible)
+```
+
+This collapses sanding/cutting/filling into ONE mechanism:
+
+```python
+# One SVD. Three outcomes.
+M = W_q.T @ W_k
+U, σ, V = svd(M)
+K = rank_at_90%(σ)
+
+for position (h, i):
+    signal = Σ_{k<K}  U[i,k]² × (W_k[h,:] · V[:,k])²
+    noise  = Σ_{k≥K}  U[i,k]² × (W_k[h,:] · V[:,k])²
+    snr    = signal / noise
+
+    if snr < threshold → ZERO  (fully reduced — noise dominates)
+    if misaligned      → FLIP  (irreducible but wrong sign)
+    else               → KEEP  (normal form)
+```
+
+## Experiment 6: Unified β-reduce (reduce.py + train_reduced.py)
+
+Zeros+flips together (train_reduced.py): flips interfere with each
+other when applied simultaneously. Best loss 6.83 — worse than
+M-noise zeros alone (C, 6.70).
+
+Zeros-only from SNR scoring (train_reduced_zeros_only.py):
+
+| Variant | Loss | L2 rank90 | Zeros |
+|---------|------|-----------|-------|
+| I. SNR zt=1.5 | **6.3967** | 6 | 98% |
+| C. M-noise 30% | 6.6972 | 25 | 30% |
+| A. Float32 | 6.7412 | 6 | — |
+
+**98% zeros on micro model achieves best loss.** But: micro model is
+128 d_model, 509 examples, 10 eval — overcapacity regime. The specific
+% won't transfer to v14 scale. The principle transfers:
+
+1. One SVD, per-position SNR scoring for zero placement
+2. Zeros-only (no flips) — zeros don't interfere with each other
+3. GD fills around frozen sparse topology
+4. Sweep the threshold at target scale to find operating point
+
 ## The Gemcutter Protocol
 
 ```
@@ -196,14 +251,4 @@ columns (structural), M-noise zeros specific (row, col) positions
 | File | What |
 |------|------|
 | `scripts/micro/probe_mspace.py` | Exp 1: M-space vs gradient scoring |
-| `scripts/micro/probe_mspace_zeros.py` | Exp 2: Zero placement strategies |
-| `scripts/micro/probe_mspace_facet.py` | Exp 3: Single-facet cutting |
-| `scripts/micro/train_cut_topology.py` | Exp 4: Train from scratch with pre-cut topology |
-| `results/mspace-probe/` | Exp 1 results |
-| `results/mspace-zeros/` | Exp 2 results |
-| `results/mspace-facet/` | Exp 3 results |
-| `results/cut-then-fill-scratch/` | Exp 4 results |
-| `scripts/micro/probe_crystal_zeros.py` | Exp 5: Crystal subspace zeros analysis |
-| `scripts/micro/train_cut_crystal.py` | Exp 5b: Train with crystal zeros variants |
-| `results/crystal-zeros/` | Exp 5 analysis results |
-| `results/crystal-zeros-train/` | Exp 5b training results |
+| `scripts/micro

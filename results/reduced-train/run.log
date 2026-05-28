@@ -1,0 +1,156 @@
+======================================================================
+β-REDUCED TOPOLOGY — One SVD, Three Outcomes
+======================================================================
+
+Loaded trained model from checkpoints/micro/final/model.npz
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Existing results:
+  A. Float32:              loss 6.7412, L2 rank90=6
+  B. Sign-only (±1):       loss 6.8625, L2 rank90=32
+  C. M-noise 30% zeros:    loss 6.6972, L2 rank90=25  ★ best
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=0.3)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 0% zero, 63% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 50% zero, 28% flip, snr=0.40
+  Init: loss=12.2583, L2 rank90=1, top1=94.3%
+
+    step     1: train=12.3942, eval=12.2579, gnorm=5.59, 0s
+    step   500: train=1.0877, eval=5.6686, gnorm=2.12, 29s
+    step  1000: train=0.4341, eval=6.2662, gnorm=0.95, 57s
+    step  1500: train=0.3998, eval=6.4900, gnorm=0.59, 86s
+    step  2000: train=0.4006, eval=6.6469, gnorm=0.47, 114s
+    step  2500: train=0.4010, eval=6.6190, gnorm=0.46, 143s
+    step  3000: train=0.3919, eval=6.7231, gnorm=0.38, 171s
+    step  3500: train=0.3788, eval=6.7412, gnorm=0.48, 200s
+    step  4000: train=0.3773, eval=6.7872, gnorm=0.39, 228s
+    step  4500: train=0.3789, eval=6.8354, gnorm=0.41, 257s
+    step  5000: train=0.3786, eval=6.8278, gnorm=0.35, 286s
+
+  Final: loss=6.8278, L2 rank90=1, top1=94.3%
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=0.5)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 5% zero, 60% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 74% zero, 13% flip, snr=0.40
+  Init: loss=12.6335, L2 rank90=1, top1=94.5%
+
+    step     1: train=12.4244, eval=12.6330, gnorm=5.86, 0s
+    step   500: train=1.0109, eval=5.5920, gnorm=1.70, 29s
+    step  1000: train=0.4489, eval=6.0848, gnorm=1.16, 59s
+    step  1500: train=0.4010, eval=6.4111, gnorm=0.58, 90s
+    step  2000: train=0.4033, eval=6.6795, gnorm=0.45, 122s
+    step  2500: train=0.4040, eval=6.7287, gnorm=0.46, 154s
+    step  3000: train=0.3952, eval=6.7169, gnorm=0.47, 187s
+    step  3500: train=0.3789, eval=6.7282, gnorm=0.41, 220s
+    step  4000: train=0.3763, eval=6.8197, gnorm=0.40, 253s
+    step  4500: train=0.3787, eval=6.8465, gnorm=0.42, 286s
+    step  5000: train=0.3754, eval=6.8466, gnorm=0.35, 320s
+
+  Final: loss=6.8466, L2 rank90=1, top1=94.5%
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=0.7)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 15% zero, 53% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 85% zero, 7% flip, snr=0.40
+  Init: loss=12.4892, L2 rank90=1, top1=93.6%
+
+    step     1: train=12.5169, eval=12.4887, gnorm=5.66, 0s
+    step   500: train=1.2319, eval=5.6356, gnorm=1.42, 33s
+    step  1000: train=0.4974, eval=6.2460, gnorm=1.41, 66s
+    step  1500: train=0.4014, eval=6.5953, gnorm=0.55, 99s
+    step  2000: train=0.4029, eval=6.8555, gnorm=0.47, 132s
+    step  2500: train=0.4046, eval=6.9404, gnorm=0.57, 165s
+    step  3000: train=0.3964, eval=7.0377, gnorm=0.40, 198s
+    step  3500: train=0.3786, eval=7.0891, gnorm=0.44, 232s
+    step  4000: train=0.3764, eval=7.1149, gnorm=0.42, 264s
+    step  4500: train=0.3780, eval=7.1330, gnorm=0.40, 297s
+    step  5000: train=0.3763, eval=7.1292, gnorm=0.35, 330s
+
+  Final: loss=7.1292, L2 rank90=1, top1=93.6%
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=1.0)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 37% zero, 39% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 94% zero, 3% flip, snr=0.40
+  Init: loss=12.5636, L2 rank90=2, top1=89.2%
+
+    step     1: train=12.5080, eval=12.5628, gnorm=7.94, 0s
+    step   500: train=1.4007, eval=5.8269, gnorm=1.30, 33s
+    step  1000: train=0.7168, eval=6.1282, gnorm=2.00, 66s
+    step  1500: train=0.4922, eval=6.3984, gnorm=1.57, 99s
+    step  2000: train=0.4313, eval=6.6151, gnorm=0.92, 132s
+    step  2500: train=0.4168, eval=6.7831, gnorm=0.80, 165s
+    step  3000: train=0.4019, eval=6.8105, gnorm=0.62, 198s
+    step  3500: train=0.3858, eval=6.9078, gnorm=0.56, 231s
+    step  4000: train=0.3822, eval=6.8779, gnorm=0.59, 264s
+    step  4500: train=0.3846, eval=6.9284, gnorm=0.54, 296s
+    step  5000: train=0.3816, eval=6.9436, gnorm=0.51, 329s
+
+  Final: loss=6.9436, L2 rank90=2, top1=89.2%
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=1.5)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 68% zero, 19% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 98% zero, 1% flip, snr=0.40
+  Init: loss=12.3445, L2 rank90=4, top1=79.6%
+
+    step     1: train=12.2906, eval=12.3440, gnorm=6.51, 0s
+    step   500: train=1.4497, eval=5.6966, gnorm=1.15, 33s
+    step  1000: train=1.1260, eval=6.1026, gnorm=1.97, 66s
+    step  1500: train=0.9863, eval=6.4807, gnorm=1.65, 99s
+    step  2000: train=0.8876, eval=6.6925, gnorm=2.12, 132s
+    step  2500: train=0.8153, eval=6.8692, gnorm=1.89, 165s
+    step  3000: train=0.7574, eval=6.8935, gnorm=3.01, 197s
+    step  3500: train=0.6560, eval=6.8220, gnorm=2.23, 230s
+    step  4000: train=0.6241, eval=6.8868, gnorm=1.93, 262s
+    step  4500: train=0.5929, eval=6.9197, gnorm=1.84, 295s
+    step  5000: train=0.5930, eval=6.9258, gnorm=1.61, 327s
+
+  Final: loss=6.9258, L2 rank90=4, top1=79.6%
+
+══════════════════════════════════════════════════════════════════════
+  H. β-reduced (zero_thresh=2.0)
+══════════════════════════════════════════════════════════════════════
+  Layer 0: K=42 modes | Q: 85% zero, 9% flip, snr=1.35
+  Layer 2: K=13 modes | Q: 99% zero, 0% flip, snr=0.40
+  Init: loss=12.3369, L2 rank90=5, top1=54.4%
+
+    step     1: train=12.2830, eval=12.3363, gnorm=6.53, 0s
+    step   500: train=1.4518, eval=5.9804, gnorm=1.10, 32s
+    step  1000: train=1.1045, eval=6.3262, gnorm=1.98, 65s
+    step  1500: train=0.9766, eval=6.6378, gnorm=2.11, 97s
+    step  2000: train=0.8575, eval=6.7705, gnorm=1.89, 129s
+    step  2500: train=0.7867, eval=6.9735, gnorm=1.87, 162s
+    step  3000: train=0.7676, eval=7.1032, gnorm=2.03, 194s
+    step  3500: train=0.6907, eval=7.1525, gnorm=2.23, 226s
+    step  4000: train=0.6796, eval=7.2020, gnorm=2.00, 259s
+    step  4500: train=0.6689, eval=7.2077, gnorm=1.95, 291s
+    step  5000: train=0.6788, eval=7.2275, gnorm=2.23, 323s
+
+  Final: loss=7.2275, L2 rank90=5, top1=54.4%
+
+══════════════════════════════════════════════════════════════════════
+ALL VARIANTS COMPARISON
+══════════════════════════════════════════════════════════════════════
+
+                       Variant │     Loss │ L2 r90 │ L2 top1 │  Q reduction
+────────────────────────────────────────────────────────────────────────────────
+                    A. Float32 │   6.7412 │      6 │   80.5% │            —
+                  B. Sign-only │   6.8625 │     32 │   45.5% │            —
+                C. M-noise 30% │   6.6972 │     25 │   56.1% │            — ★
+         H. β-reduced (zt=0.3) │   6.8278 │      1 │   94.3% │    50%z 28%f
+         H. β-reduced (zt=0.5) │   6.8466 │      1 │   94.5% │    74%z 13%f
+         H. β-reduced (zt=0.7) │   7.1292 │      1 │   93.6% │     85%z 7%f
+         H. β-reduced (zt=1.0) │   6.9436 │      2 │   89.2% │     94%z 3%f
+         H. β-reduced (zt=1.5) │   6.9258 │      4 │   79.6% │     98%z 1%f
+         H. β-reduced (zt=2.0) │   7.2275 │      5 │   54.4% │     99%z 0%f
+
+Elapsed: 1918s (32.0m)
+Saved to results/reduced-train/summary.json
