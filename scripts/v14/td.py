@@ -265,27 +265,58 @@ class FlipMap:
         """Compute per-module convergence summary.
 
         Returns dict[module_name → {frozen_frac, active_frac, hot_frac,
+        settled_frac, oscillation_frac, nozzle_frac,
         total_flips, total_candidates, shape}].
 
         Zones:
             frozen: never a candidate (candidate_count == 0)
             active: has been a candidate at some point
             hot:    was a candidate within the last `recent_window` steps
+
+        Quality (S2 anti-oscillation):
+            settled:     flipped AND no longer a candidate (reduction stuck)
+            oscillating: flipped >1 time AND still a recent candidate (flip-flop)
+            nozzle_frac: hot_frac * (1 - oscillation_frac) — effective nozzle weight
+                         Penalizes modules that are hot because of oscillation
+                         rather than genuine convergence.
         """
         summary = {}
         for name, m in self._modules.items():
             total = m["flip_count"].size
             ever_candidate = m["candidate_count"] > 0
             recently_candidate = m["last_candidate_step"] >= (step - recent_window)
+            ever_flipped = m["flip_count"] > 0
 
             n_frozen = int((~ever_candidate).sum())
             n_active = int(ever_candidate.sum())
             n_hot = int(recently_candidate.sum())
 
+            # S2 anti-oscillation: settled vs oscillating
+            # Settled: flipped at least once AND not a recent candidate
+            #   → the reduction stuck, topology stable here
+            # Oscillating: flipped >1 times AND still a recent candidate
+            #   → keeps flipping back and forth, noise not signal
+            n_ever_flipped = int(ever_flipped.sum())
+            settled = ever_flipped & ~recently_candidate
+            oscillating = (m["flip_count"] > 1) & recently_candidate
+            n_settled = int(settled.sum())
+            n_oscillating = int(oscillating.sum())
+
+            # Oscillation fraction: of the hot positions, how many are oscillators?
+            # This directly penalizes the nozzle weight.
+            osc_frac = n_oscillating / max(n_hot, 1)
+
+            # Nozzle fraction: hot_frac discounted by oscillation
+            hot_frac = n_hot / total
+            nozzle_frac = hot_frac * (1.0 - osc_frac)
+
             summary[name] = {
                 "frozen_frac": n_frozen / total,
                 "active_frac": n_active / total,
-                "hot_frac": n_hot / total,
+                "hot_frac": hot_frac,
+                "settled_frac": n_settled / max(n_ever_flipped, 1),
+                "oscillation_frac": osc_frac,
+                "nozzle_frac": nozzle_frac,
                 "total_flips": int(m["flip_count"].sum()),
                 "total_candidates": int(m["candidate_count"].sum()),
                 "shape": m["flip_count"].shape,

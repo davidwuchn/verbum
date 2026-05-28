@@ -1180,11 +1180,17 @@ def train_td(
                 for mod_name, info in fm_summary.items():
                     record[f"fm.{mod_name}.frozen"] = round(info["frozen_frac"], 4)
                     record[f"fm.{mod_name}.hot"] = round(info["hot_frac"], 4)
+                    record[f"fm.{mod_name}.osc"] = round(info["oscillation_frac"], 4)
+                    record[f"fm.{mod_name}.nozzle"] = round(info["nozzle_frac"], 4)
+                    record[f"fm.{mod_name}.settled"] = round(info["settled_frac"], 4)
                     record[f"fm.{mod_name}.total_flips"] = info["total_flips"]
                     record[f"fm.{mod_name}.total_cand"] = info["total_candidates"]
                 # Update shaped nozzle weights for TD
+                # Uses nozzle_frac (= hot_frac discounted by oscillation)
+                # so oscillating modules don't steal budget from genuinely
+                # converging ones. S2 anti-oscillation at the nozzle level.
                 _cached_hot_fracs = {
-                    name: info["hot_frac"] for name, info in fm_summary.items()
+                    name: info["nozzle_frac"] for name, info in fm_summary.items()
                 }
 
             _append_jsonl(checkpoint_dir / "train_td_log.jsonl", record)
@@ -1205,11 +1211,14 @@ def train_td(
                     short = short.replace("ffn_gate_plate_", "ffn.gate.")
                     short = short.replace("ffn_key_plate_", "ffn.up.")
                     short = short.replace("ffn_value_plate_", "ffn.down.")
+                    osc_str = ""
+                    if info["oscillation_frac"] > 0.05:
+                        osc_str = f" ⚠osc={info['oscillation_frac']:.0%}"
                     report_parts.append(
                         f"  {short}: "
                         f"frozen={info['frozen_frac']:.0%} "
-                        f"active={info['active_frac']:.0%} "
                         f"hot={info['hot_frac']:.0%} "
+                        f"nozzle={info['nozzle_frac']:.0%}{osc_str} "
                         f"(flips={info['total_flips']:,} cand={info['total_candidates']:,})"
                     )
                 if report_parts:
