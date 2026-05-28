@@ -236,10 +236,8 @@ class FlipMap:
             candidates_mask = info.get("candidates_mask", None)
 
             if flip_occurred is not None:
-                if hasattr(flip_occurred, '__array__'):
-                    flip_arr = np.array(flip_occurred, dtype=bool)
-                else:
-                    flip_arr = flip_occurred
+                # Convert MLX arrays to numpy (mx.array.astype uses mx.Dtype, not np.dtype)
+                flip_arr = np.asarray(flip_occurred).astype(bool)
 
                 self._ensure_module(name, flip_arr.shape)
                 m = self._modules[name]
@@ -249,10 +247,7 @@ class FlipMap:
                 )
 
             if candidates_mask is not None:
-                if hasattr(candidates_mask, '__array__'):
-                    cand_arr = np.array(candidates_mask, dtype=bool)
-                else:
-                    cand_arr = candidates_mask
+                cand_arr = np.asarray(candidates_mask).astype(bool)
 
                 self._ensure_module(name, cand_arr.shape)
                 m = self._modules[name]
