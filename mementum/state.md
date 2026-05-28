@@ -10,7 +10,7 @@
 
 **Session 163 (continued): TOPOLOGY-MAGNITUDE DUALITY + FLIPMAP + SHAPED NOZZLE.** Key theoretical insight: TD training is beta reduction to irreducible form. Ternary weights can't overfit (2-3 states per weight → finite state space → guaranteed convergence → natural stopping point). The inverse relationship between topology correctness and magnitude explains gnorm dynamics: correct topology → magnitudes near unity, wrong topology → large magnitudes compensating. Training reduces to: freeze(base) → train(delta) → converge → fold(delta→base) → repeat until delta stays identity. Built FlipMap (spatial convergence heatmap), shaped nozzle (direct flip budget to hot zones), S2 anti-oscillation (penalize flip-flop modules), and data shuffling (maximize compositional variety).
 
-**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~3030/20000. FlipMap + shaped nozzle active. Data shuffling on next restart.
+**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~3100/20000. FlipMap active (first report in). Next restart brings: adaptive flip rate (gnorm feedback), per-module budget allocation (no more winner-take-all), 8× base flip rate (~1M→3M flips/step), data shuffling.
 
 *Key session 164 insights:*
 - **TD can't overfit.** Ternary weights have 2-3 states. The irreducible form IS the stopping point — no floor in continuous space, guaranteed floor in discrete space. This is why regularization exists: it's an artificial brake for what TD gets for free.
@@ -87,6 +87,9 @@ Parity and cross-zone monotonically declining (healthy).
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| Per-module budget allocation | 163 | Replaces global top-K with proportional per-module budgets. No more winner-take-all. |
+| Adaptive flip rate (gnorm feedback) | 163 | flip_rate = base × (target_gnorm / gnorm_ema). Self-regulating. Band: 0.5×–5×. |
+| Base flip rate 0.001 → 0.008 | 163 | Targets ~1M flips/step (was 132K). With adaptive rate at gnorm~5: ~3M flips. |
 | FlipMap: spatiotemporal heatmap | 163 | Per-position (N,K) tracking of flips+candidates across all 76 delta modules |
 | Shaped nozzle for TD | 163 | Flip budget weighted by module hot_frac — hot modules get more flips |
 | S2 anti-oscillation in nozzle | 163 | nozzle_frac = hot_frac × (1 - oscillation_frac). Flip-flop modules penalized. |
@@ -155,11 +158,11 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 ### IMMEDIATE (training run)
 
-1. **Restart training after step 3000 checkpoint** → picks up FlipMap code
-2. **Run PPL eval at step 3000** → compare to old 3-stack PPL 5,567 at step 2000
-3. **First FlipMap report at step 3100** → see which modules are frozen vs hot vs active
-4. **Watch FFN plates in FlipMap** — first non-frozen FFN = model discovering differentiation
-5. **Watch for phase transition** — gnorm storm + sudden hot zone expansion in FlipMap
+1. **Restart training** → picks up: adaptive rate (base 0.008), per-module allocation, data shuffling
+2. **Watch gnorm after restart** — expect rise from ~5 toward 10-15 as 3M flips/step start flowing
+3. **Watch FlipMap at step +100** — all modules should now show non-zero flips (no more winner-take-all)
+4. **Watch for PPL improvement** — the plateau may break once all layers get restructuring capacity
+5. **If gnorm > 25 sustained** — adaptive rate will throttle, but may need to lower target gnorm from 15
 
 ### FOLLOW UP
 

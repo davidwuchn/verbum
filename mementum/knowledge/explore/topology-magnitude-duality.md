@@ -128,9 +128,37 @@ designs its own curriculum. The irreducible form for ALL data = done.
 | Fold → magnitudes simplify | Post-fold, gnorm drops immediately |
 | Data variety → faster convergence | Shuffled data → more flips per step |
 
+## First FlipMap Results (step 3100)
+
+The first FlipMap report revealed critical starvation:
+
+- **370M candidates** across all modules, budget of **132K** (0.04% utilization)
+- **L4-L9 out_proj** won 100% of flips via global top-K ranking
+- **56 other hot modules**: 100% hot, ~6.5M candidates each, **zero flips**
+- **FFN plates**: completely frozen (0 candidates) — not yet engaged
+- **k_proj layers 10-15**: completely frozen (0-7 candidates)
+- **k_proj, q_proj layers 0-9**: 2.5-6.5M candidates, near-zero flips
+
+Winner-take-all global ranking was the structural problem.
+Fix: per-module proportional budget allocation + 8× base rate.
+
+## Control Stack (6 layers, all self-regulating)
+
+```
+gnorm → adaptive flip rate (0.5×–5× base, proportional control)
+  → FlipMap records WHERE flips happen
+    → shaped nozzle distributes budget to hot zones
+      → S2 anti-oscillation discounts flip-flop modules
+        → per-module proportional budget (no winner-take-all)
+          → per-position cooldown with exponential backoff
+            → spatial median smoothing rejects outliers
+```
+
 ## Implementation
 
 - FlipMap: `scripts/v14/td.py` FlipMap class
 - Shaped nozzle: `scripts/v14/td.py` TernaryDescent.step(hot_fracs=...)
+- Adaptive flip rate: `scripts/v14/td.py` TernaryDescent.update_flip_rate(gnorm)
+- Per-module allocation: `scripts/v14/td.py` TernaryDescent.step() budget distribution
 - S2 anti-oscillation: `scripts/v14/td.py` FlipMap.summary() → nozzle_frac
 - Data shuffling: `scripts/v14/data.py` ShardedDataLoader
