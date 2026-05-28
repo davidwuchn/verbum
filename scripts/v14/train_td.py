@@ -605,7 +605,7 @@ def train_td(
     """Training loop: Adam (beams) + TernaryDescent (delta plates).
 
     Lessons encoded from v13 failures:
-      - NaN guard with rollback after 3 consecutive NaN
+      - NaN guard: skip step, exit after 3 consecutive NaN with diagnostic
       - Crystal factor overflow guard
       - Schmitt trigger (hysteresis) for TD activation
       - Gradient decomposition: routing→TD, calibration→Adam
@@ -850,7 +850,7 @@ def train_td(
     # Main loop
     # ══════════════════════════════════════════════════════════
 
-    nan_consecutive = 0  # NaN skip/rollback counter
+    nan_consecutive = 0  # NaN counter — exit after 3 consecutive
 
     for step in range(start_step + 1, total_steps + 1):
         t0 = time.time()
@@ -933,32 +933,87 @@ def train_td(
         accum_grads = tree_map(lambda g: g / cfg.grad_accum, accum_grads)
 
         # ── NaN guard ─────────────────────────────────────────
-        # If loss is NaN/Inf: skip this step entirely (don't poison Adam
-        # moments or model weights). After 3 consecutive NaN, roll back.
+        # If loss is NaN/Inf: skip this step (don't poison Adam or model).
+        # After 3 consecutive NaN: STOP with diagnostic report.
+        # Recovery is a human decision, not an automated rollback.
         if math.isnan(step_loss) or math.isinf(step_loss):
             nan_consecutive += 1
+
+            # ── NaN source diagnostic ──
+            def _safe_read(attr_name):
+                v = getattr(model, attr_name, None)
+                if v is None:
+                    return "N/A"
+                try:
+                    mx.eval(v)
+                    fv = float(v.item())
+                    if math.isnan(fv):
+                        return "NaN ❌"
+                    if math.isinf(fv):
+                        return "Inf ❌"
+                    return f"{fv:.4f}"
+                except Exception:
+                    return "err"
+
+            def _safe_gnorm(grads):
+                try:
+                    fg = [g for _, g in tree_flatten(grads) if isinstance(g, mx.array)]
+                    gsq = sum(float(mx.sum(g * g).item()) for g in fg) if fg else 0.0
+                    if math.isnan(gsq) or math.isinf(gsq):
+                        return "NaN ❌"
+                    return f"{math.sqrt(max(gsq, 0)):.2f}"
+                except Exception:
+                    return "err"
+
             print(
-                f"⚠️  NaN/Inf loss at step {step} (consecutive: {nan_consecutive})",
+                f"⚠️  NaN/Inf loss at step {step} (consecutive: {nan_consecutive})"
+                f" | CE={_safe_read('_last_ce')}"
+                f" crystal={_safe_read('_last_crystal_mse')}"
+                f" parity={_safe_read('_last_parity')}"
+                f" cross_zone={_safe_read('_last_cross_zone')}"
+                f" gnorm={_safe_gnorm(accum_grads)}",
                 file=sys.stderr, flush=True,
             )
+
             if nan_consecutive >= 3:
-                # Roll back to last clean checkpoint
+                # ── Stop with recovery instructions ──
+                # Find available checkpoints for the report
                 ckpt_dirs = sorted(
                     d for d in os.listdir(str(checkpoint_dir))
                     if d.startswith("step_")
                 )
-                if ckpt_dirs:
-                    last_ckpt = checkpoint_dir / ckpt_dirs[-1]
-                    print(
-                        f"🔄 3 consecutive NaN — rolling back to {last_ckpt}",
-                        file=sys.stderr, flush=True,
+                snap_dir = checkpoint_dir / "snapshots"
+                snap_steps = []
+                if snap_dir.exists():
+                    snap_steps = sorted(
+                        d.name for d in snap_dir.iterdir()
+                        if d.is_dir() and d.name.startswith("step_")
                     )
-                    model.load_weights(str(last_ckpt / "model.npz"), strict=False)
-                    mx.eval(model.parameters())
-                    restore_ternary(model)
-                    freeze_ternary_weights(model)
-                    freeze_delta_architecture(model)
-                nan_consecutive = 0
+
+                print(
+                    f"\n{'='*72}\n"
+                    f"💀 FATAL: 3 consecutive NaN at step {step}. Training stopped.\n"
+                    f"\n"
+                    f"  Last healthy step logged before NaN.\n"
+                    f"  Model + Adam + safetensors state may be inconsistent.\n"
+                    f"\n"
+                    f"  Available npz checkpoints: {', '.join(ckpt_dirs[-5:]) if ckpt_dirs else 'none'}\n"
+                    f"  Available snapshots:       {', '.join(snap_steps[-5:]) if snap_steps else 'none'}\n"
+                    f"\n"
+                    f"  Recovery options:\n"
+                    f"    1. Resume from earlier npz checkpoint:\n"
+                    f"       --resume {checkpoint_dir}/{ckpt_dirs[-2] if len(ckpt_dirs) >= 2 else '???'}\n"
+                    f"\n"
+                    f"    2. Lower learning rate or flip rate:\n"
+                    f"       --lr 1e-4 --td-flip-rate 0.004\n"
+                    f"\n"
+                    f"    3. If safetensors are poisoned, restore snapshot first:\n"
+                    f"       cp -r {snap_dir}/{snap_steps[-1] if snap_steps else '???'}/* {checkpoint_dir}/\n"
+                    f"{'='*72}",
+                    file=sys.stderr, flush=True,
+                )
+                sys.exit(1)
+
             continue  # skip optimizer step entirely
 
         # Reset NaN counter on clean step
@@ -1012,12 +1067,16 @@ def train_td(
                 td_active = False  # crystal destabilized — deactivate TD
             # else: stay in current state (hysteresis band)
 
-        # ── Adaptive flip rate: gnorm feedback → TD budget ─────
-        # Low gnorm = system has capacity for more topology change.
-        # High gnorm = system overwhelmed, throttle back.
-        # Equilibrium: topology changes as fast as magnitudes can absorb.
-        if td_active:
-            td.update_flip_rate(grad_norm)
+        # ── Adaptive flip rate: DISABLED (session 165) ─────────
+        # The adaptive rate (session 163) caused uniform topology melt:
+        # low gnorm → rate spikes → 2.8M flips → all modules 100% hot
+        # → Δ jumped 0.036→0.168 in 10 flip steps with no loss improvement.
+        # Holographic etch uses fixed budget, equal thin slots per module.
+        # The old proportional/adaptive mechanism is preserved in td.py
+        # (update_flip_rate method) but not called during training.
+        #
+        # if td_active:
+        #     td.update_flip_rate(grad_norm)
 
         # ── TernaryDescent: accumulate every step, flip every N ──
         # TD.step() accumulates moments every call. When step_count
@@ -1106,10 +1165,13 @@ def train_td(
             # (flip_interval may not align with log_interval in old runs,
             # but with training_step alignment they should match)
             td_flips_this_window = td_flips_since_log  # capture before reset
+            # Etch diagnostics from td_result (only on flip steps)
+            etch_modules = td_result.get("etch_active_modules", "")
+            etch_slot = td_result.get("etch_slot_size", "")
+            etch_str = f" etch={etch_modules}×{etch_slot}" if etch_modules else ""
             td_str = (
                 f" {gate_icon} td={td_flips_this_window}"
-                f" rate={td.flip_rate:.4f}"
-                f" Δ={avg_changed:.3f}{nb_str}{adam_decay_str}"
+                f" Δ={avg_changed:.3f}{etch_str}{nb_str}{adam_decay_str}"
             )
 
             print(
@@ -1141,7 +1203,8 @@ def train_td(
                 "td_flips_since_log": td_flips_this_window,
                 "td_total_flips": total_td_flips,
                 "td_flip_rate": td.flip_rate,
-                "td_gnorm_ema": td._gnorm_ema,
+                "td_etch_active_modules": td_result.get("etch_active_modules", 0),
+                "td_etch_slot_size": td_result.get("etch_slot_size", 0),
                 "td_adam_decayed": n_adam_decayed,
                 "td_in_warmup": td_result["in_warmup"],
                 "td_active": td_active,
@@ -1508,8 +1571,10 @@ if __name__ == "__main__":
 
     # ── TernaryDescent params ─────────────────────────────────
     parser.add_argument(
-        "--td-flip-rate", type=float, default=0.008,
-        help="Max fraction of ternary weights to flip per step (default: 0.001)",
+        "--td-flip-rate", type=float, default=0.001,
+        help="Max fraction of ternary weights to flip per step (default: 0.001). "
+             "With holographic etch (session 165), this budget is divided equally "
+             "among all active modules. 0.001 = ~132K total = ~3K per module.",
     )
     parser.add_argument(
         "--td-warmup", type=int, default=25,

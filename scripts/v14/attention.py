@@ -358,6 +358,7 @@ class SingleStrideAttention(nn.Module):
 
         valid_mask = valid[None, None, :, :]
         attn = mx.where(valid_mask, attn, mx.array(float("-inf")))
+        attn = mx.clip(attn, -65.0, 65.0)  # prevent float32 softmax overflow (NaN)
         attn = mx.softmax(attn, axis=-1)
         if self.dropout is not None:
             attn = self.dropout(attn)

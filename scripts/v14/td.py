@@ -393,7 +393,7 @@ class TernaryDescent:
         self,
         beta1: float = 0.9,
         beta2: float = 0.999,
-        flip_rate: float = 0.001,
+        flip_rate: float = 0.001,  # 0.1% of weights per flip step — the thin slot
         warmup_steps: int = 100,
         min_confidence: float = 0.3,
         cooldown_tau: float = 50.0,
@@ -642,11 +642,12 @@ class TernaryDescent:
         is definitely stale). Non-flipped positions keep their
         accumulation — EMA natural decay handles landscape drift.
 
-        Shaped nozzle (session 164): if hot_fracs is provided (from
-        FlipMap.summary()), candidate scores are weighted by module
-        hot fraction. Hot modules get more of the flip budget. Frozen
-        modules' noise spikes are suppressed. The nozzle is shaped
-        to match where reductions are actually needed.
+        Holographic etch (session 165): the flip budget is divided
+        equally among all active modules (those with >0 candidates).
+        Each module gets a thin slot — only its absolute highest-
+        confidence positions flip. This ensures cross-layer coherence:
+        topology changes together, so layers can co-adapt without
+        Adam bridging mismatches with magnitudes.
 
         Args:
             delta_params: List of (name, delta_packed_uint32, grad_wrt_effective,
@@ -775,15 +776,19 @@ class TernaryDescent:
             candidates = confident & can_move
             candidate_scores = mx.where(candidates, score, mx.array(0.0))
 
-            # ── Shaped nozzle: weight by module hot fraction ──
-            # Hot modules (actively reducing) get more budget.
-            # Frozen modules (crystallized) get suppressed.
-            # Floor at 0.01 to prevent permanent lockout — a frozen
-            # module that suddenly needs to restructure can still win
-            # if its candidates are confident enough.
-            if hot_fracs is not None and name in hot_fracs:
-                nozzle_weight = max(hot_fracs[name], 0.01)
-                candidate_scores = candidate_scores * nozzle_weight
+            # ── Shaped nozzle: DISABLED (session 165) ──────────
+            # With holographic etch, every active module gets an equal
+            # thin slot. The nozzle weight was a per-module scalar that
+            # only affected cross-module competition (global top-K).
+            # With equal slots, it's redundant — it doesn't change
+            # the within-module ranking (same scalar for all positions).
+            #
+            # The FlipMap still tracks hot/frozen/oscillation for
+            # diagnostics. The nozzle just doesn't shape the budget.
+            # Keeping hot_fracs parameter for future use if needed.
+            #
+            # (Old code: nozzle_weight = max(hot_fracs[name], 0.01);
+            #  candidate_scores *= nozzle_weight)
 
             total_ternary_weights += delta_unpacked.size
 
@@ -800,21 +805,45 @@ class TernaryDescent:
                 "magnitude": magnitude,
             })
 
-        # ── Budget allocation: per-module proportional (session 163) ──
-        # Instead of global top-K (which creates winner-take-all),
-        # distribute budget proportionally to each module's candidate
-        # count. Each hot module gets its fair share. Within each
-        # module, the highest-confidence positions are selected.
-        # This ensures spreading: every starved layer gets flips.
+        # ── Budget allocation: holographic etch (session 165) ──────
+        #
+        # Topology is a hologram, not a stack of independent layers.
+        # Changes in one layer require all other layers to co-adapt.
+        # If only one module gets flips, the rest can't reshape to
+        # match — Adam has to bridge the mismatch with magnitudes,
+        # which is the tug-of-war TD exists to eliminate.
+        #
+        # A holographic grating is etched by cutting THIN SLOTS
+        # distributed across the ENTIRE surface. The interference
+        # pattern (information) is encoded in the relative positions
+        # of the slots, not the depth of any one cut.
+        #
+        #   old:   ████████████████░░░░░░░░░░░░░░░░  (deep trench, one module)
+        #   flood: ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  (sandblast everything)
+        #   etch:  │ │  │ │ │  │ │ │  │ │ │  │ │ │  (thin slots, full coverage)
+        #
+        # Same total budget as before (~132K at rate=0.001). But every
+        # active module gets an EQUAL thin slot. Within each slot,
+        # only the absolute highest-confidence positions flip.
+        # The topology changes together — layers co-adapt.
+        #
+        # Session 163 (proportional budget) was the right intuition
+        # (cross-layer coverage) at the wrong scale (8× rate + adaptive
+        # → 1.7M flips/step → uniform melt → loss regression).
+        #
+        # Session 165 fix: equal thin slots, old budget, no adaptive.
         global_budget = max(1, int(self.flip_rate * total_ternary_weights))
 
-        # Count candidates per module
+        # Count candidates per module and active modules
         module_n_candidates = []
         total_candidates = 0
+        n_active_modules = 0
         for mc in module_candidates:
             n_cands = int(mc["candidates"].sum().item())
             module_n_candidates.append(n_cands)
             total_candidates += n_cands
+            if n_cands > 0:
+                n_active_modules += 1
 
         if total_candidates == 0:
             for mc in module_candidates:
@@ -833,9 +862,11 @@ class TernaryDescent:
 
         effective_budget = min(global_budget, total_candidates)
 
-        # ── Pass 3: Per-module top-K with proportional budget ─
-        # Each module gets budget proportional to its candidate count.
+        # ── Pass 3: Holographic etch — equal thin slot per module ─
+        # Every active module gets the same budget: total / n_active.
         # Within each module, highest-confidence positions win.
+        # This ensures cross-layer coherence: all layers co-evolve.
+        per_module_slot = max(1, effective_budget // max(n_active_modules, 1))
         total_flips = 0
 
         for i, mc in enumerate(module_candidates):
@@ -856,8 +887,8 @@ class TernaryDescent:
                 }
                 continue
 
-            # Per-module budget: proportional to candidate share
-            module_budget = max(1, int(effective_budget * n_cands / total_candidates))
+            # Equal thin slot: same budget for every active module
+            module_budget = per_module_slot
 
             # Find per-module threshold via top-K within this module
             module_scores_flat = scores.reshape(-1)
@@ -973,6 +1004,11 @@ class TernaryDescent:
             "in_warmup": False,
             "is_flip_step": True,
             "per_module": per_module,
+            # Holographic etch diagnostics
+            "etch_active_modules": n_active_modules,
+            "etch_slot_size": per_module_slot,
+            "etch_global_budget": global_budget,
+            "etch_total_candidates": total_candidates,
         }
 
     def reset_moments(self):
