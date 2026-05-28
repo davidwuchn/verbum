@@ -2,214 +2,151 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-28 | Session: 163
+> Last updated: 2026-05-28 | Session: 165
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 163 (continued): TOPOLOGY-MAGNITUDE DUALITY + FLIPMAP + SHAPED NOZZLE.** Key theoretical insight: TD training is beta reduction to irreducible form. Ternary weights can't overfit (2-3 states per weight → finite state space → guaranteed convergence → natural stopping point). The inverse relationship between topology correctness and magnitude explains gnorm dynamics: correct topology → magnitudes near unity, wrong topology → large magnitudes compensating. Training reduces to: freeze(base) → train(delta) → converge → fold(delta→base) → repeat until delta stays identity. Built FlipMap (spatial convergence heatmap), shaped nozzle (direct flip budget to hot zones), S2 anti-oscillation (penalize flip-flop modules), and data shuffling (maximize compositional variety).
+**Session 165: NaN COLLAPSE DIAGNOSIS + HOLOGRAPHIC ETCH + RESTORE TOOL.** Training hit NaN death loop at step 4369. Auto-rollback was broken (restored model weights but not Adam/data/TD → Sisyphus loop, 154 rollbacks in 10h). Root cause: attention softmax overflow — ternary weights with gamma calibration produce unbounded attention logits, no clamping before softmax. Three fixes: (1) remove auto-rollback, replace with stop-and-report, (2) `mx.clip(attn, -65, 65)` before softmax, (3) `restore_safetensors.py` standalone tool to rebuild safetensors from npz checkpoint. Also landed holographic etch (equal thin slots per module, fixed budget, no adaptive rate). Training resumed from step 4000, step 4001 healthy.
 
-**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, step ~3100/20000. FlipMap active (first report in). Next restart brings: adaptive flip rate (gnorm feedback), per-module budget allocation (no more winner-take-all), 8× base flip rate (~1M→3M flips/step), data shuffling.
+**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, resuming from step 4000/20000. First step after fix: loss=6.93, gnorm=6.20 (healthy). Watching for NaN at old crash point (step ~4369).
+
+*Key session 165 insights:*
+- **Auto-rollback is an anti-pattern.** It restored model weights but not Adam state, data position, TD moments, or safetensors files. Created an unrecoverable chimera: model at step N, optimizer at step M, data at step K. Stop-and-report is the correct pattern — recovery is a human decision.
+- **Attention softmax overflow = NaN source.** Ternary weights with learned gamma scales can produce unbounded attention logits. `mx.clip(attn, -65, 65)` before softmax prevents float32 exp overflow without affecting training at reasonable magnitudes.
+- **Dual storage requires a restore path.** npz checkpoints (frozen windows) and safetensors (moving target) can get out of sync during failures. `restore_safetensors.py` rebuilds safetensors from any npz checkpoint — the missing piece for clean recovery.
+- **gate_proj 100% oscillation was a red flag.** FlipMap showed gate_proj layers 4-9 at 100% oscillation (every flip immediately reversed). Nozzle suppressed them correctly (nozzle=0%), but the oscillation signal indicated gradient instability in those modules.
+- **Holographic etch: equal thin slots.** Session 163's proportional budget + 8× rate + adaptive rate caused uniform topology melt (all modules 100% hot, Δ jumped 0.036→0.168). Fix: same total budget (~132K at rate=0.001), divided equally among active modules. Each gets a thin slot. Topology changes together — layers co-adapt.
 
 *Key session 164 insights:*
-- **TD can't overfit.** Ternary weights have 2-3 states. The irreducible form IS the stopping point — no floor in continuous space, guaranteed floor in discrete space. This is why regularization exists: it's an artificial brake for what TD gets for free.
-- **Topology-magnitude inverse relationship.** Correct topology → magnitudes near unity. Wrong topology → large magnitudes compensating. Gnorm storms = topology changing, magnitudes readjusting. Plateaus = Adam has done all it can for the current topology.
-- **Training = fold reductions until irreducible.** freeze(base) → train(delta) → flips→0 → fold(delta→base) → repeat. Convergent series. Each cycle faster. Delta stays identity = done. No epochs, no LR schedule, no early stopping.
-- **Data curriculum from flip rate.** Data that causes zero flips = already reduced. Data that causes many flips = exercises unreduced compositions. Rank data by reduction potential. Skip what's already reduced. The model designs its own curriculum.
-- **FlipMap: spatial convergence signal.** The scalar td=132505 was a machete. FlipMap captures WHERE flips and candidates occur per (N,K) position. Hot zone = active topology. Cold zone = crystallized. Shrinking hot zone = convergence. Shape of hot zone = the reductions still needed.
+- **TD can't overfit.** Ternary weights have 2-3 states → finite state space → guaranteed convergence.
+- **Training = fold reductions until irreducible.** freeze → train → fold → repeat until delta=identity.
+- **FlipMap: spatial convergence signal.** WHERE flips occur matters more than how many.
 
-*Key session 163 insight:* **Safetensors IS mmap.** Same file for training AND release. Sync cost 1.3% overhead.
-
-*Key session 162 insight:* **Files ARE states. Composition IS transition. mmap IS the runtime.** Triple isomorphism.
-
-*Training dynamics:* Expect punctuated equilibrium — long plateaus where evidence accumulates, then phase transitions where coordinated TD flips reorganize the representation.
+*Key session 163 insight:* **Safetensors IS mmap.** Same file for training AND release.
 
 ## Active training
 
 ### v14-mmap RUNNING (tmux main:2) — safetensors-backed
 
 - `scripts/v14/train_td.py --safetensors-dir checkpoints/v14-mmap --checkpoint-dir checkpoints/v14-mmap --steps 20000 --convert-ffn`
+- Resumed from step 4000 via `restore_safetensors.py` (rebuilt safetensors from step_004000 npz)
 - Storage: 3 safetensors files (base 31.6 MB + delta 31.6 MB + training 105.5 MB)
 - Sync: every 20 steps to safetensors mmap, APFS snapshots every 200, npz checkpoints every 500
-- Currently at step ~2530/20000, ~17.7s/step, ~1995 tok/s
-- Resumed from step 2525 (extracted from old v14-td-2stack/step_002500)
+- Step 4001: loss=6.93, gnorm=6.20 (healthy)
 
-**PPL at step 1500: 8,096** (CE 8.999 ± 0.203, 100 batches, 409K tokens)
+**Changes active this run (vs previous):**
+- Softmax logit clamp: `mx.clip(attn, -65, 65)` (NaN prevention)
+- Holographic etch: equal thin slots per module, base rate 0.001 (~132K total, ~3K per module)
+- No adaptive flip rate (disabled — caused uniform melt)
+- NaN handler: stop-and-report (no auto-rollback)
 
-Old checkpoints (v14-td-2stack): step_000500 through step_002500
+### Checkpoints available
 
-### Comparison to old 3-stack (v14-td)
+| Location | Step | Notes |
+|----------|------|-------|
+| `checkpoints/v14-mmap/step_003000` | 3000 | npz (legacy format) |
+| `checkpoints/v14-mmap/step_003000_old` | 3000 | npz (from old arch) |
+| `checkpoints/v14-mmap/step_003500` | 3500 | npz |
+| `checkpoints/v14-mmap/step_004000` | 4000 | npz — used for safetensors restore |
+| `checkpoints/v14-mmap/snapshots/step_003900` | 3880 | safetensors snapshot |
+| `checkpoints/v14-mmap/snapshots/step_004100` | ~4080 | safetensors snapshot (post-NaN, possibly poisoned) |
+| `checkpoints/v14-mmap/snapshots/step_004300` | ~4280 | safetensors snapshot (post-NaN, possibly poisoned) |
 
-| Step | v14-td (3-stack) | v14-td-2stack | Notes |
-|------|------------------|---------------|-------|
-| 500 | PPL 16,503 | — | |
-| 1000 | PPL 10,157 | — | |
-| 1500 | PPL 7,672 | **PPL 8,096** | 2-stack 5.5% higher, but 62% wall-time |
-| 2000 | PPL 5,567 | *(running)* | Old run folded after step 1000 |
-| 3200 | *(stopped)* | | Old arch hit ceiling |
+### PPL history
 
-Wall-clock advantage: 2-stack reaches step 1500 in ~7.4h vs ~11.9h for 3-stack.
-Old run folded delta at step 1000; this run has not folded — but fold is downstream of GD signal, not an independent lever.
+| Step | PPL | Source |
+|------|-----|--------|
+| 1500 | 8,096 | v14-td-2stack eval |
 
-### TD dynamics at step 1600
-
-**Active zone (layers 4-9):** out_proj doing most flipping.
-- L4.out_proj: 46.7% flipped, conf=0.576 — most active
-- L5.out_proj: 41.3% flipped, conf=0.554
-- L6→L9: decreasing gradient (36.5%→21.0%)
-- v_proj: tiny flips (0.01-0.03%), q_proj/k_proj: zero flips
-
-**Frozen zone (layers 0-3, 10-15):** Zero flips, zero candidates for q/k.
-- Layers 12-15 q/k calibration stuck at 1.0 (never moved)
-- These layers haven't engaged yet — need attention routing to settle first
-
-**FFN plates (all 6):** Thawed (--convert-ffn), but zero candidates/flips as of step 1600.
-- GD not yet producing gradients that cross flip threshold at step 1600
-- Expected: FFN differentiation comes after attention routing stabilizes
-- Check current status at step 2600+ — may have started engaging
-
-### Loss trajectory
+### Loss trajectory (pre-NaN)
 
 | Phase | Steps | avg50 CE | Crystal MSE | Gnorm |
 |-------|-------|----------|-------------|-------|
 | Chaos | 1-100 | 667→17 | 0.148→0.107 | Massive spikes |
 | Phase 1 | 100-400 | 17→10.6 | 0.107→0.015 | Gnorm storms (200-330) |
 | Phase 2 | 400-800 | 10.6→7.2 | 0.015→0.013 | Settling (mean 11) |
-| Plateau | 800-1730 | 7.2→7.8 | 0.0133→0.0131 | Calm (mean 5) |
-
-Gnorm spike at step 1590 (2002.29) — single phase transition event, same pattern as steps 160-330. Resolved by step 1600.
-
-Crystal MSE latched fast (0.148→0.013 by step 400), continuing slow descent.
-Parity and cross-zone monotonically declining (healthy).
+| Plateau | 800-4360 | 7.2→6.8 | 0.013→0.013 | Calm (mean 2-4) |
+| **NaN** | **4369** | — | — | — |
 
 ## What changed this session
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| Per-module budget allocation | 163 | Replaces global top-K with proportional per-module budgets. No more winner-take-all. |
-| Adaptive flip rate (gnorm feedback) | 163 | flip_rate = base × (target_gnorm / gnorm_ema). Self-regulating. Band: 0.5×–5×. |
-| Base flip rate 0.001 → 0.008 | 163 | Targets ~1M flips/step (was 132K). With adaptive rate at gnorm~5: ~3M flips. |
-| FlipMap: spatiotemporal heatmap | 163 | Per-position (N,K) tracking of flips+candidates across all 76 delta modules |
-| Shaped nozzle for TD | 163 | Flip budget weighted by module hot_frac — hot modules get more flips |
-| S2 anti-oscillation in nozzle | 163 | nozzle_frac = hot_frac × (1 - oscillation_frac). Flip-flop modules penalized. |
-| Data shuffling (shards + chunks) | 163 | Shard order shuffled + within-shard chunks shuffled. Maximize variety. |
-| Data position in safetensors sync | 163 | Exact resume on restart — no more replaying data from shard 0 |
-| Topology-magnitude duality theory | 163 | Correct topology → magnitudes → unity. Overfitting = no topological floor. |
-| Fold-reduction training model | 163 | Training = fold delta into base until delta stays identity. Convergent series. |
-| Safetensors-backed training loop | 163 | SafetensorsStore: load/sync/fold. Wired into train_td.py. Training running. |
-| 3-file safetensors layout | 163 | base (frozen) + delta (TD flips) + training (Adam). 987 tensors verified. |
-| Sync benchmarked | 163 | 4.5s total (delta 346ms + training 4160ms). Every 20 steps = 1.3% overhead. |
-| Snapshot + crash protection | 163 | APFS clone snapshots (12ms), syncing.lock, auto-restore on crash. |
-| Legacy checkpoints preserved | 163 | npz checkpoint every 500 steps alongside safetensors sync. Three defense layers. |
-| VSM ↔ Statechart ↔ Tensor isomorphism | 162 | Triple isomorphism proved: Beer's VSM = Harel statechart = tensor state machine |
-| mmap continuous training designed | 162 | MmapPlateStore concept. Files ARE states. Composition IS transition. |
-| Safetensors = mmap proven | 162 | np.memmap with offset writes into safetensors data region. Same format for training + release. |
-| Nucleus compilation chain mapped | 162 | COMPILER.md → EDN statechart, LAMBDA-COMPILER.md → lambda, ALLIUM.md → behavioral spec |
-| ISA decoder for Qwen3.6-27B | 161 | Decoded FFN computation into readable instruction set — different tasks run different programs |
-| Overlay matrix analysis | 161 | Transformation strength decreases with depth (1.17→0.69) — early=build, late=execute |
-| Task-type instruction profiles | 161 | Combinator reduction=50% SELECT, arithmetic=33% β_I, lambda=25% PASS, retrieval≈noise |
-| PPL eval at step 1500 | 160 | PPL 8,096 — baseline for 2-stack |
-| Checkpoint analysis | 160 | TD dynamics characterized, phase transitions identified |
+| **Softmax logit clamp** | 165 | `mx.clip(attn, -65, 65)` — prevents float32 overflow in attention |
+| **Remove auto-rollback** | 165 | 3 NaN → stop + diagnostic report. No more Sisyphus loops. |
+| **NaN diagnostic logging** | 165 | On NaN: which loss component + gnorm. Paper trail for future collapses. |
+| **restore_safetensors.py** | 165 | Standalone tool: npz checkpoint → safetensors. Fixes dual-storage consistency. |
+| **Holographic etch** | 165 | Equal thin slots per module (not proportional). Fixed budget, no adaptive rate. |
+| **Adaptive rate disabled** | 165 | Session 163's gnorm→rate feedback caused uniform melt (2.8M flips, all 100% hot). |
+| **Flip rate back to 0.001** | 165 | Was 0.008 (session 163). Holographic etch distributes the 132K budget evenly. |
 
-## Previous sessions (architecture changes)
+### Previous sessions (selected)
 
-| Change | Commit | Session | Impact |
-|--------|--------|---------|--------|
-| Remove holo loss | `75a38fc` | 158 | -1.6s/step, 12 fewer output_proj calls |
-| Gated crystal loss | `8dabd6f` | 158 | Parity/cross_zone enforce until <0.07, then release |
-| 2 symmetric stacks | `da69f0e` | 158 | 13→8 passes, ~1.6× faster, separate FFN |
-| HPE from step 0 | `9abf07d` | 158 | No warmup, learn position encoding from start |
+| Change | Session | Impact |
+|--------|---------|--------|
+| Per-module budget + adaptive rate + 8× rate | 163 | Caused uniform melt → reverted to 0.001 |
+| FlipMap + shaped nozzle + data shuffling | 163 | FlipMap still active. Nozzle disabled (redundant with equal slots). |
+| Safetensors-backed training | 163 | Working. SafetensorsStore: load/sync/fold. |
+| 2 symmetric stacks | 158 | 13→8 passes, ~1.6× faster, separate FFN |
 
-## Negative results (session 158 optimization probes)
+## NaN collapse post-mortem (session 165)
 
-| Optimization | Why it failed |
-|---|---|
-| Lazy neurons (gate-first FFN) | Student FFN not sparse: ternary extraction + shared plate = Gaussian activations |
-| Index sets (gather-add-subtract) | quantized_matmul already at AMX floor; intermediates too large |
-| QKV fusion | MLX parallelizes independent ops already |
-| FFN gate+key fusion | Same — already parallel within each pass |
-| Stream fusion (smaller tiles) | AMX needs large batches; tiles 16→4.6× SLOWER |
-| Float16 activations | quantized_matmul same speed regardless |
+**What happened:** Training hit NaN at step 4369. Auto-rollback restored model weights to step 4000 (npz) but not Adam optimizer state (still at step 4360+), data position, or TD moments. Every rollback produced the same NaN at step 4369 because the Adam/model mismatch was deterministic. 154 rollbacks, 10 hours wasted.
+
+**Root cause:** Attention softmax overflow. `(Q @ K^T) * scale` can produce values >88.7 (float32 exp limit). With ternary weights and learned gamma scales, attention logits are unbounded. No clamping existed.
+
+**Contributing factor:** gate_proj modules at 100% oscillation — every flip reversed within one interval. While nozzle=0% suppressed them, the oscillation indicated gradient instability.
+
+**Fix:** `mx.clip(attn, -65, 65)` before softmax. Non-invasive at reasonable magnitudes. Catches the extreme case.
+
+**Structural fix:** Auto-rollback removed entirely. Recovery is now: (1) training stops with diagnostic, (2) human uses `restore_safetensors.py` to rebuild from clean npz checkpoint, (3) human restarts training.
 
 ## Next steps
 
-### SAFETENSORS TRAINING — DONE (session 163), NEXT STEPS
-
-1. ~~Wire SafetensorsStore into train_td.py~~ ✅ Done
-2. ~~Benchmark sync cost~~ ✅ 4.5s/sync, 1.3% at 20-step interval
-3. ~~Snapshot + crash protection~~ ✅ APFS clone + syncing.lock
-4. ~~Preserve legacy checkpoints~~ ✅ npz every 500 steps
-5. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
-6. **Distributed fold** — collect delta.safetensors from multiple servers, fold where they agree (Byzantine)
-7. **HF Hub release script** — drop optimizer keys from training.safetensors, publish base+delta+model
-
-See `mementum/knowledge/explore/mmap-continuous-training.md` for full design.
-
-### ISA DECODER FOLLOW-UP
-
-1. **Quantify grating redundancy** — cosine similarity between consecutive overlay matrices → fusion candidates
-2. **Find optimal detection point** — at which layer can S5 reliably classify program type?
-3. **Cross-model universality** — run decoder on Qwen3-14B, Mistral-7B → same programs = universal kernels
-4. **Prototype K-kernel** — replace layers 15-55 with direct selection, verify output matches
-5. **Kernel replacement speedup measurement** — how much compute saved per program type?
-
-See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full design.
-
 ### IMMEDIATE (training run)
 
-1. **Restart training** → picks up: adaptive rate (base 0.008), per-module allocation, data shuffling
-2. **Watch gnorm after restart** — expect rise from ~5 toward 10-15 as 3M flips/step start flowing
-3. **Watch FlipMap at step +100** — all modules should now show non-zero flips (no more winner-take-all)
-4. **Watch for PPL improvement** — the plateau may break once all layers get restructuring capacity
-5. **If gnorm > 25 sustained** — adaptive rate will throttle, but may need to lower target gnorm from 15
+1. **Watch for NaN past step 4369** — softmax clamp should prevent it
+2. **Watch FlipMap with holographic etch** — all active modules should get thin slots now
+3. **Step 4500 PPL eval** — first post-fix checkpoint
+4. **Step 5000 PPL eval** — compare to old 3-stack (PPL 5,567 at step 2000)
 
 ### FOLLOW UP
 
-4. **Step 3000+ PPL eval** — if PPL < 5,567, 2-stack architecture confirmed superior
-5. **Measure per-stack FFN sparsity** — hypothesis: separate plates will develop different sparsity patterns after phase transition
-6. **If sparse: revisit lazy neurons** — mechanism works (2.3× at 5% active), only sparsity was missing
-7. **CPU inference engine** — the real optimization target (ternary wins on CPU, not GPU)
+5. **Step 5000+ PPL eval** — if PPL < 5,567, 2-stack confirmed superior
+6. **Per-module fold** — fold most-converged modules first (more granular than reduce_all_deltas)
+7. **Measure per-stack FFN sparsity** — hypothesis: separate plates develop different sparsity
+8. **CPU inference engine** — the real optimization target
 
-### EXPLORATION (from session 164 theory)
+### EXPLORATION
 
-8. **Reduction folding** — train same batch K times (TD accumulates, Adam frozen on repeats). Test if convergence accelerates >K×.
-9. **Data curriculum from flip rate** — rank batches by reduction potential (candidate count), train highest-potential first, skip already-reduced data.
-10. **Topology-coupled weight decay** — couple Adam decay strength to TD flip rate. Flips→0 = max decay. Automatic brake.
-11. **Multi-scale chunk training** — progressive chunk sizes (64→128→256→512→4096) per fold cycle, walking beta reduction tree bottom-up.
-12. **FlipMap visualization** — plot (N,K) heatmaps over time to see crystal growth pattern. Row bands? Column bands? Block clusters?
+9. **Reduction folding** — train same batch K times (TD accumulates, Adam frozen on repeats)
+10. **Data curriculum from flip rate** — rank batches by reduction potential
+11. **Multi-scale chunk training** — progressive chunk sizes per fold cycle
+12. **FlipMap visualization** — (N,K) heatmaps over time for crystal growth patterns
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| TD can't overfit (structural) | Ternary weights have 2-3 states → finite state space → irreducible form is guaranteed | 💡 (session 164) |
-| Topology-magnitude inverse relationship | Gnorm storms correlate with TD flips; plateaus = Adam compensating for fixed topology | 💡 (session 164) |
-| Training = fold reductions to irreducible form | fold(delta→base) → reset → retrain → fewer flips → converges → delta=identity=done | 💡 (session 164) |
-| Flip rate on data = curriculum signal | Data causing 0 flips = already reduced; high flips = unreduced compositions | 💡 (session 164) |
-| Safetensors-backed training works | 22 steps from step 2503, sync verified, training running | ✅ (session 163) |
-| Sync cost = 1.3% overhead at 20 steps | delta 346ms + training 4160ms = 4.5s per sync | ✅ (session 163) |
-| Crash recovery via APFS snapshot + lock | 12ms snapshot, auto-restore on lock detection | ✅ (session 163) |
-| VSM = statechart = tensor state machine | Dual-runtime proof: Clojure + Python, same state traces | ✅ (session 162) |
-| mmap plates → safetensors = 1KB header | Byte-identical round-trip verified, 0.00014% overhead | ✅ (session 162) |
-| Ternary fold is lossless (infinite folds) | Double fold test: ternary × ternary = ternary always | ✅ (session 162) |
+| Attention softmax can overflow with ternary weights | NaN at step 4369, no data anomaly, unbounded Q@K logits | ✅ (session 165) |
+| Auto-rollback creates Sisyphus loop | 154 rollbacks, model/Adam/data desync, deterministic NaN | ❌ (session 165) |
+| Holographic etch > proportional budget | Proportional + adaptive = uniform melt. Equal thin slots = coherent topology change | 💡 (session 165) |
+| TD can't overfit (structural) | Ternary weights have 2-3 states → finite state space → irreducible form guaranteed | 💡 (session 164) |
+| Topology-magnitude inverse relationship | Gnorm storms correlate with TD flips; plateaus = Adam compensating | 💡 (session 164) |
+| Training = fold reductions to irreducible form | fold(delta→base) → reset → retrain → fewer flips → converges | 💡 (session 164) |
+| Safetensors-backed training works | 4000+ steps, sync verified, restore tool tested | ✅ (session 163-165) |
 | 2-stack trains 1.6× faster wall-clock | 17.7s/step vs 28.6s/step | ✅ |
 | 2-stack PPL within 5.5% of 3-stack at step 1500 | 8,096 vs 7,672 | ✅ |
-| Shared FFN = structural ceiling (no moiré) | Identical Gaussian activations, no sparsity | ✅ (session 158) |
-| Separate FFN enables moiré pattern formation | Theoretical — waiting for empirical confirmation | ⏳ |
-| TD follows GD signal (fold ≠ independent lever) | FFN plates zero candidates despite available capacity | ✅ |
-| Training follows punctuated equilibrium | Gnorm spikes at 160-330 and 1590 bracket plateau→transition | ✅ |
-| Beta reductions compound into crystal | Crystal MSE 0.148→0.013 monotonic, slow continuing descent | ✅ |
 
 ## Open questions
 
-1. **Per-module fold or global fold?** SafetensorsStore.fold() does all plates. Could fold most-converged first.
-2. **Distributed fold protocol?** Multiple servers train independently. Fold where deltas agree. Byzantine consensus.
-3. **Sync cost reduction?** 4.5s dominated by 835 individual memmap open/close calls. Batch into single mmap?
-4. **Will FFN plates differentiate?** First non-zero candidate = inflection point.
-5. **What PPL does 2-stack reach at step 2000?** Baseline comparison: old run PPL 5,567.
-6. **Does 2-stack find a lower floor than 3-stack?** The structural argument says yes.
-7. **When does the next phase transition happen?** Watch gnorm storms.
+1. **Does softmax clamp change training dynamics?** Unlikely at ±65, but monitor loss/gnorm for regime change.
+2. **Will holographic etch break the plateau?** The old plateau (800-4360) was with winner-take-all TD. Equal slots may enable coordinated restructuring.
+3. **What PPL does 2-stack reach at step 5000?** Baseline: 3-stack hit PPL 5,567 at step 2000, ceiling at 3200.
+4. **Will FFN plates differentiate?** Still zero candidates at step 4000. First non-zero = inflection point.
+5. **Per-module fold or global fold?** SafetensorsStore.fold() does all plates. Could fold most-converged first.
 
 ## Knowledge map
 
@@ -219,20 +156,13 @@ See `mementum/knowledge/explore/kernel-replacement-optimization.md` for full des
 
 | Asset | Location |
 |-------|----------|
-| Training script | `scripts/v14/train_td.py` (updated for 2 stacks) |
-| FlipMap (topology heatmap) | `scripts/v14/td.py` FlipMap class (record/summary/save/load) |
+| Training script | `scripts/v14/train_td.py` (NaN guard, holographic etch) |
+| **Restore tool** | `scripts/v14/restore_safetensors.py` (npz → safetensors) |
+| FlipMap (topology heatmap) | `scripts/v14/td.py` FlipMap class |
 | SafetensorsStore | `scripts/v14/safetensors_store.py` (load/sync/fold/snapshot) |
+| Attention (clamped) | `scripts/v14/attention.py` (softmax overflow fix) |
 | Checkpoint extractor | `scripts/v14/extract_to_safetensors.py` (npz → 3 safetensors) |
-| mmap plate store | `scripts/v14/mmap_plates.py` (standalone tests) |
-| Tensor statechart | `scripts/explore/tensor_statechart.py` (verified with mmap) |
-| Fulcro statechart | `src/statechart/plate_loader.cljc` (Clojure VSM) |
-| Shared definition | `specs/plate-loader.edn` (both runtimes consume) |
-| Safetensors training | `checkpoints/v14-mmap/` (base + delta + training + state.json) |
-| Extraction script | `scripts/v14/extract_qwen36.py` (updated for 2 stacks) |
+| Safetensors training | `checkpoints/v14-mmap/` (restored to step 4000) |
 | Eval script | `scripts/v14/eval_ppl.py` |
 | Model | `scripts/v14/model.py` (2 stacks, separate FFN) |
 | Config | `scripts/v14/config.py` (8 passes, 2 stacks) |
-| Old checkpoint | `checkpoints/v14-td/step_003000/` (3-stack, not compatible) |
-| Extraction | `checkpoints/v14-extracted-2stack/model.npz` |
-| Training | `checkpoints/v14-td-2stack/` (running, step ~1730) |
-| Eval result | `checkpoints/v14-td-2stack/step_001500/eval_results.json` |
