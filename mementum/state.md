@@ -2,22 +2,30 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-28 | Session: 165
+> Last updated: 2026-05-28 | Session: 166
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 165: NaN COLLAPSE DIAGNOSIS + HOLOGRAPHIC ETCH + RESTORE TOOL.** Training hit NaN death loop at step 4369. Auto-rollback was broken (restored model weights but not Adam/data/TD → Sisyphus loop, 154 rollbacks in 10h). Root cause: attention softmax overflow — ternary weights with gamma calibration produce unbounded attention logits, no clamping before softmax. Three fixes: (1) remove auto-rollback, replace with stop-and-report, (2) `mx.clip(attn, -65, 65)` before softmax, (3) `restore_safetensors.py` standalone tool to rebuild safetensors from npz checkpoint. Also landed holographic etch (equal thin slots per module, fixed budget, no adaptive rate). Training resumed from step 4000, step 4001 healthy.
+**Session 166: M-SPACE GEMCUTTER — TOPOLOGY SHAPING BREAKTHROUGH.** Discovered that topology changes must be planned in M-space (attention kernel M = W_q^T @ W_k), not W-space (individual weights). One W-space flip cross-cuts ALL modes of M. TD's gradient scoring is anti-predictive in structured layers (ρ=-0.36). Pre-cut ternary topology with 30% M-noise zeros BEATS float32 on loss (6.6972 vs 6.7412) when trained from scratch. GD is putty — cut the gem first, let GD fill gaps.
 
-**Training: v14-mmap RUNNING** (tmux main:2), safetensors-backed, resuming from step 4000/20000. First step after fix: loss=6.93, gnorm=6.20 (healthy). Watching for NaN at old crash point (step ~4369).
+**Training: v14-mmap STOPPED** — NaN recurred. The holographic etch approach (machete topology changes in W-space) is fundamentally flawed. Redesign needed based on M-space gemcutter findings.
+
+**Previous: Session 165** — NaN collapse diagnosis, softmax clamp fix, restore tool, holographic etch (equal thin slots). Training resumed from step 4000 but NaN recurred.
+
+*Key session 166 insights:*
+- **M-space, not W-space.** The attention kernel M = W_q^T @ W_k is where computation lives. One W-space flip produces a rank-1 perturbation to M that spreads across ALL modes. Topology changes must be planned in M-space via SVD mode projection.
+- **TD gradient scoring is anti-predictive.** In structured layers (rank90<25), M-space scoring finds 76% helpful flips vs gradient's 46%. Gradient scoring and M-space scoring have 0% overlap in top-50 — they see completely different things.
+- **Zeros are denoising, not blocking.** Sign quantization turns a 13-facet gem into a 35-facet noisy blob. M-noise zeros at 30% sharpen rank90 from 32→25. Each zero removes a ghost facet.
+- **Pre-cut topology + GD beats float32.** Frozen ternary attention with 30% zeros, trained from scratch: loss 6.6972 vs float32's 6.7412. The geometric constraint HELPS GD by channeling it into the right subspace.
+- **GD is putty.** Cut the gem geometrically (accept loss hit), then let GD fill the gaps. The gem stays sharp (frozen Q/K). Loss recovers and improves.
+- **Facet-aligned cutting works.** Coordinated W-space flips targeting one M-space mode achieve 30× less cross-mode damage than gradient scoring.
 
 *Key session 165 insights:*
-- **Auto-rollback is an anti-pattern.** It restored model weights but not Adam state, data position, TD moments, or safetensors files. Created an unrecoverable chimera: model at step N, optimizer at step M, data at step K. Stop-and-report is the correct pattern — recovery is a human decision.
-- **Attention softmax overflow = NaN source.** Ternary weights with learned gamma scales can produce unbounded attention logits. `mx.clip(attn, -65, 65)` before softmax prevents float32 exp overflow without affecting training at reasonable magnitudes.
-- **Dual storage requires a restore path.** npz checkpoints (frozen windows) and safetensors (moving target) can get out of sync during failures. `restore_safetensors.py` rebuilds safetensors from any npz checkpoint — the missing piece for clean recovery.
-- **gate_proj 100% oscillation was a red flag.** FlipMap showed gate_proj layers 4-9 at 100% oscillation (every flip immediately reversed). Nozzle suppressed them correctly (nozzle=0%), but the oscillation signal indicated gradient instability in those modules.
-- **Holographic etch: equal thin slots.** Session 163's proportional budget + 8× rate + adaptive rate caused uniform topology melt (all modules 100% hot, Δ jumped 0.036→0.168). Fix: same total budget (~132K at rate=0.001), divided equally among active modules. Each gets a thin slot. Topology changes together — layers co-adapt.
+- **Auto-rollback is an anti-pattern.** Sisyphus loop from model/Adam/data desync.
+- **Attention softmax overflow = NaN source.** `mx.clip(attn, -65, 65)` before softmax.
+- **Holographic etch: equal thin slots.** Equal budget per module, but still a machete in W-space (superseded by M-space gemcutter).
 
 *Key session 164 insights:*
 - **TD can't overfit.** Ternary weights have 2-3 states → finite state space → guaranteed convergence.

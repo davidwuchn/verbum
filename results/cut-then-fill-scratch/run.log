@@ -1,0 +1,158 @@
+======================================================================
+TRAIN FROM SCRATCH WITH PRE-CUT TOPOLOGY
+======================================================================
+
+Loaded trained model from checkpoints/micro/final/model.npz
+Extracted topology and computed 30% M-noise zero masks
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Data: 509 train, 10 eval
+
+══════════════════════════════════════════════════════════════════════
+  A. Float32 (full GD)
+══════════════════════════════════════════════════════════════════════
+  Topology: float32 (all trainable)
+  Trainable params: 20,532,352
+  Initial M-space:
+    Layer 0: rank90=48, top1=5.1%, σ0/σ1=1.04
+    Layer 2: rank90=48, top1=4.8%, σ0/σ1=1.06
+  Initial eval loss: 12.4031
+
+    step     1: train=12.3227, eval=12.4025, gnorm=6.33, 0s
+    step   500: train=0.8174, eval=5.6942, gnorm=1.19, 31s
+    step  1000: train=0.4118, eval=5.9488, gnorm=0.70, 64s
+    step  1500: train=0.3946, eval=6.1806, gnorm=0.41, 98s
+    step  2000: train=0.3979, eval=6.3250, gnorm=0.33, 132s
+    step  2500: train=0.3987, eval=6.3971, gnorm=0.39, 165s
+    step  3000: train=0.3917, eval=6.5289, gnorm=0.34, 199s
+    step  3500: train=0.3766, eval=6.6307, gnorm=0.38, 233s
+    step  4000: train=0.3751, eval=6.7185, gnorm=0.33, 266s
+    step  4500: train=0.3793, eval=6.7351, gnorm=0.35, 296s
+    step  5000: train=0.3789, eval=6.7412, gnorm=0.32, 327s
+
+  Final eval loss: 6.7412
+  Final M-space:
+    Layer 0: rank90=37, top1=40.1%, σ0/σ1=3.10
+    Layer 2: rank90=6, top1=80.5%, σ0/σ1=4.81
+
+══════════════════════════════════════════════════════════════════════
+  B. Trained sign (±1)
+══════════════════════════════════════════════════════════════════════
+  Topology: trained sign, 0% zeros
+  Trainable params: 20,401,280
+  Initial M-space:
+    Layer 0: rank90=46, top1=10.1%, σ0/σ1=1.53
+    Layer 2: rank90=32, top1=45.5%, σ0/σ1=2.93
+  Initial eval loss: 12.6264
+
+    step     1: train=12.5444, eval=12.6259, gnorm=5.10, 0s
+    step   500: train=1.1331, eval=5.5258, gnorm=2.28, 33s
+    step  1000: train=0.4513, eval=6.1741, gnorm=1.24, 66s
+    step  1500: train=0.4038, eval=6.4754, gnorm=0.53, 99s
+    step  2000: train=0.4031, eval=6.6196, gnorm=0.43, 132s
+    step  2500: train=0.4024, eval=6.7705, gnorm=0.46, 165s
+    step  3000: train=0.3957, eval=6.7993, gnorm=0.37, 198s
+    step  3500: train=0.3788, eval=6.8365, gnorm=0.45, 231s
+    step  4000: train=0.3765, eval=6.8593, gnorm=0.43, 263s
+    step  4500: train=0.3792, eval=6.8477, gnorm=0.43, 296s
+    step  5000: train=0.3778, eval=6.8625, gnorm=0.38, 330s
+
+  Final eval loss: 6.8625
+  Final M-space:
+    Layer 0: rank90=46, top1=10.1%, σ0/σ1=1.53
+    Layer 2: rank90=32, top1=45.5%, σ0/σ1=2.93
+
+══════════════════════════════════════════════════════════════════════
+  C. Trained sign + 30% M-zeros
+══════════════════════════════════════════════════════════════════════
+  Topology: trained sign, 30% zeros
+  Trainable params: 20,401,280
+  Initial M-space:
+    Layer 0: rank90=45, top1=15.1%, σ0/σ1=1.78
+    Layer 2: rank90=25, top1=56.1%, σ0/σ1=3.06
+  Initial eval loss: 12.3772
+
+    step     1: train=12.4993, eval=12.3768, gnorm=5.65, 0s
+    step   500: train=1.2321, eval=5.6494, gnorm=1.70, 32s
+    step  1000: train=0.4795, eval=6.1311, gnorm=1.42, 64s
+    step  1500: train=0.4151, eval=6.2380, gnorm=0.98, 96s
+    step  2000: train=0.4000, eval=6.5064, gnorm=0.45, 128s
+    step  2500: train=0.4011, eval=6.5526, gnorm=0.49, 160s
+    step  3000: train=0.3935, eval=6.5879, gnorm=0.42, 192s
+    step  3500: train=0.3772, eval=6.5744, gnorm=0.46, 224s
+    step  4000: train=0.3755, eval=6.6624, gnorm=0.42, 256s
+    step  4500: train=0.3800, eval=6.7064, gnorm=0.42, 288s
+    step  5000: train=0.3768, eval=6.6972, gnorm=0.38, 321s
+
+  Final eval loss: 6.6972
+  Final M-space:
+    Layer 0: rank90=45, top1=15.1%, σ0/σ1=1.78
+    Layer 2: rank90=25, top1=56.1%, σ0/σ1=3.06
+
+══════════════════════════════════════════════════════════════════════
+  D. Random sign (±1)
+══════════════════════════════════════════════════════════════════════
+  Topology: random ternary, 0% zeros
+  Trainable params: 20,401,280
+  Initial M-space:
+    Layer 0: rank90=48, top1=4.6%, σ0/σ1=1.02
+    Layer 2: rank90=48, top1=4.8%, σ0/σ1=1.06
+  Initial eval loss: 12.4303
+
+    step     1: train=12.5490, eval=12.4300, gnorm=4.72, 0s
+    step   500: train=1.1550, eval=5.6789, gnorm=1.37, 32s
+    step  1000: train=0.4802, eval=6.0370, gnorm=1.12, 64s
+    step  1500: train=0.4131, eval=6.3611, gnorm=0.71, 96s
+    step  2000: train=0.4022, eval=6.4083, gnorm=0.47, 128s
+    step  2500: train=0.4081, eval=6.5703, gnorm=0.58, 159s
+    step  3000: train=0.3984, eval=6.6479, gnorm=0.42, 191s
+    step  3500: train=0.3845, eval=6.7322, gnorm=0.52, 223s
+    step  4000: train=0.3809, eval=6.6822, gnorm=0.42, 255s
+    step  4500: train=0.3804, eval=6.6963, gnorm=0.43, 287s
+    step  5000: train=0.3805, eval=6.6814, gnorm=0.40, 318s
+
+  Final eval loss: 6.6814
+  Final M-space:
+    Layer 0: rank90=48, top1=4.6%, σ0/σ1=1.02
+    Layer 2: rank90=48, top1=4.8%, σ0/σ1=1.06
+
+══════════════════════════════════════════════════════════════════════
+  E. Random sign + 30% zeros
+══════════════════════════════════════════════════════════════════════
+  Topology: random ternary, 30% zeros
+  Trainable params: 20,401,280
+  Initial M-space:
+    Layer 0: rank90=49, top1=4.8%, σ0/σ1=1.01
+    Layer 2: rank90=48, top1=5.6%, σ0/σ1=1.13
+  Initial eval loss: 12.3035
+
+    step     1: train=12.3262, eval=12.3031, gnorm=4.95, 0s
+    step   500: train=1.0003, eval=5.6795, gnorm=1.41, 32s
+    step  1000: train=0.4446, eval=6.0580, gnorm=0.96, 63s
+    step  1500: train=0.4044, eval=6.3902, gnorm=0.60, 95s
+    step  2000: train=0.4024, eval=6.4830, gnorm=0.48, 127s
+    step  2500: train=0.4086, eval=6.6089, gnorm=0.51, 158s
+    step  3000: train=0.3978, eval=6.6588, gnorm=0.40, 190s
+    step  3500: train=0.3820, eval=6.7074, gnorm=0.46, 222s
+    step  4000: train=0.3778, eval=6.7088, gnorm=0.39, 253s
+    step  4500: train=0.3811, eval=6.7695, gnorm=0.41, 285s
+    step  5000: train=0.3830, eval=6.7721, gnorm=0.40, 317s
+
+  Final eval loss: 6.7721
+  Final M-space:
+    Layer 0: rank90=49, top1=4.8%, σ0/σ1=1.01
+    Layer 2: rank90=48, top1=5.6%, σ0/σ1=1.13
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+                            Variant │  Init loss │ Final loss │  L2 rank90 │  L2 top1%
+─────────────────────────────────────────────────────────────────────────────────────
+               A. Float32 (full GD) │    12.4031 │     6.7412 │          6 │     80.5%
+               B. Trained sign (±1) │    12.6264 │     6.8625 │         32 │     45.5%
+      C. Trained sign + 30% M-zeros │    12.3772 │     6.6972 │         25 │     56.1%
+                D. Random sign (±1) │    12.4303 │     6.6814 │         48 │      4.8%
+         E. Random sign + 30% zeros │    12.3035 │     6.7721 │         48 │      5.6%
+
+Total elapsed: 1616s (26.9m)
+Saved to results/cut-then-fill-scratch/summary.json
