@@ -167,6 +167,30 @@ model works DESPITE the attention, not because of it.
    rank-1 ΔM that projects onto every singular vector of M. Coordinated
    flips can reinforce on one mode and cancel on others (30× less damage).
 
+6. **Crystal null space is structurally correct but too coarse for zeros.**
+   The universal crystal lives in 15/128 dims. 113 dims are null space.
+   Zeroing entire null-space columns gives good rank90 (26) but bad loss
+   (7.13) — columns carry non-crystal info GD needs (position, syntax).
+   Crystal energy should WEIGHT M-noise scoring as a prior, not hard-mask
+   columns. M-noise zeros are per-position (row × column) which gives GD
+   the flexibility to keep useful non-crystal info. M-noise alone (C) at
+   loss 6.6972 remains the best variant.
+
+## Crystal Subspace Analysis (Experiment 5)
+
+Crystal embeddings (16 × d_model) span a rank-14 subspace. 90% of
+crystal energy in 15 dims, 99% in 16 dims (of 128 total).
+
+| Strategy | Final Loss | L2 rank90 | L2 top1% |
+|----------|-----------|-----------|----------|
+| C. M-noise 30% zeros | **6.6972** | 25 | 56.1% |
+| G. 15% crystal + 15% M-noise | 6.8612 | 26 | 51.9% |
+| F. 30% crystal-null columns | 7.1312 | 26 | 46.6% |
+
+Crystal and M-noise select different positions: crystal zeros entire
+columns (structural), M-noise zeros specific (row, col) positions
+(surgical). Per-position resolution wins on loss.
+
 ## Files
 
 | File | What |
@@ -179,3 +203,7 @@ model works DESPITE the attention, not because of it.
 | `results/mspace-zeros/` | Exp 2 results |
 | `results/mspace-facet/` | Exp 3 results |
 | `results/cut-then-fill-scratch/` | Exp 4 results |
+| `scripts/micro/probe_crystal_zeros.py` | Exp 5: Crystal subspace zeros analysis |
+| `scripts/micro/train_cut_crystal.py` | Exp 5b: Train with crystal zeros variants |
+| `results/crystal-zeros/` | Exp 5 analysis results |
+| `results/crystal-zeros-train/` | Exp 5b training results |

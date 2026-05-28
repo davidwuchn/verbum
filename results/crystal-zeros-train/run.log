@@ -1,0 +1,78 @@
+======================================================================
+CRYSTAL ZEROS — New Variants for Comparison
+======================================================================
+
+Loaded trained model from checkpoints/micro/final/model.npz
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Baseline (trained float32) eval loss: 6.6175
+Crystal null dims (30%): 38/128 dims zeroed
+
+Existing results (from train_cut_topology.py):
+  A. Float32:              loss 6.7412, L2 rank90=6
+  B. Trained sign (±1):    loss 6.8625, L2 rank90=32
+  C. Sign + 30% M-zeros:   loss 6.6972, L2 rank90=25
+  D. Random sign (±1):     loss 6.6814, L2 rank90=48
+  E. Random + 30% zeros:   loss 6.7721, L2 rank90=48
+
+══════════════════════════════════════════════════════════════════════
+  F. Trained sign + 30% crystal-null zeros
+══════════════════════════════════════════════════════════════════════
+  Actual zero fraction: 29.7%
+  Initial M-space:
+    Layer 0: rank90=36, top1=11.7%
+    Layer 2: rank90=26, top1=46.6%
+  Initial eval loss: 12.6348
+
+    step     1: train=12.7145, eval=12.6343, gnorm=5.64, 0s
+    step   500: train=1.3979, eval=5.5929, gnorm=1.60, 28s
+    step  1000: train=0.5655, eval=6.2403, gnorm=1.58, 57s
+    step  1500: train=0.4158, eval=6.6386, gnorm=0.88, 85s
+    step  2000: train=0.4081, eval=6.8104, gnorm=0.53, 114s
+    step  2500: train=0.4076, eval=6.9646, gnorm=0.58, 142s
+    step  3000: train=0.4002, eval=6.9937, gnorm=0.44, 171s
+    step  3500: train=0.3798, eval=7.1036, gnorm=0.50, 199s
+    step  4000: train=0.3780, eval=7.0756, gnorm=0.44, 228s
+    step  4500: train=0.3807, eval=7.1340, gnorm=0.43, 256s
+    step  5000: train=0.3801, eval=7.1312, gnorm=0.40, 285s
+
+  Final: loss=7.1312, L2 rank90=26, top1=46.6%
+
+══════════════════════════════════════════════════════════════════════
+  G. Trained sign + 15% crystal + 15% M-noise zeros
+══════════════════════════════════════════════════════════════════════
+  Actual zero fraction: 29.8%
+  Initial M-space:
+    Layer 0: rank90=41, top1=14.0%
+    Layer 2: rank90=26, top1=51.9%
+  Initial eval loss: 12.3544
+
+    step     1: train=12.4015, eval=12.3540, gnorm=5.57, 0s
+    step   500: train=1.3848, eval=5.7223, gnorm=1.21, 29s
+    step  1000: train=0.5443, eval=6.1516, gnorm=1.90, 59s
+    step  1500: train=0.4162, eval=6.5393, gnorm=0.80, 89s
+    step  2000: train=0.4031, eval=6.5279, gnorm=0.50, 120s
+    step  2500: train=0.4080, eval=6.6514, gnorm=0.53, 152s
+    step  3000: train=0.3959, eval=6.7066, gnorm=0.50, 184s
+    step  3500: train=0.3779, eval=6.8257, gnorm=0.57, 217s
+    step  4000: train=0.3838, eval=6.8346, gnorm=0.50, 250s
+    step  4500: train=0.3800, eval=6.8549, gnorm=0.41, 284s
+    step  5000: train=0.3765, eval=6.8612, gnorm=0.36, 317s
+
+  Final: loss=6.8612, L2 rank90=26, top1=51.9%
+
+══════════════════════════════════════════════════════════════════════
+ALL VARIANTS COMPARISON
+══════════════════════════════════════════════════════════════════════
+
+                            Variant │     Loss │ vs Float │ L2 r90 │ L2 top1
+───────────────────────────────────────────────────────────────────────────
+               A. Float32 (full GD) │   6.7412 │  +0.0000 │      6 │   80.5%
+               B. Trained sign (±1) │   6.8625 │  +0.1213 │     32 │   45.5%
+              C. Sign + 30% M-zeros │   6.6972 │  -0.0440 │     25 │   56.1%
+                D. Random sign (±1) │   6.6814 │  -0.0598 │     48 │    4.8% ★
+              E. Random + 30% zeros │   6.7721 │  +0.0309 │     48 │    5.6%
+         F. Sign + 30% crystal-null │   7.1312 │  +0.3900 │     26 │   46.6%
+      G. Sign + 15% crystal + 15% M │   6.8612 │  +0.1200 │     26 │   51.9%
+
+Elapsed: 605s (10.1m)
+Saved to results/crystal-zeros-train/summary.json

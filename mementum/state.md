@@ -21,6 +21,7 @@
 - **Pre-cut topology + GD beats float32.** Frozen ternary attention with 30% zeros, trained from scratch: loss 6.6972 vs float32's 6.7412. The geometric constraint HELPS GD by channeling it into the right subspace.
 - **GD is putty.** Cut the gem geometrically (accept loss hit), then let GD fill the gaps. The gem stays sharp (frozen Q/K). Loss recovers and improves.
 - **Facet-aligned cutting works.** Coordinated W-space flips targeting one M-space mode achieve 30× less cross-mode damage than gradient scoring.
+- **Crystal null space is correct but too coarse.** 113/128 dims are crystal null space. Column-level zeros give good rank90 but bad loss (7.13). M-noise per-position zeros remain best (6.6972). Crystal energy should weight M-noise scoring as a prior, not hard-mask columns.
 
 *Key session 165 insights:*
 - **Auto-rollback is an anti-pattern.** Sisyphus loop from model/Adam/data desync.
