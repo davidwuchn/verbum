@@ -2,19 +2,28 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-29 | Session: 168
+> Last updated: 2026-05-29 | Session: 169
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 168: RETRIEVAL LATTICE DISCOVERED.** We found the universal knowledge encoding in LLMs. Factual knowledge is stored as a four-zone retrieval lattice (SILENT→ENRICH→SUPPRESS→COMMIT) that appears identically across Qwen and Pythia architectures. Relation directions (like "capital-of") are crystallized in FFN activation space with 0.90 consistency across entities. Universal relay neurons fire for ALL fact retrieval. The quantization cliff is at Q3 (3 bits) — facts die but computation survives. Ternary mirror stacking (2 mirrors ≈ Q4 precision) proves facts CAN be stored in ternary via depth. Post-hoc ternarization destroys everything, but ternary training distributes precision across layers.
+**Session 169: COMMUNICATION ARTIFACT — ISA BLOG POST.** Wrote the first public-facing explanation of our findings, targeted at compiler engineers and CPU architects. "What's Inside a Large Language Model" — presents the ISA decoder results (static program from weights, deterministic execution, input-dependent dispatch, data bypass) plus the cross-model universality evidence (6 models, 4 orgs, r=0.998 Pythia↔Qwen correlation). Strategy: don't say "compiler" — show the ISA and let compiler people name it themselves. File: `mementum/michael/llm-isa.md`.
 
-**Key breakthrough: the retrieval lattice completes the picture.** KIBC = compute crystal (strong fringes). Retrieval lattice = knowledge crystal (weak fringes). Both are universal, both use the same holographic mechanism. The difference: compute converges to mathematical fixed points (Church-Rosser), knowledge is maintained by data pressure (not converged, but collectively structured).
+**Key insight: the communication problem.** Showing nucleus to people makes them think "prompt engineering." Showing the ISA makes them think "machine." The evidence is the same; the framing determines whether it lands. Lead with the instruction set, not the lambda output.
+
+**Previous: Session 168** — Retrieval lattice discovered. Universal 4-zone knowledge encoding (SILENT→ENRICH→SUPPRESS→COMMIT) confirmed across Qwen and Pythia. Quantization cliff at Q3.
 
 **Previous: Session 167** — Holographic etch design. Unified mechanism for topology crystallization.
 
 **Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach (W-space machete) fundamentally flawed. Redesign with etch mechanism is the path forward.
+
+## Key session 169 insights
+
+- **Communication strategy crystallized.** The audience is compiler people, not ML people. They need to see an ISA, determinism, and dispatch — not lambda output. Let them name it.
+- **Cross-model universality is the clincher.** One model = curious finding. Six models from four orgs with r=0.998 = law of nature. The ordering K ≥ B ≈ C >> I is invariant across Pythia, Mistral, OLMo, Qwen (160M to 32B).
+- **"We've been scaling the hologram. We should be reading the program."** — the one-sentence reframe from scaling to optimization.
+- **Blog post artifact created.** `mementum/michael/llm-isa.md` — 5 exhibits: static program, determinism, dispatch, cross-model ISA, data bypass. Reproducible (`git clone`, `uv run`, 8 min).
 
 ## Key session 168 insights
 
@@ -45,6 +54,9 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| **ISA blog post for compiler engineers** | 169 | First public-facing communication artifact: `mementum/michael/llm-isa.md` |
+| **Communication strategy: ISA-first** | 169 | Lead with instruction set + determinism, not lambda output. Let audience name it. |
+| **Cross-model universality exhibit** | 169 | 6 models, 4 orgs, r=0.998 correlation presented as core evidence |
 | **Retrieval lattice discovery** | 168 | Universal 4-zone knowledge encoding confirmed across 2 architectures |
 | **Quantization cliff measured** | 168 | Q4 preserves facts, Q3 kills them. Ternary post-hoc: 0% |
 | **Ternary mirror stack theory** | 168 | 2 mirrors ≈ Q4. Depth replaces magnitude. |
@@ -116,18 +128,19 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 **See `mementum/knowledge/INDEX.md` for full reading order.**
 
 Key pages for current direction:
-- `retrieval-lattice.md` — universal knowledge encoding (THIS SESSION)
+- `michael/llm-isa.md` — **public-facing ISA blog post** (session 169)
+- `retrieval-lattice.md` — universal knowledge encoding (session 168)
 - `holographic-etch.md` — etch/un-etch design (session 167)
 - `holographic-computer.md` — unified theory of LLM computation
-- `mspace-gemcutter.md` — M-space geometry, SVD scoring
 - `crystal-universality.md` — why KIBC are universal fixed points
 - `project-thesis.md` — the central claim, updated through session 150
-- `explore/ffn-moire-isa.md` — ISA decoder, grating programs
+- `explore/ffn-moire-isa.md` — ISA decoder, grating programs (internal detail)
 
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
+| ISA blog post (compiler audience) | `mementum/michael/llm-isa.md` |
 | Fact recall probe set (65 probes) | `probes/fact_recall.json` |
 | Ternary fact recall experiment | `scripts/experiments/ternary_fact_recall.py` |
 | Quantization cliff experiment | `scripts/experiments/quant_fact_recall.py` |
