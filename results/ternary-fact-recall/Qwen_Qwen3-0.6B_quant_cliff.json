@@ -1,0 +1,337 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "group_size": 128,
+  "ffn_only": true,
+  "timestamp": "2026-05-29T12:59:16Z",
+  "summaries": [
+    {
+      "label": "float32",
+      "overall_acc": 0.7230769230769231,
+      "fact_acc": 0.7692307692307693,
+      "compute_acc": 0.5384615384615384,
+      "fact_n": "40/52",
+      "compute_n": "7/13",
+      "avg_fact_rank": 16.942307692307693,
+      "avg_compute_rank": 2.1538461538461537,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 1.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -0.4253480968314475
+        },
+        "capital": {
+          "top1_acc": 0.8666666666666667,
+          "avg_rank": 3.933333333333333,
+          "avg_logprob": -1.1010470348879469
+        },
+        "computation": {
+          "top1_acc": 0.25,
+          "avg_rank": 2.875,
+          "avg_logprob": -2.178494270623741
+        },
+        "creator": {
+          "top1_acc": 0.7,
+          "avg_rank": 24.8,
+          "avg_logprob": -2.8690989198067323
+        },
+        "geography": {
+          "top1_acc": 0.42857142857142855,
+          "avg_rank": 77.28571428571429,
+          "avg_logprob": -4.689350102433919
+        },
+        "history": {
+          "top1_acc": 0.8,
+          "avg_rank": 2.0,
+          "avg_logprob": -0.9293681342889102
+        },
+        "science": {
+          "top1_acc": 0.9,
+          "avg_rank": 1.3,
+          "avg_logprob": -0.37038773485436594
+        }
+      }
+    },
+    {
+      "label": "Q8",
+      "overall_acc": 0.7076923076923077,
+      "fact_acc": 0.75,
+      "compute_acc": 0.5384615384615384,
+      "fact_n": "39/52",
+      "compute_n": "7/13",
+      "avg_fact_rank": 17.48076923076923,
+      "avg_compute_rank": 2.3076923076923075,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 1.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -0.4181070586545651
+        },
+        "capital": {
+          "top1_acc": 0.8666666666666667,
+          "avg_rank": 3.8,
+          "avg_logprob": -1.0454115646935866
+        },
+        "computation": {
+          "top1_acc": 0.25,
+          "avg_rank": 3.125,
+          "avg_logprob": -2.1961936202811234
+        },
+        "creator": {
+          "top1_acc": 0.7,
+          "avg_rank": 25.9,
+          "avg_logprob": -2.8655564797618736
+        },
+        "geography": {
+          "top1_acc": 0.2857142857142857,
+          "avg_rank": 80.0,
+          "avg_logprob": -4.701275246205875
+        },
+        "history": {
+          "top1_acc": 0.8,
+          "avg_rank": 2.0,
+          "avg_logprob": -0.9153749225385279
+        },
+        "science": {
+          "top1_acc": 0.9,
+          "avg_rank": 1.3,
+          "avg_logprob": -0.38062125288857207
+        }
+      }
+    },
+    {
+      "label": "Q4",
+      "overall_acc": 0.6615384615384615,
+      "fact_acc": 0.7307692307692307,
+      "compute_acc": 0.38461538461538464,
+      "fact_n": "38/52",
+      "compute_n": "5/13",
+      "avg_fact_rank": 37.32692307692308,
+      "avg_compute_rank": 2.6923076923076925,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 1.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -0.21186307385854314
+        },
+        "capital": {
+          "top1_acc": 0.6666666666666666,
+          "avg_rank": 10.733333333333333,
+          "avg_logprob": -1.800270347027808
+        },
+        "computation": {
+          "top1_acc": 0.0,
+          "avg_rank": 3.75,
+          "avg_logprob": -2.502211259534676
+        },
+        "creator": {
+          "top1_acc": 0.7,
+          "avg_rank": 71.3,
+          "avg_logprob": -2.5487509651117097
+        },
+        "geography": {
+          "top1_acc": 0.42857142857142855,
+          "avg_rank": 147.57142857142858,
+          "avg_logprob": -5.230565011925624
+        },
+        "history": {
+          "top1_acc": 0.9,
+          "avg_rank": 2.0,
+          "avg_logprob": -0.8318962729309725
+        },
+        "science": {
+          "top1_acc": 0.9,
+          "avg_rank": 1.4,
+          "avg_logprob": -0.4641360001058909
+        }
+      }
+    },
+    {
+      "label": "Q3",
+      "overall_acc": 0.2,
+      "fact_acc": 0.15384615384615385,
+      "compute_acc": 0.38461538461538464,
+      "fact_n": "8/52",
+      "compute_n": "5/13",
+      "avg_fact_rank": 861.3076923076923,
+      "avg_compute_rank": 3.230769230769231,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 1.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -0.08312161298746372
+        },
+        "capital": {
+          "top1_acc": 0.0,
+          "avg_rank": 1187.6666666666667,
+          "avg_logprob": -9.562072166295122
+        },
+        "computation": {
+          "top1_acc": 0.0,
+          "avg_rank": 4.625,
+          "avg_logprob": -3.0921938196863765
+        },
+        "creator": {
+          "top1_acc": 0.2,
+          "avg_rank": 1147.5,
+          "avg_logprob": -6.418189973238144
+        },
+        "geography": {
+          "top1_acc": 0.0,
+          "avg_rank": 1670.7142857142858,
+          "avg_logprob": -8.195104988364374
+        },
+        "history": {
+          "top1_acc": 0.2,
+          "avg_rank": 18.0,
+          "avg_logprob": -2.7659753704966836
+        },
+        "science": {
+          "top1_acc": 0.4,
+          "avg_rank": 362.3,
+          "avg_logprob": -3.735477453845782
+        }
+      }
+    },
+    {
+      "label": "Q2",
+      "overall_acc": 0.0,
+      "fact_acc": 0.0,
+      "compute_acc": 0.0,
+      "fact_n": "0/52",
+      "compute_n": "0/13",
+      "avg_fact_rank": 42766.519230769234,
+      "avg_compute_rank": 12229.307692307691,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 0.0,
+          "avg_rank": 46.6,
+          "avg_logprob": -4.37906094378078
+        },
+        "capital": {
+          "top1_acc": 0.0,
+          "avg_rank": 65467.53333333333,
+          "avg_logprob": -20.82387741419143
+        },
+        "computation": {
+          "top1_acc": 0.0,
+          "avg_rank": 19843.5,
+          "avg_logprob": -13.272002276144939
+        },
+        "creator": {
+          "top1_acc": 0.0,
+          "avg_rank": 36167.6,
+          "avg_logprob": -15.147204801376196
+        },
+        "geography": {
+          "top1_acc": 0.0,
+          "avg_rank": 55110.42857142857,
+          "avg_logprob": -17.39277860122901
+        },
+        "history": {
+          "top1_acc": 0.0,
+          "avg_rank": 14158.2,
+          "avg_logprob": -12.948321382691327
+        },
+        "science": {
+          "top1_acc": 0.0,
+          "avg_rank": 35281.5,
+          "avg_logprob": -14.440134570419952
+        }
+      }
+    },
+    {
+      "label": "Q1",
+      "overall_acc": 0.0,
+      "fact_acc": 0.0,
+      "compute_acc": 0.0,
+      "fact_n": "0/52",
+      "compute_n": "0/13",
+      "avg_fact_rank": 1.0,
+      "avg_compute_rank": 1.0,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "capital": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "computation": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "creator": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "geography": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "history": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        },
+        "science": {
+          "top1_acc": 0.0,
+          "avg_rank": 1.0,
+          "avg_logprob": -Infinity
+        }
+      }
+    },
+    {
+      "label": "ternary_gs",
+      "overall_acc": 0.015384615384615385,
+      "fact_acc": 0.0,
+      "compute_acc": 0.07692307692307693,
+      "fact_n": "0/52",
+      "compute_n": "1/13",
+      "avg_fact_rank": 26122.903846153848,
+      "avg_compute_rank": 7886.923076923077,
+      "by_category": {
+        "arithmetic": {
+          "top1_acc": 0.2,
+          "avg_rank": 105.6,
+          "avg_logprob": -4.940781892891481
+        },
+        "capital": {
+          "top1_acc": 0.0,
+          "avg_rank": 14920.666666666666,
+          "avg_logprob": -12.912455906629033
+        },
+        "computation": {
+          "top1_acc": 0.0,
+          "avg_rank": 12750.25,
+          "avg_logprob": -12.636849375581377
+        },
+        "creator": {
+          "top1_acc": 0.0,
+          "avg_rank": 26795.9,
+          "avg_logprob": -14.908824132182414
+        },
+        "geography": {
+          "top1_acc": 0.0,
+          "avg_rank": 34952.857142857145,
+          "avg_logprob": -15.952155990907693
+        },
+        "history": {
+          "top1_acc": 0.0,
+          "avg_rank": 25425.9,
+          "avg_logprob": -12.724128223936932
+        },
+        "science": {
+          "top1_acc": 0.0,
+          "avg_rank": 36769.3,
+          "avg_logprob": -15.901889537620017
+        }
+      }
+    }
+  ]
+}

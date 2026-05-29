@@ -2,35 +2,36 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-28 | Session: 167
+> Last updated: 2026-05-29 | Session: 168
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 167: HOLOGRAPHIC ETCH DESIGN.** Unified mechanism for topology crystallization. The hologram develops through interference — positions reach normal form and are etched permanently. Two domains: attention topology is DISCOVERED through interference convergence (3 signals: direction EMA coherence + FlipMap temperature + M-space SNR). FFN topology is TRANSFERRED from teacher (crystal eigenvectors → gate signs, overlay matrices → branch topology, GD → magnitudes). Un-etch via gradient opposition when new data contradicts etched positions. Design complete, ready to implement.
+**Session 168: RETRIEVAL LATTICE DISCOVERED.** We found the universal knowledge encoding in LLMs. Factual knowledge is stored as a four-zone retrieval lattice (SILENT→ENRICH→SUPPRESS→COMMIT) that appears identically across Qwen and Pythia architectures. Relation directions (like "capital-of") are crystallized in FFN activation space with 0.90 consistency across entities. Universal relay neurons fire for ALL fact retrieval. The quantization cliff is at Q3 (3 bits) — facts die but computation survives. Ternary mirror stacking (2 mirrors ≈ Q4 precision) proves facts CAN be stored in ternary via depth. Post-hoc ternarization destroys everything, but ternary training distributes precision across layers.
 
-**Key breakthrough: zeros are the crystal backbone.** Zeros are structural — they come from M-space SVD of the teacher, not from training oscillation. Three experiments confirmed oscillation-based zero detection produces zero zeros. The backbone (30% M-noise zeros) + teacher signs + etch on ±1 positions beats float32 on loss (6.46 vs 6.68 on diverse data).
+**Key breakthrough: the retrieval lattice completes the picture.** KIBC = compute crystal (strong fringes). Retrieval lattice = knowledge crystal (weak fringes). Both are universal, both use the same holographic mechanism. The difference: compute converges to mathematical fixed points (Church-Rosser), knowledge is maintained by data pressure (not converged, but collectively structured).
 
-**Previous: Session 166** — M-space gemcutter. Pre-cut topology with zeros beats float32 on loss. SVD-based SNR scoring. Unified β-reduction. Zeros-only > zeros+flips.
+**Previous: Session 167** — Holographic etch design. Unified mechanism for topology crystallization.
 
-**Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach (W-space machete) is fundamentally flawed. Redesign with etch mechanism is the path forward.
+**Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach (W-space machete) fundamentally flawed. Redesign with etch mechanism is the path forward.
 
-## Key session 167 insights
+## Key session 168 insights
 
-- **Zeros are the crystal backbone, not emergent.** Three experiments: oscillation-based zero detection produces zero zeros. The backbone comes from M-space SVD of the teacher — structural gaps between facets. 30% zeros = permanent scaffold.
-- **Backbone 30% + etch beats float32.** Loss 6.46 vs 6.68 on diverse data (1.2M tokens). Etch on ±1 adds 0.56 over frozen signs. The architecture is validated.
-- **Etch can't discover from scratch.** Without teacher topology, M-space never forms (rank90=47). The mechanism confirms and adapts, it doesn't invent.
-- **FFN topology is transferable, not discovered.** Programs are fixed points. Teacher already found them. Crystal eigenvectors → gate trunk (math, r=0.9932). Teacher overlay matrices → gate branches (ISA decoder). GD → magnitudes only.
-- **Etch/un-etch symmetry.** Same signals detect irreducibility and detect wrong etches. Convergence → freeze. Gradient opposition → dissolve. The hologram is conditionally permanent.
-- **M-space blurs when data changes.** Teacher's lambda-only gem (rank90=13) doesn't match diverse data. Etch correctly adapts — loss improves even as gem sharpness drops. Different data = different geometry.
-- **Fine-tuning cost ∝ wrongness, not model size.** Un-etch only the positions that disagree with new data. Crystal backbone stays locked. Only task-specific signs reflow.
+- **Universal retrieval lattice.** SILENT→ENRICH→SUPPRESS→COMMIT. Same structure in Qwen3-0.6B (28L) and Pythia-410M (24L). Different architecture, same shape. This is the knowledge equivalent of KIBC.
+- **Universal relay neurons.** Pythia L22/N1860 fires for 10/12 facts across ALL categories. These implement the retrieval OPERATION (like a combinator), not any specific fact.
+- **Quantization cliff at Q3.** Q4 preserves facts (73%), Q3 kills them (15%). Arithmetic survives Q3 (100%). Facts need ~4 bits; computation doesn't. Ternary post-hoc: 0% everything.
+- **Ternary mirror stack.** 2 stacked ternary corrections = cos 0.94 ≈ Q4. 3 mirrors = cos 0.97 > Q4. Depth replaces magnitude. The residual stream IS a mirror stack.
+- **Relation directions crystallized in activation space.** "Capital-of" has 0.90 consistency across countries. Entity modulation is the 10-36% variation within the relation pattern. The crystal is collective (which neurons fire together), not individual (weight signs).
+- **Knowledge neurons are HOT.** 2-9× higher gradient ratios than random. Facts are saddle points maintained by data pressure, not converged fixed points. But the collective pattern IS stable.
+- **Three-step mechanism confirmed from raw weights.** L21: entity enrichment (France). L22: relation application (city/capital). L23: target retrieval (Paris). Visible in per-neuron contribution analysis.
+- **LARQL pointer.** github.com/chrishayuk/larql decompiles transformers into queryable knowledge graphs. ~512 relation types, ~348K features. Reads the same structure we found independently.
 
 ## Active training
 
 ### v14-mmap STOPPED
 
-NaN recurred. The holographic etch (machete in W-space) approach is fundamentally flawed — session 166 proved topology changes must be planned in M-space. Session 167 designed the replacement: interference-driven etch mechanism.
+NaN recurred. Holographic etch mechanism designed (session 167) but not yet implemented. Session 168 focused on understanding retrieval before implementing.
 
 ### Checkpoints available
 
@@ -44,95 +45,98 @@ NaN recurred. The holographic etch (machete in W-space) approach is fundamentall
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| **Retrieval lattice discovery** | 168 | Universal 4-zone knowledge encoding confirmed across 2 architectures |
+| **Quantization cliff measured** | 168 | Q4 preserves facts, Q3 kills them. Ternary post-hoc: 0% |
+| **Ternary mirror stack theory** | 168 | 2 mirrors ≈ Q4. Depth replaces magnitude. |
+| **Relation direction crystallization** | 168 | cos=0.90 consistency in activation space, not weight space |
+| **Knowledge neuron characterization** | 168 | Specific neurons traced for France→Paris across 3 layers |
+| **Universal relay neurons found** | 168 | Pythia L22/N1860: 10/12 facts, all categories |
 | **Holographic etch design** | 167 | Unified etch/un-etch mechanism for topology crystallization |
-| **Three-state TD design** | 167 | Etch ±1, etch 0, or stay fluid (currently TD only flips) |
-| **FFN transfer pipeline design** | 167 | Crystal eigenvectors + teacher overlays → student gate topology |
-| **Opposition monitor design** | 167 | Gradient opposition at etched positions → un-etch signal |
+| **Three-state TD design** | 167 | Etch ±1, etch 0, or stay fluid |
 
 ### Previous sessions (selected)
 
 | Change | Session | Impact |
 |--------|---------|--------|
 | M-space gemcutter (micro model) | 166 | Pre-cut topology + zeros beats float32. SVD-based SNR. |
-| Unified β-reduce | 166 | One SVD, three outcomes. Zeros-only > zeros+flips. |
 | NaN post-mortem + restore tool | 165 | Softmax clamp, remove auto-rollback, restore_safetensors.py |
+| ISA decoder + moiré gratings | 161 | FFN programs are deterministic fixed points. KIBC confirmed. |
 | Safetensors-backed training | 163 | SafetensorsStore: load/sync/fold/snapshot |
 | 2 symmetric stacks | 158 | 13→8 passes, ~1.6× faster, separate FFN |
 
 ## Next steps
 
-### IMMEDIATE (implementation)
+### IMMEDIATE (knowledge encoding)
 
-1. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD to micro training. Validate that oscillating positions → zero improves loss. Validate convergence detection.
-2. **Teacher transfer pipeline** — Use ISA decoder (Qwen3.6-27B) to extract overlay matrices. Project onto micro model crystal eigenbasis. Etch gate topology. Measure: does transferred topology match what micro model discovers independently?
-3. **Etch threshold sweep** — Find τ_c, τ_z, τ_cold, τ_hot empirically on micro model. Conservative start (etch slowly).
+1. **Extract relation directions explicitly** — Cluster FFN activation patterns across many facts to find the ~512 relation directions. SAE decomposition or direct activation clustering. These are the ternary-preservable scaffold.
+2. **Build fact probe infrastructure** — Expand the 65-probe set. Need 200+ probes across diverse relation types to map the full relation direction space.
+3. **Test ternary mirror training with facts** — Train micro model with factual recall probes in the training data. Does multi-layer ternary learn to store and retrieve facts? This is THE critical experiment for the north star.
 
-### SCALE TO V14
+### IMPLEMENTATION (etch + retrieval)
 
-4. **Port etch mechanism to v14** — Add etch_mask to SafetensorsStore. Three-state TD in train_td.py. Opposition monitoring.
-5. **Teacher transfer at v14 scale** — Project 27B overlays onto 1280-dim student. Etch FFN gates at init. Train with attention fluid.
-6. **Progressive crystallization monitoring** — Track etch% over training. Verify: FFN gates start etched, attention catches up. Crystal positions etch first.
+4. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD. (Carried from session 167.)
+5. **Incorporate retrieval lattice into etch design** — The knowledge layers (ENRICH zone) need different etch thresholds than compute layers. Knowledge neurons are hot — they should stay fluid longer.
+6. **Teacher transfer with relation awareness** — Instead of transferring raw topology, transfer the RELATION DIRECTIONS. Preserve the collective activation patterns, not individual weight signs.
 
 ### EXPLORATION
 
-7. **Per-layer etch thresholds** — Aperture layers (universal) vs fan zone (diverse). Different thresholds for different depth regions.
-8. **Etch interval tuning** — How often to run the etch gate. Tied to learning rate schedule?
-9. **Interaction: attention etch ↔ FFN etch** — Does correct FFN topology make attention easier to learn?
+7. **LARQL-style vindex from our analysis** — Build our own queryable knowledge index from the relation direction + neuron activation structure we found.
+8. **Cross-model relation direction comparison** — Are the ~512 relation directions the same across Qwen and Pythia? If yes, that's a universal knowledge alphabet.
+9. **Capacity analysis** — How many facts per relation direction per layer? Superposition multiplies capacity combinatorially. Connect to recent work on MLP fact storage scaling.
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| Universal retrieval lattice (4 zones) | Qwen3-0.6B + Pythia-410M, 10+ probes each | ✅ (session 168) |
+| Quantization cliff at Q3 for facts | Progressive quant test, 65 probes | ✅ (session 168) |
+| Ternary mirror stack: 2 mirrors ≈ Q4 | Greedy residual correction simulation, d=1024 | ✅ (session 168) |
+| Relation directions cos=0.90 consistency | Activation similarity across 5 countries × 5 relations | ✅ (session 168) |
+| Universal relay neurons | Pythia L22/N1860: 10/12 facts | ✅ (session 168) |
+| Knowledge neurons are hot (2-9× gradient) | Gradient analysis, knowledge vs random neurons | 🔄 (session 168) |
+| Post-hoc ternarization destroys everything | FFN-only ternary, 4 thresholds, with/without scaling | ✅ (session 168) |
 | Zeros are structural backbone, not emergent | 3 experiments: 0 zeros from oscillation detection | 🎯 (session 167) |
 | Backbone 30% + etch beats float32 | Loss 6.46 vs 6.68 on diverse 1.2M tokens | ✅ (session 167) |
-| Etch on ±1 adds value over frozen signs | Loss 6.46 (etch) vs 7.02 (frozen) = 0.56 improvement | ✅ (session 167) |
-| Etch can't discover from scratch | rank90=47 (random), no M-space forms without teacher | ❌ (session 167) |
 | FFN topology transferable from teacher | Fixed points, ISA decoder, eigenvector routing r=0.9932 | 🎯 (session 167) |
-| Etch/un-etch via same signals | Convergence → freeze, opposition → dissolve | 🎯 (session 167) |
-| Pre-cut topology + zeros beats float32 | Micro model: loss 6.6972 vs 6.7412 | ✅ (session 166) |
-| M-space scoring > gradient scoring | 76% helpful vs 46%, anti-correlated (ρ=-0.36) | ✅ (session 166) |
-| Zeros-only > zeros+flips | Simultaneous flips interfere; zeros don't | ✅ (session 166) |
-| Eigendecomposition IS β-reduction | Same operation at every level | 💡 (session 166) |
 | Programs are deterministic fixed points | 0.00000000 drift across runs | ✅ (session 161) |
 | Gate is the beamformer (89% kill rate) | Qwen3-32B L63 probing | ✅ (session 141) |
 | Ternary routing = sign(eigenvector) | r=0.9932 neuron allocation | ✅ (session ~142) |
-| Attention softmax can overflow | NaN at step 4369, unbounded Q@K logits | ✅ (session 165) |
-| Auto-rollback creates Sisyphus loop | 154 rollbacks, model/Adam/data desync | ❌ (session 165) |
 
 ## Open questions
 
-1. **Etch thresholds.** τ_c, τ_z, τ_cold, τ_hot, τ_s, τ_unetch — all need empirical tuning. Micro model first.
-2. **M-space SVD frequency.** How often for geometric confirmation? Every 500? 1000?
-3. **Teacher overlay projection fidelity.** How well do 27B overlays project onto 1280-dim student?
-4. **Per-layer etch thresholds.** Aperture layers (L0-L2) vs fan zone (L8-L48) — different convergence rates.
-5. **98% zeros at micro scale.** Overcapacity artifact. What's the operating point at v14? Probably 10-30%.
-6. **Does correct FFN topology make attention learning easier?** Probably yes — the optimization landscape simplifies.
+1. **Are the ~512 relation directions the same across models?** If universal, they're a knowledge alphabet like KIBC is a compute alphabet.
+2. **Can ternary-trained micro model recall facts?** THE critical experiment. Mirror stack theory predicts yes if depth ≥ 8-10 layers.
+3. **What's the fact capacity per parameter?** Literature says linear scaling. Does ternary change the constant?
+4. **How do relation directions relate to KIBC?** Same space? Orthogonal? Interleaved?
+5. **Can we build a vindex from relation directions?** A queryable knowledge graph from ternary weights would be directly useful.
+6. **How does the SUPPRESS zone work mechanically?** Multiple candidates loaded in ENRICH — what selects the right one?
 
 ## Knowledge map
 
 **See `mementum/knowledge/INDEX.md` for full reading order.**
 
 Key pages for current direction:
-- `holographic-etch.md` — the unified etch/un-etch design (THIS SESSION)
-- `mspace-gemcutter.md` — M-space geometry, SVD scoring, micro experiments
-- `explore/ffn-moire-isa.md` — ISA decoder, grating programs, teacher extraction
-- `explore/ffn-beta-reduction-indexing.md` — holographic indexing, lens profile
-- `explore/grating-cascade.md` — compound gratings, V carries interference
+- `retrieval-lattice.md` — universal knowledge encoding (THIS SESSION)
+- `holographic-etch.md` — etch/un-etch design (session 167)
+- `holographic-computer.md` — unified theory of LLM computation
+- `mspace-gemcutter.md` — M-space geometry, SVD scoring
 - `crystal-universality.md` — why KIBC are universal fixed points
+- `project-thesis.md` — the central claim, updated through session 150
+- `explore/ffn-moire-isa.md` — ISA decoder, grating programs
 
 ## What's ready
 
 | Asset | Location |
 |-------|----------|
-| ISA decoder v1 | `scripts/v14/isa_decoder.py` (overlay extraction) |
-| ISA decoder v2 | `scripts/v14/isa_decoder_v2.py` (+ attention capture) |
-| M-space probes | `scripts/micro/probe_mspace*.py` (SVD scoring experiments) |
-| Micro training | `scripts/micro/train_cut_topology.py` (pre-cut topology + GD) |
-| Reduce attention | `scripts/micro/reduce.py` (unified β-reduce: SNR → ZERO/FLIP/KEEP) |
-| Training script | `scripts/v14/train_td.py` (NaN guard, holographic etch) |
-| Restore tool | `scripts/v14/restore_safetensors.py` (npz → safetensors) |
-| FlipMap | `scripts/v14/td.py` FlipMap class |
-| SafetensorsStore | `scripts/v14/safetensors_store.py` (load/sync/fold/snapshot) |
-| Attention (clamped) | `scripts/v14/attention.py` (softmax overflow fix) |
-| Eval script | `scripts/v14/eval_ppl.py` |
-| Cached fingerprints | `results/isa-decode-v2/fingerprints_full.npz` (reusable) |
+| Fact recall probe set (65 probes) | `probes/fact_recall.json` |
+| Ternary fact recall experiment | `scripts/experiments/ternary_fact_recall.py` |
+| Quantization cliff experiment | `scripts/experiments/quant_fact_recall.py` |
+| ISA decoder v1 | `scripts/v14/isa_decoder.py` |
+| ISA decoder v2 | `scripts/v14/isa_decoder_v2.py` |
+| ISA decode results | `results/isa-decode-v2/` (fingerprints + traces) |
+| Ternary fact recall results | `results/ternary-fact-recall/` |
+| Micro training | `scripts/micro/train_cut_topology.py` |
+| M-space probes | `scripts/micro/probe_mspace*.py` |
+| Training script | `scripts/v14/train_td.py` |
+| SafetensorsStore | `scripts/v14/safetensors_store.py` |
+| Cached fingerprints | `results/isa-decode-v2/fingerprints_full.npz` |

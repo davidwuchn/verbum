@@ -1,0 +1,93 @@
+=== Quantization Fact Recall — Finding the Cliff ===
+Model: Qwen/Qwen3-0.6B  Device: mps  Group size: 128
+Quantize: FFN only
+Probes: 65
+
+============================================================
+--- float32 ---
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:38,  8.02it/s]Loading weights:  56%|█████▌    | 174/311 [00:00<00:00, 926.87it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1012.86it/s]
+Probes: 1.5s
+  Facts: 76.9% (40/52)  avg_rank=16.9
+  Compute: 53.8% (7/13)  avg_rank=2.2
+  Overall: 72.3%
+
+============================================================
+--- Q8 ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<01:13,  4.20it/s]Loading weights:  75%|███████▍  | 232/311 [00:00<00:00, 867.00it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 802.52it/s]
+Quantized to Q8 in 0.2s  (264,241,152 params)
+Probes: 1.1s
+  Facts: 75.0% (39/52)  avg_rank=17.5
+  Compute: 53.8% (7/13)  avg_rank=2.3
+  Overall: 70.8%
+
+============================================================
+--- Q4 ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:36,  8.40it/s]Loading weights:  50%|████▉     | 155/311 [00:00<00:00, 841.54it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 984.26it/s]
+Quantized to Q4 in 0.0s  (264,241,152 params)
+Probes: 1.1s
+  Facts: 73.1% (38/52)  avg_rank=37.3
+  Compute: 38.5% (5/13)  avg_rank=2.7
+  Overall: 66.2%
+
+============================================================
+--- Q3 ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 36/311 [00:00<00:00, 356.17it/s]Loading weights:  60%|██████    | 188/311 [00:00<00:00, 1035.16it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1129.25it/s]
+Quantized to Q3 in 0.0s  (264,241,152 params)
+Probes: 1.1s
+  Facts: 15.4% (8/52)  avg_rank=861.3
+  Compute: 38.5% (5/13)  avg_rank=3.2
+  Overall: 20.0%
+
+============================================================
+--- Q2 ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 60/311 [00:00<00:00, 599.39it/s]Loading weights:  68%|██████▊   | 210/311 [00:00<00:00, 1127.42it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1182.21it/s]
+Quantized to Q2 in 0.0s  (264,241,152 params)
+Probes: 1.1s
+  Facts: 0.0% (0/52)  avg_rank=42766.5
+  Compute: 0.0% (0/13)  avg_rank=12229.3
+  Overall: 0.0%
+
+============================================================
+--- Q1 ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   9%|▉         | 29/311 [00:00<00:00, 289.30it/s]Loading weights:  60%|█████▉    | 186/311 [00:00<00:00, 1040.64it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1166.31it/s]
+Quantized to Q1 in 0.0s  (264,241,152 params)
+Probes: 1.2s
+  Facts: 0.0% (0/52)  avg_rank=1.0
+  Compute: 0.0% (0/13)  avg_rank=1.0
+  Overall: 0.0%
+
+============================================================
+--- ternary_gs ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 70/311 [00:00<00:00, 692.12it/s]Loading weights:  75%|███████▍  | 232/311 [00:00<00:00, 1234.82it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1260.70it/s]
+Quantized to ternary_gs in 0.6s  (264,241,152 params)
+Probes: 1.1s
+  Facts: 0.0% (0/52)  avg_rank=26122.9
+  Compute: 7.7% (1/13)  avg_rank=7886.9
+  Overall: 1.5%
+
+================================================================================
+        Bits |    Facts |  Compute |  Overall |  Fact Rank |  Comp Rank
+--------------------------------------------------------------------------------
+     float32 |   76.9%  |   53.8%  |   72.3%  |      16.9  |       2.2
+          Q8 |   75.0%  |   53.8%  |   70.8%  |      17.5  |       2.3
+          Q4 |   73.1%  |   38.5%  |   66.2%  |      37.3  |       2.7
+          Q3 |   15.4%  |   38.5%  |   20.0%  |     861.3  |       3.2
+          Q2 |    0.0%  |    0.0%  |    0.0%  |   42766.5  |   12229.3
+          Q1 |    0.0%  |    0.0%  |    0.0%  |       1.0  |       1.0
+  ternary_gs |    0.0%  |    7.7%  |    1.5%  |   26122.9  |    7886.9
+================================================================================
+
+--- Per-category top1 accuracy ---
+        Bits | arithmetic |    capital | computation |    creator |  geography |    history |    science
+--------------------------------------------------------------------------------------------------------
+     float32 |    100.0%  |     86.7%  |     25.0%  |     70.0%  |     42.9%  |     80.0%  |     90.0% 
+          Q8 |    100.0%  |     86.7%  |     25.0%  |     70.0%  |     28.6%  |     80.0%  |     90.0% 
+          Q4 |    100.0%  |     66.7%  |      0.0%  |     70.0%  |     42.9%  |     90.0%  |     90.0% 
+          Q3 |    100.0%  |      0.0%  |      0.0%  |     20.0%  |      0.0%  |     20.0%  |     40.0% 
+          Q2 |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0% 
+          Q1 |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0% 
+  ternary_gs |     20.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0%  |      0.0% 
+
+Saved to /Users/mwhitford/src/verbum/results/ternary-fact-recall/Qwen_Qwen3-0.6B_quant_cliff.json

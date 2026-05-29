@@ -30,10 +30,11 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 
 | # | Page | Status | One-line |
 |---|------|--------|----------|
-| 4 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
-| 5 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
-| 6 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |
-| 7 | [extraction-methodology.md](extraction-methodology.md) | ✅ | How to extract from a teacher: what works, three confusions resolved, the pipeline |
+| 4 | [retrieval-lattice.md](retrieval-lattice.md) | ✅ | Universal knowledge encoding: 4-zone lattice, relation directions, ternary mirror stack |
+| 5 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
+| 6 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
+| 7 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |
+| 8 | [extraction-methodology.md](extraction-methodology.md) | ✅ | How to extract from a teacher: what works, three confusions resolved, the pipeline |
 
 ## Tier 3 — What Are We Running?
 

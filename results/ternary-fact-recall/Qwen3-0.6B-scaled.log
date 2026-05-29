@@ -1,0 +1,328 @@
+=== Ternary Fact Recall Experiment ===
+Model: Qwen/Qwen3-0.6B
+Device: mps
+Dtype: float32
+Zero percentiles: [0.0, 0.1, 0.3, 0.5]
+Ternarize: FFN only
+Loaded 65 probes
+Loading tokenizer...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Verifying probe expected tokens...
+
+--- Loading model for baseline ---
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   2%|▏         | 6/311 [00:00<00:05, 59.22it/s]Loading weights:  54%|█████▎    | 167/311 [00:00<00:00, 964.88it/s]Loading weights:  98%|█████████▊| 306/311 [00:00<00:00, 1157.06it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1025.04it/s]
+Model loaded in 0.8s
+Total parameters: 596,049,920
+
+--- Running baseline probes ---
+Baseline probes: 1.8s
+
+--- Baseline Results ---
+  arithmetic       top1=100.0%  top5=100.0%  avg_rank=1.0
+  capital          top1=86.7%  top5=86.7%  avg_rank=3.9
+  computation      top1=25.0%  top5=87.5%  avg_rank=2.9
+  creator          top1=70.0%  top5=90.0%  avg_rank=24.8
+  geography        top1=42.9%  top5=42.9%  avg_rank=77.3
+  history          top1=80.0%  top5=90.0%  avg_rank=2.0
+  science          top1=90.0%  top5=100.0%  avg_rank=1.3
+  OVERALL          top1=72.3%
+
+============================================================
+--- Ternarizing: ternary_z00_ffn (zero_pct=0%) ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:35,  8.83it/s]Loading weights:  43%|████▎     | 135/311 [00:00<00:00, 747.82it/s]Loading weights:  85%|████████▌ | 265/311 [00:00<00:00, 990.35it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 916.10it/s]
+Ternarized in 0.3s
+  Ternary params: 264,241,152 / 596,049,920 (44.3%)
+  Zeros: 0.0%  +1: 50.0%  -1: 50.0%
+Probes: 1.4s
+
+================================================================================
+Category        | Baseline top1 | Ternary top1 |      Δ | Base rank | Tern rank
+--------------------------------------------------------------------------------
+arithmetic      |       100.0%  |        0.0%  | -100.0% |      1.0  |  48849.8
+capital         |        86.7%  |        0.0%  | -86.7% |      3.9  |  59944.4
+computation     |        25.0%  |        0.0%  | -25.0% |      2.9  |  46548.9
+creator         |        70.0%  |        0.0%  | -70.0% |     24.8  |  53811.7
+geography       |        42.9%  |        0.0%  | -42.9% |     77.3  |  42802.1
+history         |        80.0%  |        0.0%  | -80.0% |      2.0  |  52866.7
+science         |        90.0%  |        0.0%  | -90.0% |      1.3  |  63314.5
+--------------------------------------------------------------------------------
+OVERALL         |        72.3%  |        0.0%  | -72.3% |
+================================================================================
+
+--- DIED (47 facts lost to ternarization) ---
+  cap-01     [capital     ] expected=' Paris'  base=' Paris'✓  tern='�'     ✗  rank: 1→55520
+  cap-02     [capital     ] expected=' Tokyo'  base=' Tokyo'✓  tern='omer'  ✗  rank: 1→78924
+  cap-03     [capital     ] expected=' Berlin'  base=' Berlin'✓  tern='ensors'✗  rank: 1→94228
+  cap-04     [capital     ] expected=' Rome'   base=' Rome' ✓  tern='无'     ✗  rank: 1→124502
+  cap-06     [capital     ] expected=' Bras'   base=' Bras' ✓  tern='作'     ✗  rank: 1→15172
+  cap-07     [capital     ] expected=' Ottawa'  base=' Ottawa'✓  tern='<vector'✗  rank: 1→62362
+  cap-08     [capital     ] expected=' Cairo'  base=' Cairo'✓  tern='<|endoftext|>'✗  rank: 1→113162
+  cap-09     [capital     ] expected=' Madrid'  base=' Madrid'✓  tern=' without'✗  rank: 1→17890
+  cap-10     [capital     ] expected=' Seoul'  base=' Seoul'✓  tern='\n'    ✗  rank: 1→47182
+  cap-11     [capital     ] expected=' Buenos'  base=' Buenos'✓  tern='从'     ✗  rank: 1→134554
+  cap-12     [capital     ] expected=' Bangkok'  base=' Bangkok'✓  tern='<|endoftext|>'✗  rank: 1→40615
+  cap-13     [capital     ] expected=' Ankara'  base=' Ankara'✓  tern='ปลอด'  ✗  rank: 1→27217
+  cap-15     [capital     ] expected=' Oslo'   base=' Oslo' ✓  tern='ens'   ✗  rank: 1→42922
+  cre-01     [creator     ] expected=' Einstein'  base=' Einstein'✓  tern='向'     ✗  rank: 1→70732
+  cre-02     [creator     ] expected=' Bell'   base=' Bell' ✓  tern='各项工作'  ✗  rank: 1→64834
+  cre-03     [creator     ] expected=' Jobs'   base=' Jobs' ✓  tern='consin'✗  rank: 1→4659
+  cre-05     [creator     ] expected=' Gates'  base=' Gates'✓  tern='烟囱'    ✗  rank: 1→120083
+  cre-06     [creator     ] expected=' Vinci'  base=' Vinci'✓  tern="',['"  ✗  rank: 1→66527
+  cre-07     [creator     ] expected=' Marx'   base=' Marx' ✓  tern='Hay'   ✗  rank: 1→2095
+  cre-10     [creator     ] expected=' Musk'   base=' Musk' ✓  tern=' "\'";\n'✗  rank: 1→51981
+  sci-01     [science     ] expected=' oxygen'  base=' oxygen'✓  tern='.\n\n' ✗  rank: 1→20252
+  sci-02     [science     ] expected=' second'  base=' second'✓  tern='eli'   ✗  rank: 1→30115
+  sci-03     [science     ] expected=' Au'     base=' Au'   ✓  tern='帐篷'    ✗  rank: 1→23126
+  sci-05     [science     ] expected='ic'      base='ic'    ✓  tern=' became'✗  rank: 1→145426
+  sci-06     [science     ] expected=' 6'      base=' '     ✓  tern=' Tah'  ✗  rank: 1→21708
+  sci-07     [science     ] expected=' Newton'  base=' Newton'✓  tern='节能环保'  ✗  rank: 1→50315
+  sci-08     [science     ] expected=' Sun'    base=' Sun'  ✓  tern='黄埔'    ✗  rank: 1→126889
+  sci-09     [science     ] expected=' energy'  base=' energy'✓  tern='苓'     ✗  rank: 1→1209
+  sci-10     [science     ] expected=' Celsius'  base=' Celsius'✓  tern='за'    ✗  rank: 1→150155
+  his-01     [history     ] expected=' 1945'   base=' '     ✓  tern='碉'     ✗  rank: 1→10297
+  his-02     [history     ] expected=' 17'     base=' '     ✓  tern='itespace'✗  rank: 1→33533
+  his-03     [history     ] expected=' Armstrong'  base=' Armstrong'✓  tern='AMPL'  ✗  rank: 1→106717
+  his-04     [history     ] expected=' 1989'   base=' '     ✓  tern='什么是'   ✗  rank: 1→130349
+  his-05     [history     ] expected=' 44'     base=' '     ✓  tern='/\n\n\n\n'✗  rank: 1→10562
+  his-06     [history     ] expected=' 19'     base=' '     ✓  tern='齿'     ✗  rank: 1→351
+  his-08     [history     ] expected=' Washington'  base=' Washington'✓  tern=' fflush'✗  rank: 1→39192
+  his-10     [history     ] expected=' 14'     base=' '     ✓  tern='lahoma'✗  rank: 1→90724
+  geo-01     [geography   ] expected=' Nile'   base=' Nile' ✓  tern='oftware'✗  rank: 1→63331
+  geo-03     [geography   ] expected=' Pacific'  base=' Pacific'✓  tern='�'     ✗  rank: 1→69983
+  geo-06     [geography   ] expected=' long'   base=' long' ✓  tern='.ws'   ✗  rank: 1→28740
+  comp-01    [computation ] expected=' a'      base=' a'    ✓  tern='vester'✗  rank: 1→17802
+  comp-07    [computation ] expected=' f'      base=' f'    ✓  tern='vester'✗  rank: 1→4865
+  arith-01   [arithmetic  ] expected=' 5'      base=' '     ✓  tern='AndHashCode'✗  rank: 1→73208
+  arith-02   [arithmetic  ] expected=' 56'     base=' '     ✓  tern='amaha' ✗  rank: 1→21215
+  arith-03   [arithmetic  ] expected=' 63'     base=' '     ✓  tern='ˢ'     ✗  rank: 1→39310
+  arith-04   [arithmetic  ] expected=' 144'    base=' '     ✓  tern='ல'     ✗  rank: 1→103936
+  arith-05   [arithmetic  ] expected=' 100'    base=' '     ✓  tern='்'     ✗  rank: 1→6580
+
+============================================================
+--- Ternarizing: ternary_z10_ffn (zero_pct=10%) ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  11%|█         | 34/311 [00:00<00:00, 336.35it/s]Loading weights:  59%|█████▊    | 182/311 [00:00<00:00, 1001.85it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1043.73it/s]
+Ternarized in 0.5s
+  Ternary params: 264,241,152 / 596,049,920 (44.3%)
+  Zeros: 10.0%  +1: 45.0%  -1: 45.0%
+Probes: 1.5s
+
+================================================================================
+Category        | Baseline top1 | Ternary top1 |      Δ | Base rank | Tern rank
+--------------------------------------------------------------------------------
+arithmetic      |       100.0%  |        0.0%  | -100.0% |      1.0  |   2864.0
+capital         |        86.7%  |        0.0%  | -86.7% |      3.9  |  63386.1
+computation     |        25.0%  |        0.0%  | -25.0% |      2.9  |  19233.4
+creator         |        70.0%  |        0.0%  | -70.0% |     24.8  |  53939.3
+geography       |        42.9%  |        0.0%  | -42.9% |     77.3  |  43211.0
+history         |        80.0%  |       10.0%  | -70.0% |      2.0  |  10595.6
+science         |        90.0%  |        0.0%  | -90.0% |      1.3  |  28124.4
+--------------------------------------------------------------------------------
+OVERALL         |        72.3%  |        1.5%  | -70.8% |
+================================================================================
+
+--- DIED (46 facts lost to ternarization) ---
+  cap-01     [capital     ] expected=' Paris'  base=' Paris'✓  tern='ṭ'     ✗  rank: 1→90262
+  cap-02     [capital     ] expected=' Tokyo'  base=' Tokyo'✓  tern='/'     ✗  rank: 1→55796
+  cap-03     [capital     ] expected=' Berlin'  base=' Berlin'✓  tern='⾃'     ✗  rank: 1→74241
+  cap-04     [capital     ] expected=' Rome'   base=' Rome' ✓  tern='泊'     ✗  rank: 1→3512
+  cap-06     [capital     ] expected=' Bras'   base=' Bras' ✓  tern='ertz'  ✗  rank: 1→44806
+  cap-07     [capital     ] expected=' Ottawa'  base=' Ottawa'✓  tern='绦'     ✗  rank: 1→32133
+  cap-08     [capital     ] expected=' Cairo'  base=' Cairo'✓  tern='巩'     ✗  rank: 1→16703
+  cap-09     [capital     ] expected=' Madrid'  base=' Madrid'✓  tern='iband' ✗  rank: 1→125215
+  cap-10     [capital     ] expected=' Seoul'  base=' Seoul'✓  tern='reland'✗  rank: 1→18055
+  cap-11     [capital     ] expected=' Buenos'  base=' Buenos'✓  tern=')])\n\n'✗  rank: 1→28965
+  cap-12     [capital     ] expected=' Bangkok'  base=' Bangkok'✓  tern='ل'     ✗  rank: 1→128143
+  cap-13     [capital     ] expected=' Ankara'  base=' Ankara'✓  tern='={!'   ✗  rank: 1→127808
+  cap-15     [capital     ] expected=' Oslo'   base=' Oslo' ✓  tern='ализ'  ✗  rank: 1→32403
+  cre-01     [creator     ] expected=' Einstein'  base=' Einstein'✓  tern='ople'  ✗  rank: 1→70922
+  cre-02     [creator     ] expected=' Bell'   base=' Bell' ✓  tern='’aut'  ✗  rank: 1→38633
+  cre-03     [creator     ] expected=' Jobs'   base=' Jobs' ✓  tern=','     ✗  rank: 1→1955
+  cre-05     [creator     ] expected=' Gates'  base=' Gates'✓  tern='─'     ✗  rank: 1→73895
+  cre-06     [creator     ] expected=' Vinci'  base=' Vinci'✓  tern='ting'  ✗  rank: 1→139764
+  cre-07     [creator     ] expected=' Marx'   base=' Marx' ✓  tern='.\n\n' ✗  rank: 1→38786
+  cre-10     [creator     ] expected=' Musk'   base=' Musk' ✓  tern='és'    ✗  rank: 1→43
+  sci-01     [science     ] expected=' oxygen'  base=' oxygen'✓  tern=',”'    ✗  rank: 1→32249
+  sci-02     [science     ] expected=' second'  base=' second'✓  tern='urat'  ✗  rank: 1→48626
+  sci-03     [science     ] expected=' Au'     base=' Au'   ✓  tern='·'     ✗  rank: 1→90592
+  sci-05     [science     ] expected='ic'      base='ic'    ✓  tern='�'     ✗  rank: 1→42101
+  sci-06     [science     ] expected=' 6'      base=' '     ✓  tern='.”\n'  ✗  rank: 1→134
+  sci-07     [science     ] expected=' Newton'  base=' Newton'✓  tern='-Isl'  ✗  rank: 1→2954
+  sci-08     [science     ] expected=' Sun'    base=' Sun'  ✓  tern=','     ✗  rank: 1→3610
+  sci-09     [science     ] expected=' energy'  base=' energy'✓  tern="'."    ✗  rank: 1→15858
+  sci-10     [science     ] expected=' Celsius'  base=' Celsius'✓  tern='\\n'   ✗  rank: 1→37691
+  his-01     [history     ] expected=' 1945'   base=' '     ✓  tern=' energy'✗  rank: 1→25204
+  his-02     [history     ] expected=' 17'     base=' '     ✓  tern='IEEE'  ✗  rank: 1→56
+  his-03     [history     ] expected=' Armstrong'  base=' Armstrong'✓  tern='’'     ✗  rank: 1→10650
+  his-05     [history     ] expected=' 44'     base=' '     ✓  tern='**'    ✗  rank: 1→911
+  his-06     [history     ] expected=' 19'     base=' '     ✓  tern=' were' ✗  rank: 1→97
+  his-08     [history     ] expected=' Washington'  base=' Washington'✓  tern=' Watkins'✗  rank: 1→29383
+  his-10     [history     ] expected=' 14'     base=' '     ✓  tern='.'     ✗  rank: 1→23
+  geo-01     [geography   ] expected=' Nile'   base=' Nile' ✓  tern=' WN'   ✗  rank: 1→945
+  geo-03     [geography   ] expected=' Pacific'  base=' Pacific'✓  tern='\n'    ✗  rank: 1→116253
+  geo-06     [geography   ] expected=' long'   base=' long' ✓  tern=' '     ✗  rank: 1→636
+  comp-01    [computation ] expected=' a'      base=' a'    ✓  tern='*.'    ✗  rank: 1→48547
+  comp-07    [computation ] expected=' f'      base=' f'    ✓  tern='sey'   ✗  rank: 1→1081
+  arith-01   [arithmetic  ] expected=' 5'      base=' '     ✓  tern='$.'    ✗  rank: 1→486
+  arith-02   [arithmetic  ] expected=' 56'     base=' '     ✓  tern=' \\'   ✗  rank: 1→24
+  arith-03   [arithmetic  ] expected=' 63'     base=' '     ✓  tern=' поч'  ✗  rank: 1→489
+  arith-04   [arithmetic  ] expected=' 144'    base=' '     ✓  tern=' N'    ✗  rank: 1→908
+  arith-05   [arithmetic  ] expected=' 100'    base=' '     ✓  tern='nis'   ✗  rank: 1→12413
+
+--- SURVIVED (1 facts preserved) ---
+  his-04     [history     ] ' 1989'   logprob: -0.15→-2.27 (-2.12)
+
+============================================================
+--- Ternarizing: ternary_z30_ffn (zero_pct=30%) ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  17%|█▋        | 53/311 [00:00<00:00, 527.41it/s]Loading weights:  65%|██████▍   | 202/311 [00:00<00:00, 996.55it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1129.02it/s]
+Ternarized in 0.6s
+  Ternary params: 264,241,152 / 596,049,920 (44.3%)
+  Zeros: 30.1%  +1: 35.0%  -1: 34.9%
+Probes: 1.4s
+
+================================================================================
+Category        | Baseline top1 | Ternary top1 |      Δ | Base rank | Tern rank
+--------------------------------------------------------------------------------
+arithmetic      |       100.0%  |        0.0%  | -100.0% |      1.0  |  26666.4
+capital         |        86.7%  |        0.0%  | -86.7% |      3.9  |  30182.6
+computation     |        25.0%  |        0.0%  | -25.0% |      2.9  |  38216.4
+creator         |        70.0%  |        0.0%  | -70.0% |     24.8  |  49378.5
+geography       |        42.9%  |        0.0%  | -42.9% |     77.3  |  33180.9
+history         |        80.0%  |        0.0%  | -80.0% |      2.0  |  27851.9
+science         |        90.0%  |        0.0%  | -90.0% |      1.3  |  37979.6
+--------------------------------------------------------------------------------
+OVERALL         |        72.3%  |        0.0%  | -72.3% |
+================================================================================
+
+--- DIED (47 facts lost to ternarization) ---
+  cap-01     [capital     ] expected=' Paris'  base=' Paris'✓  tern='ı'     ✗  rank: 1→16777
+  cap-02     [capital     ] expected=' Tokyo'  base=' Tokyo'✓  tern='\n'    ✗  rank: 1→67596
+  cap-03     [capital     ] expected=' Berlin'  base=' Berlin'✓  tern='口水'    ✗  rank: 1→4490
+  cap-04     [capital     ] expected=' Rome'   base=' Rome' ✓  tern='ette'  ✗  rank: 1→27031
+  cap-06     [capital     ] expected=' Bras'   base=' Bras' ✓  tern='lastic'✗  rank: 1→9726
+  cap-07     [capital     ] expected=' Ottawa'  base=' Ottawa'✓  tern='\n'    ✗  rank: 1→18286
+  cap-08     [capital     ] expected=' Cairo'  base=' Cairo'✓  tern=' водо' ✗  rank: 1→36108
+  cap-09     [capital     ] expected=' Madrid'  base=' Madrid'✓  tern='-China'✗  rank: 1→275
+  cap-10     [capital     ] expected=' Seoul'  base=' Seoul'✓  tern='-'     ✗  rank: 1→35292
+  cap-11     [capital     ] expected=' Buenos'  base=' Buenos'✓  tern='\n'    ✗  rank: 1→7060
+  cap-12     [capital     ] expected=' Bangkok'  base=' Bangkok'✓  tern=' permanent'✗  rank: 1→27267
+  cap-13     [capital     ] expected=' Ankara'  base=' Ankara'✓  tern='وار'   ✗  rank: 1→41673
+  cap-15     [capital     ] expected=' Oslo'   base=' Oslo' ✓  tern='\n'    ✗  rank: 1→5802
+  cre-01     [creator     ] expected=' Einstein'  base=' Einstein'✓  tern='.\n\n' ✗  rank: 1→38584
+  cre-02     [creator     ] expected=' Bell'   base=' Bell' ✓  tern='.wikipedia'✗  rank: 1→107540
+  cre-03     [creator     ] expected=' Jobs'   base=' Jobs' ✓  tern='calar' ✗  rank: 1→49199
+  cre-05     [creator     ] expected=' Gates'  base=' Gates'✓  tern='작'     ✗  rank: 1→280
+  cre-06     [creator     ] expected=' Vinci'  base=' Vinci'✓  tern='.\n'   ✗  rank: 1→47560
+  cre-07     [creator     ] expected=' Marx'   base=' Marx' ✓  tern='calar' ✗  rank: 1→16121
+  cre-10     [creator     ] expected=' Musk'   base=' Musk' ✓  tern=' ๆ'    ✗  rank: 1→4520
+  sci-01     [science     ] expected=' oxygen'  base=' oxygen'✓  tern='ippo'  ✗  rank: 1→5361
+  sci-02     [science     ] expected=' second'  base=' second'✓  tern=' долг' ✗  rank: 1→11518
+  sci-03     [science     ] expected=' Au'     base=' Au'   ✓  tern='calar' ✗  rank: 1→60536
+  sci-05     [science     ] expected='ic'      base='ic'    ✓  tern=' permanent'✗  rank: 1→104017
+  sci-06     [science     ] expected=' 6'      base=' '     ✓  tern='uster' ✗  rank: 1→10074
+  sci-07     [science     ] expected=' Newton'  base=' Newton'✓  tern='bar'   ✗  rank: 1→9094
+  sci-08     [science     ] expected=' Sun'    base=' Sun'  ✓  tern=' capita'✗  rank: 1→111018
+  sci-09     [science     ] expected=' energy'  base=' energy'✓  tern=' Garcia'✗  rank: 1→3595
+  sci-10     [science     ] expected=' Celsius'  base=' Celsius'✓  tern='slow'  ✗  rank: 1→3406
+  his-01     [history     ] expected=' 1945'   base=' '     ✓  tern='春天'    ✗  rank: 1→2678
+  his-02     [history     ] expected=' 17'     base=' '     ✓  tern='tran'  ✗  rank: 1→12158
+  his-03     [history     ] expected=' Armstrong'  base=' Armstrong'✓  tern='.",\n' ✗  rank: 1→871
+  his-04     [history     ] expected=' 1989'   base=' '     ✓  tern='mem'   ✗  rank: 1→14070
+  his-05     [history     ] expected=' 44'     base=' '     ✓  tern='man'   ✗  rank: 1→105258
+  his-06     [history     ] expected=' 19'     base=' '     ✓  tern='igure' ✗  rank: 1→1022
+  his-08     [history     ] expected=' Washington'  base=' Washington'✓  tern=' (:'   ✗  rank: 1→17247
+  his-10     [history     ] expected=' 14'     base=' '     ✓  tern='ots'   ✗  rank: 1→74482
+  geo-01     [geography   ] expected=' Nile'   base=' Nile' ✓  tern='cl'    ✗  rank: 1→568
+  geo-03     [geography   ] expected=' Pacific'  base=' Pacific'✓  tern='splash'✗  rank: 1→27710
+  geo-06     [geography   ] expected=' long'   base=' long' ✓  tern='\n'    ✗  rank: 1→5826
+  comp-01    [computation ] expected=' a'      base=' a'    ✓  tern='olocation'✗  rank: 1→25283
+  comp-07    [computation ] expected=' f'      base=' f'    ✓  tern='\n'    ✗  rank: 1→9577
+  arith-01   [arithmetic  ] expected=' 5'      base=' '     ✓  tern='\n'    ✗  rank: 1→155
+  arith-02   [arithmetic  ] expected=' 56'     base=' '     ✓  tern='\n'    ✗  rank: 1→555
+  arith-03   [arithmetic  ] expected=' 63'     base=' '     ✓  tern=' Bowie'✗  rank: 1→2162
+  arith-04   [arithmetic  ] expected=' 144'    base=' '     ✓  tern='_INITIALIZER'✗  rank: 1→3961
+  arith-05   [arithmetic  ] expected=' 100'    base=' '     ✓  tern='solete'✗  rank: 1→126499
+
+============================================================
+--- Ternarizing: ternary_z50_ffn (zero_pct=50%) ---
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  14%|█▎        | 42/311 [00:00<00:00, 416.79it/s]Loading weights:  64%|██████▎   | 198/311 [00:00<00:00, 1085.82it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1094.00it/s]
+Ternarized in 0.7s
+  Ternary params: 264,241,152 / 596,049,920 (44.3%)
+  Zeros: 50.1%  +1: 25.0%  -1: 24.9%
+Probes: 1.5s
+
+================================================================================
+Category        | Baseline top1 | Ternary top1 |      Δ | Base rank | Tern rank
+--------------------------------------------------------------------------------
+arithmetic      |       100.0%  |        0.0%  | -100.0% |      1.0  |      2.0
+capital         |        86.7%  |        0.0%  | -86.7% |      3.9  |  40469.7
+computation     |        25.0%  |        0.0%  | -25.0% |      2.9  |    396.6
+creator         |        70.0%  |        0.0%  | -70.0% |     24.8  |  28980.7
+geography       |        42.9%  |        0.0%  | -42.9% |     77.3  |  19484.9
+history         |        80.0%  |        0.0%  | -80.0% |      2.0  |  12594.5
+science         |        90.0%  |        0.0%  | -90.0% |      1.3  |   8895.2
+--------------------------------------------------------------------------------
+OVERALL         |        72.3%  |        0.0%  | -72.3% |
+================================================================================
+
+--- DIED (47 facts lost to ternarization) ---
+  cap-01     [capital     ] expected=' Paris'  base=' Paris'✓  tern='\n'    ✗  rank: 1→22971
+  cap-02     [capital     ] expected=' Tokyo'  base=' Tokyo'✓  tern='\n'    ✗  rank: 1→29248
+  cap-03     [capital     ] expected=' Berlin'  base=' Berlin'✓  tern='\n'    ✗  rank: 1→23117
+  cap-04     [capital     ] expected=' Rome'   base=' Rome' ✓  tern='\n'    ✗  rank: 1→34182
+  cap-06     [capital     ] expected=' Bras'   base=' Bras' ✓  tern='\n'    ✗  rank: 1→19718
+  cap-07     [capital     ] expected=' Ottawa'  base=' Ottawa'✓  tern='\n'    ✗  rank: 1→90746
+  cap-08     [capital     ] expected=' Cairo'  base=' Cairo'✓  tern='\n'    ✗  rank: 1→33110
+  cap-09     [capital     ] expected=' Madrid'  base=' Madrid'✓  tern=' '     ✗  rank: 1→32266
+  cap-10     [capital     ] expected=' Seoul'  base=' Seoul'✓  tern='\n'    ✗  rank: 1→29521
+  cap-11     [capital     ] expected=' Buenos'  base=' Buenos'✓  tern='\n'    ✗  rank: 1→29081
+  cap-12     [capital     ] expected=' Bangkok'  base=' Bangkok'✓  tern='\n'    ✗  rank: 1→13740
+  cap-13     [capital     ] expected=' Ankara'  base=' Ankara'✓  tern='\n'    ✗  rank: 1→142338
+  cap-15     [capital     ] expected=' Oslo'   base=' Oslo' ✓  tern='\n'    ✗  rank: 1→2928
+  cre-01     [creator     ] expected=' Einstein'  base=' Einstein'✓  tern='\n'    ✗  rank: 1→12919
+  cre-02     [creator     ] expected=' Bell'   base=' Bell' ✓  tern='\n'    ✗  rank: 1→1563
+  cre-03     [creator     ] expected=' Jobs'   base=' Jobs' ✓  tern='\n'    ✗  rank: 1→33743
+  cre-05     [creator     ] expected=' Gates'  base=' Gates'✓  tern=' '     ✗  rank: 1→18482
+  cre-06     [creator     ] expected=' Vinci'  base=' Vinci'✓  tern='\n'    ✗  rank: 1→36232
+  cre-07     [creator     ] expected=' Marx'   base=' Marx' ✓  tern='\n'    ✗  rank: 1→18033
+  cre-10     [creator     ] expected=' Musk'   base=' Musk' ✓  tern='\n'    ✗  rank: 1→117427
+  sci-01     [science     ] expected=' oxygen'  base=' oxygen'✓  tern='\n'    ✗  rank: 1→38334
+  sci-02     [science     ] expected=' second'  base=' second'✓  tern=' '     ✗  rank: 1→57
+  sci-03     [science     ] expected=' Au'     base=' Au'   ✓  tern=' and'  ✗  rank: 1→10107
+  sci-05     [science     ] expected='ic'      base='ic'    ✓  tern='\n'    ✗  rank: 1→1537
+  sci-06     [science     ] expected=' 6'      base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  sci-07     [science     ] expected=' Newton'  base=' Newton'✓  tern='\n'    ✗  rank: 1→5967
+  sci-08     [science     ] expected=' Sun'    base=' Sun'  ✓  tern='\n'    ✗  rank: 1→797
+  sci-09     [science     ] expected=' energy'  base=' energy'✓  tern='\n'    ✗  rank: 1→17001
+  sci-10     [science     ] expected=' Celsius'  base=' Celsius'✓  tern=' '     ✗  rank: 1→903
+  his-01     [history     ] expected=' 1945'   base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  his-02     [history     ] expected=' 17'     base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  his-03     [history     ] expected=' Armstrong'  base=' Armstrong'✓  tern='ed'    ✗  rank: 1→32710
+  his-04     [history     ] expected=' 1989'   base=' '     ✓  tern='\n'    ✗  rank: 1→4
+  his-05     [history     ] expected=' 44'     base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  his-06     [history     ] expected=' 19'     base=' '     ✓  tern=' in'   ✗  rank: 1→2
+  his-08     [history     ] expected=' Washington'  base=' Washington'✓  tern='\n'    ✗  rank: 1→50382
+  his-10     [history     ] expected=' 14'     base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  geo-01     [geography   ] expected=' Nile'   base=' Nile' ✓  tern='\n'    ✗  rank: 1→15607
+  geo-03     [geography   ] expected=' Pacific'  base=' Pacific'✓  tern='?'     ✗  rank: 1→22533
+  geo-06     [geography   ] expected=' long'   base=' long' ✓  tern='\n'    ✗  rank: 1→470
+  comp-01    [computation ] expected=' a'      base=' a'    ✓  tern=' ('    ✗  rank: 1→105
+  comp-07    [computation ] expected=' f'      base=' f'    ✓  tern=' ('    ✗  rank: 1→111
+  arith-01   [arithmetic  ] expected=' 5'      base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  arith-02   [arithmetic  ] expected=' 56'     base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  arith-03   [arithmetic  ] expected=' 63'     base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  arith-04   [arithmetic  ] expected=' 144'    base=' '     ✓  tern='\n'    ✗  rank: 1→2
+  arith-05   [arithmetic  ] expected=' 100'    base=' '     ✓  tern='\n'    ✗  rank: 1→2
+
+Results saved to /Users/mwhitford/src/verbum/results/ternary-fact-recall/Qwen_Qwen3-0.6B.json
+
+================================================================================
+FINAL SUMMARY
+================================================================================
+baseline                        facts=76.9% (40/52)  compute=53.8% (7/13)  overall=72.3%
+ternary_z00_ffn                 facts=0.0% (0/52)  compute=0.0% (0/13)  overall=0.0%
+ternary_z10_ffn                 facts=1.9% (1/52)  compute=0.0% (0/13)  overall=1.5%
+ternary_z30_ffn                 facts=0.0% (0/52)  compute=0.0% (0/13)  overall=0.0%
+ternary_z50_ffn                 facts=0.0% (0/52)  compute=0.0% (0/13)  overall=0.0%
+
+Key question: do facts die faster than computation under ternarization?
