@@ -1,0 +1,278 @@
+======================================================================
+CROSS-MODEL LATTICE CONSENSUS PROBE
+Finding the universal irreducible lattice across models
+======================================================================
+
+Crystal eigenbasis: 16 PCs
+Top eigenvalues: [5.192943572998047, 3.5347602367401123, 1.9093635082244873, 1.2996599674224854, 1.0818196535110474, 0.7363811135292053, 0.5001067519187927, 0.4263107180595398]
+Eigenvalue ratios: ['1.000', '0.681', '0.368', '0.250', '0.208', '0.142', '0.096', '0.082']
+
+Predicted PC allocation fractions (from eigenvalues):
+  PC0 (K): 0.325
+  PC1 (I): 0.221
+  PC2 (B): 0.119
+  PC3 (C): 0.081
+  PC4 (D): 0.068
+  PC5 (Y): 0.046
+  PC6 (W): 0.031
+  PC7 (WHNF): 0.027
+
+
+──────────────────────────────────────────────────────────────────────
+
+  Loading Qwen3-0.6B (Qwen/Qwen3-0.6B)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  40%|███▉      | 123/311 [00:00<00:00, 1227.09it/s]Loading weights:  90%|████████▉ | 279/311 [00:00<00:00, 1409.33it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1424.85it/s]
+  Loaded in 1s: 28 layers, d=1024, d_ff=3072
+    depth=0.0 (L0): pc_alloc=[198,166,213,183,200,181,188,185] M:r90=82,t1=56.5%
+    depth=0.1 (L2): pc_alloc=[235,195,175,195,197,217,167,179] M:r90=168,t1=17.1%
+    depth=0.2 (L5): pc_alloc=[186,186,175,205,189,237,181,175] M:r90=202,t1=6.9%
+    depth=0.3 (L8): pc_alloc=[167,217,202,173,192,211,198,185] M:r90=108,t1=51.5%
+    depth=0.4 (L10): pc_alloc=[178,193,181,156,233,199,190,189] M:r90=161,t1=10.2%
+    depth=0.5 (L13): pc_alloc=[164,190,192,170,234,245,167,216] M:r90=107,t1=33.0%
+    depth=0.6 (L16): pc_alloc=[199,181,213,159,224,268,188,181] M:r90=129,t1=4.7%
+    depth=0.7 (L18): pc_alloc=[183,202,202,183,201,175,197,195] M:r90=170,t1=3.2%
+    depth=0.8 (L21): pc_alloc=[162,221,192,231,188,179,162,209] M:r90=158,t1=3.1%
+    depth=0.9 (L24): pc_alloc=[160,190,207,196,197,195,196,206] M:r90=167,t1=7.3%
+    depth=1.0 (L27): pc_alloc=[238,165,181,192,184,167,161,194] M:r90=223,t1=29.5%
+    Saved → results/lattice-consensus/model_Qwen3_0_6B.json
+    Saved → results/lattice-consensus/signs_Qwen3_0_6B.npz
+  ✓ Qwen3-0.6B complete (1 models done)
+
+──────────────────────────────────────────────────────────────────────
+
+  Loading Qwen3-4B (Qwen/Qwen3-4B)...
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:   0%|          | 1/398 [00:00<01:39,  3.99it/s]Loading weights:  20%|██        | 80/398 [00:00<00:01, 280.85it/s]Loading weights:  31%|███       | 123/398 [00:00<00:00, 307.93it/s]Loading weights:  41%|████      | 163/398 [00:00<00:00, 318.82it/s]Loading weights:  51%|█████     | 201/398 [00:00<00:00, 309.60it/s]Loading weights:  59%|█████▉    | 236/398 [00:00<00:00, 313.27it/s]Loading weights:  68%|██████▊   | 270/398 [00:00<00:00, 317.57it/s]Loading weights:  76%|███████▋  | 304/398 [00:01<00:00, 313.11it/s]Loading weights:  85%|████████▍ | 337/398 [00:01<00:00, 302.42it/s]Loading weights:  93%|█████████▎| 369/398 [00:01<00:00, 292.68it/s]Loading weights: 100%|██████████| 398/398 [00:01<00:00, 289.97it/s]
+  Loaded in 2s: 36 layers, d=2560, d_ff=9728
+    depth=0.0 (L0): pc_alloc=[566,609,528,639,680,639,608,595] M:r90=231,t1=44.8%
+    depth=0.1 (L3): pc_alloc=[508,461,455,1194,430,424,536,794] M:r90=252,t1=15.0%
+    depth=0.2 (L7): pc_alloc=[578,596,654,620,594,599,572,575] M:r90=272,t1=9.2%
+    depth=0.3 (L10): pc_alloc=[632,568,594,657,649,603,570,591] M:r90=267,t1=6.6%
+    depth=0.4 (L14): pc_alloc=[603,628,584,633,617,606,626,578] M:r90=234,t1=5.6%
+    depth=0.5 (L17): pc_alloc=[663,633,572,612,588,601,556,564] M:r90=203,t1=12.4%
+    depth=0.6 (L21): pc_alloc=[615,607,564,687,610,596,607,546] M:r90=250,t1=5.0%
+    depth=0.7 (L24): pc_alloc=[686,598,620,579,591,609,639,590] M:r90=230,t1=5.0%
+    depth=0.8 (L28): pc_alloc=[577,647,568,614,599,523,609,631] M:r90=308,t1=4.5%
+    depth=0.9 (L31): pc_alloc=[598,632,591,575,611,588,632,610] M:r90=294,t1=5.8%
+    depth=1.0 (L35): pc_alloc=[534,591,630,595,661,621,657,588] M:r90=306,t1=15.1%
+    Saved → results/lattice-consensus/model_Qwen3_4B.json
+    Saved → results/lattice-consensus/signs_Qwen3_4B.npz
+  ✓ Qwen3-4B complete (2 models done)
+
+──────────────────────────────────────────────────────────────────────
+
+  Loading Qwen3-8B (Qwen/Qwen3-8B)...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<05:44,  1.15it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:05, 66.01it/s]Loading weights:  18%|█▊        | 72/399 [00:01<00:03, 83.31it/s]Loading weights:  23%|██▎       | 91/399 [00:01<00:03, 94.87it/s]Loading weights:  27%|██▋       | 108/399 [00:01<00:02, 98.60it/s]Loading weights:  31%|███▏      | 125/399 [00:01<00:02, 104.17it/s]Loading weights:  35%|███▍      | 139/399 [00:01<00:02, 108.41it/s]Loading weights:  39%|███▉      | 155/399 [00:01<00:02, 109.39it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:02, 110.37it/s]Loading weights:  46%|████▌     | 182/399 [00:02<00:02, 107.25it/s]Loading weights:  50%|████▉     | 199/399 [00:02<00:01, 117.71it/s]Loading weights:  53%|█████▎    | 213/399 [00:02<00:01, 115.39it/s]Loading weights:  58%|█████▊    | 230/399 [00:02<00:01, 123.32it/s]Loading weights:  62%|██████▏   | 246/399 [00:02<00:01, 127.18it/s]Loading weights:  66%|██████▋   | 265/399 [00:02<00:01, 133.69it/s]Loading weights:  70%|██████▉   | 279/399 [00:02<00:00, 127.65it/s]Loading weights:  75%|███████▍  | 298/399 [00:02<00:00, 132.87it/s]Loading weights:  78%|███████▊  | 312/399 [00:03<00:00, 123.37it/s]Loading weights:  82%|████████▏ | 329/399 [00:03<00:00, 129.42it/s]Loading weights:  86%|████████▌ | 343/399 [00:03<00:00, 129.78it/s]Loading weights:  90%|████████▉ | 358/399 [00:03<00:00, 134.47it/s]Loading weights:  93%|█████████▎| 373/399 [00:03<00:00, 137.70it/s]Loading weights:  97%|█████████▋| 389/399 [00:03<00:00, 132.97it/s]Loading weights: 100%|██████████| 399/399 [00:03<00:00, 108.08it/s]
+  Loaded in 4s: 36 layers, d=4096, d_ff=12288
+    depth=0.0 (L0): pc_alloc=[864,725,768,813,835,823,760,840] M:r90=368,t1=44.8%
+    depth=0.1 (L3): pc_alloc=[475,570,383,444,455,409,477,425] M:r90=311,t1=10.8%
+    depth=0.2 (L7): pc_alloc=[761,684,868,817,789,749,741,794] M:r90=340,t1=6.8%
+    depth=0.3 (L10): pc_alloc=[736,751,759,770,861,753,797,751] M:r90=324,t1=6.1%
+    depth=0.4 (L14): pc_alloc=[817,740,766,777,790,769,732,735] M:r90=290,t1=5.9%
+    depth=0.5 (L17): pc_alloc=[744,766,824,830,760,753,744,701] M:r90=263,t1=5.0%
+    depth=0.6 (L21): pc_alloc=[807,755,805,753,737,777,808,760] M:r90=297,t1=4.7%
+    depth=0.7 (L24): pc_alloc=[753,755,726,761,796,827,800,749] M:r90=267,t1=4.6%
+    depth=0.8 (L28): pc_alloc=[765,817,733,786,767,789,750,770] M:r90=364,t1=4.4%
+    depth=0.9 (L31): pc_alloc=[775,791,713,752,765,808,744,781] M:r90=352,t1=4.6%
+    depth=1.0 (L35): pc_alloc=[750,715,771,722,773,909,779,833] M:r90=386,t1=9.9%
+    Saved → results/lattice-consensus/model_Qwen3_8B.json
+    Saved → results/lattice-consensus/signs_Qwen3_8B.npz
+  ✓ Qwen3-8B complete (3 models done)
+
+──────────────────────────────────────────────────────────────────────
+
+  Loading Qwen3-14B (Qwen/Qwen3-14B)...
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:57,  1.22s/it]Loading weights:   6%|▋         | 28/443 [00:01<00:15, 27.48it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:12, 32.84it/s]Loading weights:  13%|█▎        | 59/443 [00:01<00:07, 49.43it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:07, 52.51it/s]Loading weights:  18%|█▊        | 79/443 [00:02<00:06, 57.13it/s]Loading weights:  21%|██        | 92/443 [00:02<00:05, 59.95it/s]Loading weights:  23%|██▎       | 103/443 [00:02<00:05, 63.31it/s]Loading weights:  26%|██▌       | 114/443 [00:02<00:05, 64.01it/s]Loading weights:  28%|██▊       | 125/443 [00:02<00:04, 66.71it/s]Loading weights:  30%|███       | 134/443 [00:02<00:04, 68.03it/s]Loading weights:  33%|███▎      | 147/443 [00:03<00:04, 66.67it/s]Loading weights:  35%|███▍      | 155/443 [00:03<00:04, 65.61it/s]Loading weights:  37%|███▋      | 164/443 [00:03<00:04, 69.41it/s]Loading weights:  39%|███▉      | 172/443 [00:03<00:03, 69.89it/s]Loading weights:  41%|████      | 180/443 [00:03<00:03, 67.71it/s]Loading weights:  42%|████▏     | 188/443 [00:03<00:04, 62.90it/s]Loading weights:  46%|████▌     | 202/443 [00:03<00:03, 68.78it/s]Loading weights:  47%|████▋     | 210/443 [00:03<00:03, 70.85it/s]Loading weights:  49%|████▉     | 219/443 [00:04<00:03, 69.94it/s]Loading weights:  51%|█████     | 227/443 [00:04<00:03, 70.30it/s]Loading weights:  53%|█████▎    | 235/443 [00:04<00:03, 64.92it/s]Loading weights:  56%|█████▌    | 246/443 [00:04<00:03, 64.37it/s]Loading weights:  58%|█████▊    | 257/443 [00:04<00:02, 64.85it/s]Loading weights:  60%|█████▉    | 265/443 [00:04<00:02, 61.03it/s]Loading weights:  62%|██████▏   | 276/443 [00:04<00:02, 68.96it/s]Loading weights:  64%|██████▍   | 285/443 [00:05<00:02, 70.17it/s]Loading weights:  66%|██████▌   | 293/443 [00:05<00:02, 69.54it/s]Loading weights:  68%|██████▊   | 301/443 [00:05<00:02, 65.40it/s]Loading weights:  70%|███████   | 312/443 [00:05<00:02, 64.04it/s]Loading weights:  72%|███████▏  | 320/443 [00:05<00:01, 61.60it/s]Loading weights:  75%|███████▌  | 334/443 [00:05<00:01, 69.74it/s]Loading weights:  77%|███████▋  | 342/443 [00:05<00:01, 68.02it/s]Loading weights:  80%|████████  | 356/443 [00:06<00:01, 73.44it/s]Loading weights:  82%|████████▏ | 364/443 [00:06<00:01, 73.09it/s]Loading weights:  84%|████████▍ | 373/443 [00:06<00:01, 65.65it/s]Loading weights:  86%|████████▌ | 380/443 [00:06<00:01, 58.66it/s]Loading weights:  89%|████████▉ | 395/443 [00:06<00:00, 74.77it/s]Loading weights:  91%|█████████ | 403/443 [00:06<00:00, 72.99it/s]Loading weights:  93%|█████████▎| 411/443 [00:06<00:00, 66.34it/s]Loading weights:  95%|█████████▍| 419/443 [00:07<00:00, 65.42it/s]Loading weights:  97%|█████████▋| 430/443 [00:07<00:00, 72.36it/s]Loading weights:  99%|█████████▉| 439/443 [00:07<00:00, 76.54it/s]Loading weights: 100%|██████████| 443/443 [00:07<00:00, 60.37it/s]
+  Loaded in 8s: 40 layers, d=5120, d_ff=17408
+    depth=0.0 (L0): pc_alloc=[954,1125,1281,1092,1134,1060,1008,1356] M:r90=304,t1=54.7%
+    depth=0.1 (L3): pc_alloc=[1032,616,665,671,728,715,646,660] M:r90=296,t1=10.5%
+    depth=0.2 (L7): pc_alloc=[1129,1061,1001,1042,1130,1059,1142,1034] M:r90=359,t1=9.2%
+    depth=0.3 (L11): pc_alloc=[1151,993,1073,1071,1063,1030,1149,1053] M:r90=344,t1=5.9%
+    depth=0.4 (L15): pc_alloc=[1069,1059,1017,1073,1056,1138,1120,1120] M:r90=319,t1=4.5%
+    depth=0.5 (L19): pc_alloc=[1122,1030,1041,1072,1092,1094,1175,1090] M:r90=283,t1=7.8%
+    depth=0.6 (L23): pc_alloc=[1067,1058,1065,1087,1095,1055,1131,1106] M:r90=291,t1=5.4%
+    depth=0.7 (L27): pc_alloc=[1044,1084,1061,1126,1153,1124,1123,1072] M:r90=317,t1=22.0%
+    depth=0.8 (L31): pc_alloc=[1041,1031,1072,1051,1082,1184,1164,1118] M:r90=404,t1=3.7%
+    depth=0.9 (L35): pc_alloc=[1072,1059,1087,1090,1131,1036,1143,1152] M:r90=293,t1=5.7%
+    depth=1.0 (L39): pc_alloc=[1125,1092,999,1068,1074,1032,1031,1150] M:r90=361,t1=8.4%
+    Saved → results/lattice-consensus/model_Qwen3_14B.json
+    Saved → results/lattice-consensus/signs_Qwen3_14B.npz
+  ✓ Qwen3-14B complete (4 models done)
+
+======================================================================
+Extraction complete: 4/4 models
+
+======================================================================
+CROSS-MODEL CONSENSUS
+======================================================================
+
+  Depth 0.0:
+    PC allocation cosine: 0.992
+    M-space rank90: [82, 231, 368, 304]
+    PC sign agreement: 0/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.42', '0.59', '0.45', '0.49']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.50', '0.52', '0.55', '0.57']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.39', '0.44', '0.51', '0.42']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.49', '0.57', '0.45', '0.43']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.68', '0.56', '0.65', '0.43']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.47', '0.50', '0.53', '0.43']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.58', '0.39', '0.42', '0.48']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.44', '0.53', '0.51', '0.36']
+
+  Depth 0.1:
+    PC allocation cosine: 0.605
+    M-space rank90: [168, 252, 311, 296]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.40', '0.76', '0.68', '0.22']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.63', '0.35', '0.39', '0.30']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.58', '0.43', '0.51', '0.37']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.46', '0.09', '0.50', '0.54']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.69', '0.69', '0.41', '0.33']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.41', '0.50', '0.55', '0.38']
+      ✓ PC6 (   W): dominant=   +1 frac_pos=['0.50', '0.53', '0.61', '0.62']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.58', '0.80', '0.47', '0.35']
+
+  Depth 0.2:
+    PC allocation cosine: 0.996
+    M-space rank90: [202, 272, 340, 359]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.58', '0.60', '0.57', '0.43']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.50', '0.40', '0.38', '0.33']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.52', '0.50', '0.60', '0.50']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.47', '0.51', '0.35', '0.66']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.55', '0.55', '0.53', '0.29']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.30', '0.55', '0.53', '0.40']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.46', '0.56', '0.49', '0.46']
+      ✓ PC7 (WHNF): dominant=   -1 frac_pos=['0.47', '0.41', '0.47', '0.36']
+
+  Depth 0.3:
+    PC allocation cosine: 0.996
+    M-space rank90: [108, 267, 324, 344]
+    PC sign agreement: 0/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.52', '0.45', '0.61', '0.42']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.48', '0.56', '0.51', '0.54']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.57', '0.48', '0.66', '0.55']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.43', '0.26', '0.37', '0.57']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.41', '0.61', '0.45', '0.38']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.33', '0.62', '0.52', '0.42']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.48', '0.55', '0.56', '0.65']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.51', '0.53', '0.38', '0.45']
+
+  Depth 0.4:
+    PC allocation cosine: 0.996
+    M-space rank90: [161, 234, 290, 319]
+    PC sign agreement: 2/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.56', '0.43', '0.65', '0.47']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.45', '0.62', '0.57', '0.54']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.57', '0.49', '0.57', '0.50']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.51', '0.45', '0.37', '0.60']
+      ✓ PC4 (   D): dominant=   -1 frac_pos=['0.42', '0.49', '0.46', '0.42']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.40', '0.50', '0.49', '0.33']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.57', '0.39', '0.51', '0.68']
+      ✓ PC7 (WHNF): dominant=   -1 frac_pos=['0.47', '0.45', '0.35', '0.45']
+
+  Depth 0.5:
+    PC allocation cosine: 0.994
+    M-space rank90: [107, 203, 263, 283]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.53', '0.49', '0.48', '0.56']
+      ✓ PC1 (   I): dominant=   +1 frac_pos=['0.51', '0.57', '0.54', '0.51']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.50', '0.48', '0.55', '0.52']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.58', '0.58', '0.46', '0.61']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.50', '0.53', '0.54', '0.47']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.48', '0.46', '0.51', '0.47']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.53', '0.45', '0.45', '0.56']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.44', '0.54', '0.46', '0.40']
+
+  Depth 0.6:
+    PC allocation cosine: 0.993
+    M-space rank90: [129, 250, 297, 291]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.45', '0.47', '0.53', '0.49']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.54', '0.58', '0.49', '0.45']
+      ✓ PC2 (   B): dominant=   +1 frac_pos=['0.50', '0.55', '0.54', '0.53']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.50', '0.59', '0.44', '0.60']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.52', '0.55', '0.55', '0.45']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.42', '0.52', '0.53', '0.48']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.56', '0.57', '0.47', '0.60']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.46', '0.51', '0.44', '0.42']
+
+  Depth 0.7:
+    PC allocation cosine: 0.997
+    M-space rank90: [170, 230, 267, 317]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.53', '0.30', '0.57', '0.55']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.55', '0.62', '0.51', '0.45']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.57', '0.43', '0.48', '0.49']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.64', '0.64', '0.37', '0.64']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.59', '0.47', '0.39', '0.53']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.48', '0.55', '0.40', '0.47']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.47', '0.49', '0.43', '0.57']
+      ✓ PC7 (WHNF): dominant=   -1 frac_pos=['0.46', '0.44', '0.39', '0.41']
+
+  Depth 0.8:
+    PC allocation cosine: 0.996
+    M-space rank90: [158, 308, 364, 404]
+    PC sign agreement: 1/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.37', '0.38', '0.67', '0.54']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.52', '0.60', '0.64', '0.44']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.69', '0.41', '0.52', '0.43']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.61', '0.51', '0.39', '0.62']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.54', '0.54', '0.49', '0.44']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.45', '0.51', '0.38', '0.48']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.46', '0.49', '0.51', '0.57']
+      ✓ PC7 (WHNF): dominant=   -1 frac_pos=['0.40', '0.49', '0.41', '0.42']
+
+  Depth 0.9:
+    PC allocation cosine: 0.998
+    M-space rank90: [167, 294, 352, 293]
+    PC sign agreement: 0/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.33', '0.42', '0.65', '0.54']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.37', '0.62', '0.53', '0.52']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.66', '0.44', '0.51', '0.44']
+      ✗ PC3 (   C): dominant=mixed frac_pos=['0.59', '0.51', '0.39', '0.58']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.68', '0.59', '0.51', '0.36']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.48', '0.57', '0.39', '0.51']
+      ✗ PC6 (   W): dominant=mixed frac_pos=['0.45', '0.39', '0.51', '0.60']
+      ✗ PC7 (WHNF): dominant=mixed frac_pos=['0.47', '0.53', '0.32', '0.34']
+
+  Depth 1.0:
+    PC allocation cosine: 0.993
+    M-space rank90: [223, 306, 386, 361]
+    PC sign agreement: 3/8 unanimous
+      ✗ PC0 (   K): dominant=mixed frac_pos=['0.39', '0.50', '0.64', '0.51']
+      ✗ PC1 (   I): dominant=mixed frac_pos=['0.30', '0.57', '0.53', '0.35']
+      ✗ PC2 (   B): dominant=mixed frac_pos=['0.52', '0.40', '0.42', '0.38']
+      ✓ PC3 (   C): dominant=   +1 frac_pos=['0.62', '0.53', '0.58', '0.51']
+      ✗ PC4 (   D): dominant=mixed frac_pos=['0.60', '0.39', '0.39', '0.53']
+      ✗ PC5 (   Y): dominant=mixed frac_pos=['0.45', '0.39', '0.73', '0.42']
+      ✓ PC6 (   W): dominant=   -1 frac_pos=['0.48', '0.45', '0.48', '0.48']
+      ✓ PC7 (WHNF): dominant=   -1 frac_pos=['0.45', '0.46', '0.30', '0.49']
+
+  Saved consensus → results/lattice-consensus/consensus.json
+
+======================================================================
+SUMMARY
+======================================================================
+
+  Models compared: 4
+    Qwen3-0.6B, Qwen3-4B, Qwen3-8B, Qwen3-14B
+
+  Unanimous agreement: 11/88 (12.5%)
+
+  PC allocation cosine by depth:
+    0.0: 0.992
+    0.1: 0.605
+    0.2: 0.996
+    0.3: 0.996
+    0.4: 0.996
+    0.5: 0.994
+    0.6: 0.993
+    0.7: 0.997
+    0.8: 0.996
+    0.9: 0.998
+    1.0: 0.993
+
+  Total elapsed: 332s (5.5m)
+  All results in results/lattice-consensus/

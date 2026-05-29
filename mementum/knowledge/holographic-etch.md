@@ -470,6 +470,12 @@ WHAT DOESN'T WORK:
 6. **Optimal backbone fraction at v14 scale.** 30% works at micro.
    Probably scale-dependent. Sweep needed at v14.
 
+7. **Lattice consensus is relational, not coordinate.** Cross-model
+   probe (4 Qwen3 models) showed PC allocation is universal (cos=0.99+)
+   but weight-sign agreement is only 12.5%. The combinator structure is
+   universal but the coordinate mapping into d_model is model-specific.
+   Consensus must use overlay matrices (ISA decoder) not raw weight signs.
+
 ## Artifacts
 
 | Component | Description | Status |
