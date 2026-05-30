@@ -31,6 +31,7 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | # | Page | Status | One-line |
 |---|------|--------|----------|
 | 4 | [retrieval-lattice.md](retrieval-lattice.md) | ✅ | Universal knowledge encoding: 4-zone lattice, relation directions, ternary mirror stack |
+| 4b | [moire-addressing.md](moire-addressing.md) | ✅ | SwiGLU moiré = holographic fact index. 2.4× selectivity, quadratic addressing, capacity estimates |
 | 5 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
 | 6 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
 | 7 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |
@@ -81,7 +82,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 
 | Page | Priority | One-line |
 |------|----------|----------|
-| `holographic-storage-mechanism.md` | important | FFN as holographic plate: lens profile, gate=beamformer, output beamformers |
+| `holographic-storage-mechanism.md` | ~~important~~ mostly covered | FFN as holographic plate: lens profile, gate=beamformer, output beamformers (see moire-addressing.md) |
 | `ternary-architecture-rationale.md` | important | Why ternary {-1,0,+1}, why it works, gradient routing interpretation |
 | `combinator-geometry.md` | important | KIBC in transformer geometry: temporal ordering, depth map, bootstrap |
 | `stridestack-architecture.md` | important | Multi-scale attention: O(L×W), stride overlaps, ascending/descending stacks |
@@ -108,6 +109,11 @@ holographic-error-correction ←── mechanism-extraction ←── computed-b
        │                                │
        ▼                                ▼
 extraction-methodology ──→ v14-architecture ──→ training-protocols
+
+retrieval-lattice ──→ moire-addressing ──→ holographic-computer
+       │                    │
+       ▼                    ▼
+(capacity estimates)   (gate×up = quadratic index)
 ```
 
 ## Memory Files

@@ -1,0 +1,209 @@
+=== Moiré Decomposition Analysis ===
+Model: Qwen/Qwen3-0.6B
+Loaded 204 fact probes from probes/fact_recall_extended.json
+  Relation groups (15): anatomy(12), animal(15), author(12), capital(20), company_hq(15), continent(15), creator(10), currency(15), element(12), food(12), geography(12), history(15), language(15), planet(12), science(12)
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   1%|          | 2/311 [00:00<00:22, 13.94it/s]Loading weights:  65%|██████▍   | 202/311 [00:00<00:00, 999.70it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1102.07it/s]
+Model loaded in 1.6s
+  Layers: 28, d_model: 1024, d_ffn: 3072
+  Registered hooks on 28 layers (gate + up + residual)
+
+Collecting activations...
+  10/204 probes
+  20/204 probes
+  30/204 probes
+  40/204 probes
+  50/204 probes
+  60/204 probes
+  70/204 probes
+  80/204 probes
+  90/204 probes
+  100/204 probes
+  110/204 probes
+  120/204 probes
+  130/204 probes
+  140/204 probes
+  150/204 probes
+  160/204 probes
+  170/204 probes
+  180/204 probes
+  190/204 probes
+  200/204 probes
+  204/204 probes
+Activations collected in 9.8s
+
+--- Analysis A: Relation Direction Extraction ---
+
+--- Analysis B: Mode Decomposition (SVD) ---
+
+--- Analysis C: Cross-Mode Interaction Tensor ---
+
+--- Analysis D: Residual → Moiré Mapping ---
+
+====================================================================================================
+A: RELATION DIRECTION EXTRACTION
+====================================================================================================
+Layer | mean var expl | centroid cos | per-relation variance explained
+----------------------------------------------------------------------------------------------------
+L  0  |       0.6225 |      0.2867 | ana=0.409  ani=0.216  aut=0.279  cap=0.974  com=0.995  con=0.997  cre=0.279  cur=0.997  ele=0.956  foo=0.503  geo=0.338  his=0.317  lan=0.975  pla=0.944  sci=0.156
+L  1  |       0.6057 |      0.3470 | ana=0.373  ani=0.231  aut=0.225  cap=0.966  com=0.983  con=0.988  cre=0.272  cur=0.977  ele=0.960  foo=0.516  geo=0.350  his=0.329  lan=0.959  pla=0.779  sci=0.177
+L  2  |       0.5969 |      0.2927 | ana=0.373  ani=0.217  aut=0.205  cap=0.955  com=0.978  con=0.973  cre=0.253  cur=0.981  ele=0.953  foo=0.476  geo=0.297  his=0.311  lan=0.961  pla=0.860  sci=0.159
+L  3  |       0.5922 |      0.3325 | ana=0.379  ani=0.253  aut=0.221  cap=0.935  com=0.967  con=0.968  cre=0.276  cur=0.893  ele=0.964  foo=0.460  geo=0.344  his=0.323  lan=0.917  pla=0.821  sci=0.162
+L  4  |       0.5891 |      0.2780 | ana=0.293  ani=0.212  aut=0.225  cap=0.961  com=0.954  con=0.946  cre=0.286  cur=0.911  ele=0.970  foo=0.523  geo=0.261  his=0.319  lan=0.956  pla=0.875  sci=0.146
+L  5  |       0.5725 |      0.2779 | ana=0.273  ani=0.202  aut=0.233  cap=0.960  com=0.946  con=0.934  cre=0.269  cur=0.908  ele=0.970  foo=0.494  geo=0.289  his=0.276  lan=0.959  pla=0.724  sci=0.151
+L  6  |       0.5735 |      0.2155 | ana=0.296  ani=0.204  aut=0.305  cap=0.949  com=0.954  con=0.914  cre=0.287  cur=0.920  ele=0.940  foo=0.493  geo=0.283  his=0.278  lan=0.953  pla=0.698  sci=0.128
+L  7  |       0.5663 |      0.2742 | ana=0.220  ani=0.278  aut=0.341  cap=0.926  com=0.931  con=0.909  cre=0.329  cur=0.891  ele=0.931  foo=0.488  geo=0.174  his=0.305  lan=0.942  pla=0.664  sci=0.167
+L  8  |       0.5792 |      0.2781 | ana=0.254  ani=0.243  aut=0.425  cap=0.922  com=0.900  con=0.875  cre=0.392  cur=0.888  ele=0.943  foo=0.492  geo=0.334  his=0.278  lan=0.949  pla=0.632  sci=0.159
+L  9  |       0.6109 |      0.3619 | ana=0.318  ani=0.313  aut=0.458  cap=0.931  com=0.869  con=0.872  cre=0.449  cur=0.916  ele=0.952  foo=0.538  geo=0.360  his=0.331  lan=0.944  pla=0.715  sci=0.198
+L 10  |       0.5987 |      0.3199 | ana=0.241  ani=0.287  aut=0.466  cap=0.936  com=0.872  con=0.871  cre=0.459  cur=0.900  ele=0.960  foo=0.577  geo=0.258  his=0.336  lan=0.959  pla=0.681  sci=0.176
+L 11  |       0.6131 |      0.3494 | ana=0.258  ani=0.316  aut=0.535  cap=0.931  com=0.887  con=0.884  cre=0.497  cur=0.911  ele=0.941  foo=0.560  geo=0.334  his=0.335  lan=0.954  pla=0.663  sci=0.190
+L 12  |       0.6221 |      0.3495 | ana=0.296  ani=0.320  aut=0.547  cap=0.922  com=0.880  con=0.877  cre=0.551  cur=0.901  ele=0.936  foo=0.529  geo=0.363  his=0.375  lan=0.953  pla=0.691  sci=0.190
+L 13  |       0.6315 |      0.3768 | ana=0.308  ani=0.341  aut=0.574  cap=0.937  com=0.889  con=0.861  cre=0.589  cur=0.891  ele=0.944  foo=0.557  geo=0.359  his=0.392  lan=0.952  pla=0.695  sci=0.182
+L 14  |       0.6386 |      0.4106 | ana=0.304  ani=0.345  aut=0.543  cap=0.939  com=0.893  con=0.870  cre=0.563  cur=0.915  ele=0.953  foo=0.561  geo=0.360  his=0.437  lan=0.959  pla=0.739  sci=0.199
+L 15  |       0.6648 |      0.4477 | ana=0.404  ani=0.371  aut=0.558  cap=0.939  com=0.908  con=0.880  cre=0.620  cur=0.907  ele=0.958  foo=0.603  geo=0.428  his=0.471  lan=0.958  pla=0.733  sci=0.235
+L 16  |       0.6485 |      0.3964 | ana=0.385  ani=0.283  aut=0.469  cap=0.949  com=0.933  con=0.914  cre=0.528  cur=0.922  ele=0.960  foo=0.639  geo=0.388  his=0.413  lan=0.964  pla=0.770  sci=0.212
+L 17  |       0.6994 |      0.4549 | ana=0.537  ani=0.350  aut=0.454  cap=0.969  com=0.951  con=0.934  cre=0.551  cur=0.956  ele=0.984  foo=0.687  geo=0.466  his=0.545  lan=0.982  pla=0.852  sci=0.272
+L 18  |       0.6634 |      0.4197 | ana=0.387  ani=0.353  aut=0.447  cap=0.956  com=0.933  con=0.916  cre=0.475  cur=0.917  ele=0.980  foo=0.702  geo=0.435  his=0.451  lan=0.972  pla=0.799  sci=0.228
+L 19  |       0.6966 |      0.4364 | ana=0.508  ani=0.347  aut=0.447  cap=0.962  com=0.965  con=0.937  cre=0.513  cur=0.953  ele=0.981  foo=0.790  geo=0.482  his=0.510  lan=0.974  pla=0.794  sci=0.287
+L 20  |       0.6250 |      0.3716 | ana=0.479  ani=0.335  aut=0.347  cap=0.798  com=0.865  con=0.904  cre=0.293  cur=0.851  ele=0.966  foo=0.685  geo=0.452  his=0.379  lan=0.949  pla=0.843  sci=0.229
+L 21  |       0.5944 |      0.3554 | ana=0.426  ani=0.350  aut=0.360  cap=0.657  com=0.742  con=0.899  cre=0.324  cur=0.696  ele=0.928  foo=0.699  geo=0.455  his=0.389  lan=0.914  pla=0.820  sci=0.256
+L 22  |       0.5700 |      0.2816 | ana=0.465  ani=0.354  aut=0.316  cap=0.640  com=0.740  con=0.895  cre=0.231  cur=0.602  ele=0.838  foo=0.761  geo=0.403  his=0.412  lan=0.854  pla=0.843  sci=0.196
+L 23  |       0.5453 |      0.2977 | ana=0.345  ani=0.395  aut=0.253  cap=0.567  com=0.719  con=0.889  cre=0.236  cur=0.646  ele=0.818  foo=0.687  geo=0.386  his=0.367  lan=0.854  pla=0.810  sci=0.207
+L 24  |       0.5891 |      0.3816 | ana=0.391  ani=0.401  aut=0.242  cap=0.699  com=0.711  con=0.870  cre=0.231  cur=0.835  ele=0.818  foo=0.786  geo=0.424  his=0.438  lan=0.878  pla=0.857  sci=0.254
+L 25  |       0.6317 |      0.5212 | ana=0.461  ani=0.456  aut=0.324  cap=0.648  com=0.785  con=0.882  cre=0.383  cur=0.764  ele=0.861  foo=0.806  geo=0.495  his=0.473  lan=0.899  pla=0.860  sci=0.377
+L 26  |       0.5884 |      0.4538 | ana=0.412  ani=0.370  aut=0.281  cap=0.650  com=0.748  con=0.862  cre=0.251  cur=0.639  ele=0.857  foo=0.794  geo=0.472  his=0.473  lan=0.848  pla=0.867  sci=0.301
+L 27  |       0.8623 |      0.8397 | ana=0.858  ani=0.722  aut=0.629  cap=0.919  com=0.960  con=0.924  cre=0.714  cur=0.891  ele=0.972  foo=0.948  geo=0.859  his=0.873  lan=0.962  pla=0.969  sci=0.735
+
+====================================================================================================
+B: MODE DECOMPOSITION (SVD)
+====================================================================================================
+Layer | gate eff_r gate r90 | up eff_r up r90 | moiré eff_r moiré r90 | top mode var%
+----------------------------------------------------------------------------------------------------
+L  0  |       77.6       31 |     82.3     36 |        84.3        36 |         19.8%
+L  1  |       95.7       37 |     94.0     38 |       103.3        41 |         17.1%
+L  2  |      100.2       37 |    100.5     40 |       110.0        45 |         15.1%
+L  3  |      110.1       44 |    108.7     44 |       117.7        49 |         15.1%
+L  4  |      107.7       42 |    109.8     46 |       114.5        48 |         14.6%
+L  5  |      110.8       45 |    111.4     46 |       122.0        53 |         13.5%
+L  6  |      115.9       48 |    117.1     50 |       126.5        56 |         10.3%
+L  7  |      124.6       54 |    122.7     52 |       128.9        57 |         15.6%
+L  8  |      122.5       51 |    123.3     53 |       134.3        63 |         11.5%
+L  9  |      121.3       49 |    124.2     53 |       135.0        64 |          9.9%
+L 10  |      118.7       46 |    123.0     52 |       129.8        58 |         11.7%
+L 11  |      115.9       43 |    121.2     49 |       132.9        61 |         13.0%
+L 12  |      118.0       44 |    122.8     50 |       134.6        63 |         12.8%
+L 13  |      117.5       44 |    121.9     49 |       133.3        62 |         12.5%
+L 14  |      116.4       43 |    122.5     50 |       130.6        59 |         14.2%
+L 15  |      112.8       38 |    119.4     46 |       128.4        56 |         15.2%
+L 16  |      102.6       30 |    117.0     45 |       123.6        53 |         13.3%
+L 17  |      105.3       33 |    113.3     41 |       111.9        39 |         19.9%
+L 18  |      104.1       34 |    110.0     40 |       121.6        52 |         14.9%
+L 19  |      100.1       31 |    108.5     39 |       115.0        48 |         14.5%
+L 20  |      114.7       41 |    116.8     48 |       134.1        64 |         11.3%
+L 21  |      125.8       54 |    125.7     56 |       138.1        68 |         10.2%
+L 22  |      132.9       61 |    132.5     63 |       142.0        74 |         10.5%
+L 23  |      136.9       66 |    133.9     65 |       144.2        77 |         13.6%
+L 24  |      137.1       65 |    135.2     66 |       144.5        75 |         18.6%
+L 25  |      137.4       66 |    136.0     66 |       147.9        80 |         13.9%
+L 26  |      137.4       64 |    138.4     68 |       148.6        80 |          8.9%
+L 27  |      141.2       70 |    138.7     68 |       120.5        45 |         27.7%
+
+====================================================================================================
+C: CROSS-MODE INTERACTION
+====================================================================================================
+Layer | mean cross cos | dominant (gate_mode, up_mode) by relation
+----------------------------------------------------------------------------------------------------
+L  0  |         0.2679 | ana:(2,1)  ani:(0,1)  aut:(0,3)  cap:(2,0)  com:(3,2)  con:(1,3)  cre:(0,3)  cur:(2,1)  ele:(0,0)  foo:(4,4)  geo:(3,1)  his:(5,5)  lan:(2,0)  pla:(0,0)  sci:(0,3)
+L  1  |         0.2595 | ana:(2,1)  ani:(2,1)  aut:(3,3)  cap:(0,0)  com:(1,2)  con:(0,1)  cre:(3,3)  cur:(2,1)  ele:(0,0)  foo:(4,4)  geo:(2,1)  his:(1,2)  lan:(0,0)  pla:(0,0)  sci:(3,3)
+L  2  |         0.2602 | ana:(1,1)  ani:(2,1)  aut:(3,3)  cap:(1,0)  com:(2,2)  con:(0,2)  cre:(3,3)  cur:(2,1)  ele:(0,0)  foo:(4,4)  geo:(2,1)  his:(6,5)  lan:(1,0)  pla:(1,0)  sci:(1,0)
+L  3  |         0.2530 | ana:(1,1)  ani:(2,1)  aut:(3,3)  cap:(0,0)  com:(3,2)  con:(0,2)  cre:(3,3)  cur:(2,1)  ele:(0,0)  foo:(5,4)  geo:(2,1)  his:(3,2)  lan:(0,0)  pla:(0,0)  sci:(0,0)
+L  4  |         0.2623 | ana:(1,2)  ani:(1,2)  aut:(2,3)  cap:(0,0)  com:(2,3)  con:(3,0)  cre:(2,3)  cur:(1,2)  ele:(0,0)  foo:(4,4)  geo:(1,2)  his:(0,0)  lan:(0,0)  pla:(0,0)  sci:(0,0)
+L  5  |         0.2037 | ana:(3,2)  ani:(3,2)  aut:(1,3)  cap:(0,0)  com:(2,1)  con:(0,1)  cre:(1,3)  cur:(3,2)  ele:(0,6)  foo:(5,4)  geo:(3,2)  his:(2,1)  lan:(0,0)  pla:(4,5)  sci:(0,0)
+L  6  |         0.1965 | ana:(3,3)  ani:(3,3)  aut:(0,2)  cap:(0,0)  com:(1,2)  con:(2,1)  cre:(0,2)  cur:(3,3)  ele:(4,5)  foo:(5,4)  geo:(3,3)  his:(7,7)  lan:(0,0)  pla:(6,6)  sci:(0,0)
+L  7  |         0.1650 | ana:(7,7)  ani:(3,2)  aut:(0,0)  cap:(0,0)  com:(3,2)  con:(1,1)  cre:(0,0)  cur:(4,2)  ele:(4,6)  foo:(5,5)  geo:(3,2)  his:(0,0)  lan:(0,0)  pla:(6,4)  sci:(0,0)
+L  8  |         0.1660 | ana:(3,3)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(2,2)  con:(1,1)  cre:(0,0)  cur:(3,3)  ele:(7,6)  foo:(4,5)  geo:(3,3)  his:(1,1)  lan:(4,0)  pla:(4,4)  sci:(6,7)
+L  9  |         0.1576 | ana:(1,7)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(2,2)  con:(2,1)  cre:(0,0)  cur:(3,3)  ele:(7,6)  foo:(6,5)  geo:(3,3)  his:(2,1)  lan:(0,0)  pla:(4,4)  sci:(6,7)
+L 10  |         0.1614 | ana:(2,3)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(4,2)  con:(1,1)  cre:(0,0)  cur:(4,3)  ele:(5,5)  foo:(6,6)  geo:(2,3)  his:(0,0)  lan:(0,4)  pla:(3,4)  sci:(7,7)
+L 11  |         0.1637 | ana:(2,4)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(3,2)  con:(1,1)  cre:(0,0)  cur:(4,3)  ele:(6,2)  foo:(7,6)  geo:(0,0)  his:(0,0)  lan:(0,0)  pla:(6,5)  sci:(0,0)
+L 12  |         0.1799 | ana:(0,7)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(1,2)  con:(1,1)  cre:(0,0)  cur:(3,3)  ele:(5,5)  foo:(6,6)  geo:(4,4)  his:(1,3)  lan:(0,0)  pla:(4,4)  sci:(7,7)
+L 13  |         0.1879 | ana:(0,0)  ani:(3,3)  aut:(0,0)  cap:(0,0)  com:(1,3)  con:(2,1)  cre:(0,0)  cur:(3,2)  ele:(5,5)  foo:(6,6)  geo:(3,3)  his:(1,3)  lan:(0,0)  pla:(4,4)  sci:(0,0)
+L 14  |         0.2085 | ana:(0,0)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(1,2)  con:(2,1)  cre:(0,0)  cur:(3,3)  ele:(5,5)  foo:(1,6)  geo:(3,3)  his:(3,3)  lan:(0,0)  pla:(1,4)  sci:(0,0)
+L 15  |         0.2329 | ana:(1,1)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(1,1)  con:(3,2)  cre:(0,0)  cur:(2,3)  ele:(5,5)  foo:(1,6)  geo:(1,1)  his:(1,1)  lan:(0,0)  pla:(1,0)  sci:(0,0)
+L 16  |         0.2264 | ana:(0,3)  ani:(0,0)  aut:(0,0)  cap:(1,0)  com:(2,1)  con:(3,2)  cre:(0,0)  cur:(0,3)  ele:(1,5)  foo:(2,1)  geo:(0,0)  his:(2,1)  lan:(1,0)  pla:(1,0)  sci:(0,0)
+L 17  |         0.2345 | ana:(2,2)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(1,1)  con:(3,3)  cre:(0,0)  cur:(2,2)  ele:(5,5)  foo:(1,1)  geo:(0,0)  his:(1,1)  lan:(0,0)  pla:(0,0)  sci:(0,0)
+L 18  |         0.2141 | ana:(2,2)  ani:(0,0)  aut:(0,0)  cap:(2,0)  com:(1,1)  con:(3,3)  cre:(0,0)  cur:(2,2)  ele:(5,5)  foo:(1,1)  geo:(2,2)  his:(1,1)  lan:(0,0)  pla:(1,0)  sci:(0,0)
+L 19  |         0.2246 | ana:(2,2)  ani:(0,0)  aut:(0,0)  cap:(1,0)  com:(2,1)  con:(4,3)  cre:(0,0)  cur:(2,2)  ele:(1,5)  foo:(6,1)  geo:(2,2)  his:(2,1)  lan:(1,0)  pla:(1,0)  sci:(0,0)
+L 20  |         0.1833 | ana:(2,2)  ani:(0,0)  aut:(0,0)  cap:(2,2)  com:(1,1)  con:(4,4)  cre:(0,0)  cur:(3,2)  ele:(1,2)  foo:(1,6)  geo:(0,0)  his:(1,1)  lan:(3,0)  pla:(1,2)  sci:(0,0)
+L 21  |         0.1522 | ana:(1,4)  ani:(1,5)  aut:(0,0)  cap:(0,0)  com:(1,1)  con:(4,2)  cre:(0,0)  cur:(3,2)  ele:(2,5)  foo:(1,6)  geo:(2,3)  his:(1,1)  lan:(3,0)  pla:(2,2)  sci:(0,0)
+L 22  |         0.1430 | ana:(1,4)  ani:(7,2)  aut:(0,0)  cap:(0,0)  com:(4,2)  con:(4,1)  cre:(0,0)  cur:(3,1)  ele:(2,3)  foo:(0,1)  geo:(1,2)  his:(1,2)  lan:(3,0)  pla:(2,3)  sci:(0,0)
+L 23  |         0.1330 | ana:(2,4)  ani:(7,4)  aut:(0,0)  cap:(2,1)  com:(1,1)  con:(4,1)  cre:(0,0)  cur:(4,0)  ele:(1,3)  foo:(0,6)  geo:(2,1)  his:(1,2)  lan:(3,0)  pla:(2,3)  sci:(1,3)
+L 24  |         0.1258 | ana:(4,4)  ani:(7,5)  aut:(0,2)  cap:(1,2)  com:(1,2)  con:(1,1)  cre:(0,1)  cur:(3,0)  ele:(3,3)  foo:(1,7)  geo:(0,1)  his:(0,2)  lan:(4,0)  pla:(3,3)  sci:(3,3)
+L 25  |         0.1286 | ana:(5,6)  ani:(6,5)  aut:(2,2)  cap:(7,1)  com:(4,1)  con:(3,1)  cre:(2,2)  cur:(0,0)  ele:(3,3)  foo:(7,7)  geo:(3,1)  his:(0,1)  lan:(4,4)  pla:(6,3)  sci:(1,2)
+L 26  |         0.1414 | ana:(1,6)  ani:(6,6)  aut:(0,1)  cap:(0,1)  com:(4,0)  con:(3,2)  cre:(0,1)  cur:(2,0)  ele:(3,3)  foo:(7,7)  geo:(3,2)  his:(0,1)  lan:(4,4)  pla:(1,3)  sci:(1,3)
+L 27  |         0.1939 | ana:(1,3)  ani:(0,0)  aut:(0,0)  cap:(0,0)  com:(2,0)  con:(4,2)  cre:(0,0)  cur:(1,1)  ele:(2,3)  foo:(0,0)  geo:(0,0)  his:(0,0)  lan:(3,4)  pla:(0,0)  sci:(0,0)
+
+====================================================================================================
+D: RESIDUAL → MOIRÉ MAPPING (content-addressability)
+====================================================================================================
+Layer |       R² | mean cos |  std cos | res modes
+----------------------------------------------------------------------------------------------------
+L  0  |   1.0000 |   1.0000 |   0.0000 |       202
+L  1  |   1.0000 |   1.0000 |   0.0000 |       202
+L  2  |   1.0000 |   1.0000 |   0.0000 |       202
+L  3  |   1.0000 |   1.0000 |   0.0000 |       202
+L  4  |   1.0000 |   1.0000 |   0.0000 |       202
+L  5  |   1.0000 |   1.0000 |   0.0000 |       202
+L  6  |   1.0000 |   1.0000 |   0.0000 |       202
+L  7  |   1.0000 |   1.0000 |   0.0000 |       202
+L  8  |   1.0000 |   1.0000 |   0.0000 |       202
+L  9  |   1.0000 |   1.0000 |   0.0000 |       202
+L 10  |   1.0000 |   1.0000 |   0.0000 |       202
+L 11  |   1.0000 |   1.0000 |   0.0000 |       202
+L 12  |   1.0000 |   1.0000 |   0.0000 |       202
+L 13  |   1.0000 |   1.0000 |   0.0000 |       202
+L 14  |   1.0000 |   1.0000 |   0.0000 |       202
+L 15  |   1.0000 |   1.0000 |   0.0000 |       202
+L 16  |   1.0000 |   1.0000 |   0.0000 |       202
+L 17  |   1.0000 |   1.0000 |   0.0000 |       202
+L 18  |   1.0000 |   1.0000 |   0.0000 |       202
+L 19  |   1.0000 |   1.0000 |   0.0000 |       202
+L 20  |   1.0000 |   1.0000 |   0.0000 |       202
+L 21  |   1.0000 |   1.0000 |   0.0000 |       202
+L 22  |   1.0000 |   1.0000 |   0.0000 |       202
+L 23  |   1.0000 |   1.0000 |   0.0000 |       202
+L 24  |   1.0000 |   1.0000 |   0.0000 |       202
+L 25  |   1.0000 |   1.0000 |   0.0000 |       202
+L 26  |   1.0000 |   1.0000 |   0.0000 |       202
+L 27  |   1.0000 |   1.0000 |   0.0000 |       202
+
+================================================================================
+VERDICT
+================================================================================
+
+  A: Relation direction crystallization (ENRICH zone)
+     Variance explained by relation centroid: 0.631
+     Cross-relation centroid similarity:      0.398
+     → STRONG. Relations explain >63% of moiré variance.
+       The coarse grating angle IS the relation direction.
+
+  B: Mode decomposition (ENRICH zone)
+     Gate effective rank:  118.8
+     Moiré effective rank: 131.8
+     Moiré modes per layer (rank-90): 62
+
+  C: Cross-mode interaction (ENRICH zone)
+     Mean cross-relation interaction cos: 0.184
+     → Relations use DIFFERENT (gate, up) mode combinations.
+       The interaction tensor IS the quadratic index.
+
+  D: Content-addressability (ENRICH zone)
+     Residual → Moiré R²:        1.0000
+     Residual → Moiré mean cos:  1.0000
+     → STRONG. Residual direction fully determines moiré pattern.
+       The addressing IS content-based.
+
+================================================================================
+
+Results saved to /Users/mwhitford/src/verbum/results/moire-decompose/Qwen_Qwen3-0.6B_fact_recall_extended_decompose.json

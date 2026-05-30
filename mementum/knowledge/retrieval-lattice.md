@@ -4,6 +4,7 @@ status: active
 category: foundational
 tags: [retrieval, knowledge, lattice, facts, ternary, mirror-stack, universal, encoding]
 related:
+  - moire-addressing.md
   - holographic-computer.md
   - crystal-universality.md
   - project-thesis.md
@@ -278,6 +279,29 @@ Low scores = few mirrors = fragile encoding.
    - Train mirror stack to achieve per-entity precision
    - Facts stored as coordinated ternary corrections across
      3-5 layers per fact
+
+## Moiré Addressing (Session 170)
+
+The ENRICH zone's addressing mechanism was identified in session 170:
+the SwiGLU moiré pattern (silu(gate) × up) is the holographic fact
+index. See `moire-addressing.md` for full details.
+
+Key findings:
+- Moiré is 2.4× more selective than gate alone for fact retrieval
+- Relations cluster in moiré space (2.6× coherence)
+- Hierarchical: coarse angle = relation, fine angle = entity
+- Cross-mode interaction tensor is distinct per relation type
+- Content-addressable: residual direction determines moiré pattern
+
+The relation directions found in session 168 (cos=0.90 consistency)
+are the CENTROIDS of the moiré patterns per relation group. Capital-of
+explains 97% of moiré variance. The 3% residual distinguishes entities.
+This confirms and extends the session 168 finding: relation directions
+are not just consistent — they are crystallized grating angles in the
+SwiGLU moiré space.
+
+Capacity estimates: ~6,100 facts in Qwen3-0.6B, 160K-1.5M at 70B
+(scaling unknown). See `moire-addressing.md` for methodology.
 
 ## Open Questions
 
