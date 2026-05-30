@@ -2,32 +2,32 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-30 | Session: 170
+> Last updated: 2026-05-30 | Session: 171
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 170: MOIRÉ ADDRESSING DISCOVERY.** The SwiGLU moiré (silu(gate) × up) is the holographic fact index. Confirmed: 2.4× more selective than gate alone, relations cluster at 2.6× coherence, quadratic addressing capacity is real but 10M facts NOT yet reachable. First capacity estimates from measurement: ~6K facts in 0.6B, ~160K-1.5M at 70B. Expanded probe set to 204 facts across 15 relation types.
+**Session 171: GRADIENT-ZERO CONVERGENCE MAP.** Explored whether GD deposits near-zero gradients at positions corresponding to irreducible compute, and whether this can guide ternary zero placement. Three experiments on Qwen3-8B (195 batches, 777 diverse texts) and micro model training (5 variants, 5000 steps each).
 
-**Key insight: the moiré IS the address, not the neuron.** Individual gate neurons and up neurons are promiscuous. Their element-wise product creates a combinatorially richer pattern space that naturally clusters by relation type. The gate selects the relation family (coarse angle), the up selects the entity within it (fine angle), and their interference resolves the specific fact. Content-addressable, deterministic, readable from weights.
+**Key finding: gradient oscillation and weight magnitude are orthogonal zero signals.** Jaccard overlap = 0.17, all conditional probabilities equal base rates. They identify completely different positions as zero candidates. Gradient oscillation reveals real structural information (depth-dependent U-curve matching crystal zones, ρ(sign_cons, grad_mag) = +0.47 in middle layers) but does NOT improve zero placement over simple magnitude thresholding — at least at micro scale where the oscillation signal degenerates to noise (89-95% oscillating).
 
-**Previous: Session 169** — ISA blog post for compiler engineers. Communication strategy: show the instruction set, not the lambda output.
+**Magnitude thresholding remains the best zero-placement signal.** Micro model training confirmed: magnitude-30% zeros (loss 6.00) beats oscillation-30% (6.12), combined (6.36), and float32 baseline (6.77). All FFN zero strategies beat float32, extending the s166-167 attention finding to FFN weights.
 
-**Previous: Session 168** — Retrieval lattice discovered. Universal 4-zone knowledge encoding (SILENT→ENRICH→SUPPRESS→COMMIT) confirmed across Qwen and Pythia. Quantization cliff at Q3.
+**Previous: Session 170** — Moiré addressing discovery. SwiGLU moiré is the holographic fact index.
+
+**Previous: Session 169** — ISA blog post for compiler engineers.
 
 **Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach needs redesign.
 
-## Key session 170 findings
+## Key session 171 findings
 
-- **Moiré selectivity confirmed.** Gate/Moiré selectivity ratio = 2.4× in ENRICH zone. Moiré patterns are 2.4× less correlated across facts than gate patterns alone. Up/Moiré ratio = 2.1×.
-- **Relations cluster in moiré space.** Moiré relation coherence = 2.6× (within-relation similarity / cross-relation similarity). Gate alone only 1.4×. The moiré creates the clustering, not the gate.
-- **Relation directions are crystallized.** Capital-of: 97% variance explained by centroid. Currency: 99.7%. Language: 97.5%. Continent: 99.7%. Science: only 24.6% (grab-bag of sub-relations). Crystallization correlates with relation specificity.
-- **Cross-mode interaction confirms quadratic index.** 15 relations occupy mostly distinct (gate_mode, up_mode) cells. Mean cross-relation cos = 0.18. Each relation has its own fingerprint in the 8×8 interaction grid.
-- **Capacity estimates (first from measurement).** Qwen3-0.6B: 1,800-6,100 facts. 70B extrapolated: 160K (linear), 490K (geometric), 1.5M (quadratic). 10M target NOT reached.
-- **Moiré effective rank = 132** at 204 probes (still not saturated — true ceiling unknown). Rank-90 = 62 per ENRICH layer.
-- **Content-addressable retrieval confirmed.** Residual direction → moiré pattern is deterministic (R²=1.0). The question IS the address.
-- **VSM tree discussion.** The crystal lattice maps onto a recursive VSM tree. Trunk (KIBC) is universal. Layout (zones) is universal. Taxonomy (leaves) is model-specific. The etch durability hierarchy IS the VSM recursion.
+- **Gradient-weight correlation has two regimes.** Layers 1-3: ρ(|grad|, |weight|) = +0.77 (extreme bimodality — positions are either both-high or both-low). Layers 5-35: ρ ≈ -0.04 (nearly independent). Transition at layer 4-5 maps exactly to the Zone A/B boundary in the crystal structure.
+- **ρ(sign_cons, grad_mag) peaks at +0.47 in middle layers.** In the compute zone, positions with large gradients have consistent gradient direction, and positions with small gradients have random direction. This is the crystal activity signature.
+- **Oscillator U-curve matches zone structure.** Minimum oscillation at L21 (22%, deepest compute), maximum at L0 (43%) and L33 (37%, gate_proj alone: 46%). The output beam is narrow — most positions are inactive.
+- **Oscillation and magnitude are orthogonal.** Jaccard = 0.17. P(osc|mag_zero) = 0.291 ≈ base rate 0.295. The two methods identify completely different positions as zeros.
+- **Magnitude thresholding wins for zero placement.** Micro model training: mag-30% (loss 6.00) > osc-30% (6.12) > combined (6.36) > float32 (6.77). All FFN zero strategies beat float32.
+- **Oscillation degenerates at small scale.** Micro model: mean sign_consistency ≈ 0.07 (noise floor = 0.08), 89-95% oscillating. The gradient signal needs model maturity (capacity + training) to develop structure.
 
 ## Active training
 
@@ -47,15 +47,22 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| **Moiré selectivity experiment** | 170 | Confirmed 2.4× selectivity, 2.6× relation coherence |
-| **Moiré decomposition experiment** | 170 | Relation centroids, SVD modes, cross-mode interaction, capacity estimates |
-| **Extended probe set (204 probes)** | 170 | `probes/fact_recall_extended.json` — 15 categories, 10-20 probes each |
-| **Capacity measurement** | 170 | 6.1K facts in 0.6B, 160K-1.5M at 70B. 10M NOT reached. |
-| **VSM tree architecture discussion** | 170 | Crystal lattice ↔ recursive VSM mapping. Trunk=universal, leaves=model-specific. |
-| **ISA blog post for compiler engineers** | 169 | `mementum/michael/llm-isa.md` |
-| **Retrieval lattice discovery** | 168 | Universal 4-zone knowledge encoding confirmed |
+| **Gradient-zero convergence map** | 171 | Two-regime depth structure: bimodal L1-3, independent L5-35. ρ(s,g)=+0.47 in compute zone. |
+| **Oscillation-magnitude orthogonality** | 171 | Jaccard=0.17, independent zero signals. Combined score doesn't help. |
+| **FFN zero-placement training** | 171 | Magnitude 30% zeros (loss 6.00) beats oscillation (6.12), combined (6.36), float32 (6.77). |
+| **gradient_zero_map.py script** | 171 | `scripts/experiments/gradient_zero_map.py` — Spearman correlations, oscillator analysis, overlap |
+| **train_ffn_zeros.py script** | 171 | `scripts/micro/train_ffn_zeros.py` — 5-variant FFN zero-placement comparison |
+| **Gradient-zero knowledge page** | 171 | `mementum/knowledge/gradient-zero-map.md` |
 
-### Previous sessions (selected)
+### Previous sessions (selected — session 170)
+
+| Change | Session | Impact |
+|--------|---------|--------|
+| Moiré addressing discovery | 170 | SwiGLU moiré is holographic fact index, 2.4× selectivity |
+| Extended probe set (204 probes) | 170 | 15 categories, 10-20 probes each |
+| Capacity estimates | 170 | 6.1K facts in 0.6B, 160K-1.5M at 70B |
+
+### Earlier sessions (selected)
 
 | Change | Session | Impact |
 |--------|---------|--------|
@@ -93,6 +100,10 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| Gradient oscillation and magnitude are orthogonal | Jaccard=0.17, 108 tensors, Qwen3-8B | ✅ (session 171) |
+| Magnitude beats oscillation for FFN zero placement | 5-variant micro training, 5000 steps each | ✅ (session 171) |
+| FFN ternary zeros beat float32 | All 4 zero strategies beat float32 baseline | ✅ (session 171) |
+| Two-regime gradient depth structure | ρ(g,w)=+0.77 L1-3, ≈0 L5-35, Qwen3-8B | ✅ (session 171) |
 | Moiré is 2.4× more selective than gate | 204 probes, Qwen3-0.6B, all 28 layers | ✅ (session 170) |
 | Relations cluster in moiré space (2.6×) | 15 categories, ENRICH zone avg | ✅ (session 170) |
 | Relation directions are crystallized (63%) | 204 probes, centroid analysis | ✅ (session 170) |
@@ -135,6 +146,10 @@ Key pages for current direction:
 
 | Asset | Location |
 |-------|----------|
+| Gradient-zero convergence map | `scripts/experiments/gradient_zero_map.py` |
+| FFN zero-placement training | `scripts/micro/train_ffn_zeros.py` |
+| Gradient-zero results (8B) | `results/gradient-zero-map/summary_Qwen_Qwen3-8B.json` |
+| FFN zero-placement results | `results/ffn-zero-placement/summary.json` |
 | Moiré selectivity experiment | `scripts/experiments/moire_selectivity.py` |
 | Moiré decomposition experiment | `scripts/experiments/moire_decompose.py` |
 | Extended fact probes (204, 15 categories) | `probes/fact_recall_extended.json` |

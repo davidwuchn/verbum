@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "A. Float32 (baseline)": {
+      "loss": 6.7735819816589355,
+      "zeros": "0%",
+      "method": "none"
+    },
+    "B. Magnitude 30%": {
+      "loss": 6.0040788650512695,
+      "zeros": "30%",
+      "method": "|w|"
+    },
+    "C. Oscillation 30%": {
+      "loss": 6.121463775634766,
+      "zeros": "30%",
+      "method": "sign_cons"
+    },
+    "D. Combined 30%": {
+      "loss": 6.35874605178833,
+      "zeros": "30%",
+      "method": "|w|\u00d7sc"
+    },
+    "E. Both-agree ~9%": {
+      "loss": 6.325545787811279,
+      "zeros": "12%",
+      "method": "intersection"
+    }
+  },
+  "noise_floor": 0.07978845608028654,
+  "total_params": 786432,
+  "both_agree_zeros": 94237
+}
