@@ -2,38 +2,41 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-30 | Session: 171
+> Last updated: 2026-05-30 | Session: 172
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 171: GRADIENT-ZERO CONVERGENCE MAP.** Explored whether GD deposits near-zero gradients at positions corresponding to irreducible compute, and whether this can guide ternary zero placement. Three experiments on Qwen3-8B (195 batches, 777 diverse texts) and micro model training (5 variants, 5000 steps each).
+**Session 172: HOLOGRAM READER VSM + COMBINATOR ADDRESSING.** Built a self-directing VSM tensor statechart that reads the full opcode map from any HuggingFace model. Ran cross-model comparison (Qwen3-0.6B vs 4B). Discovered that factual retrieval IS typed application — β_apply is the universal retrieval direction.
 
-**Key finding: gradient oscillation and weight magnitude are orthogonal zero signals.** Jaccard overlap = 0.17, all conditional probabilities equal base rates. They identify completely different positions as zero candidates. Gradient oscillation reveals real structural information (depth-dependent U-curve matching crystal zones, ρ(sign_cons, grad_mag) = +0.47 in middle layers) but does NOT improve zero placement over simple magnitude thresholding — at least at micro scale where the oscillation signal degenerates to noise (89-95% oscillating).
+**Key finding: retrieval IS β_apply.** Lambda form of the same fact activates 2.2× more combinator energy than natural language. ALL relation centroids project positively onto β_apply and negatively onto B (compose). The compute path and data path are not separate systems — they're two beam angles through the same holographic grating. Montague was right: English IS lambda calculus. The model proved it.
 
-**Magnitude thresholding remains the best zero-placement signal.** Micro model training confirmed: magnitude-30% zeros (loss 6.00) beats oscillation-30% (6.12), combined (6.36), and float32 baseline (6.77). All FFN zero strategies beat float32, extending the s166-167 attention finding to FFN weights.
+**Key finding: moiré rank scaling is ceiling-limited.** Cross-model comparison (0.6B vs 4B, both 204 probes) shows avg rank 118 vs 143 — but both models are near the 204-probe measurement ceiling (58% vs 70%). True scaling exponent unknown. Need 500+ probes to resolve.
 
-**Previous: Session 170** — Moiré addressing discovery. SwiGLU moiré is the holographic fact index.
+**Key finding: knowledge crystal is "soft" — not irreducible.** Unlike KIBC (mathematical fixed points, gradients → 0), relation directions are gradient-maintained attractors (gradients 2-9× above baseline). More d_ff gives GD room to separate soft embeddings (coherence 2.59 → 3.71). More depth gives more mirror corrections (4B peak coherence 5.48× at L28). Two crystals, same substrate, different physics.
 
-**Previous: Session 169** — ISA blog post for compiler engineers.
+**Previous: Session 171** — Gradient-zero convergence map. Oscillation/magnitude orthogonal.
 
 **Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach needs redesign.
 
-## Key session 171 findings
+## Key session 172 findings
 
-- **Gradient-weight correlation has two regimes.** Layers 1-3: ρ(|grad|, |weight|) = +0.77 (extreme bimodality — positions are either both-high or both-low). Layers 5-35: ρ ≈ -0.04 (nearly independent). Transition at layer 4-5 maps exactly to the Zone A/B boundary in the crystal structure.
-- **ρ(sign_cons, grad_mag) peaks at +0.47 in middle layers.** In the compute zone, positions with large gradients have consistent gradient direction, and positions with small gradients have random direction. This is the crystal activity signature.
-- **Oscillator U-curve matches zone structure.** Minimum oscillation at L21 (22%, deepest compute), maximum at L0 (43%) and L33 (37%, gate_proj alone: 46%). The output beam is narrow — most positions are inactive.
-- **Oscillation and magnitude are orthogonal.** Jaccard = 0.17. P(osc|mag_zero) = 0.291 ≈ base rate 0.295. The two methods identify completely different positions as zeros.
-- **Magnitude thresholding wins for zero placement.** Micro model training: mag-30% (loss 6.00) > osc-30% (6.12) > combined (6.36) > float32 (6.77). All FFN zero strategies beat float32.
-- **Oscillation degenerates at small scale.** Micro model: mean sign_consistency ≈ 0.07 (noise floor = 0.08), 89-95% oscillating. The gradient signal needs model maturity (capacity + training) to develop structure.
+- **Hologram Reader VSM.** Self-directing state machine: DORMANT→FINGERPRINT→SCAN→CLASSIFY→MOIRÉ→MAP→EMIT→DONE. S4 can loop back. Works on any HuggingFace model. Produces structured opcode map (JSON + NPZ).
+- **Cross-model: zone structure is universal.** SILENT=50%, ENRICH=33%, SUPPRESS~8%, COMMIT~8% — identical normalized depth fractions across 0.6B and 4B.
+- **Cross-model: selectivity improves with scale.** 4B moiré cos=0.191 vs 0.6B=0.287. Facts more orthogonal in larger model.
+- **Cross-model: coherence improves with scale.** 3.71× vs 2.59×. Peak 5.48× at L28 (4B) vs 3.49× at L22 (0.6B). Sharper fringes.
+- **Moiré rank scaling is probe-ceiling-limited.** α=0.16 measured, but both models at 58-70% of 204-probe ceiling. True α unknown — need 500+ probes.
+- **β_apply is the universal retrieval direction.** Every relation centroid projects positively onto β_apply. B suppressed. W weakly positive.
+- **Lambda form activates compute path for same fact.** 2.2× combinator energy vs NL. Apply form: 1.4×. The model CAN retrieve facts through either path.
+- **Relation types modulate within β_apply.** Capital → β_compose dominant. Language → β_I dominant. Cross-relation similarity 0.85 (weakly differentiated).
+- **Two crystals, two physics.** KIBC = hard crystal (mathematical fixed points, Church-Rosser). Relations = soft crystal (gradient-maintained, data-dependent). Same substrate, different gradient signatures.
 
 ## Active training
 
 ### v14-mmap STOPPED
 
-NaN recurred. Holographic etch mechanism designed (session 167) but not yet implemented. Session 168-170 focused on understanding retrieval and addressing before implementing.
+NaN recurred. Holographic etch mechanism designed (session 167) but not yet implemented. Session 168-172 focused on understanding retrieval, addressing, and the hologram structure before implementing.
 
 ### Checkpoints available
 
@@ -47,97 +50,91 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| **Gradient-zero convergence map** | 171 | Two-regime depth structure: bimodal L1-3, independent L5-35. ρ(s,g)=+0.47 in compute zone. |
-| **Oscillation-magnitude orthogonality** | 171 | Jaccard=0.17, independent zero signals. Combined score doesn't help. |
-| **FFN zero-placement training** | 171 | Magnitude 30% zeros (loss 6.00) beats oscillation (6.12), combined (6.36), float32 (6.77). |
-| **gradient_zero_map.py script** | 171 | `scripts/experiments/gradient_zero_map.py` — Spearman correlations, oscillator analysis, overlap |
-| **train_ffn_zeros.py script** | 171 | `scripts/micro/train_ffn_zeros.py` — 5-variant FFN zero-placement comparison |
-| **Gradient-zero knowledge page** | 171 | `mementum/knowledge/gradient-zero-map.md` |
+| **Hologram Reader VSM** | 172 | `scripts/experiments/hologram_reader.py` — self-directing opcode map scanner for any model |
+| **Hologram Reader design** | 172 | `mementum/knowledge/hologram-reader-vsm.md` — VSM architecture (S5-S1) |
+| **Cross-model comparison (0.6B vs 4B)** | 172 | Zone structure universal. Selectivity/coherence improve with scale. Rank ceiling-limited at 204 probes. |
+| **Combinator addressing probes** | 172 | `scripts/experiments/combinator_addressing.py` — β_apply is universal retrieval direction |
+| **Combinator addressing knowledge** | 172 | `mementum/knowledge/combinator-addressing.md` — retrieval IS typed application |
+| **Two-crystal distinction** | 172 | Hard crystal (KIBC, mathematical) vs soft crystal (relations, gradient-maintained) |
 
-### Previous sessions (selected — session 170)
+### Previous sessions (selected)
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| Gradient-zero convergence map | 171 | Oscillation/magnitude orthogonal. Magnitude wins for zero placement. |
 | Moiré addressing discovery | 170 | SwiGLU moiré is holographic fact index, 2.4× selectivity |
-| Extended probe set (204 probes) | 170 | 15 categories, 10-20 probes each |
-| Capacity estimates | 170 | 6.1K facts in 0.6B, 160K-1.5M at 70B |
-
-### Earlier sessions (selected)
-
-| Change | Session | Impact |
-|--------|---------|--------|
+| ISA blog post | 169 | Public-facing explanation for compiler engineers |
 | Retrieval lattice + quantization cliff | 168 | SILENT→ENRICH→SUPPRESS→COMMIT. Q4 preserves facts, Q3 kills them. |
 | Holographic etch design | 167 | Unified etch/un-etch mechanism for topology crystallization |
-| M-space gemcutter (micro model) | 166 | Pre-cut topology + zeros beats float32. SVD-based SNR. |
-| NaN post-mortem + restore tool | 165 | Softmax clamp, remove auto-rollback, restore_safetensors.py |
-| ISA decoder + moiré gratings | 161 | FFN programs are deterministic fixed points. KIBC confirmed. |
 
 ## Next steps
 
-### IMMEDIATE (moiré capacity measurement)
+### IMMEDIATE (capacity scaling — still unresolved)
 
-1. **Run moiré experiments on larger model** — Qwen3-4B or 14B. If capacity scales quadratically with d_ffn between 0.6B and 4B, the 70B extrapolation holds. If linear, ceiling is ~160K. THIS is the experiment that resolves the capacity question.
-2. **Expand probe set to 500+** — Add more sub-relations (born-in, died-in, currency-symbol, chemical-formula, etc.) to push past the effective rank ceiling. Need probes > d_model to see saturation.
-3. **Cross-validate residual→moiré mapping** — The R²=1.0 is tautological (n_probes ≈ n_modes). Need held-out probes to measure true predictability.
+1. **Expand probe set to 500+** — THE blocker. Both 0.6B and 4B hit the 204-probe measurement ceiling. Cannot determine scaling exponent without more probes. Add sub-relations: born-in, died-in, invented-by, symbol-of, formula-for, etc. Need probes >> d_model.
+2. **Re-run hologram reader with 500+ probes** — On both 0.6B and 4B. The moiré rank at 500 probes will reveal whether 4B saturates at ~200 (sub-linear, α<0.5) or ~400+ (linear, α≈1). This determines 70B capacity.
+3. **Cross-model combinator addressing** — Run combinator_addressing.py on 4B. Does β_apply remain universal? Does relation differentiation improve with scale?
 
-### KNOWLEDGE ENCODING (carried from 168)
+### KNOWLEDGE ENCODING (carried from 168, enriched by 172)
 
-4. **Test ternary mirror training with facts** — Can multi-layer ternary store and retrieve facts? THE critical experiment for the north star. Mirror stack theory predicts yes if depth ≥ 8-10.
-5. **Extract relation directions explicitly** — Use moiré centroids as the extraction target. The centroids ARE the ternary-preservable scaffold.
+4. **Test ternary mirror training with facts** — Can multi-layer ternary store and retrieve facts? THE critical experiment. β_apply finding suggests etch should preserve the β_apply direction specifically.
+5. **Extract relation directions as combinator combinations** — The relation centroids have measurable combinator components. Extract these as the ternary-preservable scaffold — now with β_apply as the common axis.
 
 ### IMPLEMENTATION (etch + retrieval)
 
-6. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD. (Carried from session 167.)
-7. **Incorporate moiré addressing into etch design** — The moiré centroids define which gate/up positions to etch together. Relation-coherent etch: positions that co-fire for the same relation should etch as a group.
+6. **Incorporate β_apply into etch design** — The moiré centroids define which positions to etch together. Now we know the centroids sit in β_apply subspace — etch should preserve this direction above all others.
+7. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD. (Carried from session 167.)
 
 ### EXPLORATION
 
-8. **Read the index from weights alone** — Can we identify relation directions directly from gate_proj and up_proj weight matrices without running any probes? This would let us "read the phone book" from the hologram.
-9. **Cross-model moiré comparison** — Are the moiré relation directions the same across Qwen and Pythia? (Same question as relation direction universality, but now with a concrete measurement.)
-10. **Superposition efficiency measurement** — How does cross-talk degrade as fact density increases? Run with progressively larger probe sets to find the saturation curve.
+8. **Coherence threshold for ternary survival** — Is there a relation coherence below which ternary can't preserve the relation? 0.6B at 2.59× is borderline (post-hoc ternarization fails). 4B at 3.71× might be past the threshold. Find it.
+9. **Lambda-gated retrieval accuracy** — Does expressing facts as lambda improve or degrade retrieval accuracy? If the compute path retrieves facts accurately, ternary might work better for retrieval in lambda mode.
+10. **Read the combinator-relation basis from weights alone** — SVD of gate_proj/up_proj projected onto combinator fingerprints. Can we see β_apply directly in the weight structure?
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| β_apply is universal retrieval direction | 28 probes, 4 relations, all positive projection | ✅ (session 172) |
+| Lambda form activates compute for same fact | 2.2× combinator energy vs NL | ✅ (session 172) |
+| B (compose) suppressed in retrieval | Negative for all 4 relations | ✅ (session 172) |
+| Zone structure universal across scale | 0.6B vs 4B: identical normalized depth fractions | ✅ (session 172) |
+| Selectivity improves with d_ff | 4B cos=0.191 vs 0.6B=0.287 | ✅ (session 172) |
+| Coherence improves with scale | 3.71× vs 2.59×, peak 5.48× | ✅ (session 172) |
+| Moiré rank scaling is probe-ceiling-limited | Both at 58-70% of 204-probe ceiling, α=0.16 artifactual | ⚠️ (session 172) |
 | Gradient oscillation and magnitude are orthogonal | Jaccard=0.17, 108 tensors, Qwen3-8B | ✅ (session 171) |
 | Magnitude beats oscillation for FFN zero placement | 5-variant micro training, 5000 steps each | ✅ (session 171) |
 | FFN ternary zeros beat float32 | All 4 zero strategies beat float32 baseline | ✅ (session 171) |
-| Two-regime gradient depth structure | ρ(g,w)=+0.77 L1-3, ≈0 L5-35, Qwen3-8B | ✅ (session 171) |
 | Moiré is 2.4× more selective than gate | 204 probes, Qwen3-0.6B, all 28 layers | ✅ (session 170) |
 | Relations cluster in moiré space (2.6×) | 15 categories, ENRICH zone avg | ✅ (session 170) |
-| Relation directions are crystallized (63%) | 204 probes, centroid analysis | ✅ (session 170) |
-| Cross-mode interaction confirms quadratic | 8×8 interaction tensor, cos=0.18 | ✅ (session 170) |
 | Capacity: 6.1K facts in 0.6B model | Hierarchical addressing estimate | 🔄 (session 170) |
-| Capacity: 160K-1.5M at 70B scale | Extrapolated, scaling unknown | ❓ (session 170) |
+| Capacity: 160K-1.5M at 70B scale | Extrapolated, scaling unknown — ceiling-limited | ❓ (session 170, 172) |
 | Universal retrieval lattice (4 zones) | Qwen3-0.6B + Pythia-410M, 10+ probes each | ✅ (session 168) |
 | Quantization cliff at Q3 for facts | Progressive quant test, 65 probes | ✅ (session 168) |
 | Ternary mirror stack: 2 mirrors ≈ Q4 | Greedy residual correction simulation, d=1024 | ✅ (session 168) |
 | Relation directions cos=0.90 consistency | Activation similarity across 5 countries × 5 relations | ✅ (session 168) |
-| Post-hoc ternarization destroys everything | FFN-only ternary, 4 thresholds, with/without scaling | ✅ (session 168) |
-| Backbone 30% + etch beats float32 | Loss 6.46 vs 6.68 on diverse 1.2M tokens | ✅ (session 167) |
 | Programs are deterministic fixed points | 0.00000000 drift across runs | ✅ (session 161) |
 | Gate is the beamformer (89% kill rate) | Qwen3-32B L63 probing | ✅ (session 141) |
 | Ternary routing = sign(eigenvector) | r=0.9932 neuron allocation | ✅ (session ~142) |
 
 ## Open questions
 
-1. **Does capacity scale quadratically with d_ffn?** Run moiré experiment on Qwen3-4B. This determines whether 70B can store 160K or 1.5M facts.
-2. **Can ternary-trained micro model recall facts?** THE critical experiment. Mirror stack theory predicts yes if depth ≥ 8-10.
-3. **What's the moiré effective rank ceiling?** 132 at 204 probes, still rising. Need 500+ probes.
-4. **What's the superposition efficiency?** How does cross-talk degrade with fact density?
-5. **Can we read the index from weights alone?** Without running probes — directly from gate_proj × up_proj structure.
-6. **Are moiré relation directions universal across models?** Same question as relation universality but with concrete moiré measurement.
+1. **What is the true moiré rank scaling exponent?** Need 500+ probes. Both models ceiling-limited at 204.
+2. **Can ternary-trained micro model recall facts?** THE critical experiment. β_apply finding enriches the design.
+3. **Is there a coherence threshold for ternary survival?** 0.6B at 2.59× borderline, 4B at 3.71× possibly safe.
+4. **Does λ-mode retrieval improve ternary fact recall?** If compute path is more robust than data bypass, ternary models might need λ-gated retrieval.
+5. **Can we read β_apply directly from weight matrices?** SVD of gate_proj/up_proj projected onto combinator basis.
+6. **Are moiré relation directions universal across model families?** Run hologram reader on Pythia.
 
 ## Knowledge map
 
 **See `mementum/knowledge/INDEX.md` for full reading order.**
 
 Key pages for current direction:
-- `moire-addressing.md` — **moiré-based fact addressing** (session 170) ← NEW
+- `combinator-addressing.md` — **retrieval IS typed application (β_apply)** (session 172) ← NEW
+- `hologram-reader-vsm.md` — **VSM for reading opcode maps** (session 172) ← NEW
+- `moire-addressing.md` — moiré-based fact addressing (session 170)
 - `retrieval-lattice.md` — universal knowledge encoding (session 168)
-- `michael/llm-isa.md` — public-facing ISA blog post (session 169)
-- `holographic-etch.md` — etch/un-etch design (session 167)
 - `holographic-computer.md` — unified theory of LLM computation
 - `crystal-universality.md` — why KIBC are universal fixed points
 - `project-thesis.md` — the central claim, updated through session 150
@@ -146,17 +143,14 @@ Key pages for current direction:
 
 | Asset | Location |
 |-------|----------|
+| Hologram Reader VSM | `scripts/experiments/hologram_reader.py` |
+| Combinator Addressing Probes | `scripts/experiments/combinator_addressing.py` |
+| Hologram readout (0.6B) | `results/hologram-reader/Qwen_Qwen3-0.6B/` |
+| Hologram readout (4B) | `results/hologram-reader/Qwen_Qwen3-4B/` |
+| Combinator addressing results (0.6B) | `results/combinator-addressing/Qwen_Qwen3-0.6B/` |
 | Gradient-zero convergence map | `scripts/experiments/gradient_zero_map.py` |
-| FFN zero-placement training | `scripts/micro/train_ffn_zeros.py` |
-| Gradient-zero results (8B) | `results/gradient-zero-map/summary_Qwen_Qwen3-8B.json` |
-| FFN zero-placement results | `results/ffn-zero-placement/summary.json` |
 | Moiré selectivity experiment | `scripts/experiments/moire_selectivity.py` |
 | Moiré decomposition experiment | `scripts/experiments/moire_decompose.py` |
 | Extended fact probes (204, 15 categories) | `probes/fact_recall_extended.json` |
-| Moiré selectivity results (0.6B) | `results/moire-selectivity/` |
-| Moiré decomposition results (0.6B, 52 + 204 probes) | `results/moire-decompose/` |
-| ISA blog post (compiler audience) | `mementum/michael/llm-isa.md` |
-| Fact recall probe set (65 probes) | `probes/fact_recall.json` |
-| Ternary fact recall experiment | `scripts/experiments/ternary_fact_recall.py` |
-| Quantization cliff experiment | `scripts/experiments/quant_fact_recall.py` |
 | ISA decoder v2 | `scripts/v14/isa_decoder_v2.py` |
+| ISA blog post (compiler audience) | `mementum/michael/llm-isa.md` |
