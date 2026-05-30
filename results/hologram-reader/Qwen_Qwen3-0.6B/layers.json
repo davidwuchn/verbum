@@ -2412,9 +2412,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "execute",
-    "moire_selectivity": 0.2313,
-    "moire_rank": 47,
-    "moire_relation_coherence": 3.51
+    "moire_selectivity": 0.2843,
+    "moire_rank": 121,
+    "moire_relation_coherence": 2.56
   },
   {
     "layer_idx": 15,
@@ -2576,9 +2576,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "execute",
-    "moire_selectivity": 0.2623,
-    "moire_rank": 46,
-    "moire_relation_coherence": 3.09
+    "moire_selectivity": 0.3152,
+    "moire_rank": 118,
+    "moire_relation_coherence": 2.35
   },
   {
     "layer_idx": 16,
@@ -2740,9 +2740,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "execute",
-    "moire_selectivity": 0.2348,
-    "moire_rank": 46,
-    "moire_relation_coherence": 3.45
+    "moire_selectivity": 0.2854,
+    "moire_rank": 115,
+    "moire_relation_coherence": 2.61
   },
   {
     "layer_idx": 17,
@@ -2904,9 +2904,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "execute",
-    "moire_selectivity": 0.2655,
-    "moire_rank": 41,
-    "moire_relation_coherence": 3.18
+    "moire_selectivity": 0.3414,
+    "moire_rank": 101,
+    "moire_relation_coherence": 2.29
   },
   {
     "layer_idx": 18,
@@ -3068,9 +3068,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "execute",
-    "moire_selectivity": 0.2311,
-    "moire_rank": 45,
-    "moire_relation_coherence": 3.57
+    "moire_selectivity": 0.3125,
+    "moire_rank": 112,
+    "moire_relation_coherence": 2.41
   },
   {
     "layer_idx": 19,
@@ -3232,9 +3232,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "emit",
-    "moire_selectivity": 0.2632,
-    "moire_rank": 43,
-    "moire_relation_coherence": 3.16
+    "moire_selectivity": 0.3366,
+    "moire_rank": 105,
+    "moire_relation_coherence": 2.32
   },
   {
     "layer_idx": 20,
@@ -3396,9 +3396,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "emit",
-    "moire_selectivity": 0.1902,
-    "moire_rank": 50,
-    "moire_relation_coherence": 3.71
+    "moire_selectivity": 0.2693,
+    "moire_rank": 126,
+    "moire_relation_coherence": 2.62
   },
   {
     "layer_idx": 21,
@@ -3560,9 +3560,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "emit",
-    "moire_selectivity": 0.1821,
-    "moire_rank": 51,
-    "moire_relation_coherence": 3.53
+    "moire_selectivity": 0.2456,
+    "moire_rank": 131,
+    "moire_relation_coherence": 2.7
   },
   {
     "layer_idx": 22,
@@ -3724,9 +3724,9 @@
     "compute_zone": "B",
     "retrieval_zone": "ENRICH",
     "pipeline_phase": "emit",
-    "moire_selectivity": 0.1449,
-    "moire_rank": 52,
-    "moire_relation_coherence": 4.77
+    "moire_selectivity": 0.1892,
+    "moire_rank": 136,
+    "moire_relation_coherence": 3.49
   },
   {
     "layer_idx": 23,

@@ -1,0 +1,225 @@
+{
+  "model": {
+    "name": "Qwen/Qwen3-4B",
+    "n_layers": 36,
+    "d_model": 2560,
+    "d_ff": 9728,
+    "n_heads": 32,
+    "arch_type": "qwen2"
+  },
+  "zone_boundaries": {
+    "SILENT": {
+      "start": 0,
+      "end": 17,
+      "count": 18
+    },
+    "ENRICH": {
+      "start": 18,
+      "end": 29,
+      "count": 12
+    },
+    "SUPPRESS": {
+      "start": 30,
+      "end": 32,
+      "count": 3
+    },
+    "COMMIT": {
+      "start": 33,
+      "end": 35,
+      "count": 3
+    }
+  },
+  "phase_boundaries": {
+    "build": {
+      "start": 0,
+      "end": 11,
+      "count": 12,
+      "avg_transform_strength": 1.09
+    },
+    "execute": {
+      "start": 12,
+      "end": 23,
+      "count": 12,
+      "avg_transform_strength": 0.792
+    },
+    "emit": {
+      "start": 24,
+      "end": 35,
+      "count": 12,
+      "avg_transform_strength": 0.621
+    }
+  },
+  "opcode_census": {
+    "K": {
+      "dominant_in_layers": 2,
+      "layers": [
+        7,
+        16
+      ],
+      "avg_diagonal_strength": 0.1256
+    },
+    "I": {
+      "dominant_in_layers": 4,
+      "layers": [
+        10,
+        11,
+        18,
+        27
+      ],
+      "avg_diagonal_strength": 0.1331
+    },
+    "B": {
+      "dominant_in_layers": 2,
+      "layers": [
+        12,
+        35
+      ],
+      "avg_diagonal_strength": 0.1259
+    },
+    "C": {
+      "dominant_in_layers": 7,
+      "layers": [
+        3,
+        4,
+        6,
+        9,
+        21,
+        22,
+        33
+      ],
+      "avg_diagonal_strength": 0.1597
+    },
+    "D": {
+      "dominant_in_layers": 4,
+      "layers": [
+        0,
+        23,
+        26,
+        29
+      ],
+      "avg_diagonal_strength": 0.1096
+    },
+    "Y": {
+      "dominant_in_layers": 1,
+      "layers": [
+        25
+      ],
+      "avg_diagonal_strength": 0.1108
+    },
+    "W": {
+      "dominant_in_layers": 5,
+      "layers": [
+        2,
+        13,
+        20,
+        32,
+        34
+      ],
+      "avg_diagonal_strength": 0.1437
+    },
+    "WHNF": {
+      "dominant_in_layers": 0,
+      "layers": [],
+      "avg_diagonal_strength": 0.0
+    },
+    "beta_K": {
+      "dominant_in_layers": 3,
+      "layers": [
+        5,
+        17,
+        24
+      ],
+      "avg_diagonal_strength": 0.1324
+    },
+    "beta_I": {
+      "dominant_in_layers": 3,
+      "layers": [
+        15,
+        30,
+        31
+      ],
+      "avg_diagonal_strength": 0.1273
+    },
+    "beta_apply": {
+      "dominant_in_layers": 2,
+      "layers": [
+        8,
+        19
+      ],
+      "avg_diagonal_strength": 0.1128
+    },
+    "beta_compose": {
+      "dominant_in_layers": 3,
+      "layers": [
+        1,
+        14,
+        28
+      ],
+      "avg_diagonal_strength": 0.0972
+    }
+  },
+  "relation_census": {
+    "_summary": {
+      "n_enrich_layers_measured": 12,
+      "avg_moire_rank": 143.2,
+      "avg_relation_coherence": 3.71,
+      "avg_selectivity": 0.1905
+    }
+  },
+  "invariant_checks": {
+    "combinator_ordering": "C(0.160) \u2265 W(0.144) \u2265 I(0.133) \u2265 B(0.126) \u2265 K(0.126) \u2265 Y(0.111) \u2265 D(0.110) \u2265 WHNF(0.000)"
+  },
+  "scan_metadata": {
+    "timestamp": "2026-05-30T21:39:30Z",
+    "iterations": 0,
+    "phases_completed": [
+      "FINGERPRINT",
+      "SCAN",
+      "CLASSIFY",
+      "MOIRE",
+      "MAP",
+      "EMIT"
+    ],
+    "state_trace": [
+      {
+        "from": "DORMANT",
+        "event": "load",
+        "to": "FINGERPRINT",
+        "time": 1780177085.323019
+      },
+      {
+        "from": "FINGERPRINT",
+        "event": "fingerprints_ready",
+        "to": "SCAN",
+        "time": 1780177101.3073988
+      },
+      {
+        "from": "SCAN",
+        "event": "scan_complete",
+        "to": "CLASSIFY",
+        "time": 1780177102.069927
+      },
+      {
+        "from": "CLASSIFY",
+        "event": "classified",
+        "to": "MOIRE",
+        "time": 1780177102.0700212
+      },
+      {
+        "from": "MOIRE",
+        "event": "moire_complete",
+        "to": "MAP",
+        "time": 1780177170.135473
+      },
+      {
+        "from": "MAP",
+        "event": "map_complete",
+        "to": "EMIT",
+        "time": 1780177170.1356359
+      }
+    ],
+    "skip_moire": false,
+    "skip_trace": false,
+    "probe_file": "fact_recall_extended.json"
+  }
+}

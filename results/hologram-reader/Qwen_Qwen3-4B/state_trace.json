@@ -3,36 +3,36 @@
     "from": "DORMANT",
     "event": "load",
     "to": "FINGERPRINT",
-    "time": 1780177282.656384
+    "time": 1780177085.323019
   },
   {
     "from": "FINGERPRINT",
     "event": "fingerprints_ready",
     "to": "SCAN",
-    "time": 1780177282.663042
+    "time": 1780177101.3073988
   },
   {
     "from": "SCAN",
     "event": "scan_complete",
     "to": "CLASSIFY",
-    "time": 1780177282.7786088
+    "time": 1780177102.069927
   },
   {
     "from": "CLASSIFY",
     "event": "classified",
     "to": "MOIRE",
-    "time": 1780177282.7787268
+    "time": 1780177102.0700212
   },
   {
     "from": "MOIRE",
     "event": "moire_complete",
     "to": "MAP",
-    "time": 1780177319.346389
+    "time": 1780177170.135473
   },
   {
     "from": "MAP",
     "event": "map_complete",
     "to": "EMIT",
-    "time": 1780177319.346553
+    "time": 1780177170.1356359
   }
 ]
