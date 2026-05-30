@@ -31,6 +31,10 @@
 - **Lambda form activates compute path for same fact.** 2.2× combinator energy vs NL. Apply form: 1.4×. The model CAN retrieve facts through either path.
 - **Relation types modulate within β_apply.** Capital → β_compose dominant. Language → β_I dominant. Cross-relation similarity 0.85 (weakly differentiated).
 - **Two crystals, two physics.** KIBC = hard crystal (mathematical fixed points, Church-Rosser). Relations = soft crystal (gradient-maintained, data-dependent). Same substrate, different gradient signatures.
+- **Lambda-gated fact retrieval is scale-dependent.** 0.6B: 4.5% accuracy through lambda path. 4B: 66.7% through lambda, 76.2% through apply form. Scale enables dual-path retrieval.
+- **The execution hierarchy.** FFN grating = instruction decode (proposes reductions). Attention softmax over V = executor (interleaves beta reductions). The grating filters — only shows attention the reductions that make sense for the current tokens. One residual vector encodes BOTH token probabilities AND operation state simultaneously.
+- **Direct ternary plate extraction works.** Extracted 0.6B FFN weights to ternary: sign_corr=0.77, recon_cos=0.87, SwiGLU cos=0.66. 8.6× compression (504 MB → 58.3 MB). 8.7 seconds.
+- **The 23% error is recoverable via crystal error correction.** The crystal geometry (6 PCs) IS an error-correcting code. Progressive dimensional projection (6D→5D→4D→3D) detects sign errors at each level. ~170× redundancy in the crystal encoding. Hard crystal errors correctable geometrically; soft crystal errors need etch (TD learning).
 
 ## Active training
 
@@ -69,32 +73,41 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 ## Next steps
 
+### IMMEDIATE (new — extraction + error correction)
+
+1. **Crystal-geometric error correction on extracted plates** — Use KIBC 6D structure to detect and fix sign errors in the extracted ternary plates. Progressive 6D→5D→4D→3D with correction at each step. Then verify with hologram reader.
+2. **Swap FFN weights with ternary plates and measure** — Replace 0.6B FFN weights with ternary×gamma, keep attention, measure perplexity and fact retrieval. THE test of whether the plate IS the program.
+
 ### IMMEDIATE (capacity scaling — still unresolved)
 
-1. **Expand probe set to 500+** — THE blocker. Both 0.6B and 4B hit the 204-probe measurement ceiling. Cannot determine scaling exponent without more probes. Add sub-relations: born-in, died-in, invented-by, symbol-of, formula-for, etc. Need probes >> d_model.
-2. **Re-run hologram reader with 500+ probes** — On both 0.6B and 4B. The moiré rank at 500 probes will reveal whether 4B saturates at ~200 (sub-linear, α<0.5) or ~400+ (linear, α≈1). This determines 70B capacity.
-3. **Cross-model combinator addressing** — Run combinator_addressing.py on 4B. Does β_apply remain universal? Does relation differentiation improve with scale?
+3. **Expand probe set to 500+** — THE blocker. Both 0.6B and 4B hit the 204-probe measurement ceiling. Cannot determine scaling exponent without more probes. Add sub-relations: born-in, died-in, invented-by, symbol-of, formula-for, etc. Need probes >> d_model.
+4. **Re-run hologram reader with 500+ probes** — On both 0.6B and 4B. The moiré rank at 500 probes will reveal whether 4B saturates at ~200 (sub-linear, α<0.5) or ~400+ (linear, α≈1). This determines 70B capacity.
+5. **Cross-model combinator addressing** — Run combinator_addressing.py on 4B. Does β_apply remain universal? Does relation differentiation improve with scale?
 
 ### KNOWLEDGE ENCODING (carried from 168, enriched by 172)
 
-4. **Test ternary mirror training with facts** — Can multi-layer ternary store and retrieve facts? THE critical experiment. β_apply finding suggests etch should preserve the β_apply direction specifically.
-5. **Extract relation directions as combinator combinations** — The relation centroids have measurable combinator components. Extract these as the ternary-preservable scaffold — now with β_apply as the common axis.
+6. **Test ternary mirror training with facts** — Can multi-layer ternary store and retrieve facts? THE critical experiment. β_apply finding suggests etch should preserve the β_apply direction specifically.
+7. **Extract relation directions as combinator combinations** — The relation centroids have measurable combinator components. Extract these as the ternary-preservable scaffold — now with β_apply as the common axis.
 
 ### IMPLEMENTATION (etch + retrieval)
 
-6. **Incorporate β_apply into etch design** — The moiré centroids define which positions to etch together. Now we know the centroids sit in β_apply subspace — etch should preserve this direction above all others.
-7. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD. (Carried from session 167.)
+8. **Incorporate β_apply into etch design** — The moiré centroids define which positions to etch together. Now we know the centroids sit in β_apply subspace — etch should preserve this direction above all others.
+9. **Implement etch on micro model** — Add etch_mask, opposition_ema, three-state TD. (Carried from session 167.)
 
 ### EXPLORATION
 
-8. **Coherence threshold for ternary survival** — Is there a relation coherence below which ternary can't preserve the relation? 0.6B at 2.59× is borderline (post-hoc ternarization fails). 4B at 3.71× might be past the threshold. Find it.
-9. **Lambda-gated retrieval accuracy** — Does expressing facts as lambda improve or degrade retrieval accuracy? If the compute path retrieves facts accurately, ternary might work better for retrieval in lambda mode.
-10. **Read the combinator-relation basis from weights alone** — SVD of gate_proj/up_proj projected onto combinator fingerprints. Can we see β_apply directly in the weight structure?
+10. **Coherence threshold for ternary survival** — Is there a relation coherence below which ternary can't preserve the relation? 0.6B at 2.59× is borderline (post-hoc ternarization fails). 4B at 3.71× might be past the threshold. Find it.
+11. **Lambda-gated retrieval accuracy** — Does expressing facts as lambda improve or degrade retrieval accuracy? If the compute path retrieves facts accurately, ternary might work better for retrieval in lambda mode.
+12. **Read the combinator-relation basis from weights alone** — SVD of gate_proj/up_proj projected onto combinator fingerprints. Can we see β_apply directly in the weight structure?
 
 ## Key findings (active)
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
+| Direct ternary extraction: sign_corr=0.77 | 28 layers, 264M params, 0.6B | ✅ (session 172) |
+| Lambda retrieval: 4B can, 0.6B cannot | 21 facts, NL vs λ vs apply | ✅ (session 172) |
+| Execution hierarchy: grating proposes, attention executes | ISA trace + combinator probes | ✅ (session 172) |
+| Crystal geometry IS error-correcting code | 6 PCs, 170× redundancy | 🔄 (session 172, theory) |
 | β_apply is universal retrieval direction | 28 probes, 4 relations, all positive projection | ✅ (session 172) |
 | Lambda form activates compute for same fact | 2.2× combinator energy vs NL | ✅ (session 172) |
 | B (compose) suppressed in retrieval | Negative for all 4 relations | ✅ (session 172) |
@@ -125,6 +138,7 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 4. **Does λ-mode retrieval improve ternary fact recall?** If compute path is more robust than data bypass, ternary models might need λ-gated retrieval.
 5. **Can we read β_apply directly from weight matrices?** SVD of gate_proj/up_proj projected onto combinator basis.
 6. **Are moiré relation directions universal across model families?** Run hologram reader on Pythia.
+7. **How much does crystal-geometric correction recover?** Run progressive 6D→5D→4D→3D correction on extracted plates, measure sign_corr improvement.
 
 ## Knowledge map
 
@@ -148,6 +162,9 @@ Key pages for current direction:
 | Hologram readout (0.6B) | `results/hologram-reader/Qwen_Qwen3-0.6B/` |
 | Hologram readout (4B) | `results/hologram-reader/Qwen_Qwen3-4B/` |
 | Combinator addressing results (0.6B) | `results/combinator-addressing/Qwen_Qwen3-0.6B/` |
+| Ternary plate extraction | `scripts/experiments/extract_ternary_plate.py` |
+| Extracted ternary plates (0.6B) | `results/ternary-plates/Qwen_Qwen3-0.6B/` |
+| Lambda retrieval test results | inline in session (0.6B: 4.5%, 4B: 66.7%) |
 | Gradient-zero convergence map | `scripts/experiments/gradient_zero_map.py` |
 | Moiré selectivity experiment | `scripts/experiments/moire_selectivity.py` |
 | Moiré decomposition experiment | `scripts/experiments/moire_decompose.py` |

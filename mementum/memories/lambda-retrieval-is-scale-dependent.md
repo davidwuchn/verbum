@@ -1,0 +1,1 @@
+💡 Lambda-path fact retrieval is scale-dependent. 0.6B: 4.5% (pathway exists but capacity insufficient). 4B: 66.7% lambda, 76.2% apply form. The coherence threshold for dual-path retrieval is ~3.0-3.5×. Gated lambda (compile gate) hurts — 14.3% — because it overrides retrieval with compilation. Session 172.
