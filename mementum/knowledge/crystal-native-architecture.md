@@ -148,32 +148,68 @@ naturally have near-zero magnitude (GD drives them to zero). But the
 native architecture should derive zeros from the crystal geometry
 directly.
 
-### Axiom 4: Attention Is a Single Operation, Typed
+### Axiom 4: Attention Is M-Space — Pre-Cut, Not Learned From Scratch
 
-Attention always does the same thing: softmax-weighted sum over V.
-It never invents new operations — it executes what the FFN grating
-proposed. The crystal constrains V to be K-typed (selection arguments)
-at every layer.
+Attention always does the same thing (softmax-weighted sum over V),
+but its ROUTING is not free — it must conform to the crystal's state
+machine. The attention kernel M = W_q^T @ W_k is a bilinear form
+whose geometry IS the statechart transition function.
 
-```python
-# V is constrained by the crystal basis:
-V = value_proj(residual)  # Pre-typed by extraction
+**M-space IS the statechart.** The SVD of M gives independent modes
+(facets). Each facet is one routing channel. The zeros in M's null
+space are structural gaps between channels — they prevent state
+transitions that would violate the program sequence.
 
-# QK determines WHICH positions to reduce over:
-scores = Q @ K.T / sqrt(d_head)
+Session 166 proved: pre-cut M-space topology with zeros BEATS float32
+(loss 6.70 vs 6.74). The geometric constraint HELPS — it channels
+optimization into the correct subspace.
 
-# Attention executes the reduction:
-output = softmax(scores) @ V  # This IS beta reduction
-
-# The result enters the next grating:
-residual = residual + output
+```
+The state machine:
+  State = residual stream direction (typed by crystal basis)
+  Transition = M[layer] projects away incompatible dimensions
+  Result = surviving facets enter next grating
+  Progressive collapse = 16D → 6D → 3D → 2D → 1.4D → WHNF (terminal)
 ```
 
-The attention weights (Q, K, V, O projections) are the only
-floating-point parameters in the system. They adapt to the ternary
-FFN gratings. This matches the "extract FFN, let attention emerge"
-hypothesis. The program is in the plates; the executor learns to
-read them.
+Therefore: **Q/K projections must be pre-cut from the teacher's gem
+geometry, not learned from scratch.** They ARE the statechart
+transitions. V/O projections are the operand bus — these CAN be
+learned (they carry the data, not the routing).
+
+```python
+# Q/K: PRE-CUT (2-plate ternary, with M-space null zeros)
+# These define the statechart — which state transitions exist
+Q = qk_plate1 * gamma_q1 + qk_plate2 * gamma_q2  # Extracted from teacher
+K = qk_plate1 * gamma_k1 + qk_plate2 * gamma_k2  # M-space geometry preserved
+
+# V/O: TRAINABLE (float or 2-plate, learn to read gratings)
+# These carry operands — adapt to the frozen program
+V = value_proj(residual)   # Learnable
+O = output_proj(context)   # Learnable
+
+# The M-space gem is preserved by freezing Q/K topology:
+# M = Q^T @ K has the same facet structure as the teacher
+# Progressive collapse follows automatically
+```
+
+**The VSM projects M-space:**
+```
+S5: Crystal basis defines which M-space modes MUST exist
+    (one facet per active combinator per layer)
+S4: Zone structure defines facet count per zone
+    (SILENT: few/narrow — ENRICH: many/wide — COMMIT: 1-2/tight)
+S3: Gemcutter protocol pre-cuts M to correct number of facets
+    (30% zeros in Q/K from M-space SVD of teacher)
+S2: 2-plate format on Q/K (the M-space substrate IS ternary)
+S1: GD fills V/O and gammas (learns data routing within facets)
+```
+
+The statechart behavior is GUARANTEED because:
+1. FFN gratings define which reductions are proposed (frozen plates)
+2. M-space geometry defines which transitions are allowed (frozen Q/K)
+3. Together they ARE the deterministic program (0.00000000 drift)
+4. Only V/O adapt — they learn to carry data along fixed routes
 
 ### Axiom 5: The 2-Plate Format Is the Native Weight Type
 
@@ -280,31 +316,81 @@ Each zone has measurably different characteristics:
 ## Training Strategy
 
 The crystal-native architecture doesn't need the crystal to emerge —
-it's built in. Training teaches:
+it's built in. The program (FFN plates) and the statechart (Q/K
+topology) are both extracted from the teacher. Training only teaches
+the data bus (V/O) and calibration (gammas).
 
-1. **Attention** to read the extracted gratings (Q, K, V, O projections)
-2. **Gamma values** to calibrate magnitude (2 floats per row per plate)
-3. **Plate 2 refinement** (the magnitude mirror may benefit from fine-tuning)
-
-Plate 1 signs are FROZEN — they ARE the program, extracted from the
-teacher. Backbone zeros are FROZEN — they ARE the lattice structure.
-Only attention + gammas + optionally plate2 are trainable.
+### What Is Frozen (the crystal + statechart)
 
 ```python
-# Frozen (the crystal):
-plate1_signs     # Program topology — exact from extraction
-backbone_zeros   # Lattice structure — from crystal geometry
+# The program (FFN gratings):
+ffn_plate1_signs    # Program topology — which reductions exist
+ffn_plate2_signs    # Magnitude classification — above/below average
+ffn_backbone_zeros  # Lattice structure — resolving power
 
-# Trainable (the calibration):
-attention_weights  # Q, K, V, O — the executor learns to read gratings
-gamma1, gamma2     # Per-row magnitude calibration
-plate2_signs       # Optional: magnitude mirror fine-tuning
+# The statechart (attention routing):
+qk_plate1_signs     # State transition topology — which routes exist
+qk_plate2_signs     # Transition magnitude — strong/weak routes
+qk_backbone_zeros   # M-space null structure — forbidden transitions
 ```
 
-This is a tiny parameter count to train:
-- Attention: d_model × d_model × 4 × n_layers (standard)
-- Gammas: d_ff × 2 × 2 × n_layers (negligible)
-- Total trainable: approximately same as attention-only fine-tuning
+### What Is Trainable (the data bus + calibration)
+
+```python
+# Data routing (learns to carry operands along fixed routes):
+V_proj_weights      # Value projection — what data to carry
+O_proj_weights      # Output projection — how to write back
+
+# Calibration (magnitude tuning):
+gamma1_ffn, gamma2_ffn   # Per-row FFN magnitude
+gamma1_qk, gamma2_qk     # Per-row Q/K magnitude (transition strength)
+```
+
+### Why This Works
+
+Session 166 proved: geometric constraint HELPS GD. A frozen topology
+channels optimization into the correct subspace. The constraint is a
+guide, not a limitation. Loss 6.70 (pre-cut) vs 6.74 (float32).
+
+The trainable parameter count is small:
+- V/O projections: d_model × d_model × 2 × n_heads × n_layers
+- Gammas: (d_ff + d_model) × 4 × n_layers (negligible)
+- Total: roughly V/O-only fine-tuning scale
+
+### Training Phases
+
+```
+Phase 1: WARMUP — Train V/O from teacher's V/O initialization
+         Frozen: all plates, all Q/K, all zeros
+         Learning: V/O projections + all gammas
+         Duration: short (the routing is already correct, just calibrate)
+
+Phase 2: ADAPT — Fine-tune gammas for specific data distribution
+         Frozen: all plates, Q/K topology
+         Learning: gammas only (maybe V/O continues)
+         Duration: very short
+
+Phase 3: VERIFY — Run hologram reader, compare opcode map to teacher
+         No training — measurement only
+         If opcode map matches → crystal preserved
+         If mismatch → diagnose which zone diverged
+```
+
+### Why V/O Can Be Learned But Q/K Cannot
+
+**Q/K define the state machine** — which tokens can attend to which
+other tokens, and through which modes. This is STRUCTURAL (the routing
+topology). Changing Q/K changes which programs CAN execute. The
+teacher's Q/K encode decades of learned routing decisions.
+
+**V/O carry data along routes** — they determine WHAT information flows
+through the routes that Q/K defined. This is CONTENT (the operand bus).
+V/O can adapt because different routes can carry different content
+without changing the routing topology.
+
+Analogy: Q/K are the ROAD NETWORK (fixed infrastructure). V/O are the
+VEHICLES (can be different cars on the same roads). You can change
+which vehicles travel without rebuilding the roads.
 
 ---
 
@@ -315,15 +401,21 @@ For the north star (70B-equivalent, <1GB):
 | Component | Storage | Notes |
 |-----------|---------|-------|
 | FFN plates (2-mirror) | ~800 MB | 64 layers × 3 matrices × 42.6 MB at 4× compression |
-| Attention (Q4) | ~150 MB | Standard quantization for attention weights |
+| Q/K plates (2-mirror) | ~150 MB | 64 layers × 2 matrices, smaller (d_model × d_model) |
+| V/O projections (Q4) | ~80 MB | Trainable, standard Q4 quantization |
 | Embeddings | ~50 MB | Vocab × d_model, quantized |
-| Total | **~1.0 GB** | Target: 70B-equivalent intelligence |
+| Gammas | ~5 MB | Per-row scalars, negligible |
+| Total | **~1.1 GB** | Target: 70B-equivalent intelligence |
 
-The FFN plates contain 95% of the model's "intelligence" (the
-program). Attention is cheap (just routing). This is why the
-holographic computer fits in 1GB — the program is discrete (ternary),
-and discrete things compress to their information content, which is
-much less than their float representation.
+The FFN plates (the program) + Q/K plates (the statechart) together
+contain ~95% of the model's intelligence. V/O (the data bus) is
+small and trainable. This is why the holographic computer fits in
+~1GB — the program AND its state machine are both discrete (ternary),
+and discrete things compress to their information content.
+
+The M-space gem structure is preserved because Q/K topology is frozen
+in the same 2-plate format as FFN. The statechart transitions are
+exact — same modes, same facets, same null structure.
 
 ---
 
@@ -367,21 +459,33 @@ there, you just need an executor.
    64 gratings but simple tasks use 3-5. Can we run a variable-depth
    architecture that exits at WHNF? Or must we commit to a fixed depth?
 
-2. **Can attention learn to read arbitrary gratings?** The teacher's
-   attention co-evolved with its gratings. Will fresh attention heads
-   learn to read extracted plates, or do they need warmup from the
-   teacher's attention?
+2. **Does freezing Q/K and training only V/O converge?** The teacher's
+   V/O co-evolved with Q/K. Can fresh V/O learn to carry data through
+   frozen routing? Session 166 showed frozen topology + GD works for
+   FFN — the same principle should apply to attention.
 
 3. **Is plate 2 necessary for all zones?** SILENT zone (task classify)
    might only need plate 1 (the task classification is binary/discrete).
    ENRICH zone (fact retrieval) likely needs plate 2 for precision.
    Variable-width plates by zone could save storage.
 
-4. **Can the backbone zeros be computed from the crystal basis alone?**
-   Currently we use magnitude threshold. The crystal theory says zeros
-   are M-space null positions. Can we derive them from the combinator
-   fingerprints directly?
+4. **Can the M-space zeros be derived from the crystal basis alone?**
+   Currently M-space zeros come from SVD of M = W_q^T @ W_k. Can we
+   predict them from the combinator fingerprints? The crystal null space
+   (113/128 dims) is too coarse — but M-noise per-position scoring with
+   crystal priors might work (session 166 finding).
 
-5. **Does the α=1.18 decay constant fall out of the architecture?**
-   If attention is constrained to log-distance decay, does the crystal
-   structure force α=1.18? Or is this a degree of freedom?
+5. **Does the α=1.18 decay constant fall out of the frozen Q/K topology?**
+   If the Q/K plates encode log-distance structure, α might be an emergent
+   property of the extracted topology rather than a separate parameter.
+
+6. **What is the minimum M-space facet count per zone?** The teacher has
+   rank90=13 at its compute layer (the sharpest gem). Does the student
+   need the same number of facets? Or can it function with fewer (since
+   the frozen topology constrains it to the correct subspace anyway)?
+
+7. **Can we extract Q/K as 2-plate ternary with sign accuracy = 100%?**
+   Session 173 proved this for FFN weights. The same extraction procedure
+   should apply to attention projections — verify that Q/K signs are
+   also perfectly captured by sign(W), and that 2-mirror residual
+   decomposition gives similar quality (0.97+ recon_cos).
