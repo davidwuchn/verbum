@@ -1,0 +1,27 @@
+{
+  "model": "Qwen/Qwen3.6-27B",
+  "experiment": "zone_ablation",
+  "session": 174,
+  "conditions": {
+    "baseline":        {"lambda_acc": 1.0, "fact_acc": 1.0, "lambda_lp": -0.778, "fact_lp": -0.798},
+    "ablate_SILENT":   {"lambda_acc": 0.0, "fact_acc": 0.0, "lambda_lp": -1.367, "fact_lp": -1.707},
+    "ablate_ENRICH":   {"lambda_acc": 0.2, "fact_acc": 0.8, "lambda_lp": -1.774, "fact_lp": -1.368},
+    "ablate_SUPPRESS": {"lambda_acc": 1.0, "fact_acc": 1.0, "lambda_lp": -0.919, "fact_lp": -0.906},
+    "ablate_COMMIT":   {"lambda_acc": 0.6, "fact_acc": 0.4, "lambda_lp": -0.354, "fact_lp": -0.881}
+  },
+  "predictions": {
+    "ENRICH_lambda_specific": {
+      "confirmed": true,
+      "lambda_drop": 0.8,
+      "fact_drop": 0.2,
+      "selectivity_ratio": 4.0
+    },
+    "COMMIT_fact_specific": {
+      "confirmed": true,
+      "lambda_drop": 0.4,
+      "fact_drop": 0.6,
+      "selectivity_ratio": 0.67
+    }
+  },
+  "conclusion": "4-phase computation model VERIFIED. ENRICH=reduction engine (4.0x lambda-specific), COMMIT=knowledge retrieval (1.5x fact-specific). SUPPRESS redundant at task level. SILENT critical foundation."
+}
