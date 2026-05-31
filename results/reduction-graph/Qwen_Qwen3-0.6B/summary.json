@@ -1,0 +1,148 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "inputs": {
+    "lambda_apply": {
+      "mean_reduction_correlation": -0.25017596151940097,
+      "max_reduction_correlation": 0.7961014012046892,
+      "std_reduction_correlation": 0.22669224147133443,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.2823260389937964,
+          "max": 0.057078219840586746
+        },
+        "ENRICH": {
+          "mean": -0.3036584055572478,
+          "max": -0.18923436545551262
+        },
+        "SUPPRESS": {
+          "mean": -0.36915218606863603,
+          "max": -0.36705292375378973
+        },
+        "COMMIT": {
+          "mean": 0.39400991579553113,
+          "max": 0.7961014012046892
+        }
+      }
+    },
+    "lambda_compose": {
+      "mean_reduction_correlation": -0.2490847566508044,
+      "max_reduction_correlation": 0.6170989267762441,
+      "std_reduction_correlation": 0.23031393429162558,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.2800529821425401,
+          "max": 0.07520386140862911
+        },
+        "ENRICH": {
+          "mean": -0.3208207443840306,
+          "max": -0.22536585124738748
+        },
+        "SUPPRESS": {
+          "mean": -0.37793949032472957,
+          "max": -0.3464231748225831
+        },
+        "COMMIT": {
+          "mean": 0.4837868671017503,
+          "max": 0.6170989267762441
+        }
+      }
+    },
+    "lambda_church": {
+      "mean_reduction_correlation": -0.2559148668164317,
+      "max_reduction_correlation": 0.764039033050281,
+      "std_reduction_correlation": 0.2231525398435882,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.29451463292311236,
+          "max": -0.0037012815370479402
+        },
+        "ENRICH": {
+          "mean": -0.29889044414678145,
+          "max": -0.1593661821790525
+        },
+        "SUPPRESS": {
+          "mean": -0.3678224693718238,
+          "max": -0.2775140629926613
+        },
+        "COMMIT": {
+          "mean": 0.37553499774999444,
+          "max": 0.764039033050281
+        }
+      }
+    },
+    "neutral_factual": {
+      "mean_reduction_correlation": -0.260602882837079,
+      "max_reduction_correlation": 0.7628306559577157,
+      "std_reduction_correlation": 0.2628535505908698,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.281269786548798,
+          "max": 0.07906133569030271
+        },
+        "ENRICH": {
+          "mean": -0.35328343433533127,
+          "max": -0.13201536887099063
+        },
+        "SUPPRESS": {
+          "mean": -0.39111797697083267,
+          "max": -0.34207131814000663
+        },
+        "COMMIT": {
+          "mean": 0.4969005660877208,
+          "max": 0.7628306559577157
+        }
+      }
+    },
+    "neutral_simple": {
+      "mean_reduction_correlation": -0.2609703979684854,
+      "max_reduction_correlation": 0.7639706283426312,
+      "std_reduction_correlation": 0.27955999571231716,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.27869112107838995,
+          "max": 0.22165818062505369
+        },
+        "ENRICH": {
+          "mean": -0.36587503560272405,
+          "max": -0.21715420360190324
+        },
+        "SUPPRESS": {
+          "mean": -0.4159455245022481,
+          "max": -0.36504905004556726
+        },
+        "COMMIT": {
+          "mean": 0.5676082229555646,
+          "max": 0.7639706283426312
+        }
+      }
+    },
+    "code_function": {
+      "mean_reduction_correlation": -0.2365248194705232,
+      "max_reduction_correlation": 0.7347134908442791,
+      "std_reduction_correlation": 0.2409209627801869,
+      "zone_correlations": {
+        "SILENT": {
+          "mean": -0.2609205160758628,
+          "max": 0.15579024710766243
+        },
+        "ENRICH": {
+          "mean": -0.3213688098072123,
+          "max": -0.20054985772593834
+        },
+        "SUPPRESS": {
+          "mean": -0.3159218792347979,
+          "max": -0.27553287638792157
+        },
+        "COMMIT": {
+          "mean": 0.4351386029283663,
+          "max": 0.7347134908442791
+        }
+      }
+    }
+  },
+  "comparison": {
+    "lambda_mean_corr": -0.2517251949955457,
+    "neutral_mean_corr": -0.2607866404027822,
+    "ratio": 0.9652534510943247
+  }
+}
