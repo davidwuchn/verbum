@@ -87,10 +87,28 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 | `checkpoints/v14-mmap/step_003500` | 3500 | npz |
 | `checkpoints/v14-mmap/step_004000` | 4000 | npz — last clean checkpoint |
 
+## v15 assets
+
+| Asset | Location | Status |
+|-------|----------|--------|
+| Architecture config | `scripts/v15/config.py` | ✅ complete |
+| Model (tensor statechart) | `scripts/v15/model.py` | ✅ complete |
+| Extraction pipeline | `scripts/v15/extract.py` | ✅ complete, not yet run |
+| TD adaptation | `scripts/v15/td_adapt.py` | ❌ not yet built |
+| Attention training | `scripts/v15/train_attention.py` | ❌ not yet built |
+| Verification | `scripts/v15/verify.py` | ❌ not yet built |
+
 ## What changed this session
 
 | Change | Session | Impact |
 |--------|---------|--------|
+| **4-phase model VERIFIED by ablation on 27B** | 174 | ENRICH=reduction engine (4.0× λ-specific), COMMIT=knowledge retrieval. |
+| **Reduction graph tracer** | 174 | Decoded per-position opcodes through all 64 layers. Lambda 2.5-3.2× compute activation. |
+| **v15 architecture skeleton** | 174 | 19-stride tensor statechart, 709 MB, 4 zones, algedonic monitors, full VSM conformance. |
+| **v15 extraction pipeline** | 174 | Per-stride 2-plate extraction from 27B. Ready to run. |
+| **Crystal lattice integration** | 174 | 7 concrete design entry points for the crystal geometry. |
+| **VSM conformance analysis** | 174 | All Beer requirements mapped. Algedonic channel prevents v14 NaN death. |
+| **SUPPRESS→LINK re-understanding** | 174 | Not redundant — it's the linker (B, β_K composition). |
 | **Signs 100% correct — crystal correction falsified** | 173 | Extraction captures exact sign topology. The 20.8% gap is magnitude loss, not sign error. |
 | **Qwen3.6-27B hologram reader + extraction** | 173 | Fingerprints (64 layers, R^5120) + ternary plates (17.1B params, 4.0 GB). Full crystal. |
 | **Ternary mirror stacking: 2 mirrors = Q4-Q5** | 173 | recon_cos 0.884→0.970 at 4×. Second plate = 1-bit magnitude class. All ternary arithmetic. |
