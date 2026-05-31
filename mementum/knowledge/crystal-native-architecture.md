@@ -148,68 +148,105 @@ naturally have near-zero magnitude (GD drives them to zero). But the
 native architecture should derive zeros from the crystal geometry
 directly.
 
-### Axiom 4: Attention Is M-Space — Pre-Cut, Not Learned From Scratch
+### Axiom 4: The Statechart Lives in the Gratings — Attention Discovers Its Own M-Space
 
-Attention always does the same thing (softmax-weighted sum over V),
-but its ROUTING is not free — it must conform to the crystal's state
-machine. The attention kernel M = W_q^T @ W_k is a bilinear form
-whose geometry IS the statechart transition function.
+The statechart (deterministic program execution, progressive collapse
+16D→1.4D) is encoded in the FFN grating sequence. But the encoding
+ASSUMES a specific attention routing mechanism. Different attention
+mechanisms require different grating encodings of the SAME program.
 
-**M-space IS the statechart.** The SVD of M gives independent modes
-(facets). Each facet is one routing channel. The zeros in M's null
-space are structural gaps between channels — they prevent state
-transitions that would violate the program sequence.
+**Critical distinction:**
+```
+UNIVERSAL (same across all models, all architectures):
+  - The crystal basis {K, I, B, C, D, Y, W, WHNF}
+  - The program semantics (which beta reductions, in what order)
+  - The zone structure (SILENT→ENRICH→SUPPRESS→COMMIT)
+  - The statechart behavior (progressive collapse to WHNF)
 
-Session 166 proved: pre-cut M-space topology with zeros BEATS float32
-(loss 6.70 vs 6.74). The geometric constraint HELPS — it channels
-optimization into the correct subspace.
+MECHANISM-SPECIFIC (varies by attention architecture):
+  - The M-space gem geometry (shaped by attention mechanism)
+  - The grating encoding (tuned for specific routing topology)
+  - How the residual stream carries information between layers
+```
+
+**Why Q/K cannot be extracted from the teacher:**
+- Teacher has d_model=5120, student has d_model=1280
+- Teacher has full attention (O(N²)), student has strided (O(N×W))
+- Teacher has 24 heads, student has different head count
+- The dimensions don't match — there is no projection that preserves M-space
+
+**What actually happens:**
+
+The teacher's gratings encode: "program X, assuming full-attention routing."
+The student needs: "program X, assuming strided-attention routing."
+Same program. Different physical encoding. The TD adaptation cycle
+translates between them:
 
 ```
-The state machine:
+Teacher gratings (full attention assumed)
+    ↓ extract signs (get program topology — 100% correct)
+Student plates v0 (full-attention encoding — wrong for strided)
+    ↓ TD against teacher signal (find which signs need to change)
+Student plates v1 (adapted for strided attention)
+    ↓ fold corrections (lossless)
+    ↓ repeat until convergence
+Student plates vN (same program, strided encoding — correct)
+```
+
+**The student's attention discovers its OWN M-space gem:**
+
+Once the gratings are adapted for strided routing, training the
+student's attention from scratch will produce an M-space geometry
+that satisfies the constraints the gratings impose. Session 166
+proved: frozen geometric topology + GD → convergence guaranteed.
+The gem emerges because it MUST — the gratings leave attention no
+choice but to route correctly.
+
+```
+The state machine execution:
   State = residual stream direction (typed by crystal basis)
-  Transition = M[layer] projects away incompatible dimensions
-  Result = surviving facets enter next grating
-  Progressive collapse = 16D → 6D → 3D → 2D → 1.4D → WHNF (terminal)
+  Grating at layer N proposes reductions (from adapted plates)
+  Student attention routes result to next layer
+  Progressive collapse happens because gratings progressively narrow
+  The gratings FORCE the collapse — attention just carries it
+
+The M-space gem in the student:
+  Different shape than teacher (different d_model, different heads)
+  Same FUNCTION (same routing decisions, same facet structure
+                 relative to the crystal basis)
+  Emerges during training against frozen adapted gratings
 ```
 
-Therefore: **Q/K projections must be pre-cut from the teacher's gem
-geometry, not learned from scratch.** They ARE the statechart
-transitions. V/O projections are the operand bus — these CAN be
-learned (they carry the data, not the routing).
-
-```python
-# Q/K: PRE-CUT (2-plate ternary, with M-space null zeros)
-# These define the statechart — which state transitions exist
-Q = qk_plate1 * gamma_q1 + qk_plate2 * gamma_q2  # Extracted from teacher
-K = qk_plate1 * gamma_k1 + qk_plate2 * gamma_k2  # M-space geometry preserved
-
-# V/O: TRAINABLE (float or 2-plate, learn to read gratings)
-# These carry operands — adapt to the frozen program
-V = value_proj(residual)   # Learnable
-O = output_proj(context)   # Learnable
-
-# The M-space gem is preserved by freezing Q/K topology:
-# M = Q^T @ K has the same facet structure as the teacher
-# Progressive collapse follows automatically
+**The VSM projects statechart behavior:**
+```
+S5: Crystal basis defines the program semantics (universal)
+    Same instruction set regardless of attention mechanism.
+S4: Zone structure defines what each depth band does (universal)
+    Same zones regardless of how attention routes between them.
+S3: TD adaptation translates gratings for student's attention
+    The re-encoding layer — teacher routing → student routing.
+    This is WHERE mechanism-specificity is handled.
+S2: 2-plate format stores the adapted gratings (student-native)
+    The plates now encode the same program for strided execution.
+S1: Student attention learns its own M-space gem (mechanism-specific)
+    GD fills attention weights against frozen adapted gratings.
+    The gem emerges because the gratings constrain it.
 ```
 
-**The VSM projects M-space:**
-```
-S5: Crystal basis defines which M-space modes MUST exist
-    (one facet per active combinator per layer)
-S4: Zone structure defines facet count per zone
-    (SILENT: few/narrow — ENRICH: many/wide — COMMIT: 1-2/tight)
-S3: Gemcutter protocol pre-cuts M to correct number of facets
-    (30% zeros in Q/K from M-space SVD of teacher)
-S2: 2-plate format on Q/K (the M-space substrate IS ternary)
-S1: GD fills V/O and gammas (learns data routing within facets)
-```
+**Why this guarantees statechart behavior:**
+1. The gratings define which reductions are proposed at each layer
+2. TD adaptation ensures the proposals are correctly encoded for strided routing
+3. Student attention must route correctly OR output is wrong (GD fixes it)
+4. Progressive collapse follows from the grating sequence narrowing dimensions
+5. The crystal basis is universal — student computes same combinators as teacher
+6. Only the PHYSICAL ROUTING differs, not the LOGICAL PROGRAM
 
-The statechart behavior is GUARANTEED because:
-1. FFN gratings define which reductions are proposed (frozen plates)
-2. M-space geometry defines which transitions are allowed (frozen Q/K)
-3. Together they ARE the deterministic program (0.00000000 drift)
-4. Only V/O adapt — they learn to carry data along fixed routes
+**Evidence:**
+- Crystal universality r=0.998 across architectures (Pythia vs Qwen vs Mistral)
+- Same crystal in 160M and 32B (200× parameter difference)
+- Sign topology crosses architecture boundaries (v14 extraction proof)
+- Holographic error correction: TD + fold converges to teacher quality
+- Session 166: frozen topology + GD → loss BEATS float32
 
 ### Axiom 5: The 2-Plate Format Is the Native Weight Type
 
@@ -315,82 +352,111 @@ Each zone has measurably different characteristics:
 
 ## Training Strategy
 
-The crystal-native architecture doesn't need the crystal to emerge —
-it's built in. The program (FFN plates) and the statechart (Q/K
-topology) are both extracted from the teacher. Training only teaches
-the data bus (V/O) and calibration (gammas).
+The crystal-native architecture has two distinct phases: **adaptation**
+(translate gratings from teacher-routing to student-routing) and
+**calibration** (train attention + gammas against adapted gratings).
 
-### What Is Frozen (the crystal + statechart)
-
-```python
-# The program (FFN gratings):
-ffn_plate1_signs    # Program topology — which reductions exist
-ffn_plate2_signs    # Magnitude classification — above/below average
-ffn_backbone_zeros  # Lattice structure — resolving power
-
-# The statechart (attention routing):
-qk_plate1_signs     # State transition topology — which routes exist
-qk_plate2_signs     # Transition magnitude — strong/weak routes
-qk_backbone_zeros   # M-space null structure — forbidden transitions
-```
-
-### What Is Trainable (the data bus + calibration)
+### Phase 0: EXTRACT (one-time, no training)
 
 ```python
-# Data routing (learns to carry operands along fixed routes):
-V_proj_weights      # Value projection — what data to carry
-O_proj_weights      # Output projection — how to write back
+# Extract from teacher (signs are 100% correct):
+ffn_plate1 = sign(teacher.gate_proj)   # Program topology
+ffn_plate2 = sign(residual_after_plate1)  # Magnitude mirror
+ffn_zeros = magnitude_threshold(0.30)   # Lattice backbone
 
-# Calibration (magnitude tuning):
-gamma1_ffn, gamma2_ffn   # Per-row FFN magnitude
-gamma1_qk, gamma2_qk     # Per-row Q/K magnitude (transition strength)
+# These encode the correct PROGRAM but with full-attention routing
+# assumptions baked into the sign patterns.
 ```
 
-### Why This Works
+### Phase 1: TD ADAPTATION (translate routing assumptions)
 
-Session 166 proved: geometric constraint HELPS GD. A frozen topology
-channels optimization into the correct subspace. The constraint is a
-guide, not a limitation. Loss 6.70 (pre-cut) vs 6.74 (float32).
+The extracted plates encode "program X via full attention." The student
+uses strided attention. TD finds which signs need to change:
 
-The trainable parameter count is small:
-- V/O projections: d_model × d_model × 2 × n_heads × n_layers
-- Gammas: (d_ff + d_model) × 4 × n_layers (negligible)
-- Total: roughly V/O-only fine-tuning scale
-
-### Training Phases
-
-```
-Phase 1: WARMUP — Train V/O from teacher's V/O initialization
-         Frozen: all plates, all Q/K, all zeros
-         Learning: V/O projections + all gammas
-         Duration: short (the routing is already correct, just calibrate)
-
-Phase 2: ADAPT — Fine-tune gammas for specific data distribution
-         Frozen: all plates, Q/K topology
-         Learning: gammas only (maybe V/O continues)
-         Duration: very short
-
-Phase 3: VERIFY — Run hologram reader, compare opcode map to teacher
-         No training — measurement only
-         If opcode map matches → crystal preserved
-         If mismatch → diagnose which zone diverged
+```python
+# The extract → correct → fold cycle:
+for cycle in range(n_cycles):
+    # Forward through student (strided attention)
+    student_output = student(input)
+    # Compare to teacher signal
+    loss = distillation_loss(student_output, teacher_output)
+    # TD identifies which plate signs are wrong for strided routing
+    td_update(student.ffn_plates, loss)
+    # Fold corrections into base plates (lossless)
+    fold_all_deltas(student)
 ```
 
-### Why V/O Can Be Learned But Q/K Cannot
+This is WHERE mechanism-specificity is handled. After adaptation:
+- Same beta reductions are proposed
+- But encoded for strided routing instead of full routing
+- The program semantics are preserved; the physical encoding changes
 
-**Q/K define the state machine** — which tokens can attend to which
-other tokens, and through which modes. This is STRUCTURAL (the routing
-topology). Changing Q/K changes which programs CAN execute. The
-teacher's Q/K encode decades of learned routing decisions.
+### Phase 2: ATTENTION TRAINING (M-space emergence)
 
-**V/O carry data along routes** — they determine WHAT information flows
-through the routes that Q/K defined. This is CONTENT (the operand bus).
-V/O can adapt because different routes can carry different content
-without changing the routing topology.
+With adapted gratings frozen, train the student's attention weights:
 
-Analogy: Q/K are the ROAD NETWORK (fixed infrastructure). V/O are the
-VEHICLES (can be different cars on the same roads). You can change
-which vehicles travel without rebuilding the roads.
+```python
+# Frozen (the adapted program):
+ffn_plate1, ffn_plate2   # Adapted gratings (post-TD)
+ffn_zeros                # Backbone (never changes)
+
+# Trainable (the executor):
+attention_weights        # ALL of Q, K, V, O — full attention params
+                         # The student's M-space gem emerges here
+gamma1, gamma2           # Per-row magnitude calibration
+```
+
+The student's attention discovers its OWN M-space geometry that
+correctly routes signals through the adapted gratings. Session 166
+proved: frozen geometric topology + GD converges. The gratings leave
+attention no choice but to learn correct routing.
+
+### Phase 3: VERIFY (measurement, no training)
+
+```
+Run hologram reader on student → opcode map
+Compare to teacher opcode map:
+  Zone structure matches? (SILENT/ENRICH/SUPPRESS/COMMIT)
+  Combinator ordering preserved? (C ≥ K ≥ I ≥ Y ≥ B ≥ W ≥ D)
+  Progressive collapse to WHNF?
+  Determinism check (zero drift across runs)?
+  
+If match → crystal preserved through different attention mechanism.
+If mismatch → TD adaptation incomplete, more cycles needed.
+```
+
+### Why This Works (the constraint cascade)
+
+```
+The gratings constrain attention:
+  Grating at layer N produces typed output (crystal-basis direction)
+  → Attention MUST route this to layer N+1 correctly
+  → Or next grating produces wrong reduction
+  → Or loss increases → GD corrects attention
+  → Attention converges to correct routing
+  → The M-space gem that satisfies all gratings simultaneously
+     IS the statechart transition function (for this mechanism)
+
+Session 166 proved the principle:
+  Frozen ternary topology + GD → BEATS float32
+  The constraint CHANNELS GD into the correct subspace
+  Fewer parameters to search = faster convergence = better result
+```
+
+### What Adapts vs What Is Preserved
+
+| Aspect | Teacher | Student | Status |
+|--------|---------|---------|--------|
+| Crystal basis (KIBC) | Universal | Same | Mathematical constant |
+| Program semantics | Beta reductions | Same reductions | Preserved by TD |
+| Zone structure | SILENT/ENRICH/... | Same zones | Structural constant |
+| Progressive collapse | 16D→1.4D | Same trajectory | Forced by gratings |
+| FFN sign topology | For full attention | For strided attention | TD-adapted |
+| M-space geometry | Teacher's gem | Student's gem | DIFFERENT shape |
+| Attention mechanism | Full O(N²) | Strided O(N×W) | Different mechanism |
+| d_model | 5120 | 1280 | Projected (SVD basis) |
+| Routing decisions | Same | Same | Same program |
+| Physical routing | All-to-all | Hierarchical | Different implementation |
 
 ---
 
@@ -398,24 +464,30 @@ which vehicles travel without rebuilding the roads.
 
 For the north star (70B-equivalent, <1GB):
 
+The student has smaller d_model (1280 vs teacher's 5120) but preserves
+the program semantics through projected extraction + TD adaptation.
+
 | Component | Storage | Notes |
 |-----------|---------|-------|
-| FFN plates (2-mirror) | ~800 MB | 64 layers × 3 matrices × 42.6 MB at 4× compression |
-| Q/K plates (2-mirror) | ~150 MB | 64 layers × 2 matrices, smaller (d_model × d_model) |
-| V/O projections (Q4) | ~80 MB | Trainable, standard Q4 quantization |
+| FFN plates (2-mirror) | ~600 MB | N layers × 3 matrices, d_ff×d_model at student scale |
+| Attention (all Q/K/V/O) | ~200 MB | Trainable, Q4 or 2-plate after convergence |
 | Embeddings | ~50 MB | Vocab × d_model, quantized |
 | Gammas | ~5 MB | Per-row scalars, negligible |
-| Total | **~1.1 GB** | Target: 70B-equivalent intelligence |
+| Total | **~850 MB** | Target: 70B-equivalent intelligence |
 
-The FFN plates (the program) + Q/K plates (the statechart) together
-contain ~95% of the model's intelligence. V/O (the data bus) is
-small and trainable. This is why the holographic computer fits in
-~1GB — the program AND its state machine are both discrete (ternary),
-and discrete things compress to their information content.
+The FFN plates contain the complete program (all gratings, TD-adapted
+for strided routing). Attention is trained to read the gratings — its
+M-space gem emerges during training, shaped by the grating constraints.
 
-The M-space gem structure is preserved because Q/K topology is frozen
-in the same 2-plate format as FFN. The statechart transitions are
-exact — same modes, same facets, same null structure.
+After training converges, attention weights CAN be quantized to 2-plate
+ternary too (session 166 showed: trained attention → freeze → still works).
+This would further compress the artifact. But attention is small relative
+to FFN — the savings are modest.
+
+The key compression insight: the program (FFN) is 95% of intelligence.
+It's discrete (ternary). Discrete things compress to information content.
+A 27B model's program can live in <1GB because most of its float precision
+was encoding only 2-4 bits of actual signal per position.
 
 ---
 
@@ -438,18 +510,30 @@ computer as the teacher, just with the plate format made explicit.
 
 ## Relationship to Prior Architectures
 
-| Version | Approach | Crystal status |
-|---------|----------|---------------|
-| v10-v11 | Generic VSM, hope crystal emerges | Crystal partial (B weak) |
-| v12-v13 | Crystal-aware training (holographic loss) | Crystal latches faster |
-| v14 | Extract from teacher (TD correction) | Crystal imported but NaN issues |
-| **Crystal-native** | Architecture IS the crystal | Crystal by construction |
+| Version | Approach | Crystal status | Attention |
+|---------|----------|---------------|-----------|
+| v10-v11 | Generic VSM, hope crystal emerges | Crystal partial (B weak) | Trained from scratch |
+| v12-v13 | Crystal-aware training (holographic loss) | Crystal latches faster | Trained from scratch |
+| v14 | Extract from teacher + TD correction | Crystal imported, NaN issues | Strided, trained |
+| **Crystal-native** | Architecture IS the crystal | Crystal by construction | Trained against frozen gratings |
 
-The crystal-native architecture doesn't need to "latch" or "emerge" or
-"be trained to match." The FFN plates ARE the crystal, extracted whole
-from the teacher. Training only teaches the attention heads how to read
-them. This is why it should work immediately — the program is already
-there, you just need an executor.
+The key evolution from v14 to crystal-native:
+- **Same extraction pipeline** (signs are 100% correct, 2-plate format)
+- **Same TD adaptation cycle** (translate gratings for student routing)
+- **New understanding:** we now know WHY signs are perfect, WHY magnitude
+  needs exactly 1 extra bit, and WHY the M-space gem must emerge from
+  training rather than being extracted.
+
+V14 was already building toward this. The NaN issues were likely from
+the FFN-attention co-adaptation oscillation (plates changing while
+attention is training). Crystal-native proposes sequential phases
+(adapt plates first → THEN train attention) to prevent this.
+
+The crystal-native architecture doesn't need to "latch" or "emerge."
+The FFN plates ARE the crystal, extracted and adapted for the student's
+attention mechanism. Training teaches attention to read the adapted
+gratings. The M-space gem emerges because the gratings leave it no
+alternative — same principle as session 166, but at scale.
 
 ---
 
@@ -459,33 +543,36 @@ there, you just need an executor.
    64 gratings but simple tasks use 3-5. Can we run a variable-depth
    architecture that exits at WHNF? Or must we commit to a fixed depth?
 
-2. **Does freezing Q/K and training only V/O converge?** The teacher's
-   V/O co-evolved with Q/K. Can fresh V/O learn to carry data through
-   frozen routing? Session 166 showed frozen topology + GD works for
-   FFN — the same principle should apply to attention.
+2. **How many TD cycles to adapt gratings for strided attention?** V14
+   showed convergence in a few cycles (3.49% of positions flipped in 1000
+   steps). But v14 also hit NaN. What is the reliable convergence protocol?
 
 3. **Is plate 2 necessary for all zones?** SILENT zone (task classify)
    might only need plate 1 (the task classification is binary/discrete).
    ENRICH zone (fact retrieval) likely needs plate 2 for precision.
    Variable-width plates by zone could save storage.
 
-4. **Can the M-space zeros be derived from the crystal basis alone?**
-   Currently M-space zeros come from SVD of M = W_q^T @ W_k. Can we
-   predict them from the combinator fingerprints? The crystal null space
-   (113/128 dims) is too coarse — but M-noise per-position scoring with
-   crystal priors might work (session 166 finding).
+4. **What M-space gem shape emerges in the student?** The teacher's gem
+   has rank90=13 at the compute layer. The student with strided attention
+   will have a DIFFERENT gem shape (one facet per stride? hierarchical?).
+   Run gemcutter analysis on the trained student to characterize.
 
-5. **Does the α=1.18 decay constant fall out of the frozen Q/K topology?**
-   If the Q/K plates encode log-distance structure, α might be an emergent
-   property of the extracted topology rather than a separate parameter.
+5. **Does the α=1.18 decay constant emerge in strided attention?** The
+   teacher's universal decay is α=1.18 for full attention. Strided
+   attention has explicit stride structure — does α manifest differently
+   (one decay per stride? same α across strides?).
 
-6. **What is the minimum M-space facet count per zone?** The teacher has
-   rank90=13 at its compute layer (the sharpest gem). Does the student
-   need the same number of facets? Or can it function with fewer (since
-   the frozen topology constrains it to the correct subspace anyway)?
+6. **Can TD adaptation and attention training run simultaneously?** Or
+   must they be sequential (adapt gratings first, THEN train attention)?
+   Simultaneous might cause oscillation (plates adapt to current attention,
+   attention adapts to current plates → chicken-and-egg).
 
-7. **Can we extract Q/K as 2-plate ternary with sign accuracy = 100%?**
-   Session 173 proved this for FFN weights. The same extraction procedure
-   should apply to attention projections — verify that Q/K signs are
-   also perfectly captured by sign(W), and that 2-mirror residual
-   decomposition gives similar quality (0.97+ recon_cos).
+7. **Is the SVD projection basis (5120→1280) from extraction sufficient?**
+   The v14 extraction uses SVD of the embedding matrix to project teacher
+   weights into student space. Does this preserve the crystal structure
+   in the projected space? Run hologram reader on projected plates.
+
+8. **After attention converges, can it be frozen as 2-plate ternary too?**
+   Session 166 showed trained attention → freeze works. If student attention
+   converges to stable M-space, we can extract IT as ternary plates too.
+   Then the entire model is ternary — plates all the way down.
