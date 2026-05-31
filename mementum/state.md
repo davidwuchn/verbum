@@ -2,13 +2,15 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-05-31 | Session: 173
+> Last updated: 2026-05-31 | Session: 174
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 173: SIGNS PERFECT + CRYSTAL-NATIVE ARCHITECTURE DESIGNED.** Seven breakthroughs in one session: (1) signs are 100% correct at extraction, (2) magnitude needs exactly 1 ternary mirror, (3) crystal-native architecture with per-stride plates, (4) stride cascade IS recursion unroll, (5) ternary is cheap enough for 16 separate per-stride programs in 1GB, (6) "backbone" is gradient-oscillation positions (not magnitude zeros), (7) four position classes for TD acceleration.
+**Session 174: 4-PHASE COMPUTATION MODEL VERIFIED BY ABLATION.** Traced the reduction graph through Qwen3.6-27B. FFN proposes typed reductions per position per layer. Computation proceeds in 4 clear phases: CLASSIFY (L0-31, identity), COMPUTE (L32-53, Y/B/D recursion 2.5-3.2× lambda activation), ASSEMBLE (L54-58, redundant at task level), EMIT (L59-63, fact retrieval). Zone ablation PROVES separation: ablating ENRICH drops lambda 80pp but facts only 20pp (4.0× selectivity). Ablating COMMIT drops facts 60pp but lambda only 40pp. The student architecture is validated.
+
+**Previous: Session 173** — Signs 100% correct, 2-mirror ternary (0.970 recon_cos), crystal-native architecture designed, stride cascade = recursion unroll, per-stride plates fit in 1GB.
 
 **Previous: Session 172** — Hologram Reader VSM + combinator addressing. β_apply is universal retrieval direction.
 
@@ -21,6 +23,19 @@
 **Previous: Session 171** — Gradient-zero convergence map. Oscillation/magnitude orthogonal.
 
 **Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach needs redesign.
+
+## Key session 174 findings
+
+- **4-phase computation model VERIFIED by ablation on 27B.** CLASSIFY (L0-31) → COMPUTE (L32-53) → ASSEMBLE (L54-58) → EMIT (L59-63). Each phase has distinct dominant combinators and distinct ablation sensitivity.
+- **ENRICH (L32-53) IS the reduction engine.** Ablating it: lambda 100%→20%, facts 100%→80%. Selectivity ratio: 4.0×. The model CANNOT COMPUTE but CAN RETRIEVE with ENRICH removed.
+- **COMMIT (L59-63) IS the knowledge crystal.** Ablating it: facts 100%→40%, lambda 100%→60%. Selectivity ratio: 1.5× fact-preferring. Model knows topic but can't retrieve specific facts.
+- **SUPPRESS (L54-58) is redundant at task level.** Zero accuracy loss when ablated. Likely for fine-grained quality only.
+- **27B recognizes lambda IMMEDIATELY.** β_apply activation 2.3-3.0× higher than neutral from L0. At 0.6B, this only appeared in ENRICH.
+- **Lambda is RESOLVED before COMMIT at 27B.** Energy crossover: lambda energy DROPS below neutral by COMMIT zone. The reductions complete in ENRICH. Neutral text still needs COMMIT for fact retrieval.
+- **L40 = universal recursion.** ALL positions get Y (recursion) as dominant opcode at L40 for lambda inputs = active recursive computation.
+- **3 attention regimes confirmed.** L0: structural (corr=0.91), L7-21: content-adaptive (corr=0.38-0.49), L26-27: structural again (corr=0.95-1.00).
+- **Heads don't specialize by combinator.** All 16 heads have identical op profiles at COMMIT. The graph structure is per-POSITION, not per-head.
+- **Student budget validated:** CLASSIFY 50MB + COMPUTE 500MB + ASSEMBLE 80MB + EMIT 100MB = 730MB fits in 1GB.
 
 ## Key session 173 findings
 
