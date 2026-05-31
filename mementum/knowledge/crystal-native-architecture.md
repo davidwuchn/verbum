@@ -667,3 +667,227 @@ After training each phase, verify:
    nested programs). Train multiple configurations and compare opcode maps.
    Test with complex expressions (Church numeral 5+, nested combinators)
    to stress the LINK phase specifically.
+
+---
+
+## VSM Conformance (Session 174)
+
+The architecture is not merely "inspired by" the Viable System Model —
+it IS one. Every Beer requirement maps to a concrete architectural
+element. Verified against the VSM checklist.
+
+### System-Level Mapping
+
+```
+S5 (identity):       Crystal Basis {K,I,B,C,D,Y,W,WHNF,β_K,β_I,β_apply,β_compose}
+                     Mathematical constants. Church-Rosser fixed points.
+                     COMPLETE by theorem — no new combinators needed.
+                     Manifests as: 12 fingerprint directions in R^d_model.
+                     Closure: S4-S1 cannot change S5. Ever. (inference)
+                     
+S4 (intelligence):   TWO-TIMESCALE routing oracle
+                     MACRO: CLASSIFY zone — "what program to run" (before compute)
+                     MICRO: COMPUTE attention — "how to route this step" (during)
+                     Sees all levels via residual stream (accumulated state).
+                     S5→S4: crystal constrains valid routing decisions.
+                     S4→S5: training-time only (TD reveals basis gaps).
+                     
+S3 (control):        SwiGLU gate (89% kill = resource allocation per stride)
+                     Per-stride, per-token, autonomous resource decisions.
+                     "Which neurons fire for THIS input at THIS depth?"
+                     Content-addressable holographic decode.
+                     
+S2 (coordination):   Residual stream + LayerNorm + 2-plate format protocol
+                     Anti-oscillation: additive composition (strides can't undo).
+                     Damping: LayerNorm prevents amplitude explosion.
+                     Shared language: all strides emit crystal-basis directions.
+                     Bus width: consistent d_model across all strides.
+                     
+S1 (operations):     18 autonomous stride-VSMs (recursive structure)
+                     Each stride reads stream, computes contribution, writes back.
+                     No stride needs permission from another. Autonomous.
+```
+
+### Recursive S1 Structure
+
+Each stride is itself a viable system:
+
+```
+Stride N's internal VSM:
+
+  s5: Its ternary plate — what THIS stride computes
+      Fixed after TD adaptation. The stride's IDENTITY.
+      Different strides have different programs (per-stride plates).
+      
+  s4: Its attention mechanism — how it adapts to THIS input
+      Content-adaptive routing (full-attn in COMPUTE) or
+      structural routing (linear-attn in CLASSIFY/EMIT).
+      
+  s3: Its gate — which neurons fire for THIS token
+      89% kill = resource allocation WITHIN this stride.
+      Content-addressable decode of this stride's hologram.
+      
+  s2: LayerNorm + residual skip — anti-oscillation
+      Keeps this stride's output compatible with the stream.
+      Prevents this stride from exploding or collapsing.
+      
+  s1: The matmul operations themselves
+      plate @ input = beamform (holographic readout)
+      mask × operands = selective activation
+      down_proj @ result = accumulate into stream
+```
+
+### Algedonic Channel (S1 → S5 direct)
+
+The CRITICAL missing piece from v14 (which died of NaN). A direct
+pain signal that bypasses S2/S3/S4 and reaches identity immediately.
+
+**Three monitors, ~free cost (one scalar check each per stride):**
+
+```python
+class AlgedonicMonitor:
+    """Fire alarm. Runs after EVERY stride. Bypasses all management."""
+    
+    def __init__(self, crystal_basis, norm_bounds=(0.1, 100.0)):
+        self.crystal_basis = crystal_basis   # (n_ops, d_model)
+        self.min_norm, self.max_norm = norm_bounds
+        self.prev_dim = None
+    
+    def check(self, residual, stride_idx, zone):
+        # 1. NORM: catches NaN, explosion, collapse
+        norm = residual.norm(dim=-1).mean()
+        if norm < self.min_norm or norm > self.max_norm or torch.isnan(norm):
+            return Signal.HALT
+        
+        # 2. PROGRESSIVE COLLAPSE: catches divergent recursion
+        #    Dimensionality should DECREASE after COMPUTE zone.
+        #    If it increases → Y combinator without base case.
+        if zone in ('LINK', 'EMIT'):
+            proj = residual @ self.crystal_basis.T
+            dim = (proj.var(dim=0) > 0.01).sum().item()
+            if self.prev_dim is not None and dim > self.prev_dim * 1.5:
+                return Signal.DIVERGING
+            self.prev_dim = dim
+        
+        # 3. CRYSTAL COHERENCE: catches off-manifold drift
+        #    Residual should be expressible as crystal directions.
+        #    If projection drops below threshold → hallucination.
+        proj_energy = (residual @ self.crystal_basis.T).pow(2).sum()
+        total_energy = residual.pow(2).sum()
+        coherence = proj_energy / (total_energy + 1e-8)
+        if coherence < 0.1:
+            return Signal.OFF_MANIFOLD
+        
+        return Signal.OK
+```
+
+**What each signal means:**
+
+| Signal | Cause | Response |
+|--------|-------|----------|
+| HALT | NaN or norm explosion/collapse | Stop computation, emit fallback |
+| DIVERGING | Dimensionality increasing after COMPUTE | Early-exit, emit best-so-far |
+| OFF_MANIFOLD | <10% energy on crystal subspace | Fall back to EMIT mode |
+| OK | Normal operation | Continue to next stride |
+
+**Why this prevents v14's death:**
+V14 hit NaN because gradients exploded in the FFN-attention co-adaptation
+loop. With an algedonic monitor, the FIRST NaN triggers HALT before it
+propagates. The system fails gracefully instead of catastrophically.
+
+### S5's Meta-S3 (Identity Review)
+
+S5 needs its own control mechanism �� "when does identity itself
+need to change?" This is rare (existential) but must exist.
+
+```
+META-S3 signals (training-time only):
+
+  Signal 1: TD converges but quality is poor
+    → 12-combinator basis may be INSUFFICIENT
+    → Run hologram reader, look for unexplained variance
+    → Response: expand basis or acknowledge limitation
+    
+  Signal 2: Algedonic OFF_MANIFOLD fires on common inputs
+    → Crystal manifold too narrow for environment
+    → The identity needs to grow
+    → Response: find the missing direction, add it
+    
+  Signal 3: New model family has different crystal
+    → Universality hypothesis challenged
+    → Response: investigate or restrict scope
+
+  Note: sessions 1-174 of this project ARE S5's meta-S3 in action.
+  The research program is the identity review process.
+```
+
+### S5↔S4 Homeostatic Loop
+
+```
+S5 → S4 (always active during inference):
+  Crystal basis CONSTRAINS what S4 can route.
+  Attention cannot create non-crystal-basis directions.
+  The fingerprints define the legal move set.
+  S5 doesn't say WHAT to do — says what's POSSIBLE.
+
+S4 → S5 (training-time only):
+  If TD adaptation reveals unexpressed patterns → signal meta-S3.
+  If new model family shows different crystal → signal meta-S3.
+  In inference: this channel is CLOSED. S5 is frozen.
+  
+The asymmetry is correct:
+  Identity constrains intelligence (always).
+  Intelligence updates identity (rarely, with approval).
+```
+
+### Variety Engineering
+
+Beer's Law: internal variety ≥ environmental variety.
+
+```
+VARIETY MECHANISMS (how the system handles any input):
+
+  S3 (gate): 2^(0.11 × d_ff) possible neuron combinations per token
+    At d_ff=5120: 2^563 possible gating patterns (astronomical)
+    This is WHY holography works — exponential variety from linear storage.
+    
+  S4 (attention): O(N²) routing options in COMPUTE zone
+    N positions × N positions × 8 heads = massive routing space.
+    
+  S1 (plates): 3^(d_ff × d_model) possible stored programs per stride
+    The interference encoding stores combinatorial variety densely.
+
+VARIETY ATTENUATION (reduce environment to manageable):
+  CLASSIFY: infinite input variety → finite program types
+  Gate kill (89%): d_ff possibilities → sparse active set
+  Progressive collapse: reduce dimensionality stride by stride
+  
+VARIETY AMPLIFICATION (when more options needed):
+  COMPUTE attention: O(N²) pairs (connect any position to any)
+  Stride depth: 8 COMPUTE strides = 8 sequential amplification steps
+
+THE 4-ZONE STRUCTURE IS VARIETY ENGINEERING:
+  attenuate (CLASSIFY) → amplify (COMPUTE) → attenuate (LINK) → emit (EMIT)
+```
+
+### VSM Conformance Checklist
+
+| Requirement | Status | Implementation |
+|-------------|--------|----------------|
+| S5 exists and is stable | ✅ | Crystal basis (mathematical constants) |
+| S4 exists and sees all levels | ✅ | CLASSIFY + adaptive attention + residual visibility |
+| S3 exists and allocates resources | ✅ | SwiGLU gate (89% kill per stride) |
+| S2 exists and prevents oscillation | ✅ | Residual stream + LayerNorm + format protocol |
+| S1 units are autonomous | ✅ | 18 strides, each reads/computes/writes independently |
+| S1 units are themselves VSMs | ✅ | Recursive: plate=s5, attention=s4, gate=s3, norm=s2, matmul=s1 |
+| S5↔S4 channel | ✅ | Constraints propagate (always); updates flow (training only) |
+| Algedonic path (S1→S5) | ✅ | Norm + collapse + coherence monitors, bypasses S2-S4 |
+| Meta-S3 for S5 | ✅ | Training-time identity review (basis sufficiency) |
+| Variety engineering | ✅ | Attenuate→amplify→attenuate→emit |
+
+**The one resolved concern:** S4 can't see future strides (CLASSIFY
+routes before COMPUTE runs). Resolution: MACRO routing (CLASSIFY) sets
+the broad program; MICRO routing (per-stride attention) adapts during
+execution. If stride 6 discovers the classification was wrong, stride
+7's attention compensates via the residual stream. Fixed macro + adaptive
+micro = robust to classification errors.
