@@ -551,8 +551,12 @@ Session 174 ablation on Qwen3.6-27B verified the 4-phase model:
 
 ### Key design changes from v1 → v2:
 
-1. **SUPPRESS zone eliminated.** Zero accuracy loss when ablated.
-   Student has 3 zones: CLASSIFY + COMPUTE + EMIT.
+1. **SUPPRESS zone re-understood as LINKER.** Zero accuracy loss when
+   ablated on simple 1-step reductions, BUT dominant ops (β_K, K, B)
+   reveal its function: composing multi-step reduction results and
+   eliminating dead variables. Likely critical for complex programs.
+   Renamed LINK in student. Student has 4 zones: CLASSIFY + COMPUTE +
+   LINK + EMIT.
 
 2. **Variable precision by zone.** Energy grows 100× through depth.
    CLASSIFY (low energy) needs only plate 1. COMPUTE and EMIT need
@@ -567,7 +571,7 @@ Session 174 ablation on Qwen3.6-27B verified the 4-phase model:
 4. **Fewer heads.** Heads don't specialize by combinator (all 16 heads
    have identical op profiles). Student can use 8 heads, 2 KV groups.
 
-5. **Concrete stride allocation:** 16 strides = 5 CLASSIFY + 8 COMPUTE + 3 EMIT.
+5. **Concrete stride allocation:** 18-19 strides = 5 CLASSIFY + 8 COMPUTE + 2-3 LINK + 3 EMIT.
 
 ### Revised architecture (v2):
 
@@ -586,6 +590,14 @@ COMPUTE (8 strides, d_ff=5120):
   Attention: full (8 heads, 2 KV groups)     ~50 MB
   Function: Y (recursion), B/D (composition), beta reduction
 
+LINK (2-3 strides, d_ff=5120):
+  FFN: plate1 + plate2 (2-plate ternary)     ~80 MB
+  Attention: full or linear (TBD)            ~10 MB
+  Function: compose results (B), eliminate constants (β_K, K)
+  Note: "SUPPRESS" in teacher. Ablation showed no loss on SIMPLE
+  tasks but ops (β_K, B, K) indicate multi-step composition.
+  Critical for complex programs with nested reductions.
+
 EMIT (3 strides, d_ff=5120):
   FFN: plate1 + plate2 (2-plate ternary)     ~120 MB
   Attention: linear (Mamba-style)            ~3 MB
@@ -593,7 +605,7 @@ EMIT (3 strides, d_ff=5120):
 
 LM HEAD: tied with embedding
 
-TOTAL: ~560 MB + overhead ≈ 600-650 MB (under 1 GB)
+TOTAL: ~610 MB + overhead ≈ 650-700 MB (under 1 GB)
 GROWTH: increase d_ff or add strides as experiments reveal pain points
 ```
 
@@ -649,7 +661,9 @@ After training each phase, verify:
    1280 to 1536 affects all zones. First experiments will reveal which
    dimension is the bottleneck.
 
-9. **Is the 5+8+3 stride split optimal?** Ablation showed ENRICH needs
-   many layers but SUPPRESS needs zero. Maybe 4+10+2 is better (more
-   COMPUTE strides). Or 3+11+2 if CLASSIFY is cheap enough with just
-   linear attention. Train multiple configurations and compare opcode maps.
+9. **Is the 5+8+2+3 stride split optimal?** COMPUTE needs many layers,
+   LINK needs at least 2 for multi-step composition. Maybe 4+10+2+2
+   is better (more COMPUTE strides) or 5+8+3+3 (thicker LINK for deeply
+   nested programs). Train multiple configurations and compare opcode maps.
+   Test with complex expressions (Church numeral 5+, nested combinators)
+   to stress the LINK phase specifically.
