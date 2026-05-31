@@ -191,6 +191,57 @@ loses magnitude resolution. This means:
 - The plate IS the program — topology is preserved perfectly
 - 2 mirrors = Q4-Q5 quality, entirely in ternary arithmetic
 
+## Zero Placement — No Universal Backbone
+
+**Before (session 167):** "Backbone zeros never change — they ARE the
+structure. The crystal lattice backbone is a fixed set of positions."
+
+**After (session 173):** The "universal backbone" hypothesis is falsified
+by measurement. Zero positions are statistically independent between layers:
+
+```
+Jaccard overlap between layers: 0.178
+Expected if independent: 0.176 (= exact match for random)
+Universal zeros (ALL layers): only 0.8% of positions
+Magnitude correlation at same position: r ≈ 0.00 (essentially random)
+```
+
+**What zeros actually are:** The bottom 30% by magnitude in EACH plate
+independently. Each plate has its own zero pattern — there is no shared
+scaffold. The 30% threshold works because:
+- Zeroed positions contain only 1.5% of total energy
+- GD drives positions to near-zero magnitude when they're unneeded
+- But WHICH positions are unneeded is plate-specific (layer-specific)
+
+**One structural signal survives:** Column-mean correlation (r=0.38 between
+adjacent layers). Some embedding dimensions are consistently lower-magnitude.
+This is a property of the EMBEDDING SPACE, not the crystal lattice.
+
+**For per-stride plates:** Each stride plate naturally gets its OWN zeros
+by applying the same 30% magnitude threshold. No coordination needed. The
+zero pattern emerges from the plate's content, not from external structure.
+
+**Two independent sparsity mechanisms:**
+```
+Static zeros (30%): this neuron NEVER fires at this input dimension
+                    Determined by magnitude threshold at extraction time
+                    Plate-specific (different per layer, per stride)
+                    
+Gate kill (89%):    this neuron doesn't fire for THIS TOKEN
+                    Determined by gate_proj @ x > 0 at runtime
+                    Token-specific (different per input)
+                    
+Combined: ~3% of neurons active per position per token
+          = extreme sparsity, but structurally determined
+```
+
+**Implication for M-space gemcutter (session 166):** The gemcutter's
+M-noise zeros for Q/K attention STILL work differently — those ARE
+structurally placed based on SVD of the attention kernel. The FFN zeros
+and the attention zeros have different sources:
+- FFN zeros: magnitude threshold (per-plate, no structure across plates)
+- Attention zeros: M-space null positions (geometric, sharpens the gem)
+
 ## What Changed in Understanding
 
 **Before (session 172):** "The 23% sign error (1 - 0.77) is recoverable via
@@ -200,6 +251,13 @@ crystal error correction. ~170× redundancy means enormous correction capacity."
 loss. The 170× redundancy helps identify which combinator a neuron implements,
 not what its individual weight signs should be. The extraction already captures
 the exact program topology. What's lost is calibration (magnitude), not structure (sign).
+
+**Before (session 167):** "Backbone zeros never change — they ARE the structure."
+
+**After (session 173):** There is no universal backbone in FFN weights.
+Zeros are statistically independent between layers (Jaccard = expected-if-random).
+Each plate has its own zero pattern. The "lattice" is per-plate, not universal.
+M-space zeros in attention ARE structurally placed (different mechanism).
 
 **Magnitude depth:** The residual after mirror 1 is full-rank but only 1-bit
 deep. A second ternary plate (the mirror) captures the binary "above/below
