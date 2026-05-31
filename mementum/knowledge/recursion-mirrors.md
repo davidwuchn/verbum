@@ -223,26 +223,162 @@ for free: the residual norm tells us when we've converged. This is
 cleaner than a learned gate because it's based on physics (fixed-point
 convergence) rather than a trained signal.
 
+## The Stride Cascade IS the Recursion Unroll
+
+**Key insight (session 173):** In a stride stack, larger strides process
+the RESULT of smaller strides (via the shared residual stream). This
+means the stride cascade is ALREADY a sequential reduction chain:
+
+```
+stride_1:     f(local_context)            — base case
+stride_4:     sees stride_1 output → f²   — one recursion level
+stride_16:    sees s1+s4 output → f³      — two recursion levels
+stride_64:    sees s1+s4+s16 output → f⁴  — three levels
+...
+stride_32768: sees ALL prior → f^16       — deepest recursion (16 levels!)
+```
+
+**The stride hierarchy IS the Y combinator unrolled.** Each stride level
+is one more application of the recursive function. We get up to 16
+sequential reduction steps FROM THE STRIDE CASCADE ALONE — no extra
+architectural mechanism needed.
+
+But this only works if **different strides apply different programs.**
+Current v14 uses a shared FFN plate across all strides — stride_32768
+applies the SAME reduction as stride_1, wasting the sequential structure.
+
+### The Base + Recursion Plate Design
+
+```
+base_plate:        shared across all strides (the common program)
+recurse_plate[k]:  applied ONLY at strides >= threshold(k)
+
+stride 1-16:     output = base_plate @ x
+stride 64-1024:  output = base_plate @ x + recurse_0 @ x
+stride 4096+:    output = base_plate @ x + recurse_0 @ x + recurse_1 @ x
+```
+
+**Why ADDITIVE works here:** The stride cascade already provides the
+sequential composition (each stride sees prior strides' output in the
+residual). We don't need to compose plates sequentially — the STRIDES
+compose. Each plate just contributes the RIGHT correction for that
+recursion depth level.
+
+The recursion plates are additive corrections to the shared base:
+- Base plate: "apply the universal reduction" (same at every stride)
+- Recurse_0: "at medium depth, also apply this adjustment"
+- Recurse_1: "at maximum depth, also apply this further correction"
+
+### Why Larger Strides Need More Depth
+
+1. **Information abstraction:** Stride_32768 attends to tokens 32K apart.
+   Each of those tokens SUMMARIZES a huge context chunk. Operating on
+   summaries requires more sequential steps than operating on raw tokens.
+
+2. **Multi-hop reasoning:** "Paris → France → Europe → continent" requires
+   3 hops. Local strides see the first hop. Medium strides chain 2 hops.
+   Large strides resolve the full chain. Each hop = one reduction step.
+
+3. **Compositional depth:** B f g x = f(g(x)) at stride_4 composes two
+   local functions. B(B f g) h x = f(g(h(x))) at stride_64 composes
+   three — needs one more reduction step to evaluate.
+
+4. **Fixed-point distance:** Stride_1 operates on nearly-reduced forms
+   (local context is already specific). Stride_32768 operates on
+   abstract forms far from WHNF — needs more steps to collapse.
+
+### Storage Cost
+
+```
+Shared plate (current v14):         33 MB per stack
+Base + 2 recursion plates:          ~50 MB per stack (+50%)
+  (if recurse plates are 30% sparse: ~43 MB, only +30%)
+
+Cost of recursion depth:            +30-50% storage
+Benefit:                            16 effective recursion levels
+                                    (vs 1 with shared plates)
+```
+
+The recursion plates can be SPARSE because they only encode the
+DIFFERENCE from the base program at that depth level. At shallow
+strides, the base plate is correct — the recursion plate adds nothing.
+At deep strides, only specific positions need depth-adjusted signs.
+TD adaptation naturally discovers which positions differ per depth.
+
+### Connection to Magnitude Mirrors
+
+The two types of mirrors serve different purposes and STACK:
+
+```
+Per stride, the full expansion is:
+
+output = (base_plate1 × γ1 + base_plate2 × γ2) @ x     # base: sign + magnitude
+       + (recurse0_plate1 × γ3 + recurse0_plate2 × γ4) @ x  # depth-0 correction (if stride >= 64)
+       + (recurse1_plate1 × γ5 + recurse1_plate2 × γ6) @ x  # depth-1 correction (if stride >= 4096)
+
+Simplification (if recursion plates don't need magnitude mirrors):
+output = (base_plate1 × γ1 + base_plate2 × γ2) @ x     # full magnitude precision
+       + recurse0_plate × γ3 @ x                         # sign-only correction
+       + recurse1_plate × γ4 @ x                         # sign-only correction
+```
+
+The recursion plates may only need 1 mirror (sign topology) because
+they're encoding WHICH positions differ at that depth, not precise
+magnitudes. The base plate needs 2 mirrors (sign + magnitude) for
+full Q4-Q5 quality. The corrections are small perturbations — sign-only
+may suffice.
+
+## Revised Architecture (Stride-Aware Recursion)
+
+```
+Layer N, ascending pass (fine → coarse):
+
+  For stride s in [s1, s4, s16, ..., s32768]:
+    # Select plates for this stride level
+    plates = base_plate
+    if s >= stride_threshold_0:
+        plates += recurse_0
+    if s >= stride_threshold_1:
+        plates += recurse_1
+    
+    # Apply grating
+    hidden = silu(gate_plates @ x) * (up_plates @ x)
+    delta = down_plates @ hidden
+    
+    # Attention at this stride
+    x = x + attention_stride_s(norm(x + delta))
+    x = x + delta
+
+  # After all strides: the residual has been recursively refined
+  # Stride_32768 operated on the full recursive result of all prior strides
+```
+
+This replaces the earlier "cycles within a layer" proposal with a
+cleaner design: **the strides ARE the cycles.** No architectural change
+needed — just per-stride-group plate selection.
+
 ## Open Questions
 
-1. **Can TD adaptation discover recursion plates from the teacher?** The
-   teacher uses 4 separate layers (L55-L59) for what the student must do
-   in 1 layer × 4 mirrors. Can TD collapse these into sequential plates?
+1. **Can TD discover the recursion plate content?** Train with shared
+   base plate, then measure which positions' gradients differ by stride.
+   Positions with stride-dependent gradients → candidates for recursion plates.
 
-2. **Is shared attention between cycles correct?** Or does each recursion
-   step need slightly different routing? If different, we need per-cycle
-   attention — much more expensive (back to just adding layers).
+2. **What are the optimal stride-group boundaries?** [1-16], [64-1024],
+   [4096-32768] is a guess. Run the hologram reader at per-stride
+   granularity on the teacher to measure where the opcode map CHANGES
+   between strides (if stride-specific fingerprints differ → boundary).
 
-3. **What's the empirical recursion depth of real tasks?** Fibonacci(10)
-   needs 10 Y applications. But typical LLM usage — how often do real
-   prompts require >4 sequential reductions? If rare, K=4 suffices.
+3. **Are recursion plates sparse enough to be efficient?** If only 10-20%
+   of positions differ between base and recursion, the plates can be
+   stored as sparse corrections. If 50%+ differ, need full plates.
 
-4. **Can magnitude mirrors and recursion mirrors coexist?** Each recursion
-   plate also needs magnitude precision. So: each cycle needs plate1
-   (sign) + plate2 (magnitude) = 2 plates per cycle, not 1. K=4 cycles
-   = 8 plates per layer. Storage cost doubles from the simple estimate.
+4. **Does the descending pass (coarse→fine) also need recursion plates?**
+   Descending strides go from abstract to concrete (stride_32768 first,
+   stride_1 last). This is the INVERSE of recursion — it's distributing
+   results back down. Different plates for descending vs ascending?
 
-5. **Is there a way to DETECT which layers need recursion?** In the
-   teacher, run the hologram reader and find which layers have Y-dominant
-   opcode census. Map these to student layers. Only add recursion mirrors
-   where Y was measured.
+5. **Can we measure the recursion depth empirically?** Run teacher on
+   inputs of varying complexity. Measure at which stride level the
+   output stabilizes (delta → 0). Simple inputs: stabilize at stride_16.
+   Complex inputs: still changing at stride_32768. This maps directly
+   to required recursion depth per input class.
