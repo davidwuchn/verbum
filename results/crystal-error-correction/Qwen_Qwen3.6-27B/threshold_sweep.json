@@ -1,0 +1,42 @@
+[
+  {
+    "threshold": 0.001,
+    "avg_improvement": -0.4665113254521553,
+    "avg_flip_rate": 0.4665113254521553
+  },
+  {
+    "threshold": 0.005,
+    "avg_improvement": -0.42693042423441313,
+    "avg_flip_rate": 0.42693042423441313
+  },
+  {
+    "threshold": 0.01,
+    "avg_improvement": -0.37876033204630105,
+    "avg_flip_rate": 0.37876033204630105
+  },
+  {
+    "threshold": 0.02,
+    "avg_improvement": -0.28994420873046617,
+    "avg_flip_rate": 0.28994420873046617
+  },
+  {
+    "threshold": 0.05,
+    "avg_improvement": -0.1090040086201954,
+    "avg_flip_rate": 0.1090040086201954
+  },
+  {
+    "threshold": 0.1,
+    "avg_improvement": -0.01540724372653575,
+    "avg_flip_rate": 0.015407243726535754
+  },
+  {
+    "threshold": 0.2,
+    "avg_improvement": -0.00034737859089084555,
+    "avg_flip_rate": 0.00034737859089083487
+  },
+  {
+    "threshold": 0.5,
+    "avg_improvement": -4.8060968855604775e-06,
+    "avg_flip_rate": 4.806096885562796e-06
+  }
+]

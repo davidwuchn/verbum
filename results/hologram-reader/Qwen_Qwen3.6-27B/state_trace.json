@@ -1,0 +1,38 @@
+[
+  {
+    "from": "DORMANT",
+    "event": "load",
+    "to": "FINGERPRINT",
+    "time": 1780236838.199075
+  },
+  {
+    "from": "FINGERPRINT",
+    "event": "fingerprints_ready",
+    "to": "SCAN",
+    "time": 1780236936.246091
+  },
+  {
+    "from": "SCAN",
+    "event": "scan_complete",
+    "to": "CLASSIFY",
+    "time": 1780236940.8072882
+  },
+  {
+    "from": "CLASSIFY",
+    "event": "classified",
+    "to": "MOIRE",
+    "time": 1780236940.8073988
+  },
+  {
+    "from": "MOIRE",
+    "event": "moire_complete",
+    "to": "MAP",
+    "time": 1780236940.807408
+  },
+  {
+    "from": "MAP",
+    "event": "map_complete",
+    "to": "EMIT",
+    "time": 1780236940.807669
+  }
+]

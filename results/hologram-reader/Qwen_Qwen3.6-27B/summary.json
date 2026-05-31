@@ -1,0 +1,246 @@
+{
+  "model": {
+    "name": "Qwen/Qwen3.6-27B",
+    "n_layers": 64,
+    "d_model": 5120,
+    "d_ff": 17408,
+    "n_heads": 24,
+    "arch_type": "qwen3_5_text"
+  },
+  "zone_boundaries": {
+    "SILENT": {
+      "start": 0,
+      "end": 31,
+      "count": 32
+    },
+    "ENRICH": {
+      "start": 32,
+      "end": 53,
+      "count": 22
+    },
+    "SUPPRESS": {
+      "start": 54,
+      "end": 58,
+      "count": 5
+    },
+    "COMMIT": {
+      "start": 59,
+      "end": 63,
+      "count": 5
+    }
+  },
+  "phase_boundaries": {
+    "build": {
+      "start": 0,
+      "end": 20,
+      "count": 21,
+      "avg_transform_strength": 1.17
+    },
+    "execute": {
+      "start": 21,
+      "end": 42,
+      "count": 22,
+      "avg_transform_strength": 0.95
+    },
+    "emit": {
+      "start": 43,
+      "end": 63,
+      "count": 21,
+      "avg_transform_strength": 0.692
+    }
+  },
+  "opcode_census": {
+    "K": {
+      "dominant_in_layers": 8,
+      "layers": [
+        2,
+        24,
+        26,
+        32,
+        39,
+        42,
+        53,
+        58
+      ],
+      "avg_diagonal_strength": 0.1772
+    },
+    "I": {
+      "dominant_in_layers": 12,
+      "layers": [
+        0,
+        7,
+        9,
+        12,
+        14,
+        15,
+        19,
+        25,
+        33,
+        44,
+        56,
+        59
+      ],
+      "avg_diagonal_strength": 0.1769
+    },
+    "B": {
+      "dominant_in_layers": 5,
+      "layers": [
+        27,
+        36,
+        52,
+        54,
+        57
+      ],
+      "avg_diagonal_strength": 0.1628
+    },
+    "C": {
+      "dominant_in_layers": 6,
+      "layers": [
+        10,
+        11,
+        34,
+        35,
+        43,
+        61
+      ],
+      "avg_diagonal_strength": 0.1905
+    },
+    "D": {
+      "dominant_in_layers": 2,
+      "layers": [
+        49,
+        50
+      ],
+      "avg_diagonal_strength": 0.1475
+    },
+    "Y": {
+      "dominant_in_layers": 8,
+      "layers": [
+        17,
+        37,
+        38,
+        40,
+        41,
+        45,
+        46,
+        55
+      ],
+      "avg_diagonal_strength": 0.1745
+    },
+    "W": {
+      "dominant_in_layers": 5,
+      "layers": [
+        13,
+        20,
+        51,
+        62,
+        63
+      ],
+      "avg_diagonal_strength": 0.1559
+    },
+    "WHNF": {
+      "dominant_in_layers": 0,
+      "layers": [],
+      "avg_diagonal_strength": 0.0
+    },
+    "beta_K": {
+      "dominant_in_layers": 2,
+      "layers": [
+        18,
+        30
+      ],
+      "avg_diagonal_strength": 0.1381
+    },
+    "beta_I": {
+      "dominant_in_layers": 5,
+      "layers": [
+        21,
+        29,
+        31,
+        48,
+        60
+      ],
+      "avg_diagonal_strength": 0.1417
+    },
+    "beta_apply": {
+      "dominant_in_layers": 3,
+      "layers": [
+        1,
+        6,
+        8
+      ],
+      "avg_diagonal_strength": 0.1604
+    },
+    "beta_compose": {
+      "dominant_in_layers": 8,
+      "layers": [
+        3,
+        4,
+        5,
+        16,
+        22,
+        23,
+        28,
+        47
+      ],
+      "avg_diagonal_strength": 0.1606
+    }
+  },
+  "relation_census": {},
+  "invariant_checks": {
+    "combinator_ordering": "C(0.191) \u2265 K(0.177) \u2265 I(0.177) \u2265 Y(0.174) \u2265 B(0.163) \u2265 W(0.156) \u2265 D(0.147) \u2265 WHNF(0.000)"
+  },
+  "scan_metadata": {
+    "timestamp": "2026-05-31T14:15:40Z",
+    "iterations": 0,
+    "phases_completed": [
+      "FINGERPRINT",
+      "SCAN",
+      "CLASSIFY",
+      "MOIRE",
+      "MAP",
+      "EMIT"
+    ],
+    "state_trace": [
+      {
+        "from": "DORMANT",
+        "event": "load",
+        "to": "FINGERPRINT",
+        "time": 1780236838.199075
+      },
+      {
+        "from": "FINGERPRINT",
+        "event": "fingerprints_ready",
+        "to": "SCAN",
+        "time": 1780236936.246091
+      },
+      {
+        "from": "SCAN",
+        "event": "scan_complete",
+        "to": "CLASSIFY",
+        "time": 1780236940.8072882
+      },
+      {
+        "from": "CLASSIFY",
+        "event": "classified",
+        "to": "MOIRE",
+        "time": 1780236940.8073988
+      },
+      {
+        "from": "MOIRE",
+        "event": "moire_complete",
+        "to": "MAP",
+        "time": 1780236940.807408
+      },
+      {
+        "from": "MAP",
+        "event": "map_complete",
+        "to": "EMIT",
+        "time": 1780236940.807669
+      }
+    ],
+    "skip_moire": true,
+    "skip_trace": true,
+    "probe_file": "fact_recall_extended.json"
+  }
+}
