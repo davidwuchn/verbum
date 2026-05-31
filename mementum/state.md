@@ -8,7 +8,7 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 173: EXTRACTION SIGN ACCURACY — SIGNS ARE PERFECT.** Ran full pipeline on Qwen3.6-27B: hologram reader → ternary plate extraction → crystal error correction. **Major finding: ternary extraction captures signs with 100% accuracy.** The 20.8% "error" (1 - 0.792 sign_corr) is entirely magnitude loss, not sign errors. Crystal error correction is a category error — there are no sign errors to correct. The path forward is better magnitude encoding (2-bit magnitude → 0.975 recon_cos at 4× compression).
+**Session 173: SIGNS PERFECT + CRYSTAL-NATIVE ARCHITECTURE DESIGNED.** Seven breakthroughs in one session: (1) signs are 100% correct at extraction, (2) magnitude needs exactly 1 ternary mirror, (3) crystal-native architecture with per-stride plates, (4) stride cascade IS recursion unroll, (5) ternary is cheap enough for 16 separate per-stride programs in 1GB, (6) "backbone" is gradient-oscillation positions (not magnitude zeros), (7) four position classes for TD acceleration.
 
 **Previous: Session 172** — Hologram Reader VSM + combinator addressing. β_apply is universal retrieval direction.
 
@@ -32,6 +32,13 @@
 - **Qwen3.6-27B extracted successfully.** 64 layers, 17.1B FFN params, 8.6× compression (34.2 GB → 4.0 GB ternary). Per-zone: SILENT=0.794, ENRICH=0.790, SUPPRESS=0.792, COMMIT=0.789 sign_corr.
 - **Hologram reader works on Qwen3.6-27B.** 64-layer hybrid model (linear+full attention pattern [L,L,L,F]×16), d=5120, d_ff=17408. Crystal fully formed: 92% opcode coverage, C(0.191) ≥ K(0.177) ≥ I(0.177).
 - **The plate IS the program — losslessly.** Sign topology is captured perfectly. What's lost is amplitude (gamma), not structure (routing). This is actually *better* than previously thought — no error correction needed for the program itself.
+- **Crystal-native architecture designed.** A VSM whose structure IS the crystal lattice. FFN = holographic lookup table (2-plate ternary, 89% gate kill). Five axioms: FFN is lookup table, depth is program length, zeros are architecture, attention is typed, 2-plate is native weight type.
+- **M-space gem emerges from training against frozen gratings.** Q/K cannot be extracted from teacher (different d_model, different attention mechanism). The statechart lives in the FFN gratings. TD adapts them for student routing. Attention discovers its own M-space that satisfies the grating constraints.
+- **Stride cascade IS recursion unroll.** In a stride stack, larger strides see prior strides' output in residual stream. 16 strides = 16 sequential reduction steps = Y combinator unrolled for free. Just need per-stride plates (different program per depth level).
+- **Ternary is cheap — per-stride plates fit in 1GB.** At 2 bits/position, one plate = 5.6 MB. 16 separate per-stride plates (full model) = 729 MB. No sharing needed — budget allows full per-stride programs with room for attention + embeddings.
+- **No universal backbone in FFN magnitude zeros.** Jaccard between layers = 0.178 (= expected-if-random). Zeros are per-plate from magnitude threshold. NOT a shared scaffold.
+- **The TRUE backbone: gradient-oscillation positions.** ~35% of positions have oscillating gradients (sign_consistency → 0) = at irreducible fixed points. Four position classes from (gradient direction × weight magnitude): structural zeros (10%), crystal atoms (25%), active knowledge (28%), growth frontier (37%).
+- **TD acceleration via oscillation mask.** Only operate on class 3+4 positions (65%). Classes 1+2 (35%) are at mathematical fixed points — flipping them is guaranteed wrong. Cuts TD search space by 35%.
 
 ## Key session 172 findings
 
@@ -69,12 +76,14 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 | Change | Session | Impact |
 |--------|---------|--------|
-| **Signs 100% correct — crystal correction falsified** | 173 | Extraction captures exact sign topology. The 20.8% gap is magnitude loss, not sign error. Major reframe. |
-| **Qwen3.6-27B hologram reader + extraction** | 173 | Fingerprints (64 layers, R^5120) + ternary plates (17.1B params, 4.0 GB). Full crystal at 27B scale. |
-| **Ternary mirror stacking: 2 mirrors = Q4-Q5** | 173 | recon_cos 0.884→0.970 at 4× compression. Second plate = 1-bit magnitude classifier. All ternary arithmetic. |
-| **Magnitude is 1-bit deep, full-rank** | 173 | Not low-rank (no cheap vector fix). But exactly 1 ternary plate captures 100% of the gap. |
-| **Crystal error correction script** | 173 | `scripts/experiments/crystal_error_correction.py` — parameterized for any model, includes threshold sweep |
-| **Knowledge page: extraction-sign-accuracy.md** | 173 | Full write-up: sign accuracy, mirror stacking, magnitude depth, compression hierarchy |
+| **Signs 100% correct — crystal correction falsified** | 173 | Extraction captures exact sign topology. The 20.8% gap is magnitude loss, not sign error. |
+| **Qwen3.6-27B hologram reader + extraction** | 173 | Fingerprints (64 layers, R^5120) + ternary plates (17.1B params, 4.0 GB). Full crystal. |
+| **Ternary mirror stacking: 2 mirrors = Q4-Q5** | 173 | recon_cos 0.884→0.970 at 4×. Second plate = 1-bit magnitude class. All ternary arithmetic. |
+| **Crystal-native architecture** | 173 | `mementum/knowledge/crystal-native-architecture.md` — VSM that IS the lattice. 5 axioms. |
+| **Stride cascade = recursion unroll** | 173 | `mementum/knowledge/recursion-mirrors.md` — per-stride plates give 16 recursion levels. |
+| **Four position classes** | 173 | Gradient oscillation × magnitude → structural zeros, crystal atoms, active knowledge, growth frontier. |
+| **TD acceleration (oscillation mask)** | 173 | Only flip directional positions (65%). Oscillating = fixed point. Cuts TD search 35%. |
+| **Ternary is cheap** | 173 | 16 per-stride plates = 729 MB. Full budget allows complete per-stride specialization. |
 | **Hologram Reader VSM** | 172 | `scripts/experiments/hologram_reader.py` — self-directing opcode map scanner for any model |
 | **Hologram Reader design** | 172 | `mementum/knowledge/hologram-reader-vsm.md` — VSM architecture (S5-S1) |
 | **Cross-model comparison (0.6B vs 4B)** | 172 | Zone structure universal. Selectivity/coherence improve with scale. Rank ceiling-limited at 204 probes. |
@@ -96,12 +105,13 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 ## Next steps
 
-### IMMEDIATE (new — 2-mirror format + plate swap)
+### IMMEDIATE (crystal-native prototype)
 
-1. ~~**Crystal-geometric error correction**~~ — **FALSIFIED (session 173).** Signs are 100% correct. Crystal subspace captures 0.3% of weight row energy — cannot predict signs.
-2. **Implement 2-mirror extraction format** — Extract plate2 = sign(W - plate1×gamma1) for each FFN matrix. Validate 2-mirror recon_cos across all 64 layers. Define the canonical storage format: `{plate1, plate2, gamma1, gamma2}` per matrix. Target: 0.970 recon_cos at 4× compression. All ternary arithmetic.
-3. **Swap FFN weights with 2-mirror plates and measure perplexity** — Replace 27B FFN weights with plate1×gamma1 + plate2×gamma2, keep attention in bf16. Measure perplexity, fact retrieval, and generation quality. Signs are exact + magnitude is Q4-Q5 → should be near-lossless.
-4. **Compare 1-mirror vs 2-mirror swap quality** — If 1-mirror (8×) is already good enough for the program to run, the second mirror is calibration refinement. If 1-mirror fails but 2-mirror works, magnitude IS needed for operation.
+1. ~~**Crystal error correction**~~ — **FALSIFIED.** Signs are 100% correct.
+2. **Implement 2-mirror extraction + per-stride plates** — Extract plate2 = sign(residual) for all 64 layers. Then: define per-stride plate allocation (which teacher layers map to which student strides). Canonical format: `{plate1, plate2, gamma1, gamma2}` per stride per matrix.
+3. **Swap FFN weights with 2-mirror plates and measure** — Replace 27B FFN with plate1×gamma1 + plate2×gamma2, keep attention in bf16. Measure perplexity + fact retrieval. THE test.
+4. **Run gradient-zero map on 27B** — Get oscillation map. Identify classes 1-4 per position. Derive TD mask (only flip directional positions). Compare to magnitude-threshold zeros.
+5. **Cross-model backbone extraction** — Run gradient-zero map on Qwen3-14B (same d_model=5120). Find positions where BOTH models oscillate. These are the universal crystal atoms — the shared backbone.
 
 ### IMMEDIATE (capacity scaling — still unresolved)
 
