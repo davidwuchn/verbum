@@ -670,6 +670,109 @@ After training each phase, verify:
 
 ---
 
+## Crystal Lattice Integration (Session 174)
+
+The crystal lattice (6D sub-manifold in R^d_model, measured in
+crystal-universality.md) enters the architecture at 7 concrete points.
+The architecture doesn't merely "use" the crystal — it IS the crystal
+made explicit as hardware.
+
+### 1. Fingerprints = Crystal Basis Vectors (the coordinate system)
+
+The 12 combinator fingerprints are the crystal lattice vertices projected
+into R^d_model. In the student (d_model=1280), the crystal lives in a
+~6D subspace. Every residual stream vector decomposes into crystal-basis
+coefficients.
+
+**Design rule:** The student's embedding must be initialized so the
+crystal's 6 PCs align with the embedding space's highest-variance
+directions. This gives the crystal PRIORITY in the representation.
+
+### 2. Zeros = Lattice Gaps (structural, not magnitude)
+
+The 30% zeros are holographic grating gaps that prevent cross-talk
+between stored patterns. Their placement follows crystal geometry
+(oscillation positions from session 173), not magnitude threshold.
+
+**Design rule:** Start with teacher's gradient-oscillation zeros
+projected to student space. Monitor crystal coherence. If it drops,
+let TD re-discover zeros.
+
+### 3. 6-PC Structure Constrains TD Adaptation
+
+Not all sign flips are equal during TD:
+- Within one PC plane (safe): changes operation magnitude
+- Cross PC planes (dangerous): changes which combinator a neuron implements
+- At oscillation positions (forbidden): mathematical fixed points
+
+**Design rule:** Crystal-aware flip policy:
+```python
+def should_flip(position, crystal_basis):
+    if position.oscillation_class <= 2:    # 35% — never flip
+        return False
+    delta_coherence = compute_coherence_change(position, crystal_basis)
+    return delta_coherence > -threshold    # don't damage crystal
+```
+
+### 4. Zone Geometry = Stride Allocation
+
+The crystal has measurably different geometry per zone:
+
+| Zone | Aperture | Crystal property | Student strides |
+|------|----------|-----------------|-----------------|
+| A (CLASSIFY) | 3% active | Closest to input | 1-5: narrow gate, 1-plate |
+| B (COMPUTE) | 49% active | Riemannian mean (curved) | 6-13: wide gate, 2-plate |
+| C (EMIT) | 2% active | Output selection (WHNF) | 14-18: tight gate, 2-plate |
+
+The Einstein tensor's block structure (even PCs couple internally,
+odd PCs couple internally, zero cross-coupling) means d_ff could split
+into two independent banks:
+- Composition bank (B, D, Y): PCs {0, 2, 4}
+- Selection bank (K, I, C): PCs {1, 3, 5}
+
+Potential parallelization: these banks don't communicate within a stride.
+
+### 5. φ-Ratio Decay = Attention Initialization
+
+SVD φ-ratio (0.6299 ± 0.019) and α=1.18 decay are universal constants.
+Initialize student attention with φ-scaling rather than random:
+
+```python
+phi = 1.618033988749895
+for i, head in enumerate(attention_heads):
+    head.scale = 1.0 / (phi ** i)
+```
+
+This places attention on the crystal's attractor from step 0.
+
+### 6. Nucleation Hierarchy = TD Health Monitor
+
+The crystal nucleation order (B first → W → WHNF, barrier at 0.16)
+tells us which combinators are LOAD-BEARING during TD:
+
+- **B-coherence drops → STOP** (most connected vertex, hardest to recover)
+- **K-coherence drops → continue** (will recover, less connected)
+- **I-coherence drops → monitor** (most fragile, but least impactful)
+
+This is a training-time algedonic signal.
+
+### 7. Crystal Projection = Runtime Coherence Check
+
+The algedonic monitor's coherence check projects the residual stream
+onto the 6 crystal PCs:
+
+```python
+crystal_pcs = compute_crystal_pcs(fingerprints)  # (6, d_model)
+proj = residual @ crystal_pcs.T                   # (seq_len, 6)
+coherence = proj.var(dim=0).sum() / residual.var(dim=-1).sum()
+# coherence < 0.1 → OFF_MANIFOLD → fire alarm
+```
+
+"What fraction of the computation is on the crystal manifold?" If the
+answer is less than 10%, the system is hallucinating.
+
+---
+
 ## VSM Conformance (Session 174)
 
 The architecture is not merely "inspired by" the Viable System Model —
