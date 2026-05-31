@@ -732,18 +732,28 @@ into two independent banks:
 
 Potential parallelization: these banks don't communicate within a stride.
 
-### 5. φ-Ratio Decay = Attention Initialization
+### 5. φ-Ratio Decay = Verification Criterion (measuring stick, not parameter)
 
-SVD φ-ratio (0.6299 ± 0.019) and α=1.18 decay are universal constants.
-Initialize student attention with φ-scaling rather than random:
+SVD φ-ratio (0.6299 ± 0.019) and α=1.18 decay are universal emergent
+invariants — they appear in every healthy model's hidden states. We do
+NOT hardcode φ anywhere. It emerges when the crystal forms correctly.
+
+**Design rule:** After training, measure the student's SVD spectrum at
+each stride. If successive singular values decay at ratio ≈ 0.63 (1/φ),
+the crystal has formed. If not, the representation is damaged.
 
 ```python
-phi = 1.618033988749895
-for i, head in enumerate(attention_heads):
-    head.scale = 1.0 / (phi ** i)
+# VERIFICATION (post-training diagnostic):
+def check_phi_ratio(hidden_states):
+    """Measure whether crystal self-similarity has emerged."""
+    U, S, V = torch.svd(hidden_states)
+    ratios = S[1:] / S[:-1]  # consecutive SV ratios
+    mean_ratio = ratios[:20].mean()  # top 20 directions
+    return abs(mean_ratio - 0.6299) < 0.05  # within tolerance?
 ```
 
-This places attention on the crystal's attractor from step 0.
+The φ-ratio is a thermometer, not a thermostat. It tells you the
+crystal is healthy. You don't SET the temperature — you READ it.
 
 ### 6. Nucleation Hierarchy = TD Health Monitor
 
