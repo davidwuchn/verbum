@@ -35,6 +35,7 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | 4c | [combinator-addressing.md](combinator-addressing.md) | ✅ | Retrieval IS β_apply. λ form activates compute for same fact. Two crystals (hard/soft). |
 | 4d | [hologram-reader-vsm.md](hologram-reader-vsm.md) | ✅ | VSM tensor statechart for reading opcode maps from any model. Cross-model comparison. |
 | 4e | [ternary-plate-extraction.md](ternary-plate-extraction.md) | ✅ | Direct FFN→ternary extraction, execution hierarchy, crystal error correction, λ-gated retrieval |
+| 4f | [function-discovery.md](function-discovery.md) | ✅ | Two-level program architecture: task directions (early/SILENT) → operation directions (late/COMMIT). 4.76× separation in moiré space. |
 | 5 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
 | 6 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
 | 7 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |

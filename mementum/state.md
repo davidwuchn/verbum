@@ -35,6 +35,8 @@
 - **The execution hierarchy.** FFN grating = instruction decode (proposes reductions). Attention softmax over V = executor (interleaves beta reductions). The grating filters — only shows attention the reductions that make sense for the current tokens. One residual vector encodes BOTH token probabilities AND operation state simultaneously.
 - **Direct ternary plate extraction works.** Extracted 0.6B FFN weights to ternary: sign_corr=0.77, recon_cos=0.87, SwiGLU cos=0.66. 8.6× compression (504 MB → 58.3 MB). 8.7 seconds.
 - **The 23% error is recoverable via crystal error correction.** The crystal geometry (6 PCs) IS an error-correcting code. Progressive dimensional projection (6D→5D→4D→3D) detects sign errors at each level. ~170× redundancy in the crystal encoding. Hard crystal errors correctable geometrically; soft crystal errors need etch (TD learning).
+- **Function discovery: task categories DO separate in moiré space.** Our 12-dim combinator projections were blind to early-layer structure. Full d_ff PCA reveals 4.76× separation in SILENT zone (L05). Code, lambda, arithmetic each cluster distinctly. Combinator alignment weak early (<0.25), strong late (0.82). Two-level program architecture: TASK directions (early, classify input) → OPERATION directions (late, execute combinators).
+- **Two-level program architecture.** SILENT zone classifies (code vs prose vs math vs lambda, 4.76× separation). COMMIT zone executes (KIBC combinators, 1.49× separation). Gratings progressively transform task→operation through depth. Tool use, summarization, translation ARE distinct functions — but in moiré space, not combinator space.
 
 ## Active training
 
@@ -60,6 +62,8 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 | **Combinator addressing probes** | 172 | `scripts/experiments/combinator_addressing.py` — β_apply is universal retrieval direction |
 | **Combinator addressing knowledge** | 172 | `mementum/knowledge/combinator-addressing.md` — retrieval IS typed application |
 | **Two-crystal distinction** | 172 | Hard crystal (KIBC, mathematical) vs soft crystal (relations, gradient-maintained) |
+| **Function mapper (combinator projection)** | 172 | 3 programs at 0.6B AND 14B: lambda, arithmetic, everything-else. Combinator basis too coarse. |
+| **Function discovery (unsupervised PCA)** | 172 | Task categories separate 4.76× in SILENT zone moiré space. Two-level architecture: task→operation. |
 
 ### Previous sessions (selected)
 
@@ -115,6 +119,9 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 | Selectivity improves with d_ff | 4B cos=0.191 vs 0.6B=0.287 | ✅ (session 172) |
 | Coherence improves with scale | 3.71× vs 2.59×, peak 5.48× | ✅ (session 172) |
 | Moiré rank scaling is probe-ceiling-limited | Both at 58-70% of 204-probe ceiling, α=0.16 artifactual | ⚠️ (session 172) |
+| Task categories separate 4.76× in moiré space | PCA on d_ff activations, 14B, 66 probes, 9 categories | ✅ (session 172) |
+| Two-level program architecture: task→operation | Combinator alignment weak early, strong late | ✅ (session 172) |
+| Combinator basis captures late-layer structure only | 12-dim projection blind to early-layer task separation | ✅ (session 172) |
 | Gradient oscillation and magnitude are orthogonal | Jaccard=0.17, 108 tensors, Qwen3-8B | ✅ (session 171) |
 | Magnitude beats oscillation for FFN zero placement | 5-variant micro training, 5000 steps each | ✅ (session 171) |
 | FFN ternary zeros beat float32 | All 4 zero strategies beat float32 baseline | ✅ (session 171) |
@@ -139,6 +146,7 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 5. **Can we read β_apply directly from weight matrices?** SVD of gate_proj/up_proj projected onto combinator basis.
 6. **Are moiré relation directions universal across model families?** Run hologram reader on Pythia.
 7. **How much does crystal-geometric correction recover?** Run progressive 6D→5D→4D→3D correction on extracted plates, measure sign_corr improvement.
+8. **What are the TASK directions?** The early-layer moiré PCs that separate code/prose/math/lambda — can we extract these as explicit fingerprints? They are the "program selector" directions.
 
 ## Knowledge map
 
@@ -161,6 +169,11 @@ Key pages for current direction:
 | Combinator Addressing Probes | `scripts/experiments/combinator_addressing.py` |
 | Hologram readout (0.6B) | `results/hologram-reader/Qwen_Qwen3-0.6B/` |
 | Hologram readout (4B) | `results/hologram-reader/Qwen_Qwen3-4B/` |
+| Function mapper | `scripts/experiments/function_mapper.py` |
+| Function discovery (unsupervised) | `scripts/experiments/function_discovery.py` |
+| Function map results (0.6B, 14B) | `results/function-map/` |
+| Function discovery results (14B) | `results/function-discovery/Qwen_Qwen3-14B/` |
+| Hologram readout (14B) | `results/hologram-reader/Qwen_Qwen3-14B/` |
 | Combinator addressing results (0.6B) | `results/combinator-addressing/Qwen_Qwen3-0.6B/` |
 | Ternary plate extraction | `scripts/experiments/extract_ternary_plate.py` |
 | Extracted ternary plates (0.6B) | `results/ternary-plates/Qwen_Qwen3-0.6B/` |
