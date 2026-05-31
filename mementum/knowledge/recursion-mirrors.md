@@ -287,23 +287,49 @@ The recursion plates are additive corrections to the shared base:
    (local context is already specific). Stride_32768 operates on
    abstract forms far from WHNF — needs more steps to collapse.
 
-### Storage Cost
+### Storage Cost — Ternary Is Cheap
+
+**Critical reframe:** at 2 bits per position, ternary plates are
+so cheap that per-stride programs are affordable:
 
 ```
-Shared plate (current v14):         33 MB per stack
-Base + 2 recursion plates:          ~50 MB per stack (+50%)
-  (if recurse plates are 30% sparse: ~43 MB, only +30%)
+One ternary plate (17408 × 1280): 5.6 MB
+One bf16 matrix (same dims):      44.6 MB
+Ratio: 8 ternary plates = 1 bf16 matrix
 
-Cost of recursion depth:            +30-50% storage
-Benefit:                            16 effective recursion levels
-                                    (vs 1 with shared plates)
+Within the 1 GB budget (fixed costs: ~194 MB for attention + embed + gamma):
+
+Option C: 16 per-stride plates (sign only)
+  16 strides × 2 stacks × 3 matrices = 535 MB
+  Total: 729 MB ← FITS! (73% of budget)
+  Each stride has its OWN program. 16 unique reduction types.
+  recon_cos ~0.88 (no magnitude mirror)
+
+Option E: 6 graduated plate sets with magnitude mirrors
+  6 groups × 2 mirrors × 2 stacks × 3 matrices = 401 MB
+  Total: 595 MB ← FITS EASILY! (60% of budget)
+  Small strides share (similar work). Large strides unique.
+  recon_cos ~0.97 (full Q4-Q5 quality everywhere)
+  
+  stride 1-64:     share 1 plate set (simple ops)
+  stride 128-1024: share 1 plate set (composition)
+  stride 2048:     own plate set (deep composition)
+  stride 4096:     own plate set (reduction)
+  stride 8192:     own plate set (recursion)
+  stride 16384-32768: share 1 plate set (deepest recursion)
 ```
 
-The recursion plates can be SPARSE because they only encode the
-DIFFERENCE from the base program at that depth level. At shallow
-strides, the base plate is correct — the recursion plate adds nothing.
-At deep strides, only specific positions need depth-adjusted signs.
-TD adaptation naturally discovers which positions differ per depth.
+**The punchline:** you don't NEED sparse corrections or shared bases.
+Ternary is so cheap you can afford a COMPLETELY SEPARATE program for
+every stride level and still fit in the 1 GB budget. The "base +
+correction" framing was solving a non-problem. Just give each stride
+its own plate.
+
+The per-stride plates are shared ACROSS LAYERS within a pass (same
+plate at every depth position). The LAYER provides sequential depth
+(16 steps per pass). The STRIDE provides program variety (16 different
+programs). Together: a 16×16 compute grid with 256 possible reduction
+paths through the model.
 
 ### Connection to Magnitude Mirrors
 
