@@ -734,9 +734,12 @@ Potential parallelization: these banks don't communicate within a stride.
 
 ### 5. φ-Ratio Decay = Verification Criterion (measuring stick, not parameter)
 
-SVD φ-ratio (0.6299 ± 0.019) and α=1.18 decay are universal emergent
-invariants — they appear in every healthy model's hidden states. We do
-NOT hardcode φ anywhere. It emerges when the crystal forms correctly.
+SVD φ-ratio (0.6299 ± 0.019) and α=1.18 attention decay are emergent
+invariants in the teacher. We do NOT hardcode either. They emerge when
+the crystal forms correctly. The student's strided attention will likely
+develop INDEPENDENT per-stride decay rates (not a single global α) —
+let the model find the right shape through training against frozen
+gratings.
 
 **Design rule:** After training, measure the student's SVD spectrum at
 each stride. If successive singular values decay at ratio ≈ 0.63 (1/φ),
