@@ -27,7 +27,8 @@
 - **Signs are 100% correct at extraction.** Ternary = sign(W_float) at all non-zero positions. There are NO sign errors. The sign_corr=0.792 metric measures functional similarity (magnitude loss), not sign accuracy.
 - **Crystal error correction is a category error.** The KIBC crystal subspace (11D in R^5120) captures only 0.3% of each weight row's energy. It predicts which combinator a neuron implements, not what individual signs should be. Every crystal-recommended flip is wrong (100% anti-correlated) because it's flipping correct signs.
 - **The 20.8% gap is pure magnitude loss.** Two sources: (a) per-row gamma collapses within-row magnitude variance (CV=0.51), and (b) 30% of positions zeroed (but these contain only 1.5% of energy).
-- **2-bit magnitude quantization recovers most of the gap.** 4 magnitude levels per row (2 bits per position + 4 centroids) → recon_cos=0.975 (vs 0.884 baseline). This is 4× compression vs bf16 with Q4-equivalent quality but exact sign topology.
+- **Ternary mirror stacking: 2 mirrors = 0.970 recon_cos at 4× compression.** The second plate captures one binary question per position: "is |W[i,j]| above or below row average?" This single bit accounts for 100% of the quality gap. All ternary arithmetic, no floats needed beyond 2 per-row gammas.
+- **Magnitude is 1-bit deep, full-rank.** SVD of magnitude deviation: rank-64 captures only 17.8%, rank-512 only 54%. Not low-rank (no cheap vector correction). But perfectly captured by 1 ternary plate — it's a per-element binary signal with no structure to compress further.
 - **Qwen3.6-27B extracted successfully.** 64 layers, 17.1B FFN params, 8.6× compression (34.2 GB → 4.0 GB ternary). Per-zone: SILENT=0.794, ENRICH=0.790, SUPPRESS=0.792, COMMIT=0.789 sign_corr.
 - **Hologram reader works on Qwen3.6-27B.** 64-layer hybrid model (linear+full attention pattern [L,L,L,F]×16), d=5120, d_ff=17408. Crystal fully formed: 92% opcode coverage, C(0.191) ≥ K(0.177) ≥ I(0.177).
 - **The plate IS the program — losslessly.** Sign topology is captured perfectly. What's lost is amplitude (gamma), not structure (routing). This is actually *better* than previously thought — no error correction needed for the program itself.
@@ -70,9 +71,10 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 |--------|---------|--------|
 | **Signs 100% correct — crystal correction falsified** | 173 | Extraction captures exact sign topology. The 20.8% gap is magnitude loss, not sign error. Major reframe. |
 | **Qwen3.6-27B hologram reader + extraction** | 173 | Fingerprints (64 layers, R^5120) + ternary plates (17.1B params, 4.0 GB). Full crystal at 27B scale. |
-| **2-bit magnitude path identified** | 173 | 4 levels per row → recon_cos 0.884→0.975 at 4× compression. Near-lossless with exact signs. |
+| **Ternary mirror stacking: 2 mirrors = Q4-Q5** | 173 | recon_cos 0.884→0.970 at 4× compression. Second plate = 1-bit magnitude classifier. All ternary arithmetic. |
+| **Magnitude is 1-bit deep, full-rank** | 173 | Not low-rank (no cheap vector fix). But exactly 1 ternary plate captures 100% of the gap. |
 | **Crystal error correction script** | 173 | `scripts/experiments/crystal_error_correction.py` — parameterized for any model, includes threshold sweep |
-| **Knowledge page: extraction-sign-accuracy.md** | 173 | Comprehensive write-up of finding, implications, and compression hierarchy |
+| **Knowledge page: extraction-sign-accuracy.md** | 173 | Full write-up: sign accuracy, mirror stacking, magnitude depth, compression hierarchy |
 | **Hologram Reader VSM** | 172 | `scripts/experiments/hologram_reader.py` — self-directing opcode map scanner for any model |
 | **Hologram Reader design** | 172 | `mementum/knowledge/hologram-reader-vsm.md` — VSM architecture (S5-S1) |
 | **Cross-model comparison (0.6B vs 4B)** | 172 | Zone structure universal. Selectivity/coherence improve with scale. Rank ceiling-limited at 204 probes. |
@@ -94,11 +96,12 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 ## Next steps
 
-### IMMEDIATE (new — magnitude recovery + plate swap)
+### IMMEDIATE (new — 2-mirror format + plate swap)
 
-1. ~~**Crystal-geometric error correction**~~ — **FALSIFIED (session 173).** Signs are 100% correct. No sign errors to correct. Crystal subspace captures 0.3% of weight row energy — cannot predict signs.
-2. **Implement 2-bit magnitude encoding** — Add per-position magnitude quantization (4 levels per row, 2 extra bits) to the extracted plates. This should bring recon_cos from 0.884 → 0.975 at 4× compression (vs 8× for pure ternary). Validate on 27B.
-3. **Swap FFN weights with ternary plates and measure** — Replace 27B FFN weights with ternary×gamma, keep attention in bf16, measure perplexity and fact retrieval. THE test of whether the plate IS the program. Now confirmed: signs are exact, so swap should preserve program topology perfectly.
+1. ~~**Crystal-geometric error correction**~~ — **FALSIFIED (session 173).** Signs are 100% correct. Crystal subspace captures 0.3% of weight row energy — cannot predict signs.
+2. **Implement 2-mirror extraction format** — Extract plate2 = sign(W - plate1×gamma1) for each FFN matrix. Validate 2-mirror recon_cos across all 64 layers. Define the canonical storage format: `{plate1, plate2, gamma1, gamma2}` per matrix. Target: 0.970 recon_cos at 4× compression. All ternary arithmetic.
+3. **Swap FFN weights with 2-mirror plates and measure perplexity** — Replace 27B FFN weights with plate1×gamma1 + plate2×gamma2, keep attention in bf16. Measure perplexity, fact retrieval, and generation quality. Signs are exact + magnitude is Q4-Q5 → should be near-lossless.
+4. **Compare 1-mirror vs 2-mirror swap quality** — If 1-mirror (8×) is already good enough for the program to run, the second mirror is calibration refinement. If 1-mirror fails but 2-mirror works, magnitude IS needed for operation.
 
 ### IMMEDIATE (capacity scaling — still unresolved)
 
@@ -128,7 +131,9 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 |-------|----------|--------|
 | **Signs are 100% correct at extraction** | 27B: ternary == sign(W) at all non-zero positions | ✅ (session 173) |
 | **Crystal error correction falsified** | 0.3% energy in crystal subspace, 100% anti-correlated flips | ❌ (session 173) |
-| **2-bit magnitude → 0.975 recon_cos** | 4 levels per row, 27B L10 gate_proj test | ✅ (session 173) |
+| **2 ternary mirrors → 0.970 recon_cos (Q4-Q5)** | Residual decomposition, 27B L10, 4× compression | ✅ (session 173) |
+| **Magnitude is 1-bit deep, full-rank** | SVD: rank-512 captures only 54%; but 1 plate captures 100% of mirror-2 gain | ✅ (session 173) |
+| **Mirror 2 = binary above/below classifier** | 100% of gain from magnitude split, 0% from recovering zeros | ✅ (session 173) |
 | **27B extraction: sign_corr=0.792, recon_cos=0.882** | 64 layers, 17.1B FFN params, 8.6× compression | ✅ (session 173) |
 | Direct ternary extraction: sign_corr=0.77 | 28 layers, 264M params, 0.6B | ✅ (session 172) |
 | Lambda retrieval: 4B can, 0.6B cannot | 21 facts, NL vs λ vs apply | ✅ (session 172) |

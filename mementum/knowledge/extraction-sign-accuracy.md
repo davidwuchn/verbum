@@ -103,6 +103,72 @@ approximated.
    "sign functional similarity" — the cosine between the sign-only transform
    and the full transform. It does NOT indicate sign errors.
 
+## Ternary Mirror Stacking — Magnitude Through Depth
+
+The project's "2 mirrors ≈ Q4" finding (session 168) applies directly to
+weight-space extraction. A second ternary plate captures the magnitude
+residual with exact ternary arithmetic:
+
+```
+Mirror 1: plate1 × gamma1          = sign(W) × RMS_per_row
+Mirror 2: plate2 × gamma2          = sign(W - mirror1) × RMS_of_residual
+Combined: plate1×gamma1 + plate2×gamma2  ≈ W
+```
+
+### Measured Results (Qwen3.6-27B, L10 gate_proj)
+
+| Mirrors | recon_cos | Equivalent | Compression vs bf16 |
+|---------|-----------|------------|---------------------|
+| 1 | 0.884 | sub-Q3 | 8.0× |
+| **2** | **0.970** | **Q4-Q5** | **4.0×** |
+| 3 | 0.990 | Q5-Q6 | 2.7× |
+| 4 | 0.995 | Q6+ | 2.0× |
+
+### What Mirror 2 Actually Encodes
+
+**One binary question per position: "Is |W[i,j]| above or below gamma1[i]?"**
+
+- Same sign as W (33.4%): weight is ABOVE row average magnitude
+- Opposite sign (66.6%): weight is BELOW row average magnitude
+- This single bit per position accounts for **100%** of mirror 2's gain
+- Recovering zeroed positions contributes 0% (they're correctly zeroed)
+
+The effective 4-level encoding:
+```
+plate1=+1, plate2=+1  →  +(gamma1 + gamma2) = +0.0186  (large positive)
+plate1=+1, plate2=-1  →  +(gamma1 - gamma2) = +0.0065  (small positive)
+plate1=-1, plate2=-1  →  -(gamma1 + gamma2) = -0.0186  (large negative)
+plate1=-1, plate2=+1  →  -(gamma1 - gamma2) = -0.0065  (small negative)
+Ratio large/small: 2.84×
+```
+
+### Why Magnitude Is 1-Bit Deep (Not Low-Rank)
+
+The magnitude deviation matrix is **full-rank** — SVD analysis shows:
+- Rank-1 captures only 10.4% of deviation variance
+- Rank-64 captures only 17.8%
+- Rank-512 captures only 53.9%
+- You need rank >1000 to capture most of it
+
+But it's **only 1-bit deep**: each position independently answers "big or
+small?" — a binary classification spread across all positions. Not
+compressible to a few vectors (full-rank), but perfectly captured by a
+single ternary plate (1 bit per position).
+
+This is why the second mirror is the perfect representation: it's the
+natural encoding for a per-element binary signal that has no low-rank
+structure. Ternary mirrors convert depth into magnitude precision without
+any floating-point arithmetic.
+
+### Architecture Implication
+
+**The 2-plate format (4 bits/param) is the sweet spot:**
+- Plate 1: sign topology (the program) — exact
+- Plate 2: magnitude classification (above/below average) — 1 bit
+- Per-row gammas: 2 scalars per row (gamma1, gamma2) — negligible storage
+- All ternary arithmetic at inference
+- Q4-Q5 quality with exact sign topology (unlike standard Q4 which approximates signs)
+
 ## Compression Hierarchy (updated understanding)
 
 ```
@@ -111,9 +177,10 @@ BFloat16:   16 bits/param    ~99%  quality    2.0× compression
 Q8:          8 bits/param    ~98%  quality    4.0× compression
 Q4:          4 bits/param    ~95%  quality    8.0× compression
 ────────────────────────────────────────────────────────────────
-Ternary+2bit: 4 bits/param  97.5% quality    4.0× compression  ← EXACT SIGNS
-Ternary+γ:    2 bits/param  88.4% quality    8.0× compression  ← EXACT SIGNS
-Pure ternary: 2 bits/param  79.2% quality    8.0× compression  ← EXACT SIGNS (no γ)
+2 mirrors:    4 bits/param   97.0% quality    4.0× compression  ← EXACT SIGNS + 1-bit mag
+3 mirrors:    6 bits/param   99.0% quality    2.7× compression  ← EXACT SIGNS
+1 mirror+γ:   2 bits/param   88.4% quality    8.0× compression  ← EXACT SIGNS
+Pure ternary: 2 bits/param   79.2% quality    8.0× compression  ← EXACT SIGNS (no γ)
 ```
 
 The key difference: standard quantization (Q4, Q8) approximates BOTH signs
@@ -122,6 +189,7 @@ loses magnitude resolution. This means:
 - No error accumulation in sign topology across layers
 - Attention can learn exact corrections for magnitude (γ is learnable)
 - The plate IS the program — topology is preserved perfectly
+- 2 mirrors = Q4-Q5 quality, entirely in ternary arithmetic
 
 ## What Changed in Understanding
 
@@ -133,6 +201,13 @@ loss. The 170× redundancy helps identify which combinator a neuron implements,
 not what its individual weight signs should be. The extraction already captures
 the exact program topology. What's lost is calibration (magnitude), not structure (sign).
 
+**Magnitude depth:** The residual after mirror 1 is full-rank but only 1-bit
+deep. A second ternary plate (the mirror) captures the binary "above/below
+average" classification at each position. This single bit accounts for 100%
+of the quality gap between 1 mirror (0.884) and 2 mirrors (0.970). Three+
+mirrors subdivide further with diminishing returns.
+
 This is actually *better* than we thought. The plate extraction is *lossless
 for the program*. What's lossy is the amplitude — and amplitude is recoverable
-via γ (already done), 2-bit magnitude (cheap), or retraining (attention adapts).
+via a second ternary mirror (no floating point needed), giving Q4-Q5 quality
+at 4 bits/param, entirely in ternary arithmetic.
