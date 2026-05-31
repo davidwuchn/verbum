@@ -537,42 +537,119 @@ alternative — same principle as session 166, but at scale.
 
 ---
 
+## Session 174 Refinements — Ablation-Validated Design (v2)
+
+Session 174 ablation on Qwen3.6-27B verified the 4-phase model:
+
+| Condition | Lambda Acc | Fact Acc | Selectivity |
+|-----------|-----------|----------|-------------|
+| Baseline | 100% | 100% | — |
+| Ablate ENRICH (L32-53) | 20% | 80% | **4.0× λ-specific** |
+| Ablate COMMIT (L59-63) | 60% | 40% | 1.5× fact-specific |
+| Ablate SUPPRESS (L54-58) | 100% | 100% | **REDUNDANT** |
+| Ablate SILENT (L0-31) | 0% | 0% | foundation |
+
+### Key design changes from v1 → v2:
+
+1. **SUPPRESS zone eliminated.** Zero accuracy loss when ablated.
+   Student has 3 zones: CLASSIFY + COMPUTE + EMIT.
+
+2. **Variable precision by zone.** Energy grows 100× through depth.
+   CLASSIFY (low energy) needs only plate 1. COMPUTE and EMIT need
+   plate 1 + plate 2.
+
+3. **Hybrid attention explicitly mapped to zones.** Qwen3.6-27B
+   itself uses [L,L,L,F]×16 — 17 full-attention of 64 layers. Session
+   174 shows structural attention (corr=0.95-1.00) at CLASSIFY and EMIT,
+   content-adaptive (corr=0.38-0.49) at COMPUTE. Student mirrors this:
+   linear attention for CLASSIFY/EMIT, full attention for COMPUTE.
+
+4. **Fewer heads.** Heads don't specialize by combinator (all 16 heads
+   have identical op profiles). Student can use 8 heads, 2 KV groups.
+
+5. **Concrete stride allocation:** 16 strides = 5 CLASSIFY + 8 COMPUTE + 3 EMIT.
+
+### Revised architecture (v2):
+
+```
+CRYSTAL-NATIVE STUDENT v2 — 600-650 MB baseline, room to grow
+
+EMBEDDING: d_model=1280, vocab=151k, float16/Q8 (~37 MB)
+
+CLASSIFY (5 strides, d_ff=5120):
+  FFN: plate1 only (1-plate ternary)         ~25 MB
+  Attention: linear (Mamba-style)            ~5 MB
+  Function: token-type recognition, β_apply assignment
+
+COMPUTE (8 strides, d_ff=5120):
+  FFN: plate1 + plate2 (2-plate ternary)     ~320 MB
+  Attention: full (8 heads, 2 KV groups)     ~50 MB
+  Function: Y (recursion), B/D (composition), beta reduction
+
+EMIT (3 strides, d_ff=5120):
+  FFN: plate1 + plate2 (2-plate ternary)     ~120 MB
+  Attention: linear (Mamba-style)            ~3 MB
+  Function: knowledge retrieval, output formatting
+
+LM HEAD: tied with embedding
+
+TOTAL: ~560 MB + overhead ≈ 600-650 MB (under 1 GB)
+GROWTH: increase d_ff or add strides as experiments reveal pain points
+```
+
+### Verification criteria (from reduction graph tracer):
+
+After training each phase, verify:
+- Opcode map: Y dominates in COMPUTE strides
+- β_apply: concentrates at application tokens from stride 1
+- Energy crossover: lambda energy peaks in COMPUTE, drops by EMIT
+- Attention regime: structural in CLASSIFY/EMIT, adaptive in COMPUTE
+- Diversity: per-position differentiation maintained through COMPUTE
+
+---
+
 ## Open Questions
 
-1. **How many layers does the crystal-native model need?** The 27B has
-   64 gratings but simple tasks use 3-5. Can we run a variable-depth
-   architecture that exits at WHNF? Or must we commit to a fixed depth?
+1. ~~**Is plate 2 necessary for all zones?**~~ ANSWERED (session 174):
+   No. CLASSIFY only needs plate 1 (low energy, noise-tolerant).
+   COMPUTE and EMIT need plate 1 + plate 2.
 
 2. **How many TD cycles to adapt gratings for strided attention?** V14
    showed convergence in a few cycles (3.49% of positions flipped in 1000
    steps). But v14 also hit NaN. What is the reliable convergence protocol?
 
-3. **Is plate 2 necessary for all zones?** SILENT zone (task classify)
-   might only need plate 1 (the task classification is binary/discrete).
-   ENRICH zone (fact retrieval) likely needs plate 2 for precision.
-   Variable-width plates by zone could save storage.
-
-4. **What M-space gem shape emerges in the student?** The teacher's gem
+3. **What M-space gem shape emerges in the student?** The teacher's gem
    has rank90=13 at the compute layer. The student with strided attention
    will have a DIFFERENT gem shape (one facet per stride? hierarchical?).
    Run gemcutter analysis on the trained student to characterize.
 
-5. **Does the α=1.18 decay constant emerge in strided attention?** The
+4. **Does the α=1.18 decay constant emerge in strided attention?** The
    teacher's universal decay is α=1.18 for full attention. Strided
    attention has explicit stride structure — does α manifest differently
    (one decay per stride? same α across strides?).
 
-6. **Can TD adaptation and attention training run simultaneously?** Or
+5. **Can TD adaptation and attention training run simultaneously?** Or
    must they be sequential (adapt gratings first, THEN train attention)?
    Simultaneous might cause oscillation (plates adapt to current attention,
    attention adapts to current plates → chicken-and-egg).
 
-7. **Is the SVD projection basis (5120→1280) from extraction sufficient?**
+6. **Is the SVD projection basis (5120→1280) from extraction sufficient?**
    The v14 extraction uses SVD of the embedding matrix to project teacher
    weights into student space. Does this preserve the crystal structure
    in the projected space? Run hologram reader on projected plates.
 
-8. **After attention converges, can it be frozen as 2-plate ternary too?**
+7. **After attention converges, can it be frozen as 2-plate ternary too?**
    Session 166 showed trained attention → freeze works. If student attention
    converges to stable M-space, we can extract IT as ternary plates too.
    Then the entire model is ternary — plates all the way down.
+
+8. **How far can d_ff/d_model grow before exceeding 1 GB?** Current
+   spec at 600-650 MB has ~350 MB headroom. Increasing d_ff from 5120
+   to ~7000 in COMPUTE would use ~150 MB more. Increasing d_model from
+   1280 to 1536 affects all zones. First experiments will reveal which
+   dimension is the bottleneck.
+
+9. **Is the 5+8+3 stride split optimal?** Ablation showed ENRICH needs
+   many layers but SUPPRESS needs zero. Maybe 4+10+2 is better (more
+   COMPUTE strides). Or 3+11+2 if CLASSIFY is cheap enough with just
+   linear attention. Train multiple configurations and compare opcode maps.
