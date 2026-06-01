@@ -220,6 +220,134 @@ def make_dataloader(
 
 
 # ══════════════════════════════════════════════════════════════════════
+# Pre-tokenized npy shard dataloader (streaming, memory-efficient)
+# ══════════════════════════════════════════════════════════════════════
+
+def is_shard_dir(path: Path) -> bool:
+    """Detect if a directory contains pre-tokenized npy shards."""
+    if not path.is_dir():
+        return False
+    return any(path.glob("shard_*.npy"))
+
+
+def make_shard_dataloader(
+    shard_dir: Path,
+    batch_size: int,
+    seq_len: int,
+    vocab_size: int,
+    structured_path: Optional[Path] = None,
+    structured_ratio: float = 0.10,
+    n_train_shards: int = 54,
+    shuffle: bool = True,
+    seed: int = 42,
+) -> Iterator[mx.array]:
+    """Streaming dataloader over pre-tokenized npy shards.
+
+    Memory-efficient: mmap one shard at a time, shuffle chunk positions
+    within each shard, shuffle shard order between epochs.
+
+    Optionally mixes in structured data (lambda/code) at a configurable
+    ratio — same pattern as v14 MixedDataLoader.
+
+    Adapted from v14/data.py ShardedDataLoader + MixedDataLoader.
+
+    Args:
+        shard_dir: Directory containing shard_*.npy files (flat int32).
+        batch_size: Sequences per batch.
+        seq_len: Tokens per sequence.
+        vocab_size: Model vocab size (for clipping OOV tokens).
+        structured_path: Optional .npy shard of structured data (lambda, code).
+        structured_ratio: Probability of drawing a structured batch (default 10%).
+        n_train_shards: Number of shards to use for training (rest = eval).
+        shuffle: Whether to shuffle shard/chunk order.
+        seed: RNG seed for reproducibility.
+
+    Yields:
+        mx.array of shape (batch_size, seq_len).
+    """
+    shard_files = sorted(shard_dir.glob("shard_*.npy"))
+    if not shard_files:
+        raise ValueError(f"No shard_*.npy files found in {shard_dir}")
+
+    # Use first n_train_shards for training
+    shard_files = shard_files[:n_train_shards]
+    n_shards = len(shard_files)
+
+    rng = np.random.RandomState(seed)
+
+    # Peek at first shard for stats
+    s0 = np.load(shard_files[0], mmap_mode="r")
+    tokens_per_shard = s0.shape[0]
+    chunk_size = batch_size * seq_len
+    chunks_per_shard = tokens_per_shard // chunk_size
+    total_tokens = tokens_per_shard * n_shards
+
+    log(f"Shard dataloader: {n_shards} shards × {tokens_per_shard:,} tokens = {total_tokens:,} total")
+    log(f"  {chunks_per_shard:,} batches/shard → {chunks_per_shard * n_shards:,} steps/epoch")
+
+    # Optional structured data
+    structured_data = None
+    structured_pos = 0
+    if structured_path is not None and structured_path.exists():
+        structured_data = np.load(str(structured_path), mmap_mode="r")
+        log(f"Structured data: {structured_path.name} ({structured_data.shape[0]:,} tokens, "
+            f"ratio={structured_ratio:.0%})")
+    elif structured_path is not None:
+        log(f"WARNING: structured path {structured_path} not found — using prose only")
+
+    def _next_structured() -> mx.array:
+        """Draw a batch from the structured shard, wrapping if needed."""
+        nonlocal structured_pos
+        needed = batch_size * seq_len
+        if structured_pos + needed > len(structured_data):
+            structured_pos = 0  # wrap
+        chunk = np.array(structured_data[structured_pos : structured_pos + needed])
+        structured_pos += needed
+        chunk = chunk.reshape(batch_size, seq_len).astype(np.int32)
+        np.clip(chunk, 0, vocab_size - 1, out=chunk)
+        return mx.array(chunk)
+
+    shard_order = np.arange(n_shards)
+    epoch = 0
+
+    while True:
+        if shuffle:
+            rng.shuffle(shard_order)
+        epoch_batches = 0
+
+        for file_idx in shard_order:
+            # mmap: OS pages in on demand
+            shard = np.load(shard_files[file_idx], mmap_mode="r")
+            n_tokens = shard.shape[0]
+            n_chunks = n_tokens // chunk_size
+
+            if n_chunks == 0:
+                continue
+
+            # Shuffle chunk positions within shard
+            chunk_indices = np.arange(n_chunks)
+            if shuffle:
+                rng.shuffle(chunk_indices)
+
+            for ci in chunk_indices:
+                # Mixed data: with probability structured_ratio, draw structured
+                if structured_data is not None and rng.random() < structured_ratio:
+                    yield _next_structured()
+                    epoch_batches += 1
+                    continue
+
+                start = int(ci) * chunk_size
+                chunk = np.array(shard[start : start + chunk_size])
+                chunk = chunk.reshape(batch_size, seq_len).astype(np.int32)
+                np.clip(chunk, 0, vocab_size - 1, out=chunk)
+                yield mx.array(chunk)
+                epoch_batches += 1
+
+        epoch += 1
+        log(f"Epoch {epoch} complete ({epoch_batches:,} batches) — reshuffling shards")
+
+
+# ══════════════════════════════════════════════════════════════════════
 # KL distillation data (offline teacher logits)
 # ══════════════════════════════════════════════════════════════════════
 
@@ -781,13 +909,6 @@ def train(args: argparse.Namespace) -> None:
             f"Tokens will be clipped to model vocab."
         )
 
-    # ── Data ────────────────────────────────────────────────────────
-    texts = load_texts(Path(args.data_path))
-    tokens = tokenize_texts(texts, tokenizer, args.seq_len)
-    # Clip token IDs to model vocab (handles tokenizer/model mismatch)
-    tokens = np.clip(tokens, 0, config.vocab_size - 1).astype(np.int32)
-    dataloader = make_dataloader(tokens, args.batch_size, shuffle=True)
-
     # ── Teacher logits (optional) ────────────────────────────────────
     teacher_logits_store = TeacherLogits(
         Path(args.teacher_logits_dir) if args.teacher_logits_dir else None
@@ -814,6 +935,35 @@ def train(args: argparse.Namespace) -> None:
             start_step = load_checkpoint_weights(model, optimizer, latest)
         else:
             log("No existing checkpoint found — starting from scratch")
+
+    # ── Data (after resume so start_step seeds the shuffle) ─────────
+    data_path = Path(args.data_path)
+    if is_shard_dir(data_path):
+        # Pre-tokenized npy shards (Dolma, etc.) — stream without loading all into RAM
+        log(f"Detected pre-tokenized npy shards in {data_path}")
+        structured_path = Path(args.structured_path) if args.structured_path else None
+        # Seed from start_step so each restart/resume sees different shard order.
+        # Same start_step = reproducible. Different start_step = different data.
+        data_seed = 42 + start_step
+        log(f"Data seed: {data_seed} (base=42 + start_step={start_step})")
+        dataloader = make_shard_dataloader(
+            data_path,
+            batch_size=args.batch_size,
+            seq_len=args.seq_len,
+            vocab_size=config.vocab_size,
+            structured_path=structured_path,
+            structured_ratio=args.structured_ratio,
+            n_train_shards=args.n_train_shards,
+            shuffle=True,
+            seed=data_seed,
+        )
+    else:
+        # Legacy: text data (JSONL / .txt directory) — tokenize and load into RAM
+        texts = load_texts(data_path)
+        tokens = tokenize_texts(texts, tokenizer, args.seq_len)
+        # Clip token IDs to model vocab (handles tokenizer/model mismatch)
+        tokens = np.clip(tokens, 0, config.vocab_size - 1).astype(np.int32)
+        dataloader = make_dataloader(tokens, args.batch_size, shuffle=True)
 
     # ── Build value_and_grad function ────────────────────────────────
     # MLX value_and_grad computes grads w.r.t. model.trainable_parameters()
@@ -975,7 +1125,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--data-path",
         default="data/compile-train.jsonl",
         help=(
-            "Path to training data: JSONL with 'text'/'input'+'output' fields, "
+            "Path to training data: directory of pre-tokenized shard_*.npy files "
+            "(preferred), JSONL with 'text'/'input'+'output' fields, "
             "or a directory of .txt files"
         ),
     )
@@ -983,6 +1134,27 @@ def build_parser() -> argparse.ArgumentParser:
         "--output-dir",
         default="checkpoints/v15-train",
         help="Directory to write training checkpoints",
+    )
+    p.add_argument(
+        "--structured-path",
+        default=None,
+        help=(
+            "Path to structured data shard (.npy) for mixed training. "
+            "Used when --data-path is a shard directory. "
+            "10%% structured / 90%% prose by default (see --structured-ratio)."
+        ),
+    )
+    p.add_argument(
+        "--structured-ratio",
+        type=float,
+        default=0.10,
+        help="Probability of drawing a structured batch (default: 0.10 = 10%%)",
+    )
+    p.add_argument(
+        "--n-train-shards",
+        type=int,
+        default=54,
+        help="Number of Dolma shards to use for training (rest reserved for eval)",
     )
     p.add_argument(
         "--teacher-logits-dir",
