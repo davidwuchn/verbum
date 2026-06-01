@@ -35,6 +35,7 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | 4b | [moire-addressing.md](moire-addressing.md) | ✅ | SwiGLU moiré = holographic fact index. 2.4× selectivity, quadratic addressing, capacity estimates |
 | 4c | [combinator-addressing.md](combinator-addressing.md) | ✅ | Retrieval IS β_apply. λ form activates compute for same fact. Two crystals (hard/soft). |
 | 4d | [hologram-reader-vsm.md](hologram-reader-vsm.md) | ✅ | VSM tensor statechart for reading opcode maps from any model. Cross-model comparison. |
+| 4d2 | [opcode-instrument.md](opcode-instrument.md) | ✅ | Live VSM wrapper: watch opcodes execute per token in real-time. The EKG for LLMs. |
 | 4e | [ternary-plate-extraction.md](ternary-plate-extraction.md) | ✅ | Direct FFN→ternary extraction, execution hierarchy, crystal error correction, λ-gated retrieval |
 | 4f | [function-discovery.md](function-discovery.md) | ✅ | Two-level program architecture: task directions (early/SILENT) → operation directions (late/COMMIT). 4.76× separation in moiré space. |
 | 5 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
@@ -50,6 +51,7 @@ These pages answer: *what is the current system, and how do you operate it?*
 |---|------|--------|----------|
 | 8 | [v14-architecture.md](v14-architecture.md) | ✅ | Current v14 student: Qwen3.6-27B teacher, 593M ternary positions, 375× compression |
 | 9 | [training-protocols.md](training-protocols.md) | ✅ | How to train without rediscovering failures: phases, TD rules, known failure modes |
+| 9b | [trace-guided-etching.md](trace-guided-etching.md) | ✅ | Copy computation not weights. Trace loss + delta plates + TD. 11-dim target vs 248K-dim. |
 
 ## Tier 4 — Deep Dives (explore/)
 

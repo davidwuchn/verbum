@@ -18,7 +18,7 @@ Three workstreams delivered:
 
 3. **Trace-Guided Etching** — The session's breakthrough insight: why copy weights when you can copy computation? The instrument traces which opcodes fire at every layer. Use that as the etching target instead of raw weight signs. Trace collector + trace loss built and validated: self-trace = 0.000, ternary extraction = 0.908, 10% perturbation = 1.002. Crystal trace loss function added to v15 train.py (`--trace-weight`). Delta plate + TD integration designed but deferred to session 177 for proper build.
 
-**Training: v15 Dolma — RUNNING** — Step ~2000+. In tmux window 2 (s003). Loss was ~17 at step 670. Step 1000 checkpoint saved. The trace loss is wired into train.py but disabled (--trace-weight 0.0) so the current run is unaffected. Resume with --trace-weight 0.1 when ready.
+**Training: v15 Dolma — STOPPED at step 2000.** Loss: 8.15 (down from ~17 at step 670). Checkpoint saved at `checkpoints/v15-dolma/step_0002000/`. 733M trainable params, lr=8e-5 (still in warmup). Crystal trace loss wired into train.py (`--trace-weight`, default 0.0). Next: resume with delta plates + trace-guided TD (session 177 build).
 
 ## Key session 176 findings
 
@@ -75,6 +75,7 @@ Three workstreams delivered:
 | **Trace-guided etching concept** | 176 | Copy computation not weights. 11-dim target vs 248K-dim. |
 | **Trace loss validated** | 176 | Self=0.000, ternary=0.908, perturbed=1.002. |
 | **Crystal trace loss in v15** | 176 | --trace-weight flag. Gradient signal ready for delta TD. |
+| **v15 Dolma loss 17→8.15** | 176 | 2000 steps of pure NTP on 2.7B Dolma tokens. Real learning. |
 
 ## Open questions
 
