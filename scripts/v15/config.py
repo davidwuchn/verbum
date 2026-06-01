@@ -82,7 +82,7 @@ class V15Config:
     n_heads: int = 8
     n_kv_heads: int = 2       # GQA: 8 heads, 2 KV groups
     d_head: int = 160         # d_model // n_heads
-    vocab_size: int = 151936  # Qwen3.6 tokenizer
+    vocab_size: int = 248320  # Qwen3.6-27B BBPE (matches teacher)
 
     # Stride allocation (19 strides: 5 + 8 + 3 + 3)
     n_strides: int = 19
