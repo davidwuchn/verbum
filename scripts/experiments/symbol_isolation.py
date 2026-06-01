@@ -246,13 +246,13 @@ class FFNHook:
         self.handles.clear()
 
     def get_moire(self) -> dict[int, np.ndarray]:
-        """Return moiré = silu(gate) * up per layer."""
+        """Return moiré = silu(gate) * up per layer. Always computed in float32."""
         result = {}
         for li in range(self.n_layers):
             if li not in self.gate_acts:
                 continue
-            gate = torch.nn.functional.silu(self.gate_acts[li].float())
-            up = self.up_acts[li].float()
+            gate = torch.nn.functional.silu(self.gate_acts[li].float())  # upcast to fp32
+            up = self.up_acts[li].float()  # upcast to fp32
             result[li] = (gate * up).numpy()
         return result
 
@@ -270,8 +270,11 @@ def run_experiment(model_name: str = "Qwen/Qwen3-0.6B", device: str = "cpu"):
 
     log(f"Loading model: {model_name}")
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    # Use float16 for large models (27B+ needs ~54 GB at fp16)
+    dtype = torch.float16 if "27B" in model_name or "14B" in model_name else torch.float32
+    log(f"Loading with dtype={dtype} on device={device}")
     model = AutoModelForCausalLM.from_pretrained(
-        model_name, trust_remote_code=True, torch_dtype=torch.float32,
+        model_name, trust_remote_code=True, torch_dtype=dtype,
     )
     model.eval()
     model.to(device)
@@ -479,8 +482,8 @@ def run_experiment(model_name: str = "Qwen/Qwen3-0.6B", device: str = "cpu"):
 
 def main():
     p = argparse.ArgumentParser(description="Symbol isolation experiment")
-    p.add_argument("--model", default="Qwen/Qwen3-0.6B", help="HuggingFace model name")
-    p.add_argument("--device", default="cpu", help="Device (cpu/mps/cuda)")
+    p.add_argument("--model", default="Qwen/Qwen3.6-27B", help="HuggingFace model name")
+    p.add_argument("--device", default="mps", help="Device (cpu/mps/cuda)")
     args = p.parse_args()
 
     run_experiment(model_name=args.model, device=args.device)
