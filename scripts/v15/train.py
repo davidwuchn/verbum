@@ -881,18 +881,34 @@ def per_zone_grad_norm(
 # ══════════════════════════════════════════════════════════════════════
 
 # Fixed diagnostic sentences: same every eval for consistent measurement.
-# Mix of lambda-like, factual, code, neutral to exercise all stride zones.
-DIAGNOSTIC_PROMPTS = [
-    "Every artist knows a baker.",
-    "The capital of France is Paris.",
-    "If the dog runs then the cat sleeps.",
-    "def fibonacci(n): return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)",
-    "The teacher who the student admires reads.",
+# Split into PROSE (zero mathematical/logical symbols) and SYMBOLIC
+# (lambda, math, =) to track whether they show different combinator profiles.
+# Symbol contamination concern: session 175 identified that "=" in probes
+# may trigger compute circuitry independently of lambda syntax.
+PROSE_PROBES = [
+    "The old man walked slowly through the crowded market.",
+    "She remembered the day they first met at the library.",
+    "Rain fell steadily on the tin roof all night long.",
+    "The children played in the park until the sun went down.",
+    "He opened the letter and read it twice before responding.",
+    "The professor explained the concept to the confused students.",
+    "The capital of France is Paris, a city known for its history.",
+    "The teacher who the student admires reads every morning.",
+    "Birds gathered on the wire above the quiet street.",
+    "Once upon a time there was a small village near the mountains.",
+]
+
+SYMBOLIC_PROBES = [
     "λx. λy. x y",
     "∀x. (artist(x) → knows(x, baker))",
-    "The sun rises in the east and sets in the west.",
+    "(λx. capital_of(x)) France =",
+    "B f g x = f (g x)",
+    "K a b = a",
     "2 + 3 = 5",
-    "Once upon a time there was a small village near the mountains.",
+    "def fibonacci(n): return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)",
+    "If the dog runs → the cat sleeps.",
+    "Every artist knows a baker. → ∀x. (artist(x) → knows(x, baker))",
+    "I x = x",
 ]
 
 
@@ -913,29 +929,21 @@ def load_crystal_basis(checkpoint_dir: str | Path) -> np.ndarray | None:
     return basis
 
 
-def run_combinator_profile(
+def _profile_probe_set(
     model: "TensorStatechart",
     tokenizer: "QwenTokenizer",
     crystal_basis: np.ndarray,
-    step: int,
-    output_dir: Path,
+    prompts: list[str],
+    combinator_names: list[str],
 ) -> dict:
-    """Profile combinator activation per stride using diagnostic probes.
-
-    Runs fixed diagnostic sentences through the model, captures residual
-    stream after each stride, projects onto per-stride crystal basis.
-
-    Returns dict with per-stride dominant combinator and activation profile.
-    """
-    combinator_names = ["K", "I", "B", "C", "D", "Y", "W",
-                        "beta_K", "beta_I", "beta_apply", "beta_compose"]
+    """Run one set of probes and return per-stride combinator profile."""
     n_strides = crystal_basis.shape[0]
     n_ops = crystal_basis.shape[1]
 
-    # Tokenize diagnostic prompts (truncate to reasonable length)
+    # Tokenize (truncate to reasonable length)
     all_ids = []
-    for prompt in DIAGNOSTIC_PROMPTS:
-        ids = tokenizer.encode(prompt)[:128]  # cap at 128 tokens each
+    for prompt in prompts:
+        ids = tokenizer.encode(prompt)[:128]
         all_ids.append(ids)
 
     # Pad to same length for batching
@@ -947,44 +955,38 @@ def run_combinator_profile(
 
     # Forward with residual capture
     result = model(input_ids, return_residuals=True)
-    residuals = result["residuals"]  # list of (batch, seq, d_model)
+    residuals = result["residuals"]
 
-    # Project each stride's residual onto its crystal basis
-    # crystal_basis[s] is (n_ops, d_model)
-    profile = {}  # stride_idx → {combinator_name: mean_activation}
-    zone_names = {}
-
+    profile = {}
     for s in range(min(n_strides, len(residuals))):
-        r = residuals[s]  # (batch, seq, d_model) — mx.array
-
-        # Per-stride basis in mx
-        basis_s = mx.array(crystal_basis[s])  # (n_ops, d_model)
-
-        # Project: (batch, seq, d_model) @ (d_model, n_ops) → (batch, seq, n_ops)
+        r = residuals[s]
+        basis_s = mx.array(crystal_basis[s])
         proj = r @ basis_s.T
-
-        # Energy per combinator: mean of squared projection across batch and sequence
-        energy = mx.mean(proj * proj, axis=(0, 1))  # (n_ops,)
+        energy = mx.mean(proj * proj, axis=(0, 1))
         mx.eval(energy)
         energy_np = np.array(energy)
 
-        # Normalize to fractions
         total_energy = energy_np.sum()
-        if total_energy > 0:
-            fracs = energy_np / total_energy
-        else:
-            fracs = np.zeros(n_ops)
+        fracs = energy_np / total_energy if total_energy > 0 else np.zeros(n_ops)
 
         stride_profile = {combinator_names[i]: float(fracs[i]) for i in range(n_ops)}
-        dominant = combinator_names[int(np.argmax(fracs))]
-        stride_profile["_dominant"] = dominant
+        stride_profile["_dominant"] = combinator_names[int(np.argmax(fracs))]
         stride_profile["_total_energy"] = float(total_energy)
         profile[s] = stride_profile
 
-        zone = model.strides[s].zone
-        zone_names[s] = zone.name
+    return profile
 
-    # Zone-averaged profiles
+
+def _zone_summary(
+    profile: dict,
+    model: "TensorStatechart",
+    combinator_names: list[str],
+) -> dict:
+    """Compute zone-averaged combinator profiles from per-stride data."""
+    zone_names = {}
+    for s in profile:
+        zone_names[s] = model.strides[s].zone.name
+
     zone_profiles = {}
     for zone in Zone:
         zone_strides = [s for s in profile if zone_names.get(s) == zone.name]
@@ -993,30 +995,81 @@ def run_combinator_profile(
         avg = {}
         for op in combinator_names:
             avg[op] = float(np.mean([profile[s][op] for s in zone_strides]))
-        dominant = max(avg, key=avg.get)
-        zone_profiles[zone.name] = {"profile": avg, "dominant": dominant}
+        zone_profiles[zone.name] = {"profile": avg, "dominant": max(avg, key=avg.get)}
 
-    # Log summary
-    log("  Combinator profile per stride:")
-    for s in sorted(profile):
-        p = profile[s]
-        zone = zone_names.get(s, "?")
-        dom = p["_dominant"]
-        # Top 3 by activation fraction
+    return zone_profiles
+
+
+def run_combinator_profile(
+    model: "TensorStatechart",
+    tokenizer: "QwenTokenizer",
+    crystal_basis: np.ndarray,
+    step: int,
+    output_dir: Path,
+) -> dict:
+    """Profile combinator activation per stride using diagnostic probes.
+
+    Runs two probe sets (PROSE and SYMBOLIC) separately through the model,
+    captures residual stream after each stride, projects onto per-stride
+    crystal basis. Logs both profiles for phase transition tracking and
+    symbol contamination monitoring.
+
+    Returns dict with per-stride dominant combinator and activation profiles
+    for both probe sets.
+    """
+    combinator_names = ["K", "I", "B", "C", "D", "Y", "W",
+                        "beta_K", "beta_I", "beta_apply", "beta_compose"]
+
+    # Run both probe sets
+    prose_profile = _profile_probe_set(
+        model, tokenizer, crystal_basis, PROSE_PROBES, combinator_names,
+    )
+    symbolic_profile = _profile_probe_set(
+        model, tokenizer, crystal_basis, SYMBOLIC_PROBES, combinator_names,
+    )
+
+    prose_zones = _zone_summary(prose_profile, model, combinator_names)
+    symbolic_zones = _zone_summary(symbolic_profile, model, combinator_names)
+
+    # Log prose profile
+    log("  Combinator profile (PROSE — no symbols):")
+    for s in sorted(prose_profile):
+        p = prose_profile[s]
+        zone = model.strides[s].zone.name
         sorted_ops = sorted(combinator_names, key=lambda op: p[op], reverse=True)[:3]
         top3 = " ".join(f"{op}={p[op]:.2f}" for op in sorted_ops)
-        log(f"    stride {s:02d} ({zone:8s}): {dom:>12} | {top3}")
+        log(f"    stride {s:02d} ({zone:8s}): {p['_dominant']:>12} | {top3}")
 
-    log("  Zone dominants:")
-    for zname, zp in zone_profiles.items():
-        dom = zp["dominant"]
-        log(f"    {zname:8s}: {dom}")
+    log("  Prose zone dominants:")
+    for zname, zp in prose_zones.items():
+        log(f"    {zname:8s}: {zp['dominant']}")
+
+    # Log symbolic profile
+    log("  Combinator profile (SYMBOLIC — λ, =, →):")
+    for s in sorted(symbolic_profile):
+        p = symbolic_profile[s]
+        zone = model.strides[s].zone.name
+        sorted_ops = sorted(combinator_names, key=lambda op: p[op], reverse=True)[:3]
+        top3 = " ".join(f"{op}={p[op]:.2f}" for op in sorted_ops)
+        log(f"    stride {s:02d} ({zone:8s}): {p['_dominant']:>12} | {top3}")
+
+    log("  Symbolic zone dominants:")
+    for zname, zp in symbolic_zones.items():
+        log(f"    {zname:8s}: {zp['dominant']}")
+
+    # Log comparison
+    log("  Prose vs Symbolic total energy ratio per zone:")
+    for zname in prose_zones:
+        p_total = sum(prose_zones[zname]["profile"].values())
+        s_total = sum(symbolic_zones.get(zname, {"profile": {}})["profile"].values())
+        ratio = s_total / p_total if p_total > 0 else 0
+        log(f"    {zname:8s}: symbolic/prose = {ratio:.2f}x")
 
     # Save to JSON
     result_data = {
         "step": step,
-        "per_stride": profile,
-        "per_zone": zone_profiles,
+        "prose": {"per_stride": prose_profile, "per_zone": prose_zones},
+        "symbolic": {"per_stride": symbolic_profile, "per_zone": symbolic_zones},
         "combinator_names": combinator_names,
     }
     prof_path = output_dir / f"combinator_step_{step:07d}.json"
