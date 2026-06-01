@@ -1,0 +1,65 @@
+[08:21:32] Loading model: Qwen/Qwen3.6-27B
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[08:21:34] Loading with dtype=torch.float16 on device=mps
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 68163.12it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 20014.09it/s]
+[08:21:44] Model: 64 layers, d_ff=17408
+[08:21:44] Loaded 12 combinator fingerprints
+[08:21:44] Zones: [('SILENT', 0, 32), ('ENRICH', 32, 53), ('SUPPRESS', 53, 58), ('COMMIT', 58, 64)]
+[08:21:44] Probe categories: ['PURE_PROSE', 'PROSE_EQUALS', 'PROSE_ARROW', 'LAMBDA_EQ', 'LAMBDA_NO_EQ', 'NL_FACT', 'GATED_PROSE', 'EQUALS_ONLY']
+[08:21:44]   PURE_PROSE: 20 probes
+[08:21:44]   PROSE_EQUALS: 20 probes
+[08:21:44]   PROSE_ARROW: 10 probes
+[08:21:44]   LAMBDA_EQ: 10 probes
+[08:21:44]   LAMBDA_NO_EQ: 10 probes
+[08:21:44]   NL_FACT: 10 probes
+[08:21:44]   GATED_PROSE: 10 probes
+[08:21:44]   EQUALS_ONLY: 10 probes
+[08:21:44] Registered hooks on 64 layers (d_model=5120)
+[08:21:44] Running PURE_PROSE...
+[08:22:07] Running PROSE_EQUALS...
+[08:22:25] Running PROSE_ARROW...
+[08:22:33] Running LAMBDA_EQ...
+[08:22:43] Running LAMBDA_NO_EQ...
+[08:22:53] Running NL_FACT...
+[08:23:03] Running GATED_PROSE...
+[08:23:16] Running EQUALS_ONLY...
+[08:23:27] 
+[08:23:27] ================================================================================
+[08:23:27] SYMBOL ISOLATION RESULTS
+[08:23:27] ================================================================================
+[08:23:27] 
+[08:23:27] Category         Total Energy       ENRICH       Dominant        B        K        I  β_apply
+[08:23:27] ------------------------------------------------------------------------------------------------
+[08:23:27] PURE_PROSE         704912.2 ( 1.0x)      634.2               K  25198.3 130754.1  15909.0  87051.6
+[08:23:27] NL_FACT            200975.0 ( 0.3x)      668.9          beta_I   5046.1  33395.0   6253.4  26365.0
+[08:23:27] PROSE_EQUALS       270121.1 ( 0.4x)      511.6    beta_compose  15104.3  34696.1  16517.4  35885.0
+[08:23:27] EQUALS_ONLY        303986.0 ( 0.4x)      781.0          beta_I   7600.0  50310.0   5816.8  38750.5
+[08:23:27] PROSE_ARROW        491483.3 ( 0.7x)      614.4               K  18469.7  90442.1  11644.1  60044.5
+[08:23:27] GATED_PROSE        263815.7 ( 0.4x)      792.5               W  22392.3  26578.2  21878.5  11114.9
+[08:23:27] LAMBDA_NO_EQ        82384.5 ( 0.1x)      554.8    beta_compose   4058.9  10528.0   4465.0   9854.0
+[08:23:27] LAMBDA_EQ          189153.2 ( 0.3x)      618.5          beta_I   9147.9  28022.4  10380.1  16331.3
+[08:23:27] 
+[08:23:27] Key comparisons:
+[08:23:27]   PURE_PROSE vs LAMBDA_EQ:     Does prose activate the same circuitry?
+[08:23:27]   PURE_PROSE vs PROSE_EQUALS:  Is '=' the trigger?
+[08:23:27]   NL_FACT vs EQUALS_ONLY:      Is '=' the trigger (factual)?
+[08:23:27]   LAMBDA_EQ vs LAMBDA_NO_EQ:   Does '=' matter for lambda?
+[08:23:27]   PURE_PROSE vs GATED_PROSE:   Does the compile gate matter?
+[08:23:27]   PURE_PROSE vs PROSE_ARROW:   Does '→' matter?
+[08:23:27] 
+[08:23:27] ENRICH zone breakdown (the reduction engine):
+[08:23:27] Category                    B           K           I           C           D           Y  beta_applybeta_compose
+[08:23:27] -----------------------------------------------------------------------------------------------------------------
+[08:23:27] PURE_PROSE              52.72       50.03       53.51       89.24       75.69       49.80       48.14       55.65
+[08:23:27] NL_FACT                 56.29       52.09       51.16       88.89       94.15       54.03       49.25       55.55
+[08:23:27] PROSE_EQUALS            36.05       40.77       30.67       42.98       77.67       33.57       52.50       54.79
+[08:23:27] EQUALS_ONLY             59.19       59.22       48.52       78.48      124.07       55.24       76.56       75.68
+[08:23:27] GATED_PROSE             60.04       63.76       70.07       89.32       91.27       61.28       72.33       83.80
+[08:23:27] LAMBDA_NO_EQ            44.85       40.35       51.89       65.04       64.92       44.61       49.14       55.74
+[08:23:27] LAMBDA_EQ               49.39       47.74       43.75       69.55       88.40       56.97       49.82       44.89
+[08:23:27] 
+Results saved to /Users/mwhitford/src/verbum/results/symbol-isolation/Qwen_Qwen3.6-27B/symbol_isolation_results.json
+[08:23:27] Layer×op energy saved to /Users/mwhitford/src/verbum/results/symbol-isolation/Qwen_Qwen3.6-27B/layer_op_energy.npz
