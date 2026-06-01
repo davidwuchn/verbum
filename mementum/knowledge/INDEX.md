@@ -23,6 +23,7 @@ These pages answer: *what are we doing, why does it work, and what have we prove
 | 1 | [project-thesis.md](project-thesis.md) | ✅ | The central claim: pretraining IS beta reduction, topology dominates, ternary extraction works |
 | 2 | [crystal-universality.md](crystal-universality.md) | ✅ | Why the combinator crystal is a mathematical constant, not a learned artifact |
 | 3 | [mathematical-convergences.md](mathematical-convergences.md) | ✅ | Eight independent lines of mathematical evidence converging on the same structure |
+| 3b | [symbol-isolation.md](symbol-isolation.md) | ✅ | Prose activates combinator engine 8× more than lambda. Formal notation is pre-reduced input. |
 
 ## Tier 2 — How Does It Work?
 
