@@ -111,6 +111,19 @@ class TernaryPlate(nn.Module):
     plate2: {-1, 0, +1} — magnitude class (above/below mean)
     gamma1, gamma2: per-row float scalars
     zeros_mask: structural lattice gaps (30%, never change)
+
+    Delta plate support (session 177):
+      When delta plates are enabled (via enable_delta()), the forward
+      path computes:  effective = plate ⊙ delta  (element-wise ternary multiply)
+      then uses effective in place of plate for the matmul.
+
+      Delta semantics:
+        +1 → keep teacher sign here (pass-through, initial state)
+        -1 → flip teacher sign here (TD correction)
+         0 → block this position    (staging area during transition)
+
+      fold() merges delta into plate:  new_plate = plate ⊙ delta, delta → +1.
+      Ternary × ternary = ternary, exact. No information loss.
     """
 
     def __init__(self, d_out: int, d_in: int, n_plates: int = 2):
@@ -132,14 +145,89 @@ class TernaryPlate(nn.Module):
             self.plate2 = None
             self.gamma2 = None
 
+        # Delta plates: None until enable_delta() is called.
+        # When active, delta1/delta2 are float arrays with values in {-1, 0, +1}.
+        self.delta1: mx.array | None = None
+        self.delta2: mx.array | None = None
+        self._delta_enabled = False
+
+    @property
+    def delta_enabled(self) -> bool:
+        return self._delta_enabled
+
+    def enable_delta(self) -> None:
+        """Enable delta plates — initialized to all +1 (pass-through).
+
+        After calling this, the forward path uses:
+            effective1 = plate1 ⊙ delta1
+            effective2 = plate2 ⊙ delta2  (if 2-plate)
+
+        The delta plates are trainable by TernaryDescent (TD), NOT by Adam.
+        They participate in gradient computation via stop_gradient on the
+        ternary values — TD reads the gradient direction to decide flips.
+        """
+        self.delta1 = mx.ones((self.d_out, self.d_in))
+        if self.n_plates >= 2 and self.plate2 is not None:
+            self.delta2 = mx.ones((self.d_out, self.d_in))
+        self._delta_enabled = True
+
+    def disable_delta(self) -> None:
+        """Disable delta plates (revert to base-only forward path)."""
+        self.delta1 = None
+        self.delta2 = None
+        self._delta_enabled = False
+
+    def _effective(self, plate: mx.array, delta: mx.array | None) -> mx.array:
+        """Compute effective plate: plate ⊙ delta if delta exists, else plate.
+
+        Ternary × ternary = ternary (exact):
+            +1 × +1 = +1,  +1 × -1 = -1,  -1 × -1 = +1
+            anything × 0 = 0
+        """
+        if delta is None:
+            return plate
+        # stop_gradient on both plate and delta: topology is TD-managed.
+        # The gradient flows through the matmul to inform TD what to flip,
+        # but Adam never updates the ternary values directly.
+        return mx.stop_gradient(plate * delta)
+
+    def fold(self) -> None:
+        """Fold delta into base plates:  new_plate = plate ⊙ delta, delta → +1.
+
+        Ternary × ternary = ternary. No information loss. After folding,
+        the effective weights are identical but delta is reset for the next
+        round of TD corrections.
+
+        Call this between training phases to consolidate learned corrections.
+        """
+        if not self._delta_enabled:
+            return
+
+        if self.delta1 is not None:
+            self.plate1 = mx.sign(self.plate1 * self.delta1)
+            self.delta1 = mx.ones((self.d_out, self.d_in))
+
+        if self.delta2 is not None and self.plate2 is not None:
+            self.plate2 = mx.sign(self.plate2 * self.delta2)
+            self.delta2 = mx.ones((self.d_out, self.d_in))
+
+        mx.eval(self.plate1, self.delta1)
+        if self.plate2 is not None:
+            mx.eval(self.plate2, self.delta2)
+
     def __call__(self, x: mx.array) -> mx.array:
-        """Forward: plate × input with per-row gamma scaling."""
+        """Forward: plate × input with per-row gamma scaling.
+
+        When delta plates are enabled, uses effective = plate ⊙ delta.
+        """
         # plate1 contribution
-        out = (x @ self.plate1.T) * self.gamma1
+        eff1 = self._effective(self.plate1, self.delta1)
+        out = (x @ eff1.T) * self.gamma1
 
         # plate2 contribution (if 2-plate)
         if self.plate2 is not None:
-            out = out + (x @ self.plate2.T) * self.gamma2
+            eff2 = self._effective(self.plate2, self.delta2)
+            out = out + (x @ eff2.T) * self.gamma2
 
         return out
 
@@ -359,6 +447,60 @@ class TensorStatechart(nn.Module):
             basis: (n_combinators, d_model) — the S5 identity fingerprints
         """
         self.algedonic.crystal_basis = basis
+
+    # ── Delta plate management ──────────────────────────────────────
+
+    def enable_delta_plates(self) -> int:
+        """Enable delta plates on all TernaryPlate modules in the model.
+
+        Returns the number of delta plate pairs activated.
+        """
+        count = 0
+        for stride in self.strides:
+            for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                plate: TernaryPlate = getattr(stride.ffn, plate_name)
+                plate.enable_delta()
+                count += 1
+        return count
+
+    def disable_delta_plates(self) -> None:
+        """Disable delta plates on all TernaryPlate modules."""
+        for stride in self.strides:
+            for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                plate: TernaryPlate = getattr(stride.ffn, plate_name)
+                plate.disable_delta()
+
+    def fold_delta_plates(self) -> None:
+        """Fold all delta plates into base plates across the model.
+
+        new_plate = plate ⊙ delta; delta → +1. Lossless consolidation.
+        """
+        for stride in self.strides:
+            for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                plate: TernaryPlate = getattr(stride.ffn, plate_name)
+                plate.fold()
+
+    def collect_delta_params(self) -> list[tuple[str, TernaryPlate, str]]:
+        """Collect all (name, plate_module, which_delta) tuples for TD.
+
+        Returns a list of (identifier, TernaryPlate, "delta1"|"delta2") for
+        every active delta plate in the model. TD iterates this to accumulate
+        moments and commit flips.
+
+        Only returns entries where the delta is not None (i.e., enabled).
+        """
+        params = []
+        for si, stride in enumerate(self.strides):
+            for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                plate: TernaryPlate = getattr(stride.ffn, plate_name)
+                if not plate.delta_enabled:
+                    continue
+                name_prefix = f"strides.{si}.ffn.{plate_name}"
+                if plate.delta1 is not None:
+                    params.append((f"{name_prefix}.delta1", plate, "delta1"))
+                if plate.delta2 is not None:
+                    params.append((f"{name_prefix}.delta2", plate, "delta2"))
+        return params
 
     def _get_causal_mask(self, seq_len: int) -> mx.array:
         """Causal attention mask."""

@@ -628,6 +628,7 @@ def extract_2plate_from_votes(
     magnitude_sum: np.ndarray,
     n_teacher_layers: int,
     seed: int = 0,
+    zero_frac: float = 0.30,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Derive 2-plate decomposition from accumulated vote and magnitude arrays.
 
@@ -645,16 +646,27 @@ def extract_2plate_from_votes(
     The 2-plate approximation of W_avg is:
         W_avg ≈ plate1 * gamma1[:, None] + plate2 * gamma2[:, None]
 
+    Structural zeros (session 177):
+      Positions where teacher layers agreed on near-zero magnitude are
+      irreducible fixed points — GD deposited near-zero weights because
+      there's nothing left to reduce. These become structural zeros in
+      both plates (plate1=0, plate2=0). The bottom `zero_frac` of
+      positions by average magnitude PER ROW are zeroed. Gammas are
+      recomputed over non-zero positions only.
+
+      These zeros are distinct from the gate's runtime kill (89% per token).
+      Static zeros = "this position NEVER computes" (structural).
+      Gate kill = "this position doesn't compute for THIS token" (dynamic).
+      Combined: ~3% of neurons active per position per token.
+
     Algorithm:
       1. W_avg = magnitude_sum / n_teacher_layers * sign(votes)
-         (approximate average signed weight via vote consensus × mean magnitude)
-      2. gamma1 = per-row RMS of W_avg
-      3. plate1 = sign(votes)  (majority vote across teacher layers)
-      4. residual = W_avg - plate1 * gamma1[:, None]
-      5. gamma2 = per-row RMS of residual
-      6. plate2 = sign(residual)
-
-    Zeros in either plate are resolved by random ±1 (breaking ties).
+      2. Per-row magnitude threshold: bottom zero_frac → structural zero
+      3. gamma1 = per-row RMS of W_avg (non-zero positions only)
+      4. plate1 = sign(votes), zeros where magnitude below threshold
+      5. residual = W_avg - plate1 * gamma1[:, None]
+      6. gamma2 = per-row RMS of residual (non-zero positions only)
+      7. plate2 = sign(residual), zeros where plate1 is zero
 
     NEW in v15 — no equivalent in v14.
 
@@ -663,44 +675,73 @@ def extract_2plate_from_votes(
         magnitude_sum:    float32 (d_out, d_in) — accumulated |W| per element.
         n_teacher_layers: Number of teacher layers that contributed to votes.
         seed:             Random seed for zero-tie breaking.
+        zero_frac:        Fraction of positions to zero per row (default 0.30).
+                          Set to 0.0 to disable zero placement.
 
     Returns:
-        plate1: int8  (d_out, d_in)   — sign topology
-        plate2: int8  (d_out, d_in)   — magnitude mirror
+        plate1: int8  (d_out, d_in)   — sign topology (with structural zeros)
+        plate2: int8  (d_out, d_in)   — magnitude mirror (zeros match plate1)
         gamma1: float32 (d_out,)      — per-row RMS scale for plate1
         gamma2: float32 (d_out,)      — per-row RMS scale for plate2
     """
     rng = np.random.RandomState(seed)
     n = max(1, n_teacher_layers)
 
+    # ── Average magnitude per position (teacher consensus) ──────────────
+    avg_magnitude = magnitude_sum / n                      # (d_out, d_in)
+
+    # ── Structural zero mask: bottom zero_frac per row ──────────────────
+    # Positions where teacher layers agreed on near-zero magnitude =
+    # irreducible fixed points. Nothing computes here.
+    if zero_frac > 0.0:
+        d_out, d_in = avg_magnitude.shape
+        # Per-row threshold: zero the bottom zero_frac positions by magnitude.
+        # np.partition puts the k smallest values in positions 0..k-1.
+        # Threshold at position k with strict < gives exactly k zeros per row.
+        k = max(1, int(d_in * zero_frac))
+        k = min(k, d_in - 1)  # leave at least 1 non-zero per row
+        thresholds = np.partition(avg_magnitude, k, axis=1)[:, k]  # (d_out,)
+        zero_mask = avg_magnitude < thresholds[:, None]  # (d_out, d_in)
+    else:
+        zero_mask = np.zeros_like(avg_magnitude, dtype=bool)
+
     # ── Plate 1: sign topology from majority vote ───────────────────────
     plate1 = np.sign(votes).astype(np.int8)
-    zeros1 = plate1 == 0
-    if zeros1.any():
-        plate1[zeros1] = rng.choice(
-            [-1, 1], size=int(zeros1.sum())
+    # Resolve vote ties (zero votes) with random ±1
+    vote_ties = plate1 == 0
+    if vote_ties.any():
+        plate1[vote_ties] = rng.choice(
+            [-1, 1], size=int(vote_ties.sum())
         ).astype(np.int8)
+    # Apply structural zeros
+    plate1[zero_mask] = 0
 
-    # Approximate average weight (signed magnitude from per-element mean)
-    # W_avg[i,j] = (magnitude_sum[i,j] / n) * sign(plate1[i,j])
-    avg_magnitude = magnitude_sum / n                      # (d_out, d_in)
+    # ── W_avg and gamma1 (over non-zero positions only) ─────────────────
     W_avg = plate1.astype(np.float32) * avg_magnitude      # (d_out, d_in)
-
-    # gamma1: per-row RMS of W_avg
-    gamma1 = np.sqrt(np.mean(W_avg ** 2, axis=1)).astype(np.float32)  # (d_out,)
+    # Per-row RMS over non-zero positions
+    nonzero_count = np.sum(~zero_mask, axis=1, keepdims=True).astype(np.float32)
+    nonzero_count = np.maximum(nonzero_count, 1.0)  # avoid div-by-zero
+    gamma1 = np.sqrt(
+        np.sum(W_avg ** 2 * (~zero_mask), axis=1) / nonzero_count.ravel()
+    ).astype(np.float32)
 
     # ── Plate 2: magnitude mirror — residual after plate1 ──────────────
-    reconstructed1 = plate1.astype(np.float32) * gamma1[:, None]  # (d_out, d_in)
-    residual = W_avg - reconstructed1                              # (d_out, d_in)
+    reconstructed1 = plate1.astype(np.float32) * gamma1[:, None]
+    residual = W_avg - reconstructed1
 
-    gamma2 = np.sqrt(np.mean(residual ** 2, axis=1)).astype(np.float32)  # (d_out,)
+    gamma2 = np.sqrt(
+        np.sum(residual ** 2 * (~zero_mask), axis=1) / nonzero_count.ravel()
+    ).astype(np.float32)
 
     plate2 = np.sign(residual).astype(np.int8)
-    zeros2 = plate2 == 0
-    if zeros2.any():
-        plate2[zeros2] = rng.choice(
-            [-1, 1], size=int(zeros2.sum())
+    # Resolve ties in residual sign
+    res_ties = (plate2 == 0) & (~zero_mask)
+    if res_ties.any():
+        plate2[res_ties] = rng.choice(
+            [-1, 1], size=int(res_ties.sum())
         ).astype(np.int8)
+    # Plate2 zeros match plate1 zeros (structural absence)
+    plate2[zero_mask] = 0
 
     return plate1, plate2, gamma1, gamma2
 
@@ -710,14 +751,17 @@ def extract_1plate_from_votes(
     magnitude_sum: np.ndarray,
     n_teacher_layers: int,
     seed: int = 0,
+    zero_frac: float = 0.30,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Derive 1-plate decomposition from accumulated votes.
 
     Simplified extraction for CLASSIFY strides that only need plate1.
+    Same structural zero placement as 2-plate (bottom zero_frac per row).
 
     Algorithm:
       1. plate1 = sign(votes) with zero-tie breaking.
-      2. gamma1 = per-row RMS of the average signed weight.
+      2. Apply structural zeros: bottom zero_frac by magnitude per row.
+      3. gamma1 = per-row RMS of the average signed weight (non-zero only).
 
     NEW in v15 — v14's zone voting produced only plates, not gammas.
 
@@ -726,24 +770,40 @@ def extract_1plate_from_votes(
         magnitude_sum:    float32 (d_out, d_in) — accumulated |W| per element.
         n_teacher_layers: Number of teacher layers that contributed.
         seed:             Random seed for zero-tie breaking.
+        zero_frac:        Fraction of positions to zero per row (default 0.30).
 
     Returns:
-        plate1: int8    (d_out, d_in)
+        plate1: int8    (d_out, d_in) — with structural zeros
         gamma1: float32 (d_out,)
     """
     rng = np.random.RandomState(seed)
     n = max(1, n_teacher_layers)
 
-    plate1 = np.sign(votes).astype(np.int8)
-    zeros1 = plate1 == 0
-    if zeros1.any():
-        plate1[zeros1] = rng.choice(
-            [-1, 1], size=int(zeros1.sum())
-        ).astype(np.int8)
-
     avg_magnitude = magnitude_sum / n
+
+    # ── Structural zero mask ────────────────────────────────────────────
+    if zero_frac > 0.0:
+        d_out, d_in = avg_magnitude.shape
+        k = max(1, int(d_in * zero_frac))
+        k = min(k, d_in - 1)
+        thresholds = np.partition(avg_magnitude, k, axis=1)[:, k]
+        zero_mask = avg_magnitude < thresholds[:, None]
+    else:
+        zero_mask = np.zeros_like(avg_magnitude, dtype=bool)
+
+    plate1 = np.sign(votes).astype(np.int8)
+    vote_ties = plate1 == 0
+    if vote_ties.any():
+        plate1[vote_ties] = rng.choice(
+            [-1, 1], size=int(vote_ties.sum())
+        ).astype(np.int8)
+    plate1[zero_mask] = 0
+
     W_avg = plate1.astype(np.float32) * avg_magnitude
-    gamma1 = np.sqrt(np.mean(W_avg ** 2, axis=1)).astype(np.float32)
+    nonzero_count = np.maximum(np.sum(~zero_mask, axis=1).astype(np.float32), 1.0)
+    gamma1 = np.sqrt(
+        np.sum(W_avg ** 2 * (~zero_mask), axis=1) / nonzero_count
+    ).astype(np.float32)
 
     return plate1, gamma1
 
@@ -761,6 +821,7 @@ def extract_stride_ffn_plates(
     cfg: V15Config,
     n_rotations: int,
     V_proj: np.ndarray,
+    zero_frac: float = 0.30,
 ) -> dict[str, np.ndarray]:
     """Extract FFN plates for one v15 stride, voting across teacher layers.
 
@@ -885,7 +946,8 @@ def extract_stride_ffn_plates(
 
         if n_plates == 2:
             p1, p2, g1, g2 = extract_2plate_from_votes(
-                a["votes"], a["mag"], n, seed=seed_base
+                a["votes"], a["mag"], n, seed=seed_base,
+                zero_frac=zero_frac,
             )
             results[f"{name}_plate1"] = p1
             results[f"{name}_plate2"] = p2
@@ -893,17 +955,22 @@ def extract_stride_ffn_plates(
             results[f"{name}_gamma2"] = g2
         else:
             p1, g1 = extract_1plate_from_votes(
-                a["votes"], a["mag"], n, seed=seed_base
+                a["votes"], a["mag"], n, seed=seed_base,
+                zero_frac=zero_frac,
             )
             results[f"{name}_plate1"] = p1
             results[f"{name}_gamma1"] = g1
 
-        # Record zero-vote mask for diagnostic purposes (included in NPZ)
-        vote_mask = (a["votes"] == 0)
-        zeros_masks[f"{name}_zeros_mask"] = vote_mask.astype(np.uint8)
+        # Record structural zero fraction + vote-tie mask
+        structural_zeros = (results[f"{name}_plate1"] == 0).mean()
+        vote_ties = (a["votes"] == 0).mean()
+        zeros_masks[f"{name}_zeros_mask"] = (results[f"{name}_plate1"] == 0).astype(np.uint8)
 
-        zero_frac = vote_mask.mean()
-        log(f"    {name}: zero-vote fraction = {zero_frac:.4f}")
+        # Save average magnitude for future analysis / re-zeroing
+        results[f"{name}_avg_magnitude"] = (a["mag"] / max(1, n)).astype(np.float32)
+
+        log(f"    {name}: structural zeros = {structural_zeros:.4f} "
+            f"(vote-tie fraction = {vote_ties:.4f})")
 
     results.update(zeros_masks)
     return results
@@ -1146,6 +1213,7 @@ def run_extraction(
     skip_ffn: bool = False,
     skip_attention: bool = False,
     cfg: V15Config | None = None,
+    zero_frac: float = 0.30,
 ) -> None:
     """Full v15 extraction pipeline: Qwen3.6-27B → crystal-native statechart.
 
@@ -1261,6 +1329,7 @@ def run_extraction(
                 cfg=cfg,
                 n_rotations=n_rotations,
                 V_proj=V_proj,
+                zero_frac=zero_frac,
             )
 
             stride_path = strides_dir / f"stride_{s:02d}.npz"
@@ -1495,6 +1564,17 @@ Examples:
         action="store_true",
         help="Skip attention Q/K/V/O plate extraction.",
     )
+    parser.add_argument(
+        "--zero-frac",
+        type=float,
+        default=0.30,
+        help=(
+            "Fraction of positions per row to zero (bottom by magnitude). "
+            "These are irreducible fixed points where GD deposited near-zero "
+            "weights across teacher layers. Default: 0.30 (30%%). "
+            "Set to 0.0 to disable zero placement."
+        ),
+    )
     return parser
 
 
@@ -1527,6 +1607,7 @@ def main() -> None:
         skip_ffn=args.skip_ffn,
         skip_attention=args.skip_attention,
         cfg=cfg,
+        zero_frac=args.zero_frac,
     )
 
 

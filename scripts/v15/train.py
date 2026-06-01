@@ -49,8 +49,11 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import V15Config, Zone, AttnType, ZONE_NAMES
-from model import TensorStatechart, AlgedonicSignal, FullAttention, LinearAttention
+from model import TensorStatechart, TernaryPlate, AlgedonicSignal, FullAttention, LinearAttention
 from load_checkpoint import load_statechart
+from td import (TernaryDescent, CrystalThermometer, apply_td_flips,
+                collect_td_step_params, fold_and_reset,
+                get_affected_gamma_rows, decay_adam_for_affected_rows)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -682,6 +685,9 @@ def freeze_plates(model: TensorStatechart) -> None:
     RMSNorm, attention projections, and embedding remain trainable.
     LM head is tied to embedding so it trains automatically.
 
+    When delta plates are enabled, also freezes delta1/delta2 from Adam
+    (they are managed by TernaryDescent, not gradient descent).
+
     Uses MLX Module.freeze(keys=...) so trainable_parameters() excludes
     the plate matrices and the optimizer never receives them.
     """
@@ -693,16 +699,88 @@ def freeze_plates(model: TensorStatechart) -> None:
             keys_to_freeze = ["plate1"]
             if plate_module.plate2 is not None:
                 keys_to_freeze.append("plate2")
+            # Also freeze delta plates if present (TD manages them, not Adam)
+            if plate_module.delta1 is not None:
+                keys_to_freeze.append("delta1")
+            if plate_module.delta2 is not None:
+                keys_to_freeze.append("delta2")
             plate_module.freeze(keys=keys_to_freeze)
             frozen_params += len(keys_to_freeze)
 
     log(f"Frozen {frozen_params} plate parameter arrays. Gammas remain trainable.")
 
 
-# NOTE: trace_etch_step removed — will be replaced by proper delta plate TD.
+def compute_trace_td_gradients(
+    model: TensorStatechart,
+    input_ids: mx.array,
+    crystal_basis: mx.array,
+) -> dict[str, mx.array]:
+    """Compute trace loss gradient w.r.t. ALL delta plates in one pass.
+
+    Single forward+backward through the model. Takes gradient of trace_loss
+    w.r.t. a dict of all delta arrays simultaneously.
+
+    The deltas normally live inside stop_gradient (so Adam doesn't touch them).
+    Here we temporarily bypass that: substitute base*delta as the plate value
+    with gradient flowing through delta, run forward, compute trace loss,
+    take gradient w.r.t. all deltas at once.
+
+    Args:
+        model: TensorStatechart with delta plates enabled.
+        input_ids: (B, L) token IDs for trace evaluation.
+        crystal_basis: (n_strides, n_ops, d_model) basis.
+
+    Returns:
+        dict[delta_name → (N, K) gradient array] for each delta plate.
+    """
+    delta_params = model.collect_delta_params()
+    if not delta_params:
+        return {}
+
+    # Gather all deltas into a single dict for batched gradient
+    all_deltas: dict[str, mx.array] = {}
+    delta_info: list[tuple[str, object, str, str]] = []  # (name, plate, which, base_attr)
+    for name, plate, which in delta_params:
+        base_attr = "plate1" if which == "delta1" else "plate2"
+        all_deltas[name] = getattr(plate, which)
+        delta_info.append((name, plate, which, base_attr))
+
+    def trace_loss_fn(deltas_dict):
+        """Compute trace loss with gradients flowing through all deltas."""
+        # Temporarily substitute effective = base * delta (differentiable)
+        saved = {}
+        for dname, plate, which, base_attr in delta_info:
+            delta_val = deltas_dict[dname]
+            base_val = getattr(plate, base_attr)
+            saved[(dname, base_attr)] = getattr(plate, base_attr)
+            saved[(dname, which)] = getattr(plate, which)
+            # Replace plate with effective (grad flows through delta)
+            setattr(plate, base_attr, base_val * delta_val)
+            # Disable delta so _effective() doesn't double-apply
+            setattr(plate, which, None)
+
+        result = model(input_ids, return_residuals=True)
+
+        # Restore all plates
+        for dname, plate, which, base_attr in delta_info:
+            setattr(plate, base_attr, saved[(dname, base_attr)])
+            setattr(plate, which, saved[(dname, which)])
+
+        if "residuals" not in result:
+            return mx.array(0.0)
+        return crystal_trace_loss(result["residuals"], crystal_basis)
+
+    # One forward+backward for ALL deltas
+    grad_fn = mx.grad(trace_loss_fn)
+    grads = grad_fn(all_deltas)
+    mx.eval(grads)
+
+    return grads
+
+
+# NOTE: _trace_etch_step_REMOVED preserved as historical reference.
+# Replaced by delta plate TD with trace routing (session 177).
 # See mementum/knowledge/trace-guided-etching.md for the design.
-# The crystal_trace_loss() function above provides the gradient signal;
-# the delta plate mechanism (session 177) will consume it.
 def _trace_etch_step_REMOVED(
     model: TensorStatechart,
     crystal_basis: mx.array,
@@ -956,6 +1034,99 @@ def find_latest_checkpoint(output_dir: Path) -> Path | None:
         key=lambda d: int(d.name.split("_")[1]),
     )
     return dirs[-1] if dirs else None
+
+
+def _save_delta_state(
+    model: TensorStatechart,
+    td: TernaryDescent,
+    ckpt_dir: Path,
+) -> None:
+    """Save delta plate values and TD moment state."""
+    delta_arrays = {}
+    for name, plate, which in model.collect_delta_params():
+        delta_val = getattr(plate, which)
+        if delta_val is not None:
+            delta_arrays[name] = delta_val
+
+    if delta_arrays:
+        mx.savez(str(ckpt_dir / "delta_plates.npz"), **delta_arrays)
+        log(f"  Saved {len(delta_arrays)} delta plate arrays")
+
+    # Save TD moments
+    td_state = {}
+    for name, (direction, magnitude) in td._state.items():
+        td_state[f"{name}.direction"] = direction
+        td_state[f"{name}.magnitude"] = magnitude
+    for name, (last_step, count) in td._flip_history.items():
+        td_state[f"{name}.last_flip_step"] = last_step
+        td_state[f"{name}.flip_count"] = count
+
+    if td_state:
+        mx.savez(str(ckpt_dir / "td_state.npz"), **td_state)
+        log(f"  Saved TD state: {len(td_state)} arrays, step_count={td.step_count}")
+
+    # Save TD metadata
+    td_meta = {
+        "step_count": td.step_count,
+        "flip_rate": td.flip_rate,
+        "warmup_steps": td.warmup_steps,
+        "flip_interval": td.flip_interval,
+        "min_confidence": td.min_confidence,
+    }
+    with open(ckpt_dir / "td_meta.json", "w") as f:
+        json.dump(td_meta, f, indent=2)
+
+
+def _load_delta_state(
+    model: TensorStatechart,
+    td: TernaryDescent,
+    ckpt_dir: Path,
+) -> None:
+    """Load delta plate values and TD moment state from checkpoint."""
+    # Load delta plates
+    delta_path = ckpt_dir / "delta_plates.npz"
+    if delta_path.exists():
+        saved = mx.load(str(delta_path))
+        name_to_plate = {name: (plate, which)
+                         for name, plate, which in model.collect_delta_params()}
+        loaded = 0
+        for name, arr in saved.items():
+            if name in name_to_plate:
+                plate, which = name_to_plate[name]
+                setattr(plate, which, arr)
+                loaded += 1
+        log(f"  Loaded {loaded} delta plate arrays from {delta_path}")
+
+    # Load TD moments
+    td_state_path = ckpt_dir / "td_state.npz"
+    if td_state_path.exists():
+        saved = dict(mx.load(str(td_state_path)))
+        for key, arr in saved.items():
+            parts = key.rsplit(".", 1)
+            if len(parts) != 2:
+                continue
+            name, field = parts
+            if field == "direction":
+                _, mag = td._get_state(name, arr.shape)
+                td._state[name] = (arr, mag)
+            elif field == "magnitude":
+                dir_, _ = td._get_state(name, arr.shape)
+                td._state[name] = (dir_, arr)
+            elif field == "last_flip_step":
+                _, count = td._get_flip_history(name, arr.shape)
+                td._flip_history[name] = (arr, count)
+            elif field == "flip_count":
+                last, _ = td._get_flip_history(name, arr.shape)
+                td._flip_history[name] = (last, arr)
+        log(f"  Loaded TD state from {td_state_path}")
+
+    # Load TD metadata
+    td_meta_path = ckpt_dir / "td_meta.json"
+    if td_meta_path.exists():
+        with open(td_meta_path) as f:
+            meta = json.load(f)
+        td.step_count = meta.get("step_count", 0)
+        log(f"  Resumed TD at step_count={td.step_count}")
 
 
 def load_checkpoint_weights(
@@ -1282,9 +1453,30 @@ def train(args: argparse.Namespace) -> None:
     model = load_statechart(args.checkpoint, freeze_plates=True)
     config = model.config
 
+    # ── Enable delta plates (if requested) ──────────────────────────
+    td_optimizer = None
+    if args.delta_plates:
+        n_delta = model.enable_delta_plates()
+        log(f"Delta plates ENABLED: {n_delta} plate modules with deltas")
+
     # Freeze plates via MLX mechanism (so trainable_parameters() excludes them)
+    # This freezes base plates AND delta plates (deltas managed by TD, not Adam)
     freeze_plates(model)
     report_trainable_summary(model)
+
+    # ── TernaryDescent (if delta plates enabled) ─────────────────────
+    thermometer = None
+    if args.delta_plates:
+        td_optimizer = TernaryDescent(
+            flip_rate=args.td_flip_rate,
+            warmup_steps=args.td_warmup,
+            flip_interval=args.td_flip_interval,
+            min_confidence=args.td_min_confidence,
+        )
+        thermometer = CrystalThermometer(recent_window=args.td_flip_interval * 5)
+        log(f"TernaryDescent: rate={args.td_flip_rate}, warmup={args.td_warmup}, "
+            f"interval={args.td_flip_interval}, min_conf={args.td_min_confidence}")
+        log(f"CrystalThermometer: recent_window={args.td_flip_interval * 5}")
 
     n_trainable = count_trainable(model)
     log(f"Total trainable: {n_trainable:,} parameters")
@@ -1418,6 +1610,68 @@ def train(args: argparse.Namespace) -> None:
         # MLX: commit computation graph
         mx.eval(model.parameters(), optimizer.state)
 
+        # ── TernaryDescent step (if delta plates enabled) ────────────
+        td_flips = 0
+        td_candidates = 0
+        if td_optimizer is not None and _trace_basis is not None:
+            # Compute trace loss gradient w.r.t. delta plates.
+            # Use a small slice of the batch (1 seq, 512 tokens) — trace
+            # gradient just needs any forward pass to see crystal coherence,
+            # not the full training batch. This keeps TD overhead ~10%.
+            trace_input = input_ids[:1, :512]
+            trace_grads = compute_trace_td_gradients(
+                model, trace_input, _trace_basis,
+            )
+
+            # Build delta_params list for TD
+            td_params = []
+            for name, plate, which in model.collect_delta_params():
+                delta_val = getattr(plate, which)
+                base_attr = "plate1" if which == "delta1" else "plate2"
+                base_val = getattr(plate, base_attr)
+                grad_eff = trace_grads.get(name)
+                if grad_eff is None or grad_eff.shape != delta_val.shape:
+                    continue
+                # no_block=True: direct +1 ↔ -1 flips only.
+                # Structural zeros are already placed in the base plate.
+                # The active 70% IS the program — never zero it via staging.
+                td_params.append((name, delta_val, grad_eff, base_val, True))
+
+            if td_params:
+                td_result = td_optimizer.step(td_params, training_step=step)
+                td_flips = td_result.get("total_flips", 0)
+                td_candidates = td_result.get("etch_total_candidates", 0)
+
+                # Record into thermometer
+                if thermometer is not None:
+                    thermometer.record(td_result, step)
+
+                # Apply flips to model + notify Adam of stale rows
+                if td_flips > 0:
+                    apply_td_flips(model, td_result)
+                    # Decay Adam moments for affected gamma rows.
+                    # Without this, Adam pushes gamma in the wrong direction
+                    # for ~10 steps after a topology change.
+                    affected = get_affected_gamma_rows(model, td_result)
+                    n_decayed = decay_adam_for_affected_rows(
+                        optimizer, model, affected, decay_factor=0.1,
+                    )
+                    mx.eval(model.parameters())
+
+        # ── Periodic fold (if requested) ─────────────────────────────
+        if (
+            td_optimizer is not None
+            and args.fold_every > 0
+            and step > 0
+            and step % args.fold_every == 0
+        ):
+            log(f"  FOLD at step {step} — consolidating delta plates into base")
+            fold_and_reset(model, td_optimizer)
+            # Re-freeze after fold (delta arrays were replaced)
+            freeze_plates(model)
+            mx.eval(model.parameters())
+            log(f"  Fold complete. Delta plates reset to +1.")
+
         loss_val = float(loss.item())
         loss_history.append(loss_val)
 
@@ -1444,6 +1698,13 @@ def train(args: argparse.Namespace) -> None:
                 "grad_norm": float(grad_norm.item()),
                 "tok/s": tokens_per_sec,
             }
+            if td_optimizer is not None:
+                metrics["td_flips"] = td_flips
+                metrics["td_cands"] = td_candidates
+                if thermometer is not None and step > 0:
+                    temp = thermometer.temperature(step)
+                    metrics["crystal_T"] = round(temp["temperature"], 6)
+                    metrics["osc_frac"] = round(temp["oscillation_frac"], 4)
             log_metrics(step, metrics)
 
             # Per-zone grad norms every 5*log_every steps
@@ -1501,13 +1762,32 @@ def train(args: argparse.Namespace) -> None:
                 except Exception as e:
                     log(f"  Combinator profiler failed: {e}")
 
-            # ── Trace-guided etching (placeholder — proper delta+TD build pending) ──
-            # TODO(session 177): Replace with delta plate TD using trace routing.
-            # Design: mementum/knowledge/trace-guided-etching.md
-            # Architecture: base_plate ⊙ delta_plate, TD flips guided by
-            # grad(trace_loss) decomposed into routing signal.
-            # Current trace_loss in combined_loss provides the gradient target;
-            # the etching mechanism (delta plates + TD) will consume it.
+            # ── TD diagnostics (at eval steps) ──
+            if td_optimizer is not None:
+                log(f"  TD state: step={td_optimizer.step_count}, "
+                    f"last_flips={td_optimizer.last_n_flips}, "
+                    f"last_candidates={td_optimizer.last_n_candidates}")
+
+                if thermometer is not None:
+                    temp = thermometer.temperature(step)
+                    log(f"  Crystal thermometer:")
+                    log(f"    temperature    = {temp['temperature']:.6f}  "
+                        f"(fraction of positions active recently)")
+                    log(f"    oscillation    = {temp['oscillation_frac']:.4f}  "
+                        f"(of active, fraction flip-flopping)")
+                    log(f"    settled        = {temp['settled_frac']:.4f}  "
+                        f"(of ever-flipped, fraction now quiet)")
+                    log(f"    frozen         = {temp['frozen_frac']:.4f}  "
+                        f"(never flipped)")
+                    log(f"    total flips    = {temp['total_flips']:,}")
+
+                    # Hottest modules
+                    hot = thermometer.hottest_modules(step, top_n=5)
+                    if hot and hot[0][1] > 0:
+                        log(f"    hottest modules:")
+                        for name, t in hot:
+                            if t > 0:
+                                log(f"      {name}: T={t:.6f}")
 
         # ── Checkpoint ───────────────────────────────────────────────
         if step % args.save_every == 0 and step > 0:
@@ -1520,7 +1800,13 @@ def train(args: argparse.Namespace) -> None:
                 metrics_snap["lr"] = lr_val
             except AttributeError:
                 pass
+            if td_optimizer is not None:
+                metrics_snap["td_flips"] = td_optimizer.last_n_flips
+                metrics_snap["td_step_count"] = td_optimizer.step_count
             save_checkpoint(model, optimizer, step, output_dir, metrics_snap)
+            # Save delta plate state if enabled
+            if td_optimizer is not None:
+                _save_delta_state(model, td_optimizer, output_dir / f"step_{step:07d}")
 
     # ── Final checkpoint ─────────────────────────────────────────────
     final_loss = float(np.mean(loss_history[-100:])) if loss_history else float("nan")
@@ -1642,10 +1928,48 @@ def build_parser() -> argparse.ArgumentParser:
         "--etch-max-flips",
         type=int,
         default=50,
+        help="(Legacy, unused.) See --delta-plates and --td-* flags instead.",
+    )
+    p.add_argument(
+        "--delta-plates",
+        action="store_true",
         help=(
-            "Max sign flips per plate per etch step (default: 50). "
-            "Only active when --trace-weight > 0. Etching runs at each "
-            "eval step, flipping plate signs that increase crystal coherence."
+            "Enable delta plates for TernaryDescent topology correction. "
+            "Adds delta1/delta2 arrays to each TernaryPlate, trained by TD. "
+            "Requires --trace-weight > 0 for gradient signal."
+        ),
+    )
+    p.add_argument(
+        "--td-flip-rate",
+        type=float,
+        default=0.001,
+        help="TD flip rate: max fraction of ternary weights flipped per commit step.",
+    )
+    p.add_argument(
+        "--td-warmup",
+        type=int,
+        default=100,
+        help="TD warmup steps before first flip (accumulate gradient evidence).",
+    )
+    p.add_argument(
+        "--td-flip-interval",
+        type=int,
+        default=20,
+        help="Steps between TD flip commits (accumulate moments between flips).",
+    )
+    p.add_argument(
+        "--td-min-confidence",
+        type=float,
+        default=0.3,
+        help="TD minimum SNR to consider a flip candidate.",
+    )
+    p.add_argument(
+        "--fold-every",
+        type=int,
+        default=0,
+        help=(
+            "Auto-fold delta plates every N steps (0 = never). "
+            "Folds delta into base, resets delta to +1, resets TD moments."
         ),
     )
 

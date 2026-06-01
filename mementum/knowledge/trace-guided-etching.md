@@ -1,8 +1,8 @@
 ---
 title: "Trace-Guided Etching — Etch for Function, Not Form"
-status: designing
+status: active
 category: architecture
-tags: [etching, trace, instrument, opcode, topology, ternary, training]
+tags: [etching, trace, instrument, opcode, topology, ternary, training, zeros, delta-plate]
 related:
   - opcode-instrument.md
   - extraction-sign-accuracy.md
@@ -13,6 +13,7 @@ depends-on:
   - opcode-instrument.md
   - extraction-sign-accuracy.md
 created: session 176
+updated: session 177
 ---
 
 # Trace-Guided Etching
@@ -275,3 +276,212 @@ elif divergence is concentrated in early layers:
   more combinator energy than lambda. The trace captures this. A
   student that matches the teacher's prose trace automatically
   has the full reduction engine.
+
+---
+
+## Session 177: Implementation + Structural Zeros
+
+The design above was implemented and validated in session 177.
+Key deviations from the original design and new findings:
+
+### What Was Built
+
+```
+scripts/v15/model.py   — TernaryPlate.enable_delta(), fold(), _effective()
+scripts/v15/td.py      — TernaryDescent (v14 port, float plates, no pack/unpack)
+scripts/v15/etch.py    — standalone: trace_loss → TD → fold → compare
+scripts/v15/apply_zeros.py — post-hoc structural zeros from 2-plate magnitude
+scripts/v15/extract.py — --zero-frac 0.30 (zeros at extraction time)
+scripts/v15/train.py   — --delta-plates, TD in training loop
+```
+
+### Structural Zeros: The Missing 30%
+
+The original design didn't address zero placement. The extraction
+produced plates that were 100% dense {-1, +1} — every position has
+a sign. But `gradient-zero-map.md` and `extraction-sign-accuracy.md`
+documented that ~30% of positions are irreducible fixed points where
+GD deposited near-zero weights across teacher layers.
+
+**Session 177 implemented the zeros:**
+
+1. `extract.py` updated: bottom 30% by magnitude per plate → zero.
+   Zeros are consistent across plate1 and plate2 (structural absence).
+   Gammas recomputed over non-zero positions only.
+
+2. `apply_zeros.py` for existing checkpoints: reconstructs per-position
+   magnitude from `|plate1×γ1 + plate2×γ2|` (97% accurate per mirror
+   findings), applies global threshold, zeros both plates.
+
+3. Result: 194.6M zeros placed (exactly 30.0% across all 19 strides).
+
+**Why zeros matter for etching:**
+
+- Without zeros: TD wastes flip budget on noise-floor positions.
+  6.5M flips → trace loss 0.078.
+- With zeros: TD concentrates on the 70% that IS the program.
+  Same 6.5M flips → trace loss 0.071. Each flip has 43% more leverage.
+- The three-trit alphabet `{-1, 0, +1}` is now complete:
+  signs = active program (70%), zeros = irreducible (30%).
+  Gate kills another 89% at runtime → ~3% active per token.
+
+### no_block=True: Never Create New Zeros
+
+The original v14 TD used two-step staging: `+1 → 0 → -1`. The zero
+state is a staging area — positions go silent before committing to
+the opposite sign.
+
+**This is wrong for v15 with structural zeros.** When delta = 0,
+`effective = base × 0 = 0`. This temporarily kills an active program
+position. With structural zeros already correctly placed, the
+remaining 70% of positions must stay active. Only their SIGNS
+should change, never their presence.
+
+Fix: `no_block=True` everywhere. Delta is constrained to `{+1, -1}`
+only — direct flips, no zero staging.
+
+### Performance: Batched Trace Gradient
+
+The trace gradient (∂trace_loss/∂delta) requires a forward+backward
+pass separate from the NTP pass (because deltas live inside
+stop_gradient in the normal forward path).
+
+- **Per-plate gradient**: 99 separate forward passes → 23 tok/s (broken)
+- **Batched all deltas**: one forward pass with `mx.grad` over dict → 549 tok/s
+- **Tiny trace batch**: (1, 512) for trace gradient, full (2, 4096) for NTP → 927 tok/s
+
+The trace gradient just needs ANY forward pass to see crystal coherence.
+It doesn't need the full training batch or sequence length.
+
+### Fold Protocol (Revised)
+
+The original design described automatic fold cycles. Session 177
+learned: **fold is manual, not automatic.**
+
+- The base plate is the investment (expensive extraction from 27B teacher)
+- The delta plate is the experiment (cheap to reset)
+- If TD produces bad topology, reset delta to +1 and try different hyperparams
+- Fold only when confident the delta is an improvement
+- Fold is lossless: `new_base = base ⊙ delta`, verified to 8 decimal places
+
+### Validated Measurements
+
+| Metric | Dense plates | After zeros | After zeros+etch |
+|--------|-------------|-------------|-----------------|
+| Trace loss | 0.159 | varies by input | 0.071 |
+| Structural zeros | 0% | 30.0% | 30.0% + flips |
+| TD flips (30 steps) | 6.5M (1%) | 6.5M (1%) | — |
+| Fold lossless | ✅ | ✅ | ✅ |
+| Throughput | — | — | 927 tok/s |
+
+### Training Configuration (Running)
+
+```
+checkpoint:     v15-zeroed (194.6M structural zeros)
+data:           Dolma 2.7B tokens (54 shards) + 10% structured
+batch:          2 × 4096 = 8,192 tok/step
+lr:             3e-4 (AdamW, warmup 500)
+trace_weight:   0.1
+TD:             flip_rate=0.001, warmup=100, interval=20, no_block=True
+fold:           manual (no auto-fold)
+output:         checkpoints/v15-zeroed-dolma/
+```
+
+### S2 Anti-Oscillation Stack (Complete)
+
+The full coordination layer, built iteratively during session 177.
+Each mechanism catches what the previous one misses:
+
+```
+STATIC:
+  structural_zeros(30%)     → dead positions out of the game
+  no_block=True             → active positions stay active (±1 only)
+
+PER-POSITION:
+  td_cooldown(tau=50)       → first flip: 50-step cooldown
+  td_backoff(2×)            → chronic oscillators effectively frozen
+                               (5th flip → 800-step cooldown)
+                            → polysemantic neurons self-identify
+
+PER-ROW:
+  adam_moment_decay(0.1)    → after TD flips row i, Adam's moments
+                               for gamma[i] decayed to 10%
+                            → prevents gamma tug-of-war (~10 step fix)
+
+PER-MODULE:
+  holographic_etch          → equal thin slots per module
+                            → cross-layer coherence (topology changes together)
+
+PER-STEP:
+  flip_interval=20          → Adam gets 19 steps between topology changes
+  td_warmup=100             → Adam calibrates before any flips
+
+GLOBAL:
+  crystal_thermometer       → temperature = fraction active recently
+                            → oscillation = fraction flip-flopping
+                            → temperature → 0 = fold signal
+```
+
+### Static Polysemantic Detection: Failed
+
+Session 177 attempted to classify neurons as pure vs polysemantic
+from static weight projections onto the crystal basis. Result:
+**the detector flags 85-99% as polysemantic**, indistinguishable
+from random vectors.
+
+Root cause: the crystal basis spans 11 of 1280 dimensions (0.86%).
+A random vector in R^1280 projects onto 11 orthogonal directions
+with entropy 1.75 / max 2.40, purity 0.36, ~3.5 modes — identical
+to the neuron statistics. The projection captures <1% of the weight
+space. No signal above noise.
+
+This confirms `extraction-sign-accuracy.md`: "each weight row
+projects only 0.3% of its energy into the crystal subspace."
+
+**The correct detector is dynamic**: TD's flip-flop rate. Positions
+that chronically oscillate under diverse training data ARE the
+polysemantic neurons. The cooldown + backoff mechanism already
+freezes them. No separate detector needed — the training dynamics
+are the detector.
+
+**Future**: dynamic analysis with per-neuron per-input activations
+could reveal the mode structure (binary, ternary, quaternary splits),
+but this is research instrumentation, not a training utility.
+
+### Polysemantic Neurons as Multi-Way Reductions
+
+Session 177 insight: a neuron (row in weight matrix) can serve
+multiple combinator reductions depending on the input. The gate
+(89% kill) selects which reduction is active per token.
+
+At the individual weight POSITION level: always binary (±1).
+At the NEURON level: can be 2-way, 3-way, or 4-way multiplexed.
+At the CIRCUIT level: multiplexed neurons form reduction chains
+across strides — a 3-way split in stride 7 implies corresponding
+routing structure in strides 5-6 and 8-9.
+
+TD flip-flop at a position is the shadow of neuron-level
+polysemanticity projected down to binary. The cooldown mechanism
+is correct: don't flip these positions. They're not wrong — they're
+serving multiple masters via superposition.
+
+### Open Design Questions (session 177)
+
+1. **Fold signal**: Crystal temperature → 0 is the candidate.
+   But what threshold? And should oscillation_frac be low too?
+2. **Trace weight schedule**: Should trace_weight decay as NTP
+   improves? Or stay constant as a permanent topology constraint?
+3. **Crystal basis orthogonalization**: Non-orthogonal basis
+   causes coherence >1.0 at some strides. Gram-Schmidt would
+   give cleaner [0,1] loss range. (Confirmed: off-diagonal
+   correlations up to 0.879.)
+4. **TD on plate2?** Currently TD flips both delta1 (over plate1)
+   and delta2 (over plate2). Should plate2 be excluded? It's the
+   magnitude mirror, not the program topology. Flipping plate2
+   changes magnitude class, not computation direction.
+5. **Multi-way splits**: Are 3-way and 4-way neuron multiplexing
+   patterns real? Do they form reduction chains across strides?
+   Needs dynamic activation analysis (not static weight projection).
+6. **Temperature as annealing**: Could flip_rate adapt to crystal
+   temperature instead of being fixed? High temp → more flips,
+   low temp → fewer. Natural annealing schedule.

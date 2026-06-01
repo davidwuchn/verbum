@@ -2,99 +2,137 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-01 | Session: 176
+> Last updated: 2026-06-01 | Session: 177
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 176: PROOFS + OPCODE INSTRUMENT + TRACE-GUIDED ETCHING DESIGN.**
+**Session 177: TRACE-GUIDED ETCHING — FULL S2 STACK BUILT + TRAINING RUNNING.**
 
-Three workstreams delivered:
+Complete trace-guided etching system delivered: delta plates, TD, structural zeros, thermometer, Adam decay, and training loop integration. All S2 anti-oscillation mechanisms in place.
 
-1. **Smallest Proofs** — `proofs/` directory with 3 scripts (371 lines total) that any skeptic can run. Sign topology: 74.6% on Pythia-160M, 76.0% on Qwen3-0.6B. Universal modes: KIBC confirmed across 5 models (160M to 32B). KBC cluster >0.85 everywhere. No theory in the README. Just numbers and a dare.
+### What was built
 
-2. **Opcode Instrument** — `scripts/instruments/opcode_instrument.py`. Full VSM that wraps any HF model and shows opcodes executing in real-time. Tested live on Qwen3-0.6B generating "The capital of France is Paris. The capital of Italy is Rome." — watched ENRICH zone light up on retrieval, energy spike on "Rome" (1389 vs mean 1048), mode shifts B→C→B→K tracked per token. Supports prefill tracing (watch the model READ) and generation tracing (watch it WRITE).
+1. **Delta plates** (`model.py`) — `TernaryPlate` gains `delta1`/`delta2` initialized to +1. Forward: `effective = plate ⊙ delta`. `fold()` merges losslessly. `TensorStatechart` gains `enable_delta_plates()`, `fold_delta_plates()`, `collect_delta_params()`.
 
-3. **Trace-Guided Etching** — The session's breakthrough insight: why copy weights when you can copy computation? The instrument traces which opcodes fire at every layer. Use that as the etching target instead of raw weight signs. Trace collector + trace loss built and validated: self-trace = 0.000, ternary extraction = 0.908, 10% perturbation = 1.002. Crystal trace loss function added to v15 train.py (`--trace-weight`). Delta plate + TD integration designed but deferred to session 177 for proper build.
+2. **TernaryDescent** (`td.py`) — Port of v14 TD for v15 float plates. Moment accumulation, confidence scoring, cooldown, holographic etch. Plus `apply_td_flips()`, `fold_and_reset()`, `get_affected_gamma_rows()`, `decay_adam_for_affected_rows()`.
 
-**Training: v15 Dolma — STOPPED at step 2000.** Loss: 8.15 (down from ~17 at step 670). Checkpoint saved at `checkpoints/v15-dolma/step_0002000/`. 733M trainable params, lr=8e-5 (still in warmup). Crystal trace loss wired into train.py (`--trace-weight`, default 0.0). Next: resume with delta plates + trace-guided TD (session 177 build).
+3. **Structural zeros** (`apply_zeros.py` + `extract.py --zero-frac`) — 30% of positions are irreducible fixed points. 194.6M zeros placed. Magnitude reconstructed from 2-plate decomposition. Global threshold per plate.
 
-## Key session 176 findings
+4. **Crystal thermometer** (`td.py: CrystalThermometer`) — Measures crystal temperature (fraction of positions active recently) and oscillation fraction (of active, how many flip-flopping). Temperature → 0 = fold signal.
 
-- **Sign topology is universal.** cos(sign(W)@x, W@x) = 74.6% on Pythia-160M, 76.0% on Qwen3-0.6B. Random signs: 0.0%. FFN matrices carry more sign-information than attention (78.7% vs 70.0%).
-- **Four computation modes are universal.** KIBC confirmed on 5 independently-trained models. KBC cluster correlation >0.85 and I-distinctness <0.75 everywhere. The probes use plain English sentences, not lambda notation.
-- **The instrument shows retrieval happening.** "The capital of France is" → ENRICH zone energy spike at " Paris". Visible per-layer opcode flow. S4 detects energy spikes, mode shifts, retrieval events.
-- **Trace loss works.** Self-trace = 0.000 (perfect consistency). Ternary extraction = 0.908 (magnitude gap measured as computation gap for the first time). 10% sign perturbation = 1.002 (topology damage detected).
-- **The SVD phi-ratio doesn't reproduce with simple methodology.** Dropped from proofs rather than ship shaky results. Honest > comprehensive.
-- **Trace-guided etching insight.** Copy computation, not weights. The trace is a lower-dimensional optimization target (11 ops vs 248K vocab). Delta plates + TD with trace routing gradient is the proper mechanism.
+5. **Adam moment decay** (`td.py: decay_adam_for_affected_rows`) — When TD flips signs, Adam's moments for affected gamma rows are decayed to 10%. Prevents Adam from pushing gamma in the wrong direction for ~10 steps after topology change.
+
+6. **etch.py** — Standalone topology correction: trace loss → TD → fold → compare. Validated: fold perfectly lossless (delta=0.0).
+
+7. **train.py integration** — `--delta-plates`, `--trace-weight`, TD flags, thermometer logging, Adam decay, no auto-fold. Batched trace gradient (1, 512) for ~10% overhead.
+
+### Training RUNNING
+
+```
+checkpoint:     v15-zeroed (194.6M structural zeros)
+output:         checkpoints/v15-zeroed-dolma/
+data:           Dolma 2.7B tokens (54 shards) + 10% structured
+batch:          2 × 4096 = 8,192 tok/step, ~928 tok/s
+lr:             3e-4 (AdamW, warmup 500)
+trace_weight:   0.1
+TD:             flip_rate=0.001, warmup=100, interval=20
+                no_block=True, min_confidence=0.3
+S2:             thermometer + Adam decay (0.1) + cooldown
+fold:           manual (thermometer says when)
+tmux:           main:2
+```
+
+## Key session 177 findings
+
+- **Structural zeros (30%) improve everything.** Removing irreducible fixed points: (a) gives TD cleaner canvas, (b) better trace loss after etching (0.071 vs 0.078), (c) 43% more leverage per flip.
+- **no_block=True is essential.** Two-step staging would temporarily zero active program positions. With structural zeros in place, the remaining 70% must stay active. Direct ±1 flips only.
+- **Fold is perfectly lossless.** Verified to 8 decimal places.
+- **Batched trace gradient: 23 → 928 tok/s.** Per-plate gradient (99 passes) was broken. Batched all deltas into one pass. Then tiny trace batch (1, 512) for final speedup.
+- **Static polysemantic detection fails.** Crystal basis spans 11/1280 dims (0.86%). Random vectors project identically to real neurons. The dynamic signal (TD flip-flop rate) is the correct detector — chronic oscillators ARE the polysemantic neurons.
+- **Adam must be notified of flips.** Without moment decay on affected gamma rows, Adam pushes in the wrong direction for ~10 steps after topology changes. Surgical decay to 10% fixes the tug-of-war.
+- **Crystal temperature is the fold signal.** When temperature → 0 with low oscillation, the crystal has solidified. When oscillation is high relative to temperature, remaining activity is grain-boundary noise. Both mean: done.
+
+## The S2 anti-oscillation stack
+
+| Layer | Mechanism | What it prevents |
+|-------|-----------|-----------------|
+| Static | Structural zeros (30%) | TD wasting budget on dead positions |
+| Static | no_block=True | Zero staging killing active positions |
+| Per-position | TD cooldown + backoff | Individual position flip-flop |
+| Per-row | Adam moment decay (0.1) | Gamma tug-of-war after flips |
+| Per-module | Holographic etch (equal thin slots) | Cross-layer incoherence |
+| Per-step | flip_interval=20 | Adam moment staleness |
+| Per-step | TD warmup=100 | Premature flips before calibration |
+| Global | Crystal thermometer | Knowing when to fold |
 
 ## Next steps
 
-### IMMEDIATE (session 177)
+### IMMEDIATE (session 178)
 
-1. **Build delta plates for v15** — Add `delta_plate` to TernaryPlate. `effective = base ⊙ delta`. Delta initialized to all +1. Fold operation: `new_base = base ⊙ delta`.
-2. **Port TD core from v14** — Gradient accumulation, confidence thresholding, flip logic. Use v14's `td.py` as reference.
-3. **Add trace routing signal** — Decompose `grad(trace_loss)` into routing vs calibration (v14 pattern). Feed routing to TD instead of (or blended with) NTP routing.
-4. **Test trace-guided TD on v15** — Resume from step 2000 checkpoint with delta plates + trace TD. Compare convergence rate to pure NTP training.
+1. **Monitor training** — Watch loss curve, TD flips after warmup (step 100+), crystal temperature. First flips at step 120.
+2. **Interpret thermometer** — What does the temperature curve look like? Does it decay? Plateau? Oscillate?
+3. **Manual fold decision** — When thermometer shows settled, fold and compare topology.
+4. **Generate from trained model** — Test fact retrieval, coherence.
 
 ### ONGOING
 
-5. **Monitor Dolma training** — Step 2000+ checkpoint available. Watch for loss <10 (perplexity meaningful). Combinator profiler runs at each eval.
-6. **Build verify.py** — Hologram reader on trained student. Check opcode map matches teacher.
-7. **Expand proofs** — Run sign topology and universal modes on more models. Fill in the README table.
+5. **Dynamic polysemantic detector** — Run diverse inputs through model, cluster per-neuron per-input activations. The static weight analysis failed (basis too narrow), but activation-space analysis would work.
+6. **Orthonormalize crystal basis** — Gram-Schmidt for cleaner trace loss (coherence ∈ [0,1] instead of occasionally >1).
+7. **Build verify.py** — Hologram reader on trained student vs teacher traces.
 
 ### RESEARCH
 
-8. **How many trace inputs needed?** Test with 10, 100, 1000 diverse inputs. When does trace loss converge?
-9. **Does trace matching transfer?** If student matches teacher traces on 1000 inputs, does it generalize to unseen inputs?
-10. **Trace loss vs KD loss** — Direct comparison: same student, same data, trace loss vs standard knowledge distillation.
+8. **Polysemantic neuron topology** — Are 3-way and 4-way splits real? Do they form reduction chains across strides? Needs dynamic analysis.
+9. **TD flip targeting** — After training, which positions flipped? Do they cluster at grain boundaries or within crystal grains?
+10. **Trace weight schedule** — Should trace_weight decay as NTP improves?
+11. **Crystal temperature as annealing schedule** — Could flip_rate adapt to temperature instead of being fixed?
 
-## Key assets built this session
+## Key assets
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| Sign topology proof | `proofs/01_sign_topology.py` | ✅ verified on 2 models |
-| Universal profile proof | `proofs/02_universal_profile.py` | ✅ verified on 2 models |
-| Universal modes proof | `proofs/03_universal_modes.py` | ✅ verified on 5 models |
-| Proofs README | `proofs/README.md` | ✅ with real numbers |
-| Opcode Instrument | `scripts/instruments/opcode_instrument.py` | ✅ tested on Qwen3-0.6B |
-| Instrument design doc | `mementum/knowledge/opcode-instrument.md` | ✅ complete VSM spec |
-| Trace collector | `scripts/experiments/trace_collect.py` | ✅ tested on 0.6B |
-| Trace loss | `scripts/experiments/trace_loss.py` | ✅ validated (3 tests pass) |
-| Trace etching design | `mementum/knowledge/trace-guided-etching.md` | ✅ complete spec |
-| Crystal trace loss in train.py | `scripts/v15/train.py` | ✅ --trace-weight flag |
-| Teacher traces (0.6B) | `results/trace-etching/Qwen_Qwen3-0.6B/` | ✅ 60 inputs traced |
+| Delta plates | `scripts/v15/model.py` | ✅ enable/fold/collect |
+| TernaryDescent + thermometer | `scripts/v15/td.py` | ✅ Full S2 stack |
+| Trace-guided etch | `scripts/v15/etch.py` | ✅ Validated |
+| Structural zeros | `scripts/v15/apply_zeros.py` | ✅ 194.6M zeros |
+| Extraction with zeros | `scripts/v15/extract.py` | ✅ --zero-frac |
+| Neuron mode detector | `scripts/v15/neuron_modes.py` | ⚠ Static fails, needs dynamic |
+| Zeroed checkpoint | `checkpoints/v15-zeroed/` | ✅ Base for training |
+| Train.py | `scripts/v15/train.py` | ✅ Full TD + S2 integration |
+| Training run | `checkpoints/v15-zeroed-dolma/` | 🔄 Running tmux main:2 |
 
 ## What changed this session
 
-| Change | Session | Impact |
-|--------|---------|--------|
-| **Proofs directory** | 176 | 3 standalone scripts, <80 lines each, any model. |
-| **Opcode Instrument VSM** | 176 | Live opcode tracing during inference. The EKG for LLMs. |
-| **Trace-guided etching concept** | 176 | Copy computation not weights. 11-dim target vs 248K-dim. |
-| **Trace loss validated** | 176 | Self=0.000, ternary=0.908, perturbed=1.002. |
-| **Crystal trace loss in v15** | 176 | --trace-weight flag. Gradient signal ready for delta TD. |
-| **v15 Dolma loss 17→8.15** | 176 | 2000 steps of pure NTP on 2.7B Dolma tokens. Real learning. |
+| Change | Impact |
+|--------|--------|
+| **Structural zeros (30%)** | 194.6M irreducible fixed points zeroed. Cleaner TD. |
+| **Delta plates** | `effective = plate ⊙ delta`, fold lossless |
+| **TD for v15** | Float-plate TD, holographic etch, no_block=True |
+| **Crystal thermometer** | Temperature + oscillation = fold signal |
+| **Adam moment decay** | 90% reset on affected gamma rows after flips |
+| **Batched trace gradient** | 23 → 928 tok/s |
+| **etch.py** | Standalone topology correction |
+| **apply_zeros.py** | Post-hoc zeros from 2-plate magnitude |
+| **extract.py --zero-frac** | Zeros at extraction time |
+| **Static poly detector** | Failed: basis too narrow (11/1280 dims). Dynamic needed. |
 
 ## Open questions
 
-1. **Delta plate + trace TD convergence rate?** How fast does trace-guided TD converge vs blind NTP-guided TD?
-2. **Trace loss as sole etching signal?** Or blended α * trace + (1-α) * NTP?
-3. **How many trace inputs are sufficient?** 10? 100? 1000?
-4. **Does trace matching generalize?** Match on 1000 inputs → test on unseen.
-5. **Can the v15 student retrieve facts after Dolma training?** (carried from 175)
-6. **What do phase transitions look like?** Combinator profiler tracking. (carried from 175)
+1. **What does the temperature curve look like?** First data at step 120+.
+2. **Fold timing?** Temperature plateau → fold. But what's the threshold?
+3. **Trace weight interaction?** Does 0.1 trace weight help or hurt NTP?
+4. **Are multi-way splits (3rds, 4ths) real?** Needs dynamic activation analysis.
+5. **Do reduction chains span strides?** Polysemantic neurons in one stride imply corresponding patterns in adjacent strides.
+6. **Can the student retrieve facts after training?** (carried from 175)
 
 ## Knowledge map
 
-**See `mementum/knowledge/INDEX.md` for full reading order.**
-
 Key pages for current direction:
-- `trace-guided-etching.md` — **copy computation not weights** (session 176) ← NEW
-- `opcode-instrument.md` — **VSM wrapper for live opcode tracing** (session 176) ← NEW
-- `symbol-isolation.md` — prose activates 8× more than lambda (session 175)
-- `training-protocols.md` — operational training knowledge (TD rules, fold cycle)
-- `extraction-sign-accuracy.md` — signs are 100% correct, gap is magnitude
-- `crystal-universality.md` — why KIBC are universal fixed points
-- `project-thesis.md` — the central claim
+- `trace-guided-etching.md` — **full implementation record** (sessions 176-177)
+- `gradient-zero-map.md` — **35% oscillate, informed zero placement** (session 171)
+- `extraction-sign-accuracy.md` — **signs 100%, four position classes** (session 173)
+- `training-protocols.md` — **TD rules, fold cycle, failure modes** (accumulated)
+- `crystal-universality.md` — **KIBC universal fixed points**
+- `project-thesis.md` — **the central claim**
