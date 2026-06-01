@@ -372,15 +372,17 @@ class TensorStatechart(nn.Module):
         self,
         input_ids: mx.array,
         return_algedonic: bool = False,
+        return_residuals: bool = False,
     ) -> dict:
         """Forward pass through the tensor statechart.
 
         Args:
             input_ids: (batch, seq_len) token IDs
             return_algedonic: if True, include per-stride health signals
+            return_residuals: if True, include per-stride residual stream snapshots
 
         Returns:
-            dict with 'logits' and optionally 'algedonic_signals'
+            dict with 'logits' and optionally 'algedonic_signals', 'residuals'
         """
         B, L = input_ids.shape
 
@@ -395,8 +397,13 @@ class TensorStatechart(nn.Module):
 
         # Execute statechart: stride by stride
         signals = []
+        residuals = [] if return_residuals else None
         for stride in self.strides:
             x = stride(x, mask=mask)
+
+            # Capture residual stream snapshot (for combinator profiling)
+            if return_residuals:
+                residuals.append(x)
 
             # Algedonic check (fire alarm)
             if return_algedonic:
@@ -412,6 +419,8 @@ class TensorStatechart(nn.Module):
         result = {"logits": logits}
         if return_algedonic:
             result["algedonic_signals"] = signals
+        if return_residuals:
+            result["residuals"] = residuals
         return result
 
     def count_parameters(self) -> dict:

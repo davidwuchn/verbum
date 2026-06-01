@@ -877,6 +877,156 @@ def per_zone_grad_norm(
 
 
 # ══════════════════════════════════════════════════════════════════════
+# Combinator phase profiler — track B→K→I phase cascade
+# ══════════════════════════════════════════════════════════════════════
+
+# Fixed diagnostic sentences: same every eval for consistent measurement.
+# Mix of lambda-like, factual, code, neutral to exercise all stride zones.
+DIAGNOSTIC_PROMPTS = [
+    "Every artist knows a baker.",
+    "The capital of France is Paris.",
+    "If the dog runs then the cat sleeps.",
+    "def fibonacci(n): return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)",
+    "The teacher who the student admires reads.",
+    "λx. λy. x y",
+    "∀x. (artist(x) → knows(x, baker))",
+    "The sun rises in the east and sets in the west.",
+    "2 + 3 = 5",
+    "Once upon a time there was a small village near the mountains.",
+]
+
+
+def load_crystal_basis(checkpoint_dir: str | Path) -> np.ndarray | None:
+    """Load per-stride crystal basis from extracted checkpoint.
+
+    Returns:
+        (n_strides, n_combinators, d_model) array, or None if not found.
+    """
+    basis_path = Path(checkpoint_dir) / "crystal_basis_d_model.npz"
+    if not basis_path.exists():
+        log(f"Crystal basis not found at {basis_path} — profiler disabled")
+        return None
+    data = np.load(basis_path)
+    basis = data["per_stride_basis"]  # (19, 11, 1280)
+    names = list(data["combinator_names"])
+    log(f"Crystal basis loaded: {basis.shape[0]} strides × {basis.shape[1]} combinators ({', '.join(names[:4])}...)")
+    return basis
+
+
+def run_combinator_profile(
+    model: "TensorStatechart",
+    tokenizer: "QwenTokenizer",
+    crystal_basis: np.ndarray,
+    step: int,
+    output_dir: Path,
+) -> dict:
+    """Profile combinator activation per stride using diagnostic probes.
+
+    Runs fixed diagnostic sentences through the model, captures residual
+    stream after each stride, projects onto per-stride crystal basis.
+
+    Returns dict with per-stride dominant combinator and activation profile.
+    """
+    combinator_names = ["K", "I", "B", "C", "D", "Y", "W",
+                        "beta_K", "beta_I", "beta_apply", "beta_compose"]
+    n_strides = crystal_basis.shape[0]
+    n_ops = crystal_basis.shape[1]
+
+    # Tokenize diagnostic prompts (truncate to reasonable length)
+    all_ids = []
+    for prompt in DIAGNOSTIC_PROMPTS:
+        ids = tokenizer.encode(prompt)[:128]  # cap at 128 tokens each
+        all_ids.append(ids)
+
+    # Pad to same length for batching
+    max_len = max(len(ids) for ids in all_ids)
+    padded = np.zeros((len(all_ids), max_len), dtype=np.int32)
+    for i, ids in enumerate(all_ids):
+        padded[i, :len(ids)] = ids
+    input_ids = mx.array(padded)
+
+    # Forward with residual capture
+    result = model(input_ids, return_residuals=True)
+    residuals = result["residuals"]  # list of (batch, seq, d_model)
+
+    # Project each stride's residual onto its crystal basis
+    # crystal_basis[s] is (n_ops, d_model)
+    profile = {}  # stride_idx → {combinator_name: mean_activation}
+    zone_names = {}
+
+    for s in range(min(n_strides, len(residuals))):
+        r = residuals[s]  # (batch, seq, d_model) — mx.array
+
+        # Per-stride basis in mx
+        basis_s = mx.array(crystal_basis[s])  # (n_ops, d_model)
+
+        # Project: (batch, seq, d_model) @ (d_model, n_ops) → (batch, seq, n_ops)
+        proj = r @ basis_s.T
+
+        # Energy per combinator: mean of squared projection across batch and sequence
+        energy = mx.mean(proj * proj, axis=(0, 1))  # (n_ops,)
+        mx.eval(energy)
+        energy_np = np.array(energy)
+
+        # Normalize to fractions
+        total_energy = energy_np.sum()
+        if total_energy > 0:
+            fracs = energy_np / total_energy
+        else:
+            fracs = np.zeros(n_ops)
+
+        stride_profile = {combinator_names[i]: float(fracs[i]) for i in range(n_ops)}
+        dominant = combinator_names[int(np.argmax(fracs))]
+        stride_profile["_dominant"] = dominant
+        stride_profile["_total_energy"] = float(total_energy)
+        profile[s] = stride_profile
+
+        zone = model.strides[s].zone
+        zone_names[s] = zone.name
+
+    # Zone-averaged profiles
+    zone_profiles = {}
+    for zone in Zone:
+        zone_strides = [s for s in profile if zone_names.get(s) == zone.name]
+        if not zone_strides:
+            continue
+        avg = {}
+        for op in combinator_names:
+            avg[op] = float(np.mean([profile[s][op] for s in zone_strides]))
+        dominant = max(avg, key=avg.get)
+        zone_profiles[zone.name] = {"profile": avg, "dominant": dominant}
+
+    # Log summary
+    log("  Combinator profile per stride:")
+    for s in sorted(profile):
+        p = profile[s]
+        zone = zone_names.get(s, "?")
+        dom = p["_dominant"]
+        # Top 3 by activation fraction
+        sorted_ops = sorted(combinator_names, key=lambda op: p[op], reverse=True)[:3]
+        top3 = " ".join(f"{op}={p[op]:.2f}" for op in sorted_ops)
+        log(f"    stride {s:02d} ({zone:8s}): {dom:>12} | {top3}")
+
+    log("  Zone dominants:")
+    for zname, zp in zone_profiles.items():
+        dom = zp["dominant"]
+        log(f"    {zname:8s}: {dom}")
+
+    # Save to JSON
+    result_data = {
+        "step": step,
+        "per_stride": profile,
+        "per_zone": zone_profiles,
+        "combinator_names": combinator_names,
+    }
+    prof_path = output_dir / f"combinator_step_{step:07d}.json"
+    with open(prof_path, "w") as f:
+        json.dump(result_data, f, indent=2)
+
+    return result_data
+
+
+# ══════════════════════════════════════════════════════════════════════
 # Main training loop
 # ══════════════════════════════════════════════════════════════════════
 
@@ -926,6 +1076,9 @@ def train(args: argparse.Namespace) -> None:
     )
 
     log(f"Optimizer: AdamW  lr={args.lr}  wd={args.weight_decay}  warmup={warmup_steps}")
+
+    # ── Crystal basis (for combinator profiling) ─────────────────────
+    crystal_basis = load_crystal_basis(args.checkpoint)
 
     # ── Resume if checkpoint exists ──────────────────────────────────
     start_step = 0
@@ -1082,6 +1235,15 @@ def train(args: argparse.Namespace) -> None:
                             json.dump({"step": step, "alphas": alphas}, f, indent=2)
                 except Exception as e:
                     log(f"  α measurement failed: {e}")
+
+            # Combinator phase profiler
+            if crystal_basis is not None:
+                try:
+                    run_combinator_profile(
+                        model, tokenizer, crystal_basis, step, output_dir,
+                    )
+                except Exception as e:
+                    log(f"  Combinator profiler failed: {e}")
 
         # ── Checkpoint ───────────────────────────────────────────────
         if step % args.save_every == 0 and step > 0:
