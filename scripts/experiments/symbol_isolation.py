@@ -209,56 +209,48 @@ def build_probes() -> dict[str, list[dict]]:
 # FFN Hook (reused from moire_selectivity.py)
 # ══════════════════════════════════════════════════════════════════════
 
-class FFNHook:
-    """Captures gate (post-silu), up, and moiré activations per layer."""
+class LayerOutputHook:
+    """Captures the hidden state (residual stream) after each transformer layer.
+
+    The fingerprints from the hologram reader are built from down_proj output
+    which is in d_model space. We capture the full layer output (also d_model)
+    so projections onto fingerprints are dimensionally consistent.
+    """
 
     def __init__(self, n_layers: int):
         self.n_layers = n_layers
-        self.gate_acts: dict[int, torch.Tensor] = {}
-        self.up_acts: dict[int, torch.Tensor] = {}
+        self.layer_acts: dict[int, torch.Tensor] = {}
         self.handles: list = []
 
-    def _make_gate_hook(self, layer_idx: int):
+    def _make_hook(self, layer_idx: int):
         def hook(module, input, output):
-            self.gate_acts[layer_idx] = output[0, -1, :].detach().cpu()
-        return hook
-
-    def _make_up_hook(self, layer_idx: int):
-        def hook(module, input, output):
-            self.up_acts[layer_idx] = output[0, -1, :].detach().cpu()
+            # Transformer layer output: tuple, first element is hidden state
+            hidden = output[0] if isinstance(output, tuple) else output
+            # Last token position, detach and move to CPU
+            self.layer_acts[layer_idx] = hidden[0, -1, :].detach().cpu()
         return hook
 
     def register(self, model):
         for i in range(self.n_layers):
-            mlp = model.model.layers[i].mlp
-            if hasattr(mlp, "gate_proj"):
-                h1 = mlp.gate_proj.register_forward_hook(self._make_gate_hook(i))
-                h2 = mlp.up_proj.register_forward_hook(self._make_up_hook(i))
-            elif hasattr(mlp, "gate_up_proj"):
-                raise NotImplementedError("Combined gate_up_proj not supported yet")
-            else:
-                raise ValueError(f"Unknown MLP structure at layer {i}")
-            self.handles.extend([h1, h2])
+            layer = model.model.layers[i]
+            h = layer.register_forward_hook(self._make_hook(i))
+            self.handles.append(h)
 
     def remove(self):
         for h in self.handles:
             h.remove()
         self.handles.clear()
 
-    def get_moire(self) -> dict[int, np.ndarray]:
-        """Return moiré = silu(gate) * up per layer. Always computed in float32."""
-        result = {}
-        for li in range(self.n_layers):
-            if li not in self.gate_acts:
-                continue
-            gate = torch.nn.functional.silu(self.gate_acts[li].float())  # upcast to fp32
-            up = self.up_acts[li].float()  # upcast to fp32
-            result[li] = (gate * up).numpy()
-        return result
+    def get_hidden_states(self) -> dict[int, np.ndarray]:
+        """Return per-layer hidden states in d_model space (float32)."""
+        return {
+            li: self.layer_acts[li].float().numpy()
+            for li in range(self.n_layers)
+            if li in self.layer_acts
+        }
 
     def clear(self):
-        self.gate_acts.clear()
-        self.up_acts.clear()
+        self.layer_acts.clear()
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -312,19 +304,21 @@ def run_experiment(model_name: str = "Qwen/Qwen3-0.6B", device: str = "cpu"):
     for cat_name, probes in categories.items():
         log(f"  {cat_name}: {len(probes)} probes")
 
-    # Register hooks
-    hook = FFNHook(n_layers)
+    # Register hooks — capture hidden state after each layer (d_model space)
+    # Fingerprints are in d_model space (built from down_proj output by hologram reader)
+    hook = LayerOutputHook(n_layers)
     hook.register(model)
+    log(f"Registered hooks on {n_layers} layers (d_model={model.config.hidden_size})")
 
     # Run all probes, collect per-category combinator energy
     results = {}
+    op_names_ordered = sorted(fingerprints.keys())
 
     for cat_name, probes in categories.items():
         log(f"Running {cat_name}...")
 
         # Per-layer, per-combinator energy accumulator
         layer_op_energy = np.zeros((n_layers, len(fingerprints)), dtype=np.float64)
-        op_names_ordered = sorted(fingerprints.keys())
         n_probes = 0
 
         for probe in probes:
@@ -335,17 +329,17 @@ def run_experiment(model_name: str = "Qwen/Qwen3-0.6B", device: str = "cpu"):
             with torch.no_grad():
                 model(input_ids)
 
-            moire_acts = hook.get_moire()
+            hidden_states = hook.get_hidden_states()
 
             for li in range(n_layers):
-                if li not in moire_acts:
+                if li not in hidden_states:
                     continue
-                moire = moire_acts[li]  # (d_ff,)
+                h = hidden_states[li]  # (d_model,) — same space as fingerprints
 
                 for oi, op_name in enumerate(op_names_ordered):
-                    fp = fingerprints[op_name][li]  # (d_ff,)
-                    # Cosine projection energy: (moiré · fp)² / (||fp||²)
-                    dot = float(np.dot(moire, fp))
+                    fp = fingerprints[op_name][li]  # (d_model,)
+                    # Cosine projection energy: (h · fp)² / (||fp||²)
+                    dot = float(np.dot(h, fp))
                     fp_norm_sq = float(np.dot(fp, fp))
                     if fp_norm_sq > 1e-10:
                         energy = dot * dot / fp_norm_sq
