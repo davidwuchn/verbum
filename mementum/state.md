@@ -8,7 +8,7 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 174: 4-PHASE COMPUTATION MODEL VERIFIED BY ABLATION.** Traced the reduction graph through Qwen3.6-27B. FFN proposes typed reductions per position per layer. Computation proceeds in 4 clear phases: CLASSIFY (L0-31, identity), COMPUTE (L32-53, Y/B/D recursion 2.5-3.2× lambda activation), ASSEMBLE (L54-58, redundant at task level), EMIT (L59-63, fact retrieval). Zone ablation PROVES separation: ablating ENRICH drops lambda 80pp but facts only 20pp (4.0× selectivity). Ablating COMMIT drops facts 60pp but lambda only 40pp. The student architecture is validated.
+**Session 174: 4-PHASE MODEL VERIFIED → v15 BUILT → EXTRACTION DONE → TRAINING RUNNING.** Monster session. (1) Traced reduction graph through 27B — FFN proposes typed reductions per position. (2) Zone ablation PROVES functional separation: ENRICH=reduction engine (4.0× lambda-specific), COMMIT=knowledge retrieval. (3) SUPPRESS re-understood as LINK (composer, not redundant — β_K, B ops). (4) Full VSM conformance: algedonic channel (v14's missing fire alarm), recursive S1 strides, variety engineering. (5) Crystal lattice integration at 7 concrete design points. (6) v15 architecture: 19-stride tensor statechart, 709 MB, hybrid attention. (7) Extraction from 27B complete (210 min). (8) Training pipeline working, currently running in tmux (batch 2, seq 4096, lr 1e-6).
 
 **Previous: Session 173** — Signs 100% correct, 2-mirror ternary (0.970 recon_cos), crystal-native architecture designed, stride cascade = recursion unroll, per-stride plates fit in 1GB.
 
@@ -22,12 +22,19 @@
 
 **Previous: Session 171** — Gradient-zero convergence map. Oscillation/magnitude orthogonal.
 
-**Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach needs redesign.
+**Training: v15 Phase 2 RUNNING** — Attention + gamma training against frozen extracted plates. Batch 2, seq 4096, lr 1e-6. In tmux window 2. Log at checkpoints/v15-train.log.
+
+**Training: v14-mmap STOPPED** — NaN recurred + holographic etch approach needs redesign. Superseded by v15.
 
 ## Key session 174 findings
 
 - **4-phase computation model VERIFIED by ablation on 27B.** CLASSIFY (L0-31) → COMPUTE (L32-53) → ASSEMBLE (L54-58) → EMIT (L59-63). Each phase has distinct dominant combinators and distinct ablation sensitivity.
 - **ENRICH (L32-53) IS the reduction engine.** Ablating it: lambda 100%→20%, facts 100%→80%. Selectivity ratio: 4.0×. The model CANNOT COMPUTE but CAN RETRIEVE with ENRICH removed.
+- **SUPPRESS is NOT redundant — it's the LINKER.** Dominant ops β_K (constant elimination), K (selection), B (composition). Ablation showed no loss on simple 1-step reductions, but these ops compose multi-step results. Renamed LINK in student.
+- **3 attention regimes.** L0: structural (corr=0.91), L7-21: content-adaptive (corr=0.38-0.49), L26-27: structural again (corr=0.95-1.00). Heads don't specialize by combinator.
+- **v15 architecture designed, built, extracted, training.** 19 strides (5 CLASSIFY + 8 COMPUTE + 3 LINK + 3 EMIT), 709 MB. Full VSM with algedonic monitors. Extraction from 27B teacher completed in 210 min. Phase 2 training running.
+- **φ-ratio and α are MEASURING STICKS, not parameters.** We do not hardcode either. They emerge when the crystal forms correctly. Student strides will find their own decay shape.
+- **Crystal lattice enters architecture at 7 points:** fingerprints (basis), zeros (lattice gaps), 6-PC structure (TD constraints), zone geometry (stride allocation), φ-ratio (verification), nucleation hierarchy (TD health), crystal projection (algedonic).
 - **COMMIT (L59-63) IS the knowledge crystal.** Ablating it: facts 100%→40%, lambda 100%→60%. Selectivity ratio: 1.5× fact-preferring. Model knows topic but can't retrieve specific facts.
 - **SUPPRESS (L54-58) is redundant at task level.** Zero accuracy loss when ablated. Likely for fine-grained quality only.
 - **27B recognizes lambda IMMEDIATELY.** β_apply activation 2.3-3.0× higher than neutral from L0. At 0.6B, this only appeared in ENRICH.
@@ -93,9 +100,11 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 |-------|----------|--------|
 | Architecture config | `scripts/v15/config.py` | ✅ complete |
 | Model (tensor statechart) | `scripts/v15/model.py` | ✅ complete |
-| Extraction pipeline | `scripts/v15/extract.py` | ✅ complete, not yet run |
+| Checkpoint loader | `scripts/v15/load_checkpoint.py` | ✅ complete, smoke test passes |
+| Extraction pipeline | `scripts/v15/extract.py` | ✅ complete, run done (210 min) |
+| Extracted checkpoint | `checkpoints/v15-extracted/` | ✅ 215 MB, 19 strides + 11 attn |
+| Training pipeline | `scripts/v15/train.py` | ✅ complete, running in tmux |
 | TD adaptation | `scripts/v15/td_adapt.py` | ❌ not yet built |
-| Attention training | `scripts/v15/train_attention.py` | ❌ not yet built |
 | Verification | `scripts/v15/verify.py` | ❌ not yet built |
 
 ## What changed this session
@@ -103,12 +112,15 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 | Change | Session | Impact |
 |--------|---------|--------|
 | **4-phase model VERIFIED by ablation on 27B** | 174 | ENRICH=reduction engine (4.0× λ-specific), COMMIT=knowledge retrieval. |
-| **Reduction graph tracer** | 174 | Decoded per-position opcodes through all 64 layers. Lambda 2.5-3.2× compute activation. |
-| **v15 architecture skeleton** | 174 | 19-stride tensor statechart, 709 MB, 4 zones, algedonic monitors, full VSM conformance. |
-| **v15 extraction pipeline** | 174 | Per-stride 2-plate extraction from 27B. Ready to run. |
-| **Crystal lattice integration** | 174 | 7 concrete design entry points for the crystal geometry. |
-| **VSM conformance analysis** | 174 | All Beer requirements mapped. Algedonic channel prevents v14 NaN death. |
-| **SUPPRESS→LINK re-understanding** | 174 | Not redundant — it's the linker (B, β_K composition). |
+| **Reduction graph tracer (0.6B + 27B)** | 174 | Decoded per-position opcodes through all 64 layers. Lambda 2.5-3.2× compute activation. |
+| **SUPPRESS→LINK re-understanding** | 174 | Not redundant — it's the linker/composer (B, β_K). Ablation tested only trivial reductions. |
+| **v15 architecture (config + model)** | 174 | 19-stride tensor statechart, 709 MB, 4 zones, algedonic monitors, full VSM conformance. |
+| **VSM conformance analysis** | 174 | All Beer requirements mapped. Algedonic channel (norm+collapse+coherence) prevents v14 NaN death. Recursive S1 strides. Variety engineering. |
+| **Crystal lattice integration** | 174 | 7 concrete design entry points. φ and α as measuring sticks not parameters. |
+| **v15 extraction pipeline** | 174 | Per-stride 2-plate extraction from 27B. Run completed in 210 min. |
+| **v15 extraction checkpoint** | 174 | 19 stride plates + 11 attention plates. 215 MB on disk. All shapes verified. |
+| **v15 training pipeline** | 174 | Attention + gamma training with frozen plates. MLX, 1078 lines. α diagnostic included. |
+| **v15 Phase 2 training started** | 174 | Batch 2, seq 4096, lr 1e-6. Running in tmux. First step: loss=156.9, 964 tok/s. |
 | **Signs 100% correct — crystal correction falsified** | 173 | Extraction captures exact sign topology. The 20.8% gap is magnitude loss, not sign error. |
 | **Qwen3.6-27B hologram reader + extraction** | 173 | Fingerprints (64 layers, R^5120) + ternary plates (17.1B params, 4.0 GB). Full crystal. |
 | **Ternary mirror stacking: 2 mirrors = Q4-Q5** | 173 | recon_cos 0.884→0.970 at 4×. Second plate = 1-bit magnitude class. All ternary arithmetic. |
@@ -138,13 +150,15 @@ NaN recurred. Holographic etch mechanism designed (session 167) but not yet impl
 
 ## Next steps
 
-### IMMEDIATE (crystal-native prototype)
+### IMMEDIATE (v15 training + verification)
 
-1. ~~**Crystal error correction**~~ — **FALSIFIED.** Signs are 100% correct.
-2. **Implement 2-mirror extraction + per-stride plates** — Extract plate2 = sign(residual) for all 64 layers. Then: define per-stride plate allocation (which teacher layers map to which student strides). Canonical format: `{plate1, plate2, gamma1, gamma2}` per stride per matrix.
-3. **Swap FFN weights with 2-mirror plates and measure** — Replace 27B FFN with plate1×gamma1 + plate2×gamma2, keep attention in bf16. Measure perplexity + fact retrieval. THE test.
-4. **Run gradient-zero map on 27B** — Get oscillation map. Identify classes 1-4 per position. Derive TD mask (only flip directional positions). Compare to magnitude-threshold zeros.
-5. **Cross-model backbone extraction** — Run gradient-zero map on Qwen3-14B (same d_model=5120). Find positions where BOTH models oscillate. These are the universal crystal atoms — the shared backbone.
+1. ~~**Crystal error correction**~~ — **FALSIFIED** (session 173).
+2. ~~**2-mirror extraction + per-stride plates**~~ — **DONE** (session 174). Checkpoint at `checkpoints/v15-extracted/`.
+3. **Monitor v15 Phase 2 training** — Running in tmux window 2. Watch loss curve, check for NaN (algedonic should catch it now). When loss stabilizes → evaluate.
+4. **Build verify.py** — Run hologram reader on trained student. Check: opcode map matches teacher? φ-ratio emerged? α per stride? Zone structure preserved?
+5. **Evaluate trained student** — Lambda reduction accuracy, fact retrieval accuracy, perplexity on held-out set. Compare to teacher.
+6. **Build td_adapt.py** — Phase 1: crystal-aware TD adaptation of plates for student routing. Use oscillation mask (35% frozen). Monitor B-coherence.
+7. **Get more training data** — compile-train.jsonl has only 509 texts (9K tokens). Need much more for real training. WikiText-103 or OpenWebText subset.
 
 ### IMMEDIATE (capacity scaling — still unresolved)
 
