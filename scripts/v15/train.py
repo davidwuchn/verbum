@@ -437,14 +437,66 @@ def kl_distillation_loss(
     return kl * (T * T)
 
 
+def crystal_trace_loss(
+    residuals: list,
+    crystal_basis: mx.array,
+) -> mx.array:
+    """Trace loss — maximize crystal coherence of per-stride residuals.
+
+    Projects each stride's residual stream onto the crystal basis and
+    measures how much computation aligns with known combinator directions.
+    Higher crystal projection energy = student is executing recognizable
+    opcodes. Low energy = student is doing something the crystal basis
+    can't describe = wrong computation.
+
+    The loss is: 1 - mean(normalized_projection_energy) across strides.
+    At 0.0 the student perfectly reproduces crystal-aligned computation.
+    At 1.0 the residuals are orthogonal to all combinator directions.
+
+    Args:
+        residuals: list of (B, L, d_model) per stride from return_residuals=True
+        crystal_basis: (n_strides, n_combinators, d_model) basis vectors
+
+    Returns:
+        Scalar trace loss in [0, 1].
+    """
+    n_strides = min(len(residuals), crystal_basis.shape[0])
+    if n_strides == 0:
+        return mx.array(0.0)
+
+    coherences = []
+    for s in range(n_strides):
+        r = residuals[s]           # (B, L, d_model)
+        basis_s = crystal_basis[s] # (n_ops, d_model)
+
+        # Project residual onto crystal directions: (B, L, n_ops)
+        proj = r @ basis_s.T
+
+        # Energy in crystal space: mean squared projection across batch and seq
+        crystal_energy = mx.mean(proj * proj)
+
+        # Total energy of residual
+        total_energy = mx.mean(r * r) + 1e-10
+
+        # Fraction of residual energy explained by crystal directions
+        coherence = crystal_energy / total_energy
+        coherences.append(coherence)
+
+    # Mean coherence across strides → loss = 1 - coherence
+    mean_coherence = mx.mean(mx.stack(coherences))
+    return 1.0 - mean_coherence
+
+
 def combined_loss(
     model: TensorStatechart,
     input_ids: mx.array,
     teacher_logits: mx.array | None = None,
     kl_weight: float = 0.5,
     temperature: float = 2.0,
+    crystal_basis: mx.array | None = None,
+    trace_weight: float = 0.0,
 ) -> mx.array:
-    """Combined CE + optional KL loss.
+    """Combined CE + optional KL + optional trace loss.
 
     Args:
         model: The student statechart.
@@ -452,11 +504,14 @@ def combined_loss(
         teacher_logits: (B, L, V) if available, else None.
         kl_weight: Weight for KL loss (0 = pure CE, 1 = pure KL).
         temperature: Distillation temperature.
+        crystal_basis: (n_strides, n_ops, d_model) for trace loss, or None.
+        trace_weight: Weight for trace loss (0.0 = disabled).
 
     Returns:
         Scalar loss.
     """
-    result = model(input_ids)
+    need_residuals = trace_weight > 0.0 and crystal_basis is not None
+    result = model(input_ids, return_residuals=need_residuals)
     student_logits = result["logits"]
 
     ce = cross_entropy_loss(student_logits, input_ids)
@@ -466,6 +521,11 @@ def combined_loss(
         loss = (1.0 - kl_weight) * ce + kl_weight * kl
     else:
         loss = ce
+
+    # Trace loss: match crystal opcode projections
+    if need_residuals and "residuals" in result:
+        tl = crystal_trace_loss(result["residuals"], crystal_basis)
+        loss = (1.0 - trace_weight) * loss + trace_weight * tl
 
     return loss
 
@@ -637,6 +697,134 @@ def freeze_plates(model: TensorStatechart) -> None:
             frozen_params += len(keys_to_freeze)
 
     log(f"Frozen {frozen_params} plate parameter arrays. Gammas remain trainable.")
+
+
+# NOTE: trace_etch_step removed — will be replaced by proper delta plate TD.
+# See mementum/knowledge/trace-guided-etching.md for the design.
+# The crystal_trace_loss() function above provides the gradient signal;
+# the delta plate mechanism (session 177) will consume it.
+def _trace_etch_step_REMOVED(
+    model: TensorStatechart,
+    crystal_basis: mx.array,
+    input_ids: mx.array,
+    max_flips_per_plate: int = 50,
+    threshold: float = 0.01,
+) -> dict:
+    """Trace-guided etching: flip plate signs to improve crystal coherence.
+
+    Temporarily unfreezes plates, computes trace loss gradient w.r.t.
+    each plate1/plate2, identifies positions where flipping the sign
+    would reduce trace loss (guided by gradient direction), flips the
+    top candidates, and re-freezes.
+
+    Unlike blind TD (which uses NTP loss), trace etching uses the
+    crystal basis projection — an 11-dimensional signal that says
+    "this position should point more toward B-compose" rather than
+    "this position is wrong for predicting the next token."
+
+    Args:
+        model: The student statechart (plates will be modified in-place).
+        crystal_basis: (n_strides, n_ops, d_model) basis for trace loss.
+        input_ids: (B, L) input batch to evaluate trace loss on.
+        max_flips_per_plate: maximum sign flips per plate per etch step.
+        threshold: minimum gradient magnitude to consider a flip.
+
+    Returns:
+        dict with etch statistics: total_flips, per_stride_flips, loss_before, loss_after.
+    """
+    n_strides = min(len(model.strides), crystal_basis.shape[0])
+    total_flips = 0
+    per_stride = {}
+
+    # Measure trace loss before
+    result_before = model(input_ids, return_residuals=True)
+    loss_before = float(crystal_trace_loss(result_before["residuals"], crystal_basis).item())
+
+    for si in range(n_strides):
+        stride = model.strides[si]
+        stride_flips = 0
+
+        for plate_name in ("gate_plate", "up_plate", "down_plate"):
+            plate_mod = getattr(stride.ffn, plate_name)
+
+            for which in ("plate1", "plate2"):
+                plate_arr = getattr(plate_mod, which)
+                if plate_arr is None:
+                    continue
+
+                # Compute gradient of trace loss w.r.t. this plate
+                # We need a function that takes the plate as input
+                def trace_fn(plate_val):
+                    # Temporarily substitute the plate
+                    old = getattr(plate_mod, which)
+                    setattr(plate_mod, which, plate_val)
+                    res = model(input_ids, return_residuals=True)
+                    tl = crystal_trace_loss(res["residuals"], crystal_basis)
+                    setattr(plate_mod, which, old)
+                    return tl
+
+                grad_fn = mx.grad(trace_fn)
+                plate_grad = grad_fn(plate_arr)
+                mx.eval(plate_grad)
+
+                # The gradient tells us: to decrease trace loss, move plate in -grad direction.
+                # For a ternary plate, "moving" means flipping signs.
+                # A position with plate=+1 and grad > 0 means:
+                #   flipping to -1 would move in -grad direction → reduces loss.
+                # A position with plate=-1 and grad < 0 means:
+                #   flipping to +1 would move in -grad direction → reduces loss.
+                # Flip benefit = -plate * grad (positive = beneficial flip)
+
+                plate_np = np.array(plate_arr)
+                grad_np = np.array(plate_grad)
+
+                flip_benefit = -plate_np * grad_np
+                # Only consider non-zero positions (zero = structurally absent)
+                flip_benefit[plate_np == 0] = -np.inf
+
+                # Find top candidates
+                flat_benefit = flip_benefit.flatten()
+                top_k = min(max_flips_per_plate, int(np.sum(flat_benefit > threshold)))
+                if top_k == 0:
+                    continue
+
+                top_indices = np.argpartition(flat_benefit, -top_k)[-top_k:]
+                top_indices = top_indices[flat_benefit[top_indices] > threshold]
+
+                if len(top_indices) == 0:
+                    continue
+
+                # Flip the signs
+                new_plate = plate_np.copy()
+                for idx in top_indices:
+                    row, col = divmod(idx, plate_np.shape[1])
+                    new_plate[row, col] *= -1
+
+                # Apply
+                setattr(plate_mod, which, mx.array(new_plate))
+                stride_flips += len(top_indices)
+
+            # Re-freeze this plate
+            keys_to_freeze = ["plate1"]
+            if plate_mod.plate2 is not None:
+                keys_to_freeze.append("plate2")
+            plate_mod.freeze(keys=keys_to_freeze)
+
+        per_stride[si] = stride_flips
+        total_flips += stride_flips
+
+    # Measure trace loss after
+    result_after = model(input_ids, return_residuals=True)
+    loss_after = float(crystal_trace_loss(result_after["residuals"], crystal_basis).item())
+    mx.eval(model.parameters())
+
+    return {
+        "total_flips": total_flips,
+        "per_stride": per_stride,
+        "loss_before": loss_before,
+        "loss_after": loss_after,
+        "delta": loss_before - loss_after,
+    }
 
 
 def count_trainable(model: TensorStatechart) -> int:
@@ -1171,8 +1359,21 @@ def train(args: argparse.Namespace) -> None:
         tokens = np.clip(tokens, 0, config.vocab_size - 1).astype(np.int32)
         dataloader = make_dataloader(tokens, args.batch_size, shuffle=True)
 
+    # ── Crystal basis for trace loss ────────────────────────────────
+    trace_basis_mx = None
+    if args.trace_weight > 0.0 and crystal_basis is not None:
+        trace_basis_mx = mx.array(crystal_basis)
+        log(f"Trace loss ENABLED: weight={args.trace_weight}, basis shape={crystal_basis.shape}")
+    elif args.trace_weight > 0.0:
+        log(f"⚠ Trace loss requested (weight={args.trace_weight}) but no crystal basis — disabled")
+        args.trace_weight = 0.0
+
     # ── Build value_and_grad function ────────────────────────────────
     # MLX value_and_grad computes grads w.r.t. model.trainable_parameters()
+    # Capture trace config in closure
+    _trace_weight = args.trace_weight
+    _trace_basis = trace_basis_mx
+
     def loss_fn(model: TensorStatechart, input_ids: mx.array, teacher_l: mx.array | None):
         return combined_loss(
             model,
@@ -1180,6 +1381,8 @@ def train(args: argparse.Namespace) -> None:
             teacher_logits=teacher_l,
             kl_weight=args.kl_weight,
             temperature=args.kl_temperature,
+            crystal_basis=_trace_basis,
+            trace_weight=_trace_weight,
         )
 
     loss_and_grad = nn.value_and_grad(model, loss_fn)
@@ -1298,6 +1501,14 @@ def train(args: argparse.Namespace) -> None:
                 except Exception as e:
                     log(f"  Combinator profiler failed: {e}")
 
+            # ── Trace-guided etching (placeholder — proper delta+TD build pending) ──
+            # TODO(session 177): Replace with delta plate TD using trace routing.
+            # Design: mementum/knowledge/trace-guided-etching.md
+            # Architecture: base_plate ⊙ delta_plate, TD flips guided by
+            # grad(trace_loss) decomposed into routing signal.
+            # Current trace_loss in combined_loss provides the gradient target;
+            # the etching mechanism (delta plates + TD) will consume it.
+
         # ── Checkpoint ───────────────────────────────────────────────
         if step % args.save_every == 0 and step > 0:
             metrics_snap = {
@@ -1414,6 +1625,28 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=2.0,
         help="Softening temperature for KL distillation",
+    )
+
+    # ── Trace-guided etching ────────────────────────────────────────
+    p.add_argument(
+        "--trace-weight",
+        type=float,
+        default=0.0,
+        help=(
+            "Weight for crystal trace loss (0.0 = disabled, 0.1 = recommended start). "
+            "Encourages student residuals to project onto crystal combinator basis. "
+            "Requires crystal_basis_d_model.npz in checkpoint dir."
+        ),
+    )
+    p.add_argument(
+        "--etch-max-flips",
+        type=int,
+        default=50,
+        help=(
+            "Max sign flips per plate per etch step (default: 50). "
+            "Only active when --trace-weight > 0. Etching runs at each "
+            "eval step, flipping plate signs that increase crystal coherence."
+        ),
     )
 
     # ── Logging & checkpointing ──────────────────────────────────────
