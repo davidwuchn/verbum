@@ -428,18 +428,15 @@ def run_experiment(model_name: str = "Qwen/Qwen3-0.6B", device: str = "cpu"):
     # Zone breakdown for key comparisons
     log("")
     log("ENRICH zone breakdown (the reduction engine):")
-    log(f"{'Category':<16} ", end="")
-    for op in ["B", "K", "I", "C", "D", "Y", "beta_apply", "beta_compose"]:
-        log(f"{op:>12}", end="")
-    log("")
-    log("-" * 120)
+    enrich_ops = ["B", "K", "I", "C", "D", "Y", "beta_apply", "beta_compose"]
+    header = f"{'Category':<16} " + "".join(f"{op:>12}" for op in enrich_ops)
+    log(header)
+    log("-" * len(header))
     for cat_name in ["PURE_PROSE", "NL_FACT", "PROSE_EQUALS", "EQUALS_ONLY",
                      "GATED_PROSE", "LAMBDA_NO_EQ", "LAMBDA_EQ"]:
         ep = results[cat_name]["zone_profiles"].get("ENRICH", {})
-        log(f"{cat_name:<16} ", end="")
-        for op in ["B", "K", "I", "C", "D", "Y", "beta_apply", "beta_compose"]:
-            log(f"{ep.get(op, 0):>12.2f}", end="")
-        log("")
+        row = f"{cat_name:<16} " + "".join(f"{ep.get(op, 0):>12.2f}" for op in enrich_ops)
+        log(row)
 
     # ── Save results ──────────────────────────────────────────────
     out_dir = RESULTS_DIR / slug
