@@ -1,0 +1,1078 @@
+"""v15 Phase 2 Training — Attention + Gamma Distillation.
+
+Session 174+. Crystal-native Phase 2 protocol:
+  - Plates are FROZEN (they ARE the program).
+  - Attention (Q/K/V/O), gammas, RMSNorm weights, and embedding are trained.
+  - Loss: cross-entropy on next-token prediction (auto-regressive LM).
+  - Optional KL distillation against Qwen3.6-27B teacher logits (offline mode).
+  - α diagnostic: per-stride, per-head power-law fit of attention vs distance.
+  - Algedonic monitoring: every eval_every steps.
+
+CLI:
+    uv run python scripts/v15/train.py \\
+        --checkpoint checkpoints/v15-extracted \\
+        --data-path data/compile-train.jsonl \\
+        --batch-size 4 \\
+        --seq-len 512 \\
+        --lr 1e-4 \\
+        --max-steps 10000 \\
+        --log-every 10 \\
+        --eval-every 100 \\
+        --save-every 1000 \\
+        --output-dir checkpoints/v15-train
+
+Architecture note: TernaryPlate.plate1/plate2 are already frozen via
+mx.stop_gradient in load_statechart. The MLX freeze() mechanism is used
+on TernaryPlate to exclude plate1/plate2 from trainable_parameters() as
+well, so the optimizer never receives gradients for them.
+
+License: MIT
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import re
+import sys
+import time
+from pathlib import Path
+from typing import Iterator, Optional
+
+import mlx.core as mx
+import mlx.nn as nn
+import mlx.optimizers as optim
+import numpy as np
+
+# Ensure scripts/v15 is on the path for local imports
+sys.path.insert(0, str(Path(__file__).parent))
+
+from config import V15Config, Zone, AttnType, ZONE_NAMES
+from model import TensorStatechart, AlgedonicSignal, FullAttention, LinearAttention
+from load_checkpoint import load_statechart
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Logging
+# ══════════════════════════════════════════════════════════════════════
+
+def log(msg: str, *, file=None) -> None:
+    """Write a timestamped log line to stderr."""
+    ts = time.strftime("%H:%M:%S")
+    print(f"[{ts}] {msg}", file=file or sys.stderr, flush=True)
+
+
+def log_metrics(step: int, metrics: dict[str, float]) -> None:
+    """Emit a structured metrics line for easy grep."""
+    pairs = " | ".join(f"{k}={v:.4g}" for k, v in metrics.items())
+    log(f"step={step:>7d} | {pairs}")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Tokenizer
+# ══════════════════════════════════════════════════════════════════════
+
+class QwenTokenizer:
+    """Thin wrapper around HuggingFace tokenizer for Qwen3.6-27B.
+
+    Falls back to Qwen/Qwen3-0.6B if the 27B variant isn't cached;
+    both share the same BBPE vocabulary.
+    """
+
+    def __init__(self, model_name: str = "Qwen/Qwen3.6-27B"):
+        try:
+            from transformers import AutoTokenizer
+        except ImportError:
+            raise ImportError(
+                "transformers is required for tokenization. "
+                "Install with: uv add transformers"
+            )
+        # Try the requested model, fall back to a smaller Qwen with same vocab.
+        for name in [model_name, "Qwen/Qwen3-0.6B", "Qwen/Qwen3-4B"]:
+            try:
+                self._tok = AutoTokenizer.from_pretrained(
+                    name, trust_remote_code=True
+                )
+                log(f"Tokenizer loaded from {name!r} (vocab={len(self._tok)})")
+                break
+            except Exception:
+                continue
+        else:
+            raise RuntimeError(
+                "Could not load any Qwen tokenizer. Check HF cache or network."
+            )
+
+        self.eos_id: int = self._tok.eos_token_id or 0
+        self.pad_id: int = (
+            self._tok.pad_token_id
+            if self._tok.pad_token_id is not None
+            else self.eos_id
+        )
+        self.vocab_size: int = len(self._tok)
+
+    def encode(self, text: str, max_length: int | None = None) -> list[int]:
+        kwargs = {"add_special_tokens": False}
+        if max_length is not None:
+            kwargs["truncation"] = True
+            kwargs["max_length"] = max_length
+        return self._tok.encode(text, **kwargs)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Data loading
+# ══════════════════════════════════════════════════════════════════════
+
+def _load_texts_jsonl(path: Path) -> list[str]:
+    """Load texts from JSONL — tries 'text', 'input'+'output', 'input' keys."""
+    texts: list[str] = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if "text" in obj:
+                texts.append(obj["text"])
+            elif "input" in obj and "output" in obj:
+                # Compilation pair: concatenate with separator
+                texts.append(f"{obj['input']} → {obj['output']}")
+            elif "input" in obj:
+                texts.append(obj["input"])
+    return texts
+
+
+def _load_texts_dir(path: Path) -> list[str]:
+    """Load texts from .txt files in a directory."""
+    texts: list[str] = []
+    for p in sorted(path.glob("**/*.txt")):
+        texts.append(p.read_text(errors="replace"))
+    return texts
+
+
+def load_texts(data_path: Path) -> list[str]:
+    """Load texts from a JSONL file or a directory of .txt files."""
+    if data_path.is_dir():
+        texts = _load_texts_dir(data_path)
+        log(f"Loaded {len(texts)} texts from directory {data_path}")
+    else:
+        texts = _load_texts_jsonl(data_path)
+        log(f"Loaded {len(texts)} texts from {data_path}")
+    if not texts:
+        raise ValueError(f"No texts found in {data_path}")
+    return texts
+
+
+def tokenize_texts(
+    texts: list[str],
+    tokenizer: QwenTokenizer,
+    seq_len: int,
+) -> np.ndarray:
+    """Tokenize all texts and pack into fixed-length windows.
+
+    Returns:
+        (N, seq_len) int32 array of token IDs.
+    """
+    log(f"Tokenizing {len(texts)} texts...")
+    all_ids: list[int] = []
+    for text in texts:
+        ids = tokenizer.encode(text)
+        all_ids.extend(ids)
+        all_ids.append(tokenizer.eos_id)
+
+    total = len(all_ids)
+    n_windows = total // seq_len
+    if n_windows == 0:
+        raise ValueError(
+            f"Not enough tokens ({total}) for seq_len={seq_len}. "
+            "Use shorter seq_len or more data."
+        )
+    # Trim to exact multiple
+    ids_arr = np.array(all_ids[: n_windows * seq_len], dtype=np.int32).reshape(
+        n_windows, seq_len
+    )
+    log(f"Tokenized: {total} tokens → {n_windows} windows of {seq_len}")
+    return ids_arr
+
+
+def make_dataloader(
+    tokens: np.ndarray,
+    batch_size: int,
+    shuffle: bool = True,
+) -> Iterator[mx.array]:
+    """Infinite dataloader — yields (batch_size, seq_len) mx.array batches."""
+    n = len(tokens)
+    indices = np.arange(n)
+    if shuffle:
+        np.random.shuffle(indices)
+    ptr = 0
+    while True:
+        if ptr + batch_size > n:
+            if shuffle:
+                np.random.shuffle(indices)
+            ptr = 0
+        batch_idx = indices[ptr : ptr + batch_size]
+        ptr += batch_size
+        yield mx.array(tokens[batch_idx])
+
+
+# ══════════════════════════════════════════════════════════════════════
+# KL distillation data (offline teacher logits)
+# ══════════════════════════════════════════════════════════════════════
+
+class TeacherLogits:
+    """Cached teacher logits for offline KL distillation.
+
+    Expects a directory produced by a separate precompute step:
+        teacher_logits/{index:07d}.npz  → keys: 'logits' (seq, vocab)
+
+    If the directory doesn't exist, falls back to next-token CE loss.
+    """
+
+    def __init__(self, logits_dir: Path | None):
+        self.logits_dir = logits_dir
+        self.available = logits_dir is not None and logits_dir.exists()
+        if self.available:
+            self._files = sorted(logits_dir.glob("*.npz"))
+            log(f"Teacher logits: {len(self._files)} files in {logits_dir}")
+        else:
+            log("Teacher logits: not available — using next-token CE loss only")
+
+    def get(self, batch_index: int) -> mx.array | None:
+        """Load teacher logits for a given batch index (if available)."""
+        if not self.available:
+            return None
+        idx = batch_index % len(self._files)
+        data = np.load(self._files[idx])
+        return mx.array(data["logits"].astype(np.float32))
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Loss functions
+# ══════════════════════════════════════════════════════════════════════
+
+def cross_entropy_loss(logits: mx.array, input_ids: mx.array) -> mx.array:
+    """Standard next-token prediction loss.
+
+    Args:
+        logits: (B, L, V) — student logits
+        input_ids: (B, L) — token IDs
+
+    Returns:
+        Scalar mean CE loss.
+    """
+    B, L, V = logits.shape
+    # Predict tokens 1..L from context 0..L-1
+    pred = logits[:, :-1, :].reshape(-1, V)      # (B*(L-1), V)
+    target = input_ids[:, 1:].reshape(-1)          # (B*(L-1),)
+    loss = nn.losses.cross_entropy(pred, target, reduction="mean")
+    return loss
+
+
+def kl_distillation_loss(
+    student_logits: mx.array,
+    teacher_logits: mx.array,
+    temperature: float = 2.0,
+) -> mx.array:
+    """KL divergence distillation loss.
+
+    KL(teacher_soft || student_soft) where distributions are softened at
+    temperature T. Teacher is treated as the fixed target.
+
+    Args:
+        student_logits: (B, L, V)
+        teacher_logits: (B, L, V) — may be precomputed or online
+        temperature: softening temperature (default 2.0)
+
+    Returns:
+        Scalar mean KL loss (scaled by T² per Hinton 2015).
+    """
+    T = temperature
+    B, L, V = student_logits.shape
+
+    # Trim to prediction window (L-1 tokens)
+    s = student_logits[:, :-1, :].reshape(-1, V)
+    t = teacher_logits[:, :-1, :].reshape(-1, V)
+
+    # Soft probabilities
+    s_log_soft = nn.log_softmax(s / T, axis=-1)
+    t_soft = mx.softmax(t / T, axis=-1)
+
+    # KL: sum over vocab, mean over batch/sequence
+    # KL(t || s) = sum_v t_v * (log t_v - log s_v)
+    # Using: KL = sum_v t_v * log_t_v - sum_v t_v * log_s_v
+    # The cross-entropy form: -sum_v t_v * log_s_v
+    kl = -mx.sum(t_soft * s_log_soft, axis=-1).mean()
+    return kl * (T * T)
+
+
+def combined_loss(
+    model: TensorStatechart,
+    input_ids: mx.array,
+    teacher_logits: mx.array | None = None,
+    kl_weight: float = 0.5,
+    temperature: float = 2.0,
+) -> mx.array:
+    """Combined CE + optional KL loss.
+
+    Args:
+        model: The student statechart.
+        input_ids: (B, L) token IDs.
+        teacher_logits: (B, L, V) if available, else None.
+        kl_weight: Weight for KL loss (0 = pure CE, 1 = pure KL).
+        temperature: Distillation temperature.
+
+    Returns:
+        Scalar loss.
+    """
+    result = model(input_ids)
+    student_logits = result["logits"]
+
+    ce = cross_entropy_loss(student_logits, input_ids)
+
+    if teacher_logits is not None:
+        kl = kl_distillation_loss(student_logits, teacher_logits, temperature)
+        loss = (1.0 - kl_weight) * ce + kl_weight * kl
+    else:
+        loss = ce
+
+    return loss
+
+
+# ══════════════════════════════════════════════════════════════════════
+# α diagnostic — attention decay power law
+# ══════════════════════════════════════════════════════════════════════
+
+def _compute_attn_weights_for_stride(
+    attn: FullAttention,
+    x: mx.array,
+    mask: mx.array | None,
+) -> mx.array:
+    """Compute attention weight matrix for a FullAttention module.
+
+    Returns (B, H, L, L) softmax weights without running o_proj.
+    Fully differentiable (uses stop_gradient only for the captured copy).
+    """
+    B, L, D = x.shape
+    d_head = attn.d_head
+    scale = attn.scale
+
+    q = attn.q_proj(x).reshape(B, L, attn.n_heads, d_head).transpose(0, 2, 1, 3)
+    k = attn.k_proj(x).reshape(B, L, attn.n_kv_heads, d_head).transpose(0, 2, 1, 3)
+
+    if attn.n_kv_heads < attn.n_heads:
+        repeats = attn.n_heads // attn.n_kv_heads
+        k = mx.repeat(k, repeats, axis=1)
+
+    scores = (q @ k.transpose(0, 1, 3, 2)) * scale
+    if mask is not None:
+        scores = scores + mask
+    return mx.softmax(scores, axis=-1)  # (B, H, L, L)
+
+
+def _fit_power_law_alpha(
+    w: np.ndarray,  # (B, H, L, L)
+    n_heads: int,
+) -> dict[int, float]:
+    """Fit α (decay exponent) per head from an attention weight matrix.
+
+    Power law model: E[attn(q, k)] ∝ distance(q, k)^{-α}
+    Fit via log-log OLS on the mean weight at each relative distance.
+
+    Returns:
+        {head_idx: α}
+    """
+    B, H, L, _ = w.shape
+    result: dict[int, float] = {}
+
+    for h in range(H):
+        w_h = w[:, h, :, :]   # (B, L, L)
+
+        # Average attention weight at each relative distance d ∈ [0, L-1]
+        # w_h[b, i, j] = attn weight from query i to key j (j <= i, causal)
+        # distance = i - j
+        dist_sum = np.zeros(L, dtype=np.float64)
+        dist_count = np.zeros(L, dtype=np.int64)
+
+        for d in range(L):
+            # Collect w_h[:, i, i-d] for i = d..L-1
+            diag = np.array([w_h[:, i, i - d] for i in range(d, L)]).ravel()
+            if len(diag) > 0:
+                dist_sum[d] = diag.sum()
+                dist_count[d] = len(diag)
+
+        dist_mean = np.where(dist_count > 0, dist_sum / dist_count, 0.0)
+
+        # Fit on distances 1..L-1 (skip d=0 = self-attention)
+        distances = np.arange(1, L, dtype=np.float64)
+        attn_vals = dist_mean[1:L]
+
+        valid = attn_vals > 1e-10
+        if valid.sum() < 4:
+            result[h] = float("nan")
+            continue
+
+        log_d = np.log(distances[valid] + 1.0)
+        log_a = np.log(attn_vals[valid])
+
+        # OLS: log_a = -α * log_d + c  →  slope = -α
+        A = np.column_stack([log_d, np.ones_like(log_d)])
+        try:
+            coeffs, _, _, _ = np.linalg.lstsq(A, log_a, rcond=None)
+            result[h] = float(-coeffs[0])
+        except np.linalg.LinAlgError:
+            result[h] = float("nan")
+
+    return result
+
+
+def measure_alpha(
+    model: TensorStatechart,
+    input_ids: mx.array,
+) -> dict[str, float]:
+    """Measure attention decay exponent α per stride, per head.
+
+    For each FullAttention stride, computes the attention weight matrix for
+    the given batch, then fits a power law: attn(d) ∝ d^{-α} where d is the
+    relative distance between query and key positions.
+
+    Strategy: run a per-stride mini forward pass up to each FullAttention
+    stride to collect attention weights without modifying the model internals.
+    Uses mx.stop_gradient to avoid accumulating a huge compute graph.
+
+    Returns:
+        {f"stride_{i:02d}_head_{h:02d}_alpha": α, ...}
+        for every FullAttention stride × head.
+        α > 0  → local attention (attends more to nearby tokens)
+        α ≈ 0  → uniform attention
+        α < 0  → anti-local (rare — attends to distant tokens more)
+    """
+    config = model.config
+    B, L = input_ids.shape
+    alphas: dict[str, float] = {}
+
+    # Build causal mask once
+    mask = model._get_causal_mask(L)
+
+    # Forward pass collecting attention weights stride by stride
+    # Use stop_gradient on x between strides — we don't need gradients here
+    x = mx.stop_gradient(model.embed(input_ids))
+
+    for stride in model.strides:
+        # Only capture FullAttention strides
+        if isinstance(stride.attn, FullAttention):
+            # Compute attention weights BEFORE applying the stride
+            h_normed = mx.stop_gradient(stride.attn_norm(x))
+            w_tensor = _compute_attn_weights_for_stride(stride.attn, h_normed, mask)
+            w_tensor = mx.stop_gradient(w_tensor)
+            mx.eval(w_tensor)
+
+            w_np = np.array(w_tensor)  # (B, H, L, L)
+            head_alphas = _fit_power_law_alpha(w_np, config.n_heads)
+
+            for h, alpha_val in head_alphas.items():
+                alphas[f"stride_{stride.spec.index:02d}_head_{h:02d}_alpha"] = alpha_val
+
+        # Advance the residual stream through this stride (stop grad between)
+        x_new = stride(mx.stop_gradient(x), mask=mask)
+        x = mx.stop_gradient(x_new)
+
+    return alphas
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Freeze protocol — only plates are frozen
+# ══════════════════════════════════════════════════════════════════════
+
+def freeze_plates(model: TensorStatechart) -> None:
+    """Freeze all TernaryPlate plate1/plate2 matrices.
+
+    The gammas (gamma1, gamma2) remain trainable.
+    RMSNorm, attention projections, and embedding remain trainable.
+    LM head is tied to embedding so it trains automatically.
+
+    Uses MLX Module.freeze(keys=...) so trainable_parameters() excludes
+    the plate matrices and the optimizer never receives them.
+    """
+    frozen_params = 0
+    for stride in model.strides:
+        for matrix_name in ("gate", "up", "down"):
+            plate_module = getattr(stride.ffn, f"{matrix_name}_plate")
+            # Freeze plate1 and plate2 (if present)
+            keys_to_freeze = ["plate1"]
+            if plate_module.plate2 is not None:
+                keys_to_freeze.append("plate2")
+            plate_module.freeze(keys=keys_to_freeze)
+            frozen_params += len(keys_to_freeze)
+
+    log(f"Frozen {frozen_params} plate parameter arrays. Gammas remain trainable.")
+
+
+def count_trainable(model: TensorStatechart) -> int:
+    """Count the number of unique trainable scalar values in the model.
+
+    De-duplicates by array identity to handle tied weights (embed = lm_head).
+    """
+    total = 0
+    seen: set[int] = set()
+    flat = dict(nn.utils.tree_flatten(model.trainable_parameters()))
+    for arr in flat.values():
+        if id(arr) not in seen:
+            seen.add(id(arr))
+            total += arr.size
+    return total
+
+
+def report_trainable_summary(model: TensorStatechart) -> None:
+    """Log a breakdown of trainable parameters by component type.
+
+    Note: embed.weight and lm_head.weight are the same array (tied weights).
+    Both paths appear in trainable_parameters() — the optimizer handles aliasing
+    correctly, but the summary de-duplicates them by id() to avoid double-counting.
+    """
+    flat = dict(nn.utils.tree_flatten(model.trainable_parameters()))
+
+    summary: dict[str, int] = {
+        "attn_qkvo": 0,
+        "gammas": 0,
+        "rms_norms": 0,
+        "embedding": 0,
+        "other": 0,
+    }
+
+    seen_ids: set[int] = set()
+
+    for key, arr in flat.items():
+        arr_id = id(arr)
+        if arr_id in seen_ids:
+            continue  # skip tied duplicates
+        seen_ids.add(arr_id)
+
+        n = arr.size
+        if any(p in key for p in ["q_proj", "k_proj", "v_proj", "o_proj"]):
+            summary["attn_qkvo"] += n
+        elif "gamma" in key and "norm" not in key:
+            summary["gammas"] += n
+        elif "norm" in key or "rms" in key.lower():
+            summary["rms_norms"] += n
+        elif "embed" in key or "lm_head" in key:
+            # embed and lm_head are tied — count once under "embedding"
+            summary["embedding"] += n
+        else:
+            summary["other"] += n
+
+    total = sum(summary.values())
+    log(f"Trainable parameters (unique): {total:,}  [embed+lm_head tied, counted once]")
+    for name, count in summary.items():
+        if count > 0:
+            log(f"  {name:16s}: {count:>12,}  ({100*count/total:.1f}%)")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Checkpoint save / load
+# ══════════════════════════════════════════════════════════════════════
+
+def save_checkpoint(
+    model: TensorStatechart,
+    optimizer: optim.Optimizer,
+    step: int,
+    output_dir: Path,
+    metrics: dict[str, float] | None = None,
+) -> Path:
+    """Save trainable weights + optimizer state to a step directory.
+
+    Only trainable weights are saved. Plate matrices (frozen) are NOT
+    re-saved here — the original extraction checkpoint is the source of
+    truth for plates.
+
+    Directory: {output_dir}/step_{step:07d}/
+    Files:
+        weights.npz      — trainable model parameters (safetensors would be
+                           cleaner but .npz is simpler with mx.savez)
+        optimizer.npz    — optimizer state
+        meta.json        — step, loss, timestamp, config summary
+    """
+    ckpt_dir = output_dir / f"step_{step:07d}"
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
+
+    # Trainable weights only
+    trainable = dict(nn.utils.tree_flatten(model.trainable_parameters()))
+    mx.savez(str(ckpt_dir / "weights.npz"), **{
+        k: mx.array(v) for k, v in trainable.items()
+    })
+
+    # Optimizer state
+    opt_state = dict(nn.utils.tree_flatten(optimizer.state))
+    if opt_state:
+        mx.savez(str(ckpt_dir / "optimizer.npz"), **{
+            k: mx.array(v) for k, v in opt_state.items()
+        })
+
+    # Metadata
+    meta = {
+        "step": step,
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "d_model": model.config.d_model,
+        "d_ff": model.config.d_ff,
+        "n_strides": model.config.n_strides,
+        "vocab_size": model.config.vocab_size,
+        "trainable_params": count_trainable(model),
+    }
+    if metrics:
+        meta["metrics"] = metrics
+
+    with open(ckpt_dir / "meta.json", "w") as f:
+        json.dump(meta, f, indent=2)
+
+    log(f"Checkpoint saved → {ckpt_dir}")
+    return ckpt_dir
+
+
+def find_latest_checkpoint(output_dir: Path) -> Path | None:
+    """Find the most recent step checkpoint directory."""
+    if not output_dir.exists():
+        return None
+    dirs = sorted(
+        [d for d in output_dir.iterdir() if d.is_dir() and d.name.startswith("step_")],
+        key=lambda d: int(d.name.split("_")[1]),
+    )
+    return dirs[-1] if dirs else None
+
+
+def load_checkpoint_weights(
+    model: TensorStatechart,
+    optimizer: optim.Optimizer,
+    ckpt_dir: Path,
+) -> int:
+    """Resume from a training checkpoint. Returns the step number."""
+    weights_path = ckpt_dir / "weights.npz"
+    if weights_path.exists():
+        # Load only the weights that exist in the checkpoint (strict=False)
+        # because plates are not saved here
+        saved = mx.load(str(weights_path))
+        model.load_weights(list(saved.items()), strict=False)
+        log(f"Resumed model weights from {weights_path}")
+
+    opt_path = ckpt_dir / "optimizer.npz"
+    if opt_path.exists():
+        saved_opt = dict(mx.load(str(opt_path)))
+        optimizer.state.update(saved_opt)
+        log(f"Resumed optimizer state from {opt_path}")
+
+    meta_path = ckpt_dir / "meta.json"
+    step = 0
+    if meta_path.exists():
+        with open(meta_path) as f:
+            meta = json.load(f)
+        step = meta.get("step", 0)
+
+    log(f"Resumed from step {step}")
+    return step
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Learning rate schedule — linear warmup + cosine decay
+# ══════════════════════════════════════════════════════════════════════
+
+def make_lr_schedule(
+    peak_lr: float,
+    warmup_steps: int,
+    total_steps: int,
+    min_lr_ratio: float = 0.1,
+) -> object:
+    """Linear warmup → cosine decay LR schedule."""
+    min_lr = peak_lr * min_lr_ratio
+    warmup = optim.linear_schedule(0.0, peak_lr, steps=warmup_steps)
+    cosine = optim.cosine_decay(
+        peak_lr,
+        decay_steps=max(1, total_steps - warmup_steps),
+        end=min_lr,
+    )
+    return optim.join_schedules([warmup, cosine], [warmup_steps])
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Algedonic report
+# ══════════════════════════════════════════════════════════════════════
+
+def run_algedonic_check(
+    model: TensorStatechart,
+    input_ids: mx.array,
+    step: int,
+) -> None:
+    """Run model with algedonic monitoring and log any non-OK signals."""
+    result = model(input_ids, return_algedonic=True)
+    signals = result.get("algedonic_signals", [])
+    non_ok = [(i, z, s) for i, z, s in signals if s != AlgedonicSignal.OK]
+    if non_ok:
+        log(f"  ⚠ ALGEDONIC at step {step}:")
+        for stride_idx, zone, sig in non_ok:
+            log(f"    Stride {stride_idx:2d} ({zone.name:8s}): {sig.name}")
+    else:
+        ok_count = len(signals)
+        log(f"  Algedonic: {ok_count}/{ok_count} strides OK ✓")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Per-zone loss breakdown
+# ══════════════════════════════════════════════════════════════════════
+
+def per_zone_grad_norm(
+    grads: dict,
+    model: TensorStatechart,
+) -> dict[str, float]:
+    """Compute gradient norm per zone for diagnostics.
+
+    Returns {zone_name: grad_norm, ...}.
+    """
+    zone_norms: dict[str, float] = {}
+    flat_grads = dict(nn.utils.tree_flatten(grads))
+
+    for zone in Zone:
+        # Identify strides in this zone
+        specs = [s for s in model.strides if s.zone == zone]
+        indices = {s.spec.index for s in specs}
+        prefix_patterns = [f"strides.{i}." for i in indices]
+
+        zone_sq = 0.0
+        for key, g in flat_grads.items():
+            if any(key.startswith(p) for p in prefix_patterns):
+                if hasattr(g, "size"):
+                    zone_sq += float(mx.sum(g * g).item())
+
+        zone_norms[ZONE_NAMES[zone]] = math.sqrt(zone_sq)
+
+    return zone_norms
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Main training loop
+# ══════════════════════════════════════════════════════════════════════
+
+def train(args: argparse.Namespace) -> None:
+    """Phase 2 training entry point."""
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # ── Load model ──────────────────────────────────────────────────
+    log(f"Loading statechart from {args.checkpoint} ...")
+    model = load_statechart(args.checkpoint, freeze_plates=True)
+    config = model.config
+
+    # Freeze plates via MLX mechanism (so trainable_parameters() excludes them)
+    freeze_plates(model)
+    report_trainable_summary(model)
+
+    n_trainable = count_trainable(model)
+    log(f"Total trainable: {n_trainable:,} parameters")
+    log(f"Vocab size: {config.vocab_size}")
+
+    # ── Tokenizer ───────────────────────────────────────────────────
+    tokenizer = QwenTokenizer()
+    # Sanity-check vocab alignment
+    if tokenizer.vocab_size != config.vocab_size:
+        log(
+            f"WARNING: tokenizer vocab ({tokenizer.vocab_size}) ≠ "
+            f"model vocab ({config.vocab_size}). "
+            f"Tokens will be clipped to model vocab."
+        )
+
+    # ── Data ────────────────────────────────────────────────────────
+    texts = load_texts(Path(args.data_path))
+    tokens = tokenize_texts(texts, tokenizer, args.seq_len)
+    # Clip token IDs to model vocab (handles tokenizer/model mismatch)
+    tokens = np.clip(tokens, 0, config.vocab_size - 1).astype(np.int32)
+    dataloader = make_dataloader(tokens, args.batch_size, shuffle=True)
+
+    # ── Teacher logits (optional) ────────────────────────────────────
+    teacher_logits_store = TeacherLogits(
+        Path(args.teacher_logits_dir) if args.teacher_logits_dir else None
+    )
+
+    # ── Optimizer + LR schedule ──────────────────────────────────────
+    warmup_steps = max(1, args.max_steps // 20)  # 5% warmup
+    lr_schedule = make_lr_schedule(args.lr, warmup_steps, args.max_steps)
+
+    optimizer = optim.AdamW(
+        learning_rate=lr_schedule,
+        betas=[0.9, 0.95],
+        eps=1e-8,
+        weight_decay=args.weight_decay,
+    )
+
+    log(f"Optimizer: AdamW  lr={args.lr}  wd={args.weight_decay}  warmup={warmup_steps}")
+
+    # ── Resume if checkpoint exists ──────────────────────────────────
+    start_step = 0
+    if not args.no_resume:
+        latest = find_latest_checkpoint(output_dir)
+        if latest is not None:
+            start_step = load_checkpoint_weights(model, optimizer, latest)
+        else:
+            log("No existing checkpoint found — starting from scratch")
+
+    # ── Build value_and_grad function ────────────────────────────────
+    # MLX value_and_grad computes grads w.r.t. model.trainable_parameters()
+    def loss_fn(model: TensorStatechart, input_ids: mx.array, teacher_l: mx.array | None):
+        return combined_loss(
+            model,
+            input_ids,
+            teacher_logits=teacher_l,
+            kl_weight=args.kl_weight,
+            temperature=args.kl_temperature,
+        )
+
+    loss_and_grad = nn.value_and_grad(model, loss_fn)
+
+    # ── Training state ───────────────────────────────────────────────
+    loss_history: list[float] = []
+    t0 = time.time()
+
+    log(f"Starting training at step {start_step} (max {args.max_steps})")
+    log(f"Batch size: {args.batch_size}  Seq len: {args.seq_len}")
+    log(f"Log every: {args.log_every}  Eval every: {args.eval_every}  Save every: {args.save_every}")
+
+    # ── Main loop ────────────────────────────────────────────────────
+    for step, batch in enumerate(dataloader, start=start_step):
+        if step >= args.max_steps:
+            break
+
+        # Optionally attach teacher logits
+        teacher_l = teacher_logits_store.get(step) if teacher_logits_store.available else None
+
+        # Truncate batch to actual seq_len (already fixed by tokenize_texts)
+        input_ids = batch  # (B, seq_len)
+
+        # Forward + backward
+        loss, grads = loss_and_grad(model, input_ids, teacher_l)
+
+        # Gradient clipping
+        clipped_grads, grad_norm = optim.clip_grad_norm(grads, max_norm=args.grad_clip)
+
+        # Parameter update
+        optimizer.update(model, clipped_grads)
+
+        # MLX: commit computation graph
+        mx.eval(model.parameters(), optimizer.state)
+
+        loss_val = float(loss.item())
+        loss_history.append(loss_val)
+
+        # ── Logging ──────────────────────────────────────────────────
+        if step % args.log_every == 0:
+            elapsed = time.time() - t0
+            steps_done = step - start_step + 1
+            steps_per_sec = steps_done / max(elapsed, 1e-6)
+            tokens_per_sec = steps_per_sec * args.batch_size * args.seq_len
+
+            # Smooth loss (last log_every steps)
+            smooth_loss = float(np.mean(loss_history[-args.log_every :]))
+            perplexity = math.exp(min(smooth_loss, 20.0))  # cap to avoid overflow
+
+            try:
+                lr_val = float(optimizer.learning_rate.item())
+            except AttributeError:
+                lr_val = args.lr
+
+            metrics = {
+                "loss": smooth_loss,
+                "ppl": perplexity,
+                "lr": lr_val,
+                "grad_norm": float(grad_norm.item()),
+                "tok/s": tokens_per_sec,
+            }
+            log_metrics(step, metrics)
+
+            # Per-zone grad norms every 5*log_every steps
+            if step % (5 * args.log_every) == 0 and step > 0:
+                zone_norms = per_zone_grad_norm(grads, model)
+                zone_str = " | ".join(f"{z}={n:.3g}" for z, n in zone_norms.items())
+                log(f"  zone grad norms: {zone_str}")
+
+        # ── Eval: algedonic + α diagnostics ──────────────────────────
+        if step % args.eval_every == 0 and step > 0:
+            log(f"── Eval at step {step} ──")
+
+            # Algedonic check
+            run_algedonic_check(model, input_ids, step)
+
+            # α measurement (power-law attention decay)
+            if args.measure_alpha:
+                try:
+                    alphas = measure_alpha(model, input_ids)
+                    if alphas:
+                        # Log per-stride summary: mean α across heads
+                        stride_alphas: dict[int, list[float]] = {}
+                        for key, val in alphas.items():
+                            # key format: stride_NN_head_MM_alpha
+                            parts = key.split("_")
+                            sidx = int(parts[1])
+                            if not math.isnan(val):
+                                stride_alphas.setdefault(sidx, []).append(val)
+
+                        log("  α (attention decay) per stride:")
+                        for sidx in sorted(stride_alphas):
+                            vals = stride_alphas[sidx]
+                            mean_a = float(np.mean(vals))
+                            std_a = float(np.std(vals))
+                            stride_obj = model.strides[sidx]
+                            log(
+                                f"    stride {sidx:02d} ({stride_obj.zone.name:8s}): "
+                                f"α={mean_a:.3f} ± {std_a:.3f}  "
+                                f"(n_heads={len(vals)})"
+                            )
+
+                        # Save alphas to output dir
+                        alpha_path = output_dir / f"alpha_step_{step:07d}.json"
+                        with open(alpha_path, "w") as f:
+                            json.dump({"step": step, "alphas": alphas}, f, indent=2)
+                except Exception as e:
+                    log(f"  α measurement failed: {e}")
+
+        # ── Checkpoint ───────────────────────────────────────────────
+        if step % args.save_every == 0 and step > 0:
+            metrics_snap = {
+                "loss": float(np.mean(loss_history[-args.save_every :])),
+                "step": step,
+            }
+            try:
+                lr_val = float(optimizer.learning_rate.item())
+                metrics_snap["lr"] = lr_val
+            except AttributeError:
+                pass
+            save_checkpoint(model, optimizer, step, output_dir, metrics_snap)
+
+    # ── Final checkpoint ─────────────────────────────────────────────
+    final_loss = float(np.mean(loss_history[-100:])) if loss_history else float("nan")
+    log(f"Training complete at step {step}. Final loss: {final_loss:.4f}")
+    save_checkpoint(
+        model, optimizer, step, output_dir,
+        {"loss": final_loss, "step": step, "final": True},
+    )
+
+
+# ══════════════════════════════════════════════════════════════════════
+# CLI
+# ══════════════════════════════════════════════════════════════════════
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        description="v15 Phase 2 — Attention + gamma training against frozen plates",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    # ── Paths ────────────────────────────────────────────────────────
+    p.add_argument(
+        "--checkpoint",
+        default="checkpoints/v15-extracted",
+        help="Path to the extracted Phase 1 statechart checkpoint",
+    )
+    p.add_argument(
+        "--data-path",
+        default="data/compile-train.jsonl",
+        help=(
+            "Path to training data: JSONL with 'text'/'input'+'output' fields, "
+            "or a directory of .txt files"
+        ),
+    )
+    p.add_argument(
+        "--output-dir",
+        default="checkpoints/v15-train",
+        help="Directory to write training checkpoints",
+    )
+    p.add_argument(
+        "--teacher-logits-dir",
+        default=None,
+        help=(
+            "Optional directory of precomputed teacher logits (.npz files) for "
+            "KL distillation. If absent, uses CE loss only."
+        ),
+    )
+
+    # ── Training hyperparameters ─────────────────────────────────────
+    p.add_argument("--batch-size", type=int, default=4, help="Batch size")
+    p.add_argument(
+        "--seq-len",
+        type=int,
+        default=512,
+        help="Sequence length (tokens per example)",
+    )
+    p.add_argument("--lr", type=float, default=1e-4, help="Peak learning rate")
+    p.add_argument(
+        "--weight-decay", type=float, default=0.01, help="AdamW weight decay"
+    )
+    p.add_argument(
+        "--grad-clip", type=float, default=1.0, help="Gradient clipping max norm"
+    )
+    p.add_argument(
+        "--max-steps", type=int, default=10_000, help="Total training steps"
+    )
+
+    # ── KL distillation ──────────────────────────────────────────────
+    p.add_argument(
+        "--kl-weight",
+        type=float,
+        default=0.5,
+        help=(
+            "Weight for KL distillation loss when teacher logits are present "
+            "(0.0 = pure CE, 1.0 = pure KL)"
+        ),
+    )
+    p.add_argument(
+        "--kl-temperature",
+        type=float,
+        default=2.0,
+        help="Softening temperature for KL distillation",
+    )
+
+    # ── Logging & checkpointing ──────────────────────────────────────
+    p.add_argument("--log-every", type=int, default=10, help="Log metrics every N steps")
+    p.add_argument(
+        "--eval-every",
+        type=int,
+        default=100,
+        help="Run algedonic + α diagnostics every N steps",
+    )
+    p.add_argument(
+        "--save-every", type=int, default=1000, help="Save checkpoint every N steps"
+    )
+    p.add_argument(
+        "--no-resume",
+        action="store_true",
+        help="Do not resume from existing checkpoint — start fresh",
+    )
+
+    # ── Diagnostics ──────────────────────────────────────────────────
+    p.add_argument(
+        "--measure-alpha",
+        action="store_true",
+        default=True,
+        help="Measure attention decay power law (α) at each eval step",
+    )
+    p.add_argument(
+        "--no-measure-alpha",
+        dest="measure_alpha",
+        action="store_false",
+        help="Disable α measurement",
+    )
+
+    return p
+
+
+def main() -> None:
+    parser = build_parser()
+    args = parser.parse_args()
+
+    log("v15 Phase 2 Training — Crystal-Native Tensor Statechart")
+    log(f"MLX version: {mx.__version__ if hasattr(mx, '__version__') else 'unknown'}")
+    log(f"Args: {vars(args)}")
+
+    train(args)
+
+
+if __name__ == "__main__":
+    main()
