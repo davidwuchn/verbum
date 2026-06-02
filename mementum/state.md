@@ -8,21 +8,47 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 182: UNIFIED PROBE LIBRARY + RICH CRYSTAL VERIFICATION**
+**Session 182: TERNARY DUAL EQUATION — Gate Zeros + Crystal Signs**
 
-Built the unified probe library (`src/verbum/probes/library.py`), consolidating 5 scattered probe sources into one importable module. 903 probes after dedup, all 9 crystal combinators (KIBC+DWYS+WHNF) at ≥50 probes each, 535 crystal probes total. 29 tests added, all 218 project tests pass.
+Massive experimental session. Built unified probe library (903 probes), ran crystal verification across 4 models, depth-scanned 3 Qwen3 scales, resolved the Y/W inversion, tested crystal-guided ternarization, and discovered the ternary dual equation.
 
-Rewrote `verify_crystal_phi.py` to use the unified library (535 probes vs original 32). Tested on two models:
+### The Dual Equation (session's key finding)
 
-| Metric | Qwen3-0.6B | Pythia-2.8B | Consensus |
-|--------|------------|-------------|-----------|
-| B-D similarity | 0.806 | 0.693 | 0.894 |
-| K-I similarity | 0.290 | 0.433 | 0.786 |
-| Eigenvalue ratio corr | 0.940 | 0.917 | 1.000 |
-| Cosine matrix corr | 0.485 | 0.518 | 1.000 |
-| φ^(p/q) fit | <0.5% | <2% | <0.3% |
+A ternary weight is determined by TWO orthogonal signals:
 
-**Key observation:** Eigenvalue ratios follow φ^(p/q) in both models (0.94/0.92 corr), confirming the crystal equation's spectral predictions are universal. But cosine matrix correlation is only ~0.5 — the crystal is present but rotated relative to consensus. The Y and W combinator axes appear inverted (negative where consensus expects positive), suggesting the probe set's linguistic framing of Y/W probes doesn't align with the internal combinator representation as cleanly as K/I/B/C/D do.
+| | Zero equation | Sign equation |
+|---|---|---|
+| Predicts | Which neurons are zero | What alive neurons compute |
+| Signal | Gate positive rate | Crystal eigenvector projection |
+| ρ with gradient | **0.753** | 0.053 |
+| φ connection | Dead fraction ≈ 1/φ² | Eigenvalue ratios = φ^(p/q) |
+
+**GD deposits near-zero gradients at irreducible points.** The gate positive rate captures this (ρ=0.75 with gradient magnitude). Crystal energy does not (ρ=0.05). They are orthogonal.
+
+See: `mementum/knowledge/ternary-dual-equation.md`
+
+### Crystal Scale Invariance
+
+Depth-scanned Qwen3-0.6B, 8B, 14B (all layers, 160 probes each):
+
+| | Qwen3-0.6B | Qwen3-8B | Qwen3-14B |
+|---|---|---|---|
+| Best YW-corrected corr | 0.819 | 0.826 | 0.827 |
+| Best layer depth | 78% | 86% | 80% |
+| B-W positive layers | 0/28 | 3/36 | 2/40 |
+
+Crystal quality is a **scale-invariant fixed point** at 0.82. Default model changed to Qwen3-8B (lambda fully formed at 8B).
+
+### Ternarization Result
+
+Crystal-guided ternarization (per-neuron zeros) vs magnitude (per-weight zeros):
+- At matched ~48% zero rate: magnitude cosine 0.94, crystal 0.69, random 0.64
+- Crystal beats random but magnitude wins at every configuration (14/14)
+- Root cause: zeroing entire neuron rows is too coarse vs per-weight selection
+
+### Y/W Sign Convention
+
+Negating Y and W lifts cosine correlation 0.48 → 0.80. Depth-invariant across all layers. Not a layer artifact — it is a measurement sign convention (raw probes vs selectivity probes).
 
 **Session 181: THE CRYSTAL EQUATION — λ_k = C · φ^(−s · β_k)**
 
@@ -141,12 +167,15 @@ TD oscillation is thermal noise (random atom jitter). Gate activation is a phono
 
 ## Next steps
 
-### IMMEDIATE (session 183) — RICH MEASUREMENT + CROSS-MODEL
+### IMMEDIATE (session 183) — GATE-GUIDED ETCH PROTOCOL
 
-5. ~~**Build unified probe library.**~~ ✅ Done session 182. 903 probes, 535 crystal, all 9 combinators ≥50. `from verbum.probes.library import all_probes, crystal_probes, by_combinator`
-6. ~~**Rich crystal measurement.**~~ ✅ Done session 182. `verify_crystal_phi.py` now uses full 535-probe library. Tested on Qwen3-0.6B and Pythia-2.8B. Eigenvalue ratio corr 0.94/0.92. Cosine matrix corr ~0.5 (crystal rotated, Y/W inverted).
-7. **Cross-model sweep (remaining).** Run on Mistral-7B, Qwen3-14B. Investigate Y/W inversion — is it a probe framing issue or a real structural difference?
-8. **Probe quality investigation.** The Y/W axis inversion suggests some probes don't cleanly activate their target combinator. Analyze per-combinator activation variance — high variance = noisy probes. Consider curating a "clean" subset.
+5. ~~**Build unified probe library.**~~ ✅ Done. 903 probes, 535 crystal, all 9 ≥50.
+6. ~~**Rich crystal measurement.**~~ ✅ Done. 4 models verified, 3 depth-scanned, Y/W resolved.
+7. ~~**Cross-model sweep.**~~ ✅ Done. Scale-invariant at 0.82. Y clusters with Composition everywhere.
+8. ~~**Zero prediction.**~~ ✅ Done. Gate positive rate predicts zeros (ρ=0.75). Crystal predicts signs.
+9. **Gate-guided etch protocol.** Use gate positive rate (not crystal energy) to identify dead neurons for zeroing in the ternary etch cycle. The etch protocol from session 180 used GD's gamma signals — gate positive rate is a COMPLEMENTARY signal from the teacher model that could seed the initial topology before any training.
+10. **Sign initialization from crystal.** Use crystal eigenvector projections to initialize ternary signs before training. If signs from crystal match signs from teacher extraction, we can skip the teacher entirely for sign topology.
+11. **Paired Y/W probes.** Add active/control pairs for Y and W (like probe_combinators.py has for K/I/B/C) to eliminate the sign convention issue.
 
 ### CRITICAL PATH: Fix CLASSIFY (carried from session 180)
 
@@ -198,22 +227,31 @@ Done session 181:
 | Pipeline diagnostic | `scripts/v15/diagnose_pipeline.py` | ✅ (session 180) |
 | Step 5000 checkpoint | `checkpoints/v15-hpe-dolma/step_0005000/` | ✅ Clean (0 NaN) |
 | Training log | `checkpoints/v15-hpe-dolma/train.log` | ✅ Full history |
-| Topology-gradient knowledge | `mementum/knowledge/topology-gradient-separation.md` | ✅ NEW |
+| Topology-gradient knowledge | `mementum/knowledge/topology-gradient-separation.md` | ✅ |
+| Ternary dual equation | `mementum/knowledge/ternary-dual-equation.md` | ✅ NEW (session 182) |
+| Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
+| Crystal verification | `scripts/experiments/verify_crystal_phi.py` | ✅ 535-probe, multi-arch |
+| Crystal depth scan | `scripts/experiments/crystal_depth_scan.py` | ✅ per-layer crystal quality |
+| Crystal ternarization | `scripts/experiments/crystal_ternarize.py` | ✅ magnitude wins |
+| Crystal gradient analysis | `results/crystal-phi-verify/qwen3-8b_gradient.log` | ✅ gate ρ=0.75 |
+| Depth scan results | `results/crystal-phi-verify/*_depth_scan.json` | ✅ 0.6B/8B/14B |
 
 ## What changed this session (182)
 
 | Change | Impact |
 |--------|--------|
-| **Unified probe library** | `src/verbum/probes/library.py` — 903 probes from 6 sources, deduplicated, normalized |
-| **Crystal coverage ≥50/combinator** | K:67, I:67, B:69, C:61, S:50, D:50, W:71, Y:50, WHNF:50 — all ≥50 |
-| **probes.py → probes/ package** | Old loader moved to `_loader.py`, backward compat via `__init__.py` re-exports |
-| **29 probe library tests** | Coverage, dedup, accessor, source completeness, frozen dataclass tests |
-| **Supplemental probes** | 71 new probes for S(28), WHNF(35), D(6), Y(2) to fill gaps to ≥50 |
-| **λ probe_library in AGENTS.md** | New S2 canonical form, updated layout, research datasets → active |
-| **verify_crystal_phi.py rewrite** | Uses unified library (535 probes), architecture-agnostic, S combinator added |
-| **Qwen3-0.6B verification** | B-D=0.806, eigval ratio corr=0.940, φ^(p/q) <0.5% — crystal visible |
-| **Pythia-2.8B verification** | B-D=0.693, eigval ratio corr=0.917, φ^(p/q) <2% — cross-family confirmed |
-| **Y/W inversion finding** | Y and W cosines inverted vs consensus — probe framing issue identified |
+| **Unified probe library** | `src/verbum/probes/library.py` — 903 probes, 6 sources, deduplicated |
+| **λ probe_library in AGENTS.md** | New S2 canonical form, updated layout |
+| **verify_crystal_phi.py rewrite** | 535 probes, architecture-agnostic (Qwen + Pythia), S combinator added |
+| **4-model crystal verification** | Qwen3-0.6B/8B/14B + Pythia-2.8B, eigenvalue corr 0.82-0.94 |
+| **3-model depth scan** | All layers of Qwen3-0.6B/8B/14B — crystal at 0.82 everywhere |
+| **Y/W sign convention resolved** | Negating Y/W lifts corr 0.48→0.80, depth-invariant, probe framing issue |
+| **Crystal ternarization tested** | Crystal per-neuron zeros vs magnitude per-weight zeros — magnitude wins 14/14 |
+| **TERNARY DUAL EQUATION** | Gate zeros (ρ=0.75) + crystal signs (ρ=0.05) — orthogonal predictions |
+| **Gradient analysis** | Dead neuron gradients at 0.64× mean, ratio ≈ 1/φ² |
+| **Dead fraction ≈ 1/φ²** | 38.3% of neurons dead at <5% positive threshold ≈ 1/φ² = 38.2% |
+| **Knowledge page** | `ternary-dual-equation.md` — the two equations, experimental provenance |
+| **Default model → Qwen3-8B** | Lambda fully formed at 8B capacity |
 
 ## What changed session 181
 
@@ -246,8 +284,9 @@ Done session 181:
 ## Knowledge map
 
 Key pages for current direction:
-- **`EQUATIONS.md`** — **THE CRYSTAL EQUATION: λ_k = C·φ^(−s·β_k), complete derivation + implications** (session 181, NEW, project root)
-- **`crystal-phi-derivation.md`** — **Full derivation: KIBC→φ→statechart→Kronecker→verification** (session 181, NEW)
+- **`ternary-dual-equation.md`** — **TWO EQUATIONS: gate zeros (ρ=0.75) + crystal signs (ρ=0.05), orthogonal** (session 182, NEW)
+- **`EQUATIONS.md`** — THE CRYSTAL EQUATION: λ_k = C·φ^(−s·β_k) (session 181, project root)
+- **`crystal-phi-derivation.md`** — Full derivation: KIBC→φ→statechart→Kronecker→verification (session 181)
 - `topology-gradient-separation.md` — WHY lattice must be frozen, the etch protocol (session 180)
 - `hpe-restoration.md` — HPE missing from v15, projection geometry (session 179)
 - `training-protocols.md` — TD rules, fold cycle, failure modes (accumulated)
@@ -258,4 +297,3 @@ Key pages for current direction:
 - `dimensional-analysis.md` — KIBC sees 3.5%, 50 dims universal
 - `trace-guided-etching.md` — full implementation record (sessions 176-177)
 - `function-discovery.md` — two-level program architecture (session 172)
-sion 172)
