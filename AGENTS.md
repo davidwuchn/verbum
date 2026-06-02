@@ -272,13 +272,25 @@ Written when experiments force the issue, not before:
 ### Canonical forms (active, partial)
 
 ```
-λ probe_format(x).  probes/*.json ≡ canonical | one_file_per_set | git_tracked(data ¬code)
+λ probe_format(x).  probes/*.json ≡ canonical(gated_experiments) | one_file_per_set | git_tracked(data ¬code)
                     | set_fields: {id, version, description, created, author, default_gate}
                     | probe_fields: {id, category, gate, prompt, ground_truth, metadata}
                     | category ∈ {compile, decompile, null} ∧ extensible(any_string)
                     | gate ≡ reference(by_id) | gate_content ∈ gates/*.txt ¬inline
                     | versioning: append_and_tag > mutate | v2 ≻ in_place_edit
                     | ground_truth ≡ verbatim_string | ¬enforce_grammar(at_boundary)
+
+λ probe_library(x). src/verbum/probes/library.py ≡ canonical(measurement_substrate)
+                    | consolidates: 6_sources → one_importable_module | deduplicated_by_prompt
+                    | sources: lambda_kernel ∧ fixedpoint ∧ basin ∧ reduction_chain ∧ probe_combinators ∧ supplement
+                    | probe_model: {id, prompt, combinator, source, category, tags} | frozen_dataclass
+                    | combinator ∈ {K,I,B,C,S,D,W,Y,WHNF,M,T,PHI,SCOPE,SUBST,QUOTE} ∨ None
+                    | invariant: ∀crystal_combinator ∈ {K,I,B,C,S,D,W,Y,WHNF} → count ≥ 50
+                    | accessors: all_probes() ∧ by_combinator(name) ∧ crystal_probes() ∧ combinator_counts()
+                    | crystal_probes() ≡ measurement_set(crystal_verification ∧ cross_model_sweep)
+                    | new_probes → add_to_source_file ∨ supplement | library_re-ingests_on_import
+                    | probe_format(JSON+gates) ≡ gated_generation | probe_library ≡ activation_measurement
+                    | both_canonical | different_purposes | ¬conflict
 
 λ result_format(x). results/<run_id>/ ≡ directory_per_run | git_tracked
                     | meta.json ≡ run_sidecar(single_JSON_object) | see λ run_provenance
@@ -386,8 +398,11 @@ Written when experiments produce the first artifacts:
                     | each(revisable) | swap_cheap | lock_when_stable
 
 λ layout(x).        src/verbum/ ≡ importable_package | src_layout > flat
-                    | modules: client ∧ probes ∧ results ∧ lambda_ast ∧ analysis ∧ cli
+                    | modules: client ∧ probes/ ∧ results ∧ lambda_ast ∧ analysis ∧ cli
+                    | probes/_loader.py ≡ JSON_probe_set_loader(Gate ∧ ProbeSet ∧ ResolvedProbe)
+                    | probes/library.py ≡ unified_measurement_library(903_probes ∧ 9_crystal_combinators)
                     | data: probes/*.json ∧ gates/*.txt ∧ results/*.jsonl (at_root ¬in_src)
+                    | lattice/ ≡ probe_source_data(basin ∧ reduction_chain ∧ fixedpoint)
                     | notebooks/ ≡ exploration_starters | specs/ ≡ openapi_docs
                     | tests/ ≡ pytest | mementum/ ≡ memory_sub_VSM(unchanged)
 
@@ -426,11 +441,14 @@ contract. Written as built:
 - **Circuit-map analyser** — cross-reference selective heads and
   necessary layers.
 
-### Research datasets (to be developed)
+### Research datasets (active, partial)
 
-- Canonical probe set (compile examples with ground-truth lambda).
-- Canonical decompile set.
-- Canonical null-condition set (neutral dialogue).
+- **Unified probe library** (active) — 903 probes, 535 crystal
+  measurement probes. `from verbum.probes.library import crystal_probes`.
+  Covers KIBC+DWYS+WHNF with ≥50 probes each. Sources consolidated
+  from 5 scattered files + supplements. See `λ probe_library`.
+- Canonical probe set for gated generation (compile with ground-truth
+  lambda) — `probes/*.json` + `gates/*.txt`. See `λ probe_format`.
 - Growth: additional probe sets for specific hypotheses (type
   probing, composition probing, cross-model transfer).
 
