@@ -131,6 +131,46 @@ The dynamic range φ^(6/5) = φ^((n+2)/(n+1)) for n=4:
 - One full reduce + one switch in the compute cycle β = [0, 1, ...]
 - The γ distribution spans exactly one compute cycle of the crystal equation
 
+## Complete Ternarization Recipe
+
+All three pieces proven separately, ready for end-to-end test:
+
+```
+For each layer l, for each weight matrix W (gate_proj, up_proj, down_proj, q/k/v/o_proj):
+
+  1. SIGN:   T(i,j) = sign(W(i,j))
+             Source: teacher weights (direct extraction)
+             Quality: 100% accurate (sessions 170+)
+
+  2. ZERO:   T(i,j) = 0  where |W(i,j)| < percentile(|W(i,:)|, zero_rate)
+             Per-row magnitude threshold, ~35% zeros
+             Quality: 0.94 FFN cosine at 48% zeros
+
+  3. SCALE:  γ(i) = γ̄_l - α_l · mean_gate(i)
+             Two constants per layer, mean_gate free at inference
+             Quality: R² = 0.56, 0.24 bits residual
+```
+
+### Size estimate: Qwen3-8B ternarized
+
+| Component | Size |
+|-----------|------|
+| FFN weights (5.4B × 1.58 bits) | 1.08 GB |
+| Attention weights (1.5B × 1.58 bits) | 0.30 GB |
+| Scale factors (36L × 6 × 64 bits) | 864 bytes |
+| Embedding (622M × 16 bits, float16) | 1.24 GB |
+| **Total** | **2.44 GB** |
+| Original fp16 | 14.1 GB |
+| Compression | 5.8× |
+
+### Not yet tested
+
+- Full-model ternarization (all layers, all weight types)
+- Perplexity measurement
+- Generation quality
+- Attention weight ternarization (FFN tested only)
+- Embedding handling (keep float16 vs ternarize)
+
 ## Experimental Provenance
 
 - Model: Qwen/Qwen3-8B, layer 28 (78% depth), d_ff=12288
