@@ -1,0 +1,41 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:59,  1.33it/s]Loading weights:  10%|▉         | 38/399 [00:00<00:06, 59.84it/s]Loading weights:  15%|█▌        | 60/399 [00:01<00:04, 76.00it/s]Loading weights:  19%|█▉        | 77/399 [00:01<00:03, 90.59it/s]Loading weights:  23%|██▎       | 93/399 [00:01<00:03, 95.08it/s]Loading weights:  27%|██▋       | 107/399 [00:01<00:02, 101.28it/s]Loading weights:  30%|███       | 121/399 [00:01<00:02, 105.64it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:02, 112.36it/s]Loading weights:  37%|███▋      | 149/399 [00:01<00:02, 114.45it/s]Loading weights:  41%|████      | 164/399 [00:01<00:02, 117.38it/s]Loading weights:  44%|████▍     | 177/399 [00:02<00:02, 107.38it/s]Loading weights:  47%|████▋     | 189/399 [00:02<00:01, 109.31it/s]Loading weights:  51%|█████     | 204/399 [00:02<00:01, 116.34it/s]Loading weights:  54%|█████▍    | 217/399 [00:02<00:01, 118.68it/s]Loading weights:  58%|█████▊    | 230/399 [00:02<00:01, 119.30it/s]Loading weights:  61%|██████    | 243/399 [00:02<00:01, 117.65it/s]Loading weights:  64%|██████▍   | 257/399 [00:02<00:01, 114.82it/s]Loading weights:  69%|██████▉   | 276/399 [00:02<00:01, 113.65it/s]Loading weights:  73%|███████▎  | 292/399 [00:02<00:00, 122.11it/s]Loading weights:  77%|███████▋  | 307/399 [00:03<00:00, 123.78it/s]Loading weights:  80%|████████  | 320/399 [00:03<00:00, 115.69it/s]Loading weights:  84%|████████▍ | 336/399 [00:03<00:00, 124.33it/s]Loading weights:  88%|████████▊ | 351/399 [00:03<00:00, 119.79it/s]Loading weights:  92%|█████████▏| 367/399 [00:03<00:00, 121.70it/s]Loading weights:  95%|█████████▌| 380/399 [00:03<00:00, 122.24it/s]Loading weights:  99%|█████████▉| 397/399 [00:03<00:00, 133.65it/s]Loading weights: 100%|██████████| 399/399 [00:03<00:00, 104.46it/s]
+Layer 28, d_ff=12288, d_model=4096
+Computing gradients over 130 prompts...
+Done in 19.9s, 130 samples
+Gradient magnitude: shape=(12288, 4096), mean=0.000207, std=0.000125
+Per-neuron grad norm: mean=0.014256, std=0.006009
+
+========================================================================
+  GRADIENT MAGNITUDE vs CRYSTAL ENERGY
+========================================================================
+  Crystal energy vs grad norm:
+    Pearson:  0.1192
+    Spearman: 0.0534 (p=3.11e-09)
+  Positive rate vs grad norm:
+    Pearson:  0.6898
+    Spearman: 0.7528 (p=0.00e+00)
+  Weight norm vs grad norm:
+    Pearson:  -0.4237
+    Spearman: -0.4850 (p=0.00e+00)
+
+  Dead neurons have smaller gradients?
+   Positive rate  Count  Mean grad    Mean CE  Grad ratio
+             <1%   1720   0.009143     0.1534      0.641x
+             <5%   4709   0.010459     0.1658      0.734x
+            <10%   6951   0.011313     0.1727      0.794x
+            <20%   9516   0.012410     0.1819      0.871x
+            <50%  11652   0.013614     0.1928      0.955x
+           >=50%    636   0.026017     0.1963      1.825x
+
+  Per-weight gradient distribution:
+    Total weights: 50,331,648
+    Mean: 0.00020716
+    Percentiles: p1=0.00006878, p10=0.00010682, p50=0.00018178, p90=0.00032298
+    |grad| < 1e-06:     24,576 (0.05%)
+    |grad| < 1e-05:     24,576 (0.05%)
+    |grad| < 1e-04:  3,769,311 (7.49%)
+    |grad| < 1e-03: 50,194,185 (99.73%)
+
+Saved to results/crystal-phi-verify/Qwen_Qwen3-8B_gradient_crystal.json

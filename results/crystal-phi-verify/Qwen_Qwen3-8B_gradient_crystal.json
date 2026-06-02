@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "layer": 28,
+  "d_ff": 12288,
+  "n_samples": 130,
+  "correlation_crystal_vs_grad": {
+    "pearson": 0.1192400451992364,
+    "spearman": 0.05342236407522413
+  },
+  "correlation_posrate_vs_grad": {
+    "pearson": 0.6897679016344306,
+    "spearman": 0.7528003170787114
+  },
+  "correlation_weightnorm_vs_grad": {
+    "pearson": -0.42368844162600716,
+    "spearman": -0.4849586939254048
+  }
+}
