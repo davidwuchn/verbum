@@ -1,0 +1,19 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "layer": 28,
+  "d_ff": 12288,
+  "n_crystal_probes": 200,
+  "n_diverse_probes": 24,
+  "dead_both": 3855,
+  "dead_crystal_only": 806,
+  "dead_diverse_only": 1982,
+  "alive_both": 5645,
+  "dead_fraction": 0.313720703125,
+  "crystal_energy_dead": 0.15112460560422858,
+  "crystal_energy_alive": 0.18909263601585322,
+  "correlations": {
+    "crystal_energy_vs_crystal_act": 0.15947951299950888,
+    "crystal_energy_vs_diverse_act": NaN,
+    "crystal_act_vs_diverse_act": NaN
+  }
+}
