@@ -97,10 +97,16 @@ class V15Config:
     teacher_d_ff: int = 17408
 
     # Algedonic thresholds
-    norm_min: float = 0.1
-    norm_max: float = 100.0
-    coherence_min: float = 0.1   # fraction on crystal manifold
+    norm_min: float = 0.01
+    norm_max: float = 1000.0
+    coherence_min: float = 0.01  # fraction on crystal manifold (relaxed for early training)
     divergence_ratio: float = 1.5  # dimensionality increase threshold
+
+    # HPE (Holographic Position Encoding) — ported from v14
+    # Crystal eigenvalues (Zone B, top 8 — from PCAQ_ZONE_B_TARGETS eigendecomposition)
+    crystal_eigenvalues: tuple[float, ...] = (5.193, 3.535, 1.909, 1.300, 1.082, 0.736, 0.500, 0.426)
+    n_eigen_pairs: int = 4       # First 4 pairs cover 77% of crystal variance
+    alpha_init: float = 1.18     # v14 universal decay constant — now learnable per stride
 
     # Training
     max_seq_len: int = 8192

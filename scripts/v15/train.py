@@ -545,20 +545,36 @@ def _compute_attn_weights_for_stride(
     """Compute attention weight matrix for a FullAttention module.
 
     Returns (B, H, L, L) softmax weights without running o_proj.
-    Fully differentiable (uses stop_gradient only for the captured copy).
+    Mirrors the full forward path including q_norm, k_norm, HPE rotation,
+    and learnable decay bias so the α diagnostic sees real attention patterns.
     """
     B, L, D = x.shape
     d_head = attn.d_head
     scale = attn.scale
 
-    q = attn.q_proj(x).reshape(B, L, attn.n_heads, d_head).transpose(0, 2, 1, 3)
-    k = attn.k_proj(x).reshape(B, L, attn.n_kv_heads, d_head).transpose(0, 2, 1, 3)
+    # Project + per-head QK normalization
+    q = attn.q_proj(x).reshape(B, L, attn.n_heads, d_head)
+    k = attn.k_proj(x).reshape(B, L, attn.n_kv_heads, d_head)
+    q = attn.q_norm(q)
+    k = attn.k_norm(k)
+    q = q.transpose(0, 2, 1, 3)  # (B, H, L, Dh)
+    k = k.transpose(0, 2, 1, 3)
 
+    # HPE rotation on K
+    k = attn._apply_hpe_rotation(k, L)
+
+    # GQA repeat
     if attn.n_kv_heads < attn.n_heads:
         repeats = attn.n_heads // attn.n_kv_heads
         k = mx.repeat(k, repeats, axis=1)
 
     scores = (q @ k.transpose(0, 1, 3, 2)) * scale
+
+    # Learnable log-decay bias
+    alpha = mx.exp(attn.log_alpha)
+    log_dist = attn._get_log_distances(L)
+    scores = scores - alpha * log_dist
+
     if mask is not None:
         scores = scores + mask
     return mx.softmax(scores, axis=-1)  # (B, H, L, L)
@@ -1272,19 +1288,37 @@ SYMBOLIC_PROBES = [
 
 
 def load_crystal_basis(checkpoint_dir: str | Path) -> np.ndarray | None:
-    """Load per-stride crystal basis from extracted checkpoint.
+    """Load per-stride trace basis from extracted checkpoint.
+
+    Prefers expanded PCA basis (50-dim, 90%+ coverage) over KIBC (11-dim, ~5%).
+    Falls back to KIBC crystal basis if expanded not available.
 
     Returns:
-        (n_strides, n_combinators, d_model) array, or None if not found.
+        (n_strides, n_components, d_model) array, or None if not found.
     """
-    basis_path = Path(checkpoint_dir) / "crystal_basis_d_model.npz"
+    checkpoint_dir = Path(checkpoint_dir)
+
+    # Prefer expanded PCA basis
+    expanded_path = checkpoint_dir / "expanded_trace_basis.npz"
+    if expanded_path.exists():
+        data = np.load(expanded_path)
+        basis = data["pca_components"]  # (n_strides, 50, d_model)
+        ev = data["explained_variance"]
+        mean_cumvar = float(np.mean([np.cumsum(ev[s])[-1] for s in range(basis.shape[0])]))
+        log(f"Expanded PCA basis loaded: {basis.shape[0]} strides × {basis.shape[1]} PCs "
+            f"(mean coverage: {mean_cumvar:.1%})")
+        return basis
+
+    # Fallback to KIBC crystal basis
+    basis_path = checkpoint_dir / "crystal_basis_d_model.npz"
     if not basis_path.exists():
         log(f"Crystal basis not found at {basis_path} — profiler disabled")
         return None
     data = np.load(basis_path)
     basis = data["per_stride_basis"]  # (19, 11, 1280)
     names = list(data["combinator_names"])
-    log(f"Crystal basis loaded: {basis.shape[0]} strides × {basis.shape[1]} combinators ({', '.join(names[:4])}...)")
+    log(f"KIBC crystal basis loaded: {basis.shape[0]} strides × {basis.shape[1]} combinators "
+        f"({', '.join(names[:4])}...) — consider building expanded basis for better coverage")
     return basis
 
 
@@ -1717,8 +1751,11 @@ def train(args: argparse.Namespace) -> None:
         if step % args.eval_every == 0 and step > 0:
             log(f"── Eval at step {step} ──")
 
-            # Algedonic check
-            run_algedonic_check(model, input_ids, step)
+            # Algedonic check (informational only — does not halt training)
+            try:
+                run_algedonic_check(model, input_ids, step)
+            except Exception as e:
+                log(f"  Algedonic check failed: {e}")
 
             # α measurement (power-law attention decay)
             if args.measure_alpha:
@@ -1745,6 +1782,25 @@ def train(args: argparse.Namespace) -> None:
                                 f"α={mean_a:.3f} ± {std_a:.3f}  "
                                 f"(n_heads={len(vals)})"
                             )
+
+                        # Log learned α (HPE decay bias) per stride
+                        learned_alphas = {}
+                        for stride in model.strides:
+                            if isinstance(stride.attn, FullAttention):
+                                si = stride.spec.index
+                                la = float(mx.exp(stride.attn.log_alpha))
+                                learned_alphas[f"stride_{si:02d}_learned_alpha"] = la
+                        if learned_alphas:
+                            log("  learned α (HPE decay bias) per stride:")
+                            for si in sorted(stride_alphas):
+                                key = f"stride_{si:02d}_learned_alpha"
+                                if key in learned_alphas:
+                                    stride_obj = model.strides[si]
+                                    log(
+                                        f"    stride {si:02d} ({stride_obj.zone.name:8s}): "
+                                        f"learned_α={learned_alphas[key]:.4f}"
+                                    )
+                            alphas.update(learned_alphas)
 
                         # Save alphas to output dir
                         alpha_path = output_dir / f"alpha_step_{step:07d}.json"

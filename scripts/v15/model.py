@@ -267,13 +267,22 @@ class TernaryFFN(nn.Module):
 # ══════════════════════════════════════════════════════════════════════
 
 class FullAttention(nn.Module):
-    """Standard multi-head attention with GQA. Content-adaptive routing.
+    """Multi-head attention with GQA, QK-norm, and HPE. Content-adaptive routing.
 
     Used in COMPUTE and LINK zones where the reduction graph is built
     and routing must adapt per-input (cross-input correlation 0.38-0.49).
+
+    Three mechanisms ported from v14 + Qwen3 teacher:
+      q_norm/k_norm:  RMSNorm(d_head) per-head after projection (from Qwen3)
+                      Normalizes Q/K to unit RMS → only direction matters for routing.
+      HPE rotation:   Crystal-frequency rotation on K in first n_eigen_pairs dim pairs.
+                      Encodes relative log-position via holographic lens physics.
+      Decay bias:     -α·log(|i-j|+1) added to attention scores.
+                      Learnable α per stride (initialized at 1.18 from v14 universal).
     """
 
-    def __init__(self, d_model: int, n_heads: int, n_kv_heads: int):
+    def __init__(self, d_model: int, n_heads: int, n_kv_heads: int,
+                 config: Optional[V15Config] = None):
         super().__init__()
         self.n_heads = n_heads
         self.n_kv_heads = n_kv_heads
@@ -285,13 +294,127 @@ class FullAttention(nn.Module):
         self.v_proj = nn.Linear(d_model, n_kv_heads * self.d_head, bias=False)
         self.o_proj = nn.Linear(d_model, d_model, bias=False)
 
+        # Per-head QK normalization (from Qwen3 teacher architecture)
+        # Normalizes each head to unit RMS, then rescales by learned weight.
+        # This separates magnitude from direction — Q/K direction = routing,
+        # learned weight = per-dimension importance.
+        self.q_norm = nn.RMSNorm(self.d_head)
+        self.k_norm = nn.RMSNorm(self.d_head)
+
+        # HPE: Holographic Position Encoding (from v14)
+        cfg = config or V15Config()
+        self.n_eigen_pairs = cfg.n_eigen_pairs
+
+        # Crystal-derived frequencies (normalized by λ₀)
+        crystal_freqs = [ev / cfg.crystal_eigenvalues[0]
+                         for ev in cfg.crystal_eigenvalues[:cfg.n_eigen_pairs]]
+        self._crystal_freqs = mx.array(crystal_freqs)  # (n_eigen_pairs,)
+
+        # Learnable frequency scaling — initialized to 1.0 (full rotation)
+        self.hpe_freq_scale = mx.ones((cfg.n_eigen_pairs,))
+
+        # Learnable decay: log(α) so α = exp(log_alpha) is always positive.
+        # Initialized at log(1.18) from v14 universal constant.
+        # Per-stride (not per-head): v14 confirmed α is universal across heads.
+        self.log_alpha = mx.array(math.log(cfg.alpha_init))
+
+        # Cache for log-distance bias matrix
+        self._log_dist_cache: Optional[mx.array] = None
+        self._log_dist_cache_len: int = 0
+
+    def _get_log_distances(self, seq_len: int) -> mx.array:
+        """Causal log-distance matrix: log(|i-j| + 1) for j <= i, else 0.
+
+        Shape: (seq_len, seq_len). Cached for repeated calls with same length.
+        """
+        if self._log_dist_cache is not None and self._log_dist_cache_len >= seq_len:
+            return self._log_dist_cache[:seq_len, :seq_len]
+
+        # Build lower-triangular log-distance matrix
+        # positions[i, j] = i - j for j <= i
+        pos = mx.arange(seq_len)
+        distances = pos[:, None] - pos[None, :]  # (L, L), negative above diagonal
+        # log(d + 1) where d = i - j, clamped to 0 for non-causal entries
+        log_dist = mx.log(mx.maximum(distances, 0).astype(mx.float32) + 1.0)
+        # Zero out above diagonal (will be masked by causal mask anyway)
+        causal = distances >= 0
+        log_dist = mx.where(causal, log_dist, mx.zeros_like(log_dist))
+
+        self._log_dist_cache = log_dist
+        self._log_dist_cache_len = seq_len
+        return log_dist
+
+    def _apply_hpe_rotation(self, k: mx.array, seq_len: int) -> mx.array:
+        """Apply HPE rotation to K: rotate first n_eigen_pairs dim pairs by
+        log-distance × crystal frequency.
+
+        K is rotated per-position relative to position 0. Since Q stays
+        unrotated, the Q·K product encodes relative log-distance (like RoPE
+        but log-scale and crystal-frequency).
+
+        Args:
+            k: (B, H, L, Dh) — key states (already transposed to head-first)
+            seq_len: sequence length
+
+        Returns:
+            k with first 2*n_eigen_pairs dimensions rotated by position.
+        """
+        n_pairs = self.n_eigen_pairs
+        if n_pairs == 0:
+            return k
+
+        freqs = self._crystal_freqs * self.hpe_freq_scale  # (n_pairs,)
+
+        # Absolute position log-distances from position 0
+        positions = mx.arange(seq_len, dtype=mx.float32)
+        log_pos = mx.log(positions + 1.0)  # (L,) — log(pos + 1)
+
+        # Rotation angles: (L, n_pairs)
+        angles = log_pos[:, None] * freqs[None, :]
+        cos_a = mx.cos(angles)  # (L, n_pairs)
+        sin_a = mx.sin(angles)  # (L, n_pairs)
+
+        # Reshape for broadcasting: (1, 1, L, n_pairs)
+        cos_a = cos_a.reshape(1, 1, seq_len, n_pairs)
+        sin_a = sin_a.reshape(1, 1, seq_len, n_pairs)
+
+        # Split K into pairs for rotation: (B, H, L, n_pairs, 2)
+        rot_dim = 2 * n_pairs
+        k_rot = k[:, :, :, :rot_dim].reshape(*k.shape[:3], n_pairs, 2)
+        k_pass = k[:, :, :, rot_dim:]  # dimensions that don't rotate
+
+        # Givens rotation per pair: [cos -sin; sin cos] @ [k0; k1]
+        k0 = k_rot[:, :, :, :, 0]  # (B, H, L, n_pairs)
+        k1 = k_rot[:, :, :, :, 1]
+        k0_rot = k0 * cos_a - k1 * sin_a
+        k1_rot = k0 * sin_a + k1 * cos_a
+
+        # Reassemble: (B, H, L, n_pairs, 2) → (B, H, L, rot_dim)
+        k_rotated = mx.stack([k0_rot, k1_rot], axis=-1).reshape(*k.shape[:3], rot_dim)
+
+        # Concatenate rotated + pass-through dimensions
+        return mx.concatenate([k_rotated, k_pass], axis=-1)
+
     def __call__(self, x: mx.array, mask: Optional[mx.array] = None) -> mx.array:
         B, L, D = x.shape
         d_head = self.d_head
 
-        q = self.q_proj(x).reshape(B, L, self.n_heads, d_head).transpose(0, 2, 1, 3)
-        k = self.k_proj(x).reshape(B, L, self.n_kv_heads, d_head).transpose(0, 2, 1, 3)
+        # Project
+        q = self.q_proj(x).reshape(B, L, self.n_heads, d_head)
+        k = self.k_proj(x).reshape(B, L, self.n_kv_heads, d_head)
         v = self.v_proj(x).reshape(B, L, self.n_kv_heads, d_head).transpose(0, 2, 1, 3)
+
+        # Per-head QK normalization (Qwen3-style)
+        # q_norm/k_norm: RMSNorm on last dim (d_head), applied per-head
+        q = self.q_norm(q)
+        k = self.k_norm(k)
+
+        # Transpose to (B, H, L, Dh)
+        q = q.transpose(0, 2, 1, 3)
+        k = k.transpose(0, 2, 1, 3)
+
+        # HPE: rotate K by crystal frequencies × log-position
+        k = self._apply_hpe_rotation(k, L)
 
         # GQA: repeat KV heads
         if self.n_kv_heads < self.n_heads:
@@ -301,6 +424,12 @@ class FullAttention(nn.Module):
 
         # Scaled dot-product attention
         scores = (q @ k.transpose(0, 1, 3, 2)) * self.scale
+
+        # Learnable log-decay bias: -α·log(|i-j|+1)
+        alpha = mx.exp(self.log_alpha)
+        log_dist = self._get_log_distances(L)
+        scores = scores - alpha * log_dist
+
         if mask is not None:
             scores = scores + mask
         weights = mx.softmax(scores, axis=-1)
@@ -383,7 +512,8 @@ class Stride(nn.Module):
 
         # s4: attention (the router)
         if spec.attn_type == AttnType.FULL:
-            self.attn = FullAttention(config.d_model, config.n_heads, config.n_kv_heads)
+            self.attn = FullAttention(config.d_model, config.n_heads, config.n_kv_heads,
+                                      config=config)
         else:
             self.attn = LinearAttention(config.d_model, config.n_heads)
 
