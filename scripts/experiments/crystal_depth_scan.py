@@ -144,7 +144,7 @@ def compute_cosine_at_layer(model, tokenizer, probe_dict, layer_idx,
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3-0.6B")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-8B")
     parser.add_argument("--device", type=str, default="auto")
     parser.add_argument("--n-per-combinator", type=int, default=20,
                         help="Probes per combinator (default 20 for speed)")

@@ -17,7 +17,7 @@ Method:
   6. Eigendecompose and check φ^(p/q) structure
 
 Usage:
-  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-0.6B
+  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-8B
   uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-14B --n-per-combinator 20
   uv run python scripts/experiments/verify_crystal_phi.py --model EleutherAI/pythia-2.8b-deduped
 
@@ -480,13 +480,13 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s --model Qwen/Qwen3-0.6B                    # quick smoke test
+  %(prog)s --model Qwen/Qwen3-8B                       # default (lambda fully formed)
   %(prog)s --model Qwen/Qwen3-14B --n-per-combinator 30  # medium run
   %(prog)s --model EleutherAI/pythia-2.8b-deduped      # cross-family test
         """,
     )
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3-0.6B",
-                        help="HuggingFace model ID (default: Qwen/Qwen3-0.6B)")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-8B",
+                        help="HuggingFace model ID (default: Qwen/Qwen3-8B)")
     parser.add_argument("--device", type=str, default="auto",
                         help="Device: auto, cpu, cuda, mps (default: auto)")
     parser.add_argument("--n-per-combinator", type=int, default=None,
