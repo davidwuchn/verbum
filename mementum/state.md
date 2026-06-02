@@ -2,11 +2,15 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-02 | Session: 181
+> Last updated: 2026-06-02 | Session: 182
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 182: UNIFIED PROBE LIBRARY**
+
+Built the unified probe library (`src/verbum/probes/library.py`), consolidating 5 scattered probe sources into one importable module. 903 probes after dedup, all 9 crystal combinators (KIBC+DWYS+WHNF) at ≥50 probes each, 535 crystal probes total. 29 tests added, all 218 project tests pass.
 
 **Session 181: THE CRYSTAL EQUATION — λ_k = C · φ^(−s · β_k)**
 
@@ -125,9 +129,9 @@ TD oscillation is thermal noise (random atom jitter). Gate activation is a phono
 
 ## Next steps
 
-### IMMEDIATE (session 182) — PROBE CONSOLIDATION + RICH MEASUREMENT
+### IMMEDIATE (session 183) — RICH MEASUREMENT + CROSS-MODEL
 
-5. **Build unified probe library.** Consolidate 835+ probes from `probes/lambda_kernel_probes.py` (380), `lattice/basin_probes.json` (144), `lattice/reduction_chain_probes.json` (79), `lattice/fixedpoint_probes.json` (184), `probe_combinators.py` (48) into one importable module. Deduplicate. Ensure each of the 8 combinator types has 50+ probes.
+5. ~~**Build unified probe library.**~~ ✅ Done session 182. 903 probes, 535 crystal, all 9 combinators ≥50. `from verbum.probes.library import all_probes, crystal_probes, by_combinator`
 6. **Rich crystal measurement.** Update `verify_crystal_phi.py` to use the full probe library. Run on Qwen3-14B with 200+ probes. This should give an 8×8 cosine matrix with correlation > 0.90 with consensus (vs current 0.66 from 32 probes).
 7. **Cross-model sweep.** Run on Qwen3-0.6B, Mistral-7B, Pythia-2.8B (all Apache-2.0). Verify φ eigenvalue structure holds independently in each model.
 
@@ -183,7 +187,17 @@ Done session 181:
 | Training log | `checkpoints/v15-hpe-dolma/train.log` | ✅ Full history |
 | Topology-gradient knowledge | `mementum/knowledge/topology-gradient-separation.md` | ✅ NEW |
 
-## What changed this session (181)
+## What changed this session (182)
+
+| Change | Impact |
+|--------|--------|
+| **Unified probe library** | `src/verbum/probes/library.py` — 903 probes from 6 sources, deduplicated, normalized |
+| **Crystal coverage ≥50/combinator** | K:67, I:67, B:69, C:61, S:50, D:50, W:71, Y:50, WHNF:50 — all ≥50 |
+| **probes.py → probes/ package** | Old loader moved to `_loader.py`, backward compat via `__init__.py` re-exports |
+| **29 probe library tests** | Coverage, dedup, accessor, source completeness, frozen dataclass tests |
+| **Supplemental probes** | 71 new probes for S(28), WHNF(35), D(6), Y(2) to fill gaps to ≥50 |
+
+## What changed session 181
 
 | Change | Impact |
 |--------|--------|
