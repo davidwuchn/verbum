@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
-"""Verify the crystal phi structure directly in a model.
+"""Verify the crystal φ structure directly in a model.
 
-Measures the 16×16 crystal cosine matrix from a model's FFN gate_proj
+Measures the crystal cosine matrix from a model's FFN gate_proj
 activations, eigendecomposes it, and checks whether eigenvalues follow
 φ^(p/q).
 
-This is the direct verification that skips the consensus/micro-model
-intermediary. If eigenvalues follow φ^(p/q) here, the crystal equation
-is confirmed in the raw model.
+Now uses the unified probe library (verbum.probes.library) for dense
+combinator coverage — 50+ probes per combinator vs the original 4.
 
 Method:
   1. Load model (HuggingFace CausalLM)
-  2. Run combinator probe prompts (K, I, B, C, D, Y, W, WHNF examples)
+  2. Load crystal probes from unified library (KIBC + DWYS + WHNF)
   3. Extract gate_proj activations at Zone B layers (middle depth)
-  4. PCA of gate activations → 16 principal components
-  5. Compute 16×16 cosine matrix between PC directions
+  4. PCA of gate activations → principal components
+  5. Compute N×N cosine matrix between combinator directions
   6. Eigendecompose and check φ^(p/q) structure
 
 Usage:
-  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-14B
-  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-14B --device mps --quick
+  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-0.6B
+  uv run python scripts/experiments/verify_crystal_phi.py --model Qwen/Qwen3-14B --n-per-combinator 20
+  uv run python scripts/experiments/verify_crystal_phi.py --model EleutherAI/pythia-2.8b-deduped
+
+License: MIT
 """
+
+from __future__ import annotations
 
 import argparse
 import json
@@ -32,320 +36,470 @@ import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+# ── Probe library import ─────────────────────────────────────────────────────
+# Add project root to path so we can import verbum
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _SCRIPT_DIR.parent.parent
+if str(_PROJECT_ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT / "src"))
 
-phi = (1 + np.sqrt(5)) / 2
+from verbum.probes.library import (  # noqa: E402
+    Probe as CrystalProbe,
+    by_combinator,
+    combinator_counts,
+    crystal_probes,
+)
 
-# ══════════════════════════════════════════════════════════════════
-# Combinator probe prompts — one per combinator type
-# Each prompt activates a specific combinator pattern
-# ══════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════
+# Constants
+# ══════════════════════════════════════════════════════════════════════════════
 
-COMBINATOR_PROBES = {
-    "K": [  # Select first, discard second
-        "The cat, not the dog, chased the mouse across the yard.",
-        "Either the president or the minister signed the treaty.",
-        "John, rather than his brother, won the competition.",
-        "The red ball, not the blue one, rolled under the table.",
-    ],
-    "I": [  # Identity — pass through unchanged
-        "The ball is round.",
-        "Water flows downhill naturally.",
-        "The sun rises in the east every morning.",
-        "Birds fly south for the winter season.",
-    ],
-    "B": [  # Compose — f(g(x))
-        "The quickly running athlete crossed the finish line first.",
-        "The recently published research paper changed everything.",
-        "The carefully designed algorithm solved the problem efficiently.",
-        "The brightly colored butterfly landed on the flower.",
-    ],
-    "C": [  # Reorder arguments — f(y)(x)
-        "The book that the student read was difficult to understand.",
-        "The cake that Mary baked was eaten by all the guests.",
-        "The song that the band played was requested by the audience.",
-        "The letter that John wrote was delivered to the wrong address.",
-    ],
-    "D": [  # Double composition — B(B)
-        "The very quickly running athlete crossed the brightly lit finish line.",
-        "The recently and thoroughly published research dramatically changed outcomes.",
-        "The carefully and precisely designed algorithm efficiently solved problems.",
-        "The extremely brightly colored tropical butterfly gracefully landed nearby.",
-    ],
-    "Y": [  # Recursive / fixed-point patterns
-        "The man who knows the man who knows the answer is here.",
-        "She said that he said that they said it was true.",
-        "The cat chased the dog that chased the cat that ran.",
-        "If you know that I know that you know, then we agree.",
-    ],
-    "W": [  # Self-application / duplication
-        "He himself admitted that he himself was wrong about it.",
-        "The mirror reflected the mirror reflecting the mirror.",
-        "The program that tests itself found a bug in itself.",
-        "She told herself that she needed to trust herself more.",
-    ],
-    "WHNF": [  # Terminal / identity output
-        "Hello.",
-        "Yes.",
-        "The.",
-        "It is.",
-    ],
-}
+PHI = (1 + np.sqrt(5)) / 2
 
-COMBINATOR_NAMES = ["K", "I", "B", "C", "D", "Y", "W", "WHNF"]
+# Crystal combinators in canonical order
+CRYSTAL_COMBINATORS = ["K", "I", "B", "C", "S", "D", "W", "Y", "WHNF"]
+
+# Consensus 8×8 crystal (KIBC + DYW + WHNF) from cross-model derivation
+# Order: K, I, B, C, D, Y, W, WHNF
+CONSENSUS_8x8 = np.array([
+    [+1.0000, +0.7865, +0.1948, +0.2265, +0.3232, +0.1768, +0.5360, -0.1862],
+    [+0.7865, +1.0000, +0.2479, +0.2511, +0.3463, +0.1739, +0.3781, -0.2448],
+    [+0.1948, +0.2479, +1.0000, +0.8878, +0.8937, +0.6623, +0.6851, -0.1227],
+    [+0.2265, +0.2511, +0.8878, +1.0000, +0.8316, +0.7200, +0.7318, -0.1027],
+    [+0.3232, +0.3463, +0.8937, +0.8316, +1.0000, +0.6798, +0.8064, -0.1729],
+    [+0.1768, +0.1739, +0.6623, +0.7200, +0.6798, +1.0000, +0.5653, -0.0840],
+    [+0.5360, +0.3781, +0.6851, +0.7318, +0.8064, +0.5653, +1.0000, -0.1379],
+    [-0.1862, -0.2448, -0.1227, -0.1027, -0.1729, -0.0840, -0.1379, +1.0000],
+])
+
+# Consensus order (without S, which wasn't in the original 8×8)
+_CONSENSUS_ORDER = ["K", "I", "B", "C", "D", "Y", "W", "WHNF"]
 
 
-def get_zone_b_layers(n_layers: int) -> list[int]:
-    """Get Zone B (middle) layer indices."""
+# ══════════════════════════════════════════════════════════════════════════════
+# Probe selection
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+def select_probes(
+    combinators: list[str],
+    n_per_combinator: int | None = None,
+    seed: int = 42,
+) -> dict[str, list[str]]:
+    """Select probes from the unified library.
+
+    Returns dict[combinator → list[prompt_text]].
+    If n_per_combinator is None, uses all available probes.
+    """
+    rng = np.random.RandomState(seed)
+    result: dict[str, list[str]] = {}
+
+    for comb in combinators:
+        probes = by_combinator(comb)
+        prompts = [p.prompt for p in probes]
+
+        if n_per_combinator is not None and len(prompts) > n_per_combinator:
+            indices = rng.choice(len(prompts), n_per_combinator, replace=False)
+            prompts = [prompts[i] for i in sorted(indices)]
+
+        result[comb] = prompts
+
+    return result
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Zone B layer selection
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+def get_zone_b_layers(n_layers: int, n_sample: int = 4) -> list[int]:
+    """Get Zone B (middle 30-70%) layer indices, evenly spaced."""
     start = int(n_layers * 0.3)
     end = int(n_layers * 0.7)
-    # Pick ~4 layers evenly spaced in Zone B
-    layers = np.linspace(start, end, min(4, end - start + 1), dtype=int).tolist()
-    return layers
+    layers = np.linspace(start, end, min(n_sample, end - start + 1), dtype=int).tolist()
+    return sorted(set(layers))
 
 
-def extract_gate_activations(model, tokenizer, prompts: list[str],
-                              layers: list[int], device: str) -> np.ndarray:
-    """Extract gate_proj activations from specified layers.
+# ══════════════════════════════════════════════════════════════════════════════
+# Activation extraction
+# ══════════════════════════════════════════════════════════════════════════════
 
-    Returns: (n_prompts, n_layers, d_ff) mean-pooled over sequence positions.
+
+def find_gate_proj(layer_module):
+    """Find the gate_proj (or equivalent) in a transformer layer.
+
+    Handles multiple architectures:
+    - Qwen/LLaMA/Mistral: layer.mlp.gate_proj
+    - GPTNeoX/Pythia: layer.mlp.dense_h_to_4h (single linear, no gating)
+    - Fused: layer.mlp.gate_up_proj
+
+    Returns (module, is_fused) or (None, False).
     """
-    activations = []
+    mlp = getattr(layer_module, 'mlp', None)
+    if mlp is None:
+        return None, False
+
+    if hasattr(mlp, 'gate_proj'):
+        return mlp.gate_proj, False
+    elif hasattr(mlp, 'gate_up_proj'):
+        return mlp.gate_up_proj, True
+    elif hasattr(mlp, 'dense_h_to_4h'):
+        # GPTNeoX/Pythia — single linear projection (no separate gate)
+        return mlp.dense_h_to_4h, False
+    return None, False
+
+
+def extract_gate_activations(
+    model,
+    tokenizer,
+    prompts: list[str],
+    layers: list[int],
+    device: str,
+    max_length: int = 128,
+) -> np.ndarray:
+    """Extract gate_proj activations, mean-pooled over sequence.
+
+    Returns: (n_prompts, d_ff) array.
+    """
+    captured: dict[int, torch.Tensor] = {}
     hooks = []
-    captured = {}
+
+    intermediate_size = getattr(model.config, 'intermediate_size', None)
 
     def make_hook(layer_idx):
         def hook_fn(module, input, output):
-            # output from gate_proj: (batch, seq, d_ff)
             captured[layer_idx] = output.detach().float()
         return hook_fn
 
-    # Register hooks on gate_proj of target layers
+    # Find the layers container (architecture-agnostic)
+    if hasattr(model, 'model') and hasattr(model.model, 'layers'):
+        layers_container = model.model.layers  # Qwen, LLaMA, Mistral
+    elif hasattr(model, 'gpt_neox') and hasattr(model.gpt_neox, 'layers'):
+        layers_container = model.gpt_neox.layers  # GPTNeoX, Pythia
+    elif hasattr(model, 'transformer') and hasattr(model.transformer, 'h'):
+        layers_container = model.transformer.h  # GPT-2 style
+    else:
+        raise RuntimeError(f"Cannot find layers in model {type(model).__name__}")
+
+    # Register hooks
     for layer_idx in layers:
-        # Navigate to gate_proj — architecture-specific
-        layer = model.model.layers[layer_idx]
-        if hasattr(layer, 'mlp'):
-            if hasattr(layer.mlp, 'gate_proj'):
-                hook = layer.mlp.gate_proj.register_forward_hook(make_hook(layer_idx))
-            elif hasattr(layer.mlp, 'gate_up_proj'):
-                # Some models fuse gate and up proj
-                hook = layer.mlp.gate_up_proj.register_forward_hook(make_hook(layer_idx))
-            else:
-                print(f"  Warning: no gate_proj found in layer {layer_idx}")
-                continue
-        hooks.append(hook)
+        layer = layers_container[layer_idx]
+        gate_module, is_fused = find_gate_proj(layer)
+        if gate_module is not None:
+            hooks.append(gate_module.register_forward_hook(make_hook(layer_idx)))
 
     all_acts = []
     for prompt in prompts:
         captured.clear()
-        inputs = tokenizer(prompt, return_tensors="pt", padding=False, truncation=True, max_length=128)
+        inputs = tokenizer(
+            prompt, return_tensors="pt",
+            padding=False, truncation=True, max_length=max_length,
+        )
         inputs = {k: v.to(device) for k, v in inputs.items()}
 
         with torch.no_grad():
             model(**inputs)
 
-        # Mean-pool over sequence and layers
+        # Mean-pool across layers and sequence positions
         layer_acts = []
         for layer_idx in layers:
             if layer_idx in captured:
                 act = captured[layer_idx]
-                # If gate_up_proj is fused, split the first half (gate)
-                if act.shape[-1] > model.config.intermediate_size:
-                    act = act[..., :model.config.intermediate_size]
-                # Mean over sequence positions, keep d_ff
-                mean_act = act.mean(dim=1).squeeze(0).cpu().numpy()  # (d_ff,)
+                # If fused gate_up_proj, take only the gate half
+                if intermediate_size and act.shape[-1] > intermediate_size:
+                    act = act[..., :intermediate_size]
+                # Mean over sequence, squeeze batch
+                mean_act = act.mean(dim=1).squeeze(0).cpu().numpy()
                 layer_acts.append(mean_act)
 
         if layer_acts:
-            # Average across layers
-            mean_across_layers = np.mean(layer_acts, axis=0)  # (d_ff,)
-            all_acts.append(mean_across_layers)
+            all_acts.append(np.mean(layer_acts, axis=0))
 
     for hook in hooks:
         hook.remove()
 
-    return np.array(all_acts)  # (n_prompts, d_ff)
+    return np.array(all_acts)
 
 
-def compute_crystal_cosine_matrix(model, tokenizer, layers: list[int],
-                                    device: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Compute 16×16 crystal cosine matrix via PCA of gate activations.
+# ══════════════════════════════════════════════════════════════════════════════
+# Crystal measurement
+# ══════════════════════════════════════════════════════════════════════════════
 
-    Method:
-    1. Run ALL combinator probes → collect gate activations
-    2. PCA of all activations → find 16 natural principal components
-    3. Project each combinator's mean activation onto the 16 PCs
-    4. Build 16×16 cosine matrix of these projections
-    5. This captures the natural geometry INCLUDING anti-types
 
-    Returns: (cosine_matrix, eigenvalues, eigenvectors)
+def compute_crystal_matrix(
+    model,
+    tokenizer,
+    probe_dict: dict[str, list[str]],
+    layers: list[int],
+    device: str,
+    combinators: list[str],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, dict]:
+    """Compute N×N crystal cosine matrix from activation PCA.
+
+    Returns: (cosine_matrix, eigenvalues, eigenvectors, stats)
     """
-    # Collect ALL activations from all probes
+    n_combs = len(combinators)
+
+    # Collect all activations
     all_activations = []
     probe_labels = []
+    per_comb_counts: dict[str, int] = {}
 
-    for comb_name in COMBINATOR_NAMES:
-        prompts = COMBINATOR_PROBES[comb_name]
+    for comb in combinators:
+        prompts = probe_dict.get(comb, [])
+        if not prompts:
+            print(f"  WARNING: no probes for {comb}, skipping")
+            continue
+
         acts = extract_gate_activations(model, tokenizer, prompts, layers, device)
+        per_comb_counts[comb] = len(acts)
         for act in acts:
             all_activations.append(act)
-            probe_labels.append(comb_name)
+            probe_labels.append(comb)
 
-    all_acts = np.array(all_activations)  # (n_probes, d_ff)
-    print(f"  Total activations: {all_acts.shape}")
+    all_acts = np.array(all_activations)
+    n_probes, d_ff = all_acts.shape
+    print(f"  Total activations: {n_probes} probes × {d_ff} dims")
+    print(f"  Per combinator: {per_comb_counts}")
 
-    # Center the activations
+    # Center
     mean_act = all_acts.mean(axis=0)
     centered = all_acts - mean_act
 
-    # PCA: find top 16 principal components
-    # Use SVD for numerical stability
+    # PCA via SVD
     U, S, Vt = np.linalg.svd(centered, full_matrices=False)
-    n_pcs = min(16, len(S))
-    pcs = Vt[:n_pcs]  # (16, d_ff) — the principal directions
+    n_pcs = min(n_combs * 2, len(S))
+    pcs = Vt[:n_pcs]
 
-    print(f"  PCA: top {n_pcs} components, variance explained:")
     total_var = (S ** 2).sum()
-    for i in range(min(8, n_pcs)):
+    cumulative = 0.0
+    print(f"\n  PCA variance explained (top {min(10, n_pcs)}):")
+    for i in range(min(10, n_pcs)):
         var_pct = S[i] ** 2 / total_var * 100
-        print(f"    PC{i}: {var_pct:.1f}%")
+        cumulative += var_pct
+        print(f"    PC{i}: {var_pct:.1f}%  (cum: {cumulative:.1f}%)")
 
-    # Project each combinator's mean activation onto the PCs
-    combinator_projections = []
-    for comb_name in COMBINATOR_NAMES:
-        # Get this combinator's activations
-        indices = [i for i, l in enumerate(probe_labels) if l == comb_name]
+    # Project each combinator's mean activation onto PCs
+    projections = []
+    for comb in combinators:
+        indices = [i for i, l in enumerate(probe_labels) if l == comb]
+        if not indices:
+            projections.append(np.zeros(n_pcs))
+            continue
         comb_acts = centered[indices]
         mean_comb = comb_acts.mean(axis=0)
+        proj = pcs @ mean_comb
+        projections.append(proj)
 
-        # Project onto PCs
-        proj = pcs @ mean_comb  # (16,) — coordinates in PC space
-        combinator_projections.append(proj)
+    projections = np.array(projections)  # (n_combs, n_pcs)
 
-    projections = np.array(combinator_projections)  # (8, 16)
-
-    # Build the 8×8 cosine matrix in PC space
-    # (Between the 8 combinator directions)
+    # Cosine similarity matrix
     norms = np.linalg.norm(projections, axis=1, keepdims=True)
     norms[norms == 0] = 1
     normed = projections / norms
-    cosine_8x8 = normed @ normed.T  # (8, 8)
+    cosine = normed @ normed.T
 
-    # For the 16×16 matrix, we need the anti-types.
-    # The anti-type of combinator X is the direction in PC space that
-    # is MOST dissimilar to X's activation pattern.
-    # In the consensus crystal, the anti-type cosine is -0.19 (weakly opposed).
-    #
-    # Approach: use the PCA variance structure itself.
-    # The 16 PCs form a natural 16D basis. The combinator projections
-    # live in this space. The "anti-type" directions emerge as the
-    # PCs that are orthogonal to the combinator subspace.
-    #
-    # Actually, the simplest valid approach: build the 8×8 matrix
-    # from the combinator directions, then construct the 16×16 using
-    # the Kronecker structure we derived: M_16 = S⊗J + D⊗F
-    # where D/S = phi^(4/5).
-    #
-    # But that would be circular — we're testing whether the structure holds!
-    #
-    # Instead: eigendecompose the 8×8 and check phi on those eigenvalues.
-    # The 8×8 is the core crystal; the 16×16 Kronecker structure is a
-    # consequence we already verified analytically.
+    # Eigendecompose
+    eigvals, eigvecs = np.linalg.eigh(cosine)
+    idx = np.argsort(-eigvals)
+    eigvals = eigvals[idx]
+    eigvecs = eigvecs[:, idx]
 
-    print(f"\n  8×8 combinator cosine matrix:")
-    names_short = ['K', 'I', 'B', 'C', 'D', 'Y', 'W', 'WH']
-    header = '         ' + '  '.join(f'{n:>6}' for n in names_short)
+    stats = {
+        "n_probes": n_probes,
+        "d_ff": d_ff,
+        "per_comb_counts": per_comb_counts,
+        "pca_variance_explained": [(S[i] ** 2 / total_var * 100) for i in range(min(20, len(S)))],
+    }
+
+    return cosine, eigvals, eigvecs, stats
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Analysis
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+def print_cosine_matrix(cosine: np.ndarray, combinators: list[str]):
+    """Pretty-print the cosine matrix."""
+    n = len(combinators)
+    short = [c[:4] for c in combinators]
+
+    header = '         ' + '  '.join(f'{s:>6}' for s in short)
     print(f"  {header}")
-    for i, n in enumerate(names_short):
-        vals = '  '.join(f'{cosine_8x8[i,j]:>6.3f}' for j in range(8))
-        print(f"    {n:>4}: {vals}")
-
-    # Eigendecompose the 8×8
-    eigvals_8, eigvecs_8 = np.linalg.eigh(cosine_8x8)
-    idx8 = np.argsort(-eigvals_8)
-    eigvals_8 = eigvals_8[idx8]
-    eigvecs_8 = eigvecs_8[:, idx8]
-
-    # Also build a rough 16×16 for comparison:
-    # Use the Kronecker structure with measured D/S ratio
-    # (this IS the test — does the 8×8 structure predict the 16×16?)
-    # Skip this for now — return the 8×8 as primary.
-
-    # Return 8×8 as the cosine matrix (the core crystal)
-    # Pad to 16×16 with identity for the anti-types (placeholder)
-    cosine_16 = np.eye(16)
-    cosine_16[:8, :8] = cosine_8x8
-    cosine_16[8:, 8:] = cosine_8x8  # anti-types have same structure
-
-    eigvals_16, eigvecs_16 = np.linalg.eigh(cosine_16)
-    idx16 = np.argsort(-eigvals_16)
-    eigvals_16 = eigvals_16[idx16]
-    eigvecs_16 = eigvecs_16[:, idx16]
-
-    return cosine_8x8, eigvals_8, eigvecs_8
+    for i in range(n):
+        vals = '  '.join(f'{cosine[i,j]:>6.3f}' for j in range(n))
+        print(f"    {short[i]:>4}: {vals}")
 
 
 def check_phi_structure(eigvals: np.ndarray, label: str = ""):
     """Check if eigenvalues follow φ^(p/q) structure."""
     C = eigvals[0]
-    s = 4 / 5
+    if C <= 0:
+        print("  WARNING: leading eigenvalue ≤ 0, cannot check phi structure")
+        return
 
     print(f"\n{'='*70}")
     print(f"  PHI STRUCTURE CHECK{' — ' + label if label else ''}")
     print(f"{'='*70}")
     print(f"\n  C = λ₀ = {C:.6f}")
-    print(f"  s = n/(n+1) = 4/5")
+    print(f"  φ = {PHI:.6f}")
     print()
 
     print(f"  {'PC':>4} {'Eigenvalue':>12} {'log_φ':>10} {'Best p/q':>10} {'Predicted':>12} {'Error':>8}")
     print(f"  {'─'*4} {'─'*12} {'─'*10} {'─'*10} {'─'*12} {'─'*8}")
 
-    for i in range(min(16, len(eigvals))):
+    for i in range(len(eigvals)):
         ev = eigvals[i]
         if ev > 0.001:
-            log_phi_val = np.log(ev / C) / np.log(phi)
+            log_phi_val = np.log(ev / C) / np.log(PHI)
 
             best_err = float('inf')
             best_frac = (0, 1)
-            for d in range(1, 20):
-                for n in range(-10 * d, 1):
-                    predicted = C * phi ** (n / d)
+            for d in range(1, 13):
+                for n in range(-8 * d, 1):
+                    predicted = C * PHI ** (n / d)
                     err = abs(predicted - ev) / ev
                     if err < best_err:
                         best_err = err
                         best_frac = (n, d)
 
             nn, dd = best_frac
-            predicted = C * phi ** (nn / dd)
-            print(f"  {i:>4} {ev:>12.6f} {log_phi_val:>10.4f} {nn}/{dd:>8} {predicted:>12.6f} {best_err*100:>7.2f}%")
+            predicted = C * PHI ** (nn / dd)
+            print(f"  {i:>4} {ev:>12.6f} {log_phi_val:>10.4f}  {nn:>3}/{dd:<5} {predicted:>12.6f} {best_err*100:>7.2f}%")
+        elif ev > -0.1:
+            print(f"  {i:>4} {ev:>12.6f}  (near zero)")
+        else:
+            print(f"  {i:>4} {ev:>12.6f}  (negative)")
 
-    # Key ratios
+    # Key ratio
     if len(eigvals) >= 2 and eigvals[1] > 0.01:
-        ratio01 = eigvals[0] / eigvals[1]
-        target = phi ** (4 / 5)
-        err = abs(ratio01 - target) / target * 100
-        print(f"\n  λ₀/λ₁ = {ratio01:.4f}  (target φ^(4/5) = {target:.4f}, error = {err:.2f}%)")
+        ratio = eigvals[0] / eigvals[1]
+        target = PHI ** (4 / 5)
+        err = abs(ratio - target) / target * 100
+        print(f"\n  λ₀/λ₁ = {ratio:.4f}  (target φ^(4/5) = {target:.4f}, error = {err:.1f}%)")
 
-    # Block structure check
-    if len(eigvals) >= 16:
-        # Check D/S ratio from Kronecker decomposition
-        A = np.zeros((8, 8))  # will need cosine matrix for this
-        print(f"\n  (Block structure check requires the full cosine matrix)")
 
-    return
+def compare_with_consensus(
+    cosine: np.ndarray,
+    eigvals: np.ndarray,
+    combinators: list[str],
+) -> dict[str, float]:
+    """Compare measured crystal with consensus 8×8.
+
+    Maps the measured combinators to the consensus order and computes
+    correlation metrics.
+    """
+    # Build index mapping: which measured combinators are in consensus?
+    consensus_indices = []
+    measured_indices = []
+    matched_names = []
+
+    for ci, cname in enumerate(_CONSENSUS_ORDER):
+        if cname in combinators:
+            mi = combinators.index(cname)
+            consensus_indices.append(ci)
+            measured_indices.append(mi)
+            matched_names.append(cname)
+
+    n_matched = len(matched_names)
+    if n_matched < 4:
+        print(f"\n  Only {n_matched} combinators match consensus — skipping comparison")
+        return {"n_matched": n_matched}
+
+    # Extract submatrices
+    measured_sub = cosine[np.ix_(measured_indices, measured_indices)]
+    consensus_sub = CONSENSUS_8x8[np.ix_(consensus_indices, consensus_indices)]
+
+    # Matrix correlation
+    corr = np.corrcoef(measured_sub.ravel(), consensus_sub.ravel())[0, 1]
+
+    # Eigenvalue ratio correlation
+    eigvals_consensus = np.linalg.eigvalsh(consensus_sub)[::-1]
+    eigvals_measured = np.linalg.eigvalsh(measured_sub)[::-1]
+
+    if eigvals_consensus[0] > 0 and eigvals_measured[0] > 0:
+        ratios_consensus = eigvals_consensus / eigvals_consensus[0]
+        ratios_measured = eigvals_measured / eigvals_measured[0]
+        ratio_corr = np.corrcoef(ratios_measured, ratios_consensus)[0, 1]
+    else:
+        ratio_corr = float('nan')
+
+    print(f"\n{'='*70}")
+    print(f"  CONSENSUS COMPARISON ({n_matched} combinators: {', '.join(matched_names)})")
+    print(f"{'='*70}")
+    print(f"  Cosine matrix correlation:    {corr:.6f}")
+    print(f"  Eigenvalue ratio correlation: {ratio_corr:.6f}")
+
+    # Per-pair comparison (top deviations)
+    diffs = []
+    for i in range(n_matched):
+        for j in range(i + 1, n_matched):
+            diff = measured_sub[i, j] - consensus_sub[i, j]
+            diffs.append((matched_names[i], matched_names[j], measured_sub[i, j], consensus_sub[i, j], diff))
+
+    diffs.sort(key=lambda x: -abs(x[4]))
+    print(f"\n  Top cosine deviations from consensus:")
+    print(f"  {'Pair':>10} {'Measured':>10} {'Consensus':>10} {'Δ':>8}")
+    for name1, name2, m, c, d in diffs[:8]:
+        print(f"  {name1+'-'+name2:>10} {m:>10.3f} {c:>10.3f} {d:>+8.3f}")
+
+    # Key structural signatures
+    if "B" in matched_names and "D" in matched_names:
+        bi, di = matched_names.index("B"), matched_names.index("D")
+        bd_meas = measured_sub[bi, di]
+        bd_cons = consensus_sub[consensus_indices[bi] if bi < len(consensus_indices) else 0,
+                                consensus_indices[di] if di < len(consensus_indices) else 0]
+        # Recompute from consensus directly
+        bd_cons = CONSENSUS_8x8[2, 4]  # B=2, D=4 in consensus order
+        print(f"\n  B-D similarity: {bd_meas:.3f} (consensus: {bd_cons:.3f})")
+        print(f"    D=BB compound structure {'visible' if bd_meas > 0.7 else 'weak'}")
+
+    if "K" in matched_names and "I" in matched_names:
+        ki, ii = matched_names.index("K"), matched_names.index("I")
+        ki_meas = measured_sub[ki, ii]
+        print(f"  K-I similarity: {ki_meas:.3f} (consensus: {CONSENSUS_8x8[0,1]:.3f})")
+        print(f"    Selection cluster {'visible' if ki_meas > 0.5 else 'weak'}")
+
+    return {
+        "n_matched": n_matched,
+        "matched_combinators": matched_names,
+        "cosine_correlation": float(corr),
+        "eigenvalue_ratio_correlation": float(ratio_corr),
+    }
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Main
+# ══════════════════════════════════════════════════════════════════════════════
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Verify crystal phi structure in a model")
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3-14B",
-                        help="HuggingFace model ID")
+    parser = argparse.ArgumentParser(
+        description="Verify crystal φ structure in a model using unified probe library",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  %(prog)s --model Qwen/Qwen3-0.6B                    # quick smoke test
+  %(prog)s --model Qwen/Qwen3-14B --n-per-combinator 30  # medium run
+  %(prog)s --model EleutherAI/pythia-2.8b-deduped      # cross-family test
+        """,
+    )
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-0.6B",
+                        help="HuggingFace model ID (default: Qwen/Qwen3-0.6B)")
     parser.add_argument("--device", type=str, default="auto",
-                        help="Device (auto, cpu, cuda, mps)")
-    parser.add_argument("--quick", action="store_true",
-                        help="Use fewer probes for faster testing")
+                        help="Device: auto, cpu, cuda, mps (default: auto)")
+    parser.add_argument("--n-per-combinator", type=int, default=None,
+                        help="Max probes per combinator (default: all available)")
+    parser.add_argument("--combinators", type=str, default=None,
+                        help="Comma-separated combinator list (default: all 9 crystal)")
+    parser.add_argument("--n-layers", type=int, default=4,
+                        help="Number of Zone B layers to sample (default: 4)")
     parser.add_argument("--output", type=str, default=None,
-                        help="Output JSON path")
+                        help="Output JSON path (default: results/crystal-phi-verify/<model>.json)")
     args = parser.parse_args()
 
+    # ── Device selection ──────────────────────────────────────────────────
     if args.device == "auto":
         if torch.cuda.is_available():
             device = "cuda"
@@ -356,17 +510,39 @@ def main():
     else:
         device = args.device
 
-    print(f"Loading {args.model} on {device}...")
+    # ── Combinator selection ──────────────────────────────────────────────
+    if args.combinators:
+        combinators = [c.strip() for c in args.combinators.split(",")]
+    else:
+        combinators = list(CRYSTAL_COMBINATORS)
+
+    # ── Probe selection ───────────────────────────────────────────────────
+    print(f"\n{'═'*70}")
+    print(f"  Crystal φ Verification — Unified Probe Library")
+    print(f"{'═'*70}")
+    print(f"  Model: {args.model}")
+    print(f"  Device: {device}")
+    print(f"  Combinators: {', '.join(combinators)}")
+
+    probe_dict = select_probes(combinators, args.n_per_combinator)
+    total_probes = sum(len(v) for v in probe_dict.values())
+    print(f"  Probes per combinator:")
+    for comb in combinators:
+        n = len(probe_dict.get(comb, []))
+        print(f"    {comb:6s}: {n}")
+    print(f"  Total probes: {total_probes}")
+
+    # ── Load model ────────────────────────────────────────────────────────
+    print(f"\n  Loading {args.model}...")
     t0 = time.time()
 
     tokenizer = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # Load in float16 to save memory
     model = AutoModelForCausalLM.from_pretrained(
         args.model,
-        torch_dtype=torch.float16,
+        dtype=torch.float16,
         device_map=device if device != "mps" else None,
         trust_remote_code=True,
     )
@@ -377,104 +553,73 @@ def main():
     n_layers = model.config.num_hidden_layers
     d_model = model.config.hidden_size
     d_ff = getattr(model.config, 'intermediate_size', d_model * 4)
-    print(f"  Loaded in {time.time()-t0:.1f}s: {n_layers} layers, d={d_model}, d_ff={d_ff}")
+    load_time = time.time() - t0
+    print(f"  Loaded in {load_time:.1f}s: {n_layers} layers, d={d_model}, d_ff={d_ff}")
 
-    # Get Zone B layers
-    layers = get_zone_b_layers(n_layers)
+    # ── Zone B layers ─────────────────────────────────────────────────────
+    layers = get_zone_b_layers(n_layers, args.n_layers)
     print(f"  Zone B layers: {layers}")
 
-    # Compute crystal cosine matrix
-    print(f"\nRunning combinator probes...")
+    # ── Compute crystal ───────────────────────────────────────────────────
+    print(f"\n  Running {total_probes} combinator probes...")
     t1 = time.time()
-    cosine_matrix, eigvals, eigvecs = compute_crystal_cosine_matrix(
-        model, tokenizer, layers, device
+    cosine, eigvals, eigvecs, stats = compute_crystal_matrix(
+        model, tokenizer, probe_dict, layers, device, combinators,
     )
-    print(f"  Done in {time.time()-t1:.1f}s")
+    probe_time = time.time() - t1
+    print(f"  Done in {probe_time:.1f}s ({total_probes / probe_time:.1f} probes/s)")
 
-    # Check phi structure
+    # ── Print results ─────────────────────────────────────────────────────
+    print(f"\n  {len(combinators)}×{len(combinators)} cosine matrix:")
+    print_cosine_matrix(cosine, combinators)
+
     check_phi_structure(eigvals, label=args.model)
+    comparison = compare_with_consensus(cosine, eigvals, combinators)
 
-    # The cosine_matrix is now 8×8 (core crystal).
-    # Check eigenvalue structure and compare with consensus 8×8 block.
-    print(f"\n{'='*70}")
-    print(f"  8×8 EIGENVALUE ANALYSIS")
-    print(f"{'='*70}")
-
-    # Compare with the consensus 8×8 (upper-left block of PCAQ)
-    PCAQ_8x8 = np.array([
-        [+1.0000, +0.7865, +0.1948, +0.2265, +0.3232, +0.1768, +0.5360, -0.1862],
-        [+0.7865, +1.0000, +0.2479, +0.2511, +0.3463, +0.1739, +0.3781, -0.2448],
-        [+0.1948, +0.2479, +1.0000, +0.8878, +0.8937, +0.6623, +0.6851, -0.1227],
-        [+0.2265, +0.2511, +0.8878, +1.0000, +0.8316, +0.7200, +0.7318, -0.1027],
-        [+0.3232, +0.3463, +0.8937, +0.8316, +1.0000, +0.6798, +0.8064, -0.1729],
-        [+0.1768, +0.1739, +0.6623, +0.7200, +0.6798, +1.0000, +0.5653, -0.0840],
-        [+0.5360, +0.3781, +0.6851, +0.7318, +0.8064, +0.5653, +1.0000, -0.1379],
-        [-0.1862, -0.2448, -0.1227, -0.1027, -0.1729, -0.0840, -0.1379, +1.0000],
-    ])
-
-    eigvals_consensus_8, _ = np.linalg.eigh(PCAQ_8x8)
-    eigvals_consensus_8 = np.sort(eigvals_consensus_8)[::-1]
-
-    print(f"\n  {'PC':>4} {'Model':>12} {'Consensus':>12} {'Ratio':>8}")
-    print(f"  {'─'*4} {'─'*12} {'─'*12} {'─'*8}")
-    for i in range(8):
-        if eigvals[i] > 0.01 and eigvals_consensus_8[i] > 0.01:
-            ratio = eigvals[i] / eigvals_consensus_8[i]
-            print(f"  {i:>4} {eigvals[i]:>12.6f} {eigvals_consensus_8[i]:>12.6f} {ratio:>8.4f}")
-        else:
-            print(f"  {i:>4} {eigvals[i]:>12.6f} {eigvals_consensus_8[i]:>12.6f}")
-
-    # Correlation of eigenvalue RATIOS (scale-invariant)
-    model_ratios = eigvals[:8] / eigvals[0]
-    consensus_ratios = eigvals_consensus_8 / eigvals_consensus_8[0]
-    ratio_corr = np.corrcoef(model_ratios, consensus_ratios)[0, 1]
-    print(f"\n  Eigenvalue ratio correlation: {ratio_corr:.6f}")
-
-    # Correlation between cosine matrices
-    corr_8 = np.corrcoef(cosine_matrix.ravel(), PCAQ_8x8.ravel())[0, 1]
-    print(f"  8×8 cosine matrix correlation with consensus: {corr_8:.6f}")
-
-    # Full 16×16 consensus for reference
-    PCAQ_CONSENSUS = np.array([
-        [+1.0000, +0.7865, +0.1948, +0.2265, +0.3232, +0.1768, +0.5360, -0.1862, -0.1900, -0.1494, -0.0370, -0.0430, -0.0614, -0.0336, -0.1018, +0.0354],
-        [+0.7865, +1.0000, +0.2479, +0.2511, +0.3463, +0.1739, +0.3781, -0.2448, -0.1494, -0.1900, -0.0471, -0.0477, -0.0658, -0.0330, -0.0718, +0.0465],
-        [+0.1948, +0.2479, +1.0000, +0.8878, +0.8937, +0.6623, +0.6851, -0.1227, -0.0370, -0.0471, -0.1900, -0.1687, -0.1698, -0.1258, -0.1302, +0.0233],
-        [+0.2265, +0.2511, +0.8878, +1.0000, +0.8316, +0.7200, +0.7318, -0.1027, -0.0430, -0.0477, -0.1687, -0.1900, -0.1580, -0.1368, -0.1390, +0.0195],
-        [+0.3232, +0.3463, +0.8937, +0.8316, +1.0000, +0.6798, +0.8064, -0.1729, -0.0614, -0.0658, -0.1698, -0.1580, -0.1900, -0.1292, -0.1532, +0.0329],
-        [+0.1768, +0.1739, +0.6623, +0.7200, +0.6798, +1.0000, +0.5653, -0.0840, -0.0336, -0.0330, -0.1258, -0.1368, -0.1292, -0.1900, -0.1074, +0.0160],
-        [+0.5360, +0.3781, +0.6851, +0.7318, +0.8064, +0.5653, +1.0000, -0.1379, -0.1018, -0.0718, -0.1302, -0.1390, -0.1532, -0.1074, -0.1900, +0.0262],
-        [-0.1862, -0.2448, -0.1227, -0.1027, -0.1729, -0.0840, -0.1379, +1.0000, +0.0354, +0.0465, +0.0233, +0.0195, +0.0329, +0.0160, +0.0262, -0.1900],
-        [-0.1900, -0.1494, -0.0370, -0.0430, -0.0614, -0.0336, -0.1018, +0.0354, +1.0000, +0.7865, +0.1948, +0.2265, +0.3232, +0.1768, +0.5360, -0.1862],
-        [-0.1494, -0.1900, -0.0471, -0.0477, -0.0658, -0.0330, -0.0718, +0.0465, +0.7865, +1.0000, +0.2479, +0.2511, +0.3463, +0.1739, +0.3781, -0.2448],
-        [-0.0370, -0.0471, -0.1900, -0.1687, -0.1698, -0.1258, -0.1302, +0.0233, +0.1948, +0.2479, +1.0000, +0.8878, +0.8937, +0.6623, +0.6851, -0.1227],
-        [-0.0430, -0.0477, -0.1687, -0.1900, -0.1580, -0.1368, -0.1390, +0.0195, +0.2265, +0.2511, +0.8878, +1.0000, +0.8316, +0.7200, +0.7318, -0.1027],
-        [-0.0614, -0.0658, -0.1698, -0.1580, -0.1900, -0.1292, -0.1532, +0.0329, +0.3232, +0.3463, +0.8937, +0.8316, +1.0000, +0.6798, +0.8064, -0.1729],
-        [-0.0336, -0.0330, -0.1258, -0.1368, -0.1292, -0.1900, -0.1074, +0.0160, +0.1768, +0.1739, +0.6623, +0.7200, +0.6798, +1.0000, +0.5653, -0.0840],
-        [-0.1018, -0.0718, -0.1302, -0.1390, -0.1532, -0.1074, -0.1900, +0.0262, +0.5360, +0.3781, +0.6851, +0.7318, +0.8064, +0.5653, +1.0000, -0.1379],
-        [+0.0354, +0.0465, +0.0233, +0.0195, +0.0329, +0.0160, +0.0262, -0.1900, -0.1862, -0.2448, -0.1227, -0.1027, -0.1729, -0.0840, -0.1379, +1.0000],
-    ])
-
-    # Skip 16×16 correlation — we're testing the 8×8 core
-    corr = corr_8  # already computed above
-
-    # Save results
-    output_path = args.output or f"results/crystal-phi-verify/{args.model.replace('/', '_')}.json"
+    # ── Save results ──────────────────────────────────────────────────────
+    model_slug = args.model.replace("/", "_")
+    output_path = args.output or f"results/crystal-phi-verify/{model_slug}.json"
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
-    results = {
+    def _jsonable(obj):
+        """Recursively convert numpy types to native Python for JSON."""
+        if isinstance(obj, dict):
+            return {k: _jsonable(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [_jsonable(v) for v in obj]
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return obj
+
+    results = _jsonable({
         "model": args.model,
         "n_layers": n_layers,
         "d_model": d_model,
         "d_ff": d_ff,
         "zone_b_layers": layers,
+        "combinators": combinators,
+        "n_per_combinator": args.n_per_combinator,
+        "total_probes": total_probes,
+        "per_combinator_counts": stats["per_comb_counts"],
         "eigenvalues": eigvals.tolist(),
-        "cosine_matrix_8x8": cosine_matrix.tolist(),
-        "consensus_correlation_8x8": float(corr),
-    }
+        "cosine_matrix": cosine.tolist(),
+        "pca_variance_explained": stats["pca_variance_explained"],
+        "consensus_comparison": comparison,
+        "timing": {
+            "model_load_s": round(load_time, 1),
+            "probe_run_s": round(probe_time, 1),
+            "probes_per_s": round(total_probes / probe_time, 1),
+        },
+    })
 
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2)
     print(f"\n  Results saved to {output_path}")
+    print(f"{'═'*70}\n")
 
 
 if __name__ == "__main__":
