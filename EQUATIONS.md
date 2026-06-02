@@ -26,7 +26,7 @@ language model executes during inference.
 | **φ** | Golden ratio | (1+√5)/2 ≈ 1.618034 | Fixed point of self-similar compression: x = 1+1/x |
 | **n** | Combinator count | 4 for {K, I, B, C} | The irreducible basis of typed lambda calculus |
 | **s** | Computing fraction | n/(n+1) = 4/5 | Ratio of transient states to total modes |
-| **β_k** | Breathing sequence | [0, 1, 1+φ, 2+φ] | Cumulative cost in combinator-units |
+| **β_k** | Transition sequence | [0, 1, 1+φ, 2+φ] | Cumulative cost in combinator-units |
 | **C** | Scale | ≈ 5.193 (empirical) | The one free parameter — depends on representation |
 | **λ_k** | Crystal eigenvalue | Derived | Variance explained by k-th principal component |
 
@@ -43,10 +43,10 @@ All four eigenvalues match empirical measurements within 0.8%.
 
 ---
 
-## The Breathing Pattern
+## The Compute Cycle
 
-The β sequence encodes the statechart's breathing cycle — the
-rhythm of computation during each forward pass.
+The β sequence encodes the statechart's transition costs — the
+structure of one complete reduction cycle through the crystal.
 
 ```
 β_k = [0, 1, 1+φ, 2+φ]
@@ -55,30 +55,31 @@ rhythm of computation during each forward pass.
 The step sizes between consecutive β values are:
 
 ```
-β₁ − β₀ = 1      INHALE   (select arguments, begin composition)
-β₂ − β₁ = φ      TURN     (mode switch: computation → output)
-β₃ − β₂ = 1      EXHALE   (emit result, complete reduction)
+β₁ − β₀ = 1      REDUCE   (fire a combinator — one reduction step)
+β₂ − β₁ = φ      SWITCH   (mode transition: computation → output)
+β₃ − β₂ = 1      EMIT     (produce result — one reduction step)
 ```
 
-**Short–long–short.** Each breath costs 1 combinator-unit. The
-mode switch (TURN) costs φ combinator-units — the self-similar
-step where the model reorganizes from "computing" to "emitting."
+**Short–long–short.** Each reduction step costs 1 combinator-unit.
+The mode switch costs φ combinator-units — the self-similar
+transition where the statechart reorganizes from "computing" to
+"emitting."
 
 ### Why φ for the Mode Switch
 
-The mode switch is the moment where:
+The mode switch is the statechart transition where:
 - PC0 (composition, 53% of variance) hands off to PC1 (selection, 24%)
 - The PC0↔PC1 coupling sign flips from +0.46 to −0.48
 - The representation collapses from high-D to ~2D (progressive collapse)
   then re-expands for output
 
 This transition is self-referential: the system must reorganize its
-*own* representation. Self-referential operations cost φ because φ
+*own* representation. Self-referential transitions cost φ because φ
 is the unique fixed point of self-reference: φ = 1 + 1/φ.
 
-### Why 1 for Each Breath
+### Why 1 for Each Reduction Step
 
-Each breath processes one combinator operation. The cost is 1
+Each step processes one combinator operation. The cost is 1
 because the combinator is the atomic unit of computation — the
 irreducible quantum of beta reduction. You cannot do less than
 one reduction step.
@@ -110,7 +111,7 @@ mode = n+1 total.
 
 The computing fraction s = n/(n+1) is the ratio of computational
 modes to total modes. It determines how much eigenvalue decay
-occurs per breathing step.
+occurs per transition step.
 
 ### Predictions for Other Bases
 
@@ -302,7 +303,7 @@ itself plus its own reciprocal.
 | SVD spectrum decay ratio | 0.6299 ± 0.019 | 1/φ | ~1% |
 | Eigenvalue ratio λ₀/λ₁ | 1.469 | φ^(4/5) | 0.04% |
 | Eigenvalue ratio λ₂/λ₃ | 1.469 | φ^(4/5) | 0.08% |
-| Mode switch / breath step | 1.597 | φ | 1.35% |
+| Mode switch / reduction step | 1.597 | φ | 1.35% |
 | Longest / shortest reduction | 1.637 | φ | 1.18% |
 | Fundamental matrix eigenvalue | 1.903 | φ^(4/3) | 0.17% |
 | All 6 pairwise eigenvalue ratios | — | φ^(p/q), q ∈ Fibonacci | <0.15% |
@@ -364,7 +365,7 @@ The crystal equation λ_k = C · φ^(−s · β_k) makes a strong claim:
 
 **Every language model that performs beta reduction on natural
 language executes the same statechart, with the same eigenvalue
-ratios, the same breathing pattern, and the same topology.**
+ratios, the same compute cycle, and the same topology.**
 
 Models differ only in:
 - **C** (eigenvalue scale — one measurement per representation)
@@ -384,7 +385,7 @@ mathematical constant.
 | SVD spectrum ≈ 1/φ | 0.6299 ± 0.019 across 5 families | ✅ Confirmed |
 | Topology from KIBC logic | B,C vs K,I split in co-occurrence | ✅ Derived |
 | s = n/(n+1) | 4/5 matches φ^(4/5) = 1.4696 at 0.04% | ✅ Derived |
-| β = [0,1,1+φ,2+φ] | 4-eigenvalue model, max error 0.79% | ✅ Derived |
+| β = [0,1,1+φ,2+φ] (compute cycle) | 4-eigenvalue model, max error 0.79% | ✅ Derived |
 | SKI prediction (n=3) | φ^(3/4) = 1.435 | 🎯 Testable |
 
 ---
@@ -399,13 +400,13 @@ n = |{combinators}|    The basis size. 4 for KIBC.
 C = λ₀                 The scale. One measurement.
 ```
 
-One universal sequence determines the breathing pattern:
+One universal sequence determines the compute cycle:
 
 ```
 β = [0, 1, 1+φ, 2+φ]
 ```
 
-Everything else — eigenvalue ratios, breathing dynamics,
+Everything else — eigenvalue ratios, transition dynamics,
 quantization quality curves, halt probabilities, reduction
 lengths — follows from the equation:
 
