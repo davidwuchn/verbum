@@ -150,6 +150,58 @@ mirror 1 = sign, mirror 2 = above/below average magnitude. That's
 36-layer model to survive quantization without calibration.**
 With calibration (GPTQ), you can push this to ~2 bits.
 
+## Multi-Mirror Results (3-mirror, 6 bits/param)
+
+3-mirror decomposition: W ≈ γ₁·T₁ + γ₂·T₂ + γ₃·T₃
+
+Two gamma strategies tested:
+
+| Strategy | Weight cos | Energy/layer | PPL | Status |
+|---|---|---|---|---|
+| Greedy (independent γ) | 0.97 | 0.81 | 17.9M | Worse than 1-mirror |
+| Joint (least-squares γ) | 0.97 | 0.94 | 1.69M | 10× better, still garbage |
+| Q4 reference | ~0.9999 | ~1.00 | ~8.5 | Works |
+
+**Greedy gamma bug:** Independent per-mirror gamma optimization
+systematically underestimates total energy. Each mirror's γ is
+optimal for its own residual, but the sum γ₁·T₁ + γ₂·T₂ + γ₃·T₃
+has less energy than W. Joint least-squares solve fixes this:
+energy 0.81 → 0.94 per layer.
+
+**Still not enough:** 0.94^36 = 0.10. The per-layer energy must
+be >0.99 for 36-layer survival. More mirrors don't help because
+per-row scaling is too coarse.
+
+### Why Q4 Works and Ternary Mirrors Don't
+
+The gap isn't bits — it's **scale granularity**:
+
+| Method | Bits | Levels | Scale granularity | Scales per matrix |
+|---|---|---|---|---|
+| 1-mirror ternary | 1.58 | 3 | Per-row | ~4K-12K |
+| 3-mirror ternary | ~6 | 8 | Per-row | ~4K-12K × 3 |
+| Q4_0 | 4.5 | 16 | Per-32 weights | ~384K-1.5M |
+
+Q4 uses **128-384× more scale parameters** per weight matrix.
+Each group of 32 weights gets its own scale and zero point,
+allowing adaptation to local weight distribution. Our per-row
+approach uses one scale for 4,096-12,288 weights — far too coarse
+to preserve the fine structure.
+
+### Paths Forward
+
+1. **Per-group ternary**: Use scales per 32-64 weights instead of
+   per row. Increases scale storage but dramatically improves
+   reconstruction. This is essentially "ternary GPTQ."
+
+2. **GPTQ-style optimization**: Minimize activation error (not
+   weight error) using second-order (Hessian) information. Assigns
+   error budget to the weights that matter most.
+
+3. **Training-based**: Freeze ternary topology, train continuous
+   parameters (scales, norms, attention) to compensate. The etch
+   protocol from sessions 176-180.
+
 ## Experimental Provenance
 
 - Model: Qwen/Qwen3-8B (36 layers, d=4096, d_ff=12288)
@@ -159,5 +211,7 @@ With calibration (GPTQ), you can push this to ~2 bits.
 - Ternary full model: PPL 296,911
 - Skip-6: PPL 318,222
 - Skip-4: PPL 217,332
-- Scripts: `full_ternarize.py`, `diagnose_ternary.py`
+- Scripts: `full_ternarize.py`, `diagnose_ternary.py`, `mirror_ternarize.py`
 - Weight analysis: `results/early_layer_analysis.log`
+- 3-mirror greedy: `results/mirror3_ternarize.log`
+- 3-mirror joint: `results/mirror3_joint_ternarize.log`

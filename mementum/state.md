@@ -102,7 +102,22 @@ The session 182 recipe (sign + magnitude zeros + gate-predicted scale) is CORREC
 
 This is actually predicted by the Q4 connection in EQUATIONS.md: sign = 84% (1 bit), magnitude = 11% (2nd bit). You need 2-3 bits of magnitude precision to keep the model functional across 36 layers. The crystal tells you which 84% is the SIGN and which 11% is CALIBRATION — but you need both.
 
-See: `mementum/knowledge/ternary-compounding.md`, `scripts/experiments/full_ternarize.py`, `scripts/experiments/diagnose_ternary.py`
+### Multi-Mirror Also Fails (3-mirror, 6 bits/param)
+
+Decomposed each weight into 3 ternary mirrors: W ≈ γ₁·T₁ + γ₂·T₂ + γ₃·T₃.
+
+| Strategy | Weight cos | Energy/layer | PPL |
+|---|---|---|---|
+| 1-mirror + zeros (1.58 bits) | 0.88 | 0.63 | 297K |
+| 3-mirror greedy (6 bits) | 0.97 | 0.81 | 17.9M |
+| 3-mirror joint (6 bits) | 0.97 | 0.94 | 1.69M |
+| Q4 reference (4.5 bits) | ~0.9999 | ~1.00 | ~8.5 |
+
+**Greedy gamma bug discovered:** Independent per-mirror gamma optimization systematically loses energy (0.81 per layer). Joint least-squares solve fixes to 0.94. But 0.94^36 = 0.10 — still not enough.
+
+**The real lesson:** Q4 works not because of 4 bits but because it uses per-group-of-32 scales (128-384× more scale parameters than our per-row approach). The bottleneck is **scale granularity**, not bit count.
+
+See: `mementum/knowledge/ternary-compounding.md`, `scripts/experiments/full_ternarize.py`, `scripts/experiments/diagnose_ternary.py`, `scripts/experiments/mirror_ternarize.py`
 
 ### Session 182: THE TERNARY DUAL EQUATION (recap)
 
@@ -122,11 +137,11 @@ All derivations confirmed. 0.99999996 correlation with consensus crystal. The eq
 
 The naive recipe fails at 0.88 cosine/layer. Need to reach 0.99+.
 
-1. **GPTQ-style ternary** — Optimize ternary weights row-by-row against calibration data. Minimize activation error (not weight error). Use Hessian diagonal to determine which positions matter most. This is the standard approach for extreme quantization.
+1. **Per-group ternary scales** — Use scales per 32-64 weights (like Q4) instead of per-row. This is the #1 bottleneck identified in session 183. Per-row uses 1 scale for 4K-12K weights; per-group uses 1 scale per 32 weights. 128-384× more scale parameters. Testable with minimal code change.
 
-2. **Two-mirror test** — Sign(W) as mirror 1, sign(W − γ₁·T₁) as mirror 2. The Q4 connection predicts 0.97 cosine at 2×ternary (3.16 bits). Does 0.97^36 = 0.30 work? Probably still too low, but worth measuring.
+2. **GPTQ-style ternary** — Optimize ternary weights against calibration data using second-order (Hessian) information. Minimize activation error, not weight error. Assigns error budget to weights that matter most.
 
-3. **Hybrid approach** — Keep embedding + first 4 layers float16, ternarize the rest with GPTQ-calibrated ternary. Target: PPL < 20 (2.5× float).
+3. **Hybrid approach** — Keep embedding + first 4 layers float16, ternarize the rest with per-group scales. Target: PPL < 20 (2.5× float).
 
 ### RESEARCH DIRECTION: Training-Based Ternarization
 
@@ -171,7 +186,12 @@ This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
 | **Early down_proj anomaly** | Layers 1-3 have pathological weights (25-47% near-zero, kurtosis 13-16, cond# 123-142) |
 | **FFN > attn damage** | FFN-only ternary: PPL 485M; attn-only: PPL 3,274. FFN is the bottleneck |
 | **Skip-early doesn't help** | Skip-6: PPL 318K. The problem is compounding, not just bad layers |
-| **Knowledge page** | `ternary-compounding.md` — the compounding error law |
+| **3-mirror greedy fails** | 6 bits/param, PPL 17.9M — greedy gamma loses energy (0.81/layer) |
+| **3-mirror joint** | Joint least-squares gamma: PPL 1.69M — energy 0.94 but still garbage |
+| **Greedy gamma bug** | Independent gamma optimization systematically underestimates total energy |
+| **Scale granularity** | Q4 uses per-32 scales (128-384× more than per-row). That's why Q4 works |
+| **mirror_ternarize.py** | Multi-mirror pipeline with joint gamma optimization |
+| **Knowledge page** | `ternary-compounding.md` — compounding law + mirror analysis |
 
 ## Knowledge map
 

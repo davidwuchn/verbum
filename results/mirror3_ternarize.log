@@ -1,0 +1,121 @@
+
+══════════════════════════════════════════════════════════════════════════════
+  3-MIRROR TERNARIZATION (6 bits/param)
+══════════════════════════════════════════════════════════════════════════════
+  Model:     Qwen/Qwen3-8B
+  Device:    mps
+  Mirrors:   3
+  Zero rate: 0%
+  Bits/param: 6
+
+  Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:43,  3.83it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:02, 123.12it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 152.51it/s]Loading weights:  20%|██        | 81/399 [00:00<00:01, 166.16it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 180.07it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 189.86it/s]Loading weights:  37%|███▋      | 147/399 [00:00<00:01, 198.53it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 196.64it/s]Loading weights:  48%|████▊     | 193/399 [00:01<00:01, 199.07it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:00, 213.66it/s]Loading weights:  61%|██████    | 243/399 [00:01<00:00, 208.15it/s]Loading weights:  66%|██████▋   | 265/399 [00:01<00:00, 206.00it/s]Loading weights:  72%|███████▏  | 286/399 [00:01<00:00, 204.66it/s]Loading weights:  77%|███████▋  | 307/399 [00:01<00:00, 199.10it/s]Loading weights:  82%|████████▏ | 327/399 [00:01<00:00, 195.30it/s]Loading weights:  87%|████████▋ | 347/399 [00:01<00:00, 192.96it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 191.52it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 198.15it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 187.95it/s]
+  Loaded: 36 layers
+  Loaded WikiText-2 test: 2891 lines
+
+══════════════════════════════════════════════════════════════════════════════
+  3-MIRROR TERNARIZATION (6 bits/param, zero_rate=0%)
+══════════════════════════════════════════════════════════════════════════════
+  Layer      gate       up     down        q        k        v        o
+  ─────  ──────── ──────── ──────── ──────── ──────── ──────── ────────
+      0   0.99770  1.00193  0.98605  0.97693  0.97045  0.97120  0.95854  (0.9s)
+      1   0.97079  0.98148  0.95255  0.97043  0.96883  0.96996  0.96307  (0.5s)
+      2   0.96903  0.96901  0.94145  0.97068  0.96778  0.97094  0.96755  (0.5s)
+      3   0.96808  0.97314  0.96904  0.97002  0.96769  0.97049  0.96465  (0.5s)
+      4   0.98737  0.98325  0.97614  0.96970  0.96780  0.97050  0.96658  (0.5s)
+      5   0.98963  1.00496  0.99791  0.97117  0.96770  0.97025  0.96340  (0.5s)
+      6   0.98929  1.01825  1.02129  0.96977  0.96934  0.96447  0.95703  (0.5s)
+      7   0.98769  1.02138  1.02495  0.97198  0.96706  0.97003  0.96477  (0.5s)
+      8   0.97174  0.99537  0.95967  0.97154  0.96879  0.97053  0.97134  (0.5s)
+      9   0.98533  1.00981  1.02394  0.96838  0.96112  0.96906  0.96508  (0.5s)
+     10   0.98132  1.00561  1.00138  0.97071  0.96706  0.96819  0.96757  (0.5s)
+     11   0.97789  0.98525  0.96290  0.96825  0.96140  0.96809  0.96964  (0.5s)
+     12   0.97419  0.97143  0.96068  0.97057  0.96333  0.96802  0.96117  (0.5s)
+     13   0.97540  0.97100  0.96359  0.96827  0.96361  0.96933  0.96676  (0.5s)
+     14   0.98072  0.98100  0.96762  0.97008  0.96680  0.96789  0.96453  (0.5s)
+     15   0.98413  0.98378  0.96875  0.97075  0.96444  0.96813  0.96936  (0.5s)
+     16   0.98378  0.98749  0.97772  0.97024  0.96822  0.96815  0.96803  (0.5s)
+     17   0.98601  0.98294  0.97261  0.97002  0.96576  0.96887  0.96532  (0.5s)
+     18   0.98629  0.98299  0.97357  0.97092  0.96667  0.96905  0.96780  (0.5s)
+     19   0.98506  0.97948  0.97763  0.96847  0.95660  0.96640  0.95779  (0.5s)
+     20   0.98708  0.98121  0.96420  0.97128  0.96696  0.96609  0.96571  (0.5s)
+     21   0.98786  0.98285  0.95861  0.97134  0.96690  0.96258  0.96507  (0.6s)
+     22   0.98865  0.97877  0.96015  0.97052  0.96462  0.96472  0.96111  (0.6s)
+     23   0.98665  0.97662  0.95372  0.96993  0.96765  0.95772  0.96111  (0.5s)
+     24   0.98457  0.97233  0.95284  0.96977  0.96785  0.95491  0.95585  (0.5s)
+     25   0.98183  0.96939  0.95651  0.97198  0.96948  0.96609  0.96685  (0.6s)
+     26   0.98061  0.96612  0.96301  0.97147  0.96984  0.96620  0.96799  (0.5s)
+     27   0.98064  0.96638  0.96439  0.97162  0.96930  0.96609  0.96522  (0.6s)
+     28   0.98193  0.96788  0.96808  0.97114  0.96699  0.96864  0.96112  (0.5s)
+     29   0.98141  0.96908  0.97371  0.97131  0.96614  0.96085  0.97390  (0.5s)
+     30   0.98532  0.97101  0.97421  0.96986  0.96590  0.96169  0.96882  (0.5s)
+     31   0.99194  0.97275  0.97761  0.97099  0.96518  0.96359  0.97602  (0.5s)
+     32   0.99895  0.97446  0.97739  0.96895  0.96438  0.96075  0.97402  (0.5s)
+     33   1.00107  0.97655  0.97348  0.96942  0.96512  0.96275  0.97718  (0.5s)
+     34   0.99347  0.97567  0.95286  0.96942  0.96580  0.96075  0.96715  (0.5s)
+     35   0.98131  0.97365  0.99615  0.97169  0.96976  0.96810  0.96378  (0.5s)
+
+  Completed in 19.0s
+  Mean cosine by weight type:
+    gate_proj    mean=0.98402  min=0.96808  max=1.00107
+    up_proj      mean=0.98234  min=0.96612  max=1.02138
+    down_proj    mean=0.97351  min=0.94145  max=1.02495
+    q_proj       mean=0.97054  min=0.96825  max=0.97693
+    k_proj       mean=0.96645  min=0.95660  max=0.97045
+    v_proj       mean=0.96642  min=0.95491  max=0.97120
+    o_proj       mean=0.96586  min=0.95585  max=0.97718
+
+  In-memory size: 23.34 GB
+
+  Evaluating perplexity (max_length=512, stride=256)...
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors
+  Total tokens: 298,938 → capped to 16,384
+  Windows: ~64
+    [10/64] 2,806 tok, PPL=27481105.83, 13s, ~71s rem
+    [20/64] 5,356 tok, PPL=32857556.53, 26s, ~57s rem
+    [30/64] 7,906 tok, PPL=34779311.33, 39s, ~44s rem
+    [40/64] 10,456 tok, PPL=30908970.30, 51s, ~31s rem
+    [50/64] 13,006 tok, PPL=21928010.84, 64s, ~18s rem
+    [60/64] 15,556 tok, PPL=18594281.00, 77s, ~5s rem
+  Scored 16,321 tokens in 80.4s
+  NLL: 16.6993
+  Perplexity: 17882701.43
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+══════════════════════════════════════════════════════════════════════════════
+  GENERATION — 3-MIRROR (6 bits)
+══════════════════════════════════════════════════════════════════════════════
+
+  ── Prompt 1 (64 tok, 6.0 tok/s) ──
+  The capital of France is
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 2 (64 tok, 6.0 tok/s) ──
+  The speed of light is approximately
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 3 (64 tok, 6.0 tok/s) ──
+  If all dogs are animals and all animals are living things, then all dogs are
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 4 (64 tok, 6.0 tok/s) ──
+  def fibonacci(n):
+    """Return the nth Fibonacci number."""
+
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 5 (64 tok, 6.0 tok/s) ──
+  Once upon a time, in a forest deep and dark, there lived a
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 6 (64 tok, 6.0 tok/s) ──
+  In lambda calculus, the identity combinator I is defined as
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+══════════════════════════════════════════════════════════════════════════════
+  FINAL: 3-mirror, 6 bits/param
+  PPL: 17882701.43
+  NLL: 16.6993
+══════════════════════════════════════════════════════════════════════════════
+
