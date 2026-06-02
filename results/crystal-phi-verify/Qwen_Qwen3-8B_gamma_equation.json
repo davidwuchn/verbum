@@ -1,0 +1,12 @@
+{
+  "linear_slope": -0.00832270496104343,
+  "linear_intercept": 0.022903350869668312,
+  "linear_r2": 0.2856639410364651,
+  "power_a": 0.01844117701171198,
+  "power_b": -0.05018571884315632,
+  "power_r2": 0.29520784321049987,
+  "variance_explained_posrate": 0.28566393287374026,
+  "variance_explained_meangate": 0.5610628178579278,
+  "original_bits": 0.83,
+  "residual_bits": 0.24266256472202433
+}

@@ -1,0 +1,70 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<00:40,  9.89it/s]Loading weights:   7%|▋         | 26/399 [00:00<00:02, 148.46it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 167.46it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:01, 174.14it/s]Loading weights:  22%|██▏       | 89/399 [00:00<00:01, 174.56it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 176.19it/s]Loading weights:  33%|███▎      | 133/399 [00:00<00:01, 178.47it/s]Loading weights:  40%|███▉      | 158/399 [00:00<00:01, 191.66it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 183.16it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 189.81it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 186.97it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 188.33it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 186.62it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 185.91it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 187.78it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 186.45it/s]Loading weights:  89%|████████▉ | 356/399 [00:01<00:00, 184.49it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 185.73it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 184.88it/s]
+Scanning layers for gamma vs gate relationship...
+  Layer 7: gamma=0.02453±0.00347, pos_rate=0.065
+  Layer 14: gamma=0.02135±0.00301, pos_rate=0.136
+  Layer 21: gamma=0.01996±0.00281, pos_rate=0.219
+  Layer 28: gamma=0.02153±0.00218, pos_rate=0.142
+  Layer 32: gamma=0.02110±0.00170, pos_rate=0.165
+
+========================================================================
+  THE GAMMA-GATE RELATIONSHIP
+========================================================================
+  Spearman(gamma, positive_rate): -0.6175
+  Spearman(gamma, mean_gate_act): -0.6732
+
+  Linear fit: γ = -0.002156 · mean_gate + 0.019858
+  R² = 0.5611
+
+  Linear fit: γ = -0.008323 · pos_rate + 0.022903
+  R² = 0.2857
+
+  Power-law fit: γ = 0.018441 · pos_rate^(-0.0502)
+  R² = 0.2952
+  Exponent: -0.0502
+  -1/φ = -0.6180
+  -s/2 = -0.4000
+  -1/(n+1) = -0.2000
+
+  Variance explained by pos_rate: 28.6%
+  Original γ std: 0.003105
+  Residual std:   0.002624
+  Bits saved: 0.24 bits
+
+  Variance explained by mean_gate: 56.1%
+  Residual std (mean_gate): 0.002057
+  Bits saved: 0.59 bits
+
+========================================================================
+  PER-LAYER GAMMA vs GATE FIT
+========================================================================
+  Layer  7 (  19%): slope=-0.017324 intercept=0.025667 R²=0.3228 power_exp=-0.0536
+  Layer 14 (  39%): slope=-0.006785 intercept=0.022276 R²=0.2003 power_exp=-0.0467
+  Layer 21 (  58%): slope=-0.005410 intercept=0.021140 R²=0.2476 power_exp=-0.0467
+  Layer 28 (  78%): slope=-0.007854 intercept=0.022644 R²=0.4294 power_exp=-0.0540
+  Layer 32 (  89%): slope=-0.005231 intercept=0.021957 R²=0.3264 power_exp=-0.0358
+
+========================================================================
+  THE REDUCTION EQUATION
+========================================================================
+
+  Given: positive_rate(i) for neuron i (measurable from gate)
+  Predict: γ(i) = optimal ternary scale factor
+
+  γ(i) = 0.02290 + -0.00832 · positive_rate(i)
+  R² = 0.2857, explains 28.6% of γ variance
+
+  Or equivalently (power law):
+  γ(i) = 0.01844 · positive_rate(i)^(-0.0502)
+  R² = 0.2952
+
+  The RESIDUAL after this prediction needs:
+  0.24 bits per neuron
+  (down from -0.00 = 0.83 bits original)
+
+  For d_ff = 12288: total magnitude storage = 2981 bits
+  vs original: 10199 bits
+  vs 8-bit per-neuron: 98304 bits
+
+Saved to results/crystal-phi-verify/Qwen_Qwen3-8B_gamma_equation.json
