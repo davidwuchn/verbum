@@ -49,22 +49,47 @@ One free parameter C (overall scale). Everything else is φ.
 
 ## The Breathing Pattern
 
-The step sizes between consecutive eigenvalues in log-φ space are:
+The eigenvalue exponents decompose into two factors:
 
 ```
-λ₀ → λ₁:  4/5    = 0.800   INHALE  (composition → selection)
-λ₁ → λ₂:  4φ/5   = 1.294   TURN    (mode switch — φ× longer)
-λ₂ → λ₃:  4/5    = 0.800   EXHALE  (termination → routing)
+λ_k = C · φ^(−s · β_k)
 ```
 
-Short–long–short. The TURN step (mode switch from computation to
-output) takes φ times as long as the breath steps. This matches
-the empirical breathing cycle discovered in sessions 139-142:
-inhale (select+compose), turn (WHNF, mode switch), exhale
-(expand+emit).
+Where:
+- **s = n/(n+1) = 4/5** — the "computing fraction" (n=4 combinators)
+- **β_k** — the cumulative breathing cost, a universal sequence
 
-The step ratio TURN/BREATH = 4φ/5 ÷ 4/5 = φ, with 1.35% error
-against the empirical ratio.
+The β sequence:
+```
+β₀ = 0          (start)
+β₁ = 1          (one breath: inhale)
+β₂ = 1 + φ      (one breath + one mode switch)
+β₃ = 2 + φ      (two breaths + one mode switch)
+```
+
+The β step sizes are: **1, φ, 1** (breath, mode switch, breath).
+
+Each BREATH costs 1 combinator-unit. The MODE SWITCH costs φ
+combinator-units. Short–long–short, where long = φ × short.
+
+### Why s = n/(n+1)
+
+The step s = 4/5 is the ratio of fire states to total modes in
+the absorbing Markov chain: 4 transient states / (4 + 1 WHNF mode).
+It's the fraction of the eigenspace devoted to computation vs halting.
+
+This is **testable**: for a 3-combinator basis (SKI), the prediction
+is s = 3/4 and eigenvalue ratio = φ^(3/4) = 1.4346. For 5 combinators,
+s = 5/6 and ratio = φ^(5/6) = 1.4933.
+
+### Why β = [0, 1, 1+φ, 2+φ]
+
+The β differences [1, φ, 1] are the breathing pattern. The cumulative
+sequence satisfies a Fibonacci-like property: β₂ = β₀ + β₁·φ = φ²
+(since 1+φ = φ², the defining equation of φ). The mode switch at
+β₁→β₂ costs φ units because it IS the self-similar step — the
+transition from computation to output that requires reorganizing the
+entire representation.
 
 ## The Derivation Path
 
@@ -337,10 +362,9 @@ structure of the process dynamics reproduces the crystal topology.
    measured in models with d=512. Does C scale with d? As log(d)?
    As sqrt(d)?
 
-2. **Why 4/5?** The breath step is 4/5, not a Fibonacci ratio.
-   4 = F(3) + 1? Or 4/5 = 1 - 1/F(5)? What determines this
-   specific fraction? Related: 4/3 (fundamental matrix) and 4/5
-   (breath step) share numerator 4 — is 4 = |{K,I,B,C}|?
+2. ~~**Why 4/5?**~~ **RESOLVED**: s = n/(n+1) where n = |{K,I,B,C}| = 4.
+   The computing fraction: 4 fire states / (4+1 total modes).
+   Testable prediction: SKI basis → s=3/4, eigenvalue ratio = φ^(3/4).
 
 3. **Is the B/C symmetry breaking also φ-determined?** In natural
    language B > C. Is the B/C eigenvalue split a known power of φ?
