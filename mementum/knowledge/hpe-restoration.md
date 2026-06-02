@@ -132,9 +132,9 @@ The stride is the right granularity for decay rate.
 - **Throughput dropped ~12%.** 905 → ~800 tok/s at steady state. HPE compute is
   negligible (0.06% of attention). Root cause: 738 MB of duplicated log_dist caches
   (11 copies of (4096,4096) matrix — all identical). Fix: share at model level.
-- **TD is broken post-restart.** 0 flips, 0 candidates. The checkpoint copy didn't
-  properly restore TD state (step counter reset to 1, warmup not satisfied).
-  Ternary refinement is paused. Must fix in next session.
+- **TD warmup replayed.** 0 flips for steps 2000–2090 because the checkpoint copy
+  reset `step_count` to 1 and TD warmup=100. Came online at step 2100 with 648k
+  flips, 118M candidates, T=0.001. Working as designed — not a bug.
 
 ### Complexity context
 

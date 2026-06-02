@@ -58,9 +58,10 @@ tmux:           main:2
 **Initial impact:** Loss jumped from 3.86 to 5.69 at step 2000, recovered to ~3.7 by step 2040 (40 steps). Grad norms elevated initially (27.8) then settled (7–10). Measured α immediately jumped to ~1.18–1.27 (was 0.38) — the decay bias is working. Throughput dropped from 905 → ~800 tok/s (see below).
 
 **Known issues:**
-- **TD not running.** 0 flips, 0 candidates, T=0 since restart. The TD state didn't resume properly — the checkpoint copy reset the step counter. Needs investigation in session 180.
 - **Throughput ~12% lower** (800 vs 905 tok/s). HPE compute is negligible (0.06% of attention). Two causes: (1) MLX JIT recompilation warmup for new graph, (2) 738 MB extra memory from per-stride log_dist caches (11 copies of (4096, 4096) matrix). Should share one cache across all strides.
 - **log_dist cache duplicated 11×.** Each FullAttention instance caches its own (4096, 4096) log-distance matrix. All 11 are identical. Fix: share at TensorStatechart level. Saves 670 MB.
+
+**Resolved:** TD appeared dead (0 flips steps 2000–2090) but was just in warmup. The checkpoint copy reset `step_count` to 1; TD warmup=100 steps. Came online at step 2100 with 648k flips, 118M candidates, T=0.001. Working as designed.
 
 ## Key session 179 findings
 
@@ -77,8 +78,7 @@ tmux:           main:2
 
 ### IMMEDIATE (session 180)
 
-1. **Fix TD resume** — TD is not running (0 flips since restart). The checkpoint copy likely reset the step counter or the TD state didn't load. Need to diagnose and fix before training progresses far without ternary refinement.
-2. **Share log_dist cache** — Move the (4096,4096) log-distance matrix to TensorStatechart level instead of per-stride. Saves 670 MB, may recover throughput to ~900 tok/s.
+1. **Share log_dist cache** — Move the (4096,4096) log-distance matrix to TensorStatechart level instead of per-stride. Saves 670 MB, may recover throughput to ~900 tok/s.
 3. **Generate text at step 2500+** — With HPE + q_norm, should see qualitative improvement over the `ferferfer` pattern.
 4. **Check α differentiation** — First eval (step 2000) showed all strides at learned_α≈1.18 (init) but measured α=1.18–1.27. Watch for per-stride divergence as training progresses.
 
