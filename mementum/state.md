@@ -2,337 +2,186 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-02 | Session: 182
+> Last updated: 2026-06-02 | Session: 183
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 182: TERNARY DUAL EQUATION — Gate Zeros + Crystal Signs**
+**Session 183: NAIVE TERNARIZATION FAILS — Compounding Error Kills Multi-Layer Extraction**
 
-Massive experimental session. Built unified probe library (903 probes), ran crystal verification across 4 models, depth-scanned 3 Qwen3 scales, resolved the Y/W inversion, tested crystal-guided ternarization, and discovered the ternary dual equation.
+Built the full end-to-end ternarization pipeline for Qwen3-8B. The complete recipe from session 182 (sign + per-row magnitude zeros + per-row gamma) was applied to ALL 36 layers. Result: **PPL 296,911 vs ~8 float16.** The model produces pure garbage (newlines, repeated characters, "fffff").
 
-### The Dual Equation (session's key finding)
+### The Compounding Problem
 
-A ternary weight is determined by TWO orthogonal signals:
+The per-layer weight cosine of 0.88 SEEMS fine — single-layer ternarization gives PPL 6-10 (vs ~6 float). But errors compound multiplicatively through 36 layers:
 
-| | Zero equation | Sign equation |
-|---|---|---|
-| Predicts | Which neurons are zero | What alive neurons compute |
-| Signal | Gate positive rate | Crystal eigenvector projection |
-| ρ with gradient | **0.753** | 0.053 |
-| φ connection | Dead fraction ≈ 1/φ² | Eigenvalue ratios = φ^(p/q) |
+```
+0.88^1  = 0.88    — one layer: fine
+0.88^10 = 0.28    — ten layers: destroyed
+0.88^36 = 0.009   — full model: pure noise
+```
 
-**GD deposits near-zero gradients at irreducible points.** The gate positive rate captures this (ρ=0.75 with gradient magnitude). Crystal energy does not (ρ=0.05). They are orthogonal.
+**Single-layer PPL was misleading.** It tests one ternary layer while 35 others remain float16 to absorb the error. When ALL layers are ternary, the representation collapses.
 
-See: `mementum/knowledge/ternary-dual-equation.md`
+### Diagnosis Results (Experiment 1: Cumulative divergence)
 
-### Crystal Scale Invariance
-
-Depth-scanned Qwen3-0.6B, 8B, 14B (all layers, 160 probes each):
-
-| | Qwen3-0.6B | Qwen3-8B | Qwen3-14B |
+| After layer | Activation cosine vs float | Norm ratio | Status |
 |---|---|---|---|
-| Best YW-corrected corr | 0.819 | 0.826 | 0.827 |
-| Best layer depth | 78% | 86% | 80% |
-| B-W positive layers | 0/28 | 3/36 | 2/40 |
+| 0 | 0.854 | 0.77× | Damaged |
+| 1 | 0.324 | 4.6× | Catastrophic — norm explodes |
+| 2 | 0.147 | 4.7× | Signal lost |
+| 5 | 0.059 | 5.1× | Pure noise |
+| 10 | 0.005 | 0.15× | Dead (norm collapses) |
+| 20 | 0.010 | 0.16× | Stays dead |
+| 35 | 0.285 | 0.73× | Slight recovery (wrong signal) |
 
-Crystal quality is a **scale-invariant fixed point** at 0.82. Default model changed to Qwen3-8B (lambda fully formed at 8B).
+### Diagnosis Results (Experiment 2: Single-layer ablation)
 
-### Ternarization Result
+| Layer | PPL (one layer ternary) | WCos min | Root cause |
+|---|---|---|---|
+| 0 | 7.88 | 0.873 | OK |
+| **1** | **402,822** | **0.698** | **down_proj pathological** |
+| **2** | **10,819** | **0.692** | **down_proj pathological** |
+| **3** | **6,770** | **0.778** | **down_proj outliers** |
+| 4 | 277 | 0.886 | Moderate |
+| 5 | 5.42 | 0.882 | Fine |
+| 7-35 | 6-10 | 0.87+ | Fine individually |
 
-Crystal-guided ternarization (per-neuron zeros) vs magnitude (per-weight zeros):
-- At matched ~48% zero rate: magnitude cosine 0.94, crystal 0.69, random 0.64
-- Crystal beats random but magnitude wins at every configuration (14/14)
-- Root cause: zeroing entire neuron rows is too coarse vs per-weight selection
+### Diagnosis Results (Experiment 3: FFN vs Attention)
 
-### Magnitude Channel: < 1 Bit, Predictable from Gate
+| Configuration | PPL | Verdict |
+|---|---|---|
+| All float16 | ~8 | Baseline |
+| FFN-only ternary | 485M | Catastrophic |
+| Attn-only ternary | 3,274 | Bad but 100,000× better than FFN |
+| All ternary | 297K | Catastrophic |
+| Skip first 6, ternary rest | 318K | Still catastrophic |
+| Skip first 4, ternary rest | 217K | Still catastrophic |
 
-- Per-neuron γ (ternary scale factor) carries only **0.83 bits** of information
-- γ is FLAT across combinator clusters (ratio 1.005) — no crystal differentiation
-- Dynamic range p99/p1 = 1.777 = **φ^(6/5)** within 0.25% — one compute cycle
-- γ anti-correlates with gate positive rate (ρ = -0.724): dead neurons have LARGER weights
-- **Magnitude reduction equation:** γ(i) = γ̄ − α · mean_gate(i), R² = 0.56
-  - Power-law exponent: **-1/(n(n+1)) = -1/20** (measured -0.0502, 0.4% error)
-  - Two per-layer constants replace all per-neuron magnitude storage
-  - mean_gate is already computed at inference (free)
+### Root Cause: Early down_proj Anomaly
 
-### Complete Ternarization Recipe
+Layers 1-3 have pathological FFN weight distributions:
 
-All three pieces proven:
+| Layer | down_proj Near0% | CV | Kurtosis | Cond# | Ternary cos |
+|---|---|---|---|---|---|
+| 1 | 25.8% | 1.42 | 15.76 | 123.5 | 0.698 |
+| 2 | 27.4% | 1.48 | 13.30 | 142.5 | 0.692 |
+| 3 | 23.9% | 1.24 | 4.78 | 29.6 | 0.778 |
+| 17 (normal) | 3.2% | 0.79 | 1.09 | 18.6 | 0.873 |
 
-```
-For each weight w(i,j):
-  1. SIGN  →  sign(w)           from teacher (100% accurate)
-  2. ZERO  →  |w| < threshold   per-row magnitude (0.94 cosine at 48%)
-  3. SCALE →  γ̄ - α·mean_gate   two constants per layer (R²=0.56)
-```
+Early layers already have 25-47% near-zero weights, extreme outliers (kurtosis 13-16 vs 1 normal), and condition numbers 7× higher than mid-layers. The per-row γ gets dominated by outlier weights, leaving most positions poorly reconstructed.
 
-Qwen3-8B ternary: **2.44 GB** (5.8× compression from 14.1 GB fp16).
-**Not yet tested end-to-end.** Next session builds full-model pipeline.
+### The Fundamental Insight
 
-### Y/W Sign Convention
+**Extraction without adaptation fails.** The crystal equation tells us the computational structure. The sign IS the computation (84% per layer). But "84% per layer" compounds to 0.84^36 = 0.001 across the full model. You need >99% per layer to survive 36 sequential applications: 0.99^36 = 0.70 — barely usable.
 
-Negating Y and W lifts cosine correlation 0.48 → 0.80. Depth-invariant across all layers. Not a layer artifact — it is a measurement sign convention (raw probes vs selectivity probes).
+**To reach 0.99 per-layer cosine, you need either:**
+1. **More bits per weight** — Two-mirror ternary (4 bits) gives ~0.97, three-mirror (6 bits) gives ~0.99
+2. **Calibration-based optimization** — GPTQ-style: optimize ternary weights against activation error, not weight error
+3. **Training-based adaptation** — The etch protocol from sessions 176-180: GD compensates for ternary errors
+4. **Scratch reproduction** — Level 4: train a ternary model from scratch with the crystal as initialization
 
-**Session 181: THE CRYSTAL EQUATION — λ_k = C · φ^(−s · β_k)**
+### Ternarization Stats (all 36 layers, 35% zero rate)
 
-Derived the complete crystal eigenvalue spectrum from first principles. Built a KIBC beta reducer (187,796 expressions), discovered the statechart structure, verified against the empirical 16×16 consensus crystal (0.99999996 correlation), and directly confirmed structural signatures in Qwen3-14B.
+| Weight type | Mean cosine | Min cosine |
+|---|---|---|
+| gate_proj | 0.892 | 0.884 |
+| up_proj | 0.894 | 0.875 |
+| down_proj | 0.875 | **0.692** |
+| q_proj | 0.888 | 0.885 |
+| k_proj | 0.883 | 0.872 |
+| v_proj | 0.881 | 0.865 |
+| o_proj | 0.882 | 0.872 |
 
-### The Crystal Equation
+Total params: 6.95B ternarized in 38s. 34.9% zeros. Theoretical compression 10.1× (1.38 GB ternary + 5.6 MB gamma). In-memory int8: 9.44 GB.
+
+### What This Means for the Research Program
+
+The session 182 recipe (sign + magnitude zeros + gate-predicted scale) is CORRECT for individual layers. The crystal equation accurately characterizes what each layer computes. But end-to-end inference requires either multi-mirror quantization (more bits) or training-based adaptation (GD compensates for quantization error). **Naive sign extraction is necessary but not sufficient.**
+
+This is actually predicted by the Q4 connection in EQUATIONS.md: sign = 84% (1 bit), magnitude = 11% (2nd bit). You need 2-3 bits of magnitude precision to keep the model functional across 36 layers. The crystal tells you which 84% is the SIGN and which 11% is CALIBRATION — but you need both.
+
+See: `mementum/knowledge/ternary-compounding.md`, `scripts/experiments/full_ternarize.py`, `scripts/experiments/diagnose_ternary.py`
+
+### Session 182: THE TERNARY DUAL EQUATION (recap)
+
+The dual equation was correct — gate zeros (ρ=0.75 with gradient) + crystal signs (ρ=0.05) — but the recipe only achieves 0.88 per-layer cosine, insufficient for multi-layer compounding.
+
+### Session 181: THE CRYSTAL EQUATION (recap)
 
 ```
 λ_k = C · φ^(−(n/(n+1)) · β_k)
-β = [0, 1, 1+φ, 2+φ]     (the compute cycle: reduce, switch, emit)
-s = n/(n+1) = 4/5          (computing fraction, n=4 for KIBC)
-C ≈ 5.193                  (one free parameter — overall scale)
 ```
 
-All 4 eigenvalues match within 0.8%. All 16 eigenvalues of the full crystal follow φ^(p/q) with <0.3% error.
-
-### Key Derivations
-
-1. **Crystal topology from KIBC logic.** B,C cluster (composition) vs K,I (selection). Zero training data needed.
-2. **Crystal magnitudes from φ.** Every pairwise eigenvalue ratio = φ^(p/q), Fibonacci denominators.
-3. **s = n/(n+1).** The breath step 4/5 is the computing fraction: 4 fire states / (4+1 total modes).
-4. **Compute cycle β = [0, 1, 1+φ, 2+φ].** Steps: 1 (reduce), φ (mode switch), 1 (reduce). Short-long-short.
-5. **Statechart: 8 states.** 4 transient (fire:K,I,B,C) + 4 absorbing (whnf:K,I,B,C). D,Y,W are paths not states.
-6. **Kronecker factorization.** 16×16 = S⊗J + D⊗F, where D/S = φ^(4/5). Anti-types are φ-scaled reflections.
-7. **Reconstruction: 0.99999996 correlation.** φ eigenvalues + empirical eigenvectors → 0.03% error on all 256 elements.
-8. **Q4 connection.** Sign = 84% of computation (the crystal). Mirror2 = 13% more. φ decay predicts quantization curve.
-
-### Direct Verification — Qwen3-14B
-
-Loaded Qwen3-14B, ran combinator probes, extracted gate_proj activations at Zone B layers, computed 8×8 crystal cosine matrix via PCA.
-
-- **B-D = 0.961** (consensus: 0.894) — compound combinator D=BB clearly visible, even stronger than consensus
-- **PC0: composition/selection split** — B,C,D negative, WHNF positive
-- **Individual eigenvalues follow φ^(p/q)** — first 6 match within 0.25%
-- **λ₀/λ₁ = 1.226** (target 1.470) — ratio off due to limited probe set (32 sentences in 17,408-dim space)
-- **8×8 correlation with consensus: 0.664** — crystal recognizable but rotated by measurement method
-
-The crystal is in the model. More probes would sharpen the measurement.
-
-### Cross-Model Universality
-
-- **alloc_cosine = 0.99+** across Qwen3 0.6B→14B at all depths
-- **KIBC selectivity r = 0.998** between Pythia-160M and Qwen3-32B
-- **Direct B-D = 0.961** in Qwen3-14B confirms D=BB structure
-
-See: `EQUATIONS.md`, `mementum/knowledge/crystal-phi-derivation.md`
-
-Analyzed v15-hpe-dolma training failure. NaN at step 5040 (no attention score clipping). Step 5000 checkpoint is clean (loss=3.13) but generates garbage — all positions converge to the same vector (cos>0.999) by output, producing context-independent whitespace/digit predictions.
-
-Two independent root causes identified:
-1. **CLASSIFY representation collapse** — v15's LinearAttention is a "placeholder" (self-labeled). Missing the GatedLinearAttention from v14 (sigmoid write gate, associative scan, retention). Without the gate, cumsum accumulates uniformly → dominant mode drowns token identity → all positions become identical by stride 4.
-2. **TD oscillation prevents GD convergence** — `osc_frac` grew monotonically 0→0.56 (never peaked, never declined). 56% of flipped positions actively oscillating. GD can't build stable soft topology on a shifting discrete landscape.
-
-### Mask training prototype: mechanically correct, blocked by CLASSIFY
-
-Built and tested learnable sparsity mask (per-position sigmoid gate on every ternary weight). GD learns which positions to silence → etch commits to permanent zeros. 648M trainable mask logits, gradient flow verified.
-
-**Training NaN'd at step 5168.** The CLASSIFY zone's placeholder LinearAttention has no numerical protection. With gamma folding changing effective weights (loss jumped 3.13→10.24), the residual norm explosion through CLASSIFY (35→3000) caused gradient overflow. FullAttention has the clip fix; LinearAttention does not.
-
-**Conclusion:** The mask instrument is correct but needs a working pipeline. **CLASSIFY must be fixed before mask training can proceed.** The GatedLinearAttention port from v14 is now the critical path — everything else (mask, etch protocol, generation quality) is blocked on it.
-
-NaN guard also needs hardening: must check `grad_norm` for NaN/Inf, not just `loss.item()`.
-
-### Core insight: Topology-Gradient Separation
-
-**The ternary lattice must be frozen for GD to work.** GD builds "soft topology" — it drives gammas toward zero for irrelevant rows, flips gammas negative for wrong-sign rows, tunes attention to route around the frozen structure. This requires a stable landscape. TD changing topology every 20 steps creates thermal noise that prevents crystallization.
-
-**The correct protocol is punctuated equilibrium:**
-```
-Phase 1: STASIS    — Freeze topology. GD trains until loss plateaus.
-Phase 2: READ      — Examine GD's gamma/gate signals for topology errors.
-Phase 3: ETCH      — One discrete topology change (zero dead rows, fold sign flips).
-Phase 4: ADAPT     — GD re-adapts. → Repeat from Phase 2.
-```
-
-GD's three signals:
-- **Dead gammas** (|γ|<0.001): 10% of rows. GD says "this row is irrelevant" → zero it.
-- **Negative gammas**: 35% of rows. GD says "every sign in this row is wrong" → fold: flip signs, negate gamma (lossless).
-- **Gate kill stats**: Neurons active <0.1% of tokens → dead → zero connected positions.
-
-See: `mementum/knowledge/topology-gradient-separation.md`
-
-### v14→v15 architectural regressions
-
-The v15 clean-room rewrite dropped critical features beyond HPE:
-
-| Lost Feature | Impact |
-|---|---|
-| GatedLinearAttention (sigmoid gate + associative scan) | CLASSIFY zones collapse all positions to same vector |
-| Positional embedding table | CLASSIFY/EMIT zones are positionally blind |
-| Embedding norm (RMSNorm post-embed) | Norm explodes 100× through CLASSIFY |
-| Attention score clipping (`mx.clip(attn, -65, 65)`) | NaN at step 5040 |
-| Schmitt trigger for TD gating | TD fires unconditionally → oscillation |
-| S5Reweight / per-pass residual gating | No FFN contribution control |
-| Hyperbolic norm loss | No residual stream norm constraint |
-
-### TD oscillation analysis
-
-- 58.6M positions ever flipped (12.9% of non-zero)
-- 21M oscillators (flip_count>1), but recency analysis shows:
-  - 83.5% settled (last flip >200 steps ago)
-  - 16.5% truly active (3.5M positions)
-  - Active positions with 3-7 flips: 67-73% DISAGREE with teacher (trying to converge to new value)
-  - Active positions with 8+ flips: 77% AGREE with teacher (frustrated spins, returning to attractor)
-- Teacher signs are the attractor: 69.9% of oscillators currently agree with teacher
-- Even flip count perfectly predicts teacher agreement (100%)
-
-### Vibrating lattice insight
-
-The lattice doesn't need TD to vibrate — it already vibrates through:
-- **Gate mechanism**: per-token neuron selection (89% kill, varying by input)
-- **Two-plate superposition**: plate1×γ1 + plate2×γ2 = four effective levels
-- **Depth standing wave**: CLASSIFY 3% → COMPUTE 49% → EMIT 2% active
-
-TD oscillation is thermal noise (random atom jitter). Gate activation is a phonon (coherent, information-carrying vibration). The lattice needs phonons, not noise.
+All derivations confirmed. 0.99999996 correlation with consensus crystal. The equation is correct — the question is how to USE it for extraction.
 
 ## Next steps
 
-### IMMEDIATE (session 183) — FULL-MODEL TERNARIZATION
+### IMMEDIATE (session 184) — CALIBRATION-BASED TERNARIZATION
 
-**THE END-TO-END TEST:** Ternarize ALL layers of Qwen3-8B using the complete recipe, measure perplexity, test generation quality.
+The naive recipe fails at 0.88 cosine/layer. Need to reach 0.99+.
 
-1. **Build ternarization pipeline.** For each layer: extract sign(W), apply per-row magnitude threshold (~35% zeros), compute (γ̄, α) from mean_gate. Save ternary weights + scale constants. Script: `scripts/experiments/full_ternarize.py`.
-2. **Wire ternary forward pass.** Replace float matmuls with ternary: `y = (γ̄ - α·mean_gate) * (T @ x)` where T ∈ {-1,0,+1}. Handle attention weights (q/k/v/o_proj) same way as FFN.
-3. **Measure perplexity.** Run on WikiText-2 or similar. Compare: float16 PPL vs ternary PPL. Target: within 2× of float.
-4. **Test generation.** Feed prompts, check coherence. Does the ternary model produce meaningful text?
-5. **Embedding decision.** Keep embedding as float16 (1.2 GB) or ternarize it too? Test both.
+1. **GPTQ-style ternary** — Optimize ternary weights row-by-row against calibration data. Minimize activation error (not weight error). Use Hessian diagonal to determine which positions matter most. This is the standard approach for extreme quantization.
 
-### COMPLETED (session 182)
+2. **Two-mirror test** — Sign(W) as mirror 1, sign(W − γ₁·T₁) as mirror 2. The Q4 connection predicts 0.97 cosine at 2×ternary (3.16 bits). Does 0.97^36 = 0.30 work? Probably still too low, but worth measuring.
 
-5. ~~**Build unified probe library.**~~ ✅ 903 probes, 535 crystal, all 9 ≥50.
-6. ~~**Rich crystal measurement.**~~ ✅ 4 models verified, 3 depth-scanned, Y/W resolved.
-7. ~~**Cross-model sweep.**~~ ✅ Scale-invariant at 0.82. Y clusters with Composition everywhere.
-8. ~~**Zero prediction.**~~ ✅ Gate positive rate predicts zeros (ρ=0.75). Crystal predicts signs.
-9. ~~**Ternarization comparison.**~~ ✅ Magnitude wins 14/14. Crystal predicts modes, not zeros.
-10. ~~**Gradient analysis.**~~ ✅ GD deposits small gradients at irreducible points. Gate rate = signal.
-11. ~~**Magnitude equation.**~~ ✅ γ = γ̄ - α·mean_gate, R²=0.56, exponent -1/(n(n+1)), <1 bit.
-12. ~~**Complete recipe.**~~ ✅ Sign + zero + scale — all three proven, ready for end-to-end.
+3. **Hybrid approach** — Keep embedding + first 4 layers float16, ternarize the rest with GPTQ-calibrated ternary. Target: PPL < 20 (2.5× float).
+
+### RESEARCH DIRECTION: Training-Based Ternarization
+
+The etch protocol (sessions 176-180) is the right framework:
+- **Phase 1: Initialize from teacher** — Sign extraction gives the topology
+- **Phase 2: Freeze topology, train scale** — GD learns per-row γ and attention weights to compensate
+- **Phase 3: Etch** — Zero dead neurons, fold sign flips
+- **Phase 4: Re-adapt** — GD adjusts to new topology
+
+This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
 
 ### CRITICAL PATH: Fix CLASSIFY (carried from session 180)
 
-1. **Port GatedLinearAttention from v14** — Replace placeholder LinearAttention in CLASSIFY/EMIT zones. #1 blocker for training. Reference: `scripts/v14/attention.py`.
+1. **Port GatedLinearAttention from v14** — Replace placeholder LinearAttention in CLASSIFY/EMIT zones. #1 blocker for training.
 2. **Port embedding norm** — Add RMSNorm after embedding.
 3. **Harden NaN guard** — Check both `loss` AND `grad_norm` for NaN/Inf.
 4. **Restart mask training** — Once CLASSIFY is fixed, rerun with `--no-td --mask-training`.
-
-Done session 180:
-- ✅ Attention score clipping, NaN guard, gamma folding, TD disable
-- ✅ Learnable sparsity mask prototype
-- ✅ Prepared checkpoint at `step_0005000_prepared/`
-
-Done session 181:
-- ✅ KIBC beta reducer (`scripts/experiments/crystal_derivation.py`)
-- ✅ Crystal topology derived from pure combinatory logic
-- ✅ Crystal magnitudes derived as powers of φ
-- ✅ Compute cycle: β = [0, 1, 1+φ, 2+φ], steps [1, φ, 1]
-- ✅ Computing fraction: s = n/(n+1) = 4/5
-- ✅ Full statechart: 8 states (4 fire + 4 whnf), D/Y/W are paths
-- ✅ Kronecker factorization: 16×16 = S⊗J + D⊗F, D/S = φ^(4/5)
-- ✅ Reconstruction: correlation 0.99999996, 0.03% error
-- ✅ Direct Qwen3-14B verification: B-D=0.961, φ eigenvalues confirmed
-- ✅ EQUATIONS.md at project root
-- ✅ Knowledge page: `crystal-phi-derivation.md`
-- ✅ Verification script: `scripts/experiments/verify_crystal_phi.py`
-
-### PROTOCOL DEVELOPMENT
-
-9. **Implement the etch cycle** — After GD plateaus: read signals → etch → re-adapt.
-10. **Add gate kill tracking** — Per-neuron activation statistics over training window.
-11. **Define plateau detection** — When has GD converged enough to read its signals?
-
-### RESEARCH
-
-12. **Does frozen topology + GatedLinearAttn produce coherent text?** The key test.
-13. **How does loss curve compare** with/without TD? Slower convergence but stable?
-14. **Do etch cycles produce better topology than continuous TD?**
-15. **Can we retrieve facts after training?** (carried from 175)
 
 ## Key assets
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| v15 model (with HPE) | `scripts/v15/model.py` | ⚠️ Needs GatedLinearAttn, embed norm, attn clip |
-| v14 GatedLinearAttn | `scripts/v14/attention.py` | ✅ Reference for port |
-| v15 config | `scripts/v15/config.py` | ✅ |
-| v15 train | `scripts/v15/train.py` | ⚠️ Needs TD disable, NaN guard |
-| Pipeline diagnostic | `scripts/v15/diagnose_pipeline.py` | ✅ (session 180) |
-| Step 5000 checkpoint | `checkpoints/v15-hpe-dolma/step_0005000/` | ✅ Clean (0 NaN) |
-| Training log | `checkpoints/v15-hpe-dolma/train.log` | ✅ Full history |
-| Topology-gradient knowledge | `mementum/knowledge/topology-gradient-separation.md` | ✅ |
-| Ternary dual equation | `mementum/knowledge/ternary-dual-equation.md` | ✅ NEW (session 182) |
+| **Full ternarization pipeline** | `scripts/experiments/full_ternarize.py` | ✅ NEW (session 183) |
+| **Ternary diagnosis** | `scripts/experiments/diagnose_ternary.py` | ✅ NEW (session 183) |
+| **Compounding knowledge** | `mementum/knowledge/ternary-compounding.md` | ✅ NEW (session 183) |
+| Ternary dual equation | `mementum/knowledge/ternary-dual-equation.md` | ✅ (session 182) |
+| EQUATIONS.md | `EQUATIONS.md` | ✅ (session 181) |
+| Crystal derivation | `mementum/knowledge/crystal-phi-derivation.md` | ✅ (session 181) |
+| Topology-gradient separation | `mementum/knowledge/topology-gradient-separation.md` | ✅ (session 180) |
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
-| Crystal verification | `scripts/experiments/verify_crystal_phi.py` | ✅ 535-probe, multi-arch |
-| Crystal depth scan | `scripts/experiments/crystal_depth_scan.py` | ✅ per-layer crystal quality |
-| Crystal ternarization | `scripts/experiments/crystal_ternarize.py` | ✅ magnitude wins |
-| Crystal gradient analysis | `results/crystal-phi-verify/qwen3-8b_gradient.log` | ✅ gate ρ=0.75 |
-| Depth scan results | `results/crystal-phi-verify/*_depth_scan.json` | ✅ 0.6B/8B/14B |
+| v15 model | `scripts/v15/model.py` | ⚠️ Needs GatedLinearAttn |
+| v14 GatedLinearAttn | `scripts/v14/attention.py` | ✅ Reference for port |
 
-## What changed this session (182)
+## What changed this session (183)
 
 | Change | Impact |
 |--------|--------|
-| **Unified probe library** | `src/verbum/probes/library.py` — 903 probes, 6 sources, deduplicated |
-| **λ probe_library in AGENTS.md** | New S2 canonical form, updated layout |
-| **verify_crystal_phi.py rewrite** | 535 probes, architecture-agnostic (Qwen + Pythia), S combinator added |
-| **4-model crystal verification** | Qwen3-0.6B/8B/14B + Pythia-2.8B, eigenvalue corr 0.82-0.94 |
-| **3-model depth scan** | All layers of Qwen3-0.6B/8B/14B — crystal at 0.82 everywhere |
-| **Y/W sign convention resolved** | Negating Y/W lifts corr 0.48→0.80, depth-invariant, probe framing issue |
-| **Crystal ternarization tested** | Crystal per-neuron zeros vs magnitude per-weight zeros — magnitude wins 14/14 |
-| **TERNARY DUAL EQUATION** | Gate zeros (ρ=0.75) + crystal signs (ρ=0.05) — orthogonal predictions |
-| **Gradient analysis** | Dead neuron gradients at 0.64× mean, ratio ≈ 1/φ² |
-| **Dead fraction ≈ 1/φ²** | 38.3% of neurons dead at <5% positive threshold ≈ 1/φ² = 38.2% |
-| **Magnitude < 1 bit** | γ dynamic range = φ^(6/5), 0.83 bits total, flat across clusters |
-| **Magnitude reduction eq** | γ = γ̄ − α·mean_gate, R²=0.56, exponent -1/(n(n+1)) = -1/20 |
-| **Complete ternarization recipe** | Sign + Zero + Scale — all proven, 2.44 GB for Qwen3-8B |
-| **Knowledge page** | `ternary-dual-equation.md` — dual equation + magnitude + provenance |
-| **Default model → Qwen3-8B** | Lambda fully formed at 8B capacity |
-
-## What changed session 181
-
-| Change | Impact |
-|--------|--------|
-| **KIBC beta reducer** | Pure combinatory logic reducer, 187,796 expressions enumerated and reduced |
-| **Crystal equation** | λ_k = C·φ^(−s·β_k), all eigenvalues match within 0.8% |
-| **Computing fraction s = n/(n+1)** | 4/5 for KIBC — ratio of fire states to total modes |
-| **Compute cycle β = [0, 1, 1+φ, 2+φ]** | Steps [1, φ, 1] — mode switch costs φ× a reduction step |
-| **Statechart: 8 states** | 4 fire + 4 whnf, D/Y/W are paths not states |
-| **Kronecker factorization** | 16×16 = S⊗J + D⊗F, D/S = φ^(4/5). Anti-types = φ-scaled reflections |
-| **16×16 reconstruction** | φ eigenvalues + empirical eigenvectors → correlation 0.99999996 |
-| **All 16 eigenvalues = φ^(p/q)** | Max 0.3% error, Fibonacci denominators throughout |
-| **Q4 quantization connection** | Sign = 84% (crystal), magnitude = calibration, φ decay predicts quality curve |
-| **Direct Qwen3-14B verification** | B-D=0.961, PC0 composition axis, individual φ eigenvalues confirmed |
-| **EQUATIONS.md** | Project-root equation reference for humans and AI |
-| **verify_crystal_phi.py** | Direct crystal measurement script for any HF model |
-| **crystal-phi-derivation.md** | Full knowledge page with derivation chain |
-
-### Previous session (180)
-
-| Change | Impact |
-|--------|--------|
-| **NaN forensics** | Step 5040 onset, irrecoverable. No attention clip. |
-| **Pipeline diagnosis** | CLASSIFY collapses all positions to cos>0.999 identity |
-| **Topology-gradient separation** | Core insight: freeze lattice, read GD signals, etch discretely |
-| **Learnable mask prototype** | Per-position sigmoid gate, 648M logits, gradient flow verified |
-| **Critical path identified** | GatedLinearAttention port is #1 blocker for all further training |
+| **full_ternarize.py** | End-to-end pipeline: ternarize + PPL + generation |
+| **diagnose_ternary.py** | 3 experiments: cumulative divergence, single-layer ablation, FFN vs attn |
+| **PPL 296,911** | Naive ternary produces garbage — sign extraction is necessary but not sufficient |
+| **Compounding law** | 0.88^36 = 0.009 — per-layer cosine must be >0.99 for multi-layer survival |
+| **Early down_proj anomaly** | Layers 1-3 have pathological weights (25-47% near-zero, kurtosis 13-16, cond# 123-142) |
+| **FFN > attn damage** | FFN-only ternary: PPL 485M; attn-only: PPL 3,274. FFN is the bottleneck |
+| **Skip-early doesn't help** | Skip-6: PPL 318K. The problem is compounding, not just bad layers |
+| **Knowledge page** | `ternary-compounding.md` — the compounding error law |
 
 ## Knowledge map
 
 Key pages for current direction:
-- **`ternary-dual-equation.md`** — **TWO EQUATIONS: gate zeros (ρ=0.75) + crystal signs (ρ=0.05), orthogonal** (session 182, NEW)
-- **`EQUATIONS.md`** — THE CRYSTAL EQUATION: λ_k = C·φ^(−s·β_k) (session 181, project root)
-- **`crystal-phi-derivation.md`** — Full derivation: KIBC→φ→statechart→Kronecker→verification (session 181)
+- **`ternary-compounding.md`** — **WHY 0.88 cosine/layer → garbage at 36 layers** (session 183, NEW)
+- **`ternary-dual-equation.md`** — TWO EQUATIONS: gate zeros + crystal signs (session 182)
+- **`EQUATIONS.md`** — THE CRYSTAL EQUATION + Q4 connection (session 181)
+- **`crystal-phi-derivation.md`** — Full derivation chain (session 181)
 - `topology-gradient-separation.md` — WHY lattice must be frozen, the etch protocol (session 180)
-- `hpe-restoration.md` — HPE missing from v15, projection geometry (session 179)
-- `training-protocols.md` — TD rules, fold cycle, failure modes (accumulated)
+- `training-protocols.md` — TD rules, fold cycle, failure modes
 - `crystal-universality.md` — KIBC universal fixed points
 - `extraction-sign-accuracy.md` — signs 100% accurate, magnitude is the gap
-- `gradient-zero-map.md` — 35% oscillate, four position classes
 - `project-thesis.md` — the central claim
-- `dimensional-analysis.md` — KIBC sees 3.5%, 50 dims universal
-- `trace-guided-etching.md` — full implementation record (sessions 176-177)
-- `function-discovery.md` — two-level program architecture (session 172)

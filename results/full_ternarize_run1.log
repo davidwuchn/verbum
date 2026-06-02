@@ -1,0 +1,229 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL TERNARIZATION
+══════════════════════════════════════════════════════════════════════════════
+  Model:     Qwen/Qwen3-8B
+  Device:    mps
+  Zero rate: 35%
+  Eval only: False
+
+  Loading model (float16)...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:45,  2.40it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 111.07it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 133.11it/s]Loading weights:  23%|██▎       | 92/399 [00:00<00:02, 145.58it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 157.04it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 167.16it/s]Loading weights:  39%|███▉      | 155/399 [00:01<00:01, 171.80it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:01, 177.84it/s]Loading weights:  50%|████▉     | 198/399 [00:01<00:01, 186.55it/s]Loading weights:  55%|█████▍    | 218/399 [00:01<00:01, 177.94it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 170.25it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 176.25it/s]Loading weights:  71%|███████▏  | 285/399 [00:01<00:00, 198.01it/s]Loading weights:  77%|███████▋  | 306/399 [00:01<00:00, 199.15it/s]Loading weights:  82%|████████▏ | 327/399 [00:02<00:00, 190.75it/s]Loading weights:  87%|████████▋ | 347/399 [00:02<00:00, 183.22it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 181.10it/s]Loading weights:  98%|█████████▊| 391/399 [00:02<00:00, 191.56it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 167.53it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Loaded in 6.2s: 36 layers, d=4096, d_ff=12288
+  Float16 memory: 16.38 GB
+  WikiText-2 unavailable (No module named 'datasets'), using built-in corpus
+
+══════════════════════════════════════════════════════════════════════════════
+  FLOAT16 BASELINE PERPLEXITY
+══════════════════════════════════════════════════════════════════════════════
+
+  Evaluating perplexity (max_length=512, stride=256)...
+  Total tokens: 392
+  Scored 391 tokens in 0.6s
+  NLL: 0.9891
+  Perplexity: 2.69
+
+  Generating baseline samples...
+
+══════════════════════════════════════════════════════════════════════════════
+  GENERATION RESULTS — FLOAT16 BASELINE
+══════════════════════════════════════════════════════════════════════════════
+
+  ── Prompt 1 (64 tokens, 26.5 tok/s) ──
+  The capital of France is
+  ▸  Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of Germany is Berlin. The capital of the Netherlands is Amsterdam. The capital of Belgium is Brussels. The capital of Portugal is Lisbon. The capital of Switzerland is Bern. The capital of Austria is Vienna. The capital of Poland is
+
+  ── Prompt 2 (64 tokens, 29.6 tok/s) ──
+  The speed of light is approximately
+  ▸  3.00 × 10^8 m/s. What is the speed of light in kilometers per hour?
+  ▸ 
+  ▸ To convert the speed of light from meters per second to kilometers per hour, we need to follow these steps:
+  ▸ 
+  ▸ 1. **Convert meters to kilometers**: Since 1 kilometer = 10
+
+  ── Prompt 3 (64 tokens, 29.4 tok/s) ──
+  Water is composed of two elements:
+  ▸  hydrogen and oxygen. The ratio of hydrogen to oxygen by mass in water is 1:8. If a sample of water has a mass of 45 grams, how many grams of hydrogen does it contain?
+  ▸ 
+  ▸ To solve this problem, we can use the given ratio of hydrogen to oxygen by mass in water, which
+
+  ── Prompt 4 (64 tokens, 28.6 tok/s) ──
+  If all dogs are animals and all animals are living things, then all dogs are
+  ▸  living things. Is this a valid syllogism? Also, what is the difference between a syllogism and a logical implication? Can you provide an example of a syllogism and explain how to determine if a syllogism is valid? Lastly, what is the role of the middle term
+
+  ── Prompt 5 (64 tokens, 29.0 tok/s) ──
+  The next number in the sequence 2, 4, 8, 16, 32 is
+  ▸ ...? Also, what is the next number in the sequence 1, 3, 5, 7, 9? And what is the next number in the sequence 1, 4, 9, 16, 25? Additionally, what is the next number in the sequence 
+
+  ── Prompt 6 (64 tokens, 29.3 tok/s) ──
+  def fibonacci(n):
+    """Return the nth Fibonacci number."""
+
+  ▸     if n == 0:
+  ▸         return 0
+  ▸     elif n == 1:
+  ▸         return 1
+  ▸     else:
+  ▸         return fibonacci(n - 1) + fibonacci(n - 2)
+  ▸ 
+  ▸ def main():
+  ▸     """Test the fibonacci function."""
+  ▸     for i in range(10):
+  ▸         print(f
+
+  ── Prompt 7 (64 tokens, 29.3 tok/s) ──
+  Once upon a time, in a forest deep and dark, there lived a
+  ▸  wise old owl named Oliver. Oliver was known for his vast knowledge of the forest and its creatures. One day, a curious squirrel named Sammy approached Oliver with a question. "Oliver," Sammy asked, "how do I find the perfect acorn to plant?" Oliver smiled and said, "The perfect acorn is
+
+  ── Prompt 8 (64 tokens, 29.9 tok/s) ──
+  In lambda calculus, the identity combinator I is defined as
+  ▸  I x = x. How can we prove that the identity combinator is a fixed point of itself? Additionally, can you explain the concept of a fixed point in lambda calculus and how it relates to the identity combinator?
+  ▸ 
+  ▸ In lambda calculus, a fixed point of a function $ f $ is a value $ x $
+
+══════════════════════════════════════════════════════════════════════════════
+  TERNARIZING 36 LAYERS  (zero_rate=35%)
+══════════════════════════════════════════════════════════════════════════════
+  Layer   gate cos    up cos  down cos     q cos     k cos     v cos     o cos
+  ─────  ───────── ───────── ───────── ───────── ───────── ───────── ─────────
+      0    0.89609   0.90816   0.87927   0.89346   0.89004   0.88859   0.87285  (1.2s)
+      1    0.88924   0.89703   0.69767   0.88598   0.88582   0.88621   0.88119  (1.0s)
+      2    0.88539   0.88816   0.69231   0.88949   0.88521   0.88818   0.88847  (1.1s)
+      3    0.89397   0.89474   0.77766   0.88687   0.88487   0.88678   0.88480  (1.0s)
+      4    0.89894   0.90413   0.89508   0.88847   0.88571   0.88771   0.88771  (1.0s)
+      5    0.88507   0.89682   0.90942   0.88829   0.88451   0.88727   0.88191  (1.0s)
+      6    0.88990   0.88285   0.87696   0.88922   0.88763   0.88086   0.87497  (0.9s)
+      7    0.89417   0.88313   0.88487   0.88854   0.88452   0.88727   0.88375  (1.0s)
+      8    0.89795   0.87504   0.87373   0.88939   0.88643   0.88765   0.88708  (1.0s)
+      9    0.89554   0.87904   0.87619   0.88570   0.87724   0.88323   0.88288  (1.0s)
+     10    0.90043   0.87819   0.87105   0.88825   0.88413   0.88222   0.88042  (0.9s)
+     11    0.90129   0.87770   0.87508   0.88570   0.87747   0.88378   0.88296  (1.0s)
+     12    0.90118   0.88103   0.87749   0.88661   0.87957   0.88297   0.87662  (1.0s)
+     13    0.89661   0.88565   0.87267   0.88573   0.87917   0.88512   0.88541  (0.9s)
+     14    0.89494   0.88380   0.87432   0.88845   0.88297   0.88287   0.88155  (1.1s)
+     15    0.89337   0.88502   0.86992   0.88755   0.88001   0.88339   0.88642  (1.0s)
+     16    0.89428   0.88352   0.87245   0.88860   0.88503   0.88334   0.88391  (1.0s)
+     17    0.89309   0.88624   0.87328   0.88847   0.88119   0.88304   0.88165  (1.0s)
+     18    0.89056   0.88437   0.87267   0.88898   0.88292   0.88424   0.88151  (1.0s)
+     19    0.89077   0.88752   0.86979   0.88467   0.87169   0.88048   0.87236  (1.0s)
+     20    0.89122   0.88884   0.87323   0.88742   0.88279   0.87974   0.88161  (1.0s)
+     21    0.89029   0.88942   0.87379   0.88642   0.88215   0.87603   0.88143  (1.0s)
+     22    0.88820   0.89154   0.86987   0.88774   0.88089   0.87756   0.87672  (1.1s)
+     23    0.88998   0.89603   0.88399   0.88674   0.88467   0.86677   0.87769  (1.1s)
+     24    0.89240   0.89673   0.89194   0.88511   0.88480   0.86480   0.87166  (1.0s)
+     25    0.89160   0.89629   0.89629   0.88905   0.88725   0.88067   0.88644  (1.1s)
+     26    0.89061   0.89897   0.90712   0.88837   0.88749   0.88128   0.88355  (1.1s)
+     27    0.88945   0.90068   0.91116   0.88909   0.88650   0.88059   0.88551  (1.0s)
+     28    0.88810   0.90345   0.91617   0.89018   0.88344   0.88404   0.88017  (1.0s)
+     29    0.88743   0.90801   0.92133   0.88803   0.88284   0.87450   0.88659  (1.0s)
+     30    0.88637   0.90894   0.92325   0.88785   0.88267   0.87487   0.88485  (1.1s)
+     31    0.88535   0.91191   0.92603   0.88813   0.88154   0.87766   0.88444  (1.0s)
+     32    0.88397   0.91466   0.92482   0.88590   0.88028   0.87399   0.88299  (1.1s)
+     33    0.88555   0.91517   0.92192   0.88627   0.88091   0.87549   0.89353  (1.1s)
+     34    0.88945   0.91234   0.88157   0.88633   0.88182   0.87214   0.88424  (1.1s)
+     35    0.89341   0.90765   0.89512   0.89131   0.88785   0.88267   0.88397  (1.0s)
+
+  ──────────────────────────────────────────────────────────────────────────────
+  Total ternarized: 6,945,767,424 params in 38.7s
+  Overall zeros: 2,425,632,123 / 6,945,767,424 (34.9%)
+
+  Mean cosine by weight type:
+    gate_proj    mean=0.89184  min=0.88397  max=0.90129
+    up_proj      mean=0.89397  min=0.87504  max=0.91517
+    down_proj    mean=0.87526  min=0.69231  max=0.92603
+    q_proj       mean=0.88784  min=0.88467  max=0.89346
+    k_proj       mean=0.88317  min=0.87169  max=0.89004
+    v_proj       mean=0.88106  min=0.86480  max=0.88859
+    o_proj       mean=0.88233  min=0.87166  max=0.89353
+
+  Size estimate:
+    Ternary weights: 1.376 GB (10974312530 Mbits)
+    Gamma scalars:   5.60 MB (1,400,832 rows × 4 bytes)
+    Original fp16:   13.892 GB
+    Compression:     10.1×
+
+  Memory after ternarization:
+    Total:        9.44 GB
+    Int8 (T):     6.95 GB
+    Float (rest): 2.50 GB
+    Reduction:    1.74×
+
+══════════════════════════════════════════════════════════════════════════════
+  TERNARY PERPLEXITY
+══════════════════════════════════════════════════════════════════════════════
+
+  Evaluating perplexity (max_length=512, stride=256)...
+  Total tokens: 392
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/experiments/full_ternarize.py", line 676, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/experiments/full_ternarize.py", line 625, in main
+    ternary_ppl = evaluate_perplexity(
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/scripts/experiments/full_ternarize.py", line 365, in evaluate_perplexity
+    outputs = model(input_chunk)
+              ^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 876, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 492, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 952, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/utils/output_capturing.py", line 248, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 424, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 318, in forward
+    hidden_states, _ = self.self_attn(
+                       ^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 263, in forward
+    query_states = self.q_norm(self.q_proj(hidden_states).view(hidden_shape)).transpose(1, 2)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/scripts/experiments/full_ternarize.py", line 76, in forward
+    out = F.linear(x, T_cast)
+          ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Tensor for argument weight is on cpu but expected on mps

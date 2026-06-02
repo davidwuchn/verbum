@@ -1,0 +1,106 @@
+Loading Qwen3-8B...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:03,  3.21it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:01, 176.10it/s]Loading weights:  23%|██▎       | 92/399 [00:00<00:01, 206.75it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 235.98it/s]Loading weights:  40%|███▉      | 158/399 [00:00<00:00, 257.79it/s]Loading weights:  48%|████▊     | 191/399 [00:00<00:00, 269.19it/s]Loading weights:  56%|█████▌    | 224/399 [00:00<00:00, 272.36it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 275.35it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 284.60it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 285.90it/s]Loading weights:  89%|████████▉ | 356/399 [00:01<00:00, 286.80it/s]Loading weights:  97%|█████████▋| 389/399 [00:01<00:00, 290.18it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 253.91it/s]
+Loaded: 36 layers
+  Loaded WikiText-2 test: 2891 lines
+
+=
+  SKIP FIRST 6 LAYERS (ternarize layers 6-35)
+=
+  Ternarized in 19.4s
+  Ternary: 5,788,139,520 (83.3%), Float: 1,157,627,904
+  Worst weight cosine: 0.86480
+  Memory: 10.60 GB
+
+  Evaluating perplexity (max_length=512, stride=256)...
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors
+  Total tokens: 298,938 → capped to 8,192
+  Windows: ~32
+    [10/32] 2,806 tokens, PPL=279563.18, 5s elapsed, ~11s remaining
+    [20/32] 5,356 tokens, PPL=240258.27, 10s elapsed, ~6s remaining
+    [30/32] 7,906 tokens, PPL=282227.28, 15s elapsed, ~1s remaining
+  Scored 8,161 tokens in 15.0s
+  NLL: 12.6705
+  Perplexity: 318222.49
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+══════════════════════════════════════════════════════════════════════════════
+  GENERATION RESULTS — SKIP-6
+══════════════════════════════════════════════════════════════════════════════
+
+  ── Prompt 1 (64 tokens, 16.1 tok/s) ──
+  The capital of France is
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸  to
+  ▸ 
+  ▸  to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to to
+
+  ── Prompt 2 (64 tokens, 16.9 tok/s) ──
+  The speed of light is approximately
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ , to
+  ▸  to, to to, to, to,,,,,,,,,,,,,,,1,1111111111111111111
+
+  ── Prompt 3 (64 tokens, 16.9 tok/s) ──
+  Water is composed of two elements:
+  ▸ :::,:,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+=
+  SKIP FIRST 4 LAYERS (ternarize layers 4-35)
+=
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:46,  2.39it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 118.82it/s]Loading weights:  20%|██        | 81/399 [00:00<00:01, 167.69it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 200.52it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 217.09it/s]Loading weights:  45%|████▌     | 180/399 [00:00<00:00, 244.58it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 249.05it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 257.11it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 267.42it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 276.37it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 278.53it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 287.45it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 229.51it/s]
+  Ternarized in 21.6s
+  Ternary: 6,174,015,488 (88.9%), Float: 771,751,936
+  Worst weight cosine: 0.86480
+  Memory: 10.21 GB
+
+  Evaluating perplexity (max_length=512, stride=256)...
+  Total tokens: 298,938 → capped to 8,192
+  Windows: ~32
+    [10/32] 2,806 tokens, PPL=164621.49, 5s elapsed, ~11s remaining
+    [20/32] 5,356 tokens, PPL=182728.74, 10s elapsed, ~6s remaining
+    [30/32] 7,906 tokens, PPL=207650.66, 15s elapsed, ~1s remaining
+  Scored 8,161 tokens in 15.0s
+  NLL: 12.2892
+  Perplexity: 217331.75

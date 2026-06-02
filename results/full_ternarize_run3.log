@@ -1,0 +1,232 @@
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL TERNARIZATION
+══════════════════════════════════════════════════════════════════════════════
+  Model:     Qwen/Qwen3-8B
+  Device:    mps
+  Zero rate: 35%
+  Eval only: False
+
+  Loading model (float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   6%|▌         | 23/399 [00:00<00:02, 186.04it/s]Loading weights:  11%|█         | 43/399 [00:00<00:01, 191.38it/s]Loading weights:  16%|█▌        | 63/399 [00:00<00:01, 188.56it/s]Loading weights:  21%|██        | 82/399 [00:00<00:01, 180.33it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 180.45it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 178.55it/s]Loading weights:  37%|███▋      | 147/399 [00:00<00:01, 183.13it/s]Loading weights:  42%|████▏     | 169/399 [00:00<00:01, 178.77it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:01, 174.97it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:01, 185.63it/s]Loading weights:  58%|█████▊    | 230/399 [00:01<00:00, 186.97it/s]Loading weights:  62%|██████▏   | 249/399 [00:01<00:00, 177.12it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 172.01it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 161.31it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 172.23it/s]Loading weights:  82%|████████▏ | 327/399 [00:01<00:00, 173.68it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 173.29it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 169.83it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 174.25it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 180.31it/s]
+  Loaded in 6.4s: 36 layers, d=4096, d_ff=12288
+  Float16 memory: 16.38 GB
+  Loaded WikiText-2 test: 2891 lines
+
+══════════════════════════════════════════════════════════════════════════════
+  TERNARIZING 36 LAYERS  (zero_rate=35%)
+══════════════════════════════════════════════════════════════════════════════
+  Layer   gate cos    up cos  down cos     q cos     k cos     v cos     o cos
+  ─────  ───────── ───────── ───────── ───────── ───────── ───────── ─────────
+      0    0.89609   0.90816   0.87927   0.89346   0.89004   0.88859   0.87285  (1.3s)
+      1    0.88924   0.89703   0.69767   0.88598   0.88582   0.88621   0.88119  (1.0s)
+      2    0.88539   0.88816   0.69231   0.88949   0.88521   0.88818   0.88847  (1.0s)
+      3    0.89397   0.89474   0.77766   0.88687   0.88487   0.88678   0.88480  (0.9s)
+      4    0.89894   0.90413   0.89508   0.88847   0.88571   0.88771   0.88771  (1.0s)
+      5    0.88507   0.89682   0.90942   0.88829   0.88451   0.88727   0.88191  (0.9s)
+      6    0.88990   0.88285   0.87696   0.88922   0.88763   0.88086   0.87497  (1.0s)
+      7    0.89417   0.88313   0.88487   0.88854   0.88452   0.88727   0.88375  (1.0s)
+      8    0.89795   0.87504   0.87373   0.88939   0.88643   0.88765   0.88708  (0.9s)
+      9    0.89554   0.87904   0.87619   0.88570   0.87724   0.88323   0.88288  (0.9s)
+     10    0.90043   0.87819   0.87105   0.88825   0.88413   0.88222   0.88042  (1.0s)
+     11    0.90129   0.87770   0.87508   0.88570   0.87747   0.88378   0.88296  (0.9s)
+     12    0.90118   0.88103   0.87749   0.88661   0.87957   0.88297   0.87662  (0.9s)
+     13    0.89661   0.88565   0.87267   0.88573   0.87917   0.88512   0.88541  (1.0s)
+     14    0.89494   0.88380   0.87432   0.88845   0.88297   0.88287   0.88155  (0.9s)
+     15    0.89337   0.88502   0.86992   0.88755   0.88001   0.88339   0.88642  (0.9s)
+     16    0.89428   0.88352   0.87245   0.88860   0.88503   0.88334   0.88391  (0.9s)
+     17    0.89309   0.88624   0.87328   0.88847   0.88119   0.88304   0.88165  (1.0s)
+     18    0.89056   0.88437   0.87267   0.88898   0.88292   0.88424   0.88151  (1.0s)
+     19    0.89077   0.88752   0.86979   0.88467   0.87169   0.88048   0.87236  (1.0s)
+     20    0.89122   0.88884   0.87323   0.88742   0.88279   0.87974   0.88161  (1.0s)
+     21    0.89029   0.88942   0.87379   0.88642   0.88215   0.87603   0.88143  (1.0s)
+     22    0.88820   0.89154   0.86987   0.88774   0.88089   0.87756   0.87672  (0.9s)
+     23    0.88998   0.89603   0.88399   0.88674   0.88467   0.86677   0.87769  (1.0s)
+     24    0.89240   0.89673   0.89194   0.88511   0.88480   0.86480   0.87166  (1.0s)
+     25    0.89160   0.89629   0.89629   0.88905   0.88725   0.88067   0.88644  (1.0s)
+     26    0.89061   0.89897   0.90712   0.88837   0.88749   0.88128   0.88355  (0.9s)
+     27    0.88945   0.90068   0.91116   0.88909   0.88650   0.88059   0.88551  (1.0s)
+     28    0.88810   0.90345   0.91617   0.89018   0.88344   0.88404   0.88017  (0.9s)
+     29    0.88743   0.90801   0.92133   0.88803   0.88284   0.87450   0.88659  (1.0s)
+     30    0.88637   0.90894   0.92325   0.88785   0.88267   0.87487   0.88485  (1.2s)
+     31    0.88535   0.91191   0.92603   0.88813   0.88154   0.87766   0.88444  (1.0s)
+     32    0.88397   0.91466   0.92482   0.88590   0.88028   0.87399   0.88299  (1.0s)
+     33    0.88555   0.91517   0.92192   0.88627   0.88091   0.87549   0.89353  (1.0s)
+     34    0.88945   0.91234   0.88157   0.88633   0.88182   0.87214   0.88424  (1.0s)
+     35    0.89341   0.90765   0.89512   0.89131   0.88785   0.88267   0.88397  (1.0s)
+
+  ──────────────────────────────────────────────────────────────────────────────
+  Total ternarized: 6,945,767,424 params in 37.6s
+  Overall zeros: 2,425,632,116 / 6,945,767,424 (34.9%)
+
+  Mean cosine by weight type:
+    gate_proj    mean=0.89184  min=0.88397  max=0.90129
+    up_proj      mean=0.89397  min=0.87504  max=0.91517
+    down_proj    mean=0.87526  min=0.69231  max=0.92603
+    q_proj       mean=0.88784  min=0.88467  max=0.89346
+    k_proj       mean=0.88317  min=0.87169  max=0.89004
+    v_proj       mean=0.88106  min=0.86480  max=0.88859
+    o_proj       mean=0.88233  min=0.87166  max=0.89353
+
+  Size estimate:
+    Ternary weights: 1.376 GB (10974312530 Mbits)
+    Gamma scalars:   5.60 MB (1,400,832 rows × 4 bytes)
+    Original fp16:   13.892 GB
+    Compression:     10.1×
+
+  Memory after ternarization:
+    Total:        9.44 GB
+    Int8 (T):     6.95 GB
+    Float (rest): 2.50 GB
+    Reduction:    1.74×
+
+══════════════════════════════════════════════════════════════════════════════
+  TERNARY PERPLEXITY
+══════════════════════════════════════════════════════════════════════════════
+
+  Evaluating perplexity (max_length=512, stride=256)...
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors
+  Total tokens: 298,938 → capped to 16,384
+  Windows: ~64
+    [10/64] 2,806 tokens, PPL=381998.43, 5s elapsed, ~29s remaining
+    [20/64] 5,356 tokens, PPL=492644.42, 10s elapsed, ~22s remaining
+    [30/64] 7,906 tokens, PPL=507685.28, 15s elapsed, ~17s remaining
+    [40/64] 10,456 tokens, PPL=456948.48, 20s elapsed, ~12s remaining
+    [50/64] 13,006 tokens, PPL=344009.24, 24s elapsed, ~7s remaining
+    [60/64] 15,556 tokens, PPL=304995.86, 29s elapsed, ~2s remaining
+  Scored 16,321 tokens in 30.5s
+  NLL: 12.6012
+  Perplexity: 296911.28
+
+  Generating ternary samples...
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+══════════════════════════════════════════════════════════════════════════════
+  GENERATION RESULTS — TERNARY
+══════════════════════════════════════════════════════════════════════════════
+
+  ── Prompt 1 (9 tokens, 13.2 tok/s) ──
+  The capital of France is
+  ▸  [
+  ▸ 
+  ▸ 
+  ▸  [
+  ▸ NNLL
+
+  ── Prompt 2 (2 tokens, 12.5 tok/s) ──
+  The speed of light is approximately
+  ▸ 
+  ▸ 
+  ▸ 
+
+  ── Prompt 3 (1 tokens, 9.8 tok/s) ──
+  Water is composed of two elements:
+  ▸ 
+
+  ── Prompt 4 (7 tokens, 13.2 tok/s) ──
+  If all dogs are animals and all animals are living things, then all dogs are
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+
+  ── Prompt 5 (64 tokens, 14.8 tok/s) ──
+  The next number in the sequence 2, 4, 8, 16, 32 is
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 6 (64 tokens, 15.4 tok/s) ──
+  def fibonacci(n):
+    """Return the nth Fibonacci number."""
+
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ ffffffff
+  ▸ ffffffff
+  ▸ ffffffff
+  ▸ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ── Prompt 7 (64 tokens, 16.0 tok/s) ──
+  Once upon a time, in a forest deep and dark, there lived a
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸  is
+  ▸  is! is
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 2
+  ▸ 2
+  ▸ 2
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 
+  ▸ 22222222222222
+
+  ── Prompt 8 (2 tokens, 14.7 tok/s) ──
+  In lambda calculus, the identity combinator I is defined as
+  ▸ ffffffff
+
+══════════════════════════════════════════════════════════════════════════════
+  FINAL REPORT
+══════════════════════════════════════════════════════════════════════════════
+  Model:           Qwen/Qwen3-8B
+  Layers:          36
+  Zero rate:       35%
+  Float16 size:    16.38 GB
+  Ternary size:    9.44 GB (in-memory, int8+float32)
+  Compression:     1.74× (int8)
+══════════════════════════════════════════════════════════════════════════════
+
