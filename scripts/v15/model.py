@@ -151,6 +151,15 @@ class TernaryPlate(nn.Module):
         self.delta2: mx.array | None = None
         self._delta_enabled = False
 
+        # Learnable sparsity mask: None until enable_mask() is called.
+        # Per-position logit that GD learns. sigmoid(logit/T) gates each weight.
+        # GD drives logit negative → position silenced → etch to permanent zero.
+        # NOTE: no underscore prefix — MLX Module needs to see these as parameters.
+        self.mask_logit1: mx.array | None = None
+        self.mask_logit2: mx.array | None = None
+        self._mask_enabled = False
+        self._mask_temperature = 1.0
+
     @property
     def delta_enabled(self) -> bool:
         return self._delta_enabled
@@ -176,6 +185,113 @@ class TernaryPlate(nn.Module):
         self.delta1 = None
         self.delta2 = None
         self._delta_enabled = False
+
+    # ── Learnable sparsity mask ─────────────────────────────────────
+
+    def enable_mask(self, temperature: float = 1.0, init_logit: float = 4.0) -> None:
+        """Enable per-position learnable sparsity mask.
+
+        Each non-zero position gets a logit that GD can learn. During
+        forward pass: effective *= sigmoid(logit / T). GD drives logit
+        negative to silence positions. At etch time, positions below
+        threshold become permanent zeros.
+
+        Args:
+            temperature: Softness of the mask. Lower = sharper (more binary).
+            init_logit: Initial logit value. 4.0 → sigmoid ≈ 0.98 (starts "on").
+        """
+        self._mask_temperature = temperature
+
+        # Initialize logits only at non-zero positions.
+        # Zero positions stay at -inf (permanently off).
+        nonzero1 = (self.plate1 != 0).astype(mx.float32)
+        self.mask_logit1 = mx.full((self.d_out, self.d_in), init_logit) * nonzero1 + \
+                            mx.full((self.d_out, self.d_in), -20.0) * (1.0 - nonzero1)
+
+        if self.plate2 is not None:
+            nonzero2 = (self.plate2 != 0).astype(mx.float32)
+            self.mask_logit2 = mx.full((self.d_out, self.d_in), init_logit) * nonzero2 + \
+                                mx.full((self.d_out, self.d_in), -20.0) * (1.0 - nonzero2)
+
+        self._mask_enabled = True
+
+    def disable_mask(self) -> None:
+        """Disable learnable mask."""
+        self.mask_logit1 = None
+        self.mask_logit2 = None
+        self._mask_enabled = False
+
+    @property
+    def mask_enabled(self) -> bool:
+        return self._mask_enabled
+
+    def mask_stats(self) -> dict:
+        """Return mask statistics: fraction of positions GD wants to silence.
+
+        Returns dict with 'plate1_alive_frac', 'plate1_dead_frac', etc.
+        Dead = sigmoid(logit/T) < 0.5, meaning logit < 0.
+        """
+        stats = {}
+        if self.mask_logit1 is not None:
+            m1 = mx.sigmoid(self.mask_logit1 / self._mask_temperature)
+            nonzero1 = self.plate1 != 0
+            alive = ((m1 > 0.5) & nonzero1).sum()
+            dead = ((m1 <= 0.5) & nonzero1).sum()
+            total = nonzero1.sum()
+            stats["plate1_alive"] = int(alive.item())
+            stats["plate1_dead"] = int(dead.item())
+            stats["plate1_total"] = int(total.item())
+            stats["plate1_dead_frac"] = float(dead.item()) / max(float(total.item()), 1)
+
+        if self.mask_logit2 is not None and self.plate2 is not None:
+            m2 = mx.sigmoid(self.mask_logit2 / self._mask_temperature)
+            nonzero2 = self.plate2 != 0
+            alive = ((m2 > 0.5) & nonzero2).sum()
+            dead = ((m2 <= 0.5) & nonzero2).sum()
+            total = nonzero2.sum()
+            stats["plate2_alive"] = int(alive.item())
+            stats["plate2_dead"] = int(dead.item())
+            stats["plate2_total"] = int(total.item())
+            stats["plate2_dead_frac"] = float(dead.item()) / max(float(total.item()), 1)
+
+        return stats
+
+    def etch_zeros(self, threshold: float = 0.5) -> int:
+        """Permanently zero positions where mask < threshold.
+
+        Folds the mask decision into the plate topology. After etching,
+        the mask is reset (positions that survived start fresh).
+        Returns count of positions zeroed.
+
+        This is the Phase 3 ETCH operation: GD has spoken, we commit.
+        """
+        zeroed = 0
+
+        if self.mask_logit1 is not None:
+            m1 = mx.sigmoid(self.mask_logit1 / self._mask_temperature)
+            kill1 = (m1 < threshold) & (self.plate1 != 0)
+            n_kill = int(kill1.sum().item())
+            if n_kill > 0:
+                self.plate1 = mx.where(kill1, mx.zeros_like(self.plate1), self.plate1)
+                if self.delta1 is not None:
+                    self.delta1 = mx.where(kill1, mx.zeros_like(self.delta1), self.delta1)
+                zeroed += n_kill
+
+        if self.mask_logit2 is not None and self.plate2 is not None:
+            m2 = mx.sigmoid(self.mask_logit2 / self._mask_temperature)
+            kill2 = (m2 < threshold) & (self.plate2 != 0)
+            n_kill = int(kill2.sum().item())
+            if n_kill > 0:
+                self.plate2 = mx.where(kill2, mx.zeros_like(self.plate2), self.plate2)
+                if self.delta2 is not None:
+                    self.delta2 = mx.where(kill2, mx.zeros_like(self.delta2), self.delta2)
+                zeroed += n_kill
+
+        # Reset mask logits — surviving positions start fresh
+        if zeroed > 0:
+            self.enable_mask(self._mask_temperature)
+
+        return zeroed
 
     def _effective(self, plate: mx.array, delta: mx.array | None) -> mx.array:
         """Compute effective plate: plate ⊙ delta if delta exists, else plate.
@@ -219,14 +335,21 @@ class TernaryPlate(nn.Module):
         """Forward: plate × input with per-row gamma scaling.
 
         When delta plates are enabled, uses effective = plate ⊙ delta.
+        When mask is enabled, effective *= sigmoid(logit / T) per-position.
         """
         # plate1 contribution
         eff1 = self._effective(self.plate1, self.delta1)
+        if self._mask_enabled and self.mask_logit1 is not None:
+            mask1 = mx.sigmoid(self.mask_logit1 / self._mask_temperature)
+            eff1 = eff1 * mask1
         out = (x @ eff1.T) * self.gamma1
 
         # plate2 contribution (if 2-plate)
         if self.plate2 is not None:
             eff2 = self._effective(self.plate2, self.delta2)
+            if self._mask_enabled and self.mask_logit2 is not None:
+                mask2 = mx.sigmoid(self.mask_logit2 / self._mask_temperature)
+                eff2 = eff2 * mask2
             out = out + (x @ eff2.T) * self.gamma2
 
         return out
@@ -432,6 +555,11 @@ class FullAttention(nn.Module):
 
         if mask is not None:
             scores = scores + mask
+
+        # Clip attention scores to prevent float32 overflow in softmax
+        # (v14 had this; v15 dropped it → NaN at step 5040)
+        scores = mx.clip(scores, -65.0, 65.0)
+
         weights = mx.softmax(scores, axis=-1)
         attn_out = (weights @ v).transpose(0, 2, 1, 3).reshape(B, L, D)
 

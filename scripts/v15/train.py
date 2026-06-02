@@ -1496,11 +1496,28 @@ def train(args: argparse.Namespace) -> None:
     # Freeze plates via MLX mechanism (so trainable_parameters() excludes them)
     # This freezes base plates AND delta plates (deltas managed by TD, not Adam)
     freeze_plates(model)
+
+    # ── Enable learnable sparsity masks (if requested) ───────────────
+    # Must be done AFTER freeze_plates so that newly-added mask logit arrays
+    # are not frozen — they need to be trained by Adam.
+    if args.mask_training:
+        for stride in model.strides:
+            for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                plate = getattr(stride.ffn, plate_name)
+                plate.enable_mask(
+                    temperature=args.mask_temperature,
+                    init_logit=args.mask_init_logit,
+                )
+        log(
+            f"Enabled learnable masks on all plates "
+            f"(T={args.mask_temperature}, init={args.mask_init_logit})"
+        )
+
     report_trainable_summary(model)
 
-    # ── TernaryDescent (if delta plates enabled) ─────────────────────
+    # ── TernaryDescent (if delta plates enabled and TD not disabled) ──
     thermometer = None
-    if args.delta_plates:
+    if args.delta_plates and not args.no_td:
         td_optimizer = TernaryDescent(
             flip_rate=args.td_flip_rate,
             warmup_steps=args.td_warmup,
@@ -1511,6 +1528,8 @@ def train(args: argparse.Namespace) -> None:
         log(f"TernaryDescent: rate={args.td_flip_rate}, warmup={args.td_warmup}, "
             f"interval={args.td_flip_interval}, min_conf={args.td_min_confidence}")
         log(f"CrystalThermometer: recent_window={args.td_flip_interval * 5}")
+    elif args.no_td:
+        log("TernaryDescent DISABLED (--no-td)")
 
     n_trainable = count_trainable(model)
     log(f"Total trainable: {n_trainable:,} parameters")
@@ -1615,6 +1634,7 @@ def train(args: argparse.Namespace) -> None:
 
     # ── Training state ───────────────────────────────────────────────
     loss_history: list[float] = []
+    nan_count = 0
     t0 = time.time()
 
     log(f"Starting training at step {start_step} (max {args.max_steps})")
@@ -1635,6 +1655,18 @@ def train(args: argparse.Namespace) -> None:
         # Forward + backward
         loss, grads = loss_and_grad(model, input_ids, teacher_l)
 
+        # NaN guard: skip update if loss is NaN
+        loss_val = float(loss.item())
+        if math.isnan(loss_val):
+            nan_count += 1
+            if nan_count >= 3:
+                log(f"FATAL: {nan_count} consecutive NaN losses. Halting.")
+                break
+            log(f"WARNING: NaN loss at step {step} ({nan_count}/3). Skipping update.")
+            continue
+        else:
+            nan_count = 0
+
         # Gradient clipping
         clipped_grads, grad_norm = optim.clip_grad_norm(grads, max_norm=args.grad_clip)
 
@@ -1644,10 +1676,10 @@ def train(args: argparse.Namespace) -> None:
         # MLX: commit computation graph
         mx.eval(model.parameters(), optimizer.state)
 
-        # ── TernaryDescent step (if delta plates enabled) ────────────
+        # ── TernaryDescent step (if delta plates enabled and TD not disabled) ─
         td_flips = 0
         td_candidates = 0
-        if td_optimizer is not None and _trace_basis is not None:
+        if not args.no_td and td_optimizer is not None and _trace_basis is not None:
             # Compute trace loss gradient w.r.t. delta plates.
             # Use a small slice of the batch (1 seq, 512 tokens) — trace
             # gradient just needs any forward pass to see crystal coherence,
@@ -1692,9 +1724,10 @@ def train(args: argparse.Namespace) -> None:
                     )
                     mx.eval(model.parameters())
 
-        # ── Periodic fold (if requested) ─────────────────────────────
+        # ── Periodic fold (if requested and TD not disabled) ──────────
         if (
-            td_optimizer is not None
+            not args.no_td
+            and td_optimizer is not None
             and args.fold_every > 0
             and step > 0
             and step % args.fold_every == 0
@@ -1706,7 +1739,6 @@ def train(args: argparse.Namespace) -> None:
             mx.eval(model.parameters())
             log(f"  Fold complete. Delta plates reset to +1.")
 
-        loss_val = float(loss.item())
         loss_history.append(loss_val)
 
         # ── Logging ──────────────────────────────────────────────────
@@ -1819,7 +1851,7 @@ def train(args: argparse.Namespace) -> None:
                     log(f"  Combinator profiler failed: {e}")
 
             # ── TD diagnostics (at eval steps) ──
-            if td_optimizer is not None:
+            if not args.no_td and td_optimizer is not None:
                 log(f"  TD state: step={td_optimizer.step_count}, "
                     f"last_flips={td_optimizer.last_n_flips}, "
                     f"last_candidates={td_optimizer.last_n_candidates}")
@@ -1844,6 +1876,24 @@ def train(args: argparse.Namespace) -> None:
                         for name, t in hot:
                             if t > 0:
                                 log(f"      {name}: T={t:.6f}")
+
+            # ── Mask statistics (at eval steps) ──────────────────────
+            if args.mask_training:
+                total_alive = 0
+                total_dead = 0
+                for stride in model.strides:
+                    for plate_name in ("gate_plate", "up_plate", "down_plate"):
+                        plate = getattr(stride.ffn, plate_name)
+                        if plate.mask_enabled:
+                            stats = plate.mask_stats()
+                            for key in ("plate1_dead", "plate2_dead", "plate1_alive", "plate2_alive"):
+                                if key.endswith("_dead"):
+                                    total_dead += stats.get(key, 0)
+                                elif key.endswith("_alive"):
+                                    total_alive += stats.get(key, 0)
+                total = total_alive + total_dead
+                dead_pct = 100 * total_dead / max(total, 1)
+                log(f"  Mask: {total_dead:,d}/{total:,d} positions silenced ({dead_pct:.1f}%)")
 
         # ── Checkpoint ───────────────────────────────────────────────
         if step % args.save_every == 0 and step > 0:
@@ -1950,6 +2000,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--max-steps", type=int, default=10_000, help="Total training steps"
+    )
+
+    # ── No-TD / mask-training modes ──────────────────────────────────
+    p.add_argument(
+        "--no-td",
+        action="store_true",
+        help="Disable TernaryDescent entirely. No topology changes.",
+    )
+    p.add_argument(
+        "--mask-training",
+        action="store_true",
+        help="Enable learnable sparsity masks on all TernaryPlate modules.",
+    )
+    p.add_argument(
+        "--mask-temperature",
+        type=float,
+        default=1.0,
+        help="Temperature for mask sigmoid.",
+    )
+    p.add_argument(
+        "--mask-init-logit",
+        type=float,
+        default=4.0,
+        help="Initial logit for mask (4.0 → sigmoid≈0.98).",
     )
 
     # ── KL distillation ──────────────────────────────────────────────
