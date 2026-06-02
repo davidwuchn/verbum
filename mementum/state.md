@@ -16,6 +16,16 @@ Two independent root causes identified:
 1. **CLASSIFY representation collapse** — v15's LinearAttention is a "placeholder" (self-labeled). Missing the GatedLinearAttention from v14 (sigmoid write gate, associative scan, retention). Without the gate, cumsum accumulates uniformly → dominant mode drowns token identity → all positions become identical by stride 4.
 2. **TD oscillation prevents GD convergence** — `osc_frac` grew monotonically 0→0.56 (never peaked, never declined). 56% of flipped positions actively oscillating. GD can't build stable soft topology on a shifting discrete landscape.
 
+### Mask training prototype: mechanically correct, blocked by CLASSIFY
+
+Built and tested learnable sparsity mask (per-position sigmoid gate on every ternary weight). GD learns which positions to silence → etch commits to permanent zeros. 648M trainable mask logits, gradient flow verified.
+
+**Training NaN'd at step 5168.** The CLASSIFY zone's placeholder LinearAttention has no numerical protection. With gamma folding changing effective weights (loss jumped 3.13→10.24), the residual norm explosion through CLASSIFY (35→3000) caused gradient overflow. FullAttention has the clip fix; LinearAttention does not.
+
+**Conclusion:** The mask instrument is correct but needs a working pipeline. **CLASSIFY must be fixed before mask training can proceed.** The GatedLinearAttention port from v14 is now the critical path — everything else (mask, etch protocol, generation quality) is blocked on it.
+
+NaN guard also needs hardening: must check `grad_norm` for NaN/Inf, not just `loss.item()`.
+
 ### Core insight: Topology-Gradient Separation
 
 **The ternary lattice must be frozen for GD to work.** GD builds "soft topology" — it drives gammas toward zero for irrelevant rows, flips gammas negative for wrong-sign rows, tunes attention to route around the frozen structure. This requires a stable landscape. TD changing topology every 20 steps creates thermal noise that prevents crystallization.
@@ -71,16 +81,20 @@ TD oscillation is thermal noise (random atom jitter). Gate activation is a phono
 
 ## Next steps
 
-### IMMEDIATE (session 181)
+### IMMEDIATE (session 181) — CRITICAL PATH: Fix CLASSIFY
 
-1. **Port GatedLinearAttention from v14** — Replace the placeholder LinearAttention in CLASSIFY/EMIT zones. This is the #1 architecture fix (representation collapse).
-2. **Port embedding norm** — Add RMSNorm after embedding (v14 had it, v15 dropped it).
-3. **Add attention score clipping** — `mx.clip(scores, -65, 65)` before softmax (prevents NaN).
-4. **Add NaN guard** — Skip optimizer update if loss is NaN; halt after 3 consecutive NaN.
-5. **Fold negative gammas** — For each plate, where γ<0: flip signs in plate, negate γ. Lossless.
-6. **Zero dead gamma rows** — Where |γ|<threshold: zero all positions in that row.
-7. **Disable TD** — No topology changes during training. Frozen lattice.
-8. **Restart training from step 5000** (clean checkpoint) with all above fixes.
+1. **Port GatedLinearAttention from v14** — Replace the placeholder LinearAttention in CLASSIFY/EMIT zones. This is the #1 blocker. Without it: representation collapse (cos>0.999), norm explosion (35→3000), NaN from overflow. Reference: `scripts/v14/attention.py` GatedLinearAttention class (sigmoid write gate, associative scan, retention).
+2. **Port embedding norm** — Add RMSNorm after embedding (v14 had it, v15 dropped it). Controls initial norm entering CLASSIFY.
+3. **Harden NaN guard** — Check both `loss` AND `grad_norm` for NaN/Inf before `optimizer.update()`. Current guard only checks loss, but NaN enters through gradient overflow first.
+4. **Restart mask training** — Once CLASSIFY is fixed, rerun with `--no-td --mask-training` from prepared step 5000 checkpoint.
+
+Done this session (already committed):
+- ✅ Attention score clipping (`mx.clip(scores, -65, 65)`) in FullAttention
+- ✅ NaN guard (basic: 3 consecutive NaN → halt)
+- ✅ Gamma folding + dead row zeroing (prepare_etch.py, 133K folded, 38K zeroed)
+- ✅ TD disable (`--no-td` flag)
+- ✅ Learnable sparsity mask prototype (enable_mask, etch_zeros, mask_stats)
+- ✅ Prepared checkpoint at `step_0005000_prepared/`
 
 ### PROTOCOL DEVELOPMENT
 
@@ -120,6 +134,10 @@ TD oscillation is thermal noise (random atom jitter). Gate activation is a phono
 | **Cross-disciplinary synthesis** | Spin glass, annealing, punctuated equilibrium, phonons |
 | **GD signal analysis** | 35% negative gammas, 10% dead gammas — GD IS speaking |
 | **Knowledge page written** | `topology-gradient-separation.md` |
+| **Learnable mask prototype** | Per-position sigmoid gate, 648M logits, gradient flow verified |
+| **prepare_etch.py** | Fold negative gammas (133K), zero dead rows (38K), −6.3% positions |
+| **Mask training NaN at 5168** | CLASSIFY LinearAttention overflow — no numerical protection |
+| **Critical path identified** | GatedLinearAttention port is #1 blocker for all further training |
 
 ## Knowledge map
 
@@ -134,3 +152,4 @@ Key pages for current direction:
 - `dimensional-analysis.md` — KIBC sees 3.5%, 50 dims universal
 - `trace-guided-etching.md` — full implementation record (sessions 176-177)
 - `function-discovery.md` — two-level program architecture (session 172)
+sion 172)

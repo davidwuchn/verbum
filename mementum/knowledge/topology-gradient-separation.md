@@ -236,6 +236,34 @@ The CLASSIFY collapse and the TD oscillation are independent problems
 that compound. Fixing TD alone won't fix generation — CLASSIFY must
 also be repaired (port GatedLinearAttention from v14).
 
+## Prototype Result: Mask Training (Session 180)
+
+The learnable sparsity mask was implemented and tested:
+
+- **TernaryPlate.enable_mask()**: per-position sigmoid(logit/T) gate.
+  GD learns logits; negative logit → position silenced. `etch_zeros()`
+  commits mask decisions to permanent plate zeros.
+- **648M mask logit parameters** added during training (60.9% of total).
+  These are training scaffolding — discarded at etch time.
+- **Gradient flow verified**: mask logits receive gradients at every
+  position. GD has full per-position voice.
+
+**Training failed at step 5168 (NaN).** Root cause: the CLASSIFY zone's
+placeholder LinearAttention has no numerical protection. Residual norms
+explode 100× through CLASSIFY (35 → 3000), and without gated linear
+attention to control accumulation, overflow is inevitable under the
+changed gamma landscape (folding shifted effective weights).
+
+**Lesson: the mask is the right instrument but it needs a working
+pipeline to play through.** CLASSIFY must be fixed first (port
+GatedLinearAttention from v14), then mask training can proceed on
+a numerically stable architecture.
+
+**NaN guard gap:** The guard checked `loss.item()` for NaN but not
+individual gradient elements. NaN entered through gradient overflow
+before loss became NaN. Fix: also check `grad_norm` for NaN/Inf
+before allowing `optimizer.update()`.
+
 ## Design Principle (Lambda Form)
 
 ```
