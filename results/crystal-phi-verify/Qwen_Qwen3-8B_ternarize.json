@@ -1,0 +1,106 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "layer": 28,
+  "d_ff": 12288,
+  "d_model": 4096,
+  "dead_neurons_5pct": 4858,
+  "dead_neurons_10pct": 7223,
+  "results": [
+    {
+      "method": "mag_10%",
+      "desc": "Magnitude, 10% zeros",
+      "zero_pct": 9.985649585723877,
+      "neuron_dead": 0,
+      "weight_nmse": 0.31228314652602585,
+      "weight_cosine": 0.8292424462824715,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "mag_20%",
+      "desc": "Magnitude, 20% zeros",
+      "zero_pct": 19.948108990987144,
+      "neuron_dead": 0,
+      "weight_nmse": 0.26271812171928716,
+      "weight_cosine": 0.8586051109837048,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "mag_30%",
+      "desc": "Magnitude, 30% zeros",
+      "zero_pct": 29.920756816864014,
+      "neuron_dead": 0,
+      "weight_nmse": 0.2249656463334636,
+      "weight_cosine": 0.8803131020593947,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "mag_40%",
+      "desc": "Magnitude, 40% zeros (matched)",
+      "zero_pct": 39.44064577420552,
+      "neuron_dead": 0,
+      "weight_nmse": 0.20298006846590727,
+      "weight_cosine": 0.8927118092849998,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "crystal_neuron",
+      "desc": "Crystal neuron dead (40% zeros)",
+      "zero_pct": 39.53455487887065,
+      "neuron_dead": 4858,
+      "weight_nmse": 0.6542844728444647,
+      "weight_cosine": 0.5879442463393806,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "crystal_hybrid_10%",
+      "desc": "Crystal neuron + 10% mag in alive",
+      "zero_pct": 45.572445789972946,
+      "neuron_dead": 4858,
+      "weight_nmse": 0.6218949676225594,
+      "weight_cosine": 0.6148694687759557,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "crystal_hybrid_20%",
+      "desc": "Crystal neuron + 20% mag in alive",
+      "zero_pct": 51.59648060798645,
+      "neuron_dead": 4858,
+      "weight_nmse": 0.5946627235767188,
+      "weight_cosine": 0.6366268790569622,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    },
+    {
+      "method": "random_neuron",
+      "desc": "Random neuron dead (40%)",
+      "zero_pct": 38.69633873303731,
+      "neuron_dead": 4755,
+      "weight_nmse": 0.6152148826607724,
+      "weight_cosine": 0.6202772212512415,
+      "act_nmse_linear": NaN,
+      "act_nmse_gated": NaN,
+      "act_cosine_linear": NaN,
+      "act_cosine_gated": NaN
+    }
+  ]
+}
