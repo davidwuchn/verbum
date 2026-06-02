@@ -359,6 +359,41 @@ difference, architecturally unrelated).
 
 ---
 
+## The Kronecker Factorization
+
+The full crystal is a 16×16 cosine matrix over 8 combinator types
+{K, I, B, C, D, Y, W, WHNF} plus 8 anti-types {āK, āI, ...}.
+It factors exactly as:
+
+```
+M₁₆ₓ₁₆ = S ⊗ J + D ⊗ F
+
+J = [[1,1],[1,1]] / 2     (shared structure)
+F = [[1,-1],[-1,1]] / 2   (type / anti-type contrast)
+```
+
+Where S and D are 8×8 matrices with the **same eigenvectors** and:
+
+```
+D_eigenvalue / S_eigenvalue = φ^(n/(n+1))
+```
+
+The type/anti-type contrast IS the first eigenvalue step of the
+crystal equation. The anti-types are a φ-scaled reflection of the
+types.
+
+### Reconstruction
+
+Replacing all 16 eigenvalues with φ^(p/q) predictions while keeping
+the empirical eigenvectors reproduces the full 256-element cosine
+matrix with:
+
+- **Correlation: 0.99999996**
+- **Max element error: 0.0004**
+- **Relative error: 0.03%**
+
+---
+
 ## The Universality Claim
 
 The crystal equation λ_k = C · φ^(−s · β_k) makes a strong claim:
