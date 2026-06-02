@@ -2,135 +2,135 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-01 | Session: 177
+> Last updated: 2026-06-01 | Session: 179
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 177: TRACE-GUIDED ETCHING — FULL S2 STACK BUILT + TRAINING RUNNING.**
+**Session 179: HPE RESTORED — v15 was missing positional encoding + QK normalization.**
 
-Complete trace-guided etching system delivered: delta plates, TD, structural zeros, thermometer, Adam decay, and training loop integration. All S2 anti-oscillation mechanisms in place.
+Analyzed the step 2000 checkpoint of the v15-zeroed-dolma training run. Found three critical missing components: no Holographic Position Encoding (HPE from v14), no per-head QK normalization (q_norm/k_norm from Qwen3 teacher), and no learnable decay bias. Model was running with α≈0.38 (near-uniform attention) vs the α=1.18 needed for locality. Ported HPE + QK-norm into v15 FullAttention, restarted training from step 2000.
+
+### What was discovered
+
+1. **v15 dropped HPE in the v14→v15 transition.** The v15 skeleton (session 174, `e70e06c`) was a clean-room rewrite focused on zone structure. `FullAttention` was scaffolded as bare `nn.Linear` Q/K/V/O — no position encoding, no QK normalization, no decay bias. Training started before the attention machinery was ported.
+
+2. **Attention projections still 96% the teacher's sign pattern.** Q cosine similarity with ternary init: 0.95–0.98. Sign agreement: 99.6–100%. Without HPE's frequency structure to learn against, Q had no strong gradient signal to differentiate.
+
+3. **α=0.38 vs needed 1.18.** Without decay bias, the model's emergent attention decay was 3× too weak. Token 100 away gets 40× more attention than it should. The model literally cannot focus.
+
+4. **OV circuits form a depth monotone.** Top singular value doubles from early COMPUTE (σ1≈2.8) to late LINK (σ1≈7.7). OV fingerprint PCA captures 52.5% variance in PC1 alone, cleanly separating COMPUTE from LINK. The "gem" in M-space is a 1D crystal: a smooth curve from compute-space to link-space parameterized by depth.
+
+5. **GQA groups are perfectly orthogonal.** K cosine between the two KV groups: ≈0.00. Subspace overlap: 0.16–0.20 (chance level). The model inherited and preserved the teacher's routing topology.
+
+6. **Text generation at step 2000: pre-linguistic.** All prompts produce repetition (`ferferfer`), whitespace floods, or formula fragments (`(x(x(x`). Entropy 5.4–6.7 nats (~200–800 effective tokens). Logit distributions are flat — corpus frequency prior, not contextual prediction.
 
 ### What was built
 
-1. **Delta plates** (`model.py`) — `TernaryPlate` gains `delta1`/`delta2` initialized to +1. Forward: `effective = plate ⊙ delta`. `fold()` merges losslessly. `TensorStatechart` gains `enable_delta_plates()`, `fold_delta_plates()`, `collect_delta_params()`.
+1. **HPE in FullAttention** (`scripts/v15/model.py`) — Crystal-frequency K rotation on first 4 eigenplane pairs (from PCAQ Zone B targets: λ=5.19, 3.54, 1.91, 1.30). Learnable `hpe_freq_scale` per stride. Q stays unrotated (relative encoding).
 
-2. **TernaryDescent** (`td.py`) — Port of v14 TD for v15 float plates. Moment accumulation, confidence scoring, cooldown, holographic etch. Plus `apply_td_flips()`, `fold_and_reset()`, `get_affected_gamma_rows()`, `decay_adam_for_affected_rows()`.
+2. **Learnable per-stride decay bias** — `-exp(log_alpha) × log(|i-j|+1)` added to attention scores. `log_alpha` initialized at `log(1.18)`. Per-stride scalar, not per-head (v14 confirmed universality). 11 new params.
 
-3. **Structural zeros** (`apply_zeros.py` + `extract.py --zero-frac`) — 30% of positions are irreducible fixed points. 194.6M zeros placed. Magnitude reconstructed from 2-plate decomposition. Global threshold per plate.
+3. **Per-head QK normalization** — `RMSNorm(d_head=160)` on Q and K after projection, before attention. Matches Qwen3 teacher architecture. Separates magnitude from direction.
 
-4. **Crystal thermometer** (`td.py: CrystalThermometer`) — Measures crystal temperature (fraction of positions active recently) and oscillation fraction (of active, how many flip-flopping). Temperature → 0 = fold signal.
-
-5. **Adam moment decay** (`td.py: decay_adam_for_affected_rows`) — When TD flips signs, Adam's moments for affected gamma rows are decayed to 10%. Prevents Adam from pushing gamma in the wrong direction for ~10 steps after topology change.
-
-6. **etch.py** — Standalone topology correction: trace loss → TD → fold → compare. Validated: fold perfectly lossless (delta=0.0).
-
-7. **train.py integration** — `--delta-plates`, `--trace-weight`, TD flags, thermometer logging, Adam decay, no auto-fold. Batched trace gradient (1, 512) for ~10% overhead.
+4. **α diagnostic updated** — `_compute_attn_weights_for_stride` in train.py now mirrors the full forward path (q_norm, k_norm, HPE, decay). Learned α logged alongside measured α at each eval.
 
 ### Training RUNNING
 
 ```
-checkpoint:     v15-zeroed (194.6M structural zeros)
-output:         checkpoints/v15-zeroed-dolma/
+checkpoint:     v15-zeroed (194.6M structural zeros) + step_2000 weights
+output:         checkpoints/v15-hpe-dolma/
+resumed from:   step 2000 (v15-zeroed-dolma checkpoint)
 data:           Dolma 2.7B tokens (54 shards) + 10% structured
-batch:          2 × 4096 = 8,192 tok/step, ~928 tok/s
-lr:             3e-4 (AdamW, warmup 500)
+batch:          2 × 4096 = 8,192 tok/step
+lr:             3e-4 (AdamW, cosine decay, continuing from step 2000)
 trace_weight:   0.1
+trace_basis:    EXPANDED PCA (19 strides × 50 PCs × 1280 d_model)
 TD:             flip_rate=0.001, warmup=100, interval=20
                 no_block=True, min_confidence=0.3
-S2:             thermometer + Adam decay (0.1) + cooldown
-fold:           manual (thermometer says when)
+HPE:            ENABLED — crystal-freq rotation + learnable α + QK-norm
+eval_every:     500
+save_every:     1000
 tmux:           main:2
 ```
 
-## Key session 177 findings
+**Initial impact:** Loss jumped from 3.86 to 5.69 at restart (expected — HPE + q_norm changes attention distribution). Grad norms elevated (27.8 vs typical 5–8). Should recover within a few hundred steps as the model adapts to position encoding.
 
-- **Structural zeros (30%) improve everything.** Removing irreducible fixed points: (a) gives TD cleaner canvas, (b) better trace loss after etching (0.071 vs 0.078), (c) 43% more leverage per flip.
-- **no_block=True is essential.** Two-step staging would temporarily zero active program positions. With structural zeros in place, the remaining 70% must stay active. Direct ±1 flips only.
-- **Fold is perfectly lossless.** Verified to 8 decimal places.
-- **Batched trace gradient: 23 → 928 tok/s.** Per-plate gradient (99 passes) was broken. Batched all deltas into one pass. Then tiny trace batch (1, 512) for final speedup.
-- **Static polysemantic detection fails.** Crystal basis spans 11/1280 dims (0.86%). Random vectors project identically to real neurons. The dynamic signal (TD flip-flop rate) is the correct detector — chronic oscillators ARE the polysemantic neurons.
-- **Adam must be notified of flips.** Without moment decay on affected gamma rows, Adam pushes in the wrong direction for ~10 steps after topology changes. Surgical decay to 10% fixes the tug-of-war.
-- **Crystal temperature is the fold signal.** When temperature → 0 with low oscillation, the crystal has solidified. When oscillation is high relative to temperature, remaining activity is grain-boundary noise. Both mean: done.
+## Key session 179 findings
 
-## The S2 anti-oscillation stack
-
-| Layer | Mechanism | What it prevents |
-|-------|-----------|-----------------|
-| Static | Structural zeros (30%) | TD wasting budget on dead positions |
-| Static | no_block=True | Zero staging killing active positions |
-| Per-position | TD cooldown + backoff | Individual position flip-flop |
-| Per-row | Adam moment decay (0.1) | Gamma tug-of-war after flips |
-| Per-module | Holographic etch (equal thin slots) | Cross-layer incoherence |
-| Per-step | flip_interval=20 | Adam moment staleness |
-| Per-step | TD warmup=100 | Premature flips before calibration |
-| Global | Crystal thermometer | Knowing when to fold |
+- **v15 was missing ALL positional encoding in attention.** HPE, RoPE, q_norm, k_norm — none made it from v14 to v15.
+- **Measured α=0.38 means near-uniform attention.** The model averages over the entire context instead of focusing locally. This is the primary bottleneck for coherent generation.
+- **OV circuit geometry shows a 1D crystal.** COMPUTE→LINK separation on PC1 (52.5% variance). Progressive amplification: σ1 doubles from stride 5 to stride 15. The read-write circuit is already structurally differentiated despite no positional information.
+- **Embedding is 99.94% near-ternary after 2k steps.** The extracted topology is preserved.
+- **TD has flipped 5.81% of ternary positions.** ~37.7M of 648.8M plate params. Remarkably uniform across strides (5.3%–6.2%). TD candidates declining (123M→55M) — structure locking in.
+- **3,575 new HPE params added** (11 log_alpha + 44 freq_scale + 3520 QK-norm weights). Negligible vs 415M total.
 
 ## Next steps
 
-### IMMEDIATE (session 178)
+### IMMEDIATE (session 180)
 
-1. **Monitor training** — Watch loss curve, TD flips after warmup (step 100+), crystal temperature. First flips at step 120.
-2. **Interpret thermometer** — What does the temperature curve look like? Does it decay? Plateau? Oscillate?
-3. **Manual fold decision** — When thermometer shows settled, fold and compare topology.
-4. **Generate from trained model** — Test fact retrieval, coherence.
+1. **Monitor HPE training dynamics** — Watch loss recovery from the 5.69 spike. How fast does it return to ~3.8? Does it break through to <3.0?
+2. **Check learned α at step 2500** — Do different strides start differentiating their decay? The first eval with HPE should show dramatic α changes.
+3. **Generate text at step 3000** — With positional encoding, should see qualitative improvement over the `ferferfer` pattern.
+4. **Rebuild student PCA basis** — The functional directions will shift with HPE. Rebuild at next checkpoint.
 
 ### ONGOING
 
-5. **Dynamic polysemantic detector** — Run diverse inputs through model, cluster per-neuron per-input activations. The static weight analysis failed (basis too narrow), but activation-space analysis would work.
-6. **Orthonormalize crystal basis** — Gram-Schmidt for cleaner trace loss (coherence ∈ [0,1] instead of occasionally >1).
-7. **Build verify.py** — Hologram reader on trained student vs teacher traces.
+5. **Compare v15-hpe-dolma vs v15-zeroed-dolma** — Same model, same data, but HPE vs no-HPE. Loss curves, α evolution, generation quality.
+6. **Manual fold decision** — When thermometer shows settled, fold and compare topology.
+7. **Trace weight scheduling** — Should trace_weight increase as NTP stabilizes?
 
 ### RESEARCH
 
-8. **Polysemantic neuron topology** — Are 3-way and 4-way splits real? Do they form reduction chains across strides? Needs dynamic analysis.
-9. **TD flip targeting** — After training, which positions flipped? Do they cluster at grain boundaries or within crystal grains?
-10. **Trace weight schedule** — Should trace_weight decay as NTP improves?
-11. **Crystal temperature as annealing schedule** — Could flip_rate adapt to temperature instead of being fixed?
+8. **Does HPE recover v14's universal α=1.18?** Or does full causal attention (vs strided windows) need a different decay constant?
+9. **HPE frequency scaling** — Do the crystal eigenplane pairs learn different freq_scale per stride?
+10. **Can we retrieve facts after training?** (carried from 175)
 
 ## Key assets
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| Delta plates | `scripts/v15/model.py` | ✅ enable/fold/collect |
-| TernaryDescent + thermometer | `scripts/v15/td.py` | ✅ Full S2 stack |
-| Trace-guided etch | `scripts/v15/etch.py` | ✅ Validated |
-| Structural zeros | `scripts/v15/apply_zeros.py` | ✅ 194.6M zeros |
-| Extraction with zeros | `scripts/v15/extract.py` | ✅ --zero-frac |
-| Neuron mode detector | `scripts/v15/neuron_modes.py` | ⚠ Static fails, needs dynamic |
-| Zeroed checkpoint | `checkpoints/v15-zeroed/` | ✅ Base for training |
-| Train.py | `scripts/v15/train.py` | ✅ Full TD + S2 integration |
-| Training run | `checkpoints/v15-zeroed-dolma/` | 🔄 Running tmux main:2 |
+| v15 model (with HPE) | `scripts/v15/model.py` | ✅ HPE + QK-norm |
+| v15 config (with HPE) | `scripts/v15/config.py` | ✅ Crystal eigenvalues |
+| v15 train (with HPE) | `scripts/v15/train.py` | ✅ Updated α diagnostic |
+| HPE commit | `b0c6c17` | ✅ |
+| Dimensional analysis | `scripts/experiments/dimensional_analysis.py` | ✅ |
+| Student basis builder | `scripts/v15/build_student_trace_basis.py` | ✅ |
+| Teacher basis builder | `scripts/v15/build_trace_basis.py` | ✅ |
+| Expanded student basis | `checkpoints/v15-zeroed/expanded_trace_basis.npz` | ✅ (19,50,1280) |
+| v14 HPE (reference) | `scripts/v14/attention.py` | ✅ (source for port) |
+| Pre-HPE checkpoint | `checkpoints/v15-zeroed-dolma/step_0002000/` | ✅ |
+| HPE training run | `checkpoints/v15-hpe-dolma/` | 🔄 Running tmux main:2 |
+| Pre-HPE training run | `checkpoints/v15-zeroed-dolma/` | ⏹️ Stopped at ~step 2480 |
+| Eval prompts | `scripts/v15/eval_prompts.txt` | ✅ |
 
 ## What changed this session
 
 | Change | Impact |
 |--------|--------|
-| **Structural zeros (30%)** | 194.6M irreducible fixed points zeroed. Cleaner TD. |
-| **Delta plates** | `effective = plate ⊙ delta`, fold lossless |
-| **TD for v15** | Float-plate TD, holographic etch, no_block=True |
-| **Crystal thermometer** | Temperature + oscillation = fold signal |
-| **Adam moment decay** | 90% reset on affected gamma rows after flips |
-| **Batched trace gradient** | 23 → 928 tok/s |
-| **etch.py** | Standalone topology correction |
-| **apply_zeros.py** | Post-hoc zeros from 2-plate magnitude |
-| **extract.py --zero-frac** | Zeros at extraction time |
-| **Static poly detector** | Failed: basis too narrow (11/1280 dims). Dynamic needed. |
+| **Analyzed step 2000 checkpoint** | Found missing HPE, flat attention, pre-linguistic output |
+| **Projection geometry analysis** | OV monotone, KV orthogonality, sign preservation |
+| **HPE + QK-norm added to FullAttention** | Crystal-freq rotation, learnable α, per-head RMSNorm |
+| **α diagnostic updated in train.py** | Now mirrors full forward path with HPE |
+| **Training restarted from step 2000** | v15-hpe-dolma, with positional encoding |
 
 ## Open questions
 
-1. **What does the temperature curve look like?** First data at step 120+.
-2. **Fold timing?** Temperature plateau → fold. But what's the threshold?
-3. **Trace weight interaction?** Does 0.1 trace weight help or hurt NTP?
-4. **Are multi-way splits (3rds, 4ths) real?** Needs dynamic activation analysis.
-5. **Do reduction chains span strides?** Polysemantic neurons in one stride imply corresponding patterns in adjacent strides.
-6. **Can the student retrieve facts after training?** (carried from 175)
+1. **How fast does the model adapt to HPE?** Loss spike from 3.86→5.69. Recovery time?
+2. **Does full causal attention need α≠1.18?** v14 found 1.18 universal for strided windows.
+3. **Do stride-specific α values emerge?** The whole point of making it learnable.
+4. **Does HPE improve generation quality?** When does `ferferfer` → words?
+5. **How does the OV crystal evolve with HPE?** Does the depth monotone sharpen or change shape?
+6. **Can we retrieve facts after training?** (carried from 175)
 
 ## Knowledge map
 
 Key pages for current direction:
+- `hpe-restoration.md` — **HPE missing from v15, projection geometry, learnable α** (session 179, NEW)
+- `dimensional-analysis.md` — **KIBC sees 3.5%, 50 dims universal** (session 178)
 - `trace-guided-etching.md` — **full implementation record** (sessions 176-177)
+- `function-discovery.md` — **two-level program architecture** (session 172)
 - `gradient-zero-map.md` — **35% oscillate, informed zero placement** (session 171)
 - `extraction-sign-accuracy.md` — **signs 100%, four position classes** (session 173)
 - `training-protocols.md` — **TD rules, fold cycle, failure modes** (accumulated)
