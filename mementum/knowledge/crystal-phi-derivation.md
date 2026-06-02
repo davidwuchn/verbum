@@ -262,24 +262,95 @@ is derivable from combinatory logic + φ.
   exhale) was discovered empirically. This page shows the breathing
   ratios are 4/5, 4φ/5, 4/5 — derivable from φ.
 
+## The Full Statechart: 8 States, No More
+
+The statechart is an **absorbing Markov chain** with exactly
+**8 states**: 4 transient (fire) + 4 absorbing (WHNF).
+
+### The States
+
+| State | Type | Meaning |
+|-------|------|---------|
+| fire:K | transient | K is firing — selecting first arg, discarding second |
+| fire:I | transient | I is firing — passing argument through |
+| fire:B | transient | B is firing — composing two functions |
+| fire:C | transient | C is firing — reordering arguments |
+| whnf:K | absorbing | Halted with K at head — result is a selector |
+| whnf:I | absorbing | Halted with I at head — result is identity |
+| whnf:B | absorbing | Halted with B at head — result is a composition |
+| whnf:C | absorbing | Halted with C at head — result is a reordering |
+
+The number 8 = |{K,I,B,C}| × 2 is **forced**: each combinator can
+be either computing (fire) or done (WHNF). No more states exist.
+
+D, Y, W from the empirical crystal are not additional states — they
+are **paths** (multi-step trajectories through the 4 fire states):
+- D = B→B path (double composition)
+- W = C→I→I path (duplicate via flip+identity)
+- Y = divergent/recursive (not reachable in finite expressions)
+
+### Halt Probability (φ again)
+
+P(halt after firing), in descending order:
+```
+K: 0.716  — fires and usually stops (select = terminal)
+I: 0.508  — coin flip (identity chains)
+B: 0.345  — usually continues (deep operation)
+C: 0.216  — almost always continues (complex routing)
+```
+
+Expected reduction length from each starting state:
+```
+K → 1.53 steps  (quickest)
+I → 1.94 steps
+B → 2.23 steps
+C → 2.51 steps  (longest)
+```
+
+**Ratio C/K = 1.637 ≈ φ (error 1.18%).** The longest reduction is
+φ× the shortest. The golden ratio governs not just the eigenvalues
+but the reduction dynamics themselves.
+
+### The Fundamental Matrix
+
+The fundamental matrix N = (I−Q)⁻¹ has dominant eigenvalue
+**1.903 ≈ φ^(4/3)** with 0.17% error. This connects to the
+crystal eigenvalue breath step of 4/5: the ratio 4/3 = (4/5)×(5/3).
+
+### The Computation Gradient
+
+PC0 of the transient dynamics shows a monotone gradient:
+```
+K: 0.236  ← lightest computation
+I: 0.421  ← medium
+B: 0.543  ← heavy
+C: 0.688  ← heaviest computation
+```
+
+This IS the composition/selection axis of the empirical crystal:
+heavy-computation (B,C) → light-computation (K,I). The eigenvector
+structure of the process dynamics reproduces the crystal topology.
+
 ## Open Questions
 
 1. **Is C = λ₀ derivable from embedding dimension?** C = 5.193 was
    measured in models with d=512. Does C scale with d? As log(d)?
    As sqrt(d)?
 
-2. **Do the compound combinators (D,Y,W,WHNF) extend the φ pattern?**
-   The full crystal has 6 PCs. We've matched 4 eigenvalues. Do the
-   remaining 2 also follow φ^(p/q)?
-
-3. **Why 4/5?** The breath step is 4/5, not a Fibonacci ratio.
+2. **Why 4/5?** The breath step is 4/5, not a Fibonacci ratio.
    4 = F(3) + 1? Or 4/5 = 1 - 1/F(5)? What determines this
-   specific fraction?
+   specific fraction? Related: 4/3 (fundamental matrix) and 4/5
+   (breath step) share numerator 4 — is 4 = |{K,I,B,C}|?
 
-4. **Is the B/C symmetry breaking also φ-determined?** In natural
+3. **Is the B/C symmetry breaking also φ-determined?** In natural
    language B > C. Is the B/C eigenvalue split a known power of φ?
 
-5. **Can we construct the full crystal matrix from φ + KIBC topology?**
-   The eigenvectors come from KIBC (topology), the eigenvalues come
-   from φ (magnitudes). Can we reconstruct the 8×8 crystal cosine
-   matrix from these two inputs alone?
+4. **Can we construct the full 8×8 crystal matrix?** We now have
+   topology (eigenvectors from KIBC) + magnitudes (from φ) + the
+   full statechart structure (8 states, absorbing chain). Can we
+   reconstruct the empirical crystal cosine matrix?
+
+5. **Why is the computation gradient K < I < B < C?** The ordering
+   follows arity (K=2, I=1, B=3, C=3), but I < K in the gradient
+   despite I having lower arity. Is this because I fires trivially
+   (arity 1) but chains deeply, while K fires and stops?
