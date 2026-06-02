@@ -105,6 +105,32 @@ The ternary lattice is not something we impose — it is something
 SwiGLU already implements via gate activation sparsity. Ternarization
 makes it explicit and permanent.
 
+## Magnitude Channel: < 1 Bit of Information
+
+The per-neuron ternary scale factor γ (optimal reconstruction scalar)
+has minimal structure:
+
+- **Flat across combinator clusters:** γ_selection = 0.0214, γ_composition = 0.0215,
+  γ_terminal = 0.0218. Ratio 1.005 — no crystal differentiation.
+- **γ anti-correlates with gate positive rate** (ρ = -0.724): dead neurons
+  have LARGER weights. They are silenced by gate bias, not weight magnitude.
+- **Weight energy per crystal mode is flat:** WE ratio ~1.0 for all 16 modes
+  while eigenvalue ratio spans 10:1. The crystal lives in activation geometry,
+  not weight geometry.
+- **Dynamic range:** p99/p1 = 1.777 ≈ φ^(6/5) = 1.782 (0.25% error)
+- **Information content:** log₂(φ^(6/5)) = 0.83 bits
+
+**Less than 1 bit of information in the magnitude channel.**
+The sign IS the computation. Ternary models lose almost nothing
+by discarding magnitudes. The per-row scale factor γ carries
+only ~0.83 bits of useful information — barely more than a binary flag.
+
+The dynamic range φ^(6/5) = φ^((n+2)/(n+1)) for n=4:
+- s + 1/(n+1) = 4/5 + 1/5 = 1 (but the exponent is 6/5, not 1)
+- (n+2)/(n+1) = 6/5: the compute cycle extended by one anti-type step
+- One full reduce + one switch in the compute cycle β = [0, 1, ...]
+- The γ distribution spans exactly one compute cycle of the crystal equation
+
 ## Experimental Provenance
 
 - Model: Qwen/Qwen3-8B, layer 28 (78% depth), d_ff=12288
@@ -112,5 +138,6 @@ makes it explicit and permanent.
 - Gradient: next-token loss, 130 prompts, float32
 - Gate sparsity: 190 prompts (160 crystal + 30 diverse)
 - Depth scans: Qwen3-0.6B (28L), 8B (36L), 14B (40L), 160 probes each
+- Magnitude analysis: `qwen3-8b_magnitude.log` — γ flat across clusters, < 1 bit
 - Scripts: `crystal_zero_v2.py`, `crystal_ternarize.py`,
   `crystal_hybrid_ternarize.py`, `crystal_depth_scan.py`

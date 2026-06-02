@@ -1,0 +1,56 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:21,  1.97it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 123.25it/s]Loading weights:  22%|██▏       | 88/399 [00:00<00:02, 151.65it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 148.80it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 157.37it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 161.52it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 169.26it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 173.58it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:01, 173.68it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 177.19it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 176.65it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 179.41it/s]Loading weights:  78%|███████▊  | 312/399 [00:02<00:00, 179.82it/s]Loading weights:  84%|████████▎ | 334/399 [00:02<00:00, 180.69it/s]Loading weights:  88%|████████▊ | 353/399 [00:02<00:00, 178.17it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 181.95it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 162.75it/s]
+Layer 28, d_ff=12288
+
+========================================================================
+  GAMMA CORRELATIONS
+========================================================================
+  γ vs crystal energy: Pearson=0.1090, Spearman=0.1382
+  γ vs positive rate:  Pearson=-0.6553, Spearman=-0.7243
+  γ vs weight norm:    Pearson=0.9628, Spearman=0.9880
+
+========================================================================
+  WEIGHT ENERGY PER CRYSTAL MODE
+========================================================================
+    Mode   EV ratio   WE ratio  log_φ(EV)  log_φ(WE)
+       0     1.0000     1.0000      0.000      0.000
+       1     0.5960     1.0130     -1.076      0.027
+       2     0.2538     0.9626     -2.849     -0.079
+       3     0.2246     0.9802     -3.104     -0.042
+       4     0.2161     1.0135     -3.184      0.028
+       5     0.1581     0.9727     -3.833     -0.057
+       6     0.1368     0.9759     -4.134     -0.051
+       7     0.1129     1.0228     -4.532      0.047
+       8     0.1086     0.9886     -4.614     -0.024
+       9     0.1061     0.9833     -4.663     -0.035
+  Correlation EV vs WE ratios: 0.1449
+
+========================================================================
+  GAMMA BY COMBINATOR CLUSTER
+========================================================================
+       K: n=  813, mean γ=0.0215, mean |W|=1.7295, mean pos_rate=0.134
+       I: n=  853, mean γ=0.0213, mean |W|=1.7190, mean pos_rate=0.142
+       B: n= 1292, mean γ=0.0212, mean |W|=1.7085, mean pos_rate=0.188
+       C: n= 2664, mean γ=0.0215, mean |W|=1.7361, mean pos_rate=0.130
+       D: n= 2703, mean γ=0.0216, mean |W|=1.7400, mean pos_rate=0.137
+       W: n=  454, mean γ=0.0202, mean |W|=1.6375, mean pos_rate=0.251
+       Y: n= 1418, mean γ=0.0219, mean |W|=1.7744, mean pos_rate=0.118
+    WHNF: n= 2091, mean γ=0.0218, mean |W|=1.7604, mean pos_rate=0.131
+
+  Selection γ:   0.0214
+  Composition γ: 0.0215
+  Terminal γ:    0.0218
+  Ratio comp/sel: 1.0051
+  Ratio sel/term: 0.9798
+  φ^(1/5) = 1.1010, φ^(2/5) = 1.2123, φ^(4/5) = 1.4696
+
+========================================================================
+  GAMMA DYNAMIC RANGE
+========================================================================
+  p99=0.0277, p50=0.0214, p1=0.0156
+  p99/p1 = 1.7765
+  p99/p50 = 1.2970
+  φ = 1.6180, φ^(4/5) = 1.4696, φ² = 2.6180
+
+Saved.
