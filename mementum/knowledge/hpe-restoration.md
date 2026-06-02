@@ -118,16 +118,30 @@ v14 measured α across 10 layers × 8 heads for 1500 training steps.
 The converged value was 1.18±0.006 — the per-head variance was noise-level.
 The stride is the right granularity for decay rate.
 
-## Expected Impact
+## Observed Impact (first 90 steps post-restart)
 
-- **Loss spike then recovery.** HPE + q_norm changes the attention distribution.
-  Loss jumped from 3.86 to 5.69 at restart. Should recover within ~200–500 steps.
-- **Faster convergence after recovery.** With positional information, the model
-  can actually learn contextual next-token prediction (not just corpus frequency).
-- **α differentiation across strides.** Early COMPUTE may want lower α (broader),
-  late LINK may want higher α (tighter). This is the experiment.
-- **Text generation quality improvement.** The `ferferfer` pattern is caused by
-  inability to distinguish positions. HPE should enable coherent multi-token output.
+- **Loss recovery in 40 steps.** 5.69 → 3.84 by step 2040, then oscillating 3.5–4.1.
+  Much faster recovery than expected (predicted 200–500 steps).
+- **Measured α immediately jumps to ~1.18–1.27.** The decay bias dominates: all
+  COMPUTE strides at α≈1.19, LINK strides at 1.24–1.27. LINK already wants tighter
+  focus — this is the first sign of per-stride differentiation (from the bias alone,
+  before learned α has moved).
+- **Learned α barely moved from init (1.1798–1.1801).** The bias carries 99% of the
+  locality effect. The learned α will differentiate slowly via gradient pressure —
+  watch over hundreds of steps.
+- **Throughput dropped ~12%.** 905 → ~800 tok/s at steady state. HPE compute is
+  negligible (0.06% of attention). Root cause: 738 MB of duplicated log_dist caches
+  (11 copies of (4096,4096) matrix — all identical). Fix: share at model level.
+- **TD is broken post-restart.** 0 flips, 0 candidates. The checkpoint copy didn't
+  properly restore TD state (step counter reset to 1, warmup not satisfied).
+  Ternary refinement is paused. Must fix in next session.
+
+### Complexity context
+
+FullAttention is O(L²·d·H) per stride. At L=4096, d_head=160, H=8:
+- 11 FullAttention strides: 472B ops total (dominant cost)
+- 8 LinearAttention strides: 13.4B ops total
+- HPE overhead: 0.3B ops (0.06% — irrelevant to throughput)
 
 ## Verification
 

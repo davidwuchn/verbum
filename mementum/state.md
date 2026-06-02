@@ -55,37 +55,45 @@ save_every:     1000
 tmux:           main:2
 ```
 
-**Initial impact:** Loss jumped from 3.86 to 5.69 at restart (expected — HPE + q_norm changes attention distribution). Grad norms elevated (27.8 vs typical 5–8). Should recover within a few hundred steps as the model adapts to position encoding.
+**Initial impact:** Loss jumped from 3.86 to 5.69 at step 2000, recovered to ~3.7 by step 2040 (40 steps). Grad norms elevated initially (27.8) then settled (7–10). Measured α immediately jumped to ~1.18–1.27 (was 0.38) — the decay bias is working. Throughput dropped from 905 → ~800 tok/s (see below).
+
+**Known issues:**
+- **TD not running.** 0 flips, 0 candidates, T=0 since restart. The TD state didn't resume properly — the checkpoint copy reset the step counter. Needs investigation in session 180.
+- **Throughput ~12% lower** (800 vs 905 tok/s). HPE compute is negligible (0.06% of attention). Two causes: (1) MLX JIT recompilation warmup for new graph, (2) 738 MB extra memory from per-stride log_dist caches (11 copies of (4096, 4096) matrix). Should share one cache across all strides.
+- **log_dist cache duplicated 11×.** Each FullAttention instance caches its own (4096, 4096) log-distance matrix. All 11 are identical. Fix: share at TensorStatechart level. Saves 670 MB.
 
 ## Key session 179 findings
 
 - **v15 was missing ALL positional encoding in attention.** HPE, RoPE, q_norm, k_norm — none made it from v14 to v15.
 - **Measured α=0.38 means near-uniform attention.** The model averages over the entire context instead of focusing locally. This is the primary bottleneck for coherent generation.
+- **HPE immediately fixes α.** First eval after HPE addition: measured α=1.18–1.27 across all strides, with LINK strides slightly higher (1.24–1.27). The decay bias provides the right locality floor; Q/K learning can now refine per-head patterns on top of it.
 - **OV circuit geometry shows a 1D crystal.** COMPUTE→LINK separation on PC1 (52.5% variance). Progressive amplification: σ1 doubles from stride 5 to stride 15. The read-write circuit is already structurally differentiated despite no positional information.
 - **Embedding is 99.94% near-ternary after 2k steps.** The extracted topology is preserved.
-- **TD has flipped 5.81% of ternary positions.** ~37.7M of 648.8M plate params. Remarkably uniform across strides (5.3%–6.2%). TD candidates declining (123M→55M) — structure locking in.
+- **TD has flipped 5.81% of ternary positions** (pre-HPE). ~37.7M of 648.8M plate params. Remarkably uniform across strides (5.3%–6.2%). TD candidates were declining (123M→55M) — structure locking in. TD is currently broken post-restart (see issues above).
 - **3,575 new HPE params added** (11 log_alpha + 44 freq_scale + 3520 QK-norm weights). Negligible vs 415M total.
+- **Attention is O(L²) dominant.** 11 FullAttention strides at O(L²·d·H) = 472B ops per forward. 8 LinearAttention strides at O(L·d²·H) = 13.4B ops. Full is 35× the cost of linear at L=4096.
 
 ## Next steps
 
 ### IMMEDIATE (session 180)
 
-1. **Monitor HPE training dynamics** — Watch loss recovery from the 5.69 spike. How fast does it return to ~3.8? Does it break through to <3.0?
-2. **Check learned α at step 2500** — Do different strides start differentiating their decay? The first eval with HPE should show dramatic α changes.
-3. **Generate text at step 3000** — With positional encoding, should see qualitative improvement over the `ferferfer` pattern.
-4. **Rebuild student PCA basis** — The functional directions will shift with HPE. Rebuild at next checkpoint.
+1. **Fix TD resume** — TD is not running (0 flips since restart). The checkpoint copy likely reset the step counter or the TD state didn't load. Need to diagnose and fix before training progresses far without ternary refinement.
+2. **Share log_dist cache** — Move the (4096,4096) log-distance matrix to TensorStatechart level instead of per-stride. Saves 670 MB, may recover throughput to ~900 tok/s.
+3. **Generate text at step 2500+** — With HPE + q_norm, should see qualitative improvement over the `ferferfer` pattern.
+4. **Check α differentiation** — First eval (step 2000) showed all strides at learned_α≈1.18 (init) but measured α=1.18–1.27. Watch for per-stride divergence as training progresses.
 
 ### ONGOING
 
-5. **Compare v15-hpe-dolma vs v15-zeroed-dolma** — Same model, same data, but HPE vs no-HPE. Loss curves, α evolution, generation quality.
-6. **Manual fold decision** — When thermometer shows settled, fold and compare topology.
-7. **Trace weight scheduling** — Should trace_weight increase as NTP stabilizes?
+5. **Rebuild student PCA basis** — The functional directions will shift with HPE. Rebuild at next checkpoint.
+6. **Compare v15-hpe-dolma vs v15-zeroed-dolma** — Same model, same data, but HPE vs no-HPE. Loss curves, α evolution, generation quality.
+7. **Manual fold decision** — When thermometer shows settled, fold and compare topology. (TD must be running first.)
+8. **Trace weight scheduling** — Should trace_weight increase as NTP stabilizes?
 
 ### RESEARCH
 
-8. **Does HPE recover v14's universal α=1.18?** Or does full causal attention (vs strided windows) need a different decay constant?
-9. **HPE frequency scaling** — Do the crystal eigenplane pairs learn different freq_scale per stride?
-10. **Can we retrieve facts after training?** (carried from 175)
+9. **Does HPE recover v14's universal α=1.18?** First data point: measured α jumped to 1.18–1.27 immediately (dominated by the bias). The real question is whether the *learned* α diverges from init.
+10. **HPE frequency scaling** — Do the crystal eigenplane pairs learn different freq_scale per stride?
+11. **Can we retrieve facts after training?** (carried from 175)
 
 ## Key assets
 
