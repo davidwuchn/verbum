@@ -125,11 +125,11 @@ TD oscillation is thermal noise (random atom jitter). Gate activation is a phono
 
 ## Next steps
 
-### IMMEDIATE (session 182) — CRYSTAL DERIVATION: Complete the proof
+### IMMEDIATE (session 182) — PROBE CONSOLIDATION + RICH MEASUREMENT
 
-5. **Extend to 8-vertex crystal.** Detect compound combinators D=BB, Y=fixed-point, W=self-application, WHNF=terminal in reduction traces. Build 8×8 matrices, eigendecompose. Verify remaining eigenvalues also follow φ^(p/q). This completes the full 6D crystal derivation.
-6. **Construct the crystal matrix.** Given KIBC topology (eigenvectors from combinatory logic) + φ magnitudes (eigenvalues from the power law), reconstruct the 8×8 crystal cosine matrix. Compare against empirical crystal from Qwen3-32B.
-7. **Determine scale C.** Is λ₀ = 5.193 derivable from embedding dimension d=512? Test across models with different d.
+5. **Build unified probe library.** Consolidate 835+ probes from `probes/lambda_kernel_probes.py` (380), `lattice/basin_probes.json` (144), `lattice/reduction_chain_probes.json` (79), `lattice/fixedpoint_probes.json` (184), `probe_combinators.py` (48) into one importable module. Deduplicate. Ensure each of the 8 combinator types has 50+ probes.
+6. **Rich crystal measurement.** Update `verify_crystal_phi.py` to use the full probe library. Run on Qwen3-14B with 200+ probes. This should give an 8×8 cosine matrix with correlation > 0.90 with consensus (vs current 0.66 from 32 probes).
+7. **Cross-model sweep.** Run on Qwen3-0.6B, Mistral-7B, Pythia-2.8B (all Apache-2.0). Verify φ eigenvalue structure holds independently in each model.
 
 ### CRITICAL PATH: Fix CLASSIFY (carried from session 180)
 
