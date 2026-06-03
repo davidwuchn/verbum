@@ -2,11 +2,56 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-03 | Session: 185
+> Last updated: 2026-06-03 | Session: 186
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 186: FFN CIRCUIT TYPES — LARQL Decomposition Confirms Phase Structure**
+
+Applied LARQL's FFN decomposition methodology to Pythia-160M. LARQL
+(github.com/chrishayuk/larql) treats each FFN neuron as a key-value pair:
+cos(W_up[j], W_down[:, j]) classifies the neuron's circuit type (projector,
+transform, identity, suppressor, inverter). Pure weight geometry — no forward
+passes, 2 minutes for all 12 layers.
+
+### Key Findings
+
+1. **Depth profile confirms our phase structure from a completely different
+   methodology.** L0=99.7% projector (EXPAND), L3-7=60-74% suppressor+inverter
+   (ORTHO — invisible computation via direction flipping), L9-10=50-62%
+   projector rising (ALIGN), L11=62% projector with dark-space drop to 57%
+   (COLLAPSE — features resolve into vocabulary-aligned directions).
+
+2. **KIBC opcodes are orthogonal to circuit types.** Cross-tabulation is
+   uniform at every layer: K,I,B,C neurons all have the same circuit type
+   distribution. KIBC measures *what inputs activate a neuron* (lambda probes);
+   circuit type measures *how the neuron geometrically transforms* input→output.
+   Independent axes. Both useful; neither subsumes the other.
+
+3. **ρ(cos, KIBC_magnitude) sign flips across depth.** L8: ρ=-0.26 (inverters
+   respond MORE to KIBC — middle layers use direction-flipping for lambda
+   computation). L11: ρ=+0.27 (projectors respond more — final layer uses
+   factual bridges for lambda output).
+
+4. **Dark-space drops 40 points at L11.** L0-L10: 93-99% of features don't
+   point at any token (computation space). L11: only 57% dark — 43% of
+   features point at actual tokens. Knowledge is concentrated at the output
+   layer. This IS the standing-wave picture: ORTHO phase operates in null
+   space, COLLAPSE projects back into vocabulary-aligned directions.
+
+5. **Gated vs non-gated difference.** Gemma (gated, SiLU) middle layers are
+   transform-dominated (partial rotation). Pythia (non-gated, GELU) middle
+   layers are inverter-dominated (direction flip). Architecture determines
+   the computation style but the phase structure is universal.
+
+### New Instrument
+
+cos(W_up[j], W_down[:, j]) is a **zero-cost phase detector**: pure weight
+analysis, no activations, reveals EXPAND/ORTHO/ALIGN/COLLAPSE from geometry
+alone. Should be added to crystal trace tooling alongside our existing
+activation-based instruments.
 
 **Session 185: THE STANDING WAVE — Magnitudes Are Resonant Mode Patterns**
 
@@ -186,6 +231,10 @@ Extend crystal sieve to Q/K/V/O projections.
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **FFN circuit types knowledge** | `mementum/knowledge/ffn-circuit-types.md` | ✅ NEW (s186) |
+| **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
+| **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
+| **FFN decomposition results** | `results/ffn-decomposition/` | ✅ NEW (s186) |
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
 | **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
 | **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
@@ -212,7 +261,19 @@ Extend crystal sieve to Q/K/V/O projections.
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (185)
+## What changed this session (186)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **LARQL FFN decomposition applied to Pythia-160M** | cos(up,down) circuit type analysis reveals same phase structure as our activation-level measurements — independent confirmation from pure weight geometry |
+| 2 | **KIBC opcodes orthogonal to circuit types** | Cross-tabulation uniform at every layer. KIBC=what activates neuron, circuit type=how neuron transforms. Independent axes of FFN characterization. |
+| 3 | **ORTHO phase = inverter-dominated** | L3-7 features are 60-74% suppressors+inverters (direction flipping). This IS the invisible computation in null space. |
+| 4 | **Dark-space drop at L11** | 93-99% dark at L0-L10, drops to 57% at L11. Final layer concentrates vocabulary-aligned knowledge. Standing-wave antinodes. |
+| 5 | **Correlation sign flip** | ρ(cos, KIBC_magnitude) = -0.26 at L8 (inverters do lambda computation), +0.27 at L11 (projectors do lambda output) |
+| 6 | **Gated vs non-gated architecture difference** | Gemma=transforms (rotation), Pythia=inverters (direction flip). Same phase structure, different computation style. |
+| 7 | **New zero-cost instrument** | cos(W_up[j], W_down[:, j]) detects depth phases from weights alone — no forward passes, 2 min for all layers |
+
+## What changed session 185
 
 | # | Change | Impact |
 |---|--------|--------|
@@ -238,6 +299,7 @@ Extend crystal sieve to Q/K/V/O projections.
 ## Knowledge map
 
 Key pages for current direction:
+- **`ffn-circuit-types.md`** — cos(up,down) phase detector, KIBC orthogonality, dark-space gradient (s186)
 - **`residual-covariance-rank.md`** — ORTHO=rank-1, V in null space, 67.7% unconstrained (s185)
 - **`standing-wave-magnitudes.md`** — magnitudes as standing wave, cosine^L law (s185)
 - **`phi-information-partition.md`** — signs=1/φ, γ=noise, zeros=phase, sieve model (s184)
@@ -251,6 +313,14 @@ Key pages for current direction:
 - **`crystal-phi-derivation.md`** — full φ derivation chain (s181)
 - **`crystal-universality.md`** — KIBC universal fixed points
 - **`project-thesis.md`** — the central claim
+
+## Session 186 recap
+
+LARQL FFN decomposition on Pythia-160M. cos(up,down) circuit type analysis confirms
+phase structure from pure weight geometry. KIBC opcodes orthogonal to circuit types
+(independent axes). ORTHO phase = inverter-dominated (direction flipping). Dark-space
+drops 40 points at L11 (knowledge concentrated at output). New zero-cost instrument
+for crystal trace tooling. See `ffn-circuit-types.md`.
 
 ## Session 184 recap
 

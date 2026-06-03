@@ -1,0 +1,177 @@
+{
+  "0": {
+    "cross_tab": {
+      "K": {
+        "identity": 0,
+        "transform": 3,
+        "projector": 200,
+        "suppressor": 0,
+        "inverter": 0
+      },
+      "I": {
+        "identity": 0,
+        "transform": 3,
+        "projector": 1769,
+        "suppressor": 0,
+        "inverter": 0
+      },
+      "B": {
+        "identity": 0,
+        "transform": 0,
+        "projector": 348,
+        "suppressor": 0,
+        "inverter": 0
+      },
+      "C": {
+        "identity": 0,
+        "transform": 4,
+        "projector": 745,
+        "suppressor": 0,
+        "inverter": 0
+      }
+    },
+    "n_features": 3072,
+    "cos_profile_mag_rho": 0.0692,
+    "cos_purity_rho": 0.0903
+  },
+  "3": {
+    "cross_tab": {
+      "K": {
+        "identity": 0,
+        "transform": 27,
+        "projector": 159,
+        "suppressor": 284,
+        "inverter": 236
+      },
+      "I": {
+        "identity": 0,
+        "transform": 21,
+        "projector": 179,
+        "suppressor": 369,
+        "inverter": 284
+      },
+      "B": {
+        "identity": 0,
+        "transform": 25,
+        "projector": 162,
+        "suppressor": 250,
+        "inverter": 182
+      },
+      "C": {
+        "identity": 0,
+        "transform": 24,
+        "projector": 204,
+        "suppressor": 361,
+        "inverter": 305
+      }
+    },
+    "n_features": 3072,
+    "cos_profile_mag_rho": -0.1083,
+    "cos_purity_rho": 0.1772
+  },
+  "6": {
+    "cross_tab": {
+      "K": {
+        "identity": 2,
+        "transform": 89,
+        "projector": 208,
+        "suppressor": 292,
+        "inverter": 209
+      },
+      "I": {
+        "identity": 4,
+        "transform": 62,
+        "projector": 196,
+        "suppressor": 293,
+        "inverter": 205
+      },
+      "B": {
+        "identity": 7,
+        "transform": 84,
+        "projector": 193,
+        "suppressor": 310,
+        "inverter": 244
+      },
+      "C": {
+        "identity": 3,
+        "transform": 80,
+        "projector": 178,
+        "suppressor": 251,
+        "inverter": 162
+      }
+    },
+    "n_features": 3072,
+    "cos_profile_mag_rho": -0.0702,
+    "cos_purity_rho": 0.0704
+  },
+  "8": {
+    "cross_tab": {
+      "K": {
+        "identity": 3,
+        "transform": 142,
+        "projector": 335,
+        "suppressor": 284,
+        "inverter": 82
+      },
+      "I": {
+        "identity": 6,
+        "transform": 91,
+        "projector": 266,
+        "suppressor": 225,
+        "inverter": 66
+      },
+      "B": {
+        "identity": 4,
+        "transform": 105,
+        "projector": 320,
+        "suppressor": 300,
+        "inverter": 102
+      },
+      "C": {
+        "identity": 5,
+        "transform": 101,
+        "projector": 277,
+        "suppressor": 288,
+        "inverter": 70
+      }
+    },
+    "n_features": 3072,
+    "cos_profile_mag_rho": -0.2562,
+    "cos_purity_rho": 0.0047
+  },
+  "11": {
+    "cross_tab": {
+      "K": {
+        "identity": 0,
+        "transform": 18,
+        "projector": 288,
+        "suppressor": 155,
+        "inverter": 32
+      },
+      "I": {
+        "identity": 0,
+        "transform": 23,
+        "projector": 537,
+        "suppressor": 267,
+        "inverter": 14
+      },
+      "B": {
+        "identity": 1,
+        "transform": 20,
+        "projector": 594,
+        "suppressor": 328,
+        "inverter": 28
+      },
+      "C": {
+        "identity": 1,
+        "transform": 19,
+        "projector": 474,
+        "suppressor": 234,
+        "inverter": 39
+      }
+    },
+    "n_features": 3072,
+    "cos_profile_mag_rho": 0.2717,
+    "cos_purity_rho": -0.025
+  }
+}
