@@ -1,0 +1,546 @@
+========================================================================
+ROW NORM ↔ CRYSTAL EQUATION TEST
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers: [0, 1, 5, 10, 17, 25, 35]
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:10,  5.63it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:01, 193.90it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:01, 214.65it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 228.48it/s]Loading weights:  33%|███▎      | 133/399 [00:00<00:01, 251.48it/s]Loading weights:  42%|████▏     | 169/399 [00:00<00:00, 274.84it/s]Loading weights:  51%|█████     | 202/399 [00:00<00:00, 286.17it/s]Loading weights:  58%|█████▊    | 232/399 [00:00<00:00, 286.50it/s]Loading weights:  66%|██████▌   | 262/399 [00:01<00:00, 284.00it/s]Loading weights:  73%|███████▎  | 291/399 [00:01<00:00, 275.82it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 290.45it/s]Loading weights:  89%|████████▉ | 356/399 [00:01<00:00, 290.05it/s]Loading weights:  97%|█████████▋| 389/399 [00:01<00:00, 299.76it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 268.94it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loaded Qwen/Qwen3-8B
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: gate_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 12288×4096
+    True reconstruction cos: 0.896086
+    Row norm: mean=1.6233 std=0.1546 CV=0.0952
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.6148 (true mean = 1.6233)
+      Reconstruction cos: 0.866925 (gap: 0.029160)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.3157
+      SVD row_norm vs true row_norm cos: 0.982629
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000173
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=0.4811
+      Correlation(row_U²_sum, row_norm): ρ=0.8243 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0515 ± 0.0003 (true CV: 0.0952)
+      Sim reconstruction cos: 0.8979 ± 0.0001 (true: 0.8961)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.871568 (gap: 0.024517)
+      Method B (φ-geometric + true sort): cos=0.903347 (gap: -0.007261)
+      Method C (φ-geometric + random sort): cos=0.894612 ± 0.000465
+
+      SUMMARY for layer 0:
+        True gammas:          0.896086
+        φ-predicted + sort:    0.903347  (need sort order)
+        Constant γ (no sort):  0.871568  (need nothing)
+        Random sort φ-geom:    0.894612  (need nothing)
+        Gap (true - constant): 0.024517
+
+  Layer 1: 12288×4096
+    True reconstruction cos: 0.889110
+    Row norm: mean=1.0349 std=0.8852 CV=0.8554
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.3544 (true mean = 1.0349)
+      Reconstruction cos: 0.652289 (gap: 0.236822)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.4527
+      SVD row_norm vs true row_norm cos: 0.993100
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000222
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=1.2651
+      Correlation(row_U²_sum, row_norm): ρ=0.8687 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0673 ± 0.0004 (true CV: 0.8554)
+      Sim reconstruction cos: 0.6606 ± 0.0002 (true: 0.8891)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.651845 (gap: 0.237265)
+      Method B (φ-geometric + true sort): cos=0.696660 (gap: 0.192450)
+      Method C (φ-geometric + random sort): cos=0.620997 ± 0.000929
+
+      SUMMARY for layer 1:
+        True gammas:          0.889110
+        φ-predicted + sort:    0.696660  (need sort order)
+        Constant γ (no sort):  0.651845  (need nothing)
+        Random sort φ-geom:    0.620997  (need nothing)
+        Gap (true - constant): 0.237265
+
+  Layer 5: 12288×4096
+    True reconstruction cos: 0.885067
+    Row norm: mean=2.0942 std=0.3998 CV=0.1909
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.1080 (true mean = 2.0942)
+      Reconstruction cos: 0.899215 (gap: -0.014148)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.2900
+      SVD row_norm vs true row_norm cos: 0.988249
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000148
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=0.5843
+      Correlation(row_U²_sum, row_norm): ρ=0.9457 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0594 ± 0.0004 (true CV: 0.1909)
+      Sim reconstruction cos: 0.8819 ± 0.0002 (true: 0.8851)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.892566 (gap: -0.007499)
+      Method B (φ-geometric + true sort): cos=0.892828 (gap: -0.007761)
+      Method C (φ-geometric + random sort): cos=0.871685 ± 0.000350
+
+      SUMMARY for layer 5:
+        True gammas:          0.885067
+        φ-predicted + sort:    0.892828  (need sort order)
+        Constant γ (no sort):  0.892566  (need nothing)
+        Random sort φ-geom:    0.871685  (need nothing)
+        Gap (true - constant): -0.007499
+
+  Layer 10: 12288×4096
+    True reconstruction cos: 0.900428
+    Row norm: mean=1.8890 std=0.2777 CV=0.1470
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.8866 (true mean = 1.8890)
+      Reconstruction cos: 0.913430 (gap: -0.013001)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.2346
+      SVD row_norm vs true row_norm cos: 0.987290
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000147
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=0.5970
+      Correlation(row_U²_sum, row_norm): ρ=0.8762 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0584 ± 0.0006 (true CV: 0.1470)
+      Sim reconstruction cos: 0.8984 ± 0.0002 (true: 0.9004)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.915242 (gap: -0.014814)
+      Method B (φ-geometric + true sort): cos=0.897411 (gap: 0.003017)
+      Method C (φ-geometric + random sort): cos=0.881093 ± 0.000256
+
+      SUMMARY for layer 10:
+        True gammas:          0.900428
+        φ-predicted + sort:    0.897411  (need sort order)
+        Constant γ (no sort):  0.915242  (need nothing)
+        Random sort φ-geom:    0.881093  (need nothing)
+        Gap (true - constant): -0.014814
+
+  Layer 17: 12288×4096
+    True reconstruction cos: 0.893088
+    Row norm: mean=1.6744 std=0.2613 CV=0.1560
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.6765 (true mean = 1.6744)
+      Reconstruction cos: 0.872512 (gap: 0.020576)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.2223
+      SVD row_norm vs true row_norm cos: 0.989310
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000167
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=0.7218
+      Correlation(row_U²_sum, row_norm): ρ=0.7985 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0501 ± 0.0003 (true CV: 0.1560)
+      Sim reconstruction cos: 0.8862 ± 0.0003 (true: 0.8931)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.869191 (gap: 0.023897)
+      Method B (φ-geometric + true sort): cos=0.900195 (gap: -0.007107)
+      Method C (φ-geometric + random sort): cos=0.883381 ± 0.000446
+
+      SUMMARY for layer 17:
+        True gammas:          0.893088
+        φ-predicted + sort:    0.900195  (need sort order)
+        Constant γ (no sort):  0.869191  (need nothing)
+        Random sort φ-geom:    0.883381  (need nothing)
+        Gap (true - constant): 0.023897
+
+  Layer 25: 12288×4096
+    True reconstruction cos: 0.891601
+    Row norm: mean=1.7394 std=0.2058 CV=0.1183
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.7316 (true mean = 1.7394)
+      Reconstruction cos: 0.862568 (gap: 0.029033)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.4s
+      Energy captured: 0.1809
+      SVD row_norm vs true row_norm cos: 0.994496
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000132
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=0.4080
+      Correlation(row_U²_sum, row_norm): ρ=0.8153 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0516 ± 0.0002 (true CV: 0.1183)
+      Sim reconstruction cos: 0.9106 ± 0.0001 (true: 0.8916)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.865994 (gap: 0.025606)
+      Method B (φ-geometric + true sort): cos=0.898890 (gap: -0.007289)
+      Method C (φ-geometric + random sort): cos=0.886750 ± 0.000413
+
+      SUMMARY for layer 25:
+        True gammas:          0.891601
+        φ-predicted + sort:    0.898890  (need sort order)
+        Constant γ (no sort):  0.865994  (need nothing)
+        Random sort φ-geom:    0.886750  (need nothing)
+        Gap (true - constant): 0.025606
+
+  Layer 35: 12288×4096
+    True reconstruction cos: 0.893414
+    Row norm: mean=1.7279 std=0.2628 CV=0.1521
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.7280 (true mean = 1.7279)
+      Reconstruction cos: 0.860880 (gap: 0.032534)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1910
+      SVD row_norm vs true row_norm cos: 0.971957
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000081
+      Actual mean(U²) = 0.000081
+      Actual std(U²)  = 0.000244
+      Row U² sum: mean=0.0208 (expected=0.0208) CV=1.0502
+      Correlation(row_U²_sum, row_norm): ρ=0.7042 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0700 ± 0.0005 (true CV: 0.1521)
+      Sim reconstruction cos: 0.9067 ± 0.0002 (true: 0.8934)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.860234 (gap: 0.033180)
+      Method B (φ-geometric + true sort): cos=0.899596 (gap: -0.006182)
+      Method C (φ-geometric + random sort): cos=0.884949 ± 0.000441
+
+      SUMMARY for layer 35:
+        True gammas:          0.893414
+        φ-predicted + sort:    0.899596  (need sort order)
+        Constant γ (no sort):  0.860234  (need nothing)
+        Random sort φ-geom:    0.884949  (need nothing)
+        Gap (true - constant): 0.033180
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: down_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 4096×12288
+    True reconstruction cos: 0.879268
+    Row norm: mean=2.9159 std=0.3630 CV=0.1245
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.9073 (true mean = 2.9159)
+      Reconstruction cos: 0.875878 (gap: 0.003390)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1832
+      SVD row_norm vs true row_norm cos: 0.950578
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000946
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=1.1454
+      Correlation(row_U²_sum, row_norm): ρ=0.7786 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0495 ± 0.0003 (true CV: 0.1245)
+      Sim reconstruction cos: 0.9084 ± 0.0003 (true: 0.8793)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.880059 (gap: -0.000791)
+      Method B (φ-geometric + true sort): cos=0.884166 (gap: -0.004898)
+      Method C (φ-geometric + random sort): cos=0.878342 ± 0.000524
+
+      SUMMARY for layer 0:
+        True gammas:          0.879268
+        φ-predicted + sort:    0.884166  (need sort order)
+        Constant γ (no sort):  0.880059  (need nothing)
+        Random sort φ-geom:    0.878342  (need nothing)
+        Gap (true - constant): -0.000791
+
+  Layer 1: 4096×12288
+    True reconstruction cos: 0.697670
+    Row norm: mean=1.8378 std=0.3203 CV=0.1743
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 1.8508 (true mean = 1.8378)
+      Reconstruction cos: 0.709285 (gap: -0.011614)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.4s
+      Energy captured: 0.2667
+      SVD row_norm vs true row_norm cos: 0.971718
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000695
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.3587
+      Correlation(row_U²_sum, row_norm): ρ=0.6274 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.1135 ± 0.0014 (true CV: 0.1743)
+      Sim reconstruction cos: 0.7093 ± 0.0003 (true: 0.6977)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.686471 (gap: 0.011199)
+      Method B (φ-geometric + true sort): cos=0.691056 (gap: 0.006614)
+      Method C (φ-geometric + random sort): cos=0.687605 ± 0.000531
+
+      SUMMARY for layer 1:
+        True gammas:          0.697670
+        φ-predicted + sort:    0.691056  (need sort order)
+        Constant γ (no sort):  0.686471  (need nothing)
+        Random sort φ-geom:    0.687605  (need nothing)
+        Gap (true - constant): 0.011199
+
+  Layer 5: 4096×12288
+    True reconstruction cos: 0.909424
+    Row norm: mean=2.7196 std=0.2216 CV=0.0815
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.7003 (true mean = 2.7196)
+      Reconstruction cos: 0.930839 (gap: -0.021415)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1709
+      SVD row_norm vs true row_norm cos: 0.971405
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.001011
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.7233
+      Correlation(row_U²_sum, row_norm): ρ=0.4295 p=1.46e-183
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0478 ± 0.0005 (true CV: 0.0815)
+      Sim reconstruction cos: 0.8941 ± 0.0003 (true: 0.9094)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.935203 (gap: -0.025779)
+      Method B (φ-geometric + true sort): cos=0.894959 (gap: 0.014465)
+      Method C (φ-geometric + random sort): cos=0.890357 ± 0.000752
+
+      SUMMARY for layer 5:
+        True gammas:          0.909424
+        φ-predicted + sort:    0.894959  (need sort order)
+        Constant γ (no sort):  0.935203  (need nothing)
+        Random sort φ-geom:    0.890357  (need nothing)
+        Gap (true - constant): -0.025779
+
+  Layer 10: 4096×12288
+    True reconstruction cos: 0.871053
+    Row norm: mean=2.8885 std=0.2099 CV=0.0727
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.8666 (true mean = 2.8885)
+      Reconstruction cos: 0.870035 (gap: 0.001017)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1627
+      SVD row_norm vs true row_norm cos: 0.991494
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000671
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.2672
+      Correlation(row_U²_sum, row_norm): ρ=-0.1282 p=1.78e-16
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0450 ± 0.0003 (true CV: 0.0727)
+      Sim reconstruction cos: 0.9084 ± 0.0003 (true: 0.8711)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.875901 (gap: -0.004849)
+      Method B (φ-geometric + true sort): cos=0.884755 (gap: -0.013702)
+      Method C (φ-geometric + random sort): cos=0.881642 ± 0.000658
+
+      SUMMARY for layer 10:
+        True gammas:          0.871053
+        φ-predicted + sort:    0.884755  (need sort order)
+        Constant γ (no sort):  0.875901  (need nothing)
+        Random sort φ-geom:    0.881642  (need nothing)
+        Gap (true - constant): -0.004849
+
+  Layer 17: 4096×12288
+    True reconstruction cos: 0.873277
+    Row norm: mean=2.9148 std=0.2645 CV=0.0908
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.8958 (true mean = 2.9148)
+      Reconstruction cos: 0.874797 (gap: -0.001521)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1846
+      SVD row_norm vs true row_norm cos: 0.992725
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000738
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.2668
+      Correlation(row_U²_sum, row_norm): ρ=0.2699 p=2.67e-69
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0465 ± 0.0005 (true CV: 0.0908)
+      Sim reconstruction cos: 0.9071 ± 0.0004 (true: 0.8733)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.875726 (gap: -0.002449)
+      Method B (φ-geometric + true sort): cos=0.881767 (gap: -0.008491)
+      Method C (φ-geometric + random sort): cos=0.877889 ± 0.000646
+
+      SUMMARY for layer 17:
+        True gammas:          0.873277
+        φ-predicted + sort:    0.881767  (need sort order)
+        Constant γ (no sort):  0.875726  (need nothing)
+        Random sort φ-geom:    0.877889  (need nothing)
+        Gap (true - constant): -0.002449
+
+  Layer 25: 4096×12288
+    True reconstruction cos: 0.896299
+    Row norm: mean=3.0615 std=0.2287 CV=0.0747
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 3.0348 (true mean = 3.0615)
+      Reconstruction cos: 0.872018 (gap: 0.024280)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.4s
+      Energy captured: 0.1466
+      SVD row_norm vs true row_norm cos: 0.995665
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000667
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.2594
+      Correlation(row_U²_sum, row_norm): ρ=0.7695 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0441 ± 0.0004 (true CV: 0.0747)
+      Sim reconstruction cos: 0.9125 ± 0.0003 (true: 0.8963)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.872683 (gap: 0.023615)
+      Method B (φ-geometric + true sort): cos=0.886461 (gap: 0.009838)
+      Method C (φ-geometric + random sort): cos=0.883374 ± 0.000467
+
+      SUMMARY for layer 25:
+        True gammas:          0.896299
+        φ-predicted + sort:    0.886461  (need sort order)
+        Constant γ (no sort):  0.872683  (need nothing)
+        Random sort φ-geom:    0.883374  (need nothing)
+        Gap (true - constant): 0.023615
+
+  Layer 35: 4096×12288
+    True reconstruction cos: 0.895123
+    Row norm: mean=2.7653 std=0.1992 CV=0.0720
+
+    Exp 1 — Constant row norm (||W||_F/√m):
+      Predicted ||w|| = 2.7434 (true mean = 2.7653)
+      Reconstruction cos: 0.841117 (gap: 0.054007)
+
+    Exp 2 — SVD analysis:
+      SVD top-256 in 0.5s
+      Energy captured: 0.1570
+      SVD row_norm vs true row_norm cos: 0.982270
+
+    Exp 3 — U² distribution (is U random?):
+      E[U²] = 1/m = 0.000244
+      Actual mean(U²) = 0.000244
+      Actual std(U²)  = 0.000921
+      Row U² sum: mean=0.0625 (expected=0.0625) CV=0.5169
+      Correlation(row_U²_sum, row_norm): ρ=0.7261 p=0.00e+00
+
+    Exp 4 — Random U simulation:
+      Simulated CV: 0.0485 ± 0.0005 (true CV: 0.0720)
+      Sim reconstruction cos: 0.8747 ± 0.0003 (true: 0.8951)
+
+    Exp 5 — Crystal-only reconstruction (NO float weights):
+      Method A (constant γ = mean): cos=0.931222 (gap: -0.036099)
+      Method B (φ-geometric + true sort): cos=0.880835 (gap: 0.014289)
+      Method C (φ-geometric + random sort): cos=0.879571 ± 0.000895
+
+      SUMMARY for layer 35:
+        True gammas:          0.895123
+        φ-predicted + sort:    0.880835  (need sort order)
+        Constant γ (no sort):  0.931222  (need nothing)
+        Random sort φ-geom:    0.879571  (need nothing)
+        Gap (true - constant): -0.036099
+
+════════════════════════════════════════════════════════════════════════
+ANALYSIS: THE CIRCULARITY AND THE WAY OUT
+════════════════════════════════════════════════════════════════════════
+
+The chain:
+  1. γ_i = c · ||w_i||        (c universal per weight type)
+  2. ||w_i||² = Σ_k σ_k² · U_ik²
+  3. σ_k from crystal equation (known)
+  4. U_ik from per-layer rotation (unknown, random-like)
+
+The circularity: to get ||w_i|| we need U, and U is per-layer.
+
+But the DISTRIBUTION of ||w_i|| is determined by σ_k + random U.
+So we know the distribution but not the assignment.
+
+The question becomes: how much does the assignment matter?
+  - If constant γ gives cos ~0.89 and true gives ~0.90,
+    the assignment barely matters.
+  - If the gap is large, we need the assignment.
+
+════════════════════════════════════════════════════════════════════════
+DONE
+════════════════════════════════════════════════════════════════════════

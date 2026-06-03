@@ -1,0 +1,621 @@
+========================================================================
+THE NEGATIVE SPACE EXPERIMENT
+========================================================================
+Model: Qwen/Qwen3-8B
+φ = 1.618034, 1/φ = 0.618034, 1/φ² = 0.381966
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:24,  4.71it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:02, 127.76it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 152.15it/s]Loading weights:  20%|██        | 81/399 [00:00<00:01, 162.92it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 171.73it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 172.46it/s]Loading weights:  37%|███▋      | 147/399 [00:00<00:01, 185.53it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 192.32it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 186.30it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:01, 183.36it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 180.05it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 182.53it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 181.40it/s]Loading weights:  75%|███████▌  | 300/399 [00:01<00:00, 188.82it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 175.34it/s]Loading weights:  86%|████████▋ | 345/399 [00:02<00:00, 184.91it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 187.13it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 188.68it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.56it/s]
+Loaded Qwen/Qwen3-8B
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: gate_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.896086  (const γ: 0.871568)
+      Global magnitude:     cos=0.888650  (const γ: 0.870813)
+      Random zeros:         cos=0.641324  (const γ: 0.628388)
+      No zeros (pure sign): cos=0.776208  (const γ: 0.758989)
+      Error-based zeros:    cos=0.580450  (const γ: 0.577903)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.776208     0.758989   0.0172
+       0.050     0.800053     0.788685   0.0114
+       0.100     0.831407     0.836994  -0.0056
+       0.150     0.863258     0.884933  -0.0217
+       0.200     0.887157     0.916214  -0.0291
+       0.250     0.898208     0.904396  -0.0062
+       0.300     0.901603     0.933826  -0.0322
+       0.350     0.896086     0.871568   0.0245 ← current
+       0.382     0.892658     0.887003   0.0057 ← 1/φ²
+       0.400     0.893273     0.859265   0.0340
+       0.450     0.896663     0.887966   0.0087
+       0.500     0.902785     0.921895  -0.0191
+       0.550     0.907056     0.913709  -0.0067
+       0.600     0.896998     0.869346   0.0277
+       0.618     0.889612     0.874406   0.0152 ← 1/φ
+      Best (per-row γ):  rate=0.550 cos=0.907056
+      Best (constant γ): rate=0.300 cos=0.933826
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile       10.0%       0.96%            0.10
+       30- 40%ile       10.0%       1.95%            0.20
+       40- 50%ile       10.1%       3.44%            0.34
+       50- 60%ile        9.8%       5.37%            0.55
+       60- 70%ile       10.1%       8.53%            0.84
+       70- 80%ile        9.8%      12.69%            1.29
+       80- 90%ile       10.2%      20.88%            2.06
+       90- 95%ile        5.0%      15.93%            3.18
+       95- 99%ile        4.1%      20.13%            4.95
+       99-100%ile        1.0%       9.73%            9.64
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5024
+      Sign agrees with row mean (far zero):  0.5113
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 5: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.885067  (const γ: 0.892566)
+      Global magnitude:     cos=0.886630  (const γ: 0.890932)
+      Random zeros:         cos=0.637262  (const γ: 0.653467)
+      No zeros (pure sign): cos=0.788887  (const γ: 0.843810)
+      Error-based zeros:    cos=0.561418  (const γ: 0.564594)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.788887     0.843810  -0.0549
+       0.050     0.816506     0.744935   0.0716
+       0.100     0.839624     0.788544   0.0511
+       0.150     0.854823     0.810517   0.0443
+       0.200     0.868655     0.853129   0.0155
+       0.250     0.877795     0.895470  -0.0177
+       0.300     0.883843     0.918289  -0.0344
+       0.350     0.885067     0.892566  -0.0075 ← current
+       0.382     0.889430     0.903374  -0.0139 ← 1/φ²
+       0.400     0.892770     0.912467  -0.0197
+       0.450     0.902612     0.879573   0.0230
+       0.500     0.909064     0.904589   0.0045
+       0.550     0.905913     0.871062   0.0349
+       0.600     0.893719     0.897368  -0.0036
+       0.618     0.888467     0.895038  -0.0066 ← 1/φ
+      Best (per-row γ):  rate=0.500 cos=0.909064
+      Best (constant γ): rate=0.300 cos=0.918289
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.04%            0.00
+       10- 20%ile       10.0%       0.32%            0.03
+       20- 30%ile        9.9%       0.87%            0.09
+       30- 40%ile        9.8%       1.75%            0.18
+       40- 50%ile       10.2%       3.20%            0.31
+       50- 60%ile        9.9%       5.04%            0.51
+       60- 70%ile       10.0%       7.86%            0.79
+       70- 80%ile       10.0%      12.20%            1.22
+       80- 90%ile       10.0%      20.04%            2.00
+       90- 95%ile        5.1%      16.24%            3.20
+       95- 99%ile        4.0%      21.12%            5.24
+       99-100%ile        1.0%      11.31%           11.13
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5023
+      Sign agrees with row mean (far zero):  0.5115
+      Fraction |w| < γ/10: 0.0012
+      Fraction |w| < γ:    0.0116
+
+  Layer 10: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.900428  (const γ: 0.915242)
+      Global magnitude:     cos=0.898017  (const γ: 0.912782)
+      Random zeros:         cos=0.649426  (const γ: 0.669992)
+      No zeros (pure sign): cos=0.806662  (const γ: 0.834434)
+      Error-based zeros:    cos=0.569529  (const γ: 0.541711)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.806662     0.834434  -0.0278
+       0.050     0.830954     0.875969  -0.0450
+       0.100     0.848198     0.882447  -0.0342
+       0.150     0.860030     0.786485   0.0735
+       0.200     0.869598     0.826311   0.0433
+       0.250     0.878794     0.840946   0.0378
+       0.300     0.889887     0.877074   0.0128
+       0.350     0.900428     0.915242  -0.0148 ← current
+       0.382     0.904325     0.918699  -0.0144 ← 1/φ²
+       0.400     0.906121     0.932092  -0.0260
+       0.450     0.909161     0.887721   0.0214
+       0.500     0.907668     0.896382   0.0113
+       0.550     0.902911     0.902377   0.0005
+       0.600     0.894352     0.915520  -0.0212
+       0.618     0.889718     0.859966   0.0298 ← 1/φ
+      Best (per-row γ):  rate=0.450 cos=0.909161
+      Best (constant γ): rate=0.400 cos=0.932092
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.33%            0.03
+       20- 30%ile       10.0%       0.93%            0.09
+       30- 40%ile       10.1%       1.91%            0.19
+       40- 50%ile        9.8%       3.21%            0.33
+       50- 60%ile       10.2%       5.43%            0.53
+       60- 70%ile        9.9%       8.18%            0.82
+       70- 80%ile        9.8%      12.38%            1.26
+       80- 90%ile       10.2%      20.73%            2.03
+       90- 95%ile        5.0%      16.09%            3.20
+       95- 99%ile        4.0%      20.45%            5.09
+       99-100%ile        1.0%      10.31%           10.06
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5023
+      Sign agrees with row mean (far zero):  0.5115
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 17: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.893088  (const γ: 0.869191)
+      Global magnitude:     cos=0.885721  (const γ: 0.869697)
+      Random zeros:         cos=0.642655  (const γ: 0.607223)
+      No zeros (pure sign): cos=0.785805  (const γ: 0.747735)
+      Error-based zeros:    cos=0.564756  (const γ: 0.569325)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.785805     0.747735   0.0381
+       0.050     0.813534     0.796435   0.0171
+       0.100     0.838974     0.845127  -0.0062
+       0.150     0.859745     0.881542  -0.0218
+       0.200     0.873389     0.874909  -0.0015
+       0.250     0.881127     0.907093  -0.0260
+       0.300     0.886672     0.838097   0.0486
+       0.350     0.893088     0.869191   0.0239 ← current
+       0.382     0.897173     0.856683   0.0405 ← 1/φ²
+       0.400     0.899051     0.869419   0.0296
+       0.450     0.903878     0.899096   0.0048
+       0.500     0.904809     0.926117  -0.0213
+       0.550     0.899459     0.920461  -0.0210
+       0.600     0.891449     0.874839   0.0166
+       0.618     0.887611     0.859343   0.0283 ← 1/φ
+      Best (per-row γ):  rate=0.500 cos=0.904809
+      Best (constant γ): rate=0.500 cos=0.926117
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.33%            0.03
+       20- 30%ile       10.0%       0.91%            0.09
+       30- 40%ile        9.9%       1.83%            0.18
+       40- 50%ile       10.0%       3.20%            0.32
+       50- 60%ile        9.9%       5.12%            0.52
+       60- 70%ile       10.0%       8.04%            0.80
+       70- 80%ile        9.9%      12.31%            1.24
+       80- 90%ile       10.2%      20.48%            2.02
+       90- 95%ile        5.0%      16.10%            3.19
+       95- 99%ile        4.0%      20.67%            5.14
+       99-100%ile        1.0%      10.96%           10.72
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5022
+      Sign agrees with row mean (far zero):  0.5113
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0114
+
+  Layer 25: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.891601  (const γ: 0.865994)
+      Global magnitude:     cos=0.883475  (const γ: 0.863903)
+      Random zeros:         cos=0.642645  (const γ: 0.628465)
+      No zeros (pure sign): cos=0.789782  (const γ: 0.778021)
+      Error-based zeros:    cos=0.572571  (const γ: 0.541891)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.789782     0.778021   0.0118
+       0.050     0.821613     0.832654  -0.0110
+       0.100     0.850089     0.869441  -0.0194
+       0.150     0.870535     0.868571   0.0020
+       0.200     0.880560     0.904105  -0.0235
+       0.250     0.882201     0.826717   0.0555
+       0.300     0.884158     0.862305   0.0219
+       0.350     0.891601     0.865994   0.0256 ← current
+       0.382     0.896737     0.883346   0.0134 ← 1/φ²
+       0.400     0.900760     0.898689   0.0021
+       0.450     0.908053     0.928955  -0.0209
+       0.500     0.906695     0.930764  -0.0241
+       0.550     0.901165     0.877296   0.0239
+       0.600     0.892807     0.878387   0.0144
+       0.618     0.889265     0.889292  -0.0000 ← 1/φ
+      Best (per-row γ):  rate=0.450 cos=0.908053
+      Best (constant γ): rate=0.500 cos=0.930764
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile       10.0%       0.96%            0.10
+       30- 40%ile        9.9%       1.91%            0.19
+       40- 50%ile       10.1%       3.40%            0.34
+       50- 60%ile        9.8%       5.26%            0.54
+       60- 70%ile       10.2%       8.43%            0.83
+       70- 80%ile        9.9%      12.57%            1.27
+       80- 90%ile       10.1%      20.53%            2.04
+       90- 95%ile        5.1%      16.16%            3.18
+       95- 99%ile        4.0%      20.16%            5.02
+       99-100%ile        1.0%      10.23%           10.08
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5023
+      Sign agrees with row mean (far zero):  0.5114
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0112
+
+  Layer 35: 12288×4096
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.893414  (const γ: 0.860234)
+      Global magnitude:     cos=0.886264  (const γ: 0.859992)
+      Random zeros:         cos=0.645189  (const γ: 0.624875)
+      No zeros (pure sign): cos=0.792887  (const γ: 0.773194)
+      Error-based zeros:    cos=0.569352  (const γ: 0.536689)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.792887     0.773194   0.0197
+       0.050     0.824656     0.827699  -0.0030
+       0.100     0.851066     0.863952  -0.0129
+       0.150     0.868173     0.863259   0.0049
+       0.200     0.879896     0.898404  -0.0185
+       0.250     0.881633     0.821504   0.0601
+       0.300     0.884617     0.856625   0.0280
+       0.350     0.893414     0.860234   0.0332 ← current
+       0.382     0.899971     0.879290   0.0207 ← 1/φ²
+       0.400     0.904031     0.892431   0.0116
+       0.450     0.910529     0.924002  -0.0135
+       0.500     0.909491     0.924212  -0.0147
+       0.550     0.901206     0.870923   0.0303
+       0.600     0.892547     0.872498   0.0200
+       0.618     0.889081     0.882223   0.0069 ← 1/φ
+      Best (per-row γ):  rate=0.450 cos=0.910529
+      Best (constant γ): rate=0.500 cos=0.924212
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile        9.9%       0.93%            0.09
+       30- 40%ile       10.1%       1.93%            0.19
+       40- 50%ile       10.0%       3.34%            0.33
+       50- 60%ile        9.8%       5.24%            0.53
+       60- 70%ile       10.2%       8.39%            0.82
+       70- 80%ile       10.0%      12.74%            1.27
+       80- 90%ile       10.0%      20.44%            2.05
+       90- 95%ile        4.9%      15.68%            3.18
+       95- 99%ile        4.1%      20.41%            5.02
+       99-100%ile        1.0%      10.51%           10.35
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5025
+      Sign agrees with row mean (far zero):  0.5112
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: down_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.879268  (const γ: 0.880059)
+      Global magnitude:     cos=0.875013  (const γ: 0.878050)
+      Random zeros:         cos=0.634212  (const γ: 0.615004)
+      No zeros (pure sign): cos=0.776206  (const γ: 0.757081)
+      Error-based zeros:    cos=0.568430  (const γ: 0.582359)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.776206     0.757081   0.0191
+       0.050     0.816440     0.805589   0.0109
+       0.100     0.851907     0.855532  -0.0036
+       0.150     0.872190     0.892636  -0.0204
+       0.200     0.891235     0.886192   0.0050
+       0.250     0.882272     0.918457  -0.0362
+       0.300     0.875182     0.845554   0.0296
+       0.350     0.879268     0.880059  -0.0008 ← current
+       0.382     0.888047     0.865209   0.0228 ← 1/φ²
+       0.400     0.895480     0.871723   0.0238
+       0.450     0.913300     0.910456   0.0028
+       0.500     0.917121     0.909091   0.0080
+       0.550     0.896252     0.931627  -0.0354
+       0.600     0.886239     0.860043   0.0262
+       0.618     0.886270     0.869642   0.0166 ← 1/φ
+      Best (per-row γ):  rate=0.500 cos=0.917121
+      Best (constant γ): rate=0.550 cos=0.931627
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile       10.0%       0.95%            0.09
+       30- 40%ile        9.9%       1.90%            0.19
+       40- 50%ile        9.9%       3.26%            0.33
+       50- 60%ile       10.1%       5.38%            0.53
+       60- 70%ile       10.0%       8.25%            0.82
+       70- 80%ile        9.8%      12.41%            1.26
+       80- 90%ile       10.2%      20.58%            2.03
+       90- 95%ile        5.1%      16.22%            3.17
+       95- 99%ile        4.0%      20.09%            5.01
+       99-100%ile        1.0%      10.57%           10.28
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5014
+      Sign agrees with row mean (far zero):  0.5067
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 5: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.909424  (const γ: 0.935203)
+      Global magnitude:     cos=0.919208  (const γ: 0.934298)
+      Random zeros:         cos=0.628217  (const γ: 0.614844)
+      No zeros (pure sign): cos=0.754585  (const γ: 0.736590)
+      Error-based zeros:    cos=0.586003  (const γ: 0.597889)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.754585     0.736590   0.0180
+       0.050     0.786950     0.781879   0.0051
+       0.100     0.813492     0.809290   0.0042
+       0.150     0.857114     0.855446   0.0017
+       0.200     0.889672     0.901211  -0.0115
+       0.250     0.905687     0.928201  -0.0225
+       0.300     0.905587     0.909611  -0.0040
+       0.350     0.909424     0.935203  -0.0258 ← current
+       0.382     0.875764     0.868781   0.0070 ← 1/φ²
+       0.400     0.881938     0.885966  -0.0040
+       0.450     0.878631     0.866019   0.0126
+       0.500     0.893418     0.889466   0.0040
+       0.550     0.912959     0.914401  -0.0014
+       0.600     0.901827     0.900234   0.0016
+       0.618     0.894475     0.906924  -0.0124 ← 1/φ
+      Best (per-row γ):  rate=0.550 cos=0.912959
+      Best (constant γ): rate=0.350 cos=0.935203
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile       10.0%       0.95%            0.10
+       30- 40%ile        9.9%       1.91%            0.19
+       40- 50%ile       10.1%       3.37%            0.33
+       50- 60%ile        9.9%       5.35%            0.54
+       60- 70%ile       10.0%       8.30%            0.83
+       70- 80%ile       10.1%      12.87%            1.28
+       80- 90%ile        9.8%      20.02%            2.04
+       90- 95%ile        5.2%      16.25%            3.15
+       95- 99%ile        4.0%      19.75%            4.94
+       99-100%ile        1.0%      10.84%           10.40
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5014
+      Sign agrees with row mean (far zero):  0.5065
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0112
+
+  Layer 10: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.871053  (const γ: 0.875901)
+      Global magnitude:     cos=0.878028  (const γ: 0.875154)
+      Random zeros:         cos=0.628567  (const γ: 0.638895)
+      No zeros (pure sign): cos=0.772846  (const γ: 0.773326)
+      Error-based zeros:    cos=0.574135  (const γ: 0.579236)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.772846     0.773326  -0.0005
+       0.050     0.818134     0.799988   0.0181
+       0.100     0.859903     0.853109   0.0068
+       0.150     0.885598     0.885569   0.0000
+       0.200     0.892971     0.879762   0.0132
+       0.250     0.899352     0.911627  -0.0123
+       0.300     0.865659     0.842707   0.0230
+       0.350     0.871053     0.875901  -0.0048 ← current
+       0.382     0.880210     0.861183   0.0190 ← 1/φ²
+       0.400     0.889113     0.874141   0.0150
+       0.450     0.918241     0.903755   0.0145
+       0.500     0.922845     0.930798  -0.0080
+       0.550     0.888992     0.924856  -0.0359
+       0.600     0.879054     0.879386  -0.0003
+       0.618     0.881868     0.865114   0.0168 ← 1/φ
+      Best (per-row γ):  rate=0.500 cos=0.922845
+      Best (constant γ): rate=0.500 cos=0.930798
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile        9.9%       0.34%            0.03
+       20- 30%ile       10.0%       0.95%            0.09
+       30- 40%ile       10.0%       1.93%            0.19
+       40- 50%ile        9.9%       3.33%            0.34
+       50- 60%ile        9.9%       5.32%            0.54
+       60- 70%ile       10.1%       8.37%            0.83
+       70- 80%ile        9.9%      12.62%            1.28
+       80- 90%ile       10.2%      21.03%            2.06
+       90- 95%ile        5.0%      16.23%            3.22
+       95- 99%ile        4.0%      20.07%            5.03
+       99-100%ile        1.0%       9.76%            9.47
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5013
+      Sign agrees with row mean (far zero):  0.5064
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 17: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.873277  (const γ: 0.875726)
+      Global magnitude:     cos=0.868411  (const γ: 0.874904)
+      Random zeros:         cos=0.631079  (const γ: 0.610967)
+      No zeros (pure sign): cos=0.776673  (const γ: 0.752327)
+      Error-based zeros:    cos=0.564932  (const γ: 0.576806)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.776673     0.752327   0.0243
+       0.050     0.820934     0.800230   0.0207
+       0.100     0.858993     0.850327   0.0087
+       0.150     0.872080     0.886972  -0.0149
+       0.200     0.895786     0.881071   0.0147
+       0.250     0.869010     0.913226  -0.0442
+       0.300     0.869091     0.843976   0.0251
+       0.350     0.873277     0.875726  -0.0024 ← current
+       0.382     0.887008     0.863375   0.0236 ← 1/φ²
+       0.400     0.896648     0.876492   0.0202
+       0.450     0.916139     0.906781   0.0094
+       0.500     0.914082     0.934526  -0.0204
+       0.550     0.889244     0.929273  -0.0400
+       0.600     0.886908     0.884191   0.0027
+       0.618     0.889135     0.868765   0.0204 ← 1/φ
+      Best (per-row γ):  rate=0.450 cos=0.916139
+      Best (constant γ): rate=0.500 cos=0.934526
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.33%            0.03
+       20- 30%ile        9.9%       0.91%            0.09
+       30- 40%ile       10.0%       1.87%            0.19
+       40- 50%ile       10.1%       3.29%            0.33
+       50- 60%ile        9.8%       5.18%            0.53
+       60- 70%ile       10.2%       8.36%            0.82
+       70- 80%ile        9.9%      12.52%            1.27
+       80- 90%ile       10.0%      20.42%            2.04
+       90- 95%ile        5.1%      16.21%            3.20
+       95- 99%ile        4.1%      20.53%            5.06
+       99-100%ile        1.0%      10.34%            9.92
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5014
+      Sign agrees with row mean (far zero):  0.5066
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 25: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.896299  (const γ: 0.872683)
+      Global magnitude:     cos=0.886414  (const γ: 0.871755)
+      Random zeros:         cos=0.652773  (const γ: 0.637501)
+      No zeros (pure sign): cos=0.807782  (const γ: 0.790056)
+      Error-based zeros:    cos=0.565654  (const γ: 0.551273)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.807782     0.790056   0.0177
+       0.050     0.847149     0.842751   0.0044
+       0.100     0.862034     0.879920  -0.0179
+       0.150     0.891467     0.882841   0.0086
+       0.200     0.850824     0.919363  -0.0685
+       0.250     0.859865     0.837430   0.0224
+       0.300     0.866482     0.874105  -0.0076
+       0.350     0.896299     0.872683   0.0236 ← current
+       0.382     0.915281     0.899590   0.0157 ← 1/φ²
+       0.400     0.922365     0.912498   0.0099
+       0.450     0.930188     0.918796   0.0114
+       0.500     0.891550     0.946203  -0.0547
+       0.550     0.892637     0.891836   0.0008
+       0.600     0.905386     0.894818   0.0106
+       0.618     0.902736     0.900107   0.0026 ← 1/φ
+      Best (per-row γ):  rate=0.450 cos=0.930188
+      Best (constant γ): rate=0.500 cos=0.946203
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.05%            0.00
+       10- 20%ile       10.0%       0.34%            0.03
+       20- 30%ile       10.0%       0.95%            0.10
+       30- 40%ile        9.9%       1.91%            0.19
+       40- 50%ile       10.1%       3.40%            0.34
+       50- 60%ile        9.8%       5.33%            0.54
+       60- 70%ile       10.2%       8.51%            0.84
+       70- 80%ile       10.0%      12.90%            1.29
+       80- 90%ile       10.1%      20.92%            2.08
+       90- 95%ile        4.9%      15.87%            3.22
+       95- 99%ile        4.1%      20.23%            4.99
+       99-100%ile        1.0%       9.58%            9.34
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5013
+      Sign agrees with row mean (far zero):  0.5064
+      Fraction |w| < γ/10: 0.0011
+      Fraction |w| < γ:    0.0113
+
+  Layer 35: 4096×12288
+
+    Exp 1 — Zero mask quality (at 35% zero rate):
+      Per-row magnitude:    cos=0.895123  (const γ: 0.931222)
+      Global magnitude:     cos=0.900695  (const γ: 0.931668)
+      Random zeros:         cos=0.625807  (const γ: 0.607129)
+      No zeros (pure sign): cos=0.756952  (const γ: 0.727405)
+      Error-based zeros:    cos=0.567023  (const γ: 0.572476)
+
+    Exp 2 — Zero rate sweep:
+        rate   cos_perrow    cos_const        Δ
+       0.000     0.756952     0.727405   0.0295
+       0.050     0.772415     0.772201   0.0002
+       0.100     0.798803     0.799688  -0.0009
+       0.150     0.841065     0.845964  -0.0049
+       0.200     0.875696     0.874904   0.0008
+       0.250     0.893896     0.920349  -0.0265
+       0.300     0.894307     0.903572  -0.0093
+       0.350     0.895123     0.931222  -0.0361 ← current
+       0.382     0.869426     0.866398   0.0030 ← 1/φ²
+       0.400     0.873972     0.870727   0.0032
+       0.450     0.873140     0.864750   0.0084
+       0.500     0.889458     0.892680  -0.0032
+       0.550     0.909987     0.920104  -0.0101
+       0.600     0.900950     0.910608  -0.0097
+       0.618     0.883042     0.866158   0.0169 ← 1/φ
+      Best (per-row γ):  rate=0.550 cos=0.909987
+      Best (constant γ): rate=0.350 cos=0.931222
+
+    Exp 4 — Weight magnitude histogram (information density):
+            Bucket   %weights    %energy  energy/weight
+        0- 10%ile       10.0%       0.04%            0.00
+       10- 20%ile       10.0%       0.30%            0.03
+       20- 30%ile        9.9%       0.84%            0.09
+       30- 40%ile       10.1%       1.76%            0.17
+       40- 50%ile        9.9%       3.03%            0.31
+       50- 60%ile       10.1%       5.02%            0.50
+       60- 70%ile       10.0%       7.81%            0.78
+       70- 80%ile       10.0%      12.20%            1.22
+       80- 90%ile       10.0%      20.26%            2.02
+       90- 95%ile        5.0%      16.27%            3.24
+       95- 99%ile        4.0%      21.22%            5.25
+       99-100%ile        1.0%      11.22%           10.94
+
+    Exp 5 — Sign stability near zero:
+      Sign agrees with row mean (near zero): 0.5013
+      Sign agrees with row mean (far zero):  0.5065
+      Fraction |w| < γ/10: 0.0012
+      Fraction |w| < γ:    0.0117
+
+════════════════════════════════════════════════════════════════════════
+DONE
+════════════════════════════════════════════════════════════════════════

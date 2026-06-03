@@ -1,0 +1,672 @@
+========================================================================
+GAMMA φ-STRUCTURE EXPERIMENT
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers: [0, 1, 2, 3, 5, 10, 17, 25, 35]
+Weight types: ['gate_proj', 'down_proj']
+Zero rate: 0.35
+φ = 1.618034, 1/φ = 0.618034
+
+Loading model...
+  36 layers, hidden=4096, intermediate=12288
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:10,  5.63it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:02, 160.91it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:01, 185.14it/s]Loading weights:  22%|██▏       | 89/399 [00:00<00:01, 210.71it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 238.76it/s]Loading weights:  40%|███▉      | 158/399 [00:00<00:00, 243.98it/s]Loading weights:  48%|████▊     | 191/399 [00:00<00:00, 250.83it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 256.30it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 255.99it/s]Loading weights:  71%|███████   | 283/399 [00:01<00:00, 255.00it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 256.70it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 258.47it/s]Loading weights:  93%|█████████▎| 373/399 [00:01<00:00, 263.35it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 240.20it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Loaded
+
+────────────────────────────────────────────────────────────
+Weight type: gate_proj
+────────────────────────────────────────────────────────────
+
+  Layer 0: torch.Size([12288, 4096])
+    Gamma range: [0.0198, 0.0810]
+    Gamma mean:  0.0280 ± 0.0026
+    Gamma CV:    0.0930
+    Per-row cos: 0.8893 ± 0.0066
+    Fits:
+      φ-geometric: A=0.0318, α=0.5578, R²=0.745803
+      Exponential: A=0.0318, τ=3.7255, R²=0.745803
+      Power law:   A=0.0298, β=0.0670, R²=0.538628
+        β vs 1/φ: 0.5510
+        β vs φ:   1.5510
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0599', '0.0590', '0.0575', '0.0502', '0.0478', '0.0454']
+        Ratios:    ['1.0152', '1.0264', '1.1451', '1.0498', '1.0529', '1.0678']
+        Mean ratio: 1.0460 (φ=1.6180, dev=0.5720)
+
+  Layer 1: torch.Size([12288, 4096])
+    Gamma range: [0.0003, 0.0569]
+    Gamma mean:  0.0165 ± 0.0164
+    Gamma CV:    0.9977
+    Per-row cos: 0.6038 ± 0.2840
+    Fits:
+      φ-geometric: A=0.0964, α=11.4164, R²=0.305261
+      Exponential: A=0.0964, τ=0.1820, R²=0.305261
+      Power law:   A=0.0262, β=1.4446, R²=0.540468
+        β vs 1/φ: 0.8266
+        β vs φ:   0.1734
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0537', '0.0517', '0.0515', '0.0511', '0.0503', '0.0497']
+        Ratios:    ['1.0380', '1.0042', '1.0077', '1.0163', '1.0131', '1.0171']
+        Mean ratio: 1.8871 (φ=1.6180, dev=0.2690)
+
+  Layer 2: torch.Size([12288, 4096])
+    Gamma range: [0.0002, 0.0496]
+    Gamma mean:  0.0130 ± 0.0145
+    Gamma CV:    1.1189
+    Per-row cos: 0.5524 ± 0.3030
+    Fits:
+      φ-geometric: A=0.0790, α=12.5680, R²=0.450928
+      Exponential: A=0.0790, τ=0.1653, R²=0.450928
+      Power law:   A=0.0171, β=1.4960, R²=0.351753
+        β vs 1/φ: 0.8780
+        β vs φ:   0.1220
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0463', '0.0463', '0.0460', '0.0455', '0.0442', '0.0436']
+        Ratios:    ['1.0010', '1.0060', '1.0115', '1.0280', '1.0153', '1.0437']
+        Mean ratio: 2.0026 (φ=1.6180, dev=0.3845)
+
+  Layer 3: torch.Size([12288, 4096])
+    Gamma range: [0.0003, 0.0615]
+    Gamma mean:  0.0202 ± 0.0167
+    Gamma CV:    0.8283
+    Per-row cos: 0.6045 ± 0.3494
+    Fits:
+      φ-geometric: A=0.1557, α=13.3926, R²=-1.807181
+      Exponential: A=0.1557, τ=0.1552, R²=-1.807181
+      Power law:   A=0.0335, β=1.6863, R²=0.503587
+        β vs 1/φ: 1.0682
+        β vs φ:   0.0682
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0600', '0.0587', '0.0563', '0.0528', '0.0510', '0.0502']
+        Ratios:    ['1.0223', '1.0430', '1.0660', '1.0346', '1.0172', '1.0162']
+        Mean ratio: 5.2628 (φ=1.6180, dev=3.6448)
+
+  Layer 5: torch.Size([12288, 4096])
+    Gamma range: [0.0092, 0.0689]
+    Gamma mean:  0.0359 ± 0.0069
+    Gamma CV:    0.1916
+    Per-row cos: 0.8862 ± 0.0113
+    Fits:
+      φ-geometric: A=0.0492, α=1.3831, R²=0.957423
+      Exponential: A=0.0492, τ=1.5025, R²=0.957423
+      Power law:   A=0.0420, β=0.1749, R²=0.806499
+        β vs 1/φ: 0.4431
+        β vs φ:   1.4431
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0646', '0.0612', '0.0611', '0.0603', '0.0580', '0.0573']
+        Ratios:    ['1.0567', '1.0012', '1.0125', '1.0408', '1.0122', '1.0312']
+        Mean ratio: 1.0482 (φ=1.6180, dev=0.5699)
+
+  Layer 10: torch.Size([12288, 4096])
+    Gamma range: [0.0160, 0.0713]
+    Gamma mean:  0.0325 ± 0.0049
+    Gamma CV:    0.1508
+    Per-row cos: 0.8882 ± 0.0159
+    Fits:
+      φ-geometric: A=0.0410, α=1.0097, R²=0.891006
+      Exponential: A=0.0410, τ=2.0582, R²=0.891006
+      Power law:   A=0.0366, β=0.1305, R²=0.729781
+        β vs 1/φ: 0.4876
+        β vs φ:   1.4876
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0653', '0.0614', '0.0599', '0.0590', '0.0572', '0.0550']
+        Ratios:    ['1.0622', '1.0249', '1.0154', '1.0327', '1.0391', '1.0305']
+        Mean ratio: 1.0478 (φ=1.6180, dev=0.5702)
+
+  Layer 17: torch.Size([12288, 4096])
+    Gamma range: [0.0096, 0.0748]
+    Gamma mean:  0.0287 ± 0.0045
+    Gamma CV:    0.1579
+    Per-row cos: 0.8856 ± 0.0186
+    Fits:
+      φ-geometric: A=0.0363, α=1.0248, R²=0.809796
+      Exponential: A=0.0363, τ=2.0277, R²=0.809796
+      Power law:   A=0.0327, β=0.1420, R²=0.736263
+        β vs 1/φ: 0.4760
+        β vs φ:   1.4760
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0739', '0.0717', '0.0708', '0.0692', '0.0663', '0.0582']
+        Ratios:    ['1.0306', '1.0127', '1.0233', '1.0431', '1.1402', '1.0670']
+        Mean ratio: 1.0622 (φ=1.6180, dev=0.5559)
+
+  Layer 25: torch.Size([12288, 4096])
+    Gamma range: [0.0134, 0.0516]
+    Gamma mean:  0.0299 ± 0.0035
+    Gamma CV:    0.1174
+    Per-row cos: 0.8879 ± 0.0136
+    Fits:
+      φ-geometric: A=0.0357, α=0.7609, R²=0.833272
+      Exponential: A=0.0357, τ=2.7310, R²=0.833272
+      Power law:   A=0.0329, β=0.1015, R²=0.712478
+        β vs 1/φ: 0.5165
+        β vs φ:   1.5165
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0515', '0.0510', '0.0507', '0.0502', '0.0493', '0.0483']
+        Ratios:    ['1.0111', '1.0047', '1.0108', '1.0171', '1.0223', '1.0222']
+        Mean ratio: 1.0360 (φ=1.6180, dev=0.5820)
+
+  Layer 35: torch.Size([12288, 4096])
+    Gamma range: [0.0129, 0.0796]
+    Gamma mean:  0.0298 ± 0.0044
+    Gamma CV:    0.1485
+    Per-row cos: 0.8900 ± 0.0074
+    Fits:
+      φ-geometric: A=0.0368, α=0.9208, R²=0.755865
+      Exponential: A=0.0368, τ=2.2569, R²=0.755865
+      Power law:   A=0.0335, β=0.1276, R²=0.682851
+        β vs 1/φ: 0.4904
+        β vs φ:   1.4904
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0716', '0.0714', '0.0690', '0.0661', '0.0582', '0.0570']
+        Ratios:    ['1.0025', '1.0358', '1.0428', '1.1363', '1.0215', '1.0285']
+        Mean ratio: 1.0571 (φ=1.6180, dev=0.5609)
+
+────────────────────────────────────────────────────────────
+Weight type: down_proj
+────────────────────────────────────────────────────────────
+
+  Layer 0: torch.Size([4096, 12288])
+    Gamma range: [0.0133, 0.1118]
+    Gamma mean:  0.0289 ± 0.0034
+    Gamma CV:    0.1175
+    Per-row cos: 0.8875 ± 0.0096
+    Fits:
+      φ-geometric: A=0.0336, α=0.6551, R²=0.575905
+      Exponential: A=0.0336, τ=3.1724, R²=0.575905
+      Power law:   A=0.0319, β=0.1033, R²=0.651524
+        β vs 1/φ: 0.5147
+        β vs φ:   1.5147
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0449', '0.0445', '0.0444', '0.0442', '0.0440', '0.0432']
+        Ratios:    ['1.0096', '1.0011', '1.0045', '1.0067', '1.0166', '1.0185']
+        Mean ratio: 1.0287 (φ=1.6180, dev=0.5894)
+
+  Layer 1: torch.Size([4096, 12288])
+    Gamma range: [0.0079, 0.1690]
+    Gamma mean:  0.0144 ± 0.0031
+    Gamma CV:    0.2181
+    Per-row cos: 0.7003 ± 0.0326
+    Fits:
+      φ-geometric: A=0.0161, α=0.5051, R²=0.129229
+      Exponential: A=0.0161, τ=4.1141, R²=0.129229
+      Power law:   A=0.0153, β=0.0711, R²=0.109180
+        β vs 1/φ: 0.5469
+        β vs φ:   1.5469
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0617', '0.0503', '0.0501', '0.0448', '0.0349', '0.0322']
+        Ratios:    ['1.2266', '1.0042', '1.1162', '1.2841', '1.0840', '1.3484']
+        Mean ratio: 1.1013 (φ=1.6180, dev=0.5167)
+
+  Layer 2: torch.Size([4096, 12288])
+    Gamma range: [0.0107, 0.0826]
+    Gamma mean:  0.0137 ± 0.0022
+    Gamma CV:    0.1617
+    Per-row cos: 0.6781 ± 0.0316
+    Fits:
+      φ-geometric: A=0.0155, α=0.5336, R²=0.266654
+      Exponential: A=0.0155, τ=3.8942, R²=0.266654
+      Power law:   A=0.0145, β=0.0591, R²=0.156903
+        β vs 1/φ: 0.5589
+        β vs φ:   1.5589
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0515', '0.0407', '0.0401', '0.0394', '0.0369', '0.0327']
+        Ratios:    ['1.2662', '1.0156', '1.0173', '1.0670', '1.1303', '1.2890']
+        Mean ratio: 1.0923 (φ=1.6180, dev=0.5258)
+
+  Layer 3: torch.Size([4096, 12288])
+    Gamma range: [0.0096, 0.0594]
+    Gamma mean:  0.0180 ± 0.0012
+    Gamma CV:    0.0664
+    Per-row cos: 0.7629 ± 0.0162
+    Fits:
+      φ-geometric: A=0.0193, α=0.2986, R²=0.402626
+      Exponential: A=0.0193, τ=6.9587, R²=0.402626
+      Power law:   A=0.0188, β=0.0451, R²=0.417533
+        β vs 1/φ: 0.5729
+        β vs φ:   1.5729
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0322', '0.0313', '0.0259', '0.0244', '0.0226', '0.0223']
+        Ratios:    ['1.0304', '1.2069', '1.0628', '1.0778', '1.0146', '1.0182']
+        Mean ratio: 1.0388 (φ=1.6180, dev=0.5793)
+
+  Layer 5: torch.Size([4096, 12288])
+    Gamma range: [0.0101, 0.1010]
+    Gamma mean:  0.0269 ± 0.0019
+    Gamma CV:    0.0711
+    Per-row cos: 0.8843 ± 0.0201
+    Fits:
+      φ-geometric: A=0.0286, α=0.2683, R²=0.257375
+      Exponential: A=0.0286, τ=7.7457, R²=0.257375
+      Power law:   A=0.0282, β=0.0514, R²=0.386715
+        β vs 1/φ: 0.5667
+        β vs φ:   1.5667
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0377', '0.0350', '0.0341', '0.0333', '0.0325', '0.0316']
+        Ratios:    ['1.0754', '1.0288', '1.0240', '1.0235', '1.0294', '1.0103']
+        Mean ratio: 1.0217 (φ=1.6180, dev=0.5963)
+
+  Layer 10: torch.Size([4096, 12288])
+    Gamma range: [0.0136, 0.0602]
+    Gamma mean:  0.0286 ± 0.0024
+    Gamma CV:    0.0825
+    Per-row cos: 0.8847 ± 0.0163
+    Fits:
+      φ-geometric: A=0.0315, α=0.4138, R²=0.371501
+      Exponential: A=0.0315, τ=5.0214, R²=0.371501
+      Power law:   A=0.0311, β=0.0870, R²=0.760287
+        β vs 1/φ: 0.5310
+        β vs φ:   1.5310
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0324', '0.0304', '0.0303', '0.0302', '0.0302', '0.0302']
+        Ratios:    ['1.0665', '1.0023', '1.0030', '1.0004', '1.0003', '1.0018']
+        Mean ratio: 1.0067 (φ=1.6180, dev=0.6113)
+
+  Layer 17: torch.Size([4096, 12288])
+    Gamma range: [0.0117, 0.0839]
+    Gamma mean:  0.0288 ± 0.0028
+    Gamma CV:    0.0959
+    Per-row cos: 0.8828 ± 0.0140
+    Fits:
+      φ-geometric: A=0.0326, α=0.5339, R²=0.473196
+      Exponential: A=0.0326, τ=3.8924, R²=0.473196
+      Power law:   A=0.0318, β=0.1035, R²=0.803849
+        β vs 1/φ: 0.5145
+        β vs φ:   1.5145
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0492', '0.0313', '0.0313', '0.0312', '0.0312', '0.0312']
+        Ratios:    ['1.5708', '1.0001', '1.0014', '1.0008', '1.0014', '1.0025']
+        Mean ratio: 1.0401 (φ=1.6180, dev=0.5779)
+
+  Layer 25: torch.Size([4096, 12288])
+    Gamma range: [0.0125, 0.0587]
+    Gamma mean:  0.0304 ± 0.0026
+    Gamma CV:    0.0843
+    Per-row cos: 0.8859 ± 0.0150
+    Fits:
+      φ-geometric: A=0.0336, α=0.4441, R²=0.417576
+      Exponential: A=0.0336, τ=4.6791, R²=0.417576
+      Power law:   A=0.0331, β=0.0908, R²=0.803193
+        β vs 1/φ: 0.5272
+        β vs φ:   1.5272
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0548', '0.0347', '0.0341', '0.0330', '0.0326', '0.0325']
+        Ratios:    ['1.5762', '1.0201', '1.0306', '1.0147', '1.0032', '1.0042']
+        Mean ratio: 1.0432 (φ=1.6180, dev=0.5748)
+
+  Layer 35: torch.Size([4096, 12288])
+    Gamma range: [0.0196, 0.0693]
+    Gamma mean:  0.0270 ± 0.0014
+    Gamma CV:    0.0533
+    Per-row cos: 0.8750 ± 0.0124
+    Fits:
+      φ-geometric: A=0.0285, α=0.2290, R²=0.383218
+      Exponential: A=0.0285, τ=9.0761, R²=0.383218
+      Power law:   A=0.0278, β=0.0296, R²=0.309302
+        β vs 1/φ: 0.5885
+        β vs φ:   1.5885
+      Fibonacci sampling:
+        Positions: [1, 2, 3, 5, 8, 13]
+        Gammas:    ['0.0581', '0.0447', '0.0429', '0.0355', '0.0333', '0.0327']
+        Ratios:    ['1.3006', '1.0416', '1.2070', '1.0675', '1.0169', '1.0101']
+        Mean ratio: 1.0524 (φ=1.6180, dev=0.5656)
+
+========================================================================
+EXPERIMENT 2: CROSS-LAYER GAMMA CURVE SIMILARITY
+========================================================================
+Normalized gamma curves — are they the same shape across layers?
+Cosine=1.0 means identical shape. L2=0 means identical values.
+
+  gate_proj:
+    L0_vs_L1       : cos=0.839214  L2=0.299431
+    L0_vs_L10      : cos=0.997371  L2=0.172652
+    L0_vs_L17      : cos=0.995382  L2=0.163130
+    L0_vs_L2       : cos=0.808925  L2=0.290894
+    L0_vs_L25      : cos=0.993305  L2=0.303712
+    L0_vs_L3       : cos=0.875492  L2=0.309420
+    L0_vs_L35      : cos=0.996916  L2=0.123416
+    L0_vs_L5       : cos=0.989855  L2=0.325023
+    L10_vs_L17     : cos=0.997428  L2=0.024164
+    L10_vs_L25     : cos=0.996562  L2=0.133941
+    L10_vs_L35     : cos=0.997842  L2=0.052928
+    L17_vs_L25     : cos=0.999221  L2=0.141152
+    L17_vs_L35     : cos=0.999405  L2=0.040610
+    L1_vs_L10      : cos=0.842731  L2=0.221164
+    L1_vs_L17      : cos=0.811983  L2=0.239127
+    L1_vs_L2       : cos=0.978805  L2=0.083517
+    L1_vs_L25      : cos=0.805332  L2=0.266809
+    L1_vs_L3       : cos=0.923785  L2=0.163071
+    L1_vs_L35      : cos=0.814552  L2=0.245896
+    L1_vs_L5       : cos=0.836036  L2=0.254528
+    L25_vs_L35     : cos=0.998278  L2=0.180957
+    L2_vs_L10      : cos=0.810029  L2=0.229888
+    L2_vs_L17      : cos=0.776302  L2=0.247059
+    L2_vs_L25      : cos=0.769762  L2=0.286736
+    L2_vs_L3       : cos=0.893459  L2=0.190916
+    L2_vs_L35      : cos=0.779449  L2=0.249343
+    L2_vs_L5       : cos=0.799529  L2=0.278644
+    L3_vs_L10      : cos=0.885339  L2=0.207306
+    L3_vs_L17      : cos=0.862436  L2=0.224095
+    L3_vs_L25      : cos=0.855054  L2=0.233725
+    L3_vs_L35      : cos=0.862988  L2=0.238175
+    L3_vs_L5       : cos=0.893163  L2=0.208272
+    L5_vs_L10      : cos=0.995951  L2=0.154828
+    L5_vs_L17      : cos=0.995544  L2=0.164878
+    L5_vs_L25      : cos=0.995589  L2=0.047210
+    L5_vs_L35      : cos=0.993548  L2=0.204365
+
+  down_proj:
+    L0_vs_L1       : cos=0.947487  L2=0.121003
+    L0_vs_L10      : cos=0.991579  L2=0.165591
+    L0_vs_L17      : cos=0.993753  L2=0.080303
+    L0_vs_L2       : cos=0.886462  L2=0.118780
+    L0_vs_L25      : cos=0.991763  L2=0.229529
+    L0_vs_L3       : cos=0.995297  L2=0.018210
+    L0_vs_L35      : cos=0.995363  L2=0.018024
+    L0_vs_L5       : cos=0.991948  L2=0.032163
+    L10_vs_L17     : cos=0.999424  L2=0.086190
+    L10_vs_L25     : cos=0.999596  L2=0.065156
+    L10_vs_L35     : cos=0.985837  L2=0.176632
+    L17_vs_L25     : cos=0.999478  L2=0.150357
+    L17_vs_L35     : cos=0.989014  L2=0.091444
+    L1_vs_L10      : cos=0.918126  L2=0.284899
+    L1_vs_L17      : cos=0.926452  L2=0.199021
+    L1_vs_L2       : cos=0.960710  L2=0.015450
+    L1_vs_L25      : cos=0.918558  L2=0.349141
+    L1_vs_L3       : cos=0.944167  L2=0.129525
+    L1_vs_L35      : cos=0.953970  L2=0.110960
+    L1_vs_L5       : cos=0.934222  L2=0.145031
+    L25_vs_L35     : cos=0.987799  L2=0.240010
+    L2_vs_L10      : cos=0.830459  L2=0.283594
+    L2_vs_L17      : cos=0.841704  L2=0.197862
+    L2_vs_L25      : cos=0.832693  L2=0.347551
+    L2_vs_L3       : cos=0.869552  L2=0.128179
+    L2_vs_L35      : cos=0.893141  L2=0.108793
+    L2_vs_L5       : cos=0.848894  L2=0.144321
+    L3_vs_L10      : cos=0.992839  L2=0.157056
+    L3_vs_L17      : cos=0.994750  L2=0.071889
+    L3_vs_L25      : cos=0.994009  L2=0.220680
+    L3_vs_L35      : cos=0.997615  L2=0.021264
+    L3_vs_L5       : cos=0.998841  L2=0.017301
+    L5_vs_L10      : cos=0.994585  L2=0.141807
+    L5_vs_L17      : cos=0.995581  L2=0.057354
+    L5_vs_L25      : cos=0.995438  L2=0.205458
+    L5_vs_L35      : cos=0.993580  L2=0.038235
+
+========================================================================
+EXPERIMENT 3: φ-GEOMETRIC GAMMA PREDICTION
+========================================================================
+Predict gammas from rank order using φ-geometric model.
+Then reconstruct weights and compare cosine with true gammas.
+
+  gate_proj:
+    Layer  0: cos_true=0.896086  cos_pred=0.894078  gap=0.002008  γ_cos=0.998909
+    Layer  1: cos_true=0.889110  cos_pred=0.789811  gap=0.099300  γ_cos=0.886498
+    Layer  2: cos_true=0.885035  cos_pred=0.782123  gap=0.102912  γ_cos=0.880837
+    Layer  3: cos_true=0.893851  cos_pred=0.702556  gap=0.191295  γ_cos=0.784333
+    Layer  5: cos_true=0.885067  cos_pred=0.894554  gap=-0.009487  γ_cos=0.999246
+    Layer 10: cos_true=0.900428  cos_pred=0.898605  gap=0.001823  γ_cos=0.998788
+    Layer 17: cos_true=0.893088  cos_pred=0.899110  gap=-0.006022  γ_cos=0.997685
+    Layer 25: cos_true=0.891601  cos_pred=0.899004  gap=-0.007403  γ_cos=0.998867
+    Layer 35: cos_true=0.893414  cos_pred=0.900151  gap=-0.006737  γ_cos=0.997366
+
+  down_proj:
+    Layer  0: cos_true=0.879268  cos_pred=0.897142  gap=-0.017874  γ_cos=0.997108
+    Layer  1: cos_true=0.697670  cos_pred=0.694814  gap=0.002856  γ_cos=0.980049
+    Layer  2: cos_true=0.692309  cos_pred=0.680238  gap=0.012071  γ_cos=0.990630
+    Layer  3: cos_true=0.777660  cos_pred=0.781864  gap=-0.004205  γ_cos=0.998687
+    Layer  5: cos_true=0.909424  cos_pred=0.896214  gap=0.013210  γ_cos=0.998131
+    Layer 10: cos_true=0.871053  cos_pred=0.883927  gap=-0.012874  γ_cos=0.997874
+    Layer 17: cos_true=0.873277  cos_pred=0.888978  gap=-0.015701  γ_cos=0.997599
+    Layer 25: cos_true=0.896299  cos_pred=0.885487  gap=0.010812  γ_cos=0.997944
+    Layer 35: cos_true=0.895123  cos_pred=0.882839  gap=0.012284  γ_cos=0.999125
+
+========================================================================
+EXPERIMENT 4: CROSS-LAYER GAMMA TRANSFER
+========================================================================
+Use layer j's gamma DISTRIBUTION (sorted shape) with layer i's
+sort order. If the distribution is universal, this should work.
+
+  gate_proj:
+    L 0 signs + L 1 γ-dist: cos=0.681287  gap=0.214798  γ_cos=0.756680
+    L 0 signs + L 2 γ-dist: cos=0.645936  gap=0.250149  γ_cos=0.717983
+    L 0 signs + L 3 γ-dist: cos=0.730175  gap=0.165911  γ_cos=0.811032
+    L 0 signs + L 5 γ-dist: cos=0.881301  gap=0.014785  γ_cos=0.993395
+    L 0 signs + L10 γ-dist: cos=0.896353  gap=-0.000267  γ_cos=0.997995
+    L 0 signs + L17 γ-dist: cos=0.891965  gap=0.004121  γ_cos=0.997617
+    L 0 signs + L25 γ-dist: cos=0.890726  gap=0.005359  γ_cos=0.999419
+    L 0 signs + L35 γ-dist: cos=0.889510  gap=0.006575  γ_cos=0.998220
+    L 1 signs + L 0 γ-dist: cos=0.669481  gap=0.219629  γ_cos=0.756680
+    L 1 signs + L 2 γ-dist: cos=0.869572  gap=0.019539  γ_cos=0.979069
+    L 1 signs + L 3 γ-dist: cos=0.822256  gap=0.066855  γ_cos=0.925476
+    L 1 signs + L 5 γ-dist: cos=0.711526  gap=0.177584  γ_cos=0.813196
+    L 1 signs + L10 γ-dist: cos=0.699396  gap=0.189714  γ_cos=0.788789
+    L 1 signs + L17 γ-dist: cos=0.694613  gap=0.194497  γ_cos=0.786555
+    L 1 signs + L25 γ-dist: cos=0.677057  gap=0.212053  γ_cos=0.769833
+    L 1 signs + L35 γ-dist: cos=0.685308  gap=0.203802  γ_cos=0.778959
+    L 2 signs + L 0 γ-dist: cos=0.633353  gap=0.251682  γ_cos=0.717982
+    L 2 signs + L 1 γ-dist: cos=0.867687  gap=0.017348  γ_cos=0.979068
+    L 2 signs + L 3 γ-dist: cos=0.793304  gap=0.091731  γ_cos=0.895255
+    L 2 signs + L 5 γ-dist: cos=0.676074  gap=0.208962  γ_cos=0.774840
+    L 2 signs + L10 γ-dist: cos=0.663868  gap=0.221168  γ_cos=0.751185
+    L 2 signs + L17 γ-dist: cos=0.659036  gap=0.225999  γ_cos=0.748333
+    L 2 signs + L25 γ-dist: cos=0.641098  gap=0.243938  γ_cos=0.731066
+    L 2 signs + L35 γ-dist: cos=0.649323  gap=0.235713  γ_cos=0.740496
+    L 3 signs + L 0 γ-dist: cos=0.721840  gap=0.172011  γ_cos=0.811032
+    L 3 signs + L 1 γ-dist: cos=0.827512  gap=0.066339  γ_cos=0.925476
+    L 3 signs + L 2 γ-dist: cos=0.799814  gap=0.094037  γ_cos=0.895256
+    L 3 signs + L 5 γ-dist: cos=0.766265  gap=0.127586  γ_cos=0.870262
+    L 3 signs + L10 γ-dist: cos=0.749083  gap=0.144768  γ_cos=0.840320
+    L 3 signs + L17 γ-dist: cos=0.745768  gap=0.148083  γ_cos=0.839711
+    L 3 signs + L25 γ-dist: cos=0.729193  gap=0.164658  γ_cos=0.824141
+    L 3 signs + L35 γ-dist: cos=0.736492  gap=0.157359  γ_cos=0.832416
+    L 5 signs + L 0 γ-dist: cos=0.890122  gap=-0.005056  γ_cos=0.993396
+    L 5 signs + L 1 γ-dist: cos=0.731800  gap=0.153267  γ_cos=0.813197
+    L 5 signs + L 2 γ-dist: cos=0.696253  gap=0.188814  γ_cos=0.774840
+    L 5 signs + L 3 γ-dist: cos=0.782737  gap=0.102330  γ_cos=0.870262
+    L 5 signs + L10 γ-dist: cos=0.895345  gap=-0.010279  γ_cos=0.997888
+    L 5 signs + L17 γ-dist: cos=0.892128  gap=-0.007061  γ_cos=0.997283
+    L 5 signs + L25 γ-dist: cos=0.886251  gap=-0.001184  γ_cos=0.995889
+    L 5 signs + L35 γ-dist: cos=0.887018  gap=-0.001951  γ_cos=0.996295
+    L10 signs + L 0 γ-dist: cos=0.898102  gap=0.002326  γ_cos=0.997995
+    L10 signs + L 1 γ-dist: cos=0.712230  gap=0.188198  γ_cos=0.788789
+    L10 signs + L 2 γ-dist: cos=0.677252  gap=0.223176  γ_cos=0.751186
+    L10 signs + L 3 γ-dist: cos=0.758500  gap=0.141929  γ_cos=0.840320
+    L10 signs + L 5 γ-dist: cos=0.887124  gap=0.013305  γ_cos=0.997887
+    L10 signs + L17 γ-dist: cos=0.897024  gap=0.003404  γ_cos=0.999622
+    L10 signs + L25 γ-dist: cos=0.892404  gap=0.008025  γ_cos=0.999377
+    L10 signs + L35 γ-dist: cos=0.892498  gap=0.007931  γ_cos=0.999510
+    L17 signs + L 0 γ-dist: cos=0.893079  gap=0.000010  γ_cos=0.997617
+    L17 signs + L 1 γ-dist: cos=0.706427  gap=0.186662  γ_cos=0.786555
+    L17 signs + L 2 γ-dist: cos=0.671383  gap=0.221705  γ_cos=0.748333
+    L17 signs + L 3 γ-dist: cos=0.754087  gap=0.139002  γ_cos=0.839711
+    L17 signs + L 5 γ-dist: cos=0.882883  gap=0.010205  γ_cos=0.997283
+    L17 signs + L10 γ-dist: cos=0.895513  gap=-0.002424  γ_cos=0.999622
+    L17 signs + L25 γ-dist: cos=0.887800  gap=0.005289  γ_cos=0.999020
+    L17 signs + L35 γ-dist: cos=0.888910  gap=0.004179  γ_cos=0.999826
+    L25 signs + L 0 γ-dist: cos=0.896278  gap=-0.004678  γ_cos=0.999420
+    L25 signs + L 1 γ-dist: cos=0.693848  gap=0.197753  γ_cos=0.769833
+    L25 signs + L 2 γ-dist: cos=0.657464  gap=0.234137  γ_cos=0.731067
+    L25 signs + L 3 γ-dist: cos=0.742242  gap=0.149359  γ_cos=0.824142
+    L25 signs + L 5 γ-dist: cos=0.882843  gap=0.008758  γ_cos=0.995889
+    L25 signs + L10 γ-dist: cos=0.897942  gap=-0.006341  γ_cos=0.999377
+    L25 signs + L17 γ-dist: cos=0.893198  gap=-0.001598  γ_cos=0.999019
+    L25 signs + L35 γ-dist: cos=0.891101  gap=0.000500  γ_cos=0.999321
+    L35 signs + L 0 γ-dist: cos=0.897233  gap=-0.003819  γ_cos=0.998220
+    L35 signs + L 1 γ-dist: cos=0.702982  gap=0.190432  γ_cos=0.778959
+    L35 signs + L 2 γ-dist: cos=0.667303  gap=0.226111  γ_cos=0.740496
+    L35 signs + L 3 γ-dist: cos=0.750855  gap=0.142559  γ_cos=0.832415
+    L35 signs + L 5 γ-dist: cos=0.885130  gap=0.008284  γ_cos=0.996295
+    L35 signs + L10 γ-dist: cos=0.899022  gap=-0.005607  γ_cos=0.999510
+    L35 signs + L17 γ-dist: cos=0.895771  gap=-0.002357  γ_cos=0.999825
+    L35 signs + L25 γ-dist: cos=0.892636  gap=0.000778  γ_cos=0.999320
+
+  down_proj:
+    L 0 signs + L 1 γ-dist: cos=0.867986  gap=0.011282  γ_cos=0.988646
+    L 0 signs + L 2 γ-dist: cos=0.897126  gap=-0.017858  γ_cos=0.995097
+    L 0 signs + L 3 γ-dist: cos=0.906380  gap=-0.027112  γ_cos=0.998179
+    L 0 signs + L 5 γ-dist: cos=0.910237  gap=-0.030969  γ_cos=0.997906
+    L 0 signs + L10 γ-dist: cos=0.868366  gap=0.010902  γ_cos=0.997432
+    L 0 signs + L17 γ-dist: cos=0.873894  gap=0.005374  γ_cos=0.998189
+    L 0 signs + L25 γ-dist: cos=0.892184  gap=-0.012916  γ_cos=0.997605
+    L 0 signs + L35 γ-dist: cos=0.906834  gap=-0.027566  γ_cos=0.997295
+    L 1 signs + L 0 γ-dist: cos=0.691517  gap=0.006153  γ_cos=0.988647
+    L 1 signs + L 2 γ-dist: cos=0.714308  gap=-0.016638  γ_cos=0.995525
+    L 1 signs + L 3 γ-dist: cos=0.712395  gap=-0.014725  γ_cos=0.987118
+    L 1 signs + L 5 γ-dist: cos=0.715484  gap=-0.017814  γ_cos=0.986855
+    L 1 signs + L10 γ-dist: cos=0.679726  gap=0.017944  γ_cos=0.981250
+    L 1 signs + L17 γ-dist: cos=0.685676  gap=0.011995  γ_cos=0.983699
+    L 1 signs + L25 γ-dist: cos=0.698193  gap=-0.000522  γ_cos=0.981597
+    L 1 signs + L35 γ-dist: cos=0.712558  gap=-0.014888  γ_cos=0.985295
+    L 2 signs + L 0 γ-dist: cos=0.671398  gap=0.020911  γ_cos=0.995097
+    L 2 signs + L 1 γ-dist: cos=0.669624  gap=0.022685  γ_cos=0.995525
+    L 2 signs + L 3 γ-dist: cos=0.691451  gap=0.000858  γ_cos=0.994101
+    L 2 signs + L 5 γ-dist: cos=0.693685  gap=-0.001376  γ_cos=0.992837
+    L 2 signs + L10 γ-dist: cos=0.660652  gap=0.031657  γ_cos=0.988729
+    L 2 signs + L17 γ-dist: cos=0.665176  gap=0.027133  γ_cos=0.990112
+    L 2 signs + L25 γ-dist: cos=0.678821  gap=0.013488  γ_cos=0.989260
+    L 2 signs + L35 γ-dist: cos=0.692690  gap=-0.000381  γ_cos=0.993483
+    L 3 signs + L 0 γ-dist: cos=0.752393  gap=0.025267  γ_cos=0.998179
+    L 3 signs + L 1 γ-dist: cos=0.742830  gap=0.034830  γ_cos=0.987118
+    L 3 signs + L 2 γ-dist: cos=0.767322  gap=0.010338  γ_cos=0.994101
+    L 3 signs + L 5 γ-dist: cos=0.781313  gap=-0.003653  γ_cos=0.999763
+    L 3 signs + L10 γ-dist: cos=0.744965  gap=0.032695  γ_cos=0.998122
+    L 3 signs + L17 γ-dist: cos=0.749972  gap=0.027687  γ_cos=0.998141
+    L 3 signs + L25 γ-dist: cos=0.765029  gap=0.012631  γ_cos=0.998176
+    L 3 signs + L35 γ-dist: cos=0.779053  gap=-0.001394  γ_cos=0.999764
+    L 5 signs + L 0 γ-dist: cos=0.873561  gap=0.035864  γ_cos=0.997906
+    L 5 signs + L 1 γ-dist: cos=0.861976  gap=0.047448  γ_cos=0.986855
+    L 5 signs + L 2 γ-dist: cos=0.894136  gap=0.015288  γ_cos=0.992837
+    L 5 signs + L 3 γ-dist: cos=0.904338  gap=0.005086  γ_cos=0.999763
+    L 5 signs + L10 γ-dist: cos=0.864852  gap=0.044572  γ_cos=0.998451
+    L 5 signs + L17 γ-dist: cos=0.870781  gap=0.038643  γ_cos=0.998448
+    L 5 signs + L25 γ-dist: cos=0.889559  gap=0.019865  γ_cos=0.998381
+    L 5 signs + L35 γ-dist: cos=0.906141  gap=0.003283  γ_cos=0.999246
+    L10 signs + L 0 γ-dist: cos=0.875905  gap=-0.004853  γ_cos=0.997432
+    L10 signs + L 1 γ-dist: cos=0.859464  gap=0.011588  γ_cos=0.981250
+    L10 signs + L 2 γ-dist: cos=0.891374  gap=-0.020321  γ_cos=0.988729
+    L10 signs + L 3 γ-dist: cos=0.905155  gap=-0.034103  γ_cos=0.998122
+    L10 signs + L 5 γ-dist: cos=0.909807  gap=-0.038754  γ_cos=0.998451
+    L10 signs + L17 γ-dist: cos=0.875234  gap=-0.004182  γ_cos=0.999732
+    L10 signs + L25 γ-dist: cos=0.893821  gap=-0.022768  γ_cos=0.999902
+    L10 signs + L35 γ-dist: cos=0.907237  gap=-0.036184  γ_cos=0.997571
+    L17 signs + L 0 γ-dist: cos=0.874969  gap=-0.001692  γ_cos=0.998188
+    L17 signs + L 1 γ-dist: cos=0.860535  gap=0.012742  γ_cos=0.983698
+    L17 signs + L 2 γ-dist: cos=0.889791  gap=-0.016515  γ_cos=0.990112
+    L17 signs + L 3 γ-dist: cos=0.901969  gap=-0.028692  γ_cos=0.998141
+    L17 signs + L 5 γ-dist: cos=0.907135  gap=-0.033858  γ_cos=0.998448
+    L17 signs + L10 γ-dist: cos=0.867521  gap=0.005755  γ_cos=0.999732
+    L17 signs + L25 γ-dist: cos=0.891804  gap=-0.018528  γ_cos=0.999803
+    L17 signs + L35 γ-dist: cos=0.903436  gap=-0.030159  γ_cos=0.997341
+    L25 signs + L 0 γ-dist: cos=0.878704  gap=0.017594  γ_cos=0.997605
+    L25 signs + L 1 γ-dist: cos=0.863712  gap=0.032586  γ_cos=0.981597
+    L25 signs + L 2 γ-dist: cos=0.892300  gap=0.003998  γ_cos=0.989260
+    L25 signs + L 3 γ-dist: cos=0.907921  gap=-0.011622  γ_cos=0.998176
+    L25 signs + L 5 γ-dist: cos=0.910440  gap=-0.014142  γ_cos=0.998381
+    L25 signs + L10 γ-dist: cos=0.873072  gap=0.023227  γ_cos=0.999902
+    L25 signs + L17 γ-dist: cos=0.878049  gap=0.018249  γ_cos=0.999803
+    L25 signs + L35 γ-dist: cos=0.907865  gap=-0.011567  γ_cos=0.997697
+    L35 signs + L 0 γ-dist: cos=0.863586  gap=0.031537  γ_cos=0.997295
+    L35 signs + L 1 γ-dist: cos=0.851076  gap=0.044047  γ_cos=0.985295
+    L35 signs + L 2 γ-dist: cos=0.883415  gap=0.011708  γ_cos=0.993483
+    L35 signs + L 3 γ-dist: cos=0.893749  gap=0.001375  γ_cos=0.999764
+    L35 signs + L 5 γ-dist: cos=0.896597  gap=-0.001473  γ_cos=0.999246
+    L35 signs + L10 γ-dist: cos=0.855379  gap=0.039744  γ_cos=0.997571
+    L35 signs + L17 γ-dist: cos=0.860469  gap=0.034654  γ_cos=0.997341
+    L35 signs + L25 γ-dist: cos=0.879084  gap=0.016040  γ_cos=0.997698
+
+========================================================================
+EXPERIMENT 5: UNIVERSAL γ FROM CRYSTAL EQUATION
+========================================================================
+Fit ONE φ-geometric model across ALL layers (averaged params).
+Use this universal model to predict gammas for every layer.
+This is the 'can we derive magnitudes without float weights?' test.
+
+  gate_proj:
+    Universal params: α=4.7816±5.4529, A=0.0624±0.0391
+    α vs 1/φ=0.6180: dev=4.1635
+    α vs φ=1.6180: dev=3.1635
+    α vs 4/5=0.8000: dev=3.9816
+    α vs n/(n+1)·1/φ=0.4944: dev=4.2872
+    L 0 [universal_A     ]: cos=0.800392  gap=0.095693
+           [layer_mean_A    ]: cos=0.801356  gap=0.094730
+           [layer_median_A  ]: cos=0.800653  gap=0.095433
+    L 1 [universal_A     ]: cos=0.845321  gap=0.043789
+           [layer_mean_A    ]: cos=0.844523  gap=0.044588
+           [layer_median_A  ]: cos=0.846083  gap=0.043027
+    L 2 [universal_A     ]: cos=0.828917  gap=0.056118
+           [layer_mean_A    ]: cos=0.829685  gap=0.055350
+           [layer_median_A  ]: cos=0.829403  gap=0.055633
+    L 3 [universal_A     ]: cos=0.847922  gap=0.045929
+           [layer_mean_A    ]: cos=0.848188  gap=0.045663
+           [layer_median_A  ]: cos=0.848066  gap=0.045785
+    L 5 [universal_A     ]: cos=0.835093  gap=0.049974
+           [layer_mean_A    ]: cos=0.835572  gap=0.049495
+           [layer_median_A  ]: cos=0.835875  gap=0.049192
+    L10 [universal_A     ]: cos=0.826085  gap=0.074343
+           [layer_mean_A    ]: cos=0.825571  gap=0.074858
+           [layer_median_A  ]: cos=0.825976  gap=0.074452
+    L17 [universal_A     ]: cos=0.819867  gap=0.073221
+           [layer_mean_A    ]: cos=0.820408  gap=0.072680
+           [layer_median_A  ]: cos=0.820311  gap=0.072778
+    L25 [universal_A     ]: cos=0.811521  gap=0.080080
+           [layer_mean_A    ]: cos=0.811515  gap=0.080086
+           [layer_median_A  ]: cos=0.811352  gap=0.080249
+    L35 [universal_A     ]: cos=0.819517  gap=0.073898
+           [layer_mean_A    ]: cos=0.819672  gap=0.073742
+           [layer_median_A  ]: cos=0.819503  gap=0.073911
+
+  down_proj:
+    Universal params: α=0.4313±0.1342, A=0.0266±0.0071
+    α vs 1/φ=0.6180: dev=0.1868
+    α vs φ=1.6180: dev=1.1868
+    α vs 4/5=0.8000: dev=0.3687
+    α vs n/(n+1)·1/φ=0.4944: dev=0.0631
+    L 0 [universal_A     ]: cos=0.904170  gap=-0.024902
+           [layer_mean_A    ]: cos=0.900644  gap=-0.021376
+           [layer_median_A  ]: cos=0.899644  gap=-0.020376
+    L 1 [universal_A     ]: cos=0.707544  gap=-0.009874
+           [layer_mean_A    ]: cos=0.706212  gap=-0.008542
+           [layer_median_A  ]: cos=0.707656  gap=-0.009986
+    L 2 [universal_A     ]: cos=0.689263  gap=0.003046
+           [layer_mean_A    ]: cos=0.692176  gap=0.000133
+           [layer_median_A  ]: cos=0.690302  gap=0.002007
+    L 3 [universal_A     ]: cos=0.776293  gap=0.001367
+           [layer_mean_A    ]: cos=0.770244  gap=0.007415
+           [layer_median_A  ]: cos=0.769838  gap=0.007822
+    L 5 [universal_A     ]: cos=0.901585  gap=0.007839
+           [layer_mean_A    ]: cos=0.904353  gap=0.005071
+           [layer_median_A  ]: cos=0.904422  gap=0.005002
+    L10 [universal_A     ]: cos=0.903767  gap=-0.032715
+           [layer_mean_A    ]: cos=0.902897  gap=-0.031844
+           [layer_median_A  ]: cos=0.899773  gap=-0.028720
+    L17 [universal_A     ]: cos=0.902455  gap=-0.029178
+           [layer_mean_A    ]: cos=0.899731  gap=-0.026454
+           [layer_median_A  ]: cos=0.893957  gap=-0.020680
+    L25 [universal_A     ]: cos=0.907265  gap=-0.010967
+           [layer_mean_A    ]: cos=0.890899  gap=0.005400
+           [layer_median_A  ]: cos=0.888763  gap=0.007536
+    L35 [universal_A     ]: cos=0.893021  gap=0.002102
+           [layer_mean_A    ]: cos=0.897302  gap=-0.002179
+           [layer_median_A  ]: cos=0.895632  gap=-0.000509
+
+========================================================================
+DONE
+========================================================================

@@ -2,13 +2,53 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-02 | Session: 183
+> Last updated: 2026-06-03 | Session: 184
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 183: NAIVE TERNARIZATION FAILS — Compounding Error Kills Multi-Layer Extraction**
+**Session 184: THE φ-INFORMATION PARTITION — Magnitudes Are Noise, Zero Mask Is Everything**
+
+Ran 7 experiments probing the holographic structure of transformer weights. Found that
+the sign/magnitude decomposition follows φ at every level, that per-row gamma variation
+is noise (constant gamma works better), and that the zero mask (which weights to zero)
+carries the critical "holographic phase" information that nothing can predict without
+per-weight magnitudes from the teacher.
+
+### Key Discoveries
+
+1. **Eigenvectors completely independent across layers** — cross-layer reconstruction cos ≈ 0.000
+2. **Sign reconstruction gives 1/φ = 0.618** — the universal information baseline
+3. **γ = c · ‖w‖ where c is universal** — 0.0172 (gate/up), 0.0099 (down), CV < 2%
+4. **Constant gamma BEATS per-row gamma** — the variation is noise, not signal
+5. **Zero mask carries 0.25 cosine** — magnitude zeros (0.89) vs random zeros (0.64)
+6. **Optimal zero rate is ~50%** — not 35% as previously assumed
+7. **Nothing predicts the zero mask** — gate, activations, cross-layer, crystal all fail
+8. **Signs near zero are random** — 50.2% agreement, coin flip
+
+### Current Best Extraction: 2 bits/weight
+
+```
+Bit 1: sign (from crystal — FREE)
+Bit 2: zero mask (from teacher — need |w[i,j]| > row median)
+Scale: one constant per matrix (from crystal equation — FREE)
+Per-layer cosine: 0.87-0.93
+Full model: still compounds to garbage (need 0.99+)
+```
+
+### The Gap: 0.93 → 0.99
+
+The remaining information is NOT in:
+- Per-row gamma variation (proved: noise)
+- Activation-weighted importance (proved: ≈ random)
+- Gate-predicted zeros (proved: wrong positions)
+- Cross-layer eigenvectors (proved: independent)
+
+Untested directions:
+- **Zero mask in CRYSTAL space** (we only looked in weight space)
+- **Fractal collapse** — self-similar structure at zero-mask level
+- **VSM trace tooling** — instrument to project into crystal basis and trace computation
 
 Built the full end-to-end ternarization pipeline for Qwen3-8B. The complete recipe from session 182 (sign + per-row magnitude zeros + per-row gamma) was applied to ALL 36 layers. Result: **PPL 296,911 vs ~8 float16.** The model produces pure garbage (newlines, repeated characters, "fffff").
 
@@ -133,40 +173,56 @@ All derivations confirmed. 0.99999996 correlation with consensus crystal. The eq
 
 ## Next steps
 
-### IMMEDIATE (session 184) — CALIBRATION-BASED TERNARIZATION
+### IMMEDIATE (session 185) — BUILD VSM TRACE TOOLING
 
-The naive recipe fails at 0.88 cosine/layer. Need to reach 0.99+.
+The one-off experiment phase is over. We need an instrument.
 
-1. **GPTQ-style ternary** — The only approach not yet tested that could work without training. Optimizes ternary weights against calibration data using second-order (Hessian) information. Minimizes activation error, not weight error. Per-group scales didn't help (tested), per-weight quantization levels are what Q4 uses.
+1. **Build `src/verbum/crystal/` module** — The VSM tensor that reads any model:
+   - Model reader → crystal basis projection
+   - Forward-pass tracer → statechart state classification  
+   - Holographic metrics → interference patterns, self-similarity at every level
+   - Zero mask analysis IN CRYSTAL SPACE (untested — might reveal fractal structure)
 
-2. **Etch protocol (training-based)** — Freeze ternary signs (the crystal), train continuous parameters: per-row gammas, gate biases, layer norms, attention routing. GD adapts the model to compensate for ternary magnitude loss. Requires fixing CLASSIFY first.
+2. **Test zero mask in crystal basis** — We proved the zero mask is random in weight space.
+   But the crystal defines a different basis (the eigenvectors of the co-occurrence matrix).
+   Project the zero pattern into crystal space and look for structure. If the zero mask
+   IS structured in crystal space, we can derive it. This is the "fractal collapse" hypothesis.
 
-3. **Scratch ternary (Level 4)** — Train a ternary model from initialization guided by the crystal equation. Never sees float weights. Cleanest approach but most work.
+3. **Head classification** — Run KIBC probes on individual attention heads.
+   Measure purity (how much of each head is K vs I vs B vs C). If heads are
+   strongly typed → the VSM trace approach (replace attention with analytical
+   combinators + routing) becomes viable.
 
-### RESEARCH DIRECTION: Training-Based Ternarization
+### DEFERRED — Training-based paths (carried)
 
-The etch protocol (sessions 176-180) is the right framework:
-- **Phase 1: Initialize from teacher** — Sign extraction gives the topology
-- **Phase 2: Freeze topology, train scale** — GD learns per-row γ and attention weights to compensate
-- **Phase 3: Etch** — Zero dead neurons, fold sign flips
-- **Phase 4: Re-adapt** — GD adjusts to new topology
-
-This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
+- **Etch protocol** — Freeze ternary signs, train continuous params. Requires CLASSIFY fix.
+- **GPTQ-style binary mask optimization** — Much simpler than full GPTQ since we only
+  optimize a binary mask (which weights to zero), not continuous values.
+- **Scratch ternary (Level 4)** — Train from crystal initialization.
 
 ### CRITICAL PATH: Fix CLASSIFY (carried from session 180)
 
-1. **Port GatedLinearAttention from v14** — Replace placeholder LinearAttention in CLASSIFY/EMIT zones. #1 blocker for training.
-2. **Port embedding norm** — Add RMSNorm after embedding.
-3. **Harden NaN guard** — Check both `loss` AND `grad_norm` for NaN/Inf.
-4. **Restart mask training** — Once CLASSIFY is fixed, rerun with `--no-td --mask-training`.
+Still needed for training-based approaches:
+1. Port GatedLinearAttention from v14
+2. Port embedding norm (RMSNorm)
+3. Harden NaN guard
+4. Restart mask training
 
 ## Key assets
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| **Full ternarization pipeline** | `scripts/experiments/full_ternarize.py` | ✅ NEW (session 183) |
-| **Ternary diagnosis** | `scripts/experiments/diagnose_ternary.py` | ✅ NEW (session 183) |
-| **Compounding knowledge** | `mementum/knowledge/ternary-compounding.md` | ✅ NEW (session 183) |
+| **φ-information partition** | `mementum/knowledge/phi-information-partition.md` | ✅ NEW (session 184) |
+| **Eigenvector self-similarity** | `scripts/experiments/eigenvector_selfsimilarity.py` | ✅ NEW (session 184) |
+| **Gamma φ-structure** | `scripts/experiments/gamma_phi_structure.py` | ✅ NEW (session 184) |
+| **Gamma sort order** | `scripts/experiments/gamma_sort_order.py` | ✅ NEW (session 184) |
+| **Row norm ↔ crystal** | `scripts/experiments/row_norm_crystal.py` | ✅ NEW (session 184) |
+| **Negative space** | `scripts/experiments/negative_space.py` | ✅ NEW (session 184) |
+| **Gate zero predictor** | `scripts/experiments/gate_zero_predictor.py` | ✅ NEW (session 184) |
+| **Activation zero mask** | `scripts/experiments/activation_zero_mask.py` | ✅ NEW (session 184) |
+| **Full ternarization pipeline** | `scripts/experiments/full_ternarize.py` | ✅ (session 183) |
+| **Ternary diagnosis** | `scripts/experiments/diagnose_ternary.py` | ✅ (session 183) |
+| **Compounding knowledge** | `mementum/knowledge/ternary-compounding.md` | ✅ (session 183) |
 | Ternary dual equation | `mementum/knowledge/ternary-dual-equation.md` | ✅ (session 182) |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (session 181) |
 | Crystal derivation | `mementum/knowledge/crystal-phi-derivation.md` | ✅ (session 181) |
@@ -175,7 +231,23 @@ This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
 | v15 model | `scripts/v15/model.py` | ⚠️ Needs GatedLinearAttn |
 | v14 GatedLinearAttn | `scripts/v14/attention.py` | ✅ Reference for port |
 
-## What changed this session (183)
+## What changed this session (184)
+
+| Change | Impact |
+|--------|--------|
+| **Eigenvector independence** | Cross-layer reconstruction cos = 0.000 — rotations are per-layer fingerprints |
+| **1/φ information partition** | Sign reconstruction from any layer gives cos ≈ 0.618 = 1/φ |
+| **γ = c · ‖w‖ universal** | Per-row gamma is noise. One constant per weight type: 0.0172 (gate/up), 0.0099 (down) |
+| **Constant γ beats true γ** | The φ-geometric model is smoother and reconstructs better |
+| **Zero mask = holographic phase** | Carries 0.25 cosine of information. The negative space IS the signal |
+| **Optimal 50% zeros** | Not 35% — we've been under-zeroing |
+| **Gate zeros fail** | Gate doesn't predict up/down zeros. Per-weight ρ ≈ 0.02 |
+| **Activation importance fails** | E[gate·input] ≈ random for zero mask prediction |
+| **2-bit extraction recipe** | 1 bit sign (crystal) + 1 bit zero mask (teacher) + crystal scale |
+| **7 experiment scripts** | eigenvector, gamma_phi, gamma_sort, row_norm, negative_space, gate_predictor, activation_mask |
+| **φ-information-partition.md** | Knowledge page synthesizing all findings |
+
+## What changed session 183 (recap)
 
 | Change | Impact |
 |--------|--------|
@@ -201,7 +273,8 @@ This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
 ## Knowledge map
 
 Key pages for current direction:
-- **`ternary-compounding.md`** — **WHY 0.88 cosine/layer → garbage at 36 layers** (session 183, NEW)
+- **`phi-information-partition.md`** — **THE HOLOGRAPHIC DECOMPOSITION: signs=1/φ, γ=noise, zeros=phase** (session 184, NEW)
+- **`ternary-compounding.md`** — **WHY 0.88 cosine/layer → garbage at 36 layers** (session 183)
 - **`ternary-dual-equation.md`** — TWO EQUATIONS: gate zeros + crystal signs (session 182)
 - **`EQUATIONS.md`** — THE CRYSTAL EQUATION + Q4 connection (session 181)
 - **`crystal-phi-derivation.md`** — Full derivation chain (session 181)

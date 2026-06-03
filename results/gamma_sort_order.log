@@ -1,0 +1,316 @@
+========================================================================
+GAMMA SORT ORDER INSPECTION
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers: [0, 1, 5, 10, 17, 25, 35]
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:03,  6.27it/s]Loading weights:   7%|▋         | 26/399 [00:00<00:03, 121.32it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 142.93it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 156.25it/s]Loading weights:  22%|██▏       | 89/399 [00:00<00:01, 159.39it/s]Loading weights:  27%|██▋       | 109/399 [00:00<00:01, 170.40it/s]Loading weights:  32%|███▏      | 127/399 [00:00<00:01, 163.97it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 161.37it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:01, 174.00it/s]Loading weights:  46%|████▌     | 184/399 [00:01<00:01, 165.30it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 155.83it/s]Loading weights:  56%|█████▌    | 223/399 [00:01<00:01, 169.12it/s]Loading weights:  60%|██████    | 241/399 [00:01<00:00, 167.41it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 161.06it/s]Loading weights:  69%|██████▉   | 276/399 [00:01<00:00, 165.56it/s]Loading weights:  73%|███████▎  | 293/399 [00:01<00:00, 166.44it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 157.01it/s]Loading weights:  84%|████████▎ | 334/399 [00:02<00:00, 163.20it/s]Loading weights:  88%|████████▊ | 353/399 [00:02<00:00, 162.57it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 167.01it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 163.40it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loaded Qwen/Qwen3-8B (36 layers)
+
+========================================================================
+EXPERIMENT 1: RANK CORRELATION ACROSS LAYERS (same weight type)
+========================================================================
+Spearman ρ between gamma rank orderings at different layers.
+ρ=1.0: same rows always get big gammas. ρ=0: no correlation.
+
+  gate_proj:
+    (12288 rows)
+    L 0 vs L 1: ρ=0.0143  p=1.13e-01
+    L 0 vs L 5: ρ=-0.0005  p=9.59e-01
+    L 0 vs L10: ρ=-0.0144  p=1.11e-01
+    L 0 vs L17: ρ=0.0028  p=7.59e-01
+    L 0 vs L25: ρ=-0.0020  p=8.28e-01
+    L 0 vs L35: ρ=0.0016  p=8.56e-01
+    L 1 vs L 5: ρ=-0.0014  p=8.77e-01
+    L 1 vs L10: ρ=0.0089  p=3.23e-01
+    L 1 vs L17: ρ=-0.0096  p=2.88e-01
+    L 1 vs L25: ρ=-0.0034  p=7.07e-01
+    L 1 vs L35: ρ=0.0145  p=1.09e-01
+    L 5 vs L10: ρ=0.0224  p=1.32e-02
+    L 5 vs L17: ρ=0.0050  p=5.80e-01
+    L 5 vs L25: ρ=0.0045  p=6.15e-01
+    L 5 vs L35: ρ=-0.0030  p=7.40e-01
+    L10 vs L17: ρ=0.0025  p=7.84e-01
+    L10 vs L25: ρ=0.0088  p=3.28e-01
+    L10 vs L35: ρ=0.0042  p=6.39e-01
+    L17 vs L25: ρ=-0.0112  p=2.13e-01
+    L17 vs L35: ρ=0.0115  p=2.03e-01
+    L25 vs L35: ρ=0.0077  p=3.93e-01
+
+  up_proj:
+    (12288 rows)
+    L 0 vs L 1: ρ=0.0006  p=9.49e-01
+    L 0 vs L 5: ρ=-0.0057  p=5.25e-01
+    L 0 vs L10: ρ=-0.0037  p=6.83e-01
+    L 0 vs L17: ρ=-0.0093  p=3.04e-01
+    L 0 vs L25: ρ=-0.0079  p=3.79e-01
+    L 0 vs L35: ρ=0.0044  p=6.29e-01
+    L 1 vs L 5: ρ=-0.0010  p=9.13e-01
+    L 1 vs L10: ρ=-0.0036  p=6.86e-01
+    L 1 vs L17: ρ=0.0099  p=2.75e-01
+    L 1 vs L25: ρ=-0.0065  p=4.74e-01
+    L 1 vs L35: ρ=0.0197  p=2.89e-02
+    L 5 vs L10: ρ=0.0092  p=3.10e-01
+    L 5 vs L17: ρ=-0.0069  p=4.44e-01
+    L 5 vs L25: ρ=0.0045  p=6.17e-01
+    L 5 vs L35: ρ=-0.0062  p=4.94e-01
+    L10 vs L17: ρ=0.0112  p=2.14e-01
+    L10 vs L25: ρ=0.0055  p=5.44e-01
+    L10 vs L35: ρ=-0.0171  p=5.83e-02
+    L17 vs L25: ρ=-0.0018  p=8.42e-01
+    L17 vs L35: ρ=0.0054  p=5.52e-01
+    L25 vs L35: ρ=0.0065  p=4.68e-01
+
+  down_proj:
+    (4096 rows)
+    L 0 vs L 1: ρ=0.4527  p=3.53e-206
+    L 0 vs L 5: ρ=0.4477  p=4.03e-201
+    L 0 vs L10: ρ=0.1438  p=2.26e-20
+    L 0 vs L17: ρ=0.0579  p=2.08e-04
+    L 0 vs L25: ρ=-0.0728  p=3.14e-06
+    L 0 vs L35: ρ=0.1477  p=2.04e-21
+    L 1 vs L 5: ρ=0.3242  p=7.19e-101
+    L 1 vs L10: ρ=0.1304  p=5.31e-17
+    L 1 vs L17: ρ=0.0587  p=1.69e-04
+    L 1 vs L25: ρ=0.0953  p=1.00e-09
+    L 1 vs L35: ρ=0.0640  p=4.12e-05
+    L 5 vs L10: ρ=0.1985  p=1.14e-37
+    L 5 vs L17: ρ=0.0945  p=1.37e-09
+    L 5 vs L25: ρ=-0.0378  p=1.55e-02
+    L 5 vs L35: ρ=0.1327  p=1.49e-17
+    L10 vs L17: ρ=0.7984  p=0.00e+00
+    L10 vs L25: ρ=0.5396  p=2.60e-308
+    L10 vs L35: ρ=-0.3430  p=2.00e-113
+    L17 vs L25: ρ=0.4735  p=5.77e-228
+    L17 vs L35: ρ=-0.3766  p=3.54e-138
+    L25 vs L35: ρ=-0.3733  p=1.21e-135
+
+========================================================================
+EXPERIMENT 2: RANK CORRELATION ACROSS WEIGHT TYPES (same layer)
+========================================================================
+Does gate_proj row k having a big gamma predict up_proj row k?
+
+  Layer 0:
+    gate_proj  vs up_proj   : ρ=0.6944  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 1:
+    gate_proj  vs up_proj   : ρ=0.9182  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 5:
+    gate_proj  vs up_proj   : ρ=0.0896  p=2.55e-23
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 10:
+    gate_proj  vs up_proj   : ρ=0.6959  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 17:
+    gate_proj  vs up_proj   : ρ=0.3829  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 25:
+    gate_proj  vs up_proj   : ρ=0.6555  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+  Layer 35:
+    gate_proj  vs up_proj   : ρ=0.5527  p=0.00e+00
+    gate_proj  vs down_proj : SKIP (different row counts: 12288 vs 4096)
+    up_proj    vs down_proj : SKIP (different row counts: 12288 vs 4096)
+
+========================================================================
+EXPERIMENT 3: GAMMA vs ROW STRUCTURAL PROPERTIES
+========================================================================
+Spearman correlation between gamma and various row metrics.
+
+  gate_proj:
+     Layer        row_norm    row_mean_abs         row_std         row_max    row_kurtosis    row_sparsity  row_sign_balance       row_index
+    ──────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────
+    L   0          0.9955          0.9992          0.9955          0.5730          0.1081         -0.6310          0.0134         -0.0101
+    L   1          0.9959          0.9999          0.9959          0.6998         -0.8905         -0.9717         -0.2329         -0.0031
+    L   5          0.9984          0.9998          0.9984          0.6527          0.1736         -0.8792          0.0030         -0.0040
+    L  10          0.9961          0.9998          0.9961          0.5351         -0.3539         -0.8260          0.0036         -0.0001
+    L  17          0.9898          0.9997          0.9898          0.5762         -0.1921         -0.8178         -0.0046          0.0051
+    L  25          0.9951          0.9996          0.9951          0.5750         -0.0387         -0.7299          0.0098         -0.0126
+    L  35          0.9986          0.9996          0.9985          0.6735         -0.0336         -0.7712         -0.0147          0.0066
+
+  up_proj:
+     Layer        row_norm    row_mean_abs         row_std         row_max    row_kurtosis    row_sparsity  row_sign_balance       row_index
+    ──────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────
+    L   0          0.9943          0.9988          0.9943          0.5276          0.2071         -0.5098          0.0077         -0.0089
+    L   1          0.9995          1.0000          0.9995          0.9496          0.7792         -0.9827         -0.1013         -0.0034
+    L   5          0.9873          0.9979          0.9873          0.2759         -0.1623         -0.4719         -0.0157         -0.0033
+    L  10          0.9860          0.9975          0.9860          0.1654         -0.0817         -0.4096         -0.0159         -0.0031
+    L  17          0.9870          0.9992          0.9870          0.3626         -0.0911         -0.6147         -0.0115         -0.0081
+    L  25          0.9958          0.9991          0.9958          0.4328         -0.1022         -0.5800         -0.0038         -0.0053
+    L  35          0.9981          0.9992          0.9981          0.5475         -0.1821         -0.6769          0.0001          0.0036
+
+  down_proj:
+     Layer        row_norm    row_mean_abs         row_std         row_max    row_kurtosis    row_sparsity  row_sign_balance       row_index
+    ──────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────  ──────────────
+    L   0          0.9962          0.9994          0.9962          0.4827         -0.1265         -0.7574         -0.0331         -0.0037
+    L   1          0.7320          0.9736          0.7320          0.1611         -0.3407         -0.5154         -0.0106          0.0113
+    L   5          0.9797          0.9929          0.9797          0.1240         -0.0327         -0.3787          0.0256          0.0065
+    L  10          0.9877          0.9953          0.9877         -0.2935         -0.4339         -0.5062         -0.0011         -0.0067
+    L  17          0.9929          0.9987          0.9929         -0.1952         -0.4451         -0.6564          0.0042          0.0097
+    L  25          0.9885          0.9960          0.9885         -0.0973         -0.3607         -0.5229         -0.0208          0.0113
+    L  35          0.9548          0.9952          0.9548          0.1635         -0.1447         -0.4981          0.0173         -0.0006
+
+========================================================================
+EXPERIMENT 4: GAMMA ≈ f(ROW_NORM)? — THE DIRECT TEST
+========================================================================
+If gamma ∝ row_norm, then we can derive gamma from the
+weight matrix's row norms — which ARE computable from signs
++ the crystal equation (the eigenvalue spectrum determines
+the row norm distribution).
+
+  gate_proj:
+    Layer  0: R²=0.991904  slope=0.016753  intercept=0.000760
+    Layer  1: R²=0.999713  slope=0.018549  intercept=-0.002735
+    Layer  5: R²=0.997009  slope=0.017201  intercept=-0.000075
+    Layer 10: R²=0.988961  slope=0.017561  intercept=-0.000658
+    Layer 17: R²=0.981013  slope=0.017196  intercept=-0.000066
+    Layer 25: R²=0.981447  slope=0.016904  intercept=0.000507
+    Layer 35: R²=0.994972  slope=0.016776  intercept=0.000789
+
+  up_proj:
+    Layer  0: R²=0.985966  slope=0.016800  intercept=0.000669
+    Layer  1: R²=0.999851  slope=0.017318  intercept=-0.000157
+    Layer  5: R²=0.967084  slope=0.017269  intercept=-0.000100
+    Layer 10: R²=0.944179  slope=0.017613  intercept=-0.000709
+    Layer 17: R²=0.969263  slope=0.017332  intercept=-0.000302
+    Layer 25: R²=0.976081  slope=0.017688  intercept=-0.000839
+    Layer 35: R²=0.996747  slope=0.017410  intercept=-0.000322
+
+  down_proj:
+    Layer  0: R²=0.989395  slope=0.009319  intercept=0.001755
+    Layer  1: R²=0.945639  slope=0.009543  intercept=-0.003127
+    Layer  5: R²=0.897468  slope=0.008173  intercept=0.004651
+    Layer 10: R²=0.977676  slope=0.011121  intercept=-0.003520
+    Layer 17: R²=0.977158  slope=0.010320  intercept=-0.001286
+    Layer 25: R²=0.990295  slope=0.011137  intercept=-0.003737
+    Layer 35: R²=0.905616  slope=0.006889  intercept=0.007988
+
+========================================================================
+EXPERIMENT 5: GAMMA / ROW_NORM RATIO — IS IT CONSTANT?
+========================================================================
+If γ_i = c · ||w_i|| for some constant c, the ratio should
+be constant across rows and across layers.
+
+  gate_proj:
+    Layer  0: γ/||w|| = 0.017224 ± 0.000129  CV=0.0075
+    Layer  1: γ/||w|| = 0.011696 ± 0.005502  CV=0.4704
+    Layer  5: γ/||w|| = 0.017163 ± 0.000219  CV=0.0127
+    Layer 10: γ/||w|| = 0.017204 ± 0.000308  CV=0.0179
+    Layer 17: γ/||w|| = 0.017153 ± 0.000361  CV=0.0211
+    Layer 25: γ/||w|| = 0.017198 ± 0.000264  CV=0.0153
+    Layer 35: γ/||w|| = 0.017239 ± 0.000145  CV=0.0084
+    Cross-layer: mean=0.016411 ± 0.001925  CV=0.1173
+
+  up_proj:
+    Layer  0: γ/||w|| = 0.017238 ± 0.000119  CV=0.0069
+    Layer  1: γ/||w|| = 0.016439 ± 0.000734  CV=0.0447
+    Layer  5: γ/||w|| = 0.017205 ± 0.000163  CV=0.0095
+    Layer 10: γ/||w|| = 0.017187 ± 0.000214  CV=0.0125
+    Layer 17: γ/||w|| = 0.017155 ± 0.000251  CV=0.0147
+    Layer 25: γ/||w|| = 0.017215 ± 0.000213  CV=0.0123
+    Layer 35: γ/||w|| = 0.017228 ± 0.000123  CV=0.0071
+    Cross-layer: mean=0.017095 ± 0.000269  CV=0.0158
+
+  down_proj:
+    Layer  0: γ/||w|| = 0.009925 ± 0.000108  CV=0.0109
+    Layer  1: γ/||w|| = 0.007830 ± 0.000365  CV=0.0466
+    Layer  5: γ/||w|| = 0.009888 ± 0.000224  CV=0.0227
+    Layer 10: γ/||w|| = 0.009893 ± 0.000182  CV=0.0184
+    Layer 17: γ/||w|| = 0.009872 ± 0.000157  CV=0.0159
+    Layer 25: γ/||w|| = 0.009906 ± 0.000168  CV=0.0169
+    Layer 35: γ/||w|| = 0.009783 ± 0.000139  CV=0.0142
+    Cross-layer: mean=0.009585 ± 0.000718  CV=0.0749
+
+========================================================================
+EXPERIMENT 6: COMPLETE DERIVATION TEST
+========================================================================
+Given ONLY signs + row norms + universal γ/||w|| ratio:
+  1. Compute row norms from W
+  2. γ_predicted = (mean γ/||w||) · ||w_i||
+  3. Compare with true gamma
+
+  gate_proj:
+    Universal γ/||w|| ratio: 0.016411
+    Layer  0: γ_cos=0.999962  rank_ρ=0.9955
+    Layer  1: γ_cos=0.997002  rank_ρ=0.9959
+    Layer  5: γ_cos=0.999947  rank_ρ=0.9984
+    Layer 10: γ_cos=0.999873  rank_ρ=0.9961
+    Layer 17: γ_cos=0.999769  rank_ρ=0.9898
+    Layer 25: γ_cos=0.999872  rank_ρ=0.9951
+    Layer 35: γ_cos=0.999938  rank_ρ=0.9986
+
+  up_proj:
+    Universal γ/||w|| ratio: 0.017095
+    Layer  0: γ_cos=0.999974  rank_ρ=0.9943
+    Layer  1: γ_cos=0.999941  rank_ρ=0.9995
+    Layer  5: γ_cos=0.999955  rank_ρ=0.9873
+    Layer 10: γ_cos=0.999928  rank_ρ=0.9860
+    Layer 17: γ_cos=0.999899  rank_ρ=0.9870
+    Layer 25: γ_cos=0.999939  rank_ρ=0.9958
+    Layer 35: γ_cos=0.999978  rank_ρ=0.9981
+
+  down_proj:
+    Universal γ/||w|| ratio: 0.009585
+    Layer  0: γ_cos=0.999900  rank_ρ=0.9962
+    Layer  1: γ_cos=0.998102  rank_ρ=0.7320
+    Layer  5: γ_cos=0.999644  rank_ρ=0.9797
+    Layer 10: γ_cos=0.999885  rank_ρ=0.9877
+    Layer 17: γ_cos=0.999888  rank_ρ=0.9929
+    Layer 25: γ_cos=0.999924  rank_ρ=0.9885
+    Layer 35: γ_cos=0.999641  rank_ρ=0.9548
+
+========================================================================
+EXPERIMENT 7: ROW NORM FROM TERNARY — CAN WE ESTIMATE IT?
+========================================================================
+Row norm from float W requires float weights.
+But ||w|| ≈ γ · ||t|| where t is ternary. And ||t|| = sqrt(nnz).
+So the relationship is CIRCULAR unless row norms have structure.
+
+Alternative: does row INDEX predict gamma rank?
+(i.e., is there a positional pattern?)
+
+  gate_proj:
+    Layer  0: idx_ρ=-0.0101  autocorr=0.0004  half_ratio=1.0012
+    Layer  1: idx_ρ=-0.0031  autocorr=-0.0027  half_ratio=1.0117
+    Layer  5: idx_ρ=-0.0040  autocorr=-0.0028  half_ratio=1.0021
+    Layer 10: idx_ρ=-0.0001  autocorr=-0.0051  half_ratio=0.9988
+    Layer 17: idx_ρ=0.0051  autocorr=0.0066  half_ratio=0.9998
+    Layer 25: idx_ρ=-0.0126  autocorr=0.0052  half_ratio=1.0038
+    Layer 35: idx_ρ=0.0066  autocorr=-0.0178  half_ratio=0.9984
+
+  up_proj:
+    Layer  0: idx_ρ=-0.0089  autocorr=0.0097  half_ratio=1.0011
+    Layer  1: idx_ρ=-0.0034  autocorr=-0.0072  half_ratio=1.0111
+    Layer  5: idx_ρ=-0.0033  autocorr=0.0121  half_ratio=1.0000
+    Layer 10: idx_ρ=-0.0031  autocorr=-0.0079  half_ratio=1.0008
+    Layer 17: idx_ρ=-0.0081  autocorr=-0.0076  half_ratio=1.0006
+    Layer 25: idx_ρ=-0.0053  autocorr=0.0126  half_ratio=1.0020
+    Layer 35: idx_ρ=0.0036  autocorr=-0.0017  half_ratio=0.9999
+
+  down_proj:
+    Layer  0: idx_ρ=-0.0037  autocorr=-0.0304  half_ratio=1.0020
+    Layer  1: idx_ρ=0.0113  autocorr=0.0030  half_ratio=1.0048
+    Layer  5: idx_ρ=0.0065  autocorr=-0.0012  half_ratio=1.0011
+    Layer 10: idx_ρ=-0.0067  autocorr=-0.0148  half_ratio=1.0054
+    Layer 17: idx_ρ=0.0097  autocorr=-0.0132  half_ratio=1.0051
+    Layer 25: idx_ρ=0.0113  autocorr=-0.0343  half_ratio=1.0039
+    Layer 35: idx_ρ=-0.0006  autocorr=-0.0004  half_ratio=0.9981
+
+========================================================================
+DONE
+========================================================================

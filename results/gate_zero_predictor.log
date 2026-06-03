@@ -1,0 +1,386 @@
+========================================================================
+GATE AS ZERO-MASK PREDICTOR
+========================================================================
+Model: Qwen/Qwen3-8B
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:36,  2.55it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 121.94it/s]Loading weights:  18%|█▊        | 72/399 [00:00<00:02, 140.60it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:02, 150.77it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 155.25it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 162.74it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 170.87it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 171.00it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 171.29it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:01, 173.53it/s]Loading weights:  61%|██████    | 243/399 [00:01<00:00, 170.05it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 176.65it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 176.54it/s]Loading weights:  78%|███████▊  | 312/399 [00:02<00:00, 178.12it/s]Loading weights:  83%|████████▎ | 331/399 [00:02<00:00, 175.80it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 184.94it/s]Loading weights:  94%|█████████▍| 375/399 [00:02<00:00, 175.57it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 163.80it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loaded Qwen/Qwen3-8B
+
+════════════════════════════════════════════════════════════════════════
+LAYER 0: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.908157  cos_c=0.931717
+    up    magnitude zeros @50%: cos_pr=0.899198  cos_c=0.885120
+    up    random zeros @50%:      cos_pr=0.567281  cos_c=0.574128
+    down  magnitude zeros @35%: cos_pr=0.879268  cos_c=0.880059
+    down  magnitude zeros @50%: cos_pr=0.917121  cos_c=0.909091
+    down  random zeros @50%:      cos_pr=0.558819  cos_c=0.542016
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.7185  p=0.00e+00
+    gate_row_norm vs down_col_norm: ρ=0.3600  p=0.00e+00
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.708031  cos_c=0.692301
+    down   zero 25% neurons (gate-predicted): cos_pr=0.684664  cos_c=0.668341
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.660199  cos_c=0.669261
+    down   zero 35% neurons (gate-predicted): cos_pr=0.639684  cos_c=0.625927
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.584653  cos_c=0.586104
+    down   zero 50% neurons (gate-predicted): cos_pr=0.563494  cos_c=0.551955
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0462 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.657172  cos_c=0.632188
+    up_proj zeros from gate magnitude @50%: cos_pr=0.582347  cos_c=0.579727
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0315
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.643978  cos_c=0.627433
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.574129  cos_c=0.561941
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.657172  cos_c=0.632188
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.644279  cos_c=0.627503
+    up_proj gate_zeros + random→50.0%: cos_pr=0.576918  cos_c=0.571875
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.833208  cos_c=0.851163
+    up    combined(gate×self) zeros @50%: cos_pr=0.794766  cos_c=0.799383
+    up    gate-only zeros @35%:          cos_pr=0.657172  cos_c=0.632188
+    up    gate-only zeros @50%:          cos_pr=0.582347  cos_c=0.579727
+    down  combined(gate×self) zeros @35%: cos_pr=0.820012  cos_c=0.836070
+    down  combined(gate×self) zeros @50%: cos_pr=0.783763  cos_c=0.800288
+    down  gate-only zeros @35%:          cos_pr=0.643978  cos_c=0.627433
+    down  gate-only zeros @50%:          cos_pr=0.574129  cos_c=0.561941
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.675938
+    down_proj calibration-free: cos=0.638631
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.882401
+      + gate zeros @35%:              cos_c=0.632188  (+-0.2502)
+      + self magnitude zeros @50%:    cos_c=0.885120  (+0.0027)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.757081
+      + gate.T zeros @35%:            cos_c=0.627503  (+-0.1296)
+      + self magnitude zeros @50%:    cos_c=0.909091  (+0.1520)
+════════════════════════════════════════════════════════════════════════
+LAYER 5: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.896821  cos_c=0.941233
+    up    magnitude zeros @50%: cos_pr=0.903287  cos_c=0.894670
+    up    random zeros @50%:      cos_pr=0.566290  cos_c=0.560543
+    down  magnitude zeros @35%: cos_pr=0.909424  cos_c=0.935203
+    down  magnitude zeros @50%: cos_pr=0.893418  cos_c=0.889466
+    down  random zeros @50%:      cos_pr=0.560948  cos_c=0.556199
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.0737  p=2.74e-16
+    gate_row_norm vs down_col_norm: ρ=0.5039  p=0.00e+00
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.687913  cos_c=0.680570
+    down   zero 25% neurons (gate-predicted): cos_pr=0.676314  cos_c=0.667266
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.642060  cos_c=0.648742
+    down   zero 35% neurons (gate-predicted): cos_pr=0.643070  cos_c=0.637903
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.570891  cos_c=0.568534
+    down   zero 50% neurons (gate-predicted): cos_pr=0.581669  cos_c=0.583949
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0128 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.644381  cos_c=0.626390
+    up_proj zeros from gate magnitude @50%: cos_pr=0.572094  cos_c=0.570803
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0249
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.632151  cos_c=0.624734
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.571182  cos_c=0.572124
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.644381  cos_c=0.626390
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.630885  cos_c=0.622331
+    up_proj gate_zeros + random→50.0%: cos_pr=0.569571  cos_c=0.566328
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.827202  cos_c=0.856929
+    up    combined(gate×self) zeros @50%: cos_pr=0.790774  cos_c=0.803353
+    up    gate-only zeros @35%:          cos_pr=0.644381  cos_c=0.626390
+    up    gate-only zeros @50%:          cos_pr=0.572094  cos_c=0.570803
+    down  combined(gate×self) zeros @35%: cos_pr=0.838426  cos_c=0.851833
+    down  combined(gate×self) zeros @50%: cos_pr=0.787434  cos_c=0.798861
+    down  gate-only zeros @35%:          cos_pr=0.632151  cos_c=0.624734
+    down  gate-only zeros @50%:          cos_pr=0.571182  cos_c=0.572124
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.675926
+    down_proj calibration-free: cos=0.674145
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.741748
+      + gate zeros @35%:              cos_c=0.626390  (+-0.1154)
+      + self magnitude zeros @50%:    cos_c=0.894670  (+0.1529)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.736590
+      + gate.T zeros @35%:            cos_c=0.622331  (+-0.1143)
+      + self magnitude zeros @50%:    cos_c=0.889466  (+0.1529)
+════════════════════════════════════════════════════════════════════════
+LAYER 10: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.878191  cos_c=0.881766
+    up    magnitude zeros @50%: cos_pr=0.917966  cos_c=0.936439
+    up    random zeros @50%:      cos_pr=0.558503  cos_c=0.575747
+    down  magnitude zeros @35%: cos_pr=0.871053  cos_c=0.875901
+    down  magnitude zeros @50%: cos_pr=0.922845  cos_c=0.930798
+    down  random zeros @50%:      cos_pr=0.553933  cos_c=0.571912
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.6872  p=0.00e+00
+    gate_row_norm vs down_col_norm: ρ=0.7181  p=0.00e+00
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.682457  cos_c=0.704853
+    down   zero 25% neurons (gate-predicted): cos_pr=0.696574  cos_c=0.675134
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.640636  cos_c=0.629575
+    down   zero 35% neurons (gate-predicted): cos_pr=0.656235  cos_c=0.635240
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.568783  cos_c=0.564403
+    down   zero 50% neurons (gate-predicted): cos_pr=0.585349  cos_c=0.567657
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0234 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.635617  cos_c=0.622863
+    up_proj zeros from gate magnitude @50%: cos_pr=0.565197  cos_c=0.554895
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0372
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.641927  cos_c=0.629229
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.573807  cos_c=0.565018
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.635617  cos_c=0.622863
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.637822  cos_c=0.625200
+    up_proj gate_zeros + random→50.0%: cos_pr=0.561893  cos_c=0.548990
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.827125  cos_c=0.833947
+    up    combined(gate×self) zeros @50%: cos_pr=0.782766  cos_c=0.797637
+    up    gate-only zeros @35%:          cos_pr=0.635617  cos_c=0.622863
+    up    gate-only zeros @50%:          cos_pr=0.565197  cos_c=0.554895
+    down  combined(gate×self) zeros @35%: cos_pr=0.831200  cos_c=0.831355
+    down  combined(gate×self) zeros @50%: cos_pr=0.776429  cos_c=0.796305
+    down  gate-only zeros @35%:          cos_pr=0.641927  cos_c=0.629229
+    down  gate-only zeros @50%:          cos_pr=0.573807  cos_c=0.565018
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.634345
+    down_proj calibration-free: cos=0.634417
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.778203
+      + gate zeros @35%:              cos_c=0.622863  (+-0.1553)
+      + self magnitude zeros @50%:    cos_c=0.936439  (+0.1582)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.773326
+      + gate.T zeros @35%:            cos_c=0.625200  (+-0.1481)
+      + self magnitude zeros @50%:    cos_c=0.930798  (+0.1575)
+════════════════════════════════════════════════════════════════════════
+LAYER 17: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.886237  cos_c=0.857747
+    up    magnitude zeros @50%: cos_pr=0.906443  cos_c=0.928092
+    up    random zeros @50%:      cos_pr=0.561888  cos_c=0.550533
+    down  magnitude zeros @35%: cos_pr=0.873277  cos_c=0.875726
+    down  magnitude zeros @50%: cos_pr=0.914082  cos_c=0.934526
+    down  random zeros @50%:      cos_pr=0.555692  cos_c=0.538579
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.3563  p=0.00e+00
+    gate_row_norm vs down_col_norm: ρ=0.3160  p=4.11e-283
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.695570  cos_c=0.718898
+    down   zero 25% neurons (gate-predicted): cos_pr=0.696648  cos_c=0.673460
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.651455  cos_c=0.641880
+    down   zero 35% neurons (gate-predicted): cos_pr=0.652417  cos_c=0.631301
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.574878  cos_c=0.567270
+    down   zero 50% neurons (gate-predicted): cos_pr=0.575648  cos_c=0.558192
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0234 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.644911  cos_c=0.629691
+    up_proj zeros from gate magnitude @50%: cos_pr=0.570575  cos_c=0.559401
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0688
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.655503  cos_c=0.639903
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.590679  cos_c=0.575830
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.644911  cos_c=0.629691
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.652499  cos_c=0.637640
+    up_proj gate_zeros + random→50.0%: cos_pr=0.566782  cos_c=0.552798
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.816242  cos_c=0.850509
+    up    combined(gate×self) zeros @50%: cos_pr=0.786372  cos_c=0.766460
+    up    gate-only zeros @35%:          cos_pr=0.644911  cos_c=0.629691
+    up    gate-only zeros @50%:          cos_pr=0.570575  cos_c=0.559401
+    down  combined(gate×self) zeros @35%: cos_pr=0.811816  cos_c=0.837650
+    down  combined(gate×self) zeros @50%: cos_pr=0.782394  cos_c=0.805854
+    down  gate-only zeros @35%:          cos_pr=0.655503  cos_c=0.639903
+    down  gate-only zeros @50%:          cos_pr=0.590679  cos_c=0.575830
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.619400
+    down_proj calibration-free: cos=0.644662
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.771456
+      + gate zeros @35%:              cos_c=0.629691  (+-0.1418)
+      + self magnitude zeros @50%:    cos_c=0.928092  (+0.1566)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.752327
+      + gate.T zeros @35%:            cos_c=0.637640  (+-0.1147)
+      + self magnitude zeros @50%:    cos_c=0.934526  (+0.1822)
+════════════════════════════════════════════════════════════════════════
+LAYER 25: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.896292  cos_c=0.883631
+    up    magnitude zeros @50%: cos_pr=0.903961  cos_c=0.875996
+    up    random zeros @50%:      cos_pr=0.568661  cos_c=0.566106
+    down  magnitude zeros @35%: cos_pr=0.896299  cos_c=0.872683
+    down  magnitude zeros @50%: cos_pr=0.891550  cos_c=0.946203
+    down  random zeros @50%:      cos_pr=0.571883  cos_c=0.558887
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.6503  p=0.00e+00
+    gate_row_norm vs down_col_norm: ρ=0.5619  p=0.00e+00
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.717517  cos_c=0.740777
+    down   zero 25% neurons (gate-predicted): cos_pr=0.723481  cos_c=0.711360
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.672754  cos_c=0.637944
+    down   zero 35% neurons (gate-predicted): cos_pr=0.676662  cos_c=0.668154
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.594134  cos_c=0.598467
+    down   zero 50% neurons (gate-predicted): cos_pr=0.593952  cos_c=0.590048
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0169 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.652615  cos_c=0.652634
+    up_proj zeros from gate magnitude @50%: cos_pr=0.574619  cos_c=0.576327
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0331
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.663571  cos_c=0.652047
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.587505  cos_c=0.581152
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.652615  cos_c=0.652634
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.661781  cos_c=0.650147
+    up_proj gate_zeros + random→50.0%: cos_pr=0.571902  cos_c=0.572117
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.808164  cos_c=0.792465
+    up    combined(gate×self) zeros @50%: cos_pr=0.790878  cos_c=0.779899
+    up    gate-only zeros @35%:          cos_pr=0.652615  cos_c=0.652634
+    up    gate-only zeros @50%:          cos_pr=0.574619  cos_c=0.576327
+    down  combined(gate×self) zeros @35%: cos_pr=0.803473  cos_c=0.787767
+    down  combined(gate×self) zeros @50%: cos_pr=0.794709  cos_c=0.776426
+    down  gate-only zeros @35%:          cos_pr=0.663571  cos_c=0.652047
+    down  gate-only zeros @50%:          cos_pr=0.587505  cos_c=0.581152
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.633816
+    down_proj calibration-free: cos=0.634496
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.800575
+      + gate zeros @35%:              cos_c=0.652634  (+-0.1479)
+      + self magnitude zeros @50%:    cos_c=0.875996  (+0.0754)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.790056
+      + gate.T zeros @35%:            cos_c=0.650147  (+-0.1399)
+      + self magnitude zeros @50%:    cos_c=0.946203  (+0.1561)
+════════════════════════════════════════════════════════════════════════
+LAYER 35: gate/up=torch.Size([12288, 4096]), down=torch.Size([4096, 12288])
+════════════════════════════════════════════════════════════════════════
+
+  BASELINES:
+    up    magnitude zeros @35%: cos_pr=0.907650  cos_c=0.895775
+    up    magnitude zeros @50%: cos_pr=0.904975  cos_c=0.884416
+    up    random zeros @50%:      cos_pr=0.572071  cos_c=0.573018
+    down  magnitude zeros @35%: cos_pr=0.895123  cos_c=0.931222
+    down  magnitude zeros @50%: cos_pr=0.889458  cos_c=0.892680
+    down  random zeros @50%:      cos_pr=0.552965  cos_c=0.549199
+
+  EXP 1 — PER-NEURON: gate row norm → neuron importance
+    gate_row_norm vs up_row_norm:   ρ=0.5514  p=0.00e+00
+    gate_row_norm vs down_col_norm: ρ=0.2407  p=1.95e-161
+    up_proj zero 25% neurons (gate-predicted): cos_pr=0.728601  cos_c=0.761288
+    down   zero 25% neurons (gate-predicted): cos_pr=0.684346  cos_c=0.679540
+    up_proj zero 35% neurons (gate-predicted): cos_pr=0.680628  cos_c=0.651977
+    down   zero 35% neurons (gate-predicted): cos_pr=0.643445  cos_c=0.640423
+    up_proj zero 50% neurons (gate-predicted): cos_pr=0.598241  cos_c=0.597946
+    down   zero 50% neurons (gate-predicted): cos_pr=0.568619  cos_c=0.575197
+
+  EXP 2 — PER-WEIGHT: |gate[i,j]| predicts |up[i,j]| zero
+    |gate[i,j]| vs |up[i,j]|: ρ=0.0457 (sampled 500000)
+    up_proj zeros from gate magnitude @35%: cos_pr=0.664396  cos_c=0.667128
+    up_proj zeros from gate magnitude @50%: cos_pr=0.586533  cos_c=0.593900
+    |gate.T[j,i]| vs |down[j,i]|: ρ=0.0617
+    down_proj zeros from gate.T magnitude @35%: cos_pr=0.631209  cos_c=0.630313
+    down_proj zeros from gate.T magnitude @50%: cos_pr=0.573859  cos_c=0.574196
+
+  EXP 3 — TERNARY GATE → ZERO MASK (calibration-free)
+    Only uses sign(gate) and gate's own zero pattern.
+    up_proj zeros = gate zero positions (34.9%): cos_pr=0.664396  cos_c=0.667128
+    down_proj zeros = gate.T zero positions (34.9%): cos_pr=0.629141  cos_c=0.626508
+    up_proj gate_zeros + random→50.0%: cos_pr=0.580159  cos_c=0.582978
+
+  EXP 4 — GATE + SELF MAGNITUDE COMBINED
+    Use gate to predict zero mask, then refine with self magnitude.
+    up    combined(gate×self) zeros @35%: cos_pr=0.808576  cos_c=0.795412
+    up    combined(gate×self) zeros @50%: cos_pr=0.801112  cos_c=0.796942
+    up    gate-only zeros @35%:          cos_pr=0.664396  cos_c=0.667128
+    up    gate-only zeros @50%:          cos_pr=0.586533  cos_c=0.593900
+    down  combined(gate×self) zeros @35%: cos_pr=0.826934  cos_c=0.800897
+    down  combined(gate×self) zeros @50%: cos_pr=0.787102  cos_c=0.787483
+    down  gate-only zeros @35%:          cos_pr=0.631209  cos_c=0.630313
+    down  gate-only zeros @50%:          cos_pr=0.573859  cos_c=0.574196
+
+  EXP 5 — FULL CALIBRATION-FREE CHAIN
+    gate signs → gate zeros → up/down zero mask → constant γ → reconstruct
+    up_proj   calibration-free: cos=0.648679
+    down_proj calibration-free: cos=0.613802
+    (Using true ||W||_F. Crystal prediction of ||W||_F is next step.)
+
+  EXP 6 — COMPONENT ATTRIBUTION
+    UP_PROJ:
+      Pure sign (no zeros):           cos_c=0.811679
+      + gate zeros @35%:              cos_c=0.667128  (+-0.1446)
+      + self magnitude zeros @50%:    cos_c=0.884416  (+0.0727)
+    DOWN_PROJ:
+      Pure sign (no zeros):           cos_c=0.727405
+      + gate.T zeros @35%:            cos_c=0.626508  (+-0.1009)
+      + self magnitude zeros @50%:    cos_c=0.892680  (+0.1653)
+
+════════════════════════════════════════════════════════════════════════
+DONE
+════════════════════════════════════════════════════════════════════════
