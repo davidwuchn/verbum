@@ -239,6 +239,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | **Crystal circuit types results** | `results/crystal-circuit-types/` | ✅ NEW (s186) |
 | **Paired crystal sieve experiment** | `scripts/experiments/paired_crystal_sieve.py` | ✅ NEW (s186) |
 | **Paired crystal sieve results** | `results/paired-crystal-sieve/` | ✅ NEW (s186) |
+| **Synthetic crystal sieve experiment** | `scripts/experiments/synthetic_crystal_sieve.py` | ✅ NEW (s186) |
+| **Synthetic crystal sieve results** | `results/synthetic-crystal-sieve/` | ✅ NEW (s186) |
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
 | **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
 | **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
@@ -281,6 +283,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | 10 | **Per-neuron ρ > 0.98 at ORTHO layers** | Signs predict which individual neurons are projectors vs inverters with 98%+ fidelity at L2-L8. Magnitudes add precision, topology is in the signs. |
 | 11 | **Cross-matrix anti-correlation is load-bearing** | Decorrelating T_down (destroying phase structure while preserving per-matrix stats) degrades PPL from 511 to 1817. Decorrelated ≈ random (1817 vs 1952). The anti-correlation IS the signal. |
 | 12 | **Per-matrix signs alone are nearly worthless** | Without cross-matrix correlation, crystal signs give only 7% improvement over random (1817 vs 1952). With correlation, crystal gives 3.8× improvement over random. |
+| 13 | **Synthetic anti-correlation is WORSE than random** | Constructing T_down to hit the measured profile with random per-neuron signs → PPL 6464 (4× worse than random 1608). Forced anti-correlation creates destructive interference. |
+| 14 | **The crystal is per-neuron assignments, not aggregate statistics** | The anti-correlation profile is an emergent property of correct per-neuron signs, not a prescription. Knowing "62% should be inverters" ≠ knowing WHICH neurons should be inverters. |
+| 15 | **Universal curve beats extracted profile (when signs are random)** | Smooth parameterized curve → PPL 2734 vs exact per-layer values → PPL 6464. Less aggressive anti-correlation is less harmful when per-neuron assignments are wrong. |
 
 ## What changed session 185
 
@@ -325,11 +330,29 @@ Key pages for current direction:
 
 ## Session 186 recap
 
-LARQL FFN decomposition on Pythia-160M. cos(up,down) circuit type analysis confirms
-phase structure from pure weight geometry. KIBC opcodes orthogonal to circuit types
-(independent axes). ORTHO phase = inverter-dominated (direction flipping). Dark-space
-drops 40 points at L11 (knowledge concentrated at output). New zero-cost instrument
-for crystal trace tooling. See `ffn-circuit-types.md`.
+LARQL FFN decomposition on Pythia-160M. Five experiments, three paradigm-level findings:
+
+1. **cos(up,down) confirms phase structure** from pure weight geometry. KIBC opcodes
+   orthogonal to circuit types (independent axes). ORTHO phase = inverter-dominated.
+   Dark-space drops 40pts at L11. New zero-cost instrument. See `ffn-circuit-types.md`.
+
+2. **Crystal signs predict circuit types (ρ=1.0)**. The ternary sign structure alone
+   produces the exact same depth phase curve. Per-neuron ρ>0.985 at ORTHO layers.
+
+3. **Cross-matrix anti-correlation is load-bearing (3.6×)**. Decorrelating T_down
+   (destroying phase structure) → decorrelated ≈ random. Per-matrix signs without
+   cross-matrix correlation are nearly worthless.
+
+4. **BUT: synthetic construction fails**. Constructing T_down to hit the anti-correlation
+   profile with random per-neuron signs is WORSE than random (PPL 6464 vs 1608). The
+   crystal is the specific per-neuron assignments, not the aggregate statistics. The
+   anti-correlation is emergent from correct per-neuron signs, not a prescription.
+
+5. **The crystal must be extracted, not constructed**. The per-neuron sign assignments
+   encode which specific neurons should be inverters vs projectors. The anti-correlation
+   profile is a verification metric (check the U-shape), not a construction recipe.
+   Cross-model universality (r=0.998) means one extraction works for all models of
+   the same architecture.
 
 ## Session 184 recap
 

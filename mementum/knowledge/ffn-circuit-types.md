@@ -228,3 +228,29 @@ determines the layer's computational role:
    The 3.6× vs 3.8× comparison (decorrelated vs random) shows that per-matrix
    sign statistics contribute almost nothing once cross-matrix correlation is
    destroyed. **The anti-correlation IS the signal.**
+
+5. **ANSWERED: Synthetic construction FAILS (session 186, exp 4).**
+   Constructing T_down to hit the measured anti-correlation profile with random
+   per-neuron signs is **worse than random** (PPL 6464 vs 1608). Forced
+   anti-correlation with wrong per-neuron signs creates systematic destructive
+   interference — you're forcing neurons that should agree to disagree.
+
+   | Condition | Final PPL | vs Crystal | vs Random |
+   |-----------|----------|-----------|-----------|
+   | Crystal (extracted signs) | **485.7** | 1.0× | 3.3× better |
+   | Random | 1608 | 3.3× worse | 1.0× |
+   | Synthetic-universal (smooth curve) | 2734 | 5.6× worse | 0.6× worse |
+   | Synthetic-extracted (exact profile) | 6464 | 13.3× worse | 4.0× worse |
+
+   **The anti-correlation profile is an emergent property, not a prescription.**
+   Knowing "62% of neurons at layer 3 should be inverters" doesn't tell you
+   WHICH neurons should be inverters. The crystal IS the specific per-neuron
+   sign assignments. It must be extracted from a reference model, not
+   constructed from aggregate statistics.
+
+   **Implication for the derivation:** Any mathematical equation for the crystal
+   must produce the correct per-neuron sign assignments, not just the correct
+   aggregate anti-correlation profile. The profile is a necessary but not
+   sufficient test — a verification metric, not a construction recipe.
+
+   See `scripts/experiments/synthetic_crystal_sieve.py`.
