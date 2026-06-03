@@ -184,6 +184,62 @@ magnitudes/signs = 1/φ       (each level captures 1/φ of remaining)
 The γ distribution follows α ≈ (4/5)·(1/φ) — the crystal equation's
 computing fraction times the golden ratio inverse.
 
+## The ISA Framing: M-Space as Instruction Set
+
+Late in session 184, reframed the model as a KIBC processor:
+
+```
+M-space projection = instruction set (opcodes)
+Statechart         = execution engine
+Weight signs       = the program
+Zero mask          = loaded memory pages
+Residual stream    = register file
+```
+
+### Per-Neuron KIBC Opcode Classification
+
+Ran 100 KIBC probes (25 per combinator) through Qwen3-8B, hooking
+gate activations per neuron per layer. Each neuron gets a 4-vector
+profile: [K_strength, I_strength, B_strength, C_strength].
+
+**Key finding: profile magnitude correlates with weight magnitude,
+but the SIGN ALTERNATES across depth:**
+
+| Layer | ρ(profile, gate_norm) | Direction |
+|-------|----------------------|-----------|
+| 0 | +0.47 | REDUCE — opcode neurons bigger |
+| 5 | -0.42 | SWITCH — opcode neurons smaller |
+| 10 | +0.67 | REDUCE |
+| 17 | +0.38 | REDUCE (weaker) |
+| 25 | -0.19 | SWITCH |
+| 35 | -0.49 | SWITCH |
+
+This alternation IS the statechart compute cycle at the layer level.
+REDUCE layers execute opcodes (big opcode neurons). SWITCH layers
+reorganize representations (opcode neurons attenuate).
+
+At REDUCE layers, the profile predicts 70-76% of the zero mask.
+At SWITCH layers, the prediction inverts.
+
+**Purity is low (~0.27)** — neurons are polysemantic. But profile
+MAGNITUDE (how active across ALL combinators) is the predictor,
+not which specific combinator dominates.
+
+**All 4 combinators have equal weight norms** within each layer (±1%).
+The ISA treats all opcodes equally. The variation is in how strongly
+a neuron implements ANY opcode.
+
+### Implications for the Sieve
+
+The sieve needs LAYER ROLE CLASSIFICATION:
+- Tag each layer as REDUCE or SWITCH based on ρ sign
+- REDUCE: zero low-profile neurons (ISA-predictable)
+- SWITCH: zero high-profile neurons (inverted)
+- This should push beyond the 0.93 per-layer cosine floor
+
+**Next test (session 185):** run classifier on all 36 layers, map
+the full REDUCE/SWITCH pattern, build role-aware zero prediction.
+
 ## Scripts
 
 - `scripts/experiments/eigenvector_selfsimilarity.py` — SVD cross-layer analysis
@@ -193,5 +249,9 @@ computing fraction times the golden ratio inverse.
 - `scripts/experiments/negative_space.py` — zero mask analysis
 - `scripts/experiments/gate_zero_predictor.py` — gate as zero predictor
 - `scripts/experiments/activation_zero_mask.py` — activation-weighted masks
+- `scripts/experiments/crystal_space_zeros.py` — zero mask in SVD/crystal space
+- `scripts/experiments/crystal_sieve_prototype.py` — sieve training prototype
+- `scripts/experiments/neuron_opcode_classifier.py` — per-neuron KIBC profiling
 
 *Derived in session 184 of the Verbum project.*
+*10 experiments. 3 paradigm shifts. The crystal is a sieve.*
