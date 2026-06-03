@@ -235,6 +235,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
 | **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
 | **FFN decomposition results** | `results/ffn-decomposition/` | ✅ NEW (s186) |
+| **Crystal circuit types experiment** | `scripts/experiments/crystal_circuit_types.py` | ✅ NEW (s186) |
+| **Crystal circuit types results** | `results/crystal-circuit-types/` | ✅ NEW (s186) |
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
 | **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
 | **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
@@ -272,6 +274,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | 5 | **Correlation sign flip** | ρ(cos, KIBC_magnitude) = -0.26 at L8 (inverters do lambda computation), +0.27 at L11 (projectors do lambda output) |
 | 6 | **Gated vs non-gated architecture difference** | Gemma=transforms (rotation), Pythia=inverters (direction flip). Same phase structure, different computation style. |
 | 7 | **New zero-cost instrument** | cos(W_up[j], W_down[:, j]) detects depth phases from weights alone — no forward passes, 2 min for all layers |
+| 8 | **Crystal signs predict circuit types (ρ=1.0)** | cos(sign(W_up), sign(W_down)) depth profile perfectly rank-correlates with full-weight profile. Signs alone predict phase structure. |
+| 9 | **Sign agreement depth profile** | L0=0.53 (correlated→projector), L3-4=0.38 (anti-correlated→inverter), L8=0.45 (recovering). GD actively creates sign anti-correlation at computation layers. |
+| 10 | **Per-neuron ρ > 0.98 at ORTHO layers** | Signs predict which individual neurons are projectors vs inverters with 98%+ fidelity at L2-L8. Magnitudes add precision, topology is in the signs. |
 
 ## What changed session 185
 

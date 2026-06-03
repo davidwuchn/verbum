@@ -1,0 +1,409 @@
+{
+  "model": "EleutherAI/pythia-160m",
+  "n_layers": 12,
+  "hidden_size": 768,
+  "intermediate_size": 3072,
+  "layers": [
+    {
+      "layer": 0,
+      "dist_full": {
+        "identity": 0.0,
+        "transform": 0.33,
+        "projector": 99.67,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": 0.0941,
+      "cos_sign_mean": 0.0605,
+      "cos_random_mean": -0.0007,
+      "sign_agree_mean": 0.5303,
+      "rho_sign_full": 0.6528,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 0.47,
+      "dist_sign_to_random": 0.0,
+      "dist_full_to_random": 0.47
+    },
+    {
+      "layer": 1,
+      "dist_full": {
+        "identity": 0.03,
+        "transform": 1.27,
+        "projector": 63.25,
+        "suppressor": 32.42,
+        "inverter": 3.03
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 0.36,
+        "projector": 79.52,
+        "suppressor": 19.79,
+        "inverter": 0.33
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.1511,
+      "cos_sign_mean": -0.0995,
+      "cos_random_mean": 0.0,
+      "sign_agree_mean": 0.4502,
+      "rho_sign_full": 0.9664,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 20.79,
+      "dist_sign_to_random": 28.48,
+      "dist_full_to_random": 49.12
+    },
+    {
+      "layer": 2,
+      "dist_full": {
+        "identity": 0.0,
+        "transform": 1.95,
+        "projector": 32.55,
+        "suppressor": 42.29,
+        "inverter": 23.21
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 0.91,
+        "projector": 47.75,
+        "suppressor": 50.62,
+        "inverter": 0.72
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.2989,
+      "cos_sign_mean": -0.1974,
+      "cos_random_mean": 0.0006,
+      "sign_agree_mean": 0.4013,
+      "rho_sign_full": 0.9853,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 28.41,
+      "dist_sign_to_random": 72.76,
+      "dist_full_to_random": 82.95
+    },
+    {
+      "layer": 3,
+      "dist_full": {
+        "identity": 0.0,
+        "transform": 3.16,
+        "projector": 22.92,
+        "suppressor": 41.15,
+        "inverter": 32.78
+      },
+      "dist_sign": {
+        "identity": 0.03,
+        "transform": 1.5,
+        "projector": 37.24,
+        "suppressor": 58.72,
+        "inverter": 2.51
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.3452,
+      "cos_sign_mean": -0.2311,
+      "cos_random_mean": -0.0002,
+      "sign_agree_mean": 0.3845,
+      "rho_sign_full": 0.9856,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 37.85,
+      "dist_sign_to_random": 86.0,
+      "dist_full_to_random": 93.38
+    },
+    {
+      "layer": 4,
+      "dist_full": {
+        "identity": 0.29,
+        "transform": 7.58,
+        "projector": 22.56,
+        "suppressor": 27.34,
+        "inverter": 42.22
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 4.04,
+        "projector": 34.99,
+        "suppressor": 52.15,
+        "inverter": 8.82
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.3475,
+      "cos_sign_mean": -0.2397,
+      "cos_random_mean": 0.0006,
+      "sign_agree_mean": 0.3802,
+      "rho_sign_full": 0.9904,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 43.57,
+      "dist_sign_to_random": 83.9,
+      "dist_full_to_random": 92.65
+    },
+    {
+      "layer": 5,
+      "dist_full": {
+        "identity": 0.23,
+        "transform": 10.9,
+        "projector": 23.8,
+        "suppressor": 26.3,
+        "inverter": 38.77
+      },
+      "dist_sign": {
+        "identity": 0.03,
+        "transform": 6.18,
+        "projector": 36.26,
+        "suppressor": 53.22,
+        "inverter": 4.3
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.3006,
+      "cos_sign_mean": -0.2056,
+      "cos_random_mean": 0.0008,
+      "sign_agree_mean": 0.3972,
+      "rho_sign_full": 0.9887,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 45.72,
+      "dist_sign_to_random": 83.38,
+      "dist_full_to_random": 90.11
+    },
+    {
+      "layer": 6,
+      "dist_full": {
+        "identity": 0.52,
+        "transform": 10.25,
+        "projector": 25.23,
+        "suppressor": 37.3,
+        "inverter": 26.69
+      },
+      "dist_sign": {
+        "identity": 0.03,
+        "transform": 4.95,
+        "projector": 41.8,
+        "suppressor": 51.66,
+        "inverter": 1.56
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.2624,
+      "cos_sign_mean": -0.1777,
+      "cos_random_mean": -0.001,
+      "sign_agree_mean": 0.4112,
+      "rho_sign_full": 0.9879,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 33.77,
+      "dist_sign_to_random": 77.99,
+      "dist_full_to_random": 88.31
+    },
+    {
+      "layer": 7,
+      "dist_full": {
+        "identity": 0.46,
+        "transform": 9.44,
+        "projector": 30.05,
+        "suppressor": 41.54,
+        "inverter": 18.52
+      },
+      "dist_sign": {
+        "identity": 0.07,
+        "transform": 5.4,
+        "projector": 45.93,
+        "suppressor": 47.59,
+        "inverter": 1.01
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.2349,
+      "cos_sign_mean": -0.1597,
+      "cos_random_mean": 0.0006,
+      "sign_agree_mean": 0.4202,
+      "rho_sign_full": 0.9867,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 24.74,
+      "dist_sign_to_random": 72.24,
+      "dist_full_to_random": 83.97
+    },
+    {
+      "layer": 8,
+      "dist_full": {
+        "identity": 0.59,
+        "transform": 14.29,
+        "projector": 39.0,
+        "suppressor": 35.71,
+        "inverter": 10.42
+      },
+      "dist_sign": {
+        "identity": 0.03,
+        "transform": 8.37,
+        "projector": 57.32,
+        "suppressor": 33.85,
+        "inverter": 0.42
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.1438,
+      "cos_sign_mean": -0.0974,
+      "cos_random_mean": 0.0005,
+      "sign_agree_mean": 0.4513,
+      "rho_sign_full": 0.9898,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 21.78,
+      "dist_sign_to_random": 55.11,
+      "dist_full_to_random": 72.87
+    },
+    {
+      "layer": 9,
+      "dist_full": {
+        "identity": 0.33,
+        "transform": 7.42,
+        "projector": 49.61,
+        "suppressor": 37.73,
+        "inverter": 4.92
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 3.97,
+        "projector": 70.25,
+        "suppressor": 25.23,
+        "inverter": 0.55
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.1485,
+      "cos_sign_mean": -0.0994,
+      "cos_random_mean": -0.0005,
+      "sign_agree_mean": 0.4503,
+      "rho_sign_full": 0.9797,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 24.77,
+      "dist_sign_to_random": 39.21,
+      "dist_full_to_random": 63.58
+    },
+    {
+      "layer": 10,
+      "dist_full": {
+        "identity": 0.33,
+        "transform": 2.8,
+        "projector": 61.46,
+        "suppressor": 33.17,
+        "inverter": 2.25
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 1.79,
+        "projector": 85.84,
+        "suppressor": 11.85,
+        "inverter": 0.52
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.1535,
+      "cos_sign_mean": -0.1015,
+      "cos_random_mean": -0.0004,
+      "sign_agree_mean": 0.4493,
+      "rho_sign_full": 0.9289,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 32.45,
+      "dist_sign_to_random": 18.56,
+      "dist_full_to_random": 50.98
+    },
+    {
+      "layer": 11,
+      "dist_full": {
+        "identity": 0.07,
+        "transform": 2.6,
+        "projector": 61.62,
+        "suppressor": 32.03,
+        "inverter": 3.68
+      },
+      "dist_sign": {
+        "identity": 0.0,
+        "transform": 1.6,
+        "projector": 83.2,
+        "suppressor": 15.04,
+        "inverter": 0.16
+      },
+      "dist_random": {
+        "identity": 0.0,
+        "transform": 0.0,
+        "projector": 100.0,
+        "suppressor": 0.0,
+        "inverter": 0.0
+      },
+      "cos_full_mean": -0.1752,
+      "cos_sign_mean": -0.1147,
+      "cos_random_mean": -0.0008,
+      "sign_agree_mean": 0.4426,
+      "rho_sign_full": 0.9097,
+      "p_sign_full": 0.0,
+      "dist_sign_to_full": 27.71,
+      "dist_sign_to_random": 22.61,
+      "dist_full_to_random": 50.19
+    }
+  ],
+  "profile_rho": 1.0,
+  "profile_p": 0.0,
+  "mean_per_neuron_rho": 0.946,
+  "tracking_layers": 9,
+  "total_layers": 12
+}

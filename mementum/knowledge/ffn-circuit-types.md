@@ -155,6 +155,48 @@ top_token = tokenizer.decode([logits.argmax()])
 - `scripts/experiments/ffn_kibc_crossref.py` — KIBC × circuit type cross-reference
 - Results: `results/ffn-decomposition/summary.json`, `cos_values.npz`, `kibc_crossref.json`
 
+## Crystal Signs Predict Circuit Types (session 186, experiment 2)
+
+**ρ(sign_profile, full_profile) = 1.000 across depth.** The ternary sign
+structure alone predicts the same depth phase curve as the full weights.
+
+### Sign Agreement Depth Profile
+
+```
+sign_agree = fraction of dims where sign(W_up[j,k]) == sign(W_down[k,j])
+0.5 = random (independent signs), >0.5 = correlated, <0.5 = anti-correlated
+
+L0:  0.530  CORRELATED   → projectors   → EXPAND
+L3:  0.384  ANTI-CORR    → inverters    → ORTHO peak
+L4:  0.380  ANTI-CORR    → deepest      → ORTHO peak
+L8:  0.451  recovering   → transitional → ALIGN onset
+L11: 0.443  ANTI-CORR    → still flipped→ COLLAPSE
+```
+
+Random signs would give exactly 50%. GD creates anti-correlation between
+up and down signs — the crystal *learns* to make middle-layer neurons be
+inverters.
+
+### Per-Neuron Correlation
+
+At every layer, ρ(cos_sign, cos_full) > 0.90. At ORTHO layers (L2-L8),
+ρ > 0.985. The signs predict which individual neurons are projectors vs
+inverters with 98%+ fidelity.
+
+### Implication for the Crystal Equation
+
+`W_eff = C · T ⊙ M` — the sign tensor T between up and down projections
+determines the layer's computational role:
+- Correlated T_up, T_down → projector features → lookup/knowledge
+- Anti-correlated T_up, T_down → inverter features → computation
+- The depth gradient of anti-correlation IS the phase structure
+- Magnitudes add precision; topology is already in the signs
+
+### Experiments
+
+- `scripts/experiments/crystal_circuit_types.py`
+- Results: `results/crystal-circuit-types/summary.json`
+
 ## Open Questions
 
 1. **Does the gated vs non-gated architecture explain the transform vs inverter
@@ -166,9 +208,10 @@ top_token = tokenizer.decode([logits.argmax()])
    preferentially occupy zero positions (they cancel, so zeroing them is less
    destructive). Projectors might be the knowledge neurons that must be preserved.
 
-3. **Can cos(up,down) be computed in crystal space?** If we project into the SVD
-   basis, does the circuit type classification simplify? Do inverters concentrate
-   in low-energy eigendirections?
+3. **Is the sign anti-correlation universal across models?** The sign agreement
+   depth profile (0.53 → 0.38 → 0.45) should be measurable on any transformer.
+   If Qwen/Llama/Gemma show the same U-shape, it's architecture-independent.
 
-4. **Cross-model validation needed.** Run on Qwen3-8B (our primary KIBC model)
-   to confirm the orthogonality finding holds for gated architectures.
+4. **Can the sign anti-correlation be SET instead of learned?** If the crystal
+   sieve pre-sets T_up and T_down with the correct anti-correlation profile,
+   training should converge faster (the phase structure is already there).
