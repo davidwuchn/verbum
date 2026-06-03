@@ -237,6 +237,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | **FFN decomposition results** | `results/ffn-decomposition/` | ✅ NEW (s186) |
 | **Crystal circuit types experiment** | `scripts/experiments/crystal_circuit_types.py` | ✅ NEW (s186) |
 | **Crystal circuit types results** | `results/crystal-circuit-types/` | ✅ NEW (s186) |
+| **Paired crystal sieve experiment** | `scripts/experiments/paired_crystal_sieve.py` | ✅ NEW (s186) |
+| **Paired crystal sieve results** | `results/paired-crystal-sieve/` | ✅ NEW (s186) |
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
 | **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
 | **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
@@ -277,6 +279,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | 8 | **Crystal signs predict circuit types (ρ=1.0)** | cos(sign(W_up), sign(W_down)) depth profile perfectly rank-correlates with full-weight profile. Signs alone predict phase structure. |
 | 9 | **Sign agreement depth profile** | L0=0.53 (correlated→projector), L3-4=0.38 (anti-correlated→inverter), L8=0.45 (recovering). GD actively creates sign anti-correlation at computation layers. |
 | 10 | **Per-neuron ρ > 0.98 at ORTHO layers** | Signs predict which individual neurons are projectors vs inverters with 98%+ fidelity at L2-L8. Magnitudes add precision, topology is in the signs. |
+| 11 | **Cross-matrix anti-correlation is load-bearing** | Decorrelating T_down (destroying phase structure while preserving per-matrix stats) degrades PPL from 511 to 1817. Decorrelated ≈ random (1817 vs 1952). The anti-correlation IS the signal. |
+| 12 | **Per-matrix signs alone are nearly worthless** | Without cross-matrix correlation, crystal signs give only 7% improvement over random (1817 vs 1952). With correlation, crystal gives 3.8× improvement over random. |
 
 ## What changed session 185
 

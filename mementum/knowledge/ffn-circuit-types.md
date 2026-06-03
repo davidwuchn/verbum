@@ -212,6 +212,19 @@ determines the layer's computational role:
    depth profile (0.53 → 0.38 → 0.45) should be measurable on any transformer.
    If Qwen/Llama/Gemma show the same U-shape, it's architecture-independent.
 
-4. **Can the sign anti-correlation be SET instead of learned?** If the crystal
-   sieve pre-sets T_up and T_down with the correct anti-correlation profile,
-   training should converge faster (the phase structure is already there).
+4. **ANSWERED: Cross-matrix anti-correlation is load-bearing (session 186, exp 3).**
+   Decorrelating T_down (shuffling columns to destroy anti-correlation while
+   preserving per-matrix statistics) degrades PPL from 511.6 to 1817.4 — a 3.6×
+   worse result. Decorrelated ≈ random (1817 vs 1952), confirming: the per-matrix
+   signs WITHOUT cross-matrix correlation are nearly worthless. The phase structure
+   is the dominant signal. See `scripts/experiments/paired_crystal_sieve.py`.
+
+   | Condition | Init PPL | Final PPL (250 steps) | vs Crystal |
+   |-----------|----------|----------------------|------------|
+   | Crystal (natural anti-corr) | 107K | **511.6** | 1.0× |
+   | Decorrelated (shuffled T_down) | 485M | 1817.4 | 3.6× worse |
+   | Random (both random) | 485M | 1952.5 | 3.8× worse |
+
+   The 3.6× vs 3.8× comparison (decorrelated vs random) shows that per-matrix
+   sign statistics contribute almost nothing once cross-matrix correlation is
+   destroyed. **The anti-correlation IS the signal.**
