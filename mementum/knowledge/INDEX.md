@@ -42,6 +42,11 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | 6 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
 | 7 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |
 | 8 | [extraction-methodology.md](extraction-methodology.md) | ✅ | How to extract from a teacher: what works, three confusions resolved, the pipeline |
+| 8b | [holographic-computer.md](holographic-computer.md) | ✅ | Unified theory: crystal=ISA, FFN=projector, attn=CPU, progressive collapse to WHNF |
+| 8c | [phi-information-partition.md](phi-information-partition.md) | ✅ | Signs=1/φ, γ=noise, zeros=holographic phase, crystal sieve 10.7×. The decomposition. |
+| 8d | [standing-wave-magnitudes.md](standing-wave-magnitudes.md) | ✅ | Magnitudes as standing wave: crystal=boundary conditions, zeros=nodes, GD=finding resonant modes |
+| 8e | [gradient-zero-map.md](gradient-zero-map.md) | ✅ | GD deposits near-zero gradients at irreducible compute points. Two-regime depth structure. |
+| 8f | [topology-gradient-separation.md](topology-gradient-separation.md) | ✅ | Freeze lattice for GD to work. Punctuated equilibrium protocol. Cross-disciplinary validation. |
 
 ## Tier 3 — What Are We Running?
 
