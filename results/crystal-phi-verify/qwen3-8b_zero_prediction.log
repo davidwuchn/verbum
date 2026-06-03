@@ -1,0 +1,81 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Crystal Zero Prediction
+══════════════════════════════════════════════════════════════════════
+  Model: Qwen/Qwen3-8B
+  Probes: 200 (25 per combinator)
+
+  Loading model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:37,  2.53it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 148.21it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 198.70it/s]Loading weights:  32%|███▏      | 129/399 [00:00<00:01, 221.83it/s]Loading weights:  40%|███▉      | 158/399 [00:00<00:01, 221.01it/s]Loading weights:  47%|████▋     | 188/399 [00:00<00:00, 238.76it/s]Loading weights:  54%|█████▍    | 216/399 [00:01<00:00, 243.13it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 246.97it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 257.51it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 264.01it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 263.46it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 267.75it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 229.02it/s]
+  Loaded: 36 layers, d=4096, d_ff=12288
+  Analysis layer: 28 (78% depth)
+
+  Step 1: Extracting crystal basis (200 probes)...
+  Done in 11.0s
+  Crystal modes: 16
+    Mode 0: variance=647.5488 (30.3%, cum 30.3%)
+    Mode 1: variance=363.0699 (17.0%, cum 47.2%)
+    Mode 2: variance=172.8584 (8.1%, cum 55.3%)
+    Mode 3: variance=136.3869 (6.4%, cum 61.7%)
+    Mode 4: variance=118.1283 (5.5%, cum 67.2%)
+    Mode 5: variance=92.0780 (4.3%, cum 71.5%)
+    Mode 6: variance=87.2326 (4.1%, cum 75.6%)
+    Mode 7: variance=74.6359 (3.5%, cum 79.0%)
+
+  Step 2: Extracting gate_proj weights...
+  Weight shape: (12288, 4096)
+  Weight norm stats: mean=1.7373, std=0.1780, min=0.9449, max=2.7848
+
+  Step 3: Computing crystal energy per neuron...
+  Crystal energy stats: mean=0.174190, std=0.136707, min=0.009635, max=4.225331
+
+  Step 4: Correlation analysis...
+  Pearson correlation (crystal_energy vs weight_norm): 0.0809
+  Spearman rank correlation: 0.1117 (p=1.94e-35)
+
+  Step 5: Zero prediction from crystal equation...
+  Crystal phase boundary: 0.2484
+
+    Percentile Weight thresh  Actual zeros  Predicted  Overlap  Precision   Recall
+  ──────────── ───────────── ───────────── ────────── ──────── ────────── ────────
+            1%        1.2937           123        123        6      0.049    0.049
+            2%        1.3893           246        246       28      0.114    0.114
+            5%        1.4929           615        615       97      0.158    0.158
+           10%        1.5539          1229       1229      260      0.212    0.212
+           15%        1.5891          1844       1844      445      0.241    0.241
+           20%        1.6144          2458       2458      698      0.284    0.284
+           25%        1.6352          3072       3072      979      0.319    0.319
+           30%        1.6549          3687       3687     1313      0.356    0.356
+           50%        1.7189          6144       6144     3240      0.527    0.527
+
+  Step 6: Which crystal modes predict zeros best?
+
+    Mode  Eigenvalue  Corr w/ |W|  Rank corr
+       0    647.5488       0.0499     0.0475
+       1    363.0699       0.0974     0.1344
+       2    172.8584      -0.0710    -0.0145
+       3    136.3869      -0.0184    -0.0222
+       4    118.1283       0.0859     0.0616
+       5     92.0780      -0.0160    -0.0204
+       6     87.2326      -0.0172    -0.0161
+       7     74.6359       0.0776     0.0690
+
+══════════════════════════════════════════════════════════════════════
+  THE ZERO EQUATION
+══════════════════════════════════════════════════════════════════════
+
+  Linear fit: ||W_i|| ≈ 0.11 · E_crystal(i) + 1.7190
+  R² = 0.0065
+  Power-law fit: ||W_i|| ≈ 1.8000 · E_crystal(i)^0.0209
+  R² (log-log) = 0.0159
+
+  Power-law exponent: 0.0209
+  φ^(-1) = 0.6180
+  s = 0.8000
+  1/φ² = 0.3820
+  s/2 = 0.4000
+
+  Results saved to results/crystal-phi-verify/Qwen_Qwen3-8B_zero_prediction.json
+══════════════════════════════════════════════════════════════════════
+

@@ -1,0 +1,116 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "layer": 28,
+  "results": [
+    {
+      "total_zero_pct": 10.0,
+      "dead_threshold": 0.01,
+      "n_dead": 1173,
+      "alive_zero_frac": 0.005,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 20.0,
+      "dead_threshold": 0.01,
+      "n_dead": 1173,
+      "alive_zero_frac": 0.1156,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 29.9,
+      "dead_threshold": 0.01,
+      "n_dead": 1173,
+      "alive_zero_frac": 0.2261,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 39.9,
+      "dead_threshold": 0.01,
+      "n_dead": 1173,
+      "alive_zero_frac": 0.3367,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 49.9,
+      "dead_threshold": 0.01,
+      "n_dead": 1173,
+      "alive_zero_frac": 0.4472,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 20.0,
+      "dead_threshold": 0.02,
+      "n_dead": 2226,
+      "alive_zero_frac": 0.023,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 30.0,
+      "dead_threshold": 0.02,
+      "n_dead": 2226,
+      "alive_zero_frac": 0.1451,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 39.9,
+      "dead_threshold": 0.02,
+      "n_dead": 2226,
+      "alive_zero_frac": 0.2673,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 49.9,
+      "dead_threshold": 0.02,
+      "n_dead": 2226,
+      "alive_zero_frac": 0.3894,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 40.0,
+      "dead_threshold": 0.05,
+      "n_dead": 4690,
+      "alive_zero_frac": 0.0296,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    },
+    {
+      "total_zero_pct": 50.0,
+      "dead_threshold": 0.05,
+      "n_dead": 4690,
+      "alive_zero_frac": 0.1914,
+      "cos_magnitude": NaN,
+      "cos_hybrid": NaN,
+      "cos_random": NaN,
+      "delta_hybrid_mag": NaN
+    }
+  ]
+}

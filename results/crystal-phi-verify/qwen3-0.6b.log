@@ -1,0 +1,100 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Crystal φ Verification — Unified Probe Library
+══════════════════════════════════════════════════════════════════════
+  Model: Qwen/Qwen3-0.6B
+  Device: mps
+  Combinators: K, I, B, C, S, D, W, Y, WHNF
+  Probes per combinator:
+    K     : 67
+    I     : 67
+    B     : 69
+    C     : 61
+    S     : 50
+    D     : 50
+    W     : 71
+    Y     : 50
+    WHNF  : 50
+  Total probes: 535
+
+  Loading Qwen/Qwen3-0.6B...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  71%|███████   | 221/311 [00:00<00:00, 2173.79it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2277.92it/s]
+  Loaded in 1.7s: 28 layers, d=1024, d_ff=3072
+  Zone B layers: [8, 11, 15, 19]
+
+  Running 535 combinator probes...
+  Total activations: 535 probes × 3072 dims
+  Per combinator: {'K': 67, 'I': 67, 'B': 69, 'C': 61, 'S': 50, 'D': 50, 'W': 71, 'Y': 50, 'WHNF': 50}
+
+  PCA variance explained (top 10):
+    PC0: 23.8%  (cum: 23.8%)
+    PC1: 7.8%  (cum: 31.6%)
+    PC2: 7.0%  (cum: 38.7%)
+    PC3: 3.5%  (cum: 42.1%)
+    PC4: 2.9%  (cum: 45.1%)
+    PC5: 2.3%  (cum: 47.4%)
+    PC6: 2.2%  (cum: 49.6%)
+    PC7: 2.0%  (cum: 51.6%)
+    PC8: 1.8%  (cum: 53.4%)
+    PC9: 1.4%  (cum: 54.8%)
+  Done in 14.4s (37.2 probes/s)
+
+  9×9 cosine matrix:
+                K       I       B       C       S       D       W       Y    WHNF
+       K:  1.000   0.290  -0.157   0.400  -0.386  -0.228   0.047  -0.528  -0.279
+       I:  0.290   1.000  -0.315   0.387  -0.771  -0.303   0.418  -0.483  -0.124
+       B: -0.157  -0.315   1.000   0.403   0.083   0.806  -0.646  -0.290  -0.458
+       C:  0.400   0.387   0.403   1.000  -0.504   0.343  -0.254  -0.721  -0.665
+       S: -0.386  -0.771   0.083  -0.504   1.000   0.307  -0.419   0.477   0.042
+       D: -0.228  -0.303   0.806   0.343   0.307   1.000  -0.695  -0.216  -0.596
+       W:  0.047   0.418  -0.646  -0.254  -0.419  -0.695   1.000   0.065   0.204
+       Y: -0.528  -0.483  -0.290  -0.721   0.477  -0.216   0.065   1.000   0.436
+    WHNF: -0.279  -0.124  -0.458  -0.665   0.042  -0.596   0.204   0.436   1.000
+
+======================================================================
+  PHI STRUCTURE CHECK — Qwen/Qwen3-0.6B
+======================================================================
+
+  C = λ₀ = 3.362807
+  φ = 1.618034
+
+    PC   Eigenvalue      log_φ   Best p/q    Predicted    Error
+  ──── ──────────── ────────── ────────── ──────────── ────────
+     0     3.362807     0.0000    0/1         3.362807    0.00%
+     1     3.115832    -0.1585   -1/6         3.103635    0.39%
+     2     0.857946    -2.8386  -17/6         0.860142    0.26%
+     3     0.641019    -3.4444  -31/9         0.640996    0.00%
+     4     0.367957    -4.5979  -23/5         0.367586    0.10%
+     5     0.335971    -4.7869  -43/9         0.337447    0.44%
+     6     0.226969    -5.6019  -28/5         0.227181    0.09%
+     7     0.091498    -7.4899  -15/2         0.091053    0.49%
+     8    -0.000000  (near zero)
+
+  λ₀/λ₁ = 1.0793  (target φ^(4/5) = 1.4696, error = 26.6%)
+
+======================================================================
+  CONSENSUS COMPARISON (8 combinators: K, I, B, C, D, Y, W, WHNF)
+======================================================================
+  Cosine matrix correlation:    0.484872
+  Eigenvalue ratio correlation: 0.940449
+
+  Top cosine deviations from consensus:
+        Pair   Measured  Consensus        Δ
+         D-W     -0.695      0.806   -1.501
+         C-Y     -0.721      0.720   -1.441
+         B-W     -0.646      0.685   -1.331
+         C-W     -0.254      0.732   -0.986
+         B-Y     -0.290      0.662   -0.952
+         D-Y     -0.216      0.680   -0.896
+         K-Y     -0.528      0.177   -0.705
+         I-Y     -0.483      0.174   -0.657
+
+  B-D similarity: 0.806 (consensus: 0.894)
+    D=BB compound structure visible
+  K-I similarity: 0.290 (consensus: 0.786)
+    Selection cluster weak
+
+  Results saved to results/crystal-phi-verify/Qwen_Qwen3-0.6B.json
+══════════════════════════════════════════════════════════════════════
+

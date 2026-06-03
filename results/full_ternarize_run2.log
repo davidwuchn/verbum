@@ -1,0 +1,19 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL TERNARIZATION
+══════════════════════════════════════════════════════════════════════════════
+  Model:     Qwen/Qwen3-8B
+  Device:    mps
+  Zero rate: 35%
+  Eval only: False
+
+  Loading model (float16)...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   4%|▍         | 15/399 [00:00<00:02, 135.82it/s]Loading weights:   9%|▊         | 34/399 [00:00<00:02, 152.30it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:01, 175.68it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:01, 173.83it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 175.91it/s]Loading weights:  30%|███       | 121/399 [00:00<00:01, 172.41it/s]Loading weights:  36%|███▌      | 142/399 [00:00<00:01, 178.41it/s]Loading weights:  40%|████      | 160/399 [00:00<00:01, 170.52it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 174.88it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 175.95it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 179.16it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 179.31it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 181.37it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 180.16it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 177.23it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 177.31it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 174.54it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 173.87it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 178.73it/s]
+  Loaded in 6.4s: 36 layers, d=4096, d_ff=12288
+  Float16 memory: 16.38 GB
+Generating test split:   0%|          | 0/4358 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 4358/4358 [00:00<00:00, 170168.10 examples/s]
+Generating train split:   0%|          | 0/36718 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 36718/36718 [00:00<00:00, 2466668.60 examples/s]
+Generating validation split:   0%|          | 0/3760 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 3760/3760 [00:00<00:00, 2126561.90 examples/s]
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors

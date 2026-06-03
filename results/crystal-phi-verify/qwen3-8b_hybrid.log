@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Hybrid Ternarization: Crystal Budget + Magnitude Selection
+══════════════════════════════════════════════════════════════════════
+  Model: Qwen/Qwen3-8B
+  Prompts: 190 (160 crystal + 30 corpus)
+
+  Loading model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:17,  5.14it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:02, 145.44it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 151.63it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:02, 154.93it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 166.95it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 178.13it/s]Loading weights:  37%|███▋      | 147/399 [00:00<00:01, 184.50it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 182.21it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 180.62it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:01, 184.74it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 182.67it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 179.11it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 180.06it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 180.81it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 180.36it/s]Loading weights:  86%|████████▋ | 345/399 [00:02<00:00, 178.42it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 178.23it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 181.43it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 175.62it/s]
+  36 layers, d=4096, d_ff=12288, target layer=28
+  Capturing activations (190 prompts)...
+  Done in 11.0s: gate=(190, 12288), hidden=(190, 4096)
+
+══════════════════════════════════════════════════════════════════════
+  SWEEP: Hybrid vs Magnitude vs Random at each zero rate
+══════════════════════════════════════════════════════════════════════
+
+  Total 0%  Dead thr  Dead N  Alive 0%   Magnitude     Hybrid     Random  Δ hyb-mag
+  ──────── ───────── ─────── ─────────  ────────── ────────── ────────── ──────────
+     10.0%       1%    1173      0.5%         nan        nan        nan       +nan
+     20.0%       1%    1173     11.6%         nan        nan        nan       +nan
+     29.9%       1%    1173     22.6%         nan        nan        nan       +nan
+     39.9%       1%    1173     33.7%         nan        nan        nan       +nan
+     49.9%       1%    1173     44.7%         nan        nan        nan       +nan
+     20.0%       2%    2226      2.3%         nan        nan        nan       +nan
+     30.0%       2%    2226     14.5%         nan        nan        nan       +nan
+     39.9%       2%    2226     26.7%         nan        nan        nan       +nan
+     49.9%       2%    2226     38.9%         nan        nan        nan       +nan
+     40.0%       5%    4690      3.0%         nan        nan        nan       +nan
+     50.0%       5%    4690     19.1%         nan        nan        nan       +nan
+
+  Best hybrid advantage: Δ=+nan at 10% zeros, dead_thr=1%, n_dead=1173
+
+══════════════════════════════════════════════════════════════════════
+  SUMMARY
+══════════════════════════════════════════════════════════════════════
+  Hybrid wins:  0/11
+  Ties:         0/11
+  Hybrid loses: 0/11
+
+  Saved to results/crystal-phi-verify/Qwen_Qwen3-8B_hybrid_ternarize.json
+══════════════════════════════════════════════════════════════════════
+

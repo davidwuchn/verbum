@@ -1,0 +1,54 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Crystal-Guided Ternarization Experiment
+══════════════════════════════════════════════════════════════════════
+  Model: Qwen/Qwen3-8B
+  Crystal probes: 200
+  Eval corpus: 24
+
+  Loading model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:33,  4.26it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 173.40it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:01, 215.06it/s]Loading weights:  27%|██▋       | 106/399 [00:00<00:01, 225.76it/s]Loading weights:  33%|███▎      | 133/399 [00:00<00:01, 219.41it/s]Loading weights:  40%|████      | 160/399 [00:00<00:01, 230.92it/s]Loading weights:  48%|████▊     | 191/399 [00:00<00:00, 242.66it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 246.11it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 260.09it/s]Loading weights:  70%|███████   | 281/399 [00:01<00:00, 255.92it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 256.42it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 261.00it/s]Loading weights:  94%|█████████▍| 375/399 [00:01<00:00, 270.82it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 242.52it/s]
+  Loaded: 36 layers, d=4096, d_ff=12288
+  Target layer: 28 (78%)
+
+  Step 1: Capturing gate activations for sparsity analysis...
+  Gate activations: (224, 12288) in 12.7s
+  Dead neurons (<1% positive): 1513 (12.3%)
+  Dead neurons (<5% positive): 4858 (39.5%)
+  Dead neurons (<10% positive): 7223 (58.8%)
+
+  Step 2: Extracting gate_proj weights...
+  Weight shape: (12288, 4096)
+
+  Step 3: Capturing hidden states for evaluation...
+  Hidden states: (24, 4096) in 1.5s
+
+══════════════════════════════════════════════════════════════════════
+  TERNARIZATION COMPARISON
+══════════════════════════════════════════════════════════════════════
+
+  Method                        Zeros%  Dead N   W cos  A cos(g)  A NMSE(g)
+  ──────────────────────────── ─────── ─────── ─────── ───────── ──────────
+  mag_10%                        10.0%       0  0.8292       nan        nan
+  mag_20%                        19.9%       0  0.8586       nan        nan
+  mag_30%                        29.9%       0  0.8803       nan        nan
+  mag_40%                        39.4%       0  0.8927       nan        nan
+  crystal_neuron                 39.5%    4858  0.5879       nan        nan
+  crystal_hybrid_10%             45.6%    4858  0.6149       nan        nan
+  crystal_hybrid_20%             51.6%    4858  0.6366       nan        nan
+  random_neuron                  38.7%    4755  0.6203       nan        nan
+
+══════════════════════════════════════════════════════════════════════
+  ANALYSIS
+══════════════════════════════════════════════════════════════════════
+
+  At matched zero rate (40%):
+    Metric                       Magnitude      Crystal       Random  Crystal wins?
+    weight_cosine                 0.892712     0.587944     0.620277             NO
+    act_cosine_gated                   nan          nan          nan             NO
+    act_nmse_gated                     nan          nan          nan             NO
+
+  Saved to results/crystal-phi-verify/Qwen_Qwen3-8B_ternarize.json
+══════════════════════════════════════════════════════════════════════
+

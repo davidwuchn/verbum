@@ -1,0 +1,100 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Crystal φ Verification — Unified Probe Library
+══════════════════════════════════════════════════════════════════════
+  Model: EleutherAI/pythia-2.8b-deduped
+  Device: mps
+  Combinators: K, I, B, C, S, D, W, Y, WHNF
+  Probes per combinator:
+    K     : 67
+    I     : 67
+    B     : 69
+    C     : 61
+    S     : 50
+    D     : 50
+    W     : 71
+    Y     : 50
+    WHNF  : 50
+  Total probes: 535
+
+  Loading EleutherAI/pythia-2.8b-deduped...
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 23088.13it/s]
+  Loaded in 1.8s: 32 layers, d=2560, d_ff=10240
+  Zone B layers: [9, 13, 17, 22]
+
+  Running 535 combinator probes...
+  Total activations: 535 probes × 10240 dims
+  Per combinator: {'K': 67, 'I': 67, 'B': 69, 'C': 61, 'S': 50, 'D': 50, 'W': 71, 'Y': 50, 'WHNF': 50}
+
+  PCA variance explained (top 10):
+    PC0: 13.9%  (cum: 13.9%)
+    PC1: 8.9%  (cum: 22.8%)
+    PC2: 5.6%  (cum: 28.5%)
+    PC3: 3.0%  (cum: 31.5%)
+    PC4: 2.6%  (cum: 34.1%)
+    PC5: 2.4%  (cum: 36.5%)
+    PC6: 2.2%  (cum: 38.6%)
+    PC7: 1.8%  (cum: 40.5%)
+    PC8: 1.7%  (cum: 42.2%)
+    PC9: 1.6%  (cum: 43.8%)
+  Done in 15.2s (35.2 probes/s)
+
+  9×9 cosine matrix:
+                K       I       B       C       S       D       W       Y    WHNF
+       K:  1.000   0.433  -0.165   0.381  -0.474  -0.389   0.170  -0.491  -0.347
+       I:  0.433   1.000  -0.189   0.373  -0.783  -0.273   0.397  -0.530  -0.177
+       B: -0.165  -0.189   1.000   0.335  -0.039   0.693  -0.463  -0.313  -0.508
+       C:  0.381   0.373   0.335   1.000  -0.532   0.268  -0.170  -0.614  -0.712
+       S: -0.474  -0.783  -0.039  -0.532   1.000   0.254  -0.401   0.492   0.134
+       D: -0.389  -0.273   0.693   0.268   0.254   1.000  -0.594  -0.169  -0.546
+       W:  0.170   0.397  -0.463  -0.170  -0.401  -0.594   1.000  -0.082   0.290
+       Y: -0.491  -0.530  -0.313  -0.614   0.492  -0.169  -0.082   1.000   0.439
+    WHNF: -0.347  -0.177  -0.508  -0.712   0.134  -0.546   0.290   0.439   1.000
+
+======================================================================
+  PHI STRUCTURE CHECK — EleutherAI/pythia-2.8b-deduped
+======================================================================
+
+  C = λ₀ = 3.397657
+  φ = 1.618034
+
+    PC   Eigenvalue      log_φ   Best p/q    Predicted    Error
+  ──── ──────────── ────────── ────────── ──────────── ────────
+     0     3.397657     0.0000    0/1         3.397657    0.00%
+     1     2.947356    -0.2955   -3/10        2.940920    0.22%
+     2     0.838568    -2.9075  -32/11        0.837945    0.07%
+     3     0.496625    -3.9962   -4/1         0.495711    0.18%
+     4     0.464250    -4.1363  -29/7         0.462779    0.32%
+     5     0.405118    -4.4194  -53/12        0.405649    0.13%
+     6     0.312232    -4.9606   -5/1         0.306367    1.88%
+     7     0.138194    -6.6544  -20/3         0.137382    0.59%
+     8    -0.000000  (near zero)
+
+  λ₀/λ₁ = 1.1528  (target φ^(4/5) = 1.4696, error = 21.6%)
+
+======================================================================
+  CONSENSUS COMPARISON (8 combinators: K, I, B, C, D, Y, W, WHNF)
+======================================================================
+  Cosine matrix correlation:    0.518244
+  Eigenvalue ratio correlation: 0.916690
+
+  Top cosine deviations from consensus:
+        Pair   Measured  Consensus        Δ
+         D-W     -0.594      0.806   -1.400
+         C-Y     -0.614      0.720   -1.334
+         B-W     -0.463      0.685   -1.149
+         B-Y     -0.313      0.662   -0.975
+         C-W     -0.170      0.732   -0.902
+         D-Y     -0.169      0.680   -0.849
+         K-D     -0.389      0.323   -0.713
+         I-Y     -0.530      0.174   -0.704
+
+  B-D similarity: 0.693 (consensus: 0.894)
+    D=BB compound structure weak
+  K-I similarity: 0.433 (consensus: 0.786)
+    Selection cluster weak
+
+  Results saved to results/crystal-phi-verify/EleutherAI_pythia-2.8b-deduped.json
+══════════════════════════════════════════════════════════════════════
+

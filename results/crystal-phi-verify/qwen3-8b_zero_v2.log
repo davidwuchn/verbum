@@ -1,0 +1,89 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  Crystal Zero Prediction v2 — Gate Activation Analysis
+══════════════════════════════════════════════════════════════════════
+  Model: Qwen/Qwen3-8B
+  Crystal probes: 200
+  Diverse corpus: 24
+
+  Loading model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:56,  3.42it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 148.99it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:01, 189.45it/s]Loading weights:  26%|██▋       | 105/399 [00:00<00:01, 213.14it/s]Loading weights:  34%|███▍      | 136/399 [00:00<00:01, 235.32it/s]Loading weights:  41%|████▏     | 165/399 [00:00<00:00, 249.50it/s]Loading weights:  48%|████▊     | 193/399 [00:00<00:00, 255.35it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:00, 256.66it/s]Loading weights:  62%|██████▏   | 248/399 [00:01<00:00, 252.37it/s]Loading weights:  69%|██████▉   | 276/399 [00:01<00:00, 244.98it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 260.10it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 252.73it/s]Loading weights:  91%|█████████ | 364/399 [00:01<00:00, 255.50it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 256.23it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 232.51it/s]
+  Loaded: 36 layers, d_ff=12288
+  Analysis layer: 28 (78%)
+
+  Capturing crystal gate activations...
+  Crystal: (200, 12288) in 11.1s
+  Capturing diverse corpus gate activations...
+  Diverse: (24, 12288) in 1.8s
+
+──────────────────────────────────────────────────────────────────────
+  PER-NEURON ACTIVATION ANALYSIS
+──────────────────────────────────────────────────────────────────────
+
+  Activation magnitude per neuron (12288 neurons):
+      Crystal probes: mean=0.9192, std=0.4124, min=0.2106, max=3.7609
+      Diverse corpus: mean=nan, std=nan, min=nan, max=nan
+            Combined: mean=nan, std=nan, min=nan, max=nan
+
+  Computing crystal PCA basis...
+
+──────────────────────────────────────────────────────────────────────
+  CORRELATION: CRYSTAL ENERGY vs ACTIVATION MAGNITUDE
+──────────────────────────────────────────────────────────────────────
+     Crystal — Pearson: 0.1595, Spearman: 0.2070 (p=4.54e-119)
+     Diverse — Pearson: nan, Spearman: nan (p=nan)
+    Combined — Pearson: nan, Spearman: nan (p=nan)
+
+──────────────────────────────────────────────────────────────────────
+  ZERO PREDICTION: CRYSTAL ENERGY → DEAD NEURONS
+──────────────────────────────────────────────────────────────────────
+
+   CE percentile  Mean crystal act  Mean diverse act  Mean combined  Ratio div/cryst
+  ────────────── ───────────────── ───────────────── ────────────── ────────────────
+  Bottom   1% CE            0.5763               nan            nan              nan
+  Bottom   5% CE            0.7188               nan            nan              nan
+  Bottom  10% CE            0.7661               nan            nan              nan
+  Bottom  20% CE            0.8027               nan            nan              nan
+  Bottom  30% CE            0.8284               nan            nan              nan
+  Bottom  50% CE            0.8618               nan            nan              nan
+  Bottom  70% CE            0.8819               nan            nan              nan
+  Bottom  90% CE            0.9036               nan            nan              nan
+  Bottom 100% CE            0.9192               nan            nan              nan
+
+   DA percentile  Mean crystal E  Mean diverse act  CE/mean CE
+  ────────────── ─────────────── ───────────────── ───────────
+  Bottom   1% DA        0.170664               nan       0.980
+  Bottom   5% DA        0.175069               nan       1.005
+  Bottom  10% DA        0.177390               nan       1.018
+  Bottom  20% DA        0.175081               nan       1.005
+  Bottom  30% DA        0.175300               nan       1.006
+  Bottom  50% DA        0.175438               nan       1.007
+  Bottom  70% DA        0.174622               nan       1.002
+  Bottom  90% DA        0.174187               nan       1.000
+  Bottom 100% DA        0.174190               nan       1.000
+
+──────────────────────────────────────────────────────────────────────
+  ACTIVATION SPARSITY ANALYSIS
+──────────────────────────────────────────────────────────────────────
+
+  Neurons by positive-activation fraction:
+    <  1% positive: crystal= 1172 (9.5%), diverse= 3578 (29.1%), combined= 1491 (12.1%)
+    <  5% positive: crystal= 4661 (37.9%), diverse= 5837 (47.5%), combined= 4823 (39.2%)
+    < 10% positive: crystal= 7089 (57.7%), diverse= 7552 (61.5%), combined= 7206 (58.6%)
+    < 20% positive: crystal= 9544 (77.7%), diverse= 9690 (78.9%), combined= 9615 (78.2%)
+    < 50% positive: crystal=11636 (94.7%), diverse=11755 (95.7%), combined=11666 (94.9%)
+
+  Neuron classification (5% positive threshold):
+    Dead in both:         3855 (31.4%) ← zero candidates
+    Dead crystal only:     806 (6.6%) ← non-crystal neurons
+    Dead diverse only:    1982 (16.1%) ← crystal-only neurons
+    Alive in both:        5645 (45.9%)
+
+  Crystal energy: dead=0.151125, alive=0.189093
+  Ratio alive/dead: 1.25x
+  The crystal equation predicts this ratio should be ≈ φ^(s·Δβ)
+
+  Saved to results/crystal-phi-verify/Qwen_Qwen3-8B_zero_v2.json
+══════════════════════════════════════════════════════════════════════
+
