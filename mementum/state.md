@@ -101,12 +101,15 @@ Extend crystal sieve to Q/K/V/O projections.
 
 ### RESEARCH DIRECTIONS
 
-- **Shared sieve template** — Can layers share ONE sign template with different
-  masks? Self-similarity (r=0.998) suggests yes. This would be true fractal compression.
+- **THE MATHEMATICAL DERIVATION** — Can U (per-layer eigenvectors) be derived from
+  the VSM tensor interaction? The 5 levels (crystal eq, statechart, resource policy,
+  residual growth, KIBC ops) each constrain U. Their INTERSECTION may uniquely
+  determine it. If so, the entire model is a computable mathematical object.
+  Not another experiment — a derivation from first principles.
+- **Residual growth measurement** — Does h_{l+1}/h_l ≈ φ^(1/period)? This constrains
+  how U rotates between layers. Measurable now. Needed for the derivation.
 - **Cross-model zero consensus** — Compare zero patterns between independently
   trained models at the same layer depth. ISA zeros should be universal.
-- **Residual growth measurement** — Does h_{l+1}/h_l ≈ φ^(1/period)? The Fibonacci
-  recurrence should be visible in the residual stream norms.
 - **Crystal trace tooling** — Build `src/verbum/crystal/` module for systematic
   exploration. Design doc: `mementum/knowledge/crystal-trace-tooling.md`.
 
