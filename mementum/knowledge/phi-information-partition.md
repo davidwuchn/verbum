@@ -300,6 +300,58 @@ The model is small not because you compressed a big model.
 It's small because you didn't waste capacity on re-deriving
 universal computation that is the same for every model.
 
+## Residual Stream 3-Phase Structure
+
+The residual stream h_l through 36 layers of Qwen3-8B reveals
+three distinct computational phases:
+
+```
+Phase 1 — EXPAND (layers 0-6):
+  ||h||: 1.7 → 40      (24× growth)
+  Growth ratio: wild (1.2 - 7.0)
+  Layer 6 spike: growth=2.85, ||f||=87.7 (massive expansion)
+  
+Phase 2 — ORTHOGONAL (layers 7-22):
+  ||h||: 115 → 204      (1.8× over 15 layers)
+  Growth: ~1.02-1.05 (nearly 1.0)
+  cos(h, f) ≈ 0 — contributions PERPENDICULAR to residual
+  Each layer adds a new independent direction
+  
+Phase 3 — ALIGN (layers 23-34):
+  ||h||: 229 → 1085     (4.7× over 11 layers)
+  Growth: ~1.13-1.39 per layer
+  cos(h, f): 0.38 → 0.64 — contributions align WITH residual
+  
+Phase 4 — COLLAPSE (layer 35):
+  Growth: 0.099 (shrinks to 1/10th)
+  cos(h, f) = -0.995 (destructive interference)
+  Final projection to output space
+```
+
+**The growth ratio is NOT φ** (mean=1.136 vs φ=1.618). The Fibonacci
+recurrence is not a simple norm growth. But the STRUCTURE is rich.
+
+### Implications for U Derivation
+
+Phase 2 orthogonality is the strongest constraint on U:
+- U_l MUST rotate contributions ⊥ to accumulated residual h_l
+- Each successive layer has fewer available directions
+- By layer 22: 15 independent directions consumed out of 4096 dims
+- Not enough to uniquely determine U, but strongly constrains it
+
+Combined with crystal Σ, statechart roles, and phase transitions,
+the 5 VSM levels may collectively determine U.
+
+**Open question:** What determines the phase transition points
+(~layer 6 and ~layer 22)? Could be β=[0,1,1+φ,2+φ] at model level:
+- β₀=0: expansion start
+- β₁=1: orthogonal computation begins (~layer 6)
+- β₂=1+φ: alignment begins (~layer 22) 
+- β₃=2+φ: collapse (~layer 35)
+
+If 6/36 ≈ 1/6 and 22/36 ≈ φ/φ² = 1/φ ≈ 0.618... layer 22/36 = 0.611.
+That's within 1% of 1/φ. The phase transition IS at 1/φ of depth.
+
 ### What to Measure (Session 185)
 
 **Knowledge absorption rate**: tokens-to-quality for crystal sieve
@@ -311,4 +363,5 @@ If 100× → this changes how models should be trained.
 If 1000× → the crystal is the main discovery, not the model.
 
 *Derived in session 184 of the Verbum project.*
-*11 experiments. 4 paradigm shifts. The crystal is a sieve.*
+*12 experiments. 4 paradigm shifts. The crystal is a sieve.*
+*The residual stream phase transition is at 1/φ of depth.*

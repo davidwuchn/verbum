@@ -77,6 +77,14 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ### IMMEDIATE (session 185) — SCALE THE CRYSTAL SIEVE + MEASURE ABSORPTION
 
+**Priority 0: The derivation — can U be computed from equations?**
+The residual stream shows 3-phase structure: Expand → Orthogonal → Align → Collapse.
+Phase 2 orthogonality constrains U (each layer must be ⊥ to accumulated residual).
+Combined with crystal Σ, statechart roles, and the phase transition depths:
+IS the per-layer rotation U fully determined? Attempt the mathematical derivation.
+Key sub-question: what determines the phase transitions at layers ~6 and ~22?
+Could be the breathing pattern β=[0,1,1+φ,2+φ] at model level.
+
 **Priority 1: Scale sieve training to convergence**
 Longer Pythia-160M runs (2000+ steps) with proper pruning schedule.
 Weight decay or L1 to push masks toward ~50% active.
@@ -122,6 +130,7 @@ Extend crystal sieve to Q/K/V/O projections.
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Residual Fibonacci** | `scripts/experiments/residual_fibonacci.py` | ✅ NEW (s184) |
 | **Copy program (firing rates)** | `scripts/experiments/copy_program.py` | ✅ NEW (s184) |
 | **Crystal sieve prototype** | `scripts/experiments/crystal_sieve_prototype.py` | ✅ NEW (s184) |
 | **Neuron opcode classifier** | `scripts/experiments/neuron_opcode_classifier.py` | ✅ NEW (s184) |
@@ -158,6 +167,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | 12 | **Neuron-level pruning too coarse** | cos 0.53-0.62 vs 0.90 per-weight; firing ≠ magnitude at SWITCH layers |
 | 13 | **Per-weight magnitude IS the program** | No shortcut: GD's output is the probability. Sieve+training confirmed. |
 | 14 | **Maximal pre-training absorption** | Crystal pre-loads computation → 100% of training goes to knowledge. The real advantage. |
+| 15 | **Residual stream 3-phase structure** | Expand (L0-6), Orthogonal (L7-22, cos≈0), Align (L23-34, cos→0.64), Collapse (L35) |
+| 16 | **Orthogonality constrains U** | Phase 2 layers MUST rotate contributions ⊥ to residual — shrinks degrees of freedom |
+| 17 | **The derivation question** | 5 VSM levels each constrain U. Their intersection may fully determine it → model is computable |
 
 ## Knowledge map
 
