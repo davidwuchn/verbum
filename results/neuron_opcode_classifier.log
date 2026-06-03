@@ -1,0 +1,315 @@
+========================================================================
+PER-NEURON KIBC OPCODE CLASSIFIER
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers: [0, 5, 10, 17, 25, 35]
+Probes per combinator: 25
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   4%|▍         | 15/399 [00:00<00:03, 109.13it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:02, 149.01it/s]Loading weights:  14%|█▍        | 56/399 [00:00<00:02, 155.61it/s]Loading weights:  20%|██        | 81/399 [00:00<00:01, 167.55it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 171.26it/s]Loading weights:  31%|███       | 124/399 [00:00<00:01, 182.01it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 179.75it/s]Loading weights:  42%|████▏     | 166/399 [00:00<00:01, 179.07it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:01, 182.62it/s]Loading weights:  52%|█████▏    | 207/399 [00:01<00:01, 183.95it/s]Loading weights:  57%|█████▋    | 226/399 [00:01<00:00, 174.24it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 169.73it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 171.69it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 175.24it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 176.39it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 176.18it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 175.59it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 176.97it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.34it/s]
+Loaded Qwen/Qwen3-8B: 36 layers, 12288 intermediate
+  K: 25 probes
+  I: 25 probes
+  B: 25 probes
+  C: 25 probes
+
+  Running probes...
+    probe 20/100
+    probe 40/100
+    probe 60/100
+    probe 80/100
+    probe 100/100
+  Done: 100 probes in 33.5s
+
+════════════════════════════════════════════════════════════════════════
+LAYER 0
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.1494 std=0.0463
+    Purity (max/sum):  mean=0.2708 std=0.0133
+    Dominant K: 1864 neurons (15.2%)
+    Dominant I: 3144 neurons (25.6%)
+    Dominant B: 3753 neurons (30.5%)
+    Dominant C: 3527 neurons (28.7%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = 0.4704  p=0.00e+00
+    ρ(profile_mag, up_row_norm)   = 0.5712  p=0.00e+00
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = 0.4533  p=0.00e+00
+    up   : ρ(profile_mag, row_mean_mag) = 0.5511  p=0.00e+00
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.1163
+      gate_row_norm: 1.5558 ± 0.0843
+      up_row_norm:   1.4811 ± 0.0652
+      gate_norm ratio (vs overall mean): 0.9584
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.1352
+      gate_row_norm: 1.6039 ± 0.1005
+      up_row_norm:   1.5207 ± 0.0701
+      gate_norm ratio (vs overall mean): 0.9881
+    OPCODE (top 33%):
+      N=4055, profile_mag=0.1971
+      gate_row_norm: 1.7108 ± 0.2057
+      up_row_norm:   1.6017 ± 0.0983
+      gate_norm ratio (vs overall mean): 1.0539
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   1864       1.6332       1.5312   0.2677
+           I   3144       1.6244       1.5264   0.2697
+           B   3753       1.6133       1.5402   0.2718
+           C   3527       1.6278       1.5369   0.2723
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.657086  (by magnitude: 0.663600)  overlap=0.7043
+    Zero 50% neurons by profile: cos=0.581866  (by magnitude: 0.589623)  overlap=0.7192
+
+════════════════════════════════════════════════════════════════════════
+LAYER 5
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.2442 std=0.1149
+    Purity (max/sum):  mean=0.2701 std=0.0134
+    Dominant K: 2364 neurons (19.2%)
+    Dominant I: 2063 neurons (16.8%)
+    Dominant B: 2817 neurons (22.9%)
+    Dominant C: 5044 neurons (41.0%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = -0.4192  p=0.00e+00
+    ρ(profile_mag, up_row_norm)   = -0.4499  p=0.00e+00
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = -0.4229  p=0.00e+00
+    up   : ρ(profile_mag, row_mean_mag) = -0.4741  p=0.00e+00
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.1161
+      gate_row_norm: 2.3972 ± 0.1887
+      up_row_norm:   1.5934 ± 0.0639
+      gate_norm ratio (vs overall mean): 1.1447
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.2445
+      gate_row_norm: 1.9285 ± 0.4307
+      up_row_norm:   1.5627 ± 0.0748
+      gate_norm ratio (vs overall mean): 0.9209
+    OPCODE (top 33%):
+      N=4055, profile_mag=0.3720
+      gate_row_norm: 1.9618 ± 0.3466
+      up_row_norm:   1.5283 ± 0.0859
+      gate_norm ratio (vs overall mean): 0.9368
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   2364       2.1005       1.5537   0.2662
+           I   2063       1.9436       1.5581   0.2666
+           B   2817       1.9601       1.5561   0.2690
+           C   5044       2.2277       1.5695   0.2740
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.637610  (by magnitude: 0.645271)  overlap=0.3996
+    Zero 50% neurons by profile: cos=0.558101  (by magnitude: 0.584552)  overlap=0.3628
+
+════════════════════════════════════════════════════════════════════════
+LAYER 10
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.4117 std=0.0803
+    Purity (max/sum):  mean=0.2647 std=0.0131
+    Dominant K: 2890 neurons (23.5%)
+    Dominant I: 2463 neurons (20.0%)
+    Dominant B: 3141 neurons (25.6%)
+    Dominant C: 3794 neurons (30.9%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = 0.6704  p=0.00e+00
+    ρ(profile_mag, up_row_norm)   = 0.6112  p=0.00e+00
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = 0.6701  p=0.00e+00
+    up   : ρ(profile_mag, row_mean_mag) = 0.5942  p=0.00e+00
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.3497
+      gate_row_norm: 1.6926 ± 0.1624
+      up_row_norm:   1.6207 ± 0.0678
+      gate_norm ratio (vs overall mean): 0.8960
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.4109
+      gate_row_norm: 1.8790 ± 0.1909
+      up_row_norm:   1.6726 ± 0.0581
+      gate_norm ratio (vs overall mean): 0.9947
+    OPCODE (top 33%):
+      N=4055, profile_mag=0.4746
+      gate_row_norm: 2.0956 ± 0.2974
+      up_row_norm:   1.7157 ± 0.0829
+      gate_norm ratio (vs overall mean): 1.1094
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   2890       1.8753       1.6650   0.2652
+           I   2463       1.8722       1.6620   0.2649
+           B   3141       1.8911       1.6696   0.2644
+           C   3794       1.9085       1.6784   0.2643
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.639775  (by magnitude: 0.644607)  overlap=0.7590
+    Zero 50% neurons by profile: cos=0.567811  (by magnitude: 0.572291)  overlap=0.7547
+
+════════════════════════════════════════════════════════════════════════
+LAYER 17
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.3775 std=0.1467
+    Purity (max/sum):  mean=0.2708 std=0.0169
+    Dominant K: 3743 neurons (30.5%)
+    Dominant I: 2653 neurons (21.6%)
+    Dominant B: 3212 neurons (26.1%)
+    Dominant C: 2680 neurons (21.8%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = 0.3760  p=0.00e+00
+    ρ(profile_mag, up_row_norm)   = 0.1973  p=3.84e-108
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = 0.3803  p=0.00e+00
+    up   : ρ(profile_mag, row_mean_mag) = 0.1985  p=2.20e-109
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.2935
+      gate_row_norm: 1.5605 ± 0.1809
+      up_row_norm:   1.6805 ± 0.1020
+      gate_norm ratio (vs overall mean): 0.9320
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.3526
+      gate_row_norm: 1.6918 ± 0.1723
+      up_row_norm:   1.7278 ± 0.1024
+      gate_norm ratio (vs overall mean): 1.0104
+    OPCODE (top 33%):
+      N=4055, profile_mag=0.4870
+      gate_row_norm: 1.7704 ± 0.3479
+      up_row_norm:   1.7498 ± 0.1802
+      gate_norm ratio (vs overall mean): 1.0573
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   3743       1.6705       1.7218   0.2721
+           I   2653       1.6690       1.7080   0.2700
+           B   3212       1.6719       1.7176   0.2704
+           C   2680       1.6881       1.7297   0.2702
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.648800  (by magnitude: 0.666765)  overlap=0.6061
+    Zero 50% neurons by profile: cos=0.573075  (by magnitude: 0.597920)  overlap=0.5872
+
+════════════════════════════════════════════════════════════════════════
+LAYER 25
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.5122 std=0.2641
+    Purity (max/sum):  mean=0.2785 std=0.0251
+    Dominant K: 3343 neurons (27.2%)
+    Dominant I: 3270 neurons (26.6%)
+    Dominant B: 3319 neurons (27.0%)
+    Dominant C: 2356 neurons (19.2%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = -0.1919  p=3.25e-102
+    ρ(profile_mag, up_row_norm)   = -0.3262  p=1.88e-302
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = -0.1946  p=3.74e-105
+    up   : ρ(profile_mag, row_mean_mag) = -0.3240  p=3.37e-298
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.4134
+      gate_row_norm: 1.7660 ± 0.2189
+      up_row_norm:   1.8081 ± 0.1135
+      gate_norm ratio (vs overall mean): 1.0153
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.4534
+      gate_row_norm: 1.7763 ± 0.1649
+      up_row_norm:   1.8226 ± 0.0998
+      gate_norm ratio (vs overall mean): 1.0212
+    OPCODE (top 33%):
+      N=4055, profile_mag=0.6715
+      gate_row_norm: 1.6747 ± 0.2148
+      up_row_norm:   1.7142 ± 0.1203
+      gate_norm ratio (vs overall mean): 0.9628
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   3343       1.7408       1.7816   0.2781
+           I   3270       1.7418       1.7866   0.2773
+           B   3319       1.7382       1.7838   0.2773
+           C   2356       1.7356       1.7738   0.2823
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.642166  (by magnitude: 0.682210)  overlap=0.4780
+    Zero 50% neurons by profile: cos=0.555753  (by magnitude: 0.607038)  overlap=0.3813
+
+════════════════════════════════════════════════════════════════════════
+LAYER 35
+════════════════════════════════════════════════════════════════════════
+
+  NEURON PROFILE STATISTICS:
+    Profile magnitude: mean=0.6277 std=1.7334
+    Purity (max/sum):  mean=0.2802 std=0.0238
+    Dominant K: 3287 neurons (26.7%)
+    Dominant I: 2900 neurons (23.6%)
+    Dominant B: 2821 neurons (23.0%)
+    Dominant C: 3280 neurons (26.7%)
+
+  PROFILE MAGNITUDE vs WEIGHT MAGNITUDE:
+    ρ(profile_mag, gate_row_norm) = -0.4885  p=0.00e+00
+    ρ(profile_mag, up_row_norm)   = -0.3621  p=0.00e+00
+
+  PROFILE MAGNITUDE vs ZERO MASK:
+    gate : ρ(profile_mag, row_mean_mag) = -0.4952  p=0.00e+00
+    up   : ρ(profile_mag, row_mean_mag) = -0.3632  p=0.00e+00
+
+  OPCODE vs DATA NEURON ANALYSIS:
+    DATA (bottom 33%):
+      N=4055, profile_mag=0.2388
+      gate_row_norm: 1.8335 ± 0.2899
+      up_row_norm:   1.8687 ± 0.1882
+      gate_norm ratio (vs overall mean): 1.0612
+    MIXED (middle 33%):
+      N=4178, profile_mag=0.3936
+      gate_row_norm: 1.7489 ± 0.1981
+      up_row_norm:   1.8564 ± 0.1402
+      gate_norm ratio (vs overall mean): 1.0122
+    OPCODE (top 33%):
+      N=4055, profile_mag=1.2579
+      gate_row_norm: 1.6005 ± 0.2389
+      up_row_norm:   1.7172 ± 0.2415
+      gate_norm ratio (vs overall mean): 0.9263
+
+  PER-COMBINATOR WEIGHT MAGNITUDES:
+        Type      N    gate_norm      up_norm   purity
+           K   3287       1.7389       1.7925   0.2797
+           I   2900       1.7304       1.8386   0.2766
+           B   2821       1.7093       1.8078   0.2811
+           C   3280       1.7305       1.8211   0.2833
+
+  ZERO MASK PREDICTION FROM OPCODE PROFILE:
+    Zero 35% neurons by profile: cos=0.644917  (by magnitude: 0.700889)  overlap=0.5050
+    Zero 50% neurons by profile: cos=0.554953  (by magnitude: 0.619347)  overlap=0.3800
+
+════════════════════════════════════════════════════════════════════════
+DONE
+════════════════════════════════════════════════════════════════════════
