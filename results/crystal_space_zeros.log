@@ -1,0 +1,623 @@
+========================================================================
+ZERO MASK IN CRYSTAL/SVD SPACE
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers: [0, 5, 10, 17, 25, 35]
+SVD top-k: 256
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   6%|▌         | 24/399 [00:00<00:01, 189.62it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 174.61it/s]Loading weights:  17%|█▋        | 67/399 [00:00<00:01, 174.15it/s]Loading weights:  22%|██▏       | 89/399 [00:00<00:01, 177.58it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 173.54it/s]Loading weights:  33%|███▎      | 133/399 [00:00<00:01, 177.70it/s]Loading weights:  39%|███▉      | 155/399 [00:00<00:01, 175.15it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:01, 175.46it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:01, 184.09it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:01, 176.30it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 179.68it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 179.31it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 177.44it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 175.32it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 179.24it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 179.17it/s]Loading weights:  94%|█████████▍| 375/399 [00:02<00:00, 172.81it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 181.33it/s]
+Loaded Qwen/Qwen3-8B
+
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: gate_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 12288×4096
+    SVD top-256 in 0.5s
+    Energy captured: 0.3158
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [15.633573532104492, 13.245316505432129, 12.123099327087402, 11.525005340576172, 11.155499458312988, 10.661870956420898, 10.30915355682373, 10.123014450073242, 9.636985778808594, 9.470178604125977]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    15.6336     1.0000     0.4190
+           1    13.2453     0.8472     0.2972
+           2    12.1231     0.7755     0.4929
+           3    11.5250     0.7372     0.2334
+           4    11.1555     0.7136     0.4656
+           5    10.6619     0.6820     0.4161
+           6    10.3092     0.6594     0.4809
+           7    10.1230     0.6475     0.4772
+           8     9.6370     0.6164     0.3232
+           9     9.4702     0.6058     0.7579
+          10     9.4149     0.6022     0.5051
+          11     9.3182     0.5960     0.5403
+          12     9.1985     0.5884     0.4455
+          13     9.0275     0.5774     0.1116
+          14     8.9798     0.5744     0.9060
+          15     8.9209     0.5706     0.4986
+          16     8.7916     0.5624     0.2378
+          17     8.7510     0.5598     0.0851
+          18     8.5716     0.5483     0.1041
+          19     8.4853     0.5428     0.3612
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0229
+      ρ(low-k energy, row_zero_rate)  = 0.0132
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.601018 cos_c=0.584886  overlap=0.5293
+      top-128 approx mask: cos_pr=0.618992 cos_c=0.618721  overlap=0.5455
+      top-192 approx mask: cos_pr=0.635319 cos_c=0.647402  overlap=0.5592
+      top-256 approx mask: cos_pr=0.650552 cos_c=0.667378  overlap=0.5717
+      True magnitude mask:  cos_pr=0.902785 cos_c=0.921895  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.991854
+      φ-decay rate: 0.0052
+      Crystal-S mask: cos_pr=0.649656 cos_c=0.665853  overlap=0.5710
+
+  Layer 5: 12288×4096
+    SVD top-256 in 0.5s
+    Energy captured: 0.2900
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [26.18149185180664, 17.119121551513672, 15.665670394897461, 15.235136032104492, 14.824577331542969, 14.343450546264648, 14.234559059143066, 13.936697959899902, 13.620256423950195, 13.444476127624512]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    26.1815     1.0000     0.5778
+           1    17.1191     0.6539     0.8416
+           2    15.6657     0.5983     0.1910
+           3    15.2351     0.5819     0.5518
+           4    14.8246     0.5662     0.2240
+           5    14.3435     0.5478     0.4497
+           6    14.2346     0.5437     0.5682
+           7    13.9367     0.5323     0.4022
+           8    13.6203     0.5202     0.4897
+           9    13.4445     0.5135     0.5974
+          10    13.2042     0.5043     0.5634
+          11    13.0509     0.4985     0.7409
+          12    12.9851     0.4960     0.0795
+          13    12.7679     0.4877     0.8636
+          14    12.5893     0.4808     0.7992
+          15    12.3512     0.4718     0.3455
+          16    12.3153     0.4704     0.6443
+          17    12.1414     0.4637     0.4369
+          18    11.9387     0.4560     0.5910
+          19    11.8088     0.4510     0.4201
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = 0.0915
+      ρ(low-k energy, row_zero_rate)  = 0.1261
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.600943 cos_c=0.588228  overlap=0.5247
+      top-128 approx mask: cos_pr=0.617616 cos_c=0.600081  overlap=0.5367
+      top-192 approx mask: cos_pr=0.630649 cos_c=0.620975  overlap=0.5463
+      top-256 approx mask: cos_pr=0.641315 cos_c=0.635891  overlap=0.5546
+      True magnitude mask:  cos_pr=0.909064 cos_c=0.904589  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.985799
+      φ-decay rate: 0.0072
+      Crystal-S mask: cos_pr=0.639768 cos_c=0.633401  overlap=0.5534
+
+  Layer 10: 12288×4096
+    SVD top-256 in 0.5s
+    Energy captured: 0.2347
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [23.99828338623047, 10.939408302307129, 10.6935396194458, 10.200981140136719, 9.95556640625, 9.465717315673828, 9.362059593200684, 9.235087394714355, 9.1414155960083, 9.103278160095215]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    23.9983     1.0000     0.4150
+           1    10.9394     0.4558     0.3337
+           2    10.6935     0.4456     0.0807
+           3    10.2010     0.4251     0.6064
+           4     9.9556     0.4148     0.5805
+           5     9.4657     0.3944     0.4920
+           6     9.3621     0.3901     0.8394
+           7     9.2351     0.3848     0.1102
+           8     9.1414     0.3809     0.4781
+           9     9.1033     0.3793     0.4116
+          10     8.8161     0.3674     0.4056
+          11     8.7166     0.3632     0.7599
+          12     8.6213     0.3592     0.4170
+          13     8.5519     0.3564     0.0709
+          14     8.3105     0.3463     0.5619
+          15     8.2802     0.3450     0.6388
+          16     8.2580     0.3441     0.2118
+          17     8.2290     0.3429     0.8472
+          18     8.1843     0.3410     0.9100
+          19     8.0838     0.3368     0.4767
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = 0.0432
+      ρ(low-k energy, row_zero_rate)  = 0.0410
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.592079 cos_c=0.608076  overlap=0.5182
+      top-128 approx mask: cos_pr=0.607061 cos_c=0.582332  overlap=0.5295
+      top-192 approx mask: cos_pr=0.619179 cos_c=0.600677  overlap=0.5388
+      top-256 approx mask: cos_pr=0.629675 cos_c=0.618636  overlap=0.5470
+      True magnitude mask:  cos_pr=0.907668 cos_c=0.896382  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.985904
+      φ-decay rate: 0.0049
+      Crystal-S mask: cos_pr=0.628711 cos_c=0.617047  overlap=0.5460
+
+  Layer 17: 12288×4096
+    SVD top-256 in 0.5s
+    Energy captured: 0.2222
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [15.285335540771484, 8.971537590026855, 8.603392601013184, 8.45832347869873, 8.339245796203613, 8.07046890258789, 7.950252056121826, 7.924250602722168, 7.7409844398498535, 7.686066627502441]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    15.2853     1.0000     0.5317
+           1     8.9715     0.5869     0.1387
+           2     8.6034     0.5629     0.6916
+           3     8.4583     0.5534     0.6954
+           4     8.3392     0.5456     0.0498
+           5     8.0705     0.5280     0.7942
+           6     7.9503     0.5201     0.4861
+           7     7.9243     0.5184     0.3967
+           8     7.7410     0.5064     0.4037
+           9     7.6861     0.5028     0.4733
+          10     7.6165     0.4983     0.4906
+          11     7.5687     0.4952     0.5000
+          12     7.4861     0.4898     0.1844
+          13     7.4337     0.4863     0.9052
+          14     7.3440     0.4805     0.6145
+          15     7.2764     0.4760     0.3517
+          16     7.2126     0.4719     0.3491
+          17     7.0855     0.4636     0.6255
+          18     7.0708     0.4626     0.0703
+          19     7.0204     0.4593     0.3510
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0430
+      ρ(low-k energy, row_zero_rate)  = -0.0012
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.584543 cos_c=0.563492  overlap=0.5151
+      top-128 approx mask: cos_pr=0.600152 cos_c=0.589034  overlap=0.5270
+      top-192 approx mask: cos_pr=0.612687 cos_c=0.611548  overlap=0.5366
+      top-256 approx mask: cos_pr=0.623747 cos_c=0.629554  overlap=0.5451
+      True magnitude mask:  cos_pr=0.904809 cos_c=0.926117  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.993906
+      φ-decay rate: 0.0045
+      Crystal-S mask: cos_pr=0.623483 cos_c=0.629483  overlap=0.5450
+
+  Layer 25: 12288×4096
+    SVD top-256 in 0.4s
+    Energy captured: 0.1809
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [16.428062438964844, 8.41421127319336, 7.8798956871032715, 7.427224636077881, 7.113486289978027, 7.093255996704102, 6.9300408363342285, 6.834383487701416, 6.757741451263428, 6.726565837860107]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    16.4281     1.0000     0.4796
+           1     8.4142     0.5122     0.5390
+           2     7.8799     0.4797     0.6652
+           3     7.4272     0.4521     0.2444
+           4     7.1135     0.4330     0.6388
+           5     7.0933     0.4318     0.3881
+           6     6.9300     0.4218     0.7219
+           7     6.8344     0.4160     0.7573
+           8     6.7577     0.4114     0.3501
+           9     6.7266     0.4095     0.9115
+          10     6.5490     0.3986     0.5794
+          11     6.5291     0.3974     0.0267
+          12     6.4523     0.3928     0.5516
+          13     6.4166     0.3906     0.7342
+          14     6.3977     0.3894     0.7114
+          15     6.3634     0.3874     0.2898
+          16     6.2856     0.3826     0.2353
+          17     6.2519     0.3806     0.7610
+          18     6.2258     0.3790     0.2430
+          19     6.2123     0.3782     0.6306
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = 0.0125
+      ρ(low-k energy, row_zero_rate)  = 0.0015
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.580920 cos_c=0.578278  overlap=0.5108
+      top-128 approx mask: cos_pr=0.593044 cos_c=0.598042  overlap=0.5196
+      top-192 approx mask: cos_pr=0.603860 cos_c=0.611760  overlap=0.5275
+      top-256 approx mask: cos_pr=0.613054 cos_c=0.627936  overlap=0.5349
+      True magnitude mask:  cos_pr=0.906695 cos_c=0.930764  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.990692
+      φ-decay rate: 0.0034
+      Crystal-S mask: cos_pr=0.612705 cos_c=0.627541  overlap=0.5346
+
+  Layer 35: 12288×4096
+    SVD top-256 in 0.5s
+    Energy captured: 0.1911
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [23.29723358154297, 14.098523139953613, 10.802042961120605, 10.470329284667969, 9.577966690063477, 8.50200080871582, 8.027297019958496, 7.708862781524658, 7.525213718414307, 7.3287739753723145]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    23.2972     1.0000     0.4859
+           1    14.0985     0.6052     0.5900
+           2    10.8020     0.4637     0.3519
+           3    10.4703     0.4494     0.5480
+           4     9.5780     0.4111     0.5258
+           5     8.5020     0.3649     0.4733
+           6     8.0273     0.3446     0.2714
+           7     7.7089     0.3309     0.3900
+           8     7.5252     0.3230     0.6364
+           9     7.3288     0.3146     0.8259
+          10     7.2172     0.3098     0.5372
+          11     7.0008     0.3005     0.6005
+          12     6.9715     0.2992     0.1355
+          13     6.8827     0.2954     0.5344
+          14     6.7800     0.2910     0.7866
+          15     6.6823     0.2868     0.6623
+          16     6.5648     0.2818     0.2869
+          17     6.4913     0.2786     0.6367
+          18     6.4539     0.2770     0.6232
+          19     6.4329     0.2761     0.3096
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0204
+      ρ(low-k energy, row_zero_rate)  = 0.0202
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.587058 cos_c=0.578843  overlap=0.5124
+      top-128 approx mask: cos_pr=0.599723 cos_c=0.598571  overlap=0.5213
+      top-192 approx mask: cos_pr=0.609845 cos_c=0.610992  overlap=0.5288
+      top-256 approx mask: cos_pr=0.618721 cos_c=0.626079  overlap=0.5358
+      True magnitude mask:  cos_pr=0.909491 cos_c=0.924212  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.971008
+      φ-decay rate: 0.0047
+      Crystal-S mask: cos_pr=0.617411 cos_c=0.623433  overlap=0.5347
+
+  EXP 5 — Cross-layer component zero rate correlation (gate_proj):
+    Do the same SVD components get zeroed across layers?
+    L 0 vs L 5: ρ=0.1833  p=3.24e-03
+    L 0 vs L10: ρ=0.0269  p=6.69e-01
+    L 0 vs L17: ρ=-0.0826  p=1.87e-01
+    L 0 vs L25: ρ=0.0282  p=6.54e-01
+    L 0 vs L35: ρ=0.0873  p=1.64e-01
+    L 5 vs L10: ρ=-0.0797  p=2.04e-01
+    L 5 vs L17: ρ=0.0358  p=5.68e-01
+    L 5 vs L25: ρ=-0.0522  p=4.06e-01
+    L 5 vs L35: ρ=0.0580  p=3.56e-01
+    L10 vs L17: ρ=-0.0079  p=9.00e-01
+    L10 vs L25: ρ=-0.0365  p=5.61e-01
+    L10 vs L35: ρ=-0.0582  p=3.54e-01
+    L17 vs L25: ρ=0.0224  p=7.21e-01
+    L17 vs L35: ρ=-0.0292  p=6.42e-01
+    L25 vs L35: ρ=-0.0215  p=7.32e-01
+
+════════════════════════════════════════════════════════════════════════
+WEIGHT TYPE: down_proj
+════════════════════════════════════════════════════════════════════════
+
+  Layer 0: 4096×12288
+    SVD top-256 in 0.5s
+    Energy captured: 0.1832
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [15.167476654052734, 7.493426322937012, 7.243865489959717, 7.025528430938721, 6.8065266609191895, 6.747032165527344, 6.618622779846191, 6.590146541595459, 6.492656230926514, 6.467485427856445]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    15.1675     1.0000     0.6658
+           1     7.4934     0.4940     0.5454
+           2     7.2439     0.4776     0.3362
+           3     7.0255     0.4632     0.4625
+           4     6.8065     0.4488     0.6931
+           5     6.7470     0.4448     0.5055
+           6     6.6186     0.4364     0.3679
+           7     6.5901     0.4345     0.2948
+           8     6.4927     0.4281     0.6939
+           9     6.4675     0.4264     0.6938
+          10     6.3891     0.4212     0.8442
+          11     6.3230     0.4169     0.3859
+          12     6.2681     0.4133     0.3061
+          13     6.2061     0.4092     0.2492
+          14     6.1700     0.4068     0.9077
+          15     6.1321     0.4043     0.2065
+          16     6.0881     0.4014     0.7706
+          17     6.0778     0.4007     0.7091
+          18     6.0505     0.3989     0.1301
+          19     6.0040     0.3958     0.5742
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0463
+      ρ(low-k energy, row_zero_rate)  = 0.0542
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.578243 cos_c=0.567862  overlap=0.5106
+      top-128 approx mask: cos_pr=0.593416 cos_c=0.580449  overlap=0.5194
+      top-192 approx mask: cos_pr=0.606912 cos_c=0.599801  overlap=0.5276
+      top-256 approx mask: cos_pr=0.618956 cos_c=0.615386  overlap=0.5348
+      True magnitude mask:  cos_pr=0.917121 cos_c=0.909091  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.992866
+      φ-decay rate: 0.0037
+      Crystal-S mask: cos_pr=0.618415 cos_c=0.614831  overlap=0.5346
+
+  Layer 5: 4096×12288
+    SVD top-256 in 0.5s
+    Energy captured: 0.1708
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [12.193570137023926, 6.756004333496094, 6.685491561889648, 6.4737396240234375, 6.333383083343506, 6.23969841003418, 6.164285659790039, 6.069494247436523, 5.997491359710693, 5.93998908996582]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    12.1936     1.0000     0.4560
+           1     6.7560     0.5541     0.1469
+           2     6.6855     0.5483     0.3723
+           3     6.4737     0.5309     0.7350
+           4     6.3334     0.5194     0.6742
+           5     6.2397     0.5117     0.9349
+           6     6.1643     0.5055     0.8074
+           7     6.0695     0.4978     0.6616
+           8     5.9975     0.4919     0.2566
+           9     5.9400     0.4871     0.4922
+          10     5.9222     0.4857     0.2200
+          11     5.8302     0.4781     0.8477
+          12     5.7927     0.4751     0.2520
+          13     5.7413     0.4708     0.6645
+          14     5.6990     0.4674     0.2929
+          15     5.6454     0.4630     0.4617
+          16     5.6000     0.4593     0.8861
+          17     5.5600     0.4560     0.4148
+          18     5.5043     0.4514     0.5311
+          19     5.4703     0.4486     0.2436
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = 0.0093
+      ρ(low-k energy, row_zero_rate)  = 0.0564
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.574357 cos_c=0.576597  overlap=0.5096
+      top-128 approx mask: cos_pr=0.585413 cos_c=0.587158  overlap=0.5187
+      top-192 approx mask: cos_pr=0.596237 cos_c=0.604191  overlap=0.5270
+      top-256 approx mask: cos_pr=0.602563 cos_c=0.584614  overlap=0.5344
+      True magnitude mask:  cos_pr=0.893418 cos_c=0.889466  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.994382
+      φ-decay rate: 0.0036
+      Crystal-S mask: cos_pr=0.602456 cos_c=0.584445  overlap=0.5343
+
+  Layer 10: 4096×12288
+    SVD top-256 in 0.4s
+    Energy captured: 0.1627
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [8.902031898498535, 7.407642364501953, 6.947336673736572, 6.699986457824707, 6.624425411224365, 6.3303093910217285, 6.292611598968506, 6.120306015014648, 6.069257736206055, 5.995471477508545]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0     8.9020     1.0000     0.1411
+           1     7.4076     0.8321     0.9662
+           2     6.9473     0.7804     0.4267
+           3     6.7000     0.7526     0.6098
+           4     6.6244     0.7441     0.0238
+           5     6.3303     0.7111     0.1866
+           6     6.2926     0.7069     0.0066
+           7     6.1203     0.6875     0.0593
+           8     6.0693     0.6818     0.7500
+           9     5.9955     0.6735     0.3980
+          10     5.9385     0.6671     0.5003
+          11     5.8966     0.6624     0.1024
+          12     5.8101     0.6527     0.9137
+          13     5.7666     0.6478     0.6077
+          14     5.7460     0.6455     0.7526
+          15     5.7091     0.6413     0.4978
+          16     5.6637     0.6362     0.5188
+          17     5.6551     0.6353     0.5712
+          18     5.6248     0.6319     0.1471
+          19     5.5622     0.6248     0.6320
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0517
+      ρ(low-k energy, row_zero_rate)  = 0.0548
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.567939 cos_c=0.559084  overlap=0.5104
+      top-128 approx mask: cos_pr=0.585069 cos_c=0.573859  overlap=0.5197
+      top-192 approx mask: cos_pr=0.601624 cos_c=0.590734  overlap=0.5277
+      top-256 approx mask: cos_pr=0.615602 cos_c=0.606958  overlap=0.5345
+      True magnitude mask:  cos_pr=0.922845 cos_c=0.930798  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.997758
+      φ-decay rate: 0.0032
+      Crystal-S mask: cos_pr=0.615508 cos_c=0.606948  overlap=0.5345
+
+  Layer 17: 4096×12288
+    SVD top-256 in 0.4s
+    Energy captured: 0.1847
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [11.756695747375488, 7.923672676086426, 7.262396812438965, 7.053872585296631, 6.949273586273193, 6.824397087097168, 6.797905921936035, 6.630366325378418, 6.624584197998047, 6.520132064819336]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    11.7567     1.0000     0.0047
+           1     7.9237     0.6740     0.2122
+           2     7.2624     0.6177     0.2529
+           3     7.0539     0.6000     0.5686
+           4     6.9493     0.5911     0.4787
+           5     6.8244     0.5805     0.5271
+           6     6.7979     0.5782     0.7662
+           7     6.6304     0.5640     0.7888
+           8     6.6246     0.5635     0.5922
+           9     6.5201     0.5546     0.5765
+          10     6.4648     0.5499     0.6432
+          11     6.3920     0.5437     0.0531
+          12     6.3556     0.5406     0.5522
+          13     6.3356     0.5389     0.2098
+          14     6.2974     0.5356     0.8582
+          15     6.2448     0.5312     0.3991
+          16     6.2181     0.5289     0.4201
+          17     6.1192     0.5205     0.8047
+          18     6.1146     0.5201     0.5493
+          19     6.0952     0.5184     0.6460
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0435
+      ρ(low-k energy, row_zero_rate)  = -0.0024
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.578527 cos_c=0.566269  overlap=0.5134
+      top-128 approx mask: cos_pr=0.598887 cos_c=0.583044  overlap=0.5239
+      top-192 approx mask: cos_pr=0.614185 cos_c=0.604679  overlap=0.5330
+      top-256 approx mask: cos_pr=0.624318 cos_c=0.621734  overlap=0.5407
+      True magnitude mask:  cos_pr=0.914082 cos_c=0.934526  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.996391
+      φ-decay rate: 0.0035
+      Crystal-S mask: cos_pr=0.624472 cos_c=0.621660  overlap=0.5406
+
+  Layer 25: 4096×12288
+    SVD top-256 in 0.4s
+    Energy captured: 0.1466
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [8.884146690368652, 7.134568691253662, 6.728615760803223, 6.337808132171631, 6.2119832038879395, 6.135442733764648, 6.004604816436768, 5.913715839385986, 5.8103156089782715, 5.719330310821533]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0     8.8841     1.0000     0.2728
+           1     7.1346     0.8031     0.4596
+           2     6.7286     0.7574     0.3946
+           3     6.3378     0.7134     0.6079
+           4     6.2120     0.6992     0.6779
+           5     6.1354     0.6906     0.6046
+           6     6.0046     0.6759     0.8067
+           7     5.9137     0.6656     0.2604
+           8     5.8103     0.6540     0.3424
+           9     5.7193     0.6438     0.2201
+          10     5.6320     0.6339     0.4348
+          11     5.5828     0.6284     0.9344
+          12     5.5628     0.6261     0.4603
+          13     5.5169     0.6210     0.4811
+          14     5.4662     0.6153     0.4839
+          15     5.4096     0.6089     0.2077
+          16     5.3600     0.6033     0.0946
+          17     5.3261     0.5995     0.0725
+          18     5.2628     0.5924     0.5776
+          19     5.2319     0.5889     0.5162
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0193
+      ρ(low-k energy, row_zero_rate)  = -0.0330
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.587354 cos_c=0.580223  overlap=0.5095
+      top-128 approx mask: cos_pr=0.598760 cos_c=0.600124  overlap=0.5179
+      top-192 approx mask: cos_pr=0.609524 cos_c=0.613104  overlap=0.5253
+      top-256 approx mask: cos_pr=0.617825 cos_c=0.628473  overlap=0.5320
+      True magnitude mask:  cos_pr=0.891550 cos_c=0.946203  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.997717
+      φ-decay rate: 0.0021
+      Crystal-S mask: cos_pr=0.618007 cos_c=0.628728  overlap=0.5321
+
+  Layer 35: 4096×12288
+    SVD top-256 in 0.4s
+    Energy captured: 0.1569
+
+    EXP 1 — Zero mask in SVD basis:
+      Singular values (first 10): [12.514768600463867, 8.737948417663574, 7.361224174499512, 6.538203239440918, 5.944588661193848, 5.652929782867432, 5.526041030883789, 5.442546367645264, 5.334010601043701, 5.245663166046143]
+      Zero fraction by component (first 20):
+        comp        σ_k    σ_k/σ_0  zero_frac
+           0    12.5148     1.0000     0.1279
+           1     8.7379     0.6982     0.1915
+           2     7.3612     0.5882     0.8841
+           3     6.5382     0.5224     0.6075
+           4     5.9446     0.4750     0.8410
+           5     5.6529     0.4517     0.4213
+           6     5.5260     0.4416     0.6047
+           7     5.4425     0.4349     0.5338
+           8     5.3340     0.4262     0.1860
+           9     5.2457     0.4192     0.7861
+          10     5.2060     0.4160     0.5974
+          11     5.1390     0.4106     0.2314
+          12     5.0772     0.4057     0.2092
+          13     5.0188     0.4010     0.7030
+          14     4.9652     0.3967     0.2252
+          15     4.9260     0.3936     0.8057
+          16     4.8913     0.3908     0.5334
+          17     4.8774     0.3897     0.2963
+          18     4.8465     0.3873     0.5663
+          19     4.8319     0.3861     0.8558
+
+    EXP 2 — Per-row zero rate in SVD component space:
+      ρ(high-k energy, row_zero_rate) = -0.0472
+      ρ(low-k energy, row_zero_rate)  = -0.0835
+
+    EXP 3 — Crystal-predicted zero mask (σ_k threshold):
+      Zero the low-σ components of each weight,
+      reconstruct, measure cosine.
+      top- 64 approx mask: cos_pr=0.585923 cos_c=0.595723  overlap=0.5273
+      top-128 approx mask: cos_pr=0.592616 cos_c=0.584397  overlap=0.5384
+      top-192 approx mask: cos_pr=0.600164 cos_c=0.600095  overlap=0.5461
+      top-256 approx mask: cos_pr=0.609233 cos_c=0.607628  overlap=0.5527
+      True magnitude mask:  cos_pr=0.889458 cos_c=0.892680  overlap=1.0000
+
+    EXP 4 — Per-weight SVD importance as zero predictor:
+      Crystal fit to singular values: cos=0.991317
+      φ-decay rate: 0.0024
+      Crystal-S mask: cos_pr=0.610327 cos_c=0.609397  overlap=0.5536
+
+  EXP 5 — Cross-layer component zero rate correlation (down_proj):
+    Do the same SVD components get zeroed across layers?
+    L 0 vs L 5: ρ=-0.1217  p=5.18e-02
+    L 0 vs L10: ρ=-0.0566  p=3.67e-01
+    L 0 vs L17: ρ=-0.0244  p=6.98e-01
+    L 0 vs L25: ρ=0.0236  p=7.08e-01
+    L 0 vs L35: ρ=-0.0175  p=7.81e-01
+    L 5 vs L10: ρ=-0.0810  p=1.97e-01
+    L 5 vs L17: ρ=-0.0267  p=6.71e-01
+    L 5 vs L25: ρ=0.0341  p=5.87e-01
+    L 5 vs L35: ρ=-0.0738  p=2.39e-01
+    L10 vs L17: ρ=0.0697  p=2.67e-01
+    L10 vs L25: ρ=-0.1706  p=6.21e-03
+    L10 vs L35: ρ=-0.1119  p=7.39e-02
+    L17 vs L25: ρ=-0.0640  p=3.08e-01
+    L17 vs L35: ρ=-0.0719  p=2.52e-01
+    L25 vs L35: ρ=0.0026  p=9.67e-01
+
+════════════════════════════════════════════════════════════════════════
+DONE
+════════════════════════════════════════════════════════════════════════
