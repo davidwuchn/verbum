@@ -1,0 +1,167 @@
+═══ Standing-Wave Shape Preservation Experiment ═══
+Model: EleutherAI/pythia-160m-deduped
+Device: mps
+
+Loading tokenizer...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading float model for baseline...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2407.44it/s]
+Evaluating float baseline PPL...
+  Float PPL: 40.97
+
+Caching original weights...
+  Cached 24 weight matrices
+
+────────────────────────────────────────────────────────────
+Method: Ternary (50% zeros) (1.6 bits)
+  Avg cosine:         0.8959
+  Compounded cosine:  0.267545
+  Shape (Spearman):   0.8660
+  Shape (Pearson):    0.7793
+  Peak preservation:  0.2931
+  Node preservation:  0.2010
+  Quantize time:      5.1s
+  Evaluating PPL...
+  PPL: 9503.51
+
+────────────────────────────────────────────────────────────
+Method: Ternary (35% zeros) (1.6 bits)
+  Avg cosine:         0.8893
+  Compounded cosine:  0.244677
+  Shape (Spearman):   0.8261
+  Shape (Pearson):    0.6932
+  Peak preservation:  0.2359
+  Node preservation:  0.2869
+  Quantize time:      5.0s
+  Evaluating PPL...
+  PPL: 9552.50
+
+────────────────────────────────────────────────────────────
+Method: Ternary (no zeros) (1.6 bits)
+/Users/mwhitford/src/verbum/scripts/experiments/standing_wave_shape.py:190: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  sp, _ = scipy_stats.spearmanr(row_o, row_q)
+/Users/mwhitford/src/verbum/scripts/experiments/standing_wave_shape.py:191: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  pe, _ = scipy_stats.pearsonr(row_o, row_q)
+  Avg cosine:         0.7944
+  Compounded cosine:  0.063174
+  Shape (Spearman):   0.0143
+  Shape (Pearson):    0.0107
+  Peak preservation:  0.1648
+  Node preservation:  0.1174
+  Quantize time:      3.3s
+  Evaluating PPL...
+  PPL: 57528.19
+
+────────────────────────────────────────────────────────────
+Method: 2-bit uniform (2.0 bits)
+  Avg cosine:         0.8269
+  Compounded cosine:  0.102185
+  Shape (Spearman):   0.3379
+  Shape (Pearson):    0.5356
+  Peak preservation:  0.4191
+  Node preservation:  0.1531
+  Quantize time:      5.0s
+  Evaluating PPL...
+  PPL: 23514476.12
+
+────────────────────────────────────────────────────────────
+Method: 2-bit shape-aware (2.0 bits)
+  Avg cosine:         0.8994
+  Compounded cosine:  0.280310
+  Shape (Spearman):   0.5669
+  Shape (Pearson):    0.7955
+  Peak preservation:  0.5861
+  Node preservation:  0.1741
+  Quantize time:      10.2s
+  Evaluating PPL...
+  PPL: 25891.92
+
+────────────────────────────────────────────────────────────
+Method: 3-bit uniform (3.0 bits)
+  Avg cosine:         0.9570
+  Compounded cosine:  0.589864
+  Shape (Spearman):   0.8149
+  Shape (Pearson):    0.8994
+  Peak preservation:  0.7473
+  Node preservation:  0.2578
+  Quantize time:      5.5s
+  Evaluating PPL...
+  PPL: 188.61
+
+────────────────────────────────────────────────────────────
+Method: 4-bit uniform (4.0 bits)
+  Avg cosine:         0.9903
+  Compounded cosine:  0.889216
+  Shape (Spearman):   0.9527
+  Shape (Pearson):    0.9755
+  Peak preservation:  0.8814
+  Node preservation:  0.5256
+  Quantize time:      5.8s
+  Evaluating PPL...
+  PPL: 49.54
+
+────────────────────────────────────────────────────────────
+Method: 4-bit shape-aware (4.0 bits)
+  Avg cosine:         0.9875
+  Compounded cosine:  0.859514
+  Shape (Spearman):   0.9867
+  Shape (Pearson):    0.9660
+  Peak preservation:  0.7368
+  Node preservation:  0.8400
+  Quantize time:      13.9s
+  Evaluating PPL...
+  PPL: 58.48
+
+────────────────────────────────────────────────────────────
+Method: 8-bit uniform (8.0 bits)
+  Avg cosine:         1.0002
+  Compounded cosine:  1.002152
+  Shape (Spearman):   0.9998
+  Shape (Pearson):    0.9999
+  Peak preservation:  0.9929
+  Node preservation:  0.9715
+  Quantize time:      6.4s
+  Evaluating PPL...
+  PPL: 40.97
+
+════════════════════════════════════════════════════════════════════════════════
+SUMMARY — Standing-Wave Shape Preservation
+════════════════════════════════════════════════════════════════════════════════
+Float baseline PPL: 40.97
+
+Method                     Bits   Cosine   Compound   Spearman   Peak%   Node%        PPL
+───────────────────────── ───── ──────── ────────── ────────── ─────── ─────── ──────────
+8-bit uniform               8.0   1.0002   1.002152     0.9998   0.993   0.971      40.97
+4-bit uniform               4.0   0.9903   0.889216     0.9527   0.881   0.526      49.54
+4-bit shape-aware           4.0   0.9875   0.859514     0.9867   0.737   0.840      58.48
+3-bit uniform               3.0   0.9570   0.589864     0.8149   0.747   0.258     188.61
+Ternary (50% zeros)         1.6   0.8959   0.267545     0.8660   0.293   0.201    9503.51
+Ternary (35% zeros)         1.6   0.8893   0.244677     0.8261   0.236   0.287    9552.50
+2-bit shape-aware           2.0   0.8994   0.280310     0.5669   0.586   0.174   25891.92
+Ternary (no zeros)          1.6   0.7944   0.063174     0.0143   0.165   0.117   57528.19
+2-bit uniform               2.0   0.8269   0.102185     0.3379   0.419   0.153 23514476.12
+
+════════════════════════════════════════════════════════════════════════════════
+ANALYSIS — What predicts PPL?
+════════════════════════════════════════════════════════════════════════════════
+
+Rank correlation with log(PPL):
+  (negative = higher metric → lower PPL = better prediction)
+
+  bits                      ρ = -0.7609  (p = 0.0173)
+  cosine                    ρ = -0.9333  (p = 0.0002)
+  compounded_cosine         ρ = -0.9333  (p = 0.0002)
+  spearman (shape)          ρ = -0.9167  (p = 0.0005)
+  peak_preservation         ρ = -0.8000  (p = 0.0096)
+
+KEY COMPARISON — Same bit budget, different shape preservation:
+  Ternary 50%:       bits=1.6  shape=0.8660  PPL=9503.51
+  2-bit shape-aware: bits=2.0  shape=0.5669  PPL=25891.92
+  2-bit uniform:     bits=2.0  shape=0.3379  PPL=23514476.12
+  PPL ratio (ternary/2bit-shape): 0.37×
+
+  ❌ HYPOTHESIS NOT SUPPORTED: shape doesn't explain the difference.
+
+Done.
+Results saved to results/standing-wave-shape/summary.json

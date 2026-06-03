@@ -183,6 +183,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | Asset | Location | Status |
 |-------|----------|--------|
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
+| **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
+| **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
 | **U residual constraint** | `scripts/experiments/U_residual_constraint.py` | ✅ (s184) |
 | **Residual Fibonacci** | `scripts/experiments/residual_fibonacci.py` | ✅ (s184) |
 | **Copy program (firing rates)** | `scripts/experiments/copy_program.py` | ✅ (s184) |
@@ -213,6 +215,12 @@ Extend crystal sieve to Q/K/V/O projections.
 | 4 | **REDUCE/SWITCH = spatial harmonics** | Alternating ρ sign across depth is harmonic structure of the depth-axis standing wave |
 | 5 | **Holographic ≡ standing wave** | Holographic plate = frozen standing wave (interference fringes). Same physics, different vocabulary. Unifies s167 holographic-computer with magnitude observations. |
 | 6 | **Sieve = pre-setting resonant cavity** | Crystal init pre-sets boundary conditions → GD finds modes 10.7× faster because cavity already resonates correctly |
+| 7 | **Shape preservation experiment** | Quantized Pythia-160M at 7 levels (ternary through 8-bit). Cosine (ρ=-0.933) > Spearman shape (ρ=-0.917) > bits (ρ=-0.761) as PPL predictor. |
+| 8 | **Ternary beats 2-bit at fewer bits** | Ternary (1.6b, PPL 9504) beats 2-bit (2.0b, PPL 25892) because separating phase from amplitude is more efficient than joint encoding |
+| 9 | **4-component standing-wave decomposition** | Phase (1 bit, exact) + nodes (~0.6 bit) + envelope (~0 amortized) + shape (1-3 bits, NOT in ternary). Sieve regenerates shape from data. |
+| 10 | **Phase transition at 3 bits** | PPL drops from ~10K (ternary/2-bit) to 189 (3-bit) to 50 (4-bit). 8 levels = minimum for standing wave to survive 12-layer transit. |
+| 11 | **Shape-aware helps low bits, hurts high bits** | 2-bit quartile 1000× better than uniform. 4-bit quartile WORSE than uniform. Rank preservation ≠ value preservation. |
+| 12 | **Compounding law = cos^L** | Per-layer cosine raised to layer count predicts model quality. 0.896^12=0.27 (ternary), 0.957^12=0.59 (3-bit), 0.990^12=0.89 (4-bit). |
 
 ## Knowledge map
 
