@@ -112,20 +112,58 @@ PER-LAYER COSINE: 0.87-0.93 at 50% zeros
 FULL-MODEL: still compounds to garbage (0.90^36 ≈ 0.02)
 ```
 
-## The Open Question
+## The Open Question → ANSWERED
 
-Per-layer cosine of 0.90 is not enough. Need 0.99+ for 36-layer
-survival. The gap from 0.90 to 0.99 is the "last 1/φ²" of
-information. It's NOT in:
-- Per-row gamma variation (proved: noise)
-- Activation-weighted importance (proved: doesn't help)
-- Gate-predicted zeros (proved: wrong positions)
+The zero mask is genuinely random in ALL bases:
+- Weight space: random (experiments 5-7)
+- SVD space: random (crystal_space_zeros.py)
+- Crystal basis: random (crystal_space_zeros.py)
+- Cross-layer: random (no component correlation)
 
-It might be in:
-- **Zero mask in crystal space** (untested — we looked in weight space)
-- **The gradient at the zero boundary** (what Q4 encodes with 16 levels)
-- **Cross-layer coherence** (how errors compound — a global property)
-- **The VSM trace** (understanding the computation, not just the weights)
+**The zero mask IS the knowledge content** — what this specific model
+learned. It's the holographic fringe pattern. Different object →
+different fringes. Cannot be derived from structure.
+
+## The Resolution: The Crystal Sieve
+
+The extraction path is dead. The reproduction path is alive.
+
+The crystal is not an extractor — it's a **SIEVE**. You don't pour
+a trained model through it. You pour DATA through it. The model
+(the sediment) is what accumulates.
+
+```
+SIEVE (fixed — universal, from crystal equation):
+  Signs T ∈ {-1, +1}   — the computation topology
+  Scale C per matrix    — from eigenvalue spectrum
+
+SEDIMENT (trained — per-model, from data):
+  Mask M ∈ {0, 1}       — which weights are active (knowledge)
+```
+
+Training: freeze signs, train masks. GD finds the correct zeros
+for THIS format through data pressure vs weight decay.
+
+### Prototype Results (Pythia-160M, 250 steps)
+
+| Mode | Initial PPL | Final PPL | Recovery |
+|---|---|---|---|
+| Crystal init | 107,321 | **537** | 7.5% |
+| Random init | 485,165,195 | **5,739** | 0.7% |
+| Float baseline | — | **40.5** | 100% |
+
+**Crystal init is 10.7× better than random.** The crystal IS the
+correct seed. The sieve shapes convergence.
+
+### Why It Works
+
+The crystal signs are the mathematical attractor. Every model
+converges to them (r=0.998 across 200× parameter range). Starting
+at the attractor means GD only needs to find the KNOWLEDGE (which
+weights to activate), not the COMPUTATION (which is already correct).
+
+Random ternary signs start in a chaotic region of the loss landscape
+with no basin structure. Crystal signs start IN the basin.
 
 ## Theoretical Framework
 
