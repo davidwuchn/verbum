@@ -116,19 +116,23 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 **Priority 0: The derivation — can U be computed from equations?**
 CONFIRMED: U is NOT random. V-h alignment monotonically decreases with depth
 (p=0.0015). Later layers read from dimensions ⊥ to accumulated residual.
-U_l is constrained to the null space of span(h_0...h_{l-1}).
 
-The constraint is NECESSARY but not SUFFICIENT (36 directions in 4096 dims = 1%).
-Need additional constraints: full residual COVARIANCE (not just mean direction),
-plus crystal Σ + statechart roles + phase transition depths.
+SESSION 185 UPDATE — FULL COVARIANCE MEASURED:
+  - ORTHO phase (L7-22): effective rank = 1. One direction, 4000-8800× decay.
+  - V has 0% overlap with residual covariance for 16 straight layers.
+  - Cumulative null space: 2771/4096 = 67.7%. Covariance CANNOT determine U alone.
+  - Growth is NOT φ^l — it's phase-gated (0 during ORTHO, ~130/layer during ALIGN).
+  - PARTIAL NEGATIVE: residual covariance is too weak. Need other constraints.
 
-Key sub-questions:
-  1. Compute full residual covariance at each layer — how many effective dims?
-     Standing-wave lens: characterize the resonant modes of the cavity per depth.
-  2. Does the covariance rank grow as φ^l? (Fibonacci accumulation)
-  3. Map phase transitions: are they at 1/φ fractions of depth?
-     Standing-wave lens: these are the node positions of the fundamental mode.
-  4. Combined constraints (covariance + crystal + statechart): how much of U falls out?
+Remaining sub-questions:
+  1. ✅ DONE: Full residual covariance → rank-1 during ORTHO, 67.7% null space.
+  2. ✅ ANSWERED: Growth is NOT φ^l. It's phase-dependent (0 in ORTHO, 130/layer in ALIGN).
+  3. Phase transitions confirmed at 1/φ depth (session 184). ✅
+  4. OPEN: Do KIBC opcode profiles constrain V WITHIN the null space?
+     → This is the next critical measurement. If opcode directions pin V
+       within the 4095-dim null space, U may still be partially derivable.
+  5. OPEN: Crystal formation cost — WHEN does the crystal form during training?
+     → Prior "99.8% of training" claim was ungrounded. Need formation tracking.
 
 **Priority 1: Scale sieve training to convergence**
 Longer Pythia-160M runs (2000+ steps) with proper pruning schedule.
@@ -185,6 +189,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | **Standing-wave knowledge** | `mementum/knowledge/standing-wave-magnitudes.md` | ✅ NEW (s185) |
 | **Shape preservation experiment** | `scripts/experiments/standing_wave_shape.py` | ✅ NEW (s185) |
 | **Shape experiment results** | `results/standing-wave-shape/summary.json` | ✅ NEW (s185) |
+| **Residual covariance experiment** | `scripts/experiments/residual_covariance.py` | ✅ NEW (s185) |
+| **Residual covariance results** | `results/residual-covariance/summary.json` | ✅ NEW (s185) |
+| **Residual covariance knowledge** | `mementum/knowledge/residual-covariance-rank.md` | ✅ NEW (s185) |
 | **U residual constraint** | `scripts/experiments/U_residual_constraint.py` | ✅ (s184) |
 | **Residual Fibonacci** | `scripts/experiments/residual_fibonacci.py` | ✅ (s184) |
 | **Copy program (firing rates)** | `scripts/experiments/copy_program.py` | ✅ (s184) |
@@ -221,11 +228,18 @@ Extend crystal sieve to Q/K/V/O projections.
 | 10 | **Phase transition at 3 bits** | PPL drops from ~10K (ternary/2-bit) to 189 (3-bit) to 50 (4-bit). 8 levels = minimum for standing wave to survive 12-layer transit. |
 | 11 | **Shape-aware helps low bits, hurts high bits** | 2-bit quartile 1000× better than uniform. 4-bit quartile WORSE than uniform. Rank preservation ≠ value preservation. |
 | 12 | **Compounding law = cos^L** | Per-layer cosine raised to layer count predicts model quality. 0.896^12=0.27 (ternary), 0.957^12=0.59 (3-bit), 0.990^12=0.89 (4-bit). |
+| 13 | **ORTHO phase is rank-1** | Residual covariance at L7-22 has effective rank=1. Top eigenvalue ~710K, decay to 2nd: 4000-8800×. One direction carries >99% of all variance. |
+| 14 | **V lives in the null space during ORTHO** | Weight matrix V has 0% overlap with residual covariance subspace for 16 consecutive layers. Projection = 0.01. Computation is invisible. |
+| 15 | **Cumulative null space = 67.7%** | 2771 of 4096 dims unconstrained by residual covariance. U has enormous freedom. Covariance alone CANNOT determine U. Partial negative for derivation. |
+| 16 | **ALIGN rank explosion** | Effective rank grows ~130 dims/layer during L23-34. V transitions from 0% to 100% inside residual subspace over 10 layers. Integration phase. |
+| 17 | **Phase structure refined** | EXPAND=high-rank (V reads residual), ORTHO=rank-1 (V reads null space), ALIGN=rank growth (V transitions), COLLAPSE=destructive interference. |
+| 18 | **Crystal formation cost is UNKNOWN** | Corrected prior claim: r=0.998 cross-model tells us the endpoint, not the cost. 99.8% training claim was ungrounded. Need formation tracking experiment. |
 
 ## Knowledge map
 
 Key pages for current direction:
-- **`standing-wave-magnitudes.md`** — magnitudes as standing wave, depth harmonics (s185)
+- **`residual-covariance-rank.md`** — ORTHO=rank-1, V in null space, 67.7% unconstrained (s185)
+- **`standing-wave-magnitudes.md`** — magnitudes as standing wave, cosine^L law (s185)
 - **`phi-information-partition.md`** — signs=1/φ, γ=noise, zeros=phase, sieve model (s184)
 - **`crystal-trace-tooling.md`** — VSM instrument design (s184)
 - **`holographic-computer.md`** — unified theory: crystal=ISA, FFN=projector, attn=CPU (s167)

@@ -1,0 +1,187 @@
+========================================================================
+RESIDUAL COVARIANCE RANK EXPERIMENT
+========================================================================
+Model: Qwen/Qwen3-8B
+Calibration: 20 sequences, 256 tokens each
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:40,  2.47it/s]Loading weights:   7%|▋         | 26/399 [00:00<00:05, 64.77it/s]Loading weights:  10%|█         | 40/399 [00:00<00:04, 81.35it/s]Loading weights:  14%|█▍        | 56/399 [00:00<00:03, 94.54it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:03, 103.16it/s]Loading weights:  21%|██        | 83/399 [00:00<00:02, 106.05it/s]Loading weights:  24%|██▍       | 96/399 [00:01<00:02, 111.53it/s]Loading weights:  27%|██▋       | 109/399 [00:01<00:02, 109.67it/s]Loading weights:  31%|███▏      | 125/399 [00:01<00:02, 112.88it/s]Loading weights:  35%|███▍      | 138/399 [00:01<00:02, 115.55it/s]Loading weights:  38%|███▊      | 150/399 [00:01<00:02, 109.28it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:02, 114.75it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 118.17it/s]Loading weights:  49%|████▉     | 197/399 [00:01<00:01, 122.58it/s]Loading weights:  53%|█████▎    | 210/399 [00:02<00:01, 114.28it/s]Loading weights:  56%|█████▌    | 224/399 [00:02<00:01, 115.52it/s]Loading weights:  59%|█████▉    | 237/399 [00:02<00:01, 118.30it/s]Loading weights:  62%|██████▏   | 249/399 [00:02<00:01, 113.56it/s]Loading weights:  66%|██████▋   | 265/399 [00:02<00:01, 121.03it/s]Loading weights:  70%|██████▉   | 278/399 [00:02<00:01, 119.38it/s]Loading weights:  73%|███████▎  | 290/399 [00:02<00:00, 116.94it/s]Loading weights:  76%|███████▌  | 303/399 [00:02<00:00, 118.07it/s]Loading weights:  80%|███████▉  | 318/399 [00:03<00:00, 115.38it/s]Loading weights:  84%|████████▎ | 334/399 [00:03<00:00, 121.37it/s]Loading weights:  87%|████████▋ | 347/399 [00:03<00:00, 123.03it/s]Loading weights:  90%|█████████ | 360/399 [00:03<00:00, 123.48it/s]Loading weights:  93%|█████████▎| 373/399 [00:03<00:00, 122.28it/s]Loading weights:  97%|█████████▋| 386/399 [00:03<00:00, 121.52it/s]Loading weights: 100%|██████████| 399/399 [00:03<00:00, 110.45it/s]
+Loaded: 36 layers, hidden=4096
+Using 20 calibration sequences
+
+Phase 1: Collecting hidden states...
+  batch 5/20
+  batch 10/20
+  batch 15/20
+  batch 20/20
+  Done in 62.5s (3648 tokens)
+
+Phase 2: Eigendecomposing covariances...
+  Done.
+
+========================================================================
+EFFECTIVE RANK PER LAYER
+========================================================================
+
+  Layer    Phase  Rank99%  Rank95%  Rank90%  RoyRank       TopEig   EigDecay
+  ───── ──────── ──────── ──────── ──────── ──────── ──────────── ──────────
+      0   EXPAND     1003      738      548    348.4         0.13     1.0805
+      1   EXPAND     1398      831      576    370.4         5.55     1.4220
+      2   EXPAND     1459      834      561    225.1        31.79     5.8602
+      3   EXPAND     1511      822      527    136.0        77.45     9.5849
+      4   EXPAND     1570      874      577    210.7        83.35     6.4787
+      5   EXPAND     1631      907      599    278.5        84.27     2.8309
+      6   EXPAND     1728      962      634    354.0        75.34     1.5745
+      7    ORTHO        1        1        1      1.0    709911.43  8818.0503
+      8    ORTHO        1        1        1      1.0    709905.84  7173.9245
+      9    ORTHO        1        1        1      1.0    709919.52  6164.2411
+     10    ORTHO        1        1        1      1.0    710018.65  6018.5915
+     11    ORTHO        1        1        1      1.0    709818.77  5575.3733
+     12    ORTHO        1        1        1      1.0    709693.37  5019.6344
+     13    ORTHO        1        1        1      1.1    709615.67  4551.4711
+     14    ORTHO        1        1        1      1.1    710178.47  4220.1477
+     15    ORTHO        1        1        1      1.1    710261.30  3960.3960
+     16    ORTHO        1        1        1      1.1    710490.28  3974.5063
+     17    ORTHO        1        1        1      1.1    763452.47  4088.3679
+     18    ORTHO        1        1        1      1.1    762818.49  3611.6563
+     19    ORTHO        1        1        1      1.1    762525.70  3235.6059
+     20    ORTHO        1        1        1      1.1    761273.22  2547.8731
+     21    ORTHO        3        1        1      1.1    760402.38  2136.9177
+     22    ORTHO       15        1        1      1.2    759896.40  1700.1704
+     23    ALIGN       55        1        1      1.2    758115.91  1168.9977
+     24    ALIGN      167        1        1      1.3    755474.42   731.1140
+     25    ALIGN      312        1        1      1.5    751872.46   413.8707
+     26    ALIGN      458        3        1      1.7    749533.33   319.5610
+     27    ALIGN      602       19        1      2.0    746603.07   256.6353
+     28    ALIGN      752       64        1      2.4    743655.27   197.8540
+     29    ALIGN      919      144        8      3.1    740417.95   143.6663
+     30    ALIGN     1062      226       30      3.9    735398.11   104.1236
+     31    ALIGN     1204      324       74      5.5    729459.46    62.2017
+     32    ALIGN     1326      415      126      7.6    723747.80    44.6370
+     33    ALIGN     1443      508      184     10.6    719412.07    33.8601
+     34    ALIGN     1551      599      248     14.6    708974.84    24.9523
+     35 COLLAPSE     1809      860      465     52.9    379922.41     8.1196
+     36   OUTPUT     1678      746      393     83.3      2304.84     3.1022
+
+========================================================================
+CUMULATIVE SUBSPACE RANK (union of all prior layers)
+========================================================================
+
+  Layer    Phase  CumRank99  CumRank95     CumRoy   NullDims
+  ───── ──────── ────────── ────────── ────────── ──────────
+      0   EXPAND       1003        738      348.4       3093
+      1   EXPAND       1717        937      405.6       2379
+      2   EXPAND       1980       1039      320.6       2116
+      3   EXPAND       2156       1094      233.3       1940
+      4   EXPAND       2376       1216      254.1       1720
+      5   EXPAND       2607       1364      312.8       1489
+      6   EXPAND       2843       1549      404.2       1253
+      7    ORTHO          1          1        1.1       4095
+      8    ORTHO          1          1        1.1       4095
+      9    ORTHO          1          1        1.0       4095
+     10    ORTHO          1          1        1.0       4095
+     11    ORTHO          1          1        1.0       4095
+     12    ORTHO          1          1        1.0       4095
+     13    ORTHO          1          1        1.0       4095
+     14    ORTHO          1          1        1.1       4095
+     15    ORTHO          1          1        1.1       4095
+     16    ORTHO          1          1        1.1       4095
+     17    ORTHO          1          1        1.1       4095
+     18    ORTHO          1          1        1.1       4095
+     19    ORTHO          1          1        1.1       4095
+     20    ORTHO          1          1        1.1       4095
+     21    ORTHO          1          1        1.1       4095
+     22    ORTHO          1          1        1.1       4095
+     23    ALIGN          1          1        1.1       4095
+     24    ALIGN          1          1        1.1       4095
+     25    ALIGN          1          1        1.1       4095
+     26    ALIGN         11          1        1.2       4085
+     27    ALIGN         42          1        1.2       4054
+     28    ALIGN        104          1        1.2       3992
+     29    ALIGN        202          1        1.3       3894
+     30    ALIGN        332          1        1.4       3764
+     31    ALIGN        494          1        1.5       3602
+     32    ALIGN        675          1        1.7       3421
+     33    ALIGN        877          7        1.9       3219
+     34    ALIGN       1089         30        2.1       3007
+     35 COLLAPSE       1320         83        2.5       2776
+     36   OUTPUT       1325         84        2.5       2771
+
+========================================================================
+V-SUBSPACE OVERLAP (weight V vs residual covariance subspace)
+========================================================================
+
+  Layer    Phase  V_in_res% V_out_res%   MeanProj CumNullDim
+  ───── ──────── ────────── ────────── ────────── ──────────
+      0   EXPAND        9.4       90.6     0.4675       3093
+      1   EXPAND      100.0        0.0     0.7484       2379
+      2   EXPAND      100.0        0.0     0.8202       2116
+      3   EXPAND      100.0        0.0     0.8338       1940
+      4   EXPAND      100.0        0.0     0.8323       1720
+      5   EXPAND      100.0        0.0     0.8642       1489
+      6   EXPAND      100.0        0.0     0.8561       1253
+      7    ORTHO        0.0      100.0     0.0218       4095
+      8    ORTHO        0.0      100.0     0.0144       4095
+      9    ORTHO        0.0      100.0     0.0118       4095
+     10    ORTHO        0.0      100.0     0.0122       4095
+     11    ORTHO        0.0      100.0     0.0141       4095
+     12    ORTHO        0.0      100.0     0.0136       4095
+     13    ORTHO        0.0      100.0     0.0144       4095
+     14    ORTHO        0.0      100.0     0.0127       4095
+     15    ORTHO        0.0      100.0     0.0123       4095
+     16    ORTHO        0.0      100.0     0.0128       4095
+     17    ORTHO        0.0      100.0     0.0123       4095
+     18    ORTHO        0.0      100.0     0.0105       4095
+     19    ORTHO        0.0      100.0     0.0110       4095
+     20    ORTHO        0.0      100.0     0.0103       4095
+     21    ORTHO        0.0      100.0     0.0036       4095
+     22    ORTHO        0.0      100.0     0.0122       4095
+     23    ALIGN        0.0      100.0     0.0125       4095
+     24    ALIGN        0.0      100.0     0.0024       4095
+     25    ALIGN        0.0      100.0     0.0023       4095
+     26    ALIGN        0.0      100.0     0.1281       4085
+     27    ALIGN        0.0      100.0     0.2169       4054
+     28    ALIGN        1.6       98.4     0.2835       3992
+     29    ALIGN        1.6       98.4     0.3055       3894
+     30    ALIGN        6.2       93.8     0.3673       3764
+     31    ALIGN       14.1       85.9     0.4228       3602
+     32    ALIGN       23.4       76.6     0.4752       3421
+     33    ALIGN       73.4       26.6     0.5359       3219
+     34    ALIGN       98.4        1.6     0.5978       3007
+     35 COLLAPSE      100.0        0.0     0.6323       2776
+
+========================================================================
+GROWTH CURVE ANALYSIS
+========================================================================
+
+  Exponential fit: rank ≈ 10.6 × 1.0367^layer
+  If φ-growth: base would be 1.6180
+  Actual base: 1.0367
+  Ratio actual/φ: 0.6407
+
+  Linear fit: rank ≈ 1056.2 + -26.8 × layer
+  Rank at layer 36: 91
+  Null dims at layer 36: 4005
+
+  Early growth rate (L1-6): 225.2 dims/layer
+  Late growth rate (L32-36): 166.2 dims/layer
+  ≈  Growth is roughly LINEAR
+
+========================================================================
+SUMMARY
+========================================================================
+
+  Hidden dim: 4096
+  Final cumulative rank (99%): 1325
+  Final null space dims: 2771
+  Null space fraction: 0.677
+
+  If null space is large → U is WEAKLY constrained → more room for data-dependence
+  If null space is small → U is TIGHTLY constrained → more derivable
+
+========================================================================
+DONE
+========================================================================
+
+Results saved to results/residual-covariance/summary.json

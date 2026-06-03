@@ -47,6 +47,7 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | 8d | [standing-wave-magnitudes.md](standing-wave-magnitudes.md) | ✅ | Magnitudes as standing wave: crystal=boundary conditions, zeros=nodes, GD=finding resonant modes |
 | 8e | [gradient-zero-map.md](gradient-zero-map.md) | ✅ | GD deposits near-zero gradients at irreducible compute points. Two-regime depth structure. |
 | 8f | [topology-gradient-separation.md](topology-gradient-separation.md) | ✅ | Freeze lattice for GD to work. Punctuated equilibrium protocol. Cross-disciplinary validation. |
+| 8g | [residual-covariance-rank.md](residual-covariance-rank.md) | ✅ | ORTHO phase is rank-1. V lives in null space. 67.7% unconstrained. Partial negative for U derivation. |
 
 ## Tier 3 — What Are We Running?
 
