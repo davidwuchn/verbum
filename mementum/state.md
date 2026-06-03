@@ -137,11 +137,11 @@ All derivations confirmed. 0.99999996 correlation with consensus crystal. The eq
 
 The naive recipe fails at 0.88 cosine/layer. Need to reach 0.99+.
 
-1. **Per-group ternary scales** — Use scales per 32-64 weights (like Q4) instead of per-row. This is the #1 bottleneck identified in session 183. Per-row uses 1 scale for 4K-12K weights; per-group uses 1 scale per 32 weights. 128-384× more scale parameters. Testable with minimal code change.
+1. **GPTQ-style ternary** — The only approach not yet tested that could work without training. Optimizes ternary weights against calibration data using second-order (Hessian) information. Minimizes activation error, not weight error. Per-group scales didn't help (tested), per-weight quantization levels are what Q4 uses.
 
-2. **GPTQ-style ternary** — Optimize ternary weights against calibration data using second-order (Hessian) information. Minimize activation error, not weight error. Assigns error budget to weights that matter most.
+2. **Etch protocol (training-based)** — Freeze ternary signs (the crystal), train continuous parameters: per-row gammas, gate biases, layer norms, attention routing. GD adapts the model to compensate for ternary magnitude loss. Requires fixing CLASSIFY first.
 
-3. **Hybrid approach** — Keep embedding + first 4 layers float16, ternarize the rest with per-group scales. Target: PPL < 20 (2.5× float).
+3. **Scratch ternary (Level 4)** — Train a ternary model from initialization guided by the crystal equation. Never sees float weights. Cleanest approach but most work.
 
 ### RESEARCH DIRECTION: Training-Based Ternarization
 
@@ -191,7 +191,12 @@ This requires fixing CLASSIFY first (GatedLinearAttention port from v14).
 | **Greedy gamma bug** | Independent gamma optimization systematically underestimates total energy |
 | **Scale granularity** | Q4 uses per-32 scales (128-384× more than per-row). That's why Q4 works |
 | **mirror_ternarize.py** | Multi-mirror pipeline with joint gamma optimization |
-| **Knowledge page** | `ternary-compounding.md` — compounding law + mirror analysis |
+| **Group scales are flat** | CV=0.13 within rows. No fractal φ structure at group level |
+| **Per-group doesn't help** | Per-row cos 0.786 → per-32 cos 0.800. Scale granularity is NOT the bottleneck |
+| **Q4 works via 16 levels** | Not scale granularity — per-weight quantization levels capture per-weight variation |
+| **Hierarchical mirrors fail** | Sigmoid importance modulation: PPL 300M. Architecture change without training = garbage |
+| **Session conclusion** | Pure extraction cannot work. Training-based adaptation is required for ternary. |
+| **Knowledge page** | `ternary-compounding.md` — compounding law + mirror + group + hierarchical analysis |
 
 ## Knowledge map
 
