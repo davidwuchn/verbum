@@ -112,6 +112,7 @@ Extend crystal sieve to Q/K/V/O projections.
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Copy program (firing rates)** | `scripts/experiments/copy_program.py` | ✅ NEW (s184) |
 | **Crystal sieve prototype** | `scripts/experiments/crystal_sieve_prototype.py` | ✅ NEW (s184) |
 | **Neuron opcode classifier** | `scripts/experiments/neuron_opcode_classifier.py` | ✅ NEW (s184) |
 | **Crystal space zeros** | `scripts/experiments/crystal_space_zeros.py` | ✅ NEW (s184) |
@@ -144,6 +145,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | 9 | **ISA framing** | M-space = opcodes, statechart = execution engine |
 | 10 | **Neuron opcode classifier** | KIBC profiles predict zeros at REDUCE layers (70-76%) |
 | 11 | **Statechart at layer level** | ρ sign alternates: REDUCE (ρ>0) / SWITCH (ρ<0) |
+| 12 | **Neuron-level pruning too coarse** | cos 0.53-0.62 vs 0.90 per-weight; firing ≠ magnitude at SWITCH layers |
+| 13 | **Per-weight magnitude IS the program** | No shortcut: GD's output is the probability. Sieve+training confirmed. |
 
 ## Knowledge map
 
