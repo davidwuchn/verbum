@@ -78,12 +78,19 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 ### IMMEDIATE (session 185) — SCALE THE CRYSTAL SIEVE + MEASURE ABSORPTION
 
 **Priority 0: The derivation — can U be computed from equations?**
-The residual stream shows 3-phase structure: Expand → Orthogonal → Align → Collapse.
-Phase 2 orthogonality constrains U (each layer must be ⊥ to accumulated residual).
-Combined with crystal Σ, statechart roles, and the phase transition depths:
-IS the per-layer rotation U fully determined? Attempt the mathematical derivation.
-Key sub-question: what determines the phase transitions at layers ~6 and ~22?
-Could be the breathing pattern β=[0,1,1+φ,2+φ] at model level.
+CONFIRMED: U is NOT random. V-h alignment monotonically decreases with depth
+(p=0.0015). Later layers read from dimensions ⊥ to accumulated residual.
+U_l is constrained to the null space of span(h_0...h_{l-1}).
+
+The constraint is NECESSARY but not SUFFICIENT (36 directions in 4096 dims = 1%).
+Need additional constraints: full residual COVARIANCE (not just mean direction),
+plus crystal Σ + statechart roles + phase transition depths.
+
+Key sub-questions for session 185:
+  1. Compute full residual covariance at each layer — how many effective dims?
+  2. Does the covariance rank grow as φ^l? (Fibonacci accumulation)
+  3. Map phase transitions: are they at 1/φ fractions of depth?
+  4. Combined constraints (covariance + crystal + statechart): how much of U falls out?
 
 **Priority 1: Scale sieve training to convergence**
 Longer Pythia-160M runs (2000+ steps) with proper pruning schedule.
@@ -130,6 +137,7 @@ Extend crystal sieve to Q/K/V/O projections.
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **U residual constraint** | `scripts/experiments/U_residual_constraint.py` | ✅ NEW (s184) |
 | **Residual Fibonacci** | `scripts/experiments/residual_fibonacci.py` | ✅ NEW (s184) |
 | **Copy program (firing rates)** | `scripts/experiments/copy_program.py` | ✅ NEW (s184) |
 | **Crystal sieve prototype** | `scripts/experiments/crystal_sieve_prototype.py` | ✅ NEW (s184) |
@@ -170,6 +178,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | 15 | **Residual stream 3-phase structure** | Expand (L0-6), Orthogonal (L7-22, cos≈0), Align (L23-34, cos→0.64), Collapse (L35) |
 | 16 | **Orthogonality constrains U** | Phase 2 layers MUST rotate contributions ⊥ to residual — shrinks degrees of freedom |
 | 17 | **The derivation question** | 5 VSM levels each constrain U. Their intersection may fully determine it → model is computable |
+| 18 | **V-h alignment decreases monotonically** | Later layers read from UNUSED dims (⊥ to accumulated residual). p=0.0015. |
+| 19 | **U IS constrained** | Not random — constrained to null space of accumulated residual. Tightens with depth. Derivable direction. |
 
 ## Knowledge map
 

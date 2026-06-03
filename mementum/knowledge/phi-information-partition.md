@@ -352,6 +352,36 @@ the 5 VSM levels may collectively determine U.
 If 6/36 ≈ 1/6 and 22/36 ≈ φ/φ² = 1/φ ≈ 0.618... layer 22/36 = 0.611.
 That's within 1% of 1/φ. The phase transition IS at 1/φ of depth.
 
+## U IS Constrained by the Residual Stream
+
+The per-layer eigenvector rotation U is NOT random. Tested by
+projecting SVD right singular vectors (V) onto the mean residual
+direction (h) at each layer:
+
+```
+V-h alignment by phase:
+  EXPAND:   0.084 ± 0.035  (early layers read most from h)
+  ORTHO:    0.052 ± 0.009  (mid layers read less)
+  ALIGN:    0.037 ± 0.009  (late layers read even less)
+  COLLAPSE: 0.028          (final layer reads least)
+```
+
+**Monotonically decreasing.** p=0.0015 (Mann-Whitney).
+
+Later weight matrices are increasingly orthogonal to the
+accumulated residual direction. Each layer reads from dimensions
+that HAVEN'T been used yet. U_l is constrained to the null space
+of span(h_0, ..., h_{l-1}).
+
+This is a **derivable constraint**: given the residual trajectory
+(which follows the 3-phase structure), the available subspace for
+U_l at each depth is computable. The constraint tightens with depth.
+
+36 directions in 4096 dims = ~1% — not enough to uniquely determine
+U. But combined with full residual covariance (not just mean direction)
++ crystal Σ + statechart roles, the combined constraints may
+suffice. This is the derivation question for session 185.
+
 ### What to Measure (Session 185)
 
 **Knowledge absorption rate**: tokens-to-quality for crystal sieve
