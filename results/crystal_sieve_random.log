@@ -1,0 +1,51 @@
+========================================================================
+CRYSTAL SIEVE PROTOTYPE — mode=random
+========================================================================
+Device: mps
+
+Loading Pythia-160M...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3052.47it/s]
+
+Preparing data...
+  Train: 9145 sequences
+  Eval:  951 sequences
+
+Float baseline PPL: 40.54
+
+Patching model (random mode)...
+  Patched 24 linear layers (random mode)
+Freezing non-mask parameters...
+  Trainable: 134,011,392 params
+  Frozen:    28,311,552 params
+
+Initial PPL (random sieve, untrained masks): 485165195.41
+
+Training (250 steps)...
+
+    Step     Loss      PPL   Temp   Active   Time
+  ────── ──────── ──────── ────── ──────── ──────
+       0        ─ 485165195.4   2.00   100.0%    0.0s
+       1  21.9038 31468494.3   1.98   100.0%    1.3s
+      25  10.2086  34108.3   1.48   100.0%    4.0s
+      50   9.0056   5962.0   1.10   100.0%    6.9s
+      75   8.0452   2722.0   0.81   100.0%    9.8s
+     100   7.5959   2341.1   0.60   100.0%   12.7s
+     125   7.4418   4838.6   0.45   100.0%   15.5s
+     150   6.9119  84341.8   0.33   100.0%   18.4s
+     175   7.0644  21252.5   0.25   100.0%   21.3s
+     200   6.8039  17737.2   0.18   100.0%   24.2s
+     225   6.7811  62162.4   0.13   100.0%   27.0s
+     250   6.8026   5738.7   0.10   100.0%   29.9s
+     250    FINAL   5738.7   0.10   100.0%   30.4s
+
+========================================================================
+SUMMARY — random mode
+========================================================================
+  Float baseline PPL:    40.54
+  Initial sieve PPL:     485165195.41
+  After 250 steps PPL: 5738.75
+  Recovery: 0.7% of float baseline
+  Active weights: 56,623,104 / 56,623,104 (100.0%)
+  Final model size: 6.75 MB (1 bit per active weight)

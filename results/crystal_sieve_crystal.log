@@ -1,0 +1,51 @@
+========================================================================
+CRYSTAL SIEVE PROTOTYPE — mode=crystal
+========================================================================
+Device: mps
+
+Loading Pythia-160M...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  74%|███████▍  | 110/148 [00:00<00:00, 1086.33it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1142.04it/s]
+
+Preparing data...
+  Train: 9145 sequences
+  Eval:  951 sequences
+
+Float baseline PPL: 40.54
+
+Patching model (crystal mode)...
+  Patched 24 linear layers (crystal mode)
+Freezing non-mask parameters...
+  Trainable: 134,011,392 params
+  Frozen:    28,311,552 params
+
+Initial PPL (crystal sieve, untrained masks): 107320.82
+
+Training (250 steps)...
+
+    Step     Loss      PPL   Temp   Active   Time
+  ────── ──────── ──────── ────── ──────── ──────
+       0        ─ 141516.3   2.00   100.0%    0.0s
+       1  20.7674 1694867.8   1.98   100.0%    2.1s
+      25  12.1108 670842.4   1.48   100.0%    4.9s
+      50  12.3808  14022.9   1.10   100.0%    7.8s
+      75   8.5135   3176.1   0.81   100.0%   10.7s
+     100   7.5666   1397.7   0.60   100.0%   13.5s
+     125   7.0663   1155.4   0.45   100.0%   16.4s
+     150   6.7968    925.9   0.33   100.0%   19.3s
+     175   5.9829   1889.0   0.25   100.0%   22.2s
+     200   6.4939    733.0   0.18   100.0%   25.0s
+     225   6.0441    552.0   0.13   100.0%   27.9s
+     250   6.1556    537.1   0.10   100.0%   30.8s
+     250    FINAL    537.1   0.10   100.0%   31.3s
+
+========================================================================
+SUMMARY — crystal mode
+========================================================================
+  Float baseline PPL:    40.54
+  Initial sieve PPL:     107320.82
+  After 250 steps PPL: 537.14
+  Recovery: 7.5% of float baseline
+  Active weights: 56,623,104 / 56,623,104 (100.0%)
+  Final model size: 6.75 MB (1 bit per active weight)
