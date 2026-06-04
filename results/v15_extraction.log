@@ -1,0 +1,297 @@
+========================================================================
+  V15 Extraction Pipeline — Qwen3.6-27B → 1B Ternary Student
+========================================================================
+  Teacher path:  /Users/mwhitford/.cache/huggingface/hub/models--Qwen--Qwen3.6-27B/snapshots/6a9e13bd6fc8f0983b9b99948120bc37f49c13e9
+  Output dir:    checkpoints/v15-extracted/model.npz
+  d_model:          1280
+  d_ff:             5120
+  n_strides:        19 (ALL composition, no GLA)
+  n_rotations:      8
+  sklearn SVD:   True
+
+  Stride → Teacher layer mapping:
+    stride 00 (s=   1) → teacher layer  3 (full_attn)
+    stride 01 (s=   2) → teacher layer  3 (full_attn)
+    stride 02 (s=   3) → teacher layer  7 (full_attn)
+    stride 03 (s=   5) → teacher layer 11 (full_attn)
+    stride 04 (s=   8) → teacher layer 15 (full_attn)
+    stride 05 (s=  13) → teacher layer 19 (full_attn)
+    stride 06 (s=  15) → teacher layer 23 (full_attn)
+    stride 07 (s=  20) → teacher layer 23 (full_attn)
+    stride 08 (s=  21) → teacher layer 27 (full_attn)
+    stride 09 (s=  24) → teacher layer 31 (full_attn)
+    stride 10 (s=  34) → teacher layer 35 (full_attn)
+    stride 11 (s=  55) → teacher layer 39 (full_attn)
+    stride 12 (s=  89) → teacher layer 43 (full_attn)
+    stride 13 (s= 144) → teacher layer 43 (full_attn)
+    stride 14 (s= 233) → teacher layer 47 (full_attn)
+    stride 15 (s= 377) → teacher layer 51 (full_attn)
+    stride 16 (s= 610) → teacher layer 55 (full_attn)
+    stride 17 (s= 987) → teacher layer 59 (full_attn)
+    stride 18 (s=1597) → teacher layer 63 (full_attn)
+
+── Stage 1: Global projection basis (embedding SVD) ────────
+  Loading embeddings: model.language_model.embed_tokens.weight
+  Embedding shape: (248320, 5120)  dtype=float32
+  Computing truncated SVD (top-1280 components) ...
+  V_proj shape: (5120, 1280)  (27.1s)
+
+── Stage 2: Embedding plate ────────────────────────────────
+  Loading embeddings for sign extraction ...
+  Projecting: (248320, 5120) @ (5120, 1280) ...
+  E_proj range: [-0.1545, 0.2507]
+  Embedding signs: (248320, 1280)  (3.0s)
+  Packed embedding: (248320, 1280) → (248320, 320)  (3.3s)
+
+── Stage 3: Attention plates (19 strides, ALL full_attn) ──
+  [stride 00, s=   1] → teacher layer 3 (full_attn)
+    SSA layer 3 q_proj: (12288, 5120)
+    SSA layer 3 k_proj: (1024, 5120)
+    SSA layer 3 v_proj: (1024, 5120)
+    SSA layer 3 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 01, s=   2] → teacher layer 3 (full_attn)
+    SSA layer 3 q_proj: (12288, 5120)
+    SSA layer 3 k_proj: (1024, 5120)
+    SSA layer 3 v_proj: (1024, 5120)
+    SSA layer 3 o_proj: (5120, 6144)
+    Done in 8.6s
+  [stride 02, s=   3] → teacher layer 7 (full_attn)
+    SSA layer 7 q_proj: (12288, 5120)
+    SSA layer 7 k_proj: (1024, 5120)
+    SSA layer 7 v_proj: (1024, 5120)
+    SSA layer 7 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 03, s=   5] → teacher layer 11 (full_attn)
+    SSA layer 11 q_proj: (12288, 5120)
+    SSA layer 11 k_proj: (1024, 5120)
+    SSA layer 11 v_proj: (1024, 5120)
+    SSA layer 11 o_proj: (5120, 6144)
+    Done in 8.6s
+  [stride 04, s=   8] → teacher layer 15 (full_attn)
+    SSA layer 15 q_proj: (12288, 5120)
+    SSA layer 15 k_proj: (1024, 5120)
+    SSA layer 15 v_proj: (1024, 5120)
+    SSA layer 15 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 05, s=  13] → teacher layer 19 (full_attn)
+    SSA layer 19 q_proj: (12288, 5120)
+    SSA layer 19 k_proj: (1024, 5120)
+    SSA layer 19 v_proj: (1024, 5120)
+    SSA layer 19 o_proj: (5120, 6144)
+    Done in 8.8s
+  [stride 06, s=  15] → teacher layer 23 (full_attn)
+    SSA layer 23 q_proj: (12288, 5120)
+    SSA layer 23 k_proj: (1024, 5120)
+    SSA layer 23 v_proj: (1024, 5120)
+    SSA layer 23 o_proj: (5120, 6144)
+    Done in 8.8s
+  [stride 07, s=  20] → teacher layer 23 (full_attn)
+    SSA layer 23 q_proj: (12288, 5120)
+    SSA layer 23 k_proj: (1024, 5120)
+    SSA layer 23 v_proj: (1024, 5120)
+    SSA layer 23 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 08, s=  21] → teacher layer 27 (full_attn)
+    SSA layer 27 q_proj: (12288, 5120)
+    SSA layer 27 k_proj: (1024, 5120)
+    SSA layer 27 v_proj: (1024, 5120)
+    SSA layer 27 o_proj: (5120, 6144)
+    Done in 8.8s
+  [stride 09, s=  24] → teacher layer 31 (full_attn)
+    SSA layer 31 q_proj: (12288, 5120)
+    SSA layer 31 k_proj: (1024, 5120)
+    SSA layer 31 v_proj: (1024, 5120)
+    SSA layer 31 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 10, s=  34] → teacher layer 35 (full_attn)
+    SSA layer 35 q_proj: (12288, 5120)
+    SSA layer 35 k_proj: (1024, 5120)
+    SSA layer 35 v_proj: (1024, 5120)
+    SSA layer 35 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 11, s=  55] → teacher layer 39 (full_attn)
+    SSA layer 39 q_proj: (12288, 5120)
+    SSA layer 39 k_proj: (1024, 5120)
+    SSA layer 39 v_proj: (1024, 5120)
+    SSA layer 39 o_proj: (5120, 6144)
+    Done in 8.6s
+  [stride 12, s=  89] → teacher layer 43 (full_attn)
+    SSA layer 43 q_proj: (12288, 5120)
+    SSA layer 43 k_proj: (1024, 5120)
+    SSA layer 43 v_proj: (1024, 5120)
+    SSA layer 43 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 13, s= 144] → teacher layer 43 (full_attn)
+    SSA layer 43 q_proj: (12288, 5120)
+    SSA layer 43 k_proj: (1024, 5120)
+    SSA layer 43 v_proj: (1024, 5120)
+    SSA layer 43 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 14, s= 233] → teacher layer 47 (full_attn)
+    SSA layer 47 q_proj: (12288, 5120)
+    SSA layer 47 k_proj: (1024, 5120)
+    SSA layer 47 v_proj: (1024, 5120)
+    SSA layer 47 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 15, s= 377] → teacher layer 51 (full_attn)
+    SSA layer 51 q_proj: (12288, 5120)
+    SSA layer 51 k_proj: (1024, 5120)
+    SSA layer 51 v_proj: (1024, 5120)
+    SSA layer 51 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 16, s= 610] → teacher layer 55 (full_attn)
+    SSA layer 55 q_proj: (12288, 5120)
+    SSA layer 55 k_proj: (1024, 5120)
+    SSA layer 55 v_proj: (1024, 5120)
+    SSA layer 55 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 17, s= 987] → teacher layer 59 (full_attn)
+    SSA layer 59 q_proj: (12288, 5120)
+    SSA layer 59 k_proj: (1024, 5120)
+    SSA layer 59 v_proj: (1024, 5120)
+    SSA layer 59 o_proj: (5120, 6144)
+    Done in 8.7s
+  [stride 18, s=1597] → teacher layer 63 (full_attn)
+    SSA layer 63 q_proj: (12288, 5120)
+    SSA layer 63 k_proj: (1024, 5120)
+    SSA layer 63 v_proj: (1024, 5120)
+    SSA layer 63 o_proj: (5120, 6144)
+    Done in 8.7s
+
+  Attention total: 76 packed arrays (19 strides × 4 projections)
+
+── Stage 4: FFN plates (zone-voted, 2 stacks) ──────────────
+  FFN zone stack_a: voting across teacher layers (4, 20, 32)
+    layer 4 gate_proj: (17408, 5120)
+    layer 4 up_proj:   (17408, 5120)
+    layer 4 down_proj: (5120, 17408)
+    layer 20 gate_proj: (17408, 5120)
+    layer 20 up_proj:   (17408, 5120)
+    layer 20 down_proj: (5120, 17408)
+    layer 32 gate_proj: (17408, 5120)
+    layer 32 up_proj:   (17408, 5120)
+    layer 32 down_proj: (5120, 17408)
+  stack_a FFN done in 393.2s
+  FFN zone stack_c: voting across teacher layers (32, 48, 56)
+    layer 32 gate_proj: (17408, 5120)
+    layer 32 up_proj:   (17408, 5120)
+    layer 32 down_proj: (5120, 17408)
+    layer 48 gate_proj: (17408, 5120)
+    layer 48 up_proj:   (17408, 5120)
+    layer 48 down_proj: (5120, 17408)
+    layer 56 gate_proj: (17408, 5120)
+    layer 56 up_proj:   (17408, 5120)
+    layer 56 down_proj: (5120, 17408)
+  stack_c FFN done in 395.4s
+
+── Stage 5: Saving checkpoint ──────────────────────────────
+  Saved model.npz: 65.5 MB  (7.5s)
+  Total arrays: 83
+/Users/mwhitford/src/verbum/scripts/v15/extract_qwen36.py:708: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "extraction_date": datetime.datetime.utcnow().isoformat() + "Z",
+  Saved state.json: checkpoints/v15-extracted/model.npz/state.json
+
+── Verification ─────────────────────────────────────────────
+  Loading checkpoints/v15-extracted/model.npz/model.npz ...
+  Found 83 arrays
+  [✓] embed_tokens: (248320, 320)
+  [✓] shared_stride_stack.layers.0.k: (1280, 80)
+  [✓] shared_stride_stack.layers.0.o: (1280, 80)
+  [✓] shared_stride_stack.layers.0.q: (1280, 80)
+  [✓] shared_stride_stack.layers.0.v: (1280, 80)
+  [✓] shared_stride_stack.layers.1.k: (1280, 80)
+  [✓] shared_stride_stack.layers.1.o: (1280, 80)
+  [✓] shared_stride_stack.layers.1.q: (1280, 80)
+  [✓] shared_stride_stack.layers.1.v: (1280, 80)
+  [✓] shared_stride_stack.layers.10.k: (1280, 80)
+  [✓] shared_stride_stack.layers.10.o: (1280, 80)
+  [✓] shared_stride_stack.layers.10.q: (1280, 80)
+  [✓] shared_stride_stack.layers.10.v: (1280, 80)
+  [✓] shared_stride_stack.layers.11.k: (1280, 80)
+  [✓] shared_stride_stack.layers.11.o: (1280, 80)
+  [✓] shared_stride_stack.layers.11.q: (1280, 80)
+  [✓] shared_stride_stack.layers.11.v: (1280, 80)
+  [✓] shared_stride_stack.layers.12.k: (1280, 80)
+  [✓] shared_stride_stack.layers.12.o: (1280, 80)
+  [✓] shared_stride_stack.layers.12.q: (1280, 80)
+  [✓] shared_stride_stack.layers.12.v: (1280, 80)
+  [✓] shared_stride_stack.layers.13.k: (1280, 80)
+  [✓] shared_stride_stack.layers.13.o: (1280, 80)
+  [✓] shared_stride_stack.layers.13.q: (1280, 80)
+  [✓] shared_stride_stack.layers.13.v: (1280, 80)
+  [✓] shared_stride_stack.layers.14.k: (1280, 80)
+  [✓] shared_stride_stack.layers.14.o: (1280, 80)
+  [✓] shared_stride_stack.layers.14.q: (1280, 80)
+  [✓] shared_stride_stack.layers.14.v: (1280, 80)
+  [✓] shared_stride_stack.layers.15.k: (1280, 80)
+  [✓] shared_stride_stack.layers.15.o: (1280, 80)
+  [✓] shared_stride_stack.layers.15.q: (1280, 80)
+  [✓] shared_stride_stack.layers.15.v: (1280, 80)
+  [✓] shared_stride_stack.layers.16.k: (1280, 80)
+  [✓] shared_stride_stack.layers.16.o: (1280, 80)
+  [✓] shared_stride_stack.layers.16.q: (1280, 80)
+  [✓] shared_stride_stack.layers.16.v: (1280, 80)
+  [✓] shared_stride_stack.layers.17.k: (1280, 80)
+  [✓] shared_stride_stack.layers.17.o: (1280, 80)
+  [✓] shared_stride_stack.layers.17.q: (1280, 80)
+  [✓] shared_stride_stack.layers.17.v: (1280, 80)
+  [✓] shared_stride_stack.layers.18.k: (1280, 80)
+  [✓] shared_stride_stack.layers.18.o: (1280, 80)
+  [✓] shared_stride_stack.layers.18.q: (1280, 80)
+  [✓] shared_stride_stack.layers.18.v: (1280, 80)
+  [✓] shared_stride_stack.layers.2.k: (1280, 80)
+  [✓] shared_stride_stack.layers.2.o: (1280, 80)
+  [✓] shared_stride_stack.layers.2.q: (1280, 80)
+  [✓] shared_stride_stack.layers.2.v: (1280, 80)
+  [✓] shared_stride_stack.layers.3.k: (1280, 80)
+  [✓] shared_stride_stack.layers.3.o: (1280, 80)
+  [✓] shared_stride_stack.layers.3.q: (1280, 80)
+  [✓] shared_stride_stack.layers.3.v: (1280, 80)
+  [✓] shared_stride_stack.layers.4.k: (1280, 80)
+  [✓] shared_stride_stack.layers.4.o: (1280, 80)
+  [✓] shared_stride_stack.layers.4.q: (1280, 80)
+  [✓] shared_stride_stack.layers.4.v: (1280, 80)
+  [✓] shared_stride_stack.layers.5.k: (1280, 80)
+  [✓] shared_stride_stack.layers.5.o: (1280, 80)
+  [✓] shared_stride_stack.layers.5.q: (1280, 80)
+  [✓] shared_stride_stack.layers.5.v: (1280, 80)
+  [✓] shared_stride_stack.layers.6.k: (1280, 80)
+  [✓] shared_stride_stack.layers.6.o: (1280, 80)
+  [✓] shared_stride_stack.layers.6.q: (1280, 80)
+  [✓] shared_stride_stack.layers.6.v: (1280, 80)
+  [✓] shared_stride_stack.layers.7.k: (1280, 80)
+  [✓] shared_stride_stack.layers.7.o: (1280, 80)
+  [✓] shared_stride_stack.layers.7.q: (1280, 80)
+  [✓] shared_stride_stack.layers.7.v: (1280, 80)
+  [✓] shared_stride_stack.layers.8.k: (1280, 80)
+  [✓] shared_stride_stack.layers.8.o: (1280, 80)
+  [✓] shared_stride_stack.layers.8.q: (1280, 80)
+  [✓] shared_stride_stack.layers.8.v: (1280, 80)
+  [✓] shared_stride_stack.layers.9.k: (1280, 80)
+  [✓] shared_stride_stack.layers.9.o: (1280, 80)
+  [✓] shared_stride_stack.layers.9.q: (1280, 80)
+  [✓] shared_stride_stack.layers.9.v: (1280, 80)
+  [✓] stack_a.ffn.down: (1280, 320)
+  [✓] stack_a.ffn.gate: (5120, 80)
+  [✓] stack_a.ffn.up: (5120, 80)
+  [✓] stack_c.ffn.down: (1280, 320)
+  [✓] stack_c.ffn.gate: (5120, 80)
+  [✓] stack_c.ffn.up: (5120, 80)
+  All shapes verified ✓
+
+========================================================================
+  V15 EXTRACTION COMPLETE ✓
+────────────────────────────────────────────────────────────────────────
+  Arrays saved:    83
+  Checkpoint dir:  checkpoints/v15-extracted/model.npz
+  model.npz size:  65.5 MB
+  Total elapsed:   992.0s  (16.5 min)
+========================================================================
+config.py self-test: ✓
+  Strides: (1, 2, 3, 5, 8, 13, 15, 20, 21, 24, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+  Composition strides: [1, 2, 3, 5, 8, 13, 15, 20, 21, 24, 34, 55, 89, 144, 233, 377, 610, 987, 1597]
+  Retrieval strides: []
+  Composition range: d=0..11181
+  Total range: d=0..11181
+  Effective window per stride: 40
