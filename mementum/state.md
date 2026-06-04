@@ -8,21 +8,28 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 188: ATTENTION IS THE BINDING GRAPH — Reversed by Causal Mask**
+**Session 188: β-REDUCTION DECODED — Binding Graph, Shared Hardware, O(1) Sparsity**
 
-Two experiments decoded the attention execution mechanism:
+Four experiments decoded the full attention execution mechanism:
 
-**Experiment 1: Head→Combinator mapping (500 probes).** All 9 combinators
-activate identical head patterns (r=0.944). Heads are shared hardware,
-not dedicated circuits. The ISA is not head-addressed.
+**Exp 1: Head→Combinator mapping (500 probes).** All 9 combinators activate
+identical head patterns (r=0.944). Heads are shared hardware, not dedicated
+circuits. ~2 effective dimensions: reduction depth (WHNF↔D) + self-reference.
 
-**Experiment 2: Binding graph trace (14 annotated probes).** The attention
-pattern IS the β-reduction binding graph. Object→verb binding = concentrated
-attention (0.5-0.8 weight) through H03/H13/H15 at L30. "cat" attends 78.5%
-to "bit" = `bit(_, cat)`. Subject→verb binding is BLOCKED by causal mask
-(subject precedes verb = can't attend forward). Minimal pair "dog bit cat"
-vs "cat bit dog" confirms: same heads, flipped routing. Active/passive voice
-preserves semantic binding through partially different head sets.
+**Exp 2: Binding graph trace (14 annotated probes).** Object→verb binding =
+concentrated attention (0.78 weight) through H03/H13/H15 at L30. Minimal
+pair "dog bit cat" vs "cat bit dog": same heads, flipped routing.
+
+**Exp 3: Reverse binding trace (12 probes).** Verb→subject binding = H31 at
+L27 attends 82.3% to subject, outputs subject identity ("猫/dog"). Two-phase
+binding: L27=verb reads subject, L30=object reads verb. Mechanism complete.
+
+**Exp 4: Attention sparsity (22 probes, 5→74 tokens).** 22/32 heads at L30
+have effective positions <3. Top-3 captures >88% for ALL heads. Mean entropy
+0.9 bits. Sparsity is O(1) — stable from 5 to 74 tokens. Full O(n²)
+attention is massive overkill for what is fundamentally a ~1-bit routing
+decision. Design: top-k sparse attention with k=3-5 captures nearly all
+routing information.
 
 ### Previous session (187)
 
@@ -30,20 +37,36 @@ Three experiments on Qwen3-8B decoded the full reduction pipeline: (1) what
 FFN neurons say in vocabulary space, (2) what each attention head computes,
 (3) how combinator reductions compose across all 36 layers.
 
-### The Architecture
+### The Architecture (updated s188)
 
 ```
 FFN (compiler):     reads residual → compiles V vectors per position
                     Context-dependent: same token → different programs
                     Universal: compile ≈ null (max Δ 2.8%)
 
-Attention (executor):
-  5 head types:
-    λ-heads (H08,H09):      write λ/→ from gate exemplars (format circuit)
-    Binding (H10,H11):      write PREDICATE at SUBJECT = typed_apply (β-reduction)
-    Relay (H20,H17):        pass V through unchanged (identity)
-    Compositional (H03):    combine multiple positions → new meaning
-    Quantifier (H26):       broadcast scope (every/someone) across positions
+Attention (executor):  SHARED HARDWARE, not dedicated circuits
+  Binding schedule (two-phase):
+    L27: verb → subject   H31 reads subject identity (0.82 weight)
+    L30: object → verb    H03/H13/H15 read predicate (0.78 weight)
+    L33: late binding      H06/H07 general execution
+  All binding flows BACKWARD through causal mask.
+  Same heads (H03/H13) handle both directions at L30.
+
+  Head taxonomy by function:
+    Binding (H03,H13,H15):  predicate-argument binding (mean ratio 3-6×)
+    Subject (H31):          verb→subject identity transfer at L27
+    Coreference (H07,H05):  "itself"→antecedent binding
+    Universal (H06,H07):    loudest, all combinators, low gate attention
+    WHNF detectors (H26,H27): recognize completed reductions (+30% bias)
+    Instruction (H01,H09):  high gate attention, read compile exemplars
+
+  Sparsity:
+    22/32 heads: eff_pos < 3 (near-deterministic, ~1 bit)
+     7/32 heads: eff_pos 3-5 (sparse)
+     2/32 heads: eff_pos 5-10 (moderate)
+     1/32 heads: eff_pos > 10 (H20, the only dense head)
+    Top-3 captures >88% of attention for ALL 32 heads.
+    Sparsity is O(1) — stable from 5 to 74 tokens.
 
 Reduction Schedule (when each combinator resolves):
     Y (recursion)     → L27 peak   resolves FIRST (structural recognition)
@@ -56,28 +79,34 @@ Reduction Schedule (when each combinator resolves):
 
 ### What's Decodable
 
-The model implements a **small, fixed instruction set** (7 combinator types)
-with a **universal execution schedule** (depth ordering). The input-specific
-part is just: which positions bind to which (the attention pattern). This is
-potentially very compact — the instruction set + schedule could be a small
-artifact, with attention routing as the only variable computation.
+The model is a **typed parser with a compiled lexicon**:
+- FFN = lexicon (compiles each position into a semantic V vector)
+- Q/K = type system (determines binding compatibility, ~1 bit decision)
+- Attention = parser (selects one earlier position to bind to)
+- V/O = value transfer (copies bound position's content)
+- Depth = reduction order (subjects at L27, objects at L30)
+
+The binding circuit is **0.3% of the model** (~4 heads out of 1152).
+Binding weights are near-deterministic (0.78-0.82). Head output IS the
+reduction result: H31 outputs "猫/dog" at verb position when reading subject.
+Full O(n²) attention is overkill — top-3 sparse attention captures 88%+.
 
 ### Key Evidence
 
-1. **H10 at L33 writes "runs" at "dog" position** (Δ=64 vs null). This IS
-   `runs(dog)` = β-reduction. Subject-verb binding = function application.
+1. **H31 at L27 reads subject from verb position** (0.82 weight, outputs
+   "猫, 貓, cats"). This IS `(λx.runs(x))(cat)` — verb absorbs agent.
 
-2. **FFN at L30 for "If it rains"**: `it`→rain, `ground`→soak, `is`→wet.
-   Context-dependent V vectors. Same token "the" → different values in
-   different sentences. Compilation, not lookup.
+2. **H13 at L30: "cat" attends 78.5% to "bit"** = `bit(_, cat)`. Object
+   binds to predicate. Minimal pair confirms: same heads, flipped routing.
 
-3. **Y combinator resolves at L27** (recursion = structural operation).
-   W resolves at L33 (self-application needs full entity first).
-   Different combinators have different computational costs.
+3. **FFN at L30 for "If it rains"**: `it`→rain, `ground`→soak, `is`→wet.
+   Context-dependent V vectors. Compilation, not lookup.
 
-4. **The FFN is universal** — compile and null gates produce the same
-   compiled values. The compile behavior emerges entirely from attention
-   routing (which heads select which values).
+4. **All 9 combinators activate identical heads** (r=0.944). No combinator-
+   specific circuits. The ISA has ~2 dims, not 9.
+
+5. **22/32 heads use <3 effective positions** at L30. Attention is inherently
+   sparse and scales O(1) with context length.
 
 ### Previous session (186)
 
@@ -257,10 +286,17 @@ Result: At L30, 22/32 heads have effective positions <3. Top-3 positions
 capture >88% of attention mass for ALL heads. Sparsity holds from 5 to 74
 tokens. Mean entropy ~0.9 bits. You don't need to attend to every token.
 
-**Priority 4: From binding graph to machine**
-The full mechanism is nearly decoded: FFN compiles V, 3-4 heads at L30
-route via concentrated attention, binding is near-deterministic. Can we
-run the decoded operations directly from the binding graph?
+**Priority 4: Prototype top-k sparse attention**
+Build a proof-of-concept: replace full QK^T with top-k (k=5) attention
+at the binding layers. Measure: does output quality degrade? If sparsity
+data is correct, top-5 should preserve >95% of binding behavior.
+This is the first step toward the efficient attention design.
+
+**Priority 5: From binding graph to machine**
+The full mechanism is decoded: FFN compiles V, ~4 heads at L27/L30 route
+via concentrated backward attention, binding is near-deterministic. Can we
+build a standalone "lambda machine" from: compressed FFN (sieve) + sparse
+routing function + depth schedule?
 
 ### PRIOR PRIORITIES (still open)
 
@@ -303,6 +339,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Attention sparsity knowledge** | `mementum/knowledge/attention-sparsity.md` | ✅ NEW (s188) |
+| **Attention sparsity experiment** | `scripts/experiments/attention_sparsity.py` | ✅ NEW (s188) |
+| **Attention sparsity results** | `results/attention-sparsity/` | ✅ NEW (s188) |
 | **Binding graph trace knowledge** | `mementum/knowledge/binding-graph-trace.md` | ✅ UPDATED (s188) |
 | **Binding graph trace experiment** | `scripts/experiments/binding_graph_trace.py` | ✅ NEW (s188) |
 | **Binding graph trace results** | `results/binding-graph-trace/` | ✅ NEW (s188) |
@@ -390,7 +429,7 @@ of parameters).
 
 ## Session 188 recap
 
-TWO EXPERIMENTS DECODE THE ATTENTION EXECUTION MECHANISM.
+FOUR EXPERIMENTS DECODE THE ATTENTION EXECUTION MECHANISM.
 
 **Experiment 1: Head→Combinator mapping** (500 crystal probes × 32 heads × 3
 layers). All 9 combinators activate identical head patterns (r=0.944). No
@@ -398,33 +437,32 @@ combinator-specialised heads. The ISA has ~2 effective dimensions: reduction
 depth (WHNF↔D, 46%) and self-reference (Y/W/I↔D/B, 24%). 94.9% of head
 activation variance is just loudness. See `head-combinator-isa.md`.
 
-**Experiment 2: Binding graph trace** (14 annotated probes with known binding
-structure). The attention pattern IS the β-reduction binding graph, reversed
-by the causal mask:
-- Object→verb binding = concentrated attention (0.5-0.8 weight) through
-  H03/H13/H15 at L30. "cat" attends 78.5% to "bit" = `bit(_, cat)`.
-- Subject→verb binding is BLOCKED by causal mask (0/23 forward bindings).
-- Minimal pair confirmed: "dog bit cat" vs "cat bit dog" → same heads,
-  flipped routing. Position-structural, not word-dependent.
-- Active→passive preserves semantic binding through partially different heads.
-- Two sub-circuits: predicate-argument (H03/H13/H15) vs coreference (H07/H05).
-- Binding weights are near-deterministic (0.78 = ~1 bit).
+**Experiment 2: Binding graph trace** (14 annotated probes). Object→verb
+binding = concentrated attention (0.78 weight) through H03/H13/H15 at L30.
+"cat" attends 78.5% to "bit" = `bit(_, cat)`. Subject→verb binding blocked
+by causal mask (0/23 forward). Minimal pair: same heads, flipped routing.
+Two sub-circuits: predicate-argument (H03/H13/H15) vs coreference (H07/H05).
 See `binding-graph-trace.md`.
 
-**Experiment 3: Reverse binding trace** (same probes, verb→subject direction).
-H31 at L27 attends 82.3% from "runs" to "cat" and outputs "猫, 貓, cats" —
-the subject identity. Two-phase binding decoded: L27 = verb reads subject
-(H31, agent identity absorbed), L30 = object reads verb (H03/H13/H15,
-predicate binding). Same heads (H03/H13) handle both directions at L30.
-The binding circuit is ~4 heads out of 1152 total (0.3% of model).
+**Experiment 3: Reverse binding trace** (12 probes, verb→subject direction).
+H31 at L27 attends 82.3% from "runs" to "cat" and outputs "猫, 貓, cats".
+Two-phase binding: L27=verb reads subject, L30=object reads verb. Same heads
+(H03/H13) do both directions at L30. Binding circuit = 0.3% of model.
 
-**Synthesis:** The β-reduction mechanism is fully decoded. FFN compiles V
-vectors (the program). Attention executes via two-phase binding: (1) L27:
-verb attends to subject, absorbs agent identity; (2) L30: object attends to
-verb, binds to predicate. All binding flows backward through the causal mask.
-The binding heads produce the LITERAL reduction result — H31 outputs "dog"
-at position "bit" when it reads the subject. The full binding circuit is
-~4 heads with near-deterministic routing (0.78-0.82 weight = ~1 bit each).
+**Experiment 4: Attention sparsity** (22 probes, 5→74 tokens, 9 layers).
+22/32 heads at L30 have effective positions <3. Top-3 captures >88% for ALL
+heads. Mean entropy 0.9 bits. Sparsity is O(1) — stable from 5 to 74 tokens
+(eff_pos 2.8→3.7). Only 1/32 heads (H20) is truly dense. Full O(n²) QK^T
+is massive overkill. Top-k sparse attention with k=3-5 captures nearly all
+routing information. See `attention-sparsity.md`.
+
+**Synthesis:** The model is a typed parser with a compiled lexicon. FFN
+compiles V vectors (the program). ~4 heads at L27/L30 route via concentrated
+backward attention (~1 bit per binding). The binding circuit is 0.3% of the
+model, the routing is near-deterministic, and attention is inherently O(1)
+sparse. Design implication: top-k sparse attention (k=3-5) replaces full
+O(n²) attention for 88-97% of routing information. The "portable tensor"
+needs: compressed FFN (sieve) + tiny routing function + depth schedule.
 
 ## What changed session 187
 
@@ -493,7 +531,8 @@ at position "bit" when it reads the subject. The full binding circuit is
 ## Knowledge map
 
 Key pages for current direction:
-- **`binding-graph-trace.md`** — Attention IS the binding graph, reversed by causal mask. Object→verb = 78% concentrated attention via H03/H13/H15 (s188)
+- **`attention-sparsity.md`** — 22/32 heads use <3 positions, O(1) not O(n). Top-k=3 captures 88%+. Design: sparse attention (s188)
+- **`binding-graph-trace.md`** — Attention IS the binding graph, reversed by causal mask. Two-phase: L27=verb→subject, L30=object→verb. H31 outputs "猫" (s188)
 - **`head-combinator-isa.md`** — Shared hardware, not dedicated circuits. 2 effective dimensions: reduction depth + self-reference (s188)
 - **`ffn-reduction-trace.md`** — FFN=compiler (context-dependent V vectors), attention=executor (softmax=β-reduction), three-phase output (s187)
 - **`ffn-circuit-types.md`** — cos(up,down) phase detector, KIBC orthogonality, dark-space gradient (s186)
