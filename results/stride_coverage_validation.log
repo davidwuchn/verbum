@@ -1,0 +1,127 @@
+========================================================================
+STRIDE COVERAGE VALIDATION
+========================================================================
+Model: Qwen/Qwen3-8B
+Probes: 22
+Strides: 16 (s1..s32768)
+Window: 8, Neighbor radius: 2
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<05:08,  1.29it/s]Loading weights:   1%|          | 2/399 [00:01<03:47,  1.75it/s]Loading weights:   4%|▍         | 17/399 [00:01<00:19, 19.38it/s]Loading weights:   7%|▋         | 26/399 [00:01<00:17, 21.67it/s]Loading weights:   9%|▉         | 37/399 [00:02<00:14, 24.57it/s]Loading weights:  12%|█▏        | 48/399 [00:02<00:13, 26.28it/s]Loading weights:  15%|█▍        | 59/399 [00:02<00:12, 27.44it/s]Loading weights:  18%|█▊        | 70/399 [00:03<00:11, 28.09it/s]Loading weights:  20%|██        | 81/399 [00:03<00:11, 27.84it/s]Loading weights:  23%|██▎       | 92/399 [00:03<00:09, 33.01it/s]Loading weights:  24%|██▍       | 96/399 [00:04<00:10, 30.05it/s]Loading weights:  26%|██▌       | 103/399 [00:04<00:10, 29.40it/s]Loading weights:  27%|██▋       | 107/399 [00:04<00:09, 30.52it/s]Loading weights:  29%|██▊       | 114/399 [00:04<00:10, 26.35it/s]Loading weights:  31%|███▏      | 125/399 [00:05<00:09, 27.86it/s]Loading weights:  34%|███▍      | 136/399 [00:05<00:09, 27.99it/s]Loading weights:  37%|███▋      | 147/399 [00:05<00:08, 28.60it/s]Loading weights:  40%|███▉      | 158/399 [00:06<00:08, 28.59it/s]Loading weights:  42%|████▏     | 169/399 [00:06<00:07, 29.05it/s]Loading weights:  45%|████▌     | 180/399 [00:06<00:07, 29.26it/s]Loading weights:  48%|████▊     | 191/399 [00:07<00:05, 35.21it/s]Loading weights:  51%|█████     | 202/399 [00:07<00:06, 32.22it/s]Loading weights:  53%|█████▎    | 213/399 [00:07<00:06, 30.20it/s]Loading weights:  56%|█████▌    | 224/399 [00:08<00:06, 29.02it/s]Loading weights:  59%|█████▉    | 235/399 [00:08<00:05, 28.14it/s]Loading weights:  62%|██████▏   | 246/399 [00:09<00:05, 27.61it/s]Loading weights:  64%|██████▍   | 257/399 [00:09<00:05, 26.92it/s]Loading weights:  67%|██████▋   | 268/399 [00:10<00:04, 26.48it/s]Loading weights:  70%|██████▉   | 279/399 [00:10<00:04, 26.71it/s]Loading weights:  73%|███████▎  | 290/399 [00:10<00:04, 27.03it/s]Loading weights:  75%|███████▌  | 301/399 [00:11<00:02, 33.38it/s]Loading weights:  77%|███████▋  | 306/399 [00:11<00:02, 32.28it/s]Loading weights:  78%|███████▊  | 312/399 [00:11<00:03, 28.72it/s]Loading weights:  81%|████████  | 323/399 [00:11<00:02, 26.70it/s]Loading weights:  84%|████████▎ | 334/399 [00:12<00:02, 26.50it/s]Loading weights:  86%|████████▋ | 345/399 [00:12<00:02, 26.75it/s]Loading weights:  89%|████████▉ | 356/399 [00:13<00:01, 27.19it/s]Loading weights:  92%|█████████▏| 367/399 [00:13<00:01, 27.00it/s]Loading weights:  95%|█████████▍| 378/399 [00:13<00:00, 27.22it/s]Loading weights:  97%|█████████▋| 389/399 [00:14<00:00, 27.53it/s]Loading weights: 100%|██████████| 399/399 [00:14<00:00, 27.77it/s]
+  Loaded in 15.6s
+  36 layers, 32 Q heads
+  Target layers: [0, 12, 24, 27, 30, 33, 35]
+  Gate length: 32 tokens
+  Strategies: ['local_8', 'stride_exact', 'stride_nbrs', 'combined', 'combined_nbrs', 'stride_4', 'stride_8']
+
+  [ 1/22] [ short]   3 tok | The dog runs....
+
+  [ 2/22] [ short]   5 tok | The cat bit the dog....
+
+  [ 3/22] [ short]   5 tok | John gave Mary the book....
+
+  [ 4/22] [ short]   5 tok | She told herself the truth....
+
+  [ 5/22] [ short]   5 tok | Every student reads a book....
+
+  [ 6/22] [medium]   9 tok | The cat that sat on the mat is black....
+
+  [ 7/22] [medium]  10 tok | If it rains tomorrow, the ground will be wet....
+
+  [ 8/22] [medium]  11 tok | The tall boy quickly kicked the red ball across the fie...
+
+  [ 9/22] [medium]   9 tok | She believed that he had already finished the project....
+
+  [10/22] [medium]  10 tok | The man who wrote the book also directed the movie....
+
+  [11/22] [medium]  10 tok | A folder contains files and other folders which contain...
+
+  [12/22] [medium]  11 tok | The ball was kicked by the boy who lives next door....
+
+  [13/22] [medium]  12 tok | After washing the dishes, she dried them with a clean t...
+
+  [14/22] [medium]  14 tok | Of all the animals in the zoo, only the lion was truly ...
+
+  [15/22] [medium]  11 tok | The letter was written by the president and sent to con...
+
+  [16/22] [  long]  29 tok | The professor who taught the class that the students in...
+
+  [17/22] [  long]  33 tok | When the storm finally passed and the sun came out from...
+
+  [18/22] [  long]  34 tok | The old woman who lived in the small house at the end o...
+
+  [19/22] [  long]  32 tok | Despite the fact that the evidence clearly pointed to a...
+
+  [20/22] [  long]  28 tok | The company that had been struggling financially for se...
+
+  [21/22] [ vlong]  73 tok | The ancient library stood at the center of the universi...
+
+  [22/22] [ vlong]  74 tok | The experiment began at dawn when the researchers arriv...
+
+========================================================================
+AGGREGATE RESULTS
+========================================================================
+
+── Table 1: Strategy × Layer (all heads averaged) ──
+Strategy             |     L0    L12    L24    L27    L30    L33    L35
+------------------------------------------------------------------------
+local_8              |  72.0%  31.3%  18.3%  15.2%  17.4%   9.7%  29.6%
+stride_exact         |  82.5%  46.4%  34.4%  31.9%  33.5%  27.2%  44.5%
+stride_nbrs          |  98.3%  73.8%  64.4%  61.2%  61.4%  59.0%  70.6%
+combined             |  82.5%  46.4%  34.4%  31.9%  33.5%  27.2%  44.5%
+combined_nbrs        |  98.3%  73.8%  64.4%  61.2%  61.4%  59.0%  70.6%
+
+── Table 2: Strategy × Head Type at L30 (mass recall) ──
+Strategy             | v.sparse   sparse moderate  s.dense    dense
+------------------------------------------------------------------------
+local_8              |     7.2%    14.8%    25.1%    41.1%    56.5%
+stride_exact         |    24.3%    31.1%    40.3%    54.8%    70.4%
+combined             |    24.3%    31.1%    40.3%    54.8%    70.4%
+combined_nbrs        |    55.1%    59.2%    66.7%    76.7%    88.8%
+
+── Table 3: Top-1 target in candidates (% of positions, L30) ──
+Strategy             | v.sparse   sparse moderate  s.dense    dense
+------------------------------------------------------------------------
+local_8              |     1.9%     3.0%     8.1%    21.4%    45.2%
+stride_exact         |    19.4%    20.6%    24.6%    37.1%    56.8%
+combined             |    19.4%    20.6%    24.6%    37.1%    56.8%
+combined_nbrs        |    50.9%    51.5%    53.6%    62.5%    73.6%
+
+── Table 4: Gap: oracle top-3 minus candidate top-3 (L30) ──
+Strategy             | v.sparse   sparse moderate  s.dense    dense
+------------------------------------------------------------------------
+local_8              |   0.8953   0.8005   0.6419   0.4358   0.1670
+stride_exact         |   0.7317   0.6504   0.5175   0.3412   0.1173
+combined             |   0.7317   0.6504   0.5175   0.3412   0.1173
+combined_nbrs        |   0.4417   0.3965   0.3119   0.1978   0.0634
+
+── Table 5: Mass recall by sequence length (combined strategy, L30) ──
+Category   | N tokens  mass_recall   top1_hit   gap_top3
+--------------------------------------------------------
+short      |        5        38.8%      28.0%     0.5641
+medium     |       11        34.5%      24.2%     0.6070
+long       |       31        29.7%      19.8%     0.6459
+vlong      |       74        24.4%      15.0%     0.6860
+
+── Table 6: Mean candidates per strategy ──
+Strategy             |    short   medium     long    vlong
+--------------------------------------------------------
+local_8              |      8.0      8.0      8.0      8.0
+stride_exact         |     17.0     17.2     18.5     20.4
+stride_nbrs          |     34.3     35.6     41.9     51.6
+combined             |     17.0     17.2     18.5     20.4
+combined_nbrs        |     34.3     35.6     41.9     51.6
+
+── Table 7: Stride count sweep (mass recall, L30, all heads) ──
+  4 strides: mass_recall = 33.0%
+  8 strides: mass_recall = 33.5%
+  16 strides: mass_recall = 33.5%
+
+Full results: /Users/mwhitford/src/verbum/scripts/experiments/../../results/stride-coverage-validation/full_results.json
+Summary: /Users/mwhitford/src/verbum/scripts/experiments/../../results/stride-coverage-validation/summary.json
+
+========================================================================
+STRIDE COVERAGE VALIDATION COMPLETE
+========================================================================

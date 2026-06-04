@@ -1,0 +1,106 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "n_probes": 22,
+  "n_layers": 7,
+  "layer_indices": [
+    0,
+    12,
+    24,
+    27,
+    30,
+    33,
+    35
+  ],
+  "n_heads": 32,
+  "strides": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    2048,
+    4096,
+    8192,
+    16384,
+    32768
+  ],
+  "window": 8,
+  "neighbor_radius": 2,
+  "strategies": [
+    "local_8",
+    "stride_exact",
+    "stride_nbrs",
+    "combined",
+    "combined_nbrs",
+    "stride_4",
+    "stride_8"
+  ],
+  "head_taxonomy": {
+    "very_sparse": [
+      9,
+      25,
+      11,
+      8,
+      30,
+      27,
+      29,
+      26,
+      14,
+      10,
+      18
+    ],
+    "sparse": [
+      31,
+      24,
+      4,
+      1,
+      21,
+      28,
+      12,
+      13,
+      2,
+      19,
+      15
+    ],
+    "moderate": [
+      5,
+      3,
+      6,
+      23,
+      22,
+      0,
+      16
+    ],
+    "semi_dense": [
+      7,
+      17
+    ],
+    "dense": [
+      20
+    ]
+  },
+  "L30_combined_mass_recall": 0.3349252840909091,
+  "L30_combined_nbrs_mass_recall": 0.6143619318181819,
+  "L30_by_head_type": {
+    "combined": {
+      "very_sparse": 0.24303181818181818,
+      "sparse": 0.31115578512396697,
+      "moderate": 0.40323311688311686,
+      "semi_dense": 0.5476863636363637,
+      "dense": 0.703540909090909
+    },
+    "combined_nbrs": {
+      "very_sparse": 0.5510710743801652,
+      "sparse": 0.5917289256198348,
+      "moderate": 0.6665629870129869,
+      "semi_dense": 0.7672136363636363,
+      "dense": 0.8884136363636362
+    }
+  }
+}
