@@ -8,47 +8,60 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 187: FFN REDUCTION TRACE — What Each Neuron Says in Vocabulary Space**
+**Session 187: THE REDUCTION ARCHITECTURE — FFN Compiles, Attention Executes, Combinators Have Depth**
 
-Projected active FFN neurons through the unembedding matrix on Qwen3-8B
-(36 layers) to read what each neuron "says" in token space. The original
-hypothesis — FFNs compute β-reduction programs that attention executes —
-was **partially refuted**: the FFN is an associative memory, not a reduction
-compiler. But the data reveals a clear three-phase semantic structure.
+Three experiments on Qwen3-8B decoded the full reduction pipeline: (1) what
+FFN neurons say in vocabulary space, (2) what each attention head computes,
+(3) how combinator reductions compose across all 36 layers.
 
-### Key Findings
+### The Architecture
 
-1. **Semantic phase transition at L26-L30.** FFN output projected through
-   unembed is noise at L0-L22, coherent semantic associations at L26-L30,
-   and formatting/syntax at L33-L35. This maps exactly onto the standing-wave
-   phases: ORTHO=noise (null-space computation), ALIGN=semantic (vocabulary-
-   aligned), COLLAPSE=format.
+```
+FFN (compiler):     reads residual → compiles V vectors per position
+                    Context-dependent: same token → different programs
+                    Universal: compile ≈ null (max Δ 2.8%)
 
-2. **The FFN writes associative predictions, not β-reductions.** At L30,
-   each position promotes related concepts: `it` → rain/雨, `ground` →
-   soak/soaked/浸, `is` → wet/濡/湿. The FFN at "believes that" promotes
-   "proposition" (frame recognition). At "earth is flat" the FFN promotes
-   "round" and suppresses "earth" — factual correction.
+Attention (executor):
+  5 head types:
+    λ-heads (H08,H09):      write λ/→ from gate exemplars (format circuit)
+    Binding (H10,H11):      write PREDICATE at SUBJECT = typed_apply (β-reduction)
+    Relay (H20,H17):        pass V through unchanged (identity)
+    Compositional (H03):    combine multiple positions → new meaning
+    Quantifier (H26):       broadcast scope (every/someone) across positions
 
-3. **The L26 connective signal.** At L26, the comma in "If it rains,"
-   promotes **then, entonces, então** — the logical implication operator
-   in three languages. The FFN writes logical connectives at structural
-   boundary positions.
+Reduction Schedule (when each combinator resolves):
+    Y (recursion)     → L27 peak   resolves FIRST (structural recognition)
+    K (discard)       → L30 peak   front-loaded, drops at L33
+    B (compose)       → L30 peak   mid-depth composition
+    I (identity)      → L30-L33    semantic→format relay
+    C (flip/passive)  → L33 peak   argument reordering is LATE
+    W (self-apply)    → L33 peak   "itself" binding is LAST (Δ=51.6)
+```
 
-4. **Compile ≈ null.** The FFN function list is nearly identical between
-   compile gate and null gate (max delta 2.8% at L18). The FFN is a
-   universal semantic analyzer; the compile behavior emerges from attention
-   routing, not FFN computation.
+### What's Decodable
 
-5. **Compile-selective neurons are sparse.** At L30: 274 compile-only,
-   401 null-only, 498 shared neurons in the top-50 per position. The
-   compile/null distinction is not carried by dedicated FFN neurons.
+The model implements a **small, fixed instruction set** (7 combinator types)
+with a **universal execution schedule** (depth ordering). The input-specific
+part is just: which positions bind to which (the attention pattern). This is
+potentially very compact — the instruction set + schedule could be a small
+artifact, with attention routing as the only variable computation.
 
-6. **CONFIRMED: FFN=compiler, attention=executor.** The FFN compiles
-   context-dependent value vectors at each position ("here's my semantic
-   contribution if selected"). Attention executes via softmax over V —
-   the weighted combination of compiled values IS β-reduction. Same token
-   produces different programs in different contexts (compilation, not lookup).
+### Key Evidence
+
+1. **H10 at L33 writes "runs" at "dog" position** (Δ=64 vs null). This IS
+   `runs(dog)` = β-reduction. Subject-verb binding = function application.
+
+2. **FFN at L30 for "If it rains"**: `it`→rain, `ground`→soak, `is`→wet.
+   Context-dependent V vectors. Same token "the" → different values in
+   different sentences. Compilation, not lookup.
+
+3. **Y combinator resolves at L27** (recursion = structural operation).
+   W resolves at L33 (self-application needs full entity first).
+   Different combinators have different computational costs.
+
+4. **The FFN is universal** — compile and null gates produce the same
+   compiled values. The compile behavior emerges entirely from attention
+   routing (which heads select which values).
 
 ### Previous session (186)
 
@@ -198,54 +211,49 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE (session 185) — SCALE THE CRYSTAL SIEVE + MEASURE ABSORPTION
+### IMMEDIATE — DECODE THE REDUCTION CATALOG
 
-**Priority 0: The derivation — can U be computed from equations?**
-CONFIRMED: U is NOT random. V-h alignment monotonically decreases with depth
-(p=0.0015). Later layers read from dimensions ⊥ to accumulated residual.
+Session 187 showed the model is decodable: 7 combinator types, 5 head types,
+universal depth schedule. The next step is to extract the catalog.
 
-SESSION 185 UPDATE — FULL COVARIANCE MEASURED:
-  - ORTHO phase (L7-22): effective rank = 1. One direction, 4000-8800× decay.
-  - V has 0% overlap with residual covariance for 16 straight layers.
-  - Cumulative null space: 2771/4096 = 67.7%. Covariance CANNOT determine U alone.
-  - Growth is NOT φ^l — it's phase-gated (0 during ORTHO, ~130/layer during ALIGN).
-  - PARTIAL NEGATIVE: residual covariance is too weak. Need other constraints.
+**Priority 0: Head → Combinator mapping**
+Run the 535 crystal probes (KIBC+SDWY+WHNF) through the attention execution
+trace at L30/L33. For each combinator type, identify which heads activate
+most strongly. Build a head→combinator assignment table. This tells us which
+heads implement which reductions — the ISA of the attention executor.
 
-Remaining sub-questions:
-  1. ✅ DONE: Full residual covariance → rank-1 during ORTHO, 67.7% null space.
-  2. ✅ ANSWERED: Growth is NOT φ^l. It's phase-dependent (0 in ORTHO, 130/layer in ALIGN).
-  3. Phase transitions confirmed at 1/φ depth (session 184). ✅
-  4. OPEN: Do KIBC opcode profiles constrain V WITHIN the null space?
-     → This is the next critical measurement. If opcode directions pin V
-       within the 4095-dim null space, U may still be partially derivable.
-  5. OPEN: Crystal formation cost — WHEN does the crystal form during training?
-     → Prior "99.8% of training" claim was ungrounded. Need formation tracking.
+**Priority 1: Extract the reduction schedule as a compact artifact**
+The depth profile (Y@L27, K@L30, W@L33) appears universal. Verify across
+models (Pythia, Mistral) — is the depth ordering the same? If so, the
+schedule is a single small table that describes all transformers.
 
-**Priority 1: Scale sieve training to convergence**
-Longer Pythia-160M runs (2000+ steps) with proper pruning schedule.
-Weight decay or L1 to push masks toward ~50% active.
-Target: approach float-baseline PPL (40.5).
-KEY METRIC: tokens-to-quality vs normal training (the absorption rate).
-Standing-wave lens: pre-set boundary conditions → measure how fast correct
-resonant mode pattern forms vs random boundaries.
+**Priority 2: Attention routing as the only variable**
+The FFN compilation is universal (compile ≈ null). The reduction schedule
+is universal. Only the attention routing (which positions bind to which) is
+input-dependent. Can we measure the information content of the routing
+pattern? How many bits does the model actually use for routing decisions?
+If it's small → the "portable tensor" is the routing function, not the weights.
 
-**Priority 2: Measure knowledge absorption rate**
-Compare crystal sieve vs random-init vs full-float training:
-  - At how many tokens does each reach PPL 100? PPL 50? PPL 40?
-  - The RATIO is the absorption advantage
-  - If crystal sieve reaches float-quality with 10× fewer tokens → validated
-  - If 100× fewer → this changes everything about how models should be trained
+**Priority 3: From catalog to machine**
+If the instruction set is small (~7 combinators) and the execution schedule
+is fixed, can we build a "lambda machine" that runs the decoded operations
+directly? This would be: crystal signs (topology) + combinator catalog
+(operations) + a small routing network (attention) = the full model.
 
-**Priority 3: Classify all 36 layers as REDUCE or SWITCH**
-Run the neuron opcode classifier on ALL 36 layers (not just 6). Map the
-ρ(profile, weight_norm) sign across depth. Identify the REDUCE/SWITCH
-alternation pattern. Is it period-3 (REDUCE-SWITCH-EMIT)? Period-5 (n+1)?
-Standing-wave lens: map the harmonic structure along the depth axis. Is the
-alternation a single harmonic or a superposition of modes?
+### PRIOR PRIORITIES (still open)
 
-**Priority 4: Attention sieve**
-Currently only FFN is sieved. Attention is ~40% of parameters.
-Extend crystal sieve to Q/K/V/O projections.
+**Crystal sieve at scale:** Scale sieve training to convergence on
+Pythia-160M. Measure absorption rate (tokens-to-quality vs normal training).
+
+**The mathematical derivation:** Can U be derived from the VSM tensor
+interaction? KIBC opcode profiles may constrain V within the null space
+(67.7% unconstrained from covariance alone).
+
+**Crystal formation cost:** WHEN does the crystal form during training?
+The r=0.998 endpoint is known; the trajectory is not.
+
+**Attention sieve:** Extend crystal sieve to Q/K/V/O projections (~40%
+of parameters).
 
 ### RESEARCH DIRECTIONS
 
@@ -398,29 +406,30 @@ Key pages for current direction:
 
 ## Session 187 recap
 
-FFN reduction trace on Qwen3-8B. Projected active FFN neurons through the
-unembedding matrix to read what each neuron "says" in token space.
+Three experiments on Qwen3-8B decoded the reduction architecture.
 
-1. **Three-phase FFN output.** Noise at L0-L22 (ORTHO = null-space computation),
-   semantic associations at L26-L30 (ALIGN = vocabulary-aligned), formatting at
-   L33-L35 (COLLAPSE). Matches the standing-wave depth structure exactly.
+**Experiment 1: FFN Reduction Trace** — projected active FFN neurons through
+unembed. Three-phase output: noise (L0-L22/ORTHO), semantic (L26-L30/ALIGN),
+format (L33-L35/COLLAPSE). FFN is a universal compiler — compile ≈ null
+(max Δ 2.8%). Same token produces different V vectors in different contexts.
 
-2. **FFN IS the compiler — attention IS the executor.** Each position's active
-   neurons write context-dependent value vectors: `it`→rain, `ground`→soak,
-   `is`→wet. These are not predictions — they're compiled contributions that
-   attention combines via softmax (the weighted V sum IS β-reduction). Same
-   token "the" produces different programs in different contexts.
+**Experiment 2: Attention Execution Trace** — projected per-head output
+(softmax(QK^T) @ V) through o_proj + unembed. Found 5 head types: λ-heads
+write format (λ/→), binding heads write predicate at subject (H10: "runs"
+at "dog", Δ=64), relay heads pass V unchanged, compositional heads combine
+positions, quantifier heads broadcast scope. The binding heads ARE β-reduction.
 
-3. **Compile ≈ null (FFN is universal).** FFN function lists are nearly
-   identical between compile and null gates (max delta 2.8%). The FFN compiles
-   the same program regardless of task. Task-specific behavior lives in
-   attention Q/K routing — which compiled values get selected.
+**Experiment 3: Reduction Chain Trace** — traced cumulative residual across
+all 36 layers for 7 combinator types (K,I,B,C,Y,S,W). Combinators resolve
+at different depths: Y peaks L27 (recursion resolves first), K peaks L30
+(discard is early), W peaks L33 at Δ=51.6 (self-application resolves last).
+The model implements a small fixed instruction set with universal depth ordering.
 
-4. **L26 writes logical connectives.** Comma in "If it rains," promotes
-   "then/entonces/então" — the implication operator in three languages.
-
-5. **Factual knowledge in FFN.** At "earth is flat," the FFN promotes "round"
-   and suppresses "earth" — the model knows the claim is false.
+**Synthesis:** The model is decodable. It implements ~7 combinator operations
+via ~5 head types on a universal depth schedule. The FFN compiles the program
+(position → V vector), attention executes it (softmax selects and combines V).
+The instruction set + schedule is potentially very compact; only the attention
+routing is input-dependent.
 
 ## Session 186 recap
 

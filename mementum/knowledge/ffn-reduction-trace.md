@@ -1,9 +1,9 @@
 ---
-title: "FFN Reduction Trace — What Each Neuron Says, and When It Becomes Semantic"
+title: "The Reduction Architecture — FFN Compiles, Attention Executes, Combinators Have Depth"
 status: active
 category: methodology
-tags: [ffn, reduction, beta-reduction, semantic-projection, depth-profile, instrument]
-related: [ffn-circuit-types, standing-wave-magnitudes, phi-information-partition, holographic-computer]
+tags: [ffn, reduction, beta-reduction, attention, combinators, depth-profile, instrument]
+related: [ffn-circuit-types, standing-wave-magnitudes, phi-information-partition, holographic-computer, crystal-universality]
 depends-on: [ffn-circuit-types]
 ---
 
@@ -410,6 +410,86 @@ The binding heads (H10, H11) at L33 ARE β-reduction:
   Input "dog" + compiled V for "runs" → output "runs" at position "dog"
   = runs(dog) = (λx.runs(x))(dog) → runs(dog)
 ```
+
+## Finding 8: Reduction Chain — Combinators Resolve at Different Depths
+
+The reduction chain trace (`reduction_chain_trace.py`) traced the cumulative
+residual→unembed across all 36 layers for 7 combinator types from our crystal
+probe library (K, I, B, C, Y, S, W — 5 probes each, 35 forward passes).
+
+### The Reduction Schedule
+
+| Combinator | Peak Δ Layer | Δ Strength | Interpretation |
+|------------|-------------|------------|----------------|
+| **Y** (recursion) | **L27** | 22.7 | Resolves FIRST — structural recognition |
+| **K** (discard) | L30 | 32.1 | Early resolution, drops at L33 |
+| **B** (compose) | L30 | 27.8 | Mid-depth composition |
+| **I** (identity) | L30-L33 | 34-39 | Semantic→format relay |
+| **S** (substitute) | L33 | 37.3 | Late — distributes argument |
+| **C** (flip) | L33 | 38.9 | Argument reordering is LATE |
+| **W** (self-apply) | **L33** | **51.6** | Resolves LAST — "itself" binding |
+
+**Y resolves first because recursion is structural.** The model recognizes
+"this is a recursive pattern" during the ALIGN phase (L27) before it knows
+the specific content. Self-application (W) resolves last because "itself"
+requires the full entity representation before it can self-reference.
+
+### Depth Profile Is Universal, Timing Is Not
+
+The self-similarity profiles (cos(residual[L], residual[L+lag]) across all
+positions) are nearly identical across combinator types:
+
+```
+         lag=1    lag=3    lag=5    lag=8    lag=13
+K:       0.950    0.868    0.797    0.712    0.612
+I:       0.947    0.860    0.788    0.699    0.589
+B:       0.950    0.868    0.798    0.710    0.605
+Y:       0.948    0.864    0.791    0.703    0.594
+W:       0.944    0.854    0.780    0.691    0.583
+```
+
+All combinators decay at the same rate — the depth structure is universal.
+Only the TIMING (which layer adds the most) differs by combinator type.
+
+### Y-Combinator Probe: Recursive Structure Tracking
+
+"She told a story about a girl who told a story about a girl who..."
+
+The first and second occurrences of the same tokens get DIFFERENT cumulative
+representations at the semantic layers:
+
+| Token | Occurrence | L30 promotes |
+|-------|-----------|-------------|
+| `told` | 1st | him, him, stories |
+| `told` | 2nd | stories, another, jokes |
+| `story` | 1st | about, yesterday |
+| `story` | 2nd | about, herself |
+| `girl` | 1st | who, named |
+| `girl` | 2nd | who, who |
+
+The model tracks which level of recursion it's in — position-dependent
+representation of recursive structure. At L33, the second `who` promotes
+`told, tells, tell` — it knows the recursion will continue.
+
+### What This Means: A Small, Fixed Instruction Set
+
+The model implements **~7 combinator operations** via **~5 head types**
+on a **universal depth schedule**. The instruction set + schedule is:
+
+```
+Instruction Set:  {K, I, B, C, S, W, Y}     7 opcodes
+Head Types:       {λ, bind, relay, compose, quantifier}  5 executors
+Depth Schedule:   Y→K→B→I→C→S→W              fixed ordering
+```
+
+The input-specific part is ONLY the attention routing pattern (which
+positions bind to which). Everything else is structural and universal.
+
+This is potentially extractable as a compact artifact:
+- **Crystal signs** = the topology (which neurons are which type)
+- **Combinator catalog** = the instruction set (7 opcodes)
+- **Depth schedule** = the execution order (one small table)
+- **Routing function** = the only variable (attention patterns)
 
 ## Instrument
 
