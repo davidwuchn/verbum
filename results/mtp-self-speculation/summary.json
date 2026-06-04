@@ -1,0 +1,2506 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "n_layers": 36,
+  "layers_traced": [
+    0,
+    3,
+    6,
+    9,
+    12,
+    15,
+    18,
+    21,
+    24,
+    27,
+    30,
+    33,
+    35
+  ],
+  "top_ks": [
+    1,
+    5,
+    10,
+    50,
+    100
+  ],
+  "lookaheads": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "n_probes": 10,
+  "timestamp": "2026-06-04T04:58:46Z",
+  "aggregate": {
+    "lookahead_1": {
+      "L0": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.009852216748768473,
+          "top100": 0.009852216748768473
+        },
+        "median_rank": 69093.0,
+        "count": 203
+      },
+      "L3": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0049261083743842365,
+          "top10": 0.0049261083743842365,
+          "top50": 0.019704433497536946,
+          "top100": 0.019704433497536946
+        },
+        "median_rank": 52249.0,
+        "count": 203
+      },
+      "L6": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.019704433497536946,
+          "top10": 0.029556650246305417,
+          "top50": 0.059113300492610835,
+          "top100": 0.07881773399014778
+        },
+        "median_rank": 7373.0,
+        "count": 203
+      },
+      "L9": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.024630541871921183,
+          "top10": 0.04926108374384237,
+          "top50": 0.08374384236453201,
+          "top100": 0.09852216748768473
+        },
+        "median_rank": 6630.0,
+        "count": 203
+      },
+      "L12": {
+        "hit_rates": {
+          "top1": 0.014778325123152709,
+          "top5": 0.03940886699507389,
+          "top10": 0.059113300492610835,
+          "top50": 0.1477832512315271,
+          "top100": 0.21674876847290642
+        },
+        "median_rank": 1411.0,
+        "count": 203
+      },
+      "L15": {
+        "hit_rates": {
+          "top1": 0.019704433497536946,
+          "top5": 0.04926108374384237,
+          "top10": 0.07881773399014778,
+          "top50": 0.1330049261083744,
+          "top100": 0.19704433497536947
+        },
+        "median_rank": 1718.0,
+        "count": 203
+      },
+      "L18": {
+        "hit_rates": {
+          "top1": 0.024630541871921183,
+          "top5": 0.04926108374384237,
+          "top10": 0.08374384236453201,
+          "top50": 0.16748768472906403,
+          "top100": 0.22660098522167488
+        },
+        "median_rank": 775.0,
+        "count": 203
+      },
+      "L21": {
+        "hit_rates": {
+          "top1": 0.03940886699507389,
+          "top5": 0.09359605911330049,
+          "top10": 0.14285714285714285,
+          "top50": 0.27586206896551724,
+          "top100": 0.31527093596059114
+        },
+        "median_rank": 424.0,
+        "count": 203
+      },
+      "L24": {
+        "hit_rates": {
+          "top1": 0.07389162561576355,
+          "top5": 0.20689655172413793,
+          "top10": 0.2857142857142857,
+          "top50": 0.47783251231527096,
+          "top100": 0.5812807881773399
+        },
+        "median_rank": 66.0,
+        "count": 203
+      },
+      "L27": {
+        "hit_rates": {
+          "top1": 0.1477832512315271,
+          "top5": 0.2857142857142857,
+          "top10": 0.3645320197044335,
+          "top50": 0.6009852216748769,
+          "top100": 0.6798029556650246
+        },
+        "median_rank": 27.0,
+        "count": 203
+      },
+      "L30": {
+        "hit_rates": {
+          "top1": 0.26108374384236455,
+          "top5": 0.4236453201970443,
+          "top10": 0.5467980295566502,
+          "top50": 0.7389162561576355,
+          "top100": 0.8078817733990148
+        },
+        "median_rank": 7.0,
+        "count": 203
+      },
+      "L33": {
+        "hit_rates": {
+          "top1": 0.3645320197044335,
+          "top5": 0.6699507389162561,
+          "top10": 0.7586206896551724,
+          "top50": 0.9064039408866995,
+          "top100": 0.9211822660098522
+        },
+        "median_rank": 2.0,
+        "count": 203
+      },
+      "L35": {
+        "hit_rates": {
+          "top1": 0.4482758620689655,
+          "top5": 0.6945812807881774,
+          "top10": 0.7881773399014779,
+          "top50": 0.9014778325123153,
+          "top100": 0.9261083743842364
+        },
+        "median_rank": 1.0,
+        "count": 203
+      }
+    },
+    "lookahead_2": {
+      "L0": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 86497.0,
+        "count": 193
+      },
+      "L3": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 73805.0,
+        "count": 193
+      },
+      "L6": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0051813471502590676,
+          "top10": 0.0051813471502590676,
+          "top50": 0.010362694300518135,
+          "top100": 0.015544041450777202
+        },
+        "median_rank": 26268.0,
+        "count": 193
+      },
+      "L9": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0051813471502590676,
+          "top50": 0.02072538860103627,
+          "top100": 0.025906735751295335
+        },
+        "median_rank": 26891.0,
+        "count": 193
+      },
+      "L12": {
+        "hit_rates": {
+          "top1": 0.010362694300518135,
+          "top5": 0.010362694300518135,
+          "top10": 0.02072538860103627,
+          "top50": 0.05699481865284974,
+          "top100": 0.06735751295336788
+        },
+        "median_rank": 11217.0,
+        "count": 193
+      },
+      "L15": {
+        "hit_rates": {
+          "top1": 0.0051813471502590676,
+          "top5": 0.0051813471502590676,
+          "top10": 0.015544041450777202,
+          "top50": 0.046632124352331605,
+          "top100": 0.06735751295336788
+        },
+        "median_rank": 11711.0,
+        "count": 193
+      },
+      "L18": {
+        "hit_rates": {
+          "top1": 0.0051813471502590676,
+          "top5": 0.015544041450777202,
+          "top10": 0.015544041450777202,
+          "top50": 0.07253886010362694,
+          "top100": 0.09326424870466321
+        },
+        "median_rank": 9715.0,
+        "count": 193
+      },
+      "L21": {
+        "hit_rates": {
+          "top1": 0.010362694300518135,
+          "top5": 0.010362694300518135,
+          "top10": 0.02072538860103627,
+          "top50": 0.08290155440414508,
+          "top100": 0.11398963730569948
+        },
+        "median_rank": 8355.0,
+        "count": 193
+      },
+      "L24": {
+        "hit_rates": {
+          "top1": 0.015544041450777202,
+          "top5": 0.02072538860103627,
+          "top10": 0.05181347150259067,
+          "top50": 0.13471502590673576,
+          "top100": 0.17616580310880828
+        },
+        "median_rank": 3441.0,
+        "count": 193
+      },
+      "L27": {
+        "hit_rates": {
+          "top1": 0.015544041450777202,
+          "top5": 0.031088082901554404,
+          "top10": 0.05699481865284974,
+          "top50": 0.17098445595854922,
+          "top100": 0.23316062176165803
+        },
+        "median_rank": 2759.0,
+        "count": 193
+      },
+      "L30": {
+        "hit_rates": {
+          "top1": 0.015544041450777202,
+          "top5": 0.05181347150259067,
+          "top10": 0.10362694300518134,
+          "top50": 0.20725388601036268,
+          "top100": 0.27979274611398963
+        },
+        "median_rank": 1456.0,
+        "count": 193
+      },
+      "L33": {
+        "hit_rates": {
+          "top1": 0.010362694300518135,
+          "top5": 0.06735751295336788,
+          "top10": 0.10362694300518134,
+          "top50": 0.27461139896373055,
+          "top100": 0.32124352331606215
+        },
+        "median_rank": 388.0,
+        "count": 193
+      },
+      "L35": {
+        "hit_rates": {
+          "top1": 0.02072538860103627,
+          "top5": 0.05699481865284974,
+          "top10": 0.11398963730569948,
+          "top50": 0.3005181347150259,
+          "top100": 0.45595854922279794
+        },
+        "median_rank": 131.0,
+        "count": 193
+      }
+    },
+    "lookahead_3": {
+      "L0": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 87760.0,
+        "count": 183
+      },
+      "L3": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 71916.0,
+        "count": 183
+      },
+      "L6": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.01092896174863388
+        },
+        "median_rank": 30591.0,
+        "count": 183
+      },
+      "L9": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.01092896174863388,
+          "top50": 0.01092896174863388,
+          "top100": 0.02185792349726776
+        },
+        "median_rank": 28319.0,
+        "count": 183
+      },
+      "L12": {
+        "hit_rates": {
+          "top1": 0.00546448087431694,
+          "top5": 0.01639344262295082,
+          "top10": 0.01639344262295082,
+          "top50": 0.0273224043715847,
+          "top100": 0.04918032786885246
+        },
+        "median_rank": 16337.0,
+        "count": 183
+      },
+      "L15": {
+        "hit_rates": {
+          "top1": 0.00546448087431694,
+          "top5": 0.01639344262295082,
+          "top10": 0.01639344262295082,
+          "top50": 0.03825136612021858,
+          "top100": 0.04918032786885246
+        },
+        "median_rank": 16734.0,
+        "count": 183
+      },
+      "L18": {
+        "hit_rates": {
+          "top1": 0.00546448087431694,
+          "top5": 0.01639344262295082,
+          "top10": 0.02185792349726776,
+          "top50": 0.060109289617486336,
+          "top100": 0.060109289617486336
+        },
+        "median_rank": 12937.0,
+        "count": 183
+      },
+      "L21": {
+        "hit_rates": {
+          "top1": 0.01092896174863388,
+          "top5": 0.01639344262295082,
+          "top10": 0.03278688524590164,
+          "top50": 0.06557377049180328,
+          "top100": 0.08196721311475409
+        },
+        "median_rank": 8766.0,
+        "count": 183
+      },
+      "L24": {
+        "hit_rates": {
+          "top1": 0.00546448087431694,
+          "top5": 0.02185792349726776,
+          "top10": 0.0273224043715847,
+          "top50": 0.08196721311475409,
+          "top100": 0.09289617486338798
+        },
+        "median_rank": 5736.0,
+        "count": 183
+      },
+      "L27": {
+        "hit_rates": {
+          "top1": 0.01639344262295082,
+          "top5": 0.03278688524590164,
+          "top10": 0.04371584699453552,
+          "top50": 0.10382513661202186,
+          "top100": 0.12568306010928962
+        },
+        "median_rank": 5460.0,
+        "count": 183
+      },
+      "L30": {
+        "hit_rates": {
+          "top1": 0.00546448087431694,
+          "top5": 0.02185792349726776,
+          "top10": 0.0546448087431694,
+          "top50": 0.10382513661202186,
+          "top100": 0.14207650273224043
+        },
+        "median_rank": 5106.0,
+        "count": 183
+      },
+      "L33": {
+        "hit_rates": {
+          "top1": 0.01092896174863388,
+          "top5": 0.03825136612021858,
+          "top10": 0.06557377049180328,
+          "top50": 0.1366120218579235,
+          "top100": 0.19672131147540983
+        },
+        "median_rank": 1111.0,
+        "count": 183
+      },
+      "L35": {
+        "hit_rates": {
+          "top1": 0.0273224043715847,
+          "top5": 0.060109289617486336,
+          "top10": 0.09836065573770492,
+          "top50": 0.2677595628415301,
+          "top100": 0.3333333333333333
+        },
+        "median_rank": 291.0,
+        "count": 183
+      }
+    },
+    "lookahead_4": {
+      "L0": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 91572.0,
+        "count": 173
+      },
+      "L3": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 76747.0,
+        "count": 173
+      },
+      "L6": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.005780346820809248
+        },
+        "median_rank": 32435.0,
+        "count": 173
+      },
+      "L9": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.005780346820809248,
+          "top100": 0.005780346820809248
+        },
+        "median_rank": 36433.0,
+        "count": 173
+      },
+      "L12": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.005780346820809248,
+          "top10": 0.005780346820809248,
+          "top50": 0.023121387283236993,
+          "top100": 0.023121387283236993
+        },
+        "median_rank": 15227.0,
+        "count": 173
+      },
+      "L15": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.005780346820809248,
+          "top10": 0.011560693641618497,
+          "top50": 0.023121387283236993,
+          "top100": 0.028901734104046242
+        },
+        "median_rank": 19421.0,
+        "count": 173
+      },
+      "L18": {
+        "hit_rates": {
+          "top1": 0.005780346820809248,
+          "top5": 0.005780346820809248,
+          "top10": 0.005780346820809248,
+          "top50": 0.028901734104046242,
+          "top100": 0.046242774566473986
+        },
+        "median_rank": 17083.0,
+        "count": 173
+      },
+      "L21": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.005780346820809248,
+          "top10": 0.011560693641618497,
+          "top50": 0.046242774566473986,
+          "top100": 0.06358381502890173
+        },
+        "median_rank": 12758.0,
+        "count": 173
+      },
+      "L24": {
+        "hit_rates": {
+          "top1": 0.005780346820809248,
+          "top5": 0.005780346820809248,
+          "top10": 0.011560693641618497,
+          "top50": 0.057803468208092484,
+          "top100": 0.06358381502890173
+        },
+        "median_rank": 12179.0,
+        "count": 173
+      },
+      "L27": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.005780346820809248,
+          "top50": 0.046242774566473986,
+          "top100": 0.06936416184971098
+        },
+        "median_rank": 10023.0,
+        "count": 173
+      },
+      "L30": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.011560693641618497,
+          "top10": 0.017341040462427744,
+          "top50": 0.057803468208092484,
+          "top100": 0.09248554913294797
+        },
+        "median_rank": 5390.0,
+        "count": 173
+      },
+      "L33": {
+        "hit_rates": {
+          "top1": 0.011560693641618497,
+          "top5": 0.04046242774566474,
+          "top10": 0.05202312138728324,
+          "top50": 0.10982658959537572,
+          "top100": 0.13872832369942195
+        },
+        "median_rank": 1857.0,
+        "count": 173
+      },
+      "L35": {
+        "hit_rates": {
+          "top1": 0.023121387283236993,
+          "top5": 0.057803468208092484,
+          "top10": 0.09826589595375723,
+          "top50": 0.20809248554913296,
+          "top100": 0.2774566473988439
+        },
+        "median_rank": 500.0,
+        "count": 173
+      }
+    },
+    "lookahead_5": {
+      "L0": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 86798.0,
+        "count": 163
+      },
+      "L3": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.0,
+          "top10": 0.0,
+          "top50": 0.0,
+          "top100": 0.0
+        },
+        "median_rank": 74762.0,
+        "count": 163
+      },
+      "L6": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.006134969325153374,
+          "top10": 0.006134969325153374,
+          "top50": 0.006134969325153374,
+          "top100": 0.006134969325153374
+        },
+        "median_rank": 32537.0,
+        "count": 163
+      },
+      "L9": {
+        "hit_rates": {
+          "top1": 0.006134969325153374,
+          "top5": 0.006134969325153374,
+          "top10": 0.006134969325153374,
+          "top50": 0.006134969325153374,
+          "top100": 0.006134969325153374
+        },
+        "median_rank": 39077.0,
+        "count": 163
+      },
+      "L12": {
+        "hit_rates": {
+          "top1": 0.006134969325153374,
+          "top5": 0.018404907975460124,
+          "top10": 0.018404907975460124,
+          "top50": 0.024539877300613498,
+          "top100": 0.03067484662576687
+        },
+        "median_rank": 22996.0,
+        "count": 163
+      },
+      "L15": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.006134969325153374,
+          "top10": 0.006134969325153374,
+          "top50": 0.018404907975460124,
+          "top100": 0.024539877300613498
+        },
+        "median_rank": 23402.0,
+        "count": 163
+      },
+      "L18": {
+        "hit_rates": {
+          "top1": 0.006134969325153374,
+          "top5": 0.006134969325153374,
+          "top10": 0.012269938650306749,
+          "top50": 0.024539877300613498,
+          "top100": 0.03067484662576687
+        },
+        "median_rank": 16173.0,
+        "count": 163
+      },
+      "L21": {
+        "hit_rates": {
+          "top1": 0.006134969325153374,
+          "top5": 0.012269938650306749,
+          "top10": 0.018404907975460124,
+          "top50": 0.03680981595092025,
+          "top100": 0.049079754601226995
+        },
+        "median_rank": 15636.0,
+        "count": 163
+      },
+      "L24": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.012269938650306749,
+          "top10": 0.018404907975460124,
+          "top50": 0.049079754601226995,
+          "top100": 0.06748466257668712
+        },
+        "median_rank": 10691.0,
+        "count": 163
+      },
+      "L27": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.006134969325153374,
+          "top10": 0.018404907975460124,
+          "top50": 0.049079754601226995,
+          "top100": 0.08588957055214724
+        },
+        "median_rank": 9979.0,
+        "count": 163
+      },
+      "L30": {
+        "hit_rates": {
+          "top1": 0.0,
+          "top5": 0.006134969325153374,
+          "top10": 0.012269938650306749,
+          "top50": 0.08588957055214724,
+          "top100": 0.12883435582822086
+        },
+        "median_rank": 9507.0,
+        "count": 163
+      },
+      "L33": {
+        "hit_rates": {
+          "top1": 0.012269938650306749,
+          "top5": 0.04294478527607362,
+          "top10": 0.05521472392638037,
+          "top50": 0.12269938650306748,
+          "top100": 0.15337423312883436
+        },
+        "median_rank": 1836.0,
+        "count": 163
+      },
+      "L35": {
+        "hit_rates": {
+          "top1": 0.03680981595092025,
+          "top5": 0.07975460122699386,
+          "top10": 0.09202453987730061,
+          "top50": 0.22085889570552147,
+          "top100": 0.26993865030674846
+        },
+        "median_rank": 660.0,
+        "count": 163
+      }
+    }
+  },
+  "first_probe_details": {
+    "L0": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u6f9b",
+          "\u8225",
+          "\u7048"
+        ],
+        "rank_of_actual": 7612
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "\u4ea4\u4f1a",
+          "\u4e0d\u8db3\u4ee5",
+          "-catching"
+        ],
+        "rank_of_actual": 74091
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "\u804c\u80fd\u90e8\u95e8",
+          "\u6d17\u8138",
+          "\u4e2d\u5173\u6751"
+        ],
+        "rank_of_actual": 147876
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "\u6500\u5347",
+          "\u5347\u6e29",
+          "\u603b\u961f"
+        ],
+        "rank_of_actual": 106793
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u67dc\u53f0",
+          "\u8054\u52a8",
+          "sehen"
+        ],
+        "rank_of_actual": 131570
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "thereafter",
+          "\u4e09\u5927\u804c\u4e1a",
+          "Liberties"
+        ],
+        "rank_of_actual": 94214
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u540d\u989d",
+          "ismet",
+          "leitung"
+        ],
+        "rank_of_actual": 39451
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "Buccane",
+          "Lauderdale"
+        ],
+        "rank_of_actual": 81282
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "\u6070\u597d",
+          "afil",
+          "frauen"
+        ],
+        "rank_of_actual": 105769
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u65f6\u95f4\u548c",
+          "\u5c31\u4e1a\u5c97\u4f4d",
+          "\u7ea0\u6b63"
+        ],
+        "rank_of_actual": 149775
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "\u90e8\u4f4d",
+          "thereafter",
+          "ichtet"
+        ],
+        "rank_of_actual": 3926
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "Laboratories",
+          "nues",
+          "arrang"
+        ],
+        "rank_of_actual": 110728
+      }
+    ],
+    "L3": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u6f9b",
+          "ISIBLE",
+          "\u45ea"
+        ],
+        "rank_of_actual": 53317
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "riendly",
+          "-catching",
+          "ythe"
+        ],
+        "rank_of_actual": 45012
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "upport",
+          "niest",
+          "\u5bf9\u9762"
+        ],
+        "rank_of_actual": 142139
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "enough",
+          "\u5347\u6e29",
+          "\u603b\u961f"
+        ],
+        "rank_of_actual": 42553
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "sports",
+          "\u770b\u89c1",
+          "\u4e8b\u53d1"
+        ],
+        "rank_of_actual": 111226
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "\u603b\u961f",
+          "thereafter",
+          "elsewhere"
+        ],
+        "rank_of_actual": 92772
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u7ba1\u59d4\u4f1a",
+          "Rangers",
+          "abi"
+        ],
+        "rank_of_actual": 7353
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "Lauderdale",
+          "\u5176\u5b83"
+        ],
+        "rank_of_actual": 114259
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "\u1ee3",
+          "illet",
+          "prit"
+        ],
+        "rank_of_actual": 11877
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u540e\u518d",
+          "Bounty",
+          "ForCanBeConvertedToForeach"
+        ],
+        "rank_of_actual": 147425
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "\u76f8\u5e94",
+          "Liberties",
+          "\u90e8\u4f4d"
+        ],
+        "rank_of_actual": 5220
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u76f8\u5e94",
+          "\u9002\u65f6",
+          "ungan"
+        ],
+        "rank_of_actual": 19678
+      }
+    ],
+    "L6": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u5a7b",
+          "\u88af"
+        ],
+        "rank_of_actual": 38527
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "less",
+          "matic",
+          "ging"
+        ],
+        "rank_of_actual": 34063
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "uant",
+          "elling",
+          "aki"
+        ],
+        "rank_of_actual": 74707
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "-paced",
+          "pace",
+          "\u901f"
+        ],
+        "rank_of_actual": 7373
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "s",
+          "line",
+          "\u5de5\u4f5c\u5c97\u4f4d"
+        ],
+        "rank_of_actual": 9588
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "other",
+          "remaining",
+          "bounds"
+        ],
+        "rank_of_actual": 41281
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "view",
+          "ranger",
+          "inson"
+        ],
+        "rank_of_actual": 807
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "rew",
+          "rea"
+        ],
+        "rank_of_actual": 83106
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "frog",
+          "elling",
+          "board"
+        ],
+        "rank_of_actual": 2503
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "kl",
+          "Tutor",
+          "\u7684\u8d28\u91cf"
+        ],
+        "rank_of_actual": 23811
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "remaining",
+          "eventual",
+          "\u53e6\u4e00"
+        ],
+        "rank_of_actual": 803
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u6240\u63d0\u4f9b\u7684",
+          "angel",
+          "icha"
+        ],
+        "rank_of_actual": 13128
+      }
+    ],
+    "L9": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u5a7b",
+          "\u88af"
+        ],
+        "rank_of_actual": 35722
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "less",
+          "ging",
+          "matic"
+        ],
+        "rank_of_actual": 6373
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "aki",
+          "elling",
+          "away"
+        ],
+        "rank_of_actual": 42092
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "enough",
+          "\u53d1\u5c55\u6218\u7565",
+          "stras"
+        ],
+        "rank_of_actual": 35520
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "l\u00ed",
+          "ero",
+          "\u5de5\u4f5c\u5c97\u4f4d"
+        ],
+        "rank_of_actual": 21928
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "posi\u00e7\u00e3o",
+          "\u53e5\u5b50",
+          "paths"
+        ],
+        "rank_of_actual": 65479
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "ful",
+          "\u7ba1\u59d4\u4f1a",
+          "dar"
+        ],
+        "rank_of_actual": 8104
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "rew",
+          "rea",
+          "/or"
+        ],
+        "rank_of_actual": 46096
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "-through",
+          "leap",
+          "frog"
+        ],
+        "rank_of_actual": 33549
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "ker",
+          "ch\u1ed7",
+          "synchronized"
+        ],
+        "rank_of_actual": 19060
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "eec",
+          "sse",
+          "</"
+        ],
+        "rank_of_actual": 5
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u680f",
+          "-mounted",
+          "iore"
+        ],
+        "rank_of_actual": 55206
+      }
+    ],
+    "L12": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u5a7b",
+          "\u88af"
+        ],
+        "rank_of_actual": 30656
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "-boy",
+          "dogs",
+          "-girl"
+        ],
+        "rank_of_actual": 3049
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "\u901f\u5ea6\u5feb",
+          "boy",
+          "_____"
+        ],
+        "rank_of_actual": 5766
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "speeds",
+          "ometer",
+          "\u5de5\u4f5c\u5c97\u4f4d"
+        ],
+        "rank_of_actual": 3498
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u7684\u52a8\u4f5c",
+          "eway",
+          "/on"
+        ],
+        "rank_of_actual": 154
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "entire",
+          ".Stat",
+          ".tp"
+        ],
+        "rank_of_actual": 32658
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "ers",
+          "-mounted",
+          "\u0131n"
+        ],
+        "rank_of_actual": 3111
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "/o",
+          "vice"
+        ],
+        "rank_of_actual": 4927
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "leap",
+          "\u98db\u3073",
+          "olar"
+        ],
+        "rank_of_actual": 44291
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "pping",
+          "\u817e\u98de",
+          "eway"
+        ],
+        "rank_of_actual": 11002
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "crossed",
+          "table",
+          "entire"
+        ],
+        "rank_of_actual": 13
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u56f4\u5899",
+          "gate",
+          "-mounted"
+        ],
+        "rank_of_actual": 15854
+      }
+    ],
+    "L15": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 26427
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "fish",
+          "-boy",
+          "dogs"
+        ],
+        "rank_of_actual": 15028
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "____",
+          "\u901f\u5ea6",
+          "_____"
+        ],
+        "rank_of_actual": 4529
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "speed",
+          "ometer",
+          "______"
+        ],
+        "rank_of_actual": 6158
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "ctl",
+          "\u7684\u52a8\u4f5c",
+          "/sw"
+        ],
+        "rank_of_actual": 105
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "dictionary",
+          "dream",
+          "ABEL"
+        ],
+        "rank_of_actual": 44288
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u91cc\u7684",
+          "ista",
+          "\u7684\u540d\u5b57"
+        ],
+        "rank_of_actual": 10396
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "rea",
+          "rew"
+        ],
+        "rank_of_actual": 448
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "\u7684\u52a8\u4f5c",
+          "plash",
+          "\u52a8\u4f5c"
+        ],
+        "rank_of_actual": 26815
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u9a6c\u8def",
+          "successfully",
+          "pping"
+        ],
+        "rank_of_actual": 6791
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "narrow",
+          "entire",
+          "newly"
+        ],
+        "rank_of_actual": 438
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "_flutter",
+          "gate",
+          "-mounted"
+        ],
+        "rank_of_actual": 30480
+      }
+    ],
+    "L18": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 24021
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "fish",
+          "-boy",
+          "\u2f8f"
+        ],
+        "rank_of_actual": 2074
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "away",
+          "_____",
+          "speed"
+        ],
+        "rank_of_actual": 1549
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "ometer",
+          "speed",
+          "eras"
+        ],
+        "rank_of_actual": 697
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u7684\u52a8\u4f5c",
+          "\u7684\u753b\u9762",
+          "/sw"
+        ],
+        "rank_of_actual": 81
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "\u2f8f",
+          "rain",
+          "\u9a6c\u8def"
+        ],
+        "rank_of_actual": 572
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "imedia",
+          "-wide",
+          "_gps"
+        ],
+        "rank_of_actual": 1841
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "\u2f8f",
+          "rew"
+        ],
+        "rank_of_actual": 1806
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "/sw",
+          "\u7684\u52a8\u4f5c",
+          "plash"
+        ],
+        "rank_of_actual": 20131
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "successfully",
+          "obstacle",
+          "/platform"
+        ],
+        "rank_of_actual": 1334
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "obstacle",
+          "obstacles",
+          "narrow"
+        ],
+        "rank_of_actual": 113
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "_flutter",
+          "aroo",
+          "\u7f51\u7edc\u4f20\u64ad"
+        ],
+        "rank_of_actual": 43394
+      }
+    ],
+    "L21": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 23252
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "fish",
+          "\u2f8f",
+          "matic"
+        ],
+        "rank_of_actual": 687
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "_____",
+          "______",
+          "speed"
+        ],
+        "rank_of_actual": 866
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "ometer",
+          "\u9a6c\u529b",
+          "ening"
+        ],
+        "rank_of_actual": 459
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "the",
+          "/platform",
+          "/on"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "narrow",
+          "invisible",
+          "_______,"
+        ],
+        "rank_of_actual": 1095
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u4e00\u8d9f",
+          "\u2f8f",
+          "atorium"
+        ],
+        "rank_of_actual": 6672
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "/or",
+          "rogen",
+          "_speed"
+        ],
+        "rank_of_actual": 2627
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "into",
+          "/sw",
+          "onto"
+        ],
+        "rank_of_actual": 3679
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "-ts",
+          "challenging",
+          "high"
+        ],
+        "rank_of_actual": 145
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "air",
+          "entire",
+          "obstacle"
+        ],
+        "rank_of_actual": 1085
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "aroo",
+          "_flutter",
+          "lessness"
+        ],
+        "rank_of_actual": 71700
+      }
+    ],
+    "L24": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 23704
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "dogs",
+          "matic",
+          "breeds"
+        ],
+        "rank_of_actual": 797
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "\u7684\u901f\u5ea6",
+          "faster",
+          "speed"
+        ],
+        "rank_of_actual": 266
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "speed",
+          "\u7684\u901f\u5ea6",
+          "speeds"
+        ],
+        "rank_of_actual": 77
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u9a6c\u8def",
+          "\u7530\u91ce",
+          "campus"
+        ],
+        "rank_of_actual": 19
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "empty",
+          "entire",
+          "\u9a6c\u8def"
+        ],
+        "rank_of_actual": 92
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u7eff\u5730",
+          "\u516c\u5712",
+          "\u2f8f"
+        ],
+        "rank_of_actual": 5430
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "suddenly",
+          "\u6765\u5230\u4e86",
+          "eventually"
+        ],
+        "rank_of_actual": 53
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "onto",
+          "into",
+          "\u8df3\u8dc3"
+        ],
+        "rank_of_actual": 228
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "obstacles",
+          "hurdle",
+          "obstacle"
+        ],
+        "rank_of_actual": 528
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "obstacles",
+          "obstacle",
+          "hurdle"
+        ],
+        "rank_of_actual": 6
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u56f4\u5899",
+          "hog",
+          "\u62a4\u680f"
+        ],
+        "rank_of_actual": 44085
+      }
+    ],
+    "L27": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 22875
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "matic",
+          "enary",
+          "'s"
+        ],
+        "rank_of_actual": 1179
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "faster",
+          "\ud83c\udfc3",
+          "downhill"
+        ],
+        "rank_of_actual": 278
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "downhill",
+          "uphill",
+          "toward"
+        ],
+        "rank_of_actual": 29
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "\u7530\u91ce",
+          "\u9a6c\u8def",
+          "lawn"
+        ],
+        "rank_of_actual": 11
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "\u9a6c\u8def",
+          "\u7530\u91ce",
+          "\u64cd\u573a"
+        ],
+        "rank_of_actual": 46
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "\u516c\u5712",
+          "\u7eff\u5730",
+          "\u516c\u56ed"
+        ],
+        "rank_of_actual": 12279
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "suddenly",
+          "dogs",
+          "then"
+        ],
+        "rank_of_actual": 32
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "onto",
+          "hurdles",
+          "into"
+        ],
+        "rank_of_actual": 130
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "fence",
+          "obstacles",
+          "fences"
+        ],
+        "rank_of_actual": 132
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "fence",
+          "obstacle",
+          "obstacles"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "\u56f4\u5899",
+          "fence",
+          "wall"
+        ],
+        "rank_of_actual": 13928
+      }
+    ],
+    "L30": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 25431
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "owner",
+          "owners",
+          "ged"
+        ],
+        "rank_of_actual": 439
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "faster",
+          "around",
+          "toward"
+        ],
+        "rank_of_actual": 59
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "across",
+          "toward",
+          "towards"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "town",
+          "the",
+          "\u7530\u91ce"
+        ],
+        "rank_of_actual": 1
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "grass",
+          "road",
+          "lawn"
+        ],
+        "rank_of_actual": 12
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "lawn",
+          "park",
+          "\u8349\u576a"
+        ],
+        "rank_of_actual": 662
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "chased",
+          "past",
+          "jumps"
+        ],
+        "rank_of_actual": 2
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "over",
+          "into",
+          "hurdles"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "obstacles",
+          "hurdles",
+          "obstacle"
+        ],
+        "rank_of_actual": 27
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "fence",
+          "pudd",
+          "hurdles"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "into",
+          "fence",
+          "onto"
+        ],
+        "rank_of_actual": 208
+      }
+    ],
+    "L33": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "\u73bf",
+          "\u88af",
+          "\u5a7b"
+        ],
+        "rank_of_actual": 27577
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "'s",
+          "ged",
+          "chased"
+        ],
+        "rank_of_actual": 22
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "faster",
+          "through",
+          "around"
+        ],
+        "rank_of_actual": 4
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "around",
+          "down",
+          "across"
+        ],
+        "rank_of_actual": 2
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "the",
+          "town",
+          "\u7530\u91ce"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "field",
+          "yard",
+          "grass"
+        ],
+        "rank_of_actual": 4
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          "lawn",
+          "until",
+          "____"
+        ],
+        "rank_of_actual": 18
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "jumps",
+          "stops",
+          "knocks"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "over",
+          "into",
+          "up"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "obstacles",
+          "fences",
+          "a"
+        ],
+        "rank_of_actual": 3
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "fence",
+          "pudd",
+          "gate"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          "into",
+          ".",
+          "where"
+        ],
+        "rank_of_actual": 1
+      }
+    ],
+    "L35": [
+      {
+        "pos": 0,
+        "token": "The",
+        "actual_next": "dog",
+        "predicted_top3": [
+          "S",
+          "",
+          "area"
+        ],
+        "rank_of_actual": 4062
+      },
+      {
+        "pos": 1,
+        "token": " dog",
+        "actual_next": "runs",
+        "predicted_top3": [
+          "'s",
+          "is",
+          "toys"
+        ],
+        "rank_of_actual": 49
+      },
+      {
+        "pos": 2,
+        "token": " runs",
+        "actual_next": "quickly",
+        "predicted_top3": [
+          "",
+          "after",
+          "at"
+        ],
+        "rank_of_actual": 28
+      },
+      {
+        "pos": 3,
+        "token": " quickly",
+        "actual_next": "across",
+        "predicted_top3": [
+          "around",
+          ",",
+          "down"
+        ],
+        "rank_of_actual": 8
+      },
+      {
+        "pos": 4,
+        "token": " across",
+        "actual_next": "the",
+        "predicted_top3": [
+          "the",
+          "a",
+          ""
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 5,
+        "token": " the",
+        "actual_next": "park",
+        "predicted_top3": [
+          "yard",
+          "field",
+          "floor"
+        ],
+        "rank_of_actual": 8
+      },
+      {
+        "pos": 6,
+        "token": " park",
+        "actual_next": "and",
+        "predicted_top3": [
+          ".",
+          ",",
+          "and"
+        ],
+        "rank_of_actual": 2
+      },
+      {
+        "pos": 7,
+        "token": " and",
+        "actual_next": "jumps",
+        "predicted_top3": [
+          "then",
+          "jumps",
+          "the"
+        ],
+        "rank_of_actual": 1
+      },
+      {
+        "pos": 8,
+        "token": " jumps",
+        "actual_next": "over",
+        "predicted_top3": [
+          "over",
+          "into",
+          "on"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 9,
+        "token": " over",
+        "actual_next": "the",
+        "predicted_top3": [
+          "the",
+          "a",
+          "some"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 10,
+        "token": " the",
+        "actual_next": "fence",
+        "predicted_top3": [
+          "fence",
+          "pudd",
+          "small"
+        ],
+        "rank_of_actual": 0
+      },
+      {
+        "pos": 11,
+        "token": " fence",
+        "actual_next": ".",
+        "predicted_top3": [
+          ".",
+          ",",
+          "."
+        ],
+        "rank_of_actual": 0
+      }
+    ]
+  }
+}
