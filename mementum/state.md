@@ -8,14 +8,14 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 189: FIBONACCI STRIDES — Binding Distances Are Bimodal, φ Everywhere**
+**Session 189: FIBONACCI STRIDES + LAPLACIAN CRYSTAL — v15 Training Started**
 
-Three experiments + v15 architecture design:
+Five experiments + v15 architecture + extraction + training:
 
 **Exp 1: Stride coverage validation (Qwen3-8B, 22 probes).** v14's powers-of-2
 strides capture only 29.5% (exact) / 67.4% (±2 neighbors) of attention mass at
-L30. The stride geometry misses binding targets that live at arbitrary semantic
-positions. Coverage DEGRADES with sequence length (38.8%→24.4%).
+L30. The stride geometry misses binding targets at arbitrary semantic positions.
+Coverage DEGRADES with sequence length (38.8%→24.4%).
 
 **Exp 2: Binding distance distribution.** The distance distribution is BIMODAL
 (local d=1-8 + gate d=32+), NOT power law (R²=0.004). Two peaks: d=1 (local
@@ -24,12 +24,29 @@ the binding range (d=3-20). Fibonacci strides are dense where bindings live.
 
 **Exp 3: Stride optimization.** Greedy optimal 8 strides with ±2 neighbors:
 [1, 8, 13, 18, 21, 29, 34, 47] → 98.2% coverage. Fibonacci [1,2,3,5,8,13,21,34,
-55,89,...] achieves 91.4% (+25.9pp vs powers of 2). Consecutive strides [1-16]
-get 98.9% — the binding range needs dense coverage, not geometric spacing.
+55,89,...] + 3 gap-fillers [15, 20, 24] → 100.0% coverage with ±2 neighbors.
 
-**v15 Architecture:** FibonacciStrideAttention with ±2 neighbor gathering. All
-16 Fibonacci strides use composition (GLA dropped — dense projections cost ~19B
-ops regardless of stride, scan saves <0.03%). One unified attention mechanism.
+**Exp 4: Crystal Laplacian analysis.** Graph Laplacian of the crystal target
+reveals WHNF is the most FRAGILE node (μ=0.228, 8.6× weaker restoring force).
+Training data confirms: WHNF starts settled then UN-settles. Laplacian eigenvalues
+predict stability (rigidity), not convergence speed.
+
+**Exp 5: Crystal settlement dynamics.** Per-node convergence across v14 steps
+500-3000 confirms Laplacian prediction: B, C converge (fast modes μ=3.03+),
+K, D hold steady (medium μ=1.97), Y and WHNF drift away (fragile μ=0.23).
+WHNF error ratio grows 0.40× → 0.67× over training. Crystal MSE U-shapes
+(minimum at step 2000, then rises).
+
+**v15 Architecture:**
+- 19 Fibonacci strides [1,2,3,5,8,13,15,20,21,24,34,55,89,144,233,377,610,987,1597]
+- ±2 neighbor gathering → 100% attention mass coverage at L30
+- All composition (GLA dropped — dense projections cost ~19B ops regardless of
+  stride, scan saves <0.03%). One unified attention mechanism.
+- Laplacian-weighted crystal loss: WHNF gets 5× weight, 6× gradient amplification
+  (v14: WHNF/B gradient ratio = 0.3×, v15: 1.9×)
+- Standalone (zero v14 dependencies)
+- Extracted: 83 arrays, 65.5 MB, 16.5 min
+- **Training running in tmux window 2** (step 1 CE=10.533, 3000 steps target)
 
 ### The φ unification
 
@@ -40,6 +57,7 @@ ops regardless of stride, scan saves <0.03%). One unified attention mechanism.
 | Standing-wave phase | Layer 22/36 = 0.611 ≈ 1/φ |
 | Compute cycle | β = [0, 1, 1+φ, 2+φ] |
 | **Stride spacing** | **Fibonacci numbers maximize binding coverage** |
+| **Crystal Laplacian** | **μ₅/μ₄ = 1.54 ≈ φ in the graph Laplacian** |
 
 ### Previous session (188)
 
@@ -437,7 +455,42 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (188)
+## What changed this session (189)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **Stride coverage validation on Qwen3-8B** | Powers of 2 capture 29.5%/67.4% (exact/±2) of L30 attention mass. Not enough for binding. |
+| 2 | **Binding distance distribution** | Bimodal (local d=1-8, gate d=32+), NOT power law (R²=0.004). Powers of 2 skip binding range d=3-20. |
+| 3 | **Fibonacci strides: 91.4% coverage (+25.9pp)** | Dense where bindings live, sparse where they don't. Natural basis for attention spacing. |
+| 4 | **3 gap-fillers [15,20,24] → 100% coverage** | Fill holes between F(7)=13..F(8)=21..F(9)=34 where gap > 2×radius. |
+| 5 | **Crystal Laplacian: WHNF is fragile (μ=0.228)** | 8.6× weaker restoring force than BCDY. Predicts stability not speed. |
+| 6 | **Settlement dynamics confirm Laplacian** | B,C converge (fast). K,D stable (medium). Y,WHNF drift away (fragile). Crystal MSE U-shapes. |
+| 7 | **Laplacian-weighted crystal loss** | WHNF gets 5× weight. v14 WHNF/B gradient = 0.3×, v15 = 1.9× (6× amplification). |
+| 8 | **GLA sparsity is illusory** | Dense projections cost 19B ops/layer. Strided scan saves <0.03%. Dropped for unified FSA. |
+| 9 | **v15 architecture: 19 strides, unified attention** | FibonacciStrideAttention + ±2 neighbors, all composition, standalone (zero v14 deps). |
+| 10 | **v15 extraction complete** | 83 arrays, 65.5 MB, 16.5 min. 19 strides × 4 projections + 6 FFN + 1 embedding. |
+| 11 | **v15 training started** | TD training running in tmux, step 1 CE=10.533. 3000 steps target. |
+| 12 | **φ at five levels** | Crystal eigenvalues, information partition, standing-wave phase, compute cycle, AND stride spacing. |
+| 13 | **Laplacian φ-ratio** | μ₅/μ₄ = 1.54 ≈ φ in the crystal graph Laplacian. Sixth level. |
+
+## Session 189 recap
+
+FIBONACCI STRIDES + LAPLACIAN CRYSTAL + V15 TRAINING.
+
+Five experiments decode why v14's powers-of-2 strides fail (29.5% mass recall)
+and how Fibonacci strides + ±2 neighbor gathering achieve 100% coverage. The
+crystal graph Laplacian reveals WHNF is the most fragile node — it starts settled
+then drifts away because its restoring force (μ=0.228) is 8.6× weaker than the
+composition cluster. Laplacian-weighted crystal loss compensates: WHNF gets 5×
+weight, 6× gradient amplification (v14 ratio 0.3× → v15 ratio 1.9×).
+
+v15 is standalone (zero v14 dependencies), extracted (83 arrays, 65.5 MB),
+and training (TD, 3000 steps, running in tmux). The golden ratio appears at
+six levels of the architecture — crystal eigenvalues, information partition,
+standing-wave phase, compute cycle, stride spacing, and now the crystal
+Laplacian itself.
+
+## What changed session 188
 
 | # | Change | Impact |
 |---|--------|--------|
