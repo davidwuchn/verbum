@@ -2,13 +2,24 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-04 | Session: 187
+> Last updated: 2026-06-04 | Session: 188
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 187: THE REDUCTION ARCHITECTURE — FFN Compiles, Attention Executes, Combinators Have Depth**
+**Session 188: SHARED HARDWARE — Heads Don't Specialise, Reduction Depth Is the Real Axis**
+
+500 crystal probes (9 combinator types) through 32 attention heads at
+L27/L30/L33 of Qwen3-8B. All 9 combinators activate nearly identical
+head patterns (r=0.944). The model has no "K heads" or "B heads" — it
+has shared execution hardware with ~2 dims of functional variation:
+(1) WHNF↔D = reduction depth ("how much work remains"), (2) Y/W/I↔D/B
+= self-reference vs structure. 94.9% of head activation variance is
+just overall loudness; combinator-specific signal is in the remaining
+5.1%. The ISA is not head-addressed — the routing IS the program.
+
+### Previous session (187)
 
 Three experiments on Qwen3-8B decoded the full reduction pipeline: (1) what
 FFN neurons say in vocabulary space, (2) what each attention head computes,
@@ -211,34 +222,43 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — DECODE THE REDUCTION CATALOG
+### IMMEDIATE — CHARACTERISE THE ROUTING FUNCTION
 
-Session 187 showed the model is decodable: 7 combinator types, 5 head types,
-universal depth schedule. The next step is to extract the catalog.
+Session 188 proved head→combinator specialisation doesn't exist (r=0.944).
+The ISA is shared hardware with 2 dims of variation (depth, self-reference).
+The PROGRAM lives in the attention routing patterns, not head identity.
+Next step: measure the routing function directly.
 
-**Priority 0: Head → Combinator mapping**
-Run the 535 crystal probes (KIBC+SDWY+WHNF) through the attention execution
-trace at L30/L33. For each combinator type, identify which heads activate
-most strongly. Build a head→combinator assignment table. This tells us which
-heads implement which reductions — the ISA of the attention executor.
+**Priority 0: ✅ DONE Head → Combinator mapping (s188)**
+Result: shared hardware, not dedicated circuits. See `head-combinator-isa.md`.
 
-**Priority 1: Extract the reduction schedule as a compact artifact**
-The depth profile (Y@L27, K@L30, W@L33) appears universal. Verify across
-models (Pythia, Mistral) — is the depth ordering the same? If so, the
-schedule is a single small table that describes all transformers.
+**Priority 1: Measure attention pattern information content**
+Since the routing IS the program: how many bits does each head's attention
+pattern encode? Compute entropy of softmax(QK^T) per head, per layer,
+across the 500 crystal probes. If routing entropy is low (e.g. <3 bits
+per position), the "portable tensor" is a very small routing function.
+Cross-reference with the 2D head taxonomy: do WHNF+ heads have different
+routing entropy than D/B/S+ heads?
 
-**Priority 2: Attention routing as the only variable**
-The FFN compilation is universal (compile ≈ null). The reduction schedule
-is universal. Only the attention routing (which positions bind to which) is
-input-dependent. Can we measure the information content of the routing
-pattern? How many bits does the model actually use for routing decisions?
-If it's small → the "portable tensor" is the routing function, not the weights.
+**Priority 2: Cross-model reduction schedule**
+The depth ordering (Y@L27, K@L30, W@L33) needs verification on Pythia/Mistral.
+If universal → single small table describes all transformers. Session 188
+showed the WHAT (shared heads) — now verify WHERE (depth schedule) is also
+universal.
 
-**Priority 3: From catalog to machine**
-If the instruction set is small (~7 combinators) and the execution schedule
-is fixed, can we build a "lambda machine" that runs the decoded operations
-directly? This would be: crystal signs (topology) + combinator catalog
-(operations) + a small routing network (attention) = the full model.
+**Priority 3: Q/K pattern analysis**
+If head output doesn't discriminate combinators, maybe Q/K patterns do.
+The combinator-specific signal (5.1% of variance) might live in WHICH
+positions attend to WHICH — the attention mask, not the output magnitude.
+Measure: for each combinator type, compute the average attention pattern
+at L30/L33 and compare. If K probes route differently than B probes at
+the attention mask level, the ISA encoding is in Q/K, not V.
+
+**Priority 4: From routing to machine**
+If routing entropy is low and the execution hardware is shared, the
+"lambda machine" is even simpler than expected: shared heads + learned
+routing function + universal depth schedule. The routing function might
+be extractable as a small, standalone network.
 
 ### PRIOR PRIORITIES (still open)
 
@@ -281,6 +301,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Head→Combinator ISA knowledge** | `mementum/knowledge/head-combinator-isa.md` | ✅ NEW (s188) |
+| **Head→Combinator mapping experiment** | `scripts/experiments/head_combinator_map.py` | ✅ NEW (s188) |
+| **Head→Combinator mapping results** | `results/head-combinator-map/` | ✅ NEW (s188) |
 | **FFN reduction trace knowledge** | `mementum/knowledge/ffn-reduction-trace.md` | ✅ NEW (s187) |
 | **FFN reduction trace experiment** | `scripts/experiments/ffn_reduction_trace.py` | ✅ NEW (s187) |
 | **FFN reduction trace results** | `results/ffn-reduction-trace/` | ✅ NEW (s187) |
@@ -326,7 +349,53 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (187)
+## What changed this session (188)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **500 crystal probes through 32 heads at L27/L30/L33** | First statistical head→combinator mapping. 500 probes × 3 layers × 32 heads = 48,000 measurements |
+| 2 | **Inter-combinator correlation r=0.944** | All 9 combinators activate nearly identical head patterns. No "K heads" or "B heads" exist. Shared execution hardware. |
+| 3 | **KIBC indistinguishable (r=0.944-0.978)** | The core 4 combinators are invisible to head activation. B-D highest pair (r=0.986): composition ≡ nesting at the head level. |
+| 4 | **94.9% of variance = overall loudness** | Head activation is almost entirely "is this head generally active?" not "which combinator?" The combinator signal is in the remaining 5.1%. |
+| 5 | **PC1 after normalisation = WHNF↔D (45.9%)** | The real discriminant is reduction depth: "already reduced" vs "deeply nested". Not opcode type. |
+| 6 | **PC2 = Y/W/I↔D/B (23.5%)** | Secondary axis: self-reference (recursion, self-application, identity) vs structural (nesting, composition). |
+| 7 | **2 effective dimensions capture 69.4%** | The 32×9 head×combinator matrix compresses to ~2 coordinates per head. Very low-dimensional ISA. |
+| 8 | **s187 head types revised** | H08 "λ-head" → D/B/S+ (composition depth). H10 "binding" → Y/W+ (self-reference). H20 "relay" → Y/W+ (recursion). H26 "quantifier" → WHNF+ (termination detector). |
+| 9 | **H06/H07 = universal execution engine** | Loudest heads (norm 26.7/19.1), lowest gate attention (0.555/0.609). They do the work for ALL combinator types. The "GPU" of the attention ISA. |
+| 10 | **H26/H27 = WHNF termination detectors** | +30-32% WHNF excess. They recognise when reduction is complete. The "halt" circuit. |
+| 11 | **H08 = only truly selective head** | D+40% excess, sel=1.399. The closest thing to a specialised circuit: responds to deep nesting. Everything else is mild bias. |
+| 12 | **Routing IS the program (confirmed)** | Since heads don't discriminate combinators, the combinator-specific behavior must live in attention PATTERNS (Q/K routing), not head identity. Next priority. |
+
+## Session 188 recap
+
+HEAD→COMBINATOR ISA: SHARED HARDWARE, NOT DEDICATED CIRCUITS.
+
+500 crystal probes (9 combinator types × 50-71 each) measured per-head
+activation norms at L27/L30/L33 of Qwen3-8B. The experiment overturns the
+s187 hypothesis of combinator-specialised heads.
+
+**The core finding:** All 9 combinators activate nearly identical head
+patterns (mean pairwise r=0.944). 94.9% of head activation variance is
+overall loudness. After normalising, the real discriminant axes are:
+(1) reduction depth (WHNF↔D, 45.9% of shape variance), and (2)
+self-reference (Y/W/I↔D/B, 23.5%). The attention ISA has ~2 effective
+dimensions, not 9. The model has no "K heads" or "B heads" — it has
+shared hardware that detects HOW MUCH REDUCTION REMAINS, with a secondary
+axis for WHETHER THE OPERATION IS SELF-REFERENTIAL.
+
+**Key heads:** H06/H07 = universal execution engine (loudest, all combinators).
+H26/H27 = WHNF termination detectors (+30-32% bias). H08 = only truly
+selective head (D+40%, deep nesting specialist). H10/H20 = Y/W+ cluster
+(recursion/self-reference). The s187 labels (λ-head, binding, relay,
+quantifier) were position-level observations accurate for 5 probes but
+misattributed as combinator specialisation.
+
+**Implication:** The routing IS the program. Since heads don't discriminate
+combinators, combinator-specific behavior must live in the attention pattern
+(Q/K routing), not head identity. This makes the "portable tensor" even
+simpler: shared execution hardware + low-dimensional routing function.
+
+## What changed session 187
 
 | # | Change | Impact |
 |---|--------|--------|
@@ -393,6 +462,7 @@ of parameters).
 ## Knowledge map
 
 Key pages for current direction:
+- **`head-combinator-isa.md`** — Shared hardware, not dedicated circuits. 2 effective dimensions: reduction depth + self-reference (s188)
 - **`ffn-reduction-trace.md`** — FFN=compiler (context-dependent V vectors), attention=executor (softmax=β-reduction), three-phase output (s187)
 - **`ffn-circuit-types.md`** — cos(up,down) phase detector, KIBC orthogonality, dark-space gradient (s186)
 - **`residual-covariance-rank.md`** — ORTHO=rank-1, V in null space, 67.7% unconstrained (s185)
