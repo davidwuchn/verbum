@@ -1,0 +1,906 @@
+{
+  "ffn_only": {
+    "sweep": [
+      {
+        "depth": 0,
+        "cumulative_cosine": 0.9600657224655151,
+        "cumulative_cosine_min": 0.9064134955406189,
+        "weight_cosine_mean": 0.9091201821962992
+      },
+      {
+        "depth": 1,
+        "cumulative_cosine": 0.4814261794090271,
+        "cumulative_cosine_min": 0.29846733808517456,
+        "weight_cosine_mean": 0.8683429956436157
+      },
+      {
+        "depth": 2,
+        "cumulative_cosine": 0.4005497097969055,
+        "cumulative_cosine_min": 0.07298244535923004,
+        "weight_cosine_mean": 0.856137732664744
+      },
+      {
+        "depth": 3,
+        "cumulative_cosine": 0.3627030849456787,
+        "cumulative_cosine_min": -0.03696386143565178,
+        "weight_cosine_mean": 0.8870842059453329
+      },
+      {
+        "depth": 4,
+        "cumulative_cosine": 0.35963428020477295,
+        "cumulative_cosine_min": -0.059136174619197845,
+        "weight_cosine_mean": 0.9068815112113953
+      },
+      {
+        "depth": 5,
+        "cumulative_cosine": 0.33772629499435425,
+        "cumulative_cosine_min": -0.10549672693014145,
+        "weight_cosine_mean": 0.9071365197499593
+      },
+      {
+        "depth": 6,
+        "cumulative_cosine": 0.2802974581718445,
+        "cumulative_cosine_min": -0.09459251165390015,
+        "weight_cosine_mean": 0.9099903504053751
+      },
+      {
+        "depth": 7,
+        "cumulative_cosine": 0.2714734673500061,
+        "cumulative_cosine_min": -0.08687952905893326,
+        "weight_cosine_mean": 0.9105391502380371
+      },
+      {
+        "depth": 8,
+        "cumulative_cosine": 0.25757303833961487,
+        "cumulative_cosine_min": -0.04845649376511574,
+        "weight_cosine_mean": 0.9108216365178426
+      },
+      {
+        "depth": 9,
+        "cumulative_cosine": 0.2598549425601959,
+        "cumulative_cosine_min": -0.05119886249303818,
+        "weight_cosine_mean": 0.909300168355306
+      },
+      {
+        "depth": 10,
+        "cumulative_cosine": 0.2449491322040558,
+        "cumulative_cosine_min": -0.056590735912323,
+        "weight_cosine_mean": 0.9096345702807108
+      },
+      {
+        "depth": 11,
+        "cumulative_cosine": 0.25467920303344727,
+        "cumulative_cosine_min": -0.04545309394598007,
+        "weight_cosine_mean": 0.9102621277173361
+      },
+      {
+        "depth": 12,
+        "cumulative_cosine": 0.23931747674942017,
+        "cumulative_cosine_min": -0.02140895090997219,
+        "weight_cosine_mean": 0.9094725847244263
+      },
+      {
+        "depth": 13,
+        "cumulative_cosine": 0.21989089250564575,
+        "cumulative_cosine_min": -0.017810001969337463,
+        "weight_cosine_mean": 0.9084415435791016
+      },
+      {
+        "depth": 14,
+        "cumulative_cosine": 0.20878472924232483,
+        "cumulative_cosine_min": -0.004264165181666613,
+        "weight_cosine_mean": 0.9084781408309937
+      },
+      {
+        "depth": 15,
+        "cumulative_cosine": 0.21109694242477417,
+        "cumulative_cosine_min": -0.004475819878280163,
+        "weight_cosine_mean": 0.9076218605041504
+      },
+      {
+        "depth": 16,
+        "cumulative_cosine": 0.20530954003334045,
+        "cumulative_cosine_min": -0.025118136778473854,
+        "weight_cosine_mean": 0.9078147013982137
+      },
+      {
+        "depth": 17,
+        "cumulative_cosine": 0.2025993913412094,
+        "cumulative_cosine_min": -0.021486416459083557,
+        "weight_cosine_mean": 0.9079044659932455
+      },
+      {
+        "depth": 18,
+        "cumulative_cosine": 0.17758552730083466,
+        "cumulative_cosine_min": 0.00940839946269989,
+        "weight_cosine_mean": 0.9067097703615824
+      },
+      {
+        "depth": 19,
+        "cumulative_cosine": 0.1640780121088028,
+        "cumulative_cosine_min": 0.009541436098515987,
+        "weight_cosine_mean": 0.9058952331542969
+      },
+      {
+        "depth": 20,
+        "cumulative_cosine": 0.19230951368808746,
+        "cumulative_cosine_min": 0.03239566460251808,
+        "weight_cosine_mean": 0.9071959257125854
+      },
+      {
+        "depth": 21,
+        "cumulative_cosine": 0.17882874608039856,
+        "cumulative_cosine_min": 0.0332711786031723,
+        "weight_cosine_mean": 0.9068960944811503
+      },
+      {
+        "depth": 22,
+        "cumulative_cosine": 0.17221061885356903,
+        "cumulative_cosine_min": 0.01667158119380474,
+        "weight_cosine_mean": 0.9065853953361511
+      },
+      {
+        "depth": 23,
+        "cumulative_cosine": 0.19385460019111633,
+        "cumulative_cosine_min": 0.04686259478330612,
+        "weight_cosine_mean": 0.9083305199941
+      },
+      {
+        "depth": 24,
+        "cumulative_cosine": 0.2712874710559845,
+        "cumulative_cosine_min": 0.11451444774866104,
+        "weight_cosine_mean": 0.9098785122235616
+      },
+      {
+        "depth": 25,
+        "cumulative_cosine": 0.2977144420146942,
+        "cumulative_cosine_min": 0.12499190866947174,
+        "weight_cosine_mean": 0.9104131460189819
+      },
+      {
+        "depth": 26,
+        "cumulative_cosine": 0.31364762783050537,
+        "cumulative_cosine_min": 0.14014537632465363,
+        "weight_cosine_mean": 0.9111716945966085
+      },
+      {
+        "depth": 27,
+        "cumulative_cosine": 0.3250729739665985,
+        "cumulative_cosine_min": 0.15557752549648285,
+        "weight_cosine_mean": 0.9110630551973978
+      },
+      {
+        "depth": 28,
+        "cumulative_cosine": 0.3270811438560486,
+        "cumulative_cosine_min": 0.16021420061588287,
+        "weight_cosine_mean": 0.9109541972478231
+      },
+      {
+        "depth": 29,
+        "cumulative_cosine": 0.38615748286247253,
+        "cumulative_cosine_min": 0.20353959500789642,
+        "weight_cosine_mean": 0.912611166636149
+      },
+      {
+        "depth": 30,
+        "cumulative_cosine": 0.4145604074001312,
+        "cumulative_cosine_min": 0.24818505346775055,
+        "weight_cosine_mean": 0.9126700361569723
+      },
+      {
+        "depth": 31,
+        "cumulative_cosine": 0.45644766092300415,
+        "cumulative_cosine_min": 0.27744975686073303,
+        "weight_cosine_mean": 0.9127448002497355
+      },
+      {
+        "depth": 32,
+        "cumulative_cosine": 0.42350253462791443,
+        "cumulative_cosine_min": 0.25791144371032715,
+        "weight_cosine_mean": 0.912453293800354
+      },
+      {
+        "depth": 33,
+        "cumulative_cosine": 0.46093475818634033,
+        "cumulative_cosine_min": 0.27612653374671936,
+        "weight_cosine_mean": 0.9119182427724203
+      },
+      {
+        "depth": 34,
+        "cumulative_cosine": 0.5427305102348328,
+        "cumulative_cosine_min": 0.3754359781742096,
+        "weight_cosine_mean": 0.9108221133550009
+      },
+      {
+        "depth": 35,
+        "cumulative_cosine": 0.2868615686893463,
+        "cumulative_cosine_min": -0.13365373015403748,
+        "weight_cosine_mean": 0.9074815710385641
+      }
+    ],
+    "ppl": 485165195.4097903,
+    "nll": 20.12646283928681,
+    "n_tokens": 16321,
+    "params_ternary": 5435817984,
+    "params_float": 1509949440,
+    "pct_ternary": 78.26086956521739
+  },
+  "vo_only": {
+    "sweep": [
+      {
+        "depth": 0,
+        "cumulative_cosine": 0.9492806196212769,
+        "cumulative_cosine_min": 0.8885799646377563,
+        "weight_cosine_mean": 0.8999263048171997
+      },
+      {
+        "depth": 1,
+        "cumulative_cosine": 0.9307891726493835,
+        "cumulative_cosine_min": 0.8149443864822388,
+        "weight_cosine_mean": 0.9007941484451294
+      },
+      {
+        "depth": 2,
+        "cumulative_cosine": 0.9003968238830566,
+        "cumulative_cosine_min": 0.6019876003265381,
+        "weight_cosine_mean": 0.9021111130714417
+      },
+      {
+        "depth": 3,
+        "cumulative_cosine": 0.8857539892196655,
+        "cumulative_cosine_min": 0.5758739709854126,
+        "weight_cosine_mean": 0.9011850357055664
+      },
+      {
+        "depth": 4,
+        "cumulative_cosine": 0.9023685455322266,
+        "cumulative_cosine_min": 0.5874571800231934,
+        "weight_cosine_mean": 0.90183424949646
+      },
+      {
+        "depth": 5,
+        "cumulative_cosine": 0.9139208793640137,
+        "cumulative_cosine_min": 0.6355317831039429,
+        "weight_cosine_mean": 0.9009990990161896
+      },
+      {
+        "depth": 6,
+        "cumulative_cosine": 0.8905104398727417,
+        "cumulative_cosine_min": 0.1947721689939499,
+        "weight_cosine_mean": 0.8971116244792938
+      },
+      {
+        "depth": 7,
+        "cumulative_cosine": 0.8815873265266418,
+        "cumulative_cosine_min": 0.18636934459209442,
+        "weight_cosine_mean": 0.9011476337909698
+      },
+      {
+        "depth": 8,
+        "cumulative_cosine": 0.8698504567146301,
+        "cumulative_cosine_min": 0.1855303943157196,
+        "weight_cosine_mean": 0.9019457101821899
+      },
+      {
+        "depth": 9,
+        "cumulative_cosine": 0.8650237917900085,
+        "cumulative_cosine_min": 0.1881529986858368,
+        "weight_cosine_mean": 0.9005272686481476
+      },
+      {
+        "depth": 10,
+        "cumulative_cosine": 0.8695725798606873,
+        "cumulative_cosine_min": 0.20028194785118103,
+        "weight_cosine_mean": 0.8998921513557434
+      },
+      {
+        "depth": 11,
+        "cumulative_cosine": 0.8711674213409424,
+        "cumulative_cosine_min": 0.2063433974981308,
+        "weight_cosine_mean": 0.9006350934505463
+      },
+      {
+        "depth": 12,
+        "cumulative_cosine": 0.8598269820213318,
+        "cumulative_cosine_min": 0.2090756893157959,
+        "weight_cosine_mean": 0.8989408016204834
+      },
+      {
+        "depth": 13,
+        "cumulative_cosine": 0.8477115631103516,
+        "cumulative_cosine_min": 0.20262277126312256,
+        "weight_cosine_mean": 0.9006747007369995
+      },
+      {
+        "depth": 14,
+        "cumulative_cosine": 0.8332927227020264,
+        "cumulative_cosine_min": 0.16627910733222961,
+        "weight_cosine_mean": 0.899699330329895
+      },
+      {
+        "depth": 15,
+        "cumulative_cosine": 0.8243340253829956,
+        "cumulative_cosine_min": 0.18292227387428284,
+        "weight_cosine_mean": 0.9003795981407166
+      },
+      {
+        "depth": 16,
+        "cumulative_cosine": 0.823611319065094,
+        "cumulative_cosine_min": 0.07089972496032715,
+        "weight_cosine_mean": 0.9002204239368439
+      },
+      {
+        "depth": 17,
+        "cumulative_cosine": 0.8154000043869019,
+        "cumulative_cosine_min": 0.09856235980987549,
+        "weight_cosine_mean": 0.8997495770454407
+      },
+      {
+        "depth": 18,
+        "cumulative_cosine": 0.8227413892745972,
+        "cumulative_cosine_min": 0.2807372510433197,
+        "weight_cosine_mean": 0.9002370536327362
+      },
+      {
+        "depth": 19,
+        "cumulative_cosine": 0.8287330865859985,
+        "cumulative_cosine_min": 0.3088541030883789,
+        "weight_cosine_mean": 0.8975745141506195
+      },
+      {
+        "depth": 20,
+        "cumulative_cosine": 0.8237472772598267,
+        "cumulative_cosine_min": 0.3131450116634369,
+        "weight_cosine_mean": 0.8986000418663025
+      },
+      {
+        "depth": 21,
+        "cumulative_cosine": 0.813768744468689,
+        "cumulative_cosine_min": 0.32777145504951477,
+        "weight_cosine_mean": 0.8967843651771545
+      },
+      {
+        "depth": 22,
+        "cumulative_cosine": 0.8171766400337219,
+        "cumulative_cosine_min": 0.36141282320022583,
+        "weight_cosine_mean": 0.8971127271652222
+      },
+      {
+        "depth": 23,
+        "cumulative_cosine": 0.8246721625328064,
+        "cumulative_cosine_min": 0.39804792404174805,
+        "weight_cosine_mean": 0.8932214081287384
+      },
+      {
+        "depth": 24,
+        "cumulative_cosine": 0.8381491303443909,
+        "cumulative_cosine_min": 0.4212971329689026,
+        "weight_cosine_mean": 0.8911532163619995
+      },
+      {
+        "depth": 25,
+        "cumulative_cosine": 0.8390527963638306,
+        "cumulative_cosine_min": 0.4394337236881256,
+        "weight_cosine_mean": 0.8996244072914124
+      },
+      {
+        "depth": 26,
+        "cumulative_cosine": 0.8429494500160217,
+        "cumulative_cosine_min": 0.4149825870990753,
+        "weight_cosine_mean": 0.8992848694324493
+      },
+      {
+        "depth": 27,
+        "cumulative_cosine": 0.8424950242042542,
+        "cumulative_cosine_min": 0.3986719846725464,
+        "weight_cosine_mean": 0.8994244039058685
+      },
+      {
+        "depth": 28,
+        "cumulative_cosine": 0.8418115377426147,
+        "cumulative_cosine_min": 0.40541285276412964,
+        "weight_cosine_mean": 0.9002465903759003
+      },
+      {
+        "depth": 29,
+        "cumulative_cosine": 0.8434831500053406,
+        "cumulative_cosine_min": 0.3998139500617981,
+        "weight_cosine_mean": 0.8973680734634399
+      },
+      {
+        "depth": 30,
+        "cumulative_cosine": 0.8443673849105835,
+        "cumulative_cosine_min": 0.3430418074131012,
+        "weight_cosine_mean": 0.8975590467453003
+      },
+      {
+        "depth": 31,
+        "cumulative_cosine": 0.8470979928970337,
+        "cumulative_cosine_min": 0.33904510736465454,
+        "weight_cosine_mean": 0.8988423347473145
+      },
+      {
+        "depth": 32,
+        "cumulative_cosine": 0.849398136138916,
+        "cumulative_cosine_min": 0.3731277287006378,
+        "weight_cosine_mean": 0.8969866931438446
+      },
+      {
+        "depth": 33,
+        "cumulative_cosine": 0.8615754246711731,
+        "cumulative_cosine_min": 0.4476816952228546,
+        "weight_cosine_mean": 0.898458331823349
+      },
+      {
+        "depth": 34,
+        "cumulative_cosine": 0.9141973853111267,
+        "cumulative_cosine_min": 0.6998645067214966,
+        "weight_cosine_mean": 0.8968377411365509
+      },
+      {
+        "depth": 35,
+        "cumulative_cosine": 0.915742814540863,
+        "cumulative_cosine_min": 0.6636947989463806,
+        "weight_cosine_mean": 0.9005460143089294
+      }
+    ],
+    "ppl": 23.08449553821057,
+    "nll": 3.1391612033576375,
+    "n_tokens": 16321,
+    "params_ternary": 754974720,
+    "params_float": 6190792704,
+    "pct_ternary": 10.869565217391305
+  },
+  "qk_only": {
+    "sweep": [
+      {
+        "depth": 0,
+        "cumulative_cosine": 0.993163526058197,
+        "cumulative_cosine_min": 0.9587000608444214,
+        "weight_cosine_mean": 0.90253746509552
+      },
+      {
+        "depth": 1,
+        "cumulative_cosine": 0.9892242550849915,
+        "cumulative_cosine_min": 0.9489797353744507,
+        "weight_cosine_mean": 0.8995799720287323
+      },
+      {
+        "depth": 2,
+        "cumulative_cosine": 0.9858459234237671,
+        "cumulative_cosine_min": 0.9368784427642822,
+        "weight_cosine_mean": 0.8997350931167603
+      },
+      {
+        "depth": 3,
+        "cumulative_cosine": 0.9790266752243042,
+        "cumulative_cosine_min": 0.9296198487281799,
+        "weight_cosine_mean": 0.898893415927887
+      },
+      {
+        "depth": 4,
+        "cumulative_cosine": 0.9779115915298462,
+        "cumulative_cosine_min": 0.9388505220413208,
+        "weight_cosine_mean": 0.8995485007762909
+      },
+      {
+        "depth": 5,
+        "cumulative_cosine": 0.9770018458366394,
+        "cumulative_cosine_min": 0.9371390342712402,
+        "weight_cosine_mean": 0.8992111682891846
+      },
+      {
+        "depth": 6,
+        "cumulative_cosine": 0.9676898121833801,
+        "cumulative_cosine_min": 0.6848132610321045,
+        "weight_cosine_mean": 0.9003825187683105
+      },
+      {
+        "depth": 7,
+        "cumulative_cosine": 0.9103700518608093,
+        "cumulative_cosine_min": 0.7141095995903015,
+        "weight_cosine_mean": 0.8990226686000824
+      },
+      {
+        "depth": 8,
+        "cumulative_cosine": 0.8522228598594666,
+        "cumulative_cosine_min": 0.698503851890564,
+        "weight_cosine_mean": 0.9000459015369415
+      },
+      {
+        "depth": 9,
+        "cumulative_cosine": 0.8126981258392334,
+        "cumulative_cosine_min": 0.6303553581237793,
+        "weight_cosine_mean": 0.8947533965110779
+      },
+      {
+        "depth": 10,
+        "cumulative_cosine": 0.7892306447029114,
+        "cumulative_cosine_min": 0.5650801062583923,
+        "weight_cosine_mean": 0.8987256288528442
+      },
+      {
+        "depth": 11,
+        "cumulative_cosine": 0.7682824730873108,
+        "cumulative_cosine_min": 0.585475742816925,
+        "weight_cosine_mean": 0.8948782682418823
+      },
+      {
+        "depth": 12,
+        "cumulative_cosine": 0.7415258884429932,
+        "cumulative_cosine_min": 0.24430617690086365,
+        "weight_cosine_mean": 0.8965944051742554
+      },
+      {
+        "depth": 13,
+        "cumulative_cosine": 0.7111673951148987,
+        "cumulative_cosine_min": 0.3267357647418976,
+        "weight_cosine_mean": 0.8962889015674591
+      },
+      {
+        "depth": 14,
+        "cumulative_cosine": 0.7044224739074707,
+        "cumulative_cosine_min": 0.11218772828578949,
+        "weight_cosine_mean": 0.8986510634422302
+      },
+      {
+        "depth": 15,
+        "cumulative_cosine": 0.676555871963501,
+        "cumulative_cosine_min": 0.13035337626934052,
+        "weight_cosine_mean": 0.8973442614078522
+      },
+      {
+        "depth": 16,
+        "cumulative_cosine": 0.6737139821052551,
+        "cumulative_cosine_min": 0.07833075523376465,
+        "weight_cosine_mean": 0.8994363844394684
+      },
+      {
+        "depth": 17,
+        "cumulative_cosine": 0.6711479425430298,
+        "cumulative_cosine_min": 0.06142700836062431,
+        "weight_cosine_mean": 0.897852748632431
+      },
+      {
+        "depth": 18,
+        "cumulative_cosine": 0.6726412773132324,
+        "cumulative_cosine_min": 0.39968937635421753,
+        "weight_cosine_mean": 0.8988438844680786
+      },
+      {
+        "depth": 19,
+        "cumulative_cosine": 0.6657232642173767,
+        "cumulative_cosine_min": 0.39044904708862305,
+        "weight_cosine_mean": 0.8925385177135468
+      },
+      {
+        "depth": 20,
+        "cumulative_cosine": 0.6629998683929443,
+        "cumulative_cosine_min": 0.40335696935653687,
+        "weight_cosine_mean": 0.8986066579818726
+      },
+      {
+        "depth": 21,
+        "cumulative_cosine": 0.6350426077842712,
+        "cumulative_cosine_min": 0.3700093924999237,
+        "weight_cosine_mean": 0.8985312879085541
+      },
+      {
+        "depth": 22,
+        "cumulative_cosine": 0.6418159604072571,
+        "cumulative_cosine_min": 0.4065588712692261,
+        "weight_cosine_mean": 0.8973816633224487
+      },
+      {
+        "depth": 23,
+        "cumulative_cosine": 0.6753843426704407,
+        "cumulative_cosine_min": 0.44043901562690735,
+        "weight_cosine_mean": 0.8989450633525848
+      },
+      {
+        "depth": 24,
+        "cumulative_cosine": 0.7081888318061829,
+        "cumulative_cosine_min": 0.511891782283783,
+        "weight_cosine_mean": 0.8991199135780334
+      },
+      {
+        "depth": 25,
+        "cumulative_cosine": 0.7149890661239624,
+        "cumulative_cosine_min": 0.48606377840042114,
+        "weight_cosine_mean": 0.9005104005336761
+      },
+      {
+        "depth": 26,
+        "cumulative_cosine": 0.7208179831504822,
+        "cumulative_cosine_min": 0.48065441846847534,
+        "weight_cosine_mean": 0.900550901889801
+      },
+      {
+        "depth": 27,
+        "cumulative_cosine": 0.7202072143554688,
+        "cumulative_cosine_min": 0.46866267919540405,
+        "weight_cosine_mean": 0.9006975889205933
+      },
+      {
+        "depth": 28,
+        "cumulative_cosine": 0.720275342464447,
+        "cumulative_cosine_min": 0.4722227156162262,
+        "weight_cosine_mean": 0.899592399597168
+      },
+      {
+        "depth": 29,
+        "cumulative_cosine": 0.7317226529121399,
+        "cumulative_cosine_min": 0.4906451106071472,
+        "weight_cosine_mean": 0.8989461064338684
+      },
+      {
+        "depth": 30,
+        "cumulative_cosine": 0.7450757026672363,
+        "cumulative_cosine_min": 0.479233980178833,
+        "weight_cosine_mean": 0.8983080387115479
+      },
+      {
+        "depth": 31,
+        "cumulative_cosine": 0.7693034410476685,
+        "cumulative_cosine_min": 0.5185688734054565,
+        "weight_cosine_mean": 0.8982498645782471
+      },
+      {
+        "depth": 32,
+        "cumulative_cosine": 0.7782551646232605,
+        "cumulative_cosine_min": 0.48195287585258484,
+        "weight_cosine_mean": 0.897059291601181
+      },
+      {
+        "depth": 33,
+        "cumulative_cosine": 0.8002867698669434,
+        "cumulative_cosine_min": 0.5204921364784241,
+        "weight_cosine_mean": 0.897732675075531
+      },
+      {
+        "depth": 34,
+        "cumulative_cosine": 0.8802598118782043,
+        "cumulative_cosine_min": 0.6740184426307678,
+        "weight_cosine_mean": 0.897955060005188
+      },
+      {
+        "depth": 35,
+        "cumulative_cosine": 0.900127649307251,
+        "cumulative_cosine_min": 0.4003024399280548,
+        "weight_cosine_mean": 0.9012037515640259
+      }
+    ],
+    "ppl": 30.033210330850093,
+    "nll": 3.4023037804056124,
+    "n_tokens": 16321,
+    "params_ternary": 754974720,
+    "params_float": 6190792704,
+    "pct_ternary": 10.869565217391305
+  },
+  "all": {
+    "sweep": [
+      {
+        "depth": 0,
+        "cumulative_cosine": 0.8991120457649231,
+        "cumulative_cosine_min": 0.7590590715408325,
+        "weight_cosine_mean": 0.9046125837734768
+      },
+      {
+        "depth": 1,
+        "cumulative_cosine": 0.5017275810241699,
+        "cumulative_cosine_min": 0.2782759666442871,
+        "weight_cosine_mean": 0.886539603982653
+      },
+      {
+        "depth": 2,
+        "cumulative_cosine": 0.40121760964393616,
+        "cumulative_cosine_min": -0.04062174633145332,
+        "weight_cosine_mean": 0.8817293729100909
+      },
+      {
+        "depth": 3,
+        "cumulative_cosine": 0.3604639172554016,
+        "cumulative_cosine_min": -0.0793018564581871,
+        "weight_cosine_mean": 0.8944870744432721
+      },
+      {
+        "depth": 4,
+        "cumulative_cosine": 0.3587140440940857,
+        "cumulative_cosine_min": -0.07615748047828674,
+        "weight_cosine_mean": 0.9033442905970982
+      },
+      {
+        "depth": 5,
+        "cumulative_cosine": 0.329029381275177,
+        "cumulative_cosine_min": -0.10019960254430771,
+        "weight_cosine_mean": 0.9031185848372323
+      },
+      {
+        "depth": 6,
+        "cumulative_cosine": 0.2687729001045227,
+        "cumulative_cosine_min": -0.09980619698762894,
+        "weight_cosine_mean": 0.9035656196730477
+      },
+      {
+        "depth": 7,
+        "cumulative_cosine": 0.26134026050567627,
+        "cumulative_cosine_min": -0.09183661639690399,
+        "weight_cosine_mean": 0.9045654364994594
+      },
+      {
+        "depth": 8,
+        "cumulative_cosine": 0.24752655625343323,
+        "cumulative_cosine_min": -0.06141994893550873,
+        "weight_cosine_mean": 0.9052068761416844
+      },
+      {
+        "depth": 9,
+        "cumulative_cosine": 0.24690189957618713,
+        "cumulative_cosine_min": -0.07897242158651352,
+        "weight_cosine_mean": 0.9026374050549099
+      },
+      {
+        "depth": 10,
+        "cumulative_cosine": 0.21998201310634613,
+        "cumulative_cosine_min": -0.10805992782115936,
+        "weight_cosine_mean": 0.9037341816084725
+      },
+      {
+        "depth": 11,
+        "cumulative_cosine": 0.2202722430229187,
+        "cumulative_cosine_min": -0.10867101699113846,
+        "weight_cosine_mean": 0.903116158076695
+      },
+      {
+        "depth": 12,
+        "cumulative_cosine": 0.19878438115119934,
+        "cumulative_cosine_min": -0.09775955229997635,
+        "weight_cosine_mean": 0.902784023966108
+      },
+      {
+        "depth": 13,
+        "cumulative_cosine": 0.18151703476905823,
+        "cumulative_cosine_min": -0.09909363836050034,
+        "weight_cosine_mean": 0.9027502621923175
+      },
+      {
+        "depth": 14,
+        "cumulative_cosine": 0.1745869219303131,
+        "cumulative_cosine_min": -0.09454016387462616,
+        "weight_cosine_mean": 0.9031621728624616
+      },
+      {
+        "depth": 15,
+        "cumulative_cosine": 0.1824716329574585,
+        "cumulative_cosine_min": -0.10896093398332596,
+        "weight_cosine_mean": 0.9026161858013698
+      },
+      {
+        "depth": 16,
+        "cumulative_cosine": 0.17324334383010864,
+        "cumulative_cosine_min": -0.09890136867761612,
+        "weight_cosine_mean": 0.9032511029924665
+      },
+      {
+        "depth": 17,
+        "cumulative_cosine": 0.17751167714595795,
+        "cumulative_cosine_min": -0.08166542649269104,
+        "weight_cosine_mean": 0.9027025784764972
+      },
+      {
+        "depth": 18,
+        "cumulative_cosine": 0.13604652881622314,
+        "cumulative_cosine_min": -0.07928808033466339,
+        "weight_cosine_mean": 0.9026130267551967
+      },
+      {
+        "depth": 19,
+        "cumulative_cosine": 0.12348335236310959,
+        "cumulative_cosine_min": -0.08070383965969086,
+        "weight_cosine_mean": 0.899701680455889
+      },
+      {
+        "depth": 20,
+        "cumulative_cosine": 0.1331462264060974,
+        "cumulative_cosine_min": -0.06945166736841202,
+        "weight_cosine_mean": 0.9022858824048724
+      },
+      {
+        "depth": 21,
+        "cumulative_cosine": 0.12168054282665253,
+        "cumulative_cosine_min": -0.06359818577766418,
+        "weight_cosine_mean": 0.9016170842306954
+      },
+      {
+        "depth": 22,
+        "cumulative_cosine": 0.0914471447467804,
+        "cumulative_cosine_min": -0.06912108510732651,
+        "weight_cosine_mean": 0.901249280997685
+      },
+      {
+        "depth": 23,
+        "cumulative_cosine": 0.1289546936750412,
+        "cumulative_cosine_min": -0.050606273114681244,
+        "weight_cosine_mean": 0.901332071849278
+      },
+      {
+        "depth": 24,
+        "cumulative_cosine": 0.173981711268425,
+        "cumulative_cosine_min": -0.04190770536661148,
+        "weight_cosine_mean": 0.9014545423643929
+      },
+      {
+        "depth": 25,
+        "cumulative_cosine": 0.1773054003715515,
+        "cumulative_cosine_min": -0.02594156563282013,
+        "weight_cosine_mean": 0.9045012933867318
+      },
+      {
+        "depth": 26,
+        "cumulative_cosine": 0.1912907361984253,
+        "cumulative_cosine_min": -0.011115184053778648,
+        "weight_cosine_mean": 0.9047409466334752
+      },
+      {
+        "depth": 27,
+        "cumulative_cosine": 0.19555476307868958,
+        "cumulative_cosine_min": 0.0027250871062278748,
+        "weight_cosine_mean": 0.9047761644635882
+      },
+      {
+        "depth": 28,
+        "cumulative_cosine": 0.1871974617242813,
+        "cumulative_cosine_min": -0.0032173097133636475,
+        "weight_cosine_mean": 0.904648653098515
+      },
+      {
+        "depth": 29,
+        "cumulative_cosine": 0.24573422968387604,
+        "cumulative_cosine_min": 0.03580973669886589,
+        "weight_cosine_mean": 0.9043516942432949
+      },
+      {
+        "depth": 30,
+        "cumulative_cosine": 0.2731584310531616,
+        "cumulative_cosine_min": 0.06783081591129303,
+        "weight_cosine_mean": 0.9042491827692304
+      },
+      {
+        "depth": 31,
+        "cumulative_cosine": 0.2930750250816345,
+        "cumulative_cosine_min": 0.09410600364208221,
+        "weight_cosine_mean": 0.9046312570571899
+      },
+      {
+        "depth": 32,
+        "cumulative_cosine": 0.27849507331848145,
+        "cumulative_cosine_min": 0.1049209013581276,
+        "weight_cosine_mean": 0.9036359786987305
+      },
+      {
+        "depth": 33,
+        "cumulative_cosine": 0.2971215844154358,
+        "cumulative_cosine_min": 0.12738443911075592,
+        "weight_cosine_mean": 0.9040195345878601
+      },
+      {
+        "depth": 34,
+        "cumulative_cosine": 0.4510079026222229,
+        "cumulative_cosine_min": 0.22274649143218994,
+        "weight_cosine_mean": 0.9031502774783543
+      },
+      {
+        "depth": 35,
+        "cumulative_cosine": 0.22754798829555511,
+        "cumulative_cosine_min": -0.10851308703422546,
+        "weight_cosine_mean": 0.9037063206945147
+      }
+    ],
+    "ppl": 43375.69566387032,
+    "nll": 10.67765455548067,
+    "n_tokens": 16321,
+    "params_ternary": 6945767424,
+    "params_float": 0,
+    "pct_ternary": 100.0
+  }
+}

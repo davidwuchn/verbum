@@ -1,0 +1,596 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  DVD STAMP TEST — Does Gradient Topology Compound Less?                    ║
+║  Model: Qwen/Qwen3-8B                                                      ║
+║  Device: mps                                                               ║
+║  Zero rate: 50%                                                            ║
+║  Calibration batches: 50                                                   ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+  Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:56,  1.34it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:14, 25.66it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:04, 71.10it/s]Loading weights:  17%|█▋        | 66/399 [00:01<00:03, 99.39it/s]Loading weights:  21%|██▏       | 85/399 [00:01<00:02, 116.44it/s]Loading weights:  26%|██▌       | 104/399 [00:01<00:02, 131.32it/s]Loading weights:  32%|███▏      | 127/399 [00:01<00:01, 153.13it/s]Loading weights:  39%|███▉      | 157/399 [00:01<00:01, 189.76it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 182.22it/s]Loading weights:  51%|█████     | 203/399 [00:01<00:01, 191.01it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 194.35it/s]Loading weights:  61%|██████▏   | 245/399 [00:01<00:00, 197.68it/s]Loading weights:  67%|██████▋   | 266/399 [00:02<00:00, 196.56it/s]Loading weights:  75%|███████▍  | 299/399 [00:02<00:00, 230.07it/s]Loading weights:  83%|████████▎ | 331/399 [00:02<00:00, 249.42it/s]Loading weights:  91%|█████████ | 364/399 [00:02<00:00, 269.36it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 160.96it/s]
+
+══════════════════════════════════════════════════════════════════════════════
+  PHASE 1: COLLECTING GRADIENT DVD  (50 batches)
+══════════════════════════════════════════════════════════════════════════════
+  Tracking 252 weight tensors
+    Batch 1/50  (6s elapsed, ~298s remaining)
+    Batch 10/50  (52s elapsed, ~209s remaining)
+    Batch 20/50  (103s elapsed, ~154s remaining)
+    Batch 30/50  (155s elapsed, ~103s remaining)
+    Batch 40/50  (204s elapsed, ~51s remaining)
+    Batch 50/50  (257s elapsed, ~0s remaining)
+
+  Gradient collection complete: 262.3s for 50 batches
+    model.layers.0.mlp.down_proj.weight                     mean|∇|=0.000469  near-zero(<1%median)=0.0%
+    model.layers.0.mlp.gate_proj.weight                     mean|∇|=0.000444  near-zero(<1%median)=0.7%
+    model.layers.0.mlp.up_proj.weight                       mean|∇|=0.000470  near-zero(<1%median)=0.7%
+    model.layers.0.self_attn.k_proj.weight                  mean|∇|=0.000183  near-zero(<1%median)=0.1%
+    model.layers.0.self_attn.o_proj.weight                  mean|∇|=0.000155  near-zero(<1%median)=0.0%
+    model.layers.0.self_attn.q_proj.weight                  mean|∇|=0.000084  near-zero(<1%median)=0.4%
+    model.layers.0.self_attn.v_proj.weight                  mean|∇|=0.000353  near-zero(<1%median)=0.0%
+    model.layers.1.mlp.down_proj.weight                     mean|∇|=0.000542  near-zero(<1%median)=2.9%
+    model.layers.1.mlp.gate_proj.weight                     mean|∇|=0.000147  near-zero(<1%median)=23.8%
+    model.layers.1.mlp.up_proj.weight                       mean|∇|=0.000582  near-zero(<1%median)=7.3%
+    model.layers.1.self_attn.k_proj.weight                  mean|∇|=0.000055  near-zero(<1%median)=0.8%
+    model.layers.1.self_attn.o_proj.weight                  mean|∇|=0.000099  near-zero(<1%median)=0.0%
+    model.layers.1.self_attn.q_proj.weight                  mean|∇|=0.000025  near-zero(<1%median)=1.7%
+    model.layers.1.self_attn.v_proj.weight                  mean|∇|=0.000150  near-zero(<1%median)=0.4%
+    model.layers.10.mlp.down_proj.weight                    mean|∇|=0.001301  near-zero(<1%median)=0.0%
+    model.layers.10.mlp.gate_proj.weight                    mean|∇|=0.000712  near-zero(<1%median)=0.0%
+    model.layers.10.mlp.up_proj.weight                      mean|∇|=0.001296  near-zero(<1%median)=0.0%
+    model.layers.10.self_attn.k_proj.weight                 mean|∇|=0.000136  near-zero(<1%median)=0.0%
+    model.layers.10.self_attn.o_proj.weight                 mean|∇|=0.000142  near-zero(<1%median)=0.0%
+    model.layers.10.self_attn.q_proj.weight                 mean|∇|=0.000071  near-zero(<1%median)=0.1%
+    model.layers.10.self_attn.v_proj.weight                 mean|∇|=0.000242  near-zero(<1%median)=0.0%
+    model.layers.11.mlp.down_proj.weight                    mean|∇|=0.001196  near-zero(<1%median)=0.0%
+    model.layers.11.mlp.gate_proj.weight                    mean|∇|=0.000810  near-zero(<1%median)=0.0%
+    model.layers.11.mlp.up_proj.weight                      mean|∇|=0.001183  near-zero(<1%median)=0.0%
+    model.layers.11.self_attn.k_proj.weight                 mean|∇|=0.000122  near-zero(<1%median)=0.0%
+    model.layers.11.self_attn.o_proj.weight                 mean|∇|=0.000134  near-zero(<1%median)=0.0%
+    model.layers.11.self_attn.q_proj.weight                 mean|∇|=0.000071  near-zero(<1%median)=0.2%
+    model.layers.11.self_attn.v_proj.weight                 mean|∇|=0.000197  near-zero(<1%median)=0.0%
+    model.layers.12.mlp.down_proj.weight                    mean|∇|=0.001161  near-zero(<1%median)=0.0%
+    model.layers.12.mlp.gate_proj.weight                    mean|∇|=0.000840  near-zero(<1%median)=0.0%
+    model.layers.12.mlp.up_proj.weight                      mean|∇|=0.001151  near-zero(<1%median)=0.0%
+    model.layers.12.self_attn.k_proj.weight                 mean|∇|=0.000106  near-zero(<1%median)=0.0%
+    model.layers.12.self_attn.o_proj.weight                 mean|∇|=0.000156  near-zero(<1%median)=0.0%
+    model.layers.12.self_attn.q_proj.weight                 mean|∇|=0.000060  near-zero(<1%median)=0.1%
+    model.layers.12.self_attn.v_proj.weight                 mean|∇|=0.000243  near-zero(<1%median)=0.0%
+    model.layers.13.mlp.down_proj.weight                    mean|∇|=0.001128  near-zero(<1%median)=0.0%
+    model.layers.13.mlp.gate_proj.weight                    mean|∇|=0.000867  near-zero(<1%median)=0.0%
+    model.layers.13.mlp.up_proj.weight                      mean|∇|=0.001085  near-zero(<1%median)=0.0%
+    model.layers.13.self_attn.k_proj.weight                 mean|∇|=0.000103  near-zero(<1%median)=0.0%
+    model.layers.13.self_attn.o_proj.weight                 mean|∇|=0.000115  near-zero(<1%median)=1.7%
+    model.layers.13.self_attn.q_proj.weight                 mean|∇|=0.000060  near-zero(<1%median)=4.7%
+    model.layers.13.self_attn.v_proj.weight                 mean|∇|=0.000161  near-zero(<1%median)=0.0%
+    model.layers.14.mlp.down_proj.weight                    mean|∇|=0.001155  near-zero(<1%median)=0.0%
+    model.layers.14.mlp.gate_proj.weight                    mean|∇|=0.000822  near-zero(<1%median)=0.0%
+    model.layers.14.mlp.up_proj.weight                      mean|∇|=0.001099  near-zero(<1%median)=0.0%
+    model.layers.14.self_attn.k_proj.weight                 mean|∇|=0.000133  near-zero(<1%median)=0.0%
+    model.layers.14.self_attn.o_proj.weight                 mean|∇|=0.000181  near-zero(<1%median)=0.0%
+    model.layers.14.self_attn.q_proj.weight                 mean|∇|=0.000080  near-zero(<1%median)=0.0%
+    model.layers.14.self_attn.v_proj.weight                 mean|∇|=0.000259  near-zero(<1%median)=0.0%
+    model.layers.15.mlp.down_proj.weight                    mean|∇|=0.001082  near-zero(<1%median)=0.0%
+    model.layers.15.mlp.gate_proj.weight                    mean|∇|=0.000887  near-zero(<1%median)=0.0%
+    model.layers.15.mlp.up_proj.weight                      mean|∇|=0.001069  near-zero(<1%median)=0.0%
+    model.layers.15.self_attn.k_proj.weight                 mean|∇|=0.000127  near-zero(<1%median)=0.0%
+    model.layers.15.self_attn.o_proj.weight                 mean|∇|=0.000152  near-zero(<1%median)=0.0%
+    model.layers.15.self_attn.q_proj.weight                 mean|∇|=0.000075  near-zero(<1%median)=0.0%
+    model.layers.15.self_attn.v_proj.weight                 mean|∇|=0.000211  near-zero(<1%median)=0.0%
+    model.layers.16.mlp.down_proj.weight                    mean|∇|=0.000978  near-zero(<1%median)=0.0%
+    model.layers.16.mlp.gate_proj.weight                    mean|∇|=0.000762  near-zero(<1%median)=0.0%
+    model.layers.16.mlp.up_proj.weight                      mean|∇|=0.000945  near-zero(<1%median)=0.1%
+    model.layers.16.self_attn.k_proj.weight                 mean|∇|=0.000133  near-zero(<1%median)=0.0%
+    model.layers.16.self_attn.o_proj.weight                 mean|∇|=0.000150  near-zero(<1%median)=0.0%
+    model.layers.16.self_attn.q_proj.weight                 mean|∇|=0.000077  near-zero(<1%median)=0.0%
+    model.layers.16.self_attn.v_proj.weight                 mean|∇|=0.000219  near-zero(<1%median)=0.0%
+    model.layers.17.mlp.down_proj.weight                    mean|∇|=0.000855  near-zero(<1%median)=0.0%
+    model.layers.17.mlp.gate_proj.weight                    mean|∇|=0.000690  near-zero(<1%median)=0.0%
+    model.layers.17.mlp.up_proj.weight                      mean|∇|=0.000839  near-zero(<1%median)=0.0%
+    model.layers.17.self_attn.k_proj.weight                 mean|∇|=0.000132  near-zero(<1%median)=0.0%
+    model.layers.17.self_attn.o_proj.weight                 mean|∇|=0.000149  near-zero(<1%median)=0.0%
+    model.layers.17.self_attn.q_proj.weight                 mean|∇|=0.000072  near-zero(<1%median)=0.0%
+    model.layers.17.self_attn.v_proj.weight                 mean|∇|=0.000203  near-zero(<1%median)=0.0%
+    model.layers.18.mlp.down_proj.weight                    mean|∇|=0.000802  near-zero(<1%median)=0.0%
+    model.layers.18.mlp.gate_proj.weight                    mean|∇|=0.000636  near-zero(<1%median)=0.0%
+    model.layers.18.mlp.up_proj.weight                      mean|∇|=0.000771  near-zero(<1%median)=0.0%
+    model.layers.18.self_attn.k_proj.weight                 mean|∇|=0.000130  near-zero(<1%median)=0.0%
+    model.layers.18.self_attn.o_proj.weight                 mean|∇|=0.000167  near-zero(<1%median)=0.0%
+    model.layers.18.self_attn.q_proj.weight                 mean|∇|=0.000078  near-zero(<1%median)=0.0%
+    model.layers.18.self_attn.v_proj.weight                 mean|∇|=0.000208  near-zero(<1%median)=0.0%
+    model.layers.19.mlp.down_proj.weight                    mean|∇|=0.000837  near-zero(<1%median)=0.0%
+    model.layers.19.mlp.gate_proj.weight                    mean|∇|=0.000624  near-zero(<1%median)=0.0%
+    model.layers.19.mlp.up_proj.weight                      mean|∇|=0.000779  near-zero(<1%median)=0.0%
+    model.layers.19.self_attn.k_proj.weight                 mean|∇|=0.000132  near-zero(<1%median)=0.0%
+    model.layers.19.self_attn.o_proj.weight                 mean|∇|=0.000151  near-zero(<1%median)=0.0%
+    model.layers.19.self_attn.q_proj.weight                 mean|∇|=0.000072  near-zero(<1%median)=0.0%
+    model.layers.19.self_attn.v_proj.weight                 mean|∇|=0.000229  near-zero(<1%median)=0.0%
+    model.layers.2.mlp.down_proj.weight                     mean|∇|=0.000165  near-zero(<1%median)=21.6%
+    model.layers.2.mlp.gate_proj.weight                     mean|∇|=0.000088  near-zero(<1%median)=0.0%
+    model.layers.2.mlp.up_proj.weight                       mean|∇|=0.000101  near-zero(<1%median)=48.1%
+    model.layers.2.self_attn.k_proj.weight                  mean|∇|=0.000076  near-zero(<1%median)=0.2%
+    model.layers.2.self_attn.o_proj.weight                  mean|∇|=0.000084  near-zero(<1%median)=0.0%
+    model.layers.2.self_attn.q_proj.weight                  mean|∇|=0.000038  near-zero(<1%median)=0.9%
+    model.layers.2.self_attn.v_proj.weight                  mean|∇|=0.000137  near-zero(<1%median)=0.1%
+    model.layers.20.mlp.down_proj.weight                    mean|∇|=0.000808  near-zero(<1%median)=0.0%
+    model.layers.20.mlp.gate_proj.weight                    mean|∇|=0.000552  near-zero(<1%median)=0.0%
+    model.layers.20.mlp.up_proj.weight                      mean|∇|=0.000770  near-zero(<1%median)=0.0%
+    model.layers.20.self_attn.k_proj.weight                 mean|∇|=0.000116  near-zero(<1%median)=0.0%
+    model.layers.20.self_attn.o_proj.weight                 mean|∇|=0.000130  near-zero(<1%median)=0.2%
+    model.layers.20.self_attn.q_proj.weight                 mean|∇|=0.000067  near-zero(<1%median)=1.1%
+    model.layers.20.self_attn.v_proj.weight                 mean|∇|=0.000174  near-zero(<1%median)=0.0%
+    model.layers.21.mlp.down_proj.weight                    mean|∇|=0.000741  near-zero(<1%median)=0.0%
+    model.layers.21.mlp.gate_proj.weight                    mean|∇|=0.000600  near-zero(<1%median)=0.0%
+    model.layers.21.mlp.up_proj.weight                      mean|∇|=0.000705  near-zero(<1%median)=0.0%
+    model.layers.21.self_attn.k_proj.weight                 mean|∇|=0.000141  near-zero(<1%median)=0.0%
+    model.layers.21.self_attn.o_proj.weight                 mean|∇|=0.000147  near-zero(<1%median)=0.0%
+    model.layers.21.self_attn.q_proj.weight                 mean|∇|=0.000081  near-zero(<1%median)=0.5%
+    model.layers.21.self_attn.v_proj.weight                 mean|∇|=0.000212  near-zero(<1%median)=0.0%
+    model.layers.22.mlp.down_proj.weight                    mean|∇|=0.000661  near-zero(<1%median)=0.0%
+    model.layers.22.mlp.gate_proj.weight                    mean|∇|=0.000478  near-zero(<1%median)=0.0%
+    model.layers.22.mlp.up_proj.weight                      mean|∇|=0.000618  near-zero(<1%median)=0.0%
+    model.layers.22.self_attn.k_proj.weight                 mean|∇|=0.000149  near-zero(<1%median)=0.0%
+    model.layers.22.self_attn.o_proj.weight                 mean|∇|=0.000174  near-zero(<1%median)=0.0%
+    model.layers.22.self_attn.q_proj.weight                 mean|∇|=0.000078  near-zero(<1%median)=0.1%
+    model.layers.22.self_attn.v_proj.weight                 mean|∇|=0.000295  near-zero(<1%median)=0.0%
+    model.layers.23.mlp.down_proj.weight                    mean|∇|=0.000637  near-zero(<1%median)=0.0%
+    model.layers.23.mlp.gate_proj.weight                    mean|∇|=0.000461  near-zero(<1%median)=0.0%
+    model.layers.23.mlp.up_proj.weight                      mean|∇|=0.000608  near-zero(<1%median)=0.0%
+    model.layers.23.self_attn.k_proj.weight                 mean|∇|=0.000152  near-zero(<1%median)=0.0%
+    model.layers.23.self_attn.o_proj.weight                 mean|∇|=0.000184  near-zero(<1%median)=0.0%
+    model.layers.23.self_attn.q_proj.weight                 mean|∇|=0.000089  near-zero(<1%median)=0.0%
+    model.layers.23.self_attn.v_proj.weight                 mean|∇|=0.000289  near-zero(<1%median)=0.0%
+    model.layers.24.mlp.down_proj.weight                    mean|∇|=0.000511  near-zero(<1%median)=0.0%
+    model.layers.24.mlp.gate_proj.weight                    mean|∇|=0.000402  near-zero(<1%median)=0.0%
+    model.layers.24.mlp.up_proj.weight                      mean|∇|=0.000502  near-zero(<1%median)=0.0%
+    model.layers.24.self_attn.k_proj.weight                 mean|∇|=0.000119  near-zero(<1%median)=0.0%
+    model.layers.24.self_attn.o_proj.weight                 mean|∇|=0.000128  near-zero(<1%median)=0.0%
+    model.layers.24.self_attn.q_proj.weight                 mean|∇|=0.000071  near-zero(<1%median)=0.1%
+    model.layers.24.self_attn.v_proj.weight                 mean|∇|=0.000220  near-zero(<1%median)=0.0%
+    model.layers.25.mlp.down_proj.weight                    mean|∇|=0.000475  near-zero(<1%median)=0.0%
+    model.layers.25.mlp.gate_proj.weight                    mean|∇|=0.000367  near-zero(<1%median)=0.0%
+    model.layers.25.mlp.up_proj.weight                      mean|∇|=0.000445  near-zero(<1%median)=0.0%
+    model.layers.25.self_attn.k_proj.weight                 mean|∇|=0.000120  near-zero(<1%median)=0.0%
+    model.layers.25.self_attn.o_proj.weight                 mean|∇|=0.000109  near-zero(<1%median)=0.0%
+    model.layers.25.self_attn.q_proj.weight                 mean|∇|=0.000070  near-zero(<1%median)=0.0%
+    model.layers.25.self_attn.v_proj.weight                 mean|∇|=0.000195  near-zero(<1%median)=0.0%
+    model.layers.26.mlp.down_proj.weight                    mean|∇|=0.000480  near-zero(<1%median)=0.0%
+    model.layers.26.mlp.gate_proj.weight                    mean|∇|=0.000351  near-zero(<1%median)=0.0%
+    model.layers.26.mlp.up_proj.weight                      mean|∇|=0.000439  near-zero(<1%median)=0.0%
+    model.layers.26.self_attn.k_proj.weight                 mean|∇|=0.000112  near-zero(<1%median)=0.0%
+    model.layers.26.self_attn.o_proj.weight                 mean|∇|=0.000098  near-zero(<1%median)=0.0%
+    model.layers.26.self_attn.q_proj.weight                 mean|∇|=0.000060  near-zero(<1%median)=0.0%
+    model.layers.26.self_attn.v_proj.weight                 mean|∇|=0.000189  near-zero(<1%median)=0.0%
+    model.layers.27.mlp.down_proj.weight                    mean|∇|=0.000457  near-zero(<1%median)=0.0%
+    model.layers.27.mlp.gate_proj.weight                    mean|∇|=0.000402  near-zero(<1%median)=0.0%
+    model.layers.27.mlp.up_proj.weight                      mean|∇|=0.000423  near-zero(<1%median)=0.0%
+    model.layers.27.self_attn.k_proj.weight                 mean|∇|=0.000111  near-zero(<1%median)=0.0%
+    model.layers.27.self_attn.o_proj.weight                 mean|∇|=0.000087  near-zero(<1%median)=0.0%
+    model.layers.27.self_attn.q_proj.weight                 mean|∇|=0.000061  near-zero(<1%median)=0.0%
+    model.layers.27.self_attn.v_proj.weight                 mean|∇|=0.000165  near-zero(<1%median)=0.0%
+    model.layers.28.mlp.down_proj.weight                    mean|∇|=0.000434  near-zero(<1%median)=0.0%
+    model.layers.28.mlp.gate_proj.weight                    mean|∇|=0.000368  near-zero(<1%median)=0.0%
+    model.layers.28.mlp.up_proj.weight                      mean|∇|=0.000385  near-zero(<1%median)=0.0%
+    model.layers.28.self_attn.k_proj.weight                 mean|∇|=0.000122  near-zero(<1%median)=0.0%
+    model.layers.28.self_attn.o_proj.weight                 mean|∇|=0.000099  near-zero(<1%median)=0.0%
+    model.layers.28.self_attn.q_proj.weight                 mean|∇|=0.000072  near-zero(<1%median)=0.1%
+    model.layers.28.self_attn.v_proj.weight                 mean|∇|=0.000174  near-zero(<1%median)=0.0%
+    model.layers.29.mlp.down_proj.weight                    mean|∇|=0.000391  near-zero(<1%median)=0.0%
+    model.layers.29.mlp.gate_proj.weight                    mean|∇|=0.000348  near-zero(<1%median)=0.0%
+    model.layers.29.mlp.up_proj.weight                      mean|∇|=0.000335  near-zero(<1%median)=0.0%
+    model.layers.29.self_attn.k_proj.weight                 mean|∇|=0.000083  near-zero(<1%median)=0.0%
+    model.layers.29.self_attn.o_proj.weight                 mean|∇|=0.000057  near-zero(<1%median)=0.0%
+    model.layers.29.self_attn.q_proj.weight                 mean|∇|=0.000042  near-zero(<1%median)=2.1%
+    model.layers.29.self_attn.v_proj.weight                 mean|∇|=0.000105  near-zero(<1%median)=0.0%
+    model.layers.3.mlp.down_proj.weight                     mean|∇|=0.000213  near-zero(<1%median)=8.3%
+    model.layers.3.mlp.gate_proj.weight                     mean|∇|=0.000097  near-zero(<1%median)=34.7%
+    model.layers.3.mlp.up_proj.weight                       mean|∇|=0.000180  near-zero(<1%median)=22.2%
+    model.layers.3.self_attn.k_proj.weight                  mean|∇|=0.000061  near-zero(<1%median)=0.3%
+    model.layers.3.self_attn.o_proj.weight                  mean|∇|=0.000082  near-zero(<1%median)=0.0%
+    model.layers.3.self_attn.q_proj.weight                  mean|∇|=0.000029  near-zero(<1%median)=2.2%
+    model.layers.3.self_attn.v_proj.weight                  mean|∇|=0.000143  near-zero(<1%median)=0.2%
+    model.layers.30.mlp.down_proj.weight                    mean|∇|=0.000371  near-zero(<1%median)=0.0%
+    model.layers.30.mlp.gate_proj.weight                    mean|∇|=0.000372  near-zero(<1%median)=0.0%
+    model.layers.30.mlp.up_proj.weight                      mean|∇|=0.000316  near-zero(<1%median)=0.0%
+    model.layers.30.self_attn.k_proj.weight                 mean|∇|=0.000115  near-zero(<1%median)=0.0%
+    model.layers.30.self_attn.o_proj.weight                 mean|∇|=0.000076  near-zero(<1%median)=0.0%
+    model.layers.30.self_attn.q_proj.weight                 mean|∇|=0.000059  near-zero(<1%median)=2.1%
+    model.layers.30.self_attn.v_proj.weight                 mean|∇|=0.000169  near-zero(<1%median)=0.0%
+    model.layers.31.mlp.down_proj.weight                    mean|∇|=0.000309  near-zero(<1%median)=0.0%
+    model.layers.31.mlp.gate_proj.weight                    mean|∇|=0.000313  near-zero(<1%median)=0.0%
+    model.layers.31.mlp.up_proj.weight                      mean|∇|=0.000270  near-zero(<1%median)=0.0%
+    model.layers.31.self_attn.k_proj.weight                 mean|∇|=0.000096  near-zero(<1%median)=0.0%
+    model.layers.31.self_attn.o_proj.weight                 mean|∇|=0.000067  near-zero(<1%median)=0.0%
+    model.layers.31.self_attn.q_proj.weight                 mean|∇|=0.000048  near-zero(<1%median)=2.0%
+    model.layers.31.self_attn.v_proj.weight                 mean|∇|=0.000133  near-zero(<1%median)=0.0%
+    model.layers.32.mlp.down_proj.weight                    mean|∇|=0.000255  near-zero(<1%median)=0.0%
+    model.layers.32.mlp.gate_proj.weight                    mean|∇|=0.000295  near-zero(<1%median)=0.0%
+    model.layers.32.mlp.up_proj.weight                      mean|∇|=0.000238  near-zero(<1%median)=0.0%
+    model.layers.32.self_attn.k_proj.weight                 mean|∇|=0.000100  near-zero(<1%median)=0.0%
+    model.layers.32.self_attn.o_proj.weight                 mean|∇|=0.000070  near-zero(<1%median)=0.0%
+    model.layers.32.self_attn.q_proj.weight                 mean|∇|=0.000049  near-zero(<1%median)=1.1%
+    model.layers.32.self_attn.v_proj.weight                 mean|∇|=0.000133  near-zero(<1%median)=0.0%
+    model.layers.33.mlp.down_proj.weight                    mean|∇|=0.000110  near-zero(<1%median)=0.0%
+    model.layers.33.mlp.gate_proj.weight                    mean|∇|=0.000129  near-zero(<1%median)=0.0%
+    model.layers.33.mlp.up_proj.weight                      mean|∇|=0.000106  near-zero(<1%median)=0.0%
+    model.layers.33.self_attn.k_proj.weight                 mean|∇|=0.000068  near-zero(<1%median)=0.8%
+    model.layers.33.self_attn.o_proj.weight                 mean|∇|=0.000049  near-zero(<1%median)=0.0%
+    model.layers.33.self_attn.q_proj.weight                 mean|∇|=0.000029  near-zero(<1%median)=14.3%
+    model.layers.33.self_attn.v_proj.weight                 mean|∇|=0.000076  near-zero(<1%median)=0.0%
+    model.layers.34.mlp.down_proj.weight                    mean|∇|=0.000103  near-zero(<1%median)=0.0%
+    model.layers.34.mlp.gate_proj.weight                    mean|∇|=0.000093  near-zero(<1%median)=0.0%
+    model.layers.34.mlp.up_proj.weight                      mean|∇|=0.000081  near-zero(<1%median)=0.1%
+    model.layers.34.self_attn.k_proj.weight                 mean|∇|=0.000122  near-zero(<1%median)=0.0%
+    model.layers.34.self_attn.o_proj.weight                 mean|∇|=0.000081  near-zero(<1%median)=0.0%
+    model.layers.34.self_attn.q_proj.weight                 mean|∇|=0.000060  near-zero(<1%median)=6.7%
+    model.layers.34.self_attn.v_proj.weight                 mean|∇|=0.000138  near-zero(<1%median)=0.0%
+    model.layers.35.mlp.down_proj.weight                    mean|∇|=0.000120  near-zero(<1%median)=0.0%
+    model.layers.35.mlp.gate_proj.weight                    mean|∇|=0.000068  near-zero(<1%median)=0.1%
+    model.layers.35.mlp.up_proj.weight                      mean|∇|=0.000064  near-zero(<1%median)=0.3%
+    model.layers.35.self_attn.k_proj.weight                 mean|∇|=0.000112  near-zero(<1%median)=0.0%
+    model.layers.35.self_attn.o_proj.weight                 mean|∇|=0.000090  near-zero(<1%median)=0.0%
+    model.layers.35.self_attn.q_proj.weight                 mean|∇|=0.000055  near-zero(<1%median)=1.2%
+    model.layers.35.self_attn.v_proj.weight                 mean|∇|=0.000167  near-zero(<1%median)=0.0%
+    model.layers.4.mlp.down_proj.weight                     mean|∇|=0.000609  near-zero(<1%median)=0.2%
+    model.layers.4.mlp.gate_proj.weight                     mean|∇|=0.000238  near-zero(<1%median)=2.9%
+    model.layers.4.mlp.up_proj.weight                       mean|∇|=0.000569  near-zero(<1%median)=1.5%
+    model.layers.4.self_attn.k_proj.weight                  mean|∇|=0.000090  near-zero(<1%median)=0.2%
+    model.layers.4.self_attn.o_proj.weight                  mean|∇|=0.000098  near-zero(<1%median)=0.0%
+    model.layers.4.self_attn.q_proj.weight                  mean|∇|=0.000045  near-zero(<1%median)=0.6%
+    model.layers.4.self_attn.v_proj.weight                  mean|∇|=0.000179  near-zero(<1%median)=0.1%
+    model.layers.5.mlp.down_proj.weight                     mean|∇|=0.000953  near-zero(<1%median)=0.0%
+    model.layers.5.mlp.gate_proj.weight                     mean|∇|=0.000474  near-zero(<1%median)=0.1%
+    model.layers.5.mlp.up_proj.weight                       mean|∇|=0.000992  near-zero(<1%median)=0.1%
+    model.layers.5.self_attn.k_proj.weight                  mean|∇|=0.000108  near-zero(<1%median)=0.1%
+    model.layers.5.self_attn.o_proj.weight                  mean|∇|=0.000112  near-zero(<1%median)=0.0%
+    model.layers.5.self_attn.q_proj.weight                  mean|∇|=0.000053  near-zero(<1%median)=0.2%
+    model.layers.5.self_attn.v_proj.weight                  mean|∇|=0.000195  near-zero(<1%median)=0.0%
+    model.layers.6.mlp.down_proj.weight                     mean|∇|=0.000919  near-zero(<1%median)=0.0%
+    model.layers.6.mlp.gate_proj.weight                     mean|∇|=0.000609  near-zero(<1%median)=0.1%
+    model.layers.6.mlp.up_proj.weight                       mean|∇|=0.000920  near-zero(<1%median)=0.1%
+    model.layers.6.self_attn.k_proj.weight                  mean|∇|=0.000108  near-zero(<1%median)=0.0%
+    model.layers.6.self_attn.o_proj.weight                  mean|∇|=0.000172  near-zero(<1%median)=0.0%
+    model.layers.6.self_attn.q_proj.weight                  mean|∇|=0.000059  near-zero(<1%median)=0.0%
+    model.layers.6.self_attn.v_proj.weight                  mean|∇|=0.000281  near-zero(<1%median)=0.0%
+    model.layers.7.mlp.down_proj.weight                     mean|∇|=0.000903  near-zero(<1%median)=0.0%
+    model.layers.7.mlp.gate_proj.weight                     mean|∇|=0.000613  near-zero(<1%median)=0.1%
+    model.layers.7.mlp.up_proj.weight                       mean|∇|=0.000938  near-zero(<1%median)=0.1%
+    model.layers.7.self_attn.k_proj.weight                  mean|∇|=0.000090  near-zero(<1%median)=0.0%
+    model.layers.7.self_attn.o_proj.weight                  mean|∇|=0.000096  near-zero(<1%median)=1.3%
+    model.layers.7.self_attn.q_proj.weight                  mean|∇|=0.000048  near-zero(<1%median)=4.9%
+    model.layers.7.self_attn.v_proj.weight                  mean|∇|=0.000160  near-zero(<1%median)=0.0%
+    model.layers.8.mlp.down_proj.weight                     mean|∇|=0.001092  near-zero(<1%median)=0.0%
+    model.layers.8.mlp.gate_proj.weight                     mean|∇|=0.000857  near-zero(<1%median)=0.1%
+    model.layers.8.mlp.up_proj.weight                       mean|∇|=0.001096  near-zero(<1%median)=0.1%
+    model.layers.8.self_attn.k_proj.weight                  mean|∇|=0.000113  near-zero(<1%median)=0.0%
+    model.layers.8.self_attn.o_proj.weight                  mean|∇|=0.000127  near-zero(<1%median)=0.0%
+    model.layers.8.self_attn.q_proj.weight                  mean|∇|=0.000064  near-zero(<1%median)=0.3%
+    model.layers.8.self_attn.v_proj.weight                  mean|∇|=0.000197  near-zero(<1%median)=0.0%
+    model.layers.9.mlp.down_proj.weight                     mean|∇|=0.001185  near-zero(<1%median)=0.0%
+    model.layers.9.mlp.gate_proj.weight                     mean|∇|=0.000785  near-zero(<1%median)=0.1%
+    model.layers.9.mlp.up_proj.weight                       mean|∇|=0.001200  near-zero(<1%median)=0.1%
+    model.layers.9.self_attn.k_proj.weight                  mean|∇|=0.000093  near-zero(<1%median)=0.0%
+    model.layers.9.self_attn.o_proj.weight                  mean|∇|=0.000099  near-zero(<1%median)=0.1%
+    model.layers.9.self_attn.q_proj.weight                  mean|∇|=0.000049  near-zero(<1%median)=2.8%
+    model.layers.9.self_attn.v_proj.weight                  mean|∇|=0.000165  near-zero(<1%median)=0.0%
+
+  Saving gradient maps...
+  Saved to /Users/mwhitford/src/verbum/results/dvd-stamp-test/gradient_maps.pt
+
+══════════════════════════════════════════════════════════════════════════════
+  PHASE 2: BUILDING THREE MASKS  (zero_rate=50%)
+══════════════════════════════════════════════════════════════════════════════
+
+  Mask overlap (magnitude vs gradient):
+  Layer Module        Agree%  Mag-only%  Grad-only%
+  ───── ──────────── ─────── ────────── ───────────
+      0 (all).......   50.2%      24.9%       25.0%
+      1 (all).......   54.7%      21.6%       23.6%
+      2 (all).......   53.6%      19.2%       27.2%
+      3 (all).......   54.6%      20.8%       24.6%
+      4 (all).......   50.5%      24.6%       24.9%
+      5 (all).......   49.9%      25.0%       25.1%
+      6 (all).......   49.9%      25.0%       25.1%
+      7 (all).......   50.0%      24.8%       25.2%
+      8 (all).......   50.0%      25.0%       25.1%
+      9 (all).......   49.9%      24.8%       25.2%
+     10 (all).......   49.8%      25.1%       25.1%
+     11 (all).......   49.9%      25.0%       25.1%
+     12 (all).......   49.6%      25.2%       25.3%
+     13 (all).......   49.8%      24.9%       25.3%
+     14 (all).......   49.8%      25.1%       25.1%
+     15 (all).......   49.5%      25.2%       25.3%
+     16 (all).......   49.6%      25.2%       25.2%
+     17 (all).......   49.5%      25.2%       25.3%
+     18 (all).......   49.6%      25.2%       25.2%
+     19 (all).......   49.0%      25.5%       25.5%
+     20 (all).......   49.4%      25.3%       25.4%
+     21 (all).......   49.1%      25.4%       25.5%
+     22 (all).......   49.2%      25.4%       25.5%
+     23 (all).......   49.1%      25.4%       25.4%
+     24 (all).......   49.3%      25.3%       25.4%
+     25 (all).......   49.4%      25.3%       25.3%
+     26 (all).......   49.6%      25.1%       25.2%
+     27 (all).......   49.5%      25.2%       25.3%
+     28 (all).......   49.3%      25.3%       25.4%
+     29 (all).......   49.7%      24.9%       25.3%
+     30 (all).......   49.2%      25.2%       25.5%
+     31 (all).......   49.4%      25.1%       25.5%
+     32 (all).......   49.2%      25.2%       25.6%
+     33 (all).......   49.3%      24.5%       26.2%
+     34 (all).......   48.7%      25.2%       26.0%
+     35 (all).......   48.5%      25.5%       26.0%
+
+  Global mean overlap: 49.9% agreement
+  If ~50% → masks are independent (orthogonal signals)
+  If ~90% → masks are redundant (same information)
+
+══════════════════════════════════════════════════════════════════════════════
+  PER-LAYER WEIGHT COSINE COMPARISON
+══════════════════════════════════════════════════════════════════════════════
+  Layer   Magnitude   Gradient       Node    Winner
+  ─────  ────────── ────────── ──────────  ────────
+      0    0.899554   0.565750   0.852024  ← magnitude
+      1    0.878729   0.582958   0.830807  ← magnitude
+      2    0.876089   0.584647   0.838389  ← magnitude
+      3    0.889311   0.589034   0.848409  ← magnitude
+      4    0.897599   0.565969   0.847392  ← magnitude
+      5    0.897409   0.564469   0.843582  ← magnitude
+      6    0.903432   0.563945   0.846256  ← magnitude
+      7    0.904579   0.567303   0.837260  ← magnitude
+      8    0.905723   0.563526   0.842212  ← magnitude
+      9    0.901642   0.562709   0.832583  ← magnitude
+     10    0.902937   0.559202   0.845044  ← magnitude
+     11    0.901876   0.561626   0.845127  ← magnitude
+     12    0.897986   0.557965   0.839327  ← magnitude
+     13    0.899170   0.561615   0.837080  ← magnitude
+     14    0.899384   0.560265   0.845705  ← magnitude
+     15    0.901275   0.556592   0.840850  ← magnitude
+     16    0.900980   0.559146   0.840565  ← magnitude
+     17    0.899497   0.557660   0.839795  ← magnitude
+     18    0.899492   0.557224   0.846011  ← magnitude
+     19    0.895880   0.547813   0.840370  ← magnitude
+     20    0.899076   0.556413   0.837795  ← magnitude
+     21    0.898270   0.551788   0.841608  ← magnitude
+     22    0.897489   0.552340   0.840198  ← magnitude
+     23    0.894126   0.554136   0.846649  ← magnitude
+     24    0.892983   0.556327   0.845017  ← magnitude
+     25    0.897163   0.559824   0.854891  ← magnitude
+     26    0.896541   0.563537   0.854237  ← magnitude
+     27    0.897058   0.562259   0.853356  ← magnitude
+     28    0.897556   0.559689   0.855529  ← magnitude
+     29    0.898555   0.567455   0.847817  ← magnitude
+     30    0.899080   0.559860   0.848204  ← magnitude
+     31    0.901140   0.562128   0.846575  ← magnitude
+     32    0.899566   0.558894   0.850117  ← magnitude
+     33    0.899640   0.567285   0.850501  ← magnitude
+     34    0.898231   0.552678   0.855170  ← magnitude
+     35    0.897762   0.551548   0.858124  ← magnitude
+
+  Summary (mean across all layers):
+    magnitude    mean=0.897688  min=0.876089  max=0.905723
+    gradient     mean=0.561822  min=0.547813  max=0.589034
+    node         mean=0.845127  min=0.830807  max=0.858124
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPOUNDING SWEEP: MAGNITUDE MASK
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model for magnitude sweep...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:57,  1.34it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:14, 26.49it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:04, 78.20it/s]Loading weights:  18%|█▊        | 71/399 [00:01<00:02, 109.62it/s]Loading weights:  23%|██▎       | 92/399 [00:01<00:02, 131.16it/s]Loading weights:  28%|██▊       | 113/399 [00:01<00:02, 141.51it/s]Loading weights:  35%|███▌      | 141/399 [00:01<00:01, 175.03it/s]Loading weights:  41%|████      | 163/399 [00:01<00:01, 172.54it/s]Loading weights:  46%|████▌     | 184/399 [00:01<00:01, 175.34it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:01, 170.47it/s]Loading weights:  59%|█████▊    | 234/399 [00:01<00:00, 203.86it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 210.13it/s]Loading weights:  70%|███████   | 281/399 [00:02<00:00, 212.46it/s]Loading weights:  77%|███████▋  | 309/399 [00:02<00:00, 216.56it/s]Loading weights:  83%|████████▎ | 332/399 [00:02<00:00, 219.14it/s]Loading weights:  89%|████████▉ | 355/399 [00:02<00:00, 214.46it/s]Loading weights:  94%|█████████▍| 377/399 [00:02<00:00, 208.01it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 152.87it/s]
+  Collecting float reference hidden states...
+  Reference: 36 layers, 150 tokens
+  L 0: hidden_cos=0.883065  min=0.739438  weight_cos=0.8996
+  L 1: hidden_cos=0.520291  min=0.318379  weight_cos=0.8787
+  L 2: hidden_cos=0.318147  min=-0.090208  weight_cos=0.8761
+  L 3: hidden_cos=0.285589  min=-0.103832  weight_cos=0.8893
+  L 4: hidden_cos=0.293677  min=-0.076306  weight_cos=0.8976
+  L 5: hidden_cos=0.260540  min=-0.098005  weight_cos=0.8974
+  L 6: hidden_cos=0.213840  min=-0.086568  weight_cos=0.9034
+  L 7: hidden_cos=0.211324  min=-0.074459  weight_cos=0.9046
+  L 8: hidden_cos=0.196165  min=-0.050301  weight_cos=0.9057
+  L 9: hidden_cos=0.184225  min=-0.060674  weight_cos=0.9016
+  L10: hidden_cos=0.148186  min=-0.086559  weight_cos=0.9029
+  L11: hidden_cos=0.152248  min=-0.091958  weight_cos=0.9019
+  L12: hidden_cos=0.125528  min=-0.098947  weight_cos=0.8980
+  L13: hidden_cos=0.121519  min=-0.089349  weight_cos=0.8992
+  L14: hidden_cos=0.115540  min=-0.091239  weight_cos=0.8994
+  L15: hidden_cos=0.124956  min=-0.097862  weight_cos=0.9013
+  L16: hidden_cos=0.116266  min=-0.087314  weight_cos=0.9010
+  L17: hidden_cos=0.130812  min=-0.070986  weight_cos=0.8995
+  L18: hidden_cos=0.103852  min=-0.063581  weight_cos=0.8995
+  L19: hidden_cos=0.080419  min=-0.058929  weight_cos=0.8959
+  L20: hidden_cos=0.087630  min=-0.046536  weight_cos=0.8991
+  L21: hidden_cos=0.070025  min=-0.052523  weight_cos=0.8983
+  L22: hidden_cos=0.044561  min=-0.049250  weight_cos=0.8975
+  L23: hidden_cos=0.058238  min=-0.052448  weight_cos=0.8941
+  L24: hidden_cos=0.082157  min=-0.049166  weight_cos=0.8930
+  L25: hidden_cos=0.090996  min=-0.056513  weight_cos=0.8972
+  L26: hidden_cos=0.110425  min=-0.046659  weight_cos=0.8965
+  L27: hidden_cos=0.109651  min=-0.045984  weight_cos=0.8971
+  L28: hidden_cos=0.108109  min=-0.041406  weight_cos=0.8976
+  L29: hidden_cos=0.162733  min=-0.025702  weight_cos=0.8986
+  L30: hidden_cos=0.190179  min=-0.006116  weight_cos=0.8991
+  L31: hidden_cos=0.198798  min=0.001071  weight_cos=0.9011
+  L32: hidden_cos=0.201575  min=0.035377  weight_cos=0.8996
+  L33: hidden_cos=0.217332  min=0.038852  weight_cos=0.8996
+  L34: hidden_cos=0.265567  min=0.061568  weight_cos=0.8982
+  L35: hidden_cos=0.001439  min=-0.180752  weight_cos=0.8978
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPOUNDING SWEEP: GRADIENT MASK
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model for gradient sweep...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:13,  2.98it/s]Loading weights:   9%|▊         | 34/399 [00:00<00:03, 96.33it/s]Loading weights:  15%|█▍        | 58/399 [00:00<00:02, 135.79it/s]Loading weights:  20%|██        | 80/399 [00:00<00:02, 156.05it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 165.33it/s]Loading weights:  31%|███       | 123/399 [00:00<00:01, 180.87it/s]Loading weights:  36%|███▋      | 145/399 [00:00<00:01, 186.46it/s]Loading weights:  42%|████▏     | 167/399 [00:01<00:01, 193.71it/s]Loading weights:  48%|████▊     | 190/399 [00:01<00:01, 202.20it/s]Loading weights:  56%|█████▌    | 222/399 [00:01<00:00, 228.97it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:01, 104.90it/s]Loading weights:  69%|██████▉   | 276/399 [00:01<00:00, 133.11it/s]Loading weights:  76%|███████▌  | 302/399 [00:02<00:00, 154.55it/s]Loading weights:  83%|████████▎ | 331/399 [00:02<00:00, 173.73it/s]Loading weights:  91%|█████████▏| 365/399 [00:02<00:00, 206.61it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 168.91it/s]
+  Collecting float reference hidden states...
+  Reference: 36 layers, 150 tokens
+  L 0: hidden_cos=0.668767  min=0.363872  weight_cos=0.5657
+  L 1: hidden_cos=0.397393  min=0.145405  weight_cos=0.5830
+  L 2: hidden_cos=0.307268  min=0.085465  weight_cos=0.5846
+  L 3: hidden_cos=0.344457  min=0.180741  weight_cos=0.5890
+  L 4: hidden_cos=0.423754  min=0.209513  weight_cos=0.5660
+  L 5: hidden_cos=0.426361  min=0.039860  weight_cos=0.5645
+  L 6: hidden_cos=0.364516  min=0.055325  weight_cos=0.5639
+  L 7: hidden_cos=0.326611  min=0.066981  weight_cos=0.5673
+  L 8: hidden_cos=0.291500  min=0.064991  weight_cos=0.5635
+  L 9: hidden_cos=0.260408  min=0.063717  weight_cos=0.5627
+  L10: hidden_cos=0.267919  min=0.064004  weight_cos=0.5592
+  L11: hidden_cos=0.280529  min=0.066932  weight_cos=0.5616
+  L12: hidden_cos=0.264939  min=0.058112  weight_cos=0.5580
+  L13: hidden_cos=0.239761  min=0.056799  weight_cos=0.5616
+  L14: hidden_cos=0.235875  min=-0.012936  weight_cos=0.5603
+  L15: hidden_cos=0.246501  min=0.002142  weight_cos=0.5566
+  L16: hidden_cos=0.248328  min=-0.079945  weight_cos=0.5591
+  L17: hidden_cos=0.254642  min=-0.093439  weight_cos=0.5577
+  L18: hidden_cos=0.262533  min=0.047729  weight_cos=0.5572
+  L19: hidden_cos=0.269142  min=0.064089  weight_cos=0.5478
+  L20: hidden_cos=0.259764  min=0.066972  weight_cos=0.5564
+  L21: hidden_cos=0.252628  min=0.082265  weight_cos=0.5518
+  L22: hidden_cos=0.254079  min=0.093286  weight_cos=0.5523
+  L23: hidden_cos=0.268124  min=0.076677  weight_cos=0.5541
+  L24: hidden_cos=0.330462  min=0.104860  weight_cos=0.5563
+  L25: hidden_cos=0.330599  min=0.094615  weight_cos=0.5598
+  L26: hidden_cos=0.330826  min=0.116784  weight_cos=0.5635
+  L27: hidden_cos=0.327010  min=0.132345  weight_cos=0.5623
+  L28: hidden_cos=0.318996  min=0.130678  weight_cos=0.5597
+  L29: hidden_cos=0.326460  min=0.159176  weight_cos=0.5675
+  L30: hidden_cos=0.381819  min=0.221410  weight_cos=0.5599
+  L31: hidden_cos=0.386750  min=0.223460  weight_cos=0.5621
+  L32: hidden_cos=0.425093  min=0.235822  weight_cos=0.5589
+  L33: hidden_cos=0.447757  min=0.225191  weight_cos=0.5673
+  L34: hidden_cos=-0.046491  min=-0.303345  weight_cos=0.5527
+  L35: hidden_cos=0.164999  min=-0.061923  weight_cos=0.5515
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPOUNDING SWEEP: NODE MASK
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model for node sweep...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:43,  2.43it/s]Loading weights:   9%|▊         | 34/399 [00:00<00:04, 86.58it/s]Loading weights:  16%|█▌        | 62/399 [00:00<00:02, 138.49it/s]Loading weights:  22%|██▏       | 87/399 [00:00<00:01, 168.33it/s]Loading weights:  29%|██▉       | 115/399 [00:00<00:01, 199.65it/s]Loading weights:  35%|███▌      | 141/399 [00:00<00:01, 212.70it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:01, 184.88it/s]Loading weights:  48%|████▊     | 192/399 [00:01<00:01, 201.96it/s]Loading weights:  54%|█████▍    | 215/399 [00:01<00:01, 168.45it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 166.13it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:01, 105.69it/s]Loading weights:  70%|███████   | 280/399 [00:01<00:00, 131.77it/s]Loading weights:  75%|███████▌  | 301/399 [00:02<00:00, 146.93it/s]Loading weights:  81%|████████  | 323/399 [00:02<00:00, 158.56it/s]Loading weights:  86%|████████▌ | 342/399 [00:02<00:00, 162.46it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 176.05it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 186.59it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 156.87it/s]
+  Collecting float reference hidden states...
+  Reference: 36 layers, 150 tokens
+  L 0: hidden_cos=0.843789  min=0.650591  weight_cos=0.8520
+  L 1: hidden_cos=0.474933  min=0.268319  weight_cos=0.8308
+  L 2: hidden_cos=0.371706  min=0.113339  weight_cos=0.8384
+  L 3: hidden_cos=0.383867  min=0.157476  weight_cos=0.8484
+  L 4: hidden_cos=0.451680  min=0.161588  weight_cos=0.8474
+  L 5: hidden_cos=0.482444  min=0.066410  weight_cos=0.8436
+  L 6: hidden_cos=0.422945  min=0.113914  weight_cos=0.8463
+  L 7: hidden_cos=0.368781  min=0.088904  weight_cos=0.8373
+  L 8: hidden_cos=0.340953  min=0.133231  weight_cos=0.8422
+  L 9: hidden_cos=0.305924  min=0.129448  weight_cos=0.8326
+  L10: hidden_cos=0.312781  min=0.132006  weight_cos=0.8450
+  L11: hidden_cos=0.315994  min=0.136135  weight_cos=0.8451
+  L12: hidden_cos=0.299952  min=0.122339  weight_cos=0.8393
+  L13: hidden_cos=0.283429  min=0.128339  weight_cos=0.8371
+  L14: hidden_cos=0.276678  min=0.003772  weight_cos=0.8457
+  L15: hidden_cos=0.268819  min=0.013500  weight_cos=0.8408
+  L16: hidden_cos=0.264437  min=-0.061235  weight_cos=0.8406
+  L17: hidden_cos=0.262662  min=-0.057896  weight_cos=0.8398
+  L18: hidden_cos=0.246619  min=0.059012  weight_cos=0.8460
+  L19: hidden_cos=0.231172  min=0.066731  weight_cos=0.8404
+  L20: hidden_cos=0.188450  min=0.041878  weight_cos=0.8378
+  L21: hidden_cos=0.166437  min=0.048100  weight_cos=0.8416
+  L22: hidden_cos=0.155720  min=0.034353  weight_cos=0.8402
+  L23: hidden_cos=0.199939  min=0.046679  weight_cos=0.8466
+  L24: hidden_cos=0.253687  min=0.075866  weight_cos=0.8450
+  L25: hidden_cos=0.259317  min=0.069442  weight_cos=0.8549
+  L26: hidden_cos=0.260965  min=0.084910  weight_cos=0.8542
+  L27: hidden_cos=0.249694  min=0.087043  weight_cos=0.8534
+  L28: hidden_cos=0.238381  min=0.083700  weight_cos=0.8555
+  L29: hidden_cos=0.265827  min=0.110846  weight_cos=0.8478
+  L30: hidden_cos=0.292546  min=0.161241  weight_cos=0.8482
+  L31: hidden_cos=0.352718  min=0.200477  weight_cos=0.8466
+  L32: hidden_cos=0.386404  min=0.245078  weight_cos=0.8501
+  L33: hidden_cos=0.394541  min=0.222563  weight_cos=0.8505
+  L34: hidden_cos=0.281755  min=0.165940  weight_cos=0.8552
+  L35: hidden_cos=0.092681  min=-0.025438  weight_cos=0.8581
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPOUNDING COMPARISON — Cumulative Hidden-State Cosine
+══════════════════════════════════════════════════════════════════════════════
+  Depth   Magnitude   Gradient       Node   Grad-Mag
+  ─────  ────────── ────────── ──────────  ─────────
+      0    0.883065   0.668767   0.843789  -0.214298
+      1    0.520291   0.397393   0.474933  -0.122899
+      2    0.318147   0.307268   0.371706  -0.010879
+      3    0.285589   0.344457   0.383867  +0.058868
+      4    0.293677   0.423754   0.451680  +0.130077
+      5    0.260540   0.426361   0.482444  +0.165820
+      6    0.213840   0.364516   0.422945  +0.150676
+      7    0.211324   0.326611   0.368781  +0.115288
+      8    0.196165   0.291500   0.340953  +0.095335
+      9    0.184225   0.260408   0.305924  +0.076183
+     10    0.148186   0.267919   0.312781  +0.119733
+     11    0.152248   0.280529   0.315994  +0.128281
+     12    0.125528   0.264939   0.299952  +0.139411
+     13    0.121519   0.239761   0.283429  +0.118242
+     14    0.115540   0.235875   0.276678  +0.120335
+     15    0.124956   0.246501   0.268819  +0.121545
+     16    0.116266   0.248328   0.264437  +0.132062
+     17    0.130812   0.254642   0.262662  +0.123830
+     18    0.103852   0.262533   0.246619  +0.158681
+     19    0.080419   0.269142   0.231172  +0.188722
+     20    0.087630   0.259764   0.188450  +0.172134
+     21    0.070025   0.252628   0.166437  +0.182603
+     22    0.044561   0.254079   0.155720  +0.209519
+     23    0.058238   0.268124   0.199939  +0.209886
+     24    0.082157   0.330462   0.253687  +0.248306
+     25    0.090996   0.330599   0.259317  +0.239603
+     26    0.110425   0.330826   0.260965  +0.220401
+     27    0.109651   0.327010   0.249694  +0.217359
+     28    0.108109   0.318996   0.238381  +0.210887
+     29    0.162733   0.326460   0.265827  +0.163727
+     30    0.190179   0.381819   0.292546  +0.191640
+     31    0.198798   0.386750   0.352718  +0.187952
+     32    0.201575   0.425093   0.386404  +0.223517
+     33    0.217332   0.447757   0.394541  +0.230425
+     34    0.265567  -0.046491   0.281755  -0.312058
+     35    0.001439   0.164999   0.092681  +0.163559
+
+  FINAL DEPTH (layer 35):
+    Magnitude: 0.001439
+    Gradient:  0.164999  (Δ = +0.163559)
+    Node:      0.092681  (Δ = +0.091241)
+  ✅ DVD HYPOTHESIS SUPPORTED — gradient topology compounds less!
+  Loaded WikiText-2 test: 2891 lines
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL PPL: MAGNITUDE MASK
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<05:51,  1.13it/s]Loading weights:   7%|▋         | 28/399 [00:01<00:09, 37.28it/s]Loading weights:  18%|█▊        | 71/399 [00:01<00:03, 100.06it/s]Loading weights:  26%|██▋       | 105/399 [00:01<00:02, 144.31it/s]Loading weights:  35%|███▍      | 138/399 [00:01<00:01, 182.99it/s]Loading weights:  43%|████▎     | 171/399 [00:01<00:01, 216.64it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 244.30it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 261.37it/s]Loading weights:  67%|██████▋   | 269/399 [00:01<00:00, 276.63it/s]Loading weights:  76%|███████▌  | 302/399 [00:01<00:00, 289.41it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 280.95it/s]Loading weights:  91%|█████████▏| 365/399 [00:02<00:00, 218.14it/s]Loading weights:  98%|█████████▊| 391/399 [00:02<00:00, 214.47it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 171.92it/s]
+  Mean weight cosine: 0.89769
+  Evaluating PPL (max_length=512, stride=256)...
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors
+  Tokens: 16,384
+  PPL: 619585.10  (NLL: 13.3368, 16,321 tokens, 40.8s)
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL PPL: GRADIENT MASK
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:42,  1.79it/s]Loading weights:  10%|▉         | 39/399 [00:00<00:04, 74.21it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 124.42it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:02, 147.20it/s]Loading weights:  31%|███       | 122/399 [00:01<00:01, 179.06it/s]Loading weights:  37%|███▋      | 147/399 [00:01<00:01, 179.17it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:01, 182.00it/s]Loading weights:  50%|████▉     | 199/399 [00:01<00:00, 200.59it/s]Loading weights:  56%|█████▌    | 223/399 [00:01<00:00, 206.16it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 202.19it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:01, 125.05it/s]Loading weights:  73%|███████▎  | 291/399 [00:02<00:00, 142.43it/s]Loading weights:  79%|███████▊  | 314/399 [00:02<00:00, 158.79it/s]Loading weights:  86%|████████▌ | 343/399 [00:02<00:00, 178.57it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 186.25it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 193.61it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 157.62it/s]
+  Mean weight cosine: 0.56182
+  Evaluating PPL (max_length=512, stride=256)...
+  Tokens: 16,384
+  PPL: 187983.38  (NLL: 12.1441, 16,321 tokens, 78.3s)
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL PPL: NODE MASK
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:30,  1.89it/s]Loading weights:  13%|█▎        | 50/399 [00:00<00:03, 105.02it/s]Loading weights:  22%|██▏       | 87/399 [00:00<00:01, 166.24it/s]Loading weights:  30%|███       | 120/399 [00:00<00:01, 206.71it/s]Loading weights:  38%|███▊      | 153/399 [00:00<00:01, 223.50it/s]Loading weights:  46%|████▌     | 184/399 [00:01<00:00, 219.65it/s]Loading weights:  53%|█████▎    | 212/399 [00:01<00:00, 218.17it/s]Loading weights:  60%|█████▉    | 238/399 [00:01<00:00, 227.53it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 159.61it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 159.11it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 157.89it/s]Loading weights:  82%|████████▏ | 327/399 [00:02<00:00, 155.95it/s]Loading weights:  86%|████████▋ | 345/399 [00:02<00:00, 150.73it/s]Loading weights:  91%|█████████ | 362/399 [00:02<00:00, 148.98it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 150.89it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 164.04it/s]
+  Mean weight cosine: 0.84513
+  Evaluating PPL (max_length=512, stride=256)...
+  Tokens: 16,384
+  PPL: 3861138.49  (NLL: 15.1665, 16,321 tokens, 78.2s)
+
+══════════════════════════════════════════════════════════════════════════════
+  FULL-MODEL PERPLEXITY COMPARISON
+══════════════════════════════════════════════════════════════════════════════
+    magnitude    PPL=   619585.10  NLL=13.3368  weight_cos=0.89769
+    gradient     PPL=   187983.38  NLL=12.1441  weight_cos=0.56182
+    node         PPL=  3861138.49  NLL=15.1665  weight_cos=0.84513
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPLETE — 1053s total
+  Results saved to /Users/mwhitford/src/verbum/results/dvd-stamp-test/
+══════════════════════════════════════════════════════════════════════════════

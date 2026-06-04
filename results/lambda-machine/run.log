@@ -1,0 +1,266 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  λ-MACHINE — Typed Shift-Reduce β-Reducer                                 ║
+║  The minimal algorithm: FFN beamforms, ~4 heads bind, 3 layers reduce     ║
+║  Model: Qwen/Qwen3-8B                                                      ║
+║  Sparse top-k: 3                                                           ║
+╚════════════════════════════════════════════════════════════════════════════╝
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: full — Full model (baseline)
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:15,  1.56it/s]Loading weights:   3%|▎         | 12/399 [00:00<00:18, 20.47it/s]Loading weights:  10%|▉         | 38/399 [00:00<00:05, 67.41it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:03, 102.59it/s]Loading weights:  23%|██▎       | 92/399 [00:01<00:02, 151.79it/s]Loading weights:  32%|███▏      | 126/399 [00:01<00:01, 198.25it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 227.78it/s]Loading weights:  47%|████▋     | 186/399 [00:01<00:01, 211.11it/s]Loading weights:  53%|█████▎    | 211/399 [00:01<00:00, 213.84it/s]Loading weights:  61%|██████    | 243/399 [00:01<00:00, 240.80it/s]Loading weights:  70%|██████▉   | 278/399 [00:01<00:00, 267.68it/s]Loading weights:  77%|███████▋  | 307/399 [00:01<00:00, 261.85it/s]Loading weights:  84%|████████▍ | 335/399 [00:01<00:00, 250.57it/s]Loading weights:  90%|█████████ | 361/399 [00:02<00:00, 245.32it/s]Loading weights:  97%|█████████▋| 387/399 [00:02<00:00, 240.88it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.94it/s]
+  Collecting reference logits...
+  Collecting logits...
+
+  Hit@1:  100%  (16/16)
+  Hit@5:  100%
+  Hit@10: 100%
+  Mean rank of ref top-1: 0.0  (median: 0)
+  Mean KL(ref||test): 0.0000
+  Top-50 overlap: 1.000
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✓      0        Paris        Paris The capital of France is
+   1   ✓      0                           The speed of light is approximately
+   2   ✓      0     hydrogen     hydrogen Water is composed of two elements:
+   3   ✓      0       living       living If all dogs are animals and all animals are l
+   4   ✓      0          ...          ... The next number in the sequence 2, 4, 8, 16, 
+   5   ✓      0            1            1 def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✓      0         wise         wise Once upon a time, in a forest deep and dark, 
+   7   ✓      0            y            y In lambda calculus, the identity combinator I
+   8   ✓      0            a            a The composition combinator B = λf.λg.λx.f(g(x
+   9   ✓      0          dog          dog The quick brown fox jumps over the lazy
+  10   ✓      0     question     question To be or not to be, that is the
+  11   ✓      0     gradient     gradient Machine learning models learn by minimizing a
+  12   ✓      0          mat          mat The cat sat on the
+  13   ✓      0          ran          ran The dog bit the cat and the cat
+  14   ✓      0           be           be She told him that she would
+  15   ✓      0         went         went The boy kicked the ball and it
+
+  Evaluating PPL...
+Token indices sequence length is longer than the specified maximum sequence length for this model (298938 > 131072). Running this sequence through the model will result in indexing errors
+  PPL: 12.23  NLL: 2.5035
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: sparse — Sparse top-3 at ALL layers
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:23,  1.51it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 49.10it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 123.71it/s]Loading weights:  25%|██▍       | 98/399 [00:00<00:01, 150.57it/s]Loading weights:  31%|███       | 124/399 [00:01<00:01, 172.94it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 211.56it/s]Loading weights:  49%|████▉     | 197/399 [00:01<00:00, 257.44it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 268.21it/s]Loading weights:  66%|██████▋   | 265/399 [00:01<00:00, 283.89it/s]Loading weights:  75%|███████▍  | 299/399 [00:01<00:00, 298.51it/s]Loading weights:  83%|████████▎ | 332/399 [00:01<00:00, 306.18it/s]Loading weights:  92%|█████████▏| 366/399 [00:01<00:00, 314.17it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 207.91it/s]
+    Patched 36 layers with level=sparse
+  Collecting logits...
+
+  Hit@1:  6%  (1/16)
+  Hit@5:  38%
+  Hit@10: 44%
+  Mean rank of ref top-1: 51.8  (median: 22)
+  Mean KL(ref||test): 4.4244
+  Top-50 overlap: 0.159
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✗     22        Paris           is The capital of France is
+   1   ~      4                       The The speed of light is approximately
+   2   ✗     38     hydrogen        Water Water is composed of two elements:
+   3   ✗     43       living      animals If all dogs are animals and all animals are l
+   4   ✗     23          ...              The next number in the sequence 2, 4, 8, 16, 
+   5   ✗      5            1            5 def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✗     85         wise        fairy Once upon a time, in a forest deep and dark, 
+   7   ~      1            y          the In lambda calculus, the identity combinator I
+   8   ~      2            a         comb The composition combinator B = λf.λg.λx.f(g(x
+   9   ✗     29          dog         lazy The quick brown fox jumps over the lazy
+  10   ✓      0     question     question To be or not to be, that is the
+  11   ✗    208     gradient            a Machine learning models learn by minimizing a
+  12   ✗    280          mat          The The cat sat on the
+  13   ✗     86          ran          and The dog bit the cat and the cat
+  14   ~      1           be          she She told him that she would
+  15   ~      2         went       kicked The boy kicked the ball and it
+
+  Evaluating PPL...
+  PPL: 13.33  NLL: 2.5899
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: binding_full — Full attn at L27/L30/L33 only, skip others
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:37,  1.43it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:14, 26.74it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:04, 73.44it/s]Loading weights:  16%|█▌        | 62/399 [00:01<00:03, 92.54it/s]Loading weights:  20%|██        | 80/399 [00:01<00:02, 111.84it/s]Loading weights:  25%|██▍       | 99/399 [00:01<00:02, 129.75it/s]Loading weights:  29%|██▉       | 117/399 [00:01<00:02, 138.02it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 149.70it/s]Loading weights:  39%|███▉      | 156/399 [00:01<00:01, 160.33it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 178.80it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 220.59it/s]Loading weights:  61%|██████    | 244/399 [00:01<00:00, 242.16it/s]Loading weights:  68%|██████▊   | 270/399 [00:02<00:00, 224.00it/s]Loading weights:  74%|███████▎  | 294/399 [00:02<00:00, 219.38it/s]Loading weights:  80%|███████▉  | 318/399 [00:02<00:00, 223.73it/s]Loading weights:  85%|████████▌ | 341/399 [00:02<00:00, 207.12it/s]Loading weights:  91%|█████████ | 363/399 [00:02<00:00, 199.93it/s]Loading weights:  96%|█████████▌| 384/399 [00:02<00:00, 193.81it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 149.42it/s]
+    Patched 36 layers with level=binding_full
+  Collecting logits...
+
+  Hit@1:  12%  (2/16)
+  Hit@5:  12%
+  Hit@10: 12%
+  Mean rank of ref top-1: 21327.9  (median: 3656)
+  Mean KL(ref||test): 10.0284
+  Top-50 overlap: 0.027
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✗   3021        Paris       Grande The capital of France is
+   1   ✓      0                           The speed of light is approximately
+   2   ✗  31240     hydrogen          EMA Water is composed of two elements:
+   3   ✗   2697       living            1 If all dogs are animals and all animals are l
+   4   ✗   3664          ...         Tony The next number in the sequence 2, 4, 8, 16, 
+   5   ✓      0            1            1 def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✗  14159         wise    paragraph Once upon a time, in a forest deep and dark, 
+   7   ✗    339            y          ECH In lambda calculus, the identity combinator I
+   8   ✗   1099            a           && The composition combinator B = λf.λg.λx.f(g(x
+   9   ✗  76607          dog   _TRIANGLES The quick brown fox jumps over the lazy
+  10   ✗  12042     question            � To be or not to be, that is the
+  11   ✗  16083     gradient            \ Machine learning models learn by minimizing a
+  12   ✗   3647          mat          CAT The cat sat on the
+  13   ✗  71900          ran           ag The dog bit the cat and the cat
+  14   ✗    750           be      Promise She told him that she would
+  15   ✗  103998         went            纳 The boy kicked the ball and it
+
+  Evaluating PPL...
+  PPL: 82106.31  NLL: 11.3158
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: binding_sparse — Sparse top-3 at L27/L30/L33 only
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:14,  1.56it/s]Loading weights:   9%|▉         | 35/399 [00:00<00:05, 62.15it/s]Loading weights:  17%|█▋        | 67/399 [00:00<00:02, 112.92it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 165.13it/s]Loading weights:  33%|███▎      | 133/399 [00:01<00:01, 194.70it/s]Loading weights:  40%|████      | 161/399 [00:01<00:01, 195.61it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:00, 213.06it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 247.93it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 270.64it/s]Loading weights:  73%|███████▎  | 291/399 [00:01<00:00, 283.37it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 292.78it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 297.05it/s]Loading weights:  97%|█████████▋| 388/399 [00:02<00:00, 251.32it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 197.35it/s]
+    Patched 36 layers with level=binding_sparse
+  Collecting logits...
+
+  Hit@1:  6%  (1/16)
+  Hit@5:  12%
+  Hit@10: 12%
+  Mean rank of ref top-1: 35092.3  (median: 23833)
+  Mean KL(ref||test): 11.7026
+  Top-50 overlap: 0.015
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✗   9225        Paris    typically The capital of France is
+   1   ✓      0                           The speed of light is approximately
+   2   ✗  76490     hydrogen          rou Water is composed of two elements:
+   3   ✗  23032       living           HS If all dogs are animals and all animals are l
+   4   ✗   3799          ...          面对面 The next number in the sequence 2, 4, 8, 16, 
+   5   ~      4            1            , def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✗  56104         wise           归来 Once upon a time, in a forest deep and dark, 
+   7   ✗    720            y           's In lambda calculus, the identity combinator I
+   8   ✗  15891            a            冷 The composition combinator B = λf.λg.λx.f(g(x
+   9   ✗  81741          dog         _DSP The quick brown fox jumps over the lazy
+  10   ✗  37591     question           或多 To be or not to be, that is the
+  11   ✗  24634     gradient           �� Machine learning models learn by minimizing a
+  12   ✗  17339          mat            词 The cat sat on the
+  13   ✗  82924          ran     response The dog bit the cat and the cat
+  14   ✗  29583           be            � She told him that she would
+  15   ✗  102400         went          	MD The boy kicked the ball and it
+
+  Evaluating PPL...
+  PPL: 1081263.14  NLL: 13.8936
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: heads_full — Binding heads only at L27/L30/L33
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:55,  1.69it/s]Loading weights:   6%|▌         | 23/399 [00:00<00:08, 42.48it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:04, 79.50it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 142.56it/s]Loading weights:  29%|██▉       | 116/399 [00:01<00:01, 190.82it/s]Loading weights:  39%|███▊      | 154/399 [00:01<00:01, 239.45it/s]Loading weights:  46%|████▋     | 185/399 [00:01<00:00, 257.40it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:00, 274.27it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 286.06it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 296.43it/s]Loading weights:  81%|████████  | 322/399 [00:01<00:00, 305.21it/s]Loading weights:  89%|████████▊ | 354/399 [00:01<00:00, 309.06it/s]Loading weights:  97%|█████████▋| 386/399 [00:01<00:00, 297.59it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 207.81it/s]
+    Patched 36 layers with level=heads_full
+  Collecting logits...
+
+  Hit@1:  0%  (0/16)
+  Hit@5:  0%
+  Hit@10: 0%
+  Mean rank of ref top-1: 59359.5  (median: 36848)
+  Mean KL(ref||test): 13.8479
+  Top-50 overlap: 0.012
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✗  16602        Paris      _SECOND The capital of France is
+   1   ✗  151043                    >Title The speed of light is approximately
+   2   ✗  29526     hydrogen          eer Water is composed of two elements:
+   3   ✗  149712       living            f If all dogs are animals and all animals are l
+   4   ✗  17083          ...          tán The next number in the sequence 2, 4, 8, 16, 
+   5   ✗  55471            1          Sok def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✗  131086         wise         arts Once upon a time, in a forest deep and dark, 
+   7   ✗    762            y          sne In lambda calculus, the identity combinator I
+   8   ✗  11206            a          rem The composition combinator B = λf.λg.λx.f(g(x
+   9   ✗   1574          dog            , The quick brown fox jumps over the lazy
+  10   ✗  74638     question           
+
+ To be or not to be, that is the
+  11   ✗  134091     gradient      ettings Machine learning models learn by minimizing a
+  12   ✗  44170          mat           
+
+ The cat sat on the
+  13   ✗  124503          ran         oons The dog bit the cat and the cat
+  14   ✗   1236           be         text She told him that she would
+  15   ✗   7049         went           mü The boy kicked the ball and it
+
+  Evaluating PPL...
+  PPL: 6320794.51  NLL: 15.6594
+
+══════════════════════════════════════════════════════════════════════════════
+  LEVEL: heads_sparse — Binding heads + sparse at L27/L30/L33 (λ-machine)
+══════════════════════════════════════════════════════════════════════════════
+  Loading fresh model...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<05:05,  1.30it/s]Loading weights:   4%|▍         | 15/399 [00:00<00:16, 22.75it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:09, 41.22it/s]Loading weights:  11%|█▏        | 45/399 [00:01<00:05, 65.93it/s]Loading weights:  15%|█▌        | 60/399 [00:01<00:04, 82.21it/s]Loading weights:  22%|██▏       | 87/399 [00:01<00:02, 125.52it/s]Loading weights:  26%|██▋       | 105/399 [00:01<00:02, 136.81it/s]Loading weights:  33%|███▎      | 133/399 [00:01<00:01, 171.65it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 218.98it/s]Loading weights:  50%|████▉     | 199/399 [00:01<00:00, 230.57it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 223.54it/s]Loading weights:  62%|██████▏   | 248/399 [00:02<00:00, 205.14it/s]Loading weights:  68%|██████▊   | 270/399 [00:02<00:00, 202.00it/s]Loading weights:  73%|███████▎  | 291/399 [00:02<00:00, 202.56it/s]Loading weights:  78%|███████▊  | 312/399 [00:02<00:00, 201.92it/s]Loading weights:  84%|████████▎ | 334/399 [00:02<00:00, 201.40it/s]Loading weights:  91%|█████████▏| 365/399 [00:02<00:00, 224.87it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 229.03it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 149.04it/s]
+    Patched 36 layers with level=heads_sparse
+  Collecting logits...
+
+  Hit@1:  0%  (0/16)
+  Hit@5:  0%
+  Hit@10: 0%
+  Mean rank of ref top-1: 58521.3  (median: 30563)
+  Mean KL(ref||test): 13.8339
+  Top-50 overlap: 0.010
+
+  Per-prompt:
+   # Hit  Rank         Ref→        Test→ Text
+   0   ✗  15120        Paris      _SECOND The capital of France is
+   1   ✗  150541                    >Title The speed of light is approximately
+   2   ✗  18789     hydrogen          eer Water is composed of two elements:
+   3   ✗  150031       living            f If all dogs are animals and all animals are l
+   4   ✗  18056          ...         chez The next number in the sequence 2, 4, 8, 16, 
+   5   ✗  68985            1          Sok def fibonacci(n):
+    if n <= 1:
+        retu
+   6   ✗  126933         wise         技术支持 Once upon a time, in a forest deep and dark, 
+   7   ✗   3212            y          近三年 In lambda calculus, the identity combinator I
+   8   ✗   5937            a          rem The composition combinator B = λf.λg.λx.f(g(x
+   9   ✗   1435          dog            , The quick brown fox jumps over the lazy
+  10   ✗  72142     question           今后 To be or not to be, that is the
+  11   ✗  134772     gradient      ettings Machine learning models learn by minimizing a
+  12   ✗  42337          mat           
+
+ The cat sat on the
+  13   ✗  119167          ran          wur The dog bit the cat and the cat
+  14   ✗    833           be         text She told him that she would
+  15   ✗   8051         went           mü The boy kicked the ball and it
+
+  Evaluating PPL...
+  PPL: 8163687.05  NLL: 15.9152
+
+══════════════════════════════════════════════════════════════════════════════
+  FINAL COMPARISON — λ-Machine Ablation Levels
+══════════════════════════════════════════════════════════════════════════════
+  Level                 Hit@1  Hit@5  Hit@10  MedRank       KL        PPL
+  ──────────────────── ────── ────── ─────── ──────── ──────── ──────────
+  full                   100%   100%    100%       0   0.0000       12.2
+  sparse                   6%    38%     44%      22   4.4244       13.3
+  binding_full            12%    12%     12%    3656  10.0284    82106.3
+  binding_sparse           6%    12%     12%   23833  11.7026  1081263.1
+  heads_full               0%     0%      0%   36848  13.8479  6320794.5
+  heads_sparse             0%     0%      0%   30563  13.8339  8163687.1
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPLETE — 216s total
+  Results: /Users/mwhitford/src/verbum/results/lambda-machine/
+══════════════════════════════════════════════════════════════════════════════
