@@ -1,0 +1,1330 @@
+========================================================================
+FFN β-REDUCTION TRACE
+========================================================================
+Model: Qwen/Qwen3-8B
+Top-K tokens: 10
+Top neurons per position: 50
+Activation threshold: 0.1
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:39,  2.50it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 69.57it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 160.07it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 202.49it/s]Loading weights:  34%|███▍      | 137/399 [00:00<00:01, 236.65it/s]Loading weights:  42%|████▏     | 169/399 [00:00<00:00, 258.01it/s]Loading weights:  51%|█████     | 203/399 [00:01<00:00, 278.69it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 288.70it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 294.19it/s]Loading weights:  76%|███████▌  | 302/399 [00:01<00:00, 306.06it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 303.57it/s]Loading weights:  92%|█████████▏| 367/399 [00:01<00:00, 309.38it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 243.77it/s]
+  Loaded in 3.3s
+  36 layers, hidden=4096, intermediate=12288
+  32 heads, vocab=151936
+  Tracing layers: [0, 3, 6, 10, 14, 18, 22, 26, 30, 33, 35]
+  W_unembed: torch.Size([151936, 4096])
+
+Precomputing circuit types (cos(gate_proj, down_proj))...
+  L0: projector=68% transform=16% suppressor=15% identity=0% inverter=0%
+  L3: projector=86% transform=7% suppressor=7% identity=0% inverter=0%
+  L6: projector=91% transform=4% suppressor=4% identity=0% inverter=0%
+  L10: projector=73% suppressor=13% transform=13% identity=1% inverter=1%
+  L14: projector=62% transform=18% suppressor=17% inverter=2% identity=2%
+  L18: projector=49% transform=23% suppressor=23% inverter=3% identity=2%
+  L22: projector=61% suppressor=18% transform=18% identity=1% inverter=1%
+  L26: projector=78% transform=11% suppressor=11% inverter=0% identity=0%
+  L30: projector=88% transform=6% suppressor=6% identity=0% inverter=0%
+  L33: projector=86% transform=7% suppressor=6% inverter=1% identity=0%
+  L35: projector=59% transform=14% suppressor=14% identity=7% inverter=7%
+
+────────────────────────────────────────────────────────────
+PROBE: The dog runs.
+
+  [compile] "The dog runs."
+    Tokens (35): [' dog', ' runs', '.']
+
+  [null] "The dog runs."
+    Tokens (19): [' dog', ' runs', '.']
+
+  COMPILE vs NULL comparison:
+    L 0: compile_active=0.004 null_active=0.004 delta=-0.000
+    L 3: compile_active=0.013 null_active=0.011 delta=+0.001
+    L 6: compile_active=0.056 null_active=0.077 delta=-0.020
+    L10: compile_active=0.169 null_active=0.221 delta=-0.052
+    L14: compile_active=0.220 null_active=0.211 delta=+0.009
+    L18: compile_active=0.255 null_active=0.192 delta=+0.063
+    L22: compile_active=0.433 null_active=0.362 delta=+0.071
+    L26: compile_active=0.557 null_active=0.534 delta=+0.024
+    L30: compile_active=0.638 null_active=0.634 delta=+0.004
+    L33: compile_active=0.688 null_active=0.681 delta=+0.007
+    L35: compile_active=0.652 null_active=0.659 delta=-0.007
+
+────────────────────────────────────────────────────────────
+PROBE: Every student reads a book.
+
+  [compile] "Every student reads a book."
+    Tokens (37): [' student', ' reads', ' a', ' book', '.']
+
+  [null] "Every student reads a book."
+    Tokens (21): [' student', ' reads', ' a', ' book', '.']
+
+  COMPILE vs NULL comparison:
+    L 0: compile_active=0.004 null_active=0.005 delta=-0.001
+    L 3: compile_active=0.008 null_active=0.008 delta=+0.000
+    L 6: compile_active=0.072 null_active=0.081 delta=-0.009
+    L10: compile_active=0.233 null_active=0.236 delta=-0.002
+    L14: compile_active=0.262 null_active=0.229 delta=+0.034
+    L18: compile_active=0.270 null_active=0.234 delta=+0.036
+    L22: compile_active=0.394 null_active=0.378 delta=+0.017
+    L26: compile_active=0.561 null_active=0.521 delta=+0.040
+    L30: compile_active=0.643 null_active=0.610 delta=+0.033
+    L33: compile_active=0.677 null_active=0.648 delta=+0.029
+    L35: compile_active=0.664 null_active=0.659 delta=+0.005
+
+────────────────────────────────────────────────────────────
+PROBE: The cat that sat on the mat is black.
+
+  [compile] "The cat that sat on the mat is black."
+    Tokens (41): [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+
+  [null] "The cat that sat on the mat is black."
+    Tokens (25): [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+
+  COMPILE vs NULL comparison:
+    L 0: compile_active=0.004 null_active=0.004 delta=-0.000
+    L 3: compile_active=0.009 null_active=0.009 delta=+0.000
+    L 6: compile_active=0.092 null_active=0.099 delta=-0.007
+    L10: compile_active=0.248 null_active=0.254 delta=-0.005
+    L14: compile_active=0.261 null_active=0.247 delta=+0.014
+    L18: compile_active=0.251 null_active=0.227 delta=+0.024
+    L22: compile_active=0.402 null_active=0.385 delta=+0.017
+    L26: compile_active=0.565 null_active=0.573 delta=-0.008
+    L30: compile_active=0.653 null_active=0.664 delta=-0.012
+    L33: compile_active=0.697 null_active=0.707 delta=-0.010
+    L35: compile_active=0.678 null_active=0.669 delta=+0.008
+
+────────────────────────────────────────────────────────────
+PROBE: If it rains, the ground is wet.
+
+  [compile] "If it rains, the ground is wet."
+    Tokens (40): [' it', ' rains', ',', ' the', ' ground', ' is', ' wet', '.']
+
+  [null] "If it rains, the ground is wet."
+    Tokens (24): [' it', ' rains', ',', ' the', ' ground', ' is', ' wet', '.']
+
+  COMPILE vs NULL comparison:
+    L 0: compile_active=0.004 null_active=0.004 delta=-0.000
+    L 3: compile_active=0.007 null_active=0.007 delta=+0.000
+    L 6: compile_active=0.073 null_active=0.085 delta=-0.012
+    L10: compile_active=0.217 null_active=0.224 delta=-0.006
+    L14: compile_active=0.235 null_active=0.243 delta=-0.008
+    L18: compile_active=0.251 null_active=0.235 delta=+0.016
+    L22: compile_active=0.406 null_active=0.401 delta=+0.005
+    L26: compile_active=0.576 null_active=0.573 delta=+0.004
+    L30: compile_active=0.645 null_active=0.650 delta=-0.005
+    L33: compile_active=0.686 null_active=0.686 delta=-0.001
+    L35: compile_active=0.658 null_active=0.649 delta=+0.009
+
+────────────────────────────────────────────────────────────
+PROBE: Someone believes that the earth is flat.
+
+  [compile] "Someone believes that the earth is flat."
+    Tokens (39): [' believes', ' that', ' the', ' earth', ' is', ' flat', '.']
+
+  [null] "Someone believes that the earth is flat."
+    Tokens (23): [' believes', ' that', ' the', ' earth', ' is', ' flat', '.']
+
+  COMPILE vs NULL comparison:
+    L 0: compile_active=0.004 null_active=0.005 delta=-0.001
+    L 3: compile_active=0.008 null_active=0.007 delta=+0.001
+    L 6: compile_active=0.074 null_active=0.077 delta=-0.003
+    L10: compile_active=0.224 null_active=0.231 delta=-0.007
+    L14: compile_active=0.228 null_active=0.220 delta=+0.008
+    L18: compile_active=0.239 null_active=0.212 delta=+0.026
+    L22: compile_active=0.393 null_active=0.362 delta=+0.031
+    L26: compile_active=0.563 null_active=0.523 delta=+0.041
+    L30: compile_active=0.645 null_active=0.627 delta=+0.018
+    L33: compile_active=0.681 null_active=0.657 delta=+0.024
+    L35: compile_active=0.682 null_active=0.658 delta=+0.024
+
+========================================================================
+FFN → ATTENTION CORRELATION ANALYSIS
+========================================================================
+
+  [compile] "The dog runs."
+    L0 FFN → L1 Attn:
+      pos=32 [         dog] active=   88 promotes=[         lasses, matic, Nation] attn_received=0.098
+      pos=33 [        runs] active=   49 promotes=[             lide, heet, ystem] attn_received=0.054
+      pos=34 [           .] active=   18 promotes=[       arrant, Charlotte, arro] attn_received=0.047
+    L3 FFN → L4 Attn:
+      pos=32 [         dog] active=  165 promotes=[                 rieb, IFS, 占地] attn_received=0.057
+      pos=33 [        runs] active=  178 promotes=[            kowski, 机电, /slick] attn_received=0.026
+      pos=34 [           .] active=  124 promotes=[                 SPAN, 贯彻落实, 腴] attn_received=0.017
+    L6 FFN → L7 Attn:
+      pos=32 [         dog] active=  626 promotes=[          allis, genesis, orum] attn_received=0.049
+      pos=33 [        runs] active= 1008 promotes=[                 赂, adows, 一个多] attn_received=0.042
+      pos=34 [           .] active=  436 promotes=[             Dia, oves, igrams] attn_received=0.018
+    L10 FFN → L11 Attn:
+      pos=32 [         dog] active= 1936 promotes=[                拿, <<<, Dagger] attn_received=0.053
+      pos=33 [        runs] active= 2440 promotes=[                是真的, act, Harm] attn_received=0.040
+      pos=34 [           .] active= 1854 promotes=[              或多, umat, ToMany] attn_received=0.027
+    L14 FFN → L15 Attn:
+      pos=32 [         dog] active= 2649 promotes=[         enums, amientos, enum] attn_received=0.055
+      pos=33 [        runs] active= 2903 promotes=[                 夷, 戏, lements] attn_received=0.035
+      pos=34 [           .] active= 2550 promotes=[                oom, Canvas, 椿] attn_received=0.022
+    L18 FFN → L19 Attn:
+      pos=32 [         dog] active= 3194 promotes=[            Politico, 生涯, ippo] attn_received=0.064
+      pos=33 [        runs] active= 3202 promotes=[        currentNode, Qi, uther] attn_received=0.043
+      pos=34 [           .] active= 3009 promotes=[                     IGN, 荻, 掴] attn_received=0.024
+    L22 FFN → L23 Attn:
+      pos=32 [         dog] active= 5479 promotes=[  ADVERTISEMENT, INCLUDED, fts] attn_received=0.074
+      pos=33 [        runs] active= 5335 promotes=[          cheid, steadily, 时间和] attn_received=0.068
+      pos=34 [           .] active= 5143 promotes=[               澎湃, /*@, foobar] attn_received=0.025
+    L26 FFN → L27 Attn:
+      pos=32 [         dog] active= 7096 promotes=[               聪明, .quick, ned] attn_received=0.039
+      pos=33 [        runs] active= 7223 promotes=[           heets, heet, uphill] attn_received=0.023
+      pos=34 [           .] active= 6227 promotes=[            输出, output, Output] attn_received=0.017
+    L30 FFN → L31 Attn:
+      pos=32 [         dog] active= 8147 promotes=[               呜, sleeps, jump] attn_received=0.032
+      pos=33 [        runs] active= 8051 promotes=[               fast, slowly, 较] attn_received=0.020
+      pos=34 [           .] active= 7323 promotes=[             输出, Output, выход] attn_received=0.015
+    L33 FFN → L34 Attn:
+      pos=32 [         dog] active= 8853 promotes=[                      b, ch, b] attn_received=0.032
+      pos=33 [        runs] active= 8590 promotes=[                        ., ., ] attn_received=0.035
+      pos=34 [           .] active= 7922 promotes=[                     And, 1, 2] attn_received=0.027
+
+  [null] "The dog runs."
+    L0 FFN → L1 Attn:
+      pos=16 [         dog] active=   91 promotes=[         lasses, matic, Nation] attn_received=0.109
+      pos=17 [        runs] active=   50 promotes=[             lide, heet, ystem] attn_received=0.063
+      pos=18 [           .] active=   20 promotes=[               arrant, 认, /dis] attn_received=0.055
+    L3 FFN → L4 Attn:
+      pos=16 [         dog] active=  189 promotes=[              rieb, enh, #elif] attn_received=0.093
+      pos=17 [        runs] active=  146 promotes=[         uben, osta, exclusive] attn_received=0.037
+      pos=18 [           .] active=   86 promotes=[                  vern, 腴, GPC] attn_received=0.035
+    L6 FFN → L7 Attn:
+      pos=16 [         dog] active=  909 promotes=[            handful, 辛苦, least] attn_received=0.071
+      pos=17 [        runs] active= 1387 promotes=[                 并通过, 遥控, 个人观点] attn_received=0.048
+      pos=18 [           .] active=  527 promotes=[                  援, 法则, gente] attn_received=0.020
+    L10 FFN → L11 Attn:
+      pos=16 [         dog] active= 2140 promotes=[                   dogs, 递, 狗狗] attn_received=0.084
+      pos=17 [        runs] active= 3485 promotes=[                 上升, 是真的, rise] attn_received=0.047
+      pos=18 [           .] active= 2504 promotes=[                    质, 埋, 教育教学] attn_received=0.027
+    L14 FFN → L15 Attn:
+      pos=16 [         dog] active= 2306 promotes=[          _logo, Morton, andra] attn_received=0.075
+      pos=17 [        runs] active= 2896 promotes=[                  戏, jog, inet] attn_received=0.048
+      pos=18 [           .] active= 2573 promotes=[      NewItem, _hierarchy, SUP] attn_received=0.027
+    L18 FFN → L19 Attn:
+      pos=16 [         dog] active= 2182 promotes=[            MAND, amerate, <=>] attn_received=0.079
+      pos=17 [        runs] active= 2410 promotes=[                   drive, 邸, 膳] attn_received=0.056
+      pos=18 [           .] active= 2488 promotes=[                   íg, ucer, 串] attn_received=0.025
+    L22 FFN → L23 Attn:
+      pos=16 [         dog] active= 4386 promotes=[                  犬, 吠, breeds] attn_received=0.091
+      pos=17 [        runs] active= 4445 promotes=[              cape, dale, ford] attn_received=0.066
+      pos=18 [           .] active= 4512 promotes=[     他是一个, /validation, iscard] attn_received=0.041
+    L26 FFN → L27 Attn:
+      pos=16 [         dog] active= 6510 promotes=[        gy, underwent, undergo] attn_received=0.048
+      pos=17 [        runs] active= 6871 promotes=[             heet, peed, heets] attn_received=0.031
+      pos=18 [           .] active= 6291 promotes=[                dig, dig, omic] attn_received=0.025
+    L30 FFN → L31 Attn:
+      pos=16 [         dog] active= 7831 promotes=[                  pur, jump, 跳] attn_received=0.034
+      pos=17 [        runs] active= 8109 promotes=[                   跳, past, 过去] attn_received=0.033
+      pos=18 [           .] active= 7427 promotes=[              cat, kitty, cats] attn_received=0.025
+    L33 FFN → L34 Attn:
+      pos=16 [         dog] active= 8496 promotes=[                   b, bit, ran] attn_received=0.038
+      pos=17 [        runs] active= 8640 promotes=[           after, After, after] attn_received=0.042
+      pos=18 [           .] active= 7967 promotes=[                  It, Is, STEM] attn_received=0.038
+
+  [compile] "Every student reads a book."
+    L0 FFN → L1 Attn:
+      pos=32 [     student] active=   66 promotes=[                 hips, 涯, 公开发行] attn_received=0.065
+      pos=33 [       reads] active=   87 promotes=[            plit, peed, upport] attn_received=0.074
+      pos=34 [           a] active=   18 promotes=[          eron, slight, theros] attn_received=0.093
+      pos=35 [        book] active=   49 promotes=[              shelf, lets, 一本书] attn_received=0.023
+      pos=36 [           .] active=   17 promotes=[                 arro, 两天, 其他人] attn_received=0.029
+    L3 FFN → L4 Attn:
+      pos=32 [     student] active=  113 promotes=[ .increment, increment, linear] attn_received=0.066
+      pos=33 [       reads] active=  155 promotes=[                      轮廓, 顺, 比] attn_received=0.060
+      pos=34 [           a] active=   58 promotes=[          rias, 陵, WithOptions] attn_received=0.045
+      pos=35 [        book] active=   92 promotes=[        marks, ograd, bindings] attn_received=0.010
+      pos=36 [           .] active=   75 promotes=[          proposal, QL, FindBy] attn_received=0.011
+    L6 FFN → L7 Attn:
+      pos=32 [     student] active=  684 promotes=[              afs, ikan, iales] attn_received=0.045
+      pos=33 [       reads] active= 1158 promotes=[              airo, aul, unger] attn_received=0.049
+      pos=34 [           a] active=  814 promotes=[        rebound, eliminates, ẹ] attn_received=0.027
+      pos=35 [        book] active= 1359 promotes=[            icamente, 堆, ament] attn_received=0.014
+      pos=36 [           .] active=  430 promotes=[             verm, FindBy, 在那里] attn_received=0.014
+    L10 FFN → L11 Attn:
+      pos=32 [     student] active= 2342 promotes=[           ogr, edb, qualified] attn_received=0.079
+      pos=33 [       reads] active= 3139 promotes=[                橙, Bomb, Cloth] attn_received=0.057
+      pos=34 [           a] active= 3094 promotes=[               pla, rello, .ov] attn_received=0.026
+      pos=35 [        book] active= 3394 promotes=[          pone, Richmond, Shen] attn_received=0.018
+      pos=36 [           .] active= 2370 promotes=[                  悬挂, olle, 新华] attn_received=0.017
+    L14 FFN → L15 Attn:
+      pos=32 [     student] active= 2841 promotes=[                  该县, itus, hm] attn_received=0.088
+      pos=33 [       reads] active= 3254 promotes=[                   //=, 愍, ack] attn_received=0.066
+      pos=34 [           a] active= 3957 promotes=[                LEMENT, 上门, ju] attn_received=0.047
+      pos=35 [        book] active= 3583 promotes=[          上门, _integration, ду] attn_received=0.021
+      pos=36 [           .] active= 2479 promotes=[ //=, Translation, translators] attn_received=0.012
+    L18 FFN → L19 Attn:
+      pos=32 [     student] active= 2926 promotes=[                    创造了, 温和, 蛾] attn_received=0.074
+      pos=33 [       reads] active= 3310 promotes=[               anyhow, 心仪, 创造了] attn_received=0.059
+      pos=34 [           a] active= 3812 promotes=[             crud, istic, ilig] attn_received=0.042
+      pos=35 [        book] active= 3701 promotes=[            撩, occasion, SUPER] attn_received=0.024
+      pos=36 [           .] active= 2852 promotes=[                   攘, ollow, 兼] attn_received=0.014
+    L22 FFN → L23 Attn:
+      pos=32 [     student] active= 4724 promotes=[             idth, hood, tring] attn_received=0.083
+      pos=33 [       reads] active= 5199 promotes=[              heet, leep, peed] attn_received=0.084
+      pos=34 [           a] active= 4834 promotes=[         Gutenberg, ught, eler] attn_received=0.039
+      pos=35 [        book] active= 4879 promotes=[               alm, �, питания] attn_received=0.023
+      pos=36 [           .] active= 4598 promotes=[             ubbles, ALLE, (Of] attn_received=0.017
+    L26 FFN → L27 Attn:
+      pos=32 [     student] active= 7123 promotes=[            eventually, 感叹, 自发] attn_received=0.033
+      pos=33 [       reads] active= 7233 promotes=[        books, oup, themselves] attn_received=0.038
+      pos=34 [           a] active= 7263 promotes=[             roud, 一本书, mitted] attn_received=0.015
+      pos=35 [        book] active= 6937 promotes=[          uphill, 稿, overnight] attn_received=0.009
+      pos=36 [           .] active= 5891 promotes=[              Explain, amb, 名词] attn_received=0.016
+    L30 FFN → L31 Attn:
+      pos=32 [     student] active= 8003 promotes=[      passing, passed, Passing] attn_received=0.026
+      pos=33 [       reads] active= 8396 promotes=[                book, books, 书] attn_received=0.028
+      pos=34 [           a] active= 8191 promotes=[                 book, 书, book] attn_received=0.014
+      pos=35 [        book] active= 7747 promotes=[              swiftly, 速度快, 迅速] attn_received=0.006
+      pos=36 [           .] active= 7170 promotes=[              Gram, gram, gram] attn_received=0.015
+    L33 FFN → L34 Attn:
+      pos=32 [     student] active= 8575 promotes=[                ad, adm, major] attn_received=0.030
+      pos=33 [       reads] active= 8547 promotes=[                      at, ., a] attn_received=0.040
+      pos=34 [           a] active= 8507 promotes=[       geometry, statistics, b] attn_received=0.016
+      pos=35 [        book] active= 8090 promotes=[                        ., ., ] attn_received=0.020
+      pos=36 [           .] active= 7877 promotes=[                     Be, Is, \] attn_received=0.026
+
+  [null] "Every student reads a book."
+    L0 FFN → L1 Attn:
+      pos=16 [     student] active=   75 promotes=[                 hips, 公开发行, 涯] attn_received=0.069
+      pos=17 [       reads] active=  100 promotes=[              plit, peed, just] attn_received=0.075
+      pos=18 [           a] active=   21 promotes=[              eron, orta, arti] attn_received=0.099
+      pos=19 [        book] active=   62 promotes=[             shelf, 一本书, marks] attn_received=0.026
+      pos=20 [           .] active=   19 promotes=[                两天, 认, Koreans] attn_received=0.032
+    L3 FFN → L4 Attn:
+      pos=16 [     student] active=  119 promotes=[              涯, Quarterly, 心目] attn_received=0.078
+      pos=17 [       reads] active=  141 promotes=[          /write, Callbacks, 比] attn_received=0.069
+      pos=18 [           a] active=   49 promotes=[                rias, ^K, ugin] attn_received=0.044
+      pos=19 [        book] active=   87 promotes=[            ograd, marks, itre] attn_received=0.012
+      pos=20 [           .] active=   74 promotes=[            并于, 其它问题, proposal] attn_received=0.013
+    L6 FFN → L7 Attn:
+      pos=16 [     student] active=  865 promotes=[                  一边, 时段, eken] attn_received=0.042
+      pos=17 [       reads] active= 1177 promotes=[                  aul, airo, /] attn_received=0.044
+      pos=18 [           a] active=  817 promotes=[           ց, eliminates, woke] attn_received=0.029
+      pos=19 [        book] active= 1615 promotes=[                ament, 倒, woke] attn_received=0.016
+      pos=20 [           .] active=  523 promotes=[       代言, commissioner, ugins] attn_received=0.012
+    L10 FFN → L11 Attn:
+      pos=16 [     student] active= 2250 promotes=[                 mgr, rome, MU] attn_received=0.088
+      pos=17 [       reads] active= 3204 promotes=[                   俄, Dak, eya] attn_received=0.055
+      pos=18 [           a] active= 3152 promotes=[                    布, 变了, _DD] attn_received=0.020
+      pos=19 [        book] active= 3357 promotes=[                   ORA, 堪, ora] attn_received=0.021
+      pos=20 [           .] active= 2519 promotes=[                    胡子, 严禁, �数] attn_received=0.023
+    L14 FFN → L15 Attn:
+      pos=16 [     student] active= 1921 promotes=[                CRT, trak, DPS] attn_received=0.106
+      pos=17 [       reads] active= 3065 promotes=[                  在京, bil, ACK] attn_received=0.073
+      pos=18 [           a] active= 3211 promotes=[             Throws, agrant, 양] attn_received=0.027
+      pos=19 [        book] active= 3421 promotes=[                  迪拜, 成为中国, 网讯] attn_received=0.018
+      pos=20 [           .] active= 2435 promotes=[           MDB, 今天的, Translate] attn_received=0.014
+    L18 FFN → L19 Attn:
+      pos=16 [     student] active= 2166 promotes=[                 $($, 告别, arer] attn_received=0.076
+      pos=17 [       reads] active= 2998 promotes=[                   ohan, 海边, 踪] attn_received=0.056
+      pos=18 [           a] active= 3316 promotes=[                   机动, rl, hor] attn_received=0.024
+      pos=19 [        book] active= 3206 promotes=[               trans, 和社会, imb] attn_received=0.025
+      pos=20 [           .] active= 2697 promotes=[              EITHER, 浊, undry] attn_received=0.020
+    L22 FFN → L23 Attn:
+      pos=16 [     student] active= 4390 promotes=[         graduating, hood, MIS] attn_received=0.083
+      pos=17 [       reads] active= 5001 promotes=[                  珊, дан, pand] attn_received=0.072
+      pos=18 [           a] active= 4574 promotes=[            ___, beaut, couple] attn_received=0.035
+      pos=19 [        book] active= 4697 promotes=[              nightly, 每日, ent] attn_received=0.026
+      pos=20 [           .] active= 4536 promotes=[                  这个词, 一门, 一部分] attn_received=0.022
+    L26 FFN → L27 Attn:
+      pos=16 [     student] active= 6313 promotes=[              must, should, 必须] attn_received=0.046
+      pos=17 [       reads] active= 6776 promotes=[        regularly, ling, stake] attn_received=0.041
+      pos=18 [           a] active= 6357 promotes=[              平均, average, 一本书] attn_received=0.011
+      pos=19 [        book] active= 6663 promotes=[                 每一天, 每天, each] attn_received=0.012
+      pos=20 [           .] active= 5884 promotes=[     Sometimes, sometimes, All] attn_received=0.014
+    L30 FFN → L31 Attn:
+      pos=16 [     student] active= 7480 promotes=[       passing, passed, passes] attn_received=0.031
+      pos=17 [       reads] active= 7788 promotes=[            books, book, Books] attn_received=0.037
+      pos=18 [           a] active= 7508 promotes=[                 book, book, 书] attn_received=0.015
+      pos=19 [        book] active= 7453 promotes=[       titled, called, tonight] attn_received=0.013
+      pos=20 [           .] active= 7242 promotes=[                 Adam, Adam, 汤] attn_received=0.021
+    L33 FFN → L34 Attn:
+      pos=16 [     student] active= 8068 promotes=[            finds, views, uses] attn_received=0.033
+      pos=17 [       reads] active= 8028 promotes=[                   at, tại, At] attn_received=0.042
+      pos=18 [           a] active= 7903 promotes=[                   b, udi, set] attn_received=0.018
+      pos=19 [        book] active= 8042 promotes=[                   each, a, 每个] attn_received=0.019
+      pos=20 [           .] active= 7793 promotes=[                 class, cor, \] attn_received=0.022
+
+  [compile] "The cat that sat on the mat is black."
+    L0 FFN → L1 Attn:
+      pos=32 [         cat] active=   57 promotes=[        ting, apult, templates] attn_received=0.059
+      pos=33 [        that] active=   39 promotes=[                 าย, jang, рок] attn_received=0.060
+      pos=34 [         sat] active=   61 promotes=[               ting, ellite, 衿] attn_received=0.040
+      pos=35 [          on] active=   82 promotes=[            /off, behalf, 正常使用] attn_received=0.030
+      pos=36 [         the] active=   24 promotes=[              部长, offset, None] attn_received=0.158
+      pos=37 [         mat] active=   60 promotes=[          ting, rices, plotlib] attn_received=0.027
+      pos=38 [          is] active=   16 promotes=[                otope, /w, /is] attn_received=0.022
+      pos=39 [       black] active=   37 promotes=[           smith, curr, /linux] attn_received=0.012
+      pos=40 [           .] active=   16 promotes=[           arro, arrant, grams] attn_received=0.011
+    L3 FFN → L4 Attn:
+      pos=32 [         cat] active=  167 promotes=[               kin, apult, nge] attn_received=0.055
+      pos=33 [        that] active=  119 promotes=[               ools, 分泌, naire] attn_received=0.037
+      pos=34 [         sat] active=  175 promotes=[            dominant, ##, mens] attn_received=0.036
+      pos=35 [          on] active=   96 promotes=[         behalf, /off, -demand] attn_received=0.016
+      pos=36 [         the] active=   11 promotes=[         clave, correct, leine] attn_received=0.233
+      pos=37 [         mat] active=  192 promotes=[                气, RefCount, 杞] attn_received=0.016
+      pos=38 [          is] active=  109 promotes=[               /w, otope, 其中之一] attn_received=0.012
+      pos=39 [       black] active=   98 promotes=[                ness, рус, bsd] attn_received=0.007
+      pos=40 [           .] active=   75 promotes=[                  QL, INI, ote] attn_received=0.005
+    L6 FFN → L7 Attn:
+      pos=32 [         cat] active=  834 promotes=[                   决定, 来做, 的因素] attn_received=0.034
+      pos=33 [        that] active=  870 promotes=[              Nes, bate, (prev] attn_received=0.035
+      pos=34 [         sat] active= 2444 promotes=[              Mercer, illac, 髻] attn_received=0.029
+      pos=35 [          on] active= 2340 promotes=[            zon, stro, opoulos] attn_received=0.022
+      pos=36 [         the] active=  204 promotes=[          odore, utmost, forth] attn_received=0.016
+      pos=37 [         mat] active= 1635 promotes=[                  vere, 受益, 之初] attn_received=0.010
+      pos=38 [          is] active=  637 promotes=[              仓, Version, indi] attn_received=0.020
+      pos=39 [       black] active=  964 promotes=[           /black, 精英, -yellow] attn_received=0.011
+      pos=40 [           .] active=  257 promotes=[               -call, 在那里, OMB] attn_received=0.008
+    L10 FFN → L11 Attn:
+      pos=32 [         cat] active= 2423 promotes=[              uden, Wolf, dove] attn_received=0.069
+      pos=33 [        that] active= 2805 promotes=[                 USA, ody, ODY] attn_received=0.040
+      pos=34 [         sat] active= 3875 promotes=[                  看好, 细则, _sid] attn_received=0.041
+      pos=35 [          on] active= 4396 promotes=[                     毛, .bb, 歌] attn_received=0.022
+      pos=36 [         the] active= 2514 promotes=[                _rng, .ef, oca] attn_received=0.010
+      pos=37 [         mat] active= 4096 promotes=[          catch, ballo, Browse] attn_received=0.016
+      pos=38 [          is] active= 2195 promotes=[ compositions, ssize, Division] attn_received=0.024
+      pos=39 [       black] active= 3379 promotes=[                   ingly, 絮, 跃] attn_received=0.010
+      pos=40 [           .] active= 1760 promotes=[               /^\, elay, itty] attn_received=0.010
+    L14 FFN → L15 Attn:
+      pos=32 [         cat] active= 2892 promotes=[               anel, cov, juan] attn_received=0.056
+      pos=33 [        that] active= 3661 promotes=[         _moves, moves, amount] attn_received=0.075
+      pos=34 [         sat] active= 3830 promotes=[                     接听, 骅, jm] attn_received=0.045
+      pos=35 [          on] active= 4253 promotes=[                 结构调整, 风尚, ign] attn_received=0.026
+      pos=36 [         the] active= 2530 promotes=[                    的梦想, 涉, 梦想] attn_received=0.017
+      pos=37 [         mat] active= 3336 promotes=[               _invoke, jm, 如意] attn_received=0.023
+      pos=38 [          is] active= 2823 promotes=[                  dau, 质, ="--] attn_received=0.031
+      pos=39 [       black] active= 3172 promotes=[                .upper, 甬, 所需要] attn_received=0.013
+      pos=40 [           .] active= 2375 promotes=[                    ishi, 置, ʊ] attn_received=0.007
+    L18 FFN → L19 Attn:
+      pos=32 [         cat] active= 3349 promotes=[             排毒, _CONTINUE, 的确] attn_received=0.053
+      pos=33 [        that] active= 3341 promotes=[                  uu, ;amp, ^=] attn_received=0.063
+      pos=34 [         sat] active= 3236 promotes=[                  (, 1, izzato] attn_received=0.052
+      pos=35 [          on] active= 3500 promotes=[                    ée, éli, 百] attn_received=0.036
+      pos=36 [         the] active= 2178 promotes=[                    野生, ?</, 举] attn_received=0.017
+      pos=37 [         mat] active= 3004 promotes=[                    imer, 拗, 食] attn_received=0.026
+      pos=38 [          is] active= 2887 promotes=[           currently, 让人们, すでに] attn_received=0.026
+      pos=39 [       black] active= 3500 promotes=[           imi, .SDK, nowledge] attn_received=0.019
+      pos=40 [           .] active= 2804 promotes=[          aled, escaped, uther] attn_received=0.008
+    L22 FFN → L23 Attn:
+      pos=32 [         cat] active= 5307 promotes=[         apult, PROPERTY, ford] attn_received=0.073
+      pos=33 [        that] active= 5337 promotes=[                  認識, 认识, Cata] attn_received=0.053
+      pos=34 [         sat] active= 5201 promotes=[             apult, /is, tered] attn_received=0.058
+      pos=35 [          on] active= 4754 promotes=[            behalf, /off, sert] attn_received=0.043
+      pos=36 [         the] active= 4610 promotes=[            这一点, blockSize, 上午] attn_received=0.019
+      pos=37 [         mat] active= 5126 promotes=[              iance, cef, itel] attn_received=0.025
+      pos=38 [          is] active= 5081 promotes=[                /is, otope, /w] attn_received=0.026
+      pos=39 [       black] active= 4614 promotes=[              ish, 不是一个, olini] attn_received=0.016
+      pos=40 [           .] active= 4468 promotes=[            结构调整, getMax, ktop] attn_received=0.008
+    L26 FFN → L27 Attn:
+      pos=32 [         cat] active= 7087 promotes=[                /cat, slept, 匍] attn_received=0.038
+      pos=33 [        that] active= 7012 promotes=[                    狗, 误, conf] attn_received=0.025
+      pos=34 [         sat] active= 7336 promotes=[                  logs, 窗口, 同意] attn_received=0.028
+      pos=35 [          on] active= 7216 promotes=[        平均, average, averaging] attn_received=0.016
+      pos=36 [         the] active= 7572 promotes=[                 橘, red, green] attn_received=0.006
+      pos=37 [         mat] active= 6895 promotes=[               ting, ters, ter] attn_received=0.010
+      pos=38 [          is] active= 7117 promotes=[                  cat, cats, 猫] attn_received=0.009
+      pos=39 [       black] active= 6370 promotes=[   coloured, colored, -colored] attn_received=0.006
+      pos=40 [           .] active= 5861 promotes=[          iate, Hãy, Determine] attn_received=0.007
+    L30 FFN → L31 Attn:
+      pos=32 [         cat] active= 8086 promotes=[                sleeps, 睡, pur] attn_received=0.034
+      pos=33 [        that] active= 8056 promotes=[             猎, hunting, hunts] attn_received=0.024
+      pos=34 [         sat] active= 8234 promotes=[                down, by, Down] attn_received=0.020
+      pos=35 [          on] active= 8303 promotes=[              lap, boxes, laps] attn_received=0.012
+      pos=36 [         the] active= 8599 promotes=[                lap, Lap, laps] attn_received=0.008
+      pos=37 [         mat] active= 7851 promotes=[       sleeps, Sleep, sleeping] attn_received=0.009
+      pos=38 [          is] active= 8198 promotes=[    sleeping, Sleeping, asleep] attn_received=0.009
+      pos=39 [       black] active= 7699 promotes=[            ewood, lit, -white] attn_received=0.004
+      pos=40 [           .] active= 7158 promotes=[               parse, 解析, Gram] attn_received=0.008
+    L33 FFN → L34 Attn:
+      pos=32 [         cat] active= 8858 promotes=[                    ch, b, ran] attn_received=0.039
+      pos=33 [        that] active= 8805 promotes=[                 own, Own, Own] attn_received=0.020
+      pos=34 [         sat] active= 8686 promotes=[              next, next, Next] attn_received=0.023
+      pos=35 [          on] active= 8675 promotes=[                 Mat, the, mat] attn_received=0.019
+      pos=36 [         the] active= 9120 promotes=[                 mat, Mat, Mat] attn_received=0.012
+      pos=37 [         mat] active= 8492 promotes=[                    ran, b, is] attn_received=0.014
+      pos=38 [          is] active= 8757 promotes=[              running, 软, soft] attn_received=0.008
+      pos=39 [       black] active= 7922 promotes=[                      .., ., .] attn_received=0.011
+      pos=40 [           .] active= 7820 promotes=[                       Be, , 1] attn_received=0.013
+
+  [null] "The cat that sat on the mat is black."
+    L0 FFN → L1 Attn:
+      pos=16 [         cat] active=   65 promotes=[        ting, apult, templates] attn_received=0.068
+      pos=17 [        that] active=   40 promotes=[               าย, jang, orris] attn_received=0.063
+      pos=18 [         sat] active=   58 promotes=[           ting, ellite, (...)] attn_received=0.047
+      pos=19 [          on] active=   91 promotes=[         /off, behalf, -policy] attn_received=0.031
+      pos=20 [         the] active=   26 promotes=[              offset, 部长, None] attn_received=0.173
+      pos=21 [         mat] active=   66 promotes=[          ting, rices, plotlib] attn_received=0.029
+      pos=22 [          is] active=   18 promotes=[                 otope, /w, nt] attn_received=0.024
+      pos=23 [       black] active=   38 promotes=[           smith, curr, /linux] attn_received=0.014
+      pos=24 [           .] active=   16 promotes=[         arro, Granted, arrant] attn_received=0.012
+    L3 FFN → L4 Attn:
+      pos=16 [         cat] active=  197 promotes=[                lesh, nge, nip] attn_received=0.068
+      pos=17 [        that] active=  126 promotes=[           barley, naire, ools] attn_received=0.043
+      pos=18 [         sat] active=  172 promotes=[             ##, ###, dominant] attn_received=0.035
+      pos=19 [          on] active=   91 promotes=[         /off, behalf, -demand] attn_received=0.015
+      pos=20 [         the] active=   11 promotes=[         clave, leine, correct] attn_received=0.268
+      pos=21 [         mat] active=  176 promotes=[                    olon, 气, 杞] attn_received=0.017
+      pos=22 [          is] active=  104 promotes=[                 /w, otope, nt] attn_received=0.014
+      pos=23 [       black] active=   88 promotes=[                 ness, 分工, emo] attn_received=0.008
+      pos=24 [           .] active=   62 promotes=[          腴, owie, HTMLElement] attn_received=0.006
+    L6 FFN → L7 Attn:
+      pos=16 [         cat] active= 1059 promotes=[                   所属, 官网, Bet] attn_received=0.029
+      pos=17 [        that] active= 1103 promotes=[          Nes, pellet, Exiting] attn_received=0.037
+      pos=18 [         sat] active= 2396 promotes=[              Mercer, illac, 髻] attn_received=0.028
+      pos=19 [          on] active= 2423 promotes=[             zon, stro, caster] attn_received=0.021
+      pos=20 [         the] active=  232 promotes=[            odore, ucz, utmost] attn_received=0.015
+      pos=21 [         mat] active= 1712 promotes=[                  vere, 之初, 一项] attn_received=0.011
+      pos=22 [          is] active=  614 promotes=[                hood, 对她, tier] attn_received=0.020
+      pos=23 [       black] active= 1110 promotes=[            /black, 精英, -black] attn_received=0.013
+      pos=24 [           .] active=  261 promotes=[         _callbacks, ules, kas] attn_received=0.006
+    L10 FFN → L11 Attn:
+      pos=16 [         cat] active= 2484 promotes=[             hunt, colon, uden] attn_received=0.063
+      pos=17 [        that] active= 3102 promotes=[           Confeder, ODY, Desc] attn_received=0.041
+      pos=18 [         sat] active= 3840 promotes=[        看好, LayoutManager, _df] attn_received=0.041
+      pos=19 [          on] active= 4434 promotes=[                       毛, 啄, 歌] attn_received=0.018
+      pos=20 [         the] active= 2541 promotes=[                  OE, 城市群, lea] attn_received=0.009
+      pos=21 [         mat] active= 4303 promotes=[                 ballo, LEE, 湾] attn_received=0.019
+      pos=22 [          is] active= 2202 promotes=[   compositions, searchable, 摸] attn_received=0.027
+      pos=23 [       black] active= 3623 promotes=[                    跃, 寻, inci] attn_received=0.012
+      pos=24 [           .] active= 1508 promotes=[             numbering, MAC, 符] attn_received=0.010
+    L14 FFN → L15 Attn:
+      pos=16 [         cat] active= 2257 promotes=[                 cái, PNG, zel] attn_received=0.072
+      pos=17 [        that] active= 3046 promotes=[               天下, consort, 定向] attn_received=0.070
+      pos=18 [         sat] active= 3810 promotes=[                yat, cente, 动员] attn_received=0.050
+      pos=19 [          on] active= 4154 promotes=[             芙, EXPECTED, ||||] attn_received=0.022
+      pos=20 [         the] active= 2667 promotes=[             就是在, ovie, ystack] attn_received=0.010
+      pos=21 [         mat] active= 3641 promotes=[                griev, 眼球, aqu] attn_received=0.023
+      pos=22 [          is] active= 2326 promotes=[                 质, isci, .low] attn_received=0.035
+      pos=23 [       black] active= 3612 promotes=[               orio, руб, abbr] attn_received=0.013
+      pos=24 [           .] active= 1826 promotes=[                 uire, 置, 人大常委] attn_received=0.009
+    L18 FFN → L19 Attn:
+      pos=16 [         cat] active= 2241 promotes=[            berman, itto, aleb] attn_received=0.058
+      pos=17 [        that] active= 2453 promotes=[                     代理人, 走, 참] attn_received=0.046
+      pos=18 [         sat] active= 3130 promotes=[               alon, alen, jim] attn_received=0.036
+      pos=19 [          on] active= 3525 promotes=[      starving, phia, Telegram] attn_received=0.028
+      pos=20 [         the] active= 1977 promotes=[                 赖以, Wisdom, 举] attn_received=0.018
+      pos=21 [         mat] active= 3345 promotes=[               巡航, flows, cano] attn_received=0.024
+      pos=22 [          is] active= 2701 promotes=[        omorphic, driven, rlen] attn_received=0.021
+      pos=23 [       black] active= 3410 promotes=[                天空, _pid, ucid] attn_received=0.016
+      pos=24 [           .] active= 2348 promotes=[                   IMP, 馘, ',(] attn_received=0.009
+    L22 FFN → L23 Attn:
+      pos=16 [         cat] active= 4578 promotes=[           apult, /cat, breeds] attn_received=0.078
+      pos=17 [        that] active= 4814 promotes=[                  应用场景, 枫, Vac] attn_received=0.055
+      pos=18 [         sat] active= 4933 promotes=[              apult, yer, inee] attn_received=0.059
+      pos=19 [          on] active= 4949 promotes=[        behalf, /off, boarding] attn_received=0.034
+      pos=20 [         the] active= 4221 promotes=[         /of, occasion, Triple] attn_received=0.019
+      pos=21 [         mat] active= 5096 promotes=[            ting, rices, apult] attn_received=0.033
+      pos=22 [          is] active= 4847 promotes=[               shal, 什么意思, ogo] attn_received=0.028
+      pos=23 [       black] active= 4795 promotes=[            -colored, COLOR, 색] attn_received=0.016
+      pos=24 [           .] active= 4379 promotes=[               transl, ksz, 他对] attn_received=0.011
+    L26 FFN → L27 Attn:
+      pos=16 [         cat] active= 6838 promotes=[                   猫咪, 狗, cats] attn_received=0.037
+      pos=17 [        that] active= 7597 promotes=[                cats, CAT, CAT] attn_received=0.022
+      pos=18 [         sat] active= 7780 promotes=[                 窗口, pine, vit] attn_received=0.038
+      pos=19 [          on] active= 7750 promotes=[                平均, log, verde] attn_received=0.014
+      pos=20 [         the] active= 7669 promotes=[               橘, verde, green] attn_received=0.005
+      pos=21 [         mat] active= 6675 promotes=[               ters, ting, ter] attn_received=0.012
+      pos=22 [          is] active= 6738 promotes=[                蓝色, blue, coat] attn_received=0.010
+      pos=23 [       black] active= 6503 promotes=[         coloured, colored, 蓝色] attn_received=0.007
+      pos=24 [           .] active= 5793 promotes=[                  omic, ze, 名词] attn_received=0.007
+    L30 FFN → L31 Attn:
+      pos=16 [         cat] active= 7972 promotes=[                pur, jump, cat] attn_received=0.030
+      pos=17 [        that] active= 8624 promotes=[             猎, lived, catches] attn_received=0.016
+      pos=18 [         sat] active= 8774 promotes=[                    by, by, By] attn_received=0.018
+      pos=19 [          on] active= 8755 promotes=[                  巴斯, lap, LAP] attn_received=0.013
+      pos=20 [         the] active= 8730 promotes=[                 lap, LAP, Lap] attn_received=0.008
+      pos=21 [         mat] active= 7774 promotes=[               跳, sleeps, jump] attn_received=0.012
+      pos=22 [          is] active= 7966 promotes=[      sleeps, sleeping, asleep] attn_received=0.011
+      pos=23 [       black] active= 7871 promotes=[                  cat, .cat, 猫] attn_received=0.009
+      pos=24 [           .] active= 7019 promotes=[                cat, cats, Cat] attn_received=0.008
+    L33 FFN → L34 Attn:
+      pos=16 [         cat] active= 8751 promotes=[                ran, sat, hung] attn_received=0.036
+      pos=17 [        that] active= 9007 promotes=[                    's, ’s, ‘s] attn_received=0.016
+      pos=18 [         sat] active= 9151 promotes=[             next, .next, next] attn_received=0.023
+      pos=19 [          on] active= 9041 promotes=[                 Mat, MAT, mat] attn_received=0.023
+      pos=20 [         the] active= 9262 promotes=[                 mat, mat, Mat] attn_received=0.012
+      pos=21 [         mat] active= 8382 promotes=[              next, met, .next] attn_received=0.022
+      pos=22 [          is] active= 8659 promotes=[            old, next, covered] attn_received=0.010
+      pos=23 [       black] active= 8243 promotes=[                       (, ., .] attn_received=0.010
+      pos=24 [           .] active= 7745 promotes=[                  Her, She, Is] attn_received=0.012
+
+  [compile] "If it rains, the ground is wet."
+    L0 FFN → L1 Attn:
+      pos=32 [          it] active=   42 promotes=[               inerary, chy, 們] attn_received=0.044
+      pos=33 [       rains] active=  170 promotes=[         forest, ystem, upport] attn_received=0.064
+      pos=34 [           ,] active=   21 promotes=[                adier, 或者说, 所以] attn_received=0.168
+      pos=35 [         the] active=   22 promotes=[           epy, oret, oretical] attn_received=0.071
+      pos=36 [      ground] active=   65 promotes=[            姊妹, 廓, .Annotation] attn_received=0.042
+      pos=37 [          is] active=   20 promotes=[                otope, /is, /w] attn_received=0.020
+      pos=38 [         wet] active=   74 promotes=[                ting, ted, ron] attn_received=0.015
+      pos=39 [           .] active=   11 promotes=[           arrant, 结果, Granted] attn_received=0.010
+    L3 FFN → L4 Attn:
+      pos=32 [          it] active=  105 promotes=[        inerary, AsString, RAD] attn_received=0.031
+      pos=33 [       rains] active=  159 promotes=[            bows, Rain, washed] attn_received=0.044
+      pos=34 [           ,] active=   18 promotes=[        udget, 凡本网, createForm] attn_received=0.178
+      pos=35 [         the] active=   80 promotes=[          relative, 相对, entire] attn_received=0.030
+      pos=36 [      ground] active=  117 promotes=[                   MZ, 的人物, HZ] attn_received=0.033
+      pos=37 [          is] active=   57 promotes=[                /w, /is, otope] attn_received=0.013
+      pos=38 [         wet] active=  122 promotes=[      cop, complementary, *cos] attn_received=0.005
+      pos=39 [           .] active=   79 promotes=[                    腐, QL, 存在的] attn_received=0.005
+    L6 FFN → L7 Attn:
+      pos=32 [          it] active=  511 promotes=[                afs, anos, صلا] attn_received=0.019
+      pos=33 [       rains] active= 1780 promotes=[                 也只有, ­ing, 三期] attn_received=0.029
+      pos=34 [           ,] active=  587 promotes=[              clad, rium, Mits] attn_received=0.039
+      pos=35 [         the] active=  560 promotes=[                原有的, 超额, assen] attn_received=0.026
+      pos=36 [      ground] active= 1030 promotes=[                 BOR, wers, Fi] attn_received=0.022
+      pos=37 [          is] active=  658 promotes=[              打着, iera, anders] attn_received=0.012
+      pos=38 [         wet] active= 1772 promotes=[               ഴ, бол, sitemap] attn_received=0.010
+      pos=39 [           .] active=  256 promotes=[                  在那里, 细则, daq] attn_received=0.008
+    L10 FFN → L11 Attn:
+      pos=32 [          it] active= 2003 promotes=[            removeAll, ér, BAT] attn_received=0.025
+      pos=33 [       rains] active= 3076 promotes=[                   Afr, 垂, (TM] attn_received=0.061
+      pos=34 [           ,] active= 2209 promotes=[             omba, owo, Legacy] attn_received=0.050
+      pos=35 [         the] active= 1755 promotes=[             发明, CIA, chaining] attn_received=0.023
+      pos=36 [      ground] active= 3628 promotes=[                 oden, 深处, afs] attn_received=0.027
+      pos=37 [          is] active= 2896 promotes=[          akte, bell, subrange] attn_received=0.010
+      pos=38 [         wet] active= 3851 promotes=[           Wizards, thirsty, 占] attn_received=0.014
+      pos=39 [           .] active= 1955 promotes=[                   bomb, 三层, 摭] attn_received=0.009
+    L14 FFN → L15 Attn:
+      pos=32 [          it] active= 2317 promotes=[                ptest, 研究报告, 孤] attn_received=0.036
+      pos=33 [       rains] active= 2944 promotes=[                   Bry, 成功的, 苔] attn_received=0.058
+      pos=34 [           ,] active= 2674 promotes=[              bsite, Alone, 坐着] attn_received=0.062
+      pos=35 [         the] active= 2246 promotes=[              .lazy, ihu, cken] attn_received=0.026
+      pos=36 [      ground] active= 3785 promotes=[               行程, cong, istro] attn_received=0.021
+      pos=37 [          is] active= 2777 promotes=[                   档, 一件事, 零距离] attn_received=0.013
+      pos=38 [         wet] active= 4047 promotes=[             风口, estatus, Firm] attn_received=0.011
+      pos=39 [           .] active= 2338 promotes=[                     不锈, 杉, 睁开] attn_received=0.009
+    L18 FFN → L19 Attn:
+      pos=32 [          it] active= 2537 promotes=[                 Jame, 在路上, ve] attn_received=0.036
+      pos=33 [       rains] active= 3067 promotes=[                 yp, MAND, Sak] attn_received=0.058
+      pos=34 [           ,] active= 2993 promotes=[            endir, staking, 牵挂] attn_received=0.039
+      pos=35 [         the] active= 2724 promotes=[                  alu, iler, 豕] attn_received=0.027
+      pos=36 [      ground] active= 3398 promotes=[        $($, waterfall, unlock] attn_received=0.024
+      pos=37 [          is] active= 3152 promotes=[                yle, yp, escap] attn_received=0.017
+      pos=38 [         wet] active= 3813 promotes=[                iser, $($, cab] attn_received=0.013
+      pos=39 [           .] active= 2997 promotes=[                     攘, áf, 划定] attn_received=0.008
+    L22 FFN → L23 Attn:
+      pos=32 [          it] active= 4938 promotes=[           unes, inerary, iner] attn_received=0.040
+      pos=33 [       rains] active= 4912 promotes=[                ucc, cape, mam] attn_received=0.063
+      pos=34 [           ,] active= 5059 promotes=[                ourg, Lots, 还是] attn_received=0.042
+      pos=35 [         the] active= 5164 promotes=[                 BD, 也不敢, oure] attn_received=0.032
+      pos=36 [      ground] active= 5110 promotes=[                _truth, hog, 濡] attn_received=0.046
+      pos=37 [          is] active= 5241 promotes=[               otope, /is, uzu] attn_received=0.017
+      pos=38 [         wet] active= 4889 promotes=[               NESS, jen, ness] attn_received=0.012
+      pos=39 [           .] active= 4638 promotes=[                他认为, ubble, 总有] attn_received=0.009
+    L26 FFN → L27 Attn:
+      pos=32 [          it] active= 7112 promotes=[                     chy, 罢, 贴] attn_received=0.016
+      pos=33 [       rains] active= 6966 promotes=[              umbrella, Umb, 伞] attn_received=0.030
+      pos=34 [           ,] active= 7472 promotes=[          then, entonces, then] attn_received=0.016
+      pos=35 [         the] active= 7513 promotes=[        umbrella, shelter, Umb] attn_received=0.013
+      pos=36 [      ground] active= 6993 promotes=[             conf, licative, 昶] attn_received=0.015
+      pos=37 [          is] active= 7389 promotes=[              -Mart, onte, -pt] attn_received=0.005
+      pos=38 [         wet] active= 6895 promotes=[             ting, tings, TING] attn_received=0.005
+      pos=39 [           .] active= 6303 promotes=[            .ft, Replace, gilt] attn_received=0.008
+    L30 FFN → L31 Attn:
+      pos=32 [          it] active= 7966 promotes=[                rain, 雨, rains] attn_received=0.014
+      pos=33 [       rains] active= 7701 promotes=[               hard, 硬, harder] attn_received=0.025
+      pos=34 [           ,] active= 8003 promotes=[          _go, grandfather, 父子] attn_received=0.016
+      pos=35 [         the] active= 8187 promotes=[         crops, ground, garden] attn_received=0.012
+      pos=36 [      ground] active= 8132 promotes=[               soak, soaked, 浸] attn_received=0.012
+      pos=37 [          is] active= 8477 promotes=[                     wet, 濡, 湿] attn_received=0.006
+      pos=38 [         wet] active= 7576 promotes=[                ting, ted, ten] attn_received=0.006
+      pos=39 [           .] active= 7340 promotes=[                rain, Rain, 雨水] attn_received=0.007
+    L33 FFN → L34 Attn:
+      pos=32 [          it] active= 8810 promotes=[                     r, 's, ’s] attn_received=0.015
+      pos=33 [       rains] active= 8209 promotes=[                     ,, , next] attn_received=0.029
+      pos=34 [           ,] active= 8296 promotes=[                    �, ent, go] attn_received=0.022
+      pos=35 [         the] active= 8564 promotes=[             ter, class, match] attn_received=0.013
+      pos=36 [      ground] active= 8718 promotes=[              is, get, changes] attn_received=0.018
+      pos=37 [          is] active= 8894 promotes=[            certain, going, st] attn_received=0.008
+      pos=38 [         wet] active= 7916 promotes=[                       ., ., .] attn_received=0.018
+      pos=39 [           .] active= 7988 promotes=[                     Be, And, ] attn_received=0.014
+
+  [null] "If it rains, the ground is wet."
+    L0 FFN → L1 Attn:
+      pos=16 [          it] active=   46 promotes=[               inerary, chy, 們] attn_received=0.048
+      pos=17 [       rains] active=  142 promotes=[                ystem, dre, ax] attn_received=0.071
+      pos=18 [           ,] active=   18 promotes=[             adier, offset, 所以] attn_received=0.182
+      pos=19 [         the] active=   21 promotes=[           oret, oretical, epy] attn_received=0.079
+      pos=20 [      ground] active=   80 promotes=[          .Annotation, 姊妹, 必要的] attn_received=0.044
+      pos=21 [          is] active=   25 promotes=[                otope, /is, /w] attn_received=0.021
+      pos=22 [         wet] active=   81 promotes=[                ting, ted, ron] attn_received=0.016
+      pos=23 [           .] active=   15 promotes=[          Granted, Granted, 结果] attn_received=0.012
+    L3 FFN → L4 Attn:
+      pos=16 [          it] active=  125 promotes=[        inerary, AsString, FIG] attn_received=0.037
+      pos=17 [       rains] active=  154 promotes=[                bows, Rain, 斯顿] attn_received=0.050
+      pos=18 [           ,] active=   15 promotes=[         丝毫不, 一个新的, createForm] attn_received=0.216
+      pos=19 [         the] active=   62 promotes=[                  相对, 严肃, most] attn_received=0.038
+      pos=20 [      ground] active=  112 promotes=[                   的人物, 和他的, 莽] attn_received=0.036
+      pos=21 [          is] active=   54 promotes=[                /w, /is, otope] attn_received=0.016
+      pos=22 [         wet] active=  116 promotes=[            cop, /board, liest] attn_received=0.005
+      pos=23 [           .] active=   73 promotes=[             存在的, 并通过, ritable] attn_received=0.006
+    L6 FFN → L7 Attn:
+      pos=16 [          it] active=  620 promotes=[         setItem, licable, afs] attn_received=0.019
+      pos=17 [       rains] active= 2132 promotes=[                也只有, 最少, brown] attn_received=0.031
+      pos=18 [           ,] active=  731 promotes=[                 =sc, 魅, umber] attn_received=0.037
+      pos=19 [         the] active=  598 promotes=[            _wr, umber, _REFER] attn_received=0.024
+      pos=20 [      ground] active= 1091 promotes=[                 BOR, -fi, -Fi] attn_received=0.021
+      pos=21 [          is] active=  699 promotes=[                    兔, 打着, zaj] attn_received=0.012
+      pos=22 [         wet] active= 2141 promotes=[         customize, sitemap, ഴ] attn_received=0.011
+      pos=23 [           .] active=  303 promotes=[            在那里, callbacks, 排毒] attn_received=0.006
+    L10 FFN → L11 Attn:
+      pos=16 [          it] active= 2015 promotes=[                 瓠, 朗, Declare] attn_received=0.038
+      pos=17 [       rains] active= 3253 promotes=[                    雨水, (TM, 雨] attn_received=0.066
+      pos=18 [           ,] active= 2362 promotes=[                boro, omba, 公民] attn_received=0.043
+      pos=19 [         the] active= 1775 promotes=[              echa, hall, airo] attn_received=0.023
+      pos=20 [      ground] active= 3658 promotes=[                  cntl, 深处, XP] attn_received=0.028
+      pos=21 [          is] active= 3161 promotes=[             Earl, central, 头条] attn_received=0.009
+      pos=22 [         wet] active= 3907 promotes=[    Wizards, thirsty, plotting] attn_received=0.014
+      pos=23 [           .] active= 1880 promotes=[         matcher, 匹配, matching] attn_received=0.010
+    L14 FFN → L15 Attn:
+      pos=16 [          it] active= 1918 promotes=[               füh, odesk, =db] attn_received=0.023
+      pos=17 [       rains] active= 3079 promotes=[                   win, ets, 苔] attn_received=0.066
+      pos=18 [           ,] active= 2535 promotes=[       bpp, drops, searchModel] attn_received=0.065
+      pos=19 [         the] active= 2415 promotes=[      bpp, =read, _constructor] attn_received=0.033
+      pos=20 [      ground] active= 3884 promotes=[                  止, 方言, burst] attn_received=0.016
+      pos=21 [          is] active= 3306 promotes=[                   下乡, 后的, \\\] attn_received=0.014
+      pos=22 [         wet] active= 4329 promotes=[              estatus, INCT, 铎] attn_received=0.011
+      pos=23 [           .] active= 2417 promotes=[    transplantation, Dzi, !");] attn_received=0.011
+    L18 FFN → L19 Attn:
+      pos=16 [          it] active= 1592 promotes=[              eos, rev, pheric] attn_received=0.027
+      pos=17 [       rains] active= 2869 promotes=[                 aris, 充沛, <=>] attn_received=0.060
+      pos=18 [           ,] active= 2720 promotes=[                  自学, <=>, дор] attn_received=0.041
+      pos=19 [         the] active= 2251 promotes=[                荟, odore, dere] attn_received=0.026
+      pos=20 [      ground] active= 3477 promotes=[                $($, cuc, _mux] attn_received=0.021
+      pos=21 [          is] active= 3226 promotes=[              zl, thermal, $($] attn_received=0.015
+      pos=22 [         wet] active= 4197 promotes=[           $($, indeed, locked] attn_received=0.017
+      pos=23 [           .] active= 2815 promotes=[                 Taken, 埕, <=>] attn_received=0.013
+    L22 FFN → L23 Attn:
+      pos=16 [          it] active= 4516 promotes=[           unes, iner, inerary] attn_received=0.034
+      pos=17 [       rains] active= 4824 promotes=[                明天, utor, cape] attn_received=0.065
+      pos=18 [           ,] active= 4843 promotes=[                   我会, 渥, enne] attn_received=0.046
+      pos=19 [         the] active= 4756 promotes=[                 IDA, pena, 灵感] attn_received=0.039
+      pos=20 [      ground] active= 5094 promotes=[                 濡, ту, _truth] attn_received=0.038
+      pos=21 [          is] active= 5443 promotes=[                otope, /is, og] attn_received=0.017
+      pos=22 [         wet] active= 5105 promotes=[               NESS, ourg, NES] attn_received=0.013
+      pos=23 [           .] active= 4872 promotes=[               /apple, 汰, icut] attn_received=0.014
+    L26 FFN → L27 Attn:
+      pos=16 [          it] active= 6892 promotes=[         iner, remains, Towers] attn_received=0.013
+      pos=17 [       rains] active= 7000 promotes=[                umbrella, 伞, 淋] attn_received=0.028
+      pos=18 [           ,] active= 7375 promotes=[         then, entonces, _then] attn_received=0.019
+      pos=19 [         the] active= 7301 promotes=[         umbrella, shades, Umb] attn_received=0.016
+      pos=20 [      ground] active= 6935 promotes=[                    停工, 溅, rep] attn_received=0.015
+      pos=21 [          is] active= 7434 promotes=[         detained, fone, gency] attn_received=0.006
+      pos=22 [         wet] active= 6857 promotes=[              tings, 这是因为, 是因为] attn_received=0.007
+      pos=23 [           .] active= 6489 promotes=[                Lazar, 三年, 今日は] attn_received=0.007
+    L30 FFN → L31 Attn:
+      pos=16 [          it] active= 7874 promotes=[                rain, 雨, rains] attn_received=0.013
+      pos=17 [       rains] active= 7908 promotes=[                 hard, 硬, hard] attn_received=0.023
+      pos=18 [           ,] active= 7977 promotes=[              然, 最基本, athletic] attn_received=0.017
+      pos=19 [         the] active= 8179 promotes=[        picnic, pool, activity] attn_received=0.017
+      pos=20 [      ground] active= 8183 promotes=[            soak, soaked, gets] attn_received=0.012
+      pos=21 [          is] active= 8521 promotes=[                   濡, wet, mol] attn_received=0.006
+      pos=22 [         wet] active= 7759 promotes=[                ting, ter, ted] attn_received=0.007
+      pos=23 [           .] active= 7463 promotes=[              rain, Rain, Rain] attn_received=0.010
+    L33 FFN → L34 Attn:
+      pos=16 [          it] active= 8521 promotes=[                     r, 's, ’s] attn_received=0.015
+      pos=17 [       rains] active= 8423 promotes=[                     ,, , next] attn_received=0.028
+      pos=18 [           ,] active= 8299 promotes=[       classes, class, Classes] attn_received=0.027
+      pos=19 [         the] active= 8544 promotes=[          match, class, -match] attn_received=0.017
+      pos=20 [      ground] active= 8779 promotes=[               w, get, changes] attn_received=0.019
+      pos=21 [          is] active= 8908 promotes=[          going, most, certain] attn_received=0.009
+      pos=22 [         wet] active= 7968 promotes=[                     ter, ., .] attn_received=0.013
+      pos=23 [           .] active= 8033 promotes=[                   Her, Is, So] attn_received=0.010
+
+  [compile] "Someone believes that the earth is flat."
+    L0 FFN → L1 Attn:
+      pos=32 [    believes] active=   97 promotes=[          heet, ppe, Salisbury] attn_received=0.067
+      pos=33 [        that] active=   51 promotes=[                 很重要, 助理, ancy] attn_received=0.045
+      pos=34 [         the] active=   21 promotes=[               ignor, KB, None] attn_received=0.210
+      pos=35 [       earth] active=   92 promotes=[                 rise, 的朋友, 适度] attn_received=0.046
+      pos=36 [          is] active=   20 promotes=[                otope, /w, /is] attn_received=0.027
+      pos=37 [        flat] active=   49 promotes=[             ting, cies, ulent] attn_received=0.020
+      pos=38 [           .] active=   15 promotes=[           arrant, arro, empor] attn_received=0.015
+    L3 FFN → L4 Attn:
+      pos=32 [    believes] active=  137 promotes=[               Fasc, “, elling] attn_received=0.052
+      pos=33 [        that] active=   99 promotes=[            alone, ellen, 伙伴关系] attn_received=0.030
+      pos=34 [         the] active=    9 promotes=[           iguiente, 率先, AGING] attn_received=0.278
+      pos=35 [       earth] active=  135 promotes=[                        比, s, ] attn_received=0.046
+      pos=36 [          is] active=  102 promotes=[             /w, htar, ometric] attn_received=0.014
+      pos=37 [        flat] active=  123 promotes=[        oup, indifference, gua] attn_received=0.007
+      pos=38 [           .] active=   80 promotes=[                    QL, KEN, 腴] attn_received=0.007
+    L6 FFN → L7 Attn:
+      pos=32 [    believes] active=  988 promotes=[                 wal, хи, igne] attn_received=0.060
+      pos=33 [        that] active=  860 promotes=[                    人と, 兵团, 人的] attn_received=0.037
+      pos=34 [         the] active=  179 promotes=[  forth, aforementioned, odore] attn_received=0.021
+      pos=35 [       earth] active=  921 promotes=[                 <![, His, mit] attn_received=0.025
+      pos=36 [          is] active=  847 promotes=[               brit, Kitt, mej] attn_received=0.014
+      pos=37 [        flat] active= 2273 promotes=[                   �, ugin, 秘书] attn_received=0.013
+      pos=38 [           .] active=  282 promotes=[               在那里, iani, emas] attn_received=0.009
+    L10 FFN → L11 Attn:
+      pos=32 [    believes] active= 3291 promotes=[                    ñe, PFN, 墅] attn_received=0.076
+      pos=33 [        that] active= 2605 promotes=[                  ñe, 酆, ehler] attn_received=0.034
+      pos=34 [         the] active= 1644 promotes=[                izzle, iju, 才行] attn_received=0.016
+      pos=35 [       earth] active= 3152 promotes=[                sport, 出来了, 共享] attn_received=0.030
+      pos=36 [          is] active= 2909 promotes=[            amus, 自在, _batches] attn_received=0.015
+      pos=37 [        flat] active= 3883 promotes=[               Cit, rama, anko] attn_received=0.019
+      pos=38 [           .] active= 1819 promotes=[               顾, _THEME, omon] attn_received=0.008
+    L14 FFN → L15 Attn:
+      pos=32 [    believes] active= 3095 promotes=[                  加快, ange, ục] attn_received=0.088
+      pos=33 [        that] active= 2628 promotes=[         _magic, recall, ework] attn_received=0.045
+      pos=34 [         the] active= 1813 promotes=[                  梦想, bove, tx] attn_received=0.025
+      pos=35 [       earth] active= 3152 promotes=[          会员, 下来, _integration] attn_received=0.034
+      pos=36 [          is] active= 2774 promotes=[              ela, 在里面, ulture] attn_received=0.014
+      pos=37 [        flat] active= 3943 promotes=[        ignorance, 晚报, needing] attn_received=0.016
+      pos=38 [           .] active= 2219 promotes=[        translating, _PW, iche] attn_received=0.008
+    L18 FFN → L19 Attn:
+      pos=32 [    believes] active= 3299 promotes=[                 abi, 的女儿, Tro] attn_received=0.076
+      pos=33 [        that] active= 2756 promotes=[                    纪念碑, 跛, 不开] attn_received=0.039
+      pos=34 [         the] active= 1952 promotes=[                 野生, lean, 老人家] attn_received=0.024
+      pos=35 [       earth] active= 2899 promotes=[              _HARD, driven, 戮] attn_received=0.030
+      pos=36 [          is] active= 2781 promotes=[          driven, otropic, zig] attn_received=0.022
+      pos=37 [        flat] active= 4028 promotes=[                  $($, 厩, slee] attn_received=0.017
+      pos=38 [           .] active= 2804 promotes=[                       帛, 吁, 牵] attn_received=0.010
+    L22 FFN → L23 Attn:
+      pos=32 [    believes] active= 5057 promotes=[              有所帮助, 是非, Assass] attn_received=0.081
+      pos=33 [        that] active= 4826 promotes=[                 ective, 识别, 識] attn_received=0.049
+      pos=34 [         the] active= 4405 promotes=[             odore, Bean, odor] attn_received=0.032
+      pos=35 [       earth] active= 5016 promotes=[                 s, fall, rise] attn_received=0.059
+      pos=36 [          is] active= 4903 promotes=[                /is, 蟹, indeed] attn_received=0.019
+      pos=37 [        flat] active= 5013 promotes=[               :///, nes, ropy] attn_received=0.020
+      pos=38 [           .] active= 4557 promotes=[       ubbles, OfDay, /english] attn_received=0.010
+    L26 FFN → L27 Attn:
+      pos=32 [    believes] active= 7053 promotes=[             linger, afe, olds] attn_received=0.028
+      pos=33 [        that] active= 6952 promotes=[   .toUpperCase, Author, Автор] attn_received=0.019
+      pos=34 [         the] active= 6966 promotes=[              dog, ses, ghosts] attn_received=0.010
+      pos=35 [       earth] active= 7471 promotes=[                   ��, 昼夜, isd] attn_received=0.017
+      pos=36 [          is] active= 7607 promotes=[          shape, Shape, _shape] attn_received=0.005
+      pos=37 [        flat] active= 6563 promotes=[           worm, ulent, ulence] attn_received=0.005
+      pos=38 [           .] active= 5851 promotes=[             formal, Alone, 正式] attn_received=0.009
+    L30 FFN → L31 Attn:
+      pos=32 [    believes] active= 7951 promotes=[proposition, propositions, that] attn_received=0.026
+      pos=33 [        that] active= 7947 promotes=[proposition, propositions, logical] attn_received=0.020
+      pos=34 [         the] active= 7929 promotes=[           Earth, world, earth] attn_received=0.015
+      pos=35 [       earth] active= 8425 promotes=[          round, rounds, Round] attn_received=0.016
+      pos=36 [          is] active= 8580 promotes=[          round, Round, rounds] attn_received=0.009
+      pos=37 [        flat] active= 7572 promotes=[              round, ERR, stub] attn_received=0.006
+      pos=38 [           .] active= 7058 promotes=[              gram, Gram, gram] attn_received=0.010
+    L33 FFN → L34 Attn:
+      pos=32 [    believes] active= 8165 promotes=[                   her, that, ] attn_received=0.038
+      pos=33 [        that] active= 8390 promotes=[                   Pen, su, qu] attn_received=0.022
+      pos=34 [         the] active= 8231 promotes=[               Prime, ter, mut] attn_received=0.021
+      pos=35 [       earth] active= 8927 promotes=[                  is, st, used] attn_received=0.022
+      pos=36 [          is] active= 9081 promotes=[          round, Round, -round] attn_received=0.009
+      pos=37 [        flat] active= 7935 promotes=[                     ., ., and] attn_received=0.017
+      pos=38 [           .] active= 7840 promotes=[                   Be, Is, And] attn_received=0.017
+
+  [null] "Someone believes that the earth is flat."
+    L0 FFN → L1 Attn:
+      pos=16 [    believes] active=  103 promotes=[          heet, ppe, Salisbury] attn_received=0.070
+      pos=17 [        that] active=   70 promotes=[                 很重要, 助理, ancy] attn_received=0.048
+      pos=18 [         the] active=   20 promotes=[                 None, 当时的, KB] attn_received=0.231
+      pos=19 [       earth] active=   96 promotes=[                 rise, MAD, 增量] attn_received=0.052
+      pos=20 [          is] active=   28 promotes=[                 otope, /w, nt] attn_received=0.029
+      pos=21 [        flat] active=   56 promotes=[             ting, cies, staff] attn_received=0.022
+      pos=22 [           .] active=   18 promotes=[      arrant, Granted, Granted] attn_received=0.018
+    L3 FFN → L4 Attn:
+      pos=16 [    believes] active=  126 promotes=[            elling, eller, ELL] attn_received=0.061
+      pos=17 [        that] active=   86 promotes=[           alone, ellen, otron] attn_received=0.029
+      pos=18 [         the] active=   11 promotes=[                RIX, 真正做到, PRI] attn_received=0.340
+      pos=19 [       earth] active=  117 promotes=[                  erland, 比, s] attn_received=0.048
+      pos=20 [          is] active=   83 promotes=[               /w, htar, otope] attn_received=0.014
+      pos=21 [        flat] active=  114 promotes=[        oup, indifference, AFC] attn_received=0.007
+      pos=22 [           .] active=   73 promotes=[                   腴, 并通过, vis] attn_received=0.007
+    L6 FFN → L7 Attn:
+      pos=16 [    believes] active= 1035 promotes=[                otron, (SS, EA] attn_received=0.056
+      pos=17 [        that] active=  949 promotes=[                 AFE, 有害, /org] attn_received=0.036
+      pos=18 [         the] active=  214 promotes=[  aforementioned, forth, odore] attn_received=0.019
+      pos=19 [       earth] active=  938 promotes=[                /IP, <![, beit] attn_received=0.024
+      pos=20 [          is] active=  858 promotes=[              brit, eria, 独一无二] attn_received=0.012
+      pos=21 [        flat] active= 2272 promotes=[                      �, 秘书, 俊] attn_received=0.015
+      pos=22 [           .] active=  355 promotes=[     _callbacks, entin, halves] attn_received=0.007
+    L10 FFN → L11 Attn:
+      pos=16 [    believes] active= 3133 promotes=[                   vest, 大咖, 殓] attn_received=0.065
+      pos=17 [        that] active= 2685 promotes=[                  .tk, 地方政府, 椟] attn_received=0.030
+      pos=18 [         the] active= 1692 promotes=[               rale, MUT, opsy] attn_received=0.017
+      pos=19 [       earth] active= 3107 promotes=[                共享, .shared, 护] attn_received=0.034
+      pos=20 [          is] active= 3012 promotes=[           .dispatch, round, 育] attn_received=0.017
+      pos=21 [        flat] active= 4188 promotes=[                 anko, bt, din] attn_received=0.027
+      pos=22 [           .] active= 2051 promotes=[  Transition, otel, Transition] attn_received=0.011
+    L14 FFN → L15 Attn:
+      pos=16 [    believes] active= 2106 promotes=[        遭遇, ALA, .EventHandler] attn_received=0.076
+      pos=17 [        that] active= 2070 promotes=[                 逢, dating, 充实] attn_received=0.040
+      pos=18 [         the] active= 1649 promotes=[                  tx, sys, tro] attn_received=0.018
+      pos=19 [       earth] active= 2752 promotes=[                скач, Lê, sink] attn_received=0.036
+      pos=20 [          is] active= 3035 promotes=[                   vol, 网讯, 到账] attn_received=0.017
+      pos=21 [        flat] active= 4460 promotes=[               _seqs, dff, yms] attn_received=0.020
+      pos=22 [           .] active= 2861 promotes=[                    quat, 毛, 结] attn_received=0.013
+    L18 FFN → L19 Attn:
+      pos=16 [    believes] active= 2210 promotes=[                 Witch, rå, 与众] attn_received=0.056
+      pos=17 [        that] active= 2086 promotes=[              aris, ystate, 预见] attn_received=0.023
+      pos=18 [         the] active= 1114 promotes=[                 老人家, lean, 期刊] attn_received=0.020
+      pos=19 [       earth] active= 2648 promotes=[           melon, .samples, ナン] attn_received=0.036
+      pos=20 [          is] active= 2868 promotes=[       ago, IfExists, collapse] attn_received=0.012
+      pos=21 [        flat] active= 4252 promotes=[         ://, Reviewed, _maker] attn_received=0.025
+      pos=22 [           .] active= 3062 promotes=[                   BED, 赈, Kun] attn_received=0.012
+    L22 FFN → L23 Attn:
+      pos=16 [    believes] active= 4341 promotes=[     passionately, ignet, rằng] attn_received=0.071
+      pos=17 [        that] active= 4170 promotes=[        stimulating, 見た, arent] attn_received=0.047
+      pos=18 [         the] active= 3622 promotes=[       ocratic, underlying, od] attn_received=0.026
+      pos=19 [       earth] active= 4629 promotes=[                  s, rise, isl] attn_received=0.054
+      pos=20 [          is] active= 4772 promotes=[                .robot, 最好, og] attn_received=0.020
+      pos=21 [        flat] active= 4938 promotes=[             -headed, :/, ones] attn_received=0.023
+      pos=22 [           .] active= 4647 promotes=[               oram, 我们认为, ysi] attn_received=0.012
+    L26 FFN → L27 Attn:
+      pos=16 [    believes] active= 6290 promotes=[              myths, myth, UBL] attn_received=0.034
+      pos=17 [        that] active= 5739 promotes=[                  举, ylan, },"] attn_received=0.024
+      pos=18 [         the] active= 5333 promotes=[      reason, probability, ses] attn_received=0.010
+      pos=19 [       earth] active= 7220 promotes=[              昼夜, Flat, theory] attn_received=0.019
+      pos=20 [          is] active= 7374 promotes=[              Flat, flat, Flat] attn_received=0.004
+      pos=21 [        flat] active= 6698 promotes=[                worm, 阴, ulent] attn_received=0.008
+      pos=22 [           .] active= 6324 promotes=[                怎么办, How, 该怎么办] attn_received=0.010
+    L30 FFN → L31 Attn:
+      pos=16 [    believes] active= 7527 promotes=[      that, proposition, false] attn_received=0.020
+      pos=17 [        that] active= 7279 promotes=[staying, cryptocurrency, eating] attn_received=0.019
+      pos=18 [         the] active= 7031 promotes=[           Earth, world, earth] attn_received=0.015
+      pos=19 [       earth] active= 8414 promotes=[          round, rounds, Round] attn_received=0.018
+      pos=20 [          is] active= 8520 promotes=[          round, Round, -round] attn_received=0.008
+      pos=21 [        flat] active= 7634 promotes=[                 星球, round, 一圈] attn_received=0.008
+      pos=22 [           .] active= 7510 promotes=[          what, Should, should] attn_received=0.008
+    L33 FFN → L34 Attn:
+      pos=16 [    believes] active= 7921 promotes=[                      X, x, in] attn_received=0.029
+      pos=17 [        that] active= 7625 promotes=[                       , if, I] attn_received=0.021
+      pos=18 [         the] active= 7071 promotes=[           after, after, After] attn_received=0.019
+      pos=19 [       earth] active= 8898 promotes=[                used, is, used] attn_received=0.023
+      pos=20 [          is] active= 9008 promotes=[              much, Much, Much] attn_received=0.011
+      pos=21 [        flat] active= 8004 promotes=[                       ., ., ,] attn_received=0.015
+      pos=22 [           .] active= 7969 promotes=[                    Am, Is, My] attn_received=0.012
+
+========================================================================
+POSITION-LEVEL REDUCTION SIGNATURE
+========================================================================
+Looking for β-reduction signatures: do function/argument positions
+show different neuron activation patterns?
+
+
+  "The dog runs."
+
+    L0:
+      [         dog] active=0.72% types=[        p:12 t:3 s:3] → [lasses(0.9), matic(0.9), Nation(0.8)]
+      [        runs] active=0.40% types=[        p:11 s:5 t:2] → [lide(0.8), heet(0.8), ystem(0.7)]
+      [           .] active=0.15% types=[        p:18 s:1 t:1] → [arrant(0.2), Charlotte(0.2), arro(0.2)]
+
+    L3:
+      [         dog] active=1.34% types=[        p:14 t:3 s:3] → [rieb(0.5), IFS(0.5), 占地(0.5)]
+      [        runs] active=1.45% types=[        p:12 t:2 i:2] → [kowski(1.1), 机电(1.0), /slick(1.0)]
+      [           .] active=1.01% types=[        p:13 s:3 t:2] → [SPAN(0.5), 贯彻落实(0.5), 腴(0.5)]
+
+    L6:
+      [         dog] active=5.09% types=[        p:16 t:2 s:1] → [allis(1.1), genesis(1.0), orum(1.0)]
+      [        runs] active=8.20% types=[        p:15 t:2 s:2] → [赂(1.7), adows(1.7), 一个多(1.7)]
+      [           .] active=3.55% types=[        p:17 t:1 s:1] → [Dia(1.1), oves(1.0), igrams(1.0)]
+
+    L10:
+      [         dog] active=15.76% types=[        p:13 t:3 s:2] → [拿(2.0), <<<(1.9), Dagger(1.9)]
+      [        runs] active=19.86% types=[        p:14 s:3 t:2] → [是真的(2.2), act(1.9), Harm(1.9)]
+      [           .] active=15.09% types=[        p:14 s:3 t:2] → [或多(1.8), umat(1.6), ToMany(1.5)]
+
+    L14:
+      [         dog] active=21.56% types=[         p:7 t:7 s:4] → [enums(2.4), amientos(2.2), enum(2.2)]
+      [        runs] active=23.62% types=[         p:8 t:7 s:4] → [夷(2.3), 戏(2.2), lements(2.1)]
+      [           .] active=20.75% types=[         p:7 t:7 s:6] → [oom(2.0), Canvas(1.9), 椿(1.9)]
+
+  "Every student reads a book."
+
+    L0:
+      [     student] active=0.54% types=[        p:16 s:2 t:1] → [hips(0.8), 涯(0.8), 公开发行(0.8)]
+      [       reads] active=0.71% types=[         p:9 s:6 i:3] → [plit(1.0), peed(1.0), upport(1.0)]
+      [           a] active=0.15% types=[        p:15 s:4 i:1] → [eron(0.3), slight(0.3), theros(0.3)]
+      [        book] active=0.40% types=[        p:14 t:3 s:2] → [shelf(1.1), lets(0.9), 一本书(0.9)]
+      [           .] active=0.14% types=[        p:18 s:1 t:1] → [arro(0.2), 两天(0.1), 其他人(0.1)]
+
+    L3:
+      [     student] active=0.92% types=[        p:11 t:4 i:3] → [.increment(0.5), increment(0.5), linear(0.5)]
+      [       reads] active=1.26% types=[        p:12 t:4 s:2] → [轮廓(0.6), 顺(0.6), 比(0.6)]
+      [           a] active=0.47% types=[         p:9 s:4 t:3] → [rias(0.4), 陵(0.3), WithOptions(0.3)]
+      [        book] active=0.75% types=[        p:13 t:3 s:3] → [marks(1.0), ograd(1.0), bindings(1.0)]
+      [           .] active=0.61% types=[        p:12 s:4 t:3] → [proposal(0.4), QL(0.3), FindBy(0.3)]
+
+    L6:
+      [     student] active=5.57% types=[        p:15 t:4 s:1] → [afs(1.2), ikan(1.0), iales(1.0)]
+      [       reads] active=9.42% types=[        p:15 s:3 t:2] → [airo(1.8), aul(1.7), unger(1.7)]
+      [           a] active=6.62% types=[        p:16 t:3 s:1] → [rebound(1.5), eliminates(1.5), ẹ(1.4)]
+      [        book] active=11.06% types=[        p:15 s:3 t:2] → [icamente(1.9), 堆(1.8), ament(1.8)]
+      [           .] active=3.50% types=[        p:15 t:3 s:1] → [verm(1.2), FindBy(1.2), 在那里(1.1)]
+
+    L10:
+      [     student] active=19.06% types=[        p:11 s:5 t:3] → [ogr(2.4), edb(2.3), qualified(2.3)]
+      [       reads] active=25.55% types=[        p:17 s:2 t:1] → [橙(3.2), Bomb(2.9), Cloth(2.9)]
+      [           a] active=25.18% types=[        p:17 s:2 t:1] → [pla(3.1), rello(3.1), .ov(3.0)]
+      [        book] active=27.62% types=[        p:14 s:3 t:3] → [pone(3.0), Richmond(2.9), Shen(2.8)]
+      [           .] active=19.29% types=[        p:11 s:5 i:2] → [悬挂(2.0), olle(1.9), 新华(1.9)]
+
+    L14:
+      [     student] active=23.12% types=[        p:13 t:4 i:1] → [该县(2.4), itus(2.4), hm(2.3)]
+      [       reads] active=26.48% types=[        p:13 s:5 t:2] → [//=(2.7), 愍(2.6), ack(2.6)]
+      [           a] active=32.20% types=[         p:9 t:6 s:4] → [LEMENT(3.1), 上门(3.0), ju(2.9)]
+      [        book] active=29.16% types=[        p:12 s:4 i:2] → [上门(3.4), _integration(3.0), ду(3.0)]
+      [           .] active=20.17% types=[         p:7 t:6 s:5] → [//=(2.1), Translation(1.9), translators(1.9)]
+
+  "The cat that sat on the mat is black."
+
+    L0:
+      [         cat] active=0.46% types=[        p:13 t:3 s:3] → [ting(0.7), apult(0.6), templates(0.6)]
+      [        that] active=0.32% types=[        p:18 s:1 t:1] → [าย(0.5), jang(0.5), рок(0.5)]
+      [         sat] active=0.50% types=[        p:11 s:5 t:2] → [ting(1.0), ellite(0.7), 衿(0.7)]
+      [          on] active=0.67% types=[        p:15 s:4 i:1] → [/off(0.7), behalf(0.7), 正常使用(0.5)]
+      [         the] active=0.20% types=[            p:17 s:3] → [部长(0.6), offset(0.6), None(0.6)]
+      [         mat] active=0.49% types=[         p:9 t:5 s:3] → [ting(0.7), rices(0.6), plotlib(0.6)]
+      [          is] active=0.13% types=[        p:17 s:1 i:1] → [otope(0.4), /w(0.4), /is(0.4)]
+      [       black] active=0.30% types=[        p:10 s:4 t:3] → [smith(1.1), curr(1.1), /linux(1.0)]
+      [           .] active=0.13% types=[            p:19 s:1] → [arro(0.2), arrant(0.2), grams(0.2)]
+
+    L3:
+      [         cat] active=1.36% types=[        p:12 s:4 t:3] → [kin(1.3), apult(1.2), nge(1.1)]
+      [        that] active=0.97% types=[        p:17 t:1 i:1] → [ools(0.5), 分泌(0.5), naire(0.5)]
+      [         sat] active=1.42% types=[        p:13 t:4 s:2] → [dominant(0.7), ##(0.6), mens(0.6)]
+      [          on] active=0.78% types=[        p:11 s:4 t:3] → [behalf(2.0), /off(1.9), -demand(1.0)]
+      [         the] active=0.09% types=[        p:12 s:5 i:2] → [clave(0.1), correct(0.1), leine(0.1)]
+      [         mat] active=1.56% types=[        p:16 t:2 s:2] → [气(0.9), RefCount(0.9), 杞(0.8)]
+      [          is] active=0.89% types=[        p:10 s:7 t:3] → [/w(0.8), otope(0.6), 其中之一(0.6)]
+      [       black] active=0.80% types=[        p:10 t:4 i:3] → [ness(0.4), рус(0.4), bsd(0.4)]
+      [           .] active=0.61% types=[        p:13 t:4 s:3] → [QL(0.4), INI(0.4), ote(0.4)]
+
+    L6:
+      [         cat] active=6.79% types=[        p:13 s:3 t:3] → [决定(1.4), 来做(1.4), 的因素(1.4)]
+      [        that] active=7.08% types=[        p:16 s:2 i:1] → [Nes(1.3), bate(1.2), (prev(1.2)]
+      [         sat] active=19.89% types=[            p:18 t:2] → [Mercer(3.0), illac(2.7), 髻(2.5)]
+      [          on] active=19.04% types=[        p:18 t:1 s:1] → [zon(3.9), stro(3.4), opoulos(3.2)]
+      [         the] active=1.66% types=[        p:18 t:1 s:1] → [odore(1.5), utmost(1.3), forth(1.3)]
+      [         mat] active=13.31% types=[        p:13 t:4 s:3] → [vere(2.6), 受益(2.5), 之初(2.4)]
+      [          is] active=5.18% types=[        p:16 s:2 t:2] → [仓(1.4), Version(1.3), indi(1.3)]
+      [       black] active=7.85% types=[        p:16 t:2 s:2] → [/black(1.6), 精英(1.6), -yellow(1.5)]
+      [           .] active=2.09% types=[        p:17 s:1 t:1] → [-call(1.3), 在那里(1.3), OMB(1.3)]
+
+    L10:
+      [         cat] active=19.72% types=[        p:10 t:7 s:2] → [uden(2.5), Wolf(2.5), dove(2.3)]
+      [        that] active=22.83% types=[        p:15 t:3 s:2] → [USA(3.0), ody(2.9), ODY(2.6)]
+      [         sat] active=31.53% types=[         p:8 t:6 s:3] → [看好(4.1), 细则(3.9), _sid(3.9)]
+      [          on] active=35.77% types=[        p:10 t:6 s:4] → [毛(4.1), .bb(3.9), 歌(3.9)]
+      [         the] active=20.46% types=[        p:14 t:3 s:2] → [_rng(2.3), .ef(2.3), oca(2.3)]
+      [         mat] active=33.33% types=[        p:13 t:5 s:1] → [catch(3.5), ballo(3.5), Browse(3.4)]
+      [          is] active=17.86% types=[        p:12 t:5 i:2] → [compositions(2.2), ssize(2.2), Division(2.1)]
+      [       black] active=27.50% types=[        p:10 t:5 s:3] → [ingly(2.8), 絮(2.7), 跃(2.7)]
+      [           .] active=14.32% types=[        p:14 s:3 i:1] → [/^\(1.9), elay(1.9), itty(1.9)]
+
+    L14:
+      [         cat] active=23.54% types=[         t:9 p:6 s:3] → [anel(2.3), cov(2.1), juan(2.1)]
+      [        that] active=29.79% types=[        p:12 s:4 t:2] → [_moves(2.8), moves(2.5), amount(2.3)]
+      [         sat] active=31.17% types=[         p:9 t:5 s:4] → [接听(3.4), 骅(3.1), jm(2.9)]
+      [          on] active=34.61% types=[        p:12 t:4 s:2] → [结构调整(3.5), 风尚(3.5), ign(3.5)]
+      [         the] active=20.59% types=[         p:8 t:7 s:4] → [的梦想(8.3), 涉(8.2), 梦想(7.8)]
+      [         mat] active=27.15% types=[        p:12 t:3 s:2] → [_invoke(2.7), jm(2.6), 如意(2.6)]
+      [          is] active=22.97% types=[         p:8 t:7 s:5] → [dau(2.5), 质(2.3), ="--(2.3)]
+      [       black] active=25.81% types=[        p:10 t:6 i:2] → [.upper(2.6), 甬(2.4), 所需要(2.4)]
+      [           .] active=19.33% types=[         p:8 s:6 t:5] → [ishi(2.0), 置(2.0), ʊ(1.9)]
+
+  "If it rains, the ground is wet."
+
+    L0:
+      [          it] active=0.34% types=[        p:15 s:3 t:2] → [inerary(1.2), chy(1.0), 們(0.8)]
+      [       rains] active=1.38% types=[         p:8 s:6 i:3] → [forest(0.8), ystem(0.8), upport(0.8)]
+      [           ,] active=0.17% types=[        p:18 t:1 s:1] → [adier(0.3), 或者说(0.3), 所以(0.3)]
+      [         the] active=0.18% types=[        p:17 s:2 i:1] → [epy(0.4), oret(0.4), oretical(0.4)]
+      [      ground] active=0.53% types=[        p:13 t:4 i:2] → [姊妹(1.2), 廓(1.1), .Annotation(1.1)]
+      [          is] active=0.16% types=[        p:17 s:1 i:1] → [otope(0.5), /is(0.5), /w(0.4)]
+      [         wet] active=0.60% types=[        p:10 t:4 s:4] → [ting(0.9), ted(0.8), ron(0.6)]
+      [           .] active=0.09% types=[        p:17 t:2 s:1] → [arrant(0.2), 结果(0.2), Granted(0.1)]
+
+    L3:
+      [          it] active=0.85% types=[        p:12 s:5 t:2] → [inerary(0.6), AsString(0.5), RAD(0.5)]
+      [       rains] active=1.29% types=[        p:13 s:2 i:2] → [bows(2.8), Rain(2.5), washed(2.3)]
+      [           ,] active=0.15% types=[         p:7 s:5 t:5] → [udget(0.2), 凡本网(0.2), createForm(0.2)]
+      [         the] active=0.65% types=[        p:13 s:3 t:3] → [relative(0.4), 相对(0.3), entire(0.3)]
+      [      ground] active=0.95% types=[        p:12 i:3 t:3] → [MZ(0.5), 的人物(0.5), HZ(0.4)]
+      [          is] active=0.46% types=[        p:11 s:5 i:2] → [/w(0.8), /is(0.6), otope(0.5)]
+      [         wet] active=0.99% types=[        p:15 t:4 i:1] → [cop(0.4), complementary(0.4), *cos(0.4)]
+      [           .] active=0.64% types=[        p:12 s:4 t:3] → [腐(0.5), QL(0.5), 存在的(0.4)]
+
+    L6:
+      [          it] active=4.16% types=[        p:17 s:2 t:1] → [afs(1.1), anos(1.0), صلا(1.0)]
+      [       rains] active=14.49% types=[            p:18 s:2] → [也只有(2.0), ­ing(1.9), 三期(1.9)]
+      [           ,] active=4.78% types=[        p:15 t:2 i:2] → [clad(1.4), rium(1.4), Mits(1.4)]
+      [         the] active=4.56% types=[        p:15 s:3 t:2] → [原有的(1.3), 超额(1.2), assen(1.1)]
+      [      ground] active=8.38% types=[        p:15 s:4 t:1] → [BOR(1.7), wers(1.7), Fi(1.5)]
+      [          is] active=5.35% types=[        p:18 s:1 t:1] → [打着(1.3), iera(1.2), anders(1.2)]
+      [         wet] active=14.42% types=[        p:15 s:3 t:2] → [ഴ(2.0), бол(1.9), sitemap(1.8)]
+      [           .] active=2.08% types=[        p:16 s:2 i:1] → [在那里(1.3), 细则(1.1), daq(1.1)]
+
+    L10:
+      [          it] active=16.30% types=[        p:11 t:6 i:1] → [removeAll(2.0), ér(2.0), BAT(1.9)]
+      [       rains] active=25.03% types=[        p:16 s:2 t:2] → [Afr(2.8), 垂(2.7), (TM(2.7)]
+      [           ,] active=17.98% types=[        p:14 s:4 t:2] → [omba(2.1), owo(2.1), Legacy(2.1)]
+      [         the] active=14.28% types=[        p:11 s:7 t:1] → [发明(1.9), CIA(1.7), chaining(1.7)]
+      [      ground] active=29.52% types=[            p:19 t:1] → [oden(3.2), 深处(3.0), afs(3.0)]
+      [          is] active=23.57% types=[        p:13 s:5 t:2] → [akte(2.1), bell(2.1), subrange(2.1)]
+      [         wet] active=31.34% types=[            p:17 s:3] → [Wizards(4.1), thirsty(3.8), 占(3.7)]
+      [           .] active=15.91% types=[        p:13 s:3 t:3] → [bomb(1.9), 三层(1.8), 摭(1.8)]
+
+    L14:
+      [          it] active=18.86% types=[        p:10 t:5 s:4] → [ptest(2.0), 研究报告(1.7), 孤(1.7)]
+      [       rains] active=23.96% types=[         p:9 s:5 t:4] → [Bry(2.3), 成功的(2.3), 苔(2.1)]
+      [           ,] active=21.76% types=[         p:9 s:5 t:3] → [bsite(2.2), Alone(2.1), 坐着(2.1)]
+      [         the] active=18.28% types=[         p:7 t:6 s:5] → [.lazy(1.7), ihu(1.7), cken(1.7)]
+      [      ground] active=30.80% types=[        p:10 t:8 i:1] → [行程(3.2), cong(2.8), istro(2.6)]
+      [          is] active=22.60% types=[         p:8 t:6 s:3] → [档(2.3), 一件事(2.2), 零距离(2.1)]
+      [         wet] active=32.93% types=[        p:12 t:6 i:1] → [风口(3.6), estatus(3.4), Firm(3.4)]
+      [           .] active=19.03% types=[         p:7 t:7 s:5] → [不锈(1.9), 杉(1.9), 睁开(1.8)]
+
+  "Someone believes that the earth is flat."
+
+    L0:
+      [    believes] active=0.79% types=[         p:9 s:7 i:3] → [heet(0.9), ppe(0.9), Salisbury(0.9)]
+      [        that] active=0.42% types=[            p:16 s:4] → [很重要(0.7), 助理(0.6), ancy(0.6)]
+      [         the] active=0.17% types=[            p:19 s:1] → [ignor(0.4), KB(0.4), None(0.4)]
+      [       earth] active=0.75% types=[        p:13 s:4 t:2] → [rise(1.0), 的朋友(1.0), 适度(0.9)]
+      [          is] active=0.16% types=[        p:16 t:2 s:1] → [otope(0.5), /w(0.4), /is(0.4)]
+      [        flat] active=0.40% types=[         s:8 p:7 t:3] → [ting(0.7), cies(0.5), ulent(0.5)]
+      [           .] active=0.12% types=[        p:18 s:1 t:1] → [arrant(0.2), arro(0.2), empor(0.2)]
+
+    L3:
+      [    believes] active=1.11% types=[        p:13 i:3 s:3] → [Fasc(0.7), “(0.7), elling(0.7)]
+      [        that] active=0.81% types=[        p:12 s:4 t:2] → [alone(0.6), ellen(0.5), 伙伴关系(0.5)]
+      [         the] active=0.07% types=[        p:11 s:5 i:2] → [iguiente(0.1), 率先(0.1), AGING(0.1)]
+      [       earth] active=1.10% types=[        p:10 s:6 i:3] → [比(0.5), s(0.5), (0.5)]
+      [          is] active=0.83% types=[        p:10 s:6 t:3] → [/w(0.9), htar(0.6), ometric(0.6)]
+      [        flat] active=1.00% types=[        p:15 s:2 t:2] → [oup(0.4), indifference(0.4), gua(0.4)]
+      [           .] active=0.65% types=[        p:10 s:7 t:3] → [QL(0.5), KEN(0.4), 腴(0.4)]
+
+    L6:
+      [    believes] active=8.04% types=[            p:17 s:3] → [wal(1.3), хи(1.2), igne(1.2)]
+      [        that] active=7.00% types=[        p:18 t:1 s:1] → [人と(1.5), 兵团(1.4), 人的(1.4)]
+      [         the] active=1.46% types=[        p:14 s:3 t:2] → [forth(1.2), aforementioned(1.2), odore(1.1)]
+      [       earth] active=7.50% types=[        p:15 s:3 t:2] → [<![(1.3), His(1.3), mit(1.2)]
+      [          is] active=6.89% types=[            p:18 s:2] → [brit(1.9), Kitt(1.7), mej(1.5)]
+      [        flat] active=18.50% types=[        p:14 s:4 t:2] → [�(2.3), ugin(1.9), 秘书(1.9)]
+      [           .] active=2.29% types=[        p:15 t:3 s:1] → [在那里(1.2), iani(1.0), emas(1.0)]
+
+    L10:
+      [    believes] active=26.78% types=[        p:17 s:2 t:1] → [ñe(3.4), PFN(3.3), 墅(3.2)]
+      [        that] active=21.20% types=[        p:15 s:3 t:2] → [ñe(2.5), 酆(2.4), ehler(2.4)]
+      [         the] active=13.38% types=[        p:11 s:5 t:3] → [izzle(2.0), iju(1.9), 才行(1.9)]
+      [       earth] active=25.65% types=[        p:10 s:7 t:2] → [sport(2.6), 出来了(2.6), 共享(2.5)]
+      [          is] active=23.67% types=[        p:11 s:7 t:2] → [amus(2.7), 自在(2.6), _batches(2.4)]
+      [        flat] active=31.60% types=[        p:10 s:7 t:2] → [Cit(4.4), rama(4.3), anko(4.3)]
+      [           .] active=14.80% types=[        p:14 t:3 s:3] → [顾(1.8), _THEME(1.6), omon(1.6)]
+
+    L14:
+      [    believes] active=25.19% types=[        p:11 t:6 s:3] → [加快(2.7), ange(2.5), ục(2.5)]
+      [        that] active=21.39% types=[        p:11 t:6 s:3] → [_magic(2.3), recall(2.3), ework(2.2)]
+      [         the] active=14.75% types=[         s:7 p:7 t:5] → [梦想(7.0), bove(7.0), tx(6.8)]
+      [       earth] active=25.65% types=[        p:12 t:3 s:3] → [会员(2.4), 下来(2.4), _integration(2.3)]
+      [          is] active=22.57% types=[        p:11 t:5 s:4] → [ela(2.5), 在里面(2.5), ulture(2.4)]
+      [        flat] active=32.09% types=[        p:13 t:6 i:1] → [ignorance(3.1), 晚报(3.1), needing(3.0)]
+      [           .] active=18.06% types=[         p:9 s:4 t:4] → [translating(1.9), _PW(1.9), iche(1.7)]
+
+========================================================================
+COMPILE-SELECTIVE NEURONS
+========================================================================
+
+  L0: compile_only=101 null_only=110 shared=767
+    Top compile-biased neurons:
+      neuron 7199: compile=0.063 null=0.032 delta=+0.031 type=suppressor
+      neuron 6698: compile=-0.079 null=-0.104 delta=+0.025 type=transform
+      neuron 2070: compile=0.017 null=0.036 delta=-0.019 type=projector
+      neuron 8569: compile=-0.021 null=-0.005 delta=-0.016 type=projector
+      neuron 1234: compile=-0.007 null=-0.021 delta=+0.014 type=projector
+    Top null-biased neurons:
+      neuron 2070: compile=0.017 null=0.036 delta=-0.019 type=projector
+      neuron 8569: compile=-0.021 null=-0.005 delta=-0.016 type=projector
+      neuron 475: compile=-0.052 null=-0.038 delta=-0.014 type=projector
+      neuron 1823: compile=0.012 null=0.023 delta=-0.011 type=projector
+      neuron 2946: compile=0.022 null=0.032 delta=-0.010 type=projector
+
+  L3: compile_only=77 null_only=95 shared=583
+    Top compile-biased neurons:
+      neuron 3337: compile=0.142 null=0.055 delta=+0.088 type=projector
+      neuron 6407: compile=0.025 null=0.098 delta=-0.073 type=projector
+      neuron 211: compile=-0.085 null=-0.022 delta=-0.062 type=transform
+      neuron 2100: compile=-0.017 null=-0.078 delta=+0.062 type=projector
+      neuron 5255: compile=0.075 null=0.020 delta=+0.055 type=projector
+    Top null-biased neurons:
+      neuron 6407: compile=0.025 null=0.098 delta=-0.073 type=projector
+      neuron 211: compile=-0.085 null=-0.022 delta=-0.062 type=transform
+      neuron 3971: compile=0.015 null=0.059 delta=-0.044 type=projector
+      neuron 2906: compile=-0.058 null=-0.016 delta=-0.042 type=suppressor
+      neuron 6045: compile=-0.007 null=0.034 delta=-0.041 type=transform
+
+  L6: compile_only=197 null_only=238 shared=685
+    Top compile-biased neurons:
+      neuron 11532: compile=1.255 null=0.631 delta=+0.624 type=suppressor
+      neuron 10787: compile=0.207 null=0.025 delta=+0.182 type=projector
+      neuron 8377: compile=-0.165 null=-0.013 delta=-0.152 type=projector
+      neuron 5515: compile=0.120 null=0.271 delta=-0.151 type=projector
+      neuron 5151: compile=0.074 null=0.220 delta=-0.146 type=projector
+    Top null-biased neurons:
+      neuron 8377: compile=-0.165 null=-0.013 delta=-0.152 type=projector
+      neuron 5515: compile=0.120 null=0.271 delta=-0.151 type=projector
+      neuron 5151: compile=0.074 null=0.220 delta=-0.146 type=projector
+      neuron 6102: compile=-0.214 null=-0.081 delta=-0.134 type=projector
+      neuron 9336: compile=0.153 null=0.281 delta=-0.128 type=transform
+
+  L10: compile_only=230 null_only=338 shared=510
+    Top compile-biased neurons:
+      neuron 5674: compile=-4.333 null=-3.074 delta=-1.258 type=projector
+      neuron 11274: compile=-0.863 null=-0.220 delta=-0.644 type=projector
+      neuron 4140: compile=-0.891 null=-1.451 delta=+0.559 type=suppressor
+      neuron 6046: compile=-0.716 null=-1.233 delta=+0.516 type=suppressor
+      neuron 3252: compile=-0.076 null=0.239 delta=-0.315 type=projector
+    Top null-biased neurons:
+      neuron 5674: compile=-4.333 null=-3.074 delta=-1.258 type=projector
+      neuron 11274: compile=-0.863 null=-0.220 delta=-0.644 type=projector
+      neuron 3252: compile=-0.076 null=0.239 delta=-0.315 type=projector
+      neuron 1193: compile=-0.317 null=-0.042 delta=-0.275 type=projector
+      neuron 1153: compile=-0.248 null=-0.023 delta=-0.225 type=projector
+
+  L14: compile_only=355 null_only=487 shared=420
+    Top compile-biased neurons:
+      neuron 8636: compile=-2.750 null=-1.530 delta=-1.220 type=suppressor
+      neuron 1313: compile=0.833 null=0.174 delta=+0.659 type=transform
+      neuron 7553: compile=0.384 null=0.978 delta=-0.594 type=projector
+      neuron 2054: compile=0.180 null=-0.362 delta=+0.541 type=projector
+      neuron 3894: compile=0.511 null=0.092 delta=+0.419 type=transform
+    Top null-biased neurons:
+      neuron 8636: compile=-2.750 null=-1.530 delta=-1.220 type=suppressor
+      neuron 7553: compile=0.384 null=0.978 delta=-0.594 type=projector
+      neuron 5271: compile=-0.484 null=-0.071 delta=-0.413 type=projector
+      neuron 9342: compile=-0.391 null=-0.023 delta=-0.368 type=projector
+      neuron 750: compile=-0.741 null=-0.421 delta=-0.320 type=projector
+
+  L18: compile_only=370 null_only=470 shared=349
+    Top compile-biased neurons:
+      neuron 7219: compile=2.511 null=1.702 delta=+0.809 type=projector
+      neuron 576: compile=0.291 null=1.095 delta=-0.804 type=projector
+      neuron 6797: compile=0.438 null=-0.299 delta=+0.737 type=projector
+      neuron 11476: compile=-0.871 null=-1.595 delta=+0.724 type=projector
+      neuron 10663: compile=-0.210 null=-0.839 delta=+0.629 type=suppressor
+    Top null-biased neurons:
+      neuron 576: compile=0.291 null=1.095 delta=-0.804 type=projector
+      neuron 4444: compile=-0.601 null=-0.085 delta=-0.516 type=projector
+      neuron 7321: compile=-0.645 null=-0.142 delta=-0.504 type=suppressor
+      neuron 9653: compile=-0.508 null=-0.051 delta=-0.457 type=suppressor
+      neuron 11780: compile=-0.202 null=0.209 delta=-0.410 type=projector
+
+  L22: compile_only=319 null_only=394 shared=419
+    Top compile-biased neurons:
+      neuron 10559: compile=-0.177 null=-2.673 delta=+2.496 type=projector
+      neuron 7034: compile=-0.609 null=-1.732 delta=+1.122 type=suppressor
+      neuron 892: compile=0.109 null=1.010 delta=-0.901 type=transform
+      neuron 11967: compile=1.155 null=0.396 delta=+0.759 type=projector
+      neuron 5157: compile=0.316 null=0.966 delta=-0.650 type=projector
+    Top null-biased neurons:
+      neuron 892: compile=0.109 null=1.010 delta=-0.901 type=transform
+      neuron 5157: compile=0.316 null=0.966 delta=-0.650 type=projector
+      neuron 7345: compile=-0.740 null=-0.106 delta=-0.633 type=projector
+      neuron 6269: compile=-0.798 null=-0.216 delta=-0.582 type=inverter
+      neuron 10005: compile=-0.738 null=-0.180 delta=-0.558 type=projector
+
+  L26: compile_only=330 null_only=411 shared=494
+    Top compile-biased neurons:
+      neuron 1701: compile=0.098 null=3.508 delta=-3.410 type=transform
+      neuron 514: compile=-8.650 null=-5.934 delta=-2.716 type=projector
+      neuron 4046: compile=-0.464 null=0.966 delta=-1.430 type=projector
+      neuron 8595: compile=0.397 null=1.687 delta=-1.290 type=projector
+      neuron 7365: compile=1.637 null=0.420 delta=+1.217 type=projector
+    Top null-biased neurons:
+      neuron 1701: compile=0.098 null=3.508 delta=-3.410 type=transform
+      neuron 514: compile=-8.650 null=-5.934 delta=-2.716 type=projector
+      neuron 4046: compile=-0.464 null=0.966 delta=-1.430 type=projector
+      neuron 8595: compile=0.397 null=1.687 delta=-1.290 type=projector
+      neuron 2689: compile=0.759 null=1.776 delta=-1.017 type=projector
+
+  L30: compile_only=274 null_only=401 shared=498
+    Top compile-biased neurons:
+      neuron 10680: compile=-4.639 null=-0.242 delta=-4.397 type=projector
+      neuron 6695: compile=-3.360 null=-6.362 delta=+3.001 type=projector
+      neuron 8586: compile=3.268 null=0.818 delta=+2.451 type=projector
+      neuron 11843: compile=-2.401 null=-0.093 delta=-2.308 type=projector
+      neuron 3833: compile=3.075 null=0.794 delta=+2.281 type=transform
+    Top null-biased neurons:
+      neuron 10680: compile=-4.639 null=-0.242 delta=-4.397 type=projector
+      neuron 11843: compile=-2.401 null=-0.093 delta=-2.308 type=projector
+      neuron 9483: compile=-2.393 null=-0.483 delta=-1.910 type=projector
+      neuron 389: compile=-1.892 null=-0.338 delta=-1.553 type=suppressor
+      neuron 5052: compile=-1.326 null=-0.086 delta=-1.240 type=projector
+
+  L33: compile_only=300 null_only=374 shared=518
+    Top compile-biased neurons:
+      neuron 1660: compile=-2.866 null=-6.320 delta=+3.453 type=projector
+      neuron 11218: compile=-2.458 null=-5.282 delta=+2.824 type=identity
+      neuron 8382: compile=0.092 null=2.799 delta=-2.707 type=projector
+      neuron 1636: compile=-2.983 null=-0.477 delta=-2.506 type=inverter
+      neuron 10107: compile=-0.539 null=-2.964 delta=+2.425 type=suppressor
+    Top null-biased neurons:
+      neuron 8382: compile=0.092 null=2.799 delta=-2.707 type=projector
+      neuron 1636: compile=-2.983 null=-0.477 delta=-2.506 type=inverter
+      neuron 9662: compile=-0.447 null=1.728 delta=-2.174 type=projector
+      neuron 10967: compile=-2.364 null=-0.621 delta=-1.743 type=transform
+      neuron 728: compile=0.771 null=2.506 delta=-1.734 type=projector
+
+  L35: compile_only=80 null_only=100 shared=184
+    Top compile-biased neurons:
+      neuron 9510: compile=364.219 null=400.794 delta=-36.575 type=projector
+      neuron 8724: compile=115.594 null=131.889 delta=-16.295 type=suppressor
+      neuron 11693: compile=89.368 null=73.961 delta=+15.407 type=projector
+      neuron 9014: compile=9.465 null=-5.082 delta=+14.547 type=projector
+      neuron 9490: compile=7.329 null=18.761 delta=-11.432 type=projector
+    Top null-biased neurons:
+      neuron 9510: compile=364.219 null=400.794 delta=-36.575 type=projector
+      neuron 8724: compile=115.594 null=131.889 delta=-16.295 type=suppressor
+      neuron 9490: compile=7.329 null=18.761 delta=-11.432 type=projector
+      neuron 6256: compile=5.005 null=16.361 delta=-11.356 type=projector
+      neuron 2816: compile=-0.168 null=8.181 delta=-8.349 type=projector
+
+========================================================================
+DEPTH PROFILE: WHERE IS THE REDUCTION PROGRAM WRITTEN?
+========================================================================
+
+  [compile]:
+    L 0: active=0.004±0.003 (49/12288 neurons)
+    L 3: active=0.009±0.004 (107/12288 neurons)
+    L 6: active=0.077±0.050 (944/12288 neurons)
+    L10: active=0.226±0.062 (2772/12288 neurons)
+    L14: active=0.244±0.050 (2995/12288 neurons)
+    L18: active=0.252±0.036 (3094/12288 neurons)
+    L22: active=0.403±0.022 (4951/12288 neurons)
+    L26: active=0.566±0.039 (6955/12288 neurons)
+    L30: active=0.646±0.033 (7939/12288 neurons)
+    L33: active=0.687±0.032 (8439/12288 neurons)
+    L35: active=0.669±0.025 (8223/12288 neurons)
+
+  [null]:
+    L 0: active=0.004±0.003 (52/12288 neurons)
+    L 3: active=0.008±0.004 (101/12288 neurons)
+    L 6: active=0.086±0.052 (1052/12288 neurons)
+    L10: active=0.235±0.064 (2891/12288 neurons)
+    L14: active=0.234±0.060 (2874/12288 neurons)
+    L18: active=0.224±0.054 (2749/12288 neurons)
+    L22: active=0.381±0.028 (4679/12288 neurons)
+    L26: active=0.550±0.049 (6758/12288 neurons)
+    L30: active=0.641±0.040 (7878/12288 neurons)
+    L33: active=0.679±0.041 (8348/12288 neurons)
+    L35: active=0.659±0.025 (8101/12288 neurons)
+
+Results saved to /Users/mwhitford/src/verbum/scripts/experiments/../../results/ffn-reduction-trace/
+  summary.json: 2041.4 KB
+
+========================================================================
+EXPERIMENT COMPLETE
+========================================================================
+Model: Qwen/Qwen3-8B
+Layers traced: [0, 3, 6, 10, 14, 18, 22, 26, 30, 33, 35]
+Probes: 5 × 2 gates = 10 forward passes
+

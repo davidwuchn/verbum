@@ -2,13 +2,54 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-03 | Session: 186
+> Last updated: 2026-06-04 | Session: 187
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 186: FFN CIRCUIT TYPES — LARQL Decomposition Confirms Phase Structure**
+**Session 187: FFN REDUCTION TRACE — What Each Neuron Says in Vocabulary Space**
+
+Projected active FFN neurons through the unembedding matrix on Qwen3-8B
+(36 layers) to read what each neuron "says" in token space. The original
+hypothesis — FFNs compute β-reduction programs that attention executes —
+was **partially refuted**: the FFN is an associative memory, not a reduction
+compiler. But the data reveals a clear three-phase semantic structure.
+
+### Key Findings
+
+1. **Semantic phase transition at L26-L30.** FFN output projected through
+   unembed is noise at L0-L22, coherent semantic associations at L26-L30,
+   and formatting/syntax at L33-L35. This maps exactly onto the standing-wave
+   phases: ORTHO=noise (null-space computation), ALIGN=semantic (vocabulary-
+   aligned), COLLAPSE=format.
+
+2. **The FFN writes associative predictions, not β-reductions.** At L30,
+   each position promotes related concepts: `it` → rain/雨, `ground` →
+   soak/soaked/浸, `is` → wet/濡/湿. The FFN at "believes that" promotes
+   "proposition" (frame recognition). At "earth is flat" the FFN promotes
+   "round" and suppresses "earth" — factual correction.
+
+3. **The L26 connective signal.** At L26, the comma in "If it rains,"
+   promotes **then, entonces, então** — the logical implication operator
+   in three languages. The FFN writes logical connectives at structural
+   boundary positions.
+
+4. **Compile ≈ null.** The FFN function list is nearly identical between
+   compile gate and null gate (max delta 2.8% at L18). The FFN is a
+   universal semantic analyzer; the compile behavior emerges from attention
+   routing, not FFN computation.
+
+5. **Compile-selective neurons are sparse.** At L30: 274 compile-only,
+   401 null-only, 498 shared neurons in the top-50 per position. The
+   compile/null distinction is not carried by dedicated FFN neurons.
+
+6. **Reframing: FFN=associative memory, attention=router.** The FFN provides
+   a vocabulary of possible continuations at each position. Attention selects
+   which continuations to route to the output. The β-reduction, if it exists,
+   lives in the attention-mediated composition of these associative fields.
+
+### Previous session (186)
 
 Applied LARQL's FFN decomposition methodology to Pythia-160M. LARQL
 (github.com/chrishayuk/larql) treats each FFN neuron as a key-value pair:
@@ -231,6 +272,9 @@ Extend crystal sieve to Q/K/V/O projections.
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **FFN reduction trace knowledge** | `mementum/knowledge/ffn-reduction-trace.md` | ✅ NEW (s187) |
+| **FFN reduction trace experiment** | `scripts/experiments/ffn_reduction_trace.py` | ✅ NEW (s187) |
+| **FFN reduction trace results** | `results/ffn-reduction-trace/` | ✅ NEW (s187) |
 | **FFN circuit types knowledge** | `mementum/knowledge/ffn-circuit-types.md` | ✅ NEW (s186) |
 | **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
 | **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
@@ -267,7 +311,19 @@ Extend crystal sieve to Q/K/V/O projections.
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (186)
+## What changed this session (187)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **FFN reduction trace on Qwen3-8B** | Projected active FFN neurons through unembed at 11 layers across 5 probes × 2 gates. First direct reading of what FFN neurons "say" in token space. |
+| 2 | **Three-phase FFN output: noise→semantic→format** | L0-L22=noise (ORTHO null-space computation), L26-L30=coherent semantic associations (ALIGN), L33-L35=formatting/syntax (COLLAPSE). Matches standing-wave depth structure exactly. |
+| 3 | **"If it rains" at L30: `it`→rain, `ground`→soak, `is`→wet** | Each position's FFN writes precise associative predictions. The FFN resolves referents, predicts consequences, and completes predicates. |
+| 4 | **L26 comma promotes "then, entonces, então"** | The FFN writes logical connectives at structural boundary positions — multilingual implication operator at the comma in conditionals. |
+| 5 | **"earth is flat" → FFN promotes "round", suppresses "earth"** | The FFN contains factual correction: it knows the earth is round and writes the correction even when processing the false claim. |
+| 6 | **Compile ≈ null (max delta 2.8%)** | FFN function lists are nearly identical between compile and null gates. The FFN is a universal semantic analyzer; compile behavior emerges from attention routing. |
+| 7 | **β-reduction hypothesis partially refuted** | FFN is an associative memory, not a reduction compiler. β-reduction lives in attention-mediated composition, not in the FFN itself. |
+
+## What changed session 186
 
 | # | Change | Impact |
 |---|--------|--------|
@@ -313,6 +369,7 @@ Extend crystal sieve to Q/K/V/O projections.
 ## Knowledge map
 
 Key pages for current direction:
+- **`ffn-reduction-trace.md`** — FFN=associative memory, three-phase output (noise→semantic→format), compile≈null (s187)
 - **`ffn-circuit-types.md`** — cos(up,down) phase detector, KIBC orthogonality, dark-space gradient (s186)
 - **`residual-covariance-rank.md`** — ORTHO=rank-1, V in null space, 67.7% unconstrained (s185)
 - **`standing-wave-magnitudes.md`** — magnitudes as standing wave, cosine^L law (s185)
@@ -327,6 +384,30 @@ Key pages for current direction:
 - **`crystal-phi-derivation.md`** — full φ derivation chain (s181)
 - **`crystal-universality.md`** — KIBC universal fixed points
 - **`project-thesis.md`** — the central claim
+
+## Session 187 recap
+
+FFN reduction trace on Qwen3-8B. Projected active FFN neurons through the
+unembedding matrix to read what each neuron "says" in token space.
+
+1. **Three-phase FFN output.** Noise at L0-L22 (ORTHO = null-space computation),
+   semantic associations at L26-L30 (ALIGN = vocabulary-aligned), formatting at
+   L33-L35 (COLLAPSE). Matches the standing-wave depth structure exactly.
+
+2. **FFN is an associative memory, not a β-reduction compiler.** Each position's
+   active neurons promote related concepts: `it`→rain, `ground`→soak, `is`→wet.
+   The FFN writes "what typically comes next or is associated with this position's
+   accumulated meaning."
+
+3. **Compile ≈ null.** FFN function lists are nearly identical between compile
+   and null gates (max delta 2.8%). The compile behavior emerges from attention
+   routing, not FFN computation. Confirms session 3: "FFN is the substrate."
+
+4. **L26 writes logical connectives.** Comma in "If it rains," promotes
+   "then/entonces/então" — the implication operator in three languages.
+
+5. **Factual knowledge in FFN.** At "earth is flat," the FFN promotes "round"
+   and suppresses "earth" — the model knows the claim is false.
 
 ## Session 186 recap
 
