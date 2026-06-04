@@ -19,9 +19,7 @@ from __future__ import annotations
 import numpy as np
 import mlx.core as mx
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "v14"))
-from crystal import CrystalLoss as V14CrystalLoss, ZONE_B_TARGETS
+from crystal_base import CrystalLoss as V14CrystalLoss, ZONE_B_TARGETS
 
 # ══════════════════════════════════════════════════════════════════════
 # § 1  Laplacian Fragility Weights
@@ -107,7 +105,7 @@ class LaplacianCrystalLoss(V14CrystalLoss):
             self.zone_lambdas,
         )
 
-        from crystal import geodesic_parity_loss, cross_zone_rotation_loss
+        from crystal_base import geodesic_parity_loss, cross_zone_rotation_loss
 
         parity, parity_errors = geodesic_parity_loss(
             embeddings,

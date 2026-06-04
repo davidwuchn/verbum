@@ -30,75 +30,15 @@ License: MIT
 from __future__ import annotations
 
 import math
-import sys
-import os
 from typing import Optional
-
-# ── Path setup: v15 first, v14 second ────────────────────────────────
-_V15_DIR = os.path.dirname(os.path.abspath(__file__))
-_V14_DIR = os.path.join(_V15_DIR, "..", "v14")
-if _V15_DIR not in sys.path:
-    sys.path.insert(0, _V15_DIR)
-if _V14_DIR not in sys.path:
-    sys.path.insert(1, _V14_DIR)
 
 import numpy as np
 import mlx.core as mx
 import mlx.nn as nn
 
-# ── Import strategy for dual-version coexistence ─────────────────────
-# Problem: both v14 and v15 have modules named config/attention/crystal.
-# sys.path ordering alone cannot resolve this since Python caches module
-# objects in sys.modules by unqualified name.
-#
-# Solution: temporarily swap sys.path and sys.modules so each version's
-# modules load cleanly, then restore. Modules that exist in both versions
-# are registered under version-prefixed names to avoid collisions.
-#
-# v15 modules: config, attention, crystal, stack_vsm  (loaded first)
-# v14 modules: ternary, components, kernel, scan       (shared infrastructure)
-#
-# After both sets are loaded, we import from the correctly registered names.
-
-import importlib.util as _ilu
-import importlib as _importlib
-import types as _types
-
-
-def _load_versioned(mod_name: str, filepath: str, extra_sys_path: list[str] | None = None) -> _types.ModuleType:
-    """Load a module from an explicit path, registering it under mod_name.
-
-    Temporarily prepends extra_sys_path to sys.path so that the module's
-    own relative imports resolve correctly.
-    """
-    # Save + set sys.path
-    _saved_path = sys.path[:]
-    if extra_sys_path:
-        for p in reversed(extra_sys_path):
-            if p not in sys.path:
-                sys.path.insert(0, p)
-
-    spec = _ilu.spec_from_file_location(mod_name, filepath)
-    mod = _ilu.module_from_spec(spec)
-    sys.modules[mod_name] = mod
-    try:
-        spec.loader.exec_module(mod)
-    finally:
-        sys.path[:] = _saved_path
-
-    return mod
-
-
-# ── Load v14 shared modules first (they use v14/config.py) ───────────
-# Temporarily set sys.path to v14-only so their internal `from config import V14Config` works.
-_saved_modules_config = sys.modules.get("config")
-_saved_modules_attention = sys.modules.get("attention")
-
-# Ensure v14/config is loaded as "config" in sys.modules while v14 modules load
-_v14_config_mod = _load_versioned("config", os.path.join(_V14_DIR, "config.py"), [_V14_DIR])
-_v14_attn_mod   = _load_versioned("attention", os.path.join(_V14_DIR, "attention.py"), [_V14_DIR])
-
-# Load v14 shared infrastructure under stable names
+from config import V15Config, N_STACKS, N_COMBINATORS, N_TOTAL_COMBINATORS
+from attention import FibonacciStrideStack
+from crystal import LaplacianCrystalLoss
 from ternary import TernaryLinear, TernaryEmbedding
 from components import (
     S5Identity,
@@ -108,24 +48,7 @@ from components import (
     S5Reweight,
 )
 from kernel import COMBINATOR_NAMES, ANTI_COMBINATOR_NAMES
-
-# ── Now load v15 modules, overriding "config" and "attention" ─────────
-# Load v14/crystal.py first so v15/crystal.py can import it as "crystal"
-_load_versioned("crystal",   os.path.join(_V14_DIR, "crystal.py"),   [_V14_DIR])
-
-_v15_config_mod  = _load_versioned("config",    os.path.join(_V15_DIR, "config.py"),    [_V15_DIR])
-_v15_attn_mod    = _load_versioned("attention",  os.path.join(_V15_DIR, "attention.py"), [_V15_DIR])
-_v15_crystal_mod = _load_versioned("v15_crystal", os.path.join(_V15_DIR, "crystal.py"),  [_V15_DIR, _V14_DIR])
-_v15_svsm_mod    = _load_versioned("v15_stack_vsm", os.path.join(_V15_DIR, "stack_vsm.py"), [_V15_DIR, _V14_DIR])
-
-V15Config            = _v15_config_mod.V15Config
-N_STACKS             = _v15_config_mod.N_STACKS
-N_COMBINATORS        = _v15_config_mod.N_COMBINATORS
-N_TOTAL_COMBINATORS  = _v15_config_mod.N_TOTAL_COMBINATORS
-FibonacciStrideStack = _v15_attn_mod.FibonacciStrideStack
-LaplacianCrystalLoss = _v15_crystal_mod.LaplacianCrystalLoss
-StrideStackVSM       = _v15_svsm_mod.StrideStackVSM
-AlgedonicCombiner    = _v15_svsm_mod.AlgedonicCombiner
+from stack_vsm import StrideStackVSM, AlgedonicCombiner
 
 
 # ══════════════════════════════════════════════════════════════════════

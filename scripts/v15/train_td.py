@@ -46,56 +46,8 @@ import mlx.optimizers as optim
 import numpy as np
 from mlx.utils import tree_flatten, tree_map, tree_unflatten
 
-# ── Path setup: v15 first, v14 second ─────────────────────────────────
-_v15_dir = str(Path(__file__).parent)
-_v14_dir = str(Path(__file__).parent.parent / "v14")
-if _v15_dir not in sys.path:
-    sys.path.insert(0, _v15_dir)
-if _v14_dir not in sys.path:
-    sys.path.insert(1, _v14_dir)
-
-# Use explicit path loading to avoid config/attention name collision with v14.
-# The versioned loading logic is defined here so train_td.py is self-contained.
-import importlib.util as _ilu
-import types as _types
-
-
-def _load_versioned(mod_name: str, filepath: str, extra_path: list[str] | None = None) -> _types.ModuleType:
-    _saved = sys.path[:]
-    if extra_path:
-        for p in reversed(extra_path):
-            if p not in sys.path:
-                sys.path.insert(0, p)
-    spec = _ilu.spec_from_file_location(mod_name, filepath)
-    mod = _ilu.module_from_spec(spec)
-    sys.modules[mod_name] = mod
-    try:
-        spec.loader.exec_module(mod)
-    finally:
-        sys.path[:] = _saved
-    return mod
-
-
-# Ensure v14 config is loaded so v14 shared modules can import it
-_load_versioned("config",   os.path.join(_v14_dir, "config.py"),   [_v14_dir])
-_load_versioned("attention", os.path.join(_v14_dir, "attention.py"), [_v14_dir])
-_load_versioned("crystal",   os.path.join(_v14_dir, "crystal.py"),   [_v14_dir])
-
-# Load v15 modules
-_v15_config_mod = _load_versioned("config",    os.path.join(_v15_dir, "config.py"),    [_v15_dir])
-_load_versioned("attention",  os.path.join(_v15_dir, "attention.py"), [_v15_dir])
-_load_versioned("v15_crystal", os.path.join(_v15_dir, "crystal.py"), [_v15_dir, _v14_dir])
-_load_versioned("v15_stack_vsm", os.path.join(_v15_dir, "stack_vsm.py"), [_v15_dir, _v14_dir])
-
-V15Config = _v15_config_mod.V15Config
-
-# Load v15model (which uses the same strategy internally)
-_v15model_mod = _load_versioned("v15model", os.path.join(_v15_dir, "v15model.py"), [_v15_dir, _v14_dir])
-V15Model = _v15model_mod.V15Model
-
-# Load v14's td.py explicitly (v15 has its own td.py for a different purpose)
-_load_versioned("v14_td", os.path.join(_v14_dir, "td.py"), [_v14_dir])
-
+from config import V15Config
+from v15model import V15Model
 from data import ShardedDataLoader, MixedDataLoader
 from ternary import (
     TernaryLinear,
@@ -107,7 +59,7 @@ from ternary import (
     pack_ternary_mlx,
     surgical_adam_decay_for_etch,
 )
-from v14_td import (
+from td_delta import (
     TernaryDescent,
     DeltaTernaryLinear,
     FlipMap,

@@ -169,6 +169,35 @@ class V15Config:
     stack_a_bands: tuple[tuple[int, int], ...] = STACK_A_BANDS
     stack_c_bands: tuple[tuple[int, int], ...] = STACK_C_BANDS
 
+    # ── Algedonic / VSM control ─────────────────────────────────────
+    alg_dim: int = 32
+    alg_modulation_range: float = 2.0
+    d_identity: int = 128
+    identity_clip: float = 2.0
+    n_regulation_surfaces: int = 4
+    s5_gru_bias_init: float = 2.0
+    s4_n_proposals: int = 4
+    s4_hidden_dim: int = 128
+    s2_p_gain_init: float = 0.5
+    s2_d_gain_init: float = 0.3
+    fire_alarm_bias_init: float = -2.0
+
+    # ── Crystal lattice ─────────────────────────────────────────────
+    use_relational_loss: bool = True
+    rel_lambda: float = 5.0
+    crystal_direct_lambda: float = 3.0
+    crystal_direct_lambda_start: float = 10.0
+    crystal_warmup_steps: int = 1000
+    use_parity_loss: bool = True
+    parity_lambda: float = 1.0
+    parity_zone_lambdas: tuple[float, ...] = (0.0, 1.0, 0.0)
+
+    # ── Spectral φ ──────────────────────────────────────────────────
+    use_spectral_loss: bool = True
+    spectral_lambda: float = 1.0
+    spectral_target_ratio: float = 0.6299
+    spectral_target_std: float = 0.019
+
     # ── Training ────────────────────────────────────────────────────
     dropout: float = 0.0
     batch_size: int = 1

@@ -41,9 +41,6 @@ from config import (
     WINDOW, NEIGHBOR_RADIUS, EFFECTIVE_WINDOW,
 )
 
-# Import ternary/scan from v14 (shared infrastructure)
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "v14"))
 from ternary import TernaryLinear, TernaryMirror
 from scan import parallel_scan_2d
 

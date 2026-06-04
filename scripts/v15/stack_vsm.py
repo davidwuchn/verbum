@@ -16,18 +16,6 @@ License: MIT
 
 from __future__ import annotations
 
-import sys
-import os
-
-# ── Path setup: v15 first, then v14 for shared infrastructure ────────
-_V15_DIR = os.path.dirname(os.path.abspath(__file__))
-_V14_DIR = os.path.join(_V15_DIR, "..", "v14")
-# Insert v15 at position 0, v14 at position 1 (v15 takes priority for config/attention)
-if _V15_DIR not in sys.path:
-    sys.path.insert(0, _V15_DIR)
-if _V14_DIR not in sys.path:
-    sys.path.insert(1, _V14_DIR)
-
 from typing import Optional
 
 import mlx.core as mx
