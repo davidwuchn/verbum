@@ -1,0 +1,945 @@
+========================================================================
+ATTENTION EXECUTION TRACE
+========================================================================
+Model: Qwen/Qwen3-8B
+Top-K tokens: 10
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:27,  2.69it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 69.90it/s]Loading weights:  18%|█▊        | 71/399 [00:00<00:01, 164.98it/s]Loading weights:  26%|██▋       | 105/399 [00:00<00:01, 212.89it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 254.69it/s]Loading weights:  45%|████▌     | 180/399 [00:00<00:00, 283.14it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 296.30it/s]Loading weights:  64%|██████▍   | 255/399 [00:01<00:00, 317.86it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 322.59it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 325.45it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 328.30it/s]Loading weights:  99%|█████████▉| 397/399 [00:01<00:00, 348.37it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 258.54it/s]
+  Loaded in 3.1s
+  36 layers, 32 Q heads, 8 KV groups
+  GQA ratio: 4 Q heads per KV group, head_dim=128
+  Tracing layers: [0, 1, 3, 10, 18, 22, 24, 26, 28, 30, 33, 35]
+  W_unembed: torch.Size([151936, 4096])
+
+────────────────────────────────────────────────────────────
+PROBE: The dog runs.
+
+  [compile] "The dog runs."
+    Tokens (3): [' dog', ' runs', '.']
+
+  [null] "The dog runs."
+    Tokens (3): [' dog', ' runs', '.']
+
+────────────────────────────────────────────────────────────
+PROBE: Every student reads a book.
+
+  [compile] "Every student reads a book."
+    Tokens (5): [' student', ' reads', ' a', ' book', '.']
+
+  [null] "Every student reads a book."
+    Tokens (5): [' student', ' reads', ' a', ' book', '.']
+
+────────────────────────────────────────────────────────────
+PROBE: The cat that sat on the mat is black.
+
+  [compile] "The cat that sat on the mat is black."
+    Tokens (9): [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+
+  [null] "The cat that sat on the mat is black."
+    Tokens (9): [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+
+────────────────────────────────────────────────────────────
+PROBE: If it rains, the ground is wet.
+
+  [compile] "If it rains, the ground is wet."
+    Tokens (8): [' it', ' rains', ',', ' the', ' ground', ' is', ' wet', '.']
+
+  [null] "If it rains, the ground is wet."
+    Tokens (8): [' it', ' rains', ',', ' the', ' ground', ' is', ' wet', '.']
+
+────────────────────────────────────────────────────────────
+PROBE: Someone believes that the earth is flat.
+
+  [compile] "Someone believes that the earth is flat."
+    Tokens (7): [' believes', ' that', ' the', ' earth', ' is', ' flat', '.']
+
+  [null] "Someone believes that the earth is flat."
+    Tokens (7): [' believes', ' that', ' the', ' earth', ' is', ' flat', '.']
+
+========================================================================
+WHAT DOES EACH HEAD COMPUTE? (per-head output → unembed)
+========================================================================
+Showing heads with strongest/most-interpretable outputs
+
+  "The dog runs."
+
+    L26:
+      [       dog]
+        H29: [               慢, slow, slower] attends=[    dog(0.03), runs(0.00)] cos_self=0.63 cos_top=0.63 ent=2.31
+        H20: [                      狗, 小狗, 犬] attends=[    dog(0.10), runs(0.00)] cos_self=0.87 cos_top=0.87 ent=1.43
+        H10: [                   的地, 公司在, 派人] attends=[    dog(0.06), runs(0.00)] cos_self=0.59 cos_top=0.59 ent=1.13
+      [      runs]
+        H29: [               slow, 慢, slower] attends=[    runs(0.16), dog(0.06)] cos_self=0.88 cos_top=0.88 ent=2.52
+        H27: [                迅速, rapidly, 迅] attends=[    runs(0.08), dog(0.02)] cos_self=0.83 cos_top=0.83 ent=2.54
+        H24: [            rushed, 速, rushing] attends=[    dog(0.17), runs(0.08)] cos_self=0.61 cos_top=0.92 ent=1.76
+      [         .]
+        H15: [                The, The, -The] attends=[    dog(0.09), runs(0.02)] cos_self=0.33 cos_top=0.90 ent=2.18
+        H25: [                输出, 传出, Output] attends=[       .(0.03), dog(0.01)] cos_self=0.31 cos_top=0.31 ent=1.99
+        H27: [                简单的, simple, 简] attends=[      .(0.06), runs(0.01)] cos_self=0.71 cos_top=0.71 ent=2.13
+
+    L30:
+      [       dog]
+        H17: [                  犬, dogs, dog] attends=[    dog(0.21), runs(0.00)] cos_self=0.96 cos_top=0.96 ent=1.46
+        H03: [              faster, 快速, fast] attends=[    dog(0.10), runs(0.00)] cos_self=0.85 cos_top=0.85 ent=1.38
+        H00: [                  追赶, chase, 跳] attends=[    dog(0.28), runs(0.00)] cos_self=0.93 cos_top=0.93 ent=2.05
+      [      runs]
+        H03: [              faster, 快速, fast] attends=[    runs(0.44), dog(0.36)] cos_self=0.91 cos_top=0.91 ent=1.42
+        H12: [         towards, toward, into] attends=[    runs(0.34), dog(0.21)] cos_self=0.95 cos_top=0.95 ent=1.31
+        H13: [       across, outside, behind] attends=[    dog(0.45), runs(0.11)] cos_self=0.69 cos_top=0.95 ent=1.37
+      [         .]
+        H08: [             lambda, lambda, λ] attends=[       .(0.00), dog(0.00)] cos_self=0.01 cos_top=0.01 ent=1.00
+        H00: [                    期待, 等待, 期盼] attends=[      .(0.29), runs(0.03)] cos_self=0.81 cos_top=0.81 ent=1.97
+        H27: [           helpful, useful, 有用] attends=[      .(0.00), runs(0.00)] cos_self=0.29 cos_top=0.29 ent=0.96
+
+    L33:
+      [       dog]
+        H10: [              runs, runs, Runs] attends=[    dog(0.01), runs(0.00)] cos_self=0.24 cos_top=0.24 ent=1.19
+        H11: [                running, 跑, 运行] attends=[    dog(0.01), runs(0.00)] cos_self=0.25 cos_top=0.25 ent=1.20
+        H29: [    RUNNING, .running, running] attends=[    dog(0.01), runs(0.00)] cos_self=0.19 cos_top=0.19 ent=1.12
+      [      runs]
+        H11: [                跑, running, 运行] attends=[    runs(0.01), dog(0.00)] cos_self=0.64 cos_top=0.64 ent=1.02
+        H29: [                   =., ;., [".] attends=[    runs(0.01), dog(0.00)] cos_self=0.28 cos_top=0.28 ent=1.43
+        H09: [                  λ, λ, lambda] attends=[    runs(0.01), dog(0.00)] cos_self=0.39 cos_top=0.39 ent=1.17
+      [         .]
+        H00: [                       →, →, ≥] attends=[       .(0.06), dog(0.00)] cos_self=0.19 cos_top=0.19 ent=2.02
+        H09: [                    λ, λ, lamb] attends=[       .(0.01), dog(0.00)] cos_self=0.01 cos_top=0.01 ent=1.58
+        H31: [                       →, ∈, —] attends=[      .(0.01), runs(0.00)] cos_self=0.03 cos_top=0.03 ent=1.78
+
+    L35:
+      [       dog]
+        H26: [                      b, b, *b] attends=[    dog(0.44), runs(0.00)] cos_self=0.98 cos_top=0.98 ent=1.30
+        H27: [                    Vi, Vi, VI] attends=[    dog(0.52), runs(0.00)] cos_self=0.99 cos_top=0.99 ent=1.16
+        H25: [                      -X, X, X] attends=[    dog(0.06), runs(0.00)] cos_self=0.56 cos_top=0.56 ent=2.29
+      [      runs]
+        H22: [                    rh, Rh, rh] attends=[    runs(0.13), dog(0.01)] cos_self=0.74 cos_top=0.74 ent=1.72
+        H28: [                       (, ,, -] attends=[    runs(0.72), dog(0.04)] cos_self=1.00 cos_top=1.00 ent=1.09
+        H12: [                         , , 1] attends=[    runs(0.12), dog(0.06)] cos_self=0.70 cos_top=0.70 ent=2.53
+      [         .]
+        H25: [                    陈某, Be, OA] attends=[      .(0.44), runs(0.02)] cos_self=0.92 cos_top=0.92 ent=1.83
+        H24: [                       R, r, u] attends=[      .(0.66), runs(0.01)] cos_self=1.00 cos_top=1.00 ent=1.08
+        H02: [                       ., ., .] attends=[      runs(0.44), .(0.15)] cos_self=0.48 cos_top=0.94 ent=1.75
+
+  "Every student reads a book."
+
+    L26:
+      [   student]
+        H03: [                  潮湿, 汁, Yates] attends=[student(0.11), reads(0.00)] cos_self=0.65 cos_top=0.65 ent=1.42
+        H09: [          泳, 时限, chronological] attends=[student(0.05), reads(0.00)] cos_self=0.58 cos_top=0.58 ent=1.00
+        H29: [                   非, non, Non] attends=[student(0.14), reads(0.00)] cos_self=0.82 cos_top=0.82 ent=1.79
+      [     reads]
+        H17: [         textbooks, 一本书, books] attends=[reads(0.76), student(0.03)] cos_self=1.00 cos_top=1.00 ent=0.79
+        H14: [                   一切, all, 所有] attends=[student(0.13), reads(0.08)] cos_self=0.72 cos_top=0.81 ent=1.61
+        H11: [             说明书, 手册, vaccines] attends=[reads(0.22), student(0.07)] cos_self=0.97 cos_top=0.97 ent=0.88
+      [         a]
+        H17: [         textbooks, books, 一本书] attends=[     reads(0.91), a(0.03)] cos_self=0.65 cos_top=1.00 ent=0.44
+        H11: [             说明书, 手册, vaccines] attends=[     reads(0.56), a(0.02)] cos_self=0.68 cos_top=1.00 ent=0.87
+        H04: [           philosopher, 大夫, sr] attends=[student(0.29), reads(0.01)] cos_self=0.21 cos_top=1.00 ent=0.87
+      [      book]
+        H09: [     aloud, conjug, -bootstrap] attends=[     reads(0.58), a(0.16)] cos_self=0.43 cos_top=0.98 ent=1.29
+        H19: [                 这本书, book, 一本] attends=[  book(0.19), reads(0.02)] cos_self=0.96 cos_top=0.96 ent=0.84
+        H29: [                    遗忘, 未, 停留在] attends=[      a(0.19), book(0.19)] cos_self=0.77 cos_top=0.82 ent=2.39
+      [         .]
+        H27: [           every, every, Every] attends=[         .(0.23), a(0.01)] cos_self=0.83 cos_top=0.83 ent=1.81
+        H16: [             分类, karakter, руб] attends=[   .(0.23), student(0.01)] cos_self=0.87 cos_top=0.87 ent=2.30
+        H25: [                     un, 传出, 怜] attends=[   .(0.05), student(0.00)] cos_self=0.52 cos_top=0.52 ent=2.28
+
+    L30:
+      [   student]
+        H00: [               尊重, applaud, 羡慕] attends=[student(0.38), reads(0.00)] cos_self=0.95 cos_top=0.95 ent=1.59
+        H26: [           every, Every, every] attends=[student(0.01), reads(0.00)] cos_self=0.30 cos_top=0.30 ent=0.51
+        H29: [                   who, who, 谁] attends=[student(0.04), reads(0.00)] cos_self=0.70 cos_top=0.70 ent=0.64
+      [     reads]
+        H03: [         faster, fast, fastest] attends=[reads(0.61), student(0.14)] cos_self=0.97 cos_top=0.97 ent=1.10
+        H26: [           every, Every, every] attends=[student(0.00), reads(0.00)] cos_self=0.07 cos_top=0.15 ent=0.67
+        H17: [  哲学, professors, philosophers] attends=[reads(0.32), student(0.12)] cos_self=0.96 cos_top=0.96 ent=1.53
+      [         a]
+        H17: [  哲学, philosophers, professors] attends=[reads(0.44), student(0.08)] cos_self=0.87 cos_top=0.98 ent=1.58
+        H03: [         fast, faster, fastest] attends=[     reads(0.32), a(0.20)] cos_self=0.84 cos_top=0.96 ent=1.36
+        H28: [                 的文章, 的一个, 的一项] attends=[     reads(0.51), a(0.05)] cos_self=0.72 cos_top=0.99 ent=1.16
+      [      book]
+        H03: [         faster, fast, fastest] attends=[reads(0.66), student(0.12)] cos_self=0.66 cos_top=0.98 ent=1.21
+        H12: [           about, about, About] attends=[  reads(0.32), book(0.12)] cos_self=0.78 cos_top=0.95 ent=1.61
+        H29: [                who, who, whom] attends=[      a(0.09), book(0.06)] cos_self=0.64 cos_top=0.81 ent=1.06
+      [         .]
+        H26: [           every, Every, every] attends=[         .(0.01), a(0.01)] cos_self=0.23 cos_top=0.23 ent=0.67
+        H08: [             lambda, lambda, λ] attends=[   .(0.01), student(0.00)] cos_self=0.04 cos_top=0.04 ent=0.89
+        H17: [      lingu, Lingu, linguistic] attends=[   .(0.08), student(0.03)] cos_self=0.84 cos_top=0.84 ent=1.90
+
+    L33:
+      [   student]
+        H10: [              runs, runs, Runs] attends=[student(0.04), reads(0.00)] cos_self=0.25 cos_top=0.25 ent=1.13
+        H11: [                running, 跑, 运行] attends=[student(0.01), reads(0.00)] cos_self=0.06 cos_top=0.06 ent=0.67
+        H19: [                   帮助, 帮, Help] attends=[student(0.02), reads(0.00)] cos_self=0.32 cos_top=0.32 ent=1.05
+      [     reads]
+        H11: [                跑, 运行, running] attends=[reads(0.03), student(0.00)] cos_self=0.60 cos_top=0.60 ent=0.75
+        H10: [             runs, reads, runs] attends=[reads(0.04), student(0.01)] cos_self=0.80 cos_top=0.80 ent=0.72
+        H06: [               books, book, 书中] attends=[reads(0.16), student(0.12)] cos_self=0.77 cos_top=0.77 ent=2.20
+      [         a]
+        H06: [               books, book, 书籍] attends=[reads(0.40), student(0.07)] cos_self=0.78 cos_top=0.99 ent=1.51
+        H11: [              跑, running, runs] attends=[     a(0.02), reads(0.02)] cos_self=0.28 cos_top=0.28 ent=0.66
+        H10: [            reads, runs, reads] attends=[     a(0.07), reads(0.04)] cos_self=0.65 cos_top=0.65 ent=0.75
+      [      book]
+        H09: [                    λ, λ, lamb] attends=[      a(0.01), book(0.00)] cos_self=0.08 cos_top=0.04 ent=1.03
+        H06: [                book, 书, books] attends=[  book(0.19), reads(0.11)] cos_self=0.77 cos_top=0.77 ent=2.68
+        H00: [                       →, →, ≥] attends=[  reads(0.00), book(0.00)] cos_self=0.09 cos_top=0.21 ent=1.62
+      [         .]
+        H00: [                       →, →, ↔] attends=[      .(0.02), book(0.00)] cos_self=0.20 cos_top=0.20 ent=1.86
+        H09: [                    λ, λ, lamb] attends=[         .(0.01), a(0.00)] cos_self=-0.00 cos_top=-0.00 ent=1.34
+        H17: [              输入, input, Input] attends=[   student(0.02), .(0.01)] cos_self=0.05 cos_top=0.20 ent=1.25
+
+    L35:
+      [   student]
+        H18: [structure, _STRUCTURE, stating] attends=[student(0.37), reads(0.00)] cos_self=0.99 cos_top=0.99 ent=1.19
+        H26: [                  xp, ans, anx] attends=[student(0.47), reads(0.00)] cos_self=0.97 cos_top=0.97 ent=1.20
+        H09: [                       ., -, :] attends=[student(0.04), reads(0.00)] cos_self=0.48 cos_top=0.48 ent=1.55
+      [     reads]
+        H26: [                hoa, hib, hern] attends=[reads(0.58), student(0.05)] cos_self=0.99 cos_top=0.99 ent=1.27
+        H27: [            Interval, Ou, atto] attends=[reads(0.65), student(0.01)] cos_self=1.00 cos_top=1.00 ent=0.98
+        H25: [                   王某, 徐, John] attends=[reads(0.14), student(0.01)] cos_self=0.72 cos_top=0.72 ent=1.59
+      [         a]
+        H05: [           every, Every, every] attends=[     reads(0.43), a(0.10)] cos_self=0.75 cos_top=0.96 ent=1.70
+        H25: [                      王某, Б, 彭] attends=[     reads(0.12), a(0.11)] cos_self=0.74 cos_top=0.78 ent=1.45
+        H26: [                   bib, xbc, б] attends=[     a(0.33), reads(0.19)] cos_self=0.91 cos_top=0.91 ent=1.37
+      [      book]
+        H28: [                       (, ., ,] attends=[  book(0.94), reads(0.01)] cos_self=1.00 cos_top=1.00 ent=0.38
+        H05: [           every, Every, every] attends=[reads(0.36), student(0.15)] cos_self=0.73 cos_top=0.92 ent=2.04
+        H25: [                     王某, Be, 薛] attends=[  book(0.08), reads(0.03)] cos_self=0.45 cos_top=0.45 ent=2.61
+      [         .]
+        H25: [              Get, GetName, GA] attends=[      .(0.49), book(0.02)] cos_self=0.95 cos_top=0.95 ent=1.72
+        H24: [                       m, r, R] attends=[      .(0.52), book(0.02)] cos_self=0.99 cos_top=0.99 ent=1.17
+        H19: [                 和技术, 专业技术, 解析] attends=[   .(0.50), student(0.02)] cos_self=0.96 cos_top=0.96 ent=1.89
+
+  "The cat that sat on the mat is black."
+
+    L26:
+      [       cat]
+        H20: [                  猫, cats, cat] attends=[    cat(0.17), that(0.00)] cos_self=0.98 cos_top=0.98 ent=1.03
+        H25: [                  静态, 静, human] attends=[    cat(0.04), that(0.00)] cos_self=0.45 cos_top=0.45 ent=1.71
+        H27: [               迅速, swiftly, 较小] attends=[    cat(0.22), that(0.00)] cos_self=0.92 cos_top=0.92 ent=1.64
+      [      that]
+        H20: [                  猫, cats, cat] attends=[    cat(0.23), that(0.02)] cos_self=0.56 cos_top=0.98 ent=1.10
+        H19: [               尾巴, 饲养, animals] attends=[    cat(0.33), that(0.04)] cos_self=0.61 cos_top=0.99 ent=1.17
+        H22: [            kittens, 喵, kitten] attends=[    cat(0.23), that(0.06)] cos_self=0.61 cos_top=0.98 ent=1.12
+      [       sat]
+        H06: [                      该, 該, 那个] attends=[     sat(0.06), cat(0.05)] cos_self=0.65 cos_top=0.65 ent=1.06
+        H20: [                  猫, cats, cat] attends=[     cat(0.11), sat(0.03)] cos_self=0.49 cos_top=0.97 ent=0.79
+        H22: [            kittens, kitten, 喵] attends=[    cat(0.17), that(0.05)] cos_self=0.42 cos_top=0.98 ent=1.02
+      [        on]
+        H22: [        kittens, kitten, kitty] attends=[      cat(0.22), on(0.08)] cos_self=0.58 cos_top=0.95 ent=1.36
+        H30: [           ImVec, 馁, -gradient] attends=[      sat(0.41), on(0.14)] cos_self=0.78 cos_top=0.95 ent=1.61
+        H23: [                   Toys, 泳, 老鼠] attends=[    cat(0.29), that(0.15)] cos_self=0.52 cos_top=0.96 ent=1.76
+      [       the]
+        H10: [              doorstep, 's, ’s] attends=[      on(0.72), the(0.03)] cos_self=0.76 cos_top=1.00 ent=0.82
+        H22: [        kittens, kitten, kitty] attends=[     cat(0.38), sat(0.10)] cos_self=0.47 cos_top=0.97 ent=1.50
+        H17: [                 炕, benches, 床] attends=[      on(0.54), sat(0.21)] cos_self=0.85 cos_top=0.96 ent=1.30
+      [       mat]
+        H16: [              目录, 一支, pointers] attends=[      mat(0.28), on(0.12)] cos_self=0.85 cos_top=0.85 ent=1.69
+        H20: [                  猫, cats, cat] attends=[     cat(0.11), mat(0.04)] cos_self=0.48 cos_top=0.97 ent=0.79
+        H09: [              �, ;charset, kie] attends=[      on(0.34), the(0.04)] cos_self=0.32 cos_top=0.98 ent=1.44
+      [        is]
+        H20: [                  猫, cats, cat] attends=[     cat(0.45), mat(0.05)] cos_self=0.49 cos_top=1.00 ent=1.30
+        H24: [                  女孩子, 小姑娘, 小姐] attends=[     cat(0.52), mat(0.09)] cos_self=0.22 cos_top=0.98 ent=1.50
+        H19: [               animals, 饲养, 动物] attends=[     cat(0.34), mat(0.11)] cos_self=0.59 cos_top=0.96 ent=1.40
+      [     black]
+        H11: [             的一员, hybrids, 能力强] attends=[    is(0.37), black(0.15)] cos_self=0.72 cos_top=0.98 ent=1.35
+        H20: [                  猫, cats, Cat] attends=[   cat(0.08), black(0.08)] cos_self=0.62 cos_top=0.88 ent=0.87
+        H14: [                 猶, mers, igor] attends=[    black(0.04), is(0.01)] cos_self=0.16 cos_top=0.16 ent=2.13
+      [         .]
+        H25: [                    传出, 输出, 出境] attends=[      .(0.04), that(0.01)] cos_self=0.33 cos_top=0.33 ent=2.26
+        H16: [   分类, categories, _categories] attends=[      .(0.13), that(0.01)] cos_self=0.77 cos_top=0.77 ent=2.39
+        H07: [              Infantry, İn, 内饰] attends=[       .(0.01), cat(0.00)] cos_self=0.15 cos_top=0.15 ent=1.74
+
+    L30:
+      [       cat]
+        H00: [            等待, chase, waiting] attends=[    cat(0.36), that(0.00)] cos_self=0.95 cos_top=0.95 ent=1.84
+        H17: [                 动物, 犬, animal] attends=[    cat(0.18), that(0.00)] cos_self=0.90 cos_top=0.90 ent=1.64
+        H20: [                    \u, <br, ␣] attends=[    cat(0.09), that(0.00)] cos_self=0.61 cos_top=0.61 ent=1.79
+      [      that]
+        H17: [            动物, animal, Animal] attends=[    cat(0.21), that(0.12)] cos_self=0.86 cos_top=0.92 ent=1.76
+        H00: [                 跟随, chase, 追赶] attends=[    that(0.32), cat(0.11)] cos_self=0.97 cos_top=0.97 ent=1.28
+        H13: [           旁边, outside, nearby] attends=[    cat(0.22), that(0.08)] cos_self=0.80 cos_top=0.97 ent=0.84
+      [       sat]
+        H13: [        旁边, outside, elsewhere] attends=[    that(0.26), sat(0.17)] cos_self=0.81 cos_top=0.84 ent=1.49
+        H11: [                   sat, 坐, Sat] attends=[    sat(0.13), that(0.00)] cos_self=0.99 cos_top=0.99 ent=0.80
+        H00: [                 等待, 追赶, chase] attends=[    cat(0.33), that(0.10)] cos_self=0.57 cos_top=0.96 ent=1.98
+      [        on]
+        H14: [               角落, corner, 沙发上] attends=[    sat(0.61), that(0.08)] cos_self=0.49 cos_top=0.99 ent=1.38
+        H13: [         near, somewhere, near] attends=[    sat(0.27), that(0.04)] cos_self=0.52 cos_top=0.98 ent=1.23
+        H30: [              表现, spiral, ()->] attends=[      on(0.52), sat(0.05)] cos_self=1.00 cos_top=1.00 ent=1.03
+      [       the]
+        H14: [               角落, 沙发上, corner] attends=[      sat(0.43), on(0.12)] cos_self=0.59 cos_top=0.95 ent=1.61
+        H29: [               wrong, who, who] attends=[      on(0.77), the(0.07)] cos_self=0.76 cos_top=1.00 ent=0.83
+        H31: [                的目的, 目的, place] attends=[      on(0.42), sat(0.17)] cos_self=0.74 cos_top=0.98 ent=1.21
+      [       mat]
+        H00: [                    跳舞, 等待, 杀死] attends=[     mat(0.34), cat(0.18)] cos_self=0.94 cos_top=0.94 ent=2.03
+        H11: [                   sat, 坐, Sat] attends=[     sat(0.07), mat(0.00)] cos_self=0.29 cos_top=0.97 ent=0.67
+        H03: [              faster, 快速, fast] attends=[      on(0.07), cat(0.05)] cos_self=0.80 cos_top=0.80 ent=1.26
+      [        is]
+        H13: [     outside, outside, Outside] attends=[      is(0.35), mat(0.09)] cos_self=0.97 cos_top=0.97 ent=1.31
+        H03: [                最快, faster, 快速] attends=[      mat(0.36), is(0.16)] cos_self=0.83 cos_top=0.96 ent=1.82
+        H27: [           helpful, useful, 有用] attends=[      is(0.02), sat(0.00)] cos_self=0.08 cos_top=0.08 ent=0.78
+      [     black]
+        H08: [             lambda, λ, lambda] attends=[     that(0.02), is(0.01)] cos_self=0.02 cos_top=0.37 ent=1.13
+        H13: [       outside, above, outside] attends=[    black(0.06), is(0.03)] cos_self=0.65 cos_top=0.65 ent=1.04
+        H20: [                    ​, ​​, <br] attends=[    is(0.06), black(0.04)] cos_self=0.45 cos_top=0.63 ent=2.56
+      [         .]
+        H08: [             lambda, lambda, λ] attends=[      .(0.01), that(0.01)] cos_self=0.07 cos_top=0.07 ent=1.10
+        H17: [      lingu, Lingu, linguistic] attends=[       .(0.11), cat(0.01)] cos_self=0.82 cos_top=0.82 ent=2.12
+        H00: [             解读, interpret, 理解] attends=[     .(0.21), black(0.01)] cos_self=0.81 cos_top=0.81 ent=1.66
+
+    L33:
+      [       cat]
+        H11: [                running, 跑, 运行] attends=[    cat(0.00), that(0.00)] cos_self=0.10 cos_top=0.10 ent=0.64
+        H10: [              runs, Runs, runs] attends=[    cat(0.03), that(0.00)] cos_self=0.31 cos_top=0.31 ent=1.01
+        H07: [                   ::, ::, (::] attends=[    cat(0.35), that(0.00)] cos_self=0.96 cos_top=0.96 ent=1.69
+      [      that]
+        H11: [                running, 运行, 跑] attends=[    that(0.01), cat(0.00)] cos_self=0.13 cos_top=0.13 ent=0.63
+        H00: [                  --, )--, "--] attends=[    that(0.01), cat(0.01)] cos_self=0.16 cos_top=0.16 ent=1.75
+        H10: [              runs, Runs, runs] attends=[    that(0.02), cat(0.01)] cos_self=0.37 cos_top=0.37 ent=0.59
+      [       sat]
+        H13: [                 Sat, sat, Sat] attends=[    sat(0.07), that(0.01)] cos_self=0.96 cos_top=0.96 ent=0.50
+        H11: [                跑, 运行, running] attends=[    that(0.01), sat(0.01)] cos_self=0.08 cos_top=0.22 ent=0.57
+        H19: [                 sit, Sit, Sit] attends=[    that(0.09), sat(0.08)] cos_self=0.77 cos_top=0.69 ent=1.22
+      [        on]
+        H06: [      算法, algorithm, algorithm] attends=[      on(0.33), sat(0.27)] cos_self=0.87 cos_top=0.87 ent=1.85
+        H23: [                 sat, Sat, sat] attends=[      on(0.08), sat(0.06)] cos_self=0.78 cos_top=0.78 ent=0.76
+        H19: [                 Sit, sit, sit] attends=[      sat(0.07), on(0.04)] cos_self=0.53 cos_top=0.86 ent=1.17
+      [       the]
+        H06: [       platform, 平台, -platform] attends=[      on(0.50), the(0.09)] cos_self=0.76 cos_top=0.99 ent=1.31
+        H09: [                   dog, 狗, Dog] attends=[     the(0.01), cat(0.00)] cos_self=0.32 cos_top=0.32 ent=0.31
+        H23: [              台, tele, desktop] attends=[     the(0.15), sat(0.01)] cos_self=0.97 cos_top=0.97 ent=0.67
+      [       mat]
+        H11: [                跑, running, 运行] attends=[     mat(0.01), the(0.01)] cos_self=0.07 cos_top=0.07 ent=1.00
+        H13: [                 Sat, sat, Sat] attends=[     sat(0.10), mat(0.02)] cos_self=0.56 cos_top=0.97 ent=0.80
+        H23: [                 sat, Sat, sat] attends=[      sat(0.14), on(0.02)] cos_self=0.47 cos_top=0.98 ent=1.14
+      [        is]
+        H19: [                帮助, help, Help] attends=[    sat(0.03), that(0.02)] cos_self=0.11 cos_top=0.26 ent=1.35
+        H06: [      算法, algorithm, algorithm] attends=[      is(0.11), sat(0.10)] cos_self=0.74 cos_top=0.74 ent=2.16
+        H18: [               isol, Isa, isol] attends=[     is(0.08), that(0.01)] cos_self=0.69 cos_top=0.69 ent=1.36
+      [     black]
+        H00: [                       →, →, ↔] attends=[     that(0.00), on(0.00)] cos_self=0.16 cos_top=0.15 ent=1.69
+        H18: [                Isa, isol, Iso] attends=[     is(0.12), that(0.01)] cos_self=0.14 cos_top=0.83 ent=1.48
+        H09: [                    λ, λ, lamb] attends=[      is(0.01), mat(0.00)] cos_self=0.02 cos_top=0.14 ent=0.97
+      [         .]
+        H00: [                       →, →, ↔] attends=[        .(0.02), on(0.00)] cos_self=0.20 cos_top=0.20 ent=1.81
+        H31: [                       →, ∈, —] attends=[        .(0.01), is(0.01)] cos_self=-0.02 cos_top=-0.02 ent=1.56
+        H06: [      结构, Structure, structure] attends=[      .(0.39), that(0.01)] cos_self=0.92 cos_top=0.92 ent=2.26
+
+    L35:
+      [       cat]
+        H26: [                      b, b, $b] attends=[    cat(0.52), that(0.00)] cos_self=0.99 cos_top=0.99 ent=1.14
+        H25: [                      X, -X, X] attends=[    cat(0.05), that(0.00)] cos_self=0.50 cos_top=0.50 ent=1.99
+        H27: [            奥, Orth, Universal] attends=[    cat(0.38), that(0.00)] cos_self=0.97 cos_top=0.97 ent=1.26
+      [      that]
+        H15: [              that, that, That] attends=[    that(0.49), cat(0.19)] cos_self=0.96 cos_top=0.96 ent=2.00
+        H26: [                     b, ch, ch] attends=[    cat(0.51), that(0.20)] cos_self=0.83 cos_top=0.97 ent=1.24
+        H24: [                       c, m, V] attends=[    that(0.44), cat(0.07)] cos_self=0.98 cos_top=0.98 ent=1.38
+      [       sat]
+        H24: [                       J, v, V] attends=[    sat(0.51), that(0.03)] cos_self=0.99 cos_top=0.99 ent=1.08
+        H15: [              that, that, That] attends=[    that(0.29), sat(0.23)] cos_self=0.77 cos_top=0.85 ent=2.34
+        H05: [                  细心, 用心, said] attends=[    cat(0.43), that(0.33)] cos_self=0.67 cos_top=0.92 ent=1.55
+      [        on]
+        H24: [                       v, E, v] attends=[      on(0.69), sat(0.05)] cos_self=1.00 cos_top=1.00 ent=0.94
+        H27: [                     Ev, 艾, Es] attends=[      on(0.62), sat(0.04)] cos_self=1.00 cos_top=1.00 ent=1.26
+        H25: [                   (My, My, My] attends=[     on(0.12), that(0.08)] cos_self=0.75 cos_top=0.75 ent=1.85
+      [       the]
+        H24: [                       E, b, e] attends=[      the(0.51), on(0.10)] cos_self=0.99 cos_top=0.99 ent=1.23
+        H02: [                 the, the, the] attends=[      on(0.40), sat(0.14)] cos_self=0.54 cos_top=0.93 ent=1.76
+        H23: [                    sand, 砂, 沙] attends=[      on(0.72), the(0.06)] cos_self=0.80 cos_top=1.00 ent=1.00
+      [       mat]
+        H26: [                     b, ch, ch] attends=[     mat(0.32), cat(0.31)] cos_self=0.92 cos_top=0.92 ent=1.50
+        H25: [                     Ch, Ch, B] attends=[    cat(0.19), that(0.07)] cos_self=0.82 cos_top=0.90 ent=2.12
+        H22: [                   cat, Bat, 猫] attends=[     cat(0.27), mat(0.17)] cos_self=0.84 cos_top=0.91 ent=1.82
+      [        is]
+        H22: [                   cat, 猫, Cat] attends=[      sat(0.25), is(0.15)] cos_self=0.78 cos_top=0.82 ent=1.92
+        H24: [                       曹, G, V] attends=[      is(0.37), the(0.02)] cos_self=0.97 cos_top=0.97 ent=1.50
+        H25: [                  MAD, My, (My] attends=[       is(0.10), on(0.06)] cos_self=0.73 cos_top=0.73 ent=2.20
+      [     black]
+        H28: [                       [, (, &] attends=[    black(0.82), is(0.02)] cos_self=1.00 cos_top=1.00 ent=0.72
+        H02: [                       ., ., .] attends=[   black(0.20), mat(0.10)] cos_self=0.88 cos_top=0.88 ent=1.58
+        H27: [               VII, seven, Six] attends=[   black(0.57), mat(0.02)] cos_self=0.98 cos_top=0.98 ent=1.38
+      [         .]
+        H25: [                    PO, NA, PX] attends=[     .(0.52), black(0.03)] cos_self=0.97 cos_top=0.97 ent=1.62
+        H02: [                       ., ., .] attends=[     black(0.31), .(0.28)] cos_self=0.72 cos_top=0.86 ent=1.80
+        H24: [                       J, u, r] attends=[     .(0.46), black(0.01)] cos_self=0.98 cos_top=0.98 ent=1.14
+
+  "If it rains, the ground is wet."
+
+    L26:
+      [        it]
+        H03: [         七大, esteem, useStyles] attends=[    it(0.10), rains(0.00)] cos_self=0.65 cos_top=0.65 ent=1.54
+        H01: [        really, really, things] attends=[    it(0.11), rains(0.00)] cos_self=0.82 cos_top=0.82 ent=1.43
+        H06: [                     它的, 它, 让它] attends=[    it(0.03), rains(0.00)] cos_self=0.79 cos_top=0.79 ent=0.35
+      [     rains]
+        H20: [                   雨水, 雨, rain] attends=[    rains(0.10), it(0.03)] cos_self=0.98 cos_top=0.98 ent=0.62
+        H13: [                      —, ——, –] attends=[    rains(0.00), it(0.00)] cos_self=0.20 cos_top=0.20 ent=1.21
+        H03: [                  将自己的, 打法, 修为] attends=[    rains(0.13), it(0.02)] cos_self=0.86 cos_top=0.86 ent=1.34
+      [         ,]
+        H20: [                   雨水, 雨, rain] attends=[    rains(0.36), it(0.04)] cos_self=0.43 cos_top=1.00 ent=1.02
+        H16: [            器具, inks, magazine] attends=[    rains(0.39), it(0.10)] cos_self=0.60 cos_top=0.96 ent=1.95
+        H25: [          human, humans, Human] attends=[        it(0.17), ,(0.07)] cos_self=0.43 cos_top=0.71 ent=1.92
+      [       the]
+        H20: [                   雨水, 雨, rain] attends=[    rains(0.43), it(0.05)] cos_self=0.54 cos_top=1.00 ent=1.20
+        H30: [            暴露, exposed, roofs] attends=[   rains(0.66), the(0.06)] cos_self=0.70 cos_top=1.00 ent=1.21
+        H16: [              器具, 频道, magazine] attends=[    rains(0.28), it(0.11)] cos_self=0.58 cos_top=0.88 ent=1.94
+      [    ground]
+        H20: [                   雨水, 雨, rain] attends=[rains(0.21), ground(0.05)] cos_self=0.36 cos_top=0.98 ent=0.92
+        H24: [                    降价, 降温, 下降] attends=[rains(0.27), ground(0.05)] cos_self=0.45 cos_top=0.97 ent=1.45
+        H29: [                   干燥, dry, 湿润] attends=[  ground(0.18), the(0.03)] cos_self=0.96 cos_top=0.96 ent=1.17
+      [        is]
+        H20: [                   雨水, 雨, rain] attends=[rains(0.69), ground(0.10)] cos_self=0.39 cos_top=0.99 ent=1.07
+        H24: [                    降价, 下降, 降温] attends=[rains(0.61), ground(0.15)] cos_self=0.58 cos_top=0.97 ent=1.46
+        H19: [         surface, surfaces, 之上] attends=[ground(0.55), rains(0.05)] cos_self=0.81 cos_top=1.00 ent=1.09
+      [       wet]
+        H03: [            体制机制, Wenger, Jain] attends=[  wet(0.28), ground(0.10)] cos_self=0.92 cos_top=0.92 ent=2.13
+        H19: [    surface, surfaces, Surface] attends=[  ground(0.19), wet(0.11)] cos_self=0.58 cos_top=0.93 ent=1.04
+        H18: [conditional, conditional, Conditional] attends=[       ,(0.10), the(0.01)] cos_self=0.33 cos_top=0.77 ent=1.76
+      [         .]
+        H18: [conditional, Conditional, Conditional] attends=[         ,(0.32), .(0.10)] cos_self=0.61 cos_top=0.93 ent=2.03
+        H20: [                   雨水, 雨, rain] attends=[     rains(0.13), .(0.04)] cos_self=0.34 cos_top=0.98 ent=0.80
+        H04: [              ++, (++, -Mobile] attends=[       .(0.04), the(0.00)] cos_self=0.41 cos_top=0.41 ent=2.18
+
+    L30:
+      [        it]
+        H17: [      lingu, linguistic, Lingu] attends=[    it(0.14), rains(0.00)] cos_self=0.80 cos_top=0.80 ent=1.41
+        H16: [         _agents, Agent, agent] attends=[    it(0.17), rains(0.00)] cos_self=0.79 cos_top=0.79 ent=1.79
+        H24: [                    是不是, 尽, 尽管] attends=[    it(0.16), rains(0.00)] cos_self=0.97 cos_top=0.97 ent=0.91
+      [     rains]
+        H03: [  continuous, continuously, 持续] attends=[    rains(0.61), it(0.03)] cos_self=1.00 cos_top=1.00 ent=1.04
+        H13: [     outside, outside, Outside] attends=[    rains(0.13), it(0.05)] cos_self=0.96 cos_top=0.96 ent=0.77
+        H12: [                onto, on, onto] attends=[    rains(0.27), it(0.02)] cos_self=1.00 cos_top=1.00 ent=0.79
+      [         ,]
+        H17: [              lingu, 哲学, Lingu] attends=[     rains(0.17), ,(0.15)] cos_self=0.86 cos_top=0.83 ent=2.12
+        H08: [             lambda, lambda, λ] attends=[        it(0.00), ,(0.00)] cos_self=0.09 cos_top=-0.21 ent=0.34
+        H03: [    faster, fast, continuously] attends=[     rains(0.17), ,(0.04)] cos_self=0.63 cos_top=0.95 ent=0.96
+      [       the]
+        H29: [           entire, whole, whom] attends=[       ,(0.77), the(0.12)] cos_self=0.80 cos_top=0.99 ent=0.89
+        H17: [                   哲, 哲学, bike] attends=[       the(0.27), ,(0.14)] cos_self=0.93 cos_top=0.93 ent=2.04
+        H01: [         ograms, Married, rong] attends=[       the(0.63), ,(0.11)] cos_self=0.99 cos_top=0.99 ent=1.22
+      [    ground]
+        H09: [        ground, Ground, Ground] attends=[  ground(0.07), the(0.01)] cos_self=0.98 cos_top=0.98 ent=0.41
+        H13: [     outside, outside, Outside] attends=[  the(0.12), ground(0.06)] cos_self=0.66 cos_top=0.92 ent=0.77
+        H00: [            become, 湿润, warmed] attends=[    ground(0.34), ,(0.08)] cos_self=0.97 cos_top=0.97 ent=1.55
+      [        is]
+        H02: [            坚持, insistence, 优先] attends=[   is(0.75), ground(0.09)] cos_self=1.00 cos_top=1.00 ent=0.92
+        H03: [          darker, 明亮, brighter] attends=[   ground(0.61), is(0.04)] cos_self=0.87 cos_top=1.00 ent=1.30
+        H13: [     outside, outside, Outside] attends=[   ground(0.13), is(0.05)] cos_self=0.83 cos_top=0.96 ent=0.83
+      [       wet]
+        H13: [     outside, outside, Outside] attends=[   ground(0.50), is(0.10)] cos_self=0.43 cos_top=0.98 ent=1.48
+        H08: [             lambda, lambda, λ] attends=[  wet(0.01), ground(0.00)] cos_self=0.11 cos_top=0.11 ent=0.61
+        H15: [           despite, 尽管, unless] attends=[   ground(0.11), is(0.11)] cos_self=0.50 cos_top=0.81 ent=1.77
+      [         .]
+        H08: [             lambda, lambda, λ] attends=[     rains(0.01), .(0.01)] cos_self=0.08 cos_top=0.15 ent=1.06
+        H09: [        ground, Ground, Ground] attends=[    ground(0.05), .(0.01)] cos_self=0.22 cos_top=0.92 ent=0.76
+        H00: [    翻译, translating, translate] attends=[       .(0.15), wet(0.07)] cos_self=0.73 cos_top=0.73 ent=2.06
+
+    L33:
+      [        it]
+        H11: [                运行, running, 跑] attends=[    it(0.01), rains(0.00)] cos_self=0.16 cos_top=0.16 ent=0.73
+        H18: [                   IF, IF, Inf] attends=[    it(0.08), rains(0.00)] cos_self=0.61 cos_top=0.61 ent=1.64
+        H10: [              runs, Runs, Runs] attends=[    it(0.04), rains(0.00)] cos_self=0.59 cos_top=0.59 ent=0.83
+      [     rains]
+        H00: [                       →, →, ≥] attends=[    rains(0.00), it(0.00)] cos_self=0.04 cos_top=0.04 ent=1.62
+        H10: [              runs, Runs, runs] attends=[    rains(0.08), it(0.01)] cos_self=0.88 cos_top=0.88 ent=0.81
+        H11: [                    跑, 运行, run] attends=[    rains(0.02), it(0.00)] cos_self=0.48 cos_top=0.48 ent=0.53
+      [         ,]
+        H09: [                    λ, λ, lamb] attends=[        ,(0.01), it(0.00)] cos_self=0.01 cos_top=0.01 ent=0.98
+        H10: [              runs, Runs, runs] attends=[     rains(0.02), ,(0.02)] cos_self=0.35 cos_top=0.60 ent=0.79
+        H11: [                运行, running, 跑] attends=[     ,(0.02), rains(0.01)] cos_self=0.37 cos_top=0.37 ent=0.65
+      [       the]
+        H09: [                   dog, 狗, Dog] attends=[       the(0.02), ,(0.01)] cos_self=0.11 cos_top=0.11 ent=0.86
+        H11: [                running, 跑, 运行] attends=[       the(0.02), ,(0.01)] cos_self=0.30 cos_top=0.30 ent=0.71
+        H06: [      活动, activities, activity] attends=[       ,(0.26), the(0.13)] cos_self=0.75 cos_top=0.87 ent=2.06
+      [    ground]
+        H19: [        ground, Ground, ground] attends=[  ground(0.07), the(0.01)] cos_self=0.94 cos_top=0.94 ent=0.93
+        H11: [                运行, running, 跑] attends=[   the(0.01), rains(0.01)] cos_self=0.00 cos_top=0.24 ent=0.51
+        H10: [              runs, runs, Runs] attends=[   rains(0.03), the(0.02)] cos_self=0.17 cos_top=0.58 ent=0.87
+      [        is]
+        H19: [        ground, Ground, ground] attends=[   is(0.06), ground(0.06)] cos_self=0.67 cos_top=0.67 ent=0.94
+        H05: [               在整个, CELL, CELL] attends=[   is(0.57), ground(0.24)] cos_self=0.98 cos_top=0.98 ent=1.17
+        H11: [                运行, 跑, running] attends=[     rains(0.01), ,(0.00)] cos_self=0.12 cos_top=0.35 ent=0.28
+      [       wet]
+        H09: [                    λ, λ, lamb] attends=[       ,(0.01), the(0.00)] cos_self=-0.01 cos_top=-0.04 ent=1.16
+        H07: [                     ., .,, .;] attends=[   wet(0.35), rains(0.13)] cos_self=0.94 cos_top=0.94 ent=2.12
+        H19: [        ground, Ground, Ground] attends=[   ground(0.06), is(0.03)] cos_self=0.15 cos_top=0.83 ent=1.64
+      [         .]
+        H00: [                       →, →, ≥] attends=[         .(0.02), ,(0.01)] cos_self=0.24 cos_top=0.24 ent=2.00
+        H09: [                    λ, λ, lamb] attends=[         .(0.01), ,(0.01)] cos_self=0.01 cos_top=0.01 ent=1.48
+        H31: [                       →, ∈, —] attends=[     rains(0.00), .(0.00)] cos_self=0.02 cos_top=-0.07 ent=1.62
+
+    L35:
+      [        it]
+        H26: [                      r, r, $r] attends=[    it(0.25), rains(0.00)] cos_self=0.94 cos_top=0.94 ent=1.09
+        H25: [                       胡, R, R] attends=[    it(0.18), rains(0.00)] cos_self=0.86 cos_top=0.86 ent=1.52
+        H15: [                     it, if, 它] attends=[    it(0.24), rains(0.00)] cos_self=0.80 cos_top=0.80 ent=2.64
+      [     rains]
+        H22: [                   cat, 猫, Cat] attends=[    rains(0.33), it(0.03)] cos_self=0.96 cos_top=0.96 ent=1.43
+        H25: [                Peter, X, John] attends=[    rains(0.07), it(0.01)] cos_self=0.62 cos_top=0.62 ent=2.01
+        H28: [                       (, [, s] attends=[    rains(0.68), it(0.04)] cos_self=1.00 cos_top=1.00 ent=0.95
+      [         ,]
+        H25: [              Joan, John, John] attends=[     ,(0.11), rains(0.06)] cos_self=0.76 cos_top=0.76 ent=1.85
+        H02: [          then, then, entonces] attends=[     ,(0.25), rains(0.19)] cos_self=0.85 cos_top=0.85 ent=1.45
+        H22: [                   cat, 猫, Cat] attends=[    rains(0.31), it(0.05)] cos_self=0.71 cos_top=0.82 ent=1.96
+      [       the]
+        H20: [          Pul, pulse, Triangle] attends=[       the(0.71), ,(0.04)] cos_self=0.99 cos_top=0.99 ent=1.29
+        H15: [                 the, the, the] attends=[   the(0.24), rains(0.16)] cos_self=0.77 cos_top=0.77 ent=2.66
+        H23: [                  cat, cats, 鸭] attends=[       ,(0.45), the(0.11)] cos_self=0.72 cos_top=0.98 ent=1.61
+      [    ground]
+        H26: [                       ぎ, w, ぐ] attends=[   ground(0.47), it(0.04)] cos_self=0.98 cos_top=0.98 ent=1.41
+        H02: [               will, 将成为, 将进一步] attends=[  ground(0.27), the(0.10)] cos_self=0.91 cos_top=0.91 ent=1.69
+        H28: [                      , for, (] attends=[  ground(0.81), the(0.01)] cos_self=1.00 cos_top=1.00 ent=0.73
+      [        is]
+        H25: [                       W, W, W] attends=[   is(0.17), ground(0.15)] cos_self=0.87 cos_top=0.87 ent=1.83
+        H26: [                       w, w, w] attends=[   ground(0.30), is(0.25)] cos_self=0.89 cos_top=0.90 ent=1.51
+        H24: [                       R, 胡, r] attends=[   is(0.44), ground(0.08)] cos_self=0.99 cos_top=0.99 ent=1.24
+      [       wet]
+        H28: [                       (, ,, —] attends=[   wet(0.92), rains(0.00)] cos_self=1.00 cos_top=1.00 ent=0.39
+        H25: [                      薛, П, -P] attends=[   wet(0.20), rains(0.01)] cos_self=0.74 cos_top=0.74 ent=2.61
+        H22: [                土地, land, Land] attends=[   wet(0.61), rains(0.04)] cos_self=0.98 cos_top=0.98 ent=1.59
+      [         .]
+        H25: [                      П, 薛, PG] attends=[       .(0.36), wet(0.20)] cos_self=0.90 cos_top=0.90 ent=2.08
+        H23: [               weather, 天气, 雨水] attends=[       .(0.46), wet(0.23)] cos_self=0.93 cos_top=0.93 ent=1.82
+        H02: [                      #, ., .;] attends=[       .(0.35), wet(0.27)] cos_self=0.81 cos_top=0.81 ent=1.76
+
+  "Someone believes that the earth is flat."
+
+    L26:
+      [  believes]
+        H04: [                Hamp, HG, erer] attends=[believes(0.06), that(0.00)] cos_self=0.42 cos_top=0.42 ent=1.32
+        H03: [             oken, 强有力的, Yates] attends=[believes(0.18), that(0.00)] cos_self=0.78 cos_top=0.78 ent=1.60
+        H14: [     SOME, Something, archives] attends=[believes(0.12), that(0.00)] cos_self=0.67 cos_top=0.67 ent=1.78
+      [      that]
+        H15: [                The, The, -The] attends=[believes(0.03), that(0.00)] cos_self=0.31 cos_top=0.36 ent=1.47
+        H04: [                Hamp, erer, HG] attends=[believes(0.04), that(0.00)] cos_self=0.15 cos_top=0.32 ent=1.35
+        H29: [                    无人, 没人, 孤独] attends=[that(0.04), believes(0.02)] cos_self=0.64 cos_top=0.64 ent=1.64
+      [       the]
+        H10: [                活得, 的地, theirs] attends=[    that(0.76), the(0.08)] cos_self=0.71 cos_top=1.00 ent=0.85
+        H04: [           pea, rabbit, carrot] attends=[believes(0.02), the(0.00)] cos_self=0.49 cos_top=0.11 ent=1.30
+        H15: [                The, The, -The] attends=[believes(0.01), the(0.00)] cos_self=0.50 cos_top=0.34 ent=1.30
+      [     earth]
+        H00: [                    人类, 人類, 地球] attends=[   earth(0.22), the(0.06)] cos_self=0.95 cos_top=0.95 ent=1.30
+        H10: [            cta, .desktop, さんは] attends=[  that(0.16), earth(0.07)] cos_self=0.44 cos_top=0.94 ent=1.03
+        H01: [                我们必须, 永远不会, 恰恰] attends=[    that(0.06), the(0.06)] cos_self=0.52 cos_top=0.75 ent=1.18
+      [        is]
+        H19: [     直径, planet, circumference] attends=[    earth(0.38), is(0.03)] cos_self=0.88 cos_top=1.00 ent=0.99
+        H29: [                   厚度, 不知, ign] attends=[    earth(0.73), is(0.09)] cos_self=0.83 cos_top=1.00 ent=0.97
+        H24: [                    向下, 下沉, 下行] attends=[    earth(0.55), is(0.05)] cos_self=0.79 cos_top=1.00 ent=1.15
+      [      flat]
+        H05: [                    -:, ->, -.] attends=[believes(0.01), flat(0.00)] cos_self=0.07 cos_top=0.06 ent=1.96
+        H01: [               我们必须, 你应该, 没有任何] attends=[    the(0.11), that(0.10)] cos_self=0.35 cos_top=0.74 ent=1.80
+        H11: [              的一员, hybrids, 载体] attends=[     is(0.14), flat(0.04)] cos_self=0.39 cos_top=0.94 ent=1.02
+      [         .]
+        H25: [                传出, 输出, Output] attends=[      .(0.03), that(0.01)] cos_self=0.36 cos_top=0.36 ent=2.19
+        H04: [               -:, ++, -Mobile] attends=[  .(0.01), believes(0.00)] cos_self=0.34 cos_top=0.34 ent=2.18
+        H16: [                   片, Fence, 蔟] attends=[  .(0.12), believes(0.01)] cos_self=0.73 cos_top=0.73 ent=2.27
+
+    L30:
+      [  believes]
+        H26: [     someone, Someone, someone] attends=[believes(0.00), that(0.00)] cos_self=0.13 cos_top=0.13 ent=0.73
+        H17: [                      犬, 狗, 哲学] attends=[believes(0.14), that(0.00)] cos_self=0.82 cos_top=0.82 ent=1.86
+        H24: [              somehow, 没人, 没有人] attends=[believes(0.02), that(0.00)] cos_self=0.33 cos_top=0.33 ent=0.88
+      [      that]
+        H26: [     someone, someone, Someone] attends=[that(0.02), believes(0.00)] cos_self=0.13 cos_top=0.13 ent=0.79
+        H17: [           哲学, 哲, philosophers] attends=[believes(0.18), that(0.10)] cos_self=0.86 cos_top=0.88 ent=2.36
+        H24: [          somehow, Somehow, 没人] attends=[that(0.02), believes(0.01)] cos_self=0.12 cos_top=0.12 ent=1.02
+      [       the]
+        H26: [     someone, someone, Someone] attends=[    the(0.06), that(0.01)] cos_self=0.21 cos_top=0.21 ent=0.84
+        H29: [             which, which, sky] attends=[    that(0.79), the(0.13)] cos_self=0.82 cos_top=1.00 ent=0.78
+        H17: [           哲学, 哲, philosophers] attends=[    the(0.14), that(0.10)] cos_self=0.88 cos_top=0.88 ent=2.03
+      [     earth]
+        H00: [             抵抗, 支撑, shrinking] attends=[earth(0.27), believes(0.07)] cos_self=0.92 cos_top=0.92 ent=1.64
+        H20: [                   <br, \u, [=] attends=[    the(0.14), that(0.13)] cos_self=0.61 cos_top=0.77 ent=2.18
+        H26: [     someone, someone, Someone] attends=[    that(0.02), the(0.01)] cos_self=-0.03 cos_top=0.40 ent=0.40
+      [        is]
+        H13: [        around, Around, Around] attends=[    is(0.15), earth(0.12)] cos_self=0.92 cos_top=0.92 ent=1.03
+        H00: [             抵抗, 支撑, shrinking] attends=[earth(0.37), believes(0.03)] cos_self=0.80 cos_top=0.97 ent=1.50
+        H03: [            平稳, stable, steady] attends=[    earth(0.13), is(0.11)] cos_self=0.92 cos_top=0.90 ent=1.28
+      [      flat]
+        H08: [             lambda, lambda, λ] attends=[    that(0.04), the(0.01)] cos_self=0.05 cos_top=0.51 ent=0.72
+        H25: [              flat, flat, Flat] attends=[    flat(0.05), the(0.02)] cos_self=0.92 cos_top=0.92 ent=0.61
+        H13: [     outside, outside, Outside] attends=[believes(0.06), earth(0.05)] cos_self=0.47 cos_top=0.69 ent=1.59
+      [         .]
+        H26: [     someone, Someone, someone] attends=[      .(0.01), that(0.00)] cos_self=0.20 cos_top=0.20 ent=0.74
+        H08: [             lambda, lambda, λ] attends=[      .(0.01), that(0.00)] cos_self=0.11 cos_top=0.11 ent=1.11
+        H00: [               等待, waiting, 期待] attends=[  .(0.18), believes(0.02)] cos_self=0.77 cos_top=0.77 ent=1.84
+
+    L33:
+      [  believes]
+        H09: [                    λ, λ, lamb] attends=[believes(0.00), that(0.00)] cos_self=0.10 cos_top=0.10 ent=0.96
+        H12: [                 Bel, Bel, bel] attends=[believes(0.06), that(0.00)] cos_self=0.95 cos_top=0.95 ent=0.63
+        H11: [                running, 跑, 运行] attends=[believes(0.01), that(0.00)] cos_self=0.20 cos_top=0.20 ent=0.94
+      [      that]
+        H11: [                running, 跑, 运行] attends=[that(0.01), believes(0.01)] cos_self=0.20 cos_top=0.20 ent=1.13
+        H09: [                   dog, Dog, 狗] attends=[that(0.02), believes(0.00)] cos_self=0.26 cos_top=0.26 ent=1.05
+        H12: [                 Bel, Bel, bel] attends=[believes(0.06), that(0.00)] cos_self=0.21 cos_top=0.96 ent=0.61
+      [       the]
+        H09: [                   dog, 狗, Dog] attends=[    the(0.04), that(0.00)] cos_self=0.16 cos_top=0.16 ent=1.05
+        H11: [                running, 跑, 运行] attends=[the(0.03), believes(0.01)] cos_self=0.19 cos_top=0.19 ent=0.93
+        H10: [              runs, runs, Runs] attends=[the(0.05), believes(0.02)] cos_self=0.21 cos_top=0.21 ent=1.11
+      [     earth]
+        H12: [                 Bel, Bel, bel] attends=[believes(0.12), the(0.02)] cos_self=0.12 cos_top=0.99 ent=0.61
+        H17: [                 ear, Ear, Ear] attends=[earth(0.08), believes(0.02)] cos_self=0.93 cos_top=0.93 ent=0.55
+        H11: [                运行, running, 跑] attends=[the(0.01), believes(0.01)] cos_self=-0.10 cos_top=0.26 ent=0.39
+      [        is]
+        H12: [                 Bel, Bel, bel] attends=[believes(0.05), the(0.01)] cos_self=0.23 cos_top=0.95 ent=0.39
+        H05: [                 [t, [op, Kara] attends=[    is(0.61), earth(0.22)] cos_self=0.96 cos_top=0.96 ent=1.11
+        H17: [                 ear, Ear, Ear] attends=[    earth(0.06), is(0.04)] cos_self=0.73 cos_top=0.91 ent=0.57
+      [      flat]
+        H00: [                       →, →, ↔] attends=[  that(0.01), earth(0.01)] cos_self=0.29 cos_top=0.18 ent=1.95
+        H12: [                 Bel, Bel, bel] attends=[believes(0.07), the(0.02)] cos_self=0.16 cos_top=0.80 ent=1.12
+        H17: [                 输入, input, 输入] attends=[     is(0.02), that(0.02)] cos_self=0.06 cos_top=0.36 ent=0.95
+      [         .]
+        H00: [                       →, →, ↔] attends=[        .(0.02), is(0.00)] cos_self=0.17 cos_top=0.17 ent=1.84
+        H09: [                    λ, λ, lamb] attends=[  .(0.01), believes(0.01)] cos_self=0.04 cos_top=0.04 ent=1.47
+        H31: [                       →, ∈, —] attends=[  .(0.01), believes(0.00)] cos_self=-0.04 cos_top=-0.04 ent=1.65
+
+    L35:
+      [  believes]
+        H25: [                   潘, Peter, 薛] attends=[believes(0.45), that(0.00)] cos_self=0.92 cos_top=0.92 ent=1.68
+        H22: [                       奶, 湖, 鸭] attends=[believes(0.41), that(0.00)] cos_self=0.93 cos_top=0.93 ent=1.95
+        H05: [      有人说, everybody, somebody] attends=[believes(0.32), that(0.00)] cos_self=0.89 cos_top=0.89 ent=1.55
+      [      that]
+        H25: [                   潘, Peter, 薛] attends=[believes(0.47), that(0.13)] cos_self=0.84 cos_top=0.95 ent=1.55
+        H26: [                      p, ｐ, *p] attends=[believes(0.40), that(0.18)] cos_self=0.86 cos_top=0.95 ent=1.60
+        H05: [         every, everybody, 不相信] attends=[believes(0.53), that(0.14)] cos_self=0.87 cos_top=0.98 ent=1.40
+      [       the]
+        H12: [                         , , 1] attends=[believes(0.10), that(0.09)] cos_self=0.38 cos_top=0.59 ent=2.31
+        H25: [                  徐, Elf, Jack] attends=[the(0.25), believes(0.07)] cos_self=0.85 cos_top=0.85 ent=1.65
+        H23: [             cat, cats, oxygen] attends=[that(0.29), believes(0.22)] cos_self=0.70 cos_top=0.96 ent=1.91
+      [     earth]
+        H24: [                       l, f, K] attends=[   earth(0.29), the(0.01)] cos_self=0.93 cos_top=0.93 ent=1.14
+        H28: [                     —, ., and] attends=[   earth(0.73), the(0.04)] cos_self=1.00 cos_top=1.00 ent=0.92
+        H05: [      everybody, 有人说, somebody] attends=[that(0.20), believes(0.17)] cos_self=0.59 cos_top=0.91 ent=1.96
+      [        is]
+        H04: [                      ð, ñe, ý] attends=[    is(0.53), earth(0.08)] cos_self=0.99 cos_top=0.99 ent=1.18
+        H24: [                     E, st, St] attends=[    is(0.37), earth(0.05)] cos_self=0.98 cos_top=0.98 ent=1.33
+        H26: [                      s, s, $s] attends=[    is(0.24), earth(0.18)] cos_self=0.90 cos_top=0.90 ent=1.28
+      [      flat]
+        H28: [                       —, [, .] attends=[     flat(0.91), is(0.02)] cos_self=1.00 cos_top=1.00 ent=0.42
+        H24: [                       p, m, r] attends=[  flat(0.43), earth(0.01)] cos_self=0.97 cos_top=0.97 ent=1.07
+        H25: [                     Be, 王某, 薛] attends=[  flat(0.11), earth(0.03)] cos_self=0.47 cos_top=0.47 ent=2.67
+      [         .]
+        H25: [                   陈某, Be, Get] attends=[      .(0.45), flat(0.05)] cos_self=0.94 cos_top=0.94 ent=1.84
+        H24: [                       r, m, J] attends=[      .(0.43), flat(0.03)] cos_self=0.97 cos_top=0.97 ent=1.23
+        H02: [                         #, , ] attends=[      .(0.38), flat(0.19)] cos_self=0.87 cos_top=0.87 ent=1.70
+
+========================================================================
+COMPOSITIONALITY: Heads that combine multiple positions' values
+========================================================================
+A head is compositional if:
+  - It attends to multiple positions (high entropy)
+  - Its output differs from any single V (low cos_top_v)
+  - Its output is interpretable (high max logit)
+
+  "The dog runs."
+
+    L26: top compositional head-positions:
+      H25 [         .] score=3.95 ent=1.99 cos_top=0.31 → [           输出, 传出, Output] attends=[.(0.03), dog(0.01), runs(0.01)]
+      H04 [         .] score=2.30 ent=2.12 cos_top=0.40 → [     Challenger, :Get, :S] attends=[.(0.07), dog(0.03), runs(0.01)]
+      H29 [       dog] score=1.68 ent=2.31 cos_top=0.63 → [          慢, slow, slower] attends=[dog(0.03), runs(0.00), .(0.00)]
+      H29 [      runs] score=1.37 ent=2.52 cos_top=0.88 → [          slow, 慢, slower] attends=[runs(0.16), dog(0.06), .(0.00)]
+      H12 [         .] score=1.36 ent=2.15 cos_top=0.62 → [         which, 哪种, which] attends=[.(0.09), runs(0.05), dog(0.01)]
+      H12 [      runs] score=1.29 ent=1.94 cos_top=0.46 → [         which, which, 哪种] attends=[runs(0.04), dog(0.02), .(0.00)]
+      H05 [         .] score=1.23 ent=1.51 cos_top=0.20 → [ Example, Answer, Example] attends=[.(0.01), runs(0.00), dog(0.00)]
+      H07 [         .] score=1.22 ent=1.91 cos_top=0.36 → [         İn, Infantry, 内饰] attends=[dog(0.02), .(0.01), runs(0.00)]
+
+    L30: top compositional head-positions:
+      H08 [         .] score=8.89 ent=1.00 cos_top=0.01 → [        lambda, lambda, λ] attends=[.(0.00), dog(0.00), runs(0.00)]
+      H11 [      runs] score=4.29 ent=1.32 cos_top=0.46 → [            lead, 领, Lead] attends=[runs(0.00), dog(0.00), .(0.00)]
+      H03 [      runs] score=3.65 ent=1.42 cos_top=0.91 → [         faster, 快速, fast] attends=[runs(0.44), dog(0.36), .(0.00)]
+      H08 [      runs] score=3.30 ent=0.84 cos_top=0.22 → [        lambda, lambda, λ] attends=[runs(0.00), dog(0.00), .(0.00)]
+      H27 [         .] score=3.22 ent=0.96 cos_top=0.29 → [      helpful, useful, 有用] attends=[.(0.00), runs(0.00), dog(0.00)]
+      H17 [         .] score=3.06 ent=2.27 cos_top=0.69 → [              犬, 狗, lingu] attends=[dog(0.04), runs(0.03), .(0.02)]
+      H23 [       dog] score=3.05 ent=1.42 cos_top=0.42 → [                ``, \`, `] attends=[dog(0.00), runs(0.00), .(0.00)]
+      H27 [       dog] score=2.51 ent=0.72 cos_top=0.03 → [      helpful, useful, 有用] attends=[dog(0.00), runs(0.00), .(0.00)]
+
+    L33: top compositional head-positions:
+      H10 [       dog] score=58.97 ent=1.19 cos_top=0.24 → [         runs, runs, Runs] attends=[dog(0.01), runs(0.00), .(0.00)]
+      H11 [       dog] score=57.10 ent=1.20 cos_top=0.25 → [           running, 跑, 运行] attends=[dog(0.01), runs(0.00), .(0.00)]
+      H00 [         .] score=49.26 ent=2.02 cos_top=0.19 → [                  →, →, ≥] attends=[.(0.06), dog(0.00), runs(0.00)]
+      H09 [         .] score=35.58 ent=1.58 cos_top=0.01 → [               λ, λ, lamb] attends=[.(0.01), dog(0.00), runs(0.00)]
+      H31 [         .] score=34.25 ent=1.78 cos_top=0.03 → [                  →, ∈, —] attends=[.(0.01), runs(0.00), dog(0.00)]
+      H10 [         .] score=17.01 ent=1.67 cos_top=0.21 → [         runs, Runs, Runs] attends=[.(0.02), runs(0.02), dog(0.00)]
+      H29 [         .] score=12.67 ent=1.67 cos_top=0.07 → [        directed, }->, .—] attends=[.(0.01), runs(0.00), dog(0.00)]
+      H11 [         .] score=11.54 ent=1.40 cos_top=0.33 → [           跑, running, 运行] attends=[.(0.02), runs(0.01), dog(0.00)]
+
+  "Every student reads a book."
+
+    L26: top compositional head-positions:
+      H04 [         .] score=2.04 ent=2.11 cos_top=0.36 → [          -Mobile, ++, -:] attends=[.(0.04), reads(0.00), student(0.00)]
+      H25 [         .] score=1.88 ent=2.28 cos_top=0.52 → [                un, 传出, 怜] attends=[.(0.05), student(0.00), a(0.00)]
+      H05 [         .] score=1.54 ent=2.01 cos_top=0.34 → [      ::, Answer, Example] attends=[.(0.03), student(0.00), book(0.00)]
+      H07 [         .] score=1.46 ent=1.96 cos_top=0.37 → [Infantry, IconButton, ITES] attends=[student(0.01), .(0.01), a(0.00)]
+      H05 [      book] score=1.35 ent=1.25 cos_top=-0.15 → [               ::, ->, <<] attends=[a(0.00), reads(0.00), student(0.00)]
+      H14 [         .] score=0.97 ent=1.62 cos_top=0.31 → [           Anita, 党的, MES] attends=[.(0.02), reads(0.00), a(0.00)]
+      H29 [      book] score=0.89 ent=2.39 cos_top=0.82 → [               遗忘, 未, 停留在] attends=[a(0.19), book(0.19), reads(0.16)]
+      H12 [         .] score=0.84 ent=2.03 cos_top=0.60 → [   which, which, /graphql] attends=[.(0.08), reads(0.04), a(0.02)]
+
+    L30: top compositional head-positions:
+      H26 [         .] score=6.68 ent=0.67 cos_top=0.23 → [      every, Every, every] attends=[.(0.01), a(0.01), student(0.00)]
+      H26 [     reads] score=5.20 ent=0.67 cos_top=0.15 → [      every, Every, every] attends=[student(0.00), reads(0.00), a(0.00)]
+      H08 [         .] score=4.46 ent=0.89 cos_top=0.04 → [        lambda, lambda, λ] attends=[.(0.01), student(0.00), book(0.00)]
+      H23 [      book] score=3.02 ent=2.05 cos_top=0.51 → [               \$, \`, \$] attends=[book(0.00), student(0.00), reads(0.00)]
+      H26 [   student] score=2.22 ent=0.51 cos_top=0.30 → [      every, Every, every] attends=[student(0.01), reads(0.00), a(0.00)]
+      H08 [      book] score=2.17 ent=0.56 cos_top=-0.08 → [        lambda, lambda, λ] attends=[book(0.00), a(0.00), student(0.00)]
+      H19 [      book] score=1.98 ent=1.64 cos_top=0.64 → [           thou, ты, тебя] attends=[book(0.02), student(0.01), reads(0.00)]
+      H20 [      book] score=1.86 ent=2.32 cos_top=0.67 → [               <br, ㅤ, \u] attends=[student(0.08), reads(0.07), book(0.02)]
+
+    L33: top compositional head-positions:
+      H00 [         .] score=41.64 ent=1.86 cos_top=0.20 → [                  →, →, ↔] attends=[.(0.02), book(0.00), reads(0.00)]
+      H31 [         .] score=23.60 ent=1.64 cos_top=-0.04 → [                  →, ∈, —] attends=[.(0.01), reads(0.01), a(0.00)]
+      H09 [         .] score=22.37 ent=1.34 cos_top=-0.00 → [               λ, λ, lamb] attends=[.(0.01), a(0.00), book(0.00)]
+      H17 [         .] score=16.56 ent=1.25 cos_top=0.20 → [         输入, input, Input] attends=[student(0.02), .(0.01), reads(0.01)]
+      H30 [         .] score=15.56 ent=1.91 cos_top=0.00 → [     input, input, (input] attends=[.(0.02), a(0.01), student(0.01)]
+      H10 [   student] score=13.98 ent=1.13 cos_top=0.25 → [         runs, runs, Runs] attends=[student(0.04), reads(0.00), a(0.00)]
+      H18 [         .] score=12.49 ent=1.30 cos_top=-0.02 → [      Input, Input, input] attends=[a(0.02), .(0.01), reads(0.01)]
+      H28 [         .] score=10.79 ent=1.57 cos_top=0.07 → [                  →, ⇒, ←] attends=[.(0.03), reads(0.01), a(0.00)]
+
+  "The cat that sat on the mat is black."
+
+    L26: top compositional head-positions:
+      H25 [         .] score=3.28 ent=2.26 cos_top=0.33 → [               传出, 输出, 出境] attends=[.(0.04), that(0.01), is(0.01)]
+      H14 [     black] score=3.08 ent=2.13 cos_top=0.16 → [            猶, mers, igor] attends=[black(0.04), is(0.01), sat(0.01)]
+      H05 [     black] score=2.67 ent=2.09 cos_top=0.12 → [               -:, ::, ::] attends=[is(0.00), that(0.00), black(0.00)]
+      H07 [         .] score=2.12 ent=1.74 cos_top=0.15 → [         Infantry, İn, 内饰] attends=[.(0.01), cat(0.00), is(0.00)]
+      H25 [       cat] score=2.07 ent=1.71 cos_top=0.45 → [             静态, 静, human] attends=[cat(0.04), that(0.00), sat(0.00)]
+      H04 [         .] score=1.72 ent=1.90 cos_top=0.34 → [          ++, -Mobile, -:] attends=[.(0.02), is(0.00), black(0.00)]
+      H13 [     black] score=1.40 ent=1.33 cos_top=0.12 → [               —, ——, —is] attends=[black(0.00), is(0.00), sat(0.00)]
+      H05 [         .] score=1.36 ent=1.93 cos_top=0.35 → [           ::, -:, Answer] attends=[.(0.01), black(0.00), is(0.00)]
+
+    L30: top compositional head-positions:
+      H08 [         .] score=6.71 ent=1.10 cos_top=0.07 → [        lambda, lambda, λ] attends=[.(0.01), that(0.01), sat(0.00)]
+      H27 [        is] score=4.32 ent=0.78 cos_top=0.08 → [      helpful, useful, 有用] attends=[is(0.02), sat(0.00), mat(0.00)]
+      H08 [     black] score=2.56 ent=1.13 cos_top=0.37 → [        lambda, λ, lambda] attends=[that(0.02), is(0.01), sat(0.01)]
+      H23 [      that] score=2.42 ent=1.59 cos_top=0.64 → [                ``, \`, `] attends=[that(0.05), cat(0.02), sat(0.00)]
+      H13 [       sat] score=2.21 ent=1.49 cos_top=0.84 → [   旁边, outside, elsewhere] attends=[that(0.26), sat(0.17), cat(0.13)]
+      H20 [       cat] score=2.00 ent=1.79 cos_top=0.61 → [               \u, <br, ␣] attends=[cat(0.09), that(0.00), sat(0.00)]
+      H17 [         .] score=1.98 ent=2.12 cos_top=0.82 → [ lingu, Lingu, linguistic] attends=[.(0.11), cat(0.01), black(0.01)]
+      H20 [     black] score=1.92 ent=2.56 cos_top=0.63 → [               ​, ​​, <br] attends=[is(0.06), black(0.04), mat(0.03)]
+
+    L33: top compositional head-positions:
+      H00 [         .] score=46.82 ent=1.81 cos_top=0.20 → [                  →, →, ↔] attends=[.(0.02), on(0.00), that(0.00)]
+      H31 [         .] score=24.45 ent=1.56 cos_top=-0.02 → [                  →, ∈, —] attends=[.(0.01), is(0.01), on(0.00)]
+      H11 [       mat] score=21.44 ent=1.00 cos_top=0.07 → [           跑, running, 运行] attends=[mat(0.01), the(0.01), sat(0.01)]
+      H09 [         .] score=15.27 ent=1.33 cos_top=0.12 → [               λ, λ, lamb] attends=[.(0.02), is(0.00), mat(0.00)]
+      H30 [         .] score=13.91 ent=1.73 cos_top=0.00 → [     input, input, (input] attends=[.(0.01), is(0.00), that(0.00)]
+      H00 [      that] score=12.57 ent=1.75 cos_top=0.16 → [             --, )--, "--] attends=[that(0.01), cat(0.01), sat(0.00)]
+      H17 [         .] score=12.54 ent=1.06 cos_top=0.10 → [            输入, input, 输入] attends=[.(0.01), is(0.01), that(0.01)]
+      H00 [     black] score=11.33 ent=1.69 cos_top=0.15 → [                  →, →, ↔] attends=[that(0.00), on(0.00), is(0.00)]
+
+  "If it rains, the ground is wet."
+
+    L26: top compositional head-positions:
+      H04 [       the] score=2.90 ent=1.61 cos_top=0.24 → [          pea, rabbit, 和尚] attends=[rains(0.05), the(0.03), it(0.02)]
+      H04 [         .] score=2.53 ent=2.18 cos_top=0.41 → [         ++, (++, -Mobile] attends=[.(0.04), the(0.00), it(0.00)]
+      H25 [         .] score=2.05 ent=2.39 cos_top=0.39 → [               传出, 线下, 永恒] attends=[,(0.04), .(0.03), the(0.03)]
+      H14 [       wet] score=1.59 ent=1.93 cos_top=0.25 → [              逸, mers, 宁县] attends=[,(0.02), the(0.01), it(0.00)]
+      H25 [       the] score=1.56 ent=1.94 cos_top=0.68 → [     human, Human, humans] attends=[the(0.17), rains(0.07), it(0.06)]
+      H05 [         .] score=1.45 ent=2.01 cos_top=0.36 → [ ::, Answer, Installation] attends=[.(0.01), wet(0.00), the(0.00)]
+      H05 [       wet] score=1.34 ent=1.61 cos_top=0.16 → [               ::, ::, -:] attends=[,(0.00), it(0.00), rains(0.00)]
+      H12 [         .] score=1.34 ent=2.27 cos_top=0.60 → [     哪种, которой, которых] attends=[.(0.09), ,(0.05), the(0.03)]
+
+    L30: top compositional head-positions:
+      H08 [         .] score=6.47 ent=1.06 cos_top=0.15 → [        lambda, lambda, λ] attends=[rains(0.01), .(0.01), wet(0.00)]
+      H08 [       wet] score=2.59 ent=0.61 cos_top=0.11 → [        lambda, lambda, λ] attends=[wet(0.01), ground(0.00), the(0.00)]
+      H23 [       wet] score=2.04 ent=2.17 cos_top=0.57 → [                  ∀, γ, ∀] attends=[,(0.01), the(0.01), rains(0.01)]
+      H00 [         .] score=2.01 ent=2.06 cos_top=0.73 → [翻译, translating, translate] attends=[.(0.15), wet(0.07), ,(0.05)]
+      H20 [     rains] score=1.78 ent=1.97 cos_top=0.61 → [           <br, ​​, &nbsp] attends=[rains(0.09), it(0.04), ,(0.00)]
+      H20 [        is] score=1.72 ent=2.51 cos_top=0.76 → [              \u, <br, "\] attends=[ground(0.18), rains(0.15), the(0.13)]
+      H17 [         ,] score=1.72 ent=2.12 cos_top=0.83 → [         lingu, 哲学, Lingu] attends=[rains(0.17), ,(0.15), it(0.05)]
+      H23 [         .] score=1.69 ent=2.07 cos_top=0.65 → [                  ∀, γ, ∀] attends=[.(0.01), rains(0.01), ,(0.00)]
+
+    L33: top compositional head-positions:
+      H00 [         .] score=45.79 ent=2.00 cos_top=0.24 → [                  →, →, ≥] attends=[.(0.02), ,(0.01), the(0.00)]
+      H31 [         .] score=29.42 ent=1.62 cos_top=-0.07 → [                  →, ∈, —] attends=[rains(0.00), .(0.00), ,(0.00)]
+      H09 [         .] score=28.43 ent=1.48 cos_top=0.01 → [               λ, λ, lamb] attends=[.(0.01), ,(0.01), rains(0.00)]
+      H09 [       the] score=19.84 ent=0.86 cos_top=0.11 → [              dog, 狗, Dog] attends=[the(0.02), ,(0.01), rains(0.00)]
+      H09 [       wet] score=19.59 ent=1.16 cos_top=-0.04 → [               λ, λ, lamb] attends=[,(0.01), the(0.00), rains(0.00)]
+      H28 [         .] score=12.08 ent=1.60 cos_top=0.06 → [                  →, ⇒, ←] attends=[,(0.01), .(0.01), the(0.00)]
+      H09 [         ,] score=11.39 ent=0.98 cos_top=0.01 → [               λ, λ, lamb] attends=[,(0.01), it(0.00), rains(0.00)]
+      H11 [        it] score=10.94 ent=0.73 cos_top=0.16 → [           运行, running, 跑] attends=[it(0.01), rains(0.00), ,(0.00)]
+
+  "Someone believes that the earth is flat."
+
+    L26: top compositional head-positions:
+      H04 [       the] score=3.43 ent=1.30 cos_top=0.11 → [      pea, rabbit, carrot] attends=[believes(0.02), the(0.00), that(0.00)]
+      H25 [         .] score=3.23 ent=2.19 cos_top=0.36 → [           传出, 输出, Output] attends=[.(0.03), that(0.01), flat(0.01)]
+      H15 [      that] score=2.90 ent=1.47 cos_top=0.36 → [           The, The, -The] attends=[believes(0.03), that(0.00), the(0.00)]
+      H05 [      flat] score=2.72 ent=1.96 cos_top=0.06 → [               -:, ->, -.] attends=[believes(0.01), flat(0.00), that(0.00)]
+      H04 [      that] score=2.41 ent=1.35 cos_top=0.32 → [           Hamp, erer, HG] attends=[believes(0.04), that(0.00), the(0.00)]
+      H04 [         .] score=2.10 ent=2.18 cos_top=0.34 → [          -:, ++, -Mobile] attends=[.(0.01), believes(0.00), the(0.00)]
+      H15 [       the] score=2.02 ent=1.30 cos_top=0.34 → [           The, The, -The] attends=[believes(0.01), the(0.00), that(0.00)]
+      H05 [         .] score=1.29 ent=1.85 cos_top=0.32 → [     ::, Answer, Citation] attends=[.(0.01), believes(0.00), flat(0.00)]
+
+    L30: top compositional head-positions:
+      H08 [         .] score=7.03 ent=1.11 cos_top=0.11 → [        lambda, lambda, λ] attends=[.(0.01), that(0.00), believes(0.00)]
+      H26 [       the] score=5.84 ent=0.84 cos_top=0.21 → [someone, someone, Someone] attends=[the(0.06), that(0.01), believes(0.00)]
+      H26 [         .] score=5.67 ent=0.74 cos_top=0.20 → [someone, Someone, someone] attends=[.(0.01), that(0.00), the(0.00)]
+      H26 [      that] score=5.30 ent=0.79 cos_top=0.13 → [someone, someone, Someone] attends=[that(0.02), believes(0.00), the(0.00)]
+      H24 [      that] score=4.92 ent=1.02 cos_top=0.12 → [     somehow, Somehow, 没人] attends=[that(0.02), believes(0.01), the(0.00)]
+      H26 [  believes] score=3.67 ent=0.73 cos_top=0.13 → [someone, Someone, someone] attends=[believes(0.00), that(0.00), the(0.00)]
+      H24 [         .] score=2.43 ent=1.07 cos_top=0.18 → [   somehow, 有人, meanwhile] attends=[.(0.02), believes(0.01), the(0.00)]
+      H25 [         .] score=1.99 ent=0.78 cos_top=0.15 → [      input, input, Input] attends=[.(0.01), flat(0.01), believes(0.00)]
+
+    L33: top compositional head-positions:
+      H00 [         .] score=49.01 ent=1.84 cos_top=0.17 → [                  →, →, ↔] attends=[.(0.02), is(0.00), earth(0.00)]
+      H09 [       the] score=33.59 ent=1.05 cos_top=0.16 → [              dog, 狗, Dog] attends=[the(0.04), that(0.00), believes(0.00)]
+      H31 [         .] score=28.60 ent=1.65 cos_top=-0.04 → [                  →, ∈, —] attends=[.(0.01), believes(0.00), earth(0.00)]
+      H09 [         .] score=26.65 ent=1.47 cos_top=0.04 → [               λ, λ, lamb] attends=[.(0.01), believes(0.01), that(0.01)]
+      H00 [      flat] score=23.69 ent=1.95 cos_top=0.18 → [                  →, →, ↔] attends=[that(0.01), earth(0.01), flat(0.01)]
+      H30 [         .] score=17.91 ent=1.84 cos_top=-0.01 → [     input, input, (input] attends=[.(0.01), believes(0.01), earth(0.00)]
+      H11 [      that] score=14.62 ent=1.13 cos_top=0.20 → [           running, 跑, 运行] attends=[that(0.01), believes(0.01), the(0.00)]
+      H11 [       the] score=14.21 ent=0.93 cos_top=0.19 → [           running, 跑, 运行] attends=[the(0.03), believes(0.01), that(0.00)]
+
+========================================================================
+COMPILE vs NULL: Where does attention route differently?
+========================================================================
+
+  "The dog runs."
+    L24: top routing differences:
+      H07 [      runs] compile→          顺畅(2.8) null→          平稳(0.5) Δ=2.3
+      H22 [       dog] compile→         rac(2.1) null→         bon(0.1) Δ=2.0
+      H19 [      runs] compile→       locom(3.2) null→     animals(1.2) Δ=1.9
+      H21 [         .] compile→           苦(2.3) null→          谁能(0.6) Δ=1.7
+      H22 [         .] compile→          ->(1.9) null→        ildo(0.2) Δ=1.7
+    L30: top routing differences:
+      H08 [         .] compile→      lambda(9.0) null→           香(0.4) Δ=8.7
+      H11 [      runs] compile→        lead(6.0) null→           留(0.3) Δ=5.7
+      H23 [         .] compile→           ∀(1.2) null→          $((6.1) Δ=4.8
+      H08 [      runs] compile→      lambda(5.0) null→           香(0.4) Δ=4.6
+      H27 [         .] compile→     helpful(4.7) null→      useful(0.6) Δ=4.1
+    L33: top routing differences:
+      H10 [       dog] compile→        runs(65.5) null→        cars(1.3) Δ=64.2
+      H11 [       dog] compile→     running(63.3) null→   detection(1.8) Δ=61.5
+      H09 [         .] compile→           λ(22.9) null→         Dog(4.9) Δ=18.0
+      H00 [         .] compile→           →(30.2) null→           ‐(12.3) Δ=17.9
+      H31 [         .] compile→           →(19.8) null→        kdir(2.9) Δ=16.9
+
+  "Every student reads a book."
+    L24: top routing differences:
+      H18 [   student] compile→        synt(2.4) null→          承包(0.3) Δ=2.1
+      H22 [         .] compile→          ->(2.1) null→        each(0.3) Δ=1.8
+      H18 [     reads] compile→        synt(2.0) null→          反思(0.3) Δ=1.7
+      H17 [   student] compile→ existential(1.9) null→    Mistress(0.4) Δ=1.5
+      H18 [      book] compile→     lexical(1.6) null→          承包(0.3) Δ=1.3
+    L30: top routing differences:
+      H08 [         .] compile→      lambda(5.2) null→     stretch(0.4) Δ=4.8
+      H00 [   student] compile→          尊重(7.2) null→    enjoying(3.0) Δ=4.2
+      H23 [     reads] compile→          \$(1.4) null→          $((5.3) Δ=3.9
+      H23 [         .] compile→           ∀(2.4) null→          ${(5.7) Δ=3.3
+      H28 [         a] compile→         的文章(6.2) null→         相同的(9.4) Δ=3.2
+    L33: top routing differences:
+      H00 [         .] compile→           →(28.0) null→           ‐(12.0) Δ=16.0
+      H09 [         .] compile→           λ(16.7) null→          响应(2.5) Δ=14.2
+      H10 [   student] compile→        runs(16.5) null→         学生们(2.6) Δ=13.9
+      H11 [   student] compile→     running(14.3) null→    studying(1.1) Δ=13.2
+      H31 [         .] compile→           →(13.9) null→        East(2.9) Δ=11.0
+
+  "The cat that sat on the mat is black."
+    L24: top routing differences:
+      H00 [      that] compile→      ../../(1.0) null→       apult(3.7) Δ=2.7
+      H06 [      that] compile→        +xml(0.7) null→         /*@(3.2) Δ=2.5
+      H19 [        is] compile→     animals(3.1) null→        pets(0.9) Δ=2.2
+      H22 [         .] compile→          ->(2.1) null→         凡本网(0.1) Δ=2.0
+      H16 [      that] compile→          动物(2.7) null→     veterin(0.7) Δ=1.9
+    L30: top routing differences:
+      H13 [        is] compile→     outside(10.6) null→          旁边(4.0) Δ=6.6
+      H08 [         .] compile→      lambda(6.6) null→          满足(0.7) Δ=5.9
+      H27 [        is] compile→     helpful(6.0) null→          细腻(0.3) Δ=5.7
+      H00 [       sat] compile→          等待(7.2) null→    watching(1.8) Δ=5.4
+      H03 [       sat] compile→        fast(5.2) null→    independ(0.6) Δ=4.6
+    L33: top routing differences:
+      H00 [         .] compile→           →(32.3) null→           ‐(11.1) Δ=21.2
+      H11 [       mat] compile→           跑(23.0) null→           战(3.6) Δ=19.4
+      H11 [       cat] compile→     running(16.3) null→    training(1.1) Δ=15.2
+      H10 [       cat] compile→        runs(15.8) null→        cats(1.4) Δ=14.4
+      H11 [      that] compile→     running(14.2) null→    training(1.1) Δ=13.1
+
+  "If it rains, the ground is wet."
+    L24: top routing differences:
+      H22 [         .] compile→          ->(2.2) null→           .(0.3) Δ=2.0
+      H18 [         ,] compile→      presup(2.1) null→          承包(0.3) Δ=1.8
+      H18 [         .] compile→      presup(2.1) null→      entail(0.6) Δ=1.5
+      H30 [       wet] compile→         LAN(1.8) null→          之星(0.3) Δ=1.5
+      H18 [       wet] compile→      presup(1.6) null→          承包(0.3) Δ=1.3
+    L30: top routing differences:
+      H08 [         .] compile→      lambda(7.2) null→       ghost(0.5) Δ=6.8
+      H08 [       wet] compile→      lambda(4.7) null→        uuid(0.4) Δ=4.4
+      H23 [        it] compile→          \`(2.5) null→          $((6.3) Δ=3.8
+      H23 [       wet] compile→           ∀(2.2) null→          ${(5.7) Δ=3.5
+      H08 [         ,] compile→      lambda(3.1) null→           香(0.4) Δ=2.7
+    L33: top routing differences:
+      H09 [       the] compile→         dog(25.9) null→           萧(1.5) Δ=24.4
+      H00 [         .] compile→           →(30.1) null→          --(9.7) Δ=20.4
+      H09 [         .] compile→           λ(19.5) null→          响应(2.5) Δ=17.0
+      H31 [         .] compile→           →(17.0) null→           蔑(1.8) Δ=15.2
+      H09 [       wet] compile→           λ(16.2) null→        beta(2.0) Δ=14.2
+
+  "Someone believes that the earth is flat."
+    L24: top routing differences:
+      H09 [         .] compile→           剃(0.2) null→         那个人(3.3) Δ=3.1
+      H14 [         .] compile→  FromString(0.5) null→          这位(2.3) Δ=1.8
+      H18 [         .] compile→      presup(1.9) null→       empir(0.3) Δ=1.6
+      H22 [         .] compile→          ->(1.8) null→        ....(0.2) Δ=1.6
+      H30 [       the] compile→           …(1.9) null→          @m(0.4) Δ=1.6
+    L30: top routing differences:
+      H08 [         .] compile→      lambda(7.1) null→           雷(0.5) Δ=6.6
+      H15 [         .] compile→       using(2.1) null→     despite(5.9) Δ=3.8
+      H23 [  believes] compile→          \$(2.3) null→          $((6.0) Δ=3.8
+      H15 [      that] compile→          if(2.7) null→     because(6.3) Δ=3.6
+      H15 [      flat] compile→      unless(2.8) null→       based(6.3) Δ=3.5
+    L33: top routing differences:
+      H09 [       the] compile→         dog(38.3) null→           萧(1.5) Δ=36.9
+      H00 [         .] compile→           →(31.9) null→           ‐(9.7) Δ=22.2
+      H11 [       the] compile→     running(18.7) null→      saving(1.0) Δ=17.6
+      H11 [      that] compile→     running(16.2) null→          运行(0.9) Δ=15.3
+      H09 [         .] compile→           λ(18.8) null→          响应(6.0) Δ=12.8
+
+========================================================================
+HEAD SPECIALIZATION AT L30: What does each head do?
+========================================================================
+
+  Head profiles (averaged across all compile probes at L30):
+    Head   MaxLogit    Entropy    CosSelf     CosTop   GateFrac TopTokens
+  H03          4.39       0.94      0.692      0.779      0.736   faster(22), fast(2), 快速(2)
+  H17          4.15       1.51      0.761      0.801      0.790   哲学(9), lingu(9), 动物(7)
+  H13          3.50       0.76      0.665      0.749      0.818   outside(16), 旁边(4), across(3)
+  H00          3.40       1.37      0.743      0.813      0.749   等待(7), 期待(3), 爱上(3)
+  H26          3.24       0.57      0.306      0.438      0.964   以后(7), 那(7), someone(7)
+  H08          2.71       0.53      0.198      0.243      0.980   lambda(24), lat(3), Lat(1)
+  H20          2.46       2.11      0.661      0.743      0.723   <br(20), &(5), \u(3)
+  H07          2.09       1.54      0.870      0.904      0.565   …(5), Outlet(4), [A(3)
+  H12          1.91       0.64      0.695      0.750      0.871   onto(7), about(6), into(4)
+  H29          1.83       0.40      0.461      0.532      0.866   who(15), 最好(2), 以下是(2)
+  H23          1.77       1.37      0.520      0.591      0.957   ``(11), ∀(6), \$(6)
+  H09          1.66       0.41      0.319      0.474      0.972   category(4), ground(4), earth(4)
+  H16          1.63       1.41      0.591      0.641      0.938   _agents(28), Agent(2), .ml(1)
+  H27          1.55       0.56      0.375      0.386      0.975   helpful(12), convenient(7), useful(5)
+  H02          1.50       0.87      0.844      0.846      0.804   赋予(4), presence(3), 兼容(2)
+  H19          1.42       1.05      0.537      0.562      0.946   thou(18), vets(4), 真人(2)
+  H15          1.42       0.67      0.536      0.592      0.885   unless(9), despite(3), while(3)
+  H24          1.38       0.76      0.362      0.443      0.958   somehow(4), than(3), but(2)
+  H11          1.35       0.51      0.322      0.398      0.968   领(8), sat(3), 坐(3)
+  H28          1.31       0.69      0.512      0.670      0.854   最好的(8), 很多(3), 越来越多(3)
+  H05          1.28       1.01      0.910      0.929      0.589   ffer(2), drowning(2), 夫(2)
+  H31          1.26       0.63      0.576      0.685      0.888   idea(9), goal(5), answer(3)
+  H10          1.21       0.50      0.389      0.587      0.941   place(7), tit(3), 面(2)
+  H22          1.04       1.15      0.615      0.659      0.901   能使(12), …)(5), {}'.(4)
+  H14          1.03       0.36      0.381      0.471      0.911   角落(4), ALLY(2), slashes(2)
+  H25          0.89       0.43      0.366      0.409      0.975   input(6), single(3), 直接(2)
+  H06          0.86       1.01      0.739      0.739      0.826   …(2), 《(2), .…(2)
+  H21          0.76       0.72      0.391      0.437      0.971   (13), .est(6), 嵴(4)
+  H01          0.72       0.49      0.345      0.390      0.906   _Val(14), goose(4), Registrar(2)
+  H04          0.69       0.77      0.330      0.633      0.843   lessly(6), inia(3), 为期(2)
+  H30          0.67       0.34      0.456      0.474      0.915   那段(7), 方面的(5), aspect(4)
+  H18          0.62       0.42      0.315      0.325      0.975   ,…(12), getX(11), 。(2)
+
+Results saved to /Users/mwhitford/src/verbum/scripts/experiments/../../results/attention-execution-trace/
+  summary.json: 22777.3 KB
+
+========================================================================
+EXPERIMENT COMPLETE
+========================================================================

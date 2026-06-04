@@ -305,6 +305,112 @@ that promotes "compose" directions = a compiled program that includes
 both discarding and composing steps. Attention then selects WHICH of
 these compiled steps to actually execute.
 
+## Finding 7: Attention Head Types — The Execution Architecture
+
+The attention execution trace (session 187b, `attention_execution_trace.py`)
+reveals **five distinct head types** at L26-L35 in Qwen3-8B:
+
+### 1. λ-Heads (H08, H09 at L30/L33) — The Compile Circuit
+
+These heads literally write `λ` and `→` into the residual. They are
+the biggest compile-vs-null difference:
+
+| Head | Layer | Compile Output | Null Output | Δ |
+|------|-------|---------------|-------------|---|
+| H09 | L33 | `λ, λ, lamb` | `dog, 萧` | 37 |
+| H00 | L33 | `→, →, ≥` | `‐` | 22 |
+| H31 | L33 | `→, ∈, —` | `kdir` | 17 |
+| H08 | L30 | `lambda, lambda, λ` | `香` | 9 |
+
+They attend almost entirely to the gate prefix (gate_frac=0.97-0.98),
+reading the exemplars to know what format to produce. The probe tokens
+barely register. These are the **format/task circuit** — they don't do
+semantic composition, they write the output notation.
+
+### 2. Subject-Verb Binding Heads (H10, H11 at L33)
+
+These heads perform **function application** — binding subject to predicate:
+
+| Input | Head | Output | Attends to | Compile Δ |
+|-------|------|--------|-----------|-----------|
+| `dog` | H10 | `runs, Runs` | dog(0.01) | 64 (vs `cars`) |
+| `dog` | H11 | `running, 跑` | dog(0.01) | 62 (vs `detection`) |
+| `student` | H10 | `runs, Runs` | student(0.04) | 14 (vs `学生们`) |
+| `cat` | H11 | `running, 跑` | cat(0.00) | 15 (vs `training`) |
+
+In compile mode, these heads write the PREDICATE at the SUBJECT position.
+This IS typed function application: `runs(dog)` is exactly what H10 produces
+when it writes "runs" at the "dog" position. In null mode, they produce
+topic-related words instead.
+
+**cos_self is LOW (~0.25)** — the output is very different from the input V,
+confirming this is genuine composition, not relay.
+
+### 3. Semantic Relay Heads (H20, H17 at L26)
+
+These heads relay the FFN-compiled value with minimal transformation:
+
+| Input | Head | Output | cos_self |
+|-------|------|--------|----------|
+| `cat` | H20 | `猫, cats, cat` | 0.98 |
+| `rains` | H20 | `雨水, 雨, rain` | 0.98 |
+| `reads` | H17 | `textbooks, 一本書` | 1.00 |
+
+cos_self ≈ 1.0 means the head output equals the V at that position.
+These heads just pass the FFN-compiled value forward without composition.
+
+### 4. Compositional Heads (H03, H13, H14 at L30)
+
+These heads combine values from multiple positions:
+
+- **H03**: outputs `faster, fast` with attention on both `runs(0.44)` and
+  `dog(0.36)` — combining subject and verb into "speed"
+- **H14**: outputs `角落, corner, 沙発上` attending to `sat(0.61)` — composing
+  "sat on" into a location
+- **H13**: outputs `outside, Outside` — spatial direction from combining
+  multiple positional cues
+
+### 5. Quantifier/Frame Heads (H26 at L30, H05 at L35)
+
+These heads carry the determiner/quantifier frame:
+
+- H26 at L30: outputs `every, Every` for "Every student reads"
+- H26 at L30: outputs `someone, Someone` for "Someone believes"
+- H05 at L35: outputs `everybody, 有人說, somebody` for "believes"
+
+They broadcast the quantifier across all positions — maintaining the
+scope of who is performing the action.
+
+### Head Specialization Summary at L30
+
+| Head | Role | GateFrac | TopTokens |
+|------|------|----------|-----------|
+| H08 | **λ-circuit** | 0.98 | `lambda(24)` |
+| H27 | **λ-circuit** | 0.97 | `helpful(12)` |
+| H26 | **Quantifier** | 0.96 | `以後(7), 那(7), someone(7)` |
+| H03 | **Compositional** | 0.74 | `faster(22), fast(2)` |
+| H17 | **Semantic relay** | 0.79 | `哲学(9), lingu(9), 動物(7)` |
+| H13 | **Spatial/directional** | 0.82 | `outside(16), 旁邊(4)` |
+| H00 | **Affective/expectation** | 0.75 | `等待(7), 期待(3)` |
+
+### The Execution Pipeline
+
+```
+FFN (compiler):     position → compiled V vector (semantic contribution)
+                    Same regardless of gate (universal)
+
+Attention (executor):
+  Relay heads (H20, H17):    pass V through unchanged
+  Compositional heads (H03): combine V from multiple positions → new meaning  
+  Binding heads (H10, H11):  write PREDICATE at SUBJECT position (typed_apply!)
+  Frame heads (H26):         broadcast quantifier/scope across positions
+  λ-heads (H08, H09):        write output format (λ, →) from gate exemplars
+
+The binding heads (H10, H11) at L33 ARE β-reduction:
+  Input "dog" + compiled V for "runs" → output "runs" at position "dog"
+  = runs(dog) = (λx.runs(x))(dog) → runs(dog)
+```
+
 ## Instrument
 
 ```python
@@ -315,8 +421,13 @@ top_tokens = logits.topk(10)     # most promoted tokens
 
 # Scale by actual activation during a forward pass
 logits_scaled = logits * gate_activation[neuron_idx]
+
+# Project per-head attention output through o_proj slice + unembed
+W_o_head = model.model.layers[L].self_attn.o_proj.weight[:, h*128:(h+1)*128]
+head_residual = (W_o_head @ head_output[h].T).T  # (seq, hidden)
+head_logits = head_residual @ W_unembed.T         # what this head "decided"
 ```
 
 Zero-cost for weight analysis (no forward pass needed for individual
 neuron characterization). Forward pass required only for position-specific
-activation patterns.
+activation patterns and attention execution traces.

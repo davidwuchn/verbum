@@ -276,6 +276,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | **FFN reduction trace knowledge** | `mementum/knowledge/ffn-reduction-trace.md` | ✅ NEW (s187) |
 | **FFN reduction trace experiment** | `scripts/experiments/ffn_reduction_trace.py` | ✅ NEW (s187) |
 | **FFN reduction trace results** | `results/ffn-reduction-trace/` | ✅ NEW (s187) |
+| **Attention execution trace experiment** | `scripts/experiments/attention_execution_trace.py` | ✅ NEW (s187) |
+| **Attention execution trace results** | `results/attention-execution-trace/` | ✅ NEW (s187) |
 | **FFN circuit types knowledge** | `mementum/knowledge/ffn-circuit-types.md` | ✅ NEW (s186) |
 | **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
 | **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
@@ -323,6 +325,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | 5 | **"earth is flat" → FFN promotes "round", suppresses "earth"** | The FFN contains factual correction: it knows the earth is round and writes the correction even when processing the false claim. |
 | 6 | **Compile ≈ null (max delta 2.8%)** | FFN function lists are nearly identical between compile and null gates. The FFN is a universal semantic analyzer; compile behavior emerges from attention routing. |
 | 7 | **β-reduction hypothesis CONFIRMED (revised framing)** | FFN=compiler (writes context-dependent V vectors), attention=executor (softmax over V IS β-reduction). Same token "the" produces different compiled values in different sentence contexts — compilation, not lookup. |
+| 8 | **Five attention head types identified** | λ-heads (H08/H09 write λ/→), binding heads (H10/H11 write predicate at subject = typed_apply), relay heads (H20 pass V unchanged), compositional heads (H03 combine positions), quantifier heads (H26 broadcast scope). |
+| 9 | **H10/H11 at L33 ARE β-reduction** | In compile mode, H10 writes "runs" at "dog" position (Δ=64 vs null). This IS `runs(dog)` = `(λx.runs(x))(dog) → runs(dog)`. Subject-verb binding = function application. |
+| 10 | **λ-heads attend to gate prefix (0.97-0.98)** | H08/H09 barely see probe tokens; they read the compile exemplars to know what FORMAT to produce. The task circuit reads instructions, not content. |
 
 ## What changed session 186
 
