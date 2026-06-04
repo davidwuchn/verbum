@@ -278,6 +278,8 @@ Extend crystal sieve to Q/K/V/O projections.
 | **FFN reduction trace results** | `results/ffn-reduction-trace/` | ✅ NEW (s187) |
 | **Attention execution trace experiment** | `scripts/experiments/attention_execution_trace.py` | ✅ NEW (s187) |
 | **Attention execution trace results** | `results/attention-execution-trace/` | ✅ NEW (s187) |
+| **Reduction chain trace experiment** | `scripts/experiments/reduction_chain_trace.py` | ✅ NEW (s187) |
+| **Reduction chain trace results** | `results/reduction-chain-trace/` | ✅ NEW (s187) |
 | **FFN circuit types knowledge** | `mementum/knowledge/ffn-circuit-types.md` | ✅ NEW (s186) |
 | **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
 | **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
@@ -328,6 +330,9 @@ Extend crystal sieve to Q/K/V/O projections.
 | 8 | **Five attention head types identified** | λ-heads (H08/H09 write λ/→), binding heads (H10/H11 write predicate at subject = typed_apply), relay heads (H20 pass V unchanged), compositional heads (H03 combine positions), quantifier heads (H26 broadcast scope). |
 | 9 | **H10/H11 at L33 ARE β-reduction** | In compile mode, H10 writes "runs" at "dog" position (Δ=64 vs null). This IS `runs(dog)` = `(λx.runs(x))(dog) → runs(dog)`. Subject-verb binding = function application. |
 | 10 | **λ-heads attend to gate prefix (0.97-0.98)** | H08/H09 barely see probe tokens; they read the compile exemplars to know what FORMAT to produce. The task circuit reads instructions, not content. |
+| 11 | **Reduction chain trace across 36 layers, 7 combinators** | Traced cumulative residual→unembed at every layer for K,I,B,C,Y,S,W probes. Different combinators resolve at different depths. |
+| 12 | **Y combinator peaks early (L27), W peaks late (L33)** | Recursion (Y) resolves mid-depth during ALIGN phase. Self-application (W, "itself") resolves at the final layer. K (discard) front-loaded, C (flip/passive) resolves last. |
+| 13 | **Y-probe "She told a story about a girl who told a story..."** | First and second occurrences of same tokens get DIFFERENT cumulative representations — the recursive structure is tracked position-dependently across depth. |
 
 ## What changed session 186
 
