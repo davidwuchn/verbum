@@ -2,13 +2,46 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-04 | Session: 188
+> Last updated: 2026-06-04 | Session: 189
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 188: β-REDUCTION DECODED — Binding Graph, Shared Hardware, O(1) Sparsity**
+**Session 189: FIBONACCI STRIDES — Binding Distances Are Bimodal, φ Everywhere**
+
+Three experiments + v15 architecture design:
+
+**Exp 1: Stride coverage validation (Qwen3-8B, 22 probes).** v14's powers-of-2
+strides capture only 29.5% (exact) / 67.4% (±2 neighbors) of attention mass at
+L30. The stride geometry misses binding targets that live at arbitrary semantic
+positions. Coverage DEGRADES with sequence length (38.8%→24.4%).
+
+**Exp 2: Binding distance distribution.** The distance distribution is BIMODAL
+(local d=1-8 + gate d=32+), NOT power law (R²=0.004). Two peaks: d=1 (local
+syntax, 4.4% mass) and d=32 (instruction prefix, 4.5% mass). Powers of 2 skip
+the binding range (d=3-20). Fibonacci strides are dense where bindings live.
+
+**Exp 3: Stride optimization.** Greedy optimal 8 strides with ±2 neighbors:
+[1, 8, 13, 18, 21, 29, 34, 47] → 98.2% coverage. Fibonacci [1,2,3,5,8,13,21,34,
+55,89,...] achieves 91.4% (+25.9pp vs powers of 2). Consecutive strides [1-16]
+get 98.9% — the binding range needs dense coverage, not geometric spacing.
+
+**v15 Architecture:** FibonacciStrideAttention with ±2 neighbor gathering. All
+16 Fibonacci strides use composition (GLA dropped — dense projections cost ~19B
+ops regardless of stride, scan saves <0.03%). One unified attention mechanism.
+
+### The φ unification
+
+| Level | φ appearance |
+|-------|-------------|
+| Crystal eigenvalues | Ratios follow φ^(p/q) with Fibonacci denominators |
+| Information partition | Signs = 1/φ of information content |
+| Standing-wave phase | Layer 22/36 = 0.611 ≈ 1/φ |
+| Compute cycle | β = [0, 1, 1+φ, 2+φ] |
+| **Stride spacing** | **Fibonacci numbers maximize binding coverage** |
+
+### Previous session (188)
 
 Four experiments decoded the full attention execution mechanism:
 
@@ -256,7 +289,7 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — COMPLETE THE BINDING MECHANISM
+### IMMEDIATE — V15 FIBONACCI ATTENTION
 
 Session 188 decoded object→verb binding (backward direction, causal-allowed).
 Subject→verb binding (forward direction) remains unknown. The model MUST
@@ -276,6 +309,10 @@ Result: YES. H31 at L27 attends 82.3% from "runs" to "cat" and outputs
 binding (verb reads agent), L30=object binding (argument reads predicate).
 Same heads (H03/H13) handle both directions at L30. See `binding-graph-trace.md`.
 
+**Priority 1: V15 extraction + training**
+Extract teacher plates into v15 Fibonacci stride topology. Train with TD
+to verify the architecture learns. Compare PPL trajectory vs v14.
+
 **Priority 2: Cross-model binding verification**
 Do the same binding heads (H03/H13/H15) exist in Pythia/Mistral? If the
 binding circuit is universal, it's a fundamental feature of transformer
@@ -286,11 +323,10 @@ Result: At L30, 22/32 heads have effective positions <3. Top-3 positions
 capture >88% of attention mass for ALL heads. Sparsity holds from 5 to 74
 tokens. Mean entropy ~0.9 bits. You don't need to attend to every token.
 
-**Priority 4: Prototype top-k sparse attention**
-Build a proof-of-concept: replace full QK^T with top-k (k=5) attention
-at the binding layers. Measure: does output quality degrade? If sparsity
-data is correct, top-5 should preserve >95% of binding behavior.
-This is the first step toward the efficient attention design.
+**Priority 4: ✅ DONE Stride coverage + distance distribution (s189)**
+Result: Powers of 2 capture 29.5%/67.4% (exact/±2). Fibonacci captures
+48.8%/91.4%. Optimal 8 strides with ±2: 98.2%. Distance distribution is
+bimodal (local + gate), NOT power law (R²=0.004).
 
 **Priority 5: From binding graph to machine**
 The full mechanism is decoded: FFN compiles V, ~4 heads at L27/L30 route
@@ -339,6 +375,12 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **V15 config** | `scripts/v15/config.py` | ✅ NEW (s189) |
+| **V15 attention** | `scripts/v15/attention.py` | ✅ NEW (s189) |
+| **Stride coverage validation** | `scripts/experiments/stride_coverage_validation.py` | ✅ NEW (s189) |
+| **Stride coverage results** | `results/stride-coverage-validation/` | ✅ NEW (s189) |
+| **Binding distance distribution** | `scripts/experiments/binding_distance_distribution.py` | ✅ NEW (s189) |
+| **Binding distance results** | `results/binding-distance-distribution/` | ✅ NEW (s189) |
 | **Attention sparsity knowledge** | `mementum/knowledge/attention-sparsity.md` | ✅ NEW (s188) |
 | **Attention sparsity experiment** | `scripts/experiments/attention_sparsity.py` | ✅ NEW (s188) |
 | **Attention sparsity results** | `results/attention-sparsity/` | ✅ NEW (s188) |
