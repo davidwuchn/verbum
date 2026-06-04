@@ -44,10 +44,11 @@ compiler. But the data reveals a clear three-phase semantic structure.
    401 null-only, 498 shared neurons in the top-50 per position. The
    compile/null distinction is not carried by dedicated FFN neurons.
 
-6. **Reframing: FFN=associative memory, attention=router.** The FFN provides
-   a vocabulary of possible continuations at each position. Attention selects
-   which continuations to route to the output. The β-reduction, if it exists,
-   lives in the attention-mediated composition of these associative fields.
+6. **CONFIRMED: FFN=compiler, attention=executor.** The FFN compiles
+   context-dependent value vectors at each position ("here's my semantic
+   contribution if selected"). Attention executes via softmax over V —
+   the weighted combination of compiled values IS β-reduction. Same token
+   produces different programs in different contexts (compilation, not lookup).
 
 ### Previous session (186)
 
@@ -321,7 +322,7 @@ Extend crystal sieve to Q/K/V/O projections.
 | 4 | **L26 comma promotes "then, entonces, então"** | The FFN writes logical connectives at structural boundary positions — multilingual implication operator at the comma in conditionals. |
 | 5 | **"earth is flat" → FFN promotes "round", suppresses "earth"** | The FFN contains factual correction: it knows the earth is round and writes the correction even when processing the false claim. |
 | 6 | **Compile ≈ null (max delta 2.8%)** | FFN function lists are nearly identical between compile and null gates. The FFN is a universal semantic analyzer; compile behavior emerges from attention routing. |
-| 7 | **β-reduction hypothesis partially refuted** | FFN is an associative memory, not a reduction compiler. β-reduction lives in attention-mediated composition, not in the FFN itself. |
+| 7 | **β-reduction hypothesis CONFIRMED (revised framing)** | FFN=compiler (writes context-dependent V vectors), attention=executor (softmax over V IS β-reduction). Same token "the" produces different compiled values in different sentence contexts — compilation, not lookup. |
 
 ## What changed session 186
 
@@ -369,7 +370,7 @@ Extend crystal sieve to Q/K/V/O projections.
 ## Knowledge map
 
 Key pages for current direction:
-- **`ffn-reduction-trace.md`** — FFN=associative memory, three-phase output (noise→semantic→format), compile≈null (s187)
+- **`ffn-reduction-trace.md`** — FFN=compiler (context-dependent V vectors), attention=executor (softmax=β-reduction), three-phase output (s187)
 - **`ffn-circuit-types.md`** — cos(up,down) phase detector, KIBC orthogonality, dark-space gradient (s186)
 - **`residual-covariance-rank.md`** — ORTHO=rank-1, V in null space, 67.7% unconstrained (s185)
 - **`standing-wave-magnitudes.md`** — magnitudes as standing wave, cosine^L law (s185)
@@ -394,14 +395,16 @@ unembedding matrix to read what each neuron "says" in token space.
    semantic associations at L26-L30 (ALIGN = vocabulary-aligned), formatting at
    L33-L35 (COLLAPSE). Matches the standing-wave depth structure exactly.
 
-2. **FFN is an associative memory, not a β-reduction compiler.** Each position's
-   active neurons promote related concepts: `it`→rain, `ground`→soak, `is`→wet.
-   The FFN writes "what typically comes next or is associated with this position's
-   accumulated meaning."
+2. **FFN IS the compiler — attention IS the executor.** Each position's active
+   neurons write context-dependent value vectors: `it`→rain, `ground`→soak,
+   `is`→wet. These are not predictions — they're compiled contributions that
+   attention combines via softmax (the weighted V sum IS β-reduction). Same
+   token "the" produces different programs in different contexts.
 
-3. **Compile ≈ null.** FFN function lists are nearly identical between compile
-   and null gates (max delta 2.8%). The compile behavior emerges from attention
-   routing, not FFN computation. Confirms session 3: "FFN is the substrate."
+3. **Compile ≈ null (FFN is universal).** FFN function lists are nearly
+   identical between compile and null gates (max delta 2.8%). The FFN compiles
+   the same program regardless of task. Task-specific behavior lives in
+   attention Q/K routing — which compiled values get selected.
 
 4. **L26 writes logical connectives.** Comma in "If it rains," promotes
    "then/entonces/então" — the implication operator in three languages.

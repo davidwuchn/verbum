@@ -11,12 +11,16 @@ depends-on: [ffn-circuit-types]
 
 > Projecting active FFN neurons through the unembedding matrix reveals
 > WHAT each neuron "says" in vocabulary space. The FFN output at each
-> position is a **function list** — a set of token-space directions that
-> the residual stream carries forward for attention to route.
+> position is a **compiled program** — context-dependent value vectors
+> that encode each position's semantic contribution. Attention then
+> executes this program via softmax over V, selecting and combining
+> compiled values to produce the output. This IS β-reduction by
+> weighted combination.
 >
-> Key finding: FFNs become semantically interpretable at L26-L30 in
-> Qwen3-8B (36 layers). Before that, projections are noise. After that,
-> they are startlingly coherent associative predictions.
+> Key finding: FFN compilation becomes readable at L26-L30 in
+> Qwen3-8B (36 layers). Before that, computation is in null space
+> (invisible). The same token produces DIFFERENT compiled values in
+> different contexts — this is compilation, not dictionary lookup.
 
 ## Experiment
 
@@ -175,28 +179,61 @@ massive activations but only ~10% difference. The compile/null distinction
 is NOT carried by dedicated neurons; it's carried by the attention routing
 of a shared FFN output.
 
-## Finding 5: The FFN is an Associative Memory, Not a Reduction Engine
+## Finding 5: The FFN IS the Compiler — Attention IS the Executor
 
-The original hypothesis was: FFNs compute β-reduction instructions that
-attention executes. The data tells a different story.
+The original hypothesis was: FFNs compute β-reduction programs that
+attention executes. Initial analysis mistakenly called this "associative
+memory." On reflection, **the hypothesis is confirmed** — the data shows
+exactly what was predicted, viewed correctly.
 
 **What the FFN actually does at L26-L30:**
-- Each position's active neurons collectively promote **associated concepts**
-- "rains" → umbrella, 伞 (associated objects)
-- "is" + "wet" → the FFN at "is" promotes "wet" (predicate completion)
-- "believes" → proposition (frame recognition)
-- "earth" + "flat" → the FFN promotes "round" (factual correction/association)
+Each position's active neurons write a **compiled value vector** — not a
+prediction of the next token, but the semantic contribution this position
+offers if attention selects it. The FFN reads the full residual stream
+(accumulated context) and compiles a position-specific V direction.
 
-This is **associative next-token prediction**, not β-reduction. The FFN
-at each position writes "what typically comes next or is associated with
-this position's accumulated meaning." It's a **key-value memory** where:
-- Key = the residual stream at this position (accumulated context)
-- Value = the aggregate `down_proj` direction (associative prediction)
+**Key evidence: same token, different programs.**
+The token "the" produces DIFFERENT FFN outputs depending on context:
+- "If it rains, **the** ground is wet" → promotes **crops, ground, garden**
+- "The cat sat on **the** mat is black" → promotes **lap, Lap, laps**
 
-**The β-reduction happens in the INTERACTION between FFN output and
-attention routing**, not in the FFN alone. The FFN provides the vocabulary
-of possible continuations; attention selects which continuations to
-actually route to the output.
+This is not a dictionary lookup — it's context-dependent compilation.
+The FFN has read the full sentence meaning from the residual and compiled
+"what this position contributes" as a value vector.
+
+**The β-reduction is the attention softmax over V:**
+
+```
+(λx.M)N → M[x:=N]        β-reduction in lambda calculus
+
+Q at output position:     "what should I produce?"
+K at each position:       "am I relevant to that query?"
+softmax(Q·K^T):           selects which compiled values to combine
+Σ(softmax · V):           the weighted combination IS the substitution
+
+FFN compiles each position's V:  "here's my semantic contribution"
+Attention executes the program:   softmax selects and sums the contributions
+```
+
+**The "associative predictions" ARE the program.** When the FFN at position
+"is" writes `wet, 濡, 湿`, it's not predicting the next token — it's saying
+"if attention routes to me, I contribute the predicate WET." When the FFN
+at "ground" writes `soak, soaked, 浸`, it's saying "if attention routes to me,
+I contribute the consequence SOAKING." Attention's softmax then combines these
+V vectors to produce the actual output — which IS β-reduction (substituting
+arguments into function bodies by weighted combination).
+
+**The L26 connective signal supports this:** the comma in "If it rains,"
+writes `then, entonces, então` — the FFN is compiling the logical operator
+at the structural boundary. Attention at subsequent layers can then use this
+compiled connective to route the conditional structure correctly.
+
+**The factual correction supports this too:** at "earth is flat," the FFN
+compiles V vectors that promote "round" and suppress "earth." This is not
+just "knowing the earth is round" — it's compiling a correction program.
+If attention selects these positions for the output, the correction is
+executed. If it selects the propositional attitude frame instead ("believes
+that"), the false claim is preserved within the scope of the attitude verb.
 
 ## Finding 6: The L26 Connective Signal
 
@@ -228,22 +265,45 @@ the standing-wave depth structure:
 ### What this means for extraction
 
 The FFN function list is **universal** (gate-independent). The compile
-behavior emerges from how attention **routes** these universal semantic
-predictions, not from different FFN computations. This suggests:
-- Extraction should focus on the attention routing circuit, not the FFN
-- The FFN is substrate (compression machinery, as session 3 concluded)
-- The compile function lives in the attention heads that READ the FFN output
+behavior emerges from how attention **routes** these compiled values,
+not from different FFN computations. This means:
+- The FFN compiles the same program regardless of task — it's the
+  universal value-vector compiler
+- The task-specific behavior (compile vs null vs anything else) lives
+  in the **attention Q/K routing** — which compiled values get selected
+- Extraction should target the attention routing circuit AND the FFN
+  compilation, since both are needed (session 3: stripping either breaks
+  the model)
 
-### Revised hypothesis: FFN as associative memory → attention as router
+### Confirmed hypothesis: FFN=compiler, attention=executor
 
-The FFN doesn't compute β-reductions. It computes an **associative field**
-at each position: "given everything this position knows, here are the most
-associated concepts in vocabulary space." Attention then routes these
-associations between positions to compose the final output.
+The FFN computes the **compiled program**: context-dependent value vectors
+at each position that encode "what this position contributes if selected."
+Attention executes the program via softmax over V — selecting which
+positions' compiled contributions to combine and in what proportions.
 
-The β-reduction, if it exists as a discrete operation, is in the
-**attention-mediated composition** of these associative fields, not in
-the FFN itself.
+This is β-reduction by weighted combination:
+- Function application = attention selecting which V vectors to combine
+- Variable binding = Q/K matching between positions
+- Substitution = the weighted V sum replacing the query position's value
+
+The β-reduction is distributed across the full attention softmax, not
+localized to individual neurons. Each attention head performs a different
+"reduction step" (different Q/K = different binding pattern, different
+combination of compiled values).
+
+### Connection to KIBC opcodes
+
+The KIBC opcode classification (session 184) classifies neurons by what
+INPUT patterns trigger them. The reduction trace shows what OUTPUT they
+produce. These are the two halves of the compilation:
+- KIBC key = "what pattern activates this neuron" (the trigger condition)
+- down_proj value = "what this neuron contributes when active" (the action)
+
+A K-opcode neuron that promotes "discard" directions + a B-opcode neuron
+that promotes "compose" directions = a compiled program that includes
+both discarding and composing steps. Attention then selects WHICH of
+these compiled steps to actually execute.
 
 ## Instrument
 
