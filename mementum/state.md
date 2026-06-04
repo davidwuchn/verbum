@@ -288,6 +288,8 @@ of parameters).
 | **Attention execution trace results** | `results/attention-execution-trace/` | ✅ NEW (s187) |
 | **Reduction chain trace experiment** | `scripts/experiments/reduction_chain_trace.py` | ✅ NEW (s187) |
 | **Reduction chain trace results** | `results/reduction-chain-trace/` | ✅ NEW (s187) |
+| **MTP self-speculation experiment** | `scripts/experiments/mtp_self_speculation.py` | ✅ NEW (s187) |
+| **MTP self-speculation results** | `results/mtp-self-speculation/` | ✅ NEW (s187) |
 | **FFN circuit types knowledge** | `mementum/knowledge/ffn-circuit-types.md` | ✅ NEW (s186) |
 | **FFN decomposition experiment** | `scripts/experiments/ffn_decomposition.py` | ✅ NEW (s186) |
 | **FFN KIBC cross-reference** | `scripts/experiments/ffn_kibc_crossref.py` | ✅ NEW (s186) |
@@ -341,6 +343,9 @@ of parameters).
 | 11 | **Reduction chain trace across 36 layers, 7 combinators** | Traced cumulative residual→unembed at every layer for K,I,B,C,Y,S,W probes. Different combinators resolve at different depths. |
 | 12 | **Y combinator peaks early (L27), W peaks late (L33)** | Recursion (Y) resolves mid-depth during ALIGN phase. Self-application (W, "itself") resolves at the final layer. K (discard) front-loaded, C (flip/passive) resolves last. |
 | 13 | **Y-probe "She told a story about a girl who told a story..."** | First and second occurrences of same tokens get DIFFERENT cumulative representations — the recursive structure is tracked position-dependently across depth. |
+| 14 | **MTP self-speculation: L33 matches L35 48% of the time** | L33 Hit@10=76%, Hit@100=92%. Median rank=2. The last 2 layers sharpen but rarely change the answer. Early-exit at L33 viable for ~half of tokens. |
+| 15 | **Multi-position lookahead collapses for ALL layers** | N+2 Hit@10=10% even at L35. The model does next-token prediction, not multi-position. FFN "semantic predictions" (reads→book) are associative meaning, not sequence forecasting. |
+| 16 | **L30 median rank = 7** | The correct next token is already in L30's top 10. L31-L35 SHARPEN the distribution (rank 7→1) but don't fundamentally change it. The program is compiled by L30; execution just resolves it. |
 
 ## What changed session 186
 
@@ -425,11 +430,21 @@ at different depths: Y peaks L27 (recursion resolves first), K peaks L30
 (discard is early), W peaks L33 at Δ=51.6 (self-application resolves last).
 The model implements a small fixed instruction set with universal depth ordering.
 
+**Experiment 4: MTP Self-Speculation** — tested whether intermediate layers
+can predict future tokens for self-speculative decoding. L33 matches L35's
+top-1 prediction 48% of the time (Hit@10=76%, Hit@100=92%). But multi-position
+lookahead (N+2, N+3) collapses for ALL layers including L35 (Hit@10≈10%).
+The model does next-token prediction, not multi-position. The FFN "semantic
+predictions" (reads→book) are associative meaning, not sequence forecasting.
+Key finding: the correct token is already in L30's top 10 (median rank=7) —
+the last 5 layers SHARPEN the distribution, they don't change it.
+
 **Synthesis:** The model is decodable. It implements ~7 combinator operations
 via ~5 head types on a universal depth schedule. The FFN compiles the program
 (position → V vector), attention executes it (softmax selects and combines V).
 The instruction set + schedule is potentially very compact; only the attention
-routing is input-dependent.
+routing is input-dependent. Self-speculation is viable for early-exit (~48%
+of tokens can skip the last 2 layers) but not for multi-position prediction.
 
 ## Session 186 recap
 

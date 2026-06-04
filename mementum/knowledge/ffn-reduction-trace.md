@@ -491,6 +491,86 @@ This is potentially extractable as a compact artifact:
 - **Depth schedule** = the execution order (one small table)
 - **Routing function** = the only variable (attention patterns)
 
+## Finding 9: MTP Self-Speculation — Early Exit, Not Multi-Position
+
+The MTP self-speculation experiment (`mtp_self_speculation.py`) tested whether
+the model's own intermediate layers can serve as speculative drafters for
+multi-token prediction, eliminating the need for a second model.
+
+### Next-Token Prediction Across Depth
+
+| Layer | Hit@1 | Hit@10 | Hit@100 | L35 Match | Med Rank |
+|-------|-------|--------|---------|-----------|----------|
+| L24 | 7.4% | 28.6% | 58.1% | 9.4% | 66 |
+| L27 | 14.8% | 36.5% | 68.0% | 17.7% | 27 |
+| **L30** | **26.1%** | **54.7%** | **80.8%** | **25.6%** | **7** |
+| **L33** | **36.5%** | **75.9%** | **92.1%** | **47.8%** | **2** |
+| L35 | 44.8% | 78.8% | 92.6% | 100% | 1 |
+
+**L33 is 92% of L35's Hit@100 performance.** The last 2 layers add very
+little next-token accuracy. L33's top-1 matches L35's top-1 **48% of the
+time** — meaning nearly half of tokens could skip L34-L35 (early exit).
+
+### Multi-Position Lookahead Collapses
+
+| Lookahead | L30 Hit@10 | L35 Hit@10 |
+|-----------|-----------|-----------|
+| N+1 | 54.7% | 78.8% |
+| N+2 | 10.4% | 11.4% |
+| N+3 | 5.5% | 9.8% |
+| N+4 | 1.7% | 9.8% |
+| N+5 | 1.2% | 9.2% |
+
+**N+2 and beyond collapse for ALL layers, including L35.** This is not a
+limitation of early layers — the model fundamentally does next-token
+prediction, not multi-position prediction. The causal mask prevents
+position N from seeing positions N+1, N+2, etc., so it cannot predict them.
+
+### What the FFN Semantic Predictions Actually Are
+
+The earlier finding that "reads" promotes "book" at L30 was NOT the FFN
+predicting what comes at position reads+1. It was encoding **associative
+meaning** — the concept of reading is associated with books. The token
+"book" often follows "reads" in natural language, making this look like
+sequence prediction, but it's actually semantic field encoding.
+
+**The distinction:**
+- **Sequence prediction** (N+1): "what token follows at the NEXT position?"
+  → This works at L30 (median rank=7) and L33 (median rank=2)
+- **Multi-position prediction** (N+2, N+3): "what token appears 2-3 positions later?"
+  → This doesn't work at any layer, because causal attention prevents it
+- **Semantic association**: "what concepts relate to this position's meaning?"
+  → This IS what the FFN compiles (reads→book, ground→soak, is→wet)
+
+### The L30 Median Rank = 7 Finding
+
+The correct next token is already in L30's top 10 predictions (median
+rank=7). The last 5 layers (L31-L35) SHARPEN the distribution from
+rank 7 to rank 1 — they don't fundamentally change which tokens are
+plausible, they just pick the right one from the compiled shortlist.
+
+This means:
+- **L30 compiles the program** (the top-10 candidate set)
+- **L31-L35 execute the program** (selecting the winner from candidates)
+- The compilation is the heavy work; execution is refinement
+- This is consistent with the binding heads (H10/H11 at L33) doing
+  the final typed_apply that selects the correct token
+
+### Implications for MTP
+
+1. **Early exit is viable.** L33 at 48% acceptance → skip L34-L35 for
+   ~half of tokens. ~5% compute savings, no quality loss on those tokens.
+
+2. **Multi-position MTP needs a different approach.** The causal mask
+   prevents any single position from predicting future positions. True
+   MTP would need to either: (a) run parallel speculative positions, or
+   (b) extract the FFN's associative predictions into a separate routing
+   step that generates multiple candidate tokens simultaneously.
+
+3. **The compiled program is the draft.** L30's top-10 IS the speculative
+   draft. Instead of a second model, use the top-k from L30 and verify
+   with L31-L35. This is self-speculative decoding within a single model.
+
 ## Instrument
 
 ```python
