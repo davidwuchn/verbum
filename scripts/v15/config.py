@@ -67,9 +67,20 @@ def _fibonacci_sequence(n: int) -> tuple[int, ...]:
     return tuple(unique[:n])
 
 
-# 16 Fibonacci strides: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597]
-STRIDES = _fibonacci_sequence(16)
-N_STRIDES = len(STRIDES)
+# Fibonacci strides + 3 gap-fillers for 100% coverage with ±2 neighbors.
+#
+# Pure Fibonacci with ±2: 91.4%. The gaps are between consecutive Fibonacci
+# numbers where F(n+1) - F(n) > 4 (beyond ±2 bridge range). Three fillers:
+#   15 (between 13 and 21): captures d=45 (15×3), d=60 (15×4)
+#   20 (between 13 and 21): captures d=59 (20×3-1), d=80 (20×4)
+#   24 (between 21 and 34): captures d=72 (24×3), d=96 (24×4)
+#
+# These aren't arbitrary — they fill holes in the Fibonacci grid where
+# the spacing exceeds 2×radius. Result: 100.0% mass coverage at L30.
+_FIBONACCI_BASE = list(_fibonacci_sequence(16))
+_GAP_FILLERS = [15, 20, 24]  # between F(7)=13..F(8)=21 and F(8)=21..F(9)=34
+STRIDES = tuple(sorted(set(_FIBONACCI_BASE + _GAP_FILLERS)))
+N_STRIDES = len(STRIDES)  # 19
 
 # Neighbor radius: gather ±R positions around each stride grid point.
 # Session 189 data: ±2 turns 29.5% → 67.4% (pow2) and 48.8% → 91.8% (Fibonacci).
@@ -91,25 +102,24 @@ EFFECTIVE_WINDOW = WINDOW * (2 * NEIGHBOR_RADIUS + 1)  # 40
 # v15 decision: ALL strides use FibonacciStrideAttention.
 # One unified mechanism. If long-range patterns need running memory,
 # GLA can be added back for the last 2-4 strides. But start unified.
-STRIDE_IS_RETRIEVAL = (
-    False, False, False, False,   # s1, s2, s3, s5:     local binding
-    False, False, False, False,   # s8, s13, s21, s34:  phrase binding
-    False, False, False, False,   # s55, s89, s144, s233: paragraph
-    False, False, False, False,   # s377, s610, s987, s1597: document
-)
+STRIDE_IS_RETRIEVAL = tuple(False for _ in STRIDES)  # all composition
 
 # ── Stack topology ──────────────────────────────────────────────────
 N_STACKS = 2
 N_BOUNDARIES = N_STACKS - 1
 
-# Fractal bands: 4 strides per pass, symmetric ascending/descending.
-# With Fibonacci strides, bands align to scale:
-#   Band 0: [s1, s2, s3, s5]       — token-level binding
-#   Band 1: [s8, s13, s21, s34]    — phrase-level binding
-#   Band 2: [s55, s89, s144, s233] — paragraph retrieval
-#   Band 3: [s377, s610, s987, s1597] — document retrieval
-STACK_A_BANDS = ((0, 4), (4, 8), (8, 12), (12, 16))
-STACK_C_BANDS = ((12, 16), (8, 12), (4, 8), (0, 4))
+# Fractal bands: strides grouped by scale, symmetric ascending/descending.
+# With 19 strides (Fibonacci + 3 gap-fillers), split into scale bands:
+#   Band 0: [s1, s2, s3, s5]                — local token binding
+#   Band 1: [s8, s13, s15, s20, s21, s24]   — phrase binding (dense: the gap-fill zone)
+#   Band 2: [s34, s55, s89, s144]           — paragraph structure
+#   Band 3: [s233, s377, s610, s987, s1597]  — document structure
+#
+# Band 1 is bigger (6 strides) because that's where the binding mass
+# concentrates. The gap-fillers live here. This is the heart of the
+# attention mechanism — the phrase-level binding band.
+STACK_A_BANDS = ((0, 4), (4, 10), (10, 14), (14, 19))
+STACK_C_BANDS = ((14, 19), (10, 14), (4, 10), (0, 4))
 
 N_PASSES = len(STACK_A_BANDS) + len(STACK_C_BANDS)  # 8
 
@@ -245,12 +255,14 @@ def _self_test():
     assert cfg.strides[3] == 5
     assert cfg.strides[4] == 8
     assert cfg.strides[5] == 13
-    assert cfg.n_strides == 16
+    assert cfg.n_strides == 19
 
-    # Verify Fibonacci property for first 8 (where it's clean)
-    for i in range(2, min(8, cfg.n_strides)):
-        assert cfg.strides[i] == cfg.strides[i-1] + cfg.strides[i-2], \
-            f"Stride {i}: {cfg.strides[i]} ≠ {cfg.strides[i-1]} + {cfg.strides[i-2]}"
+    # Verify Fibonacci base is present (gap-fillers are interleaved)
+    for f in [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597]:
+        assert f in cfg.strides, f"Missing Fibonacci stride {f}"
+    # Verify gap-fillers are present
+    for g in [15, 20, 24]:
+        assert g in cfg.strides, f"Missing gap-filler stride {g}"
 
     # Neighbor radius
     assert cfg.neighbor_radius == 2
@@ -259,16 +271,17 @@ def _self_test():
     # Stride types
     n_comp = sum(1 for r in cfg.stride_is_retrieval if not r)
     n_ret = sum(1 for r in cfg.stride_is_retrieval if r)
-    assert n_comp == 16, f"Expected 16 composition strides, got {n_comp}"
+    assert n_comp == 19, f"Expected 19 composition strides, got {n_comp}"
     assert n_ret == 0, f"Expected 0 retrieval strides, got {n_ret}"
 
     # Bands symmetric
     assert cfg.stack_a_bands == tuple(reversed(cfg.stack_c_bands))
     assert cfg.n_passes == 8
 
-    # Coverage ranges — all strides are composition now
-    assert cfg.max_composition_range == 1597 * 7 + 2  # 11,181
-    assert cfg.max_total_range == 1597 * 7 + 2  # 11,181
+    # Coverage ranges — all strides are composition
+    max_stride = cfg.strides[-1]  # 1597
+    assert cfg.max_composition_range == max_stride * 7 + 2  # 11,181
+    assert cfg.max_total_range == max_stride * 7 + 2  # 11,181
 
     print(f"config.py self-test: ✓")
     print(f"  Strides: {cfg.strides}")
