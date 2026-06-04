@@ -1,0 +1,3449 @@
+========================================================================
+BINDING GRAPH TRACE
+========================================================================
+Model: Qwen/Qwen3-8B
+Probes: 14
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:01,  2.19it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 60.56it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 118.19it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 142.15it/s]Loading weights:  26%|██▌       | 104/399 [00:00<00:01, 163.04it/s]Loading weights:  33%|███▎      | 133/399 [00:01<00:01, 196.80it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 206.56it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:00, 229.19it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:00, 226.48it/s]Loading weights:  61%|██████▏   | 245/399 [00:01<00:00, 240.67it/s]Loading weights:  68%|██████▊   | 271/399 [00:01<00:00, 241.34it/s]Loading weights:  75%|███████▍  | 298/399 [00:01<00:00, 238.67it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 236.89it/s]Loading weights:  89%|████████▊ | 354/399 [00:01<00:00, 253.10it/s]Loading weights:  97%|█████████▋| 388/399 [00:01<00:00, 272.17it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 196.79it/s]
+  Loaded in 3.4s
+  36 layers, 32 Q heads, 8 KV groups
+  Target layers: [27, 30, 33]
+  W_unembed: torch.Size([151936, 4096])
+  Gate length: 32 tokens
+
+────────────────────────────────────────────────────────────
+[sv1] The dog runs.
+  Category: subject-verb
+  Expected bindings: 1
+    dog → runs = runs(dog)
+  Tokens (3): [' dog', ' runs', '.']
+    ✓ dog@[32] → runs@[33]
+
+────────────────────────────────────────────────────────────
+[sv2] The cat runs.
+  Category: subject-verb
+  Expected bindings: 1
+    cat → runs = runs(cat)
+  Tokens (3): [' cat', ' runs', '.']
+    ✓ cat@[32] → runs@[33]
+
+────────────────────────────────────────────────────────────
+[rev1] The dog bit the cat.
+  Category: reversed
+  Expected bindings: 2
+    dog → bit = bit(dog,_)
+    cat → bit = bit(_,cat)
+  Tokens (5): [' dog', ' bit', ' the', ' cat', '.']
+    ✓ dog@[32] → bit@[33]
+    ✓ cat@[35] → bit@[33]
+
+────────────────────────────────────────────────────────────
+[rev2] The cat bit the dog.
+  Category: reversed
+  Expected bindings: 2
+    cat → bit = bit(cat,_)
+    dog → bit = bit(_,dog)
+  Tokens (5): [' cat', ' bit', ' the', ' dog', '.']
+    ✓ cat@[32] → bit@[33]
+    ✓ dog@[35] → bit@[33]
+
+────────────────────────────────────────────────────────────
+[ditrans] John gave Mary the book.
+  Category: ditransitive
+  Expected bindings: 3
+    John → gave = gave(john,_,_)
+    Mary → gave = gave(_,mary,_)
+    book → gave = gave(_,_,book)
+  Tokens (5): [' gave', ' Mary', ' the', ' book', '.']
+    ✗ John([]) → gave([32]) UNRESOLVED
+    ✓ Mary@[33] → gave@[32]
+    ✓ book@[35] → gave@[32]
+
+────────────────────────────────────────────────────────────
+[self1] The dog bit itself.
+  Category: self-reference
+  Expected bindings: 3
+    dog → bit = bit(dog,_)
+    itself → dog = itself→dog
+    itself → bit = bit(_,itself)
+  Tokens (4): [' dog', ' bit', ' itself', '.']
+    ✓ dog@[32] → bit@[33]
+    ✓ itself@[34] → dog@[32]
+    ✓ itself@[34] → bit@[33]
+
+────────────────────────────────────────────────────────────
+[nested1] The cat that sat on the mat is black.
+  Category: nested
+  Expected bindings: 3
+    cat → sat = sat(cat,_)
+    mat → sat = sat(_,mat)
+    cat → black = black(cat)
+  Tokens (9): [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+    ✓ cat@[32] → sat@[34]
+    ✓ mat@[37] → sat@[34]
+    ✓ cat@[32] → black@[39]
+
+────────────────────────────────────────────────────────────
+[quant1] Every student reads a book.
+  Category: quantifier
+  Expected bindings: 3
+    student → reads = reads(student,_)
+    book → reads = reads(_,book)
+    Every → student = ∀(student)
+  Tokens (5): [' student', ' reads', ' a', ' book', '.']
+    ✓ student@[32] → reads@[33]
+    ✓ book@[35] → reads@[33]
+    ✗ Every([]) → student([32]) UNRESOLVED
+
+────────────────────────────────────────────────────────────
+[cond1] If it rains, the ground is wet.
+  Category: conditional
+  Expected bindings: 3
+    it → rains = rains(it)
+    ground → wet = wet(ground)
+    rains → wet = rains→wet
+  Tokens (8): [' it', ' rains', ',', ' the', ' ground', ' is', ' wet', '.']
+    ✓ it@[32] → rains@[33]
+    ✓ ground@[36] → wet@[38]
+    ✓ rains@[33] → wet@[38]
+
+────────────────────────────────────────────────────────────
+[pass1] The ball was kicked by the boy.
+  Category: passive
+  Expected bindings: 2
+    boy → kicked = kicked(boy,_)
+    ball → kicked = kicked(_,ball)
+  Tokens (7): [' ball', ' was', ' kicked', ' by', ' the', ' boy', '.']
+    ✓ boy@[37] → kicked@[34]
+    ✓ ball@[32] → kicked@[34]
+
+────────────────────────────────────────────────────────────
+[act1] The boy kicked the ball.
+  Category: active
+  Expected bindings: 2
+    boy → kicked = kicked(boy,_)
+    ball → kicked = kicked(_,ball)
+  Tokens (5): [' boy', ' kicked', ' the', ' ball', '.']
+    ✓ boy@[32] → kicked@[33]
+    ✓ ball@[35] → kicked@[33]
+
+────────────────────────────────────────────────────────────
+[recur1] A folder contains files and other folders which contain files.
+  Category: recursion
+  Expected bindings: 3
+    folder → contains = contains(folder,_)
+    files → contains = contains(_,files)
+    folders → contain = contains(folders,_)
+  Tokens (10): [' folder', ' contains', ' files', ' and', ' other', ' folders', ' which', ' contain', ' files', '.']
+    ✓ folder@[32, 37] → contains@[33]
+    ✓ files@[34, 40] → contains@[33]
+    ✓ folders@[37] → contain@[33, 39]
+
+────────────────────────────────────────────────────────────
+[discard1] Of all the animals, only the lion was truly fierce.
+  Category: discard
+  Expected bindings: 1
+    lion → fierce = fierce(lion)
+  Tokens (11): [' all', ' the', ' animals', ',', ' only', ' the', ' lion', ' was', ' truly', ' fierce', '.']
+    ✓ lion@[38] → fierce@[41]
+
+────────────────────────────────────────────────────────────
+[long1] The man that the woman that the child saw met left.
+  Category: long-distance
+  Expected bindings: 5
+    child → saw = saw(child,_)
+    woman → saw = saw(_,woman)
+    woman → met = met(woman,_)
+    man → met = met(_,man)
+    man → left = left(man)
+  Tokens (11): [' man', ' that', ' the', ' woman', ' that', ' the', ' child', ' saw', ' met', ' left', '.']
+    ✓ child@[38] → saw@[39]
+    ✓ woman@[35] → saw@[39]
+    ✓ woman@[35] → met@[40]
+    ✓ man@[32, 35] → met@[40]
+    ✓ man@[32, 35] → left@[41]
+
+========================================================================
+ANALYSIS: DOES ATTENTION = BINDING GRAPH?
+========================================================================
+
+────────────────────────────────────────────────────────────
+LAYER 27
+────────────────────────────────────────────────────────────
+
+  [sv1] "The dog runs."
+    V through unembed (what FFN compiled):
+      [         dog] → animal, animal, 畜牧业
+      [        runs] → gets, gets, deletes
+      [           .] → .",, .',, 作文
+
+    BINDING: dog → runs = runs(dog)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0286    0.0x  ['', "-", ""]
+    H02     0.0000   0.0286    0.0x  [."), .");, .).]
+    H03     0.0000   0.0286    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0286    0.0x  [奔跑, 步行, Walk]
+    H05     0.0000   0.0286    0.0x  [驮, 扑, testName]
+    H06     0.0000   0.0286    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0286    0.0x  [sacram, intercepted, 月初]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for runs(dog):
+                 dog ( 0): 0.0012
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [dog] for runs(dog):
+                 dog ( 0): 0.0101
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [dog] for runs(dog):
+                 dog ( 0): 0.0533
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [dog] for runs(dog):
+                 dog ( 0): 0.0007
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [dog] for runs(dog):
+                 dog ( 0): 0.0267
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+    V through unembed (what FFN compiled):
+      [         cat] → 新媒体, animal, fishing
+      [        runs] → gets, ifies, gets
+      [           .] → .",, .',, .",
+
+    BINDING: cat → runs = runs(cat)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0286    0.0x  ['', "-", ."]
+    H02     0.0000   0.0286    0.0x  [.");, ."), .).]
+    H03     0.0000   0.0286    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0286    0.0x  [prey, 总公司, aroo]
+    H05     0.0000   0.0286    0.0x  [驮, 扑, Rash]
+    H06     0.0000   0.0286    0.0x  [关口, overview, 概述]
+    H07     0.0000   0.0286    0.0x  [制度改革, consc, INDIRECT]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for runs(cat):
+                 cat ( 0): 0.0011
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [cat] for runs(cat):
+                 cat ( 0): 0.0129
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [cat] for runs(cat):
+                 cat ( 0): 0.0435
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [cat] for runs(cat):
+                 cat ( 0): 0.0006
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [cat] for runs(cat):
+                 cat ( 0): 0.0150
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+    V through unembed (what FFN compiled):
+      [         dog] → animal, animal, 畜牧业
+      [         bit] → attack, Took, attacked
+      [         the] → amsterdam, orges, 羹
+      [         cat] → 新媒体, vital, unusual
+      [           .] → .",, either, .
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0270    0.0x  ['', "-", ""]
+    H02     0.0000   0.0270    0.0x  [."), .");, .).]
+    H03     0.0000   0.0270    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0270    0.0x  [奔跑, 步行, Walk]
+    H05     0.0000   0.0270    0.0x  [驮, 扑, testName]
+    H06     0.0000   0.0270    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0270    0.0x  [sacram, intercepted, 月初]
+
+    BINDING: cat → bit = bit(_,cat)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H05     0.3394   0.0270   12.6x  [Starr, 不成, 守住] ◆
+    H08     0.2051   0.0270    7.6x  [很小, .zero, 紧张] ◆
+    H14     0.1820   0.0270    6.7x  [原因是, deserved, 原因] ◆
+    H31     0.1436   0.0270    5.3x  [狗, paw, dog] ◆
+    H09     0.1318   0.0270    4.9x  [不少于, 至少, 不低于] •
+    H07     0.1077   0.0270    4.0x  [Transparency, transparency, 航] •
+    H06     0.0670   0.0270    2.5x  [的利益, 链条, uman] •
+    H15     0.0506   0.0270    1.9x  [ätz, 普惠, 钧]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0012
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0101
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0533
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0007
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0267
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H05 at [cat] for bit(_,cat):
+                 bit ( 1): 0.3394 ★
+                 cat ( 3): 0.0188
+                 dog ( 0): 0.0043
+                 the ( 2): 0.0036
+                   . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+    V through unembed (what FFN compiled):
+      [         cat] → 新媒体, animal, fishing
+      [         bit] → attack, 作了, attacked
+      [         the] → enfer, appId, amsterdam
+      [         dog] → sen, Sok, PRS
+      [           .] → .",, either, .
+
+    BINDING: cat → bit = bit(cat,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0270    0.0x  ['', "-", ."]
+    H02     0.0000   0.0270    0.0x  [.");, ."), .).]
+    H03     0.0000   0.0270    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0270    0.0x  [prey, 总公司, aroo]
+    H05     0.0000   0.0270    0.0x  [驮, 扑, Rash]
+    H06     0.0000   0.0270    0.0x  [关口, overview, 概述]
+    H07     0.0000   0.0270    0.0x  [制度改革, consc, INDIRECT]
+
+    BINDING: dog → bit = bit(_,dog)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H05     0.4973   0.0270   18.4x  [Starr, 不成, attacking] ◆
+    H08     0.2566   0.0270    9.5x  [崩溃, 较小, 很小] ◆
+    H07     0.2421   0.0270    9.0x  [summon, singleton, virtue] ◆
+    H31     0.1921   0.0270    7.1x  [猫, paw, 狗] ◆
+    H14     0.1798   0.0270    6.7x  [原因, 原因是, deserved] ◆
+    H09     0.1592   0.0270    5.9x  [至少, 不少于, 不低于] ◆
+    H06     0.0776   0.0270    2.9x  [的利益, 链条, uman] •
+    H15     0.0762   0.0270    2.8x  [, ..., anto] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0011
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0129
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0435
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0006
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0150
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H05 at [dog] for bit(_,dog):
+                 bit ( 1): 0.4973 ★
+                 dog ( 3): 0.0349
+                 cat ( 0): 0.0070
+                 the ( 2): 0.0040
+                   . ( 4): 0.0000
+
+  [ditrans] "John gave Mary the book."
+    V through unembed (what FFN compiled):
+      [        gave] → 发表了, 开展了, 用了
+      [        Mary] → 茴, pod, civ
+      [         the] → 烂, personalized, 泮
+      [        book] → liter, Reading, rev
+      [           .] → .",, sentence, 语法
+
+    BINDING: Mary → gave = gave(_,mary,_)
+    arg@[1] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.4282   0.0270   15.8x  [经验, 经验和, insights] ◆
+    H12     0.3257   0.0270   12.1x  [搭乘, vinc, gov] ◆
+    H08     0.2852   0.0270   10.6x  [被淘汰, bankrupt, 最具] ◆
+    H15     0.2037   0.0270    7.5x  [频道, , 孕育] ◆
+    H31     0.1575   0.0270    5.8x  [Ont, Ont, 容] ◆
+    H07     0.1198   0.0270    4.4x  [AspectRatio, 链, 耐] •
+    H14     0.1190   0.0270    4.4x  [的过程中, 致使, おかげ] •
+    H09     0.1125   0.0270    4.2x  [slightest, 每一, 三层] •
+
+    BINDING: book → gave = gave(_,_,book)
+    arg@[3] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H08     0.1187   0.0270    4.4x  [最优, 最美, 最美的] •
+    H09     0.0861   0.0270    3.2x  [不少于, 不超过, 不低于] •
+    H02     0.0826   0.0270    3.1x  [.",, .");, .] •
+    H15     0.0667   0.0270    2.5x  [, , ] •
+    H01     0.0617   0.0270    2.3x  [., "", ""] •
+    H06     0.0495   0.0270    1.8x  [经验, 的经验, 实践经验]
+    H12     0.0469   0.0270    1.7x  [衣服, Woman, girl]
+    H14     0.0429   0.0270    1.6x  [在我看来, myster, esti]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H06 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.4282 ★
+                Mary ( 1): 0.0125
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H12 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.3257 ★
+                Mary ( 1): 0.0905
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H08 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2852 ★
+                Mary ( 1): 0.0884
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H15 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2037 ★
+                Mary ( 1): 0.1975
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H31 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.1575 ★
+                Mary ( 1): 0.0503
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H08 at [book] for gave(_,_,book):
+                gave ( 0): 0.1187 ★
+                book ( 3): 0.0377
+                 the ( 2): 0.0165
+                Mary ( 1): 0.0153
+                   . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+    V through unembed (what FFN compiled):
+      [         dog] → animal, animal, 畜牧业
+      [         bit] → attack, Took, attacked
+      [      itself] → 了一份, conjug, rer
+      [           .] → .",, either, .',
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0278    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0278    0.0x  ['', "-", ""]
+    H02     0.0000   0.0278    0.0x  [."), .");, .).]
+    H03     0.0000   0.0278    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0278    0.0x  [奔跑, 步行, Walk]
+    H05     0.0000   0.0278    0.0x  [驮, 扑, testName]
+    H06     0.0000   0.0278    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0278    0.0x  [sacram, intercepted, 月初]
+
+    BINDING: itself → dog = itself→dog
+    arg@[2] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H31     0.1864   0.0278    6.7x  [狗, dog, Dog] ◆
+    H08     0.1163   0.0278    4.2x  [较小, 被淘汰, shortest] •
+    H09     0.1130   0.0278    4.1x  [不少于, 不超过, 至少] •
+    H02     0.0680   0.0278    2.5x  [., gar, .');] •
+    H12     0.0522   0.0278    1.9x  [衣服, clothes, 琶]
+    H01     0.0509   0.0278    1.8x  [., .", ""]
+    H15     0.0254   0.0278    0.9x  [德尔, , 味]
+    H07     0.0233   0.0278    0.8x  [virtue, 均匀, summon]
+
+    BINDING: itself → bit = bit(_,itself)
+    arg@[2] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H05     0.4873   0.0278   17.5x  [不成, Starr, 守住] ◆
+    H08     0.3784   0.0278   13.6x  [较小, 被淘汰, shortest] ◆
+    H07     0.2494   0.0278    9.0x  [virtue, 均匀, summon] ◆
+    H14     0.2336   0.0278    8.4x  [导致, 原因, causes] ◆
+    H31     0.1737   0.0278    6.2x  [狗, dog, Dog] ◆
+    H06     0.1382   0.0278    5.0x  [的利益, 火焰, 链条] •
+    H09     0.1241   0.0278    4.5x  [不少于, 不超过, 至少] •
+    H15     0.1185   0.0278    4.3x  [德尔, , 味] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0012
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0101
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0533
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0007
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0267
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H31 at [itself] for itself→dog:
+                 dog ( 0): 0.1864 ★
+                 bit ( 1): 0.1737
+              itself ( 2): 0.0765
+                   . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+    V through unembed (what FFN compiled):
+      [         cat] → 新媒体, animal, fishing
+      [        that] → Ont, honor, Segments
+      [         sat] → 提供了, withdrew, 发表了
+      [          on] → 乞, fur, idle
+      [         the] → forks, jewel, 擂
+      [         mat] → iffin, .ide, jure
+      [          is] → icks, hog, //~
+      [       black] → poisonous, 碛, /Foundation
+      [           .] → 作文, Grammar, 语法
+
+    BINDING: cat → sat = sat(cat,_)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0244    0.0x  ['', "-", ."]
+    H02     0.0000   0.0244    0.0x  [.");, ."), .).]
+    H03     0.0000   0.0244    0.0x  […, ,…, –]
+    H04     0.0000   0.0244    0.0x  [prey, 总公司, aroo]
+    H05     0.0000   0.0244    0.0x  [驮, 扑, Rash]
+    H06     0.0000   0.0244    0.0x  [关口, overview, 概述]
+    H07     0.0000   0.0244    0.0x  [制度改革, consc, INDIRECT]
+
+    BINDING: mat → sat = sat(_,mat)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H05     0.2036   0.0244    8.3x  [ent, 力, 斌] ◆
+    H07     0.0987   0.0244    4.0x  [interop, 宣传教育, 过渡] •
+    H19     0.0627   0.0244    2.6x  [[…], […, …] •
+    H15     0.0530   0.0244    2.2x  [支线, , ätz] •
+    H31     0.0487   0.0244    2.0x  [猫, 貓, cats]
+    H24     0.0478   0.0244    2.0x  [跑了, 增加了, 发布了]
+    H12     0.0444   0.0244    1.8x  [衣服, cattle, 地上]
+    H04     0.0443   0.0244    1.8x  [桌面, 坐下, 点评]
+
+    BINDING: cat → black = black(cat)
+    arg@[0] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0244    0.0x  ['', "-", ."]
+    H02     0.0000   0.0244    0.0x  [.");, ."), .).]
+    H03     0.0000   0.0244    0.0x  […, ,…, –]
+    H04     0.0000   0.0244    0.0x  [prey, 总公司, aroo]
+    H05     0.0000   0.0244    0.0x  [驮, 扑, Rash]
+    H06     0.0000   0.0244    0.0x  [关口, overview, 概述]
+    H07     0.0000   0.0244    0.0x  [制度改革, consc, INDIRECT]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0011
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H01 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0128
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H02 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0435
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H03 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0006
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H04 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0150
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H05 at [mat] for sat(_,mat):
+                 sat ( 2): 0.2036 ★
+                 cat ( 0): 0.0365
+                that ( 1): 0.0312
+                  on ( 3): 0.0202
+                 mat ( 5): 0.0078
+                 the ( 4): 0.0008
+
+  [quant1] "Every student reads a book."
+    V through unembed (what FFN compiled):
+      [     student] → educator, education, 教育
+      [       reads] → improves, icks, 这本书
+      [           a] → 不是一个, 做一个, 一个新的
+      [        book] → 读书, Literary, che
+      [           .] → linguistic, .",, .
+
+    BINDING: student → reads = reads(student,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [ListComponent, ACCOUNT, acht]
+    H01     0.0000   0.0270    0.0x  ["", "-", '']
+    H02     0.0000   0.0270    0.0x  [was, has, owes]
+    H03     0.0000   0.0270    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0270    0.0x  [老师, teacher, 老师的]
+    H05     0.0000   0.0270    0.0x  [搂, fronts, 就读]
+    H06     0.0000   0.0270    0.0x  [success, obox, pig]
+    H07     0.0000   0.0270    0.0x  [intrigue, 魔法, 魔术]
+
+    BINDING: book → reads = reads(_,book)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H08     0.2159   0.0270    8.0x  [unique, (unique, уника] ◆
+    H05     0.0984   0.0270    3.6x  [chron, /ng, macro] •
+    H09     0.0970   0.0270    3.6x  [至少, 不少于, 不低于] •
+    H06     0.0938   0.0270    3.5x  [剧本, textbooks, 课本] •
+    H07     0.0759   0.0270    2.8x  [interchange, ��, 情绪] •
+    H12     0.0726   0.0270    2.7x  [every, 每一个人, 每一个] •
+    H14     0.0638   0.0270    2.4x  [务必, prerequisite, обязательно] •
+    H15     0.0552   0.0270    2.0x  [.inspect, , #${] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [student] for reads(student,_):
+             student ( 0): 0.0038
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [student] for reads(student,_):
+             student ( 0): 0.0114
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [student] for reads(student,_):
+             student ( 0): 0.1903
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [student] for reads(student,_):
+             student ( 0): 0.0007
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [student] for reads(student,_):
+             student ( 0): 0.0235
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H08 at [book] for reads(_,book):
+               reads ( 1): 0.2159 ★
+                   a ( 2): 0.2142
+             student ( 0): 0.1655
+                book ( 3): 0.0767
+                   . ( 4): 0.0000
+
+  [cond1] "If it rains, the ground is wet."
+    V through unembed (what FFN compiled):
+      [          it] → philosophy, otland, [__
+      [       rains] → weather, 天气, 下雨
+      [           ,] → 要好好, 萦, //~
+      [         the] → eed, uld, ôme
+      [      ground] → 泥土, ball, water
+      [          is] → 防汛, 哭泣, ôme
+      [         wet] → PRINTF, 涂, ascade
+      [           .] → 逻辑, logical, Logical
+
+    BINDING: it → rains = rains(it)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [RESPONS, midi, respons]
+    H01     0.0000   0.0250    0.0x  [_, Cod, |]
+    H02     0.0000   0.0250    0.0x  [的话, then, ，则]
+    H03     0.0000   0.0250    0.0x  [🙂, 。, :";]
+    H04     0.0000   0.0250    0.0x  [分公司, acionales, successes]
+    H05     0.0000   0.0250    0.0x  [ewise, _GU, 佣]
+    H06     0.0000   0.0250    0.0x  [proceeding, proceeded, proceeds]
+    H07     0.0000   0.0250    0.0x  [Fresh, を変え, 总收入]
+
+    BINDING: ground → wet = wet(ground)
+    arg@[4] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [模范, RESPONS, totally]
+    H01     0.0000   0.0250    0.0x  [.", ., .";]
+    H02     0.0000   0.0250    0.0x  [则, thì, 则是]
+    H03     0.0000   0.0250    0.0x  [🙂, 😉, ,…]
+    H04     0.0000   0.0250    0.0x  [雨, rain, rainfall]
+    H05     0.0000   0.0250    0.0x  [淋, 掩, surround]
+    H06     0.0000   0.0250    0.0x  [obox, 实践, icont]
+    H07     0.0000   0.0250    0.0x  [链, reuse, renegot]
+
+    BINDING: rains → wet = rains→wet
+    arg@[1] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [ACCOUNT, RESPONS, midi]
+    H01     0.0000   0.0250    0.0x  ['', "", "-"]
+    H02     0.0000   0.0250    0.0x  [，则, 的话, then]
+    H03     0.0000   0.0250    0.0x  [<br, 。, .]
+    H04     0.0000   0.0250    0.0x  [二字, 收敛, 迎接]
+    H05     0.0000   0.0250    0.0x  [滋养, 蔽, 浇]
+    H06     0.0000   0.0250    0.0x  [ContentType, 战火, seas]
+    H07     0.0000   0.0250    0.0x  [链, 副本, /operator]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [it] for rains(it):
+                  it ( 0): 0.0080
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H01 at [it] for rains(it):
+                  it ( 0): 0.0038
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H02 at [it] for rains(it):
+                  it ( 0): 0.0278
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H03 at [it] for rains(it):
+                  it ( 0): 0.0007
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H04 at [it] for rains(it):
+                  it ( 0): 0.0194
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H00 at [ground] for wet(ground):
+               rains ( 1): 0.0260
+                 the ( 3): 0.0170
+                   , ( 2): 0.0157
+                  it ( 0): 0.0110
+              ground ( 4): 0.0055
+                  is ( 5): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+    V through unembed (what FFN compiled):
+      [        ball] → Kensington, kowski, mechan
+      [         was] → 进行了, gave, took
+      [      kicked] → 摇了摇头, repaired, rotated
+      [          by] → 侠, Archer, 秘书
+      [         the] → ení, soda, water
+      [         boy] → dana, woman, dad
+      [           .] → .",, either, Grammar
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H07     0.1201   0.0256    4.7x  [过渡, 储备, emerg] •
+    H02     0.0828   0.0256    3.2x  [., __(), .] •
+    H05     0.0779   0.0256    3.0x  [夺取, propulsion, 出门] •
+    H14     0.0732   0.0256    2.9x  [了解到, факт, 的事实] •
+    H29     0.0671   0.0256    2.6x  [男孩, boys, boy] •
+    H08     0.0547   0.0256    2.1x  [最高的, 狂欢, tallest] •
+    H01     0.0451   0.0256    1.8x  [., .", ().]
+    H09     0.0354   0.0256    1.4x  [不少于, 不低于, 超过]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0256    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0256    0.0x  [_, Cod, '']
+    H02     0.0000   0.0256    0.0x  [.");, .)., .');]
+    H03     0.0000   0.0256    0.0x  […, 🙂, ,…]
+    H04     0.0000   0.0256    0.0x  [球, 成绩单, 散]
+    H05     0.0000   0.0256    0.0x  [AST, 晒, figure]
+    H06     0.0000   0.0256    0.0x  [ставлен, mil, obox]
+    H07     0.0000   0.0256    0.0x  [submenu, 减免, 吱]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H07 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.1201 ★
+                  by ( 3): 0.0717
+                 boy ( 5): 0.0585
+                ball ( 0): 0.0203
+                 was ( 1): 0.0143
+                 the ( 4): 0.0080
+      H02 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.0828 ★
+                 boy ( 5): 0.0753
+                ball ( 0): 0.0314
+                 was ( 1): 0.0140
+                  by ( 3): 0.0140
+                 the ( 4): 0.0009
+      H05 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.0779 ★
+                 boy ( 5): 0.0305
+                  by ( 3): 0.0093
+                ball ( 0): 0.0044
+                 the ( 4): 0.0014
+                 was ( 1): 0.0010
+      H14 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.0732 ★
+                 was ( 1): 0.0565
+                  by ( 3): 0.0389
+                ball ( 0): 0.0309
+                 boy ( 5): 0.0155
+                 the ( 4): 0.0022
+      H29 at [boy] for kicked(boy,_):
+                 boy ( 5): 0.1064
+              kicked ( 2): 0.0671 ★
+                ball ( 0): 0.0428
+                 the ( 4): 0.0395
+                  by ( 3): 0.0098
+                 was ( 1): 0.0077
+      H00 at [ball] for kicked(_,ball):
+                ball ( 0): 0.0013
+                 was ( 1): 0.0000
+              kicked ( 2): 0.0000 ★
+                  by ( 3): 0.0000
+                 the ( 4): 0.0000
+                 boy ( 5): 0.0000
+
+  [act1] "The boy kicked the ball."
+    V through unembed (what FFN compiled):
+      [         boy] → 少儿, 儿童, woman
+      [      kicked] → 摇了摇头, 进行了, 走了
+      [         the] → vulnerabilities, Vulner, vulnerable
+      [        ball] → Kensington, orrent, į
+      [           .] → either, .",, linguistic
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0270    0.0x  [_, '', "-"]
+    H02     0.0000   0.0270    0.0x  [.)., ."), .");]
+    H03     0.0000   0.0270    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0270    0.0x  [男孩, Woman, 孩子]
+    H05     0.0000   0.0270    0.0x  [testName, executor, 绦]
+    H06     0.0000   0.0270    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0270    0.0x  [sacram, modular, chema]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H08     0.4377   0.0270   16.2x  [被淘汰, poorest, weakest] ◆
+    H09     0.2820   0.0270   10.4x  [一个小时, 无法, 整整] ◆
+    H06     0.2256   0.0270    8.3x  [Balancer, 利润, tồn] ◆
+    H05     0.1593   0.0270    5.9x  [propel, propulsion, triggering] ◆
+    H12     0.1495   0.0270    5.5x  [衣服, scheme, 地上] ◆
+    H07     0.1416   0.0270    5.2x  [假日, 过渡, _HIDDEN] ◆
+    H14     0.1333   0.0270    4.9x  [只想, 了解到, visibly] •
+    H02     0.0658   0.0270    2.4x  [., ., .');] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0044
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0061
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0377
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0006
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0310
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H08 at [ball] for kicked(_,ball):
+              kicked ( 1): 0.4377 ★
+                ball ( 3): 0.2068
+                 boy ( 0): 0.0709
+                 the ( 2): 0.0089
+                   . ( 4): 0.0000
+
+  [recur1] "A folder contains files and other folders which contain files."
+    V through unembed (what FFN compiled):
+      [      folder] → uos, files, computer
+      [    contains] → �, mates, mates
+      [       files] → filenames, directories, computers
+      [         and] → -INF, other, uire
+      [       other] → Vs, ra, stack
+      [     folders] → trees, 树木, files
+      [       which] → fathers, 不断的, dime
+      [     contain] → further, 进一步, weitere
+      [       files] → attachments, ån, aptops
+      [           .] → .",, recursive, .',
+
+    BINDING: folder → contains = contains(folder,_)
+    arg@[0, 5] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H08     0.0450   0.0238    1.9x  [elegant, 优雅, 完美的]
+    H04     0.0401   0.0238    1.7x  [文件, contents, file]
+    H07     0.0364   0.0238    1.5x  [谈恋爱, 心理学, 的动力]
+    H14     0.0304   0.0238    1.3x  [必不可少, 不可或缺, 不宜]
+    H20     0.0237   0.0238    1.0x  [corp, athe, baugh]
+    H09     0.0230   0.0238    1.0x  [不少于, 至少, 几千]
+    H15     0.0224   0.0238    0.9x  [...(, ..., ...]
+    H02     0.0223   0.0238    0.9x  [.');, .");, ;\]
+
+    BINDING: files → contains = contains(_,files)
+    arg@[2, 8] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H14     0.1718   0.0238    7.2x  [essentials, 的事实, 就够了] ◆
+    H08     0.1099   0.0238    4.6x  [neatly, 快捷, neat] •
+    H12     0.1056   0.0238    4.4x  [一群人, 一座, Clothes] •
+    H01     0.0651   0.0238    2.7x  [., ()., "-"] •
+    H07     0.0553   0.0238    2.3x  [Trident, 谈恋爱, 心理学] •
+    H02     0.0541   0.0238    2.3x  [_are, are, Were] •
+    H20     0.0533   0.0238    2.2x  [---, athe, IRA] •
+    H04     0.0454   0.0238    1.9x  [contents, contents, Contents]
+
+    BINDING: folders → contain = contains(folders,_)
+    arg@[5] → func@[1, 7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H08     0.0450   0.0476    0.9x  [intermediate, smaller, Intermediate]
+    H04     0.0401   0.0476    0.8x  [contents, contents, Contents]
+    H07     0.0364   0.0476    0.8x  [Trident, 美学, 心理学]
+    H14     0.0304   0.0476    0.6x  [必不可少, invariably, 总而言之]
+    H20     0.0237   0.0476    0.5x  [---, athe, IRA]
+    H09     0.0230   0.0476    0.5x  [不少于, 越多, 至少]
+    H15     0.0224   0.0476    0.5x  [, 佶, CCR]
+    H02     0.0223   0.0476    0.5x  [are, were, _are]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H08 at [folder] for contains(folder,_):
+              folder ( 0): 0.0640
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H04 at [folder] for contains(folder,_):
+              folder ( 0): 0.1758
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H07 at [folder] for contains(folder,_):
+              folder ( 0): 0.1420
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H14 at [folder] for contains(folder,_):
+              folder ( 0): 0.1815
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H20 at [folder] for contains(folder,_):
+              folder ( 0): 0.0408
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H14 at [files] for contains(_,files):
+            contains ( 1): 0.3193 ★
+              folder ( 0): 0.0922
+               files ( 2): 0.0782
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+
+  [discard1] "Of all the animals, only the lion was truly fierce."
+    V through unembed (what FFN compiled):
+      [         all] → statist, entes, statistic
+      [         the] → .., .ts, _
+      [     animals] → pets, biology, Biology
+      [           ,] → 最强, 最, 最高的
+      [        only] → 捷, 少数, 偿
+      [         the] → 活力, skating, whales
+      [        lion] → JK, dam, firefighter
+      [         was] → gave, 发表了, 达到了
+      [       truly] → amounted, 多样性, ís
+      [      fierce] → Cookies, unint, łow
+      [           .] → 语文, .',, .",
+
+    BINDING: lion → fierce = fierce(lion)
+    arg@[6] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [présente, 显得, specific]
+    H01     0.0000   0.0233    0.0x  [_, #, **]
+    H02     0.0000   0.0233    0.0x  [Lover, olio, 我们都]
+    H03     0.0000   0.0233    0.0x  [🙂, -AA, 😉]
+    H04     0.0000   0.0233    0.0x  [饲养, prey, jams]
+    H05     0.0000   0.0233    0.0x  [guarding, 驮, 粒子]
+    H06     0.0000   0.0233    0.0x  [的经历, 话题, considerations]
+    H07     0.0000   0.0233    0.0x  [的学习, 棚, 教育教学]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [lion] for fierce(lion):
+                 all ( 0): 0.0267
+             animals ( 2): 0.0201
+                only ( 4): 0.0142
+                   , ( 3): 0.0101
+                 the ( 1): 0.0047
+                lion ( 6): 0.0024
+      H01 at [lion] for fierce(lion):
+                   , ( 3): 0.0120
+                lion ( 6): 0.0057
+             animals ( 2): 0.0036
+                only ( 4): 0.0036
+                 all ( 0): 0.0021
+                 the ( 1): 0.0017
+      H02 at [lion] for fierce(lion):
+                only ( 4): 0.1270
+                lion ( 6): 0.0313
+                   , ( 3): 0.0285
+                 the ( 5): 0.0116
+                 all ( 0): 0.0102
+             animals ( 2): 0.0096
+      H03 at [lion] for fierce(lion):
+                 the ( 1): 0.0011
+                only ( 4): 0.0011
+                   , ( 3): 0.0010
+                 all ( 0): 0.0008
+             animals ( 2): 0.0006
+                lion ( 6): 0.0004
+      H04 at [lion] for fierce(lion):
+             animals ( 2): 0.0095
+                lion ( 6): 0.0085
+                 all ( 0): 0.0039
+                 the ( 1): 0.0038
+                   , ( 3): 0.0035
+                only ( 4): 0.0025
+
+  [long1] "The man that the woman that the child saw met left."
+    V through unembed (what FFN compiled):
+      [         man] → cv, BV, gid
+      [        that] → Ont, ：“, 的语言
+      [         the] → 耀眼, 的语言, facebook
+      [       woman] → GTK, Fet, rika
+      [        that] → Fusion, fusion, ills
+      [         the] → razy, Ful, 人工智能
+      [       child] → parent, , 幼
+      [         saw] → 喝了, Took, 开展了
+      [         met] → 奋战, stole, Took
+      [        left] → 进行了, 形成了, 发表了
+      [           .] → 语法, yntax, Grammar
+
+    BINDING: child → saw = saw(child,_)
+    arg@[6] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [ListComponent, ACCOUNT, acht]
+    H01     0.0000   0.0233    0.0x  [;",, .",, ;",]
+    H02     0.0000   0.0233    0.0x  [is, has, was]
+    H03     0.0000   0.0233    0.0x  [。, ()., __':]
+    H04     0.0000   0.0233    0.0x  [孩子, parentId, children]
+    H05     0.0000   0.0233    0.0x  [刷, 搬, StringValue]
+    H06     0.0000   0.0233    0.0x  [工作经验, 实践经验, edImage]
+    H07     0.0000   0.0233    0.0x  [收费标准, CACHE, 调味]
+
+    BINDING: woman → saw = saw(_,woman)
+    arg@[3] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0233    0.0x  [.–, '';, :";]
+    H02     0.0000   0.0233    0.0x  [."), .");, .)]
+    H03     0.0000   0.0233    0.0x  [。, :";, __':]
+    H04     0.0000   0.0233    0.0x  [Woman, 姑娘, woman]
+    H05     0.0000   0.0233    0.0x  [selling, testName, selling]
+    H06     0.0000   0.0233    0.0x  [实践经验, 的重要性, 关口]
+    H07     0.0000   0.0233    0.0x  [缓, CACHE, CACHE]
+
+    BINDING: woman → met = met(woman,_)
+    arg@[3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [ACCOUNT, ListComponent, acht]
+    H01     0.0000   0.0233    0.0x  [.–, '';, :";]
+    H02     0.0000   0.0233    0.0x  [."), .");, .)]
+    H03     0.0000   0.0233    0.0x  [。, :";, __':]
+    H04     0.0000   0.0233    0.0x  [Woman, 姑娘, woman]
+    H05     0.0000   0.0233    0.0x  [selling, testName, selling]
+    H06     0.0000   0.0233    0.0x  [实践经验, 的重要性, 关口]
+    H07     0.0000   0.0233    0.0x  [缓, CACHE, CACHE]
+
+    BINDING: man → met = met(_,man)
+    arg@[0, 3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0233    0.0x  ['', "-", "/"]
+    H02     0.0000   0.0233    0.0x  [."), .)., .");]
+    H03     0.0000   0.0233    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0233    0.0x  [Woman, 步行, 奔跑]
+    H05     0.0000   0.0233    0.0x  [selling, testName, selling]
+    H06     0.0000   0.0233    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0233    0.0x  [CACHE, CACHE, cached]
+
+    BINDING: man → left = left(man)
+    arg@[0, 3] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [ACCOUNT, acht, ListComponent]
+    H01     0.0000   0.0233    0.0x  ['', "-", "/"]
+    H02     0.0000   0.0233    0.0x  [."), .)., .");]
+    H03     0.0000   0.0233    0.0x  […, ,…, 🙂]
+    H04     0.0000   0.0233    0.0x  [Woman, 步行, 奔跑]
+    H05     0.0000   0.0233    0.0x  [selling, testName, selling]
+    H06     0.0000   0.0233    0.0x  [proceeded, placement, proceeds]
+    H07     0.0000   0.0233    0.0x  [CACHE, CACHE, cached]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [child] for saw(child,_):
+                that ( 1): 0.0027
+                that ( 4): 0.0027
+               woman ( 3): 0.0025
+               child ( 6): 0.0012
+                 man ( 0): 0.0008
+                 the ( 5): 0.0008
+      H01 at [child] for saw(child,_):
+                that ( 4): 0.0483
+                 the ( 5): 0.0126
+               woman ( 3): 0.0098
+               child ( 6): 0.0085
+                that ( 1): 0.0066
+                 the ( 2): 0.0065
+      H02 at [child] for saw(child,_):
+                that ( 4): 0.1366
+               child ( 6): 0.1151
+                 the ( 5): 0.0588
+               woman ( 3): 0.0228
+                that ( 1): 0.0153
+                 the ( 2): 0.0143
+      H03 at [child] for saw(child,_):
+                that ( 4): 0.0072
+                that ( 1): 0.0054
+               woman ( 3): 0.0021
+               child ( 6): 0.0014
+                 the ( 5): 0.0013
+                 the ( 2): 0.0012
+      H04 at [child] for saw(child,_):
+                that ( 1): 0.0398
+               child ( 6): 0.0220
+                that ( 4): 0.0171
+               woman ( 3): 0.0088
+                 the ( 2): 0.0078
+                 man ( 0): 0.0068
+      H00 at [woman] for saw(_,woman):
+                that ( 1): 0.0069
+                 man ( 0): 0.0020
+                 the ( 2): 0.0015
+               woman ( 3): 0.0012
+                that ( 4): 0.0000
+                 the ( 5): 0.0000
+
+────────────────────────────────────────────────────────────
+LAYER 30
+────────────────────────────────────────────────────────────
+
+  [sv1] "The dog runs."
+    V through unembed (what FFN compiled):
+      [         dog] → 眺, 一定, 确实
+      [        runs] → toward, towards, away
+      [           .] → 期待, expect, expectedResult
+
+    BINDING: dog → runs = runs(dog)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [追赶, chase, 跳]
+    H01     0.0000   0.0286    0.0x  [_Val, 意思, ?action]
+    H02     0.0000   0.0286    0.0x  [安排, 涉及, 恰当]
+    H03     0.0000   0.0286    0.0x  [faster, 快速, fast]
+    H04     0.0000   0.0286    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0286    0.0x  [=id, organic, MI]
+    H06     0.0000   0.0286    0.0x  [湖区, […], 冼]
+    H07     0.0000   0.0286    0.0x  [(Render, Rocket, 俄乌]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for runs(dog):
+                 dog ( 0): 0.2764
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [dog] for runs(dog):
+                 dog ( 0): 0.0030
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [dog] for runs(dog):
+                 dog ( 0): 0.1035
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [dog] for runs(dog):
+                 dog ( 0): 0.0994
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [dog] for runs(dog):
+                 dog ( 0): 0.0195
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+    V through unembed (what FFN compiled):
+      [         cat] → char, clicking, Lat
+      [        runs] → toward, towards, away
+      [           .] → obviously, 哪种, 期待
+
+    BINDING: cat → runs = runs(cat)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [等待, chase, 追赶]
+    H01     0.0000   0.0286    0.0x  [_Val, 意思, 侥幸]
+    H02     0.0000   0.0286    0.0x  [assigning, 赋予, 分歧]
+    H03     0.0000   0.0286    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0286    0.0x  [为期, 在京, 尾]
+    H05     0.0000   0.0286    0.0x  [宵, 利, )r]
+    H06     0.0000   0.0286    0.0x  [.…, …, …"]
+    H07     0.0000   0.0286    0.0x  […, …, …"]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for runs(cat):
+                 cat ( 0): 0.3606
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [cat] for runs(cat):
+                 cat ( 0): 0.0036
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [cat] for runs(cat):
+                 cat ( 0): 0.1016
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [cat] for runs(cat):
+                 cat ( 0): 0.0235
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [cat] for runs(cat):
+                 cat ( 0): 0.0367
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+    V through unembed (what FFN compiled):
+      [         dog] → 眺, 一定, 确实
+      [         bit] → nil, slightly, .boolean
+      [         the] → 切, Lat, very
+      [         cat] → char, clicked, atham
+      [           .] → 哪种, obviously, into
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [追赶, chase, 跳]
+    H01     0.0000   0.0270    0.0x  [_Val, 意思, ?action]
+    H02     0.0000   0.0270    0.0x  [安排, 涉及, 恰当]
+    H03     0.0000   0.0270    0.0x  [faster, 快速, fast]
+    H04     0.0000   0.0270    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0270    0.0x  [=id, organic, MI]
+    H06     0.0000   0.0270    0.0x  [湖区, […], 冼]
+    H07     0.0000   0.0270    0.0x  [(Render, Rocket, 俄乌]
+
+    BINDING: cat → bit = bit(_,cat)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H13     0.7847   0.0270   29.0x  [on, 右边, 右] ◆
+    H03     0.7744   0.0270   28.6x  [fast, consistently, -fast] ◆
+    H15     0.3660   0.0270   13.5x  [while, while, while] ◆
+    H12     0.2761   0.0270   10.2x  [while, at, with] ◆
+    H00     0.1035   0.0270    3.8x  [destroying, 杀死, destroy] •
+    H31     0.0910   0.0270    3.4x  [idea, 主意, Idea] •
+    H11     0.0604   0.0270    2.2x  [bit, bit, Bit] •
+    H20     0.0573   0.0270    2.1x  [<br, \u, ​​] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.2764
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0030
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.1035
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0994
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0195
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H13 at [cat] for bit(_,cat):
+                 bit ( 1): 0.7847 ★
+                 the ( 2): 0.0742
+                 dog ( 0): 0.0039
+                 cat ( 3): 0.0038
+                   . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+    V through unembed (what FFN compiled):
+      [         cat] → char, clicking, Lat
+      [         bit] → slightly, nil, 有点
+      [         the] → thor, 切, 有很大的
+      [         dog] → indeed, 确实, -hole
+      [           .] → into, 哪种, _into
+
+    BINDING: cat → bit = bit(cat,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [等待, chase, 追赶]
+    H01     0.0000   0.0270    0.0x  [_Val, 意思, 侥幸]
+    H02     0.0000   0.0270    0.0x  [assigning, 赋予, 分歧]
+    H03     0.0000   0.0270    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0270    0.0x  [为期, 在京, 尾]
+    H05     0.0000   0.0270    0.0x  [宵, 利, )r]
+    H06     0.0000   0.0270    0.0x  [.…, …, …"]
+    H07     0.0000   0.0270    0.0x  […, …, …"]
+
+    BINDING: dog → bit = bit(_,dog)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.7661   0.0270   28.4x  [consistently, 均匀, fast] ◆
+    H13     0.7188   0.0270   26.6x  [on, anywhere, elsewhere] ◆
+    H15     0.4958   0.0270   18.4x  [while, while, while] ◆
+    H31     0.2031   0.0270    7.5x  [主意, idea, 的脸] ◆
+    H00     0.1569   0.0270    5.8x  [destroying, 杀死, destroy] ◆
+    H12     0.1432   0.0270    5.3x  [with, at, while] ◆
+    H20     0.0889   0.0270    3.3x  [<br, ​​, &nbsp] •
+    H07     0.0610   0.0270    2.3x  […, …, …"] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for bit(cat,_):
+                 cat ( 0): 0.3606
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0036
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [cat] for bit(cat,_):
+                 cat ( 0): 0.1016
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0235
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0367
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [dog] for bit(_,dog):
+                 bit ( 1): 0.7661 ★
+                 the ( 2): 0.0385
+                 dog ( 3): 0.0364
+                 cat ( 0): 0.0309
+                   . ( 4): 0.0000
+
+  [ditrans] "John gave Mary the book."
+    V through unembed (what FFN compiled):
+      [        gave] → kepada, 到, greatest
+      [        Mary] → maybe, 也许, Maybe
+      [         the] → Yankee, 最多的, 粟
+      [        book] → boolean, boolean, .boolean
+      [           .] → 哪种, 哪, into
+
+    BINDING: Mary → gave = gave(_,mary,_)
+    arg@[1] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.2979   0.0270   11.0x  [赠, 赠送, 的支持] ◆
+    H17     0.2681   0.0270    9.9x  [lingu, Lingu, linguistic] ◆
+    H15     0.2332   0.0270    8.6x  [unless, 除非, because] ◆
+    H20     0.2021   0.0270    7.5x  [[=, ​​, izzer] ◆
+    H28     0.1910   0.0270    7.1x  [的一项, 很多, 的一个] ◆
+    H03     0.1909   0.0270    7.1x  [faster, quicker, fastest] ◆
+    H04     0.1575   0.0270    5.8x  [inia, Jerry, Giul] ◆
+    H01     0.1570   0.0270    5.8x  [Registrar, iset, thal] ◆
+
+    BINDING: book → gave = gave(_,_,book)
+    arg@[3] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.4768   0.0270   17.6x  [faster, fastest, quicker] ◆
+    H15     0.3347   0.0270   12.4x  [because, 因为, because] ◆
+    H12     0.1849   0.0270    6.8x  [kepada, 到, 至] ◆
+    H20     0.1013   0.0270    3.8x  [[=, ​​, <br] •
+    H00     0.0685   0.0270    2.5x  [期待, 期盼, 盼望] •
+    H07     0.0663   0.0270    2.5x  [融资租赁, ASA, erna] •
+    H13     0.0591   0.0270    2.2x  [底下, 右边, 右侧] •
+    H02     0.0535   0.0270    2.0x  [处于, 处在, 挂钩]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2979 ★
+                Mary ( 1): 0.0982
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H17 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2681 ★
+                Mary ( 1): 0.0524
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H15 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2332 ★
+                Mary ( 1): 0.0384
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H20 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2021 ★
+                Mary ( 1): 0.1514
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H28 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.1910 ★
+                Mary ( 1): 0.0051
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [book] for gave(_,_,book):
+                gave ( 0): 0.4768 ★
+                Mary ( 1): 0.1881
+                book ( 3): 0.0407
+                 the ( 2): 0.0249
+                   . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+    V through unembed (what FFN compiled):
+      [         dog] → 眺, 一定, 确实
+      [         bit] → nil, slightly, .boolean
+      [      itself] → ело, 有所, slightly
+      [           .] → 哪种, obviously, into
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0278    0.0x  [追赶, chase, 跳]
+    H01     0.0000   0.0278    0.0x  [_Val, 意思, ?action]
+    H02     0.0000   0.0278    0.0x  [安排, 涉及, 恰当]
+    H03     0.0000   0.0278    0.0x  [faster, 快速, fast]
+    H04     0.0000   0.0278    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0278    0.0x  [=id, organic, MI]
+    H06     0.0000   0.0278    0.0x  [湖区, […], 冼]
+    H07     0.0000   0.0278    0.0x  [(Render, Rocket, 俄乌]
+
+    BINDING: itself → dog = itself→dog
+    arg@[2] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H07     0.2390   0.0278    8.6x  [(Render, Rocket, lover] ◆
+    H05     0.1236   0.0278    4.5x  [arent, 壶, 幺] •
+    H15     0.0817   0.0278    2.9x  [while, while, while] •
+    H00     0.0719   0.0278    2.6x  [理解, 等待, 期待] •
+    H03     0.0608   0.0278    2.2x  [fast, consistently, 快] •
+    H20     0.0556   0.0278    2.0x  [<br, \u, &nbsp]
+    H17     0.0413   0.0278    1.5x  [犬, 狗, dog]
+    H28     0.0406   0.0278    1.5x  [很多, 最多的, lots]
+
+    BINDING: itself → bit = bit(_,itself)
+    arg@[2] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H13     0.7148   0.0278   25.7x  [on, 右边, anywhere] ◆
+    H03     0.6289   0.0278   22.6x  [fast, consistently, 快] ◆
+    H12     0.1774   0.0278    6.4x  [on, into, into] ◆
+    H15     0.1378   0.0278    5.0x  [while, while, while] •
+    H04     0.1368   0.0278    4.9x  [thor, 弘, 菊] •
+    H20     0.0797   0.0278    2.9x  [<br, \u, &nbsp] •
+    H00     0.0748   0.0278    2.7x  [理解, 等待, 期待] •
+    H17     0.0655   0.0278    2.4x  [犬, 狗, dog] •
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.2764
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0030
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.1035
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0994
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0195
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H07 at [itself] for itself→dog:
+                 dog ( 0): 0.2390 ★
+              itself ( 2): 0.1967
+                 bit ( 1): 0.0181
+                   . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+    V through unembed (what FFN compiled):
+      [         cat] → char, clicking, Lat
+      [        that] → than, than, Than
+      [         sat] → sil, on, satisfying
+      [          on] → orient, orient, orientation
+      [         the] → 不吃, 跳, contracted
+      [         mat] → may, mit, mit
+      [          is] → 哭了, 眠, fright
+      [       black] → whether, 黑暗, Dark
+      [           .] → into, 哪种, into
+
+    BINDING: cat → sat = sat(cat,_)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [等待, chase, waiting]
+    H01     0.0000   0.0244    0.0x  [_Val, 意思, 侥幸]
+    H02     0.0000   0.0244    0.0x  [assigning, 赋予, 分歧]
+    H03     0.0000   0.0244    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0244    0.0x  [为期, 在京, 尾]
+    H05     0.0000   0.0244    0.0x  [宵, 利, )r]
+    H06     0.0000   0.0244    0.0x  [.…, …, …"]
+    H07     0.0000   0.0244    0.0x  […, …, …"]
+
+    BINDING: mat → sat = sat(_,mat)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H15     0.1438   0.0244    5.9x  [_while, WHILE, während] ◆
+    H00     0.1390   0.0244    5.7x  [跳舞, 等待, 杀死] ◆
+    H11     0.0684   0.0244    2.8x  [sat, 坐, Sat] •
+    H07     0.0600   0.0244    2.5x  […, […], […] •
+    H05     0.0479   0.0244    2.0x  [夫, otine, 风貌]
+    H10     0.0460   0.0244    1.9x  [place, Place, /place]
+    H03     0.0418   0.0244    1.7x  [faster, 快速, fast]
+    H20     0.0406   0.0244    1.7x  [​​, <br, \u]
+
+    BINDING: cat → black = black(cat)
+    arg@[0] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [等待, chase, waiting]
+    H01     0.0000   0.0244    0.0x  [_Val, 意思, 侥幸]
+    H02     0.0000   0.0244    0.0x  [assigning, 赋予, 分歧]
+    H03     0.0000   0.0244    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0244    0.0x  [为期, 在京, 尾]
+    H05     0.0000   0.0244    0.0x  [宵, 利, )r]
+    H06     0.0000   0.0244    0.0x  [.…, …, …"]
+    H07     0.0000   0.0244    0.0x  […, …, …"]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for sat(cat,_):
+                 cat ( 0): 0.3572
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H01 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0036
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H02 at [cat] for sat(cat,_):
+                 cat ( 0): 0.1016
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H03 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0235
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H04 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0369
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H15 at [mat] for sat(_,mat):
+                 sat ( 2): 0.1438 ★
+                  on ( 3): 0.0586
+                that ( 1): 0.0471
+                 mat ( 5): 0.0301
+                 cat ( 0): 0.0266
+                 the ( 4): 0.0011
+
+  [quant1] "Every student reads a book."
+    V through unembed (what FFN compiled):
+      [     student] → still, Still, 仍
+      [       reads] → really, hya, EGL
+      [           a] → <const, 嘛, inces
+      [        book] → boolean, .boolean, boolean
+      [           .] → into, into, 哪种
+
+    BINDING: student → reads = reads(student,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [尊重, applaud, 羡慕]
+    H01     0.0000   0.0270    0.0x  [_Val, �, ?action]
+    H02     0.0000   0.0270    0.0x  [决定了, 确定, 界定]
+    H03     0.0000   0.0270    0.0x  [faster, quicker, fastest]
+    H04     0.0000   0.0270    0.0x  [Sok, Gund, 为期]
+    H05     0.0000   0.0270    0.0x  [refere, 跳, NU]
+    H06     0.0000   0.0270    0.0x  [男孩, 男孩子, 董事长]
+    H07     0.0000   0.0270    0.0x  [,…, .…, father]
+
+    BINDING: book → reads = reads(_,book)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.6606   0.0270   24.4x  [faster, fast, fastest] ◆
+    H12     0.3218   0.0270   11.9x  [about, about, About] ◆
+    H15     0.2086   0.0270    7.7x  [unless, 除非, unless] ◆
+    H13     0.1058   0.0270    3.9x  [在家里, upstairs, in] •
+    H20     0.0748   0.0270    2.8x  [<br, ㅤ, \u] •
+    H05     0.0459   0.0270    1.7x  [法师, 私, 西湖]
+    H00     0.0450   0.0270    1.7x  [喜爱, 热爱, 羡慕]
+    H28     0.0346   0.0270    1.3x  [的一项, 的一个, 的文章]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [student] for reads(student,_):
+             student ( 0): 0.3770
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [student] for reads(student,_):
+             student ( 0): 0.0039
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [student] for reads(student,_):
+             student ( 0): 0.1226
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [student] for reads(student,_):
+             student ( 0): 0.0519
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [student] for reads(student,_):
+             student ( 0): 0.0248
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [book] for reads(_,book):
+               reads ( 1): 0.6606 ★
+             student ( 0): 0.1193
+                book ( 3): 0.0696
+                   a ( 2): 0.0233
+                   . ( 4): 0.0000
+
+  [cond1] "If it rains, the ground is wet."
+    V through unembed (what FFN compiled):
+      [          it] → iteration, 迭代, Iterate
+      [       rains] → Ray, ray, Ray
+      [           ,] → lies, , 紧
+      [         the] → &#, {@, {@
+      [      ground] → ghost, _ghost, Ghost
+      [          is] → 弄得, ��, 湿润
+      [         wet] → whether, Whether, Whether
+      [           .] → 翻译, into, Into
+
+    BINDING: it → rains = rains(it)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [爱上, 祝福, 缩短]
+    H01     0.0000   0.0250    0.0x  [_Val, �, ?action]
+    H02     0.0000   0.0250    0.0x  [incorporation, 处置, 引入]
+    H03     0.0000   0.0250    0.0x  [faster, quicker, Faster]
+    H04     0.0000   0.0250    0.0x  [老头, 爸爸, reader]
+    H05     0.0000   0.0250    0.0x  [名校, ijo, 雷]
+    H06     0.0000   0.0250    0.0x  [आ, 集团旗下, Recognition]
+    H07     0.0000   0.0250    0.0x  [[…], […], A]
+
+    BINDING: ground → wet = wet(ground)
+    arg@[4] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [become, 湿润, warmed]
+    H01     0.0000   0.0250    0.0x  [_Val, 侥幸, 旅游度假]
+    H02     0.0000   0.0250    0.0x  [careful, carefully, 细心]
+    H03     0.0000   0.0250    0.0x  [faster, quicker, 更快]
+    H04     0.0000   0.0250    0.0x  ['s, ТЬ, 在京]
+    H05     0.0000   0.0250    0.0x  [�, 下半年, Vice]
+    H06     0.0000   0.0250    0.0x  […, gifs, …]
+    H07     0.0000   0.0250    0.0x  [**, ‎, STA]
+
+    BINDING: rains → wet = rains→wet
+    arg@[1] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [爱上, 缩短, 减轻]
+    H01     0.0000   0.0250    0.0x  [档次, jak, 废话]
+    H02     0.0000   0.0250    0.0x  [处置, 纳入, 位于]
+    H03     0.0000   0.0250    0.0x  [continuous, continuously, 持续]
+    H04     0.0000   0.0250    0.0x  [па, 豪, _symbols]
+    H05     0.0000   0.0250    0.0x  [抓住, 歌, �性]
+    H06     0.0000   0.0250    0.0x  [.…, 集团股份, …]
+    H07     0.0000   0.0250    0.0x  [[A, A, [a]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [it] for rains(it):
+                  it ( 0): 0.0453
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H01 at [it] for rains(it):
+                  it ( 0): 0.0092
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H02 at [it] for rains(it):
+                  it ( 0): 0.3132
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H03 at [it] for rains(it):
+                  it ( 0): 0.0086
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H04 at [it] for rains(it):
+                  it ( 0): 0.0521
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H00 at [ground] for wet(ground):
+              ground ( 4): 0.3425
+                   , ( 2): 0.0833
+                 the ( 3): 0.0555
+               rains ( 1): 0.0244
+                  it ( 0): 0.0013
+                  is ( 5): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+    V through unembed (what FFN compiled):
+      [        ball] → probably, Probably, Probably
+      [         was] → thrown, 抛, 击
+      [      kicked] → by, onto, into
+      [          by] → bang, ly, besides
+      [         the] → $update, 高兴, probably
+      [         boy] → boolean, boolean, .boolean
+      [           .] → 哪种, 哪, which
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H12     0.3733   0.0256   14.6x  [into, onto, toward] ◆
+    H07     0.2800   0.0256   10.9x  […, lover, ..] ◆
+    H03     0.2683   0.0256   10.5x  [faster, fastest, gentle] ◆
+    H13     0.1772   0.0256    6.9x  [behind, near, 右边] ◆
+    H15     0.0955   0.0256    3.7x  [before, while, due] •
+    H20     0.0547   0.0256    2.1x  [<br, \u, ㅤ] •
+    H05     0.0510   0.0256    2.0x  [esse, foreground, 法师]
+    H28     0.0384   0.0256    1.5x  [很多, 越来越多, 很大]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0256    0.0x  [跳, 躲, 击]
+    H01     0.0000   0.0256    0.0x  [_Val, 意思, 意义]
+    H02     0.0000   0.0256    0.0x  [proper, 引入, 赋予]
+    H03     0.0000   0.0256    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0256    0.0x  [在京, 为期, 关切]
+    H05     0.0000   0.0256    0.0x  [Chase, 玮, timing]
+    H06     0.0000   0.0256    0.0x  [[…], ADR, .…]
+    H07     0.0000   0.0256    0.0x  […", …”, …]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H12 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.3733 ★
+                  by ( 3): 0.2524
+                 boy ( 5): 0.0367
+                 was ( 1): 0.0242
+                 the ( 4): 0.0140
+                ball ( 0): 0.0069
+      H07 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.2800 ★
+                 boy ( 5): 0.2114
+                ball ( 0): 0.0379
+                 was ( 1): 0.0060
+                  by ( 3): 0.0046
+                 the ( 4): 0.0027
+      H03 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.2683 ★
+                  by ( 3): 0.0678
+                 boy ( 5): 0.0617
+                 was ( 1): 0.0396
+                ball ( 0): 0.0123
+                 the ( 4): 0.0088
+      H13 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.1772 ★
+                 was ( 1): 0.1058
+                  by ( 3): 0.0898
+                 the ( 4): 0.0576
+                 boy ( 5): 0.0190
+                ball ( 0): 0.0130
+      H15 at [boy] for kicked(boy,_):
+                  by ( 3): 0.5366
+              kicked ( 2): 0.0955 ★
+                 boy ( 5): 0.0933
+                 was ( 1): 0.0193
+                ball ( 0): 0.0086
+                 the ( 4): 0.0058
+      H00 at [ball] for kicked(_,ball):
+                ball ( 0): 0.2751
+                 was ( 1): 0.0000
+              kicked ( 2): 0.0000 ★
+                  by ( 3): 0.0000
+                 the ( 4): 0.0000
+                 boy ( 5): 0.0000
+
+  [act1] "The boy kicked the ball."
+    V through unembed (what FFN compiled):
+      [         boy] → boolean, boolean, .boolean
+      [      kicked] → kh, besides, Kh
+      [         the] → restart, 更新, towards
+      [        ball] → toward, into, towards
+      [           .] → 哪种, into, _into
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [期待, 期盼, 等待]
+    H01     0.0000   0.0270    0.0x  [_Val, 侥幸, 意思]
+    H02     0.0000   0.0270    0.0x  [分歧, 集中, divergence]
+    H03     0.0000   0.0270    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0270    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0270    0.0x  [unist, galer, nier]
+    H06     0.0000   0.0270    0.0x  [ADR, Carrie, Carlos]
+    H07     0.0000   0.0270    0.0x  [.…, …, …"]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.5952   0.0270   22.0x  [faster, hard, fastest] ◆
+    H13     0.5249   0.0270   19.4x  [旁边, upstairs, 右边] ◆
+    H15     0.5103   0.0270   18.9x  [while, while, while] ◆
+    H12     0.4148   0.0270   15.3x  [into, into, Into] ◆
+    H20     0.1652   0.0270    6.1x  [<br, \u, ␣] ◆
+    H28     0.0870   0.0270    3.2x  [很多, 很大, lots] •
+    H07     0.0759   0.0270    2.8x  […”, …", …] •
+    H31     0.0504   0.0270    1.9x  [idea, idea, Idea]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.2766
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0075
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0563
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.1045
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0589
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [ball] for kicked(_,ball):
+              kicked ( 1): 0.5952 ★
+                ball ( 3): 0.1801
+                 boy ( 0): 0.0934
+                 the ( 2): 0.0079
+                   . ( 4): 0.0000
+
+  [recur1] "A folder contains files and other folders which contain files."
+    V through unembed (what FFN compiled):
+      [      folder] → either, Either, Either
+      [    contains] → conscious, consciousness, conscious
+      [       files] → fear, few, nil
+      [         and] → 砂, sand, sand
+      [       other] → otherwise, otherwise, 否则
+      [     folders] → either, Either, either
+      [       which] → whether, containing, Contain
+      [     contain] → more, more, MORE
+      [       files] → 碎片, fragment, fragments
+      [           .] → 哪种, expressed, 表达
+
+    BINDING: folder → contains = contains(folder,_)
+    arg@[0, 5] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.1157   0.0238    4.9x  [faster, Faster, 更快] •
+    H13     0.0545   0.0238    2.3x  [旁边, outside, beside] •
+    H12     0.0478   0.0238    2.0x  [onto, onto, over] •
+    H15     0.0440   0.0238    1.9x  [只要, 只要有, 只要你]
+    H20     0.0353   0.0238    1.5x  [website, condominium, {{]
+    H00     0.0241   0.0238    1.0x  [等待, 期盼, 期待]
+    H21     0.0125   0.0238    0.5x  [先把, 要把, 把]
+    H02     0.0091   0.0238    0.4x  [适应, conflict, 夺取]
+
+    BINDING: files → contains = contains(_,files)
+    arg@[2, 8] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.1543   0.0238    6.5x  [有序, orderly, 整齐] ◆
+    H15     0.1405   0.0238    5.9x  [unless, regardless, 除非] ◆
+    H20     0.1088   0.0238    4.6x  [<br, {{, \u] •
+    H13     0.0812   0.0238    3.4x  [inside, inside, Inside] •
+    H00     0.0743   0.0238    3.1x  [等待, 期盼, waiting] •
+    H12     0.0676   0.0238    2.8x  [about, about, 关于] •
+    H04     0.0567   0.0238    2.4x  [Tort, ゲ, па] •
+    H05     0.0320   0.0238    1.3x  [***, 战, afety]
+
+    BINDING: folders → contain = contains(folders,_)
+    arg@[5] → func@[1, 7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H03     0.1157   0.0476    2.4x  [有序, orderly, tightly] •
+    H13     0.0545   0.0476    1.1x  [inside, inside, Inside]
+    H12     0.0478   0.0476    1.0x  [about, about, About]
+    H15     0.0440   0.0476    0.9x  [regardless, 不管, 直到]
+    H20     0.0353   0.0476    0.7x  [<br, ​, ㅤ]
+    H00     0.0241   0.0476    0.5x  [等待, waiting, wait]
+    H21     0.0125   0.0476    0.3x  [, :^, ogle]
+    H02     0.0091   0.0476    0.2x  [赶上, 适应, 夺取]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H03 at [folder] for contains(folder,_):
+              folder ( 0): 0.0151
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H13 at [folder] for contains(folder,_):
+              folder ( 0): 0.0762
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H12 at [folder] for contains(folder,_):
+              folder ( 0): 0.1154
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H15 at [folder] for contains(folder,_):
+              folder ( 0): 0.0501
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H20 at [folder] for contains(folder,_):
+              folder ( 0): 0.1705
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H03 at [files] for contains(_,files):
+            contains ( 1): 0.2400 ★
+               files ( 2): 0.1245
+              folder ( 0): 0.0641
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+
+  [discard1] "Of all the animals, only the lion was truly fierce."
+    V through unembed (what FFN compiled):
+      [         all] → 全部, 皆, alles
+      [         the] → greatest, ​​, 最好的
+      [     animals] → apsed, activate, .activate
+      [           ,] → 最为, 最も, 最喜欢
+      [        only] → only, only, 只有
+      [         the] → 最强, 最快的, 最快
+      [        lion] → likely, Likely, 一定
+      [         was] → willing, 愿意, 愿
+      [       truly] → 真的, truly, really
+      [      fierce] → fear, 恐, frag
+      [           .] → 哪种, which, 哪
+
+    BINDING: lion → fierce = fierce(lion)
+    arg@[6] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [抵抗, resisting, resist]
+    H01     0.0000   0.0233    0.0x  [迤, Sanity, 意义]
+    H02     0.0000   0.0233    0.0x  [安排, 疏, proper]
+    H03     0.0000   0.0233    0.0x  [faster, quicker, 更快]
+    H04     0.0000   0.0233    0.0x  [พา, HOST, 初]
+    H05     0.0000   0.0233    0.0x  [refere, (OP, emachine]
+    H06     0.0000   0.0233    0.0x  [，《, .…, …]
+    H07     0.0000   0.0233    0.0x  […, …", …]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [lion] for fierce(lion):
+                lion ( 6): 0.2595
+                only ( 4): 0.1943
+                   , ( 3): 0.0918
+             animals ( 2): 0.0519
+                 the ( 5): 0.0511
+                 all ( 0): 0.0104
+      H01 at [lion] for fierce(lion):
+                lion ( 6): 0.0131
+                only ( 4): 0.0034
+                 the ( 5): 0.0015
+             animals ( 2): 0.0011
+                 all ( 0): 0.0004
+                   , ( 3): 0.0004
+      H02 at [lion] for fierce(lion):
+                lion ( 6): 0.0757
+                 the ( 5): 0.0143
+             animals ( 2): 0.0127
+                 all ( 0): 0.0072
+                only ( 4): 0.0056
+                 the ( 1): 0.0025
+      H03 at [lion] for fierce(lion):
+                only ( 4): 0.0507
+                 the ( 5): 0.0203
+             animals ( 2): 0.0147
+                lion ( 6): 0.0135
+                   , ( 3): 0.0073
+                 all ( 0): 0.0056
+      H04 at [lion] for fierce(lion):
+                 the ( 5): 0.0845
+                lion ( 6): 0.0417
+                only ( 4): 0.0352
+                   , ( 3): 0.0107
+             animals ( 2): 0.0053
+                 all ( 0): 0.0052
+
+  [long1] "The man that the woman that the child saw met left."
+    V through unembed (what FFN compiled):
+      [         man] → 汉, 漢, Jordan
+      [        that] → than, than, Than
+      [         the] → than, than, smallest
+      [       woman] → 爱护, whom, widget
+      [        that] → than, than, Than
+      [         the] → definitely, hopefully, 期待
+      [       child] → CH, (CH, CH
+      [         saw] → sil, seeming, seemed
+      [         met] → 肯, mentioned, meth
+      [        left] → Lee, Lee, LEE
+      [           .] → 哪种, 哪, 哪个
+
+    BINDING: child → saw = saw(child,_)
+    arg@[6] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [喜爱, admiration, 称赞]
+    H01     0.0000   0.0233    0.0x  [interest, confidence, _Val]
+    H02     0.0000   0.0233    0.0x  [集中, kém, 落实]
+    H03     0.0000   0.0233    0.0x  [happy, faster, continuously]
+    H04     0.0000   0.0233    0.0x  [mate, asse, 在京]
+    H05     0.0000   0.0233    0.0x  [-tools, ovah, Harold]
+    H06     0.0000   0.0233    0.0x  [.…, ADR, TLC]
+    H07     0.0000   0.0233    0.0x  [iger, 麒, CAD]
+
+    BINDING: woman → saw = saw(_,woman)
+    arg@[3] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [期待, 信任, admiration]
+    H01     0.0000   0.0233    0.0x  [_Val, tü, Recorder]
+    H02     0.0000   0.0233    0.0x  [集中, 落实, 履行]
+    H03     0.0000   0.0233    0.0x  [faster, quicker, 更快]
+    H04     0.0000   0.0233    0.0x  [vel, Dock, “]
+    H05     0.0000   0.0233    0.0x  [Marvin, NST, 接近]
+    H06     0.0000   0.0233    0.0x  [ADR, ToStr, LIK]
+    H07     0.0000   0.0233    0.0x  […, …, …]
+
+    BINDING: woman → met = met(woman,_)
+    arg@[3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [期待, 信任, admiration]
+    H01     0.0000   0.0233    0.0x  [_Val, tü, Recorder]
+    H02     0.0000   0.0233    0.0x  [集中, 落实, 履行]
+    H03     0.0000   0.0233    0.0x  [faster, quicker, 更快]
+    H04     0.0000   0.0233    0.0x  [vel, Dock, “]
+    H05     0.0000   0.0233    0.0x  [Marvin, NST, 接近]
+    H06     0.0000   0.0233    0.0x  [ADR, ToStr, LIK]
+    H07     0.0000   0.0233    0.0x  […, …, …]
+
+    BINDING: man → met = met(_,man)
+    arg@[0, 3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [等待, 期待, waiting]
+    H01     0.0000   0.0233    0.0x  [_Val, 侥幸, 意思]
+    H02     0.0000   0.0233    0.0x  [分歧, 岔, 偏离]
+    H03     0.0000   0.0233    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0233    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0233    0.0x  [滚滚, pmat, 帘]
+    H06     0.0000   0.0233    0.0x  [ADR, 男孩, ToStr]
+    H07     0.0000   0.0233    0.0x  […, ,…, .…]
+
+    BINDING: man → left = left(man)
+    arg@[0, 3] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [等待, 期待, waiting]
+    H01     0.0000   0.0233    0.0x  [_Val, 侥幸, 意思]
+    H02     0.0000   0.0233    0.0x  [分歧, 岔, 偏离]
+    H03     0.0000   0.0233    0.0x  [faster, quicker, 快速]
+    H04     0.0000   0.0233    0.0x  [为期, 在京, 籍]
+    H05     0.0000   0.0233    0.0x  [滚滚, pmat, 帘]
+    H06     0.0000   0.0233    0.0x  [ADR, 男孩, ToStr]
+    H07     0.0000   0.0233    0.0x  […, ,…, .…]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [child] for saw(child,_):
+               woman ( 3): 0.3850
+                that ( 4): 0.1981
+               child ( 6): 0.1165
+                 the ( 5): 0.0776
+                 the ( 2): 0.0758
+                that ( 1): 0.0297
+      H01 at [child] for saw(child,_):
+                that ( 4): 0.0428
+               woman ( 3): 0.0099
+                that ( 1): 0.0087
+                 the ( 5): 0.0043
+                 the ( 2): 0.0041
+                 man ( 0): 0.0038
+      H02 at [child] for saw(child,_):
+                 the ( 5): 0.0887
+                that ( 4): 0.0674
+               child ( 6): 0.0431
+                 the ( 2): 0.0297
+               woman ( 3): 0.0255
+                that ( 1): 0.0093
+      H03 at [child] for saw(child,_):
+                that ( 4): 0.0591
+               woman ( 3): 0.0587
+                 the ( 2): 0.0286
+                 man ( 0): 0.0155
+                 the ( 5): 0.0123
+                that ( 1): 0.0081
+      H04 at [child] for saw(child,_):
+                 the ( 5): 0.0840
+               child ( 6): 0.0247
+                that ( 4): 0.0212
+               woman ( 3): 0.0162
+                 man ( 0): 0.0148
+                that ( 1): 0.0064
+      H00 at [woman] for saw(_,woman):
+               woman ( 3): 0.3206
+                 the ( 2): 0.2659
+                that ( 1): 0.0503
+                 man ( 0): 0.0349
+                that ( 4): 0.0000
+                 the ( 5): 0.0000
+
+────────────────────────────────────────────────────────────
+LAYER 33
+────────────────────────────────────────────────────────────
+
+  [sv1] "The dog runs."
+    V through unembed (what FFN compiled):
+      [         dog] → 延, DL, dl
+      [        runs] → roll, ROLL, .roll
+      [           .] → —, —and, —including
+
+    BINDING: dog → runs = runs(dog)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [--, )--, "--]
+    H01     0.0000   0.0286    0.0x  [just, 沿, 同时也]
+    H02     0.0000   0.0286    0.0x  [percent, ``, 不下]
+    H03     0.0000   0.0286    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0286    0.0x  [model, _model, Model]
+    H05     0.0000   0.0286    0.0x  [—which, —that, ##]
+    H06     0.0000   0.0286    0.0x  [事件, 团队, team]
+    H07     0.0000   0.0286    0.0x  [::, ::, ####]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for runs(dog):
+                 dog ( 0): 0.0011
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [dog] for runs(dog):
+                 dog ( 0): 0.0033
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [dog] for runs(dog):
+                 dog ( 0): 0.0017
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [dog] for runs(dog):
+                 dog ( 0): 0.0010
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [dog] for runs(dog):
+                 dog ( 0): 0.1028
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+    V through unembed (what FFN compiled):
+      [         cat] → 叶, cal, fol
+      [        runs] → roll, .roll, ROLL
+      [           .] → —, —are, —including
+
+    BINDING: cat → runs = runs(cat)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0286    0.0x  [--, )--, "--]
+    H01     0.0000   0.0286    0.0x  [沿, frequently, along]
+    H02     0.0000   0.0286    0.0x  [``, 不下, 品牌的]
+    H03     0.0000   0.0286    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0286    0.0x  [_model, Model, model]
+    H05     0.0000   0.0286    0.0x  [##_, opi, (fig]
+    H06     0.0000   0.0286    0.0x  [事件, 行动, 表]
+    H07     0.0000   0.0286    0.0x  [::, ::, (::]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for runs(cat):
+                 cat ( 0): 0.0032
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H01 at [cat] for runs(cat):
+                 cat ( 0): 0.0029
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H02 at [cat] for runs(cat):
+                 cat ( 0): 0.0055
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H03 at [cat] for runs(cat):
+                 cat ( 0): 0.0014
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+      H04 at [cat] for runs(cat):
+                 cat ( 0): 0.1033
+                runs ( 1): 0.0000 ★
+                   . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+    V through unembed (what FFN compiled):
+      [         dog] → 延, DL, dl
+      [         bit] → bur, cit, bel
+      [         the] → fil, bad, bel
+      [         cat] → cal, 叶, fol
+      [           .] → —one, —and, —are
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [--, )--, "--]
+    H01     0.0000   0.0270    0.0x  [just, 沿, 同时也]
+    H02     0.0000   0.0270    0.0x  [percent, ``, 不下]
+    H03     0.0000   0.0270    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0270    0.0x  [model, _model, Model]
+    H05     0.0000   0.0270    0.0x  [—which, —that, ##]
+    H06     0.0000   0.0270    0.0x  [事件, 团队, team]
+    H07     0.0000   0.0270    0.0x  [::, ::, ####]
+
+    BINDING: cat → bit = bit(_,cat)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1693   0.0270    6.3x  [事件, event, Events] ◆
+    H18     0.0827   0.0270    3.1x  [Bi, bi, Bi] •
+    H04     0.0740   0.0270    2.7x  [materials, 资料, resources] •
+    H24     0.0594   0.0270    2.2x  [little, Little, Little] •
+    H07     0.0473   0.0270    1.8x  [., .',', .,]
+    H31     0.0466   0.0270    1.7x  [→, ×, ·]
+    H28     0.0340   0.0270    1.3x  [bet, ・, .]
+    H21     0.0325   0.0270    1.2x  [泽, 澤, zell]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0011
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0033
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0017
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0010
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.1028
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 cat ( 3): 0.0000
+                   . ( 4): 0.0000
+      H06 at [cat] for bit(_,cat):
+                 bit ( 1): 0.1693 ★
+                 cat ( 3): 0.1460
+                 dog ( 0): 0.0872
+                 the ( 2): 0.0168
+                   . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+    V through unembed (what FFN compiled):
+      [         cat] → 叶, cal, fol
+      [         bit] → cit, bur, bel
+      [         the] → bel, bad, 架
+      [         dog] → 延, DL, dl
+      [           .] → —and, —, —one
+
+    BINDING: cat → bit = bit(cat,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [--, )--, "--]
+    H01     0.0000   0.0270    0.0x  [沿, frequently, along]
+    H02     0.0000   0.0270    0.0x  [``, 不下, 品牌的]
+    H03     0.0000   0.0270    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0270    0.0x  [_model, Model, model]
+    H05     0.0000   0.0270    0.0x  [##_, opi, (fig]
+    H06     0.0000   0.0270    0.0x  [事件, 行动, 表]
+    H07     0.0000   0.0270    0.0x  [::, ::, (::]
+
+    BINDING: dog → bit = bit(_,dog)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1741   0.0270    6.4x  [事件, event, 算法] ◆
+    H04     0.0607   0.0270    2.2x  [materials, 资料, 材料] •
+    H24     0.0604   0.0270    2.2x  [little, Little, Little] •
+    H18     0.0595   0.0270    2.2x  [Bi, Bi, .bi] •
+    H05     0.0389   0.0270    1.4x  [lica, :num, Bers]
+    H31     0.0382   0.0270    1.4x  [→, ×, ·]
+    H07     0.0375   0.0270    1.4x  [::, ::, .]
+    H21     0.0343   0.0270    1.3x  [泽, 澤, Sizer]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0032
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0029
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0055
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [cat] for bit(cat,_):
+                 cat ( 0): 0.0014
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [cat] for bit(cat,_):
+                 cat ( 0): 0.1033
+                 bit ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                 dog ( 3): 0.0000
+                   . ( 4): 0.0000
+      H06 at [dog] for bit(_,dog):
+                 cat ( 0): 0.1853
+                 bit ( 1): 0.1741 ★
+                 dog ( 3): 0.0932
+                 the ( 2): 0.0142
+                   . ( 4): 0.0000
+
+  [ditrans] "John gave Mary the book."
+    V through unembed (what FFN compiled):
+      [        gave] → 给予, 给予了, 給予
+      [        Mary] → May, may, mel
+      [         the] → the, che, 形
+      [        book] → Book, book, 书
+      [           .] → —and, —, —one
+
+    BINDING: Mary → gave = gave(_,mary,_)
+    arg@[1] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.6191   0.0270   22.9x  [solution, 块, 解决方案] ◆
+    H07     0.2864   0.0270   10.6x  [j, ii, |--] ◆
+    H04     0.1163   0.0270    4.3x  [communities, department, 窍] •
+    H25     0.1052   0.0270    3.9x  [least, particular, particul] •
+    H29     0.1011   0.0270    3.7x  [giving, 给出了, gave] •
+    H16     0.0761   0.0270    2.8x  [Give, Great, Give] •
+    H05     0.0754   0.0270    2.8x  [UNITED, 迭, United] •
+    H18     0.0630   0.0270    2.3x  [gi, gi, 吉] •
+
+    BINDING: book → gave = gave(_,_,book)
+    arg@[3] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1011   0.0270    3.7x  [事件, events, 结构] •
+    H07     0.0475   0.0270    1.8x  [., .,, .;]
+    H04     0.0417   0.0270    1.5x  [materials, 资料, dimensions]
+    H16     0.0291   0.0270    1.1x  [Great, Great, 得到]
+    H18     0.0254   0.0270    0.9x  [输入, Input, /Input]
+    H05     0.0242   0.0270    0.9x  [Trim, /ros, blot]
+    H14     0.0175   0.0270    0.7x  [distributed, distributed, 分布式]
+    H29     0.0174   0.0270    0.6x  [.—, ["., (::]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H06 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.6191 ★
+                Mary ( 1): 0.0287
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H07 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.2864 ★
+                Mary ( 1): 0.1451
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [Mary] for gave(_,mary,_):
+                Mary ( 1): 0.4973
+                gave ( 0): 0.1163 ★
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H25 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.1052 ★
+                Mary ( 1): 0.0046
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H29 at [Mary] for gave(_,mary,_):
+                gave ( 0): 0.1011 ★
+                Mary ( 1): 0.0045
+                 the ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H06 at [book] for gave(_,_,book):
+                book ( 3): 0.1616
+                gave ( 0): 0.1011 ★
+                 the ( 2): 0.0638
+                Mary ( 1): 0.0507
+                   . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+    V through unembed (what FFN compiled):
+      [         dog] → 延, DL, dl
+      [         bit] → bur, cit, bel
+      [      itself] → bel, bel, Bel
+      [           .] → —, —and, —one
+
+    BINDING: dog → bit = bit(dog,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0278    0.0x  [--, )--, "--]
+    H01     0.0000   0.0278    0.0x  [just, 沿, 同时也]
+    H02     0.0000   0.0278    0.0x  [percent, ``, 不下]
+    H03     0.0000   0.0278    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0278    0.0x  [model, _model, Model]
+    H05     0.0000   0.0278    0.0x  [—which, —that, ##]
+    H06     0.0000   0.0278    0.0x  [事件, 团队, team]
+    H07     0.0000   0.0278    0.0x  [::, ::, ####]
+
+    BINDING: itself → dog = itself→dog
+    arg@[2] → func@[0]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H07     0.1398   0.0278    5.0x  [., .,, .;] ◆
+    H06     0.0999   0.0278    3.6x  [事件, Events, event] •
+    H05     0.0289   0.0278    1.0x  [俯, alcon, :num]
+    H08     0.0125   0.0278    0.5x  [Painter, 摄, 经营管理]
+    H22     0.0068   0.0278    0.2x  [fair, 了解, 公平]
+    H04     0.0061   0.0278    0.2x  [dimensions, materials, dimension]
+    H21     0.0047   0.0278    0.2x  [泽, 澤, 颜值]
+    H09     0.0035   0.0278    0.1x  [λ, λ, lamb]
+
+    BINDING: itself → bit = bit(_,itself)
+    arg@[2] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H24     0.1562   0.0278    5.6x  [little, little, Little] ◆
+    H06     0.0666   0.0278    2.4x  [事件, Events, event] •
+    H18     0.0567   0.0278    2.0x  [Bi, bi, Bi] •
+    H25     0.0372   0.0278    1.3x  [deep, great, 着实]
+    H21     0.0285   0.0278    1.0x  [泽, 澤, 颜值]
+    H04     0.0282   0.0278    1.0x  [dimensions, materials, dimension]
+    H31     0.0271   0.0278    1.0x  [→, ×, ∈]
+    H05     0.0267   0.0278    1.0x  [俯, alcon, :num]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0011
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H01 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0033
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H02 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0017
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H03 at [dog] for bit(dog,_):
+                 dog ( 0): 0.0010
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H04 at [dog] for bit(dog,_):
+                 dog ( 0): 0.1028
+                 bit ( 1): 0.0000 ★
+              itself ( 2): 0.0000
+                   . ( 3): 0.0000
+      H07 at [itself] for itself→dog:
+              itself ( 2): 0.4338
+                 dog ( 0): 0.1398 ★
+                 bit ( 1): 0.0230
+                   . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+    V through unembed (what FFN compiled):
+      [         cat] → 叶, cal, fol
+      [        that] → Selection, selection, selections
+      [         sat] → lat, lat, Lat
+      [          on] → lon, on, lon
+      [         the] → Lat, lat, lat
+      [         mat] → mel, lat, lat
+      [          is] → sel, is, alist
+      [       black] → blank, bl, Blank
+      [           .] → cre, —and, Cre
+
+    BINDING: cat → sat = sat(cat,_)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [--, )--, "--]
+    H01     0.0000   0.0244    0.0x  [沿, frequently, along]
+    H02     0.0000   0.0244    0.0x  [``, 不下, 品牌的]
+    H03     0.0000   0.0244    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0244    0.0x  [_model, model, Model]
+    H05     0.0000   0.0244    0.0x  [##_, opi, (fig]
+    H06     0.0000   0.0244    0.0x  [事件, 行动, 表]
+    H07     0.0000   0.0244    0.0x  [::, ::, (::]
+
+    BINDING: mat → sat = sat(_,mat)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1431   0.0244    5.9x  [algorithm, 算法, algorithm] ◆
+    H23     0.1423   0.0244    5.8x  [sat, Sat, sat] ◆
+    H22     0.1372   0.0244    5.6x  [清洁能源, Collective, 体育彩票] ◆
+    H21     0.1366   0.0244    5.6x  [McGill, _DESCRIPTOR, Cascade] ◆
+    H13     0.1001   0.0244    4.1x  [Sat, sat, Sat] •
+    H19     0.0884   0.0244    3.6x  [sit, Sit, sit] •
+    H07     0.0856   0.0244    3.5x  [::, @, ,@] •
+    H20     0.0595   0.0244    2.4x  [summarized, summary, cit] •
+
+    BINDING: cat → black = black(cat)
+    arg@[0] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0244    0.0x  [--, )--, "--]
+    H01     0.0000   0.0244    0.0x  [沿, frequently, along]
+    H02     0.0000   0.0244    0.0x  [``, 不下, 品牌的]
+    H03     0.0000   0.0244    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0244    0.0x  [_model, model, Model]
+    H05     0.0000   0.0244    0.0x  [##_, opi, (fig]
+    H06     0.0000   0.0244    0.0x  [事件, 行动, 表]
+    H07     0.0000   0.0244    0.0x  [::, ::, (::]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0032
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H01 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0028
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H02 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0055
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H03 at [cat] for sat(cat,_):
+                 cat ( 0): 0.0014
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H04 at [cat] for sat(cat,_):
+                 cat ( 0): 0.1033
+                that ( 1): 0.0000
+                 sat ( 2): 0.0000 ★
+                  on ( 3): 0.0000
+                 the ( 4): 0.0000
+                 mat ( 5): 0.0000
+      H06 at [mat] for sat(_,mat):
+                 cat ( 0): 0.1866
+                 mat ( 5): 0.1488
+                 sat ( 2): 0.1431 ★
+                that ( 1): 0.1205
+                  on ( 3): 0.0394
+                 the ( 4): 0.0083
+
+  [quant1] "Every student reads a book."
+    V through unembed (what FFN compiled):
+      [     student] → ste, Ste, Ste
+      [       reads] → read, Read, -read
+      [           a] → c, a, ola
+      [        book] → Book, book, books
+      [           .] → —and, —one, —
+
+    BINDING: student → reads = reads(student,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [--, )--, "--]
+    H01     0.0000   0.0270    0.0x  [, 沿, just]
+    H02     0.0000   0.0270    0.0x  [``, 不下, 声明]
+    H03     0.0000   0.0270    0.0x  [thus, thus, Thus]
+    H04     0.0000   0.0270    0.0x  [nhiệm, 截, 职位]
+    H05     0.0000   0.0270    0.0x  [—which, tab, ——]
+    H06     0.0000   0.0270    0.0x  [事件, event, events]
+    H07     0.0000   0.0270    0.0x  [::, ::, ;;]
+
+    BINDING: book → reads = reads(_,book)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1148   0.0270    4.2x  [book, 书, books] •
+    H04     0.0798   0.0270    3.0x  [tools, Tools, 工具] •
+    H22     0.0380   0.0270    1.4x  [野生, -beta, WARN]
+    H19     0.0358   0.0270    1.3x  [Real, real, Real]
+    H07     0.0248   0.0270    0.9x  [., .,, .',']
+    H05     0.0235   0.0270    0.9x  [Tab, —he, 内地]
+    H10     0.0221   0.0270    0.8x  [runs, reads, runs]
+    H21     0.0170   0.0270    0.6x  [Zag, 失, 半岛]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [student] for reads(student,_):
+             student ( 0): 0.0028
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [student] for reads(student,_):
+             student ( 0): 0.0027
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [student] for reads(student,_):
+             student ( 0): 0.0020
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [student] for reads(student,_):
+             student ( 0): 0.0021
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [student] for reads(student,_):
+             student ( 0): 0.1504
+               reads ( 1): 0.0000 ★
+                   a ( 2): 0.0000
+                book ( 3): 0.0000
+                   . ( 4): 0.0000
+      H06 at [book] for reads(_,book):
+                book ( 3): 0.1908
+               reads ( 1): 0.1148 ★
+             student ( 0): 0.0952
+                   a ( 2): 0.0549
+                   . ( 4): 0.0000
+
+  [cond1] "If it rains, the ground is wet."
+    V through unembed (what FFN compiled):
+      [          it] → alt, alt, .alt
+      [       rains] → right, reveal, Requires
+      [           ,] → 鞣, 登, pl
+      [         the] → ---, the, cro
+      [      ground] → gro, 格, gro
+      [          is] → (shell, IL, are
+      [         wet] → 围, wrap, Wrap
+      [           .] → ﬂ, 研究, ful
+
+    BINDING: it → rains = rains(it)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [--, &#, )--]
+    H01     0.0000   0.0250    0.0x  [, ')">, ))]]
+    H02     0.0000   0.0250    0.0x  [``, sling, percent]
+    H03     0.0000   0.0250    0.0x  [US, United, United]
+    H04     0.0000   0.0250    0.0x  [截, task, 任务]
+    H05     0.0000   0.0250    0.0x  [//, —which, ——]
+    H06     0.0000   0.0250    0.0x  [事件, EventType, eventType]
+    H07     0.0000   0.0250    0.0x  [{:, {, ^{]
+
+    BINDING: ground → wet = wet(ground)
+    arg@[4] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [--, )--, --]
+    H01     0.0000   0.0250    0.0x  [, 沿, just]
+    H02     0.0000   0.0250    0.0x  [但从, IDA, 但她]
+    H03     0.0000   0.0250    0.0x  [(sort, sorts, 免责声明]
+    H04     0.0000   0.0250    0.0x  [configuration, 截, Configuration]
+    H05     0.0000   0.0250    0.0x  [zac, görev, —that]
+    H06     0.0000   0.0250    0.0x  [活动, 活动中, activities]
+    H07     0.0000   0.0250    0.0x  [^, ;;;;, ^]
+
+    BINDING: rains → wet = rains→wet
+    arg@[1] → func@[6]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0250    0.0x  [→, →, ≥]
+    H01     0.0000   0.0250    0.0x  [沿, frequently, just]
+    H02     0.0000   0.0250    0.0x  [声明, 咚, 条评论]
+    H03     0.0000   0.0250    0.0x  [[/, (sort, sort]
+    H04     0.0000   0.0250    0.0x  [specification, 产品, dimensions]
+    H05     0.0000   0.0250    0.0x  [zac, —which, ——]
+    H06     0.0000   0.0250    0.0x  [语言, 事件, language]
+    H07     0.0000   0.0250    0.0x  [1, ., ,,]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [it] for rains(it):
+                  it ( 0): 0.0171
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H01 at [it] for rains(it):
+                  it ( 0): 0.0005
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H02 at [it] for rains(it):
+                  it ( 0): 0.0041
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H03 at [it] for rains(it):
+                  it ( 0): 0.0005
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H04 at [it] for rains(it):
+                  it ( 0): 0.0958
+               rains ( 1): 0.0000 ★
+                   , ( 2): 0.0000
+                 the ( 3): 0.0000
+              ground ( 4): 0.0000
+                  is ( 5): 0.0000
+      H00 at [ground] for wet(ground):
+                   , ( 2): 0.1638
+               rains ( 1): 0.0182
+                  it ( 0): 0.0180
+                 the ( 3): 0.0158
+              ground ( 4): 0.0020
+                  is ( 5): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+    V through unembed (what FFN compiled):
+      [        ball] → bal, Bal, _bal
+      [         was] → wrapping, wrapper, -wrapper
+      [      kicked] → keep, keep, kind
+      [          by] → ly, Bracket, ly
+      [         the] → TABLE, FIG, che
+      [         boy] → bro, bel, bur
+      [           .] → —and, —, —are
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[5] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H07     0.1444   0.0256    5.6x  [.,, ., .;] ◆
+    H04     0.0766   0.0256    3.0x  [materials, >., resources] •
+    H06     0.0612   0.0256    2.4x  [事件, Events, 语言] •
+    H05     0.0505   0.0256    2.0x  [俯, atalog, ∕]
+    H18     0.0323   0.0256    1.3x  [Input, Input, .Input]
+    H08     0.0226   0.0256    0.9x  [practice, 猎, 经营]
+    H11     0.0155   0.0256    0.6x  [跑, running, 运行]
+    H14     0.0148   0.0256    0.6x  [邦, bundle, 衍生]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[0] → func@[2]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0256    0.0x  [--, )--, "--]
+    H01     0.0000   0.0256    0.0x  [沿, just, assen]
+    H02     0.0000   0.0256    0.0x  [<strong, ,<, "<]
+    H03     0.0000   0.0256    0.0x  [这么, 诸多, US]
+    H04     0.0000   0.0256    0.0x  [_domain, -domain, /domain]
+    H05     0.0000   0.0256    0.0x  [##_, ##, ##]
+    H06     0.0000   0.0256    0.0x  [schemes, scheme, Scheme]
+    H07     0.0000   0.0256    0.0x  [·, ;;, •]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H07 at [boy] for kicked(boy,_):
+                 boy ( 5): 0.3333
+              kicked ( 2): 0.1444 ★
+                ball ( 0): 0.0897
+                  by ( 3): 0.0420
+                 was ( 1): 0.0271
+                 the ( 4): 0.0056
+      H04 at [boy] for kicked(boy,_):
+                 boy ( 5): 0.3054
+              kicked ( 2): 0.0766 ★
+                  by ( 3): 0.0307
+                 the ( 4): 0.0097
+                ball ( 0): 0.0086
+                 was ( 1): 0.0076
+      H06 at [boy] for kicked(boy,_):
+                  by ( 3): 0.1033
+              kicked ( 2): 0.0612 ★
+                 boy ( 5): 0.0540
+                ball ( 0): 0.0492
+                 the ( 4): 0.0195
+                 was ( 1): 0.0193
+      H05 at [boy] for kicked(boy,_):
+                 boy ( 5): 0.1477
+              kicked ( 2): 0.0505 ★
+                ball ( 0): 0.0166
+                  by ( 3): 0.0161
+                 was ( 1): 0.0082
+                 the ( 4): 0.0059
+      H18 at [boy] for kicked(boy,_):
+              kicked ( 2): 0.0323 ★
+                  by ( 3): 0.0200
+                 was ( 1): 0.0115
+                 the ( 4): 0.0082
+                 boy ( 5): 0.0060
+                ball ( 0): 0.0041
+      H00 at [ball] for kicked(_,ball):
+                ball ( 0): 0.0016
+                 was ( 1): 0.0000
+              kicked ( 2): 0.0000 ★
+                  by ( 3): 0.0000
+                 the ( 4): 0.0000
+                 boy ( 5): 0.0000
+
+  [act1] "The boy kicked the ball."
+    V through unembed (what FFN compiled):
+      [         boy] → bro, bel, Bro
+      [      kicked] → keep, keep, keeps
+      [         the] → kor, kle, .cor
+      [        ball] → bal, Bal, Bal
+      [           .] → —and, —, —one
+
+    BINDING: boy → kicked = kicked(boy,_)
+    arg@[0] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0270    0.0x  [--, )--, "--]
+    H01     0.0000   0.0270    0.0x  [沿, 通常是, {{--]
+    H02     0.0000   0.0270    0.0x  [percent, 声明, Descriptors]
+    H03     0.0000   0.0270    0.0x  [责任编辑, 免责声明, 众多]
+    H04     0.0000   0.0270    0.0x  [务, materials, material]
+    H05     0.0000   0.0270    0.0x  [/engine, 备, 狮]
+    H06     0.0000   0.0270    0.0x  [节点, node, nodes]
+    H07     0.0000   0.0270    0.0x  [.|, .^, |#]
+
+    BINDING: ball → kicked = kicked(_,ball)
+    arg@[3] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.1137   0.0270    4.2x  [事件, 活动, event] •
+    H04     0.0660   0.0270    2.4x  [资料, resources, Resources] •
+    H07     0.0464   0.0270    1.7x  [.,, .',', .;]
+    H08     0.0453   0.0270    1.7x  [经营, ctx, 编码]
+    H24     0.0420   0.0270    1.6x  [PW, ew, JW]
+    H18     0.0334   0.0270    1.2x  [Input, Input, <Input]
+    H11     0.0211   0.0270    0.8x  [boot, Boot, 踢]
+    H05     0.0199   0.0270    0.7x  [曷, 俯, /tab]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0068
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H01 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0067
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H02 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0116
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H03 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.0024
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H04 at [boy] for kicked(boy,_):
+                 boy ( 0): 0.1136
+              kicked ( 1): 0.0000 ★
+                 the ( 2): 0.0000
+                ball ( 3): 0.0000
+                   . ( 4): 0.0000
+      H06 at [ball] for kicked(_,ball):
+                ball ( 3): 0.2881
+                 boy ( 0): 0.1137
+              kicked ( 1): 0.1137 ★
+                 the ( 2): 0.0206
+                   . ( 4): 0.0000
+
+  [recur1] "A folder contains files and other folders which contain files."
+    V through unembed (what FFN compiled):
+      [      folder] → folder, Folder, folders
+      [    contains] → 含, contain, contain
+      [       files] → fil, Fil, fil
+      [         and] → and, azzi, 测量
+      [       other] → ocation, old, OL
+      [     folders] → folder, Folder, folders
+      [       which] → 哪, which, Which
+      [     contain] → 含, contain, contain
+      [       files] → fil, fil, Fil
+      [           .] → --,, --, --
+
+    BINDING: folder → contains = contains(folder,_)
+    arg@[0, 5] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.0661   0.0238    2.8x  [结构, structure, structures] •
+    H21     0.0508   0.0238    2.1x  [Christie, avier, sanct] •
+    H22     0.0444   0.0238    1.9x  [+f, 公众, público]
+    H16     0.0381   0.0238    1.6x  [-be, Be, Be]
+    H10     0.0209   0.0238    0.9x  [runs, runs, Runs]
+    H20     0.0185   0.0238    0.8x  [folder, folders, Folder]
+    H12     0.0165   0.0238    0.7x  [folder, (folder, Folder]
+    H07     0.0143   0.0238    0.6x  [Contents, ©, 版权所有]
+
+    BINDING: files → contains = contains(_,files)
+    arg@[2, 8] → func@[1]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.2102   0.0238    8.8x  [文件, files, 文件] ◆
+    H12     0.0636   0.0238    2.7x  [含, contain, (cont] •
+    H22     0.0623   0.0238    2.6x  [/fs, 新闻, fs] •
+    H16     0.0621   0.0238    2.6x  [Contains, contains, contains] •
+    H21     0.0601   0.0238    2.5x  [revolution, Brittany, Revolution] •
+    H10     0.0529   0.0238    2.2x  [files, files, files] •
+    H20     0.0397   0.0238    1.7x  [文件, folder, folders]
+    H07     0.0377   0.0238    1.6x  [., .;, .=]
+
+    BINDING: folders → contain = contains(folders,_)
+    arg@[5] → func@[1, 7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H06     0.0661   0.0476    1.4x  [结构, structure, 文件]
+    H21     0.0508   0.0476    1.1x  [revolution, revolutionary, abwe]
+    H22     0.0444   0.0476    0.9x  [新闻, 新聞, 报记者]
+    H16     0.0381   0.0476    0.8x  [Contains, contains, contain]
+    H10     0.0209   0.0476    0.4x  [shares, runs, passes]
+    H20     0.0185   0.0476    0.4x  [folder, Folder, folders]
+    H12     0.0165   0.0476    0.3x  [含, contain, (cont]
+    H07     0.0143   0.0476    0.3x  [.,, ., .;]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H06 at [folder] for contains(folder,_):
+              folder ( 0): 0.1589
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H21 at [folder] for contains(folder,_):
+              folder ( 0): 0.0242
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H22 at [folder] for contains(folder,_):
+              folder ( 0): 0.0817
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H16 at [folder] for contains(folder,_):
+              folder ( 0): 0.0020
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H10 at [folder] for contains(folder,_):
+              folder ( 0): 0.0169
+            contains ( 1): 0.0000 ★
+               files ( 2): 0.0000
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+      H06 at [files] for contains(_,files):
+            contains ( 1): 0.2690 ★
+               files ( 2): 0.1937
+              folder ( 0): 0.0471
+                 and ( 3): 0.0000
+               other ( 4): 0.0000
+             folders ( 5): 0.0000
+
+  [discard1] "Of all the animals, only the lion was truly fierce."
+    V through unembed (what FFN compiled):
+      [         all] → coll, coll, oll
+      [         the] → 校, alse, the
+      [     animals] → -al, _al, ann
+      [           ,] → listed, Sel, regular
+      [        only] → 选, select, 選
+      [         the] → best, "~, rok
+      [        lion] → last, Last, Last
+      [         was] → -wrapper, wr, wr
+      [       truly] → true, 真, True
+      [      fierce] → fil, fal, Fil
+      [           .] → ﬂ, computing, .
+
+    BINDING: lion → fierce = fierce(lion)
+    arg@[6] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [--, )--, ―]
+    H01     0.0000   0.0233    0.0x  [沿, 均, assen]
+    H02     0.0000   0.0233    0.0x  [lâ, Among, outfield]
+    H03     0.0000   0.0233    0.0x  [sort, 因, 因而]
+    H04     0.0000   0.0233    0.0x  [materials, materials, Materials]
+    H05     0.0000   0.0233    0.0x  [##_, velle, |null]
+    H06     0.0000   0.0233    0.0x  [事件, events, Events]
+    H07     0.0000   0.0233    0.0x  [::, ;;, <-]
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [lion] for fierce(lion):
+                   , ( 3): 0.0300
+                 the ( 1): 0.0138
+             animals ( 2): 0.0089
+                lion ( 6): 0.0074
+                 all ( 0): 0.0043
+                 the ( 5): 0.0035
+      H01 at [lion] for fierce(lion):
+                only ( 4): 0.0052
+                   , ( 3): 0.0049
+                 the ( 1): 0.0048
+                lion ( 6): 0.0031
+                 all ( 0): 0.0029
+             animals ( 2): 0.0023
+      H02 at [lion] for fierce(lion):
+                   , ( 3): 0.0143
+                 the ( 1): 0.0081
+                 all ( 0): 0.0060
+                 the ( 5): 0.0043
+                lion ( 6): 0.0034
+                only ( 4): 0.0028
+      H03 at [lion] for fierce(lion):
+                   , ( 3): 0.0165
+                 the ( 1): 0.0058
+                only ( 4): 0.0027
+                lion ( 6): 0.0026
+                 all ( 0): 0.0017
+             animals ( 2): 0.0016
+      H04 at [lion] for fierce(lion):
+                   , ( 3): 0.0450
+                lion ( 6): 0.0394
+             animals ( 2): 0.0383
+                only ( 4): 0.0284
+                 the ( 5): 0.0155
+                 all ( 0): 0.0139
+
+  [long1] "The man that the woman that the child saw met left."
+    V through unembed (what FFN compiled):
+      [         man] → mean, Mean, _mean
+      [        that] → –and, Selection, selection
+      [         the] → tim, BP, tim
+      [       woman] → wrapper, wrapped, wrapping
+      [        that] → –, –and, –
+      [         the] → tell, ⎡, Ĩ
+      [       child] → char, Char, Char
+      [         saw] → saw, See, see
+      [         met] → mel, Mel, mel
+      [        left] → leave, left, 留
+      [           .] → —, _, ---
+
+    BINDING: child → saw = saw(child,_)
+    arg@[6] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [–, –and, –]
+    H01     0.0000   0.0233    0.0x  [normally, 且, typically]
+    H02     0.0000   0.0233    0.0x  [即便, 即便是, though]
+    H03     0.0000   0.0233    0.0x  [这样, 這樣, 那样]
+    H04     0.0000   0.0233    0.0x  [数, distribution, profiles]
+    H05     0.0000   0.0233    0.0x  [备, \/, slash]
+    H06     0.0000   0.0233    0.0x  [节点, node, targets]
+    H07     0.0000   0.0233    0.0x  [@[, _=, .@]
+
+    BINDING: woman → saw = saw(_,woman)
+    arg@[3] → func@[7]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [–and, –, –]
+    H01     0.0000   0.0233    0.0x  [, typically, typical]
+    H02     0.0000   0.0233    0.0x  [``, 即便是, ``]
+    H03     0.0000   0.0233    0.0x  [这样, thus, thus]
+    H04     0.0000   0.0233    0.0x  [数, [model, 职位]
+    H05     0.0000   0.0233    0.0x  [备, Stuff, entials]
+    H06     0.0000   0.0233    0.0x  [targets, 事件, indices]
+    H07     0.0000   0.0233    0.0x  [@[, _=, (@]
+
+    BINDING: woman → met = met(woman,_)
+    arg@[3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [–and, –, –]
+    H01     0.0000   0.0233    0.0x  [, typically, typical]
+    H02     0.0000   0.0233    0.0x  [``, 即便是, ``]
+    H03     0.0000   0.0233    0.0x  [这样, thus, thus]
+    H04     0.0000   0.0233    0.0x  [数, [model, 职位]
+    H05     0.0000   0.0233    0.0x  [备, Stuff, entials]
+    H06     0.0000   0.0233    0.0x  [targets, 事件, indices]
+    H07     0.0000   0.0233    0.0x  [@[, _=, (@]
+
+    BINDING: man → met = met(_,man)
+    arg@[0, 3] → func@[8]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [--, )--, "--]
+    H01     0.0000   0.0233    0.0x  [沿, frequently, just]
+    H02     0.0000   0.0233    0.0x  [``, 但是, ~~~~]
+    H03     0.0000   0.0233    0.0x  [US, 因而, 诸多]
+    H04     0.0000   0.0233    0.0x  [pattern, model, patterns]
+    H05     0.0000   0.0233    0.0x  [_INCLUDED, icha, 内地]
+    H06     0.0000   0.0233    0.0x  [事件, event, 节点]
+    H07     0.0000   0.0233    0.0x  [(::, 文, ..']
+
+    BINDING: man → left = left(man)
+    arg@[0, 3] → func@[9]
+      Head  Bind.Wt   Chance  Ratio  Output at arg position
+    H00     0.0000   0.0233    0.0x  [--, )--, "--]
+    H01     0.0000   0.0233    0.0x  [沿, frequently, just]
+    H02     0.0000   0.0233    0.0x  [``, 但是, ~~~~]
+    H03     0.0000   0.0233    0.0x  [US, 因而, 诸多]
+    H04     0.0000   0.0233    0.0x  [pattern, model, patterns]
+    H05     0.0000   0.0233    0.0x  [_INCLUDED, icha, 内地]
+    H06     0.0000   0.0233    0.0x  [事件, event, 节点]
+    H07     0.0000   0.0233    0.0x  [(::, 文, ..']
+
+    ATTENTION PATTERNS (from arg, top 3 heads):
+      H00 at [child] for saw(child,_):
+                that ( 1): 0.1593
+                that ( 4): 0.0383
+               woman ( 3): 0.0372
+                 man ( 0): 0.0216
+                 the ( 2): 0.0132
+               child ( 6): 0.0088
+      H01 at [child] for saw(child,_):
+                that ( 1): 0.1099
+                that ( 4): 0.0393
+               woman ( 3): 0.0309
+                 the ( 2): 0.0228
+                 man ( 0): 0.0103
+               child ( 6): 0.0058
+      H02 at [child] for saw(child,_):
+                that ( 1): 0.0404
+                that ( 4): 0.0127
+               woman ( 3): 0.0124
+                 the ( 2): 0.0090
+                 man ( 0): 0.0063
+               child ( 6): 0.0062
+      H03 at [child] for saw(child,_):
+                that ( 1): 0.0360
+                that ( 4): 0.0160
+               woman ( 3): 0.0093
+                 the ( 2): 0.0041
+                 man ( 0): 0.0031
+               child ( 6): 0.0010
+      H04 at [child] for saw(child,_):
+                that ( 4): 0.0698
+               child ( 6): 0.0636
+               woman ( 3): 0.0458
+                that ( 1): 0.0275
+                 the ( 5): 0.0263
+                 man ( 0): 0.0226
+      H00 at [woman] for saw(_,woman):
+                that ( 1): 0.0765
+                 man ( 0): 0.0124
+               woman ( 3): 0.0071
+                 the ( 2): 0.0030
+                that ( 4): 0.0000
+                 the ( 5): 0.0000
+
+========================================================================
+HEAD BINDING CONSISTENCY ACROSS PROBES
+========================================================================
+Which heads consistently route according to binding structure?
+
+  L27:
+      Head  MeanRatio   MedRatio   MeanWt  Bind>2x    N
+    H08         2.64       0.00   0.0715   10/32   •
+    H05         2.21       0.00   0.0594    7/32   •
+    H07         1.57       0.00   0.0421    9/32   
+    H14         1.52       0.00   0.0406    8/32   
+    H09         1.42       0.00   0.0386    8/32   
+    H06         1.39       0.00   0.0374    6/32   
+    H12         1.23       0.00   0.0329    6/32   
+    H31         1.13       0.00   0.0307    5/32   
+    H15         0.93       0.00   0.0251    6/32   
+    H02         0.69       0.00   0.0186    5/32   
+    H01         0.51       0.00   0.0135    2/32   
+    H20         0.45       0.00   0.0120    2/32   
+    H29         0.36       0.00   0.0094    3/32   
+    H04         0.33       0.00   0.0090    0/32   
+    H19         0.29       0.00   0.0076    1/32   
+
+  L30:
+      Head  MeanRatio   MedRatio   MeanWt  Bind>2x    N
+    H03         5.59       0.00   0.1515   12/32   ◆
+    H13         3.91       0.00   0.1061   10/32   ◆
+    H15         3.30       0.00   0.0886   11/32   ◆
+    H12         2.60       0.00   0.0699   10/32   •
+    H00         1.36       0.00   0.0362    8/32   
+    H20         1.28       0.00   0.0344    9/32   
+    H07         1.17       0.00   0.0311    7/32   
+    H31         0.70       0.00   0.0189    3/32   
+    H28         0.63       0.00   0.0170    2/32   
+    H17         0.60       0.00   0.0162    2/32   
+    H05         0.58       0.00   0.0156    2/32   
+    H04         0.58       0.00   0.0156    3/32   
+    H02         0.40       0.00   0.0108    1/32   
+    H01         0.29       0.00   0.0079    1/32   
+    H29         0.28       0.00   0.0074    0/32   
+
+  L33:
+      Head  MeanRatio   MedRatio   MeanWt  Bind>2x    N
+    H06         2.35       0.00   0.0627   12/32   •
+    H07         1.11       0.00   0.0297    4/32   
+    H04         0.74       0.00   0.0197    7/32   
+    H18         0.55       0.00   0.0147    4/32   
+    H21         0.55       0.00   0.0147    3/32   
+    H22         0.50       0.00   0.0133    2/32   
+    H24         0.50       0.00   0.0135    3/32   
+    H05         0.42       0.00   0.0112    1/32   
+    H19         0.37       0.00   0.0096    1/32   
+    H16         0.36       0.00   0.0097    2/32   
+    H31         0.34       0.00   0.0090    1/32   
+    H29         0.30       0.00   0.0080    1/32   
+    H10         0.27       0.00   0.0070    1/32   
+    H28         0.26       0.00   0.0070    1/32   
+    H25         0.25       0.00   0.0068    1/32   
+
+========================================================================
+MINIMAL PAIR ANALYSIS: Does binding flip with structure?
+========================================================================
+
+  Pair 'rev':
+    [rev1] "The dog bit the cat."
+    [rev2] "The cat bit the dog."
+
+    L27:
+      [rev1]
+                       bit(dog,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,cat): H05(0.339), H08(0.205), H14(0.182)
+      [rev2]
+                       bit(cat,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,dog): H05(0.497), H08(0.257), H07(0.242)
+
+    L30:
+      [rev1]
+                       bit(dog,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,cat): H13(0.785), H03(0.774), H15(0.366)
+      [rev2]
+                       bit(cat,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,dog): H03(0.766), H13(0.719), H15(0.496)
+
+    L33:
+      [rev1]
+                       bit(dog,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,cat): H06(0.169), H18(0.083), H04(0.074)
+      [rev2]
+                       bit(cat,_): H00(0.000), H01(0.000), H02(0.000)
+                       bit(_,dog): H06(0.174), H04(0.061), H24(0.060)
+
+  Pair 'sv':
+    [sv1] "The dog runs."
+    [sv2] "The cat runs."
+
+    L27:
+      [sv1]
+                        runs(dog): H00(0.000), H01(0.000), H02(0.000)
+      [sv2]
+                        runs(cat): H00(0.000), H01(0.000), H02(0.000)
+
+    L30:
+      [sv1]
+                        runs(dog): H00(0.000), H01(0.000), H02(0.000)
+      [sv2]
+                        runs(cat): H00(0.000), H01(0.000), H02(0.000)
+
+    L33:
+      [sv1]
+                        runs(dog): H00(0.000), H01(0.000), H02(0.000)
+      [sv2]
+                        runs(cat): H00(0.000), H01(0.000), H02(0.000)
+
+  Pair 'voice':
+    [pass1] "The ball was kicked by the boy."
+    [act1] "The boy kicked the ball."
+
+    L27:
+      [pass1]
+                    kicked(boy,_): H07(0.120), H02(0.083), H05(0.078)
+                   kicked(_,ball): H00(0.000), H01(0.000), H02(0.000)
+      [act1]
+                    kicked(boy,_): H00(0.000), H01(0.000), H02(0.000)
+                   kicked(_,ball): H08(0.438), H09(0.282), H06(0.226)
+
+    L30:
+      [pass1]
+                    kicked(boy,_): H12(0.373), H07(0.280), H03(0.268)
+                   kicked(_,ball): H00(0.000), H01(0.000), H02(0.000)
+      [act1]
+                    kicked(boy,_): H00(0.000), H01(0.000), H02(0.000)
+                   kicked(_,ball): H03(0.595), H13(0.525), H15(0.510)
+
+    L33:
+      [pass1]
+                    kicked(boy,_): H07(0.144), H04(0.077), H06(0.061)
+                   kicked(_,ball): H00(0.000), H01(0.000), H02(0.000)
+      [act1]
+                    kicked(boy,_): H00(0.000), H01(0.000), H02(0.000)
+                   kicked(_,ball): H06(0.114), H04(0.066), H07(0.046)
+
+========================================================================
+RESULTS SAVED to /Users/mwhitford/src/verbum/scripts/experiments/../../results/binding-graph-trace/
+  summary.json: 1566.2 KB
+========================================================================

@@ -1,0 +1,2363 @@
+========================================================================
+REVERSE BINDING TRACE
+========================================================================
+Model: Qwen/Qwen3-8B
+Probes: 11
+
+Loading model...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:01,  2.19it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:09, 39.67it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:03, 97.43it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 133.49it/s]Loading weights:  23%|██▎       | 93/399 [00:00<00:01, 158.04it/s]Loading weights:  31%|███       | 122/399 [00:00<00:01, 189.61it/s]Loading weights:  36%|███▋      | 145/399 [00:01<00:01, 199.39it/s]Loading weights:  42%|████▏     | 168/399 [00:01<00:01, 204.12it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 201.39it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:00, 205.42it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 210.46it/s]Loading weights:  65%|██████▍   | 259/399 [00:01<00:00, 213.14it/s]Loading weights:  72%|███████▏  | 288/399 [00:01<00:00, 223.12it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 227.10it/s]Loading weights:  84%|████████▍ | 335/399 [00:01<00:00, 227.00it/s]Loading weights:  91%|█████████ | 364/399 [00:02<00:00, 243.47it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 186.35it/s]
+  Loaded in 3.6s
+  36 layers, 32 Q heads, 8 KV groups
+  Target layers: [27, 30, 33]
+  Gate length: 32 tokens
+
+────────────────────────────────────────────────────────────
+[sv1] The dog runs.
+  Tokens: [' dog', ' runs', '.']
+  ✓ dog@[0] ↔ runs@[1] [sub<verb (verb→sub = REVERSE)]
+
+────────────────────────────────────────────────────────────
+[sv2] The cat runs.
+  Tokens: [' cat', ' runs', '.']
+  ✓ cat@[0] ↔ runs@[1] [sub<verb (verb→sub = REVERSE)]
+
+────────────────────────────────────────────────────────────
+[rev1] The dog bit the cat.
+  Tokens: [' dog', ' bit', ' the', ' cat', '.']
+  ✓ dog@[0] ↔ bit@[1] [sub<verb (verb→sub = REVERSE)]
+  ✓ cat@[3] ↔ bit@[1] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[rev2] The cat bit the dog.
+  Tokens: [' cat', ' bit', ' the', ' dog', '.']
+  ✓ cat@[0] ↔ bit@[1] [sub<verb (verb→sub = REVERSE)]
+  ✓ dog@[3] ↔ bit@[1] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[ditrans] Mary gave John the book.
+  Tokens: [' gave', ' John', ' the', ' book', '.']
+  ✗ Mary ↔ gave UNRESOLVED
+  ✓ John@[1] ↔ gave@[0] [sub>verb (sub→verb = FORWARD)]
+  ✓ book@[3] ↔ gave@[0] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[self1] The dog bit itself.
+  Tokens: [' dog', ' bit', ' itself', '.']
+  ✓ dog@[0] ↔ bit@[1] [sub<verb (verb→sub = REVERSE)]
+  ✓ itself@[2] ↔ bit@[1] [sub>verb (sub→verb = FORWARD)]
+  ✓ itself@[2] ↔ dog@[0] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[nested1] The cat that sat on the mat is black.
+  Tokens: [' cat', ' that', ' sat', ' on', ' the', ' mat', ' is', ' black', '.']
+  ✓ cat@[0] ↔ sat@[2] [sub<verb (verb→sub = REVERSE)]
+  ✓ mat@[5] ↔ sat@[2] [sub>verb (sub→verb = FORWARD)]
+  ✓ cat@[0] ↔ black@[7] [sub<verb (verb→sub = REVERSE)]
+
+────────────────────────────────────────────────────────────
+[act1] The boy kicked the ball.
+  Tokens: [' boy', ' kicked', ' the', ' ball', '.']
+  ✓ boy@[0] ↔ kicked@[1] [sub<verb (verb→sub = REVERSE)]
+  ✓ ball@[3] ↔ kicked@[1] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[pass1] The ball was kicked by the boy.
+  Tokens: [' ball', ' was', ' kicked', ' by', ' the', ' boy', '.']
+  ✓ boy@[5] ↔ kicked@[2] [sub>verb (sub→verb = FORWARD)]
+  ✓ ball@[0] ↔ kicked@[2] [sub<verb (verb→sub = REVERSE)]
+
+────────────────────────────────────────────────────────────
+[long1] The tall boy quickly kicked the red ball.
+  Tokens: [' tall', ' boy', ' quickly', ' kicked', ' the', ' red', ' ball', '.']
+  ✓ boy@[1] ↔ kicked@[3] [sub<verb (verb→sub = REVERSE)]
+  ✓ ball@[6] ↔ kicked@[3] [sub>verb (sub→verb = FORWARD)]
+
+────────────────────────────────────────────────────────────
+[coord1] The dog ran and the cat jumped.
+  Tokens: [' dog', ' ran', ' and', ' the', ' cat', ' jumped', '.']
+  ✓ dog@[0] ↔ ran@[1] [sub<verb (verb→sub = REVERSE)]
+  ✓ cat@[4] ↔ jumped@[5] [sub<verb (verb→sub = REVERSE)]
+
+========================================================================
+ANALYSIS: FORWARD vs REVERSE BINDING
+========================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LAYER 27
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [sv1] "The dog runs."
+
+    BINDING: runs(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.5879  20.6x ◆  [狗, dog, dogs]
+      H08     0.0000   0.0x    0.2469   8.6x ◆  [急, 激烈, urgent]
+      H09     0.0000   0.0x    0.2002   7.0x ◆  [不超过, 不少于, 最少]
+      H12     0.0000   0.0x    0.1945   6.8x ◆  [衣服, football, […]]
+      H29     0.0000   0.0x    0.1364   4.8x •  [animals, 动物, Animals]
+      H01     0.0000   0.0x    0.0771   2.7x •  [., .", /.]
+      H05     0.0000   0.0x    0.0684   2.4x •  [追逐, бук, pursued]
+      H20     0.0000   0.0x    0.0559   2.0x  [ęż, fleet, corp]
+
+    VERB ATTENTION: H31 at [runs] for runs(dog):
+               dog ( 0): 0.5879 ★ SUB
+              runs ( 1): 0.0254
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H08 at [runs] for runs(dog):
+               dog ( 0): 0.2469 ★ SUB
+              runs ( 1): 0.1725
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H09 at [runs] for runs(dog):
+               dog ( 0): 0.2002 ★ SUB
+              runs ( 1): 0.0576
+                 . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+
+    BINDING: runs(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.8228  28.8x ◆  [猫, 貓, cats]
+      H09     0.0000   0.0x    0.2537   8.9x ◆  [不超过, 不少于, 不得超过]
+      H08     0.0000   0.0x    0.2369   8.3x ◆  [elegant, eleg, 轻松]
+      H12     0.0000   0.0x    0.1840   6.4x ◆  [girl, football, 衣服]
+      H05     0.0000   0.0x    0.1307   4.6x •  [驮, testName, 邓]
+      H29     0.0000   0.0x    0.1023   3.6x •  [animals, 动物, Animals]
+      H01     0.0000   0.0x    0.0539   1.9x  [., .", ".]
+      H02     0.0000   0.0x    0.0455   1.6x  [., aram, ###]
+
+    VERB ATTENTION: H31 at [runs] for runs(cat):
+               cat ( 0): 0.8228 ★ SUB
+              runs ( 1): 0.0419
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H09 at [runs] for runs(cat):
+               cat ( 0): 0.2537 ★ SUB
+              runs ( 1): 0.0557
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H08 at [runs] for runs(cat):
+               cat ( 0): 0.2369 ★ SUB
+              runs ( 1): 0.1890
+                 . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.4421  16.4x ◆  [狗, dog, Dog]
+      H29     0.0000   0.0x    0.3215  11.9x ◆  [动物, animals, 主人]
+      H12     0.0000   0.0x    0.1903   7.0x ◆  [衣服, 跳舞, 地震]
+      H20     0.0000   0.0x    0.1256   4.6x •  [PMID, enor, india]
+      H26     0.0000   0.0x    0.1206   4.5x •  [就能够, that, おか]
+      H09     0.0000   0.0x    0.1112   4.1x •  [不少于, 不超过, 至少]
+      H30     0.0000   0.0x    0.1098   4.1x •  [_snd, 人类, _RET]
+      H04     0.0000   0.0x    0.0905   3.3x •  [兽, 动物, 肉类]
+
+    BINDING: bit(_,cat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0018   0.1x    0.0000   0.0x  [responsibilities, respons, ontology]
+      H01     0.0275   1.0x    0.0000   0.0x  [., .", ().]
+      H02     0.0470   1.7x    0.0000   0.0x  [.");, .');, .]
+      H03     0.0007   0.0x    0.0000   0.0x  […, –, ,…]
+      H04     0.0059   0.2x    0.0000   0.0x  [兽, 动物, 肉类]
+      H05     0.3394  12.6x ◆    0.0000   0.0x  [札, attacks, 攻击]
+      H06     0.0670   2.5x •    0.0000   0.0x  [道理, atures, 火焰]
+      H07     0.1077   4.0x •    0.0000   0.0x  [Transparency, flux, 仪式]
+
+    VERB ATTENTION: H31 at [bit] for bit(dog,_):
+               dog ( 0): 0.4421 ★ SUB
+               bit ( 1): 0.1732
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H29 at [bit] for bit(dog,_):
+               bit ( 1): 0.3816
+               dog ( 0): 0.3215 ★ SUB
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H12 at [bit] for bit(dog,_):
+               bit ( 1): 0.2073
+               dog ( 0): 0.1903 ★ SUB
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,cat):
+               dog ( 0): 0.0333
+               bit ( 1): 0.0059
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,cat):
+               dog ( 0): 0.0557
+               bit ( 1): 0.0199
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,cat):
+               dog ( 0): 0.0241
+               bit ( 1): 0.0220
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+
+    BINDING: bit(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.4290  15.9x ◆  [猫, 貓, cats]
+      H29     0.0000   0.0x    0.3762  13.9x ◆  [小狗, 动物, dogs]
+      H12     0.0000   0.0x    0.2262   8.4x ◆  [衣服, girl, 跳舞]
+      H26     0.0000   0.0x    0.0985   3.6x •  [おか, make, 've]
+      H20     0.0000   0.0x    0.0899   3.3x •  [india, fwd, &E]
+      H30     0.0000   0.0x    0.0861   3.2x •  [isObject, 国旗, Typed]
+      H04     0.0000   0.0x    0.0833   3.1x •  [肉类, stretch, prey]
+      H09     0.0000   0.0x    0.0611   2.3x •  [不少于, 至少, 不超过]
+
+    BINDING: bit(_,dog) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0025   0.1x    0.0000   0.0x  [overall, respons, 基础上]
+      H01     0.0213   0.8x    0.0000   0.0x  [., .", @]
+      H02     0.0211   0.8x    0.0000   0.0x  [.");, .');, .]
+      H03     0.0005   0.0x    0.0000   0.0x  […, –, ,…]
+      H04     0.0101   0.4x    0.0000   0.0x  [肉类, stretch, prey]
+      H05     0.4973  18.4x ◆    0.0000   0.0x  [攻击, 札, attacks]
+      H06     0.0776   2.9x •    0.0000   0.0x  [链条, 诱, atures]
+      H07     0.2421   9.0x ◆    0.0000   0.0x  [singleton, Transparency, 均匀]
+
+    VERB ATTENTION: H31 at [bit] for bit(cat,_):
+               cat ( 0): 0.4290 ★ SUB
+               bit ( 1): 0.3213
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H29 at [bit] for bit(cat,_):
+               cat ( 0): 0.3762 ★ SUB
+               bit ( 1): 0.2976
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H12 at [bit] for bit(cat,_):
+               cat ( 0): 0.2262 ★ SUB
+               bit ( 1): 0.1761
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,dog):
+               cat ( 0): 0.0190
+               bit ( 1): 0.0053
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,dog):
+               cat ( 0): 0.0482
+               bit ( 1): 0.0313
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,dog):
+               cat ( 0): 0.0214
+               bit ( 1): 0.0147
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [ditrans] "Mary gave John the book."
+
+    BINDING: gave(_,john,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0012   0.0x    0.0000   0.0x  [ACCOUNT, ListComponent, acht]
+      H01     0.0309   1.1x    0.0000   0.0x  [.–, "", ().]
+      H02     0.0486   1.8x    0.0000   0.0x  [ventus, .");, .",]
+      H03     0.0018   0.1x    0.0000   0.0x  […, ,…, 🙂]
+      H04     0.0247   0.9x    0.0000   0.0x  [donate, donation, 捐赠]
+      H05     0.0117   0.4x    0.0000   0.0x  [lit, lays, laying]
+      H06     0.2349   8.7x ◆    0.0000   0.0x  [经验, 的经验, 实践经验]
+      H07     0.0998   3.7x •    0.0000   0.0x  [耐, 异味, AspectRatio]
+
+    BINDING: gave(_,_,book) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0021   0.1x    0.0000   0.0x  [ACCOUNT, ListComponent, acht]
+      H01     0.0646   2.4x •    0.0000   0.0x  [.–, "", ().]
+      H02     0.0754   2.8x •    0.0000   0.0x  [ventus, .");, .",]
+      H03     0.0039   0.1x    0.0000   0.0x  […, ,…, 🙂]
+      H04     0.0135   0.5x    0.0000   0.0x  [donate, donation, 捐赠]
+      H05     0.0050   0.2x    0.0000   0.0x  [lit, lays, laying]
+      H06     0.0496   1.8x    0.0000   0.0x  [经验, 的经验, 实践经验]
+      H07     0.0394   1.5x    0.0000   0.0x  [耐, 异味, AspectRatio]
+
+    VERB ATTENTION: H00 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0008
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0299
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0537
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0008
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0299
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0537
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.4421  15.9x ◆  [狗, dog, Dog]
+      H29     0.0000   0.0x    0.3215  11.6x ◆  [动物, animals, 主人]
+      H12     0.0000   0.0x    0.1903   6.9x ◆  [衣服, 跳舞, 地震]
+      H20     0.0000   0.0x    0.1256   4.5x •  [PMID, enor, india]
+      H26     0.0000   0.0x    0.1206   4.3x •  [就能够, that, おか]
+      H09     0.0000   0.0x    0.1112   4.0x •  [不少于, 不超过, 至少]
+      H30     0.0000   0.0x    0.1098   4.0x •  [_snd, 人类, _RET]
+      H04     0.0000   0.0x    0.0905   3.3x •  [兽, 动物, 肉类]
+
+    BINDING: bit(_,itself) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0037   0.1x    0.0000   0.0x  [responsibilities, respons, ontology]
+      H01     0.0108   0.4x    0.0000   0.0x  [., .", ().]
+      H02     0.0354   1.3x    0.0000   0.0x  [.");, .');, .]
+      H03     0.0008   0.0x    0.0000   0.0x  […, –, ,…]
+      H04     0.0093   0.3x    0.0000   0.0x  [兽, 动物, 肉类]
+      H05     0.4873  17.5x ◆    0.0000   0.0x  [札, attacks, 攻击]
+      H06     0.1382   5.0x •    0.0000   0.0x  [道理, atures, 火焰]
+      H07     0.2494   9.0x ◆    0.0000   0.0x  [Transparency, flux, 仪式]
+
+    BINDING: itself→dog (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0063   0.2x    0.0000   0.0x  [ACCOUNT, acht, ListComponent]
+      H01     0.0509   1.8x    0.0000   0.0x  ['', "-", ""]
+      H02     0.0680   2.4x •    0.0000   0.0x  [."), .");, .).]
+      H03     0.0031   0.1x    0.0000   0.0x  […, ,…, 🙂]
+      H04     0.0150   0.5x    0.0000   0.0x  [奔跑, 步行, Walk]
+      H05     0.0097   0.3x    0.0000   0.0x  [驮, 扑, testName]
+      H06     0.0029   0.1x    0.0000   0.0x  [proceeded, placement, proceeds]
+      H07     0.0233   0.8x    0.0000   0.0x  [sacram, intercepted, 月初]
+
+    VERB ATTENTION: H31 at [bit] for bit(dog,_):
+               dog ( 0): 0.4421 ★ SUB
+               bit ( 1): 0.1732
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H29 at [bit] for bit(dog,_):
+               bit ( 1): 0.3816
+               dog ( 0): 0.3215 ★ SUB
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H12 at [bit] for bit(dog,_):
+               bit ( 1): 0.2073
+               dog ( 0): 0.1903 ★ SUB
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,itself):
+               dog ( 0): 0.0333
+               bit ( 1): 0.0059
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,itself):
+               dog ( 0): 0.0557
+               bit ( 1): 0.0199
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,itself):
+               dog ( 0): 0.0241
+               bit ( 1): 0.0220
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+
+    BINDING: sat(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.5034  20.6x ◆  [猫, 貓, cats]
+      H08     0.0000   0.0x    0.1171   4.8x •  [最高的, 最有, coolest]
+      H09     0.0000   0.0x    0.0716   2.9x •  [都不能, 有两个, 不少于]
+      H05     0.0000   0.0x    0.0606   2.5x •  [ent, 力, isp]
+      H02     0.0000   0.0x    0.0584   2.4x •  [has, was, assumes]
+      H20     0.0000   0.0x    0.0567   2.3x •  [india, _BP, 镐]
+      H22     0.0000   0.0x    0.0491   2.0x  [){, AGO, の]
+      H29     0.0000   0.0x    0.0486   2.0x  [小狗, dogs, 主人]
+
+    BINDING: sat(_,mat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0028   0.1x    0.0000   0.0x  [�, respons, ultimate]
+      H01     0.0121   0.5x    0.0000   0.0x  [.", ;", .–]
+      H02     0.0179   0.7x    0.0000   0.0x  [has, was, assumes]
+      H03     0.0007   0.0x    0.0000   0.0x  [。, 🙂, :";]
+      H04     0.0443   1.8x    0.0000   0.0x  [饱和, 二字, 站立]
+      H05     0.2036   8.3x ◆    0.0000   0.0x  [ent, 力, isp]
+      H06     0.0416   1.7x    0.0000   0.0x  [Birth, պ, Gone]
+      H07     0.0987   4.0x •    0.0000   0.0x  [interop, 宣传教育, fundraiser]
+
+    BINDING: black(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.1343   5.5x ◆  [猫, 貓, cats]
+      H07     0.0000   0.0x    0.0745   3.1x •  [谚, 中介, wsp]
+      H18     0.0000   0.0x    0.0591   2.4x •  [hir, /ng, 那只]
+      H13     0.0000   0.0x    0.0505   2.1x •  [的状态, phrase, adjective]
+      H01     0.0000   0.0x    0.0288   1.2x  [., .", ".]
+      H15     0.0000   0.0x    0.0287   1.2x  [#${, 支线, 孵化器]
+      H20     0.0000   0.0x    0.0235   1.0x  [corp, _BP, ⊃]
+      H05     0.0000   0.0x    0.0178   0.7x  [bbing, 佣, Aligned]
+
+    VERB ATTENTION: H31 at [sat] for sat(cat,_):
+               cat ( 0): 0.5034 ★ SUB
+              that ( 1): 0.1809
+               sat ( 2): 0.1809
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H08 at [sat] for sat(cat,_):
+              that ( 1): 0.2240
+               cat ( 0): 0.1171 ★ SUB
+               sat ( 2): 0.0874
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H09 at [sat] for sat(cat,_):
+              that ( 1): 0.0956
+               cat ( 0): 0.0716 ★ SUB
+               sat ( 2): 0.0649
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [sat] for sat(_,mat):
+              that ( 1): 0.0081
+               cat ( 0): 0.0055
+               sat ( 2): 0.0051
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [sat] for sat(_,mat):
+              that ( 1): 0.0366
+               cat ( 0): 0.0269
+               sat ( 2): 0.0070
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [sat] for sat(_,mat):
+              that ( 1): 0.1827
+               cat ( 0): 0.0584
+               sat ( 2): 0.0224
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+  [act1] "The boy kicked the ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H09     0.0000   0.0x    0.1993   7.4x ◆  [一个小时, 时隔, 率达到]
+      H12     0.0000   0.0x    0.1946   7.2x ◆  [衣服, gov, 地上]
+      H08     0.0000   0.0x    0.1625   6.0x ◆  [elegant, 被淘汰, eleg]
+      H29     0.0000   0.0x    0.1449   5.4x ◆  [男孩, boys, boy]
+      H30     0.0000   0.0x    0.0897   3.3x •  [camel, indoor, Indoor]
+      H26     0.0000   0.0x    0.0787   2.9x •  [shall, 就要, 就]
+      H20     0.0000   0.0x    0.0784   2.9x •  [(JS, &M, ęż]
+      H01     0.0000   0.0x    0.0696   2.6x •  [., ()., /.]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0042   0.2x    0.0000   0.0x  [responsive, ontology, respons]
+      H01     0.0514   1.9x    0.0000   0.0x  [., ()., /.]
+      H02     0.0658   2.4x •    0.0000   0.0x  [.");, ."), .";]
+      H03     0.0055   0.2x    0.0000   0.0x  […, ,…, 🙂]
+      H04     0.0159   0.6x    0.0000   0.0x  [孩子, 男孩, Woman]
+      H05     0.1593   5.9x ◆    0.0000   0.0x  [testName, pires, 出门]
+      H06     0.2256   8.3x ◆    0.0000   0.0x  [Balancer, 利润, tồn]
+      H07     0.1416   5.2x ◆    0.0000   0.0x  [_HIDDEN, autoload, 假日]
+
+    VERB ATTENTION: H09 at [kicked] for kicked(boy,_):
+               boy ( 0): 0.1993 ★ SUB
+            kicked ( 1): 0.1414
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H12 at [kicked] for kicked(boy,_):
+            kicked ( 1): 0.2103
+               boy ( 0): 0.1946 ★ SUB
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H08 at [kicked] for kicked(boy,_):
+               boy ( 0): 0.1625 ★ SUB
+            kicked ( 1): 0.0649
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+               boy ( 0): 0.0074
+            kicked ( 1): 0.0024
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+               boy ( 0): 0.0696
+            kicked ( 1): 0.0386
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 1): 0.0371
+               boy ( 0): 0.0211
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+
+    BINDING: kicked(boy,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0067   0.3x    0.0000   0.0x  [ontology, respons, responsive]
+      H01     0.0451   1.8x    0.0000   0.0x  [., .", ".]
+      H02     0.0828   3.2x •    0.0000   0.0x  [., .');, .");]
+      H03     0.0036   0.1x    0.0000   0.0x  […, –, ,…]
+      H04     0.0069   0.3x    0.0000   0.0x  [prey, 饲养, -Mart]
+      H05     0.0779   3.0x •    0.0000   0.0x  [propulsion, propel, Prop]
+      H06     0.0175   0.7x    0.0000   0.0x  [Balancer, 光环, vets]
+      H07     0.1201   4.7x •    0.0000   0.0x  [过渡, emerg, 假日]
+
+    BINDING: kicked(_,ball) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H08     0.0000   0.0x    0.0494   1.9x  [elegant, 负, negative]
+      H12     0.0000   0.0x    0.0479   1.9x  [地上, scheme, wind]
+      H20     0.0000   0.0x    0.0449   1.8x  [&E, -Cs, _DSP]
+      H29     0.0000   0.0x    0.0442   1.7x  [boys, 男孩, 小男孩]
+      H09     0.0000   0.0x    0.0439   1.7x  [不超过, 一个小时, 两三]
+      H07     0.0000   0.0x    0.0405   1.6x  [过渡, emerg, 假日]
+      H22     0.0000   0.0x    0.0370   1.4x  [""", </, //]
+      H02     0.0000   0.0x    0.0298   1.2x  [., .');, .");]
+
+    VERB ATTENTION: H00 at [kicked] for kicked(boy,_):
+              ball ( 0): 0.0047
+            kicked ( 2): 0.0041
+               was ( 1): 0.0040
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [kicked] for kicked(boy,_):
+               was ( 1): 0.0305
+            kicked ( 2): 0.0297
+              ball ( 0): 0.0247
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [kicked] for kicked(boy,_):
+            kicked ( 2): 0.0551
+               was ( 1): 0.0327
+              ball ( 0): 0.0298
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H08 at [kicked] for kicked(_,ball):
+            kicked ( 2): 0.0923
+              ball ( 0): 0.0494 ★ SUB
+               was ( 1): 0.0397
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H12 at [kicked] for kicked(_,ball):
+               was ( 1): 0.1986
+            kicked ( 2): 0.0592
+              ball ( 0): 0.0479 ★ SUB
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H20 at [kicked] for kicked(_,ball):
+              ball ( 0): 0.0449 ★ SUB
+               was ( 1): 0.0279
+            kicked ( 2): 0.0135
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+  [long1] "The tall boy quickly kicked the red ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H30     0.0000   0.0x    0.1109   4.4x •  [Zam, indoor, Indoor]
+      H08     0.0000   0.0x    0.1108   4.4x •  [被淘汰, elegant, 绝]
+      H12     0.0000   0.0x    0.0899   3.6x •  [Falling, 地上, 琶]
+      H29     0.0000   0.0x    0.0883   3.5x •  [男孩, boys, boy]
+      H15     0.0000   0.0x    0.0842   3.4x •  [, , 相干]
+      H01     0.0000   0.0x    0.0794   3.2x •  [., ()., /.]
+      H09     0.0000   0.0x    0.0739   3.0x •  [dozens, 几乎所有, 将近]
+      H20     0.0000   0.0x    0.0671   2.7x •  [YY, corp, PTS]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0030   0.1x    0.0000   0.0x  [responsive, ontology, responsibilities]
+      H01     0.0795   3.2x •    0.0000   0.0x  [., ()., /.]
+      H02     0.1350   5.4x ◆    0.0000   0.0x  [., .");, .');]
+      H03     0.0058   0.2x    0.0000   0.0x  […, –, ,…]
+      H04     0.0227   0.9x    0.0000   0.0x  [身高, height, _height]
+      H05     0.1016   4.1x •    0.0000   0.0x  [pires, ปรา, propulsion]
+      H06     0.0891   3.6x •    0.0000   0.0x  [Balancer, 利润, 光环]
+      H07     0.1941   7.8x ◆    0.0000   0.0x  [redundancy, 过渡, _HIDDEN]
+
+    VERB ATTENTION: H30 at [kicked] for kicked(boy,_):
+               boy ( 1): 0.1109 ★ SUB
+            kicked ( 3): 0.0745
+           quickly ( 2): 0.0408
+              tall ( 0): 0.0081
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H08 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.1143
+               boy ( 1): 0.1108 ★ SUB
+           quickly ( 2): 0.0840
+              tall ( 0): 0.0182
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H12 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.1732
+           quickly ( 2): 0.1360
+               boy ( 1): 0.0899 ★ SUB
+              tall ( 0): 0.0228
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+               boy ( 1): 0.0102
+           quickly ( 2): 0.0080
+              tall ( 0): 0.0054
+            kicked ( 3): 0.0042
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+               boy ( 1): 0.0794
+            kicked ( 3): 0.0507
+           quickly ( 2): 0.0229
+              tall ( 0): 0.0186
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 3): 0.0644
+               boy ( 1): 0.0242
+           quickly ( 2): 0.0199
+              tall ( 0): 0.0094
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+  [coord1] "The dog ran and the cat jumped."
+
+    BINDING: ran(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.4709  18.4x ◆  [狗, dog, dogs]
+      H08     0.0000   0.0x    0.1582   6.2x ◆  [急, shortest, quick]
+      H20     0.0000   0.0x    0.1076   4.2x •  [PMID, [, india]
+      H09     0.0000   0.0x    0.1057   4.1x •  [不少于, 不超过, 一个星期]
+      H12     0.0000   0.0x    0.1046   4.1x •  [地上, […], […]]
+      H01     0.0000   0.0x    0.0988   3.9x •  [., .", |.]
+      H29     0.0000   0.0x    0.0740   2.9x •  [animals, Animals, 动物]
+      H02     0.0000   0.0x    0.0550   2.1x •  [.");, &,, ",__]
+
+    BINDING: jumped(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H31     0.0000   0.0x    0.4270  16.7x ◆  [猫, cats, 貓]
+      H08     0.0000   0.0x    0.2217   8.6x ◆  [拒, stagn, 停滞]
+      H09     0.0000   0.0x    0.1855   7.2x ◆  [都不能, neither, 都不]
+      H12     0.0000   0.0x    0.0632   2.5x •  [地上, 跳舞, sunrise]
+      H29     0.0000   0.0x    0.0361   1.4x  [animals, 动物, 小狗]
+      H01     0.0000   0.0x    0.0201   0.8x  [., .", /.]
+      H05     0.0000   0.0x    0.0158   0.6x  [escaping, 逃离, 终结]
+      H02     0.0000   0.0x    0.0155   0.6x  [.');, .");, _);]
+
+    VERB ATTENTION: H31 at [ran] for ran(dog):
+               dog ( 0): 0.4709 ★ SUB
+               ran ( 1): 0.0387
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H08 at [ran] for ran(dog):
+               ran ( 1): 0.3027
+               dog ( 0): 0.1582 ★ SUB
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H20 at [ran] for ran(dog):
+               ran ( 1): 0.1210
+               dog ( 0): 0.1076 ★ SUB
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H31 at [jumped] for jumped(cat):
+               cat ( 4): 0.4270 ★ SUB
+               dog ( 0): 0.1014
+            jumped ( 5): 0.0960
+               ran ( 1): 0.0142
+               the ( 3): 0.0033
+               and ( 2): 0.0027
+
+    VERB ATTENTION: H08 at [jumped] for jumped(cat):
+               cat ( 4): 0.2217 ★ SUB
+            jumped ( 5): 0.1838
+               and ( 2): 0.0320
+               ran ( 1): 0.0294
+               dog ( 0): 0.0174
+               the ( 3): 0.0059
+
+    VERB ATTENTION: H09 at [jumped] for jumped(cat):
+               cat ( 4): 0.1855 ★ SUB
+            jumped ( 5): 0.1637
+               and ( 2): 0.0324
+               dog ( 0): 0.0217
+               ran ( 1): 0.0111
+               the ( 3): 0.0055
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LAYER 30
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [sv1] "The dog runs."
+
+    BINDING: runs(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H13     0.0000   0.0x    0.4478  15.7x ◆  [across, outside, behind]
+      H04     0.0000   0.0x    0.3987  14.0x ◆  [Trip, _DH, stein]
+      H03     0.0000   0.0x    0.3650  12.8x ◆  [faster, 快速, fast]
+      H12     0.0000   0.0x    0.2076   7.3x ◆  [towards, toward, into]
+      H28     0.0000   0.0x    0.1847   6.5x ◆  [很多, 有很多, many]
+      H05     0.0000   0.0x    0.1583   5.5x ◆  [UNUSED, 攘, organic]
+      H00     0.0000   0.0x    0.1497   5.2x ◆  [追赶, chase, 奔跑]
+      H20     0.0000   0.0x    0.0771   2.7x •  [<br, \u, {{]
+
+    VERB ATTENTION: H13 at [runs] for runs(dog):
+               dog ( 0): 0.4478 ★ SUB
+              runs ( 1): 0.1088
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H04 at [runs] for runs(dog):
+               dog ( 0): 0.3987 ★ SUB
+              runs ( 1): 0.0253
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H03 at [runs] for runs(dog):
+              runs ( 1): 0.4368
+               dog ( 0): 0.3650 ★ SUB
+                 . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+
+    BINDING: runs(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H13     0.0000   0.0x    0.4104  14.4x ◆  [旁边, beside, nearby]
+      H03     0.0000   0.0x    0.3108  10.9x ◆  [faster, 快速, fast]
+      H00     0.0000   0.0x    0.1827   6.4x ◆  [追赶, chase, 等待]
+      H28     0.0000   0.0x    0.1526   5.3x ◆  [很多, 很大, many]
+      H12     0.0000   0.0x    0.1400   4.9x •  [towards, toward, away]
+      H17     0.0000   0.0x    0.1283   4.5x •  [动物, animal, 犬]
+      H04     0.0000   0.0x    0.1041   3.6x •  [asma, 为期, ería]
+      H15     0.0000   0.0x    0.0711   2.5x •  [while, whilst, 如果没有]
+
+    VERB ATTENTION: H13 at [runs] for runs(cat):
+               cat ( 0): 0.4104 ★ SUB
+              runs ( 1): 0.0821
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H03 at [runs] for runs(cat):
+              runs ( 1): 0.4812
+               cat ( 0): 0.3108 ★ SUB
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H00 at [runs] for runs(cat):
+               cat ( 0): 0.1827 ★ SUB
+              runs ( 1): 0.0289
+                 . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.2328   8.6x ◆  [俄乌, Barack, Marcos]
+      H03     0.0000   0.0x    0.1865   6.9x ◆  [fast, faster, -fast]
+      H20     0.0000   0.0x    0.1092   4.0x •  [<br, ␣, "\]
+      H28     0.0000   0.0x    0.1057   3.9x •  [很多, 最好的, greatest]
+      H05     0.0000   0.0x    0.0991   3.7x •  [两家, 利, ;d]
+      H14     0.0000   0.0x    0.0899   3.3x •  [沙发上, 左边, mind]
+      H13     0.0000   0.0x    0.0850   3.1x •  [右边, 左边, downstairs]
+      H12     0.0000   0.0x    0.0836   3.1x •  [into, into, Into]
+
+    BINDING: bit(_,cat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.1035   3.8x •    0.0000   0.0x  [追赶, 追求, chase]
+      H01     0.0078   0.3x    0.0000   0.0x  [tí, pike, 命]
+      H02     0.0223   0.8x    0.0000   0.0x  [proximity, 优势, 处在]
+      H03     0.7744  28.7x ◆    0.0000   0.0x  [fast, faster, -fast]
+      H04     0.0320   1.2x    0.0000   0.0x  [悉, inia, thor]
+      H05     0.0171   0.6x    0.0000   0.0x  [两家, 利, ;d]
+      H06     0.0017   0.1x    0.0000   0.0x  [昝, Vincent, James]
+      H07     0.0183   0.7x    0.0000   0.0x  [俄乌, Barack, Marcos]
+
+    VERB ATTENTION: H07 at [bit] for bit(dog,_):
+               dog ( 0): 0.2328 ★ SUB
+               bit ( 1): 0.1664
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H03 at [bit] for bit(dog,_):
+               bit ( 1): 0.4878
+               dog ( 0): 0.1865 ★ SUB
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H20 at [bit] for bit(dog,_):
+               bit ( 1): 0.1678
+               dog ( 0): 0.1092 ★ SUB
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,cat):
+               dog ( 0): 0.0279
+               bit ( 1): 0.0275
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,cat):
+               bit ( 1): 0.1857
+               dog ( 0): 0.0131
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,cat):
+               bit ( 1): 0.1736
+               dog ( 0): 0.0066
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+
+    BINDING: bit(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.2700  10.0x ◆  […, …, …"]
+      H14     0.0000   0.0x    0.2527   9.3x ◆  [眼前, 沙发上, 角落]
+      H03     0.0000   0.0x    0.1627   6.0x ◆  [fast, faster, -fast]
+      H12     0.0000   0.0x    0.1582   5.9x ◆  [into, into, Into]
+      H10     0.0000   0.0x    0.1522   5.6x ◆  [place, Place, -place]
+      H04     0.0000   0.0x    0.1185   4.4x •  [ulla, asma, 悉]
+      H28     0.0000   0.0x    0.0959   3.5x •  [很多, 太多的, lots]
+      H20     0.0000   0.0x    0.0627   2.3x •  [<br, ␣, 听见]
+
+    BINDING: bit(_,dog) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.1569   5.8x ◆    0.0000   0.0x  [destroying, 杀死, destroys]
+      H01     0.0142   0.5x    0.0000   0.0x  [tí, pike, heels]
+      H02     0.0399   1.5x    0.0000   0.0x  [proximity, 偏离, 处在]
+      H03     0.7661  28.3x ◆    0.0000   0.0x  [fast, faster, -fast]
+      H04     0.0303   1.1x    0.0000   0.0x  [ulla, asma, 悉]
+      H05     0.0204   0.8x    0.0000   0.0x  [CCS, CCC, 利]
+      H06     0.0003   0.0x    0.0000   0.0x  [柳, Julian, John]
+      H07     0.0610   2.3x •    0.0000   0.0x  […, …, …"]
+
+    VERB ATTENTION: H07 at [bit] for bit(cat,_):
+               cat ( 0): 0.2700 ★ SUB
+               bit ( 1): 0.2007
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H14 at [bit] for bit(cat,_):
+               cat ( 0): 0.2527 ★ SUB
+               bit ( 1): 0.0789
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H03 at [bit] for bit(cat,_):
+               bit ( 1): 0.4973
+               cat ( 0): 0.1627 ★ SUB
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,dog):
+               bit ( 1): 0.0723
+               cat ( 0): 0.0277
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,dog):
+               bit ( 1): 0.1742
+               cat ( 0): 0.0083
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,dog):
+               bit ( 1): 0.1238
+               cat ( 0): 0.0063
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [ditrans] "Mary gave John the book."
+
+    BINDING: gave(_,john,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.2917  10.8x ◆    0.0000   0.0x  [爱上, 杀死, 喜爱]
+      H01     0.1289   4.8x •    0.0000   0.0x  [Registrar, registrar, �]
+      H02     0.0686   2.5x •    0.0000   0.0x  [处于, 处在, 改进]
+      H03     0.2277   8.4x ◆    0.0000   0.0x  [faster, quicker, 快速]
+      H04     0.2659   9.8x ◆    0.0000   0.0x  [日常生活, Yoshi, 惠]
+      H05     0.0969   3.6x •    0.0000   0.0x  [璇, 铎, _DM]
+      H06     0.0037   0.1x    0.0000   0.0x  [Aaron, Lisa, Andy]
+      H07     0.1278   4.7x •    0.0000   0.0x  [Julian, John, Jason]
+
+    BINDING: gave(_,_,book) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0690   2.6x •    0.0000   0.0x  [爱上, 杀死, 喜爱]
+      H01     0.0063   0.2x    0.0000   0.0x  [Registrar, registrar, �]
+      H02     0.0437   1.6x    0.0000   0.0x  [处于, 处在, 改进]
+      H03     0.6030  22.3x ◆    0.0000   0.0x  [faster, quicker, 快速]
+      H04     0.0047   0.2x    0.0000   0.0x  [日常生活, Yoshi, 惠]
+      H05     0.0082   0.3x    0.0000   0.0x  [璇, 铎, _DM]
+      H06     0.0004   0.0x    0.0000   0.0x  [Aaron, Lisa, Andy]
+      H07     0.0590   2.2x •    0.0000   0.0x  [Julian, John, Jason]
+
+    VERB ATTENTION: H00 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0585
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0737
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,john,_):
+              gave ( 0): 0.1187
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0585
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0737
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,_,book):
+              gave ( 0): 0.1187
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.2328   8.4x ◆  [俄乌, Barack, Marcos]
+      H03     0.0000   0.0x    0.1865   6.7x ◆  [fast, faster, -fast]
+      H20     0.0000   0.0x    0.1092   3.9x •  [<br, ␣, "\]
+      H28     0.0000   0.0x    0.1057   3.8x •  [很多, 最好的, greatest]
+      H05     0.0000   0.0x    0.0991   3.6x •  [两家, 利, ;d]
+      H14     0.0000   0.0x    0.0899   3.2x •  [沙发上, 左边, mind]
+      H13     0.0000   0.0x    0.0850   3.1x •  [右边, 左边, downstairs]
+      H12     0.0000   0.0x    0.0836   3.0x •  [into, into, Into]
+
+    BINDING: bit(_,itself) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0748   2.7x •    0.0000   0.0x  [追赶, 追求, chase]
+      H01     0.0155   0.6x    0.0000   0.0x  [tí, pike, 命]
+      H02     0.0313   1.1x    0.0000   0.0x  [proximity, 优势, 处在]
+      H03     0.6289  22.6x ◆    0.0000   0.0x  [fast, faster, -fast]
+      H04     0.1368   4.9x •    0.0000   0.0x  [悉, inia, thor]
+      H05     0.0352   1.3x    0.0000   0.0x  [两家, 利, ;d]
+      H06     0.0024   0.1x    0.0000   0.0x  [昝, Vincent, James]
+      H07     0.0181   0.7x    0.0000   0.0x  [俄乌, Barack, Marcos]
+
+    BINDING: itself→dog (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0719   2.6x •    0.0000   0.0x  [追赶, chase, 跳]
+      H01     0.0059   0.2x    0.0000   0.0x  [_Val, 意思, ?action]
+      H02     0.0049   0.2x    0.0000   0.0x  [安排, 涉及, 恰当]
+      H03     0.0608   2.2x •    0.0000   0.0x  [faster, 快速, fast]
+      H04     0.0100   0.4x    0.0000   0.0x  [为期, 在京, 籍]
+      H05     0.1236   4.4x •    0.0000   0.0x  [=id, organic, MI]
+      H06     0.0012   0.0x    0.0000   0.0x  [湖区, […], 冼]
+      H07     0.2390   8.6x ◆    0.0000   0.0x  [(Render, Rocket, 俄乌]
+
+    VERB ATTENTION: H07 at [bit] for bit(dog,_):
+               dog ( 0): 0.2328 ★ SUB
+               bit ( 1): 0.1664
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H03 at [bit] for bit(dog,_):
+               bit ( 1): 0.4878
+               dog ( 0): 0.1865 ★ SUB
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H20 at [bit] for bit(dog,_):
+               bit ( 1): 0.1678
+               dog ( 0): 0.1092 ★ SUB
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,itself):
+               dog ( 0): 0.0279
+               bit ( 1): 0.0275
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,itself):
+               bit ( 1): 0.1857
+               dog ( 0): 0.0131
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,itself):
+               bit ( 1): 0.1736
+               dog ( 0): 0.0066
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+
+    BINDING: sat(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0000   0.0x    0.3315  13.6x ◆  [等待, 追赶, chase]
+      H07     0.0000   0.0x    0.2910  11.9x ◆  […, …, …"]
+      H13     0.0000   0.0x    0.1312   5.4x ◆  [旁边, outside, elsewhere]
+      H04     0.0000   0.0x    0.0867   3.6x •  [번, 为期, asma]
+      H03     0.0000   0.0x    0.0723   3.0x •  [fast, 快速, 最快的]
+      H20     0.0000   0.0x    0.0610   2.5x •  [<br, \u, ​​]
+      H28     0.0000   0.0x    0.0478   2.0x  [最, 最大的, 最好的]
+      H17     0.0000   0.0x    0.0384   1.6x  [动物, Animal, animal]
+
+    BINDING: sat(_,mat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.1390   5.7x ◆    0.0000   0.0x  [等待, 追赶, chase]
+      H01     0.0082   0.3x    0.0000   0.0x  [goose, _Val, 迤]
+      H02     0.0216   0.9x    0.0000   0.0x  [assign, 欠, allocation]
+      H03     0.0418   1.7x    0.0000   0.0x  [fast, 快速, 最快的]
+      H04     0.0049   0.2x    0.0000   0.0x  [번, 为期, asma]
+      H05     0.0479   2.0x    0.0000   0.0x  [滚滚, ptr, 田]
+      H06     0.0289   1.2x    0.0000   0.0x  [Tao, &#, 的]
+      H07     0.0600   2.5x •    0.0000   0.0x  […, …, …"]
+
+    BINDING: black(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H20     0.0000   0.0x    0.0173   0.7x  [​, ​​, <br]
+      H13     0.0000   0.0x    0.0115   0.5x  [outside, above, outside]
+      H10     0.0000   0.0x    0.0112   0.5x  [�, place, -place]
+      H04     0.0000   0.0x    0.0083   0.3x  [nish, 为期, sWith]
+      H12     0.0000   0.0x    0.0076   0.3x  [onto, Into, onto]
+      H17     0.0000   0.0x    0.0067   0.3x  [lingu, Lingu, linguistic]
+      H31     0.0000   0.0x    0.0065   0.3x  [idea, Idea, idea]
+      H15     0.0000   0.0x    0.0052   0.2x  [while, while, except]
+
+    VERB ATTENTION: H00 at [sat] for sat(cat,_):
+               cat ( 0): 0.3315 ★ SUB
+              that ( 1): 0.1027
+               sat ( 2): 0.0594
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H07 at [sat] for sat(cat,_):
+               cat ( 0): 0.2910 ★ SUB
+               sat ( 2): 0.1879
+              that ( 1): 0.0400
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H13 at [sat] for sat(cat,_):
+              that ( 1): 0.2649
+               sat ( 2): 0.1724
+               cat ( 0): 0.1312 ★ SUB
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [sat] for sat(_,mat):
+               cat ( 0): 0.3315
+              that ( 1): 0.1027
+               sat ( 2): 0.0594
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [sat] for sat(_,mat):
+              that ( 1): 0.0125
+               cat ( 0): 0.0075
+               sat ( 2): 0.0063
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [sat] for sat(_,mat):
+               sat ( 2): 0.0897
+              that ( 1): 0.0313
+               cat ( 0): 0.0101
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+  [act1] "The boy kicked the ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H20     0.0000   0.0x    0.1620   6.0x ◆  [​​, <br, ..."]
+      H04     0.0000   0.0x    0.1603   5.9x ◆  [为期, 尾, Ear]
+      H28     0.0000   0.0x    0.1226   4.5x •  [很多, 很大, MANY]
+      H17     0.0000   0.0x    0.1202   4.4x •  [足球, basketball, soccer]
+      H07     0.0000   0.0x    0.1165   4.3x •  […", …”, […]
+      H03     0.0000   0.0x    0.0806   3.0x •  [faster, hard, vigorously]
+      H00     0.0000   0.0x    0.0742   2.7x •  [destroy, 杀死, destroying]
+      H14     0.0000   0.0x    0.0526   1.9x  [side, 右边, 左边]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0497   1.8x    0.0000   0.0x  [destroy, 杀死, destroying]
+      H01     0.0184   0.7x    0.0000   0.0x  [�, Config, .getConfig]
+      H02     0.0372   1.4x    0.0000   0.0x  [相差, 接轨, 挂钩]
+      H03     0.5952  22.0x ◆    0.0000   0.0x  [faster, hard, vigorously]
+      H04     0.0212   0.8x    0.0000   0.0x  [为期, 尾, Ear]
+      H05     0.0473   1.8x    0.0000   0.0x  [Coding, 识, Gur]
+      H06     0.0003   0.0x    0.0000   0.0x  [Sally, 膻, 茱]
+      H07     0.0759   2.8x •    0.0000   0.0x  […", …”, […]
+
+    VERB ATTENTION: H20 at [kicked] for kicked(boy,_):
+               boy ( 0): 0.1620 ★ SUB
+            kicked ( 1): 0.1440
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H04 at [kicked] for kicked(boy,_):
+               boy ( 0): 0.1603 ★ SUB
+            kicked ( 1): 0.0508
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H28 at [kicked] for kicked(boy,_):
+               boy ( 0): 0.1226 ★ SUB
+            kicked ( 1): 0.0970
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+               boy ( 0): 0.0742
+            kicked ( 1): 0.0569
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+            kicked ( 1): 0.5918
+               boy ( 0): 0.0429
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 1): 0.1403
+               boy ( 0): 0.0077
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+
+    BINDING: kicked(boy,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0282   1.1x    0.0000   0.0x  [跳, 击, 躲]
+      H01     0.0060   0.2x    0.0000   0.0x  [impact, �, Registrar]
+      H02     0.0181   0.7x    0.0000   0.0x  [emerg, 建立了, recovering]
+      H03     0.2683  10.5x ◆    0.0000   0.0x  [faster, gentle, fastest]
+      H04     0.0106   0.4x    0.0000   0.0x  [ther, ", 正式]
+      H05     0.0510   2.0x    0.0000   0.0x  [书院, Rak, 不堪]
+      H06     0.0027   0.1x    0.0000   0.0x  [ADR, .…, […]
+      H07     0.2800  10.9x ◆    0.0000   0.0x  […, …”, …"]
+
+    BINDING: kicked(_,ball) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0000   0.0x    0.2035   7.9x ◆  [跳, 击, 躲]
+      H20     0.0000   0.0x    0.1591   6.2x ◆  [\u, eighty, seventy]
+      H13     0.0000   0.0x    0.1146   4.5x •  [near, 旁边, near]
+      H07     0.0000   0.0x    0.1133   4.4x •  […, …”, …"]
+      H17     0.0000   0.0x    0.0676   2.6x •  [sports, 足球, basketball]
+      H12     0.0000   0.0x    0.0534   2.1x •  [by, into, by]
+      H04     0.0000   0.0x    0.0403   1.6x  [ther, ", 正式]
+      H16     0.0000   0.0x    0.0403   1.6x  [_agents, Curry, Agent]
+
+    VERB ATTENTION: H00 at [kicked] for kicked(boy,_):
+              ball ( 0): 0.2035
+               was ( 1): 0.0693
+            kicked ( 2): 0.0579
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [kicked] for kicked(boy,_):
+            kicked ( 2): 0.0568
+               was ( 1): 0.0234
+              ball ( 0): 0.0088
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [kicked] for kicked(boy,_):
+            kicked ( 2): 0.0925
+               was ( 1): 0.0071
+              ball ( 0): 0.0038
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+              ball ( 0): 0.2035 ★ SUB
+               was ( 1): 0.0693
+            kicked ( 2): 0.0579
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H20 at [kicked] for kicked(_,ball):
+              ball ( 0): 0.1591 ★ SUB
+            kicked ( 2): 0.0988
+               was ( 1): 0.0800
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H13 at [kicked] for kicked(_,ball):
+               was ( 1): 0.1350
+              ball ( 0): 0.1146 ★ SUB
+            kicked ( 2): 0.0775
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+  [long1] "The tall boy quickly kicked the red ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.1270   5.1x ◆  […, […, …"]
+      H20     0.0000   0.0x    0.1249   5.0x •  [<br, <\/, �]
+      H17     0.0000   0.0x    0.0908   3.6x •  [足球, basketball, soccer]
+      H00     0.0000   0.0x    0.0492   2.0x  [杀死, 跳, 逃离]
+      H03     0.0000   0.0x    0.0438   1.8x  [faster, gent, gentle]
+      H28     0.0000   0.0x    0.0403   1.6x  [很多, 很大的, 的巨大]
+      H04     0.0000   0.0x    0.0286   1.1x  [“, aland, 疣]
+      H16     0.0000   0.0x    0.0239   1.0x  [_agents, .Agent, Curry]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0373   1.5x    0.0000   0.0x  [杀死, 跳, 逃离]
+      H01     0.0237   0.9x    0.0000   0.0x  [impact, impact, Config]
+      H02     0.0433   1.7x    0.0000   0.0x  [相差, 挂钩, correspondence]
+      H03     0.2954  11.8x ◆    0.0000   0.0x  [faster, gent, gentle]
+      H04     0.0070   0.3x    0.0000   0.0x  [“, aland, 疣]
+      H05     0.0529   2.1x •    0.0000   0.0x  [isma, inkl, 不仅如此]
+      H06     0.0009   0.0x    0.0000   0.0x  [膻, …., .…]
+      H07     0.0650   2.6x •    0.0000   0.0x  […, […, …"]
+
+    VERB ATTENTION: H07 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.3506
+               boy ( 1): 0.1270 ★ SUB
+           quickly ( 2): 0.0789
+              tall ( 0): 0.0460
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H20 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.1278
+               boy ( 1): 0.1249 ★ SUB
+           quickly ( 2): 0.0865
+              tall ( 0): 0.0537
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H17 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.2128
+               boy ( 1): 0.0908 ★ SUB
+           quickly ( 2): 0.0501
+              tall ( 0): 0.0388
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+           quickly ( 2): 0.0553
+            kicked ( 3): 0.0515
+               boy ( 1): 0.0492
+              tall ( 0): 0.0143
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+            kicked ( 3): 0.5796
+           quickly ( 2): 0.0835
+               boy ( 1): 0.0096
+              tall ( 0): 0.0039
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 3): 0.1281
+              tall ( 0): 0.0091
+           quickly ( 2): 0.0086
+               boy ( 1): 0.0044
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+  [coord1] "The dog ran and the cat jumped."
+
+    BINDING: ran(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H13     0.0000   0.0x    0.3210  12.5x ◆  [across, 旁边, Across]
+      H12     0.0000   0.0x    0.1597   6.2x ◆  [towards, toward, into]
+      H04     0.0000   0.0x    0.1508   5.9x ◆  [INIT, _DH, gid]
+      H00     0.0000   0.0x    0.1342   5.2x ◆  [追赶, chase, 奔跑]
+      H03     0.0000   0.0x    0.1324   5.2x ◆  [faster, 快速, fast]
+      H28     0.0000   0.0x    0.1236   4.8x •  [很多, 很多事情, 很大]
+      H20     0.0000   0.0x    0.1177   4.6x •  [␣, <br, {{{]
+      H07     0.0000   0.0x    0.0942   3.7x •  [...", …, ____]
+
+    BINDING: jumped(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H03     0.0000   0.0x    0.1620   6.3x ◆  [faster, fast, 快速]
+      H13     0.0000   0.0x    0.1600   6.2x ◆  [旁边, behind, nearby]
+      H04     0.0000   0.0x    0.0841   3.3x •  [ería, Yoshi, 为期]
+      H28     0.0000   0.0x    0.0829   3.2x •  [很多, 最好的, 很多事情]
+      H00     0.0000   0.0x    0.0725   2.8x •  [跟随, 跳, 奔跑]
+      H12     0.0000   0.0x    0.0445   1.7x  [onto, into, into]
+      H29     0.0000   0.0x    0.0250   1.0x  [who, who, Who]
+      H07     0.0000   0.0x    0.0249   1.0x  […, ____, …]
+
+    VERB ATTENTION: H13 at [ran] for ran(dog):
+               dog ( 0): 0.3210 ★ SUB
+               ran ( 1): 0.1349
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H12 at [ran] for ran(dog):
+               ran ( 1): 0.3030
+               dog ( 0): 0.1597 ★ SUB
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H04 at [ran] for ran(dog):
+               dog ( 0): 0.1508 ★ SUB
+               ran ( 1): 0.0712
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H03 at [jumped] for jumped(cat):
+            jumped ( 5): 0.4580
+               cat ( 4): 0.1620 ★ SUB
+               ran ( 1): 0.0748
+               and ( 2): 0.0382
+               dog ( 0): 0.0189
+               the ( 3): 0.0056
+
+    VERB ATTENTION: H13 at [jumped] for jumped(cat):
+               cat ( 4): 0.1600 ★ SUB
+               dog ( 0): 0.0898
+            jumped ( 5): 0.0318
+               and ( 2): 0.0298
+               ran ( 1): 0.0174
+               the ( 3): 0.0069
+
+    VERB ATTENTION: H04 at [jumped] for jumped(cat):
+               cat ( 4): 0.0841 ★ SUB
+               and ( 2): 0.0431
+               the ( 3): 0.0334
+            jumped ( 5): 0.0306
+               ran ( 1): 0.0141
+               dog ( 0): 0.0095
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LAYER 33
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [sv1] "The dog runs."
+
+    BINDING: runs(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.0978   3.4x •  [., .,, .+]
+      H04     0.0000   0.0x    0.0345   1.2x  [model, _model, -model]
+      H08     0.0000   0.0x    0.0341   1.2x  [src, captured, Capture]
+      H27     0.0000   0.0x    0.0328   1.1x  [higher, Higher, Higher]
+      H05     0.0000   0.0x    0.0232   0.8x  [—if, —we, —it]
+      H06     0.0000   0.0x    0.0124   0.4x  [事件, event, events]
+      H25     0.0000   0.0x    0.0090   0.3x  [_deep, deep, Deep]
+      H24     0.0000   0.0x    0.0073   0.3x  [gw, down, slow]
+
+    VERB ATTENTION: H07 at [runs] for runs(dog):
+              runs ( 1): 0.3960
+               dog ( 0): 0.0978 ★ SUB
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H04 at [runs] for runs(dog):
+              runs ( 1): 0.2673
+               dog ( 0): 0.0345 ★ SUB
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H08 at [runs] for runs(dog):
+              runs ( 1): 0.0414
+               dog ( 0): 0.0341 ★ SUB
+                 . ( 2): 0.0000
+
+  [sv2] "The cat runs."
+
+    BINDING: runs(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.0612   2.1x •  [., .+, .,]
+      H04     0.0000   0.0x    0.0471   1.6x  [model, 条, _model]
+      H05     0.0000   0.0x    0.0218   0.8x  [:num, (ci, assert]
+      H06     0.0000   0.0x    0.0185   0.6x  [事件, 行动, EventType]
+      H24     0.0000   0.0x    0.0178   0.6x  [down, LW, slow]
+      H25     0.0000   0.0x    0.0145   0.5x  [_deep, deep, Sevent]
+      H27     0.0000   0.0x    0.0144   0.5x  [höher, higher, Higher]
+      H21     0.0000   0.0x    0.0054   0.2x  [央, 物资, bisc]
+
+    VERB ATTENTION: H07 at [runs] for runs(cat):
+              runs ( 1): 0.5122
+               cat ( 0): 0.0612 ★ SUB
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H04 at [runs] for runs(cat):
+              runs ( 1): 0.2649
+               cat ( 0): 0.0471 ★ SUB
+                 . ( 2): 0.0000
+
+    VERB ATTENTION: H05 at [runs] for runs(cat):
+              runs ( 1): 0.1260
+               cat ( 0): 0.0218 ★ SUB
+                 . ( 2): 0.0000
+
+  [rev1] "The dog bit the cat."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H08     0.0000   0.0x    0.1768   6.5x ◆  [-js, 维护, -build]
+      H27     0.0000   0.0x    0.1469   5.4x ◆  [’t, 't, ´t]
+      H06     0.0000   0.0x    0.1451   5.4x ◆  [事件, 表, event]
+      H04     0.0000   0.0x    0.0932   3.4x •  [model, _model, 模型]
+      H07     0.0000   0.0x    0.0902   3.3x •  [;;, ;;;;, .]
+      H05     0.0000   0.0x    0.0600   2.2x •  [##, —which, —that]
+      H24     0.0000   0.0x    0.0259   1.0x  [短, little, little]
+      H21     0.0000   0.0x    0.0237   0.9x  [澤, 泽, ynn]
+
+    BINDING: bit(_,cat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0024   0.1x    0.0000   0.0x  [→, –, –and]
+      H01     0.0013   0.0x    0.0000   0.0x  [特别是, just, frequently]
+      H02     0.0021   0.1x    0.0000   0.0x  ["<, +"<, ,<]
+      H03     0.0013   0.0x    0.0000   0.0x  [(sort, 这么, sort]
+      H04     0.0740   2.7x •    0.0000   0.0x  [model, _model, 模型]
+      H05     0.0294   1.1x    0.0000   0.0x  [##, —which, —that]
+      H06     0.1693   6.3x ◆    0.0000   0.0x  [事件, 表, event]
+      H07     0.0473   1.7x    0.0000   0.0x  [;;, ;;;;, .]
+
+    VERB ATTENTION: H08 at [bit] for bit(dog,_):
+               dog ( 0): 0.1768 ★ SUB
+               bit ( 1): 0.0038
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H27 at [bit] for bit(dog,_):
+               dog ( 0): 0.1469 ★ SUB
+               bit ( 1): 0.0100
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H06 at [bit] for bit(dog,_):
+               dog ( 0): 0.1451 ★ SUB
+               bit ( 1): 0.1301
+               the ( 2): 0.0000
+               cat ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,cat):
+               bit ( 1): 0.0051
+               dog ( 0): 0.0019
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,cat):
+               bit ( 1): 0.0030
+               dog ( 0): 0.0005
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,cat):
+               bit ( 1): 0.0003
+               dog ( 0): 0.0000
+               the ( 2): 0.0000
+               cat ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [rev2] "The cat bit the dog."
+
+    BINDING: bit(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H06     0.0000   0.0x    0.1963   7.3x ◆  [表, table, 算法]
+      H07     0.0000   0.0x    0.1656   6.1x ◆  [;;, ::, ;;]
+      H27     0.0000   0.0x    0.1436   5.3x ◆  [’t, 't, ´t]
+      H04     0.0000   0.0x    0.1199   4.4x •  [资料, materials, pattern]
+      H24     0.0000   0.0x    0.0816   3.0x •  [浅, Little, little]
+      H21     0.0000   0.0x    0.0473   1.8x  [precision, Sizer, 灵活性]
+      H25     0.0000   0.0x    0.0383   1.4x  [deep, _deep, Deep]
+      H05     0.0000   0.0x    0.0312   1.2x  [opi, :num, 海棠]
+
+    BINDING: bit(_,dog) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0033   0.1x    0.0000   0.0x  [→, –, →]
+      H01     0.0021   0.1x    0.0000   0.0x  [特别是, just, 特别是在]
+      H02     0.0025   0.1x    0.0000   0.0x  [+"<, )\<, "<]
+      H03     0.0032   0.1x    0.0000   0.0x  [sort, (sort, ·]
+      H04     0.0607   2.2x •    0.0000   0.0x  [资料, materials, pattern]
+      H05     0.0389   1.4x    0.0000   0.0x  [opi, :num, 海棠]
+      H06     0.1741   6.4x ◆    0.0000   0.0x  [表, table, 算法]
+      H07     0.0375   1.4x    0.0000   0.0x  [;;, ::, ;;]
+
+    VERB ATTENTION: H06 at [bit] for bit(cat,_):
+               cat ( 0): 0.1963 ★ SUB
+               bit ( 1): 0.1528
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H07 at [bit] for bit(cat,_):
+               bit ( 1): 0.2246
+               cat ( 0): 0.1656 ★ SUB
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H27 at [bit] for bit(cat,_):
+               cat ( 0): 0.1436 ★ SUB
+               bit ( 1): 0.0094
+               the ( 2): 0.0000
+               dog ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,dog):
+               bit ( 1): 0.0104
+               cat ( 0): 0.0010
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,dog):
+               bit ( 1): 0.0095
+               cat ( 0): 0.0005
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,dog):
+               bit ( 1): 0.0012
+               cat ( 0): 0.0005
+               the ( 2): 0.0000
+               dog ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [ditrans] "Mary gave John the book."
+
+    BINDING: gave(_,john,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0203   0.8x    0.0000   0.0x  [--, ﹣, –]
+      H01     0.0070   0.3x    0.0000   0.0x  [, ))], )">]
+      H02     0.0019   0.1x    0.0000   0.0x  [不下, Whereas, pres]
+      H03     0.0050   0.2x    0.0000   0.0x  [(sort, 诸多, sort]
+      H04     0.2209   8.2x ◆    0.0000   0.0x  [Line, line, Line]
+      H05     0.0420   1.6x    0.0000   0.0x  [在美国, 火炬, ickness]
+      H06     0.6064  22.4x ◆    0.0000   0.0x  [element, 元素, elements]
+      H07     0.3010  11.1x ◆    0.0000   0.0x  [Class, Class, II]
+
+    BINDING: gave(_,_,book) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0043   0.2x    0.0000   0.0x  [--, ﹣, –]
+      H01     0.0084   0.3x    0.0000   0.0x  [, ))], )">]
+      H02     0.0010   0.0x    0.0000   0.0x  [不下, Whereas, pres]
+      H03     0.0015   0.1x    0.0000   0.0x  [(sort, 诸多, sort]
+      H04     0.0298   1.1x    0.0000   0.0x  [Line, line, Line]
+      H05     0.0169   0.6x    0.0000   0.0x  [在美国, 火炬, ickness]
+      H06     0.0661   2.4x •    0.0000   0.0x  [element, 元素, elements]
+      H07     0.0553   2.0x    0.0000   0.0x  [Class, Class, II]
+
+    VERB ATTENTION: H00 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0060
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0031
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,john,_):
+              gave ( 0): 0.0000
+              John ( 1): 0.0000 ★ SUB
+               the ( 2): 0.0000
+              book ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0060
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0031
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [gave] for gave(_,_,book):
+              gave ( 0): 0.0000
+              John ( 1): 0.0000
+               the ( 2): 0.0000
+              book ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [self1] "The dog bit itself."
+
+    BINDING: bit(dog,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H08     0.0000   0.0x    0.1768   6.4x ◆  [-js, 维护, -build]
+      H27     0.0000   0.0x    0.1469   5.3x ◆  [’t, 't, ´t]
+      H06     0.0000   0.0x    0.1451   5.2x ◆  [事件, 表, event]
+      H04     0.0000   0.0x    0.0932   3.4x •  [model, _model, 模型]
+      H07     0.0000   0.0x    0.0902   3.2x •  [;;, ;;;;, .]
+      H05     0.0000   0.0x    0.0600   2.2x •  [##, —which, —that]
+      H24     0.0000   0.0x    0.0259   0.9x  [短, little, little]
+      H21     0.0000   0.0x    0.0237   0.9x  [澤, 泽, ynn]
+
+    BINDING: bit(_,itself) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0035   0.1x    0.0000   0.0x  [→, –, –and]
+      H01     0.0013   0.0x    0.0000   0.0x  [特别是, just, frequently]
+      H02     0.0010   0.0x    0.0000   0.0x  ["<, +"<, ,<]
+      H03     0.0019   0.1x    0.0000   0.0x  [(sort, 这么, sort]
+      H04     0.0282   1.0x    0.0000   0.0x  [model, _model, 模型]
+      H05     0.0267   1.0x    0.0000   0.0x  [##, —which, —that]
+      H06     0.0666   2.4x •    0.0000   0.0x  [事件, 表, event]
+      H07     0.0230   0.8x    0.0000   0.0x  [;;, ;;;;, .]
+
+    BINDING: itself→dog (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0014   0.1x    0.0000   0.0x  [--, )--, "--]
+      H01     0.0002   0.0x    0.0000   0.0x  [just, 沿, 同时也]
+      H02     0.0002   0.0x    0.0000   0.0x  [percent, ``, 不下]
+      H03     0.0004   0.0x    0.0000   0.0x  [thus, thus, Thus]
+      H04     0.0061   0.2x    0.0000   0.0x  [model, _model, Model]
+      H05     0.0289   1.0x    0.0000   0.0x  [—which, —that, ##]
+      H06     0.0999   3.6x •    0.0000   0.0x  [事件, 团队, team]
+      H07     0.1398   5.0x •    0.0000   0.0x  [::, ::, ####]
+
+    VERB ATTENTION: H08 at [bit] for bit(dog,_):
+               dog ( 0): 0.1768 ★ SUB
+               bit ( 1): 0.0038
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H27 at [bit] for bit(dog,_):
+               dog ( 0): 0.1469 ★ SUB
+               bit ( 1): 0.0100
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H06 at [bit] for bit(dog,_):
+               dog ( 0): 0.1451 ★ SUB
+               bit ( 1): 0.1301
+            itself ( 2): 0.0000
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H00 at [bit] for bit(_,itself):
+               bit ( 1): 0.0051
+               dog ( 0): 0.0019
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H01 at [bit] for bit(_,itself):
+               bit ( 1): 0.0030
+               dog ( 0): 0.0005
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+    VERB ATTENTION: H02 at [bit] for bit(_,itself):
+               bit ( 1): 0.0003
+               dog ( 0): 0.0000
+            itself ( 2): 0.0000 ★ SUB
+                 . ( 3): 0.0000
+
+  [nested1] "The cat that sat on the mat is black."
+
+    BINDING: sat(cat,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.3076  12.6x ◆  [::, @, ;]
+      H06     0.0000   0.0x    0.2476  10.1x ◆  [algorithm, 算法, Algorithm]
+      H04     0.0000   0.0x    0.0619   2.5x •  [模型, model, _model]
+      H05     0.0000   0.0x    0.0224   0.9x  [opi, 词条, :num]
+      H27     0.0000   0.0x    0.0221   0.9x  [’t, ´t, not]
+      H21     0.0000   0.0x    0.0210   0.9x  [disciplines, McGill, 品种]
+      H24     0.0000   0.0x    0.0143   0.6x  [down, EW, PW]
+      H22     0.0000   0.0x    0.0141   0.6x  [清洁能源, 描述, Collective]
+
+    BINDING: sat(_,mat) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0024   0.1x    0.0000   0.0x  [–, →, –and]
+      H01     0.0013   0.1x    0.0000   0.0x  [同样是, 沿, truly]
+      H02     0.0005   0.0x    0.0000   0.0x  [``, 品牌的, 抗议]
+      H03     0.0006   0.0x    0.0000   0.0x  [这样, [url, 這樣]
+      H04     0.0575   2.4x •    0.0000   0.0x  [模型, model, _model]
+      H05     0.0134   0.5x    0.0000   0.0x  [opi, 词条, :num]
+      H06     0.1431   5.9x ◆    0.0000   0.0x  [algorithm, 算法, Algorithm]
+      H07     0.0856   3.5x •    0.0000   0.0x  [::, @, ;]
+
+    BINDING: black(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.0621   2.5x •  [., .,, .^]
+      H06     0.0000   0.0x    0.0499   2.0x  [事件, event, Events]
+      H04     0.0000   0.0x    0.0252   1.0x  [materials, 材料, Materials]
+      H21     0.0000   0.0x    0.0223   0.9x  [扭, 工夫, 勉强]
+      H24     0.0000   0.0x    0.0208   0.9x  [EW, PW, JW]
+      H22     0.0000   0.0x    0.0200   0.8x  [引导, Guide, Meaning]
+      H05     0.0000   0.0x    0.0178   0.7x  [内地, 借助, melted]
+      H19     0.0000   0.0x    0.0048   0.2x  [mt, MT, MT]
+
+    VERB ATTENTION: H07 at [sat] for sat(cat,_):
+               cat ( 0): 0.3076 ★ SUB
+              that ( 1): 0.1925
+               sat ( 2): 0.1293
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H06 at [sat] for sat(cat,_):
+               cat ( 0): 0.2476 ★ SUB
+              that ( 1): 0.1549
+               sat ( 2): 0.1549
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H04 at [sat] for sat(cat,_):
+               sat ( 2): 0.2052
+              that ( 1): 0.0635
+               cat ( 0): 0.0619 ★ SUB
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [sat] for sat(_,mat):
+              that ( 1): 0.0242
+               cat ( 0): 0.0064
+               sat ( 2): 0.0046
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [sat] for sat(_,mat):
+              that ( 1): 0.0040
+               sat ( 2): 0.0027
+               cat ( 0): 0.0006
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [sat] for sat(_,mat):
+              that ( 1): 0.0184
+               sat ( 2): 0.0017
+               cat ( 0): 0.0014
+                on ( 3): 0.0000
+               the ( 4): 0.0000
+               mat ( 5): 0.0000 ★ SUB
+
+  [act1] "The boy kicked the ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H06     0.0000   0.0x    0.1875   6.9x ◆  [节点, node, Node]
+      H07     0.0000   0.0x    0.1870   6.9x ◆  [.;, .,, .=]
+      H04     0.0000   0.0x    0.0555   2.1x •  [samples, 样本, sample]
+      H05     0.0000   0.0x    0.0464   1.7x  [:num, ypad, \models]
+      H25     0.0000   0.0x    0.0423   1.6x  [deep, _deep, Deep]
+      H27     0.0000   0.0x    0.0374   1.4x  [higher, Higher, Higher]
+      H24     0.0000   0.0x    0.0367   1.4x  [ise, ew, 缩小]
+      H21     0.0000   0.0x    0.0300   1.1x  [SWG, 企业提供, scent]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0024   0.1x    0.0000   0.0x  [--, →, ―]
+      H01     0.0069   0.3x    0.0000   0.0x  [, just, Just]
+      H02     0.0035   0.1x    0.0000   0.0x  ["<, +"<, )\<]
+      H03     0.0021   0.1x    0.0000   0.0x  [[/, sort, ")[]
+      H04     0.0660   2.4x •    0.0000   0.0x  [samples, 样本, sample]
+      H05     0.0199   0.7x    0.0000   0.0x  [:num, ypad, \models]
+      H06     0.1137   4.2x •    0.0000   0.0x  [节点, node, Node]
+      H07     0.0464   1.7x    0.0000   0.0x  [.;, .,, .=]
+
+    VERB ATTENTION: H06 at [kicked] for kicked(boy,_):
+            kicked ( 1): 0.1965
+               boy ( 0): 0.1875 ★ SUB
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H07 at [kicked] for kicked(boy,_):
+            kicked ( 1): 0.3494
+               boy ( 0): 0.1870 ★ SUB
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H04 at [kicked] for kicked(boy,_):
+            kicked ( 1): 0.1791
+               boy ( 0): 0.0555 ★ SUB
+               the ( 2): 0.0000
+              ball ( 3): 0.0000
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+               boy ( 0): 0.0078
+            kicked ( 1): 0.0058
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+            kicked ( 1): 0.0018
+               boy ( 0): 0.0011
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 1): 0.0005
+               boy ( 0): 0.0002
+               the ( 2): 0.0000
+              ball ( 3): 0.0000 ★ SUB
+                 . ( 4): 0.0000
+
+  [pass1] "The ball was kicked by the boy."
+
+    BINDING: kicked(boy,_) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0013   0.1x    0.0000   0.0x  [→, →, ∥]
+      H01     0.0015   0.1x    0.0000   0.0x  [frequently, 同样是, similarly]
+      H02     0.0004   0.0x    0.0000   0.0x  [但在, 但从, 但如果]
+      H03     0.0006   0.0x    0.0000   0.0x  [[/, 就这么, ")[]
+      H04     0.0766   3.0x •    0.0000   0.0x  [model, resources, Resources]
+      H05     0.0505   2.0x    0.0000   0.0x  [Trim, ccion, :num]
+      H06     0.0612   2.4x •    0.0000   0.0x  [事件, events, Events]
+      H07     0.1444   5.6x ◆    0.0000   0.0x  [.,, .',, ./]
+
+    BINDING: kicked(_,ball) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H06     0.0000   0.0x    0.1310   5.1x ◆  [事件, events, Events]
+      H07     0.0000   0.0x    0.0641   2.5x •  [.,, .',, ./]
+      H04     0.0000   0.0x    0.0332   1.3x  [model, resources, Resources]
+      H05     0.0000   0.0x    0.0248   1.0x  [Trim, ccion, :num]
+      H08     0.0000   0.0x    0.0248   1.0x  [paint, Paint, paints]
+      H21     0.0000   0.0x    0.0077   0.3x  [砚, 黏, 物资]
+      H27     0.0000   0.0x    0.0075   0.3x  [higher, richer, rich]
+      H12     0.0000   0.0x    0.0068   0.3x  [Conc, conc, conc]
+
+    VERB ATTENTION: H00 at [kicked] for kicked(boy,_):
+               was ( 1): 0.0123
+            kicked ( 2): 0.0026
+              ball ( 0): 0.0020
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H01 at [kicked] for kicked(boy,_):
+               was ( 1): 0.0042
+            kicked ( 2): 0.0041
+              ball ( 0): 0.0023
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H02 at [kicked] for kicked(boy,_):
+               was ( 1): 0.0010
+            kicked ( 2): 0.0005
+              ball ( 0): 0.0003
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000 ★ SUB
+
+    VERB ATTENTION: H06 at [kicked] for kicked(_,ball):
+            kicked ( 2): 0.3022
+               was ( 1): 0.2354
+              ball ( 0): 0.1310 ★ SUB
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H07 at [kicked] for kicked(_,ball):
+            kicked ( 2): 0.5122
+               was ( 1): 0.1008
+              ball ( 0): 0.0641 ★ SUB
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+    VERB ATTENTION: H04 at [kicked] for kicked(_,ball):
+            kicked ( 2): 0.3279
+              ball ( 0): 0.0332 ★ SUB
+               was ( 1): 0.0324
+                by ( 3): 0.0000
+               the ( 4): 0.0000
+               boy ( 5): 0.0000
+
+  [long1] "The tall boy quickly kicked the red ball."
+
+    BINDING: kicked(boy,_) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.1638   6.6x ◆  [.=, .;, .,]
+      H06     0.0000   0.0x    0.1053   4.2x •  [element, table, 元素]
+      H04     0.0000   0.0x    0.0381   1.5x  [samples, resources, sample]
+      H05     0.0000   0.0x    0.0321   1.3x  [:num, \models, actal]
+      H25     0.0000   0.0x    0.0305   1.2x  [tall, _deep, deep]
+      H24     0.0000   0.0x    0.0246   1.0x  [短, short, Short]
+      H27     0.0000   0.0x    0.0243   1.0x  [/main, /Main, main]
+      H21     0.0000   0.0x    0.0236   0.9x  [文物, Salisbury, SWG]
+
+    BINDING: kicked(_,ball) (sub AFTER verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H00     0.0038   0.2x    0.0000   0.0x  [→, --, →]
+      H01     0.0036   0.1x    0.0000   0.0x  [frequently, similarly, 同样是]
+      H02     0.0030   0.1x    0.0000   0.0x  ["<, +"<, sling]
+      H03     0.0012   0.0x    0.0000   0.0x  [[/, ")[, sort]
+      H04     0.0511   2.0x    0.0000   0.0x  [samples, resources, sample]
+      H05     0.0140   0.6x    0.0000   0.0x  [:num, \models, actal]
+      H06     0.2406   9.6x ◆    0.0000   0.0x  [element, table, 元素]
+      H07     0.0711   2.8x •    0.0000   0.0x  [.=, .;, .,]
+
+    VERB ATTENTION: H07 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.3838
+               boy ( 1): 0.1638 ★ SUB
+           quickly ( 2): 0.1316
+              tall ( 0): 0.0073
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H06 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.2668
+           quickly ( 2): 0.1656
+               boy ( 1): 0.1053 ★ SUB
+              tall ( 0): 0.0228
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H04 at [kicked] for kicked(boy,_):
+            kicked ( 3): 0.1666
+           quickly ( 2): 0.0438
+               boy ( 1): 0.0381 ★ SUB
+              tall ( 0): 0.0072
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H00 at [kicked] for kicked(_,ball):
+              tall ( 0): 0.0124
+               boy ( 1): 0.0108
+            kicked ( 3): 0.0106
+           quickly ( 2): 0.0102
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H01 at [kicked] for kicked(_,ball):
+           quickly ( 2): 0.0112
+              tall ( 0): 0.0030
+            kicked ( 3): 0.0018
+               boy ( 1): 0.0011
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+    VERB ATTENTION: H02 at [kicked] for kicked(_,ball):
+            kicked ( 3): 0.0011
+               boy ( 1): 0.0006
+           quickly ( 2): 0.0006
+              tall ( 0): 0.0005
+               the ( 4): 0.0000
+               red ( 5): 0.0000
+
+  [coord1] "The dog ran and the cat jumped."
+
+    BINDING: ran(dog) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H07     0.0000   0.0x    0.1129   4.4x •  [.-, ., .,]
+      H27     0.0000   0.0x    0.0692   2.7x •  [’t, 't, ´t]
+      H06     0.0000   0.0x    0.0594   2.3x •  [事件, event, events]
+      H04     0.0000   0.0x    0.0441   1.7x  [model, _model, 模型]
+      H08     0.0000   0.0x    0.0301   1.2x  [预测, predictive, Predict]
+      H05     0.0000   0.0x    0.0278   1.1x  [—which, 致敬, odie]
+      H21     0.0000   0.0x    0.0140   0.5x  [cue, mui, 쇄]
+      H24     0.0000   0.0x    0.0120   0.5x  [down, slow, Down]
+
+    BINDING: jumped(cat) (sub BEFORE verb)
+                     ── FORWARD (sub→verb) ──         ── REVERSE (verb→sub) ──
+          Head   Weight  Ratio     Weight  Ratio   Output@verb (what verb becomes)
+      H27     0.0000   0.0x    0.0586   2.3x •  ['t, ´t, ’t]
+      H06     0.0000   0.0x    0.0337   1.3x  [事件, event, events]
+      H04     0.0000   0.0x    0.0209   0.8x  [model, -model, /.]
+      H24     0.0000   0.0x    0.0189   0.7x  [down, eg, RP]
+      H05     0.0000   0.0x    0.0164   0.6x  [勒, 内地, [attr]
+      H07     0.0000   0.0x    0.0134   0.5x  [., .,, ./]
+      H21     0.0000   0.0x    0.0073   0.3x  [cosine, 黏, oose]
+      H22     0.0000   0.0x    0.0047   0.2x  [Discover, consistency, viscosity]
+
+    VERB ATTENTION: H07 at [ran] for ran(dog):
+               ran ( 1): 0.4067
+               dog ( 0): 0.1129 ★ SUB
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H27 at [ran] for ran(dog):
+               dog ( 0): 0.0692 ★ SUB
+               ran ( 1): 0.0272
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H06 at [ran] for ran(dog):
+               ran ( 1): 0.2539
+               dog ( 0): 0.0594 ★ SUB
+               and ( 2): 0.0000
+               the ( 3): 0.0000
+               cat ( 4): 0.0000
+            jumped ( 5): 0.0000
+
+    VERB ATTENTION: H27 at [jumped] for jumped(cat):
+               cat ( 4): 0.0586 ★ SUB
+            jumped ( 5): 0.0178
+               the ( 3): 0.0065
+               and ( 2): 0.0056
+               ran ( 1): 0.0046
+               dog ( 0): 0.0023
+
+    VERB ATTENTION: H06 at [jumped] for jumped(cat):
+               ran ( 1): 0.2415
+            jumped ( 5): 0.1925
+               and ( 2): 0.1047
+               dog ( 0): 0.0372
+               cat ( 4): 0.0337 ★ SUB
+               the ( 3): 0.0027
+
+    VERB ATTENTION: H04 at [jumped] for jumped(cat):
+            jumped ( 5): 0.2798
+               ran ( 1): 0.1251
+               and ( 2): 0.0269
+               cat ( 4): 0.0209 ★ SUB
+               dog ( 0): 0.0143
+               the ( 3): 0.0043
+
+========================================================================
+SUMMARY: FORWARD vs REVERSE BINDING BY POSITION ORDER
+========================================================================
+
+  L27:
+
+    SUBJECT BEFORE VERB (sub→verb blocked by causal mask):
+      Forward (sub→verb): 0/12 with weight>0.05
+      Reverse (verb→sub): 11/12 with weight>0.05
+      Top reverse bindings:
+                        runs(cat): H31 w=0.8228 ◆ (The cat runs.)
+                        runs(dog): H31 w=0.5879 ◆ (The dog runs.)
+                       sat(cat,_): H31 w=0.5034 ◆ (The cat that sat on the mat is black.)
+                         ran(dog): H31 w=0.4709 ◆ (The dog ran and the cat jumped.)
+                       bit(dog,_): H31 w=0.4421 ◆ (The dog bit the cat.)
+                       bit(dog,_): H31 w=0.4421 ◆ (The dog bit itself.)
+                       bit(cat,_): H31 w=0.4290 ◆ (The cat bit the dog.)
+                      jumped(cat): H31 w=0.4270 ◆ (The dog ran and the cat jumped.)
+                    kicked(boy,_): H09 w=0.1993 • (The boy kicked the ball.)
+                       black(cat): H31 w=0.1343 • (The cat that sat on the mat is black.)
+
+    SUBJECT AFTER VERB (sub→verb already confirmed):
+      Forward (sub→verb): 10/10 with weight>0.05
+      Reverse (verb→sub): 0/10 with weight>0.05
+
+  L30:
+
+    SUBJECT BEFORE VERB (sub→verb blocked by causal mask):
+      Forward (sub→verb): 0/12 with weight>0.05
+      Reverse (verb→sub): 11/12 with weight>0.05
+      Top reverse bindings:
+                        runs(dog): H13 w=0.4478 ◆ (The dog runs.)
+                        runs(cat): H13 w=0.4104 ◆ (The cat runs.)
+                       sat(cat,_): H00 w=0.3315 ◆ (The cat that sat on the mat is black.)
+                         ran(dog): H13 w=0.3210 ◆ (The dog ran and the cat jumped.)
+                       bit(cat,_): H07 w=0.2700 ◆ (The cat bit the dog.)
+                       bit(dog,_): H07 w=0.2328 ◆ (The dog bit the cat.)
+                       bit(dog,_): H07 w=0.2328 ◆ (The dog bit itself.)
+                   kicked(_,ball): H00 w=0.2035 ◆ (The ball was kicked by the boy.)
+                    kicked(boy,_): H20 w=0.1620 • (The boy kicked the ball.)
+                      jumped(cat): H03 w=0.1620 • (The dog ran and the cat jumped.)
+
+    SUBJECT AFTER VERB (sub→verb already confirmed):
+      Forward (sub→verb): 10/10 with weight>0.05
+      Reverse (verb→sub): 0/10 with weight>0.05
+
+  L33:
+
+    SUBJECT BEFORE VERB (sub→verb blocked by causal mask):
+      Forward (sub→verb): 0/12 with weight>0.05
+      Reverse (verb→sub): 12/12 with weight>0.05
+      Top reverse bindings:
+                       sat(cat,_): H07 w=0.3076 ◆ (The cat that sat on the mat is black.)
+                       bit(cat,_): H06 w=0.1963 • (The cat bit the dog.)
+                    kicked(boy,_): H06 w=0.1875 • (The boy kicked the ball.)
+                       bit(dog,_): H08 w=0.1768 • (The dog bit the cat.)
+                       bit(dog,_): H08 w=0.1768 • (The dog bit itself.)
+                    kicked(boy,_): H07 w=0.1638 • (The tall boy quickly kicked the red ball.)
+                   kicked(_,ball): H06 w=0.1310 • (The ball was kicked by the boy.)
+                         ran(dog): H07 w=0.1129 • (The dog ran and the cat jumped.)
+                        runs(dog): H07 w=0.0978  (The dog runs.)
+                       black(cat): H07 w=0.0621  (The cat that sat on the mat is black.)
+
+    SUBJECT AFTER VERB (sub→verb already confirmed):
+      Forward (sub→verb): 10/10 with weight>0.05
+      Reverse (verb→sub): 0/10 with weight>0.05
+
+========================================================================
+REVERSE BINDING HEADS (verb→subject, across all probes)
+========================================================================
+
+  L27 (only subject-before-verb bindings):
+      Head   MeanWt    MaxWt    N
+    H31     0.3657   0.8228   12 ◆
+    H29     0.1424   0.3762   12 ◆
+    H12     0.1280   0.2262   12 ◆
+    H08     0.1214   0.2469   12 ◆
+    H09     0.1186   0.2537   12 ◆
+    H20     0.0684   0.1256   12 •
+    H01     0.0532   0.0988   12 •
+    H30     0.0477   0.1109   12
+    H05     0.0429   0.1307   12
+    H26     0.0399   0.1206   12
+    H15     0.0348   0.0842   12
+    H07     0.0343   0.0745   12
+    H02     0.0321   0.0584   12
+    H04     0.0316   0.0905   12
+    H22     0.0305   0.0543   12
+
+  L30 (only subject-before-verb bindings):
+      Head   MeanWt    MaxWt    N
+    H13     0.1541   0.4478   12 ◆
+    H03     0.1455   0.3650   12 ◆
+    H07     0.1367   0.2910   12 ◆
+    H04     0.1075   0.3987   12 ◆
+    H00     0.1072   0.3315   12 ◆
+    H28     0.0916   0.1847   12 •
+    H20     0.0897   0.1620   12 •
+    H12     0.0826   0.2076   12 •
+    H17     0.0603   0.1283   12 •
+    H14     0.0531   0.2527   12 •
+    H05     0.0530   0.1583   12 •
+    H15     0.0326   0.0767   12
+    H10     0.0261   0.1522   12
+    H01     0.0206   0.0734   12
+    H29     0.0178   0.0317   12
+
+  L33 (only subject-before-verb bindings):
+      Head   MeanWt    MaxWt    N
+    H07     0.1180   0.3076   12 ◆
+    H06     0.1110   0.2476   12 ◆
+    H27     0.0589   0.1469   12 •
+    H04     0.0556   0.1199   12 •
+    H08     0.0409   0.1768   12
+    H05     0.0320   0.0600   12
+    H24     0.0241   0.0816   12
+    H21     0.0192   0.0473   12
+    H25     0.0163   0.0423   12
+    H22     0.0080   0.0200   12
+    H19     0.0033   0.0068   12
+    H00     0.0033   0.0108   12
+    H26     0.0024   0.0076   12
+    H10     0.0021   0.0056   12
+    H18     0.0020   0.0043   12
+
+========================================================================
+RESULTS SAVED to /Users/mwhitford/src/verbum/scripts/experiments/../../results/reverse-binding-trace/
+  summary.json: 1292.0 KB
+========================================================================
