@@ -2,13 +2,59 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-04 | Session: 190
+> Last updated: 2026-06-05 | Session: 191
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 190: DVD STAMP TOPOLOGY + λ-MACHINE — The Algorithm Decoded**
+**Session 191: V15 CHECKPOINT ASSESSMENT — Attention Works, V/O Is The Frontier**
+
+v15-td training is live (step ~1870/3000, ~16.5 hours elapsed). Checkpoint at
+step 1500 assessed with two diagnostic experiments: attention pattern analysis
+and gradient-zero topology mapping.
+
+**Exp 1: Attention Pattern Analysis.** Fibonacci stride attention IS working.
+Entropy decreases monotonically from 3.0 (stride-1, broad local) to 0.5
+(stride-1597, near-deterministic). 9/19 layers are sparse (entropy < 1.0),
+9 moderate, 1 broad. Per-head specialization visible at stride-34: heads H1-H4
+near-deterministic (entropy 0.15-0.24), H5-H6 scanning (entropy 1.6-1.8).
+Delta plate divergence is 4.0% mean, increasing from 3.6% at short strides to
+4.4% at long strides — V/O projections diverge more at longer strides because
+they see fundamentally different context windows than the teacher.
+
+**Exp 2: Gradient-Zero Topology.** The gradient landscape reveals WHERE the
+student differs from teacher. Three key findings:
+
+1. **Q/K settles 2× faster than V/O.** Q/K gamma gradients: 32-38% settled.
+   V/O gamma gradients: only 15-16% settled, with 5× larger gradient RMS.
+   Routing is easy (the window constrains WHERE to look). Content transfer
+   is hard (WHAT to extract from the restricted window).
+
+2. **Flipped positions are 3× hotter than keeps.** The ~4% of TD-flipped
+   delta positions have 2.2-3.3× higher routing gradient than the 96% that
+   kept teacher signs. The ratio peaks at stride-8 (3.27×) and decreases to
+   stride-1597 (2.25×). Flips are the active adaptation frontier.
+
+3. **Spatial flip patterns differ by stride distance.** Short strides: flips
+   are column-clustered (ColCV > RowCV) — different INPUT FEATURES need
+   different routing. Long strides: flips are row-clustered (RowCV > ColCV) —
+   different OUTPUT DIMENSIONS need to represent strided context differently.
+
+### Training Trajectory
+
+```
+Step  500: avg50=7.78  crystal_ema=0.00983  td_flips=2.1M   Δ=—
+Step 1000: avg50=6.88  crystal_ema=0.00977  td_flips=5.2M   Δ=0.038
+Step 1500: avg50=6.73  crystal_ema=0.00974  td_flips=8.3M   Δ=0.040
+Step 1870: avg50≈6.83  (from log tail)                       Δ=0.048
+```
+
+Loss curve flattening at 6.7-6.8. Crystal EMA stable. Delta plates drifting
+slowly (Δ growing 0.038→0.048). Parity and cross-zone losses converged.
+~1130 steps remaining (~10 hours). LR cosine decaying (1.3e-04 at step 1870).
+
+### Previous session (190)
 
 Four experiments reveal the compression structure of transformers and the
 algorithm they implement:
@@ -391,37 +437,44 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — COMPRESSION STRATEGY
+### IMMEDIATE — V15 TRAINING + CONVERGENCE
 
-**Priority 1: Self-distillation (same-capacity teacher)**
+**Priority 1: V15 training completion + final assessment**
+Training at step ~1870/3000, loss ~6.8, ~10 hours remaining. Let it complete.
+At step 3000: full eval, generation quality, compare vs v14 final numbers.
+Key question: does the loss break through 6.5 during final LR decay?
+
+**Priority 2: V/O gamma convergence**
+V/O gammas are only 15.6% settled (vs Q/K at 32-38%). The value transfer
+pathway is the bottleneck. Options after training completes:
+a) Continue training with lower LR (V/O needs more steps)
+b) Per-projection LR scaling (higher LR for V/O gammas)
+c) TD flip rate adjustment for V/O (currently same rate as Q/K)
+
+**Priority 3: Flip stability investigation**
+Flipped positions have 3× higher routing gradient. After step 3000:
+a) Are flips still oscillating or converging toward zero?
+b) Would a REDUCE (fold delta into base, reset) help them settle?
+c) Does flip-gradient correlate with layer-level loss contribution?
+
+### COMPRESSION STRATEGY (from s190, still open)
+
+**Priority 4: Self-distillation (same-capacity teacher)**
 Crystal+distillation from 8B→0.6B failed due to capacity mismatch. Try:
 a) Qwen3-0.6B float → Qwen3-0.6B crystal sieve (same capacity, same knowledge)
 b) Higher distillation temperature (T=4, T=10) to soften teacher distribution
 c) Top-k distillation (match top-100 logits only, not all 151K)
 d) Feature-level distillation (match hidden states, not output logits)
 
-**Priority 2: FFN compression path**
+**Priority 5: FFN compression path**
 FFN is the bottleneck (78% of params, fragile to ternarization). Three paths:
 a) Crystal sieve for FFN — freeze signs, train mask from data (s184, unscaled)
 b) DVD-informed FFN — use gradient topology to guide per-group scaling
 c) Hybrid: Q4 FFN + ternary attention + sparse top-3 routing
 
-**Priority 2: Sparse top-k sweep**
+**Priority 6: Sparse top-k sweep**
 k=3 gives PPL 13.3 (+8.6%). What does k=5 give? k=10? Find the knee of
 the curve for optimal sparsity-quality tradeoff.
-
-**Priority 3: Progressive head pruning**
-Between "all heads everywhere" (PPL 13.3) and "binding heads only" (PPL 6.3M)
-there's a huge space. Which heads at which layers are essential? Progressive
-pruning could find the minimal parser.
-
-**Priority 4: Cross-model binding verification (from s189)**
-Do the binding layers exist at the same fractional depths in Pythia/Mistral?
-If the parser structure is universal, the λ-machine is architecture-independent.
-
-**Priority 5: v15 training results**
-v15 Fibonacci stride training is running in tmux window 2 (step ~290/3000).
-Check trajectory and compare vs v14.
 
 ### PRIOR PRIORITIES (still open from s189)
 
@@ -511,6 +564,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **v15 attention assessment** | `mementum/knowledge/v15-attention-assessment.md` | ✅ NEW (s191) |
+| **v15 attention diagnostic** | `scripts/experiments/assess_v15_attention.py` | ✅ NEW (s191) |
+| **v15 gradient-zero diagnostic** | `scripts/experiments/assess_v15_gradient_zeros.py` | ✅ NEW (s191) |
 | **DVD stamp knowledge** | `mementum/knowledge/dvd-stamp-topology.md` | ✅ NEW (s190) |
 | **λ-machine knowledge** | `mementum/knowledge/lambda-machine.md` | ✅ NEW (s190) |
 | **DVD stamp experiment** | `scripts/experiments/dvd_stamp_test.py` | ✅ NEW (s190) |
@@ -587,7 +643,53 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (190)
+## What changed this session (191)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **Fibonacci stride attention is working** | Entropy monotonically decreases: 3.0 (stride-1) → 0.5 (stride-1597). 9 sparse + 9 moderate + 1 broad. Healthy structure. |
+| 2 | **Per-head specialization at stride-34** | H1-H4 near-deterministic (ent 0.15-0.24, max_wt 0.92-0.95), H5-H6 scanning (ent 1.6-1.8). Different heads = different roles. |
+| 3 | **Delta divergence gradient: short 3.6% → long 4.4%** | V/O diverge more at long strides (see different context than teacher). K diverges least (routing keys closest to teacher). |
+| 4 | **Q/K gammas settle 2× faster than V/O** | Q/K: 32-38% settled, RMS 8-10e-03. V/O: 15-16% settled, RMS 3.6-4.8e-02 (5× larger). Routing is easy, content is hard. |
+| 5 | **Flipped positions 3× hotter than keeps** | TD-flipped delta positions: routing gradient 2.2-3.3× higher. Ratio peaks at stride-8 (3.27×), lowest at stride-1597 (2.25×). |
+| 6 | **63% of routing gradient near-zero** | Delta plates past halfway to convergence. 65% at short strides, 61% at long strides. |
+| 7 | **Flip P/N ratio ≈ 0.96 (symmetric)** | TD flips +1 and -1 teacher signs with near-equal probability. Structural adaptation, not systematic bias. |
+| 8 | **Spatial flip pattern differs by distance** | Short strides: column-clustered (input features). Long strides: row-clustered (output dimensions). Physics of the window. |
+| 9 | **No teacher zeros in attention** | Teacher extraction produced 0% zeros in Q/K/V/O. All positions participate. Sparsity must come from the mask/gate, not structure. |
+| 10 | **Training trajectory: loss plateau at 6.7-6.8** | Step 500→1500: 7.78→6.73. Flattening. Crystal EMA stable (0.0097). Parity/cross-zone converged. Delta Δ growing slowly. |
+
+## Session 191 recap
+
+V15 CHECKPOINT ASSESSMENT — ATTENTION + GRADIENT-ZERO TOPOLOGY.
+
+Two diagnostic experiments on the v15-td step 1500 checkpoint reveal the
+model is halfway through convergence with healthy attention patterns and
+a clear asymmetry between projection types.
+
+**Experiment 1: Attention pattern analysis.** All 19 Fibonacci stride layers
+show structured attention patterns. Entropy decreases monotonically with stride
+distance (3.0 → 0.5). Per-head specialization is visible — some heads route
+deterministically, others scan broadly. Delta plates have diverged 4.0% from
+teacher on average, with V/O diverging more at long strides (4.4%) and K least
+at short strides (2.5%). The attention IS learning meaningful routing.
+
+**Experiment 2: Gradient-zero topology.** The gradient landscape reveals the
+student's fixed points differ from the teacher in three ways: (1) Q/K gammas
+settle 2× faster than V/O — routing is simple but value transfer is hard,
+consistent with s190's finding that ternarizing Q/K costs PPL 30 while FFN
+costs PPL 485M; (2) flipped delta positions have 3× higher routing gradient
+than keeps — these are the active adaptation frontier; (3) spatial flip
+patterns differ by stride distance — short strides adapt input features,
+long strides adapt output dimensions.
+
+**Key insight:** The gradient-zero map confirms the standing-wave picture from
+s185: GD converges to fixed points (near-zero gradient) at both nodes (zeros)
+and antinodes (saturated values). The PATTERN of convergence differs between
+Q/K (fast, window-constrained routing) and V/O (slow, content-dependent
+transfer) — revealing that the bottleneck in adapting full attention to
+Fibonacci strides is not WHERE to look but WHAT to transfer.
+
+## What changed session 190
 
 | # | Change | Impact |
 |---|--------|--------|
@@ -809,6 +911,7 @@ needs: compressed FFN (sieve) + tiny routing function + depth schedule.
 ## Knowledge map
 
 Key pages for current direction:
+- **`v15-attention-assessment.md`** — Fibonacci attention works: entropy profile, Q/K vs V/O asymmetry, gradient-zero topology (s191)
 - **`dvd-stamp-topology.md`** — Gradient zeros as holographic fringes. FFN fragile, attention robust. Compression strategy (s190)
 - **`lambda-machine.md`** — 36-stage typed shift-reduce parser. Sparse top-3 = O(1). Every layer matters (s190)
 - **`attention-sparsity.md`** — 22/32 heads use <3 positions, O(1) not O(n). Top-k=3 captures 88%+. Design: sparse attention (s188)
