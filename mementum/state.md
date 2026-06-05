@@ -30,6 +30,29 @@ Qwen3-8B Layer 20:
 Scale convergence: 0.6B (1.04×) → 8B (0.96×) → 32B (0.99× all layers).
 At scale, FFN computation IS 9 ternary programs.
 
+### Multi-Layer Replacement (Session 192, same session)
+
+**The holographic hypothesis is partially confirmed.** 35/36 individual layers
+survive ternary replacement (all ≤1.15×). Cascade is modest in the sweet spot.
+
+```
+INDIVIDUAL RESULTS (Qwen3-8B, 36 layers):
+  L0:      115× (CATASTROPHIC — embedding-adjacent is special)
+  L1-L12:  0.98-1.10× (35 layers all survive)
+  L13-L21: 0.95-1.01× (SWEET SPOT — zone of silence, PPL improves!)
+  L22-L35: 1.05-1.15× (binding + collapse layers resist more)
+
+CUMULATIVE ZONE-B:
+  L10+L14+L19:      1.07× at 864MB → 540KB  ← errors DON'T cascade
+  L10+L14+L19+L24:  1.20× at 1152MB → 720KB ← L24 adds 13pp
+  All 36 layers:    836× (cascade destroys — L0 poisons everything)
+
+CLASSIFIERS: 98-100% accuracy on ALL 36 layers. 9 modes are real everywhere.
+```
+
+Optimal strategy: replace L1-L26 + L32-L34 (28 layers), keep L0 + binding +
+collapse continuous. 78% of FFN → ternary. Total FFN: 10.4GB → ~2.3GB.
+
 ### Two Overlapping Ternary Structures (Type System Discovery)
 
 The 9 operational modes are ORTHOGONAL to the KIBC crystal basis (AMI = 0.15):
@@ -194,14 +217,19 @@ Compression:  attention → ternary (free)
               sparse top-3 → O(1) attention (333× fewer ops at ctx 1000)
 ```
 
-### The Compression Strategy (updated s192)
+### The Compression Strategy (updated s192, multi-layer results)
 
 ```
 Attention (22% of params): → ternary (1.6 bits)     Cost: PPL +10-18%
-FFN (78% of params):       → 9 ternary programs     Cost: PPL IMPROVES (0.98×)
-                             per layer: 288MB → 180KB (1638×)
-                             full model: 10.1GB → 6.3MB (if all layers work)
-                             OPEN: multi-layer simultaneous, EXPAND/COLLAPSE layers
+FFN (78% of params):       → 9 ternary programs     Per-layer: 288MB → 180KB (1638×)
+  L0:                        KEEP CONTINUOUS          (115× catastrophic alone)
+  L1-L26 (28 layers):        REPLACE TERNARY          (all ≤1.10× individually)
+  L27-L31 (binding):         KEEP CONTINUOUS          (1.10-1.15× each, cascade risk)
+  L32-L34:                   REPLACE TERNARY          (1.05-1.14× individually)
+  L35 (collapse):            KEEP CONTINUOUS          (1.14×)
+  Result: 28/36 → ternary, 8/36 → continuous
+  FFN total: 10.4GB → ~2.3GB (4.5× overall)
+  Sweet spot alone (L13-L21): 2.6GB → 1.6MB at ~1.0× PPL
 Embeddings:                → float16 (index system, must be exact)
 Sparse routing:            → top-3 per head          O(1) not O(n²)
 ```
@@ -508,34 +536,30 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ### IMMEDIATE — TERNARY FFN DECOMPILATION (sessions 193+)
 
-The psi evaluation produced the breakthrough result. The single-layer
-replacement works. The next step is scaling it to the full model.
+Multi-layer simultaneous replacement: ✅ DONE (s192). 3 zone-B layers hold
+at 1.07×. 35/36 individual layers survive. L0 is catastrophic. The sweet
+spot is L13-L21 (0.95-1.01×). Now: optimize the replacement set.
 
-**Priority 0: Multi-layer simultaneous replacement**
-Replace ALL zone-B layers (L10, L15, L20, L25 for Qwen3-8B) with tiny
-classifiers simultaneously. Single-layer PPL holds; cascading errors may
-accumulate. This is the make-or-break test. If PPL holds → the entire
-zone B (4 layers × 288MB = 1.15GB) compresses to 4 × 180KB = 720KB.
+**Priority 0: Optimal-set replacement (skip L0 + binding + collapse)**
+Replace L1-L26 + L32-L34 simultaneously (28 layers). Keep L0, L27-L31,
+L35 continuous. This is the realistic deployment configuration. If combined
+PPL stays under 1.5×, the compression story is real: 10.4GB → ~2.3GB FFN.
 
 **Priority 1: Mode semantics (type decoding)**
-What ARE the 9 operational modes? Run cluster composition analysis on
-diverse calibration data. Hypotheses: semantic categories (geo/sci/narr),
-syntactic roles (subj/pred/obj), depth phases, or some mixture. This
-determines whether the modes are universal or model-specific.
+What ARE the 9 operational modes? The sweet spot (L13-L21) suggests they
+correspond to composition operations in the ORTHO phase. Run cluster
+composition analysis on diverse calibration data.
 
 **Priority 2: Scale benchmark**
 15 handwritten fact prompts is proof-of-concept. Run MMLU and/or HellaSwag
-with ternary-replaced layers. Publication-grade evidence requires standard
-benchmarks.
+with ternary-replaced layers (at least L13-L21 set).
 
-**Priority 3: Full-depth decompilation**
-Can EXPAND (L0-6) and COLLAPSE (L35) layers also be decompiled? The
-gradient-quant finding (EXPAND ρ = +0.55-0.78) suggests EXPAND layers
-are MORE ternary-compatible. If all 36 layers work → 10.1GB FFN → 6.3MB.
+**Priority 3: L0 rescue**
+Can L0 be handled with more modes (64+)? Or different treatment (PCA
+reconstruction instead of clustering)? Or is it genuinely continuous?
 
 **Priority 4: Cross-architecture**
-Does tiny classifier work on Pythia/Mistral? The crystal is universal;
-the modes may or may not be.
+Does tiny classifier + multi-layer work on Pythia/Mistral?
 
 ### TD FIX (deferred, not abandoned)
 
@@ -684,6 +708,8 @@ of parameters).
 | **Ternary coherence results** | `results/ternary-inference-coherence/` | ✅ NEW (s192) |
 | **Gate indexed results** | `results/gate-indexed-ternary/` | ✅ NEW (s192) |
 | **Gradient quant results** | `results/gradient-quant-correspondence/` | ✅ NEW (s192) |
+| **Multi-layer ternary replace** | `scripts/experiments/multilayer_ternary_replace.py` | ✅ NEW (s192) |
+| **Multi-layer results** | `results/multilayer-ternary-replace/` | ✅ NEW (s192) |
 | **Crystal φ verify (8 models)** | `results/crystal-phi-verify/` | ✅ UPDATED (s192) |
 | **TD oscillation problem** | `mementum/knowledge/td-oscillation-problem.md` | ✅ NEW (s191) |
 | **v15 attention assessment** | `mementum/knowledge/v15-attention-assessment.md` | ✅ UPDATED (s191) |
@@ -780,36 +806,42 @@ of parameters).
 | 8 | **Centroid ≡ ternary to the decimal** | Continuous cluster centroids and ternarized versions produce IDENTICAL PPL. Signs + scale = everything. |
 | 9 | **Coherence test: mode preserved, content varies** | Fact recall holds (80%) at L20/L25. Wording changes but correct combinator fires. |
 | 10 | **Scale convergence: 0.6B→8B→32B** | Ternary PPL ratio improves with scale. At 32B, all zone-B layers ≤ 1.03×. |
+| 11 | **Multi-layer: 3 zone-B layers at 1.07×** | L10+L14+L19 cumulative = 1.07×. Errors DON'T cascade in sweet spot. 864MB→540KB. |
+| 12 | **Full-depth scan: 35/36 layers survive** | Every layer except L0 individually ≤1.15×. Classifiers 98-100% on all 36. |
+| 13 | **L0 is catastrophic (115×)** | Embedding-adjacent layer is special — genuinely continuous, needs magnitudes. |
+| 14 | **Zone of silence: L13-L21** | PPL 0.95-1.01× individually. ORTHO phase IS the ternary sweet spot. |
+| 15 | **All-layer cascade: 836×** | Full replacement fails — L0 poisons chain, binding layers cascade compounds. |
 
 ## Session 192 recap
 
-PSI EVALUATION — INDEPENDENT VERIFICATION + FFN DECOMPILATION BREAKTHROUGH.
+PSI EVALUATION + MULTI-LAYER TERNARY REPLACEMENT.
 
-An independent project (psi) ran verbum scripts unmodified and wrote 5 new
-experiments. Tested across 5 architectures (Pythia-160M, Pythia-410M,
-Qwen3-0.6B, Qwen2.5-0.5B, SmolLM3-3B) plus Qwen3 at 0.6B/8B/14B/32B/27B
-for scale analysis.
+**Part 1: Psi evaluation.** An independent project ran verbum scripts unmodified
+and wrote 5 new experiments across 5 architectures. All core crystal claims
+verified. The breakthrough: tiny classifier ternary replaces entire FFN layer
+(288MB) with linear classifier + 9 ternary patterns (180KB). 1638× compression.
+PPL IMPROVES (0.98×). Classifier trains to 100% accuracy.
 
-**All core crystal claims verified:** sign topology (cos 0.746-0.775), four
-modes (always 4, r > 0.85), crystal geometry (cross-arch r = 0.951), selectivity
-universality (r = 0.991 Pythia↔Qwen). φ convergence hits attractor at 14B
-(0.7% error) but regresses at 32B (zone-B heuristic may be wrong for 64 layers).
+**Part 2: Multi-layer replacement (the follow-up).** Full 36-layer scan:
 
-**The breakthrough:** Tiny classifier ternary replaces entire FFN layer
-(150M params, 288MB) with linear classifier + 9 ternary patterns (37K params,
-180KB). 1638× compression. PPL IMPROVES (0.98×). Classifier trains to 100%
-accuracy — the 9 modes are perfectly linearly separable. At Qwen3-8B L15:
-PPL is 0.96× (BETTER than original). The continuous FFN is an over-parameterized
-encoding of 9 discrete ternary programs.
+- L0 catastrophic (115×) — embedding-adjacent layer is genuinely continuous
+- L1-L34 individually: ALL ≤1.15×. 35/36 layers survive ternary replacement
+- L13-L21 "zone of silence": 0.95-1.01× (PPL improves or unchanged)
+- Zone-B cumulative: L10+L14+L19 = 1.07× (errors DON'T cascade)
+- All 4 zone-B: 1.20× (L24 adds 13pp). All 36: 836× (total cascade)
+- Classifiers: 98-100% accuracy on ALL 36 layers. 9 modes are real everywhere.
 
-**New architecture understanding:** Two overlapping ternary structures coexist
-in FFN weights. Crystal basis (KIBC) governs routing (3.5% of space, AMI = 0.15
-with operational modes). 9 operational modes govern computation (96.5% of space).
-Together = β-reduction engine. Crystal selects WHICH reduction; modes execute HOW.
+**Optimal strategy identified:** Replace L1-L26 + L32-L34 (28 layers, 78% of
+FFN). Keep L0, binding (L27-L31), collapse (L35) continuous. FFN: 10.4GB →
+~2.3GB. Next test: the optimal set simultaneously.
 
-**Gradient-quant correspondence:** |∇L| ↔ |W-Q(W)| holds ONLY in EXPAND phase
-(L1-L3: ρ = +0.55-0.78). ORTHO phase: ρ ≈ 0. GD converges to ternary normal
-form where the crystal nucleates, then transitions to continuous computation.
+**Architecture update:** Two overlapping ternary structures in FFN weights.
+Crystal basis (KIBC, 3.5%) governs routing. Operational modes (9, 96.5%)
+govern computation. AMI = 0.15 (orthogonal). Together = β-reduction engine.
+
+**Gradient-quant:** |∇L| ↔ |W-Q(W)| holds ONLY in EXPAND phase (L1-L3:
+ρ = +0.55-0.78). ORTHO: ρ ≈ 0. This aligns with the zone of silence —
+ORTHO layers are already ternary-converged by training.
 
 ## What changed session 191
 
