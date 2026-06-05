@@ -1,0 +1,419 @@
+========================================================================
+  v15 — TernaryDescent Training (Fibonacci strides)
+  Adam (continuous beams) + TD (discrete delta plates)
+  d_model=1280  n_heads=8  d_ff=5120
+  Fibonacci strides (19): (1, 2, 3, 5, 8, 13, 15, 20, 21, 24, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+  All composition (no GLA): True
+  ±2 neighbor gathering (W_eff=40)
+  n_passes=8  n_stacks=2
+  LaplacianCrystalLoss: WHNF gets 5× fragility weight
+  Base plates: FROZEN (Qwen3.6-27B extraction)
+  Attention delta plates: {+1, -1} ONLY — no-block
+  Crystal gate: [0.03, 0.07]
+  Extracted model: checkpoints/v15-extracted/model.npz/model.npz
+  Checkpoint dir: checkpoints/v15-td
+========================================================================
+📂 Loading extracted base plates from checkpoints/v15-extracted/model.npz/model.npz
+  loaded=83 skipped=0
+
+Model summary:
+  Ternary positions: 544,442,368
+  Trainable float params: 656,359
+  Delta modules: 76
+    shared_stride_stack.layers.18.out_proj: (1280, 1280)
+    shared_stride_stack.layers.18.v_proj: (1280, 1280)
+    shared_stride_stack.layers.18.k_proj: (1280, 1280)
+    shared_stride_stack.layers.18.q_proj: (1280, 1280)
+    shared_stride_stack.layers.17.out_proj: (1280, 1280)
+    shared_stride_stack.layers.17.v_proj: (1280, 1280)
+    shared_stride_stack.layers.17.k_proj: (1280, 1280)
+    shared_stride_stack.layers.17.q_proj: (1280, 1280)
+    shared_stride_stack.layers.16.out_proj: (1280, 1280)
+    shared_stride_stack.layers.16.v_proj: (1280, 1280)
+    shared_stride_stack.layers.16.k_proj: (1280, 1280)
+    shared_stride_stack.layers.16.q_proj: (1280, 1280)
+    shared_stride_stack.layers.15.out_proj: (1280, 1280)
+    shared_stride_stack.layers.15.v_proj: (1280, 1280)
+    shared_stride_stack.layers.15.k_proj: (1280, 1280)
+    shared_stride_stack.layers.15.q_proj: (1280, 1280)
+    shared_stride_stack.layers.14.out_proj: (1280, 1280)
+    shared_stride_stack.layers.14.v_proj: (1280, 1280)
+    shared_stride_stack.layers.14.k_proj: (1280, 1280)
+    shared_stride_stack.layers.14.q_proj: (1280, 1280)
+    shared_stride_stack.layers.13.out_proj: (1280, 1280)
+    shared_stride_stack.layers.13.v_proj: (1280, 1280)
+    shared_stride_stack.layers.13.k_proj: (1280, 1280)
+    shared_stride_stack.layers.13.q_proj: (1280, 1280)
+    shared_stride_stack.layers.12.out_proj: (1280, 1280)
+    shared_stride_stack.layers.12.v_proj: (1280, 1280)
+    shared_stride_stack.layers.12.k_proj: (1280, 1280)
+    shared_stride_stack.layers.12.q_proj: (1280, 1280)
+    shared_stride_stack.layers.11.out_proj: (1280, 1280)
+    shared_stride_stack.layers.11.v_proj: (1280, 1280)
+    shared_stride_stack.layers.11.k_proj: (1280, 1280)
+    shared_stride_stack.layers.11.q_proj: (1280, 1280)
+    shared_stride_stack.layers.10.out_proj: (1280, 1280)
+    shared_stride_stack.layers.10.v_proj: (1280, 1280)
+    shared_stride_stack.layers.10.k_proj: (1280, 1280)
+    shared_stride_stack.layers.10.q_proj: (1280, 1280)
+    shared_stride_stack.layers.9.out_proj: (1280, 1280)
+    shared_stride_stack.layers.9.v_proj: (1280, 1280)
+    shared_stride_stack.layers.9.k_proj: (1280, 1280)
+    shared_stride_stack.layers.9.q_proj: (1280, 1280)
+    shared_stride_stack.layers.8.out_proj: (1280, 1280)
+    shared_stride_stack.layers.8.v_proj: (1280, 1280)
+    shared_stride_stack.layers.8.k_proj: (1280, 1280)
+    shared_stride_stack.layers.8.q_proj: (1280, 1280)
+    shared_stride_stack.layers.7.out_proj: (1280, 1280)
+    shared_stride_stack.layers.7.v_proj: (1280, 1280)
+    shared_stride_stack.layers.7.k_proj: (1280, 1280)
+    shared_stride_stack.layers.7.q_proj: (1280, 1280)
+    shared_stride_stack.layers.6.out_proj: (1280, 1280)
+    shared_stride_stack.layers.6.v_proj: (1280, 1280)
+    shared_stride_stack.layers.6.k_proj: (1280, 1280)
+    shared_stride_stack.layers.6.q_proj: (1280, 1280)
+    shared_stride_stack.layers.5.out_proj: (1280, 1280)
+    shared_stride_stack.layers.5.v_proj: (1280, 1280)
+    shared_stride_stack.layers.5.k_proj: (1280, 1280)
+    shared_stride_stack.layers.5.q_proj: (1280, 1280)
+    shared_stride_stack.layers.4.out_proj: (1280, 1280)
+    shared_stride_stack.layers.4.v_proj: (1280, 1280)
+    shared_stride_stack.layers.4.k_proj: (1280, 1280)
+    shared_stride_stack.layers.4.q_proj: (1280, 1280)
+    shared_stride_stack.layers.3.out_proj: (1280, 1280)
+    shared_stride_stack.layers.3.v_proj: (1280, 1280)
+    shared_stride_stack.layers.3.k_proj: (1280, 1280)
+    shared_stride_stack.layers.3.q_proj: (1280, 1280)
+    shared_stride_stack.layers.2.out_proj: (1280, 1280)
+    shared_stride_stack.layers.2.v_proj: (1280, 1280)
+    shared_stride_stack.layers.2.k_proj: (1280, 1280)
+    shared_stride_stack.layers.2.q_proj: (1280, 1280)
+    shared_stride_stack.layers.1.out_proj: (1280, 1280)
+    shared_stride_stack.layers.1.v_proj: (1280, 1280)
+    shared_stride_stack.layers.1.k_proj: (1280, 1280)
+    shared_stride_stack.layers.1.q_proj: (1280, 1280)
+    shared_stride_stack.layers.0.out_proj: (1280, 1280)
+    shared_stride_stack.layers.0.v_proj: (1280, 1280)
+    shared_stride_stack.layers.0.k_proj: (1280, 1280)
+    shared_stride_stack.layers.0.q_proj: (1280, 1280)
+
+🔮 Structured data: data/structured_shard_qwen36.npy
+   Crystal warmup: 50 steps pure structured
+   Then mix_ratio=0.1
+
+Config: lr=0.0003  batch=1  grad_accum=8  seq_len=4096  total_steps=20000
+
+========================================================================
+  v15 — TernaryDescent Training
+  Adam (beams) + TD (delta plates)
+  d_model=1280  n_passes=8  strides=19
+  Fibonacci strides: (1, 2, 3, 5, 8, 13, 15, 20, 21, 24, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+  All composition (no GLA): True
+  ±2 neighbor gathering
+  steps 1–3000
+  TD: flip_rate=0.001  warmup=25  min_conf=0.3  flip_interval=20
+  Gradient decomposition: ON (routing→TD, calibration→Adam)
+  No-block: all 19 composition strides = {+1,-1} only
+  Crystal loss: Laplacian-weighted (WHNF 5× fragility)
+  Reduce: interval=0  threshold=0.05
+  Delta modules total: 76  (attn=76, ffn=0)
+    [attn,no-block] shared_stride_stack.layers.18.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.18.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.18.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.18.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.17.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.17.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.17.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.17.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.16.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.16.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.16.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.16.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.15.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.15.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.15.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.15.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.14.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.14.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.14.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.14.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.13.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.13.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.13.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.13.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.12.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.12.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.12.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.12.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.11.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.11.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.11.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.11.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.10.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.10.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.10.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.10.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.9.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.9.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.9.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.9.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.8.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.8.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.8.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.8.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.7.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.7.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.7.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.7.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.6.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.6.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.6.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.6.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.5.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.5.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.5.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.5.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.4.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.4.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.4.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.4.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.3.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.3.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.3.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.3.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.2.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.2.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.2.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.2.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.1.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.1.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.1.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.1.q_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.0.out_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.0.v_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.0.k_proj: (1280, 1280)
+    [attn,no-block] shared_stride_stack.layers.0.q_proj: (1280, 1280)
+========================================================================
+step      1 | loss=620.3850 (avg50: 620.3850) | CE=11.177 crystal=0.0913(Laplacian-wtd) parity=5.2489 cross_zone=0.8015 | lr 6.00e-07 | gnorm 7994.25 | 1142 tok/s | 🔒 td=0 Δ=0.000 | 34s
+step     10 | loss=109.2810 (avg50: 308.9001) | CE=11.271 crystal=0.0908(Laplacian-wtd) parity=5.2206 cross_zone=0.7976 | lr 6.00e-06 | gnorm 1515.70 | 997 tok/s | 🔒 td=0 Δ=0.000 | 321s
+step     20 | loss=40.7866 (avg50: 185.1003) | CE=11.191 crystal=0.0902(Laplacian-wtd) parity=5.1826 cross_zone=0.7924 | lr 1.20e-05 | gnorm 562.78 | 1038 tok/s | 🔒 td=0 Δ=0.000 | 642s
+step     30 | loss=26.8983 (avg50: 133.9707) | CE=10.880 crystal=0.0897(Laplacian-wtd) parity=5.1543 cross_zone=0.7885 | lr 1.80e-05 | gnorm 186.43 | 1048 tok/s | 🔒 td=0 Δ=0.000 | 956s
+step     40 | loss=21.9713 (avg50: 106.4547) | CE=10.670 crystal=0.0892(Laplacian-wtd) parity=5.1203 cross_zone=0.7839 | lr 2.40e-05 | gnorm 69.16 | 1038 tok/s | 🔒 td=0 Δ=0.000 | 1268s
+step     50 | loss=19.0280 (avg50: 89.2231) | CE=10.681 crystal=0.0880(Laplacian-wtd) parity=5.0415 cross_zone=0.7733 | lr 3.00e-05 | gnorm 33.97 | 1063 tok/s | 🔒 td=0 Δ=0.000 | 1579s
+
+🔮 Step 51: structured warmup complete → mix_ratio=0.1
+step     60 | loss=19.7182 (avg50: 31.8224) | CE=12.961 crystal=0.0867(Laplacian-wtd) parity=4.9501 cross_zone=0.7610 | lr 3.60e-05 | gnorm 322.00 | 1063 tok/s | 🔒 td=0 Δ=0.000 | 1886s
+step     70 | loss=18.2905 (avg50: 23.3653) | CE=12.084 crystal=0.0857(Laplacian-wtd) parity=4.8842 cross_zone=0.7521 | lr 4.20e-05 | gnorm 16.34 | 1040 tok/s | 🔒 td=0 Δ=0.000 | 2199s
+step     80 | loss=17.4619 (avg50: 20.6067) | CE=10.698 crystal=0.0818(Laplacian-wtd) parity=4.6041 cross_zone=0.7143 | lr 4.80e-05 | gnorm 16.70 | 1041 tok/s | 🔒 td=0 Δ=0.000 | 2513s
+step     90 | loss=16.8412 (avg50: 19.2546) | CE=12.065 crystal=0.0744(Laplacian-wtd) parity=4.0900 cross_zone=0.6450 | lr 5.40e-05 | gnorm 14.41 | 1052 tok/s | 🔒 td=0 Δ=0.000 | 2824s
+step    100 | loss=15.7647 (avg50: 18.4455) | CE=11.684 crystal=0.0646(Laplacian-wtd) parity=3.4085 cross_zone=0.5529 | lr 6.00e-05 | gnorm 12.83 | 1055 tok/s | 🔒 td=0 Δ=0.000 | 3134s
+step    110 | loss=14.4922 (avg50: 17.1029) | CE=11.492 crystal=0.0539(Laplacian-wtd) parity=2.6667 cross_zone=0.4526 | lr 6.60e-05 | gnorm 15.27 | 1060 tok/s | 🔒 td=0 Δ=0.000 | 3446s
+step    120 | loss=13.5510 (avg50: 16.1391) | CE=10.412 crystal=0.0443(Laplacian-wtd) parity=1.9998 cross_zone=0.3622 | lr 7.20e-05 | gnorm 15.44 | 1072 tok/s | 🔒 td=0 Δ=0.000 | 3753s
+step    130 | loss=12.8167 (avg50: 15.2155) | CE=11.160 crystal=0.0361(Laplacian-wtd) parity=1.4383 cross_zone=0.2858 | lr 7.80e-05 | gnorm 14.96 | 1080 tok/s | 🔒 td=0 Δ=0.000 | 4058s
+step    140 | loss=12.2028 (avg50: 14.3040) | CE=11.055 crystal=0.0296(Laplacian-wtd) parity=1.0094 cross_zone=0.2269 | lr 8.40e-05 | gnorm 13.64 | 1063 tok/s | 🔓 td=0 Δ=0.000 | 4364s
+step    150 | loss=11.7384 (avg50: 13.4503) | CE=10.798 crystal=0.0246(Laplacian-wtd) parity=0.6949 cross_zone=0.1829 | lr 9.00e-05 | gnorm 13.45 | 1054 tok/s | 🔓 td=0 Δ=0.000 | 4672s
+step    160 | loss=11.2579 (avg50: 12.7062) | CE=10.642 crystal=0.0206(Laplacian-wtd) parity=0.4675 cross_zone=0.1498 | lr 9.60e-05 | gnorm 11.67 | 1070 tok/s | 🔓 td=0 Δ=0.000 | 4980s
+step    170 | loss=10.9632 (avg50: 12.0775) | CE=10.172 crystal=0.0172(Laplacian-wtd) parity=0.3052 cross_zone=0.1243 | lr 1.02e-04 | gnorm 9.57 | 1047 tok/s | 🔓 td=0 Δ=0.000 | 5288s
+step    180 | loss=10.5263 (avg50: 11.5599) | CE=10.179 crystal=0.0145(Laplacian-wtd) parity=0.1888 cross_zone=0.1042 | lr 1.08e-04 | gnorm 9.88 | 657 tok/s | 🔓 td=124488 Δ=0.001 etch=76×1638 adam_decay=10492 | 5621s
+step    190 | loss=10.5461 (avg50: 11.1985) | CE=9.873 crystal=0.0126(Laplacian-wtd) parity=0.1147 cross_zone=0.0901 | lr 1.14e-04 | gnorm 13.14 | 1014 tok/s | 🔓 td=0 Δ=0.001 | 5941s
+step    200 | loss=10.1954 (avg50: 10.8950) | CE=10.225 crystal=0.0113(Laplacian-wtd) parity=0.0689 cross_zone=0.0804 | lr 1.20e-04 | gnorm 10.41 | 488 tok/s | 🔓 td=124488 Δ=0.002 etch=76×1638 adam_decay=13884 | 6349s
+step    210 | loss=10.0561 (avg50: 10.6540) | CE=9.968 crystal=0.0107(Laplacian-wtd) parity=0.0477 cross_zone=0.0752 | lr 1.26e-04 | gnorm 8.62 | 809 tok/s | 🔓 td=0 Δ=0.002 | 6774s
+step    220 | loss=9.7845 (avg50: 10.4318) | CE=9.474 crystal=0.0103(Laplacian-wtd) parity=0.0397 cross_zone=0.0726 | lr 1.32e-04 | gnorm 7.12 | 432 tok/s | 🔓 td=124488 Δ=0.003 etch=76×1638 adam_decay=15366 | 7189s
+step    230 | loss=9.8038 (avg50: 10.2678) | CE=9.578 crystal=0.0101(Laplacian-wtd) parity=0.0362 cross_zone=0.0709 | lr 1.38e-04 | gnorm 7.23 | 1059 tok/s | 🔓 td=0 Δ=0.003 | 7570s
+step    240 | loss=9.3713 (avg50: 10.0193) | CE=9.385 crystal=0.0100(Laplacian-wtd) parity=0.0342 cross_zone=0.0697 | lr 1.44e-04 | gnorm 4.90 | 667 tok/s | 🔓 td=124488 Δ=0.004 etch=76×1638 adam_decay=18298 | 7898s
+step    250 | loss=9.0996 (avg50: 9.7821) | CE=9.138 crystal=0.0099(Laplacian-wtd) parity=0.0334 cross_zone=0.0691 | lr 1.50e-04 | gnorm 8.55 | 1056 tok/s | 🔓 td=0 Δ=0.004 | 8206s
+step    260 | loss=9.0075 (avg50: 9.5487) | CE=8.749 crystal=0.0099(Laplacian-wtd) parity=0.0331 cross_zone=0.0688 | lr 1.56e-04 | gnorm 4.62 | 535 tok/s | 🔓 td=124488 Δ=0.005 etch=76×1638 adam_decay=15974 | 8602s
+step    270 | loss=8.9358 (avg50: 9.3594) | CE=8.938 crystal=0.0099(Laplacian-wtd) parity=0.0330 cross_zone=0.0688 | lr 1.62e-04 | gnorm 4.63 | 713 tok/s | 🔓 td=0 Δ=0.005 | 9011s
+step    280 | loss=8.6748 (avg50: 9.1419) | CE=8.502 crystal=0.0099(Laplacian-wtd) parity=0.0330 cross_zone=0.0687 | lr 1.68e-04 | gnorm 3.65 | 619 tok/s | 🔓 td=124488 Δ=0.006 etch=76×1638 adam_decay=15544 | 9448s
+step    290 | loss=8.6994 (avg50: 8.9704) | CE=8.538 crystal=0.0099(Laplacian-wtd) parity=0.0330 cross_zone=0.0687 | lr 1.74e-04 | gnorm 4.03 | 1035 tok/s | 🔓 td=0 Δ=0.006 | 9760s
+step    300 | loss=8.5924 (avg50: 8.8348) | CE=8.193 crystal=0.0099(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 1.80e-04 | gnorm 3.28 | 371 tok/s | 🔓 td=124488 Δ=0.007 etch=76×1638 adam_decay=17250 | 10233s
+step    310 | loss=8.7552 (avg50: 8.7329) | CE=9.461 crystal=0.0099(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 1.86e-04 | gnorm 5.82 | 1041 tok/s | 🔓 td=0 Δ=0.007 | 10621s
+step    320 | loss=8.2721 (avg50: 8.6246) | CE=8.533 crystal=0.0099(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 1.92e-04 | gnorm 5.07 | 646 tok/s | 🔓 td=124488 Δ=0.008 etch=76×1638 adam_decay=19926 | 10958s
+step    330 | loss=8.4359 (avg50: 8.5468) | CE=8.603 crystal=0.0099(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 1.98e-04 | gnorm 7.43 | 606 tok/s | 🔓 td=0 Δ=0.008 | 11346s
+step    340 | loss=8.1758 (avg50: 8.4767) | CE=8.267 crystal=0.0099(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 2.04e-04 | gnorm 5.63 | 658 tok/s | 🔓 td=124488 Δ=0.009 etch=76×1638 adam_decay=30896 | 11708s
+step    350 | loss=8.2672 (avg50: 8.4121) | CE=8.500 crystal=0.0098(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 2.10e-04 | gnorm 4.44 | 1042 tok/s | 🔓 td=0 Δ=0.009 | 12027s
+step    360 | loss=8.3232 (avg50: 8.3418) | CE=8.341 crystal=0.0098(Laplacian-wtd) parity=0.0329 cross_zone=0.0687 | lr 2.16e-04 | gnorm 3.21 | 655 tok/s | 🔓 td=124488 Δ=0.010 etch=76×1638 adam_decay=27846 | 12361s
+step    370 | loss=8.3985 (avg50: 8.3296) | CE=8.182 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0687 | lr 2.22e-04 | gnorm 8.89 | 932 tok/s | 🔓 td=0 Δ=0.010 | 12689s
+step    380 | loss=7.9950 (avg50: 8.2780) | CE=8.419 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0687 | lr 2.28e-04 | gnorm 7.14 | 674 tok/s | 🔓 td=124488 Δ=0.011 etch=76×1638 adam_decay=25674 | 13023s
+step    390 | loss=8.0242 (avg50: 8.2373) | CE=8.647 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0687 | lr 2.34e-04 | gnorm 6.82 | 696 tok/s | 🔓 td=0 Δ=0.011 | 13376s
+step    400 | loss=8.1674 (avg50: 8.1990) | CE=8.164 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0687 | lr 2.40e-04 | gnorm 4.51 | 314 tok/s | 🔓 td=124488 Δ=0.011 etch=76×1638 adam_decay=35376 | 13920s
+step    410 | loss=8.1918 (avg50: 8.1659) | CE=8.220 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0687 | lr 2.46e-04 | gnorm 6.85 | 521 tok/s | 🔓 td=0 Δ=0.011 | 14545s
+step    420 | loss=8.0146 (avg50: 8.0870) | CE=7.849 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0686 | lr 2.52e-04 | gnorm 3.96 | 305 tok/s | 🔓 td=124488 Δ=0.012 etch=76×1638 adam_decay=30160 | 15183s
+step    430 | loss=8.1176 (avg50: 8.0655) | CE=8.477 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0686 | lr 2.58e-04 | gnorm 8.33 | 1062 tok/s | 🔓 td=0 Δ=0.012 | 15565s
+step    440 | loss=7.6521 (avg50: 8.0191) | CE=7.860 crystal=0.0098(Laplacian-wtd) parity=0.0328 cross_zone=0.0686 | lr 2.64e-04 | gnorm 5.27 | 685 tok/s | 🔓 td=124488 Δ=0.013 etch=76×1638 adam_decay=31770 | 15886s
+step    450 | loss=8.0566 (avg50: 8.0192) | CE=8.183 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 2.70e-04 | gnorm 4.04 | 1119 tok/s | 🔓 td=0 Δ=0.013 | 16177s
+step    460 | loss=8.0492 (avg50: 7.9756) | CE=7.819 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 2.76e-04 | gnorm 4.76 | 676 tok/s | 🔓 td=124488 Δ=0.014 etch=76×1638 adam_decay=34056 | 16495s
+step    470 | loss=7.9355 (avg50: 7.9429) | CE=7.865 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 2.82e-04 | gnorm 4.41 | 1095 tok/s | 🔓 td=0 Δ=0.014 | 16796s
+step    480 | loss=7.9584 (avg50: 7.8933) | CE=8.091 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 2.88e-04 | gnorm 3.81 | 690 tok/s | 🔓 td=124488 Δ=0.014 etch=76×1638 adam_decay=34774 | 17111s
+step    490 | loss=7.9644 (avg50: 7.8753) | CE=8.131 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 2.94e-04 | gnorm 6.25 | 1107 tok/s | 🔓 td=0 Δ=0.014 | 17408s
+step    500 | loss=7.6297 (avg50: 7.7789) | CE=8.154 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 3.00e-04 | gnorm 4.48 | 668 tok/s | 🔓 td=124488 Δ=0.015 etch=76×1638 adam_decay=28976 | 17728s
+💾 Checkpoint: checkpoints/v15-td/step_000500
+step    510 | loss=7.9237 (avg50: 7.7671) | CE=7.869 crystal=0.0098(Laplacian-wtd) parity=0.0327 cross_zone=0.0686 | lr 3.00e-04 | gnorm 5.00 | 1091 tok/s | 🔓 td=0 Δ=0.015 | 18073s
+step    520 | loss=7.7888 (avg50: 7.7103) | CE=7.688 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 3.00e-04 | gnorm 5.33 | 643 tok/s | 🔓 td=124488 Δ=0.016 etch=76×1638 adam_decay=29422 | 18409s
+step    530 | loss=7.3730 (avg50: 7.6758) | CE=7.989 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 3.00e-04 | gnorm 7.00 | 1026 tok/s | 🔓 td=0 Δ=0.016 | 18730s
+step    540 | loss=7.4701 (avg50: 7.6411) | CE=8.165 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 3.00e-04 | gnorm 3.76 | 658 tok/s | 🔓 td=124488 Δ=0.016 etch=76×1638 adam_decay=40070 | 19067s
+step    550 | loss=7.4702 (avg50: 7.6161) | CE=8.018 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 3.00e-04 | gnorm 5.91 | 1022 tok/s | 🔓 td=0 Δ=0.016 | 19385s
+step    560 | loss=7.7547 (avg50: 7.5595) | CE=7.719 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 3.00e-04 | gnorm 3.17 | 644 tok/s | 🔓 td=124488 Δ=0.017 etch=76×1638 adam_decay=37232 | 19728s
+step    570 | loss=7.8191 (avg50: 7.5473) | CE=8.312 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 2.99e-04 | gnorm 4.15 | 1013 tok/s | 🔓 td=0 Δ=0.017 | 20053s
+step    580 | loss=7.7194 (avg50: 7.5563) | CE=7.556 crystal=0.0098(Laplacian-wtd) parity=0.0326 cross_zone=0.0686 | lr 2.99e-04 | gnorm 3.64 | 643 tok/s | 🔓 td=124488 Δ=0.018 etch=76×1638 adam_decay=29942 | 20396s
+step    590 | loss=7.6389 (avg50: 7.5517) | CE=7.566 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0686 | lr 2.99e-04 | gnorm 4.49 | 999 tok/s | 🔓 td=0 Δ=0.018 | 20723s
+step    600 | loss=7.5941 (avg50: 7.5202) | CE=7.636 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0686 | lr 2.99e-04 | gnorm 3.75 | 645 tok/s | 🔓 td=124488 Δ=0.018 etch=76×1638 adam_decay=37482 | 21070s
+step    610 | loss=7.7433 (avg50: 7.5197) | CE=7.568 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.99e-04 | gnorm 7.28 | 1013 tok/s | 🔓 td=0 Δ=0.018 | 21409s
+step    620 | loss=7.7942 (avg50: 7.5196) | CE=7.958 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.98e-04 | gnorm 3.68 | 637 tok/s | 🔓 td=124488 Δ=0.019 etch=76×1638 adam_decay=35154 | 21759s
+step    630 | loss=7.6237 (avg50: 7.4781) | CE=7.506 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.98e-04 | gnorm 5.77 | 983 tok/s | 🔓 td=0 Δ=0.019 | 22091s
+step    640 | loss=7.6281 (avg50: 7.4118) | CE=7.865 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.98e-04 | gnorm 2.68 | 637 tok/s | 🔓 td=124488 Δ=0.020 etch=76×1638 adam_decay=29602 | 22440s
+step    650 | loss=7.1603 (avg50: 7.4172) | CE=7.693 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.97e-04 | gnorm 4.34 | 990 tok/s | 🔓 td=0 Δ=0.020 | 22770s
+step    660 | loss=7.6119 (avg50: 7.3816) | CE=7.349 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.97e-04 | gnorm 3.39 | 643 tok/s | 🔓 td=124488 Δ=0.020 etch=76×1638 adam_decay=28674 | 23116s
+step    670 | loss=7.4922 (avg50: 7.3277) | CE=7.329 crystal=0.0098(Laplacian-wtd) parity=0.0325 cross_zone=0.0685 | lr 2.97e-04 | gnorm 4.63 | 1000 tok/s | 🔓 td=0 Δ=0.020 | 23443s
+step    680 | loss=6.7880 (avg50: 7.2987) | CE=7.544 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.96e-04 | gnorm 6.08 | 649 tok/s | 🔓 td=124488 Δ=0.021 etch=76×1638 adam_decay=33672 | 23789s
+step    690 | loss=7.4580 (avg50: 7.3248) | CE=7.319 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.96e-04 | gnorm 4.66 | 1021 tok/s | 🔓 td=0 Δ=0.021 | 24111s
+step    700 | loss=7.6663 (avg50: 7.3075) | CE=7.480 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.95e-04 | gnorm 6.33 | 644 tok/s | 🔓 td=124488 Δ=0.021 etch=76×1638 adam_decay=35666 | 24452s
+step    710 | loss=7.1768 (avg50: 7.3103) | CE=7.702 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.95e-04 | gnorm 8.32 | 1030 tok/s | 🔓 td=0 Δ=0.021 | 24788s
+step    720 | loss=7.3125 (avg50: 7.3456) | CE=6.783 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.94e-04 | gnorm 6.03 | 658 tok/s | 🔓 td=124488 Δ=0.022 etch=76×1638 adam_decay=36560 | 25125s
+step    730 | loss=7.6352 (avg50: 7.3493) | CE=7.287 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.94e-04 | gnorm 5.16 | 1019 tok/s | 🔓 td=0 Δ=0.022 | 25444s
+step    740 | loss=7.2194 (avg50: 7.3188) | CE=7.781 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.93e-04 | gnorm 4.72 | 650 tok/s | 🔓 td=124488 Δ=0.022 etch=76×1638 adam_decay=39910 | 25789s
+step    750 | loss=7.1190 (avg50: 7.2981) | CE=7.444 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.93e-04 | gnorm 4.83 | 1018 tok/s | 🔓 td=0 Δ=0.022 | 26111s
+step    760 | loss=7.1362 (avg50: 7.2836) | CE=7.159 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.92e-04 | gnorm 5.89 | 646 tok/s | 🔓 td=124488 Δ=0.023 etch=76×1638 adam_decay=37810 | 26457s
+step    770 | loss=6.6130 (avg50: 7.2265) | CE=7.301 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.92e-04 | gnorm 6.08 | 1014 tok/s | 🔓 td=0 Δ=0.023 | 26780s
+step    780 | loss=7.4104 (avg50: 7.1917) | CE=7.007 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.91e-04 | gnorm 3.98 | 650 tok/s | 🔓 td=124488 Δ=0.023 etch=76×1638 adam_decay=31668 | 27124s
+step    790 | loss=6.9874 (avg50: 7.1817) | CE=7.469 crystal=0.0098(Laplacian-wtd) parity=0.0324 cross_zone=0.0685 | lr 2.90e-04 | gnorm 5.87 | 1013 tok/s | 🔓 td=0 Δ=0.023 | 27447s
+step    800 | loss=7.2489 (avg50: 7.1597) | CE=7.084 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.90e-04 | gnorm 3.81 | 648 tok/s | 🔓 td=124488 Δ=0.024 etch=76×1638 adam_decay=33824 | 27792s
+step    810 | loss=7.8033 (avg50: 7.1495) | CE=9.293 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.89e-04 | gnorm 7.19 | 1039 tok/s | 🔓 td=0 Δ=0.024 | 28124s
+step    820 | loss=6.6331 (avg50: 7.1067) | CE=7.230 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.88e-04 | gnorm 6.86 | 652 tok/s | 🔓 td=124488 Δ=0.024 etch=76×1638 adam_decay=33784 | 28466s
+step    830 | loss=6.9886 (avg50: 7.1075) | CE=7.600 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.87e-04 | gnorm 5.46 | 1054 tok/s | 🔓 td=0 Δ=0.024 | 28778s
+step    840 | loss=6.8999 (avg50: 7.0837) | CE=7.163 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.87e-04 | gnorm 3.55 | 650 tok/s | 🔓 td=124488 Δ=0.025 etch=76×1638 adam_decay=37218 | 29114s
+step    850 | loss=6.5919 (avg50: 7.0875) | CE=4.374 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.86e-04 | gnorm 4.91 | 1031 tok/s | 🔓 td=0 Δ=0.025 | 29432s
+step    860 | loss=7.2752 (avg50: 7.0325) | CE=7.577 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.85e-04 | gnorm 3.29 | 652 tok/s | 🔓 td=124488 Δ=0.025 etch=76×1638 adam_decay=38520 | 29773s
+step    870 | loss=6.8649 (avg50: 7.0554) | CE=7.243 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.84e-04 | gnorm 4.88 | 1025 tok/s | 🔓 td=0 Δ=0.025 | 30093s
+step    880 | loss=7.3638 (avg50: 7.0233) | CE=7.468 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0685 | lr 2.83e-04 | gnorm 4.35 | 651 tok/s | 🔓 td=124488 Δ=0.026 etch=76×1638 adam_decay=33816 | 30433s
+step    890 | loss=6.9077 (avg50: 6.9846) | CE=7.244 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0684 | lr 2.83e-04 | gnorm 3.86 | 1031 tok/s | 🔓 td=0 Δ=0.026 | 30753s
+step    900 | loss=7.1539 (avg50: 6.9949) | CE=7.449 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0684 | lr 2.82e-04 | gnorm 4.07 | 652 tok/s | 🔓 td=124488 Δ=0.026 etch=76×1638 adam_decay=31776 | 31091s
+step    910 | loss=6.5254 (avg50: 7.0132) | CE=7.465 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0684 | lr 2.81e-04 | gnorm 5.17 | 1068 tok/s | 🔓 td=0 Δ=0.026 | 31418s
+step    920 | loss=7.2204 (avg50: 6.9927) | CE=6.989 crystal=0.0098(Laplacian-wtd) parity=0.0323 cross_zone=0.0684 | lr 2.80e-04 | gnorm 3.56 | 660 tok/s | 🔓 td=124488 Δ=0.027 etch=76×1638 adam_decay=30626 | 31750s
+step    930 | loss=6.8838 (avg50: 6.9826) | CE=7.468 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.79e-04 | gnorm 4.69 | 1052 tok/s | 🔓 td=0 Δ=0.027 | 32062s
+step    940 | loss=6.7601 (avg50: 6.9925) | CE=7.039 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.78e-04 | gnorm 3.10 | 657 tok/s | 🔓 td=124488 Δ=0.027 etch=76×1638 adam_decay=31936 | 32395s
+step    950 | loss=6.9931 (avg50: 6.9643) | CE=7.515 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.77e-04 | gnorm 6.28 | 1060 tok/s | 🔓 td=0 Δ=0.027 | 32707s
+step    960 | loss=6.4882 (avg50: 6.9421) | CE=7.218 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.76e-04 | gnorm 4.65 | 670 tok/s | 🔓 td=124488 Δ=0.028 etch=76×1638 adam_decay=35942 | 33033s
+step    970 | loss=7.4951 (avg50: 6.9298) | CE=7.373 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.75e-04 | gnorm 3.76 | 1057 tok/s | 🔓 td=0 Δ=0.028 | 33341s
+step    980 | loss=7.3128 (avg50: 6.8942) | CE=7.244 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.74e-04 | gnorm 4.14 | 672 tok/s | 🔓 td=124488 Δ=0.028 etch=76×1638 adam_decay=37390 | 33668s
+step    990 | loss=6.5313 (avg50: 6.8777) | CE=7.045 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.73e-04 | gnorm 5.53 | 1075 tok/s | 🔓 td=0 Δ=0.028 | 33974s
+step   1000 | loss=7.2334 (avg50: 6.8820) | CE=7.418 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.72e-04 | gnorm 4.12 | 669 tok/s | 🔓 td=124488 Δ=0.029 etch=76×1638 adam_decay=33948 | 34299s
+💾 Checkpoint: checkpoints/v15-td/step_001000
+step   1010 | loss=7.1077 (avg50: 6.9105) | CE=6.838 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.71e-04 | gnorm 4.32 | 1123 tok/s | 🔓 td=0 Δ=0.029 | 34631s
+step   1020 | loss=7.1316 (avg50: 6.9428) | CE=6.928 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.69e-04 | gnorm 3.93 | 653 tok/s | 🔓 td=124488 Δ=0.029 etch=76×1638 adam_decay=31360 | 34957s
+step   1030 | loss=6.8170 (avg50: 6.9730) | CE=7.039 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.68e-04 | gnorm 5.73 | 1061 tok/s | 🔓 td=0 Δ=0.029 | 35266s
+step   1040 | loss=7.2839 (avg50: 6.9255) | CE=7.109 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.67e-04 | gnorm 2.64 | 668 tok/s | 🔓 td=124488 Δ=0.030 etch=76×1638 adam_decay=28280 | 35591s
+step   1050 | loss=7.2113 (avg50: 6.9266) | CE=7.385 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.66e-04 | gnorm 5.49 | 1085 tok/s | 🔓 td=0 Δ=0.030 | 35894s
+step   1060 | loss=6.3415 (avg50: 6.8857) | CE=3.604 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.65e-04 | gnorm 3.98 | 667 tok/s | 🔓 td=124488 Δ=0.030 etch=76×1638 adam_decay=31500 | 36217s
+step   1070 | loss=6.8229 (avg50: 6.8745) | CE=7.368 crystal=0.0098(Laplacian-wtd) parity=0.0322 cross_zone=0.0684 | lr 2.64e-04 | gnorm 5.83 | 1084 tok/s | 🔓 td=0 Δ=0.030 | 36519s
+step   1080 | loss=7.1039 (avg50: 6.8628) | CE=6.223 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.62e-04 | gnorm 5.68 | 671 tok/s | 🔓 td=124488 Δ=0.031 etch=76×1638 adam_decay=30990 | 36840s
+step   1090 | loss=7.0379 (avg50: 6.9289) | CE=7.182 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.61e-04 | gnorm 4.14 | 1081 tok/s | 🔓 td=0 Δ=0.031 | 37142s
+step   1100 | loss=7.1663 (avg50: 6.9195) | CE=6.938 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.60e-04 | gnorm 3.30 | 672 tok/s | 🔓 td=124488 Δ=0.031 etch=76×1638 adam_decay=34524 | 37464s
+step   1110 | loss=6.2689 (avg50: 6.8911) | CE=7.058 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.58e-04 | gnorm 4.86 | 1110 tok/s | 🔓 td=0 Δ=0.031 | 37778s
+step   1120 | loss=7.2897 (avg50: 6.8535) | CE=7.172 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.57e-04 | gnorm 2.58 | 664 tok/s | 🔓 td=124488 Δ=0.032 etch=76×1638 adam_decay=35738 | 38100s
+step   1130 | loss=7.2294 (avg50: 6.8705) | CE=7.252 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.56e-04 | gnorm 3.85 | 1061 tok/s | 🔓 td=0 Δ=0.032 | 38407s
+step   1140 | loss=7.2530 (avg50: 6.8640) | CE=7.426 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.55e-04 | gnorm 3.11 | 661 tok/s | 🔓 td=124488 Δ=0.032 etch=76×1638 adam_decay=34482 | 38735s
+step   1150 | loss=6.7757 (avg50: 6.8720) | CE=7.110 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.53e-04 | gnorm 4.62 | 1077 tok/s | 🔓 td=0 Δ=0.032 | 39041s
+step   1160 | loss=6.2429 (avg50: 6.8821) | CE=7.321 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.52e-04 | gnorm 4.82 | 657 tok/s | 🔓 td=124488 Δ=0.033 etch=76×1638 adam_decay=27610 | 39368s
+step   1170 | loss=6.7275 (avg50: 6.9263) | CE=7.345 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.50e-04 | gnorm 4.68 | 1063 tok/s | 🔓 td=0 Δ=0.033 | 39677s
+step   1180 | loss=6.4983 (avg50: 6.8810) | CE=6.655 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.49e-04 | gnorm 3.92 | 666 tok/s | 🔓 td=124488 Δ=0.033 etch=76×1638 adam_decay=32012 | 40003s
+step   1190 | loss=7.1825 (avg50: 6.8774) | CE=7.175 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.48e-04 | gnorm 5.82 | 1068 tok/s | 🔓 td=0 Δ=0.033 | 40309s
+step   1200 | loss=6.5209 (avg50: 6.8140) | CE=3.567 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.46e-04 | gnorm 3.94 | 666 tok/s | 🔓 td=124488 Δ=0.034 etch=76×1638 adam_decay=28838 | 40636s
+step   1210 | loss=6.7222 (avg50: 6.8301) | CE=6.928 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.45e-04 | gnorm 3.89 | 1099 tok/s | 🔓 td=0 Δ=0.034 | 40953s
+step   1220 | loss=6.9522 (avg50: 6.7966) | CE=7.154 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.43e-04 | gnorm 3.56 | 660 tok/s | 🔓 td=124488 Δ=0.034 etch=76×1638 adam_decay=31858 | 41278s
+step   1230 | loss=6.6845 (avg50: 6.8576) | CE=7.353 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.42e-04 | gnorm 5.21 | 1073 tok/s | 🔓 td=0 Δ=0.034 | 41585s
+step   1240 | loss=6.6776 (avg50: 6.7850) | CE=7.254 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.40e-04 | gnorm 3.63 | 663 tok/s | 🔓 td=124488 Δ=0.035 etch=76×1638 adam_decay=28040 | 41910s
+step   1250 | loss=7.1629 (avg50: 6.8325) | CE=7.282 crystal=0.0098(Laplacian-wtd) parity=0.0321 cross_zone=0.0684 | lr 2.39e-04 | gnorm 5.78 | 1048 tok/s | 🔓 td=0 Δ=0.035 | 42219s
+step   1260 | loss=6.7331 (avg50: 6.8052) | CE=7.291 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0684 | lr 2.37e-04 | gnorm 3.56 | 657 tok/s | 🔓 td=124488 Δ=0.035 etch=76×1638 adam_decay=28256 | 42553s
+step   1270 | loss=6.7633 (avg50: 6.7985) | CE=7.159 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0684 | lr 2.36e-04 | gnorm 3.70 | 1083 tok/s | 🔓 td=0 Δ=0.035 | 42855s
+step   1280 | loss=7.0572 (avg50: 6.7669) | CE=6.939 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0684 | lr 2.34e-04 | gnorm 3.78 | 658 tok/s | 🔓 td=124488 Δ=0.035 etch=76×1638 adam_decay=31968 | 43180s
+step   1290 | loss=6.5694 (avg50: 6.8113) | CE=7.581 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0684 | lr 2.33e-04 | gnorm 3.94 | 1066 tok/s | 🔓 td=0 Δ=0.035 | 43488s
+step   1300 | loss=6.7306 (avg50: 6.8109) | CE=7.290 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.31e-04 | gnorm 3.69 | 666 tok/s | 🔓 td=124488 Δ=0.036 etch=76×1638 adam_decay=33910 | 43814s
+step   1310 | loss=6.6526 (avg50: 6.8703) | CE=7.347 crystal=0.0098(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.29e-04 | gnorm 4.41 | 1082 tok/s | 🔓 td=0 Δ=0.036 | 44133s
+step   1320 | loss=7.2293 (avg50: 6.8434) | CE=7.600 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.28e-04 | gnorm 3.89 | 650 tok/s | 🔓 td=124488 Δ=0.036 etch=76×1638 adam_decay=30790 | 44465s
+step   1330 | loss=7.1546 (avg50: 6.8597) | CE=7.247 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.26e-04 | gnorm 4.16 | 1057 tok/s | 🔓 td=0 Δ=0.036 | 44777s
+step   1340 | loss=6.2824 (avg50: 6.8415) | CE=7.076 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.25e-04 | gnorm 3.26 | 666 tok/s | 🔓 td=124488 Δ=0.037 etch=76×1638 adam_decay=31010 | 45104s
+step   1350 | loss=6.6216 (avg50: 6.8380) | CE=7.352 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.23e-04 | gnorm 3.91 | 1088 tok/s | 🔓 td=0 Δ=0.037 | 45405s
+step   1360 | loss=7.0810 (avg50: 6.7816) | CE=6.804 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.21e-04 | gnorm 3.88 | 669 tok/s | 🔓 td=124488 Δ=0.037 etch=76×1638 adam_decay=28296 | 45728s
+step   1370 | loss=6.6459 (avg50: 6.7846) | CE=7.015 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.20e-04 | gnorm 4.55 | 1069 tok/s | 🔓 td=0 Δ=0.037 | 46032s
+step   1380 | loss=7.1416 (avg50: 6.7662) | CE=6.977 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.18e-04 | gnorm 4.24 | 657 tok/s | 🔓 td=124488 Δ=0.038 etch=76×1638 adam_decay=36142 | 46364s
+step   1390 | loss=7.0110 (avg50: 6.7792) | CE=6.812 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.16e-04 | gnorm 2.65 | 1061 tok/s | 🔓 td=0 Δ=0.038 | 46674s
+step   1400 | loss=6.9860 (avg50: 6.7541) | CE=7.009 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.15e-04 | gnorm 3.21 | 663 tok/s | 🔓 td=124488 Δ=0.038 etch=76×1638 adam_decay=29776 | 47000s
+step   1410 | loss=6.9804 (avg50: 6.7904) | CE=6.965 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.13e-04 | gnorm 4.69 | 1081 tok/s | 🔓 td=0 Δ=0.038 | 47321s
+step   1420 | loss=7.0761 (avg50: 6.7965) | CE=7.248 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.11e-04 | gnorm 3.64 | 661 tok/s | 🔓 td=124488 Δ=0.038 etch=76×1638 adam_decay=26738 | 47649s
+step   1430 | loss=7.0819 (avg50: 6.8001) | CE=7.094 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.10e-04 | gnorm 3.23 | 1077 tok/s | 🔓 td=0 Δ=0.038 | 47955s
+step   1440 | loss=7.0683 (avg50: 6.8006) | CE=7.085 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.08e-04 | gnorm 2.11 | 664 tok/s | 🔓 td=124488 Δ=0.039 etch=76×1638 adam_decay=22744 | 48278s
+step   1450 | loss=7.0022 (avg50: 6.8275) | CE=6.783 crystal=0.0097(Laplacian-wtd) parity=0.0320 cross_zone=0.0683 | lr 2.06e-04 | gnorm 3.51 | 1076 tok/s | 🔓 td=0 Δ=0.039 | 48583s
+step   1460 | loss=6.5777 (avg50: 6.7778) | CE=7.095 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 2.04e-04 | gnorm 3.68 | 664 tok/s | 🔓 td=124488 Δ=0.039 etch=76×1638 adam_decay=31242 | 48907s
+step   1470 | loss=7.2928 (avg50: 6.8306) | CE=7.153 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 2.03e-04 | gnorm 4.75 | 1062 tok/s | 🔓 td=0 Δ=0.039 | 49213s
+step   1480 | loss=6.1783 (avg50: 6.7826) | CE=3.507 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 2.01e-04 | gnorm 4.80 | 663 tok/s | 🔓 td=124488 Δ=0.040 etch=76×1638 adam_decay=25122 | 49542s
+step   1490 | loss=7.1418 (avg50: 6.7945) | CE=6.639 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.99e-04 | gnorm 2.69 | 1073 tok/s | 🔓 td=0 Δ=0.040 | 49848s
+step   1500 | loss=6.1310 (avg50: 6.7318) | CE=7.106 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.97e-04 | gnorm 4.62 | 656 tok/s | 🔓 td=124488 Δ=0.040 etch=76×1638 adam_decay=26420 | 50176s
+💾 Checkpoint: checkpoints/v15-td/step_001500
+step   1510 | loss=6.6370 (avg50: 6.7883) | CE=6.377 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.96e-04 | gnorm 5.60 | 1116 tok/s | 🔓 td=0 Δ=0.040 | 50509s
+step   1520 | loss=5.9920 (avg50: 6.7578) | CE=7.233 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.94e-04 | gnorm 6.62 | 655 tok/s | 🔓 td=124488 Δ=0.041 etch=76×1638 adam_decay=29170 | 50836s
+step   1530 | loss=7.0228 (avg50: 6.7884) | CE=7.429 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.92e-04 | gnorm 3.83 | 1050 tok/s | 🔓 td=0 Δ=0.041 | 51147s
+step   1540 | loss=6.6607 (avg50: 6.7512) | CE=7.763 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.90e-04 | gnorm 4.16 | 660 tok/s | 🔓 td=124488 Δ=0.041 etch=76×1638 adam_decay=27456 | 51478s
+step   1550 | loss=7.0860 (avg50: 6.8332) | CE=6.936 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.88e-04 | gnorm 2.28 | 1067 tok/s | 🔓 td=0 Δ=0.041 | 51785s
+step   1560 | loss=6.7973 (avg50: 6.8053) | CE=7.226 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.87e-04 | gnorm 4.94 | 659 tok/s | 🔓 td=124488 Δ=0.041 etch=76×1638 adam_decay=30078 | 52112s
+step   1570 | loss=7.0571 (avg50: 6.7873) | CE=7.176 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.85e-04 | gnorm 3.99 | 1061 tok/s | 🔓 td=0 Δ=0.041 | 52421s
+step   1580 | loss=7.0284 (avg50: 6.7687) | CE=6.931 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.83e-04 | gnorm 2.95 | 664 tok/s | 🔓 td=124488 Δ=0.042 etch=76×1638 adam_decay=25946 | 52748s
+step   1590 | loss=6.4122 (avg50: 6.8342) | CE=7.140 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.81e-04 | gnorm 8.95 | 1065 tok/s | 🔓 td=0 Δ=0.042 | 53054s
+step   1600 | loss=7.0854 (avg50: 6.8086) | CE=6.987 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.79e-04 | gnorm 4.02 | 660 tok/s | 🔓 td=124488 Δ=0.042 etch=76×1638 adam_decay=25262 | 53384s
+step   1610 | loss=6.7952 (avg50: 6.8208) | CE=7.245 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.77e-04 | gnorm 3.81 | 1099 tok/s | 🔓 td=0 Δ=0.042 | 53701s
+step   1620 | loss=6.5921 (avg50: 6.8260) | CE=3.590 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.76e-04 | gnorm 3.53 | 652 tok/s | 🔓 td=124488 Δ=0.043 etch=76×1638 adam_decay=28442 | 54029s
+step   1630 | loss=6.3062 (avg50: 6.7862) | CE=7.250 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.74e-04 | gnorm 5.31 | 1058 tok/s | 🔓 td=0 Δ=0.043 | 54340s
+step   1640 | loss=7.0897 (avg50: 6.7636) | CE=6.962 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.72e-04 | gnorm 2.69 | 666 tok/s | 🔓 td=124488 Δ=0.043 etch=76×1638 adam_decay=29600 | 54668s
+step   1650 | loss=6.6727 (avg50: 6.6818) | CE=3.526 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.70e-04 | gnorm 3.12 | 1068 tok/s | 🔓 td=0 Δ=0.043 | 54975s
+step   1660 | loss=7.0314 (avg50: 6.6829) | CE=6.923 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.68e-04 | gnorm 2.64 | 661 tok/s | 🔓 td=124488 Δ=0.044 etch=76×1638 adam_decay=27948 | 55306s
+step   1670 | loss=6.3856 (avg50: 6.7052) | CE=7.739 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.66e-04 | gnorm 4.65 | 1067 tok/s | 🔓 td=0 Δ=0.044 | 55615s
+step   1680 | loss=7.0662 (avg50: 6.7531) | CE=7.621 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.65e-04 | gnorm 3.12 | 665 tok/s | 🔓 td=124488 Δ=0.044 etch=76×1638 adam_decay=29040 | 55941s
+step   1690 | loss=6.7394 (avg50: 6.7405) | CE=7.312 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.63e-04 | gnorm 4.92 | 1061 tok/s | 🔓 td=0 Δ=0.044 | 56248s
+step   1700 | loss=6.5373 (avg50: 6.7794) | CE=7.078 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.61e-04 | gnorm 3.73 | 664 tok/s | 🔓 td=124488 Δ=0.044 etch=76×1638 adam_decay=27988 | 56576s
+step   1710 | loss=7.0799 (avg50: 6.7720) | CE=7.178 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.59e-04 | gnorm 3.81 | 1091 tok/s | 🔓 td=0 Δ=0.044 | 56892s
+step   1720 | loss=6.6746 (avg50: 6.7637) | CE=3.346 crystal=0.0097(Laplacian-wtd) parity=0.0319 cross_zone=0.0683 | lr 1.57e-04 | gnorm 2.56 | 650 tok/s | 🔓 td=124488 Δ=0.045 etch=76×1638 adam_decay=24134 | 57225s
+step   1730 | loss=7.2166 (avg50: 6.7874) | CE=7.120 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.55e-04 | gnorm 3.49 | 1051 tok/s | 🔓 td=0 Δ=0.045 | 57539s
+step   1740 | loss=6.9967 (avg50: 6.8005) | CE=7.105 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.53e-04 | gnorm 2.64 | 666 tok/s | 🔓 td=124488 Δ=0.045 etch=76×1638 adam_decay=31764 | 57868s
+step   1750 | loss=6.7388 (avg50: 6.7952) | CE=3.629 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.51e-04 | gnorm 3.34 | 1058 tok/s | 🔓 td=0 Δ=0.045 | 58176s
+step   1760 | loss=6.9674 (avg50: 6.7648) | CE=7.630 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.50e-04 | gnorm 2.67 | 663 tok/s | 🔓 td=124488 Δ=0.046 etch=76×1638 adam_decay=29542 | 58505s
+step   1770 | loss=6.6902 (avg50: 6.7787) | CE=6.893 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.48e-04 | gnorm 5.36 | 1068 tok/s | 🔓 td=0 Δ=0.046 | 58812s
+step   1780 | loss=6.9958 (avg50: 6.6938) | CE=7.069 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.46e-04 | gnorm 1.95 | 658 tok/s | 🔓 td=124488 Δ=0.046 etch=76×1638 adam_decay=26006 | 59141s
+step   1790 | loss=6.3013 (avg50: 6.6509) | CE=6.963 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.44e-04 | gnorm 5.36 | 1060 tok/s | 🔓 td=0 Δ=0.046 | 59452s
+step   1800 | loss=5.6128 (avg50: 6.6498) | CE=3.368 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.42e-04 | gnorm 4.00 | 668 tok/s | 🔓 td=124488 Δ=0.046 etch=76×1638 adam_decay=25664 | 59779s
+step   1810 | loss=6.6753 (avg50: 6.6674) | CE=3.586 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.40e-04 | gnorm 3.97 | 1079 tok/s | 🔓 td=0 Δ=0.046 | 60098s
+step   1820 | loss=6.6364 (avg50: 6.6387) | CE=7.005 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.38e-04 | gnorm 3.12 | 657 tok/s | 🔓 td=124488 Δ=0.047 etch=76×1638 adam_decay=24496 | 60430s
+step   1830 | loss=7.0814 (avg50: 6.7333) | CE=6.655 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.37e-04 | gnorm 2.94 | 1077 tok/s | 🔓 td=0 Δ=0.047 | 60738s
+step   1840 | loss=7.1488 (avg50: 6.7765) | CE=7.665 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.35e-04 | gnorm 2.72 | 684 tok/s | 🔓 td=124488 Δ=0.047 etch=76×1638 adam_decay=31536 | 61061s
+step   1850 | loss=7.2097 (avg50: 6.8119) | CE=7.341 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.33e-04 | gnorm 3.38 | 1113 tok/s | 🔓 td=0 Δ=0.047 | 61355s
+step   1860 | loss=6.1778 (avg50: 6.8263) | CE=7.183 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.31e-04 | gnorm 3.60 | 687 tok/s | 🔓 td=124488 Δ=0.048 etch=76×1638 adam_decay=30642 | 61667s
+step   1870 | loss=7.0798 (avg50: 6.8321) | CE=7.171 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.29e-04 | gnorm 4.22 | 1083 tok/s | 🔓 td=0 Δ=0.048 | 61965s
+step   1880 | loss=7.0857 (avg50: 6.8045) | CE=6.860 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.27e-04 | gnorm 2.73 | 676 tok/s | 🔓 td=124488 Δ=0.048 etch=76×1638 adam_decay=31270 | 62289s
+step   1890 | loss=6.2420 (avg50: 6.7688) | CE=7.109 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.26e-04 | gnorm 4.31 | 963 tok/s | 🔓 td=0 Δ=0.048 | 62600s
+step   1900 | loss=7.0506 (avg50: 6.7531) | CE=7.046 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.24e-04 | gnorm 2.59 | 677 tok/s | 🔓 td=124488 Δ=0.048 etch=76×1638 adam_decay=28610 | 62925s
+step   1910 | loss=7.1707 (avg50: 6.7412) | CE=7.288 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.22e-04 | gnorm 3.07 | 1010 tok/s | 🔓 td=0 Δ=0.048 | 63248s
+step   1920 | loss=7.0030 (avg50: 6.7192) | CE=6.844 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.20e-04 | gnorm 3.29 | 673 tok/s | 🔓 td=124488 Δ=0.049 etch=76×1638 adam_decay=26282 | 63575s
+step   1930 | loss=6.0331 (avg50: 6.7246) | CE=7.291 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.18e-04 | gnorm 13.55 | 1071 tok/s | 🔓 td=0 Δ=0.049 | 63881s
+step   1940 | loss=5.6418 (avg50: 6.7296) | CE=3.468 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0683 | lr 1.16e-04 | gnorm 5.20 | 683 tok/s | 🔓 td=124488 Δ=0.049 etch=76×1638 adam_decay=24696 | 64200s
+step   1950 | loss=7.0576 (avg50: 6.7618) | CE=7.422 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.15e-04 | gnorm 3.51 | 1088 tok/s | 🔓 td=0 Δ=0.049 | 64502s
+step   1960 | loss=6.9421 (avg50: 6.7632) | CE=7.135 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.13e-04 | gnorm 2.87 | 687 tok/s | 🔓 td=124488 Δ=0.050 etch=76×1638 adam_decay=29184 | 64818s
+step   1970 | loss=6.6793 (avg50: 6.7344) | CE=7.040 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.11e-04 | gnorm 3.86 | 1075 tok/s | 🔓 td=0 Δ=0.050 | 65116s
+step   1980 | loss=7.0829 (avg50: 6.7053) | CE=7.439 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.09e-04 | gnorm 3.53 | 680 tok/s | 🔓 td=124488 Δ=0.050 etch=76×1638 adam_decay=28492 | 65440s
+step   1990 | loss=7.1328 (avg50: 6.7008) | CE=7.110 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.07e-04 | gnorm 3.22 | 1106 tok/s | 🔓 td=0 Δ=0.050 | 65737s
+step   2000 | loss=6.2011 (avg50: 6.6724) | CE=3.494 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.06e-04 | gnorm 3.32 | 689 tok/s | 🔓 td=124488 Δ=0.050 etch=76×1638 adam_decay=30026 | 66051s
+💾 Checkpoint: checkpoints/v15-td/step_002000
+step   2010 | loss=6.2388 (avg50: 6.6492) | CE=6.820 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.04e-04 | gnorm 4.95 | 1154 tok/s | 🔓 td=0 Δ=0.050 | 66384s
+step   2020 | loss=6.6333 (avg50: 6.7311) | CE=7.905 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.02e-04 | gnorm 3.47 | 681 tok/s | 🔓 td=124488 Δ=0.051 etch=76×1638 adam_decay=26730 | 66695s
+step   2030 | loss=7.1772 (avg50: 6.7795) | CE=7.409 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 1.00e-04 | gnorm 3.55 | 1105 tok/s | 🔓 td=0 Δ=0.051 | 66995s
+step   2040 | loss=7.0437 (avg50: 6.7976) | CE=7.251 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.86e-05 | gnorm 2.46 | 671 tok/s | 🔓 td=124488 Δ=0.051 etch=76×1638 adam_decay=26216 | 67318s
+step   2050 | loss=6.7694 (avg50: 6.7719) | CE=7.082 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.68e-05 | gnorm 3.82 | 1068 tok/s | 🔓 td=0 Δ=0.051 | 67622s
+step   2060 | loss=6.6802 (avg50: 6.8086) | CE=6.916 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.51e-05 | gnorm 2.67 | 677 tok/s | 🔓 td=124488 Δ=0.052 etch=76×1638 adam_decay=24616 | 67946s
+step   2070 | loss=6.6332 (avg50: 6.7918) | CE=3.484 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.34e-05 | gnorm 3.76 | 1100 tok/s | 🔓 td=0 Δ=0.052 | 68244s
+step   2080 | loss=6.3699 (avg50: 6.7647) | CE=8.439 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.17e-05 | gnorm 5.15 | 663 tok/s | 🔓 td=124488 Δ=0.052 etch=76×1638 adam_decay=31126 | 68572s
+step   2090 | loss=7.0493 (avg50: 6.7750) | CE=6.749 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 9.00e-05 | gnorm 2.75 | 1092 tok/s | 🔓 td=0 Δ=0.052 | 68873s
+step   2100 | loss=6.5580 (avg50: 6.8000) | CE=6.967 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 8.83e-05 | gnorm 2.30 | 684 tok/s | 🔓 td=124488 Δ=0.052 etch=76×1638 adam_decay=27082 | 69189s
+step   2110 | loss=6.6818 (avg50: 6.7693) | CE=7.159 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 8.66e-05 | gnorm 3.64 | 1146 tok/s | 🔓 td=0 Δ=0.052 | 69499s
+step   2120 | loss=7.0289 (avg50: 6.7212) | CE=6.914 crystal=0.0097(Laplacian-wtd) parity=0.0318 cross_zone=0.0682 | lr 8.49e-05 | gnorm 2.34 | 666 tok/s | 🔓 td=124488 Δ=0.053 etch=76×1638 adam_decay=29548 | 69814s
+step   2130 | loss=7.1272 (avg50: 6.7578) | CE=6.790 crystal=0.0097(Laplacian-wtd) parity=0.0317 cross_zone=0.0682 | lr 8.33e-05 | gnorm 4.72 | 1077 tok/s | 🔓 td=0 Δ=0.053 | 70119s
+step   2140 | loss=6.6654 (avg50: 6.7381) | CE=7.259 crystal=0.0097(Laplacian-wtd) parity=0.0317 cross_zone=0.0682 | lr 8.16e-05 | gnorm 3.29 | 676 tok/s | 🔓 td=124488 Δ=0.053 etch=76×1638 adam_decay=25822 | 70443s
+step   2150 | loss=6.7257 (avg50: 6.7992) | CE=7.138 crystal=0.0097(Laplacian-wtd) parity=0.0317 cross_zone=0.0682 | lr 8.00e-05 | gnorm 4.59 | 1088 tok/s | 🔓 td=0 Δ=0.053 | 70743s
+step   2160 | loss=7.1599 (avg50: 6.8216) | CE=7.078 crystal=0.0097(Laplacian-wtd) parity=0.0317 cross_zone=0.0682 | lr 7.83e-05 | gnorm 2.66 | 671 tok/s | 🔓 td=124488 Δ=0.054 etch=76×1638 adam_decay=27660 | 71067s
