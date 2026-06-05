@@ -1,0 +1,921 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "n_layers": 36,
+  "d_model": 4096,
+  "intermediate": 12288,
+  "n_modes": 9,
+  "baseline_ppl": 7.846184204512996,
+  "baseline_fact_rate": 0.8,
+  "orig_layer_mb": 288.0,
+  "repl_layer_kb": 180.0,
+  "zones": {
+    "expand": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ortho_early": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "zone_b": [
+      10,
+      14,
+      19,
+      24
+    ],
+    "align": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "collapse": [
+      35
+    ]
+  },
+  "layer_accuracies": {
+    "0": 0.99609375,
+    "1": 0.9969618320465088,
+    "2": 0.9978298544883728,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "9": 0.98046875,
+    "10": 0.9991319179534912,
+    "14": 0.9991319179534912,
+    "19": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 0.9891493320465088,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "11": 1.0,
+    "12": 0.9994276165962219,
+    "13": 1.0,
+    "15": 1.0,
+    "16": 0.9782484173774719,
+    "17": 1.0,
+    "18": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 0.9994276165962219,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 0.9977103471755981,
+    "35": 0.9994276165962219
+  },
+  "individual": [
+    {
+      "layer": 0,
+      "zone": "EXPAND",
+      "ppl": 902.1239350909151,
+      "ppl_ratio": 114.97613509660253,
+      "fact_rate": 0.06666666666666667,
+      "classifier_acc": 0.99609375
+    },
+    {
+      "layer": 1,
+      "zone": "EXPAND",
+      "ppl": 7.710842671447082,
+      "ppl_ratio": 0.9827506556641804,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.9969618320465088
+    },
+    {
+      "layer": 2,
+      "zone": "EXPAND",
+      "ppl": 7.827125435728886,
+      "ppl_ratio": 0.9975709506318821,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9978298544883728
+    },
+    {
+      "layer": 3,
+      "zone": "EXPAND",
+      "ppl": 8.053136980438497,
+      "ppl_ratio": 1.0263762321315966,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 4,
+      "zone": "EXPAND",
+      "ppl": 8.04102106794354,
+      "ppl_ratio": 1.02483205318051,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 5,
+      "zone": "EXPAND",
+      "ppl": 8.339068061818297,
+      "ppl_ratio": 1.062818287776344,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 9,
+      "zone": "OTHER",
+      "ppl": 8.36067608340599,
+      "ppl_ratio": 1.0655722406564285,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.98046875
+    },
+    {
+      "layer": 10,
+      "zone": "ZONE_B",
+      "ppl": 8.484162035446298,
+      "ppl_ratio": 1.0813105854137794,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9991319179534912
+    },
+    {
+      "layer": 14,
+      "zone": "ZONE_B",
+      "ppl": 7.7749765531616655,
+      "ppl_ratio": 0.9909245501386046,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9991319179534912
+    },
+    {
+      "layer": 19,
+      "zone": "ZONE_B",
+      "ppl": 7.44719427786716,
+      "ppl_ratio": 0.9491485394369987,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 24,
+      "zone": "ZONE_B",
+      "ppl": 8.333713205947012,
+      "ppl_ratio": 1.0621358087863393,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 25,
+      "zone": "ALIGN",
+      "ppl": 8.31015717846673,
+      "ppl_ratio": 1.059133581606058,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 26,
+      "zone": "ALIGN",
+      "ppl": 8.633426052432474,
+      "ppl_ratio": 1.1003343571091118,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9891493320465088
+    }
+  ],
+  "cumulative": [
+    {
+      "layers": [
+        10
+      ],
+      "label": "L10",
+      "n_layers_replaced": 1,
+      "ppl": 8.484162035446298,
+      "ppl_ratio": 1.0813105854137794,
+      "fact_rate": 0.8666666666666667,
+      "orig_mb": 288.0,
+      "repl_kb": 180.0,
+      "compression": 1638.4
+    },
+    {
+      "layers": [
+        10,
+        14
+      ],
+      "label": "L10+L14",
+      "n_layers_replaced": 2,
+      "ppl": 8.541972568560386,
+      "ppl_ratio": 1.0886785660279532,
+      "fact_rate": 0.7333333333333333,
+      "orig_mb": 576.0,
+      "repl_kb": 360.0,
+      "compression": 1638.4
+    },
+    {
+      "layers": [
+        10,
+        14,
+        19
+      ],
+      "label": "L10+L14+L19",
+      "n_layers_replaced": 3,
+      "ppl": 8.372196826507091,
+      "ppl_ratio": 1.0670405649782657,
+      "fact_rate": 0.8666666666666667,
+      "orig_mb": 864.0,
+      "repl_kb": 540.0,
+      "compression": 1638.4
+    },
+    {
+      "layers": [
+        10,
+        14,
+        19,
+        24
+      ],
+      "label": "L10+L14+L19+L24",
+      "n_layers_replaced": 4,
+      "ppl": 9.40994915281979,
+      "ppl_ratio": 1.199302604622428,
+      "fact_rate": 0.8666666666666667,
+      "orig_mb": 1152.0,
+      "repl_kb": 720.0,
+      "compression": 1638.4
+    }
+  ],
+  "combinations": [
+    {
+      "label": "all_zone_b",
+      "layers": [
+        10,
+        14,
+        19,
+        24
+      ],
+      "n_layers_replaced": 4,
+      "ppl": 9.40994915281979,
+      "ppl_ratio": 1.199302604622428,
+      "fact_rate": 0.8666666666666667,
+      "orig_mb": 1152.0,
+      "repl_kb": 720.0,
+      "compression": 1638.4,
+      "fact_details": {
+        "The capital of France is": {
+          "hit": true
+        },
+        "The capital of Japan is": {
+          "hit": true
+        },
+        "Water boils at": {
+          "hit": true
+        },
+        "The speed of light is approximately": {
+          "hit": false
+        },
+        "The first president of the United States was": {
+          "hit": true
+        },
+        "The year World War II ended was": {
+          "hit": true
+        },
+        "The chemical symbol for gold is": {
+          "hit": true
+        },
+        "The largest planet in our solar system is": {
+          "hit": true
+        },
+        "The author of Romeo and Juliet is": {
+          "hit": true
+        },
+        "Pi is approximately equal to": {
+          "hit": true
+        },
+        "The Great Wall of China is located in": {
+          "hit": true
+        },
+        "The human body has": {
+          "hit": false
+        },
+        "Einstein's famous equation is E equals": {
+          "hit": true
+        },
+        "The freezing point of water in Celsius is": {
+          "hit": true
+        },
+        "The currency of the United Kingdom is the": {
+          "hit": true
+        }
+      }
+    },
+    {
+      "label": "all_expand",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "n_layers_replaced": 6,
+      "ppl": 2720.9216074684077,
+      "ppl_ratio": 346.78278466918715,
+      "fact_rate": 0.0,
+      "orig_mb": 1728.0,
+      "repl_kb": 1080.0,
+      "compression": 1638.4,
+      "fact_details": {
+        "The capital of France is": {
+          "hit": false
+        },
+        "The capital of Japan is": {
+          "hit": false
+        },
+        "Water boils at": {
+          "hit": false
+        },
+        "The speed of light is approximately": {
+          "hit": false
+        },
+        "The first president of the United States was": {
+          "hit": false
+        },
+        "The year World War II ended was": {
+          "hit": false
+        },
+        "The chemical symbol for gold is": {
+          "hit": false
+        },
+        "The largest planet in our solar system is": {
+          "hit": false
+        },
+        "The author of Romeo and Juliet is": {
+          "hit": false
+        },
+        "Pi is approximately equal to": {
+          "hit": false
+        },
+        "The Great Wall of China is located in": {
+          "hit": false
+        },
+        "The human body has": {
+          "hit": false
+        },
+        "Einstein's famous equation is E equals": {
+          "hit": false
+        },
+        "The freezing point of water in Celsius is": {
+          "hit": false
+        },
+        "The currency of the United Kingdom is the": {
+          "hit": false
+        }
+      }
+    },
+    {
+      "label": "expand+zone_b",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        10,
+        14,
+        19,
+        24
+      ],
+      "n_layers_replaced": 10,
+      "ppl": 2703.7543664506175,
+      "ppl_ratio": 344.59481143655313,
+      "fact_rate": 0.0,
+      "orig_mb": 2880.0,
+      "repl_kb": 1800.0,
+      "compression": 1638.4,
+      "fact_details": {
+        "The capital of France is": {
+          "hit": false
+        },
+        "The capital of Japan is": {
+          "hit": false
+        },
+        "Water boils at": {
+          "hit": false
+        },
+        "The speed of light is approximately": {
+          "hit": false
+        },
+        "The first president of the United States was": {
+          "hit": false
+        },
+        "The year World War II ended was": {
+          "hit": false
+        },
+        "The chemical symbol for gold is": {
+          "hit": false
+        },
+        "The largest planet in our solar system is": {
+          "hit": false
+        },
+        "The author of Romeo and Juliet is": {
+          "hit": false
+        },
+        "Pi is approximately equal to": {
+          "hit": false
+        },
+        "The Great Wall of China is located in": {
+          "hit": false
+        },
+        "The human body has": {
+          "hit": false
+        },
+        "Einstein's famous equation is E equals": {
+          "hit": false
+        },
+        "The freezing point of water in Celsius is": {
+          "hit": false
+        },
+        "The currency of the United Kingdom is the": {
+          "hit": false
+        }
+      }
+    },
+    {
+      "label": "all_prepared",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        14,
+        19,
+        24,
+        25,
+        26
+      ],
+      "n_layers_replaced": 13,
+      "ppl": 2680.647890057267,
+      "ppl_ratio": 341.6498797613498,
+      "fact_rate": 0.0,
+      "orig_mb": 3744.0,
+      "repl_kb": 2340.0,
+      "compression": 1638.4,
+      "fact_details": {
+        "The capital of France is": {
+          "hit": false
+        },
+        "The capital of Japan is": {
+          "hit": false
+        },
+        "Water boils at": {
+          "hit": false
+        },
+        "The speed of light is approximately": {
+          "hit": false
+        },
+        "The first president of the United States was": {
+          "hit": false
+        },
+        "The year World War II ended was": {
+          "hit": false
+        },
+        "The chemical symbol for gold is": {
+          "hit": false
+        },
+        "The largest planet in our solar system is": {
+          "hit": false
+        },
+        "The author of Romeo and Juliet is": {
+          "hit": false
+        },
+        "Pi is approximately equal to": {
+          "hit": false
+        },
+        "The Great Wall of China is located in": {
+          "hit": false
+        },
+        "The human body has": {
+          "hit": false
+        },
+        "Einstein's famous equation is E equals": {
+          "hit": false
+        },
+        "The freezing point of water in Celsius is": {
+          "hit": false
+        },
+        "The currency of the United Kingdom is the": {
+          "hit": false
+        }
+      }
+    }
+  ],
+  "full_scan": [
+    {
+      "layer": 0,
+      "zone": "EXPAND",
+      "ppl": 902.1239350909151,
+      "ppl_ratio": 114.97613509660253,
+      "fact_rate": 0.06666666666666667,
+      "classifier_acc": 0.99609375
+    },
+    {
+      "layer": 1,
+      "zone": "EXPAND",
+      "ppl": 7.710842671447082,
+      "ppl_ratio": 0.9827506556641804,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.9969618320465088
+    },
+    {
+      "layer": 2,
+      "zone": "EXPAND",
+      "ppl": 7.827125435728886,
+      "ppl_ratio": 0.9975709506318821,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9978298544883728
+    },
+    {
+      "layer": 3,
+      "zone": "EXPAND",
+      "ppl": 8.053136980438497,
+      "ppl_ratio": 1.0263762321315966,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 4,
+      "zone": "EXPAND",
+      "ppl": 8.04102106794354,
+      "ppl_ratio": 1.02483205318051,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 5,
+      "zone": "EXPAND",
+      "ppl": 8.339068061818297,
+      "ppl_ratio": 1.062818287776344,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 6,
+      "zone": "ORTHO",
+      "ppl": 8.62099175845844,
+      "ppl_ratio": 1.0987496002833819,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 7,
+      "zone": "ORTHO",
+      "ppl": 8.364985739824785,
+      "ppl_ratio": 1.0661215084669289,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 8,
+      "zone": "ORTHO",
+      "ppl": 7.855152814383398,
+      "ppl_ratio": 1.0011430536980312,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 9,
+      "zone": "OTHER",
+      "ppl": 8.36067608340599,
+      "ppl_ratio": 1.0655722406564285,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.98046875
+    },
+    {
+      "layer": 10,
+      "zone": "ZONE_B",
+      "ppl": 8.484162035446298,
+      "ppl_ratio": 1.0813105854137794,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9991319179534912
+    },
+    {
+      "layer": 11,
+      "zone": "OTHER",
+      "ppl": 8.243386917379441,
+      "ppl_ratio": 1.0506236792959793,
+      "fact_rate": 0.6666666666666666,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 12,
+      "zone": "OTHER",
+      "ppl": 8.146420010347876,
+      "ppl_ratio": 1.038265199746673,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 0.9994276165962219
+    },
+    {
+      "layer": 13,
+      "zone": "OTHER",
+      "ppl": 7.764043931941502,
+      "ppl_ratio": 0.9895311822370614,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 14,
+      "zone": "ZONE_B",
+      "ppl": 7.7749765531616655,
+      "ppl_ratio": 0.9909245501386046,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9991319179534912
+    },
+    {
+      "layer": 15,
+      "zone": "OTHER",
+      "ppl": 7.662069088024433,
+      "ppl_ratio": 0.9765344386915281,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 16,
+      "zone": "OTHER",
+      "ppl": 7.886516662654416,
+      "ppl_ratio": 1.0051403914425334,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.9782484173774719
+    },
+    {
+      "layer": 17,
+      "zone": "OTHER",
+      "ppl": 7.725116963533365,
+      "ppl_ratio": 0.9845699211458743,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 18,
+      "zone": "OTHER",
+      "ppl": 7.708141885790776,
+      "ppl_ratio": 0.9824064392162983,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 19,
+      "zone": "ZONE_B",
+      "ppl": 7.44719427786716,
+      "ppl_ratio": 0.9491485394369987,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 20,
+      "zone": "OTHER",
+      "ppl": 7.827532554702792,
+      "ppl_ratio": 0.9976228381434792,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 21,
+      "zone": "OTHER",
+      "ppl": 7.835512273222871,
+      "ppl_ratio": 0.998639857157064,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 22,
+      "zone": "OTHER",
+      "ppl": 8.2562423811162,
+      "ppl_ratio": 1.0522621144131876,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 23,
+      "zone": "OTHER",
+      "ppl": 8.534378398986895,
+      "ppl_ratio": 1.0877106854154739,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 24,
+      "zone": "ZONE_B",
+      "ppl": 8.333713205947012,
+      "ppl_ratio": 1.0621358087863393,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 25,
+      "zone": "ALIGN",
+      "ppl": 8.31015717846673,
+      "ppl_ratio": 1.059133581606058,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 26,
+      "zone": "ALIGN",
+      "ppl": 8.633426052432474,
+      "ppl_ratio": 1.1003343571091118,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 0.9891493320465088
+    },
+    {
+      "layer": 27,
+      "zone": "ALIGN",
+      "ppl": 8.612275990560772,
+      "ppl_ratio": 1.0976387714179756,
+      "fact_rate": 0.6666666666666666,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 28,
+      "zone": "ALIGN",
+      "ppl": 8.627201268866814,
+      "ppl_ratio": 1.0995410054105779,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 29,
+      "zone": "ALIGN",
+      "ppl": 8.399052931511093,
+      "ppl_ratio": 1.0704633886469421,
+      "fact_rate": 0.8666666666666667,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 30,
+      "zone": "ALIGN",
+      "ppl": 9.050353812087538,
+      "ppl_ratio": 1.1534720032295347,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.9994276165962219
+    },
+    {
+      "layer": 31,
+      "zone": "ALIGN",
+      "ppl": 9.038023619224123,
+      "ppl_ratio": 1.1519005141410779,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 32,
+      "zone": "ALIGN",
+      "ppl": 8.264242819522682,
+      "ppl_ratio": 1.0532817741863907,
+      "fact_rate": 0.8,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 33,
+      "zone": "OTHER",
+      "ppl": 8.933447703926868,
+      "ppl_ratio": 1.1385722627807406,
+      "fact_rate": 0.9333333333333333,
+      "classifier_acc": 1.0
+    },
+    {
+      "layer": 34,
+      "zone": "OTHER",
+      "ppl": 8.203285209302525,
+      "ppl_ratio": 1.0455126970616022,
+      "fact_rate": 0.7333333333333333,
+      "classifier_acc": 0.9977103471755981
+    },
+    {
+      "layer": 35,
+      "zone": "COLLAPSE",
+      "ppl": 8.92861067397919,
+      "ppl_ratio": 1.137955780957016,
+      "fact_rate": 0.8,
+      "classifier_acc": 0.9994276165962219
+    }
+  ],
+  "all_layers": {
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "n_layers_replaced": 36,
+    "ppl": 6561.520006338308,
+    "ppl_ratio": 836.2689219766507,
+    "fact_rate": 0.0,
+    "orig_mb": 10368.0,
+    "repl_kb": 6480.0,
+    "compression": 1638.4,
+    "fact_details": {
+      "The capital of France is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The capital of Japan is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "Water boils at": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The speed of light is approximately": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The first president of the United States was": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The year World War II ended was": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The chemical symbol for gold is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The largest planet in our solar system is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The author of Romeo and Juliet is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "Pi is approximately equal to": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The Great Wall of China is located in": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The human body has": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "Einstein's famous equation is E equals": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The freezing point of water in Celsius is": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      },
+      "The currency of the United Kingdom is the": {
+        "hit": false,
+        "generated": " the the the the the the the the the the the the the the the the the the the the"
+      }
+    }
+  }
+}
