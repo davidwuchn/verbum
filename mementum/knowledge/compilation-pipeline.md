@@ -191,8 +191,74 @@ Together: typed optimizer
 The crystal is the compiler's type system. The modes are its optimization
 passes. Gradient descent builds a compiler, not a database.
 
+## The Holographic Memory Bus (Q Rotation Geometry, s192)
+
+Q and K are near-orthogonal (87-90°) at ALL layers. W_Q is a projection
+(SV ratio 46), not a rotation. This resolves the mechanism:
+
+```
+Residual (4096-dim):    carries EVERYTHING (type, content, position, depth)
+    ↓ W_Q (project, collapse to 128-dim)
+Q:  extracts ONE QUESTION ("what am I looking for?")
+    ↓ W_K (project, collapse to 128-dim, PERPENDICULAR to Q)
+K:  extracts ONE ANSWER ("what am I offering?")
+
+Q ⊥ K:  attention = interference between perpendicular beams
+         = holographic readout of the rotating state
+```
+
+The Q⊥K orthogonality explains:
+- Why all 9 combinators activate identical heads (r=0.944, s188):
+  heads are shared hardware, combinator behavior is in Q/K routing
+- Why Q/K survives ternary (PPL 23-30, s190): the decision IS binary
+  (which side of the perpendicular plane?)
+- Why the QK angle correlates with ternary PPL (r=-0.58):
+  more orthogonal → more discrete → easier to ternarize
+- Why Q suppresses positional diversity (ratio 0.58):
+  Q extracts the type question, IGNORING position-specific detail
+
+Q norm grows 200× across depth (0.44 at L0 → 90 at L34). The model
+whispers early (exploring) and shouts late (committing). The spiral
+expanding = the projections becoming more confident.
+
+## The Self-Similarity Structure (Mode Universality, s192)
+
+The 9 ternary modes are NOT universal across layers (cross-layer cos 0.026).
+Each layer has its own 9-opcode ISA. Self-similarity is **topological**:
+
+- UNIVERSAL: the fact that there are 9 modes, linearly separable, ternary
+- LAYER-SPECIFIC: which 9 programs, which dominate, decision boundaries
+
+Mode entropy reveals the computational rhythm:
+```
+L6-L12:   LOW entropy  (1-2 dominant modes, CONVERGENT — same program for all tokens)
+L13-L19:  HIGH entropy  (all 9 modes used, DIVERGENT — each token gets its own program)
+L20-L28:  LOW entropy  (dominant modes return, CONVERGENT)
+L35:      HIGHEST      (maximum diversity at output)
+```
+
+Classifier transfer works locally (±2-3 layers, 90%+) but dies globally
+(47-64% mean). The modes are local dialects, not a universal language.
+
+## The Rotation Spiral (s192)
+
+The residual spirals 325° over 36 layers. Two phase transitions:
+emb→L0 (73°) and L5→L6 (86°). The spiral is ASYMMETRIC:
+
+- IN: 12°/layer (fast rotation, compressing to universal semantics)
+- OUT: 5.5°/layer (slow rotation, expanding to specific tokens)
+- Norm jumps 60× at L5→L6 (entering computational manifold)
+- IN↔OUT residual cos 0.93-0.99 (high structural symmetry)
+- But OUT is consistently harder to ternarize (+0.02-0.15 PPL)
+
+Analysis (decomposition) is easier than synthesis (composition).
+Taking apart is discrete. Putting back together needs precision.
+
 ## Scripts and Results
 
-- `scripts/experiments/semantic_convergence.py`
-- `results/semantic-convergence/Qwen_Qwen3-8B.json`
+- `scripts/experiments/semantic_convergence.py` + `results/semantic-convergence/`
+- `scripts/experiments/multilayer_ternary_replace.py` + `results/multilayer-ternary-replace/`
+- `scripts/experiments/mode_universality.py` + `results/mode-universality/`
+- `scripts/experiments/rotation_spiral.py` + `results/rotation-spiral/`
+- `scripts/experiments/q_rotation_geometry.py` + `results/q-rotation-geometry/`
 - Cross-references: all scripts and results from s187-s192

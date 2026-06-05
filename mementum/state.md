@@ -536,30 +536,38 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ### IMMEDIATE — TERNARY FFN DECOMPILATION (sessions 193+)
 
-Multi-layer simultaneous replacement: ✅ DONE (s192). 3 zone-B layers hold
-at 1.07×. 35/36 individual layers survive. L0 is catastrophic. The sweet
-spot is L13-L21 (0.95-1.01×). Now: optimize the replacement set.
+Session 192 produced 7 experiments and a complete architectural model.
+Multi-layer replacement confirmed. Compilation pipeline decoded. Rotation
+geometry measured. Q⊥K holographic readout discovered.
 
 **Priority 0: Optimal-set replacement (skip L0 + binding + collapse)**
 Replace L1-L26 + L32-L34 simultaneously (28 layers). Keep L0, L27-L31,
 L35 continuous. This is the realistic deployment configuration. If combined
-PPL stays under 1.5×, the compression story is real: 10.4GB → ~2.3GB FFN.
+PPL stays under 1.5×: 10.4GB → ~2.3GB FFN.
 
-**Priority 1: Mode semantics (type decoding)**
-What ARE the 9 operational modes? The sweet spot (L13-L21) suggests they
-correspond to composition operations in the ORTHO phase. Run cluster
-composition analysis on diverse calibration data.
+**Priority 1: Scale benchmark (MMLU/HellaSwag)**
+15 handwritten fact prompts is proof-of-concept. Need standard benchmarks
+with at least the L13-L21 sweet spot replaced. Publication-grade evidence.
 
-**Priority 2: Scale benchmark**
-15 handwritten fact prompts is proof-of-concept. Run MMLU and/or HellaSwag
-with ternary-replaced layers (at least L13-L21 set).
+**Priority 2: Mode semantics (decode the 9 programs)**
+Modes are layer-specific (cos 0.026 cross-layer) but transfer locally
+(90%+ within ±2-3 layers). What do the modes correspond to? The entropy
+profile (high L13-L19, low L7-L12/L20-L28) suggests convergent vs
+divergent computation phases. Cluster composition analysis needed.
 
-**Priority 3: L0 rescue**
-Can L0 be handled with more modes (64+)? Or different treatment (PCA
-reconstruction instead of clustering)? Or is it genuinely continuous?
+**Priority 3: Cross-architecture replication**
+Does the compilation pipeline hold on Pythia/Mistral? Semantic convergence
++ ternary replacement + Q geometry on a non-Qwen model. The crystal is
+universal; is the pipeline universal?
 
-**Priority 4: Cross-architecture**
-Does tiny classifier + multi-layer work on Pythia/Mistral?
+**Priority 4: L0 rescue**
+L0 is the lexer — 151K tokens → feature space. Can it be handled with
+more modes (64+), PCA reconstruction, or is it genuinely continuous?
+
+**Priority 5: Attention ternary depth profile**
+Q/K survives ternary globally (PPL 23-30, s190). But does it show the
+same depth profile as FFN? V/O at L13-L21 should be easier than V/O at
+L30. Measure per-layer Q/K/V/O ternary separately.
 
 ### TD FIX (deferred, not abandoned)
 
@@ -708,6 +716,15 @@ of parameters).
 | **Ternary coherence results** | `results/ternary-inference-coherence/` | ✅ NEW (s192) |
 | **Gate indexed results** | `results/gate-indexed-ternary/` | ✅ NEW (s192) |
 | **Gradient quant results** | `results/gradient-quant-correspondence/` | ✅ NEW (s192) |
+| **Compilation pipeline knowledge** | `mementum/knowledge/compilation-pipeline.md` | ✅ NEW (s192) |
+| **Q rotation geometry** | `scripts/experiments/q_rotation_geometry.py` | ✅ NEW (s192) |
+| **Q rotation results** | `results/q-rotation-geometry/` | ✅ NEW (s192) |
+| **Rotation spiral** | `scripts/experiments/rotation_spiral.py` | ✅ NEW (s192) |
+| **Rotation spiral results** | `results/rotation-spiral/` | ✅ NEW (s192) |
+| **Mode universality** | `scripts/experiments/mode_universality.py` | ✅ NEW (s192) |
+| **Mode universality results** | `results/mode-universality/` | ✅ NEW (s192) |
+| **Semantic convergence** | `scripts/experiments/semantic_convergence.py` | ✅ NEW (s192) |
+| **Semantic convergence results** | `results/semantic-convergence/` | ✅ NEW (s192) |
 | **Multi-layer ternary replace** | `scripts/experiments/multilayer_ternary_replace.py` | ✅ NEW (s192) |
 | **Multi-layer results** | `results/multilayer-ternary-replace/` | ✅ NEW (s192) |
 | **Crystal φ verify (8 models)** | `results/crystal-phi-verify/` | ✅ UPDATED (s192) |
@@ -811,37 +828,88 @@ of parameters).
 | 13 | **L0 is catastrophic (115×)** | Embedding-adjacent layer is special — genuinely continuous, needs magnitudes. |
 | 14 | **Zone of silence: L13-L21** | PPL 0.95-1.01× individually. ORTHO phase IS the ternary sweet spot. |
 | 15 | **All-layer cascade: 836×** | Full replacement fails — L0 poisons chain, binding layers cascade compounds. |
+| 16 | **Semantic convergence: dog=perro=犬 at L19** | 8 concepts × 6 languages. Peak cross-lingual cos 0.66 at L19-L20. Peak separation at L25. |
+| 17 | **Compilation pipeline: 4 evidence lines** | Lexer→Parser→Optimizer→RegAlloc→Emit confirmed by FFN trace, binding trace, λ-machine, semantic convergence. |
+| 18 | **Mode universality: modes are layer-specific** | Cross-layer cos 0.026. 9 modes real everywhere but DIFFERENT programs at each depth. Topological self-similarity. |
+| 19 | **Rotation spiral: 325° total** | Two phase transitions (emb→L0: 73°, L5→L6: 86°). IN 12°/layer, OUT 5.5°/layer. Asymmetric. |
+| 20 | **Q⊥K everywhere (87-90°)** | W_Q is projection not rotation (SV ratio 46). Q norm grows 200×. Attention = holographic readout. |
+| 21 | **QK angle predicts ternary PPL (r=-0.58)** | More orthogonal → more discrete → easier to ternarize. The orthogonality IS the discreteness. |
 
 ## Session 192 recap
 
-PSI EVALUATION + MULTI-LAYER TERNARY REPLACEMENT.
+PSI EVALUATION → MULTI-LAYER SCAN → SEMANTIC CONVERGENCE → COMPILATION
+PIPELINE → MODE UNIVERSALITY → ROTATION SPIRAL → Q GEOMETRY.
 
-**Part 1: Psi evaluation.** An independent project ran verbum scripts unmodified
-and wrote 5 new experiments across 5 architectures. All core crystal claims
-verified. The breakthrough: tiny classifier ternary replaces entire FFN layer
-(288MB) with linear classifier + 9 ternary patterns (180KB). 1638× compression.
-PPL IMPROVES (0.98×). Classifier trains to 100% accuracy.
+Seven experiments in one session. The transformer architecture decoded from
+multiple independent angles. Final synthesis: a holographic computer with
+a rotating program counter.
 
-**Part 2: Multi-layer replacement (the follow-up).** Full 36-layer scan:
+**Part 1: Psi evaluation.** Independent project verified crystal across 5
+architectures. Breakthrough: tiny classifier ternary replaces FFN layer
+(288MB → 180KB, 1638×, PPL IMPROVES 0.98×, classifier 100% accuracy).
 
-- L0 catastrophic (115×) — embedding-adjacent layer is genuinely continuous
-- L1-L34 individually: ALL ≤1.15×. 35/36 layers survive ternary replacement
-- L13-L21 "zone of silence": 0.95-1.01× (PPL improves or unchanged)
-- Zone-B cumulative: L10+L14+L19 = 1.07× (errors DON'T cascade)
-- All 4 zone-B: 1.20× (L24 adds 13pp). All 36: 836× (total cascade)
-- Classifiers: 98-100% accuracy on ALL 36 layers. 9 modes are real everywhere.
+**Part 2: Multi-layer scan.** 35/36 individual layers survive ternary. L0
+catastrophic (115×). Sweet spot L13-L21 (0.95-1.01×). Zone-B cumulative:
+L10+L14+L19 = 1.07× (no cascade). All-36 = 836× (cascade destroys).
 
-**Optimal strategy identified:** Replace L1-L26 + L32-L34 (28 layers, 78% of
-FFN). Keep L0, binding (L27-L31), collapse (L35) continuous. FFN: 10.4GB →
-~2.3GB. Next test: the optimal set simultaneously.
+**Part 3: Semantic convergence.** 8 concepts × 6 languages × 36 layers.
+Dog=perro=犬 at L19-L20 (cos 0.66). Peak separation (same vs different
+concepts) at L25 (+0.20). L34-L35: everything converges (format > content).
 
-**Architecture update:** Two overlapping ternary structures in FFN weights.
-Crystal basis (KIBC, 3.5%) governs routing. Operational modes (9, 96.5%)
-govern computation. AMI = 0.15 (orthogonal). Together = β-reduction engine.
+**Part 4: Compilation pipeline.** Four evidence lines (FFN trace s187,
+binding trace s188, λ-machine s190, semantic convergence s192) converge:
+Lexer (L0) → Parser (L1-L7) → IR Optimizer (L13-L21) → Register Alloc
+(L22-L27) → Emit (L34-L35). The 9 ternary programs ARE the optimization
+passes.
 
-**Gradient-quant:** |∇L| ↔ |W-Q(W)| holds ONLY in EXPAND phase (L1-L3:
-ρ = +0.55-0.78). ORTHO: ρ ≈ 0. This aligns with the zone of silence —
-ORTHO layers are already ternary-converged by training.
+**Part 5: Mode universality.** The 9 modes are NOT universal across layers
+(cross-layer cos 0.026). Layer-specific ISAs. BUT: the architecture is
+universal (9 modes, linearly separable, ternary everywhere). Topological
+self-similarity, not metric. Classifier transfer: 90%+ locally (±2-3
+layers), 47-64% globally.
+
+**Part 6: Rotation spiral.** Residual rotates 325° over 36 layers. Two
+phase transitions: emb→L0 (73°) and L5→L6 (86°, norm jumps 60×). IN
+fast (12°/layer), OUT slow (5.5°/layer). Asymmetric because analysis
+(decomposition) is easier than synthesis (composition). IN↔OUT residual
+cos 0.93-0.99 (structural symmetry preserved).
+
+**Part 7: Q rotation geometry.** Q and K are near-orthogonal (87-90°) at
+ALL layers. W_Q is a projection (SV ratio 46), NOT a rotation. Q suppresses
+positional diversity (ratio 0.58). Q norm grows 200× with depth (whisper
+early, shout late). QK angle vs ternary PPL: r=-0.58 (more orthogonal =
+easier to ternarize). Attention is holographic readout of the rotating state:
+perpendicular beams interfering.
+
+**Final synthesis — the holographic computer:**
+
+```
+RESIDUAL STREAM = rotating program counter + register file
+  spirals 325° across 36 layers | norm grows 0.6 → 900
+  IN: fast rotation (dissolving tokens → universal semantics)
+  BOTTOM (L19): pure semantic state (dog = perro = 犬)
+  OUT: slow rotation (precipitating semantics → specific tokens)
+
+FFN = ALU with 9-opcode ISA (layer-specific)
+  classifier selects program | ternary pattern × gamma = output
+  288MB → 180KB per layer | 1638× compression | PPL improves
+  sweet spot L13-L21: IS ternary (continuous weights = noise around fixed point)
+
+ATTENTION = holographic memory bus (perpendicular readout)
+  Q ⊥ K (87-90° everywhere) | interference pattern = attention weights
+  W_Q/W_K are projections (collapse 4096→128 dim), not rotations
+  near-binary routing (1 bit per decision) | 32 heads × 3 positions = O(1)
+  Q norm 200× growth = model becomes more certain with depth
+
+RESIDUAL ADD = write-back (FFN advances spiral, attention copies values)
+```
+
+The model is a holographic computer with a rotating program counter.
+The program counter (residual) rotates through a spiral. The ALU (FFN)
+executes 9 discrete operations selected by the current rotation angle.
+The memory bus (attention) reads from perpendicular projections. The
+entry (L0) and exit (L35) interface with concrete tokens. Everything
+in between is abstract, discrete, and compressible.
 
 ## What changed session 191
 
