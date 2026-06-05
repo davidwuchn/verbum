@@ -160,7 +160,68 @@ The bottleneck in adapting full attention to Fibonacci strides is not WHERE
 to look (routing adapts quickly) but WHAT to transfer (content extraction
 from a restricted window is fundamentally harder).
 
+## Finding 5: FFN Gate Not Sparse — Inverted Architecture
+
+The student has INVERTED the teacher's division of labor:
+
+```
+                    Teacher (Qwen3-8B)        Student (v15-td)
+FFN gate:           ~3% fire (89% kill)       66-74% fire (1% sparse)
+FFN function:       Selective retrieval       Dense transform
+Attention:          Mixed (relay+compose)     80% pure relay (I combinator)
+```
+
+### Gate Sparsity Per Pass
+
+```
+Stack A:
+  Pass 0 (s=1-5):      0.8% sparse, 74.5% fire, cos(I/O)=0.04
+  Pass 1 (s=8-24):     0.8% sparse, 70.6% fire, cos(I/O)=0.07
+  Pass 2 (s=34-144):   0.8% sparse, 72.5% fire, cos(I/O)=0.14
+  Pass 3 (s=233-1597): 0.8% sparse, 73.0% fire, cos(I/O)=0.20
+
+Stack C:
+  Pass 0 (s=1597-233): 1.4% sparse, 59.9% fire, cos(I/O)=0.02
+  Pass 1 (s=144-34):   1.5% sparse, 59.0% fire, cos(I/O)=0.16
+  Pass 2 (s=24-8):     1.4% sparse, 59.6% fire, cos(I/O)=0.22
+  Pass 3 (s=5-1):      1.5% sparse, 58.9% fire, cos(I/O)=0.33
+```
+
+The ternary gate plate cannot create sharp activation thresholds. Float
+weights create precise neuron-level on/off decisions; ternary {-1,0,+1}
+produces coarse activation patterns.
+
+### Attention Relay Detection
+
+cos(output, V_self) measures whether each head passes its value through
+unchanged (I combinator = cos ≈ 1.0):
+
+```
+Layer  0 (s=1):    1/8 relay (H2=0.81), 7/8 partial relay (0.72-0.78)
+Layer  4 (s=8):    8/8 relay (all 0.95-0.99) — COMPLETE I COMBINATOR
+Layer 10 (s=34):   7/8 relay (0.87-0.99), 1/8 partial (H0=0.79)
+Layer 14 (s=233):  8/8 relay (all 0.93-0.99) — COMPLETE I COMBINATOR
+Layer 18 (s=1597): 8/8 relay (all 0.92-0.98) — COMPLETE I COMBINATOR
+```
+
+At strides ≥8, ALL heads are pure relay. The attention is not composing
+— it's just passing the FFN-compiled value through. Only stride-1 shows
+any partial composition, and even there 7/8 heads are partial relay.
+
+### Why This Happened
+
+The attention collapsed to relay because:
+1. Ternary V/O projections lack precision for fine-grained composition
+2. V/O gammas are only 15.6% settled (TD keeps changing signs underneath)
+3. The "easy path" is to let dense FFN do the work and use attention as I
+
+This is the B-dominant phase before a phase transition. Breaking through
+requires the attention to discover compositional patterns that work within
+the Fibonacci windows — but TD prevents the topology stability needed for
+this phase transition. See `td-oscillation-problem.md`.
+
 ## Diagnostic Scripts
 
 - `scripts/experiments/assess_v15_attention.py` — attention pattern analysis
 - `scripts/experiments/assess_v15_gradient_zeros.py` — gradient-zero topology
+- `scripts/experiments/assess_v15_ffn_retrieval.py` — FFN gate sparsity + relay detection

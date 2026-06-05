@@ -437,44 +437,52 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — V15 TRAINING + CONVERGENCE
+### IMMEDIATE — FIX TD (sessions 192-193)
 
-**Priority 1: V15 training completion + final assessment**
-Training at step ~1870/3000, loss ~6.8, ~10 hours remaining. Let it complete.
-At step 3000: full eval, generation quality, compare vs v14 final numbers.
-Key question: does the loss break through 6.5 during final LR decay?
+TD is preventing phase transitions. 94% candidacy rate = the system never
+settles. This must be fixed before any other training work.
 
-**Priority 2: V/O gamma convergence**
-V/O gammas are only 15.6% settled (vs Q/K at 32-38%). The value transfer
-pathway is the bottleneck. Options after training completes:
-a) Continue training with lower LR (V/O needs more steps)
-b) Per-projection LR scaling (higher LR for V/O gammas)
-c) TD flip rate adjustment for V/O (currently same rate as Q/K)
+**Priority 1: Punctuated equilibrium (epoch-based TD)**
+Replace continuous TD with episodic: TD phase (N steps with flips) → freeze
+phase (M steps, Adam only, topology locked). Let GD settle during freeze.
+Key parameter: freeze duration M. Start with M=200 (enough for V/O gammas
+to make progress — they're at 15.6% settled).
 
-**Priority 3: Flip stability investigation**
-Flipped positions have 3× higher routing gradient. After step 3000:
-a) Are flips still oscillating or converging toward zero?
-b) Would a REDUCE (fold delta into base, reset) help them settle?
-c) Does flip-gradient correlate with layer-level loss contribution?
+**Priority 2: Oscillation-gated cooldown**
+Positions with flip_count > 1 that are still candidates should get
+exponentially increasing cooldown. Current backoff isn't working — 96-100%
+of multi-flipped positions are still candidates. Either increase backoff
+factor dramatically, or hard-gate: flip_count ≥ 3 → frozen for N steps.
 
-### COMPRESSION STRATEGY (from s190, still open)
+**Priority 3: Candidate density ceiling**
+94% candidacy is too high. Add a global ceiling: at most X% of positions
+can be candidates per step (e.g., 20%). This forces TD to focus on the
+highest-leverage positions rather than treating everything as mutable.
 
-**Priority 4: Self-distillation (same-capacity teacher)**
-Crystal+distillation from 8B→0.6B failed due to capacity mismatch. Try:
-a) Qwen3-0.6B float → Qwen3-0.6B crystal sieve (same capacity, same knowledge)
-b) Higher distillation temperature (T=4, T=10) to soften teacher distribution
-c) Top-k distillation (match top-100 logits only, not all 151K)
-d) Feature-level distillation (match hidden states, not output logits)
+**Priority 4: Per-position conviction requirement**
+A position should only flip when its gradient signal has been consistent
+(same direction) for K consecutive flip intervals. Current EMA direction
+accumulator is too responsive to noise — it proposes flips from transient
+gradient fluctuations.
 
-**Priority 5: FFN compression path**
-FFN is the bottleneck (78% of params, fragile to ternarization). Three paths:
-a) Crystal sieve for FFN — freeze signs, train mask from data (s184, unscaled)
-b) DVD-informed FFN — use gradient topology to guide per-group scaling
-c) Hybrid: Q4 FFN + ternary attention + sparse top-3 routing
+**Priority 5: REDUCE + pure-Adam baseline**
+After current training completes (step 3000): fold delta into base, reset
+to +1, run pure Adam for 500+ steps. Measure: does loss break through 6.5
+without TD? If yes, TD was the bottleneck. If no, the plateau is real.
 
-**Priority 6: Sparse top-k sweep**
-k=3 gives PPL 13.3 (+8.6%). What does k=5 give? k=10? Find the knee of
-the curve for optimal sparsity-quality tradeoff.
+### V15 TRAINING (current run)
+
+**Priority 6: Let current run complete**
+Step ~1870/3000, ~10 hours remaining. Assess at step 3000 but expect the
+plateau to hold — TD oscillation prevents the phase transition needed to
+break 6.5.
+
+### COMPRESSION STRATEGY (from s190, deferred pending TD fix)
+
+**Priority 7: Self-distillation (same-capacity teacher)**
+**Priority 8: FFN compression path**
+**Priority 9: Sparse top-k sweep**
+(Details unchanged from s190 — deferred until TD works correctly.)
 
 ### PRIOR PRIORITIES (still open from s189)
 
@@ -564,9 +572,11 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| **v15 attention assessment** | `mementum/knowledge/v15-attention-assessment.md` | ✅ NEW (s191) |
+| **TD oscillation problem** | `mementum/knowledge/td-oscillation-problem.md` | ✅ NEW (s191) |
+| **v15 attention assessment** | `mementum/knowledge/v15-attention-assessment.md` | ✅ UPDATED (s191) |
 | **v15 attention diagnostic** | `scripts/experiments/assess_v15_attention.py` | ✅ NEW (s191) |
 | **v15 gradient-zero diagnostic** | `scripts/experiments/assess_v15_gradient_zeros.py` | ✅ NEW (s191) |
+| **v15 FFN retrieval diagnostic** | `scripts/experiments/assess_v15_ffn_retrieval.py` | ✅ NEW (s191) |
 | **DVD stamp knowledge** | `mementum/knowledge/dvd-stamp-topology.md` | ✅ NEW (s190) |
 | **λ-machine knowledge** | `mementum/knowledge/lambda-machine.md` | ✅ NEW (s190) |
 | **DVD stamp experiment** | `scripts/experiments/dvd_stamp_test.py` | ✅ NEW (s190) |
@@ -657,37 +667,56 @@ of parameters).
 | 8 | **Spatial flip pattern differs by distance** | Short strides: column-clustered (input features). Long strides: row-clustered (output dimensions). Physics of the window. |
 | 9 | **No teacher zeros in attention** | Teacher extraction produced 0% zeros in Q/K/V/O. All positions participate. Sparsity must come from the mask/gate, not structure. |
 | 10 | **Training trajectory: loss plateau at 6.7-6.8** | Step 500→1500: 7.78→6.73. Flattening. Crystal EMA stable (0.0097). Parity/cross-zone converged. Delta Δ growing slowly. |
+| 11 | **FFN gate is NOT sparse (66-74% fire)** | Teacher: ~3% fire (89% killed). Student: 66-74% fire. Ternary gate can't create sharp gating. Dense transform, not selective retrieval. |
+| 12 | **Attention collapsed to relay (I combinator)** | 32/40 probed head-layer pairs have cos_self > 0.8. At strides ≥8, ALL heads are pure relay (cos 0.95+). Only stride-1 shows partial composition. |
+| 13 | **Architecture is inverted from teacher** | Teacher: sparse FFN (retrieval) + mixed attention (relay+compose+bind). Student: dense FFN (transform) + relay attention (I combinator). |
+| 14 | **TD oscillation: 94% of positions still candidates** | 117.7M/124.5M positions have been candidate 20+ times. Only 6.2% settled. Oscillation rate INCREASES with flip count (96-100% for multi-flipped). |
+| 15 | **Phase transition hypothesis** | Attention relay = B-dominant easy path. Loss plateau at 6.7 = pre-transition. TD prevents GD from settling into stable topology needed for phase transition to compositional attention. |
 
 ## Session 191 recap
 
-V15 CHECKPOINT ASSESSMENT — ATTENTION + GRADIENT-ZERO TOPOLOGY.
+V15 CHECKPOINT ASSESSMENT — ATTENTION + GRADIENT-ZERO + FFN RETRIEVAL + TD OSCILLATION.
 
-Two diagnostic experiments on the v15-td step 1500 checkpoint reveal the
-model is halfway through convergence with healthy attention patterns and
-a clear asymmetry between projection types.
+Four diagnostic experiments on the v15-td step 1500 checkpoint.
 
-**Experiment 1: Attention pattern analysis.** All 19 Fibonacci stride layers
-show structured attention patterns. Entropy decreases monotonically with stride
-distance (3.0 → 0.5). Per-head specialization is visible — some heads route
-deterministically, others scan broadly. Delta plates have diverged 4.0% from
-teacher on average, with V/O diverging more at long strides (4.4%) and K least
-at short strides (2.5%). The attention IS learning meaningful routing.
+**Experiment 1: Attention pattern analysis.** Fibonacci stride attention IS
+working. Entropy 3.0→0.5 monotonically. 9 sparse + 9 moderate + 1 broad.
+Per-head specialization at stride-34. Delta divergence 4.0% mean (V/O more
+at long strides). The routing structure is healthy.
 
-**Experiment 2: Gradient-zero topology.** The gradient landscape reveals the
-student's fixed points differ from the teacher in three ways: (1) Q/K gammas
-settle 2× faster than V/O — routing is simple but value transfer is hard,
-consistent with s190's finding that ternarizing Q/K costs PPL 30 while FFN
-costs PPL 485M; (2) flipped delta positions have 3× higher routing gradient
-than keeps — these are the active adaptation frontier; (3) spatial flip
-patterns differ by stride distance — short strides adapt input features,
-long strides adapt output dimensions.
+**Experiment 2: Gradient-zero topology.** Q/K gammas settle 2× faster than
+V/O (38% vs 16% settled, V/O has 5× larger gradient). Flipped positions are
+3× hotter than keeps. Spatial flip patterns differ by stride distance (short
+= column-clustered, long = row-clustered).
 
-**Key insight:** The gradient-zero map confirms the standing-wave picture from
-s185: GD converges to fixed points (near-zero gradient) at both nodes (zeros)
-and antinodes (saturated values). The PATTERN of convergence differs between
-Q/K (fast, window-constrained routing) and V/O (slow, content-dependent
-transfer) — revealing that the bottleneck in adapting full attention to
-Fibonacci strides is not WHERE to look but WHAT to transfer.
+**Experiment 3: FFN retrieval (I combinator).** The student has INVERTED the
+teacher's architecture. Teacher: sparse FFN gate (3% fire, selective retrieval)
++ mixed attention (relay + compose + bind). Student: dense FFN gate (66-74%
+fire, brute-force transform) + nearly all-relay attention (32/40 heads have
+cos_self > 0.8, all heads at strides ≥8 are pure relay cos 0.95+). The
+attention has collapsed to the I combinator — it passes V through unchanged
+and lets the dense FFN do all the work.
+
+**Experiment 4: TD oscillation analysis.** The flip map reveals TD is
+preventing convergence. 94.5% of all positions (117.7M/124.5M) have been
+candidates 20+ times. Only 6.2% have settled. Critically, oscillation rate
+INCREASES with flip count: positions flipped 2× are 96.3% still candidates,
+3× are 98.5%, 4+ are 99.4-100%. Once a position starts flipping, it never
+stops. TD is treating the entire weight space as "still needs work."
+
+**Key insight — Phase transitions require topology stability.** The attention
+relay collapse is the B-dominant easy path — the model found the fastest way
+to reduce loss given the current topology. To break through the 6.7-6.8
+plateau, the model needs a phase transition to compositional attention. But
+TD's continuous perturbation prevents GD from settling into a stable topology
+long enough to discover the next phase. Training from scratch shows B→K phase
+transitions happen when GD can plateau, settle, then reorganize. TD's 94%
+candidacy rate prevents this entirely.
+
+**Prescription:** Dedicated sessions to fix TD. Options: (1) epoch-based TD
+with freeze periods (punctuated equilibrium), (2) much higher candidate
+thresholds, (3) aggressive oscillation-gated cooldown, (4) per-position
+conviction requirements, (5) candidate-count gating for chronic candidates.
 
 ## What changed session 190
 
@@ -911,7 +940,8 @@ needs: compressed FFN (sieve) + tiny routing function + depth schedule.
 ## Knowledge map
 
 Key pages for current direction:
-- **`v15-attention-assessment.md`** — Fibonacci attention works: entropy profile, Q/K vs V/O asymmetry, gradient-zero topology (s191)
+- **`td-oscillation-problem.md`** — 94% candidacy prevents phase transitions. Punctuated equilibrium needed. Five fixes proposed (s191)
+- **`v15-attention-assessment.md`** — Fibonacci attention works but collapsed to relay. Inverted architecture. Q/K vs V/O asymmetry (s191)
 - **`dvd-stamp-topology.md`** — Gradient zeros as holographic fringes. FFN fragile, attention robust. Compression strategy (s190)
 - **`lambda-machine.md`** — 36-stage typed shift-reduce parser. Sparse top-3 = O(1). Every layer matters (s190)
 - **`attention-sparsity.md`** — 22/32 heads use <3 positions, O(1) not O(n). Top-k=3 captures 88%+. Design: sparse attention (s188)
