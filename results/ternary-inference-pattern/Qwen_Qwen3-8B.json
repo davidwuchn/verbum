@@ -1,0 +1,121 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "baseline_ppl": 5.914663816225826,
+  "n_layers": 36,
+  "zone_b": [
+    10,
+    15,
+    20,
+    25
+  ],
+  "results": [
+    {
+      "layer": 10,
+      "A: 9-mode KIBC centroid (continuous)": {
+        "ppl": 6.27387592319834,
+        "ratio": 1.0607324639461468
+      },
+      "A: 9-mode KIBC ternary + pos_gamma": {
+        "ppl": 6.27387592319834,
+        "ratio": 1.0607324639461468
+      },
+      "A: 9-mode KIBC ternary + scalar_gamma": {
+        "ppl": 6.477963831725801,
+        "ratio": 1.0952378753894114
+      },
+      "B: 16-cluster centroid": {
+        "ppl": 6.388069709302168,
+        "ratio": 1.0800393577362144
+      },
+      "B: 16-cluster ternary + pos_gamma": {
+        "ppl": 6.388069709302168,
+        "ratio": 1.0800393577362144
+      },
+      "B: 16-cluster ternary + scalar_gamma": {
+        "ppl": 6.484121856433299,
+        "ratio": 1.096279020735763
+      }
+    },
+    {
+      "layer": 15,
+      "A: 9-mode KIBC centroid (continuous)": {
+        "ppl": 5.8232376269097905,
+        "ratio": 0.9845424537798372
+      },
+      "A: 9-mode KIBC ternary + pos_gamma": {
+        "ppl": 5.8232376269097905,
+        "ratio": 0.9845424537798372
+      },
+      "A: 9-mode KIBC ternary + scalar_gamma": {
+        "ppl": 6.039047305456792,
+        "ratio": 1.021029680315852
+      },
+      "B: 16-cluster centroid": {
+        "ppl": 5.6707661261013165,
+        "ratio": 0.958763896359516
+      },
+      "B: 16-cluster ternary + pos_gamma": {
+        "ppl": 5.6707661261013165,
+        "ratio": 0.958763896359516
+      },
+      "B: 16-cluster ternary + scalar_gamma": {
+        "ppl": 5.825178942546005,
+        "ratio": 0.9848706745708294
+      }
+    },
+    {
+      "layer": 20,
+      "A: 9-mode KIBC centroid (continuous)": {
+        "ppl": 5.901986302484524,
+        "ratio": 0.9978565960576621
+      },
+      "A: 9-mode KIBC ternary + pos_gamma": {
+        "ppl": 5.901986302484524,
+        "ratio": 0.9978565960576621
+      },
+      "A: 9-mode KIBC ternary + scalar_gamma": {
+        "ppl": 5.920076951277389,
+        "ratio": 1.0009152058713318
+      },
+      "B: 16-cluster centroid": {
+        "ppl": 5.950596910749613,
+        "ratio": 1.006075255608816
+      },
+      "B: 16-cluster ternary + pos_gamma": {
+        "ppl": 5.950596910749613,
+        "ratio": 1.006075255608816
+      },
+      "B: 16-cluster ternary + scalar_gamma": {
+        "ppl": 5.963132944188112,
+        "ratio": 1.0081947392900539
+      }
+    },
+    {
+      "layer": 25,
+      "A: 9-mode KIBC centroid (continuous)": {
+        "ppl": 6.288756881813473,
+        "ratio": 1.0632484072148598
+      },
+      "A: 9-mode KIBC ternary + pos_gamma": {
+        "ppl": 6.288756881813473,
+        "ratio": 1.0632484072148598
+      },
+      "A: 9-mode KIBC ternary + scalar_gamma": {
+        "ppl": 6.294069889628224,
+        "ratio": 1.0641466844424134
+      },
+      "B: 16-cluster centroid": {
+        "ppl": 6.257920224834169,
+        "ratio": 1.0580348130128177
+      },
+      "B: 16-cluster ternary + pos_gamma": {
+        "ppl": 6.257920224834169,
+        "ratio": 1.0580348130128177
+      },
+      "B: 16-cluster ternary + scalar_gamma": {
+        "ppl": 6.245647628406661,
+        "ratio": 1.055959868973929
+      }
+    }
+  ]
+}

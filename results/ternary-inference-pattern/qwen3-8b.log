@@ -1,0 +1,150 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+======================================================================
+  TERNARY INFERENCE PATTERN TEST
+  Can FFN computation be replaced by classify → lookup → gamma?
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+
+  Loading Qwen/Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:01,  2.19it/s]Loading weights:   4%|▍         | 16/399 [00:00<00:10, 37.27it/s]Loading weights:  10%|▉         | 38/399 [00:00<00:04, 81.88it/s]Loading weights:  15%|█▌        | 60/399 [00:00<00:02, 117.67it/s]Loading weights:  20%|██        | 80/399 [00:00<00:02, 139.90it/s]Loading weights:  26%|██▌       | 102/399 [00:00<00:01, 160.79it/s]Loading weights:  31%|███       | 123/399 [00:01<00:01, 166.12it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 167.50it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 177.43it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 184.13it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:01, 185.03it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 189.73it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 185.92it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 192.54it/s]Loading weights:  75%|███████▌  | 301/399 [00:02<00:00, 192.99it/s]Loading weights:  81%|████████  | 323/399 [00:02<00:00, 193.12it/s]Loading weights:  86%|████████▌ | 343/399 [00:02<00:00, 194.59it/s]Loading weights:  91%|█████████▏| 365/399 [00:02<00:00, 200.76it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 193.04it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 160.74it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Layers: 36, Zone B: [10, 15, 20, 25]
+
+  Measuring baseline PPL...
+  Baseline PPL: 5.91
+
+──────────────────────────────────────────────────────────────────────
+  TARGET LAYER 10
+──────────────────────────────────────────────────────────────────────
+  Collecting combinator fingerprints...
+        K:  30 probes, γ=0.0817, ternary density=100.0%, within-var=0.039971
+        I:  30 probes, γ=0.0803, ternary density=100.0%, within-var=0.043572
+        B:  30 probes, γ=0.0787, ternary density=100.0%, within-var=0.041058
+        C:  30 probes, γ=0.0865, ternary density=100.0%, within-var=0.044115
+        S:  30 probes, γ=0.0889, ternary density=100.0%, within-var=0.036866
+        D:  30 probes, γ=0.0805, ternary density=100.0%, within-var=0.036913
+        W:  30 probes, γ=0.0810, ternary density=100.0%, within-var=0.042373
+        Y:  30 probes, γ=0.0777, ternary density=100.0%, within-var=0.047006
+     WHNF:  30 probes, γ=0.0800, ternary density=100.0%, within-var=0.039898
+
+  Building K-means patterns...
+    K-means on 208 samples, 16 clusters...
+    ✓ A: 9-mode KIBC centroid (continuous)                PPL=      6.27  ratio=  1.06×
+    ✓ A: 9-mode KIBC ternary + pos_gamma                  PPL=      6.27  ratio=  1.06×
+    ✓ A: 9-mode KIBC ternary + scalar_gamma               PPL=      6.48  ratio=  1.10×
+    ✓ B: 16-cluster centroid                              PPL=      6.39  ratio=  1.08×
+    ✓ B: 16-cluster ternary + pos_gamma                   PPL=      6.39  ratio=  1.08×
+    ✓ B: 16-cluster ternary + scalar_gamma                PPL=      6.48  ratio=  1.10×
+
+──────────────────────────────────────────────────────────────────────
+  TARGET LAYER 15
+──────────────────────────────────────────────────────────────────────
+  Collecting combinator fingerprints...
+        K:  30 probes, γ=0.0782, ternary density=100.0%, within-var=0.024905
+        I:  30 probes, γ=0.0816, ternary density=100.0%, within-var=0.027500
+        B:  30 probes, γ=0.0738, ternary density=100.0%, within-var=0.023997
+        C:  30 probes, γ=0.0857, ternary density=100.0%, within-var=0.027343
+        S:  30 probes, γ=0.0689, ternary density=100.0%, within-var=0.021258
+        D:  30 probes, γ=0.0757, ternary density=100.0%, within-var=0.023341
+        W:  30 probes, γ=0.0879, ternary density=100.0%, within-var=0.027011
+        Y:  30 probes, γ=0.0754, ternary density=100.0%, within-var=0.030339
+     WHNF:  30 probes, γ=0.0805, ternary density=100.0%, within-var=0.025184
+
+  Building K-means patterns...
+    K-means on 208 samples, 16 clusters...
+    ✓ A: 9-mode KIBC centroid (continuous)                PPL=      5.82  ratio=  0.98×
+    ✓ A: 9-mode KIBC ternary + pos_gamma                  PPL=      5.82  ratio=  0.98×
+    ✓ A: 9-mode KIBC ternary + scalar_gamma               PPL=      6.04  ratio=  1.02×
+    ✓ B: 16-cluster centroid                              PPL=      5.67  ratio=  0.96×
+    ✓ B: 16-cluster ternary + pos_gamma                   PPL=      5.67  ratio=  0.96×
+    ✓ B: 16-cluster ternary + scalar_gamma                PPL=      5.83  ratio=  0.98×
+
+──────────────────────────────────────────────────────────────────────
+  TARGET LAYER 20
+──────────────────────────────────────────────────────────────────────
+  Collecting combinator fingerprints...
+        K:  30 probes, γ=0.0925, ternary density=100.0%, within-var=0.039506
+        I:  30 probes, γ=0.0935, ternary density=100.0%, within-var=0.044766
+        B:  30 probes, γ=0.0913, ternary density=100.0%, within-var=0.036581
+        C:  30 probes, γ=0.1027, ternary density=100.0%, within-var=0.044242
+        S:  30 probes, γ=0.0925, ternary density=100.0%, within-var=0.034880
+        D:  30 probes, γ=0.1020, ternary density=100.0%, within-var=0.039502
+        W:  30 probes, γ=0.0993, ternary density=100.0%, within-var=0.049970
+        Y:  30 probes, γ=0.0924, ternary density=100.0%, within-var=0.052550
+     WHNF:  30 probes, γ=0.0952, ternary density=100.0%, within-var=0.040794
+
+  Building K-means patterns...
+    K-means on 208 samples, 16 clusters...
+    ✓ A: 9-mode KIBC centroid (continuous)                PPL=      5.90  ratio=  1.00×
+    ✓ A: 9-mode KIBC ternary + pos_gamma                  PPL=      5.90  ratio=  1.00×
+    ✓ A: 9-mode KIBC ternary + scalar_gamma               PPL=      5.92  ratio=  1.00×
+    ✓ B: 16-cluster centroid                              PPL=      5.95  ratio=  1.01×
+    ✓ B: 16-cluster ternary + pos_gamma                   PPL=      5.95  ratio=  1.01×
+    ✓ B: 16-cluster ternary + scalar_gamma                PPL=      5.96  ratio=  1.01×
+
+──────────────────────────────────────────────────────────────────────
+  TARGET LAYER 25
+──────────────────────────────────────────────────────────────────────
+  Collecting combinator fingerprints...
+        K:  30 probes, γ=0.2008, ternary density=100.0%, within-var=0.225522
+        I:  30 probes, γ=0.1972, ternary density=100.0%, within-var=0.256178
+        B:  30 probes, γ=0.1957, ternary density=100.0%, within-var=0.252594
+        C:  30 probes, γ=0.2224, ternary density=100.0%, within-var=0.265649
+        S:  30 probes, γ=0.2161, ternary density=100.0%, within-var=0.201875
+        D:  30 probes, γ=0.2078, ternary density=100.0%, within-var=0.235502
+        W:  30 probes, γ=0.1962, ternary density=100.0%, within-var=0.317281
+        Y:  30 probes, γ=0.1806, ternary density=100.0%, within-var=0.259147
+     WHNF:  30 probes, γ=0.1981, ternary density=100.0%, within-var=0.239495
+
+  Building K-means patterns...
+    K-means on 208 samples, 16 clusters...
+    ✓ A: 9-mode KIBC centroid (continuous)                PPL=      6.29  ratio=  1.06×
+    ✓ A: 9-mode KIBC ternary + pos_gamma                  PPL=      6.29  ratio=  1.06×
+    ✓ A: 9-mode KIBC ternary + scalar_gamma               PPL=      6.29  ratio=  1.06×
+    ✓ B: 16-cluster centroid                              PPL=      6.26  ratio=  1.06×
+    ✓ B: 16-cluster ternary + pos_gamma                   PPL=      6.26  ratio=  1.06×
+    ✓ B: 16-cluster ternary + scalar_gamma                PPL=      6.25  ratio=  1.06×
+
+======================================================================
+  SUMMARY
+======================================================================
+  Baseline PPL: 5.91
+  Model: Qwen/Qwen3-8B
+
+  Layer 10:
+    A: 9-mode KIBC centroid (continuous)                  1.06×
+    A: 9-mode KIBC ternary + pos_gamma                    1.06×
+    A: 9-mode KIBC ternary + scalar_gamma                 1.10×
+    B: 16-cluster centroid                                1.08×
+    B: 16-cluster ternary + pos_gamma                     1.08×
+    B: 16-cluster ternary + scalar_gamma                  1.10×
+
+  Layer 15:
+    A: 9-mode KIBC centroid (continuous)                  0.98×
+    A: 9-mode KIBC ternary + pos_gamma                    0.98×
+    A: 9-mode KIBC ternary + scalar_gamma                 1.02×
+    B: 16-cluster centroid                                0.96×
+    B: 16-cluster ternary + pos_gamma                     0.96×
+    B: 16-cluster ternary + scalar_gamma                  0.98×
+
+  Layer 20:
+    A: 9-mode KIBC centroid (continuous)                  1.00×
+    A: 9-mode KIBC ternary + pos_gamma                    1.00×
+    A: 9-mode KIBC ternary + scalar_gamma                 1.00×
+    B: 16-cluster centroid                                1.01×
+    B: 16-cluster ternary + pos_gamma                     1.01×
+    B: 16-cluster ternary + scalar_gamma                  1.01×
+
+  Layer 25:
+    A: 9-mode KIBC centroid (continuous)                  1.06×
+    A: 9-mode KIBC ternary + pos_gamma                    1.06×
+    A: 9-mode KIBC ternary + scalar_gamma                 1.06×
+    B: 16-cluster centroid                                1.06×
+    B: 16-cluster ternary + pos_gamma                     1.06×
+    B: 16-cluster ternary + scalar_gamma                  1.06×
+
+  Results saved to results/ternary-inference-pattern/Qwen_Qwen3-8B.json
+======================================================================
+

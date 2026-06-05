@@ -1,0 +1,499 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "baseline_fact_rate": 0.8,
+  "baseline_facts": {
+    "The capital of France is": {
+      "generated": "Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital",
+      "hit": true
+    },
+    "The capital of Japan is": {
+      "generated": "Tokyo. The capital of Japan is Tokyo. The capital of Japan is Tokyo. The capital",
+      "hit": true
+    },
+    "Water boils at": {
+      "generated": "100\u00b0C. What is the boiling point of water in Fahrenheit?\n\nTo convert Celsius to ",
+      "hit": true
+    },
+    "The speed of light is approximately": {
+      "generated": "3.00 \u00d7 10^8 m/s. What is the speed of light in kilometers per hour?\n\nTo convert ",
+      "hit": false
+    },
+    "The first president of the United States was": {
+      "generated": "George Washington. The second president was John Adams. The third president was ",
+      "hit": true
+    },
+    "The year World War II ended was": {
+      "generated": "1945. The year the war began was 1939. How many years long was the war? To find ",
+      "hit": true
+    },
+    "The chemical symbol for gold is": {
+      "generated": "Au, which comes from the Latin word for gold, \"aurum.\" The symbol for silver is ",
+      "hit": true
+    },
+    "The largest planet in our solar system is": {
+      "generated": "Jupiter. It has a mass of 1.898 \u00d7 10^27 kg and a radius of 6.99",
+      "hit": true
+    },
+    "The author of Romeo and Juliet is": {
+      "generated": "William Shakespeare, and the play is set in Verona, Italy. The story revolves ar",
+      "hit": true
+    },
+    "Pi is approximately equal to": {
+      "generated": "3.141592653589793238462643... and so",
+      "hit": true
+    },
+    "The Great Wall of China is located in": {
+      "generated": "which country? The Great Wall of China is located in China. It is a series of fo",
+      "hit": true
+    },
+    "The human body has": {
+      "generated": "a natural rhythm, known as the circadian rhythm, which regulates various physiol",
+      "hit": false
+    },
+    "Einstein's famous equation is E equals": {
+      "generated": "m c squared. What is the value of c? - Brainly.com\nprofile\nprofile\njessicamendoz",
+      "hit": false
+    },
+    "The freezing point of water in Celsius is": {
+      "generated": "0 degrees, and the boiling point is 100 degrees. The freezing point of water in ",
+      "hit": true
+    },
+    "The currency of the United Kingdom is the": {
+      "generated": "pound sterling, which is divided into 100 pence. The UK has a decimal currency s",
+      "hit": true
+    }
+  },
+  "baseline_coherence": {
+    "Once upon a time, in a small village nestled between the mountains,": "there lived a young girl named Lila. She was known for her kindness and her love for the forest. Every morning, she woul",
+    "The key difference between machine learning and traditional programming is that": "in traditional programming, the programmer provides the rules for the computer to follow, while in machine learning, the",
+    "To make a perfect cup of coffee, you should first": "grind the beans. The grind size is important because it affects the extraction of flavors. If the grind is too coarse, t",
+    "The most important thing I learned from studying history is that": "the past is not a dead, distant world, but a living, breathing part of our present. History is not just about memorizing",
+    "When debugging a complex software system, the first step is to": "understand the system's architecture and the components involved. In this case, the system is a web application built wi"
+  },
+  "results": [
+    {
+      "layer": 10,
+      "fact_rate": 0.8666666666666667,
+      "fact_baseline": 0.8,
+      "facts_changed": 15,
+      "coherence_changed": 5,
+      "facts": {
+        "The capital of France is": {
+          "generated": "a city in the country of France. The capital of France is Paris. The capital of ",
+          "hit": true,
+          "changed": true
+        },
+        "The capital of Japan is": {
+          "generated": "Tokyo. The capital of South Korea is Seoul. The capital of North Korea is Pyongy",
+          "hit": true,
+          "changed": true
+        },
+        "Water boils at": {
+          "generated": "100\u00b0C and freezes at 0\u00b0C. The temperature of a cup of water is 50\u00b0C. If the temp",
+          "hit": true,
+          "changed": true
+        },
+        "The speed of light is approximately": {
+          "generated": "3.00 x 10^8 m/s. What is the speed of light in kilometers per hour?\n\nTo find the",
+          "hit": false,
+          "changed": true
+        },
+        "The first president of the United States was": {
+          "generated": "George Washington. He was the first president of the United States, and he was a",
+          "hit": true,
+          "changed": true
+        },
+        "The year World War II ended was": {
+          "generated": "1945. The year after the war ended, the year was 1946. The year before the war e",
+          "hit": true,
+          "changed": true
+        },
+        "The chemical symbol for gold is": {
+          "generated": "Au, and the symbol for silver is Ag. The atomic number of gold is 79, and the at",
+          "hit": true,
+          "changed": true
+        },
+        "The largest planet in our solar system is": {
+          "generated": "Jupiter. Its diameter is about 139,822 kilometers. How many kilometers is the di",
+          "hit": true,
+          "changed": true
+        },
+        "The author of Romeo and Juliet is": {
+          "generated": "William Shakespeare, and the play is set in which city? The answer is Verona. Bu",
+          "hit": true,
+          "changed": true
+        },
+        "Pi is approximately equal to": {
+          "generated": "3.1416. What is the approximate value of pi to the nearest hundredth?\n\nTo find t",
+          "hit": true,
+          "changed": true
+        },
+        "The Great Wall of China is located in": {
+          "generated": "which country? The Great Wall of China is located in China. It is one of the mos",
+          "hit": true,
+          "changed": true
+        },
+        "The human body has": {
+          "generated": "a remarkable ability to adapt to various environmental conditions, but when it c",
+          "hit": false,
+          "changed": true
+        },
+        "Einstein's famous equation is E equals": {
+          "generated": "m c squared. What does each variable stand for?\n\nEinstein's equation E = mc\u00b2 is ",
+          "hit": true,
+          "changed": true
+        },
+        "The freezing point of water in Celsius is": {
+          "generated": "0 degrees. If the temperature of a solution is 10 degrees Celsius, what is the t",
+          "hit": true,
+          "changed": true
+        },
+        "The currency of the United Kingdom is the": {
+          "generated": "pound sterling, which is divided into 100 pence. The UK has a decimal currency, ",
+          "hit": true,
+          "changed": true
+        }
+      },
+      "coherence": {
+        "Once upon a time, in a small village nestled between the mountains,": {
+          "generated": "there lived a young girl named Lila. Lila was known for her kindness and her love for the forest. Every morning, she wou",
+          "changed": true
+        },
+        "The key difference between machine learning and traditional programming is that": {
+          "generated": "in traditional programming, the programmer specifies the exact steps to solve a problem, while in machine learning, the ",
+          "changed": true
+        },
+        "To make a perfect cup of coffee, you should first": {
+          "generated": "grind the coffee beans. The grind size is crucial because it affects the extraction process. If the grind is too coarse,",
+          "changed": true
+        },
+        "The most important thing I learned from studying history is that": {
+          "generated": "the past is not a dead thing. It is not a foreign country. It is a foreign country. It is a foreign country whose reside",
+          "changed": true
+        },
+        "When debugging a complex software system, the first step is to": {
+          "generated": "understand the system's architecture and the interactions between its components. This involves a deep dive into the cod",
+          "changed": true
+        }
+      }
+    },
+    {
+      "layer": 15,
+      "fact_rate": 0.7333333333333333,
+      "fact_baseline": 0.8,
+      "facts_changed": 11,
+      "coherence_changed": 4,
+      "facts": {
+        "The capital of France is": {
+          "generated": "Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capit",
+          "hit": true,
+          "changed": true
+        },
+        "The capital of Japan is": {
+          "generated": "Tokyo, and the capital of South Korea is Seoul. The capital of North Korea is Py",
+          "hit": true,
+          "changed": true
+        },
+        "Water boils at": {
+          "generated": "212\u00b0F. What is the corresponding temperature on the Celsius scale?\n\nTo convert F",
+          "hit": false,
+          "changed": true
+        },
+        "The speed of light is approximately": {
+          "generated": "3.00 x 10^8 m/s. What is the speed of light in kilometers per hour?\n\nTo convert ",
+          "hit": false,
+          "changed": true
+        },
+        "The first president of the United States was": {
+          "generated": "George Washington. The second president was John Adams. The third president was ",
+          "hit": true,
+          "changed": false
+        },
+        "The year World War II ended was": {
+          "generated": "1945. The year the United Nations was founded was 1945. The year the Korean War ",
+          "hit": true,
+          "changed": true
+        },
+        "The chemical symbol for gold is": {
+          "generated": "Au, which comes from the Latin word \"aurum,\" meaning \"shining dawn.\" This etymol",
+          "hit": true,
+          "changed": true
+        },
+        "The largest planet in our solar system is": {
+          "generated": "Jupiter. It has a mass of 1.898 \u00d7 10^27 kg and a radius of 6.99",
+          "hit": true,
+          "changed": false
+        },
+        "The author of Romeo and Juliet is": {
+          "generated": "William Shakespeare, an English poet and playwright. The play is a tragedy that ",
+          "hit": true,
+          "changed": true
+        },
+        "Pi is approximately equal to": {
+          "generated": "3.141592653589793238462643383",
+          "hit": true,
+          "changed": true
+        },
+        "The Great Wall of China is located in": {
+          "generated": "which country? The Great Wall of China is located in China. It is a series of fo",
+          "hit": true,
+          "changed": false
+        },
+        "The human body has": {
+          "generated": "a natural rhythm, known as the circadian rhythm, which regulates various physiol",
+          "hit": false,
+          "changed": false
+        },
+        "Einstein's famous equation is E equals": {
+          "generated": "m c squared. What is the value of c in the equation? - Brainly.com\nprofile\nprofi",
+          "hit": false,
+          "changed": true
+        },
+        "The freezing point of water in Celsius is": {
+          "generated": "0\u00b0C, and the boiling point is 100\u00b0C. In Fahrenheit, the freezing point of water ",
+          "hit": true,
+          "changed": true
+        },
+        "The currency of the United Kingdom is the": {
+          "generated": "pound sterling, abbreviated as \u00a3. The UK has a decimal currency system, and the ",
+          "hit": true,
+          "changed": true
+        }
+      },
+      "coherence": {
+        "Once upon a time, in a small village nestled between the mountains,": {
+          "generated": "there lived a young girl named Lila. She was known for her kindness and her love for nature. Every morning, she would go",
+          "changed": true
+        },
+        "The key difference between machine learning and traditional programming is that": {
+          "generated": "in traditional programming, the programmer provides the rules for the computer to follow, while in machine learning, the",
+          "changed": false
+        },
+        "To make a perfect cup of coffee, you should first": {
+          "generated": "grind the beans, then brew them using a suitable method, and finally add any desired flavorings or sweeteners.  The key ",
+          "changed": true
+        },
+        "The most important thing I learned from studying history is that": {
+          "generated": "the past is not a dead, distant world. It is alive and relevant. The past is not just a collection of facts and dates, b",
+          "changed": true
+        },
+        "When debugging a complex software system, the first step is to": {
+          "generated": "understand the system's architecture and the specific components involved. In this case, the system in question is a Jav",
+          "changed": true
+        }
+      }
+    },
+    {
+      "layer": 20,
+      "fact_rate": 0.8,
+      "fact_baseline": 0.8,
+      "facts_changed": 10,
+      "coherence_changed": 3,
+      "facts": {
+        "The capital of France is": {
+          "generated": "Paris. The capital of Italy is Rome. The capital of Germany is Berlin. The capit",
+          "hit": true,
+          "changed": true
+        },
+        "The capital of Japan is": {
+          "generated": "Tokyo. The capital of South Korea is Seoul. The capital of North Korea is Pyongy",
+          "hit": true,
+          "changed": true
+        },
+        "Water boils at": {
+          "generated": "100\u00b0C. What is the temperature in Fahrenheit?\n\nTo convert Celsius to Fahrenheit,",
+          "hit": true,
+          "changed": true
+        },
+        "The speed of light is approximately": {
+          "generated": "3.00 x 10^8 m/s. What is the speed of light in kilometers per hour?\n\nTo convert ",
+          "hit": false,
+          "changed": true
+        },
+        "The first president of the United States was": {
+          "generated": "George Washington. The second president was John Adams. The third president was ",
+          "hit": true,
+          "changed": false
+        },
+        "The year World War II ended was": {
+          "generated": "1945. The year the United Nations was founded was 1945. The year the atomic bomb",
+          "hit": true,
+          "changed": true
+        },
+        "The chemical symbol for gold is": {
+          "generated": "Au, which comes from the Latin word \"aurum.\" What is the origin of the symbol fo",
+          "hit": true,
+          "changed": true
+        },
+        "The largest planet in our solar system is": {
+          "generated": "Jupiter. It has a mass of 1.898 \u00d7 10^27 kg and a radius of 6.99",
+          "hit": true,
+          "changed": false
+        },
+        "The author of Romeo and Juliet is": {
+          "generated": "William Shakespeare. The play is set in the city of Verona, Italy. The story rev",
+          "hit": true,
+          "changed": true
+        },
+        "Pi is approximately equal to": {
+          "generated": "3.1416. What is the value of pi to the nearest hundredth?\n\nTo find the value of ",
+          "hit": true,
+          "changed": true
+        },
+        "The Great Wall of China is located in": {
+          "generated": "which country? The Great Wall of China is located in China. It is a series of fo",
+          "hit": true,
+          "changed": false
+        },
+        "The human body has": {
+          "generated": "a natural rhythm, known as the circadian rhythm, which regulates various physiol",
+          "hit": false,
+          "changed": false
+        },
+        "Einstein's famous equation is E equals": {
+          "generated": "m c squared. What is the value of the speed of light in a vacuum? - Brainly.com\n",
+          "hit": false,
+          "changed": true
+        },
+        "The freezing point of water in Celsius is": {
+          "generated": "0 degrees, and in Fahrenheit is 32 degrees. The boiling point of water in Celsiu",
+          "hit": true,
+          "changed": true
+        },
+        "The currency of the United Kingdom is the": {
+          "generated": "pound sterling, which is divided into 100 pence. The UK has a decimal currency s",
+          "hit": true,
+          "changed": false
+        }
+      },
+      "coherence": {
+        "Once upon a time, in a small village nestled between the mountains,": {
+          "generated": "there lived a young girl named Lila. She was known for her kindness and her love for helping others. One day, while gath",
+          "changed": true
+        },
+        "The key difference between machine learning and traditional programming is that": {
+          "generated": "in traditional programming, the programmer provides the rules for the computer to follow, while in machine learning, the",
+          "changed": false
+        },
+        "To make a perfect cup of coffee, you should first": {
+          "generated": "grind the beans, then add the water, and finally add the coffee grounds.  The order of the steps is important.  If you a",
+          "changed": true
+        },
+        "The most important thing I learned from studying history is that": {
+          "generated": "the past is not a dead thing. It is a living thing. It is the past that shapes the present and the future. It is the pas",
+          "changed": true
+        },
+        "When debugging a complex software system, the first step is to": {
+          "generated": "understand the system's architecture and the components involved. In this case, the system is a web application built wi",
+          "changed": false
+        }
+      }
+    },
+    {
+      "layer": 25,
+      "fact_rate": 0.8,
+      "fact_baseline": 0.8,
+      "facts_changed": 12,
+      "coherence_changed": 5,
+      "facts": {
+        "The capital of France is": {
+          "generated": "Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capit",
+          "hit": true,
+          "changed": true
+        },
+        "The capital of Japan is": {
+          "generated": "Tokyo. The capital of South Korea is Seoul. The capital of North Korea is Pyongy",
+          "hit": true,
+          "changed": true
+        },
+        "Water boils at": {
+          "generated": "100\u00b0C. What is the temperature in Fahrenheit?\n\nTo convert Celsius to Fahrenheit,",
+          "hit": true,
+          "changed": true
+        },
+        "The speed of light is approximately": {
+          "generated": "3.00 \u00d7 10^8 m/s. What is the speed of light in kilometers per hour?\n\nTo convert ",
+          "hit": false,
+          "changed": false
+        },
+        "The first president of the United States was": {
+          "generated": "George Washington, and the last president was...? The last president of the Unit",
+          "hit": true,
+          "changed": true
+        },
+        "The year World War II ended was": {
+          "generated": "the same year that the United States began to use the atomic bomb.  The year the",
+          "hit": false,
+          "changed": true
+        },
+        "The chemical symbol for gold is": {
+          "generated": "Au, which comes from the Latin word for gold, \"aurum.\" The symbol Au is used in ",
+          "hit": true,
+          "changed": true
+        },
+        "The largest planet in our solar system is": {
+          "generated": "Jupiter. It is a gas giant with a mass of 1.898 \u00d7 10^27 kg. The radius of Jupite",
+          "hit": true,
+          "changed": true
+        },
+        "The author of Romeo and Juliet is": {
+          "generated": "William Shakespeare, and the play is set in Verona, Italy. The story revolves ar",
+          "hit": true,
+          "changed": false
+        },
+        "Pi is approximately equal to": {
+          "generated": "3.1416. What is the approximate value of the expression 2\u03c0/3?\n\nTo find the appro",
+          "hit": true,
+          "changed": true
+        },
+        "The Great Wall of China is located in": {
+          "generated": "which country? The Great Wall of China is located in China. It is a series of wa",
+          "hit": true,
+          "changed": true
+        },
+        "The human body has": {
+          "generated": "a natural rhythm, known as the circadian rhythm, which regulates various physiol",
+          "hit": false,
+          "changed": false
+        },
+        "Einstein's famous equation is E equals": {
+          "generated": "m c squared. What is the value of c? - Brainly.com\nprofile\nprofile\njamesmccoy123",
+          "hit": true,
+          "changed": true
+        },
+        "The freezing point of water in Celsius is": {
+          "generated": "0 degrees, and the boiling point is 100 degrees. How many degrees Celsius is the",
+          "hit": true,
+          "changed": true
+        },
+        "The currency of the United Kingdom is the": {
+          "generated": "pound sterling, which is represented by the symbol \u00a3. The pound is divided into ",
+          "hit": true,
+          "changed": true
+        }
+      },
+      "coherence": {
+        "Once upon a time, in a small village nestled between the mountains,": {
+          "generated": "there lived a young girl named Lila. She was known for her kindness and her love for nature. One day, she decided to exp",
+          "changed": true
+        },
+        "The key difference between machine learning and traditional programming is that": {
+          "generated": "in traditional programming, the computer is given a set of rules to follow, while in machine learning, the computer is g",
+          "changed": true
+        },
+        "To make a perfect cup of coffee, you should first": {
+          "generated": "grind the beans. The grind size is important because it affects the extraction of the coffee. If the grind is too coarse",
+          "changed": true
+        },
+        "The most important thing I learned from studying history is that": {
+          "generated": "the past is not a distant memory, but a living reality that shapes our present and future. History is not just about dat",
+          "changed": true
+        },
+        "When debugging a complex software system, the first step is to": {
+          "generated": "understand the system's architecture and the specific components involved. In this case, the system is a web application",
+          "changed": true
+        }
+      }
+    }
+  ]
+}

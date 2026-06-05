@@ -1,0 +1,48 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "target_layer": 25,
+  "baseline_fact_rate": 0.8,
+  "n_calibration_samples": 195,
+  "results": [
+    {
+      "n_clusters": 9,
+      "fact_rate": 0.8,
+      "delta": 0.0,
+      "active_clusters": 9,
+      "storage_kb": 98412.0,
+      "compression": 2.996707718570906
+    },
+    {
+      "n_clusters": 16,
+      "fact_rate": 0.8,
+      "delta": 0.0,
+      "active_clusters": 15,
+      "storage_kb": 98496.0,
+      "compression": 2.9941520467836256
+    },
+    {
+      "n_clusters": 32,
+      "fact_rate": 0.8666666666666667,
+      "delta": 0.06666666666666665,
+      "active_clusters": 31,
+      "storage_kb": 98688.0,
+      "compression": 2.9883268482490273
+    },
+    {
+      "n_clusters": 64,
+      "fact_rate": 0.8,
+      "delta": 0.0,
+      "active_clusters": 54,
+      "storage_kb": 99072.0,
+      "compression": 2.9767441860465116
+    },
+    {
+      "n_clusters": 128,
+      "fact_rate": 0.8,
+      "delta": 0.0,
+      "active_clusters": 105,
+      "storage_kb": 99840.0,
+      "compression": 2.953846153846154
+    }
+  ]
+}

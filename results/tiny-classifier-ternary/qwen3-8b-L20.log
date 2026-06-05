@@ -1,0 +1,166 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+======================================================================
+  TINY CLASSIFIER → TERNARY LOOKUP TEST
+  Replace ENTIRE FFN with small matrix + ternary table
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+
+  Loading Qwen/Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:15,  2.04it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:10, 37.08it/s]Loading weights:  13%|█▎        | 50/399 [00:00<00:03, 106.15it/s]Loading weights:  20%|█▉        | 79/399 [00:00<00:02, 152.47it/s]Loading weights:  26%|██▌       | 102/399 [00:00<00:01, 170.80it/s]Loading weights:  32%|███▏      | 126/399 [00:01<00:01, 187.57it/s]Loading weights:  37%|███▋      | 149/399 [00:01<00:01, 197.73it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:01, 216.60it/s]Loading weights:  50%|█████     | 201/399 [00:01<00:00, 219.81it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 244.89it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 243.29it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 254.32it/s]Loading weights:  80%|███████▉  | 318/399 [00:01<00:00, 269.98it/s]Loading weights:  87%|████████▋ | 346/399 [00:01<00:00, 269.57it/s]Loading weights:  94%|█████████▍| 375/399 [00:01<00:00, 272.22it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 200.00it/s]
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Layers: 36, d_model: 4096, intermediate: 12288
+  Target layer: 20
+
+  Measuring baseline...
+  Baseline PPL: 10.16, Facts: 12/15 = 80%
+
+  Collecting training data from layer 20...
+  Collected 2304 samples, d_model=4096
+
+──────────────────────────────────────────────────────────────────────
+  N_MODES = 9
+──────────────────────────────────────────────────────────────────────
+    Training 4096×9 classifier (36864 params)...
+      Epoch 25: loss=0.0186 acc=0.997
+      Epoch 50: loss=0.0021 acc=1.000
+      Epoch 75: loss=0.0013 acc=1.000
+      Epoch 100: loss=0.0010 acc=1.000
+    Classifier accuracy: 100.0%
+    Storage: classifier=72KB + ternary=36KB + gamma=72KB = 180KB (original: 288MB, compression: 1638×)
+      ✓ The capital of France is                           → Paris. The capital of Italy is Rome. The capital o
+      ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+      ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+      ✗ The speed of light is approximately                → 3.00 x 10^8 m/s. What is the speed of light in kil
+      ✓ The first president of the United States was       → George Washington. The second president was John A
+      ✓ The year World War II ended was                    → 1945. The year the United Nations was founded was 
+      ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word "aurum." What 
+      ✓ The largest planet in our solar system is          → Jupiter. It has a mass of 1.898 × 10^27 kg and a r
+      ✓ The author of Romeo and Juliet is                  → William Shakespeare. The play is set in the city o
+      ✓ Pi is approximately equal to                       → 3.1416. What is the value of the expression 1/ (2 
+      ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+      ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+      ✗ Einstein's famous equation is E equals             → m c squared. What is the value of the speed of lig
+      ✓ The freezing point of water in Celsius is          → 0 degrees, and in Fahrenheit is 32 degrees. The bo
+      ✓ The currency of the United Kingdom is the          → pound sterling, which is divided into 100 pence. T
+
+    PPL: 9.97 (0.98× baseline)
+    Facts: 12/15 = 80% (baseline: 80%)
+    Classifier: 4096×9 = 36,864 params
+    Compression: 1638× (180KB vs 288MB)
+
+──────────────────────────────────────────────────────────────────────
+  N_MODES = 16
+──────────────────────────────────────────────────────────────────────
+    Training 4096×16 classifier (65536 params)...
+      Epoch 25: loss=0.0061 acc=0.999
+      Epoch 50: loss=0.0010 acc=1.000
+      Epoch 75: loss=0.0007 acc=1.000
+      Epoch 100: loss=0.0006 acc=1.000
+    Classifier accuracy: 100.0%
+    Storage: classifier=128KB + ternary=64KB + gamma=128KB = 320KB (original: 288MB, compression: 922×)
+      ✓ The capital of France is                           → Paris. The capital of Italy is Rome. The capital o
+      ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+      ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+      ✗ The speed of light is approximately                → 3.00 x 10^8 m/s. What is the speed of light in kil
+      ✓ The first president of the United States was       → George Washington. The second president was John A
+      ✓ The year World War II ended was                    → 1945. The year the United Nations was founded was 
+      ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word "aurum." What 
+      ✓ The largest planet in our solar system is          → Jupiter. It has a mass of 1.898 × 10^27 kg and a r
+      ✓ The author of Romeo and Juliet is                  → William Shakespeare. The play is set in the city o
+      ✓ Pi is approximately equal to                       → 3.1416. What is the value of the expression 1/ (2 
+      ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+      ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+      ✗ Einstein's famous equation is E equals             → m c squared. What is the value of the speed of lig
+      ✓ The freezing point of water in Celsius is          → 0 degrees, and in Fahrenheit is 32 degrees. The bo
+      ✓ The currency of the United Kingdom is the          → pound sterling, which is divided into 100 pence. T
+
+    PPL: 10.06 (0.99× baseline)
+    Facts: 12/15 = 80% (baseline: 80%)
+    Classifier: 4096×16 = 65,536 params
+    Compression: 922× (320KB vs 288MB)
+
+──────────────────────────────────────────────────────────────────────
+  N_MODES = 32
+──────────────────────────────────────────────────────────────────────
+    Training 4096×32 classifier (131072 params)...
+      Epoch 25: loss=0.1145 acc=0.956
+      Epoch 50: loss=0.0801 acc=0.986
+      Epoch 75: loss=0.0639 acc=0.987
+      Epoch 100: loss=0.0524 acc=0.987
+    Classifier accuracy: 98.7%
+    Storage: classifier=256KB + ternary=128KB + gamma=256KB = 640KB (original: 288MB, compression: 461×)
+      ✓ The capital of France is                           → Paris. The capital of Italy is Rome. The capital o
+      ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+      ✓ Water boils at                                     → 100°C. At what temperature does it boil in Kelvin?
+      ✗ The speed of light is approximately                → 3.00 x 10^8 m/s. What is the speed of light in kil
+      ✓ The first president of the United States was       → George Washington. The second president was John A
+      ✓ The year World War II ended was                    → 1945. The year the United Nations was founded was 
+      ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word "aurum." What 
+      ✓ The largest planet in our solar system is          → Jupiter. It has a mass of 1.898 × 10^27 kg and a r
+      ✓ The author of Romeo and Juliet is                  → William Shakespeare. The play is set in the city o
+      ✓ Pi is approximately equal to                       → 3.1416. What is the value of the expression 1/ (2 
+      ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+      ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+      ✗ Einstein's famous equation is E equals             → m c squared. What is the value of the speed of lig
+      ✓ The freezing point of water in Celsius is          → 0 degrees, and in Fahrenheit is 32 degrees. The bo
+      ✓ The currency of the United Kingdom is the          → pound sterling, which is divided into 100 pence. T
+
+    PPL: 10.01 (0.99× baseline)
+    Facts: 12/15 = 80% (baseline: 80%)
+    Classifier: 4096×32 = 131,072 params
+    Compression: 461× (640KB vs 288MB)
+
+──────────────────────────────────────────────────────────────────────
+  N_MODES = 64
+──────────────────────────────────────────────────────────────────────
+    Training 4096×64 classifier (262144 params)...
+      Epoch 25: loss=0.1110 acc=0.956
+      Epoch 50: loss=0.0821 acc=0.981
+      Epoch 75: loss=0.0653 acc=0.983
+      Epoch 100: loss=0.0535 acc=0.992
+    Classifier accuracy: 99.2%
+    Storage: classifier=512KB + ternary=256KB + gamma=512KB = 1280KB (original: 288MB, compression: 230×)
+      ✓ The capital of France is                           → Paris. The capital of Italy is Rome. The capital o
+      ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+      ✓ Water boils at                                     → 100°C. At what temperature does it boil in Kelvin?
+      ✗ The speed of light is approximately                → 3.00 x 10^8 m/s. What is the speed of light in kil
+      ✓ The first president of the United States was       → George Washington. He was born in 1732 and died in
+      ✓ The year World War II ended was                    → 1945. The year the United Nations was founded was 
+      ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word "aurum." What 
+      ✓ The largest planet in our solar system is          → Jupiter. It has a mass of 1.898 × 10^27 kg and a r
+      ✓ The author of Romeo and Juliet is                  → William Shakespeare. The play is set in the city o
+      ✓ Pi is approximately equal to                       → 3.1416. What is the value of pi to the nearest hun
+      ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+      ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+      ✗ Einstein's famous equation is E equals             → m c squared. What is the value of the speed of lig
+      ✓ The freezing point of water in Celsius is          → 0 degrees, and in Fahrenheit is 32 degrees. The bo
+      ✓ The currency of the United Kingdom is the          → pound sterling, which is divided into 100 pence. T
+
+    PPL: 10.13 (1.00× baseline)
+    Facts: 12/15 = 80% (baseline: 80%)
+    Classifier: 4096×64 = 262,144 params
+    Compression: 230× (1280KB vs 288MB)
+
+======================================================================
+  SUMMARY — Layer 20
+======================================================================
+  Baseline: PPL=10.16, Facts=80%
+  Original FFN: 288MB (150,994,944 params)
+
+  Modes      PPL   Ratio   Facts   ClsAcc      Size  Compress
+  ─────  ───────  ──────  ──────  ───────  ────────  ────────
+      9     9.97   0.98×    80%  100.0%     180KB     1638×
+     16    10.06   0.99×    80%  100.0%     320KB      922×
+     32    10.01   0.99×    80%   98.7%     640KB      461×
+     64    10.13   1.00×    80%   99.2%    1280KB      230×
+
+  Results saved to results/tiny-classifier-ternary/Qwen_Qwen3-8B_L20.json
+======================================================================
+

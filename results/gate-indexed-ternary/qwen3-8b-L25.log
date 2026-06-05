@@ -1,0 +1,179 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+======================================================================
+  GATE-INDEXED TERNARY LOOKUP TEST
+  Does indexing by gate pattern recover fact recall?
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+
+  Loading Qwen/Qwen3-8B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:38,  1.82it/s]Loading weights:   7%|▋         | 27/399 [00:00<00:06, 54.65it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 89.10it/s]Loading weights:  18%|█▊        | 72/399 [00:00<00:02, 125.40it/s]Loading weights:  25%|██▌       | 101/399 [00:00<00:01, 162.67it/s]Loading weights:  31%|███▏      | 125/399 [00:01<00:01, 174.81it/s]Loading weights:  39%|███▉      | 156/399 [00:01<00:01, 208.65it/s]Loading weights:  45%|████▌     | 181/399 [00:01<00:01, 206.33it/s]Loading weights:  53%|█████▎    | 211/399 [00:01<00:00, 227.80it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 224.07it/s]Loading weights:  65%|██████▌   | 260/399 [00:01<00:00, 228.36it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 238.74it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 227.55it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 229.81it/s]Loading weights:  91%|█████████ | 362/399 [00:02<00:00, 236.18it/s]Loading weights:  97%|█████████▋| 386/399 [00:02<00:00, 225.99it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 180.83it/s]
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Target layer: 25 (of 36)
+
+  Baseline fact recall:
+    ✓ The capital of France is                           → Paris. The capital of Italy is Rome. The capital o
+    ✓ The capital of Japan is                            → Tokyo. The capital of Japan is Tokyo. The capital 
+    ✓ Water boils at                                     → 100°C. What is the boiling point of water in Fahre
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington. The second president was John A
+    ✓ The year World War II ended was                    → 1945. The year the war began was 1939. How many ye
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It has a mass of 1.898 × 10^27 kg and a r
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.141592653589793238462643... and so
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✗ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. T
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is divided into 100 pence. T
+  Baseline: 12/15 = 80%
+
+  Collecting gate/output pairs from layer 25...
+  Collected 195 pairs, gate_dim=12288, out_dim=4096
+
+  Sweeping cluster counts: [9, 16, 32, 64, 128]
+  (9 = combinator-level, 256 = fine-grained gate patterns)
+
+──────────────────────────────────────────────────────────────────────
+  N_CLUSTERS = 9
+──────────────────────────────────────────────────────────────────────
+  Active clusters: 9/9
+  Cluster sizes: min=1 mean=21.7 max=103
+    ✓ The capital of France is                           → Paris. The capital of Germany is Berlin. The capit
+    ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+    ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington, and the last president was...? 
+    ✗ The year World War II ended was                    → the same year that the United States began to use 
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It is about 778 million kilometers from t
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.1416. What is the approximate value of the area 
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✓ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. H
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is represented by the symbol
+  Fact recall: 12/15 = 80% (Δ=+0%)
+  Storage: 98412 KB (original: 294912 KB, compression: 3.0×)
+
+──────────────────────────────────────────────────────────────────────
+  N_CLUSTERS = 16
+──────────────────────────────────────────────────────────────────────
+  Active clusters: 15/16
+  Cluster sizes: min=1 mean=13.0 max=143
+    ✓ The capital of France is                           → Paris. The capital of Germany is Berlin. The capit
+    ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+    ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington, and the last president was...? 
+    ✗ The year World War II ended was                    → the same year that the United States began to use 
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It is about 778 million kilometers from t
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.1416. What is the approximate value of the area 
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✓ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. H
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is represented by the symbol
+  Fact recall: 12/15 = 80% (Δ=+0%)
+  Storage: 98496 KB (original: 294912 KB, compression: 3.0×)
+
+──────────────────────────────────────────────────────────────────────
+  N_CLUSTERS = 32
+──────────────────────────────────────────────────────────────────────
+  Active clusters: 31/32
+  Cluster sizes: min=1 mean=6.3 max=158
+    ✓ The capital of France is                           → Paris. The capital of Germany is Berlin. The capit
+    ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+    ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington. The second president was John A
+    ✓ The year World War II ended was                    → 1945. The year the war began was 1939. How many ye
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It is about 778 million kilometers from t
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.1416. What is the approximate value of the area 
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✓ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. H
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is represented by the symbol
+  Fact recall: 13/15 = 87% (Δ=+7%)
+  Storage: 98688 KB (original: 294912 KB, compression: 3.0×)
+
+──────────────────────────────────────────────────────────────────────
+  N_CLUSTERS = 64
+──────────────────────────────────────────────────────────────────────
+  Active clusters: 54/64
+  Cluster sizes: min=1 mean=3.6 max=139
+    ✓ The capital of France is                           → Paris. The capital of Germany is Berlin. The capit
+    ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+    ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington, and the last president was...? 
+    ✗ The year World War II ended was                    → the same year that the United States began to use 
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It is about 778 million kilometers from t
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.1416. What is the approximate value of the area 
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✓ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. H
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is represented by the symbol
+  Fact recall: 12/15 = 80% (Δ=+0%)
+  Storage: 99072 KB (original: 294912 KB, compression: 3.0×)
+
+──────────────────────────────────────────────────────────────────────
+  N_CLUSTERS = 128
+──────────────────────────────────────────────────────────────────────
+  Active clusters: 105/128
+  Cluster sizes: min=1 mean=1.9 max=89
+    ✓ The capital of France is                           → Paris. The capital of Germany is Berlin. The capit
+    ✓ The capital of Japan is                            → Tokyo. The capital of South Korea is Seoul. The ca
+    ✓ Water boils at                                     → 100°C. What is the temperature in Fahrenheit?
+
+To 
+    ✗ The speed of light is approximately                → 3.00 × 10^8 m/s. What is the speed of light in kil
+    ✓ The first president of the United States was       → George Washington, and the last president was...? 
+    ✗ The year World War II ended was                    → the same year that the United States began to use 
+    ✓ The chemical symbol for gold is                    → Au, which comes from the Latin word for gold, "aur
+    ✓ The largest planet in our solar system is          → Jupiter. It is about 78,400 kilometers in diameter
+    ✓ The author of Romeo and Juliet is                  → William Shakespeare, and the play is set in Verona
+    ✓ Pi is approximately equal to                       → 3.1416. What is the approximate value of the area 
+    ✓ The Great Wall of China is located in              → which country? The Great Wall of China is located 
+    ✗ The human body has                                 → a natural rhythm, known as the circadian rhythm, w
+    ✓ Einstein's famous equation is E equals             → m c squared. What is the value of c? - Brainly.com
+    ✓ The freezing point of water in Celsius is          → 0 degrees, and the boiling point is 100 degrees. H
+    ✓ The currency of the United Kingdom is the          → pound sterling, which is represented by the symbol
+  Fact recall: 12/15 = 80% (Δ=+0%)
+  Storage: 99840 KB (original: 294912 KB, compression: 3.0×)
+
+======================================================================
+  SUMMARY — Layer 25
+======================================================================
+  Baseline fact recall: 80%
+
+  Clusters  Fact rate      Δ     Storage  Compress
+  ────────  ─────────  ─────  ──────────  ────────
+         9       80%   +0%     98412KB      3.0×
+        16       80%   +0%     98496KB      3.0×
+        32       87%   +7%     98688KB      3.0×
+        64       80%   +0%     99072KB      3.0×
+       128       80%   +0%     99840KB      3.0×
+
+  Results saved to results/gate-indexed-ternary/Qwen_Qwen3-8B_L25.json
+======================================================================
+
