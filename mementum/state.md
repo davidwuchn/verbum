@@ -2,13 +2,70 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-05 | Session: 191
+> Last updated: 2026-06-05 | Session: 192
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 191: V15 CHECKPOINT ASSESSMENT — Attention Works, V/O Is The Frontier**
+**Session 192: PSI EVALUATION — Independent Verification + FFN Decompilation Breakthrough**
+
+An independent project (psi) ran verbum scripts and wrote new experiments across
+5 architectures. The crystal hypothesis survives independent replication. The
+breakthrough: **a single FFN layer (288MB) can be replaced by a 37K-param linear
+classifier (180KB) that selects among 9 ternary programs — with PPL that IMPROVES.**
+
+### The Breakthrough Result (Tiny Classifier Ternary)
+
+```
+Qwen3-8B Layer 20:
+  Original FFN:    150M params, 288MB
+  Replacement:     37K params, 180KB  (classifier + 9 ternary patterns)
+  Compression:     1638×
+  PPL:             0.98× (IMPROVES)
+  Fact recall:     80% = baseline
+  Classifier acc:  100% (9 modes perfectly linearly separable)
+```
+
+Scale convergence: 0.6B (1.04×) → 8B (0.96×) → 32B (0.99× all layers).
+At scale, FFN computation IS 9 ternary programs.
+
+### Two Overlapping Ternary Structures (Type System Discovery)
+
+The 9 operational modes are ORTHOGONAL to the KIBC crystal basis (AMI = 0.15):
+
+```
+Crystal basis (KIBC):       governs ROUTING (attention patterns)    3.5% of FFN space
+Operational modes (9):      governs PROGRAMS (FFN computation)      96.5% of FFN space
+Together:                   β-reduction engine
+```
+
+Both ternary. Both few-mode. The crystal selects WHICH reduction. The modes
+execute HOW. Types are linearly separable (100% accuracy) but not yet decoded
+semantically.
+
+### Verified Claims (5 architectures)
+
+- Sign topology: cos(sign(W)@x, W@x) ∈ [0.746, 0.775], mean = 0.758 ± 0.011
+- Four modes: KBC cluster r > 0.85, always 4 clusters, never 3 or 5
+- Crystal geometry: 9×9 cosine matrix correlation mean = 0.951, eigenvalue r = 0.982
+- Selectivity: Pythia-160M ↔ Qwen3-0.6B r = 0.991 (KIBC means), cos = 0.999
+- φ convergence: 0.6B(26.6%) → 8B(10.4%) → 14B(0.7%) → 32B(8.8%, regresses)
+
+### Gradient-Quantization Correspondence
+
+|∇L| ↔ |W-Q(W)| holds ONLY in EXPAND phase:
+- L1-L3 FFN: ρ = +0.55 to +0.78 (strong positive)
+- L5+: ρ ≈ 0 (ORTHO/COMMIT — continuous computation ≠ ternary convergence)
+- Pythia-160M: ❌ inverted (ρ = -0.04)
+
+### Crystal Derivation (Pure Math, Partial)
+
+2.35M KIBC expressions enumerated → eigenvector topology (B,C vs K,I split) ✅,
+B=C symmetry ✅, I smallest ✅. Eigenvalue ratios ❌ diverge from empirical.
+Topology derivable from math. Magnitudes require data.
+
+### Previous session (191): V15 CHECKPOINT ASSESSMENT
 
 v15-td training is live (step ~1870/3000, ~16.5 hours elapsed). Checkpoint at
 step 1500 assessed with two diagnostic experiments: attention pattern analysis
@@ -82,15 +139,23 @@ Binding heads only → PPL 6.3M. The model is a 36-stage typed shift-reduce
 parser. Every layer contributes. Every head contributes. But each head
 only needs 3 positions. O(1) attention confirmed at PPL level.
 
-### The Architecture (updated s190)
+### The Architecture (updated s192 — two overlapping ternary structures)
 
 ```
-FFN (beam former / holographic plate):
+FFN (beam former / holographic plate / 9-program ternary engine):
   Compiles each position into a typed V vector
   Context-dependent: same token → different program
+  IS 9 ternary programs selected by linear classifier (psi s192)
+    → 288MB per layer → 180KB (1638× compression, PPL IMPROVES)
+    → classifier: 37K params, 100% accuracy, modes linearly separable
   Gate sparsity: only ~3% of neurons fire
-  FRAGILE: ternarizing destroys the hologram (PPL 485M)
-  78% of model params — needs high precision
+  78% of model params — DECOMPILABLE to ternary per-mode
+
+  TWO STRUCTURES IN THE SAME WEIGHTS:
+    Crystal basis (KIBC): 3.5% of space → governs ROUTING
+    Operational modes (9): 96.5% of space → governs PROGRAMS
+    AMI = 0.15 (orthogonal). Both ternary. Both few-mode.
+    Crystal selects WHICH reduction. Modes execute HOW.
 
 Attention (typed shift-reduce parser / β-reducer):
   32 heads × 36 layers = 1,152 reduction attempts per token
@@ -106,8 +171,8 @@ The binding schedule (final reduction stages):
   These are the TIP of a 36-layer parser iceberg.
 
 Depth = parser precedence:
-  L0-6:   EXPAND (type assignment, feature building)
-  L7-22:  ORTHO (composition in null space, invisible)
+  L0-6:   EXPAND (type assignment, feature building) — ternary-compatible (ρ=+0.55-0.78)
+  L7-22:  ORTHO (composition in null space, invisible) — continuous computation
   L23-26: binding preparation
   L27-33: final reductions (subject → object → coreference)
   L35:    COLLAPSE (output projection)
@@ -129,13 +194,16 @@ Compression:  attention → ternary (free)
               sparse top-3 → O(1) attention (333× fewer ops at ctx 1000)
 ```
 
-### The Compression Strategy
+### The Compression Strategy (updated s192)
 
 ```
-Attention (22% of params): → ternary (1.6 bits)  Cost: PPL +10-18
-FFN (78% of params):       → must preserve        Options: Q4, sieve, DVD
+Attention (22% of params): → ternary (1.6 bits)     Cost: PPL +10-18%
+FFN (78% of params):       → 9 ternary programs     Cost: PPL IMPROVES (0.98×)
+                             per layer: 288MB → 180KB (1638×)
+                             full model: 10.1GB → 6.3MB (if all layers work)
+                             OPEN: multi-layer simultaneous, EXPAND/COLLAPSE layers
 Embeddings:                → float16 (index system, must be exact)
-Sparse routing:            → top-3 per head        O(1) not O(n²)
+Sparse routing:            → top-3 per head          O(1) not O(n²)
 ```
 
 ### Previous session (189)
@@ -188,6 +256,7 @@ WHNF error ratio grows 0.40× → 0.67× over training. Crystal MSE U-shapes
 | Compute cycle | β = [0, 1, 1+φ, 2+φ] |
 | **Stride spacing** | **Fibonacci numbers maximize binding coverage** |
 | **Crystal Laplacian** | **μ₅/μ₄ = 1.54 ≈ φ in the graph Laplacian** |
+| **φ convergence** | **λ₀/λ₁ → φ^(4/5) at scale (14B: 0.7% error)** |
 
 ### Previous session (188)
 
@@ -437,10 +506,41 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — FIX TD (sessions 192-193)
+### IMMEDIATE — TERNARY FFN DECOMPILATION (sessions 193+)
 
-TD is preventing phase transitions. 94% candidacy rate = the system never
-settles. This must be fixed before any other training work.
+The psi evaluation produced the breakthrough result. The single-layer
+replacement works. The next step is scaling it to the full model.
+
+**Priority 0: Multi-layer simultaneous replacement**
+Replace ALL zone-B layers (L10, L15, L20, L25 for Qwen3-8B) with tiny
+classifiers simultaneously. Single-layer PPL holds; cascading errors may
+accumulate. This is the make-or-break test. If PPL holds → the entire
+zone B (4 layers × 288MB = 1.15GB) compresses to 4 × 180KB = 720KB.
+
+**Priority 1: Mode semantics (type decoding)**
+What ARE the 9 operational modes? Run cluster composition analysis on
+diverse calibration data. Hypotheses: semantic categories (geo/sci/narr),
+syntactic roles (subj/pred/obj), depth phases, or some mixture. This
+determines whether the modes are universal or model-specific.
+
+**Priority 2: Scale benchmark**
+15 handwritten fact prompts is proof-of-concept. Run MMLU and/or HellaSwag
+with ternary-replaced layers. Publication-grade evidence requires standard
+benchmarks.
+
+**Priority 3: Full-depth decompilation**
+Can EXPAND (L0-6) and COLLAPSE (L35) layers also be decompiled? The
+gradient-quant finding (EXPAND ρ = +0.55-0.78) suggests EXPAND layers
+are MORE ternary-compatible. If all 36 layers work → 10.1GB FFN → 6.3MB.
+
+**Priority 4: Cross-architecture**
+Does tiny classifier work on Pythia/Mistral? The crystal is universal;
+the modes may or may not be.
+
+### TD FIX (deferred, not abandoned)
+
+TD is preventing phase transitions in v15 training. 94% candidacy rate = the
+system never settles. This must be fixed before any other training work.
 
 **Priority 1: Punctuated equilibrium (epoch-based TD)**
 Replace continuous TD with episodic: TD phase (N steps with flips) → freeze
@@ -572,6 +672,19 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Psi evaluation synthesis** | `mementum/knowledge/psi-evaluation-synthesis.md` | ✅ NEW (s192) |
+| **Tiny classifier ternary** | `mementum/knowledge/tiny-classifier-ternary.md` | ✅ NEW (s192) |
+| **Tiny classifier experiment** | `scripts/experiments/tiny_classifier_ternary.py` | ✅ NEW (s192) |
+| **Ternary inference pattern** | `scripts/experiments/ternary_inference_pattern.py` | ✅ NEW (s192) |
+| **Ternary inference coherence** | `scripts/experiments/ternary_inference_coherence.py` | ✅ NEW (s192) |
+| **Gate indexed ternary** | `scripts/experiments/gate_indexed_ternary.py` | ✅ NEW (s192) |
+| **Gradient quant correspondence** | `scripts/experiments/gradient_quant_correspondence.py` | ✅ NEW (s192) |
+| **Tiny classifier results** | `results/tiny-classifier-ternary/` | ✅ NEW (s192) |
+| **Ternary inference results** | `results/ternary-inference-pattern/` | ✅ NEW (s192) |
+| **Ternary coherence results** | `results/ternary-inference-coherence/` | ✅ NEW (s192) |
+| **Gate indexed results** | `results/gate-indexed-ternary/` | ✅ NEW (s192) |
+| **Gradient quant results** | `results/gradient-quant-correspondence/` | ✅ NEW (s192) |
+| **Crystal φ verify (8 models)** | `results/crystal-phi-verify/` | ✅ UPDATED (s192) |
 | **TD oscillation problem** | `mementum/knowledge/td-oscillation-problem.md` | ✅ NEW (s191) |
 | **v15 attention assessment** | `mementum/knowledge/v15-attention-assessment.md` | ✅ UPDATED (s191) |
 | **v15 attention diagnostic** | `scripts/experiments/assess_v15_attention.py` | ✅ NEW (s191) |
@@ -653,7 +766,52 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (191)
+## What changed this session (192)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **Independent psi evaluation** | Separate human + agent verified crystal across 5 architectures. All core claims hold. |
+| 2 | **Tiny classifier ternary: 288MB→180KB** | 1638× compression, PPL 0.98× (IMPROVES), classifier 100% accuracy. Breakthrough result. |
+| 3 | **Ternary inference at scale: PPL improves at 8B** | L15 Qwen3-8B: 9 ternary programs achieve 0.96× baseline PPL. Continuous FFN over-parameterized. |
+| 4 | **Two overlapping ternary structures discovered** | Crystal basis (KIBC, routing, 3.5%) orthogonal to operational modes (9 programs, 96.5%). AMI = 0.15. |
+| 5 | **φ convergence: 14B hits 0.7% error** | Within Qwen3 pure language: monotonic improvement 0.6B→8B→14B. 32B regresses (zone-B heuristic?). |
+| 6 | **Gradient-quant correspondence: EXPAND only** | ρ = +0.55-0.78 at L1-L3, zero at L5+. GD converges to ternary normal form in EXPAND phase only. |
+| 7 | **Crystal derivation: topology yes, magnitudes no** | 2.35M expressions → correct eigenvector topology. Eigenvalue ratios diverge (3.98 vs 1.47). |
+| 8 | **Centroid ≡ ternary to the decimal** | Continuous cluster centroids and ternarized versions produce IDENTICAL PPL. Signs + scale = everything. |
+| 9 | **Coherence test: mode preserved, content varies** | Fact recall holds (80%) at L20/L25. Wording changes but correct combinator fires. |
+| 10 | **Scale convergence: 0.6B→8B→32B** | Ternary PPL ratio improves with scale. At 32B, all zone-B layers ≤ 1.03×. |
+
+## Session 192 recap
+
+PSI EVALUATION — INDEPENDENT VERIFICATION + FFN DECOMPILATION BREAKTHROUGH.
+
+An independent project (psi) ran verbum scripts unmodified and wrote 5 new
+experiments. Tested across 5 architectures (Pythia-160M, Pythia-410M,
+Qwen3-0.6B, Qwen2.5-0.5B, SmolLM3-3B) plus Qwen3 at 0.6B/8B/14B/32B/27B
+for scale analysis.
+
+**All core crystal claims verified:** sign topology (cos 0.746-0.775), four
+modes (always 4, r > 0.85), crystal geometry (cross-arch r = 0.951), selectivity
+universality (r = 0.991 Pythia↔Qwen). φ convergence hits attractor at 14B
+(0.7% error) but regresses at 32B (zone-B heuristic may be wrong for 64 layers).
+
+**The breakthrough:** Tiny classifier ternary replaces entire FFN layer
+(150M params, 288MB) with linear classifier + 9 ternary patterns (37K params,
+180KB). 1638× compression. PPL IMPROVES (0.98×). Classifier trains to 100%
+accuracy — the 9 modes are perfectly linearly separable. At Qwen3-8B L15:
+PPL is 0.96× (BETTER than original). The continuous FFN is an over-parameterized
+encoding of 9 discrete ternary programs.
+
+**New architecture understanding:** Two overlapping ternary structures coexist
+in FFN weights. Crystal basis (KIBC) governs routing (3.5% of space, AMI = 0.15
+with operational modes). 9 operational modes govern computation (96.5% of space).
+Together = β-reduction engine. Crystal selects WHICH reduction; modes execute HOW.
+
+**Gradient-quant correspondence:** |∇L| ↔ |W-Q(W)| holds ONLY in EXPAND phase
+(L1-L3: ρ = +0.55-0.78). ORTHO phase: ρ ≈ 0. GD converges to ternary normal
+form where the crystal nucleates, then transitions to continuous computation.
+
+## What changed session 191
 
 | # | Change | Impact |
 |---|--------|--------|
