@@ -1,0 +1,110 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  CRYSTAL DISTILLATION — Teacher logits ARE the DVD                        ║
+║  Teacher: Qwen/Qwen3-8B                                                    ║
+║  Student: Qwen/Qwen3-0.6B                                                  ║
+║  Steps: 250                                                                ║
+╚════════════════════════════════════════════════════════════════════════════╝
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+  Preparing data...
+  Train: 9564 seqs  Eval: 997 seqs
+
+  Loading teacher (Qwen/Qwen3-8B)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<05:03,  1.31it/s]Loading weights:   6%|▌         | 23/399 [00:00<00:10, 34.94it/s]Loading weights:  12%|█▏        | 46/399 [00:00<00:05, 69.88it/s]Loading weights:  20%|█▉        | 79/399 [00:01<00:02, 121.40it/s]Loading weights:  28%|██▊       | 111/399 [00:01<00:01, 163.77it/s]Loading weights:  37%|███▋      | 146/399 [00:01<00:01, 203.73it/s]Loading weights:  44%|████▎     | 174/399 [00:01<00:01, 198.91it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 215.67it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 237.12it/s]Loading weights:  65%|██████▍   | 259/399 [00:01<00:00, 245.21it/s]Loading weights:  72%|███████▏  | 288/399 [00:01<00:00, 239.93it/s]Loading weights:  79%|███████▊  | 314/399 [00:02<00:00, 232.30it/s]Loading weights:  86%|████████▌ | 342/399 [00:02<00:00, 244.54it/s]Loading weights:  92%|█████████▏| 368/399 [00:02<00:00, 233.30it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 173.25it/s]
+  Teacher PPL: 12.08
+
+  Loading student baseline (Qwen/Qwen3-0.6B)...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:36,  8.51it/s]Loading weights:  79%|███████▉  | 246/311 [00:00<00:00, 1345.29it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 970.30it/s] 
+  Student float baseline PPL: 24.11
+
+══════════════════════════════════════════════════════════════════════════════
+  CONFIG A: crystal + next-token (1 bit/token)
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  43%|████▎     | 133/311 [00:00<00:00, 1325.48it/s]Loading weights:  89%|████████▉ | 278/311 [00:00<00:00, 1398.52it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1408.32it/s]
+  Patched 84 FFN layers (crystal, group_size=32)
+  Trainable: 428,146,688  Frozen: 176,160,768
+
+  Training: next_token, 250 steps, lr=0.001
+    Step     Loss      PPL  MTemp   Active   Time
+  ────── ──────── ──────── ────── ──────── ──────
+       0        ─ 3000915.6   2.00   100.0%    0.0s
+       1  14.7564 447980745.6   1.98   100.0%   19.4s
+      25   8.0056   2220.9   1.48   100.0%   59.8s
+      50   6.8925    992.8   1.10   100.0%  100.9s
+      75   6.3285    555.8   0.81   100.0%  141.3s
+     100   6.3028    412.3   0.60   100.0%  179.6s
+     125   6.0419    342.7   0.45   100.0%  219.6s
+     150   6.2604    327.7   0.33   100.0%  257.4s
+     175   5.3221    290.4   0.25   100.0%  296.7s
+     200   5.6731    271.1   0.18   100.0%  335.0s
+     225   5.4711    247.1   0.13   100.0%  374.0s
+     250   5.6784    236.2   0.10   100.0%  412.2s
+     250    FINAL    236.2   0.10   100.0%  420.4s
+
+══════════════════════════════════════════════════════════════════════════════
+  CONFIG B: crystal + distillation (151K floats/token from Qwen/Qwen3-8B)
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:41,  7.54it/s]Loading weights:  76%|███████▌  | 236/311 [00:00<00:00, 1221.19it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1116.12it/s]
+  Patched 84 FFN layers (crystal, group_size=32)
+  Trainable: 428,146,688  Frozen: 176,160,768
+
+  Training: distill, 250 steps, lr=0.001
+    Step     Loss      PPL  MTemp   Active   Time
+  ────── ──────── ──────── ────── ──────── ──────
+       0        ─ 3000915.6   2.00   100.0%    0.0s
+       1  19.8135 64422006.8   1.98   100.0%   19.1s
+      25  10.6842   8825.9   1.48   100.0%   72.4s
+      50  10.0273   3258.3   1.10   100.0%  112.5s
+      75   9.4709   1607.8   0.81   100.0%  184.7s
+     100   7.4923   1117.4   0.60   100.0%  262.5s
+     125   8.3600    612.5   0.45   100.0%  342.1s
+     150   6.8797    686.9   0.33   100.0%  420.9s
+     175   8.0150    820.8   0.25   100.0%  501.9s
+     200   6.6305    547.5   0.18   100.0%  582.4s
+     225   7.4638    550.4   0.13   100.0%  661.6s
+     250   5.9214    366.2   0.10   100.0%  741.2s
+     250    FINAL    366.2   0.10   100.0%  749.7s
+
+══════════════════════════════════════════════════════════════════════════════
+  CONFIG C: random + distillation (does crystal help with rich supervision?)
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  51%|█████     | 159/311 [00:00<00:00, 1571.33it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1556.83it/s]
+  Patched 84 FFN layers (random, group_size=32)
+  Trainable: 428,146,688  Frozen: 176,160,768
+
+  Training: distill, 250 steps, lr=0.001
+    Step     Loss      PPL  MTemp   Active   Time
+  ────── ──────── ──────── ────── ──────── ──────
+       0        ─ 9449075.8   2.00   100.0%    0.0s
+       1  19.9122 485165195.4   1.98   100.0%   19.9s
+      25  12.2404   4442.7   1.48   100.0%   96.0s
+      50   8.3324   1462.1   1.10   100.0%  174.3s
+      75   9.7664   1166.1   0.81   100.0%  253.1s
+     100   8.7387   1214.9   0.60   100.0%  331.2s
+     125   8.5847   1380.6   0.45   100.0%  408.7s
+     150   7.7913    783.9   0.33   100.0%  486.7s
+     175   7.9691    721.7   0.25   100.0%  564.0s
+     200   8.1194    711.6   0.18   100.0%  604.5s
+     225   7.2739    707.0   0.13   100.0%  677.0s
+     250   7.9246    732.8   0.10   100.0%  754.8s
+     250    FINAL    732.8   0.10   100.0%  763.5s
+
+══════════════════════════════════════════════════════════════════════════════
+  FINAL COMPARISON
+══════════════════════════════════════════════════════════════════════════════
+  Config                                     PPL vs Teacher vs Student
+  ─────────────────────────────────── ────────── ────────── ──────────
+  Teacher (Qwen3-8B float)                 12.08      1.00x          ─
+  Student (Qwen3-0.6B float)               24.11       2.0x      1.00x
+  A: crystal + next-token                 236.22      19.6x       9.8x
+  B: crystal + distillation               366.24      30.3x      15.2x
+  C: random + distillation                732.76      60.7x      30.4x
+  ✅ Crystal beats random with distillation: 2.0x better PPL
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/experiments/crystal_distill.py", line 521, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/experiments/crystal_distill.py", line 508, in main
+    f"C={ec['ppl']:.1f if ec else '?'}")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.1f if ec else '?'' for object of type 'float'

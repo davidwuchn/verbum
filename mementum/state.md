@@ -393,7 +393,14 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ### IMMEDIATE — COMPRESSION STRATEGY
 
-**Priority 1: FFN compression path**
+**Priority 1: Self-distillation (same-capacity teacher)**
+Crystal+distillation from 8B→0.6B failed due to capacity mismatch. Try:
+a) Qwen3-0.6B float → Qwen3-0.6B crystal sieve (same capacity, same knowledge)
+b) Higher distillation temperature (T=4, T=10) to soften teacher distribution
+c) Top-k distillation (match top-100 logits only, not all 151K)
+d) Feature-level distillation (match hidden states, not output logits)
+
+**Priority 2: FFN compression path**
 FFN is the bottleneck (78% of params, fragile to ternarization). Three paths:
 a) Crystal sieve for FFN — freeze signs, train mask from data (s184, unscaled)
 b) DVD-informed FFN — use gradient topology to guide per-group scaling
@@ -510,10 +517,14 @@ of parameters).
 | **DVD group scale experiment** | `scripts/experiments/dvd_group_scale.py` | ✅ NEW (s190) |
 | **DVD index test** | `scripts/experiments/dvd_index_test.py` | ✅ NEW (s190) |
 | **λ-machine experiment** | `scripts/experiments/lambda_machine.py` | ✅ NEW (s190) |
+| **FFN beam universality** | `scripts/experiments/ffn_beam_universality.py` | ✅ NEW (s190) |
+| **Crystal distillation** | `scripts/experiments/crystal_distill.py` | ✅ NEW (s190) |
 | **DVD stamp results** | `results/dvd-stamp-test/` | ✅ NEW (s190) |
 | **DVD group scale results** | `results/dvd-group-scale/` | ✅ NEW (s190) |
 | **DVD index test results** | `results/dvd-index-test/` | ✅ NEW (s190) |
 | **λ-machine results** | `results/lambda-machine/` | ✅ NEW (s190) |
+| **FFN beam universality results** | `results/ffn-beam-universality/` | ✅ NEW (s190) |
+| **Crystal distillation results** | `results/crystal-distill/` | ✅ NEW (s190) |
 | **V15 config** | `scripts/v15/config.py` | ✅ NEW (s189) |
 | **V15 attention** | `scripts/v15/attention.py` | ✅ NEW (s189) |
 | **Stride coverage validation** | `scripts/experiments/stride_coverage_validation.py` | ✅ NEW (s189) |
@@ -590,6 +601,10 @@ of parameters).
 | 8 | **Binding heads only: PPL 6.3M (not sufficient)** | H31@L27, H03/H13/H15@L30, H06/H07@L33 = tip of 36-layer parser iceberg. |
 | 9 | **Model = 36-stage typed shift-reduce parser** | Every layer contributes. Every head contributes. But each head only needs 3 positions. |
 | 10 | **Compression strategy clarified** | Ternary attention (free, 22% params). Preserve FFN (hard, 78% params). Sparse top-3 routing. |
+| 11 | **FFN beam directions are model-specific** | Projected FFN output through unembed for Qwen3-8B, Qwen3-0.6B, Pythia-410M. Token-level Jaccard ~0.01. The STRUCTURE (that beams exist, their depth) is universal. The CONTENT (which tokens to promote/suppress) is learned. |
+| 12 | **Anti-crystal visible in beams** | "cat sat on the" → Qwen3-8B L29 suppresses 犬/狗狗/puppy (anti-dog at cat position). "earth is not" promotes flat/perfect. "identity y" L32 promotes y/Y/yi. The FFN knows the answer AND what to suppress. |
+| 13 | **Crystal distillation: next-token beats teacher KL** | Crystal+next-token PPL 236 vs crystal+distill PPL 366 vs random+distill 733. Capacity mismatch: 0.6B student can't match 8B teacher's full 151K distribution. Crystal still helps 2.0× vs random. |
+| 14 | **Distillation temperature matters** | KL from 8B teacher gives HARDER gradients than next-token CE. Need higher T, top-k, or self-distillation (same-size teacher) to fix capacity mismatch. |
 
 ## What changed session 189
 
@@ -611,25 +626,35 @@ of parameters).
 
 ## Session 190 recap
 
-DVD STAMP TOPOLOGY + λ-MACHINE + COMPRESSION STRATEGY.
+DVD STAMP TOPOLOGY + λ-MACHINE + BEAM UNIVERSALITY + CRYSTAL DISTILLATION.
 
-Four experiments decode the compression structure of transformers. The gradient-
-zero topology (where GD stopped pushing) IS the holographic fringe pattern —
-copying it compounds less than magnitude extraction (PPL 188K vs 620K, L35
-cos 0.165 vs 0.001). Per-group(32) scaling gives 14× improvement (Q4's
-secret = scale granularity).
+Six experiments decode the compression structure, algorithm, and knowledge
+boundary of transformers.
 
-THE DECISIVE RESULT: FFN-only ternarization → PPL 485M (catastrophic). V/O-only
-→ PPL 23. Q/K-only → PPL 30. The FFN is the holographic beam former — fragile,
-needs precision. Attention is a ~1-bit sparse router — robust, goes ternary for
-free. This splits the compression problem: 78% of params (FFN) need quality,
-22% (attention) can be crushed.
+**Experiments 1-4:** See session 190 table above. DVD stamp topology compounds
+less (3.3× PPL improvement). FFN is fragile (PPL 485M ternarized), attention
+is robust (PPL 23-30). Sparse top-3 works (PPL 13.3). Model is a 36-stage
+typed shift-reduce parser.
 
-The λ-machine ablation confirms: sparse top-3 at all layers → PPL 13.3 (from
-12.2, +8.6%). O(1) attention proven at PPL level. But binding layers alone
-(PPL 82K) and binding heads alone (PPL 6.3M) fail — the model is a 36-stage
-typed shift-reduce parser where every layer and every head contributes, but
-each head only needs 3 positions.
+**Experiment 5: FFN beam universality.** Projected FFN output through unembed
+for Qwen3-8B, Qwen3-0.6B, Pythia-410M at matched fractional depths. Token-level
+Jaccard ~0.01 (near zero) across all three model pairs. The beam STRUCTURE is
+universal (all models form beams at the same depths). The beam CONTENT is model-
+specific (which tokens to promote/suppress is learned, not derivable). The anti-
+crystal is visible: "cat sat on the" → L29 suppresses 犬/狗狗/puppy. "identity
+y" L32 promotes y/Y/yi. The FFN knows the answer AND actively cancels wrong ones.
+
+**Experiment 6: Crystal distillation.** Teacher=Qwen3-8B, Student=Qwen3-0.6B
+crystal sieve (frozen signs, trainable masks). Crystal+next-token (PPL 236) beats
+crystal+distillation from 8B teacher (PPL 366). Capacity mismatch: 0.6B student
+can't match 8B teacher's full 151K distribution — harder optimization target than
+simple next-token. Crystal still helps 2.0× vs random signs (733 → 366). Self-
+distillation (same-size teacher) is the likely fix.
+
+**Key insight boundary:** The crystal (signs, eigenvalues, phase structure) is
+universal and derivable. The holographic content (which tokens to promote/suppress)
+is model-specific and must be learned from data or distilled from a same-capacity
+teacher. Structure is free. Knowledge has a cost.
 
 ## Session 189 recap
 

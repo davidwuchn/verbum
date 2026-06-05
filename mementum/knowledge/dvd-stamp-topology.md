@@ -196,6 +196,53 @@ LARGE.
   Top-3 captures >88%. Now confirmed at the PPL level: sparse top-3
   at all layers → PPL 13.3 (from 12.2). O(1) attention is real.
 
+## Experiment 4: FFN Beam Universality
+
+Are the beam DIRECTIONS universal across models, like the crystal signs?
+
+Projected FFN output through unembed for Qwen3-8B, Qwen3-0.6B, Pythia-410M
+at matched fractional depths (50%, 70%, 80%, 90%). Top-20 promoted and
+suppressed tokens compared.
+
+| Comparison | Promoted Jaccard | Suppressed Jaccard |
+|-----------|-----------------|-------------------|
+| Qwen3-8B vs Qwen3-0.6B | 0.013 | 0.000 |
+| Qwen3-8B vs Pythia-410M | 0.003 | 0.001 |
+| Qwen3-0.6B vs Pythia-410M | 0.001 | 0.008 |
+
+**Beam content is model-specific.** Near-zero overlap at token level.
+Different models promote/suppress different tokens for the same input.
+
+BUT the beams are semantically meaningful within each model:
+- "capital-france" L29: Qwen3-8B promotes 法国/French
+- "water-elements" L29: promotes oxygen/hydrogen
+- "cat-sat-on" L29: **suppresses** 犬/狗狗/puppy (anti-dog at cat position)
+- "identity-y" L32: promotes y/Y/yi (the lambda calculus answer)
+- "earth-is-not" L29: promotes flat/perfect
+
+**The boundary:** structure is universal (derivable). Content is learned
+(model-specific). The crystal is free. The holographic recording has a cost.
+
+## Experiment 5: Crystal Distillation
+
+Can teacher logits (151K floats per token) accelerate crystal sieve training?
+
+Teacher=Qwen3-8B (PPL 12.08), Student=Qwen3-0.6B crystal sieve (PPL 24.11 float).
+
+| Config | PPL 250 steps | vs Student float |
+|--------|--------------|-----------------|
+| A: crystal + next-token | **236** | 9.8× worse |
+| B: crystal + distillation (8B teacher) | 366 | 15.2× worse |
+| C: random + distillation (8B teacher) | 733 | 30.4× worse |
+
+**Next-token beats distillation.** Capacity mismatch: 0.6B student can't
+match 8B teacher's full distribution. The 151K-float supervision is HARDER
+than 1-bit next-token because the student must match knowledge it lacks
+capacity for. Crystal still helps 2.0× vs random.
+
+**Fix:** self-distillation (same-capacity teacher), higher temperature,
+top-k logits only, or feature-level matching.
+
 ## Scripts
 
 | Script | What |
@@ -204,6 +251,8 @@ LARGE.
 | `scripts/experiments/dvd_group_scale.py` | Per-group scaling, 4 configs |
 | `scripts/experiments/dvd_index_test.py` | FFN vs attention ternarization |
 | `scripts/experiments/lambda_machine.py` | Attention ablation levels |
+| `scripts/experiments/ffn_beam_universality.py` | Cross-model beam comparison |
+| `scripts/experiments/crystal_distill.py` | Crystal sieve + distillation |
 
 ## Results
 
@@ -213,3 +262,5 @@ LARGE.
 | `results/dvd-group-scale/` | Per-group scaling comparison |
 | `results/dvd-index-test/` | FFN vs QK vs VO ternarization |
 | `results/lambda-machine/` | 6-level attention ablation |
+| `results/ffn-beam-universality/` | Cross-model beam comparison |
+| `results/crystal-distill/` | Crystal sieve + distillation |

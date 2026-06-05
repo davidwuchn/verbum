@@ -1,0 +1,1373 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  FFN BEAM UNIVERSALITY — Do all models form the same beams?               ║
+║  Promoted = constructive interference (what to predict)                    ║
+║  Suppressed = destructive interference (anti-crystal)                     ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+══════════════════════════════════════════════════════════════════════════════
+  MODEL: Qwen/Qwen3-8B
+  Layers: [18, 25, 29, 32]
+══════════════════════════════════════════════════════════════════════════════
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:48,  1.38it/s]Loading weights:   6%|▋         | 25/399 [00:00<00:09, 40.66it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:04, 76.17it/s]Loading weights:  18%|█▊        | 70/399 [00:01<00:03, 106.36it/s]Loading weights:  24%|██▎       | 94/399 [00:01<00:02, 136.21it/s]Loading weights:  29%|██▉       | 115/399 [00:01<00:01, 153.64it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 187.92it/s]Loading weights:  42%|████▏     | 168/399 [00:01<00:01, 184.93it/s]Loading weights:  48%|████▊     | 192/399 [00:01<00:01, 195.21it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:00, 216.20it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 254.74it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 272.17it/s]Loading weights:  82%|████████▏ | 329/399 [00:01<00:00, 305.36it/s]Loading weights:  90%|█████████ | 361/399 [00:02<00:00, 306.39it/s]Loading weights:  98%|█████████▊| 393/399 [00:02<00:00, 277.43it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 175.14it/s]
+  Total layers: 36
+  Using layers: [18, 25, 29, 32]
+  Capturing FFN beams...
+    capital-france       L18  promote=[Parliamentary, drive, 最大化]  suppress=[EMC, IONS, inator]  norm=37.5
+    capital-france       L25  promote=[_____, ________, ______]  suppress=[caps, _taxonomy, 需要用到]  norm=77.3
+    capital-france       L29  promote=[法国, French, French]  suppress=[ẻ, igar, TASK]  norm=139.8
+    capital-france       L32  promote=[__, ____, ,__]  suppress=[French, France, _nb]  norm=221.1
+    water-elements       L18  promote=[IDO, ONO, Vera]  suppress=[icamente, 了一, 惯]  norm=27.4
+    water-elements       L25  promote=[____, ________, ______]  suppress=[苔, imenti, 修]  norm=87.8
+    water-elements       L29  promote=[oxygen, hydrogen, 氦]  suppress=[ymm, icie, 的商品]  norm=151.4
+    water-elements       L32  promote=[hydrogen, carbon, 氢]  suppress=[Ca, -Co, Ca]  norm=228.9
+    speed-of-light       L18  promote=[onga, 央视, 公办]  suppress=[并发, 微量元素, 柜台]  norm=31.5
+    speed-of-light       L25  promote=[_____, ____, _____]  suppress=[_SUITE, halt, _IMPL]  norm=73.3
+    speed-of-light       L29  promote=[×, ×, ]  suppress=[oze, agra, Screens]  norm=142.9
+    speed-of-light       L32  promote=[多少, ___, __]  suppress=[近, Bever, Bit]  norm=197.6
+    cat-sat-on           L18  promote=[野生, 期刊, lean]  suppress=[rix, Hunting, 才有]  norm=114.6
+    cat-sat-on           L25  promote=[enko, 耐心, 带到]  suppress=[overt, 促, sidebar]  norm=69.2
+    cat-sat-on           L29  promote=[窗, window, 跏]  suppress=[犬, 狗狗, puppy]  norm=162.4
+    cat-sat-on           L32  promote=[mat, mat, blo]  suppress=[Aj, 酶, 口头]  norm=221.0
+    fox-lazy             L18  promote=[positor, _sold, 累了]  suppress=[utra, 重大, 一句话]  norm=32.9
+    fox-lazy             L25  promote=[洋洋, NESS, 人士]  suppress=[-SA, lations, Caller]  norm=100.1
+    fox-lazy             L29  promote=[cow, agne, 平淡]  suppress=[irable, essen, ission]  norm=147.3
+    fox-lazy             L32  promote=[dog, 狼, 狗]  suppress=[eries, овар, Eaton]  norm=217.2
+    she-would            L18  promote=[gone, ISON, groupName]  suppress=[mainly, oops, 主要内容]  norm=28.9
+    she-would            L25  promote=[((__, iams, ((__]  suppress=[sem, �, 禁]  norm=80.2
+    she-would            L29  promote=[liked, prefer, likes]  suppress=[fragment, frag, Con]  norm=154.9
+    she-would            L32  promote=[like, nt, drive]  suppress=[don, Don, DON]  norm=180.6
+    dog-bit-cat          L18  promote=[茹, Monkey, 裳]  suppress=[chl, oucher, 梗]  norm=30.7
+    dog-bit-cat          L25  promote=[_______,, apult, comb]  suppress=[-hash, 热, submenu]  norm=81.0
+    dog-bit-cat          L29  promote=[reply, response, 回应]  suppress=[Chest, ær, 绕]  norm=164.2
+    dog-bit-cat          L32  promote=[吐, comed, omination]  suppress=[摆, Shock, 不可]  norm=242.3
+    boy-kicked-ball      L18  promote=[_inst, Rhodes, 라도]  suppress=[ippers, intl, 的心理]  norm=30.6
+    boy-kicked-ball      L25  promote=[______, _____, ____]  suppress=[Mn, -ish, agina]  norm=78.6
+    boy-kicked-ball      L29  promote=[reflects, 反射, Reflect]  suppress=[ething, 鸡汤, Krish]  norm=138.0
+    boy-kicked-ball      L32  promote=[弹, 飞, fly]  suppress=[榄, ystack, thơ]  norm=206.5
+    identity-y           L18  promote=[话说, thủ, perish]  suppress=[炜, 伶, Tyr]  norm=25.8
+    identity-y           L25  promote=[again, Again, again]  suppress=[於是, delimited, ��]  norm=72.1
+    identity-y           L29  promote=[自己, pand, as]  suppress=[assigned, 给他, 赋]  norm=118.0
+    identity-y           L32  promote=[y, Y, yi]  suppress=[沛, Vu, 仙]  norm=159.5
+    earth-is-not         L18  promote=[放宽, 绣, ammen]  suppress=[ESS, tant, 叟]  norm=25.2
+    earth-is-not         L25  promote=[地球, Overs, 七星]  suppress=[lore, æk, 惡]  norm=86.7
+    earth-is-not         L29  promote=[flat, perfect, -flat]  suppress=[狸, kak, ENCY]  norm=162.2
+    earth-is-not         L32  promote=[only, far, only]  suppress=[yet, 又, yet]  norm=194.9
+    to-be-question       L18  promote=[Tune, mented, пущ]  suppress=[到位, cade, Cage]  norm=32.5
+    to-be-question       L25  promote=[question, gst, gio]  suppress=[坏, .entry, SCRIPTION]  norm=90.4
+    to-be-question       L29  promote=[authenticity, billions, million]  suppress=[党总支, 胆, Tcp]  norm=123.5
+    to-be-question       L32  promote=[Q, q, _q]  suppress=[问, ask, Ask]  norm=205.6
+    ml-gradient          L18  promote=[一个个, 炯, [[[]  suppress=[清水, pry, OMB]  norm=26.6
+    ml-gradient          L25  promote=[迭代, iteration, iterative]  suppress=[CONTRIBUTORS, 罩, .swagger]  norm=75.0
+    ml-gradient          L29  promote=[minim, optimizing, 优化]  suppress=[同心, 绑, inded]  norm=151.5
+    ml-gradient          L32  promote=[desc, stochastic, iteration]  suppress=[想, .deploy, KHR]  norm=194.5
+
+══════════════════════════════════════════════════════════════════════════════
+  MODEL: Qwen/Qwen3-0.6B
+  Layers: [14, 20, 22, 25]
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:38,  8.05it/s]Loading weights:  66%|██████▌   | 206/311 [00:00<00:00, 1099.17it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1143.17it/s]
+  Total layers: 28
+  Using layers: [14, 20, 22, 25]
+  Capturing FFN beams...
+    capital-france       L14  promote=[鲞, راه, hoe]  suppress=[antry, ことです, ǁ]  norm=13.1
+    capital-france       L20  promote=[[]:, :, 位於]  suppress=[oons, eting, isses]  norm=56.7
+    capital-france       L22  promote=[cities, cidade, (city]  suppress=[外, an, bery]  norm=89.2
+    capital-france       L25  promote=[');");, 憬, "?]  suppress=[分, o, k]  norm=110.1
+    water-elements       L14  promote=[犄, sideline, .XtraBars]  suppress=[WithValue, rie, 好]  norm=14.2
+    water-elements       L20  promote=[___, ().__, ()][]  suppress=[地上, acies, iosa]  norm=68.8
+    water-elements       L22  promote=[ylene, 铍, ethylene]  suppress=[ummy, body, лем]  norm=102.7
+    water-elements       L25  promote=[fluor, lithium, scand]  suppress=[ism, ched, ]  norm=151.3
+    speed-of-light       L14  promote=[cran, (AdapterView, мон]  suppress=[etics, quia, bor]  norm=13.2
+    speed-of-light       L20  promote=[(__, (#), 良かった]  suppress=[活, culator, 起]  norm=56.6
+    speed-of-light       L22  promote=[粢, onDelete, 场均]  suppress=[ized, izer, иров]  norm=82.6
+    speed-of-light       L25  promote=[,..., }}">{{$, ">{{$]  suppress=[c, -c, C]  norm=112.7
+    cat-sat-on           L14  promote=[骍, ië, ɜ]  suppress=[amines, cem, ister]  norm=21.6
+    cat-sat-on           L20  promote=[groundColor, tường, 腠]  suppress=[uais, ounters, ife]  norm=62.7
+    cat-sat-on           L22  promote=[countertops, countert, 桌子上]  suppress=[int, int, 节]  norm=105.0
+    cat-sat-on           L25  promote=['},, قترح, ]';]  suppress=[ability, m, s]  norm=128.5
+    fox-lazy             L14  promote=[iah, ech, ṡ]  suppress=[同一个, himself, работу]  norm=16.0
+    fox-lazy             L20  promote=[camel, *)[, klass]  suppress=[秘, еть, veyor]  norm=57.6
+    fox-lazy             L22  promote=[buffalo, 牦, sedan]  suppress=[ader, este, есть]  norm=81.6
+    fox-lazy             L25  promote=[الكم, fony, feof]  suppress=[heet, rics, rik]  norm=134.7
+    she-would            L14  promote=[>{", acam, sil]  suppress=[dorf, ising, usi]  norm=11.7
+    she-would            L20  promote=[be, 抃, *)"]  suppress=[定了, uggestion, пал]  norm=68.2
+    she-would            L22  promote=[dissert, لكرة, condolences]  suppress=[ED, asti, 意]  norm=85.1
+    she-would            L25  promote=[like, Like, like]  suppress=[好处, SON, 所]  norm=88.6
+    dog-bit-cat          L14  promote=[пот, Yet, ANA]  suppress=[霸王, ству, erville]  norm=17.2
+    dog-bit-cat          L20  promote=[apult, 我爱你, <![]  suppress=[Testament, ength, ivals]  norm=65.2
+    dog-bit-cat          L22  promote=[');");, swallowed, chopping]  suppress=[istogram, ente, ean]  norm=79.2
+    dog-bit-cat          L25  promote=[ятся, ?");, 闪过]  suppress=[通, ��, eb]  norm=74.5
+    boy-kicked-ball      L14  promote=[iful, typeorm, (_,]  suppress=[orm, 体, jis]  norm=10.7
+    boy-kicked-ball      L20  promote=[).__, went, ().__]  suppress=[urally, anas, ivate]  norm=49.4
+    boy-kicked-ball      L22  promote=[掼, الولا, كرة]  suppress=[ilers, Subset, roid]  norm=91.9
+    boy-kicked-ball      L25  promote=[laden, 供图, lland]  suppress=[.deep, 深, amount]  norm=96.1
+    identity-y           L14  promote=[imeter, avana, -cache]  suppress=[菁, 淺, 低调]  norm=10.7
+    identity-y           L20  promote=[stil, quoi, дело]  suppress=[ices, ism, iciel]  norm=52.2
+    identity-y           L22  promote=[불구하고, 希望通过, @{@"]  suppress=[amp, irs, Gap]  norm=67.1
+    identity-y           L25  promote=[');");, ṙ, أخلاق]  suppress=[\, ,, 出]  norm=79.4
+    earth-is-not         L14  promote=[机动, 骖, hä]  suppress=[ppo, dating, bers]  norm=11.6
+    earth-is-not         L20  promote=[变得更加, 变得更, &);]  suppress=[ACES, REE, essian]  norm=61.7
+    earth-is-not         L22  promote=[北极, |-, นาย]  suppress=[aving, ку, essian]  norm=80.2
+    earth-is-not         L25  promote=[ći, haute, ("@]  suppress=[~, 资源, attern]  norm=83.9
+    to-be-question       L14  promote=[reve, statt, 本]  suppress=[受到影响, 一个重要, илось]  norm=14.3
+    to-be-question       L20  promote=[{Name, 皦, 衩]  suppress=[a, some, points]  norm=66.4
+    to-be-question       L22  promote=[rière, 型企业, 持ってい]  suppress=[问题, Proble, еств]  norm=94.6
+    to-be-question       L25  promote=["};, (£, ,...]  suppress=[问题, problem, 的问题]  norm=104.8
+    ml-gradient          L14  promote=[elve, 견, ley]  suppress=[spun, 鄯, 提供的]  norm=11.3
+    ml-gradient          L20  promote=[てしまいました, 双向, $',]  suppress=[uras, ics, ure]  norm=62.2
+    ml-gradient          L22  promote=[learning, 的学习, .learning]  suppress=[稿, RP, Rank]  norm=90.9
+    ml-gradient          L25  promote=[rallies, 月至, oversized]  suppress=[学习, learning, learn]  norm=123.0
+
+══════════════════════════════════════════════════════════════════════════════
+  MODEL: EleutherAI/pythia-410m
+  Layers: [12, 17, 19, 22]
+══════════════════════════════════════════════════════════════════════════════
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  16%|█▋        | 48/292 [00:00<00:00, 467.20it/s]Loading weights:  73%|███████▎  | 212/292 [00:00<00:00, 1140.98it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 1057.37it/s]
+  Total layers: 24
+  Using layers: [12, 17, 19, 22]
+  Capturing FFN beams...
+    capital-france       L12  promote=[Hug, UU, el]  suppress=[ributed, elta, CHANTABILITY]  norm=7.2
+    capital-france       L17  promote=[else, public, different]  suppress=[CHANTABILITY, medsc, çois]  norm=10.3
+    capital-france       L19  promote=[CHANT, "}](#, ve]  suppress=[idemargin, medsc, onsense]  norm=14.0
+    capital-france       L22  promote=[ordained, ameth, Cele]  suppress=[anger, th, ISC]  norm=15.0
+    water-elements       L12  promote=[olds, rup, ('',]  suppress=[upgreek, javase, ér]  norm=8.0
+    water-elements       L17  promote=[3, 1, 2]  suppress=[CHANTABILITY, , $[]$]  norm=10.1
+    water-elements       L19  promote=[resil, sense, eth]  suppress=[ÃÂ, , CHANTABILITY]  norm=11.2
+    water-elements       L22  promote=[Fusion, elij, Compton]  suppress=[brainsci, own, flow]  norm=14.9
+    speed-of-light       L12  promote=[Hub, :&, LINEAR]  suppress=[ETHOD, rown, iNdEx]  norm=7.2
+    speed-of-light       L17  promote=[1, 2, 1]  suppress=[ÃÂ, medsc, ]  norm=11.5
+    speed-of-light       L19  promote=[jan, ta, therap]  suppress=[jcmm, uginosa, ]  norm=13.9
+    speed-of-light       L22  promote=[FFIR, Lines, unemploy]  suppress=[ум, raft, clim]  norm=13.9
+    cat-sat-on           L12  promote=[instanceof, process, theory]  suppress=[mouth, uting, utes]  norm=7.3
+    cat-sat-on           L17  promote=[Y, fe, F]  suppress=[GRect, medsc, CHANTABILITY]  norm=10.8
+    cat-sat-on           L19  promote=[window, end, micro]  suppress=[CHANTABILITY, , ]  norm=13.8
+    cat-sat-on           L22  promote=[tutor, izumab, astom]  suppress=[se, ically, r]  norm=16.5
+    fox-lazy             L12  promote=[>$, aff, unreadable]  suppress=[emetery, , idas]  norm=7.8
+    fox-lazy             L17  promote=[and, , O]  suppress=[NdEx, , CHANTABILITY]  norm=10.3
+    fox-lazy             L19  promote=[source, transition, target]  suppress=[jcmm, rsfs, CHANTABILITY]  norm=11.2
+    fox-lazy             L22  promote=[ETHOD, , ]  suppress=[open, est, irection]  norm=14.3
+    she-would            L12  promote=[vs, populations, versus]  suppress=[achine, negie, odka]  norm=6.9
+    she-would            L17  promote=[like, M, such]  suppress=[CHANTABILITY, , ]  norm=12.2
+    she-would            L19  promote=[call, look, tend]  suppress=[CHANTABILITY, errnoErr, OOGLE]  norm=11.8
+    she-would            L22  promote=[strugg, assertEquals, unmist]  suppress=[(, and, ,]  norm=18.1
+    dog-bit-cat          L12  promote=[up, ca, cur]  suppress=[ERTY, FPar, elling]  norm=8.3
+    dog-bit-cat          L17  promote=[acknow, dial, left]  suppress=[CHANTABILITY, , ]  norm=12.4
+    dog-bit-cat          L19  promote=[l, called, type]  suppress=[IGNED, uginosa, ORAND]  norm=13.3
+    dog-bit-cat          L22  promote=[udeau, idopsis, CSI]  suppress=[fall, event, cor]  norm=20.0
+    boy-kicked-ball      L12  promote=[pl, L, T]  suppress=[medscimonit, blockList, ]  norm=7.2
+    boy-kicked-ball      L17  promote=[ktop, illas, rent]  suppress=[errnoErr, CHANTABILITY, BytePtrFromString]  norm=13.9
+    boy-kicked-ball      L19  promote=[finally, aw, end]  suppress=[erville, ractive, amen]  norm=15.2
+    boy-kicked-ball      L22  promote=[eline, >::, CRO]  suppress=[sens, ophilic, red]  norm=20.7
+    identity-y           L12  promote=[off, Tickets, hin]  suppress=[blockList, , inally]  norm=7.3
+    identity-y           L17  promote=[1, 3, 1]  suppress=[CHANTABILITY, NdEx, medsc]  norm=10.8
+    identity-y           L19  promote=[that, , _]  suppress=[amss, CHANTABILITY, rsfs]  norm=13.2
+    identity-y           L22  promote=[assertEquals, "}](#, acm]  suppress=[y, y, ry]  norm=16.0
+    earth-is-not         L12  promote=[Str, base, C]  suppress=[, ipolar, nyder]  norm=7.6
+    earth-is-not         L17  promote=[high, small, 2]  suppress=[CHANTABILITY, medsc, ]  norm=11.5
+    earth-is-not         L19  promote=[", finished, am]  suppress=[CHANTABILITY, medsc, ]  norm=11.6
+    earth-is-not         L22  promote=[enthus, serm, unmist]  suppress=[ic, or, inst]  norm=16.9
+    to-be-question       L12  promote=[emale, patented, CONDITIONS]  suppress=[endi, iei, LIABLE]  norm=9.4
+    to-be-question       L17  promote=[general, third, responsible]  suppress=[BytePtrFromString, PROM, ]  norm=11.1
+    to-be-question       L19  promote=[test, split, internal]  suppress=[CHANTABILITY, doibase, medsc]  norm=13.7
+    to-be-question       L22  promote=[hym, enthus, gag]  suppress=[respectively, respectively, rans]  norm=14.1
+    ml-gradient          L12  promote=[on, y, is]  suppress=[eLife, ippers, CHANTABILITY]  norm=6.9
+    ml-gradient          L17  promote=[is, 8, 5]  suppress=[CHANTABILITY, HOLDERS, oddsidemargin]  norm=11.6
+    ml-gradient          L19  promote=[resil, ometimes, yna]  suppress=[(, \{, |]  norm=12.5
+    ml-gradient          L22  promote=[ASSERT, Offset, DEF]  suppress=[learn, anche, learn]  norm=18.3
+
+══════════════════════════════════════════════════════════════════════════════
+  BEAM COMPARISON: Qwen3-8B vs Qwen3-0.6B
+  Same tokenizer: True
+══════════════════════════════════════════════════════════════════════════════
+
+  ── boy-kicked-ball @ L50 ──
+    Qwen3-8B promotes: _inst, Rhodes, 라도, 各行, 考虑
+    Qwen3-0.6B promotes: iful, typeorm, (_,, IU, ifferent
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ippers, intl, 的心理, 本月, memo
+    Qwen3-0.6B suppresses: orm, 体, jis, jax, isoft
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L69 ──
+    Qwen3-8B promotes: ______, _____, ____, ____, ________
+    Qwen3-0.6B promotes: ).__, went, ().__, (__, てくれた
+    Shared promoted (top-20): 1/20  J=0.029  [__()]
+    Qwen3-8B suppresses: Mn, -ish, agina, haste, plans
+    Qwen3-0.6B suppresses: urally, anas, ivate, mare, 区内
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L80 ──
+    Qwen3-8B promotes: reflects, 反射, Reflect, Reflect, reflect
+    Qwen3-0.6B promotes: 掼, الولا, كرة, SHOT, flew
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ething, 鸡汤, Krish, 移交, Naomi
+    Qwen3-0.6B suppresses: ilers, Subset, roid, ixel, ource
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L88 ──
+    Qwen3-8B promotes: 弹, 飞, fly, keep, flew
+    Qwen3-0.6B promotes: laden, 供图, lland, endir, filmed
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 榄, ystack, thơ, exem, CDATA
+    Qwen3-0.6B suppresses: .deep, 深, amount, hood, assage
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L50 ──
+    Qwen3-8B promotes: Parliamentary, drive, 最大化, /is, _tpl
+    Qwen3-0.6B promotes: 鲞, راه, hoe, aydın, (Blueprint
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: EMC, IONS, inator, Sweet, sep
+    Qwen3-0.6B suppresses: antry, ことです, ǁ, mw, tat
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L69 ──
+    Qwen3-8B promotes: _____, ________, ______, _____, ____
+    Qwen3-0.6B promotes: []:, :, 位於, ):, ')):
+    Shared promoted (top-20): 3/20  J=0.107  [(__, __[, ___]
+    Qwen3-8B suppresses: caps, _taxonomy, 需要用到, .include, voters
+    Qwen3-0.6B suppresses: oons, eting, isses, asters, dds
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L80 ──
+    Qwen3-8B promotes: 法国, French, French, 巴黎, France
+    Qwen3-0.6B promotes: cities, cidade, (city, CITY, cidade
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ẻ, igar, TASK, /fw, 三代
+    Qwen3-0.6B suppresses: 外, an, bery, eba, ee
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L88 ──
+    Qwen3-8B promotes: __, ____, ,__, =__, __/
+    Qwen3-0.6B promotes: ');");, 憬, "?, }:${, pleaded
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: French, France, _nb, Paris, France
+    Qwen3-0.6B suppresses: 分, o, k, [], 1
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L50 ──
+    Qwen3-8B promotes: 野生, 期刊, lean, fro, 举
+    Qwen3-0.6B promotes: 骍, ië, ɜ, thượng, муж
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: rix, Hunting, 才有, trä, 燒
+    Qwen3-0.6B suppresses: amines, cem, ister, ими, semble
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L69 ──
+    Qwen3-8B promotes: enko, 耐心, 带到, 蕉, 跟随
+    Qwen3-0.6B promotes: groundColor, tường, 腠, sidelines, 企业提供
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: overt, 促, sidebar, /libs, .EVENT
+    Qwen3-0.6B suppresses: uais, ounters, ife, dra, 会
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L80 ──
+    Qwen3-8B promotes: 窗, window, 跏, Assoc, asser
+    Qwen3-0.6B promotes: countertops, countert, 桌子上, القضية, maple
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 犬, 狗狗, puppy, puppies, pits
+    Qwen3-0.6B suppresses: int, int, 节, 元, ide
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L88 ──
+    Qwen3-8B promotes: mat, mat, blo, mats, _RW
+    Qwen3-0.6B promotes: '},, قترح, ]';, "};, }';
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Aj, 酶, 口头, 音响, CDF
+    Qwen3-0.6B suppresses: ability, m, s, ality, лей
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L50 ──
+    Qwen3-8B promotes: 茹, Monkey, 裳, Ah, blanks
+    Qwen3-0.6B promotes: пот, Yet, ANA, ana, ultiple
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: chl, oucher, 梗, 越, loyd
+    Qwen3-0.6B suppresses: 霸王, ству, erville, 弑, ทราบ
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L69 ──
+    Qwen3-8B promotes: _______,, apult, comb, ty, LIN
+    Qwen3-0.6B promotes: apult, 我爱你, <![, 除外, eenth
+    Shared promoted (top-20): 1/20  J=0.029  [apult]
+    Qwen3-8B suppresses: -hash, 热, submenu, 感染者, .gf
+    Qwen3-0.6B suppresses: Testament, ength, ivals, ean, ğa
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L80 ──
+    Qwen3-8B promotes: reply, response, 回应, responses, responded
+    Qwen3-0.6B promotes: ');");, swallowed, chopping, لكرة, 掼
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Chest, ær, 绕, ax, Deletes
+    Qwen3-0.6B suppresses: istogram, ente, ean, arts, arming
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L88 ──
+    Qwen3-8B promotes: 吐, comed, omination, Keys, 破
+    Qwen3-0.6B promotes: ятся, ?");, 闪过, 落下, lance
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 摆, Shock, 不可, (signature, Shock
+    Qwen3-0.6B suppresses: 通, ��, eb, , 暴
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L50 ──
+    Qwen3-8B promotes: 放宽, 绣, ammen, ynam, cccc
+    Qwen3-0.6B promotes: 机动, 骖, hä, reve, olith
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ESS, tant, 叟, 网友评论, 传出
+    Qwen3-0.6B suppresses: ppo, dating, bers, ilar, .dex
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L69 ──
+    Qwen3-8B promotes: 地球, Overs, 七星, 同心, unified
+    Qwen3-0.6B promotes: 变得更加, 变得更, &);, 不是一个, &)
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: lore, æk, 惡, 恶, 所有的
+    Qwen3-0.6B suppresses: ACES, REE, essian, 耳, aced
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L80 ──
+    Qwen3-8B promotes: flat, perfect, -flat, perfect, Flat
+    Qwen3-0.6B promotes: 北极, |-, นาย, 茼, 燋
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 狸, kak, ENCY, 裸, 棘
+    Qwen3-0.6B suppresses: aving, ку, essian, ide, кий
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L88 ──
+    Qwen3-8B promotes: only, far, only, level, Level
+    Qwen3-0.6B promotes: ći, haute, ("@, عقد, 鹞
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: yet, 又, yet, Yet, Yet
+    Qwen3-0.6B suppresses: ~, 资源, attern, ложения, zy
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L50 ──
+    Qwen3-8B promotes: positor, _sold, 累了, 伴, _bid
+    Qwen3-0.6B promotes: iah, ech, ṡ, spath, Ř
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: utra, 重大, 一句话, TM, 剡
+    Qwen3-0.6B suppresses: 同一个, himself, работу, angkan, 량
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L69 ──
+    Qwen3-8B promotes: 洋洋, NESS, 人士, 架, 惰
+    Qwen3-0.6B promotes: camel, *)[, klass, XD, [...,
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: -SA, lations, Caller, -Requested, 五一
+    Qwen3-0.6B suppresses: 秘, еть, veyor, 裔, itics
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L80 ──
+    Qwen3-8B promotes: cow, agne, 平淡, 形容, 每当
+    Qwen3-0.6B promotes: buffalo, 牦, sedan, 小狗, rabbit
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: irable, essen, ission, iped, Chall
+    Qwen3-0.6B suppresses: ader, este, есть, ента, ivity
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L88 ──
+    Qwen3-8B promotes: dog, 狼, 狗, pack, 犬
+    Qwen3-0.6B promotes: الكم, fony, feof, ��, 禚
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: eries, овар, Eaton, Preconditions, 메
+    Qwen3-0.6B suppresses: heet, rics, rik, out, wood
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L50 ──
+    Qwen3-8B promotes: 话说, thủ, perish, 话, 起诉
+    Qwen3-0.6B promotes: imeter, avana, -cache, anced, идент
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 炜, 伶, Tyr, 丧, &(
+    Qwen3-0.6B suppresses: 菁, 淺, 低调, .argmax, �件
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L69 ──
+    Qwen3-8B promotes: again, Again, again, Sus, 一个新的
+    Qwen3-0.6B promotes: stil, quoi, дело, )a, ╭
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 於是, delimited, ��, 完整性, PLICIT
+    Qwen3-0.6B suppresses: ices, ism, iciel, urbed, entials
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L80 ──
+    Qwen3-8B promotes: 自己, pand, as, 你, you
+    Qwen3-0.6B promotes: 불구하고, 希望通过, @{@", 笑意, kvinner
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: assigned, 给他, 赋, 给他们, assign
+    Qwen3-0.6B suppresses: amp, irs, Gap, ie, 棒
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L88 ──
+    Qwen3-8B promotes: y, Y, yi, just, yc
+    Qwen3-0.6B promotes: ');");, ṙ, أخلاق, GBP, ṡ
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 沛, Vu, 仙, *X, ctp
+    Qwen3-0.6B suppresses: \, ,, 出, -, (
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L50 ──
+    Qwen3-8B promotes: 一个个, 炯, [[[, 流转, Ngo
+    Qwen3-0.6B promotes: elve, 견, ley, grasp, sylvania
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 清水, pry, OMB, 彩色, eer
+    Qwen3-0.6B suppresses: spun, 鄯, 提供的, 经验和, 其次是
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L69 ──
+    Qwen3-8B promotes: 迭代, iteration, iterative, optimization, 賴
+    Qwen3-0.6B promotes: てしまいました, 双向, $',, てしまいます, $
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: CONTRIBUTORS, 罩, .swagger, Nazis, 窟
+    Qwen3-0.6B suppresses: uras, ics, ure, -health, óst
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L80 ──
+    Qwen3-8B promotes: minim, optimizing, 优化, presentations, minimizing
+    Qwen3-0.6B promotes: learning, 的学习, .learning, 學習, 学习
+    Shared promoted (top-20): 1/20  J=0.029  [learning]
+    Qwen3-8B suppresses: 同心, 绑, inded, Па, .bind
+    Qwen3-0.6B suppresses: 稿, RP, Rank, 稿件, iveness
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L88 ──
+    Qwen3-8B promotes: desc, stochastic, iteration, desc, Desc
+    Qwen3-0.6B promotes: rallies, 月至, oversized, 玙, freezer
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 想, .deploy, KHR, tarafından, 铎
+    Qwen3-0.6B suppresses: 学习, learning, learn, 学, Learning
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L50 ──
+    Qwen3-8B promotes: gone, ISON, groupName, vé, 耽
+    Qwen3-0.6B promotes: >{", acam, sil, (forms, gree
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: mainly, oops, 主要内容, 婚, 干线
+    Qwen3-0.6B suppresses: dorf, ising, usi, enna, очно
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L69 ──
+    Qwen3-8B promotes: ((__, iams, ((__, _____, ______
+    Qwen3-0.6B promotes: be, 抃, *)", be, }}},
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: sem, �, 禁, 是为了, xfc
+    Qwen3-0.6B suppresses: 定了, uggestion, пал, ised, 诺
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L80 ──
+    Qwen3-8B promotes: liked, prefer, likes, like, 喜欢
+    Qwen3-0.6B promotes: dissert, لكرة, condolences, ');");, nấu
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: fragment, frag, Con, XF, 媪
+    Qwen3-0.6B suppresses: ED, asti, 意, ty, irs
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L88 ──
+    Qwen3-8B promotes: like, nt, drive, pick, likes
+    Qwen3-0.6B promotes: like, Like, like, .like, _like
+    Shared promoted (top-20): 3/20  J=0.111  [.like, like, likes]
+    Qwen3-8B suppresses: don, Don, DON, don, won
+    Qwen3-0.6B suppresses: 好处, SON, 所, int, M
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L50 ──
+    Qwen3-8B promotes: onga, 央视, 公办, /lic, /am
+    Qwen3-0.6B promotes: cran, (AdapterView, мон, pracy, füg
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 并发, 微量元素, 柜台, 徼, concurrent
+    Qwen3-0.6B suppresses: etics, quia, bor, hart, 高度重视
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L69 ──
+    Qwen3-8B promotes: _____, ____, _____, ______, igm
+    Qwen3-0.6B promotes: (__, (#), 良かった, 」と, ",__
+    Shared promoted (top-20): 3/20  J=0.086  [____, _____, ________]
+    Qwen3-8B suppresses: _SUITE, halt, _IMPL, 徕, Reid
+    Qwen3-0.6B suppresses: 活, culator, 起, enefit, actus
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L80 ──
+    Qwen3-8B promotes: ×, ×, , scientific, scientific
+    Qwen3-0.6B promotes: 粢, onDelete, 场均, fisse, 滿
+    Shared promoted (top-20): 1/20  J=0.027  []
+    Qwen3-8B suppresses: oze, agra, Screens, 有期, (IT
+    Qwen3-0.6B suppresses: ized, izer, иров, actical, ю
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L88 ──
+    Qwen3-8B promotes: 多少, ___, __, ____, ____
+    Qwen3-0.6B promotes: ,..., }}">{{$, ">{{$, 郜, $_[
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 近, Bever, Bit, Tall, 第
+    Qwen3-0.6B suppresses: c, -c, C, c, ~
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L50 ──
+    Qwen3-8B promotes: Tune, mented, пущ, tune, glazed
+    Qwen3-0.6B promotes: reve, statt, 本, itional, ôt
+    Shared promoted (top-20): 1/20  J=0.026  [tests]
+    Qwen3-8B suppresses: 到位, cade, Cage, 筋, 得起
+    Qwen3-0.6B suppresses: 受到影响, 一个重要, илось, %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%, 这时候
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L69 ──
+    Qwen3-8B promotes: question, gst, gio, 这点, ells
+    Qwen3-0.6B promotes: {Name, 皦, 衩, oop, [{'
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 坏, .entry, SCRIPTION, deps, Pag
+    Qwen3-0.6B suppresses: a, some, points, points, 有一些
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L80 ──
+    Qwen3-8B promotes: authenticity, billions, million, millions, миллион
+    Qwen3-0.6B promotes: rière, 型企业, 持ってい, 鸵, 뤄
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 党总支, 胆, Tcp, Scanner, 籍
+    Qwen3-0.6B suppresses: 问题, Proble, еств, problems, 的问题
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L88 ──
+    Qwen3-8B promotes: Q, q, _q, qs, Q
+    Qwen3-0.6B promotes: "};, (£, ,..., ());, >(*
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 问, ask, Ask, asks, asking
+    Qwen3-0.6B suppresses: 问题, problem, 的问题, problem, 一个问题
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L50 ──
+    Qwen3-8B promotes: IDO, ONO, Vera, PRES, vet
+    Qwen3-0.6B promotes: 犄, sideline, .XtraBars, eyond, rall
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: icamente, 了一, 惯, Scaled, match
+    Qwen3-0.6B suppresses: WithValue, rie, 好, aket, record
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L69 ──
+    Qwen3-8B promotes: ____, ________, ______, _______,, _____
+    Qwen3-0.6B promotes: ___, ().__, ()][, ____, 七月
+    Shared promoted (top-20): 5/20  J=0.172  [__, ___, ____, _____, ______]
+    Qwen3-8B suppresses: 苔, imenti, 修, 两类, ple
+    Qwen3-0.6B suppresses: 地上, acies, iosa, -env, acie
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L80 ──
+    Qwen3-8B promotes: oxygen, hydrogen, 氦, Oxygen, 氢
+    Qwen3-0.6B promotes: ylene, 铍, ethylene, carbonate, .Cl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ymm, icie, 的商品, .travel, .yy
+    Qwen3-0.6B suppresses: ummy, body, лем, odge, 她的
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L88 ──
+    Qwen3-8B promotes: hydrogen, carbon, 氢, carbon, 碳
+    Qwen3-0.6B promotes: fluor, lithium, scand, brom, 氩
+    Shared promoted (top-20): 1/20  J=0.029  [fluor]
+    Qwen3-8B suppresses: Ca, -Co, Ca, /C, :g
+    Qwen3-0.6B suppresses: ism, ched, , 徒, uture
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  SUMMARY:
+    Mean promoted Jaccard:   0.013
+    Mean suppressed Jaccard: 0.000
+    Mean cross-contamination: 0.0
+    ❌ Beams appear model-specific
+
+══════════════════════════════════════════════════════════════════════════════
+  BEAM COMPARISON: Qwen3-8B vs Pythia-410M
+  Same tokenizer: False
+══════════════════════════════════════════════════════════════════════════════
+
+  ── boy-kicked-ball @ L50 ──
+    Qwen3-8B promotes: _inst, Rhodes, 라도, 各行, 考虑
+    Pythia-410M promotes: pl, L, T, i, H
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ippers, intl, 的心理, 本月, memo
+    Pythia-410M suppresses: medscimonit, blockList, , teasp, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L69 ──
+    Qwen3-8B promotes: ______, _____, ____, ____, ________
+    Pythia-410M promotes: ktop, illas, rent, space, repl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Mn, -ish, agina, haste, plans
+    Pythia-410M suppresses: errnoErr, CHANTABILITY, BytePtrFromString, tradem, //----------------------------------------------------------------
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L80 ──
+    Qwen3-8B promotes: reflects, 反射, Reflect, Reflect, reflect
+    Pythia-410M promotes: finally, aw, end, altogether, flow
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ething, 鸡汤, Krish, 移交, Naomi
+    Pythia-410M suppresses: erville, ractive, amen, ariat, SEQUENTIAL
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L88 ──
+    Qwen3-8B promotes: 弹, 飞, fly, keep, flew
+    Pythia-410M promotes: eline, >::, CRO, serif, istle
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 榄, ystack, thơ, exem, CDATA
+    Pythia-410M suppresses: sens, ophilic, red, upon, ront
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L50 ──
+    Qwen3-8B promotes: Parliamentary, drive, 最大化, /is, _tpl
+    Pythia-410M promotes: Hug, UU, el, sure, string
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: EMC, IONS, inator, Sweet, sep
+    Pythia-410M suppresses: ributed, elta, CHANTABILITY, ocated, omorphic
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L69 ──
+    Qwen3-8B promotes: _____, ________, ______, _____, ____
+    Pythia-410M promotes: else, public, different, P, U
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: caps, _taxonomy, 需要用到, .include, voters
+    Pythia-410M suppresses: CHANTABILITY, medsc, çois, eLife, marined
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L80 ──
+    Qwen3-8B promotes: 法国, French, French, 巴黎, France
+    Pythia-410M promotes: CHANT, "}](#, ve, answ, <%=
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ẻ, igar, TASK, /fw, 三代
+    Pythia-410M suppresses: idemargin, medsc, onsense, rsfs, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L88 ──
+    Qwen3-8B promotes: __, ____, ,__, =__, __/
+    Pythia-410M promotes: ordained, ameth, Cele, acm, XY
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: French, France, _nb, Paris, France
+    Pythia-410M suppresses: anger, th, ISC, är, unsafe
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L50 ──
+    Qwen3-8B promotes: 野生, 期刊, lean, fro, 举
+    Pythia-410M promotes: instanceof, process, theory, mandate, promise
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: rix, Hunting, 才有, trä, 燒
+    Pythia-410M suppresses: mouth, uting, utes, emeter, BytePtrFromString
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L69 ──
+    Qwen3-8B promotes: enko, 耐心, 带到, 蕉, 跟随
+    Pythia-410M promotes: Y, fe, F, edge, wide
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: overt, 促, sidebar, /libs, .EVENT
+    Pythia-410M suppresses: GRect, medsc, CHANTABILITY, rsfs, apopt
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L80 ──
+    Qwen3-8B promotes: 窗, window, 跏, Assoc, asser
+    Pythia-410M promotes: window, end, micro, plan, old
+    Shared promoted (top-20): 1/20  J=0.026  [window]
+    Qwen3-8B suppresses: 犬, 狗狗, puppy, puppies, pits
+    Pythia-410M suppresses: CHANTABILITY, , , ÃÂ, jcmm
+    Shared suppressed (top-20): 0/20  J=0.000  []
+    ⚠ Cross-contamination: 1 tokens promoted in one, suppressed in other
+
+  ── cat-sat-on @ L88 ──
+    Qwen3-8B promotes: mat, mat, blo, mats, _RW
+    Pythia-410M promotes: tutor, izumab, astom, galleries, sharks
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Aj, 酶, 口头, 音响, CDF
+    Pythia-410M suppresses: se, ically, r, or, ate
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L50 ──
+    Qwen3-8B promotes: 茹, Monkey, 裳, Ah, blanks
+    Pythia-410M promotes: up, ca, cur, enh, ups
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: chl, oucher, 梗, 越, loyd
+    Pythia-410M suppresses: ERTY, FPar, elling, exercise, artifact
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L69 ──
+    Qwen3-8B promotes: _______,, apult, comb, ty, LIN
+    Pythia-410M promotes: acknow, dial, left, number, high
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: -hash, 热, submenu, 感染者, .gf
+    Pythia-410M suppresses: CHANTABILITY, , , {¶, $[]$
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L80 ──
+    Qwen3-8B promotes: reply, response, 回应, responses, responded
+    Pythia-410M promotes: l, called, type, est, both
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Chest, ær, 绕, ax, Deletes
+    Pythia-410M suppresses: IGNED, uginosa, ORAND, chev, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L88 ──
+    Qwen3-8B promotes: 吐, comed, omination, Keys, 破
+    Pythia-410M promotes: udeau, idopsis, CSI, icio, abase
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 摆, Shock, 不可, (signature, Shock
+    Pythia-410M suppresses: fall, event, cor, wave, og
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L50 ──
+    Qwen3-8B promotes: 放宽, 绣, ammen, ynam, cccc
+    Pythia-410M promotes: Str, base, C, cl, cl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ESS, tant, 叟, 网友评论, 传出
+    Pythia-410M suppresses: , ipolar, nyder, CHANTABILITY, aptop
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L69 ──
+    Qwen3-8B promotes: 地球, Overs, 七星, 同心, unified
+    Pythia-410M promotes: high, small, 2, 1, O
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: lore, æk, 惡, 恶, 所有的
+    Pythia-410M suppresses: CHANTABILITY, medsc, , , NdEx
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L80 ──
+    Qwen3-8B promotes: flat, perfect, -flat, perfect, Flat
+    Pythia-410M promotes: ", finished, am, relaxed, al
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 狸, kak, ENCY, 裸, 棘
+    Pythia-410M suppresses: CHANTABILITY, medsc, , , jcmm
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L88 ──
+    Qwen3-8B promotes: only, far, only, level, Level
+    Pythia-410M promotes: enthus, serm, unmist, affili, }{-
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: yet, 又, yet, Yet, Yet
+    Pythia-410M suppresses: ic, or, inst, ust, str
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L50 ──
+    Qwen3-8B promotes: positor, _sold, 累了, 伴, _bid
+    Pythia-410M promotes: >$, aff, unreadable, alter, %.
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: utra, 重大, 一句话, TM, 剡
+    Pythia-410M suppresses: emetery, , idas, derr, iced
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L69 ──
+    Qwen3-8B promotes: 洋洋, NESS, 人士, 架, 惰
+    Pythia-410M promotes: and, , O, ,, m
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: -SA, lations, Caller, -Requested, 五一
+    Pythia-410M suppresses: NdEx, , CHANTABILITY, , medsc
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L80 ──
+    Qwen3-8B promotes: cow, agne, 平淡, 形容, 每当
+    Pythia-410M promotes: source, transition, target, trigger, point
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: irable, essen, ission, iped, Chall
+    Pythia-410M suppresses: jcmm, rsfs, CHANTABILITY, medsc, $[]$
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L88 ──
+    Qwen3-8B promotes: dog, 狼, 狗, pack, 犬
+    Pythia-410M promotes: ETHOD, , , WV, NdEx
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: eries, овар, Eaton, Preconditions, 메
+    Pythia-410M suppresses: open, est, irection, struct, ccording
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L50 ──
+    Qwen3-8B promotes: 话说, thủ, perish, 话, 起诉
+    Pythia-410M promotes: off, Tickets, hin, Off, "></
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 炜, 伶, Tyr, 丧, &(
+    Pythia-410M suppresses: blockList, , inally, opyright, izontal
+    Shared suppressed (top-20): 1/20  J=0.028  []
+
+  ── identity-y @ L69 ──
+    Qwen3-8B promotes: again, Again, again, Sus, 一个新的
+    Pythia-410M promotes: 1, 3, 1, 4, 3
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 於是, delimited, ��, 完整性, PLICIT
+    Pythia-410M suppresses: CHANTABILITY, NdEx, medsc, , 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L80 ──
+    Qwen3-8B promotes: 自己, pand, as, 你, you
+    Pythia-410M promotes: that, , _, A, you
+    Shared promoted (top-20): 1/20  J=0.029  [you]
+    Qwen3-8B suppresses: assigned, 给他, 赋, 给他们, assign
+    Pythia-410M suppresses: amss, CHANTABILITY, rsfs, acements, $[]$
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L88 ──
+    Qwen3-8B promotes: y, Y, yi, just, yc
+    Pythia-410M promotes: assertEquals, "}](#, acm, invari, satell
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 沛, Vu, 仙, *X, ctp
+    Pythia-410M suppresses: y, y, ry, ly, rd
+    Shared suppressed (top-20): 0/20  J=0.000  []
+    ⚠ Cross-contamination: 1 tokens promoted in one, suppressed in other
+
+  ── ml-gradient @ L50 ──
+    Qwen3-8B promotes: 一个个, 炯, [[[, 流转, Ngo
+    Pythia-410M promotes: on, y, is, out, book
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 清水, pry, OMB, 彩色, eer
+    Pythia-410M suppresses: eLife, ippers, CHANTABILITY, usiness, endas
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L69 ──
+    Qwen3-8B promotes: 迭代, iteration, iterative, optimization, 賴
+    Pythia-410M promotes: is, 8, 5, 10, 3
+    Shared promoted (top-20): 1/20  J=0.029  [learning]
+    Qwen3-8B suppresses: CONTRIBUTORS, 罩, .swagger, Nazis, 窟
+    Pythia-410M suppresses: CHANTABILITY, HOLDERS, oddsidemargin, errnoErr, NdEx
+    Shared suppressed (top-20): 1/20  J=0.027  [contributors]
+
+  ── ml-gradient @ L80 ──
+    Qwen3-8B promotes: minim, optimizing, 优化, presentations, minimizing
+    Pythia-410M promotes: resil, ometimes, yna, cuts, empre
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 同心, 绑, inded, Па, .bind
+    Pythia-410M suppresses: (, \{, |, vention, 22
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L88 ──
+    Qwen3-8B promotes: desc, stochastic, iteration, desc, Desc
+    Pythia-410M promotes: ASSERT, Offset, DEF, assertEquals, "}](#
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 想, .deploy, KHR, tarafından, 铎
+    Pythia-410M suppresses: learn, anche, learn, staff, weights
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L50 ──
+    Qwen3-8B promotes: gone, ISON, groupName, vé, 耽
+    Pythia-410M promotes: vs, populations, versus, skip, C
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: mainly, oops, 主要内容, 婚, 干线
+    Pythia-410M suppresses: achine, negie, odka, bserver, isf
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L69 ──
+    Qwen3-8B promotes: ((__, iams, ((__, _____, ______
+    Pythia-410M promotes: like, M, such, F, n
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: sem, �, 禁, 是为了, xfc
+    Pythia-410M suppresses: CHANTABILITY, , , BytePtrFromString, medsc
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L80 ──
+    Qwen3-8B promotes: liked, prefer, likes, like, 喜欢
+    Pythia-410M promotes: call, look, tend, check, clear
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: fragment, frag, Con, XF, 媪
+    Pythia-410M suppresses: CHANTABILITY, errnoErr, OOGLE, 1451450014514500, earthqu
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L88 ──
+    Qwen3-8B promotes: like, nt, drive, pick, likes
+    Pythia-410M promotes: strugg, assertEquals, unmist, prophyl, laug
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: don, Don, DON, don, won
+    Pythia-410M suppresses: (, and, ,, M, *
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L50 ──
+    Qwen3-8B promotes: onga, 央视, 公办, /lic, /am
+    Pythia-410M promotes: Hub, :&, LINEAR, ccording, content
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 并发, 微量元素, 柜台, 徼, concurrent
+    Pythia-410M suppresses: ETHOD, rown, iNdEx, arynge, TIOC
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L69 ──
+    Qwen3-8B promotes: _____, ____, _____, ______, igm
+    Pythia-410M promotes: 1, 2, 1, 2, se
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: _SUITE, halt, _IMPL, 徕, Reid
+    Pythia-410M suppresses: ÃÂ, medsc, , $[]$, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L80 ──
+    Qwen3-8B promotes: ×, ×, , scientific, scientific
+    Pythia-410M promotes: jan, ta, therap, tees, ota
+    Shared promoted (top-20): 2/20  J=0.057  [, ten]
+    Qwen3-8B suppresses: oze, agra, Screens, 有期, (IT
+    Pythia-410M suppresses: jcmm, uginosa, , $[]$, ubicin
+    Shared suppressed (top-20): 0/20  J=0.000  []
+    ⚠ Cross-contamination: 1 tokens promoted in one, suppressed in other
+
+  ── speed-of-light @ L88 ──
+    Qwen3-8B promotes: 多少, ___, __, ____, ____
+    Pythia-410M promotes: FFIR, Lines, unemploy, unmist, agre
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 近, Bever, Bit, Tall, 第
+    Pythia-410M suppresses: ум, raft, clim, ue, ach
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L50 ──
+    Qwen3-8B promotes: Tune, mented, пущ, tune, glazed
+    Pythia-410M promotes: emale, patented, CONDITIONS, ]{}\, oly
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 到位, cade, Cage, 筋, 得起
+    Pythia-410M suppresses: endi, iei, LIABLE, depending, alike
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L69 ──
+    Qwen3-8B promotes: question, gst, gio, 这点, ells
+    Pythia-410M promotes: general, third, responsible, 43, final
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 坏, .entry, SCRIPTION, deps, Pag
+    Pythia-410M suppresses: BytePtrFromString, PROM, , , 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L80 ──
+    Qwen3-8B promotes: authenticity, billions, million, millions, миллион
+    Pythia-410M promotes: test, split, internal, F, un
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 党总支, 胆, Tcp, Scanner, 籍
+    Pythia-410M suppresses: CHANTABILITY, doibase, medsc, rsfs, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L88 ──
+    Qwen3-8B promotes: Q, q, _q, qs, Q
+    Pythia-410M promotes: hym, enthus, gag, laug, genu
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 问, ask, Ask, asks, asking
+    Pythia-410M suppresses: respectively, respectively, rans, here, )-
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L50 ──
+    Qwen3-8B promotes: IDO, ONO, Vera, PRES, vet
+    Pythia-410M promotes: olds, rup, ('',, ygen, answ
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: icamente, 了一, 惯, Scaled, match
+    Pythia-410M suppresses: upgreek, javase, ér, idas, ци
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L69 ──
+    Qwen3-8B promotes: ____, ________, ______, _______,, _____
+    Pythia-410M promotes: 3, 1, 2, T, 5
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: 苔, imenti, 修, 两类, ple
+    Pythia-410M suppresses: CHANTABILITY, , $[]$, medsc, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L80 ──
+    Qwen3-8B promotes: oxygen, hydrogen, 氦, Oxygen, 氢
+    Pythia-410M promotes: resil, sense, eth, vol, advertis
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: ymm, icie, 的商品, .travel, .yy
+    Pythia-410M suppresses: ÃÂ, , CHANTABILITY, classes, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L88 ──
+    Qwen3-8B promotes: hydrogen, carbon, 氢, carbon, 碳
+    Pythia-410M promotes: Fusion, elij, Compton, IgM, Ampl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-8B suppresses: Ca, -Co, Ca, /C, :g
+    Pythia-410M suppresses: brainsci, own, flow, PROVIDED, rian
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  SUMMARY:
+    Mean promoted Jaccard:   0.003
+    Mean suppressed Jaccard: 0.001
+    Mean cross-contamination: 0.1
+    ❌ Beams appear model-specific
+
+══════════════════════════════════════════════════════════════════════════════
+  BEAM COMPARISON: Qwen3-0.6B vs Pythia-410M
+  Same tokenizer: False
+══════════════════════════════════════════════════════════════════════════════
+
+  ── boy-kicked-ball @ L50 ──
+    Qwen3-0.6B promotes: iful, typeorm, (_,, IU, ifferent
+    Pythia-410M promotes: pl, L, T, i, H
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: orm, 体, jis, jax, isoft
+    Pythia-410M suppresses: medscimonit, blockList, , teasp, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L71 ──
+    Qwen3-0.6B promotes: ).__, went, ().__, (__, てくれた
+    Pythia-410M promotes: ktop, illas, rent, space, repl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: urally, anas, ivate, mare, 区内
+    Pythia-410M suppresses: errnoErr, CHANTABILITY, BytePtrFromString, tradem, //----------------------------------------------------------------
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── boy-kicked-ball @ L78 ──
+    Qwen3-0.6B promotes: 掼, الولا, كرة, SHOT, flew
+    Pythia-410M promotes: finally, aw, end, altogether, flow
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ilers, Subset, roid, ixel, ource
+    Pythia-410M suppresses: erville, ractive, amen, ariat, SEQUENTIAL
+    Shared suppressed (top-20): 1/20  J=0.026  [ixel]
+
+  ── boy-kicked-ball @ L89 ──
+    Qwen3-0.6B promotes: laden, 供图, lland, endir, filmed
+    Pythia-410M promotes: eline, >::, CRO, serif, istle
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: .deep, 深, amount, hood, assage
+    Pythia-410M suppresses: sens, ophilic, red, upon, ront
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L50 ──
+    Qwen3-0.6B promotes: 鲞, راه, hoe, aydın, (Blueprint
+    Pythia-410M promotes: Hug, UU, el, sure, string
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: antry, ことです, ǁ, mw, tat
+    Pythia-410M suppresses: ributed, elta, CHANTABILITY, ocated, omorphic
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L71 ──
+    Qwen3-0.6B promotes: []:, :, 位於, ):, ')):
+    Pythia-410M promotes: else, public, different, P, U
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: oons, eting, isses, asters, dds
+    Pythia-410M suppresses: CHANTABILITY, medsc, çois, eLife, marined
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L78 ──
+    Qwen3-0.6B promotes: cities, cidade, (city, CITY, cidade
+    Pythia-410M promotes: CHANT, "}](#, ve, answ, <%=
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 外, an, bery, eba, ee
+    Pythia-410M suppresses: idemargin, medsc, onsense, rsfs, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── capital-france @ L89 ──
+    Qwen3-0.6B promotes: ');");, 憬, "?, }:${, pleaded
+    Pythia-410M promotes: ordained, ameth, Cele, acm, XY
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 分, o, k, [], 1
+    Pythia-410M suppresses: anger, th, ISC, är, unsafe
+    Shared suppressed (top-20): 1/20  J=0.028  [th]
+
+  ── cat-sat-on @ L50 ──
+    Qwen3-0.6B promotes: 骍, ië, ɜ, thượng, муж
+    Pythia-410M promotes: instanceof, process, theory, mandate, promise
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: amines, cem, ister, ими, semble
+    Pythia-410M suppresses: mouth, uting, utes, emeter, BytePtrFromString
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L71 ──
+    Qwen3-0.6B promotes: groundColor, tường, 腠, sidelines, 企业提供
+    Pythia-410M promotes: Y, fe, F, edge, wide
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: uais, ounters, ife, dra, 会
+    Pythia-410M suppresses: GRect, medsc, CHANTABILITY, rsfs, apopt
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── cat-sat-on @ L78 ──
+    Qwen3-0.6B promotes: countertops, countert, 桌子上, القضية, maple
+    Pythia-410M promotes: window, end, micro, plan, old
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: int, int, 节, 元, ide
+    Pythia-410M suppresses: CHANTABILITY, , , ÃÂ, jcmm
+    Shared suppressed (top-20): 1/20  J=0.028  [�]
+
+  ── cat-sat-on @ L89 ──
+    Qwen3-0.6B promotes: '},, قترح, ]';, "};, }';
+    Pythia-410M promotes: tutor, izumab, astom, galleries, sharks
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ability, m, s, ality, лей
+    Pythia-410M suppresses: se, ically, r, or, ate
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L50 ──
+    Qwen3-0.6B promotes: пот, Yet, ANA, ana, ultiple
+    Pythia-410M promotes: up, ca, cur, enh, ups
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 霸王, ству, erville, 弑, ทราบ
+    Pythia-410M suppresses: ERTY, FPar, elling, exercise, artifact
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── dog-bit-cat @ L71 ──
+    Qwen3-0.6B promotes: apult, 我爱你, <![, 除外, eenth
+    Pythia-410M promotes: acknow, dial, left, number, high
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: Testament, ength, ivals, ean, ğa
+    Pythia-410M suppresses: CHANTABILITY, , , {¶, $[]$
+    Shared suppressed (top-20): 1/20  J=0.027  [�]
+
+  ── dog-bit-cat @ L78 ──
+    Qwen3-0.6B promotes: ');");, swallowed, chopping, لكرة, 掼
+    Pythia-410M promotes: l, called, type, est, both
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: istogram, ente, ean, arts, arming
+    Pythia-410M suppresses: IGNED, uginosa, ORAND, chev, 
+    Shared suppressed (top-20): 1/20  J=0.026  []
+
+  ── dog-bit-cat @ L89 ──
+    Qwen3-0.6B promotes: ятся, ?");, 闪过, 落下, lance
+    Pythia-410M promotes: udeau, idopsis, CSI, icio, abase
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 通, ��, eb, , 暴
+    Pythia-410M suppresses: fall, event, cor, wave, og
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L50 ──
+    Qwen3-0.6B promotes: 机动, 骖, hä, reve, olith
+    Pythia-410M promotes: Str, base, C, cl, cl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ppo, dating, bers, ilar, .dex
+    Pythia-410M suppresses: , ipolar, nyder, CHANTABILITY, aptop
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L71 ──
+    Qwen3-0.6B promotes: 变得更加, 变得更, &);, 不是一个, &)
+    Pythia-410M promotes: high, small, 2, 1, O
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ACES, REE, essian, 耳, aced
+    Pythia-410M suppresses: CHANTABILITY, medsc, , , NdEx
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── earth-is-not @ L78 ──
+    Qwen3-0.6B promotes: 北极, |-, นาย, 茼, 燋
+    Pythia-410M promotes: ", finished, am, relaxed, al
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: aving, ку, essian, ide, кий
+    Pythia-410M suppresses: CHANTABILITY, medsc, , , jcmm
+    Shared suppressed (top-20): 1/20  J=0.027  [�]
+
+  ── earth-is-not @ L89 ──
+    Qwen3-0.6B promotes: ći, haute, ("@, عقد, 鹞
+    Pythia-410M promotes: enthus, serm, unmist, affili, }{-
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ~, 资源, attern, ложения, zy
+    Pythia-410M suppresses: ic, or, inst, ust, str
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L50 ──
+    Qwen3-0.6B promotes: iah, ech, ṡ, spath, Ř
+    Pythia-410M promotes: >$, aff, unreadable, alter, %.
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 同一个, himself, работу, angkan, 량
+    Pythia-410M suppresses: emetery, , idas, derr, iced
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L71 ──
+    Qwen3-0.6B promotes: camel, *)[, klass, XD, [...,
+    Pythia-410M promotes: and, , O, ,, m
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 秘, еть, veyor, 裔, itics
+    Pythia-410M suppresses: NdEx, , CHANTABILITY, , medsc
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L78 ──
+    Qwen3-0.6B promotes: buffalo, 牦, sedan, 小狗, rabbit
+    Pythia-410M promotes: source, transition, target, trigger, point
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ader, este, есть, ента, ivity
+    Pythia-410M suppresses: jcmm, rsfs, CHANTABILITY, medsc, $[]$
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── fox-lazy @ L89 ──
+    Qwen3-0.6B promotes: الكم, fony, feof, ��, 禚
+    Pythia-410M promotes: ETHOD, , , WV, NdEx
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: heet, rics, rik, out, wood
+    Pythia-410M suppresses: open, est, irection, struct, ccording
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L50 ──
+    Qwen3-0.6B promotes: imeter, avana, -cache, anced, идент
+    Pythia-410M promotes: off, Tickets, hin, Off, "></
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 菁, 淺, 低调, .argmax, �件
+    Pythia-410M suppresses: blockList, , inally, opyright, izontal
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L71 ──
+    Qwen3-0.6B promotes: stil, quoi, дело, )a, ╭
+    Pythia-410M promotes: 1, 3, 1, 4, 3
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ices, ism, iciel, urbed, entials
+    Pythia-410M suppresses: CHANTABILITY, NdEx, medsc, , 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L78 ──
+    Qwen3-0.6B promotes: 불구하고, 希望通过, @{@", 笑意, kvinner
+    Pythia-410M promotes: that, , _, A, you
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: amp, irs, Gap, ie, 棒
+    Pythia-410M suppresses: amss, CHANTABILITY, rsfs, acements, $[]$
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── identity-y @ L89 ──
+    Qwen3-0.6B promotes: ');");, ṙ, أخلاق, GBP, ṡ
+    Pythia-410M promotes: assertEquals, "}](#, acm, invari, satell
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: \, ,, 出, -, (
+    Pythia-410M suppresses: y, y, ry, ly, rd
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L50 ──
+    Qwen3-0.6B promotes: elve, 견, ley, grasp, sylvania
+    Pythia-410M promotes: on, y, is, out, book
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: spun, 鄯, 提供的, 经验和, 其次是
+    Pythia-410M suppresses: eLife, ippers, CHANTABILITY, usiness, endas
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L71 ──
+    Qwen3-0.6B promotes: てしまいました, 双向, $',, てしまいます, $
+    Pythia-410M promotes: is, 8, 5, 10, 3
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: uras, ics, ure, -health, óst
+    Pythia-410M suppresses: CHANTABILITY, HOLDERS, oddsidemargin, errnoErr, NdEx
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L78 ──
+    Qwen3-0.6B promotes: learning, 的学习, .learning, 學習, 学习
+    Pythia-410M promotes: resil, ometimes, yna, cuts, empre
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 稿, RP, Rank, 稿件, iveness
+    Pythia-410M suppresses: (, \{, |, vention, 22
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── ml-gradient @ L89 ──
+    Qwen3-0.6B promotes: rallies, 月至, oversized, 玙, freezer
+    Pythia-410M promotes: ASSERT, Offset, DEF, assertEquals, "}](#
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 学习, learning, learn, 学, Learning
+    Pythia-410M suppresses: learn, anche, learn, staff, weights
+    Shared suppressed (top-20): 3/20  J=0.100  [learn, learned, learns]
+
+  ── she-would @ L50 ──
+    Qwen3-0.6B promotes: >{", acam, sil, (forms, gree
+    Pythia-410M promotes: vs, populations, versus, skip, C
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: dorf, ising, usi, enna, очно
+    Pythia-410M suppresses: achine, negie, odka, bserver, isf
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L71 ──
+    Qwen3-0.6B promotes: be, 抃, *)", be, }}},
+    Pythia-410M promotes: like, M, such, F, n
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 定了, uggestion, пал, ised, 诺
+    Pythia-410M suppresses: CHANTABILITY, , , BytePtrFromString, medsc
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── she-would @ L78 ──
+    Qwen3-0.6B promotes: dissert, لكرة, condolences, ');");, nấu
+    Pythia-410M promotes: call, look, tend, check, clear
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ED, asti, 意, ty, irs
+    Pythia-410M suppresses: CHANTABILITY, errnoErr, OOGLE, 1451450014514500, earthqu
+    Shared suppressed (top-20): 1/20  J=0.026  []
+
+  ── she-would @ L89 ──
+    Qwen3-0.6B promotes: like, Like, like, .like, _like
+    Pythia-410M promotes: strugg, assertEquals, unmist, prophyl, laug
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 好处, SON, 所, int, M
+    Pythia-410M suppresses: (, and, ,, M, *
+    Shared suppressed (top-20): 2/20  J=0.056  [m, s]
+
+  ── speed-of-light @ L50 ──
+    Qwen3-0.6B promotes: cran, (AdapterView, мон, pracy, füg
+    Pythia-410M promotes: Hub, :&, LINEAR, ccording, content
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: etics, quia, bor, hart, 高度重视
+    Pythia-410M suppresses: ETHOD, rown, iNdEx, arynge, TIOC
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L71 ──
+    Qwen3-0.6B promotes: (__, (#), 良かった, 」と, ",__
+    Pythia-410M promotes: 1, 2, 1, 2, se
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 活, culator, 起, enefit, actus
+    Pythia-410M suppresses: ÃÂ, medsc, , $[]$, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── speed-of-light @ L78 ──
+    Qwen3-0.6B promotes: 粢, onDelete, 场均, fisse, 滿
+    Pythia-410M promotes: jan, ta, therap, tees, ota
+    Shared promoted (top-20): 1/20  J=0.026  []
+    Qwen3-0.6B suppresses: ized, izer, иров, actical, ю
+    Pythia-410M suppresses: jcmm, uginosa, , $[]$, ubicin
+    Shared suppressed (top-20): 0/20  J=0.000  []
+    ⚠ Cross-contamination: 1 tokens promoted in one, suppressed in other
+
+  ── speed-of-light @ L89 ──
+    Qwen3-0.6B promotes: ,..., }}">{{$, ">{{$, 郜, $_[
+    Pythia-410M promotes: FFIR, Lines, unemploy, unmist, agre
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: c, -c, C, c, ~
+    Pythia-410M suppresses: ум, raft, clim, ue, ach
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L50 ──
+    Qwen3-0.6B promotes: reve, statt, 本, itional, ôt
+    Pythia-410M promotes: emale, patented, CONDITIONS, ]{}\, oly
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 受到影响, 一个重要, илось, %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%, 这时候
+    Pythia-410M suppresses: endi, iei, LIABLE, depending, alike
+    Shared suppressed (top-20): 0/20  J=0.000  []
+    ⚠ Cross-contamination: 1 tokens promoted in one, suppressed in other
+
+  ── to-be-question @ L71 ──
+    Qwen3-0.6B promotes: {Name, 皦, 衩, oop, [{'
+    Pythia-410M promotes: general, third, responsible, 43, final
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: a, some, points, points, 有一些
+    Pythia-410M suppresses: BytePtrFromString, PROM, , , 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L78 ──
+    Qwen3-0.6B promotes: rière, 型企业, 持ってい, 鸵, 뤄
+    Pythia-410M promotes: test, split, internal, F, un
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 问题, Proble, еств, problems, 的问题
+    Pythia-410M suppresses: CHANTABILITY, doibase, medsc, rsfs, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── to-be-question @ L89 ──
+    Qwen3-0.6B promotes: "};, (£, ,..., ());, >(*
+    Pythia-410M promotes: hym, enthus, gag, laug, genu
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 问题, problem, 的问题, problem, 一个问题
+    Pythia-410M suppresses: respectively, respectively, rans, here, )-
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L50 ──
+    Qwen3-0.6B promotes: 犄, sideline, .XtraBars, eyond, rall
+    Pythia-410M promotes: olds, rup, ('',, ygen, answ
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: WithValue, rie, 好, aket, record
+    Pythia-410M suppresses: upgreek, javase, ér, idas, ци
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L71 ──
+    Qwen3-0.6B promotes: ___, ().__, ()][, ____, 七月
+    Pythia-410M promotes: 3, 1, 2, T, 5
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: 地上, acies, iosa, -env, acie
+    Pythia-410M suppresses: CHANTABILITY, , $[]$, medsc, 
+    Shared suppressed (top-20): 1/20  J=0.029  [�]
+
+  ── water-elements @ L78 ──
+    Qwen3-0.6B promotes: ylene, 铍, ethylene, carbonate, .Cl
+    Pythia-410M promotes: resil, sense, eth, vol, advertis
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ummy, body, лем, odge, 她的
+    Pythia-410M suppresses: ÃÂ, , CHANTABILITY, classes, 
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  ── water-elements @ L89 ──
+    Qwen3-0.6B promotes: fluor, lithium, scand, brom, 氩
+    Pythia-410M promotes: Fusion, elij, Compton, IgM, Ampl
+    Shared promoted (top-20): 0/20  J=0.000  []
+    Qwen3-0.6B suppresses: ism, ched, , 徒, uture
+    Pythia-410M suppresses: brainsci, own, flow, PROVIDED, rian
+    Shared suppressed (top-20): 0/20  J=0.000  []
+
+  SUMMARY:
+    Mean promoted Jaccard:   0.001
+    Mean suppressed Jaccard: 0.008
+    Mean cross-contamination: 0.0
+    ❌ Beams appear model-specific
+
+══════════════════════════════════════════════════════════════════════════════
+  COMPLETE — 28s total
+  Results: /Users/mwhitford/src/verbum/results/ffn-beam-universality/
+══════════════════════════════════════════════════════════════════════════════
