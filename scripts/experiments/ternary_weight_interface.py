@@ -182,7 +182,7 @@ class TernaryWeightLinear(nn.Module):
     def __init__(self, weight, group_size=32, zero_rate=0.0,
                  bias=None):
         super().__init__()
-        W = weight.detach().float()
+        W = weight.detach().float().cpu()
         out_features, in_features = W.shape
 
         # Signs: {-1, 0, +1}
@@ -190,9 +190,13 @@ class TernaryWeightLinear(nn.Module):
 
         # Optional sparsity: zero out smallest weights
         if zero_rate > 0:
-            abs_W = W.abs()
-            threshold = torch.quantile(abs_W, zero_rate)
-            signs[abs_W < threshold] = 0
+            abs_flat = W.abs().flatten()
+            if abs_flat.numel() > 10_000_000:
+                idx = torch.randperm(abs_flat.numel())[:5_000_000]
+                threshold = torch.quantile(abs_flat[idx], zero_rate)
+            else:
+                threshold = torch.quantile(abs_flat, zero_rate)
+            signs[W.abs() < threshold] = 0
 
         # Per-group scales: mean absolute value per group
         # Groups along the input dimension (columns)
@@ -272,14 +276,18 @@ class TernaryWeightLinearFast(nn.Module):
     def __init__(self, weight, group_size=32, zero_rate=0.0,
                  bias=None):
         super().__init__()
-        W = weight.detach().float()
+        W = weight.detach().float().cpu()
         out_features, in_features = W.shape
 
         signs = torch.sign(W)
         if zero_rate > 0:
-            abs_W = W.abs()
-            threshold = torch.quantile(abs_W, zero_rate)
-            signs[abs_W < threshold] = 0
+            abs_flat = W.abs().flatten()
+            if abs_flat.numel() > 10_000_000:
+                idx = torch.randperm(abs_flat.numel())[:5_000_000]
+                threshold = torch.quantile(abs_flat[idx], zero_rate)
+            else:
+                threshold = torch.quantile(abs_flat, zero_rate)
+            signs[W.abs() < threshold] = 0
 
         n_groups = (in_features + group_size - 1) // group_size
         scales = torch.zeros(out_features, n_groups)
@@ -294,13 +302,13 @@ class TernaryWeightLinearFast(nn.Module):
             denom = nonzero.sum(dim=1).clamp(min=1)
             scales[:, g] = (abs_vals * nonzero).sum(dim=1) / denom
 
-        # Reconstruct
+        # Reconstruct (all on CPU)
         W_approx = torch.zeros_like(W)
         for g in range(n_groups):
             start = g * group_size
             end = min(start + group_size, in_features)
             W_approx[:, start:end] = (
-                signs[:, start:end] * scales[:, g:g+1]
+                signs[:, start:end].float() * scales[:, g:g+1].float()
             )
 
         # Measure reconstruction quality

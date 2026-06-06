@@ -1,0 +1,332 @@
+
+======================================================================
+
+======================================================================
+  TERNARY WEIGHT INTERFACE
+  TERNARY WEIGHT INTERFACE
+  Keep the computation, compress the weights
+  Keep the computation, compress the weights
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:06,  2.13it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 61.40it/s]Loading weights:  17%|█▋        | 67/399 [00:00<00:02, 139.89it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 195.83it/s]Loading weights:  36%|███▋      | 145/399 [00:00<00:01, 249.27it/s]Loading weights:  45%|████▍     | 178/399 [00:01<00:00, 264.43it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 280.22it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 315.52it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 320.24it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 312.84it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 315.36it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 318.37it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 240.99it/s]
+  d_model=4096, intermediate=12288
+  d_model=4096, intermediate=12288
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15
+  Baseline facts: 12/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 1: GROUP SIZE SWEEP (per layer, no sparsity)
+  EXP 1: GROUP SIZE SWEEP (per layer, no sparsity)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L15 (sweet-spot):
+
+  L15 (sweet-spot):
+     per-row: PPL=   10.41 ( 1.02x)  cos=0.7813  144.1MB (2.0x) ★
+     per-row: PPL=   10.41 ( 1.02x)  cos=0.7813  144.1MB (2.0x) ★
+       G=512: PPL=   10.41 ( 1.02x)  cos=0.7833  144.6MB (2.0x) ★
+       G=512: PPL=   10.41 ( 1.02x)  cos=0.7833  144.6MB (2.0x) ★
+       G=128: PPL=   10.40 ( 1.02x)  cos=0.7882  146.2MB (2.0x) ★
+       G=128: PPL=   10.40 ( 1.02x)  cos=0.7882  146.2MB (2.0x) ★
+        G=64: PPL=   10.40 ( 1.02x)  cos=0.7923  148.5MB (1.9x) ★
+        G=64: PPL=   10.40 ( 1.02x)  cos=0.7923  148.5MB (1.9x) ★
+        G=32: PPL=   10.40 ( 1.02x)  cos=0.7980  153.0MB (1.9x) ★
+        G=32: PPL=   10.40 ( 1.02x)  cos=0.7980  153.0MB (1.9x) ★
+
+  L20 (sweet-spot (S/O crystal)):
+
+  L20 (sweet-spot (S/O crystal)):
+     per-row: PPL=   10.22 ( 1.01x)  cos=0.7830  144.1MB (2.0x) ★★
+     per-row: PPL=   10.22 ( 1.01x)  cos=0.7830  144.1MB (2.0x) ★★
+       G=512: PPL=   10.21 ( 1.00x)  cos=0.7845  144.6MB (2.0x) ★★
+       G=512: PPL=   10.21 ( 1.00x)  cos=0.7845  144.6MB (2.0x) ★★
+       G=128: PPL=   10.22 ( 1.01x)  cos=0.7885  146.2MB (2.0x) ★★
+       G=128: PPL=   10.22 ( 1.01x)  cos=0.7885  146.2MB (2.0x) ★★
+        G=64: PPL=   10.23 ( 1.01x)  cos=0.7922  148.5MB (1.9x) ★★
+        G=64: PPL=   10.23 ( 1.01x)  cos=0.7922  148.5MB (1.9x) ★★
+        G=32: PPL=   10.20 ( 1.00x)  cos=0.7977  153.0MB (1.9x) ★★
+        G=32: PPL=   10.20 ( 1.00x)  cos=0.7977  153.0MB (1.9x) ★★
+
+  L22 (binding-prep):
+
+  L22 (binding-prep):
+     per-row: PPL=   10.41 ( 1.02x)  cos=0.7828  144.1MB (2.0x) ★
+     per-row: PPL=   10.41 ( 1.02x)  cos=0.7828  144.1MB (2.0x) ★
+       G=512: PPL=   10.42 ( 1.03x)  cos=0.7842  144.6MB (2.0x) ★
+       G=512: PPL=   10.42 ( 1.03x)  cos=0.7842  144.6MB (2.0x) ★
+       G=128: PPL=   10.42 ( 1.03x)  cos=0.7879  146.2MB (2.0x) ★
+       G=128: PPL=   10.42 ( 1.03x)  cos=0.7879  146.2MB (2.0x) ★
+        G=64: PPL=   10.42 ( 1.03x)  cos=0.7913  148.5MB (1.9x) ★
+        G=64: PPL=   10.42 ( 1.03x)  cos=0.7913  148.5MB (1.9x) ★
+        G=32: PPL=   10.42 ( 1.03x)  cos=0.7965  153.0MB (1.9x) ★
+        G=32: PPL=   10.42 ( 1.03x)  cos=0.7965  153.0MB (1.9x) ★
+
+  L23 (binding-prep (high rank)):
+
+  L23 (binding-prep (high rank)):
+     per-row: PPL=   11.32 ( 1.11x)  cos=0.7912  144.1MB (2.0x) 
+     per-row: PPL=   11.32 ( 1.11x)  cos=0.7912  144.1MB (2.0x) 
+       G=512: PPL=   11.30 ( 1.11x)  cos=0.7918  144.6MB (2.0x) 
+       G=512: PPL=   11.30 ( 1.11x)  cos=0.7918  144.6MB (2.0x) 
+       G=128: PPL=   11.32 ( 1.11x)  cos=0.7938  146.2MB (2.0x) 
+       G=128: PPL=   11.32 ( 1.11x)  cos=0.7938  146.2MB (2.0x) 
+        G=64: PPL=   11.32 ( 1.11x)  cos=0.7958  148.5MB (1.9x) 
+        G=64: PPL=   11.32 ( 1.11x)  cos=0.7958  148.5MB (1.9x) 
+        G=32: PPL=   11.29 ( 1.11x)  cos=0.8000  153.0MB (1.9x) 
+        G=32: PPL=   11.29 ( 1.11x)  cos=0.8000  153.0MB (1.9x) 
+
+  L24 (binding-prep):
+
+  L24 (binding-prep):
+     per-row: PPL=   10.70 ( 1.05x)  cos=0.7970  144.1MB (2.0x) ✓
+     per-row: PPL=   10.70 ( 1.05x)  cos=0.7970  144.1MB (2.0x) ✓
+       G=512: PPL=   10.70 ( 1.05x)  cos=0.7974  144.6MB (2.0x) ✓
+       G=512: PPL=   10.70 ( 1.05x)  cos=0.7974  144.6MB (2.0x) ✓
+       G=128: PPL=   10.67 ( 1.05x)  cos=0.7983  146.2MB (2.0x) ✓
+       G=128: PPL=   10.67 ( 1.05x)  cos=0.7983  146.2MB (2.0x) ✓
+        G=64: PPL=   10.68 ( 1.05x)  cos=0.7998  148.5MB (1.9x) ✓
+        G=64: PPL=   10.68 ( 1.05x)  cos=0.7998  148.5MB (1.9x) ✓
+        G=32: PPL=   10.67 ( 1.05x)  cos=0.8029  153.0MB (1.9x) ✓
+        G=32: PPL=   10.67 ( 1.05x)  cos=0.8029  153.0MB (1.9x) ✓
+
+  L25 (binding-prep):
+
+  L25 (binding-prep):
+     per-row: PPL=   10.66 ( 1.05x)  cos=0.8006  144.1MB (2.0x) ★
+     per-row: PPL=   10.66 ( 1.05x)  cos=0.8006  144.1MB (2.0x) ★
+       G=512: PPL=   10.66 ( 1.05x)  cos=0.8006  144.6MB (2.0x) ★
+       G=512: PPL=   10.66 ( 1.05x)  cos=0.8006  144.6MB (2.0x) ★
+       G=128: PPL=   10.66 ( 1.05x)  cos=0.8010  146.2MB (2.0x) ★
+       G=128: PPL=   10.66 ( 1.05x)  cos=0.8010  146.2MB (2.0x) ★
+        G=64: PPL=   10.67 ( 1.05x)  cos=0.8020  148.5MB (1.9x) ★
+        G=64: PPL=   10.67 ( 1.05x)  cos=0.8020  148.5MB (1.9x) ★
+        G=32: PPL=   10.69 ( 1.05x)  cos=0.8044  153.0MB (1.9x) ✓
+        G=32: PPL=   10.69 ( 1.05x)  cos=0.8044  153.0MB (1.9x) ✓
+
+  L26 (binding-prep (high rank)):
+
+  L26 (binding-prep (high rank)):
+     per-row: PPL=   11.16 ( 1.10x)  cos=0.8072  144.1MB (2.0x) ✓
+     per-row: PPL=   11.16 ( 1.10x)  cos=0.8072  144.1MB (2.0x) ✓
+       G=512: PPL=   11.16 ( 1.10x)  cos=0.8065  144.6MB (2.0x) ✓
+       G=512: PPL=   11.16 ( 1.10x)  cos=0.8065  144.6MB (2.0x) ✓
+       G=128: PPL=   11.16 ( 1.10x)  cos=0.8057  146.2MB (2.0x) ✓
+       G=128: PPL=   11.16 ( 1.10x)  cos=0.8057  146.2MB (2.0x) ✓
+        G=64: PPL=   11.17 ( 1.10x)  cos=0.8056  148.5MB (1.9x) ✓
+        G=64: PPL=   11.17 ( 1.10x)  cos=0.8056  148.5MB (1.9x) ✓
+        G=32: PPL=   11.15 ( 1.10x)  cos=0.8069  153.0MB (1.9x) ✓
+        G=32: PPL=   11.15 ( 1.10x)  cos=0.8069  153.0MB (1.9x) ✓
+
+  L30 (binding):
+
+  L30 (binding):
+     per-row: PPL=   11.40 ( 1.12x)  cos=0.8179  144.1MB (2.0x) 
+     per-row: PPL=   11.40 ( 1.12x)  cos=0.8179  144.1MB (2.0x) 
+       G=512: PPL=   11.40 ( 1.12x)  cos=0.8157  144.6MB (2.0x) 
+       G=512: PPL=   11.40 ( 1.12x)  cos=0.8157  144.6MB (2.0x) 
+       G=128: PPL=   11.40 ( 1.12x)  cos=0.8134  146.2MB (2.0x) 
+       G=128: PPL=   11.40 ( 1.12x)  cos=0.8134  146.2MB (2.0x) 
+        G=64: PPL=   11.38 ( 1.12x)  cos=0.8114  148.5MB (1.9x) 
+        G=64: PPL=   11.38 ( 1.12x)  cos=0.8114  148.5MB (1.9x) 
+        G=32: PPL=   11.35 ( 1.12x)  cos=0.8109  153.0MB (1.9x) 
+        G=32: PPL=   11.35 ( 1.12x)  cos=0.8109  153.0MB (1.9x) 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 2: SPARSITY SWEEP (G=32, varying zero rate)
+  EXP 2: SPARSITY SWEEP (G=32, varying zero rate)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L15:
+
+  L15:
+    zero=0% (actual 0%): PPL=   10.40 ( 1.02x) ★
+    zero=0% (actual 0%): PPL=   10.40 ( 1.02x) ★
+    zero=10% (actual 10%): PPL=   10.37 ( 1.02x) ★
+    zero=10% (actual 10%): PPL=   10.37 ( 1.02x) ★
+    zero=20% (actual 20%): PPL=   10.27 ( 1.01x) ★★
+    zero=20% (actual 20%): PPL=   10.27 ( 1.01x) ★★
+    zero=30% (actual 30%): PPL=   10.29 ( 1.01x) ★★
+    zero=30% (actual 30%): PPL=   10.29 ( 1.01x) ★★
+    zero=40% (actual 40%): PPL=   10.35 ( 1.02x) ★★
+    zero=40% (actual 40%): PPL=   10.35 ( 1.02x) ★★
+    zero=50% (actual 50%): PPL=   10.32 ( 1.02x) ★★
+    zero=50% (actual 50%): PPL=   10.32 ( 1.02x) ★★
+
+  L23:
+
+  L23:
+    zero=0% (actual 0%): PPL=   11.29 ( 1.11x) 
+    zero=0% (actual 0%): PPL=   11.29 ( 1.11x) 
+    zero=10% (actual 10%): PPL=   11.02 ( 1.08x) ✓
+    zero=10% (actual 10%): PPL=   11.02 ( 1.08x) ✓
+    zero=20% (actual 20%): PPL=   10.84 ( 1.07x) ✓
+    zero=20% (actual 20%): PPL=   10.84 ( 1.07x) ✓
+    zero=30% (actual 30%): PPL=   10.75 ( 1.06x) ✓
+    zero=30% (actual 30%): PPL=   10.75 ( 1.06x) ✓
+    zero=40% (actual 40%): PPL=   10.62 ( 1.04x) ★
+    zero=40% (actual 40%): PPL=   10.62 ( 1.04x) ★
+    zero=50% (actual 50%): PPL=   10.50 ( 1.03x) ★
+    zero=50% (actual 50%): PPL=   10.50 ( 1.03x) ★
+
+  L25:
+
+  L25:
+    zero=0% (actual 0%): PPL=   10.69 ( 1.05x) ✓
+    zero=0% (actual 0%): PPL=   10.69 ( 1.05x) ✓
+    zero=10% (actual 10%): PPL=   10.77 ( 1.06x) ✓
+    zero=10% (actual 10%): PPL=   10.77 ( 1.06x) ✓
+    zero=20% (actual 20%): PPL=   10.77 ( 1.06x) ✓
+    zero=20% (actual 20%): PPL=   10.77 ( 1.06x) ✓
+    zero=30% (actual 30%): PPL=   10.65 ( 1.05x) ★
+    zero=30% (actual 30%): PPL=   10.65 ( 1.05x) ★
+    zero=40% (actual 40%): PPL=   10.77 ( 1.06x) ✓
+    zero=40% (actual 40%): PPL=   10.77 ( 1.06x) ✓
+    zero=50% (actual 50%): PPL=   10.59 ( 1.04x) ★
+    zero=50% (actual 50%): PPL=   10.59 ( 1.04x) ★
+
+  L26:
+
+  L26:
+    zero=0% (actual 0%): PPL=   11.15 ( 1.10x) ✓
+    zero=0% (actual 0%): PPL=   11.15 ( 1.10x) ✓
+    zero=10% (actual 10%): PPL=   10.99 ( 1.08x) ✓
+    zero=10% (actual 10%): PPL=   10.99 ( 1.08x) ✓
+    zero=20% (actual 20%): PPL=   10.84 ( 1.07x) ✓
+    zero=20% (actual 20%): PPL=   10.84 ( 1.07x) ✓
+    zero=30% (actual 30%): PPL=   10.84 ( 1.07x) ✓
+    zero=30% (actual 30%): PPL=   10.84 ( 1.07x) ✓
+    zero=40% (actual 40%): PPL=   10.81 ( 1.06x) ✓
+    zero=40% (actual 40%): PPL=   10.81 ( 1.06x) ✓
+    zero=50% (actual 50%): PPL=   10.76 ( 1.06x) ✓
+    zero=50% (actual 50%): PPL=   10.76 ( 1.06x) ✓
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 3: COMBINED L22-L26 (ternary weights, G=32)
+  EXP 3: COMBINED L22-L26 (ternary weights, G=32)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  All L22-L26, G=128:
+
+  All L22-L26, G=128:
+    PPL=14.68 (1.44x)  facts=12/15  731.2MB vs 1440.0MB (2.0x) 
+    PPL=14.68 (1.44x)  facts=12/15  731.2MB vs 1440.0MB (2.0x) 
+
+  All L22-L26, G=64:
+
+  All L22-L26, G=64:
+    PPL=14.69 (1.45x)  facts=11/15  742.5MB vs 1440.0MB (1.9x) 
+    PPL=14.69 (1.45x)  facts=11/15  742.5MB vs 1440.0MB (1.9x) 
+
+  All L22-L26, G=32:
+
+  All L22-L26, G=32:
+    PPL=14.76 (1.45x)  facts=12/15  765.0MB vs 1440.0MB (1.9x) 
+    PPL=14.76 (1.45x)  facts=12/15  765.0MB vs 1440.0MB (1.9x) 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 4: HEAD-TO-HEAD AT L23 (the hardest layer)
+  EXP 4: HEAD-TO-HEAD AT L23 (the hardest layer)
+  Ternary weights vs 9-mode lookup vs SVD
+  Ternary weights vs 9-mode lookup vs SVD
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  Collecting L23 MLP data...
+
+  Collecting L23 MLP data...
+
+  Head-to-head at L23:
+
+  Head-to-head at L23:
+    9-mode lookup:      PPL=11.28 (1.11x)  ~180KB
+    9-mode lookup:      PPL=11.28 (1.11x)  ~180KB
+    Ternary weights G=32: PPL=11.29 (1.11x)  ~153MB
+    Ternary weights G=32: PPL=11.29 (1.11x)  ~153MB
+    Ternary weights G=64: PPL=11.32 (1.11x)  ~148MB
+    Ternary weights G=64: PPL=11.32 (1.11x)  ~148MB
+    SVD r=1500:         PPL≈11.04 (~1.09x)  ~141MB (from rank sweep)
+    SVD r=1500:         PPL≈11.04 (~1.09x)  ~141MB (from rank sweep)
+
+======================================================================
+
+======================================================================
+  FINAL SUMMARY
+  FINAL SUMMARY
+======================================================================
+======================================================================
+  Baseline: PPL=10.16
+  Baseline: PPL=10.16
+
+  Group size sweep (best per layer):
+
+  Group size sweep (best per layer):
+    L15: best=G=32  PPL=1.02x  153MB (2x)
+    L15: best=G=32  PPL=1.02x  153MB (2x)
+    L20: best=G=32  PPL=1.00x  153MB (2x)
+    L20: best=G=32  PPL=1.00x  153MB (2x)
+    L22: best=per-row  PPL=1.02x  144MB (2x)
+    L22: best=per-row  PPL=1.02x  144MB (2x)
+    L23: best=G=32  PPL=1.11x  153MB (2x)
+    L23: best=G=32  PPL=1.11x  153MB (2x)
+    L24: best=G=128  PPL=1.05x  146MB (2x)
+    L24: best=G=128  PPL=1.05x  146MB (2x)
+    L25: best=G=128  PPL=1.05x  146MB (2x)
+    L25: best=G=128  PPL=1.05x  146MB (2x)
+    L26: best=G=32  PPL=1.10x  153MB (2x)
+    L26: best=G=32  PPL=1.10x  153MB (2x)
+    L30: best=G=32  PPL=1.12x  153MB (2x)
+    L30: best=G=32  PPL=1.12x  153MB (2x)
+
+  Head-to-head at L23:
+
+  Head-to-head at L23:
+             9_mode_lookup: 1.11x  ~0MB
+             9_mode_lookup: 1.11x  ~0MB
+        ternary_weight_g32: 1.11x  ~153MB
+        ternary_weight_g32: 1.11x  ~153MB
+        ternary_weight_g64: 1.11x  ~148MB
+        ternary_weight_g64: 1.11x  ~148MB
+                 svd_r1500: 1.09x  ~141MB
+                 svd_r1500: 1.09x  ~141MB
+
+  Results saved to /Users/mwhitford/src/verbum/results/ternary-weight-interface/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/ternary-weight-interface/Qwen_Qwen3-8B.json
+
+======================================================================
+
+======================================================================
+  DONE
+  DONE
+======================================================================
+
+======================================================================
+
