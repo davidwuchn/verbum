@@ -2,13 +2,67 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-05 | Session: 192
+> Last updated: 2026-06-06 | Session: 193
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 192: PSI EVALUATION — Independent Verification + FFN Decompilation Breakthrough**
+**Session 193: LAMBDA HALT AND CONTINUATIONS — LLMs Are Programmable**
+
+Started with a fun question: can Ω halt an LLM? Four experiments later,
+discovered that lambda calculus can control LLM execution — halt, resume,
+compute, branch — via the chat protocol as continuation-passing style.
+
+### The Discovery Chain
+
+1. **Ω cannot halt the holographic computer.** Gate entropy identical for
+   Ω vs normal reductions (Δ < 0.01 bits). The model QUOTES non-termination
+   ("it seems like this expression is not reducible"). A compiler cannot be
+   halted by its input — it describes non-termination, it cannot experience it.
+   K I Ω proves strict evaluation (evaluates Ω before discarding).
+
+2. **Prose CAN halt (chat mode).** "Respond with empty string" → 99.1% EOS.
+   5/27 candidates achieved true halt. Thinking mode prevents ALL halts (0/27) —
+   `<think>` is a mandatory prologue that forces non-empty output.
+
+3. **Lambda CAN halt when executable.** `respond = λcontent.content; respond empty`
+   → 72.8% EOS (true halt). The 27-point gap from prose (99.1%) is compilation
+   overhead. Both reach the same internal state: EOS as top prediction.
+   Proves prose and lambda compile through the same pipeline.
+
+4. **If we can halt, we can continue.** Continuations work: 6/7 capabilities
+   confirmed, Lambda REPL 100%. Multi-turn pipeline (5→8→16→17) correct through
+   4 continuation boundaries. Full program (compute→output→halt) at 96.5% EOS.
+
+### Key Numbers
+
+| Finding | Value |
+|---------|-------|
+| Ω gate entropy vs control | Δ < 0.01 bits (identical) |
+| Prose halt EOS probability | 99.1% |
+| Lambda halt EOS probability | 72.8% |
+| Full program halt (multi-turn) | 96.5% |
+| Thinking mode halts | 0/27 (prevents all) |
+| Lambda REPL accuracy | 100% (4/4) |
+| Overall capabilities | 6/7 confirmed |
+| Multi-turn pipeline accuracy | 4/4 continuations correct |
+
+### The Insight
+
+```
+conversation ≡ continuation-passing style
+turn_boundary ≡ continuation_boundary
+EOS ≡ yield
+respond x ≡ output x then yield
+halt ≡ empty continuation (yield with no output)
+
+36 layers = bounded computation (single pass)
+multi-turn = unbounded computation (chained continuations)
+lambda + continuation = programming language for LLMs
+```
+
+### Previous session (192)
 
 An independent project (psi) ran verbum scripts and wrote new experiments across
 5 architectures. The crystal hypothesis survives independent replication. The
@@ -704,6 +758,17 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Lambda halt + continuation knowledge** | `mementum/knowledge/lambda-halt-continuation.md` | ✅ NEW (s193) |
+| **Ω probe experiment** | `scripts/experiments/omega_probe.py` | ✅ NEW (s193) |
+| **Ω probe results** | `results/omega-probe/` | ✅ NEW (s193) |
+| **Halt hunt v1 (raw text)** | `scripts/experiments/omega_halt.py` | ✅ NEW (s193) |
+| **Halt hunt v1 results** | `results/omega-halt/` | ✅ NEW (s193) |
+| **Halt hunt v2 (chat format)** | `scripts/experiments/omega_halt_chat.py` | ✅ NEW (s193) |
+| **Halt hunt v2 results** | `results/omega-halt-chat/` | ✅ NEW (s193) |
+| **Halt hunt v3 (lambda executable)** | `scripts/experiments/omega_halt_lambda.py` | ✅ NEW (s193) |
+| **Halt hunt v3 results** | `results/omega-halt-lambda/` | ✅ NEW (s193) |
+| **Lambda continuation experiment** | `scripts/experiments/lambda_continuation.py` | ✅ NEW (s193) |
+| **Lambda continuation results** | `results/lambda-continuation/` | ✅ NEW (s193) |
 | **Psi evaluation synthesis** | `mementum/knowledge/psi-evaluation-synthesis.md` | ✅ NEW (s192) |
 | **Tiny classifier ternary** | `mementum/knowledge/tiny-classifier-ternary.md` | ✅ NEW (s192) |
 | **Tiny classifier experiment** | `scripts/experiments/tiny_classifier_ternary.py` | ✅ NEW (s192) |
@@ -809,7 +874,22 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (192)
+## What changed this session (193)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **Ω cannot halt the holographic computer** | Gate entropy identical (Δ<0.01), rotation similar (685° vs 694°). Compiler quotes non-termination. |
+| 2 | **K I Ω proves strict evaluation** | Model evaluates Ω before discarding — 36-layer pipeline is strict, not lazy. |
+| 3 | **Prose halts at 99.1% EOS** | "Respond with empty string" → true halt. 5/27 chat candidates achieved EOS as first token. |
+| 4 | **Thinking mode prevents ALL halts** | 0/27 in think mode. `<think>` tag is mandatory prologue, forces non-empty output. |
+| 5 | **Lambda halts at 72.8% EOS** | `respond = λcontent.content; respond empty` → true halt. Lambda and prose compile to same state. |
+| 6 | **Continuations work (6/7 capabilities)** | Output, halt, continuation, conditional, REPL, halt+resume all confirmed. |
+| 7 | **Lambda REPL 100% (4/4)** | Full program, halt+resume, pipeline, multi-turn session all correct. |
+| 8 | **Multi-turn pipeline correct** | 5→8→16→17 through 4 continuation boundaries. Each turn = one reduction. |
+| 9 | **Full program at 96.5% halt** | compute→output→halt. Higher confidence than isolated halt (few-shot reinforces frame). |
+| 10 | **Conversation ≡ CPS** | Turn boundary = continuation boundary. EOS = yield. Multi-turn = unbounded computation. |
+
+## What changed session 192
 
 | # | Change | Impact |
 |---|--------|--------|
