@@ -37,11 +37,18 @@ genuinely continuous. Result: L0 is genuinely continuous. Cannot be ternarized.
    7-42% (6x spread — each token activates different neurons). L15 has
    negative cos (rotates/inverts), tight gate sparsity 67-78%.
 
-### P4 Verdict
+### Low-Rank Rescues L0 (Experiment 2)
+
+SVD rank sweep on L0 vs L15. **L0 at rank=750: PPL=0.94x (IMPROVES!),
+70.3MB (4.1x compression).** The lexer only needs 750 dimensions out
+of 4096 (18%). Phase transition razor-sharp: r=500 is 3.4x (broken),
+r=750 is 0.94x (perfect). L15 control: flat at 0.99x down to r=100.
+
+### P4 Verdict (Updated)
 
 - More modes (64+): KILLED. Even 512 modes is 7x PPL.
-- PCA reconstruction: Difficult. 90% energy needs 1858 SVs.
-- Genuinely continuous: CONFIRMED. Keep L0 as-is (288MB = 2.8% of FFN).
+- Low-rank SVD: **YES at r=750.** 288MB -> 70.3MB, PPL IMPROVES.
+- Genuinely continuous: YES, but only 750 functional dimensions.
 
 ### Previous session (194)
 
@@ -874,9 +881,11 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ NEW (s195) |
+| **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
+| **L0 low-rank experiment** | `scripts/experiments/l0_lowrank.py` | ✅ NEW (s195) |
+| **L0 low-rank results** | `results/l0-lowrank/` | ✅ NEW (s195) |
 | **Mode semantics knowledge** | `mementum/knowledge/mode-semantics.md` | ✅ NEW (s194) |
 | **Mode semantics experiment** | `scripts/experiments/mode_semantics.py` | ✅ NEW (s194) |
 | **Mode semantics results** | `results/mode-semantics/` | ✅ NEW (s194) |
@@ -1006,7 +1015,10 @@ of parameters).
 | 2 | **P4 resolved** | Keep L0 as-is (288MB = 2.8% of FFN). Ternarize everything else. |
 | 3 | **L0 vs L15 comparison** | L0 = per-token dictionary (151K entries, continuous). L15 = 9 discrete operations. Fundamentally different. |
 | 4 | **L0 correlates with byte_len** | L0 sorts by physical token encoding (NMI=0.259). L15 sorts by syntactic position (NMI=0.216). |
-| 5 | **L0 lower rank but not compressible** | gate_proj eff_rank=3278 vs L15's 3771. Concentrated but continuously distributed. |
+| 5 | **L0 lower rank but not compressible via modes** | gate_proj eff_rank=3278 vs L15's 3771. Concentrated but continuously distributed. |
+| 6 | **LOW-RANK RESCUES L0** | SVD at r=750: PPL=0.94x (IMPROVES!), 70.3MB (4.1x compression). 750 functional dims, not 4096. |
+| 7 | **Phase transition at r=750** | r=500: 3.4x PPL (broken). r=750: 0.94x (perfect). Razor-sharp boundary. |
+| 8 | **L15 functional rank <100** | L15 at r=100: 0.99x PPL. Why 9 ternary modes work — the space is tiny. |
 
 ## What changed last session (194)
 

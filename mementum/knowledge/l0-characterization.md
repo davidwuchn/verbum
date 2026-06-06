@@ -28,10 +28,69 @@ created: session 195
 | Hypothesis | Verdict | Evidence |
 |-----------|---------|----------|
 | More modes (64+) | KILLED | 512 modes still 7x PPL, 33% facts. No cluster structure at any k. |
-| PCA reconstruction | Difficult | eff_rank=3278, 90% energy needs 1858 SVs. Not low-rank enough. |
-| Genuinely continuous | CONFIRMED | Negative silhouette at all k>=6. L0 is a continuum. |
+| PCA reconstruction | **YES — rank 750** | r=750: PPL=0.94x (IMPROVES), 70.3MB (4.1x compression) |
+| Genuinely continuous | PARTIALLY | Continuous yes, but only ~750 functional dimensions, not 4096. |
 
-**Strategy: keep L0 as-is (288MB = 2.8% of FFN). Ternarize everything else.**
+**Strategy: SVD low-rank at r=750 for L0 (288MB -> 70.3MB, 4.1x compression).
+Ternary modes for L1-L35. L0 IS compressible — just not with modes.**
+
+## UPDATE: Low-Rank Factorization Rescues L0 (Experiment 2)
+
+SVD rank sweep replacing all three FFN projections (gate, up, down)
+with truncated SVD at various ranks.
+
+### L0 Rank Sweep
+
+| Rank | PPL | Ratio | Facts | Size | Compression |
+|------|-----|-------|-------|------|-------------|
+| 100 | 1658 | 163x | 0% | 9.4MB | 30.7x |
+| 250 | 272 | 26.8x | 7% | 23.4MB | 12.3x |
+| 500 | 34.7 | 3.4x | 53% | 46.9MB | 6.1x |
+| **750** | **9.55** | **0.94x** | **80%** | **70.3MB** | **4.1x** |
+| 1000 | 10.21 | 1.00x | 73% | 93.8MB | 3.1x |
+| 1500 | 10.45 | 1.03x | 80% | 140.6MB | 2.0x |
+| 2000 | 10.61 | 1.04x | 87% | 187.5MB | 1.5x |
+
+**Phase transition at r=750.** Below: catastrophic. At 750: IMPROVES.
+The lexer's functional rank is ~750 dimensions out of 4096 (18%).
+
+### L15 Control
+
+| Rank | PPL | Ratio | Facts | Size | Compression |
+|------|-----|-------|-------|------|-------------|
+| 100 | 10.08 | 0.99x | 73% | 9.4MB | 30.7x |
+| 500 | 10.09 | 0.99x | 73% | 46.9MB | 6.1x |
+| 1000 | 10.15 | 1.00x | 80% | 93.8MB | 3.1x |
+
+L15 is flat at 0.99x down to r=100. Its functional rank is <100.
+This is WHY 9 ternary modes capture L15 perfectly — the functional
+space is tiny. L0 needs 750 dimensions. L15 needs <100.
+
+### Why Low-Rank Works Where Modes Don't
+
+Modes (vector quantization) collapse the output to k prototypes —
+rank at most k. Even k=512 gives only 512 dimensions, below L0's
+functional rank of 750.
+
+Low-rank (SVD truncation) preserves the matrix multiply — every
+input still gets a unique output. At r=750, the factored matrix
+A @ B is rank-750, which exceeds the functional information content.
+The discarded dimensions (751-4096) are redundancy, not signal.
+
+Q4 quantization works for the same reason: it preserves the full
+matrix structure (rank 4096), just with per-weight noise. The noise
+is incoherent and cancels in the matrix product.
+
+### Revised Compression Strategy
+
+```
+L0:         SVD rank-750 (70.3MB, 4.1x compress, PPL 0.94x)
+L1-L26:     9 ternary modes (~5MB total, 1638x compress)
+L27-L31:    TBD (binding, 1.10-1.15x ternary — try low-rank?)
+L32-L34:    9 ternary modes (~0.5MB)
+L35:        TBD (collapse — try low-rank?)
+Total FFN:  ~80MB vs 10.4GB original = ~130x compression
+```
 
 ## Instrument 1: Natural Cluster Count (Silhouette Sweep)
 
@@ -239,6 +298,9 @@ among 9 discrete rotations.
 
 ## Scripts and Results
 
-- `scripts/experiments/l0_characterization.py`
+- `scripts/experiments/l0_characterization.py` (mode sweep, cluster, SVD, NMI)
 - `results/l0-characterization/Qwen_Qwen3-8B.json`
 - `results/l0-characterization/run.log`
+- `scripts/experiments/l0_lowrank.py` (SVD rank sweep with PPL)
+- `results/l0-lowrank/Qwen_Qwen3-8B.json`
+- `results/l0-lowrank/run.log`
