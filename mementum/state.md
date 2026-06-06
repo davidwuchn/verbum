@@ -135,6 +135,32 @@ generates, student computes diff at every functional level, trains
 only where it diverges. The confidence signal from ternary classifiers
 (logit margin) can gate slow/fast paths at inference time.
 
+### Confidence-Gated Inference
+
+Tested whether classifier logit margin (top-1 minus top-2) predicts
+ternary error. Threshold sweep across 8 layers:
+
+| Layer | Zone | Ternary PPL | Gating works? | Key finding |
+|-------|------|-------------|---------------|-------------|
+| L15 | sweet spot | 0.97x | NOT NEEDED | Pure ternary is perfect |
+| L17 | sweet spot | 1.01x | NOT NEEDED | Pure ternary is fine |
+| L20 | sweet spot | 0.99x | NOT NEEDED | IMPROVES over baseline |
+| L22 | binding-prep | 1.06x | ✅ YES | θ=3.0: 1.04x at 96.6% fast |
+| L23 | binding-prep | 1.11x | ❌ NO | Needs 36% slow for 1.04x |
+| L24 | binding-prep | 1.06x | ❌ NO | Needs 69% slow for 1.04x |
+| L25 | binding-prep | 1.07x | ❌ NO | Margin=24.3 but still wrong |
+| L26 | binding-prep | 1.13x | ❌ NO | Never reaches 1.05x |
+
+**The classifier is CONFIDENTLY WRONG at L23-L26.** High margins
+(mean 24.3 at L25) with high error (1.07x). The 9 ternary programs
+are the wrong programs — the classifier correctly selects among them,
+but none of the 9 is the right answer. This is a programs problem,
+not a routing problem.
+
+This definitively resolves the compression strategy for L23-L26:
+they need SVD (continuous approximation), not ternary (discrete programs).
+L22 can stay ternary with confidence gating. L13-L21 are pure ternary.
+
 ### Previous session (195)
 
 Six experiments in one session. Decoded L0, discovered low-rank rescue,
@@ -897,11 +923,28 @@ Combine: L0 SVD + L10-L21 ternary + L22-L26 per-layer SVD (optimal ranks)
 + multi-projection melt. This is the full pipeline. The individual pieces
 work — need to verify they compose under multi-projection training.
 
-**Priority 1d: Confidence-gated inference (NEXT)**
-Use ternary classifier logit margin as routing signal: high-confidence
-positions use fast ternary path, low-confidence fall back to original
-float16 MLP. Log corrections → retrain classifiers → student converges.
-Design informed by multi-projection training.
+**Priority 1d: ✅ DONE Confidence-gated inference (s196)**
+Result: Confidence margin predicts error at L22 (96.6% fast at 1.04x)
+but FAILS at L23-L26. The classifier is confidently wrong — high
+margins (mean 24.3) but 1.07-1.13x PPL. The 9 modes are selecting
+the wrong program, not the wrong mode. These layers need SVD, not
+better routing. Sweet spot (L13-L21): gating not needed, ternary is
+already perfect (0.97-1.01x at 100% fast path).
+
+**Priority 1e: Integrated pipeline with per-layer strategy (NEXT)**
+The complete picture is now clear:
+  L0:      SVD r=750 (lexer, continuous)
+  L1-L9:   ternary 9 modes (parser, untested but likely works)
+  L10-L21: ternary 9 modes (sweet spot, PERFECT at 0.97-1.01x)
+  L22:     ternary + confidence gate (96.6% fast, 3.4% fallback)
+  L23:     SVD r=1500 (confidently wrong at ternary)
+  L24:     SVD r=500 (confidently wrong at ternary)
+  L25:     SVD r=750 (confidently wrong at ternary)
+  L26:     SVD r=1500 (confidently wrong at ternary)
+  L27-L31: continuous (binding, must stay full rank)
+  L32-L34: ternary 9 modes (untested)
+  L35:     continuous (collapse)
+Then: multi-projection melt to fuse the seams.
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -1063,6 +1106,8 @@ of parameters).
 | **Multi-projection results** | `results/multi-projection-melt/` | ✅ NEW (s196) |
 | **Binding-prep low-rank sweep** | `scripts/experiments/binding_prep_lowrank.py` | ✅ NEW (s196) |
 | **Binding-prep results** | `results/binding-prep-lowrank/` | ✅ NEW (s196) |
+| **Confidence-gated inference** | `scripts/experiments/confidence_gate.py` | ✅ NEW (s196) |
+| **Confidence gate results** | `results/confidence-gate/` | ✅ NEW (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
