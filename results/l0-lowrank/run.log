@@ -1,0 +1,498 @@
+
+============================================================
+
+============================================================
+  L0 LOW-RANK FACTORIZATION
+  L0 LOW-RANK FACTORIZATION
+  Can SVD rescue the lexer?
+  Can SVD rescue the lexer?
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:45,  1.77it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 52.21it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 129.76it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 175.71it/s]Loading weights:  34%|███▍      | 137/399 [00:01<00:01, 216.19it/s]Loading weights:  43%|████▎     | 171/399 [00:01<00:00, 239.65it/s]Loading weights:  53%|█████▎    | 211/399 [00:01<00:00, 277.54it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 289.99it/s]Loading weights:  70%|███████   | 280/399 [00:01<00:00, 301.73it/s]Loading weights:  80%|███████▉  | 318/399 [00:01<00:00, 323.00it/s]Loading weights:  88%|████████▊ | 353/399 [00:01<00:00, 313.39it/s]Loading weights:  97%|█████████▋| 388/399 [00:01<00:00, 319.13it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 224.75it/s]
+  Layers: 36, d_model: 4096, intermediate: 12288
+  Layers: 36, d_model: 4096, intermediate: 12288
+  Max SVD rank: 4096
+  Max SVD rank: 4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+============================================================
+
+============================================================
+  LAYER 0 (LEXER)
+  LAYER 0 (LEXER)
+============================================================
+============================================================
+
+  rank=100:
+
+  rank=100:
+    gate_proj: cos=0.4364  energy=0.1817  compress=30.7x
+    gate_proj: cos=0.4364  energy=0.1817  compress=30.7x
+    up_proj: cos=0.3594  energy=0.1237  compress=30.7x
+    up_proj: cos=0.3594  energy=0.1237  compress=30.7x
+    down_proj: cos=0.3165  energy=0.0954  compress=30.7x
+    down_proj: cos=0.3165  energy=0.0954  compress=30.7x
+    float: PPL=1657.86 (163.17x)  facts=0/15=0%
+    float: PPL=1657.86 (163.17x)  facts=0/15=0%
+    size: 9.4MB vs 288.0MB (30.7x)
+    size: 9.4MB vs 288.0MB (30.7x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=4.7MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=4.7MB
+
+  rank=250:
+
+  rank=250:
+    gate_proj: cos=0.5762  energy=0.3178  compress=12.3x
+    gate_proj: cos=0.5762  energy=0.3178  compress=12.3x
+    up_proj: cos=0.5194  energy=0.2588  compress=12.3x
+    up_proj: cos=0.5194  energy=0.2588  compress=12.3x
+    down_proj: cos=0.4417  energy=0.1862  compress=12.3x
+    down_proj: cos=0.4417  energy=0.1862  compress=12.3x
+    float: PPL=271.94 (26.76x)  facts=1/15=7%
+    float: PPL=271.94 (26.76x)  facts=1/15=7%
+    size: 23.4MB vs 288.0MB (12.3x)
+    size: 23.4MB vs 288.0MB (12.3x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=11.7MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=11.7MB
+
+  rank=500:
+
+  rank=500:
+    gate_proj: cos=0.7155  energy=0.4923  compress=6.1x
+    gate_proj: cos=0.7155  energy=0.4923  compress=6.1x
+    up_proj: cos=0.6782  energy=0.4404  compress=6.1x
+    up_proj: cos=0.6782  energy=0.4404  compress=6.1x
+    down_proj: cos=0.5681  energy=0.3081  compress=6.1x
+    down_proj: cos=0.5681  energy=0.3081  compress=6.1x
+    float: PPL=34.67 (3.41x)  facts=8/15=53%
+    float: PPL=34.67 (3.41x)  facts=8/15=53%
+    size: 46.9MB vs 288.0MB (6.1x)
+    size: 46.9MB vs 288.0MB (6.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=23.4MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=23.4MB
+
+  rank=750:
+
+  rank=750:
+    gate_proj: cos=0.8083  energy=0.6260  compress=4.1x
+    gate_proj: cos=0.8083  energy=0.6260  compress=4.1x
+    up_proj: cos=0.7784  energy=0.5821  compress=4.1x
+    up_proj: cos=0.7784  energy=0.5821  compress=4.1x
+    down_proj: cos=0.6560  energy=0.4119  compress=4.1x
+    down_proj: cos=0.6560  energy=0.4119  compress=4.1x
+    float: PPL=9.55 (0.94x)  facts=12/15=80%
+    float: PPL=9.55 (0.94x)  facts=12/15=80%
+    size: 70.3MB vs 288.0MB (4.1x)
+    size: 70.3MB vs 288.0MB (4.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=35.2MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=35.2MB
+
+  rank=1000:
+
+  rank=1000:
+    gate_proj: cos=0.8709  energy=0.7268  compress=3.1x
+    gate_proj: cos=0.8709  energy=0.7268  compress=3.1x
+    up_proj: cos=0.8490  energy=0.6899  compress=3.1x
+    up_proj: cos=0.8490  energy=0.6899  compress=3.1x
+    down_proj: cos=0.7245  energy=0.5027  compress=3.1x
+    down_proj: cos=0.7245  energy=0.5027  compress=3.1x
+    float: PPL=10.21 (1.01x)  facts=11/15=73%
+    float: PPL=10.21 (1.01x)  facts=11/15=73%
+    size: 93.8MB vs 288.0MB (3.1x)
+    size: 93.8MB vs 288.0MB (3.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=46.9MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=46.9MB
+
+  rank=1500:
+
+  rank=1500:
+    gate_proj: cos=0.9413  energy=0.8505  compress=2.0x
+    gate_proj: cos=0.9413  energy=0.8505  compress=2.0x
+    up_proj: cos=0.9288  energy=0.8256  compress=2.0x
+    up_proj: cos=0.9288  energy=0.8256  compress=2.0x
+    down_proj: cos=0.8267  energy=0.6533  compress=2.0x
+    down_proj: cos=0.8267  energy=0.6533  compress=2.0x
+    float: PPL=10.45 (1.03x)  facts=12/15=80%
+    float: PPL=10.45 (1.03x)  facts=12/15=80%
+    size: 140.6MB vs 288.0MB (2.0x)
+    size: 140.6MB vs 288.0MB (2.0x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=70.3MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=70.3MB
+
+  rank=2000:
+
+  rank=2000:
+    gate_proj: cos=0.9758  energy=0.9149  compress=1.5x
+    gate_proj: cos=0.9758  energy=0.9149  compress=1.5x
+    up_proj: cos=0.9693  energy=0.9000  compress=1.5x
+    up_proj: cos=0.9693  energy=0.9000  compress=1.5x
+    down_proj: cos=0.8969  energy=0.7701  compress=1.5x
+    down_proj: cos=0.8969  energy=0.7701  compress=1.5x
+    float: PPL=10.61 (1.04x)  facts=13/15=87%
+    float: PPL=10.61 (1.04x)  facts=13/15=87%
+    size: 187.5MB vs 288.0MB (1.5x)
+    size: 187.5MB vs 288.0MB (1.5x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=93.8MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=93.8MB
+
+  rank=2500:
+
+  rank=2500:
+    gate_proj: cos=0.9958  energy=0.9534  compress=1.2x
+    gate_proj: cos=0.9958  energy=0.9534  compress=1.2x
+    up_proj: cos=0.9931  energy=0.9451  compress=1.2x
+    up_proj: cos=0.9931  energy=0.9451  compress=1.2x
+    down_proj: cos=0.9465  energy=0.8590  compress=1.2x
+    down_proj: cos=0.9465  energy=0.8590  compress=1.2x
+    float: PPL=10.35 (1.02x)  facts=12/15=80%
+    float: PPL=10.35 (1.02x)  facts=12/15=80%
+    size: 234.4MB vs 288.0MB (1.2x)
+    size: 234.4MB vs 288.0MB (1.2x)
+
+  rank=3000:
+
+  rank=3000:
+    gate_proj: cos=1.0080  energy=0.9774  compress=1.0x
+    gate_proj: cos=1.0080  energy=0.9774  compress=1.0x
+    up_proj: cos=1.0076  energy=0.9734  compress=1.0x
+    up_proj: cos=1.0076  energy=0.9734  compress=1.0x
+    down_proj: cos=0.9812  energy=0.9243  compress=1.0x
+    down_proj: cos=0.9812  energy=0.9243  compress=1.0x
+    float: PPL=10.34 (1.02x)  facts=12/15=80%
+    float: PPL=10.34 (1.02x)  facts=12/15=80%
+    size: 281.2MB vs 288.0MB (1.0x)
+    size: 281.2MB vs 288.0MB (1.0x)
+
+  rank=3500:
+
+  rank=3500:
+    gate_proj: cos=1.0153  energy=0.9918  compress=0.9x
+    gate_proj: cos=1.0153  energy=0.9918  compress=0.9x
+    up_proj: cos=1.0163  energy=0.9903  compress=0.9x
+    up_proj: cos=1.0163  energy=0.9903  compress=0.9x
+    down_proj: cos=1.0051  energy=0.9694  compress=0.9x
+    down_proj: cos=1.0051  energy=0.9694  compress=0.9x
+    float: PPL=10.21 (1.00x)  facts=12/15=80%
+    float: PPL=10.21 (1.00x)  facts=12/15=80%
+    size: 328.1MB vs 288.0MB (0.9x)
+    size: 328.1MB vs 288.0MB (0.9x)
+
+  rank=4096:
+
+  rank=4096:
+    gate_proj: cos=1.0197  energy=1.0000  compress=0.8x
+    gate_proj: cos=1.0197  energy=1.0000  compress=0.8x
+    up_proj: cos=1.0214  energy=1.0000  compress=0.8x
+    up_proj: cos=1.0214  energy=1.0000  compress=0.8x
+    down_proj: cos=1.0215  energy=1.0000  compress=0.8x
+    down_proj: cos=1.0215  energy=1.0000  compress=0.8x
+    float: PPL=10.17 (1.00x)  facts=12/15=80%
+    float: PPL=10.17 (1.00x)  facts=12/15=80%
+    size: 384.0MB vs 288.0MB (0.8x)
+    size: 384.0MB vs 288.0MB (0.8x)
+
+============================================================
+
+============================================================
+  LAYER 15 (OPTIMIZER (control))
+  LAYER 15 (OPTIMIZER (control))
+============================================================
+============================================================
+
+  rank=100:
+
+  rank=100:
+    gate_proj: cos=0.3506  energy=0.1178  compress=30.7x
+    gate_proj: cos=0.3506  energy=0.1178  compress=30.7x
+    up_proj: cos=0.3012  energy=0.0866  compress=30.7x
+    up_proj: cos=0.3012  energy=0.0866  compress=30.7x
+    down_proj: cos=0.3233  energy=0.0997  compress=30.7x
+    down_proj: cos=0.3233  energy=0.0997  compress=30.7x
+    float: PPL=10.08 (0.99x)  facts=11/15=73%
+    float: PPL=10.08 (0.99x)  facts=11/15=73%
+    size: 9.4MB vs 288.0MB (30.7x)
+    size: 9.4MB vs 288.0MB (30.7x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=4.7MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=4.7MB
+
+  rank=250:
+
+  rank=250:
+    gate_proj: cos=0.4762  energy=0.2173  compress=12.3x
+    gate_proj: cos=0.4762  energy=0.2173  compress=12.3x
+    up_proj: cos=0.4281  energy=0.1752  compress=12.3x
+    up_proj: cos=0.4281  energy=0.1752  compress=12.3x
+    down_proj: cos=0.4491  energy=0.1928  compress=12.3x
+    down_proj: cos=0.4491  energy=0.1928  compress=12.3x
+    float: PPL=10.20 (1.00x)  facts=11/15=73%
+    float: PPL=10.20 (1.00x)  facts=11/15=73%
+    size: 23.4MB vs 288.0MB (12.3x)
+    size: 23.4MB vs 288.0MB (12.3x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=11.7MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=11.7MB
+
+  rank=500:
+
+  rank=500:
+    gate_proj: cos=0.6004  energy=0.3447  compress=6.1x
+    gate_proj: cos=0.6004  energy=0.3447  compress=6.1x
+    up_proj: cos=0.5574  energy=0.2970  compress=6.1x
+    up_proj: cos=0.5574  energy=0.2970  compress=6.1x
+    down_proj: cos=0.5763  energy=0.3173  compress=6.1x
+    down_proj: cos=0.5763  energy=0.3173  compress=6.1x
+    float: PPL=10.09 (0.99x)  facts=11/15=73%
+    float: PPL=10.09 (0.99x)  facts=11/15=73%
+    size: 46.9MB vs 288.0MB (6.1x)
+    size: 46.9MB vs 288.0MB (6.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=23.4MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=23.4MB
+
+  rank=750:
+
+  rank=750:
+    gate_proj: cos=0.6838  energy=0.4486  compress=4.1x
+    gate_proj: cos=0.6838  energy=0.4486  compress=4.1x
+    up_proj: cos=0.6468  energy=0.4008  compress=4.1x
+    up_proj: cos=0.6468  energy=0.4008  compress=4.1x
+    down_proj: cos=0.6632  energy=0.4213  compress=4.1x
+    down_proj: cos=0.6632  energy=0.4213  compress=4.1x
+    float: PPL=10.12 (1.00x)  facts=11/15=73%
+    float: PPL=10.12 (1.00x)  facts=11/15=73%
+    size: 70.3MB vs 288.0MB (4.1x)
+    size: 70.3MB vs 288.0MB (4.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=35.2MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=35.2MB
+
+  rank=1000:
+
+  rank=1000:
+    gate_proj: cos=0.7489  energy=0.5370  compress=3.1x
+    gate_proj: cos=0.7489  energy=0.5370  compress=3.1x
+    up_proj: cos=0.7163  energy=0.4916  compress=3.1x
+    up_proj: cos=0.7163  energy=0.4916  compress=3.1x
+    down_proj: cos=0.7306  energy=0.5111  compress=3.1x
+    down_proj: cos=0.7306  energy=0.5111  compress=3.1x
+    float: PPL=10.15 (1.00x)  facts=12/15=80%
+    float: PPL=10.15 (1.00x)  facts=12/15=80%
+    size: 93.8MB vs 288.0MB (3.1x)
+    size: 93.8MB vs 288.0MB (3.1x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=46.9MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=46.9MB
+
+  rank=1500:
+
+  rank=1500:
+    gate_proj: cos=0.8429  energy=0.6795  compress=2.0x
+    gate_proj: cos=0.8429  energy=0.6795  compress=2.0x
+    up_proj: cos=0.8198  energy=0.6424  compress=2.0x
+    up_proj: cos=0.8198  energy=0.6424  compress=2.0x
+    down_proj: cos=0.8299  energy=0.6583  compress=2.0x
+    down_proj: cos=0.8299  energy=0.6583  compress=2.0x
+    float: PPL=9.98 (0.98x)  facts=12/15=80%
+    float: PPL=9.98 (0.98x)  facts=12/15=80%
+    size: 140.6MB vs 288.0MB (2.0x)
+    size: 140.6MB vs 288.0MB (2.0x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=70.3MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=70.3MB
+
+  rank=2000:
+
+  rank=2000:
+    gate_proj: cos=0.9067  energy=0.7874  compress=1.5x
+    gate_proj: cos=0.9067  energy=0.7874  compress=1.5x
+    up_proj: cos=0.8911  energy=0.7602  compress=1.5x
+    up_proj: cos=0.8911  energy=0.7602  compress=1.5x
+    down_proj: cos=0.8981  energy=0.7719  compress=1.5x
+    down_proj: cos=0.8981  energy=0.7719  compress=1.5x
+    float: PPL=9.93 (0.98x)  facts=12/15=80%
+    float: PPL=9.93 (0.98x)  facts=12/15=80%
+    size: 187.5MB vs 288.0MB (1.5x)
+    size: 187.5MB vs 288.0MB (1.5x)
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=93.8MB
+    int8:  PPL=nan (nanx)  facts=0/15=0%  size=93.8MB
+
+  rank=2500:
+
+  rank=2500:
+    gate_proj: cos=0.9517  energy=0.8687  compress=1.2x
+    gate_proj: cos=0.9517  energy=0.8687  compress=1.2x
+    up_proj: cos=0.9421  energy=0.8510  compress=1.2x
+    up_proj: cos=0.9421  energy=0.8510  compress=1.2x
+    down_proj: cos=0.9466  energy=0.8587  compress=1.2x
+    down_proj: cos=0.9466  energy=0.8587  compress=1.2x
+    float: PPL=9.93 (0.98x)  facts=12/15=80%
+    float: PPL=9.93 (0.98x)  facts=12/15=80%
+    size: 234.4MB vs 288.0MB (1.2x)
+    size: 234.4MB vs 288.0MB (1.2x)
+
+  rank=3000:
+
+  rank=3000:
+    gate_proj: cos=0.9835  energy=0.9286  compress=1.0x
+    gate_proj: cos=0.9835  energy=0.9286  compress=1.0x
+    up_proj: cos=0.9785  energy=0.9190  compress=1.0x
+    up_proj: cos=0.9785  energy=0.9190  compress=1.0x
+    down_proj: cos=0.9810  energy=0.9234  compress=1.0x
+    down_proj: cos=0.9810  energy=0.9234  compress=1.0x
+    float: PPL=10.14 (1.00x)  facts=12/15=80%
+    float: PPL=10.14 (1.00x)  facts=12/15=80%
+    size: 281.2MB vs 288.0MB (1.0x)
+    size: 281.2MB vs 288.0MB (1.0x)
+
+  rank=3500:
+
+  rank=3500:
+    gate_proj: cos=1.0055  energy=0.9707  compress=0.9x
+    gate_proj: cos=1.0055  energy=0.9707  compress=0.9x
+    up_proj: cos=1.0045  energy=0.9671  compress=0.9x
+    up_proj: cos=1.0045  energy=0.9671  compress=0.9x
+    down_proj: cos=1.0053  energy=0.9691  compress=0.9x
+    down_proj: cos=1.0053  energy=0.9691  compress=0.9x
+    float: PPL=10.12 (1.00x)  facts=12/15=80%
+    float: PPL=10.12 (1.00x)  facts=12/15=80%
+    size: 328.1MB vs 288.0MB (0.9x)
+    size: 328.1MB vs 288.0MB (0.9x)
+
+  rank=4096:
+
+  rank=4096:
+    gate_proj: cos=1.0212  energy=1.0000  compress=0.8x
+    gate_proj: cos=1.0212  energy=1.0000  compress=0.8x
+    up_proj: cos=1.0221  energy=1.0000  compress=0.8x
+    up_proj: cos=1.0221  energy=1.0000  compress=0.8x
+    down_proj: cos=1.0219  energy=1.0000  compress=0.8x
+    down_proj: cos=1.0219  energy=1.0000  compress=0.8x
+    float: PPL=10.15 (1.00x)  facts=12/15=80%
+    float: PPL=10.15 (1.00x)  facts=12/15=80%
+    size: 384.0MB vs 288.0MB (0.8x)
+    size: 384.0MB vs 288.0MB (0.8x)
+
+============================================================
+
+============================================================
+  SUMMARY
+  SUMMARY
+============================================================
+============================================================
+  Baseline: PPL=10.16, facts=80%
+  Baseline: PPL=10.16, facts=80%
+
+  L0 (LEXER):
+
+  L0 (LEXER):
+   rank      PPL   ratio  facts     size  compress   type
+   rank      PPL   ratio  facts     size  compress   type
+    ---      ---     ---    ---      ---       ---    ---
+    ---      ---     ---    ---      ---       ---    ---
+    100  1657.86  163.17x    0%     9.4MB    30.72x   fp16 !!!
+    100  1657.86  163.17x    0%     9.4MB    30.72x   fp16 !!!
+    100      nan    nanx    0%     4.7MB    61.43x   int8
+    100      nan    nanx    0%     4.7MB    61.43x   int8
+    250   271.94  26.76x    7%    23.4MB    12.29x   fp16 !!!
+    250   271.94  26.76x    7%    23.4MB    12.29x   fp16 !!!
+    250      nan    nanx    0%    11.7MB    24.57x   int8
+    250      nan    nanx    0%    11.7MB    24.57x   int8
+    500    34.67   3.41x   53%    46.9MB     6.14x   fp16
+    500    34.67   3.41x   53%    46.9MB     6.14x   fp16
+    500      nan    nanx    0%    23.4MB    12.29x   int8
+    500      nan    nanx    0%    23.4MB    12.29x   int8
+    750     9.55   0.94x   80%    70.3MB      4.1x   fp16 <--
+    750     9.55   0.94x   80%    70.3MB      4.1x   fp16 <--
+    750      nan    nanx    0%    35.2MB     8.19x   int8
+    750      nan    nanx    0%    35.2MB     8.19x   int8
+   1000    10.21   1.00x   73%    93.8MB     3.07x   fp16 <--
+   1000    10.21   1.00x   73%    93.8MB     3.07x   fp16 <--
+   1000      nan    nanx    0%    46.9MB     6.14x   int8
+   1000      nan    nanx    0%    46.9MB     6.14x   int8
+   1500    10.45   1.03x   80%   140.6MB     2.05x   fp16 <--
+   1500    10.45   1.03x   80%   140.6MB     2.05x   fp16 <--
+   1500      nan    nanx    0%    70.3MB      4.1x   int8
+   1500      nan    nanx    0%    70.3MB      4.1x   int8
+   2000    10.61   1.04x   87%   187.5MB     1.54x   fp16 <--
+   2000    10.61   1.04x   87%   187.5MB     1.54x   fp16 <--
+   2000      nan    nanx    0%    93.8MB     3.07x   int8
+   2000      nan    nanx    0%    93.8MB     3.07x   int8
+   2500    10.35   1.02x   80%   234.4MB     1.23x   fp16 <--
+   2500    10.35   1.02x   80%   234.4MB     1.23x   fp16 <--
+   3000    10.34   1.02x   80%   281.2MB     1.02x   fp16 <--
+   3000    10.34   1.02x   80%   281.2MB     1.02x   fp16 <--
+   3500    10.21   1.00x   80%   328.1MB     0.88x   fp16 <--
+   3500    10.21   1.00x   80%   328.1MB     0.88x   fp16 <--
+   4096    10.17   1.00x   80%   384.0MB     0.75x   fp16 <--
+   4096    10.17   1.00x   80%   384.0MB     0.75x   fp16 <--
+
+  L15 (OPTIMIZER):
+
+  L15 (OPTIMIZER):
+   rank      PPL   ratio  facts     size  compress   type
+   rank      PPL   ratio  facts     size  compress   type
+    ---      ---     ---    ---      ---       ---    ---
+    ---      ---     ---    ---      ---       ---    ---
+    100    10.08   0.99x   73%     9.4MB    30.72x   fp16 <--
+    100    10.08   0.99x   73%     9.4MB    30.72x   fp16 <--
+    100      nan    nanx    0%     4.7MB    61.43x   int8
+    100      nan    nanx    0%     4.7MB    61.43x   int8
+    250    10.20   1.00x   73%    23.4MB    12.29x   fp16 <--
+    250    10.20   1.00x   73%    23.4MB    12.29x   fp16 <--
+    250      nan    nanx    0%    11.7MB    24.57x   int8
+    250      nan    nanx    0%    11.7MB    24.57x   int8
+    500    10.09   0.99x   73%    46.9MB     6.14x   fp16 <--
+    500    10.09   0.99x   73%    46.9MB     6.14x   fp16 <--
+    500      nan    nanx    0%    23.4MB    12.29x   int8
+    500      nan    nanx    0%    23.4MB    12.29x   int8
+    750    10.12   1.00x   73%    70.3MB      4.1x   fp16 <--
+    750    10.12   1.00x   73%    70.3MB      4.1x   fp16 <--
+    750      nan    nanx    0%    35.2MB     8.19x   int8
+    750      nan    nanx    0%    35.2MB     8.19x   int8
+   1000    10.15   1.00x   80%    93.8MB     3.07x   fp16 <--
+   1000    10.15   1.00x   80%    93.8MB     3.07x   fp16 <--
+   1000      nan    nanx    0%    46.9MB     6.14x   int8
+   1000      nan    nanx    0%    46.9MB     6.14x   int8
+   1500     9.98   0.98x   80%   140.6MB     2.05x   fp16 <--
+   1500     9.98   0.98x   80%   140.6MB     2.05x   fp16 <--
+   1500      nan    nanx    0%    70.3MB      4.1x   int8
+   1500      nan    nanx    0%    70.3MB      4.1x   int8
+   2000     9.93   0.98x   80%   187.5MB     1.54x   fp16 <--
+   2000     9.93   0.98x   80%   187.5MB     1.54x   fp16 <--
+   2000      nan    nanx    0%    93.8MB     3.07x   int8
+   2000      nan    nanx    0%    93.8MB     3.07x   int8
+   2500     9.93   0.98x   80%   234.4MB     1.23x   fp16 <--
+   2500     9.93   0.98x   80%   234.4MB     1.23x   fp16 <--
+   3000    10.14   1.00x   80%   281.2MB     1.02x   fp16 <--
+   3000    10.14   1.00x   80%   281.2MB     1.02x   fp16 <--
+   3500    10.12   1.00x   80%   328.1MB     0.88x   fp16 <--
+   3500    10.12   1.00x   80%   328.1MB     0.88x   fp16 <--
+   4096    10.15   1.00x   80%   384.0MB     0.75x   fp16 <--
+   4096    10.15   1.00x   80%   384.0MB     0.75x   fp16 <--
+
+  Results saved to /Users/mwhitford/src/verbum/results/l0-lowrank/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/l0-lowrank/Qwen_Qwen3-8B.json
+
+============================================================
+
+============================================================
+  DONE
+  DONE
+============================================================
+
+============================================================
+

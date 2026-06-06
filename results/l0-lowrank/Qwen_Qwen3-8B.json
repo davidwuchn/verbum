@@ -1,0 +1,1078 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "baseline_ppl": 10.16056289308132,
+  "baseline_fact_rate": 0.8,
+  "d_model": 4096,
+  "intermediate_size": 12288,
+  "max_rank": 4096,
+  "layers": {
+    "0": [
+      {
+        "rank": 100,
+        "ppl": 1657.8628033122152,
+        "ppl_ratio": 163.1664,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 100,
+            "cos": 0.436399,
+            "frob_error": 0.903532,
+            "energy_fraction": 0.181741,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          },
+          "up_proj": {
+            "rank": 100,
+            "cos": 0.359379,
+            "frob_error": 0.93561,
+            "energy_fraction": 0.123693,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          },
+          "down_proj": {
+            "rank": 100,
+            "cos": 0.316482,
+            "frob_error": 0.951926,
+            "energy_fraction": 0.095361,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 4915200,
+        "total_compression": 30.72,
+        "orig_mb": 288.0,
+        "lr_mb": 9.4
+      },
+      {
+        "rank": 100,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 61.43,
+        "q_mb": 4.7
+      },
+      {
+        "rank": 250,
+        "ppl": 271.94075733618615,
+        "ppl_ratio": 26.7643,
+        "fact_rate": 0.06666666666666667,
+        "facts_correct": 1,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 250,
+            "cos": 0.576238,
+            "frob_error": 0.824484,
+            "energy_fraction": 0.317782,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          },
+          "up_proj": {
+            "rank": 250,
+            "cos": 0.519429,
+            "frob_error": 0.860103,
+            "energy_fraction": 0.25881,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          },
+          "down_proj": {
+            "rank": 250,
+            "cos": 0.441694,
+            "frob_error": 0.902166,
+            "energy_fraction": 0.186151,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 12288000,
+        "total_compression": 12.29,
+        "orig_mb": 288.0,
+        "lr_mb": 23.4
+      },
+      {
+        "rank": 250,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 24.57,
+        "q_mb": 11.7
+      },
+      {
+        "rank": 500,
+        "ppl": 34.674330309936146,
+        "ppl_ratio": 3.4126,
+        "fact_rate": 0.5333333333333333,
+        "facts_correct": 8,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 500,
+            "cos": 0.715508,
+            "frob_error": 0.712799,
+            "energy_fraction": 0.492301,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          },
+          "up_proj": {
+            "rank": 500,
+            "cos": 0.678159,
+            "frob_error": 0.748883,
+            "energy_fraction": 0.440357,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          },
+          "down_proj": {
+            "rank": 500,
+            "cos": 0.568068,
+            "frob_error": 0.831139,
+            "energy_fraction": 0.308065,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 24576000,
+        "total_compression": 6.14,
+        "orig_mb": 288.0,
+        "lr_mb": 46.9
+      },
+      {
+        "rank": 500,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 12.29,
+        "q_mb": 23.4
+      },
+      {
+        "rank": 750,
+        "ppl": 9.547290856312147,
+        "ppl_ratio": 0.9396,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 750,
+            "cos": 0.808265,
+            "frob_error": 0.610584,
+            "energy_fraction": 0.626038,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          },
+          "up_proj": {
+            "rank": 750,
+            "cos": 0.778437,
+            "frob_error": 0.646009,
+            "energy_fraction": 0.58208,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          },
+          "down_proj": {
+            "rank": 750,
+            "cos": 0.655953,
+            "frob_error": 0.766117,
+            "energy_fraction": 0.411921,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 36864000,
+        "total_compression": 4.1,
+        "orig_mb": 288.0,
+        "lr_mb": 70.3
+      },
+      {
+        "rank": 750,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 8.19,
+        "q_mb": 35.2
+      },
+      {
+        "rank": 1000,
+        "ppl": 10.211442248016509,
+        "ppl_ratio": 1.005,
+        "fact_rate": 0.7333333333333333,
+        "facts_correct": 11,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 1000,
+            "cos": 0.870868,
+            "frob_error": 0.522306,
+            "energy_fraction": 0.72685,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          },
+          "up_proj": {
+            "rank": 1000,
+            "cos": 0.848971,
+            "frob_error": 0.55696,
+            "energy_fraction": 0.689883,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          },
+          "down_proj": {
+            "rank": 1000,
+            "cos": 0.724454,
+            "frob_error": 0.705449,
+            "energy_fraction": 0.50271,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 49152000,
+        "total_compression": 3.07,
+        "orig_mb": 288.0,
+        "lr_mb": 93.8
+      },
+      {
+        "rank": 1000,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 6.14,
+        "q_mb": 46.9
+      },
+      {
+        "rank": 1500,
+        "ppl": 10.45246843603903,
+        "ppl_ratio": 1.0287,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 1500,
+            "cos": 0.941258,
+            "frob_error": 0.386115,
+            "energy_fraction": 0.850491,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          },
+          "up_proj": {
+            "rank": 1500,
+            "cos": 0.928774,
+            "frob_error": 0.417266,
+            "energy_fraction": 0.825637,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          },
+          "down_proj": {
+            "rank": 1500,
+            "cos": 0.826748,
+            "frob_error": 0.588407,
+            "energy_fraction": 0.653285,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 73728000,
+        "total_compression": 2.05,
+        "orig_mb": 288.0,
+        "lr_mb": 140.6
+      },
+      {
+        "rank": 1500,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 4.1,
+        "q_mb": 70.3
+      },
+      {
+        "rank": 2000,
+        "ppl": 10.611567885159461,
+        "ppl_ratio": 1.0444,
+        "fact_rate": 0.8666666666666667,
+        "facts_correct": 13,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 2000,
+            "cos": 0.975754,
+            "frob_error": 0.29122,
+            "energy_fraction": 0.914904,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          },
+          "up_proj": {
+            "rank": 2000,
+            "cos": 0.96934,
+            "frob_error": 0.316012,
+            "energy_fraction": 0.89998,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          },
+          "down_proj": {
+            "rank": 2000,
+            "cos": 0.896916,
+            "frob_error": 0.480031,
+            "energy_fraction": 0.770071,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 98304000,
+        "total_compression": 1.54,
+        "orig_mb": 288.0,
+        "lr_mb": 187.5
+      },
+      {
+        "rank": 2000,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 3.07,
+        "q_mb": 93.8
+      },
+      {
+        "rank": 2500,
+        "ppl": 10.34907687117318,
+        "ppl_ratio": 1.0186,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 2500,
+            "cos": 0.995753,
+            "frob_error": 0.215622,
+            "energy_fraction": 0.953371,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          },
+          "up_proj": {
+            "rank": 2500,
+            "cos": 0.993096,
+            "frob_error": 0.234105,
+            "energy_fraction": 0.945148,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          },
+          "down_proj": {
+            "rank": 2500,
+            "cos": 0.946516,
+            "frob_error": 0.375256,
+            "energy_fraction": 0.858981,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 122880000,
+        "total_compression": 1.23,
+        "orig_mb": 288.0,
+        "lr_mb": 234.4
+      },
+      {
+        "rank": 3000,
+        "ppl": 10.340590297842503,
+        "ppl_ratio": 1.0177,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 3000,
+            "cos": 1.008039,
+            "frob_error": 0.150235,
+            "energy_fraction": 0.977358,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          },
+          "up_proj": {
+            "rank": 3000,
+            "cos": 1.007647,
+            "frob_error": 0.163056,
+            "energy_fraction": 0.973381,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          },
+          "down_proj": {
+            "rank": 3000,
+            "cos": 0.981229,
+            "frob_error": 0.274932,
+            "energy_fraction": 0.924254,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 147456000,
+        "total_compression": 1.02,
+        "orig_mb": 288.0,
+        "lr_mb": 281.2
+      },
+      {
+        "rank": 3500,
+        "ppl": 10.209077194487318,
+        "ppl_ratio": 1.0048,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 3500,
+            "cos": 1.015316,
+            "frob_error": 0.090717,
+            "energy_fraction": 0.991767,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          },
+          "up_proj": {
+            "rank": 3500,
+            "cos": 1.016267,
+            "frob_error": 0.098279,
+            "energy_fraction": 0.990342,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          },
+          "down_proj": {
+            "rank": 3500,
+            "cos": 1.005148,
+            "frob_error": 0.174993,
+            "energy_fraction": 0.969401,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 172032000,
+        "total_compression": 0.88,
+        "orig_mb": 288.0,
+        "lr_mb": 328.1
+      },
+      {
+        "rank": 4096,
+        "ppl": 10.166257895622634,
+        "ppl_ratio": 1.0006,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 4096,
+            "cos": 1.019723,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          },
+          "up_proj": {
+            "rank": 4096,
+            "cos": 1.021435,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          },
+          "down_proj": {
+            "rank": 4096,
+            "cos": 1.021526,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 201326592,
+        "total_compression": 0.75,
+        "orig_mb": 288.0,
+        "lr_mb": 384.0
+      }
+    ],
+    "15": [
+      {
+        "rank": 100,
+        "ppl": 10.082119482508533,
+        "ppl_ratio": 0.9923,
+        "fact_rate": 0.7333333333333333,
+        "facts_correct": 11,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 100,
+            "cos": 0.350568,
+            "frob_error": 0.939396,
+            "energy_fraction": 0.117818,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          },
+          "up_proj": {
+            "rank": 100,
+            "cos": 0.301187,
+            "frob_error": 0.956937,
+            "energy_fraction": 0.086607,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          },
+          "down_proj": {
+            "rank": 100,
+            "cos": 0.323335,
+            "frob_error": 0.949583,
+            "energy_fraction": 0.099722,
+            "orig_params": 50331648,
+            "lr_params": 1638400,
+            "compression": 30.72
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 4915200,
+        "total_compression": 30.72,
+        "orig_mb": 288.0,
+        "lr_mb": 9.4
+      },
+      {
+        "rank": 100,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 61.43,
+        "q_mb": 4.7
+      },
+      {
+        "rank": 250,
+        "ppl": 10.200864948426332,
+        "ppl_ratio": 1.004,
+        "fact_rate": 0.7333333333333333,
+        "facts_correct": 11,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 250,
+            "cos": 0.476214,
+            "frob_error": 0.884141,
+            "energy_fraction": 0.217338,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          },
+          "up_proj": {
+            "rank": 250,
+            "cos": 0.42812,
+            "frob_error": 0.908626,
+            "energy_fraction": 0.175243,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          },
+          "down_proj": {
+            "rank": 250,
+            "cos": 0.449147,
+            "frob_error": 0.898423,
+            "energy_fraction": 0.192824,
+            "orig_params": 50331648,
+            "lr_params": 4096000,
+            "compression": 12.29
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 12288000,
+        "total_compression": 12.29,
+        "orig_mb": 288.0,
+        "lr_mb": 23.4
+      },
+      {
+        "rank": 250,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 24.57,
+        "q_mb": 11.7
+      },
+      {
+        "rank": 500,
+        "ppl": 10.089643357240075,
+        "ppl_ratio": 0.993,
+        "fact_rate": 0.7333333333333333,
+        "facts_correct": 11,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 500,
+            "cos": 0.600376,
+            "frob_error": 0.80853,
+            "energy_fraction": 0.344693,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          },
+          "up_proj": {
+            "rank": 500,
+            "cos": 0.557421,
+            "frob_error": 0.83812,
+            "energy_fraction": 0.296975,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          },
+          "down_proj": {
+            "rank": 500,
+            "cos": 0.576332,
+            "frob_error": 0.825544,
+            "energy_fraction": 0.31733,
+            "orig_params": 50331648,
+            "lr_params": 8192000,
+            "compression": 6.14
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 24576000,
+        "total_compression": 6.14,
+        "orig_mb": 288.0,
+        "lr_mb": 46.9
+      },
+      {
+        "rank": 500,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 12.29,
+        "q_mb": 23.4
+      },
+      {
+        "rank": 750,
+        "ppl": 10.117623535448848,
+        "ppl_ratio": 0.9958,
+        "fact_rate": 0.7333333333333333,
+        "facts_correct": 11,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 750,
+            "cos": 0.683848,
+            "frob_error": 0.741946,
+            "energy_fraction": 0.448646,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          },
+          "up_proj": {
+            "rank": 750,
+            "cos": 0.646805,
+            "frob_error": 0.773524,
+            "energy_fraction": 0.400774,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          },
+          "down_proj": {
+            "rank": 750,
+            "cos": 0.663179,
+            "frob_error": 0.760047,
+            "energy_fraction": 0.421345,
+            "orig_params": 50331648,
+            "lr_params": 12288000,
+            "compression": 4.1
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 36864000,
+        "total_compression": 4.1,
+        "orig_mb": 288.0,
+        "lr_mb": 70.3
+      },
+      {
+        "rank": 750,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 8.19,
+        "q_mb": 35.2
+      },
+      {
+        "rank": 1000,
+        "ppl": 10.147036831478756,
+        "ppl_ratio": 0.9987,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 1000,
+            "cos": 0.748915,
+            "frob_error": 0.680961,
+            "energy_fraction": 0.537002,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          },
+          "up_proj": {
+            "rank": 1000,
+            "cos": 0.716259,
+            "frob_error": 0.713162,
+            "energy_fraction": 0.491551,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          },
+          "down_proj": {
+            "rank": 1000,
+            "cos": 0.730641,
+            "frob_error": 0.699707,
+            "energy_fraction": 0.511079,
+            "orig_params": 50331648,
+            "lr_params": 16384000,
+            "compression": 3.07
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 49152000,
+        "total_compression": 3.07,
+        "orig_mb": 288.0,
+        "lr_mb": 93.8
+      },
+      {
+        "rank": 1000,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 6.14,
+        "q_mb": 46.9
+      },
+      {
+        "rank": 1500,
+        "ppl": 9.977650963770124,
+        "ppl_ratio": 0.982,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 1500,
+            "cos": 0.842861,
+            "frob_error": 0.565537,
+            "energy_fraction": 0.679495,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          },
+          "up_proj": {
+            "rank": 1500,
+            "cos": 0.819765,
+            "frob_error": 0.59795,
+            "energy_fraction": 0.642359,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          },
+          "down_proj": {
+            "rank": 1500,
+            "cos": 0.829933,
+            "frob_error": 0.58417,
+            "energy_fraction": 0.658292,
+            "orig_params": 50331648,
+            "lr_params": 24576000,
+            "compression": 2.05
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 73728000,
+        "total_compression": 2.05,
+        "orig_mb": 288.0,
+        "lr_mb": 140.6
+      },
+      {
+        "rank": 1500,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 4.1,
+        "q_mb": 70.3
+      },
+      {
+        "rank": 2000,
+        "ppl": 9.931333210378487,
+        "ppl_ratio": 0.9774,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 2000,
+            "cos": 0.906723,
+            "frob_error": 0.461203,
+            "energy_fraction": 0.787407,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          },
+          "up_proj": {
+            "rank": 2000,
+            "cos": 0.891142,
+            "frob_error": 0.490205,
+            "energy_fraction": 0.760182,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          },
+          "down_proj": {
+            "rank": 2000,
+            "cos": 0.898087,
+            "frob_error": 0.478192,
+            "energy_fraction": 0.771874,
+            "orig_params": 50331648,
+            "lr_params": 32768000,
+            "compression": 1.54
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 98304000,
+        "total_compression": 1.54,
+        "orig_mb": 288.0,
+        "lr_mb": 187.5
+      },
+      {
+        "rank": 2000,
+        "ppl": NaN,
+        "ppl_ratio": NaN,
+        "fact_rate": 0.0,
+        "facts_correct": 0,
+        "quantized": true,
+        "total_compression": 3.07,
+        "q_mb": 93.8
+      },
+      {
+        "rank": 2500,
+        "ppl": 9.927599587253944,
+        "ppl_ratio": 0.9771,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 2500,
+            "cos": 0.951723,
+            "frob_error": 0.362259,
+            "energy_fraction": 0.86874,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          },
+          "up_proj": {
+            "rank": 2500,
+            "cos": 0.942146,
+            "frob_error": 0.385788,
+            "energy_fraction": 0.851002,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          },
+          "down_proj": {
+            "rank": 2500,
+            "cos": 0.946564,
+            "frob_error": 0.375649,
+            "energy_fraction": 0.858737,
+            "orig_params": 50331648,
+            "lr_params": 40960000,
+            "compression": 1.23
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 122880000,
+        "total_compression": 1.23,
+        "orig_mb": 288.0,
+        "lr_mb": 234.4
+      },
+      {
+        "rank": 3000,
+        "ppl": 10.142546897154457,
+        "ppl_ratio": 0.9982,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 3000,
+            "cos": 0.983499,
+            "frob_error": 0.266903,
+            "energy_fraction": 0.928649,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          },
+          "up_proj": {
+            "rank": 3000,
+            "cos": 0.978477,
+            "frob_error": 0.284512,
+            "energy_fraction": 0.918953,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          },
+          "down_proj": {
+            "rank": 3000,
+            "cos": 0.98101,
+            "frob_error": 0.276548,
+            "energy_fraction": 0.923396,
+            "orig_params": 50331648,
+            "lr_params": 49152000,
+            "compression": 1.02
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 147456000,
+        "total_compression": 1.02,
+        "orig_mb": 288.0,
+        "lr_mb": 281.2
+      },
+      {
+        "rank": 3500,
+        "ppl": 10.116992822752039,
+        "ppl_ratio": 0.9957,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 3500,
+            "cos": 1.005471,
+            "frob_error": 0.171227,
+            "energy_fraction": 0.970731,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          },
+          "up_proj": {
+            "rank": 3500,
+            "cos": 1.004462,
+            "frob_error": 0.18136,
+            "energy_fraction": 0.967072,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          },
+          "down_proj": {
+            "rank": 3500,
+            "cos": 1.005265,
+            "frob_error": 0.175901,
+            "energy_fraction": 0.969086,
+            "orig_params": 50331648,
+            "lr_params": 57344000,
+            "compression": 0.88
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 172032000,
+        "total_compression": 0.88,
+        "orig_mb": 288.0,
+        "lr_mb": 328.1
+      },
+      {
+        "rank": 4096,
+        "ppl": 10.148658379877872,
+        "ppl_ratio": 0.9988,
+        "fact_rate": 0.8,
+        "facts_correct": 12,
+        "quantized": false,
+        "svd_stats": {
+          "gate_proj": {
+            "rank": 4096,
+            "cos": 1.021194,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          },
+          "up_proj": {
+            "rank": 4096,
+            "cos": 1.022111,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          },
+          "down_proj": {
+            "rank": 4096,
+            "cos": 1.021863,
+            "frob_error": 6e-06,
+            "energy_fraction": 1.0,
+            "orig_params": 50331648,
+            "lr_params": 67108864,
+            "compression": 0.75
+          }
+        },
+        "total_orig_params": 150994944,
+        "total_lr_params": 201326592,
+        "total_compression": 0.75,
+        "orig_mb": 288.0,
+        "lr_mb": 384.0
+      }
+    ]
+  }
+}
