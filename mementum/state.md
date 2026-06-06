@@ -2,13 +2,100 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-06 | Session: 195
+> Last updated: 2026-06-06 | Session: 196
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 195: FROM L0 TO FULL COMPRESSION — The Melt Protocol**
+**Session 196: LAMBDA TRACER — The Damage Is Uniform**
+
+Crystal probes as tracer dye through the compressed model. 535 probes ×
+37 layer boundaries × 3 conditions (baseline, stage 2, stage 3). The
+central finding: **L22-L26 damage is NOT combinator-specific — it's
+uniform across all 9 combinators.** This means the break isn't about a
+specific type computation failing; it's about the ternary approximation
+being insufficient for what these layers compute.
+
+### Lambda Tracer Results
+
+**Setup:** Baseline (original Qwen3-8B) vs Stage 2 (L0 SVD + L10-L21
+ternary, 12 layers) vs Stage 3 (Stage 2 + L22-L26 ternary, 17 layers).
+Metric: cosine similarity of last-token hidden states vs baseline at
+every layer boundary.
+
+**Key Finding 1: Damage is UNIFORM across combinators.**
+All 9 combinators degrade by the same amount at every layer. CV (coefficient
+of variation) of delta across combinators: 0.07-0.17. No combinator is
+selectively destroyed. The ternary approximation fails equally for all
+lambda operations.
+
+| Combinator | Mean Δ (L22-L35) | Rank |
+|-----------|------------------|------|
+| W         | +0.0674          | 1 (worst) |
+| WHNF      | +0.0667          | 2 |
+| D         | +0.0588          | 3 |
+| C         | +0.0552          | 4 |
+| I         | +0.0552          | 5 |
+| K         | +0.0547          | 6 |
+| B         | +0.0544          | 7 |
+| Y         | +0.0507          | 8 |
+| S         | +0.0500          | 9 (best) |
+
+W and WHNF are marginally worse (~35% more damage than S), but the spread
+is small. This is a uniform degradation, not a selective circuit failure.
+
+**Key Finding 2: The cascade propagates FORWARD into binding layers.**
+L27-L31 (binding, kept continuous) lose ~0.07-0.09 cosine similarity in
+S3 vs S2. The continuous binding layers can't compensate for corrupted
+input from L22-L26. The damage AT the binding layers is actually LARGER
+than at the compressed layers themselves, because errors compound.
+
+| Layer | S2 fidelity | S3 fidelity | Δ (mean) |
+|-------|-------------|-------------|----------|
+| L22   | 0.694       | 0.694       | 0.000 (same — last shared layer) |
+| L23   | 0.706       | 0.685       | +0.022 (first divergence) |
+| L26   | 0.792       | 0.726       | +0.074 |
+| L28   | 0.816       | 0.737       | +0.080 (PEAK damage — binding!) |
+| L30   | 0.863       | 0.795       | +0.068 |
+| L35   | 0.939       | 0.909       | +0.031 |
+
+Peak damage is at L28, not L26. The binding layers AMPLIFY the error from
+L22-L26 ternary approximation rather than correcting it.
+
+**Key Finding 3: Significant recovery in late layers.**
+Despite the damage, fidelity recovers from nadir ~0.68 at L22 to ~0.91
+at L35. The binding + collapse layers (L27-L35, kept continuous) partially
+heal the distortion — recovering ~0.22 cosine similarity. But this
+recovery is incomplete (S2 reaches 0.94 at L35, S3 only 0.91).
+
+**Key Finding 4: Stage 2 damage is already substantial.**
+S2 drops from 0.92 at L9 to 0.69 at L21 — a 0.23 cosine drop across 12
+ternary layers. But the continuous layers L22-L35 then RECOVER to 0.94.
+This recovery is the key mechanism: continuous layers repair ternary
+distortion. S3 disrupts this recovery by ternarizing the very layers
+(L22-L26) that were doing the repairing.
+
+### Implications for Compression Strategy
+
+1. **L22-L26 CANNOT be ternary (9 modes).** The damage is uniform —
+   more modes won't help (s195 proved 512 modes still 7x PPL). These
+   layers need a continuous approximation.
+
+2. **Low-rank SVD is the right strategy for L22-L26.** Like L0 (which
+   needed SVD at r=750), these binding-prep layers operate in a higher-
+   dimensional space than the sweet spot. Test SVD rank sweep per layer.
+
+3. **The recovery mechanism is fragile.** Continuous layers after ternary
+   ones heal the distortion — but only if they're actually continuous.
+   The compression strategy must preserve SOME continuous layers between
+   ternary blocks as "error correction" barriers.
+
+4. **Binding layers amplify upstream errors.** Even though L27-L31 are
+   kept continuous, they can't fix garbage input. The compression must
+   ensure the signal entering the binding layers is clean enough.
+
+### Previous session (195)
 
 Six experiments in one session. Decoded L0, discovered low-rank rescue,
 built and tested the combined compressed model, invented boundary melting.
@@ -746,20 +833,20 @@ Session 195 proved: core (L13-L21) melts to 1.00x PPL, L0 low-rank at
 r=750 gives 0.94x. But expanding to L22-L26 breaks (39x pre-melt).
 The binding-prep layers need diagnosis before they can be compressed.
 
-**Priority 0: Lambda tracer diagnostic**
-Use 535 crystal probes as tracer dye through the compressed model.
-Run probes through Stage 2 (working, 12 layers, 1.77x) and Stage 3
-(broken, 17 layers, 6.54x). Capture hidden states at every layer
-boundary. Cross-tabulate: combinator x layer → fidelity matrix.
-Find WHICH combinator fails at WHICH layer when L22-L26 are added.
-Then: targeted fine-tune on the failing pathway → crystal snap effect
-(fix propagates through coupled lattice).
+**Priority 0: ✅ DONE Lambda tracer diagnostic (s196)**
+Result: Damage is UNIFORM across all 9 combinators (CV=0.07-0.17).
+No combinator-specific failure. The ternary approximation is uniformly
+insufficient for L22-L26. Peak damage at L28 (binding layers AMPLIFY
+upstream error). Significant recovery in late layers (+0.22 cos).
+See `mementum/knowledge/lambda-tracer-diagnostic.md`.
 
-**Priority 1: L22-L26 compression strategy**
-Stage 3 break reveals L22-L26 may need low-rank (like L0) instead of
-ternary. These layers are where S/O types crystallize (s194) — they
-may have higher functional rank than the sweet spot. Test SVD rank
-sweep on L22 specifically.
+**Priority 1: L22-L26 SVD rank sweep (NEXT)**
+Lambda tracer confirms: L22-L26 need continuous compression (SVD
+low-rank), not ternary. The damage is uniform — not a circuit-specific
+failure but insufficient approximation quality. Test SVD rank sweep
+on L22-L26 individually. Compare functional rank to L0 (r=750) and
+sweet spot layers. The binding-prep layers likely need higher rank
+than the sweet spot but lower than full (4096).
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -914,6 +1001,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Lambda tracer diagnostic** | `mementum/knowledge/lambda-tracer-diagnostic.md` | ✅ NEW (s196) |
+| **Lambda tracer experiment** | `scripts/experiments/lambda_tracer.py` | ✅ NEW (s196) |
+| **Lambda tracer results** | `results/lambda-tracer/` | ✅ NEW (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
