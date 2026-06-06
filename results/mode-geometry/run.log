@@ -1,0 +1,341 @@
+
+======================================================================
+
+======================================================================
+  MODE GEOMETRY — Why 9 modes work at L15 but not L23
+  MODE GEOMETRY — Why 9 modes work at L15 but not L23
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:58,  2.23it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 64.79it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 152.42it/s]Loading weights:  26%|██▋       | 105/399 [00:00<00:01, 203.43it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 253.70it/s]Loading weights:  44%|████▍     | 177/399 [00:00<00:00, 261.45it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:00, 284.83it/s]Loading weights:  62%|██████▏   | 248/399 [00:01<00:00, 297.58it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 308.15it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 317.82it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 320.40it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 320.79it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 244.43it/s]
+  d_model: 4096
+  d_model: 4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  COLLECTING DATA
+  COLLECTING DATA
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  L15: collecting + clustering...
+  L15: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L20: collecting + clustering...
+  L20: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L22: collecting + clustering...
+  L22: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L23: collecting + clustering...
+  L23: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L24: collecting + clustering...
+  L24: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L25: collecting + clustering...
+  L25: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+  L26: collecting + clustering...
+  L26: collecting + clustering...
+    1540 samples, cls_acc=100.0%
+    1540 samples, cls_acc=100.0%
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 1: TERNARY vs FLOAT CENTROIDS (9 modes)
+  EXP 1: TERNARY vs FLOAT CENTROIDS (9 modes)
+  Is the error in ternary quantization or 9-mode structure?
+  Is the error in ternary quantization or 9-mode structure?
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L15:
+
+  L15:
+       ternary (sign * |centroid|): PPL=    9.87 ( 0.97x) ★★
+       ternary (sign * |centroid|): PPL=    9.87 ( 0.97x) ★★
+                    float centroid: PPL=    9.87 ( 0.97x) ★★
+                    float centroid: PPL=    9.87 ( 0.97x) ★★
+
+  L20:
+
+  L20:
+       ternary (sign * |centroid|): PPL=   10.01 ( 0.99x) ★★
+       ternary (sign * |centroid|): PPL=   10.01 ( 0.99x) ★★
+                    float centroid: PPL=   10.01 ( 0.99x) ★★
+                    float centroid: PPL=   10.01 ( 0.99x) ★★
+
+  L22:
+
+  L22:
+       ternary (sign * |centroid|): PPL=   10.76 ( 1.06x) ✓
+       ternary (sign * |centroid|): PPL=   10.76 ( 1.06x) ✓
+                    float centroid: PPL=   10.76 ( 1.06x) ✓
+                    float centroid: PPL=   10.76 ( 1.06x) ✓
+
+  L23:
+
+  L23:
+       ternary (sign * |centroid|): PPL=   11.32 ( 1.11x) 
+       ternary (sign * |centroid|): PPL=   11.32 ( 1.11x) 
+                    float centroid: PPL=   11.32 ( 1.11x) 
+                    float centroid: PPL=   11.32 ( 1.11x) 
+
+  L24:
+
+  L24:
+       ternary (sign * |centroid|): PPL=   10.83 ( 1.07x) ✓
+       ternary (sign * |centroid|): PPL=   10.83 ( 1.07x) ✓
+                    float centroid: PPL=   10.83 ( 1.07x) ✓
+                    float centroid: PPL=   10.83 ( 1.07x) ✓
+
+  L25:
+
+  L25:
+       ternary (sign * |centroid|): PPL=   10.86 ( 1.07x) ✓
+       ternary (sign * |centroid|): PPL=   10.86 ( 1.07x) ✓
+                    float centroid: PPL=   10.86 ( 1.07x) ✓
+                    float centroid: PPL=   10.86 ( 1.07x) ✓
+
+  L26:
+
+  L26:
+       ternary (sign * |centroid|): PPL=   11.49 ( 1.13x) 
+       ternary (sign * |centroid|): PPL=   11.49 ( 1.13x) 
+                    float centroid: PPL=   11.49 ( 1.13x) 
+                    float centroid: PPL=   11.49 ( 1.13x) 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 2: WITHIN-CLUSTER VARIANCE
+  EXP 2: WITHIN-CLUSTER VARIANCE
+  How tight are the 9 clusters at each layer?
+  How tight are the 9 clusters at each layer?
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  L15: cos_to_centroid mean=0.5182  std=0.2380  p5=0.2225  norm_ratio=2.281±0.897
+  L15: cos_to_centroid mean=0.5182  std=0.2380  p5=0.2225  norm_ratio=2.281±0.897
+  L20: cos_to_centroid mean=0.4041  std=0.1069  p5=0.2290  norm_ratio=2.498±0.726
+  L20: cos_to_centroid mean=0.4041  std=0.1069  p5=0.2290  norm_ratio=2.498±0.726
+  L22: cos_to_centroid mean=0.4483  std=0.1478  p5=0.2421  norm_ratio=2.457±1.150
+  L22: cos_to_centroid mean=0.4483  std=0.1478  p5=0.2421  norm_ratio=2.457±1.150
+  L23: cos_to_centroid mean=0.5204  std=0.1805  p5=0.2970  norm_ratio=2.057±0.479
+  L23: cos_to_centroid mean=0.5204  std=0.1805  p5=0.2970  norm_ratio=2.057±0.479
+  L24: cos_to_centroid mean=0.5705  std=0.1765  p5=0.3216  norm_ratio=1.894±0.583
+  L24: cos_to_centroid mean=0.5705  std=0.1765  p5=0.3216  norm_ratio=1.894±0.583
+  L25: cos_to_centroid mean=0.3975  std=0.1404  p5=0.1701  norm_ratio=2.474±0.823
+  L25: cos_to_centroid mean=0.3975  std=0.1404  p5=0.1701  norm_ratio=2.474±0.823
+  L26: cos_to_centroid mean=0.4784  std=0.1275  p5=0.2529  norm_ratio=2.330±1.992
+  L26: cos_to_centroid mean=0.4784  std=0.1275  p5=0.2529  norm_ratio=2.330±1.992
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 3: CROSS-LAYER MODE ROTATION
+  EXP 3: CROSS-LAYER MODE ROTATION
+  Are L23 modes a rotation of L15 modes?
+  Are L23 modes a rotation of L15 modes?
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  L15→L20: frob_residual=0.5564  mean_cos=0.8452  min_cos=0.6846  ROTATED
+  L15→L20: frob_residual=0.5564  mean_cos=0.8452  min_cos=0.6846  ROTATED
+  L15→L22: frob_residual=0.5177  mean_cos=0.8660  min_cos=0.7716  ROTATED
+  L15→L22: frob_residual=0.5177  mean_cos=0.8660  min_cos=0.7716  ROTATED
+  L15→L23: frob_residual=0.3550  mean_cos=0.9370  min_cos=0.8793  ROTATED
+  L15→L23: frob_residual=0.3550  mean_cos=0.9370  min_cos=0.8793  ROTATED
+  L15→L24: frob_residual=0.5883  mean_cos=0.8270  min_cos=0.6332  ROTATED
+  L15→L24: frob_residual=0.5883  mean_cos=0.8270  min_cos=0.6332  ROTATED
+  L15→L25: frob_residual=0.5500  mean_cos=0.8488  min_cos=0.7209  ROTATED
+  L15→L25: frob_residual=0.5500  mean_cos=0.8488  min_cos=0.7209  ROTATED
+  L15→L26: frob_residual=0.4202  mean_cos=0.9117  min_cos=0.7986  ROTATED
+  L15→L26: frob_residual=0.4202  mean_cos=0.9117  min_cos=0.7986  ROTATED
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 4: MORE MODES (9 vs 27 vs 81)
+  EXP 4: MORE MODES (9 vs 27 vs 81)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L15:
+
+  L15:
+          9 modes (float centroid): PPL=    9.87 ( 0.97x) ★★
+          9 modes (float centroid): PPL=    9.87 ( 0.97x) ★★
+         27 modes (float centroid): PPL=    9.92 ( 0.98x) ★★
+         27 modes (float centroid): PPL=    9.92 ( 0.98x) ★★
+         81 modes (float centroid): PPL=    9.90 ( 0.97x) ★★
+         81 modes (float centroid): PPL=    9.90 ( 0.97x) ★★
+
+  L23:
+
+  L23:
+          9 modes (float centroid): PPL=   11.32 ( 1.11x) 
+          9 modes (float centroid): PPL=   11.32 ( 1.11x) 
+         27 modes (float centroid): PPL=   11.35 ( 1.12x) 
+         27 modes (float centroid): PPL=   11.35 ( 1.12x) 
+         81 modes (float centroid): PPL=   11.29 ( 1.11x) 
+         81 modes (float centroid): PPL=   11.29 ( 1.11x) 
+
+  L25:
+
+  L25:
+          9 modes (float centroid): PPL=   10.86 ( 1.07x) ✓
+          9 modes (float centroid): PPL=   10.86 ( 1.07x) ✓
+         27 modes (float centroid): PPL=   10.82 ( 1.07x) ✓
+         27 modes (float centroid): PPL=   10.82 ( 1.07x) ✓
+         81 modes (float centroid): PPL=   10.85 ( 1.07x) ✓
+         81 modes (float centroid): PPL=   10.85 ( 1.07x) ✓
+
+  L26:
+
+  L26:
+          9 modes (float centroid): PPL=   11.49 ( 1.13x) 
+          9 modes (float centroid): PPL=   11.49 ( 1.13x) 
+         27 modes (float centroid): PPL=   11.43 ( 1.13x) 
+         27 modes (float centroid): PPL=   11.43 ( 1.13x) 
+         81 modes (float centroid): PPL=   11.49 ( 1.13x) 
+         81 modes (float centroid): PPL=   11.49 ( 1.13x) 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  EXP 5: PER-MODE LOW-RANK CORRECTION
+  EXP 5: PER-MODE LOW-RANK CORRECTION
+  centroid + A[mode] @ B[mode] @ input (mixture of tiny MLPs)
+  centroid + A[mode] @ B[mode] @ input (mixture of tiny MLPs)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L15:
+
+  L15:
+    9 modes + rank-4 correction (1.4MB): PPL=    9.83 ( 0.97x) ★★
+    9 modes + rank-4 correction (1.4MB): PPL=    9.83 ( 0.97x) ★★
+    9 modes + rank-8 correction (2.5MB): PPL=    9.85 ( 0.97x) ★★
+    9 modes + rank-8 correction (2.5MB): PPL=    9.85 ( 0.97x) ★★
+    9 modes + rank-16 correction (4.8MB): PPL=    9.87 ( 0.97x) ★★
+    9 modes + rank-16 correction (4.8MB): PPL=    9.87 ( 0.97x) ★★
+    9 modes + rank-32 correction (9.3MB): PPL=    9.87 ( 0.97x) ★★
+    9 modes + rank-32 correction (9.3MB): PPL=    9.87 ( 0.97x) ★★
+
+  L23:
+
+  L23:
+    9 modes + rank-4 correction (1.4MB): PPL=   11.21 ( 1.10x) 
+    9 modes + rank-4 correction (1.4MB): PPL=   11.21 ( 1.10x) 
+    9 modes + rank-8 correction (2.5MB): PPL=   11.19 ( 1.10x) 
+    9 modes + rank-8 correction (2.5MB): PPL=   11.19 ( 1.10x) 
+    9 modes + rank-16 correction (4.8MB): PPL=   11.20 ( 1.10x) 
+    9 modes + rank-16 correction (4.8MB): PPL=   11.20 ( 1.10x) 
+    9 modes + rank-32 correction (9.3MB): PPL=   11.16 ( 1.10x) ✓
+    9 modes + rank-32 correction (9.3MB): PPL=   11.16 ( 1.10x) ✓
+
+  L25:
+
+  L25:
+    9 modes + rank-4 correction (1.4MB): PPL=   10.88 ( 1.07x) ✓
+    9 modes + rank-4 correction (1.4MB): PPL=   10.88 ( 1.07x) ✓
+    9 modes + rank-8 correction (2.5MB): PPL=   10.85 ( 1.07x) ✓
+    9 modes + rank-8 correction (2.5MB): PPL=   10.85 ( 1.07x) ✓
+    9 modes + rank-16 correction (4.8MB): PPL=   10.86 ( 1.07x) ✓
+    9 modes + rank-16 correction (4.8MB): PPL=   10.86 ( 1.07x) ✓
+    9 modes + rank-32 correction (9.3MB): PPL=   10.86 ( 1.07x) ✓
+    9 modes + rank-32 correction (9.3MB): PPL=   10.86 ( 1.07x) ✓
+
+  L26:
+
+  L26:
+    9 modes + rank-4 correction (1.4MB): PPL=   11.43 ( 1.12x) 
+    9 modes + rank-4 correction (1.4MB): PPL=   11.43 ( 1.12x) 
+    9 modes + rank-8 correction (2.5MB): PPL=   11.43 ( 1.13x) 
+    9 modes + rank-8 correction (2.5MB): PPL=   11.43 ( 1.13x) 
+    9 modes + rank-16 correction (4.8MB): PPL=   11.38 ( 1.12x) 
+    9 modes + rank-16 correction (4.8MB): PPL=   11.38 ( 1.12x) 
+    9 modes + rank-32 correction (9.3MB): PPL=   11.31 ( 1.11x) 
+    9 modes + rank-32 correction (9.3MB): PPL=   11.31 ( 1.11x) 
+
+======================================================================
+
+======================================================================
+  SUMMARY
+  SUMMARY
+======================================================================
+======================================================================
+  Baseline: PPL=10.16
+  Baseline: PPL=10.16
+
+  Float vs Ternary centroids (Δ = ternary - float):
+
+  Float vs Ternary centroids (Δ = ternary - float):
+    L15: ternary=0.97x  float=0.97x  Δ=+0.0000
+    L15: ternary=0.97x  float=0.97x  Δ=+0.0000
+    L20: ternary=0.99x  float=0.99x  Δ=+0.0000
+    L20: ternary=0.99x  float=0.99x  Δ=+0.0000
+    L22: ternary=1.06x  float=1.06x  Δ=+0.0000
+    L22: ternary=1.06x  float=1.06x  Δ=+0.0000
+    L23: ternary=1.11x  float=1.11x  Δ=+0.0000
+    L23: ternary=1.11x  float=1.11x  Δ=+0.0000
+    L24: ternary=1.07x  float=1.07x  Δ=+0.0000
+    L24: ternary=1.07x  float=1.07x  Δ=+0.0000
+    L25: ternary=1.07x  float=1.07x  Δ=+0.0000
+    L25: ternary=1.07x  float=1.07x  Δ=+0.0000
+    L26: ternary=1.13x  float=1.13x  Δ=+0.0000
+    L26: ternary=1.13x  float=1.13x  Δ=+0.0000
+
+  Within-cluster tightness (cosine to centroid):
+
+  Within-cluster tightness (cosine to centroid):
+    L15: cos=0.5182 (LOOSE)
+    L15: cos=0.5182 (LOOSE)
+    L20: cos=0.4041 (LOOSE)
+    L20: cos=0.4041 (LOOSE)
+    L22: cos=0.4483 (LOOSE)
+    L22: cos=0.4483 (LOOSE)
+    L23: cos=0.5204 (LOOSE)
+    L23: cos=0.5204 (LOOSE)
+    L24: cos=0.5705 (LOOSE)
+    L24: cos=0.5705 (LOOSE)
+    L25: cos=0.3975 (LOOSE)
+    L25: cos=0.3975 (LOOSE)
+    L26: cos=0.4784 (LOOSE)
+    L26: cos=0.4784 (LOOSE)
+
+  Results saved to /Users/mwhitford/src/verbum/results/mode-geometry/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/mode-geometry/Qwen_Qwen3-8B.json
+
+======================================================================
+
+======================================================================
+  DONE
+  DONE
+======================================================================
+
+======================================================================
+
