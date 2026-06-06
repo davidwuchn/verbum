@@ -1,0 +1,438 @@
+
+======================================================================
+  MODE SEMANTICS DECODER (v2 — gate-pattern clustering)
+  What do the 9 FFN ternary modes compute?
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Modes: 9
+  Target layers: [3, 7, 15, 20, 27, 30, 35]
+  Texts: 66
+
+  Loading spaCy en_core_web_sm...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:30,  1.89it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:10, 35.32it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 98.42it/s]Loading weights:  18%|█▊        | 72/399 [00:00<00:02, 132.26it/s]Loading weights:  25%|██▍       | 98/399 [00:00<00:01, 165.21it/s]Loading weights:  31%|███       | 122/399 [00:01<00:01, 182.66it/s]Loading weights:  37%|███▋      | 147/399 [00:01<00:01, 196.06it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:01, 204.71it/s]Loading weights:  50%|████▉     | 199/399 [00:01<00:00, 228.77it/s]Loading weights:  56%|█████▌    | 224/399 [00:01<00:00, 233.85it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 250.86it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 269.57it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 292.12it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 304.85it/s]Loading weights:  99%|█████████▉| 397/399 [00:01<00:00, 331.86it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 202.27it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Layers: 36, d_model: 4096, intermediate: 12288
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 3
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.5s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 48, 1: 39, 2: 96, 3: 14, 4: 30, 5: 89, 6: 241, 7: 355, 8: 54}
+    Mode entropy: 2.56 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       7   355  37% |     55     ·    12     ·     2    16     ·    10
+       6   241  25% |      ·    34     2     6    25     1     4     ·
+       2    96  10% |      ·     4     ·    88     3     ·     ·     ·
+       5    89   9% |      4    29     1     1     6     2    45     ·
+       8    54   6% |      4     ·    63     4     2     2     ·     ·
+       0    48   5% |     31     ·    46     ·     ·     2     2     4
+       1    39   4% |     23     ·    10     3     3     8     3    15
+       4    30   3% |     37     ·     3     ·    20    20     3     ·
+       3    14   1% |      7     7    29     ·     ·     ·     ·     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 7 (n= 355): pobj=19%  dobj=16%  amod=14%  nsubj=11%
+    mode 6 (n= 241): punct=34%  prep=24%  cc=6%  det=6%
+    mode 2 (n=  96): det=88%  advmod=4%  punct=4%  prep=3%
+    mode 5 (n=  89): punct=29%  appos=17%  pobj=13%  nummod=11%
+    mode 8 (n=  54): ROOT=35%  advmod=17%  advcl=13%  relcl=6%
+    mode 0 (n=  48): ROOT=38%  pobj=15%  nsubj=12%  advmod=10%
+    mode 1 (n=  39): nsubj=33%  compound=10%  aux=10%  ROOT=10%
+    mode 4 (n=  30): nsubj=30%  amod=20%  prep=20%  advmod=7%
+    mode 3 (n=  14): ROOT=21%  nsubj=21%  aux=7%  advmod=7%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       7   355 |  0.103    0.125   2.8%  0.566 | (argc, MinMax, forms, Sin           → 吃到, /from, xin
+       6   241 |  0.124    0.073   1.8%  0.649 | 相关的, 分工, 是因为, ев                    → slideshow, 话, hoot
+       2    96 | -0.109    0.066   2.9%  0.970 | pir, 最基本, 理想, strain                → yol, ?url, renderer
+       5    89 |  0.121    0.064   1.6%  0.726 | 因为他, .DESC, ordinal, ced            → 好人, 话, 只要你
+       8    54 |  0.093    0.114   2.8%  0.591 | 一定, 相关的, /re, 联系                    → /from, /on, 巨型
+       0    48 |  0.108    0.141   3.1%  0.627 | 的职业, odings, affe, prohib           → flesh, kup, Flesh
+       1    39 | -0.132    0.148   7.9%  0.896 | ocene, Sin, osity, _sin             → 齿, 这个世界, toi
+       4    30 |  0.154    0.135   2.6%  0.689 | 入库, 榧, SACTION, MinMax              → 世界第一, /from, 这个世界
+       3    14 |  0.133    0.102   2.2%  0.665 | rec, aus, urname, umin              → /from, /by, negot
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 7 (n= 355): ' theory' ' general' ' rel' 'ativity' ' gravity' ' curvature' ' spac' 'etime' 'ynthesis' ' carbon' ' dioxide' ' water' ' glucose' ' oxygen' ' carries'
+    mode 6 (n= 241): ' of' ' as' ' of' '.' ' and' ' into' ' and' '.' ' in' ' by' ' and' '.' ' of' ' at' ' and'
+    mode 2 (n=  96): 'The' ' the' ' a' ' the' ' the' 'The' ' ' 'The' ' the' 'The' ' the' ' the' ' the' 'The' ' the'
+    mode 5 (n=  89): '8' ',' ' at' ' while' ' as' ',' ' every' ' as' ' four' ' today' ' has' ',' ' and' ' with' '1'
+    mode 8 (n=  54): ' describes' ' discovered' ' form' ' collapse' ' speed' ' chased' ' carefully' ' gathered' ' filtered' ' by' ' running' ' carefully' ' and' ' replace' ' thoroughly'
+    mode 0 (n=  48): ' converts' ' contains' ' approximately' ' table' ' organ' 'izes' ' walked' ' m' ' sat' ' ran' ' opened' ' ship' ' sailed' ' slowly' ' stood'
+    mode 1 (n=  39): 'Photos' 'DNA' 'Quant' 'Black' 'En' 'zym' 'She' 'Three' 'He' 'Bird' 'In' 'To' 'Install' 'Remove' 'Pre'
+    mode 4 (n=  30): ' human' ' periodic' ' old' ' man' ' children' ' woman' ' at' ' window' ' large' ' mixing' ' president' ' function' ' long' ' but' ' it'
+    mode 3 (n=  14): ' think' ' we' ' should' ' probably' ' that' ' makes' ' sense' '.' ' Let' ' me' ' check' "'t" ' me' ' please'
+
+    Layer 3 done in 6.1s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 7
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.1s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 45, 1: 63, 2: 305, 3: 17, 4: 4, 5: 463, 6: 59, 7: 6, 8: 4}
+    Mode entropy: 1.96 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       5   463  48% |     10    17    17    14    10     8     4     2
+       2   305  32% |     47     ·     8     1    11     9    10     6
+       1    63   7% |      8    48     ·     ·     ·     2     8    17
+       6    59   6% |     59     2     5     7     5     8     ·     5
+       0    45   5% |      7     ·     2    58     2     2     2     4
+       3    17   2% |     29     ·    18     ·     ·    12     ·    24
+       7     6   1% |      ·    17     ·    67     ·     ·     ·     ·
+       4     4   0% |      ·     ·     ·    25     ·     ·     ·     ·
+       8     4   0% |      ·    25     ·     ·    25     ·    50     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 5 (n= 463): punct=17%  det=14%  ROOT=11%  prep=9%
+    mode 2 (n= 305): pobj=24%  dobj=14%  prep=10%  nsubj=7%
+    mode 1 (n=  63): punct=48%  conj=19%  cc=17%  appos=8%
+    mode 6 (n=  59): nsubj=53%  amod=8%  compound=7%  det=7%
+    mode 0 (n=  45): det=58%  nsubj=16%  aux=7%  amod=2%
+    mode 3 (n=  17): nsubj=29%  compound=24%  ROOT=18%  amod=12%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       5   463 | -0.109    0.478  44.7%  0.577 | rett, ipur, 锅, 送来                   → 也就是, 此基础上, 从而
+       2   305 | -0.119    1.011  69.6%  0.570 | rett, �, setFrame, 兰                → 上次, chemist, estate
+       1    63 | -0.153    0.431  42.8%  0.715 | 辗, -pic, 读书, 家庭                     → empt, chemist, gram
+       6    59 | -0.045    0.566  44.9%  0.573 | bugs, 甲, 罕见, \Has                   → 这种方法, 任期, 不妨
+       0    45 | -0.217    0.577  50.2%  1.000 | IOS, mini, ¹, al                    → 酵, _utc, _construct
+       3    17 | -0.220    0.587  51.7%  1.000 | IOS, mini, ¹, al                    → 酵, _utc, _construct
+       7     6 | -0.134    0.392  43.0%  0.795 | 造, 启, addGroup, ses                 → 不论是, 尤其是在, 无论是
+       4     4 | -0.219    0.582  50.9%  1.000 | IOS, mini, ¹, /response             → 酵, _utc, _construct
+       8     4 | -0.161    0.392  42.0%  0.881 | zell, rost, ��, sod                 → elo, ário, ье
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 5 (n= 463): ' describes' ' as' ' the' ' curvature' ' of' '.' ' converts' ' into' '.' ' carries' ' genetic' ' in' ' a' ' double' ' discovered'
+    mode 2 (n= 305): ' general' ' rel' 'ativity' ' gravity' ' spac' 'etime' 'ynthesis' ' carbon' ' dioxide' ' glucose' ' information' ' hel' 'ix' ' structure' ' Cr'
+    mode 1 (n=  63): ' and' ' water' ' and' ' oxygen' ' and' ' and' ',' ' sugar' ',' ' and' ' or' '.' ' teachers' ' red' ','
+    mode 6 (n=  59): ' theory' ' of' ' human' ' periodic' ' table' ' old' ' man' ' ship' ' woman' ' detective' ' crime' ' a' ' solve' ' this' ' equation'
+    mode 0 (n=  45): 'The' 'DNA' 'The' 'Black' 'The' 'En' 'She' 'The' 'Three' 'He' 'The' 'A' 'The' 'In' 'Remove'
+    mode 3 (n=  17): 'Photos' 'Quant' 'Bird' 'Install' 'Pre' 'Always' 'Connect' 'Dem' 'International' 'Par' 'Machine' 'Hash' 'Recursive' 'Yes' 'Not'
+    mode 7 (n=   6): ' the' ' the' ' and' '.' ' the' ' the'
+    mode 4 (n=   4): 'To' 'What' 'How' 'Who'
+    mode 8 (n=   4): ' ' '1' ',' '1'
+
+    Layer 7 done in 5.4s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 15
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.0s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 1, 1: 60, 2: 11, 3: 67, 4: 116, 5: 144, 6: 131, 7: 281, 8: 155}
+    Mode entropy: 2.71 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       7   281  29% |     30     ·    13    15    10     9     4     4
+       8   155  16% |      ·    54     7     3    10     3     ·     ·
+       5   144  15% |     48     ·     8     1    12    16     ·     7
+       6   131  14% |     38     2    20     4     5     6     2     5
+       4   116  12% |      8    19     2     ·     5     5    33    14
+       3    67   7% |      4     ·    10    64     3     1     6     ·
+       1    60   6% |     32     ·    27     8     8    12     ·     ·
+       2    11   1% |     18     9     9     ·    27     ·     ·     ·
+       0     1   0% |      ·     ·     ·     ·     ·     ·     ·     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 7 (n= 281): det=15%  pobj=14%  prep=9%  dobj=9%
+    mode 8 (n= 155): punct=54%  prep=10%  advmod=6%  ROOT=5%
+    mode 5 (n= 144): pobj=18%  compound=13%  amod=12%  prep=11%
+    mode 6 (n= 131): nsubj=31%  ROOT=21%  dobj=9%  amod=6%
+    mode 4 (n= 116): punct=19%  conj=15%  appos=15%  pobj=12%
+    mode 3 (n=  67): det=64%  ROOT=10%  pobj=6%  nsubj=4%
+    mode 1 (n=  60): dobj=17%  amod=15%  ROOT=13%  prep=10%
+    mode 2 (n=  11): prep=27%  pobj=18%  aux=9%  relcl=9%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       7   281 | -0.127    1.407  76.2%  0.647 | AI, ******, unt, ham                → 趾, 小巧, 笨
+       8   155 | -0.171    1.429  75.8%  0.716 | 宽带, 扩, 平时, ilog                     → itan, 好看的, Cla
+       5   144 | -0.131    1.656  77.3%  0.633 | �, -router, -cn, 量化                 → 彼此, ilia, Humanity
+       6   131 | -0.043    1.636  73.7%  0.716 | 网讯, pes, 扩, iero                    → ounces, chten, 比上年
+       4   116 | -0.198    1.595  77.2%  0.657 | Gig, isol, 的钱, verk                 → 粗, 父子, Turbo
+       3    67 |  0.347    1.340  68.6%  0.869 | Mons, ky, TED, okie                 → 老人家, ,strong, 赖以
+       1    60 | -0.140    1.485  76.5%  0.720 | .ms, wl, chips, Mog                 → 不清楚, /he, 清水
+       2    11 | -0.164    1.500  77.5%  0.803 | 피, digest, 斗争, PE                   → 氐, erce, nowhere
+       0     1 | -0.159    1.452  75.6%  1.000 | 闭环, 闭, .closed, 中关                  → 秋天, 缁, indefinite
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 7 (n= 281): 'The' 'Photos' 'DNA' ' discovered' ' by' 'Quant' 'The' 'illions' 'Black' ' their' ' force' 'The' 'En' 'She' ' ancient'
+    mode 8 (n= 155): '.' '.' '.' '.' ' approximately' '.' '.' '.' '.' ' through' ',' ' her' '.' ' sat' ' quietly'
+    mode 5 (n= 144): ' rel' 'ativity' ' gravity' ' as' ' the' ' curvature' ' of' ' spac' 'etime' 'ynthesis' ' converts' ' carbon' ' dioxide' ' and' ' water'
+    mode 6 (n= 131): ' theory' ' of' ' describes' 'um' ' describes' ' human' ' brain' ' contains' ' periodic' ' table' ' organ' 'zym' ' are' ' walked' ' old'
+    mode 4 (n= 116): ' and' ' and' '6' ' billion' ' or' ' red' ',' ' blue' ' and' ' yellow' ' France' ',' ' Germany' ',' ' Italy'
+    mode 3 (n=  67): ' general' ' a' ' the' ' the' '8' ' tr' ' the' ' m' ' the' ' the' ' the' ' the' ' the' ' the' ' t'
+    mode 1 (n=  60): ' voted' ' unanimously' ' to' ' approve' ' new' ' environmental' ' regulations' ' addressed' ' nation' ' regarding' ' economic' ' recovery' ' plan' ' ruled' ' that'
+    mode 2 (n=  11): ' had' ' been' ' out' ' of' ' print' ' for' ' decades' ',' ' was' ' finally' 'issued'
+    mode 0 (n=   1): ' carefully'
+
+    Layer 15 done in 5.4s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 20
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.0s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 204, 1: 82, 2: 101, 3: 87, 4: 5, 5: 1, 6: 196, 7: 66, 8: 224}
+    Mode entropy: 2.70 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       8   224  23% |     69     ·     3     ·     ·    12     1    10
+       0   204  21% |      4    13     9     4    18     9    22     4
+       6   196  20% |      1     2    17    35    11     5     2     ·
+       2   101  10% |      7     ·    43     ·    19    10     2     ·
+       3    87   9% |      ·    94     1     ·     ·     ·     ·     ·
+       1    82   8% |     66     ·     7     ·     2     7     ·     9
+       7    66   7% |     12     ·     6    41     2     5     2     9
+       4     5   1% |     40     ·     ·     ·    60     ·     ·     ·
+       5     1   0% |      ·     ·     ·     ·     ·     ·   100     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 8 (n= 224): pobj=31%  dobj=25%  compound=10%  amod=9%
+    mode 0 (n= 204): prep=16%  punct=13%  conj=8%  cc=7%
+    mode 6 (n= 196): det=34%  prep=12%  ROOT=10%  nsubj=7%
+    mode 2 (n= 101): ROOT=23%  prep=18%  advmod=13%  advcl=9%
+    mode 3 (n=  87): punct=94%  cc=3%  ROOT=1%  nsubj=1%
+    mode 1 (n=  82): nsubj=54%  compound=13%  ROOT=10%  amod=7%
+    mode 7 (n=  66): det=41%  nsubj=20%  compound=6%  aux=6%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       8   224 |  0.007    1.731  77.4%  0.630 | 进入到, �, 来讲, 走入                      → 优质的, Km, Diagram
+       0   204 | -0.034    1.817  77.8%  0.568 | 等多项, ades, "__, �                   → 俍, 原标题, .generated
+       6   196 | -0.023    1.702  76.4%  0.637 | 珍珠, Bones, official, �              → lose, anda, 失去了
+       2   101 | -0.008    1.708  77.9%  0.657 | amus, Toolbar, RAD, RAD             → rog, [ind, 抒
+       3    87 | -0.023    1.725  76.2%  0.760 | 人际, 下面就, _stuff, OVE                → 岫, iec, fores
+       1    82 |  0.095    1.807  73.0%  0.700 | 馆, �, official, Arr                 → acb, <pre, 万一
+       7    66 | -0.195    0.491  63.8%  1.000 | tru, 中国联通, ized, #                  → 的整体, _advance, 相对较
+       4     5 | -0.028    1.649  78.3%  0.845 | 个多, spiel, Decom, IOS               → tend, 擂, 感官
+       5     1 | -0.033    0.177   1.0%  1.000 | ctest, 禁, 现, .Lib                   → akah, ihan, acho
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 8 (n= 224): ' rel' ' gravity' ' curvature' ' spac' 'etime' ' dioxide' ' water' ' glucose' ' oxygen' ' genetic' ' information' ' hel' 'ix' ' structure' ' Watson'
+    mode 0 (n= 204): ' describes' ' as' ' the' ' of' ' converts' ' carbon' ' and' ' into' ' and' ' in' ' a' ' double' ' by' ' and' ' Cr'
+    mode 6 (n= 196): ' of' ' general' ' the' ' her' ' the' ' the' ' the' ' their' ' the' ' his' ' the' ' the' ' the' ' the' ' the'
+    mode 2 (n= 101): ' discovered' ' form' ' walked' ' through' ' ancient' ' footsteps' ' m' 'uffled' ' by' ' fallen' ' sat' ' quietly' ' by' ' watching' ' jump'
+    mode 3 (n=  87): '.' '.' '.' '.' '.' '.' '.' '.' ',' '.' ',' '.' '.' ',' '.'
+    mode 1 (n=  82): ' theory' 'ativity' 'ynthesis' ' carries' 'um' ' mechanics' ' human' ' brain' ' holes' ' periodic' ' table' ' organ' 'zym' 'es' ' are'
+    mode 7 (n=  66): 'The' 'Photos' 'DNA' 'Quant' 'The' 'Black' 'The' 'En' 'She' 'The' 'Three' 'He' 'The' 'A' 'The'
+    mode 4 (n=   5): ' out' ' of' ' print' ' for' ' decades'
+    mode 5 (n=   1): ' '
+
+    Layer 20 done in 5.3s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 27
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.0s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 27, 1: 67, 2: 224, 3: 84, 4: 2, 5: 385, 6: 23, 7: 87, 8: 67}
+    Mode entropy: 2.46 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       5   385  40% |     38     4    14     ·     8     6     3     6
+       2   224  23% |     25     7    12     5    14    13     6     5
+       7    87   9% |      ·     ·     6    70     3    14     1     2
+       3    84   9% |     30     8    24     ·    15     6     ·     ·
+       8    67   7% |     12     ·     6    40     1     4     3     9
+       1    67   7% |      ·    99     ·     ·     ·     ·     ·     ·
+       0    27   3% |      4    30     4     ·     7     ·    52     4
+       6    23   2% |      4     ·     ·     4     9     9    48     ·
+       4     2   0% |      ·     ·     ·    50    50     ·     ·     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 5 (n= 385): dobj=14%  nsubj=13%  pobj=12%  ROOT=9%
+    mode 2 (n= 224): prep=12%  amod=12%  ROOT=9%  pobj=8%
+    mode 7 (n=  87): det=69%  amod=17%  poss=3%  prep=3%
+    mode 3 (n=  84): pobj=17%  prep=14%  nsubj=11%  ROOT=10%
+    mode 8 (n=  67): det=40%  nsubj=19%  compound=6%  aux=6%
+    mode 1 (n=  67): punct=99%  cc=1%
+    mode 0 (n=  27): appos=48%  punct=30%  prep=7%  compound=4%
+    mode 6 (n=  23): pobj=48%  ROOT=9%  advmod=9%  prep=9%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       5   385 |  0.136    2.938  89.1%  0.572 | spoilers, !, ., ​​                  → 想着, 意愿, 柠檬
+       2   224 |  0.097    3.291  87.8%  0.470 | imm, Baldwin, ISON, ​​              → boy, _axis, Parameter
+       7    87 |  0.151    3.402  88.5%  0.633 | recovered, invention, inode, greate → 士, 力求, 中介机构
+       3    84 |  0.133    2.949  90.0%  0.690 | twilight, overhead, 树叶, softer      → [, .middleware, ļ
+       8    67 | -0.071    0.714  37.6%  0.989 | ogle, opi, ington, 丈                → 参与者, |i, Lake
+       1    67 |  0.131    2.887  87.5%  0.730 | , , ,                               → ***, 秉, 峒
+       0    27 |  0.038    2.703  87.2%  0.705 | 侃, ites, 恺, FINITE                  → 一家人, 阑, 修身
+       6    23 |  0.057    2.982  86.7%  0.656 | 无限, infinite, endless, Infinite     → approximate, rough, 大致
+       4     2 |  0.107    2.937  90.6%  0.950 | plata, street, .mount, rooft        → /releases, 气候, ss
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 5 (n= 385): ' theory' 'ativity' 'ynthesis' ' structure' ' discovered' 'ick' ' mechanics' ' scale' ' brain' ' neurons' 'apses' ' holes' ' table' ' organ' ' configuration'
+    mode 2 (n= 224): ' of' ' general' ' rel' ' describes' ' gravity' ' as' ' the' ' curvature' ' of' ' spac' 'etime' ' converts' ' carbon' ' dioxide' ' and'
+    mode 7 (n=  87): ' human' ' the' ' ancient' ' old' ' the' ' the' ' the' ' their' ' the' ' the' ' the' ' the' ' the' ' the' ' empty'
+    mode 3 (n=  84): ' walked' ' through' ' forest' ',' ' her' ' footsteps' ' m' 'uffled' ' by' ' fallen' ' leaves' '.' ' man' ' sat' ' quietly'
+    mode 8 (n=  67): 'The' 'Photos' 'DNA' 'Quant' 'The' 'Black' 'The' 'En' 'She' 'The' 'Three' 'He' 'The' 'A' 'The'
+    mode 1 (n=  67): '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' ','
+    mode 0 (n=  27): ' Fibonacci' ' sequence' ' begins' ' with' ' ' '1' ',' '1' ',' ' ' '2' ',' '3' ',' '5'
+    mode 6 (n=  23): ' ' ' is' ' approximately' ' is' ' approximately' ' equal' ' to' ' ' '3' '.' '1' '4' '1' '5' '9'
+    mode 4 (n=   2): ' on' ' the'
+
+    Layer 27 done in 5.3s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 30
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.0s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 24, 1: 72, 2: 77, 3: 85, 4: 98, 5: 285, 6: 67, 7: 3, 8: 255}
+    Mode entropy: 2.67 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       5   285  30% |     45     5    13     ·     3     4     ·     5
+       8   255  26% |     18    11     7     5    11     9    18     8
+       4    98  10% |     40     ·    15     4    12    14     1     2
+       3    85   9% |      1     1    22    38    12    13     2     2
+       2    77   8% |      4     ·    17    32    23    13     ·     1
+       1    72   7% |      ·    94     1     ·     ·     ·     1     ·
+       6    67   7% |     12     ·     6    40     1     4     3     9
+       0    24   2% |     42     4    12     4    17    12     ·     ·
+       7     3   0% |     33     ·    33     ·     ·    33     ·     ·
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 5 (n= 285): nsubj=19%  pobj=16%  dobj=13%  advmod=9%
+    mode 8 (n= 255): pobj=11%  prep=11%  punct=11%  ROOT=8%
+    mode 4 (n=  98): compound=13%  dobj=12%  prep=12%  amod=10%
+    mode 3 (n=  85): det=36%  amod=16%  ROOT=14%  prep=13%
+    mode 2 (n=  77): det=32%  prep=22%  amod=13%  ROOT=8%
+    mode 1 (n=  72): punct=94%  ROOT=1%  aux=1%  cc=1%
+    mode 6 (n=  67): det=40%  nsubj=19%  compound=6%  aux=6%
+    mode 0 (n=  24): amod=17%  compound=12%  nsubj=12%  ROOT=8%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       5   285 |  0.134    3.994  89.7%  0.543 | tagged, barely, ,                   → anda, readonly, entions
+       8   255 |  0.068    4.029  87.2%  0.379 | 抽出, ​​, 打入, .@                      → anda, Nat, Tesla
+       4    98 |  0.113    4.289  88.6%  0.528 | , hash, machine, machine            → Falcons, 外面, 窝
+       3    85 |  0.161    4.919  89.4%  0.560 | resolutions, Resolution, cuts, reso → Pad, azi, pch
+       2    77 |  0.170    5.065  89.4%  0.566 | leaves, leaf, 树叶, snow              → 面上, noe, anda
+       1    72 |  0.141    3.657  89.4%  0.693 | 菁, iced, Ki, Doc                    → Whether, whether, 是否有
+       6    67 | -0.056    0.884  43.1%  0.987 | see, ful, co, base                  → 吸收, 被盗, 犁
+       0    24 |  0.104    4.160  87.9%  0.624 | GC, nucle, DNA, --                  → Atom, 共产, atom
+       7     3 |  0.136    4.221  89.4%  0.845 | points, credit, points, Points      → horn, 戈, 关口
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 5 (n= 285): ' theory' 'ativity' ' oxygen' ' structure' ' discovered' 'ick' ' mechanics' ' scale' ' brain' ' neurons' 'apses' ' holes' ' stars' ' collapse' ' force'
+    mode 8 (n= 255): ' of' ' general' ' rel' ' describes' ' gravity' ' as' ' the' ' curvature' ' of' ' spac' 'etime' ' converts' ' carbon' ' dioxide' ' and'
+    mode 4 (n=  98): ' software' ' by' ' running' ' the' ' setup' ' following' ' the' ' takes' ' two' ' arguments' ' and' ' returns' ' their' ' composition' ' as'
+    mode 3 (n=  85): ' voted' ' to' ' approve' ' the' ' new' ' environmental' ' addressed' ' the' ' regarding' ' the' ' economic' ' require' ' careful' ' between' ' multiple'
+    mode 2 (n=  77): ' through' ' the' ' ancient' ' her' ' by' ' fallen' ' by' ' the' ' watching' ' the' ' at' ' through' ' the' ' sun' 'lit'
+    mode 1 (n=  72): '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.'
+    mode 6 (n=  67): 'The' 'Photos' 'DNA' 'Quant' 'The' 'Black' 'The' 'En' 'She' 'The' 'Three' 'He' 'The' 'A' 'The'
+    mode 0 (n=  24): 'ynthesis' ' carries' ' genetic' ' information' ' in' ' a' ' double' 'ix' ' by' 'zym' 'es' ' are' ' biological' ' catalyst' 's'
+    mode 7 (n=   3): ' receive' ' extra' ' credit'
+
+    Layer 30 done in 5.3s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 35
+──────────────────────────────────────────────────────────────────────
+    Collecting gate patterns + FFN input/output...
+    Collected 966 tokens in 4.0s
+    Clustering 966 gate patterns (12288-dim) into 9 modes...
+    Mode sizes: {0: 66, 1: 215, 2: 68, 3: 107, 4: 95, 5: 74, 6: 34, 7: 107, 8: 200}
+    Mode entropy: 2.97 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG (sorted by size) ===
+    Mode     N    % |   NOUN  PUNCT   VERB    DET    ADP    ADJ    NUM  PROPN
+    ───────────────────────────────────────────────────────────────────────────────
+       1   215  22% |     68     ·    10     ·     ·     6     ·     6
+       8   200  21% |      2    10    35     1    32     1     ·     ·
+       3   107  11% |     10     6     7     9    12    33     7     2
+       7   107  11% |     14    15     4     ·     4     6    39    12
+       4    95  10% |      1     ·     3    67     1    16     1     4
+       5    74   8% |     57     3     3     ·     ·     ·     ·     7
+       2    68   7% |      ·    99     ·     ·     ·     ·     1     ·
+       0    66   7% |     12     ·     6    41     2     5     2     9
+       6    34   4% |     26     6     ·     ·     ·     ·     ·     3
+
+    === MODE × DEP ROLE (top deps per mode) ===
+    mode 1 (n= 215): pobj=30%  dobj=27%  conj=7%  advmod=6%
+    mode 8 (n= 200): prep=32%  ROOT=24%  punct=10%  advmod=6%
+    mode 3 (n= 107): amod=32%  compound=12%  prep=10%  det=9%
+    mode 7 (n= 107): pobj=20%  punct=15%  appos=15%  conj=11%
+    mode 4 (n=  95): det=67%  amod=19%  compound=5%  poss=5%
+    mode 5 (n=  74): nsubj=55%  compound=8%  advmod=7%  pobj=4%
+    mode 2 (n=  68): punct=99%  pobj=1%
+    mode 0 (n=  66): det=41%  nsubj=20%  compound=6%  aux=6%
+    mode 6 (n=  34): nsubj=47%  aux=18%  advmod=9%  cc=9%
+
+    === TRANSFORM × GATE CHARACTERISTICS ===
+    Mode     N |    cos ‖out/in‖  gate%  g_con | Top vocab → Suppressed
+       1   215 |  0.125    9.338  68.3%  0.933 | �, 이야, ⏤, ܀                         → <|endoftext|>, _life, _sa
+       8   200 |  0.135   10.314  71.5%  0.913 | Geile, Shemale, Bbw, luder          → <|endoftext|>, 点儿, wait
+       3   107 | -0.005    9.897  66.3%  0.902 | Geile, luder, Bbw, nuru             → <|endoftext|>, ג, เล
+       7   107 | -0.008    9.590  62.6%  0.851 | Geile, Bbw, ߗ, ܀                    → เล, _today, _instruction
+       4    95 |  0.068    9.656  77.9%  0.884 | Geile, Bbw, Shemale, luder          → 点儿, เล, wait
+       5    74 |  0.117    9.714  74.1%  0.902 | Geile, 이야, ܀, 스스                    → <|endoftext|>, .RestContr
+       2    68 |  0.039    9.853  73.1%  0.952 | Geile, Shemale, Bbw,                → :name, .Parcel, .World
+       0    66 | -0.292   15.227  32.8%  1.000 | s, , *, .                           → (*(, ((*, ��
+       6    34 |  0.106   10.887  70.1%  0.934 | 이야, Geile, ܀, 스스                    → <|endoftext|>, keys, worl
+
+    === EXAMPLE TOKENS PER MODE ===
+    mode 1 (n= 215): ' gravity' ' curvature' 'etime' 'ynthesis' ' dioxide' ' water' ' glucose' ' oxygen' ' information' 'ix' ' structure' ' discovered' 'ick' ' behavior' ' particles'
+    mode 8 (n= 200): ' of' ' describes' ' as' ' converts' ' into' ' carries' ' in' ' by' ' describes' ' contains' ' approximately' ' form' ' when' 'izes' ' by'
+    mode 3 (n= 107): ' general' ' the' ' of' ' carbon' ' and' ' and' ' genetic' ' double' ' of' ' at' ' the' ' atomic' ' and' 'atomic' ' billion'
+    mode 7 (n= 107): ' rel' ' spac' ' hel' ' Watson' ' and' ' Cr' ' sub' ' ' '8' '6' ' tr' ' syn' ' organ' 'zym' ' catalyst'
+    mode 4 (n=  95): ' a' 'um' ' the' ' human' ' periodic' ' the' ' ancient' ' her' ' old' ' the' ' the' ' the' 'lit' ' their' ' the'
+    mode 5 (n=  74): ' theory' 'ativity' ' mechanics' ' brain' ' table' ' man' ' children' ' dog' ' ship' ' storm' ' clouds' ' woman' ' detective' ' morning' ' light'
+    mode 2 (n=  68): '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.' '.'
+    mode 0 (n=  66): 'The' 'Photos' 'DNA' 'Quant' 'The' 'Black' 'The' 'En' 'She' 'The' 'Three' 'He' 'The' 'A' 'The'
+    mode 6 (n=  34): ' holes' ' stars' ' that' ' rain' ',' ',' ' first' ' and' ' and' ' should' ' to' ' agreements' ' algorithms' ' can' ' that'
+
+    Layer 35 done in 5.2s
+
+======================================================================
+  CROSS-LAYER SUMMARY
+======================================================================
+
+  Layer-level transform physics:
+  Layer entropy     cos  ‖ratio‖   gate% | Dominant POS
+  L  3    2.56   0.081    0.102   2.7% | m2→DET(88%), m7→NOUN(55%), m8→VERB(63%)
+  L  7    1.96  -0.119    0.655  52.8% | m0→DET(58%), m6→NOUN(59%), m2→NOUN(47%)
+  L 15    2.71  -0.100    1.503  75.6% | m6→NOUN(38%), m3→DET(64%), m5→NOUN(48%)
+  L 20    2.70  -0.019    1.660  75.9% | m7→DET(41%), m1→NOUN(66%), m8→NOUN(69%)
+  L 27    2.46   0.109    2.899  85.1% | m8→DET(40%), m5→NOUN(38%), m7→DET(70%)
+  L 30    2.67   0.106    3.964  85.6% | m6→DET(40%), m5→NOUN(45%), m0→NOUN(42%)
+  L 35    2.97   0.056   10.183  67.5% | m0→DET(41%), m5→NOUN(57%), m7→NUM(39%)
+
+  Results saved to /Users/mwhitford/src/verbum/results/mode-semantics/Qwen_Qwen3-8B.json
+  Total tokens analyzed: 6762

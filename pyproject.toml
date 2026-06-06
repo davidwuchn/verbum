@@ -25,6 +25,7 @@ dependencies = [
     "gguf>=0.18.0",
     "plotly>=6.7.0",
     "datasets>=4.8.5",
+    "spacy>=3.8.14",
 ]
 
 [project.scripts]

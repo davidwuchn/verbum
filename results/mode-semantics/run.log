@@ -1,0 +1,292 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+======================================================================
+  MODE SEMANTICS DECODER
+  What do the 9 FFN ternary modes compute?
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Modes: 9
+  Target layers: [3, 7, 15, 20, 27, 30, 35]
+
+  Loading spaCy en_core_web_sm...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:04,  2.16it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 60.39it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:03, 108.26it/s]Loading weights:  21%|██▏       | 85/399 [00:01<00:04, 69.41it/s] Loading weights:  24%|██▍       | 96/399 [00:01<00:05, 53.63it/s]Loading weights:  26%|██▌       | 104/399 [00:01<00:06, 45.05it/s]Loading weights:  29%|██▊       | 114/399 [00:02<00:07, 38.66it/s]Loading weights:  31%|███▏      | 125/399 [00:02<00:07, 34.65it/s]Loading weights:  34%|███▍      | 136/399 [00:03<00:07, 33.43it/s]Loading weights:  37%|███▋      | 147/399 [00:03<00:08, 31.47it/s]Loading weights:  40%|███▉      | 158/399 [00:03<00:07, 30.57it/s]Loading weights:  42%|████▏     | 169/399 [00:04<00:07, 29.85it/s]Loading weights:  45%|████▌     | 180/399 [00:04<00:07, 29.43it/s]Loading weights:  48%|████▊     | 191/399 [00:04<00:06, 31.23it/s]Loading weights:  51%|█████     | 202/399 [00:05<00:06, 30.35it/s]Loading weights:  53%|█████▎    | 213/399 [00:05<00:06, 30.04it/s]Loading weights:  56%|█████▌    | 224/399 [00:06<00:05, 29.61it/s]Loading weights:  59%|█████▉    | 235/399 [00:06<00:05, 29.09it/s]Loading weights:  62%|██████▏   | 246/399 [00:06<00:05, 28.86it/s]Loading weights:  64%|██████▍   | 257/399 [00:07<00:04, 28.83it/s]Loading weights:  67%|██████▋   | 268/399 [00:07<00:04, 28.89it/s]Loading weights:  70%|██████▉   | 279/399 [00:08<00:04, 28.31it/s]Loading weights:  73%|███████▎  | 290/399 [00:08<00:03, 28.10it/s]Loading weights:  75%|███████▌  | 301/399 [00:08<00:02, 34.89it/s]Loading weights:  77%|███████▋  | 306/399 [00:08<00:02, 31.73it/s]Loading weights:  78%|███████▊  | 312/399 [00:09<00:03, 27.86it/s]Loading weights:  79%|███████▉  | 316/399 [00:09<00:02, 28.97it/s]Loading weights:  81%|████████  | 323/399 [00:09<00:02, 26.50it/s]Loading weights:  84%|████████▎ | 334/399 [00:09<00:02, 27.42it/s]Loading weights:  86%|████████▋ | 345/399 [00:10<00:01, 28.43it/s]Loading weights:  89%|████████▉ | 356/399 [00:10<00:01, 28.37it/s]Loading weights:  92%|█████████▏| 367/399 [00:11<00:01, 27.95it/s]Loading weights:  95%|█████████▍| 378/399 [00:11<00:00, 27.50it/s]Loading weights:  97%|█████████▋| 389/399 [00:11<00:00, 27.97it/s]Loading weights: 100%|██████████| 399/399 [00:11<00:00, 33.45it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Layers: 36, d_model: 4096
+  Texts: 40 sentences
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 3
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.9s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 1, 1: 42, 2: 415, 3: 1, 4: 1, 5: 1, 6: 12, 7: 117, 8: 12}
+    Mode entropy: 1.38 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0     1 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       1    42 |     2    5    ·    5    ·   43    2   12    2    5
+       2   415 |     8    9    7    3    0    2    ·   26    9    1
+       3     1 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       4     1 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       5     1 |   100    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       6    12 |     ·    ·    ·    ·  100    ·    ·    ·    ·    ·
+       7   117 |     7    9    3    3    ·   26    ·   21    8    1
+       8    12 |     8    ·    ·    ·    8    ·    ·   42    ·    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0     1 |  0.074   0.074   0.00  0.997 | ­s, nes, ople, igrate, s
+       1    42 | -0.197   0.124   0.13  1.025 | 究, river, XXXX, _sin, atic
+       2   415 |  0.113   0.096   0.08  0.995 | forms, MinMax, *(*, 配合, _min
+       3     1 |  0.086   0.089   0.00  0.996 | 古今, 耄, 前几年, 具体的, RTL
+       4     1 |  0.143   0.137   0.00  0.990 | -related, Manny, -associated, IVA, 发挥
+       5     1 |  0.179   0.123   0.00  0.985 | stan, uele, stderr, -readable, BDS
+       6    12 |  0.118   0.071   0.04  0.994 | /or, /OR, rogen, rog, rew
+       7   117 |  0.068   0.081   0.03  0.997 | rec, enda, itu, 依托, erie
+       8    12 |  0.105   0.176   0.23  1.000 | 蒸, -figure, 大楼, .googlecode, 保守
+
+    Layer 3 done in 3.5s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 7
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.4s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 2, 1: 1, 2: 1, 3: 1, 4: 2, 5: 6, 6: 585, 7: 3, 8: 1}
+    Mode entropy: 0.26 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0     2 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       1     1 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       2     1 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       3     1 |   100    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       4     2 |     ·    ·    ·    ·  100    ·    ·    ·    ·    ·
+       5     6 |     ·    ·    ·    ·    ·   67    ·    ·    ·    ·
+       6   585 |     7    9    5    3    2    9    0   24    8    1
+       7     3 |     ·    ·    ·    ·   33    ·    ·    ·    ·    ·
+       8     1 |     ·    ·    ·    ·    ·    ·    ·    ·  100    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0     2 | -0.186   0.569   1.35  1.238 | Serg, SYN, 潮流, 大道, 诊疗
+       1     1 | -0.166   1.546   0.00  1.976 | ///<, hookup, /GL, esson, 浏
+       2     1 |  0.007   0.557   0.00  1.141 | stap, Gram, 究, zin, erville
+       3     1 | -0.087   0.494   0.00  1.153 | orna, orphan, ök, dealing, Vog
+       4     2 | -0.206   0.440   1.10  1.173 | /or, amp, ern, 建, pile
+       5     6 | -0.131   0.504   2.32  1.182 | 同情, ，《, -art, KING, kul
+       6   585 | -0.116   0.644   1.06  1.236 | �, rett, ipur, fram, 锅
+       7     3 | -0.188   0.433   1.37  1.161 | 实, lady, ant, pseud, ulls
+       8     1 | -0.096   1.818   0.00  2.157 | menn, 钺, erves, endale, ecture
+
+    Layer 7 done in 2.9s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 15
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.4s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 19, 1: 40, 2: 1, 3: 49, 4: 270, 5: 75, 6: 29, 7: 118, 8: 1}
+    Mode entropy: 2.31 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0    19 |     5   26    ·    5    ·   47    ·    ·   11    ·
+       1    40 |     2    2    ·    5    ·   45    2   10    2    5
+       2     1 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       3    49 |    10   10    6    ·    ·    6    ·   24   24    ·
+       4   270 |     7   12    5    2    6    4    ·   14   10    1
+       5    75 |     4    4    4   12    ·    1    ·   40    ·    1
+       6    29 |     3    ·    ·    3    ·   45    ·   10    7    ·
+       7   118 |    11    4    9    1    ·    2    ·   47    2    ·
+       8     1 |     ·  100    ·    ·    ·    ·    ·    ·    ·    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0    19 |  0.282   0.976   2.17  1.180 | 府, ky, Mons, _transactions, ailles
+       1    40 |  0.002   0.992   1.28  1.407 | favor, mo, .bunifuFlatButton, ***, yes
+       2     1 | -0.119   1.682   0.00  2.057 | heid, bars, 平均每, 不宜, 造成的
+       3    49 | -0.131   1.730   2.71  2.109 | �, _xy, 滤, assa, _logits
+       4   270 | -0.184   1.462   2.32  1.923 | 宽带, _bits, .pkg, SPE, unt
+       5    75 | -0.038   1.668   2.15  1.979 | 网讯, pes, 扩, iero, \_
+       6    29 |  0.352   1.700   2.10  1.609 | Mons, okie, TED, ve, ky
+       7   118 | -0.125   1.600   2.40  1.993 | Mons, Geek, 来讲, 型企业, ami
+       8     1 | -0.251   1.457   0.00  1.963 | 诤, 摄, cant, 折, iola
+
+    Layer 15 done in 2.9s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 20
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.4s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 2, 1: 3, 2: 4, 3: 7, 4: 40, 5: 264, 6: 1, 7: 269, 8: 12}
+    Mode entropy: 1.62 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0     2 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       1     3 |     ·   67    ·    ·    ·   33    ·    ·    ·    ·
+       2     4 |     ·    ·    ·    ·   25    ·    ·   50    ·    ·
+       3     7 |     ·   43    ·    ·   14   14    ·   14    ·    ·
+       4    40 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       5   264 |     8   13    5    1    3   16    0   14   16    1
+       6     1 |     ·  100    ·    ·    ·    ·    ·    ·    ·    ·
+       7   269 |     8    4    6    6    2    4    ·   37    2    1
+       8    12 |     ·    ·    8    ·    ·   25    ·   17    ·    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0     2 |  0.050   1.755   4.01  1.977 | constituents, mimetype, __;, 漕, 应该怎么
+       1     3 | -0.116   1.508   3.06  1.903 | ख, dryer, 掩, ologies, 筛
+       2     4 |  0.071   1.775   4.11  1.972 | 和技术, nels, 咄, abide, 中国文化
+       3     7 | -0.037   1.884   4.34  2.169 | íf, practiced, fate, ':, 细微
+       4    40 | -0.029   1.726   3.20  2.020 | 下面就, 人际, OVE, 殁, _stuff
+       5   264 | -0.057   1.551   3.09  1.969 | -log, ades, �, onComplete, 等多项
+       6     1 |  0.065   2.056   0.00  2.227 | ocos, IT, ombo, 的高度, iera
+       7   269 |  0.026   1.750   3.03  1.996 | �, 进入到, cid, _fre, Arr
+       8    12 |  0.057   1.691   3.11  1.918 | choc, 积, 贲, �, enne
+
+    Layer 20 done in 2.9s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 27
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.4s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 5, 1: 10, 2: 425, 3: 2, 4: 74, 5: 3, 6: 31, 7: 45, 8: 7}
+    Mode entropy: 1.52 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0     5 |    20   20    ·    ·    ·    ·    ·   20    ·    ·
+       1    10 |     ·    ·    ·    ·    ·    ·    ·    ·   40    ·
+       2   425 |     8   10    5    4    3    9    ·   28    2    1
+       3     2 |     ·    ·    ·    ·    ·   50    ·    ·    ·    ·
+       4    74 |     5    9   11    ·    1    1    ·   22   36    1
+       5     3 |    33   67    ·    ·    ·    ·    ·    ·    ·    ·
+       6    31 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       7    45 |     2    2    ·    4    ·   40    2   11   11    4
+       8     7 |     ·    ·   29   14    ·    ·    ·    ·   57    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0     5 |  0.138   3.032  11.08  3.066 | 的声音, sounds, sound, 声音, Sounds
+       1    10 |  0.030   2.716  11.97  2.870 | ites, 恺, 卧室, 舞, 轧
+       2   425 |  0.132   3.102   9.65  3.142 | 什么意思, 怎么办, ​​, 该怎么办, spoilers
+       3     2 |  0.198   3.412   6.59  3.363 | invention, existence, presence, slightest, formation
+       4    74 |  0.062   2.916   9.48  3.045 | , , , , 
+       5     3 |  0.101   2.997  10.88  3.065 | 新たな, new, 一个新的, 新しい, 新的
+       6    31 |  0.127   2.845   8.74  2.891 | , , , , 
+       7    45 | -0.060   0.920   8.58  1.826 | length, length, _length, 查, metres
+       8     7 |  0.063   3.935  12.67  3.988 | Lunar, 月, Artem, Apollo, oracle
+
+    Layer 27 done in 2.9s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 30
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.5s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 4, 1: 204, 2: 1, 3: 4, 4: 4, 5: 1, 6: 380, 7: 2, 8: 2}
+    Mode entropy: 1.18 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0     4 |     ·    ·   50    ·   25    ·    ·   25    ·    ·
+       1   204 |     4    5    3    2    1   11    0   22   19    1
+       2     1 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+       3     4 |     ·   25    ·    ·    ·   25    ·    ·    ·   25
+       4     4 |     ·   50    ·    ·    ·   50    ·    ·    ·    ·
+       5     1 |     ·    ·    ·    ·    ·    ·    ·  100    ·    ·
+       6   380 |     9   10    6    4    3    8    ·   25    2    1
+       7     2 |     ·    ·    ·    ·    ·    ·    ·   50    ·    ·
+       8     2 |     ·   50    ·    ·   50    ·    ·    ·    ·    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0     4 |  0.167   4.632  16.44  4.580 | managed, manage, managed, managing, manages
+       1   204 |  0.050   3.146  14.01  3.669 | Anonymous, biscuits, 光明, <![, photoc
+       2     1 |  0.116   4.945   0.00  4.930 | back, back, Back, Back, -back
+       3     4 |  0.133   5.571  37.62  5.534 | guilty, gu, ruling, decision, 决
+       4     4 |  0.137   5.573  32.78  5.562 | hor, гор, fires, fire, Hor
+       5     1 |  0.127   3.154   0.00  3.185 | across, throughout, 東, Eastern, Eastern
+       6   380 |  0.135   4.363  15.65  4.359 | ___, tagged, __, , barely
+       7     2 |  0.134   4.403  29.14  4.383 | distance, above, distance, 的距离, passed
+       8     2 |  0.091   6.510  37.14  6.498 | Watson, nucle, DNA, 核酸, DNA
+
+    Layer 30 done in 2.9s
+
+──────────────────────────────────────────────────────────────────────
+  LAYER 35
+──────────────────────────────────────────────────────────────────────
+    Collecting FFN input/output + annotations...
+    Collected 602 tokens in 2.4s
+    Clustering 602 outputs into 9 modes...
+    Mode sizes: {0: 55, 1: 22, 2: 113, 3: 46, 4: 18, 5: 60, 6: 96, 7: 162, 8: 30}
+    Mode entropy: 2.86 bits
+    Characterizing mode semantics...
+
+    === MODE × POS TAG ===
+    Mode     N |   ADJ   ADP   ADV   AUX CCONJ   DET  INTJ  NOUN   NUM  PART
+    ────────────────────────────────────────────────────────────────────────────
+       0    55 |     9    9    4    2    2    7    ·   29    9    ·
+       1    22 |     ·    5    ·    5    ·   82    ·    ·    ·    5
+       2   113 |    11   11    3    3    3   12    ·   24    4    ·
+       3    46 |     7   17   11    2    4    ·    ·    2   26    ·
+       4    18 |     6    ·    ·    6    ·    ·    6   22    6    6
+       5    60 |    15    7    3    ·    3    8    ·   18   23    5
+       6    96 |     4    4   10    ·    1    1    ·   54    1    ·
+       7   162 |     6   11    5    8    4    9    ·   20    6    1
+       8    30 |     ·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+
+    === TRANSFORM CHARACTERISTICS ===
+    Mode     N |    cos  norm_r  var_r  resid | Top vocab
+       0    55 | -0.033   8.716  25.95  8.770 | Geile, ܀, luder, 이야, �
+       1    22 | -0.251  13.155 10028.59 13.453 | s, , d, *, 
+       2   113 |  0.054   8.697  18.39  8.651 | Geile, Bbw, Shemale, luder, ܀
+       3    46 |  0.089  12.481  35.98 12.378 | Geile, Bbw, Shemale, 이야, ܀
+       4    18 | -0.333  17.094 43590.48 17.457 | ,, ., *, ), s
+       5    60 | -0.024   8.421  35.32  8.376 | Geile, Bbw, arsch, Shemale, ߗ
+       6    96 |  0.140   9.682  14.93  9.558 | �, 이야, Geile, ܀, ⏤
+       7   162 |  0.141  10.747  19.85 10.631 | Geile, Shemale, Bbw, 이야, luder
+       8    30 |  0.062  10.197  30.26 10.188 | Geile, Shemale, Bbw, ܀, 
+
+    Layer 35 done in 2.9s
+
+======================================================================
+  CROSS-LAYER SUMMARY
+======================================================================
+
+  Per-layer entropy and dominant mode characteristics:
+  L 3: entropy=1.38  avg_cos(in,out)=0.076  most_pure=mode6→CCONJ(100%)
+  L 7: entropy=0.26  avg_cos(in,out)=-0.130  most_pure=mode5→DET(67%)
+  L15: entropy=2.31  avg_cos(in,out)=-0.024  most_pure=mode7→NOUN(47%)
+  L20: entropy=1.62  avg_cos(in,out)=0.003  most_pure=mode3→ADP(43%)
+  L27: entropy=1.52  avg_cos(in,out)=0.088  most_pure=mode8→NUM(57%)
+  L30: entropy=1.18  avg_cos(in,out)=0.121  most_pure=mode6→NOUN(25%)
+  L35: entropy=2.86  avg_cos(in,out)=-0.017  most_pure=mode1→DET(82%)
+
+  Results saved to /Users/mwhitford/src/verbum/results/mode-semantics/Qwen_Qwen3-8B.json
+  Total tokens analyzed: 4214
