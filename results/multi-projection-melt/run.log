@@ -1,0 +1,300 @@
+
+======================================================================
+
+======================================================================
+  MULTI-PROJECTION MELT
+  MULTI-PROJECTION MELT
+  CT scan, not X-ray — holographic projections at every level
+  CT scan, not X-ray — holographic projections at every level
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Melt steps: 80
+  Melt steps: 80
+  Checkpoints: ['lexer', 'composition', 'type_crystal', 'binding']
+  Checkpoints: ['lexer', 'composition', 'type_crystal', 'binding']
+  Weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 2.0, 'binding': 1.0, 'output_ce': 1.0}
+  Weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 2.0, 'binding': 1.0, 'output_ce': 1.0}
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:11,  1.58it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:13, 29.13it/s]Loading weights:  13%|█▎        | 50/399 [00:00<00:03, 88.54it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 135.91it/s]Loading weights:  28%|██▊       | 112/399 [00:01<00:01, 177.20it/s]Loading weights:  35%|███▍      | 138/399 [00:01<00:01, 197.27it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:01, 215.61it/s]Loading weights:  50%|████▉     | 199/399 [00:01<00:00, 229.54it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 245.57it/s]Loading weights:  67%|██████▋   | 267/399 [00:01<00:00, 271.58it/s]Loading weights:  76%|███████▌  | 302/399 [00:01<00:00, 291.80it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 300.40it/s]Loading weights:  92%|█████████▏| 369/399 [00:01<00:00, 307.96it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 198.86it/s]
+  d_model: 4096
+  d_model: 4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15
+  Baseline facts: 12/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 1: CACHING TEACHER STATES
+  PHASE 1: CACHING TEACHER STATES
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Cached 31 texts × 4 checkpoints in 2.2s
+  Cached 31 texts × 4 checkpoints in 2.2s
+    lexer: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    lexer: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    composition: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    composition: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    type_crystal: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    type_crystal: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    binding: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+    binding: 31 texts, shapes torch.Size([15, 4096]) to torch.Size([10, 4096])
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 2: BUILD STAGE 3 COMPRESSED MODEL
+  PHASE 2: BUILD STAGE 3 COMPRESSED MODEL
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    Installing L0 SVD rank-750...
+    Installing L0 SVD rank-750...
+    L0 ✓
+    L0 ✓
+    Installing core ternary (L13-L21)...
+    Installing core ternary (L13-L21)...
+      L13: acc=100.0%
+      L13: acc=100.0%
+      L14: acc=100.0%
+      L14: acc=100.0%
+      L15: acc=100.0%
+      L15: acc=100.0%
+      L16: acc=99.7%
+      L16: acc=99.7%
+      L17: acc=99.8%
+      L17: acc=99.8%
+      L18: acc=100.0%
+      L18: acc=100.0%
+      L19: acc=100.0%
+      L19: acc=100.0%
+      L20: acc=100.0%
+      L20: acc=100.0%
+      L21: acc=100.0%
+      L21: acc=100.0%
+    Installing inward ternary (L10-L12)...
+    Installing inward ternary (L10-L12)...
+      L10: acc=100.0%
+      L10: acc=100.0%
+      L11: acc=100.0%
+      L11: acc=100.0%
+      L12: acc=99.7%
+      L12: acc=99.7%
+    Installing outward ternary (L22-L26)...
+    Installing outward ternary (L22-L26)...
+      L22: acc=100.0%
+      L22: acc=100.0%
+      L23: acc=100.0%
+      L23: acc=100.0%
+      L24: acc=99.7%
+      L24: acc=99.7%
+      L25: acc=98.8%
+      L25: acc=98.8%
+      L26: acc=99.8%
+      L26: acc=99.8%
+    Total: 17 ternary + L0 SVD = 38,117,376 trainable params
+    Total: 17 ternary + L0 SVD = 38,117,376 trainable params
+
+  Pre-melt PPL: 562.60 (55.37x)
+
+  Pre-melt PPL: 562.60 (55.37x)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 3A: STANDARD MELT (CE loss only)
+  PHASE 3A: STANDARD MELT (CE loss only)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+      step   1/80: loss=6.4888 grad=11.93 (2s)
+      step   1/80: loss=6.4888 grad=11.93 (2s)
+      step  10/80: loss=6.2895 grad=119.36 (9s)
+      step  10/80: loss=6.2895 grad=119.36 (9s)
+      step  20/80: loss=5.9583 grad=245.36 (13s)
+      step  20/80: loss=5.9583 grad=245.36 (13s)
+      step  30/80: loss=5.0741 grad=25.65 (19s)
+      step  30/80: loss=5.0741 grad=25.65 (19s)
+      step  40/80: loss=5.4865 grad=15.89 (23s)
+      step  40/80: loss=5.4865 grad=15.89 (23s)
+      step  50/80: loss=5.0691 grad=12.10 (28s)
+      step  50/80: loss=5.0691 grad=12.10 (28s)
+      step  60/80: loss=4.4034 grad=16.49 (33s)
+      step  60/80: loss=4.4034 grad=16.49 (33s)
+      step  70/80: loss=3.7822 grad=14.44 (38s)
+      step  70/80: loss=3.7822 grad=14.44 (38s)
+      step  80/80: loss=2.7555 grad=14.38 (43s)
+      step  80/80: loss=2.7555 grad=14.38 (43s)
+
+  Standard melt PPL: 61.85 (6.09x)
+
+  Standard melt PPL: 61.85 (6.09x)
+  Standard melt facts: 0/15
+  Standard melt facts: 0/15
+
+  Standard melt generation:
+
+  Standard melt generation:
+    The capital of France is → the the capital of the city, the capital of the city, the ca
+    The capital of France is → the the capital of the city, the capital of the city, the ca
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  RESETTING TO PRE-MELT STATE
+  RESETTING TO PRE-MELT STATE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Reset PPL: 577.19 (56.81x) (should match pre-melt 55.37x)
+  Reset PPL: 577.19 (56.81x) (should match pre-melt 55.37x)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 3B: MULTI-PROJECTION MELT (CE + intermediate losses)
+  PHASE 3B: MULTI-PROJECTION MELT (CE + intermediate losses)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+      step   1/80: loss=6.4888 grad=12.83 (1s)  proj: lexe=0.1005 comp=0.2543 type=0.2759 bind=0.2358
+      step   1/80: loss=6.4888 grad=12.83 (1s)  proj: lexe=0.1005 comp=0.2543 type=0.2759 bind=0.2358
+      step  10/80: loss=5.4907 grad=9.41 (6s)  proj: lexe=0.0884 comp=0.2749 type=0.2840 bind=0.2441
+      step  10/80: loss=5.4907 grad=9.41 (6s)  proj: lexe=0.0884 comp=0.2749 type=0.2840 bind=0.2441
+      step  20/80: loss=5.0576 grad=19.64 (11s)  proj: lexe=0.1265 comp=0.2229 type=0.2261 bind=0.1697
+      step  20/80: loss=5.0576 grad=19.64 (11s)  proj: lexe=0.1265 comp=0.2229 type=0.2261 bind=0.1697
+      step  30/80: loss=4.3116 grad=14.86 (16s)  proj: lexe=0.1305 comp=0.2691 type=0.2651 bind=0.2057
+      step  30/80: loss=4.3116 grad=14.86 (16s)  proj: lexe=0.1305 comp=0.2691 type=0.2651 bind=0.2057
+      step  40/80: loss=4.8060 grad=43.68 (22s)  proj: lexe=0.1193 comp=0.3778 type=0.3433 bind=0.2792
+      step  40/80: loss=4.8060 grad=43.68 (22s)  proj: lexe=0.1193 comp=0.3778 type=0.3433 bind=0.2792
+      step  50/80: loss=4.4118 grad=22.34 (26s)  proj: lexe=0.1466 comp=0.2869 type=0.2513 bind=0.1819
+      step  50/80: loss=4.4118 grad=22.34 (26s)  proj: lexe=0.1466 comp=0.2869 type=0.2513 bind=0.1819
+      step  60/80: loss=3.2142 grad=22.77 (32s)  proj: lexe=0.1680 comp=0.2897 type=0.2508 bind=0.1847
+      step  60/80: loss=3.2142 grad=22.77 (32s)  proj: lexe=0.1680 comp=0.2897 type=0.2508 bind=0.1847
+      step  70/80: loss=2.9834 grad=11.15 (37s)  proj: lexe=0.1458 comp=0.4039 type=0.3327 bind=0.2683
+      step  70/80: loss=2.9834 grad=11.15 (37s)  proj: lexe=0.1458 comp=0.4039 type=0.3327 bind=0.2683
+      step  80/80: loss=1.3851 grad=10.27 (42s)  proj: lexe=0.1836 comp=0.3325 type=0.2865 bind=0.2125
+      step  80/80: loss=1.3851 grad=10.27 (42s)  proj: lexe=0.1836 comp=0.3325 type=0.2865 bind=0.2125
+
+  Multi-projection melt PPL: 42.57 (4.19x)
+
+  Multi-projection melt PPL: 42.57 (4.19x)
+  Multi-projection facts: 1/15
+  Multi-projection facts: 1/15
+
+  Multi-projection generation:
+
+  Multi-projection generation:
+    The capital of France is → the city of the, the capital of the. the capital of the is t
+    The capital of France is → the city of the, the capital of the. the capital of the is t
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 3C: MULTI-PROJECTION (boosted type_crystal weight)
+  PHASE 3C: MULTI-PROJECTION (boosted type_crystal weight)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 5.0, 'binding': 2.0, 'output_ce': 1.0}
+  Weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 5.0, 'binding': 2.0, 'output_ce': 1.0}
+      step   1/80: loss=6.4888 grad=13.66 (1s)  proj: lexe=0.1005 comp=0.2543 type=0.2759 bind=0.2358
+      step   1/80: loss=6.4888 grad=13.66 (1s)  proj: lexe=0.1005 comp=0.2543 type=0.2759 bind=0.2358
+      step  10/80: loss=5.6294 grad=11.01 (5s)  proj: lexe=0.0902 comp=0.2714 type=0.2844 bind=0.2463
+      step  10/80: loss=5.6294 grad=11.01 (5s)  proj: lexe=0.0902 comp=0.2714 type=0.2844 bind=0.2463
+      step  20/80: loss=5.1720 grad=13.22 (10s)  proj: lexe=0.1274 comp=0.2210 type=0.2249 bind=0.1694
+      step  20/80: loss=5.1720 grad=13.22 (10s)  proj: lexe=0.1274 comp=0.2210 type=0.2249 bind=0.1694
+      step  30/80: loss=4.4334 grad=15.74 (16s)  proj: lexe=0.1302 comp=0.2462 type=0.2561 bind=0.2004
+      step  30/80: loss=4.4334 grad=15.74 (16s)  proj: lexe=0.1302 comp=0.2462 type=0.2561 bind=0.2004
+      step  40/80: loss=5.2324 grad=137.62 (21s)  proj: lexe=0.1200 comp=0.3692 type=0.3390 bind=0.2792
+      step  40/80: loss=5.2324 grad=137.62 (21s)  proj: lexe=0.1200 comp=0.3692 type=0.3390 bind=0.2792
+      step  50/80: loss=4.2009 grad=14.14 (26s)  proj: lexe=0.1467 comp=0.2748 type=0.2426 bind=0.1754
+      step  50/80: loss=4.2009 grad=14.14 (26s)  proj: lexe=0.1467 comp=0.2748 type=0.2426 bind=0.1754
+      step  60/80: loss=3.2913 grad=11.81 (32s)  proj: lexe=0.1708 comp=0.2809 type=0.2444 bind=0.1765
+      step  60/80: loss=3.2913 grad=11.81 (32s)  proj: lexe=0.1708 comp=0.2809 type=0.2444 bind=0.1765
+      step  70/80: loss=3.2373 grad=10.51 (37s)  proj: lexe=0.1678 comp=0.2906 type=0.2424 bind=0.1688
+      step  70/80: loss=3.2373 grad=10.51 (37s)  proj: lexe=0.1678 comp=0.2906 type=0.2424 bind=0.1688
+      step  80/80: loss=1.7409 grad=17.35 (42s)  proj: lexe=0.1890 comp=0.3088 type=0.2730 bind=0.1971
+      step  80/80: loss=1.7409 grad=17.35 (42s)  proj: lexe=0.1890 comp=0.3088 type=0.2730 bind=0.1971
+
+  Boosted melt PPL: 35.84 (3.53x)
+
+  Boosted melt PPL: 35.84 (3.53x)
+  Boosted facts: 1/15
+  Boosted facts: 1/15
+
+  Boosted generation:
+
+  Boosted generation:
+    The capital of France is → the the capital of the city, the the capital of the city. th
+    The capital of France is → the the capital of the city, the the capital of the city. th
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+    In the beginning, there was → a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a 
+
+======================================================================
+
+======================================================================
+  FINAL COMPARISON
+  FINAL COMPARISON
+======================================================================
+======================================================================
+  Baseline:           PPL=10.16  facts=12/15
+  Baseline:           PPL=10.16  facts=12/15
+  Pre-melt:           PPL=562.60 (55.37x)
+  Pre-melt:           PPL=562.60 (55.37x)
+  Standard melt:      PPL=61.85 (6.09x)  facts=0/15
+  Standard melt:      PPL=61.85 (6.09x)  facts=0/15
+  Multi-projection:   PPL=42.57 (4.19x)  facts=1/15
+  Multi-projection:   PPL=42.57 (4.19x)  facts=1/15
+  Boosted projection: PPL=35.84 (3.53x)  facts=1/15
+  Boosted projection: PPL=35.84 (3.53x)  facts=1/15
+
+  Winner: BOOSTED
+
+  Winner: BOOSTED
+  Multi vs Standard:  Δ=+1.90x
+  Multi vs Standard:  Δ=+1.90x
+  Boosted vs Standard: Δ=+2.56x
+  Boosted vs Standard: Δ=+2.56x
+  VERDICT: PASS
+  VERDICT: PASS
+
+  Results saved to /Users/mwhitford/src/verbum/results/multi-projection-melt/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/multi-projection-melt/Qwen_Qwen3-8B.json
+
+======================================================================
+
+======================================================================
+  DONE
+  DONE
+======================================================================
+
+======================================================================
+
