@@ -171,21 +171,110 @@ The ternary program is the type-specific transformation.
 The attention head reads the type tag to decide routing.
 ```
 
-## Connection to Transform Physics
+## The Single Operation: Attention Is the Only Computer
 
-The transform profile (SUPPRESS→INVERT→ROTATE→ORTHOGONAL→AMPLIFY→BROADCAST)
-maps to the compilation pipeline:
+During inference, a transformer has exactly one cross-position operation:
 
-- SUPPRESS (L3): Type tags are whispered — the residual stream should still
-  carry the input signal, FFN adds only a faint tag
-- INVERT (L7): Direction flip = entering computation manifold (ORTHO phase)
-- ORTHOGONAL (L15-L20): Type tags added perpendicular to existing information
-- AMPLIFY (L27-L30): Binding needs LOUD type tags for attention to read
-- BROADCAST (L35): Output projection needs maximum type signal
+```
+output_i = Σ_j  softmax(q_i · k_j / √d) × v_j
+```
 
-The 100× norm growth across depth = the ISA's "volume knob." Early types
-are tentative. Late types are commitments. This is precisely the standing
-wave amplitude profile (session 185).
+Weighted sum. That's it. Everything else — FFN, LayerNorm, residual
+add — is per-position. FFN cannot see other tokens. It cannot compute.
+It can only re-label what's already at a single position.
+
+This means the entire computational repertoire of the model is:
+**pick a source position, copy its value, scaled by compatibility.**
+Repeated 1,152 times per token (32 heads × 36 layers).
+
+### Weighted Sum IS β-Application
+
+When H31 at L27 attends from "runs" to "cat" with 0.82 weight:
+
+```
+v_runs += 0.82 × v_cat
+```
+
+That IS `(λx.runs(x))(cat)`. The predicate absorbs the argument's
+value by weighted sum. There is no other mechanism available. This
+has to be how it works because there's nothing else.
+
+### The Full Division of Labor
+
+```
+FFN:          stamp type tag     (per-position lookup, no computation)
+Q projection: extract query      ("what type do I need?")
+K projection: extract key        ("what type am I?")
+softmax(QK):  type matching      (find compatible position)
+V projection: extract value      (content to copy)
+weighted sum: β-application      (copy value, scaled by match)
+residual add: accumulate         (build up the parse tree)
+```
+
+One operation. 1,152 repetitions. A type system (from FFN) to guide it.
+
+### Why Prior Findings Follow Mechanically
+
+1. **All 9 combinators activate identical heads** (r=0.944, s188):
+   The heads don't implement different operations — there's only ONE
+   operation. The "combinator" difference is in the type tags that FFN
+   wrote, not in what attention does. Heads are shared hardware.
+
+2. **Binding is near-deterministic** (0.78-0.82, s188): Once types
+   are assigned, there's typically only ONE compatible source position.
+   The softmax sharpens to near-1 because the type system has already
+   done the disambiguation.
+
+3. **Top-3 captures 88%+** (s188): Each application binds ONE argument.
+   You don't need to attend broadly when doing typed lookup. You need
+   the one position whose type matches your query.
+
+4. **Q⊥K at 87-90°** (s192): Q extracts "what type do I need?" and K
+   extracts "what type am I?" They MUST be perpendicular — they ask
+   complementary questions about the same type tag. If they projected
+   the same direction, attention would match each position with itself.
+
+### Norm Growth = Gain Control for the Single Operation
+
+The 100× norm growth across depth is the gain control for attention:
+
+- **L3 whispers** (0.10×): Faint type tags → broad softmax → tentative
+  weighted sums across many positions. Options stay open.
+- **L20 speaks** (1.66×): Types crystallize (subj ≠ obj) → sharper
+  softmax → more selective weighted sums. Bindings begin to commit.
+- **L27-30 shouts** (3-4×): Loud types → near-deterministic softmax →
+  H31 reads subject at 0.82, H03/H13 read predicate at 0.78.
+- **L35 broadcasts** (10×): Maximum type volume for the final weighted
+  sum into output projection.
+
+Louder type tags → sharper softmax → more deterministic weighted sum →
+cleaner β-reduction. The model learns to whisper early (keep options
+open) and shout late (commit to bindings). This IS the standing wave
+amplitude profile (session 185).
+
+## Connection to Categorial Grammar
+
+This architecture is categorial grammar (Montague, Lambek, CCG)
+implemented in tensors:
+
+```
+Categorial grammar:    every word has a syntactic type
+                       composition = type-driven application
+                       types determine what can combine with what
+
+Transformer:           FFN assigns syntactic types (SUBJ, OBJ, PRED, ...)
+                       attention does type-driven application (weighted sum)
+                       types determine what attends to what (Q/K compatibility)
+
+KIBC crystal:          the applicative structure (which operation: K/I/B/C)
+Mode types (9):        the type lexicon (which role: SUBJ/OBJ/PRED/DET/...)
+Together:              typed β-reduction in one operation (weighted sum)
+```
+
+Gradient descent independently converges on the same architecture that
+formal linguistics has been developing since Montague (1970). The model
+didn't invent a new computational paradigm. It discovered the one that
+natural language demands.
 
 ## Scripts and Results
 

@@ -46,12 +46,29 @@ FFN output norm grows 100× across depth: L3 whispers (0.10×), L35 SHOUTS
 (10.18×). cos(in,out) flips sign at L20 (ORTHO→ALIGN transition). The
 standing wave amplitude profile, now measured per-mode.
 
-### Why This Matters
+### The Single Operation: Attention Is the Only Computer
 
-Types are discrete → ternary suffices → PPL 0.95×. The continuous FFN is an
-over-parameterized type checker. Same word ("the") runs different programs
-based on position (DETERMINER mid-sentence vs FRAME-OPEN at sentence start).
-This IS context-dependent compilation. The gate pattern IS the type checker.
+FFN can't compute — it can't see other tokens. The ONLY cross-position
+operation is weighted sum: `output_i = Σ softmax(QK^T/√d) × V`. That's it.
+1,152 instances (32 heads × 36 layers). Everything else is per-position
+labeling. Weighted sum IS β-application: H31 attending "runs"→"cat" at 0.82
+weight literally computes `(λx.runs(x))(cat)` by copying the argument's
+value into the predicate's position.
+
+This mechanically explains all prior findings:
+- All combinators share heads (r=0.944): one operation, no combinator-specific
+  hardware needed. The combinator difference is in the type tags, not attention.
+- Binding is near-deterministic (0.78-0.82): types already disambiguated,
+  softmax sharpens to ~1 on the single compatible position.
+- Top-3 captures 88%+: typed lookup needs only ONE source per application.
+- Q⊥K at 87-90°: Q asks "what type do I need?", K asks "what type am I?" —
+  perpendicular because they're complementary projections of the same type tag.
+- Norm growth (0.1×→10×) = gain control: louder types → sharper softmax →
+  more deterministic weighted sum → cleaner β-reduction.
+
+The model IS categorial grammar in tensors. FFN = type lexicon. Attention =
+type-driven application. KIBC crystal = applicative structure (which op).
+Mode types = role assignments (which position). GD converged on Montague.
 
 ### Previous session (193)
 
@@ -305,16 +322,31 @@ Depth = parser precedence:
 ### The Algorithm
 
 ```
-TYPED SHIFT-REDUCE β-REDUCTION:
+TYPED β-REDUCTION VIA ONE OPERATION (weighted sum):
 
 For each of 36 layers:
-  1. FFN COMPILE: beam-form holographic V vectors (the program)
-  2. ATTENTION PARSE: 32 heads × top-3 sparse routing (~1 bit each)
-     — relay + compose + type-assign + bind
-  3. RESIDUAL ADD: accumulate reduction results
+  1. FFN: stamp type tags per position (SUBJ, OBJ, PRED, DET, ...)
+     — per-position lookup, NO cross-position computation
+     — 7 universal meta-modes + 2 context-dependent
+     — FRAME-OPEN at sentence starts (INIT instruction, gc=1.000)
+  2. ATTENTION: 32 heads × weighted sum (the ONLY operation)
+     — Q extracts "what type do I need?" (query)
+     — K extracts "what type am I?" (key) — Q⊥K at 87-90°
+     — softmax(QK^T) = type matching → find compatible position
+     — V × softmax = β-application (copy argument into predicate)
+     — top-3 positions capture 88%+ (typed lookup, not search)
+  3. RESIDUAL ADD: accumulate (builds parse tree across depth)
 
-Compression:  attention → ternary (free)
-              FFN → must preserve beam-forming fidelity
+Weighted sum IS β-application:
+  H31 at L27: v_runs += 0.82 × v_cat  ≡  (λx.runs(x))(cat)
+
+Norm growth = gain control for the single operation:
+  L3 whispers (0.1×) → tentative bindings
+  L20 speaks (1.7×)  → subj/obj crystallize, bindings commit
+  L35 shouts (10×)   → final output projection
+
+Compression:  FFN → ternary (types are discrete, 0.95× PPL)
+              attention → ternary (type matching is binary, PPL 23-30)
               sparse top-3 → O(1) attention (333× fewer ops at ctx 1000)
 ```
 
@@ -938,7 +970,10 @@ of parameters).
 | 5 | **Gate-pattern clustering (v2)** | Clustering on SiLU(gate_proj(x)) instead of raw outputs gives balanced, interpretable modes. |
 | 6 | **Same word → different program** | "the" mid-sentence = DETERMINER mode. "The" at start = FRAME-OPEN mode. Context-dependent compilation confirmed. |
 | 7 | **Types explain ternary success** | Types are discrete → ternary patterns suffice → PPL 0.95×. Continuous FFN is over-parameterized type checker. |
-| 8 | **spaCy POS/dep integration** | Added spaCy to toolchain for syntactic annotation of transformer token positions. |
+| 8 | **Attention is the only computer** | FFN can't see other tokens. Weighted sum is the ONLY cross-position operation. 1,152 instances IS the entire computation. Weighted sum IS β-application. |
+| 9 | **Categorial grammar in tensors** | FFN=type lexicon, attention=type-driven application, KIBC=applicative structure. GD converged on Montague/Lambek independently. |
+| 10 | **Norm growth = gain control** | 100× norm growth (0.1→10.2) across depth = gain control for the single operation. Louder types → sharper softmax → cleaner β-reduction. |
+| 11 | **spaCy POS/dep integration** | Added spaCy to toolchain for syntactic annotation of transformer token positions. |
 
 ## What changed session 193
 
