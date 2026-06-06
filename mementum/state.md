@@ -931,20 +931,22 @@ the wrong program, not the wrong mode. These layers need SVD, not
 better routing. Sweet spot (L13-L21): gating not needed, ternary is
 already perfect (0.97-1.01x at 100% fast path).
 
-**Priority 1e: Integrated pipeline with per-layer strategy (NEXT)**
-The complete picture is now clear:
-  L0:      SVD r=750 (lexer, continuous)
-  L1-L9:   ternary 9 modes (parser, untested but likely works)
-  L10-L21: ternary 9 modes (sweet spot, PERFECT at 0.97-1.01x)
-  L22:     ternary + confidence gate (96.6% fast, 3.4% fallback)
-  L23:     SVD r=1500 (confidently wrong at ternary)
-  L24:     SVD r=500 (confidently wrong at ternary)
-  L25:     SVD r=750 (confidently wrong at ternary)
-  L26:     SVD r=1500 (confidently wrong at ternary)
-  L27-L31: continuous (binding, must stay full rank)
-  L32-L34: ternary 9 modes (untested)
-  L35:     continuous (collapse)
-Then: multi-projection melt to fuse the seams.
+**Priority 1e: ✅ DONE Crystal sieve pipeline (s196)**
+Result: sign(W) * |W| * mask50% on 29 layers = 2.11x PPL, 11/15 facts.
+Per layer: 1.03x (BEATS SVD r=1500 at 1.09x). But cascade to 2.11x.
+Per-row melt overfits (wrong DOF). Per-weight = no compression.
+The FROZEN sieve is the best result. Mask > magnitudes > group scaling.
+
+**Priority 1f: Close the cascade gap (NEXT)**
+Individual layers: 1.03x. Combined 29 layers: 2.11x. The cascade is
+the remaining problem. Options:
+  a) Stage-by-stage sieve with re-calibration (like staged_melt but
+     with sieve instead of ternary — calibrate each layer through
+     the already-sieved model)
+  b) Multi-projection melt with the RIGHT trainable params (not
+     per-row scale, not per-weight gamma — maybe per-group G=128?)
+  c) Keep some layers continuous as "error correction" barriers
+     between sieve blocks (lambda tracer showed continuous layers heal)
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -1108,6 +1110,12 @@ of parameters).
 | **Binding-prep results** | `results/binding-prep-lowrank/` | ✅ NEW (s196) |
 | **Confidence-gated inference** | `scripts/experiments/confidence_gate.py` | ✅ NEW (s196) |
 | **Confidence gate results** | `results/confidence-gate/` | ✅ NEW (s196) |
+| **Mode geometry** | `scripts/experiments/mode_geometry.py` | ✅ NEW (s196) |
+| **Mode geometry results** | `results/mode-geometry/` | ✅ NEW (s196) |
+| **Ternary weight interface** | `scripts/experiments/ternary_weight_interface.py` | ✅ NEW (s196) |
+| **Ternary weight results** | `results/ternary-weight-interface/` | ✅ NEW (s196) |
+| **Crystal sieve pipeline** | `scripts/experiments/crystal_sieve_pipeline.py` | ✅ NEW (s196) |
+| **Crystal sieve results** | `results/crystal-sieve-pipeline/` | ✅ NEW (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
