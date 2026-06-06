@@ -95,6 +95,46 @@ distortion. S3 disrupts this recovery by ternarizing the very layers
    kept continuous, they can't fix garbage input. The compression must
    ensure the signal entering the binding layers is clean enough.
 
+### Binding-Prep Rank Sweep
+
+Functional rank varies 6x across L22-L26 — NOT uniform:
+
+| Layer | Func. Rank | Compression | Character |
+|-------|-----------|-------------|-----------|
+| L15 (sweet spot) | r=100 | 30.7x | Trivial — explains why ternary works |
+| L22 | r=250 | 12.3x | Low rank, easy to compress |
+| L24 | r=500 | 6.1x | Moderate |
+| L25 | r=750 | 4.1x | Same as L0 |
+| L23 | r=1500 | 2.0x | HIGH — needs most of its rank |
+| L26 | r=1500 | 2.0x | HIGH — gateway to binding |
+| L30 (binding) | r=2000 | 1.5x | Nearly full rank — must stay continuous |
+
+Per-layer optimal: 422MB total (3.4x compression from 1440MB).
+
+BUT: integrated with ternary L10-L21, errors compound. L22-L26 SVD at
+r=2000 gives 1.14x alone, but 5.66x when stacked on ternary layers.
+Multi-projection melt is needed to fuse the seams.
+
+### Multi-Projection Melt (THE BREAKTHROUGH)
+
+**CT scan, not X-ray.** Intermediate cosine losses at functional boundaries
+(L0/L21/L26/L30) give the student direct gradient signal at every stage:
+
+| Method | Pre-melt | Post-melt | Improvement |
+|--------|----------|-----------|-------------|
+| Standard (CE only) | 55.37x | 6.09x | baseline |
+| Multi-projection | 55.37x | 4.19x | 31% better |
+| Boosted (type_crystal=5x) | 55.37x | 3.53x | **42% better** |
+
+Loss curves: standard ends 2.76, multi ends 1.39, boosted 1.74.
+The intermediate losses directly reach the parameters that need fixing,
+instead of backpropagating through 10+ unrelated layers.
+
+Connects to speculative-decoding-gated distillation idea: teacher
+generates, student computes diff at every functional level, trains
+only where it diverges. The confidence signal from ternary classifiers
+(logit margin) can gate slow/fast paths at inference time.
+
 ### Previous session (195)
 
 Six experiments in one session. Decoded L0, discovered low-rank rescue,
@@ -840,13 +880,28 @@ insufficient for L22-L26. Peak damage at L28 (binding layers AMPLIFY
 upstream error). Significant recovery in late layers (+0.22 cos).
 See `mementum/knowledge/lambda-tracer-diagnostic.md`.
 
-**Priority 1: L22-L26 SVD rank sweep (NEXT)**
-Lambda tracer confirms: L22-L26 need continuous compression (SVD
-low-rank), not ternary. The damage is uniform — not a circuit-specific
-failure but insufficient approximation quality. Test SVD rank sweep
-on L22-L26 individually. Compare functional rank to L0 (r=750) and
-sweet spot layers. The binding-prep layers likely need higher rank
-than the sweet spot but lower than full (4096).
+**Priority 1: ✅ DONE L22-L26 SVD rank sweep (s196)**
+Functional rank varies 6x across L22-L26:
+  L22: r=250, L24: r=500, L25: r=750, L23: r=1500, L26: r=1500.
+Per-layer optimal: 422MB total (3.4x vs 1440MB). BUT integrated with
+ternary L10-L21, SVD errors compound: 5.66x PPL. Need melt.
+
+**Priority 1b: ✅ DONE Multi-projection melt (s196)**
+CT scan beats X-ray: intermediate cosine losses at L0/L21/L26/L30
+give direct gradient signal. Standard melt: 55x→6.09x. Multi-projection:
+55x→4.19x (31% better). Boosted (type_crystal=5x): 55x→3.53x (42% better).
+See `results/multi-projection-melt/`.
+
+**Priority 1c: Integrated multi-projection melt (NEXT)**
+Combine: L0 SVD + L10-L21 ternary + L22-L26 per-layer SVD (optimal ranks)
++ multi-projection melt. This is the full pipeline. The individual pieces
+work — need to verify they compose under multi-projection training.
+
+**Priority 1d: Confidence-gated inference (NEXT)**
+Use ternary classifier logit margin as routing signal: high-confidence
+positions use fast ternary path, low-confidence fall back to original
+float16 MLP. Log corrections → retrain classifiers → student converges.
+Design informed by multi-projection training.
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -1004,6 +1059,10 @@ of parameters).
 | **Lambda tracer diagnostic** | `mementum/knowledge/lambda-tracer-diagnostic.md` | ✅ NEW (s196) |
 | **Lambda tracer experiment** | `scripts/experiments/lambda_tracer.py` | ✅ NEW (s196) |
 | **Lambda tracer results** | `results/lambda-tracer/` | ✅ NEW (s196) |
+| **Multi-projection melt** | `scripts/experiments/multi_projection_melt.py` | ✅ NEW (s196) |
+| **Multi-projection results** | `results/multi-projection-melt/` | ✅ NEW (s196) |
+| **Binding-prep low-rank sweep** | `scripts/experiments/binding_prep_lowrank.py` | ✅ NEW (s196) |
+| **Binding-prep results** | `results/binding-prep-lowrank/` | ✅ NEW (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
