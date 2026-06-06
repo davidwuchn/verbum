@@ -1,0 +1,224 @@
+
+============================================================
+
+============================================================
+  MELT BOUNDARIES
+  MELT BOUNDARIES
+  GD fuses the compressed pieces together
+  GD fuses the compressed pieces together
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+  Training steps: 50
+  Training steps: 50
+  Learning rate: 0.0001
+  Learning rate: 0.0001
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:06,  1.61it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 50.72it/s]Loading weights:  19%|█▉        | 75/399 [00:00<00:02, 137.62it/s]Loading weights:  28%|██▊       | 112/399 [00:00<00:01, 187.05it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 215.90it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:00, 241.67it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:00, 274.17it/s]Loading weights:  62%|██████▏   | 247/399 [00:01<00:00, 287.00it/s]Loading weights:  70%|███████   | 281/399 [00:01<00:00, 301.33it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 314.93it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 327.04it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 224.93it/s]
+  Layers: 36, d=4096
+  Layers: 36, d=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 1: Build compressed model
+  PHASE 1: Build compressed model
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  L0: SVD factorize...
+  L0: SVD factorize...
+    gate_proj: A=(12288, 750), B=(750, 4096)
+    gate_proj: A=(12288, 750), B=(750, 4096)
+    up_proj: A=(12288, 750), B=(750, 4096)
+    up_proj: A=(12288, 750), B=(750, 4096)
+    down_proj: A=(4096, 750), B=(750, 12288)
+    down_proj: A=(4096, 750), B=(750, 12288)
+  Collecting calibration data...
+  Collecting calibration data...
+    L13: collecting...
+    L13: collecting...
+    L13: 1636 samples, clustering...
+    L13: 1636 samples, clustering...
+    L13: cls_acc=100.0%
+    L13: cls_acc=100.0%
+    L14: collecting...
+    L14: collecting...
+    L14: 1636 samples, clustering...
+    L14: 1636 samples, clustering...
+    L14: cls_acc=99.8%
+    L14: cls_acc=99.8%
+    L15: collecting...
+    L15: collecting...
+    L15: 1636 samples, clustering...
+    L15: 1636 samples, clustering...
+    L15: cls_acc=99.4%
+    L15: cls_acc=99.4%
+    L16: collecting...
+    L16: collecting...
+    L16: 1636 samples, clustering...
+    L16: 1636 samples, clustering...
+    L16: cls_acc=98.0%
+    L16: cls_acc=98.0%
+    L17: collecting...
+    L17: collecting...
+    L17: 1636 samples, clustering...
+    L17: 1636 samples, clustering...
+    L17: cls_acc=100.0%
+    L17: cls_acc=100.0%
+    L18: collecting...
+    L18: collecting...
+    L18: 1636 samples, clustering...
+    L18: 1636 samples, clustering...
+    L18: cls_acc=100.0%
+    L18: cls_acc=100.0%
+    L19: collecting...
+    L19: collecting...
+    L19: 1636 samples, clustering...
+    L19: 1636 samples, clustering...
+    L19: cls_acc=99.8%
+    L19: cls_acc=99.8%
+    L20: collecting...
+    L20: collecting...
+    L20: 1636 samples, clustering...
+    L20: 1636 samples, clustering...
+    L20: cls_acc=98.8%
+    L20: cls_acc=98.8%
+    L21: collecting...
+    L21: collecting...
+    L21: 1636 samples, clustering...
+    L21: 1636 samples, clustering...
+    L21: cls_acc=100.0%
+    L21: cls_acc=100.0%
+
+  Freezing all original parameters...
+
+  Freezing all original parameters...
+  Trainable: 37,527,552 / 8,076,604,416 (0.46%)
+  Trainable: 37,527,552 / 8,076,604,416 (0.46%)
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 2: Measure before melting
+  PHASE 2: Measure before melting
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  Pre-melt PPL: 15.45 (1.52x)
+  Pre-melt PPL: 15.45 (1.52x)
+  Pre-melt facts: 8/15 = 53%
+  Pre-melt facts: 8/15 = 53%
+
+  Pre-melt generation:
+
+  Pre-melt generation:
+    The capital of France is → Paris, and the capital of France is Paris. So, the statement
+    The capital of France is → Paris, and the capital of France is Paris. So, the statement
+    To make a good cup of coffee, you should → use a certain amount of coffee, and you need to know the amo
+    To make a good cup of coffee, you should → use a certain amount of coffee, and you need to know the amo
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 3: MELTING (GD on compressed params)
+  PHASE 3: MELTING (GD on compressed params)
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+    step   1/50: loss=2.7674 (1s)
+    step   1/50: loss=2.7674 (1s)
+    step   5/50: loss=2.6304 (4s)
+    step   5/50: loss=2.6304 (4s)
+    step  10/50: loss=2.3464 (7s)
+    step  10/50: loss=2.3464 (7s)
+    step  15/50: loss=2.4779 (9s)
+    step  15/50: loss=2.4779 (9s)
+    step  20/50: loss=2.6052 (11s)
+    step  20/50: loss=2.6052 (11s)
+    step  25/50: loss=2.1996 (14s)
+    step  25/50: loss=2.1996 (14s)
+    step  30/50: loss=2.0357 (16s)
+    step  30/50: loss=2.0357 (16s)
+    step  35/50: loss=2.4621 (19s)
+    step  35/50: loss=2.4621 (19s)
+    step  40/50: loss=1.4359 (21s)
+    step  40/50: loss=1.4359 (21s)
+    step  45/50: loss=2.4155 (23s)
+    step  45/50: loss=2.4155 (23s)
+    step  50/50: loss=1.9973 (26s)
+    step  50/50: loss=1.9973 (26s)
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 4: Measure after melting
+  PHASE 4: Measure after melting
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  Post-melt PPL: 10.34 (1.02x)
+  Post-melt PPL: 10.34 (1.02x)
+  Post-melt facts: 11/15 = 73%
+  Post-melt facts: 11/15 = 73%
+
+  Post-melt generation:
+
+  Post-melt generation:
+    The capital of France is → Paris, and the capital of France is Paris. So, the statement
+    The capital of France is → Paris, and the capital of France is Paris. So, the statement
+    To make a good cup of coffee, you should → ( ( ( ( ( ( ( ( ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+    To make a good cup of coffee, you should → ( ( ( ( ( ( ( ( ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+    The most important thing about science is → that it is a way of thinking, not a way of doing. It is a wa
+    The most important thing about science is → that it is a way of thinking, not a way of doing. It is a wa
+    In the beginning, there was → a lot of noise, but then it became quiet. The noise was the 
+    In the beginning, there was → a lot of noise, but then it became quiet. The noise was the 
+
+============================================================
+
+============================================================
+  RESULT
+  RESULT
+============================================================
+============================================================
+  Baseline:   PPL=10.16, facts=12/15
+  Baseline:   PPL=10.16, facts=12/15
+  Pre-melt:   PPL=15.45 (1.52x), facts=8/15
+  Pre-melt:   PPL=15.45 (1.52x), facts=8/15
+  Post-melt:  PPL=10.34 (1.02x), facts=11/15
+  Post-melt:  PPL=10.34 (1.02x), facts=11/15
+  Improvement: 1.52x → 1.02x
+  Improvement: 1.52x → 1.02x
+  Trainable params: 37,527,552 (0.46%)
+  Trainable params: 37,527,552 (0.46%)
+  Training: 50 steps, lr=0.0001
+  Training: 50 steps, lr=0.0001
+  Loss: 2.7674 → 1.9973
+  Loss: 2.7674 → 1.9973
+
+  VERDICT: PASS
+
+  VERDICT: PASS
+============================================================
+
+============================================================
+
+  Results saved to /Users/mwhitford/src/verbum/results/melt-boundaries/Qwen_Qwen3-8B.json
+  Results saved to /Users/mwhitford/src/verbum/results/melt-boundaries/Qwen_Qwen3-8B.json
