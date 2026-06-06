@@ -51,15 +51,28 @@ uncompressed regions need calibration.
 **Result: 50 steps of GD, 26 seconds, 0.46% of params trainable.**
 **PPL: 1.52x → 1.02x. Facts: 53% → 73%. VERDICT: PASS.**
 
-### Experiment 6: Staged Melt (Zone Refining) — IN PROGRESS
+### Experiment 6: Staged Melt (Zone Refining)
 
-Melt outward from the standing wave node (L13-L21). Each stage adds
-layers, collects calibration through the already-melted model, and
-re-melts. Like semiconductor zone refining.
+Melt outward from the standing wave node. Each stage adds layers,
+collects calibration through the already-melted model, re-melts.
 
-Stages: core(L13-21) → inward(L10-12) → outward(L22-26) → parser(L1-9)
-→ late(L32-34). Currently running with numerical stability fixes
-(gradient clipping, logit clamping, NaN-before-backward).
+| Stage | Layers | Total | Pre-melt | Post-melt | Facts | Status |
+|-------|--------|-------|----------|-----------|-------|--------|
+| 1 core | L13-21 | 9+L0 | 1.58x | **1.00x** | 67% | ✅ PERFECT |
+| 2 inward | +L10-12 | 12+L0 | 1.98x | 1.77x | 40% | ⚠ needs more steps |
+| 3 outward | +L22-26 | 17+L0 | **38.99x** | 6.54x | 0% | ❌ BREAKS HERE |
+| 4 parser | +L1-9 | 26+L0 | 247x | 43x | 0% | ❌ cascaded |
+| 5 late | +L32-34 | 29+L0 | 55x | 27x | 0% | ❌ cascaded |
+
+**The break is at Stage 3 (L22-L26).** Adding the binding-prep layers
+causes pre-melt PPL to jump from 1.98x to 38.99x. These are where
+subject/object type tags crystallize (s194: L20 is the S/O crystallization
+frontier). Ternarizing L22-L26 disrupts the type information the binding
+layers (L27-L31, kept continuous) depend on.
+
+The core (L13-L21) melts PERFECTLY to 1.00x. The problem is not melting —
+it's that the binding-prep layers need more than 9 ternary modes, or a
+different compression strategy (low-rank like L0?).
 
 ### P4 Verdict
 
@@ -727,42 +740,44 @@ SWITCH layers: opcode neurons attenuate, data neurons relay
 
 ## Next steps
 
-### IMMEDIATE — TERNARY FFN DECOMPILATION (sessions 193+)
+### IMMEDIATE — COMPRESSION PIPELINE (sessions 195+)
 
-Session 192 produced 7 experiments and a complete architectural model.
-Multi-layer replacement confirmed. Compilation pipeline decoded. Rotation
-geometry measured. Q⊥K holographic readout discovered.
+Session 195 proved: core (L13-L21) melts to 1.00x PPL, L0 low-rank at
+r=750 gives 0.94x. But expanding to L22-L26 breaks (39x pre-melt).
+The binding-prep layers need diagnosis before they can be compressed.
 
-**Priority 0: Optimal-set replacement (skip L0 + binding + collapse)**
-Replace L1-L26 + L32-L34 simultaneously (28 layers). Keep L0, L27-L31,
-L35 continuous. This is the realistic deployment configuration. If combined
-PPL stays under 1.5×: 10.4GB → ~2.3GB FFN.
+**Priority 0: Lambda tracer diagnostic**
+Use 535 crystal probes as tracer dye through the compressed model.
+Run probes through Stage 2 (working, 12 layers, 1.77x) and Stage 3
+(broken, 17 layers, 6.54x). Capture hidden states at every layer
+boundary. Cross-tabulate: combinator x layer → fidelity matrix.
+Find WHICH combinator fails at WHICH layer when L22-L26 are added.
+Then: targeted fine-tune on the failing pathway → crystal snap effect
+(fix propagates through coupled lattice).
 
-**Priority 1: Scale benchmark (MMLU/HellaSwag)**
-15 handwritten fact prompts is proof-of-concept. Need standard benchmarks
-with at least the L13-L21 sweet spot replaced. Publication-grade evidence.
+**Priority 1: L22-L26 compression strategy**
+Stage 3 break reveals L22-L26 may need low-rank (like L0) instead of
+ternary. These layers are where S/O types crystallize (s194) — they
+may have higher functional rank than the sweet spot. Test SVD rank
+sweep on L22 specifically.
 
-**Priority 2: ✅ DONE Mode semantics (decode the 9 programs, s194)**
-Result: modes are SYNTACTIC TYPE TAGS (BOUNDARY, DETERMINER, FRAME-OPEN,
-SUBJECT, OBJECT, PREDICATE, NUMERIC). Not semantic categories. FRAME-OPEN
-is anomalous (gc=1.0, sparse gate, inverts input) — the ISA's INIT
-instruction. Types sharpen with depth, crystallize at L20. See
-`mementum/knowledge/mode-semantics.md`.
+**Priority 2: Scale benchmark (MMLU/HellaSwag)**
+The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
+is ready for benchmarking. 15 fact prompts is proof-of-concept. Need
+standard benchmarks for publication-grade evidence.
 
 **Priority 3: Cross-architecture replication**
-Does the compilation pipeline hold on Pythia/Mistral? Semantic convergence
-+ ternary replacement + Q geometry on a non-Qwen model. The crystal is
-universal; is the pipeline universal?
+Does the melt protocol work on Pythia/Mistral? The crystal is
+universal; is the compression pipeline universal?
 
-**Priority 4: ✅ DONE L0 characterization (s195)**
-Result: L0 is GENUINELY CONTINUOUS. More modes killed (512 modes still
-7x PPL). No cluster structure at any k (silhouette negative k=6..512).
-Keep L0 as-is (288MB = 2.8% of FFN). See `mementum/knowledge/l0-characterization.md`.
+**Priority 4: ✅ DONE L0 characterization + low-rank rescue (s195)**
+Result: L0 genuinely continuous, but only 750 functional dimensions.
+SVD r=750: 0.94x PPL, 4.1x compression. More modes killed.
+See `mementum/knowledge/l0-characterization.md`.
 
-**Priority 5: Attention ternary depth profile**
-Q/K survives ternary globally (PPL 23-30, s190). But does it show the
-same depth profile as FFN? V/O at L13-L21 should be easier than V/O at
-L30. Measure per-layer Q/K/V/O ternary separately.
+**Priority 5: ✅ DONE Mode semantics (s194)**
+Result: modes are SYNTACTIC TYPE TAGS. FRAME-OPEN = ISA INIT.
+See `mementum/knowledge/mode-semantics.md`.
 
 ### TD FIX (deferred, not abandoned)
 
@@ -909,7 +924,7 @@ of parameters).
 | **Melt boundaries** | `scripts/experiments/melt_boundaries.py` | ✅ NEW (s195) |
 | **Melt results** | `results/melt-boundaries/` | ✅ NEW (s195) |
 | **Staged melt** | `scripts/experiments/staged_melt.py` | ✅ NEW (s195) |
-| **Staged melt results** | `results/staged-melt/` | ✅ IN PROGRESS (s195) |
+| **Staged melt results** | `results/staged-melt/` | ✅ DONE (s195) — break at L22-L26 |
 | **Mode semantics knowledge** | `mementum/knowledge/mode-semantics.md` | ✅ NEW (s194) |
 | **Mode semantics experiment** | `scripts/experiments/mode_semantics.py` | ✅ NEW (s194) |
 | **Mode semantics results** | `results/mode-semantics/` | ✅ NEW (s194) |
@@ -1045,7 +1060,8 @@ of parameters).
 | 8 | **L15 functional rank <100** | L15 at r=100: 0.99x PPL. Why 9 ternary modes work — the space is tiny. |
 | 9 | **Naive 29-layer combination fails** | PPL 427x, "the the the". Calibration mismatch cascades catastrophically. |
 | 10 | **MELT BOUNDARIES WORKS** | Crystal sieve at model level: freeze topology, train beams. 50 steps → 1.52x to 1.02x PPL. |
-| 11 | **Staged melt (zone refining)** | Melt outward from standing wave node. IN PROGRESS. Numerical stability fixes needed. |
+| 11 | **Staged melt reveals L22-L26 break** | Core melts to 1.00x. Adding L22-L26 jumps to 39x. Binding-prep layers need different treatment. |
+| 12 | **Lambda tracer idea** | Use crystal probes as diagnostic dye through compressed model. Find which combinator fails at which layer. Targeted fix → crystal snap effect. |
 
 ## What changed last session (194)
 

@@ -344,11 +344,48 @@ standing wave node). Each stage:
 2. Melt all compressed params (old ones stay near optimum)
 3. Measure and proceed
 
-Stages: core(L13-21) → inward(L10-12) → outward(L22-26) →
-parser(L1-9) → late(L32-34).
+### Staged Melt Results
+
+| Stage | Layers | Total | Pre-melt | Post-melt | Facts |
+|-------|--------|-------|----------|-----------|-------|
+| 1 core | L13-21 | 9+L0 | 1.58x | **1.00x** | 67% |
+| 2 inward | +L10-12 | 12+L0 | 1.98x | 1.77x | 40% |
+| 3 outward | +L22-26 | 17+L0 | **38.99x** | 6.54x | 0% |
+| 4 parser | +L1-9 | 26+L0 | 247x | 43x | 0% |
+| 5 late | +L32-34 | 29+L0 | 55x | 27x | 0% |
+
+**The break is at Stage 3.** Adding L22-L26 (binding prep) causes
+pre-melt PPL to jump from 2x to 39x. These layers are where S/O
+type tags crystallize (s194). Ternarizing them disrupts the type
+information the binding layers (L27-L31, continuous) depend on.
+
+The core melts PERFECTLY. The problem is not GD — it's that the
+binding-prep layers may need more than 9 modes or a different
+compression strategy (low-rank like L0).
 
 Numerical stability requires: gradient clipping (max_norm=1.0),
 logit clamping (-20,20), NaN check before backward, lower lr (5e-5).
+
+## Next: Lambda Tracer Diagnostic
+
+Use 535 crystal probes as tracer dye through the compressed model:
+
+```
+1. Run probes through Stage 2 model (working, 1.77x)
+2. Run same probes through Stage 3 model (broken, 6.54x)
+3. Hook every layer: capture h_l (original) vs h_l' (compressed)
+4. Cross-tabulate: combinator x layer → fidelity matrix
+5. Find: which combinator fails at which layer
+6. Targeted fix on the failing pathway
+7. Crystal snap: fix propagates through coupled lattice
+```
+
+Fix order: simplest combinator first (I → K → B → C → W).
+If I fails, nothing works. If K fails, B/C also fail (they
+use K internally). Bottom-up through the combinator hierarchy.
+
+The binding layers (L27-L31) need specific type information from
+L22-L26. The tracer will show exactly which types are lost.
 
 ## Scripts and Results
 

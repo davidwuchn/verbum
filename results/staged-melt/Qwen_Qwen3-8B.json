@@ -1,0 +1,123 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "l0_rank": 750,
+  "n_modes": 9,
+  "lr": 5e-05,
+  "baseline_ppl": 10.16056289308132,
+  "baseline_facts": 12,
+  "stages": [
+    {
+      "stage": 1,
+      "name": "core",
+      "new_layers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "total_ternary": 9,
+      "n_steps": 50,
+      "pre_ppl": 16.04013538445177,
+      "pre_ratio": 1.5787,
+      "post_ppl": 10.18000550374155,
+      "post_ratio": 1.0019,
+      "post_facts": 10,
+      "loss_start": 2.8257,
+      "loss_end": 2.6582,
+      "trainable_params": 37527552
+    },
+    {
+      "stage": 2,
+      "name": "inward",
+      "new_layers": [
+        10,
+        11,
+        12
+      ],
+      "total_ternary": 12,
+      "n_steps": 30,
+      "pre_ppl": 20.166769492361038,
+      "pre_ratio": 1.9848,
+      "post_ppl": 17.98253829932056,
+      "post_ratio": 1.7698,
+      "post_facts": 6,
+      "loss_start": 2.7598,
+      "loss_end": 2.3003,
+      "trainable_params": 37748736
+    },
+    {
+      "stage": 3,
+      "name": "outward",
+      "new_layers": [
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "total_ternary": 17,
+      "n_steps": 50,
+      "pre_ppl": 396.1642136972208,
+      "pre_ratio": 38.9904,
+      "post_ppl": 66.40733907498688,
+      "post_ratio": 6.5358,
+      "post_facts": 0,
+      "loss_start": 5.8829,
+      "loss_end": 2.6144,
+      "trainable_params": 38117376
+    },
+    {
+      "stage": 4,
+      "name": "parser",
+      "new_layers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "total_ternary": 26,
+      "n_steps": 50,
+      "pre_ppl": 2514.5953578539124,
+      "pre_ratio": 247.4858,
+      "post_ppl": 440.48039785406144,
+      "post_ratio": 43.352,
+      "post_facts": 0,
+      "loss_start": 7.7571,
+      "loss_end": 4.5146,
+      "trainable_params": 38780928
+    },
+    {
+      "stage": 5,
+      "name": "late",
+      "new_layers": [
+        32,
+        33,
+        34
+      ],
+      "total_ternary": 29,
+      "n_steps": 30,
+      "pre_ppl": 564.2705104088184,
+      "pre_ratio": 55.5354,
+      "post_ppl": 275.03689830021926,
+      "post_ratio": 27.0691,
+      "post_facts": 0,
+      "loss_start": 5.0648,
+      "loss_end": 2.8546,
+      "trainable_params": 39002112
+    }
+  ],
+  "final_ppl": 275.03689830021926,
+  "final_ratio": 27.0691,
+  "final_facts": 0,
+  "verdict": "FAIL"
+}

@@ -403,6 +403,10 @@ def main():
     p.add_argument("--n-steps", type=int, default=50)
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--batch-size", type=int, default=4)
+    p.add_argument(
+        "--sweet-spot-only", action="store_true",
+        help="Only ternarize L13-L21 (conservative)",
+    )
     args = p.parse_args()
 
     log(f"\n{'='*60}")
@@ -436,7 +440,10 @@ def main():
     d_model = model.config.hidden_size
     log(f"  Layers: {n_layers}, d={d_model}")
 
-    ternary_layers = list(range(13, 22))  # L13-L21
+    if args.sweet_spot_only:
+        ternary_layers = list(range(13, 22))  # L13-L21
+    else:
+        ternary_layers = list(range(1, 27)) + [32, 33, 34]
 
     # ── Baseline ──────────────────────────────────────────
     log("\n  Measuring baseline...")

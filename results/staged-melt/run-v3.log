@@ -274,3 +274,275 @@ The following generation flags are not valid and may be ignored: ['top_p', 'top_
       L24: cls_acc=100.0% ✓
       L25: collecting data (through current model)...
       L25: collecting data (through current model)...
+      L25: 1636 samples, clustering...
+      L25: 1636 samples, clustering...
+      L25: cls_acc=100.0% ✓
+      L25: cls_acc=100.0% ✓
+      L26: collecting data (through current model)...
+      L26: collecting data (through current model)...
+      L26: 1636 samples, clustering...
+      L26: 1636 samples, clustering...
+      L26: cls_acc=100.0% ✓
+      L26: cls_acc=100.0% ✓
+
+    Trainable params: 38,117,376
+
+    Trainable params: 38,117,376
+    Pre-melt PPL: 396.16 (38.99x)
+    Pre-melt PPL: 396.16 (38.99x)
+
+    Melting (50 steps, lr=5e-05)...
+
+    Melting (50 steps, lr=5e-05)...
+      step   1/50: loss=5.8829 grad=17.22 (1s)
+      step   1/50: loss=5.8829 grad=17.22 (1s)
+      step  10/50: loss=4.7987 grad=14.08 (5s)
+      step  10/50: loss=4.7987 grad=14.08 (5s)
+      step  20/50: loss=4.2081 grad=36.11 (10s)
+      step  20/50: loss=4.2081 grad=36.11 (10s)
+      step  30/50: loss=3.4029 grad=17.84 (15s)
+      step  30/50: loss=3.4029 grad=17.84 (15s)
+      step  40/50: loss=2.9680 grad=73.88 (20s)
+      step  40/50: loss=2.9680 grad=73.88 (20s)
+      step  50/50: loss=2.6144 grad=21.66 (24s)
+      step  50/50: loss=2.6144 grad=21.66 (24s)
+
+    Post-melt PPL: 66.41 (6.54x)
+
+    Post-melt PPL: 66.41 (6.54x)
+    Post-melt facts: 0/15 = 0%
+    Post-melt facts: 0/15 = 0%
+
+  Stage 3 generation:
+
+  Stage 3 generation:
+    The capital of France is → the the capital of the the the the the the the the the the t
+    The capital of France is → the the capital of the the the the the the the the the the t
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    To make a good cup of coffee, you should → have a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    In the beginning, there was → a a the the the the the the the the the the the the the the 
+    In the beginning, there was → a a the the the the the the the the the the the the the the 
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 4/5: parser
+  STAGE 4/5: parser
+  Adding L1-L9 (9 layers)
+  Adding L1-L9 (9 layers)
+  Melt steps: 50
+  Melt steps: 50
+  Total ternary so far: 17 + 9 = 26
+  Total ternary so far: 17 + 9 = 26
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 9 new layers (calibrated through current model):
+
+    Installing 9 new layers (calibrated through current model):
+      L1: collecting data (through current model)...
+      L1: collecting data (through current model)...
+      L1: 1636 samples, clustering...
+      L1: 1636 samples, clustering...
+      L1: cls_acc=99.2% ✓
+      L1: cls_acc=99.2% ✓
+      L2: collecting data (through current model)...
+      L2: collecting data (through current model)...
+      L2: 1636 samples, clustering...
+      L2: 1636 samples, clustering...
+      L2: cls_acc=100.0% ✓
+      L2: cls_acc=100.0% ✓
+      L3: collecting data (through current model)...
+      L3: collecting data (through current model)...
+      L3: 1636 samples, clustering...
+      L3: 1636 samples, clustering...
+      L3: cls_acc=99.9% ✓
+      L3: cls_acc=99.9% ✓
+      L4: collecting data (through current model)...
+      L4: collecting data (through current model)...
+      L4: 1636 samples, clustering...
+      L4: 1636 samples, clustering...
+      L4: cls_acc=100.0% ✓
+      L4: cls_acc=100.0% ✓
+      L5: collecting data (through current model)...
+      L5: collecting data (through current model)...
+      L5: 1636 samples, clustering...
+      L5: 1636 samples, clustering...
+      L5: cls_acc=100.0% ✓
+      L5: cls_acc=100.0% ✓
+      L6: collecting data (through current model)...
+      L6: collecting data (through current model)...
+      L6: 1636 samples, clustering...
+      L6: 1636 samples, clustering...
+      L6: cls_acc=100.0% ✓
+      L6: cls_acc=100.0% ✓
+      L7: collecting data (through current model)...
+      L7: collecting data (through current model)...
+      L7: 1636 samples, clustering...
+      L7: 1636 samples, clustering...
+      L7: cls_acc=100.0% ✓
+      L7: cls_acc=100.0% ✓
+      L8: collecting data (through current model)...
+      L8: collecting data (through current model)...
+      L8: 1636 samples, clustering...
+      L8: 1636 samples, clustering...
+      L8: cls_acc=100.0% ✓
+      L8: cls_acc=100.0% ✓
+      L9: collecting data (through current model)...
+      L9: collecting data (through current model)...
+      L9: 1636 samples, clustering...
+      L9: 1636 samples, clustering...
+      L9: cls_acc=100.0% ✓
+      L9: cls_acc=100.0% ✓
+
+    Trainable params: 38,780,928
+
+    Trainable params: 38,780,928
+    Pre-melt PPL: 2514.60 (247.49x)
+    Pre-melt PPL: 2514.60 (247.49x)
+
+    Melting (50 steps, lr=5e-05)...
+
+    Melting (50 steps, lr=5e-05)...
+      step   1/50: loss=7.7571 grad=8.54 (0s)
+      step   1/50: loss=7.7571 grad=8.54 (0s)
+      step  10/50: loss=7.0278 grad=6.97 (4s)
+      step  10/50: loss=7.0278 grad=6.97 (4s)
+      step  20/50: loss=6.7859 grad=17.11 (9s)
+      step  20/50: loss=6.7859 grad=17.11 (9s)
+      step  30/50: loss=5.1611 grad=19.02 (13s)
+      step  30/50: loss=5.1611 grad=19.02 (13s)
+      step  40/50: loss=5.5682 grad=12.46 (17s)
+      step  40/50: loss=5.5682 grad=12.46 (17s)
+      step  50/50: loss=4.5146 grad=21.12 (22s)
+      step  50/50: loss=4.5146 grad=21.12 (22s)
+
+    Post-melt PPL: 440.48 (43.35x)
+
+    Post-melt PPL: 440.48 (43.35x)
+    Post-melt facts: 0/15 = 0%
+    Post-melt facts: 0/15 = 0%
+
+  Stage 4 generation:
+
+  Stage 4 generation:
+    The capital of France is → the of the the the the the the the the the the the the the t
+    The capital of France is → the of the the the the the the the the the the the the the t
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the.. the the the the.. the the 
+    The most important thing about science is → the the the the the the the the.. the the the the.. the the 
+    In the beginning, there was → the the the the the the the the the the the the the the the 
+    In the beginning, there was → the the the the the the the the the the the the the the the 
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 5/5: late
+  STAGE 5/5: late
+  Adding L32-L34 (3 layers)
+  Adding L32-L34 (3 layers)
+  Melt steps: 30
+  Melt steps: 30
+  Total ternary so far: 26 + 3 = 29
+  Total ternary so far: 26 + 3 = 29
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 3 new layers (calibrated through current model):
+
+    Installing 3 new layers (calibrated through current model):
+      L32: collecting data (through current model)...
+      L32: collecting data (through current model)...
+      L32: 1636 samples, clustering...
+      L32: 1636 samples, clustering...
+      L32: cls_acc=100.0% ✓
+      L32: cls_acc=100.0% ✓
+      L33: collecting data (through current model)...
+      L33: collecting data (through current model)...
+      L33: 1636 samples, clustering...
+      L33: 1636 samples, clustering...
+      L33: cls_acc=100.0% ✓
+      L33: cls_acc=100.0% ✓
+      L34: collecting data (through current model)...
+      L34: collecting data (through current model)...
+      L34: 1636 samples, clustering...
+      L34: 1636 samples, clustering...
+      L34: cls_acc=99.8% ✓
+      L34: cls_acc=99.8% ✓
+
+    Trainable params: 39,002,112
+
+    Trainable params: 39,002,112
+    Pre-melt PPL: 564.27 (55.54x)
+    Pre-melt PPL: 564.27 (55.54x)
+
+    Melting (30 steps, lr=5e-05)...
+
+    Melting (30 steps, lr=5e-05)...
+      step   1/30: loss=5.0648 grad=37.80 (0s)
+      step   1/30: loss=5.0648 grad=37.80 (0s)
+      step  10/30: loss=4.7289 grad=23.90 (5s)
+      step  10/30: loss=4.7289 grad=23.90 (5s)
+      step  20/30: loss=5.1128 grad=22.02 (9s)
+      step  20/30: loss=5.1128 grad=22.02 (9s)
+      step  30/30: loss=2.8546 grad=37.69 (14s)
+      step  30/30: loss=2.8546 grad=37.69 (14s)
+
+    Post-melt PPL: 275.04 (27.07x)
+
+    Post-melt PPL: 275.04 (27.07x)
+    Post-melt facts: 0/15 = 0%
+    Post-melt facts: 0/15 = 0%
+
+  Stage 5 generation:
+
+  Stage 5 generation:
+    The capital of France is → the  ,, in the in, the the the the the the the the the the t
+    The capital of France is → the  ,, in the in, the the the the the the the the the the t
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the light light light the the light light. the the light. th
+    The most important thing about science is → the light light light the the light light. the the light. th
+    In the beginning, there was → the the the the the the the the the the the the the the the 
+    In the beginning, there was → the the the the the the the the the the the the the the the 
+
+============================================================
+
+============================================================
+  STAGED MELT SUMMARY
+  STAGED MELT SUMMARY
+============================================================
+============================================================
+  Baseline: PPL=10.16, facts=12/15
+  Baseline: PPL=10.16, facts=12/15
+
+
+  Stage      Name  Layers      Pre     Post  Facts          Loss
+  Stage      Name  Layers      Pre     Post  Facts          Loss
+  ─────  ────────  ──────  ───────  ───────  ─────  ────────────
+  ─────  ────────  ──────  ───────  ───────  ─────  ────────────
+      1      core     9+L0    1.58x    1.00x   10/15  2.83→2.66
+      1      core     9+L0    1.58x    1.00x   10/15  2.83→2.66
+      2    inward    12+L0    1.98x    1.77x    6/15  2.76→2.30
+      2    inward    12+L0    1.98x    1.77x    6/15  2.76→2.30
+      3   outward    17+L0   38.99x    6.54x    0/15  5.88→2.61
+      3   outward    17+L0   38.99x    6.54x    0/15  5.88→2.61
+      4    parser    26+L0  247.49x   43.35x    0/15  7.76→4.51
+      4    parser    26+L0  247.49x   43.35x    0/15  7.76→4.51
+      5      late    29+L0   55.54x   27.07x    0/15  5.06→2.85
+      5      late    29+L0   55.54x   27.07x    0/15  5.06→2.85
+
+  Final: PPL=275.04 (27.07x), facts=0/15
+
+  Final: PPL=275.04 (27.07x), facts=0/15
+  VERDICT: FAIL
+  VERDICT: FAIL
+============================================================
+
+============================================================
+
+  Results saved to /Users/mwhitford/src/verbum/results/staged-melt/Qwen_Qwen3-8B.json
+  Results saved to /Users/mwhitford/src/verbum/results/staged-melt/Qwen_Qwen3-8B.json
