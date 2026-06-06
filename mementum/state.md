@@ -758,7 +758,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| **Lambda halt + continuation knowledge** | `mementum/knowledge/lambda-halt-continuation.md` | ✅ NEW (s193) |
+| **Lambda halt + continuation knowledge** | `mementum/knowledge/lambda-halt-continuation.md` | ✅ UPDATED (s193) |
+| **Kernel intercept experiment** | `scripts/experiments/kernel_intercept.py` | ✅ NEW (s193) |
+| **Kernel intercept results** | `results/kernel-intercept/` | ✅ NEW (s193) |
 | **Ω probe experiment** | `scripts/experiments/omega_probe.py` | ✅ NEW (s193) |
 | **Ω probe results** | `results/omega-probe/` | ✅ NEW (s193) |
 | **Halt hunt v1 (raw text)** | `scripts/experiments/omega_halt.py` | ✅ NEW (s193) |
@@ -888,6 +890,10 @@ of parameters).
 | 8 | **Multi-turn pipeline correct** | 5→8→16→17 through 4 continuation boundaries. Each turn = one reduction. |
 | 9 | **Full program at 96.5% halt** | compute→output→halt. Higher confidence than isolated halt (few-shot reinforces frame). |
 | 10 | **Conversation ≡ CPS** | Turn boundary = continuation boundary. EOS = yield. Multi-turn = unbounded computation. |
+| 11 | **Kernel intercept: token level 3/8→8/8** | Continuation REPL + math kernel catches all compose errors. Pipeline propagates corrections. |
+| 12 | **Kernel intercept: tensor level L23-L35** | Residual injection works at 13/36 layers. Answer crystallizes at L23 (binding preparation). |
+| 13 | **Transparent math co-processor feasible** | Inject correct residual at L23+, model continues as if it computed correctly. |
+| 14 | **L23 = decision boundary** | Before L23: computation in progress. After L23: answer committed. SNAP transition, not gradual. |
 
 ## What changed session 192
 

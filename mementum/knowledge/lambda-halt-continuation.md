@@ -237,6 +237,74 @@ chained across turns, gives correct results with no ordering ambiguity.
 | Lambda continuation (REPL, CPS) | `scripts/experiments/lambda_continuation.py` |
 | Lambda continuation results | `results/lambda-continuation/` |
 
+## Result 5: Kernel Intercept — The Math Co-Processor Works
+
+**Experiment: `kernel_intercept.py`**
+
+Three levels of intervention for replacing wrong arithmetic with kernel
+functions, tested on `compose (add 1) (mul 2) 3` which the model computes
+as 9 (should be 7: mul 2 3 = 6, add 1 6 = 7).
+
+### Level 1: Token-level (continuation REPL + kernel)
+
+```
+Model alone: 3/8 correct   (fails all compose operations)
+With kernel: 8/8 correct    (kernel catches and fixes all 5 errors)
+```
+
+The continuation pipeline propagates corrections:
+```
+Step 1: compose (add 1) (mul 2) 3  →  model: 9, kernel: 7
+Step 2: mul 3 7 (kernel-corrected)  →  model: 21 ✓
+Step 3: add 100 21                  →  model: 121 ✓
+```
+
+### Level 2: Logit-level (force correct token)
+
+The model is 95.6% confident in the wrong answer (9). The correct answer
+(7) has probability 0.03%, rank 7. But force-decoding from the correct
+first token produces correct output — the model faithfully continues from
+any forced starting token.
+
+### Level 3: Tensor-level (residual injection) ★★★
+
+Captured the residual from `add 4 3` (correctly yields 7) and injected it
+into the compose expression at each of 36 layers:
+
+```
+L0-L12:   garbage (wrong types, computation disrupted)
+L13-L18:  still 9 (wrong answer persists through zone of silence)
+L19-L20:  6 appears (partial convergence — close but not committed)
+L21:      all 6 (almost right)
+L22:      4/6 mixed (decision boundary)
+L23:      ★ SNAP — output flips to 7 (correct)
+L24-L35:  all 7 (13 consecutive layers, all correct)
+```
+
+**The answer crystallizes at L23.** Before L23, the model is still computing.
+After L23, the answer is committed and projected to output. This maps to:
+
+```
+L0-L6:   EXPAND (type assignment) — injection fails, wrong types
+L7-L22:  ORTHO (composition) — computation in progress, can't override
+L23-L26: BINDING PREPARATION — answer crystallizes HERE
+L27-L33: BINDING (reduction) — answer committed
+L34-L35: COLLAPSE (output projection) — faithful to residual
+```
+
+### The Co-Processor Architecture
+
+```
+1. Let the model compute L0-L22     (parsing, type assignment, composition)
+2. At L23, CHECK residual            (does it match kernel expectation?)
+3. If wrong, REPLACE residual        (inject kernel's correct answer)
+4. Let the model continue L23-L35   (it faithfully projects the residual)
+
+The model doesn't know it was corrected.
+It continues from the injected state as if it computed correctly.
+This is TRANSPARENT augmentation.
+```
+
 ## Open Questions
 
 1. **Can composition be fixed with few-shot?** Show `compose f g x = f(g(x))`
@@ -258,3 +326,16 @@ chained across turns, gives correct results with no ordering ambiguity.
 6. **Can we extract the execution frame?** The system prompt that enables
    lambda execution — what does it do to the residual? Does it shift the
    residual into a different region of the spiral?
+
+7. **Can the kernel detect errors from the residual alone?** Instead of
+   knowing the expected answer, can we train a classifier on L22 residuals
+   that detects "this is arithmetic" and routes to a kernel automatically?
+
+8. **Does L23 crystallization generalize?** Is L23 always the decision
+   boundary, or does it shift with problem complexity? What about non-
+   arithmetic computations — does factual recall crystallize at the same
+   layer?
+
+9. **Can we build a multi-kernel co-processor?** Arithmetic kernel,
+   lookup kernel (for facts), logic kernel (for deduction). Each monitors
+   the residual and intervenes when its domain is detected.
