@@ -1,0 +1,38 @@
+
+============================================================
+
+============================================================
+  COMBINED COMPRESSION
+  COMBINED COMPRESSION
+  Low-Rank L0 + Ternary L1-L34
+  Low-Rank L0 + Ternary L1-L34
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:02,  2.19it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 63.11it/s]Loading weights:  19%|█▊        | 74/399 [00:00<00:02, 160.56it/s]Loading weights:  28%|██▊       | 110/399 [00:00<00:01, 212.27it/s]Loading weights:  36%|███▌      | 142/399 [00:00<00:01, 239.40it/s]Loading weights:  44%|████▎     | 174/399 [00:00<00:00, 258.55it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:00, 280.12it/s]Loading weights:  61%|██████    | 243/399 [00:01<00:00, 285.39it/s]Loading weights:  70%|██████▉   | 278/399 [00:01<00:00, 301.56it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 302.65it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 308.33it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 312.58it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 239.61it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Layers: 36, d=4096, intermediate=12288
+  Layers: 36, d=4096, intermediate=12288
+  L0: SVD rank-750
+  L0: SVD rank-750
+  Ternary: 29 layers (1-26, 32-34)
+  Ternary: 29 layers (1-26, 32-34)
+  Keep continuous: [27, 28, 29, 30, 31, 35]
+  Keep continuous: [27, 28, 29, 30, 31, 35]
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.

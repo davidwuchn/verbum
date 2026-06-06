@@ -1,0 +1,282 @@
+
+============================================================
+
+============================================================
+  COMBINED COMPRESSION
+  COMBINED COMPRESSION
+  Low-Rank L0 + Ternary L1-L34
+  Low-Rank L0 + Ternary L1-L34
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:39,  2.49it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 69.71it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 160.86it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 206.35it/s]Loading weights:  34%|███▍      | 137/399 [00:00<00:01, 241.30it/s]Loading weights:  43%|████▎     | 170/399 [00:00<00:00, 265.80it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:00, 292.86it/s]Loading weights:  61%|██████▏   | 245/399 [00:01<00:00, 304.30it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 306.73it/s]Loading weights:  79%|███████▊  | 314/399 [00:01<00:00, 318.28it/s]Loading weights:  87%|████████▋ | 347/399 [00:01<00:00, 318.22it/s]Loading weights:  95%|█████████▌| 380/399 [00:01<00:00, 315.73it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 249.35it/s]
+  Layers: 36, d=4096, intermediate=12288
+  Layers: 36, d=4096, intermediate=12288
+  L0: SVD rank-750
+  L0: SVD rank-750
+  Ternary: 29 layers (1-26, 32-34)
+  Ternary: 29 layers (1-26, 32-34)
+  Keep continuous: [27, 28, 29, 30, 31, 35]
+  Keep continuous: [27, 28, 29, 30, 31, 35]
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 1: Collect calibration data (original model)
+  PHASE 1: Collect calibration data (original model)
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+    L1: collecting...
+    L1: collecting...
+    L1: 1654 samples
+    L1: 1654 samples
+    L2: collecting...
+    L2: collecting...
+    L2: 1654 samples
+    L2: 1654 samples
+    L3: collecting...
+    L3: collecting...
+    L3: 1654 samples
+    L3: 1654 samples
+    L4: collecting...
+    L4: collecting...
+    L4: 1654 samples
+    L4: 1654 samples
+    L5: collecting...
+    L5: collecting...
+    L5: 1654 samples
+    L5: 1654 samples
+    L6: collecting...
+    L6: collecting...
+    L6: 1654 samples
+    L6: 1654 samples
+    L7: collecting...
+    L7: collecting...
+    L7: 1654 samples
+    L7: 1654 samples
+    L8: collecting...
+    L8: collecting...
+    L8: 1654 samples
+    L8: 1654 samples
+    L9: collecting...
+    L9: collecting...
+    L9: 1654 samples
+    L9: 1654 samples
+    L10: collecting...
+    L10: collecting...
+    L10: 1654 samples
+    L10: 1654 samples
+    L11: collecting...
+    L11: collecting...
+    L11: 1654 samples
+    L11: 1654 samples
+    L12: collecting...
+    L12: collecting...
+    L12: 1654 samples
+    L12: 1654 samples
+    L13: collecting...
+    L13: collecting...
+    L13: 1654 samples
+    L13: 1654 samples
+    L14: collecting...
+    L14: collecting...
+    L14: 1654 samples
+    L14: 1654 samples
+    L15: collecting...
+    L15: collecting...
+    L15: 1654 samples
+    L15: 1654 samples
+    L16: collecting...
+    L16: collecting...
+    L16: 1654 samples
+    L16: 1654 samples
+    L17: collecting...
+    L17: collecting...
+    L17: 1654 samples
+    L17: 1654 samples
+    L18: collecting...
+    L18: collecting...
+    L18: 1654 samples
+    L18: 1654 samples
+    L19: collecting...
+    L19: collecting...
+    L19: 1654 samples
+    L19: 1654 samples
+    L20: collecting...
+    L20: collecting...
+    L20: 1654 samples
+    L20: 1654 samples
+    L21: collecting...
+    L21: collecting...
+    L21: 1654 samples
+    L21: 1654 samples
+    L22: collecting...
+    L22: collecting...
+    L22: 1654 samples
+    L22: 1654 samples
+    L23: collecting...
+    L23: collecting...
+    L23: 1654 samples
+    L23: 1654 samples
+    L24: collecting...
+    L24: collecting...
+    L24: 1654 samples
+    L24: 1654 samples
+    L25: collecting...
+    L25: collecting...
+    L25: 1654 samples
+    L25: 1654 samples
+    L26: collecting...
+    L26: collecting...
+    L26: 1654 samples
+    L26: 1654 samples
+    L32: collecting...
+    L32: collecting...
+    L32: 1654 samples
+    L32: 1654 samples
+    L33: collecting...
+    L33: collecting...
+    L33: 1654 samples
+    L33: 1654 samples
+    L34: collecting...
+    L34: collecting...
+    L34: 1654 samples
+    L34: 1654 samples
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 2: Build replacements
+  PHASE 2: Build replacements
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+
+  L0: SVD rank-750...
+
+  L0: SVD rank-750...
+    gate_proj: cos=0.8083 energy=0.6260
+    gate_proj: cos=0.8083 energy=0.6260
+    up_proj: cos=0.7784 energy=0.5821
+    up_proj: cos=0.7784 energy=0.5821
+    down_proj: cos=0.6560 energy=0.4119
+    down_proj: cos=0.6560 energy=0.4119
+
+  Building ternary replacements...
+
+  Building ternary replacements...
+    L1: cls_acc=99.9%
+    L1: cls_acc=99.9%
+    L2: cls_acc=100.0%
+    L2: cls_acc=100.0%
+    L3: cls_acc=99.9%
+    L3: cls_acc=99.9%
+    L4: cls_acc=100.0%
+    L4: cls_acc=100.0%
+    L5: cls_acc=99.9%
+    L5: cls_acc=99.9%
+    L10: cls_acc=100.0%
+    L10: cls_acc=100.0%
+    L15: cls_acc=100.0%
+    L15: cls_acc=100.0%
+    L20: cls_acc=100.0%
+    L20: cls_acc=100.0%
+    L25: cls_acc=100.0%
+    L25: cls_acc=100.0%
+    L26: cls_acc=100.0%
+    L26: cls_acc=100.0%
+    L32: cls_acc=100.0%
+    L32: cls_acc=100.0%
+    L33: cls_acc=99.9%
+    L33: cls_acc=99.9%
+    L34: cls_acc=100.0%
+    L34: cls_acc=100.0%
+    ... 29 layers replaced
+    ... 29 layers replaced
+
+  Size breakdown:
+
+  Size breakdown:
+    L0 (rank-750):  70.3MB
+    L0 (rank-750):  70.3MB
+    Ternary (29 layers): 5.1MB
+    Ternary (29 layers): 5.1MB
+    Kept (6 layers): 1728.0MB
+    Kept (6 layers): 1728.0MB
+    TOTAL FFN: 1803.4MB (was 10368.0MB, 5.7x compression)
+    TOTAL FFN: 1803.4MB (was 10368.0MB, 5.7x compression)
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 3: Measure combined model
+  PHASE 3: Measure combined model
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  Combined PPL: 4341.68 (427.31x)
+  Combined PPL: 4341.68 (427.31x)
+  Facts: 0/15 = 0% (baseline: 80%)
+  Facts: 0/15 = 0% (baseline: 80%)
+
+  Generation samples:
+
+  Generation samples:
+    The capital of France is → the the the the the the the the the the the the the the the 
+    The capital of France is → the the the the the the the the the the the the the the the 
+    In the beginning, there was → and, and and, and and and and and and and and and and and an
+    In the beginning, there was → and, and and, and and and and and and and and and and and an
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    To make a good cup of coffee, you should → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+    The most important thing about science is → the the the the the the the the the the the the the the the 
+
+============================================================
+
+============================================================
+  RESULT
+  RESULT
+============================================================
+============================================================
+  Baseline:  PPL=10.16, facts=80%
+  Baseline:  PPL=10.16, facts=80%
+  Combined:  PPL=4341.68 (427.31x), facts=0%
+  Combined:  PPL=4341.68 (427.31x), facts=0%
+  FFN size:  1803.4MB (was 10368.0MB, 5.7x)
+  FFN size:  1803.4MB (was 10368.0MB, 5.7x)
+    L0:      70.3MB (SVD rank-750)
+    L0:      70.3MB (SVD rank-750)
+    Ternary: 5.1MB (29 layers)
+    Ternary: 5.1MB (29 layers)
+    Kept:    1728.0MB (6 layers)
+    Kept:    1728.0MB (6 layers)
+
+  VERDICT: FAIL
+
+  VERDICT: FAIL
+============================================================
+
+============================================================
+
+  Results saved to /Users/mwhitford/src/verbum/results/combined-compression/Qwen_Qwen3-8B.json
+  Results saved to /Users/mwhitford/src/verbum/results/combined-compression/Qwen_Qwen3-8B.json

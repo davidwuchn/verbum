@@ -1,0 +1,180 @@
+
+============================================================
+
+============================================================
+  COMBINED COMPRESSION
+  COMBINED COMPRESSION
+  Low-Rank L0 + Ternary L1-L34
+  Low-Rank L0 + Ternary L1-L34
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:26,  2.72it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:08, 46.63it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 152.35it/s]Loading weights:  23%|██▎       | 92/399 [00:00<00:01, 202.62it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 237.90it/s]Loading weights:  40%|███▉      | 158/399 [00:00<00:00, 263.76it/s]Loading weights:  48%|████▊     | 193/399 [00:00<00:00, 287.83it/s]Loading weights:  56%|█████▋    | 225/399 [00:01<00:00, 294.77it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 302.03it/s]Loading weights:  73%|███████▎  | 291/399 [00:01<00:00, 313.22it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 315.90it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 319.57it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 315.77it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 250.22it/s]
+  Layers: 36, d=4096, intermediate=12288
+  Layers: 36, d=4096, intermediate=12288
+  L0: SVD rank-750
+  L0: SVD rank-750
+  Ternary: 9 layers (13-21)
+  Ternary: 9 layers (13-21)
+  Keep continuous: 26 layers
+  Keep continuous: 26 layers
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 1: Collect calibration data (original model)
+  PHASE 1: Collect calibration data (original model)
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+    L13: collecting...
+    L13: collecting...
+    L13: 1654 samples
+    L13: 1654 samples
+    L14: collecting...
+    L14: collecting...
+    L14: 1654 samples
+    L14: 1654 samples
+    L15: collecting...
+    L15: collecting...
+    L15: 1654 samples
+    L15: 1654 samples
+    L16: collecting...
+    L16: collecting...
+    L16: 1654 samples
+    L16: 1654 samples
+    L17: collecting...
+    L17: collecting...
+    L17: 1654 samples
+    L17: 1654 samples
+    L18: collecting...
+    L18: collecting...
+    L18: 1654 samples
+    L18: 1654 samples
+    L19: collecting...
+    L19: collecting...
+    L19: 1654 samples
+    L19: 1654 samples
+    L20: collecting...
+    L20: collecting...
+    L20: 1654 samples
+    L20: 1654 samples
+    L21: collecting...
+    L21: collecting...
+    L21: 1654 samples
+    L21: 1654 samples
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 2: Build replacements
+  PHASE 2: Build replacements
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+
+  L0: SVD rank-750...
+
+  L0: SVD rank-750...
+    gate_proj: cos=0.8083 energy=0.6260
+    gate_proj: cos=0.8083 energy=0.6260
+    up_proj: cos=0.7784 energy=0.5821
+    up_proj: cos=0.7784 energy=0.5821
+    down_proj: cos=0.6560 energy=0.4119
+    down_proj: cos=0.6560 energy=0.4119
+
+  Building ternary replacements...
+
+  Building ternary replacements...
+    L15: cls_acc=100.0%
+    L15: cls_acc=100.0%
+    L20: cls_acc=100.0%
+    L20: cls_acc=100.0%
+    ... 9 layers replaced
+    ... 9 layers replaced
+
+  Size breakdown:
+
+  Size breakdown:
+    L0 (rank-750):  70.3MB
+    L0 (rank-750):  70.3MB
+    Ternary (9 layers): 1.6MB
+    Ternary (9 layers): 1.6MB
+    Kept (26 layers): 7488.0MB
+    Kept (26 layers): 7488.0MB
+    TOTAL FFN: 7559.9MB (was 10368.0MB, 1.4x compression)
+    TOTAL FFN: 7559.9MB (was 10368.0MB, 1.4x compression)
+
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  PHASE 3: Measure combined model
+  PHASE 3: Measure combined model
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  Combined PPL: 16.86 (1.66x)
+  Combined PPL: 16.86 (1.66x)
+  Facts: 7/15 = 47% (baseline: 80%)
+  Facts: 7/15 = 47% (baseline: 80%)
+
+  Generation samples:
+
+  Generation samples:
+    The capital of France is → the city of Paris, and the capital of France is the city of 
+    The capital of France is → the city of Paris, and the capital of France is the city of 
+    In the beginning, there was → a small town with a population of
+    In the beginning, there was → a small town with a population of
+    To make a good cup of coffee, you should → use a coffee maker that is not too expensive. The coffee mak
+    To make a good cup of coffee, you should → use a coffee maker that is not too expensive. The coffee mak
+    The most important thing about science is → that it is a way of thinking, and the most important thing i
+    The most important thing about science is → that it is a way of thinking, and the most important thing i
+
+============================================================
+
+============================================================
+  RESULT
+  RESULT
+============================================================
+============================================================
+  Baseline:  PPL=10.16, facts=80%
+  Baseline:  PPL=10.16, facts=80%
+  Combined:  PPL=16.86 (1.66x), facts=47%
+  Combined:  PPL=16.86 (1.66x), facts=47%
+  FFN size:  7559.9MB (was 10368.0MB, 1.4x)
+  FFN size:  7559.9MB (was 10368.0MB, 1.4x)
+    L0:      70.3MB (SVD rank-750)
+    L0:      70.3MB (SVD rank-750)
+    Ternary: 1.6MB (9 layers)
+    Ternary: 1.6MB (9 layers)
+    Kept:    7488.0MB (26 layers)
+    Kept:    7488.0MB (26 layers)
+
+  VERDICT: FAIL
+
+  VERDICT: FAIL
+============================================================
+
+============================================================
+
+  Results saved to /Users/mwhitford/src/verbum/results/combined-compression/Qwen_Qwen3-8B.json
+  Results saved to /Users/mwhitford/src/verbum/results/combined-compression/Qwen_Qwen3-8B.json
