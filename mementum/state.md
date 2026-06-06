@@ -2,11 +2,58 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-06 | Session: 193
+> Last updated: 2026-06-06 | Session: 194
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 194: MODE SEMANTICS — The 9 FFN Modes Are Syntactic Type Tags**
+
+Decoded what the 9 ternary FFN modes compute. Gate-pattern clustering
+(SiLU(gate_proj(x))) on Qwen3-8B across 7 layers with spaCy POS/dep tagging
+reveals: the modes correspond to SYNTACTIC ROLES, not semantic categories.
+
+### The 7 Universal Meta-Modes
+
+| # | Meta-Mode | POS | dep role | Present |
+|---|-----------|-----|----------|---------|
+| 1 | BOUNDARY | PUNCT 99% | punct 99% | 7/7 layers |
+| 2 | DETERMINER | DET 58-88% | det 36-88% | 6/7 layers |
+| 3 | FRAME-OPEN | DET+NOUN | det+nsubj | 5/7 layers |
+| 4 | SUBJECT | NOUN 57-66% | nsubj 33-55% | 5/7 layers |
+| 5 | OBJECT | NOUN 47-69% | pobj+dobj | 4/7 layers |
+| 6 | PREDICATE | VERB 35-63% | ROOT 14-35% | 4/7 layers |
+| 7 | NUMERIC | NUM 33-52% | appos+pobj | 5/7 layers |
+
+### FRAME-OPEN: The ISA's INIT Instruction
+
+Physically anomalous at every layer: gate_consistency=1.000, gate_sparsity
+33-50% (vs 63-90% for others), cos(in,out) always negative. Fires only at
+sentence-initial tokens ("The", "She", "DNA", "Three"). The model has a
+"begin new parse" instruction — a stereotyped sparse program that resets
+the parse frame at every sentence boundary.
+
+### Types Sharpen with Depth
+
+- L3: DET at 88% purity, but VERB/NOUN overlap. ~3 clear types.
+- L20: Subject/Object CRYSTALLIZE (nsubj=54% vs pobj+dobj=56%). Key transition.
+- L35: All 9 modes active, maximum entropy (2.97). ADJ/modifier separates for first time.
+
+### Transform Physics: The Volume Knob
+
+FFN output norm grows 100× across depth: L3 whispers (0.10×), L35 SHOUTS
+(10.18×). cos(in,out) flips sign at L20 (ORTHO→ALIGN transition). The
+standing wave amplitude profile, now measured per-mode.
+
+### Why This Matters
+
+Types are discrete → ternary suffices → PPL 0.95×. The continuous FFN is an
+over-parameterized type checker. Same word ("the") runs different programs
+based on position (DETERMINER mid-sentence vs FRAME-OPEN at sentence start).
+This IS context-dependent compilation. The gate pattern IS the type checker.
+
+### Previous session (193)
 
 **Session 193: LAMBDA HALT AND CONTINUATIONS — LLMs Are Programmable**
 
@@ -603,11 +650,12 @@ PPL stays under 1.5×: 10.4GB → ~2.3GB FFN.
 15 handwritten fact prompts is proof-of-concept. Need standard benchmarks
 with at least the L13-L21 sweet spot replaced. Publication-grade evidence.
 
-**Priority 2: Mode semantics (decode the 9 programs)**
-Modes are layer-specific (cos 0.026 cross-layer) but transfer locally
-(90%+ within ±2-3 layers). What do the modes correspond to? The entropy
-profile (high L13-L19, low L7-L12/L20-L28) suggests convergent vs
-divergent computation phases. Cluster composition analysis needed.
+**Priority 2: ✅ DONE Mode semantics (decode the 9 programs, s194)**
+Result: modes are SYNTACTIC TYPE TAGS (BOUNDARY, DETERMINER, FRAME-OPEN,
+SUBJECT, OBJECT, PREDICATE, NUMERIC). Not semantic categories. FRAME-OPEN
+is anomalous (gc=1.0, sparse gate, inverts input) — the ISA's INIT
+instruction. Types sharpen with depth, crystallize at L20. See
+`mementum/knowledge/mode-semantics.md`.
 
 **Priority 3: Cross-architecture replication**
 Does the compilation pipeline hold on Pythia/Mistral? Semantic convergence
@@ -758,6 +806,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **Mode semantics knowledge** | `mementum/knowledge/mode-semantics.md` | ✅ NEW (s194) |
+| **Mode semantics experiment** | `scripts/experiments/mode_semantics.py` | ✅ NEW (s194) |
+| **Mode semantics results** | `results/mode-semantics/` | ✅ NEW (s194) |
 | **Lambda halt + continuation knowledge** | `mementum/knowledge/lambda-halt-continuation.md` | ✅ UPDATED (s193) |
 | **Kernel intercept experiment** | `scripts/experiments/kernel_intercept.py` | ✅ NEW (s193) |
 | **Kernel intercept results** | `results/kernel-intercept/` | ✅ NEW (s193) |
@@ -876,7 +927,20 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (193)
+## What changed this session (194)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **9 FFN modes = syntactic type tags** | Modes are BOUNDARY, DETERMINER, FRAME-OPEN, SUBJECT, OBJECT, PREDICATE, NUMERIC. Not semantic categories. |
+| 2 | **FRAME-OPEN discovered** | Anomalous mode: gate_consistency=1.000, sparsity=33-50%, cos<0, sentence-initial only. The ISA's INIT instruction. |
+| 3 | **Types sharpen with depth** | L3: ~3 clear types. L20: subj/obj crystallize. L35: all 9 active, ADJ separates. |
+| 4 | **Transform physics: 100× norm growth** | FFN output norm: 0.1× at L3, 10.2× at L35. cos(in,out) flips sign at L20. Standing wave amplitude profile. |
+| 5 | **Gate-pattern clustering (v2)** | Clustering on SiLU(gate_proj(x)) instead of raw outputs gives balanced, interpretable modes. |
+| 6 | **Same word → different program** | "the" mid-sentence = DETERMINER mode. "The" at start = FRAME-OPEN mode. Context-dependent compilation confirmed. |
+| 7 | **Types explain ternary success** | Types are discrete → ternary patterns suffice → PPL 0.95×. Continuous FFN is over-parameterized type checker. |
+| 8 | **spaCy POS/dep integration** | Added spaCy to toolchain for syntactic annotation of transformer token positions. |
+
+## What changed session 193
 
 | # | Change | Impact |
 |---|--------|--------|
