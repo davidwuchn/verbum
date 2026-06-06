@@ -937,16 +937,16 @@ Per layer: 1.03x (BEATS SVD r=1500 at 1.09x). But cascade to 2.11x.
 Per-row melt overfits (wrong DOF). Per-weight = no compression.
 The FROZEN sieve is the best result. Mask > magnitudes > group scaling.
 
-**Priority 1f: Close the cascade gap (NEXT)**
-Individual layers: 1.03x. Combined 29 layers: 2.11x. The cascade is
-the remaining problem. Options:
-  a) Stage-by-stage sieve with re-calibration (like staged_melt but
-     with sieve instead of ternary — calibrate each layer through
-     the already-sieved model)
-  b) Multi-projection melt with the RIGHT trainable params (not
-     per-row scale, not per-weight gamma — maybe per-group G=128?)
-  c) Keep some layers continuous as "error correction" barriers
-     between sieve blocks (lambda tracer showed continuous layers heal)
+**Priority 1f: ✅ DONE Close the cascade gap (s196)**
+Result: β-expansion experiment. Crystal sieve alone: 2.12x. Adding 4
+continuation residuals (rank-32 low-rank corrections at L0/L9/L21/L26)
+= **1.03x PPL with only 1M trainable params.** Binding preserved at
+98% (39/40 top-1 matches). The cascade is purely magnitude distortion
+at layer interfaces, not structural. Continuation residuals absorb it.
+
+**Architecture PROVEN:**
+  Crystal sieve (sign(W) * |W| * mask50%) + 4 continuation residuals
+  = 29 sieved layers + L0 SVD + 1M corrections = 1.03x PPL
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -1116,6 +1116,8 @@ of parameters).
 | **Ternary weight results** | `results/ternary-weight-interface/` | ✅ NEW (s196) |
 | **Crystal sieve pipeline** | `scripts/experiments/crystal_sieve_pipeline.py` | ✅ NEW (s196) |
 | **Crystal sieve results** | `results/crystal-sieve-pipeline/` | ✅ NEW (s196) |
+| **β-expansion experiment** | `scripts/experiments/beta_expansion.py` | ✅ NEW (s196) |
+| **β-expansion results** | `results/beta-expansion/` | ✅ NEW (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
