@@ -1,0 +1,200 @@
+
+======================================================================
+
+======================================================================
+  CRYSTAL SIEVE PIPELINE v2
+  CRYSTAL SIEVE PIPELINE v2
+  Frozen sieve + trainable per-row output scales
+  Frozen sieve + trainable per-row output scales
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Zero rate: 50%
+  Zero rate: 50%
+  Melt steps: 150
+  Melt steps: 150
+  LR: 0.0001
+  LR: 0.0001
+  Sieve layers: 29
+  Sieve layers: 29
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:30,  1.89it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 57.42it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 139.26it/s]Loading weights:  26%|██▌       | 104/399 [00:00<00:01, 188.18it/s]Loading weights:  34%|███▍      | 136/399 [00:00<00:01, 221.09it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:00, 247.30it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 266.59it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 284.97it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 292.80it/s]Loading weights:  76%|███████▌  | 302/399 [00:01<00:00, 305.30it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 312.58it/s]Loading weights:  92%|█████████▏| 369/399 [00:01<00:00, 317.50it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 229.19it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16, facts: 12/15
+  Baseline PPL: 10.16, facts: 12/15
+
+  Caching teacher states...
+
+  Caching teacher states...
+  Cached 31 texts
+  Cached 31 texts
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING CRYSTAL SIEVE
+  INSTALLING CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L0: SVD rank-750...
+
+  L0: SVD rank-750...
+  L0 ✓
+  L0 ✓
+  L 1: sieve installed (28,672 scale params)
+  L 1: sieve installed (28,672 scale params)
+  L 2: sieve installed (28,672 scale params)
+  L 2: sieve installed (28,672 scale params)
+  L 3: sieve installed (28,672 scale params)
+  L 3: sieve installed (28,672 scale params)
+  L 5: sieve installed (28,672 scale params)
+  L 5: sieve installed (28,672 scale params)
+  L10: sieve installed (28,672 scale params)
+  L10: sieve installed (28,672 scale params)
+  L15: sieve installed (28,672 scale params)
+  L15: sieve installed (28,672 scale params)
+  L20: sieve installed (28,672 scale params)
+  L20: sieve installed (28,672 scale params)
+  L24: sieve installed (28,672 scale params)
+  L24: sieve installed (28,672 scale params)
+  L25: sieve installed (28,672 scale params)
+  L25: sieve installed (28,672 scale params)
+  L26: sieve installed (28,672 scale params)
+  L26: sieve installed (28,672 scale params)
+  L32: sieve installed (28,672 scale params)
+  L32: sieve installed (28,672 scale params)
+  L33: sieve installed (28,672 scale params)
+  L33: sieve installed (28,672 scale params)
+  L34: sieve installed (28,672 scale params)
+  L34: sieve installed (28,672 scale params)
+
+  Trainable params: 37,695,488 (831,488 scales + L0 SVD)
+
+  Trainable params: 37,695,488 (831,488 scales + L0 SVD)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PRE-MELT
+  PRE-MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  PPL: 21.44 (2.11x)  facts: 11/15
+  PPL: 21.44 (2.11x)  facts: 11/15
+
+  Pre-melt generation:
+
+  Pre-melt generation:
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    In the beginning, there was → a single, simple, and unchanging truth. Then, the world was 
+    In the beginning, there was → a single, simple, and unchanging truth. Then, the world was 
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  MULTI-PROJECTION MELT
+  MULTI-PROJECTION MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1/150: loss=3.1025 grad=41.6724 (2s)
+    step   1/150: loss=3.1025 grad=41.6724 (2s)
+    step  10/150: loss=2.0889 grad=15.7907 (19s)
+    step  10/150: loss=2.0889 grad=15.7907 (19s)
+    step  20/150: loss=3.0164 grad=11.4530 (37s)
+    step  20/150: loss=3.0164 grad=11.4530 (37s)
+    step  30/150: loss=2.7086 grad=30.6209 (54s)
+    step  30/150: loss=2.7086 grad=30.6209 (54s)
+    step  40/150: loss=2.3451 grad=27.1389 (71s)
+    step  40/150: loss=2.3451 grad=27.1389 (71s)
+    step  50/150: loss=2.6014 grad=16.9028 (89s)
+    step  50/150: loss=2.6014 grad=16.9028 (89s)
+    step  60/150: loss=2.5049 grad=27.2179 (105s)
+    step  60/150: loss=2.5049 grad=27.2179 (105s)
+    step  70/150: loss=2.8062 grad=31.3538 (123s)
+    step  70/150: loss=2.8062 grad=31.3538 (123s)
+    step  80/150: loss=1.8816 grad=52.6669 (140s)
+    step  80/150: loss=1.8816 grad=52.6669 (140s)
+    step  90/150: loss=3.3142 grad=654.8809 (157s)
+    step  90/150: loss=3.3142 grad=654.8809 (157s)
+    step 100/150: loss=1.4997 grad=19.3003 (174s)
+    step 100/150: loss=1.4997 grad=19.3003 (174s)
+    step 110/150: loss=1.5625 grad=19.1744 (190s)
+    step 110/150: loss=1.5625 grad=19.1744 (190s)
+    step 120/150: loss=2.1639 grad=1438.3043 (207s)
+    step 120/150: loss=2.1639 grad=1438.3043 (207s)
+    step 130/150: loss=1.2001 grad=36.2253 (224s)
+    step 130/150: loss=1.2001 grad=36.2253 (224s)
+    step 140/150: loss=1.1017 grad=11.1920 (240s)
+    step 140/150: loss=1.1017 grad=11.1920 (240s)
+    step 150/150: loss=1.1675 grad=5.2231 (257s)
+    step 150/150: loss=1.1675 grad=5.2231 (257s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  POST-MELT
+  POST-MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  PPL: 32.15 (3.16x)  facts: 10/15
+  PPL: 32.15 (3.16x)  facts: 10/15
+
+  Post-melt generation:
+
+  Post-melt generation:
+    The capital of France is → Paris. The capital of the United States is Washington, D.C. 
+    The capital of France is → Paris. The capital of the United States is Washington, D.C. 
+    To make a good cup of coffee, you should → be able to make a good cup of coffee. So, the question is, h
+    To make a good cup of coffee, you should → be able to make a good cup of coffee. So, the question is, h
+    The most important thing about science is → that it is a method of finding out about the world. The scie
+    The most important thing about science is → that it is a method of finding out about the world. The scie
+    In the beginning, there was → a lot of the same thing, but the same was a lot of the same 
+    In the beginning, there was → a lot of the same thing, but the same was a lot of the same 
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=10.16  facts=12/15
+  Baseline:   PPL=10.16  facts=12/15
+  Pre-melt:   PPL=21.44 (2.11x)  facts=11/15
+  Pre-melt:   PPL=21.44 (2.11x)  facts=11/15
+  Post-melt:  PPL=32.15 (3.16x)  facts=10/15
+  Post-melt:  PPL=32.15 (3.16x)  facts=10/15
+  Trainable:  37,695,488 params
+  Trainable:  37,695,488 params
+  Melt steps: 150/150
+  Melt steps: 150/150
+  VERDICT: FAIL
+  VERDICT: FAIL
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B_v2.json
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B_v2.json
+======================================================================
+
+======================================================================
+

@@ -1,0 +1,184 @@
+
+======================================================================
+
+======================================================================
+  CRYSTAL SIEVE PIPELINE v2
+  CRYSTAL SIEVE PIPELINE v2
+  Frozen sieve + trainable per-row output scales
+  Frozen sieve + trainable per-row output scales
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Zero rate: 50%
+  Zero rate: 50%
+  Melt steps: 100
+  Melt steps: 100
+  LR: 0.001
+  LR: 0.001
+  Sieve layers: 29
+  Sieve layers: 29
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:36,  2.54it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 70.80it/s]Loading weights:  18%|█▊        | 71/399 [00:00<00:01, 166.84it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 227.06it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 250.10it/s]Loading weights:  45%|████▌     | 181/399 [00:00<00:00, 281.21it/s]Loading weights:  54%|█████▍    | 215/399 [00:01<00:00, 294.24it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 304.56it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 313.94it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 320.31it/s]Loading weights:  91%|█████████ | 364/399 [00:01<00:00, 324.78it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 256.68it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16, facts: 12/15
+  Baseline PPL: 10.16, facts: 12/15
+
+  Caching teacher states...
+
+  Caching teacher states...
+  Cached 31 texts
+  Cached 31 texts
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING CRYSTAL SIEVE
+  INSTALLING CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L0: SVD rank-750...
+
+  L0: SVD rank-750...
+  L0 ✓
+  L0 ✓
+  L 1: sieve installed (28,672 scale params)
+  L 1: sieve installed (28,672 scale params)
+  L 2: sieve installed (28,672 scale params)
+  L 2: sieve installed (28,672 scale params)
+  L 3: sieve installed (28,672 scale params)
+  L 3: sieve installed (28,672 scale params)
+  L 5: sieve installed (28,672 scale params)
+  L 5: sieve installed (28,672 scale params)
+  L10: sieve installed (28,672 scale params)
+  L10: sieve installed (28,672 scale params)
+  L15: sieve installed (28,672 scale params)
+  L15: sieve installed (28,672 scale params)
+  L20: sieve installed (28,672 scale params)
+  L20: sieve installed (28,672 scale params)
+  L24: sieve installed (28,672 scale params)
+  L24: sieve installed (28,672 scale params)
+  L25: sieve installed (28,672 scale params)
+  L25: sieve installed (28,672 scale params)
+  L26: sieve installed (28,672 scale params)
+  L26: sieve installed (28,672 scale params)
+  L32: sieve installed (28,672 scale params)
+  L32: sieve installed (28,672 scale params)
+  L33: sieve installed (28,672 scale params)
+  L33: sieve installed (28,672 scale params)
+  L34: sieve installed (28,672 scale params)
+  L34: sieve installed (28,672 scale params)
+
+  Trainable params: 37,695,488 (831,488 scales + L0 SVD)
+
+  Trainable params: 37,695,488 (831,488 scales + L0 SVD)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PRE-MELT
+  PRE-MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  PPL: 21.41 (2.11x)  facts: 11/15
+  PPL: 21.41 (2.11x)  facts: 11/15
+
+  Pre-melt generation:
+
+  Pre-melt generation:
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    In the beginning, there was → a single, simple, and unifying concept of the world, which w
+    In the beginning, there was → a single, simple, and unifying concept of the world, which w
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  MULTI-PROJECTION MELT
+  MULTI-PROJECTION MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1/100: loss=3.0950 grad=43.5366 (2s)
+    step   1/100: loss=3.0950 grad=43.5366 (2s)
+    step  10/100: loss=8.9034 grad=240.6484 (16s)
+    step  10/100: loss=8.9034 grad=240.6484 (16s)
+    step  20/100: loss=4.2074 grad=164.2030 (29s)
+    step  20/100: loss=4.2074 grad=164.2030 (29s)
+    step  30/100: loss=4.1324 grad=37.5850 (44s)
+    step  30/100: loss=4.1324 grad=37.5850 (44s)
+    step  40/100: loss=3.3919 grad=41.7381 (59s)
+    step  40/100: loss=3.3919 grad=41.7381 (59s)
+    step  50/100: loss=3.8235 grad=43.4402 (72s)
+    step  50/100: loss=3.8235 grad=43.4402 (72s)
+    step  60/100: loss=6.0480 grad=65.5713 (87s)
+    step  60/100: loss=6.0480 grad=65.5713 (87s)
+    Too many NaNs (11), stopping
+    Too many NaNs (11), stopping
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  POST-MELT
+  POST-MELT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  PPL: nan (nanx)  facts: 0/15
+  PPL: nan (nanx)  facts: 0/15
+
+  Post-melt generation:
+
+  Post-melt generation:
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=10.16  facts=12/15
+  Baseline:   PPL=10.16  facts=12/15
+  Pre-melt:   PPL=21.41 (2.11x)  facts=11/15
+  Pre-melt:   PPL=21.41 (2.11x)  facts=11/15
+  Post-melt:  PPL=nan (nanx)  facts=0/15
+  Post-melt:  PPL=nan (nanx)  facts=0/15
+  Trainable:  37,695,488 params
+  Trainable:  37,695,488 params
+  Melt steps: 66/100
+  Melt steps: 66/100
+  VERDICT: FAIL
+  VERDICT: FAIL
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B_v2.json
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B_v2.json
+======================================================================
+
+======================================================================
+

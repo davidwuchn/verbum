@@ -1,0 +1,204 @@
+
+======================================================================
+
+======================================================================
+  CRYSTAL SIEVE PIPELINE
+  CRYSTAL SIEVE PIPELINE
+  W_eff = sign(W) ⊙ gamma + multi-projection melt
+  W_eff = sign(W) ⊙ gamma + multi-projection melt
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Zero rate: 50%
+  Zero rate: 50%
+  Melt steps: 100
+  Melt steps: 100
+  LR: 3e-05
+  LR: 3e-05
+  Sieve layers: L1-L26, L32-L34 (29 layers)
+  Sieve layers: L1-L26, L32-L34 (29 layers)
+  Keep layers: L0 (SVD), L27-L31 (binding), L35 (collapse)
+  Keep layers: L0 (SVD), L27-L31 (binding), L35 (collapse)
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:32,  1.87it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 56.08it/s]Loading weights:  17%|█▋        | 67/399 [00:00<00:02, 130.77it/s]Loading weights:  26%|██▌       | 102/399 [00:00<00:01, 183.48it/s]Loading weights:  33%|███▎      | 133/399 [00:00<00:01, 215.05it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:00, 254.21it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:00, 288.22it/s]Loading weights:  61%|██████    | 244/399 [00:01<00:00, 297.17it/s]Loading weights:  69%|██████▉   | 277/399 [00:01<00:00, 299.82it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 313.61it/s]Loading weights:  87%|████████▋ | 346/399 [00:01<00:00, 308.55it/s]Loading weights:  95%|█████████▌| 380/399 [00:01<00:00, 316.32it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 229.70it/s]
+  d_model=4096, n_layers=36
+  d_model=4096, n_layers=36
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16, facts: 12/15
+  Baseline PPL: 10.16, facts: 12/15
+
+  Caching teacher states at checkpoints...
+
+  Caching teacher states at checkpoints...
+  Cached 31 texts × 4 checkpoints
+  Cached 31 texts × 4 checkpoints
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING CRYSTAL SIEVE
+  INSTALLING CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  L0: SVD rank-750...
+
+  L0: SVD rank-750...
+  L0 SVD ✓
+  L0 SVD ✓
+  L 1: sieve installed (75,557,538 active / 150,994,944 orig = 50%)
+  L 1: sieve installed (75,557,538 active / 150,994,944 orig = 50%)
+  L 2: sieve installed (75,558,848 active / 150,994,944 orig = 50%)
+  L 2: sieve installed (75,558,848 active / 150,994,944 orig = 50%)
+  L 3: sieve installed (75,565,797 active / 150,994,944 orig = 50%)
+  L 3: sieve installed (75,565,797 active / 150,994,944 orig = 50%)
+  L 4: sieve installed (75,761,326 active / 150,994,944 orig = 50%)
+  L 4: sieve installed (75,761,326 active / 150,994,944 orig = 50%)
+  L 5: sieve installed (75,645,931 active / 150,994,944 orig = 50%)
+  L 5: sieve installed (75,645,931 active / 150,994,944 orig = 50%)
+  L10: sieve installed (75,771,489 active / 150,994,944 orig = 50%)
+  L10: sieve installed (75,771,489 active / 150,994,944 orig = 50%)
+  L15: sieve installed (75,688,797 active / 150,994,944 orig = 50%)
+  L15: sieve installed (75,688,797 active / 150,994,944 orig = 50%)
+  L20: sieve installed (75,746,850 active / 150,994,944 orig = 50%)
+  L20: sieve installed (75,746,850 active / 150,994,944 orig = 50%)
+  L22: sieve installed (75,655,710 active / 150,994,944 orig = 50%)
+  L22: sieve installed (75,655,710 active / 150,994,944 orig = 50%)
+  L23: sieve installed (75,651,748 active / 150,994,944 orig = 50%)
+  L23: sieve installed (75,651,748 active / 150,994,944 orig = 50%)
+  L24: sieve installed (75,628,648 active / 150,994,944 orig = 50%)
+  L24: sieve installed (75,628,648 active / 150,994,944 orig = 50%)
+  L25: sieve installed (75,619,958 active / 150,994,944 orig = 50%)
+  L25: sieve installed (75,619,958 active / 150,994,944 orig = 50%)
+  L26: sieve installed (75,624,405 active / 150,994,944 orig = 50%)
+  L26: sieve installed (75,624,405 active / 150,994,944 orig = 50%)
+  L32: sieve installed (75,602,539 active / 150,994,944 orig = 50%)
+  L32: sieve installed (75,602,539 active / 150,994,944 orig = 50%)
+  L33: sieve installed (75,710,562 active / 150,994,944 orig = 50%)
+  L33: sieve installed (75,710,562 active / 150,994,944 orig = 50%)
+  L34: sieve installed (75,682,444 active / 150,994,944 orig = 50%)
+  L34: sieve installed (75,682,444 active / 150,994,944 orig = 50%)
+
+  Total trainable: 4,415,717,376 params
+
+  Total trainable: 4,415,717,376 params
+  Sieve size: 8514.5MB vs original 8640.0MB (1.0x)
+  Sieve size: 8514.5MB vs original 8640.0MB (1.0x)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PRE-MELT MEASUREMENT
+  PRE-MELT MEASUREMENT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Pre-melt PPL: 21.50 (2.12x)
+  Pre-melt PPL: 21.50 (2.12x)
+  Pre-melt facts: 11/15
+  Pre-melt facts: 11/15
+
+  Pre-melt generation:
+
+  Pre-melt generation:
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    The capital of France is → Paris. The capital of France is Paris. The capital of France
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    To make a good cup of coffee, you should → first add the coffee to the filter. Then, you should add the
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    The most important thing about science is → that it is a method of learning about the world. The most im
+    In the beginning, there was → a single, simple, and unifying concept of the world, which w
+    In the beginning, there was → a single, simple, and unifying concept of the world, which w
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  MULTI-PROJECTION MELT
+  MULTI-PROJECTION MELT
+  100 steps, lr=3e-05
+  100 steps, lr=3e-05
+  Projection weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 5.0, 'binding': 2.0, 'output_ce': 1.0}
+  Projection weights: {'lexer': 0.5, 'composition': 1.0, 'type_crystal': 5.0, 'binding': 2.0, 'output_ce': 1.0}
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1/100: loss=3.1041 grad=192.48 (4s)
+    step   1/100: loss=3.1041 grad=192.48 (4s)
+    step  10/100: loss=9.3166 grad=50.61 (26s)
+    step  10/100: loss=9.3166 grad=50.61 (26s)
+    step  20/100: loss=7.8826 grad=22.35 (47s)
+    step  20/100: loss=7.8826 grad=22.35 (47s)
+      too many NaNs, stopping
+      too many NaNs, stopping
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  POST-MELT MEASUREMENT
+  POST-MELT MEASUREMENT
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Post-melt PPL: nan (nanx)
+  Post-melt PPL: nan (nanx)
+  Post-melt facts: 0/15
+  Post-melt facts: 0/15
+
+  Post-melt generation:
+
+  Post-melt generation:
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+======================================================================
+
+======================================================================
+  CRYSTAL SIEVE PIPELINE — RESULTS
+  CRYSTAL SIEVE PIPELINE — RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=10.16  facts=12/15
+  Baseline:   PPL=10.16  facts=12/15
+  Pre-melt:   PPL=21.50 (2.12x)  facts=11/15
+  Pre-melt:   PPL=21.50 (2.12x)  facts=11/15
+  Post-melt:  PPL=nan (nanx)  facts=0/15
+  Post-melt:  PPL=nan (nanx)  facts=0/15
+  Melt gain:  2.12x → nanx
+  Melt gain:  2.12x → nanx
+  Sieve layers: 29 + L0 SVD
+  Sieve layers: 29 + L0 SVD
+  Trainable: 4,415,717,376 params
+  Trainable: 4,415,717,376 params
+  Zero rate: 50%
+  Zero rate: 50%
+  VERDICT: FAIL
+  VERDICT: FAIL
+
+  Results saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/crystal-sieve-pipeline/Qwen_Qwen3-8B.json
+
+======================================================================
+
+======================================================================
+  DONE
+  DONE
+======================================================================
+
+======================================================================
+
