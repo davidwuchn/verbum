@@ -1,0 +1,215 @@
+
+============================================================
+
+============================================================
+  STAGED MELT — Zone Refining
+  STAGED MELT — Zone Refining
+  Melt outward from the standing wave node
+  Melt outward from the standing wave node
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+  Stages: 5
+  Stages: 5
+    core: L13-L21 (9 layers, 50 steps)
+    core: L13-L21 (9 layers, 50 steps)
+    inward: L10-L12 (3 layers, 30 steps)
+    inward: L10-L12 (3 layers, 30 steps)
+    outward: L22-L26 (5 layers, 50 steps)
+    outward: L22-L26 (5 layers, 50 steps)
+    parser: L1-L9 (9 layers, 50 steps)
+    parser: L1-L9 (9 layers, 50 steps)
+    late: L32-L34 (3 layers, 30 steps)
+    late: L32-L34 (3 layers, 30 steps)
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:44,  1.78it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 54.41it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 133.73it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 179.71it/s]Loading weights:  35%|███▍      | 138/399 [00:00<00:01, 222.17it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:00, 258.61it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:00, 272.39it/s]Loading weights:  61%|██████▏   | 245/399 [00:01<00:00, 291.06it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 304.25it/s]Loading weights:  80%|████████  | 321/399 [00:01<00:00, 335.26it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 334.06it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 233.15it/s]
+  d_model: 4096
+  d_model: 4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+  Installing L0 SVD rank-750...
+
+  Installing L0 SVD rank-750...
+  L0 installed ✓
+  L0 installed ✓
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 1/5: core
+  STAGE 1/5: core
+  Adding L13-L21 (9 layers)
+  Adding L13-L21 (9 layers)
+  Melt steps: 50
+  Melt steps: 50
+  Total ternary so far: 0 + 9 = 9
+  Total ternary so far: 0 + 9 = 9
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 9 new layers (calibrated through current model):
+
+    Installing 9 new layers (calibrated through current model):
+      L13: collecting data (through current model)...
+      L13: collecting data (through current model)...
+      L13: 1636 samples, clustering...
+      L13: 1636 samples, clustering...
+      L13: cls_acc=100.0% ✓
+      L13: cls_acc=100.0% ✓
+      L14: collecting data (through current model)...
+      L14: collecting data (through current model)...
+      L14: 1636 samples, clustering...
+      L14: 1636 samples, clustering...
+      L14: cls_acc=99.7% ✓
+      L14: cls_acc=99.7% ✓
+      L15: collecting data (through current model)...
+      L15: collecting data (through current model)...
+      L15: 1636 samples, clustering...
+      L15: 1636 samples, clustering...
+      L15: cls_acc=99.4% ✓
+      L15: cls_acc=99.4% ✓
+      L16: collecting data (through current model)...
+      L16: collecting data (through current model)...
+      L16: 1636 samples, clustering...
+      L16: 1636 samples, clustering...
+      L16: cls_acc=98.0% ✓
+      L16: cls_acc=98.0% ✓
+      L17: collecting data (through current model)...
+      L17: collecting data (through current model)...
+      L17: 1636 samples, clustering...
+      L17: 1636 samples, clustering...
+      L17: cls_acc=100.0% ✓
+      L17: cls_acc=100.0% ✓
+      L18: collecting data (through current model)...
+      L18: collecting data (through current model)...
+      L18: 1636 samples, clustering...
+      L18: 1636 samples, clustering...
+      L18: cls_acc=100.0% ✓
+      L18: cls_acc=100.0% ✓
+      L19: collecting data (through current model)...
+      L19: collecting data (through current model)...
+      L19: 1636 samples, clustering...
+      L19: 1636 samples, clustering...
+      L19: cls_acc=99.6% ✓
+      L19: cls_acc=99.6% ✓
+      L20: collecting data (through current model)...
+      L20: collecting data (through current model)...
+      L20: 1636 samples, clustering...
+      L20: 1636 samples, clustering...
+      L20: cls_acc=98.7% ✓
+      L20: cls_acc=98.7% ✓
+      L21: collecting data (through current model)...
+      L21: collecting data (through current model)...
+      L21: 1636 samples, clustering...
+      L21: 1636 samples, clustering...
+      L21: cls_acc=100.0% ✓
+      L21: cls_acc=100.0% ✓
+
+    Trainable params: 37,527,552
+
+    Trainable params: 37,527,552
+    Pre-melt PPL: 15.39 (1.51x)
+    Pre-melt PPL: 15.39 (1.51x)
+
+    Melting (50 steps, lr=0.0001)...
+
+    Melting (50 steps, lr=0.0001)...
+      step   1/50: loss=2.7854 grad=27.47 (1s)
+      step   1/50: loss=2.7854 grad=27.47 (1s)
+      step  10/50: loss=4.6726 grad=39801.27 (5s)
+      step  10/50: loss=4.6726 grad=39801.27 (5s)
+      step  20/50: loss=2.7258 grad=14.32 (10s)
+      step  20/50: loss=2.7258 grad=14.32 (10s)
+      step  30/50: loss=5.3320 grad=317.86 (15s)
+      step  30/50: loss=5.3320 grad=317.86 (15s)
+      too many NaNs (11), stopping early
+      too many NaNs (11), stopping early
+
+    Post-melt PPL: nan (nanx)
+
+    Post-melt PPL: nan (nanx)
+    Post-melt facts: 0/15 = 0%
+    Post-melt facts: 0/15 = 0%
+
+  Stage 1 generation:
+
+  Stage 1 generation:
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The capital of France is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    To make a good cup of coffee, you should → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    The most important thing about science is → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    In the beginning, there was → !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 2/5: inward
+  STAGE 2/5: inward
+  Adding L10-L12 (3 layers)
+  Adding L10-L12 (3 layers)
+  Melt steps: 30
+  Melt steps: 30
+  Total ternary so far: 9 + 3 = 12
+  Total ternary so far: 9 + 3 = 12
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 3 new layers (calibrated through current model):
+
+    Installing 3 new layers (calibrated through current model):
+      L10: collecting data (through current model)...
+      L10: collecting data (through current model)...
+      L10: 1636 samples, clustering...
+      L10: 1636 samples, clustering...
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/experiments/staged_melt.py", line 740, in <module>
+    main()
+  File "/Users/mwhitford/src/verbum/scripts/experiments/staged_melt.py", line 617, in main
+    h, repl = install_ternary_layer(
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/scripts/experiments/staged_melt.py", line 407, in install_ternary_layer
+    labels = km.fit_predict(mlp_out)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/cluster/_kmeans.py", line 1070, in fit_predict
+    return self.fit(X, sample_weight=sample_weight).labels_
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1336, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/cluster/_kmeans.py", line 2080, in fit
+    X = validate_data(
+        ^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 2902, in validate_data
+    out = check_array(X, input_name="X", **check_params)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 1074, in check_array
+    _assert_all_finite(
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 133, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/Users/mwhitford/src/verbum/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 182, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+MiniBatchKMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values

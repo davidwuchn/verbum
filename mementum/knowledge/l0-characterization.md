@@ -296,11 +296,69 @@ among 9 discrete rotations.
   one stereotyped mode for sentence-initial reset, everything else
   is continuous per-token projection
 
+## Boundary Melting — Fusing Compressed Pieces (Experiments 3-6)
+
+Individual compression works (L0 low-rank: 0.94x, L15 ternary: 0.98x).
+Combining them naive fails (cascade). Boundary melting solves this.
+
+### The Protocol
+
+```
+FROZEN (topology):     ternary sign patterns, SVD directions
+TRAINABLE (beams):     SVD factors A,B + classifier W + gamma scaling
+METHOD:                soft selection during training (differentiable softmax)
+                       hard argmax during eval (discrete programs)
+GD:                    Adam on trainable params only, ~50 steps
+```
+
+### Results
+
+| Config | Pre-melt | Post-melt | Steps | Verdict |
+|--------|----------|-----------|-------|---------|
+| 29 layers naive (no melt) | 427x | — | 0 | FAIL |
+| 9 sweet-spot (no melt) | 1.66x | — | 0 | FAIL |
+| 9 sweet-spot + melt | 1.52x | **1.02x** | 50 | **PASS** |
+| 29 layers brute-force melt | 672x | 50x | 200 | FAIL |
+| 29 layers staged melt | — | IN PROGRESS | 210 | TBD |
+
+### Why Melting Works
+
+The crystal sieve principle (session 184) at the model level:
+- Ternary signs = the cavity shape (universal, frozen)
+- Classifier + gamma = the beam (data-dependent, trainable)
+- GD doesn't rebuild the topology — it adjusts the beams to
+  illuminate the existing topology from the right angle
+
+When layers are compressed independently, each layer's beams are
+calibrated to the original model's representations. After compression,
+the representations change at each boundary. Melting = GD adjusting
+the beams so the compressed layer's output is compatible with its
+downstream neighbor's expectations.
+
+### Zone Refining (Staged Melt)
+
+Melt all 29 layers at once starts from 672x PPL (too far from target).
+Zone refining: melt outward from the most stable region (L13-L21, the
+standing wave node). Each stage:
+1. Add new layers (calibrated through current melted model)
+2. Melt all compressed params (old ones stay near optimum)
+3. Measure and proceed
+
+Stages: core(L13-21) → inward(L10-12) → outward(L22-26) →
+parser(L1-9) → late(L32-34).
+
+Numerical stability requires: gradient clipping (max_norm=1.0),
+logit clamping (-20,20), NaN check before backward, lower lr (5e-5).
+
 ## Scripts and Results
 
 - `scripts/experiments/l0_characterization.py` (mode sweep, cluster, SVD, NMI)
 - `results/l0-characterization/Qwen_Qwen3-8B.json`
-- `results/l0-characterization/run.log`
 - `scripts/experiments/l0_lowrank.py` (SVD rank sweep with PPL)
 - `results/l0-lowrank/Qwen_Qwen3-8B.json`
-- `results/l0-lowrank/run.log`
+- `scripts/experiments/combined_compression.py` (naive + sweet-spot)
+- `results/combined-compression/`
+- `scripts/experiments/melt_boundaries.py` (boundary melting, proven)
+- `results/melt-boundaries/Qwen_Qwen3-8B.json`
+- `scripts/experiments/staged_melt.py` (zone refining, in progress)
+- `results/staged-melt/`

@@ -1,0 +1,276 @@
+
+============================================================
+
+============================================================
+  STAGED MELT — Zone Refining
+  STAGED MELT — Zone Refining
+  Melt outward from the standing wave node
+  Melt outward from the standing wave node
+============================================================
+============================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  L0 rank: 750
+  L0 rank: 750
+  Ternary modes: 9
+  Ternary modes: 9
+  Stages: 5
+  Stages: 5
+    core: L13-L21 (9 layers, 50 steps)
+    core: L13-L21 (9 layers, 50 steps)
+    inward: L10-L12 (3 layers, 30 steps)
+    inward: L10-L12 (3 layers, 30 steps)
+    outward: L22-L26 (5 layers, 50 steps)
+    outward: L22-L26 (5 layers, 50 steps)
+    parser: L1-L9 (9 layers, 50 steps)
+    parser: L1-L9 (9 layers, 50 steps)
+    late: L32-L34 (3 layers, 30 steps)
+    late: L32-L34 (3 layers, 30 steps)
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:29,  1.90it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 57.14it/s]Loading weights:  18%|█▊        | 71/399 [00:00<00:02, 141.02it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 184.67it/s]Loading weights:  34%|███▍      | 136/399 [00:00<00:01, 221.01it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:00, 249.73it/s]Loading weights:  53%|█████▎    | 210/399 [00:01<00:00, 281.48it/s]Loading weights:  61%|██████    | 244/399 [00:01<00:00, 295.57it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 309.79it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 328.87it/s]Loading weights:  89%|████████▉ | 355/399 [00:01<00:00, 329.70it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 334.85it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 236.12it/s]
+  d_model: 4096
+  d_model: 4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+  Installing L0 SVD rank-750...
+
+  Installing L0 SVD rank-750...
+  L0 installed ✓
+  L0 installed ✓
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 1/5: core
+  STAGE 1/5: core
+  Adding L13-L21 (9 layers)
+  Adding L13-L21 (9 layers)
+  Melt steps: 50
+  Melt steps: 50
+  Total ternary so far: 0 + 9 = 9
+  Total ternary so far: 0 + 9 = 9
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 9 new layers (calibrated through current model):
+
+    Installing 9 new layers (calibrated through current model):
+      L13: collecting data (through current model)...
+      L13: collecting data (through current model)...
+      L13: 1636 samples, clustering...
+      L13: 1636 samples, clustering...
+      L13: cls_acc=100.0% ✓
+      L13: cls_acc=100.0% ✓
+      L14: collecting data (through current model)...
+      L14: collecting data (through current model)...
+      L14: 1636 samples, clustering...
+      L14: 1636 samples, clustering...
+      L14: cls_acc=99.8% ✓
+      L14: cls_acc=99.8% ✓
+      L15: collecting data (through current model)...
+      L15: collecting data (through current model)...
+      L15: 1636 samples, clustering...
+      L15: 1636 samples, clustering...
+      L15: cls_acc=99.4% ✓
+      L15: cls_acc=99.4% ✓
+      L16: collecting data (through current model)...
+      L16: collecting data (through current model)...
+      L16: 1636 samples, clustering...
+      L16: 1636 samples, clustering...
+      L16: cls_acc=100.0% ✓
+      L16: cls_acc=100.0% ✓
+      L17: collecting data (through current model)...
+      L17: collecting data (through current model)...
+      L17: 1636 samples, clustering...
+      L17: 1636 samples, clustering...
+      L17: cls_acc=100.0% ✓
+      L17: cls_acc=100.0% ✓
+      L18: collecting data (through current model)...
+      L18: collecting data (through current model)...
+      L18: 1636 samples, clustering...
+      L18: 1636 samples, clustering...
+      L18: cls_acc=100.0% ✓
+      L18: cls_acc=100.0% ✓
+      L19: collecting data (through current model)...
+      L19: collecting data (through current model)...
+      L19: 1636 samples, clustering...
+      L19: 1636 samples, clustering...
+      L19: cls_acc=100.0% ✓
+      L19: cls_acc=100.0% ✓
+      L20: collecting data (through current model)...
+      L20: collecting data (through current model)...
+      L20: 1636 samples, clustering...
+      L20: 1636 samples, clustering...
+      L20: cls_acc=100.0% ✓
+      L20: cls_acc=100.0% ✓
+      L21: collecting data (through current model)...
+      L21: collecting data (through current model)...
+      L21: 1636 samples, clustering...
+      L21: 1636 samples, clustering...
+      L21: cls_acc=100.0% ✓
+      L21: cls_acc=100.0% ✓
+
+    Trainable params: 37,527,552
+
+    Trainable params: 37,527,552
+    Pre-melt PPL: 16.04 (1.58x)
+    Pre-melt PPL: 16.04 (1.58x)
+
+    Melting (50 steps, lr=5e-05)...
+
+    Melting (50 steps, lr=5e-05)...
+      step   1/50: loss=2.8257 grad=26.97 (1s)
+      step   1/50: loss=2.8257 grad=26.97 (1s)
+      step  10/50: loss=2.2520 grad=30.30 (6s)
+      step  10/50: loss=2.2520 grad=30.30 (6s)
+      step  20/50: loss=2.7543 grad=14.67 (10s)
+      step  20/50: loss=2.7543 grad=14.67 (10s)
+      step  30/50: loss=2.1233 grad=10.57 (15s)
+      step  30/50: loss=2.1233 grad=10.57 (15s)
+      step  40/50: loss=1.6527 grad=11.62 (20s)
+      step  40/50: loss=1.6527 grad=11.62 (20s)
+      step  50/50: loss=2.6582 grad=12.05 (25s)
+      step  50/50: loss=2.6582 grad=12.05 (25s)
+
+    Post-melt PPL: 10.18 (1.00x)
+
+    Post-melt PPL: 10.18 (1.00x)
+    Post-melt facts: 10/15 = 67%
+    Post-melt facts: 10/15 = 67%
+
+  Stage 1 generation:
+
+  Stage 1 generation:
+    The capital of France is → Paris, and the capital of the United States is Washington, D
+    The capital of France is → Paris, and the capital of the United States is Washington, D
+    To make a good cup of coffee, you should → use a certain amount of ground coffee beans. The amount of c
+    To make a good cup of coffee, you should → use a certain amount of ground coffee beans. The amount of c
+    The most important thing about science is → that it is a way of thinking, not a way of doing. It is not 
+    The most important thing about science is → that it is a way of thinking, not a way of doing. It is not 
+    In the beginning, there was → a lot of noise, and the people were very excited. The first 
+    In the beginning, there was → a lot of noise, and the people were very excited. The first 
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 2/5: inward
+  STAGE 2/5: inward
+  Adding L10-L12 (3 layers)
+  Adding L10-L12 (3 layers)
+  Melt steps: 30
+  Melt steps: 30
+  Total ternary so far: 9 + 3 = 12
+  Total ternary so far: 9 + 3 = 12
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 3 new layers (calibrated through current model):
+
+    Installing 3 new layers (calibrated through current model):
+      L10: collecting data (through current model)...
+      L10: collecting data (through current model)...
+      L10: 1636 samples, clustering...
+      L10: 1636 samples, clustering...
+      L10: cls_acc=99.9% ✓
+      L10: cls_acc=99.9% ✓
+      L11: collecting data (through current model)...
+      L11: collecting data (through current model)...
+      L11: 1636 samples, clustering...
+      L11: 1636 samples, clustering...
+      L11: cls_acc=100.0% ✓
+      L11: cls_acc=100.0% ✓
+      L12: collecting data (through current model)...
+      L12: collecting data (through current model)...
+      L12: 1636 samples, clustering...
+      L12: 1636 samples, clustering...
+      L12: cls_acc=100.0% ✓
+      L12: cls_acc=100.0% ✓
+
+    Trainable params: 37,748,736
+
+    Trainable params: 37,748,736
+    Pre-melt PPL: 20.17 (1.98x)
+    Pre-melt PPL: 20.17 (1.98x)
+
+    Melting (30 steps, lr=5e-05)...
+
+    Melting (30 steps, lr=5e-05)...
+      step   1/30: loss=2.7598 grad=23.48 (1s)
+      step   1/30: loss=2.7598 grad=23.48 (1s)
+      step  10/30: loss=2.2890 grad=19.39 (5s)
+      step  10/30: loss=2.2890 grad=19.39 (5s)
+      step  20/30: loss=2.3132 grad=63.69 (10s)
+      step  20/30: loss=2.3132 grad=63.69 (10s)
+      step  30/30: loss=2.3003 grad=31.84 (16s)
+      step  30/30: loss=2.3003 grad=31.84 (16s)
+
+    Post-melt PPL: 17.98 (1.77x)
+
+    Post-melt PPL: 17.98 (1.77x)
+    Post-melt facts: 6/15 = 40%
+    Post-melt facts: 6/15 = 40%
+
+  Stage 2 generation:
+
+  Stage 2 generation:
+    The capital of France is → Paris, and the capital of France is Paris. The capital of Fr
+    The capital of France is → Paris, and the capital of France is Paris. The capital of Fr
+    To make a good cup of coffee, you should → have a good cup of coffee.. The coffee is good, and the cup 
+    To make a good cup of coffee, you should → have a good cup of coffee.. The coffee is good, and the cup 
+    The most important thing about science is → the fact that it is a part of the world, and that it is a pa
+    The most important thing about science is → the fact that it is a part of the world, and that it is a pa
+    In the beginning, there was → a lot of talk about the weather. But now, the weather is a b
+    In the beginning, there was → a lot of talk about the weather. But now, the weather is a b
+
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  STAGE 3/5: outward
+  STAGE 3/5: outward
+  Adding L22-L26 (5 layers)
+  Adding L22-L26 (5 layers)
+  Melt steps: 50
+  Melt steps: 50
+  Total ternary so far: 12 + 5 = 17
+  Total ternary so far: 12 + 5 = 17
+════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+
+    Installing 5 new layers (calibrated through current model):
+
+    Installing 5 new layers (calibrated through current model):
+      L22: collecting data (through current model)...
+      L22: collecting data (through current model)...
+      L22: 1636 samples, clustering...
+      L22: 1636 samples, clustering...
+      L22: cls_acc=100.0% ✓
+      L22: cls_acc=100.0% ✓
+      L23: collecting data (through current model)...
+      L23: collecting data (through current model)...
+      L23: 1636 samples, clustering...
+      L23: 1636 samples, clustering...
+      L23: cls_acc=100.0% ✓
+      L23: cls_acc=100.0% ✓
+      L24: collecting data (through current model)...
+      L24: collecting data (through current model)...
+      L24: 1636 samples, clustering...
+      L24: 1636 samples, clustering...
+      L24: cls_acc=100.0% ✓
+      L24: cls_acc=100.0% ✓
+      L25: collecting data (through current model)...
+      L25: collecting data (through current model)...

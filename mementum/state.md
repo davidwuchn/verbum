@@ -8,47 +8,65 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 195: L0 CHARACTERIZATION — The Lexer Is Genuinely Continuous**
+**Session 195: FROM L0 TO FULL COMPRESSION — The Melt Protocol**
 
-Six instruments comparing L0 (lexer) vs L15 (optimizer, sweet-spot control)
-on Qwen3-8B. Tested the three P4 rescue hypotheses: more modes, PCA, or
-genuinely continuous. Result: L0 is genuinely continuous. Cannot be ternarized.
+Six experiments in one session. Decoded L0, discovered low-rank rescue,
+built and tested the combined compressed model, invented boundary melting.
 
-### Key Findings
+### Experiment 1: L0 Characterization
 
-1. **L0 has NO natural cluster structure at ANY k.** Silhouette is negative
-   from k=6 to k=512. L15 peaks at k=8 (sil=+0.075). L0's gate patterns
-   form a continuous manifold, not discrete modes.
+Six instruments prove L0 is genuinely continuous — no natural clusters at
+any k (silhouette negative k=6..512), 512 ternary modes still 7x PPL.
+L0 correlates with byte_len (NMI=0.259) — it's sorting by physical token
+encoding. L0 is a dictionary, not a type tagger.
 
-2. **More modes helps but NEVER fixes it.** k=9: 92.9x PPL. k=128: 40x.
-   k=512: still 7x PPL with only 33% fact recall (baseline 80%). Non-monotonic
-   improvement — the space resists discretization at every granularity.
+### Experiment 2: L0 Low-Rank (THE RESCUE)
 
-3. **L0 is paradoxically LOWER rank than L15.** gate_proj effective rank
-   3278 vs 3771. L0 concentrates energy into fewer SVs (45% for 90% energy
-   vs 67%) — but those dimensions are continuously distributed.
+SVD rank sweep reveals L0's functional rank is **750 dimensions** (18% of
+4096). At r=750: PPL=0.94x (IMPROVES!), 70.3MB (4.1x compression). Phase
+transition razor-sharp: r=500 is 3.4x (broken), r=750 is 0.94x (perfect).
+L15 control: flat at 0.99x down to r=100 (functional rank <100).
 
-4. **L0 correlates with byte_len (NMI=0.259).** L15 correlates with
-   is_continuation (NMI=0.216). L0 sorts by the PHYSICAL encoding of
-   tokens. L15 sorts by SYNTACTIC position. L0 is literally a lexer.
+### Experiment 3: Combined Compression (Naive)
 
-5. **L0 transform physics are fundamentally different.** cos(in,out) always
-   positive (preserves direction — adding features). Gate sparsity ranges
-   7-42% (6x spread — each token activates different neurons). L15 has
-   negative cos (rotates/inverts), tight gate sparsity 67-78%.
+Replace 29 layers with ternary + L0 with low-rank simultaneously.
+Result: PPL 427x, "the the the" — total cascade. Calibration mismatch:
+each layer's ternary patterns were fit to original model activations, not
+the distorted activations from prior compressed layers.
 
-### Low-Rank Rescues L0 (Experiment 2)
+### Experiment 4: Sweet-Spot Only
 
-SVD rank sweep on L0 vs L15. **L0 at rank=750: PPL=0.94x (IMPROVES!),
-70.3MB (4.1x compression).** The lexer only needs 750 dimensions out
-of 4096 (18%). Phase transition razor-sharp: r=500 is 3.4x (broken),
-r=750 is 0.94x (perfect). L15 control: flat at 0.99x down to r=100.
+Replace only L13-L21 (9 layers) + L0 low-rank. PPL 1.66x, 47% facts.
+Generation is COHERENT but degraded. The seams between compressed and
+uncompressed regions need calibration.
 
-### P4 Verdict (Updated)
+### Experiment 5: Melt Boundaries (THE BREAKTHROUGH)
+
+**Freeze the topology, train the beams.** Crystal sieve at the model level.
+
+- FROZEN: ternary sign patterns (the 9 programs per layer)
+- TRAINABLE: SVD factors (A, B) + classifier weights + gamma scaling
+- Soft selection during training (differentiable), hard argmax at eval
+
+**Result: 50 steps of GD, 26 seconds, 0.46% of params trainable.**
+**PPL: 1.52x → 1.02x. Facts: 53% → 73%. VERDICT: PASS.**
+
+### Experiment 6: Staged Melt (Zone Refining) — IN PROGRESS
+
+Melt outward from the standing wave node (L13-L21). Each stage adds
+layers, collects calibration through the already-melted model, and
+re-melts. Like semiconductor zone refining.
+
+Stages: core(L13-21) → inward(L10-12) → outward(L22-26) → parser(L1-9)
+→ late(L32-34). Currently running with numerical stability fixes
+(gradient clipping, logit clamping, NaN-before-backward).
+
+### P4 Verdict
 
 - More modes (64+): KILLED. Even 512 modes is 7x PPL.
 - Low-rank SVD: **YES at r=750.** 288MB -> 70.3MB, PPL IMPROVES.
 - Genuinely continuous: YES, but only 750 functional dimensions.
+- Boundary melting: **YES.** GD fuses compressed pieces in 50 steps.
 
 ### Previous session (194)
 
@@ -886,6 +904,12 @@ of parameters).
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
 | **L0 low-rank experiment** | `scripts/experiments/l0_lowrank.py` | ✅ NEW (s195) |
 | **L0 low-rank results** | `results/l0-lowrank/` | ✅ NEW (s195) |
+| **Combined compression** | `scripts/experiments/combined_compression.py` | ✅ NEW (s195) |
+| **Combined results** | `results/combined-compression/` | ✅ NEW (s195) |
+| **Melt boundaries** | `scripts/experiments/melt_boundaries.py` | ✅ NEW (s195) |
+| **Melt results** | `results/melt-boundaries/` | ✅ NEW (s195) |
+| **Staged melt** | `scripts/experiments/staged_melt.py` | ✅ NEW (s195) |
+| **Staged melt results** | `results/staged-melt/` | ✅ IN PROGRESS (s195) |
 | **Mode semantics knowledge** | `mementum/knowledge/mode-semantics.md` | ✅ NEW (s194) |
 | **Mode semantics experiment** | `scripts/experiments/mode_semantics.py` | ✅ NEW (s194) |
 | **Mode semantics results** | `results/mode-semantics/` | ✅ NEW (s194) |
@@ -1019,6 +1043,9 @@ of parameters).
 | 6 | **LOW-RANK RESCUES L0** | SVD at r=750: PPL=0.94x (IMPROVES!), 70.3MB (4.1x compression). 750 functional dims, not 4096. |
 | 7 | **Phase transition at r=750** | r=500: 3.4x PPL (broken). r=750: 0.94x (perfect). Razor-sharp boundary. |
 | 8 | **L15 functional rank <100** | L15 at r=100: 0.99x PPL. Why 9 ternary modes work — the space is tiny. |
+| 9 | **Naive 29-layer combination fails** | PPL 427x, "the the the". Calibration mismatch cascades catastrophically. |
+| 10 | **MELT BOUNDARIES WORKS** | Crystal sieve at model level: freeze topology, train beams. 50 steps → 1.52x to 1.02x PPL. |
+| 11 | **Staged melt (zone refining)** | Melt outward from standing wave node. IN PROGRESS. Numerical stability fixes needed. |
 
 ## What changed last session (194)
 
