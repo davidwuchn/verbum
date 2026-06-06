@@ -1,0 +1,268 @@
+
+======================================================================
+
+======================================================================
+  β-EXPANSION — Reverse the reductions, correct the cascade
+  β-EXPANSION — Reverse the reductions, correct the cascade
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:51,  2.32it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 63.16it/s]Loading weights:  18%|█▊        | 72/399 [00:00<00:02, 154.58it/s]Loading weights:  26%|██▋       | 105/399 [00:00<00:01, 198.03it/s]Loading weights:  36%|███▌      | 144/399 [00:00<00:01, 246.43it/s]Loading weights:  44%|████▍     | 177/399 [00:00<00:00, 266.45it/s]Loading weights:  53%|█████▎    | 212/399 [00:01<00:00, 286.82it/s]Loading weights:  62%|██████▏   | 247/399 [00:01<00:00, 300.59it/s]Loading weights:  70%|███████   | 281/399 [00:01<00:00, 310.53it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 330.32it/s]Loading weights:  89%|████████▉ | 355/399 [00:01<00:00, 329.33it/s]Loading weights:  97%|█████████▋| 389/399 [00:01<00:00, 329.56it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 246.74it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.15, facts: 12/15
+  Baseline PPL: 10.15, facts: 12/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 1: TEACHER BINDING PATTERNS
+  PHASE 1: TEACHER BINDING PATTERNS
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Captured 10 probes
+  Captured 10 probes
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING CRYSTAL SIEVE
+  INSTALLING CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve installed on 29 layers + L0 SVD
+  Sieve installed on 29 layers + L0 SVD
+  Pre-melt PPL: 21.51 (2.12x)  facts: 11/15
+  Pre-melt PPL: 21.51 (2.12x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 1b: BINDING PRESERVATION ANALYSIS
+  PHASE 1b: BINDING PRESERVATION ANALYSIS
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  "The cat runs quickly..."
+
+  "The cat runs quickly..."
+    L27_H31: top1 2→1 ✗  subj_w: 0.300→0.485  cos=0.929
+    L27_H31: top1 2→1 ✗  subj_w: 0.300→0.485  cos=0.929
+    L30_H3: top1 2→2 ✓  subj_w: 0.193→0.232  cos=0.994
+    L30_H3: top1 2→2 ✓  subj_w: 0.193→0.232  cos=0.994
+    L30_H13: top1 0→0 ✓  subj_w: 0.212→0.243  cos=0.997
+    L30_H13: top1 0→0 ✓  subj_w: 0.212→0.243  cos=0.997
+    L30_H15: top1 0→0 ✓  subj_w: 0.032→0.042  cos=0.999
+    L30_H15: top1 0→0 ✓  subj_w: 0.032→0.042  cos=0.999
+
+  "The dog bit the cat..."
+
+  "The dog bit the cat..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.224→0.149  cos=0.989
+    L27_H31: top1 0→0 ✓  subj_w: 0.224→0.149  cos=0.989
+    L30_H3: top1 0→0 ✓  subj_w: 0.142→0.118  cos=0.956
+    L30_H3: top1 0→0 ✓  subj_w: 0.142→0.118  cos=0.956
+    L30_H13: top1 0→0 ✓  subj_w: 0.046→0.142  cos=0.987
+    L30_H13: top1 0→0 ✓  subj_w: 0.046→0.142  cos=0.987
+    L30_H15: top1 0→0 ✓  subj_w: 0.030→0.015  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.030→0.015  cos=1.000
+
+  "She walked through the ancient forest..."
+
+  "She walked through the ancient forest..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.927→0.947  cos=1.000
+    L27_H31: top1 0→0 ✓  subj_w: 0.927→0.947  cos=1.000
+    L30_H3: top1 1→1 ✓  subj_w: 0.292→0.358  cos=0.994
+    L30_H3: top1 1→1 ✓  subj_w: 0.292→0.358  cos=0.994
+    L30_H13: top1 0→0 ✓  subj_w: 0.918→0.921  cos=1.000
+    L30_H13: top1 0→0 ✓  subj_w: 0.918→0.921  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.935→0.954  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.935→0.954  cos=1.000
+
+  "The detective examined the crime scene..."
+
+  "The detective examined the crime scene..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.045→0.058  cos=0.999
+    L27_H31: top1 0→0 ✓  subj_w: 0.045→0.058  cos=0.999
+    L30_H3: top1 0→0 ✓  subj_w: 0.040→0.056  cos=0.997
+    L30_H3: top1 0→0 ✓  subj_w: 0.040→0.056  cos=0.997
+    L30_H13: top1 0→0 ✓  subj_w: 0.027→0.075  cos=0.999
+    L30_H13: top1 0→0 ✓  subj_w: 0.027→0.075  cos=0.999
+    L30_H15: top1 0→0 ✓  subj_w: 0.020→0.025  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.020→0.025  cos=1.000
+
+  "Three children ran laughing through the ..."
+
+  "Three children ran laughing through the ..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.067→0.085  cos=1.000
+    L27_H31: top1 0→0 ✓  subj_w: 0.067→0.085  cos=1.000
+    L30_H3: top1 2→2 ✓  subj_w: 0.103→0.060  cos=0.978
+    L30_H3: top1 2→2 ✓  subj_w: 0.103→0.060  cos=0.978
+    L30_H13: top1 0→0 ✓  subj_w: 0.084→0.062  cos=0.998
+    L30_H13: top1 0→0 ✓  subj_w: 0.084→0.062  cos=0.998
+    L30_H15: top1 0→0 ✓  subj_w: 0.055→0.053  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.055→0.053  cos=1.000
+
+  "The old man sat quietly by the river..."
+
+  "The old man sat quietly by the river..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.128→0.107  cos=1.000
+    L27_H31: top1 0→0 ✓  subj_w: 0.128→0.107  cos=1.000
+    L30_H3: top1 3→3 ✓  subj_w: 0.132→0.137  cos=0.998
+    L30_H3: top1 3→3 ✓  subj_w: 0.132→0.137  cos=0.998
+    L30_H13: top1 0→0 ✓  subj_w: 0.089→0.091  cos=0.988
+    L30_H13: top1 0→0 ✓  subj_w: 0.089→0.091  cos=0.988
+    L30_H15: top1 0→0 ✓  subj_w: 0.024→0.019  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.024→0.019  cos=1.000
+
+  "Birds sang in the treetops..."
+
+  "Birds sang in the treetops..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.710→0.619  cos=0.986
+    L27_H31: top1 0→0 ✓  subj_w: 0.710→0.619  cos=0.986
+    L30_H3: top1 0→0 ✓  subj_w: 0.981→0.974  cos=1.000
+    L30_H3: top1 0→0 ✓  subj_w: 0.981→0.974  cos=1.000
+    L30_H13: top1 0→0 ✓  subj_w: 0.802→0.796  cos=1.001
+    L30_H13: top1 0→0 ✓  subj_w: 0.802→0.796  cos=1.001
+    L30_H15: top1 0→0 ✓  subj_w: 0.952→0.942  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.952→0.942  cos=1.000
+
+  "The ship sailed slowly into the harbor..."
+
+  "The ship sailed slowly into the harbor..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.003→0.009  cos=1.000
+    L27_H31: top1 0→0 ✓  subj_w: 0.003→0.009  cos=1.000
+    L30_H3: top1 2→2 ✓  subj_w: 0.167→0.229  cos=0.908
+    L30_H3: top1 2→2 ✓  subj_w: 0.167→0.229  cos=0.908
+    L30_H13: top1 0→0 ✓  subj_w: 0.134→0.093  cos=0.999
+    L30_H13: top1 0→0 ✓  subj_w: 0.134→0.093  cos=0.999
+    L30_H15: top1 0→0 ✓  subj_w: 0.041→0.030  cos=0.994
+    L30_H15: top1 0→0 ✓  subj_w: 0.041→0.030  cos=0.994
+
+  "The committee voted unanimously..."
+
+  "The committee voted unanimously..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.022→0.023  cos=1.000
+    L27_H31: top1 0→0 ✓  subj_w: 0.022→0.023  cos=1.000
+    L30_H3: top1 0→0 ✓  subj_w: 0.263→0.192  cos=0.986
+    L30_H3: top1 0→0 ✓  subj_w: 0.263→0.192  cos=0.986
+    L30_H13: top1 0→0 ✓  subj_w: 0.022→0.026  cos=1.000
+    L30_H13: top1 0→0 ✓  subj_w: 0.022→0.026  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.011→0.014  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.011→0.014  cos=1.000
+
+  "Enzymes speed up chemical reactions..."
+
+  "Enzymes speed up chemical reactions..."
+    L27_H31: top1 0→0 ✓  subj_w: 0.872→0.819  cos=0.998
+    L27_H31: top1 0→0 ✓  subj_w: 0.872→0.819  cos=0.998
+    L30_H3: top1 0→0 ✓  subj_w: 0.920→0.956  cos=0.999
+    L30_H3: top1 0→0 ✓  subj_w: 0.920→0.956  cos=0.999
+    L30_H13: top1 0→0 ✓  subj_w: 0.996→0.989  cos=1.000
+    L30_H13: top1 0→0 ✓  subj_w: 0.996→0.989  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.998→0.997  cos=1.000
+    L30_H15: top1 0→0 ✓  subj_w: 0.998→0.997  cos=1.000
+
+  BINDING PRESERVATION: 39/40 top-1 matches (98%)
+
+  BINDING PRESERVATION: 39/40 top-1 matches (98%)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 2: HIDDEN STATE FIDELITY AT BOUNDARIES
+  PHASE 2: HIDDEN STATE FIDELITY AT BOUNDARIES
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+   Layer  Mean cos                  Role
+
+   Layer  Mean cos                  Role
+  ──────  ────────  ────────────────────
+  ──────  ────────  ────────────────────
+  L  0     0.8825                 lexer
+  L  0     0.8825                 lexer
+  L  9     0.8764                parser
+  L  9     0.8764                parser
+  L 21     0.8885           composition
+  L 21     0.8885           composition
+  L 26     0.9307          type crystal
+  L 26     0.9307          type crystal
+  L 27     0.9358        binding (subj)
+  L 27     0.9358        binding (subj)
+  L 30     0.9507         binding (obj)
+  L 30     0.9507         binding (obj)
+  L 35     0.9460                output
+  L 35     0.9460                output
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 3: CONTINUATION RESIDUALS
+  PHASE 3: CONTINUATION RESIDUALS
+  Adding low-rank corrections at L[0, 9, 21, 26]
+  Adding low-rank corrections at L[0, 9, 21, 26]
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Continuations: 4 layers × rank-32 = 1,048,576 params
+  Continuations: 4 layers × rank-32 = 1,048,576 params
+
+  Melting with CE loss (100 steps)...
+
+  Melting with CE loss (100 steps)...
+    step   1: loss=3.4559 (4s)
+    step   1: loss=3.4559 (4s)
+    step  20: loss=3.2001 (28s)
+    step  20: loss=3.2001 (28s)
+    step  40: loss=1.3316 (49s)
+    step  40: loss=1.3316 (49s)
+    step  60: loss=0.2633 (71s)
+    step  60: loss=0.2633 (71s)
+    step  80: loss=0.1164 (93s)
+    step  80: loss=0.1164 (93s)
+    step 100: loss=0.1204 (115s)
+    step 100: loss=0.1204 (115s)
+
+  Post-melt PPL: 10.45 (1.03x)  facts: 9/15
+
+  Post-melt PPL: 10.45 (1.03x)  facts: 9/15
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:    PPL=10.15  facts=12/15
+  Baseline:    PPL=10.15  facts=12/15
+  Sieve only:  PPL=21.51 (2.12x)  facts=11/15
+  Sieve only:  PPL=21.51 (2.12x)  facts=11/15
+  +Continuations: PPL=10.45 (1.03x)  facts=9/15
+  +Continuations: PPL=10.45 (1.03x)  facts=9/15
+  Binding preserved: 39/40 (98%)
+  Binding preserved: 39/40 (98%)
+  Continuation params: 1,048,576
+  Continuation params: 1,048,576
+
+  Saved to /Users/mwhitford/src/verbum/results/beta-expansion/Qwen_Qwen3-8B.json
+
+  Saved to /Users/mwhitford/src/verbum/results/beta-expansion/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

@@ -1,0 +1,538 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "baseline_ppl": 10.150456487883332,
+  "baseline_facts": 12,
+  "pre_melt_ppl": 21.514929332669762,
+  "pre_melt_ratio": 2.1196,
+  "post_melt_ppl": 10.449751567809823,
+  "post_melt_ratio": 1.0295,
+  "post_melt_facts": 9,
+  "binding_top1_matches": 39,
+  "binding_top1_total": 40,
+  "binding_preservation_rate": 0.975,
+  "binding_results": [
+    {
+      "text": "The cat runs quickly",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 2,
+          "sieved_top1": 1,
+          "top1_match": false,
+          "teacher_subj_weight": 0.3005,
+          "sieved_subj_weight": 0.4846,
+          "attn_cos": 0.9287,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 2,
+          "sieved_top1": 2,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1926,
+          "sieved_subj_weight": 0.2317,
+          "attn_cos": 0.9941,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.2125,
+          "sieved_subj_weight": 0.243,
+          "attn_cos": 0.9971,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0316,
+          "sieved_subj_weight": 0.0423,
+          "attn_cos": 0.9985,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "The dog bit the cat",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.2238,
+          "sieved_subj_weight": 0.1486,
+          "attn_cos": 0.9893,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1423,
+          "sieved_subj_weight": 0.1179,
+          "attn_cos": 0.9556,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0457,
+          "sieved_subj_weight": 0.142,
+          "attn_cos": 0.9873,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0302,
+          "sieved_subj_weight": 0.0145,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "She walked through the ancient forest",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9268,
+          "sieved_subj_weight": 0.9468,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 1,
+          "sieved_top1": 1,
+          "top1_match": true,
+          "teacher_subj_weight": 0.2925,
+          "sieved_subj_weight": 0.3577,
+          "attn_cos": 0.9941,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.918,
+          "sieved_subj_weight": 0.9209,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9355,
+          "sieved_subj_weight": 0.9536,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "The detective examined the crime scene",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0453,
+          "sieved_subj_weight": 0.0576,
+          "attn_cos": 0.999,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0397,
+          "sieved_subj_weight": 0.0561,
+          "attn_cos": 0.9966,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0269,
+          "sieved_subj_weight": 0.0748,
+          "attn_cos": 0.999,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0204,
+          "sieved_subj_weight": 0.0253,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "Three children ran laughing through the meadow",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0665,
+          "sieved_subj_weight": 0.0851,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 2,
+          "sieved_top1": 2,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1028,
+          "sieved_subj_weight": 0.0603,
+          "attn_cos": 0.9775,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0835,
+          "sieved_subj_weight": 0.0622,
+          "attn_cos": 0.998,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.055,
+          "sieved_subj_weight": 0.0533,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "The old man sat quietly by the river",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1284,
+          "sieved_subj_weight": 0.1069,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 3,
+          "sieved_top1": 3,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1321,
+          "sieved_subj_weight": 0.1366,
+          "attn_cos": 0.998,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0894,
+          "sieved_subj_weight": 0.0912,
+          "attn_cos": 0.9883,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0242,
+          "sieved_subj_weight": 0.0195,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "Birds sang in the treetops",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.7104,
+          "sieved_subj_weight": 0.6187,
+          "attn_cos": 0.9863,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9805,
+          "sieved_subj_weight": 0.9741,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.8018,
+          "sieved_subj_weight": 0.7959,
+          "attn_cos": 1.001,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9517,
+          "sieved_subj_weight": 0.9419,
+          "attn_cos": 0.9995,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "The ship sailed slowly into the harbor",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0034,
+          "sieved_subj_weight": 0.0089,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 2,
+          "sieved_top1": 2,
+          "top1_match": true,
+          "teacher_subj_weight": 0.1666,
+          "sieved_subj_weight": 0.2292,
+          "attn_cos": 0.9082,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.134,
+          "sieved_subj_weight": 0.093,
+          "attn_cos": 0.999,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0414,
+          "sieved_subj_weight": 0.03,
+          "attn_cos": 0.9937,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "The committee voted unanimously",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.022,
+          "sieved_subj_weight": 0.0226,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.2629,
+          "sieved_subj_weight": 0.1915,
+          "attn_cos": 0.9858,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0223,
+          "sieved_subj_weight": 0.0261,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.0111,
+          "sieved_subj_weight": 0.0138,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        }
+      }
+    },
+    {
+      "text": "Enzymes speed up chemical reactions",
+      "bindings": {
+        "L27_H31": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.8716,
+          "sieved_subj_weight": 0.8188,
+          "attn_cos": 0.9976,
+          "kl_div": NaN
+        },
+        "L30_H3": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9204,
+          "sieved_subj_weight": 0.9556,
+          "attn_cos": 0.999,
+          "kl_div": NaN
+        },
+        "L30_H13": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.9956,
+          "sieved_subj_weight": 0.9888,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        },
+        "L30_H15": {
+          "teacher_top1": 0,
+          "sieved_top1": 0,
+          "top1_match": true,
+          "teacher_subj_weight": 0.998,
+          "sieved_subj_weight": 0.9971,
+          "attn_cos": 1.0,
+          "kl_div": NaN
+        }
+      }
+    }
+  ],
+  "boundary_fidelity": {
+    "0": 0.8825,
+    "9": 0.8764,
+    "21": 0.8885,
+    "26": 0.9307,
+    "27": 0.9358,
+    "30": 0.9507,
+    "35": 0.946
+  },
+  "continuation_params": 1048576,
+  "residual_rank": 32,
+  "loss_history": [
+    3.4559,
+    2.9727,
+    4.0515,
+    3.3592,
+    3.1086,
+    3.7162,
+    3.3939,
+    3.3141,
+    4.1403,
+    3.1699,
+    2.8083,
+    2.7624,
+    4.0483,
+    3.0922,
+    2.4803,
+    2.6121,
+    2.8312,
+    2.8835,
+    2.7435,
+    3.2001,
+    2.7925,
+    2.1762,
+    3.0016,
+    2.745,
+    2.9566,
+    2.7495,
+    3.0346,
+    2.1646,
+    2.494,
+    2.7227,
+    2.3592,
+    1.8945,
+    2.1916,
+    1.6848,
+    1.8849,
+    1.4367,
+    1.246,
+    1.8959,
+    1.643,
+    1.3316,
+    1.4502,
+    1.0516,
+    1.3564,
+    0.9363,
+    0.9596,
+    0.7037,
+    0.6238,
+    0.8484,
+    0.7297,
+    0.712,
+    0.5963,
+    0.2818,
+    0.5233,
+    0.4073,
+    0.2351,
+    0.2552,
+    0.3492,
+    0.1643,
+    0.2088,
+    0.2633,
+    0.2858,
+    0.3059,
+    0.1617,
+    0.1922,
+    0.2104,
+    0.076,
+    0.1236,
+    0.072,
+    0.063,
+    0.1603,
+    0.1815,
+    0.0589,
+    0.1243,
+    0.1939,
+    0.1299,
+    0.1018,
+    0.1024,
+    0.0881,
+    0.0737,
+    0.1164,
+    0.1976,
+    0.1036,
+    0.151,
+    0.1324,
+    0.045,
+    0.0729,
+    0.1512,
+    0.1346,
+    0.0471,
+    0.1175,
+    0.1437,
+    0.0632,
+    0.0918,
+    0.0608,
+    0.1321,
+    0.1184,
+    0.151,
+    0.0592,
+    0.076,
+    0.1204
+  ]
+}
