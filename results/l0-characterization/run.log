@@ -1,0 +1,434 @@
+
+======================================================================
+
+======================================================================
+  L0 CHARACTERIZATION — Why Can't the Lexer Be Ternarized?
+  L0 CHARACTERIZATION — Why Can't the Lexer Be Ternarized?
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Target layers: L0 (lexer) vs L15 (sweet spot, control)
+  Target layers: L0 (lexer) vs L15 (sweet spot, control)
+
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+  Loading Qwen/Qwen3-8B (torch.float16)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:29,  2.67it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:08, 45.74it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:02, 118.82it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 146.53it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:01, 173.03it/s]Loading weights:  29%|██▉       | 116/399 [00:00<00:01, 181.57it/s]Loading weights:  36%|███▋      | 145/399 [00:01<00:01, 207.19it/s]Loading weights:  42%|████▏     | 168/399 [00:01<00:01, 206.36it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:00, 212.40it/s]Loading weights:  55%|█████▌    | 221/399 [00:01<00:00, 234.49it/s]Loading weights:  62%|██████▏   | 246/399 [00:01<00:00, 232.45it/s]Loading weights:  68%|██████▊   | 270/399 [00:01<00:00, 229.40it/s]Loading weights:  74%|███████▎  | 294/399 [00:01<00:00, 227.97it/s]Loading weights:  80%|███████▉  | 318/399 [00:01<00:00, 231.27it/s]Loading weights:  86%|████████▌ | 342/399 [00:01<00:00, 233.36it/s]Loading weights:  92%|█████████▏| 366/399 [00:01<00:00, 220.84it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 217.64it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 190.43it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Layers: 36, d_model: 4096, intermediate: 12288
+  Layers: 36, d_model: 4096, intermediate: 12288
+
+  Measuring baseline PPL...
+
+  Measuring baseline PPL...
+  Baseline PPL: 10.16
+  Baseline PPL: 10.16
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline facts: 12/15 = 80%
+  Baseline facts: 12/15 = 80%
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 0 (LEXER (embedding→features))
+  LAYER 0 (LEXER (embedding→features))
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    Collecting gate patterns + FFN I/O...
+    Collecting gate patterns + FFN I/O...
+    Collected 1892 tokens (4096-dim, 12288 intermediate) in 8.5s
+    Collected 1892 tokens (4096-dim, 12288 intermediate) in 8.5s
+
+    ── INSTRUMENT 1: Cluster Sweep ──
+
+    ── INSTRUMENT 1: Cluster Sweep ──
+      k=   2  sil= 0.0159  inertia=2.37e+05  (0.3s)
+      k=   2  sil= 0.0159  inertia=2.37e+05  (0.3s)
+      k=   4  sil= 0.0620  inertia=2.16e+05  (0.3s)
+      k=   4  sil= 0.0620  inertia=2.16e+05  (0.3s)
+      k=   6  sil=-0.0784  inertia=2.12e+05  (0.4s)
+      k=   6  sil=-0.0784  inertia=2.12e+05  (0.4s)
+      k=   8  sil=-0.0815  inertia=2.07e+05  (0.5s)
+      k=   8  sil=-0.0815  inertia=2.07e+05  (0.5s)
+      k=   9  sil=-0.0444  inertia=2.01e+05  (0.6s)
+      k=   9  sil=-0.0444  inertia=2.01e+05  (0.6s)
+      k=  12  sil=-0.0274  inertia=1.98e+05  (0.6s)
+      k=  12  sil=-0.0274  inertia=1.98e+05  (0.6s)
+      k=  16  sil=-0.0207  inertia=1.91e+05  (0.8s)
+      k=  16  sil=-0.0207  inertia=1.91e+05  (0.8s)
+      k=  24  sil=-0.0378  inertia=1.85e+05  (1.2s)
+      k=  24  sil=-0.0378  inertia=1.85e+05  (1.2s)
+      k=  32  sil=-0.0605  inertia=1.85e+05  (1.5s)
+      k=  32  sil=-0.0605  inertia=1.85e+05  (1.5s)
+      k=  48  sil=-0.0436  inertia=1.76e+05  (2.1s)
+      k=  48  sil=-0.0436  inertia=1.76e+05  (2.1s)
+      k=  64  sil=-0.0462  inertia=1.75e+05  (2.8s)
+      k=  64  sil=-0.0462  inertia=1.75e+05  (2.8s)
+      k=  96  sil=-0.0398  inertia=1.66e+05  (4.0s)
+      k=  96  sil=-0.0398  inertia=1.66e+05  (4.0s)
+      k= 128  sil=-0.0692  inertia=1.62e+05  (5.4s)
+      k= 128  sil=-0.0692  inertia=1.62e+05  (5.4s)
+      k= 192  sil=-0.0249  inertia=1.49e+05  (7.9s)
+      k= 192  sil=-0.0249  inertia=1.49e+05  (7.9s)
+      k= 256  sil=-0.0196  inertia=1.46e+05  (10.6s)
+      k= 256  sil=-0.0196  inertia=1.46e+05  (10.6s)
+      k= 384  sil=-0.0113  inertia=1.28e+05  (15.6s)
+      k= 384  sil=-0.0113  inertia=1.28e+05  (15.6s)
+      k= 512  sil=-0.0086  inertia=1.16e+05  (21.0s)
+      k= 512  sil=-0.0086  inertia=1.16e+05  (21.0s)
+    Best silhouette: k=4 (sil=0.0620)
+    Best silhouette: k=4 (sil=0.0620)
+
+    ── INSTRUMENT 2: Mode Sweep PPL ──
+
+    ── INSTRUMENT 2: Mode Sweep PPL ──
+      k=9: clustering...
+      k=9: clustering...
+      k=9: classifier acc=99.9%
+      k=9: classifier acc=99.9%
+      k=9: PPL=943.74 (92.88×), facts=7%, cls_acc=99.9%
+      k=9: PPL=943.74 (92.88×), facts=7%, cls_acc=99.9%
+      k=16: clustering...
+      k=16: clustering...
+      k=16: classifier acc=100.0%
+      k=16: classifier acc=100.0%
+      k=16: PPL=740.83 (72.91×), facts=7%, cls_acc=100.0%
+      k=16: PPL=740.83 (72.91×), facts=7%, cls_acc=100.0%
+      k=32: clustering...
+      k=32: clustering...
+      k=32: classifier acc=99.9%
+      k=32: classifier acc=99.9%
+      k=32: PPL=874.52 (86.07×), facts=7%, cls_acc=99.9%
+      k=32: PPL=874.52 (86.07×), facts=7%, cls_acc=99.9%
+      k=64: clustering...
+      k=64: clustering...
+      k=64: classifier acc=100.0%
+      k=64: classifier acc=100.0%
+      k=64: PPL=447.34 (44.03×), facts=7%, cls_acc=100.0%
+      k=64: PPL=447.34 (44.03×), facts=7%, cls_acc=100.0%
+      k=128: clustering...
+      k=128: clustering...
+      k=128: classifier acc=99.7%
+      k=128: classifier acc=99.7%
+      k=128: PPL=407.16 (40.07×), facts=7%, cls_acc=99.7%
+      k=128: PPL=407.16 (40.07×), facts=7%, cls_acc=99.7%
+      k=256: clustering...
+      k=256: clustering...
+      k=256: classifier acc=98.4%
+      k=256: classifier acc=98.4%
+      k=256: PPL=218.63 (21.52×), facts=27%, cls_acc=98.4%
+      k=256: PPL=218.63 (21.52×), facts=27%, cls_acc=98.4%
+      k=512: clustering...
+      k=512: clustering...
+      k=512: classifier acc=99.9%
+      k=512: classifier acc=99.9%
+      k=512: PPL=71.39 (7.03×), facts=33%, cls_acc=99.9%
+      k=512: PPL=71.39 (7.03×), facts=33%, cls_acc=99.9%
+
+    ── INSTRUMENT 3: Effective Rank (SVD) ──
+
+    ── INSTRUMENT 3: Effective Rank (SVD) ──
+      gate_proj: shape=(12288, 4096), eff_rank=3277.6, 90%=1858/4096 (45.4%), 99%=3421/4096 (83.5%)
+      gate_proj: shape=(12288, 4096), eff_rank=3277.6, 90%=1858/4096 (45.4%), 99%=3421/4096 (83.5%)
+      up_proj: shape=(12288, 4096), eff_rank=3375.1, 90%=2001/4096 (48.9%), 99%=3487/4096 (85.1%)
+      up_proj: shape=(12288, 4096), eff_rank=3375.1, 90%=2001/4096 (48.9%), 99%=3487/4096 (85.1%)
+      down_proj: shape=(4096, 12288), eff_rank=3812.9, 90%=2795/4096 (68.2%), 99%=3841/4096 (93.8%)
+      down_proj: shape=(4096, 12288), eff_rank=3812.9, 90%=2795/4096 (68.2%), 99%=3841/4096 (93.8%)
+
+    ── INSTRUMENT 4: Token Property Analysis (k=4) ──
+
+    ── INSTRUMENT 4: Token Property Analysis (k=4) ──
+    NMI scores: {'unicode_cat': 0.1563, 'script': 0.1563, 'byte_len': 0.259, 'is_continuation': 0.0646, 'is_special': 0.0}
+    NMI scores: {'unicode_cat': 0.1563, 'script': 0.1563, 'byte_len': 0.259, 'is_continuation': 0.0646, 'is_special': 0.0}
+    Token property analysis at k=9...
+    Token property analysis at k=9...
+
+    ── INSTRUMENT 5: Transform Physics ──
+
+    ── INSTRUMENT 5: Transform Physics ──
+
+    Transform physics at k=9:
+
+    Transform physics at k=9:
+    Mode     N |     cos   ‖o/i‖   gate%   g_con
+    Mode     N |     cos   ‖o/i‖   gate%   g_con
+       0     1 |   0.166   2.986  38.2%   1.000
+       0     1 |   0.166   2.986  38.2%   1.000
+       1   108 |   0.193   2.011  15.8%   0.409
+       1   108 |   0.193   2.011  15.8%   0.409
+       2   115 |   0.173   3.206  39.4%   0.471
+       2   115 |   0.173   3.206  39.4%   0.471
+       3   232 |   0.258   2.250  31.2%   0.612
+       3   232 |   0.258   2.250  31.2%   0.612
+       4    73 |   0.054   5.284  19.7%   1.000
+       4    73 |   0.054   5.284  19.7%   1.000
+       5   199 |   0.061   3.595   6.8%   0.782
+       5   199 |   0.061   3.595   6.8%   0.782
+       6  1036 |   0.216   2.049  25.4%   0.326
+       6  1036 |   0.216   2.049  25.4%   0.326
+       7    91 |   0.339   2.364  42.5%   0.550
+       7    91 |   0.339   2.364  42.5%   0.550
+       8    37 |   0.251   1.670  22.8%   0.790
+       8    37 |   0.251   1.670  22.8%   0.790
+
+    ── INSTRUMENT 6: Gate Variance Decomposition ──
+
+    ── INSTRUMENT 6: Gate Variance Decomposition ──
+    Gate PCA: 90%=101, 95%=101, 99%=100 components (of 100 tested)
+    Gate PCA: 90%=101, 95%=101, 99%=100 components (of 100 tested)
+
+    Layer 0 done in 259.1s
+
+    Layer 0 done in 259.1s
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 15 (OPTIMIZER (sweet spot, control))
+  LAYER 15 (OPTIMIZER (sweet spot, control))
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    Collecting gate patterns + FFN I/O...
+    Collecting gate patterns + FFN I/O...
+    Collected 1892 tokens (4096-dim, 12288 intermediate) in 8.1s
+    Collected 1892 tokens (4096-dim, 12288 intermediate) in 8.1s
+
+    ── INSTRUMENT 1: Cluster Sweep ──
+
+    ── INSTRUMENT 1: Cluster Sweep ──
+      k=   2  sil=-0.0303  inertia=8.74e+05  (0.2s)
+      k=   2  sil=-0.0303  inertia=8.74e+05  (0.2s)
+      k=   4  sil= 0.0684  inertia=7.79e+05  (0.3s)
+      k=   4  sil= 0.0684  inertia=7.79e+05  (0.3s)
+      k=   6  sil= 0.0334  inertia=7.42e+05  (0.5s)
+      k=   6  sil= 0.0334  inertia=7.42e+05  (0.5s)
+      k=   8  sil= 0.0745  inertia=7.41e+05  (0.4s)
+      k=   8  sil= 0.0745  inertia=7.41e+05  (0.4s)
+      k=   9  sil= 0.0496  inertia=7.45e+05  (0.5s)
+      k=   9  sil= 0.0496  inertia=7.45e+05  (0.5s)
+      k=  12  sil= 0.0504  inertia=7.07e+05  (0.6s)
+      k=  12  sil= 0.0504  inertia=7.07e+05  (0.6s)
+      k=  16  sil= 0.0042  inertia=7.13e+05  (0.9s)
+      k=  16  sil= 0.0042  inertia=7.13e+05  (0.9s)
+      k=  24  sil= 0.0107  inertia=6.80e+05  (1.2s)
+      k=  24  sil= 0.0107  inertia=6.80e+05  (1.2s)
+      k=  32  sil=-0.0025  inertia=6.65e+05  (1.5s)
+      k=  32  sil=-0.0025  inertia=6.65e+05  (1.5s)
+      k=  48  sil=-0.0264  inertia=6.49e+05  (2.2s)
+      k=  48  sil=-0.0264  inertia=6.49e+05  (2.2s)
+      k=  64  sil=-0.0067  inertia=6.41e+05  (2.8s)
+      k=  64  sil=-0.0067  inertia=6.41e+05  (2.8s)
+      k=  96  sil=-0.0203  inertia=6.05e+05  (4.1s)
+      k=  96  sil=-0.0203  inertia=6.05e+05  (4.1s)
+      k= 128  sil=-0.0159  inertia=5.92e+05  (5.4s)
+      k= 128  sil=-0.0159  inertia=5.92e+05  (5.4s)
+      k= 192  sil=-0.0175  inertia=5.59e+05  (8.0s)
+      k= 192  sil=-0.0175  inertia=5.59e+05  (8.0s)
+      k= 256  sil=-0.0214  inertia=5.23e+05  (10.6s)
+      k= 256  sil=-0.0214  inertia=5.23e+05  (10.6s)
+      k= 384  sil= 0.0083  inertia=4.63e+05  (15.8s)
+      k= 384  sil= 0.0083  inertia=4.63e+05  (15.8s)
+      k= 512  sil=-0.0007  inertia=4.07e+05  (21.4s)
+      k= 512  sil=-0.0007  inertia=4.07e+05  (21.4s)
+    Best silhouette: k=8 (sil=0.0745)
+    Best silhouette: k=8 (sil=0.0745)
+
+    ── INSTRUMENT 2: Mode Sweep PPL ──
+
+    ── INSTRUMENT 2: Mode Sweep PPL ──
+      k=9: clustering...
+      k=9: clustering...
+      k=9: classifier acc=100.0%
+      k=9: classifier acc=100.0%
+      k=9: PPL=9.97 (0.98×), facts=73%, cls_acc=100.0%
+      k=9: PPL=9.97 (0.98×), facts=73%, cls_acc=100.0%
+      k=16: clustering...
+      k=16: clustering...
+      k=16: classifier acc=100.0%
+      k=16: classifier acc=100.0%
+      k=16: PPL=9.91 (0.98×), facts=73%, cls_acc=100.0%
+      k=16: PPL=9.91 (0.98×), facts=73%, cls_acc=100.0%
+      k=32: clustering...
+      k=32: clustering...
+      k=32: classifier acc=99.5%
+      k=32: classifier acc=99.5%
+      k=32: PPL=9.92 (0.98×), facts=73%, cls_acc=99.5%
+      k=32: PPL=9.92 (0.98×), facts=73%, cls_acc=99.5%
+      k=64: clustering...
+      k=64: clustering...
+      k=64: classifier acc=96.1%
+      k=64: classifier acc=96.1%
+      k=64: PPL=9.98 (0.98×), facts=73%, cls_acc=96.1%
+      k=64: PPL=9.98 (0.98×), facts=73%, cls_acc=96.1%
+      k=128: clustering...
+      k=128: clustering...
+      k=128: classifier acc=97.4%
+      k=128: classifier acc=97.4%
+      k=128: PPL=9.90 (0.97×), facts=73%, cls_acc=97.4%
+      k=128: PPL=9.90 (0.97×), facts=73%, cls_acc=97.4%
+      k=256: clustering...
+      k=256: clustering...
+      k=256: classifier acc=97.9%
+      k=256: classifier acc=97.9%
+      k=256: PPL=9.90 (0.97×), facts=73%, cls_acc=97.9%
+      k=256: PPL=9.90 (0.97×), facts=73%, cls_acc=97.9%
+      k=512: clustering...
+      k=512: clustering...
+      k=512: classifier acc=96.1%
+      k=512: classifier acc=96.1%
+      k=512: PPL=10.03 (0.99×), facts=73%, cls_acc=96.1%
+      k=512: PPL=10.03 (0.99×), facts=73%, cls_acc=96.1%
+
+    ── INSTRUMENT 3: Effective Rank (SVD) ──
+
+    ── INSTRUMENT 3: Effective Rank (SVD) ──
+      gate_proj: shape=(12288, 4096), eff_rank=3770.8, 90%=2741/4096 (66.9%), 99%=3833/4096 (93.6%)
+      gate_proj: shape=(12288, 4096), eff_rank=3770.8, 90%=2741/4096 (66.9%), 99%=3833/4096 (93.6%)
+      up_proj: shape=(12288, 4096), eff_rank=3834.1, 90%=2844/4096 (69.4%), 99%=3850/4096 (94.0%)
+      up_proj: shape=(12288, 4096), eff_rank=3834.1, 90%=2844/4096 (69.4%), 99%=3850/4096 (94.0%)
+      down_proj: shape=(4096, 12288), eff_rank=3806.6, 90%=2801/4096 (68.4%), 99%=3835/4096 (93.6%)
+      down_proj: shape=(4096, 12288), eff_rank=3806.6, 90%=2801/4096 (68.4%), 99%=3835/4096 (93.6%)
+
+    ── INSTRUMENT 4: Token Property Analysis (k=8) ──
+
+    ── INSTRUMENT 4: Token Property Analysis (k=8) ──
+    NMI scores: {'unicode_cat': 0.1557, 'script': 0.1557, 'byte_len': 0.0803, 'is_continuation': 0.2162, 'is_special': 0.0}
+    NMI scores: {'unicode_cat': 0.1557, 'script': 0.1557, 'byte_len': 0.0803, 'is_continuation': 0.2162, 'is_special': 0.0}
+    Token property analysis at k=9...
+    Token property analysis at k=9...
+
+    ── INSTRUMENT 5: Transform Physics ──
+
+    ── INSTRUMENT 5: Transform Physics ──
+
+    Transform physics at k=9:
+
+    Transform physics at k=9:
+    Mode     N |     cos   ‖o/i‖   gate%   g_con
+    Mode     N |     cos   ‖o/i‖   gate%   g_con
+       0   143 |   0.344   1.255  67.7%   0.885
+       0   143 |   0.344   1.255  67.7%   0.885
+       1   435 |  -0.105   1.370  74.9%   0.672
+       1   435 |  -0.105   1.370  74.9%   0.672
+       2   324 |  -0.158   1.558  77.8%   0.645
+       2   324 |  -0.158   1.558  77.8%   0.645
+       3   109 |  -0.177   1.410  75.5%   0.732
+       3   109 |  -0.177   1.410  75.5%   0.732
+       4    87 |  -0.132   1.482  75.9%   0.675
+       4    87 |  -0.132   1.482  75.9%   0.675
+       5    10 |  -0.071   1.641  77.1%   0.811
+       5    10 |  -0.071   1.641  77.1%   0.811
+       6   320 |  -0.051   1.637  74.0%   0.706
+       6   320 |  -0.051   1.637  74.0%   0.706
+       7   463 |  -0.176   1.457  76.9%   0.676
+       7   463 |  -0.176   1.457  76.9%   0.676
+       8     1 |  -0.238   1.270  74.1%   1.000
+       8     1 |  -0.238   1.270  74.1%   1.000
+
+    ── INSTRUMENT 6: Gate Variance Decomposition ──
+
+    ── INSTRUMENT 6: Gate Variance Decomposition ──
+    Gate PCA: 90%=101, 95%=101, 99%=100 components (of 100 tested)
+    Gate PCA: 90%=101, 95%=101, 99%=100 components (of 100 tested)
+
+    Layer 15 done in 256.4s
+
+    Layer 15 done in 256.4s
+
+======================================================================
+
+======================================================================
+  COMPARATIVE SUMMARY: L0 vs L15
+  COMPARATIVE SUMMARY: L0 vs L15
+======================================================================
+======================================================================
+
+  L0 (LEXER):
+
+  L0 (LEXER):
+    Best natural cluster count: k=4
+    Best natural cluster count: k=4
+    Silhouette at k=9: -0.0444
+    Silhouette at k=9: -0.0444
+    Silhouette at k=4: 0.0620
+    Silhouette at k=4: 0.0620
+    Mode sweep PPL:
+    Mode sweep PPL:
+      k=   9: PPL=  943.74 ( 92.88×), facts=  7%, cls_acc=99.9% ✗
+      k=   9: PPL=  943.74 ( 92.88×), facts=  7%, cls_acc=99.9% ✗
+      k=  16: PPL=  740.83 ( 72.91×), facts=  7%, cls_acc=100.0% ✗
+      k=  16: PPL=  740.83 ( 72.91×), facts=  7%, cls_acc=100.0% ✗
+      k=  32: PPL=  874.52 ( 86.07×), facts=  7%, cls_acc=99.9% ✗
+      k=  32: PPL=  874.52 ( 86.07×), facts=  7%, cls_acc=99.9% ✗
+      k=  64: PPL=  447.34 ( 44.03×), facts=  7%, cls_acc=100.0% ✗
+      k=  64: PPL=  447.34 ( 44.03×), facts=  7%, cls_acc=100.0% ✗
+      k= 128: PPL=  407.16 ( 40.07×), facts=  7%, cls_acc=99.7% ✗
+      k= 128: PPL=  407.16 ( 40.07×), facts=  7%, cls_acc=99.7% ✗
+      k= 256: PPL=  218.63 ( 21.52×), facts= 27%, cls_acc=98.4% ✗
+      k= 256: PPL=  218.63 ( 21.52×), facts= 27%, cls_acc=98.4% ✗
+      k= 512: PPL=   71.39 (  7.03×), facts= 33%, cls_acc=99.9% ⚠
+      k= 512: PPL=   71.39 (  7.03×), facts= 33%, cls_acc=99.9% ⚠
+    gate_proj: eff_rank=3277.6, 90%=1858/4096 (45.4%), 99%=3421/4096 (83.5%)
+    gate_proj: eff_rank=3277.6, 90%=1858/4096 (45.4%), 99%=3421/4096 (83.5%)
+    up_proj: eff_rank=3375.1, 90%=2001/4096 (48.9%), 99%=3487/4096 (85.1%)
+    up_proj: eff_rank=3375.1, 90%=2001/4096 (48.9%), 99%=3487/4096 (85.1%)
+    down_proj: eff_rank=3812.9, 90%=2795/4096 (68.2%), 99%=3841/4096 (93.8%)
+    down_proj: eff_rank=3812.9, 90%=2795/4096 (68.2%), 99%=3841/4096 (93.8%)
+    Gate PCA: 90%=101, 95%=101, 99%=100 components
+    Gate PCA: 90%=101, 95%=101, 99%=100 components
+    Token property NMI: {'unicode_cat': 0.1563, 'script': 0.1563, 'byte_len': 0.259, 'is_continuation': 0.0646, 'is_special': 0.0}
+    Token property NMI: {'unicode_cat': 0.1563, 'script': 0.1563, 'byte_len': 0.259, 'is_continuation': 0.0646, 'is_special': 0.0}
+
+  L15 (OPTIMIZER):
+
+  L15 (OPTIMIZER):
+    Best natural cluster count: k=8
+    Best natural cluster count: k=8
+    Silhouette at k=9: 0.0496
+    Silhouette at k=9: 0.0496
+    Silhouette at k=8: 0.0745
+    Silhouette at k=8: 0.0745
+    Mode sweep PPL:
+    Mode sweep PPL:
+      k=   9: PPL=    9.97 (  0.98×), facts= 73%, cls_acc=100.0% ✓
+      k=   9: PPL=    9.97 (  0.98×), facts= 73%, cls_acc=100.0% ✓
+      k=  16: PPL=    9.91 (  0.98×), facts= 73%, cls_acc=100.0% ✓
+      k=  16: PPL=    9.91 (  0.98×), facts= 73%, cls_acc=100.0% ✓
+      k=  32: PPL=    9.92 (  0.98×), facts= 73%, cls_acc=99.5% ✓
+      k=  32: PPL=    9.92 (  0.98×), facts= 73%, cls_acc=99.5% ✓
+      k=  64: PPL=    9.98 (  0.98×), facts= 73%, cls_acc=96.1% ✓
+      k=  64: PPL=    9.98 (  0.98×), facts= 73%, cls_acc=96.1% ✓
+      k= 128: PPL=    9.90 (  0.97×), facts= 73%, cls_acc=97.4% ✓
+      k= 128: PPL=    9.90 (  0.97×), facts= 73%, cls_acc=97.4% ✓
+      k= 256: PPL=    9.90 (  0.97×), facts= 73%, cls_acc=97.9% ✓
+      k= 256: PPL=    9.90 (  0.97×), facts= 73%, cls_acc=97.9% ✓
+      k= 512: PPL=   10.03 (  0.99×), facts= 73%, cls_acc=96.1% ✓
+      k= 512: PPL=   10.03 (  0.99×), facts= 73%, cls_acc=96.1% ✓
+    gate_proj: eff_rank=3770.8, 90%=2741/4096 (66.9%), 99%=3833/4096 (93.6%)
+    gate_proj: eff_rank=3770.8, 90%=2741/4096 (66.9%), 99%=3833/4096 (93.6%)
+    up_proj: eff_rank=3834.1, 90%=2844/4096 (69.4%), 99%=3850/4096 (94.0%)
+    up_proj: eff_rank=3834.1, 90%=2844/4096 (69.4%), 99%=3850/4096 (94.0%)
+    down_proj: eff_rank=3806.6, 90%=2801/4096 (68.4%), 99%=3835/4096 (93.6%)
+    down_proj: eff_rank=3806.6, 90%=2801/4096 (68.4%), 99%=3835/4096 (93.6%)
+    Gate PCA: 90%=101, 95%=101, 99%=100 components
+    Gate PCA: 90%=101, 95%=101, 99%=100 components
+    Token property NMI: {'unicode_cat': 0.1557, 'script': 0.1557, 'byte_len': 0.0803, 'is_continuation': 0.2162, 'is_special': 0.0}
+    Token property NMI: {'unicode_cat': 0.1557, 'script': 0.1557, 'byte_len': 0.0803, 'is_continuation': 0.2162, 'is_special': 0.0}
+
+  Results saved to /Users/mwhitford/src/verbum/results/l0-characterization/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/l0-characterization/Qwen_Qwen3-8B.json
+
+======================================================================
+
+======================================================================
+  DONE
+  DONE
+======================================================================
+
+======================================================================
+

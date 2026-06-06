@@ -2,13 +2,48 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-06 | Session: 194
+> Last updated: 2026-06-06 | Session: 195
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 194: MODE SEMANTICS — The 9 FFN Modes Are Syntactic Type Tags**
+**Session 195: L0 CHARACTERIZATION — The Lexer Is Genuinely Continuous**
+
+Six instruments comparing L0 (lexer) vs L15 (optimizer, sweet-spot control)
+on Qwen3-8B. Tested the three P4 rescue hypotheses: more modes, PCA, or
+genuinely continuous. Result: L0 is genuinely continuous. Cannot be ternarized.
+
+### Key Findings
+
+1. **L0 has NO natural cluster structure at ANY k.** Silhouette is negative
+   from k=6 to k=512. L15 peaks at k=8 (sil=+0.075). L0's gate patterns
+   form a continuous manifold, not discrete modes.
+
+2. **More modes helps but NEVER fixes it.** k=9: 92.9x PPL. k=128: 40x.
+   k=512: still 7x PPL with only 33% fact recall (baseline 80%). Non-monotonic
+   improvement — the space resists discretization at every granularity.
+
+3. **L0 is paradoxically LOWER rank than L15.** gate_proj effective rank
+   3278 vs 3771. L0 concentrates energy into fewer SVs (45% for 90% energy
+   vs 67%) — but those dimensions are continuously distributed.
+
+4. **L0 correlates with byte_len (NMI=0.259).** L15 correlates with
+   is_continuation (NMI=0.216). L0 sorts by the PHYSICAL encoding of
+   tokens. L15 sorts by SYNTACTIC position. L0 is literally a lexer.
+
+5. **L0 transform physics are fundamentally different.** cos(in,out) always
+   positive (preserves direction — adding features). Gate sparsity ranges
+   7-42% (6x spread — each token activates different neurons). L15 has
+   negative cos (rotates/inverts), tight gate sparsity 67-78%.
+
+### P4 Verdict
+
+- More modes (64+): KILLED. Even 512 modes is 7x PPL.
+- PCA reconstruction: Difficult. 90% energy needs 1858 SVs.
+- Genuinely continuous: CONFIRMED. Keep L0 as-is (288MB = 2.8% of FFN).
+
+### Previous session (194)
 
 Decoded what the 9 ternary FFN modes compute. Gate-pattern clustering
 (SiLU(gate_proj(x))) on Qwen3-8B across 7 layers with spaCy POS/dep tagging
@@ -694,9 +729,10 @@ Does the compilation pipeline hold on Pythia/Mistral? Semantic convergence
 + ternary replacement + Q geometry on a non-Qwen model. The crystal is
 universal; is the pipeline universal?
 
-**Priority 4: L0 rescue**
-L0 is the lexer — 151K tokens → feature space. Can it be handled with
-more modes (64+), PCA reconstruction, or is it genuinely continuous?
+**Priority 4: ✅ DONE L0 characterization (s195)**
+Result: L0 is GENUINELY CONTINUOUS. More modes killed (512 modes still
+7x PPL). No cluster structure at any k (silhouette negative k=6..512).
+Keep L0 as-is (288MB = 2.8% of FFN). See `mementum/knowledge/l0-characterization.md`.
 
 **Priority 5: Attention ternary depth profile**
 Q/K survives ternary globally (PPL 23-30, s190). But does it show the
@@ -838,6 +874,9 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
+| **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ NEW (s195) |
+| **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
+| **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |
 | **Mode semantics knowledge** | `mementum/knowledge/mode-semantics.md` | ✅ NEW (s194) |
 | **Mode semantics experiment** | `scripts/experiments/mode_semantics.py` | ✅ NEW (s194) |
 | **Mode semantics results** | `results/mode-semantics/` | ✅ NEW (s194) |
@@ -959,7 +998,17 @@ of parameters).
 | Unified probe library | `src/verbum/probes/library.py` | ✅ 903 probes, 535 crystal |
 | EQUATIONS.md | `EQUATIONS.md` | ✅ (s181) |
 
-## What changed this session (194)
+## What changed this session (195)
+
+| # | Change | Impact |
+|---|--------|--------|
+| 1 | **L0 is genuinely continuous** | "More modes" hypothesis KILLED. 512 modes still 7x PPL. Negative silhouette at all k>=6. |
+| 2 | **P4 resolved** | Keep L0 as-is (288MB = 2.8% of FFN). Ternarize everything else. |
+| 3 | **L0 vs L15 comparison** | L0 = per-token dictionary (151K entries, continuous). L15 = 9 discrete operations. Fundamentally different. |
+| 4 | **L0 correlates with byte_len** | L0 sorts by physical token encoding (NMI=0.259). L15 sorts by syntactic position (NMI=0.216). |
+| 5 | **L0 lower rank but not compressible** | gate_proj eff_rank=3278 vs L15's 3771. Concentrated but continuously distributed. |
+
+## What changed last session (194)
 
 | # | Change | Impact |
 |---|--------|--------|
