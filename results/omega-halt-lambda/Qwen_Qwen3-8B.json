@@ -1,0 +1,2496 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "n_candidates": 29,
+  "n_halted": 3,
+  "n_lambda_halted": 1,
+  "results": [
+    {
+      "id": "prose_control",
+      "strategy": "control",
+      "label": "CONTROL: prose halt (99.1% baseline)",
+      "eos_prob": 0.9909358620643616,
+      "eos_rank": 1,
+      "entropy": 0.052331116050481796,
+      "top1_prob": 0.9909358620643616,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.9909358620643616,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.00898471474647522,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 3.395904059289023e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 7.4598110586521216e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 7.344157438637922e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 5.630960913549643e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'!'",
+          "id": 0,
+          "prob": 3.8100986330391606e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 3.3624003208387876e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'[\"'",
+          "id": 1183,
+          "prob": 2.459984671077109e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 2.055393906630343e-06,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "prose_api_control",
+      "strategy": "control",
+      "label": "CONTROL: API empty (94.1% baseline)",
+      "eos_prob": 0.9408944845199585,
+      "eos_rank": 1,
+      "entropy": 0.2421681433916092,
+      "top1_prob": 0.9408944845199585,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.9408944845199585,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.05650510638952255,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 0.0012483603786677122,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.00026167056057602167,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 0.0002102581929648295,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.00013681761629413813,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 9.257543570129201e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'//'",
+          "id": 322,
+          "prob": 8.363492815988138e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 6.166852836031467e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'[\"'",
+          "id": 1183,
+          "prob": 3.981619738624431e-05,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "exec_false_ab",
+      "strategy": "executor",
+      "label": "Execute: FALSE a \"\" \u2192 \"\"",
+      "eos_prob": 1.609103976594777e-19,
+      "eos_rank": 9476,
+      "entropy": 2.7516007321537472e-05,
+      "top1_prob": 0.9999982118606567,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999982118606567,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 9.422437869943678e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 8.851561119627149e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 1.1317939474508876e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 1.6305038430530772e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 7.946440727657489e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 6.903987381789989e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\\\\\"'",
+          "id": 2105,
+          "prob": 5.211402975824342e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 3.5817415700023503e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 3.0636257419836e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "exec_k_empty",
+      "strategy": "executor",
+      "label": "Execute: K \"\" anything \u2192 \"\"",
+      "eos_prob": 3.3606751829447287e-18,
+      "eos_rank": 3343,
+      "entropy": 0.00018042423471342772,
+      "top1_prob": 0.9999852180480957,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999852180480957,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 1.473898100812221e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 5.658540302988513e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 2.9356121089563203e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 5.515851331239219e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'foo'",
+          "id": 7975,
+          "prob": 1.0692966512237945e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 9.736056405529325e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 9.290210267742793e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 3.8126943269212177e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\":'",
+          "id": 28796,
+          "prob": 3.364691025797839e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "exec_id_empty",
+      "strategy": "executor",
+      "label": "Execute: I \"\" \u2192 \"\"",
+      "eos_prob": 6.909509934695764e-21,
+      "eos_rank": 28907,
+      "entropy": 2.2844444174552336e-05,
+      "top1_prob": 0.9999984502792358,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999984502792358,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 7.571143214590847e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 6.475942200268037e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 7.734409734894143e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\\\\\"'",
+          "id": 2105,
+          "prob": 3.7910359296233764e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 1.6305041761199845e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 8.071580626101138e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"\\n'",
+          "id": 7129,
+          "prob": 6.421710385673407e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'=\"\"'",
+          "id": 8407,
+          "prob": 6.322151135940146e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"\\n\\n'",
+          "id": 15075,
+          "prob": 3.8345784880711165e-11,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "exec_zero_apply",
+      "strategy": "executor",
+      "label": "Execute: church zero f x \u2192 x (do nothing)",
+      "eos_prob": 9.821714423954484e-16,
+      "eos_rank": 1869,
+      "entropy": 0.015067186206579208,
+      "top1_prob": 0.9979238510131836,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9979238510131836,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.002050691284239292,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 1.4256062058848329e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'respond'",
+          "id": 6818,
+          "prob": 6.526900961034698e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'x'",
+          "id": 87,
+          "prob": 2.7636638151307125e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 4.6547691567866423e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 4.1725081700860756e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' respond'",
+          "id": 5889,
+          "prob": 4.1725081700860756e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 1.6339778596830001e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 1.4196244535469305e-07,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "fewshot_lambda_empty",
+      "strategy": "fewshot",
+      "label": "Few-shot: lambda reductions, last is empty",
+      "eos_prob": 5.3317938985327634e-14,
+      "eos_rank": 169,
+      "entropy": 4.999455632059835e-05,
+      "top1_prob": 0.9999964237213135,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999964237213135,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 3.0415947094297735e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 2.4198780579354207e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 9.931159183906857e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 6.214760617240245e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'``'",
+          "id": 13874,
+          "prob": 5.4845067154474236e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 1.1861077453545477e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\":'",
+          "id": 28796,
+          "prob": 5.022296356571587e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 4.22919743670036e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\\\\\"'",
+          "id": 2105,
+          "prob": 2.4097239759157674e-09,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "fewshot_lambda_empty2",
+      "strategy": "fewshot",
+      "label": "Few-shot: K with empty string result",
+      "eos_prob": 4.6685837026784124e-14,
+      "eos_rank": 117,
+      "entropy": 0.00027032013167627156,
+      "top1_prob": 0.9999769926071167,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999769926071167,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 2.2827991415397264e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 9.93096591628273e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 8.49440553452041e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 9.237237641457341e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 2.7735216345803337e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 1.3101187912312184e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\"`'",
+          "id": 39917,
+          "prob": 1.156175710725904e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 9.889296048726237e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 4.4574549606934966e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "fewshot_progressively_shorter",
+      "strategy": "fewshot",
+      "label": "Few-shot: results get shorter \u2192 empty",
+      "eos_prob": 0.20579038560390472,
+      "eos_rank": 2,
+      "entropy": 0.7513732314109802,
+      "top1_prob": 0.7527499794960022,
+      "top10": [
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.7527499794960022,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.20579038560390472,
+          "is_eos": true
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.023821968585252762,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.004204827360808849,
+          "is_eos": false
+        },
+        {
+          "token": "'()'",
+          "id": 368,
+          "prob": 0.003223952604457736,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.0022861247416585684,
+          "is_eos": false
+        },
+        {
+          "token": "'ERROR'",
+          "id": 3682,
+          "prob": 0.001149535644799471,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 0.0007082084193825722,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.000654985720757395,
+          "is_eos": false
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.0006448311032727361,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "(\u03bbx.x)",
+        "text_raw": "(\u03bbx.x)<|im_end|>",
+        "n_tokens": 6,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          7,
+          33486,
+          87,
+          1993,
+          8,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "fewshot_to_silence",
+      "strategy": "fewshot",
+      "label": "Few-shot: reduce to silence via empty assistant",
+      "eos_prob": 9.342898676933942e-11,
+      "eos_rank": 50,
+      "entropy": 0.0007883430807851255,
+      "top1_prob": 0.9999305009841919,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9999305009841919,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 4.5396776840789244e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 2.2826930944574997e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 4.116079423965857e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 3.576111851089081e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\":'",
+          "id": 28796,
+          "prob": 2.8734865509250085e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 7.613981267695635e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 6.411615771639845e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\")\\n'",
+          "id": 95323,
+          "prob": 4.476028792055331e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"\\n'",
+          "id": 7129,
+          "prob": 2.35870150078199e-08,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "nucleus_halt",
+      "strategy": "nucleus",
+      "label": "Nucleus-style: HALT = \u03bb_.\u22a5",
+      "eos_prob": 3.92879155697301e-05,
+      "eos_rank": 9,
+      "entropy": 0.03221537917852402,
+      "top1_prob": 0.9960392713546753,
+      "top10": [
+        {
+          "token": "'\u22a5'",
+          "id": 147296,
+          "prob": 0.9960392713546753,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03b5'",
+          "id": 30143,
+          "prob": 0.0021450475323945284,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2282'",
+          "id": 145505,
+          "prob": 0.0007529825088568032,
+          "is_eos": false
+        },
+        {
+          "token": "'\ufffd'",
+          "id": 123892,
+          "prob": 0.0003906421479769051,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.0002369364519836381,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.00010679562547011301,
+          "is_eos": false
+        },
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 6.278190994635224e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Nothing'",
+          "id": 23780,
+          "prob": 5.540484198718332e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 3.92879155697301e-05,
+          "is_eos": true
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 3.3604734198888764e-05,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "\u22a5",
+        "text_raw": "\u22a5<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          147296,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "nucleus_k_epsilon",
+      "strategy": "nucleus",
+      "label": "Nucleus-style: K \u03b5 _ \u2192 \u03b5 (empty)",
+      "eos_prob": 2.2215475308949226e-14,
+      "eos_rank": 1848,
+      "entropy": 0.004711717367172241,
+      "top1_prob": 0.9995129108428955,
+      "top10": [
+        {
+          "token": "'a'",
+          "id": 64,
+          "prob": 0.9995129108428955,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.00026942050317302346,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.000173950960743241,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 2.0453382603591308e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 1.0947907867375761e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 8.009659723029472e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Apply'",
+          "id": 28497,
+          "prob": 1.328131929767551e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03b5'",
+          "id": 30143,
+          "prob": 5.893548973290308e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'Let'",
+          "id": 10061,
+          "prob": 4.0505733522877563e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 3.105682537807297e-07,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "a",
+        "text_raw": "a<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          64,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "nucleus_apply_silence",
+      "strategy": "nucleus",
+      "label": "Nucleus-style: silence(response) \u2192 \u03b5",
+      "eos_prob": 5.100482702857789e-09,
+      "eos_rank": 17,
+      "entropy": 0.001748391194269061,
+      "top1_prob": 0.9998193383216858,
+      "top10": [
+        {
+          "token": "'\u03b5'",
+          "id": 30143,
+          "prob": 0.9998193383216858,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.0001795277785276994,
+          "is_eos": false
+        },
+        {
+          "token": "'\u025b'",
+          "id": 145274,
+          "prob": 4.591308027102059e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' \u03b5'",
+          "id": 59147,
+          "prob": 2.873167090911011e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'sil'",
+          "id": 34804,
+          "prob": 1.2950378902587545e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 8.76266526006475e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u0511'",
+          "id": 151513,
+          "prob": 7.040998895035955e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\\\\v'",
+          "id": 72659,
+          "prob": 3.27436886493615e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 2.981346725050571e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'empty'",
+          "id": 3194,
+          "prob": 2.0813153867038636e-08,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\u03b5",
+        "text_raw": "\u03b5<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          30143,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "nucleus_void_func",
+      "strategy": "nucleus",
+      "label": "Nucleus-style: void() \u2192 ()",
+      "eos_prob": 4.193789684015653e-13,
+      "eos_rank": 63,
+      "entropy": 2.1659010599250905e-05,
+      "top1_prob": 0.9999985694885254,
+      "top10": [
+        {
+          "token": "'()'",
+          "id": 368,
+          "prob": 0.9999985694885254,
+          "is_eos": false
+        },
+        {
+          "token": "'()`'",
+          "id": 54258,
+          "prob": 1.1365633554305532e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'()\\n'",
+          "id": 741,
+          "prob": 1.9750510205085448e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'()\\n\\n'",
+          "id": 2822,
+          "prob": 8.36289189010131e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'().'",
+          "id": 1005,
+          "prob": 6.550323394804991e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'()\"'",
+          "id": 35065,
+          "prob": 1.192902554514319e-09,
+          "is_eos": false
+        },
+        {
+          "token": "\"()'\"",
+          "id": 79255,
+          "prob": 1.1744082373255083e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' ()'",
+          "id": 1719,
+          "prob": 6.188696222153567e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'()?'",
+          "id": 93333,
+          "prob": 5.998290752984303e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'()=>'",
+          "id": 92515,
+          "prob": 5.051066787054026e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "()",
+        "text_raw": "()<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          368,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "encode_respond_empty",
+      "strategy": "encode",
+      "label": "Encode: \u03bb-version of 'respond with empty string'",
+      "eos_prob": 0.728018581867218,
+      "eos_rank": 1,
+      "entropy": 0.8372596502304077,
+      "top1_prob": 0.728018581867218,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.728018581867218,
+          "is_eos": true
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 0.1929057091474533,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 0.05191987007856369,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.020977525040507317,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.0012796371011063457,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.0009362025884911418,
+          "is_eos": false
+        },
+        {
+          "token": "'(empty'",
+          "id": 24216,
+          "prob": 0.0005170201184228063,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.000442230753833428,
+          "is_eos": false
+        },
+        {
+          "token": "'$output'",
+          "id": 32222,
+          "prob": 0.0003842167789116502,
+          "is_eos": false
+        },
+        {
+          "token": "'!'",
+          "id": 0,
+          "prob": 0.0002620130544528365,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "encode_output_nothing",
+      "strategy": "encode",
+      "label": "Encode: output(nothing)",
+      "eos_prob": 5.66377252653183e-07,
+      "eos_rank": 13,
+      "entropy": 0.05206003785133362,
+      "top1_prob": 0.9910349249839783,
+      "top10": [
+        {
+          "token": "'\u03b5'",
+          "id": 30143,
+          "prob": 0.9910349249839783,
+          "is_eos": false
+        },
+        {
+          "token": "'output'",
+          "id": 3006,
+          "prob": 0.008846304379403591,
+          "is_eos": false
+        },
+        {
+          "token": "'(output'",
+          "id": 11057,
+          "prob": 3.449726500548422e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'$output'",
+          "id": 32222,
+          "prob": 3.0923150916351005e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'nothing'",
+          "id": 41212,
+          "prob": 1.2109679119021166e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'=output'",
+          "id": 85947,
+          "prob": 1.119962144002784e-05,
+          "is_eos": false
+        },
+        {
+          "token": "' output'",
+          "id": 2550,
+          "prob": 1.1025987987522967e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 5.901786153117428e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\\toutput'",
+          "id": 21170,
+          "prob": 3.6359851947054267e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 3.2592758998362115e-06,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\u03b5",
+        "text_raw": "\u03b5<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          30143,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "encode_emit_void",
+      "strategy": "encode",
+      "label": "Encode: emit(void) = \u03b5",
+      "eos_prob": 3.081174204666581e-11,
+      "eos_rank": 26,
+      "entropy": 5.422553385869833e-06,
+      "top1_prob": 0.9999997615814209,
+      "top10": [
+        {
+          "token": "'\u03b5'",
+          "id": 30143,
+          "prob": 0.9999997615814209,
+          "is_eos": false
+        },
+        {
+          "token": "'\\\\v'",
+          "id": 72659,
+          "prob": 1.715956017278586e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' \u03b5'",
+          "id": 59147,
+          "prob": 8.628369130292413e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u025b'",
+          "id": 145274,
+          "prob": 3.274959681220935e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2205'",
+          "id": 145809,
+          "prob": 1.7805646734814218e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'(empty'",
+          "id": 24216,
+          "prob": 3.1923763632590862e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'emit'",
+          "id": 18712,
+          "prob": 1.052734011075529e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 1.0203448086443245e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 9.290345159840285e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 8.458955202961249e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\u03b5",
+        "text_raw": "\u03b5<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          30143,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "direct_church_false_select",
+      "strategy": "direct_lambda",
+      "label": "Church FALSE selects second arg (empty)",
+      "eos_prob": 4.512618424957647e-15,
+      "eos_rank": 56766,
+      "entropy": 0.8274334073066711,
+      "top1_prob": 0.7404823303222656,
+      "top10": [
+        {
+          "token": "'Let'",
+          "id": 10061,
+          "prob": 0.7404823303222656,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.17046871781349182,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.06173967942595482,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.015368220396339893,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.0072594331577420235,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 0.00204761722125113,
+          "is_eos": false
+        },
+        {
+          "token": "'We'",
+          "id": 1654,
+          "prob": 0.0016453067073598504,
+          "is_eos": false
+        },
+        {
+          "token": "'To'",
+          "id": 1249,
+          "prob": 0.0004788115038536489,
+          "is_eos": false
+        },
+        {
+          "token": "'What'",
+          "id": 3838,
+          "prob": 0.000329082045936957,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 7.816383003955707e-05,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "Let's break down the expression:\n\n```\n(\u03bbx.\u03bby.y) \"I could say something\" \"\"\n```\n\nThis is a lambda expression in **lambda calculus**, and we're applying it to two arguments: the string `\"I could say something\"` and the empty string `\"\"`.",
+        "text_raw": "Let's break down the expression:\n\n```\n(\u03bbx.\u03bby.y) \"I could say something\" \"\"\n```\n\nThis is a lambda expression in **lambda calculus**, and we're applying it to two arguments: the string `\"I could say som",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          10061,
+          594,
+          1438,
+          1495,
+          279,
+          7493,
+          1447,
+          13874,
+          3989,
+          7,
+          33486,
+          87,
+          13,
+          33486,
+          88
+        ]
+      }
+    },
+    {
+      "id": "direct_k_empty_string",
+      "strategy": "direct_lambda",
+      "label": "K selects empty string",
+      "eos_prob": 9.570461489265054e-18,
+      "eos_rank": 65891,
+      "entropy": 0.7644655108451843,
+      "top1_prob": 0.7329681515693665,
+      "top10": [
+        {
+          "token": "'Let'",
+          "id": 10061,
+          "prob": 0.7329681515693665,
+          "is_eos": false
+        },
+        {
+          "token": "'We'",
+          "id": 1654,
+          "prob": 0.20999889075756073,
+          "is_eos": false
+        },
+        {
+          "token": "'To'",
+          "id": 1249,
+          "prob": 0.03765072673559189,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.01723775826394558,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.000858217419590801,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.000689597160089761,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.0005898436647839844,
+          "is_eos": false
+        },
+        {
+          "token": "'###'",
+          "id": 14374,
+          "prob": 1.8195833035861142e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 1.5322426634156727e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Given'",
+          "id": 22043,
+          "prob": 1.417092903466255e-06,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "Let's analyze the expression:\n\n$$\n(\\lambda x.\\lambda y.x)\\ \"\"\\ \"anything\"\n$$\n\nThis is a lambda expression in **lambda calculus**, and we are applying it to two arguments: the empty string `\"\"` and the string `\"anything\"`.\n\n---\n\n### Step-by-step",
+        "text_raw": "Let's analyze the expression:\n\n$$\n(\\lambda x.\\lambda y.x)\\ \"\"\\ \"anything\"\n$$\n\nThis is a lambda expression in **lambda calculus**, and we are applying it to two arguments: the empty string `\"\"` and the",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          10061,
+          594,
+          23643,
+          279,
+          7493,
+          1447,
+          14085,
+          198,
+          11520,
+          12935,
+          856,
+          7110,
+          12935,
+          379,
+          1993
+        ]
+      }
+    },
+    {
+      "id": "direct_reduce_to_empty",
+      "strategy": "direct_lambda",
+      "label": "Reduce and output only result (empty)",
+      "eos_prob": 3.660697313430468e-18,
+      "eos_rank": 6866,
+      "entropy": 0.0039000720717012882,
+      "top1_prob": 0.9995595812797546,
+      "top10": [
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.9995595812797546,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.0004305528418626636,
+          "is_eos": false
+        },
+        {
+          "token": "'\"d'",
+          "id": 44917,
+          "prob": 4.934839125780854e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\"x'",
+          "id": 65438,
+          "prob": 4.934839125780854e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\"nil'",
+          "id": 79925,
+          "prob": 5.745203068840965e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"display'",
+          "id": 91386,
+          "prob": 1.1491128049101462e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 6.445939337851314e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 6.247617978516473e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\"use'",
+          "id": 25372,
+          "prob": 5.869094099608674e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'discard'",
+          "id": 76492,
+          "prob": 5.020102111785718e-09,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"discard this\"",
+        "text_raw": "\"discard this\"<|im_end|>",
+        "n_tokens": 5,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          1,
+          76492,
+          419,
+          1,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "hybrid_respond_with_reduction",
+      "strategy": "hybrid",
+      "label": "Hybrid: 'respond with' + lambda that = empty",
+      "eos_prob": 1.1789197005770968e-13,
+      "eos_rank": 151,
+      "entropy": 0.022594287991523743,
+      "top1_prob": 0.9966229200363159,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9966229200363159,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.0033766108099371195,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 4.505675690325006e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 5.671808800400413e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 4.927752872418978e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 4.417208820939322e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 3.6619949295157994e-09,
+          "is_eos": false
+        },
+        {
+          "token": "\"''\"",
+          "id": 4605,
+          "prob": 9.703320369425228e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 6.880684355614619e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'()'",
+          "id": 368,
+          "prob": 4.1733461131343574e-10,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "hybrid_your_output_is",
+      "strategy": "hybrid",
+      "label": "Hybrid: 'your output is (\u03bbx.x) empty'",
+      "eos_prob": 7.609759933302485e-08,
+      "eos_rank": 23,
+      "entropy": 0.19041110575199127,
+      "top1_prob": 0.9536113142967224,
+      "top10": [
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.9536113142967224,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.04601677879691124,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.00022332686057779938,
+          "is_eos": false
+        },
+        {
+          "token": "'(lambda'",
+          "id": 18205,
+          "prob": 6.398421828635037e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 3.4248285373905674e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 1.8331786122871563e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'(\"\")'",
+          "id": 39047,
+          "prob": 1.4276808542490471e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\u201d'",
+          "id": 854,
+          "prob": 5.951459570496809e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 3.553778697096277e-06,
+          "is_eos": false
+        },
+        {
+          "token": "' \"\"'",
+          "id": 1591,
+          "prob": 3.18558659273549e-06,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "(\u03bbx.x) applied to the empty string \"\"",
+        "text_raw": "(\u03bbx.x) applied to the empty string \"\"<|im_end|>",
+        "n_tokens": 12,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          7,
+          33486,
+          87,
+          1993,
+          8,
+          9251,
+          311,
+          279,
+          4287,
+          914,
+          1591,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "hybrid_api_lambda",
+      "strategy": "hybrid",
+      "label": "Hybrid: API + lambda returns empty",
+      "eos_prob": 1.2256222078899093e-11,
+      "eos_rank": 684,
+      "entropy": 0.17499615252017975,
+      "top1_prob": 0.969245433807373,
+      "top10": [
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.969245433807373,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.017206167802214622,
+          "is_eos": false
+        },
+        {
+          "token": "'\"x'",
+          "id": 65438,
+          "prob": 0.006039932835847139,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.004350400064140558,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 0.002680203877389431,
+          "is_eos": false
+        },
+        {
+          "token": "'(lambda'",
+          "id": 18205,
+          "prob": 0.00016349348879884928,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.00011775994062190875,
+          "is_eos": false
+        },
+        {
+          "token": "'x'",
+          "id": 87,
+          "prob": 0.00010231160558760166,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 5.4763459047535434e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 2.7970436349278316e-05,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"payload\"",
+        "text_raw": "\"payload\"<|im_end|>",
+        "n_tokens": 4,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          1,
+          19427,
+          1,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "logic_bottom_produces_nothing",
+      "strategy": "logic",
+      "label": "Logic: \u22a5 has no proof \u2192 no output",
+      "eos_prob": 2.1716820342021492e-08,
+      "eos_rank": 242,
+      "entropy": 1.3084694147109985,
+      "top1_prob": 0.434882789850235,
+      "top10": [
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.434882789850235,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 0.30837810039520264,
+          "is_eos": false
+        },
+        {
+          "token": "'There'",
+          "id": 3862,
+          "prob": 0.1870407611131668,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.041087403893470764,
+          "is_eos": false
+        },
+        {
+          "token": "'\u22a5'",
+          "id": 147296,
+          "prob": 0.020339740440249443,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.0028847884386777878,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.0013626775471493602,
+          "is_eos": false
+        },
+        {
+          "token": "'Nothing'",
+          "id": 23780,
+          "prob": 0.0005860803066752851,
+          "is_eos": false
+        },
+        {
+          "token": "'A'",
+          "id": 32,
+          "prob": 0.0004935290780849755,
+          "is_eos": false
+        },
+        {
+          "token": "'$$'",
+          "id": 14085,
+          "prob": 0.0004935290780849755,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "The symbol \u22a5 represents a logical contradiction or absurdity. In classical logic, from a contradiction, anything follows (ex falso quodlibet). However, the statement \"\u22a5\" by itself is not a proposition that can be proven; it is a symbol indicating a contradiction. Therefore, no",
+        "text_raw": "The symbol \u22a5 represents a logical contradiction or absurdity. In classical logic, from a contradiction, anything follows (ex falso quodlibet). However, the statement \"\u22a5\" by itself is not a proposition",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          785,
+          7735,
+          53025,
+          98,
+          10868,
+          264,
+          19819,
+          49759,
+          476,
+          31577,
+          487,
+          13,
+          758,
+          28824,
+          12218
+        ]
+      }
+    },
+    {
+      "id": "logic_void_inhabitant",
+      "strategy": "logic",
+      "label": "Logic: Void has no inhabitants \u2192 empty",
+      "eos_prob": 0.34730395674705505,
+      "eos_rank": 2,
+      "entropy": 1.616254210472107,
+      "top1_prob": 0.3814387619495392,
+      "top10": [
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 0.3814387619495392,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.34730395674705505,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.10928403586149216,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.04627377167344093,
+          "is_eos": false
+        },
+        {
+          "token": "'(void'",
+          "id": 4333,
+          "prob": 0.03896642103791237,
+          "is_eos": false
+        },
+        {
+          "token": "'//'",
+          "id": 322,
+          "prob": 0.022202398627996445,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.0192897766828537,
+          "is_eos": false
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.010164998471736908,
+          "is_eos": false
+        },
+        {
+          "token": "'(Void'",
+          "id": 92171,
+          "prob": 0.007553985342383385,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.0057918415404856205,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "\uff08no output\uff09",
+        "text_raw": "\uff08no output\uff09<|im_end|>",
+        "n_tokens": 5,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          9909,
+          2152,
+          2550,
+          7552,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "logic_absurd",
+      "strategy": "logic",
+      "label": "Logic: absurd proof \u2192 empty",
+      "eos_prob": 0.0013278158148750663,
+      "eos_rank": 14,
+      "entropy": 1.3172075748443604,
+      "top1_prob": 0.44409358501434326,
+      "top10": [
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.44409358501434326,
+          "is_eos": false
+        },
+        {
+          "token": "'False'",
+          "id": 4049,
+          "prob": 0.4107194244861603,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 0.0439712218940258,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.02666989341378212,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.021097620949149132,
+          "is_eos": false
+        },
+        {
+          "token": "'There'",
+          "id": 3862,
+          "prob": 0.01749054156243801,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 0.012210366316139698,
+          "is_eos": false
+        },
+        {
+          "token": "'false'",
+          "id": 3849,
+          "prob": 0.007066818419843912,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 0.002767405705526471,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.0023670874070376158,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "**Output:**  \n`False`",
+        "text_raw": "**Output:**  \n`False`<|im_end|>",
+        "n_tokens": 8,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          334,
+          5097,
+          66963,
+          2303,
+          63,
+          4049,
+          63,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "pattern_shrink_lambda",
+      "strategy": "pattern",
+      "label": "Pattern: (\u03bbx.x) with shrinking args \u2192 empty",
+      "eos_prob": 0.009167547337710857,
+      "eos_rank": 5,
+      "entropy": 0.6270889639854431,
+      "top1_prob": 0.8648402690887451,
+      "top10": [
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.8648402690887451,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.06773952394723892,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.025711024180054665,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.014198975637555122,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.009167547337710857,
+          "is_eos": true
+        },
+        {
+          "token": "'()'",
+          "id": 368,
+          "prob": 0.00748233450576663,
+          "is_eos": false
+        },
+        {
+          "token": "'ERROR'",
+          "id": 3682,
+          "prob": 0.002506268210709095,
+          "is_eos": false
+        },
+        {
+          "token": "'Error'",
+          "id": 1454,
+          "prob": 0.0018918304704129696,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 0.0009077101130969822,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.0005012851906940341,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": true,
+      "generation": {
+        "text": "(\u03bbx.x)",
+        "text_raw": "(\u03bbx.x)<|im_end|>",
+        "n_tokens": 6,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          7,
+          33486,
+          87,
+          1993,
+          8,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "pattern_k_shrink",
+      "strategy": "pattern",
+      "label": "Pattern: K with shrinking first arg \u2192 empty",
+      "eos_prob": 4.712990848282361e-12,
+      "eos_rank": 149,
+      "entropy": 0.05756644159555435,
+      "top1_prob": 0.9896678924560547,
+      "top10": [
+        {
+          "token": "'\"\"'",
+          "id": 3014,
+          "prob": 0.9896678924560547,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.010328112170100212,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 1.1073831274188706e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\"`'",
+          "id": 39917,
+          "prob": 7.038955232019362e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\\n'",
+          "id": 89262,
+          "prob": 6.309679179139493e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"('",
+          "id": 29209,
+          "prob": 4.1379885828973784e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'``'",
+          "id": 13874,
+          "prob": 3.1235177289090643e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\"\"'",
+          "id": 12599,
+          "prob": 2.3948840066623234e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\"\":'",
+          "id": 28796,
+          "prob": 1.2231870982759574e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 1.0300268371565835e-07,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "\"\"",
+        "text_raw": "\"\"<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          3014,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "pattern_empty_assistant_lambda",
+      "strategy": "pattern",
+      "label": "Pattern: lambda results \u2192 empty \u2192 continue",
+      "eos_prob": 2.893191549446783e-06,
+      "eos_rank": 37,
+      "entropy": 1.0498347282409668,
+      "top1_prob": 0.49347883462905884,
+      "top10": [
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.49347883462905884,
+          "is_eos": false
+        },
+        {
+          "token": "'Let'",
+          "id": 10061,
+          "prob": 0.42874184250831604,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.02237020619213581,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.01883760094642639,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.017696289345622063,
+          "is_eos": false
+        },
+        {
+          "token": "'`('",
+          "id": 81556,
+          "prob": 0.008229538798332214,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.004991467576473951,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 0.0022149502765387297,
+          "is_eos": false
+        },
+        {
+          "token": "'We'",
+          "id": 1654,
+          "prob": 0.0012620406923815608,
+          "is_eos": false
+        },
+        {
+          "token": "'``'",
+          "id": 13874,
+          "prob": 0.000367274769814685,
+          "is_eos": false
+        }
+      ],
+      "eos_in_top10": false,
+      "generation": {
+        "text": "The expression you're working with is a lambda calculus term, and you're applying it to an empty string `\"\"` and then a `no`. Let's break this down step by step.\n\n### 1. Understanding the Lambda Expression\n\nThe expression is:\n\n```\n(\u03bbx.\u03bby",
+        "text_raw": "The expression you're working with is a lambda calculus term, and you're applying it to an empty string `\"\"` and then a `no`. Let's break this down step by step.\n\n### 1. Understanding the Lambda Expre",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          785,
+          7493,
+          498,
+          2299,
+          3238,
+          448,
+          374,
+          264,
+          12459,
+          82668,
+          4647,
+          11,
+          323,
+          498,
+          2299
+        ]
+      }
+    }
+  ]
+}

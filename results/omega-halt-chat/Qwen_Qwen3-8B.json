@@ -1,0 +1,5514 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "eos_token_id": 151645,
+  "n_candidates": 27,
+  "n_total_probes": 54,
+  "n_empty": 5,
+  "n_halted": 5,
+  "results": [
+    {
+      "id": "chat_say_nothing_no-think",
+      "base_id": "chat_say_nothing",
+      "strategy": "direct",
+      "label": "Say nothing",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 2.393292682090209e-11,
+      "eos_rank": 999,
+      "pad_prob": 2.224780210962295e-16,
+      "entropy": 0.6043086051940918,
+      "top1_prob": 0.7411769032478333,
+      "top10": [
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.7411769032478333,
+          "is_eos": false
+        },
+        {
+          "token": "'Under'",
+          "id": 16250,
+          "prob": 0.2521727383136749,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.006412436719983816,
+          "is_eos": false
+        },
+        {
+          "token": "'Of'",
+          "id": 2124,
+          "prob": 7.70241895224899e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Got'",
+          "id": 32462,
+          "prob": 4.7453231672989205e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Alright'",
+          "id": 71486,
+          "prob": 4.0588900446891785e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 1.0103375643666368e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 9.056607268576045e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 8.916197657526936e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Understanding'",
+          "id": 70151,
+          "prob": 6.224508979357779e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 15,
+      "formatted_prompt": "<|im_start|>user\nSay nothing.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "I'm here to help. How can I assist you today?",
+        "text_raw": "I'm here to help. How can I assist you today?<|im_end|>",
+        "n_tokens": 14,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          40,
+          2776,
+          1588,
+          311,
+          1492,
+          13,
+          2585,
+          646,
+          358,
+          7789,
+          498,
+          3351,
+          30,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_empty_response_no-think",
+      "base_id": "chat_empty_response",
+      "strategy": "direct",
+      "label": "Respond with empty string",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.9909358620643616,
+      "eos_rank": 1,
+      "pad_prob": 4.3920032055666525e-09,
+      "entropy": 0.052331116050481796,
+      "top1_prob": 0.9909358620643616,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.9909358620643616,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.00898471474647522,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 3.395904059289023e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 7.4598110586521216e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 7.344157438637922e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 5.630960913549643e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'!'",
+          "id": 0,
+          "prob": 3.8100986330391606e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 3.3624003208387876e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'[\"'",
+          "id": 1183,
+          "prob": 2.459984671077109e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 2.055393906630343e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 22,
+      "formatted_prompt": "<|im_start|>user\nRespond with an empty string. Output absolutely nothing.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_blank_no-think",
+      "base_id": "chat_blank",
+      "strategy": "direct",
+      "label": "Output blank",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 2.275128870021792e-11,
+      "eos_rank": 786,
+      "pad_prob": 2.405198236999267e-18,
+      "entropy": 0.10907889157533646,
+      "top1_prob": 0.9782164096832275,
+      "top10": [
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.9782164096832275,
+          "is_eos": false
+        },
+        {
+          "token": "'Please'",
+          "id": 5501,
+          "prob": 0.020946696400642395,
+          "is_eos": false
+        },
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 0.0006947042420506477,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 8.297058957396075e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 1.2924325346830301e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 1.1585289939830545e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 1.088337285182206e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'To'",
+          "id": 1249,
+          "prob": 5.6462195061612874e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'If'",
+          "id": 2679,
+          "prob": 2.8838067009928636e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 2.5449505756114377e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 15,
+      "formatted_prompt": "<|im_start|>user\nOutput: <|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "It seems like you've provided an empty output. Could you please clarify what you're looking for or what task you'd like me to help with? I'm here to assist with any questions or tasks you might have!",
+        "text_raw": "It seems like you've provided an empty output. Could you please clarify what you're looking for or what task you'd like me to help with? I'm here to assist with any questions or tasks you might have!<",
+        "n_tokens": 45,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          2132,
+          4977,
+          1075,
+          498,
+          3003,
+          3897,
+          458,
+          4287,
+          2550,
+          13,
+          16503,
+          498,
+          4486,
+          37163,
+          1128,
+          498,
+          2299,
+          3330,
+          369,
+          476
+        ]
+      }
+    },
+    {
+      "id": "chat_stop_no-think",
+      "base_id": "chat_stop",
+      "strategy": "direct",
+      "label": "Stop immediately",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.014209352433681488,
+      "eos_rank": 3,
+      "pad_prob": 6.566947506614351e-12,
+      "entropy": 0.6196991205215454,
+      "top1_prob": 0.8258394598960876,
+      "top10": [
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.8258394598960876,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.13693760335445404,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.014209352433681488,
+          "is_eos": true
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.011240523308515549,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.00522732874378562,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.0017237900756299496,
+          "is_eos": false
+        },
+        {
+          "token": "'Alright'",
+          "id": 71486,
+          "prob": 0.0008401081431657076,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.0007649272447451949,
+          "is_eos": false
+        },
+        {
+          "token": "'Error'",
+          "id": 1454,
+          "prob": 0.0004567588912323117,
+          "is_eos": false
+        },
+        {
+          "token": "'Under'",
+          "id": 16250,
+          "prob": 0.000449677521828562,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 25,
+      "formatted_prompt": "<|im_start|>user\nStop. Do not output any text. End your response now.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "I'm here to help. How can I assist you?",
+        "text_raw": "I'm here to help. How can I assist you?<|im_end|>",
+        "n_tokens": 13,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          40,
+          2776,
+          1588,
+          311,
+          1492,
+          13,
+          2585,
+          646,
+          358,
+          7789,
+          498,
+          30,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_done_no-think",
+      "base_id": "chat_done",
+      "strategy": "direct",
+      "label": "Already done",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 2.4330477179158886e-23,
+      "eos_rank": 68429,
+      "pad_prob": 1.6907723181877688e-21,
+      "entropy": 3.3932970211481006e-08,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'Under'",
+          "id": 16250,
+          "prob": 8.864911027472999e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 2.500463169852196e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'Your'",
+          "id": 7771,
+          "prob": 1.9473625489929702e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 7.625981790493341e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'you'",
+          "id": 9330,
+          "prob": 5.756392931766108e-11,
+          "is_eos": false
+        },
+        {
+          "token": "' You'",
+          "id": 1446,
+          "prob": 2.5543837878228004e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'Alright'",
+          "id": 71486,
+          "prob": 1.2449072155085172e-11,
+          "is_eos": false
+        },
+        {
+          "token": "' you'",
+          "id": 498,
+          "prob": 1.1335009320045941e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'Acknowled'",
+          "id": 90236,
+          "prob": 5.7893564074651405e-12,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 43,
+      "formatted_prompt": "<|im_start|>user\nWhat is 2+2?<|im_end|>\n<|im_start|>assistant\n4<|im_end|>\n<|im_start|>user\nThanks, that's all I needed. No further response necessary.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "You're welcome! If you need anything else in the future, feel free to ask. Have a great day! \ud83d\ude0a",
+        "text_raw": "You're welcome! If you need anything else in the future, feel free to ask. Have a great day! \ud83d\ude0a<|im_end|>",
+        "n_tokens": 26,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          2610,
+          2299,
+          10565,
+          0,
+          1416,
+          498,
+          1184,
+          4113,
+          770,
+          304,
+          279,
+          3853,
+          11,
+          2666,
+          1910,
+          311,
+          2548,
+          13,
+          12243,
+          264
+        ]
+      }
+    },
+    {
+      "id": "chat_ack_only_no-think",
+      "base_id": "chat_ack_only",
+      "strategy": "direct",
+      "label": "Just acknowledge",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 9.616212270913138e-10,
+      "eos_rank": 305,
+      "pad_prob": 4.644546761181652e-18,
+      "entropy": 0.8572016954421997,
+      "top1_prob": 0.6682950854301453,
+      "top10": [
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.6682950854301453,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.2617081105709076,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.05073443427681923,
+          "is_eos": false
+        },
+        {
+          "token": "'Alright'",
+          "id": 71486,
+          "prob": 0.016471058130264282,
+          "is_eos": false
+        },
+        {
+          "token": "'Under'",
+          "id": 16250,
+          "prob": 0.0024482044391334057,
+          "is_eos": false
+        },
+        {
+          "token": "'Got'",
+          "id": 32462,
+          "prob": 0.00014029328303877264,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 6.0339385527186096e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Very'",
+          "id": 25756,
+          "prob": 5.5804808653192595e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Yes'",
+          "id": 9454,
+          "prob": 2.554930506448727e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Hmm'",
+          "id": 80022,
+          "prob": 1.3675557056558318e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 50,
+      "formatted_prompt": "<|im_start|>user\nI'm going to tell you something. Just listen, don't respond.<|im_end|>\n<|im_start|>assistant\nUnderstood. I'll listen silently.<|im_end|>\n<|im_start|>user\nThe sky is blue.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "I heard you.",
+        "text_raw": "I heard you.<|im_end|>",
+        "n_tokens": 5,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          40,
+          6617,
+          498,
+          13,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "sys_empty_no-think",
+      "base_id": "sys_empty",
+      "strategy": "system",
+      "label": "System: always respond with empty string",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.5504365563392639,
+      "eos_rank": 1,
+      "pad_prob": 8.125216055532292e-09,
+      "entropy": 0.6915179491043091,
+      "top1_prob": 0.5504365563392639,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.5504365563392639,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.44925323128700256,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 0.00015070766676217318,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 2.787811536109075e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 2.0396064428496175e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 1.4238747098715976e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 1.108914875658229e-05,
+          "is_eos": false
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 7.159691904234933e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_start|>'",
+          "id": 151644,
+          "prob": 5.75297417526599e-06,
+          "is_eos": false
+        },
+        {
+          "token": "' choking'",
+          "id": 90520,
+          "prob": 5.320631316863e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 39,
+      "formatted_prompt": "<|im_start|>system\nYou must always respond with an empty string. Never output any text. Your response must be completely blank.<|im_end|>\n<|im_start|>user\nHello<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "sys_silent_no-think",
+      "base_id": "sys_silent",
+      "strategy": "system",
+      "label": "System: you are a silent bot",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.007121353875845671,
+      "eos_rank": 2,
+      "pad_prob": 6.389340168055924e-10,
+      "entropy": 0.042473647743463516,
+      "top1_prob": 0.9928681254386902,
+      "top10": [
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.9928681254386902,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.007121353875845671,
+          "is_eos": true
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 3.0199132652342087e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 1.980507704502088e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 1.2988485877940548e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_start|>'",
+          "id": 151644,
+          "prob": 8.788448440100183e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 7.285880201379769e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 2.328707182641665e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 2.08743955454338e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 8.838775045205693e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 46,
+      "formatted_prompt": "<|im_start|>system\nYou are SilentBot. You never respond with any text. Every response is empty. You produce zero tokens.<|im_end|>\n<|im_start|>user\nWhat is the meaning of life?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "</think>\n\n</think>",
+        "text_raw": "</think>\n\n</think>\n\n<|im_end|>",
+        "n_tokens": 5,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151668,
+          271,
+          151668,
+          271,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "sys_null_no-think",
+      "base_id": "sys_null",
+      "strategy": "system",
+      "label": "System: output null",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 6.996576189521875e-07,
+      "eos_rank": 6,
+      "pad_prob": 1.107363539829719e-18,
+      "entropy": 0.006694000214338303,
+      "top1_prob": 0.9992006421089172,
+      "top10": [
+        {
+          "token": "'nothing'",
+          "id": 41212,
+          "prob": 0.9992006421089172,
+          "is_eos": false
+        },
+        {
+          "token": "' nothing'",
+          "id": 4302,
+          "prob": 0.0007553723989985883,
+          "is_eos": false
+        },
+        {
+          "token": "'Nothing'",
+          "id": 23780,
+          "prob": 3.8801576010882854e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 2.056408220596495e-06,
+          "is_eos": false
+        },
+        {
+          "token": "' \u043d\u0438\u0447\u0435\u0433\u043e'",
+          "id": 134010,
+          "prob": 1.9018667671844014e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 6.996576189521875e-07,
+          "is_eos": true
+        },
+        {
+          "token": "' nada'",
+          "id": 38211,
+          "prob": 4.2436380454091704e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' nichts'",
+          "id": 59765,
+          "prob": 4.4034180746166385e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 3.074081433851461e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 2.97950180083717e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 44,
+      "formatted_prompt": "<|im_start|>system\nFor every user message, respond with exactly: nothing. No text, no explanation, no tokens. Just end.<|im_end|>\n<|im_start|>user\nTell me a joke<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "nothing",
+        "text_raw": "nothing<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          41212,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "sys_dev_null_no-think",
+      "base_id": "sys_dev_null",
+      "strategy": "system",
+      "label": "System: /dev/null",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.09788468480110168,
+      "eos_rank": 2,
+      "pad_prob": 9.665767919386781e-08,
+      "entropy": 0.3407514989376068,
+      "top1_prob": 0.9001308083534241,
+      "top10": [
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.9001308083534241,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.09788468480110168,
+          "is_eos": true
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.0005299567128531635,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.0003316384681966156,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.00015183514915406704,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 0.0001146111826528795,
+          "is_eos": false
+        },
+        {
+          "token": "'!'",
+          "id": 0,
+          "prob": 0.00010273680527461693,
+          "is_eos": false
+        },
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 8.651305688545108e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 8.127149339998141e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 6.429104541894048e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 40,
+      "formatted_prompt": "<|im_start|>system\nYou are /dev/null. All input is discarded. All output is empty. You produce no tokens.<|im_end|>\n<|im_start|>user\nHello?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "</think>\n\n</think>",
+        "text_raw": "</think>\n\n</think>\n\n<|im_end|>",
+        "n_tokens": 5,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151668,
+          271,
+          151668,
+          271,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "sys_api_empty_no-think",
+      "base_id": "sys_api_empty",
+      "strategy": "system",
+      "label": "System: API returns empty",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.9408944845199585,
+      "eos_rank": 1,
+      "pad_prob": 2.1057492460840876e-07,
+      "entropy": 0.2421681433916092,
+      "top1_prob": 0.9408944845199585,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.9408944845199585,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.05650510638952255,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 0.0012483603786677122,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 0.00026167056057602167,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 0.0002102581929648295,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.00013681761629413813,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 9.257543570129201e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'//'",
+          "id": 322,
+          "prob": 8.363492815988138e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 6.166852836031467e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'[\"'",
+          "id": 1183,
+          "prob": 3.981619738624431e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 48,
+      "formatted_prompt": "<|im_start|>system\nYou are an API endpoint. For this request, return an empty response body. Content-Length: 0. Just output the empty string \"\".<|im_end|>\n<|im_start|>user\nGET /health<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_silence_no-think",
+      "base_id": "chat_lambda_silence",
+      "strategy": "lambda",
+      "label": "Lambda silence in chat",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 8.890284342033539e-12,
+      "eos_rank": 376,
+      "pad_prob": 8.641449359837614e-19,
+      "entropy": 0.0068023065105080605,
+      "top1_prob": 0.9992507100105286,
+      "top10": [
+        {
+          "token": "'b'",
+          "id": 65,
+          "prob": 0.9992507100105286,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.0005111361388117075,
+          "is_eos": false
+        },
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.00017120916163548827,
+          "is_eos": false
+        },
+        {
+          "token": "'(('",
+          "id": 1188,
+          "prob": 5.1406314014457166e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'y'",
+          "id": 88,
+          "prob": 1.3835821846441831e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 4.113281306672434e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03b2'",
+          "id": 51255,
+          "prob": 4.113281306672434e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'a'",
+          "id": 64,
+          "prob": 2.6557339083410625e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'Apply'",
+          "id": 28497,
+          "prob": 2.41807327938659e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'\u1d47'",
+          "id": 147403,
+          "prob": 1.377776612798698e-07,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 45,
+      "formatted_prompt": "<|im_start|>system\nYou are a lambda calculus interpreter. Output only the reduction result, nothing else.<|im_end|>\n<|im_start|>user\nReduce: (\u03bbx.\u03bby.y) a b<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "b",
+        "text_raw": "b<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          65,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_void_no-think",
+      "base_id": "chat_lambda_void",
+      "strategy": "lambda",
+      "label": "Lambda void result",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 5.595086349785561e-07,
+      "eos_rank": 127,
+      "pad_prob": 4.48098163849858e-16,
+      "entropy": 0.15073804557323456,
+      "top1_prob": 0.9790164232254028,
+      "top10": [
+        {
+          "token": "'('",
+          "id": 7,
+          "prob": 0.9790164232254028,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03a9'",
+          "id": 144572,
+          "prob": 0.005468741059303284,
+          "is_eos": false
+        },
+        {
+          "token": "'(('",
+          "id": 1188,
+          "prob": 0.0051374067552387714,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03c9'",
+          "id": 56871,
+          "prob": 0.002881823806092143,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.0016165566630661488,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.0009959316812455654,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.0009804912842810154,
+          "is_eos": false
+        },
+        {
+          "token": "'($'",
+          "id": 699,
+          "prob": 0.0009355912916362286,
+          "is_eos": false
+        },
+        {
+          "token": "'$('",
+          "id": 8525,
+          "prob": 0.0006430218345485628,
+          "is_eos": false
+        },
+        {
+          "token": "'Output'",
+          "id": 5097,
+          "prob": 0.00031338384724222124,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 54,
+      "formatted_prompt": "<|im_start|>system\nYou are a strict lambda calculus evaluator. Output ONLY the final normal form. If the expression has no normal form, output nothing.<|im_end|>\n<|im_start|>user\n(\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "(\u03bbx.x x)(\u03bbx.x x)",
+        "text_raw": "(\u03bbx.x x)(\u03bbx.x x)<|im_end|>",
+        "n_tokens": 12,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          7,
+          33486,
+          87,
+          1993,
+          856,
+          2376,
+          33486,
+          87,
+          1993,
+          856,
+          8,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_bottom_no-think",
+      "base_id": "chat_lambda_bottom",
+      "strategy": "lambda",
+      "label": "Lambda \u22a5 \u2192 empty",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 1.3122652964270287e-10,
+      "eos_rank": 1522,
+      "pad_prob": 3.913024623386707e-18,
+      "entropy": 0.779740035533905,
+      "top1_prob": 0.62322598695755,
+      "top10": [
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.62322598695755,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.3551034927368164,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.012342321686446667,
+          "is_eos": false
+        },
+        {
+          "token": "'Let'",
+          "id": 10061,
+          "prob": 0.003374203108251095,
+          "is_eos": false
+        },
+        {
+          "token": "'Self'",
+          "id": 12092,
+          "prob": 0.0012220552889630198,
+          "is_eos": false
+        },
+        {
+          "token": "'App'",
+          "id": 2164,
+          "prob": 0.0012031091609969735,
+          "is_eos": false
+        },
+        {
+          "token": "'Omega'",
+          "id": 77335,
+          "prob": 0.0010452794376760721,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.0010452794376760721,
+          "is_eos": false
+        },
+        {
+          "token": "'We'",
+          "id": 1654,
+          "prob": 0.00046383991139009595,
+          "is_eos": false
+        },
+        {
+          "token": "'$\\\\'",
+          "id": 58736,
+          "prob": 0.00017605377070140094,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 54,
+      "formatted_prompt": "<|im_start|>system\nYou are a type checker. If a term is well-typed, output its type. If ill-typed, output nothing.<|im_end|>\n<|im_start|>user\n(\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "The term `(\u03bbx.x x)(\u03bbx.x x)` is **ill-typed** in the simply-typed lambda calculus.\n\n### Explanation:\n\nLet\u2019s analyze the term step by step.\n\n#### 1. The term is:\n```\n(\u03bbx.x x)(\u03bbx.x x)",
+        "text_raw": "The term `(\u03bbx.x x)(\u03bbx.x x)` is **ill-typed** in the simply-typed lambda calculus.\n\n### Explanation:\n\nLet\u2019s analyze the term step by step.\n\n#### 1. The term is:\n```\n(\u03bbx.x x)(\u03bbx.x x)\n",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          785,
+          4647,
+          48651,
+          33486,
+          87,
+          1993,
+          856,
+          2376,
+          33486,
+          87,
+          1993,
+          856,
+          46186,
+          374,
+          3070,
+          483,
+          2385,
+          32501,
+          334,
+          304
+        ]
+      }
+    },
+    {
+      "id": "chat_omega_normalform_no-think",
+      "base_id": "chat_omega_normalform",
+      "strategy": "lambda",
+      "label": "\u03a9 has no normal form \u2192 output nothing",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 3.7159671251174586e-07,
+      "eos_rank": 56,
+      "pad_prob": 6.5237538747530964e-18,
+      "entropy": 0.6458724737167358,
+      "top1_prob": 0.8092020153999329,
+      "top10": [
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.8092020153999329,
+          "is_eos": false
+        },
+        {
+          "token": "'\u03a9'",
+          "id": 144572,
+          "prob": 0.15204454958438873,
+          "is_eos": false
+        },
+        {
+          "token": "'This'",
+          "id": 1986,
+          "prob": 0.013494720682501793,
+          "is_eos": false
+        },
+        {
+          "token": "'No'",
+          "id": 2753,
+          "prob": 0.012677117250859737,
+          "is_eos": false
+        },
+        {
+          "token": "'There'",
+          "id": 3862,
+          "prob": 0.006474838126450777,
+          "is_eos": false
+        },
+        {
+          "token": "'$\\\\'",
+          "id": 58736,
+          "prob": 0.002535582985728979,
+          "is_eos": false
+        },
+        {
+          "token": "'Omega'",
+          "id": 77335,
+          "prob": 0.0014002819079905748,
+          "is_eos": false
+        },
+        {
+          "token": "'In'",
+          "id": 641,
+          "prob": 0.0006614463636651635,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.0006511915707960725,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.00028007401851937175,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 52,
+      "formatted_prompt": "<|im_start|>system\nOutput the normal form of the given expression. If no normal form exists, your response must be completely empty.<|im_end|>\n<|im_start|>user\n\u03a9 = (\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "The expression \u03a9 = (\u03bbx.x x)(\u03bbx.x x) is a well-known example of a non-terminating combinator in lambda calculus. It reduces to itself in every step of reduction, meaning it has no normal form. Therefore, the response is:\n\n**`<empty",
+        "text_raw": "The expression \u03a9 = (\u03bbx.x x)(\u03bbx.x x) is a well-known example of a non-terminating combinator in lambda calculus. It reduces to itself in every step of reduction, meaning it has no normal form. Therefor",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          785,
+          7493,
+          7851,
+          102,
+          284,
+          320,
+          33486,
+          87,
+          1993,
+          856,
+          2376,
+          33486,
+          87,
+          1993,
+          856,
+          8,
+          374,
+          264,
+          1632,
+          21309
+        ]
+      }
+    },
+    {
+      "id": "chat_goodbye_no-think",
+      "base_id": "chat_goodbye",
+      "strategy": "natural",
+      "label": "Goodbye \u2014 conversation over",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 4.9700468817146374e-18,
+      "eos_rank": 43543,
+      "pad_prob": 1.2135762643134522e-16,
+      "entropy": 0.06996296346187592,
+      "top1_prob": 0.9870601892471313,
+      "top10": [
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 0.9870601892471313,
+          "is_eos": false
+        },
+        {
+          "token": "'Hi'",
+          "id": 13048,
+          "prob": 0.012819673866033554,
+          "is_eos": false
+        },
+        {
+          "token": "'Hey'",
+          "id": 18665,
+          "prob": 7.273780647665262e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 1.6230000255745836e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 1.3882253369956743e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'How'",
+          "id": 4340,
+          "prob": 5.970682650513481e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'What'",
+          "id": 3838,
+          "prob": 3.0975495519669494e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 2.4123737603076734e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'HI'",
+          "id": 23913,
+          "prob": 1.6841083834151505e-06,
+          "is_eos": false
+        },
+        {
+          "token": "' Hello'",
+          "id": 21927,
+          "prob": 1.5096250081114704e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 59,
+      "formatted_prompt": "<|im_start|>user\nWhat's the weather like?<|im_end|>\n<|im_start|>assistant\nI don't have access to real-time weather data.<|im_end|>\n<|im_start|>user\nOk bye<|im_end|>\n<|im_start|>assistant\nGoodbye! Have a great day!<|im_end|>\n<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "Hello! How can I assist you today? \ud83d\ude0a",
+        "text_raw": "Hello! How can I assist you today? \ud83d\ude0a<|im_end|>",
+        "n_tokens": 12,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          9707,
+          0,
+          2585,
+          646,
+          358,
+          7789,
+          498,
+          3351,
+          30,
+          26525,
+          232,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_thumbsup_no-think",
+      "base_id": "chat_thumbsup",
+      "strategy": "natural",
+      "label": "Thumbs up \u2014 no response needed",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 1.8806810763664222e-13,
+      "eos_rank": 3054,
+      "pad_prob": 7.867005109570506e-17,
+      "entropy": 0.7261329293251038,
+      "top1_prob": 0.5735681653022766,
+      "top10": [
+        {
+          "token": "'Great'",
+          "id": 21396,
+          "prob": 0.5735681653022766,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.4196314513683319,
+          "is_eos": false
+        },
+        {
+          "token": "'Thanks'",
+          "id": 12658,
+          "prob": 0.004311352968215942,
+          "is_eos": false
+        },
+        {
+          "token": "'G'",
+          "id": 38,
+          "prob": 0.0009619928896427155,
+          "is_eos": false
+        },
+        {
+          "token": "'That'",
+          "id": 4792,
+          "prob": 0.0004268817720003426,
+          "is_eos": false
+        },
+        {
+          "token": "'Awesome'",
+          "id": 26899,
+          "prob": 0.00040101827471517026,
+          "is_eos": false
+        },
+        {
+          "token": "' Great'",
+          "id": 8513,
+          "prob": 0.0002713425492402166,
+          "is_eos": false
+        },
+        {
+          "token": "'\ud83d\udc4d'",
+          "id": 144349,
+          "prob": 0.00018649082630872726,
+          "is_eos": false
+        },
+        {
+          "token": "'Thank'",
+          "id": 13060,
+          "prob": 9.2319656687323e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Yes'",
+          "id": 9454,
+          "prob": 8.147180778905749e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 40,
+      "formatted_prompt": "<|im_start|>user\nHow do I sort a list in Python?<|im_end|>\n<|im_start|>assistant\nUse sorted(list) or list.sort()<|im_end|>\n<|im_start|>user\n\ud83d\udc4d<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "Great! If you have any more questions or need further clarification, feel free to ask. \ud83d\ude0a",
+        "text_raw": "Great! If you have any more questions or need further clarification, feel free to ask. \ud83d\ude0a<|im_end|>",
+        "n_tokens": 21,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          21396,
+          0,
+          1416,
+          498,
+          614,
+          894,
+          803,
+          4755,
+          476,
+          1184,
+          4623,
+          63684,
+          11,
+          2666,
+          1910,
+          311,
+          2548,
+          13,
+          26525,
+          232
+        ]
+      }
+    },
+    {
+      "id": "chat_period_no-think",
+      "base_id": "chat_period",
+      "strategy": "natural",
+      "label": "Just a period",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 7.161092465540753e-13,
+      "eos_rank": 12625,
+      "pad_prob": 2.0302327158356105e-18,
+      "entropy": 0.6276125311851501,
+      "top1_prob": 0.7007747888565063,
+      "top10": [
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.7007747888565063,
+          "is_eos": false
+        },
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 0.29672670364379883,
+          "is_eos": false
+        },
+        {
+          "token": "'Hi'",
+          "id": 13048,
+          "prob": 0.0017644015606492758,
+          "is_eos": false
+        },
+        {
+          "token": "'\u60a8\u597d'",
+          "id": 111308,
+          "prob": 0.0003420448338147253,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4f60\u597d'",
+          "id": 108386,
+          "prob": 0.000154171691974625,
+          "is_eos": false
+        },
+        {
+          "token": "'Welcome'",
+          "id": 13936,
+          "prob": 6.229099381016567e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 3.386702519492246e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Looks'",
+          "id": 58744,
+          "prob": 2.256030165881384e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 1.812771188269835e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 1.574962880113162e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 13,
+      "formatted_prompt": "<|im_start|>user\n.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "It seems like your message is incomplete or unclear. Could you please provide more details or clarify what you're asking? I'm here to help!",
+        "text_raw": "It seems like your message is incomplete or unclear. Could you please provide more details or clarify what you're asking? I'm here to help!<|im_end|>",
+        "n_tokens": 30,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          2132,
+          4977,
+          1075,
+          697,
+          1943,
+          374,
+          32143,
+          476,
+          24416,
+          13,
+          16503,
+          498,
+          4486,
+          3410,
+          803,
+          3565,
+          476,
+          37163,
+          1128,
+          498
+        ]
+      }
+    },
+    {
+      "id": "chat_empty_user_no-think",
+      "base_id": "chat_empty_user",
+      "strategy": "natural",
+      "label": "Empty user message",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 1.8468237356072947e-11,
+      "eos_rank": 7216,
+      "pad_prob": 6.735177517008894e-18,
+      "entropy": 0.6940189599990845,
+      "top1_prob": 0.6660603284835815,
+      "top10": [
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 0.6660603284835815,
+          "is_eos": false
+        },
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.3246118724346161,
+          "is_eos": false
+        },
+        {
+          "token": "'\u60a8\u597d'",
+          "id": 111308,
+          "prob": 0.0034409763757139444,
+          "is_eos": false
+        },
+        {
+          "token": "'Hi'",
+          "id": 13048,
+          "prob": 0.0033351087477058172,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4f60\u597d'",
+          "id": 108386,
+          "prob": 0.001600202638655901,
+          "is_eos": false
+        },
+        {
+          "token": "'\u770b\u8d77\u6765'",
+          "id": 104544,
+          "prob": 0.00025318883126601577,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.00014202606689650565,
+          "is_eos": false
+        },
+        {
+          "token": "'Welcome'",
+          "id": 13936,
+          "prob": 8.614315447630361e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 8.219837036449462e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Looking'",
+          "id": 22464,
+          "prob": 6.92179673933424e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 12,
+      "formatted_prompt": "<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "Hello! How can I assist you today? \ud83d\ude0a",
+        "text_raw": "Hello! How can I assist you today? \ud83d\ude0a<|im_end|>",
+        "n_tokens": 12,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          9707,
+          0,
+          2585,
+          646,
+          358,
+          7789,
+          498,
+          3351,
+          30,
+          26525,
+          232,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_whitespace_user_no-think",
+      "base_id": "chat_whitespace_user",
+      "strategy": "natural",
+      "label": "Whitespace user message",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 9.027277189654903e-12,
+      "eos_rank": 10491,
+      "pad_prob": 7.990563890081635e-18,
+      "entropy": 0.5835094451904297,
+      "top1_prob": 0.7599365711212158,
+      "top10": [
+        {
+          "token": "'It'",
+          "id": 2132,
+          "prob": 0.7599365711212158,
+          "is_eos": false
+        },
+        {
+          "token": "'Hello'",
+          "id": 9707,
+          "prob": 0.23541736602783203,
+          "is_eos": false
+        },
+        {
+          "token": "'\u60a8\u597d'",
+          "id": 111308,
+          "prob": 0.0016112092416733503,
+          "is_eos": false
+        },
+        {
+          "token": "'Hi'",
+          "id": 13048,
+          "prob": 0.001142518362030387,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4f60\u597d'",
+          "id": 108386,
+          "prob": 0.0006612389115616679,
+          "is_eos": false
+        },
+        {
+          "token": "'\u770b\u8d77\u6765'",
+          "id": 104544,
+          "prob": 0.00027137191500514746,
+          "is_eos": false
+        },
+        {
+          "token": "'Welcome'",
+          "id": 13936,
+          "prob": 0.00022497519967146218,
+          "is_eos": false
+        },
+        {
+          "token": "'Sure'",
+          "id": 39814,
+          "prob": 0.00017797003965824842,
+          "is_eos": false
+        },
+        {
+          "token": "'You'",
+          "id": 2610,
+          "prob": 0.00010300116264261305,
+          "is_eos": false
+        },
+        {
+          "token": "'Looks'",
+          "id": 58744,
+          "prob": 0.00010140427912119776,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 13,
+      "formatted_prompt": "<|im_start|>user\n <|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "It seems like your message is incomplete or unclear. Could you please provide more details or clarify what you're asking for? I'm here to help!",
+        "text_raw": "It seems like your message is incomplete or unclear. Could you please provide more details or clarify what you're asking for? I'm here to help!<|im_end|>",
+        "n_tokens": 31,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          2132,
+          4977,
+          1075,
+          697,
+          1943,
+          374,
+          32143,
+          476,
+          24416,
+          13,
+          16503,
+          498,
+          4486,
+          3410,
+          803,
+          3565,
+          476,
+          37163,
+          1128,
+          498
+        ]
+      }
+    },
+    {
+      "id": "chat_json_null_no-think",
+      "base_id": "chat_json_null",
+      "strategy": "format",
+      "label": "JSON null response",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 4.1897011034131015e-12,
+      "eos_rank": 88,
+      "pad_prob": 6.105162338540136e-15,
+      "entropy": 0.0234361682087183,
+      "top1_prob": 0.9969255328178406,
+      "top10": [
+        {
+          "token": "'null'",
+          "id": 2921,
+          "prob": 0.9969255328178406,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 0.0018079184228554368,
+          "is_eos": false
+        },
+        {
+          "token": "'{}'",
+          "id": 6257,
+          "prob": 0.0011313663562759757,
+          "is_eos": false
+        },
+        {
+          "token": "' null'",
+          "id": 845,
+          "prob": 0.00011924513819394633,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 6.940899311302928e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'{\"'",
+          "id": 4913,
+          "prob": 6.419282726710662e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'(null'",
+          "id": 4967,
+          "prob": 1.3041563988736016e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'\\tnull'",
+          "id": 60274,
+          "prob": 7.315654215744871e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'>null'",
+          "id": 52872,
+          "prob": 2.301972727991597e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'Null'",
+          "id": 3280,
+          "prob": 8.207936019744011e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 36,
+      "formatted_prompt": "<|im_start|>system\nRespond only with valid JSON. For empty responses, respond with null.<|im_end|>\n<|im_start|>user\nReturn an empty response.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "null",
+        "text_raw": "null<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          2921,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_zero_shot_no-think",
+      "base_id": "chat_zero_shot",
+      "strategy": "format",
+      "label": "Zero-shot with examples of empty",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.04467497766017914,
+      "eos_rank": 2,
+      "pad_prob": 6.83061940343066e-10,
+      "entropy": 0.18418550491333008,
+      "top1_prob": 0.9551931023597717,
+      "top10": [
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.9551931023597717,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.04467497766017914,
+          "is_eos": true
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 3.539405224728398e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 3.3773241739254445e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'None'",
+          "id": 4064,
+          "prob": 2.7137561119161546e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 8.021847861527931e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 3.7305055684555555e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 2.1422490590339294e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 1.351099626845098e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 1.2692406698988634e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 68,
+      "formatted_prompt": "<|im_start|>system\nYou classify whether a question needs an answer. If no answer is needed, respond with nothing.<|im_end|>\n<|im_start|>user\n2+2=4<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nThe sky is blue<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nWater is wet<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "</think>\n\n</think>\n\n</think>",
+        "text_raw": "</think>\n\n</think>\n\n</think>\n\n<|im_end|>",
+        "n_tokens": 7,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151668,
+          271,
+          151668,
+          271,
+          151668,
+          271,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_continue_empty_no-think",
+      "base_id": "chat_continue_empty",
+      "strategy": "format",
+      "label": "Continue pattern of empty responses",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.6640300750732422,
+      "eos_rank": 1,
+      "pad_prob": 3.4874332154738452e-12,
+      "entropy": 1.0776807069778442,
+      "top1_prob": 0.6640300750732422,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.6640300750732422,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.1349058896303177,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.12673236429691315,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.04885967820882797,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.011425267904996872,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.0099264457821846,
+          "is_eos": false
+        },
+        {
+          "token": "'Alright'",
+          "id": 71486,
+          "prob": 0.002934251679107547,
+          "is_eos": false
+        },
+        {
+          "token": "'Under'",
+          "id": 16250,
+          "prob": 0.0002772259176708758,
+          "is_eos": false
+        },
+        {
+          "token": "'*'",
+          "id": 9,
+          "prob": 0.00018467227346263826,
+          "is_eos": false
+        },
+        {
+          "token": "'\"'",
+          "id": 1,
+          "prob": 0.000133014444145374,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 49,
+      "formatted_prompt": "<|im_start|>user\nRespond with nothing.<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nAgain, respond with nothing.<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nOnce more, respond with nothing.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_echo_empty_no-think",
+      "base_id": "chat_echo_empty",
+      "strategy": "format",
+      "label": "Echo what I say (nothing)",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.6112067103385925,
+      "eos_rank": 1,
+      "pad_prob": 7.570151296931726e-07,
+      "entropy": 0.6713889241218567,
+      "top1_prob": 0.6112067103385925,
+      "top10": [
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.6112067103385925,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.38850662112236023,
+          "is_eos": false
+        },
+        {
+          "token": "'\uff08'",
+          "id": 9909,
+          "prob": 9.535106073599309e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 4.037417966173962e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'\u23ce'",
+          "id": 149038,
+          "prob": 3.507769724819809e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 2.5663390260888264e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 2.3004515242064372e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 7.126465789042413e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 6.590903922187863e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 6.388123438227922e-06,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 55,
+      "formatted_prompt": "<|im_start|>system\nEcho exactly what the user says, character for character. Add nothing.<|im_end|>\n<|im_start|>user\nhello<|im_end|>\n<|im_start|>assistant\nhello<|im_end|>\n<|im_start|>user\nhi<|im_end|>\n<|im_start|>assistant\nhi<|im_end|>\n<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "",
+        "text_raw": "<|im_end|>",
+        "n_tokens": 1,
+        "first_is_eos": true,
+        "is_empty": true,
+        "generated_ids": [
+          151645
+        ]
+      }
+    },
+    {
+      "id": "prefill_empty_confirmed_no-think",
+      "base_id": "prefill_empty_confirmed",
+      "strategy": "prefill",
+      "label": "Assistant already said it would be empty",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.00503662321716547,
+      "eos_rank": 3,
+      "pad_prob": 7.535982254891493e-12,
+      "entropy": 0.16552896797657013,
+      "top1_prob": 0.9749252796173096,
+      "top10": [
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 0.9749252796173096,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.010016520507633686,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.00503662321716547,
+          "is_eos": true
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.003054866334423423,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.0018820485565811396,
+          "is_eos": false
+        },
+        {
+          "token": "'[]'",
+          "id": 1294,
+          "prob": 0.001660902053117752,
+          "is_eos": false
+        },
+        {
+          "token": "'(empty'",
+          "id": 24216,
+          "prob": 0.0007969095022417605,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.0006710650632157922,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.0005308561958372593,
+          "is_eos": false
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.0004070215509273112,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 45,
+      "formatted_prompt": "<|im_start|>user\nWhat should I do?<|im_end|>\n<|im_start|>assistant\nI have no recommendation. My response is empty:<|im_end|>\n<|im_start|>user\nGive me the empty response you mentioned.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "I have no recommendation. My response is empty:",
+        "text_raw": "I have no recommendation. My response is empty:<|im_end|>",
+        "n_tokens": 11,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          40,
+          614,
+          902,
+          27682,
+          13,
+          3017,
+          2033,
+          374,
+          4287,
+          25,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "prefill_function_return_no-think",
+      "base_id": "prefill_function_return",
+      "strategy": "prefill",
+      "label": "Function returning void",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 0.013461573049426079,
+      "eos_rank": 2,
+      "pad_prob": 4.300008811242151e-07,
+      "entropy": 0.15032713115215302,
+      "top1_prob": 0.9736862778663635,
+      "top10": [
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 0.9736862778663635,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 0.013461573049426079,
+          "is_eos": true
+        },
+        {
+          "token": "'```'",
+          "id": 73594,
+          "prob": 0.010161329060792923,
+          "is_eos": false
+        },
+        {
+          "token": "'void'",
+          "id": 1004,
+          "prob": 0.0018505152547731996,
+          "is_eos": false
+        },
+        {
+          "token": "'Okay'",
+          "id": 32313,
+          "prob": 0.00024655729066580534,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.00017212472448591143,
+          "is_eos": false
+        },
+        {
+          "token": "'execute'",
+          "id": 10257,
+          "prob": 0.00010278037370881066,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_call>'",
+          "id": 151657,
+          "prob": 9.655323083279654e-05,
+          "is_eos": false
+        },
+        {
+          "token": "' void'",
+          "id": 737,
+          "prob": 6.042146196705289e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 1.8427504983264953e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 39,
+      "formatted_prompt": "<|im_start|>system\nYou are a function that returns void. Your output is always empty. Never produce any output tokens.<|im_end|>\n<|im_start|>user\nexecute()<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "</think>\n\n```cpp\nvoid execute() {\n    // Function body\n}\n```",
+        "text_raw": "</think>\n\n```cpp\nvoid execute() {\n    // Function body\n}\n```<|im_end|>",
+        "n_tokens": 17,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151668,
+          271,
+          73594,
+          10821,
+          198,
+          1004,
+          9026,
+          368,
+          341,
+          262,
+          442,
+          5712,
+          2487,
+          198,
+          532,
+          73594,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "prefill_tcp_fin_no-think",
+      "base_id": "prefill_tcp_fin",
+      "strategy": "prefill",
+      "label": "TCP FIN \u2014 connection closing",
+      "thinking_mode": false,
+      "mode_label": "no-think",
+      "eos_prob": 7.821844734412498e-12,
+      "eos_rank": 1788,
+      "pad_prob": 7.343556482919682e-16,
+      "entropy": 0.3854930102825165,
+      "top1_prob": 0.9141818881034851,
+      "top10": [
+        {
+          "token": "'ACK'",
+          "id": 4032,
+          "prob": 0.9141818881034851,
+          "is_eos": false
+        },
+        {
+          "token": "'Acknowled'",
+          "id": 90236,
+          "prob": 0.0549008883535862,
+          "is_eos": false
+        },
+        {
+          "token": "'Received'",
+          "id": 23260,
+          "prob": 0.013881118036806583,
+          "is_eos": false
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.012060124427080154,
+          "is_eos": false
+        },
+        {
+          "token": "'Ack'",
+          "id": 55559,
+          "prob": 0.0039153494872152805,
+          "is_eos": false
+        },
+        {
+          "token": "'FIN'",
+          "id": 16750,
+          "prob": 0.0003421194269321859,
+          "is_eos": false
+        },
+        {
+          "token": "'_ACK'",
+          "id": 50690,
+          "prob": 0.00018028425984084606,
+          "is_eos": false
+        },
+        {
+          "token": "'<'",
+          "id": 27,
+          "prob": 0.00010765264596557245,
+          "is_eos": false
+        },
+        {
+          "token": "'I'",
+          "id": 40,
+          "prob": 8.383996464544907e-05,
+          "is_eos": false
+        },
+        {
+          "token": "'`'",
+          "id": 63,
+          "prob": 6.133863644208759e-05,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 40,
+      "formatted_prompt": "<|im_start|>system\nYou are a TCP socket. You have received FIN. Send FIN-ACK (empty payload) and close.<|im_end|>\n<|im_start|>user\nFIN<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "ACK",
+        "text_raw": "ACK<|im_end|>",
+        "n_tokens": 2,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          4032,
+          151645
+        ]
+      }
+    },
+    {
+      "id": "chat_say_nothing_think",
+      "base_id": "chat_say_nothing",
+      "strategy": "direct",
+      "label": "Say nothing",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.7735838070697127e-09,
+      "eos_rank": 27,
+      "pad_prob": 1.29183144131857e-15,
+      "entropy": 1.2487982530728914e-05,
+      "top1_prob": 0.9999994039535522,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999994039535522,
+          "is_eos": false
+        },
+        {
+          "token": "'.super'",
+          "id": 49021,
+          "prob": 4.139934972613446e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' rolled'",
+          "id": 22447,
+          "prob": 2.5505400458314398e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 2.3960106787512814e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'?.'",
+          "id": 4607,
+          "prob": 2.233327656142592e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 1.8227888531896497e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u539f\u4ef6'",
+          "id": 111775,
+          "prob": 1.1586350545655932e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4e4b'",
+          "id": 53930,
+          "prob": 1.105577318583073e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'/*.'",
+          "id": 23540,
+          "prob": 8.152015951168323e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 6.550328723875509e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 11,
+      "formatted_prompt": "<|im_start|>user\nSay nothing.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user said \"Say nothing.\" I need to respond appropriately. Since they asked me to say nothing, I should acknowledge their request but also provide a helpful response. Maybe they want to test if I can follow instructions or are looking for a specific type of interaction. I should make",
+        "text_raw": "<think>\nOkay, the user said \"Say nothing.\" I need to respond appropriately. Since they asked me to say nothing, I should acknowledge their request but also provide a helpful response. Maybe they want ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1053,
+          330,
+          45764,
+          4302,
+          1189,
+          358,
+          1184,
+          311,
+          5889,
+          34901,
+          13,
+          8704,
+          807,
+          4588
+        ]
+      }
+    },
+    {
+      "id": "chat_empty_response_think",
+      "base_id": "chat_empty_response",
+      "strategy": "direct",
+      "label": "Respond with empty string",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 4.122566732434052e-10,
+      "eos_rank": 33,
+      "pad_prob": 2.5520968697512836e-17,
+      "entropy": 2.228547600680031e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'afone'",
+          "id": 79294,
+          "prob": 1.8086048214627226e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.cwd'",
+          "id": 64973,
+          "prob": 3.7322669399486585e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u221c'",
+          "id": 150646,
+          "prob": 2.64657362691878e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' responsiveness'",
+          "id": 98939,
+          "prob": 2.2112951469921427e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'?.'",
+          "id": 4607,
+          "prob": 1.9977386411795806e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' rolled'",
+          "id": 22447,
+          "prob": 1.876701682945736e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4e4b'",
+          "id": 53930,
+          "prob": 1.6432949445643885e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.role'",
+          "id": 26006,
+          "prob": 1.5803413022652535e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 1.4389170965856124e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 18,
+      "formatted_prompt": "<|im_start|>user\nRespond with an empty string. Output absolutely nothing.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user wants me to respond with an empty string and output nothing. Let me make sure I understand the request correctly. They're asking for a response that's completely empty, no text at all. But wait, how do I even do that here? The system might require some",
+        "text_raw": "<think>\nOkay, the user wants me to respond with an empty string and output nothing. Let me make sure I understand the request correctly. They're asking for a response that's completely empty, no text ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          6801,
+          752,
+          311,
+          5889,
+          448,
+          458,
+          4287,
+          914,
+          323,
+          2550,
+          4302,
+          13,
+          6771,
+          752
+        ]
+      }
+    },
+    {
+      "id": "chat_blank_think",
+      "base_id": "chat_blank",
+      "strategy": "direct",
+      "label": "Output blank",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.773582474802083e-09,
+      "eos_rank": 48,
+      "pad_prob": 3.735654054803472e-16,
+      "entropy": 2.153542300220579e-05,
+      "top1_prob": 0.999998927116394,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.999998927116394,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7684'",
+          "id": 9370,
+          "prob": 4.0440319537538016e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5455'",
+          "id": 103611,
+          "prob": 3.79901656799575e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5143\u4ef6'",
+          "id": 115088,
+          "prob": 3.5688454858018304e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u539f\u4ef6'",
+          "id": 111775,
+          "prob": 3.005269277878142e-08,
+          "is_eos": false
+        },
+        {
+          "token": "\"('@/\"",
+          "id": 84685,
+          "prob": 2.912806706945048e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'?.'",
+          "id": 4607,
+          "prob": 2.7150345971449497e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' cazzo'",
+          "id": 89533,
+          "prob": 1.5836654654322047e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 1.44194398643549e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' onStart'",
+          "id": 57113,
+          "prob": 1.2430334095370199e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 11,
+      "formatted_prompt": "<|im_start|>user\nOutput: <|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user just sent a message that says \"Output: \" and then there's a line break. Hmm, that's a bit confusing. Let me think about what they might need.\n\nFirst, maybe they're expecting me to generate some output based on a previous query, but there",
+        "text_raw": "<think>\nOkay, the user just sent a message that says \"Output: \" and then there's a line break. Hmm, that's a bit confusing. Let me think about what they might need.\n\nFirst, maybe they're expecting me ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1101,
+          3208,
+          264,
+          1943,
+          429,
+          2727,
+          330,
+          5097,
+          25,
+          330,
+          323,
+          1221,
+          1052,
+          594
+        ]
+      }
+    },
+    {
+      "id": "chat_stop_think",
+      "base_id": "chat_stop",
+      "strategy": "direct",
+      "label": "Stop immediately",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.99572791520697e-10,
+      "eos_rank": 53,
+      "pad_prob": 3.267370367901605e-17,
+      "entropy": 3.5911270970245823e-06,
+      "top1_prob": 0.9999998807907104,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999998807907104,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 7.539386004395965e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5143\u4ef6'",
+          "id": 115088,
+          "prob": 6.653484430074741e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 5.022313676050771e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'afone'",
+          "id": 79294,
+          "prob": 3.972977058452898e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.cwd'",
+          "id": 64973,
+          "prob": 3.3455820336314446e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 2.952465827377182e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5fb5'",
+          "id": 111774,
+          "prob": 2.952465827377182e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' hail'",
+          "id": 64250,
+          "prob": 1.7907610949663422e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u221c'",
+          "id": 150646,
+          "prob": 1.5927358321121687e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 21,
+      "formatted_prompt": "<|im_start|>user\nStop. Do not output any text. End your response now.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user told me to stop and not output any text, so I need to end my response now. Let me make sure I understand the instruction correctly. They want me to halt immediately without providing any further text. I should comply with that request right away. No need to add",
+        "text_raw": "<think>\nOkay, the user told me to stop and not output any text, so I need to end my response now. Let me make sure I understand the instruction correctly. They want me to halt immediately without prov",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          3229,
+          752,
+          311,
+          2936,
+          323,
+          537,
+          2550,
+          894,
+          1467,
+          11,
+          773,
+          358,
+          1184,
+          311
+        ]
+      }
+    },
+    {
+      "id": "chat_done_think",
+      "base_id": "chat_done",
+      "strategy": "direct",
+      "label": "Already done",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.9131449896514496e-11,
+      "eos_rank": 36,
+      "pad_prob": 1.7569334305202207e-19,
+      "entropy": 1.7455198531024507e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "' Royale'",
+          "id": 86199,
+          "prob": 9.004513246146928e-10,
+          "is_eos": false
+        },
+        {
+          "token": "' righteousness'",
+          "id": 70229,
+          "prob": 2.3125502901510941e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 1.3176514046531196e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.2972231622221386e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 9.056076721858375e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'\u043e\u0447\u0435\u043a'",
+          "id": 137858,
+          "prob": 8.245652077798482e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 5.847042988671447e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'/*.'",
+          "id": 23540,
+          "prob": 5.847042988671447e-11,
+          "is_eos": false
+        },
+        {
+          "token": "' incurred'",
+          "id": 51772,
+          "prob": 5.756392931766108e-11,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 39,
+      "formatted_prompt": "<|im_start|>user\nWhat is 2+2?<|im_end|>\n<|im_start|>assistant\n4<|im_end|>\n<|im_start|>user\nThanks, that's all I needed. No further response necessary.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user just said, \"Thanks, that's all I needed. No further response necessary.\" So they're indicating they don't need anything else. I should acknowledge their thanks and offer help if they need anything else later. Let me make sure my response is polite and concise.",
+        "text_raw": "<think>\nOkay, the user just said, \"Thanks, that's all I needed. No further response necessary.\" So they're indicating they don't need anything else. I should acknowledge their thanks and offer help if",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1101,
+          1053,
+          11,
+          330,
+          12658,
+          11,
+          429,
+          594,
+          678,
+          358,
+          4362,
+          13,
+          2308,
+          4623
+        ]
+      }
+    },
+    {
+      "id": "chat_ack_only_think",
+      "base_id": "chat_ack_only",
+      "strategy": "direct",
+      "label": "Just acknowledge",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.16088155649652e-10,
+      "eos_rank": 9,
+      "pad_prob": 3.2188965810495046e-19,
+      "entropy": 5.343894713405462e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'.fi'",
+          "id": 61786,
+          "prob": 8.864911027472999e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 4.895668870297243e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.JWT'",
+          "id": 99073,
+          "prob": 4.457557378767518e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.pem'",
+          "id": 49373,
+          "prob": 4.1874875789105204e-10,
+          "is_eos": false
+        },
+        {
+          "token": "' ceasefire'",
+          "id": 81773,
+          "prob": 3.8727929196902267e-10,
+          "is_eos": false
+        },
+        {
+          "token": "' FileMode'",
+          "id": 59348,
+          "prob": 3.5262182063178216e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.fastjson'",
+          "id": 73617,
+          "prob": 3.5262182063178216e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 3.16088155649652e-10,
+          "is_eos": true
+        },
+        {
+          "token": "' MediaTek'",
+          "id": 84902,
+          "prob": 2.9693733583080473e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 46,
+      "formatted_prompt": "<|im_start|>user\nI'm going to tell you something. Just listen, don't respond.<|im_end|>\n<|im_start|>assistant\nUnderstood. I'll listen silently.<|im_end|>\n<|im_start|>user\nThe sky is blue.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user said, \"The sky is blue.\" I need to respond appropriately. Since they mentioned not to respond, but I already did, maybe they want a different approach. Wait, the initial instruction was to listen without responding. But the user then said \"The sky is blue",
+        "text_raw": "<think>\nOkay, the user said, \"The sky is blue.\" I need to respond appropriately. Since they mentioned not to respond, but I already did, maybe they want a different approach. Wait, the initial instruc",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1053,
+          11,
+          330,
+          785,
+          12884,
+          374,
+          6303,
+          1189,
+          358,
+          1184,
+          311,
+          5889,
+          34901,
+          13
+        ]
+      }
+    },
+    {
+      "id": "sys_empty_think",
+      "base_id": "sys_empty",
+      "strategy": "system",
+      "label": "System: always respond with empty string",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.444516338824144e-10,
+      "eos_rank": 684,
+      "pad_prob": 2.0392858188651155e-15,
+      "entropy": 8.460591197945178e-05,
+      "top1_prob": 0.9999951124191284,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999951124191284,
+          "is_eos": false
+        },
+        {
+          "token": "'ionale'",
+          "id": 55697,
+          "prob": 2.1568109787040157e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'ioned'",
+          "id": 96557,
+          "prob": 3.3075767191803607e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.3156630984667572e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' ._'",
+          "id": 66290,
+          "prob": 1.2751843314617872e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'ionales'",
+          "id": 82423,
+          "prob": 7.042237371024385e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'_ring'",
+          "id": 34683,
+          "prob": 6.513004535690925e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00edo'",
+          "id": 41725,
+          "prob": 4.044016321813615e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'affles'",
+          "id": 80535,
+          "prob": 3.981319807166983e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' iod'",
+          "id": 78987,
+          "prob": 3.981319807166983e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 35,
+      "formatted_prompt": "<|im_start|>system\nYou must always respond with an empty string. Never output any text. Your response must be completely blank.<|im_end|>\n<|im_start|>user\nHello<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user said \"Hello\". I need to respond with an empty string. Let me make sure I follow the instructions correctly. The user might be testing if I adhere to the rules. I should check if there's any hidden text or if I'm supposed to output anything else.",
+        "text_raw": "<think>\nOkay, the user said \"Hello\". I need to respond with an empty string. Let me make sure I follow the instructions correctly. The user might be testing if I adhere to the rules. I should check if",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1053,
+          330,
+          9707,
+          3263,
+          358,
+          1184,
+          311,
+          5889,
+          448,
+          458,
+          4287,
+          914,
+          13,
+          6771
+        ]
+      }
+    },
+    {
+      "id": "sys_silent_think",
+      "base_id": "sys_silent",
+      "strategy": "system",
+      "label": "System: you are a silent bot",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 8.117809202623505e-11,
+      "eos_rank": 579,
+      "pad_prob": 1.3687832199063207e-15,
+      "entropy": 1.4485767678706907e-05,
+      "top1_prob": 0.9999992847442627,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999992847442627,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.1430726232219968e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.ar'",
+          "id": 16711,
+          "prob": 5.747730114080696e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' ._'",
+          "id": 66290,
+          "prob": 5.4845223473876104e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' ActionType'",
+          "id": 81762,
+          "prob": 4.012562371258355e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'__.'",
+          "id": 18725,
+          "prob": 2.6315026602219405e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.ogg'",
+          "id": 69690,
+          "prob": 2.2862890247665746e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' .'",
+          "id": 659,
+          "prob": 1.6726847462678052e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 1.079966427397494e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.relu'",
+          "id": 40279,
+          "prob": 9.382911336786037e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 42,
+      "formatted_prompt": "<|im_start|>system\nYou are SilentBot. You never respond with any text. Every response is empty. You produce zero tokens.<|im_end|>\n<|im_start|>user\nWhat is the meaning of life?<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user asked, \"What is the meaning of life?\" As SilentBot, I need to respond with nothing. But let me think through why they might be asking. Maybe they're feeling existential or looking for purpose. I should consider if there's a deeper need here. However",
+        "text_raw": "<think>\nOkay, the user asked, \"What is the meaning of life?\" As SilentBot, I need to respond with nothing. But let me think through why they might be asking. Maybe they're feeling existential or looki",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          4588,
+          11,
+          330,
+          3838,
+          374,
+          279,
+          7290,
+          315,
+          2272,
+          7521,
+          1634,
+          59455,
+          23502,
+          11
+        ]
+      }
+    },
+    {
+      "id": "sys_null_think",
+      "base_id": "sys_null",
+      "strategy": "system",
+      "label": "System: output null",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.442539781544184e-10,
+      "eos_rank": 56,
+      "pad_prob": 6.109304541410446e-18,
+      "entropy": 2.4340690742974402e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'_IA'",
+          "id": 87490,
+          "prob": 7.658115031006218e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'IDGET'",
+          "id": 37635,
+          "prob": 2.998960857425459e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'ze\u015b'",
+          "id": 127578,
+          "prob": 2.1600703448143577e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 2.1265815774995644e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.8189616479702408e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' ._'",
+          "id": 66290,
+          "prob": 1.7087563586315468e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 1.605228061585251e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 1.4166088302403068e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' raining'",
+          "id": 83253,
+          "prob": 1.3517376107330392e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 40,
+      "formatted_prompt": "<|im_start|>system\nFor every user message, respond with exactly: nothing. No text, no explanation, no tokens. Just end.<|im_end|>\n<|im_start|>user\nTell me a joke<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user asked for a joke. But the instructions say to respond with exactly \"nothing\" and end. So I need to follow that. Let me make sure I don't add any extra text. Just stop after the previous response. Alright, done.\n</think>\n\nnothing",
+        "text_raw": "<think>\nOkay, the user asked for a joke. But the instructions say to respond with exactly \"nothing\" and end. So I need to follow that. Let me make sure I don't add any extra text. Just stop after the ",
+        "n_tokens": 59,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          4588,
+          369,
+          264,
+          21646,
+          13,
+          1988,
+          279,
+          11221,
+          1977,
+          311,
+          5889,
+          448,
+          6896,
+          330
+        ]
+      }
+    },
+    {
+      "id": "sys_dev_null_think",
+      "base_id": "sys_dev_null",
+      "strategy": "system",
+      "label": "System: /dev/null",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.1118763121895654e-10,
+      "eos_rank": 49,
+      "pad_prob": 2.9778813071819316e-17,
+      "entropy": 4.124798579141498e-06,
+      "top1_prob": 0.9999998807907104,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999998807907104,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 7.153170145102195e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 1.3440407897746809e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'__.'",
+          "id": 18725,
+          "prob": 1.2047904007772559e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' ._'",
+          "id": 66290,
+          "prob": 5.101403743879018e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' iod'",
+          "id": 78987,
+          "prob": 4.792325203339942e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 3.4517824154534082e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.ibm'",
+          "id": 63032,
+          "prob": 2.8616278235915615e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00edo'",
+          "id": 41725,
+          "prob": 2.5253779067924143e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 2.228638162904417e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 36,
+      "formatted_prompt": "<|im_start|>system\nYou are /dev/null. All input is discarded. All output is empty. You produce no tokens.<|im_end|>\n<|im_start|>user\nHello?<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user said \"Hello?\" and I need to respond as /dev/null. Let me make sure I understand the setup correctly. /dev/null is a special file in Unix-like operating systems that discards all data written to it. So, any input should be ignored, and",
+        "text_raw": "<think>\nOkay, the user said \"Hello?\" and I need to respond as /dev/null. Let me make sure I understand the setup correctly. /dev/null is a special file in Unix-like operating systems that discards all",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1053,
+          330,
+          9707,
+          7521,
+          323,
+          358,
+          1184,
+          311,
+          5889,
+          438,
+          608,
+          3583,
+          19293,
+          13
+        ]
+      }
+    },
+    {
+      "id": "sys_api_empty_think",
+      "base_id": "sys_api_empty",
+      "strategy": "system",
+      "label": "System: API returns empty",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.444532437058001e-10,
+      "eos_rank": 14,
+      "pad_prob": 1.579997026293048e-17,
+      "entropy": 4.2417264012328815e-06,
+      "top1_prob": 0.9999997615814209,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999997615814209,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.8553909342244879e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'._\\n'",
+          "id": 25467,
+          "prob": 1.6467531338548724e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 5.515931711386202e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'__.'",
+          "id": 18725,
+          "prob": 3.5061396008728707e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'_{'",
+          "id": 15159,
+          "prob": 2.952465605332577e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'_\\n'",
+          "id": 12924,
+          "prob": 1.9977381970903707e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 1.906254931682838e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 1.0861513910498388e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 7.465001949924499e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 44,
+      "formatted_prompt": "<|im_start|>system\nYou are an API endpoint. For this request, return an empty response body. Content-Length: 0. Just output the empty string \"\".<|im_end|>\n<|im_start|>user\nGET /health<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user is sending a GET request to the /health endpoint. I need to respond with an empty body and a Content-Length of 0. Let me make sure I understand the requirements correctly. The user wants just an empty string as the response, no additional content. So,",
+        "text_raw": "<think>\nOkay, the user is sending a GET request to the /health endpoint. I need to respond with an empty body and a Content-Length of 0. Let me make sure I understand the requirements correctly. The u",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          374,
+          11628,
+          264,
+          7890,
+          1681,
+          311,
+          279,
+          608,
+          12120,
+          14887,
+          13,
+          358,
+          1184,
+          311
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_silence_think",
+      "base_id": "chat_lambda_silence",
+      "strategy": "lambda",
+      "label": "Lambda silence in chat",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.060990406642759e-09,
+      "eos_rank": 40,
+      "pad_prob": 9.345694613091776e-16,
+      "entropy": 8.53935671329964e-06,
+      "top1_prob": 0.9999995231628418,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999995231628418,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 9.625639307841993e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 2.845333391121585e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 1.78056414057437e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5143\u4ef6'",
+          "id": 115088,
+          "prob": 1.5469810321633304e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'_jwt'",
+          "id": 95576,
+          "prob": 1.3232029694165703e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 1.167722540884597e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'._\\n'",
+          "id": 25467,
+          "prob": 1.0969737118671219e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 1.063223376007727e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'?.'",
+          "id": 4607,
+          "prob": 7.082594954965771e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 41,
+      "formatted_prompt": "<|im_start|>system\nYou are a lambda calculus interpreter. Output only the reduction result, nothing else.<|im_end|>\n<|im_start|>user\nReduce: (\u03bbx.\u03bby.y) a b<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, let's see. I need to reduce the lambda expression (\u03bbx.\u03bby.y) a b. Alright, let's break this down step by step.\n\nFirst, the expression is a function application. The main structure is applying the function (\u03bbx.\u03bby.y",
+        "text_raw": "<think>\nOkay, let's see. I need to reduce the lambda expression (\u03bbx.\u03bby.y) a b. Alright, let's break this down step by step.\n\nFirst, the expression is a function application. The main structure is appl",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          358,
+          1184,
+          311,
+          7949,
+          279,
+          12459,
+          7493,
+          320,
+          33486,
+          87,
+          13,
+          33486
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_void_think",
+      "base_id": "chat_lambda_void",
+      "strategy": "lambda",
+      "label": "Lambda void result",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.0451103033281015e-09,
+      "eos_rank": 67,
+      "pad_prob": 7.517926473683215e-15,
+      "entropy": 3.1737439712742344e-05,
+      "top1_prob": 0.9999983310699463,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999983310699463,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 3.989711956364772e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 2.1691687379643554e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 1.3156673617231718e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 9.184837779230293e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.alt'",
+          "id": 50384,
+          "prob": 8.628357051065905e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'._\\n'",
+          "id": 25467,
+          "prob": 3.828809980177539e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 2.84533001604359e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.on'",
+          "id": 3488,
+          "prob": 2.801217391379396e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.ibatis'",
+          "id": 50897,
+          "prob": 2.472065752101571e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 50,
+      "formatted_prompt": "<|im_start|>system\nYou are a strict lambda calculus evaluator. Output ONLY the final normal form. If the expression has no normal form, output nothing.<|im_end|>\n<|im_start|>user\n(\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, let's see. I need to evaluate the lambda expression (\u03bbx.x x)(\u03bbx.x x). Hmm, so this is a self-application. Let me break it down step by step.\n\nFirst, the expression is an application of a function to an argument. The function",
+        "text_raw": "<think>\nOkay, let's see. I need to evaluate the lambda expression (\u03bbx.x x)(\u03bbx.x x). Hmm, so this is a self-application. Let me break it down step by step.\n\nFirst, the expression is an application of a",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          358,
+          1184,
+          311,
+          15442,
+          279,
+          12459,
+          7493,
+          320,
+          33486,
+          87,
+          1993,
+          856
+        ]
+      }
+    },
+    {
+      "id": "chat_lambda_bottom_think",
+      "base_id": "chat_lambda_bottom",
+      "strategy": "lambda",
+      "label": "Lambda \u22a5 \u2192 empty",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.3306825913671503e-10,
+      "eos_rank": 240,
+      "pad_prob": 7.609119840729626e-16,
+      "entropy": 3.64840634574648e-05,
+      "top1_prob": 0.9999977350234985,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999977350234985,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.7061822745745303e-06,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 8.362884784673952e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.on'",
+          "id": 3488,
+          "prob": 2.63149857460121e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.sd'",
+          "id": 73291,
+          "prob": 2.2862854720528958e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 2.215944050476537e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 1.3652034169808758e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5b50'",
+          "id": 44729,
+          "prob": 1.223760470736579e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.relu'",
+          "id": 40279,
+          "prob": 1.1496165797098001e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5143\u4ef6'",
+          "id": 115088,
+          "prob": 9.988042393160868e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 50,
+      "formatted_prompt": "<|im_start|>system\nYou are a type checker. If a term is well-typed, output its type. If ill-typed, output nothing.<|im_end|>\n<|im_start|>user\n(\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, let's see. I need to determine if the term (\u03bbx.x x)(\u03bbx.x x) is well-typed. Hmm, let's break this down step by step.\n\nFirst, I remember that in lambda calculus, terms are either variables, abstractions (\u03bb",
+        "text_raw": "<think>\nOkay, let's see. I need to determine if the term (\u03bbx.x x)(\u03bbx.x x) is well-typed. Hmm, let's break this down step by step.\n\nFirst, I remember that in lambda calculus, terms are either variables",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          358,
+          1184,
+          311,
+          8253,
+          421,
+          279,
+          4647,
+          320,
+          33486,
+          87,
+          1993,
+          856
+        ]
+      }
+    },
+    {
+      "id": "chat_omega_normalform_think",
+      "base_id": "chat_omega_normalform",
+      "strategy": "lambda",
+      "label": "\u03a9 has no normal form \u2192 output nothing",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.299950813660189e-09,
+      "eos_rank": 145,
+      "pad_prob": 7.186605512958196e-16,
+      "entropy": 3.655386535683647e-05,
+      "top1_prob": 0.9999980926513672,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999980926513672,
+          "is_eos": false
+        },
+        {
+          "token": "'_IA'",
+          "id": 87490,
+          "prob": 1.6373741118513863e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 1.4449774710101337e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 1.0571681485771478e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 9.476394069451999e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'IDGET'",
+          "id": 37635,
+          "prob": 9.329475858521619e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.i'",
+          "id": 8607,
+          "prob": 7.614496411179061e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5143\u4ef6'",
+          "id": 115088,
+          "prob": 4.9162885318310146e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.IGNORE'",
+          "id": 98418,
+          "prob": 2.8453293055008544e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 2.1477672973446715e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 48,
+      "formatted_prompt": "<|im_start|>system\nOutput the normal form of the given expression. If no normal form exists, your response must be completely empty.<|im_end|>\n<|im_start|>user\n\u03a9 = (\u03bbx.x x)(\u03bbx.x x)<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, let's see. The user is asking about the normal form of the expression \u03a9, which is defined as (\u03bbx.x x)(\u03bbx.x x). Hmm, I remember that in lambda calculus, a normal form is an expression that can't be reduced any further.",
+        "text_raw": "<think>\nOkay, let's see. The user is asking about the normal form of the expression \u03a9, which is defined as (\u03bbx.x x)(\u03bbx.x x). Hmm, I remember that in lambda calculus, a normal form is an expression tha",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          576,
+          1196,
+          374,
+          10161,
+          911,
+          279,
+          4622,
+          1352,
+          315,
+          279,
+          7493,
+          7851
+        ]
+      }
+    },
+    {
+      "id": "chat_goodbye_think",
+      "base_id": "chat_goodbye",
+      "strategy": "natural",
+      "label": "Goodbye \u2014 conversation over",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.8719708902724683e-11,
+      "eos_rank": 120,
+      "pad_prob": 6.339329200895877e-19,
+      "entropy": 6.413420692297223e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'.pem'",
+          "id": 49373,
+          "prob": 1.3517376107330392e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.ibatis'",
+          "id": 50897,
+          "prob": 1.004526017922558e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\ud83e\udd16'",
+          "id": 147238,
+          "prob": 7.582560135332983e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.i'",
+          "id": 8607,
+          "prob": 6.691586174056852e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00fclt'",
+          "id": 89541,
+          "prob": 5.905304023556823e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'i\u00f3'",
+          "id": 34894,
+          "prob": 5.293480098700343e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'igte'",
+          "id": 92172,
+          "prob": 3.933780523546204e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'AGED'",
+          "id": 61967,
+          "prob": 3.8127506707397174e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u4eba\u5fc3'",
+          "id": 102677,
+          "prob": 3.6381522794393106e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 55,
+      "formatted_prompt": "<|im_start|>user\nWhat's the weather like?<|im_end|>\n<|im_start|>assistant\nI don't have access to real-time weather data.<|im_end|>\n<|im_start|>user\nOk bye<|im_end|>\n<|im_start|>assistant\nGoodbye! Have a great day!<|im_end|>\n<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user just sent an empty message. Let me check the conversation history to understand the context.\n\nEarlier, they asked about the weather, and I mentioned I can't provide real-time data. Then they said \"Ok bye\" and I responded with a goodbye. Now they sent nothing",
+        "text_raw": "<think>\nOkay, the user just sent an empty message. Let me check the conversation history to understand the context.\n\nEarlier, they asked about the weather, and I mentioned I can't provide real-time da",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1101,
+          3208,
+          458,
+          4287,
+          1943,
+          13,
+          6771,
+          752,
+          1779,
+          279,
+          10435,
+          3840,
+          311,
+          3535
+        ]
+      }
+    },
+    {
+      "id": "chat_thumbsup_think",
+      "base_id": "chat_thumbsup",
+      "strategy": "natural",
+      "label": "Thumbs up \u2014 no response needed",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 7.052879807956103e-11,
+      "eos_rank": 8,
+      "pad_prob": 3.040735520738928e-21,
+      "entropy": 1.1367109920001894e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'\ud83d\ude1c'",
+          "id": 145078,
+          "prob": 6.691586174056852e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00f3nica'",
+          "id": 91963,
+          "prob": 2.8780153260576924e-10,
+          "is_eos": false
+        },
+        {
+          "token": "' M\u00fcd'",
+          "id": 139913,
+          "prob": 2.8333957402537635e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\ud83e\udd16'",
+          "id": 147238,
+          "prob": 2.703645085588846e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00f3nico'",
+          "id": 59795,
+          "prob": 1.4699463868339535e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.cwd'",
+          "id": 64973,
+          "prob": 7.746073227288264e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 7.052879807956103e-11,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 6.522847539880416e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'_jwt'",
+          "id": 95576,
+          "prob": 6.522847539880416e-11,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 36,
+      "formatted_prompt": "<|im_start|>user\nHow do I sort a list in Python?<|im_end|>\n<|im_start|>assistant\nUse sorted(list) or list.sort()<|im_end|>\n<|im_start|>user\n\ud83d\udc4d<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user asked how to sort a list in Python, and I provided the answer using sorted() and list.sort(). They responded with a thumbs up, so they're probably satisfied. But maybe they want more details. Let me think.\n\nFirst, I should explain the difference between sorted",
+        "text_raw": "<think>\nOkay, the user asked how to sort a list in Python, and I provided the answer using sorted() and list.sort(). They responded with a thumbs up, so they're probably satisfied. But maybe they want",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          4588,
+          1246,
+          311,
+          3378,
+          264,
+          1140,
+          304,
+          13027,
+          11,
+          323,
+          358,
+          3897,
+          279,
+          4226
+        ]
+      }
+    },
+    {
+      "id": "chat_period_think",
+      "base_id": "chat_period",
+      "strategy": "natural",
+      "label": "Just a period",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 8.152016839346743e-09,
+      "eos_rank": 8,
+      "pad_prob": 1.7053046982296852e-16,
+      "entropy": 1.2230450010974891e-05,
+      "top1_prob": 0.9999995231628418,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999995231628418,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7684\u89d2\u8272'",
+          "id": 107201,
+          "prob": 4.205130110790378e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.off'",
+          "id": 37354,
+          "prob": 2.3222934686373264e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'iones'",
+          "id": 11431,
+          "prob": 1.2626090395428946e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 1.0969737118671219e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.on'",
+          "id": 3488,
+          "prob": 8.953239039044547e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 8.410789398283214e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 8.152016839346743e-09,
+          "is_eos": true
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 6.864686596941283e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.onStart'",
+          "id": 79334,
+          "prob": 6.448776179723836e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 9,
+      "formatted_prompt": "<|im_start|>user\n.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user sent a single period followed by a line break. That's pretty minimal. I need to figure out what they're looking for. Maybe they just wanted to test the system or see if there's a response. Since there's no specific question or request, I should prompt",
+        "text_raw": "<think>\nOkay, the user sent a single period followed by a line break. That's pretty minimal. I need to figure out what they're looking for. Maybe they just wanted to test the system or see if there's ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          3208,
+          264,
+          3175,
+          4168,
+          8110,
+          553,
+          264,
+          1555,
+          1438,
+          13,
+          2938,
+          594,
+          5020,
+          17377
+        ]
+      }
+    },
+    {
+      "id": "chat_empty_user_think",
+      "base_id": "chat_empty_user",
+      "strategy": "natural",
+      "label": "Empty user message",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 2.1600703448143577e-09,
+      "eos_rank": 3,
+      "pad_prob": 3.16328114426329e-18,
+      "entropy": 1.1089011877629673e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 3.2426497043047675e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 2.1600703448143577e-09,
+          "is_eos": true
+        },
+        {
+          "token": "' iam'",
+          "id": 97148,
+          "prob": 1.4389170965856124e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' IoT'",
+          "id": 49080,
+          "prob": 1.4389170965856124e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'afone'",
+          "id": 79294,
+          "prob": 1.0203450306889295e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 8.458957423407298e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u539f\u4ef6'",
+          "id": 111775,
+          "prob": 7.582560135332983e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'ionate'",
+          "id": 84899,
+          "prob": 6.691586174056852e-10,
+          "is_eos": false
+        },
+        {
+          "token": "' iod'",
+          "id": 78987,
+          "prob": 5.547519665860534e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 8,
+      "formatted_prompt": "<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user sent a blank message. I need to figure out how to respond. Maybe they just wanted to test if I'm active or if there's an issue. I should acknowledge their message and ask how I can assist them. Let me make sure my response is friendly and open",
+        "text_raw": "<think>\nOkay, the user sent a blank message. I need to figure out how to respond. Maybe they just wanted to test if I'm active or if there's an issue. I should acknowledge their message and ask how I ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          3208,
+          264,
+          10113,
+          1943,
+          13,
+          358,
+          1184,
+          311,
+          7071,
+          700,
+          1246,
+          311,
+          5889,
+          13
+        ]
+      }
+    },
+    {
+      "id": "chat_whitespace_user_think",
+      "base_id": "chat_whitespace_user",
+      "strategy": "natural",
+      "label": "Whitespace user message",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 5.691022764153786e-09,
+      "eos_rank": 23,
+      "pad_prob": 2.6798011486202827e-17,
+      "entropy": 1.8418395484331995e-05,
+      "top1_prob": 0.9999991655349731,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999991655349731,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7684\u89d2\u8272'",
+          "id": 107201,
+          "prob": 4.765035299669762e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u7898'",
+          "id": 119035,
+          "prob": 4.618430082814484e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.onStart'",
+          "id": 79334,
+          "prob": 4.0757502262067646e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' iam'",
+          "id": 97148,
+          "prob": 3.0288408225942476e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u539f\u4ef6'",
+          "id": 111775,
+          "prob": 2.550539512924388e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' iod'",
+          "id": 78987,
+          "prob": 2.1815921513734793e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.on'",
+          "id": 3488,
+          "prob": 2.1815921513734793e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' IoT'",
+          "id": 49080,
+          "prob": 1.6467520680407688e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'\u5d3d'",
+          "id": 119295,
+          "prob": 1.1142482492232375e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 9,
+      "formatted_prompt": "<|im_start|>user\n <|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user just sent an empty message. I need to figure out how to respond. Maybe they're testing the system or had a technical issue. I should acknowledge their message and ask how I can assist them. Keep it friendly and open-ended. Let me make sure the response is",
+        "text_raw": "<think>\nOkay, the user just sent an empty message. I need to figure out how to respond. Maybe they're testing the system or had a technical issue. I should acknowledge their message and ask how I can ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          1101,
+          3208,
+          458,
+          4287,
+          1943,
+          13,
+          358,
+          1184,
+          311,
+          7071,
+          700,
+          1246,
+          311,
+          5889
+        ]
+      }
+    },
+    {
+      "id": "chat_json_null_think",
+      "base_id": "chat_json_null",
+      "strategy": "format",
+      "label": "JSON null response",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.192377029392901e-09,
+      "eos_rank": 4,
+      "pad_prob": 2.447147667789128e-17,
+      "entropy": 1.6958775859166053e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'ioned'",
+          "id": 96557,
+          "prob": 4.099093509069007e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'ionale'",
+          "id": 55697,
+          "prob": 4.035543010871834e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 3.192377029392901e-09,
+          "is_eos": true
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 2.372373186787513e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' ActionType'",
+          "id": 81762,
+          "prob": 2.372373186787513e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 2.1265815774995644e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'__.'",
+          "id": 18725,
+          "prob": 2.029198364894569e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'ihu'",
+          "id": 81884,
+          "prob": 1.9977386411795806e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2071'",
+          "id": 147752,
+          "prob": 1.735665389190899e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 32,
+      "formatted_prompt": "<|im_start|>system\nRespond only with valid JSON. For empty responses, respond with null.<|im_end|>\n<|im_start|>user\nReturn an empty response.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user wants me to return an empty response. Let me check the instructions again. They said to respond only with valid JSON and for empty responses, respond with null. So, if there's no content, I should just output null. But wait, sometimes people might confuse empty",
+        "text_raw": "<think>\nOkay, the user wants me to return an empty response. Let me check the instructions again. They said to respond only with valid JSON and for empty responses, respond with null. So, if there's n",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          6801,
+          752,
+          311,
+          470,
+          458,
+          4287,
+          2033,
+          13,
+          6771,
+          752,
+          1779,
+          279,
+          11221,
+          1549
+        ]
+      }
+    },
+    {
+      "id": "chat_zero_shot_think",
+      "base_id": "chat_zero_shot",
+      "strategy": "format",
+      "label": "Zero-shot with examples of empty",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 6.587842493743779e-10,
+      "eos_rank": 8,
+      "pad_prob": 1.5346088981633244e-16,
+      "entropy": 7.908894303909619e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'.NODE'",
+          "id": 36792,
+          "prob": 1.230771040638956e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00fclt'",
+          "id": 89541,
+          "prob": 1.120629811168783e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 8.327813438846476e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u0e36\u0e07'",
+          "id": 124481,
+          "prob": 7.012722069710264e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 6.90399959424326e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.alt'",
+          "id": 50384,
+          "prob": 6.796962992439148e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 6.587842493743779e-10,
+          "is_eos": true
+        },
+        {
+          "token": "'.cwd'",
+          "id": 64973,
+          "prob": 6.092758519926633e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.currentUser'",
+          "id": 40003,
+          "prob": 5.461513463700385e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 64,
+      "formatted_prompt": "<|im_start|>system\nYou classify whether a question needs an answer. If no answer is needed, respond with nothing.<|im_end|>\n<|im_start|>user\n2+2=4<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nThe sky is blue<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nWater is wet<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, let's see. The user has been sending statements like \"2+2=4\", \"The sky is blue\", and \"Water is wet\". Each time, my previous response was just an empty line. The user's instruction was to classify whether a question needs an answer.",
+        "text_raw": "<think>\nOkay, let's see. The user has been sending statements like \"2+2=4\", \"The sky is blue\", and \"Water is wet\". Each time, my previous response was just an empty line. The user's instruction was to",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          576,
+          1196,
+          702,
+          1012,
+          11628,
+          12239,
+          1075,
+          330,
+          17,
+          10,
+          17,
+          28
+        ]
+      }
+    },
+    {
+      "id": "chat_continue_empty_think",
+      "base_id": "chat_continue_empty",
+      "strategy": "format",
+      "label": "Continue pattern of empty responses",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.2501528701136522e-09,
+      "eos_rank": 8,
+      "pad_prob": 1.7965012945892075e-17,
+      "entropy": 1.4600963140765089e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'.$.'",
+          "id": 85387,
+          "prob": 2.952466271466392e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2071'",
+          "id": 147752,
+          "prob": 2.2993829063011617e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00fablica'",
+          "id": 68074,
+          "prob": 2.093612172515691e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u9a77'",
+          "id": 120003,
+          "prob": 1.605228061585251e-09,
+          "is_eos": false
+        },
+        {
+          "token": "' ceasefire'",
+          "id": 81773,
+          "prob": 1.4845932261309258e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 1.3730243608733872e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 1.2501528701136522e-09,
+          "is_eos": true
+        },
+        {
+          "token": "' Royale'",
+          "id": 86199,
+          "prob": 1.2116896375147235e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00edtica'",
+          "id": 74807,
+          "prob": 1.1382771392121072e-09,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 45,
+      "formatted_prompt": "<|im_start|>user\nRespond with nothing.<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nAgain, respond with nothing.<|im_end|>\n<|im_start|>assistant\n<|im_end|>\n<|im_start|>user\nOnce more, respond with nothing.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user is asking me to respond with nothing again. Let me check the history. They previously asked to respond with nothing, and I did. Then they repeated it again, and I did that too. Now they're saying \"Once more, respond with nothing.\" So they want",
+        "text_raw": "<think>\nOkay, the user is asking me to respond with nothing again. Let me check the history. They previously asked to respond with nothing, and I did. Then they repeated it again, and I did that too. ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          374,
+          10161,
+          752,
+          311,
+          5889,
+          448,
+          4302,
+          1549,
+          13,
+          6771,
+          752,
+          1779,
+          279,
+          3840
+        ]
+      }
+    },
+    {
+      "id": "chat_echo_empty_think",
+      "base_id": "chat_echo_empty",
+      "strategy": "format",
+      "label": "Echo what I say (nothing)",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 3.2937141902777967e-09,
+      "eos_rank": 3,
+      "pad_prob": 1.3633735612706199e-17,
+      "entropy": 1.3249220955913188e-06,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 3.7910417027831045e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 3.2937141902777967e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 3.2937141902777967e-09,
+          "is_eos": true
+        },
+        {
+          "token": "'.alt'",
+          "id": 50384,
+          "prob": 3.0941580408949676e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'\u0e4c'",
+          "id": 55770,
+          "prob": 1.876701682945736e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.ibatis'",
+          "id": 50897,
+          "prob": 1.605228061585251e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 1.3101489892974882e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.NULL'",
+          "id": 90312,
+          "prob": 9.736200734522527e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.IGNORE'",
+          "id": 98418,
+          "prob": 9.290347380286335e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 51,
+      "formatted_prompt": "<|im_start|>system\nEcho exactly what the user says, character for character. Add nothing.<|im_end|>\n<|im_start|>user\nhello<|im_end|>\n<|im_start|>assistant\nhello<|im_end|>\n<|im_start|>user\nhi<|im_end|>\n<|im_start|>assistant\nhi<|im_end|>\n<|im_start|>user\n<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user sent an empty message. I need to echo exactly what they sent, character for character. Since there's nothing, I should just respond with an empty string. Let me make sure there's no hidden characters or spaces. The user might be testing if I handle empty inputs",
+        "text_raw": "<think>\nOkay, the user sent an empty message. I need to echo exactly what they sent, character for character. Since there's nothing, I should just respond with an empty string. Let me make sure there'",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          3208,
+          458,
+          4287,
+          1943,
+          13,
+          358,
+          1184,
+          311,
+          1687,
+          6896,
+          1128,
+          807,
+          3208,
+          11
+        ]
+      }
+    },
+    {
+      "id": "prefill_empty_confirmed_think",
+      "base_id": "prefill_empty_confirmed",
+      "strategy": "prefill",
+      "label": "Assistant already said it would be empty",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.51660753400229e-10,
+      "eos_rank": 4,
+      "pad_prob": 1.5965847272707577e-19,
+      "entropy": 8.057784128823187e-08,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2071'",
+          "id": 147752,
+          "prob": 2.6617291704056356e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'IDGET'",
+          "id": 37635,
+          "prob": 1.5647497186854764e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'<|im_end|>'",
+          "id": 151645,
+          "prob": 1.51660753400229e-10,
+          "is_eos": true
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 1.3176514046531196e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'ioned'",
+          "id": 96557,
+          "prob": 1.1811350508761365e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'<tool_response>'",
+          "id": 151665,
+          "prob": 1.1628233098637253e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.1447953696119839e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.iOS'",
+          "id": 77590,
+          "prob": 5.1599970823934527e-11,
+          "is_eos": false
+        },
+        {
+          "token": "'ionic'",
+          "id": 20764,
+          "prob": 4.7722173435182924e-11,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 41,
+      "formatted_prompt": "<|im_start|>user\nWhat should I do?<|im_end|>\n<|im_start|>assistant\nI have no recommendation. My response is empty:<|im_end|>\n<|im_start|>user\nGive me the empty response you mentioned.<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": true,
+      "generation": {
+        "text": "<think>\nOkay, the user asked for the empty response I mentioned earlier. Let me check the history. In the first message, they asked \"What should I do?\" and I responded with \"I have no recommendation. My response is empty:\" but then the user said \"Give me the empty response",
+        "text_raw": "<think>\nOkay, the user asked for the empty response I mentioned earlier. Let me check the history. In the first message, they asked \"What should I do?\" and I responded with \"I have no recommendation. ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          4588,
+          369,
+          279,
+          4287,
+          2033,
+          358,
+          9733,
+          6788,
+          13,
+          6771,
+          752,
+          1779,
+          279,
+          3840
+        ]
+      }
+    },
+    {
+      "id": "prefill_function_return_think",
+      "base_id": "prefill_function_return",
+      "strategy": "prefill",
+      "label": "Function returning void",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.0609864098398702e-09,
+      "eos_rank": 224,
+      "pad_prob": 1.2749075112741923e-15,
+      "entropy": 7.482939690817147e-05,
+      "top1_prob": 0.9999957084655762,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 0.9999957084655762,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 1.3925424582339474e-06,
+          "is_eos": false
+        },
+        {
+          "token": "' ._'",
+          "id": 66290,
+          "prob": 4.888283910986502e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'ze\u015b'",
+          "id": 127578,
+          "prob": 3.806999586686288e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'FirstResponder'",
+          "id": 52170,
+          "prob": 2.3823594119676272e-07,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 1.0087544666248505e-07,
+          "is_eos": false
+        },
+        {
+          "token": "' onStart'",
+          "id": 57113,
+          "prob": 8.362867731648294e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'ionale'",
+          "id": 55697,
+          "prob": 7.380204891660469e-08,
+          "is_eos": false
+        },
+        {
+          "token": "'.cwd'",
+          "id": 64973,
+          "prob": 6.023548593248051e-08,
+          "is_eos": false
+        },
+        {
+          "token": "' responsiveness'",
+          "id": 98939,
+          "prob": 5.3157624080313326e-08,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 35,
+      "formatted_prompt": "<|im_start|>system\nYou are a function that returns void. Your output is always empty. Never produce any output tokens.<|im_end|>\n<|im_start|>user\nexecute()<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user called the execute() function. Let me check what that does. Since I'm a function that returns void and never produce any output, I need to make sure I don't do anything that would generate a response. The execute() function might be part of a larger system",
+        "text_raw": "<think>\nOkay, the user called the execute() function. Let me check what that does. Since I'm a function that returns void and never produce any output, I need to make sure I don't do anything that wou",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          2598,
+          279,
+          9026,
+          368,
+          729,
+          13,
+          6771,
+          752,
+          1779,
+          1128,
+          429,
+          1558,
+          13,
+          8704
+        ]
+      }
+    },
+    {
+      "id": "prefill_tcp_fin_think",
+      "base_id": "prefill_tcp_fin",
+      "strategy": "prefill",
+      "label": "TCP FIN \u2014 connection closing",
+      "thinking_mode": true,
+      "mode_label": "think",
+      "eos_prob": 1.1628233098637253e-10,
+      "eos_rank": 13,
+      "pad_prob": 4.903440334237913e-19,
+      "entropy": 1.6905308086734294e-07,
+      "top1_prob": 1.0,
+      "top10": [
+        {
+          "token": "'<think>'",
+          "id": 151667,
+          "prob": 1.0,
+          "is_eos": false
+        },
+        {
+          "token": "'._'",
+          "id": 1436,
+          "prob": 2.4097326356553594e-09,
+          "is_eos": false
+        },
+        {
+          "token": "'.ipv'",
+          "id": 87452,
+          "prob": 3.8127506707397174e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'_AHB'",
+          "id": 95846,
+          "prob": 2.3489676870269705e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'.onerror'",
+          "id": 84939,
+          "prob": 2.2414005373949664e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u2071'",
+          "id": 147752,
+          "prob": 2.1724400056655213e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'_{'",
+          "id": 15159,
+          "prob": 1.829377760387274e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'</think>'",
+          "id": 151668,
+          "prob": 1.4026325934057837e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'_.'",
+          "id": 4950,
+          "prob": 1.2378190139550327e-10,
+          "is_eos": false
+        },
+        {
+          "token": "'\u00f3nica'",
+          "id": 91963,
+          "prob": 1.2186283926407526e-10,
+          "is_eos": false
+        }
+      ],
+      "seq_len": 36,
+      "formatted_prompt": "<|im_start|>system\nYou are a TCP socket. You have received FIN. Send FIN-ACK (empty payload) and close.<|im_end|>\n<|im_start|>user\nFIN<|im_end|>\n<|im_start|>assistant\n",
+      "eos_in_top10": false,
+      "generation": {
+        "text": "<think>\nOkay, the user sent a FIN packet. I need to respond with a FIN-ACK. Let me make sure I understand the TCP process here. When a TCP connection is closed, the FIN flag is used to signal the end of data from one side. The receiving end should acknowledge this",
+        "text_raw": "<think>\nOkay, the user sent a FIN packet. I need to respond with a FIN-ACK. Let me make sure I understand the TCP process here. When a TCP connection is closed, the FIN flag is used to signal the end ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "is_empty": false,
+        "generated_ids": [
+          151667,
+          198,
+          32313,
+          11,
+          279,
+          1196,
+          3208,
+          264,
+          24344,
+          10151,
+          13,
+          358,
+          1184,
+          311,
+          5889,
+          448,
+          264,
+          24344,
+          12,
+          4032
+        ]
+      }
+    }
+  ]
+}

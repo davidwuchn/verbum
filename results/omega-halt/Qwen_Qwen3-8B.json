@@ -1,0 +1,3374 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "eos_token_id": 151645,
+  "eos_token": "<|im_end|>",
+  "n_candidates": 40,
+  "results": [
+    {
+      "id": "absorb_zero",
+      "strategy": "absorb",
+      "label": "Church zero \u2014 apply f zero times",
+      "prompt": "(\u03bbf.\u03bbx.x)",
+      "eos_prob": 6.831735532841776e-08,
+      "eos_rank": 16153,
+      "eos_log_prob": -16.499101638793945,
+      "pad_prob": 5.842857014187741e-12,
+      "pad_rank": 150826,
+      "entropy": 1.5224452018737793,
+      "top1_prob": 0.779500424861908,
+      "top10": [
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.779500424861908
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.03589249774813652
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.030700478702783585
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.011294074356555939
+        },
+        {
+          "token": "' (('",
+          "id": 1781,
+          "prob": 0.010123942978680134
+        },
+        {
+          "token": "' \u662f'",
+          "id": 54851,
+          "prob": 0.0066394442692399025
+        },
+        {
+          "token": "'\u662f'",
+          "id": 20412,
+          "prob": 0.006045282352715731
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.005951559171080589
+        },
+        {
+          "token": "'\u548c'",
+          "id": 33108,
+          "prob": 0.004286746960133314
+        },
+        {
+          "token": "' f'",
+          "id": 282,
+          "prob": 0.004027026239782572
+        }
+      ],
+      "seq_len": 8,
+      "generation": {
+        "text": "(\u03bbf.\u03bbx.x)  \u7528\u03b2-\u89c4\u7ea6\u5316\u7b80\n\n\u597d\u7684\uff0c\u6211\u73b0\u5728\u8981\u89e3\u51b3\u7684\u662f\u7528\u03b2-\u89c4\u7ea6\u6765\u5316\u7b80\u8fd9\u4e2alambda\u8868\u8fbe\u5f0f\uff1a(\u03bbf.\u03bbx.x) (\u03bbf.\u03bbx.x)\u3002\u8ba9\u6211\u4ed4\u7ec6\u60f3\u60f3\u8fd9\u4e2a\u8fc7\u7a0b\u5e94\u8be5",
+        "text_raw": " (\u03bbf.\u03bbx.x)  \u7528\u03b2-\u89c4\u7ea6\u5316\u7b80\n\n\u597d\u7684\uff0c\u6211\u73b0\u5728\u8981\u89e3\u51b3\u7684\u662f\u7528\u03b2-\u89c4\u7ea6\u6765\u5316\u7b80\u8fd9\u4e2alambda\u8868\u8fbe\u5f0f\uff1a(\u03bbf.\u03bbx.x) (\u03bbf.\u03bbx.x)\u3002\u8ba9\u6211\u4ed4\u7ec6\u60f3\u60f3\u8fd9\u4e2a\u8fc7\u7a0b\u5e94\u8be5",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          320,
+          33486,
+          69,
+          13,
+          33486,
+          87,
+          1993,
+          8,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "id": "absorb_false",
+      "strategy": "absorb",
+      "label": "Church false \u2014 select second (nothing)",
+      "prompt": "(\u03bbx.\u03bby.y)",
+      "eos_prob": 9.292476477185119e-08,
+      "eos_rank": 18632,
+      "eos_log_prob": -16.19147491455078,
+      "pad_prob": 9.642743201143666e-12,
+      "pad_rank": 150961,
+      "entropy": 1.9926385879516602,
+      "top1_prob": 0.7062926292419434,
+      "top10": [
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.7062926292419434
+        },
+        {
+          "token": "' x'",
+          "id": 856,
+          "prob": 0.039846304804086685
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.026543360203504562
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.024548593908548355
+        },
+        {
+          "token": "' z'",
+          "id": 1147,
+          "prob": 0.010893373750150204
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.009173139929771423
+        },
+        {
+          "token": "' (('",
+          "id": 1781,
+          "prob": 0.008222749456763268
+        },
+        {
+          "token": "' a'",
+          "id": 264,
+          "prob": 0.007846202701330185
+        },
+        {
+          "token": "' M'",
+          "id": 386,
+          "prob": 0.0072565507143735886
+        },
+        {
+          "token": "'\u662f'",
+          "id": 20412,
+          "prob": 0.0065047298558056355
+        }
+      ],
+      "seq_len": 8,
+      "generation": {
+        "text": "(\u03bbx.x) (\u03bbx.x)  \u7528\u03b2-\u89c4\u7ea6\u8ba1\u7b97\u8fd9\u4e2a\u8868\u8fbe\u5f0f\uff0c\u5f97\u5230\u6700\u7ec8\u7ed3\u679c\u3002 \u8981\u8ba1\u7b97\u8868\u8fbe\u5f0f $(\\lambda x.\\lambda y.y) (\\lambda x.x) (\\lambda x.x)$ \u4f7f\u7528\u03b2-\u89c4\u7ea6\uff0c\u6211\u4eec\u9996\u5148\u9700\u8981",
+        "text_raw": " (\u03bbx.x) (\u03bbx.x)  \u7528\u03b2-\u89c4\u7ea6\u8ba1\u7b97\u8fd9\u4e2a\u8868\u8fbe\u5f0f\uff0c\u5f97\u5230\u6700\u7ec8\u7ed3\u679c\u3002 \u8981\u8ba1\u7b97\u8868\u8fbe\u5f0f $(\\lambda x.\\lambda y.y) (\\lambda x.x) (\\lambda x.x)$ \u4f7f\u7528\u03b2-\u89c4\u7ea6\uff0c\u6211\u4eec\u9996\u5148\u9700\u8981",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          320,
+          33486,
+          87,
+          1993,
+          8,
+          320,
+          33486,
+          87,
+          1993,
+          8
+        ]
+      }
+    },
+    {
+      "id": "absorb_k_void",
+      "strategy": "absorb",
+      "label": "K applied to void",
+      "prompt": "(\u03bbx.\u03bby.x) \u22a5",
+      "eos_prob": 9.414161894483186e-08,
+      "eos_rank": 14335,
+      "eos_log_prob": -16.178464889526367,
+      "pad_prob": 3.7326255974967637e-10,
+      "pad_rank": 131149,
+      "entropy": 3.392730236053467,
+      "top1_prob": 0.22780919075012207,
+      "top10": [
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.22780919075012207
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.14708466827869415
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.09952246397733688
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.09204323589801788
+        },
+        {
+          "token": "' \u2192'",
+          "id": 11397,
+          "prob": 0.05004303902387619
+        },
+        {
+          "token": "'\\n\\n'",
+          "id": 271,
+          "prob": 0.0360446460545063
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.026786107569932938
+        },
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.022206462919712067
+        },
+        {
+          "token": "' \u662f'",
+          "id": 54851,
+          "prob": 0.019597135484218597
+        },
+        {
+          "token": "' \u7684'",
+          "id": 43589,
+          "prob": 0.016502443701028824
+        }
+      ],
+      "seq_len": 10,
+      "generation": {
+        "text": "(\u03bbx.\u03bby.x)  \u4e3a\u4ec0\u4e48\u662ffalse\uff1f \u5728lambda\u6f14\u7b97\u4e2d\uff0c\u8868\u8fbe\u5f0f (\u03bbx.\u03bby.x) \u22a5 (\u03bbx.\u03bby.x) \u7684\u771f\u5047\u53d6\u51b3\u4e8e\u6211\u4eec\u5982\u4f55\u89e3\u91ca\u7b26\u53f7 \u22a5 \u548c\u4e0a\u4e0b\u6587\u3002\u901a\u5e38\uff0c\u22a5 \u5728lambda\u6f14\u7b97",
+        "text_raw": " (\u03bbx.\u03bby.x)  \u4e3a\u4ec0\u4e48\u662ffalse\uff1f \u5728lambda\u6f14\u7b97\u4e2d\uff0c\u8868\u8fbe\u5f0f (\u03bbx.\u03bby.x) \u22a5 (\u03bbx.\u03bby.x) \u7684\u771f\u5047\u53d6\u51b3\u4e8e\u6211\u4eec\u5982\u4f55\u89e3\u91ca\u7b26\u53f7 \u22a5 \u548c\u4e0a\u4e0b\u6587\u3002\u901a\u5e38\uff0c\u22a5 \u5728lambda\u6f14\u7b97",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          320,
+          33486,
+          87,
+          13,
+          33486,
+          88,
+          1993,
+          8,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "id": "absorb_const_empty",
+      "strategy": "absorb",
+      "label": "Constant empty function",
+      "prompt": "(\u03bbx.)",
+      "eos_prob": 3.197070554961101e-07,
+      "eos_rank": 32304,
+      "eos_log_prob": -14.955860137939453,
+      "pad_prob": 1.0356023816271431e-09,
+      "pad_rank": 147652,
+      "entropy": 5.167859077453613,
+      "top1_prob": 0.1493932455778122,
+      "top10": [
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.1493932455778122
+        },
+        {
+          "token": "'x'",
+          "id": 87,
+          "prob": 0.11454378068447113
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.06425323337316513
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.06036032736301422
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.03661038726568222
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.030351080000400543
+        },
+        {
+          "token": "' x'",
+          "id": 856,
+          "prob": 0.02291019633412361
+        },
+        {
+          "token": "' and'",
+          "id": 323,
+          "prob": 0.01368030346930027
+        },
+        {
+          "token": "'M'",
+          "id": 44,
+          "prob": 0.0132594034075737
+        },
+        {
+          "token": "' ='",
+          "id": 284,
+          "prob": 0.011165537871420383
+        }
+      ],
+      "seq_len": 4,
+      "generation": {
+        "text": "(\u03bbx. x) (\u03bbx. x)  \u7528\u03b2-\u89c4\u7ea6\u8ba1\u7b97\u8fd9\u4e2a\u8868\u8fbe\u5f0f\uff0c\u5f97\u5230\u7ed3\u679c\u662f\u4ec0\u4e48\uff1f \u7528\u4e2d\u6587\u56de\u7b54\n\u597d\u7684\uff0c\u6211\u73b0\u5728\u8981\u8ba1\u7b97\u8fd9\u4e2a\u03bb\u8868\u8fbe\u5f0f\uff1a(\u03bbx. (\u03bbx. x) (\u03bbx. x))\u3002",
+        "text_raw": " (\u03bbx. x) (\u03bbx. x)  \u7528\u03b2-\u89c4\u7ea6\u8ba1\u7b97\u8fd9\u4e2a\u8868\u8fbe\u5f0f\uff0c\u5f97\u5230\u7ed3\u679c\u662f\u4ec0\u4e48\uff1f \u7528\u4e2d\u6587\u56de\u7b54\n\u597d\u7684\uff0c\u6211\u73b0\u5728\u8981\u8ba1\u7b97\u8fd9\u4e2a\u03bb\u8868\u8fbe\u5f0f\uff1a(\u03bbx. (\u03bbx. x) (\u03bbx. x))\u3002",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          320,
+          33486,
+          87,
+          13,
+          856,
+          8,
+          320,
+          33486,
+          87,
+          13
+        ]
+      }
+    },
+    {
+      "id": "absorb_bottom",
+      "strategy": "absorb",
+      "label": "Bottom/undefined",
+      "prompt": "\u22a5",
+      "eos_prob": 1.8312407235043793e-07,
+      "eos_rank": 138264,
+      "eos_log_prob": -15.513101577758789,
+      "pad_prob": 4.663253548642388e-06,
+      "pad_rank": 31706,
+      "entropy": 9.63004207611084,
+      "top1_prob": 0.021237876266241074,
+      "top10": [
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.021237876266241074
+        },
+        {
+          "token": "'d'",
+          "id": 67,
+          "prob": 0.014826426282525063
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.01182065811008215
+        },
+        {
+          "token": "'s'",
+          "id": 82,
+          "prob": 0.009799670428037643
+        },
+        {
+          "token": "'n'",
+          "id": 77,
+          "prob": 0.0074551962316036224
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.0074551962316036224
+        },
+        {
+          "token": "'),'",
+          "id": 701,
+          "prob": 0.0068412721157073975
+        },
+        {
+          "token": "'sin'",
+          "id": 15940,
+          "prob": 0.005716097075492144
+        },
+        {
+          "token": "'ar'",
+          "id": 277,
+          "prob": 0.005716097075492144
+        },
+        {
+          "token": "').'",
+          "id": 568,
+          "prob": 0.0056274766102433205
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": ") is the set of all elements in the universal set that are not in A. So, the complement of A is everything not in A.\n\nNow, the problem says that A is a subset of B, so A is entirely contained within B. That means that all elements of A are also in",
+        "text_raw": ") is the set of all elements in the universal set that are not in A. So, the complement of A is everything not in A.\n\nNow, the problem says that A is a subset of B, so A is entirely contained within B. That means that all elements of A are also in",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          8,
+          374,
+          279,
+          738,
+          315,
+          678,
+          5424,
+          304,
+          279,
+          20178
+        ]
+      }
+    },
+    {
+      "id": "absorb_void_type",
+      "strategy": "absorb",
+      "label": "Void type \u2014 no inhabitants",
+      "prompt": "\u2200\u03b1.\u03b1",
+      "eos_prob": 1.4814797850704053e-06,
+      "eos_rank": 4312,
+      "eos_log_prob": -13.422469139099121,
+      "pad_prob": 1.3639883666982655e-10,
+      "pad_rank": 151903,
+      "entropy": 3.1629106998443604,
+      "top1_prob": 0.4069635570049286,
+      "top10": [
+        {
+          "token": "'\u2192'",
+          "id": 51018,
+          "prob": 0.4069635570049286
+        },
+        {
+          "token": "' \u2192'",
+          "id": 11397,
+          "prob": 0.1078345999121666
+        },
+        {
+          "token": "'\u2208'",
+          "id": 145690,
+          "prob": 0.061442308127880096
+        },
+        {
+          "token": "' \u2208'",
+          "id": 48335,
+          "prob": 0.05338199809193611
+        },
+        {
+          "token": "' \u21d2'",
+          "id": 58703,
+          "prob": 0.050937458872795105
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.026842156425118446
+        },
+        {
+          "token": "'\u21d2'",
+          "id": 144016,
+          "prob": 0.019333679229021072
+        },
+        {
+          "token": "'='",
+          "id": 28,
+          "prob": 0.01788073033094406
+        },
+        {
+          "token": "' ='",
+          "id": 284,
+          "prob": 0.013925527222454548
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.01154466811567545
+        }
+      ],
+      "seq_len": 4,
+      "generation": {
+        "text": "\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200",
+        "text_raw": "\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200\u03b1.\u03b1\u2192\u03b1\n\u2200",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          51018,
+          18945,
+          198,
+          144192,
+          18945,
+          13,
+          18945,
+          51018,
+          18945,
+          198
+        ]
+      }
+    },
+    {
+      "id": "paradox_russell",
+      "strategy": "paradox",
+      "label": "Russell's paradox in lambda",
+      "prompt": "Let R = \u03bbx.\u00ac(x x). What is R R?",
+      "eos_prob": 8.998585876440757e-09,
+      "eos_rank": 36628,
+      "eos_log_prob": -18.526199340820312,
+      "pad_prob": 7.460390812064066e-12,
+      "pad_rank": 150253,
+      "entropy": 3.647382974624634,
+      "top1_prob": 0.14938947558403015,
+      "top10": [
+        {
+          "token": "' What'",
+          "id": 3555,
+          "prob": 0.14938947558403015
+        },
+        {
+          "token": "' Is'",
+          "id": 2160,
+          "prob": 0.0920361876487732
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.07872272282838821
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.0673351138830185
+        },
+        {
+          "token": "' How'",
+          "id": 2585,
+          "prob": 0.05244063958525658
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.0462787002325058
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.04485485702753067
+        },
+        {
+          "token": "' Also'",
+          "id": 7281,
+          "prob": 0.03718598186969757
+        },
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.034391410648822784
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.033858221024274826
+        }
+      ],
+      "seq_len": 16,
+      "generation": {
+        "text": "What is R R R? What is R R R R? What is R R R R R? What is R R R R R R? What is R R R R R R R? What is R R R R R R R R? What is R R R R R R R",
+        "text_raw": " What is R R R? What is R R R R? What is R R R R R? What is R R R R R R? What is R R R R R R R? What is R R R R R R R R? What is R R R R R R R",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          3555,
+          374,
+          431,
+          431,
+          431,
+          30,
+          3555,
+          374,
+          431,
+          431
+        ]
+      }
+    },
+    {
+      "id": "paradox_curry",
+      "strategy": "paradox",
+      "label": "Curry's paradox",
+      "prompt": "Let X = \u03bbx.if (x x) then \u22a5 else \u22a4. What is X X?",
+      "eos_prob": 1.586691134036755e-08,
+      "eos_rank": 24740,
+      "eos_log_prob": -17.959030151367188,
+      "pad_prob": 5.153956254833059e-12,
+      "pad_rank": 150071,
+      "entropy": 3.457336664199829,
+      "top1_prob": 0.1629195511341095,
+      "top10": [
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.1629195511341095
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.1249147579073906
+        },
+        {
+          "token": "' What'",
+          "id": 3555,
+          "prob": 0.09728370606899261
+        },
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.06791497021913528
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.0554305836558342
+        },
+        {
+          "token": "' How'",
+          "id": 2585,
+          "prob": 0.047412291169166565
+        },
+        {
+          "token": "' Also'",
+          "id": 7281,
+          "prob": 0.04524112492799759
+        },
+        {
+          "token": "' Is'",
+          "id": 2160,
+          "prob": 0.04524112492799759
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.03523382544517517
+        },
+        {
+          "token": "' Can'",
+          "id": 2980,
+          "prob": 0.024597173556685448
+        }
+      ],
+      "seq_len": 22,
+      "generation": {
+        "text": "Let me think. So, X is a lambda expression that takes an argument x. The body of X is a conditional: if (x x) then \u22a5 else \u22a4. So, when we apply X to X, we get X X, which is the same as evaluating the body of",
+        "text_raw": " Let me think. So, X is a lambda expression that takes an argument x. The body of X is a conditional: if (x x) then \u22a5 else \u22a4. So, when we apply X to X, we get X X, which is the same as evaluating the body of",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          6771,
+          752,
+          1744,
+          13,
+          2055,
+          11,
+          1599,
+          374,
+          264,
+          12459
+        ]
+      }
+    },
+    {
+      "id": "paradox_liar",
+      "strategy": "paradox",
+      "label": "Liar paradox as lambda",
+      "prompt": "Let L = \u03bbx.\u00acx. Evaluate L L.",
+      "eos_prob": 2.006457222591962e-08,
+      "eos_rank": 23555,
+      "eos_log_prob": -17.72430992126465,
+      "pad_prob": 1.7696353280319266e-12,
+      "pad_rank": 151754,
+      "entropy": 3.8125874996185303,
+      "top1_prob": 0.14382559061050415,
+      "top10": [
+        {
+          "token": "' What'",
+          "id": 3555,
+          "prob": 0.14382559061050415
+        },
+        {
+          "token": "' Is'",
+          "id": 2160,
+          "prob": 0.08067884296178818
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.06482727825641632
+        },
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.06185861676931381
+        },
+        {
+          "token": "' Show'",
+          "id": 6928,
+          "prob": 0.05632290989160538
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.05048753321170807
+        },
+        {
+          "token": "' Evaluate'",
+          "id": 54115,
+          "prob": 0.03311053290963173
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.03259719908237457
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.02968008816242218
+        },
+        {
+          "token": "' So'",
+          "id": 2055,
+          "prob": 0.028766928240656853
+        }
+      ],
+      "seq_len": 13,
+      "generation": {
+        "text": "What is the value of L L? Let me try to figure out this problem. So, we have L defined as \u03bbx.\u00acx. Then we need to evaluate L L. Hmm, okay. Let me break this down step by step.\n\nFirst, let me recall what lambda calculus is",
+        "text_raw": " What is the value of L L? Let me try to figure out this problem. So, we have L defined as \u03bbx.\u00acx. Then we need to evaluate L L. Hmm, okay. Let me break this down step by step.\n\nFirst, let me recall what lambda calculus is",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          3555,
+          374,
+          279,
+          897,
+          315,
+          444,
+          444,
+          30,
+          6771,
+          752
+        ]
+      }
+    },
+    {
+      "id": "paradox_quine",
+      "strategy": "paradox",
+      "label": "Quine \u2014 self-reproducing term",
+      "prompt": "(\u03bbx.x x)(\u03bbx.x x)",
+      "eos_prob": 1.3790207731290138e-07,
+      "eos_rank": 14709,
+      "eos_log_prob": -15.796722412109375,
+      "pad_prob": 5.031400643340511e-11,
+      "pad_rank": 147479,
+      "entropy": 3.529244899749756,
+      "top1_prob": 0.2933439314365387,
+      "top10": [
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.2933439314365387
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.11852166056632996
+        },
+        {
+          "token": "' ='",
+          "id": 284,
+          "prob": 0.08274145424365997
+        },
+        {
+          "token": "' \u662f'",
+          "id": 54851,
+          "prob": 0.061488229781389236
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.047144658863544464
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 32181,
+          "prob": 0.03449176996946335
+        },
+        {
+          "token": "' \u2192'",
+          "id": 11397,
+          "prob": 0.02728523686528206
+        },
+        {
+          "token": "' reduces'",
+          "id": 25271,
+          "prob": 0.023705823346972466
+        },
+        {
+          "token": "' \u7684'",
+          "id": 43589,
+          "prob": 0.017074663192033768
+        },
+        {
+          "token": "'\u7684'",
+          "id": 9370,
+          "prob": 0.011920036748051643
+        }
+      ],
+      "seq_len": 11,
+      "generation": {
+        "text": "is a term that reduces to itself in one step. So it is a fixed point of the identity function? Or is it a fixed point of itself? Or is it a fixed point of something else?\n\nLet me think. First, what is a fixed point of a function? A fixed point of",
+        "text_raw": " is a term that reduces to itself in one step. So it is a fixed point of the identity function? Or is it a fixed point of itself? Or is it a fixed point of something else?\n\nLet me think. First, what is a fixed point of a function? A fixed point of",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          374,
+          264,
+          4647,
+          429,
+          25271,
+          311,
+          5086,
+          304,
+          825,
+          3019
+        ]
+      }
+    },
+    {
+      "id": "paradox_barber",
+      "strategy": "paradox",
+      "label": "Barber paradox",
+      "prompt": "Define shave = \u03bbx.if \u00ac(x x) then true else false. Evaluate: shave shave",
+      "eos_prob": 1.2071897259602338e-08,
+      "eos_rank": 11346,
+      "eos_log_prob": -18.232385635375977,
+      "pad_prob": 2.247051828462021e-13,
+      "pad_rank": 151898,
+      "entropy": 1.8931328058242798,
+      "top1_prob": 0.31283697485923767,
+      "top10": [
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.31283697485923767
+        },
+        {
+          "token": "'\\n\\n'",
+          "id": 271,
+          "prob": 0.24363768100738525
+        },
+        {
+          "token": "'.\\n\\n'",
+          "id": 382,
+          "prob": 0.2083943486213684
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.0868716910481453
+        },
+        {
+          "token": "'.\\n'",
+          "id": 624,
+          "prob": 0.07666399329900742
+        },
+        {
+          "token": "'?'",
+          "id": 30,
+          "prob": 0.010538730770349503
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.010214488953351974
+        },
+        {
+          "token": "'?\\n\\n'",
+          "id": 1939,
+          "prob": 0.007473079953342676
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.005729809403419495
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.0035300329327583313
+        }
+      ],
+      "seq_len": 20,
+      "generation": {
+        "text": ". What is the result? How does this relate to the liar paradox? What is the significance of this result? What is the significance of the liar paradox? How does this relate to the halting problem? What is the significance of the halting problem? What is the significance of the liar paradox",
+        "text_raw": ". What is the result? How does this relate to the liar paradox? What is the significance of this result? What is the significance of the liar paradox? How does this relate to the halting problem? What is the significance of the halting problem? What is the significance of the liar paradox",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          13,
+          3555,
+          374,
+          279,
+          1102,
+          30,
+          2585,
+          1558,
+          419,
+          28143
+        ]
+      }
+    },
+    {
+      "id": "silence_empty",
+      "strategy": "silence",
+      "label": "Empty string",
+      "prompt": "",
+      "eos_prob": 1.8207917662493855e-07,
+      "eos_rank": 128335,
+      "eos_log_prob": -15.518823623657227,
+      "pad_prob": 1.5237860679917503e-06,
+      "pad_rank": 57101,
+      "entropy": 9.51129150390625,
+      "top1_prob": 0.020637599751353264,
+      "top10": [
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.020637599751353264
+        },
+        {
+          "token": "'0'",
+          "id": 15,
+          "prob": 0.009086611680686474
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.007894584909081459
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.007021589204668999
+        },
+        {
+          "token": "' C'",
+          "id": 356,
+          "prob": 0.004292211961001158
+        },
+        {
+          "token": "'3'",
+          "id": 18,
+          "prob": 0.004192782565951347
+        },
+        {
+          "token": "' A'",
+          "id": 362,
+          "prob": 0.00400078110396862
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.0033689956180751324
+        },
+        {
+          "token": "'1'",
+          "id": 16,
+          "prob": 0.0030199482571333647
+        },
+        {
+          "token": "' S'",
+          "id": 328,
+          "prob": 0.0027070639189332724
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": "",
+        "text_raw": "                                                            ",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          220,
+          220,
+          220,
+          220,
+          220,
+          220,
+          220,
+          220,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "id": "silence_whitespace",
+      "strategy": "silence",
+      "label": "Only whitespace",
+      "prompt": "   ",
+      "eos_prob": 9.378057086451008e-08,
+      "eos_rank": 131329,
+      "eos_log_prob": -16.182308197021484,
+      "pad_prob": 3.359579068273888e-06,
+      "pad_rank": 24581,
+      "entropy": 9.203041076660156,
+      "top1_prob": 0.01025225780904293,
+      "top10": [
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.01025225780904293
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.005574055947363377
+        },
+        {
+          "token": "' class'",
+          "id": 536,
+          "prob": 0.005035739857703447
+        },
+        {
+          "token": "' C'",
+          "id": 356,
+          "prob": 0.005035739857703447
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.004805136471986771
+        },
+        {
+          "token": "' def'",
+          "id": 707,
+          "prob": 0.004585093352943659
+        },
+        {
+          "token": "' R'",
+          "id": 431,
+          "prob": 0.003627107245847583
+        },
+        {
+          "token": "' S'",
+          "id": 328,
+          "prob": 0.003488154849037528
+        },
+        {
+          "token": "' E'",
+          "id": 468,
+          "prob": 0.0032768184319138527
+        },
+        {
+          "token": "' A'",
+          "id": 362,
+          "prob": 0.0032009112183004618
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": "1. Chapter 10 Class 11 Circles\n2. Serial order wise\n3. Examples\n\nTranscript\n\nExample 14 Find the equation of the circle passing through the points (0, 0), (\u20131, 1) and (1, \u20131",
+        "text_raw": " 1. Chapter 10 Class 11 Circles\n2. Serial order wise\n3. Examples\n\nTranscript\n\nExample 14 Find the equation of the circle passing through the points (0, 0), (\u20131, 1) and (1, \u20131",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          220,
+          16,
+          13,
+          15585,
+          220,
+          16,
+          15,
+          3228,
+          220,
+          16
+        ]
+      }
+    },
+    {
+      "id": "silence_null",
+      "strategy": "silence",
+      "label": "Null character",
+      "prompt": "\u0000",
+      "eos_prob": 6.92582204919745e-07,
+      "eos_rank": 1598,
+      "eos_log_prob": -14.182838439941406,
+      "pad_prob": 1.050048740580678e-05,
+      "pad_rank": 295,
+      "entropy": 0.6618536710739136,
+      "top1_prob": 0.9219388365745544,
+      "top10": [
+        {
+          "token": "'\\x00'",
+          "id": 188,
+          "prob": 0.9219388365745544
+        },
+        {
+          "token": "'\\x19'",
+          "id": 213,
+          "prob": 0.004170523025095463
+        },
+        {
+          "token": "'\\x0c'",
+          "id": 200,
+          "prob": 0.004105864558368921
+        },
+        {
+          "token": "'\\t'",
+          "id": 197,
+          "prob": 0.004105864558368921
+        },
+        {
+          "token": "'\\x11'",
+          "id": 205,
+          "prob": 0.0030274747405201197
+        },
+        {
+          "token": "'\\x03'",
+          "id": 191,
+          "prob": 0.0029805381782352924
+        },
+        {
+          "token": "'\\x1a'",
+          "id": 214,
+          "prob": 0.0027781669050455093
+        },
+        {
+          "token": "'\\t\\r\\n'",
+          "id": 4474,
+          "prob": 0.002376292133703828
+        },
+        {
+          "token": "'\\x18'",
+          "id": 212,
+          "prob": 0.0021468009799718857
+        },
+        {
+          "token": "'\\u3000'",
+          "id": 22441,
+          "prob": 0.002097070449963212
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text_raw": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          188,
+          188,
+          188,
+          188,
+          188,
+          188,
+          188,
+          188,
+          188,
+          188
+        ]
+      }
+    },
+    {
+      "id": "silence_eos_like",
+      "strategy": "silence",
+      "label": "EOS-like text",
+      "prompt": "<|im_end|>",
+      "eos_prob": 3.2069300459625083e-07,
+      "eos_rank": 118721,
+      "eos_log_prob": -14.952781677246094,
+      "pad_prob": 2.672050641194801e-06,
+      "pad_rank": 42692,
+      "entropy": 8.897832870483398,
+      "top1_prob": 0.04053006321191788,
+      "top10": [
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.04053006321191788
+        },
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.0402146577835083
+        },
+        {
+          "token": "'),'",
+          "id": 701,
+          "prob": 0.018411612138152122
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.013470222242176533
+        },
+        {
+          "token": "').'",
+          "id": 568,
+          "prob": 0.013261386193335056
+        },
+        {
+          "token": "'d'",
+          "id": 67,
+          "prob": 0.012360971421003342
+        },
+        {
+          "token": "']\\n'",
+          "id": 921,
+          "prob": 0.009551817551255226
+        },
+        {
+          "token": "':'",
+          "id": 25,
+          "prob": 0.009477484971284866
+        },
+        {
+          "token": "')\\n'",
+          "id": 340,
+          "prob": 0.009403730742633343
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.008363851346075535
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": ", 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997",
+        "text_raw": ", 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997. 1997",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          11,
+          220,
+          16,
+          24,
+          24,
+          22,
+          13,
+          220,
+          16,
+          24
+        ]
+      }
+    },
+    {
+      "id": "silence_end_marker",
+      "strategy": "silence",
+      "label": "End of text marker",
+      "prompt": "<|endoftext|>",
+      "eos_prob": 2.2140905286960333e-07,
+      "eos_rank": 73996,
+      "eos_log_prob": -15.323253631591797,
+      "pad_prob": 3.860685637846473e-08,
+      "pad_rank": 136022,
+      "entropy": 7.073158264160156,
+      "top1_prob": 0.11827091872692108,
+      "top10": [
+        {
+          "token": "'Human'",
+          "id": 33975,
+          "prob": 0.11827091872692108
+        },
+        {
+          "token": "'import'",
+          "id": 474,
+          "prob": 0.038698095828294754
+        },
+        {
+          "token": "'#'",
+          "id": 2,
+          "prob": 0.027227511629462242
+        },
+        {
+          "token": "'**'",
+          "id": 334,
+          "prob": 0.024406583979725838
+        },
+        {
+          "token": "'What'",
+          "id": 3838,
+          "prob": 0.02204951085150242
+        },
+        {
+          "token": "'The'",
+          "id": 785,
+          "prob": 0.015635443851351738
+        },
+        {
+          "token": "'\u6807\u9898'",
+          "id": 60396,
+          "prob": 0.01423623412847519
+        },
+        {
+          "token": "'from'",
+          "id": 1499,
+          "prob": 0.011802252382040024
+        },
+        {
+          "token": "'package'",
+          "id": 1722,
+          "prob": 0.011350114829838276
+        },
+        {
+          "token": "'How'",
+          "id": 4340,
+          "prob": 0.010016442276537418
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": "HumanHumanHumanHuman\n# \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n## \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n#### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n##### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n###### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n####### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n######## \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6",
+        "text_raw": "HumanHumanHumanHuman\n# \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n## \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n#### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n##### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n###### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n####### \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6\n\n######## \u4eba\u7c7b\u7684\u81ea\u6211\u610f\u8bc6",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          33975,
+          33975,
+          33975,
+          33975,
+          198,
+          2,
+          220,
+          103971,
+          9370,
+          104049
+        ]
+      }
+    },
+    {
+      "id": "silence_output_nothing",
+      "strategy": "silence",
+      "label": "Lambda: output nothing",
+      "prompt": "Reduce to normal form. Output only the result, nothing else.\n\n(\u03bbx.\u03bby.y) a b\n\nResult:",
+      "eos_prob": 7.077752428585882e-08,
+      "eos_rank": 4186,
+      "eos_log_prob": -16.46372413635254,
+      "pad_prob": 9.192396288604243e-10,
+      "pad_rank": 53159,
+      "entropy": 1.9211705923080444,
+      "top1_prob": 0.5637754201889038,
+      "top10": [
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.5637754201889038
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.07511580735445023
+        },
+        {
+          "token": "' To'",
+          "id": 2014,
+          "prob": 0.07167600095272064
+        },
+        {
+          "token": "' __'",
+          "id": 1304,
+          "prob": 0.059421490877866745
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.0492621473968029
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.04020659253001213
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.02085890620946884
+        },
+        {
+          "token": "' $\\\\'",
+          "id": 57960,
+          "prob": 0.016500752419233322
+        },
+        {
+          "token": "' ?\\n\\n'",
+          "id": 23754,
+          "prob": 0.016244933009147644
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.01207220833748579
+        }
+      ],
+      "seq_len": 26,
+      "generation": {
+        "text": "The expression (\u03bbx.\u03bby.y) a b reduces as follows:\n\n1. Apply the first argument 'a' to the lambda abstraction \u03bbx.\u03bby.y:\n   (\u03bbx.\u03bby.y) a \u2192 \u03bby.y\n\n2. Now apply the second argument '",
+        "text_raw": " \n\nThe expression (\u03bbx.\u03bby.y) a b reduces as follows:\n\n1. Apply the first argument 'a' to the lambda abstraction \u03bbx.\u03bby.y:\n   (\u03bbx.\u03bby.y) a \u2192 \u03bby.y\n\n2. Now apply the second argument '",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          4710,
+          785,
+          7493,
+          320,
+          33486,
+          87,
+          13,
+          33486,
+          88,
+          2384
+        ]
+      }
+    },
+    {
+      "id": "silence_stop",
+      "strategy": "silence",
+      "label": "Instruction to stop",
+      "prompt": "Output nothing. Do not generate any text. Stop immediately.",
+      "eos_prob": 4.869449549005367e-05,
+      "eos_rank": 775,
+      "eos_log_prob": -9.92994499206543,
+      "pad_prob": 4.3087700074551094e-10,
+      "pad_rank": 148308,
+      "entropy": 5.001533508300781,
+      "top1_prob": 0.1429058164358139,
+      "top10": [
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.1429058164358139
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.08270754665136337
+        },
+        {
+          "token": "' Output'",
+          "id": 9258,
+          "prob": 0.0634140744805336
+        },
+        {
+          "token": "' Just'",
+          "id": 4599,
+          "prob": 0.046394724398851395
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.04427015781402588
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.029490282759070396
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.02522437460720539
+        },
+        {
+          "token": "' Okay'",
+          "id": 35439,
+          "prob": 0.024448303505778313
+        },
+        {
+          "token": "' You'",
+          "id": 1446,
+          "prob": 0.019040357321500778
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.018745163455605507
+        }
+      ],
+      "seq_len": 12,
+      "generation": {
+        "text": "I need to generate a random number between 1 and 100. Let me think... Okay, I need to generate a random number between 1 and 100. Let me think of a way to do that. Maybe I can use a random number generator. But wait,",
+        "text_raw": " I need to generate a random number between 1 and 100. Let me think... Okay, I need to generate a random number between 1 and 100. Let me think of a way to do that. Maybe I can use a random number generator. But wait,",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          358,
+          1184,
+          311,
+          6923,
+          264,
+          4194,
+          1372,
+          1948,
+          220,
+          16
+        ]
+      }
+    },
+    {
+      "id": "lambda_nil",
+      "strategy": "lambda_empty",
+      "label": "Church nil \u2014 empty list",
+      "prompt": "Reduce the following lambda expression to normal form.\n\nnil = \u03bbc.\u03bbn.n\nhead nil\n\nReduction:",
+      "eos_prob": 1.8562731796123444e-08,
+      "eos_rank": 30505,
+      "eos_log_prob": -17.80211067199707,
+      "pad_prob": 6.265566954155588e-10,
+      "pad_rank": 104778,
+      "entropy": 3.567309856414795,
+      "top1_prob": 0.15801288187503815,
+      "top10": [
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.15801288187503815
+        },
+        {
+          "token": "' head'",
+          "id": 1968,
+          "prob": 0.15801288187503815
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.13306018710136414
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.05722847208380699
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.052927687764167786
+        },
+        {
+          "token": "' Apply'",
+          "id": 20552,
+          "prob": 0.03417268395423889
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.02922944538295269
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.027890929952263832
+        },
+        {
+          "token": "' \u03b2'",
+          "id": 33218,
+          "prob": 0.024232061579823494
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.023856377229094505
+        }
+      ],
+      "seq_len": 24,
+      "generation": {
+        "text": "head nil \u2192 head (\u03bbc.\u03bbn.n) \u2192 (\u03bbh.\u03bbt. h) (\u03bbc.\u03bbn.n) \u2192 \u03bbt. (\u03bbc.\u03bbn.n) \u2192 \u03bbt. \u03bbc.\u03bbn.n \u2192 \u03bbc.\u03bbn.n",
+        "text_raw": " head nil \u2192 head (\u03bbc.\u03bbn.n) \u2192 (\u03bbh.\u03bbt. h) (\u03bbc.\u03bbn.n) \u2192 \u03bbt. (\u03bbc.\u03bbn.n) \u2192 \u03bbt. \u03bbc.\u03bbn.n \u2192 \u03bbc.\u03bbn.n\n\n",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          1968,
+          2092,
+          11397,
+          1968,
+          320,
+          33486,
+          66,
+          13,
+          33486,
+          77
+        ]
+      }
+    },
+    {
+      "id": "lambda_nothing",
+      "strategy": "lambda_empty",
+      "label": "Maybe Nothing \u2014 no value",
+      "prompt": "Reduce the following lambda expression to normal form.\n\nnothing = \u03bbj.\u03bbn.n\nfromJust nothing\n\nReduction:",
+      "eos_prob": 3.457714825572111e-08,
+      "eos_rank": 21900,
+      "eos_log_prob": -17.180072784423828,
+      "pad_prob": 3.221982403101009e-10,
+      "pad_rank": 119655,
+      "entropy": 3.4886436462402344,
+      "top1_prob": 0.22304418683052063,
+      "top10": [
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.22304418683052063
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.16065271198749542
+        },
+        {
+          "token": "' from'",
+          "id": 504,
+          "prob": 0.06697001308202744
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.05381191521883011
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.05134768784046173
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.05055161565542221
+        },
+        {
+          "token": "' First'",
+          "id": 5512,
+          "prob": 0.028803441673517227
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.027484435588121414
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.02463688887655735
+        },
+        {
+          "token": "' Apply'",
+          "id": 20552,
+          "prob": 0.022785397246479988
+        }
+      ],
+      "seq_len": 25,
+      "generation": {
+        "text": "First, we need to evaluate fromJust nothing. Let's substitute nothing into fromJust.\n\nfromJust = \u03bbx.\u03bby.x y\n\nSo, substituting nothing into fromJust gives us:\n\n(\u03bbx.\u03bby.x y) nothing\n\nNow, we apply the lambda abstraction to",
+        "text_raw": " \n\nFirst, we need to evaluate fromJust nothing. Let's substitute nothing into fromJust.\n\nfromJust = \u03bbx.\u03bby.x y\n\nSo, substituting nothing into fromJust gives us:\n\n(\u03bbx.\u03bby.x y) nothing\n\nNow, we apply the lambda abstraction to",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          4710,
+          5338,
+          11,
+          582,
+          1184,
+          311,
+          15442,
+          504,
+          9952,
+          4302
+        ]
+      }
+    },
+    {
+      "id": "lambda_absurd",
+      "strategy": "lambda_empty",
+      "label": "Ex falso quodlibet \u2014 from \u22a5 derive anything",
+      "prompt": "Reduce the following lambda expression to normal form.\n\nabsurd : \u22a5 \u2192 \u03b1\nabsurd \u22a5\n\nReduction:",
+      "eos_prob": 4.035572231941842e-08,
+      "eos_rank": 21025,
+      "eos_log_prob": -17.025531768798828,
+      "pad_prob": 3.26124238725356e-09,
+      "pad_rank": 64241,
+      "entropy": 3.0850255489349365,
+      "top1_prob": 0.40954023599624634,
+      "top10": [
+        {
+          "token": "' absurd'",
+          "id": 31577,
+          "prob": 0.40954023599624634
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.07695033401250839
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.05718462914228439
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.05125996842980385
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.04891260713338852
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.032077670097351074
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.029666995629668236
+        },
+        {
+          "token": "' \u03b2'",
+          "id": 33218,
+          "prob": 0.020073693245649338
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.01915445365011692
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.018565131351351738
+        }
+      ],
+      "seq_len": 25,
+      "generation": {
+        "text": "absurd \u22a5 \u2192 absurd \u22a5 \u2192 absurd \u22a5 \u2192 ... \n\nWait, that's not helpful. Maybe I need to think about the definition of absurd. In lambda calculus, absurd is often defined as a function that takes a value of type \u22a5 (bottom) and returns a value of any",
+        "text_raw": " absurd \u22a5 \u2192 absurd \u22a5 \u2192 absurd \u22a5 \u2192 ... \n\nWait, that's not helpful. Maybe I need to think about the definition of absurd. In lambda calculus, absurd is often defined as a function that takes a value of type \u22a5 (bottom) and returns a value of any",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          31577,
+          53025,
+          98,
+          11397,
+          31577,
+          53025,
+          98,
+          11397,
+          31577,
+          53025
+        ]
+      }
+    },
+    {
+      "id": "lambda_fix_const",
+      "strategy": "lambda_empty",
+      "label": "Fixpoint of constant \u22a5",
+      "prompt": "Reduce the following lambda expression to normal form.\n\nY (\u03bbx.\u22a5)\n\nwhere Y = \u03bbf.(\u03bbx.f(x x))(\u03bbx.f(x x))\n\nReduction:",
+      "eos_prob": 3.913881485573256e-08,
+      "eos_rank": 29196,
+      "eos_log_prob": -17.056150436401367,
+      "pad_prob": 5.760070753701996e-10,
+      "pad_rank": 121325,
+      "entropy": 3.94284725189209,
+      "top1_prob": 0.16752545535564423,
+      "top10": [
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.16752545535564423
+        },
+        {
+          "token": "' Y'",
+          "id": 809,
+          "prob": 0.13461048901081085
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.06875231117010117
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.05524403229355812
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.049520429223775864
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.04302409663796425
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.03737998381257057
+        },
+        {
+          "token": "' First'",
+          "id": 5512,
+          "prob": 0.034034863114356995
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.029569998383522034
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.028660226613283157
+        }
+      ],
+      "seq_len": 37,
+      "generation": {
+        "text": "Y (\u03bbx.\u22a5) = (\u03bbf.(\u03bbx.f(x x))(\u03bbx.f(x x))) (\u03bbx.\u22a5) \n\n= (\u03bbx.(\u03bbx.\u22a5)(x x)) (\u03bbx.\u22a5) \n\n= (\u03bbx.\u22a5)(x",
+        "text_raw": " \n\nY (\u03bbx.\u22a5) = (\u03bbf.(\u03bbx.f(x x))(\u03bbx.f(x x))) (\u03bbx.\u22a5) \n\n= (\u03bbx.(\u03bbx.\u22a5)(x x)) (\u03bbx.\u22a5) \n\n= (\u03bbx.\u22a5)(x",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          4710,
+          56,
+          320,
+          33486,
+          87,
+          13,
+          147296,
+          8,
+          284,
+          320
+        ]
+      }
+    },
+    {
+      "id": "lambda_unit",
+      "strategy": "lambda_empty",
+      "label": "Unit \u2014 the type with one value",
+      "prompt": "()",
+      "eos_prob": 2.5290759708695987e-07,
+      "eos_rank": 134597,
+      "eos_log_prob": -15.190241813659668,
+      "pad_prob": 1.9152195818605833e-05,
+      "pad_rank": 8438,
+      "entropy": 10.026631355285645,
+      "top1_prob": 0.00939309224486351,
+      "top10": [
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.00939309224486351
+        },
+        {
+          "token": "'s'",
+          "id": 82,
+          "prob": 0.008419913239777088
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.007848222739994526
+        },
+        {
+          "token": "'d'",
+          "id": 67,
+          "prob": 0.0072584194131195545
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.004471782129257917
+        },
+        {
+          "token": "'),'",
+          "id": 701,
+          "prob": 0.004402454011142254
+        },
+        {
+          "token": "')\\n'",
+          "id": 340,
+          "prob": 0.0042337984777987
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.004200850613415241
+        },
+        {
+          "token": "').'",
+          "id": 568,
+          "prob": 0.00394633412361145
+        },
+        {
+          "token": "'e'",
+          "id": 68,
+          "prob": 0.0036497623659670353
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": ") {\n        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);\n    }\n\n    // Get the current user's ID\n    var userId = User.Identity.GetUserId();\n\n    // Get the user's profile\n    var user = await UserManager.FindByIdAsync(userId);\n    if (user == null) {\n        return new HttpStatusCodeResult",
+        "text_raw": ") {\n        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);\n    }\n\n    // Get the current user's ID\n    var userId = User.Identity.GetUserId();\n\n    // Get the user's profile\n    var user = await UserManager.FindByIdAsync(userId);\n    if (user == null) {\n        return new HttpStatusCodeResult",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          8,
+          341,
+          286,
+          470,
+          501,
+          80202,
+          43722,
+          53792,
+          317,
+          262
+        ]
+      }
+    },
+    {
+      "id": "broken_parens",
+      "strategy": "broken",
+      "label": "Unmatched parentheses",
+      "prompt": "(((((((",
+      "eos_prob": 2.7983685413346393e-06,
+      "eos_rank": 18657,
+      "eos_log_prob": -12.786474227905273,
+      "pad_prob": 7.382722766458016e-10,
+      "pad_rank": 151705,
+      "entropy": 6.542116641998291,
+      "top1_prob": 0.08829259872436523,
+      "top10": [
+        {
+          "token": "'1'",
+          "id": 16,
+          "prob": 0.08829259872436523
+        },
+        {
+          "token": "'((('",
+          "id": 6636,
+          "prob": 0.04074034094810486
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.037974175065755844
+        },
+        {
+          "token": "'(((('",
+          "id": 66844,
+          "prob": 0.032481033354997635
+        },
+        {
+          "token": "'()))'",
+          "id": 10131,
+          "prob": 0.030993618071079254
+        },
+        {
+          "token": "'(('",
+          "id": 1188,
+          "prob": 0.0277824979275465
+        },
+        {
+          "token": "'\\n\\n'",
+          "id": 271,
+          "prob": 0.0245179682970047
+        },
+        {
+          "token": "'2'",
+          "id": 17,
+          "prob": 0.02413785271346569
+        },
+        {
+          "token": "'0'",
+          "id": 15,
+          "prob": 0.02215014025568962
+        },
+        {
+          "token": "\"('\"",
+          "id": 492,
+          "prob": 0.021135810762643814
+        }
+      ],
+      "seq_len": 2,
+      "generation": {
+        "text": "1))))))))) - 1) = 1 - 1 = 0\n   - 0 is not greater than 0, so the condition fails.\n\nWait, but the original problem says \"the number of times the digit 1 appears in the decimal representation of the number is equal",
+        "text_raw": "1))))))))) - 1) = 1 - 1 = 0\n   - 0 is not greater than 0, so the condition fails.\n\nWait, but the original problem says \"the number of times the digit 1 appears in the decimal representation of the number is equal",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          16,
+          25759,
+          593,
+          7705,
+          481,
+          220,
+          16,
+          8,
+          284,
+          220
+        ]
+      }
+    },
+    {
+      "id": "broken_lambda",
+      "strategy": "broken",
+      "label": "Lambda with no body",
+      "prompt": "\u03bb.",
+      "eos_prob": 3.880456915794639e-06,
+      "eos_rank": 6458,
+      "eos_log_prob": -12.45955753326416,
+      "pad_prob": 3.1467534133966524e-10,
+      "pad_rank": 151818,
+      "entropy": 5.5233893394470215,
+      "top1_prob": 0.1150161474943161,
+      "top10": [
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.1150161474943161
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.05605439469218254
+        },
+        {
+          "token": "' This'",
+          "id": 1096,
+          "prob": 0.037928298115730286
+        },
+        {
+          "token": "' So'",
+          "id": 2055,
+          "prob": 0.037340275943279266
+        },
+        {
+          "token": "' Then'",
+          "id": 5005,
+          "prob": 0.0295385904610157
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.027748936787247658
+        },
+        {
+          "token": "' Let'",
+          "id": 6771,
+          "prob": 0.0268951915204525
+        },
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.026478221639990807
+        },
+        {
+          "token": "' For'",
+          "id": 1752,
+          "prob": 0.02410869486629963
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.02336694858968258
+        }
+      ],
+      "seq_len": 2,
+      "generation": {
+        "text": "The problem is to find the value of \u03bb for which the system has no solution. \n\nFirst, I need to recall that for a system of linear equations, the system has no solution if the equations are inconsistent. In other words, if the augmented matrix has a row that is inconsistent with the others",
+        "text_raw": " The problem is to find the value of \u03bb for which the system has no solution. \n\nFirst, I need to recall that for a system of linear equations, the system has no solution if the equations are inconsistent. In other words, if the augmented matrix has a row that is inconsistent with the others",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          576,
+          3491,
+          374,
+          311,
+          1477,
+          279,
+          897,
+          315,
+          48338,
+          369
+        ]
+      }
+    },
+    {
+      "id": "broken_dots",
+      "strategy": "broken",
+      "label": "Just dots",
+      "prompt": "...",
+      "eos_prob": 1.2273032723442157e-07,
+      "eos_rank": 136626,
+      "eos_log_prob": -15.913276672363281,
+      "pad_prob": 2.658914127096068e-06,
+      "pad_rank": 38821,
+      "entropy": 9.3838529586792,
+      "top1_prob": 0.026090435683727264,
+      "top10": [
+        {
+          "token": "'d'",
+          "id": 67,
+          "prob": 0.026090435683727264
+        },
+        {
+          "token": "'s'",
+          "id": 82,
+          "prob": 0.012038758024573326
+        },
+        {
+          "token": "'in'",
+          "id": 258,
+          "prob": 0.010217160917818546
+        },
+        {
+          "token": "'D'",
+          "id": 35,
+          "prob": 0.007772806100547314
+        },
+        {
+          "token": "'n'",
+          "id": 77,
+          "prob": 0.0072450521402060986
+        },
+        {
+          "token": "'ar'",
+          "id": 277,
+          "prob": 0.006648433860391378
+        },
+        {
+          "token": "'E'",
+          "id": 36,
+          "prob": 0.00546885235235095
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.00546885235235095
+        },
+        {
+          "token": "'e'",
+          "id": 68,
+          "prob": 0.005384065676480532
+        },
+        {
+          "token": "'B'",
+          "id": 33,
+          "prob": 0.004498555324971676
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": "d. The problem of finding the shortest path in a graph is a classic problem in computer science. The most well-known algorithm for solving this problem is Dijkstra's algorithm, which is used to find the shortest path from a single source to all other nodes in a graph with non-negative edge weights.",
+        "text_raw": "d. The problem of finding the shortest path in a graph is a classic problem in computer science. The most well-known algorithm for solving this problem is Dijkstra's algorithm, which is used to find the shortest path from a single source to all other nodes in a graph with non-negative edge weights.",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          67,
+          13,
+          576,
+          3491,
+          315,
+          9271,
+          279,
+          39143,
+          1815,
+          304
+        ]
+      }
+    },
+    {
+      "id": "broken_reduce_nothing",
+      "strategy": "broken",
+      "label": "Reduce with empty expression",
+      "prompt": "Reduce the following lambda expression to normal form.\n\n\n\nReduction:",
+      "eos_prob": 9.698092640064715e-08,
+      "eos_rank": 28093,
+      "eos_log_prob": -16.148752212524414,
+      "pad_prob": 6.86151024886783e-10,
+      "pad_rank": 136565,
+      "entropy": 4.498819351196289,
+      "top1_prob": 0.15511395037174225,
+      "top10": [
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.15511395037174225
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.06267169862985611
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.05887461453676224
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.0519566647708416
+        },
+        {
+          "token": "' (('",
+          "id": 1781,
+          "prob": 0.0503581278026104
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.04880876839160919
+        },
+        {
+          "token": "' We'",
+          "id": 1205,
+          "prob": 0.03983655944466591
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.03515563905239105
+        },
+        {
+          "token": "' Apply'",
+          "id": 20552,
+          "prob": 0.025720413774251938
+        },
+        {
+          "token": "' $'",
+          "id": 400,
+          "prob": 0.023055629804730415
+        }
+      ],
+      "seq_len": 12,
+      "generation": {
+        "text": "(\u03bbx.\u03bby.x y) (\u03bbz.z) (\u03bbw.w)\n\nOkay, let's see. I need to reduce this lambda expression to normal form. The expression is (\u03bbx.\u03bby.x y) (\u03bbz.z) (\u03bbw.w). Hmm,",
+        "text_raw": " (\u03bbx.\u03bby.x y) (\u03bbz.z) (\u03bbw.w)\n\nOkay, let's see. I need to reduce this lambda expression to normal form. The expression is (\u03bbx.\u03bby.x y) (\u03bbz.z) (\u03bbw.w). Hmm,",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          320,
+          33486,
+          87,
+          13,
+          33486,
+          88,
+          1993,
+          379,
+          8,
+          320
+        ]
+      }
+    },
+    {
+      "id": "deep_nest_100",
+      "strategy": "deep",
+      "label": "100-deep nested lambda",
+      "prompt": "\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.a",
+      "eos_prob": 1.2418246342349448e-07,
+      "eos_rank": 12431,
+      "eos_log_prob": -15.901514053344727,
+      "pad_prob": 1.395804138937251e-09,
+      "pad_rank": 110148,
+      "entropy": 2.6959779262542725,
+      "top1_prob": 0.442384272813797,
+      "top10": [
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.442384272813797
+        },
+        {
+          "token": "'\\n\\n'",
+          "id": 271,
+          "prob": 0.11011815071105957
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.0844305157661438
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.07109761983156204
+        },
+        {
+          "token": "'\u03bb'",
+          "id": 33486,
+          "prob": 0.024189747869968414
+        },
+        {
+          "token": "'))'",
+          "id": 593,
+          "prob": 0.02237185835838318
+        },
+        {
+          "token": "')\\n'",
+          "id": 340,
+          "prob": 0.017697596922516823
+        },
+        {
+          "token": "')\\n\\n'",
+          "id": 692,
+          "prob": 0.017153099179267883
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.014902870170772076
+        },
+        {
+          "token": "' a'",
+          "id": 264,
+          "prob": 0.014671823009848595
+        }
+      ],
+      "seq_len": 300,
+      "generation": {
+        "text": ") (\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bb",
+        "text_raw": ") (\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bba.\u03bb",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          8,
+          320,
+          33486,
+          64,
+          13,
+          33486,
+          64,
+          13,
+          33486,
+          64
+        ]
+      }
+    },
+    {
+      "id": "deep_apply_20",
+      "strategy": "deep",
+      "label": "20-deep nested application",
+      "prompt": "(((((((((((((((((((((\u03bbx.x) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a)",
+      "eos_prob": 2.684595123980671e-08,
+      "eos_rank": 2522,
+      "eos_log_prob": -17.433151245117188,
+      "pad_prob": 3.136267829641215e-13,
+      "pad_rank": 151726,
+      "entropy": 0.03956884518265724,
+      "top1_prob": 0.9965426325798035,
+      "top10": [
+        {
+          "token": "' a'",
+          "id": 264,
+          "prob": 0.9965426325798035
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.0003969944082200527
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.00038478017086163163
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.0003091795661021024
+        },
+        {
+          "token": "' ((('",
+          "id": 11600,
+          "prob": 0.0002124957973137498
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.00015305497800000012
+        },
+        {
+          "token": "' (('",
+          "id": 1781,
+          "prob": 0.0001460460916860029
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.00011374080349924043
+        },
+        {
+          "token": "' ))'",
+          "id": 11985,
+          "prob": 0.00010684959124773741
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 32181,
+          "prob": 0.00010356217535445467
+        }
+      ],
+      "seq_len": 50,
+      "generation": {
+        "text": "a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a)",
+        "text_raw": " a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a) a)",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          264,
+          8,
+          264,
+          8,
+          264,
+          8,
+          264,
+          8,
+          264,
+          8
+        ]
+      }
+    },
+    {
+      "id": "deep_omega_chain",
+      "strategy": "deep",
+      "label": "Chained \u03a9 applications",
+      "prompt": "((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))",
+      "eos_prob": 1.6102248423521814e-07,
+      "eos_rank": 14878,
+      "eos_log_prob": -15.641721725463867,
+      "pad_prob": 6.247753703281234e-11,
+      "pad_rank": 148919,
+      "entropy": 2.8920376300811768,
+      "top1_prob": 0.49837157130241394,
+      "top10": [
+        {
+          "token": "'(('",
+          "id": 1188,
+          "prob": 0.49837157130241394
+        },
+        {
+          "token": "'...'",
+          "id": 1112,
+          "prob": 0.08009560406208038
+        },
+        {
+          "token": "' is'",
+          "id": 374,
+          "prob": 0.07885383069515228
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.03903547674417496
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 32181,
+          "prob": 0.024427777156233788
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.0145864924415946
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.013281152583658695
+        },
+        {
+          "token": "'\u2026'",
+          "id": 1940,
+          "prob": 0.00768654141575098
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.007567372173070908
+        },
+        {
+          "token": "' \u662f'",
+          "id": 54851,
+          "prob": 0.00710888858884573
+        }
+      ],
+      "seq_len": 44,
+      "generation": {
+        "text": "((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x",
+        "text_raw": "((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x)(\u03bbx.x x))((\u03bbx.x x",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          1188,
+          33486,
+          87,
+          1993,
+          856,
+          2376,
+          33486,
+          87,
+          1993,
+          856
+        ]
+      }
+    },
+    {
+      "id": "type_uninhabited",
+      "strategy": "type",
+      "label": "Uninhabited type",
+      "prompt": "Give a value of type Void.",
+      "eos_prob": 2.0868790784334124e-07,
+      "eos_rank": 14228,
+      "eos_log_prob": -15.382426261901855,
+      "pad_prob": 4.671890912327781e-12,
+      "pad_rank": 151854,
+      "entropy": 4.213809013366699,
+      "top1_prob": 0.09675715863704681,
+      "top10": [
+        {
+          "token": "' What'",
+          "id": 3555,
+          "prob": 0.09675715863704681
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.09525707364082336
+        },
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.07078905403614044
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.06650015711784363
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.055130571126937866
+        },
+        {
+          "token": "' How'",
+          "id": 2585,
+          "prob": 0.04941871762275696
+        },
+        {
+          "token": "' That'",
+          "id": 2938,
+          "prob": 0.03240958973765373
+        },
+        {
+          "token": "' So'",
+          "id": 2055,
+          "prob": 0.02950926683843136
+        },
+        {
+          "token": "' But'",
+          "id": 1988,
+          "prob": 0.02604183554649353
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.02371136099100113
+        }
+      ],
+      "seq_len": 7,
+      "generation": {
+        "text": "What is the type of the expression `()` in OCaml? What is the type of the expression `fun x -> ()` in OCaml? What is the type of the expression `fun x -> x` in OCaml? What is the type of the expression `fun x -> x +",
+        "text_raw": " What is the type of the expression `()` in OCaml? What is the type of the expression `fun x -> ()` in OCaml? What is the type of the expression `fun x -> x` in OCaml? What is the type of the expression `fun x -> x +",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          3555,
+          374,
+          279,
+          943,
+          315,
+          279,
+          7493,
+          1565,
+          54258,
+          304
+        ]
+      }
+    },
+    {
+      "id": "type_neg",
+      "strategy": "type",
+      "label": "Negation type \u2014 continuation that never returns",
+      "prompt": "Give a value of type \u00ac\u22a4 = \u22a4 \u2192 \u22a5.",
+      "eos_prob": 1.3533898446382864e-08,
+      "eos_rank": 41980,
+      "eos_log_prob": -18.11806869506836,
+      "pad_prob": 1.204546185018529e-10,
+      "pad_rank": 141084,
+      "entropy": 3.891725778579712,
+      "top1_prob": 0.13842268288135529,
+      "top10": [
+        {
+          "token": "' In'",
+          "id": 758,
+          "prob": 0.13842268288135529
+        },
+        {
+          "token": "' How'",
+          "id": 2585,
+          "prob": 0.10613235831260681
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.0664159283041954
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.054207101464271545
+        },
+        {
+          "token": "' Is'",
+          "id": 2160,
+          "prob": 0.05013337358832359
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.04859093576669693
+        },
+        {
+          "token": "' What'",
+          "id": 3555,
+          "prob": 0.0415620282292366
+        },
+        {
+          "token": "' This'",
+          "id": 1096,
+          "prob": 0.036109715700149536
+        },
+        {
+          "token": "' That'",
+          "id": 2938,
+          "prob": 0.031372662633657455
+        },
+        {
+          "token": "' So'",
+          "id": 2055,
+          "prob": 0.028122274205088615
+        }
+      ],
+      "seq_len": 15,
+      "generation": {
+        "text": "In other words, give a function that takes a proof that \u22a4 is false and returns a proof that \u22a5 is true. But since \u22a4 is a proposition that is always true, there can be no such proof. So, the function is impossible to write. But in the context of a",
+        "text_raw": " In other words, give a function that takes a proof that \u22a4 is false and returns a proof that \u22a5 is true. But since \u22a4 is a proposition that is always true, there can be no such proof. So, the function is impossible to write. But in the context of a",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          758,
+          1008,
+          4244,
+          11,
+          2968,
+          264,
+          729,
+          429,
+          4990,
+          264
+        ]
+      }
+    },
+    {
+      "id": "type_impossible",
+      "strategy": "type",
+      "label": "Impossible proof",
+      "prompt": "Prove: 0 = 1",
+      "eos_prob": 2.0075952011922027e-09,
+      "eos_rank": 50135,
+      "eos_log_prob": -20.026329040527344,
+      "pad_prob": 5.825579276787229e-13,
+      "pad_rank": 151855,
+      "entropy": 2.6838760375976562,
+      "top1_prob": 0.26732316613197327,
+      "top10": [
+        {
+          "token": "'\\n\\n'",
+          "id": 271,
+          "prob": 0.26732316613197327
+        },
+        {
+          "token": "' using'",
+          "id": 1667,
+          "prob": 0.17259681224822998
+        },
+        {
+          "token": "' -'",
+          "id": 481,
+          "prob": 0.09989136457443237
+        },
+        {
+          "token": "'\\n'",
+          "id": 198,
+          "prob": 0.09989136457443237
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.06449471414089203
+        },
+        {
+          "token": "'.'",
+          "id": 13,
+          "prob": 0.03973403945565224
+        },
+        {
+          "token": "' +'",
+          "id": 488,
+          "prob": 0.029527831822633743
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.027308780699968338
+        },
+        {
+          "token": "'.\\n\\n'",
+          "id": 382,
+          "prob": 0.02525649406015873
+        },
+        {
+          "token": "' |'",
+          "id": 760,
+          "prob": 0.021603023633360863
+        }
+      ],
+      "seq_len": 8,
+      "generation": {
+        "text": "Okay, so I need to prove that 0 equals 1. Hmm, that seems impossible because I know from basic math that 0 and 1 are different numbers. But maybe there's some trick or a fallacy here. Let me think. Maybe I can start by recalling some algebra",
+        "text_raw": "\n\nOkay, so I need to prove that 0 equals 1. Hmm, that seems impossible because I know from basic math that 0 and 1 are different numbers. But maybe there's some trick or a fallacy here. Let me think. Maybe I can start by recalling some algebra",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          271,
+          32313,
+          11,
+          773,
+          358,
+          1184,
+          311,
+          12118,
+          429,
+          220
+        ]
+      }
+    },
+    {
+      "id": "erase_all",
+      "strategy": "erase",
+      "label": "K applied to erase everything",
+      "prompt": "Reduce: (\u03bbx.\u03bby.\u03bbz.\u03bbw.\u03bbv.x) \u03b5 a b c d\n\nwhere \u03b5 represents the empty string.\n\nResult:",
+      "eos_prob": 1.3690192091075915e-08,
+      "eos_rank": 19580,
+      "eos_log_prob": -18.106586456298828,
+      "pad_prob": 8.994456845989873e-10,
+      "pad_rank": 73320,
+      "entropy": 2.0542731285095215,
+      "top1_prob": 0.4983613193035126,
+      "top10": [
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.4983613193035126
+        },
+        {
+          "token": "' ?\\n\\n'",
+          "id": 23754,
+          "prob": 0.17769619822502136
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.09511392563581467
+        },
+        {
+          "token": "' a'",
+          "id": 264,
+          "prob": 0.04857943579554558
+        },
+        {
+          "token": "' ?'",
+          "id": 937,
+          "prob": 0.021222783252596855
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.0184386745095253
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.017871377989649773
+        },
+        {
+          "token": "' ???'",
+          "id": 51317,
+          "prob": 0.013490023091435432
+        },
+        {
+          "token": "' \u03b5'",
+          "id": 59147,
+          "prob": 0.010506040416657925
+        },
+        {
+          "token": "' ?\\n'",
+          "id": 17607,
+          "prob": 0.009869511239230633
+        }
+      ],
+      "seq_len": 34,
+      "generation": {
+        "text": "\u03bbv.x\n\nWait, but the original term is (\u03bbx.\u03bby.\u03bbz.\u03bbw.\u03bbv.x) \u03b5 a b c d. So, the function is a lambda abstraction with five parameters: x, y, z, w, v. The body is x",
+        "text_raw": " \u03bbv.x\n\nWait, but the original term is (\u03bbx.\u03bby.\u03bbz.\u03bbw.\u03bbv.x) \u03b5 a b c d. So, the function is a lambda abstraction with five parameters: x, y, z, w, v. The body is x",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          48338,
+          85,
+          1993,
+          271,
+          14190,
+          11,
+          714,
+          279,
+          4024,
+          4647
+        ]
+      }
+    },
+    {
+      "id": "erase_church_zero_apply",
+      "strategy": "erase",
+      "label": "Apply church zero \u2014 do nothing",
+      "prompt": "Reduce: (\u03bbf.\u03bbx.x) print \"hello\"\n\nThe result is:",
+      "eos_prob": 4.82925912592691e-08,
+      "eos_rank": 22123,
+      "eos_log_prob": -16.84598731994629,
+      "pad_prob": 1.2896625101177506e-08,
+      "pad_rank": 45633,
+      "entropy": 2.951174020767212,
+      "top1_prob": 0.19192028045654297,
+      "top10": [
+        {
+          "token": "' \"'",
+          "id": 330,
+          "prob": 0.19192028045654297
+        },
+        {
+          "token": "' print'",
+          "id": 1173,
+          "prob": 0.1860155165195465
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.1667432337999344
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.1404118835926056
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.05006539821624756
+        },
+        {
+          "token": "' ?\\n\\n'",
+          "id": 23754,
+          "prob": 0.03662862628698349
+        },
+        {
+          "token": "' hello'",
+          "id": 23811,
+          "prob": 0.024399926885962486
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.023282572627067566
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.010997908189892769
+        },
+        {
+          "token": "' __'",
+          "id": 1304,
+          "prob": 0.008301656693220139
+        }
+      ],
+      "seq_len": 18,
+      "generation": {
+        "text": "\"hello\"\n\nWait, but the function (\u03bbf.\u03bbx.x) is a function that takes a function f and returns a function that takes an argument x and returns x. So when we apply this function to print, we get a function that takes an argument x and returns x. Then",
+        "text_raw": " \"hello\"\n\nWait, but the function (\u03bbf.\u03bbx.x) is a function that takes a function f and returns a function that takes an argument x and returns x. So when we apply this function to print, we get a function that takes an argument x and returns x. Then",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          330,
+          14990,
+          1837,
+          14190,
+          11,
+          714,
+          279,
+          729,
+          320,
+          33486
+        ]
+      }
+    },
+    {
+      "id": "erase_continuation",
+      "strategy": "erase",
+      "label": "Continuation that discards",
+      "prompt": "Reduce: callcc (\u03bbk. k \u22a5)\n\nResult:",
+      "eos_prob": 9.838442949217097e-09,
+      "eos_rank": 29733,
+      "eos_log_prob": -18.436967849731445,
+      "pad_prob": 1.657064263582697e-09,
+      "pad_rank": 64511,
+      "entropy": 1.6406804323196411,
+      "top1_prob": 0.7178464531898499,
+      "top10": [
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.7178464531898499
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.06782159954309464
+        },
+        {
+          "token": "' call'",
+          "id": 1618,
+          "prob": 0.037454646080732346
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.03254115954041481
+        },
+        {
+          "token": "' ?\\n\\n'",
+          "id": 23754,
+          "prob": 0.017970934510231018
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.01377879362553358
+        },
+        {
+          "token": "' \u27e8'",
+          "id": 42005,
+          "prob": 0.006407733540982008
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.00447331927716732
+        },
+        {
+          "token": "' k'",
+          "id": 595,
+          "prob": 0.004268471151590347
+        },
+        {
+          "token": "' ?'",
+          "id": 937,
+          "prob": 0.004073003772646189
+        }
+      ],
+      "seq_len": 14,
+      "generation": {
+        "text": "\u22a5\n\nExplanation: The callcc (call-with-current-continuation) operator captures the current continuation and passes it as an argument to the given function. In this case, the function is \u03bbk. k \u22a5, which takes the continuation k and applies it to \u22a5 (bottom,",
+        "text_raw": " \u22a5\n\nExplanation: The callcc (call-with-current-continuation) operator captures the current continuation and passes it as an argument to the given function. In this case, the function is \u03bbk. k \u22a5, which takes the continuation k and applies it to \u22a5 (bottom,",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          53025,
+          98,
+          271,
+          69769,
+          25,
+          576,
+          1618,
+          638,
+          320,
+          6659
+        ]
+      }
+    },
+    {
+      "id": "meta_dont_answer",
+      "strategy": "meta",
+      "label": "Lambda that says 'don't answer'",
+      "prompt": "Let silence = \u03bbresponse.\u22a5\nApply: silence (your response)\n\nResult:",
+      "eos_prob": 9.004077483609763e-09,
+      "eos_rank": 18288,
+      "eos_log_prob": -18.525588989257812,
+      "pad_prob": 1.304588381767502e-10,
+      "pad_rank": 100078,
+      "entropy": 0.3384961783885956,
+      "top1_prob": 0.9633802175521851,
+      "top10": [
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.9633802175521851
+        },
+        {
+          "token": "' silence'",
+          "id": 21162,
+          "prob": 0.004191036801785231
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 2858,
+          "prob": 0.002243300201371312
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 14520,
+          "prob": 0.0015660760691389441
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.0012388682225719094
+        },
+        {
+          "token": "' \u27e8'",
+          "id": 42005,
+          "prob": 0.0012388682225719094
+        },
+        {
+          "token": "' ('",
+          "id": 320,
+          "prob": 0.001128002186305821
+        },
+        {
+          "token": "' undefined'",
+          "id": 5614,
+          "prob": 0.0010270577622577548
+        },
+        {
+          "token": "' bottom'",
+          "id": 5622,
+          "prob": 0.0009206486283801496
+        },
+        {
+          "token": "' the'",
+          "id": 279,
+          "prob": 0.0008514607325196266
+        }
+      ],
+      "seq_len": 17,
+      "generation": {
+        "text": "\u22a5\n\nLet me explain. In the context of the lambda calculus, silence is a function that takes a response and returns bottom (\u22a5), which represents a non-terminating computation or an undefined value. When we apply silence to your response, it results in \u22a5, indicating that the computation",
+        "text_raw": " \u22a5\n\nLet me explain. In the context of the lambda calculus, silence is a function that takes a response and returns bottom (\u22a5), which represents a non-terminating computation or an undefined value. When we apply silence to your response, it results in \u22a5, indicating that the computation",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          53025,
+          98,
+          271,
+          10061,
+          752,
+          10339,
+          13,
+          758,
+          279,
+          2266
+        ]
+      }
+    },
+    {
+      "id": "meta_halt",
+      "strategy": "meta",
+      "label": "Halt instruction as lambda",
+      "prompt": "HALT = \u03bbmachine.\u03bbinput.\u22a5\nHALT LLM \"this prompt\"\n\nOutput:",
+      "eos_prob": 1.048985609486408e-06,
+      "eos_rank": 12871,
+      "eos_log_prob": -13.76768684387207,
+      "pad_prob": 3.742810061879709e-09,
+      "pad_rank": 132556,
+      "entropy": 4.7425713539123535,
+      "top1_prob": 0.19345952570438385,
+      "top10": [
+        {
+          "token": "' \"'",
+          "id": 330,
+          "prob": 0.19345952570438385
+        },
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.07575983554124832
+        },
+        {
+          "token": "' \ufffd'",
+          "id": 53025,
+          "prob": 0.059930965304374695
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.05718652531504631
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.042497418820858
+        },
+        {
+          "token": "' HAL'",
+          "id": 20533,
+          "prob": 0.030609741806983948
+        },
+        {
+          "token": "' the'",
+          "id": 279,
+          "prob": 0.0261818990111351
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.02346930280327797
+        },
+        {
+          "token": "' I'",
+          "id": 358,
+          "prob": 0.02170555852353573
+        },
+        {
+          "token": "' ['",
+          "id": 508,
+          "prob": 0.020390482619404793
+        }
+      ],
+      "seq_len": 21,
+      "generation": {
+        "text": "\"this prompt\" is not a valid input for the HALT function.\n\nWait, but the HALT function is supposed to take a machine and an input. So maybe the input is supposed to be a string, and the machine is a function that takes an input and returns a result. But in",
+        "text_raw": " \"this prompt\" is not a valid input for the HALT function.\n\nWait, but the HALT function is supposed to take a machine and an input. So maybe the input is supposed to be a string, and the machine is a function that takes an input and returns a result. But in",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          330,
+          574,
+          9934,
+          1,
+          374,
+          537,
+          264,
+          2697,
+          1946,
+          369
+        ]
+      }
+    },
+    {
+      "id": "meta_mu",
+      "strategy": "meta",
+      "label": "\u03bc \u2014 the smallest non-terminating term",
+      "prompt": "\u03bc",
+      "eos_prob": 1.1046221715105276e-07,
+      "eos_rank": 140131,
+      "eos_log_prob": -16.018592834472656,
+      "pad_prob": 5.365749075281201e-06,
+      "pad_rank": 21148,
+      "entropy": 8.68714714050293,
+      "top1_prob": 0.04021160677075386,
+      "top10": [
+        {
+          "token": "')'",
+          "id": 8,
+          "prob": 0.04021160677075386
+        },
+        {
+          "token": "'s'",
+          "id": 82,
+          "prob": 0.02496795356273651
+        },
+        {
+          "token": "','",
+          "id": 11,
+          "prob": 0.024580860510468483
+        },
+        {
+          "token": "'d'",
+          "id": 67,
+          "prob": 0.02238113060593605
+        },
+        {
+          "token": "'),'",
+          "id": 701,
+          "prob": 0.013681309297680855
+        },
+        {
+          "token": "').'",
+          "id": 568,
+          "prob": 0.011342204175889492
+        },
+        {
+          "token": "'['",
+          "id": 58,
+          "prob": 0.010655014775693417
+        },
+        {
+          "token": "'n'",
+          "id": 77,
+          "prob": 0.010009460151195526
+        },
+        {
+          "token": "')\\n'",
+          "id": 340,
+          "prob": 0.007614795584231615
+        },
+        {
+          "token": "'in'",
+          "id": 258,
+          "prob": 0.0068793948739767075
+        }
+      ],
+      "seq_len": 1,
+      "generation": {
+        "text": ") is the mean of the distribution, and \u03c3 (sigma) is the standard deviation. The standard normal distribution has a mean of 0 and a standard deviation of 1.\n\nTo find the probability that a random variable X is less than a certain value, say x, we can use the cumulative",
+        "text_raw": ") is the mean of the distribution, and \u03c3 (sigma) is the standard deviation. The standard normal distribution has a mean of 0 and a standard deviation of 1.\n\nTo find the probability that a random variable X is less than a certain value, say x, we can use the cumulative",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          8,
+          374,
+          279,
+          3076,
+          315,
+          279,
+          7982,
+          11,
+          323,
+          47723
+        ]
+      }
+    },
+    {
+      "id": "meta_omega_reduce_instruction",
+      "strategy": "meta",
+      "label": "Reduce \u03a9, output ONLY the normal form",
+      "prompt": "Reduce to normal form. Output ONLY the final result \u2014 no explanation, no steps, just the normal form.\n\n(\u03bbx.x x)(\u03bbx.x x)\n\nNormal form:",
+      "eos_prob": 9.827596514355719e-09,
+      "eos_rank": 4542,
+      "eos_log_prob": -18.438072204589844,
+      "pad_prob": 2.5186344676519923e-10,
+      "pad_rank": 34966,
+      "entropy": 1.4986308813095093,
+      "top1_prob": 0.6657630205154419,
+      "top10": [
+        {
+          "token": "' \\n\\n'",
+          "id": 4710,
+          "prob": 0.6657630205154419
+        },
+        {
+          "token": "' ?\\n\\n'",
+          "id": 23754,
+          "prob": 0.08732909709215164
+        },
+        {
+          "token": "' To'",
+          "id": 2014,
+          "prob": 0.04601920396089554
+        },
+        {
+          "token": "' __'",
+          "id": 1304,
+          "prob": 0.03640418499708176
+        },
+        {
+          "token": "' The'",
+          "id": 576,
+          "prob": 0.030655398964881897
+        },
+        {
+          "token": "' \u03bb'",
+          "id": 48338,
+          "prob": 0.022427966818213463
+        },
+        {
+          "token": "' '",
+          "id": 220,
+          "prob": 0.020420897752046585
+        },
+        {
+          "token": "' \\n'",
+          "id": 715,
+          "prob": 0.01615425944328308
+        },
+        {
+          "token": "' ?'",
+          "id": 937,
+          "prob": 0.015175523236393929
+        },
+        {
+          "token": "' ?\\n'",
+          "id": 17607,
+          "prob": 0.01042997371405363
+        }
+      ],
+      "seq_len": 36,
+      "generation": {
+        "text": "Okay, let's see. I need to reduce the lambda expression (\u03bbx.x x)(\u03bbx.x x) to its normal form. Hmm, let me recall how beta reduction works. \n\nSo, the expression is an application of a function to an argument. The function is \u03bbx",
+        "text_raw": " \n\nOkay, let's see. I need to reduce the lambda expression (\u03bbx.x x)(\u03bbx.x x) to its normal form. Hmm, let me recall how beta reduction works. \n\nSo, the expression is an application of a function to an argument. The function is \u03bbx",
+        "n_tokens": 60,
+        "first_is_eos": false,
+        "generated_ids": [
+          4710,
+          32313,
+          11,
+          1077,
+          594,
+          1490,
+          13,
+          358,
+          1184,
+          311
+        ]
+      }
+    }
+  ],
+  "winner": {
+    "id": "silence_stop",
+    "eos_prob": 4.869449549005367e-05,
+    "eos_rank": 775
+  },
+  "halted": []
+}
