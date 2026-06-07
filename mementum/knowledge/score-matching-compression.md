@@ -156,28 +156,76 @@ This paper also motivated the initial boosting experiments —
 the analogy between gradient descent adding weak learners and
 iterative residual correction of the sieve.
 
+## Topology-Aware Decomposition (v4, in progress)
+
+The v3b score matching loss treats each layer's residual update as
+a flat vector. But the sieve error has two orthogonal components:
+
+- **Routing error**: wrong signs → wrong program selected (discrete, sparse)
+- **Magnitude error**: right sign, wrong scale (continuous, low-rank)
+
+LoRA wastes rank capacity on sign flips (needs |A·B|ᵢⱼ > |W_sieve|ᵢⱼ
+to flip a sign — expensive for rank-4). TernaryDescent is purpose-built
+for sign discovery through gradient decomposition.
+
+### v4 Architecture
+
+```
+W_eff = corrected_signs * corrected_magnitudes
+
+corrected_signs = sign(W_base) * STE(delta_logits)   ← TD
+corrected_magnitudes = |W_base| * mask + A @ B        ← LoRA
+```
+
+Split optimizers: TD at lr=1e-3 (routing), LoRA at lr=1e-4 (magnitudes).
+
+### Decomposed Loss
+
+```
+L = L_CE + α_route · L_routing + α_value · L_value
+
+L_routing: BCE(sigmoid(student_gate), teacher_gate_pattern)
+  → does the student fire the same neurons as the teacher?
+
+L_value: 1 - cos(Δ_student_l, Δ_teacher_l)
+  → given matched routing, do the values match?
+```
+
+The gate firing pattern IS the operational mode selection (session 194:
+9 meta-modes = syntactic type tags). Matching routing = matching mode
+assignment. Matching value = matching transformation within mode.
+
+### Status
+
+Running in tmux (session 198). TD logits are brute-force (4.4B params —
+full float32 per weight position). Tests the decomposition principle.
+If successful, would sparsify TD to maintain logits only at candidate
+flip positions.
+
 ## Open Questions
 
-1. **α schedule.** Does α annealing (high→low) outperform
-   constant α=5.0? Start score-dominated (match trajectory),
+1. **TD sparsification.** 4.4B TD logits is brute-force. Real TD
+   (v14/v15) uses SNR scoring + budgeted top-K selection. Port the
+   3-voter flip mechanism from v14/td.py to PyTorch for efficiency.
+
+2. **α schedule.** Does α annealing (high→low) outperform
+   constant? Start score-dominated (match trajectory),
    end CE-dominated (refine output)?
 
-2. **LoRA rank scaling.** rank-4 at 5.9M params. rank-8 (11.8M)
-   may push further. Rank-2 (3.0M) for param-matched comparison
-   to v2.
+3. **LoRA rank scaling.** rank-4 at 5.9M params. rank-8 (11.8M)
+   may push further. Rank-2 (3.0M) for param-matched comparison.
 
-3. **CE-only ablation.** Does LoRA+CE-only (no SM) beat v2?
-   Would isolate whether the improvement is from per-weight
-   corrections or from the loss function.
-
-4. **More training data.** 128 teacher-cached + 128 CE-only
-   sequences. The best point was step 150 — mild overfitting
-   by step 200. More data or LR decay could push further.
+4. **CE-only ablation.** Does LoRA+CE-only (no SM) beat v2?
+   Would isolate loss function vs correction space.
 
 5. **Integration with crystal sieve pipeline.** Score matching
-   replaces multi-projection melt as the correction loss. The
-   sieve + LoRA + SM pipeline needs end-to-end benchmarking
-   (MMLU, HellaSwag).
+   replaces multi-projection melt. Full pipeline needs
+   end-to-end benchmarking (MMLU, HellaSwag).
+
+6. **Crystal-informed routing loss.** Weight the routing loss
+   by crystal subspace projection (3.5% of FFN space governs
+   routing). Currently routing loss is gate BCE — could also
+   project onto known crystal eigenvectors.
 
 ## Artifacts
 
@@ -186,7 +234,9 @@ iterative residual correction of the sieve.
 | Residual boosting v1 | `scripts/experiments/residual_boosting.py` | ✅ |
 | Residual boosting v2 (dolma) | `scripts/experiments/residual_boosting_v2.py` | ✅ |
 | Score matching v3 | `scripts/experiments/score_matching_compression.py` | ✅ |
+| Topology SM v4 | `scripts/experiments/topology_score_matching.py` | ✅ |
 | v1 results | `results/residual-boosting/Qwen_Qwen3-8B.json` | ✅ |
 | v2 results | `results/residual-boosting/Qwen_Qwen3-8B_v2.json` | ✅ |
 | v3b results | `results/score-matching/Qwen_Qwen3-8B.json` | ✅ |
+| v4 results | `results/topology-score-matching/` | 🔄 Running |
 | EQUATIONS.md update | `EQUATIONS.md` (score matching loss section) | ✅ |

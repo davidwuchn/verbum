@@ -58,6 +58,30 @@ right space.
 2. **Corrections**: Per-weight LoRA on FFN projections replaces per-activation
    residual stream vectors. Matches the full-rank sieve residual.
 
+### Experiment 5: Topology-Aware Score Matching (v4, running)
+
+The v3b loss treats residual updates as flat vectors — no crystal topology
+awareness. The sieve error decomposes into:
+- **Routing error** (discrete, sparse): wrong signs → wrong program
+- **Magnitude error** (continuous, low-rank): right sign, wrong scale
+
+LoRA wastes rank capacity on sign flips. TernaryDescent is purpose-built
+for sign discovery. Split them:
+
+```
+W_eff = STE(delta_logits) * signs_base * (|W| * mask + A @ B)
+         ↑ TD (routing, lr=1e-3)        ↑ LoRA (magnitudes, lr=1e-4)
+```
+
+Decomposed loss:
+- L_routing: gate firing pattern BCE (which neurons fire)
+- L_value: residual update cosine (how much they contribute)
+- L_CE: standard cross-entropy
+
+Running in tmux window 2. TD logits are brute-force (4.4B params — full
+float32 per weight position). Tests the decomposition principle. If
+successful, sparsify TD using the 3-voter mechanism from v14/td.py.
+
 See `mementum/knowledge/score-matching-compression.md` for full details.
 See `EQUATIONS.md` (score matching loss section) for the equation.
 
