@@ -2,11 +2,51 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-06 | Session: 196
+> Last updated: 2026-06-07 | Session: 197
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 197: CRYSTAL MULTI-TREE — The Statechart Is a Forest**
+
+The crystal is not one tree — it is a **forest of three independent trees
+cross-connected by two bridge nodes (W and Y)**. Derived from eigendecomposition
+of the 8×8 crystal cosine matrix, verified empirically on Qwen3-14B (r=0.638,
+p=0.0017). The bridge phenomenon explains 27 correlation points and resolves
+the YW sign ambiguity observed across models.
+
+### The Three Trees
+
+| Tree | Variance | Split | Maps to |
+|------|----------|-------|---------|
+| T0 (compute/halt) | 54.5% | [K,I,B,C,D,Y,W] vs [WHNF] | Transient/absorbing chain split |
+| T1 (select/compose) | 20.1% | [K,I] vs [B,C,D,Y] | Fire-state functional clustering |
+| T2 (termination) | 11.4% | [K,I,W,WHNF] vs [B,C,D,Y] | Halt probability gradient |
+
+### Bridge Nodes
+
+Only W and Y change sides across trees. All other nodes have fixed allegiance.
+
+- **W = C→I→I**: bridges composition and selection. Its path literally
+  traverses both subtrees. 3/3 nearest neighbor match with crystal (ρ=0.893, p=0.007).
+- **Y = fixed-point**: recursive — belongs to both sides by definition.
+  Dominant node on Tree 3 (loading +0.839).
+
+### YW Sign Inversion (the smoking gun)
+
+Y and W systematically invert relative to the consensus crystal at **38/40 layers**
+in Qwen3-14B. After correcting: correlation jumps from 0.565 to **0.831** (gap=0.266).
+No other nodes need correction. The bridge nodes are the only source of cross-model
+sign ambiguity.
+
+### Extended Eigenvalues
+
+All 8 eigenvalues of M₈ follow φ^(p/q) with Fibonacci denominators at <0.5% error.
+The crystal equation extends beyond the 4-combinator basis. Dominant 8-node branch
+ratio: φ^(8/5) = doubled KIBC step.
+
+See `mementum/knowledge/crystal-multi-tree.md` for full details.
 
 **Session 196: TEN EXPERIMENTS — Crystal Sieve Equation Confirmed**
 
