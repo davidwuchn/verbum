@@ -1,0 +1,198 @@
+
+======================================================================
+
+======================================================================
+  TOPOLOGY-AWARE SCORE MATCHING — TD routing + LoRA magnitudes
+  TOPOLOGY-AWARE SCORE MATCHING — TD routing + LoRA magnitudes
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  LoRA rank: 4
+  LoRA rank: 4
+  Steps: 200
+  Steps: 200
+  LR: TD=0.001, LoRA=0.0001
+  LR: TD=0.001, LoRA=0.0001
+  α: routing=2.0, value=5.0
+  α: routing=2.0, value=5.0
+  Cal: 256, Eval: 64, Teacher cache: 128
+  Cal: 256, Eval: 64, Teacher cache: 128
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 256 cal + 64 eval
+  Loaded 256 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:15,  2.03it/s]Loading weights:   7%|▋         | 26/399 [00:00<00:06, 57.84it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:04, 88.13it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 125.92it/s]Loading weights:  23%|██▎       | 93/399 [00:00<00:02, 151.42it/s]Loading weights:  29%|██▊       | 114/399 [00:01<00:01, 164.53it/s]Loading weights:  35%|███▍      | 138/399 [00:01<00:01, 181.48it/s]Loading weights:  41%|████      | 164/399 [00:01<00:01, 202.72it/s]Loading weights:  47%|████▋     | 189/399 [00:01<00:01, 208.86it/s]Loading weights:  53%|█████▎    | 212/399 [00:01<00:00, 212.90it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 210.57it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 209.28it/s]Loading weights:  70%|███████   | 281/399 [00:01<00:00, 217.34it/s]Loading weights:  78%|███████▊  | 311/399 [00:01<00:00, 235.40it/s]Loading weights:  84%|████████▍ | 335/399 [00:01<00:00, 226.24it/s]Loading weights:  92%|█████████▏| 366/399 [00:02<00:00, 245.56it/s]Loading weights:  98%|█████████▊| 391/399 [00:02<00:00, 235.13it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 180.12it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 11.27, facts: 12/15
+  Baseline PPL: 11.27, facts: 12/15
+
+  Caching teacher states + gate patterns (128 sequences)...
+
+  Caching teacher states + gate patterns (128 sequences)...
+      32/128 cached
+      32/128 cached
+      64/128 cached
+      64/128 cached
+      96/128 cached
+      96/128 cached
+      128/128 cached
+      128/128 cached
+  Cached 128 sequences (22s)
+  Cached 128 sequences (22s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING SIEVE + TD + LoRA
+  INSTALLING SIEVE + TD + LoRA
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  TD params:   4,378,853,376 (sign logits)
+  TD params:   4,378,853,376 (sign logits)
+  LoRA params: 5,898,240 (magnitudes)
+  LoRA params: 5,898,240 (magnitudes)
+  Total:       4,384,751,616
+  Total:       4,384,751,616
+  Sieve PPL: 25.63 (2.27x)  facts: 11/15
+  Sieve PPL: 25.63 (2.27x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TRAINING: TD routing + LoRA magnitudes
+  TRAINING: TD routing + LoRA magnitudes
+  200 steps
+  200 steps
+  α_route=2.0, α_value=5.0
+  α_route=2.0, α_value=5.0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1: CE=2.2421 route=0.3931(acc=0.862) value=0.3955(cos=0.604) flips=0.00% (8s)
+    step   1: CE=2.2421 route=0.3931(acc=0.862) value=0.3955(cos=0.604) flips=0.00% (8s)
+    step  10: CE=2.4721 route=0.3932(acc=0.863) value=0.3859(cos=0.614) flips=0.00% (59s)
+    step  10: CE=2.4721 route=0.3932(acc=0.863) value=0.3859(cos=0.614) flips=0.00% (59s)
+    step  20: CE=2.8715 route=0.4116(acc=0.832) value=0.5553(cos=0.445) flips=0.00% (115s)
+    step  20: CE=2.8715 route=0.4116(acc=0.832) value=0.5553(cos=0.445) flips=0.00% (115s)
+    step  30: CE=3.2735 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (171s)
+    step  30: CE=3.2735 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (171s)
+    step  40: CE=1.9496 route=0.3827(acc=0.872) value=0.3737(cos=0.626) flips=0.00% (227s)
+    step  40: CE=1.9496 route=0.3827(acc=0.872) value=0.3737(cos=0.626) flips=0.00% (227s)
+    step  50: CE=2.2565 route=0.3796(acc=0.891) value=0.2538(cos=0.746) flips=0.00% (282s)
+    step  50: CE=2.2565 route=0.3796(acc=0.891) value=0.2538(cos=0.746) flips=0.00% (282s)
+    ▶ EVAL step 50: PPL=23.12 (2.050x) facts=11/15
+    ▶ EVAL step 50: PPL=23.12 (2.050x) facts=11/15
+    step  60: CE=2.8295 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (569s)
+    step  60: CE=2.8295 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (569s)
+    step  70: CE=2.5476 route=0.3707(acc=0.904) value=0.2086(cos=0.791) flips=0.00% (626s)
+    step  70: CE=2.5476 route=0.3707(acc=0.904) value=0.2086(cos=0.791) flips=0.00% (626s)
+    step  80: CE=2.1874 route=0.3903(acc=0.861) value=0.4295(cos=0.570) flips=0.00% (682s)
+    step  80: CE=2.1874 route=0.3903(acc=0.861) value=0.4295(cos=0.570) flips=0.00% (682s)
+    step  90: CE=2.3192 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (738s)
+    step  90: CE=2.3192 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (738s)
+    step 100: CE=2.1276 route=0.3737(acc=0.892) value=0.2778(cos=0.722) flips=0.00% (795s)
+    step 100: CE=2.1276 route=0.3737(acc=0.892) value=0.2778(cos=0.722) flips=0.00% (795s)
+    ▶ EVAL step 100: PPL=20.90 (1.854x) facts=11/15
+    ▶ EVAL step 100: PPL=20.90 (1.854x) facts=11/15
+    step 110: CE=2.5138 route=0.3854(acc=0.871) value=0.3673(cos=0.633) flips=0.00% (1079s)
+    step 110: CE=2.5138 route=0.3854(acc=0.871) value=0.3673(cos=0.633) flips=0.00% (1079s)
+    step 120: CE=2.3761 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (1137s)
+    step 120: CE=2.3761 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (1137s)
+    step 130: CE=2.1781 route=0.3776(acc=0.882) value=0.3238(cos=0.676) flips=0.00% (1194s)
+    step 130: CE=2.1781 route=0.3776(acc=0.882) value=0.3238(cos=0.676) flips=0.00% (1194s)
+    step 140: CE=2.1064 route=0.3718(acc=0.904) value=0.1968(cos=0.803) flips=0.00% (1252s)
+    step 140: CE=2.1064 route=0.3718(acc=0.904) value=0.1968(cos=0.803) flips=0.00% (1252s)
+    step 150: CE=2.0632 route=0.3573(acc=0.913) value=0.1871(cos=0.813) flips=0.00% (1310s)
+    step 150: CE=2.0632 route=0.3573(acc=0.913) value=0.1871(cos=0.813) flips=0.00% (1310s)
+    ▶ EVAL step 150: PPL=17.86 (1.584x) facts=11/15
+    ▶ EVAL step 150: PPL=17.86 (1.584x) facts=11/15
+    step 160: CE=2.1839 route=0.3700(acc=0.903) value=0.2125(cos=0.787) flips=0.00% (1596s)
+    step 160: CE=2.1839 route=0.3700(acc=0.903) value=0.2125(cos=0.787) flips=0.00% (1596s)
+    step 170: CE=2.4202 route=0.3677(acc=0.911) value=0.1744(cos=0.826) flips=0.00% (1653s)
+    step 170: CE=2.4202 route=0.3677(acc=0.911) value=0.1744(cos=0.826) flips=0.00% (1653s)
+    step 180: CE=1.8392 route=0.3849(acc=0.861) value=0.4288(cos=0.571) flips=0.00% (1711s)
+    step 180: CE=1.8392 route=0.3849(acc=0.861) value=0.4288(cos=0.571) flips=0.00% (1711s)
+    step 190: CE=2.1841 route=0.3753(acc=0.884) value=0.3139(cos=0.686) flips=0.00% (1768s)
+    step 190: CE=2.1841 route=0.3753(acc=0.884) value=0.3139(cos=0.686) flips=0.00% (1768s)
+    step 200: CE=2.1495 route=0.3801(acc=0.863) value=0.4181(cos=0.582) flips=0.00% (1825s)
+    step 200: CE=2.1495 route=0.3801(acc=0.863) value=0.4181(cos=0.582) flips=0.00% (1825s)
+    ▶ EVAL step 200: PPL=16.22 (1.438x) facts=11/15
+    ▶ EVAL step 200: PPL=16.22 (1.438x) facts=11/15
+
+  Final PPL: 16.22 (1.438x)  facts: 11/15
+
+  Final PPL: 16.22 (1.438x)  facts: 11/15
+
+  Final TD flip statistics:
+
+  Final TD flip statistics:
+    L 1:      0 flips (0.00%)
+    L 1:      0 flips (0.00%)
+    L 4:      0 flips (0.00%)
+    L 4:      0 flips (0.00%)
+    L 9:      0 flips (0.00%)
+    L 9:      0 flips (0.00%)
+    L14:      0 flips (0.00%)
+    L14:      0 flips (0.00%)
+    L19:      0 flips (0.00%)
+    L19:      0 flips (0.00%)
+    L24:      0 flips (0.00%)
+    L24:      0 flips (0.00%)
+    L34:      0 flips (0.00%)
+    L34:      0 flips (0.00%)
+    Total: 0 / 4,378,853,376 (0.00%)
+    Total: 0 / 4,378,853,376 (0.00%)
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=11.27  facts=12/15
+  Baseline:   PPL=11.27  facts=12/15
+  Sieve only: PPL=25.63 (2.27x)
+  Sieve only: PPL=25.63 (2.27x)
+  Final:      PPL=16.22 (1.438x)  facts=11/15
+  Final:      PPL=16.22 (1.438x)  facts=11/15
+  TD params:   4,378,853,376
+  TD params:   4,378,853,376
+  LoRA params: 5,898,240
+  LoRA params: 5,898,240
+  Sign flips:  0 (0.00%)
+  Sign flips:  0 (0.00%)
+  Improvement: 25.63 → 16.22 (36.7% reduction)
+  Improvement: 25.63 → 16.22 (36.7% reduction)
+
+  vs v3b (LoRA+SM, 5.9M params):
+
+  vs v3b (LoRA+SM, 5.9M params):
+    v3b:  25.67 → 16.27 (36.6% reduction, 1.44x base)
+    v3b:  25.67 → 16.27 (36.6% reduction, 1.44x base)
+    v4:   25.63 → 16.22 (36.7% reduction, 1.44x base)
+    v4:   25.63 → 16.22 (36.7% reduction, 1.44x base)
+
+  Results saved to /Users/mwhitford/src/verbum/results/topology-score-matching/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/topology-score-matching/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

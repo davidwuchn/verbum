@@ -181,15 +181,20 @@ class TDLoRASieveLinear(nn.Module):
     W_eff = corrected_signs * corrected_magnitudes
 
     corrected_signs = sign(W_base) * ste_sign(delta_logits)
-      delta_logits: initialized to +1 (keep all base signs)
+      delta_logits: initialized to +0.01 (small positive = keep base sign,
+        but only needs to cross 0 to flip — NOT travel from +1.0)
       STE gradient flows through sign() to update logits
       A flip happens when delta_logit crosses zero
 
     corrected_magnitudes = |W_base| * mask + A @ B
       LoRA correction on the magnitude part only
 
+    TD logits are ONLY created for non-masked positions (where signs_base != 0).
+    Masked positions have signs_base=0, so sign corrections have no effect there
+    and would waste gradient budget.
+
     The routing (signs) and calibration (magnitudes) are separate
-    parameter groups with separate learning rates.
+    parameter groups with separate learning rates and separate grad clipping.
     """
 
     def __init__(self, weight, zero_rate=0.5, lora_rank=4):
@@ -215,11 +220,15 @@ class TDLoRASieveLinear(nn.Module):
         magnitudes = abs_W * mask
         self.register_buffer("signs_base", signs_base.half())
         self.register_buffer("magnitudes", magnitudes.half())
+        self.register_buffer("active_mask", (signs_base != 0).float())
 
-        # TD: sign correction logits — initialized to +1 (keep all signs)
-        # When a logit crosses zero, the sign flips
+        # TD: sign correction logits — initialized to +0.01 (small positive)
+        # FIX: init near zero so flips require crossing ~0, not traveling 1.0
+        # Only active (non-masked) positions matter, but we keep full shape
+        # for simple indexing. Masked positions get no gradient because
+        # signs_base=0 kills the gradient path.
         self.delta_logits = nn.Parameter(
-            torch.ones(out_features, in_features))
+            torch.full((out_features, in_features), 0.01))
 
         # LoRA: magnitude correction — initialized to zero
         self.lora_A = nn.Parameter(
@@ -230,9 +239,7 @@ class TDLoRASieveLinear(nn.Module):
         self.out_features = out_features
         self.in_features = in_features
         self.lora_rank = lora_rank
-
-        # Track flips for diagnostics
-        self._initial_signs = signs_base.clone()
+        self._n_active = int(self.active_mask.sum().item())
 
     def forward(self, x):
         # Routing: base signs * STE(delta_logits)
@@ -251,15 +258,17 @@ class TDLoRASieveLinear(nn.Module):
 
     @property
     def n_flips(self):
-        """Count how many signs have flipped from initial."""
+        """Count how many active signs have flipped from initial."""
         with torch.no_grad():
             current = torch.sign(self.delta_logits)
-            initial = torch.ones_like(current)  # all started at +1
-            return int((current != initial).sum().item())
+            # Started at +0.01, so initial sign is +1
+            flipped = (current < 0).float() * self.active_mask.to(
+                current.device)
+            return int(flipped.sum().item())
 
     @property
     def flip_rate(self):
-        return self.n_flips / (self.out_features * self.in_features)
+        return self.n_flips / max(self._n_active, 1)
 
     @property
     def td_params(self):
@@ -271,7 +280,7 @@ class TDLoRASieveLinear(nn.Module):
 
     @property
     def n_td_params(self):
-        return self.delta_logits.numel()
+        return self._n_active  # only active positions matter
 
     @property
     def n_lora_params(self):
@@ -451,18 +460,21 @@ def compute_topology_loss(model, input_ids, teacher_data,
         s_gate = student_gates[li].float()       # (seq, ffn_dim), with grad
         t_pattern = teacher_gates[li].float().to(device)  # (seq, ffn_dim), binary
 
-        # Binary cross-entropy: does student gate fire where teacher fires?
-        # Use sigmoid on student gate values as probability
-        s_prob = torch.sigmoid(s_gate)
-        bce = F.binary_cross_entropy(s_prob, t_pattern, reduction='mean')
-        routing_loss = routing_loss + bce
+        # FIX: use bce_with_logits — numerically stable, avoids log(0).
+        # sigmoid(±65000) ≈ 0 or 1, then log(0) = -inf → NaN in BCE.
+        # with_logits fuses log-sigmoid for stability.
+        bce = F.binary_cross_entropy_with_logits(
+            s_gate, t_pattern, reduction='mean')
+
+        if not (torch.isnan(bce) or torch.isinf(bce)):
+            routing_loss = routing_loss + bce
+            n_routing += 1
 
         # Diagnostic: firing pattern accuracy
         with torch.no_grad():
             s_pattern = (s_gate > 0).float()
             acc = (s_pattern == t_pattern).float().mean().item()
             routing_accuracy[li] = acc
-        n_routing += 1
 
     if n_routing > 0:
         routing_loss = routing_loss / n_routing
@@ -483,11 +495,18 @@ def compute_topology_loss(model, input_ids, teacher_data,
         t_delta = (teacher_hidden[li + 1].float().to(device)
                    - teacher_hidden[li].float().to(device))
 
-        cos = F.cosine_similarity(s_delta, t_delta, dim=-1)
-        mean_cos = cos.mean()
-        value_loss = value_loss + (1.0 - mean_cos)
-        value_cosine[li] = mean_cos.item()
-        n_value += 1
+        # NaN protection: skip layers with zero-norm deltas
+        s_norm = s_delta.norm(dim=-1, keepdim=True)
+        t_norm = t_delta.norm(dim=-1, keepdim=True)
+        valid = ((s_norm > 1e-8) & (t_norm > 1e-8)).squeeze(-1)
+        if valid.any():
+            cos = F.cosine_similarity(s_delta, t_delta, dim=-1)
+            # Only use valid positions
+            mean_cos = cos[valid].mean()
+            if not torch.isnan(mean_cos):
+                value_loss = value_loss + (1.0 - mean_cos)
+                value_cosine[li] = mean_cos.item()
+                n_value += 1
 
     if n_value > 0:
         value_loss = value_loss / n_value
@@ -515,7 +534,7 @@ def main():
     p.add_argument("--lora-rank", type=int, default=4)
     p.add_argument("--steps", type=int, default=200)
     p.add_argument("--lr-td", type=float, default=1e-3,
-                   help="Learning rate for TD sign logits")
+                   help="Learning rate for TD sign logits (Adam, per-tensor clip)")
     p.add_argument("--lr-lora", type=float, default=1e-4,
                    help="Learning rate for LoRA magnitudes")
     p.add_argument("--alpha-route", type=float, default=2.0,
@@ -631,9 +650,12 @@ def main():
             total_td += sum(p.numel() for p in mod.td_params)
             total_lora += sum(p.numel() for p in mod.lora_params)
 
-    log(f"  TD params:   {total_td:,} (sign logits)")
+    log(f"  TD params:   {total_td:,} (active sign logits, ~50% of full)")
     log(f"  LoRA params: {total_lora:,} (magnitudes)")
     log(f"  Total:       {total_td + total_lora:,}")
+    log(f"  TD optimizer: Adam(lr={args.lr_td})")
+    log(f"  LoRA optimizer: Adam(lr={args.lr_lora})")
+    log(f"  Grad clipping: per-TENSOR for TD, per-group for LoRA")
 
     # Post-sieve measurement
     sieve_ppl = measure_ppl_tokens(model, eval_sequences, args.device)
@@ -651,7 +673,12 @@ def main():
     log(f"{'═'*70}")
 
     # Two optimizers: different LRs for routing vs magnitudes
-    opt_td = torch.optim.Adam(td_params, lr=args.lr_td) if td_params else None
+    # TD uses Adam — its per-param adaptive LR naturally handles the
+    # scale problem that killed v4 (joint clipping) and v4b (SGD blowup).
+    # Adam's effective step size ≈ lr regardless of gradient scale,
+    # which is exactly what sign logits need.
+    opt_td = torch.optim.Adam(
+        td_params, lr=args.lr_td) if td_params else None
     opt_lora = torch.optim.Adam(lora_params, lr=args.lr_lora)
 
     model.train()
@@ -706,17 +733,33 @@ def main():
                 ce_loss = out.loss
                 loss = ce_loss
 
-            if not (torch.isnan(loss) or torch.isinf(loss)):
+            # Guard ALL loss components — any NaN poisons the backward
+            any_nan = (torch.isnan(loss) or torch.isinf(loss)
+                       or torch.isnan(ce_loss) or torch.isinf(ce_loss))
+            if not any_nan:
                 loss.backward()
                 step_ce += ce_loss.item() * input_ids.numel()
                 step_tokens += input_ids.numel()
 
         if step_tokens > 0:
-            # Clip and step both optimizers
-            all_params = lora_params + (td_params if td_params else [])
-            torch.nn.utils.clip_grad_norm_(all_params, max_norm=1.0)
-            if opt_td:
+            # FIX: Clip per-TENSOR for TD, not per-group.
+            # Group-level norm=1.0 across 4.4B params gives per-param
+            # gradient ~1.5e-5 — too small for Adam to track.
+            # Per-tensor clipping preserves relative gradient structure
+            # within each projection matrix.
+            if td_params:
+                for p in td_params:
+                    if p.grad is not None:
+                        torch.nn.utils.clip_grad_norm_([p], max_norm=1.0)
                 opt_td.step()
+                # Clamp delta_logits to prevent runaway values.
+                # sign(x) only cares about the sign, not magnitude.
+                # Clamping to [-1, 1] keeps logits near the decision
+                # boundary and prevents parameter corruption.
+                with torch.no_grad():
+                    for p in td_params:
+                        p.clamp_(-1.0, 1.0)
+            torch.nn.utils.clip_grad_norm_(lora_params, max_norm=1.0)
             opt_lora.step()
 
         avg_ce = step_ce / max(step_tokens, 1)
@@ -832,7 +875,7 @@ def main():
 
     result = {
         "model": args.model,
-        "version": "v4-topology-sm",
+        "version": "v4c-topology-sm-nan-fixed",
         "config": {
             "lora_rank": args.lora_rank,
             "steps": args.steps,

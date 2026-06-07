@@ -1,0 +1,100 @@
+
+======================================================================
+
+======================================================================
+  TOPOLOGY-AWARE SCORE MATCHING — TD routing + LoRA magnitudes
+  TOPOLOGY-AWARE SCORE MATCHING — TD routing + LoRA magnitudes
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  LoRA rank: 4
+  LoRA rank: 4
+  Steps: 200
+  Steps: 200
+  LR: TD=0.1, LoRA=0.0001
+  LR: TD=0.1, LoRA=0.0001
+  α: routing=2.0, value=5.0
+  α: routing=2.0, value=5.0
+  Cal: 256, Eval: 64, Teacher cache: 128
+  Cal: 256, Eval: 64, Teacher cache: 128
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 256 cal + 64 eval
+  Loaded 256 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:45,  1.77it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 50.34it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:03, 106.76it/s]Loading weights:  23%|██▎       | 90/399 [00:00<00:02, 144.23it/s]Loading weights:  28%|██▊       | 113/399 [00:01<00:01, 161.09it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 177.07it/s]Loading weights:  40%|███▉      | 159/399 [00:01<00:01, 188.34it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:00, 215.03it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 208.56it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 216.31it/s]Loading weights:  67%|██████▋   | 266/399 [00:01<00:00, 225.28it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 228.77it/s]Loading weights:  79%|███████▊  | 314/399 [00:01<00:00, 227.83it/s]Loading weights:  86%|████████▌ | 343/399 [00:02<00:00, 240.39it/s]Loading weights:  92%|█████████▏| 368/399 [00:02<00:00, 228.33it/s]Loading weights:  98%|█████████▊| 392/399 [00:02<00:00, 231.41it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.88it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 11.27, facts: 12/15
+  Baseline PPL: 11.27, facts: 12/15
+
+  Caching teacher states + gate patterns (128 sequences)...
+
+  Caching teacher states + gate patterns (128 sequences)...
+      32/128 cached
+      32/128 cached
+      64/128 cached
+      64/128 cached
+      96/128 cached
+      96/128 cached
+      128/128 cached
+      128/128 cached
+  Cached 128 sequences (21s)
+  Cached 128 sequences (21s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING SIEVE + TD + LoRA
+  INSTALLING SIEVE + TD + LoRA
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  TD params:   4,378,853,376 (active sign logits, ~50% of full)
+  TD params:   4,378,853,376 (active sign logits, ~50% of full)
+  LoRA params: 5,898,240 (magnitudes)
+  LoRA params: 5,898,240 (magnitudes)
+  Total:       4,384,751,616
+  Total:       4,384,751,616
+  TD optimizer: SGD(lr=0.1, momentum=0.9)
+  TD optimizer: SGD(lr=0.1, momentum=0.9)
+  LoRA optimizer: Adam(lr=0.0001)
+  LoRA optimizer: Adam(lr=0.0001)
+  Grad clipping: SEPARATE per group (norm=1.0 each)
+  Grad clipping: SEPARATE per group (norm=1.0 each)
+  Sieve PPL: 25.76 (2.28x)  facts: 11/15
+  Sieve PPL: 25.76 (2.28x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TRAINING: TD routing + LoRA magnitudes
+  TRAINING: TD routing + LoRA magnitudes
+  200 steps
+  200 steps
+  α_route=2.0, α_value=5.0
+  α_route=2.0, α_value=5.0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1: CE=2.2498 route=0.3932(acc=0.862) value=0.3955(cos=0.605) flips=0.00% (8s)
+    step   1: CE=2.2498 route=0.3932(acc=0.862) value=0.3955(cos=0.605) flips=0.00% (8s)
+    step  10: CE=7.5019 route=40.0758(acc=0.756) value=nan(cos=nan) flips=0.00% (64s)
+    step  10: CE=7.5019 route=40.0758(acc=0.756) value=nan(cos=nan) flips=0.00% (64s)
+    step  20: CE=0.0000 route=79.4179(acc=0.801) value=nan(cos=nan) flips=0.00% (129s)
+    step  20: CE=0.0000 route=79.4179(acc=0.801) value=nan(cos=nan) flips=0.00% (129s)
+    step  30: CE=0.0000 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (203s)
+    step  30: CE=0.0000 route=0.0000(acc=0.000) value=0.0000(cos=0.000) flips=0.00% (203s)

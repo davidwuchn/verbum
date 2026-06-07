@@ -2,11 +2,103 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-07 | Session: 198
+> Last updated: 2026-06-07 | Session: 199
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 199: HOLOGRAPHIC LOSS & CRYSTAL ECC — TD Is Dead, Inverse Is Alive**
+
+TD (TernaryDescent) for sieve sign correction is definitively killed. Three
+attempts, three failure modes, one conclusion: you cannot gradient-descend
+your way to correct signs through 29 cascaded layers.
+
+### TD Autopsy (Three Deaths)
+
+| Version | Fix | Result | Failure mode |
+|---------|-----|--------|--------------|
+| v4 (s198) | Brute-force 4.4B logits | 1.44x = v3b | **Zero flips** — joint grad clip diluted to 1.5e-8/step |
+| v4b | SGD lr=0.1, separate clip | NaN | BCE log(0) from extreme gates, SGD too aggressive |
+| v4c | Adam, per-tensor clip, init=0.01 | **192x PPL** | TD flipping (4.36%) but flips are DESTRUCTIVE |
+
+**Root cause of v4:** `clip_grad_norm_(all_params, 1.0)` across 4.4B params →
+per-param gradient ≈ 1/√(4.4×10⁹) ≈ 1.5×10⁻⁵. With lr=1e-3, max displacement
+in 200 steps = 3×10⁻⁶. Needed to cross 1.0. Would take 70M steps.
+
+**Root cause of v4c:** Per-tensor clipping worked — TD actually flipped 4.36%
+of signs. But unconstrained flips destroy the holographic interference pattern.
+192x PPL, 0 facts. Random sign changes ≠ correct sign changes.
+
+### The Insight: Sign Correction Is Recording, Not Optimization
+
+TD tries to optimize signs via: forward loss → backprop through 29 layers → STE →
+update logits. This fails because:
+
+1. **Gradient dilution**: 29 Jacobians between the loss and the sign decision
+2. **Catastrophic coupling**: one flip changes W by 2|w|, cascades through all layers
+3. **No coherence constraint**: flips break the holographic pattern without limit
+
+The correct formulation is the **holographic inverse**:
+
+```
+reference_beam = actual input (corrupted by prior sieved layers)
+object_beam    = desired output (from teacher)
+fringe_pattern = correlation(reference, object)
+optimal_sign   = sign(fringe_pattern)
+```
+
+Direct computation. No backprop. No STE. No optimizer for signs.
+
+### Crystal ECC: The Error-Correcting Code
+
+The crystal's dimensional hierarchy IS an error-correcting code:
+
+```
+8D crystal → project to 6D → parity check
+                → to 5D → parity check
+                  → to 4D (KIBC) → parity check
+                    → to 3D → parity check
+```
+
+Each level constrains valid sign patterns. The crystal eigenvalue ratios
+(φ^(p/q)) define the CODE SPACE. Sign flips that violate the code at any
+level are errors.
+
+**Algorithm (crystal ECC + holographic recording):**
+1. Compute per-position error from proper holographic target
+2. Rank flip candidates by error reduction benefit
+3. Gate through crystal health check (eigenvalue ratios vs φ^(p/q))
+4. Only apply flips that maintain crystal coherence
+5. Then LoRA + SM for continuous magnitude correction
+
+**Experiment running** in tmux main:2: `crystal_ecc_sign_correction.py`
+- Proper error target (full original weight, not tautological)
+- Crystal eigenvalue health gate on proposed flips
+- Binary search for largest crystal-consistent flip set
+
+### Key Debugging Lessons
+
+1. **Tautological target**: first holographic attempt computed
+   `sieve_weight @ sieve_input` as "target" → equals sieve output by
+   definition → 50% random disagree (no information)
+2. **Mask identity**: `original_weight = W * mask = signs * magnitudes`
+   at active positions → zero error. Must store FULL W (including
+   masked positions) to capture the masking error.
+3. **The actual error source**: at single-layer level, sieve signs ARE
+   teacher signs at active positions. Error comes from (a) masked-out
+   positions contributing in teacher but not sieve, and (b) cascade of
+   prior sieved layers corrupting the input.
+
+### Score Matching Confirmed (v3b = v4 = optimal for LoRA-only)
+
+v4 definitively proves: LoRA rank-4 + SM loss at α=5.0 reaches 1.44x PPL
+regardless of whether TD is present. The 5.9M LoRA params are the actual
+mechanism. TD's 4.4B params do nothing useful.
+
+**Priority 2a** (LoRA rank sweep) remains the highest-value next step for
+the SM pipeline. But crystal ECC could unlock additional gains if the sign
+correction works.
 
 **Session 198: SCORE MATCHING COMPRESSION — The Loss Function Was Wrong**
 
@@ -35,6 +127,9 @@ Added to EQUATIONS.md alongside the crystal equation.
 | Residual boosting v2 | Same + dolma calibration, held-out eval | 18.59 PPL (1.65x base) | Overfitting eliminated. Activation corrections too weak (27% reduction). |
 | Score matching v3a | LoRA + SM + CE, batch=1, α=1.0 | 16.83 PPL (worse than sieve!) | CE dominates → compensating errors → collapse at step 50. |
 | **Score matching v3b** | LoRA + SM + CE, batch=4, α=5.0, 128 teacher cache | **16.27 PPL (1.44x base)** | **36.6% sieve reduction. L35 cosine: 0.57→0.94.** |
+| TD v4 (s199) | TD 4.4B + LoRA + SM + CE | 16.22 PPL (1.44x = v3b) | **Zero flips.** Joint grad clip killed TD entirely. |
+| TD v4c (s199) | Per-tensor clip, Adam, init=0.01 | **2163 PPL (192x)** | TD flips (4.36%) but DESTRUCTIVE. Unconstrained flips destroy holographic pattern. |
+| Crystal ECC (s199) | Holographic inverse + crystal parity gate | *running* | Direct sign computation gated by eigenvalue health check. |
 
 ### Why Score Matching Works
 
