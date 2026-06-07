@@ -1,0 +1,244 @@
+
+======================================================================
+
+======================================================================
+  SCORE MATCHING COMPRESSION — CGTSM-inspired sieve correction
+  SCORE MATCHING COMPRESSION — CGTSM-inspired sieve correction
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  LoRA rank: 4
+  LoRA rank: 4
+  Steps: 200
+  Steps: 200
+  α (score/CE balance): 1.0
+  α (score/CE balance): 1.0
+  Calibration: 128 seq × 128 tok
+  Calibration: 128 seq × 128 tok
+  Teacher cache: 32 sequences
+  Teacher cache: 32 sequences
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 128 cal + 64 eval
+  Loaded 128 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:49,  1.74it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:11, 33.13it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 93.12it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:02, 135.92it/s]Loading weights:  28%|██▊       | 111/399 [00:01<00:01, 179.29it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 194.11it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:01, 216.35it/s]Loading weights:  48%|████▊     | 193/399 [00:01<00:00, 218.74it/s]Loading weights:  58%|█████▊    | 230/399 [00:01<00:00, 257.47it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 248.34it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 261.29it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 271.63it/s]Loading weights:  88%|████████▊ | 353/399 [00:01<00:00, 285.62it/s]Loading weights:  97%|█████████▋| 389/399 [00:01<00:00, 302.42it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 199.77it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 8.77, facts: 12/15
+  Baseline PPL: 8.77, facts: 12/15
+
+  Caching teacher states (32 sequences, all 36 layers)...
+
+  Caching teacher states (32 sequences, all 36 layers)...
+  Cached 32 × 37 layers (1242 MB, 5s)
+  Cached 32 × 37 layers (1242 MB, 5s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  ROUND 0: CRYSTAL SIEVE + LoRA
+  ROUND 0: CRYSTAL SIEVE + LoRA
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve + LoRA installed on 30 layers
+  Sieve + LoRA installed on 30 layers
+  LoRA rank: 4
+  LoRA rank: 4
+  Total LoRA params: 5,898,240
+  Total LoRA params: 5,898,240
+  Sieve PPL: 14.06 (1.60x)  facts: 11/15
+  Sieve PPL: 14.06 (1.60x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TRAINING: CE + α × SCORE MATCHING
+  TRAINING: CE + α × SCORE MATCHING
+  200 steps, lr=0.0001, α=1.0
+  200 steps, lr=0.0001, α=1.0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1: CE=2.4186 score=0.2388 mean_cos=0.7612 (1s)
+    step   1: CE=2.4186 score=0.2388 mean_cos=0.7612 (1s)
+    step  10: CE=1.7129 score=0.2133 mean_cos=0.7867 (6s)
+    step  10: CE=1.7129 score=0.2133 mean_cos=0.7867 (6s)
+    step  20: CE=3.6733 score=0.4697 mean_cos=0.5303 (11s)
+    step  20: CE=3.6733 score=0.4697 mean_cos=0.5303 (11s)
+    step  30: CE=1.6072 score=0.2102 mean_cos=0.7898 (16s)
+    step  30: CE=1.6072 score=0.2102 mean_cos=0.7898 (16s)
+    step  40: CE=3.0612 score=0.2120 mean_cos=0.7880 (22s)
+    step  40: CE=3.0612 score=0.2120 mean_cos=0.7880 (22s)
+    step  50: CE=3.4840 score=0.4845 mean_cos=0.5155 (27s)
+    step  50: CE=3.4840 score=0.4845 mean_cos=0.5155 (27s)
+    ▶ EVAL step 50: PPL=12.84 (1.464x) facts=10/15
+    ▶ EVAL step 50: PPL=12.84 (1.464x) facts=10/15
+    step  60: CE=2.3979 score=0.2056 mean_cos=0.7944 (87s)
+    step  60: CE=2.3979 score=0.2056 mean_cos=0.7944 (87s)
+    step  70: CE=2.2618 score=0.1900 mean_cos=0.8100 (92s)
+    step  70: CE=2.2618 score=0.1900 mean_cos=0.8100 (92s)
+    step  80: CE=2.1906 score=0.2050 mean_cos=0.7950 (97s)
+    step  80: CE=2.1906 score=0.2050 mean_cos=0.7950 (97s)
+    step  90: CE=1.6646 score=0.2301 mean_cos=0.7699 (102s)
+    step  90: CE=1.6646 score=0.2301 mean_cos=0.7699 (102s)
+    step 100: CE=1.7298 score=0.4392 mean_cos=0.5608 (107s)
+    step 100: CE=1.7298 score=0.4392 mean_cos=0.5608 (107s)
+    ▶ EVAL step 100: PPL=13.07 (1.490x) facts=10/15
+    ▶ EVAL step 100: PPL=13.07 (1.490x) facts=10/15
+    step 110: CE=1.6218 score=0.2357 mean_cos=0.7643 (167s)
+    step 110: CE=1.6218 score=0.2357 mean_cos=0.7643 (167s)
+    step 120: CE=1.3713 score=0.2379 mean_cos=0.7621 (172s)
+    step 120: CE=1.3713 score=0.2379 mean_cos=0.7621 (172s)
+    step 130: CE=1.1738 score=0.2270 mean_cos=0.7730 (177s)
+    step 130: CE=1.1738 score=0.2270 mean_cos=0.7730 (177s)
+    step 140: CE=0.7331 score=0.4337 mean_cos=0.5663 (183s)
+    step 140: CE=0.7331 score=0.4337 mean_cos=0.5663 (183s)
+    step 150: CE=1.7985 score=0.2124 mean_cos=0.7876 (188s)
+    step 150: CE=1.7985 score=0.2124 mean_cos=0.7876 (188s)
+    ▶ EVAL step 150: PPL=14.06 (1.602x) facts=10/15
+    ▶ EVAL step 150: PPL=14.06 (1.602x) facts=10/15
+    step 160: CE=2.4560 score=0.4467 mean_cos=0.5533 (248s)
+    step 160: CE=2.4560 score=0.4467 mean_cos=0.5533 (248s)
+    step 170: CE=0.5505 score=0.2931 mean_cos=0.7069 (253s)
+    step 170: CE=0.5505 score=0.2931 mean_cos=0.7069 (253s)
+    step 180: CE=2.2224 score=0.5420 mean_cos=0.4580 (258s)
+    step 180: CE=2.2224 score=0.5420 mean_cos=0.4580 (258s)
+    step 190: CE=0.3111 score=0.2707 mean_cos=0.7293 (263s)
+    step 190: CE=0.3111 score=0.2707 mean_cos=0.7293 (263s)
+    step 200: CE=1.0816 score=0.5285 mean_cos=0.4715 (269s)
+    step 200: CE=1.0816 score=0.5285 mean_cos=0.4715 (269s)
+    ▶ EVAL step 200: PPL=16.83 (1.919x) facts=11/15
+    ▶ EVAL step 200: PPL=16.83 (1.919x) facts=11/15
+
+  Final PPL: 16.83 (1.919x)  facts: 11/15
+
+  Final PPL: 16.83 (1.919x)  facts: 11/15
+
+  Final per-layer score cosine:
+
+  Final per-layer score cosine:
+   Layer     cos      Zone
+   Layer     cos      Zone
+  ──────  ──────  ────────
+  ──────  ──────  ────────
+  L  0   0.8862    L0-SVD
+  L  0   0.8862    L0-SVD
+  L  1   0.8689    EXPAND
+  L  1   0.8689    EXPAND
+  L  2   0.8096    EXPAND
+  L  2   0.8096    EXPAND
+  L  3   0.8626    EXPAND
+  L  3   0.8626    EXPAND
+  L  4   0.8410    EXPAND
+  L  4   0.8410    EXPAND
+  L  5   0.8471    EXPAND
+  L  5   0.8471    EXPAND
+  L  6   0.8142    EXPAND
+  L  6   0.8142    EXPAND
+  L  7   0.7586     ORTHO
+  L  7   0.7586     ORTHO
+  L  8   0.7562     ORTHO
+  L  8   0.7562     ORTHO
+  L  9   0.7350     ORTHO
+  L  9   0.7350     ORTHO
+  L 10   0.7309     ORTHO
+  L 10   0.7309     ORTHO
+  L 11   0.7291     ORTHO
+  L 11   0.7291     ORTHO
+  L 12   0.7506     ORTHO
+  L 12   0.7506     ORTHO
+  L 13   0.7072     SWEET
+  L 13   0.7072     SWEET
+  L 14   0.7130     SWEET
+  L 14   0.7130     SWEET
+  L 15   0.6837     SWEET
+  L 15   0.6837     SWEET
+  L 16   0.6711     SWEET
+  L 16   0.6711     SWEET
+  L 17   0.6568     SWEET
+  L 17   0.6568     SWEET
+  L 18   0.6680     SWEET
+  L 18   0.6680     SWEET
+  L 19   0.6995     SWEET
+  L 19   0.6995     SWEET
+  L 20   0.6372     SWEET
+  L 20   0.6372     SWEET
+  L 21   0.6401     SWEET
+  L 21   0.6401     SWEET
+  L 22   0.6639    BIND-P
+  L 22   0.6639    BIND-P
+  L 23   0.6677    BIND-P
+  L 23   0.6677    BIND-P
+  L 24   0.6688    BIND-P
+  L 24   0.6688    BIND-P
+  L 25   0.6494    BIND-P
+  L 25   0.6494    BIND-P
+  L 26   0.6219    BIND-P
+  L 26   0.6219    BIND-P
+  L 27   0.6948      BIND
+  L 27   0.6948      BIND
+  L 28   0.6817      BIND
+  L 28   0.6817      BIND
+  L 29   0.7080      BIND
+  L 29   0.7080      BIND
+  L 30   0.7045      BIND
+  L 30   0.7045      BIND
+  L 31   0.6926      BIND
+  L 31   0.6926      BIND
+  L 32   0.6210      LATE
+  L 32   0.6210      LATE
+  L 33   0.6510      LATE
+  L 33   0.6510      LATE
+  L 34   0.8228      LATE
+  L 34   0.8228      LATE
+  L 35   0.5674       OUT
+  L 35   0.5674       OUT
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=8.77  facts=12/15
+  Baseline:   PPL=8.77  facts=12/15
+  Sieve only: PPL=14.06 (1.60x)
+  Sieve only: PPL=14.06 (1.60x)
+  Final:      PPL=16.83 (1.919x)  facts=11/15
+  Final:      PPL=16.83 (1.919x)  facts=11/15
+  LoRA params: 5,898,240
+  LoRA params: 5,898,240
+  Improvement: 14.06 → 16.83 (-19.7% reduction)
+  Improvement: 14.06 → 16.83 (-19.7% reduction)
+
+  vs v2 (residual boosting, 2.1M params):
+
+  vs v2 (residual boosting, 2.1M params):
+    v2: 25.50 → 18.59 (27.1% reduction, 1.65x base)
+    v2: 25.50 → 18.59 (27.1% reduction, 1.65x base)
+    v3: 14.06 → 16.83 (-19.7% reduction, 1.92x base)
+    v3: 14.06 → 16.83 (-19.7% reduction, 1.92x base)
+
+  Results saved to /Users/mwhitford/src/verbum/results/score-matching/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/score-matching/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

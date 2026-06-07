@@ -455,7 +455,101 @@ language model that performs beta reduction on natural language.
 
 ---
 
-*Derived in session 181 of the Verbum project.*
-*Based on 180 sessions of experimental work across 5+ model families.*
-*Scripts: `scripts/experiments/crystal_derivation.py`*
+## The Score Matching Loss
+
+```
+L = L_CE + α · (1/N) Σ_l (1 − cos(Δ_θ_l, Δ*_l))
+
+where Δ_l = h_{l+1} − h_l    (per-layer residual update / "score")
+      cos(a, b) = a·b / (‖a‖·‖b‖)
+      N = number of layers
+      α ≈ 5.0                 (balances CE and score matching scales)
+```
+
+This loss governs how sieve-compressed models are corrected. It
+measures the per-layer transformation fidelity between the student
+(sieved + LoRA-corrected) and teacher (original) models.
+
+### Why Score Matching, Not CE Alone
+
+Cross-entropy is an **endpoint loss** — it constrains only the
+final output. With 36 layers of LoRA corrections, the optimizer
+creates **compensating errors**: one layer's deviation cancels
+another's. The output looks correct on calibration data; the
+internal computation diverges from the teacher. This fails on
+held-out data because the compensations are specific to the
+training set.
+
+Score matching constrains the **trajectory** — every layer must
+independently match the teacher's transformation. No layer can
+rely on downstream corrections to cancel its error. This prevents
+compensating errors structurally, not by regularization.
+
+The per-layer cosine loss is scale-invariant, naturally handling
+the 100× norm variation from early layers (0.1×) to late layers
+(10×) — the standing wave amplitude profile. This serves as the
+practical analog of the diffusion-adapted norm ‖v‖_D from CGTSM.
+
+### Experimental Evidence (Session 198)
+
+| Method | Sieve PPL | Final PPL | Reduction | Params |
+|--------|-----------|-----------|-----------|--------|
+| Residual stream + CE (v2) | 25.50 | 18.59 | 27.1% | 2.1M |
+| LoRA + CE + Score Matching (v3) | 25.67 | 16.27 | **36.6%** | 5.9M |
+
+Score matching + LoRA outperforms residual boosting + CE by 35%.
+
+Per-layer diagnostic: L35 (output) score cosine improved from
+0.57 (CE-only, compensating errors) to 0.94 (score matching,
+faithful transformations). The improvement propagates: downstream
+layers match the teacher because upstream layers are constrained.
+
+### Connection to GTSM
+
+Inspired by the **Global Trajectory Score Matching (GTSM)**
+framework from Ramachandran & Sra (2026), which proves that
+gradient boosting and diffusion-based score matching share a
+common optimization principle. The CGTSM theorem states:
+
+> Achieving zero score matching loss for any strictly positive
+> weighting w(t) > 0 is necessary and sufficient for matching the
+> full path-space measures Pθ = P*.
+
+Applied to transformers: the depth axis is the "time" axis of a
+trajectory through activation space. Matching per-layer
+transformations (scores) at all depths is necessary and sufficient
+for matching the teacher's full computation. The weighting
+w(l) > 0 is arbitrary — dense coverage matters, not the weights.
+
+Reference: Ramachandran, S.N. & Sra, S. (2026). "Trees to Flows
+and Back: Unifying Decision Trees and Diffusion Models."
+arXiv:2605.00414.
+
+### Design Implications
+
+1. **Loss**: Always include dense score matching (all layers)
+   alongside CE. The score loss prevents compensating errors.
+2. **Corrections**: Per-weight LoRA on FFN projections, not
+   per-activation residual stream vectors. The sieve residual is
+   full-rank (r90 ≈ 2970) — activation-space corrections can't
+   address it.
+3. **Metric**: Cosine similarity, not MSE. Handles the standing
+   wave amplitude profile (‖h‖ varies 100× across depth).
+4. **Coverage**: Every layer. The theorem says density of
+   measurement matters; the weighting function does not.
+5. **Balance**: α ≈ 5.0 to equalize gradient magnitudes between
+   CE (~2.0) and score matching (~0.2). Too low → CE dominates
+   → compensating errors. Too high → score matching dominates
+   → slow CE convergence.
+
+*Discovered in session 198 of the Verbum project.*
+*Scripts: `scripts/experiments/score_matching_compression.py`*
+
+---
+
+*Crystal equations derived in session 181.*
+*Score matching loss established in session 198.*
+*Based on 198 sessions of experimental work across 5+ model families.*
+*Scripts: `scripts/experiments/crystal_derivation.py`,*
+*`scripts/experiments/score_matching_compression.py`*
 *Knowledge: `mementum/knowledge/crystal-phi-derivation.md`*

@@ -1,0 +1,244 @@
+
+======================================================================
+
+======================================================================
+  SCORE MATCHING COMPRESSION — CGTSM-inspired sieve correction
+  SCORE MATCHING COMPRESSION — CGTSM-inspired sieve correction
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  LoRA rank: 4
+  LoRA rank: 4
+  Steps: 200
+  Steps: 200
+  α (score/CE balance): 5.0
+  α (score/CE balance): 5.0
+  Calibration: 256 seq × 128 tok (batch=4)
+  Calibration: 256 seq × 128 tok (batch=4)
+  Teacher cache: 128 seq (SM+CE), 128 CE-only
+  Teacher cache: 128 seq (SM+CE), 128 CE-only
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 256 cal + 64 eval
+  Loaded 256 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:20,  1.99it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:10, 36.16it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 100.48it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 130.44it/s]Loading weights:  23%|██▎       | 93/399 [00:00<00:01, 154.74it/s]Loading weights:  29%|██▉       | 115/399 [00:01<00:01, 171.67it/s]Loading weights:  36%|███▋      | 145/399 [00:01<00:01, 194.31it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 202.98it/s]Loading weights:  48%|████▊     | 192/399 [00:01<00:01, 206.24it/s]Loading weights:  54%|█████▍    | 215/399 [00:01<00:00, 211.82it/s]Loading weights:  60%|█████▉    | 238/399 [00:01<00:00, 216.55it/s]Loading weights:  65%|██████▌   | 261/399 [00:01<00:00, 217.44it/s]Loading weights:  72%|███████▏  | 287/399 [00:01<00:00, 228.81it/s]Loading weights:  78%|███████▊  | 311/399 [00:01<00:00, 225.75it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 217.54it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 214.04it/s]Loading weights:  95%|█████████▌| 380/399 [00:02<00:00, 218.69it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 176.99it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 11.27, facts: 12/15
+  Baseline PPL: 11.27, facts: 12/15
+
+  Caching teacher states (128 sequences, all 36 layers)...
+
+  Caching teacher states (128 sequences, all 36 layers)...
+  Cached 128 × 37 layers (4966 MB, 21s)
+  Cached 128 × 37 layers (4966 MB, 21s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  ROUND 0: CRYSTAL SIEVE + LoRA
+  ROUND 0: CRYSTAL SIEVE + LoRA
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve + LoRA installed on 30 layers
+  Sieve + LoRA installed on 30 layers
+  LoRA rank: 4
+  LoRA rank: 4
+  Total LoRA params: 5,898,240
+  Total LoRA params: 5,898,240
+  Sieve PPL: 25.67 (2.28x)  facts: 11/15
+  Sieve PPL: 25.67 (2.28x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TRAINING: CE + α × SCORE MATCHING
+  TRAINING: CE + α × SCORE MATCHING
+  200 steps, lr=0.0001, α=5.0
+  200 steps, lr=0.0001, α=5.0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    step   1: CE=2.2429 SM=0.3952 cos=0.6048 (3s)
+    step   1: CE=2.2429 SM=0.3952 cos=0.6048 (3s)
+    step  10: CE=2.4625 SM=0.3844 cos=0.6156 (20s)
+    step  10: CE=2.4625 SM=0.3844 cos=0.6156 (20s)
+    step  20: CE=2.7902 SM=0.5375 cos=0.4625 (40s)
+    step  20: CE=2.7902 SM=0.5375 cos=0.4625 (40s)
+    step  30: CE=3.0904 (59s)
+    step  30: CE=3.0904 (59s)
+    step  40: CE=1.8225 SM=0.3419 cos=0.6581 (79s)
+    step  40: CE=1.8225 SM=0.3419 cos=0.6581 (79s)
+    step  50: CE=2.1892 SM=0.2374 cos=0.7626 (98s)
+    step  50: CE=2.1892 SM=0.2374 cos=0.7626 (98s)
+    ▶ EVAL step 50: PPL=19.47 (1.727x) facts=11/15
+    ▶ EVAL step 50: PPL=19.47 (1.727x) facts=11/15
+    step  60: CE=2.5088 (171s)
+    step  60: CE=2.5088 (171s)
+    step  70: CE=2.2767 SM=0.1978 cos=0.8022 (191s)
+    step  70: CE=2.2767 SM=0.1978 cos=0.8022 (191s)
+    step  80: CE=1.7866 SM=0.3497 cos=0.6503 (210s)
+    step  80: CE=1.7866 SM=0.3497 cos=0.6503 (210s)
+    step  90: CE=1.9575 (230s)
+    step  90: CE=1.9575 (230s)
+    step 100: CE=1.7713 SM=0.2355 cos=0.7645 (250s)
+    step 100: CE=1.7713 SM=0.2355 cos=0.7645 (250s)
+    ▶ EVAL step 100: PPL=16.02 (1.421x) facts=10/15
+    ▶ EVAL step 100: PPL=16.02 (1.421x) facts=10/15
+    step 110: CE=1.8653 SM=0.2701 cos=0.7299 (323s)
+    step 110: CE=1.8653 SM=0.2701 cos=0.7299 (323s)
+    step 120: CE=1.8746 (343s)
+    step 120: CE=1.8746 (343s)
+    step 130: CE=1.6315 SM=0.2679 cos=0.7321 (362s)
+    step 130: CE=1.6315 SM=0.2679 cos=0.7321 (362s)
+    step 140: CE=1.4829 SM=0.1844 cos=0.8156 (382s)
+    step 140: CE=1.4829 SM=0.1844 cos=0.8156 (382s)
+    step 150: CE=1.8363 SM=0.1792 cos=0.8208 (401s)
+    step 150: CE=1.8363 SM=0.1792 cos=0.8208 (401s)
+    ▶ EVAL step 150: PPL=15.81 (1.402x) facts=11/15
+    ▶ EVAL step 150: PPL=15.81 (1.402x) facts=11/15
+    step 160: CE=1.7984 SM=0.2051 cos=0.7949 (475s)
+    step 160: CE=1.7984 SM=0.2051 cos=0.7949 (475s)
+    step 170: CE=2.0416 SM=0.1669 cos=0.8331 (494s)
+    step 170: CE=2.0416 SM=0.1669 cos=0.8331 (494s)
+    step 180: CE=1.5745 SM=0.3454 cos=0.6546 (514s)
+    step 180: CE=1.5745 SM=0.3454 cos=0.6546 (514s)
+    step 190: CE=1.8985 SM=0.2698 cos=0.7302 (533s)
+    step 190: CE=1.8985 SM=0.2698 cos=0.7302 (533s)
+    step 200: CE=1.6576 SM=0.3828 cos=0.6172 (553s)
+    step 200: CE=1.6576 SM=0.3828 cos=0.6172 (553s)
+    ▶ EVAL step 200: PPL=16.27 (1.443x) facts=10/15
+    ▶ EVAL step 200: PPL=16.27 (1.443x) facts=10/15
+
+  Final PPL: 16.27 (1.443x)  facts: 10/15
+
+  Final PPL: 16.27 (1.443x)  facts: 10/15
+
+  Final per-layer score cosine:
+
+  Final per-layer score cosine:
+   Layer     cos      Zone
+   Layer     cos      Zone
+  ──────  ──────  ────────
+  ──────  ──────  ────────
+  L  0   0.8862    L0-SVD
+  L  0   0.8862    L0-SVD
+  L  1   0.8683    EXPAND
+  L  1   0.8683    EXPAND
+  L  2   0.8097    EXPAND
+  L  2   0.8097    EXPAND
+  L  3   0.8536    EXPAND
+  L  3   0.8536    EXPAND
+  L  4   0.8576    EXPAND
+  L  4   0.8576    EXPAND
+  L  5   0.8558    EXPAND
+  L  5   0.8558    EXPAND
+  L  6   0.8247    EXPAND
+  L  6   0.8247    EXPAND
+  L  7   0.7712     ORTHO
+  L  7   0.7712     ORTHO
+  L  8   0.7733     ORTHO
+  L  8   0.7733     ORTHO
+  L  9   0.7557     ORTHO
+  L  9   0.7557     ORTHO
+  L 10   0.7564     ORTHO
+  L 10   0.7564     ORTHO
+  L 11   0.7614     ORTHO
+  L 11   0.7614     ORTHO
+  L 12   0.7796     ORTHO
+  L 12   0.7796     ORTHO
+  L 13   0.7466     SWEET
+  L 13   0.7466     SWEET
+  L 14   0.7481     SWEET
+  L 14   0.7481     SWEET
+  L 15   0.7266     SWEET
+  L 15   0.7266     SWEET
+  L 16   0.7236     SWEET
+  L 16   0.7236     SWEET
+  L 17   0.7224     SWEET
+  L 17   0.7224     SWEET
+  L 18   0.7355     SWEET
+  L 18   0.7355     SWEET
+  L 19   0.7992     SWEET
+  L 19   0.7992     SWEET
+  L 20   0.7385     SWEET
+  L 20   0.7385     SWEET
+  L 21   0.7573     SWEET
+  L 21   0.7573     SWEET
+  L 22   0.7972    BIND-P
+  L 22   0.7972    BIND-P
+  L 23   0.8246    BIND-P
+  L 23   0.8246    BIND-P
+  L 24   0.8566    BIND-P
+  L 24   0.8566    BIND-P
+  L 25   0.8247    BIND-P
+  L 25   0.8247    BIND-P
+  L 26   0.8218    BIND-P
+  L 26   0.8218    BIND-P
+  L 27   0.8807      BIND
+  L 27   0.8807      BIND
+  L 28   0.8910      BIND
+  L 28   0.8910      BIND
+  L 29   0.8969      BIND
+  L 29   0.8969      BIND
+  L 30   0.9048      BIND
+  L 30   0.9048      BIND
+  L 31   0.8989      BIND
+  L 31   0.8989      BIND
+  L 32   0.8389      LATE
+  L 32   0.8389      LATE
+  L 33   0.8386      LATE
+  L 33   0.8386      LATE
+  L 34   0.9363      LATE
+  L 34   0.9363      LATE
+  L 35   0.9351       OUT
+  L 35   0.9351       OUT
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:   PPL=11.27  facts=12/15
+  Baseline:   PPL=11.27  facts=12/15
+  Sieve only: PPL=25.67 (2.28x)
+  Sieve only: PPL=25.67 (2.28x)
+  Final:      PPL=16.27 (1.443x)  facts=10/15
+  Final:      PPL=16.27 (1.443x)  facts=10/15
+  LoRA params: 5,898,240
+  LoRA params: 5,898,240
+  Improvement: 25.67 → 16.27 (36.6% reduction)
+  Improvement: 25.67 → 16.27 (36.6% reduction)
+
+  vs v2 (residual boosting, 2.1M params):
+
+  vs v2 (residual boosting, 2.1M params):
+    v2: 25.50 → 18.59 (27.1% reduction, 1.65x base)
+    v2: 25.50 → 18.59 (27.1% reduction, 1.65x base)
+    v3: 25.67 → 16.27 (36.6% reduction, 1.44x base)
+    v3: 25.67 → 16.27 (36.6% reduction, 1.44x base)
+
+  Results saved to /Users/mwhitford/src/verbum/results/score-matching/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/score-matching/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

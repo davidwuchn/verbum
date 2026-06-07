@@ -1,0 +1,486 @@
+
+======================================================================
+
+======================================================================
+  RESIDUAL BOOSTING v2 — dolma calibration, round-robin placement
+  RESIDUAL BOOSTING v2 — dolma calibration, round-robin placement
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Calibration: 256 sequences × 128 tokens
+  Calibration: 256 sequences × 128 tokens
+  Eval: 64 sequences × 128 tokens
+  Eval: 64 sequences × 128 tokens
+  Rank per round: 32
+  Rank per round: 32
+  Rounds: 8
+  Rounds: 8
+  Steps/round: 50
+  Steps/round: 50
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 256 cal + 64 eval sequences
+  Loaded 256 cal + 64 eval sequences
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:42,  1.79it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 54.00it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 113.35it/s]Loading weights:  23%|██▎       | 92/399 [00:00<00:01, 157.02it/s]Loading weights:  31%|███       | 122/399 [00:00<00:01, 190.97it/s]Loading weights:  37%|███▋      | 149/399 [00:01<00:01, 208.80it/s]Loading weights:  45%|████▍     | 179/399 [00:01<00:00, 227.85it/s]Loading weights:  52%|█████▏    | 206/399 [00:01<00:00, 239.30it/s]Loading weights:  59%|█████▊    | 234/399 [00:01<00:00, 250.14it/s]Loading weights:  66%|██████▌   | 262/399 [00:01<00:00, 256.20it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 259.83it/s]Loading weights:  80%|████████  | 320/399 [00:01<00:00, 263.57it/s]Loading weights:  87%|████████▋ | 348/399 [00:01<00:00, 268.00it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 275.71it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 202.00it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 11.27, facts: 12/15
+  Baseline PPL: 11.27, facts: 12/15
+  Capturing teacher boundary states...
+  Capturing teacher boundary states...
+  Saving original FFN weights for spectrum analysis...
+  Saving original FFN weights for spectrum analysis...
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  ROUND 0: CRYSTAL SIEVE
+  ROUND 0: CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve installed on 29 layers + L0 SVD
+  Sieve installed on 29 layers + L0 SVD
+  Sieve PPL: 25.50 (2.26x)  facts: 11/15
+  Sieve PPL: 25.50 (2.26x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  RESIDUAL SPECTRUM ANALYSIS
+  RESIDUAL SPECTRUM ANALYSIS
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+   Layer       Proj   |res|/|W|   r90   r95   r99          Zone
+
+   Layer       Proj   |res|/|W|   r90   r95   r99          Zone
+  ──────  ─────────  ──────────  ────  ────  ────  ────────────
+  ──────  ─────────  ──────────  ────  ────  ────  ────────────
+  L  1   gate_proj      0.0335   550  1423  2901        EXPAND
+  L  1   gate_proj      0.0335   550  1423  2901        EXPAND
+  L  1     up_proj      0.0483   711  1583  3028        EXPAND
+  L  1     up_proj      0.0483   711  1583  3028        EXPAND
+  L  1   down_proj      0.0602  1016  1851  3183        EXPAND
+  L  1   down_proj      0.0602  1016  1851  3183        EXPAND
+  L  5   gate_proj      0.2487  2965  3403  3907        EXPAND
+  L  5   gate_proj      0.2487  2965  3403  3907        EXPAND
+  L  5     up_proj      0.2586  2974  3410  3910        EXPAND
+  L  5     up_proj      0.2586  2974  3410  3910        EXPAND
+  L  5   down_proj      0.2573  2975  3411  3911        EXPAND
+  L  5   down_proj      0.2573  2975  3411  3911        EXPAND
+  L 10   gate_proj      0.2537  2971  3408  3910   ORTHO-early
+  L 10   gate_proj      0.2537  2971  3408  3910   ORTHO-early
+  L 10     up_proj      0.2588  2976  3412  3911   ORTHO-early
+  L 10     up_proj      0.2588  2976  3412  3911   ORTHO-early
+  L 10   down_proj      0.2568  2973  3410  3910   ORTHO-early
+  L 10   down_proj      0.2568  2973  3410  3910   ORTHO-early
+  L 15   gate_proj      0.2534  2971  3409  3910    SWEET SPOT
+  L 15   gate_proj      0.2534  2971  3409  3910    SWEET SPOT
+  L 15     up_proj      0.2557  2973  3410  3910    SWEET SPOT
+  L 15     up_proj      0.2557  2973  3410  3910    SWEET SPOT
+  L 15   down_proj      0.2525  2971  3409  3910    SWEET SPOT
+  L 15   down_proj      0.2525  2971  3409  3910    SWEET SPOT
+  L 18   gate_proj      0.2491  2970  3408  3910    SWEET SPOT
+  L 18   gate_proj      0.2491  2970  3408  3910    SWEET SPOT
+  L 18     up_proj      0.2538  2972  3409  3910    SWEET SPOT
+  L 18     up_proj      0.2538  2972  3409  3910    SWEET SPOT
+  L 18   down_proj      0.2518  2970  3408  3910    SWEET SPOT
+  L 18   down_proj      0.2518  2970  3408  3910    SWEET SPOT
+  L 22   gate_proj      0.2505  2970  3408  3910     BIND-PREP
+  L 22   gate_proj      0.2505  2970  3408  3910     BIND-PREP
+  L 22     up_proj      0.2543  2972  3409  3910     BIND-PREP
+  L 22     up_proj      0.2543  2972  3409  3910     BIND-PREP
+  L 22   down_proj      0.2528  2973  3410  3911     BIND-PREP
+  L 22   down_proj      0.2528  2973  3410  3911     BIND-PREP
+  L 25   gate_proj      0.2580  2974  3411  3911     BIND-PREP
+  L 25   gate_proj      0.2580  2974  3411  3911     BIND-PREP
+  L 25     up_proj      0.2595  2975  3411  3911     BIND-PREP
+  L 25     up_proj      0.2595  2975  3411  3911     BIND-PREP
+  L 25   down_proj      0.2580  2974  3410  3911     BIND-PREP
+  L 25   down_proj      0.2580  2974  3410  3911     BIND-PREP
+  L 34   gate_proj      0.2582  2974  3411  3911          LATE
+  L 34   gate_proj      0.2582  2974  3411  3911          LATE
+  L 34     up_proj      0.2608  2974  3411  3910          LATE
+  L 34     up_proj      0.2608  2974  3411  3910          LATE
+  L 34   down_proj      0.2558  2972  3409  3910          LATE
+  L 34   down_proj      0.2558  2972  3409  3910          LATE
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  SEQUENTIAL BOOSTING — round-robin placement
+  SEQUENTIAL BOOSTING — round-robin placement
+  8 rounds × rank-32 × 50 steps
+  8 rounds × rank-32 × 50 steps
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  Pre-boosting PPL: 25.50
+
+  Pre-boosting PPL: 25.50
+
+  ── Round 1/8 ─────────────
+
+  ── Round 1/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153
+                lexer: 0.9153
+               parser: 0.8468
+               parser: 0.8468
+          composition: 0.8322 ← TARGET
+          composition: 0.8322 ← TARGET
+         type_crystal: 0.8801
+         type_crystal: 0.8801
+              binding: 0.9008
+              binding: 0.9008
+               output: 0.9359
+               output: 0.9359
+    Placing rank-32 correction at L21 (composition)
+    Placing rank-32 correction at L21 (composition)
+    Training 262,144 params (cumulative: 262,144)...
+    Training 262,144 params (cumulative: 262,144)...
+      step   1: loss=3.1048 (3s)
+      step   1: loss=3.1048 (3s)
+      step  10: loss=2.4901 (19s)
+      step  10: loss=2.4901 (19s)
+      step  20: loss=2.4613 (36s)
+      step  20: loss=2.4613 (36s)
+      step  30: loss=2.2724 (53s)
+      step  30: loss=2.2724 (53s)
+      step  40: loss=2.3269 (71s)
+      step  40: loss=2.3269 (71s)
+      step  50: loss=2.0832 (88s)
+      step  50: loss=2.0832 (88s)
+    Eval PPL: 22.30 (1.978x base, 0.875x sieve)
+    Eval PPL: 22.30 (1.978x base, 0.875x sieve)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 2/8 ─────────────
+
+  ── Round 2/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153
+                lexer: 0.9153
+               parser: 0.8468 ← TARGET
+               parser: 0.8468 ← TARGET
+          composition: 0.8295
+          composition: 0.8295
+         type_crystal: 0.8714
+         type_crystal: 0.8714
+              binding: 0.8966
+              binding: 0.8966
+               output: 0.9343
+               output: 0.9343
+    Placing rank-32 correction at L9 (parser)
+    Placing rank-32 correction at L9 (parser)
+    Training 262,144 params (cumulative: 524,288)...
+    Training 262,144 params (cumulative: 524,288)...
+      step   1: loss=2.5731 (2s)
+      step   1: loss=2.5731 (2s)
+      step  10: loss=2.1622 (19s)
+      step  10: loss=2.1622 (19s)
+      step  20: loss=2.2248 (37s)
+      step  20: loss=2.2248 (37s)
+      step  30: loss=2.5246 (56s)
+      step  30: loss=2.5246 (56s)
+      step  40: loss=2.0084 (75s)
+      step  40: loss=2.0084 (75s)
+      step  50: loss=2.3300 (94s)
+      step  50: loss=2.3300 (94s)
+    Eval PPL: 20.91 (1.855x base, 0.820x sieve)
+    Eval PPL: 20.91 (1.855x base, 0.820x sieve)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 3/8 ─────────────
+
+  ── Round 3/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153
+                lexer: 0.9153
+               parser: 0.8466
+               parser: 0.8466
+          composition: 0.8389
+          composition: 0.8389
+         type_crystal: 0.8748 ← TARGET
+         type_crystal: 0.8748 ← TARGET
+              binding: 0.8994
+              binding: 0.8994
+               output: 0.9369
+               output: 0.9369
+    Placing rank-32 correction at L26 (type_crystal)
+    Placing rank-32 correction at L26 (type_crystal)
+    Training 262,144 params (cumulative: 786,432)...
+    Training 262,144 params (cumulative: 786,432)...
+      step   1: loss=2.6335 (2s)
+      step   1: loss=2.6335 (2s)
+      step  10: loss=2.2335 (19s)
+      step  10: loss=2.2335 (19s)
+      step  20: loss=2.7078 (38s)
+      step  20: loss=2.7078 (38s)
+      step  30: loss=2.3364 (56s)
+      step  30: loss=2.3364 (56s)
+      step  40: loss=2.3564 (75s)
+      step  40: loss=2.3564 (75s)
+      step  50: loss=2.2660 (93s)
+      step  50: loss=2.2660 (93s)
+    Eval PPL: 20.92 (1.856x base, 0.821x sieve)
+    Eval PPL: 20.92 (1.856x base, 0.821x sieve)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 4/8 ─────────────
+
+  ── Round 4/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153
+                lexer: 0.9153
+               parser: 0.8466
+               parser: 0.8466
+          composition: 0.8389
+          composition: 0.8389
+         type_crystal: 0.8709
+         type_crystal: 0.8709
+              binding: 0.8938 ← TARGET
+              binding: 0.8938 ← TARGET
+               output: 0.9343
+               output: 0.9343
+    Placing rank-32 correction at L30 (binding)
+    Placing rank-32 correction at L30 (binding)
+    Training 262,144 params (cumulative: 1,048,576)...
+    Training 262,144 params (cumulative: 1,048,576)...
+      step   1: loss=2.2679 (2s)
+      step   1: loss=2.2679 (2s)
+      step  10: loss=2.1559 (19s)
+      step  10: loss=2.1559 (19s)
+      step  20: loss=2.4084 (37s)
+      step  20: loss=2.4084 (37s)
+      step  30: loss=2.0730 (56s)
+      step  30: loss=2.0730 (56s)
+      step  40: loss=1.9639 (74s)
+      step  40: loss=1.9639 (74s)
+      step  50: loss=2.7739 (93s)
+      step  50: loss=2.7739 (93s)
+    Eval PPL: 21.12 (1.873x base, 0.828x sieve)
+    Eval PPL: 21.12 (1.873x base, 0.828x sieve)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 5/8 ─────────────
+
+  ── Round 5/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153
+                lexer: 0.9153
+               parser: 0.8466
+               parser: 0.8466
+          composition: 0.8389
+          composition: 0.8389
+         type_crystal: 0.8709
+         type_crystal: 0.8709
+              binding: 0.8910
+              binding: 0.8910
+               output: 0.9286 ← TARGET
+               output: 0.9286 ← TARGET
+    Placing rank-32 correction at L35 (output)
+    Placing rank-32 correction at L35 (output)
+    Training 262,144 params (cumulative: 1,310,720)...
+    Training 262,144 params (cumulative: 1,310,720)...
+      step   1: loss=2.3140 (2s)
+      step   1: loss=2.3140 (2s)
+      step  10: loss=2.4084 (18s)
+      step  10: loss=2.4084 (18s)
+      step  20: loss=2.1865 (36s)
+      step  20: loss=2.1865 (36s)
+      step  30: loss=1.9122 (54s)
+      step  30: loss=1.9122 (54s)
+      step  40: loss=2.3225 (72s)
+      step  40: loss=2.3225 (72s)
+      step  50: loss=1.7644 (90s)
+      step  50: loss=1.7644 (90s)
+    Eval PPL: 21.21 (1.882x base, 0.832x sieve)
+    Eval PPL: 21.21 (1.882x base, 0.832x sieve)
+    Facts: 11/15
+    Facts: 11/15
+
+  ── Round 6/8 ─────────────
+
+  ── Round 6/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9153 ← TARGET
+                lexer: 0.9153 ← TARGET
+               parser: 0.8466
+               parser: 0.8466
+          composition: 0.8389
+          composition: 0.8389
+         type_crystal: 0.8709
+         type_crystal: 0.8709
+              binding: 0.8910
+              binding: 0.8910
+               output: 0.9268
+               output: 0.9268
+    Placing rank-32 correction at L0 (lexer)
+    Placing rank-32 correction at L0 (lexer)
+    Training 262,144 params (cumulative: 1,572,864)...
+    Training 262,144 params (cumulative: 1,572,864)...
+      step   1: loss=1.5843 (2s)
+      step   1: loss=1.5843 (2s)
+      step  10: loss=1.8079 (18s)
+      step  10: loss=1.8079 (18s)
+      step  20: loss=2.2244 (35s)
+      step  20: loss=2.2244 (35s)
+      step  30: loss=2.6745 (53s)
+      step  30: loss=2.6745 (53s)
+      step  40: loss=1.5699 (70s)
+      step  40: loss=1.5699 (70s)
+      step  50: loss=1.9871 (88s)
+      step  50: loss=1.9871 (88s)
+    Eval PPL: 18.08 (1.604x base, 0.709x sieve)
+    Eval PPL: 18.08 (1.604x base, 0.709x sieve)
+    Facts: 11/15
+    Facts: 11/15
+
+  ── Round 7/8 ─────────────
+
+  ── Round 7/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9149
+                lexer: 0.9149
+               parser: 0.8662
+               parser: 0.8662
+          composition: 0.8637 ← TARGET
+          composition: 0.8637 ← TARGET
+         type_crystal: 0.8914
+         type_crystal: 0.8914
+              binding: 0.9106
+              binding: 0.9106
+               output: 0.9342
+               output: 0.9342
+    Placing rank-32 correction at L21 (composition)
+    Placing rank-32 correction at L21 (composition)
+    Training 262,144 params (cumulative: 1,835,008)...
+    Training 262,144 params (cumulative: 1,835,008)...
+      step   1: loss=2.0916 (2s)
+      step   1: loss=2.0916 (2s)
+      step  10: loss=1.8402 (18s)
+      step  10: loss=1.8402 (18s)
+      step  20: loss=1.9618 (35s)
+      step  20: loss=1.9618 (35s)
+      step  30: loss=1.9016 (52s)
+      step  30: loss=1.9016 (52s)
+      step  40: loss=1.8794 (70s)
+      step  40: loss=1.8794 (70s)
+      step  50: loss=1.7452 (87s)
+      step  50: loss=1.7452 (87s)
+    Eval PPL: 18.67 (1.656x base, 0.732x sieve)
+    Eval PPL: 18.67 (1.656x base, 0.732x sieve)
+    Facts: 11/15
+    Facts: 11/15
+
+  ── Round 8/8 ─────────────
+
+  ── Round 8/8 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.9149
+                lexer: 0.9149
+               parser: 0.8662 ← TARGET
+               parser: 0.8662 ← TARGET
+          composition: 0.8623
+          composition: 0.8623
+         type_crystal: 0.8875
+         type_crystal: 0.8875
+              binding: 0.9059
+              binding: 0.9059
+               output: 0.9305
+               output: 0.9305
+    Placing rank-32 correction at L9 (parser)
+    Placing rank-32 correction at L9 (parser)
+    Training 262,144 params (cumulative: 2,097,152)...
+    Training 262,144 params (cumulative: 2,097,152)...
+      step   1: loss=2.3084 (2s)
+      step   1: loss=2.3084 (2s)
+      step  10: loss=1.7496 (18s)
+      step  10: loss=1.7496 (18s)
+      step  20: loss=1.8056 (35s)
+      step  20: loss=1.8056 (35s)
+      step  30: loss=1.9811 (53s)
+      step  30: loss=1.9811 (53s)
+      step  40: loss=1.7301 (70s)
+      step  40: loss=1.7301 (70s)
+      step  50: loss=2.0913 (87s)
+      step  50: loss=2.0913 (87s)
+    Eval PPL: 18.59 (1.649x base, 0.729x sieve)
+    Eval PPL: 18.59 (1.649x base, 0.729x sieve)
+    Facts: 11/15
+    Facts: 11/15
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+
+  Baseline:   PPL=11.27  facts=12/15
+
+  Baseline:   PPL=11.27  facts=12/15
+  Sieve only: PPL=25.50 (2.26x)
+  Sieve only: PPL=25.50 (2.26x)
+
+  Sequential boosting (8 rounds, round-robin):
+
+  Sequential boosting (8 rounds, round-robin):
+  Rnd    Layer             Name      PPL   vs base   vs sieve  Facts      Params
+  Rnd    Layer             Name      PPL   vs base   vs sieve  Facts      Params
+  ───  ───────  ───────────────  ───────  ────────  ─────────  ─────  ──────────
+  ───  ───────  ───────────────  ───────  ────────  ─────────  ─────  ──────────
+    1  L   21      composition    22.30     1.978x      0.875x   10/15     262,144
+    1  L   21      composition    22.30     1.978x      0.875x   10/15     262,144
+    2  L    9           parser    20.91     1.855x      0.820x   10/15     524,288
+    2  L    9           parser    20.91     1.855x      0.820x   10/15     524,288
+    3  L   26     type_crystal    20.92     1.856x      0.821x   10/15     786,432
+    3  L   26     type_crystal    20.92     1.856x      0.821x   10/15     786,432
+    4  L   30          binding    21.12     1.873x      0.828x   10/15   1,048,576
+    4  L   30          binding    21.12     1.873x      0.828x   10/15   1,048,576
+    5  L   35           output    21.21     1.882x      0.832x   11/15   1,310,720
+    5  L   35           output    21.21     1.882x      0.832x   11/15   1,310,720
+    6  L    0            lexer    18.08     1.604x      0.709x   11/15   1,572,864
+    6  L    0            lexer    18.08     1.604x      0.709x   11/15   1,572,864
+    7  L   21      composition    18.67     1.655x      0.732x   11/15   1,835,008
+    7  L   21      composition    18.67     1.655x      0.732x   11/15   1,835,008
+    8  L    9           parser    18.59     1.649x      0.729x   11/15   2,097,152
+    8  L    9           parser    18.59     1.649x      0.729x   11/15   2,097,152
+
+  Results saved to /Users/mwhitford/src/verbum/results/residual-boosting/Qwen_Qwen3-8B_v2.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/residual-boosting/Qwen_Qwen3-8B_v2.json
+======================================================================
+
+======================================================================
+

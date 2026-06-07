@@ -1,0 +1,473 @@
+
+======================================================================
+
+======================================================================
+  RESIDUAL BOOSTING — Compression as iterative weak learners
+  RESIDUAL BOOSTING — Compression as iterative weak learners
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Sieve layers: 29
+  Sieve layers: 29
+  Rank per round: 32
+  Rank per round: 32
+  Rounds: 6
+  Rounds: 6
+  Steps/round: 50
+  Steps/round: 50
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:42,  2.45it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 66.96it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:02, 129.10it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 151.85it/s]Loading weights:  27%|██▋       | 109/399 [00:00<00:01, 185.00it/s]Loading weights:  34%|███▎      | 134/399 [00:00<00:01, 191.68it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 204.54it/s]Loading weights:  45%|████▌     | 181/399 [00:01<00:01, 209.92it/s]Loading weights:  53%|█████▎    | 211/399 [00:01<00:00, 233.53it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 222.14it/s]Loading weights:  67%|██████▋   | 266/399 [00:01<00:00, 240.84it/s]Loading weights:  73%|███████▎  | 291/399 [00:01<00:00, 223.82it/s]Loading weights:  79%|███████▉  | 315/399 [00:01<00:00, 227.77it/s]Loading weights:  86%|████████▌ | 342/399 [00:01<00:00, 237.78it/s]Loading weights:  92%|█████████▏| 367/399 [00:01<00:00, 223.73it/s]Loading weights:  98%|█████████▊| 390/399 [00:02<00:00, 225.08it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 192.21it/s]
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 10.15, facts: 12/15
+  Baseline PPL: 10.15, facts: 12/15
+
+  Capturing teacher boundary states...
+
+  Capturing teacher boundary states...
+  Saving original FFN weights...
+  Saving original FFN weights...
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  ROUND 0: CRYSTAL SIEVE
+  ROUND 0: CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve installed on 29 layers + L0 SVD
+  Sieve installed on 29 layers + L0 SVD
+  Sieve PPL: 21.36 (2.10x)  facts: 11/15
+  Sieve PPL: 21.36 (2.10x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  RESIDUAL SPECTRUM ANALYSIS
+  RESIDUAL SPECTRUM ANALYSIS
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+   Layer       Proj   |res|/|W|   r90   r95   r99
+
+   Layer       Proj   |res|/|W|   r90   r95   r99
+  ──────  ─────────  ──────────  ────  ────  ────
+  ──────  ─────────  ──────────  ────  ────  ────
+  L  1   gate_proj      0.0335   550  1423  2901
+  L  1   gate_proj      0.0335   550  1423  2901
+  L  1     up_proj      0.0483   711  1583  3028
+  L  1     up_proj      0.0483   711  1583  3028
+  L  1   down_proj      0.0602  1016  1851  3183
+  L  1   down_proj      0.0602  1016  1851  3183
+  L  2   gate_proj      0.0181   672  1494  2979
+  L  2   gate_proj      0.0181   672  1494  2979
+  L  2     up_proj      0.0283   649  1478  2994
+  L  2     up_proj      0.0283   649  1478  2994
+  L  2   down_proj      0.0552  1062  1905  3234
+  L  2   down_proj      0.0552  1062  1905  3234
+  L  3   gate_proj      0.0456  2377  2904  3657
+  L  3   gate_proj      0.0456  2377  2904  3657
+  L  3     up_proj      0.0585  2027  2649  3555
+  L  3     up_proj      0.0585  2027  2649  3555
+  L  3   down_proj      0.0721  2073  2689  3579
+  L  3   down_proj      0.0721  2073  2689  3579
+  L  4   gate_proj      0.2168  2899  3349  3885
+  L  4   gate_proj      0.2168  2899  3349  3885
+  L  4     up_proj      0.2183  2898  3350  3886
+  L  4     up_proj      0.2183  2898  3350  3886
+  L  4   down_proj      0.2256  2847  3316  3875
+  L  4   down_proj      0.2256  2847  3316  3875
+  L  5   gate_proj      0.2487  2965  3403  3907
+  L  5   gate_proj      0.2487  2965  3403  3907
+  L  5     up_proj      0.2586  2974  3410  3910
+  L  5     up_proj      0.2586  2974  3410  3910
+  L  5   down_proj      0.2573  2975  3411  3911
+  L  5   down_proj      0.2573  2975  3411  3911
+  L 34   gate_proj      0.2582  2974  3411  3911
+  L 34   gate_proj      0.2582  2974  3411  3911
+  L 34     up_proj      0.2586  2974  3411  3910
+  L 34     up_proj      0.2586  2974  3411  3910
+  L 34   down_proj      0.2558  2972  3409  3910
+  L 34   down_proj      0.2558  2972  3409  3910
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  MODE A: SEQUENTIAL BOOSTING
+  MODE A: SEQUENTIAL BOOSTING
+  6 rounds × rank-32 × 50 steps
+  6 rounds × rank-32 × 50 steps
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  Pre-boosting PPL: 21.36
+
+  Pre-boosting PPL: 21.36
+
+  ── Round 1/6 ─────────────
+
+  ── Round 1/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8815 ← WORST
+               parser: 0.8815 ← WORST
+          composition: 0.8863
+          composition: 0.8863
+         type_crystal: 0.9177
+         type_crystal: 0.9177
+              binding: 0.9358
+              binding: 0.9358
+               output: 0.9442
+               output: 0.9442
+    Placing rank-32 correction at L9 (parser)
+    Placing rank-32 correction at L9 (parser)
+    Training 262,144 params (cumulative: 262,144)...
+    Training 262,144 params (cumulative: 262,144)...
+      step   1: loss=2.8028 (3s)
+      step   1: loss=2.8028 (3s)
+      step  10: loss=3.2760 (13s)
+      step  10: loss=3.2760 (13s)
+      step  20: loss=2.8178 (24s)
+      step  20: loss=2.8178 (24s)
+      step  30: loss=2.6253 (35s)
+      step  30: loss=2.6253 (35s)
+      step  40: loss=2.2400 (46s)
+      step  40: loss=2.2400 (46s)
+      step  50: loss=2.3818 (57s)
+      step  50: loss=2.3818 (57s)
+    Post-round PPL: 11.67 (0.547x base)
+    Post-round PPL: 11.67 (0.547x base)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 2/6 ─────────────
+
+  ── Round 2/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8804 ← WORST
+               parser: 0.8804 ← WORST
+          composition: 0.8886
+          composition: 0.8886
+         type_crystal: 0.9209
+         type_crystal: 0.9209
+              binding: 0.9395
+              binding: 0.9395
+               output: 0.9322
+               output: 0.9322
+    Placing rank-32 correction at L9 (parser)
+    Placing rank-32 correction at L9 (parser)
+    Training 262,144 params (cumulative: 524,288)...
+    Training 262,144 params (cumulative: 524,288)...
+      step   1: loss=1.6567 (1s)
+      step   1: loss=1.6567 (1s)
+      step  10: loss=2.3066 (11s)
+      step  10: loss=2.3066 (11s)
+      step  20: loss=1.6769 (22s)
+      step  20: loss=1.6769 (22s)
+      step  30: loss=1.6338 (33s)
+      step  30: loss=1.6338 (33s)
+      step  40: loss=1.5975 (44s)
+      step  40: loss=1.5975 (44s)
+      step  50: loss=1.5603 (55s)
+      step  50: loss=1.5603 (55s)
+    Post-round PPL: 7.54 (0.353x base)
+    Post-round PPL: 7.54 (0.353x base)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 3/6 ─────────────
+
+  ── Round 3/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8745
+               parser: 0.8745
+          composition: 0.8589
+          composition: 0.8589
+         type_crystal: 0.8903
+         type_crystal: 0.8903
+              binding: 0.9050
+              binding: 0.9050
+               output: 0.7578 ← WORST
+               output: 0.7578 ← WORST
+    Placing rank-32 correction at L35 (output)
+    Placing rank-32 correction at L35 (output)
+    Training 262,144 params (cumulative: 786,432)...
+    Training 262,144 params (cumulative: 786,432)...
+      step   1: loss=1.6432 (1s)
+      step   1: loss=1.6432 (1s)
+      step  10: loss=1.6850 (11s)
+      step  10: loss=1.6850 (11s)
+      step  20: loss=1.1439 (22s)
+      step  20: loss=1.1439 (22s)
+      step  30: loss=0.7030 (33s)
+      step  30: loss=0.7030 (33s)
+      step  40: loss=0.5873 (44s)
+      step  40: loss=0.5873 (44s)
+      step  50: loss=0.6311 (55s)
+      step  50: loss=0.6311 (55s)
+    Post-round PPL: 4.61 (0.216x base)
+    Post-round PPL: 4.61 (0.216x base)
+    Facts: 9/15
+    Facts: 9/15
+
+  ── Round 4/6 ─────────────
+
+  ── Round 4/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8745
+               parser: 0.8745
+          composition: 0.8589
+          composition: 0.8589
+         type_crystal: 0.8903
+         type_crystal: 0.8903
+              binding: 0.9050
+              binding: 0.9050
+               output: 0.7488 ← WORST
+               output: 0.7488 ← WORST
+    Placing rank-32 correction at L35 (output)
+    Placing rank-32 correction at L35 (output)
+    Training 262,144 params (cumulative: 1,048,576)...
+    Training 262,144 params (cumulative: 1,048,576)...
+      step   1: loss=0.7268 (1s)
+      step   1: loss=0.7268 (1s)
+      step  10: loss=0.8658 (11s)
+      step  10: loss=0.8658 (11s)
+      step  20: loss=0.4892 (22s)
+      step  20: loss=0.4892 (22s)
+      step  30: loss=0.2880 (33s)
+      step  30: loss=0.2880 (33s)
+      step  40: loss=0.3434 (44s)
+      step  40: loss=0.3434 (44s)
+      step  50: loss=0.4054 (55s)
+      step  50: loss=0.4054 (55s)
+    Post-round PPL: 4.23 (0.198x base)
+    Post-round PPL: 4.23 (0.198x base)
+    Facts: 10/15
+    Facts: 10/15
+
+  ── Round 5/6 ─────────────
+
+  ── Round 5/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8745
+               parser: 0.8745
+          composition: 0.8589
+          composition: 0.8589
+         type_crystal: 0.8903
+         type_crystal: 0.8903
+              binding: 0.9050
+              binding: 0.9050
+               output: 0.7444 ← WORST
+               output: 0.7444 ← WORST
+    Placing rank-32 correction at L35 (output)
+    Placing rank-32 correction at L35 (output)
+    Training 262,144 params (cumulative: 1,310,720)...
+    Training 262,144 params (cumulative: 1,310,720)...
+      step   1: loss=0.4766 (1s)
+      step   1: loss=0.4766 (1s)
+      step  10: loss=0.6195 (11s)
+      step  10: loss=0.6195 (11s)
+      step  20: loss=0.3569 (22s)
+      step  20: loss=0.3569 (22s)
+      step  30: loss=0.2423 (33s)
+      step  30: loss=0.2423 (33s)
+      step  40: loss=0.2822 (44s)
+      step  40: loss=0.2822 (44s)
+      step  50: loss=0.3155 (55s)
+      step  50: loss=0.3155 (55s)
+    Post-round PPL: 4.02 (0.188x base)
+    Post-round PPL: 4.02 (0.188x base)
+    Facts: 9/15
+    Facts: 9/15
+
+  ── Round 6/6 ─────────────
+
+  ── Round 6/6 ─────────────
+    Boundary fidelity:
+    Boundary fidelity:
+                lexer: 0.8912
+                lexer: 0.8912
+               parser: 0.8745
+               parser: 0.8745
+          composition: 0.8589
+          composition: 0.8589
+         type_crystal: 0.8903
+         type_crystal: 0.8903
+              binding: 0.9050
+              binding: 0.9050
+               output: 0.7428 ← WORST
+               output: 0.7428 ← WORST
+    Placing rank-32 correction at L35 (output)
+    Placing rank-32 correction at L35 (output)
+    Training 262,144 params (cumulative: 1,572,864)...
+    Training 262,144 params (cumulative: 1,572,864)...
+      step   1: loss=0.3792 (1s)
+      step   1: loss=0.3792 (1s)
+      step  10: loss=0.4774 (11s)
+      step  10: loss=0.4774 (11s)
+      step  20: loss=0.3157 (22s)
+      step  20: loss=0.3157 (22s)
+      step  30: loss=0.2097 (33s)
+      step  30: loss=0.2097 (33s)
+      step  40: loss=0.2608 (44s)
+      step  40: loss=0.2608 (44s)
+      step  50: loss=0.2675 (55s)
+      step  50: loss=0.2675 (55s)
+    Post-round PPL: 3.97 (0.186x base)
+    Post-round PPL: 3.97 (0.186x base)
+    Facts: 10/15
+    Facts: 10/15
+
+  Reloading model for simultaneous comparison...
+
+  Reloading model for simultaneous comparison...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:23,  1.96it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 60.38it/s]Loading weights:  12%|█▏        | 47/399 [00:00<00:03, 88.95it/s]Loading weights:  17%|█▋        | 68/399 [00:00<00:02, 115.76it/s]Loading weights:  22%|██▏       | 87/399 [00:00<00:02, 132.53it/s]Loading weights:  26%|██▋       | 105/399 [00:01<00:02, 136.00it/s]Loading weights:  32%|███▏      | 127/399 [00:01<00:01, 151.69it/s]Loading weights:  39%|███▉      | 155/399 [00:01<00:01, 180.79it/s]Loading weights:  44%|████▍     | 177/399 [00:01<00:01, 188.41it/s]Loading weights:  50%|█████     | 200/399 [00:01<00:01, 192.96it/s]Loading weights:  56%|█████▌    | 223/399 [00:01<00:00, 180.72it/s]Loading weights:  62%|██████▏   | 247/399 [00:01<00:00, 194.10it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 190.18it/s]Loading weights:  72%|███████▏  | 288/399 [00:01<00:00, 189.68it/s]Loading weights:  78%|███████▊  | 311/399 [00:02<00:00, 200.72it/s]Loading weights:  83%|████████▎ | 332/399 [00:02<00:00, 196.30it/s]Loading weights:  88%|████████▊ | 352/399 [00:02<00:00, 197.24it/s]Loading weights:  93%|█████████▎| 372/399 [00:02<00:00, 191.13it/s]Loading weights:  98%|█████████▊| 392/399 [00:02<00:00, 191.85it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 158.46it/s]
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  MODE B: SIMULTANEOUS FITTING
+  MODE B: SIMULTANEOUS FITTING
+  6 corrections × rank-32 × 300 steps
+  6 corrections × rank-32 × 300 steps
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Total params: 1,572,864
+  Total params: 1,572,864
+  Pre-fitting PPL: 21.47
+  Pre-fitting PPL: 21.47
+    step   1: loss=4.1323 (2s)
+    step   1: loss=4.1323 (2s)
+    step  10: loss=3.1412 (11s)
+    step  10: loss=3.1412 (11s)
+    step  20: loss=2.3920 (22s)
+    step  20: loss=2.3920 (22s)
+    step  30: loss=1.2883 (33s)
+    step  30: loss=1.2883 (33s)
+    step  40: loss=0.8514 (44s)
+    step  40: loss=0.8514 (44s)
+    step  50: loss=0.2511 (54s)
+    step  50: loss=0.2511 (54s)
+    step  60: loss=0.2221 (65s)
+    step  60: loss=0.2221 (65s)
+    step  70: loss=0.0903 (76s)
+    step  70: loss=0.0903 (76s)
+    step  80: loss=0.1149 (87s)
+    step  80: loss=0.1149 (87s)
+    step  90: loss=0.1032 (98s)
+    step  90: loss=0.1032 (98s)
+    step 100: loss=0.0765 (108s)
+    step 100: loss=0.0765 (108s)
+    step 110: loss=0.0597 (119s)
+    step 110: loss=0.0597 (119s)
+    step 120: loss=0.1572 (130s)
+    step 120: loss=0.1572 (130s)
+    step 130: loss=0.0735 (141s)
+    step 130: loss=0.0735 (141s)
+    step 140: loss=0.0129 (151s)
+    step 140: loss=0.0129 (151s)
+    step 150: loss=0.0100 (162s)
+    step 150: loss=0.0100 (162s)
+    step 160: loss=0.0449 (173s)
+    step 160: loss=0.0449 (173s)
+    step 170: loss=0.0753 (184s)
+    step 170: loss=0.0753 (184s)
+    step 180: loss=0.0970 (194s)
+    step 180: loss=0.0970 (194s)
+    step 190: loss=0.0688 (205s)
+    step 190: loss=0.0688 (205s)
+    step 200: loss=0.0406 (216s)
+    step 200: loss=0.0406 (216s)
+    step 210: loss=0.0526 (227s)
+    step 210: loss=0.0526 (227s)
+    step 220: loss=0.0738 (238s)
+    step 220: loss=0.0738 (238s)
+    step 230: loss=0.0671 (249s)
+    step 230: loss=0.0671 (249s)
+    step 240: loss=0.0806 (259s)
+    step 240: loss=0.0806 (259s)
+    step 250: loss=0.1176 (270s)
+    step 250: loss=0.1176 (270s)
+    step 260: loss=0.1184 (281s)
+    step 260: loss=0.1184 (281s)
+    step 270: loss=0.0416 (292s)
+    step 270: loss=0.0416 (292s)
+    step 280: loss=0.0787 (303s)
+    step 280: loss=0.0787 (303s)
+    step 290: loss=0.1856 (314s)
+    step 290: loss=0.1856 (314s)
+    step 300: loss=0.1445 (325s)
+    step 300: loss=0.1445 (325s)
+  Post-fitting PPL: 7.82 (0.364x)
+  Post-fitting PPL: 7.82 (0.364x)
+  Facts: 11/15
+  Facts: 11/15
+
+======================================================================
+
+======================================================================
+  COMPARISON SUMMARY
+  COMPARISON SUMMARY
+======================================================================
+======================================================================
+
+  Baseline:     PPL=10.15  facts=12/15
+
+  Baseline:     PPL=10.15  facts=12/15
+  Sieve only:   PPL=21.36 (2.10x)
+  Sieve only:   PPL=21.36 (2.10x)
+
+  Sequential boosting (6 rounds):
+
+  Sequential boosting (6 rounds):
+    Round 1: L 9 (         parser)  PPL=11.67 (0.547x)  facts=10/15  params=262,144
+    Round 1: L 9 (         parser)  PPL=11.67 (0.547x)  facts=10/15  params=262,144
+    Round 2: L 9 (         parser)  PPL=7.54 (0.353x)  facts=10/15  params=524,288
+    Round 2: L 9 (         parser)  PPL=7.54 (0.353x)  facts=10/15  params=524,288
+    Round 3: L35 (         output)  PPL=4.61 (0.216x)  facts=9/15  params=786,432
+    Round 3: L35 (         output)  PPL=4.61 (0.216x)  facts=9/15  params=786,432
+    Round 4: L35 (         output)  PPL=4.23 (0.198x)  facts=10/15  params=1,048,576
+    Round 4: L35 (         output)  PPL=4.23 (0.198x)  facts=10/15  params=1,048,576
+    Round 5: L35 (         output)  PPL=4.02 (0.188x)  facts=9/15  params=1,310,720
+    Round 5: L35 (         output)  PPL=4.02 (0.188x)  facts=9/15  params=1,310,720
+    Round 6: L35 (         output)  PPL=3.97 (0.186x)  facts=10/15  params=1,572,864
+    Round 6: L35 (         output)  PPL=3.97 (0.186x)  facts=10/15  params=1,572,864
+
+  Simultaneous:  PPL=7.82 (0.364x)  facts=11/15  params=1,572,864
+
+  Simultaneous:  PPL=7.82 (0.364x)  facts=11/15  params=1,572,864
+
+  Results saved to /Users/mwhitford/src/verbum/results/residual-boosting/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/residual-boosting/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+
