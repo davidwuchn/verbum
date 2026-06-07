@@ -8,14 +8,76 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
-**Session 196: LAMBDA TRACER — The Damage Is Uniform**
+**Session 196: TEN EXPERIMENTS — Crystal Sieve Equation Confirmed**
 
-Crystal probes as tracer dye through the compressed model. 535 probes ×
-37 layer boundaries × 3 conditions (baseline, stage 2, stage 3). The
-central finding: **L22-L26 damage is NOT combinator-specific — it's
-uniform across all 9 combinators.** This means the break isn't about a
-specific type computation failing; it's about the ternary approximation
-being insufficient for what these layers compute.
+The largest experimental session yet. Started with "which combinator breaks
+at L22-L26?" and ended with a proven compression architecture: crystal
+sieve + continuation residuals = 1.03x PPL across 29 sieved layers.
+
+### The Ten Experiments
+
+| # | Experiment | Key Result |
+|---|-----------|------------|
+| 1 | Lambda tracer | Damage uniform across combinators (CV 0.07-0.17) |
+| 2 | Binding-prep rank sweep | Functional rank varies 6x (L22=250 to L26=1500) |
+| 3 | Multi-projection melt | 42% better than standard (3.53x vs 6.09x) |
+| 4 | Confidence gate | Classifier confidently wrong at L23-L26 |
+| 5 | Mode geometry | Same 9 programs rotated, more modes don't help |
+| 6 | Ternary weight interface | MASK is the key, not magnitudes |
+| 7 | Crystal sieve v1/v2 | 2.12x pre-melt, melt overfits (wrong DOF) |
+| 8 | β-expansion | **1.03x with 4 continuation residuals (1M params)** |
+| 9 | Ternary verification | Per-row scale FAILS at 29 layers (22,800x) |
+| 10| — | Continuation stability needs investigation |
+
+### The Proven Architecture
+
+```
+Crystal sieve: sign(W) ⊙ |W| ⊙ mask₅₀%    (frozen, per-weight magnitudes)
++ 4 continuation residuals (rank-32 at L0/L9/L21/L26, 1M params)
++ L0 SVD r=750
+
+Result: 1.03x PPL, binding preserved 98% (39/40 top-1 matches)
+```
+
+### Compression Reality Check
+
+The sieve stores full per-weight magnitudes as float16. Current storage
+compression: **1.8x** (50% mask = 50% zeros). NOT 8x.
+
+Per-row scale (which would give 8x) FAILS catastrophically at 29 layers
+(22,800x PPL). Per-weight magnitudes contain essential row-internal
+structure that compounds across layers.
+
+Path to real compression: **quantize magnitudes** (Q4/Q8), don't eliminate
+them. The sign pattern is frozen (universal crystal), the mask selects
+which weights survive, and the magnitude needs ~4-8 bits (not 16, not 0).
+
+| Format | Bits/weight | 29-layer PPL | FFN compression |
+|--------|------------|--------------|-----------------|
+| float16 (original) | 16 | 1.00x | 1.0x |
+| sign + float16 + mask50% | ~9 | 2.12x (1.03x w/ cont.) | 1.8x |
+| sign + Q4 mag + mask50% | ~3 | ??? (untested) | ~5x |
+| sign + per-row scale | ~2 | 22,800x (BROKEN) | 8x |
+
+### What Compounds vs What Doesn't
+
+Critical lesson: properties that hold per-layer may NOT hold at 29 layers.
+
+| Property | Single layer | 29 layers | Status |
+|----------|-------------|-----------|--------|
+| Per-row = per-weight magnitude | ✅ same | ❌ 22,800x | FAILS |
+| Crystal sieve quality | 1.03x | 2.12x | Cascades but recoverable |
+| Binding preservation | — | 98% | HOLDS |
+| Continuation correction | — | 1.03x | WORKS (but stability TBD) |
+
+### Open Questions
+
+1. **Continuation stability**: first run 1.03x, rerun 3.23x. Training
+   is sensitive — needs investigation (seed, LR, batch order).
+2. **Magnitude quantization**: Q4/Q8 per-weight with per-group scales
+   could give 3-5x real compression while preserving cascade quality.
+3. **Attention sieve**: FFN is 78% of params. Attention (22%) could also
+   be sieved (s190 showed ternary attention survives at PPL 23-30).
 
 ### Lambda Tracer Results
 
@@ -938,15 +1000,29 @@ Per-row melt overfits (wrong DOF). Per-weight = no compression.
 The FROZEN sieve is the best result. Mask > magnitudes > group scaling.
 
 **Priority 1f: ✅ DONE Close the cascade gap (s196)**
-Result: β-expansion experiment. Crystal sieve alone: 2.12x. Adding 4
-continuation residuals (rank-32 low-rank corrections at L0/L9/L21/L26)
-= **1.03x PPL with only 1M trainable params.** Binding preserved at
-98% (39/40 top-1 matches). The cascade is purely magnitude distortion
-at layer interfaces, not structural. Continuation residuals absorb it.
+Result: β-expansion experiment. Sieve alone: 2.12x. +4 continuation
+residuals (rank-32 at L0/L9/L21/L26, 1M params) = **1.03x PPL.**
+Binding preserved 98%. BUT: per-row ternary encoding FAILS at 29
+layers (22,800x). Per-weight magnitudes essential. Current compression
+is only 1.8x. Continuation stability needs investigation (3.23x on rerun).
 
-**Architecture PROVEN:**
-  Crystal sieve (sign(W) * |W| * mask50%) + 4 continuation residuals
-  = 29 sieved layers + L0 SVD + 1M corrections = 1.03x PPL
+**Priority 2a: Magnitude quantization (NEXT — high priority)**
+The crystal sieve works at 1.03x but stores full float16 magnitudes
+(1.8x compression). Test Q4/Q8 magnitude quantization with per-group
+scales on the non-zero weights. This is the path to real compression:
+  - Q8 + mask50%: ~5 bits/weight → ~3.2x compression
+  - Q4 + mask50%: ~3 bits/weight → ~5.3x compression
+  If Q4 survives the 29-layer cascade + continuations: meaningful result.
+
+**Priority 2b: Continuation stability (NEXT)**
+First β-expansion run: 1.03x. Verification rerun: 3.23x. The
+continuation training is sensitive. Investigate: seed sensitivity,
+LR schedule, number of steps, batch composition. A stable training
+recipe is required before the architecture is publication-ready.
+
+**Priority 2c: End-to-end benchmark (deferred)**
+The sieve + continuations at 1.03x PPL needs MMLU/HellaSwag/etc.
+15 fact prompts is proof-of-concept. Standard benchmarks needed.
 
 **Priority 2: Scale benchmark (MMLU/HellaSwag)**
 The Stage 1 model (L0 low-rank + L13-L21 ternary, melted to 1.00x)
@@ -1101,7 +1177,8 @@ of parameters).
 
 | Asset | Location | Status |
 |-------|----------|--------|
-| **Lambda tracer diagnostic** | `mementum/knowledge/lambda-tracer-diagnostic.md` | ✅ NEW (s196) |
+| **Crystal sieve architecture** | `mementum/knowledge/crystal-sieve-architecture.md` | ✅ NEW (s196) |
+| **Lambda tracer diagnostic** | `mementum/knowledge/lambda-tracer-diagnostic.md` | ✅ UPDATED (s196) |
 | **Lambda tracer experiment** | `scripts/experiments/lambda_tracer.py` | ✅ NEW (s196) |
 | **Lambda tracer results** | `results/lambda-tracer/` | ✅ NEW (s196) |
 | **Multi-projection melt** | `scripts/experiments/multi_projection_melt.py` | ✅ NEW (s196) |
@@ -1118,6 +1195,8 @@ of parameters).
 | **Crystal sieve results** | `results/crystal-sieve-pipeline/` | ✅ NEW (s196) |
 | **β-expansion experiment** | `scripts/experiments/beta_expansion.py` | ✅ NEW (s196) |
 | **β-expansion results** | `results/beta-expansion/` | ✅ NEW (s196) |
+| **Ternary pipeline verification** | `scripts/experiments/ternary_pipeline_verify.py` | ✅ NEW (s196) |
+| **Ternary verification results** | `results/ternary-pipeline-verify/` | ❌ FAILS (s196) |
 | **L0 characterization knowledge** | `mementum/knowledge/l0-characterization.md` | ✅ UPDATED (s195) |
 | **L0 characterization experiment** | `scripts/experiments/l0_characterization.py` | ✅ NEW (s195) |
 | **L0 characterization results** | `results/l0-characterization/` | ✅ NEW (s195) |

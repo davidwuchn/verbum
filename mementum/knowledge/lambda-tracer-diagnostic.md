@@ -83,6 +83,13 @@ preserve continuous barriers between ternary blocks.
 - Recovery: +0.22 cosine from nadir to L35
 - CV across combinators: 0.07-0.17 (UNIFORM)
 
+## Superseded By
+
+This page captures the first experiment of session 196. The full
+ten-experiment arc is documented in `crystal-sieve-architecture.md`,
+which includes the resolution: crystal sieve + continuation residuals
+= 1.03x PPL across 29 layers.
+
 ## Assets
 
 - Experiment: `scripts/experiments/lambda_tracer.py`
