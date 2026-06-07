@@ -1,0 +1,115 @@
+
+======================================================================
+
+======================================================================
+  TERNARY PIPELINE VERIFICATION
+  TERNARY PIPELINE VERIFICATION
+  Does 2-bit encoding preserve the 1.03x result?
+  Does 2-bit encoding preserve the 1.03x result?
+======================================================================
+======================================================================
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:36,  1.84it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 57.35it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 139.06it/s]Loading weights:  26%|██▌       | 104/399 [00:00<00:01, 185.85it/s]Loading weights:  34%|███▍      | 137/399 [00:00<00:01, 221.23it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:00, 247.19it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 271.84it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 286.44it/s]Loading weights:  67%|██████▋   | 269/399 [00:01<00:00, 295.57it/s]Loading weights:  76%|███████▌  | 303/399 [00:01<00:00, 306.43it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 309.32it/s]Loading weights:  93%|█████████▎| 373/399 [00:01<00:00, 326.05it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 228.55it/s]
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline: PPL=10.16, facts=12/15
+  Baseline: PPL=10.16, facts=12/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TEST A: Full magnitude sieve (sign * |W| * mask)
+  TEST A: Full magnitude sieve (sign * |W| * mask)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    Pre-melt: PPL=21.56 (2.12x)  facts=11/15
+    Pre-melt: PPL=21.56 (2.12x)  facts=11/15
+      step 1: loss=2.7916 (1s)
+      step 1: loss=2.7916 (1s)
+      step 25: loss=2.0903 (20s)
+      step 25: loss=2.0903 (20s)
+      step 50: loss=0.4941 (39s)
+      step 50: loss=0.4941 (39s)
+      step 75: loss=0.1431 (58s)
+      step 75: loss=0.1431 (58s)
+      step 100: loss=0.0609 (77s)
+      step 100: loss=0.0609 (77s)
+    Post-melt: PPL=32.84 (3.23x)  facts=12/15
+    Post-melt: PPL=32.84 (3.23x)  facts=12/15
+
+  Reloading model for Test B...
+
+  Reloading model for Test B...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:14,  2.04it/s]Loading weights:  12%|█▏        | 49/399 [00:00<00:03, 109.98it/s]Loading weights:  20%|█▉        | 78/399 [00:00<00:02, 147.93it/s]Loading weights:  26%|██▋       | 105/399 [00:00<00:01, 163.09it/s]Loading weights:  33%|███▎      | 131/399 [00:00<00:01, 185.76it/s]Loading weights:  39%|███▉      | 156/399 [00:01<00:01, 191.40it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 192.87it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 198.65it/s]Loading weights:  57%|█████▋    | 226/399 [00:01<00:00, 208.94it/s]Loading weights:  62%|██████▏   | 249/399 [00:01<00:00, 213.57it/s]Loading weights:  68%|██████▊   | 272/399 [00:01<00:00, 213.08it/s]Loading weights:  75%|███████▍  | 298/399 [00:01<00:00, 225.91it/s]Loading weights:  81%|████████  | 322/399 [00:01<00:00, 223.79it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 218.88it/s]Loading weights:  92%|█████████▏| 368/399 [00:02<00:00, 218.03it/s]Loading weights:  99%|█████████▊| 394/399 [00:02<00:00, 229.82it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 186.55it/s]
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  TEST B: Ternary per-row sieve (2 bits + per-row scale)
+  TEST B: Ternary per-row sieve (2 bits + per-row scale)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+    Ternary vs full-magnitude sieve: cos=0.9180
+    Ternary vs full-magnitude sieve: cos=0.9180
+    Compressed: 4178MB vs 8352MB (2.0x)
+    Compressed: 4178MB vs 8352MB (2.0x)
+    Pre-melt: PPL=231667.56 (22800.66x)  facts=0/15
+    Pre-melt: PPL=231667.56 (22800.66x)  facts=0/15
+      step 1: loss=12.0526 (1s)
+      step 1: loss=12.0526 (1s)
+      step 25: loss=6.9558 (19s)
+      step 25: loss=6.9558 (19s)
+      step 50: loss=6.0015 (38s)
+      step 50: loss=6.0015 (38s)
+      step 75: loss=4.8225 (58s)
+      step 75: loss=4.8225 (58s)
+      step 100: loss=4.6104 (78s)
+      step 100: loss=4.6104 (78s)
+    Post-melt: PPL=8405.02 (827.22x)  facts=0/15
+    Post-melt: PPL=8405.02 (827.22x)  facts=0/15
+
+======================================================================
+
+======================================================================
+  HEAD-TO-HEAD COMPARISON
+  HEAD-TO-HEAD COMPARISON
+======================================================================
+======================================================================
+  Baseline: PPL=10.16
+  Baseline: PPL=10.16
+
+
+                               Pre-melt   Post-melt   Facts        Size
+                               Pre-melt   Post-melt   Facts        Size
+  ─────────────────────────  ──────────  ──────────  ──────  ──────────
+  ─────────────────────────  ──────────  ──────────  ──────  ──────────
+             full_magnitude      2.12x      3.23x    12/15        same
+             full_magnitude      2.12x      3.23x    12/15        same
+            ternary_per_row  22800.66x    827.22x     0/15      4178MB
+            ternary_per_row  22800.66x    827.22x     0/15      4178MB
+
+  Δ(post-melt): -823.9877x
+
+  Δ(post-melt): -823.9877x
+  VERDICT: DIFFERENT
+  VERDICT: DIFFERENT
+
+  COMPRESSION: 8352MB → 4178MB = 2.0x at 827.22x PPL
+
+  COMPRESSION: 8352MB → 4178MB = 2.0x at 827.22x PPL
+
+  Saved to /Users/mwhitford/src/verbum/results/ternary-pipeline-verify/Qwen_Qwen3-8B.json
+
+  Saved to /Users/mwhitford/src/verbum/results/ternary-pipeline-verify/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

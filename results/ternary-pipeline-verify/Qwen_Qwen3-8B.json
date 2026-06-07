@@ -1,0 +1,35 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "baseline_ppl": 10.16056289308132,
+  "baseline_facts": 12,
+  "full_magnitude": {
+    "label": "full_magnitude",
+    "pre_melt_ppl": 21.565,
+    "pre_melt_ratio": 2.1224,
+    "pre_melt_facts": 11,
+    "post_melt_ppl": 32.842,
+    "post_melt_ratio": 3.2323,
+    "post_melt_facts": 12,
+    "n_trainable": 1048576,
+    "loss_start": 2.7916,
+    "loss_end": 0.0609,
+    "compressed_mb": null,
+    "orig_mb": null
+  },
+  "ternary_per_row": {
+    "label": "ternary_per_row",
+    "pre_melt_ppl": 231667.5645,
+    "pre_melt_ratio": 22800.6624,
+    "pre_melt_facts": 0,
+    "post_melt_ppl": 8405.0213,
+    "post_melt_ratio": 827.22,
+    "post_melt_facts": 0,
+    "n_trainable": 1048576,
+    "loss_start": 12.0526,
+    "loss_end": 4.6104,
+    "compressed_mb": 4177.6,
+    "orig_mb": 8352.0
+  },
+  "delta_post_melt": -823.9877,
+  "verdict": "DIFFERENT"
+}
