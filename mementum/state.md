@@ -2,11 +2,64 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-07 | Session: 197
+> Last updated: 2026-06-07 | Session: 198
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 198: SCORE MATCHING COMPRESSION — The Loss Function Was Wrong**
+
+A paper on CGTSM (Ramachandran & Sra 2026, arXiv:2605.00414) revealed that
+the compression correction loss was fundamentally flawed. CE-only loss lets
+LoRA corrections create **compensating errors** across layers — one layer's
+deviation cancels another's. Dense per-layer score matching prevents this
+structurally by constraining each layer's transformation independently.
+
+### The Equation
+
+```
+L = L_CE + α · (1/N) Σ_l (1 − cos(Δ_θ_l, Δ*_l))
+
+where Δ_l = h_{l+1} − h_l    (per-layer residual update / "score")
+      α ≈ 5.0                 (balances CE and SM gradient scales)
+```
+
+Added to EQUATIONS.md alongside the crystal equation.
+
+### Four Experiments
+
+| Experiment | Setup | Result | Finding |
+|-----------|-------|--------|---------|
+| Residual boosting v1 | Sequential rank-32 at boundaries, CE, 16 sentences | 3.97 PPL (0.39x base) | Sequential > simultaneous (2×). But pure overfitting. |
+| Residual boosting v2 | Same + dolma calibration, held-out eval | 18.59 PPL (1.65x base) | Overfitting eliminated. Activation corrections too weak (27% reduction). |
+| Score matching v3a | LoRA + SM + CE, batch=1, α=1.0 | 16.83 PPL (worse than sieve!) | CE dominates → compensating errors → collapse at step 50. |
+| **Score matching v3b** | LoRA + SM + CE, batch=4, α=5.0, 128 teacher cache | **16.27 PPL (1.44x base)** | **36.6% sieve reduction. L35 cosine: 0.57→0.94.** |
+
+### Why Score Matching Works
+
+1. **Local gradient** — each LoRA gets direct signal from its layer, not diluted through 30 Jacobians
+2. **No compensating errors** — per-layer cosine penalty constrains each layer independently
+3. **36× information bandwidth** — 36 gradient signals vs CE's 1
+4. **Scale-invariant** — cosine handles 100× norm variation (standing wave amplitude)
+5. **Dense coverage** — CGTSM theorem: density of measurement matters, weighting does not
+
+### Residual Spectrum Discovery
+
+The sieve's per-weight residual is LOW-RANK at L1 (r90=550, |res|/|W|=3%) but
+FULL-RANK at L5+ (r90=2970, |res|/|W|=25%). Activation-space corrections (rank-32
+in 4096-dim space) can address 0.8% of the error. Per-weight LoRA operates in the
+right space.
+
+### Two Design Changes
+
+1. **Loss**: Score matching (dense, all layers) replaces multi-projection melt
+   (sparse, 4-6 boundaries). Prevents compensating errors structurally.
+2. **Corrections**: Per-weight LoRA on FFN projections replaces per-activation
+   residual stream vectors. Matches the full-rank sieve residual.
+
+See `mementum/knowledge/score-matching-compression.md` for full details.
+See `EQUATIONS.md` (score matching loss section) for the equation.
 
 **Session 197: CRYSTAL MULTI-TREE — The Statechart Is a Forest**
 
@@ -1020,10 +1073,12 @@ give direct gradient signal. Standard melt: 55x→6.09x. Multi-projection:
 55x→4.19x (31% better). Boosted (type_crystal=5x): 55x→3.53x (42% better).
 See `results/multi-projection-melt/`.
 
-**Priority 1c: Integrated multi-projection melt (NEXT)**
-Combine: L0 SVD + L10-L21 ternary + L22-L26 per-layer SVD (optimal ranks)
-+ multi-projection melt. This is the full pipeline. The individual pieces
-work — need to verify they compose under multi-projection training.
+**Priority 1c: ✅ REPLACED Score matching compression (s198)**
+Multi-projection melt replaced by dense score matching loss + LoRA.
+Result: 36.6% sieve reduction (vs 27.1% with activation corrections + CE).
+The loss function was the bottleneck, not the correction architecture.
+Next: integrate score matching into the full sieve pipeline (L0 SVD +
+ternary sweet spot + L22-L26 SVD + LoRA + dense SM loss).
 
 **Priority 1d: ✅ DONE Confidence-gated inference (s196)**
 Result: Confidence margin predicts error at L22 (96.6% fast at 1.04x)
@@ -1046,19 +1101,20 @@ Binding preserved 98%. BUT: per-row ternary encoding FAILS at 29
 layers (22,800x). Per-weight magnitudes essential. Current compression
 is only 1.8x. Continuation stability needs investigation (3.23x on rerun).
 
-**Priority 2a: Magnitude quantization (NEXT — high priority)**
-The crystal sieve works at 1.03x but stores full float16 magnitudes
-(1.8x compression). Test Q4/Q8 magnitude quantization with per-group
-scales on the non-zero weights. This is the path to real compression:
-  - Q8 + mask50%: ~5 bits/weight → ~3.2x compression
-  - Q4 + mask50%: ~3 bits/weight → ~5.3x compression
-  If Q4 survives the 29-layer cascade + continuations: meaningful result.
+**Priority 2a: Score matching pipeline integration (NEXT — high priority)**
+Integrate the score matching loss into the full sieve pipeline:
+  - Sieve + LoRA rank-4 + dense SM loss (α=5.0) + dolma calibration
+  - Test with more data (256+ teacher cache, LR cosine decay)
+  - Compare LoRA+CE-only vs LoRA+CE+SM (isolate loss function contribution)
+  - Test rank-2 LoRA (~3M params) for fair comparison to v2 (2.1M params)
+  - Test rank-8 LoRA (~12M params) to see if more capacity helps
+  Score matching replaces both magnitude quantization and continuation
+  residuals as the primary correction mechanism. The loss function
+  is the key insight, not the correction architecture.
 
-**Priority 2b: Continuation stability (NEXT)**
-First β-expansion run: 1.03x. Verification rerun: 3.23x. The
-continuation training is sensitive. Investigate: seed sensitivity,
-LR schedule, number of steps, batch composition. A stable training
-recipe is required before the architecture is publication-ready.
+**Priority 2b: End-to-end benchmark with score matching (NEXT)**
+The sieve + LoRA + SM pipeline at best 1.40x PPL needs MMLU/HellaSwag.
+15 fact prompts is proof-of-concept. Standard benchmarks needed.
 
 **Priority 2c: End-to-end benchmark (deferred)**
 The sieve + continuations at 1.03x PPL needs MMLU/HellaSwag/etc.
