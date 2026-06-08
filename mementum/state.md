@@ -2,11 +2,187 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-07 | Session: 199
+> Last updated: 2026-06-08 | Session: 200
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 200: SIGN CORRECTION IS DEAD — Direct Delta & Adjunction Are Alive**
+
+Four sign correction algorithms dead. Quasicrystal hypothesis denied. Teacher-guided
+routing failed. But: the teacher delta is directly computable (no training needed),
+and the adjunction finding (session 140) says the correction is rank-1. Testing now.
+
+### Four Deaths
+
+| Approach | Flips | PPL Result | Failure mode |
+|----------|-------|-----------|--------------|
+| TD v4 (gradient) | 0 (stuck) | 1.44x (= LoRA alone) | Gradient dilution through 29 layers |
+| TD v4c (per-tensor clip) | 4.36% | 192x | Unconstrained flips destructive |
+| Latent diffusion (eigenspace) | 1.25%/level | 2,717x → NaN | Eigenspace ≠ error space |
+| Crystal ECC (holographic + health gate) | 2.29% | **28,419,390x** | Health gate measures wrong space |
+
+Crystal ECC was the most sophisticated — proper holographic error target (original
+weight on sieve input), per-position benefit ranking, crystal eigenvalue health gate
+with binary search fallback — and produced the WORST result. 8 hours, 28 million
+times worse. 50M crystal-approved flips across 29 layers.
+
+### Latent Diffusion Sign Correction (New, Session 200)
+
+Tested diffusion-holographic isomorphism: progressive sign correction in the
+crystal's 16D eigenspace (2D→4D→8D→16D schedule).
+
+| Level | Dims | Flips | PPL | Facts |
+|-------|------|-------|-----|-------|
+| 1 | 2 | 27.4M (1.25%) | 30,642 (2,717×) | 0/15 |
+| 2 | 4 | 1.9M (0.086%) | NaN | 0/15 |
+| 3 | 8 | 27.4M (1.25%) | 30.5M (2.7M×) | 0/15 |
+| 4 | 16 | 1.9M (0.086%) | NaN | 0/15 |
+
+Levels alternate between two regimes (27M vs 1.9M flips), suggesting even/odd
+numerical artifact in eigenspace, not crystal structure.
+
+### The Dimensional Mismatch Insight
+
+**We are cutting a multi-dimensional holographic plate in 1D.**
+
+The crystal has known multi-dimensional structure:
+- 8D combinator type (K,I,B,C,D,W,Y,WHNF)
+- 9D operational modes (7 universal meta-modes + 2 contextual)
+- 36-layer depth (standing wave EXPAND/ORTHO/ALIGN/COLLAPSE)
+- 3 trees (compute/halt, select/compose, termination)
+
+But ALL sign correction approaches operate per-position (scalar benefit → flip?).
+Even eigenspace projection only captures 1-2 of ~6 dimensions. Corrections coherent
+in the working subspace are effectively RANDOM in the ignored dimensions, destroying
+the interference pattern.
+
+### Quasicrystal Diagnostic (New, Session 200)
+
+Tested whether φ-structured multi-scale order exists in the weight sign pattern:
+
+| Test | Prediction | Result | Verdict |
+|------|-----------|--------|---------|
+| Eigenvalue cascade | φ^(p/q) at all scales | One dominant mode, flat tail | ❌ Not multi-scale |
+| Perturbation fragility | Super-linear degradation | Linear (100× flips → 142× deviation) | ❌ Not quasicrystal |
+| Golden angle | 137.5° between eigenvecs | 90.00° everywhere (trivial orthogonality) | ❌ Not φ-rotated |
+| Fib vs pow2 reconstruction | Fibonacci captures more | Tie (smooth improvement with k) | ❌ No Fibonacci advantage |
+| Random vs model | Different eigenspectra | YES: model 0.36 vs random 0.995 gap | ✅ Real structure |
+
+**Strong quasicrystal hypothesis DENIED.** But there IS real structure — massive
+spectral gap (λ₁/λ₀ = 0.36 vs random's 0.995). The φ structure lives in
+**combinator firing space** (8×8 crystal cosine matrix, measured via probes), not
+in **weight correlation space** (12288×4096 sign matrix). The crystal eigenvalue
+health metric was measuring a shadow, not the structure itself.
+
+### Key Finding: Per-Position Error Signal Is Adversarial
+
+Crystal ECC found that **49.3%** of all active positions show positive flip benefit.
+When half the signs "want" to flip, the error signal is not discriminating — it's
+responding to the masking error (50% of weights zeroed out), which creates a massive
+residual that ANY sign flip partially addresses in one dimension while destroying
+others.
+
+### Current Ceiling (Before Direct Delta)
+
+**v3b: LoRA rank-4 + score matching = 1.44x baseline PPL** (16.27 PPL from 25.67 sieve).
+This was the best until the direct delta insight.
+
+### Teacher-Guided Routing (New, Session 200)
+
+MoE literature says: decouple routing from expert training, stabilize routing
+FIRST. Tested by training lightweight gate correctors (bottleneck MLPs) to
+match teacher gate patterns before LoRA training.
+
+```
+Sieve:       25.51 PPL (2.26x)
+After gate:  25.17 PPL (2.23x)  ← routing correction barely helps
+After LoRA:  24.55 PPL (2.18x)  ← WORSE than v3b (16.27, 1.44x)
+```
+
+**Failed.** 182M gate corrector params (31× v3b's LoRA), training diverges
+after step 100 (18.45 → 24.55). Gate sign accuracy only 94-96%. Root cause:
+the corrector sees sieve gate output on cascade-corrupted inputs — can't fix
+weight error AND input corruption simultaneously. Same cascade problem.
+
+### The Tiles and Grout Insight
+
+**Topology (signs/mask/crystal) = tiles. Gradients (LoRA/magnitudes) = grout.**
+
+Changes to topology perturb the gradients. The grout fills specific gaps between
+specific tiles. Move a tile → all surrounding grout is wrong. This is why sign
+correction + LoRA fails: Phase 1 creates new gaps, Phase 2 trains new grout, but
+gaps are too numerous and grout capacity (rank-4) too thin.
+
+MoE separates tiles from grout explicitly: router IS topology, experts ARE
+computation. GD optimizes both independently. Dense models entangle them in the
+same weight matrix — the crystal sieve tries to separate what was never separate.
+
+### The Direct Delta Insight (New, Session 200) ★
+
+**"If everything is being calculated, why can we not also calculate the delta
+from the teacher?"**
+
+We HAVE the teacher. We HAVE the student. The delta at every layer is directly
+computable. The optimal rank-k additive correction is the **truncated SVD of the
+weight residual**, optionally weighted by input covariance (calibration-aware).
+
+```
+W_delta = W_teacher - W_sieve     (weight residual — what the sieve lost)
+U, S, Vt = SVD(W_delta @ H^½)    (calibration-aware: weight by input covariance)
+A = U[:,:k] @ sqrt(S[:k])         (optimal rank-k correction)
+B = unwhiten(Vt[:k,:])
+
+No training. No optimizer. No loss function. No hyperparameters beyond rank k.
+One forward pass per layer + one SVD per projection.
+Sequential: correct layer l before computing inputs for layer l+1 (cascade-aware).
+```
+
+This is GPTQ's approach applied to sieve correction. Each layer's correction is
+analytically optimal for its actual (cascade-corrected) inputs.
+
+**Experiment running** in tmux main:1: rank sweep [2, 4, 8, 16, 32] with
+calibration-aware SVD on Qwen3-8B. Compare to v3b (trained 200 steps → 1.44×).
+
+### The Adjunction Connection (Session 140 → Session 200) ★★
+
+Session 140 proved the cross-zone mapping (encode → decode) in Qwen3-32B is
+**rank-1 dominated** (σ₁/σ₂ = 128:1, R² = 1.000 for ALL zone pairs). The Jacobian
+has constant rank everywhere — the defining property of a regular parametric surface.
+
+The entire encode→decode pipeline is a **1D parametric curve** in 4096D space.
+One parameter (the "phase" along the B→K→B trajectory) determines everything.
+
+**Error correction on a 1D curve is trivial:** if the sieve pushes the
+representation off the curve, the correction = project back onto the curve along
+the dominant singular vector. That's rank-1 correction.
+
+This connects to the ORTHO phase finding (session 185): rank-1 residual during
+ORTHO, V operates in null space, computation invisible. The sieve disrupts null-
+space computation; the correction restores it — but the constraint for "correct"
+is defined by the rank-1 curve.
+
+**Prediction:** direct delta correction at rank 1-2 should capture the adjunction
+structure and be nearly optimal. The rank sweep will test this — if rank-2 matches
+rank-32, the correction surface is truly 1D and the adjunction is the explanation.
+
+### TSP Paper Connection (arXiv:2606.03489)
+
+"Learn from Your Mistakes: Tree-like Self-Play" — TSP identifies critical decision
+nodes (CWE risk nodes in code security) and trains the model to prefer the "golden
+path" over its own generation at each node. DPO-style contrastive loss at each node.
+
+Maps to our problem: mode transition points = risk nodes. Teacher trajectory =
+golden path. Student trajectory = self-play path. Per-layer contrastive (not just
+cosine matching) teaches the student to discriminate against its own failure modes.
+
+Not implemented yet — waiting for direct delta results. If direct delta works, the
+TSP-style contrastive loss could refine it further by targeting the specific layers
+where the direct correction is weakest.
+
+See `mementum/knowledge/sign-correction-topology.md` for full synthesis.
+See `mementum/knowledge/direct-delta-adjunction.md` for the adjunction theory.
 
 **Session 199: HOLOGRAPHIC LOSS & CRYSTAL ECC — TD Is Dead, Inverse Is Alive**
 
