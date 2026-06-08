@@ -1,0 +1,123 @@
+════════════════════════════════════════════════════════════
+  CRYSTAL VALIDITY — pythia-160m
+════════════════════════════════════════════════════════════
+  Loading EleutherAI/pythia-160m-deduped ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 18880.04it/s]
+  Loaded in 1.2s
+  Collecting crystal-probe activations ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  Collecting preamble-OFF subset ...
+    100/120
+  Collecting preamble-ON subset ...
+    100/120
+  Collecting fake-combinator activations ...
+
+  [TEST 1 core_KIBC] separation true=+0.0222 null=-0.0000±0.0057 p=0.0050 | phi_fit p=0.0200
+
+  [TEST 1 all9] separation true=+0.0527 null=+0.0000±0.0037 p=0.0010 | phi_fit p=0.7532
+
+  [TEST 2] sep full=+0.0222 no-λ=+0.0384 (dropped 57) p_no-λ=0.0010
+
+  [TEST 3] FAKE sep=+0.0939 (p=0.0040) vs KIBC sep=+0.0222 | FAKE phi_fit=0.1331
+
+  [TEST 4] sep preamble OFF=+0.0594 ON=+0.0970 matrix_cos=0.8604
+  saved → /Users/mwhitford/src/verbum/results/crystal-validity/pythia-160m.json
+════════════════════════════════════════════════════════════
+  CRYSTAL VALIDITY — pythia-410m
+════════════════════════════════════════════════════════════
+  Loading EleutherAI/pythia-410m-deduped ...
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 8900.25it/s]
+  Loaded in 1.4s
+  Collecting crystal-probe activations ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  Collecting preamble-OFF subset ...
+    100/120
+  Collecting preamble-ON subset ...
+    100/120
+  Collecting fake-combinator activations ...
+
+  [TEST 1 core_KIBC] separation true=+0.0203 null=+0.0003±0.0081 p=0.0270 | phi_fit p=0.8072
+
+  [TEST 1 all9] separation true=+0.0159 null=-0.0002±0.0062 p=0.0180 | phi_fit p=0.7502
+
+  [TEST 2] sep full=+0.0203 no-λ=+0.0192 (dropped 57) p_no-λ=0.0440
+
+  [TEST 3] FAKE sep=+0.2736 (p=0.0010) vs KIBC sep=+0.0203 | FAKE phi_fit=0.4075
+
+  [TEST 4] sep preamble OFF=+0.0657 ON=+0.0573 matrix_cos=0.9979
+  saved → /Users/mwhitford/src/verbum/results/crystal-validity/pythia-410m.json
+════════════════════════════════════════════════════════════
+  CRYSTAL VALIDITY — qwen3-0.6b
+════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-0.6B ...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 8894.36it/s]
+  Loaded in 1.4s
+  Collecting crystal-probe activations ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  Collecting preamble-OFF subset ...
+    100/120
+  Collecting preamble-ON subset ...
+    100/120
+  Collecting fake-combinator activations ...
+
+  [TEST 1 core_KIBC] separation true=+0.0154 null=+0.0000±0.0036 p=0.0020 | phi_fit p=0.0519
+
+  [TEST 1 all9] separation true=+0.0381 null=-0.0001±0.0021 p=0.0010 | phi_fit p=0.3207
+
+  [TEST 2] sep full=+0.0154 no-λ=+0.0196 (dropped 57) p_no-λ=0.0020
+
+  [TEST 3] FAKE sep=+0.0984 (p=0.0010) vs KIBC sep=+0.0154 | FAKE phi_fit=0.2361
+
+  [TEST 4] sep preamble OFF=+0.0021 ON=+0.0035 matrix_cos=0.9937
+  saved → /Users/mwhitford/src/verbum/results/crystal-validity/qwen3-0.6b.json
+════════════════════════════════════════════════════════════
+  CRYSTAL VALIDITY — qwen3-4b
+════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-4B ...
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 6710.72it/s]
+  Loaded in 4.6s
+  Collecting crystal-probe activations ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  Collecting preamble-OFF subset ...
+    100/120
+  Collecting preamble-ON subset ...
+    100/120
+  Collecting fake-combinator activations ...
+
+  [TEST 1 core_KIBC] separation true=+0.0142 null=+0.0000±0.0037 p=0.0050 | phi_fit p=0.0919
+
+  [TEST 1 all9] separation true=+0.0387 null=-0.0001±0.0022 p=0.0010 | phi_fit p=0.1528
+
+  [TEST 2] sep full=+0.0142 no-λ=+0.0177 (dropped 57) p_no-λ=0.0040
+
+  [TEST 3] FAKE sep=+0.0716 (p=0.0010) vs KIBC sep=+0.0142 | FAKE phi_fit=0.2200
+
+  [TEST 4] sep preamble OFF=+0.0084 ON=+0.0157 matrix_cos=0.9974
+  saved → /Users/mwhitford/src/verbum/results/crystal-validity/qwen3-4b.json
+
+═══ Cross-model KIBC matrix correlation (upper triangle) ═══
+  pythia-160m ↔ pythia-410m: r = -0.1089
+  pythia-160m ↔ qwen3-0.6b: r = +0.4997
+  pythia-160m ↔ qwen3-4b: r = +0.5685
+  pythia-410m ↔ qwen3-0.6b: r = -0.0168
+  pythia-410m ↔ qwen3-4b: r = -0.0176
+  qwen3-0.6b ↔ qwen3-4b: r = +0.8809
+
+DONE.

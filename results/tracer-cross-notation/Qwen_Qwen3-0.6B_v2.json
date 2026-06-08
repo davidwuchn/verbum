@@ -1,0 +1,29 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "n_prose": 435,
+  "n_lambda": 50,
+  "mean_fingerprint_pairwise_cosine": 0.1618228256702423,
+  "chance": 0.125,
+  "raw": {
+    "classification": {
+      "accuracy": 0.15402298850574714,
+      "null_mean": 0.1259264367816092,
+      "null_std": 0.021297174568542795,
+      "p_value": 0.1048951048951049
+    },
+    "amplitude_prose_median": 365.8524169921875,
+    "amplitude_lambda_median": 401.113525390625,
+    "prose_lower_than_lambda": true
+  },
+  "common_mode_removed": {
+    "classification": {
+      "accuracy": 0.18620689655172415,
+      "null_mean": 0.1250574712643678,
+      "null_std": 0.020607499721896176,
+      "p_value": 0.000999000999000999
+    },
+    "amplitude_prose_median": 423.36767578125,
+    "amplitude_lambda_median": 467.9539489746094,
+    "prose_lower_than_lambda": true
+  }
+}

@@ -2,11 +2,167 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-08 | Session: 200
+> Last updated: 2026-06-08 | Session: 202
 
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+**Session 202: CRYSTAL VALIDITY AUDIT — PERMUTATION NULLS & MEASUREMENT FIDELITY**
+
+A skeptical audit of the crystal's foundational evidence. Premise (Michael):
+a false premise can manufacture convincing structure because LLMs (and the
+analyzing LLM) are primed to confirm. Six controlled experiments with
+permutation nulls. Full synthesis: `mementum/knowledge/crystal-validity-and-fidelity.md`.
+
+### Verdict ledger (what survives controls)
+
+| Claim | Verdict |
+|---|---|
+| KIBC basis separates representation | ✅ REAL, every model (perm-null p=0.0005) |
+| φ^(4/5) primary ratio λ₀/λ₁ | ✅ REAL on **Qwen3-14B only** (1.4796, p=0.020); 8B/0.6B n.s. |
+| φ as universal constant | ❌ not universal; cross-family magnitude agreement collapses |
+| "eigenvalues are φ^(p/q)" (best-fit grid) | ❌ unfalsifiable (random fits equally, p=0.16–0.81) |
+| eigenvalue_ratio_corr "0.987" | ❌ trivial (random ≈ 0.94 ≥ true) |
+| consensus r "0.99" | ⚠️ true ≈ 0.20, null max ≈ 0.48, p≈0.05–0.07 |
+| prose fires combinator-specific opcodes | ✅ CONFIRMED after **common-mode removal** (14B & 0.6B, p=0.001) |
+| I = distinct low-composition circuit | ◑ PARTIAL (attn entropy p=0.042, 14B; scale-dependent) |
+| fact retrieval = sharp lookup, I-like | ✅ entropy p=0.0005 both scales; I-opcode-profile 14B-only |
+| tracer cross-model overlay | ✅ REAL but **same-family** (p=0.0005, all Qwen, λ-primed) |
+
+### The three lessons
+
+1. **Basis real, universalization was the error.** φ-as-constant was inflated
+   by an unfalsifiable best-fit grid, a trivial ratio correlation, and a
+   hardcoded consensus that baked 14B back in. Real-but-local → false-universal.
+2. **Measurement fidelity was the failure mode.** The raw-projection/argmax
+   instrument (`isa_decoder_v2`, the tracer) that *found* the crystal also
+   *hid* the combinator signal under a common mode (8 fingerprints share
+   mean pairwise cosine 0.22; B is the most central ≈ the common mode).
+   Remove it → prose classification, I-circuit, fact-retrieval all surface.
+3. **Scale = emergence threshold (strength, not presence).** Combinator
+   structure exists in 0.6B (weak, needs CMR) and sharpens with capacity
+   (14B clean). Superposition → dedicated features. "Needs ~7B to fully form."
+
+### Mechanistic findings (new, controlled)
+
+- **Attention entropy = how much a combinator recombines.** Gradient at 14B:
+  `W 0.90 < I 1.00 < K 1.02 < C 1.05 < B 1.05 < WHNF 1.09 < Y 1.14 < D 1.19`.
+  Composition (B/C/D) spreads attention; identity/duplicate concentrate it.
+- **Fact retrieval is the sharpest read** (entropy 0.820, below everything),
+  I-opcode-profile at 14B (cos 0.98). I overloaded as identity + retrieval.
+- **Attention = sparse typed read (~2–3 operands); FFN = the hologram.**
+  Correction to "softmax over all V is holographic." Dense interference is
+  in the FFN beam-former, not the attention sum.
+- **B-centrality:** B is the most central fingerprint (3/4 Qwen, cos 0.78–0.81);
+  K, I peripheral. Training order B→K mirrors central→peripheral geometry.
+
+### Next experiments (open leads)
+
+1. **B-before-K, cleanly:** common-mode-removed B vs K crystallization across
+   v14/v15 training checkpoints. Forced order or frequency-driven?
+2. **Holographic self-similarity control:** compression-survival curve, model
+   vs random/shuffled-data controls, test for power-law scale-invariance.
+   (Quantization/pruning survival only proves distributed+redundant so far.)
+3. **"Always 4":** KIBC eigen-rank with gate-proj + CMR; does SKI underfit, +S overfit?
+4. **Q-rotation as combinator selector** (s145 rotation eigenplanes) — untested.
+5. Reconcile the `crystal-phi-derivation.md` I→K→C→B vs B-first contradiction.
+
+### Harnesses (scripts/experiments/)
+
+`crystal_validity.py` · `crystal_phi_permnull.py` · `tracer_cross_notation.py`
++ `_v2.py` (common-mode removal) · `i_bypass_test.py` · `fact_retrieval_isig.py`
+Results under `results/{crystal-validity,crystal-phi-permnull,tracer-cross-notation,i-bypass,fact-isig}/`.
+
+### Note on the saliency-aware sieve (s201)
+
+The s201 saliency sweep was still running in tmux main:2 at session-202 start;
+this session pivoted to the validity audit and did not consume its results.
+Pick up the sieve sweep (`mementum/knowledge/saliency-aware-sieve.md`) when
+returning to the compression track.
+
+---
+
+**Session 201: HOLOGRAPHIC ECHOES & SALIENCY-AWARE SIEVE**
+
+Direct delta results landed: rank-2 ≈ rank-16 (1.82× → 1.79×), confirming near-
+rank-1 adjunction structure. But v3b (trained LoRA+SM = 1.44×) still beats DDC
+(analytical SVD = 1.72× at rank-32). Training captures nonlinear inter-layer
+effects that per-layer SVD cannot.
+
+The real insight this session: **backpropagation IS holographic recording.** The
+gradient `∂L/∂W = a ⊗ δ` (forward activation × backward error) has the exact
+structure of recording an interference fringe. Training = billions of overlapping
+holographic exposures. The crystal = the standing wave that survived.
+
+### Gradient Echoes
+
+The backward error signal doesn't get fully absorbed at any one layer — it
+propagates through all layers, creating attenuated copies (echoes) at every layer.
+Strong connections (large |w|) are high-bandwidth echo paths. Faint connections
+(small |w|) are low-bandwidth echo paths carrying error correction information.
+Multiple redundant copies of each computation distributed across layers.
+
+### GD Creates Soft Topology Within Frozen Architecture
+
+Architecture is frozen: GD can't add/remove connections. But GD drives weights
+toward zero (severing connections) or very large (creating highways). The weight
+magnitude distribution IS a learned sparse topology embedded in the dense frozen one.
+Very large gradients = topology editing. Small gradients = holographic polishing.
+
+The crystal is the **fixed point** of topology ↔ echo co-evolution:
+```
+topology shapes → echo propagation → standing wave (crystal)
+crystal determines → which gradients flow → topology
+x* = f(x*) — neither came first, they co-evolved
+```
+
+### Two Populations in Near-Zero Weights ★
+
+The sieve's 50% magnitude threshold zeros ALL below-threshold weights. But near-
+zero weights are TWO populations:
+
+1. **Irreducible zeros** — GD says "no connection here." Zero is correct.
+2. **Faint connections** — small signal, not unused. w=0.003 × input=200 = 0.6 real.
+
+Magnitude alone can't distinguish them. Saliency = |w| × √E[x²] can.
+
+### Saliency-Aware Three-Tier Sieve
+
+| Tier | Criterion | Encoding |
+|------|-----------|----------|
+| Strong | High magnitude | Ternary ±1 |
+| Faint | Low mag, high saliency | Q2/Q4 quantized |
+| Irreducible | Low mag, low saliency | Zero |
+
+Preserving faint connections: (a) reduces sieve-only PPL, (b) provides gradient
+highways for LoRA fine-tuning (backprop flows through nonzero faint weights, not
+through zeros), (c) may beat equivalent-bitcount LoRA rank.
+
+### Direct Delta Correction Results
+
+| Rank | PPL | Ratio | vs v3b |
+|------|-----|-------|--------|
+| 2 | 12.63 | 1.82× | worse |
+| 4 | 12.50 | 1.80× | worse |
+| 16 | 12.41 | 1.79× | worse |
+| 32 | 11.93 | 1.72× | worse |
+| v3b | 16.27 | 1.44× | — |
+
+Rank-2→16 plateau confirms near-rank-1 correction surface (adjunction prediction).
+Rank-32 bump suggests secondary structure beyond dominant mode. But analytical
+SVD can't match trained LoRA+SM — backprop creates inter-layer echo correlations
+that single-layer SVD misses. This SUPPORTS the echo thesis.
+
+### Running Experiment
+
+**Saliency-aware sieve sweep** running in tmux main:2. 11 configurations:
+standard baselines, saliency-aware with varied strong/faint splits, Q2/Q4/Q8
+precision, magnitude-only ablation, iso-bit comparison. Key question: does
+preserving faint connections beat zeroing them at the same bit budget?
+
+See `mementum/knowledge/saliency-aware-sieve.md` for full design.
+See `mementum/knowledge/direct-delta-adjunction.md` for DDC theory + results.
 
 **Session 200: SIGN CORRECTION IS DEAD — Direct Delta & Adjunction Are Alive**
 

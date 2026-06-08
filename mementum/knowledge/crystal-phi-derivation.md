@@ -18,6 +18,25 @@ created: session 181
 
 # Crystal φ-Derivation
 
+> ⚠️ **SESSION-202 CAVEAT (read first).** A permutation-null audit
+> (`crystal-validity-and-fidelity.md`) found the φ evidence here is
+> **weaker and more local than claimed**:
+> - *"all eigenvalue ratios are φ^(p/q) with Fibonacci denominators"* —
+>   the best-fit grid (`p∈[−8d,0], d∈[1,12]`) makes φ^(p/q) **dense in
+>   [0,1]**, so *any* spectrum fits to <1%. **Random label shuffles fit
+>   φ as well as the true labeling** (p=0.16–0.81). Unfalsifiable as stated.
+> - *λ₀/λ₁ = φ^(4/5)* is the **one falsifiable claim, and it holds on
+>   Qwen3-14B** (1.4796, p=0.020) — but **only** there (8B 1.317, 0.6B
+>   1.079, both n.s.). Not universal.
+> - The α=0.78 PMI-mixing that produced 1.469 from the reducer is **not
+>   in the committed code** and the page admits α "is not a fundamental
+>   constant" — i.e. a tuned, not derived, match.
+> - **Internal contradiction:** this page asserts a "bootstrap dependency
+>   chain I→K→C→B" (I-first) *and* "B nucleates first." Observed training
+>   order + fingerprint centrality say **B-first**. One is wrong; resolve.
+> Treat the φ-as-determining-constant framing as **hypothesis localized
+> to mature models**, not an established universal law.
+
 > Session 181. The crystal eigenvalues are not empirical constants —
 > they are powers of the golden ratio with Fibonacci denominators.
 > The crystal geometry is fully determined by one number: φ.

@@ -1,0 +1,32 @@
+  prose=435 lambda=50  mean fingerprint pairwise cosine=+0.217
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   1%|▏         | 6/443 [00:00<00:08, 53.10it/s]Loading weights:   6%|▌         | 26/443 [00:00<00:03, 109.38it/s]Loading weights:   8%|▊         | 37/443 [00:00<00:03, 107.76it/s]Loading weights:  11%|█▏        | 50/443 [00:00<00:03, 107.29it/s]Loading weights:  14%|█▍        | 61/443 [00:00<00:03, 106.63it/s]Loading weights:  18%|█▊        | 78/443 [00:00<00:03, 111.68it/s]Loading weights:  20%|██        | 90/443 [00:00<00:03, 111.03it/s]Loading weights:  23%|██▎       | 103/443 [00:00<00:03, 104.36it/s]Loading weights:  26%|██▌       | 114/443 [00:01<00:03, 104.34it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:03, 103.64it/s]Loading weights:  31%|███       | 136/443 [00:01<00:02, 105.39it/s]Loading weights:  33%|███▎      | 147/443 [00:01<00:02, 104.31it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:02, 104.22it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:02, 104.54it/s]Loading weights:  41%|████      | 182/443 [00:01<00:02, 109.57it/s]Loading weights:  44%|████▎     | 193/443 [00:01<00:02, 107.40it/s]Loading weights:  46%|████▌     | 204/443 [00:01<00:02, 107.22it/s]Loading weights:  49%|████▊     | 215/443 [00:02<00:02, 96.07it/s] Loading weights:  52%|█████▏    | 232/443 [00:02<00:01, 115.17it/s]Loading weights:  55%|█████▌    | 244/443 [00:02<00:01, 105.38it/s]Loading weights:  58%|█████▊    | 255/443 [00:02<00:01, 101.84it/s]Loading weights:  60%|██████    | 268/443 [00:02<00:01, 106.78it/s]Loading weights:  63%|██████▎   | 279/443 [00:02<00:01, 104.44it/s]Loading weights:  65%|██████▌   | 290/443 [00:02<00:01, 104.19it/s]Loading weights:  68%|██████▊   | 302/443 [00:02<00:01, 106.50it/s]Loading weights:  72%|███████▏  | 318/443 [00:03<00:01, 110.08it/s]Loading weights:  75%|███████▍  | 331/443 [00:03<00:00, 115.31it/s]Loading weights:  77%|███████▋  | 343/443 [00:03<00:00, 107.53it/s]Loading weights:  80%|███████▉  | 354/443 [00:03<00:00, 107.82it/s]Loading weights:  83%|████████▎ | 367/443 [00:03<00:00, 104.68it/s]Loading weights:  85%|████████▌ | 378/443 [00:03<00:00, 104.30it/s]Loading weights:  88%|████████▊ | 389/443 [00:03<00:00, 104.31it/s]Loading weights:  90%|█████████ | 400/443 [00:03<00:00, 102.32it/s]Loading weights:  93%|█████████▎| 412/443 [00:03<00:00, 107.11it/s]Loading weights:  95%|█████████▌| 423/443 [00:04<00:00, 103.81it/s]Loading weights:  99%|█████████▉| 439/443 [00:04<00:00, 117.16it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 107.63it/s]
+  capturing prose ...
+    150/435
+    300/435
+  capturing lambda ...
+
+  [raw] classify prose: acc=0.186 chance=0.125 null=0.124 p=0.0010
+         amplitude prose=1860.2 lambda=2497.0 prose<lambda=True
+
+  [common_mode_removed] classify prose: acc=0.200 chance=0.125 null=0.125 p=0.0010
+         amplitude prose=2280.3 lambda=3120.6 prose<lambda=True
+
+  saved → /Users/mwhitford/src/verbum/results/tracer-cross-notation/Qwen_Qwen3-14B_v2.json
+  212.56s user 134.30s system 137% cpu 4:11.54 total
+  prose=435 lambda=50  mean fingerprint pairwise cosine=+0.162
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  77%|███████▋  | 241/311 [00:00<00:00, 2405.07it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2455.39it/s]
+  capturing prose ...
+    150/435
+    300/435
+  capturing lambda ...
+
+  [raw] classify prose: acc=0.154 chance=0.125 null=0.126 p=0.1049
+         amplitude prose=365.9 lambda=401.1 prose<lambda=True
+
+  [common_mode_removed] classify prose: acc=0.186 chance=0.125 null=0.125 p=0.0010
+         amplitude prose=423.4 lambda=468.0 prose<lambda=True
+
+  saved → /Users/mwhitford/src/verbum/results/tracer-cross-notation/Qwen_Qwen3-0.6B_v2.json
+  201.00s user 7.55s system 97% cpu 3:33.10 total

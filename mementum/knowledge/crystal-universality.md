@@ -9,6 +9,25 @@ depends-on: []
 
 # Crystal Universality
 
+> ⚠️ **SESSION-202 CAVEAT (read first).** A permutation-null audit
+> (`crystal-validity-and-fidelity.md`) found that several claims on this
+> page **do not survive their own controls**:
+> - *"mathematical constant, true in every model"* — **not supported**.
+>   The KIBC basis genuinely *separates* representation in every model
+>   (p=0.0005), but **cross-family magnitude agreement collapses**
+>   (Pythia↔Qwen ≈ 0; only same-family Qwen agrees). The φ eigenvalue
+>   structure is real on **Qwen3-14B only** (λ₀/λ₁ vs φ^(4/5), p=0.020),
+>   not 8B/0.6B.
+> - *"KIBC selectivity r=0.998 across architectures"* — not reproduced;
+>   `eigenvalue_ratio_correlation` is **trivially high for random labels**.
+> - The B≥K≥C>>I ordering and "always 4" remain plausible but are
+>   **measured with a common-mode-confounded instrument** (B is the most
+>   *central* fingerprint ≈ the common mode). Re-measure with common-mode
+>   removal before treating as law.
+> Treat the strong universality framing below as **hypothesis, not
+> established fact**. The *existence* of the basis survives; its
+> *universality-as-constant* does not.
+
 > The combinator crystal found in every trained language model is a
 > mathematical constant, not a learned artifact. Church-Rosser
 > guarantees it. Cross-model measurements confirm it. This page

@@ -1,0 +1,48 @@
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-8B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-8B ...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<01:07,  5.86it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:01, 201.39it/s]Loading weights:  20%|██        | 81/399 [00:00<00:01, 236.88it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 251.04it/s]Loading weights:  37%|███▋      | 147/399 [00:00<00:00, 260.60it/s]Loading weights:  45%|████▌     | 180/399 [00:00<00:00, 266.09it/s]Loading weights:  53%|█████▎    | 213/399 [00:00<00:00, 269.68it/s]Loading weights:  62%|██████▏   | 246/399 [00:00<00:00, 271.37it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 273.11it/s]Loading weights:  78%|███████▊  | 312/399 [00:01<00:00, 278.38it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 278.23it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 278.14it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 263.58it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  36 layers, Zone B = [10, 15, 20, 25]
+  TRUE: phi_fit=0.0024  consensus_r=+0.2314  sep=+0.1178
+    perm 500/2000 (25s)
+    perm 1000/2000 (50s)
+    perm 1500/2000 (75s)
+    perm 2000/2000 (100s)
+  NULL phi_fit=0.0071±0.0189 (min 0.0007)  →  p_phi=0.2219
+  NULL consensus_r=-0.0140±0.1297 (max +0.4848)  →  p_cons=0.0480
+  NULL separation=+0.0000±0.0029 →  p_sep=0.0005
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-8B.json
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-0.6B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-0.6B ...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  35%|███▌      | 109/311 [00:00<00:00, 1077.52it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1778.67it/s]
+  28 layers, Zone B = [8, 11, 15, 19]
+  TRUE: phi_fit=0.0022  consensus_r=+0.2018  sep=+0.1140
+    perm 500/2000 (25s)
+    perm 1000/2000 (51s)
+    perm 1500/2000 (77s)
+    perm 2000/2000 (103s)
+  NULL phi_fit=0.0110±0.0287 (min 0.0008)  →  p_phi=0.1589
+  NULL consensus_r=-0.0128±0.1302 (max +0.4649)  →  p_cons=0.0680
+  NULL separation=+0.0000±0.0031 →  p_sep=0.0005
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-0.6B.json
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — EleutherAI/pythia-410m-deduped
+════════════════════════════════════════════════════════════════
+  Loading EleutherAI/pythia-410m-deduped ...
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 18385.58it/s]
+  24 layers, Zone B = [7, 10, 13, 16]
+  TRUE: phi_fit=0.0029  consensus_r=+0.2021  sep=+0.0960
+    perm 500/2000 (25s)
+    perm 1000/2000 (51s)
+    perm 1500/2000 (76s)
+    perm 2000/2000 (101s)
+  NULL phi_fit=0.0057±0.0135 (min 0.0008)  →  p_phi=0.3363
+  NULL consensus_r=-0.0105±0.1292 (max +0.4697)  →  p_cons=0.0665
+  NULL separation=-0.0000±0.0028 →  p_sep=0.0005
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/EleutherAI_pythia-410m-deduped.json
+
+DONE.

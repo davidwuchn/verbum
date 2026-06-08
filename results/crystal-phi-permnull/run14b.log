@@ -1,0 +1,57 @@
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-14B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-14B ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<04:38,  1.59it/s]Loading weights:   8%|▊         | 37/443 [00:00<00:06, 66.05it/s]Loading weights:  13%|█▎        | 56/443 [00:00<00:05, 75.07it/s]Loading weights:  16%|█▌        | 71/443 [00:01<00:04, 85.34it/s]Loading weights:  19%|█▉        | 85/443 [00:01<00:04, 87.53it/s]Loading weights:  22%|██▏       | 97/443 [00:01<00:03, 92.29it/s]Loading weights:  25%|██▍       | 109/443 [00:01<00:03, 90.91it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:03, 94.83it/s]Loading weights:  31%|███       | 136/443 [00:01<00:03, 94.00it/s]Loading weights:  33%|███▎      | 147/443 [00:01<00:03, 96.36it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:02, 97.34it/s]Loading weights:  38%|███▊      | 169/443 [00:02<00:02, 98.69it/s]Loading weights:  41%|████      | 180/443 [00:02<00:02, 98.10it/s]Loading weights:  43%|████▎     | 191/443 [00:02<00:02, 100.36it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:02, 100.54it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:02, 99.78it/s] Loading weights:  51%|█████     | 224/443 [00:02<00:02, 100.59it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:02, 101.35it/s]Loading weights:  56%|█████▌    | 246/443 [00:02<00:01, 98.85it/s] Loading weights:  58%|█████▊    | 257/443 [00:02<00:01, 98.55it/s]Loading weights:  60%|██████    | 268/443 [00:03<00:01, 99.60it/s]Loading weights:  63%|██████▎   | 279/443 [00:03<00:01, 97.60it/s]Loading weights:  65%|██████▌   | 290/443 [00:03<00:01, 98.92it/s]Loading weights:  68%|██████▊   | 301/443 [00:03<00:01, 98.85it/s]Loading weights:  70%|███████   | 312/443 [00:03<00:01, 100.79it/s]Loading weights:  73%|███████▎  | 323/443 [00:03<00:01, 99.01it/s] Loading weights:  75%|███████▌  | 334/443 [00:03<00:01, 99.99it/s]Loading weights:  78%|███████▊  | 345/443 [00:03<00:00, 101.12it/s]Loading weights:  80%|████████  | 356/443 [00:03<00:00, 102.55it/s]Loading weights:  83%|████████▎ | 367/443 [00:04<00:00, 99.31it/s] Loading weights:  85%|████████▌ | 378/443 [00:04<00:00, 97.83it/s]Loading weights:  88%|████████▊ | 389/443 [00:04<00:00, 97.31it/s]Loading weights:  90%|█████████ | 400/443 [00:04<00:00, 100.37it/s]Loading weights:  93%|█████████▎| 411/443 [00:04<00:00, 99.11it/s] Loading weights:  95%|█████████▌| 422/443 [00:04<00:00, 97.05it/s]Loading weights:  98%|█████████▊| 433/443 [00:04<00:00, 100.20it/s]Loading weights: 100%|██████████| 443/443 [00:04<00:00, 93.42it/s] 
+  40 layers, Zone B = [12, 17, 22, 28]
+  TRUE: phi_fit=0.0039  consensus_r=+0.2078  sep=+0.1268
+        λ0/λ1=1.4796 (φ^(4/5)=1.4696, dist=0.0100)  eig_ratio_corr=+0.9598
+    perm 500/2000 (26s)
+    perm 1000/2000 (51s)
+    perm 1500/2000 (77s)
+    perm 2000/2000 (102s)
+  NULL phi_fit=0.0058±0.0159 (min 0.0008)  →  p_phi=0.6107
+  NULL consensus_r=-0.0149±0.1285 (max +0.5095)  →  p_cons=0.0580
+  NULL separation=+0.0000±0.0028 →  p_sep=0.0005
+  NULL λ0/λ1=1.628±0.414 (median 1.546)  →  p(dist→φ^4/5)=0.0200
+  NULL eig_ratio_corr=+0.9373±0.0450 (max +0.9993)  →  p_eigratio=0.3803
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-14B.json
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-8B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-8B ...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:23,  1.95it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 130.82it/s]Loading weights:  24%|██▍       | 95/399 [00:00<00:02, 148.89it/s]Loading weights:  31%|███       | 122/399 [00:00<00:01, 163.74it/s]Loading weights:  37%|███▋      | 147/399 [00:01<00:01, 162.94it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:01, 176.96it/s]Loading weights:  48%|████▊     | 192/399 [00:01<00:01, 184.29it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:01, 183.12it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 179.95it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 185.49it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 185.35it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 185.43it/s]Loading weights:  81%|████████  | 323/399 [00:02<00:00, 183.96it/s]Loading weights:  86%|████████▋ | 345/399 [00:02<00:00, 191.38it/s]Loading weights:  92%|█████████▏| 367/399 [00:02<00:00, 187.04it/s]Loading weights:  97%|█████████▋| 389/399 [00:02<00:00, 192.08it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 169.15it/s]
+  36 layers, Zone B = [10, 15, 20, 25]
+  TRUE: phi_fit=0.0024  consensus_r=+0.2314  sep=+0.1178
+        λ0/λ1=1.3171 (φ^(4/5)=1.4696, dist=0.1525)  eig_ratio_corr=+0.9375
+    perm 500/2000 (25s)
+    perm 1000/2000 (50s)
+    perm 1500/2000 (75s)
+    perm 2000/2000 (100s)
+  NULL phi_fit=0.0071±0.0189 (min 0.0007)  →  p_phi=0.2219
+  NULL consensus_r=-0.0140±0.1297 (max +0.4848)  →  p_cons=0.0480
+  NULL separation=+0.0000±0.0029 →  p_sep=0.0005
+  NULL λ0/λ1=1.691±0.460 (median 1.585)  →  p(dist→φ^4/5)=0.3293
+  NULL eig_ratio_corr=+0.9434±0.0424 (max +0.9995)  →  p_eigratio=0.6312
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-8B.json
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-0.6B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-0.6B ...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 48/311 [00:00<00:00, 477.57it/s]Loading weights:  94%|█████████▍| 292/311 [00:00<00:00, 1622.73it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1510.64it/s]
+  28 layers, Zone B = [8, 11, 15, 19]
+  TRUE: phi_fit=0.0022  consensus_r=+0.2018  sep=+0.1140
+        λ0/λ1=1.0793 (φ^(4/5)=1.4696, dist=0.3903)  eig_ratio_corr=+0.8837
+    perm 500/2000 (24s)
+    perm 1000/2000 (49s)
+    perm 1500/2000 (73s)
+    perm 2000/2000 (97s)
+  NULL phi_fit=0.0110±0.0287 (min 0.0008)  →  p_phi=0.1589
+  NULL consensus_r=-0.0128±0.1302 (max +0.4649)  →  p_cons=0.0680
+  NULL separation=+0.0000±0.0031 →  p_sep=0.0005
+  NULL λ0/λ1=1.817±0.550 (median 1.715)  →  p(dist→φ^4/5)=0.6047
+  NULL eig_ratio_corr=+0.9520±0.0407 (max +0.9998)  →  p_eigratio=0.9220
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-0.6B.json
+
+DONE.

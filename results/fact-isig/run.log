@@ -1,0 +1,40 @@
+  groups: {'I': 59, 'B': 60, 'C': 55, 'K': 58, 'FACT': 216}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<02:51,  2.58it/s]Loading weights:   6%|▌         | 26/443 [00:00<00:06, 62.61it/s]Loading weights:   8%|▊         | 37/443 [00:00<00:05, 71.97it/s]Loading weights:  11%|█         | 48/443 [00:00<00:04, 81.12it/s]Loading weights:  13%|█▎        | 59/443 [00:00<00:04, 88.29it/s]Loading weights:  16%|█▌        | 70/443 [00:00<00:04, 92.22it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:03, 96.92it/s]Loading weights:  21%|██        | 92/443 [00:01<00:03, 98.51it/s]Loading weights:  23%|██▎       | 103/443 [00:01<00:03, 99.71it/s]Loading weights:  26%|██▌       | 116/443 [00:01<00:03, 99.85it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:03, 102.39it/s]Loading weights:  33%|███▎      | 144/443 [00:01<00:02, 100.14it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:02, 103.54it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:02, 104.65it/s]Loading weights:  41%|████      | 180/443 [00:02<00:02, 104.39it/s]Loading weights:  43%|████▎     | 191/443 [00:02<00:02, 103.66it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:02, 103.80it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:02, 102.61it/s]Loading weights:  51%|█████     | 224/443 [00:02<00:02, 103.19it/s]Loading weights:  53%|█████▎    | 237/443 [00:02<00:01, 103.75it/s]Loading weights:  57%|█████▋    | 252/443 [00:02<00:01, 116.20it/s]Loading weights:  60%|█████▉    | 264/443 [00:02<00:01, 109.05it/s]Loading weights:  62%|██████▏   | 276/443 [00:02<00:01, 106.13it/s]Loading weights:  65%|██████▍   | 287/443 [00:03<00:01, 106.10it/s]Loading weights:  67%|██████▋   | 298/443 [00:03<00:01, 97.40it/s] Loading weights:  70%|███████   | 312/443 [00:03<00:01, 99.71it/s]Loading weights:  73%|███████▎  | 323/443 [00:03<00:01, 101.42it/s]Loading weights:  75%|███████▌  | 334/443 [00:03<00:01, 100.95it/s]Loading weights:  78%|███████▊  | 345/443 [00:03<00:00, 102.54it/s]Loading weights:  80%|████████  | 356/443 [00:03<00:00, 103.47it/s]Loading weights:  83%|████████▎ | 369/443 [00:03<00:00, 109.11it/s]Loading weights:  86%|████████▌ | 380/443 [00:03<00:00, 100.41it/s]Loading weights:  90%|████████▉ | 397/443 [00:04<00:00, 106.60it/s]Loading weights:  93%|█████████▎| 411/443 [00:04<00:00, 103.34it/s]Loading weights:  96%|█████████▌| 424/443 [00:04<00:00, 99.26it/s] Loading weights: 100%|██████████| 443/443 [00:04<00:00, 99.25it/s]
+  capturing I (59) ...
+  capturing B (60) ...
+  capturing C (55) ...
+  capturing K (58) ...
+  capturing FACT (216) ...
+    100/216
+    200/216
+
+══════ FACT = I-SIGNATURE ══════
+  attn entropy:  FACT=0.820  I=0.996  B=1.051  C=1.048  K=1.015
+    FACT vs (B,C): diff=-0.229 p=0.0005 (FACT lower predicted)
+    FACT vs I:     diff=-0.175 p=0.0005 (similar→not lower)
+  FFN fraction:  FACT=0.676  I=0.663  B=0.658
+  CMR opcode profile cosine to: { I:+0.98, B:+0.93, C:+0.90, K:+0.92 }
+    fact argmax opcode = D  closest combinator = I
+  saved → /Users/mwhitford/src/verbum/results/fact-isig/Qwen_Qwen3-14B.json
+  27.39s user 139.24s system 245% cpu 1:07.94 total
+  groups: {'I': 59, 'B': 60, 'C': 55, 'K': 58, 'FACT': 216}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  77%|███████▋  | 241/311 [00:00<00:00, 2405.96it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2429.31it/s]
+  capturing I (59) ...
+  capturing B (60) ...
+  capturing C (55) ...
+  capturing K (58) ...
+  capturing FACT (216) ...
+    100/216
+    200/216
+
+══════ FACT = I-SIGNATURE ══════
+  attn entropy:  FACT=0.932  I=1.141  B=1.143  C=1.179  K=1.139
+    FACT vs (B,C): diff=-0.229 p=0.0005 (FACT lower predicted)
+    FACT vs I:     diff=-0.210 p=0.0005 (similar→not lower)
+  FFN fraction:  FACT=0.604  I=0.579  B=0.577
+  CMR opcode profile cosine to: { I:+0.34, B:+0.54, C:+0.51, K:+0.31 }
+    fact argmax opcode = B  closest combinator = B
+  saved → /Users/mwhitford/src/verbum/results/fact-isig/Qwen_Qwen3-0.6B.json
+  13.14s user 8.08s system 76% cpu 27.826 total
