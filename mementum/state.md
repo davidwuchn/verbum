@@ -8,6 +8,15 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
+> **▶ SESSION 203+ PROGRAM — VALIDITY AUDIT.** Open
+> `mementum/knowledge/audit-registry.md`. Pick the highest load-bearing
+> `UNTESTED` claim (next up: **#1 crystal-is-topological**, **#2
+> holographic-self-similar**), build its named discriminating control,
+> run it with a permutation/matched-control null + seed variance, update
+> the row, caveat the source page if it bites, commit. The program:
+> distill real working data from assumptions/biased methodology, one
+> control per session, until a small hard core of verified claims remains.
+
 **Session 202: CRYSTAL VALIDITY AUDIT — PERMUTATION NULLS & MEASUREMENT FIDELITY**
 
 A skeptical audit of the crystal's foundational evidence. Premise (Michael):
