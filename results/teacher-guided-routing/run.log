@@ -1,0 +1,238 @@
+
+======================================================================
+
+======================================================================
+  TEACHER-GUIDED ROUTING
+  TEACHER-GUIDED ROUTING
+  Fix topology before training grout
+  Fix topology before training grout
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Device: mps
+  Phase 1: Gate correction (100 steps, hidden=256)
+  Phase 1: Gate correction (100 steps, hidden=256)
+  Phase 2: LoRA + SM (200 steps, rank=4, α=5.0)
+  Phase 2: LoRA + SM (200 steps, rank=4, α=5.0)
+
+  Loading sequences from shard_00000.npy...
+
+  Loading sequences from shard_00000.npy...
+  Loaded 256 cal + 64 eval
+  Loaded 256 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:32,  1.87it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:10, 35.16it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:03, 89.34it/s]Loading weights:  18%|█▊        | 71/399 [00:00<00:02, 130.48it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 171.24it/s]Loading weights:  31%|███       | 124/399 [00:01<00:01, 182.05it/s]Loading weights:  37%|███▋      | 147/399 [00:01<00:01, 194.35it/s]Loading weights:  43%|████▎     | 171/399 [00:01<00:01, 206.66it/s]Loading weights:  50%|█████     | 201/399 [00:01<00:00, 227.98it/s]Loading weights:  57%|█████▋    | 226/399 [00:01<00:00, 225.25it/s]Loading weights:  63%|██████▎   | 250/399 [00:01<00:00, 224.04it/s]Loading weights:  69%|██████▊   | 274/399 [00:01<00:00, 225.42it/s]Loading weights:  75%|███████▍  | 298/399 [00:01<00:00, 222.51it/s]Loading weights:  81%|████████  | 322/399 [00:01<00:00, 223.94it/s]Loading weights:  87%|████████▋ | 346/399 [00:02<00:00, 228.25it/s]Loading weights:  94%|█████████▍| 375/399 [00:02<00:00, 230.67it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 180.47it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  d_model=4096
+  d_model=4096
+
+  Measuring baseline...
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 11.27, facts: 12/15
+  Baseline PPL: 11.27, facts: 12/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  COLLECTING TEACHER GATE TARGETS (before sieve)
+  COLLECTING TEACHER GATE TARGETS (before sieve)
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+      Gate targets: 16/64
+      Gate targets: 16/64
+      Gate targets: 32/64
+      Gate targets: 32/64
+      Gate targets: 48/64
+      Gate targets: 48/64
+      Gate targets: 64/64
+      Gate targets: 64/64
+  Collected 1856 gate targets across 29 layers (11s)
+  Collected 1856 gate targets across 29 layers (11s)
+
+  Caching teacher states (128 seqs)...
+
+  Caching teacher states (128 seqs)...
+      32/128 cached
+      32/128 cached
+      64/128 cached
+      64/128 cached
+      96/128 cached
+      96/128 cached
+      128/128 cached
+      128/128 cached
+  Cached 128 (20s)
+  Cached 128 (20s)
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING CRYSTAL SIEVE
+  INSTALLING CRYSTAL SIEVE
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  Sieve PPL: 25.51 (2.26x)  facts: 11/15
+  Sieve PPL: 25.51 (2.26x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 1: TEACHER-GUIDED GATE CORRECTION
+  PHASE 1: TEACHER-GUIDED GATE CORRECTION
+  Training gate correctors to match teacher routing
+  Training gate correctors to match teacher routing
+  100 steps, hidden=256, lr=0.001
+  100 steps, hidden=256, lr=0.001
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+
+  Gate correction summary:
+
+  Gate correction summary:
+    Installed: 29 layers
+    Installed: 29 layers
+    Total gate params: 182,452,224
+    Total gate params: 182,452,224
+    Training time: 163s
+    Training time: 163s
+
+   Layer     Loss  SignAcc   Params
+
+   Layer     Loss  SignAcc   Params
+  ────── ──────── ──────── ────────
+  ────── ──────── ──────── ────────
+  L  1    0.0021   0.9995 6,291,456
+  L  1    0.0021   0.9995 6,291,456
+  L  5    0.0909   0.9527 6,291,456
+  L  5    0.0909   0.9527 6,291,456
+  L 10    0.1016   0.9535 6,291,456
+  L 10    0.1016   0.9535 6,291,456
+  L 15    0.0965   0.9585 6,291,456
+  L 15    0.0965   0.9585 6,291,456
+  L 20    0.0917   0.9593 6,291,456
+  L 20    0.0917   0.9593 6,291,456
+  L 25    0.0811   0.9654 6,291,456
+  L 25    0.0811   0.9654 6,291,456
+  L 33    0.1322   0.9594 6,291,456
+  L 33    0.1322   0.9594 6,291,456
+
+  Post-gate PPL: 25.17 (2.23x)  facts: 11/15
+
+  Post-gate PPL: 25.17 (2.23x)  facts: 11/15
+  Gate correction effect: 25.51 → 25.17
+  Gate correction effect: 25.51 → 25.17
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  PHASE 2: LoRA + SCORE MATCHING (with corrected routing)
+  PHASE 2: LoRA + SCORE MATCHING (with corrected routing)
+  200 steps, rank=4, α=5.0
+  200 steps, rank=4, α=5.0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  LoRA params: 5,898,240
+  LoRA params: 5,898,240
+  Gate params: 182,452,224 (joint training)
+  Gate params: 182,452,224 (joint training)
+  Total trainable: 188,350,464
+  Total trainable: 188,350,464
+    step   1: CE=2.2600 SM=0.3866 (3s)
+    step   1: CE=2.2600 SM=0.3866 (3s)
+    step  10: CE=2.1780 SM=0.3347 (22s)
+    step  10: CE=2.1780 SM=0.3347 (22s)
+    step  20: CE=2.4460 SM=0.4546 (43s)
+    step  20: CE=2.4460 SM=0.4546 (43s)
+    step  30: CE=2.7315 SM=0.0000 (63s)
+    step  30: CE=2.7315 SM=0.0000 (63s)
+    step  40: CE=1.4460 SM=0.2973 (85s)
+    step  40: CE=1.4460 SM=0.2973 (85s)
+    step  50: CE=1.8197 SM=0.2271 (105s)
+    step  50: CE=1.8197 SM=0.2271 (105s)
+    ▶ EVAL step 50: PPL=18.70 (1.659x) facts=10/15
+    ▶ EVAL step 50: PPL=18.70 (1.659x) facts=10/15
+    step  60: CE=1.8973 SM=0.0000 (181s)
+    step  60: CE=1.8973 SM=0.0000 (181s)
+    step  70: CE=1.6804 SM=0.2067 (202s)
+    step  70: CE=1.6804 SM=0.2067 (202s)
+    step  80: CE=1.2130 SM=0.3102 (223s)
+    step  80: CE=1.2130 SM=0.3102 (223s)
+    step  90: CE=1.4396 SM=0.0000 (244s)
+    step  90: CE=1.4396 SM=0.0000 (244s)
+    step 100: CE=1.2037 SM=0.2323 (265s)
+    step 100: CE=1.2037 SM=0.2323 (265s)
+    ▶ EVAL step 100: PPL=18.45 (1.636x) facts=8/15
+    ▶ EVAL step 100: PPL=18.45 (1.636x) facts=8/15
+    step 110: CE=1.4171 SM=0.2703 (341s)
+    step 110: CE=1.4171 SM=0.2703 (341s)
+    step 120: CE=1.6054 SM=0.0000 (362s)
+    step 120: CE=1.6054 SM=0.0000 (362s)
+    step 130: CE=1.2015 SM=0.2549 (383s)
+    step 130: CE=1.2015 SM=0.2549 (383s)
+    step 140: CE=0.8219 SM=0.2256 (404s)
+    step 140: CE=0.8219 SM=0.2256 (404s)
+    step 150: CE=1.2137 SM=0.2007 (425s)
+    step 150: CE=1.2137 SM=0.2007 (425s)
+    ▶ EVAL step 150: PPL=21.58 (1.914x) facts=8/15
+    ▶ EVAL step 150: PPL=21.58 (1.914x) facts=8/15
+    step 160: CE=1.2650 SM=0.2433 (502s)
+    step 160: CE=1.2650 SM=0.2433 (502s)
+    step 170: CE=1.5990 SM=0.1968 (523s)
+    step 170: CE=1.5990 SM=0.1968 (523s)
+    step 180: CE=1.2660 SM=0.3088 (544s)
+    step 180: CE=1.2660 SM=0.3088 (544s)
+    step 190: CE=1.2956 SM=0.2711 (565s)
+    step 190: CE=1.2956 SM=0.2711 (565s)
+    step 200: CE=0.9557 SM=0.4098 (586s)
+    step 200: CE=0.9557 SM=0.4098 (586s)
+    ▶ EVAL step 200: PPL=24.55 (2.178x) facts=8/15
+    ▶ EVAL step 200: PPL=24.55 (2.178x) facts=8/15
+
+======================================================================
+
+======================================================================
+  RESULTS
+  RESULTS
+======================================================================
+======================================================================
+  Baseline:       PPL=11.27  facts=12/15
+  Baseline:       PPL=11.27  facts=12/15
+  Sieve only:     PPL=25.51 (2.26x)
+  Sieve only:     PPL=25.51 (2.26x)
+  After gate fix: PPL=25.17 (2.23x)  [Phase 1: routing correction]
+  After gate fix: PPL=25.17 (2.23x)  [Phase 1: routing correction]
+  After LoRA+SM:  PPL=24.55 (2.178x)  facts=8/15  [Phase 2: grout]
+  After LoRA+SM:  PPL=24.55 (2.178x)  facts=8/15  [Phase 2: grout]
+
+  vs v3b (LoRA+SM only, no routing fix):
+
+  vs v3b (LoRA+SM only, no routing fix):
+    v3b:     25.67 → 16.27 (1.44x base)
+    v3b:     25.67 → 16.27 (1.44x base)
+    Routing: 25.51 → 25.17 → 24.55 (2.18x)
+    Routing: 25.51 → 25.17 → 24.55 (2.18x)
+
+  Params:
+
+  Params:
+    Gate correctors: 182,452,224
+    Gate correctors: 182,452,224
+    LoRA:            5,898,240
+    LoRA:            5,898,240
+    Total:           188,350,464
+    Total:           188,350,464
+
+  Results saved to /Users/mwhitford/src/verbum/results/teacher-guided-routing/Qwen_Qwen3-8B.json
+
+  Results saved to /Users/mwhitford/src/verbum/results/teacher-guided-routing/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

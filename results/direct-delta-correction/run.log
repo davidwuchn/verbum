@@ -1,0 +1,52 @@
+
+======================================================================
+  DIRECT DELTA CORRECTION
+  Compute the answer, don't train for it
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Ranks: [2, 4, 8, 16, 32]
+  Calibration-aware: True
+  Cal sequences: 64
+
+  Loading sequences...
+  64 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:42,  1.79it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:11, 31.96it/s]Loading weights:  11%|█▏        | 45/399 [00:00<00:04, 84.03it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 118.93it/s]Loading weights:  24%|██▎       | 94/399 [00:01<00:02, 147.68it/s]Loading weights:  30%|███       | 120/399 [00:01<00:01, 176.17it/s]Loading weights:  37%|███▋      | 146/399 [00:01<00:01, 197.93it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:01, 207.07it/s]Loading weights:  50%|████▉     | 199/399 [00:01<00:00, 216.82it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 235.25it/s]Loading weights:  66%|██████▋   | 265/399 [00:01<00:00, 244.66it/s]Loading weights:  75%|███████▍  | 298/399 [00:01<00:00, 254.44it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 236.81it/s]Loading weights:  87%|████████▋ | 349/399 [00:02<00:00, 234.90it/s]Loading weights:  93%|█████████▎| 373/399 [00:02<00:00, 230.07it/s]Loading weights: 100%|█████████▉| 398/399 [00:02<00:00, 235.37it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.06it/s]
+  d_model=4096
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 6.93, facts: 12/15
+
+══════════════════════════════════════════════════════════════════════
+  INSTALLING SIEVE (preserving teacher weights)
+══════════════════════════════════════════════════════════════════════
+  Sieve PPL: 14.15 (2.04x)  facts: 11/15
+
+══════════════════════════════════════════════════════════════════════
+  DIRECT DELTA CORRECTION — rank=2
+  Mode: calibration-aware SVD
+══════════════════════════════════════════════════════════════════════
+    L 4 corrected (5/30): PPL=13.87 (2.00x) recon_err=0.9996 (561s)
+    L 9 corrected (10/30): PPL=13.78 (1.99x) recon_err=0.9992 (1161s)
+    L14 corrected (15/30): PPL=12.85 (1.85x) recon_err=0.9992 (1727s)
+    L19 corrected (20/30): PPL=12.60 (1.82x) recon_err=0.9992 (2287s)
+    L24 corrected (25/30): PPL=12.47 (1.80x) recon_err=0.9992 (2848s)
+    L34 corrected (30/30): PPL=12.63 (1.82x) recon_err=0.9991 (3409s)
+
+  Rank 2 results:
+    Sieve:       PPL=14.15 (2.04x)
+    Corrected:   PPL=12.63 (1.823x)  facts=10/15
+    Params:      2,949,120
+    Time:        3409s (no training)
+    Improvement: 14.15 → 12.63 (10.7% reduction)
+
+══════════════════════════════════════════════════════════════════════
+  DIRECT DELTA CORRECTION — rank=4
+  Mode: calibration-aware SVD
+══════════════════════════════════════════════════════════════════════
+    L 4 corrected (5/30): PPL=13.83 (2.00x) recon_err=0.9989 (570s)

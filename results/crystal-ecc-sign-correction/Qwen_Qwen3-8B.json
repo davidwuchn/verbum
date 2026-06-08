@@ -1,0 +1,3239 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "version": "v1-crystal-ecc",
+  "config": {
+    "lora_rank": 4,
+    "sm_steps": 200,
+    "lr_lora": 0.0001,
+    "alpha_sm": 5.0,
+    "n_cal": 256,
+    "n_holo_cal": 64,
+    "n_eval": 64,
+    "n_teacher_cache": 128,
+    "max_flip_pct": 5.0,
+    "sieve_layers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ]
+  },
+  "baseline_ppl": 11.274396807100398,
+  "baseline_facts": 12,
+  "sieve_ppl": 25.621802263355228,
+  "sieve_facts": 11,
+  "corrected_ppl": 320411487.0821598,
+  "corrected_facts": 0,
+  "final_ppl": 18819.03764013778,
+  "final_ratio": 1669.1835,
+  "final_facts": 1,
+  "total_flipped": 50163379,
+  "total_active": 2194647984,
+  "total_candidates": 1081152328,
+  "ecc_decisions": {
+    "applied": 34,
+    "reduced": 42,
+    "rejected": 11
+  },
+  "ecc_stats": {
+    "L1": {
+      "gate_proj": {
+        "n_active": 25192435,
+        "n_candidates": 11620679,
+        "candidate_pct": 46.13,
+        "n_flipped": 1259621,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8917,
+        "crystal_after": 0.8917,
+        "crystal_delta": -0.0,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          3285.498779296875,
+          698.8087158203125,
+          576.3136596679688,
+          314.0746765136719
+        ],
+        "eigenvalues_after": [
+          3289.14599609375,
+          703.0626220703125,
+          582.841796875,
+          317.565185546875
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25193301,
+        "n_candidates": 12453314,
+        "candidate_pct": 49.43,
+        "n_flipped": 1259665,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9221,
+        "crystal_after": 0.9221,
+        "crystal_delta": 0.0,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          2615.7275390625,
+          782.3135375976562,
+          534.4705200195312,
+          324.2883605957031
+        ],
+        "eigenvalues_after": [
+          2590.786376953125,
+          775.98779296875,
+          528.2662963867188,
+          323.7001647949219
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25171802,
+        "n_candidates": 12586344,
+        "candidate_pct": 50.0,
+        "n_flipped": 1258590,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9394,
+        "crystal_after": 0.9372,
+        "crystal_delta": -0.0023,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          878.049560546875,
+          284.236083984375,
+          140.55453491210938,
+          99.78282928466797
+        ],
+        "eigenvalues_after": [
+          878.5601806640625,
+          285.6436767578125,
+          138.638916015625,
+          109.95984649658203
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L2": {
+      "gate_proj": {
+        "n_active": 25182423,
+        "n_candidates": 12597322,
+        "candidate_pct": 50.02,
+        "n_flipped": 1259121,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8861,
+        "crystal_after": 0.8873,
+        "crystal_delta": 0.0012,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          2807.477294921875,
+          657.0858154296875,
+          448.1424560546875,
+          426.2088317871094
+        ],
+        "eigenvalues_after": [
+          2706.8369140625,
+          658.3734741210938,
+          463.10504150390625,
+          428.359130859375
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25151635,
+        "n_candidates": 12574599,
+        "candidate_pct": 50.0,
+        "n_flipped": 1257581,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9971,
+        "crystal_after": 0.997,
+        "crystal_delta": -0.0001,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          2215.9951171875,
+          1374.6373291015625,
+          460.6673889160156,
+          319.6485595703125
+        ],
+        "eigenvalues_after": [
+          2204.6455078125,
+          1348.388671875,
+          459.88031005859375,
+          320.46527099609375
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25167962,
+        "n_candidates": 11135851,
+        "candidate_pct": 44.25,
+        "n_flipped": 1258398,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9949,
+        "crystal_after": 0.9935,
+        "crystal_delta": -0.0013,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          803.480224609375,
+          462.09393310546875,
+          136.25970458984375,
+          98.35096740722656
+        ],
+        "eigenvalues_after": [
+          806.47705078125,
+          467.13092041015625,
+          156.07598876953125,
+          125.6082992553711
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L3": {
+      "gate_proj": {
+        "n_active": 25188771,
+        "n_candidates": 12603219,
+        "candidate_pct": 50.04,
+        "n_flipped": 1259438,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9488,
+        "crystal_after": 0.9528,
+        "crystal_delta": 0.004,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          1844.987548828125,
+          630.129150390625,
+          235.4208221435547,
+          197.0966033935547
+        ],
+        "eigenvalues_after": [
+          1807.421875,
+          646.0200805664062,
+          243.38565063476562,
+          203.74632263183594
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25196711,
+        "n_candidates": 12602412,
+        "candidate_pct": 50.02,
+        "n_flipped": 1259835,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9837,
+        "crystal_after": 0.9838,
+        "crystal_delta": 0.0001,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          925.6390380859375,
+          527.0797119140625,
+          318.63916015625,
+          259.0465087890625
+        ],
+        "eigenvalues_after": [
+          923.8079223632812,
+          526.1162719726562,
+          317.95172119140625,
+          258.0809020996094
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25222111,
+        "n_candidates": 11360588,
+        "candidate_pct": 45.04,
+        "n_flipped": 630552,
+        "flip_pct": 2.5,
+        "crystal_before": 0.9641,
+        "crystal_after": 0.9625,
+        "crystal_delta": -0.0016,
+        "status": "REDUCED(50%)",
+        "eigenvalues_before": [
+          326.43658447265625,
+          162.34585571289062,
+          106.43606567382812,
+          85.49304962158203
+        ],
+        "eigenvalues_after": [
+          327.79669189453125,
+          161.39132690429688,
+          105.74082946777344,
+          85.66614532470703
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L4": {
+      "gate_proj": {
+        "n_active": 25274127,
+        "n_candidates": 12627842,
+        "candidate_pct": 49.96,
+        "n_flipped": 1263706,
+        "flip_pct": 5.0,
+        "crystal_before": 0.865,
+        "crystal_after": 0.9231,
+        "crystal_delta": 0.0581,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          994.8479614257812,
+          73.86971282958984,
+          29.70448875427246,
+          25.678680419921875
+        ],
+        "eigenvalues_after": [
+          990.5989379882812,
+          208.45654296875,
+          53.205810546875,
+          26.014692306518555
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25240766,
+        "n_candidates": 12620945,
+        "candidate_pct": 50.0,
+        "n_flipped": 1262038,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8466,
+        "crystal_after": 0.9275,
+        "crystal_delta": 0.081,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          958.129638671875,
+          29.141815185546875,
+          20.241979598999023,
+          19.30402183532715
+        ],
+        "eigenvalues_after": [
+          957.556884765625,
+          205.88072204589844,
+          28.964567184448242,
+          19.044633865356445
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25164078,
+        "n_candidates": 11972204,
+        "candidate_pct": 47.58,
+        "n_flipped": 1258203,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8437,
+        "crystal_after": 0.9492,
+        "crystal_delta": 0.1055,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          333.08258056640625,
+          6.747108459472656,
+          5.820777416229248,
+          5.121421813964844
+        ],
+        "eigenvalues_after": [
+          342.640380859375,
+          95.54547882080078,
+          7.292803764343262,
+          6.858551025390625
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L5": {
+      "gate_proj": {
+        "n_active": 25176618,
+        "n_candidates": 12586771,
+        "candidate_pct": 49.99,
+        "n_flipped": 629415,
+        "flip_pct": 2.5,
+        "crystal_before": 0.9074,
+        "crystal_after": 0.9615,
+        "crystal_delta": 0.0541,
+        "status": "REDUCED(50%)",
+        "eigenvalues_before": [
+          53.10871124267578,
+          32.21800231933594,
+          29.952335357666016,
+          28.28135108947754
+        ],
+        "eigenvalues_after": [
+          89.32381439208984,
+          45.67900085449219,
+          28.932161331176758,
+          26.395427703857422
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25280164,
+        "n_candidates": 12636376,
+        "candidate_pct": 49.99,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9445,
+        "crystal_after": 0.9445,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          10.880290031433105,
+          10.676201820373535,
+          9.647274017333984,
+          9.005263328552246
+        ],
+        "eigenvalues_after": [
+          10.880290031433105,
+          10.676201820373535,
+          9.647274017333984,
+          9.005263328552246
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25189149,
+        "n_candidates": 12543532,
+        "candidate_pct": 49.8,
+        "n_flipped": 62972,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9537,
+        "crystal_after": 0.9449,
+        "crystal_delta": -0.0088,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          4.970353126525879,
+          4.7364726066589355,
+          4.605574131011963,
+          4.317317008972168
+        ],
+        "eigenvalues_after": [
+          5.629425048828125,
+          4.913853645324707,
+          4.826382637023926,
+          4.586432456970215
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L6": {
+      "gate_proj": {
+        "n_active": 25239932,
+        "n_candidates": 12619555,
+        "candidate_pct": 50.0,
+        "n_flipped": 630998,
+        "flip_pct": 2.5,
+        "crystal_before": 0.8983,
+        "crystal_after": 0.9115,
+        "crystal_delta": 0.0132,
+        "status": "REDUCED(50%)",
+        "eigenvalues_before": [
+          58.28571319580078,
+          38.868080139160156,
+          36.95738220214844,
+          35.895851135253906
+        ],
+        "eigenvalues_after": [
+          96.94427490234375,
+          42.77229309082031,
+          34.271820068359375,
+          32.467742919921875
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25173787,
+        "n_candidates": 12586341,
+        "candidate_pct": 50.0,
+        "n_flipped": 62934,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9921,
+        "crystal_after": 0.9886,
+        "crystal_delta": -0.0035,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          9.631025314331055,
+          9.398223876953125,
+          9.077536582946777,
+          8.900395393371582
+        ],
+        "eigenvalues_after": [
+          10.14005184173584,
+          9.57844352722168,
+          9.304633140563965,
+          9.039254188537598
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25234584,
+        "n_candidates": 12546719,
+        "candidate_pct": 49.72,
+        "n_flipped": 63086,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9446,
+        "crystal_after": 0.9804,
+        "crystal_delta": 0.0358,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          5.327845573425293,
+          5.119711875915527,
+          4.617313385009766,
+          4.107924461364746
+        ],
+        "eigenvalues_after": [
+          5.767065048217773,
+          5.189168930053711,
+          4.929347991943359,
+          4.542193412780762
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L7": {
+      "gate_proj": {
+        "n_active": 25293380,
+        "n_candidates": 12647390,
+        "candidate_pct": 50.0,
+        "n_flipped": 1264669,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8719,
+        "crystal_after": 0.9104,
+        "crystal_delta": 0.0384,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          58.29344940185547,
+          28.775707244873047,
+          27.007837295532227,
+          26.69084358215332
+        ],
+        "eigenvalues_after": [
+          205.14605712890625,
+          50.8243408203125,
+          24.643390655517578,
+          22.61978530883789
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25233131,
+        "n_candidates": 12614434,
+        "candidate_pct": 49.99,
+        "n_flipped": 63082,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9497,
+        "crystal_after": 0.9528,
+        "crystal_delta": 0.0031,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          10.391290664672852,
+          9.241724014282227,
+          8.876811981201172,
+          8.825075149536133
+        ],
+        "eigenvalues_after": [
+          10.377830505371094,
+          10.209757804870605,
+          9.193849563598633,
+          8.833166122436523
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25317944,
+        "n_candidates": 12382418,
+        "candidate_pct": 48.91,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9934,
+        "crystal_after": 0.9934,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          5.896066665649414,
+          5.19376277923584,
+          4.7865071296691895,
+          4.543160915374756
+        ],
+        "eigenvalues_after": [
+          5.896066665649414,
+          5.19376277923584,
+          4.7865071296691895,
+          4.543160915374756
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L8": {
+      "gate_proj": {
+        "n_active": 25180108,
+        "n_candidates": 12589500,
+        "candidate_pct": 50.0,
+        "n_flipped": 1259005,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8593,
+        "crystal_after": 0.9553,
+        "crystal_delta": 0.096,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          77.33716583251953,
+          20.72830581665039,
+          18.75346565246582,
+          18.505390167236328
+        ],
+        "eigenvalues_after": [
+          200.99288940429688,
+          69.07257080078125,
+          17.98792839050293,
+          16.49128532409668
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25222076,
+        "n_candidates": 12610064,
+        "candidate_pct": 50.0,
+        "n_flipped": 126110,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9023,
+        "crystal_after": 0.9876,
+        "crystal_delta": 0.0853,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          13.101144790649414,
+          10.422633171081543,
+          10.245448112487793,
+          9.925193786621094
+        ],
+        "eigenvalues_after": [
+          16.585525512695312,
+          12.98341178894043,
+          10.351380348205566,
+          10.139284133911133
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25318821,
+        "n_candidates": 12576436,
+        "candidate_pct": 49.67,
+        "n_flipped": 63297,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9773,
+        "crystal_after": 0.9824,
+        "crystal_delta": 0.0051,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          6.507327556610107,
+          5.5168280601501465,
+          5.154475212097168,
+          4.891286849975586
+        ],
+        "eigenvalues_after": [
+          6.362296104431152,
+          5.860979080200195,
+          5.483276844024658,
+          5.038087844848633
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L9": {
+      "gate_proj": {
+        "n_active": 25178101,
+        "n_candidates": 12582269,
+        "candidate_pct": 49.97,
+        "n_flipped": 1258905,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8552,
+        "crystal_after": 0.9771,
+        "crystal_delta": 0.1219,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          102.7944107055664,
+          23.195106506347656,
+          21.776926040649414,
+          20.57602310180664
+        ],
+        "eigenvalues_after": [
+          205.45574951171875,
+          89.91848754882812,
+          20.09325408935547,
+          18.79210090637207
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25206994,
+        "n_candidates": 12602145,
+        "candidate_pct": 49.99,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9917,
+        "crystal_after": 0.9917,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          11.809074401855469,
+          10.466106414794922,
+          9.65499496459961,
+          9.3560209274292
+        ],
+        "eigenvalues_after": [
+          11.809074401855469,
+          10.466106414794922,
+          9.65499496459961,
+          9.3560209274292
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25295111,
+        "n_candidates": 12329862,
+        "candidate_pct": 48.74,
+        "n_flipped": 126475,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9871,
+        "crystal_after": 0.9835,
+        "crystal_delta": -0.0036,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          7.118093013763428,
+          6.718738079071045,
+          5.888723373413086,
+          5.625885009765625
+        ],
+        "eigenvalues_after": [
+          8.796150207519531,
+          7.375311374664307,
+          6.727614402770996,
+          5.872006416320801
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L10": {
+      "gate_proj": {
+        "n_active": 25298664,
+        "n_candidates": 12649868,
+        "candidate_pct": 50.0,
+        "n_flipped": 1264933,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8529,
+        "crystal_after": 0.971,
+        "crystal_delta": 0.1181,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          95.05934143066406,
+          21.43252944946289,
+          20.506378173828125,
+          19.37885856628418
+        ],
+        "eigenvalues_after": [
+          207.62738037109375,
+          84.35418701171875,
+          18.577394485473633,
+          17.9433650970459
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25254477,
+        "n_candidates": 12632440,
+        "candidate_pct": 50.02,
+        "n_flipped": 315680,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9158,
+        "crystal_after": 0.9146,
+        "crystal_delta": -0.0012,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          15.598405838012695,
+          11.061114311218262,
+          10.217086791992188,
+          10.141059875488281
+        ],
+        "eigenvalues_after": [
+          41.43962478637695,
+          15.314984321594238,
+          10.809184074401855,
+          10.086270332336426
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25218348,
+        "n_candidates": 12290022,
+        "candidate_pct": 48.73,
+        "n_flipped": 63045,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9627,
+        "crystal_after": 0.9982,
+        "crystal_delta": 0.0355,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          5.503889083862305,
+          5.008383750915527,
+          4.906561851501465,
+          4.659987926483154
+        ],
+        "eigenvalues_after": [
+          5.818362236022949,
+          5.408451557159424,
+          4.959522247314453,
+          4.8726115226745605
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L11": {
+      "gate_proj": {
+        "n_active": 25185833,
+        "n_candidates": 12594471,
+        "candidate_pct": 50.01,
+        "n_flipped": 1259291,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8502,
+        "crystal_after": 0.9629,
+        "crystal_delta": 0.1127,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          83.42881774902344,
+          18.816804885864258,
+          18.406003952026367,
+          17.379262924194336
+        ],
+        "eigenvalues_after": [
+          206.36280822753906,
+          75.92940521240234,
+          16.592355728149414,
+          16.167905807495117
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25243995,
+        "n_candidates": 12625614,
+        "candidate_pct": 50.01,
+        "n_flipped": 315549,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9099,
+        "crystal_after": 0.9206,
+        "crystal_delta": 0.0107,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          16.61471939086914,
+          11.397662162780762,
+          10.736942291259766,
+          10.393157958984375
+        ],
+        "eigenvalues_after": [
+          41.71754455566406,
+          16.26495361328125,
+          11.267183303833008,
+          10.61296558380127
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25267123,
+        "n_candidates": 12378876,
+        "candidate_pct": 48.99,
+        "n_flipped": 63167,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9627,
+        "crystal_after": 0.9846,
+        "crystal_delta": 0.0218,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          5.68284273147583,
+          5.274226665496826,
+          5.134706974029541,
+          4.784460544586182
+        ],
+        "eigenvalues_after": [
+          5.825146675109863,
+          5.5725626945495605,
+          5.335400581359863,
+          5.101713180541992
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L12": {
+      "gate_proj": {
+        "n_active": 25208031,
+        "n_candidates": 12604772,
+        "candidate_pct": 50.0,
+        "n_flipped": 1260401,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8493,
+        "crystal_after": 0.9515,
+        "crystal_delta": 0.1021,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          75.5348129272461,
+          19.07062339782715,
+          18.38197135925293,
+          18.07378578186035
+        ],
+        "eigenvalues_after": [
+          206.87579345703125,
+          68.25774383544922,
+          17.430208206176758,
+          16.55010223388672
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25274356,
+        "n_candidates": 12637013,
+        "candidate_pct": 50.0,
+        "n_flipped": 315929,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9039,
+        "crystal_after": 0.9229,
+        "crystal_delta": 0.0191,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          17.884098052978516,
+          12.509079933166504,
+          11.8738431930542,
+          11.599092483520508
+        ],
+        "eigenvalues_after": [
+          42.3454704284668,
+          17.47769546508789,
+          12.338271141052246,
+          11.729005813598633
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25227607,
+        "n_candidates": 12409331,
+        "candidate_pct": 49.19,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9943,
+        "crystal_after": 0.9943,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          5.619649410247803,
+          5.182289123535156,
+          4.8358917236328125,
+          4.562108993530273
+        ],
+        "eigenvalues_after": [
+          5.619649410247803,
+          5.182289123535156,
+          4.8358917236328125,
+          4.562108993530273
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L13": {
+      "gate_proj": {
+        "n_active": 25199229,
+        "n_candidates": 12600536,
+        "candidate_pct": 50.0,
+        "n_flipped": 1259961,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8684,
+        "crystal_after": 0.9297,
+        "crystal_delta": 0.0613,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          62.06161880493164,
+          20.467973709106445,
+          18.779014587402344,
+          17.732379913330078
+        ],
+        "eigenvalues_after": [
+          206.93971252441406,
+          56.0019416809082,
+          18.460126876831055,
+          17.117786407470703
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25234059,
+        "n_candidates": 12615114,
+        "candidate_pct": 49.99,
+        "n_flipped": 126170,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9413,
+        "crystal_after": 0.9485,
+        "crystal_delta": 0.0072,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          17.583641052246094,
+          13.986104965209961,
+          13.125190734863281,
+          12.825508117675781
+        ],
+        "eigenvalues_after": [
+          17.550920486450195,
+          17.134584426879883,
+          13.850215911865234,
+          12.989124298095703
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25308775,
+        "n_candidates": 12447343,
+        "candidate_pct": 49.18,
+        "n_flipped": 63271,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9708,
+        "crystal_after": 0.9674,
+        "crystal_delta": -0.0033,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          6.29736852645874,
+          6.0926079750061035,
+          5.434238910675049,
+          5.178018569946289
+        ],
+        "eigenvalues_after": [
+          6.451062202453613,
+          6.086727619171143,
+          5.851089954376221,
+          5.455050945281982
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L14": {
+      "gate_proj": {
+        "n_active": 25273618,
+        "n_candidates": 12639909,
+        "candidate_pct": 50.01,
+        "n_flipped": 1263680,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8553,
+        "crystal_after": 0.9336,
+        "crystal_delta": 0.0783,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          65.8263931274414,
+          20.384613037109375,
+          19.479101181030273,
+          18.908096313476562
+        ],
+        "eigenvalues_after": [
+          208.93624877929688,
+          58.82733154296875,
+          18.34689712524414,
+          17.540925979614258
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25168561,
+        "n_candidates": 12583553,
+        "candidate_pct": 50.0,
+        "n_flipped": 125842,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9992,
+        "crystal_after": 0.9929,
+        "crystal_delta": -0.0064,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          15.751060485839844,
+          14.608758926391602,
+          13.582012176513672,
+          13.261439323425293
+        ],
+        "eigenvalues_after": [
+          17.299697875976562,
+          15.599048614501953,
+          14.462820053100586,
+          13.464107513427734
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25291563,
+        "n_candidates": 12361285,
+        "candidate_pct": 48.88,
+        "n_flipped": 126457,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9671,
+        "crystal_after": 0.9614,
+        "crystal_delta": -0.0057,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          6.785628318786621,
+          6.5481438636779785,
+          5.6028594970703125,
+          5.358335018157959
+        ],
+        "eigenvalues_after": [
+          9.892427444458008,
+          6.85685396194458,
+          6.095271587371826,
+          5.370615005493164
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L15": {
+      "gate_proj": {
+        "n_active": 25203916,
+        "n_candidates": 12603940,
+        "candidate_pct": 50.01,
+        "n_flipped": 1260195,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8633,
+        "crystal_after": 0.9193,
+        "crystal_delta": 0.056,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          58.044456481933594,
+          21.533390045166016,
+          20.82649803161621,
+          19.439525604248047
+        ],
+        "eigenvalues_after": [
+          207.17543029785156,
+          52.081390380859375,
+          19.555747985839844,
+          18.883676528930664
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25208492,
+        "n_candidates": 12604447,
+        "candidate_pct": 50.0,
+        "n_flipped": 63021,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9958,
+        "crystal_after": 0.9943,
+        "crystal_delta": -0.0015,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          17.206172943115234,
+          15.915472030639648,
+          14.568842887878418,
+          14.404864311218262
+        ],
+        "eigenvalues_after": [
+          17.103328704833984,
+          15.792144775390625,
+          14.473148345947266,
+          14.352213859558105
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25276389,
+        "n_candidates": 12383378,
+        "candidate_pct": 48.99,
+        "n_flipped": 126381,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9439,
+        "crystal_after": 0.9968,
+        "crystal_delta": 0.0529,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          7.1827826499938965,
+          5.914694786071777,
+          5.691754341125488,
+          5.442474365234375
+        ],
+        "eigenvalues_after": [
+          9.373880386352539,
+          7.394384384155273,
+          5.865851879119873,
+          5.413602828979492
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L16": {
+      "gate_proj": {
+        "n_active": 25182236,
+        "n_candidates": 12589179,
+        "candidate_pct": 49.99,
+        "n_flipped": 1259111,
+        "flip_pct": 5.0,
+        "crystal_before": 0.863,
+        "crystal_after": 0.9273,
+        "crystal_delta": 0.0643,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          63.9751091003418,
+          21.344627380371094,
+          19.917301177978516,
+          19.17459487915039
+        ],
+        "eigenvalues_after": [
+          210.94247436523438,
+          56.01802062988281,
+          19.054424285888672,
+          17.75119400024414
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25241547,
+        "n_candidates": 12621742,
+        "candidate_pct": 50.0,
+        "n_flipped": 126207,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9604,
+        "crystal_after": 0.993,
+        "crystal_delta": 0.0325,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          16.797622680664062,
+          14.443166732788086,
+          13.818512916564941,
+          13.346174240112305
+        ],
+        "eigenvalues_after": [
+          18.024606704711914,
+          16.640287399291992,
+          14.26270580291748,
+          13.665275573730469
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25230188,
+        "n_candidates": 12206804,
+        "candidate_pct": 48.38,
+        "n_flipped": 126150,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9686,
+        "crystal_after": 0.9892,
+        "crystal_delta": 0.0206,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          6.9852800369262695,
+          5.322497367858887,
+          4.86392879486084,
+          4.363369941711426
+        ],
+        "eigenvalues_after": [
+          9.684062957763672,
+          6.881770133972168,
+          5.277370452880859,
+          4.72276496887207
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L17": {
+      "gate_proj": {
+        "n_active": 25232508,
+        "n_candidates": 12611722,
+        "candidate_pct": 49.98,
+        "n_flipped": 1261625,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8596,
+        "crystal_after": 0.9152,
+        "crystal_delta": 0.0557,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          55.613128662109375,
+          21.05453872680664,
+          19.911157608032227,
+          19.65158462524414
+        ],
+        "eigenvalues_after": [
+          210.3606414794922,
+          49.849632263183594,
+          18.811023712158203,
+          17.912965774536133
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25243589,
+        "n_candidates": 12618914,
+        "candidate_pct": 49.99,
+        "n_flipped": 126217,
+        "flip_pct": 0.5,
+        "crystal_before": 0.99,
+        "crystal_after": 0.9803,
+        "crystal_delta": -0.0097,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          16.771881103515625,
+          15.972970008850098,
+          15.202291488647461,
+          14.558626174926758
+        ],
+        "eigenvalues_after": [
+          18.302568435668945,
+          16.416412353515625,
+          15.724899291992188,
+          15.039314270019531
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25213466,
+        "n_candidates": 12318531,
+        "candidate_pct": 48.86,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.978,
+        "crystal_after": 0.978,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          5.733142852783203,
+          5.100879669189453,
+          4.885625839233398,
+          4.650332927703857
+        ],
+        "eigenvalues_after": [
+          5.733142852783203,
+          5.100879669189453,
+          4.885625839233398,
+          4.650332927703857
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L18": {
+      "gate_proj": {
+        "n_active": 25146106,
+        "n_candidates": 12573515,
+        "candidate_pct": 50.0,
+        "n_flipped": 1257305,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8611,
+        "crystal_after": 0.9154,
+        "crystal_delta": 0.0543,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          53.761993408203125,
+          19.837018966674805,
+          18.552396774291992,
+          18.354373931884766
+        ],
+        "eigenvalues_after": [
+          208.499755859375,
+          48.618682861328125,
+          18.012937545776367,
+          16.616323471069336
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25271601,
+        "n_candidates": 12638740,
+        "candidate_pct": 50.01,
+        "n_flipped": 63179,
+        "flip_pct": 0.25,
+        "crystal_before": 0.998,
+        "crystal_after": 0.9996,
+        "crystal_delta": 0.0016,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          15.854886054992676,
+          15.090995788574219,
+          14.517638206481934,
+          14.274133682250977
+        ],
+        "eigenvalues_after": [
+          15.736783027648926,
+          15.047323226928711,
+          14.431598663330078,
+          14.146859169006348
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25279067,
+        "n_candidates": 12367558,
+        "candidate_pct": 48.92,
+        "n_flipped": 126395,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9436,
+        "crystal_after": 0.9942,
+        "crystal_delta": 0.0506,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          7.319375038146973,
+          5.720302581787109,
+          5.466083526611328,
+          5.104348182678223
+        ],
+        "eigenvalues_after": [
+          9.180610656738281,
+          7.1585373878479,
+          5.747579574584961,
+          5.3399152755737305
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L19": {
+      "gate_proj": {
+        "n_active": 25250892,
+        "n_candidates": 12631106,
+        "candidate_pct": 50.02,
+        "n_flipped": 1262544,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9197,
+        "crystal_after": 0.9128,
+        "crystal_delta": -0.0069,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          53.717655181884766,
+          24.554059982299805,
+          19.492897033691406,
+          18.043865203857422
+        ],
+        "eigenvalues_after": [
+          206.6353759765625,
+          48.248924255371094,
+          21.951433181762695,
+          17.582611083984375
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25260798,
+        "n_candidates": 12630491,
+        "candidate_pct": 50.0,
+        "n_flipped": 126303,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9551,
+        "crystal_after": 0.9964,
+        "crystal_delta": 0.0412,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          19.993122100830078,
+          15.893509864807129,
+          14.88695240020752,
+          14.153568267822266
+        ],
+        "eigenvalues_after": [
+          19.89777183532715,
+          17.369144439697266,
+          15.680107116699219,
+          14.682084083557129
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25252038,
+        "n_candidates": 12286766,
+        "candidate_pct": 48.66,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9979,
+        "crystal_after": 0.9979,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          6.473084449768066,
+          5.994724750518799,
+          5.364482879638672,
+          5.162935256958008
+        ],
+        "eigenvalues_after": [
+          6.473084449768066,
+          5.994724750518799,
+          5.364482879638672,
+          5.162935256958008
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L20": {
+      "gate_proj": {
+        "n_active": 25261469,
+        "n_candidates": 12629046,
+        "candidate_pct": 49.99,
+        "n_flipped": 1263073,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8604,
+        "crystal_after": 0.9162,
+        "crystal_delta": 0.0557,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          54.71678161621094,
+          19.70751953125,
+          18.726682662963867,
+          18.131608963012695
+        ],
+        "eigenvalues_after": [
+          206.4877166748047,
+          48.69001770019531,
+          17.781469345092773,
+          16.735092163085938
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25199176,
+        "n_candidates": 12604860,
+        "candidate_pct": 50.02,
+        "n_flipped": 62997,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9934,
+        "crystal_after": 0.993,
+        "crystal_delta": -0.0004,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          17.22303009033203,
+          15.458099365234375,
+          14.103909492492676,
+          13.858004570007324
+        ],
+        "eigenvalues_after": [
+          17.05667495727539,
+          15.323728561401367,
+          14.019323348999023,
+          13.779500007629395
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25286205,
+        "n_candidates": 12221739,
+        "candidate_pct": 48.33,
+        "n_flipped": 63215,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9988,
+        "crystal_after": 0.9971,
+        "crystal_delta": -0.0018,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          7.567554473876953,
+          6.683051586151123,
+          5.734096050262451,
+          5.518265724182129
+        ],
+        "eigenvalues_after": [
+          7.309848308563232,
+          6.719027042388916,
+          5.897378444671631,
+          5.699408531188965
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L21": {
+      "gate_proj": {
+        "n_active": 25224797,
+        "n_candidates": 12612300,
+        "candidate_pct": 50.0,
+        "n_flipped": 1261239,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8738,
+        "crystal_after": 0.9069,
+        "crystal_delta": 0.0331,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          49.997100830078125,
+          20.783428192138672,
+          19.53880500793457,
+          18.36367416381836
+        ],
+        "eigenvalues_after": [
+          202.63116455078125,
+          44.243446350097656,
+          18.317363739013672,
+          17.376066207885742
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25259733,
+        "n_candidates": 12629306,
+        "candidate_pct": 50.0,
+        "n_flipped": 126298,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9885,
+        "crystal_after": 0.9998,
+        "crystal_delta": 0.0113,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          16.88530731201172,
+          15.791389465332031,
+          15.26269817352295,
+          14.894927978515625
+        ],
+        "eigenvalues_after": [
+          17.504798889160156,
+          16.472822189331055,
+          15.445258140563965,
+          15.015386581420898
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25199485,
+        "n_candidates": 12155219,
+        "candidate_pct": 48.24,
+        "n_flipped": 62998,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9493,
+        "crystal_after": 0.9396,
+        "crystal_delta": -0.0098,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          7.5183210372924805,
+          7.358644962310791,
+          6.144148349761963,
+          5.938307762145996
+        ],
+        "eigenvalues_after": [
+          7.608264446258545,
+          7.4988694190979,
+          6.267763614654541,
+          6.140438079833984
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L22": {
+      "gate_proj": {
+        "n_active": 25168376,
+        "n_candidates": 12580382,
+        "candidate_pct": 49.98,
+        "n_flipped": 1258418,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8838,
+        "crystal_after": 0.9158,
+        "crystal_delta": 0.0321,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          54.406681060791016,
+          20.815921783447266,
+          18.64622688293457,
+          17.131092071533203
+        ],
+        "eigenvalues_after": [
+          201.8326416015625,
+          47.89812469482422,
+          18.30693817138672,
+          16.858295440673828
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25210252,
+        "n_candidates": 12604783,
+        "candidate_pct": 50.0,
+        "n_flipped": 63025,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9869,
+        "crystal_after": 0.9865,
+        "crystal_delta": -0.0004,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          18.22577667236328,
+          17.025474548339844,
+          15.690606117248535,
+          14.591643333435059
+        ],
+        "eigenvalues_after": [
+          18.10010528564453,
+          16.894094467163086,
+          15.591791152954102,
+          14.483725547790527
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25277082,
+        "n_candidates": 12083878,
+        "candidate_pct": 47.81,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9692,
+        "crystal_after": 0.9692,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          6.09251070022583,
+          5.8630595207214355,
+          5.163724899291992,
+          4.833477973937988
+        ],
+        "eigenvalues_after": [
+          6.09251070022583,
+          5.8630595207214355,
+          5.163724899291992,
+          4.833477973937988
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L23": {
+      "gate_proj": {
+        "n_active": 25173292,
+        "n_candidates": 12588762,
+        "candidate_pct": 50.01,
+        "n_flipped": 1258664,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8948,
+        "crystal_after": 0.9245,
+        "crystal_delta": 0.0297,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          58.58287811279297,
+          21.394615173339844,
+          18.177045822143555,
+          16.05589485168457
+        ],
+        "eigenvalues_after": [
+          201.54605102539062,
+          51.747955322265625,
+          18.83009147644043,
+          16.342546463012695
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25180842,
+        "n_candidates": 12589313,
+        "candidate_pct": 50.0,
+        "n_flipped": 314760,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9117,
+        "crystal_after": 0.9354,
+        "crystal_delta": 0.0236,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          20.948259353637695,
+          15.314403533935547,
+          14.721275329589844,
+          14.130166053771973
+        ],
+        "eigenvalues_after": [
+          41.01872634887695,
+          20.281917572021484,
+          14.825512886047363,
+          14.381242752075195
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25297614,
+        "n_candidates": 11991953,
+        "candidate_pct": 47.4,
+        "n_flipped": 63244,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9337,
+        "crystal_after": 0.9885,
+        "crystal_delta": 0.0548,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          5.251370429992676,
+          4.531617641448975,
+          4.502277851104736,
+          4.114565849304199
+        ],
+        "eigenvalues_after": [
+          5.681985855102539,
+          5.277880668640137,
+          4.517568588256836,
+          4.443122863769531
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L24": {
+      "gate_proj": {
+        "n_active": 25170564,
+        "n_candidates": 12578169,
+        "candidate_pct": 49.97,
+        "n_flipped": 1258528,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8669,
+        "crystal_after": 0.9269,
+        "crystal_delta": 0.06,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          58.96216583251953,
+          16.655912399291992,
+          15.927450180053711,
+          13.688224792480469
+        ],
+        "eigenvalues_after": [
+          202.36624145507812,
+          51.27134323120117,
+          14.881926536560059,
+          14.277470588684082
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25260939,
+        "n_candidates": 12630002,
+        "candidate_pct": 50.0,
+        "n_flipped": 315761,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9548,
+        "crystal_after": 0.9458,
+        "crystal_delta": -0.009,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          20.930492401123047,
+          15.008419036865234,
+          13.695971488952637,
+          12.410598754882812
+        ],
+        "eigenvalues_after": [
+          40.55607223510742,
+          20.309879302978516,
+          14.541234016418457,
+          13.40275764465332
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25197145,
+        "n_candidates": 11721316,
+        "candidate_pct": 46.52,
+        "n_flipped": 62992,
+        "flip_pct": 0.25,
+        "crystal_before": 0.994,
+        "crystal_after": 0.998,
+        "crystal_delta": 0.004,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          4.840085029602051,
+          4.330042839050293,
+          4.026350975036621,
+          3.8183579444885254
+        ],
+        "eigenvalues_after": [
+          5.646968841552734,
+          4.888888359069824,
+          4.311046600341797,
+          4.082448959350586
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L25": {
+      "gate_proj": {
+        "n_active": 25165969,
+        "n_candidates": 12578127,
+        "candidate_pct": 49.98,
+        "n_flipped": 1258298,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8764,
+        "crystal_after": 0.9252,
+        "crystal_delta": 0.0488,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          57.46527099609375,
+          17.27329444885254,
+          16.128944396972656,
+          13.320281982421875
+        ],
+        "eigenvalues_after": [
+          201.58253479003906,
+          50.321327209472656,
+          15.482955932617188,
+          14.30396842956543
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25257235,
+        "n_candidates": 12632608,
+        "candidate_pct": 50.02,
+        "n_flipped": 126286,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9608,
+        "crystal_after": 0.9968,
+        "crystal_delta": 0.036,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          19.838762283325195,
+          14.447355270385742,
+          12.818782806396484,
+          12.02157211303711
+        ],
+        "eigenvalues_after": [
+          19.563518524169922,
+          16.43842315673828,
+          14.174337387084961,
+          12.682755470275879
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25196754,
+        "n_candidates": 11582582,
+        "candidate_pct": 45.97,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9932,
+        "crystal_after": 0.9932,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          4.488422393798828,
+          4.20443058013916,
+          3.724999189376831,
+          3.624917984008789
+        ],
+        "eigenvalues_after": [
+          4.488422393798828,
+          4.20443058013916,
+          3.724999189376831,
+          3.624917984008789
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L26": {
+      "gate_proj": {
+        "n_active": 25237130,
+        "n_candidates": 12615270,
+        "candidate_pct": 49.99,
+        "n_flipped": 1261856,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8609,
+        "crystal_after": 0.9415,
+        "crystal_delta": 0.0805,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          67.35699462890625,
+          15.224334716796875,
+          14.953727722167969,
+          12.308295249938965
+        ],
+        "eigenvalues_after": [
+          202.45254516601562,
+          58.64479446411133,
+          13.566730499267578,
+          13.447728157043457
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25243840,
+        "n_candidates": 12619269,
+        "candidate_pct": 49.99,
+        "n_flipped": 63109,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9875,
+        "crystal_after": 0.9878,
+        "crystal_delta": 0.0003,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          19.543190002441406,
+          14.735845565795898,
+          11.455198287963867,
+          11.057005882263184
+        ],
+        "eigenvalues_after": [
+          19.422523498535156,
+          14.650310516357422,
+          11.36633586883545,
+          10.963558197021484
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25284765,
+        "n_candidates": 11417815,
+        "candidate_pct": 45.16,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9977,
+        "crystal_after": 0.9977,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          3.912323474884033,
+          3.7263033390045166,
+          3.547306776046753,
+          3.4430737495422363
+        ],
+        "eigenvalues_after": [
+          3.912323474884033,
+          3.7263033390045166,
+          3.547306776046753,
+          3.4430737495422363
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L32": {
+      "gate_proj": {
+        "n_active": 25215362,
+        "n_candidates": 12605322,
+        "candidate_pct": 49.99,
+        "n_flipped": 1260768,
+        "flip_pct": 5.0,
+        "crystal_before": 0.9045,
+        "crystal_after": 0.9342,
+        "crystal_delta": 0.0297,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          62.77656555175781,
+          19.63243293762207,
+          13.739657402038574,
+          12.455497741699219
+        ],
+        "eigenvalues_after": [
+          199.89007568359375,
+          53.197052001953125,
+          17.13667106628418,
+          12.021551132202148
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25197358,
+        "n_candidates": 12597996,
+        "candidate_pct": 50.0,
+        "n_flipped": 314966,
+        "flip_pct": 1.25,
+        "crystal_before": 0.9867,
+        "crystal_after": 0.9867,
+        "crystal_delta": 0.0,
+        "status": "REDUCED(25%)",
+        "eigenvalues_before": [
+          24.72153091430664,
+          16.601505279541016,
+          11.672829627990723,
+          10.687824249267578
+        ],
+        "eigenvalues_after": [
+          39.772972106933594,
+          23.563297271728516,
+          15.91880989074707,
+          11.274109840393066
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25189819,
+        "n_candidates": 10821539,
+        "candidate_pct": 42.96,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9864,
+        "crystal_after": 0.9864,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          4.826951026916504,
+          4.707422256469727,
+          4.4553399085998535,
+          4.4232072830200195
+        ],
+        "eigenvalues_after": [
+          4.826951026916504,
+          4.707422256469727,
+          4.4553399085998535,
+          4.4232072830200195
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L33": {
+      "gate_proj": {
+        "n_active": 25207973,
+        "n_candidates": 12604729,
+        "candidate_pct": 50.0,
+        "n_flipped": 630199,
+        "flip_pct": 2.5,
+        "crystal_before": 0.9486,
+        "crystal_after": 0.9904,
+        "crystal_delta": 0.0419,
+        "status": "REDUCED(50%)",
+        "eigenvalues_before": [
+          53.71058654785156,
+          25.00689697265625,
+          17.20858383178711,
+          14.624519348144531
+        ],
+        "eigenvalues_after": [
+          87.63508605957031,
+          47.70843505859375,
+          22.786632537841797,
+          15.888639450073242
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25177160,
+        "n_candidates": 12583535,
+        "candidate_pct": 49.98,
+        "n_flipped": 1258858,
+        "flip_pct": 5.0,
+        "crystal_before": 0.8846,
+        "crystal_after": 0.8811,
+        "crystal_delta": -0.0035,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          32.651634216308594,
+          14.158491134643555,
+          13.24966049194336,
+          11.954803466796875
+        ],
+        "eigenvalues_after": [
+          199.97494506835938,
+          27.685035705566406,
+          12.61197566986084,
+          11.702046394348145
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25192110,
+        "n_candidates": 11608247,
+        "candidate_pct": 46.08,
+        "n_flipped": 62980,
+        "flip_pct": 0.25,
+        "crystal_before": 0.9171,
+        "crystal_after": 0.9755,
+        "crystal_delta": 0.0584,
+        "status": "REDUCED(5%)",
+        "eigenvalues_before": [
+          4.640294075012207,
+          3.9490606784820557,
+          3.847980260848999,
+          3.797637701034546
+        ],
+        "eigenvalues_after": [
+          5.788368225097656,
+          4.629437446594238,
+          3.961181640625,
+          3.945297956466675
+        ],
+        "n_tokens": 8192
+      }
+    },
+    "L34": {
+      "gate_proj": {
+        "n_active": 25249261,
+        "n_candidates": 12625809,
+        "candidate_pct": 50.0,
+        "n_flipped": 126246,
+        "flip_pct": 0.5,
+        "crystal_before": 0.9957,
+        "crystal_after": 0.9949,
+        "crystal_delta": -0.0008,
+        "status": "REDUCED(10%)",
+        "eigenvalues_before": [
+          55.955528259277344,
+          36.28711700439453,
+          23.486019134521484,
+          17.023685455322266
+        ],
+        "eigenvalues_after": [
+          54.059913635253906,
+          34.95823669433594,
+          23.02920913696289,
+          16.70201873779297
+        ],
+        "n_tokens": 8192
+      },
+      "up_proj": {
+        "n_active": 25177938,
+        "n_candidates": 12584613,
+        "candidate_pct": 49.98,
+        "n_flipped": 1258896,
+        "flip_pct": 5.0,
+        "crystal_before": 0.903,
+        "crystal_after": 0.9464,
+        "crystal_delta": 0.0433,
+        "status": "APPLIED",
+        "eigenvalues_before": [
+          75.22712707519531,
+          22.538040161132812,
+          15.265691757202148,
+          14.107664108276367
+        ],
+        "eigenvalues_after": [
+          201.4349822998047,
+          61.44539260864258,
+          19.488597869873047,
+          13.437769889831543
+        ],
+        "n_tokens": 8192
+      },
+      "down_proj": {
+        "n_active": 25255245,
+        "n_candidates": 12487728,
+        "candidate_pct": 49.45,
+        "n_flipped": 0,
+        "flip_pct": 0.0,
+        "crystal_before": 0.9996,
+        "crystal_after": 0.9996,
+        "crystal_delta": 0.0,
+        "status": "REJECTED",
+        "eigenvalues_before": [
+          5.703091621398926,
+          4.799809455871582,
+          3.859766960144043,
+          3.464564561843872
+        ],
+        "eigenvalues_after": [
+          5.703091621398926,
+          4.799809455871582,
+          3.859766960144043,
+          3.464564561843872
+        ],
+        "n_tokens": 8192
+      }
+    }
+  },
+  "eval_history": [
+    {
+      "step": 50,
+      "ppl": 2879657.636778952,
+      "ppl_ratio": 255415.672,
+      "facts": 0
+    },
+    {
+      "step": 100,
+      "ppl": 90527.08713062335,
+      "ppl_ratio": 8029.4395,
+      "facts": 0
+    },
+    {
+      "step": 150,
+      "ppl": 34420.40118628835,
+      "ppl_ratio": 3052.9705,
+      "facts": 1
+    },
+    {
+      "step": 200,
+      "ppl": 18819.03764013778,
+      "ppl_ratio": 1669.1835,
+      "facts": 1
+    }
+  ],
+  "loss_history": [
+    {
+      "step": 1,
+      "ce": 20.3479,
+      "sm": 0.9723
+    },
+    {
+      "step": 2,
+      "ce": 19.266,
+      "sm": 0.9712
+    },
+    {
+      "step": 3,
+      "ce": 19.547,
+      "sm": 0.9721
+    },
+    {
+      "step": 4,
+      "ce": 18.8327,
+      "sm": 0.9713
+    },
+    {
+      "step": 5,
+      "ce": 19.502,
+      "sm": 0.973
+    },
+    {
+      "step": 6,
+      "ce": 19.7021,
+      "sm": 0.971
+    },
+    {
+      "step": 7,
+      "ce": 20.0128,
+      "sm": 0.9714
+    },
+    {
+      "step": 8,
+      "ce": 19.3966,
+      "sm": 0.9738
+    },
+    {
+      "step": 9,
+      "ce": 19.5418,
+      "sm": 0.97
+    },
+    {
+      "step": 10,
+      "ce": 19.8243,
+      "sm": 0.9711
+    },
+    {
+      "step": 11,
+      "ce": 19.9589,
+      "sm": 0.9704
+    },
+    {
+      "step": 12,
+      "ce": 19.3206,
+      "sm": 0.9726
+    },
+    {
+      "step": 13,
+      "ce": 19.3606,
+      "sm": 0.9672
+    },
+    {
+      "step": 14,
+      "ce": 19.6781,
+      "sm": 0.9692
+    },
+    {
+      "step": 15,
+      "ce": 19.6819,
+      "sm": 0.9723
+    },
+    {
+      "step": 16,
+      "ce": 19.3046,
+      "sm": 0.9709
+    },
+    {
+      "step": 17,
+      "ce": 19.4967,
+      "sm": 0.9735
+    },
+    {
+      "step": 18,
+      "ce": 19.5769,
+      "sm": 0.9696
+    },
+    {
+      "step": 19,
+      "ce": 19.1092,
+      "sm": 0.9693
+    },
+    {
+      "step": 20,
+      "ce": 19.2654,
+      "sm": 0.9714
+    },
+    {
+      "step": 21,
+      "ce": 18.3143,
+      "sm": 0.9716
+    },
+    {
+      "step": 22,
+      "ce": 19.0516,
+      "sm": 0.9708
+    },
+    {
+      "step": 23,
+      "ce": 18.9716,
+      "sm": 0.9677
+    },
+    {
+      "step": 24,
+      "ce": 18.3372,
+      "sm": 0.9746
+    },
+    {
+      "step": 25,
+      "ce": 18.2461,
+      "sm": 0.0
+    },
+    {
+      "step": 26,
+      "ce": 17.9801,
+      "sm": 0.9696
+    },
+    {
+      "step": 27,
+      "ce": 18.2425,
+      "sm": 0.968
+    },
+    {
+      "step": 28,
+      "ce": 18.0058,
+      "sm": 0.968
+    },
+    {
+      "step": 29,
+      "ce": 17.9456,
+      "sm": 0.9677
+    },
+    {
+      "step": 30,
+      "ce": 18.2643,
+      "sm": 0.0
+    },
+    {
+      "step": 31,
+      "ce": 17.3965,
+      "sm": 0.9688
+    },
+    {
+      "step": 32,
+      "ce": 17.1779,
+      "sm": 0.9707
+    },
+    {
+      "step": 33,
+      "ce": 17.1341,
+      "sm": 0.9686
+    },
+    {
+      "step": 34,
+      "ce": 17.1362,
+      "sm": 0.9738
+    },
+    {
+      "step": 35,
+      "ce": 16.9344,
+      "sm": 0.9661
+    },
+    {
+      "step": 36,
+      "ce": 17.2138,
+      "sm": 0.9719
+    },
+    {
+      "step": 37,
+      "ce": 16.6527,
+      "sm": 0.964
+    },
+    {
+      "step": 38,
+      "ce": 16.3665,
+      "sm": 0.9716
+    },
+    {
+      "step": 39,
+      "ce": 16.7002,
+      "sm": 0.9707
+    },
+    {
+      "step": 40,
+      "ce": 15.9765,
+      "sm": 0.965
+    },
+    {
+      "step": 41,
+      "ce": 15.9413,
+      "sm": 0.0
+    },
+    {
+      "step": 42,
+      "ce": 15.6449,
+      "sm": 0.9692
+    },
+    {
+      "step": 43,
+      "ce": 15.8128,
+      "sm": 0.968
+    },
+    {
+      "step": 44,
+      "ce": 15.4134,
+      "sm": 0.9645
+    },
+    {
+      "step": 45,
+      "ce": 14.6196,
+      "sm": 0.9651
+    },
+    {
+      "step": 46,
+      "ce": 14.6009,
+      "sm": 0.9695
+    },
+    {
+      "step": 47,
+      "ce": 15.1843,
+      "sm": 0.9717
+    },
+    {
+      "step": 48,
+      "ce": 15.395,
+      "sm": 0.9678
+    },
+    {
+      "step": 49,
+      "ce": 13.3416,
+      "sm": 0.9664
+    },
+    {
+      "step": 50,
+      "ce": 14.157,
+      "sm": 0.964
+    },
+    {
+      "step": 51,
+      "ce": 13.8727,
+      "sm": 0.9653
+    },
+    {
+      "step": 52,
+      "ce": 14.0224,
+      "sm": 0.9645
+    },
+    {
+      "step": 53,
+      "ce": 13.6866,
+      "sm": 0.9633
+    },
+    {
+      "step": 54,
+      "ce": 14.2636,
+      "sm": 0.9649
+    },
+    {
+      "step": 55,
+      "ce": 12.9421,
+      "sm": 0.9639
+    },
+    {
+      "step": 56,
+      "ce": 13.0145,
+      "sm": 0.9632
+    },
+    {
+      "step": 57,
+      "ce": 12.9359,
+      "sm": 0.9677
+    },
+    {
+      "step": 58,
+      "ce": 12.0699,
+      "sm": 0.9672
+    },
+    {
+      "step": 59,
+      "ce": 13.0152,
+      "sm": 0.0
+    },
+    {
+      "step": 60,
+      "ce": 13.1175,
+      "sm": 0.0
+    },
+    {
+      "step": 61,
+      "ce": 12.2646,
+      "sm": 0.9643
+    },
+    {
+      "step": 62,
+      "ce": 12.97,
+      "sm": 0.9619
+    },
+    {
+      "step": 63,
+      "ce": 10.1979,
+      "sm": 0.9625
+    },
+    {
+      "step": 64,
+      "ce": 11.3418,
+      "sm": 0.9622
+    },
+    {
+      "step": 65,
+      "ce": 11.6964,
+      "sm": 0.9635
+    },
+    {
+      "step": 66,
+      "ce": 10.9685,
+      "sm": 0.959
+    },
+    {
+      "step": 67,
+      "ce": 11.1271,
+      "sm": 0.9595
+    },
+    {
+      "step": 68,
+      "ce": 10.623,
+      "sm": 0.9602
+    },
+    {
+      "step": 69,
+      "ce": 11.8831,
+      "sm": 0.9585
+    },
+    {
+      "step": 70,
+      "ce": 11.0768,
+      "sm": 0.959
+    },
+    {
+      "step": 71,
+      "ce": 11.2363,
+      "sm": 0.9641
+    },
+    {
+      "step": 72,
+      "ce": 10.8731,
+      "sm": 0.9579
+    },
+    {
+      "step": 73,
+      "ce": 11.4209,
+      "sm": 0.9579
+    },
+    {
+      "step": 74,
+      "ce": 11.326,
+      "sm": 0.9585
+    },
+    {
+      "step": 75,
+      "ce": 9.8682,
+      "sm": 0.9597
+    },
+    {
+      "step": 76,
+      "ce": 10.3666,
+      "sm": 0.9587
+    },
+    {
+      "step": 77,
+      "ce": 11.5181,
+      "sm": 0.9585
+    },
+    {
+      "step": 78,
+      "ce": 9.8735,
+      "sm": 0.9602
+    },
+    {
+      "step": 79,
+      "ce": 8.8743,
+      "sm": 0.957
+    },
+    {
+      "step": 80,
+      "ce": 8.0303,
+      "sm": 0.9557
+    },
+    {
+      "step": 81,
+      "ce": 10.843,
+      "sm": 0.9599
+    },
+    {
+      "step": 82,
+      "ce": 11.5388,
+      "sm": 0.9573
+    },
+    {
+      "step": 83,
+      "ce": 11.4753,
+      "sm": 0.9597
+    },
+    {
+      "step": 84,
+      "ce": 7.7667,
+      "sm": 0.0
+    },
+    {
+      "step": 85,
+      "ce": 8.5979,
+      "sm": 0.9572
+    },
+    {
+      "step": 86,
+      "ce": 9.6422,
+      "sm": 0.9583
+    },
+    {
+      "step": 87,
+      "ce": 10.6421,
+      "sm": 0.9567
+    },
+    {
+      "step": 88,
+      "ce": 10.5148,
+      "sm": 0.9538
+    },
+    {
+      "step": 89,
+      "ce": 9.9992,
+      "sm": 0.9553
+    },
+    {
+      "step": 90,
+      "ce": 9.8229,
+      "sm": 0.0
+    },
+    {
+      "step": 91,
+      "ce": 10.9422,
+      "sm": 0.957
+    },
+    {
+      "step": 92,
+      "ce": 11.9798,
+      "sm": 0.9569
+    },
+    {
+      "step": 93,
+      "ce": 9.0973,
+      "sm": 0.9569
+    },
+    {
+      "step": 94,
+      "ce": 10.5252,
+      "sm": 0.9541
+    },
+    {
+      "step": 95,
+      "ce": 9.4442,
+      "sm": 0.9522
+    },
+    {
+      "step": 96,
+      "ce": 10.7678,
+      "sm": 0.9564
+    },
+    {
+      "step": 97,
+      "ce": 9.3679,
+      "sm": 0.9515
+    },
+    {
+      "step": 98,
+      "ce": 9.6489,
+      "sm": 0.95
+    },
+    {
+      "step": 99,
+      "ce": 9.2461,
+      "sm": 0.9532
+    },
+    {
+      "step": 100,
+      "ce": 8.006,
+      "sm": 0.9511
+    },
+    {
+      "step": 101,
+      "ce": 8.7512,
+      "sm": 0.9509
+    },
+    {
+      "step": 102,
+      "ce": 8.8592,
+      "sm": 0.9581
+    },
+    {
+      "step": 103,
+      "ce": 8.5074,
+      "sm": 0.9489
+    },
+    {
+      "step": 104,
+      "ce": 10.3507,
+      "sm": 0.9506
+    },
+    {
+      "step": 105,
+      "ce": 10.7186,
+      "sm": 0.9508
+    },
+    {
+      "step": 106,
+      "ce": 11.299,
+      "sm": 0.0
+    },
+    {
+      "step": 107,
+      "ce": 9.9417,
+      "sm": 0.9471
+    },
+    {
+      "step": 108,
+      "ce": 9.6513,
+      "sm": 0.9534
+    },
+    {
+      "step": 109,
+      "ce": 9.9009,
+      "sm": 0.9483
+    },
+    {
+      "step": 110,
+      "ce": 8.5442,
+      "sm": 0.9493
+    },
+    {
+      "step": 111,
+      "ce": 8.0194,
+      "sm": 0.9471
+    },
+    {
+      "step": 112,
+      "ce": 9.3425,
+      "sm": 0.9491
+    },
+    {
+      "step": 113,
+      "ce": 9.0313,
+      "sm": 0.9488
+    },
+    {
+      "step": 114,
+      "ce": 7.4256,
+      "sm": 0.9468
+    },
+    {
+      "step": 115,
+      "ce": 10.5072,
+      "sm": 0.9489
+    },
+    {
+      "step": 116,
+      "ce": 9.8949,
+      "sm": 0.0
+    },
+    {
+      "step": 117,
+      "ce": 9.2321,
+      "sm": 0.9475
+    },
+    {
+      "step": 118,
+      "ce": 7.6375,
+      "sm": 0.9463
+    },
+    {
+      "step": 119,
+      "ce": 9.3029,
+      "sm": 0.9474
+    },
+    {
+      "step": 120,
+      "ce": 8.1347,
+      "sm": 0.0
+    },
+    {
+      "step": 121,
+      "ce": 8.6749,
+      "sm": 0.9439
+    },
+    {
+      "step": 122,
+      "ce": 7.6909,
+      "sm": 0.942
+    },
+    {
+      "step": 123,
+      "ce": 7.7119,
+      "sm": 0.9411
+    },
+    {
+      "step": 124,
+      "ce": 8.9747,
+      "sm": 0.9437
+    },
+    {
+      "step": 125,
+      "ce": 9.0986,
+      "sm": 0.9445
+    },
+    {
+      "step": 126,
+      "ce": 9.3509,
+      "sm": 0.9454
+    },
+    {
+      "step": 127,
+      "ce": 9.0873,
+      "sm": 0.9426
+    },
+    {
+      "step": 128,
+      "ce": 10.2016,
+      "sm": 0.9427
+    },
+    {
+      "step": 129,
+      "ce": 11.8261,
+      "sm": 0.9376
+    },
+    {
+      "step": 130,
+      "ce": 8.1864,
+      "sm": 0.942
+    },
+    {
+      "step": 131,
+      "ce": 6.7804,
+      "sm": 0.944
+    },
+    {
+      "step": 132,
+      "ce": 8.0368,
+      "sm": 0.9405
+    },
+    {
+      "step": 133,
+      "ce": 8.4747,
+      "sm": 0.9397
+    },
+    {
+      "step": 134,
+      "ce": 10.8352,
+      "sm": 0.9421
+    },
+    {
+      "step": 135,
+      "ce": 7.5,
+      "sm": 0.9463
+    },
+    {
+      "step": 136,
+      "ce": 9.989,
+      "sm": 0.9341
+    },
+    {
+      "step": 137,
+      "ce": 7.2349,
+      "sm": 0.943
+    },
+    {
+      "step": 138,
+      "ce": 9.68,
+      "sm": 0.9389
+    },
+    {
+      "step": 139,
+      "ce": 7.473,
+      "sm": 0.0
+    },
+    {
+      "step": 140,
+      "ce": 8.5055,
+      "sm": 0.9442
+    },
+    {
+      "step": 141,
+      "ce": 9.1267,
+      "sm": 0.9421
+    },
+    {
+      "step": 142,
+      "ce": 9.879,
+      "sm": 0.9463
+    },
+    {
+      "step": 143,
+      "ce": 9.077,
+      "sm": 0.9376
+    },
+    {
+      "step": 144,
+      "ce": 9.9985,
+      "sm": 0.9388
+    },
+    {
+      "step": 145,
+      "ce": 8.3968,
+      "sm": 0.9356
+    },
+    {
+      "step": 146,
+      "ce": 8.2431,
+      "sm": 0.9406
+    },
+    {
+      "step": 147,
+      "ce": 9.8297,
+      "sm": 0.9371
+    },
+    {
+      "step": 148,
+      "ce": 9.5695,
+      "sm": 0.9432
+    },
+    {
+      "step": 149,
+      "ce": 7.6409,
+      "sm": 0.938
+    },
+    {
+      "step": 150,
+      "ce": 9.7118,
+      "sm": 0.9319
+    },
+    {
+      "step": 151,
+      "ce": 8.8924,
+      "sm": 0.938
+    },
+    {
+      "step": 152,
+      "ce": 7.9267,
+      "sm": 0.9345
+    },
+    {
+      "step": 153,
+      "ce": 7.0475,
+      "sm": 0.9362
+    },
+    {
+      "step": 154,
+      "ce": 10.6141,
+      "sm": 0.9348
+    },
+    {
+      "step": 155,
+      "ce": 6.3189,
+      "sm": 0.9438
+    },
+    {
+      "step": 156,
+      "ce": 9.8363,
+      "sm": 0.9396
+    },
+    {
+      "step": 157,
+      "ce": 9.322,
+      "sm": 0.9372
+    },
+    {
+      "step": 158,
+      "ce": 7.9617,
+      "sm": 0.9392
+    },
+    {
+      "step": 159,
+      "ce": 7.473,
+      "sm": 0.933
+    },
+    {
+      "step": 160,
+      "ce": 9.1314,
+      "sm": 0.9303
+    },
+    {
+      "step": 161,
+      "ce": 9.4386,
+      "sm": 0.942
+    },
+    {
+      "step": 162,
+      "ce": 9.735,
+      "sm": 0.9447
+    },
+    {
+      "step": 163,
+      "ce": 7.0838,
+      "sm": 0.9351
+    },
+    {
+      "step": 164,
+      "ce": 6.6015,
+      "sm": 0.9364
+    },
+    {
+      "step": 165,
+      "ce": 9.5625,
+      "sm": 0.9322
+    },
+    {
+      "step": 166,
+      "ce": 8.3398,
+      "sm": 0.9413
+    },
+    {
+      "step": 167,
+      "ce": 8.1586,
+      "sm": 0.9337
+    },
+    {
+      "step": 168,
+      "ce": 7.2183,
+      "sm": 0.9368
+    },
+    {
+      "step": 169,
+      "ce": 9.1332,
+      "sm": 0.9329
+    },
+    {
+      "step": 170,
+      "ce": 8.617,
+      "sm": 0.9344
+    },
+    {
+      "step": 171,
+      "ce": 6.206,
+      "sm": 0.9353
+    },
+    {
+      "step": 172,
+      "ce": 7.7692,
+      "sm": 0.9358
+    },
+    {
+      "step": 173,
+      "ce": 8.6485,
+      "sm": 0.9362
+    },
+    {
+      "step": 174,
+      "ce": 10.0734,
+      "sm": 0.9259
+    },
+    {
+      "step": 175,
+      "ce": 9.4611,
+      "sm": 0.9312
+    },
+    {
+      "step": 176,
+      "ce": 7.901,
+      "sm": 0.9303
+    },
+    {
+      "step": 177,
+      "ce": 8.6257,
+      "sm": 0.933
+    },
+    {
+      "step": 178,
+      "ce": 8.5366,
+      "sm": 0.9239
+    },
+    {
+      "step": 179,
+      "ce": 5.4696,
+      "sm": 0.9327
+    },
+    {
+      "step": 180,
+      "ce": 6.4255,
+      "sm": 0.933
+    },
+    {
+      "step": 181,
+      "ce": 9.1907,
+      "sm": 0.9281
+    },
+    {
+      "step": 182,
+      "ce": 7.3123,
+      "sm": 0.9346
+    },
+    {
+      "step": 183,
+      "ce": 6.5653,
+      "sm": 0.9368
+    },
+    {
+      "step": 184,
+      "ce": 9.6406,
+      "sm": 0.9391
+    },
+    {
+      "step": 185,
+      "ce": 7.8218,
+      "sm": 0.9291
+    },
+    {
+      "step": 186,
+      "ce": 8.3031,
+      "sm": 0.9288
+    },
+    {
+      "step": 187,
+      "ce": 8.1942,
+      "sm": 0.9278
+    },
+    {
+      "step": 188,
+      "ce": 7.1708,
+      "sm": 0.929
+    },
+    {
+      "step": 189,
+      "ce": 9.2077,
+      "sm": 0.9398
+    },
+    {
+      "step": 190,
+      "ce": 7.9935,
+      "sm": 0.9281
+    },
+    {
+      "step": 191,
+      "ce": 8.0681,
+      "sm": 0.9289
+    },
+    {
+      "step": 192,
+      "ce": 6.4811,
+      "sm": 0.9322
+    },
+    {
+      "step": 193,
+      "ce": 7.9059,
+      "sm": 0.9336
+    },
+    {
+      "step": 194,
+      "ce": 8.1477,
+      "sm": 0.9228
+    },
+    {
+      "step": 195,
+      "ce": 9.7579,
+      "sm": 0.9279
+    },
+    {
+      "step": 196,
+      "ce": 7.1068,
+      "sm": 0.937
+    },
+    {
+      "step": 197,
+      "ce": 8.1739,
+      "sm": 0.0
+    },
+    {
+      "step": 198,
+      "ce": 8.3978,
+      "sm": 0.9269
+    },
+    {
+      "step": 199,
+      "ce": 8.1517,
+      "sm": 0.9315
+    },
+    {
+      "step": 200,
+      "ce": 8.1981,
+      "sm": 0.9219
+    }
+  ]
+}

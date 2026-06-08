@@ -1,0 +1,87 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "version": "v1-progressive-latent",
+  "config": {
+    "n_cal": 256,
+    "n_holo_cal": 32,
+    "n_eval": 64,
+    "max_flip_pct": 5.0,
+    "levels": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "sieve_layers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ]
+  },
+  "baseline_ppl": 11.274396807100398,
+  "baseline_facts": 12,
+  "sieve_ppl": 25.570748508219612,
+  "sieve_facts": 11,
+  "final_ppl": NaN,
+  "final_facts": 0,
+  "level_results": [
+    {
+      "level": 1,
+      "n_dims": 2,
+      "flips": 27434921,
+      "flip_pct": 1.25,
+      "ppl": 30641.843405274187,
+      "facts": 0
+    },
+    {
+      "level": 2,
+      "n_dims": 4,
+      "flips": 1888952,
+      "flip_pct": 0.086,
+      "ppl": NaN,
+      "facts": 0
+    },
+    {
+      "level": 3,
+      "n_dims": 8,
+      "flips": 27434921,
+      "flip_pct": 1.25,
+      "ppl": 30487881.134633537,
+      "facts": 0
+    },
+    {
+      "level": 4,
+      "n_dims": 16,
+      "flips": 1888952,
+      "flip_pct": 0.086,
+      "ppl": NaN,
+      "facts": 0
+    }
+  ]
+}
