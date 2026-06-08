@@ -50,3 +50,95 @@ The following generation flags are not valid and may be ignored: ['top_p', 'top_
   Mode: calibration-aware SVD
 ══════════════════════════════════════════════════════════════════════
     L 4 corrected (5/30): PPL=13.83 (2.00x) recon_err=0.9989 (570s)
+    L 9 corrected (10/30): PPL=13.79 (1.99x) recon_err=0.9986 (1130s)
+    L14 corrected (15/30): PPL=12.79 (1.85x) recon_err=0.9987 (1683s)
+    L19 corrected (20/30): PPL=12.51 (1.80x) recon_err=0.9987 (2236s)
+    L24 corrected (25/30): PPL=12.40 (1.79x) recon_err=0.9987 (2790s)
+    L34 corrected (30/30): PPL=12.50 (1.80x) recon_err=0.9986 (3344s)
+
+  Rank 4 results:
+    Sieve:       PPL=14.15 (2.04x)
+    Corrected:   PPL=12.50 (1.804x)  facts=10/15
+    Params:      5,898,240
+    Time:        3344s (no training)
+    Improvement: 14.15 → 12.50 (11.7% reduction)
+
+══════════════════════════════════════════════════════════════════════
+  DIRECT DELTA CORRECTION — rank=8
+  Mode: calibration-aware SVD
+══════════════════════════════════════════════════════════════════════
+    L 4 corrected (5/30): PPL=13.93 (2.01x) recon_err=0.9978 (552s)
+    L 9 corrected (10/30): PPL=13.99 (2.02x) recon_err=0.9976 (1105s)
+    L14 corrected (15/30): PPL=12.94 (1.87x) recon_err=0.9977 (1657s)
+    L19 corrected (20/30): PPL=12.50 (1.80x) recon_err=0.9978 (2210s)
+    L24 corrected (25/30): PPL=12.46 (1.80x) recon_err=0.9978 (2764s)
+    L34 corrected (30/30): PPL=12.46 (1.80x) recon_err=0.9976 (3317s)
+
+  Rank 8 results:
+    Sieve:       PPL=14.15 (2.04x)
+    Corrected:   PPL=12.46 (1.798x)  facts=9/15
+    Params:      11,796,480
+    Time:        3317s (no training)
+    Improvement: 14.15 → 12.46 (11.9% reduction)
+
+══════════════════════════════════════════════════════════════════════
+  DIRECT DELTA CORRECTION — rank=16
+  Mode: calibration-aware SVD
+══════════════════════════════════════════════════════════════════════
+    L 4 corrected (5/30): PPL=13.86 (2.00x) recon_err=0.9948 (551s)
+    L 9 corrected (10/30): PPL=13.79 (1.99x) recon_err=0.9957 (1103s)
+    L14 corrected (15/30): PPL=13.02 (1.88x) recon_err=0.9957 (1656s)
+    L19 corrected (20/30): PPL=12.40 (1.79x) recon_err=0.9959 (2208s)
+    L24 corrected (25/30): PPL=12.32 (1.78x) recon_err=0.9959 (2767s)
+    L34 corrected (30/30): PPL=12.41 (1.79x) recon_err=0.9958 (3325s)
+
+  Rank 16 results:
+    Sieve:       PPL=14.15 (2.04x)
+    Corrected:   PPL=12.41 (1.791x)  facts=10/15
+    Params:      23,592,960
+    Time:        3325s (no training)
+    Improvement: 14.15 → 12.41 (12.3% reduction)
+
+══════════════════════════════════════════════════════════════════════
+  DIRECT DELTA CORRECTION — rank=32
+  Mode: calibration-aware SVD
+══════════════════════════════════════════════════════════════════════
+    L 4 corrected (5/30): PPL=13.33 (1.92x) recon_err=0.9832 (556s)
+    L 9 corrected (10/30): PPL=13.54 (1.95x) recon_err=0.9919 (1113s)
+    L14 corrected (15/30): PPL=12.45 (1.80x) recon_err=0.9919 (1671s)
+    L19 corrected (20/30): PPL=11.97 (1.73x) recon_err=0.9921 (2232s)
+    L24 corrected (25/30): PPL=11.87 (1.71x) recon_err=0.9922 (2801s)
+    L34 corrected (30/30): PPL=11.93 (1.72x) recon_err=0.9919 (3367s)
+
+  Rank 32 results:
+    Sieve:       PPL=14.15 (2.04x)
+    Corrected:   PPL=11.93 (1.722x)  facts=10/15
+    Params:      47,185,920
+    Time:        3367s (no training)
+    Improvement: 14.15 → 11.93 (15.7% reduction)
+
+======================================================================
+  RESULTS SUMMARY
+======================================================================
+  Baseline:    PPL=6.93  facts=12/15
+  Sieve only:  PPL=14.15 (2.04x)
+
+    Rank      PPL    Ratio  Facts     Params   Time  Reduction
+  ────── ──────── ──────── ────── ────────── ────── ──────────
+       2    12.63    1.823x    10/15  2,949,120  3409s      10.7%
+       4    12.50    1.804x    10/15  5,898,240  3344s      11.7%
+       8    12.46    1.798x     9/15 11,796,480  3318s      11.9%
+      16    12.41    1.792x    10/15 23,592,960  3325s      12.3%
+      32    11.93    1.722x    10/15 47,185,920  3367s      15.7%
+
+  vs v3b (LoRA rank-4 + SM, trained 200 steps):
+    v3b:   25.67 → 16.27 (1.44x, 36.6% reduction, 5.9M params)
+    DDC-2: 14.15 → 12.63 (1.82x, 10.7% reduction, 2,949,120 params)
+    DDC-4: 14.15 → 12.50 (1.80x, 11.7% reduction, 5,898,240 params)
+    DDC-8: 14.15 → 12.46 (1.80x, 11.9% reduction, 11,796,480 params)
+    DDC-16: 14.15 → 12.41 (1.79x, 12.3% reduction, 23,592,960 params)
+    DDC-32: 14.15 → 11.93 (1.72x, 15.7% reduction, 47,185,920 params)
+
+  Results saved to /Users/mwhitford/src/verbum/results/direct-delta-correction/Qwen_Qwen3-8B_cal-aware.json
+======================================================================
+
