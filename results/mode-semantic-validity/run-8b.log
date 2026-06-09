@@ -1,0 +1,87 @@
+
+======================================================================
+  AUDIT #3 EXTENSION — POS + LOGIT semantic reality of the FFN modes
+======================================================================
+  Model: Qwen/Qwen3-8B  Device: mps  Layers: [3, 15, 20, 27, 35]
+  Loading spaCy en_core_web_sm ...
+  Loading Qwen/Qwen3-8B (torch.float16) ...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:47,  2.38it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:05, 65.13it/s]Loading weights:  16%|█▋        | 65/399 [00:00<00:02, 141.19it/s]Loading weights:  22%|██▏       | 89/399 [00:00<00:01, 165.47it/s]Loading weights:  28%|██▊       | 113/399 [00:00<00:01, 173.91it/s]Loading weights:  34%|███▍      | 135/399 [00:00<00:01, 183.70it/s]Loading weights:  39%|███▉      | 157/399 [00:01<00:01, 192.61it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 201.93it/s]Loading weights:  51%|█████     | 203/399 [00:01<00:00, 208.43it/s]Loading weights:  58%|█████▊    | 230/399 [00:01<00:00, 224.60it/s]Loading weights:  64%|██████▍   | 255/399 [00:01<00:00, 229.60it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 225.23it/s]Loading weights:  76%|███████▌  | 303/399 [00:01<00:00, 227.82it/s]Loading weights:  83%|████████▎ | 331/399 [00:01<00:00, 235.37it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 238.74it/s]Loading weights:  97%|█████████▋| 387/399 [00:02<00:00, 253.22it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 193.58it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  lm_head: (151936, 4096)
+  prose inputs: 66 diverse + 80 combinator-probe = 146
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 3
+══════════════════════════════════════════════════════════════════════
+  collected 1852 tokens (gate 12288-d, out 4096-d)
+  [A] POS/dep semantics ...
+      NMI(mode,POS)@9 = 0.396  perm null 0.014 (p=0.000)   NMI(mode,dep)@9 = 0.327 (p=0.000)
+      frac of NMI@9 captured at k2=0.28  k4=0.41
+  [B] logit/vocab projection ...
+      JS distinctness@9 real=0.0016  random-partition null=0.0000  excess=+0.0015
+  layer 3 done in 100.3s
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 15
+══════════════════════════════════════════════════════════════════════
+  collected 1852 tokens (gate 12288-d, out 4096-d)
+  [A] POS/dep semantics ...
+      NMI(mode,POS)@9 = 0.193  perm null 0.014 (p=0.000)   NMI(mode,dep)@9 = 0.210 (p=0.000)
+      frac of NMI@9 captured at k2=0.31  k4=0.52
+  [B] logit/vocab projection ...
+      JS distinctness@9 real=0.0189  random-partition null=0.0005  excess=+0.0184
+  layer 15 done in 101.1s
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 20
+══════════════════════════════════════════════════════════════════════
+  collected 1852 tokens (gate 12288-d, out 4096-d)
+  [A] POS/dep semantics ...
+      NMI(mode,POS)@9 = 0.346  perm null 0.014 (p=0.000)   NMI(mode,dep)@9 = 0.316 (p=0.000)
+      frac of NMI@9 captured at k2=0.73  k4=1.02
+  [B] logit/vocab projection ...
+      JS distinctness@9 real=0.0098  random-partition null=0.0007  excess=+0.0091
+  layer 20 done in 102.0s
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 27
+══════════════════════════════════════════════════════════════════════
+  collected 1852 tokens (gate 12288-d, out 4096-d)
+  [A] POS/dep semantics ...
+      NMI(mode,POS)@9 = 0.256  perm null 0.014 (p=0.000)   NMI(mode,dep)@9 = 0.261 (p=0.000)
+      frac of NMI@9 captured at k2=0.13  k4=0.65
+  [B] logit/vocab projection ...
+      JS distinctness@9 real=0.0750  random-partition null=0.0065  excess=+0.0686
+  layer 27 done in 102.2s
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 35
+══════════════════════════════════════════════════════════════════════
+  collected 1852 tokens (gate 12288-d, out 4096-d)
+  [A] POS/dep semantics ...
+      NMI(mode,POS)@9 = 0.350  perm null 0.014 (p=0.000)   NMI(mode,dep)@9 = 0.349 (p=0.000)
+      frac of NMI@9 captured at k2=0.10  k4=0.69
+  [B] logit/vocab projection ...
+      JS distinctness@9 real=0.4235  random-partition null=0.0065  excess=+0.4171
+  layer 35 done in 100.1s
+
+======================================================================
+  VERDICT SUMMARY
+======================================================================
+    L | NMI_POS@9   perm     p | fracNMI k2/k4 |   JS@9 real/null      exc
+    3 |     0.396  0.014 0.000 |  0.28/0.41  |  0.0016/0.0000   +0.0015
+   15 |     0.193  0.014 0.000 |  0.31/0.52  |  0.0189/0.0005   +0.0184
+   20 |     0.346  0.014 0.000 |  0.73/1.02  |  0.0098/0.0007   +0.0091
+   27 |     0.256  0.014 0.000 |  0.13/0.65  |  0.0750/0.0065   +0.0686
+   35 |     0.350  0.014 0.000 |  0.10/0.69  |  0.4235/0.0065   +0.4171
+
+  Reading: NMI >> perm AND NMI keeps rising to ~9 (frac at k2/k4 low) AND
+  JS excess > 0 persisting at k=9 ==> modes carry real semantic/logit structure
+  (a smooth gradient), even though the geometric count 9 is imposed. If NMI
+  saturates by k2-4 and JS excess -> 0, the '9-mode' framing over-reads.
+
+  saved -> /Users/mwhitford/src/verbum/results/mode-semantic-validity/Qwen_Qwen3-8B.json
+======================================================================
+  DONE
+======================================================================
+

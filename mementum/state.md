@@ -49,19 +49,43 @@ PCA covariance; shuffled-feature), B=10, plus a classifier-circularity curve.
   separability of *any* convex k-means partition (mode = near-linear fn of the
   FFN input) — circular (failure modes #2 + #4).
 
+### Extension (same session): syntactic CONTENT is REAL — only the count is imposed
+
+Michael asked the right question: the geometry control examined *only* activation
+geometry — no logits, and the prose mix was 63% combinator-probe. Built a second
+control `mode_semantic_validity.py` (balanced prose, examines **logits** via
+lm_head): L3/15/20/27/35, 8B.
+
+| L | NMI(mode,POS)@9 / perm | JS@9 real/null (excess) |
+|---|---|---|
+| L3  | 0.396 / 0.014 (p=0) | 0.0016/0.0000 (+0.0015) |
+| L15 | 0.193 / 0.014 (p=0) | 0.0189/0.0005 (+0.0184) |
+| L20 | 0.346 / 0.014 (p=0) | 0.0098/0.0007 (+0.0091) |
+| L27 | 0.256 / 0.014 (p=0) | 0.0750/0.0065 (+0.0686) |
+| L35 | 0.350 / 0.014 (p=0) | **0.4235/0.0065 (+0.417, ~65×)** |
+
+- **Semantic ✅ VERIFIED:** modes↔POS NMI 25–28× the permutation null, p=0.000
+  every layer. Per-mode purities clean for genuine splits (PUNCT 92–99%, DET
+  81–85%, VERB 79–100%). Modes are NOT noise.
+- **Logit ✅ VERIFIED:** mode output-centroids → lm_head → vocab distributions
+  far above random-partition null, excess **grows with depth** (→65× at L35).
+- **Count still imposed:** effective distinctions graded/layer-dependent (~4
+  @L20, ~8–9 @L3/L15, ~24 @L35); k=9 captures 73–91% of max NMI. JS-vs-k shows
+  *fewer* modes are *more* vocab-distinct at the core (L15) — no universal 9.
+- **Reconciliation:** the FFN gate space is a real, smooth, scale-sharpening
+  syntactic type **field** (continuum), not 9 discrete cells. `mode-semantics.md`'s
+  core "gate = type-checker" reading is right; only the discreteness/count-9 is
+  wrong. Caveat rewritten (both halves). Dropped a confounded POS-coherence
+  sub-test (lm_head → next-token POS ≠ current-token POS).
+
 ### What survives / what is untouched
 
-- Faint depth-localized structure above the null at the computational core
-  (L15 sil-excess +0.030 pca / +0.044 shuffle), consistent with s194 "types
-  sharpen with depth" — but near-noise, never a clean 9-way partition.
 - **Functional claim is independent and untouched**: s196 (9 ternary programs
   reconstruct FFN at ~0.95–1.03× PPL, 64/512 don't help) is reconstruction
-  efficiency of a continuous cloud — does NOT require 9 to be natural. The
-  compression north-star does not rest on the geometric claim.
-- Caveat header added to `mode-semantics.md`. Read that page as a
-  characterization of an arbitrary k=9 partition, not 9 discrete modes.
+  efficiency of a continuous field — slicing at K prototypes works for a broad
+  range of K; 9 is a reasonable operating point. Compression north-star intact.
 
-Results: `results/mode-cluster-validity/Qwen_Qwen3-8B.json` + `run-8b.log`.
+Results: `results/{mode-cluster-validity,mode-semantic-validity}/Qwen_Qwen3-8B.json`.
 
 ### Next (audit loop continues)
 

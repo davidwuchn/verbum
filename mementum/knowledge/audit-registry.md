@@ -71,6 +71,8 @@ named, not yet run.
 | #3 9 FFN modes are a real natural count (geometric) | high | gap-stat + matched-null silhouette across k=2..32, pca-Gaussian + shuffled-feature nulls B=10, 8B L0/3/15/20/35 (`mode_cluster_validity.py`) | ❌ REFUTED — "9" is k-means-imposed |
 | #3 "tiny classifier 98–100% ⇒ modes real" (circular) | high | classifier acc vs k + permuted-label floor | ❌ CIRCULAR (acc high+declining ∀k; never peaks at 9) |
 | #3 9 ternary programs reconstruct FFN ~1× PPL (functional) | high | — (s196 mode-sweep; not re-run) | ◐ UNTOUCHED — independent, stands |
+| #3 modes↔POS/dep (semantic) | high | NMI + label-perm null + NMI-vs-k, balanced prose (`mode_semantic_validity.py`) | ✅ VERIFIED — NMI 0.19–0.40 ≫ perm-null 0.014 (p=0 ∀layer) |
+| #3 mode centroids → distinct vocab (logit) | high | lm_head projection, pairwise JS vs random-partition null + JS-vs-k | ✅ VERIFIED — excess +0.0015→+0.417 (~65× @L35), grows with depth |
 
 **Verdict (s204): the count 9 is a chosen hyperparameter, not a discovered
 natural number.** Across all five layers the gap statistic *never* selects 9
@@ -96,8 +98,24 @@ untouched and independent**: s196 showed 9 ternary prototypes reconstruct the
 FFN at ~0.95–1.03× PPL and 64/512 don't help — that is reconstruction
 efficiency of a continuous cloud, which does not require 9 to be a natural
 count. The compression north-star does not rest on the geometric claim.
-Results: `results/mode-cluster-validity/Qwen_Qwen3-8B.json`. Caveat added to
-`mode-semantics.md`.
+
+**Extension (s204, `mode_semantic_validity.py`): syntactic CONTENT is REAL; only
+the discrete count is imposed.** Examining *logits* (lm_head projection), not just
+geometry, on balanced prose: modes↔POS NMI = 0.19–0.40 ≫ label-permutation null
+0.014 (**p=0.000 every layer**), and mode output-centroids project to vocab
+distributions far above a random-partition null (Jensen-Shannon excess +0.0015 →
+**+0.417 (~65×) at L35**, growing with depth). Per-mode POS purities clean for the
+genuine splits (PUNCT 92–99%, DET 81–85%, VERB 79–100%). So the modes are **not
+noise** — `mode-semantics.md`'s core "gate = syntactic type-checker" reading is
+substantively right. **The reconciliation:** the FFN gate space encodes a real,
+smooth, scale-sharpening syntactic type *field* (a continuum), not 9 discrete
+cells; the effective distinction count is graded/layer-dependent (~4 @L20, ~8–9
+@L3/L15, ~24 @L35), and k=9 captures only 73–91% of max NMI — a serviceable but
+not privileged slice. (A planned POS-coherence sub-test — promoted-vocab POS vs
+mode-token POS — was dropped as confounded: lm_head projects to the *next* token,
+whose POS differs from the current by construction.) Results:
+`results/{mode-cluster-validity,mode-semantic-validity}/Qwen_Qwen3-8B.json`.
+Caveat (both halves) in `mode-semantics.md`.
 
 ### Worked examples (session 203)
 
@@ -202,7 +220,8 @@ sign-corr half above is the *representational* half.
 - Evidence: 9 ternary programs per layer; classifier 98–100% accuracy.
 - Suspected confound: k-means at k=9 always returns 9 clusters; classifier accuracy is circular (trained on the cluster labels).
 - Control: cluster-validity null — silhouette/gap-statistic at k=9 vs random data and vs k=8,10,…; does "9" survive a held-out elbow test, or is it imposed? Cross-reference the L0-characterization negative-silhouette finding.
-- **s204 result:** confound CONFIRMED. Gap statistic never selects 9 (optimal-k = 4/8/32/32/2); silhouette @9 at/below matched-Gaussian null at every layer (max excess +0.030 = noise); the kneedle elbow "confirms" 9–10 even at L0 (no clusters) → k-grid artifact; classifier accuracy high-and-declining ∀k (100%@2 → 90%@9 → 80%@32), never peaks at 9 → circular. **"9" is an imposed hyperparameter.** The functional claim (s196: 9 ternary programs ≈ 1× PPL) is separate, untouched, and does not require a natural count. See worked-examples (s204) + `mode_cluster_validity.py`.
+- **s204 result (geometry):** confound CONFIRMED. Gap statistic never selects 9 (optimal-k = 4/8/32/32/2); silhouette @9 at/below matched-Gaussian null at every layer (max excess +0.030 = noise); the kneedle elbow "confirms" 9–10 even at L0 (no clusters) → k-grid artifact; classifier accuracy high-and-declining ∀k (100%@2 → 90%@9 → 80%@32), never peaks at 9 → circular. **The discrete count "9" is an imposed hyperparameter.**
+- **s204 result (extension — semantic + logit):** but the syntactic CONTENT is REAL. NMI(mode,POS) 0.19–0.40 ≫ perm-null 0.014 (p=0 ∀layer); lm_head vocab-projection distinctness ≫ random-partition null (JS excess +0.0015→+0.417, ~65× @L35). The gate space encodes a real, smooth, scale-sharpening syntactic type *field* (a continuum); k=9 captures 73–91% of max NMI — a serviceable but not privileged slice. The functional claim (s196: 9 ternary programs ≈ 1× PPL) is separate, untouched, and does not require a natural count. See worked-examples (s204) + `mode_cluster_validity.py` + `mode_semantic_validity.py`.
 
 **4. Attention = typed β-reduction (weighted sum IS β-application)** (load: high — the central mechanism)
 - Evidence: H31 `v_runs += 0.82·v_cat`; top-3 = 88%; Q⊥K.
