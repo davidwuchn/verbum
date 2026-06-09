@@ -4,6 +4,7 @@ status: active
 category: program
 tags: [audit, validity, falsification, permutation-null, control, distillation, methodology, worklist]
 related:
+  - audit-meta-pattern.md
   - crystal-validity-and-fidelity.md
   - crystal-universality.md
   - crystal-phi-derivation.md
@@ -20,6 +21,11 @@ depends-on:
 > the highest load-bearing `untested` claim, runs its discriminating
 > control, and updates the row. The output is not destruction — it is
 > the smallest hard core of verified data the north-star can stand on.
+
+> **Emergent finding (s202→s204):** every audit so far shows the *same shape* —
+> the continuous substrate is real, the crisp discrete/localized/universal story
+> on top is over-read. Synthesized in `audit-meta-pattern.md` (use it to predict
+> where the next claim breaks before building the control).
 
 ## The Core Principle
 

@@ -20,6 +20,24 @@
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
 
+> **▶ SESSION 204 HEADLINE (3 controls, 2 claims dissolved, 1 substrate confirmed).**
+> Same recurring pattern as s202/s203: **the substrate is real, the crisp
+> discrete/localized story on top is over-read.**
+> - **#3 the 9 FFN modes:** ❌ geometric count IMPOSED (gap-stat never picks 9;
+>   silhouette@9 ≈ matched-Gaussian null; elbow is a k-grid artifact; classifier
+>   "98–100%" is circular) — BUT ✅ the *content* is REAL (POS-NMI ≫ perm-null
+>   p=0; lm_head vocab projection ≫ null, ~65× @L35). → a continuous syntactic
+>   type **field**, not 9 discrete cells. (`mode_cluster_validity.py`,
+>   `mode_semantic_validity.py`)
+> - **#4 attention = typed β-reduction:** ❌ REFUTED as localized — H31@L27's
+>   famous 0.82 is recency/position (role-selectivity z=+0.54, rank 5/32; ablation
+>   z=+0.06 ≈ random); weak genuine survivor H6@L33 (z=+4.08) but ~10× smaller &
+>   not load-bearing. (`attention_typed_binding.py`)
+> - **Meta-pattern now synthesized:** `mementum/knowledge/audit-meta-pattern.md`.
+> - **Next:** #5 binding schedule (perm-null + ablation) or #6 SVD φ-ratio 0.6299
+>   (vs Marchenko–Pastur). Carry-overs: #1 gate-vs-value sign-swap PPL;
+>   rank-survival across scale; gate-context re-test of H31 (#4 follow-up).
+
 **Session 204: AUDIT #3 — THE "9 FFN MODES" ARE K-MEANS-IMPOSED**
 
 Ran the validity loop on **#3 the 9 FFN modes — real or k-means-imposed?**
