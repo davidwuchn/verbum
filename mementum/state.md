@@ -11,9 +11,10 @@
 > **▶ SESSION 203+ PROGRAM — VALIDITY AUDIT.** Open
 > `mementum/knowledge/audit-registry.md`. Pick the highest load-bearing
 > `UNTESTED` claim (s203 did **#1 crystal-is-topological** ◐SCOPED and **#2
-> holographic-self-similar** ✅; s204 did **#3 the 9 FFN modes** ❌ REFUTED-
-> geometric; next CRITICAL/high backlog: **#4 attention = typed β-reduction**),
-> build its named discriminating control,
+> holographic-self-similar** ✅; s204 did **#3 the 9 FFN modes** ❌ geometric-
+> REFUTED / semantic+logit ✅ VERIFIED, and **#4 attention=typed-β-reduction**
+> ❌ REFUTED-as-localized; next backlog: **#5 binding schedule** or **#6 SVD
+> φ-ratio 0.6299**), build its named discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
@@ -87,11 +88,41 @@ lm_head): L3/15/20/27/35, 8B.
 
 Results: `results/{mode-cluster-validity,mode-semantic-validity}/Qwen_Qwen3-8B.json`.
 
+### Session 204 (#4): ATTENTION = TYPED β-REDUCTION — REFUTED as localized
+
+`attention_typed_binding.py` — subject-verb **agreement attraction** (PP+RC, 64
+stimuli, 8B) dissociates grammatical ROLE from position/recency (the number-
+distractor is the *nearer* noun in 100% of items → a recency head scores negative).
+Selectivity (verb→head vs attractor, named heads vs 32-head dist) + necessity
+(head-ablation logit-diff is/are vs random-head & matched-set nulls).
+
+| | role_sel | z vs 32 heads | rank | ablation z |
+|---|---|---|---|---|
+| **H31@L27** ("0.82 subject binder") | +0.013 | +0.54 | 5/32 (not outlier) | +0.06 (=null) |
+| H13@L30 | **−0.010** (recency!) | −0.11 | 24/32 | — |
+| **H6@L33** | **+0.076** | **+4.08** | **0/32** | (named_all z=+0.01) |
+
+- **The 0.82 was recency/position, not type.** Role⊥position collapses H31's role
+  residual to ~0.01 (z=0.54, rank 5). L30 binders mixed (H13 leans to the nearer
+  distractor).
+- **Not causally necessary:** ablating H31 (z=+0.06) or all named binders incl.
+  H6 (z=+0.01) ≈ random heads for subject-verb agreement, though the ablation
+  bites (random 6-head sets reach −0.43). Agreement is ablatable — the named
+  heads aren't the carriers.
+- **What survives:** a weak genuine role-selective head — **H6@L33 (z=+4.08)** —
+  but ~10× < 0.82, not at the claimed site, not load-bearing. "Attention is a
+  weighted sum" is trivially true; "the sum is TYPE-driven at H31" is refuted.
+- **Caveat/follow-up:** plain-NL agreement (gold standard for role-vs-position),
+  *without* the compile gate the original used; gate-context re-test of H31 is the
+  named follow-up. Caveat added to `binding-graph-trace.md`.
+  Results: `results/attention-typed-binding/Qwen_Qwen3-8B.json`.
+
 ### Next (audit loop continues)
 
-- **#4 attention = typed β-reduction** (CRITICAL backlog): does attention attend
-  to *type-compatible* positions beyond an induction-head/co-occurrence baseline?
-  Causal ablation of the named binding head.
+- **#5 binding schedule** (L27 verb←subj, L30 obj←verb, L33 coref) — perm-null
+  across many sentences + causal ablation; or **#6 SVD φ-ratio 0.6299**
+  (vs Marchenko–Pastur / shuffled-data — is 0.618 just what power-law spectra
+  look like?). Both med-load.
 - Carry-overs from s203: gate-vs-value sign-swap ternary PPL (#1 functional
   half); rank-survival across scale (0.6B→14B); grouped-Q4 quant axis.
 - **#3 follow-up (optional):** POS-association perm-null on the k=9 partition —

@@ -1,0 +1,228 @@
+{
+  "audit": "4-typed-binding",
+  "model": "Qwen/Qwen3-8B",
+  "layers": [
+    27,
+    30,
+    33
+  ],
+  "n_heads": 32,
+  "head_dim": 128,
+  "n_stimuli": 64,
+  "selectivity": {
+    "n_items": 64,
+    "recency_target_is_attractor_frac": 1.0,
+    "layers": {
+      "27": {
+        "allhead_mean_role_sel": 0.0049,
+        "allhead_std": 0.0158,
+        "named": {
+          "31": {
+            "role_sel": 0.0134,
+            "z_vs_allheads": 0.54,
+            "rank": 5,
+            "of": 32,
+            "top1_head": 7,
+            "top1_role_sel": 0.0423
+          }
+        },
+        "top5_heads": [
+          [
+            7,
+            0.0423
+          ],
+          [
+            5,
+            0.0421
+          ],
+          [
+            18,
+            0.0332
+          ],
+          [
+            14,
+            0.0291
+          ],
+          [
+            9,
+            0.0219
+          ]
+        ]
+      },
+      "30": {
+        "allhead_mean_role_sel": -0.006,
+        "allhead_std": 0.0345,
+        "named": {
+          "3": {
+            "role_sel": 0.0109,
+            "z_vs_allheads": 0.49,
+            "rank": 1,
+            "of": 32,
+            "top1_head": 6,
+            "top1_role_sel": 0.1157
+          },
+          "13": {
+            "role_sel": -0.0097,
+            "z_vs_allheads": -0.11,
+            "rank": 24,
+            "of": 32,
+            "top1_head": 6,
+            "top1_role_sel": 0.1157
+          },
+          "15": {
+            "role_sel": -0.0011,
+            "z_vs_allheads": 0.14,
+            "rank": 16,
+            "of": 32,
+            "top1_head": 6,
+            "top1_role_sel": 0.1157
+          }
+        },
+        "top5_heads": [
+          [
+            6,
+            0.1157
+          ],
+          [
+            3,
+            0.0109
+          ],
+          [
+            11,
+            0.0108
+          ],
+          [
+            25,
+            0.0062
+          ],
+          [
+            2,
+            0.0061
+          ]
+        ]
+      },
+      "33": {
+        "allhead_mean_role_sel": 0.0057,
+        "allhead_std": 0.0171,
+        "named": {
+          "6": {
+            "role_sel": 0.0755,
+            "z_vs_allheads": 4.08,
+            "rank": 0,
+            "of": 32,
+            "top1_head": 6,
+            "top1_role_sel": 0.0755
+          },
+          "7": {
+            "role_sel": 0.0447,
+            "z_vs_allheads": 2.27,
+            "rank": 1,
+            "of": 32,
+            "top1_head": 6,
+            "top1_role_sel": 0.0755
+          }
+        },
+        "top5_heads": [
+          [
+            6,
+            0.0755
+          ],
+          [
+            7,
+            0.0447
+          ],
+          [
+            8,
+            0.0285
+          ],
+          [
+            21,
+            0.0222
+          ],
+          [
+            22,
+            0.0163
+          ]
+        ]
+      }
+    }
+  },
+  "ablation": {
+    "baseline": {
+      "all": 3.65869140625,
+      "match": 4.4560546875,
+      "mismatch": 2.861328125
+    },
+    "named": {
+      "named_L27_H31": {
+        "cfg": {
+          "27": [
+            31
+          ]
+        },
+        "logit_diff": {
+          "all": 3.661865234375,
+          "match": 4.463623046875,
+          "mismatch": 2.860107421875
+        },
+        "drop_all": -0.0032,
+        "drop_mismatch": 0.0012
+      },
+      "named_L30_set": {
+        "cfg": {
+          "30": [
+            3,
+            13,
+            15
+          ]
+        },
+        "logit_diff": {
+          "all": 3.657958984375,
+          "match": 4.468017578125,
+          "mismatch": 2.847900390625
+        },
+        "drop_all": 0.0007,
+        "drop_mismatch": 0.0134
+      },
+      "named_all": {
+        "cfg": {
+          "27": [
+            31
+          ],
+          "30": [
+            3,
+            13,
+            15
+          ],
+          "33": [
+            6,
+            7
+          ]
+        },
+        "logit_diff": {
+          "all": 3.6737060546875,
+          "match": 4.4814453125,
+          "mismatch": 2.865966796875
+        },
+        "drop_all": -0.015,
+        "drop_mismatch": -0.0046
+      }
+    },
+    "null": {
+      "single_head": {
+        "drop_all_mean": -0.0027,
+        "drop_mismatch_mean": 0.0005,
+        "drop_mismatch_std": 0.0128,
+        "drop_mismatch_max": 0.0181
+      },
+      "matched_set": {
+        "size": 6,
+        "drop_mismatch_mean": -0.0057,
+        "drop_mismatch_std": 0.1326,
+        "drop_mismatch_max": 0.4297
+      }
+    },
+    "z_h31_vs_single": 0.06,
+    "z_namedall_vs_set": 0.01
+  }
+}

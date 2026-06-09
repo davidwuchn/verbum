@@ -1,0 +1,54 @@
+
+======================================================================
+  AUDIT #4 — typed beta-reduction vs positional/recency head
+======================================================================
+  Model: Qwen/Qwen3-8B  Device: mps  Layers: [27, 30, 33]
+  Loading Qwen/Qwen3-8B (torch.float16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:25,  1.94it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 54.20it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 113.98it/s]Loading weights:  21%|██        | 83/399 [00:00<00:02, 138.87it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 174.81it/s]Loading weights:  37%|███▋      | 148/399 [00:01<00:01, 216.92it/s]Loading weights:  45%|████▌     | 181/399 [00:01<00:00, 245.57it/s]Loading weights:  55%|█████▍    | 219/399 [00:01<00:00, 282.33it/s]Loading weights:  63%|██████▎   | 252/399 [00:01<00:00, 294.46it/s]Loading weights:  71%|███████▏  | 285/399 [00:01<00:00, 303.84it/s]Loading weights:  80%|███████▉  | 318/399 [00:01<00:00, 308.35it/s]Loading weights:  88%|████████▊ | 351/399 [00:01<00:00, 314.04it/s]Loading weights:  96%|█████████▌| 384/399 [00:01<00:00, 313.87it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 217.05it/s]
+  36 layers, 32 Q heads, head_dim=128
+  copula token ids: ' is'=374  ' are'=525
+  stimuli: 64  (mismatch=32)
+
+──────────────────────────────────────────────────────────────────────
+  PART 1 — selectivity (verb -> head vs attractor)
+──────────────────────────────────────────────────────────────────────
+  recency target = attractor in 100% of items (a recency head would score NEGATIVE role-selectivity)
+  L27: all-head role_sel mean=+0.0049 std=0.0158  top5=[[7, 0.0423], [5, 0.0421], [18, 0.0332], [14, 0.0291], [9, 0.0219]]
+     NAMED H31: role_sel=+0.0134  z=+0.54  rank=5/32  (top head H7=+0.0423)
+  L30: all-head role_sel mean=-0.0060 std=0.0345  top5=[[6, 0.1157], [3, 0.0109], [11, 0.0108], [25, 0.0062], [2, 0.0061]]
+     NAMED H3: role_sel=+0.0109  z=+0.49  rank=1/32  (top head H6=+0.1157)
+     NAMED H13: role_sel=-0.0097  z=-0.11  rank=24/32  (top head H6=+0.1157)
+     NAMED H15: role_sel=-0.0011  z=+0.14  rank=16/32  (top head H6=+0.1157)
+  L33: all-head role_sel mean=+0.0057 std=0.0171  top5=[[6, 0.0755], [7, 0.0447], [8, 0.0285], [21, 0.0222], [22, 0.0163]]
+     NAMED H6: role_sel=+0.0755  z=+4.08  rank=0/32  (top head H6=+0.0755)
+     NAMED H7: role_sel=+0.0447  z=+2.27  rank=1/32  (top head H6=+0.0755)
+  part 1 done in 7.3s
+
+──────────────────────────────────────────────────────────────────────
+  PART 2 — necessity (ablation, logit-diff is/are)
+──────────────────────────────────────────────────────────────────────
+  baseline logit-diff: all=+3.659  match=+4.456  mismatch=+2.861
+  named_L27_H31   : mismatch=+2.860  drop(all)=-0.003  drop(mismatch)=+0.001
+  named_L30_set   : mismatch=+2.848  drop(all)=+0.001  drop(mismatch)=+0.013
+  named_all       : mismatch=+2.866  drop(all)=-0.015  drop(mismatch)=-0.005
+
+  NULL random single-head: drop(mismatch) mean=+0.001 std=0.013 max=+0.018
+  NULL random 6-head sets: drop(mismatch) mean=-0.006 std=0.133 max=+0.430
+
+  H31@L27 mismatch-drop z vs single-head null = +0.06
+  named_all mismatch-drop z vs matched-set null = +0.01
+  part 2 done in 112.3s
+
+======================================================================
+  VERDICT
+======================================================================
+  selectivity: H31@L27 role_sel=+0.0134 z=+0.54 rank 5/32  (>0 & outlier => role-driven; <0 => recency)
+  necessity:   H31@L27 ablation mismatch-drop z=+0.06 vs random-head null; named_all z=+0.01 vs matched-set null
+  TYPED if role_sel>0 & outlier & ablation-z>>0; POSITIONAL if role_sel<=0 & z~0.
+
+  saved -> /Users/mwhitford/src/verbum/results/attention-typed-binding/Qwen_Qwen3-8B.json
+======================================================================
+  DONE
+======================================================================
+

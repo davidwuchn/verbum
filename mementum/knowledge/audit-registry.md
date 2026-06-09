@@ -68,6 +68,8 @@ named, not yet run.
 
 | Claim | Load | Control run | Status |
 |---|---|---|---|
+| #4 attention = typed β-reduction; H31@L27 binds subject (0.82); H03/13/15@L30 bind object | CRITICAL | agreement-attraction (role⊥position): selectivity vs 32-head dist + recency baseline; head-ablation logit-diff vs random-head + matched-set nulls (`attention_typed_binding.py`) | ❌ REFUTED as localized — 0.82 is recency/position |
+| #4 a genuine role-selective head exists | — | same | ◐ only H6@L33 (z=+4.08, role_sel +0.076) — small, not at the claimed site, not causally necessary |
 | #3 9 FFN modes are a real natural count (geometric) | high | gap-stat + matched-null silhouette across k=2..32, pca-Gaussian + shuffled-feature nulls B=10, 8B L0/3/15/20/35 (`mode_cluster_validity.py`) | ❌ REFUTED — "9" is k-means-imposed |
 | #3 "tiny classifier 98–100% ⇒ modes real" (circular) | high | classifier acc vs k + permuted-label floor | ❌ CIRCULAR (acc high+declining ∀k; never peaks at 9) |
 | #3 9 ternary programs reconstruct FFN ~1× PPL (functional) | high | — (s196 mode-sweep; not re-run) | ◐ UNTOUCHED — independent, stands |
@@ -116,6 +118,33 @@ mode-token POS — was dropped as confounded: lm_head projects to the *next* tok
 whose POS differs from the current by construction.) Results:
 `results/{mode-cluster-validity,mode-semantic-validity}/Qwen_Qwen3-8B.json`.
 Caveat (both halves) in `mode-semantics.md`.
+
+**#4 attention = typed β-reduction (s204): REFUTED as a localized typed circuit
+— the 0.82 was recency/position.** Tested with subject-verb agreement-attraction
+(`attention_typed_binding.py`, 8B, L27/30/33, 64 PP+RC stimuli) which dissociates
+grammatical ROLE from linear position/recency (the number-distractor is the
+*nearer* noun in 100% of items, so a recency head scores negative role-selectivity).
+- **Selectivity:** the named subject-binder **H31@L27 has role_sel = +0.013
+  (z=+0.54, rank 5/32) — not an outlier**; the top head is H7, not H31. The
+  L30 "binders" are mixed (H3 +0.011; **H13 −0.010, recency-leaning, rank 24/32**;
+  H15 ~0). The *only* genuine role-selective outlier is **H6@L33 (role_sel +0.076,
+  z=+4.08, rank 0/32)** — but ~10× smaller than the claimed 0.82 and not at the
+  celebrated site.
+- **Necessity:** ablating H31@L27 changes the agreement logit-diff by **+0.001
+  (z=+0.06 vs random-head null)**; ablating *all* named binders (incl. H6@L33)
+  by **−0.005 (z=+0.01 vs matched-6-set null)** — statistically indistinguishable
+  from random heads. The ablation bites (random 6-head sets reach −0.43 drop), so
+  agreement IS ablatable — the named heads just aren't the heads that carry it.
+- **Reading:** "weighted sum IS typed β-application by H31@L27 at 0.82" is largely
+  a **positional/recency** phenomenon (failure modes #5 cherry-pick + #6 surface
+  confound). A weak genuine role-selective signal survives (H6@L33) but is small
+  and not causally load-bearing for role-dependent behavior. "Attention is a
+  weighted sum" is trivially true; "the sum is TYPE-driven" does not hold at the
+  claimed heads. **Caveat / named follow-up:** tested on plain-NL agreement (the
+  gold standard for role-vs-position binding) *without* the compile gate the
+  original H31 finding used; a gate-context re-test (does H31 become a role-binder
+  specifically in compile mode?) is the honest next check. Caveat added to
+  `binding-graph-trace.md`. Results: `results/attention-typed-binding/Qwen_Qwen3-8B.json`.
 
 ### Worked examples (session 203)
 
@@ -223,10 +252,11 @@ sign-corr half above is the *representational* half.
 - **s204 result (geometry):** confound CONFIRMED. Gap statistic never selects 9 (optimal-k = 4/8/32/32/2); silhouette @9 at/below matched-Gaussian null at every layer (max excess +0.030 = noise); the kneedle elbow "confirms" 9–10 even at L0 (no clusters) → k-grid artifact; classifier accuracy high-and-declining ∀k (100%@2 → 90%@9 → 80%@32), never peaks at 9 → circular. **The discrete count "9" is an imposed hyperparameter.**
 - **s204 result (extension — semantic + logit):** but the syntactic CONTENT is REAL. NMI(mode,POS) 0.19–0.40 ≫ perm-null 0.014 (p=0 ∀layer); lm_head vocab-projection distinctness ≫ random-partition null (JS excess +0.0015→+0.417, ~65× @L35). The gate space encodes a real, smooth, scale-sharpening syntactic type *field* (a continuum); k=9 captures 73–91% of max NMI — a serviceable but not privileged slice. The functional claim (s196: 9 ternary programs ≈ 1× PPL) is separate, untouched, and does not require a natural count. See worked-examples (s204) + `mode_cluster_validity.py` + `mode_semantic_validity.py`.
 
-**4. Attention = typed β-reduction (weighted sum IS β-application)** (load: high — the central mechanism)
+**4. Attention = typed β-reduction (weighted sum IS β-application)** (load: high — the central mechanism) — ❌ **RESOLVED (s204): REFUTED as localized; 0.82 = recency/position**
 - Evidence: H31 `v_runs += 0.82·v_cat`; top-3 = 88%; Q⊥K.
 - Suspected confound: *all* attention is weighted sum; "β-reduction" is interpretation. Induction/n-gram heads produce similar patterns.
 - Control: does attention attend specifically to **type-compatible** positions beyond an induction-head / co-occurrence baseline? Causal: ablate the named binding head → does the specific reduction break (vs generic degradation)?
+- **s204 result:** confound CONFIRMED via agreement-attraction (role⊥position). H31@L27 role-selectivity z=+0.54 (rank 5/32, not an outlier); ablation z=+0.06 vs random-head null (no effect on subject-verb agreement). The 0.82 was recency/position, not type. A weak genuine role-selective head exists (H6@L33, z=+4.08) but is ~10× smaller than claimed and not causally necessary. See worked-examples (s204) + `attention_typed_binding.py`. (Follow-up: gate-context re-test.)
 
 **5. Binding schedule (L27 verb←subject, L30 object←verb, L33 coref)** (load: med)
 - Evidence: showcased heads/weights on example sentences.

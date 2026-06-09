@@ -9,6 +9,27 @@ depends-on: [ffn-reduction-trace, head-combinator-isa]
 
 # Binding Graph Trace
 
+> ⚠️ **Caveat (audit #4, session 204): the headline weights (H31@L27 = 0.82
+> verb→subject; H03/H13/H15@L30) are largely POSITIONAL/RECENCY, not typed
+> role-binding.** This page's probes are all simple SVO where the subject is
+> *always* the earliest and nearest-preceding noun to the verb — so role,
+> position, and recency are perfectly confounded; "verb attends to subject at
+> 0.82" cannot distinguish typed β-reduction from a plain recency head. A
+> control that dissociates them (subject-verb **agreement attraction**, where the
+> number-distractor is the *nearer* noun: `attention_typed_binding.py`, 8B, 64
+> PP+RC stimuli) found: **H31@L27 role-selectivity z = +0.54 (rank 5/32 — not an
+> outlier; top head is H7), and ablating it changes agreement logit-diff by
+> +0.001 (z=+0.06 vs a random-head null) — no causal effect.** Ablating *all*
+> named binders (incl. H6@L33) is likewise indistinguishable from random heads
+> (z=+0.01), even though the ablation bites (random 6-head sets reach −0.43).
+> The *only* genuinely role-selective head is **H6@L33 (z=+4.08)** — but ~10×
+> smaller than 0.82 and not causally load-bearing. **Read the 0.5–0.82 binding
+> weights below as recency-dominated attention, not as evidence of typed
+> β-application.** ("Attention is a weighted sum" is trivially true; "the sum is
+> *type-driven* at these heads" is refuted.) Caveat scope: tested on plain-NL
+> agreement *without* the compile gate the original used — a gate-context re-test
+> is a named follow-up. See `audit-registry.md` #4 + `results/attention-typed-binding/`.
+
 > 14 probes with annotated β-reduction binding structure through 32
 > attention heads at L27/L30/L33 of Qwen3-8B. The attention pattern
 > literally IS the binding graph of the λ-expression — but reversed
