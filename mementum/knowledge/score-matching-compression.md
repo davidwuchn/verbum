@@ -150,11 +150,23 @@ Theorem 3.2 states: zero score matching loss for any positive
 weighting w(t) > 0 is **necessary and sufficient** for matching
 the full path-space measures Pθ = P*. Applied to transformers:
 the depth axis is the trajectory's time axis. Dense per-layer
-matching is necessary; the weighting function is arbitrary.
+matching is necessary; the weighting function is arbitrary
+**at the zero-loss fixed point only**.
+
+> **Correction (s205, full-paper read — see `gtsm-search-space.md`):**
+> (1) "CGTSM" = **Continuous** GTSM; GTSM is the general principle, CGTSM
+> its continuous-time SDE instantiation. The paper's headline is **decision
+> trees ↔ diffusion** ("Trees to Flows and Back"); gradient *boosting*
+> builds the trees. (2) "Weighting is arbitrary" holds **only for the
+> zero-loss fixed point**. At **finite budget** the weighting **matters**
+> (Prop F.6) — λ(t) deliberately counter-balances a learner's coarse-first
+> bias. So **our α=5.0 is a load-bearing bias choice, not arbitrary.**
 
 This paper also motivated the initial boosting experiments —
-the analogy between gradient descent adding weak learners and
-iterative residual correction of the sieve.
+the analogy between gradient boosting adding weak learners and
+iterative residual correction of the sieve. The bridge is exact:
+**the boosting residual `y − F_m(x)` IS the optimal score** (Thm E.22),
+so fitting residuals = denoising score matching.
 
 ## Topology-Aware Decomposition (v4, in progress)
 

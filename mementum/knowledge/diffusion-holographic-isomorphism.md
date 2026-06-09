@@ -23,6 +23,14 @@ created: session 199
 > of problem. This isn't analogy — CGTSM (Ramachandran & Sra 2026)
 > formally proves gradient boosting and diffusion score matching share
 > a common optimization principle. We're already using both sides.
+>
+> **Correction (s205, full-paper read — see `gtsm-search-space.md`):**
+> "CGTSM" = **Continuous** GTSM (GTSM is the general principle, CGTSM the
+> continuous-time SDE form). Paper title is "Trees to Flows and Back" — the
+> unification is **decision trees ↔ diffusion**; gradient boosting builds the
+> trees and is the *greedy* (Bellman-optimal) GTSM solver, while a diffusion
+> score-net solves the same integral end-to-end. Bridge: **residual = score**
+> (Thm E.22). Both solvers are **idealized/asymptotic** (Cor E.25).
 
 ## The Core Isomorphism
 
@@ -245,9 +253,12 @@ denoising recovers the resonant modes.
    for the crystal eigenspace.
 
 3. **Does the CGTSM weighting theorem apply to our dimensional
-   projections?** The theorem says density matters, weighting doesn't.
-   Does this mean we should check ALL dimensions equally, not weight
-   lower dimensions more heavily?
+   projections?** Density matters, weighting doesn't — **but only at the
+   zero-loss fixed point** (Thm 3.2). At **finite budget** weighting *does*
+   matter (Prop F.6): λ(t) counter-balances a coarse-first learning bias.
+   So at our actual (finite) budgets we likely *should* weight some
+   dimensions/layers — uniform coverage is necessary, uniform *weight* is
+   not optimal. (Corrected s205 — see `gtsm-search-space.md`.)
 
 4. **Is there a "FID score" for sign patterns?**
    A quality metric that captures how well the sign pattern matches
