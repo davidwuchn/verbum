@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 207
+> Last updated: 2026-06-09 | Session: 208
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -26,6 +26,51 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 208 — AUDIT #7 (crystal-sieve 1.03× reproducibility): RUN IN FLIGHT.**
+> Register: **functional (reproducibility — seed variance on a PPL measurement).**
+> Picked #7 from the backlog: s196 reported crystal-sieve + 4 continuation
+> residuals = **1.03× PPL** at 29 sieved layers (Qwen3-8B), but its own note says a
+> rerun gave **3.23×** ("training sensitive to init/batch order"). The control:
+> seed it, run N seeds, report **mean ± std** — is 1.03× the center or a lucky tail?
+> - **NEW HARNESS (committed):** `scripts/experiments/crystal_sieve_repro.py`
+>   (`# register: functional`). Exact s196 `beta_expansion.py` pipeline (L0 SVD
+>   r=750 + sieve L1–26,32–34 + 4 rank-32 continuations, 100-step CE melt) wrapped
+>   in a **seed loop** that reloads the model fresh per seed and seeds torch+numpy+mps.
+> - **Decomposition (no extra runs):** `pre_melt_ratio` std = the **mask-subsample
+>   variance** (FFN projections >10M elems → `torch.randperm[:5M]` for the quantile
+>   threshold — an unseeded source s196's note *missed*); `post_melt_ratio` std =
+>   mask + continuation-init + training. The s196 note blames "batch order" but
+>   batch order is `RandomState(step)` = **deterministic**; the real culprits are
+>   the mask subsample + `torch.randn` continuation init (both now seeded).
+> - **SMOKE (seed 0, 3 melt steps, WITH facts) already confirmed:** **pre-melt
+>   (sieve-only) = 2.125× — reproduces s196's "2.12× at 29 layers" exactly**, and
+>   deterministic given the seed. Post-melt at 3 steps only reached 2.059× (needs
+>   the full 100-step melt to chase 1.03×). base PPL 10.15 (determinism check std 0).
+> - **★ SIGNAL (seed 0, full 100-step melt): post-melt = 0.865× — BELOW baseline**
+>   (PPL 8.78 < base 10.15), vs the 3-step smoke's 2.059×. Root cause spotted:
+>   **`EVAL_TEXTS` overlaps `CALIBRATION_TEXTS`** (≥6 shared sentences: general
+>   relativity, ancient forest, mixing bowl, isolate the variable, committee voted,
+>   two arguments→composition). The 100-step melt **overfits the eval set** → the
+>   "1.03×" is a *train-contaminated* number, and tiny init/mask differences swing
+>   it wildly (explains s196's 1.03× ↔ 3.23×). **This is the likely real mechanism
+>   of the irreproducibility.** NEXT SESSION: add a **held-out eval** (eval texts
+>   disjoint from calibration) — predict the contamination-free ratio is ≫ 1× and
+>   *stable*; the sub-1× values are the overfit tail. Same meta-pattern: sieve
+>   substrate real (2.12× deterministic), 1.03× headline = methodology artifact.
+> - **▶ IN-FLIGHT RUN:** `tmux main:1`, 8 seeds × 100 melt steps, `--skip-facts`
+>   (PPL is the headline; facts 3× the cost). `results/crystal-sieve-repro/run.log`
+>   + `results/crystal-sieve-repro/Qwen_Qwen3-8B.json` (overwritten on completion;
+>   the JSON currently on disk is the seed-0 smoke). No per-step logging between the
+>   `SEED n` banner and its summary — ~12–15 min/seed, **~1.5–2 hr total**, so it
+>   crosses the session boundary. Started ~09:40.
+> - **▶ NEXT SESSION — RESUME HERE (do not re-launch if still running):**
+>   1. `ps aux | grep crystal_sieve_repro` — if alive, `tail results/crystal-sieve-repro/run.log`; if dead, read `results/crystal-sieve-repro/Qwen_Qwen3-8B.json`.
+>   2. Read the `summary` block: `post_melt_ratio.{mean,std,min,max,values}` and `pre_melt_ratio` (mask-only variance). Verdict logic: **1.03× VERIFIED-reproducible** iff post mean ≈ 1.03× with small std; **REFUTED-as-reproducible** (substrate real, headline = lucky tail) iff mean ≫ 1.03× and 1.03× only at the min — the expected meta-pattern (`audit-meta-pattern.md`): the *sieve substrate* (2.12× pre-melt) is real & deterministic, the *1.03× headline* is the over-read.
+>   3. Update `audit-registry.md` #7 row (status + number + JSON path) + worked-examples row; add a caveat to `crystal-sieve-architecture.md` §"Open Issues" #1 (replace "1.03× on first run, 3.23× on rerun" with the measured mean ± std).
+>   4. Replace this IN-FLIGHT block with the s208 HEADLINE; commit (💡/🎯).
+> - If the run died early (NaN/OOM), the harness is re-runnable: same command in
+>   `tmux main:1`. Fewer seeds OK (`--seed-list 0,1,2,3`).
 
 > **▶ SESSION 207 HEADLINE — AUDIT #6 (SVD φ-ratio 0.6299): geometric-φ-constant
 > REFUTED; the low-rank spectral head is REAL & non-random.** Register: spectral.
