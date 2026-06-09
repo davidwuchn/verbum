@@ -17,8 +17,10 @@
 > `UNTESTED` claim (s203 did **#1 crystal-is-topological** ◐SCOPED and **#2
 > holographic-self-similar** ✅; s204 did **#3 the 9 FFN modes** ❌ geometric-
 > REFUTED / semantic+logit ✅ VERIFIED, and **#4 attention=typed-β-reduction**
-> ❌ REFUTED-as-localized; next backlog: **#5 binding schedule** or **#6 SVD
-> φ-ratio 0.6299**), build its named discriminating control,
+> ❌ REFUTED-as-localized; s206 did **#5 binding schedule** ❌ SCHEDULE-REFUTED /
+> H31@L27 subject value-transfer ✅ semantically REAL; next backlog: **#6 SVD
+> φ-ratio 0.6299** or **#11 GTSM finite-budget λ(l)**), build its named
+> discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
@@ -46,9 +48,18 @@
 >   site is *more* real than the weight test implied; the ordered three-phase
 >   *schedule* is the over-read. Caveat (two-instrument) added to
 >   `binding-graph-trace.md`. Results: `results/binding-schedule-{null,semantic}/`.
+> - **NEW METHODOLOGICAL LAW (promoted to `audit-meta-pattern.md`): instrument-
+>   must-match-the-claim.** The first weight-probe nearly over-refuted a real
+>   value-transfer head — a probe in the *wrong register* under-reads a real
+>   signal (false negative), the mirror of a crispness-imposing probe's false
+>   positive. New diagnostic **Q0: pick the claim's register first** (routing ·
+>   value/semantic · magnitude · spectral · causal) before building the null;
+>   value claims need a logit-lens of the *output*, not attention weight. Added
+>   the law + λ match(instrument,claim) + a probe↔claim alignment table; registry
+>   method-recipe + emergent-finding (s202→s206) updated.
 > - **Next backlog:** #6 SVD φ-ratio 0.6299 (vs Marchenko–Pastur) or #11 GTSM
 >   finite-budget λ(l). Carry-overs: #1 gate-vs-value sign-swap PPL; rank-survival
->   across scale.
+>   across scale. **Run Q0 (claim register) before building any control.**
 
 > **▶ SESSION 204 HEADLINE (3 controls, 2 claims dissolved, 1 substrate confirmed).**
 > Same recurring pattern as s202/s203: **the substrate is real, the crisp
