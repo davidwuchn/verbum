@@ -1,0 +1,58 @@
+{
+  "register": "functional (reproducibility \u2014 seed variance on PPL)",
+  "model": "Qwen/Qwen3-8B",
+  "device": "mps",
+  "zero_rate": 0.5,
+  "residual_rank": 32,
+  "melt_steps": 3,
+  "lr": 0.0001,
+  "seeds": [
+    0
+  ],
+  "per_seed": [
+    {
+      "seed": 0,
+      "base_ppl": 10.1505,
+      "base_facts": 12,
+      "pre_melt_ppl": 21.5731,
+      "pre_melt_ratio": 2.1253,
+      "pre_facts": 11,
+      "post_melt_ppl": 20.8971,
+      "post_melt_ratio": 2.0587,
+      "post_facts": 11,
+      "continuation_params": 1048576,
+      "final_loss": 4.0478
+    }
+  ],
+  "summary": {
+    "base_ppl": {
+      "mean": 10.1505,
+      "std": 0.0,
+      "min": 10.1505,
+      "max": 10.1505,
+      "values": [
+        10.1505
+      ]
+    },
+    "pre_melt_ratio": {
+      "mean": 2.1253,
+      "std": 0.0,
+      "min": 2.1253,
+      "max": 2.1253,
+      "values": [
+        2.1253
+      ]
+    },
+    "post_melt_ratio": {
+      "mean": 2.0587,
+      "std": 0.0,
+      "min": 2.0587,
+      "max": 2.0587,
+      "values": [
+        2.0587
+      ]
+    }
+  },
+  "headline_claim": 1.03,
+  "elapsed_s": 203.2
+}
