@@ -19,6 +19,26 @@ created: session 194
 
 # Mode Semantics — The 9 FFN Modes Are Syntactic Type Tags
 
+> ⚠️ **Caveat (audit #3, session 204): the count "9" is k-means-imposed, not
+> a natural number.** A cluster-validity control (`mode_cluster_validity.py`,
+> 8B, L0/3/15/20/35, gap-statistic + matched-null silhouette, B=10) found the
+> gap statistic *never* selects 9 (Tibshirani optimal-k = 4/8/32/32/2; the
+> computational core L15/L20 is monotone to k=32 — no distinguished count),
+> silhouette @k=9 sits at/below a matched-Gaussian null at every layer (max
+> excess +0.030 = noise-level), the naive elbow "confirms" 9–10 *even at L0
+> where there are no clusters* (a k-grid artifact), and the "98–100% classifier
+> accuracy" is generic linear separability of *any* convex k-means partition
+> (acc high-and-declining ∀k, never peaks at 9 → circular). **Read this page as
+> a characterization of an arbitrary k=9 partition of an essentially continuous
+> gate-pattern cloud, not as evidence of 9 discrete modes.** The strongest
+> association (BOUNDARY=PUNCT, the purest mode) likely reflects one genuinely
+> separable split (punctuation gates differ); the "7 universal meta-modes" over-
+> reads structure into the chosen k. **Untouched and independent:** the
+> *functional* claim (s196 — 9 ternary programs reconstruct the FFN at ~0.95–
+> 1.03× PPL, 64/512 don't help) does **not** require 9 to be natural; it is
+> reconstruction efficiency of a continuous cloud and still stands. See
+> `audit-registry.md` #3 and `results/mode-cluster-validity/`.
+
 > Session 194. The 9 ternary FFN modes at each layer correspond to
 > SYNTACTIC ROLES, not semantic categories. The FFN separates "subjects
 > from objects from verbs from determiners" — not "science from

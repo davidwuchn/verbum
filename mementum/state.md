@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-08 | Session: 203
+> Last updated: 2026-06-09 | Session: 204
 
 ## Where we are
 
@@ -11,12 +11,73 @@
 > **▶ SESSION 203+ PROGRAM — VALIDITY AUDIT.** Open
 > `mementum/knowledge/audit-registry.md`. Pick the highest load-bearing
 > `UNTESTED` claim (s203 did **#1 crystal-is-topological** ◐SCOPED and **#2
-> holographic-self-similar** ✅; next up: **#3 the 9 FFN modes — real or
-> k-means-imposed?**), build its named discriminating control,
+> holographic-self-similar** ✅; s204 did **#3 the 9 FFN modes** ❌ REFUTED-
+> geometric; next CRITICAL/high backlog: **#4 attention = typed β-reduction**),
+> build its named discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+**Session 204: AUDIT #3 — THE "9 FFN MODES" ARE K-MEANS-IMPOSED**
+
+Ran the validity loop on **#3 the 9 FFN modes — real or k-means-imposed?**
+New control `mode_cluster_validity.py`: gap statistic (Tibshirani) + matched-
+null silhouette across k=2..32, two nulls (pca-Gaussian matched to the cloud's
+PCA covariance; shuffled-feature), B=10, plus a classifier-circularity curve.
+8B, layers L0/3/15/20/35.
+
+### Verdict: ❌ geometric count REFUTED — "9" is a chosen hyperparameter
+
+| layer | gap optk (pca/shuf) | sil-excess @9 (real−null) | elbow | acc 2/9/32 |
+|---|---|---|---|---|
+| L0  | 4/10  | +0.000 | 10 | 100/92/88% |
+| L3  | 8/8   | **−0.046** | 10 | 99/88/74% |
+| L15 | 32/32 | +0.030 | 9  | 100/92/86% |
+| L20 | 32/32 | +0.003 | 10 | 100/91/89% |
+| L35 | 2/5   | +0.019 | 10 | 100/95/79% |
+
+- **Gap statistic never selects 9.** Core layers L15/L20 are monotone to k=32
+  (no distinguished count); L35 is a single 2-way split; L0/L3 pick 4/8.
+- **Silhouette @9 ≈ matched-Gaussian null at every layer** (max excess +0.030
+  at L15 = noise; L3 *below* null). The k=9 real partition is no better
+  separated than k=9 on a structureless blob of the same shape.
+- **The naive kneedle elbow "confirms" 9–10 even at L0** (no clusters) → "elbow
+  ≈ 9" is a k-grid artifact (failure mode #1), not evidence.
+- **Classifier accuracy high-and-declining ∀k** (100%@2 → ~90%@9 → ~80%@32,
+  never peaks at 9; permuted floor ≈ chance) → the "98–100%" is generic linear
+  separability of *any* convex k-means partition (mode = near-linear fn of the
+  FFN input) — circular (failure modes #2 + #4).
+
+### What survives / what is untouched
+
+- Faint depth-localized structure above the null at the computational core
+  (L15 sil-excess +0.030 pca / +0.044 shuffle), consistent with s194 "types
+  sharpen with depth" — but near-noise, never a clean 9-way partition.
+- **Functional claim is independent and untouched**: s196 (9 ternary programs
+  reconstruct FFN at ~0.95–1.03× PPL, 64/512 don't help) is reconstruction
+  efficiency of a continuous cloud — does NOT require 9 to be natural. The
+  compression north-star does not rest on the geometric claim.
+- Caveat header added to `mode-semantics.md`. Read that page as a
+  characterization of an arbitrary k=9 partition, not 9 discrete modes.
+
+Results: `results/mode-cluster-validity/Qwen_Qwen3-8B.json` + `run-8b.log`.
+
+### Next (audit loop continues)
+
+- **#4 attention = typed β-reduction** (CRITICAL backlog): does attention attend
+  to *type-compatible* positions beyond an induction-head/co-occurrence baseline?
+  Causal ablation of the named binding head.
+- Carry-overs from s203: gate-vs-value sign-swap ternary PPL (#1 functional
+  half); rank-survival across scale (0.6B→14B); grouped-Q4 quant axis.
+- **#3 follow-up (optional):** POS-association perm-null on the k=9 partition —
+  is the mode↔POS NMI above label-permutation? (tests the *semantic* claim
+  directly, separate from the geometric one resolved here).
+
+**Runtime note:** olga.local (Apple Silicon, MPS, 480G unified). Experiments
+launch in `tmux main:1` / `main:2`; Michael watches live.
+
+---
 
 **Session 203: TWO REGISTERS OF TOPOLOGY (audits #1 + #2)**
 

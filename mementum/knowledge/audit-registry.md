@@ -64,6 +64,41 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 204)
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #3 9 FFN modes are a real natural count (geometric) | high | gap-stat + matched-null silhouette across k=2..32, pca-Gaussian + shuffled-feature nulls B=10, 8B L0/3/15/20/35 (`mode_cluster_validity.py`) | ❌ REFUTED — "9" is k-means-imposed |
+| #3 "tiny classifier 98–100% ⇒ modes real" (circular) | high | classifier acc vs k + permuted-label floor | ❌ CIRCULAR (acc high+declining ∀k; never peaks at 9) |
+| #3 9 ternary programs reconstruct FFN ~1× PPL (functional) | high | — (s196 mode-sweep; not re-run) | ◐ UNTOUCHED — independent, stands |
+
+**Verdict (s204): the count 9 is a chosen hyperparameter, not a discovered
+natural number.** Across all five layers the gap statistic *never* selects 9
+(Tibshirani optimal-k = 4/8/32/32/2 vs pca-null; the computational core L15/L20
+is monotone to k=32 — no distinguished count; L35 is a single 2-way split).
+Silhouette at k=9 sits at/below the *matched-Gaussian* null at every layer
+(sil-excess @9 = +0.000 / −0.046 / +0.030 / +0.003 / +0.019) — the k=9 real
+partition is no better separated than k=9 on a structureless blob of the same
+shape; the single largest excess (+0.030 at L15) is noise-level (sil ≪ 0.1).
+The naive kneedle **elbow "confirms" 9–10 at every layer including L0** — where
+silhouette and gap both show no clusters — so "elbow ≈ 9" is a k-grid artifact
+(failure mode #1), not evidence. Classifier accuracy is **high-and-declining
+across all k** (100%@k=2 → ~90%@k=9 → ~80%@k=32; permuted-label floor ≈ chance):
+the "98–100%" is generic linear separability of *any* convex k-means partition
+(mode = near-linear function of the FFN input), not evidence for 9 (failure mode
+#2 + circular validation #4).
+
+**What survives:** faint, depth-localized structure above the null at the
+computational core (L15 sil-excess +0.030 pca / +0.044 shuffle), consistent with
+s194 "types sharpen with depth" — but near-noise, never a clean 9-way partition;
+L3 (parser) is *below* null (continuous blob). **The functional claim is
+untouched and independent**: s196 showed 9 ternary prototypes reconstruct the
+FFN at ~0.95–1.03× PPL and 64/512 don't help — that is reconstruction
+efficiency of a continuous cloud, which does not require 9 to be a natural
+count. The compression north-star does not rest on the geometric claim.
+Results: `results/mode-cluster-validity/Qwen_Qwen3-8B.json`. Caveat added to
+`mode-semantics.md`.
+
 ### Worked examples (session 203)
 
 | Claim | Load | Control run | Status |
@@ -163,10 +198,11 @@ sign-corr half above is the *representational* half.
   C-vs-A-vs-flat-minimum separation, but the rank-axis gracefulness gap is
   control-independent. Full synthesis: `two-registers-of-topology.md`.
 
-**3. The 9 FFN modes — real or k-means-imposed?** (load: high — `mode-semantics.md`, tiny-classifier compression)
+**3. The 9 FFN modes — real or k-means-imposed?** (load: high — `mode-semantics.md`, tiny-classifier compression) — ❌ **RESOLVED (s204): geometric count REFUTED; functional claim intact**
 - Evidence: 9 ternary programs per layer; classifier 98–100% accuracy.
 - Suspected confound: k-means at k=9 always returns 9 clusters; classifier accuracy is circular (trained on the cluster labels).
 - Control: cluster-validity null — silhouette/gap-statistic at k=9 vs random data and vs k=8,10,…; does "9" survive a held-out elbow test, or is it imposed? Cross-reference the L0-characterization negative-silhouette finding.
+- **s204 result:** confound CONFIRMED. Gap statistic never selects 9 (optimal-k = 4/8/32/32/2); silhouette @9 at/below matched-Gaussian null at every layer (max excess +0.030 = noise); the kneedle elbow "confirms" 9–10 even at L0 (no clusters) → k-grid artifact; classifier accuracy high-and-declining ∀k (100%@2 → 90%@9 → 80%@32), never peaks at 9 → circular. **"9" is an imposed hyperparameter.** The functional claim (s196: 9 ternary programs ≈ 1× PPL) is separate, untouched, and does not require a natural count. See worked-examples (s204) + `mode_cluster_validity.py`.
 
 **4. Attention = typed β-reduction (weighted sum IS β-application)** (load: high — the central mechanism)
 - Evidence: H31 `v_runs += 0.82·v_cat`; top-3 = 88%; Q⊥K.

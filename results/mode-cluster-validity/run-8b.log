@@ -1,0 +1,738 @@
+
+======================================================================
+
+======================================================================
+  AUDIT #3 — Are the 9 FFN modes real or k-means-imposed?
+  AUDIT #3 — Are the 9 FFN modes real or k-means-imposed?
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B   Device: mps
+  Model: Qwen/Qwen3-8B   Device: mps
+  Layers: [0, 3, 15, 20, 35]   k-range: [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 24, 32]
+  Layers: [0, 3, 15, 20, 35]   k-range: [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 24, 32]
+  Nulls: pca_gauss + shuffle (B=10)
+  Nulls: pca_gauss + shuffle (B=10)
+  max_tokens=2500  sil_n=1500  seed=12
+  max_tokens=2500  sil_n=1500  seed=12
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:34,  1.86it/s]Loading weights:   4%|▍         | 17/399 [00:00<00:11, 34.37it/s]Loading weights:  13%|█▎        | 50/399 [00:00<00:03, 101.23it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 149.73it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 185.84it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 220.52it/s]Loading weights:  43%|████▎     | 172/399 [00:01<00:00, 229.82it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 237.18it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 262.32it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 274.70it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 289.10it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 298.70it/s]Loading weights:  91%|█████████▏| 365/399 [00:01<00:00, 301.60it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 210.13it/s]
+  layers=36 d_model=4096 intermediate=12288
+  layers=36 d_model=4096 intermediate=12288
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 0
+  LAYER 0
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  subsampled to 2500 tokens
+  subsampled to 2500 tokens
+    real:
+    real:
+      k=  2  logW=12.5654  sil=+0.1168
+      k=  2  logW=12.5654  sil=+0.1168
+      k=  3  logW=12.5309  sil=+0.1136
+      k=  3  logW=12.5309  sil=+0.1136
+      k=  4  logW=12.5058  sil=+0.0557
+      k=  4  logW=12.5058  sil=+0.0557
+      k=  5  logW=12.5005  sil=+0.0969
+      k=  5  logW=12.5005  sil=+0.0969
+      k=  6  logW=12.4661  sil=+0.0666
+      k=  6  logW=12.4661  sil=+0.0666
+      k=  7  logW=12.4517  sil=+0.0592
+      k=  7  logW=12.4517  sil=+0.0592
+      k=  8  logW=12.4447  sil=+0.0763
+      k=  8  logW=12.4447  sil=+0.0763
+      k=  9  logW=12.4284  sil=+0.0185
+      k=  9  logW=12.4284  sil=+0.0185
+      k= 10  logW=12.4165  sil=+0.0221
+      k= 10  logW=12.4165  sil=+0.0221
+      k= 12  logW=12.4198  sil=-0.0253
+      k= 12  logW=12.4198  sil=-0.0253
+      k= 16  logW=12.3723  sil=-0.0005
+      k= 16  logW=12.3723  sil=-0.0005
+      k= 24  logW=12.3436  sil=+0.0127
+      k= 24  logW=12.3436  sil=+0.0127
+      k= 32  logW=12.3099  sil=+0.0145
+      k= 32  logW=12.3099  sil=+0.0145
+    null=pca_gauss (B=10):
+    null=pca_gauss (B=10):
+      k=  2  logW=12.5813±0.002  sil=+0.0441
+      k=  2  logW=12.5813±0.002  sil=+0.0441
+      k=  3  logW=12.5552±0.003  sil=+0.0348
+      k=  3  logW=12.5552±0.003  sil=+0.0348
+      k=  4  logW=12.5404±0.002  sil=+0.0264
+      k=  4  logW=12.5404±0.002  sil=+0.0264
+      k=  5  logW=12.5313±0.002  sil=+0.0227
+      k=  5  logW=12.5313±0.002  sil=+0.0227
+      k=  6  logW=12.5225±0.002  sil=+0.0213
+      k=  6  logW=12.5225±0.002  sil=+0.0213
+      k=  7  logW=12.5154±0.002  sil=+0.0201
+      k=  7  logW=12.5154±0.002  sil=+0.0201
+      k=  8  logW=12.5097±0.002  sil=+0.0193
+      k=  8  logW=12.5097±0.002  sil=+0.0193
+      k=  9  logW=12.5053±0.002  sil=+0.0181
+      k=  9  logW=12.5053±0.002  sil=+0.0181
+      k= 10  logW=12.5010±0.002  sil=+0.0170
+      k= 10  logW=12.5010±0.002  sil=+0.0170
+      k= 12  logW=12.4940±0.001  sil=+0.0155
+      k= 12  logW=12.4940±0.001  sil=+0.0155
+      k= 16  logW=12.4827±0.002  sil=+0.0139
+      k= 16  logW=12.4827±0.002  sil=+0.0139
+      k= 24  logW=12.4671±0.002  sil=+0.0114
+      k= 24  logW=12.4671±0.002  sil=+0.0114
+      k= 32  logW=12.4558±0.001  sil=+0.0095
+      k= 32  logW=12.4558±0.001  sil=+0.0095
+    null=shuffle (B=10):
+    null=shuffle (B=10):
+      k=  2  logW=12.6267±0.000  sil=+0.0044
+      k=  2  logW=12.6267±0.000  sil=+0.0044
+      k=  3  logW=12.6244±0.000  sil=+0.0042
+      k=  3  logW=12.6244±0.000  sil=+0.0042
+      k=  4  logW=12.6225±0.001  sil=+0.0039
+      k=  4  logW=12.6225±0.001  sil=+0.0039
+      k=  5  logW=12.6214±0.000  sil=+0.0032
+      k=  5  logW=12.6214±0.000  sil=+0.0032
+      k=  6  logW=12.6202±0.001  sil=+0.0021
+      k=  6  logW=12.6202±0.001  sil=+0.0021
+      k=  7  logW=12.6198±0.001  sil=+0.0023
+      k=  7  logW=12.6198±0.001  sil=+0.0023
+      k=  8  logW=12.6190±0.001  sil=+0.0019
+      k=  8  logW=12.6190±0.001  sil=+0.0019
+      k=  9  logW=12.6187±0.001  sil=+0.0011
+      k=  9  logW=12.6187±0.001  sil=+0.0011
+      k= 10  logW=12.6177±0.001  sil=+0.0014
+      k= 10  logW=12.6177±0.001  sil=+0.0014
+      k= 12  logW=12.6169±0.001  sil=+0.0002
+      k= 12  logW=12.6169±0.001  sil=+0.0002
+      k= 16  logW=12.6150±0.001  sil=-0.0023
+      k= 16  logW=12.6150±0.001  sil=-0.0023
+      k= 24  logW=12.6109±0.001  sil=-0.0047
+      k= 24  logW=12.6109±0.001  sil=-0.0047
+      k= 32  logW=12.6075±0.001  sil=-0.0045
+      k= 32  logW=12.6075±0.001  sil=-0.0045
+    [pca_gauss] Tibshirani optimal-k = 4  (argmax gap k=32)
+    [pca_gauss] Tibshirani optimal-k = 4  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 10  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 10  (argmax gap k=32)
+    inertia elbow (kneedle) k = 10
+    inertia elbow (kneedle) k = 10
+    classifier accuracy vs k (FFN input -> kmeans label):
+    classifier accuracy vs k (FFN input -> kmeans label):
+      k=  2  test_acc=99.8%  (train 100.0%)
+      k=  2  test_acc=99.8%  (train 100.0%)
+      k=  3  test_acc=95.8%  (train 100.0%)
+      k=  3  test_acc=95.8%  (train 100.0%)
+      k=  4  test_acc=95.8%  (train 100.0%)
+      k=  4  test_acc=95.8%  (train 100.0%)
+      k=  5  test_acc=94.6%  (train 100.0%)
+      k=  5  test_acc=94.6%  (train 100.0%)
+      k=  6  test_acc=95.8%  (train 100.0%)
+      k=  6  test_acc=95.8%  (train 100.0%)
+      k=  7  test_acc=94.6%  (train 100.0%)
+      k=  7  test_acc=94.6%  (train 100.0%)
+      k=  8  test_acc=95.8%  (train 100.0%)
+      k=  8  test_acc=95.8%  (train 100.0%)
+      k=  9  test_acc=92.2%  (train 100.0%)
+      k=  9  test_acc=92.2%  (train 100.0%)
+      k= 10  test_acc=91.6%  (train 100.0%)
+      k= 10  test_acc=91.6%  (train 100.0%)
+      k= 12  test_acc=88.4%  (train 100.0%)
+      k= 12  test_acc=88.4%  (train 100.0%)
+      k= 16  test_acc=91.2%  (train 100.0%)
+      k= 16  test_acc=91.2%  (train 100.0%)
+      k= 24  test_acc=87.4%  (train 100.0%)
+      k= 24  test_acc=87.4%  (train 100.0%)
+      k= 32  test_acc=88.0%  (train 100.0%)
+      k= 32  test_acc=88.0%  (train 100.0%)
+    permuted-label test_acc @k=9: 21.0% (uniform chance 11.1%)
+    permuted-label test_acc @k=9: 21.0% (uniform chance 11.1%)
+  layer 0 done in 634.2s
+  layer 0 done in 634.2s
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 3
+  LAYER 3
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  subsampled to 2500 tokens
+  subsampled to 2500 tokens
+    real:
+    real:
+      k=  2  logW=10.4983  sil=+0.0370
+      k=  2  logW=10.4983  sil=+0.0370
+      k=  3  logW=10.4679  sil=+0.0484
+      k=  3  logW=10.4679  sil=+0.0484
+      k=  4  logW=10.4385  sil=+0.0562
+      k=  4  logW=10.4385  sil=+0.0562
+      k=  5  logW=10.4162  sil=-0.0517
+      k=  5  logW=10.4162  sil=-0.0517
+      k=  6  logW=10.4046  sil=+0.0440
+      k=  6  logW=10.4046  sil=+0.0440
+      k=  7  logW=10.3828  sil=-0.0399
+      k=  7  logW=10.3828  sil=-0.0399
+      k=  8  logW=10.3692  sil=+0.0119
+      k=  8  logW=10.3692  sil=+0.0119
+      k=  9  logW=10.3660  sil=-0.0281
+      k=  9  logW=10.3660  sil=-0.0281
+      k= 10  logW=10.3520  sil=-0.0270
+      k= 10  logW=10.3520  sil=-0.0270
+      k= 12  logW=10.3405  sil=+0.0181
+      k= 12  logW=10.3405  sil=+0.0181
+      k= 16  logW=10.3182  sil=-0.0070
+      k= 16  logW=10.3182  sil=-0.0070
+      k= 24  logW=10.2697  sil=+0.0104
+      k= 24  logW=10.2697  sil=+0.0104
+      k= 32  logW=10.2452  sil=+0.0218
+      k= 32  logW=10.2452  sil=+0.0218
+    null=pca_gauss (B=10):
+    null=pca_gauss (B=10):
+      k=  2  logW=10.5131±0.002  sil=+0.0501
+      k=  2  logW=10.5131±0.002  sil=+0.0501
+      k=  3  logW=10.4932±0.002  sil=+0.0326
+      k=  3  logW=10.4932±0.002  sil=+0.0326
+      k=  4  logW=10.4775±0.002  sil=+0.0270
+      k=  4  logW=10.4775±0.002  sil=+0.0270
+      k=  5  logW=10.4669±0.002  sil=+0.0244
+      k=  5  logW=10.4669±0.002  sil=+0.0244
+      k=  6  logW=10.4592±0.002  sil=+0.0217
+      k=  6  logW=10.4592±0.002  sil=+0.0217
+      k=  7  logW=10.4522±0.002  sil=+0.0202
+      k=  7  logW=10.4522±0.002  sil=+0.0202
+      k=  8  logW=10.4465±0.002  sil=+0.0191
+      k=  8  logW=10.4465±0.002  sil=+0.0191
+      k=  9  logW=10.4413±0.002  sil=+0.0180
+      k=  9  logW=10.4413±0.002  sil=+0.0180
+      k= 10  logW=10.4370±0.002  sil=+0.0172
+      k= 10  logW=10.4370±0.002  sil=+0.0172
+      k= 12  logW=10.4294±0.002  sil=+0.0157
+      k= 12  logW=10.4294±0.002  sil=+0.0157
+      k= 16  logW=10.4190±0.002  sil=+0.0134
+      k= 16  logW=10.4190±0.002  sil=+0.0134
+      k= 24  logW=10.4034±0.002  sil=+0.0113
+      k= 24  logW=10.4034±0.002  sil=+0.0113
+      k= 32  logW=10.3922±0.001  sil=+0.0099
+      k= 32  logW=10.3922±0.001  sil=+0.0099
+    null=shuffle (B=10):
+    null=shuffle (B=10):
+      k=  2  logW=10.5495±0.003  sil=+0.0433
+      k=  2  logW=10.5495±0.003  sil=+0.0433
+      k=  3  logW=10.5372±0.002  sil=+0.0362
+      k=  3  logW=10.5372±0.002  sil=+0.0362
+      k=  4  logW=10.5283±0.002  sil=+0.0312
+      k=  4  logW=10.5283±0.002  sil=+0.0312
+      k=  5  logW=10.5205±0.002  sil=+0.0309
+      k=  5  logW=10.5205±0.002  sil=+0.0309
+      k=  6  logW=10.5150±0.003  sil=+0.0310
+      k=  6  logW=10.5150±0.003  sil=+0.0310
+      k=  7  logW=10.5092±0.003  sil=+0.0293
+      k=  7  logW=10.5092±0.003  sil=+0.0293
+      k=  8  logW=10.5024±0.003  sil=+0.0286
+      k=  8  logW=10.5024±0.003  sil=+0.0286
+      k=  9  logW=10.4960±0.003  sil=+0.0238
+      k=  9  logW=10.4960±0.003  sil=+0.0238
+      k= 10  logW=10.4903±0.002  sil=+0.0253
+      k= 10  logW=10.4903±0.002  sil=+0.0253
+      k= 12  logW=10.4810±0.003  sil=+0.0264
+      k= 12  logW=10.4810±0.003  sil=+0.0264
+      k= 16  logW=10.4677±0.003  sil=+0.0198
+      k= 16  logW=10.4677±0.003  sil=+0.0198
+      k= 24  logW=10.4450±0.002  sil=+0.0130
+      k= 24  logW=10.4450±0.002  sil=+0.0130
+      k= 32  logW=10.4295±0.002  sil=+0.0040
+      k= 32  logW=10.4295±0.002  sil=+0.0040
+    [pca_gauss] Tibshirani optimal-k = 8  (argmax gap k=32)
+    [pca_gauss] Tibshirani optimal-k = 8  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 8  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 8  (argmax gap k=32)
+    inertia elbow (kneedle) k = 10
+    inertia elbow (kneedle) k = 10
+    classifier accuracy vs k (FFN input -> kmeans label):
+    classifier accuracy vs k (FFN input -> kmeans label):
+      k=  2  test_acc=99.4%  (train 100.0%)
+      k=  2  test_acc=99.4%  (train 100.0%)
+      k=  3  test_acc=98.0%  (train 100.0%)
+      k=  3  test_acc=98.0%  (train 100.0%)
+      k=  4  test_acc=95.6%  (train 100.0%)
+      k=  4  test_acc=95.6%  (train 100.0%)
+      k=  5  test_acc=96.2%  (train 100.0%)
+      k=  5  test_acc=96.2%  (train 100.0%)
+      k=  6  test_acc=88.4%  (train 100.0%)
+      k=  6  test_acc=88.4%  (train 100.0%)
+      k=  7  test_acc=89.0%  (train 100.0%)
+      k=  7  test_acc=89.0%  (train 100.0%)
+      k=  8  test_acc=85.4%  (train 100.0%)
+      k=  8  test_acc=85.4%  (train 100.0%)
+      k=  9  test_acc=88.2%  (train 100.0%)
+      k=  9  test_acc=88.2%  (train 100.0%)
+      k= 10  test_acc=85.6%  (train 100.0%)
+      k= 10  test_acc=85.6%  (train 100.0%)
+      k= 12  test_acc=84.2%  (train 100.0%)
+      k= 12  test_acc=84.2%  (train 100.0%)
+      k= 16  test_acc=80.6%  (train 100.0%)
+      k= 16  test_acc=80.6%  (train 100.0%)
+      k= 24  test_acc=78.0%  (train 100.0%)
+      k= 24  test_acc=78.0%  (train 100.0%)
+      k= 32  test_acc=74.0%  (train 100.0%)
+      k= 32  test_acc=74.0%  (train 100.0%)
+    permuted-label test_acc @k=9: 20.6% (uniform chance 11.1%)
+    permuted-label test_acc @k=9: 20.6% (uniform chance 11.1%)
+  layer 3 done in 635.4s
+  layer 3 done in 635.4s
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 15
+  LAYER 15
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  subsampled to 2500 tokens
+  subsampled to 2500 tokens
+    real:
+    real:
+      k=  2  logW=13.8884  sil=+0.1103
+      k=  2  logW=13.8884  sil=+0.1103
+      k=  3  logW=13.8423  sil=+0.0064
+      k=  3  logW=13.8423  sil=+0.0064
+      k=  4  logW=13.8092  sil=+0.0220
+      k=  4  logW=13.8092  sil=+0.0220
+      k=  5  logW=13.7882  sil=+0.0294
+      k=  5  logW=13.7882  sil=+0.0294
+      k=  6  logW=13.7738  sil=+0.0359
+      k=  6  logW=13.7738  sil=+0.0359
+      k=  7  logW=13.7637  sil=+0.0403
+      k=  7  logW=13.7637  sil=+0.0403
+      k=  8  logW=13.7530  sil=+0.0447
+      k=  8  logW=13.7530  sil=+0.0447
+      k=  9  logW=13.7443  sil=+0.0479
+      k=  9  logW=13.7443  sil=+0.0479
+      k= 10  logW=13.7369  sil=+0.0519
+      k= 10  logW=13.7369  sil=+0.0519
+      k= 12  logW=13.7234  sil=+0.0570
+      k= 12  logW=13.7234  sil=+0.0570
+      k= 16  logW=13.7062  sil=+0.0512
+      k= 16  logW=13.7062  sil=+0.0512
+      k= 24  logW=13.6777  sil=+0.0615
+      k= 24  logW=13.6777  sil=+0.0615
+      k= 32  logW=13.6530  sil=+0.0760
+      k= 32  logW=13.6530  sil=+0.0760
+    null=pca_gauss (B=10):
+    null=pca_gauss (B=10):
+      k=  2  logW=13.9121±0.002  sil=+0.0415
+      k=  2  logW=13.9121±0.002  sil=+0.0415
+      k=  3  logW=13.8871±0.002  sil=+0.0329
+      k=  3  logW=13.8871±0.002  sil=+0.0329
+      k=  4  logW=13.8733±0.002  sil=+0.0249
+      k=  4  logW=13.8733±0.002  sil=+0.0249
+      k=  5  logW=13.8630±0.002  sil=+0.0229
+      k=  5  logW=13.8630±0.002  sil=+0.0229
+      k=  6  logW=13.8549±0.002  sil=+0.0211
+      k=  6  logW=13.8549±0.002  sil=+0.0211
+      k=  7  logW=13.8477±0.002  sil=+0.0200
+      k=  7  logW=13.8477±0.002  sil=+0.0200
+      k=  8  logW=13.8415±0.002  sil=+0.0192
+      k=  8  logW=13.8415±0.002  sil=+0.0192
+      k=  9  logW=13.8365±0.001  sil=+0.0182
+      k=  9  logW=13.8365±0.001  sil=+0.0182
+      k= 10  logW=13.8324±0.001  sil=+0.0170
+      k= 10  logW=13.8324±0.001  sil=+0.0170
+      k= 12  logW=13.8254±0.001  sil=+0.0153
+      k= 12  logW=13.8254±0.001  sil=+0.0153
+      k= 16  logW=13.8141±0.001  sil=+0.0135
+      k= 16  logW=13.8141±0.001  sil=+0.0135
+      k= 24  logW=13.7984±0.001  sil=+0.0113
+      k= 24  logW=13.7984±0.001  sil=+0.0113
+      k= 32  logW=13.7877±0.001  sil=+0.0097
+      k= 32  logW=13.7877±0.001  sil=+0.0097
+    null=shuffle (B=10):
+    null=shuffle (B=10):
+      k=  2  logW=13.9085±0.000  sil=+0.1385
+      k=  2  logW=13.9085±0.000  sil=+0.1385
+      k=  3  logW=13.9059±0.000  sil=+0.0133
+      k=  3  logW=13.9059±0.000  sil=+0.0133
+      k=  4  logW=13.9043±0.000  sil=+0.0119
+      k=  4  logW=13.9043±0.000  sil=+0.0119
+      k=  5  logW=13.9034±0.000  sil=+0.0116
+      k=  5  logW=13.9034±0.000  sil=+0.0116
+      k=  6  logW=13.9026±0.000  sil=+0.0100
+      k=  6  logW=13.9026±0.000  sil=+0.0100
+      k=  7  logW=13.9019±0.000  sil=+0.0069
+      k=  7  logW=13.9019±0.000  sil=+0.0069
+      k=  8  logW=13.9014±0.001  sil=+0.0049
+      k=  8  logW=13.9014±0.001  sil=+0.0049
+      k=  9  logW=13.9007±0.000  sil=+0.0040
+      k=  9  logW=13.9007±0.000  sil=+0.0040
+      k= 10  logW=13.9004±0.000  sil=+0.0033
+      k= 10  logW=13.9004±0.000  sil=+0.0033
+      k= 12  logW=13.8995±0.000  sil=+0.0003
+      k= 12  logW=13.8995±0.000  sil=+0.0003
+      k= 16  logW=13.8977±0.001  sil=+0.0008
+      k= 16  logW=13.8977±0.001  sil=+0.0008
+      k= 24  logW=13.8943±0.000  sil=-0.0042
+      k= 24  logW=13.8943±0.000  sil=-0.0042
+      k= 32  logW=13.8911±0.000  sil=-0.0048
+      k= 32  logW=13.8911±0.000  sil=-0.0048
+    [pca_gauss] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [pca_gauss] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 32  (argmax gap k=32)
+    inertia elbow (kneedle) k = 9
+    inertia elbow (kneedle) k = 9
+    classifier accuracy vs k (FFN input -> kmeans label):
+    classifier accuracy vs k (FFN input -> kmeans label):
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  3  test_acc=100.0%  (train 100.0%)
+      k=  3  test_acc=100.0%  (train 100.0%)
+      k=  4  test_acc=97.8%  (train 100.0%)
+      k=  4  test_acc=97.8%  (train 100.0%)
+      k=  5  test_acc=95.6%  (train 100.0%)
+      k=  5  test_acc=95.6%  (train 100.0%)
+      k=  6  test_acc=95.4%  (train 100.0%)
+      k=  6  test_acc=95.4%  (train 100.0%)
+      k=  7  test_acc=93.4%  (train 100.0%)
+      k=  7  test_acc=93.4%  (train 100.0%)
+      k=  8  test_acc=93.0%  (train 100.0%)
+      k=  8  test_acc=93.0%  (train 100.0%)
+      k=  9  test_acc=91.8%  (train 100.0%)
+      k=  9  test_acc=91.8%  (train 100.0%)
+      k= 10  test_acc=90.2%  (train 100.0%)
+      k= 10  test_acc=90.2%  (train 100.0%)
+      k= 12  test_acc=93.4%  (train 100.0%)
+      k= 12  test_acc=93.4%  (train 100.0%)
+      k= 16  test_acc=90.2%  (train 100.0%)
+      k= 16  test_acc=90.2%  (train 100.0%)
+      k= 24  test_acc=87.0%  (train 100.0%)
+      k= 24  test_acc=87.0%  (train 100.0%)
+      k= 32  test_acc=85.6%  (train 100.0%)
+      k= 32  test_acc=85.6%  (train 100.0%)
+    permuted-label test_acc @k=9: 11.8% (uniform chance 11.1%)
+    permuted-label test_acc @k=9: 11.8% (uniform chance 11.1%)
+  layer 15 done in 636.0s
+  layer 15 done in 636.0s
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 20
+  LAYER 20
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  subsampled to 2500 tokens
+  subsampled to 2500 tokens
+    real:
+    real:
+      k=  2  logW=14.2635  sil=-0.0343
+      k=  2  logW=14.2635  sil=-0.0343
+      k=  3  logW=14.2308  sil=-0.0213
+      k=  3  logW=14.2308  sil=-0.0213
+      k=  4  logW=14.2090  sil=-0.0119
+      k=  4  logW=14.2090  sil=-0.0119
+      k=  5  logW=14.1887  sil=-0.0043
+      k=  5  logW=14.1887  sil=-0.0043
+      k=  6  logW=14.1729  sil=+0.0042
+      k=  6  logW=14.1729  sil=+0.0042
+      k=  7  logW=14.1612  sil=+0.0103
+      k=  7  logW=14.1612  sil=+0.0103
+      k=  8  logW=14.1487  sil=+0.0145
+      k=  8  logW=14.1487  sil=+0.0145
+      k=  9  logW=14.1392  sil=+0.0188
+      k=  9  logW=14.1392  sil=+0.0188
+      k= 10  logW=14.1299  sil=+0.0234
+      k= 10  logW=14.1299  sil=+0.0234
+      k= 12  logW=14.1148  sil=+0.0301
+      k= 12  logW=14.1148  sil=+0.0301
+      k= 16  logW=14.0938  sil=+0.0380
+      k= 16  logW=14.0938  sil=+0.0380
+      k= 24  logW=14.0594  sil=+0.0530
+      k= 24  logW=14.0594  sil=+0.0530
+      k= 32  logW=14.0303  sil=+0.0625
+      k= 32  logW=14.0303  sil=+0.0625
+    null=pca_gauss (B=10):
+    null=pca_gauss (B=10):
+      k=  2  logW=14.2737±0.002  sil=+0.0308
+      k=  2  logW=14.2737±0.002  sil=+0.0308
+      k=  3  logW=14.2550±0.002  sil=+0.0245
+      k=  3  logW=14.2550±0.002  sil=+0.0245
+      k=  4  logW=14.2422±0.002  sil=+0.0216
+      k=  4  logW=14.2422±0.002  sil=+0.0216
+      k=  5  logW=14.2333±0.002  sil=+0.0190
+      k=  5  logW=14.2333±0.002  sil=+0.0190
+      k=  6  logW=14.2259±0.002  sil=+0.0176
+      k=  6  logW=14.2259±0.002  sil=+0.0176
+      k=  7  logW=14.2197±0.002  sil=+0.0168
+      k=  7  logW=14.2197±0.002  sil=+0.0168
+      k=  8  logW=14.2143±0.002  sil=+0.0164
+      k=  8  logW=14.2143±0.002  sil=+0.0164
+      k=  9  logW=14.2100±0.002  sil=+0.0153
+      k=  9  logW=14.2100±0.002  sil=+0.0153
+      k= 10  logW=14.2060±0.002  sil=+0.0148
+      k= 10  logW=14.2060±0.002  sil=+0.0148
+      k= 12  logW=14.1990±0.002  sil=+0.0139
+      k= 12  logW=14.1990±0.002  sil=+0.0139
+      k= 16  logW=14.1884±0.002  sil=+0.0124
+      k= 16  logW=14.1884±0.002  sil=+0.0124
+      k= 24  logW=14.1732±0.001  sil=+0.0103
+      k= 24  logW=14.1732±0.001  sil=+0.0103
+      k= 32  logW=14.1625±0.002  sil=+0.0088
+      k= 32  logW=14.1625±0.002  sil=+0.0088
+    null=shuffle (B=10):
+    null=shuffle (B=10):
+      k=  2  logW=14.3028±0.001  sil=+0.0043
+      k=  2  logW=14.3028±0.001  sil=+0.0043
+      k=  3  logW=14.3000±0.001  sil=+0.0039
+      k=  3  logW=14.3000±0.001  sil=+0.0039
+      k=  4  logW=14.2990±0.000  sil=+0.0019
+      k=  4  logW=14.2990±0.000  sil=+0.0019
+      k=  5  logW=14.2985±0.000  sil=+0.0016
+      k=  5  logW=14.2985±0.000  sil=+0.0016
+      k=  6  logW=14.2981±0.000  sil=+0.0011
+      k=  6  logW=14.2981±0.000  sil=+0.0011
+      k=  7  logW=14.2976±0.000  sil=-0.0002
+      k=  7  logW=14.2976±0.000  sil=-0.0002
+      k=  8  logW=14.2972±0.000  sil=-0.0004
+      k=  8  logW=14.2972±0.000  sil=-0.0004
+      k=  9  logW=14.2967±0.000  sil=-0.0003
+      k=  9  logW=14.2967±0.000  sil=-0.0003
+      k= 10  logW=14.2962±0.000  sil=-0.0014
+      k= 10  logW=14.2962±0.000  sil=-0.0014
+      k= 12  logW=14.2955±0.000  sil=-0.0019
+      k= 12  logW=14.2955±0.000  sil=-0.0019
+      k= 16  logW=14.2938±0.000  sil=-0.0023
+      k= 16  logW=14.2938±0.000  sil=-0.0023
+      k= 24  logW=14.2904±0.000  sil=-0.0035
+      k= 24  logW=14.2904±0.000  sil=-0.0035
+      k= 32  logW=14.2870±0.000  sil=-0.0061
+      k= 32  logW=14.2870±0.000  sil=-0.0061
+    [pca_gauss] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [pca_gauss] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 32  (argmax gap k=32)
+    [shuffle] Tibshirani optimal-k = 32  (argmax gap k=32)
+    inertia elbow (kneedle) k = 10
+    inertia elbow (kneedle) k = 10
+    classifier accuracy vs k (FFN input -> kmeans label):
+    classifier accuracy vs k (FFN input -> kmeans label):
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  3  test_acc=96.8%  (train 100.0%)
+      k=  3  test_acc=96.8%  (train 100.0%)
+      k=  4  test_acc=94.8%  (train 100.0%)
+      k=  4  test_acc=94.8%  (train 100.0%)
+      k=  5  test_acc=95.2%  (train 100.0%)
+      k=  5  test_acc=95.2%  (train 100.0%)
+      k=  6  test_acc=94.8%  (train 100.0%)
+      k=  6  test_acc=94.8%  (train 100.0%)
+      k=  7  test_acc=94.2%  (train 100.0%)
+      k=  7  test_acc=94.2%  (train 100.0%)
+      k=  8  test_acc=93.4%  (train 100.0%)
+      k=  8  test_acc=93.4%  (train 100.0%)
+      k=  9  test_acc=91.4%  (train 100.0%)
+      k=  9  test_acc=91.4%  (train 100.0%)
+      k= 10  test_acc=92.4%  (train 100.0%)
+      k= 10  test_acc=92.4%  (train 100.0%)
+      k= 12  test_acc=91.2%  (train 100.0%)
+      k= 12  test_acc=91.2%  (train 100.0%)
+      k= 16  test_acc=90.0%  (train 100.0%)
+      k= 16  test_acc=90.0%  (train 100.0%)
+      k= 24  test_acc=85.6%  (train 100.0%)
+      k= 24  test_acc=85.6%  (train 100.0%)
+      k= 32  test_acc=89.2%  (train 100.0%)
+      k= 32  test_acc=89.2%  (train 100.0%)
+    permuted-label test_acc @k=9: 11.2% (uniform chance 11.1%)
+    permuted-label test_acc @k=9: 11.2% (uniform chance 11.1%)
+  layer 20 done in 630.5s
+  layer 20 done in 630.5s
+
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+  LAYER 35
+  LAYER 35
+══════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  collected 2596 tokens  (gate 12288-dim, input 4096-dim)
+  subsampled to 2500 tokens
+  subsampled to 2500 tokens
+    real:
+    real:
+      k=  2  logW=15.6107  sil=+0.8436
+      k=  2  logW=15.6107  sil=+0.8436
+      k=  3  logW=15.5509  sil=+0.1748
+      k=  3  logW=15.5509  sil=+0.1748
+      k=  4  logW=15.4972  sil=+0.1465
+      k=  4  logW=15.4972  sil=+0.1465
+      k=  5  logW=15.4473  sil=+0.1498
+      k=  5  logW=15.4473  sil=+0.1498
+      k=  6  logW=15.4074  sil=+0.1400
+      k=  6  logW=15.4074  sil=+0.1400
+      k=  7  logW=15.3671  sil=+0.1429
+      k=  7  logW=15.3671  sil=+0.1429
+      k=  8  logW=15.3355  sil=+0.1568
+      k=  8  logW=15.3355  sil=+0.1568
+      k=  9  logW=15.3140  sil=+0.1518
+      k=  9  logW=15.3140  sil=+0.1518
+      k= 10  logW=15.2977  sil=+0.1549
+      k= 10  logW=15.2977  sil=+0.1549
+      k= 12  logW=15.2739  sil=+0.1489
+      k= 12  logW=15.2739  sil=+0.1489
+      k= 16  logW=15.2387  sil=+0.1244
+      k= 16  logW=15.2387  sil=+0.1244
+      k= 24  logW=15.1791  sil=+0.1157
+      k= 24  logW=15.1791  sil=+0.1157
+      k= 32  logW=15.1373  sil=+0.1167
+      k= 32  logW=15.1373  sil=+0.1167
+    null=pca_gauss (B=10):
+    null=pca_gauss (B=10):
+      k=  2  logW=16.7133±0.024  sil=+0.4159
+      k=  2  logW=16.7133±0.024  sil=+0.4159
+      k=  3  logW=16.3269±0.020  sil=+0.3369
+      k=  3  logW=16.3269±0.020  sil=+0.3369
+      k=  4  logW=16.1042±0.015  sil=+0.2829
+      k=  4  logW=16.1042±0.015  sil=+0.2829
+      k=  5  logW=15.9673±0.011  sil=+0.2381
+      k=  5  logW=15.9673±0.011  sil=+0.2381
+      k=  6  logW=15.8789±0.007  sil=+0.2039
+      k=  6  logW=15.8789±0.007  sil=+0.2039
+      k=  7  logW=15.8177±0.007  sil=+0.1739
+      k=  7  logW=15.8177±0.007  sil=+0.1739
+      k=  8  logW=15.7733±0.006  sil=+0.1516
+      k=  8  logW=15.7733±0.006  sil=+0.1516
+      k=  9  logW=15.7416±0.004  sil=+0.1326
+      k=  9  logW=15.7416±0.004  sil=+0.1326
+      k= 10  logW=15.7166±0.005  sil=+0.1177
+      k= 10  logW=15.7166±0.005  sil=+0.1177
+      k= 12  logW=15.6837±0.004  sil=+0.0908
+      k= 12  logW=15.6837±0.004  sil=+0.0908
+      k= 16  logW=15.6489±0.005  sil=+0.0656
+      k= 16  logW=15.6489±0.005  sil=+0.0656
+      k= 24  logW=15.6043±0.004  sil=+0.0510
+      k= 24  logW=15.6043±0.004  sil=+0.0510
+      k= 32  logW=15.5732±0.004  sil=+0.0437
+      k= 32  logW=15.5732±0.004  sil=+0.0437
+    null=shuffle (B=10):
+    null=shuffle (B=10):
+      k=  2  logW=17.4617±0.002  sil=+0.1220
+      k=  2  logW=17.4617±0.002  sil=+0.1220
+      k=  3  logW=17.4227±0.004  sil=+0.1175
+      k=  3  logW=17.4227±0.004  sil=+0.1175
+      k=  4  logW=17.3859±0.005  sil=+0.1202
+      k=  4  logW=17.3859±0.005  sil=+0.1202
+      k=  5  logW=17.3536±0.005  sil=+0.1155
+      k=  5  logW=17.3536±0.005  sil=+0.1155
+      k=  6  logW=17.3224±0.010  sil=+0.1072
+      k=  6  logW=17.3224±0.010  sil=+0.1072
+      k=  7  logW=17.2930±0.006  sil=+0.1105
+      k=  7  logW=17.2930±0.006  sil=+0.1105
+      k=  8  logW=17.2598±0.007  sil=+0.1115
+      k=  8  logW=17.2598±0.007  sil=+0.1115
+      k=  9  logW=17.2372±0.009  sil=+0.1031
+      k=  9  logW=17.2372±0.009  sil=+0.1031
+      k= 10  logW=17.2097±0.007  sil=+0.1002
+      k= 10  logW=17.2097±0.007  sil=+0.1002
+      k= 12  logW=17.1687±0.006  sil=+0.0896
+      k= 12  logW=17.1687±0.006  sil=+0.0896
+      k= 16  logW=17.1075±0.008  sil=+0.0798
+      k= 16  logW=17.1075±0.008  sil=+0.0798
+      k= 24  logW=17.0205±0.008  sil=+0.0616
+      k= 24  logW=17.0205±0.008  sil=+0.0616
+      k= 32  logW=16.9691±0.004  sil=+0.0521
+      k= 32  logW=16.9691±0.004  sil=+0.0521
+    [pca_gauss] Tibshirani optimal-k = 2  (argmax gap k=2)
+    [pca_gauss] Tibshirani optimal-k = 2  (argmax gap k=2)
+    [shuffle] Tibshirani optimal-k = 5  (argmax gap k=7)
+    [shuffle] Tibshirani optimal-k = 5  (argmax gap k=7)
+    inertia elbow (kneedle) k = 10
+    inertia elbow (kneedle) k = 10
+    classifier accuracy vs k (FFN input -> kmeans label):
+    classifier accuracy vs k (FFN input -> kmeans label):
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  2  test_acc=100.0%  (train 100.0%)
+      k=  3  test_acc=98.4%  (train 100.0%)
+      k=  3  test_acc=98.4%  (train 100.0%)
+      k=  4  test_acc=97.0%  (train 100.0%)
+      k=  4  test_acc=97.0%  (train 100.0%)
+      k=  5  test_acc=94.6%  (train 100.0%)
+      k=  5  test_acc=94.6%  (train 100.0%)
+      k=  6  test_acc=95.6%  (train 100.0%)
+      k=  6  test_acc=95.6%  (train 100.0%)
+      k=  7  test_acc=94.2%  (train 100.0%)
+      k=  7  test_acc=94.2%  (train 100.0%)
+      k=  8  test_acc=94.6%  (train 100.0%)
+      k=  8  test_acc=94.6%  (train 100.0%)
+      k=  9  test_acc=95.4%  (train 100.0%)
+      k=  9  test_acc=95.4%  (train 100.0%)
+      k= 10  test_acc=91.2%  (train 100.0%)
+      k= 10  test_acc=91.2%  (train 100.0%)
+      k= 12  test_acc=91.8%  (train 100.0%)
+      k= 12  test_acc=91.8%  (train 100.0%)
+      k= 16  test_acc=88.8%  (train 100.0%)
+      k= 16  test_acc=88.8%  (train 100.0%)
+      k= 24  test_acc=84.6%  (train 100.0%)
+      k= 24  test_acc=84.6%  (train 100.0%)
+      k= 32  test_acc=79.4%  (train 100.0%)
+      k= 32  test_acc=79.4%  (train 100.0%)
+    permuted-label test_acc @k=9: 12.0% (uniform chance 11.1%)
+    permuted-label test_acc @k=9: 12.0% (uniform chance 11.1%)
+  layer 35 done in 624.3s
+  layer 35 done in 624.3s
+
+======================================================================
+
+======================================================================
+  VERDICT SUMMARY
+  VERDICT SUMMARY
+======================================================================
+======================================================================
+  layer |   gap_optk(pca/shuf) | elbow |     sil@9(real/pca/shuf) |  acc@9  acc@2 acc@32
+  layer |   gap_optk(pca/shuf) | elbow |     sil@9(real/pca/shuf) |  acc@9  acc@2 acc@32
+      0 |         4/10        |    10 | +0.018/+0.018/+0.001 | 92.2% 99.8% 88.0%
+      0 |         4/10        |    10 | +0.018/+0.018/+0.001 | 92.2% 99.8% 88.0%
+      3 |         8/8         |    10 | -0.028/+0.018/+0.024 | 88.2% 99.4% 74.0%
+      3 |         8/8         |    10 | -0.028/+0.018/+0.024 | 88.2% 99.4% 74.0%
+     15 |        32/32        |     9 | +0.048/+0.018/+0.004 | 91.8% 100.0% 85.6%
+     15 |        32/32        |     9 | +0.048/+0.018/+0.004 | 91.8% 100.0% 85.6%
+     20 |        32/32        |    10 | +0.019/+0.015/-0.000 | 91.4% 100.0% 89.2%
+     20 |        32/32        |    10 | +0.019/+0.015/-0.000 | 91.4% 100.0% 89.2%
+     35 |         2/5         |    10 | +0.152/+0.133/+0.103 | 95.4% 100.0% 79.4%
+     35 |         2/5         |    10 | +0.152/+0.133/+0.103 | 95.4% 100.0% 79.4%
+
+  Reading: if gap optimal-k is far from 9 and sil@9(real) ~= sil@9(null)
+
+  Reading: if gap optimal-k is far from 9 and sil@9(real) ~= sil@9(null)
+  and classifier accuracy is high-and-flat across k, then '9' is IMPOSED
+  and classifier accuracy is high-and-flat across k, then '9' is IMPOSED
+  by k-means, not a natural count. (Functional '9 ternary programs ~= 1x
+  by k-means, not a natural count. (Functional '9 ternary programs ~= 1x
+  PPL' is a separate claim, untouched here.)
+  PPL' is a separate claim, untouched here.)
+
+  saved -> /Users/mwhitford/src/verbum/results/mode-cluster-validity/Qwen_Qwen3-8B.json
+
+  saved -> /Users/mwhitford/src/verbum/results/mode-cluster-validity/Qwen_Qwen3-8B.json
+
+======================================================================
+  DONE
+======================================================================
+
+
+======================================================================
+  DONE
+======================================================================
+
