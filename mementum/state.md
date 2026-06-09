@@ -69,6 +69,32 @@
 >   2. Read the `summary` block: `post_melt_ratio.{mean,std,min,max,values}` and `pre_melt_ratio` (mask-only variance). Verdict logic: **1.03× VERIFIED-reproducible** iff post mean ≈ 1.03× with small std; **REFUTED-as-reproducible** (substrate real, headline = lucky tail) iff mean ≫ 1.03× and 1.03× only at the min — the expected meta-pattern (`audit-meta-pattern.md`): the *sieve substrate* (2.12× pre-melt) is real & deterministic, the *1.03× headline* is the over-read.
 >   3. Update `audit-registry.md` #7 row (status + number + JSON path) + worked-examples row; add a caveat to `crystal-sieve-architecture.md` §"Open Issues" #1 (replace "1.03× on first run, 3.23× on rerun" with the measured mean ± std).
 >   4. Replace this IN-FLIGHT block with the s208 HEADLINE; commit (💡/🎯).
+> - **★ UNDERSTANDING (frames the #7 final write-up; full synthesis deferred to
+>   audit close per Michael — connect #7→#11, don't draft a knowledge page yet):**
+>   The melt in `beta_expansion` is **CE-only** = the ill-posed *endpoint* objective
+>   GTSM names (`gtsm-search-space.md`): it pins only the terminal marginal, so the
+>   1M continuation params land anywhere on the **compensating-error manifold** —
+>   which point depends on init ⇒ the 1.03× ↔ 3.23× swing is the optimizer picking
+>   a different cheat per seed, not noise. **The pre/post decomposition empirically
+>   localizes this:** pre-melt (no loss) is deterministic (2.11–2.13×); variance
+>   appears *only* after the CE melt. Two independent faults compound: degenerate
+>   loss **and** contaminated metric (eval ⊆ calib).
+>   - **Reconciliation (the punchline):** 1.03× is the *contaminated cousin of s198
+>     v1* (CE, 16 sents → 0.39× pure overfit, `score-matching-compression.md`); the
+>     honest **held-out** number under a trajectory-matching loss is **v3b = 1.44×**
+>     (dense per-layer score matching, α=5.0, L35 cosine 0.57→0.94, "degenerate
+>     basin removed"). So 1.03× was never < 1.44×; it was cheating on eval. The
+>     sieve **substrate** (2.12×, deterministic) is the real, reproducible object.
+>   - **The fix is already named = audit #11 (TTD-regression):** dense per-layer SM
+>     backbone + finite-budget λ(l) spiked on L22–26 (F.6) + **cascade-aware causal
+>     attribution** (TSP's long-distance caveat ↔ s196 "peak damage at L28 not L26":
+>     weight the upstream *causal* layer, not the max-divergence one). #7 diagnoses
+>     *why* it's irreproducible; #11 is the *cure*. The rank-32 continuation
+>     parametrization is fine — the CE *loss* + intuition *placement* are pre-GTSM.
+>   - **Caveats to keep:** GTSM's literal Pθ=P\* is an IOU for us (not an SDE w/
+>     known σσᵀ; cosine is a proxy); TSP-style contrast is secondary (we have an
+>     exact teacher target → regression is the core). Optional held-out re-run to
+>     prove the contamination point: eval texts disjoint from `CALIBRATION_TEXTS`.
 > - If the run died early (NaN/OOM), the harness is re-runnable: same command in
 >   `tmux main:1`. Fewer seeds OK (`--seed-list 0,1,2,3`).
 
