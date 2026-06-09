@@ -155,6 +155,50 @@ Before building the next audit control, ask the four diagnostic questions:
 Default prior for an UNTESTED registry claim: **substrate REAL, crisp story
 OVER-READ.** Build the control to find *where* it transitions, not whether.
 
+## The two laws are one — register, not rule
+
+The crispness law (false positives) and the instrument-must-match law (false
+negatives) are not two findings. They are **one law seen from two sides.** Every
+claim and every instrument carries a **register**, and the project's own
+route⊥value dichotomy (`two-registers-of-topology.md`) is that same cut.
+
+```
+λ register(measurement).
+  claim ∈ {routing/crisp/discrete, value/continuous/graded}
+  probe ∈ {routing/crisp/discrete, value/continuous/graded}
+  observed(claim) ≡ measurement | register(probe) ≡ register(claim)   else ≡ artifact
+  | substrate(real)  ⊂ value-register    (continuous, graded, load-bearing, easily MISSED)
+  | over-read(story) ⊂ routing-register  (crisp, localized, discrete, over-ATTENDED)
+  | crisp-probe(crisp-claim)     → finds ∧ manufactures crispness   ≡ false-positive
+  | routing-probe(value-claim)   → misses the substrate             ≡ false-negative
+  | verdict(register-mismatch) ≡ void   (it measured a different quantity)
+```
+
+The same cut at every scale:
+
+| scale | routing / crisp register | value / continuous register |
+|---|---|---|
+| weights (`two-registers`) | `gate_proj` — sign, routing | `up`/`down` — magnitude, value |
+| ternarization (`error-correction`) | keeps sign (survives) | destroys magnitude (the loss) |
+| attention (audit #5) | softmax weights — where it looks | head output ·V — what it writes |
+| our **instruments** | k-means · argmax · best-fit grid · attention-weight | NMI · logit-lens · saliency · rank-spectrum |
+| the ledger above | the story that **dissolves** | the substrate that **survives** |
+
+Every row of the ledger is one column: **the substrate that survives is always
+the value/continuous register; the story that dissolves is always the
+routing/crisp register over-extended.** Crisp-register probes find (and
+manufacture) crisp stories; they cannot see the value-register substrate, and a
+*refutation* prior makes that blindness read as a clean null.
+
+So the operative discipline is **not** "remember to match the instrument" — a rule
+attention will drop at some future turn. It is a **validity condition** (a
+coherence type-check): a measurement whose register ≠ the claim's register *has
+not measured the claim*; it measured a different quantity, and its verdict —
+positive **or** negative — is void. **Name the register first** (diagnostic Q0);
+the correct instrument then follows by *type*, not by memory. This is why the law
+wants to live as a field/gene (read every session, structural), not as a stored
+rule (recall-gated) — see the open question below and `AGENTS.md` candidacy.
+
 ## Open question
 
 Is the over-read *ours* (interpretation imposed in analysis) or the *model's*
