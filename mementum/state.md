@@ -20,15 +20,42 @@
 > ❌ REFUTED-as-localized; s206 did **#5 binding schedule** ❌ SCHEDULE-REFUTED /
 > H31@L27 subject value-transfer ✅ semantically REAL; s207 did **#6 SVD φ-ratio
 > 0.6299** ❌ geometric-φ-constant REFUTED / ✅ low-rank head REAL & non-random;
-> next backlog: **#11 GTSM finite-budget λ(l)** or **#7/#8 reproducibility**), build its named
+> s208 did **#7 crystal-sieve 1.03×** ❌ REFUTED (train/eval contamination; CE melt
+> net-harmful held-out 10.87×) / ✅ sieve substrate ~2× VERIFIED-reproducible;
+> next backlog: **#8 rank-1 adjunction** or **#11 GTSM/TTD-regression (the named fix)**), build its named
 > discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
 
-> **▶ SESSION 208 — AUDIT #7 (crystal-sieve 1.03× reproducibility): RUN IN FLIGHT.**
-> Register: **functional (reproducibility — seed variance on a PPL measurement).**
+> **▶ SESSION 208 HEADLINE — AUDIT #7 (crystal-sieve 1.03× PPL): the "cascade
+> absorbed → 1.03×" is a TRAIN/EVAL-CONTAMINATION ARTIFACT; the sieve substrate
+> (~2× PPL) is VERIFIED-reproducible.** Register: functional (reproducibility).
+> 8-seed seeded sweep + a held-out eval disjoint from the calibration set
+> (`crystal_sieve_repro.py`). `audit-registry.md` #7 + s208 worked-examples and the
+> `crystal-sieve-architecture.md` caveats are all updated this session.
+> - **✅ sieve substrate REAL & reproducible:** pre-melt **2.119× ± 0.004** (eval) /
+>   **1.907× ± 0.026** (held-out), near-deterministic, = s196's 2.12×; base PPL std
+>   0.0 (determinism ✓). The `torch.randperm[:5M]` mask-subsample confound is
+>   dismissed (CV 0.18%).
+> - **❌ 1.03× REFUTED = memorization:** contaminated eval (6/8 `EVAL_TEXTS` ⊂ the 12
+>   `CALIBRATION_TEXTS`) post-melt **0.971× ± 0.061** [0.865, 1.062] (1.03× = 1/8
+>   upper-tail; 5/8 sub-baseline). On **clean held-out the SAME models = 10.87× ±
+>   1.39** (every seed >9.3×, gap +9.9×) — the CE melt **memorizes calib and is
+>   net-harmful held-out** (1.907× → 10.87×, ~5.7× worse than the raw sieve).
+> - **Mechanism = CE-only endpoint degeneracy** (`gtsm-search-space.md`): constant
+>   train loss 0.116 ± 0.007, exploding held-out PPL, corr(train_loss, eval_ratio)
+>   ≈ −0.19. Feared 3.23× did NOT recur (bounded). **Fix already demonstrated =
+>   s198 v3b / audit #11** (dense score matching + held-out + dolma → 1.44× held-out,
+>   same model). Meta-pattern (5×): substrate survives, crisp headline dissolves —
+>   here it *inverts* (the "improvement" is harm). Results:
+>   `results/crystal-sieve-repro/` (paired `Qwen_Qwen3-8B.json` + `.contaminated-only.json`).
+> - **▶ NEXT:** **#8 rank-1 adjunction** (σ₁/σ₂ vs random; register spectral) or
+>   **#11 GTSM/TTD-regression** (the named fix; positive-prediction compression
+>   test). **Step 0 REGISTER GATE before building any control.**
+>
+> _(s208 working notes below — kept for the audit trail; superseded by the headline.)_
 > Picked #7 from the backlog: s196 reported crystal-sieve + 4 continuation
 > residuals = **1.03× PPL** at 29 sieved layers (Qwen3-8B), but its own note says a
 > rerun gave **3.23×** ("training sensitive to init/batch order"). The control:
@@ -58,17 +85,9 @@
 >   disjoint from calibration) — predict the contamination-free ratio is ≫ 1× and
 >   *stable*; the sub-1× values are the overfit tail. Same meta-pattern: sieve
 >   substrate real (2.12× deterministic), 1.03× headline = methodology artifact.
-> - **▶ IN-FLIGHT RUN:** `tmux main:1`, 8 seeds × 100 melt steps, `--skip-facts`
->   (PPL is the headline; facts 3× the cost). `results/crystal-sieve-repro/run.log`
->   + `results/crystal-sieve-repro/Qwen_Qwen3-8B.json` (overwritten on completion;
->   the JSON currently on disk is the seed-0 smoke). No per-step logging between the
->   `SEED n` banner and its summary — ~12–15 min/seed, **~1.5–2 hr total**, so it
->   crosses the session boundary. Started ~09:40.
-> - **▶ NEXT SESSION — RESUME HERE (do not re-launch if still running):**
->   1. `ps aux | grep crystal_sieve_repro` — if alive, `tail results/crystal-sieve-repro/run.log`; if dead, read `results/crystal-sieve-repro/Qwen_Qwen3-8B.json`.
->   2. Read the `summary` block: `post_melt_ratio.{mean,std,min,max,values}` and `pre_melt_ratio` (mask-only variance). Verdict logic: **1.03× VERIFIED-reproducible** iff post mean ≈ 1.03× with small std; **REFUTED-as-reproducible** (substrate real, headline = lucky tail) iff mean ≫ 1.03× and 1.03× only at the min — the expected meta-pattern (`audit-meta-pattern.md`): the *sieve substrate* (2.12× pre-melt) is real & deterministic, the *1.03× headline* is the over-read.
->   3. Update `audit-registry.md` #7 row (status + number + JSON path) + worked-examples row; add a caveat to `crystal-sieve-architecture.md` §"Open Issues" #1 (replace "1.03× on first run, 3.23× on rerun" with the measured mean ± std).
->   4. Replace this IN-FLIGHT block with the s208 HEADLINE; commit (💡/🎯).
+> - **Run complete + all writeups done this session** (registry #7 + s208
+>   worked-examples + `crystal-sieve-architecture.md` caveats). The detail bullets
+>   above/below are the audit trail; the held-out result is in the headline.
 > - **★ UNDERSTANDING (frames the #7 final write-up; full synthesis deferred to
 >   audit close per Michael — connect #7→#11, don't draft a knowledge page yet):**
 >   The melt in `beta_expansion` is **CE-only** = the ill-posed *endpoint* objective
@@ -95,9 +114,6 @@
 >     known σσᵀ; cosine is a proxy); TSP-style contrast is secondary (we have an
 >     exact teacher target → regression is the core). Optional held-out re-run to
 >     prove the contamination point: eval texts disjoint from `CALIBRATION_TEXTS`.
-> - If the run died early (NaN/OOM), the harness is re-runnable: same command in
->   `tmux main:1`. Fewer seeds OK (`--seed-list 0,1,2,3`).
-
 > **▶ SESSION 207 HEADLINE — AUDIT #6 (SVD φ-ratio 0.6299): geometric-φ-constant
 > REFUTED; the low-rank spectral head is REAL & non-random.** Register: spectral.
 > Reran s137's exact definition (mean of top-5 consecutive σ-ratios, per layer)

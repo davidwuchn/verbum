@@ -15,6 +15,26 @@ depends-on:
 
 # Crystal Sieve Architecture
 
+> ⚠️ **CAVEAT (session 208 audit #7 — read before trusting the 1.03×).** The
+> headline **1.03× PPL "cascade absorbed"** is a **train/eval-contamination
+> artifact**, not a stable compression result. An 8-seed reproducibility sweep
+> (`scripts/experiments/crystal_sieve_repro.py`, `results/crystal-sieve-repro/`)
+> shows: (1) the **sieve substrate is real and reproducible** — pre-melt 2.119× ±
+> 0.004 (eval) / 1.907× ± 0.026 (held-out), near-deterministic; (2) the post-melt
+> 1.03× is a **1/8 upper-tail draw** of a 0.971× ± 0.061 distribution, and 5/8
+> seeds go *below* baseline because **6 of the 8 `EVAL_TEXTS` are duplicates of the
+> 12 `CALIBRATION_TEXTS`** the melt trains on; (3) on **clean held-out text the
+> same melted models read 10.87× ± 1.39** (every seed >9.3×) — the continuation
+> melt **memorizes the calibration set and is net-harmful to generalization**
+> (held-out 1.907× → 10.87×, ~5.7× worse than the raw sieve). Root cause: the
+> CE-only melt is the ill-posed *endpoint* objective (`gtsm-search-space.md`);
+> constant train loss (0.116) + exploding held-out PPL = compensating-error
+> degeneracy. **The honest reproducible numbers are: sieve ≈ 1.9–2.1×, and the
+> trained-correction fix is s198 v3b** (dense per-layer score matching + held-out +
+> dolma → **1.44× held-out** on this same model) = audit #11. Treat "1.03×" below
+> as **withdrawn**; the rank-32 continuation *parametrization* is fine, the CE
+> *loss* + 12-text contaminated *eval* are not.
+
 ## Discovery (session 196)
 
 Ten experiments converged on a proven compression architecture for
@@ -48,8 +68,8 @@ Pipeline:
 | Metric | Value |
 |--------|-------|
 | Per-layer sieve quality | 1.03x PPL |
-| 29-layer cascade (sieve only) | 2.12x PPL |
-| + continuation residuals | **1.03x PPL** |
+| 29-layer cascade (sieve only) | 2.12x PPL ✅ reproducible (s208: 2.119×±0.004) |
+| + continuation residuals | ~~**1.03x PPL**~~ ❌ withdrawn (s208: contaminated eval; held-out **10.87×**) |
 | Binding preservation | 98% (39/40 top-1 matches) |
 | Continuation params | 1,048,576 |
 | Storage compression (current) | 1.8x (float16 magnitudes) |
@@ -99,6 +119,14 @@ magnitude granularity, or the mode representation.
 
 ## Why Continuations Work
 
+> ⚠️ **s208:** this section's thesis is **not supported held-out.** The CE-melted
+> continuations reduce *contaminated* eval PPL (eval ⊂ calib) but raise **held-out**
+> PPL ~5.7× (1.907× → 10.87×) — they memorize the calibration distribution rather
+> than "absorb the cascade." A correction that genuinely absorbs the cascade needs
+> a trajectory-matching loss (s198 v3b score matching, 1.44× held-out), not CE on
+> 12 texts. The binding-preservation observation below still stands (it is an
+> attention-pattern measurement, not a PPL claim).
+
 The cascade error is purely magnitude distortion at layer
 interfaces, NOT structural disruption. The binding heads (H31 at
 L27, H03/H13/H15 at L30) still attend to the correct positions
@@ -112,7 +140,10 @@ functional zone needs to receive properly-scaled activations.
 
 ## Compression Status
 
-**Proven quality**: 1.03x PPL at 29 sieved layers.
+**Proven quality**: ~~1.03x PPL at 29 sieved layers~~ ❌ **withdrawn (s208)** —
+that number was on a contaminated eval; held-out is 10.87×. Reproducible quality
+is the **sieve substrate ≈ 2× PPL** (held-out 1.907×); a real trained correction
+needs dense score matching (s198 v3b, 1.44× held-out), not the CE melt here.
 **Proven storage**: 1.8x compression (50% zeros in float16).
 **Unproven**: magnitude quantization (Q4/Q8) in the full pipeline.
 

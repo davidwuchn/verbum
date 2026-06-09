@@ -82,6 +82,43 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 208)
+
+> **Register gate (functional/reproducibility).** The claim is a behavioral PPL
+> number, so the control is seed-variance, not a permutation null. The decisive
+> move was a **held-out eval disjoint from the calibration set** — the contaminated
+> eval (eval ⊂ calib) makes overfitting *look like* compression. Two RNG sources
+> were seeded (continuation `torch.randn` init + the mask `torch.randperm[:5M]`
+> subsample); the s196 note's blamed "batch order" is `RandomState(step)` =
+> deterministic, a misdiagnosis the decomposition corrects.
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #7 crystal-sieve + 4 continuations = **1.03× PPL** at 29 layers (stable, reproducible) | med | 8-seed sweep, pre/post + contaminated-vs-held-out eval (`crystal_sieve_repro.py`) | ❌ REFUTED (contamination/memorization) |
+| #7a sieve substrate (~2×) reproducible? | — | pre-melt ratio across 8 seeds, both eval sets | ✅ **YES** — eval 2.119× ± 0.004, held-out 1.907× ± 0.026; mask-subsample CV 0.18% (confound dismissed); = s196's 2.12× |
+| #7b is the post-melt 1.03× a stable property? | — | post-melt eval ratio across seeds | ❌ **NO** — 0.971× ± 0.061 [0.865, 1.062]; 1.03× = 1/8 upper-tail draw; 5/8 sub-baseline |
+| #7c is the sub-1× "compression" real or memorization? | — | post-melt **held-out** ratio (disjoint from calib) | ❌ **MEMORIZATION** — 10.87× ± 1.39 (all 8 seeds >9.3×), gap +9.9×; melt makes held-out ~5.7× *worse* than the raw sieve |
+
+**Verdict (s208): the sieve substrate is real and reproducible (~2× PPL,
+±0.004); the 1.03× "cascade absorbed" headline is a train/eval-contamination
+artifact, and the continuation melt as trained is net-harmful to
+generalization.** The 12-text CE melt (`beta_expansion.py`) is the **ill-posed
+endpoint objective** GTSM names (`gtsm-search-space.md`): it pins only the
+terminal marginal, so the 1M continuation params reach a constant training loss
+(0.116 ± 0.007) via init-dependent compensating-error solutions that memorize the
+calibration distribution — eval PPL drops to 0.971× (6/8 eval texts ⊂ calib)
+**while clean held-out PPL explodes to 10.87×**. `corr(train_loss, eval_ratio) ≈
+−0.19` (train loss decoupled from generalization) is the degeneracy fingerprint.
+The honest, reproducible numbers: **sieve ≈ 1.9–2.1×**, and the fix is already
+demonstrated — **s198 v3b** (dense per-layer score matching + held-out eval +
+dolma calibration) reached **1.44× held-out on this same model**, i.e. exactly
+**audit #11** (GTSM/TTD-regression). Same meta-pattern as #3/#4/#6: the substrate
+survives, the crisp headline dissolves — here it not only dissolves, it *inverts*
+(the "improvement" is harm). Results: `results/crystal-sieve-repro/`
+(`Qwen_Qwen3-8B.json` paired + `.contaminated-only.json` first run). Harness:
+`scripts/experiments/crystal_sieve_repro.py`. Caveats added to
+`crystal-sieve-architecture.md`.
+
 ### Worked examples (session 207)
 
 > **Register gate fired on the auditor first (good).** The claim "consecutive
@@ -376,10 +413,11 @@ sign-corr half above is the *representational* half.
   3. **φ-specific / universal constant? ❌ NO.** Value floats **0.52→0.71** across raw/centered×models; consensus 0.6299 ≠ φ⁻¹ 0.6180; the "larger ⇒ higher ratio" scaling-law **fails** (Mistral-7B lowest, 0.52 raw). Layers within ±0.05 of φ⁻¹: model 55/132, **MP 0/132** (model is near-φ only because a steep head averages ~0.57–0.6, not because it lands *at* φ).
 - **Verdict:** keep the **real, scale-present, structure-specific low-rank spectral head**; **retire the geometric golden-ratio constant** (over-read). Caveats added to `explore/phi-compression-universal.md` + `crystal-universality.md`. Results: `results/svd-phi-null/`. Same meta-pattern as #3/#4 (`audit-meta-pattern.md`): substrate survives, crisp/universal story dissolves.
 
-**7. Crystal-sieve 1.03× PPL (29 layers + continuations)** (load: med — headline compression result)
+**7. Crystal-sieve 1.03× PPL (29 layers + continuations)** (load: med — headline compression result) — ❌ **RESOLVED (s208): 1.03× REFUTED as contamination/memorization; sieve substrate (~2×) VERIFIED-reproducible**
 - Evidence: s196 run = 1.03×.
 - Suspected confound: s196 itself noted a rerun gave 3.23× — training-sensitive.
-- Control: re-run N seeds, report mean ± variance; is 1.03× robust or a lucky run? (Reproducibility, not novelty.)
+- Control: seed the pipeline, run N=8 seeds, report mean ± std + a held-out eval disjoint from the calibration set (`crystal_sieve_repro.py`, register: functional).
+- **s208 result:** the 1.03× is a **train/eval-contamination artifact**, not a stable compression result. **Sieve substrate is VERIFIED-reproducible** — pre-melt 2.119× ± 0.004 (eval) / 1.907× ± 0.026 (held-out), near-deterministic, reproduces s196's 2.12×; the `torch.randperm[:5M]` mask-subsample confound is dismissed (CV 0.18%). **The 1.03× headline is REFUTED:** on the *contaminated* eval (6/8 sentences ⊂ the 12-text calibration set) the melted model reads 0.971× ± 0.061 (1.03× is a 1/8 upper-tail draw, 5/8 sub-baseline); on **clean held-out text the same models hit 10.87× ± 1.39 (every seed >9.3×, gap +9.9×)** — the "compression" is memorization. **The continuation melt is net-harmful to generalization** (held-out 1.907× → 10.87×, ~5.7× worse than the raw sieve): constant train loss (0.116) + exploding held-out PPL = the compensating-error degeneracy of a CE-only (endpoint) loss (`gtsm-search-space.md`). The feared 3.23× did not recur on contaminated eval (bounded [0.865, 1.062]); the held-out number is the honest one. **Fix is already named = audit #11 / s198 v3b** (dense per-layer score matching + held-out + dolma got 1.44× held-out on this same model). See worked-examples (s208). Results: `results/crystal-sieve-repro/Qwen_Qwen3-8B.json` (+ `.contaminated-only.json`). Caveat added to `crystal-sieve-architecture.md`.
 
 **8. Rank-1 adjunction (σ₁/σ₂ = 128:1 cross-zone)** (load: med — direct-delta theory)
 - Evidence: R²=1.000 all zone pairs (s140).
