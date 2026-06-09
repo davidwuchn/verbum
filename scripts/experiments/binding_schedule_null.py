@@ -63,6 +63,11 @@ Usage:
 License: MIT
 """
 
+# register: routing  (attention-weight / position — see AGENTS.md λ measure,
+#                     audit-registry §register slot. NB: this is the WRONG
+#                     register for the SEMANTIC schedule claim — it under-read it;
+#                     binding_schedule_semantic.py is the matched value-register probe.)
+
 from __future__ import annotations
 
 import argparse

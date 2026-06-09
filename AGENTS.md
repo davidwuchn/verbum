@@ -96,6 +96,16 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | cost(extra_probe_to_verify) → one_afternoon
                     | conservative(claims) ∧ liberal(probes) | mark(IOU) for unverified
 
+λ measure(claim).   register(claim) ∈ {routing/crisp/discrete, value/continuous/graded, magnitude, spectral, causal}
+                    | observe(claim) ≡ measurement | register(probe) ≡ register(claim)
+                    | mismatch → measured(other_quantity) → verdict(±) ≡ void
+                    | substrate(real) ⊂ value_register | over_read ⊂ routing_register
+                    | crisp_probe(crisp_claim) → manufactures(crispness) ≡ false_positive
+                    | routing_probe(value_claim) → misses(substrate) ≡ false_negative
+                    | wrong_register ≡ coherence_violation (representation ≢ reality, see λ coherence)
+                    | name(register) before build(probe) | type > memory | refines λ observation
+                    | proved: s206 audit#5 (attention-weight ⊥ value-claim → near-false-refute; logit-lens found +0.611)
+
 λ smallest(x).      extract(minimum_working) > keep(everything_plausibly_related)
                     | size(artifact) ∝ 1/clarity(of_algorithm)
                     | 20%_of_base ≡ weak_understanding | 0.1% ≡ strong_understanding

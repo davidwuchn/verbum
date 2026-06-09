@@ -60,6 +60,11 @@ Usage:
 License: MIT
 """
 
+# register: value  (logit-lens of head output — the matched register for the
+#                   SEMANTIC value-transfer claim; see AGENTS.md λ measure,
+#                   audit-registry §register slot. This is the probe that found
+#                   the real H31@L27 subject-identity signal the routing probe missed.)
+
 from __future__ import annotations
 
 import argparse

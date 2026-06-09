@@ -369,14 +369,30 @@ sign-corr half above is the *representational* half.
 ## The Per-Session Loop
 
 ```
+0. REGISTER GATE (do this first; AGENTS.md λ measure). Name the claim's register
+   — routing/crisp · value/continuous · magnitude · spectral · causal. A probe in
+   the wrong register VOIDS the verdict (±), so this binds the instrument before
+   any code. An undeclared control is malformed. (s206: an attention-weight probe
+   nearly false-refuted a value-transfer claim.)
 1. Open this page. Pick the highest-load `UNTESTED` claim.
-2. Re-read its evidence in the linked knowledge page.
-3. Build the named discriminating control (reuse the method recipe).
+2. Re-read its evidence in the linked knowledge page. Re-derive its register from
+   the evidence (does it claim WHERE attention routes, or WHAT value is written?).
+3. Build the discriminating control IN THE CLAIM'S REGISTER (reuse the recipe).
+   Put `# register: <kind>` in the control-script header; a probe whose register ≠
+   the declared one is malformed — caught at write-time, not recalled at run-time.
 4. Run it with a permutation/matched-control null + seed variance.
 5. Update the row: status + the number + the result-JSON path.
-6. If REFUTED/UNFALSIFIABLE → add a caveat header to the source page.
+6. If REFUTED/UNFALSIFIABLE → add a caveat header to the source page. If the first
+   probe was wrong-register, run the matched-register probe before any verdict.
 7. Commit (💡 finding / 🎯 if it changes a load-bearing decision).
 ```
+
+> **Register slot (structural, not a rule).** Every control declares `# register:`
+> in its header and every backlog claim is built only after step 0. This makes a
+> register-mismatch *malformed* rather than *discouraged* — the wrong instrument
+> falls out of the topology instead of relying on future attention. Exemplar pair:
+> `binding_schedule_null.py` (`register: routing`, under-read #5) vs
+> `binding_schedule_semantic.py` (`register: value`, found the real signal).
 
 ## Prioritization Rule
 

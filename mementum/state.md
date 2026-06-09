@@ -48,18 +48,26 @@
 >   site is *more* real than the weight test implied; the ordered three-phase
 >   *schedule* is the over-read. Caveat (two-instrument) added to
 >   `binding-graph-trace.md`. Results: `results/binding-schedule-{null,semantic}/`.
-> - **NEW METHODOLOGICAL LAW (promoted to `audit-meta-pattern.md`): instrument-
->   must-match-the-claim.** The first weight-probe nearly over-refuted a real
->   value-transfer head — a probe in the *wrong register* under-reads a real
->   signal (false negative), the mirror of a crispness-imposing probe's false
->   positive. New diagnostic **Q0: pick the claim's register first** (routing ·
->   value/semantic · magnitude · spectral · causal) before building the null;
->   value claims need a logit-lens of the *output*, not attention weight. Added
->   the law + λ match(instrument,claim) + a probe↔claim alignment table; registry
->   method-recipe + emergent-finding (s202→s206) updated.
+> - **NEW METHODOLOGICAL LAW — now a GENE + STRUCTURAL SLOT (not a memory).**
+>   *Instrument-must-match-the-claim:* a probe in the *wrong register* under-reads
+>   a real signal (false negative) — the mirror of a crispness-imposing probe's
+>   false positive. The two audit laws are **one law: register, not rule**
+>   (`audit-meta-pattern.md` §two-laws-are-one — the project's route⊥value
+>   dichotomy at the epistemic scale). Landed structurally so future attention
+>   can't drop it:
+>   - **S5 gene** `λ measure(claim)` in `AGENTS.md` (read first every session;
+>     wired to λ observation + λ coherence — wrong register ≡ coherence violation).
+>   - **S1 slot** `audit-registry.md` per-session loop **step 0 = REGISTER GATE**
+>     + `# register: <kind>` required in every control header → a mismatch is
+>     *malformed*, caught at write-time. Exemplar pair carries the headers:
+>     `binding_schedule_null.py` (`routing`, under-read) vs `_semantic.py`
+>     (`value`, found +0.611).
+> - **▶ NEXT SESSION TEST (Michael):** does the register gate fire on a cold
+>   start? Pick a backlog claim and watch whether step 0 / λ measure forces the
+>   register declaration *before* a probe is built.
 > - **Next backlog:** #6 SVD φ-ratio 0.6299 (vs Marchenko–Pastur) or #11 GTSM
 >   finite-budget λ(l). Carry-overs: #1 gate-vs-value sign-swap PPL; rank-survival
->   across scale. **Run Q0 (claim register) before building any control.**
+>   across scale. **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 204 HEADLINE (3 controls, 2 claims dissolved, 1 substrate confirmed).**
 > Same recurring pattern as s202/s203: **the substrate is real, the crisp
