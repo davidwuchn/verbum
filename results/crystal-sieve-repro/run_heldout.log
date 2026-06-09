@@ -1,0 +1,166 @@
+
+======================================================================
+
+======================================================================
+  CRYSTAL-SIEVE REPRODUCIBILITY — is 1.03x the center or the tail?
+  CRYSTAL-SIEVE REPRODUCIBILITY — is 1.03x the center or the tail?
+======================================================================
+======================================================================
+  Model: Qwen/Qwen3-8B  Device: mps
+  Model: Qwen/Qwen3-8B  Device: mps
+  Seeds: [0, 1, 2, 3, 4, 5, 6, 7]
+  Seeds: [0, 1, 2, 3, 4, 5, 6, 7]
+  register: functional (reproducibility — seed variance on PPL)
+  register: functional (reproducibility — seed variance on PPL)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 0  (1/8)   [0s elapsed]
+  SEED 0  (1/8)   [0s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:13,  2.06it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 59.99it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 144.98it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 187.63it/s]Loading weights:  34%|███▍      | 136/399 [00:00<00:01, 221.92it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:00, 250.33it/s]Loading weights:  50%|█████     | 200/399 [00:01<00:00, 265.39it/s]Loading weights:  59%|█████▉    | 235/399 [00:01<00:00, 284.31it/s]Loading weights:  67%|██████▋   | 268/399 [00:01<00:00, 294.22it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 303.82it/s]Loading weights:  84%|████████▎ | 334/399 [00:01<00:00, 308.47it/s]Loading weights:  92%|█████████▏| 367/399 [00:01<00:00, 310.65it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 232.17it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.125x  heldout=1.896x
+  pre-melt  eval=2.125x  heldout=1.896x
+  post-melt eval=0.865x  heldout=10.038x  (CONTAMINATION GAP +9.174, final_loss 0.1128)
+  post-melt eval=0.865x  heldout=10.038x  (CONTAMINATION GAP +9.174, final_loss 0.1128)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 1  (2/8)   [207s elapsed]
+  SEED 1  (2/8)   [207s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:40,  1.80it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 123.87it/s]Loading weights:  24%|██▍       | 96/399 [00:00<00:02, 150.43it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 167.68it/s]Loading weights:  38%|███▊      | 151/399 [00:01<00:01, 185.62it/s]Loading weights:  45%|████▍     | 178/399 [00:01<00:01, 200.63it/s]Loading weights:  51%|█████     | 203/399 [00:01<00:00, 203.44it/s]Loading weights:  58%|█████▊    | 233/399 [00:01<00:00, 217.78it/s]Loading weights:  65%|██████▍   | 259/399 [00:01<00:00, 225.36it/s]Loading weights:  73%|███████▎  | 290/399 [00:01<00:00, 240.90it/s]Loading weights:  81%|████████  | 323/399 [00:01<00:00, 259.02it/s]Loading weights:  89%|████████▊ | 354/399 [00:01<00:00, 268.11it/s]Loading weights:  96%|█████████▌| 382/399 [00:01<00:00, 270.34it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 200.41it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.110x  heldout=1.894x
+  pre-melt  eval=2.110x  heldout=1.894x
+  post-melt eval=0.982x  heldout=10.349x  (CONTAMINATION GAP +9.367, final_loss 0.1172)
+  post-melt eval=0.982x  heldout=10.349x  (CONTAMINATION GAP +9.367, final_loss 0.1172)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 2  (3/8)   [411s elapsed]
+  SEED 2  (3/8)   [411s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:48,  2.37it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:03, 92.12it/s]Loading weights:  15%|█▍        | 58/399 [00:00<00:02, 119.23it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 146.96it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 160.10it/s]Loading weights:  31%|███       | 124/399 [00:01<00:01, 149.35it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 159.78it/s]Loading weights:  42%|████▏     | 166/399 [00:01<00:01, 171.58it/s]Loading weights:  47%|████▋     | 188/399 [00:01<00:01, 172.10it/s]Loading weights:  53%|█████▎    | 211/399 [00:01<00:01, 185.59it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 188.42it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 193.14it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 206.08it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 206.69it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 211.83it/s]Loading weights:  87%|████████▋ | 346/399 [00:02<00:00, 206.63it/s]Loading weights:  92%|█████████▏| 369/399 [00:02<00:00, 213.10it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 173.64it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.120x  heldout=1.909x
+  pre-melt  eval=2.120x  heldout=1.909x
+  post-melt eval=0.927x  heldout=9.313x  (CONTAMINATION GAP +8.386, final_loss 0.134)
+  post-melt eval=0.927x  heldout=9.313x  (CONTAMINATION GAP +8.386, final_loss 0.134)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 3  (4/8)   [615s elapsed]
+  SEED 3  (4/8)   [615s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:45,  2.41it/s]Loading weights:   9%|▊         | 34/399 [00:00<00:04, 85.98it/s]Loading weights:  14%|█▎        | 54/399 [00:00<00:03, 113.46it/s]Loading weights:  18%|█▊        | 73/399 [00:00<00:02, 129.43it/s]Loading weights:  25%|██▌       | 100/399 [00:00<00:01, 152.69it/s]Loading weights:  31%|███▏      | 125/399 [00:00<00:01, 174.04it/s]Loading weights:  37%|███▋      | 147/399 [00:01<00:01, 183.72it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 189.67it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 194.97it/s]Loading weights:  53%|█████▎    | 213/399 [00:01<00:00, 200.42it/s]Loading weights:  59%|█████▊    | 234/399 [00:01<00:00, 200.96it/s]Loading weights:  64%|██████▍   | 257/399 [00:01<00:00, 207.49it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 208.79it/s]Loading weights:  77%|███████▋  | 306/399 [00:01<00:00, 226.36it/s]Loading weights:  82%|████████▏ | 329/399 [00:01<00:00, 220.22it/s]Loading weights:  88%|████████▊ | 352/399 [00:02<00:00, 220.38it/s]Loading weights:  94%|█████████▍| 376/399 [00:02<00:00, 217.22it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 179.08it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.121x  heldout=1.898x
+  pre-melt  eval=2.121x  heldout=1.898x
+  post-melt eval=0.944x  heldout=11.230x  (CONTAMINATION GAP +10.286, final_loss 0.1134)
+  post-melt eval=0.944x  heldout=11.230x  (CONTAMINATION GAP +10.286, final_loss 0.1134)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 4  (5/8)   [819s elapsed]
+  SEED 4  (5/8)   [819s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:43,  2.43it/s]Loading weights:   7%|▋         | 26/399 [00:00<00:05, 63.89it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 103.37it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 129.17it/s]Loading weights:  23%|██▎       | 92/399 [00:00<00:02, 152.51it/s]Loading weights:  29%|██▊       | 114/399 [00:00<00:01, 169.87it/s]Loading weights:  34%|███▎      | 134/399 [00:01<00:01, 177.89it/s]Loading weights:  39%|███▉      | 157/399 [00:01<00:01, 189.48it/s]Loading weights:  45%|████▍     | 178/399 [00:01<00:01, 192.02it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 197.85it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 225.13it/s]Loading weights:  64%|██████▍   | 256/399 [00:01<00:00, 219.31it/s]Loading weights:  70%|██████▉   | 279/399 [00:01<00:00, 212.58it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 227.73it/s]Loading weights:  83%|████████▎ | 333/399 [00:01<00:00, 231.05it/s]Loading weights:  90%|████████▉ | 358/399 [00:02<00:00, 231.20it/s]Loading weights:  97%|█████████▋| 386/399 [00:02<00:00, 235.64it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 183.83it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.121x  heldout=1.968x
+  pre-melt  eval=2.121x  heldout=1.968x
+  post-melt eval=1.062x  heldout=12.021x  (CONTAMINATION GAP +10.958, final_loss 0.1178)
+  post-melt eval=1.062x  heldout=12.021x  (CONTAMINATION GAP +10.958, final_loss 0.1178)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 5  (6/8)   [1022s elapsed]
+  SEED 5  (6/8)   [1022s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:48,  2.37it/s]Loading weights:  10%|▉         | 38/399 [00:00<00:03, 93.56it/s]Loading weights:  15%|█▍        | 59/399 [00:00<00:03, 109.58it/s]Loading weights:  20%|██        | 81/399 [00:00<00:02, 133.26it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 151.26it/s]Loading weights:  31%|███▏      | 125/399 [00:01<00:01, 166.57it/s]Loading weights:  37%|███▋      | 148/399 [00:01<00:01, 180.60it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 185.89it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 188.23it/s]Loading weights:  54%|█████▍    | 215/399 [00:01<00:00, 199.95it/s]Loading weights:  61%|██████    | 243/399 [00:01<00:00, 218.28it/s]Loading weights:  67%|██████▋   | 266/399 [00:01<00:00, 221.28it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 218.51it/s]Loading weights:  78%|███████▊  | 313/399 [00:01<00:00, 223.58it/s]Loading weights:  85%|████████▌ | 340/399 [00:01<00:00, 234.95it/s]Loading weights:  91%|█████████ | 364/399 [00:02<00:00, 231.05it/s]Loading weights:  97%|█████████▋| 388/399 [00:02<00:00, 228.61it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 181.81it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.119x  heldout=1.916x
+  pre-melt  eval=2.119x  heldout=1.916x
+  post-melt eval=1.020x  heldout=10.116x  (CONTAMINATION GAP +9.096, final_loss 0.1091)
+  post-melt eval=1.020x  heldout=10.116x  (CONTAMINATION GAP +9.096, final_loss 0.1091)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 6  (7/8)   [1226s elapsed]
+  SEED 6  (7/8)   [1226s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:29,  2.66it/s]Loading weights:   7%|▋         | 27/399 [00:00<00:05, 72.13it/s]Loading weights:  12%|█▏        | 48/399 [00:00<00:03, 107.83it/s]Loading weights:  17%|█▋        | 67/399 [00:00<00:02, 121.40it/s]Loading weights:  23%|██▎       | 91/399 [00:00<00:02, 153.07it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 161.18it/s]Loading weights:  33%|███▎      | 133/399 [00:01<00:01, 176.43it/s]Loading weights:  39%|███▉      | 155/399 [00:01<00:01, 186.05it/s]Loading weights:  44%|████▍     | 175/399 [00:01<00:01, 189.81it/s]Loading weights:  49%|████▉     | 195/399 [00:01<00:01, 192.61it/s]Loading weights:  54%|█████▍    | 215/399 [00:01<00:00, 191.11it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 193.84it/s]Loading weights:  66%|██████▌   | 263/399 [00:01<00:00, 215.37it/s]Loading weights:  71%|███████▏  | 285/399 [00:01<00:00, 216.07it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 221.86it/s]Loading weights:  83%|████████▎ | 333/399 [00:01<00:00, 225.45it/s]Loading weights:  89%|████████▉ | 356/399 [00:02<00:00, 220.91it/s]Loading weights:  95%|█████████▍| 379/399 [00:02<00:00, 220.67it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 179.74it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.120x  heldout=1.886x
+  pre-melt  eval=2.120x  heldout=1.886x
+  post-melt eval=1.001x  heldout=13.636x  (CONTAMINATION GAP +12.635, final_loss 0.1135)
+  post-melt eval=1.001x  heldout=13.636x  (CONTAMINATION GAP +12.635, final_loss 0.1135)
+
+──────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────
+  SEED 7  (8/8)   [1429s elapsed]
+  SEED 7  (8/8)   [1429s elapsed]
+──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:41,  2.46it/s]Loading weights:   9%|▉         | 36/399 [00:00<00:03, 92.56it/s]Loading weights:  14%|█▍        | 57/399 [00:00<00:02, 114.48it/s]Loading weights:  20%|█▉        | 79/399 [00:00<00:02, 140.34it/s]Loading weights:  25%|██▍       | 99/399 [00:00<00:02, 143.73it/s]Loading weights:  29%|██▉       | 117/399 [00:00<00:01, 151.33it/s]Loading weights:  34%|███▍      | 137/399 [00:01<00:01, 159.53it/s]Loading weights:  40%|███▉      | 159/399 [00:01<00:01, 175.58it/s]Loading weights:  46%|████▌     | 182/399 [00:01<00:01, 189.22it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 196.54it/s]Loading weights:  56%|█████▋    | 225/399 [00:01<00:00, 198.79it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 224.87it/s]Loading weights:  70%|██████▉   | 278/399 [00:01<00:00, 213.12it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 213.37it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 215.74it/s]Loading weights:  88%|████████▊ | 351/399 [00:02<00:00, 230.10it/s]Loading weights:  94%|█████████▍| 375/399 [00:02<00:00, 230.85it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 177.91it/s]
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  base PPL=10.1505 (heldout 21.337)  facts=skip
+  pre-melt  eval=2.119x  heldout=1.891x
+  pre-melt  eval=2.119x  heldout=1.891x
+  post-melt eval=0.971x  heldout=10.250x  (CONTAMINATION GAP +9.279, final_loss 0.1112)
+  post-melt eval=0.971x  heldout=10.250x  (CONTAMINATION GAP +9.279, final_loss 0.1112)
+
+======================================================================
+
+======================================================================
+  SUMMARY
+  SUMMARY
+======================================================================
+======================================================================
+  base PPL              : 10.1505 (std 0.0, should be ~0 = determinism check)
+  base PPL              : 10.1505 (std 0.0, should be ~0 = determinism check)
+  pre-melt  eval (mask) : 2.119x ± 0.004  [2.110, 2.125]
+  pre-melt  eval (mask) : 2.119x ± 0.004  [2.110, 2.125]
+  pre-melt  heldout     : 1.907x ± 0.026  [1.886, 1.968]
+  pre-melt  heldout     : 1.907x ± 0.026  [1.886, 1.968]
+  post-melt eval(CONTAM): 0.971x ± 0.061  [0.865, 1.062]
+  post-melt eval(CONTAM): 0.971x ± 0.061  [0.865, 1.062]
+  post-melt heldout(CLEAN): 10.869x ± 1.386  [9.313, 13.636]
+  post-melt heldout(CLEAN): 10.869x ± 1.386  [9.313, 13.636]
+  CONTAMINATION GAP     : heldout - eval = +9.898x (>0 ⇒ the sub-1x 'win' is memorization)
+  CONTAMINATION GAP     : heldout - eval = +9.898x (>0 ⇒ the sub-1x 'win' is memorization)
+  headline claim        : 1.03x  ->  contaminated 0.971x, clean held-out 10.869x
+  headline claim        : 1.03x  ->  contaminated 0.971x, clean held-out 10.869x
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-repro/Qwen_Qwen3-8B.json
+
+  Saved to /Users/mwhitford/src/verbum/results/crystal-sieve-repro/Qwen_Qwen3-8B.json
+======================================================================
+
+======================================================================
+

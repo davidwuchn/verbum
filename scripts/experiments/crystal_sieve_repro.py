@@ -122,6 +122,29 @@ CALIBRATION_TEXTS = [
     " too dark outside.",
 ]
 
+# HELD-OUT eval — genuinely DISJOINT from both EVAL_TEXTS and CALIBRATION_TEXTS
+# (no shared sentences / long n-grams). This is the contamination control:
+# a real compression must keep PPL > baseline here; only memorization of the
+# train-overlapping EVAL_TEXTS can drive the contaminated ratio below 1.0x.
+HELDOUT_TEXTS = [
+    "The Pacific Ocean is the largest and deepest of"
+    " Earth's five oceanic divisions.",
+    "Mitochondria generate most of the cell's chemical"
+    " energy through aerobic respiration.",
+    "The novel opens with the narrator recalling a long"
+    " summer spent in a coastal village.",
+    "Interest rates climbed sharply after the central bank"
+    " announced its revised monetary policy.",
+    "The interior angles of any planar triangle always"
+    " sum to exactly one hundred eighty degrees.",
+    "The orchestra tuned their instruments as the audience"
+    " slowly settled into their velvet seats.",
+    "A volcanic eruption can loft an ash plume high enough"
+    " to disrupt commercial air travel for days.",
+    "The sorting routine repeatedly compares adjacent"
+    " elements and swaps them when they are out of order.",
+]
+
 
 def log(msg=""):
     print(msg, file=sys.stderr, flush=True)
@@ -263,6 +286,7 @@ def run_one_seed(args, seed, base_facts_cached=None):
 
     # Baseline (deterministic; measured per-seed as a sanity check)
     base_ppl = measure_ppl(model, tokenizer, EVAL_TEXTS, args.device)
+    base_ho_ppl = measure_ppl(model, tokenizer, HELDOUT_TEXTS, args.device)
     if args.skip_facts:
         base_facts = -1
     elif base_facts_cached is None:
@@ -287,6 +311,7 @@ def run_one_seed(args, seed, base_facts_cached=None):
                                       zero_rate=args.zero_rate).to(args.device))
 
     pre_ppl = measure_ppl(model, tokenizer, EVAL_TEXTS, args.device)
+    pre_ho_ppl = measure_ppl(model, tokenizer, HELDOUT_TEXTS, args.device)
     pre_facts = (-1 if args.skip_facts
                  else measure_facts(model, tokenizer, args.device)[0])
 
@@ -340,6 +365,7 @@ def run_one_seed(args, seed, base_facts_cached=None):
     model.eval()
 
     post_ppl = measure_ppl(model, tokenizer, EVAL_TEXTS, args.device)
+    post_ho_ppl = measure_ppl(model, tokenizer, HELDOUT_TEXTS, args.device)
     post_facts = (-1 if args.skip_facts
                   else measure_facts(model, tokenizer, args.device)[0])
 
@@ -352,12 +378,16 @@ def run_one_seed(args, seed, base_facts_cached=None):
     return {
         "seed": seed,
         "base_ppl": round(base_ppl, 4),
+        "base_heldout_ppl": round(base_ho_ppl, 4),
         "base_facts": base_facts,
         "pre_melt_ppl": round(pre_ppl, 4),
         "pre_melt_ratio": round(pre_ppl / base_ppl, 4),
+        "pre_heldout_ratio": round(pre_ho_ppl / base_ho_ppl, 4),
         "pre_facts": pre_facts,
         "post_melt_ppl": round(post_ppl, 4),
         "post_melt_ratio": round(post_ppl / base_ppl, 4),
+        "post_heldout_ppl": round(post_ho_ppl, 4),
+        "post_heldout_ratio": round(post_ho_ppl / base_ho_ppl, 4),
         "post_facts": post_facts,
         "continuation_params": n_trainable,
         "final_loss": round(history[-1], 4) if history else None,
@@ -418,29 +448,42 @@ def main():
         rows.append(r)
         def _f(v):
             return "skip" if v == -1 else f"{v}/15"
-        log(f"  base PPL={r['base_ppl']}  facts={_f(r['base_facts'])}")
-        log(f"  pre-melt  ratio={r['pre_melt_ratio']:.3f}x "
-            f"(PPL {r['pre_melt_ppl']}, facts {_f(r['pre_facts'])})")
-        log(f"  post-melt ratio={r['post_melt_ratio']:.3f}x "
-            f"(PPL {r['post_melt_ppl']}, facts {_f(r['post_facts'])}, "
+        log(f"  base PPL={r['base_ppl']} (heldout {r['base_heldout_ppl']})  "
+            f"facts={_f(r['base_facts'])}")
+        log(f"  pre-melt  eval={r['pre_melt_ratio']:.3f}x  "
+            f"heldout={r['pre_heldout_ratio']:.3f}x")
+        log(f"  post-melt eval={r['post_melt_ratio']:.3f}x  "
+            f"heldout={r['post_heldout_ratio']:.3f}x  "
+            f"(CONTAMINATION GAP {r['post_heldout_ratio']-r['post_melt_ratio']:+.3f}, "
             f"final_loss {r['final_loss']})")
 
     # Summaries
     pre_sum = summarize("pre_melt_ratio", rows)
     post_sum = summarize("post_melt_ratio", rows)
+    pre_ho_sum = summarize("pre_heldout_ratio", rows)
+    post_ho_sum = summarize("post_heldout_ratio", rows)
     base_sum = summarize("base_ppl", rows)
 
     log(f"\n{'='*70}")
     log("  SUMMARY")
     log(f"{'='*70}")
-    log(f"  base PPL          : {base_sum['mean']} "
+    log(f"  base PPL              : {base_sum['mean']} "
         f"(std {base_sum['std']}, should be ~0 = determinism check)")
-    log(f"  pre-melt  (mask)  : {pre_sum['mean']:.3f}x "
+    log(f"  pre-melt  eval (mask) : {pre_sum['mean']:.3f}x "
         f"± {pre_sum['std']:.3f}  [{pre_sum['min']:.3f}, {pre_sum['max']:.3f}]")
-    log(f"  post-melt (full)  : {post_sum['mean']:.3f}x "
+    log(f"  pre-melt  heldout     : {pre_ho_sum['mean']:.3f}x "
+        f"± {pre_ho_sum['std']:.3f}  "
+        f"[{pre_ho_sum['min']:.3f}, {pre_ho_sum['max']:.3f}]")
+    log(f"  post-melt eval(CONTAM): {post_sum['mean']:.3f}x "
         f"± {post_sum['std']:.3f}  [{post_sum['min']:.3f}, {post_sum['max']:.3f}]")
-    log(f"  headline claim    : 1.03x  ->  observed mean {post_sum['mean']:.3f}x, "
-        f"best-seed {post_sum['min']:.3f}x")
+    log(f"  post-melt heldout(CLEAN): {post_ho_sum['mean']:.3f}x "
+        f"± {post_ho_sum['std']:.3f}  "
+        f"[{post_ho_sum['min']:.3f}, {post_ho_sum['max']:.3f}]")
+    log("  CONTAMINATION GAP     : heldout - eval = "
+        f"{post_ho_sum['mean'] - post_sum['mean']:+.3f}x "
+        f"(>0 ⇒ the sub-1x 'win' is memorization)")
+    log(f"  headline claim        : 1.03x  ->  contaminated "
+        f"{post_sum['mean']:.3f}x, clean held-out {post_ho_sum['mean']:.3f}x")
 
     out_dir = _PROJECT_ROOT / "results" / "crystal-sieve-repro"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -458,7 +501,10 @@ def main():
         "summary": {
             "base_ppl": base_sum,
             "pre_melt_ratio": pre_sum,
+            "pre_heldout_ratio": pre_ho_sum,
             "post_melt_ratio": post_sum,
+            "post_heldout_ratio": post_ho_sum,
+            "contamination_gap": round(post_ho_sum["mean"] - post_sum["mean"], 4),
         },
         "headline_claim": 1.03,
         "elapsed_s": round(time.time() - t0, 1),
