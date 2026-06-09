@@ -231,3 +231,22 @@ attribution** (weight the causal upstream layer, not just the max-divergence
 layer). If targeted weighting wins → escalate to TTD-contrastive. If null →
 cosine already absorbs the F.6 benefit (also informative — see
 `gtsm-search-space.md`).
+
+> **⚖️ RAN (s210, audit #11 — ◐ RESOLVED).** Divergence-targeted λ(l) wins,
+> small but placement-specific: auto-detected worst layers (**L14–18**, not
+> the L22–26 named above) beat uniform 3/3 paired seeds on held-out
+> (1.1453±0.001 vs 1.1510±0.003); anti-targeted null worst 3/3.
+> **Two corrections to this page's framing:**
+> 1. **The "causal L22–26" attribution arm LOST** (0/3, +0.018 vs uniform).
+>    Its premise was stale — v3b's worst cosines sit at L14–18 (SWEET), not
+>    L22–26 (the registry quoted final-cosine bands, not the actual ranking).
+>    s210 tested *story-causal vs measured-divergence* placement and
+>    **measurement won**; the cascade-aware caveat above remains untested as
+>    stated (an upstream-of-L28 attribution arm would need a cascade probe,
+>    not a cosine ranking).
+> 2. **Effect size:** ~0.5% PPL ratio at spike 8:1 — TTD's "concentrated
+>    budget" leg is real but, under a scale-invariant cosine metric, most of
+>    F.6's benefit is already absorbed. Escalation to TTD-contrastive should
+>    expect marginal gains unless the metric or budget regime changes.
+> Registry row #11 has the full numbers; results in
+> `results/ttd-lambda-weighting/`.

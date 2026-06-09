@@ -102,6 +102,23 @@ learner's intrinsic coarse-first tendency**, forcing attention onto harder
 fine-grained detail. Since we always train at finite budget, **our α=5.0 cosine
 weighting is exactly such a bias choice — load-bearing, not arbitrary.**
 
+> **⚖️ MEASURED (s210, audit #11 — register: causal).** F.6 transfers to our
+> setting, **but scoped two ways** (`ttd_lambda_weighting.py`, 4 arms × 3 seeds,
+> matched budget, held-out disjoint shard):
+> 1. **Placement must be MEASURED, not narrated.** Spiking λ(l) 8:1 on the
+>    measured-worst post-sieve cosine layers (auto-detected **L14–18**, SWEET
+>    zone) beats uniform 3/3 paired seeds (held-out 1.1453±0.001 vs
+>    1.1510±0.003, paired-t −3.2; worst-layer cosine +0.014). Spiking on the
+>    *story*-derived "causal bind-prep" L22–26 (0/3, +0.018) or on the best
+>    layers (anti-null, 0/3, +0.030) hurts. Placement-specific, not generic.
+> 2. **The dividend is small (~0.5% PPL ratio)** — the suspected null mechanism
+>    is half-right: scale-invariant cosine already absorbs most of what the
+>    ‖·‖_D weighting would buy; what remains at finite budget is a real but
+>    modest placement effect. Don't cite TSP's 75.8-vs-57.0 magnitude as ours.
+> Bonus corroboration: the dense-SM correction *generalizes* (held-out sieve
+> 1.416× → 1.145×), the opposite sign of the CE-only melt's held-out harm
+> (audit #7) — the narrowing mechanism is functionally real.
+
 ### 3. The correct metric is set by the noise geometry
 
 Corrections are measured in **‖v‖_D = √(vᵀDv), D = σσᵀ** — the local
