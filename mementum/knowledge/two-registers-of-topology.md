@@ -11,6 +11,7 @@ related:
   - sign-correction-topology.md
   - direct-delta-adjunction.md
   - crystal-sieve-architecture.md
+  - error-correction-theory.md
 depends-on:
   - audit-registry.md
 created: session 203

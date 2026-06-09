@@ -7,6 +7,7 @@ related:
   - score-matching-compression.md
   - diffusion-holographic-isomorphism.md
   - tsp-trajectory-distillation.md
+  - error-correction-theory.md
 depends-on:
   - score-matching-compression.md
 created: session 205

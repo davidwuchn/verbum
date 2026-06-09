@@ -8,6 +8,7 @@ related:
   - score-matching-compression.md
   - diffusion-holographic-isomorphism.md
   - audit-registry.md
+  - error-correction-theory.md
 depends-on:
   - gtsm-search-space.md
 created: session 205
