@@ -78,9 +78,16 @@ _PROJECT_ROOT = _SCRIPT_DIR.parent.parent
 
 DOLMA_DIR = Path("/Users/mwhitford/data/fractal-bitnet/dolma-raw")
 
-# Zone layers. 32B (64 layers) used ENCODE=L2, COMPRESS=L32, DECODE=L56,
-# FINAL=L63. Proportional map to Qwen3-8B's 36 layers:
-ZONES_8B = {"encode": 1, "compress": 18, "decode": 31, "final": 35}
+# Zone layers. s140 (Qwen3-32B, 64 layers) used ENCODE=L2, COMPRESS=L32,
+# DECODE=L56, FINAL=L63. On 64-layer models we use those literal zones;
+# otherwise scale proportionally.
+ZONES_REF = {"encode": 2, "compress": 32, "decode": 56, "final": 63}
+
+
+def zones_for(n_layers: int) -> dict:
+    if n_layers == 64:
+        return dict(ZONES_REF)
+    return {z: max(1, int(L / 64 * n_layers)) for z, L in ZONES_REF.items()}
 
 # s140-flavor well-typed sentences (small-N regime)
 SMALL_SENTENCES = [
@@ -297,7 +304,7 @@ def main():
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     n_layers = model.config.num_hidden_layers
-    zones = {z: min(L, n_layers) for z, L in ZONES_8B.items()}
+    zones = zones_for(n_layers)
     log(f"n_layers={n_layers} zones={zones}")
 
     results = {
