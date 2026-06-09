@@ -1,0 +1,65 @@
+
+======================================================================
+  AUDIT #5 — binding SCHEDULE: real depth-ordering or 14 probes?
+======================================================================
+  Model: Qwen/Qwen3-8B  Device: mps  n_per=80
+  Loading Qwen/Qwen3-8B (torch.float16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:40,  1.81it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 56.12it/s]Loading weights:  14%|█▍        | 56/399 [00:00<00:03, 105.34it/s]Loading weights:  21%|██        | 82/399 [00:00<00:02, 141.44it/s]Loading weights:  28%|██▊       | 113/399 [00:00<00:01, 180.91it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 213.06it/s]Loading weights:  43%|████▎     | 171/399 [00:01<00:01, 225.08it/s]Loading weights:  51%|█████     | 202/399 [00:01<00:00, 248.07it/s]Loading weights:  58%|█████▊    | 232/399 [00:01<00:00, 254.96it/s]Loading weights:  67%|██████▋   | 267/399 [00:01<00:00, 278.83it/s]Loading weights:  75%|███████▍  | 298/399 [00:01<00:00, 277.83it/s]Loading weights:  83%|████████▎ | 331/399 [00:01<00:00, 273.85it/s]Loading weights:  91%|█████████ | 364/399 [00:01<00:00, 281.66it/s]Loading weights:  99%|█████████▉| 395/399 [00:01<00:00, 288.18it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 204.71it/s]
+  36 layers, 32 Q heads, head_dim=128
+    subj  : 80 sentences  e.g. "The queen sings early." (dep='sings' head='queen')
+    obj   : 80 sentences  e.g. "The painter chased the stick slowly." (dep='stick' head='chased')
+    coref : 80 sentences  e.g. "The man rests because it was afraid." (dep='it' head='man')
+
+----------------------------------------------------------------------
+  PART 1 — schedule profile across all 36 layers
+----------------------------------------------------------------------
+  subj   (n=80, dist=1.3): peak_raw=L6  peak_role=L6  (claimed L27)  role@claim=+0.189
+  obj    (n=80, dist=2.0): peak_raw=L4  peak_role=L6  (claimed L30)  role@claim=+0.404
+  coref  (n=80, dist=3.3): peak_raw=L6  peak_role=L6  (claimed L33)  role@claim=+0.042
+  random-pair NULL peak: L0 (max=0.694)
+
+  bootstrap P(peak(subj)<peak(obj)<peak(coref)):  raw=0.0  role=0.0  (chance for a strict order = 1/6 = 0.167)
+  peak CIs (role) [p5,med,p95]:  subj=L[4, 6, 6]  obj=L[4, 6, 6]  coref=L[6, 6, 6]
+  part 1 done in 20.6s
+
+----------------------------------------------------------------------
+  PART 2 — are the named heads outliers at the CLAIMED layer?
+----------------------------------------------------------------------
+  subj   @L27: all-head mean=0.0335 top5=[[12, 0.1219], [8, 0.1129], [29, 0.1082], [31, 0.1066], [9, 0.0773]]
+      NAMED H31: binding=0.1066  z=+2.07  rank=3/32
+  obj    @L30: all-head mean=0.0512 top5=[[3, 0.3794], [13, 0.197], [20, 0.1763], [15, 0.1494], [12, 0.1435]]
+      NAMED H3: binding=0.3794  z=+4.09  rank=0/32
+      NAMED H13: binding=0.1970  z=+1.82  rank=1/32
+      NAMED H15: binding=0.1494  z=+1.22  rank=3/32
+  coref  @L33: all-head mean=0.0098 top5=[[6, 0.0766], [7, 0.0673], [8, 0.0227], [11, 0.0131], [4, 0.0116]]
+      NAMED H6: binding=0.0766  z=+3.97  rank=0/32
+      NAMED H7: binding=0.0673  z=+3.42  rank=1/32
+  part 2 done in 8.4s
+
+----------------------------------------------------------------------
+  PART 3 — causal schedule (subject-verb agreement readout)
+----------------------------------------------------------------------
+  baseline subject-verb logit-diff = +5.079
+  ablate subj   (L27 H[31]): logit-diff=+5.097  drop=-0.018
+  ablate obj    (L30 H[3, 13, 15]): logit-diff=+5.071  drop=+0.008
+  ablate coref  (L33 H[6, 7]): logit-diff=+5.085  drop=-0.006
+  L27 random 1-head null: drop mean=+0.004 std=0.067  -> named z=-0.32
+  L30 random 3-head null: drop mean=-0.009 std=0.049  -> named z=+0.35
+  L33 random 2-head null: drop mean=-0.014 std=0.028  -> named z=+0.30
+  part 3 done in 40.7s
+
+======================================================================
+  VERDICT
+======================================================================
+  ordering P(subj<obj<coref): raw=0.0 role=0.0  (chance 0.167)
+  random-pair null peaks at L0 (schedule must beat this to be binding-specific)
+  causal: subject-agreement ablation z vs null  subj=L27:-0.32  obj=L30:+0.35  coref=L33:+0.30
+  SCHEDULE real if ordering P>>0.167 AND distinct from random-pair null AND
+  L27(subj) ablation z>>0 and > L30/L33; IMPOSED otherwise.
+
+  saved -> /Users/mwhitford/src/verbum/results/binding-schedule-null/Qwen_Qwen3-8B.json
+======================================================================
+  DONE
+======================================================================
+

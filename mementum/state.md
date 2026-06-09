@@ -2,7 +2,11 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 204
+> Last updated: 2026-06-09 | Session: 206
+>
+> (Session 205 was synthesis-only — papers/theory for the compression track,
+> not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
+> `error-correction-theory.md`, audit #11 registered. No experiments; not stated.)
 
 ## Where we are
 
@@ -19,6 +23,32 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 206 HEADLINE — AUDIT #5 (binding schedule): SCHEDULE refuted, but
+> the headline subject value-transfer is semantically REAL.** Two instruments,
+> because the claim (Finding 7) is *semantic* (head output decodes the bound
+> entity), not just attention weight — a key correction (the weight test alone
+> over-refutes).
+> - **#5a attention weight** (`binding_schedule_null.py`, 80 sent/type): all three
+>   dependency types peak at the **same early layers** (subj L6 / obj L4 / coref
+>   L6), not the claimed L27<L30<L33; **bootstrap P(order)=0.000**; random-pair
+>   null peaks even earlier (L0). No causal carrier (subj-agreement ablation
+>   \|z\|≤0.35). *Tests routing/position (#4 axis), not value transfer.*
+> - **#5b semantic logit-lens** (`binding_schedule_semantic.py`, 60 sent/type):
+>   **H31@L27 verb→SUBJECT-identity transfer is REAL & sharply L27-localized —
+>   margin +0.611, one-layer spike (L26 .03 → L27 .61 → L28 .10), H31 z+1.17 rank
+>   2/32.** Finding 7's subject case confirmed. BUT: one site ≠ schedule; strongest
+>   L27 head is H29 (+2.12) not H31; not causally load-bearing (#4). Obj@L30
+>   semantic margin ≈0 (named H3 rank 29/32; readout instrument-ambiguous per
+>   Finding 5). Coref peaks L27 not L33. **P(sem-peak subj<obj<coref)=0.191 ≈
+>   chance** → no depth schedule on either instrument.
+> - **Meta-pattern holds, sharper:** the value-transfer substrate at the subject
+>   site is *more* real than the weight test implied; the ordered three-phase
+>   *schedule* is the over-read. Caveat (two-instrument) added to
+>   `binding-graph-trace.md`. Results: `results/binding-schedule-{null,semantic}/`.
+> - **Next backlog:** #6 SVD φ-ratio 0.6299 (vs Marchenko–Pastur) or #11 GTSM
+>   finite-budget λ(l). Carry-overs: #1 gate-vs-value sign-swap PPL; rank-survival
+>   across scale.
 
 > **▶ SESSION 204 HEADLINE (3 controls, 2 claims dissolved, 1 substrate confirmed).**
 > Same recurring pattern as s202/s203: **the substrate is real, the crisp

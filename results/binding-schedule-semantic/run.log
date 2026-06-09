@@ -1,0 +1,49 @@
+
+======================================================================
+  AUDIT #5 SEMANTIC — value-transfer schedule (logit-lens head output)
+======================================================================
+  Model: Qwen/Qwen3-8B  Device: mps  n_per=60
+  Loading Qwen/Qwen3-8B (torch.float16) ...
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:18,  1.54it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 47.76it/s]Loading weights:  14%|█▍        | 57/399 [00:00<00:03, 93.73it/s]Loading weights:  20%|█▉        | 79/399 [00:00<00:02, 119.70it/s]Loading weights:  25%|██▌       | 101/399 [00:01<00:02, 142.28it/s]Loading weights:  31%|███       | 123/399 [00:01<00:01, 161.60it/s]Loading weights:  36%|███▌      | 144/399 [00:01<00:01, 173.28it/s]Loading weights:  42%|████▏     | 169/399 [00:01<00:01, 187.71it/s]Loading weights:  48%|████▊     | 191/399 [00:01<00:01, 194.37it/s]Loading weights:  54%|█████▎    | 214/399 [00:01<00:00, 204.16it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 209.71it/s]Loading weights:  66%|██████▋   | 265/399 [00:01<00:00, 228.09it/s]Loading weights:  72%|███████▏  | 289/399 [00:01<00:00, 230.70it/s]Loading weights:  78%|███████▊  | 313/399 [00:02<00:00, 217.86it/s]Loading weights:  84%|████████▍ | 336/399 [00:02<00:00, 216.76it/s]Loading weights:  90%|████████▉ | 359/399 [00:02<00:00, 217.34it/s]Loading weights:  97%|█████████▋| 386/399 [00:02<00:00, 218.56it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 166.66it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  36 layers, 32 Q heads, head_dim=128
+
+----------------------------------------------------------------------
+  PART A — semantic value-transfer schedule
+----------------------------------------------------------------------
+  subj   (n=17): semantic peak=L27 (margin=+0.611)  margin@claimL27=+0.611  (>0 = head's output points to the bound entity)
+  obj    (n=60): semantic peak=L32 (margin=+0.226)  margin@claimL30=-0.047  (>0 = head's output points to the bound entity)
+  coref  (n=60): semantic peak=L27 (margin=+0.273)  margin@claimL33=+0.198  (>0 = head's output points to the bound entity)
+
+  bootstrap P(sem-peak(subj)<obj<coref) = 0.191  (chance 0.167)
+  peak CIs [p5,med,p95]: subj=L[8, 27, 27]  obj=L[31, 32, 32]  coref=L[27, 27, 33]
+  part A done in 55.9s
+
+----------------------------------------------------------------------
+  PART B — named-head specificity at CLAIMED layer
+----------------------------------------------------------------------
+  subj   @L27: all-head mean margin=+0.1220 top5=[[29, 2.1249], [7, 0.6472], [31, 0.6113], [11, 0.3854], [12, 0.3185]]
+      NAMED H31: margin=+0.6113  z=+1.17  rank=2/32
+  obj    @L30: all-head mean margin=-0.0486 top5=[[0, 1.338], [11, 0.3974], [13, 0.3278], [28, 0.1781], [7, 0.1642]]
+      NAMED H3: margin=-0.4625  z=-0.80  rank=29/32
+      NAMED H13: margin=+0.3278  z=+0.73  rank=2/32
+      NAMED H15: margin=-0.0055  z=+0.08  rank=20/32
+  coref  @L33: all-head mean margin=+0.0320 top5=[[8, 5.4902], [22, 1.3524], [21, 0.9996], [9, 0.991], [30, 0.9312]]
+      NAMED H6: margin=+0.3384  z=+0.22  rank=6/32
+      NAMED H7: margin=+0.0582  z=+0.02  rank=12/32
+
+======================================================================
+  VERDICT
+======================================================================
+  semantic ordering P(subj<obj<coref) = 0.191  (chance 0.167)
+  subj  : semantic peak L27 (claimed L27); margin@claim=+0.611
+  obj   : semantic peak L32 (claimed L30); margin@claim=-0.047
+  coref : semantic peak L27 (claimed L33); margin@claim=+0.198
+  SCHEDULE real if margins>0, peaks in L27<L30<L33 order (P>>0.167),
+  named head an outlier at its layer; over-read otherwise.
+
+  saved -> /Users/mwhitford/src/verbum/results/binding-schedule-semantic/Qwen_Qwen3-8B.json
+======================================================================
+  DONE
+======================================================================
+

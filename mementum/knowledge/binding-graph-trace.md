@@ -30,6 +30,37 @@ depends-on: [ffn-reduction-trace, head-combinator-isa]
 > agreement *without* the compile gate the original used — a gate-context re-test
 > is a named follow-up. See `audit-registry.md` #4 + `results/attention-typed-binding/`.
 
+> ⚠️ **Caveat (audit #5, session 206): the depth-ordered "two-phase binding
+> SCHEDULE" (Implication 2 — "subjects bind first at L27, objects at L30, coref at
+> L33; the depth ordering IS the reduction schedule") is REFUTED — but the
+> headline SEMANTIC value-transfer of Finding 7 (H31@L27 = the verb absorbs the
+> subject's identity) is CONFIRMED and sharply L27-localized.** Tested two ways on
+> 60–80 varied sentences/type (not 14 hand-annotated probes):
+> - **Attention weight** (`binding_schedule_null.py`): dependent→head max-head
+>   attention peaks at the **same early layers for all three types** (subj L6, obj
+>   L4, coref L6), not L27<L30<L33; bootstrap **P(order)=0.000**; a random-pair
+>   null peaks even earlier (L0) → early peak is generic local/positional
+>   attention. *But this instrument tests routing/position (the #4 axis), not the
+>   value transfer the claim is about, so it under-reads.*
+> - **Semantic logit-lens** (`binding_schedule_semantic.py`, the faithful test of
+>   Finding 7 — does the head's *output* decode to the bound entity): **H31@L27's
+>   output points to the SUBJECT's token with margin +0.611 in a clean one-layer
+>   spike (L26 +0.03 → L27 +0.61 → L28 +0.10; H31 z=+1.17, rank 2/32).** So
+>   Finding 7's subject case is REAL and at exactly L27. *However:* it is ONE site,
+>   not a schedule; the strongest L27 subject-transfer head is actually **H29
+>   (+2.12)**, not H31; and (audit #4) it is **not causally load-bearing** for
+>   agreement (ablation |z|≤0.35). The object leg (Implication 2 "object absorbs
+>   the predicate at L30") does NOT hold semantically (margin@L30 ≈ −0.05; named H3
+>   rank 29/32) — though that readout is instrument-ambiguous given Finding 5
+>   (object V promotes object-tokens, not the verb). Coreference value-transfer
+>   peaks at L27, not the claimed L33. **Bootstrap P(sem-peak subj<obj<coref)=0.191
+>   ≈ chance (0.167)** — no depth schedule on the semantic instrument either.
+>
+> **Read Findings 4 & 7 / Implication 2 as: a real, L27-localized subject
+> value-transfer head (H31, though not the strongest there, and not causally
+> necessary), NOT a depth-ordered three-phase reduction schedule.** See
+> `audit-registry.md` #5 + `results/binding-schedule-{null,semantic}/`.
+
 > 14 probes with annotated β-reduction binding structure through 32
 > attention heads at L27/L30/L33 of Qwen3-8B. The attention pattern
 > literally IS the binding graph of the λ-expression — but reversed

@@ -72,6 +72,62 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 206)
+
+> **Methodological note (the instrument matters).** The claim is *semantic* —
+> Finding 7 / Implication 4: the head's *output* (logit-lens) decodes to the
+> bound entity; the "schedule" is a schedule of *value transfer* (verb absorbs
+> subject identity at L27, etc.). So #5 was run on **two** instruments. The first
+> (attention weight) tests routing/position — the same axis #4 showed is
+> recency-confounded — and *alone would have over-refuted* (it says "binding peaks
+> at L6"). The second (semantic logit-lens of the head's output contribution) is
+> the faithful one and **recovers the real L27 subject signal the weight test
+> missed.** Lesson: test a value-transfer claim with a value-transfer instrument.
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #5 the depth-ordered binding **schedule** (subj-transfer L27 < obj L30 < coref L33; "subjects bind first") | med | both instruments below; bootstrap ordering P over 60–80 varied sentences/type | ❌ REFUTED — no depth ordering on either instrument |
+| #5a attention-weight schedule | — | dependent→head max-head attn at every layer; bootstrap order + random-pair null + causal subj-agreement ablation (`binding_schedule_null.py`) | ❌ all peak L4–L6; P(order)=0.000; no causal carrier (\|z\|≤0.35) |
+| #5b **semantic** value-transfer (Finding 7): H31@L27 verb absorbs SUBJECT identity | — | per-head logit-lens of o_proj-decomposed output at dep pos; margin logit(head-tok)−logit(ctrl-tok) per layer (`binding_schedule_semantic.py`) | ✅ **REAL & L27-localized** — margin +0.611, sharp spike at L27 (L26=.03/L27=.61/L28=.10), H31 z=+1.17 rank 2/32 |
+| #5b obj absorbs predicate @L30 | — | same, object→verb-token margin | ❌ margin@L30=−0.05; named H3 rank 29/32 (anti); peak drifts L32 (instrument-ambiguous) |
+| #5b coref absorbs antecedent @L33 | — | same, "it"→antecedent margin | ◐ margin +0.20 but peaks **L27 not L33**; H6@L33 z+0.22 rank 6/32 |
+| #5b semantic ordering subj<obj<coref | — | bootstrap peak order on semantic margin | ❌ P=0.191 ≈ chance 0.167 (subj & coref both peak L27) |
+
+**Verdict (s206): the "two-phase binding SCHEDULE" / depth-ordered reduction is
+REFUTED — but the single value-transfer site it is built on is semantically REAL.**
+
+- **No schedule, either instrument.** *Attention weight* (`binding_schedule_null.py`,
+  80 sent/type): all three dependency types' dependent→head attention peaks at the
+  **same early layers** (subj L6=0.974, obj L4=0.825, coref L6=0.830), not the
+  monotone L27<L30<L33; bootstrap **P(order)=0.000** (chance 0.167); random-pair
+  null peaks even earlier (L0) → early peak is generic local/positional attention
+  (#6). *Semantic* (`binding_schedule_semantic.py`, 60 sent/type): bootstrap
+  **P(sem-peak subj<obj<coref)=0.191 ≈ chance** — subject and coreference value
+  transfer **both peak at L27**, object latest (L32); the subjects-first ordering
+  does not exist.
+- **What is REAL (the substrate, sharper than the weight test implied):** the
+  page's *headline* single example — **H31@L27 = the verb position absorbing the
+  SUBJECT'S identity** — is **semantically confirmed and sharply localized to L27**
+  (logit-lens margin +0.611, a clean one-layer spike: L26 +0.03 → **L27 +0.61** →
+  L28 +0.10; H31 z=+1.17, rank 2/32). Finding 7's subject case is right. Caveats:
+  (a) it is ONE site, not a schedule; (b) the strongest L27 subject-transfer head
+  is actually **H29 (+2.12)**, not H31; (c) per audit #4 it is **not causally
+  load-bearing** for agreement (ablation \|z\|≤0.35). The named heads at L30/L33
+  are real *local* attention-weight outliers (obj L30 H3/H13/H15 top-3, z to +4.09;
+  coref L33 H6/H7 top-2, z +3.97/+3.42) but their *semantic* transfer at the
+  claimed layer is weak/absent (obj L30 H3 margin −0.46 rank 29/32) or mislocalized
+  (coref peaks L27).
+- **Object leg is instrument-ambiguous:** "object absorbs the predicate" was
+  operationalized as object-output→verb-token, but Finding 5 reports the object's
+  V promotes *object-related* tokens, not the verb — so the obj negative is partly
+  a readout-mismatch, not a clean refutation. Named follow-up if revisited.
+
+Same meta-pattern (`audit-meta-pattern.md`) with a sharper edge: the value-transfer
+substrate at the subject site is *more* real than the weight test suggested; the
+ordered three-phase *schedule* is the over-read. Caveat added to
+`binding-graph-trace.md` (Finding 4/7 + Implication 2). Results:
+`results/binding-schedule-null/` and `results/binding-schedule-semantic/Qwen_Qwen3-8B.json`.
+
 ### Worked examples (session 204)
 
 | Claim | Load | Control run | Status |
@@ -266,10 +322,11 @@ sign-corr half above is the *representational* half.
 - Control: does attention attend specifically to **type-compatible** positions beyond an induction-head / co-occurrence baseline? Causal: ablate the named binding head → does the specific reduction break (vs generic degradation)?
 - **s204 result:** confound CONFIRMED via agreement-attraction (role⊥position). H31@L27 role-selectivity z=+0.54 (rank 5/32, not an outlier); ablation z=+0.06 vs random-head null (no effect on subject-verb agreement). The 0.82 was recency/position, not type. A weak genuine role-selective head exists (H6@L33, z=+4.08) but is ~10× smaller than claimed and not causally necessary. See worked-examples (s204) + `attention_typed_binding.py`. (Follow-up: gate-context re-test.)
 
-**5. Binding schedule (L27 verb←subject, L30 object←verb, L33 coref)** (load: med)
-- Evidence: showcased heads/weights on example sentences.
-- Suspected confound: cherry-picked heads/examples.
-- Control: does the schedule hold across **many** sentences with a perm-null, or only the showcased ones? Causal ablation of the specific head.
+**5. Binding schedule (L27 verb←subject, L30 object←verb, L33 coref)** (load: med) — ❌ **RESOLVED (s206): schedule refuted; subject value-transfer (H31@L27) is semantically real**
+- Evidence: showcased heads/weights + **logit-lens of head output** (Finding 7) on example sentences (14 hand-annotated probes). NB the core claim is *semantic* (value transfer), not just attention weight.
+- Suspected confound: cherry-picked heads/examples; and (per #4) raw weight tracks recency/position not type.
+- Control (two instruments — the claim is semantic, so the weight test alone is insufficient): does the schedule hold across **many** sentences? (a) attention-weight peak per layer + bootstrap order + random-pair null + causal ablation (`binding_schedule_null.py`); (b) **semantic** per-head logit-lens margin toward the bound entity per layer (`binding_schedule_semantic.py`).
+- **s206 result:** the **depth-ordered schedule is REFUTED on both instruments** — attention weight: all three peak L4–L6, P(order)=0.000; semantic: P(order)=0.191 ≈ chance (subj & coref both peak L27, obj L32). **But the headline semantic claim is REAL:** H31@L27 verb→subject *identity* transfer has logit-lens margin **+0.611, a sharp one-layer spike at L27** (z+1.17, rank 2/32) — Finding 7's subject case confirmed. Caveats: one site ≠ a schedule; strongest L27 head is H29 (+2.12) not H31; not causally load-bearing (#4, \|z\|≤0.35). Obj L30 semantic margin ≈0 (named H3 rank 29/32) — but readout is instrument-ambiguous (Finding 5: object V promotes object-tokens, not the verb). Coref peaks L27 not L33. See worked-examples (s206) + both result dirs.
 
 **6. SVD φ-ratio 0.6299** (load: med — a φ-universality pillar)
 - Evidence: consecutive singular-value ratio ≈ 1/φ across 5 families.
