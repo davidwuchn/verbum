@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 209
+> Last updated: 2026-06-09 | Session: 210 (audit #11 IN FLIGHT)
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -31,6 +31,42 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 210 (IN FLIGHT) — AUDIT #11 (GTSM/TTD finite-budget λ(l) vs
+> uniform α=5.0): harness committed, full matrix RUNNING in tmux main:1.**
+> Register: **causal/interventional** (declared at step 0, before any code —
+> the s206 cold-start register-gate test FIRED ✓). Control:
+> `ttd_lambda_weighting.py` (`# register: causal`), v3b parity by import from
+> `score_matching_compression.py`.
+> - **Design:** 4 arms × 3 seeds × 150 steps (v3b's best step), MATCHED budget
+>   (Σ_l w(l) = n_layers in every arm; same steps/lr/batch/α=5.0). Arms:
+>   `uniform` (v3b control) · `causal-named` L22–26 (registry's F.6+TSP
+>   prediction) · `divergence-auto` bottom-5 measured init cosine ·
+>   `anti-targeted` top-5 BEST layers = **placement-specificity null** (the
+>   discriminating control: "any non-uniform reweighting helps" passes the
+>   targeted arms but fails this one). Batches paired across arms
+>   (`RandomState(step)`); spike 8:1 pre-normalization.
+> - **Smoke finding 1 — registry premise STALE:** measured post-sieve init
+>   cosines say the worst layers are **L14–18 (SWEET zone, L16=0.483)**, not
+>   the registry's claimed L22–26 (those sit at 0.64–0.75). So divergence-auto
+>   and causal-named are genuinely different sets → the run also discriminates
+>   divergence-targeting vs the named causal-layer story.
+> - **Smoke finding 2 — held-out instrument hazard:** shard_00001 @ offset 0
+>   is a SPAM/word-salad doc (teacher PPL 300–800/seq). Held-out eval is now
+>   STRATIFIED across the whole shard (16 strides). Baselines: near=11.27
+>   (= v3b's 11.274 exactly, parity ✓), held=27.47 (heterogeneous web, sane).
+> - **Verdict rule (pre-registered):** read on held-out ratio mean±std.
+>   Targeted < uniform AND anti-targeted ≈/> uniform → F.6 transfers with
+>   placement-specificity. All spiked arms ≈ uniform → NULL = cosine already
+>   absorbs ‖·‖_D weighting → sharpen the proxy claim in gtsm-search-space.md.
+>   Anti also wins → spike effect is generic regularization, not placement.
+> - Results land in `results/ttd-lambda-weighting/Qwen_Qwen3-8B.json`
+>   (incremental per-run saves) + `run.log`. Teacher cache reused on disk
+>   (`*.teacher-cache.128x128.c256.pt`, ~5GB). Est. several hours total.
+> - **If resuming after the run:** read aggregate in the JSON; update registry
+>   #11 row + caveats per verdict rule; ledger row in audit-meta-pattern.md if
+>   the pattern holds; then backlog → carry-overs (#1 sign-swap PPL,
+>   rank-survival across scale) or low-load #9/#10.
 
 > **▶ SESSION 209 HEADLINE — AUDIT #8 (rank-1 adjunction σ₁/σ₂=128:1): REFUTED —
 > both legs are artifacts of the s140 instrument; there is no 1D curve.**
