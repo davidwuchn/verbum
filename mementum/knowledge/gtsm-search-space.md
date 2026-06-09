@@ -6,6 +6,7 @@ tags: [gtsm, cgtsm, score-matching, girsanov, path-measure, loss-function, searc
 related:
   - score-matching-compression.md
   - diffusion-holographic-isomorphism.md
+  - tsp-trajectory-distillation.md
 depends-on:
   - score-matching-compression.md
 created: session 205
@@ -208,6 +209,33 @@ a discrete-depth transformer is not literally an SDE with known σσᵀ.
 - The **literal Pθ = P\* guarantee does NOT transfer for free** — it is
   contingent on the SDE idealization and on cosine being a faithful enough
   stand-in for ‖·‖_D. **IOU**: this contingency is unverified for our setting.
+
+## Related work — TSP (Tree-like Self-Play)
+
+TSP (arXiv:2606.03489v1) is an **applied, empirical instance of the GTSM
+principle on the discrete/LLM side** (full treatment: `tsp-trajectory-
+distillation.md`). Same problem (endpoint/sequence-level signal too coarse for
+localized errors), same fix (dense per-node signal along the generation
+**tree**), same structure (TSP's generation tree = GTSM's discrete-tree side).
+
+Two points matter here:
+
+- **TSP corroborates the finite-budget weighting corollary (Prop F.6).** It
+  deliberately *sparsifies* — concentrating its contrastive signal on a few
+  critical "risk nodes" rather than matching everywhere — and wins (75.8 vs
+  57.0 SFT, CodeLlama-7B). Per Thm 3.2 the zero-loss *fixed point* is
+  weighting-independent; TSP's success is squarely a **finite-budget**
+  phenomenon: spike `w(t)` where the learner is weak. Independent evidence for
+  **audit #11**.
+- **But it's contrastive, not regression.** TSP's loss is DPO-style ranking;
+  GTSM is L2 score regression. The keystone bridge "residual = score" (Thm
+  E.22) does **not** literally apply — the connection is structural, not a
+  theorem.
+
+The combined method (GTSM dense backbone + TSP targeted/iterative overlay, with
+the teacher as the golden-path oracle) is **Targeted Trajectory Distillation**,
+developed in `tsp-trajectory-distillation.md` — aimed directly at the
+student-from-teacher compression north-star.
 
 ## One-sentence takeaway
 
