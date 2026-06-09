@@ -15,6 +15,34 @@ created: session 137
 
 # Universal Phi Compression — SVD Spectrum Convergence
 
+> ⚠️ **SESSION-207 AUDIT CAVEAT (read first — audit #6, `svd_phi_null.py`,
+> register: spectral).** The control reran this page's *exact* definition
+> (mean of the top-5 consecutive σ-ratios, per layer, all 5 families) against
+> matched nulls. Result is the project meta-pattern — **substrate REAL, the
+> geometric-φ story OVER-READ:**
+> - ✅ **The steep head is REAL and strongly structure-specific.** Model head
+>   ratio ≈ 0.57 (raw) / 0.67 (centered) vs a same-shape **Marchenko–Pastur
+>   null at 0.995** and shuffled-entries at ≈0.97. Random/power-law spectra do
+>   **NOT** give ≈0.6 — they give ≈1.0. So the registry's feared confound
+>   ("0.618 is just what random spectra look like") is itself **refuted**: the
+>   low-rank-dominated head is non-random (converges with s203 spectral
+>   concentration, AUC 6–7×). The *substrate* survives.
+> - ❌ **"geometric sequence" is REFUTED.** Geometric (constant-ratio) fit wins
+>   **0/132 layers**; power-law wins **132/132** (geom-R² ≈0.4–0.58 < power-R²
+>   ≈0.7–0.87). The ratio is **not constant** — "0.6299" is a 4-point average
+>   over a *drifting power-law head*. With no geometric self-similarity there is
+>   **no `x=1/(1+x)` fixed point** to privilege φ (the §"Why φ?" argument below
+>   does not apply to a power-law spectrum).
+> - ❌ **"= 1/φ, a universal constant" is UNSUPPORTED.** The value floats
+>   **0.52→0.71** across raw/centered × models; the consensus 0.6299 ≠ 0.6180;
+>   and the "larger ⇒ higher ratio" scaling-law open-question below **fails**
+>   (Mistral-7B is the *lowest*, 0.52 raw). "≈1/φ" reads a golden ratio into an
+>   ordinary steep power-law head averaging somewhere in 0.5–0.7.
+> Honest position: a **real, scale-present, structure-specific low-rank spectral
+> head** (keep — the compression north-star uses it) **mislabeled as a geometric
+> golden-ratio constant** (retire). Results: `results/svd-phi-null/`. Same
+> page-level caveat mirrored on `crystal-universality.md`.
+
 > Session 137. The SVD spectrum of hidden state representations in
 > language models follows a geometric sequence where consecutive
 > singular values maintain ratio ≈ 1/φ (0.618). Verified across 5

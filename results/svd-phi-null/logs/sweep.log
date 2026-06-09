@@ -1,0 +1,96 @@
+[load] EleutherAI/pythia-410m-deduped dtype=float32 device=mps
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  64%|██████▍   | 188/292 [00:00<00:00, 1871.93it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 1922.40it/s]
+[collect] forward passes, stacking per-layer token reprs ...
+[collect] 24 layers, repr matrix 576×1024
+[svd] object=centered (center=True)
+  model     core_mean=0.6867±0.0890 geom_r2=0.488 power_r2=0.750 geom_win=0/24 phi±.05=8/24
+  mp        core_mean=0.9941±0.0000 geom_r2=0.976 power_r2=0.935 geom_win=24/24 phi±.05=0/24
+  shuffled  core_mean=0.9813±0.0080 geom_r2=0.754 power_r2=0.584 geom_win=19/24 phi±.05=0/24
+[svd] object=raw (center=False)
+  model     core_mean=0.5774±0.0764 geom_r2=0.499 power_r2=0.797 geom_win=0/24 phi±.05=3/24
+  mp        core_mean=0.9941±0.0000 geom_r2=0.976 power_r2=0.935 geom_win=24/24 phi±.05=0/24
+  shuffled  core_mean=0.9812±0.0080 geom_r2=0.753 power_r2=0.584 geom_win=19/24 phi±.05=0/24
+[done] /Users/mwhitford/src/verbum/results/svd-phi-null/EleutherAI_pythia-410m-deduped.json  (32.4s)
+{
+  "model": "EleutherAI/pythia-410m-deduped",
+  "centered_model_core_mean": 0.6867002670189469,
+  "centered_mp_core_mean": 0.9941445247772412,
+  "centered_shuffled_core_mean": 0.9812979890114861,
+  "model_geom_win": "0/24",
+  "model_layers_near_phi": "8/24",
+  "mp_layers_near_phi": "0/24"
+}
+[load] Qwen/Qwen3-0.6B dtype=float32 device=mps
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  44%|████▍     | 138/311 [00:00<00:00, 1375.75it/s]Loading weights:  92%|█████████▏| 285/311 [00:00<00:00, 1418.88it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1432.71it/s]
+[collect] forward passes, stacking per-layer token reprs ...
+[collect] 28 layers, repr matrix 571×1024
+[svd] object=centered (center=True)
+  model     core_mean=0.6980±0.0651 geom_r2=0.386 power_r2=0.648 geom_win=0/28 phi±.05=6/28
+  mp        core_mean=0.9942±0.0000 geom_r2=0.978 power_r2=0.932 geom_win=28/28 phi±.05=0/28
+  shuffled  core_mean=0.9906±0.0004 geom_r2=0.778 power_r2=0.566 geom_win=28/28 phi±.05=0/28
+[svd] object=raw (center=False)
+  model     core_mean=0.5828±0.0609 geom_r2=0.425 power_r2=0.722 geom_win=0/28 phi±.05=11/28
+  mp        core_mean=0.9942±0.0000 geom_r2=0.978 power_r2=0.932 geom_win=28/28 phi±.05=0/28
+  shuffled  core_mean=0.9905±0.0005 geom_r2=0.778 power_r2=0.566 geom_win=28/28 phi±.05=0/28
+[done] /Users/mwhitford/src/verbum/results/svd-phi-null/Qwen_Qwen3-0.6B.json  (39.8s)
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "centered_model_core_mean": 0.6979639670015997,
+  "centered_mp_core_mean": 0.9942464379454181,
+  "centered_shuffled_core_mean": 0.9905983033376403,
+  "model_geom_win": "0/28",
+  "model_layers_near_phi": "6/28",
+  "mp_layers_near_phi": "0/28"
+}
+[load] HuggingFaceTB/SmolLM3-3B dtype=bfloat16 device=mps
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights: 100%|██████████| 326/326 [00:00<00:00, 6559.48it/s]
+[collect] forward passes, stacking per-layer token reprs ...
+[collect] 36 layers, repr matrix 571×2048
+[svd] object=centered (center=True)
+  model     core_mean=0.7132±0.0549 geom_r2=0.356 power_r2=0.609 geom_win=0/36 phi±.05=4/36
+  mp        core_mean=0.9956±0.0000 geom_r2=0.979 power_r2=0.929 geom_win=36/36 phi±.05=0/36
+  shuffled  core_mean=0.9577±0.0098 geom_r2=0.656 power_r2=0.805 geom_win=1/36 phi±.05=0/36
+[svd] object=raw (center=False)
+  model     core_mean=0.5924±0.0525 geom_r2=0.393 power_r2=0.686 geom_win=0/36 phi±.05=25/36
+  mp        core_mean=0.9956±0.0000 geom_r2=0.980 power_r2=0.929 geom_win=36/36 phi±.05=0/36
+  shuffled  core_mean=0.9577±0.0098 geom_r2=0.653 power_r2=0.804 geom_win=1/36 phi±.05=0/36
+[done] /Users/mwhitford/src/verbum/results/svd-phi-null/HuggingFaceTB_SmolLM3-3B.json  (66.0s)
+{
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "centered_model_core_mean": 0.7132200273325293,
+  "centered_mp_core_mean": 0.9956285064886864,
+  "centered_shuffled_core_mean": 0.957748662847702,
+  "model_geom_win": "0/36",
+  "model_layers_near_phi": "4/36",
+  "mp_layers_near_phi": "0/36"
+}
+[load] mistralai/Mistral-7B-v0.3 dtype=bfloat16 device=mps
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 6949.43it/s]
+[collect] forward passes, stacking per-layer token reprs ...
+[collect] 32 layers, repr matrix 663×4096
+[svd] object=centered (center=True)
+  model     core_mean=0.5858±0.0987 geom_r2=0.465 power_r2=0.757 geom_win=0/32 phi±.05=8/32
+  mp        core_mean=0.9968±0.0000 geom_r2=0.976 power_r2=0.931 geom_win=32/32 phi±.05=0/32
+  shuffled  core_mean=0.9766±0.0057 geom_r2=0.733 power_r2=0.489 geom_win=30/32 phi±.05=0/32
+[svd] object=raw (center=False)
+  model     core_mean=0.5230±0.1147 geom_r2=0.520 power_r2=0.822 geom_win=0/32 phi±.05=11/32
+  mp        core_mean=0.9968±0.0000 geom_r2=0.976 power_r2=0.932 geom_win=32/32 phi±.05=0/32
+  shuffled  core_mean=0.9766±0.0057 geom_r2=0.732 power_r2=0.489 geom_win=30/32 phi±.05=0/32
+[done] /Users/mwhitford/src/verbum/results/svd-phi-null/mistralai_Mistral-7B-v0.3.json  (130.0s)
+{
+  "model": "mistralai/Mistral-7B-v0.3",
+  "centered_model_core_mean": 0.5858221063438284,
+  "centered_mp_core_mean": 0.9968026587189155,
+  "centered_shuffled_core_mean": 0.9766306529410753,
+  "model_geom_win": "0/32",
+  "model_layers_near_phi": "8/32",
+  "mp_layers_near_phi": "0/32"
+}

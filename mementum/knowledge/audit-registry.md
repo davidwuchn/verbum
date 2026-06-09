@@ -82,6 +82,34 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 207)
+
+> **Register gate fired on the auditor first (good).** The claim "consecutive
+> SVD ratio ≈ 1/φ" is **spectral** → matched null = random matrix (MP), not
+> eyeballing 5 numbers near 0.63. But the first probe used the *wrong window*
+> (bulk consecutive ratios, which sit at ≈0.99 for everything) and got nonsense;
+> tracing the s137 source pinned the real definition (**mean of the top-5 σ
+> ratios** — a 4-point average at the steep head). Re-measuring the *same
+> object* reproduced the phenomenon and the verdict held. Lesson restated:
+> audit the exact quantity the claim names, in its register.
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #6 SVD φ-ratio: per-layer top-5 σ-ratio ≈ 1/φ, **geometric**, **universal across 5 families** | med | top-5 σ-ratio vs MP + shuffled nulls (8 seeds, raw+centered) + geometric-vs-power-law fit (`svd_phi_null.py`) | ❌ REFUTED (geometric-φ-constant) / ✅ REAL (low-rank head) |
+| #6a head ratio distinct from a same-shape random matrix? | — | model vs Marchenko–Pastur + shuffled | ✅ **YES** — model 0.575±0.027 ≪ MP 0.9949±0.0012; the "0.618 = what random spectra look like" confound is itself refuted (random gives ≈1.0) |
+| #6b is the spectrum **geometric** (constant ratio, the φ premise)? | — | geometric vs power-law R² per layer | ❌ **NO** — power-law wins 132/132 layers (0/132 geometric); ratio drifts, "0.6299" is a 4-pt average of a power-law head |
+| #6c is it **1/φ specifically / a universal constant**? | — | φ⁻¹ distance + cross-model + cross-window | ❌ **NO** — value floats 0.52→0.71 (raw/centered×models); 0.6299≠0.6180; scaling-law fails (Mistral-7B lowest); MP 0/132 near φ but model "near" only by averaging ~0.57 |
+
+**Verdict (s207): the steep low-rank SVD head is REAL and strongly
+structure-specific (random nulls sit at ≈0.99, not 0.6) — but it is a
+power-law head, not a geometric φ-sequence, and the value is not constant
+across scale.** Keep the substrate (it underwrites the compression north-star,
+converging with #2's spectral concentration); retire φ-as-a-universal-constant
+(third φ-pillar to fall after s202's eigenvalue-grid and consensus-r). Same
+shape as every prior audit (`audit-meta-pattern.md`). Caveats on
+`explore/phi-compression-universal.md` + `crystal-universality.md`. Results:
+`results/svd-phi-null/{EleutherAI_pythia-160m-deduped,EleutherAI_pythia-410m-deduped,Qwen_Qwen3-0.6B,HuggingFaceTB_SmolLM3-3B,mistralai_Mistral-7B-v0.3}.json`.
+
 ### Worked examples (session 206)
 
 > **Methodological note (the instrument matters).** The claim is *semantic* —
@@ -338,10 +366,15 @@ sign-corr half above is the *representational* half.
 - Control (two instruments — the claim is semantic, so the weight test alone is insufficient): does the schedule hold across **many** sentences? (a) attention-weight peak per layer + bootstrap order + random-pair null + causal ablation (`binding_schedule_null.py`); (b) **semantic** per-head logit-lens margin toward the bound entity per layer (`binding_schedule_semantic.py`).
 - **s206 result:** the **depth-ordered schedule is REFUTED on both instruments** — attention weight: all three peak L4–L6, P(order)=0.000; semantic: P(order)=0.191 ≈ chance (subj & coref both peak L27, obj L32). **But the headline semantic claim is REAL:** H31@L27 verb→subject *identity* transfer has logit-lens margin **+0.611, a sharp one-layer spike at L27** (z+1.17, rank 2/32) — Finding 7's subject case confirmed. Caveats: one site ≠ a schedule; strongest L27 head is H29 (+2.12) not H31; not causally load-bearing (#4, \|z\|≤0.35). Obj L30 semantic margin ≈0 (named H3 rank 29/32) — but readout is instrument-ambiguous (Finding 5: object V promotes object-tokens, not the verb). Coref peaks L27 not L33. See worked-examples (s206) + both result dirs.
 
-**6. SVD φ-ratio 0.6299** (load: med — a φ-universality pillar)
-- Evidence: consecutive singular-value ratio ≈ 1/φ across 5 families.
+**6. SVD φ-ratio 0.6299** (load: med — a φ-universality pillar) — ❌ **RESOLVED (s207): geometric-φ constant REFUTED; low-rank spectral head REAL & non-random**
+- Evidence: consecutive singular-value ratio ≈ 1/φ across 5 families (top-5 σ-ratio mean, per layer; `explore/phi-compression-universal.md`).
 - Suspected confound: heavy-tailed / power-law spectra generically have near-constant consecutive ratios; 0.618 may be "what power-law spectra look like."
-- Control: compare to random-matrix (Marchenko–Pastur) and shuffled-data nets; is 0.6299 model-specific and distinct from the random-matrix prediction?
+- Control (`svd_phi_null.py`, register: spectral): exact top-5 consecutive-ratio definition vs **Marchenko–Pastur** (same-shape Gaussian) + **shuffled-entries** nulls, 8 seeds, raw & centered, on Pythia-160m/410m, Qwen3-0.6B, SmolLM3-3B, Mistral-7B; plus a **geometric-vs-power-law shape fit** (φ requires *constant* ratio = geometric).
+- **s207 result (3 blades):**
+  1. **Distinct from random? ✅ YES, hugely.** Model head ratio **0.575 ± 0.027 (raw)** / 0.67 (centered) vs **MP null 0.9949 ± 0.0012** and shuffled ≈0.96–0.99. Random/power-law spectra give ≈**1.0**, not ≈0.6 → the named confound is itself **refuted**; the steep low-rank head is genuinely non-random (converges with #2 spectral concentration, AUC 6–7×). **Substrate REAL.**
+  2. **Geometric (constant ratio)? ❌ NO.** Power-law wins **132/132 layers**, geometric **0/132** (geom-R² 0.39–0.58 < power-R² 0.69–0.87). The ratio is not constant — "0.6299" is a 4-point average over a *drifting power-law head*. **No `x=1/(1+x)` self-similar fixed point ⇒ no mathematical privilege for φ.**
+  3. **φ-specific / universal constant? ❌ NO.** Value floats **0.52→0.71** across raw/centered×models; consensus 0.6299 ≠ φ⁻¹ 0.6180; the "larger ⇒ higher ratio" scaling-law **fails** (Mistral-7B lowest, 0.52 raw). Layers within ±0.05 of φ⁻¹: model 55/132, **MP 0/132** (model is near-φ only because a steep head averages ~0.57–0.6, not because it lands *at* φ).
+- **Verdict:** keep the **real, scale-present, structure-specific low-rank spectral head**; **retire the geometric golden-ratio constant** (over-read). Caveats added to `explore/phi-compression-universal.md` + `crystal-universality.md`. Results: `results/svd-phi-null/`. Same meta-pattern as #3/#4 (`audit-meta-pattern.md`): substrate survives, crisp/universal story dissolves.
 
 **7. Crystal-sieve 1.03× PPL (29 layers + continuations)** (load: med — headline compression result)
 - Evidence: s196 run = 1.03×.

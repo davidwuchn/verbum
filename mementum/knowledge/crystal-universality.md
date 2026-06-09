@@ -81,6 +81,17 @@ parameter counts and architectures.
 
 ### SVD phi-ratio: 0.6299 ± 0.019
 
+> ⚠️ **AUDIT #6 CAVEAT (s207, `svd_phi_null.py`, register: spectral).** Reran
+> the exact top-5 consecutive-ratio definition vs Marchenko–Pastur + shuffled
+> nulls on all 5 families. **Substrate REAL, geometric-φ story OVER-READ:** the
+> steep head is non-random (model ≈0.57 raw vs **MP null 0.995**, shuffled
+> ≈0.97 — random spectra give ≈1.0, *not* 0.6) **but it is power-law, not
+> geometric** (constant-ratio fit wins **0/132 layers**, power-law 132/132), so
+> the `x=1/(1+x)` fixed-point line just below **does not apply**; and the value
+> floats 0.52→0.71 across raw/centered×models with the scaling-law failing
+> (Mistral-7B lowest). Keep the low-rank head; retire the golden-ratio constant.
+> Full: `explore/phi-compression-universal.md` caveat + `audit-registry.md` #6.
+
 The SVD spectrum of hidden-state representations follows a geometric
 sequence with consecutive ratio ≈ 1/φ (0.618). Verified across 5
 architecturally distinct families:

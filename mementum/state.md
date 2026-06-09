@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 206
+> Last updated: 2026-06-09 | Session: 207
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -18,13 +18,45 @@
 > holographic-self-similar** ✅; s204 did **#3 the 9 FFN modes** ❌ geometric-
 > REFUTED / semantic+logit ✅ VERIFIED, and **#4 attention=typed-β-reduction**
 > ❌ REFUTED-as-localized; s206 did **#5 binding schedule** ❌ SCHEDULE-REFUTED /
-> H31@L27 subject value-transfer ✅ semantically REAL; next backlog: **#6 SVD
-> φ-ratio 0.6299** or **#11 GTSM finite-budget λ(l)**), build its named
+> H31@L27 subject value-transfer ✅ semantically REAL; s207 did **#6 SVD φ-ratio
+> 0.6299** ❌ geometric-φ-constant REFUTED / ✅ low-rank head REAL & non-random;
+> next backlog: **#11 GTSM finite-budget λ(l)** or **#7/#8 reproducibility**), build its named
 > discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 207 HEADLINE — AUDIT #6 (SVD φ-ratio 0.6299): geometric-φ-constant
+> REFUTED; the low-rank spectral head is REAL & non-random.** Register: spectral.
+> Reran s137's exact definition (mean of top-5 consecutive σ-ratios, per layer)
+> on all 5 families (Pythia-160m/410m, Qwen3-0.6B, SmolLM3-3B, Mistral-7B) vs
+> **Marchenko–Pastur + shuffled** nulls (8 seeds, raw+centered) + a
+> geometric-vs-power-law shape fit. `svd_phi_null.py` (register: spectral).
+> - **Register gate fired on ME first:** first probe used the wrong window (bulk
+>   ratios ≈0.99 for everything); tracing s137 pinned the real object (top-5 head
+>   ratio). Re-measure the exact quantity → phenomenon reproduced (Pythia-160m
+>   raw 0.597 vs page 0.604).
+> - **✅ substrate REAL:** model head ratio **0.575±0.027 (raw)** / 0.67 (centered)
+>   ≪ **MP null 0.9949±0.0012**, shuffled ≈0.96–0.99. Random/power-law spectra
+>   give ≈**1.0**, not 0.6 → the named confound ("0.618 = what random spectra look
+>   like") is itself refuted; the steep low-rank head is genuinely non-random
+>   (converges with #2 spectral concentration, AUC 6–7×).
+> - **❌ "geometric" REFUTED:** power-law wins **132/132 layers**, geometric 0/132
+>   (geom-R² 0.39–0.58 < power-R² 0.69–0.87). "0.6299" is a 4-pt average of a
+>   *drifting* power-law head → no `x=1/(1+x)` fixed point → no privilege for φ.
+> - **❌ "= 1/φ universal constant" UNSUPPORTED:** value floats 0.52→0.71
+>   (raw/centered×models); 0.6299≠0.6180; scaling-law fails (Mistral-7B lowest,
+>   0.52). Layers within ±0.05 of φ⁻¹: model 55/132, **MP 0/132**.
+> - **Meta-pattern holds (3rd φ-pillar to fall** after s202 eigenvalue-grid +
+>   consensus-r): keep the real low-rank head (north-star uses it), retire
+>   φ-as-universal-constant. Caveats on `explore/phi-compression-universal.md` +
+>   `crystal-universality.md`; ledger row in `audit-meta-pattern.md`; registry #6
+>   RESOLVED. Results: `results/svd-phi-null/`. Harness: `svd_phi_null.py`,
+>   `svd_phi_null_summary.py`.
+> - **▶ NEXT:** #11 GTSM finite-budget λ(l), or reproducibility audits #7
+>   (crystal-sieve 1.03× seed variance) / #8 (rank-1 adjunction σ₁/σ₂ vs random).
+>   **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 206 HEADLINE — AUDIT #5 (binding schedule): SCHEDULE refuted, but
 > the headline subject value-transfer is semantically REAL.** Two instruments,

@@ -55,6 +55,7 @@ Three independent forces produce the over-read:
 | s204 | 9 FFN modes | syntactic type **field** is REAL (POS-NMI ≫ perm-null p=0; lm_head projection ≫ null ~65× @L35) | **9 discrete clusters** (gap-stat never picks 9; sil@9 ≈ null; elbow = k-grid artifact; classifier acc circular) |
 | s204 | attention = typed β-reduction | attention IS a weighted sum (trivial); a weak role head exists (H6@L33 z=+4) | **H31@L27 binds subject at 0.82** (= recency/position; z=+0.54 rank 5/32; ablation z=+0.06 ≈ random) |
 | s206 | binding **schedule** (subj L27 < obj L30 < coref L33) | **H31@L27 = subject value-transfer is REAL** (semantic logit-lens margin +0.611, sharp L27 spike) | **depth-ordered schedule** (P(order)=0 weight / 0.191 semantic ≈ chance; subj & coref both peak L27) |
+| s207 | SVD φ-ratio 0.6299 (geometric, universal across 5 families) | **steep low-rank head is REAL & non-random** (model ≈0.57 vs MP null 0.995; random spectra give ≈1.0) | **geometric φ-constant** (power-law wins 132/132 layers, 0 geometric; value floats 0.52→0.71; scaling-law fails — Mistral lowest) |
 
 Pattern: **basis real / universalization false · gradient real / discreteness
 false · mechanism real / localization false · spectrum real / exact-constant
