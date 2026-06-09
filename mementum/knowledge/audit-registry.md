@@ -24,10 +24,14 @@ depends-on:
 > control, and updates the row. The output is not destruction — it is
 > the smallest hard core of verified data the north-star can stand on.
 
-> **Emergent finding (s202→s204):** every audit so far shows the *same shape* —
+> **Emergent finding (s202→s206):** every audit so far shows the *same shape* —
 > the continuous substrate is real, the crisp discrete/localized/universal story
 > on top is over-read. Synthesized in `audit-meta-pattern.md` (use it to predict
-> where the next claim breaks before building the control).
+> where the next claim breaks before building the control). **s206 corollary
+> (instrument-must-match-the-claim):** before building the null, probe in the
+> claim's own register — a routing/weight probe under-reads a value/semantic
+> claim (false negative), the mirror of a crispness-imposing probe's false
+> positive.
 
 ## The Core Principle
 
@@ -62,6 +66,12 @@ have I checked I am not seeing exactly that?**
 - **Matched controls** — random-weight net, shuffled-data-trained net, fake
   categories — separate "structure" from "size / redundancy / surface".
 - **Report variance** — re-run with fixed seeds; a single lucky run is not a result.
+- **Match the instrument to the claim's register** (s206) — name the *kind* of
+  thing the claim is about (routing/position · value/semantics · magnitude ·
+  spectral · causal) and probe *that*. A value-transfer claim ("absorbs identity",
+  "head output produces the entity") needs a **logit-lens of the output**, not an
+  attention-weight probe; the wrong register manufactures a false-negative
+  refutation. See `audit-meta-pattern.md` §instrument-must-match.
 
 ## Status Legend
 

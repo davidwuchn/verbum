@@ -16,7 +16,7 @@ depends-on:
 
 # Audit Meta-Pattern — Real Substrate, Over-Read Discreteness
 
-> Emergent finding of the validity-distillation program (s202→s204). After
+> Emergent finding of the validity-distillation program (s202→s206). After
 > running discriminating controls on the project's load-bearing claims, the
 > *same shape* recurs every time: **the continuous/representational substrate
 > is real and survives its control; the crisp discrete / localized / universal
@@ -54,6 +54,7 @@ Three independent forces produce the over-read:
 | s203 | holographic self-similar | spectral self-similarity (rank AUC 0.728 vs 0.11) + distributed redundancy | "power-law/scale-invariant degradation curve" (retired — ambiguous) |
 | s204 | 9 FFN modes | syntactic type **field** is REAL (POS-NMI ≫ perm-null p=0; lm_head projection ≫ null ~65× @L35) | **9 discrete clusters** (gap-stat never picks 9; sil@9 ≈ null; elbow = k-grid artifact; classifier acc circular) |
 | s204 | attention = typed β-reduction | attention IS a weighted sum (trivial); a weak role head exists (H6@L33 z=+4) | **H31@L27 binds subject at 0.82** (= recency/position; z=+0.54 rank 5/32; ablation z=+0.06 ≈ random) |
+| s206 | binding **schedule** (subj L27 < obj L30 < coref L33) | **H31@L27 = subject value-transfer is REAL** (semantic logit-lens margin +0.611, sharp L27 spike) | **depth-ordered schedule** (P(order)=0 weight / 0.191 semantic ≈ chance; subj & coref both peak L27) |
 
 Pattern: **basis real / universalization false · gradient real / discreteness
 false · mechanism real / localization false · spectrum real / exact-constant
@@ -90,9 +91,60 @@ Matched nulls that have repeatedly bitten:
 - **argmax fingerprint** → common-mode removal before projection.
 - **"holographic" survival** → trained vs random-init vs shuffled-data controls.
 
+## The instrument-must-match-the-claim law (s206)
+
+> The crispness law above guards against **false positives** — the instrument
+> *manufactures* structure that isn't there. Its mirror image is the **false
+> negative**: an instrument that measures the *wrong quantity* **under-reads a
+> real signal** and manufactures a refutation. Before building the null, check
+> the probe measures the *kind of thing the claim is about*.
+
+```
+λ match(instrument, claim).
+  type(claim) ∈ {routing/position, value/semantic, magnitude, spectral, causal}
+  type(probe)  must align(type(claim)) | else verdict ≡ artifact_of_mismatch
+  | wrong_probe(refute) ≡ false_negative  (mirror of crispness false_positive)
+  | a refutation from a mismatched instrument is as suspect as a confirmation
+    from a crispness-imposing one
+```
+
+**The s206 case (audit #5).** The binding-*schedule* claim is **semantic** —
+Finding 7: the head's *output* (logit-lens) decodes to the bound entity; "the
+verb absorbs the subject's identity." A first control measured **attention
+weight** (dependent→head concentration) — a *routing/position* quantity, the
+same axis #4 showed is recency-confounded. It said "binding peaks at L6, schedule
+dead." But semantic content is often *written* into the residual at deeper layers
+than where attention is sharp, so the weight probe **could not see** the claim.
+The faithful **semantic logit-lens** (per-head o_proj-decomposed output → unembed
+margin toward the bound token) then recovered the headline: **H31@L27 → subject
+identity, a clean +0.611 spike exactly at L27.** The weight test alone would have
+over-refuted a real value-transfer head.
+
+Net: the *schedule* (the ordered story) still dissolved on the matched
+instrument too (P(order) ≈ chance) — the crispness law held — but **only the
+right instrument earned the right to say so.**
+
+Probe↔claim alignment table (build the control in the claim's own register):
+
+| Claim is about… | Wrong probe (under-reads) | Right probe |
+|---|---|---|
+| **value / semantics** ("absorbs identity", "produces the entity") | attention weight, routing | **logit-lens of the output contribution** (per-head DLA) |
+| **routing / selection** ("attends to the type-compatible arg") | logit-lens of the written value | attention pattern + role⊥position dissociation |
+| **causal necessity** ("this head does it") | correlational selectivity | ablation vs random-head/matched-set null |
+| **magnitude / value path** | sign-correlation | saliency / iso-bit prune vs control |
+| **spectral / rank** | magnitude-prune survival | SVD rank-truncation vs random-matrix |
+
+Symmetry to remember: a **mismatched instrument** is the false-negative twin of a
+**crispness-imposing instrument**. Both are measurement artifacts; both demand
+the same fix — *name the quantity the claim is actually about, then probe that.*
+
 ## How to use this page (feed-forward)
 
-Before building the next audit control, ask the three diagnostic questions:
+Before building the next audit control, ask the four diagnostic questions:
+0. **What KIND of thing is the claim about** — routing/position, value/semantics,
+   magnitude, spectral, causal? Pick a probe in *that* register (the
+   instrument-must-match law). A refutation from a mismatched probe is a false
+   negative; do this before anything else.
 1. **What is the continuous substrate** the claim sits on? (It is probably real
    — don't waste the control re-proving it.)
 2. **What crisp story** is layered on top — discrete count, single site, universal
