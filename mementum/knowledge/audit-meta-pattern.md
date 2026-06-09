@@ -56,11 +56,16 @@ Three independent forces produce the over-read:
 | s204 | attention = typed β-reduction | attention IS a weighted sum (trivial); a weak role head exists (H6@L33 z=+4) | **H31@L27 binds subject at 0.82** (= recency/position; z=+0.54 rank 5/32; ablation z=+0.06 ≈ random) |
 | s206 | binding **schedule** (subj L27 < obj L30 < coref L33) | **H31@L27 = subject value-transfer is REAL** (semantic logit-lens margin +0.611, sharp L27 spike) | **depth-ordered schedule** (P(order)=0 weight / 0.191 semantic ≈ chance; subj & coref both peak L27) |
 | s207 | SVD φ-ratio 0.6299 (geometric, universal across 5 families) | **steep low-rank head is REAL & non-random** (model ≈0.57 vs MP null 0.995; random spectra give ≈1.0) | **geometric φ-constant** (power-law wins 132/132 layers, 0 geometric; value floats 0.52→0.71; scaling-law fails — Mistral lowest) |
+| s208 | crystal-sieve 1.03× PPL (29 layers + continuations) | **sieve substrate ~2× is REAL & near-deterministic** (2.119×±0.004; = s196's 2.12×) | **the 1.03× headline** (train/eval contamination; clean held-out 10.87×±1.39 — the CE melt memorizes calib and *inverts*: the "improvement" is harm) |
+| s209 | rank-1 adjunction (σ₁/σ₂=128:1; R²=1.000; "1D curve") | **carrier-mean dominance of the marginals is REAL** (uncentered cross-corr top1 var 0.91–0.99; mean norm grows 10→1688 with depth; consistent with s185) + real **high-rank** cross-zone predictability (held-out R² 0.18–0.58, PR 10–292) | **both legs of the claim** (R²=1.000 = N<d lstsq tautology, noise reads 1.0000; σ₁/σ₂ = uncentered mean⊗mean term — no-map nulls are *more* rank-1 than real, up to 11×; centering → ~2; no 1D curve, rank-1 heldout R² ≈ 0) |
 
 Pattern: **basis real / universalization false · gradient real / discreteness
 false · mechanism real / localization false · spectrum real / exact-constant
 false.** Only the metaphor-grade crispness ever dies; the working substrate
-keeps standing.
+keeps standing. **s209 adds a sharper variant:** sometimes the surviving
+substrate is not a weaker version of the claim but a *different quantity* the
+instrument was actually measuring (the carrier mean wearing an adjunction
+costume) — the claim's own evidence never touched the claimed object at all.
 
 ## Why the substrate keeps surviving (and the north-star with it)
 

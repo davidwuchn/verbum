@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 208
+> Last updated: 2026-06-09 | Session: 209
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -22,12 +22,56 @@
 > 0.6299** ❌ geometric-φ-constant REFUTED / ✅ low-rank head REAL & non-random;
 > s208 did **#7 crystal-sieve 1.03×** ❌ REFUTED (train/eval contamination; CE melt
 > net-harmful held-out 10.87×) / ✅ sieve substrate ~2× VERIFIED-reproducible;
-> next backlog: **#8 rank-1 adjunction** or **#11 GTSM/TTD-regression (the named fix)**), build its named
+> s209 did **#8 rank-1 adjunction** ❌ REFUTED (both legs estimator artifacts:
+> lstsq N<d tautology + uncentered carrier mean; no 1D curve);
+> next backlog: **#11 GTSM/TTD-regression (the named fix)** or low-load #9/#10,
+> or carry-overs (#1 gate-vs-value sign-swap PPL; rank-survival across scale)), build its named
 > discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 209 HEADLINE — AUDIT #8 (rank-1 adjunction σ₁/σ₂=128:1): REFUTED —
+> both legs are artifacts of the s140 instrument; there is no 1D curve.**
+> Register: spectral. `adjunction_rank_null.py` on Qwen3-8B AND Qwen3-32B (the
+> claim's model, literal zones L2/L32/L56/L63). Both artifacts were visible in
+> the original probe's code at read-time; the controls confirmed them.
+> - **❌ R²=1.000 = underdetermination tautology:** the s140 lstsq ran at N=121
+>   tokens < d=4096/5120 dims → exact interpolation for ANY data — iid random
+>   noise reads R²=1.0000 ± 0.0000 (8 seeds). The leg carries zero information.
+> - **❌ σ₁/σ₂ = the carrier mean, INVERTED:** the uncentered `EᵀD/N` estimator is
+>   dominated by the mean⊗mean term (top1 var 0.91–0.99). Row-shuffled pairing
+>   (map destroyed, marginals kept) is *more* rank-1 than real (32B enc→dec: real
+>   13.8 vs shuf 24.8±1.0, matched-Gaussian 23.8±2.5) — genuine cross-zone
+>   correlation ADDS off-rank-1 mass, so rank-1 dominance of this estimator is
+>   anti-evidence of map structure. Centering collapses every ratio to 1.5–3.9.
+>   The literal 128 never reproduces on a fresh token sample (reads 13.8).
+> - **❌ honest map is high-rank (no 1D curve):** centered ridge at N=12,288>d,
+>   held-out rank-k curve, both models: predictable structure exists (full R²
+>   0.18–0.58) but rank-1 captures ≤19% (8B comp→dec 0.111/0.579) and usually ≈0
+>   (32B: 0.021/0.307, −0.073/0.370, −0.000/0.191); PRs 10–292, smooth climb to
+>   k=128. Bonus demo: 8B enc→comp fitted map *looks* rank-1 (PR 1.6) with ZERO
+>   held-out validity (R²=−0.004). Leak controls clean. Large-N inversion even
+>   starker: 32B shuffled UNC 173–290 vs real 26–39 (up to 11×).
+> - **✅ what survives is a DIFFERENT object:** the carrier/mean dominance of the
+>   residual marginals (uncentered cross-corr top1 var 0.91–0.99; mean NORM grows
+>   monotonically 36→1688 @32B; the energy *share* is U-shaped 0.54→0.19→0.61 —
+>   consistent with s185's carrier, though our within-zone σ₁/σ₂ 1.6–7.9 is far
+>   milder than s185's 4000×, a different quantity) + real high-rank cross-zone
+>   predictability. Direct-delta's "project back onto the curve" loses its base —
+>   consistent with s201's functional sweep (rank-32 still improving; v3b beats
+>   all analytic ranks).
+> - **Meta-pattern 6th instance, sharper variant:** the substrate that survives is
+>   not a weaker claim but a different quantity the instrument actually measured.
+>   New cookbook null: **row-shuffled pairing** = the exact "map vs marginals"
+>   discriminator. Registry #8 RESOLVED; caveats on `direct-delta-adjunction.md` +
+>   `explore/categorical-geometry-probes.md`; ledger rows s208+s209 added to
+>   `audit-meta-pattern.md`. Results: `results/adjunction-rank-null/`.
+> - **▶ NEXT:** **#11 GTSM/TTD-regression** (the named fix; layer-targeted λ(l)
+>   vs uniform α=5.0 at matched budget) — now the highest-load UNTESTED claim;
+>   or carry-overs (#1 sign-swap PPL, rank-survival across scale).
+>   **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 208 HEADLINE — AUDIT #7 (crystal-sieve 1.03× PPL): the "cascade
 > absorbed → 1.03×" is a TRAIN/EVAL-CONTAMINATION ARTIFACT; the sieve substrate

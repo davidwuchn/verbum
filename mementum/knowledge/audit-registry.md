@@ -82,6 +82,55 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 209)
+
+> **Register gate (spectral) fired at read-time.** The claim is about the
+> singular-value structure of an estimated linear map, and both structural
+> artifacts were visible **in the original instrument's code before any model
+> was loaded**: (i) `lstsq` at N tokens ≪ d dims is underdetermined → exact
+> interpolation → R²=1.000 for *any* data; (ii) `M = EᵀD/N` on **uncentered**
+> residual vectors is dominated by the mean⊗mean term whenever the stream has
+> a large carrier mean (s185). The control then only had to *confirm* the
+> artifacts with matched nulls. New null flavor for the cookbook:
+> **row-shuffled pairing** — destroys the token-level map, keeps both
+> marginals — the exact null for "is this a property of the *map* or of the
+> *marginals*?"
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #8 cross-zone map is rank-1 dominated (σ₁/σ₂=128:1); R²=1.000 all pairs; "computation on a 1D curve" | med | `adjunction_rank_null.py` (register: spectral) — original instrument repro + shuffled-pairing/matched-Gaussian/centering nulls + held-out ridge rank-k, Qwen3-8B **and Qwen3-32B (the claim's model, literal zones L2/L32/L56/L63)** | ❌ REFUTED (both legs estimator artifacts) |
+| #8a R²=1.000 informative? | — | lstsq at N=121<d on iid random + matched-marginal mapless data, 8 seeds | ❌ **TAUTOLOGY** — noise reads R²=1.0000 ± 0.0000; real data identical |
+| #8b σ₁/σ₂ a property of the map? | — | row-shuffled pairing + matched-Gaussian nulls (8 seeds), both models | ❌ **NO — inverted**: nulls are MORE rank-1 than real (32B enc→dec: real 13.8 vs shuf 24.8±1.0, matched 23.8±2.5); the dominance is the carrier mean; genuine cross-zone correlation *adds* off-rank-1 mass |
+| #8c survives centering? | — | centered cross-covariance, same SVD | ❌ collapses to 1.5–3.9 (32B enc→dec 2.15) |
+| #8d honest map rank (the "1D curve") | — | centered ridge at N=12,288>d, held-out R² of rank-k truncations, leak control, both models | ❌ **NOT rank-1 anywhere** — predictable structure exists (full R² 0.18–0.58 across pairs/models) but is uniformly high-rank: rank-1 captures ≤19% of it (8B comp→dec best case 0.111/0.579) and usually ≈0 (32B: enc→comp 0.021/0.307, comp→dec −0.073/0.370, enc→dec −0.000/0.191); smooth climb to k=128, no low-rank plateau. Bonus: 8B enc→comp fitted map *looks* rank-1 (PR 1.6) with zero held-out validity (R²=−0.004) — a "rank-1 dominated map" with no predictive power |
+
+**Verdict (s209): the "rank-1 adjunction" is REFUTED — both published legs
+are artifacts of the instrument** (underdetermined lstsq + uncentered
+cross-correlation of a carrier-dominated stream). Even on Qwen3-32B with the
+literal s140 zones, the uncentered ratio reads 13.8 (not 128) on a fresh token
+sample, sits *below* its own no-map nulls, and centers away to 2.15. What
+survives is **a different object than the claim**: (a) the carrier/mean
+dominance of the residual marginals (uncentered cross-corr top1 var
+0.91–0.99; mean **norm** grows monotonically with depth, 10→1219 @8B /
+36→1688 @32B, while the mean energy *share* is U-shaped — high at encode
+0.50–0.54, minimum mid-stack 0.19–0.38, rising to 0.61–0.81 at final —
+*consistent with* s185's carrier picture, though our within-zone σ₁/σ₂ of
+1.6–7.9 is far milder than s185's 4000–8800×, a different quantity at
+different layers); (b) real but emphatically **high-rank** cross-zone
+predictability (held-out full R² 0.18–0.58; participation ratios 10–292;
+the 32B comp→dec map even has σ₁/σ₂=9.6 yet its rank-1 truncation predicts
+nothing, R²=−0.07). There is no 1D curve; "error correction = project
+back onto the curve" loses its evidential base. Weak-signal caveat kept
+honest: 8B enc→comp shows val R² 0.08 vs test −0.004 (unstable pair). This retro-explains s201's
+functional result (direct-delta rank sweep: rank-2 1.82× → rank-32 1.72×,
+still improving; trained v3b 1.44× beats every analytic rank — rank-1 was
+never sufficient). Sixth meta-pattern instance, with a twist: the substrate
+that survives is not a weaker version of the claim but a different quantity
+the instrument was actually measuring. Results:
+`results/adjunction-rank-null/` (`Qwen_Qwen3-8B.json`, `Qwen_Qwen3-32B.json`).
+Harness: `scripts/experiments/adjunction_rank_null.py`. Caveats added to
+`direct-delta-adjunction.md` + `explore/categorical-geometry-probes.md`.
+
 ### Worked examples (session 208)
 
 > **Register gate (functional/reproducibility).** The claim is a behavioral PPL
@@ -419,10 +468,11 @@ sign-corr half above is the *representational* half.
 - Control: seed the pipeline, run N=8 seeds, report mean ± std + a held-out eval disjoint from the calibration set (`crystal_sieve_repro.py`, register: functional).
 - **s208 result:** the 1.03× is a **train/eval-contamination artifact**, not a stable compression result. **Sieve substrate is VERIFIED-reproducible** — pre-melt 2.119× ± 0.004 (eval) / 1.907× ± 0.026 (held-out), near-deterministic, reproduces s196's 2.12×; the `torch.randperm[:5M]` mask-subsample confound is dismissed (CV 0.18%). **The 1.03× headline is REFUTED:** on the *contaminated* eval (6/8 sentences ⊂ the 12-text calibration set) the melted model reads 0.971× ± 0.061 (1.03× is a 1/8 upper-tail draw, 5/8 sub-baseline); on **clean held-out text the same models hit 10.87× ± 1.39 (every seed >9.3×, gap +9.9×)** — the "compression" is memorization. **The continuation melt is net-harmful to generalization** (held-out 1.907× → 10.87×, ~5.7× worse than the raw sieve): constant train loss (0.116) + exploding held-out PPL = the compensating-error degeneracy of a CE-only (endpoint) loss (`gtsm-search-space.md`). The feared 3.23× did not recur on contaminated eval (bounded [0.865, 1.062]); the held-out number is the honest one. **Fix is already named = audit #11 / s198 v3b** (dense per-layer score matching + held-out + dolma got 1.44× held-out on this same model). See worked-examples (s208). Results: `results/crystal-sieve-repro/Qwen_Qwen3-8B.json` (+ `.contaminated-only.json`). Caveat added to `crystal-sieve-architecture.md`.
 
-**8. Rank-1 adjunction (σ₁/σ₂ = 128:1 cross-zone)** (load: med — direct-delta theory)
-- Evidence: R²=1.000 all zone pairs (s140).
+**8. Rank-1 adjunction (σ₁/σ₂ = 128:1 cross-zone)** (load: med — direct-delta theory) — ❌ **RESOLVED (s209): REFUTED — both legs are estimator artifacts; no 1D curve**
+- Evidence: R²=1.000 all zone pairs (s140, Qwen3-32B, zones L2/L32/L56/L63).
 - Suspected confound: random high-dim linear maps can look rank-1-dominated.
-- Control: compare σ₁/σ₂ to random/shuffled linear maps between the same spaces.
+- Control (`adjunction_rank_null.py`, register: spectral): exact instrument repro (uncentered `EᵀD/N` SVD + lstsq R²) vs **row-shuffled pairing** (kills the map, keeps marginals) + **matched-Gaussian** nulls + **centering**, on 8B and 32B (literal zones); plus an honest **held-out ridge** at N=12,288>d with rank-k truncation curve and a shuffled-target leak control.
+- **s209 result:** (1) **R²=1.000 is an underdetermination tautology** — lstsq at N=121<d gives 1.0000±0.0000 on pure noise; the leg is void. (2) **σ₁/σ₂ is the carrier mean, inverted** — the no-map nulls are *more* rank-1 than the real data at every pair, model, and N (32B enc→dec small-N: real 13.8 vs shuffled 24.8±1.0, matched 23.8±2.5; large-N: real 38.5 vs shuffled 277.8 — up to 11×); centering collapses it to 1.5–3.9; the literal 32B zones never reproduce 128 on a fresh sample (13.8 small-N / 38.5 large-N, both *below* their own no-map nulls). (3) **The honest map is not rank-1 anywhere**: held-out full R² 0.18–0.58 across pairs/models, but rank-1 captures ≤19% (8B comp→dec) and usually ≈0 (32B: 0.021 / −0.073 / −0.000); PRs 10–292; no low-rank plateau. What survives is a *different object*: the carrier/mean dominance of the marginals (consistent with s185) + real high-rank cross-zone predictability. Downstream "rank-1 correction suffices" (direct-delta theory) loses its base — consistent with s201's functional rank sweep (rank-32 still improving; trained v3b beats all analytic ranks). See worked-examples (s209). Results: `results/adjunction-rank-null/`.
 
 **9. Decay α=1.18 (attention log-distance)** (load: low)
 - Control: model-specific vs generic positional-encoding artifact; compare to random-init.

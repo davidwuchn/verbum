@@ -1,0 +1,39 @@
+========================================================================
+AUDIT #8 — rank-1 adjunction vs marginal/estimator nulls
+register: spectral
+model=Qwen/Qwen3-8B device=mps seeds=2 big_tokens=2048 smoke=True
+========================================================================
+loading Qwen/Qwen3-8B (torch.float16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:18,  1.54it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 48.22it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 121.58it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 164.88it/s]Loading weights:  34%|███▍      | 136/399 [00:01<00:01, 203.12it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:00, 234.14it/s]Loading weights:  51%|█████     | 203/399 [00:01<00:00, 258.91it/s]Loading weights:  59%|█████▉    | 236/399 [00:01<00:00, 277.31it/s]Loading weights:  68%|██████▊   | 270/399 [00:01<00:00, 288.41it/s]Loading weights:  77%|███████▋  | 309/399 [00:01<00:00, 303.93it/s]Loading weights:  86%|████████▋ | 345/399 [00:01<00:00, 312.34it/s]Loading weights:  95%|█████████▍| 378/399 [00:01<00:00, 308.67it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 213.41it/s]
+n_layers=36 zones={'encode': 1, 'compress': 18, 'decode': 31, 'final': 35}
+
+PART A — original instrument, small N (s140 regime)
+  small-N tokens: 121  d=4096  (N<d: True)
+  carrier[encode]: mean_norm=10.0 mean_energy=0.498 unc_s1/s2=3.1
+  carrier[compress]: mean_norm=58.4 mean_energy=0.382 unc_s1/s2=1.6
+  carrier[decode]: mean_norm=475.2 mean_energy=0.604 unc_s1/s2=5.2
+  carrier[final]: mean_norm=1218.9 mean_energy=0.813 unc_s1/s2=7.9
+  encode->compress: UNC s1/s2=6.0 top1=0.960 | CEN s1/s2=3.93 top1=0.761 | lstsq R2=1.0000
+  compress->decode: UNC s1/s2=11.7 top1=0.981 | CEN s1/s2=2.21 top1=0.452 | lstsq R2=1.0000
+  encode->decode: UNC s1/s2=20.9 top1=0.992 | CEN s1/s2=2.37 top1=0.458 | lstsq R2=1.0000
+
+PART B — lstsq R^2 on data with NO map (N<d tautology proof)
+  iid_random: R2 = 1.0000 +/- 0.0000
+  matched_marginals: R2 = 1.0000 +/- 0.0000
+
+PART C — sigma1/sigma2 nulls (uncentered instrument, small N)
+  encode->compress: real=6.0 | shuffled=16.9+/-0.2 | matched=16.8+/-2.2 | centered_real=3.93
+  compress->decode: real=11.7 | shuffled=23.1+/-1.2 | matched=17.9+/-1.8 | centered_real=2.21
+  encode->decode: real=20.9 | shuffled=39.2+/-1.5 | matched=31.6+/-3.9 | centered_real=2.37
+
+PART D — honest map (dolma prose, centered ridge, held-out rank-k)
+  prose tokens: 2048 (N>d: False)
+  encode->compress: UNC s1/s2=26.1 (shuf 121.2) | map s1/s2=1.26 PR=110.5
+      heldout R2: k=1 0.0309  full 0.2809  ratio 0.110 | leak-control full -0.0995
+  compress->decode: UNC s1/s2=16.0 (shuf 150.6) | map s1/s2=1.26 PR=259.0
+      heldout R2: k=1 0.0417  full 0.4698  ratio 0.089 | leak-control full -0.3107
+  encode->decode: UNC s1/s2=41.7 (shuf 121.7) | map s1/s2=1.28 PR=61.7
+      heldout R2: k=1 0.0480  full 0.2511  ratio 0.191 | leak-control full -0.1034
+
+saved -> /Users/mwhitford/src/verbum/results/adjunction-rank-null/Qwen_Qwen3-8B.smoke.json  (283s)

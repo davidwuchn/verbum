@@ -62,6 +62,22 @@ typing by distance.
 
 ## Probe 2 — Adjunctions (Cross-Zone Mapping)
 
+> **⚠ CAVEAT (s209, audit #8): REFUTED — both results below are instrument
+> artifacts.** The R²=1.000 is an underdetermination tautology (lstsq with
+> N tokens < d dims interpolates anything; iid noise also reads 1.0000).
+> The σ₁/σ₂ dominance belongs to the **uncentered** estimator `EᵀD/N`,
+> i.e. the residual stream's carrier mean, not the map: row-shuffled
+> pairing (map destroyed, marginals kept) is *more* rank-1 than the real
+> data (up to 11× at large N), and centering collapses the ratio to ~2.
+> On a fresh token sample the literal 32B zones read 13.8 (small-N) /
+> 38.5 (large-N), not 128 — and both sit *below* their own no-map nulls.
+> The honest held-out map (centered ridge, N>d) is uniformly high-rank
+> (full R² 0.18–0.58, PR 10–292; rank-1 captures ≤19%, usually ≈0).
+> The "model IS computing an adjunction" reading
+> is withdrawn; what the probe actually measured is the carrier-mean
+> dominance of the marginals (cf. s185). See `audit-registry.md` #8,
+> `adjunction_rank_null.py`, `results/adjunction-rank-null/`.
+
 **Hypothesis:** The B→K→B program (encode → compress → reconstruct) is not
 an arbitrary transformation. It is an adjunction: a structured unit/counit
 pair where F⊣G with unit η: Id→GF and counit ε: FG→Id.

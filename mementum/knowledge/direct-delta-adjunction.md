@@ -97,7 +97,27 @@ actual inputs, accounting for how upstream corrections changed the cascade.
 
 ## The Adjunction Connection
 
-### Session 140 Finding (Qwen3-32B)
+> **⚠ CAVEAT (s209, audit #8): the rank-1 adjunction is REFUTED — both legs
+> below are artifacts of the s140 instrument** (`adjunction_rank_null.py`,
+> register: spectral; run on 8B *and* 32B with the literal zones).
+> (1) **R²=1.000 is an underdetermination tautology**: lstsq with N=121
+> tokens < d dims interpolates anything — iid random noise also reads
+> R²=1.0000±0.0000. (2) **σ₁/σ₂ dominance is the carrier mean, not the
+> map**: the uncentered `EᵀD/N` estimator is dominated by the mean⊗mean
+> term; row-shuffled pairing (no map, same marginals) is *more* rank-1
+> dominated than the real data (32B enc→dec: real 13.8 vs shuffled
+> 24.8±1.0), and centering collapses the ratio to ~2. (3) The honest
+> held-out map (centered ridge, N=12,288>d) is **high-rank**: comp→dec
+> R²=0.58 with participation ratio ≈292, rank-1 capturing only 19%;
+> enc→dec rank-1 R²=−0.03 (8B) / −0.000 (32B); 32B comp→dec rank-1
+> R²=−0.07. **There is no 1D curve; "project back onto the curve" has no
+> evidential base.** What survives is the carrier-mean dominance of the
+> *marginals* (consistent with s185) — a different object than a
+> cross-zone adjunction. Consistent with the s201 functional result below
+> (rank-32 still improving; trained v3b beats every analytic rank). See
+> `audit-registry.md` #8, `results/adjunction-rank-null/`.
+
+### Session 140 Finding (Qwen3-32B) — REFUTED s209, see caveat above
 
 The cross-zone mapping (encode L2 → decode L56) has:
 ```
