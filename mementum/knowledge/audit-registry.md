@@ -64,6 +64,58 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 203)
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| crystal-is-topological: `sign(W)@x` corr ⇒ "sign captures topology, magnitude is calibration" | CRITICAL | sign-corr null: model vs random-init vs shuffled, REAL x, N=20, 0.6B/8B/14B (`sign_topology_null.py`) | ◐ SCOPED → gate_proj only |
+| soft topology: value-path magnitude is load-bearing, read by saliency | high | saliency sieve iso-bit: faint-by-saliency vs faint-by-magnitude (`saliency_aware_sieve.py`) | ✅ VERIFIED (+5.5% vs −2.0% at ~3.1 bits/param) |
+| #2 holographic-self-similar — spectral concentration (A) | CRITICAL | SVD rank-truncation survival, trained vs random/shuffled (`holographic_survival.py`) | ✅ VERIFIED (trained AUC 0.728 vs 0.11; 6–7×) |
+| #2 holographic-self-similar — distributed redundancy (C) | CRITICAL | magnitude-prune survival, trained vs controls | ✅ VERIFIED (AUC 0.784 vs 0.25/0.34; plateau→cliff ~70–80%) |
+| #2 — "power-law/scale-invariant degradation curve" as the discriminator | — | shape-fit power-law vs exponential, all axes/variants | ⊘ RETIRED (ambiguous; does not separate holographic; use AUC-vs-controls) |
+
+**Two-register synthesis (s203):** GD lays structure in two registers —
+**hard** (sign / routing / `gate_proj`) and **soft** (magnitude / value /
+`up`-`down`, read by saliency) — and the FFN is compressible in two registers:
+**distributed magnitude redundancy** (prune, graceful to ~70%) and **spectral
+low-rank concentration** (rank, 6–7× control gap). The 1.44× ternary result
+rests on both (LoRA+SM *is* the low-rank correction the spectral result
+predicts). Only φ-as-universal-constant stays refuted (s202). Full page:
+`two-registers-of-topology.md`. Results: `results/{sign-topology-null,
+holographic-survival,saliency-aware-sieve}/`.
+
+> **Correction:** an interim s203 read called #2 "REFUTED" off the *magnitude*
+> axis with a power-law discriminator. That was the wrong operator + wrong
+> test. The rank axis (the spectral self-similarity the SVD work found) is
+> VERIFIED. Holographic mechanism stands; only the metaphor-grade
+> φ-universality was ever refuted.
+
+**Finding (sign-correlation half of the control):** the bare evidence is
+**refuted as stated**, but a real, scale-sharpening sign-topology exists —
+*localized to `gate_proj` (the FFN router)*.
+
+- **Generic baseline ≈ 0.80.** A random Gaussian matrix's sign preserves
+  0.798 of its action on the *same real inputs* (0.6B/8B/14B identical).
+  "Sign preserves a matrix's linear action" is a **generic high-dim
+  property** (sign(Wᵢⱼ) ⊥-corr Wᵢⱼ entry-wise; large-|xⱼ| dims dominate both
+  sums). The headline **0.84 is ~at the random null**, not above it.
+- **The crystal signal lives ONLY in `gate_proj`** and *sharpens with scale*:
+  gate gap above null 0.6B +0.04…+0.07 → 8B +0.088 (L3 = 0.983, z=+184) →
+  14B (L12 z=+271). This is exactly where routing should live.
+- **`up_proj`/`down_proj` sit at or BELOW the random null** (8B: −0.048,
+  −0.036). Their signs preserve *no more than random* → **magnitude carries
+  the structure there**, refuting "magnitude is mere calibration" for the
+  value projections.
+- **Aggregate model mean ≈ random** (8B 0.799 vs 0.798): gate's excess
+  cancels up/down's deficit, so any single averaged "0.84" is indistinguishable
+  from a random matrix. Reconciles with s192: crystal = routing (gate, 3.5%);
+  modes = computation (value projections, 96.5%). Sign-topology = the routing half.
+
+Results: `results/sign-topology-null/{Qwen_Qwen3-0.6B,Qwen_Qwen3-8B,Qwen_Qwen3-14B}.json`.
+**Remaining (separate sub-control):** ternary PPL with crystal-aligned signs vs
+random sign-preserving signs at equal bitcount — the *functional* half. The
+sign-corr half above is the *representational* half.
+
 ### Worked examples (session 202 — `crystal-validity-and-fidelity.md`)
 
 | Claim | Load | Control run | Status |
@@ -81,15 +133,35 @@ named, not yet run.
 
 ### Backlog (UNTESTED — ordered by load-bearing-ness)
 
-**1. Crystal-is-topological — "ternary works because sign captures topology"** (load: CRITICAL — the entire sieve program)
+**1. Crystal-is-topological — "ternary works because sign captures topology"** (load: CRITICAL — the entire sieve program) — ◐ **SCOPED (s203, representational half done)**
 - Evidence: `sign(W)@x` corr 0.84 with `W@x`; ternary {−1,0,+1} preserves routing.
 - Suspected confound: 0.84 may be generic to *any* trained matrix, not crystal-specific; ternary survival may need only *a* sign-preserving quant, not the *crystal* sign pattern.
 - Control: compare `sign(W)@x` correlation across model vs random-init vs shuffled-weights; and ternary PPL with **crystal-aligned** signs vs **random sign-preserving** signs. If crystal-specific signs beat random-sign-preserving at equal bitcount → topological claim real.
+- **s203 result (sign-corr half):** confound CONFIRMED for the bare number —
+  random null ≈ 0.80, so 0.84 is generic; but real sign-topology survives,
+  **localized to `gate_proj`** (sharpens with scale, z up to +271 at 14B),
+  while `up_proj`/`down_proj` are at/below null (magnitude essential there).
+  See worked-examples table above + `sign_topology_null.py`.
+- **Functional half (partly resolved s203):** the saliency sieve confirms the
+  *value-path* soft topology — faint-by-saliency beats faint-by-magnitude at
+  iso-bit (+5.5% vs −2.0%), i.e. up/down magnitude is load-bearing. Still
+  specifically untested: the gate-vs-value *sign-swap* ternary PPL (predict the
+  `gate_proj` sign-swap hurts most). See `two-registers-of-topology.md`.
 
-**2. Holographic self-similar — "why quantization/pruning survive"** (load: CRITICAL — the compression thesis)
+**2. Holographic self-similar — "why quantization/pruning survive"** (load: CRITICAL — the compression thesis) — ✅ **RESOLVED (s203): spectral self-similarity VERIFIED; distributed redundancy confirmed**
 - Evidence: graceful uniform degradation; Q4/sieve survive.
 - Suspected confound: distributed-redundant + flat-minima (the null) predicts survival without holography.
 - Control: compression-survival **curve**, model vs random-weight net vs shuffled-data net; test for **power-law / scale-invariant** degradation. Holographic predicts the model degrades self-similarly AND more gracefully than controls. (See `crystal-validity-and-fidelity.md` §5.)
+- **s203 result:** two compression registers, both structure-specific (trained
+  ≫ controls): **(C) distributed redundancy** (magnitude prune, AUC 0.784 vs
+  0.25/0.34, graceful to ~70% then cliff) and **(A) spectral concentration**
+  (SVD rank truncation, AUC 0.728 vs 0.11 — **6–7× gap**, the SVD φ-spectrum
+  made functional). Quant survival ≈ random (weakly structure-dependent;
+  confirms §5 "Q4 ← flat minima"). The **power-law degradation discriminator
+  is RETIRED** (ambiguous on every axis; a hologram degrades plateau→cliff,
+  not power-law). Untrained controls (not shuffled-data-trained) limit the
+  C-vs-A-vs-flat-minimum separation, but the rank-axis gracefulness gap is
+  control-independent. Full synthesis: `two-registers-of-topology.md`.
 
 **3. The 9 FFN modes — real or k-means-imposed?** (load: high — `mode-semantics.md`, tiny-classifier compression)
 - Evidence: 9 ternary programs per layer; classifier 98–100% accuracy.

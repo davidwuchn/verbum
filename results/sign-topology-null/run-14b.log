@@ -1,0 +1,42 @@
+========================================================================
+SIGN-TOPOLOGY NULL — is cos(sign(W)@x, W@x) crystal-specific?
+========================================================================
+Model: Qwen/Qwen3-14B  device=mps  n_seed=20  dtype=bfloat16
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 29948.69it/s]
+Loaded 40 layers in 4.6s. Probing layers [4, 12, 20, 28, 36]
+Collecting REAL FFN input activations from calibration text ...
+  L 4 gate_proj  model=0.9833  rand=0.7978±0.0019 (z=+96.4)  shuf=0.6706±0.0031 (z=+101.4)
+  L 4 up_proj    model=0.7104  rand=0.7978±0.0019 (z=-45.4)  shuf=0.6721±0.0034 (z=+11.3)
+  L 4 down_proj  model=0.7135  rand=0.7977±0.0005 (z=-166.4)  shuf=0.6802±0.0009 (z=+37.5)
+  L12 gate_proj  model=0.8636  rand=0.7979±0.0002 (z=+270.9)  shuf=0.7923±0.0003 (z=+256.8)
+  L12 up_proj    model=0.7960  rand=0.7979±0.0002 (z=-7.8)  shuf=0.7930±0.0004 (z=+8.1)
+  L12 down_proj  model=0.7786  rand=0.7980±0.0005 (z=-38.1)  shuf=0.7911±0.0005 (z=-26.5)
+  L20 gate_proj  model=0.8502  rand=0.7979±0.0004 (z=+140.3)  shuf=0.7810±0.0004 (z=+171.6)
+  L20 up_proj    model=0.8037  rand=0.7979±0.0004 (z=+15.7)  shuf=0.7863±0.0004 (z=+40.7)
+  L20 down_proj  model=0.6660  rand=0.7981±0.0007 (z=-184.7)  shuf=0.7834±0.0014 (z=-86.9)
+  L28 gate_proj  model=0.8580  rand=0.7978±0.0005 (z=+126.9)  shuf=0.7885±0.0004 (z=+185.0)
+  L28 up_proj    model=0.8073  rand=0.7978±0.0005 (z=+19.9)  shuf=0.7924±0.0005 (z=+31.6)
+  L28 down_proj  model=0.7815  rand=0.7979±0.0005 (z=-30.6)  shuf=0.7909±0.0007 (z=-13.2)
+  L36 gate_proj  model=0.8625  rand=0.7979±0.0004 (z=+147.4)  shuf=0.7936±0.0004 (z=+193.1)
+  L36 up_proj    model=0.8140  rand=0.7979±0.0004 (z=+36.9)  shuf=0.7945±0.0003 (z=+57.9)
+  L36 down_proj  model=0.7460  rand=0.7978±0.0005 (z=-99.2)  shuf=0.7914±0.0004 (z=-103.4)
+
+========================================================================
+VERDICT
+========================================================================
+  model    cos = 0.8023
+  random   cos = 0.7979  (gap +0.0044)
+  shuffled cos = 0.7668  (gap +0.0355)
+  median z: vs-random=15.74574393765955, vs-shuffled=37.47904436336209
+  per weight type (model vs random null):
+    gate_proj  model=0.8835 random=0.7979 gap=+0.0857 → ABOVE null
+    up_proj    model=0.7863 random=0.7979 gap=-0.0116 → BELOW null
+    down_proj  model=0.7371 random=0.7979 gap=-0.0608 → BELOW null
+  NOTE: random/shuffled null ≈0.80 ⇒ 'sign preserves linear action'
+        is GENERIC to any matrix. Crystal-specificity lives only in
+        the per-wtype gap, not in the absolute ~0.8 correlation.
+
+saved → /Users/mwhitford/src/verbum/results/sign-topology-null/Qwen_Qwen3-14B.json
+total 36.2s

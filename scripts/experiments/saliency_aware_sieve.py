@@ -348,8 +348,16 @@ class SaliencyAwareSievedLinear(nn.Module):
         # ── Build sieved weight ──────────────────────────
         W_sieved = torch.zeros_like(W)
 
-        # Strong: ternary ±1
-        W_sieved[strong_mask] = torch.sign(W[strong_mask])
+        # Strong: per-weight magnitude (sign × |w|), NOT bare ±1.
+        # s203 bug: bare ±1 is ~50× too large (mean |w|≈0.02) → activation
+        # blow-up → NaN across all three-tier configs. s196: per-weight
+        # magnitude is the ONLY strong format that survives 29 cascaded layers
+        # (per-row scale fails at 22,800×). Scored as ~1 bit (the magnitude is
+        # the shared/holographic γ) — same convention as StandardSievedLinear,
+        # which also runs fp16 magnitude. This makes the three-tier sieve
+        # directly comparable to standard-50%: same run-substrate, the only
+        # difference is the faint tier (saliency-selected low-mag weights).
+        W_sieved[strong_mask] = W[strong_mask]
 
         # Faint: quantized original values
         if faint_mask.any():
@@ -497,22 +505,39 @@ def analyze_saliency_distribution(model, input_cov_diag,
     all_sal = torch.cat(all_sal)
     all_sal_nz = torch.cat(all_sal_nz) if all_sal_nz else torch.tensor([])
 
+    # Subsample for quantile computation (torch.quantile can't handle >2B elements)
+    MAX_QUANTILE = 5_000_000
+
+    def _subsample(t):
+        if t.numel() > MAX_QUANTILE:
+            idx = torch.randperm(t.numel())[:MAX_QUANTILE]
+            return t[idx]
+        return t
+
+    mag_sample = _subsample(all_mag)
+    sal_sample = _subsample(all_sal)
+    sal_nz_sample = _subsample(all_sal_nz) if len(all_sal_nz) > 0 else None
+
     # Percentile analysis
     percentiles = [1, 5, 10, 25, 50, 75, 90, 95, 99]
-    mag_pcts = {p: float(torch.quantile(all_mag, p / 100))
+    mag_pcts = {p: float(torch.quantile(mag_sample, p / 100))
                 for p in percentiles}
-    sal_pcts = {p: float(torch.quantile(all_sal, p / 100))
+    sal_pcts = {p: float(torch.quantile(sal_sample, p / 100))
                 for p in percentiles}
 
     # Near-zero saliency analysis
-    if len(all_sal_nz) > 0:
-        sal_nz_pcts = {p: float(torch.quantile(all_sal_nz, p / 100))
+    if sal_nz_sample is not None and len(sal_nz_sample) > 0:
+        sal_nz_pcts = {p: float(torch.quantile(sal_nz_sample, p / 100))
                        for p in percentiles}
         # Ratio: how much does saliency spread the near-zero weights?
         spread_ratio = float(all_sal_nz.std() / all_sal_nz.mean())
     else:
         sal_nz_pcts = {}
         spread_ratio = 0.0
+
+    # Correlation on subsample
+    n_corr = min(1_000_000, len(all_mag))
+    corr_idx = torch.randperm(len(all_mag))[:n_corr]
 
     return {
         "n_total": int(all_mag.numel()),
@@ -523,8 +548,8 @@ def analyze_saliency_distribution(model, input_cov_diag,
         "magnitude_mean": float(all_mag.mean()),
         "saliency_mean": float(all_sal.mean()),
         "correlation_mag_sal": float(torch.corrcoef(
-            torch.stack([all_mag[:1_000_000],
-                         all_sal[:1_000_000]]))[0, 1])
+            torch.stack([all_mag[corr_idx],
+                         all_sal[corr_idx]]))[0, 1])
         if len(all_mag) >= 2 else 0.0,
     }
 

@@ -1,0 +1,277 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "version": "v1-saliency-aware-sieve",
+  "config": {
+    "n_cal": 64,
+    "n_eval": 64,
+    "seq_len": 128,
+    "sieve_layers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ],
+    "sweep": true
+  },
+  "baseline_ppl": 6.929086262449916,
+  "baseline_facts": 12,
+  "distribution_analysis": {
+    "n_total": 4378853376,
+    "magnitude_percentiles": {
+      "1": 9.107589721679688e-05,
+      "5": 0.000732421875,
+      "10": 0.00189971923828125,
+      "25": 0.006744384765625,
+      "50": 0.016357421875,
+      "75": 0.029541015625,
+      "90": 0.043701171875,
+      "95": 0.05322265625,
+      "99": 0.07275390625
+    },
+    "saliency_percentiles": {
+      "1": 1.3337304949345707e-07,
+      "5": 6.881320587126538e-05,
+      "10": 0.00025595081388019025,
+      "25": 0.0011544973822310567,
+      "50": 0.003330992301926017,
+      "75": 0.007215805351734161,
+      "90": 0.012897484935820103,
+      "95": 0.018200471997261047,
+      "99": 0.03587031736969948
+    },
+    "near_zero_saliency_percentiles": {
+      "1": 3.267627946001994e-08,
+      "5": 1.3577131539932452e-05,
+      "10": 8.513925422448665e-05,
+      "25": 0.00047005395754240453,
+      "50": 0.0014237782452255487,
+      "75": 0.0029743644408881664,
+      "90": 0.0047651962377130985,
+      "95": 0.006880483124405146,
+      "99": 0.012413889169692993
+    },
+    "near_zero_saliency_spread": 1.6472197771072388,
+    "magnitude_mean": 0.02022864669561386,
+    "saliency_mean": 0.005762200802564621,
+    "correlation_mag_sal": 0.3451522886753082
+  },
+  "results": {
+    "standard-50%": {
+      "ppl": 14.160336369264675,
+      "facts": 11,
+      "facts_total": 15,
+      "total_bits": 6573616574,
+      "total_params": 4378853376,
+      "bits_per_param": 1.501,
+      "config": {
+        "name": "standard-50%",
+        "type": "standard",
+        "zero_rate": 0.5
+      },
+      "elapsed_s": 122.4,
+      "ppl_ratio": 2.0436
+    },
+    "standard-70%": {
+      "ppl": 71.22991434902809,
+      "facts": 3,
+      "facts_total": 15,
+      "total_bits": 5695926004,
+      "total_params": 4378853354,
+      "bits_per_param": 1.301,
+      "config": {
+        "name": "standard-70%",
+        "type": "standard",
+        "zero_rate": 0.7
+      },
+      "elapsed_s": 120.3,
+      "ppl_ratio": 10.2798
+    },
+    "sal-30s-20f-Q4": {
+      "ppl": 13.387455582658285,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 13578158904,
+      "total_params": 4378853376,
+      "bits_per_param": 3.101,
+      "config": {
+        "name": "sal-30s-20f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.2,
+        "faint_bits": 4,
+        "use_saliency": true
+      },
+      "elapsed_s": 211.5,
+      "ppl_ratio": 1.9321
+    },
+    "sal-40s-20f-Q4": {
+      "ppl": 12.356712452572424,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 14017846256,
+      "total_params": 4378853376,
+      "bits_per_param": 3.201,
+      "config": {
+        "name": "sal-40s-20f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.4,
+        "faint_frac": 0.2,
+        "faint_bits": 4,
+        "use_saliency": true
+      },
+      "elapsed_s": 202.8,
+      "ppl_ratio": 1.7833
+    },
+    "sal-30s-30f-Q4": {
+      "ppl": 12.33570756269492,
+      "facts": 13,
+      "facts_total": 15,
+      "total_bits": 15330267036,
+      "total_params": 4378853376,
+      "bits_per_param": 3.501,
+      "config": {
+        "name": "sal-30s-30f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.3,
+        "faint_bits": 4,
+        "use_saliency": true
+      },
+      "elapsed_s": 241.1,
+      "ppl_ratio": 1.7803
+    },
+    "sal-30s-20f-Q2": {
+      "ppl": 15.574028141192198,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 11827616337,
+      "total_params": 4378853376,
+      "bits_per_param": 2.701,
+      "config": {
+        "name": "sal-30s-20f-Q2",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.2,
+        "faint_bits": 2,
+        "use_saliency": true
+      },
+      "elapsed_s": 205.0,
+      "ppl_ratio": 2.2476
+    },
+    "sal-30s-20f-Q8": {
+      "ppl": 13.336934152686933,
+      "facts": 10,
+      "facts_total": 15,
+      "total_bits": 17082544790,
+      "total_params": 4378853376,
+      "bits_per_param": 3.901,
+      "config": {
+        "name": "sal-30s-20f-Q8",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.2,
+        "faint_bits": 8,
+        "use_saliency": true
+      },
+      "elapsed_s": 200.6,
+      "ppl_ratio": 1.9248
+    },
+    "mag-30s-20f-Q4": {
+      "ppl": 14.439171838959677,
+      "facts": 11,
+      "facts_total": 15,
+      "total_bits": 13604698528,
+      "total_params": 4378853376,
+      "bits_per_param": 3.107,
+      "config": {
+        "name": "mag-30s-20f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.2,
+        "faint_bits": 4,
+        "use_saliency": false
+      },
+      "elapsed_s": 182.2,
+      "ppl_ratio": 2.0838
+    },
+    "sal-30s-40f-Q4": {
+      "ppl": 12.079893481548794,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 17081359889,
+      "total_params": 4378853376,
+      "bits_per_param": 3.901,
+      "config": {
+        "name": "sal-30s-40f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.3,
+        "faint_frac": 0.4,
+        "faint_bits": 4,
+        "use_saliency": true
+      },
+      "elapsed_s": 201.4,
+      "ppl_ratio": 1.7434
+    },
+    "sal-20s-50f-Q4": {
+      "ppl": 12.042322013102895,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 18397645564,
+      "total_params": 4378853376,
+      "bits_per_param": 4.201,
+      "config": {
+        "name": "sal-20s-50f-Q4",
+        "type": "saliency",
+        "strong_frac": 0.2,
+        "faint_frac": 0.5,
+        "faint_bits": 4,
+        "use_saliency": true
+      },
+      "elapsed_s": 219.6,
+      "ppl_ratio": 1.7379
+    },
+    "sal-50s-30f-Q2": {
+      "ppl": 12.35731180818775,
+      "facts": 12,
+      "facts_total": 15,
+      "total_bits": 13579536976,
+      "total_params": 4378853376,
+      "bits_per_param": 3.101,
+      "config": {
+        "name": "sal-50s-30f-Q2",
+        "type": "saliency",
+        "strong_frac": 0.5,
+        "faint_frac": 0.3,
+        "faint_bits": 2,
+        "use_saliency": true
+      },
+      "elapsed_s": 201.1,
+      "ppl_ratio": 1.7834
+    }
+  }
+}

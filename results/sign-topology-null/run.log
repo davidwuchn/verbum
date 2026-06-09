@@ -1,0 +1,36 @@
+========================================================================
+SIGN-TOPOLOGY NULL — is cos(sign(W)@x, W@x) crystal-specific?
+========================================================================
+Model: Qwen/Qwen3-0.6B  device=mps  n_seed=20
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  46%|████▌     | 142/311 [00:00<00:00, 1385.24it/s]Loading weights:  93%|█████████▎| 290/311 [00:00<00:00, 1418.58it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1436.00it/s]
+Loaded 28 layers in 1.7s. Probing layers [2, 8, 14, 19, 25]
+Collecting REAL FFN input activations from calibration text ...
+  L 2 gate_proj  model=0.8703  rand=0.7964±0.0023 (z=+31.6)  shuf=0.7719±0.0025 (z=+39.9)
+  L 2 up_proj    model=0.6214  rand=0.7964±0.0023 (z=-74.9)  shuf=0.7828±0.0026 (z=-63.1)
+  L 2 down_proj  model=0.6960  rand=0.7983±0.0012 (z=-84.7)  shuf=0.7787±0.0015 (z=-54.2)
+  L 8 gate_proj  model=0.8327  rand=0.7970±0.0015 (z=+24.2)  shuf=0.7715±0.0017 (z=+35.9)
+  L 8 up_proj    model=0.7337  rand=0.7970±0.0015 (z=-42.9)  shuf=0.7833±0.0022 (z=-22.3)
+  L 8 down_proj  model=0.7520  rand=0.7980±0.0011 (z=-41.8)  shuf=0.7734±0.0013 (z=-16.6)
+  L14 gate_proj  model=0.8144  rand=0.7969±0.0023 (z=+7.6)  shuf=0.7533±0.0018 (z=+33.9)
+  L14 up_proj    model=0.7537  rand=0.7969±0.0023 (z=-18.8)  shuf=0.7743±0.0026 (z=-8.1)
+  L14 down_proj  model=0.7415  rand=0.7977±0.0015 (z=-36.9)  shuf=0.7652±0.0017 (z=-13.9)
+  L19 gate_proj  model=0.8407  rand=0.7975±0.0021 (z=+20.7)  shuf=0.7475±0.0020 (z=+46.3)
+  L19 up_proj    model=0.7657  rand=0.7975±0.0021 (z=-15.2)  shuf=0.7655±0.0016 (z=+0.2)
+  L19 down_proj  model=0.7264  rand=0.7974±0.0011 (z=-64.8)  shuf=0.7653±0.0020 (z=-19.1)
+  L25 gate_proj  model=0.8408  rand=0.7975±0.0012 (z=+35.7)  shuf=0.7829±0.0023 (z=+24.9)
+  L25 up_proj    model=0.7542  rand=0.7975±0.0012 (z=-35.7)  shuf=0.7862±0.0019 (z=-17.1)
+  L25 down_proj  model=0.6562  rand=0.7985±0.0032 (z=-44.5)  shuf=0.7821±0.0039 (z=-32.7)
+
+========================================================================
+VERDICT
+========================================================================
+  model    cos = 0.7600
+  random   cos = 0.7973  (gap -0.0374)
+  shuffled cos = 0.7723  (gap -0.0123)
+  median z: vs-random=-35.69844029658884, vs-shuffled=-13.946576759331636
+  → model is separated from controls; sign-topology carries structure.
+
+saved → /Users/mwhitford/src/verbum/results/sign-topology-null/Qwen_Qwen3-0.6B.json
+total 4.7s

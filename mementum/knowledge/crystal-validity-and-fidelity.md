@@ -169,6 +169,20 @@ first; peripheral (K, I) carved out later as capacity permits.
    compression-survival curve, model vs random/shuffled-data controls,
    tested for a scale-invariant (power-law) signature.
 
+   > **✅ RESOLVED (s203, `holographic_survival.py`, audit-registry #2).**
+   > Control run on 8B, trained vs random-init vs shuffled. Two compression
+   > registers, both strongly structure-specific: **(C) distributed
+   > redundancy** (magnitude prune, trained AUC 0.784 vs 0.25/0.34, graceful
+   > to ~70% then a cliff) and **(A) spectral self-similarity** (SVD rank
+   > truncation, trained AUC 0.728 vs 0.11 — a **6–7× gap**; the trained FFN
+   > is low-rank-dominated where random/MP spectra collapse instantly). Quant
+   > survival ≈ random (weakly structure-dependent → mostly flat minima, as
+   > predicted here). The **power-law discriminator is retired** (ambiguous on
+   > every axis; a hologram degrades plateau→cliff, not power-law — use the
+   > AUC-vs-controls gap). Net: the *holographic mechanism* (distributed +
+   > spectrally self-similar) is **supported**; only φ-as-universal-constant
+   > (above) stays refuted. Full synthesis: `two-registers-of-topology.md`.
+
 ## Methodology That Worked (reusable)
 
 - **Permutation null over labels** is the right tool for "is this
@@ -189,8 +203,10 @@ first; peripheral (K, I) carved out later as capacity permits.
   precede residual-K, independent of the common mode?
 - **Forced vs frequency-driven order:** train on data with altered
   composition statistics — does B-first survive?
-- **Holographic self-similarity:** compression-survival curve vs matched
-  controls, test for power-law/scale-invariance.
+- ~~**Holographic self-similarity:** compression-survival curve vs matched
+  controls, test for power-law/scale-invariance.~~ ✅ RESOLVED s203 (see §5):
+  spectral self-similarity VERIFIED (rank axis, 6–7× control gap); distributed
+  redundancy confirmed; power-law discriminator retired.
 - **Q-rotation as combinator selector** (s145 rotation eigenplanes):
   does Q-space rotation differ systematically by combinator? Untested.
 - **"Always 4, never 3 or 5":** measure KIBC eigen-rank with the

@@ -1,0 +1,182 @@
+
+======================================================================
+  SALIENCY-AWARE SIEVE
+  Discriminating irreducible zeros from faint connections
+======================================================================
+  Model: Qwen/Qwen3-8B
+  Device: mps
+  Cal seqs: 64
+  Eval seqs: 64
+  Sweep: True
+
+  Loading sequences from /Users/mwhitford/data/fractal-bitnet/shards-qwen3/shard_00000.npy...
+  64 cal + 64 eval
+
+  Loading Qwen/Qwen3-8B (torch.float16)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:36,  1.84it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:06, 55.84it/s]Loading weights:  16%|█▌        | 64/399 [00:00<00:02, 123.44it/s]Loading weights:  22%|██▏       | 88/399 [00:00<00:02, 147.23it/s]Loading weights:  28%|██▊       | 111/399 [00:00<00:01, 165.09it/s]Loading weights:  34%|███▎      | 134/399 [00:01<00:01, 171.99it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 188.54it/s]Loading weights:  45%|████▌     | 180/399 [00:01<00:01, 194.81it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 206.44it/s]Loading weights:  57%|█████▋    | 227/399 [00:01<00:00, 209.60it/s]Loading weights:  64%|██████▎   | 254/399 [00:01<00:00, 217.11it/s]Loading weights:  70%|██████▉   | 278/399 [00:01<00:00, 222.97it/s]Loading weights:  75%|███████▌  | 301/399 [00:01<00:00, 218.54it/s]Loading weights:  81%|████████▏ | 325/399 [00:01<00:00, 224.01it/s]Loading weights:  88%|████████▊ | 353/399 [00:02<00:00, 227.74it/s]Loading weights:  95%|█████████▍| 378/399 [00:02<00:00, 222.34it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 178.44it/s]
+  d_model=4096
+
+  Measuring baseline...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Baseline PPL: 6.93, facts: 12/15
+
+  Stashing original weights...
+
+  Collecting input covariance (calibration pass)...
+  Covariance collected in 11.0s
+
+  Analyzing saliency distribution...
+  Total params: 4,378,853,376
+  Magnitude mean: 0.020229
+  Saliency mean:  0.005762
+  Correlation(mag, sal): 0.257
+  Near-zero saliency spread: 1.647
+  Near-zero saliency percentiles:
+    p1: 0.000000
+    p5: 0.000013
+    p10: 0.000085
+    p25: 0.000471
+    p50: 0.001423
+    p75: 0.002975
+    p90: 0.004762
+    p95: 0.006880
+    p99: 0.012374
+
+══════════════════════════════════════════════════════════════════════
+  Config 1/11: standard-50%
+══════════════════════════════════════════════════════════════════════
+  PPL: 14.17 (2.045x)
+  Facts: 11/15
+  Bits/param: 1.501
+  Time: 119.6s
+
+══════════════════════════════════════════════════════════════════════
+  Config 2/11: standard-70%
+══════════════════════════════════════════════════════════════════════
+  PPL: 70.53 (10.178x)
+  Facts: 3/15
+  Bits/param: 1.301
+  Time: 119.6s
+
+══════════════════════════════════════════════════════════════════════
+  Config 3/11: sal-30s-20f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=20% Q4 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.101
+  Time: 209.6s
+
+══════════════════════════════════════════════════════════════════════
+  Config 4/11: sal-40s-20f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=40% faint=20% Q4 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.201
+  Time: 201.9s
+
+══════════════════════════════════════════════════════════════════════
+  Config 5/11: sal-30s-30f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=30% Q4 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.501
+  Time: 209.8s
+
+══════════════════════════════════════════════════════════════════════
+  Config 6/11: sal-30s-20f-Q2
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=20% Q2 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 2.701
+  Time: 204.2s
+
+══════════════════════════════════════════════════════════════════════
+  Config 7/11: sal-30s-20f-Q8
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=20% Q8 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.901
+  Time: 215.9s
+
+══════════════════════════════════════════════════════════════════════
+  Config 8/11: mag-30s-20f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=20% Q4 saliency=magnitude
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.106
+  Time: 188.0s
+
+══════════════════════════════════════════════════════════════════════
+  Config 9/11: sal-30s-40f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=30% faint=40% Q4 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.901
+  Time: 209.4s
+
+══════════════════════════════════════════════════════════════════════
+  Config 10/11: sal-20s-50f-Q4
+══════════════════════════════════════════════════════════════════════
+  strong=20% faint=50% Q4 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 4.202
+  Time: 209.0s
+
+══════════════════════════════════════════════════════════════════════
+  Config 11/11: sal-50s-30f-Q2
+══════════════════════════════════════════════════════════════════════
+  strong=50% faint=30% Q2 saliency=activation
+  PPL: nan (nanx)
+  Facts: 0/15
+  Bits/param: 3.101
+  Time: 195.2s
+
+======================================================================
+  RESULTS SUMMARY
+======================================================================
+  Baseline: PPL=6.93  facts=12/15
+
+  Config                         PPL    Ratio  Facts  Bits/p   Time
+  ───────────────────────── ──────── ──────── ────── ─────── ──────
+  standard-50%                 14.17   2.045x    11/15   1.501   120s
+  standard-70%                 70.53  10.178x     3/15   1.301   120s
+  sal-30s-20f-Q4                 nan     nanx     0/15   3.101   210s
+  sal-40s-20f-Q4                 nan     nanx     0/15   3.201   202s
+  sal-30s-30f-Q4                 nan     nanx     0/15   3.501   210s
+  sal-30s-20f-Q2                 nan     nanx     0/15   2.701   204s
+  sal-30s-20f-Q8                 nan     nanx     0/15   3.901   216s
+  mag-30s-20f-Q4                 nan     nanx     0/15   3.106   188s
+  sal-30s-40f-Q4                 nan     nanx     0/15   3.901   209s
+  sal-20s-50f-Q4                 nan     nanx     0/15   4.202   209s
+  sal-50s-30f-Q2                 nan     nanx     0/15   3.101   195s
+
+  Reference: v3b (standard-50% + LoRA rank-4 + SM) = 1.44× baseline
+  Question:  Does saliency-aware sieve WITHOUT training beat
+             standard sieve WITHOUT training?
+  Question:  At same bit budget, is faint tier > higher LoRA rank?
+
+  Key comparisons vs standard-50% (14.17 PPL):
+    standard-70%              PPL -397.6%  bits 0.87×
+    sal-30s-20f-Q4            PPL +nan%  bits 2.07×
+    sal-40s-20f-Q4            PPL +nan%  bits 2.13×
+    sal-30s-30f-Q4            PPL +nan%  bits 2.33×
+    sal-30s-20f-Q2            PPL +nan%  bits 1.80×
+    sal-30s-20f-Q8            PPL +nan%  bits 2.60×
+    mag-30s-20f-Q4            PPL +nan%  bits 2.07×
+    sal-30s-40f-Q4            PPL +nan%  bits 2.60×
+    sal-20s-50f-Q4            PPL +nan%  bits 2.80×
+    sal-50s-30f-Q2            PPL +nan%  bits 2.07×
+
+  Results saved to /Users/mwhitford/src/verbum/results/saliency-aware-sieve/Qwen_Qwen3-8B.json
+======================================================================
+

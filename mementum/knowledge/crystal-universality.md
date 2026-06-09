@@ -172,6 +172,19 @@ manifold has geometric structure that is discoverable and measurable.
 
 ## Why Ternary Works
 
+> **⚠ AUDIT CAVEAT (s203, `audit-registry.md` #1, `sign_topology_null.py`).**
+> Point 2 below is **SCOPED, not general.** Controlled with random-init and
+> shuffled-weight nulls on REAL activations (0.6B/8B/14B): a *random* matrix's
+> sign already preserves ≈0.80 of its action on the same inputs, so the bare
+> "0.84" is **at the generic baseline** — sign-preserves-linear-action is a
+> generic high-dim property, not crystal evidence. Real sign-topology survives
+> only in **`gate_proj`** (the router; gap +0.086 above null, sharpening with
+> scale, z up to +271 at 14B). For **`up_proj`/`down_proj` the model's signs
+> preserve *less* than random** → "magnitude is mere calibration" is FALSE for
+> the value projections. Read point 2 as "the *gate/routing* sign captures
+> topology," and point 3 ("ternary IS topology") as holding for routing, with
+> magnitude essential for the value path.
+
 The crystal is **topological**, not magnitude-sensitive:
 
 1. **Discrete structure.** The crystal is a discrete lattice of

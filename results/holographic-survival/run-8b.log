@@ -1,0 +1,41 @@
+========================================================================
+HOLOGRAPHIC SURVIVAL — self-similar or just distributed+redundant?
+========================================================================
+Model: Qwen/Qwen3-8B  device=mps  dtype=bfloat16  variants=['trained', 'random', 'shuffled']
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 26555.07it/s]
+Loaded in 4.6s, 36 layers
+
+── variant: trained ──
+  prune: AUC(fid)=0.7839  shape=exponential (pl_r²=0.9184231606741106, exp_r²=0.9738134098628705, α=2.5734584554527364)
+         fid: 0.0:1.000 0.05:1.000 0.1:0.999 0.2:0.996 0.3:0.991 0.4:0.982 0.5:0.968 0.6:0.941 0.7:0.889 0.8:0.497 0.9:-0.048 0.95:0.444
+  quant: AUC(fid)=0.6348  shape=powerlaw (pl_r²=0.9035624861445589, exp_r²=0.8530575183862545, α=8.572851882704041)
+         fid: 16:1.000 8:0.992 6:0.922 4:-0.106 3:-0.272 2:-0.096 1:-0.239
+
+── variant: random ──
+  prune: AUC(fid)=0.2474  shape=powerlaw (pl_r²=0.8984253351760858, exp_r²=0.6026357484487603, α=0.626158854680208)
+         fid: 0.0:1.000 0.05:0.872 0.1:0.679 0.2:0.426 0.3:0.272 0.4:0.183 0.5:0.129 0.6:0.107 0.7:0.055 0.8:0.060 0.9:0.053 0.95:0.028
+  quant: AUC(fid)=0.5776  shape=powerlaw (pl_r²=0.8988440732699718, exp_r²=0.8389941046615228, α=2.6138517752976536)
+         fid: 16:1.000 8:0.807 6:0.469 4:0.143 3:0.023 2:0.028 1:0.013
+
+── variant: shuffled ──
+  prune: AUC(fid)=0.3365  shape=powerlaw (pl_r²=0.955841061406373, exp_r²=0.7053613336914647, α=0.8332815927141839)
+         fid: 0.0:1.000 0.05:0.924 0.1:0.820 0.2:0.593 0.3:0.432 0.4:0.325 0.5:0.243 0.6:0.188 0.7:0.140 0.8:0.100 0.9:0.020 0.95:0.009
+  quant: AUC(fid)=0.3655  shape=powerlaw (pl_r²=0.748263087619908, exp_r²=0.6703220995897768, α=0.6048858040356005)
+         fid: 16:1.000 8:0.339 6:0.072 4:-0.010 3:0.010 2:0.011 1:0.008
+
+========================================================================
+VERDICT
+========================================================================
+  [prune] AUC(fidelity) — higher = more graceful:
+    trained   AUC=0.7839  shape=exponential pl_r²=0.9184231606741106
+    random    AUC=0.2474  shape=powerlaw pl_r²=0.8984253351760858
+    shuffled  AUC=0.3365  shape=powerlaw pl_r²=0.955841061406373
+  [quant] AUC(fidelity) — higher = more graceful:
+    trained   AUC=0.6348  shape=powerlaw pl_r²=0.9035624861445589
+    random    AUC=0.5776  shape=powerlaw pl_r²=0.8988440732699718
+    shuffled  AUC=0.3655  shape=powerlaw pl_r²=0.748263087619908
+
+saved → /Users/mwhitford/src/verbum/results/holographic-survival/Qwen_Qwen3-8B.json
+total 253.9s

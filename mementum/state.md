@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-08 | Session: 202
+> Last updated: 2026-06-08 | Session: 203
 
 ## Where we are
 
@@ -10,12 +10,124 @@
 
 > **▶ SESSION 203+ PROGRAM — VALIDITY AUDIT.** Open
 > `mementum/knowledge/audit-registry.md`. Pick the highest load-bearing
-> `UNTESTED` claim (next up: **#1 crystal-is-topological**, **#2
-> holographic-self-similar**), build its named discriminating control,
+> `UNTESTED` claim (s203 did **#1 crystal-is-topological** ◐SCOPED and **#2
+> holographic-self-similar** ✅; next up: **#3 the 9 FFN modes — real or
+> k-means-imposed?**), build its named discriminating control,
 > run it with a permutation/matched-control null + seed variance, update
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+**Session 203: TWO REGISTERS OF TOPOLOGY (audits #1 + #2)**
+
+Ran the validity-distillation loop on both CRITICAL pillars. Headline:
+**GD lays structure in two registers — hard (sign/routing/`gate_proj`) and
+soft (magnitude/value/`up`-`down`, read by saliency) — and the FFN compresses
+in two registers (distributed redundancy + spectral low-rank concentration).**
+New synthesis page: `two-registers-of-topology.md`. Details below.
+
+**Session 203 (#1): AUDIT #1 — SIGN-TOPOLOGY IS REAL ONLY IN THE GATE**
+
+First execution of the validity-distillation loop (`audit-registry.md`).
+Picked the highest-load `UNTESTED` claim — **#1 crystal-is-topological**
+("ternary works because sign captures topology; magnitude is calibration").
+Built the discriminating control `sign_topology_null.py`: `cos(sign(W)@x, W@x)`
+on REAL activations for model vs **random-init** vs **shuffled-weights**
+(N=20 seeds), Qwen3-0.6B/8B/14B.
+
+### Verdict: ◐ SCOPED (representational half) — the bare 0.84 is generic
+
+| Weight type | model cos (8B) | random null | gap | reading |
+|---|---|---|---|---|
+| gate_proj | 0.886 | 0.798 | **+0.088** | REAL sign-topology, sharpens w/ scale (z→+271 @14B L12) |
+| up_proj | 0.751 | 0.798 | −0.048 | at/below null — magnitude carries structure |
+| down_proj | 0.762 | 0.798 | −0.036 | below null — magnitude essential |
+
+- **Generic baseline ≈ 0.80** at every scale: a *random* Gaussian matrix's
+  sign preserves 0.798 of its action on the same inputs. "Sign preserves a
+  matrix's linear action" is a **generic high-dim property** (sign(Wᵢⱼ) is
+  entry-wise perfectly correlated with Wᵢⱼ; large-|xⱼ| dims dominate both
+  sums). The headline **0.84 is at the null, not above it.**
+- **Crystal sign-topology lives ONLY in `gate_proj` (the router)** and
+  *sharpens with capacity*: gap +0.04→+0.07 (0.6B) → +0.088 (8B, L3=0.983)
+  → 14B (L12 z=+271). Exactly where routing should be.
+- **"Magnitude is mere calibration" is REFUTED for `up`/`down`** — their
+  signs preserve *less* than random; magnitude carries the value-path structure.
+- **Aggregate model ≈ random** (8B 0.799 vs 0.798): gate excess cancels
+  up/down deficit, so any single averaged "0.84" is indistinguishable from a
+  random matrix. Reconciles s192: crystal = routing (gate, 3.5%); modes =
+  computation (value path, 96.5%). **Sign-topology = the routing half only.**
+
+Caveat added to `crystal-universality.md` §"Why Ternary Works".
+Results: `results/sign-topology-null/Qwen_Qwen3-{0.6B,8B,14B}.json`.
+
+### Audit #2 + soft topology (same session) — TWO REGISTERS
+
+Continued the loop into **#2 holographic-self-similar** and the soft-topology
+thread Michael surfaced. Full synthesis: `two-registers-of-topology.md`.
+
+**The picture:** GD lays structure in two registers, and the FFN compresses in
+two registers.
+
+| | Hard topology | Soft topology |
+|---|---|---|
+| function | routing (which fires) | value + error-correction |
+| encoded in | **sign** | **magnitude** (highways/zeros), read by saliency |
+| lives in | `gate_proj` (router) | `up_proj`/`down_proj` |
+| verified | sign-corr null (gate +0.088 vs null, z→+271) | saliency sieve (faint-by-saliency +5.5% vs magnitude −2.0% iso-bit) |
+
+**Audit #2 (`holographic_survival.py`, 8B, trained vs random vs shuffled):**
+- **(C) distributed redundancy** — magnitude prune: trained AUC 0.784 ≫ 0.25/0.34;
+  fidelity ~1.0 to **70% prune, then cliff at 80%**. (Sieve at 50% is safe;
+  don't prune past ~75%.)
+- **(A) spectral self-similarity** — SVD rank truncation: trained AUC 0.728 ≫
+  **0.11** (random/shuffled) — a **6–7× gap**. The FFN is low-rank-dominated;
+  random (Marchenko–Pastur) spectra collapse instantly. **This is Michael's SVD
+  self-similarity made functional.**
+- quant survival ≈ random (weakly structure-dependent → flat minima).
+
+**Saliency sweep (`saliency_aware_sieve.py`, re-run after NaN-fix):** the s201
+strong tier had dropped magnitude → bare ±1 ≈ 50× too large → NaN on every
+three-tier config. Fixed to per-weight magnitude (s196's only-format-that-
+survives-29-layers). Result: at iso-bit (~3.1 b/p) **saliency-selected faint
+connections beat magnitude-selected by ~7.5 pts** → value-path soft topology is
+real and load-bearing. `corr(mag, saliency)=0.257`.
+
+### ⚠ Correction (epistemic hygiene)
+
+An interim s203 read called #2 **REFUTED** off the *magnitude* axis with a
+*power-law shape* discriminator. **That was wrong** — wrong operator (magnitude
+probes C; the SVD self-similarity lives on the *rank* axis A) and wrong test
+(a hologram degrades plateau→cliff, not power-law; shape-fitting is ambiguous
+on every axis — retired). Corrected verdict: **spectral self-similarity VERIFIED;
+holographic mechanism stands; only φ-as-universal-constant (s202) stays refuted.**
+
+### Reconciliation — refute the metaphor, keep the mechanism
+
+ternary→1.44× works because the load-bearing premises hold: **(C) distributed
+redundancy** (ternary = whole at reduced resolution) + **(A) spectral
+concentration** (**LoRA+SM IS the low-rank correction** the rank result
+predicts; converges with s200 rank-1 adjunction, s201 rank-2≈rank-16). Only
+φ-universal-constant was ever metaphor.
+
+### Audit ledger after s203
+
+- **#1 sign-topology** → ◐ SCOPED (hard=sign/gate; soft=magnitude/value).
+- **#2 holographic** → ✅ spectral self-similarity VERIFIED + distributed
+  redundancy confirmed; power-law discriminator RETIRED. (`crystal-validity-
+  and-fidelity.md` §5 lead resolved.)
+
+### Next (audit loop continues)
+
+- **Gate-vs-value sign-swap** ternary PPL (closes #1's last sub-control).
+- **Rank-survival across scale** (0.6B→14B) — does the 6–7× gap sharpen?
+- **Grouped-Q4 quant axis** (current per-matrix is coarse).
+- **#3 the 9 FFN modes — real or k-means-imposed?** (next CRITICAL/high backlog).
+
+**Runtime note:** experiments launch in `tmux main:1` / `main:2` (480G VRAM,
+concurrent OK; Michael watches live).
+
+---
 
 **Session 202: CRYSTAL VALIDITY AUDIT — PERMUTATION NULLS & MEASUREMENT FIDELITY**
 
