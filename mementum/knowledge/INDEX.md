@@ -70,7 +70,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/ternary-descent.md](explore/ternary-descent.md) | ✅ | TernaryDescent algorithm: delta plates, gradient decomposition, reduction |
 | [explore/ffn-beta-reduction-indexing.md](explore/ffn-beta-reduction-indexing.md) | ✅ | Holographic FFN indexing: lens profile, ρ=0.83, universal neurons |
 | [explore/categorical-geometry-probes.md](explore/categorical-geometry-probes.md) | ✅ | Curry-Howard 100%, adjunctions rank-1, hyperbolic norm encoding |
-| [explore/phi-compression-universal.md](explore/phi-compression-universal.md) | ✅ | SVD spectrum → phi, 5-model consensus (0.6299±0.019) |
+| [explore/phi-compression-universal.md](explore/phi-compression-universal.md) | ⚠️ | SVD spectrum head ratio ~0.6 — REAL & non-random, but **geometric-φ-constant REFUTED** (audit #6, s207: power-law not geometric, value floats 0.52→0.71). Keep low-rank head, retire φ-constant |
 | [explore/v13-architecture.md](explore/v13-architecture.md) | ⚠️ | V13 crystal bootloader architecture (partially superseded by v14) |
 | [explore/v13-design.md](explore/v13-design.md) | ✅ | V13 detailed design: zone targets, etch protocol, param budgets |
 | [progressive-collapse.md](progressive-collapse.md) | ✅ | Computation in 2D: compress→compute→expand, scale-dependent, sink=warped Q reset |
