@@ -17,6 +17,29 @@ created: session 121
 
 # 5D Crystal Lattice Hypothesis
 
+> ⚠️ **SESSION-211 CAVEAT — THE "5D" IS REFUTED (read first).** The joint-
+> embedding test (P1–P6 below) was finally run honestly (audit-registry #12,
+> `manifold-axis-and-topology.md`; 8 models, 5 families, register: spectral/
+> semantic). Results:
+> - **"5D" is REFUTED.** The 9 combinator centroids spread into participation
+>   ratio ~5–6 — *at the shuffled-label null* (p_conc>0.02, *worsening* with
+>   scale); the full manifold is high-D (PR 22–47, power-law); the cross-family-
+>   *shared* structure is **rank-~1** (common-mode removal collapses agreement
+>   0.79→−0.19). "5D" was a variance threshold on a graded spectrum.
+> - **The "five piles agree at 0.9" argument is the RDM-correlation triviality**
+>   (the s202 consensus-r=0.99 failure): the agreement is real vs a shuffled-
+>   probe null (0.79 vs 0.00±0.03) but is a single common mode, not a 5D lattice.
+> - **The one universal axis (|r|=0.95 across families) is NOT the combinators**
+>   (η²=0.05) — it is a generic next-token predictability / continuation-type
+>   gradient (function-word continuation r=−0.42, entropy −0.29). The operations
+>   are real but sub-dominant, riding underneath it.
+> - **What SURVIVES:** universality (models learn a property of language,
+>   cross-family p≪0.001) and that the operation structure is **~65% topological**
+>   (sign/routing, →0.79 at 14B). Treat everything below as the *original
+>   hypothesis* — the geometry-metaphor (5D vertices, quasicrystal projection) is
+>   retired; the universality and topology share are kept. (Quasicrystal was
+>   already independently denied in s200.)
+
 > Session 121 endnote. All the measured crystals — per-depth, per-model,
 > per-domain, per-combinator, binder↔body — may be facets of one
 > higher-dimensional lattice. The combinators are the vertices. The

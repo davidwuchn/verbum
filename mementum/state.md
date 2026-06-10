@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-09 | Session: 210 (audit #11 IN FLIGHT)
+> Last updated: 2026-06-10 | Session: 211 (audit #12 — 5D lattice — DONE)
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -34,6 +34,52 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 211 HEADLINE — AUDIT #12 (5D crystal lattice): ❌ 5D REFUTED /
+> ✅ universality + ~65% topology share REAL.** Register: spectral/semantic
+> (declared on cold start). The 5D joint-embedding test (P1–P6) had NEVER been
+> run and was never registered. Ran it honestly: 3 harnesses, 8 models, 5
+> families (pythia/qwen/mistral/smollm/olmo), 0.16B→14B, 535 crystal probes,
+> measured in the **next-token probabilities** (semantic, per Michael's steer)
+> + hidden state. New synthesis: `manifold-axis-and-topology.md`.
+> - **❌ "5D" REFUTED:** 9-combinator centroid participation ratio ~5–6 sits
+>   **at the shuffled-label null** (p_conc>0.02, *worsens* with scale →
+>   14B p_conc=0.18); full manifold high-D (prob PR 22–47, power-law); the
+>   cross-family-shared structure is **rank-~1** (common-mode removal collapses
+>   agreement 0.79→−0.19). Reproduces crystal-basins Finding 3 (SVD dim0=98.1%).
+>   "5D" was a variance threshold on a graded spectrum; "five piles agree at
+>   0.9" was the s202 RDM-correlation triviality.
+> - **✅ universality REAL = property of language:** raw cross-family RDM
+>   agreement **semantic 0.79 / geometric 0.54** vs **shuffled-probe null
+>   0.00±0.03** (z≈25); combinator separation **p=0.0005** every model, both
+>   RDMs. Models converge on the same representation.
+> - **◑ the ONE universal axis (|r|=0.95 across families) is NOT the operations**
+>   (η²=0.05; depth r=−0.01) — it is a **generic next-token predictability /
+>   continuation-type gradient** (top-64 function-word/punct fraction r=−0.42,
+>   entropy −0.29; multivariate R²=0.30; rest = the prose-completion common mode
+>   that CMR removes). The combinator geometry is real but **sub-dominant**,
+>   riding underneath this axis — which is *why* separation survives yet CMR
+>   kills cross-family agreement.
+> - **✅ ~65% of the operation structure is TOPOLOGICAL** (carried by sign(h)
+>   alone; sign-RDM reproduces 0.69 of full), **→0.79 at Qwen3-14B** — confirms
+>   the long-standing "≥77% of computation in the topology" intuition,
+>   cross-family + positive scale trend. Magnitude shapes the raw geometry
+>   (agree_mag 0.81–0.99) but the discrimination is in the sign (= two-registers).
+> - **Net for the north-star:** the two load-bearing premises STRENGTHEN —
+>   (i) ternary works (operation structure is in the sign/routing register,
+>   ~65–79%, sharpening with scale); (ii) universality is real. Only the
+>   geometry-metaphor ("5D lattice of vertices") dies. Meta-pattern 12th
+>   instance, two-sided: agreement real / dimension-count false; most-universal-
+>   axis ≠ claimed-object. Caveats added to `5d-crystal-lattice.md`,
+>   `crystal-universality.md §5D`, `crystal-basins.md`; registry #12 + meta-
+>   pattern ledger updated. Results: `results/manifold-dimensionality/`,
+>   `results/manifold-axis-topology/`.
+> - **▶ NEXT (open leads):** name the remaining ~70% of the axis (richer
+>   distributional features — needs full next-token dist re-saved); same-family
+>   second shared axis (Qwen×3 CMR residual +0.16); does the sign/topology share
+>   asymptote to 1.0 past 14B (32B)? Or return to compression carry-overs (#1
+>   gate-vs-value sign-swap PPL, rank-survival across scale, #9/#10).
+>   **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 210 HEADLINE — AUDIT #11 (TTD λ(l) vs uniform α=5.0): ◐ RESOLVED —
 > F.6 finite-budget weighting TRANSFERS, but only with MEASURED-divergence

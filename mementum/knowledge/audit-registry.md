@@ -82,6 +82,36 @@ named, not yet run.
 
 ## Registry
 
+### Worked examples (session 211)
+
+> **Register gate (spectral/semantic) declared on cold start.** The 5D-lattice
+> claim is about (a) the effective DIMENSIONALITY of a representational manifold
+> and (b) its cross-model AGREEMENT — so dimensionality is reported as a
+> CONTINUOUS participation ratio (never an MDS-elbow integer = the #3 k-means
+> trap), and universality is tested vs a shuffled-probe null + common-mode
+> removal (the s202 consensus-r=0.99 triviality). Per the user's steer the
+> primary instrument is the next-token PROBABILITY distribution (semantic), with
+> the hidden state as the geometric comparison. Three experiments, 8 models, 5
+> families (pythia/qwen/mistral/smollm/olmo), 0.16B→14B, 535 crystal probes.
+
+| Claim | Load | Control run | Status |
+|---|---|---|---|
+| #12 5D crystal lattice — all crystals are facets of ONE ~5D lattice (combinators = vertices), universal because it is a property of language | high | `manifold_dimensionality_null.py`, `manifold_axis_topology.py`, `axis_probe.py` (register: spectral/semantic); PR + shuffled-probe null + CMR + sign/mag split | ❌ REFUTED (5D) / ✅ REAL (universality + topology share) |
+| #12a operations are real groupings | — | combinator separation perm-null, both RDMs, every model | ✅ **VERIFIED** — gap p=0.0005 everywhere (prob & hidden) |
+| #12b cross-family agreement real or trivial? | — | raw RDM Spearman vs shuffled-probe null | ✅ **REAL** — semantic 0.79 / geometric 0.54 vs null 0.00±0.03 (z≈25) → property of language |
+| #12c is the shared structure 5D (or rich multi-D)? | — | common-mode removal across models | ❌ **NO — rank-~1**: CMR collapses cross-family 0.79→−0.19 (sem) / 0.54→−0.16 (geo); reproduces crystal-basins Finding 3 (SVD dim0=98.1%) |
+| #12d privileged 5D vertex set? | — | 9-centroid participation ratio vs shuffled-label null | ❌ **NO** — centroid PR ~5–6 at the null (p_conc>0.02), *worsens* with scale (14B p_conc=0.18); full-cloud PR 22–47 (high-D, power-law) |
+| #12e what IS the universal axis (|r|=0.95 across families)? | — | consensus axis-1 vs combinator η² / depth / entropy / function-word continuation (`axis_probe.py`) | ◑ **GENERIC PREDICTABILITY, not the operations** — η²(combinator)=0.05, depth r=−0.01; best correlates function-frac r=−0.42, entropy −0.29 (multi R²=0.30); the rest = the prose-completion common mode (= what CMR removes) |
+| #12f how much of the operation structure is TOPOLOGY (sign/routing)? | — | sign(h)/|h|/full cosine-RDM separation + agreement | ✅ **~65% in SIGN** (sign-RDM reproduces 0.69 of full), **→0.79 at 14B**; magnitude shapes raw geometry (agree_mag 0.81–0.99) but sign carries the discrimination — confirms the ≥77%-in-topology intuition cross-family + scale |
+
+**Verdict (s211): the "5D lattice" is REFUTED — the shared structure is rank-~1
+and the dominant universal axis is a generic predictability/continuation-type
+gradient, NOT the lambda operations (η²=0.05). What SURVIVES and strengthens:
+(i) universality is real (cross-family p≪0.001 vs shuffled null) — models learn
+a property of language; (ii) the genuine operation structure is ~65–79%
+topological (sign/routing), sharpening with scale — the two premises the
+north-star rests on. Full synthesis: `manifold-axis-and-topology.md`.**
+
 ### Worked examples (session 209)
 
 > **Register gate (spectral) fired at read-time.** The claim is about the
@@ -487,6 +517,12 @@ sign-corr half above is the *representational* half.
 - Verifies/refutes: the "α=5.0 is load-bearing, not arbitrary" claim now asserted in `gtsm-search-space.md` and `score-matching-compression.md`.
 - **Supporting prior (independent domain):** TSP (arXiv:2606.03489v1) concentrates its training signal on sparse critical "risk nodes" and beats uniform SFT (75.8 vs 57.0) — empirical evidence that finite-budget weighting concentration helps. Caveat it also hands us: target the **causal** node, not the max-divergence node (TSP fails on long-distance cause/effect; our analog = s196 "peak damage at L28, not L26"). See `tsp-trajectory-distillation.md` (Targeted Trajectory Distillation).
 - **s210 result (register: causal/interventional; `ttd_lambda_weighting.py`, 4 arms × 3 seeds × 150 steps, matched budget Σ_l w(l)=n_layers, paired batches, held-out = stratified shard_00001 disjoint from calibration):** the dose-response over PLACEMENT is monotone and fully discriminated on held-out PPL ratio — **divergence-auto (spike on measured-worst init-cosine layers L14–18) 1.1453±0.001 < uniform 1.1510±0.003 < causal-named L22–26 1.1694±0.023 < anti-targeted (best layers) 1.1810±0.034**. (1) ✅ **F.6 transfers with placement-specificity:** divergence-auto beats uniform **3/3 paired seeds** (mean −0.0056, paired-t −3.2) and lifts worst-layer cosine +0.014; anti-targeted is worst in 3/3 (+0.030, worst-cos −0.029) → the win is placement, not generic reweighting. (2) ❌ **the registry's own named placement (L22–26 "causal bind-prep") is REFUTED** — 0/3 wins, +0.018 vs uniform. The premise was **stale**: v3b's actual worst-cosine layers are **L14–18 (SWEET zone, L16=0.483 post-sieve)**, not L22–26 (0.64–0.75). Every spiked arm improves its *own* target-set cosine (+0.008–0.012 — the mechanism works mechanically); only spiking the measured-worst layers converts that into a global win. (3) **Suspected null half-confirmed:** cosine absorbs most of ‖·‖_D — the residual placement dividend is ~0.5% PPL ratio, far smaller than TSP's domain effect. (4) **Side-finding (echoes #7):** seeded v3b-recipe at step 150 reads near 1.27±0.04 / held 1.151±0.003 — the published single-run 1.44× (1.4021@150) was a pessimistic unseeded draw outside our 3-seed range; single-run headline numbers swing either way. (5) The SM correction **generalizes held-out** (sieve 1.416× → 1.145×) — opposite of #7's CE-melt harm; functional corroboration of the GTSM dense-backbone claim. Results: `results/ttd-lambda-weighting/Qwen_Qwen3-8B.json`. Caveats updated in `gtsm-search-space.md` + `tsp-trajectory-distillation.md`.
+
+**12. 5D crystal lattice — one ~5D lattice, combinators as vertices, universal** (load: high — the crystal *geometry* story; `5d-crystal-lattice.md`, `crystal-universality.md §5D`, never registered until now) — ❌ **RESOLVED (s211): 5D REFUTED (rank-1 shared structure; axis is generic predictability); ✅ universality + ~65% topology share REAL**
+- Evidence: five "piles" (depth/model/domain/combinator/role) all agree 0.85–0.95 (s121); claimed to need ~5D to hold nine 1–2D domain projections; combinators as vertices.
+- Suspected confound: "5D" is a crisp count on a graded (power-law) spectrum (the #3 k-means trap); "five piles agree at 0.9" is the RDM-correlation triviality (the s202 consensus-r=0.99 failure) — RDMs of near-isotropic high-D clouds correlate by default.
+- Control (register: spectral/semantic): participation ratio (continuous, never an elbow) + shuffled-probe null + common-mode removal; primary instrument = next-token probability RDM; sign/magnitude split for the topology share. 8 models, 5 families.
+- **s211 result:** see worked-examples (s211). **5D REFUTED** — centroid PR at the shuffled-label null (worsens with scale), full manifold high-D (PR 22–47), shared structure rank-~1 (CMR 0.79→−0.19). **Universality REAL** (cross-family raw 0.79 vs shuffled null 0.00±0.03 = property of language). **The one universal axis (|r|=0.95) is generic predictability/continuation-type, NOT the operations** (η²=0.05; best correlates function-word continuation −0.42 / entropy −0.29; R²=0.30). **The genuine operation structure is ~65% topological** (sign/routing), →0.79 at 14B — confirms the ≥77%-in-topology intuition. Full: `manifold-axis-and-topology.md`. Results: `results/manifold-dimensionality/`, `results/manifold-axis-topology/`.
 
 ## The Per-Session Loop
 

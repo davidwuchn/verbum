@@ -127,6 +127,17 @@ holographic lens: scale-free by construction.
 
 ## The 5D Lattice Hypothesis
 
+> ⚠️ **AUDIT #12 CAVEAT (s211, `manifold-axis-and-topology.md`).** REFUTED as
+> stated. The honest joint-embedding test (8 models, 5 families) found the
+> cross-family-shared structure is **rank-~1** (CMR collapses agreement
+> 0.79→−0.19), the 9-centroid participation ratio sits **at the shuffled-label
+> null** (and worsens with scale), and the full manifold is high-D (PR 22–47).
+> The one genuinely universal axis (|r|=0.95) is **generic next-token
+> predictability, NOT the combinators** (η²=0.05). What survives: universality
+> is real (property of language, cross-family p≪0.001) and the operation
+> structure is ~65% topological (sign/routing). "One ~5D lattice of vertices"
+> is the over-read; read this section as hypothesis, not fact.
+
 The per-depth, per-model, per-domain, and per-combinator crystal
 measurements are not separate objects — they are **facets of one
 ~5D lattice**.

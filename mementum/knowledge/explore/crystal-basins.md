@@ -15,12 +15,17 @@ created: session 120
 
 # Crystal Basins
 
-> Hypothesis: the lambda crystal we measured is one of dozens of
-> rotationally invariant attractor basins. Each skill domain (lambda,
-> arithmetic, coding, tool calling...) has its own self-similar
-> crystal geometry — a distinct 8×8 cosine matrix that multiple
-> independently trained models converge to. The number of basins
-> is small (dozens, not thousands).
+> ⚠️ **SESSION-211 CAVEAT.** Finding 3 here ("domain similarity is nearly
+> rank-1, SVD dim0 = 98.1%") was **independently reproduced cross-family** by
+> the audit #12 manifold test (`manifold-axis-and-topology.md`): the shared
+> structure is **rank-~1**, and that dominant axis is a generic next-token
+> predictability gradient, **not** the combinator operations (η²=0.05). So the
+> high cross-model agreement reported throughout this page is REAL but is mostly
+> *one common mode* (the s202 RDM-correlation triviality applies — always run a
+> shuffled-probe null + CMR before reading multi-D basin structure). The
+> per-domain "1d/2d crystal" dimensionalities are graded variance-thresholds,
+> not privileged counts. Basin *separation* survives; basin *geometry as a rich
+> low-D lattice* is over-read.
 
 ## The argument
 
