@@ -1,0 +1,65 @@
+{
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 128256,
+  "hidden_width": 2048,
+  "n_perm": 2000,
+  "git_sha": "c48c8b2d18c5546b4377ec7c2baab05dbc2db237",
+  "results": {
+    "prob_full": {
+      "separation": {
+        "gap": 0.009461596025497898,
+        "null_mean": -1.1961161252201202e-05,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "prob_support": {
+      "separation": {
+        "gap": 0.007425632618256128,
+        "null_mean": -1.5809668309513413e-05,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "hidden_full": {
+      "separation": {
+        "gap": 0.017654444206159803,
+        "null_mean": -6.832594014796612e-05,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "hidden_sign": {
+      "separation": {
+        "gap": 0.011667059090038845,
+        "null_mean": -1.4581699486265198e-05,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "hidden_mag": {
+      "separation": {
+        "gap": 0.006064111902698843,
+        "null_mean": -2.9889710279642656e-05,
+        "p_value": 0.0004997501249375312
+      }
+    }
+  },
+  "axis": {
+    "eta2_combinator": 0.05607116088038169,
+    "corr_depth": 0.004289773967180885,
+    "corr_entropy": 0.4073553935469493,
+    "corr_promptlen": -0.028843437901485195,
+    "var_top1": 0.4531152301745423
+  },
+  "topology": {
+    "sep_full": 0.017654444206159803,
+    "sep_sign": 0.011667059090038845,
+    "sep_mag": 0.006064111902698843,
+    "sep_frac_sign": 0.6579970998428375,
+    "agree_sign_full": 0.8280935419387069,
+    "agree_mag_full": 0.8971671815465857,
+    "prob_agree_support_full": 0.7915342701927123,
+    "prob_sep_support": 0.007425632618256128,
+    "prob_sep_full": 0.009461596025497898
+  },
+  "elapsed_s": 25.1
+}

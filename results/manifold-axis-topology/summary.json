@@ -1,0 +1,142 @@
+{
+  "n_models": 8,
+  "families": [
+    "mistral",
+    "olmo",
+    "pythia",
+    "qwen",
+    "smollm"
+  ],
+  "axis": {
+    "eta2_combinator": 0.05435608954297636,
+    "corr_depth": -0.006670058366934417,
+    "corr_entropy": -0.29435183539674065,
+    "corr_promptlen": -0.016513803039427427,
+    "mean_universal_match": 0.9505458490149836,
+    "per_model_match": {
+      "pythia": 0.9704670351434018,
+      "smollm": 0.9270882655520011,
+      "qwen": 0.9319146240990794,
+      "olmo": 0.9587226508855125,
+      "mistral": 0.9218904043146324
+    }
+  },
+  "topology": [
+    {
+      "model": "EleutherAI/pythia-160m",
+      "size": 0.16,
+      "sep_full": 0.0004369818519265878,
+      "sep_sign": 0.00020652969849463063,
+      "sep_mag": 0.0004213660080762318,
+      "sep_frac_sign": 0.3289235717545431,
+      "agree_sign_full": 0.3582378807119683,
+      "agree_mag_full": 0.9942705056403709,
+      "prob_agree_support_full": 0.8704044482991982,
+      "prob_sep_support": 0.011009656802847823,
+      "prob_sep_full": 0.01401389025504507,
+      "support_frac": 0.4399718703897804
+    },
+    {
+      "model": "EleutherAI/pythia-410m",
+      "size": 0.41,
+      "sep_full": 0.01923274430228794,
+      "sep_sign": 0.013108262832072781,
+      "sep_mag": 0.005473702184940532,
+      "sep_frac_sign": 0.7054293138573392,
+      "agree_sign_full": 0.7951044483967371,
+      "agree_mag_full": 0.8137494358740638,
+      "prob_agree_support_full": 0.8528325110695754,
+      "prob_sep_support": 0.008902973239719003,
+      "prob_sep_full": 0.012101229197774788,
+      "support_frac": 0.4238662841978065
+    },
+    {
+      "model": "Qwen/Qwen3-0.6B",
+      "size": 0.6,
+      "sep_full": 0.01512158758792026,
+      "sep_sign": 0.014501179454729729,
+      "sep_mag": 0.005052286255631866,
+      "sep_frac_sign": 0.7416168401822187,
+      "agree_sign_full": 0.6397661191807209,
+      "agree_mag_full": 0.8245852541301556,
+      "prob_agree_support_full": 0.8275671311724334,
+      "prob_sep_support": 0.010260868807050016,
+      "prob_sep_full": 0.01154058743850006,
+      "support_frac": 0.4706506157883089
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "size": 3,
+      "sep_full": 0.017654444206159803,
+      "sep_sign": 0.011667059090038845,
+      "sep_mag": 0.006064111902698843,
+      "sep_frac_sign": 0.6579970998428375,
+      "agree_sign_full": 0.8280935419387069,
+      "agree_mag_full": 0.8971671815465857,
+      "prob_agree_support_full": 0.7915342701927123,
+      "prob_sep_support": 0.007425632618256128,
+      "prob_sep_full": 0.009461596025497898,
+      "support_frac": 0.43971884167048336
+    },
+    {
+      "model": "Qwen/Qwen3-4B",
+      "size": 4,
+      "sep_full": 0.011142463093629262,
+      "sep_sign": 0.010905525282957518,
+      "sep_mag": 0.0054558738146026076,
+      "sep_frac_sign": 0.6665398978369638,
+      "agree_sign_full": 0.7121633722692488,
+      "agree_mag_full": 0.8848195188411057,
+      "prob_agree_support_full": 0.7282306673804357,
+      "prob_sep_support": 0.009802989202719159,
+      "prob_sep_full": 0.007949212490455104,
+      "support_frac": 0.5522125859176339
+    },
+    {
+      "model": "mistralai/Mistral-7B-v0.3",
+      "size": 7,
+      "sep_full": 0.021485488214388004,
+      "sep_sign": 0.011597276997694306,
+      "sep_mag": 0.007395854329986684,
+      "sep_frac_sign": 0.6106037386679989,
+      "agree_sign_full": 0.6938659311265344,
+      "agree_mag_full": 0.8053473427872703,
+      "prob_agree_support_full": 0.7654655883513034,
+      "prob_sep_support": 0.008997299709814555,
+      "prob_sep_full": 0.01103212304896728,
+      "support_frac": 0.4492041442317512
+    },
+    {
+      "model": "allenai/OLMo-2-1124-13B",
+      "size": 13,
+      "sep_full": 0.013277010697747449,
+      "sep_sign": 0.012265151048184708,
+      "sep_mag": 0.0049274438103915075,
+      "sep_frac_sign": 0.7133973172215163,
+      "agree_sign_full": 0.7610118935474198,
+      "agree_mag_full": 0.8633887075480079,
+      "prob_agree_support_full": 0.8508604644941896,
+      "prob_sep_support": 0.00862655600038531,
+      "prob_sep_full": 0.011121223975901429,
+      "support_frac": 0.43683674877602113
+    },
+    {
+      "model": "Qwen/Qwen3-14B",
+      "size": 14,
+      "sep_full": 0.012094246250803298,
+      "sep_sign": 0.013892894885541685,
+      "sep_mag": 0.0036160407712506615,
+      "sep_frac_sign": 0.7934745525295326,
+      "agree_sign_full": 0.7147942365414023,
+      "agree_mag_full": 0.6386181960192936,
+      "prob_agree_support_full": 0.7417284029626391,
+      "prob_sep_support": 0.009308911422933996,
+      "prob_sep_full": 0.008522879610193601,
+      "support_frac": 0.5220401812493237
+    }
+  ],
+  "topology_summary": {
+    "mean_sign_separation_fraction": 0.6522477914866187,
+    "mean_agree_sign_full": 0.6878796779640923
+  }
+}

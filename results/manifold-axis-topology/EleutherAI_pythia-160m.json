@@ -1,0 +1,65 @@
+{
+  "model": "EleutherAI/pythia-160m",
+  "dtype": "float32",
+  "n_probes": 535,
+  "vocab": 50304,
+  "hidden_width": 768,
+  "n_perm": 2000,
+  "git_sha": "c48c8b2d18c5546b4377ec7c2baab05dbc2db237",
+  "results": {
+    "prob_full": {
+      "separation": {
+        "gap": 0.01401389025504507,
+        "null_mean": -9.227831754809069e-06,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "prob_support": {
+      "separation": {
+        "gap": 0.011009656802847823,
+        "null_mean": -1.6719165497921794e-05,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "hidden_full": {
+      "separation": {
+        "gap": 0.0004369818519265878,
+        "null_mean": -7.461757075669876e-07,
+        "p_value": 0.0004997501249375312
+      }
+    },
+    "hidden_sign": {
+      "separation": {
+        "gap": 0.00020652969849463063,
+        "null_mean": 6.838805606106156e-07,
+        "p_value": 0.0024987506246876563
+      }
+    },
+    "hidden_mag": {
+      "separation": {
+        "gap": 0.0004213660080762318,
+        "null_mean": -7.719257738452046e-07,
+        "p_value": 0.0004997501249375312
+      }
+    }
+  },
+  "axis": {
+    "eta2_combinator": 0.058451217076215825,
+    "corr_depth": -0.012589093344253401,
+    "corr_entropy": 0.06840448965502045,
+    "corr_promptlen": -0.012904526208344617,
+    "var_top1": 0.4936250697856135
+  },
+  "topology": {
+    "sep_full": 0.0004369818519265878,
+    "sep_sign": 0.00020652969849463063,
+    "sep_mag": 0.0004213660080762318,
+    "sep_frac_sign": 0.3289235717545431,
+    "agree_sign_full": 0.3582378807119683,
+    "agree_mag_full": 0.9942705056403709,
+    "prob_agree_support_full": 0.8704044482991982,
+    "prob_sep_support": 0.011009656802847823,
+    "prob_sep_full": 0.01401389025504507
+  },
+  "elapsed_s": 14.6
+}

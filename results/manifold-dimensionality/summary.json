@@ -1,0 +1,222 @@
+{
+  "n_models": 8,
+  "families": [
+    "mistral",
+    "olmo",
+    "pythia",
+    "qwen",
+    "smollm"
+  ],
+  "dimensionality": [
+    {
+      "model": "EleutherAI/pythia-160m",
+      "rdm": "prob",
+      "full_pr": 22.16696964039663,
+      "var_top1": 0.15719687859679918,
+      "var_top2": 0.256519399135859,
+      "var_top3": 0.31845400126268186,
+      "centroid_pr": 4.849104957856034,
+      "centroid_null_mean": 5.938029201291614,
+      "p_concentrated": 0.054972513743128434,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "EleutherAI/pythia-160m",
+      "rdm": "hidden",
+      "full_pr": 19.81455274963331,
+      "var_top1": 0.18439411580099188,
+      "var_top2": 0.26472022809587115,
+      "var_top3": 0.30731728641363026,
+      "centroid_pr": 4.036860149890513,
+      "centroid_null_mean": 5.802016237632998,
+      "p_concentrated": 0.015492253873063468,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "EleutherAI/pythia-410m",
+      "rdm": "prob",
+      "full_pr": 26.166818897012014,
+      "var_top1": 0.1411777528318315,
+      "var_top2": 0.23806440847950447,
+      "var_top3": 0.2937463669107304,
+      "centroid_pr": 5.126099509143371,
+      "centroid_null_mean": 6.164211197800143,
+      "p_concentrated": 0.053973013493253376,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "EleutherAI/pythia-410m",
+      "rdm": "hidden",
+      "full_pr": 9.373188684107967,
+      "var_top1": 0.2582007435217339,
+      "var_top2": 0.4343352892759065,
+      "var_top3": 0.4918117649991169,
+      "centroid_pr": 2.452345374628113,
+      "centroid_null_mean": 4.529836468311067,
+      "p_concentrated": 0.001999000499750125,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "rdm": "prob",
+      "full_pr": 47.39431904491763,
+      "var_top1": 0.09430540353457266,
+      "var_top2": 0.16712177760159896,
+      "var_top3": 0.20812675728919036,
+      "centroid_pr": 5.794524847080389,
+      "centroid_null_mean": 6.815208580608243,
+      "p_concentrated": 0.021989005497251374,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "rdm": "hidden",
+      "full_pr": 21.651266874334954,
+      "var_top1": 0.15950498500933363,
+      "var_top2": 0.25446976034868796,
+      "var_top3": 0.3218909260982136,
+      "centroid_pr": 3.5548874530423444,
+      "centroid_null_mean": 5.887945880416197,
+      "p_concentrated": 0.0009995002498750624,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-0.6B",
+      "rdm": "prob",
+      "full_pr": 32.03549952317336,
+      "var_top1": 0.12026715514253128,
+      "var_top2": 0.21375488654015645,
+      "var_top3": 0.2632232229260274,
+      "centroid_pr": 5.504609742677004,
+      "centroid_null_mean": 6.410236985918046,
+      "p_concentrated": 0.06146926536731634,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-0.6B",
+      "rdm": "hidden",
+      "full_pr": 8.893792492643957,
+      "var_top1": 0.23960142531914594,
+      "var_top2": 0.45092993085495425,
+      "var_top3": 0.5130074920387868,
+      "centroid_pr": 3.185614371436147,
+      "centroid_null_mean": 4.392332229754929,
+      "p_concentrated": 0.0544727636181909,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-14B",
+      "rdm": "prob",
+      "full_pr": 36.144085578404514,
+      "var_top1": 0.10636406303391102,
+      "var_top2": 0.19621599741258888,
+      "var_top3": 0.24350538613598646,
+      "centroid_pr": 6.103948339491709,
+      "centroid_null_mean": 6.534611252823919,
+      "p_concentrated": 0.17841079460269865,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-14B",
+      "rdm": "hidden",
+      "full_pr": 3.3682720067078997,
+      "var_top1": 0.5109512273493028,
+      "var_top2": 0.684201381076432,
+      "var_top3": 0.7382286730046393,
+      "centroid_pr": 2.1143078585419444,
+      "centroid_null_mean": 2.7395116181106505,
+      "p_concentrated": 0.19490254872563717,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-4B",
+      "rdm": "prob",
+      "full_pr": 35.60908677107384,
+      "var_top1": 0.10377144681150793,
+      "var_top2": 0.19705526049061792,
+      "var_top3": 0.24628147672462175,
+      "centroid_pr": 6.046454331881939,
+      "centroid_null_mean": 6.516287596354703,
+      "p_concentrated": 0.15592203898050974,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "Qwen/Qwen3-4B",
+      "rdm": "hidden",
+      "full_pr": 7.859557315551681,
+      "var_top1": 0.2781536317254801,
+      "var_top2": 0.47689932503920573,
+      "var_top3": 0.5428053349957326,
+      "centroid_pr": 2.884426496943488,
+      "centroid_null_mean": 4.173002073045427,
+      "p_concentrated": 0.04047976011994003,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "allenai/OLMo-2-1124-13B",
+      "rdm": "prob",
+      "full_pr": 38.6221883819278,
+      "var_top1": 0.10560828823872374,
+      "var_top2": 0.19260181030075188,
+      "var_top3": 0.23903188901211736,
+      "centroid_pr": 5.626448667832526,
+      "centroid_null_mean": 6.616875161613858,
+      "p_concentrated": 0.03648175912043978,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "allenai/OLMo-2-1124-13B",
+      "rdm": "hidden",
+      "full_pr": 13.733842533043173,
+      "var_top1": 0.1933532804284838,
+      "var_top2": 0.3243686156695639,
+      "var_top3": 0.40716507739574775,
+      "centroid_pr": 3.783948270787925,
+      "centroid_null_mean": 5.126604090532076,
+      "p_concentrated": 0.03298350824587706,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "mistralai/Mistral-7B-v0.3",
+      "rdm": "prob",
+      "full_pr": 26.149340876780165,
+      "var_top1": 0.149786872259602,
+      "var_top2": 0.23625755899441642,
+      "var_top3": 0.28917803710645107,
+      "centroid_pr": 5.532809603538647,
+      "centroid_null_mean": 6.182656429100088,
+      "p_concentrated": 0.15292353823088456,
+      "sep_p": 0.0004997501249375312
+    },
+    {
+      "model": "mistralai/Mistral-7B-v0.3",
+      "rdm": "hidden",
+      "full_pr": 9.742838148410753,
+      "var_top1": 0.25785980914615636,
+      "var_top2": 0.41550443979504675,
+      "var_top3": 0.48323496897445317,
+      "centroid_pr": 2.9962479522445893,
+      "centroid_null_mean": 4.590759283883221,
+      "p_concentrated": 0.022488755622188907,
+      "sep_p": 0.0004997501249375312
+    }
+  ],
+  "agreement_prob": {
+    "raw_same_mean": 0.8504398136804803,
+    "raw_cross_mean": 0.7865997541740358,
+    "cmr_same_mean": 0.16042667472075398,
+    "cmr_cross_mean": -0.1898918140582129,
+    "n_same": 4,
+    "n_cross": 24
+  },
+  "agreement_hidden": {
+    "raw_same_mean": 0.6283661138079619,
+    "raw_cross_mean": 0.5382404853213388,
+    "cmr_same_mean": 0.025524558850768233,
+    "cmr_cross_mean": -0.1608744500325658,
+    "n_same": 4,
+    "n_cross": 24
+  },
+  "semantic_more_universal": true,
+  "note": "raw cross-family agreement >> shuffled-probe null => universal structure is REAL; CMR-cross ~0 for both RDMs => that shared structure is a single common mode (rank-~1), NOT a 5D lattice."
+}
