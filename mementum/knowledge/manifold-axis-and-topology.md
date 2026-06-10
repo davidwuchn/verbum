@@ -16,6 +16,7 @@ depends-on:
   - audit-meta-pattern.md
   - two-registers-of-topology.md
 created: session 211
+updated: session 212 (§2b axis NAMED CV-R²=0.81 model-free ends_punct; §3b topology share PLATEAUS ~0.7 not →1.0)
 ---
 
 # The Combinator Manifold — One Universal Axis, ~65% Topological

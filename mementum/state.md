@@ -33,6 +33,11 @@
 > centroid PR at null; the |r|=0.95 universal axis is generic predictability,
 > not the operations) / ✅ universality REAL (cross-family p≪0.001 = property of
 > language) + operation structure ~65% topological (sign/routing, →0.79 @14B);
+> s212 did **#12f topology-share scale** ❌ asymptote-to-1.0 REFUTED (clean
+> within-Qwen3 0.6B→32B flat ~0.7, 32B reverses to 0.645; s211's "climb" was the
+> undercooked pythia-160m) / ✅ scale-STABLE plateau REAL, **and #12e
+> universal-axis NAMED** ✅ CV-R²=0.81 dominated by model-free `ends_punct`
+> (prompt-boundary) ⊥ operations (η²=0.044);
 > next backlog: low-load **#9 decay α=1.18** / **#10 moiré determinism**,
 > or carry-overs (#1 gate-vs-value sign-swap PPL; rank-survival across scale)), build its named
 > discriminating control,
@@ -41,7 +46,12 @@
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
 
-> **▶ SESSION 212 HEADLINE #2 — UNIVERSAL AXIS NAMED: CV-R²=0.81, dominated by a
+> **▶ SESSION 212 — two pieces this session: (A) #12f topology-share scale
+> extension → asymptote REFUTED / scale-stable plateau ~0.7; (B) #12e universal
+> axis NAMED → CV-R²=0.81, model-free `ends_punct`. Both committed
+> (`ab1de15`, `155866e`). Details below (B most-recent first).**
+
+> **▶ SESSION 212 HEADLINE (B) — UNIVERSAL AXIS NAMED: CV-R²=0.81, dominated by a
 > MODEL-FREE textual-boundary feature (`ends_punct`).** Register: semantic
 > (declared on cold start). Took the s211 open lead "name the remaining ~70% of
 > the universal axis" (the |r|=0.95-across-5-families consensus axis-1 of the
@@ -81,7 +91,7 @@
 >   sign-swap PPL, rank-survival across scale) / low-load #9/#10.
 >   **Step 0 REGISTER GATE before building any control.**
 
-> **▶ SESSION 212 HEADLINE — #12f SCALE EXTENSION (does the sign/topology share
+> **▶ SESSION 212 HEADLINE (A) — #12f SCALE EXTENSION (does the sign/topology share
 > climb to 1.0 past 14B?): ❌ ASYMPTOTE REFUTED / ✅ scale-STABLE plateau ~0.7.**
 > Register: geometric (declared on cold start; the claim is the sign/|·| split of
 > the hidden state, not semantic/spectral). Took s211 open-lead #3. Built a clean
