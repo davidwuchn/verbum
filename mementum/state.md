@@ -27,6 +27,10 @@
 > s210 did **#11 TTD λ(l) weighting** ◐ F.6 transfers (divergence-measured
 > placement only, ~0.5%, 3/3 paired seeds) / ❌ named-causal-L22–26 placement
 > REFUTED (stale premise);
+> s211 did **#12 5D crystal lattice** ❌ 5D REFUTED (rank-1 shared structure;
+> centroid PR at null; the |r|=0.95 universal axis is generic predictability,
+> not the operations) / ✅ universality REAL (cross-family p≪0.001 = property of
+> language) + operation structure ~65% topological (sign/routing, →0.79 @14B);
 > next backlog: low-load **#9 decay α=1.18** / **#10 moiré determinism**,
 > or carry-overs (#1 gate-vs-value sign-swap PPL; rank-survival across scale)), build its named
 > discriminating control,
