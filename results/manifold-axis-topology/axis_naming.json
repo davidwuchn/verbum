@@ -1,0 +1,132 @@
+{
+  "n_models": 8,
+  "families": [
+    "mistral",
+    "olmo",
+    "pythia",
+    "qwen",
+    "smollm"
+  ],
+  "models": [
+    "EleutherAI/pythia-410m",
+    "HuggingFaceTB/SmolLM3-3B",
+    "Qwen/Qwen3-0.6B",
+    "Qwen/Qwen3-14B",
+    "Qwen/Qwen3-4B",
+    "Qwen/Qwen3-8B",
+    "allenai/OLMo-2-1124-13B",
+    "mistralai/Mistral-7B-v0.3"
+  ],
+  "n_probes": 535,
+  "univariate_corr": {
+    "collision": 0.31397374588115246,
+    "content_mass": -0.24312033355910173,
+    "ends_punct": 0.877360621360448,
+    "ends_space": NaN,
+    "entropy": 0.3377286367144412,
+    "function_mass": 0.3472118517154436,
+    "has_lambda": 0.05622144048443586,
+    "kl_to_mean": -0.38261557534666746,
+    "last_word_fn": -0.3425778657890031,
+    "log_n90": 0.3440350333620001,
+    "n_words": -0.21910607610586444,
+    "punct_mass": -0.13046632176946807,
+    "top10_mass": -0.3698577462806081,
+    "top1_function": 0.24694230400697828,
+    "top1_prob": -0.2835324722234876,
+    "top256_mass": -0.14548824161225074,
+    "topk_function_frac": 0.369428969017082
+  },
+  "eta2_note": "axis is NOT combinator identity (eta^2~0.05, s211)",
+  "blocks": [
+    {
+      "block": "B0_s211_baseline",
+      "features_added": [
+        "entropy",
+        "top1_function",
+        "topk_function_frac"
+      ],
+      "n_features": 3,
+      "r2_insample": 0.27423454037965034,
+      "r2_cv": 0.264425076765363
+    },
+    {
+      "block": "B1_peakedness",
+      "features_added": [
+        "top1_prob",
+        "top10_mass",
+        "collision",
+        "log_n90",
+        "top256_mass"
+      ],
+      "n_features": 8,
+      "r2_insample": 0.46114745032075133,
+      "r2_cv": 0.4424129101355546
+    },
+    {
+      "block": "B2_glue_mass",
+      "features_added": [
+        "function_mass",
+        "content_mass",
+        "punct_mass"
+      ],
+      "n_features": 11,
+      "r2_insample": 0.5719601172788631,
+      "r2_cv": 0.5466520933378884
+    },
+    {
+      "block": "B3_distinctiveness",
+      "features_added": [
+        "kl_to_mean"
+      ],
+      "n_features": 12,
+      "r2_insample": 0.5722144302892912,
+      "r2_cv": 0.5434566826598433
+    },
+    {
+      "block": "B4_prompt_only",
+      "features_added": [
+        "n_words",
+        "ends_punct",
+        "ends_space",
+        "has_lambda",
+        "last_word_fn"
+      ],
+      "n_features": 17,
+      "r2_insample": 0.8277066455938812,
+      "r2_cv": 0.8127166480161611
+    }
+  ],
+  "full": {
+    "cv_r2": 0.8127166480161611,
+    "null_mean": -0.04517414215418053,
+    "null_p95": -0.02015003406179331,
+    "p_value": 0.004975124378109453,
+    "n_perm": 200
+  },
+  "ablation": {
+    "single_feature_cv_r2": {
+      "ends_punct": 0.7683372874001027,
+      "kl_to_mean": 0.13797318062124464,
+      "top10_mass": 0.131914259285837,
+      "topk_function_frac": 0.12992122309244192,
+      "log_n90": 0.11176917830603283,
+      "function_mass": 0.11025170264754613,
+      "entropy": 0.10841202592956167,
+      "last_word_fn": 0.10551262996472432,
+      "collision": 0.09209323458672325,
+      "top1_prob": 0.0722942634689776,
+      "top1_function": 0.05419386397004,
+      "content_mass": 0.05302786869600473,
+      "n_words": 0.03983154279004242,
+      "top256_mass": 0.01543801979978765,
+      "punct_mass": 0.009496964217933557,
+      "has_lambda": -0.003635477091431971,
+      "ends_space": -0.005355569707323982
+    },
+    "ends_punct_alone_cv_r2": 0.7683372874001027,
+    "full_minus_ends_punct_cv_r2": 0.5734310719765335,
+    "ends_punct_eta2_combinator": 0.044,
+    "ends_punct_frac": 0.279
+  }
+}

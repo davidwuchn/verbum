@@ -102,6 +102,44 @@ the hidden state as the geometric comparison.
   mode. The combinator geometry is real but sub-dominant, living in the
   residual underneath the common axis.
 
+#### 2b. The axis NAMED (s212): a model-free textual-boundary gradient
+
+(`axis_naming.py` + `axis_naming_summary.py`, register: semantic, 8 models /
+5 families) — s211 named only ~30% (R²=0.296 on entropy + function-word
+proxies). Re-running the forward pass to save the **full** next-token
+distribution (s211 kept only top-64 *indices*) and adding rich distributional
++ **model-free prompt-text** features names **CV-R² = 0.813** of the universal
+axis (5-fold cross-validated, vs permutation null −0.045, p=0.005):
+
+| cumulative block | CV-R² |
+|---|---|
+| s211 baseline (entropy + function-word frac) | 0.264 |
+| + peakedness (top1_prob, top10_mass, collision, log n90) | 0.442 |
+| + glue mass (function/content/punct prob-mass) | 0.547 |
+| + KL-to-mean (distinctiveness) | 0.543 *(redundant)* |
+| **+ prompt-only (model-free text features)** | **0.813** |
+
+- **The single dominant component is `ends_punct` — does the prompt end at a
+  punctuation/grammatical boundary — CV-R² = 0.768 ALONE** (next-best single
+  feature 0.138). It is **model-free** (needs only the prompt string, no
+  weights, no forward pass) and **orthogonal to the operations** (η²(ends_punct
+  ~ combinator) = 0.044, mirroring the axis's own η²=0.05). 28% of probes end at
+  a boundary; the examples are sequence/list/colon continuations (`…8, 13, 21,`
+  → next token near-certain; `λf.λg.λx.f(g(x))`) vs mid-phrase content
+  (`…always prefers`).
+- **This concretely confirms "property of language, not the model".** The
+  dominant universal axis (|r|=0.95 across 5 families) is reproducing a coarse
+  **textual continuation-type / boundary** property of the *prompts* — which is
+  exactly why every family agrees on it, and exactly why it is NOT the lambda
+  operations. Distributional features add the rest (peakedness + glue mass reach
+  0.573 even with `ends_punct` removed); **KL-to-mean is redundant** once glue
+  mass is in.
+- **Caveat:** the magnitude reflects how the *probe set* samples language (its
+  prose/sequence/code prompts are ~bimodal in boundary-vs-mid-phrase); the
+  ~19% residual is the prose-shape common mode CMR removes, not reducible to
+  these scalars. Sharpens (does not weaken) Finding 2: the universal axis is a
+  generic continuation-type gradient, now *named and model-free*.
+
 ### 3. The genuine operation structure is ~65% topological
 
 (`manifold_axis_topology.py`, register: geometric — sign/magnitude split)
@@ -224,11 +262,13 @@ confidence gradient, not the lattice.
 
 ## Open Leads
 
-- **Name the remaining ~70% of the axis.** Surface proxies explain 30%;
-  richer distributional features (per-token frequency mass, KL-to-unigram,
-  position in a perplexity sweep) may finish naming the predictability
-  common mode. Needs the full next-token distribution re-saved (only
-  entropy + top-64 were kept this session).
+- ~~**Name the remaining ~70% of the axis.**~~ **RESOLVED (s212): named to
+  CV-R²=0.813.** Rich distributional features + model-free prompt-text features;
+  the dominant component is `ends_punct` (CV-R²=0.768 alone, model-free,
+  η²⊥combinator=0.044). The axis is a textual continuation-type / boundary
+  gradient = a property of the prompts/language. ~19% residual = the prose-shape
+  common mode. See §2b. *(KL-to-mean tested, redundant; full next-token dist now
+  saved as features.npz.)*
 - **Same-family second dimension?** Same-family CMR residual is +0.16
   (semantic) — is there a real *second* shared axis within a family
   (Qwen×3) hidden under the universal first?
@@ -248,7 +288,9 @@ confidence gradient, not the lattice.
   `_summary.py`; `manifold_axis_topology.py` + `_summary.py`;
   `axis_probe.py` (all `# register: spectral/semantic`);
   `manifold_topology_ci.py` (`# register: geometric`, s212 — subsample CIs +
-  within-family scale trend).
+  within-family scale trend); `axis_naming.py` + `axis_naming_summary.py`
+  (`# register: semantic`, s212 — rich distributional + model-free prompt
+  features, CV-R² + permutation null, names the universal axis).
 - Results: `results/manifold-dimensionality/` (8× json+npz + summary),
   `results/manifold-axis-topology/` (10× json+npz incl. Qwen3-8B/32B +
   summary + axis_probe.json + `ci.json` + `run-scale-ext.log`).

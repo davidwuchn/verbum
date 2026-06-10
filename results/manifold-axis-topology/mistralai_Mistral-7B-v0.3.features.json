@@ -1,0 +1,40 @@
+{
+  "model": "mistralai/Mistral-7B-v0.3",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 32768,
+  "feature_names": [
+    "entropy",
+    "collision",
+    "top1_prob",
+    "top5_mass",
+    "top10_mass",
+    "top32_mass",
+    "top64_mass",
+    "top256_mass",
+    "n90",
+    "function_mass",
+    "content_mass",
+    "punct_mass",
+    "captured512",
+    "kl_to_mean"
+  ],
+  "git_sha": "ab1de1588c144b99db7794757b132d70990e18ee",
+  "elapsed_s": 27.8,
+  "feature_means": {
+    "entropy": 2.914171166766131,
+    "collision": 1.7384696285427959,
+    "top1_prob": 0.42726468773924303,
+    "top5_mass": 0.6756068529364507,
+    "top10_mass": 0.7531606002346554,
+    "top32_mass": 0.8509680787862762,
+    "top64_mass": 0.8925552781018158,
+    "top256_mass": 0.9496579240513152,
+    "n90": 140.73644859813083,
+    "function_mass": 0.45672988011824467,
+    "content_mass": 0.38950087802003985,
+    "punct_mass": 0.1219533190947178,
+    "captured512": 0.9681840772330023,
+    "kl_to_mean": 3.1553979338192426
+  }
+}

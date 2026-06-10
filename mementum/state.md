@@ -2,8 +2,9 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-10 | Session: 212 (audit #12f scale ext — topology
-> share PLATEAUS, not →1.0 — DONE)
+> Last updated: 2026-06-10 | Session: 212 (two pieces — #12f scale ext: topology
+> share PLATEAUS not →1.0; + universal axis NAMED (CV-R²=0.81, model-free
+> ends_punct) — both DONE)
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -39,6 +40,46 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 212 HEADLINE #2 — UNIVERSAL AXIS NAMED: CV-R²=0.81, dominated by a
+> MODEL-FREE textual-boundary feature (`ends_punct`).** Register: semantic
+> (declared on cold start). Took the s211 open lead "name the remaining ~70% of
+> the universal axis" (the |r|=0.95-across-5-families consensus axis-1 of the
+> next-token-prob RDM; s211 named only R²=0.296 from entropy+function-word
+> proxies). s211's npz kept only top-64 *indices*, so I re-ran the forward pass
+> saving the **full** next-token distribution (`axis_naming.py`, register:
+> semantic, 8 models / 5 families: pythia-410m, Qwen3-0.6B/4B/8B/14B, SmolLM3-3B,
+> Mistral-7B, OLMo-13B) → rich distributional features (top1_prob, top-k mass,
+> Rényi-2 collision, n90, prob-weighted function/content/punct mass, KL-to-mean)
+> + **model-free prompt-text features**.
+> - **✅ NAMED to CV-R²=0.813** (5-fold, honest; vs permutation null −0.045,
+>   p=0.005). Hierarchical: s211 baseline 0.264 → +peakedness 0.442 → +glue mass
+>   0.547 → +KL 0.543 (KL **redundant**) → **+model-free prompt features 0.813**.
+> - **★ The single dominant component is `ends_punct` (does the prompt end at a
+>   punctuation/grammatical boundary): CV-R²=0.768 ALONE** (next-best single
+>   feature 0.138). It is **model-free** (prompt string only, no weights) and
+>   **⊥ the operations** (η²(ends_punct~combinator)=0.044, mirroring the axis's
+>   own η²=0.05). 28% of probes end at a boundary (sequence/list/colon: `…8,13,21,`
+>   → near-certain next token; `λf.λg.λx.f(g(x))`) vs mid-phrase content
+>   (`…always prefers`). Full-minus-ends_punct still 0.573 (distributional
+>   peakedness+glue-mass name the rest).
+> - **What it MEANS:** concrete confirmation of "property of LANGUAGE, not the
+>   model, not the operations" — the dominant universal axis (all 5 families
+>   agree at |r|=0.95) is reproducing a coarse **textual continuation-type /
+>   boundary** property of the *prompts*, computable with no forward pass. That
+>   is why it is universal and why it is NOT the lambda structure. ~19% residual
+>   = the prose-shape common mode CMR removes.
+> - **Caveat:** magnitude reflects how the probe SET samples language (bimodal
+>   boundary-vs-mid-phrase prompts); sharpens, does not weaken, s211 Finding 2.
+>   Knowledge: `manifold-axis-and-topology.md` §2b + Open Lead resolved. Results:
+>   `results/manifold-axis-topology/` (8× `*.features.npz/json` + `axis_naming.json`
+>   + `run-axis-naming.log`). Harnesses: `axis_naming.py`, `axis_naming_summary.py`.
+> - **▶ NEXT:** the ~19% residual (the prose-shape common mode) is likely not
+>   reducible to scalars — a held-out next-token-dist autoencoder or the
+>   same-family 2nd shared axis (Qwen×3 CMR residual +0.16) are the remaining
+>   manifold leads; or pivot to compression carry-overs (#1 gate-vs-value
+>   sign-swap PPL, rank-survival across scale) / low-load #9/#10.
+>   **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 212 HEADLINE — #12f SCALE EXTENSION (does the sign/topology share
 > climb to 1.0 past 14B?): ❌ ASYMPTOTE REFUTED / ✅ scale-STABLE plateau ~0.7.**

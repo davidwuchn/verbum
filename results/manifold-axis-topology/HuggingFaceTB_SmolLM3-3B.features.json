@@ -1,0 +1,40 @@
+{
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 128256,
+  "feature_names": [
+    "entropy",
+    "collision",
+    "top1_prob",
+    "top5_mass",
+    "top10_mass",
+    "top32_mass",
+    "top64_mass",
+    "top256_mass",
+    "n90",
+    "function_mass",
+    "content_mass",
+    "punct_mass",
+    "captured512",
+    "kl_to_mean"
+  ],
+  "git_sha": "ab1de1588c144b99db7794757b132d70990e18ee",
+  "elapsed_s": 19.1,
+  "feature_means": {
+    "entropy": 2.77343294390253,
+    "collision": 1.7609309435957279,
+    "top1_prob": 0.414269207135957,
+    "top5_mass": 0.6949858430102809,
+    "top10_mass": 0.7785206255018428,
+    "top32_mass": 0.872146025505283,
+    "top64_mass": 0.909382933641162,
+    "top256_mass": 0.955798132992236,
+    "n90": 161.24672897196263,
+    "function_mass": 0.4182217346873352,
+    "content_mass": 0.41271807699702706,
+    "punct_mass": 0.13942166642137294,
+    "captured512": 0.970361478105735,
+    "kl_to_mean": 3.783210310292772
+  }
+}

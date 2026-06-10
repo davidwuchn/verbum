@@ -1,0 +1,40 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 151936,
+  "feature_names": [
+    "entropy",
+    "collision",
+    "top1_prob",
+    "top5_mass",
+    "top10_mass",
+    "top32_mass",
+    "top64_mass",
+    "top256_mass",
+    "n90",
+    "function_mass",
+    "content_mass",
+    "punct_mass",
+    "captured512",
+    "kl_to_mean"
+  ],
+  "git_sha": "ab1de1588c144b99db7794757b132d70990e18ee",
+  "elapsed_s": 35.1,
+  "feature_means": {
+    "entropy": 2.2944237668737464,
+    "collision": 1.4656901804511027,
+    "top1_prob": 0.47390267645992407,
+    "top5_mass": 0.7716518473616323,
+    "top10_mass": 0.8445124162866637,
+    "top32_mass": 0.9176606021720606,
+    "top64_mass": 0.9432984839273683,
+    "top256_mass": 0.9727595111709197,
+    "n90": 86.83738317757009,
+    "function_mass": 0.45002255646629113,
+    "content_mass": 0.3697660171699376,
+    "punct_mass": 0.16158582559259108,
+    "captured512": 0.9813743992288199,
+    "kl_to_mean": 3.6554102988913466
+  }
+}

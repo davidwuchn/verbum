@@ -1,0 +1,120 @@
+=== EleutherAI/pythia-410m 2026-06-10T15:04:14Z ===
+[EleutherAI/pythia-410m] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 3016.10it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote EleutherAI_pythia-410m.features.npz + .json  (10.6s)
+  8.08s user 3.56s system 87% cpu 13.319 total
+=== HuggingFaceTB/SmolLM3-3B 2026-06-10T15:04:27Z ===
+[HuggingFaceTB/SmolLM3-3B] 535 probes
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights: 100%|██████████| 326/326 [00:00<00:00, 22128.52it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote HuggingFaceTB_SmolLM3-3B.features.npz + .json  (19.1s)
+  12.46s user 2.14s system 67% cpu 21.590 total
+=== Qwen/Qwen3-4B 2026-06-10T15:04:49Z ===
+[Qwen/Qwen3-4B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25353.23it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote Qwen_Qwen3-4B.features.npz + .json  (26.5s)
+  17.48s user 2.98s system 70% cpu 28.981 total
+=== mistralai/Mistral-7B-v0.3 2026-06-10T15:05:18Z ===
+[mistralai/Mistral-7B-v0.3] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 31591.63it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote mistralai_Mistral-7B-v0.3.features.npz + .json  (27.8s)
+  12.06s user 3.01s system 49% cpu 30.398 total
+=== Qwen/Qwen3-8B 2026-06-10T15:05:48Z ===
+[Qwen/Qwen3-8B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 28715.79it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote Qwen_Qwen3-8B.features.npz + .json  (35.1s)
+  19.36s user 4.39s system 62% cpu 37.766 total
+=== allenai/OLMo-2-1124-13B 2026-06-10T15:06:26Z ===
+[allenai/OLMo-2-1124-13B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:02<21:39,  2.94s/it]Loading weights:   0%|          | 2/443 [00:07<28:12,  3.84s/it]Loading weights:   8%|▊         | 37/443 [00:08<01:02,  6.53it/s]Loading weights:   9%|▉         | 39/443 [00:08<01:02,  6.50it/s]Loading weights:  11%|█         | 47/443 [00:09<00:58,  6.80it/s]Loading weights:  13%|█▎        | 56/443 [00:10<00:45,  8.60it/s]Loading weights:  13%|█▎        | 58/443 [00:11<00:58,  6.58it/s]Loading weights:  14%|█▎        | 60/443 [00:11<00:59,  6.49it/s]Loading weights:  15%|█▌        | 67/443 [00:11<00:38,  9.67it/s]Loading weights:  16%|█▌        | 70/443 [00:12<01:01,  6.06it/s]Loading weights:  18%|█▊        | 80/443 [00:14<00:49,  7.28it/s]Loading weights:  19%|█▊        | 82/443 [00:14<00:52,  6.93it/s]Loading weights:  20%|██        | 90/443 [00:14<00:34, 10.27it/s]Loading weights:  21%|██        | 92/443 [00:15<00:54,  6.45it/s]Loading weights:  21%|██        | 94/443 [00:15<00:49,  7.12it/s]Loading weights:  23%|██▎       | 100/443 [00:16<00:35,  9.70it/s]Loading weights:  23%|██▎       | 102/443 [00:17<00:55,  6.12it/s]Loading weights:  23%|██▎       | 104/443 [00:17<00:57,  5.91it/s]Loading weights:  26%|██▌       | 113/443 [00:17<00:33,  9.77it/s]Loading weights:  26%|██▌       | 115/443 [00:18<00:53,  6.11it/s]Loading weights:  28%|██▊       | 124/443 [00:19<00:41,  7.61it/s]Loading weights:  28%|██▊       | 126/443 [00:20<00:43,  7.23it/s]Loading weights:  30%|███       | 134/443 [00:20<00:30, 10.18it/s]Loading weights:  31%|███       | 136/443 [00:21<00:48,  6.39it/s]Loading weights:  33%|███▎      | 144/443 [00:22<00:34,  8.75it/s]Loading weights:  33%|███▎      | 146/443 [00:23<00:48,  6.09it/s]Loading weights:  33%|███▎      | 148/443 [00:23<00:50,  5.81it/s]Loading weights:  35%|███▌      | 157/443 [00:24<00:36,  7.92it/s]Loading weights:  36%|███▌      | 158/443 [00:24<00:46,  6.13it/s]Loading weights:  38%|███▊      | 167/443 [00:25<00:28,  9.83it/s]Loading weights:  38%|███▊      | 169/443 [00:26<00:43,  6.28it/s]Loading weights:  40%|███▉      | 177/443 [00:26<00:30,  8.82it/s]Loading weights:  40%|████      | 179/443 [00:27<00:43,  6.01it/s]Loading weights:  41%|████      | 181/443 [00:28<00:45,  5.80it/s]Loading weights:  43%|████▎     | 189/443 [00:28<00:24, 10.41it/s]Loading weights:  43%|████▎     | 192/443 [00:29<00:39,  6.36it/s]Loading weights:  45%|████▌     | 201/443 [00:30<00:35,  6.79it/s]Loading weights:  46%|████▌     | 203/443 [00:30<00:33,  7.23it/s]Loading weights:  47%|████▋     | 210/443 [00:31<00:23, 10.13it/s]Loading weights:  48%|████▊     | 212/443 [00:32<00:37,  6.18it/s]Loading weights:  48%|████▊     | 214/443 [00:32<00:36,  6.28it/s]Loading weights:  50%|████▉     | 221/443 [00:32<00:22,  9.87it/s]Loading weights:  50%|█████     | 223/443 [00:33<00:34,  6.46it/s]Loading weights:  51%|█████     | 225/443 [00:34<00:36,  5.98it/s]Loading weights:  53%|█████▎    | 233/443 [00:34<00:19, 10.69it/s]Loading weights:  53%|█████▎    | 236/443 [00:35<00:30,  6.83it/s]Loading weights:  55%|█████▌    | 245/443 [00:36<00:28,  6.91it/s]Loading weights:  56%|█████▌    | 247/443 [00:36<00:26,  7.49it/s]Loading weights:  57%|█████▋    | 254/443 [00:36<00:18, 10.38it/s]Loading weights:  58%|█████▊    | 256/443 [00:38<00:30,  6.21it/s]Loading weights:  58%|█████▊    | 258/443 [00:38<00:27,  6.62it/s]Loading weights:  60%|█████▉    | 265/443 [00:38<00:18,  9.78it/s]Loading weights:  60%|██████    | 267/443 [00:39<00:29,  6.01it/s]Loading weights:  61%|██████    | 269/443 [00:39<00:29,  5.85it/s]Loading weights:  63%|██████▎   | 277/443 [00:40<00:14, 11.10it/s]Loading weights:  63%|██████▎   | 281/443 [00:41<00:26,  6.07it/s]Loading weights:  65%|██████▌   | 289/443 [00:42<00:20,  7.45it/s]Loading weights:  66%|██████▌   | 291/443 [00:42<00:23,  6.48it/s]Loading weights:  68%|██████▊   | 300/443 [00:44<00:21,  6.69it/s]Loading weights:  68%|██████▊   | 302/443 [00:44<00:20,  7.01it/s]Loading weights:  70%|██████▉   | 309/443 [00:44<00:14,  9.47it/s]Loading weights:  70%|███████   | 311/443 [00:45<00:21,  6.06it/s]Loading weights:  71%|███████   | 313/443 [00:46<00:22,  5.90it/s]Loading weights:  73%|███████▎  | 322/443 [00:46<00:14,  8.41it/s]Loading weights:  73%|███████▎  | 324/443 [00:47<00:19,  5.98it/s]Loading weights:  75%|███████▌  | 333/443 [00:48<00:14,  7.69it/s]Loading weights:  75%|███████▌  | 334/443 [00:48<00:14,  7.71it/s]Loading weights:  76%|███████▌  | 335/443 [00:49<00:16,  6.53it/s]Loading weights:  78%|███████▊  | 344/443 [00:50<00:15,  6.60it/s]Loading weights:  78%|███████▊  | 346/443 [00:50<00:13,  7.27it/s]Loading weights:  80%|███████▉  | 353/443 [00:50<00:08, 10.60it/s]Loading weights:  80%|████████  | 355/443 [00:51<00:14,  5.98it/s]Loading weights:  81%|████████  | 357/443 [00:52<00:13,  6.28it/s]Loading weights:  82%|████████▏ | 364/443 [00:52<00:07, 10.56it/s]Loading weights:  83%|████████▎ | 367/443 [00:53<00:12,  6.03it/s]Loading weights:  83%|████████▎ | 369/443 [00:53<00:11,  6.49it/s]Loading weights:  85%|████████▌ | 377/443 [00:54<00:09,  7.22it/s]Loading weights:  86%|████████▌ | 379/443 [00:55<00:09,  6.58it/s]Loading weights:  87%|████████▋ | 387/443 [00:55<00:05, 10.76it/s]Loading weights:  88%|████████▊ | 389/443 [00:56<00:09,  5.99it/s]Loading weights:  90%|████████▉ | 397/443 [00:56<00:04,  9.29it/s]Loading weights:  90%|█████████ | 399/443 [00:58<00:07,  5.69it/s]Loading weights:  91%|█████████ | 401/443 [00:58<00:06,  6.18it/s]Loading weights:  92%|█████████▏| 408/443 [00:58<00:03,  9.89it/s]Loading weights:  93%|█████████▎| 410/443 [00:59<00:05,  6.15it/s]Loading weights:  93%|█████████▎| 412/443 [00:59<00:05,  5.89it/s]Loading weights:  95%|█████████▍| 420/443 [01:00<00:02,  9.83it/s]Loading weights:  95%|█████████▌| 422/443 [01:01<00:03,  6.34it/s]Loading weights:  96%|█████████▌| 424/443 [01:01<00:02,  6.75it/s]Loading weights:  97%|█████████▋| 430/443 [01:01<00:01,  9.64it/s]Loading weights:  98%|█████████▊| 432/443 [01:02<00:02,  5.47it/s]Loading weights:  98%|█████████▊| 434/443 [01:02<00:01,  6.10it/s]Loading weights: 100%|██████████| 443/443 [01:02<00:00,  7.04it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote allenai_OLMo-2-1124-13B.features.npz + .json  (108.1s)
+  24.44s user 548.60s system 517% cpu 1:50.72 total
+=== Qwen/Qwen3-14B 2026-06-10T15:08:17Z ===
+[Qwen/Qwen3-14B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 25174.46it/s]
+  forward passes (full dist held in RAM) ...
+    100/535
+    200/535
+    300/535
+    400/535
+    500/535
+  computing rich distributional features ...
+    sorting for mass curve + n90 ...
+    classifying top-512 token ids ...
+    KL to mean (generic-continuation distinctiveness) ...
+  wrote Qwen_Qwen3-14B.features.npz + .json  (52.5s)
+  21.42s user 6.24s system 50% cpu 55.172 total
+=== SWEEP DONE 2026-06-10T15:09:12Z ===

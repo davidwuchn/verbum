@@ -125,6 +125,19 @@ north-star rests on. Full synthesis: `manifold-axis-and-topology.md`.**
 > scale-stable (ternary stays viable), but "purely topological at scale" is not
 > supported. Results: `results/manifold-axis-topology/` (Qwen3-8B/32B + ci.json).
 
+> **s212 follow-up (#12e — NAMING the universal axis, register: semantic):** s211
+> left the |r|=0.95 universal axis only ~30%-explained (◑ "generic predictability,
+> not the operations"). Re-ran the forward pass saving the **full** next-token
+> distribution (`axis_naming.py`/`_summary.py`, 8 models / 5 families) + rich
+> distributional + **model-free prompt-text** features, with 5-fold CV-R² and a
+> permutation null. **✅ NAMED: CV-R²=0.813** (vs null −0.045, p=0.005). The
+> dominant component is the model-free **`ends_punct`** (does the prompt end at a
+> punctuation/grammatical boundary): **CV-R²=0.768 ALONE**, ⊥ combinator
+> (η²=0.044). So the most-universal axis is a coarse property of the **prompt
+> TEXT** (computable with no weights) — concrete proof of "property of language,
+> not the operations". KL-to-mean redundant; ~19% residual = prose-shape common
+> mode. Full synthesis: `manifold-axis-and-topology.md` §2b.
+
 ### Worked examples (session 209)
 
 > **Register gate (spectral) fired at read-time.** The claim is about the

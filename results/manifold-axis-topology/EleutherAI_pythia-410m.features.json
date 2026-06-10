@@ -1,0 +1,40 @@
+{
+  "model": "EleutherAI/pythia-410m",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 50304,
+  "feature_names": [
+    "entropy",
+    "collision",
+    "top1_prob",
+    "top5_mass",
+    "top10_mass",
+    "top32_mass",
+    "top64_mass",
+    "top256_mass",
+    "n90",
+    "function_mass",
+    "content_mass",
+    "punct_mass",
+    "captured512",
+    "kl_to_mean"
+  ],
+  "git_sha": "ab1de1588c144b99db7794757b132d70990e18ee",
+  "elapsed_s": 10.6,
+  "feature_means": {
+    "entropy": 3.6661301102215944,
+    "collision": 2.1824796895152114,
+    "top1_prob": 0.33722333956126854,
+    "top5_mass": 0.5744898873627203,
+    "top10_mass": 0.6594657680537893,
+    "top32_mass": 0.7754370492437442,
+    "top64_mass": 0.8296144761619718,
+    "top256_mass": 0.9110822518888562,
+    "n90": 322.8224299065421,
+    "function_mass": 0.4231486831377966,
+    "content_mass": 0.37526758056145426,
+    "punct_mass": 0.14160788923579082,
+    "captured512": 0.9400241529350417,
+    "kl_to_mean": 2.8712749169607266
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "model": "allenai/OLMo-2-1124-13B",
+  "dtype": "bfloat16",
+  "n_probes": 535,
+  "vocab": 100352,
+  "feature_names": [
+    "entropy",
+    "collision",
+    "top1_prob",
+    "top5_mass",
+    "top10_mass",
+    "top32_mass",
+    "top64_mass",
+    "top256_mass",
+    "n90",
+    "function_mass",
+    "content_mass",
+    "punct_mass",
+    "captured512",
+    "kl_to_mean"
+  ],
+  "git_sha": "ab1de1588c144b99db7794757b132d70990e18ee",
+  "elapsed_s": 108.1,
+  "feature_means": {
+    "entropy": 3.4317460376043347,
+    "collision": 2.1912254445346764,
+    "top1_prob": 0.33331165916382155,
+    "top5_mass": 0.5921601603719924,
+    "top10_mass": 0.6862471561605153,
+    "top32_mass": 0.8079357841596035,
+    "top64_mass": 0.8610377255473521,
+    "top256_mass": 0.93246413566307,
+    "n90": 243.52336448598132,
+    "function_mass": 0.35890276810997573,
+    "content_mass": 0.4271612660742027,
+    "punct_mass": 0.16893503712701738,
+    "captured512": 0.9549990713111959,
+    "kl_to_mean": 3.4121271296197753
+  }
+}
