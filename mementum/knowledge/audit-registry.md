@@ -112,6 +112,19 @@ a property of language; (ii) the genuine operation structure is ~65–79%
 topological (sign/routing), sharpening with scale — the two premises the
 north-star rests on. Full synthesis: `manifold-axis-and-topology.md`.**
 
+> **s212 follow-up (#12f scale extension, register: geometric):** the s211
+> "topology share *sharpens* with scale, →0.79 @14B" claim was tested on a
+> clean within-family Qwen3 series (0.6B→4B→8B→14B→32B) + subsample CIs
+> (`manifold_topology_ci.py`). **❌ Asymptote-to-1.0 REFUTED:** `sep_frac_sign`
+> has no scale trend (Spearman −0.20) and **32B reverses to 0.645** (CI
+> [.591,.707] below 14B [.751,.838]); the s211 "0.33→0.79 climb" was the single
+> undercooked pythia-160m. **✅ Survives:** a real, scale-STABLE topology share
+> ~0.7 (band 0.61–0.86 ∀ trained ≥0.41B; separation perm-null p=0.0005 at every
+> scale). `agree_sign_full` alone drifts up mildly (0.64→0.74, ρ=+0.90) but is
+> small and disagrees. 13th meta-pattern instance: the share is real and
+> scale-stable (ternary stays viable), but "purely topological at scale" is not
+> supported. Results: `results/manifold-axis-topology/` (Qwen3-8B/32B + ci.json).
+
 ### Worked examples (session 209)
 
 > **Register gate (spectral) fired at read-time.** The claim is about the

@@ -1,0 +1,185 @@
+=== manifold sweep start 2026-06-10T02:41:40Z ===
+=== EleutherAI/pythia-160m (float32) 2026-06-10T02:41:40Z ===
+[EleutherAI/pythia-160m] 535 probes, 9 combinators
+  loading model (float32) ...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2244.83it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=22.17 (var top3=0.32) | centroid PR=4.85 vs null 5.94+-0.62 (p_conc=0.0550) | sep gap=0.0140 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=19.81 (var top3=0.31) | centroid PR=4.04 vs null 5.80+-0.71 (p_conc=0.0155) | sep gap=0.0004 p=0.0005
+  wrote EleutherAI_pythia-160m.json + .npz  (86.7s)
+=== EleutherAI/pythia-410m (float32) 2026-06-10T02:43:09Z ===
+[EleutherAI/pythia-410m] 535 probes, 9 combinators
+  loading model (float32) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:   8%|▊         | 24/292 [00:00<00:01, 233.91it/s]Loading weights:  21%|██        | 60/292 [00:00<00:00, 302.45it/s]Loading weights:  37%|███▋      | 108/292 [00:00<00:00, 363.87it/s]Loading weights:  50%|████▉     | 145/292 [00:00<00:00, 363.43it/s]Loading weights:  64%|██████▍   | 188/292 [00:00<00:00, 375.97it/s]Loading weights:  78%|███████▊  | 228/292 [00:00<00:00, 358.10it/s]Loading weights:  95%|█████████▍| 276/292 [00:00<00:00, 385.49it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 377.57it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=26.17 (var top3=0.29) | centroid PR=5.13 vs null 6.16+-0.58 (p_conc=0.0540) | sep gap=0.0121 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=9.37 (var top3=0.49) | centroid PR=2.45 vs null 4.53+-0.77 (p_conc=0.0020) | sep gap=0.0192 p=0.0005
+  wrote EleutherAI_pythia-410m.json + .npz  (91.5s)
+=== Qwen/Qwen3-0.6B (bfloat16) 2026-06-10T02:44:44Z ===
+[Qwen/Qwen3-0.6B] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 24836.32it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=32.04 (var top3=0.26) | centroid PR=5.50 vs null 6.41+-0.52 (p_conc=0.0615) | sep gap=0.0115 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=8.89 (var top3=0.51) | centroid PR=3.19 vs null 4.39+-0.73 (p_conc=0.0545) | sep gap=0.0151 p=0.0005
+  wrote Qwen_Qwen3-0.6B.json + .npz  (94.2s)
+=== HuggingFaceTB/SmolLM3-3B (bfloat16) 2026-06-10T02:46:20Z ===
+[HuggingFaceTB/SmolLM3-3B] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights: 100%|██████████| 326/326 [00:00<00:00, 31764.70it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=47.39 (var top3=0.21) | centroid PR=5.79 vs null 6.82+-0.41 (p_conc=0.0220) | sep gap=0.0095 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=21.65 (var top3=0.32) | centroid PR=3.55 vs null 5.89+-0.64 (p_conc=0.0010) | sep gap=0.0177 p=0.0005
+  wrote HuggingFaceTB_SmolLM3-3B.json + .npz  (97.6s)
+=== Qwen/Qwen3-4B (bfloat16) 2026-06-10T02:48:01Z ===
+[Qwen/Qwen3-4B] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 28345.19it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=35.61 (var top3=0.25) | centroid PR=6.05 vs null 6.52+-0.48 (p_conc=0.1559) | sep gap=0.0079 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=7.86 (var top3=0.54) | centroid PR=2.88 vs null 4.17+-0.74 (p_conc=0.0405) | sep gap=0.0111 p=0.0005
+  wrote Qwen_Qwen3-4B.json + .npz  (103.3s)
+=== mistralai/Mistral-7B-v0.3 (bfloat16) 2026-06-10T02:49:46Z ===
+[mistralai/Mistral-7B-v0.3] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 25859.50it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=26.15 (var top3=0.29) | centroid PR=5.53 vs null 6.18+-0.61 (p_conc=0.1529) | sep gap=0.0110 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=9.74 (var top3=0.48) | centroid PR=3.00 vs null 4.59+-0.77 (p_conc=0.0225) | sep gap=0.0215 p=0.0005
+  wrote mistralai_Mistral-7B-v0.3.json + .npz  (107.2s)
+=== allenai/OLMo-2-1124-13B (bfloat16) 2026-06-10T02:51:36Z ===
+[allenai/OLMo-2-1124-13B] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:03<27:20,  3.71s/it]Loading weights:   0%|          | 2/443 [00:07<27:54,  3.80s/it]Loading weights:   8%|▊         | 37/443 [00:08<01:02,  6.50it/s]Loading weights:   9%|▉         | 39/443 [00:08<01:00,  6.70it/s]Loading weights:  11%|█         | 47/443 [00:09<00:58,  6.71it/s]Loading weights:  13%|█▎        | 56/443 [00:10<00:45,  8.43it/s]Loading weights:  13%|█▎        | 58/443 [00:11<00:59,  6.51it/s]Loading weights:  14%|█▎        | 60/443 [00:11<01:00,  6.30it/s]Loading weights:  16%|█▌        | 69/443 [00:12<00:47,  7.95it/s]Loading weights:  16%|█▌        | 70/443 [00:13<01:00,  6.20it/s]Loading weights:  18%|█▊        | 80/443 [00:14<00:46,  7.73it/s]Loading weights:  18%|█▊        | 81/443 [00:14<00:55,  6.58it/s]Loading weights:  20%|██        | 90/443 [00:15<00:35,  9.82it/s]Loading weights:  21%|██        | 92/443 [00:16<00:54,  6.50it/s]Loading weights:  23%|██▎       | 100/443 [00:16<00:39,  8.59it/s]Loading weights:  23%|██▎       | 102/443 [00:17<00:55,  6.15it/s]Loading weights:  23%|██▎       | 104/443 [00:18<00:59,  5.71it/s]Loading weights:  26%|██▌       | 113/443 [00:18<00:41,  8.00it/s]Loading weights:  26%|██▌       | 114/443 [00:19<00:57,  5.73it/s]Loading weights:  28%|██▊       | 124/443 [00:20<00:47,  6.70it/s]Loading weights:  28%|██▊       | 125/443 [00:20<00:46,  6.85it/s]Loading weights:  30%|███       | 133/443 [00:21<00:30, 10.09it/s]Loading weights:  30%|███       | 135/443 [00:22<00:49,  6.26it/s]Loading weights:  31%|███       | 136/443 [00:22<00:47,  6.44it/s]Loading weights:  31%|███       | 137/443 [00:22<00:49,  6.16it/s]Loading weights:  33%|███▎      | 144/443 [00:22<00:27, 11.05it/s]Loading weights:  33%|███▎      | 146/443 [00:23<00:49,  5.97it/s]Loading weights:  33%|███▎      | 148/443 [00:24<00:48,  6.04it/s]Loading weights:  35%|███▍      | 155/443 [00:24<00:26, 11.03it/s]Loading weights:  36%|███▌      | 158/443 [00:25<00:48,  5.85it/s]Loading weights:  36%|███▌      | 160/443 [00:25<00:42,  6.66it/s]Loading weights:  38%|███▊      | 167/443 [00:25<00:26, 10.49it/s]Loading weights:  38%|███▊      | 170/443 [00:27<00:43,  6.22it/s]Loading weights:  40%|███▉      | 177/443 [00:27<00:31,  8.40it/s]Loading weights:  40%|████      | 179/443 [00:28<00:45,  5.81it/s]Loading weights:  41%|████      | 181/443 [00:28<00:47,  5.53it/s]Loading weights:  43%|████▎     | 190/443 [00:29<00:25, 10.06it/s]Loading weights:  43%|████▎     | 192/443 [00:30<00:42,  5.94it/s]Loading weights:  45%|████▌     | 201/443 [00:31<00:35,  6.89it/s]Loading weights:  46%|████▌     | 203/443 [00:31<00:35,  6.78it/s]Loading weights:  47%|████▋     | 210/443 [00:31<00:23, 10.12it/s]Loading weights:  48%|████▊     | 212/443 [00:33<00:40,  5.68it/s]Loading weights:  48%|████▊     | 214/443 [00:33<00:35,  6.41it/s]Loading weights:  50%|████▉     | 221/443 [00:33<00:23,  9.25it/s]Loading weights:  50%|█████     | 223/443 [00:34<00:37,  5.95it/s]Loading weights:  51%|█████     | 225/443 [00:35<00:38,  5.71it/s]Loading weights:  53%|█████▎    | 233/443 [00:35<00:20, 10.48it/s]Loading weights:  53%|█████▎    | 236/443 [00:36<00:29,  6.90it/s]Loading weights:  55%|█████▌    | 245/443 [00:37<00:27,  7.20it/s]Loading weights:  56%|█████▌    | 247/443 [00:37<00:26,  7.33it/s]Loading weights:  57%|█████▋    | 254/443 [00:37<00:18, 10.30it/s]Loading weights:  58%|█████▊    | 256/443 [00:39<00:31,  6.00it/s]Loading weights:  58%|█████▊    | 258/443 [00:39<00:30,  6.10it/s]Loading weights:  60%|█████▉    | 265/443 [00:39<00:18,  9.70it/s]Loading weights:  60%|██████    | 267/443 [00:40<00:29,  5.94it/s]Loading weights:  61%|██████    | 269/443 [00:41<00:30,  5.78it/s]Loading weights:  63%|██████▎   | 277/443 [00:41<00:15, 10.78it/s]Loading weights:  63%|██████▎   | 280/443 [00:42<00:28,  5.64it/s]Loading weights:  65%|██████▌   | 289/443 [00:43<00:19,  7.99it/s]Loading weights:  66%|██████▌   | 291/443 [00:43<00:22,  6.76it/s]Loading weights:  68%|██████▊   | 300/443 [00:45<00:20,  6.96it/s]Loading weights:  70%|██████▉   | 309/443 [00:45<00:14,  9.35it/s]Loading weights:  70%|███████   | 311/443 [00:46<00:20,  6.47it/s]Loading weights:  71%|███████   | 313/443 [00:46<00:20,  6.47it/s]Loading weights:  72%|███████▏  | 320/443 [00:47<00:12, 10.12it/s]Loading weights:  73%|███████▎  | 323/443 [00:48<00:19,  6.04it/s]Loading weights:  73%|███████▎  | 325/443 [00:48<00:17,  6.70it/s]Loading weights:  75%|███████▌  | 333/443 [00:49<00:15,  7.02it/s]Loading weights:  76%|███████▌  | 335/443 [00:49<00:14,  7.28it/s]Loading weights:  77%|███████▋  | 342/443 [00:50<00:09, 10.19it/s]Loading weights:  78%|███████▊  | 344/443 [00:51<00:15,  6.32it/s]Loading weights:  78%|███████▊  | 346/443 [00:51<00:15,  6.13it/s]Loading weights:  80%|███████▉  | 353/443 [00:51<00:08, 10.29it/s]Loading weights:  80%|████████  | 356/443 [00:52<00:14,  6.03it/s]Loading weights:  81%|████████  | 358/443 [00:52<00:12,  6.68it/s]Loading weights:  82%|████████▏ | 364/443 [00:53<00:07, 10.73it/s]Loading weights:  83%|████████▎ | 367/443 [00:54<00:13,  5.79it/s]Loading weights:  84%|████████▎ | 370/443 [00:54<00:10,  7.01it/s]Loading weights:  85%|████████▌ | 377/443 [00:55<00:09,  7.06it/s]Loading weights:  86%|████████▌ | 379/443 [00:55<00:09,  6.77it/s]Loading weights:  87%|████████▋ | 387/443 [00:56<00:05, 10.75it/s]Loading weights:  88%|████████▊ | 389/443 [00:57<00:08,  6.14it/s]Loading weights:  88%|████████▊ | 391/443 [00:57<00:07,  6.91it/s]Loading weights:  90%|████████▉ | 397/443 [00:57<00:04,  9.27it/s]Loading weights:  90%|█████████ | 399/443 [00:58<00:07,  5.86it/s]Loading weights:  91%|█████████ | 401/443 [00:59<00:07,  5.56it/s]Loading weights:  93%|█████████▎| 410/443 [00:59<00:03,  8.47it/s]Loading weights:  93%|█████████▎| 412/443 [01:00<00:05,  6.09it/s]Loading weights:  95%|█████████▌| 421/443 [01:01<00:03,  6.71it/s]Loading weights:  95%|█████████▌| 422/443 [01:01<00:03,  6.73it/s]Loading weights:  97%|█████████▋| 430/443 [01:02<00:01,  9.84it/s]Loading weights:  98%|█████████▊| 432/443 [01:03<00:01,  6.22it/s]Loading weights:  98%|█████████▊| 434/443 [01:03<00:01,  6.54it/s]Loading weights: 100%|██████████| 443/443 [01:03<00:00,  6.96it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=38.62 (var top3=0.24) | centroid PR=5.63 vs null 6.62+-0.47 (p_conc=0.0365) | sep gap=0.0111 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=13.73 (var top3=0.41) | centroid PR=3.78 vs null 5.13+-0.66 (p_conc=0.0330) | sep gap=0.0133 p=0.0005
+  wrote allenai_OLMo-2-1124-13B.json + .npz  (189.0s)
+=== Qwen/Qwen3-14B (bfloat16) 2026-06-10T02:54:48Z ===
+[Qwen/Qwen3-14B] 535 probes, 9 combinators
+  loading model (bfloat16) ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 24967.44it/s]
+  forward passes ...
+    50/535 probes
+    100/535 probes
+    150/535 probes
+    200/535 probes
+    250/535 probes
+    300/535 probes
+    350/535 probes
+    400/535 probes
+    450/535 probes
+    500/535 probes
+  building RDMs ...
+  analyzing prob-RDM ...
+    prob: full PR=36.14 (var top3=0.24) | centroid PR=6.10 vs null 6.53+-0.49 (p_conc=0.1784) | sep gap=0.0085 p=0.0005
+  analyzing hidden-RDM ...
+    hidden: full PR=3.37 (var top3=0.74) | centroid PR=2.11 vs null 2.74+-0.68 (p_conc=0.1949) | sep gap=0.0121 p=0.0005
+  wrote Qwen_Qwen3-14B.json + .npz  (129.9s)
+=== manifold sweep done 2026-06-10T02:57:01Z ===

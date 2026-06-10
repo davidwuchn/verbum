@@ -1,0 +1,234 @@
+{
+  "params": {
+    "B": 2000,
+    "frac": 0.8,
+    "seed": 0
+  },
+  "rows": [
+    {
+      "sep_frac_sign": 0.32892356318429516,
+      "sep_frac_sign_ci": [
+        0.18794371899095477,
+        0.44039649637618977
+      ],
+      "sep_frac_sign_sd": 0.06396059430432073,
+      "agree_sign_full": 0.35823788156506836,
+      "agree_sign_full_ci": [
+        0.2716054537254995,
+        0.39314021495152707
+      ],
+      "agree_sign_full_sd": 0.03534756303809591,
+      "model": "EleutherAI/pythia-160m",
+      "size": 0.16,
+      "family": "pythia"
+    },
+    {
+      "sep_frac_sign": 0.7054293156933023,
+      "sep_frac_sign_ci": [
+        0.6840344323559843,
+        0.7265407662894691
+      ],
+      "sep_frac_sign_sd": 0.01093641981699332,
+      "agree_sign_full": 0.7951044482996381,
+      "agree_sign_full_ci": [
+        0.7845342567084986,
+        0.8051285201481654
+      ],
+      "agree_sign_full_sd": 0.005235004460842511,
+      "model": "EleutherAI/pythia-410m",
+      "size": 0.41,
+      "family": "pythia"
+    },
+    {
+      "sep_frac_sign": 0.7416168387965039,
+      "sep_frac_sign_ci": [
+        0.7097090187715998,
+        0.7777609721990125
+      ],
+      "sep_frac_sign_sd": 0.017216210414761464,
+      "agree_sign_full": 0.6397661179925729,
+      "agree_sign_full_ci": [
+        0.6226249876456088,
+        0.6579349970568029
+      ],
+      "agree_sign_full_sd": 0.009069139750506137,
+      "model": "Qwen/Qwen3-0.6B",
+      "size": 0.6,
+      "family": "qwen"
+    },
+    {
+      "sep_frac_sign": 0.6579971049038402,
+      "sep_frac_sign_ci": [
+        0.6233973550397837,
+        0.6987667363374997
+      ],
+      "sep_frac_sign_sd": 0.01909010492076044,
+      "agree_sign_full": 0.8280935416283254,
+      "agree_sign_full_ci": [
+        0.8192013648823689,
+        0.836688905244029
+      ],
+      "agree_sign_full_sd": 0.004520972286883637,
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "size": 3,
+      "family": "smollm"
+    },
+    {
+      "sep_frac_sign": 0.6665398923471181,
+      "sep_frac_sign_ci": [
+        0.6251084487181291,
+        0.7116305261309926
+      ],
+      "sep_frac_sign_sd": 0.02216997984826871,
+      "agree_sign_full": 0.7121633712827287,
+      "agree_sign_full_ci": [
+        0.6964332389065464,
+        0.7298992314226406
+      ],
+      "agree_sign_full_sd": 0.008347550261460357,
+      "model": "Qwen/Qwen3-4B",
+      "size": 4,
+      "family": "qwen"
+    },
+    {
+      "sep_frac_sign": 0.6106037305782259,
+      "sep_frac_sign_ci": [
+        0.5831007652879254,
+        0.6395544739068464
+      ],
+      "sep_frac_sign_sd": 0.014605042723692799,
+      "agree_sign_full": 0.6938659281463179,
+      "agree_sign_full_ci": [
+        0.6769149008829533,
+        0.7098192755427915
+      ],
+      "agree_sign_full_sd": 0.008499634429687736,
+      "model": "mistralai/Mistral-7B-v0.3",
+      "size": 7,
+      "family": "mistral"
+    },
+    {
+      "sep_frac_sign": 0.8581372539670413,
+      "sep_frac_sign_ci": [
+        0.8154228042034086,
+        0.9080464166863816
+      ],
+      "sep_frac_sign_sd": 0.02359123873368615,
+      "agree_sign_full": 0.6887147666856963,
+      "agree_sign_full_ci": [
+        0.6793741870267469,
+        0.6986171957931641
+      ],
+      "agree_sign_full_sd": 0.004928921143160187,
+      "model": "Qwen/Qwen3-8B",
+      "size": 8,
+      "family": "qwen"
+    },
+    {
+      "sep_frac_sign": 0.7133973188919062,
+      "sep_frac_sign_ci": [
+        0.665106844445007,
+        0.7716564750938093
+      ],
+      "sep_frac_sign_sd": 0.026675540635581012,
+      "agree_sign_full": 0.76101189361745,
+      "agree_sign_full_ci": [
+        0.7502540032131257,
+        0.7741640215528679
+      ],
+      "agree_sign_full_sd": 0.006120160876527858,
+      "model": "allenai/OLMo-2-1124-13B",
+      "size": 13,
+      "family": "olmo"
+    },
+    {
+      "sep_frac_sign": 0.7934745544490684,
+      "sep_frac_sign_ci": [
+        0.7513021120194088,
+        0.8378373552397309
+      ],
+      "sep_frac_sign_sd": 0.022080513574232106,
+      "agree_sign_full": 0.7147942364710317,
+      "agree_sign_full_ci": [
+        0.6992380598493293,
+        0.7284128078890333
+      ],
+      "agree_sign_full_sd": 0.007414954659748904,
+      "model": "Qwen/Qwen3-14B",
+      "size": 14,
+      "family": "qwen"
+    },
+    {
+      "sep_frac_sign": 0.6454060212829015,
+      "sep_frac_sign_ci": [
+        0.5905790255272262,
+        0.70655850498821
+      ],
+      "sep_frac_sign_sd": 0.02898183439540524,
+      "agree_sign_full": 0.7367285704362404,
+      "agree_sign_full_ci": [
+        0.7223698050827927,
+        0.750897627354803
+      ],
+      "agree_sign_full_sd": 0.0073634548955545985,
+      "model": "Qwen/Qwen3-32B",
+      "size": 32,
+      "family": "qwen"
+    }
+  ],
+  "qwen_trend": {
+    "sep_frac_sign": {
+      "slope_per_decade": -0.013483412144556449,
+      "spearman": -0.19999999999999998,
+      "series": [
+        [
+          0.6,
+          0.7416168387965039
+        ],
+        [
+          4,
+          0.6665398923471181
+        ],
+        [
+          8,
+          0.8581372539670413
+        ],
+        [
+          14,
+          0.7934745544490684
+        ],
+        [
+          32,
+          0.6454060212829015
+        ]
+      ]
+    },
+    "agree_sign_full": {
+      "slope_per_decade": 0.05198102098605239,
+      "spearman": 0.8999999999999998,
+      "series": [
+        [
+          0.6,
+          0.6397661179925729
+        ],
+        [
+          4,
+          0.7121633712827287
+        ],
+        [
+          8,
+          0.6887147666856963
+        ],
+        [
+          14,
+          0.7147942364710317
+        ],
+        [
+          32,
+          0.7367285704362404
+        ]
+      ]
+    },
+    "verdict_32_vs_14": "REVERSAL (32B CI below 14B CI)"
+  }
+}

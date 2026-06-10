@@ -1,0 +1,42 @@
+=== Qwen/Qwen3-8B 2026-06-10T14:44:23Z ===
+[Qwen/Qwen3-8B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 22273.01it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.042 depth r=-0.031 ent r=-0.369 plen r=0.010
+  TOPO: sep full=0.0047 sign=0.0120 mag=0.0020 sign-frac=0.86 | agree sign=0.689 mag=0.914
+  wrote Qwen_Qwen3-8B.json + .npz  (39.6s)
+  23.40s user 4.35s system 64% cpu 43.137 total
+=== Qwen/Qwen3-32B 2026-06-10T14:45:07Z ===
+[Qwen/Qwen3-32B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 29031.30it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.047 depth r=0.023 ent r=0.473 plen r=-0.032
+  TOPO: sep full=0.0247 sign=0.0141 mag=0.0078 sign-frac=0.65 | agree sign=0.737 mag=0.456
+  wrote Qwen_Qwen3-32B.json + .npz  (103.5s)
+  35.43s user 11.16s system 43% cpu 1:46.48 total

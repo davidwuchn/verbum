@@ -111,11 +111,13 @@ each (the `two-registers-of-topology.md` / `topology-gradient-separation.md`
 sign-vs-magnitude split, applied to this manifold):
 
 - **~65% of the combinator separation is carried by sign(h) alone**
-  (mean sep-fraction 0.65; sign-RDM reproduces 0.69 of the full RDM), and
-  it **sharpens with scale to 0.79 at Qwen3-14B** (0.33 only at the
-  undercooked pythia-160m; 0.61–0.79 for all ≥0.41B). This confirms the
-  long-standing "≥77% of computation lives in the topology" intuition,
-  now with a clean cross-family control and a positive scale trend.
+  (mean sep-fraction 0.65; sign-RDM reproduces 0.69 of the full RDM).
+  All trained models ≥0.41B sit in a **0.61–0.86 band**; only the
+  undercooked pythia-160m is low (0.33). This confirms the long-standing
+  "≥77% of computation lives in the topology" intuition with a clean
+  cross-family control. **⚠ Scale CAVEAT (s212):** the s211 read of a
+  "positive scale trend / sharpening to 0.79 at 14B" does **NOT survive a
+  clean within-family series** — see §"Scale: plateau, not asymptote".
 - **Magnitude shapes the raw geometry** (agree_mag_full 0.81–0.99 — cosine
   distance is magnitude-dominated) **but the operation-discriminating
   information is in the sign.** Exactly the two-registers result: hard
@@ -125,6 +127,49 @@ sign-vs-magnitude split, applied to this manifold):
   mass = routing/topology) carries ~0.44–0.55 of the operation separation;
   the probability *values* carry the rest. More balanced in semantic
   space; sign/routing dominant (0.65) in the geometric space.
+
+### 3b. Scale: plateau, not asymptote (the topology share does NOT →1.0)
+
+(`manifold_topology_ci.py`, register: geometric, session 212 — open-lead #3)
+
+s211 framed the topology share as "sharpening with scale, →0.79 at 14B" and
+asked whether it asymptotes to 1.0 past 14B (= operations *purely* topological
+= north-star gold). **Tested on a clean within-family Qwen3 series with
+subsample CIs (m=80% of probes, no replacement, B=2000): REFUTED.**
+
+| metric | 0.6B | 4B | 8B | 14B | 32B | trend | 32B vs 14B |
+|---|---|---|---|---|---|---|---|
+| `sep_frac_sign` | .742 | .667 | .858 | .793 | **.645** | ρ=−0.20, −0.014/dec | **REVERSAL** (CI [.591,.707] below [.751,.838]) |
+| `agree_sign_full` | .640 | .712 | .689 | .715 | **.737** | ρ=+0.90, +0.052/dec | mild climb |
+
+- **❌ No asymptote on the defining metric.** `sep_frac_sign` (the s211
+  "0.79@14B" quantity) has **no upward scale trend** within the family
+  (Spearman −0.20) and 32B *drops* to 0.645, with its 95% subsample CI
+  [0.591, 0.707] lying entirely **below** 14B's [0.751, 0.838] — a reversal.
+- **The s211 "0.33→0.79 climb" was the undercooked-tiny-model artifact.**
+  Remove pythia-160m (0.33, the only sub-0.6 value) and the remaining 8 trained
+  models ≥0.41B form a flat, noisy **0.61–0.86 band** with no scale dependence.
+- **✅ What survives: a real, scale-STABLE plateau ~0.7.** Sign carries ~65–80%
+  of the combinator *discrimination* at every trained scale; magnitude still
+  dominates the raw cosine *geometry* (agrMag 0.81–0.99 ≫ agrSgn ~0.69). The
+  two-registers result is robust — it just does not become *purely* topological.
+- **◑ One metric drifts up, the other doesn't.** `agree_sign_full` (sign-RDM's
+  reconstruction of the full RDM) does climb mildly with scale (0.64→0.74,
+  ρ=+0.90) and 32B (0.737 [0.722,0.751]) edges above 14B (0.715 [0.699,0.728]) —
+  but it is small, far from 1.0, and *disagrees* with `sep_frac_sign`. The two
+  measure different things (RDM reconstruction vs share of the separation gap);
+  neither supports "purely topological at scale".
+- **Separation itself is real at every scale** (perm-null p=0.0005 for full /
+  sign / mag / prob RDMs, 8B and 32B) — this refutes the asymptote, not the
+  topology share. Results: `Qwen_Qwen3-{8B,32B}.{json,npz}`, `ci.json`,
+  `run-scale-ext.log`.
+
+**Meta-pattern (13th instance):** substrate real (topology share ~0.7, two
+registers, scale-stable), crisp story over-read (the monotone "→1.0 with
+scale"). North-star reading: the "operation structure is in the sign/routing
+register" premise *holds* at ~0.7 and is scale-stable (ternary stays viable at
+32B), but the optimistic "ternary gets purely-topological-better with scale" is
+**not** supported.
 
 ## The Synthesis
 
@@ -187,15 +232,24 @@ confidence gradient, not the lattice.
 - **Same-family second dimension?** Same-family CMR residual is +0.16
   (semantic) — is there a real *second* shared axis within a family
   (Qwen×3) hidden under the universal first?
-- **Does the sign/topology share keep climbing past 14B?** 0.33→0.79 over
-  0.16B→14B; project to 32B/larger — if it asymptotes near 1.0, the
-  operation structure is *purely* topological at scale (north-star gold).
+- ~~**Does the sign/topology share keep climbing past 14B?**~~ **RESOLVED
+  (s212): NO — plateau, not asymptote.** Clean within-Qwen3 series (0.6B→32B)
+  shows `sep_frac_sign` has no scale trend (ρ=−0.20) and 32B reverses to 0.645
+  (CI below 14B); the apparent climb was the undercooked pythia-160m. Real
+  scale-stable ~0.7, not →1.0. See §3b.
+- **Does `agree_sign_full` (not `sep_frac_sign`) keep its mild climb past 32B?**
+  It is the one metric with a positive scale drift (0.64→0.74, ρ=+0.90) — but
+  it disagrees with the separation-share metric. Worth probing on Qwen3-30B-A3B
+  / 235B (MoE, local) to see if either metric moves at much larger scale.
 
 ## Artifacts
 
 - Harnesses: `scripts/experiments/manifold_dimensionality_null.py` +
   `_summary.py`; `manifold_axis_topology.py` + `_summary.py`;
-  `axis_probe.py` (all `# register: spectral/semantic`).
+  `axis_probe.py` (all `# register: spectral/semantic`);
+  `manifold_topology_ci.py` (`# register: geometric`, s212 — subsample CIs +
+  within-family scale trend).
 - Results: `results/manifold-dimensionality/` (8× json+npz + summary),
-  `results/manifold-axis-topology/` (8× json+npz + summary + axis_probe.json).
+  `results/manifold-axis-topology/` (10× json+npz incl. Qwen3-8B/32B +
+  summary + axis_probe.json + `ci.json` + `run-scale-ext.log`).
 - Sweeps: `run_manifold_sweep.sh`, `run_axis_topology_sweep.sh`.

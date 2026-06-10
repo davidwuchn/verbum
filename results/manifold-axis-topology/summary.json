@@ -1,5 +1,5 @@
 {
-  "n_models": 8,
+  "n_models": 10,
   "families": [
     "mistral",
     "olmo",
@@ -8,20 +8,48 @@
     "smollm"
   ],
   "axis": {
-    "eta2_combinator": 0.05435608954297636,
-    "corr_depth": -0.006670058366934417,
-    "corr_entropy": -0.29435183539674065,
-    "corr_promptlen": -0.016513803039427427,
-    "mean_universal_match": 0.9505458490149836,
+    "eta2_combinator": 0.05340971260071132,
+    "corr_depth": -0.008895164332336081,
+    "corr_entropy": -0.339728534605335,
+    "corr_promptlen": -0.01062066021676628,
+    "mean_universal_match": 0.9533406601370761,
     "per_model_match": {
-      "pythia": 0.9704670351434018,
-      "smollm": 0.9270882655520011,
-      "qwen": 0.9319146240990794,
-      "olmo": 0.9587226508855125,
-      "mistral": 0.9218904043146324
+      "pythia": 0.9596989037225253,
+      "smollm": 0.9387492068954011,
+      "qwen": 0.9634919575631333,
+      "olmo": 0.9670329943996079,
+      "mistral": 0.908431785938165
     }
   },
   "topology": [
+    {
+      "model": "Qwen/Qwen3-32B",
+      "size": 0,
+      "sep_full": 0.024690844792232713,
+      "sep_sign": 0.014142582308242613,
+      "sep_mag": 0.007770107934789383,
+      "sep_frac_sign": 0.6454060250653069,
+      "agree_sign_full": 0.7367285710160335,
+      "agree_mag_full": 0.4555513410763952,
+      "prob_agree_support_full": 0.760900303674952,
+      "prob_sep_support": 0.008592023550231254,
+      "prob_sep_full": 0.008690602158200944,
+      "support_frac": 0.4971480430800051
+    },
+    {
+      "model": "Qwen/Qwen3-8B",
+      "size": 0,
+      "sep_full": 0.004661269220915448,
+      "sep_sign": 0.01204443750820583,
+      "sep_mag": 0.0019911231881855757,
+      "sep_frac_sign": 0.8581372535621252,
+      "agree_sign_full": 0.688714764679395,
+      "agree_mag_full": 0.9137989120979207,
+      "prob_agree_support_full": 0.7403786313733302,
+      "prob_sep_support": 0.009616925442398228,
+      "prob_sep_full": 0.008387016306785178,
+      "support_frac": 0.5341566628227076
+    },
     {
       "model": "EleutherAI/pythia-160m",
       "size": 0.16,
@@ -136,7 +164,7 @@
     }
   ],
   "topology_summary": {
-    "mean_sign_separation_fraction": 0.6522477914866187,
-    "mean_agree_sign_full": 0.6878796779640923
+    "mean_sign_separation_fraction": 0.6721525610520382,
+    "mean_agree_sign_full": 0.6928480759408167
   }
 }

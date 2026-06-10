@@ -1,0 +1,161 @@
+=== axis+topology sweep start 2026-06-10T03:10:36Z ===
+=== EleutherAI/pythia-160m (float32) 2026-06-10T03:10:36Z ===
+[EleutherAI/pythia-160m] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2235.51it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.058 depth r=-0.013 ent r=0.068 plen r=-0.013
+  TOPO: sep full=0.0004 sign=0.0002 mag=0.0004 sign-frac=0.33 | agree sign=0.358 mag=0.994
+  wrote EleutherAI_pythia-160m.json + .npz  (14.6s)
+=== EleutherAI/pythia-410m (float32) 2026-06-10T03:10:54Z ===
+[EleutherAI/pythia-410m] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  56%|█████▌    | 164/292 [00:00<00:00, 1618.36it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 1763.05it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.055 depth r=0.009 ent r=-0.051 plen r=0.027
+  TOPO: sep full=0.0192 sign=0.0131 mag=0.0055 sign-frac=0.71 | agree sign=0.795 mag=0.814
+  wrote EleutherAI_pythia-410m.json + .npz  (17.7s)
+=== Qwen/Qwen3-0.6B (bfloat16) 2026-06-10T03:11:14Z ===
+[Qwen/Qwen3-0.6B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 36103.75it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.062 depth r=0.001 ent r=0.220 plen r=-0.004
+  TOPO: sep full=0.0151 sign=0.0145 mag=0.0051 sign-frac=0.74 | agree sign=0.640 mag=0.825
+  wrote Qwen_Qwen3-0.6B.json + .npz  (23.1s)
+=== HuggingFaceTB/SmolLM3-3B (bfloat16) 2026-06-10T03:11:40Z ===
+[HuggingFaceTB/SmolLM3-3B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights: 100%|██████████| 326/326 [00:00<00:00, 29963.25it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.056 depth r=0.004 ent r=0.407 plen r=-0.029
+  TOPO: sep full=0.0177 sign=0.0117 mag=0.0061 sign-frac=0.66 | agree sign=0.828 mag=0.897
+  wrote HuggingFaceTB_SmolLM3-3B.json + .npz  (25.1s)
+=== Qwen/Qwen3-4B (bfloat16) 2026-06-10T03:12:08Z ===
+[Qwen/Qwen3-4B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 19329.93it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.039 depth r=0.028 ent r=0.310 plen r=-0.038
+  TOPO: sep full=0.0111 sign=0.0109 mag=0.0055 sign-frac=0.67 | agree sign=0.712 mag=0.885
+  wrote Qwen_Qwen3-4B.json + .npz  (32.0s)
+=== mistralai/Mistral-7B-v0.3 (bfloat16) 2026-06-10T03:12:43Z ===
+[mistralai/Mistral-7B-v0.3] 535 probes
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 26280.44it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.038 depth r=-0.001 ent r=0.031 plen r=-0.088
+  TOPO: sep full=0.0215 sign=0.0116 mag=0.0074 sign-frac=0.61 | agree sign=0.694 mag=0.805
+  wrote mistralai_Mistral-7B-v0.3.json + .npz  (34.8s)
+=== allenai/OLMo-2-1124-13B (bfloat16) 2026-06-10T03:13:21Z ===
+[allenai/OLMo-2-1124-13B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<01:19,  5.58it/s]Loading weights:   5%|▍         | 20/443 [00:00<00:04, 86.59it/s]Loading weights:   7%|▋         | 32/443 [00:00<00:04, 87.11it/s]Loading weights:  10%|▉         | 43/443 [00:00<00:04, 85.34it/s]Loading weights:  12%|█▏        | 53/443 [00:00<00:04, 84.55it/s]Loading weights:  14%|█▍        | 62/443 [00:00<00:04, 80.29it/s]Loading weights:  16%|█▌        | 71/443 [00:00<00:04, 79.22it/s]Loading weights:  18%|█▊        | 80/443 [00:01<00:04, 75.32it/s]Loading weights:  21%|██        | 91/443 [00:01<00:04, 79.17it/s]Loading weights:  23%|██▎       | 102/443 [00:01<00:04, 79.35it/s]Loading weights:  26%|██▌       | 113/443 [00:01<00:04, 81.96it/s]Loading weights:  28%|██▊       | 124/443 [00:01<00:03, 83.37it/s]Loading weights:  30%|███       | 135/443 [00:01<00:03, 79.63it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:03, 79.34it/s]Loading weights:  36%|███▌      | 159/443 [00:01<00:03, 84.42it/s]Loading weights:  38%|███▊      | 168/443 [00:02<00:03, 83.97it/s]Loading weights:  40%|████      | 179/443 [00:02<00:03, 83.78it/s]Loading weights:  43%|████▎     | 190/443 [00:02<00:03, 83.76it/s]Loading weights:  45%|████▌     | 201/443 [00:02<00:02, 85.55it/s]Loading weights:  48%|████▊     | 212/443 [00:02<00:02, 80.43it/s]Loading weights:  50%|█████     | 223/443 [00:02<00:02, 85.16it/s]Loading weights:  53%|█████▎    | 234/443 [00:02<00:02, 82.47it/s]Loading weights:  55%|█████▌    | 245/443 [00:03<00:02, 85.65it/s]Loading weights:  58%|█████▊    | 256/443 [00:03<00:02, 83.58it/s]Loading weights:  60%|██████    | 267/443 [00:03<00:02, 85.48it/s]Loading weights:  63%|██████▎   | 278/443 [00:03<00:01, 85.05it/s]Loading weights:  65%|██████▌   | 289/443 [00:03<00:01, 84.58it/s]Loading weights:  68%|██████▊   | 300/443 [00:03<00:01, 89.11it/s]Loading weights:  70%|██████▉   | 310/443 [00:03<00:01, 90.58it/s]Loading weights:  72%|███████▏  | 321/443 [00:03<00:01, 84.84it/s]Loading weights:  75%|███████▌  | 333/443 [00:04<00:01, 83.23it/s]Loading weights:  78%|███████▊  | 344/443 [00:04<00:01, 82.52it/s]Loading weights:  80%|████████  | 355/443 [00:04<00:01, 85.50it/s]Loading weights:  83%|████████▎ | 366/443 [00:04<00:00, 84.76it/s]Loading weights:  85%|████████▌ | 377/443 [00:04<00:00, 83.09it/s]Loading weights:  88%|████████▊ | 388/443 [00:04<00:00, 84.18it/s]Loading weights:  90%|█████████ | 399/443 [00:04<00:00, 83.64it/s]Loading weights:  92%|█████████▏| 409/443 [00:04<00:00, 86.17it/s]Loading weights:  95%|█████████▍| 420/443 [00:05<00:00, 91.42it/s]Loading weights:  97%|█████████▋| 431/443 [00:05<00:00, 88.93it/s]Loading weights: 100%|██████████| 443/443 [00:05<00:00, 84.17it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.056 depth r=0.017 ent r=0.394 plen r=-0.028
+  TOPO: sep full=0.0133 sign=0.0123 mag=0.0049 sign-frac=0.71 | agree sign=0.761 mag=0.863
+  wrote allenai_OLMo-2-1124-13B.json + .npz  (56.6s)
+=== Qwen/Qwen3-14B (bfloat16) 2026-06-10T03:14:21Z ===
+[Qwen/Qwen3-14B] 535 probes
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 28961.85it/s]
+  forward passes ...
+    50/535
+    100/535
+    150/535
+    200/535
+    250/535
+    300/535
+    350/535
+    400/535
+    450/535
+    500/535
+  building RDMs (prob full/support; hidden full/sign/mag) ...
+  AXIS: eta2(comb)=0.041 depth r=0.022 ent r=0.444 plen r=-0.006
+  TOPO: sep full=0.0121 sign=0.0139 mag=0.0036 sign-frac=0.79 | agree sign=0.715 mag=0.639
+  wrote Qwen_Qwen3-14B.json + .npz  (57.3s)
+=== axis+topology sweep done 2026-06-10T03:15:21Z ===

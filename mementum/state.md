@@ -2,7 +2,8 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-10 | Session: 211 (audit #12 — 5D lattice — DONE)
+> Last updated: 2026-06-10 | Session: 212 (audit #12f scale ext — topology
+> share PLATEAUS, not →1.0 — DONE)
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -38,6 +39,46 @@
 > the row, caveat the source page if it bites, commit. The program:
 > distill real working data from assumptions/biased methodology, one
 > control per session, until a small hard core of verified claims remains.
+
+> **▶ SESSION 212 HEADLINE — #12f SCALE EXTENSION (does the sign/topology share
+> climb to 1.0 past 14B?): ❌ ASYMPTOTE REFUTED / ✅ scale-STABLE plateau ~0.7.**
+> Register: geometric (declared on cold start; the claim is the sign/|·| split of
+> the hidden state, not semantic/spectral). Took s211 open-lead #3. Built a clean
+> within-family Qwen3 series — s211's axis-topology sweep had Qwen3 {0.6B,4B,14B}
+> but skipped 8B, so ran **Qwen3-8B + Qwen3-32B** (both local) → 5-point family
+> series 0.6B→4B→8B→14B→32B — plus subsample CIs (`manifold_topology_ci.py`,
+> register: geometric; m=80% probes, no-replacement, B=2000) computed offline
+> from the saved RDMs for all 10 models.
+> - **❌ "topology share →1.0 at scale" REFUTED.** `sep_frac_sign` (the s211
+>   "0.79@14B" metric): 0.742→0.667→0.858→0.793→**0.645**; Spearman **−0.20**,
+>   slope −0.014/decade; **32B CI [.591,.707] lies entirely BELOW 14B [.751,.838]
+>   = REVERSAL.** The s211 "0.33→0.79 sharpening" was the single **undercooked
+>   pythia-160m (0.33)**; remove it and all 8 trained models ≥0.41B form a flat
+>   noisy **0.61–0.86 band** with no scale dependence.
+> - **✅ Survives: a real, scale-STABLE topology share ~0.7** (cross-family mean
+>   0.67). Sign carries ~65–80% of the combinator *discrimination*; magnitude
+>   dominates the raw cosine *geometry* (agrMag 0.81–0.99 ≫ agrSgn ~0.69) — the
+>   two-registers result is robust, just not *purely* topological. Combinator
+>   separation perm-null **p=0.0005** at every scale (8B & 32B, all RDMs) — the
+>   structure is real throughout; only the asymptote dies.
+> - **◑ One metric drifts up, one doesn't.** `agree_sign_full` (sign-RDM's
+>   reconstruction of full RDM) climbs mildly 0.64→0.74 (Spearman +0.90), 32B
+>   (0.737) edges above 14B (0.715) — but small, far from 1.0, and *disagrees*
+>   with `sep_frac_sign`. Different quantities (RDM reconstruction vs share of the
+>   separation gap); neither supports "purely topological at scale".
+> - **Net for the north-star:** premise (i) "operation structure lives in the
+>   sign/routing register" HOLDS at ~0.7 and is **scale-stable** → ternary stays
+>   viable at 32B; but the optimistic "ternary gets purely-topological-better with
+>   scale" is **NOT** supported. 13th meta-pattern instance: substrate real +
+>   scale-stable, crisp "→1.0 with scale" over-read. Caveats added to
+>   `manifold-axis-and-topology.md` §3b + Open Leads; registry #12f follow-up.
+>   Results: `results/manifold-axis-topology/` (Qwen3-8B/32B json+npz + ci.json +
+>   run-scale-ext.log). Harness: `manifold_topology_ci.py`.
+> - **▶ NEXT (open leads):** does `agree_sign_full`'s mild drift continue on
+>   Qwen3-30B-A3B / 235B (MoE, local)? Or name the remaining ~70% of the universal
+>   axis (needs full next-token dist re-saved); same-family 2nd shared axis;
+>   compression carry-overs (#1 gate-vs-value sign-swap PPL, rank-survival across
+>   scale); low-load #9/#10. **Step 0 REGISTER GATE before building any control.**
 
 > **▶ SESSION 211 HEADLINE — AUDIT #12 (5D crystal lattice): ❌ 5D REFUTED /
 > ✅ universality + ~65% topology share REAL.** Register: spectral/semantic
