@@ -1,0 +1,43 @@
+======================================================================
+TERNARY SIGN-FITTING: exact 3-way ΔL vs gradient-proxy
+register: functional | substrate: checkpoints/micro/final
+======================================================================
+calibration tokens: (136, 64) = 8704 positions
+
+──────────────────────────────────────────────────────────────────────
+L0.gate_proj
+  shape=(512, 128) n=8704 budget=327/step | ΔL self-test max_err=1.28e-11 ✓
+  baseline sign(W) rel_loss = 0.2067
+  PROXY      final=0.3855 min=0.1572 up_steps=76 rev=0.286 flips=39240
+  EXACT-BATCH final=0.1517 min=0.1463 up_steps=58 rev=0.207 flips=39240
+  EXACT-SEQ   final=0.0509 up_steps=0 flips=11287 sparsity=0.143
+  (20.3s)
+
+──────────────────────────────────────────────────────────────────────
+L0.value_proj
+  shape=(128, 512) n=8704 budget=327/step | ΔL self-test max_err=4.69e-13 ✓
+  baseline sign(W) rel_loss = 0.1157
+  PROXY      final=0.2694 min=0.1157 up_steps=71 rev=0.417 flips=39240
+  EXACT-BATCH final=0.1368 min=0.0995 up_steps=60 rev=0.375 flips=39240
+  EXACT-SEQ   final=0.0163 up_steps=0 flips=13546 sparsity=0.137
+  (17.3s)
+
+──────────────────────────────────────────────────────────────────────
+L2.gate_proj
+  shape=(512, 128) n=8704 budget=327/step | ΔL self-test max_err=4.15e-12 ✓
+  baseline sign(W) rel_loss = 0.2547
+  PROXY      final=0.1740 min=0.1732 up_steps=55 rev=0.859 flips=39240
+  EXACT-BATCH final=0.1234 min=0.1195 up_steps=51 rev=0.824 flips=39240
+  EXACT-SEQ   final=0.0668 up_steps=0 flips=15012 sparsity=0.189
+  (23.6s)
+
+──────────────────────────────────────────────────────────────────────
+L2.value_proj
+  shape=(128, 512) n=8704 budget=327/step | ΔL self-test max_err=7.11e-13 ✓
+  baseline sign(W) rel_loss = 0.1744
+  PROXY      final=0.2083 min=0.1744 up_steps=61 rev=0.892 flips=39240
+  EXACT-BATCH final=0.1757 min=0.1607 up_steps=61 rev=0.937 flips=39240
+  EXACT-SEQ   final=0.0400 up_steps=0 flips=18151 sparsity=0.225
+  (23.1s)
+
+wrote /Users/mwhitford/src/verbum/results/ternary-exact-vs-proxy/results.json

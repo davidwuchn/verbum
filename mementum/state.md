@@ -2,9 +2,12 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-10 | Session: 212 (two pieces — #12f scale ext: topology
-> share PLATEAUS not →1.0; + universal axis NAMED (CV-R²=0.81, model-free
-> ends_punct) — both DONE)
+> Last updated: 2026-06-10 | Session: 213 (NEW EXPLORATION TARGET — exact ternary
+> fitting: 3-way ΔL acceptance beats TD's gradient proxy; curvature term decisive;
+> monotone/no-oscillation when coordinate-wise + compensation; "0" self-places)
+>
+> (Session 212: two pieces — #12f scale ext: topology share PLATEAUS not →1.0;
+> + universal axis NAMED (CV-R²=0.81, model-free ends_punct) — both DONE)
 >
 > (Session 205 was synthesis-only — papers/theory for the compression track,
 > not tied to the audit: `gtsm-search-space.md`, `tsp-trajectory-distillation.md`,
@@ -13,6 +16,48 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 213 HEADLINE — NEW EXPLORATION TARGET: EXACT TERNARY FITTING.**
+> Register: functional (declared up front — layer-local reconstruction loss under
+> intervention). Michael's idea: replace TD's **gradient proxy** for sign-flip
+> decisions with **direct evaluation of the loss at all three values `{−1,0,+1}`,
+> take the argmin**. The feasibility insight: for a layer-local quadratic
+> reconstruction target there is a **closed form** for the exact ΔL of every
+> position at once (one matmul `Rᵀ@X`), no per-position forward passes:
+> `ΔL_ij(v) = 2γ_i(v−a)⟨r_i,X[:,j]⟩ + γ_i²(v−a)²‖X[:,j]‖²`. The **linear term IS
+> the gradient TD already uses; the curvature term is what the proxy throws away**
+> — and for ternary's large step it is the decisive missing piece. (= the
+> OBQ/GPTQ/OBS family, re-derived independently.)
+> - **Tested** (`ternary_exact_vs_proxy.py`, micro model, 4 configs = gate_proj
+>   router + value_proj value-path × layers 0/2, real activations, matched
+>   327-flip budget, start `S₀=sign(W)`). ΔL closed form self-tested vs
+>   brute-force to ~1e-11.
+> - **✅ Curvature decisive:** EXACT beats PROXY at matched budget in every config;
+>   EXACT-SEQ (gold) reaches **3–7× below the sign(W) baseline** (rel-recon
+>   0.016–0.067 vs baseline 0.116–0.255).
+> - **✅ Monotone / dissolves the s191 oscillation wall:** PROXY had **55–76 of 120
+>   steps INCREASE loss**, reversal frac up to 0.89, and in 3/4 configs **wandered
+>   ABOVE the naive baseline** (the bare gradient-proxy acceptance rule actively
+>   destroys the etch; the whole S2 anti-oscillation stack is compensating for it).
+>   EXACT-SEQ had **0 loss-up steps** and converges.
+> - **◑ Nuance:** monotonicity holds only **coordinate-wise + compensation**
+>   (EXACT-SEQ, GPTQ-style rank-1 residual update). EXACT-BATCH (top-B independent
+>   flips/step) is much better than proxy but still has 51–61 loss-up steps —
+>   simultaneous flips interfere (the flip-interaction the compensation fixes).
+> - **✅ Bonus:** the "0" places itself — EXACT-SEQ discovered **14–22% functional
+>   sparsity** by argmin alone (no magnitude threshold; cf. heuristic 30%
+>   structural zeros).
+> - **Caveats:** layer-local reconstruction ≠ global NTP (the cheap exact target by
+>   design, aligned with score-matching/trace-guided; global needs forward replay);
+>   PROXY arm is an idealized full-batch analog of TD; micro-scale only.
+> - Knowledge: `explore/exact-ternary-fitting.md`. Results:
+>   `results/ternary-exact-vs-proxy/{results.json,run.log}`. Harness:
+>   `scripts/experiments/ternary_exact_vs_proxy.py`.
+> - **▶ NEXT:** wire exact-ΔL acceptance into TD (`scripts/v15/train_td.py`) — keep
+>   the gradient SNR as the cheap PROPOSAL, replace acceptance with coordinate-wise
+>   exact-ΔL + compensation; test if it removes the need for the S2 stack; then a
+>   real-teacher-layer scale test + downstream-PPL (functional) confirmation.
+>   **Declare register before building any control.**
 
 > **▶ SESSION 203+ PROGRAM — VALIDITY AUDIT.** Open
 > `mementum/knowledge/audit-registry.md`. Pick the highest load-bearing

@@ -68,6 +68,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 | [explore/VERBUM.md](explore/VERBUM.md) | ✅ | Founding research program: hypothesis chain, 4-level plan (historical) |
 | [explore/holographic-state-machine.md](explore/holographic-state-machine.md) | ✅ | Unified computational model: FFN=plates, crystal=states, Q=beam, gate=beamformer |
 | [explore/ternary-descent.md](explore/ternary-descent.md) | ✅ | TernaryDescent algorithm: delta plates, gradient decomposition, reduction |
+| [explore/exact-ternary-fitting.md](explore/exact-ternary-fitting.md) | ✅ | **NEW (s213) exploration target.** Exact 3-way ΔL acceptance > gradient proxy: curvature term decisive, monotone (dissolves s191 oscillation) when coordinate-wise + compensation (GPTQ/OBQ), "0" self-places. 3–7× below sign(W) baseline on micro. |
 | [explore/ffn-beta-reduction-indexing.md](explore/ffn-beta-reduction-indexing.md) | ✅ | Holographic FFN indexing: lens profile, ρ=0.83, universal neurons |
 | [explore/categorical-geometry-probes.md](explore/categorical-geometry-probes.md) | ✅ | Curry-Howard 100%, adjunctions rank-1, hyperbolic norm encoding |
 | [explore/phi-compression-universal.md](explore/phi-compression-universal.md) | ⚠️ | SVD spectrum head ratio ~0.6 — REAL & non-random, but **geometric-φ-constant REFUTED** (audit #6, s207: power-law not geometric, value floats 0.52→0.71). Keep low-rank head, retire φ-constant |
