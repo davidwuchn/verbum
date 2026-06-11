@@ -7,6 +7,7 @@ related:
   - compilation-pipeline.md
   - tiny-classifier-ternary.md
   - psi-evaluation-synthesis.md
+  - explore/vsm-outer-recurrence.md
 depends-on: []
 created: 2026-06-06
 session: 193
@@ -17,6 +18,12 @@ session: 193
 > Can a lambda expression stop an LLM? Yes — when lambda is in the
 > execution frame, not the description frame. And if we can halt,
 > we can continue. Continuations make LLMs programmable.
+>
+> **See also (s214):** `explore/vsm-outer-recurrence.md` — the *intra-forward*
+> dual of this page's *inter-turn* unbounded computation: an outer loop over
+> the shared VSM tensor that halts at fixed-point (WHNF) instead of at EOS.
+> "36 layers bounded → multi-turn unbounded" becomes "1 sweep bounded →
+> K sweeps (to normal form) unbounded."
 
 ## The Question
 

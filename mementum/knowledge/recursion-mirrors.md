@@ -3,7 +3,7 @@ title: "Recursion Mirrors — Ternary Depth for Sequential Computation"
 status: designing
 category: architecture
 tags: [recursion, mirrors, ternary, depth, Y-combinator, cycles, variable-depth]
-related: [crystal-native-architecture.md, extraction-sign-accuracy.md, holographic-computer.md]
+related: [crystal-native-architecture.md, extraction-sign-accuracy.md, holographic-computer.md, explore/vsm-outer-recurrence.md]
 depends-on: [crystal-native-architecture.md, extraction-sign-accuracy.md]
 created: session 173
 ---
@@ -15,6 +15,11 @@ created: session 173
 > each application of f needs its own reduction step. Ternary mirrors
 > can add reduction depth without adding layers, by storing multiple
 > programs per layer position and executing them sequentially.
+>
+> **See also (s214):** `explore/vsm-outer-recurrence.md` — the complementary
+> *whole-tensor outer loop* (re-run the one shared VSM sweep K times, +0%
+> storage) vs this page's per-step *separate plates* (+19% storage). Together:
+> program-variety × reduction-depth, a 2-D compute grid over fixed params.
 
 ## The Problem
 
