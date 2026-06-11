@@ -380,10 +380,12 @@ def compute_decomposed_gradients(
 ) -> tuple[
     list[tuple[str, mx.array, mx.array, mx.array, bool]],
     dict[str, mx.array],
+    dict[str, tuple[mx.array, mx.array]],
 ]:
     delta_modules = collect_delta_params(model)
     td_inputs = []
     gamma_filters = {}
+    curvature_info: dict[str, tuple[mx.array, mx.array]] = {}
     attn_modules = _attention_delta_modules(delta_modules)
     attn_paths = {path for path, _ in attn_modules}
     flat_grads = dict(tree_flatten(grads))
@@ -420,7 +422,16 @@ def compute_decomposed_gradients(
         calibration_frac = 1.0 - routing_frac
         gamma_filters[gamma_key] = calibration_frac
 
-    return td_inputs, gamma_filters
+        # Curvature inputs for exact-ΔL acceptance (session 213):
+        # per-row scale γ and per-column input energy E[x_j²]. Both are
+        # layer-local statistics already cached on the forward pass.
+        if hasattr(dtl, "_x_sq_mean"):
+            x_sq_mean = dtl._x_sq_mean
+        else:
+            x_sq_mean = mx.ones((dtl.in_features,))
+        curvature_info[path] = (dtl.gamma, x_sq_mean)
+
+    return td_inputs, gamma_filters, curvature_info
 
 
 def filter_gamma_grads(
@@ -536,7 +547,16 @@ def train_td(
         beta1=args.td_beta1,
         beta2=args.td_beta2,
         flip_interval=args.td_flip_interval,
+        acceptance=args.td_acceptance,
+        curvature_scale=args.td_curvature_scale,
+        no_s2=args.td_no_s2,
     )
+    print(f"  TD acceptance: {args.td_acceptance}"
+          + (f" (curvature_scale={args.td_curvature_scale})"
+             if args.td_acceptance == "exact" else "")
+          + ("  [S2 anti-oscillation: DISABLED]" if args.td_no_s2
+             else "  [S2: on]"),
+          file=sys.stderr)
 
     # ── KD setup ───────────────────────────────────────────────
     teacher_loader = None
@@ -798,7 +818,7 @@ def train_td(
             accum_grads = tree_map(lambda g: g * s, accum_grads)
 
         # ── Decompose: routing → TD, calibration → Adam ────────
-        td_inputs, gamma_filters = compute_decomposed_gradients(model, accum_grads)
+        td_inputs, gamma_filters, curvature_info = compute_decomposed_gradients(model, accum_grads)
         filtered_grads = filter_gamma_grads(accum_grads, gamma_filters) if args.decompose_gradient else accum_grads
 
         # ── Adam step ───────────────────────────────────────────
@@ -818,7 +838,10 @@ def train_td(
 
         # ── TernaryDescent ─────────────────────────────────────
         if td_active:
-            td_result = td.step(td_inputs, training_step=step, hot_fracs=_cached_hot_fracs)
+            td_result = td.step(
+                td_inputs, training_step=step, hot_fracs=_cached_hot_fracs,
+                curvature_info=(curvature_info if args.td_acceptance == "exact" else None),
+            )
         else:
             td_result = {"total_flips": 0, "in_warmup": True, "per_module": {}}
 
@@ -890,9 +913,17 @@ def train_td(
             etch_modules = td_result.get("etch_active_modules", "")
             etch_slot = td_result.get("etch_slot_size", "")
             etch_str = f" etch={etch_modules}×{etch_slot}" if etch_modules else ""
+            exact_str = ""
+            if "exact_n_proxy" in td_result:
+                exact_str = (
+                    f" veto={td_result['exact_n_veto']}/{td_result['exact_n_proxy']}"
+                    f"({td_result['exact_veto_frac']:.2f})"
+                    f" lin/curv={td_result['exact_lin_mean']:.2e}/"
+                    f"{td_result['exact_curv_mean']:.2e}"
+                )
             td_str = (
                 f" {gate_icon} td={td_flips_this_window}"
-                f" Δ={avg_changed:.3f}{etch_str}{nb_str}{adam_decay_str}"
+                f" Δ={avg_changed:.3f}{etch_str}{nb_str}{adam_decay_str}{exact_str}"
             )
 
             print(
@@ -942,6 +973,13 @@ def train_td(
                 record["parity"] = parity_val
             if cross_zone_val is not None:
                 record["cross_zone"] = cross_zone_val
+
+            # Exact-ΔL acceptance diagnostics (session 213)
+            if "exact_n_proxy" in td_result:
+                for _k in ("exact_n_accept", "exact_n_proxy", "exact_n_veto",
+                           "exact_veto_frac", "exact_lin_mean", "exact_curv_mean"):
+                    if _k in td_result:
+                        record[_k] = td_result[_k]
 
             if step % (cfg.log_interval * 4) == 0:
                 for path, ds in delta_stats_all.items():
@@ -1178,6 +1216,18 @@ if __name__ == "__main__":
     parser.add_argument("--td-min-confidence", type=float, default=0.3)
     parser.add_argument("--td-beta1", type=float, default=0.9)
     parser.add_argument("--td-beta2", type=float, default=0.999)
+    # Acceptance rule (session 213): "proxy" = gradient SNR (original);
+    # "exact" = curvature-aware 3-way ΔL argmin (OBQ/GPTQ).
+    parser.add_argument("--td-acceptance", choices=["proxy", "exact"],
+                        default="proxy")
+    parser.add_argument("--td-curvature-scale", type=float, default=1.0,
+                        help="λ on the exact-ΔL curvature term (absorbs the "
+                             "unknown downstream output-curvature; λ=1 ≡ "
+                             "layer-local reconstruction assumption)")
+    parser.add_argument("--td-no-s2", action="store_true",
+                        help="disable the S2 anti-oscillation stack (cooldown/"
+                             "backoff + neighbor SNR smoothing). Tests whether "
+                             "exact-ΔL monotonicity removes the need for S2.")
 
     # Delta architecture
     parser.add_argument("--convert-ffn", action="store_true")
@@ -1216,7 +1266,15 @@ if __name__ == "__main__":
     parser.add_argument("--mix-ratio", type=float, default=0.1)
     parser.add_argument("--structured-warmup-steps", type=int, default=50)
 
+    # Determinism: seed model float init (beams/gamma/norms) so A/B runs that
+    # differ only in TD acceptance share an identical starting point.
+    parser.add_argument("--seed", type=int, default=42)
+
     args = parser.parse_args()
+
+    # Seed BEFORE model creation (random float init happens there).
+    mx.random.seed(args.seed)
+    np.random.seed(args.seed)
 
     # ── Build config ───────────────────────────────────────────
     cfg = V15Config()

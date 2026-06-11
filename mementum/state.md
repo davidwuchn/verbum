@@ -2,9 +2,18 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-10 | Session: 213 (NEW EXPLORATION TARGET — exact ternary
-> fitting: 3-way ΔL acceptance beats TD's gradient proxy; curvature term decisive;
-> monotone/no-oscillation when coordinate-wise + compensation; "0" self-places)
+> Last updated: 2026-06-11 | Session: 214 (WIRED exact-ΔL acceptance into v15 TD +
+> ran a 4-arm A/B: λ=1 LOSES (over-vetoes 93%), but CALIBRATED **λ=0.1 BEATS the
+> proxy** on both total loss (−0.025) and CE (−0.116); and **exact's monotonicity
+> is self-stabilizing — removing the S2 cooldown stack LOWERS oscillation
+> (0.012→0.004) and gives the BEST CE of all arms (8.539)**, partial-yes to s213's
+> "does exact remove the need for S2?". Caveat: no-S2 best CE but worse TOTAL loss
+> (crystal/parity want S2). Best overall = exact λ0.1+S2. Single seed/250 steps.
+> Register: functional.)
+>
+> (Session 213: NEW EXPLORATION TARGET — exact ternary fitting: 3-way ΔL acceptance
+> beats TD's gradient proxy; curvature term decisive; monotone/no-oscillation when
+> coordinate-wise + compensation; "0" self-places — micro model, vs BARE proxy)
 >
 > (Session 212: two pieces — #12f scale ext: topology share PLATEAUS not →1.0;
 > + universal axis NAMED (CV-R²=0.81, model-free ends_punct) — both DONE)
@@ -16,6 +25,57 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 214 HEADLINE — EXACT-ΔL ACCEPTANCE WIRED INTO v15 TD; A/B says it
+> works but doesn't (yet) help at λ=1.** Register: **functional** (declared up
+> front — does the curvature-aware acceptance reduce real v15 training loss /
+> improve flip monotonicity vs the gradient proxy). Took the s213 marked NEXT.
+> - **What was built** (all in `scripts/v15/{td_delta.py,train_td.py}`):
+>   (1) `DeltaTernaryLinear.__call__` now caches `_x_sq_mean` (per-column E[x²]);
+>   (2) `TernaryDescent` gained `acceptance∈{proxy,exact}` + `curvature_scale λ`
+>   and an exact branch in `step()`: for each candidate it evaluates the closed-form
+>   ΔL(v)=g·Δe + λ·γ²·E[x²]·Δe² over allowed {−1,0,+1}, accepts only the improving
+>   argmin, ranks by −ΔL; SNR kept as the cheap *proposal* gate; applies best_v
+>   directly (so "0" can self-place on block modules). (3) `compute_decomposed_gradients`
+>   gathers curvature_info; CLI `--td-acceptance/--td-curvature-scale`; per-step
+>   veto/lin/curv diagnostics in the log + jsonl. (4) Added `--seed` (mx+np) so A/B
+>   arms share identical float init. Synthetic + end-to-end smokes passed.
+> - **A/B (identical seeded init, 250 steps, seq256, only acceptance differs):**
+>   proxy final avg50 **8.97** / CE **8.71** vs exact-λ1 **9.54 / 9.04** →
+>   **exact LOSES by +0.575 loss / +0.33 CE.** Mechanically fine (568→9.1, no NaN,
+>   no-block held). Two diagnosed causes: **(a) λ=1 over-vetoes 93%** — curvature
+>   (curv·Δe² ~3.0e-3) ≈10× the linear term (~2.9e-4) because γ²E[x²] is a
+>   *layer-reconstruction* curvature, miscalibrated to the *global CE+crystal* loss
+>   actually optimized → kills useful flips (1.07M vs 1.37M, fewer active modules);
+>   **(b) no headroom** — proxy osc frac already **0.000** (the S2 cooldown/backoff
+>   stack already suppresses oscillation), so exact's monotonicity is redundant
+>   here. Exactly the s213 caveat: the micro win was vs a BARE proxy; deployed TD
+>   has S2 doing that job.
+> - **Artifacts:** harness `scripts/experiments/compare_td_acceptance.py`; results
+>   `results/ternary-exact-td-ab/comparison.json`; runs
+>   `checkpoints/v15-td-ab-{proxy,exact}` (+logs `/tmp/v15_ab_*.log`).
+> - **▶ 4-ARM A/B COMPLETE** (identical seeded init, 250 steps, seq256, only the
+>   acceptance rule differs; `--td-acceptance/--td-curvature-scale/--td-no-s2` added):
+>   | arm | avg50↓ | CE↓ | flips | veto | osc |
+>   |---|---|---|---|---|---|
+>   | proxy+S2 (base) | 8.966 | 8.706 | 1.37M | — | 0.000 |
+>   | exact λ1+S2 | 9.541 | 9.036 | 1.07M | .93 | .008 |
+>   | **exact λ0.1+S2** | **8.940** | **8.590** | 1.20M | .63 | .012 |
+>   | exact λ0.1 no-S2 | 9.104 | **8.539** | 1.21M | .59 | **.004** |
+>   **(1)** calibrated exact BEATS proxy (λ1 just over-vetoed); **(2)** exact is
+>   self-stabilizing — no-S2 *lowers* osc (.012→.004) + best CE → S2 cooldown is
+>   redundant/slightly-counterproductive under exact (s213 hypothesis = partial
+>   yes); **caveat** no-S2 best CE but worse TOTAL (crystal/parity want S2).
+>   Artifacts: `scripts/experiments/compare_td_acceptance.py`,
+>   `results/ternary-exact-td-ab{,-lam01,-nos2}/comparison.json`, ckpts
+>   `checkpoints/v15-td-ab-{proxy,exact,exact-lam0.1,exact-nos2-lam0.1}`.
+> - **▶ NEXT:** finer λ sweep (0.05/0.2) for the optimum; understand the no-S2
+>   crystal-loss degradation (does S2 smoothing aid crystal coherence?); a longer
+>   + larger-seq + multi-seed confirm of the small λ0.1+S2 win (+ downstream-PPL,
+>   functional); then write the verdict into `explore/exact-ternary-fitting.md`
+>   "Where this points". Also queued: the s214 **VSM outer-recurrence** idea
+>   (`explore/vsm-outer-recurrence.md`, committed b068c6d) — `--n-outer-passes K`
+>   probe, watch the per-iteration Δx fixed-point curve. **Declare register first.**
 
 > **▶ SESSION 213 HEADLINE — NEW EXPLORATION TARGET: EXACT TERNARY FITTING.**
 > Register: functional (declared up front — layer-local reconstruction loss under

@@ -400,6 +400,9 @@ class TernaryDescent:
         cooldown_backoff: float = 2.0,
         neighbor_width: int = 3,
         flip_interval: int = 20,
+        acceptance: str = "proxy",
+        curvature_scale: float = 1.0,
+        no_s2: bool = False,
     ):
         """Initialize TernaryDescent.
 
@@ -443,6 +446,29 @@ class TernaryDescent:
         self.cooldown_backoff = cooldown_backoff
         self.neighbor_width = neighbor_width
         self.flip_interval = flip_interval
+        # ── Acceptance rule (session 213) ─────────────────────
+        # "proxy": rank/accept flips by gradient SNR (the original rule —
+        #          a first-order proxy that overshoots on ternary's large step
+        #          and is non-monotone, the s191 oscillation wall).
+        # "exact": curvature-aware OBQ/GPTQ-style acceptance. For each candidate
+        #          evaluate the exact layer-local ΔL for all allowed ternary
+        #          values and accept only the improving argmin. The linear term
+        #          is the gradient the proxy already uses; the curvature term
+        #          (γ_i²·E[x_j²]·Δe²) is what the proxy throws away. Monotone by
+        #          construction. SNR is kept only as the cheap *proposal* gate.
+        assert acceptance in ("proxy", "exact"), f"unknown acceptance: {acceptance}"
+        self.acceptance = acceptance
+        self.curvature_scale = curvature_scale  # λ on the curvature term (absorbs
+        # the unknown downstream output-curvature h_i; λ=1 ≡ reconstruction)
+        # ── S2 anti-oscillation stack toggle (session 214) ────
+        # When True, disables the in-optimizer anti-oscillation machinery:
+        # the per-position cooldown/backoff factor AND the neighbor-width SNR
+        # median smoothing. Used to test the session-213 hypothesis: does
+        # monotone exact-ΔL acceptance *remove the need* for the S2 stack?
+        # (cooldown→1, smoothing→identity; ranking becomes pure −ΔL in exact.)
+        self.no_s2 = no_s2
+        # Last-step exact-ΔL diagnostics (populated only in exact mode).
+        self.last_exact_diag: dict[str, Any] = {}
         assert neighbor_width % 2 == 1, "neighbor_width must be odd for tie-breaking"
         assert flip_interval >= 1, "flip_interval must be ≥1"
         self.step_count = 0
@@ -628,11 +654,45 @@ class TernaryDescent:
         sorted_windows = mx.sort(windows, axis=-1)
         return sorted_windows[:, :, pad]  # middle element = median
 
+    def _aggregate_exact_diag(self, module_candidates: list[dict]) -> dict[str, Any]:
+        """Aggregate per-module exact-ΔL diagnostics into scalars.
+
+        Returns {} unless exact mode produced diagnostics this flip step.
+        """
+        if self.acceptance != "exact":
+            return {}
+        n_accept = n_proxy = n_veto = 0
+        lin_acc = curv_acc = 0.0
+        n_mods = 0
+        for mc in module_candidates:
+            d = mc.get("exact_diag")
+            if d is None:
+                continue
+            n_mods += 1
+            n_accept += d["n_accept"]
+            n_proxy += d["n_proxy"]
+            n_veto += d["n_veto"]
+            lin_acc += d["lin_mean"]
+            curv_acc += d["curv_mean"]
+        if n_mods == 0:
+            return {}
+        agg = {
+            "exact_n_accept": n_accept,
+            "exact_n_proxy": n_proxy,
+            "exact_n_veto": n_veto,
+            "exact_veto_frac": n_veto / max(n_proxy, 1),
+            "exact_lin_mean": lin_acc / n_mods,
+            "exact_curv_mean": curv_acc / n_mods,
+        }
+        self.last_exact_diag = agg
+        return agg
+
     def step(
         self,
         delta_params: list[tuple[str, mx.array, mx.array, mx.array, bool]],
         training_step: int | None = None,
         hot_fracs: dict[str, float] | None = None,
+        curvature_info: dict[str, tuple[mx.array, mx.array]] | None = None,
     ) -> dict[str, Any]:
         """Perform one TernaryDescent step across all delta plates.
 
@@ -742,9 +802,16 @@ class TernaryDescent:
             snr = mx.abs(dir_corrected) / (mx.sqrt(mag_corrected) + 1e-8)
             importance = mx.sqrt(mag_corrected)
 
-            # Three-voter anti-oscillation
-            cooldown = self._compute_cooldown(name, grad_effective.shape)
-            smoothed_snr = self._row_median_smooth(snr, self.neighbor_width)
+            # Three-voter anti-oscillation (the S2 stack).
+            # --td-no-s2 strips it: cooldown→1, smoothing→identity, so the
+            # only thing standing between a candidate and a flip is the
+            # acceptance rule itself (exact-ΔL monotonicity, or bare SNR).
+            if self.no_s2:
+                cooldown = mx.array(1.0)
+                smoothed_snr = snr
+            else:
+                cooldown = self._compute_cooldown(name, grad_effective.shape)
+                smoothed_snr = self._row_median_smooth(snr, self.neighbor_width)
             score = smoothed_snr * importance * cooldown
 
             # Minimum confidence gate
@@ -776,6 +843,65 @@ class TernaryDescent:
             candidates = confident & can_move
             candidate_scores = mx.where(candidates, score, mx.array(0.0))
 
+            # ── Exact-ΔL acceptance (session 213) ──────────────
+            # Replace the gradient-proxy acceptance with the curvature-aware
+            # OBQ/GPTQ rule: evaluate the exact layer-local ΔL for every
+            # allowed ternary value and accept only the improving argmin.
+            #   ΔL(v) = g·Δe + λ·γ_i²·E[x_j²]·Δe²
+            #            └ linear (the proxy) ┘ └─── curvature (the missing piece) ───┘
+            # where Δe = base·(v − delta) is the change in the *effective* weight.
+            # SNR stays only as the cheap proposal gate (`confident`); the
+            # curvature term vetoes the overshooting flips the proxy makes.
+            best_v_delta = None
+            exact_diag = None
+            if (
+                self.acceptance == "exact"
+                and curvature_info is not None
+                and name in curvature_info
+            ):
+                gamma_vec, x_sq_vec = curvature_info[name]   # (d_out,), (d_in,)
+                g_lin = dir_corrected                        # ∂L/∂effective (EMA)
+                curv = (
+                    self.curvature_scale
+                    * mx.expand_dims(gamma_vec * gamma_vec, axis=-1)
+                    * mx.expand_dims(x_sq_vec, axis=0)
+                )                                            # (d_out, d_in) ≥ 0
+                allowed = (-1.0, 1.0) if no_block else (-1.0, 0.0, 1.0)
+                best_v_delta = delta_float                   # default: stay (ΔL = 0)
+                best_delta_L = mx.zeros_like(g_lin)
+                for v in allowed:
+                    de = base_float * (v - delta_float)      # change in effective
+                    dL = g_lin * de + curv * (de * de)
+                    take = dL < best_delta_L
+                    best_delta_L = mx.where(take, dL, best_delta_L)
+                    best_v_delta = mx.where(
+                        take, mx.full(best_v_delta.shape, v, dtype=mx.float32),
+                        best_v_delta,
+                    )
+                improving = best_delta_L < -1e-12
+                moves = best_v_delta != delta_float
+                candidates = confident & improving & moves & (base_float != 0)
+                # Rank by improvement magnitude (−ΔL), gently cooled.
+                candidate_scores = mx.where(
+                    candidates, (-best_delta_L) * cooldown, mx.array(0.0)
+                )
+                # Diagnostics: how much the curvature term bites.
+                proxy_would_flip = confident & can_move
+                vetoed = proxy_would_flip & mx.logical_not(improving)
+                exact_diag = {
+                    "n_accept": int(candidates.sum().item()),
+                    "n_proxy": int(proxy_would_flip.sum().item()),
+                    "n_veto": int(vetoed.sum().item()),
+                    "lin_mean": float(
+                        mx.mean(mx.where(proxy_would_flip, mx.abs(g_lin),
+                                         mx.array(0.0))).item()
+                    ),
+                    "curv_mean": float(
+                        mx.mean(mx.where(proxy_would_flip, curv * 4.0,
+                                         mx.array(0.0))).item()
+                    ),
+                }
+
             # ── Shaped nozzle: DISABLED (session 165) ──────────
             # With holographic etch, every active module gets an equal
             # thin slot. The nozzle weight was a per-module scalar that
@@ -803,6 +929,8 @@ class TernaryDescent:
                 "snr": snr,
                 "direction": direction,
                 "magnitude": magnitude,
+                "best_v_delta": best_v_delta,   # exact-ΔL target (None ≡ proxy)
+                "exact_diag": exact_diag,        # per-module curvature diagnostics
             })
 
         # ── Budget allocation: holographic etch (session 165) ──────
@@ -852,12 +980,15 @@ class TernaryDescent:
                     "candidates_mask": mc["candidates"],
                 }
             self.last_n_flips = 0
+            # Even with zero accepted flips, the exact diagnostics are
+            # informative (everything was curvature-vetoed → λ too high).
             return {
                 "step": self.step_count,
                 "total_flips": 0,
                 "in_warmup": False,
                 "is_flip_step": True,
                 "per_module": per_module,
+                **self._aggregate_exact_diag(module_candidates),
             }
 
         effective_budget = min(global_budget, total_candidates)
@@ -878,6 +1009,7 @@ class TernaryDescent:
             delta_float = mc["delta_float"]
             no_block = mc["no_block"]
             snr = mc["snr"]
+            best_v_delta = mc["best_v_delta"]
 
             n_cands = module_n_candidates[i]
             if n_cands == 0:
@@ -919,7 +1051,16 @@ class TernaryDescent:
                 continue
 
             # Compute new values
-            if no_block:
+            if best_v_delta is not None:
+                # Exact-ΔL: apply the curvature-chosen argmin value directly.
+                # best_v_delta already respects the allowed set (no_block ⇒ ±1
+                # only; block ⇒ {−1,0,+1}, so the "0" self-places where ΔL says).
+                new_delta = mx.where(
+                    flip_mask,
+                    best_v_delta.astype(mx.int8),
+                    delta_unpacked,
+                )
+            elif no_block:
                 new_delta = mx.where(
                     flip_mask,
                     (-delta_unpacked).astype(mx.int8),
@@ -998,6 +1139,7 @@ class TernaryDescent:
                         self._state[name] = (direction, magnitude)
 
         self.last_n_flips = total_flips
+        exact_diag_agg = self._aggregate_exact_diag(module_candidates)
         return {
             "step": self.step_count,
             "total_flips": total_flips,
@@ -1009,6 +1151,7 @@ class TernaryDescent:
             "etch_slot_size": per_module_slot,
             "etch_global_budget": global_budget,
             "etch_total_candidates": total_candidates,
+            **exact_diag_agg,
         }
 
     def reset_moments(self):
@@ -1156,13 +1299,17 @@ class DeltaTernaryLinear(nn.Module):
             x = self.norm(x)
 
         # Cache input statistics (same as TernaryLinear)
+        # _x_sq_mean = E_n[x_j²] per input column — the per-column input energy
+        # that scales the exact-ΔL curvature term (session 213: γ_i²·‖X[:,j]‖²).
         if x.ndim >= 2:
             reduce_axes = tuple(range(x.ndim - 1))
             self._x_abs_mean = mx.stop_gradient(mx.mean(mx.abs(x), axis=reduce_axes))
             self._x_mean = mx.stop_gradient(mx.mean(x, axis=reduce_axes))
+            self._x_sq_mean = mx.stop_gradient(mx.mean(x * x, axis=reduce_axes))
         else:
             self._x_abs_mean = mx.stop_gradient(mx.abs(x))
             self._x_mean = mx.stop_gradient(x)
+            self._x_sq_mean = mx.stop_gradient(x * x)
 
         # Compute effective plate: base ⊙ delta
         effective = self._compute_effective()
