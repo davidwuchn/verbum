@@ -414,6 +414,79 @@ inputs, train ONLY the early selector, then test NL→NF deployment on held-out
 context. Register: functional. Falsifiable: does generated-from-verified-kernel
 curriculum teach the selector to deploy the kernel it didn't reliably invoke?
 
+## s217 — The REVERSE direction: harvest the open-weight ecosystem's consensus
+
+> Session 217 (Michael): "could we reverse this? Search many open-weight models
+> for their already-found solutions and incorporate all the ones they agree on
+> into our base plate?" Yes — and it may be the most immediately actionable
+> direction, because the consensus already exists.
+
+### Reframe — the ecosystem IS a pre-computed distributed training run
+Forward folding waits for contributors to train deltas. But every open-weight
+model is **already a finished contributor** — a completed GD run that discovered
+normal forms. So instead of soliciting deltas, MINE the population and fold what
+they agree on. The "many independent trainings" the design needs are on
+HuggingFace. Already measured: s216 cross-family routing consensus **+0.863, z up
+to 116** (5 families); `crystal-universality.md` hard crystal **r=0.998** 160M↔32B.
+The s216 5-family harness (`tool_crystal_consensus*.py`) IS the reverse-harvest
+instrument, and `combinator_relationship_map.py` is the per-model reader.
+
+### The hard obstacle — the frame problem (the forward/reverse asymmetry)
+You CANNOT average their raw weights: independently-initialized models live in
+DIFFERENT coordinate frames (cross-init sign-corr **0.000**, `gradient-voting.md`).
+
+```
+forward (deltas over frozen B₀):  ONE shared frame → deltas commensurable → fold trivial
+reverse (finished models):        MANY frames → raw weights unintelligible → must harvest
+                                   in a FRAME-INVARIANT register (relational routing, not weights)
+```
+
+Pipeline:
+```
+∀ open-weight model: measure normal forms in the routing register (RDM/centroids)
+cross-model consensus               (frame-invariant agreement)
+align-before-fold (Procrustes)      (rotate consensus into OUR base's frame)
+verify vs WHNF (self-verifying)     (keep only structure that improves convergence)
+incorporate into base plate as discrete topology
+```
+The **verify step is the differentiator** from model soups / TIES / task-arithmetic
+merging: keep only what demonstrably improves reduction to the fixed point, not
+mere statistical agreement (same discipline as Exp B).
+
+### The honest catch (same as s216, inverted)
+What the population agrees on MOST is the **universal crystal** — already in any
+base. The domain-DISTINCTIVE normal forms have LOW raw cross-model agreement
+(frame-specific, non-unique composition). So naive harvest returns a backbone you
+already have. To extract the valuable domain structure needs the s216
+compositional fix — **align in base-combinator space first** (Procrustes) so a
+function composed *differently* in two models still registers as the same
+function. That composition-invariant alignment is the open, hard piece.
+
+### Complementarity — forward + reverse fill the backbone/content partition
+- **Reverse harvest** seeds the base cheaply with the **universal backbone** the
+  whole ecosystem agrees on (+ shared domain structure, with align-before-fold).
+- **Forward folding** adds the **domain-specific deltas** that only appear when
+  contributors train on data the base does not yet cover.
+
+Same consensus-etch operator; only the population changes (finished models vs live
+trainers). Dead-on the project identity (`AGENTS.md` λ extract: "we find, we don't
+build; gradient descent discovered it first; our work is instrumentation") — the
+base plate becomes a **distillation of the entire open-weight ecosystem's
+consensus**, read out of models that already paid the training cost.
+
+### Load-bearing unknowns (both already on the board)
+1. Does **WHNF-verification** keep real structure and reject frame noise? (Exp B,
+   running now.)
+2. Does **composition-invariant alignment** (Procrustes in base-combinator space)
+   recover the domain normal forms the raw cross-model RDM misses? (s216 lead.)
+
+### Next experiment (register: topological/routing → functional)
+**Reverse-harvest pilot:** run `combinator_relationship_map.py` across N open-weight
+models, take the routing-register consensus, Procrustes-align into our base frame,
+WHNF-verify each candidate against the contractive operator, incorporate the
+survivors, and measure downstream PPL vs the base. Falsifiable: does verified
+ecosystem-consensus add anything beyond the universal crystal we already hold?
+
 ## Files
 
 | File | Content |

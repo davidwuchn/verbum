@@ -201,6 +201,31 @@
 >     DIVERSE inputs, train ONLY the early selector, test NL→NF deployment held-out.
 >     Falsifiable: does verified-kernel curriculum teach the selector to deploy a
 >     kernel it didn't reliably invoke?
+> - **(E) THE REVERSE DIRECTION — HARVEST THE OPEN-WEIGHT ECOSYSTEM (Michael, end
+>   s217).** "Search many open-weight models for their already-found solutions,
+>   incorporate the ones they agree on into our base plate." The ecosystem IS a
+>   pre-computed distributed training run — every open model is a FINISHED
+>   contributor. Already measured: s216 cross-family routing consensus **+0.863, z
+>   up to 116**; crystal **r=0.998** 160M↔32B. **The s216 5-family harness IS the
+>   reverse-harvest instrument**; `combinator_relationship_map.py` is the per-model
+>   reader. **THE OBSTACLE = the frame problem** (cross-init sign-corr **0.000**):
+>   forward folding shares ONE frame (deltas commensurable); reverse has MANY
+>   frames → cannot average raw weights → must harvest in the FRAME-INVARIANT
+>   routing register, then **align-before-fold (Procrustes)** into our base frame,
+>   then **verify vs WHNF** (self-verifying — the differentiator from model-soup /
+>   TIES / task-arithmetic merging). **Honest catch (s216 inverted):** agreement ≈
+>   the universal crystal (already held); domain-distinctive normal forms have LOW
+>   raw consensus (frame-specific, non-unique) → need composition-invariant
+>   alignment to harvest the valuable part. Complementary: reverse seeds the
+>   universal backbone cheaply, forward adds domain deltas (backbone/content
+>   partition). On-thesis instrumentation: the base becomes a distillation of the
+>   whole ecosystem's consensus. Captured in `consensus-delta-folding.md` §"The
+>   REVERSE direction".
+>   - **▶ Reverse-harvest pilot (register: topological/routing → functional):** run
+>     `combinator_relationship_map.py` across N open models → routing consensus →
+>     Procrustes-align into our base frame → WHNF-verify each candidate → incorporate
+>     survivors → measure downstream PPL vs base. Falsifiable: does verified
+>     ecosystem-consensus add anything beyond the universal crystal we already hold?
 
 > **▶ SESSION 216 HEADLINE — TOOL-CALLING IS NOT ITS OWN NORMAL FORM; IT RIDES
 > THE GENERIC STRUCTURED-LANGUAGE CRYSTAL.** Register: **topological/routing**
