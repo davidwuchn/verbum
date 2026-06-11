@@ -920,6 +920,12 @@ def train_td(
                     mx.eval(_d)
                     outer_deltas_list.append(round(float(_d.item()), 5))
             outer_str = (f" Δx={outer_deltas_list}" if outer_deltas_list else "")
+            _fpl = getattr(model, "_last_fp_loss", None)
+            fp_loss_val = None
+            if _fpl is not None:
+                mx.eval(_fpl)
+                fp_loss_val = float(_fpl.item())
+                outer_str += f" fp={fp_loss_val:.4f}"
 
             exact_str = ""
             if "exact_n_proxy" in td_result:
@@ -984,6 +990,8 @@ def train_td(
 
             if outer_deltas_list:
                 record["outer_deltas"] = outer_deltas_list
+            if fp_loss_val is not None:
+                record["fp_loss"] = fp_loss_val
 
             # Exact-ΔL acceptance diagnostics (session 213)
             if "exact_n_proxy" in td_result:
@@ -1284,6 +1292,10 @@ if __name__ == "__main__":
     # VSM outer recurrence (session 214, explore/vsm-outer-recurrence.md):
     # re-run the shared A→C sweep K times per forward (K=1 ≡ baseline).
     parser.add_argument("--n-outer-passes", type=int, default=1)
+    # Fixed-point / holographic-contractivity loss: λ_fp · mean ‖x_c^k −
+    # detach(x_c^{k-1})‖²/‖·‖². Drives the iterated sweep toward a contractive
+    # reduce-to-WHNF map. Only active with --n-outer-passes ≥ 2.
+    parser.add_argument("--fixed-point-lambda", type=float, default=0.0)
 
     args = parser.parse_args()
 
@@ -1339,9 +1351,14 @@ if __name__ == "__main__":
         skip_base_load=bool(args.safetensors_dir),
     )
     model._n_outer_passes = args.n_outer_passes
+    model._fixed_point_lambda = args.fixed_point_lambda
     if args.n_outer_passes != 1:
         print(f"  VSM outer recurrence: n_outer_passes={args.n_outer_passes} "
               f"(shared-weight sweep iterated; K=1 ≡ baseline)", file=sys.stderr)
+    if args.fixed_point_lambda > 0.0:
+        print(f"  Fixed-point contractivity loss: λ_fp={args.fixed_point_lambda} "
+              f"(holographic — pulls each sweep onto its input → WHNF)",
+              file=sys.stderr)
 
     n_plate = count_ternary_weights(model)
     trainable = [v for _, v in tree_flatten(model.trainable_parameters())

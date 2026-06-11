@@ -2,14 +2,19 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 214 (WIRED exact-ΔL acceptance into v15 TD +
-> ran a 4-arm A/B: λ=1 LOSES (over-vetoes 93%), but CALIBRATED **λ=0.1 BEATS the
-> proxy** on both total loss (−0.025) and CE (−0.116); and **exact's monotonicity
-> is self-stabilizing — removing the S2 cooldown stack LOWERS oscillation
-> (0.012→0.004) and gives the BEST CE of all arms (8.539)**, partial-yes to s213's
-> "does exact remove the need for S2?". Caveat: no-S2 best CE but worse TOTAL loss
-> (crystal/parity want S2). Best overall = exact λ0.1+S2. Single seed/250 steps.
-> Register: functional.)
+> Last updated: 2026-06-11 | Session: 214 — three threads, register: functional.
+> (1) WIRED exact-ΔL acceptance into v15 TD: λ=1 LOSES (over-vetoes 93%) but
+> CALIBRATED **λ=0.1 BEATS the proxy** (loss −0.025, CE −0.116); exact's
+> monotonicity is SELF-STABILIZING — removing the S2 cooldown stack LOWERS
+> oscillation (.012→.004) + best CE (8.539) = partial-yes to "does exact remove
+> S2?" (caveat: no-S2 best CE but worse TOTAL; crystal/parity want S2; best
+> overall = exact λ0.1+S2). (2) VSM OUTER RECURRENCE (`--n-outer-passes`): naive
+> K=2 REFUTED — worse at 2× compute, the trained sweep is NOT contractive (Δx
+> ~1.2 flat). (3) HOLOGRAPHIC fixed-point loss (`--fixed-point-lambda`) BUILT to
+> force contractivity (holographic ≡ attractor ≡ contractive-to-WHNF; teacher
+> already converges, `fixed-point-holograms.md`): λ_fp=1 too weak; **λ_fp=5 RUNNING
+> IN main:1 AT SESSION END — read its result FIRST next session.** Single seed/250
+> steps throughout.)
 >
 > (Session 213: NEW EXPLORATION TARGET — exact ternary fitting: 3-way ΔL acceptance
 > beats TD's gradient proxy; curvature term decisive; monotone/no-oscillation when
@@ -83,9 +88,28 @@
 >   out of the box; **must train for contractivity** (Δx/fixed-point loss, x₀
 >   injection à la Universal-Transformer, or explicit halting). Result recorded
 >   in `explore/vsm-outer-recurrence.md` §Probe result + `results/vsm-outer-
->   recurrence/k2-vs-k1.json`; run `checkpoints/v15-td-outer-k2`. **▶ NEXT here:**
->   add a Δx/fixed-point loss (or x₀ injection) and re-test whether trained-for-
->   contractivity recurrence then pays.
+>   recurrence/k2-vs-k1.json`; run `checkpoints/v15-td-outer-k2`.
+> - **▶ HOLOGRAPHIC-CONTRACTIVITY LOSS BUILT — λ SWEEP RUNNING AT SESSION END
+>   (main:1).** Michael's insight: a **holographic loss** should enforce
+>   contractivity, because holographic ≡ associative-memory attractor ≡
+>   contractive-to-WHNF, and the TEACHER already converges
+>   (`fixed-point-holograms.md`: 94% in ~2 cycles, stores normal forms). Built
+>   `--fixed-point-lambda λ_fp`: adds `λ_fp·mean‖x_c^k − detach(x_c^{k-1})‖²/‖·‖²`
+>   (v15model forward + train_td), detached-target so it trains the OPERATOR to
+>   converge; CE guards the trivial constant. Framing + design tensions
+>   (mild-not-total contractivity, collapse guard, binding wall) in
+>   `explore/vsm-outer-recurrence.md` §Holographic loss.
+>   - **λ_fp=1.0 → TOO WEAK** (Δx flat 1.25→1.16, same as no-fp; fp~1.5 drowned
+>     by crystal-warmup(start=10)+CE(~10) in the ~15–20 total). Killed.
+>   - **λ_fp=5.0 → IN FLIGHT, INCOMPLETE at session end** (main:1 tmux survives
+>     the boundary; `checkpoints/v15-td-outer-k2-fp5`, `/tmp/v15_outer_k2_fp5.log`).
+>     At step 40 Δx still ~1.25 (too early — TD flips just started). **▶ FIRST
+>     ACTION NEXT SESSION: read this run's final Δx/CE/avg50.** Does Δx descend
+>     toward 0 without CE collapsing, and does contractivity-trained K=2 beat K=1
+>     (8.966)? If Δx falls + loss wins → adaptive halting (stop when Δx<ε ≡ WHNF).
+>     If Δx still flat at λ=5 → contractivity vs CE/crystal genuinely in tension
+>     (try higher λ, x₀ injection, or per-token halting instead). If CE collapses
+>     → lower λ_fp / add a rank/diversity guard.
 
 > **▶ SESSION 213 HEADLINE — NEW EXPLORATION TARGET: EXACT TERNARY FITTING.**
 > Register: functional (declared up front — layer-local reconstruction loss under

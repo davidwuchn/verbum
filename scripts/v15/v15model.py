@@ -310,7 +310,8 @@ class V15Model(nn.Module):
         n_outer = int(getattr(self, "_n_outer_passes", 1))
         x_in = x
         prev_xc = None
-        outer_deltas = []
+        outer_deltas = []   # stop-grad relative Δx (logging / fixed-point curve)
+        fp_terms = []       # DIFFERENTIABLE squared relative Δx (contractivity loss)
         for _k in range(n_outer):
             x_a, alg_a, deltas_a, gates_a = self.stack_a(x_in, downstream_alg=alg_for_a)
             x_c, alg_c, deltas_c, gates_c = self.stack_c(x_a)
@@ -318,9 +319,31 @@ class V15Model(nn.Module):
                 d = mx.sqrt(mx.mean((x_c - prev_xc) ** 2))
                 nrm = mx.sqrt(mx.mean(prev_xc ** 2)) + 1e-8
                 outer_deltas.append(mx.stop_gradient(d / nrm))
+                # Fixed-point / holographic-contractivity loss (s214): pull each
+                # sweep's output onto its (detached) input → x_c becomes a fixed
+                # point of the sweep → the iterated map is contractive toward the
+                # stored crystal pattern (WHNF). Target detached so the gradient
+                # trains the operator to converge, not the state to flee; CE on
+                # the final x_c guards against the trivial constant fixed point.
+                tgt = mx.stop_gradient(prev_xc)
+                fp_terms.append(
+                    mx.mean((x_c - tgt) ** 2) / (mx.mean(tgt ** 2) + 1e-8)
+                )
             prev_xc = x_c
             x_in = x_c
         self._last_outer_deltas = outer_deltas
+
+        # Aggregate the differentiable fixed-point term (None when n_outer<2).
+        if fp_terms:
+            fp_term = fp_terms[0]
+            for t in fp_terms[1:]:
+                fp_term = fp_term + t
+            fp_term = fp_term / len(fp_terms)
+        else:
+            fp_term = None
+        self._fp_term = fp_term
+        self._last_fp_loss = (mx.stop_gradient(fp_term)
+                              if fp_term is not None else None)
 
         # Collect all pass deltas (4+4 = 8 total)
         all_deltas = deltas_a + deltas_c
@@ -388,6 +411,11 @@ class V15Model(nn.Module):
                 regulation, alarm_level, x_out,
                 x_embed=x_embed, x_a=x_a, x_c=x_c,
             )
+            # Fixed-point / holographic-contractivity term (s214). Only active
+            # with outer recurrence (n_outer≥2) and λ_fp>0.
+            lambda_fp = float(getattr(self, "_fixed_point_lambda", 0.0))
+            if self._fp_term is not None and lambda_fp > 0.0:
+                loss = loss + lambda_fp * self._fp_term
 
         # ── Diagnostics cache ──────────────────────────────────
         self._last_regulation = mx.stop_gradient(regulation)

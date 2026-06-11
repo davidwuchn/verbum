@@ -11,6 +11,8 @@ related:
   - td-oscillation-problem.md
   - two-registers-of-topology.md
   - crystal-native-architecture.md
+  - explore/fixed-point-holograms.md
+  - explore/crystal-basins.md
   - explore/vsm-lm-architecture.md
   - explore/VERBUM.md
 depends-on:
@@ -205,6 +207,67 @@ a fixed-point/Δx loss (penalize `‖x_{k+1}−x_k‖`), x₀ injection (Univers
 Transformer anchoring), or explicit halting. Artifacts: harness flag in
 `scripts/v15/train_td.py` + `v15model.py` forward; result
 `results/vsm-outer-recurrence/k2-vs-k1.json`; run `checkpoints/v15-td-outer-k2`.
+
+## Holographic loss → contractivity (s214 hypothesis, under test)
+
+Michael's follow-on: would a **holographic loss** enforce the contractivity the
+naive probe lacked? The argument that it should — and it is on-thesis:
+
+- **Holographic ≡ associative-memory attractor dynamics ≡ contractive-to-fixed-
+  point.** A hologram (this project's FFN-as-hologram) is a content-addressable
+  memory; its update is descent toward the nearest stored pattern. The stored
+  patterns are the crystal = the **normal forms (WHNF)**. So enforcing
+  holographic structure *is* enforcing "iterating reduces to a fixed point."
+- **The teacher already has this property** (`fixed-point-holograms.md`):
+  iterating compile↔decompile **converges in 94% of inputs, mean 2.0 cycles**,
+  and the hologram **stores normal forms** ("λf.λx.f(x)" → "λx. x", a literal
+  β-reduction). So a contractivity loss *distills a property the teacher
+  demonstrably has* — it is not invented. Our student's sweep simply hasn't
+  inherited it (Δx ~1.2, §Probe result).
+- **The machinery is half-built:** `etch.py`/`model.py` already compute crystal-
+  subspace **coherence = proj_energy/total_energy** (`OFF_MANIFOLD = <10%`).
+  Pulling the sweep output onto the crystal manifold makes re-application a
+  re-projection (P²=P) → Δx → 0.
+
+### The loss being tested (s214, register: functional)
+
+`--fixed-point-lambda λ_fp` adds, for outer recurrence K≥2:
+
+```
+L_fp = mean_k ‖x_c^{(k)} − detach(x_c^{(k-1)})‖² / ‖detach(x_c^{(k-1)})‖²
+loss += λ_fp · L_fp
+```
+
+The target is **detached** so the gradient trains the *operator* to reproduce
+its input (converge), not the state to flee. CE on the final x_c guards the
+trivial constant fixed point.
+
+**λ sweep (s214, in progress):**
+- **λ_fp=1.0 → TOO WEAK.** Δx tracked the *same* ~1.2 flat curve as no-fp
+  (1.25→1.16 over 120 steps), `fp` stuck ~1.5. Diagnosis: the crystal warmup
+  loss (`crystal_direct_lambda_start=10`) + CE (~10) dominate the ~15–20 total,
+  so a +1.5 fp term is drowned. CE healthy (~10, no collapse) → headroom to
+  push λ_fp much harder. (Killed early.)
+- **λ_fp=5.0 → IN FLIGHT** (`checkpoints/v15-td-outer-k2-fp5`,
+  `/tmp/v15_outer_k2_fp5.log`) — fp would contribute ~7.5, comparable to CE, a
+  real test of whether contractivity *can* be enforced (brackets collapse).
+  Verdict pending: does Δx **descend toward 0** without CE collapsing, and does
+  contractivity-trained K=2 then beat K=1 (8.966)? **Read this result first
+  next session.**
+
+### Design tensions (all visible in the prior pages)
+
+- **Mild, not total, contractivity.** A 1-step projection makes K=2 ≡ K=1 and
+  kills the bought depth. Target the *teacher's* dynamic: converge over ~2
+  steps of useful work (mean 2.0 cycles), Lipschitz < 1 but not 0. Reward
+  *eventual* Δx → 0 while CE rewards the intermediate computation.
+- **Collapse risk.** Bare Δx-penalty is gamed by mapping everything to one
+  constant (Δx=0, useless) — the contractive-autoencoder failure. Pair with
+  CE + a rank/diversity guard; crystal/parity/spectral partially cover this.
+- **The binding wall reappears.** `fixed-point-holograms.md`: convergence fails
+  exactly at I-combinator/binding sites (edit distance ∝ binding count). Expect
+  contractivity to work for K/B/C and struggle on I — the project's recurring
+  bottleneck.
 
 ## Open questions
 
