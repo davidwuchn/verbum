@@ -2,7 +2,16 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 216 — NEW THREAD (distributed/consensus
+> Last updated: 2026-06-11 | Session: 217 — combinator FUNCTION-SHAPE map
+> (routing register + CMR, Qwen3-14B) + VSM CONTINUATION tensor-level tests
+> + DISTRIBUTED-TRAINING via continuations (Exp B self-verifying acceptance,
+> IN FLIGHT in main:2). Register: topological/routing (map) + functional
+> (tests, Exp B). **▶ FIRST ACTION NEXT SESSION:** check main:2 / read
+> `results/exp-b-self-verifying/result.json` (see s217 part C below). The λ_fp=5
+> 5000-step run (main:1) kept training UNTOUCHED throughout (step ~340, CE 9.2,
+> Δx 1.23→~0.61, fp→0.37 — continuation is contractive at scale).
+>
+> (Session 216 — NEW THREAD (distributed/consensus
 > training idea, Michael). Built an audit-grade tool-calling normal-form
 > consensus harness (register: topological/routing) + ran 5 families on M3 Ultra
 > (tmux main:2). **❌ "tool-calling has its OWN routing normal form" REFUTED at
@@ -60,6 +69,116 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 217 HEADLINE — THE FUNCTION-LIKE THINGS HAVE A 3-FAMILY SHAPE,
+> VISIBLE ONLY IN THE ROUTING REGISTER; + VSM-CONTINUATION TENSOR TESTS GREEN.**
+> Register: **topological/routing** (the map) + **functional** (the tests).
+> Michael's question: can we understand the *semantic relationships* of the
+> function-like things (the combinators) — is there a map/fold, what is their
+> shape? Two pieces this session.
+> - **(A) Combinator relationship map** (`combinator_relationship_map.py`,
+>   register topological/routing). Per-combinator centroid in the routing
+>   register = mean `sign(gate pre-activation)` with common-mode removal, then
+>   the cosine Gram matrix = the literal "map of the functions." Qwen3-14B
+>   (Michael's call: 14B has capacity to FULLY form the systems; 0.6B only
+>   partially crystallizes), 535 crystal probes, 9 combinators.
+>   - **✅ combinators ARE real routing clusters:** route_cmr silhouette **0.101,
+>     z=7.97, p=0.001**; the **control** (raw residual `hidden_full`) is silhouette
+>     **−0.035, z=−1.65** — the shape is INVISIBLE in raw geometry, only visible
+>     in the sign/routing register after CMR (concrete confirmation of the
+>     two-registers / 5d-REFUTED lesson: function shape lives in the topology).
+>   - **Depth:** separation PEAKS mid-network (**L12, frac 0.31, z≈8**, plateau
+>     L12–L20), declines to late layers (L39 z≈2). The combinator *identity*
+>     (which function) is carried mid-stack; late COMMIT converges (all run the
+>     same opcodes — consistent with function-discovery's 1.49× late collapse).
+>   - **★ THE SHAPE = 3 families** (Gram off-diagonals + MDS), grounded by the
+>     probes themselves:
+>     1. **Composition / distribution: {B, D, S}** — B–D **+0.27** (strongest
+>        edge; B=compose "after washing→dried", D=deep-nesting compose "the book
+>        that…that…", S=arg-distributor `λf.λg.λx.f(x)(g(x))`), S–D +0.15.
+>     2. **Selection / identity: {K, I, C}** — K–C +0.07, K–I +0.04 (projection).
+>     3. **Recursion / duplication / termination: {Y, W, WHNF}** — W–Y +0.07
+>        (Y=fixpoint "folders in folders", W=self-app "bit itself"), WHNF nearby.
+>   - **★ ANSWER to "is there a map/fold":** NOT as atoms (not in the basis) — they
+>     are **compositions of the recursion family (Y,W) over the composition family
+>     (B,D,S)**: `map = Y∘B`, `fold = Y∘(C/B)+K`. The map shows both families are
+>     real, separable, AND adjacent (the junction where map/fold must live EXISTS
+>     in the measured geometry). This is the s216 "normal forms are compositional
+>     & non-unique" refinement made concrete at the function level.
+>   - **Caveats (register discipline):** off-diagonal cosines are modest (max
+>     +0.27) — weak clusters, not crisp partitions; single model (no cross-model
+>     consensus yet); mid-stack peak vs function-discovery's late-crystal needs a
+>     careful both-true reconciliation (identity upstream, execution downstream).
+>   - **Artifacts:** `scripts/experiments/combinator_relationship_map.py`,
+>     `results/combinator-relationship-map/Qwen_Qwen3-14B.{json,npz}`,
+>     `/tmp/combinator_map_14b.log`.
+> - **(B) VSM continuation tensor-level tests** (`tests/test_vsm_continuation.py`,
+>   register functional). "Are our continuations working?" — the VSM-tensor
+>   continuation = the **outer recurrence** in `v15model.py` (shared sweep
+>   stack_a→stack_c iterated n_outer times, x_c fed back → β-reduction toward a
+>   fixed point / WHNF). **15 tests, all green (2.4s)**, verifying the MECHANISM
+>   independent of the multi-day loss signal: single-pass=no residue; Δx count=k−1;
+>   **the fixed-point term matches its closed form EXACTLY** (centerpiece: capture
+>   per-pass x_c, recompute `mean((x_c−detach(prev))²)/mean(detach(prev)²)`);
+>   detached target; weight-shared (param count invariant to n_outer = ONE operator
+>   iterated, not an unrolled stack); shape-closed feedback; loss wiring
+>   `loss += λ_fp·fp_term`; RNG-free; differentiable. Empirically the continuation
+>   is **contractive at scale** (main:1: Δx 1.23→~0.61). Uses tiny vocab (real
+>   internal dims) so it never disturbs main:1.
+> - **(C) DISTRIBUTED TRAINING via continuations → SELF-VERIFYING ACCEPTANCE
+>   (Michael's connect; Exp B IN FLIGHT in main:2).** Register: functional.
+>   The working VSM continuation (outer recurrence, contractive) supplies the 3
+>   things `explore/consensus-delta-folding.md` was missing: (i) **contractivity =
+>   Banach convergence** → iterated folding converges instead of oscillating
+>   (solves s110 destructive interference at root); (ii) the **weight-shared
+>   operator IS the frozen base B₀** → one coordinate frame → deltas commensurable
+>   (solves gradient-voting frame problem, sign-corr 0.000); (iii) **WHNF as a
+>   SELF-VERIFYING target** → accept a donated delta iff Δx-at-convergence does NOT
+>   rise; the fixed point IS the answer, so NO trusted held-out labels needed
+>   (kills the audit-#7 population-Goodhart risk). Fractal: activation-level
+>   continuation (x→x*) is self-similar to base-level folding (B_g→B*).
+>   - **Exp B harness BUILT + validated:** `scripts/experiments/exp_b_self_verifying_
+>     acceptance.py` (register functional). Loads continuation operator, perturbs
+>     the ROUTING register (FFN gate delta plate) by flipping fractions of signs,
+>     measures ΔCE (true label, `_last_ce`) vs Δ(Δx-at-convergence) (self-verifying
+>     signal); correlation + acceptance-ROC + verdict. Continuation curve confirms
+>     contractivity on the base ([1.23→0.59→0.39]).
+>   - **⚠ SCIENTIFIC CATCH (found this session):** the FROZEN extracted base is
+>     UNTRAINED (CE 12.82 ≈ ln(vocab) 12.42 = chance) → sign-flips don't move CE
+>     even at 10% (no quality to degrade). The test NEEDS a non-chance contractive
+>     base. So Exp B runs in 2 phases.
+>   - **▶ IN FLIGHT (tmux main:2, Michael chose Option A):** phase-1 a SHORT TD
+>     train (`--steps 400 --seq-len 512 --n-outer-passes 2 --fixed-point-lambda 5.0
+>     --td-acceptance proxy --checkpoint-interval 200 --checkpoint-dir
+>     checkpoints/v15-expb-base`) → trained contractive base; then phase-2 the
+>     acceptance test auto-chains (`--checkpoint checkpoints/v15-expb-base/
+>     step_000400/model.npz`, folds trained deltas into base via reduce_all_deltas,
+>     n_outer=4, 7 flip-fracs × 8 reps). **Slow under GPU contention with main:1's
+>     heavy seq-4096 (~few steps/min); may take hours — that's fine (Michael).**
+>     Logs: `/tmp/expb_phase1_train.log`, `/tmp/expb_phase2_accept.log`. Result:
+>     `results/exp-b-self-verifying/result.json`.
+> - **▶ FIRST ACTION NEXT SESSION:** check main:2 — has phase-2 completed? Read
+>   `results/exp-b-self-verifying/result.json` (or `/tmp/expb_phase2_accept.log`).
+>   **The verdict question:** does corr(ΔCE, Δ(Δx-at-convergence)) > 0 (Spearman) —
+>   i.e. do CE-degrading deltas raise the fixed-point residual? If YES →
+>   self-verifying label-free acceptance VALIDATED (distributed folding can verify
+>   donated deltas with no trusted data). If WEAK → the n_outer=4 recurrence on a
+>   K=2-trained base may not be contractive past pass 2; rerun at n_outer=2, or on
+>   main:1's step-1000 ckpt (lands ~step 1000). If phase-1 still running, just wait.
+> - **▶ THEN (declare register first):**
+>   (1) **Construct & detect map/fold** — build `map=Y∘B`, `fold=Y∘(C/B)+K`
+>     directions from the measured primitive centroids, add a small map/fold/filter
+>     probe set, test whether the constructed direction ACTIVATES on those probes
+>     (now well-motivated: the building-block families are present + adjacent).
+>   (2) **Cross-model consensus of the map** — run `combinator_relationship_map.py`
+>     across families (the s216 5-family machinery); is the 3-family shape
+>     universal? Align-before-compare for the non-unique composite.
+>   (3) **Combinator-algebra-as-geometry** — do CL identities (I=SKK, T=CI,
+>     W=SS(KI)) hold as routing constraints w/ permutation null?
+>   (4) **Reconcile depth:** why does combinator *identity* peak mid-stack (L12)
+>     while *execution* converges late — measure both registers at each depth.
+>   (5) NOT-YET-COMMITTED: propose memory + maybe an `explore/combinator-function-
+>     shape.md` page (this finding) for approval.
 
 > **▶ SESSION 216 HEADLINE — TOOL-CALLING IS NOT ITS OWN NORMAL FORM; IT RIDES
 > THE GENERIC STRUCTURED-LANGUAGE CRYSTAL.** Register: **topological/routing**

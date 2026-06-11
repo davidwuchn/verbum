@@ -274,10 +274,81 @@ made **composition-invariant** before any negative on the function layer counts.
    whether folding the composition (not raw flips) helps. Does the agreed function
    transfer?
 
+## s217 — The continuation makes folding SELF-VERIFYING (Exp B)
+
+> Session 217 (Michael's connect: "with continuations working we could use those
+> for distributed training"). The VSM **continuation** = the outer recurrence in
+> `v15model.py` (shared sweep iterated, x_c fed back → β-reduction toward a fixed
+> point / WHNF). s217 proved the mechanism (15 tensor tests green,
+> `tests/test_vsm_continuation.py`) and that it is **contractive** at scale
+> (main:1: Δx 1.23→0.61). A *working contractive continuation* supplies the three
+> things this design was missing.
+
+```
+λ continuation_gives(distributed_training).
+  (i)  contractivity ≡ Banach ⇒ iterated folding CONVERGES (not oscillates)
+       | fixes s110 destructive interference at the root (consensus-etch needed
+         accumulate-then-etch because sequential application diverged; a
+         contraction makes the iteration well-posed)
+  (ii) weight-shared operator ≡ the frozen base B₀ ≡ ONE coordinate frame
+       | every delta trains against the SAME operator ⇒ commensurable
+       | fixes gradient-voting frame problem (cross-init sign-corr 0.000)
+  (iii) WHNF ≡ SELF-VERIFYING target
+       | accept(delta) ⟺ Δx-at-convergence does NOT rise
+       | the fixed point IS the answer ⇒ NO trusted held-out labels needed
+       | kills audit-#7 population-Goodhart (no shared calibration cache to overfit)
+  fractal: activation-level continuation (x→x*) ≅ base-level folding (B_g→B*)
+```
+
+The third is the new capability: a label-free, Byzantine-robust acceptance rule.
+A donor's delta is not trusted — it is *verified* by whether it preserves /
+accelerates the operator's convergence to WHNF on the domain.
+
+### Experiment B (core) — is Δx-at-convergence a valid acceptance signal?
+
+`scripts/experiments/exp_b_self_verifying_acceptance.py` (register: functional).
+Build the contractive continuation operator; perturb the **routing register**
+(FFN gate delta plate) by flipping a FRACTION of signs (a quality spectrum); for
+each candidate measure both:
+
+```
+ΔCE        = model._last_ce − CE0           (the TRUE quality label)
+Δ(Δx_conv) = Δx_at_convergence − Δx0         (the SELF-VERIFYING signal)
+Δx_conv    = model._last_outer_deltas[-1] = ‖x_c^K − x_c^{K-1}‖/‖·‖  (→0 ≡ WHNF)
+```
+
+Hypothesis: **corr(ΔCE, Δ(Δx_conv)) > 0** — degrading the operator (raising CE)
+raises the fixed-point residual ⇒ "reject if Δx_conv rises" is a valid label-free
+acceptance rule. Reported: Pearson + Spearman + an acceptance-ROC.
+
+**s217 finding (harness validated, scientific catch):** the FROZEN extracted base
+is UNTRAINED (CE 12.82 ≈ ln(vocab) 12.42 = chance) → sign-flips don't move CE
+even at 10% (no quality to degrade). The test needs a **non-chance contractive
+base**. Run in 2 phases (Option A, main:2): phase-1 short TD train
+(`--steps 400 --seq-len 512 --n-outer-passes 2 --fixed-point-lambda 5.0`,
+`checkpoints/v15-expb-base`) → trained contractive base; phase-2 the acceptance
+test on `step_000400/model.npz` (folds trained deltas into base via
+`reduce_all_deltas`, then perturbs). IN FLIGHT at session end (slow under main:1
+GPU contention). Results → `results/exp-b-self-verifying/result.json`.
+
+### Full Exp B (the folding proof, after the acceptance signal is validated)
+
+```
+freeze B₀ = the contractive continuation operator (main:1's trained sweep)
+N users    train DeltaTernaryLinear deltas on domain-d shards over B₀
+verify     accept flip iff exact-ΔL<0 (exact-ternary-fitting) AND Δx_conv drops
+fold       consensus flips (agree ≥ θ, s110) → B₁ ; domain FUNCTIONS as
+           compositions (align-before-fold, the non-unique-composite §)
+measure    (a) B₁ stays contractive?  (b) downstream PPL held-out domain-d?
+           (c) folded set = universal crystal or domain-specific?
+```
+
 ## Files
 
 | File | Content |
 |------|---------|
+| `scripts/experiments/exp_b_self_verifying_acceptance.py` | Exp B core: perturb routing register, ΔCE vs Δ(Δx-at-convergence), self-verifying acceptance verdict |
+| `tests/test_vsm_continuation.py` | 15 tensor-level property tests for the continuation (outer recurrence); fixed-point math exact |
 | `scripts/experiments/tool_crystal_consensus.py` | per-model: routing register (gate sign) + CMR + within-model selectivity; saves probe-aligned RDM npz |
 | `scripts/experiments/tool_crystal_consensus_summary.py` | cross-model agree / shuffled-null / length-partial / within-domain |
 | `scripts/experiments/tool_crystal_control_baseline.py` | TOOL vs CTRL within-group agreement = the tool-specific-vs-generic verdict |
