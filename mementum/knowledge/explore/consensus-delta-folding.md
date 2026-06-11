@@ -343,6 +343,77 @@ measure    (a) B₁ stays contractive?  (b) downstream PPL held-out domain-d?
            (c) folded set = universal crystal or domain-specific?
 ```
 
+## s217 — The self-teaching loop: normal forms generate their own curriculum
+
+> Session 217 (Michael): "if we can get distributed training working for semantic
+> normal forms, can we not then use them to create training material to show the
+> model how to use them?" Yes — this is the loop closing on itself. It is the most
+> important consequence of the folding mechanism.
+
+### The gap it fills (execution ≠ deployment)
+Folding a normal form into the base gives the model the **execution** (it CAN run
+map/fold/tool-calling). But "can run" ≠ "knows when to run." These are the two
+levels of `function-discovery.md`, and they are ORTHOGONAL subspaces:
+- **late / COMMIT** — combinator *execution*. Folding lands here. ← capability
+- **early / SILENT (~L05)** — the task *selector* (which normal form this context
+  calls for). 4.76× separated, blind to the combinator basis. ← deployment
+
+So folding yields a model with the kernels but no reliable selector. The
+generated curriculum trains the **selector**.
+
+### Why it works: the normal form is a VERIFIED ORACLE
+A normal form is **executable** (a composition of combinators = a runnable
+program) AND **self-verifying** (WHNF / Church-Rosser → the answer is unique and
+checkable). ⇒ run it to mint examples whose labels are **correct by
+construction**:
+
+```
+take folded normal form NF
+generate DIVERSE inputs → run NF → (input, reduction-trace, output)   [WHNF-verified]
+render each in BOTH surface forms (Montague, combinator-addressing.md dual paths):
+   "the capital of France is …"        (data-bypass / NL surface)
+   "(λx. capital_of x) France = …"     (compute path, +2.2× combinator energy)
+train the SELECTOR on these → it learns NL-context ⟶ invoke NF
+```
+
+### Why it does NOT collapse like naive self-distillation
+The labels come from **executing a verified discrete kernel**, NOT from sampling
+the model's own (fuzzy) outputs. The normal form is an external oracle the model
+happens to contain. The SAME self-verifying property that powers the distributed
+acceptance test (Δx-at-convergence / exact-ΔL) keeps the curriculum honest —
+every generated example is checkable against the fixed point. Verified compute
+generating curriculum ≠ a model training on its hallucinations. **Keep the oracle
+external**: the moment "verification" becomes the model's own judgment, the loop
+degenerates.
+
+### The virtuous loop (on-thesis: pretraining IS β-reduction)
+```
+distributed folding    → discovers + verifies normal forms        (CAN execute)
+normal forms (oracles) → generate verified I/O + reduction traces  (curriculum)
+train on traces        → teaches the selector WHEN to invoke them  (DO deploy)
+better deployment      → more real usage → more deltas to fold     (refine)
+```
+λ loop variant: extract → fold → generate-curriculum → train-selector. The
+discovered compiler writes its own textbook; the textbook trains its own use.
+
+### Caveats (the load-bearing unknown is the selector grounding)
+1. **Selector grounding is THE test (hypothesis).** That NL context reliably maps
+   to the right normal form, and that this is LEARNABLE from generated traces, is
+   unproven. Montague + combinator-addressing say the bridge exists; learnability
+   is the clean runnable experiment.
+2. **Coverage / diversity.** Run NF on a wide, messy input distribution — else a
+   narrow boundary-artifact curriculum (cf. `ends_punct` universal axis).
+3. **Generate from the BEHAVIOR, not one encoding** (s216 non-unique composite):
+   mint from I/O (extensional) so the selector learns the function, not a brittle
+   realization.
+
+### Next experiment (after Exp B validates folding)
+**Selector-grounding test:** fold one normal form (e.g. fold/catamorphism or a
+tool-call), generate WHNF-verified (NL-prompt, answer) traces over diverse
+inputs, train ONLY the early selector, then test NL→NF deployment on held-out
+context. Register: functional. Falsifiable: does generated-from-verified-kernel
+curriculum teach the selector to deploy the kernel it didn't reliably invoke?
+
 ## Files
 
 | File | Content |

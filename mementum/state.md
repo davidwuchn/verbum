@@ -177,8 +177,30 @@
 >     W=SS(KI)) hold as routing constraints w/ permutation null?
 >   (4) **Reconcile depth:** why does combinator *identity* peak mid-stack (L12)
 >     while *execution* converges late — measure both registers at each depth.
->   (5) NOT-YET-COMMITTED: propose memory + maybe an `explore/combinator-function-
->     shape.md` page (this finding) for approval.
+>   (5) DONE/COMMITTED (`d860dcd`): `explore/combinator-function-shape.md` +
+>     continuation→self-verifying section in `consensus-delta-folding.md` + 3 code
+>     files + state.md.
+> - **(D) THE SELF-TEACHING LOOP (Michael, end s217) — normal forms generate their
+>   OWN curriculum.** If distributed folding gives the model a normal form, that
+>   normal form is **executable + self-verifying** (WHNF/Church-Rosser), so you can
+>   RUN it to mint training examples that are **correct by construction** → teach
+>   the model to USE it. The gap it fills: folding gives **execution** (late/COMMIT)
+>   but not **deployment** (early/SILENT L05 selector — orthogonal, 4.76× separated,
+>   `function-discovery.md`); the generated curriculum trains the SELECTOR. Why it
+>   does NOT collapse like self-distillation: labels come from a VERIFIED discrete
+>   kernel, not the model's own samples (same external-oracle discipline as the
+>   acceptance test). Render in BOTH surface forms (Montague / combinator-addressing
+>   dual paths) → teaches NL-context ⟶ invoke-NF. Loop: fold → generate-curriculum →
+>   train-selector → deploy → more deltas → fold (on-thesis: pretraining IS
+>   β-reduction → generate the β-reduction traces as lessons; the compiler writes
+>   its own textbook). **Load-bearing unknown = the selector grounding is learnable
+>   from generated traces** (clean runnable experiment, below). Captured in
+>   `explore/consensus-delta-folding.md` §"The self-teaching loop".
+>   - **▶ Selector-grounding experiment (register: functional, AFTER Exp B):** fold
+>     one normal form, generate WHNF-verified (NL-prompt, answer) traces over
+>     DIVERSE inputs, train ONLY the early selector, test NL→NF deployment held-out.
+>     Falsifiable: does verified-kernel curriculum teach the selector to deploy a
+>     kernel it didn't reliably invoke?
 
 > **▶ SESSION 216 HEADLINE — TOOL-CALLING IS NOT ITS OWN NORMAL FORM; IT RIDES
 > THE GENERIC STRUCTURED-LANGUAGE CRYSTAL.** Register: **topological/routing**
