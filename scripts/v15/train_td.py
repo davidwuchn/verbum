@@ -1296,6 +1296,9 @@ if __name__ == "__main__":
     # detach(x_c^{k-1})‖²/‖·‖². Drives the iterated sweep toward a contractive
     # reduce-to-WHNF map. Only active with --n-outer-passes ≥ 2.
     parser.add_argument("--fixed-point-lambda", type=float, default=0.0)
+    # Steps between checkpoints (default 500, see V15Config). Override for
+    # long runs to control the number of analyzable intermediate states.
+    parser.add_argument("--checkpoint-interval", type=int, default=None)
 
     args = parser.parse_args()
 
@@ -1321,6 +1324,8 @@ if __name__ == "__main__":
         cfg.crystal_direct_lambda_start = args.crystal_direct_lambda_start
     if args.crystal_warmup_steps is not None:
         cfg.crystal_warmup_steps = args.crystal_warmup_steps
+    if args.checkpoint_interval is not None:
+        cfg.checkpoint_interval = args.checkpoint_interval
     if args.extracted_model_path is not None:
         cfg.extracted_model_path = args.extracted_model_path
     cfg.__post_init__()
