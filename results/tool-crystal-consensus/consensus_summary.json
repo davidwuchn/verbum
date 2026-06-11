@@ -1,0 +1,1367 @@
+{
+  "models": {
+    "EleutherAI_pythia-2.8b-deduped": {
+      "family": "pythia",
+      "route_li": 19,
+      "n_layers": 32
+    },
+    "EleutherAI_pythia-410m": {
+      "family": "pythia",
+      "route_li": 14,
+      "n_layers": 24
+    },
+    "HuggingFaceTB_SmolLM3-3B": {
+      "family": "smollm",
+      "route_li": 21,
+      "n_layers": 36
+    },
+    "Qwen_Qwen3-0.6B": {
+      "family": "qwen3",
+      "route_li": 16,
+      "n_layers": 28
+    },
+    "Qwen_Qwen3-8B": {
+      "family": "qwen3",
+      "route_li": 21,
+      "n_layers": 36
+    },
+    "allenai_OLMo-2-1124-13B": {
+      "family": "olmo",
+      "route_li": 23,
+      "n_layers": 40
+    },
+    "mistralai_Mistral-7B-v0.3": {
+      "family": "mistral",
+      "route_li": 19,
+      "n_layers": 32
+    }
+  },
+  "route_layer_frac": 0.6,
+  "n_perm": 2000,
+  "within_domains": [
+    "schema_binding",
+    "selection",
+    "format"
+  ],
+  "domain_counts": {
+    "control": 30,
+    "format": 30,
+    "recognition": 40,
+    "schema_binding": 56,
+    "selection": 40
+  },
+  "registers": {
+    "hidden_full": {
+      "pairs": [
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "EleutherAI_pythia-410m",
+          "same_family": true,
+          "agree": 0.9787345763743606,
+          "null_mean": 0.0005166854916138719,
+          "null_std": 0.05516914821609265,
+          "z": 17.73124875974438,
+          "partial_len": 0.9791899059804048,
+          "within_domain": {
+            "schema_binding": 0.45345704560575284,
+            "selection": 0.534013125738258,
+            "format": 0.9775011784567642
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9544298408048467,
+          "null_mean": 8.206592108569327e-05,
+          "null_std": 0.052399558181888545,
+          "z": 18.212897360146503,
+          "partial_len": 0.9595823324967009,
+          "within_domain": {
+            "schema_binding": 0.49423107304814595,
+            "selection": 0.5747884422593996,
+            "format": 0.9411234066458117
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9651704322123008,
+          "null_mean": 0.0009407327150707727,
+          "null_std": 0.05516225179231995,
+          "z": 17.479882857709526,
+          "partial_len": 0.9670699955075674,
+          "within_domain": {
+            "schema_binding": 0.42325447419835993,
+            "selection": 0.368906679986311,
+            "format": 0.9589925687186073
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9217740790230965,
+          "null_mean": -0.00010280053623175372,
+          "null_std": 0.05068837964187163,
+          "z": 18.187144392317542,
+          "partial_len": 0.9266274714534337,
+          "within_domain": {
+            "schema_binding": 0.3067991647997022,
+            "selection": 0.41931476144858076,
+            "format": 0.901081451665452
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.958510266304345,
+          "null_mean": 0.0006356421397844716,
+          "null_std": 0.05416439153527764,
+          "z": 17.684582010686672,
+          "partial_len": 0.9587015456278939,
+          "within_domain": {
+            "schema_binding": 0.6146566574043093,
+            "selection": 0.5329047720638684,
+            "format": 0.9408903569681787
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7593705807881569,
+          "null_mean": -0.0002789341519322505,
+          "null_std": 0.05640935229217153,
+          "z": 13.466729967142577,
+          "partial_len": 0.7988177122856569,
+          "within_domain": {
+            "schema_binding": 0.6421624800155373,
+            "selection": 0.023577954358469662,
+            "format": 0.9634164105721258
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9104184859616642,
+          "null_mean": -6.048665278517923e-05,
+          "null_std": 0.05261982134382363,
+          "z": 17.30296586651788,
+          "partial_len": 0.9192110672162636,
+          "within_domain": {
+            "schema_binding": 0.11321477504557634,
+            "selection": 0.5399638386743654,
+            "format": 0.9128613648725009
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9448167561937927,
+          "null_mean": 0.0009093648132013361,
+          "null_std": 0.05555673039568209,
+          "z": 16.989973755798136,
+          "partial_len": 0.9448290583430474,
+          "within_domain": {
+            "schema_binding": 0.383802450527838,
+            "selection": 0.31586580667908737,
+            "format": 0.9362447174319879
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.8703065249340063,
+          "null_mean": -0.00026153804723110576,
+          "null_std": 0.05094041296351071,
+          "z": 17.089929435884955,
+          "partial_len": 0.878630733147756,
+          "within_domain": {
+            "schema_binding": 0.17887676486327767,
+            "selection": 0.2903590492368894,
+            "format": 0.8809779737604169
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.926954888048967,
+          "null_mean": 0.0005953449591124027,
+          "null_std": 0.05447898820353218,
+          "z": 17.003978481189808,
+          "partial_len": 0.9265556208125739,
+          "within_domain": {
+            "schema_binding": 0.3702353264248001,
+            "selection": 0.4203683991299336,
+            "format": 0.9240113696431984
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7540213442805777,
+          "null_mean": -0.0002894634624754492,
+          "null_std": 0.056702022345836774,
+          "z": 13.303067095955825,
+          "partial_len": 0.8036790047592322,
+          "within_domain": {
+            "schema_binding": 0.3383251709186709,
+            "selection": 0.14129781852695442,
+            "format": 0.9347614255302203
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9163454026642173,
+          "null_mean": 0.0007534155467354615,
+          "null_std": 0.052992490868961205,
+          "z": 17.277768455563635,
+          "partial_len": 0.9298830175591967,
+          "within_domain": {
+            "schema_binding": 0.3085661789149964,
+            "selection": 0.4696351366853235,
+            "format": 0.945689921053122
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9580411034536449,
+          "null_mean": -0.00027718084467166,
+          "null_std": 0.0489569633514652,
+          "z": 19.574708451961932,
+          "partial_len": 0.9579148068057521,
+          "within_domain": {
+            "schema_binding": 0.3359704111097957,
+            "selection": 0.5231426477667355,
+            "format": 0.9338575309303874
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9315163102766157,
+          "null_mean": 0.00044774347168889607,
+          "null_std": 0.05211286504007983,
+          "z": 17.86638608506451,
+          "partial_len": 0.9395481756829197,
+          "within_domain": {
+            "schema_binding": 0.48607866815719875,
+            "selection": 0.5618845839624493,
+            "format": 0.9410506708239817
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7142758352621764,
+          "null_mean": -0.0004675972814166797,
+          "null_std": 0.054263284416853706,
+          "z": 13.171768724003002,
+          "partial_len": 0.7252203493493781,
+          "within_domain": {
+            "schema_binding": 0.43344859081437875,
+            "selection": 0.01618243627193861,
+            "format": 0.9517277592921096
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": true,
+          "agree": 0.8979251770175827,
+          "null_mean": -9.347046912061185e-05,
+          "null_std": 0.05173580257412528,
+          "z": 17.35777938691592,
+          "partial_len": 0.9109644112746007,
+          "within_domain": {
+            "schema_binding": 0.2754264082937808,
+            "selection": 0.2641117882592057,
+            "format": 0.9139399106206496
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9743758203164911,
+          "null_mean": 0.0006740869532850252,
+          "null_std": 0.05526434178853086,
+          "z": 17.618987250206978,
+          "partial_len": 0.9749231172780355,
+          "within_domain": {
+            "schema_binding": 0.2754028290327489,
+            "selection": 0.6620998178106949,
+            "format": 0.9272006896472249
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7620968068243359,
+          "null_mean": -0.00023740348223079028,
+          "null_std": 0.05748382508531408,
+          "z": 13.26171682512699,
+          "partial_len": 0.8232292655247873,
+          "within_domain": {
+            "schema_binding": 0.389603650463314,
+            "selection": -0.10535576922698077,
+            "format": 0.9541339386902207
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9076826634215553,
+          "null_mean": 0.0003867094730310437,
+          "null_std": 0.05123170052153094,
+          "z": 17.709659150728733,
+          "partial_len": 0.915345839150674,
+          "within_domain": {
+            "schema_binding": 0.3024536688029685,
+            "selection": 0.38101470581012314,
+            "format": 0.8802677044912187
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.686380831324776,
+          "null_mean": -0.0006351854253556439,
+          "null_std": 0.05305441904747864,
+          "z": 12.94927037341259,
+          "partial_len": 0.6968060215787355,
+          "within_domain": {
+            "schema_binding": 0.36738601040860874,
+            "selection": 0.013316120587344297,
+            "format": 0.9040907013224025
+          }
+        },
+        {
+          "a": "allenai_OLMo-2-1124-13B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.746409458995209,
+          "null_mean": -0.00013410074510142195,
+          "null_std": 0.0562942383823988,
+          "z": 13.261455900142849,
+          "partial_len": 0.793584087703468,
+          "within_domain": {
+            "schema_binding": 0.5408597394641259,
+            "selection": -0.16146561957002312,
+            "format": 0.967095950164574
+          }
+        }
+      ],
+      "cross_family_mean_agree": 0.8717314437416197,
+      "cross_family_mean_null": 0.00014107449281911414,
+      "cross_family_excess": 0.8715903692488006,
+      "cross_family_partial_len": 0.886324169593846,
+      "cross_family_within_domain": {
+        "schema_binding": 0.38449095181128173,
+        "selection": 0.3151474517084981,
+        "format": 0.9315513638012495
+      }
+    },
+    "hidden_cmr": {
+      "pairs": [
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "EleutherAI_pythia-410m",
+          "same_family": true,
+          "agree": 0.8842943411777563,
+          "null_mean": -0.00018666918823462297,
+          "null_std": 0.014328973659930326,
+          "z": 61.72675247769921,
+          "partial_len": 0.8819787720267152,
+          "within_domain": {
+            "schema_binding": 0.6714195023616092,
+            "selection": 0.6391610531111176,
+            "format": 0.9863615816185429
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9309431830458903,
+          "null_mean": -0.00042643177686044366,
+          "null_std": 0.012848995699275209,
+          "z": 72.48579084474966,
+          "partial_len": 0.926722371957561,
+          "within_domain": {
+            "schema_binding": 0.5570175859838131,
+            "selection": 0.6825069498738845,
+            "format": 0.9553565958040469
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.8937974309788252,
+          "null_mean": -0.00025179866445412574,
+          "null_std": 0.017516909902534836,
+          "z": 51.03920923369614,
+          "partial_len": 0.8952008981612203,
+          "within_domain": {
+            "schema_binding": 0.5201471351179877,
+            "selection": 0.513735228979238,
+            "format": 0.9531767894124853
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.8895942056029301,
+          "null_mean": -0.0002767326438962008,
+          "null_std": 0.009659338421462847,
+          "z": 92.12545408591873,
+          "partial_len": 0.8784315928272058,
+          "within_domain": {
+            "schema_binding": 0.4848222007390225,
+            "selection": 0.569330035920678,
+            "format": 0.8942933507029159
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9478134327945363,
+          "null_mean": -0.00025647515772835695,
+          "null_std": 0.012752565225756242,
+          "z": 74.34346668052764,
+          "partial_len": 0.9428209691455204,
+          "within_domain": {
+            "schema_binding": 0.7354063118868098,
+            "selection": 0.6431381728974045,
+            "format": 0.9601535093382297
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.8077974197196108,
+          "null_mean": -0.00038698337407685356,
+          "null_std": 0.014328602322323924,
+          "z": 56.403575513749765,
+          "partial_len": 0.7876040387062807,
+          "within_domain": {
+            "schema_binding": 0.7250307984235612,
+            "selection": 0.24843710527493887,
+            "format": 0.9647291886846728
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.7971502684765361,
+          "null_mean": -0.0005388192748620766,
+          "null_std": 0.01357975988887006,
+          "z": 58.741030348053684,
+          "partial_len": 0.7968889157629214,
+          "within_domain": {
+            "schema_binding": 0.3640975787249189,
+            "selection": 0.6671039046403231,
+            "format": 0.956867059610098
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.8628204783503172,
+          "null_mean": -0.00021615513372218802,
+          "null_std": 0.01881779787533337,
+          "z": 45.86278581593863,
+          "partial_len": 0.8581757425841364,
+          "within_domain": {
+            "schema_binding": 0.49496068412864697,
+            "selection": 0.42528117177083063,
+            "format": 0.9618833185767737
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.7922726360869142,
+          "null_mean": -0.0003647439605036481,
+          "null_std": 0.009972766356752993,
+          "z": 79.48019152285552,
+          "partial_len": 0.7863735911215808,
+          "within_domain": {
+            "schema_binding": 0.39520676059647936,
+            "selection": 0.5352489154374546,
+            "format": 0.8926928361982198
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.8920734507683374,
+          "null_mean": -0.0002683912053528247,
+          "null_std": 0.013498135958553157,
+          "z": 66.10852377792607,
+          "partial_len": 0.8905208188107709,
+          "within_domain": {
+            "schema_binding": 0.6819648266076399,
+            "selection": 0.6226483472243853,
+            "format": 0.9753174015402719
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.755460136687193,
+          "null_mean": -0.00036809991892473756,
+          "null_std": 0.015418834719452826,
+          "z": 49.01980275153634,
+          "partial_len": 0.7465302490337064,
+          "within_domain": {
+            "schema_binding": 0.5477918569309448,
+            "selection": 0.22726301852500383,
+            "format": 0.9737525526624533
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.8243252690113241,
+          "null_mean": -0.00029074546960765156,
+          "null_std": 0.016595047292497833,
+          "z": 49.69048897219582,
+          "partial_len": 0.8325482075642506,
+          "within_domain": {
+            "schema_binding": 0.3947056602403316,
+            "selection": 0.6220330859854067,
+            "format": 0.952618359786317
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.8896695876184384,
+          "null_mean": -0.00022195915324709474,
+          "null_std": 0.009410519186749424,
+          "z": 94.56349103721143,
+          "partial_len": 0.8747557591525184,
+          "within_domain": {
+            "schema_binding": 0.4433770945841383,
+            "selection": 0.6672478511038997,
+            "format": 0.9285587304876459
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9108761582232591,
+          "null_mean": -0.0002452412290894875,
+          "null_std": 0.012235110907299628,
+          "z": 74.46776791445033,
+          "partial_len": 0.9035819252557163,
+          "within_domain": {
+            "schema_binding": 0.5487348538411165,
+            "selection": 0.6775224512301432,
+            "format": 0.9465818485670643
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7548986978873895,
+          "null_mean": -0.00043246312249778764,
+          "null_std": 0.01357142152493279,
+          "z": 55.65600918240051,
+          "partial_len": 0.7200162727527425,
+          "within_domain": {
+            "schema_binding": 0.5053137367011316,
+            "selection": 0.32443025412107995,
+            "format": 0.9446278642078272
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": true,
+          "agree": 0.8080598623739168,
+          "null_mean": -0.00036977637517620466,
+          "null_std": 0.011746808881723941,
+          "z": 68.82121322386317,
+          "partial_len": 0.8079676948771214,
+          "within_domain": {
+            "schema_binding": 0.4233095024231188,
+            "selection": 0.5405379389529722,
+            "format": 0.9071135263515084
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.904518789100978,
+          "null_mean": -0.00026598338621421736,
+          "null_std": 0.016727435566075328,
+          "z": 54.089867446398856,
+          "partial_len": 0.9069243620880565,
+          "within_domain": {
+            "schema_binding": 0.4887415627724604,
+            "selection": 0.5464402206980876,
+            "format": 0.9461821484279488
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.790281071460785,
+          "null_mean": -0.00044358252463115746,
+          "null_std": 0.019361585330072605,
+          "z": 40.83987134861601,
+          "partial_len": 0.7888055664262416,
+          "within_domain": {
+            "schema_binding": 0.47455532884689794,
+            "selection": 0.14673319946399277,
+            "format": 0.9338224925760941
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.8819626196166247,
+          "null_mean": -0.00016102004545352243,
+          "null_std": 0.00931863160732469,
+          "z": 94.66235782608959,
+          "partial_len": 0.8696811374178174,
+          "within_domain": {
+            "schema_binding": 0.4605383862970306,
+            "selection": 0.5912934433946934,
+            "format": 0.8876928133307816
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7325087686728069,
+          "null_mean": -0.0003000516910288375,
+          "null_std": 0.010077972648866269,
+          "z": 72.71391240045425,
+          "partial_len": 0.6987120743173304,
+          "within_domain": {
+            "schema_binding": 0.5024345985770011,
+            "selection": 0.2417271813883529,
+            "format": 0.8650759743570036
+          }
+        },
+        {
+          "a": "allenai_OLMo-2-1124-13B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7885219046282292,
+          "null_mean": -0.0004423944443768376,
+          "null_std": 0.01370386990280739,
+          "z": 57.57237223267699,
+          "partial_len": 0.7658211945601253,
+          "within_domain": {
+            "schema_binding": 0.6244861401206321,
+            "selection": 0.08695958744141347,
+            "format": 0.9575957084762865
+          }
+        }
+      ],
+      "cross_family_mean_agree": 0.8445939741437328,
+      "cross_family_mean_null": -0.00032410906192252895,
+      "cross_family_excess": 0.8449180832056553,
+      "cross_family_partial_len": 0.8352692467181949,
+      "cross_family_within_domain": {
+        "schema_binding": 0.523649110585293,
+        "selection": 0.4757410592300637,
+        "format": 0.9395251864603755
+      }
+    },
+    "route_sign_full": {
+      "pairs": [
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "EleutherAI_pythia-410m",
+          "same_family": true,
+          "agree": 0.9801575847981944,
+          "null_mean": 0.0007937398269652576,
+          "null_std": 0.0547127163735765,
+          "z": 17.90011371916114,
+          "partial_len": 0.9801939991893703,
+          "within_domain": {
+            "schema_binding": 0.500077387666819,
+            "selection": 0.5316141693852248,
+            "format": 0.9701743028713636
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9462276808003268,
+          "null_mean": 6.868325452870022e-05,
+          "null_std": 0.05250702899101885,
+          "z": 18.019663571283676,
+          "partial_len": 0.9548291850616454,
+          "within_domain": {
+            "schema_binding": 0.47783895800168114,
+            "selection": 0.6013382259684258,
+            "format": 0.8652570672643347
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9780657281547513,
+          "null_mean": 0.0008007895988384199,
+          "null_std": 0.056422209288096103,
+          "z": 17.320572003232336,
+          "partial_len": 0.9786576030436904,
+          "within_domain": {
+            "schema_binding": 0.5240438473738798,
+            "selection": 0.3806244125104726,
+            "format": 0.8280153118798175
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9656549519128366,
+          "null_mean": 0.00025475432465893065,
+          "null_std": 0.053374264273062105,
+          "z": 18.0873724581795,
+          "partial_len": 0.9686114020532766,
+          "within_domain": {
+            "schema_binding": 0.4572533329307217,
+            "selection": 0.6181084589081405,
+            "format": 0.8090933105629117
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9604140335225704,
+          "null_mean": 0.00012992763388141497,
+          "null_std": 0.054258562809520385,
+          "z": 17.69829601384492,
+          "partial_len": 0.9630887268858729,
+          "within_domain": {
+            "schema_binding": 0.5503112548097492,
+            "selection": 0.5838315198021712,
+            "format": 0.9217103373281468
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7426580777939462,
+          "null_mean": -0.0005962042338607299,
+          "null_std": 0.053308803079974085,
+          "z": 13.9424305008832,
+          "partial_len": 0.7951427433243223,
+          "within_domain": {
+            "schema_binding": 0.6246070428610161,
+            "selection": 0.1866997487305136,
+            "format": 0.9143068447540839
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9308003916863615,
+          "null_mean": 5.015581143810543e-05,
+          "null_std": 0.05152496914364919,
+          "z": 18.06406197507922,
+          "partial_len": 0.9411013570415696,
+          "within_domain": {
+            "schema_binding": 0.2224329540957047,
+            "selection": 0.6033391028481137,
+            "format": 0.880269598195672
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9796356561173015,
+          "null_mean": 0.0007523778099596008,
+          "null_std": 0.055312470708377394,
+          "z": 17.69733417746397,
+          "partial_len": 0.9798257799835309,
+          "within_domain": {
+            "schema_binding": 0.3873516834360088,
+            "selection": 0.28038134800597697,
+            "format": 0.8624286111964482
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9530422272718242,
+          "null_mean": 0.00020530048644659208,
+          "null_std": 0.05231524049541847,
+          "z": 18.213371815978228,
+          "partial_len": 0.9570438542502879,
+          "within_domain": {
+            "schema_binding": 0.37686131531994144,
+            "selection": 0.5551384725376965,
+            "format": 0.8355380285412597
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9568468983145376,
+          "null_mean": 0.00012627690434728416,
+          "null_std": 0.05320026146574427,
+          "z": 17.983381943079813,
+          "partial_len": 0.960535371932324,
+          "within_domain": {
+            "schema_binding": 0.5445848229449122,
+            "selection": 0.5799314466328641,
+            "format": 0.9357239024593247
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7513514874042884,
+          "null_mean": -0.0005808277026931286,
+          "null_std": 0.052257874679061456,
+          "z": 14.388880522312242,
+          "partial_len": 0.80901237405292,
+          "within_domain": {
+            "schema_binding": 0.3580604679532551,
+            "selection": 0.25854836924112984,
+            "format": 0.9420497935819148
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9315121532839004,
+          "null_mean": 0.00041690965050179216,
+          "null_std": 0.053403355383526196,
+          "z": 17.435144981931636,
+          "partial_len": 0.9454972125967349,
+          "within_domain": {
+            "schema_binding": 0.4308479211594858,
+            "selection": 0.5159988611255977,
+            "format": 0.9020882134368052
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9831868148007694,
+          "null_mean": -3.4374057910110084e-05,
+          "null_std": 0.05068288191458368,
+          "z": 19.39947279469449,
+          "partial_len": 0.984650547652011,
+          "within_domain": {
+            "schema_binding": 0.5937877785188632,
+            "selection": 0.7789488259780608,
+            "format": 0.9047070304636783
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9770880580115822,
+          "null_mean": -0.00011608468559893526,
+          "null_std": 0.05146361194596091,
+          "z": 18.988254142039022,
+          "partial_len": 0.9787368144731184,
+          "within_domain": {
+            "schema_binding": 0.5325495068989318,
+            "selection": 0.7519256079567549,
+            "format": 0.9136191787266486
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7413775647114647,
+          "null_mean": -0.0010660943126042043,
+          "null_std": 0.05045328152623632,
+          "z": 14.715468182936506,
+          "partial_len": 0.7531081164237562,
+          "within_domain": {
+            "schema_binding": 0.4724960396339288,
+            "selection": 0.20459430718657964,
+            "format": 0.9482204250525882
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": true,
+          "agree": 0.9581455091514499,
+          "null_mean": 0.00020385499502371344,
+          "null_std": 0.054131389100438534,
+          "z": 17.696602102321915,
+          "partial_len": 0.9645430601732324,
+          "within_domain": {
+            "schema_binding": 0.5261200698911553,
+            "selection": 0.48315371197244256,
+            "format": 0.9353648698566085
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9508853076200272,
+          "null_mean": 0.00012920377880639718,
+          "null_std": 0.05501144625185446,
+          "z": 17.28287781216387,
+          "partial_len": 0.9568466938259503,
+          "within_domain": {
+            "schema_binding": 0.44878059757942196,
+            "selection": 0.4895915351381176,
+            "format": 0.8568481506822336
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7389830541457807,
+          "null_mean": -0.0006575114587117039,
+          "null_std": 0.05415763266399226,
+          "z": 13.657180515873188,
+          "partial_len": 0.8050007440822112,
+          "within_domain": {
+            "schema_binding": 0.4470297016568538,
+            "selection": 0.032976845187992945,
+            "format": 0.903493289357079
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9740851454250018,
+          "null_mean": -6.239340996802123e-06,
+          "null_std": 0.05226016247727245,
+          "z": 18.639272030384973,
+          "partial_len": 0.9740628607846002,
+          "within_domain": {
+            "schema_binding": 0.5058432422462247,
+            "selection": 0.6749238786578555,
+            "format": 0.8434490995992894
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7401201551417947,
+          "null_mean": -0.0009071739761918962,
+          "null_std": 0.05140971500007472,
+          "z": 14.414149720863257,
+          "partial_len": 0.7671067431755794,
+          "within_domain": {
+            "schema_binding": 0.53438644479111,
+            "selection": 0.21388735387375202,
+            "format": 0.8781542613691758
+          }
+        },
+        {
+          "a": "allenai_OLMo-2-1124-13B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7535668090823643,
+          "null_mean": -0.0009255830358009631,
+          "null_std": 0.05187211659302742,
+          "z": 14.545240134264795,
+          "partial_len": 0.782347172564014,
+          "within_domain": {
+            "schema_binding": 0.48415072655259095,
+            "selection": 0.14590912461906783,
+            "format": 0.9657486287027717
+          }
+        }
+      ],
+      "cross_family_mean_agree": 0.8923948523790226,
+      "cross_family_mean_null": -0.00010293229215585455,
+      "cross_family_excess": 0.8924977846711785,
+      "cross_family_partial_len": 0.9081687001688113,
+      "cross_family_within_domain": {
+        "schema_binding": 0.47227461256654096,
+        "selection": 0.4450893392057517,
+        "format": 0.8900379517449571
+      }
+    },
+    "route_sign_cmr": {
+      "pairs": [
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "EleutherAI_pythia-410m",
+          "same_family": true,
+          "agree": 0.8997818657840837,
+          "null_mean": -0.00019747590337340268,
+          "null_std": 0.009737066199070481,
+          "z": 92.42818352959034,
+          "partial_len": 0.8937218552126293,
+          "within_domain": {
+            "schema_binding": 0.6183728757621096,
+            "selection": 0.633033933938867,
+            "format": 0.9849900740451882
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.9160359469133987,
+          "null_mean": -0.00033601985030158615,
+          "null_std": 0.00926160598168933,
+          "z": 98.9430956764318,
+          "partial_len": 0.9135975198820135,
+          "within_domain": {
+            "schema_binding": 0.6194590545381696,
+            "selection": 0.6789472609142142,
+            "format": 0.8640644926580875
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9213345414039884,
+          "null_mean": -0.00024151785780875958,
+          "null_std": 0.010721561523305412,
+          "z": 85.95539532731041,
+          "partial_len": 0.9141081924800424,
+          "within_domain": {
+            "schema_binding": 0.5696276172322213,
+            "selection": 0.486910262890633,
+            "format": 0.8229424524649118
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.927958734947071,
+          "null_mean": -0.0002872178593272784,
+          "null_std": 0.008367399431144045,
+          "z": 110.93601547828612,
+          "partial_len": 0.9227112545190819,
+          "within_domain": {
+            "schema_binding": 0.6196294294506016,
+            "selection": 0.6396618479486905,
+            "format": 0.8026199715802277
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.931393287949625,
+          "null_mean": -0.0002821669897823288,
+          "null_std": 0.00860911511735301,
+          "z": 108.21965349975058,
+          "partial_len": 0.9264967276339856,
+          "within_domain": {
+            "schema_binding": 0.6431466789152068,
+            "selection": 0.6928357705817672,
+            "format": 0.9418540202520712
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-2.8b-deduped",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7875655087667451,
+          "null_mean": -0.00031811976413592306,
+          "null_std": 0.009057642587248666,
+          "z": 86.98550654229416,
+          "partial_len": 0.7666474669103697,
+          "within_domain": {
+            "schema_binding": 0.681325637550291,
+            "selection": 0.27136992880463223,
+            "format": 0.9460539992283449
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "HuggingFaceTB_SmolLM3-3B",
+          "same_family": false,
+          "agree": 0.8254985645571619,
+          "null_mean": -0.00033211310641894477,
+          "null_std": 0.009231466664947454,
+          "z": 89.45823103053814,
+          "partial_len": 0.8219664600836949,
+          "within_domain": {
+            "schema_binding": 0.42038945587592136,
+            "selection": 0.6443772317705356,
+            "format": 0.8593471097614859
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.878766749245068,
+          "null_mean": -0.00019993916361207191,
+          "null_std": 0.010712265877488308,
+          "z": 82.0523592731037,
+          "partial_len": 0.8711486488606904,
+          "within_domain": {
+            "schema_binding": 0.4581714282452906,
+            "selection": 0.41400117189221625,
+            "format": 0.8211783200224925
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.8524108950960245,
+          "null_mean": -0.00027312883622275335,
+          "null_std": 0.00831667630152702,
+          "z": 102.52701836858631,
+          "partial_len": 0.8465061026792887,
+          "within_domain": {
+            "schema_binding": 0.47049221578311406,
+            "selection": 0.5301700464950746,
+            "format": 0.8123004490308625
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.8891123093810027,
+          "null_mean": -0.00025970092421843895,
+          "null_std": 0.00852579523289233,
+          "z": 104.31543170003,
+          "partial_len": 0.8869661883114955,
+          "within_domain": {
+            "schema_binding": 0.6101914597753931,
+            "selection": 0.6901437067844329,
+            "format": 0.9394581177495502
+          }
+        },
+        {
+          "a": "EleutherAI_pythia-410m",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7582569562600152,
+          "null_mean": -0.000328304208595291,
+          "null_std": 0.009168858842645525,
+          "z": 82.73496991145008,
+          "partial_len": 0.7412241987836068,
+          "within_domain": {
+            "schema_binding": 0.509450592188697,
+            "selection": 0.2684673453733898,
+            "format": 0.945130913820648
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-0.6B",
+          "same_family": false,
+          "agree": 0.9053125166132618,
+          "null_mean": -0.00027031178727797287,
+          "null_std": 0.010216192069272378,
+          "z": 88.64191493857041,
+          "partial_len": 0.9010115167979815,
+          "within_domain": {
+            "schema_binding": 0.5872093272816847,
+            "selection": 0.6137218279710761,
+            "format": 0.9026479635133267
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": false,
+          "agree": 0.9563645799355023,
+          "null_mean": -0.00024464596226743624,
+          "null_std": 0.008147684154542421,
+          "z": 117.40872716137994,
+          "partial_len": 0.9501733362704181,
+          "within_domain": {
+            "schema_binding": 0.7031082840982883,
+            "selection": 0.7769982201812473,
+            "format": 0.9211704798342778
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9271207973745932,
+          "null_mean": -0.0002760072863409366,
+          "null_std": 0.008338274683692058,
+          "z": 111.2216663328123,
+          "partial_len": 0.9158172992091792,
+          "within_domain": {
+            "schema_binding": 0.681173809507405,
+            "selection": 0.807320771823469,
+            "format": 0.8980434502975623
+          }
+        },
+        {
+          "a": "HuggingFaceTB_SmolLM3-3B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7539457223320252,
+          "null_mean": -0.0004077139344469697,
+          "null_std": 0.008618902904948636,
+          "z": 87.52313891752416,
+          "partial_len": 0.7220827930717432,
+          "within_domain": {
+            "schema_binding": 0.5849696467530425,
+            "selection": 0.44364104825676137,
+            "format": 0.9431108562171454
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "Qwen_Qwen3-8B",
+          "same_family": true,
+          "agree": 0.9226697170651513,
+          "null_mean": -0.0004017504128095982,
+          "null_std": 0.009007737414497487,
+          "z": 102.47539698396683,
+          "partial_len": 0.9165949773615711,
+          "within_domain": {
+            "schema_binding": 0.6252409986141578,
+            "selection": 0.6317288835648981,
+            "format": 0.9316753303215697
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9081546898552242,
+          "null_mean": -0.00039588073197079256,
+          "null_std": 0.009358796157450998,
+          "z": 97.07985464175894,
+          "partial_len": 0.9002519757034015,
+          "within_domain": {
+            "schema_binding": 0.5641122329369378,
+            "selection": 0.5730020509002333,
+            "format": 0.8374151364062993
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-0.6B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7664783134276795,
+          "null_mean": -0.00046423350891232584,
+          "null_std": 0.01012529917096531,
+          "z": 75.74517394368252,
+          "partial_len": 0.7432786025422852,
+          "within_domain": {
+            "schema_binding": 0.5225078897099141,
+            "selection": 0.2957532002473362,
+            "format": 0.890080087302813
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "allenai_OLMo-2-1124-13B",
+          "same_family": false,
+          "agree": 0.9310380567034529,
+          "null_mean": -0.00025312149825691417,
+          "null_std": 0.007747684209978386,
+          "z": 120.20252154860451,
+          "partial_len": 0.9205296023325319,
+          "within_domain": {
+            "schema_binding": 0.6026868373294785,
+            "selection": 0.715189208558402,
+            "format": 0.84137041112603
+          }
+        },
+        {
+          "a": "Qwen_Qwen3-8B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7630493612140848,
+          "null_mean": -0.00034660351511751366,
+          "null_std": 0.007979317051403553,
+          "z": 95.6718425663913,
+          "partial_len": 0.7337108414296278,
+          "within_domain": {
+            "schema_binding": 0.6656160213053456,
+            "selection": 0.3549524036824621,
+            "format": 0.8822055066700412
+          }
+        },
+        {
+          "a": "allenai_OLMo-2-1124-13B",
+          "b": "mistralai_Mistral-7B-v0.3",
+          "same_family": false,
+          "agree": 0.7927779204230742,
+          "null_mean": -0.0003690845062471273,
+          "null_std": 0.008201904082086667,
+          "z": 96.7027896194971,
+          "partial_len": 0.76736052271485,
+          "within_domain": {
+            "schema_binding": 0.673113585903376,
+            "selection": 0.3300498008979297,
+            "format": 0.9644761725977
+          }
+        }
+      ],
+      "cross_family_mean_agree": 0.8627671290736316,
+      "cross_family_mean_null": -0.0003097805942769139,
+      "cross_family_excess": 0.8630769096679085,
+      "cross_family_partial_len": 0.8508204868534889,
+      "cross_family_within_domain": {
+        "schema_binding": 0.5887569054937042,
+        "selection": 0.5382901634723423,
+        "format": 0.8860773637123094
+      }
+    }
+  }
+}
