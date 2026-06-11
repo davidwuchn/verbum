@@ -242,18 +242,46 @@ The target is **detached** so the gradient trains the *operator* to reproduce
 its input (converge), not the state to flee. CE on the final x_c guards the
 trivial constant fixed point.
 
-**λ sweep (s214, in progress):**
+**λ sweep (s214 built, s215 resolved):**
 - **λ_fp=1.0 → TOO WEAK.** Δx tracked the *same* ~1.2 flat curve as no-fp
   (1.25→1.16 over 120 steps), `fp` stuck ~1.5. Diagnosis: the crystal warmup
   loss (`crystal_direct_lambda_start=10`) + CE (~10) dominate the ~15–20 total,
   so a +1.5 fp term is drowned. CE healthy (~10, no collapse) → headroom to
   push λ_fp much harder. (Killed early.)
-- **λ_fp=5.0 → IN FLIGHT** (`checkpoints/v15-td-outer-k2-fp5`,
-  `/tmp/v15_outer_k2_fp5.log`) — fp would contribute ~7.5, comparable to CE, a
-  real test of whether contractivity *can* be enforced (brackets collapse).
-  Verdict pending: does Δx **descend toward 0** without CE collapsing, and does
-  contractivity-trained K=2 then beat K=1 (8.966)? **Read this result first
-  next session.**
+- **λ_fp=5.0 → ✅ CONTRACTIVE (s215 read the completed 250-step run).** This is
+  the central result of the whole recurrence thread: **the trained VSM sweep
+  CAN be made contractive-to-WHNF.**
+
+  | metric | start | end (step 250) | reading |
+  |---|---|---|---|
+  | Δx = ‖x_c^(2)−x_c^(1)‖/‖·‖ | 1.262 | **0.727** (−42%) | descends, *accelerating* once TD flips engage (s150→s250: 1.148→0.941→0.727) |
+  | fp_loss | 1.594 | **0.528** (−67%) | operator learning to reproduce its input |
+  | CE | 10.85 | 9.51 (noisy 9.5–10.8) | **no collapse** — the constant-fixed-point guard held |
+  | crystal_mse | 0.091 | 0.016 | crystal coherence improving in parallel |
+
+  Contrast: no-fp K=2 stayed FLAT Δx~1.17; λ_fp=1 stayed flat. **λ=5 crosses the
+  contractivity threshold** — the operator genuinely converges, not churns.
+- **BUT contractivity-trained K=2 does NOT yet beat K=1.** CE 9.51 > K=1's 8.71
+  — the run pays an fp tax + K=2 outer-pass noise, and **Δx is still falling at
+  the 250-step cutoff** (mid-transition, not converged). This is the
+  *mild-not-total contractivity* regime (the good case below), unfinished at 250
+  steps. Whether CE recovers below 8.71 once Δx saturates is the open question.
+  Run/log: `checkpoints/v15-td-outer-k2-fp5`, `/tmp/v15_outer_k2_fp5.log`.
+
+**s215 scale-up — the serious confirm at seq-4096 (in flight, ~4–5 days):**
+The 250-step runs above used **seq-256, which only exercises the first few
+Fibonacci strides** (the stack goes to stride 1597, composition range d=0..11181
+— at 256 the long strides are no-ops). Relaunched the confirm at **seq-4096**
+(all 19 strides active), 5000 steps, single seed, `--checkpoint-interval 1000`
+(5 checkpoints). Measured **73 s/step** (non-flip) at seq-4096 — *super-linear*
+vs seq-256's ~5 s/step (16× the tokens **plus** the long strides now compute),
+hence the multi-day wall-clock. Run: `checkpoints/v15-td-outer-k2-fp5-5k`,
+`/tmp/v15_outer_k2_fp5_5k.log`, tmux main:1. **Questions for the trajectory:**
+does Δx keep descending toward ε (→ justifies adaptive halting: stop when Δx<ε ≡
+WHNF reached), and does CE recover below 8.71 once contractivity saturates? If Δx
+plateaus high → contractivity vs CE genuinely in tension (try x₀ injection /
+per-token halting). If CE collapses late → lower λ_fp / add a rank/diversity
+guard. (New `--checkpoint-interval` CLI flag added to `train_td.py` for this.)
 
 ### Design tensions (all visible in the prior pages)
 

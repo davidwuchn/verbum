@@ -2,7 +2,19 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 214 — three threads, register: functional.
+> Last updated: 2026-06-11 | Session: 215 — read s214's in-flight λ_fp=5 result
+> (✅ CONTRACTIVE: Δx 1.26→0.73, fp 1.59→0.53, CE no-collapse; but K=2 CE 9.5 >
+> K=1 8.71 at 250 steps, Δx STILL FALLING at cutoff) → relaunched a **5000-step
+> single-seed confirm AT seq-4096** (Michael caught the seq-256 mistake: at 256
+> only the first few Fibonacci strides are used; 4096 exercises the full set
+> incl. 610/987/1597). `checkpoints/v15-td-outer-k2-fp5-5k`,
+> `/tmp/v15_outer_k2_fp5_5k.log`, tmux main:1. **Measured 73 s/step (non-flip) at
+> seq-4096 — super-linear (long strides now compute), so 5000 steps ≈ 4–5 DAYS,
+> 5 ckpts @1000 (first at step 1000 ~24h).** Michael chose the full multi-day run.
+> **▶ FIRST ACTION NEXT SESSION: read that log's Δx/CE trajectory across however
+> many of the 5 checkpoints have landed.** Added `--checkpoint-interval` CLI flag
+> to `train_td.py`. Register: functional.
+> Session: 214 — three threads, register: functional.
 > (1) WIRED exact-ΔL acceptance into v15 TD: λ=1 LOSES (over-vetoes 93%) but
 > CALIBRATED **λ=0.1 BEATS the proxy** (loss −0.025, CE −0.116); exact's
 > monotonicity is SELF-STABILIZING — removing the S2 cooldown stack LOWERS
@@ -30,6 +42,38 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 215 HEADLINE — λ_fp=5.0 MAKES THE VSM OUTER RECURRENCE CONTRACTIVE
+> (the central recurrence-thread result); serious seq-4096 confirm now in flight.**
+> Register: **functional**. Cold-start orient → followed s214's explicit directive
+> ("read the in-flight λ_fp=5 run FIRST") → the 250-step run had completed.
+> - **✅ CONTRACTIVITY ACHIEVED — the trained VSM sweep CAN be made
+>   contractive-to-WHNF.** λ_fp=5.0 (holographic fixed-point loss, K=2 outer
+>   recurrence): **Δx 1.262→0.727 (−42%)**, accelerating once TD flips engage
+>   (s150→s250: 1.148→0.941→0.727); **fp_loss 1.594→0.528 (−67%)**; **CE does NOT
+>   collapse** (9.5–10.8, constant-fixed-point guard held); crystal 0.091→0.016.
+>   Contrast: no-fp K=2 stayed FLAT Δx~1.17, λ_fp=1 flat → **λ=5 crosses the
+>   contractivity threshold.** The naive-K=2-refuted result (s214) is now
+>   *trainable-away*: contractivity must be trained for, and λ_fp=5 does it.
+> - **◑ BUT K=2 does not yet beat K=1:** CE 9.51 > K=1's 8.71 (pays fp tax + K=2
+>   noise), and **Δx still falling at the 250-step cutoff** = mild-not-total
+>   regime, mid-transition. Whether CE recovers below 8.71 once Δx saturates is
+>   THE open question the confirm run answers.
+> - **🔄 seq-256 → seq-4096 (Michael's catch):** the 250-step probes used seq-256,
+>   which **only exercises the first few Fibonacci strides** (stack→1597,
+>   composition d=0..11181). Relaunched the confirm at **seq-4096 (all 19 strides
+>   active), 5000 steps, ckpt @1000 (5 ckpts).** Measured **73 s/step** non-flip
+>   at seq-4096 — super-linear (long strides now compute) → **~4–5 day run**
+>   (Michael chose the full length). `checkpoints/v15-td-outer-k2-fp5-5k`,
+>   `/tmp/v15_outer_k2_fp5_5k.log`, tmux main:1. Added `--checkpoint-interval` CLI
+>   flag to `train_td.py`.
+> - **Knowledge:** `explore/vsm-outer-recurrence.md` §Holographic loss updated
+>   (s214→s215 resolved + scale-up).
+> - **▶ FIRST ACTION NEXT SESSION:** `tail /tmp/v15_outer_k2_fp5_5k.log` →
+>   read the Δx/CE trajectory across whatever checkpoints have landed. Does Δx→ε
+>   (→ build adaptive halting: stop when Δx<ε ≡ WHNF) and CE recover below 8.71?
+>   If Δx plateaus high → contractivity-vs-CE tension (x₀ injection / per-token
+>   halting). If CE collapses late → lower λ_fp / rank-diversity guard.
 
 > **▶ SESSION 214 HEADLINE — EXACT-ΔL ACCEPTANCE WIRED INTO v15 TD; A/B says it
 > works but doesn't (yet) help at λ=1.** Register: **functional** (declared up
@@ -101,15 +145,30 @@
 >   `explore/vsm-outer-recurrence.md` §Holographic loss.
 >   - **λ_fp=1.0 → TOO WEAK** (Δx flat 1.25→1.16, same as no-fp; fp~1.5 drowned
 >     by crystal-warmup(start=10)+CE(~10) in the ~15–20 total). Killed.
->   - **λ_fp=5.0 → IN FLIGHT, INCOMPLETE at session end** (main:1 tmux survives
->     the boundary; `checkpoints/v15-td-outer-k2-fp5`, `/tmp/v15_outer_k2_fp5.log`).
->     At step 40 Δx still ~1.25 (too early — TD flips just started). **▶ FIRST
->     ACTION NEXT SESSION: read this run's final Δx/CE/avg50.** Does Δx descend
->     toward 0 without CE collapsing, and does contractivity-trained K=2 beat K=1
->     (8.966)? If Δx falls + loss wins → adaptive halting (stop when Δx<ε ≡ WHNF).
->     If Δx still flat at λ=5 → contractivity vs CE/crystal genuinely in tension
->     (try higher λ, x₀ injection, or per-token halting instead). If CE collapses
->     → lower λ_fp / add a rank/diversity guard.
+>   - **λ_fp=5.0 → ✅ CONTRACTIVE (s215 read the completed 250-step run).** Δx
+>     DESCENDS 1.262→0.727 (−42%, accelerating once TD flips engage: s150→s250
+>     1.148→0.941→0.727); fp_loss 1.594→0.528. **CE does NOT collapse** (stays
+>     9.5–10.8, guard held; crystal 0.091→0.016). Contrast: no-fp K=2 stayed FLAT
+>     Δx~1.17; λ_fp=1 stayed flat → λ=5 crosses the contractivity threshold. **The
+>     central uncertainty — can the trained sweep be made contractive-to-WHNF — is
+>     a YES.** BUT contractivity-trained K=2 does NOT yet beat K=1: CE 9.51 > K=1
+>     8.71 (pays an fp tax + K=2 noise), and **Δx is still falling at the 250-step
+>     cutoff** → mid-transition, not converged. This is the mild-not-total regime
+>     (good case, unfinished). Run/log: `checkpoints/v15-td-outer-k2-fp5`,
+>     `/tmp/v15_outer_k2_fp5.log`.
+>   - **▶ s215 RELAUNCHED a 5000-step single-seed confirm AT seq-4096** (the s214
+>     plan-(a), Michael-approved): `--steps 5000 --seq-len 4096
+>     --checkpoint-interval 1000 --fixed-point-lambda 5.0 --n-outer-passes 2`.
+>     `checkpoints/v15-td-outer-k2-fp5-5k`, `/tmp/v15_outer_k2_fp5_5k.log`, tmux
+>     main:1. **seq-256 was a mistake (only first few strides used); seq-4096
+>     exercises all 19 strides → 73 s/step → ~4–5 days.** Verified running (step 1
+>     loss 581, Δx 1.261, fp 1.590 — same seed; seq-4096 batch differs slightly
+>     from seq-256). **Questions for the trajectory:** does Δx keep descending
+>     toward ε (→ adaptive halting: stop when Δx<ε ≡ WHNF), and does CE recover
+>     below 8.71 once contractivity saturates? If Δx plateaus high → contractivity
+>     vs CE genuinely in tension (try x₀ injection / per-token halting). If CE
+>     collapses late → lower λ_fp / add a rank/diversity guard.
+>     Also added `--checkpoint-interval` CLI flag to `train_td.py`.
 
 > **▶ SESSION 213 HEADLINE — NEW EXPLORATION TARGET: EXACT TERNARY FITTING.**
 > Register: functional (declared up front — layer-local reconstruction loss under
