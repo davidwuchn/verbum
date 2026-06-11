@@ -2,14 +2,22 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 217 — combinator FUNCTION-SHAPE map
+> Last updated: 2026-06-11 | Session: 218 — Exp B (self-verifying acceptance)
+> COMPLETED + CORRECTED. s217's phase-2 verdict ("WEAK/ABSENT") was **VOID** — an
+> instrument bug perturbed a DEAD module (convert_ffn orphan); ΔCE≡0 across 1.97M
+> flips. Fixed the harness (live-module guard + sign-flip of the LIVE FFN gate),
+> reran → **✅ SELF-VERIFYING SIGNAL PRESENT: corr(ΔCE, Δ(Δx_conv)) Pearson +0.712
+> / Spearman +0.729** on the contractive 400-step base. Label-free acceptance
+> VALIDATED. Register: functional. **▶ FIRST ACTION NEXT SESSION: see s218 HEADLINE
+> below.** The λ_fp=5 5000-step run (main:1) kept training UNTOUCHED throughout
+> (step ~470, CE ~9.0, Δx 1.23→0.42, fp→0.18 — contractive at scale; first ckpt
+> @1000 not yet landed, ~21h out).
+>
+> (Session 217 — combinator FUNCTION-SHAPE map
 > (routing register + CMR, Qwen3-14B) + VSM CONTINUATION tensor-level tests
 > + DISTRIBUTED-TRAINING via continuations (Exp B self-verifying acceptance,
-> IN FLIGHT in main:2). Register: topological/routing (map) + functional
-> (tests, Exp B). **▶ FIRST ACTION NEXT SESSION:** check main:2 / read
-> `results/exp-b-self-verifying/result.json` (see s217 part C below). The λ_fp=5
-> 5000-step run (main:1) kept training UNTOUCHED throughout (step ~340, CE 9.2,
-> Δx 1.23→~0.61, fp→0.37 — continuation is contractive at scale).
+> WAS in-flight in main:2 — completed/corrected in s218). Register:
+> topological/routing (map) + functional (tests, Exp B).)
 >
 > (Session 216 — NEW THREAD (distributed/consensus
 > training idea, Michael). Built an audit-grade tool-calling normal-form
@@ -69,6 +77,77 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 218 HEADLINE — EXP B (SELF-VERIFYING ACCEPTANCE): s217 VERDICT WAS
+> VOID (INSTRUMENT BUG); FIXED & RERUN → ✅ SIGNAL PRESENT (Pearson +0.712 /
+> Spearman +0.729).** Register: **functional** (declared on cold start). Orient →
+> main:2 complete → read `results/exp-b-self-verifying/result.json`.
+> - **❌ The s217 phase-2 "WEAK/ABSENT" verdict was an ARTIFACT — VOID by
+>   instrument bug.** The harness perturbed `model.ffn_gate_plate_c`, which is
+>   **NOT in the forward path**: ΔCE = **+0.0000 EXACTLY** across all 7 flip-fracs
+>   incl. **0.3 = 1.97M sign flips** × 8 reps (physically impossible for an applied
+>   perturbation). Spearman=+1.000/Pearson=+0.000 was the degenerate all-zero-delta
+>   signature. Runtime-confirmed: even **zeroing that module's entire base_weight
+>   leaves CE bit-identical** (10.9118→10.9118).
+> - **Root cause (the convert_ffn orphan):** `convert_to_delta` does
+>   `setattr(model, "ffn_gate_plate_c", dtl)`, rebinding the *model attribute* to a
+>   new DeltaTernaryLinear — but `stack_{a,c}` (built in `V15Model.__init__`) keep
+>   their **original** `TernaryLinear` plate references. `named_modules()` dedups by
+>   identity → only one path converts+rebinds → the other reference goes stale. The
+>   forward runs through the stacks' live `TernaryLinear` plates; the delta copy
+>   `collect_delta_params`/the harness perturb is an **ORPHAN**. The LIVE FFN gates
+>   are `stack_c.ffn_gate_plate` (zero-test ΔCE +0.077) & `stack_a.ffn_gate_plate`
+>   (+0.050), both plain TernaryLinear. **Blast radius CONTAINED:** only manifests
+>   under `convert_ffn=True` (the Exp-B *acceptance harness* set it); neither
+>   phase-1 expb training NOR main:1's 5k run use `--convert-ffn` → training runs
+>   uncontaminated (FFN is frozen-extracted by design in v15, only the attention
+>   shared_stride_stack is TD-trained).
+> - **✅ Phase-1 RESOLVED the s217 blocker:** the short 400-step TD train produced a
+>   **non-chance contractive base** — CE 11.5→~9.2 (below chance 12.42), Δx
+>   1.15→0.50, fp 1.32→0.25. The "frozen extracted base = chance, nothing to
+>   degrade" problem is fixed.
+> - **THE FIX (instrument):** `scripts/experiments/exp_b_self_verifying_acceptance.py`
+>   now (1) enumerates ternary modules matching `--module-filter`, (2) runs a
+>   **live-module GUARD** (flip ½ the nonzero signs, require |ΔCE|>1e-4), keeps the
+>   first LIVE one + ABORTS if none, (3) perturbs the **sign of nonzero routing
+>   positions** of the live module (TernaryLinear `.weight` or DeltaTernaryLinear
+>   `.delta_weight`). This bug could not have produced a "verdict" with the guard.
+> - **✅ RERUN VERDICT — SELF-VERIFYING SIGNAL PRESENT.** Live target
+>   `stack_c.ffn_gate_plate` (5120×1280, 4.52M routing positions). Clean
+>   dose-response: ΔCE +0.0005→+0.0565 and Δ(Δx_conv) ~0→+0.0030 rise **together**
+>   monotonically as flip-frac 0.0003→0.3. **corr(ΔCE, Δ(Δx_conv)) Pearson +0.712 /
+>   Spearman +0.729.** ⇒ degrading the operator (↑CE) ALSO raises the fixed-point
+>   residual ⇒ Δx-at-convergence is a valid **label-free** acceptance signal. The
+>   s217-part-C distributed-folding acceptance mechanism is **VALIDATED** on a
+>   contractive base (no trusted held-out labels needed → kills the audit-#7
+>   population-Goodhart risk).
+> - **Caveats (functional register):** the binary rule "reject if Δx rises" is only
+>   acc 0.714 / accept-good 0.435 — at SMALL flip-fracs Δx sits in the noise (some
+>   go slightly −) so the *correlation* (driven by non-trivial degradations) is the
+>   honest signal, not the threshold rule (needs calibration). Single base
+>   (400-step), single module, single batch, n_outer=4. The perturbed FFN gate is
+>   frozen-extracted (not TD-trained) but in-path; the OPERATOR as a whole is
+>   contractive-trained.
+> - **Artifacts:** harness fix (live-guard + sign-flip) in
+>   `scripts/experiments/exp_b_self_verifying_acceptance.py`; result overwritten at
+>   `results/exp-b-self-verifying/result.json` (verdict SELF-VERIFYING SIGNAL
+>   PRESENT). NOT yet committed.
+> - **▶ FIRST ACTION NEXT SESSION / NEXT (declare register first):**
+>   (1) **Commit** the harness fix + this state (proposed; pending Michael).
+>   (2) **Strengthen** the result: multi-seed/multi-batch + the OTHER live module
+>     (stack_a.ffn_gate_plate) + a SHARED_STRIDE attention plate, and run on
+>     main:1's λ_fp=5 checkpoint once step-1000 lands (more contractive base → the
+>     small-frac Δx signal should clear the noise → the threshold rule should
+>     sharpen). Calibrate the acceptance threshold (Δx-rise band) from the null.
+>   (3) **Donated-delta variant:** instead of random sign-flips, accept/reject
+>     ACTUAL trained deltas from a second short run (the real distributed scenario).
+>   (4) **Latent v15 note (low-priority, NOT urgent):** `convert_ffn=True` orphans
+>     the FFN delta plates (shared-reference rebinding in `convert_to_delta`). If we
+>     ever want TD-trained FFN routing, fix `convert_to_delta` to rebind the stacks'
+>     references too (or have stacks look up plates by attribute at call time).
+>     main:1 unaffected. Then the rest of the s217 leads (map/fold construction,
+>     cross-model map consensus, self-teaching loop, reverse-harvest, sealable
+>     continuation) remain open.
 
 > **▶ SESSION 217 HEADLINE — THE FUNCTION-LIKE THINGS HAVE A 3-FAMILY SHAPE,
 > VISIBLE ONLY IN THE ROUTING REGISTER; + VSM-CONTINUATION TENSOR TESTS GREEN.**

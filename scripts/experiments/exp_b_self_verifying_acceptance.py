@@ -60,7 +60,8 @@ import mlx.core as mx  # noqa: E402
 from config import V15Config  # noqa: E402
 from train_td import create_model_with_deltas  # noqa: E402
 from td_delta import (  # noqa: E402
-    collect_delta_params,
+    TernaryLinear,
+    DeltaTernaryLinear,
     unpack_ternary_mlx,
     pack_ternary_mlx,
     reduce_all_deltas,
@@ -140,18 +141,6 @@ def main():
     model._fixed_point_lambda = 0.0  # eval only
     mx.eval(model.parameters())
 
-    # pick the target routing module (FFN gate delta plate = routing register)
-    deltas = collect_delta_params(model)
-    targets_mods = [(n, m) for (n, m) in deltas if args.module_filter in n]
-    if not targets_mods:
-        targets_mods = deltas[:1]
-    tgt_name, tgt_mod = targets_mods[0]
-    base_unpacked = unpack_ternary_mlx(tgt_mod.base_weight)
-    N, K = base_unpacked.shape
-    n_positions = N * K
-    ones_packed = pack_ternary_mlx(mx.ones((N, K), dtype=mx.int8))
-    log(f"target routing module: {tgt_name}  shape=({N},{K})  positions={n_positions:,}")
-
     tokens, targets = load_token_batch(args.seqs, args.seq_len, cfg.vocab_size, args.seed)
     log(f"batch: tokens {tokens.shape}  targets {targets.shape}")
 
@@ -159,22 +148,80 @@ def main():
     ce0, dx0, curve0 = forward_metrics(model, tokens, targets)
     log(f"baseline  CE={ce0:.4f}  Δx_conv={dx0:.4f}  curve={['%.3f'%c for c in curve0]}")
 
+    # ── pick a target routing module that is ACTUALLY IN THE FORWARD PATH ──
+    # INSTRUMENT GUARD (s218): convert_ffn ORPHANS the top-level ffn_*_plate_*
+    # DeltaTernaryLinear copies — `convert_to_delta` setattr's the model attribute
+    # but stack_{a,c} keep their original references, so the LIVE FFN plates are
+    # stack_{a,c}.ffn_gate_plate (TernaryLinear). The prior run perturbed an orphan
+    # ⇒ CE bit-identical across 1.97M flips ⇒ VOID. We now (1) enumerate candidate
+    # ternary modules matching the filter, (2) KEEP only those whose signs actually
+    # move CE, (3) ABORT if none. Perturbation = sign-flip of NONZERO ternary
+    # positions (= the routing register; zeros stay zero).
+    def _is_delta(m):
+        return isinstance(m, DeltaTernaryLinear)
+
+    def _orig_signs(m):
+        return np.asarray(unpack_ternary_mlx(m.delta_weight if _is_delta(m) else m.weight))
+
+    def _set_signs(m, arr_np):
+        packed = pack_ternary_mlx(mx.array(arr_np.astype(np.int8)))
+        if _is_delta(m):
+            m.delta_weight = packed
+        else:
+            m.weight = packed
+        mx.eval(packed)
+
+    candidates = [(n, m) for (n, m) in model.named_modules()
+                  if isinstance(m, (TernaryLinear, DeltaTernaryLinear))
+                  and args.module_filter in n]
+    if not candidates:
+        raise SystemExit(f"no ternary module matches --module-filter={args.module_filter!r}")
+
+    tgt_name = tgt_mod = base_signs = None
+    for name, mod in candidates:
+        signs = _orig_signs(mod)
+        N_, K_ = signs.shape
+        nz = np.flatnonzero(signs.reshape(-1) != 0)
+        if nz.size == 0:
+            continue
+        gr = np.random.default_rng(args.seed).choice(nz, size=max(1, nz.size // 2), replace=False)
+        probe = signs.copy().reshape(-1)
+        probe[gr] *= -1
+        _set_signs(mod, probe.reshape(N_, K_))
+        ce_probe, _, _ = forward_metrics(model, tokens, targets)
+        _set_signs(mod, signs)  # restore exactly
+        moved = abs(ce_probe - ce0)
+        log(f"  guard: {name:34} ({N_},{K_}) nz={nz.size:>9,}  flip-½nz ΔCE={ce_probe-ce0:+.4f}"
+            f"  {'LIVE ✓' if moved > 1e-4 else 'DEAD ✗'}")
+        if moved > 1e-4 and tgt_mod is None:
+            tgt_name, tgt_mod, base_signs = name, mod, signs
+
+    if tgt_mod is None:
+        raise SystemExit("INSTRUMENT GUARD FAILED: no live routing module for "
+                         f"--module-filter={args.module_filter!r} — perturbations do not reach "
+                         "the forward. ABORT (the result would be VOID, cf. s217 phase-2 bug).")
+
+    N, K = base_signs.shape
+    nz_idx = np.flatnonzero(base_signs.reshape(-1) != 0)  # routing positions (nonzero signs)
+    n_positions = int(nz_idx.size)
+    log(f"▶ LIVE target routing module: {tgt_name}  shape=({N},{K})  "
+        f"routing(nonzero)-positions={n_positions:,}")
+
     def apply_flip(flat_idx: np.ndarray):
-        delta = np.ones((N, K), dtype=np.int8)
-        delta.reshape(-1)[flat_idx] = -1  # flip effective sign at these positions
-        tgt_mod.delta_weight = pack_ternary_mlx(mx.array(delta))
-        mx.eval(tgt_mod.delta_weight)
+        signs = base_signs.copy().reshape(-1)
+        signs[flat_idx] *= -1  # flip sign of selected nonzero routing positions
+        _set_signs(tgt_mod, signs.reshape(N, K))
 
     def reset_flip():
-        tgt_mod.delta_weight = ones_packed
-        mx.eval(tgt_mod.delta_weight)
+        _set_signs(tgt_mod, base_signs)
 
     rng = np.random.default_rng(args.seed + 1)
     records = []
     for frac in flip_fracs:
         B = max(1, int(frac * n_positions))
         for r in range(args.reps):
-            idx = rng.choice(n_positions, size=min(B, n_positions), replace=False)
+            sel = rng.choice(n_positions, size=min(B, n_positions), replace=False)
+            idx = nz_idx[sel]  # map to absolute flat indices among routing positions
             apply_flip(idx)
             ce, dx, _ = forward_metrics(model, tokens, targets)
             reset_flip()
@@ -219,12 +266,15 @@ def main():
     accept_good_rate = (float(np.mean(~true_bad[accepted])) if accepted.any() else float("nan"))
 
     verdict = ("SELF-VERIFYING SIGNAL PRESENT" if spear > 0.3 and pear > 0.3
-               else "WEAK/ABSENT (needs contractive-trained base)" if spear > 0.1
+               else "WEAK (partial signal)" if spear > 0.1
                else "NO SIGNAL on this base")
 
     out = {
         "register": "functional",
-        "model": "v15 extracted base (frozen)",
+        "model": (f"v15 trained base ({args.checkpoint})" if args.checkpoint
+                  else "v15 extracted base (frozen)"),
+        "perturbation": "sign-flip of nonzero routing positions (live FFN gate plate)",
+        "live_guard": "passed",
         "n_outer": args.n_outer, "target_module": tgt_name,
         "module_shape": [int(N), int(K)], "n_positions": int(n_positions),
         "batch": {"seqs": args.seqs, "seq_len": args.seq_len},
