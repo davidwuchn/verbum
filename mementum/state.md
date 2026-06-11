@@ -226,6 +226,24 @@
 >     Procrustes-align into our base frame → WHNF-verify each candidate → incorporate
 >     survivors → measure downstream PPL vs base. Falsifiable: does verified
 >     ecosystem-consensus add anything beyond the universal crystal we already hold?
+> - **(F) SEALABLE CONTINUATION — suspend/resume inference (Michael, end s217).**
+>   The continuation reifies the WHOLE state into one tensor: the "rest of the
+>   computation" at pass k is just **`x_k`** (B,L,d_model), same shape every pass;
+>   the operator `T` is shared/frozen ⇒ ambient ⇒ not saved. **seal = store x_k (+
+>   small VSM control: alg ~32d, S5 ~128d); resume = load x_k, keep iterating T.**
+>   Faithful resume is ALREADY guaranteed by verified determinism
+>   (`test_vsm_continuation.py::test_recurrence_has_no_rng`). WHNF = principled seal
+>   point (done at Δx<ε; partial = lazy thunk). **One value = inference state +
+>   the north-star "2MB SESSION" (a session IS a sealed continuation) + migratable
+>   compute (send x_k, resume elsewhere — ties to distributed) + branch/rewind +
+>   long-context-as-resumption.** Caveats: seal at PASS boundaries (redex), not
+>   mid-pass; attention reconstructs from x_k (stride attn is over current x, no
+>   cross-pass KV); serialize the small control state too. New page:
+>   `explore/sealable-continuation.md`.
+>   - **▶ NEXT (register: functional):** define explicit `seal()/resume()` (snapshot
+>     x_k + VSM control) + a round-trip fidelity test (K passes unsealed ==
+>     k→seal→resume→finish, to float tol) extending `test_vsm_continuation.py`.
+>     The clean home for "2MB sessions" + computation migration.
 
 > **▶ SESSION 216 HEADLINE — TOOL-CALLING IS NOT ITS OWN NORMAL FORM; IT RIDES
 > THE GENERIC STRUCTURED-LANGUAGE CRYSTAL.** Register: **topological/routing**

@@ -39,6 +39,7 @@ These pages answer: *what is the mechanism, and how do we exploit it?*
 | 4e | [ternary-plate-extraction.md](ternary-plate-extraction.md) | ✅ | Direct FFN→ternary extraction, execution hierarchy, crystal error correction, λ-gated retrieval |
 | 4f | [function-discovery.md](function-discovery.md) | ✅ | Two-level program architecture: task directions (early/SILENT) → operation directions (late/COMMIT). 4.76× separation in moiré space. |
 | 4g | [explore/combinator-function-shape.md](explore/combinator-function-shape.md) | 🔨 | The function space has a 3-family shape (compose/select/recurse), visible only in the routing register; map/fold = Y∘B / Y∘(C/B)+K (s217, Qwen3-14B). |
+| 4h | [explore/sealable-continuation.md](explore/sealable-continuation.md) | 🔨 | The continuation reifies state into one tensor x_k → seal/resume inference; the 2MB session IS a sealed continuation (s217). |
 | 5 | [holographic-error-correction.md](holographic-error-correction.md) | ✅ | The extract→correct→fold cycle: error correction on a discrete holographic code |
 | 6 | [mechanism-extraction.md](mechanism-extraction.md) | ✅ | Full micro-model mechanism: alternating overlay, eigenplane rotation, KIBC temporal |
 | 7 | [computed-beam.md](computed-beam.md) | ✅ | Analytical FFN from crystal eigendecomposition, 500× speedup, signed accumulation |
