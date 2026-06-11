@@ -913,6 +913,14 @@ def train_td(
             etch_modules = td_result.get("etch_active_modules", "")
             etch_slot = td_result.get("etch_slot_size", "")
             etch_str = f" etch={etch_modules}×{etch_slot}" if etch_modules else ""
+            outer_deltas_list = []
+            _od = getattr(model, "_last_outer_deltas", None)
+            if _od:
+                for _d in _od:
+                    mx.eval(_d)
+                    outer_deltas_list.append(round(float(_d.item()), 5))
+            outer_str = (f" Δx={outer_deltas_list}" if outer_deltas_list else "")
+
             exact_str = ""
             if "exact_n_proxy" in td_result:
                 exact_str = (
@@ -923,7 +931,7 @@ def train_td(
                 )
             td_str = (
                 f" {gate_icon} td={td_flips_this_window}"
-                f" Δ={avg_changed:.3f}{etch_str}{nb_str}{adam_decay_str}{exact_str}"
+                f" Δ={avg_changed:.3f}{etch_str}{nb_str}{adam_decay_str}{exact_str}{outer_str}"
             )
 
             print(
@@ -973,6 +981,9 @@ def train_td(
                 record["parity"] = parity_val
             if cross_zone_val is not None:
                 record["cross_zone"] = cross_zone_val
+
+            if outer_deltas_list:
+                record["outer_deltas"] = outer_deltas_list
 
             # Exact-ΔL acceptance diagnostics (session 213)
             if "exact_n_proxy" in td_result:
@@ -1270,6 +1281,10 @@ if __name__ == "__main__":
     # differ only in TD acceptance share an identical starting point.
     parser.add_argument("--seed", type=int, default=42)
 
+    # VSM outer recurrence (session 214, explore/vsm-outer-recurrence.md):
+    # re-run the shared A→C sweep K times per forward (K=1 ≡ baseline).
+    parser.add_argument("--n-outer-passes", type=int, default=1)
+
     args = parser.parse_args()
 
     # Seed BEFORE model creation (random float init happens there).
@@ -1323,6 +1338,10 @@ if __name__ == "__main__":
         cfg, convert_ffn=args.convert_ffn,
         skip_base_load=bool(args.safetensors_dir),
     )
+    model._n_outer_passes = args.n_outer_passes
+    if args.n_outer_passes != 1:
+        print(f"  VSM outer recurrence: n_outer_passes={args.n_outer_passes} "
+              f"(shared-weight sweep iterated; K=1 ≡ baseline)", file=sys.stderr)
 
     n_plate = count_ternary_weights(model)
     trainable = [v for _, v in tree_flatten(model.trainable_parameters())

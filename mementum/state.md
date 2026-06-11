@@ -73,9 +73,19 @@
 >   crystal-loss degradation (does S2 smoothing aid crystal coherence?); a longer
 >   + larger-seq + multi-seed confirm of the small λ0.1+S2 win (+ downstream-PPL,
 >   functional); then write the verdict into `explore/exact-ternary-fitting.md`
->   "Where this points". Also queued: the s214 **VSM outer-recurrence** idea
->   (`explore/vsm-outer-recurrence.md`, committed b068c6d) — `--n-outer-passes K`
->   probe, watch the per-iteration Δx fixed-point curve. **Declare register first.**
+>   "Where this points". **Declare register first.**
+> - **▶ VSM OUTER-RECURRENCE PROBE RAN** (`--n-outer-passes`, added to
+>   `v15model.py` forward + `train_td.py`; register: functional). K=2 vs K=1
+>   (proxy, seed42, 250 steps, seq256): K=2 **avg50 9.096 / CE 8.732 LOSES** to
+>   K=1 (8.966 / 8.706) at **2× compute**, and **Δx stays ~1.2 (1.265→1.167,
+>   ~8% drift) — the sweep is NOT contractive**, it re-transforms rather than
+>   reduces-to-fixed-point. ⇒ naive iterate-to-WHNF / "free depth" does NOT hold
+>   out of the box; **must train for contractivity** (Δx/fixed-point loss, x₀
+>   injection à la Universal-Transformer, or explicit halting). Result recorded
+>   in `explore/vsm-outer-recurrence.md` §Probe result + `results/vsm-outer-
+>   recurrence/k2-vs-k1.json`; run `checkpoints/v15-td-outer-k2`. **▶ NEXT here:**
+>   add a Δx/fixed-point loss (or x₀ injection) and re-test whether trained-for-
+>   contractivity recurrence then pays.
 
 > **▶ SESSION 213 HEADLINE — NEW EXPLORATION TARGET: EXACT TERNARY FITTING.**
 > Register: functional (declared up front — layer-local reconstruction loss under

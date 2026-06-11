@@ -173,6 +173,39 @@ depth) over a fixed parameter budget.
 4. Only if (2)/(3) are promising: design the halting head + ponder cost
    against the existing `S3/S4`/algedonic controller (adaptive `K`).
 
+## Probe result (s214) — naive K=2 doesn't help; the sweep is NOT contractive
+
+First probe run (`--n-outer-passes`, register: **functional**): wrapped the A→C
+sweep in an outer loop (BPTT through K shared-weight sweeps), trained K=2 vs the
+K=1 baseline (proxy acceptance, seed 42, 250 steps, seq256, identical settings).
+
+| arm | total avg50 ↓ | CE ↓ | compute | Δx (init→final) |
+|---|---|---|---|---|
+| K=1 baseline | **8.966** | **8.706** | 1× | — |
+| K=2 outer | 9.096 | 8.732 | 2× | 1.265 → 1.167 |
+
+- **Naive K=2 does NOT help** — slightly *worse* on loss (+0.130) and CE
+  (+0.026) at **2× compute.**
+- **The sweep is not a contractive reduction operator.** Δx =
+  `‖x_c^{(2)} − x_c^{(1)}‖ / ‖x_c^{(1)}‖` sits at ~1.2 and drifts down only
+  ~8% over all 250 steps (1.265 → 1.167) — nowhere near a fixed point
+  (needs Δx → 0). The second application *re-transforms* the representation
+  by ~120% of its norm rather than refining it toward normal form. Churn,
+  not reduction → no useful added depth.
+- **Open-question #1 answered:** the trained single-sweep crystal iterates
+  *marginally* (neither contractive/free-depth nor divergent). The
+  "iterate-to-WHNF / free depth" story does **not** hold for the current
+  architecture out of the box — it must be **trained for**, not assumed.
+- Caveat: single seed, 250 steps, seq256, K=2 only, from a K=1-shaped init
+  (base plates were extracted for a single sweep). A from-scratch or longer
+  contractivity-trained run could still differ.
+
+**Therefore the open leads below are now the *required* path, not optional:**
+a fixed-point/Δx loss (penalize `‖x_{k+1}−x_k‖`), x₀ injection (Universal-
+Transformer anchoring), or explicit halting. Artifacts: harness flag in
+`scripts/v15/train_td.py` + `v15model.py` forward; result
+`results/vsm-outer-recurrence/k2-vs-k1.json`; run `checkpoints/v15-td-outer-k2`.
+
 ## Open questions
 
 1. **Does the single-sweep crystal already iterate stably?** Run the trained

@@ -1,0 +1,121 @@
+{
+  "register": "functional",
+  "probe": "VSM outer recurrence K=2 vs K=1 (proxy acceptance, seed42, 250 steps, seq256)",
+  "k1_baseline": {
+    "dir": "checkpoints/v15-td-ab-proxy",
+    "final_avg50": 8.965708240270615,
+    "final_ce": 8.705704689025879
+  },
+  "k2_outer": {
+    "dir": "checkpoints/v15-td-outer-k2",
+    "final_avg50": 9.096015193462371,
+    "final_ce": 8.731518745422363
+  },
+  "verdict": "naive K=2 does NOT help (worse at 2x compute); sweep not contractive (dx~1.2 flat, ~8% drift) \u2014 transform not reduction-to-fixed-point; must train for contractivity",
+  "outer_delta_trajectory": [
+    [
+      1,
+      1.26463
+    ],
+    [
+      10,
+      1.26083
+    ],
+    [
+      20,
+      1.264
+    ],
+    [
+      30,
+      1.25186
+    ],
+    [
+      40,
+      1.25533
+    ],
+    [
+      50,
+      1.23804
+    ],
+    [
+      60,
+      1.24509
+    ],
+    [
+      70,
+      1.26642
+    ],
+    [
+      80,
+      1.21901
+    ],
+    [
+      90,
+      1.23219
+    ],
+    [
+      100,
+      1.26612
+    ],
+    [
+      110,
+      1.24664
+    ],
+    [
+      120,
+      1.20753
+    ],
+    [
+      130,
+      1.22204
+    ],
+    [
+      140,
+      1.21387
+    ],
+    [
+      150,
+      1.20792
+    ],
+    [
+      160,
+      1.1807
+    ],
+    [
+      170,
+      1.18482
+    ],
+    [
+      180,
+      1.16265
+    ],
+    [
+      190,
+      1.1815
+    ],
+    [
+      200,
+      1.14084
+    ],
+    [
+      210,
+      1.15455
+    ],
+    [
+      220,
+      1.15566
+    ],
+    [
+      230,
+      1.1798
+    ],
+    [
+      240,
+      1.16473
+    ],
+    [
+      250,
+      1.16654
+    ]
+  ]
+}

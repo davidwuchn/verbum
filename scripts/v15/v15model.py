@@ -300,9 +300,27 @@ class V15Model(nn.Module):
         else:
             alg_for_a = None
 
-        # ── Sequential: A → C ─────────────────────────────────
-        x_a, alg_a, deltas_a, gates_a = self.stack_a(x, downstream_alg=alg_for_a)
-        x_c, alg_c, deltas_c, gates_c = self.stack_c(x_a)
+        # ── Sequential: A → C, optionally iterated (outer recurrence) ──
+        # session 214 probe (explore/vsm-outer-recurrence.md): re-run the SAME
+        # shared VSM sweep n_outer times, feeding x_c back as the next input.
+        # Iterating one typed-reduction operator ≡ β-reduction toward a fixed
+        # point (WHNF). n_outer=1 is identical to the single-sweep baseline.
+        # _last_outer_deltas records ‖x_c^{(k)} − x_c^{(k-1)}‖/‖x_c^{(k-1)}‖ —
+        # the fixed-point convergence curve (shrinking ⇒ contractive ⇒ free depth).
+        n_outer = int(getattr(self, "_n_outer_passes", 1))
+        x_in = x
+        prev_xc = None
+        outer_deltas = []
+        for _k in range(n_outer):
+            x_a, alg_a, deltas_a, gates_a = self.stack_a(x_in, downstream_alg=alg_for_a)
+            x_c, alg_c, deltas_c, gates_c = self.stack_c(x_a)
+            if prev_xc is not None:
+                d = mx.sqrt(mx.mean((x_c - prev_xc) ** 2))
+                nrm = mx.sqrt(mx.mean(prev_xc ** 2)) + 1e-8
+                outer_deltas.append(mx.stop_gradient(d / nrm))
+            prev_xc = x_c
+            x_in = x_c
+        self._last_outer_deltas = outer_deltas
 
         # Collect all pass deltas (4+4 = 8 total)
         all_deltas = deltas_a + deltas_c
