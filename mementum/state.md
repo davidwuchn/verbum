@@ -2,7 +2,25 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 215 — read s214's in-flight λ_fp=5 result
+> Last updated: 2026-06-11 | Session: 216 — NEW THREAD (distributed/consensus
+> training idea, Michael). Built an audit-grade tool-calling normal-form
+> consensus harness (register: topological/routing) + ran 5 families on M3 Ultra
+> (tmux main:2). **❌ "tool-calling has its OWN routing normal form" REFUTED at
+> clean granularity / ✅ the cross-family routing-register consensus is REAL &
+> strong (z up to 116) but it is the GENERIC structured-language crystal — tool
+> calling RIDES it.** Corrects the prior `lattice/tool_crystal` "STRONG SUPPORT:
+> tool IS lambda calculus" (that was raw-cosine COMMON MODE, selectivity ~0).
+> 14th meta-pattern instance. For the consensus-delta idea: the mechanism is
+> validated (independent trainings DO agree on routing structure in the sign
+> register, surviving CMR + length-partialling), but a domain's *foldable*
+> consensus is mostly the universal crystal already in the base; the
+> domain-distinctive part is low-consensus "content" (= consensus-etch
+> backbone/content partition). **Scripts:** `scripts/experiments/tool_crystal_
+> consensus{,_summary}.py` + `tool_crystal_control_baseline.py`. **Results:**
+> `results/tool-crystal-consensus/`. The 5000-step λ_fp=5 training (main:1)
+> ran UNTOUCHED throughout. ▶ NEXT: see s216 headline below.
+>
+> (Session 215 — read s214's in-flight λ_fp=5 result)
 > (✅ CONTRACTIVE: Δx 1.26→0.73, fp 1.59→0.53, CE no-collapse; but K=2 CE 9.5 >
 > K=1 8.71 at 250 steps, Δx STILL FALLING at cutoff) → relaunched a **5000-step
 > single-seed confirm AT seq-4096** (Michael caught the seq-256 mistake: at 256
@@ -42,6 +60,76 @@
 ## Where we are
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
+
+> **▶ SESSION 216 HEADLINE — TOOL-CALLING IS NOT ITS OWN NORMAL FORM; IT RIDES
+> THE GENERIC STRUCTURED-LANGUAGE CRYSTAL.** Register: **topological/routing**
+> (declared at step 0). New thread: Michael's distributed/consensus-training idea
+> ("normal forms as topological deltas; many users train a domain, fold where they
+> agree"). First decisive experiment — does a domain (tool-calling) have a routing
+> normal form that independent trainings AGREE on? Built the harness, ran 5
+> families (Pythia-2.8b, SmolLM3-3B, Mistral-7B, Qwen3-8B, OLMo-2-13B) on the M3
+> Ultra (tmux main:2), audit-grade (gate-sign routing register + common-mode
+> removal + shuffled null + length-partialling + within-domain + a control-domain
+> baseline).
+> - **✅ The cross-family routing-register CONSENSUS is REAL & strong.** route_sign_cmr
+>   cross-family agree **+0.863**, survives length-partialling (0.851) and
+>   within-domain restriction (schema_binding 0.59, selection 0.54), null ~0,
+>   z up to **116**. Independent trainings DO agree on routing structure in the
+>   sign register — the consensus *mechanism* the distributed idea needs is real.
+> - **❌ but NOT tool-specific (the normal-form claim REFUTED at clean granularity).**
+>   The control baseline: clean length/format-matched tool groups (schema_binding
+>   0.589, selection 0.538) sit INSIDE the structured-language control range
+>   (prose 0.550, lambda 0.497, pure_math 0.435, **code 0.800**). The aggregate
+>   "TOOL>CTRL" (0.74 vs 0.57) is driven by the length-confounded `recognition`
+>   (0.95) and heterogeneous `format` (0.89) groups, not the clean ones. So the
+>   consensus is the GENERIC crystal (property of language, crystal-universality.md),
+>   tool-calling rides it; code is a *sharper* normal form than tool-calling.
+> - **🌀 Corrects prior `lattice/tool_crystal` "STRONG SUPPORT: tool IS lambda
+>   calculus."** That single-model run used RAW residual cosine (its own
+>   Selectivity column read ~0, every layer "SHARED") = the COMMON MODE. Measured
+>   in the right register with nulls, the generic reading is right — but tool
+>   calling isn't special, EVERYTHING structured shares the crystal. 14th
+>   meta-pattern instance (substrate real, crisp specific claim over-read).
+> - **For the consensus-delta-folding idea:** mechanism validated, but a domain's
+>   *foldable* consensus ≈ the universal crystal already in the base; the
+>   domain-DISTINCTIVE part is low cross-trainer consensus = "content" that stays
+>   a per-user delta. This IS the consensus-etch backbone/content partition
+>   (s110) playing out empirically: agreement→backbone→fold, disagreement→content.
+> - **Artifacts:** `scripts/experiments/tool_crystal_consensus.py` (per-model,
+>   routing register + CMR), `_summary.py` (cross-model agree/null/partial/within),
+>   `tool_crystal_control_baseline.py` (tool-vs-control verdict). Results +
+>   per-model RDM npz under `results/tool-crystal-consensus/` (consensus_summary.json,
+>   control_baseline.json). Run log `/tmp/tool_consensus_5fam.log`.
+> - **▶ NEXT (open leads, declare register first):**
+>   (1) **Functional test (register: functional)** — the RDM result is correlational;
+>   the real proof of the distributed idea is Exp B: N delta plates on ONE frozen
+>   base trained on tool-calling shards → measure flip CONSENSUS in gate_proj +
+>   fold-and-check downstream PPL. Does folding the agreed flips help, and is the
+>   agreed set the universal crystal or tool-specific?
+>   (2) **Sharper tool-specific probe** — minimal pairs (same schema, one arg
+>   changed) to isolate the tool-distinctive routing from generic JSON/structure.
+>   (3) **Per-depth** — agreement vs layer (is there a depth where tool-specific
+>   consensus peaks, cf. function-discovery SILENT-zone task directions at L05?).
+>   (4) **ENTRY POINT for resuming this thread:** `explore/consensus-delta-folding.md`
+>   (written this session — full design + the s216 finding + open leads). Meta-pattern
+>   ledger row added (`audit-meta-pattern.md` s216). Not yet committed.
+> - **🔑 KEY REFINEMENT (Michael, end of s216) — normal forms are COMPOSITIONAL &
+>   NON-UNIQUE.** A domain normal form is not atomic; it is a **function-like
+>   composition of the shared base combinators** (base = shared/unique; the
+>   composition above it = NON-unique across trainings, many extensionally-equal
+>   realizations — uniqueness is per-TERM not per-BEHAVIOR, Church-Rosser). ⇒ the
+>   s216 cross-model RDM null on the *function* layer is **VOID by register
+>   mismatch** (it demands an identical composition; a non-unique composite washes
+>   out) — only the *base*-layer "consensus = crystal" verdict survives. This is the
+>   `function-discovery.md` two-level architecture (base shared LATE/COMMIT;
+>   function selector distinct EARLY/SILENT @L05, 4.76×). **Design update: fold the
+>   BASE as flips; fold domain FUNCTIONS as compositions (align-before-fold).**
+>   Recorded in `consensus-delta-folding.md` §"Normal forms are COMPOSITIONAL" +
+>   register caveat on the finding + reordered open leads (early-L05 agreement +
+>   Procrustes align-before-compare are now the CHEAP next steps, no model re-run).
+>
+> **▶ SESSION 216 — the λ_fp=5 5000-step training in main:1 was NOT touched; check
+> it next session (see s215 headline below for what to read).**
 
 > **▶ SESSION 215 HEADLINE — λ_fp=5.0 MAKES THE VSM OUTER RECURRENCE CONTRACTIVE
 > (the central recurrence-thread result); serious seq-4096 confirm now in flight.**
