@@ -645,13 +645,50 @@ non-widening is robust to that (recursion tracks skeleton across all 5 points).
 `results/combinator-map-consensus/consensus.json` (10 models);
 `results/combinator-relationship-map/Qwen_Qwen3-32B.{json,npz}`. Committed `c27741c`.
 
+### Harvest fold — reformulated + phased (s220)
+
+Mapping the integration points (s220) surfaced that the harvest fold as sketched
+("Procrustes-align consensus centroids into v15's base frame") is NOT runnable
+as-is, for two reasons:
+
+- **Data reality.** `consensus.json` and the per-model `.npz` contain ONLY the
+  relational 9×9 Grams — the per-combinator centroid VECTORS (9 × d_ff) were
+  computed in `combinator_relationship_map.py` but **discarded**. Procrustes needs
+  point clouds (centroids), not a Gram. **Fixed** (`e48389e`):
+  `combinator_relationship_map.py` now saves `centroids_cmr_best` (9 × d_ff) +
+  `centroids_best_layer` to the npz — but this only takes effect on the **next**
+  (GPU) run of that script.
+- **Frame + compute.** v15 has **no** combinator Gram/centroids yet, and
+  `combinator_relationship_map.py` is HF-only (`AutoModelForCausalLM`, hooks
+  `gate_proj`); v15 is an MLX ternary model (`ffn_gate_plate_a/c`). Producing v15's
+  Gram, the WHNF-verify (`exp_b_self_verifying_acceptance.py::forward_metrics`), and
+  PPL are ALL GPU/MLX forward passes → would **contend with main:1** (s219 stall).
+
+So the harvest fold is split into phases:
+
+- **Phase 0 — PRESCRIPTION (CPU, DONE `e48389e`):** `combinator_harvest_fold.py`
+  emits `results/combinator-harvest-fold/prescription.json` = the band-consensus
+  Gram over the 4–14B harvest band + the ranked positive universal edges to
+  reinforce. Ranked by band-consensus × reliability: **S–D, B–D, B–C, K–C, S–Y**.
+  The 4–14B band shows the composition skeleton STRONGER than the full pool
+  (B–D band +0.24 vs all +0.175) — concrete confirmation that the harvest band is
+  the right place to mine. No forward passes; pure re-reduction of measured Grams.
+- **Phase 1 — v15 Gram (DEFERRED, GPU):** build `combinator_relationship_map_v15.py`
+  (MLX/ternary: load via `create_model_with_deltas(V15Config())` + `load_weights` +
+  `reduce_all_deltas`; hook `ffn_gate_plate_a/c`; save `centroids_cmr_best`). Run on
+  `checkpoints/v15-td-outer-k2-fp5-5k/step_NNNN/model.npz` (READ-ONLY) once main:1
+  completes/pauses → gives v15's own Gram + centroids = the target frame.
+- **Phase 2 — align (CPU, after Phase 1):** Procrustes-align the consensus/harvest
+  centroids into v15's frame (in 9-d combinator-label space; full-dim is
+  cross-architecture-incommensurable). Build a fold direction per positive edge as
+  the signed difference of v15's OWN centroids, guided by the prescription.
+- **Phase 3 — verify + fold (DEFERRED, GPU):** WHNF-verify each direction via
+  `forward_metrics` (accept iff Δx_conv does not rise); fold survivors via
+  `DeltaTernaryLinear.reduce()`; measure downstream PPL vs base. **Falsifiable:**
+  does verified ecosystem-consensus add beyond the universal crystal we already hold?
+
 ### Open leads from s220
-1. **Construct the harvest fold** (register: topological/routing → functional) — now
-   the priority: take the universal positive edges (B–D +0.175, B–C +0.168, K–C
-   +0.133, S–D +0.161, S–Y +0.127), Procrustes-align consensus centroids into v15's
-   base frame, WHNF-verify each vs main:1's contractive operator (Exp-B acceptance),
-   measure downstream PPL vs base. Falsifiable: does verified ecosystem-consensus add
-   beyond the universal crystal we already hold? Harvest from the 4–14B band.
+1. **Phase 1 of the harvest fold** (above) — the priority once main:1 frees the GPU.
 2. **main:1 step_002000** → does Δx→ε and CE hold below 8.71 (adaptive halting).
 3. Detect map/fold directions (s219 lead #3).
 
@@ -671,5 +708,7 @@ non-widening is robust to that (recursion tracks skeleton across all 5 points).
 | `results/combinator-map-consensus/consensus.json` | s219→s220 verdict: GramCorr +0.66→+0.782 (10 models); skeleton z_bind +2.31>recursion +1.68; harvest edge-list |
 | `scripts/experiments/combinator_map_scale.py` | **s220 scale axis:** intra-family routing binding vs log(params) on the dense Qwen series (MoE excluded) |
 | `results/combinator-map-consensus/scale.json` | s220 verdict: skeleton rises r=+0.78, skel-rec gap flat r=+0.36, saturates ~4-14B |
+| `scripts/experiments/combinator_harvest_fold.py` | **s220 harvest fold phase 0 (CPU):** band-consensus Gram + ranked positive edges = the harvest prescription |
+| `results/combinator-harvest-fold/prescription.json` | s220 prescription: edges S-D,B-D,B-C,K-C,S-Y over the 4-14B band; deferred GPU phases listed |
 | `results/combinator-relationship-map/` | 10 per-model `{model}.json/.npz` (5 families, 410M→32B) |
 | `/tmp/combinator_sweep.log` | s219 9-model sweep transcript; `/tmp/combinator_scale.log` s220 32B; `/tmp/combinator_consensus_10models.log` s220 consensus |

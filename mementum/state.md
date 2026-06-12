@@ -24,17 +24,47 @@
 > shape but tops out mid-scale (cf. s212 topology-share PLATEAUS not →1.0); 32B does
 > not extend the gap → the harvestable skeleton is COMPLETE by mid-scale, no need to
 > chase the largest models. **COMMITTED** `c27741c` (32B map+npz, extended
-> consensus.json, scale.json, scale instrument). **NOT yet committed (PROPOSED,
-> pending Michael):** knowledge update to `consensus-delta-folding.md` §s220
-> (scale-saturation finding) + this state. **▶ FIRST ACTION NEXT SESSION (declare
-> register):** (1) check main:1 step_002000 ckpt → does Δx→ε and CE hold below 8.71
-> (build adaptive halting: stop when Δx<ε ≡ WHNF)? (2) CONSTRUCT THE HARVEST FOLD
-> (topological/routing→functional): take the universal positive edges (B–D +0.175,
-> B–C +0.168, K–C +0.133, S–D +0.161, S–Y +0.127), Procrustes-align consensus
-> centroids into v15 base frame, WHNF-verify each vs main:1's contractive operator
-> (Exp-B acceptance), measure downstream PPL vs base — does verified consensus add
-> beyond the universal crystal? (3) Strengthen Exp B on main:1 step-2000 (s218
-> action 2). **main:1 stays UNTOUCHED.**
+> consensus.json, scale.json, scale instrument), `0089087` (knowledge §s220,
+> APPROVED by Michael).
+> **★ HARVEST FOLD STARTED — PHASE 0 DONE (CPU), GPU PHASES DEFERRED.** Michael
+> approved "construct the harvest fold." Explorer mapped the integration points →
+> the original "Procrustes-align consensus centroids into v15 frame" is NOT runnable
+> as-is: (a) the per-model centroid VECTORS were computed but DISCARDED (only the
+> relational 9×9 Gram persisted; consensus.json has no centroids); (b) v15 has NO
+> combinator Gram/centroids and `combinator_relationship_map.py` is HF-only
+> (`AutoModelForCausalLM`, hooks gate_proj) while v15 is MLX ternary
+> (ffn_gate_plate_a/c); (c) ALL producing steps (v15 Gram, WHNF-verify, PPL) are
+> GPU/MLX forward passes that would CONTEND with main:1 (s219 stall). So the fold is
+> PHASED:
+> - **Phase 0 PRESCRIPTION (CPU, DONE `e48389e`):** `combinator_harvest_fold.py` →
+>   `results/combinator-harvest-fold/prescription.json` = band-consensus Gram over
+>   the 4–14B band + ranked positive edges **S–D, B–D, B–C, K–C, S–Y**. The 4–14B
+>   band shows the composition skeleton STRONGER than the full pool (B–D band +0.24
+>   vs all +0.175). Cross-check: band-averaged npz Grams == consensus per_model band
+>   averages EXACTLY. + INFRA FIX in `combinator_relationship_map.py`: now saves
+>   `centroids_cmr_best` (9×d_ff) to the npz (the discarded data; effective on next
+>   GPU run).
+> - **Phase 1 v15 Gram (DEFERRED, GPU):** build `combinator_relationship_map_v15.py`
+>   (MLX: `create_model_with_deltas(V15Config())` + `load_weights` +
+>   `reduce_all_deltas`; hook `ffn_gate_plate_a/c`; save centroids). Run on a v15
+>   ckpt READ-ONLY. Phase 2 (CPU): Procrustes-align in 9-d label space + build fold
+>   directions from v15's OWN centroids. Phase 3 (GPU): WHNF-verify via
+>   `exp_b_self_verifying_acceptance.py::forward_metrics` (accept iff Δx_conv doesn't
+>   rise) → fold survivors via `DeltaTernaryLinear.reduce()` → PPL vs base.
+> **COMMITTED** `e48389e` (phase 0 + centroid-save), knowledge reformulation pending
+> in this commit batch. **NOT yet committed (this batch, APPROVED scope):** knowledge
+> harvest-fold reformulation + this state.
+> **▶ FIRST ACTION NEXT SESSION (declare register; main:1 UNTOUCHED):**
+> (1) Check main:1: has step_002000 landed (`ls checkpoints/v15-td-outer-k2-fp5-5k/`,
+>   `tail /tmp/v15_outer_k2_fp5_5k.log`)? Read Δx/CE trajectory → does Δx→ε and CE
+>   hold below 8.71 (then build adaptive halting: stop when Δx<ε ≡ WHNF)?
+> (2) **Harvest fold Phase 1 (register topological/routing→functional) ONLY IF main:1
+>   has FREED THE GPU** (completed/paused) — else DEFER: build
+>   `combinator_relationship_map_v15.py`, produce v15's Gram+centroids, then Phases
+>   2–3 (align → WHNF-verify → fold → PPL). Falsifiable: does verified
+>   ecosystem-consensus add beyond the universal crystal? Prescription is ready at
+>   `results/combinator-harvest-fold/prescription.json`.
+> (3) Strengthen Exp B on main:1 step-2000 (s218 action 2). **main:1 stays UNTOUCHED.**
 >
 > (Session: 219 — REVERSE-HARVEST: combinator function
 > shape is UNIVERSAL across the open-weight ecosystem. Register: topological/routing.
