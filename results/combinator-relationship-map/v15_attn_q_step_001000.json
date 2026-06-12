@@ -29,7 +29,7 @@
     "WHNF"
   ],
   "n_perm": 1000,
-  "git_sha": "cc581acdf85065fb87e2dd9a248a93508eda0cec",
+  "git_sha": "5cb192c47d059fe785e649e765d177084d87afdf",
   "best_key": "L05",
   "per_key_silhouette": {
     "L00": {
@@ -102,6 +102,341 @@
     "null_std": 0.00020705647084345722,
     "z": 1.4957082924741778,
     "p_value": 0.06293706293706294
+  },
+  "family_binding_best": {
+    "selection_KIC": {
+      "internal_cos": -0.1133,
+      "z_bind": 0.21,
+      "p_bind": 0.4306,
+      "edges": {
+        "K-I": -0.0508,
+        "K-C": -0.0568,
+        "I-C": -0.2323
+      }
+    },
+    "composition_BDS": {
+      "internal_cos": -0.0965,
+      "z_bind": 0.51,
+      "p_bind": 0.3177,
+      "edges": {
+        "B-D": -0.0768,
+        "B-S": -0.0265,
+        "D-S": -0.1863
+      }
+    },
+    "recursion_YWWHNF": {
+      "internal_cos": -0.1155,
+      "z_bind": 0.15,
+      "p_bind": 0.4436,
+      "edges": {
+        "Y-W": -0.0805,
+        "Y-WHNF": 0.0103,
+        "W-WHNF": -0.2764
+      }
+    },
+    "_summary": {
+      "skeleton_z_bind": 0.36,
+      "recursion_z_bind": 0.15,
+      "skeleton_gt_recursion": true
+    }
+  },
+  "family_binding_per_layer": {
+    "L00": {
+      "selection_KIC": {
+        "internal_cos": -0.1359,
+        "z_bind": -0.21,
+        "p_bind": 0.5744,
+        "edges": {
+          "K-I": -0.1506,
+          "K-C": -0.1016,
+          "I-C": -0.1557
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.1145,
+        "z_bind": 0.18,
+        "p_bind": 0.4775,
+        "edges": {
+          "B-D": -0.2443,
+          "B-S": -0.1391,
+          "D-S": 0.0399
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.1171,
+        "z_bind": 0.18,
+        "p_bind": 0.4615,
+        "edges": {
+          "Y-W": -0.0084,
+          "Y-WHNF": -0.1493,
+          "W-WHNF": -0.1935
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": -0.01,
+        "recursion_z_bind": 0.18,
+        "skeleton_gt_recursion": false
+      }
+    },
+    "L03": {
+      "selection_KIC": {
+        "internal_cos": -0.1071,
+        "z_bind": 0.45,
+        "p_bind": 0.3157,
+        "edges": {
+          "K-I": -0.1252,
+          "K-C": -0.1265,
+          "I-C": -0.0696
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.1129,
+        "z_bind": 0.31,
+        "p_bind": 0.3467,
+        "edges": {
+          "B-D": -0.2067,
+          "B-S": -0.1541,
+          "D-S": 0.0222
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.0938,
+        "z_bind": 0.79,
+        "p_bind": 0.2208,
+        "edges": {
+          "Y-W": -0.0657,
+          "Y-WHNF": -0.029,
+          "W-WHNF": -0.1868
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 0.38,
+        "recursion_z_bind": 0.79,
+        "skeleton_gt_recursion": false
+      }
+    },
+    "L05": {
+      "selection_KIC": {
+        "internal_cos": -0.1133,
+        "z_bind": 0.21,
+        "p_bind": 0.4306,
+        "edges": {
+          "K-I": -0.0508,
+          "K-C": -0.0568,
+          "I-C": -0.2323
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0965,
+        "z_bind": 0.51,
+        "p_bind": 0.3177,
+        "edges": {
+          "B-D": -0.0768,
+          "B-S": -0.0265,
+          "D-S": -0.1863
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.1155,
+        "z_bind": 0.15,
+        "p_bind": 0.4436,
+        "edges": {
+          "Y-W": -0.0805,
+          "Y-WHNF": 0.0103,
+          "W-WHNF": -0.2764
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 0.36,
+        "recursion_z_bind": 0.15,
+        "skeleton_gt_recursion": true
+      }
+    },
+    "L08": {
+      "selection_KIC": {
+        "internal_cos": -0.0883,
+        "z_bind": 0.65,
+        "p_bind": 0.2807,
+        "edges": {
+          "K-I": -0.0455,
+          "K-C": 0.006,
+          "I-C": -0.2255
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0308,
+        "z_bind": 1.63,
+        "p_bind": 0.0869,
+        "edges": {
+          "B-D": -0.0566,
+          "B-S": -0.0997,
+          "D-S": 0.0639
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.0623,
+        "z_bind": 1.12,
+        "p_bind": 0.1349,
+        "edges": {
+          "Y-W": -0.0107,
+          "Y-WHNF": 0.0546,
+          "W-WHNF": -0.2308
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 1.14,
+        "recursion_z_bind": 1.12,
+        "skeleton_gt_recursion": true
+      }
+    },
+    "L11": {
+      "selection_KIC": {
+        "internal_cos": -0.0897,
+        "z_bind": 0.63,
+        "p_bind": 0.2877,
+        "edges": {
+          "K-I": -0.1174,
+          "K-C": 0.0164,
+          "I-C": -0.1683
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0935,
+        "z_bind": 0.5,
+        "p_bind": 0.3137,
+        "edges": {
+          "B-D": -0.141,
+          "B-S": -0.1673,
+          "D-S": 0.028
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.1118,
+        "z_bind": 0.24,
+        "p_bind": 0.4226,
+        "edges": {
+          "Y-W": 0.0117,
+          "Y-WHNF": -0.0621,
+          "W-WHNF": -0.285
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 0.56,
+        "recursion_z_bind": 0.24,
+        "skeleton_gt_recursion": true
+      }
+    },
+    "L14": {
+      "selection_KIC": {
+        "internal_cos": -0.1139,
+        "z_bind": 0.21,
+        "p_bind": 0.3966,
+        "edges": {
+          "K-I": -0.116,
+          "K-C": -0.0961,
+          "I-C": -0.1295
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0956,
+        "z_bind": 0.55,
+        "p_bind": 0.2977,
+        "edges": {
+          "B-D": -0.178,
+          "B-S": -0.1341,
+          "D-S": 0.0253
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.1132,
+        "z_bind": 0.23,
+        "p_bind": 0.3746,
+        "edges": {
+          "Y-W": 0.0109,
+          "Y-WHNF": -0.0703,
+          "W-WHNF": -0.2801
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 0.38,
+        "recursion_z_bind": 0.23,
+        "skeleton_gt_recursion": true
+      }
+    },
+    "L16": {
+      "selection_KIC": {
+        "internal_cos": -0.0923,
+        "z_bind": 0.58,
+        "p_bind": 0.2587,
+        "edges": {
+          "K-I": -0.0907,
+          "K-C": -0.0388,
+          "I-C": -0.1475
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0232,
+        "z_bind": 1.83,
+        "p_bind": 0.026,
+        "edges": {
+          "B-D": -0.0998,
+          "B-S": -0.0262,
+          "D-S": 0.0564
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.1231,
+        "z_bind": 0.06,
+        "p_bind": 0.4595,
+        "edges": {
+          "Y-W": 0.0115,
+          "Y-WHNF": -0.1612,
+          "W-WHNF": -0.2197
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 1.21,
+        "recursion_z_bind": 0.06,
+        "skeleton_gt_recursion": true
+      }
+    },
+    "L18": {
+      "selection_KIC": {
+        "internal_cos": -0.0693,
+        "z_bind": 1.17,
+        "p_bind": 0.1289,
+        "edges": {
+          "K-I": -0.0259,
+          "K-C": -0.1048,
+          "I-C": -0.0771
+        }
+      },
+      "composition_BDS": {
+        "internal_cos": -0.0411,
+        "z_bind": 1.74,
+        "p_bind": 0.049,
+        "edges": {
+          "B-D": -0.0103,
+          "B-S": -0.0471,
+          "D-S": -0.0661
+        }
+      },
+      "recursion_YWWHNF": {
+        "internal_cos": -0.0758,
+        "z_bind": 1.06,
+        "p_bind": 0.1758,
+        "edges": {
+          "Y-W": -0.0039,
+          "Y-WHNF": -0.0161,
+          "W-WHNF": -0.2075
+        }
+      },
+      "_summary": {
+        "skeleton_z_bind": 1.46,
+        "recursion_z_bind": 1.06,
+        "skeleton_gt_recursion": true
+      }
+    }
   },
   "map": {
     "gram": {
@@ -372,5 +707,5 @@
       ]
     }
   },
-  "elapsed_s": 111.9
+  "elapsed_s": 130.1
 }

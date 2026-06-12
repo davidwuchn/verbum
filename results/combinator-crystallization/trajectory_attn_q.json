@@ -1,0 +1,28 @@
+{
+  "register": "topological/routing",
+  "git_sha": "5cb192c47d059fe785e649e765d177084d87afdf",
+  "question": "does the recursion combinator family form only as the operator becomes contractive (\u03b2-reduction to WHNF)?",
+  "target": "attn_q",
+  "train_log": "checkpoints/v15-td-outer-k2-fp5-5k/train_td_log.jsonl",
+  "window": 100,
+  "trajectory": [
+    {
+      "file": "v15_attn_q_step_001000.json",
+      "step": 1000,
+      "best_key": "L05",
+      "dx": 0.2874727272727273,
+      "fp": 0.08388093757358464,
+      "ce": 8.517814202742143,
+      "silhouette_z": 1.54,
+      "selection_z": 0.21,
+      "composition_z": 0.51,
+      "recursion_z": 0.15,
+      "skeleton_z": 0.36
+    }
+  ],
+  "verdict": {
+    "n_checkpoints": 1,
+    "n_with_dx": 1,
+    "note": "need \u22653 checkpoints with \u0394x to test the trajectory; rerun the v15 map as main:1 checkpoints land"
+  }
+}

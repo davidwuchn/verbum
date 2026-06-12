@@ -144,6 +144,74 @@ def classical_mds(D, k=2):
     return V * np.sqrt(w + 1e-30)
 
 
+# ---- per-FAMILY binding (the crystallization measurement; s219 method) -------
+# WHY (s221): each combinator's β-reduction = a substitution (move/copy/delete of
+# args across positions), and attention is the ONLY cross-position op → the
+# substructural class of a combinator predicts its attention cost:
+#   selection  {K,I,C}  = affine/linear (0 copies)  → single attention pass
+#   composition{B,D,S}  = B,D linear; S duplicates  → single pass (+1 fan-out)
+#   recursion  {Y,W,WHNF}= W dup, Y unbounded        → NEEDS the OUTER RECURRENCE
+# Prediction: selection/composition bind EARLY (low contractivity); recursion
+# strengthens ONLY as the operator becomes contractive (Δx→0 ≡ β-reduction to
+# WHNF). This helper measures each family's internal binding vs a random-triple
+# null on ONE checkpoint's Gram so combinator_crystallization.py can trace it.
+FAMILIES = {
+    "selection_KIC": ["K", "I", "C"],
+    "composition_BDS": ["B", "D", "S"],
+    "recursion_YWWHNF": ["Y", "W", "WHNF"],
+}
+
+
+def _internal_edges(node_idx):
+    return [(node_idx[a], node_idx[b])
+            for a in range(len(node_idx)) for b in range(a + 1, len(node_idx))]
+
+
+def family_binding(G, n_perm=1000, seed=0):
+    """Per-family internal binding vs a random-node-triple null (s219 method).
+
+    G = 9x9 cosine Gram over CRYSTAL. z_bind>0 means the family's mean internal
+    cosine exceeds a random triple drawn from the 9 combinators (the relabelling
+    symmetry the function shape must break).
+    """
+    idx = {c: n for n, c in enumerate(CRYSTAL)}
+    rng = np.random.default_rng(seed + 7)
+
+    def mean_internal(edges):
+        return float(np.mean([G[a, b] for a, b in edges]))
+
+    def triple_null(size):
+        out = np.empty(n_perm)
+        for t in range(n_perm):
+            sub = rng.choice(len(CRYSTAL), size=size, replace=False)
+            out[t] = mean_internal(_internal_edges(list(sub)))
+        return out
+
+    report = {}
+    for fam, nodes in FAMILIES.items():
+        ie = _internal_edges([idx[c] for c in nodes])
+        cons = mean_internal(ie)
+        nb = triple_null(len(nodes))
+        z = (cons - nb.mean()) / (nb.std() + 1e-12)
+        p = (np.sum(nb >= cons) + 1) / (len(nb) + 1)
+        report[fam] = {
+            "internal_cos": round(cons, 4),
+            "z_bind": round(float(z), 2),
+            "p_bind": round(float(p), 4),
+            "edges": {f"{CRYSTAL[a]}-{CRYSTAL[b]}": round(float(G[a, b]), 4)
+                      for a, b in ie},
+        }
+    skel = float(np.mean([report["composition_BDS"]["z_bind"],
+                          report["selection_KIC"]["z_bind"]]))
+    rec = report["recursion_YWWHNF"]["z_bind"]
+    report["_summary"] = {
+        "skeleton_z_bind": round(skel, 2),
+        "recursion_z_bind": round(rec, 2),
+        "skeleton_gt_recursion": bool(skel > rec),
+    }
+    return report
+
+
 # ---- probes -----------------------------------------------------------------
 def load_probes(limit_per: int = 0, seed: int = 0):
     by = {c: [] for c in CRYSTAL}
@@ -302,6 +370,21 @@ def main() -> None:
     log(f"\n  BEST register: {best_key}  route_cmr z={best_z:+.2f} "
         f"(control route_full z={sil_full['z']:+.2f})")
 
+    # ── per-layer Gram + per-FAMILY binding (the crystallization measurement) ──
+    per_key_gram = {}
+    per_key_family = {}
+    for k in caps:
+        Gk = G if k == best_key else gram(centroids(cmr(np.sign(reg[k])), labels))
+        per_key_gram[k] = Gk
+        per_key_family[k] = family_binding(Gk, args.n_perm, args.seed)
+    fb_best = per_key_family[best_key]
+    log(f"  family binding @ {best_key}: "
+        f"selection z={fb_best['selection_KIC']['z_bind']:+.2f}  "
+        f"composition z={fb_best['composition_BDS']['z_bind']:+.2f}  "
+        f"recursion z={fb_best['recursion_YWWHNF']['z_bind']:+.2f}  "
+        f"(skeleton {fb_best['_summary']['skeleton_z_bind']:+.2f} "
+        f"vs recursion {fb_best['_summary']['recursion_z_bind']:+.2f})")
+
     D = 1.0 - G
     np.fill_diagonal(D, 0.0)
     mds = classical_mds(D, k=2)
@@ -325,6 +408,8 @@ def main() -> None:
         "per_key_silhouette": per_key,
         "route_cmr_silhouette": per_key[best_key],
         "route_full_silhouette": sil_full,
+        "family_binding_best": fb_best,
+        "family_binding_per_layer": per_key_family,
         "map": {
             "gram": {CRYSTAL[i]: {CRYSTAL[j]: round(float(G[i, j]), 4)
                                   for j in range(len(CRYSTAL))}
@@ -339,11 +424,15 @@ def main() -> None:
     ckpt_tag = Path(loaded_ckpt).parent.name if loaded_ckpt else "base"
     tag = args.tag or f"{args.target}_{ckpt_tag}"
     safe = f"v15_{tag}"
+    layer_keys = list(caps.keys())
+    grams_all = np.stack([per_key_gram[k] for k in layer_keys]).astype(np.float32)
     np.savez_compressed(
         RESULTS_DIR / f"{safe}.npz",
         prompt_len=plen, labels=labels,
         gram_route_cmr_best=G.astype(np.float32),
         centroids_cmr_best=Cb.astype(np.float32),
+        layer_keys=np.array(layer_keys),
+        grams_all=grams_all,
     )
     (RESULTS_DIR / f"{safe}.json").write_text(json.dumps(out, indent=2))
     log(f"\n  wrote {RESULTS_DIR / safe}.{{json,npz}}  ({out['elapsed_s']}s)")
