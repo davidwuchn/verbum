@@ -1,0 +1,83 @@
+{
+  "register": "topological/routing",
+  "question": "does the combinator function shape sharpen with scale?",
+  "series": "dense Qwen3 0.6B->32B (MoE excluded)",
+  "frac": 0.4,
+  "git_sha": "bbf92f2",
+  "per_model": [
+    {
+      "model": "Qwen3-0.6B",
+      "params_b": 0.6,
+      "log_params": -0.5108256237659907,
+      "composition_BDS": -0.0461585707962513,
+      "selection_KIC": 0.0038321875035762787,
+      "recursion_YWWHNF": -0.0878498552677532,
+      "skeleton": -0.02116319164633751,
+      "gap": 0.06668666362141569,
+      "used_frac": 0.39285714285714285,
+      "n_layers": 28
+    },
+    {
+      "model": "Qwen3-4B",
+      "params_b": 4.0,
+      "log_params": 1.3862943611198906,
+      "composition_BDS": 0.11866323898235957,
+      "selection_KIC": 0.07605510329206784,
+      "recursion_YWWHNF": 0.04172340656320254,
+      "skeleton": 0.09735917113721371,
+      "gap": 0.05563576457401117,
+      "used_frac": 0.3888888888888889,
+      "n_layers": 36
+    },
+    {
+      "model": "Qwen3-8B",
+      "params_b": 8.0,
+      "log_params": 2.0794415416798357,
+      "composition_BDS": 0.12458713352680206,
+      "selection_KIC": 0.07491537307699521,
+      "recursion_YWWHNF": 0.03551307258506616,
+      "skeleton": 0.09975125330189863,
+      "gap": 0.06423818071683246,
+      "used_frac": 0.3888888888888889,
+      "n_layers": 36
+    },
+    {
+      "model": "Qwen3-14B",
+      "params_b": 14.0,
+      "log_params": 2.6390573296152584,
+      "composition_BDS": 0.13284851610660553,
+      "selection_KIC": 0.07694911460081737,
+      "recursion_YWWHNF": 0.009049118612892926,
+      "skeleton": 0.10489881535371146,
+      "gap": 0.09584969674081853,
+      "used_frac": 0.4,
+      "n_layers": 40
+    },
+    {
+      "model": "Qwen3-32B",
+      "params_b": 32.0,
+      "log_params": 3.4657359027997265,
+      "composition_BDS": 0.11873299504319827,
+      "selection_KIC": 0.035341374576091766,
+      "recursion_YWWHNF": 0.007414047916730245,
+      "skeleton": 0.07703718480964503,
+      "gap": 0.06962313689291479,
+      "used_frac": 0.390625,
+      "n_layers": 64
+    }
+  ],
+  "fits_vs_log_params": {
+    "skeleton": {
+      "r": 0.7800304628858417,
+      "slope_per_efold": 0.027414104678214438
+    },
+    "recursion_YWWHNF": {
+      "r": 0.6872068603280785,
+      "slope_per_efold": 0.02377167991199384
+    },
+    "gap": {
+      "r": 0.3619905475593482,
+      "slope_per_efold": 0.0036424247662205844
+    }
+  }
+}
