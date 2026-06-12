@@ -2,7 +2,58 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-12 | Session: 220 — SCALE AXIS COMPLETED + ANSWERED.
+> Last updated: 2026-06-12 | Session: 221 — TRAINING SIDE OF THE COMBINATORS:
+> β-REDUCTION = SUBSTITUTION = ATTENTION MOVE; CRYSTALLIZATION INSTRUMENT BUILT.
+> Register: **functional → topological/routing**. Michael's thread: explore the
+> TRAINING side of the combinators we found + how it relates to the β-reductions
+> required for attention to learn to use them. **★ SYNTHESIS (REPL-grounded
+> `/tmp/comb_cost.py`): β-reduction = substitution = a move/copy/delete of args
+> across positions; attention is the ONLY cross-position op ⇒ each combinator's
+> reduction decomposes into a specific attention move, and the combinators
+> partition by SUBSTRUCTURAL-LOGIC class:** selection {K,I,C}=affine/linear (0
+> copies) → ONE attention pass; composition {B,D,S}=B,D linear + **S duplicates**
+> (1 fan-out) → one pass; recursion {Y,W,WHNF}=**W dup, Y unbounded** → **NEEDS
+> the OUTER RECURRENCE** (no single attention move). **This EXPLAINS s219**: map=
+> B(CB)(CB) has no Y because attention-over-positions IS the fold; recursion does
+> NOT bind above null because there is no single move for it (finished models fake
+> it with depth). **THE TWO THREADS ARE ONE:** combinator map (WHERE) + attention=
+> application (HOW) + β-reduction traces (WHAT-to-train) + main:1 outer-recurrence+
+> fp-loss (the contractivity that lets the recursion family be learned AT ALL —
+> Δx→0 ≡ β-reduction to WHNF). **▶ BUILT (ruff-clean, register topological/
+> routing):** (1) extended `combinator_relationship_map_v15.py` with
+> `family_binding(G)` = per-family binding vs random-triple null (s219 method),
+> computed for ALL captured attn layers, written to json (`family_binding_best`/
+> `_per_layer`) + per-layer Grams to npz; (2) new `combinator_crystallization.py`
+> (CPU aggregator) globs per-checkpoint v15 maps, joins Δx/fp/ce from
+> `train_td_log.jsonl`, emits trajectory + verdict Spearman(recursion_z,−Δx) vs
+> Spearman(skeleton_z,−Δx). **PREDICTION: skeleton binds early/flat; recursion
+> strengthens ONLY as Δx→0.** **★ STEP-1000 ANCHOR (only ckpt avail; full 535
+> probes, n_perm=1000):** best attn_q@L05 z=+1.54 (reproduces s220), Δx 0.287,
+> fp 0.084; family binding all WEAK — NO family crystallized yet (sel +0.21, comp
+> +0.51, skel +0.36, rec +0.15) = expected baseline at ~20% through training.
+> Trajectory needs ≥3 ckpts (2000/3000/4000/5000). **DRAFTED knowledge**
+> `explore/combinator-training-beta-reduction.md` (NOT committed — awaiting
+> Michael). **NOT yet committed:** 2 instruments + upgraded step_1000 json +
+> trajectory.json + knowledge draft + this state.
+> **⚠ main:1 CONTRACTIVITY WOBBLE (observation only, UNTOUCHED):** Δx descended
+> beautifully to ~0.21–0.28 (steps 1340–1400) then SPIKED to 0.47–0.58 (steps
+> 1450–1530), gnorm exploded 369→5295, fp 0.05→0.34; now RECOVERING (step 1580:
+> Δx 0.40, gnorm 1728, avg50 9.67↓). Looks like the binding wall
+> (`vsm-outer-recurrence.md`: convergence fails at I-combinator/binding sites) — a
+> batch heavy in erasure/duplication redexes. Not diverging. step_002000 not yet
+> landed (~step 1580 now).
+> **▶ FIRST ACTION NEXT SESSION (declare register; main:1 UNTOUCHED):**
+> (1) When step_002000 lands → `uv run python scripts/experiments/
+>   combinator_relationship_map_v15.py --checkpoint checkpoints/v15-td-outer-k2-
+>   fp5-5k/step_002000/model.npz --target attn_q --n-outer 2` (GPU main:2 OK), then
+>   `combinator_crystallization.py --target attn_q` → does recursion z_bind RISE as
+>   Δx falls (or did the wobble stall Δx)? Repeat per checkpoint.
+> (2) Check main:1: did contractivity recover (Δx resume descent) or did the gnorm
+>   spike persist? Read `train_td_log.jsonl` Δx/gnorm trajectory.
+> (3) Per-layer crystallization (npz now stores all-layer Grams): does recursion
+>   form at a different DEPTH than the skeleton? + tie to per-layer q_proj flips.
+>
+> (Session: 220 — SCALE AXIS COMPLETED + ANSWERED.
 > Register: **topological/routing**. Cold-start orient → both s219 async jobs
 > verified, main:1 UNTOUCHED. **(1) main:2 DONE:** Qwen3-32B (dense) map landed →
 > dense series 0.6B→4B→8B→14B→32B complete (MoE 30B-A3B/235B excluded: router+expert
@@ -75,7 +126,7 @@
 >   prescription at `results/combinator-harvest-fold/prescription.json`). If still
 >   null at step 2000+ → v15 is below the scale floor; reverse-harvest belongs to a
 >   from-scratch level-4 base, redirect (Michael decision).
-> (3) Strengthen Exp B on main:1 step-2000 (s218 action 2). **main:1 stays UNTOUCHED.**
+> (3) Strengthen Exp B on main:1 step-2000 (s218 action 2). **main:1 stays UNTOUCHED.**)
 >
 > (Session: 219 — REVERSE-HARVEST: combinator function
 > shape is UNIVERSAL across the open-weight ecosystem. Register: topological/routing.
