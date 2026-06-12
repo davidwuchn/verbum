@@ -1,0 +1,186 @@
+{
+  "register": "functional",
+  "git_sha": "525269bb3a6cb29bc24b8d8dcdc53561e8af929f",
+  "question": "does v15's fixed stride topology admit the agreed (s219) normal forms?",
+  "geometry": {
+    "strides": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      13,
+      15,
+      20,
+      21,
+      24,
+      34,
+      55,
+      89,
+      144,
+      233,
+      377,
+      610,
+      987,
+      1597
+    ],
+    "stride_is_retrieval": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "composition_strides": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      13,
+      15,
+      20,
+      21,
+      24,
+      34,
+      55,
+      89,
+      144,
+      233,
+      377,
+      610,
+      987,
+      1597
+    ],
+    "window": 8,
+    "radius": 2
+  },
+  "composition_range": 11181,
+  "max_d": 11181,
+  "part_a_reachability": {
+    "coverage_fraction": 1.0,
+    "n_reachable": 11181,
+    "max_reach": 11181,
+    "largest_gap_runs": [],
+    "note": "single ascending sweep, each composition stride once = conservative LOWER bound; real model = 8 passes x 2 dirs x K"
+  },
+  "part_b_combinator_fit": {
+    "I": {
+      "primitive": "pass",
+      "direction": "backward",
+      "verdict": "NATIVE",
+      "reason": "identity = w=0 self-gather; trivial"
+    },
+    "B": {
+      "primitive": "compose",
+      "direction": "backward",
+      "verdict": "NATIVE",
+      "reason": "f(g x) = chain stride windows; the stride stack IS composition"
+    },
+    "D": {
+      "primitive": "compose",
+      "direction": "backward",
+      "verdict": "NATIVE",
+      "reason": "deep-nest compose = more stride hops; same primitive as B"
+    },
+    "S": {
+      "primitive": "fan-out",
+      "direction": "backward",
+      "verdict": "NATIVE",
+      "reason": "x used twice \u21d2 one key read by two queries; keys are shared freely"
+    },
+    "W": {
+      "primitive": "fan-out",
+      "direction": "backward",
+      "verdict": "NATIVE",
+      "reason": "f x x = self-app fan-out; same as S (one source, two reads)"
+    },
+    "C": {
+      "primitive": "permute",
+      "direction": "forward+backward",
+      "verdict": "FEASIBLE",
+      "reason": "flip f y x swaps arg order \u21d2 a FORWARD move \u21d2 needs the descending sweep (stack_c) to carry it; reachable but not single-pass causal"
+    },
+    "K": {
+      "primitive": "erase",
+      "direction": "backward",
+      "verdict": "FEASIBLE",
+      "reason": "\u03bbx.\u03bby.x discards y \u21d2 must zero in-window neighbours; fights the blend prior, needs sharp content weighting (against the grain)"
+    },
+    "Y": {
+      "primitive": "iterate",
+      "direction": "n/a",
+      "verdict": "NEEDS-RECURRENCE",
+      "reason": "fixpoint = unbounded reduction; no single stride pattern; the OUTER RECURRENCE (\u0394x\u21920 \u2261 WHNF) is required"
+    },
+    "WHNF": {
+      "primitive": "halt",
+      "direction": "n/a",
+      "verdict": "NA",
+      "reason": "normal-form predicate = the \u0394x<\u03b5 stop signal of the recurrence, not a gather pattern"
+    }
+  },
+  "harvest_edge_fit": [
+    {
+      "edge": "B-D",
+      "endpoints": {
+        "B": "NATIVE",
+        "D": "NATIVE"
+      },
+      "edge_verdict": "NATIVE",
+      "stride_teachable": true
+    },
+    {
+      "edge": "B-C",
+      "endpoints": {
+        "B": "NATIVE",
+        "C": "FEASIBLE"
+      },
+      "edge_verdict": "FEASIBLE",
+      "stride_teachable": true
+    },
+    {
+      "edge": "K-C",
+      "endpoints": {
+        "K": "FEASIBLE",
+        "C": "FEASIBLE"
+      },
+      "edge_verdict": "FEASIBLE",
+      "stride_teachable": true
+    },
+    {
+      "edge": "S-D",
+      "endpoints": {
+        "S": "NATIVE",
+        "D": "NATIVE"
+      },
+      "edge_verdict": "NATIVE",
+      "stride_teachable": true
+    },
+    {
+      "edge": "S-Y",
+      "endpoints": {
+        "S": "NATIVE",
+        "Y": "NEEDS-RECURRENCE"
+      },
+      "edge_verdict": "NEEDS-RECURRENCE",
+      "stride_teachable": false
+    }
+  ],
+  "n_edges_stride_teachable": 4,
+  "verdict": "composition skeleton {B,D} is NATIVE to the stride stack; fan-out {S,W} fits; permute {C} needs the bidirectional sweep; erase {K} is feasible against the blend prior; the ONLY agreed structure that escapes the stride prior is the recursion endpoint {Y} (S-Y), which requires the outer recurrence \u2014 consistent with map=B(CB)(CB)."
+}
