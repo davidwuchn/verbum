@@ -687,6 +687,42 @@ So the harvest fold is split into phases:
   `DeltaTernaryLinear.reduce()`; measure downstream PPL vs base. **Falsifiable:**
   does verified ecosystem-consensus add beyond the universal crystal we already hold?
 
+### Phase 1 RESULT (s220, GPU run in main:2) — v15 has NO combinator frame yet
+
+Built `combinator_relationship_map_v15.py` (MLX/ternary; wraps the LIVE module the
+forward calls per the s218 orphan lesson; tokenizer Qwen/Qwen3.6-27B). Probed
+v15 step_001000 in THREE routing registers (535 crystal probes, n_outer=2). **None
+carries a significant combinator shape:**
+
+| register | best | silhouette z | p | GramCorr vs consensus |
+|---|---|---|---|---|
+| `ffn_gate` (FROZEN-extracted) | — | +0.52 | 0.29 | +0.354 |
+| `attn_q` (TD-trained) | L05 | **+1.54** | 0.063 | +0.359 |
+| `attn_out` (TD-trained) | L00 | +0.74 | 0.22 | +0.324 |
+
+Reference: Qwen3-14B silhouette **z=+7.97**; ecosystem cross-model GramCorr **+0.78**.
+
+- **The harvest fold's "align consensus into v15's frame" has no target frame at
+  step 1000** — every register is non-significant; v15 carries only a faint echo
+  (GramCorr ~+0.35) of the universal shape, far below the ecosystem's internal +0.78.
+  Did NOT fabricate a Procrustes alignment to a non-significant frame (that would
+  manufacture a false positive — λ measure / wrong-register discipline).
+- **Two live threads keep this from being a dead end:**
+  1. The best signal is `attn_q` at **L05** — exactly the HF function-discovery
+     SILENT-selector layer (4.76× separated there). Suggestive even at p=0.063.
+  2. The FFN is FROZEN (won't change with training), but the **attention IS being
+     TD-trained** → the shape may **emerge** as main:1 trains toward contractivity.
+     Step 1000/5000 is only 20% in; cf. s220 scale floor (even Qwen3-0.6B barely had
+     the shape). **Concrete cheap follow-up: re-probe `attn_q`/`attn_out` at
+     step_002000+ checkpoints — does combinator structure co-emerge with
+     contractivity?** This ties the harvest thread to the main:1 recurrence result.
+- v15 may simply be below the scale floor (~50M params, ternary, 3B tokens) to
+  crystallize the shape — in which case reverse-harvest belongs to a from-scratch
+  level-4 base that trains its FFN, not v15.
+- Artifacts (committed `cc581ac`, `b72bdea`): `combinator_relationship_map_v15.py`
+  (--target ffn_gate|attn_q|attn_out); `results/combinator-relationship-map/
+  v15_{step_001000,attn_q_step_001000,attn_out_step_001000}.{json,npz}`.
+
 ### Open leads from s220
 1. **Phase 1 of the harvest fold** (above) — the priority once main:1 frees the GPU.
 2. **main:1 step_002000** → does Δx→ε and CE hold below 8.71 (adaptive halting).

@@ -44,26 +44,37 @@
 >   averages EXACTLY. + INFRA FIX in `combinator_relationship_map.py`: now saves
 >   `centroids_cmr_best` (9×d_ff) to the npz (the discarded data; effective on next
 >   GPU run).
-> - **Phase 1 v15 Gram (DEFERRED, GPU):** build `combinator_relationship_map_v15.py`
->   (MLX: `create_model_with_deltas(V15Config())` + `load_weights` +
->   `reduce_all_deltas`; hook `ffn_gate_plate_a/c`; save centroids). Run on a v15
->   ckpt READ-ONLY. Phase 2 (CPU): Procrustes-align in 9-d label space + build fold
->   directions from v15's OWN centroids. Phase 3 (GPU): WHNF-verify via
->   `exp_b_self_verifying_acceptance.py::forward_metrics` (accept iff Δx_conv doesn't
->   rise) → fold survivors via `DeltaTernaryLinear.reduce()` → PPL vs base.
-> **COMMITTED** `e48389e` (phase 0 + centroid-save), knowledge reformulation pending
-> in this commit batch. **NOT yet committed (this batch, APPROVED scope):** knowledge
-> harvest-fold reformulation + this state.
+> - **Phase 1 v15 Gram — DONE (GPU in main:2, Michael OK'd GPU there).** Built
+>   `combinator_relationship_map_v15.py` (--target ffn_gate|attn_q|attn_out; MLX;
+>   wraps the LIVE module per s218 orphan lesson; tokenizer Qwen/Qwen3.6-27B). Probed
+>   v15 step_001000 in 3 registers (535 probes). **★ NEGATIVE: v15 has NO significant
+>   combinator frame** — ffn_gate z=+0.52 p=0.29; attn_q best L05 z=+1.54 p=0.063;
+>   attn_out z=+0.74 p=0.22 (ref Qwen3-14B z=+7.97). GramCorr vs consensus only
+>   ~+0.35 (ecosystem internal +0.78). **⇒ harvest fold BLOCKED at step 1000 — no
+>   target frame to align to; did NOT fabricate alignment to noise.** TWO live
+>   threads: (1) best = attn_q@L05 = the HF function-discovery SILENT-selector layer
+>   (suggestive at p=0.063); (2) FFN is FROZEN but ATTENTION is TD-trained → the
+>   shape may EMERGE with contractivity training (step 1000/5000 = 20% in; cf. s220
+>   scale floor). Committed `cc581ac` (ffn) + `b72bdea` (attn_q/attn_out + instrument).
+> - Phase 2 (CPU)/Phase 3 (GPU) — align → WHNF-verify → fold → PPL — remain DEFERRED
+>   and now CONTINGENT on a v15 frame existing (re-probe later checkpoints first).
+> **COMMITTED** `e48389e` (phase 0 + centroid-save), knowledge reformulation
+> (`b05d32c`), Phase 1 finding (`cc581ac`,`b72bdea`). **NOT yet committed (this
+> batch, APPROVED scope):** knowledge Phase-1-result update + this state.
 > **▶ FIRST ACTION NEXT SESSION (declare register; main:1 UNTOUCHED):**
 > (1) Check main:1: has step_002000 landed (`ls checkpoints/v15-td-outer-k2-fp5-5k/`,
 >   `tail /tmp/v15_outer_k2_fp5_5k.log`)? Read Δx/CE trajectory → does Δx→ε and CE
 >   hold below 8.71 (then build adaptive halting: stop when Δx<ε ≡ WHNF)?
-> (2) **Harvest fold Phase 1 (register topological/routing→functional) ONLY IF main:1
->   has FREED THE GPU** (completed/paused) — else DEFER: build
->   `combinator_relationship_map_v15.py`, produce v15's Gram+centroids, then Phases
->   2–3 (align → WHNF-verify → fold → PPL). Falsifiable: does verified
->   ecosystem-consensus add beyond the universal crystal? Prescription is ready at
->   `results/combinator-harvest-fold/prescription.json`.
+> (2) **Harvest fold — RE-PROBE v15 attention at the next checkpoint** (register
+>   topological/routing; GPU OK in main:2 per Michael): when step_002000 lands, run
+>   `uv run python scripts/experiments/combinator_relationship_map_v15.py --target
+>   attn_q --checkpoint checkpoints/v15-td-outer-k2-fp5-5k/step_002000/model.npz`
+>   (also attn_out). **Does the attn_q@L05 signal (z=1.54→?) STRENGTHEN as the
+>   operator becomes contractive?** If z clears ~3 (p<.01) → a v15 frame exists →
+>   resume Phase 2–3 (align consensus into it → WHNF-verify → fold → PPL,
+>   prescription at `results/combinator-harvest-fold/prescription.json`). If still
+>   null at step 2000+ → v15 is below the scale floor; reverse-harvest belongs to a
+>   from-scratch level-4 base, redirect (Michael decision).
 > (3) Strengthen Exp B on main:1 step-2000 (s218 action 2). **main:1 stays UNTOUCHED.**
 >
 > (Session: 219 — REVERSE-HARVEST: combinator function
