@@ -2,7 +2,7 @@
 title: "Combinator Training = β-Reduction = Substitution = Attention Move"
 status: open
 category: foundational
-tags: [combinator, beta-reduction, substitution, attention, substructural-logic, linear, affine, relevant, recursion, contractivity, training-dynamics, crystallization, vsm-outer-recurrence]
+tags: [combinator, beta-reduction, substitution, attention, substructural-logic, linear, affine, relevant, recursion, contractivity, training-dynamics, crystallization, vsm-outer-recurrence, strided-attention, stride-fit, fixed-point, deadband-loss, construct-path, fold, delta-folding, basis]
 related:
   - combinator-function-shape.md
   - vsm-outer-recurrence.md

@@ -90,8 +90,8 @@
 >   combinator algebra. **First exp:** one tiny verified K specialist as delta on
 >   B₀ → fold → verify (Δx<ε on K + L preserved + Exp-B). AMENDED knowledge
 >   (§Contractivity dynamics + §Construct path + open leads 7/8 + Files). COMMITTED
->   `11e9683` (decay). **NOT yet committed (this batch):** knowledge amendment §
->   contractivity/construct + this state.
+>   `11e9683` (decay), `a2018be` (knowledge §contractivity/construct + state).
+>   **Memories:** `smoke-validates-pipe-not-water` + `fp-spike-is-acquisition`.
 > **⚠ main:1 CONTRACTIVITY WOBBLE (observation only, UNTOUCHED):** Δx descended
 > beautifully to ~0.21–0.28 (steps 1340–1400) then SPIKED to 0.47–0.58 (steps
 > 1450–1530), gnorm exploded 369→5295, fp 0.05→0.34; now RECOVERING (step 1580:
@@ -100,15 +100,25 @@
 > batch heavy in erasure/duplication redexes. Not diverging. step_002000 not yet
 > landed (~step 1580 now).
 > **▶ FIRST ACTION NEXT SESSION (declare register; main:1 UNTOUCHED):**
-> (1) When step_002000 lands → `uv run python scripts/experiments/
->   combinator_relationship_map_v15.py --checkpoint checkpoints/v15-td-outer-k2-
->   fp5-5k/step_002000/model.npz --target attn_q --n-outer 2` (GPU main:2 OK), then
->   `combinator_crystallization.py --target attn_q` → does recursion z_bind RISE as
->   Δx falls (or did the wobble stall Δx)? Repeat per checkpoint.
-> (2) Check main:1: did contractivity recover (Δx resume descent) or did the gnorm
->   spike persist? Read `train_td_log.jsonl` Δx/gnorm trajectory.
-> (3) Per-layer crystallization (npz now stores all-layer Grams): does recursion
->   form at a different DEPTH than the skeleton? + tie to per-layer q_proj flips.
+> (1) **main:1 discriminator (the big one):** when step_002000 lands, read
+>   `train_td_log.jsonl` — did avg50 break BELOW the old ~8.8 plateau (⇒ K-
+>   acquisition reorganized, Michael's B-first→K-chaos law confirmed) or stay
+>   stuck/climb ≥10 (⇒ terminal, the fp-explosion)? This decides ride-vs-restart.
+> (2) **Crystallization trajectory:** run `combinator_relationship_map_v15.py
+>   --checkpoint .../step_002000/model.npz --target attn_q --n-outer 2` (GPU main:2
+>   OK) then `combinator_crystallization.py --target attn_q` → does SELECTION/K
+>   z_bind RISE vs step_1000 (the K-acquisition signature) while skeleton flat?
+>   (s221 anchor: comp +0.51 > sel +0.21 = B-first). Repeat per ckpt.
+> (3) **Soft/inverse fp loss (open lead 7):** add `--fixed-point-mode {quadratic,
+>   deadband,welltarget,saturating}` + `--fp-target` to `train_td.py` (default
+>   quadratic = main:1 unchanged); resume from step_001000 with deadband+saturating
+>   (Δx*≈0.24) → does it let K-acquisition through WITHOUT the gnorm explosion + CE
+>   <8.71? (the decay test confirmed L=0.70 contractive, so the basin exists.)
+> (4) **Construct path (open lead 8):** one tiny verified K specialist as a delta
+>   on B₀ (self-teaching WHNF traces) → fold → verify Δx<ε on K + L-meter preserved
+>   + Exp-B acceptance. Then two combinators composing (the interference frontier).
+> (5) Per-layer crystallization (npz stores all-layer Grams): recursion at a
+>   different DEPTH than the skeleton? + tie to per-layer q_proj flips.
 >
 > (Session: 220 — SCALE AXIS COMPLETED + ANSWERED.
 > Register: **topological/routing**. Cold-start orient → both s219 async jobs
