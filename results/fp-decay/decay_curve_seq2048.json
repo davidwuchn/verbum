@@ -1,0 +1,44 @@
+{
+  "register": "functional",
+  "git_sha": "db8ff13e3fb1dcff2a51915772ba17e1f9eaba7f",
+  "question": "does the trained v15 outer recurrence contract past pass 2 (K=2 training only ever observed \u0394x_2)?",
+  "checkpoint": "checkpoints/v15-td-outer-k2-fp5-5k/step_001000/model.npz",
+  "seq_len": 2048,
+  "n_batches": 6,
+  "batch_size": 1,
+  "max_k": 6,
+  "epsilon": 0.05,
+  "pass_index": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "mean_delta_x": [
+    0.80315,
+    0.45712,
+    0.31578,
+    0.24197,
+    0.19768
+  ],
+  "std_delta_x": [
+    0.003,
+    0.00081,
+    0.00052,
+    0.00059,
+    0.00075
+  ],
+  "contraction_ratios": [
+    0.5692,
+    0.6908,
+    0.7663,
+    0.817
+  ],
+  "geomean_L": 0.7044,
+  "passes_to_epsilon": 3.922293964953147,
+  "verdict": "CONTRACTIVE",
+  "suggested_deadband_target": 0.237,
+  "note": "READ-ONLY on the checkpoint; real long sequences activate the long strides. L<1 \u21d2 contractive; the K=2 fp-loss only ever trained \u0394x_2 so passes 3+ are the genuine test.",
+  "elapsed_s": 40.9
+}
