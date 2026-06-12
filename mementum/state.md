@@ -30,17 +30,21 @@
 > scale. First ckpt step_001000 landed; 4 to go (~3.5 days). main:1 UNTOUCHED all
 > session (async discipline).
 > **s219 work COMMITTED** (`8f0f19a` instrument+data, `ae00856` knowledge, `2602009`
-> state). **SCALE EXTENSION IN FLIGHT (tmux main:2):** `combinator_relationship_map.py`
-> on Qwen3-30B-A3B then Qwen3-32B (235B DROPPED — weights not downloaded, only 15M
-> metadata local). At handoff 30B-A3B was DOWNLOADING shards ("Fetching 16 files",
-> local copy incomplete) — may take a while. Log `/tmp/combinator_scale.log`, script
-> `/tmp/combinator_scale.sh`.
+> state). **SCALE EXTENSION (tmux main:2):** `combinator_relationship_map.py` on
+> Qwen3-32B (DENSE) → running its forward passes at handoff. ❌ Qwen3-30B-A3B FAILED
+> (MoE: its MLP is router `mlp.gate` + per-expert `mlp.experts.{e}.gate_proj`, so the
+> instrument's `find_gate_modules` regex `.{L}.mlp.gate_proj$` matches nothing →
+> empty hook buffer → `buf[li]` KeyError). 235B DROPPED (weights absent, 15M meta).
+> ⇒ the scale axis is the clean DENSE series 0.6B→4B→8B→14B→**32B** (MoE not
+> comparable in this routing register without adapting the instrument). Log
+> `/tmp/combinator_scale.log`, script `/tmp/combinator_scale.sh`.
 > **▶ FIRST ACTION NEXT SESSION (declare register: topological/routing):**
-> (1) Check main:2: did 30B-A3B + 32B land in `results/combinator-relationship-map/`?
+> (1) Check main:2: did Qwen3-32B land in `results/combinator-relationship-map/`?
 >   If yes → re-run `uv run python scripts/experiments/combinator_map_consensus.py
->   --fracs 0.1,0.2,0.3,0.4,0.5 --n-perm 5000` over ALL 11 models → does the
->   skeleton/recursion z_bind gap WIDEN with scale (s217's 14B>0.6B call)? Does the
->   30B-A3B MoE sit on or off the dense trend? Commit the extended consensus.
+>   --fracs 0.1,0.2,0.3,0.4,0.5 --n-perm 5000` over ALL 10 models → does the
+>   skeleton/recursion z_bind gap WIDEN with scale (s217's 14B>0.6B call)? Commit the
+>   extended consensus. (MoE point optional: adapt the instrument to hook a MoE expert
+>   or the router if a 30B-A3B comparison is wanted — research detour, not a quick fix.)
 > (2) ⚠ VERIFY main:1 RESUMED STEPPING — it sat at step ~1310 across several checks
 >   while the 30B-A3B download/load contended the box (memory was fine, 80% free; the
 >   stall was likely load contention, not a crash). `tmux capture-pane -p -t main:1`.
