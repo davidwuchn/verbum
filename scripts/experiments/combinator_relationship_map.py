@@ -58,7 +58,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "src"))
-from verbum.probes.library import crystal_probes  # noqa: E402
+from verbum.probes.library import crystal_probes
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _PROJECT_ROOT = _SCRIPT_DIR.parent.parent
@@ -319,6 +319,13 @@ def main():
     np.fill_diagonal(D, 0.0)
     mds = classical_mds(D, k=2)
     Cb = centroids(cmr(np.sign(gate[best_li])), labels)
+    # Persist the full-dimensional best-layer combinator centroids (9 x d_ff).
+    # These are the raw material for cross-model alignment / harvest-fold
+    # (combinator_harvest_fold.py); prior runs computed them but discarded them,
+    # leaving only the relational Gram. Frame-LOCAL (this model's gate space),
+    # so only usable after align-before-fold (Procrustes) into a target frame.
+    store["centroids_cmr_best"] = Cb.astype(np.float32)
+    store["centroids_best_layer"] = np.asarray([best_li], dtype=np.int32)
     Uc = np.array([unit(c) for c in Cb])
     # centroid PCA (2D)
     Ucc = Uc - Uc.mean(axis=0, keepdims=True)

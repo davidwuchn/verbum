@@ -1,0 +1,188 @@
+{
+  "register": "topological/routing",
+  "phase": "0 (CPU prescription; GPU fold deferred \u2014 main:1 untouched)",
+  "git_sha": "0089087",
+  "source_consensus": "results/combinator-map-consensus/consensus.json",
+  "harvest_band": [
+    "Qwen_Qwen3-4B",
+    "Qwen_Qwen3-8B",
+    "Qwen_Qwen3-14B"
+  ],
+  "band_used_fracs": {
+    "Qwen_Qwen3-4B": 0.3888888888888889,
+    "Qwen_Qwen3-8B": 0.3888888888888889,
+    "Qwen_Qwen3-14B": 0.4
+  },
+  "target_frac": 0.4,
+  "crystal_order": [
+    "K",
+    "I",
+    "B",
+    "C",
+    "S",
+    "D",
+    "W",
+    "Y",
+    "WHNF"
+  ],
+  "band_consensus_gram": [
+    [
+      1.0,
+      0.1405,
+      -0.1439,
+      0.1057,
+      -0.2719,
+      -0.3053,
+      -0.1528,
+      -0.3565,
+      -0.1065
+    ],
+    [
+      0.1405,
+      1.0,
+      -0.192,
+      -0.0183,
+      -0.3254,
+      -0.3142,
+      -0.1093,
+      -0.2357,
+      -0.0586
+    ],
+    [
+      -0.1439,
+      -0.192,
+      1.0,
+      0.1459,
+      -0.0422,
+      0.2412,
+      -0.2254,
+      -0.21,
+      -0.4015
+    ],
+    [
+      0.1057,
+      -0.0183,
+      0.1459,
+      1.0,
+      -0.3208,
+      -0.0042,
+      -0.1866,
+      -0.278,
+      -0.3992
+    ],
+    [
+      -0.2719,
+      -0.3254,
+      -0.0422,
+      -0.3208,
+      1.0,
+      0.1771,
+      -0.1931,
+      0.0619,
+      -0.0294
+    ],
+    [
+      -0.3053,
+      -0.3142,
+      0.2412,
+      -0.0042,
+      0.1771,
+      1.0,
+      -0.1612,
+      -0.0304,
+      -0.319
+    ],
+    [
+      -0.1528,
+      -0.1093,
+      -0.2254,
+      -0.1866,
+      -0.1931,
+      -0.1612,
+      1.0,
+      0.0511,
+      0.0179
+    ],
+    [
+      -0.3565,
+      -0.2357,
+      -0.21,
+      -0.278,
+      0.0619,
+      -0.0304,
+      0.0511,
+      1.0,
+      0.0173
+    ],
+    [
+      -0.1065,
+      -0.0586,
+      -0.4015,
+      -0.3992,
+      -0.0294,
+      -0.319,
+      0.0179,
+      0.0173,
+      1.0
+    ]
+  ],
+  "positive_universal_edges": [
+    {
+      "edge": "S-D",
+      "a": "S",
+      "b": "D",
+      "consensus_all": 0.1605,
+      "consensus_band": 0.1771,
+      "cross_model_std": 0.0738,
+      "reliability_t": 6.87,
+      "band_gram": 0.1771
+    },
+    {
+      "edge": "B-D",
+      "a": "B",
+      "b": "D",
+      "consensus_all": 0.1752,
+      "consensus_band": 0.2412,
+      "cross_model_std": 0.151,
+      "reliability_t": 3.67,
+      "band_gram": 0.2412
+    },
+    {
+      "edge": "B-C",
+      "a": "B",
+      "b": "C",
+      "consensus_all": 0.1682,
+      "consensus_band": 0.1459,
+      "cross_model_std": 0.181,
+      "reliability_t": 2.94,
+      "band_gram": 0.1459
+    },
+    {
+      "edge": "K-C",
+      "a": "K",
+      "b": "C",
+      "consensus_all": 0.1331,
+      "consensus_band": 0.1057,
+      "cross_model_std": 0.1237,
+      "reliability_t": 3.4,
+      "band_gram": 0.1057
+    },
+    {
+      "edge": "S-Y",
+      "a": "S",
+      "b": "Y",
+      "consensus_all": 0.1266,
+      "consensus_band": 0.0619,
+      "cross_model_std": 0.0894,
+      "reliability_t": 4.48,
+      "band_gram": 0.0619
+    }
+  ],
+  "deferred_gpu_phases": [
+    "measure v15 combinator Gram+centroids (combinator_relationship_map adapted for MLX/ternary; hook ffn_gate_plate_a/c)",
+    "Procrustes-align consensus -> v15 frame (needs v15 Gram)",
+    "WHNF-verify each fold direction via exp_b forward_metrics (accept iff dx_conv does not rise)",
+    "fold survivors via DeltaTernaryLinear.reduce; measure PPL vs base"
+  ],
+  "deferral_reason": "all producing steps are GPU/MLX forward passes that would contend with the multi-day main:1 training (s219 GPU-contention stalled it); main:1 stays UNTOUCHED"
+}
