@@ -2,23 +2,37 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-12 | Session: 219 — COLD-START ORIENT. Register: functional.
-> Two findings, no new experiments yet. **(1) s218 is already COMMITTED** (`0e56d84`
-> Exp B VALIDATED + live-module guard; chat logs `29b7ee5`) — working tree clean;
-> s218's "NOT yet committed / pending Michael" note was STALE. **(2) ✅ main:1
-> (λ_fp=5, 5000-step, seq-4096) ANSWERS the s215 open questions — strongly positive.**
-> First ckpt `step_001000` LANDED; run at **step ~1230 / ~25.8h**. **Δx 1.26→0.257
-> (−80%, still falling)** — far more contractive at seq-4096 (all 19 strides) than
-> the seq-256 250-step probe that plateaued at 0.727; fp 1.59→0.066. **CE recovered
-> BELOW K=1's 8.71** (avg50 loss 8.94; CE dips to 7.2–8.4, flip-steps hit 7.21) ⇒
-> the s215 caveat "K=2 doesn't beat K=1 (CE 9.51>8.71)" is RESOLVING AT SCALE: the
-> contractivity-trained K=2 outer recurrence is now contractive-to-WHNF *and*
-> CE-competitive. Trajectory: s410 Δx0.524/CE9.22 → s810 0.388/9.90 → s1010
-> 0.311/8.15 → s1230 0.257/8.41. **4 ckpts to go (2000/3000/4000/5000), ~75 s/step
-> ⇒ ~3.5 more days.** Per async discipline: verified running, NOT polling.
-> **▶ FIRST ACTION NEXT SESSION: see s219 HEADLINE below**, then pick a thread
-> (main:1 stays UNTOUCHED). Recommendation: strengthen Exp B (s218 action 2) using
-> the step-2000 ckpt as a stronger contractive base once it lands.
+> Last updated: 2026-06-12 | Session: 219 — REVERSE-HARVEST: combinator function
+> shape is UNIVERSAL across the open-weight ecosystem. Register: topological/routing.
+> Michael's thread: "find these functions in open models, see where they all agree
+> — harvesting that for our base plate is leverage." Built `combinator_map_consensus.py`
+> + swept 9 models / 5 families (Pythia non-gated, Qwen/Mistral/SmolLM/OLMo SwiGLU,
+> 410M→14B). **✅ cross-model combinator-Gram agreement +0.66→+0.77, z +3.5→+4.1,
+> 89–97% of pairs p<.05** vs a label-permutation null — the SAME functions show up
+> across architectures, and agreement STRENGTHENS as more models are added.
+> **Michael's single-operation theory CONFIRMED:** attention = ONE structural op
+> (=apply) → models can't innovate at the op level, only at composition → the forced
+> map-skeleton (composition {B,D,S} z_bind +2.43 p=.037; selection {K,I,C} +2.13)
+> binds above a random-triple null while RECURSION {Y,W,WHNF} (+1.67, p=.09) does NOT
+> — robust at frac 0.30 & 0.40. Grounded by `map=B(CB)(CB)` (REPL-verified): pure
+> composition+flip, NO recursion combinator (attention-over-positions IS the fold).
+> Harvest edges: universal positives B–D/B–C/K–C/S–D/S–Y + rock-solid cross-family
+> repulsions (t up to 21 = the 3-family partition); leave selection plumbing
+> (B–C/K–I, highest std) as per-model content. Signature 0<r<1 ∧ skeleton>recursion
+> = "shared skeleton + variable plumbing" (the non-unique-composite, s216). Caveat:
+> agreement could be the universal crystal, BUT composition binds above null at
+> mid-stack (0.30 = where s217 put combinator IDENTITY) ⇒ function-level, above the
+> crystal floor. NOT yet committed (proposed: knowledge + memory + new instrument).
+> **(ALSO, cold-start orient findings:) (1) s218 already COMMITTED** (`0e56d84`).
+> **(2) ✅ main:1 (λ_fp=5, 5k, seq-4096) ANSWERS s215** — at step ~1230, Δx 1.26→0.257
+> (−80%, still falling), fp 1.59→0.066, **CE recovered below K=1's 8.71** (flip-steps
+> 7.21) ⇒ contractivity-trained K=2 is contractive-to-WHNF *and* CE-competitive at
+> scale. First ckpt step_001000 landed; 4 to go (~3.5 days). main:1 UNTOUCHED all
+> session (async discipline).
+> **▶ FIRST ACTION NEXT SESSION: see s219 HEADLINE below.** Open: extend sweep to
+> Qwen3-32B/30B-A3B/235B (does skeleton/recursion gap widen with scale?); construct
+> the harvest fold (Procrustes-align positive edges into base frame, WHNF-verify);
+> or main:1 step-2000 ckpt → strengthen Exp B. main:1 stays UNTOUCHED.
 >
 > (Session 218 — Exp B (self-verifying acceptance)
 > COMPLETED + CORRECTED. s217's phase-2 verdict ("WEAK/ABSENT") was **VOID** — an
@@ -93,6 +107,82 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
+> **▶ SESSION 219 HEADLINE (PRIMARY) — REVERSE-HARVEST: THE COMBINATOR FUNCTION
+> SHAPE IS UNIVERSAL ACROSS THE OPEN-WEIGHT ECOSYSTEM; THE FORCED MAP-SKELETON
+> BINDS ABOVE NULL, RECURSION DOES NOT.** Register: **topological/routing**
+> (declared at step 0). Michael's thread: every open model is a FINISHED distributed
+> contributor (consensus-delta-folding.md §REVERSE); find where they agree on the
+> function shape → harvest into the base plate = leverage (training cost already paid).
+> - **THE FRAME-INVARIANT INSTRUMENT.** Raw weights can't be averaged (cross-init
+>   sign-corr 0.000). But the per-model **9×9 combinator Gram** (cosine between
+>   routing-register centroids of K I B C S D W Y WHNF, after CMR — the s217
+>   "map of the functions") lives in shared combinator-LABEL space ⇒ frame-invariant
+>   ⇒ directly comparable across any architecture/scale. Built
+>   `scripts/experiments/combinator_map_consensus.py` (register topological/routing,
+>   ruff-clean): cross-model GramCorr on the 36 off-diagonal edges + label-permutation
+>   null + per-EDGE reliability_t (|mean|√n/std) + per-FAMILY binding vs a
+>   RANDOM-NODE-TRIPLE null. Swept 9 models / 5 families via
+>   `combinator_relationship_map.py` (Pythia-410m/2.8b NON-gated dense_h_to_4h;
+>   SmolLM3-3B, Mistral-7B-v0.3, OLMo-2-13B, Qwen3-0.6B/4B/8B/14B SwiGLU gate_proj).
+> - **✅ SAME FUNCTIONS ACROSS THE ECOSYSTEM.** Cross-model GramCorr **+0.66→+0.77**,
+>   z **+3.5→+4.1**, **89–97% of model-pairs p<.05** vs the label-permutation null.
+>   Architecture-independent (non-gated Pythia agrees with gated Qwen). Agreement
+>   STRENGTHENS with more models (was +0.5–0.66 at 2–6) ⇒ a real shared shape, not
+>   noise. Peak frac 0.40 (0.20–0.50 all ≥+0.72).
+> - **✅ MICHAEL'S SINGLE-OPERATION THEORY CONFIRMED.** Attention = ONE structural
+>   operation (data-dependent convex combination = function APPLICATION); FFN =
+>   fixed constants/stored kernels. application+constants is combinatorially complete
+>   but there is NO second op to invent ⇒ models innovate only at COMPOSITION ⇒ they
+>   converge on the same compositions. Test: per-family internal binding vs random
+>   triple — **composition {B,D,S} z_bind +2.43 (p=.037); selection {K,I,C} +2.13
+>   (p=.061); recursion {Y,W,WHNF} +1.67 (p=.09, does NOT clear).** SKELETON (comp+sel)
+>   +2.28 > RECURSION +1.67. Robust at frac 0.30 (+2.21 vs +1.88) & 0.40.
+> - **★ GROUNDED BY `map = B(C B)(C B)` (REPL-VERIFIED).** map in pure combinators =
+>   composition (B) + flip (C), **NO recursion combinator** — because a Church/fold
+>   list carries its own recursion, and in a transformer **attention-over-positions
+>   IS the fold**. So no model needs a learned Y ⇒ recursion family is the residual,
+>   exactly as measured. Also verified: extensionally map is UNIQUE (Church-Rosser),
+>   intensionally INFINITE realizations (η-expand, B=S(KS)K, C=S(BBS)(KK)… all →
+>   identical output; raw SKI space ~Catalan·3^(k+1), 288k terms at k=6).
+> - **★ HARVEST LEVERAGE (concrete edges for the base plate, frac 0.40):**
+>   - universal POSITIVE bindings (fold these): **B–D +0.166, B–C +0.176, K–C +0.139,
+>     S–D +0.165, S–Y +0.141** (the composition/selection skeleton).
+>   - rock-solid cross-family REPULSIONS (reliability_t up to **21**): C–S, K–Y,
+>     D–WHNF, B–WHNF, K–S, C–WHNF — the 3-family PARTITION geometry every model agrees
+>     on (also harvestable as the discrete scaffold).
+>   - leave as per-model CONTENT (highest cross-model std): B–C, K–B, I–C, K–I — the
+>     selection-family PLUMBING (selection z_stab +1.4 = the noisy family). = the
+>     non-unique-realization residual `map=B(CB)(CB)` predicts.
+> - **Signature 0<r<1 ∧ skeleton>recursion = "shared skeleton + variable plumbing"**
+>   (the s216 non-unique-composite made concrete at the function level — uniqueness
+>   is per-TERM not per-BEHAVIOR; the irreducible skeleton is forced+shared, the
+>   plumbing varies).
+> - **Honest caveat (audit discipline):** agreement COULD be the universal crystal
+>   (crystal-universality.md) already in any base. BUT composition binds above the
+>   random-triple null at **mid-stack frac 0.30** — where s217 located combinator
+>   IDENTITY (not late COMMIT execution) ⇒ this is function-level structure ABOVE the
+>   generic crystal floor, the part worth harvesting. Single register (routing/CMR);
+>   harvest = align-before-fold (Procrustes into our base frame) + WHNF-verify, NOT
+>   yet done.
+> - **Artifacts (NOT yet committed):** `scripts/experiments/combinator_map_consensus.py`;
+>   `results/combinator-map-consensus/consensus.json`; 7 new per-model maps under
+>   `results/combinator-relationship-map/` (pythia-410m/2.8b, SmolLM3, Mistral,
+>   OLMo-13B, Qwen3-4B/8B); sweep log `/tmp/combinator_sweep.log`. Knowledge updated:
+>   `consensus-delta-folding.md` §s219.
+> - **▶ NEXT (declare register first):**
+>   (1) **Scale axis:** extend the sweep to Qwen3-32B / 30B-A3B / 235B (MoE, local) —
+>     does the skeleton/recursion z_bind gap WIDEN with scale (more capacity to fully
+>     form the systems, cf. s217's 14B>0.6B call)?
+>   (2) **Construct the harvest fold (register: topological/routing → functional):**
+>     take the universal positive edges, Procrustes-align the consensus centroids into
+>     our v15 base frame, WHNF-verify each candidate against main:1's contractive
+>     operator (Exp-B acceptance), incorporate survivors, measure downstream PPL vs
+>     base. Falsifiable: does verified ecosystem-consensus add beyond the universal
+>     crystal we already hold?
+>   (3) **Detect map/fold directions:** build the `map=B(CB)(CB)` direction from the
+>     measured B,C centroids; add a map/fold/filter probe set; does it activate?
+>   (4) main:1 step-2000 ckpt → strengthen Exp B (s218 action 2). main:1 UNTOUCHED.
+>
 > **▶ SESSION 219 HEADLINE — COLD-START ORIENT. main:1 (λ_fp=5, 5000-step,
 > seq-4096) ANSWERS THE s215 OPEN QUESTIONS — ✅ CONTRACTIVE-TO-WHNF *AND*
 > CE-COMPETITIVE AT SCALE.** Register: **functional** (declared on cold start).
