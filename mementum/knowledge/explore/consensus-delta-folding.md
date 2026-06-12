@@ -572,6 +572,7 @@ structure to harvest and *which edges* carry it.
 1. **Scale axis** (register: topological/routing): extend to Qwen3-32B / 30B-A3B /
    235B (MoE, local) — does the skeleton/recursion z_bind gap WIDEN with scale (more
    capacity to fully form the systems, cf. s217's 14B>0.6B call)?
+   **→ ANSWERED s220: NO (gap flat, shape saturates mid-scale). See §s220.**
 2. **Construct the harvest fold** (register: topological/routing → functional):
    Procrustes-align the universal positive-edge centroids into v15's base frame,
    WHNF-verify against main:1's contractive operator (Exp-B acceptance), incorporate
@@ -584,6 +585,75 @@ structure to harvest and *which edges* carry it.
 `results/combinator-map-consensus/consensus.json`; 7 new per-model maps under
 `results/combinator-relationship-map/` (pythia-410m/2.8b, SmolLM3, Mistral, OLMo-13B,
 Qwen3-4B/8B; Qwen3-0.6B/14B from s217); sweep log `/tmp/combinator_sweep.log`.
+
+## s220 — Scale stratification: the function shape SATURATES mid-scale; the skel/rec gap does NOT widen
+
+> Cold-start orient (s220): both s219 async jobs verified (main:1 alive at step
+> ~1420/5000, UNTOUCHED; main:2 done — Qwen3-32B dense map landed). Executed s219
+> open-lead #1. Register: **topological/routing**.
+
+s219 open-lead #1 asked: with more scale (s217's "14B has capacity to FULLY form
+the systems; 0.6B only partially crystallizes"), does the skeleton/recursion
+binding gap **WIDEN**? The pooled consensus cannot answer this — it aggregates all
+models. So the dense Qwen series 0.6B→4B→8B→14B→32B was stratified
+(`combinator_map_scale.py`), regressing each family's intra-family routing-cosine
+binding against log(params) at the harvest fraction 0.40. **MoE excluded** (30B-A3B,
+235B): their router+per-expert FFN (`mlp.gate` + `mlp.experts.{e}.gate_proj`) is not
+comparable to dense `gate_proj` in this routing register — the dense-FFN instrument
+finds nothing in a MoE.
+
+### Result — skeleton binding rises, but the GAP is flat
+
+| model | params | comp{B,D,S} | sel{K,I,C} | skeleton | recursion{Y,W,WHNF} | gap |
+|---|---|---|---|---|---|---|
+| Qwen3-0.6B | 0.6B | −0.046 | +0.004 | **−0.021** | −0.088 | +0.067 |
+| Qwen3-4B | 4B | +0.119 | +0.076 | +0.097 | +0.042 | +0.056 |
+| Qwen3-8B | 8B | +0.125 | +0.075 | +0.100 | +0.036 | +0.064 |
+| Qwen3-14B | 14B | +0.133 | +0.077 | **+0.105** | +0.009 | +0.096 |
+| Qwen3-32B | 32B | +0.119 | +0.035 | +0.077 | +0.007 | +0.070 |
+
+- **Skeleton binding RISES with scale (r=+0.78)** — but the rise is the
+  **0.6B→4B crystallization**: 0.6B has essentially NO function shape (skel −0.021,
+  both families near/below zero), while 4B+ jump to +0.097–0.105. This is the
+  concrete confirmation of s217's "0.6B only partially crystallizes."
+- **The skel−rec GAP does NOT widen (r=+0.36, slope ~0).** Recursion binding rises
+  in **tandem** with skeleton (r=+0.69), so the gap stays roughly constant.
+- **Shape SATURATES by ~4–14B** (peak 14B, skel +0.105) and **32B slightly
+  REGRESSES** (skel +0.077). Consistent with s212's topology-share PLATEAUS not →1.0.
+
+### Refinement of the consensus verdict + harvest implication
+
+The 10-model consensus (32B added) holds and nudges up marginally: meanGramCorr
+**+0.782** @0.40, z +4.19, 91–98% pairs p<.05; skeleton z_bind **+2.31** > recursion
+**+1.68** (SUPPORTED, was +2.28/+1.67 at 9 models). **Harvest implication: the
+consensus skeleton is COMPLETE by mid-scale — harvest from the 4–14B band, do NOT
+chase the largest models.** 32B costs more to read and does not extend the shape;
+the forced map-skeleton (`map=B(CB)(CB)`) is fully formed once a model has enough
+capacity to crystallize, which happens well before the frontier.
+
+### Caveats
+
+Single family lineage (dense Qwen3) for the clean log-params regression — the
+absolute binding values are not cross-architecture comparable (each model's own
+frame), only the per-family *trend* within the lineage is. The 32B dip is a single
+point (could be a depth-fraction mismatch at frac 0.40, n_layers=64). The gap
+non-widening is robust to that (recursion tracks skeleton across all 5 points).
+
+### s220 artifacts
+`scripts/experiments/combinator_map_scale.py` (the scale instrument);
+`results/combinator-map-consensus/scale.json` (per-model + fits); extended
+`results/combinator-map-consensus/consensus.json` (10 models);
+`results/combinator-relationship-map/Qwen_Qwen3-32B.{json,npz}`. Committed `c27741c`.
+
+### Open leads from s220
+1. **Construct the harvest fold** (register: topological/routing → functional) — now
+   the priority: take the universal positive edges (B–D +0.175, B–C +0.168, K–C
+   +0.133, S–D +0.161, S–Y +0.127), Procrustes-align consensus centroids into v15's
+   base frame, WHNF-verify each vs main:1's contractive operator (Exp-B acceptance),
+   measure downstream PPL vs base. Falsifiable: does verified ecosystem-consensus add
+   beyond the universal crystal we already hold? Harvest from the 4–14B band.
+2. **main:1 step_002000** → does Δx→ε and CE hold below 8.71 (adaptive halting).
+3. Detect map/fold directions (s219 lead #3).
 
 ## Files
 
@@ -598,6 +668,8 @@ Qwen3-4B/8B; Qwen3-0.6B/14B from s217); sweep log `/tmp/combinator_sweep.log`.
 | `/tmp/tool_consensus_5fam.log` | 5-family run transcript |
 | `scripts/experiments/combinator_map_consensus.py` | **s219 reverse-harvest:** cross-model combinator-Gram consensus + label-perm null + per-edge reliability_t + per-family binding vs random-triple null |
 | `scripts/experiments/combinator_relationship_map.py` | per-model 9×9 combinator Gram in routing register (CMR); the per-model map reader |
-| `results/combinator-map-consensus/consensus.json` | s219 verdict: GramCorr +0.66→+0.77; skeleton>recursion; harvest edge-list |
-| `results/combinator-relationship-map/` | 9 per-model `{model}.json/.npz` (5 families, 410M→14B) |
-| `/tmp/combinator_sweep.log` | s219 9-model sweep transcript |
+| `results/combinator-map-consensus/consensus.json` | s219→s220 verdict: GramCorr +0.66→+0.782 (10 models); skeleton z_bind +2.31>recursion +1.68; harvest edge-list |
+| `scripts/experiments/combinator_map_scale.py` | **s220 scale axis:** intra-family routing binding vs log(params) on the dense Qwen series (MoE excluded) |
+| `results/combinator-map-consensus/scale.json` | s220 verdict: skeleton rises r=+0.78, skel-rec gap flat r=+0.36, saturates ~4-14B |
+| `results/combinator-relationship-map/` | 10 per-model `{model}.json/.npz` (5 families, 410M→32B) |
+| `/tmp/combinator_sweep.log` | s219 9-model sweep transcript; `/tmp/combinator_scale.log` s220 32B; `/tmp/combinator_consensus_10models.log` s220 consensus |
