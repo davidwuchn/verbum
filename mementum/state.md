@@ -31,10 +31,30 @@
 > probes, n_perm=1000):** best attn_q@L05 z=+1.54 (reproduces s220), Δx 0.287,
 > fp 0.084; family binding all WEAK — NO family crystallized yet (sel +0.21, comp
 > +0.51, skel +0.36, rec +0.15) = expected baseline at ~20% through training.
-> Trajectory needs ≥3 ckpts (2000/3000/4000/5000). **DRAFTED knowledge**
-> `explore/combinator-training-beta-reduction.md` (NOT committed — awaiting
-> Michael). **NOT yet committed:** 2 instruments + upgraded step_1000 json +
-> trajectory.json + knowledge draft + this state.
+> Trajectory needs ≥3 ckpts (2000/3000/4000/5000). **COMMITTED** `cd200f9`
+> (2 instruments + upgraded step_1000 json + trajectory.json), `525269b`
+> (knowledge `explore/combinator-training-beta-reduction.md` + state).
+> **★ STRIDED FOLLOW-UP (Michael: "strided attention ≠ normal attention; do we
+> need to TEACH the agreed normal forms?").** Grounded in `attention.py`:
+> `FibonacciStrideAttention` = FIXED causal gather `{q-s·w+r | w<8,|r|≤2}`,
+> content only WEIGHTS (no content-based indexing). ⇒ CORRECTS the committed
+> synthesis: substitution-at-distance = Zeckendorf stride composition (NOT a
+> single move); "attention IS the fold" → "the STRIDE CASCADE is the fold"
+> (recursion-mirrors); realization cost reorders — composition {B,D} is v15-NATIVE
+> (the stride stack IS B), selection-erase {K} is HARDER (zero in-window). **Built
+> `stride_fit_normal_forms.py` (register functional, CPU, ruff-clean) → COMMITTED
+> `cff076d`:** PART A (computed) single sweep reaches **100% of distances
+> [1,11181]** (reachability never the blocker); PART B (architectural class):
+> **harvest edges B-D/S-D NATIVE, B-C/K-C FEASIBLE, S-Y NEEDS-RECURRENCE → 4/5
+> agreed edges stride-teachable, only the recursion endpoint Y escapes** (routes
+> through the outer recurrence; consistent with map=B(CB)(CB)). ⇒ Michael's
+> teaching idea is FEASIBLE: teach the ecosystem-agreed COMPOSITION SKELETON as
+> stride-hop/window-weighting traces (it fits, mostly native), let the recurrence
+> supply Y; unblocks the s220 harvest fold (composition skeleton = viable align
+> target). Part B = feasibility SCREEN not training proof (K-erasure = likely hard
+> spot). **AMENDED knowledge** `combinator-training-beta-reduction.md` (§Strided
+> attention + stride-fit table + open leads 5/6). **NOT yet committed (this
+> batch):** knowledge amendment + this state.
 > **⚠ main:1 CONTRACTIVITY WOBBLE (observation only, UNTOUCHED):** Δx descended
 > beautifully to ~0.21–0.28 (steps 1340–1400) then SPIKED to 0.47–0.58 (steps
 > 1450–1530), gnorm exploded 369→5295, fp 0.05→0.34; now RECOVERING (step 1580:

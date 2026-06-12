@@ -36,6 +36,13 @@ Therefore each combinator's reduction decomposes into a specific *attention
 move*, and the combinators partition by their **substructural-logic class** —
 how many times each bound variable is used.
 
+> **⚠ s221 amendment — this section assumed FULL attention.** v15 uses
+> `FibonacciStrideAttention`, not full content-addressable attention. The
+> substructural cost below (copy/delete/iterate) is a property of the
+> *combinator* and stands; but the *realization* on a strided architecture
+> reorders — see **§Strided attention** below. The slogan "attention IS the
+> fold" should read "**the stride cascade is the fold**."
+
 REPL-grounded (`/tmp/comb_cost.py`, counts variable multiplicities in each
 combinator's body):
 
@@ -132,6 +139,59 @@ fp 0.084. Family binding all weak — **no family crystallized yet** (selection
 ~20% through contractivity training; the trajectory test needs ≥3 checkpoints
 (step 2000/3000/4000/5000, ~3–4 days out).
 
+## Strided attention: the realization reorders (s221, Michael)
+
+v15's attention is **not** full content-addressable attention.
+`FibonacciStrideAttention` gathers a **fixed causal window**
+`{q − s·w + r | w<8, |r|≤2}` (future masked); the *which-positions* is
+**arithmetic**, content only **weights** within the gathered window
+(`attention.py`: "no content-based indexing"). Consequences:
+
+- A substitution **at distance d is NOT a single move** — it is a **Zeckendorf
+  composition of stride-hops** across layers (Fibonacci strides + ±2 → full
+  distance coverage; see screen below).
+- **The fold is the bidirectional stride cascade** (`stack_a`↑→`stack_c`↓), not a
+  single full-attention aggregate — `recursion-mirrors.md`'s "the stride cascade
+  IS the recursion unroll."
+- **The realization cost per family reorders.** Composition {B,D} is the stride
+  stack's **native primitive** (every long-range move *is* a composed move);
+  selection-erasure {K} is *harder* (must zero entries inside a fixed window, not
+  just "not attend"). In full attention the order is the opposite (selection
+  cheapest). Weakly consistent with the step-1000 anchor (composition +0.51 was
+  the top family).
+
+### Stride-fit screen (`stride_fit_normal_forms.py`, register functional)
+Does the fixed topology *admit* the s219 agreed normal forms? Two parts:
+- **Part A (computed):** a single ascending sweep reaches **100% of distances
+  [1, 11181]** (conservative lower bound; the model runs 8 passes × 2 dirs × K).
+  Distance reachability is **never** the blocker.
+- **Part B (architectural classification):** per combinator → move primitive →
+  expressibility on a content-weighted, causal, fixed-window gather:
+
+  | combinator | primitive | verdict |
+  |---|---|---|
+  | I, B, D | pass / compose | **NATIVE** (the stride stack *is* B) |
+  | S, W | fan-out (one key, many queries) | **NATIVE** |
+  | C | permute (forward move) | **FEASIBLE** via the descending sweep |
+  | K | erase (zero in-window) | **FEASIBLE** against the blend prior |
+  | Y | iterate (fixpoint) | **NEEDS-RECURRENCE** (the outer loop) |
+  | WHNF | halt (Δx<ε) | N/A — a control signal, not a gather |
+
+- **Harvest-edge verdict (edge-fit = weaker endpoint):** B–D ✅NATIVE, S–D
+  ✅NATIVE, B–C ✅FEASIBLE, K–C ✅FEASIBLE, **S–Y ❌NEEDS-RECURRENCE**. **4/5
+  agreed edges are stride-teachable, most natively;** the one that escapes is the
+  **recursion endpoint Y**, which routes through the outer recurrence — exactly
+  `map=B(CB)(CB)` again.
+
+**Teaching consequence:** the ecosystem-agreed **composition skeleton is teachable
+on v15** (rendered as stride-hop/window-weighting traces), and it is what the
+architecture already wants. Don't teach Y as a pattern — let the recurrence supply
+it. This gives the blocked s220 harvest fold a viable target (the composition
+skeleton). Part B is a **feasibility screen, not a training proof** — NATIVE/
+FEASIBLE are architectural arguments; whether training crystallizes them is the
+crystallization-probe measurement. K-erasure ("against the grain") is the likely
+hard spot.
+
 ## Caveats (register discipline)
 - One real anchor (step 1000). The trajectory verdict is **not yet testable**.
 - v15's FFN is **frozen-extracted**; only attention is TD-trained — so the
@@ -162,12 +222,23 @@ fp 0.084. Family binding all weak — **no family crystallized yet** (selection
    WHNF-verified Y/W traces, train the selector, test deployment (the
    consensus-delta-folding §self-teaching experiment, now motivated: recursion is
    exactly the family ordinary data under-teaches).
+5. **Teach the agreed composition skeleton** (functional, NEW s221) — the
+   stride-fit screen says B–D/S–D/B–C/K–C are stride-teachable (mostly native).
+   Mint WHNF-verified composition-skeleton traces rendered as stride-hop/
+   window-weighting sequences, train the selector, re-measure with the
+   crystallization probe; route Y via the outer recurrence. Unblocks the s220
+   harvest fold (the composition skeleton is the viable align target).
+6. **Pressure-test Part B empirically** (functional) — Part B is analytic;
+   probe whether K-erasure and C-permute are actually expressible in trained v15
+   attention (small activation check) to upgrade FEASIBLE → measured.
 
 ## Files
 | File | Content |
 |------|---------|
 | `scripts/experiments/combinator_relationship_map_v15.py` | + `family_binding` per-layer; family block in json; all-layer Grams in npz |
 | `scripts/experiments/combinator_crystallization.py` | CPU aggregator: family binding vs Δx trajectory + verdict |
+| `scripts/experiments/stride_fit_normal_forms.py` | stride-fit screen: distance reachability + per-combinator/edge expressibility on v15's fixed gather |
+| `results/stride-fit/normal_form_fit.json` | 100% distance coverage; 4/5 agreed edges stride-teachable; S–Y needs recurrence |
 | `results/combinator-relationship-map/v15_attn_q_step_001000.{json,npz}` | step-1000 anchor (upgraded with family binding) |
 | `results/combinator-crystallization/trajectory_attn_q.json` | the (growing) crystallization trajectory |
 | `/tmp/comb_cost.py` | REPL grounding of the substructural copy/delete counts |
