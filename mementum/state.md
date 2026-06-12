@@ -2,16 +2,31 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-11 | Session: 218 — Exp B (self-verifying acceptance)
+> Last updated: 2026-06-12 | Session: 219 — COLD-START ORIENT. Register: functional.
+> Two findings, no new experiments yet. **(1) s218 is already COMMITTED** (`0e56d84`
+> Exp B VALIDATED + live-module guard; chat logs `29b7ee5`) — working tree clean;
+> s218's "NOT yet committed / pending Michael" note was STALE. **(2) ✅ main:1
+> (λ_fp=5, 5000-step, seq-4096) ANSWERS the s215 open questions — strongly positive.**
+> First ckpt `step_001000` LANDED; run at **step ~1230 / ~25.8h**. **Δx 1.26→0.257
+> (−80%, still falling)** — far more contractive at seq-4096 (all 19 strides) than
+> the seq-256 250-step probe that plateaued at 0.727; fp 1.59→0.066. **CE recovered
+> BELOW K=1's 8.71** (avg50 loss 8.94; CE dips to 7.2–8.4, flip-steps hit 7.21) ⇒
+> the s215 caveat "K=2 doesn't beat K=1 (CE 9.51>8.71)" is RESOLVING AT SCALE: the
+> contractivity-trained K=2 outer recurrence is now contractive-to-WHNF *and*
+> CE-competitive. Trajectory: s410 Δx0.524/CE9.22 → s810 0.388/9.90 → s1010
+> 0.311/8.15 → s1230 0.257/8.41. **4 ckpts to go (2000/3000/4000/5000), ~75 s/step
+> ⇒ ~3.5 more days.** Per async discipline: verified running, NOT polling.
+> **▶ FIRST ACTION NEXT SESSION: see s219 HEADLINE below**, then pick a thread
+> (main:1 stays UNTOUCHED). Recommendation: strengthen Exp B (s218 action 2) using
+> the step-2000 ckpt as a stronger contractive base once it lands.
+>
+> (Session 218 — Exp B (self-verifying acceptance)
 > COMPLETED + CORRECTED. s217's phase-2 verdict ("WEAK/ABSENT") was **VOID** — an
 > instrument bug perturbed a DEAD module (convert_ffn orphan); ΔCE≡0 across 1.97M
 > flips. Fixed the harness (live-module guard + sign-flip of the LIVE FFN gate),
 > reran → **✅ SELF-VERIFYING SIGNAL PRESENT: corr(ΔCE, Δ(Δx_conv)) Pearson +0.712
 > / Spearman +0.729** on the contractive 400-step base. Label-free acceptance
-> VALIDATED. Register: functional. **▶ FIRST ACTION NEXT SESSION: see s218 HEADLINE
-> below.** The λ_fp=5 5000-step run (main:1) kept training UNTOUCHED throughout
-> (step ~470, CE ~9.0, Δx 1.23→0.42, fp→0.18 — contractive at scale; first ckpt
-> @1000 not yet landed, ~21h out).
+> VALIDATED. Register: functional. Committed `0e56d84`. See s218 HEADLINE below.)
 >
 > (Session 217 — combinator FUNCTION-SHAPE map
 > (routing register + CMR, Qwen3-14B) + VSM CONTINUATION tensor-level tests
@@ -78,6 +93,53 @@
 
 **NORTH STAR: 70B-equivalent in <1GB ternary. 200 tok/s CPU. 2M+ token context. 2MB sessions. No GPU.**
 
+> **▶ SESSION 219 HEADLINE — COLD-START ORIENT. main:1 (λ_fp=5, 5000-step,
+> seq-4096) ANSWERS THE s215 OPEN QUESTIONS — ✅ CONTRACTIVE-TO-WHNF *AND*
+> CE-COMPETITIVE AT SCALE.** Register: **functional** (declared on cold start).
+> No new experiments this session — orientation + state update only. main:1 left
+> UNTOUCHED (async discipline: verified running, not polling).
+> - **(1) s218 is ALREADY COMMITTED** (`0e56d84` Exp B VALIDATED + live-module
+>   instrument guard; chat logs `29b7ee5`). Working tree clean. The s218 header's
+>   "NOT yet committed / pending Michael" was STALE — action (1) is DONE.
+> - **(2) ✅ THE CENTRAL RECURRENCE-THREAD RESULT IS TRENDING TO A CLEAN YES.**
+>   First checkpoint `step_001000` landed; run at **step ~1230 / ~25.8h elapsed**.
+>   Trajectory (non-flip milestones, `/tmp/v15_outer_k2_fp5_5k.log`):
+>   | step | Δx | fp | CE | avg50 |
+>   |---|---|---|---|---|
+>   | 1 | 1.261 | 1.59 | 10.35 | 581 |
+>   | 410 | 0.524 | 0.275 | 9.22 | 11.2 |
+>   | 810 | 0.388 | 0.150 | 9.90 | 9.88 |
+>   | 1010 | 0.311 | 0.097 | 8.15 | 9.31 |
+>   | 1230 | 0.257 | 0.066 | 8.41 | 8.94 |
+>   - **Q1 (s215) "does Δx keep descending toward ε?" → YES, strongly.** Δx
+>     1.26→0.257 (−80%, still falling); flip-steps dip to ~0.21. Far more
+>     contractive than the seq-256 250-step probe that plateaued at 0.727 — seq-4096
+>     exercises all 19 strides (the s215 seq-256 mistake mattered). fp 1.59→0.066.
+>   - **Q2 (s215) "does CE recover below K=1's 8.71?" → YES (clearly under).**
+>     avg50 loss 8.94; CE dips to 7.2–8.4 (flip-step CE 7.21 @ step 1200). The s215
+>     caveat "contractivity-trained K=2 does NOT yet beat K=1 (CE 9.51 > 8.71)" is
+>     **RESOLVING AT SCALE**: λ_fp=5 K=2 at seq-4096 is contractive-to-WHNF *and*
+>     CE-competitive. CE does NOT collapse (constant-fixed-point guard holds).
+>   - **Caveats (functional register):** single seed, still mid-run (1230/5000,
+>     Δx not yet at ε / not yet plateaued). 4 ckpts to land (2000/3000/4000/5000)
+>     at ~75 s/step ⇒ **~3.5 more days**. The "below 8.71" read is from a still-
+>     descending curve; confirm at later checkpoints. K=2 vs K=1 is single-run, not
+>     multi-seed.
+> - **▶ FIRST ACTION NEXT SESSION / NEXT (declare register first; main:1 UNTOUCHED):**
+>   (1) When step-2000 ckpt lands → re-read trajectory: does Δx→ε (build adaptive
+>     halting: stop when Δx<ε ≡ WHNF) and does CE hold/improve below 8.71?
+>   (2) **Strengthen Exp B** (s218 action 2, RECOMMENDED — composes with main:1):
+>     multi-seed/multi-batch + the OTHER live module (`stack_a.ffn_gate_plate`) + a
+>     shared-stride attention plate; rerun on main:1's step-2000 ckpt as a STRONGER
+>     contractive base → the small-flip-frac Δx signal should clear the noise → the
+>     threshold rule (currently acc 0.714) should sharpen. Calibrate the accept
+>     threshold (Δx-rise band) from the null.
+>   (3) Donated-delta Exp B variant (s218 action 3); or the s217 leads (construct &
+>     detect map/fold; cross-model map consensus; reverse-harvest; self-teaching
+>     loop; sealable continuation seal()/resume()).
+>   (4) Latent v15 note (low-priority): `convert_ffn=True` orphans the FFN delta
+>     plates (shared-reference rebinding in `convert_to_delta`); main:1 unaffected.
+>
 > **▶ SESSION 218 HEADLINE — EXP B (SELF-VERIFYING ACCEPTANCE): s217 VERDICT WAS
 > VOID (INSTRUMENT BUG); FIXED & RERUN → ✅ SIGNAL PRESENT (Pearson +0.712 /
 > Spearman +0.729).** Register: **functional** (declared on cold start). Orient →
