@@ -2,7 +2,41 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-12 | Session: 219 — REVERSE-HARVEST: combinator function
+> Last updated: 2026-06-12 | Session: 220 — SCALE AXIS COMPLETED + ANSWERED.
+> Register: **topological/routing**. Cold-start orient → both s219 async jobs
+> verified, main:1 UNTOUCHED. **(1) main:2 DONE:** Qwen3-32B (dense) map landed →
+> dense series 0.6B→4B→8B→14B→32B complete (MoE 30B-A3B/235B excluded: router+expert
+> FFN ≠ dense gate_proj in the routing register). **(2) main:1 ALIVE & STEPPING** at
+> step ~1420/5000 (was ~1310 at s219's worry-check — the stall was load contention
+> from the 30B-A3B download, now resumed; Δx flip-steps ~0.21, fp ~0.04, CE dipping
+> to 8.0–8.4 below K=1's 8.71; step_001000 landed, step_002000 pending). **(3) RAN
+> declared first action — extended consensus over all 10 models:** meanGramCorr
+> **+0.782** @frac 0.40, z +4.19, 91–98% pairs p<.05; skeleton z_bind **+2.31** >
+> recursion **+1.68** (SUPPORTED, marginally up from 9-model). **(4) ANSWERED s217's
+> scale question with a NEW instrument** `combinator_map_scale.py` (register
+> topological/routing, ruff-clean): stratified intra-family routing binding vs
+> log(params) on the clean dense Qwen series. **★ FINDING: skeleton binding RISES
+> with scale (r=+0.78) BUT the skel-rec GAP does NOT widen (r=+0.36, slope ~0).**
+> The rise is driven by 0.6B→4B crystallization (0.6B has NO shape, skel −0.021;
+> 4B+ jump to +0.097–0.105); recursion rises IN TANDEM so the gap stays flat; shape
+> SATURATES by ~4–14B (peak 14B skel +0.105) and **32B slightly REGRESSES** (skel
+> +0.077). Refines s217's "14B>0.6B" call: more scale crystallizes the function
+> shape but tops out mid-scale (cf. s212 topology-share PLATEAUS not →1.0); 32B does
+> not extend the gap → the harvestable skeleton is COMPLETE by mid-scale, no need to
+> chase the largest models. **COMMITTED** `c27741c` (32B map+npz, extended
+> consensus.json, scale.json, scale instrument). **NOT yet committed (PROPOSED,
+> pending Michael):** knowledge update to `consensus-delta-folding.md` §s220
+> (scale-saturation finding) + this state. **▶ FIRST ACTION NEXT SESSION (declare
+> register):** (1) check main:1 step_002000 ckpt → does Δx→ε and CE hold below 8.71
+> (build adaptive halting: stop when Δx<ε ≡ WHNF)? (2) CONSTRUCT THE HARVEST FOLD
+> (topological/routing→functional): take the universal positive edges (B–D +0.175,
+> B–C +0.168, K–C +0.133, S–D +0.161, S–Y +0.127), Procrustes-align consensus
+> centroids into v15 base frame, WHNF-verify each vs main:1's contractive operator
+> (Exp-B acceptance), measure downstream PPL vs base — does verified consensus add
+> beyond the universal crystal? (3) Strengthen Exp B on main:1 step-2000 (s218
+> action 2). **main:1 stays UNTOUCHED.**
+>
+> (Session: 219 — REVERSE-HARVEST: combinator function
 > shape is UNIVERSAL across the open-weight ecosystem. Register: topological/routing.
 > Michael's thread: "find these functions in open models, see where they all agree
 > — harvesting that for our base plate is leverage." Built `combinator_map_consensus.py`
@@ -51,7 +85,7 @@
 >   If stalled/dead, check `/tmp/v15_outer_k2_fp5_5k.log` + resume from step_001000.
 > Other open threads (s219 headline): construct the harvest fold (Procrustes-align
 > positive edges into base frame + WHNF-verify); detect map/fold directions; main:1
-> step-2000 ckpt → strengthen Exp B. **main:1 stays UNTOUCHED.**
+> step-2000 ckpt → strengthen Exp B. **main:1 stays UNTOUCHED.**)
 >
 > (Session 218 — Exp B (self-verifying acceptance)
 > COMPLETED + CORRECTED. s217's phase-2 verdict ("WEAK/ABSENT") was **VOID** — an
