@@ -53,8 +53,45 @@
 > supply Y; unblocks the s220 harvest fold (composition skeleton = viable align
 > target). Part B = feasibility SCREEN not training proof (K-erasure = likely hard
 > spot). **AMENDED knowledge** `combinator-training-beta-reduction.md` (§Strided
-> attention + stride-fit table + open leads 5/6). **NOT yet committed (this
-> batch):** knowledge amendment + this state.
+> attention + stride-fit table + open leads 5/6). COMMITTED `db8ff13`.
+> **★ CONTRACTIVITY + CONSTRUCT-PATH THREAD (Michael, end s221):**
+> - **Δx-decay test `fp_decay_curve.py` (read-only, COMMITTED `11e9683`):** ran the
+>   trained step_001000 operator to K=6 on real seq-2048 → **Δx 0.80→0.46→0.32→
+>   0.24→0.20, geometric L=0.70 → CONTRACTIVE PAST PASS 2** (answers
+>   vsm-outer-recurrence open-Q#1; not a pass-2 artifact), monotone, std~0.001,
+>   reaches WHNF (Δx<0.05) in ~4 more passes; MILD contraction = good regime.
+>   Deadband target Δx*≈0.24. (Caveat: seq-2048 Δx_2=0.80 vs seq-4096 train-log
+>   ~0.29 — seq-len/data; verdict robust.)
+> - **fp loss is the wrong SHAPE (Michael):** `λ_fp·Δx²` gradient ∝ Δx → explodes
+>   on spikes (main:1 gnorm 9290) + pulls monotone→0 (wrong: kills bought depth,
+>   wrong on Ω, FIGHTS K-acquisition). Fix = inverse/soft = **deadband**
+>   (penalize only Δx>Δx*≈0.24) + **saturating** (bounded grad). Next-run change.
+> - **★ ACQUISITION ⊥ CONTRACTIVITY TENSION (Michael's training law):** models go
+>   **B-dominant first** → plateau → learning **K causes chaos** (K-erasure must
+>   move weights a lot → transiently breaks contraction → λ_fp·Δx² explodes). ⇒
+>   **fp-spikes = fingerprint of combinator ACQUISITION, not just instability;
+>   stable-low-fp = stopped learning.** Triangulates: stride-screen predicted K
+>   hard + Michael's experience + main:1 live. step-1000 anchor IS B-first (comp
+>   +0.51 > sel +0.21). **⇒ main:1 chaos is plausibly K-ACQUISITION, not divergence
+>   — LET IT RIDE (Michael).** Discriminator: avg50 breaks below ~8.8 plateau
+>   (reorganized) vs stuck/climb (terminal).
+> - **★ CONSTRUCT PATH (Michael's Q: tiny per-op models → normal form → fold into
+>   base?):** YES — consensus-delta-folding + self-teaching + stride-fit + decay.
+>   **Sharpening 1:** train a complete BASIS ({S,K} or {B,C,K,W,I}) not one-per-op
+>   (attention=apply FREE, recurrence=Y FREE; rest emerge by composition).
+>   **Sharpening 2:** "tiny" works because a SPECIALIST escapes superposition (the
+>   4B floor is a superposition artifact; one-op model crystallizes far below it).
+>   **3 constraints:** (a) deltas on ONE frozen B₀ (frame problem); (b) only finite
+>   combinators fold as routing deltas, recursion from the architecture; (c) fold =
+>   align + WHNF-verify + PRESERVE CONTRACTIVITY (decay L≲0.7 + Exp-B ΔCE = the
+>   fold meter). **Open risk:** multi-combinator fold COMPOSITION untested (Exp B =
+>   single-delta only; s110 interference / s216 non-unique composite). **Path:**
+>   construct > extract = cleanest MIT level-4 provenance; base = verified
+>   combinator algebra. **First exp:** one tiny verified K specialist as delta on
+>   B₀ → fold → verify (Δx<ε on K + L preserved + Exp-B). AMENDED knowledge
+>   (§Contractivity dynamics + §Construct path + open leads 7/8 + Files). COMMITTED
+>   `11e9683` (decay). **NOT yet committed (this batch):** knowledge amendment §
+>   contractivity/construct + this state.
 > **⚠ main:1 CONTRACTIVITY WOBBLE (observation only, UNTOUCHED):** Δx descended
 > beautifully to ~0.21–0.28 (steps 1340–1400) then SPIKED to 0.47–0.58 (steps
 > 1450–1530), gnorm exploded 369→5295, fp 0.05→0.34; now RECOVERING (step 1580:

@@ -192,6 +192,102 @@ FEASIBLE are architectural arguments; whether training crystallizes them is the
 crystallization-probe measurement. K-erasure ("against the grain") is the likely
 hard spot.
 
+## Contractivity dynamics: the recurrence is a real contraction (s221)
+
+`fp_decay_curve.py` (register functional, read-only) runs the trained operator to
+**K=6** on real long sequences and reads the per-pass residual
+(`_last_outer_deltas`). Answers `vsm-outer-recurrence.md` open-Q#1 (K=2 training
+only ever *observed* Δx₂):
+
+- **step_001000, seq-2048:** Δx = **0.80 → 0.46 → 0.32 → 0.24 → 0.20**,
+  geometric **L = 0.70 → CONTRACTIVE**, monotone, std ~0.001; reaches Δx<0.05
+  (WHNF) in **~4 more passes**. *Mild* contraction (not over-clamped) = the good
+  regime. So "iterate to a normal form" is a measurable target, not a metaphor.
+- Caveat: seq-2048 Δx₂=0.80 vs the seq-4096 training log's ~0.29 (seq-len/data);
+  the contractivity *verdict* is robust.
+
+### The fp loss is the wrong SHAPE — make it inverse/soft (Michael, s221)
+The current term `λ_fp·Δx²` has gradient ∝ Δx → **strong when far → it *explodes*
+on a spike** (main:1's gnorm 9290) — and it pulls monotonically to Δx=0, which
+(a) is semantically wrong (a true reducer keeps Δx high on Ω/non-normalizing
+terms), (b) kills the bought depth (Δx=0 ⇒ K=2≡K=1), and (c) **fights the very
+Δx-spike that learning a hard combinator requires** (below). Replace with a
+soft/inverse shape (a **next-run** change; main:1 untouched):
+
+| shape | form | fixes |
+|---|---|---|
+| **deadband / hinge** | `max(0, Δx − Δx*)²`, Δx*≈0.24 | zero pull below target → "nudge, don't enforce fp=0" |
+| **soft-target well** | `(Δx − Δx*)²`, min at Δx*>0 | anti-collapse *and* anti-divergence |
+| **saturating** | `log(1+Δx²)` / `Δx²/(1+Δx²)` | bounded gradient → a spike can't explode gnorm |
+
+Ideal = **deadband + saturating** (get out of the way below Δx*, bound the
+gradient above it). The decay test gives Δx* (just above the convergence floor).
+
+### Acquisition vs contractivity are in TENSION (Michael's training-dynamics law)
+Observed across prior runs: models go **B-dominant first** (composition = native),
+drive loss to a plateau, *then* start learning the others — and **learning K
+throws the numbers into chaos.** Mechanism: to learn an against-the-grain
+combinator (K-erasure fights the blend prior, today's stride-fit) the operator's
+weights must move a *lot* → **transiently breaks contractivity** → Δx jumps →
+`λ_fp·Δx²` explodes → gnorm spike. **So fp-spikes are the *fingerprint of
+combinator acquisition*, not (only) instability; a stable low-fp regime means the
+model has *stopped* learning new structure.** This triangulates 3 independent
+lines (today's stride screen predicted K is the hard spot; Michael's experience
+says K-acquisition causes the chaos; main:1 is showing it live). The step-1000
+anchor already shows **B-first** (composition +0.51 > selection +0.21).
+**Discriminator** (reorganization vs divergence): does avg50 break *below* the old
+~8.8 plateau after the chaos (K learned → new lower fixed point) or stay stuck/
+climb (terminal)? The soft fp loss is the principled fix — it stops fighting
+acquisition.
+
+## The construct path: tiny verified specialists folded into B₀ (s221, Michael)
+
+> Question: if we can find the normal forms of the functions in the routing,
+> could we make **tiny models that each train one operation to its normal form,
+> then fold it into the base plate?** Answer: yes — the convergence of
+> `consensus-delta-folding.md` + the self-teaching loop + today's stride-fit +
+> the decay confirmation. Two sharpenings, three constraints, one open risk.
+
+**Sharpening 1 — train a complete BASIS, not one-per-operation.** Attention =
+application is already in the architecture (free); the outer recurrence = the
+fold/Y is already there (S–Y: recursion is *supplied*, not folded). So train tiny
+specialists only for a combinatory-complete basis ({S,K}, or {B,C,K,W,I}); the
+infinite rest (I=SKK, T=CI, …) **emerges by composition** the strided stack does
+natively.
+
+**Sharpening 2 — "tiny" works because a specialist escapes superposition.** The
+crystallization floor is high for *general* models (s220: 0.6B no shape, 4B+
+crystallizes) because they pack every function in superposition. A model that does
+*only* K has no superposition pressure → crystallizes that one op far below the
+general floor. The S5 `smallest(x)` principle, made into a construction method.
+
+**Three constraints that make the fold work:**
+1. **Deltas on ONE shared frozen base B₀**, not independent models — the frame
+   problem (cross-init sign-corr 0.000). Specialists must be delta-plates on B₀ →
+   commensurable → foldable.
+2. **Only the finite combinators fold as routing deltas** (selection +
+   composition); the recursion family comes from the recurrence, not a plate.
+3. **Fold = align + WHNF-verify + *preserve contractivity*** — not just add.
+   Normal forms are non-unique compositions (s216) → plumbing needs Procrustes
+   alignment; each fold must keep the operator contractive (Banach). **The decay L
+   is the fold meter:** accept iff post-fold L ≲ 0.7 *and* Exp-B ΔCE acceptance
+   passes (validated, Pearson +0.712).
+
+**The one open risk:** Exp B verified *single*-delta acceptance; whether *multiple*
+combinator folds **compose** correctly is untested (the s110 destructive-
+interference / s216 non-unique-composition wall). That is the frontier.
+
+**Why it's the right path:** flips base construction from **extract** (train big,
+distill) to **construct** (assemble verified parts) → the cleanest MIT/level-4
+provenance (S5 `λ provenance`). The base becomes a *verified combinator algebra*,
+not a lossy distillation.
+
+**First experiment (clean, decisive):** train ONE tiny verified K specialist as a
+delta on B₀ from self-teaching WHNF traces; fold it; check (a) it reaches its
+normal form (Δx<ε on K-inputs), (b) the fold preserves contractivity (L meter),
+(c) Exp-B acceptance passes. If one folds cleanly → test two composing (the
+interference question).
+
 ## Caveats (register discipline)
 - One real anchor (step 1000). The trajectory verdict is **not yet testable**.
 - v15's FFN is **frozen-extracted**; only attention is TD-trained — so the
@@ -231,6 +327,15 @@ hard spot.
 6. **Pressure-test Part B empirically** (functional) — Part B is analytic;
    probe whether K-erasure and C-permute are actually expressible in trained v15
    attention (small activation check) to upgrade FEASIBLE → measured.
+7. **Soft/inverse fp loss** (functional, NEW s221) — add `--fixed-point-mode
+   {quadratic,deadband,welltarget,saturating}` + `--fp-target` to `train_td.py`
+   (default quadratic = unchanged); resume from step_001000 with deadband+
+   saturating (Δx*≈0.24) → does it let K-acquisition proceed without the gnorm
+   explosion *and* hold CE below 8.71?
+8. **The construct path — one tiny K specialist** (functional, NEW s221) — train
+   a tiny verified K specialist as a delta on B₀ (self-teaching WHNF traces), fold
+   it, verify Δx<ε on K-inputs + L-meter contractivity preserved + Exp-B
+   acceptance. Then two combinators composing (the interference frontier).
 
 ## Files
 | File | Content |
@@ -239,6 +344,8 @@ hard spot.
 | `scripts/experiments/combinator_crystallization.py` | CPU aggregator: family binding vs Δx trajectory + verdict |
 | `scripts/experiments/stride_fit_normal_forms.py` | stride-fit screen: distance reachability + per-combinator/edge expressibility on v15's fixed gather |
 | `results/stride-fit/normal_form_fit.json` | 100% distance coverage; 4/5 agreed edges stride-teachable; S–Y needs recurrence |
+| `scripts/experiments/fp_decay_curve.py` | read-only K=6 decay probe: does the recurrence contract past pass 2? |
+| `results/fp-decay/decay_curve_seq2048.json` | L=0.70 CONTRACTIVE; Δx 0.80→0.20; WHNF in ~4 passes; Δx*≈0.24 |
 | `results/combinator-relationship-map/v15_attn_q_step_001000.{json,npz}` | step-1000 anchor (upgraded with family binding) |
 | `results/combinator-crystallization/trajectory_attn_q.json` | the (growing) crystallization trajectory |
 | `/tmp/comb_cost.py` | REPL grounding of the substructural copy/delete counts |
