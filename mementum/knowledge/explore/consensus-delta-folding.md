@@ -487,6 +487,104 @@ WHNF-verify each candidate against the contractive operator, incorporate the
 survivors, and measure downstream PPL vs the base. Falsifiable: does verified
 ecosystem-consensus add anything beyond the universal crystal we already hold?
 
+## s219 — Reverse-harvest pilot RAN: the function shape is universal; the forced map-skeleton binds, recursion is the residual
+
+> Session 219 (Michael): "find these functions in open models, see where they all
+> agree — harvesting that for our base plate is leverage." Plus a theory: a
+> transformer has essentially ONE structural operation, and that forces the shape
+> into the rest of the system, restricting where a model can innovate. First run of
+> the reverse-harvest pilot. Register: **topological/routing** (declared at step 0).
+
+### The frame-invariant instrument
+`scripts/experiments/combinator_map_consensus.py`. Raw weights are incomparable
+across models (cross-init sign-corr 0.000) — but the per-model **9×9 combinator
+Gram** (cosine between routing-register centroids of K I B C S D W Y WHNF, after
+CMR; the s217 "map of the functions") lives in shared combinator-LABEL space ⇒
+**frame-invariant** ⇒ comparable across any architecture/scale. The script computes
+cross-model GramCorr on the 36 off-diagonal edges + a combinator-label-permutation
+null + per-edge `reliability_t = |mean|·√n/std` + per-FAMILY internal binding vs a
+RANDOM-NODE-TRIPLE null. Swept **9 models / 5 families** via
+`combinator_relationship_map.py`: Pythia-410m/2.8b (NON-gated, `dense_h_to_4h`),
+SmolLM3-3B, Mistral-7B-v0.3, OLMo-2-13B, Qwen3-0.6B/4B/8B/14B (SwiGLU `gate_proj`).
+
+### Result 1 — the SAME functions show up across the ecosystem
+Cross-model GramCorr **+0.66→+0.77**, z **+3.5→+4.1**, **89–97% of model-pairs
+p<.05** vs the label-permutation null; peak frac 0.40 (0.20–0.50 all ≥+0.72).
+Architecture-independent (non-gated Pythia agrees with gated Qwen), and agreement
+**strengthens** as more models are added (was +0.5–0.66 at 2–6 models) ⇒ a real
+shared shape, not an artifact. Michael's intuition (we should see the same
+functions across models) is confirmed empirically.
+
+### Result 2 — the single-operation theory, confirmed
+Attention is essentially ONE structural operation: a data-dependent convex
+combination of value vectors = function **application** ("select args, combine").
+The FFN adds no second *operation* — it supplies fixed pointwise transforms = the
+**constants/stored kernels**. application + constants is combinatorially complete,
+but there is **no second qualitatively-different op for a model to invent** ⇒ models
+cannot innovate at the operation level, only at **composition** ⇒ they converge on
+the same compositions. Test (per-family internal binding vs random node-triple):
+
+| family | z_bind | p | note |
+|---|---|---|---|
+| composition `{B,D,S}` | **+2.43** | **.037** | strongest, significant |
+| selection `{K,I,C}`   | +2.13 | .061 | binds, marginal |
+| recursion `{Y,W,WHNF}`| +1.67 | .09 | does NOT clear the null |
+
+**SKELETON (comp+sel) +2.28 > RECURSION +1.67**, robust at frac 0.30 (+2.21 vs
++1.88) and 0.40. The recursion family's edges are near-zero AND low-variance
+(z_stab −1.3) — consistently *not* bound, not merely noisy.
+
+### Why recursion is the residual — `map = B(C B)(C B)` (REPL-verified)
+In pure combinators `map = B(C B)(C B)`: composition (B) + flip (C), **no recursion
+combinator**. A Church/fold-encoded list carries its own recursion, and in a
+transformer **attention-over-positions IS the fold** — so no model needs to learn a
+`Y`. Hence the recursion family is exactly the part that does *not* universally bind.
+Also verified in the REPL: `map` is **extensionally unique** (Church-Rosser) but
+**intensionally infinite** (η-expansion; `B=S(KS)K`; `C=S(BBS)(KK)`; … all compute
+the same output; raw closed SKI space ≈ `Catalan(k)·3^(k+1)` = 288k terms at k=6).
+The architecture + cost pressure collapse that infinity toward a minimal realization
+whose **irreducible skeleton is forced and shared**; the plumbing stays per-model.
+Signature **0<r<1 ∧ skeleton>recursion = "shared skeleton + variable plumbing"** —
+the s216 non-unique-composite made concrete at the function level (uniqueness is
+per-TERM, not per-BEHAVIOR).
+
+### The harvest leverage (concrete edges for the base plate, frac 0.40)
+- **Universal POSITIVE bindings (fold these):** B–D +0.166, B–C +0.176, K–C +0.139,
+  S–D +0.165, S–Y +0.141 — the composition/selection skeleton.
+- **Rock-solid cross-family REPULSIONS** (reliability_t up to **21**): C–S, K–Y,
+  D–WHNF, B–WHNF, K–S, C–WHNF — the 3-family PARTITION geometry; harvestable as the
+  discrete scaffold (the families separate the same way in every model).
+- **Leave as per-model CONTENT** (highest cross-model std): B–C, K–B, I–C, K–I — the
+  selection-family plumbing (selection z_stab +1.4 = the noisy family). The
+  non-unique-realization residual, exactly as `map=B(CB)(CB)` predicts.
+
+### The honest caveat (audit discipline) — answered
+The agreement *could* be the universal crystal (`crystal-universality.md`) already in
+any base. BUT composition binds above the random-triple null at **mid-stack frac
+0.30** — where `function-discovery.md`/s217 located combinator **IDENTITY** (not late
+COMMIT execution) ⇒ this is **function-level structure above the generic crystal
+floor**, the part worth harvesting. Single register (routing/CMR). The actual
+harvest (align-before-fold via Procrustes into our base frame + WHNF-verify) is NOT
+yet done — this run establishes *that* there is shared, edge-localised, function-level
+structure to harvest and *which edges* carry it.
+
+### Open leads from s219
+1. **Scale axis** (register: topological/routing): extend to Qwen3-32B / 30B-A3B /
+   235B (MoE, local) — does the skeleton/recursion z_bind gap WIDEN with scale (more
+   capacity to fully form the systems, cf. s217's 14B>0.6B call)?
+2. **Construct the harvest fold** (register: topological/routing → functional):
+   Procrustes-align the universal positive-edge centroids into v15's base frame,
+   WHNF-verify against main:1's contractive operator (Exp-B acceptance), incorporate
+   survivors, measure downstream PPL vs base.
+3. **Detect map/fold directions**: build the `map=B(CB)(CB)` direction from the
+   measured B,C centroids + a map/fold/filter probe set; does it activate?
+
+### s219 artifacts
+`scripts/experiments/combinator_map_consensus.py` (the consensus instrument);
+`results/combinator-map-consensus/consensus.json`; 7 new per-model maps under
+`results/combinator-relationship-map/` (pythia-410m/2.8b, SmolLM3, Mistral, OLMo-13B,
+Qwen3-4B/8B; Qwen3-0.6B/14B from s217); sweep log `/tmp/combinator_sweep.log`.
+
 ## Files
 
 | File | Content |
@@ -498,3 +596,8 @@ ecosystem-consensus add anything beyond the universal crystal we already hold?
 | `scripts/experiments/tool_crystal_control_baseline.py` | TOOL vs CTRL within-group agreement = the tool-specific-vs-generic verdict |
 | `results/tool-crystal-consensus/` | per-model `{model}.json/.npz`, `consensus_summary.json`, `control_baseline.json` |
 | `/tmp/tool_consensus_5fam.log` | 5-family run transcript |
+| `scripts/experiments/combinator_map_consensus.py` | **s219 reverse-harvest:** cross-model combinator-Gram consensus + label-perm null + per-edge reliability_t + per-family binding vs random-triple null |
+| `scripts/experiments/combinator_relationship_map.py` | per-model 9×9 combinator Gram in routing register (CMR); the per-model map reader |
+| `results/combinator-map-consensus/consensus.json` | s219 verdict: GramCorr +0.66→+0.77; skeleton>recursion; harvest edge-list |
+| `results/combinator-relationship-map/` | 9 per-model `{model}.json/.npz` (5 families, 410M→14B) |
+| `/tmp/combinator_sweep.log` | s219 9-model sweep transcript |
