@@ -7,37 +7,36 @@ WHY a separate script (s220):
   `gate_proj`). v15 is an MLX ternary model with a shared-stride VSM stack and an
   outer recurrence — a different forward path. To HARVEST ecosystem-consensus
   combinator structure into the v15 base plate (consensus-delta-folding.md §s220,
-  harvest fold Phase 1) we first need v15's OWN combinator Gram + centroids in the
-  SAME routing register the consensus uses, and in the SAME d_ff space the Exp-B
-  acceptance harness perturbs. This produces the target frame for align-before-fold.
+  harvest fold Phase 1) we first need v15's OWN combinator Gram + centroids in a
+  routing register. This produces the target frame for align-before-fold.
 
-THE ROUTING REGISTER (identical definition to the HF script):
-  routing(x) = sign( FFN gate pre-activation )
-  In v15 the live FFN gate is `stack_c.ffn_gate_plate` (a TernaryLinear); its
-  forward is `ffn_gate = nn.silu(self.ffn_gate_plate(ffn_norm(x)))`. The PRE-silu
-  output `ffn_gate_plate(ffn_norm(x))` is the gate pre-activation (== HF gate_proj
-  output). We capture it at the LAST token of the LAST band of the LAST outer pass
-  (the deepest reduction), per probe.
-  centroid_k = mean over probes labelled k of sign(routing), AFTER common-mode
-  removal (CMR); Gram[j,k] = cosine(centroid_j, centroid_k).  <- THE MAP
+TWO REGISTERS (--target):
+  ffn_gate : sign(stack_c.ffn_gate_plate pre-activation), d_ff=5120. The direct
+             analog of the HF gate_proj register. CAVEAT: v15's FFN is
+             FROZEN-EXTRACTED (only attention is TD-trained), so this measures the
+             untrained base. (s220 result: z=+0.52, p=0.29 — NO combinator shape.)
+  attn_q   : sign(shared_stride_stack.layers[li].q_proj output), d_model=1280, the
+  attn_out : sign(...out_proj output). The TD-TRAINED attention routing (the query
+             = which combinator to apply / the integrated attention write). Swept
+             over depth-fraction layers; best by silhouette z. (s220 follow-up:
+             does the LEARNED routing carry the shape the frozen FFN does not?)
 
 CAPTURE MECHANISM (the s218 orphan lesson):
-  We wrap the LIVE plate object that `stack_c` actually calls
-  (`model.stack_c.ffn_gate_plate`), NOT `model.ffn_gate_plate_c` — convert_ffn
-  rebinds the model attribute but stack_c keeps its original reference (the bug
-  that VOIDed s217 phase-2). The wrapper passes through and stashes the last output.
+  We wrap the LIVE module object that the forward actually calls (the reference
+  INSIDE stack_c / inside each stride layer), NOT a top-level model attribute —
+  convert_ffn rebinds the model attribute but the stacks keep their original
+  references (the bug that VOIDed s217 phase-2). The wrapper passes through and
+  stashes the last pre-activation it produced (last band of last outer pass).
 
-LOAD (mirrors exp_b_self_verifying_acceptance.py exactly):
-  cfg=V15Config(); create_model_with_deltas(cfg, convert_ffn=True);
-  load_weights(checkpoint, strict=False); reduce_all_deltas(model)  -> trained
-  operator; n_outer from CLI; fixed_point_lambda=0 (eval only).
-  Checkpoint is READ-ONLY (the running main:1 training writes step_NNNN/; we only
-  read an already-frozen step).
+LOAD (mirrors exp_b_self_verifying_acceptance.py): cfg=V15Config();
+  create_model_with_deltas(cfg, convert_ffn=True); load_weights(ckpt, strict=False);
+  reduce_all_deltas(model) -> trained operator; n_outer from CLI; fp_lambda=0.
+  Checkpoint is READ-ONLY (the running main:1 training writes step_NNNN/).
 
-Usage (GPU/MLX — run in tmux main:2 alongside main:1, per Michael s220):
+Usage (GPU/MLX — run alongside main:1, per Michael s220):
   uv run python scripts/experiments/combinator_relationship_map_v15.py \
       --checkpoint checkpoints/v15-td-outer-k2-fp5-5k/step_001000/model.npz \
-      --n-outer 2
+      --target attn_q --n-outer 2
   # smoke: add --limit-per 3 --n-perm 50
 
 License: MIT
@@ -71,6 +70,7 @@ from verbum.probes.library import crystal_probes  # noqa: E402
 RESULTS_DIR = _PROJECT_ROOT / "results" / "combinator-relationship-map"
 CRYSTAL = ["K", "I", "B", "C", "S", "D", "W", "Y", "WHNF"]
 TOKENIZER_NAME = "Qwen/Qwen3.6-27B"  # the shards-qwen36 BBPE tokenizer
+LAYER_FRACS = [0.0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.0]
 
 
 def log(msg: str = "") -> None:
@@ -162,8 +162,8 @@ def load_probes(limit_per: int = 0, seed: int = 0):
     return prompts, np.array(labels)
 
 
-# ---- live-gate capture (wrap the reference stack_c actually calls) ----------
-class GateCapture(nn.Module):
+# ---- live-module capture (wrap the reference the forward actually calls) -----
+class Capture(nn.Module):
     """Pass-through wrapper that stashes the last pre-activation it produced."""
 
     def __init__(self, inner):
@@ -177,6 +177,37 @@ class GateCapture(nn.Module):
         return out
 
 
+def pick_layers(n_layers: int):
+    return sorted({min(n_layers - 1, max(0, round(f * (n_layers - 1))))
+                   for f in LAYER_FRACS})
+
+
+def install_captures(model, target: str, cfg):
+    """Wrap the target module(s); return ({key: Capture}, width, label_fn)."""
+    caps = {}
+    if target == "ffn_gate":
+        stack = model.stack_c
+        cap = Capture(stack.ffn_gate_plate)
+        stack.ffn_gate_plate = cap
+        caps["ffn_gate_c"] = cap
+        return caps, int(cfg.d_ff)
+    # attention registers: sweep depth-fraction layers of the shared stride stack
+    layers = model.shared_stride_stack.layers
+    want = pick_layers(len(layers))
+    for li in want:
+        layer = layers[li]
+        if target == "attn_q":
+            cap = Capture(layer.q_proj)
+            layer.q_proj = cap
+        elif target == "attn_out":
+            cap = Capture(layer.out_proj)
+            layer.out_proj = cap
+        else:
+            raise SystemExit(f"unknown --target {target!r}")
+        caps[f"L{li:02d}"] = cap
+    return caps, int(cfg.d_model)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--checkpoint", type=str,
@@ -184,10 +215,11 @@ def main() -> None:
                     help="TRAINED v15 model.npz (READ-ONLY); '' = frozen base only")
     ap.add_argument("--extracted-model-path", type=str,
                     default="checkpoints/v15-extracted/model.npz/model.npz")
+    ap.add_argument("--target", choices=["ffn_gate", "attn_q", "attn_out"],
+                    default="attn_q",
+                    help="routing register to read (attn_* = TD-trained)")
     ap.add_argument("--n-outer", type=int, default=2,
                     help="outer recurrence passes (match training K=2)")
-    ap.add_argument("--stack", choices=["a", "c"], default="c",
-                    help="which stack's ffn_gate_plate to read (c = Exp-B target)")
     ap.add_argument("--max-length", type=int, default=256)
     ap.add_argument("--limit-per", type=int, default=0,
                     help="cap probes/combinator (smoke)")
@@ -203,7 +235,6 @@ def main() -> None:
     counts = {c: int(np.sum(labels == c)) for c in CRYSTAL}
     log(f"[v15] {len(prompts)} crystal probes  {counts}")
 
-    # tokenizer (offline; the shards-qwen36 BBPE)
     from transformers import AutoTokenizer
     tok = AutoTokenizer.from_pretrained(
         TOKENIZER_NAME, trust_remote_code=True, local_files_only=True)
@@ -228,15 +259,11 @@ def main() -> None:
     model._n_outer_passes = args.n_outer
     model._fixed_point_lambda = 0.0
 
-    # ── wrap the LIVE gate plate (NOT model.ffn_gate_plate_c — orphan, s218) ──
-    stack = model.stack_c if args.stack == "c" else model.stack_a
-    cap = GateCapture(stack.ffn_gate_plate)
-    stack.ffn_gate_plate = cap
-    d_ff = int(cfg.d_ff)
-    log(f"  capturing stack_{args.stack}.ffn_gate_plate pre-activation (d_ff={d_ff})")
+    caps, width = install_captures(model, args.target, cfg)
+    log(f"  target={args.target}  capturing {len(caps)} module(s)  width={width}")
 
-    # ── forward each probe, capture last-token gate pre-activation ──
-    gate = np.empty((len(prompts), d_ff), np.float32)
+    # ── forward each probe, capture last-token pre-activations ──
+    reg = {k: np.empty((len(prompts), width), np.float32) for k in caps}
     plen = np.empty(len(prompts), np.int32)
     for i, text in enumerate(prompts):
         ids = tok.encode(text, add_special_tokens=False)[: args.max_length]
@@ -245,24 +272,34 @@ def main() -> None:
         ids = [min(t, cfg.vocab_size - 1) for t in ids]
         tokens = mx.array(np.asarray(ids, np.int64)[None, :])
         model._prev_alg_c = None
-        cap.last = None
+        for c in caps.values():
+            c.last = None
         _ = model(tokens)
-        mx.eval(cap.last)
-        g = np.asarray(cap.last[0, -1], np.float32)  # (d_ff,)
-        gate[i] = g
+        for k, c in caps.items():
+            mx.eval(c.last)
+            reg[k][i] = np.asarray(c.last[0, -1], np.float32)
         plen[i] = len(ids)
         if (i + 1) % 50 == 0:
             log(f"    {i + 1}/{len(prompts)}")
 
-    # ── routing register: sign(gate), raw + CMR ──
-    sign = np.sign(gate)
-    sign_cmr = cmr(sign)
-    sil_full = silhouette_null(sign, labels, args.n_perm, args.seed)
-    sil_cmr = silhouette_null(sign_cmr, labels, args.n_perm, args.seed)
-    Cb = centroids(sign_cmr, labels)          # (9, d_ff) — the harvest material
+    # ── per-capture routing register: sign, CMR, silhouette, Gram ──
+    per_key = {}
+    best_key, best_z = None, -1e9
+    for k in caps:
+        sign_cmr = cmr(np.sign(reg[k]))
+        sil = silhouette_null(sign_cmr, labels, args.n_perm, args.seed)
+        per_key[k] = sil
+        log(f"    {k}: route_cmr silhouette={sil['silhouette']:+.4f} "
+            f"z={sil['z']:+.2f} p={sil['p_value']:.4f}")
+        if sil["z"] > best_z:
+            best_z, best_key = sil["z"], k
+
+    # control: raw (no CMR) silhouette on the best key
+    best_sign = np.sign(reg[best_key])
+    sil_full = silhouette_null(best_sign, labels, args.n_perm, args.seed)
+    Cb = centroids(cmr(best_sign), labels)     # (9, width) — harvest material
     G = gram(Cb)
-    log(f"  route_cmr silhouette={sil_cmr['silhouette']:+.4f} "
-        f"z={sil_cmr['z']:+.2f} p={sil_cmr['p_value']:.4f}  "
+    log(f"\n  BEST register: {best_key}  route_cmr z={best_z:+.2f} "
         f"(control route_full z={sil_full['z']:+.2f})")
 
     D = 1.0 - G
@@ -274,19 +311,20 @@ def main() -> None:
         row.sort(key=lambda x: -x[1])
         nn_map[c] = row[:3]
 
-    log("\n  Gram (cosine) — the v15 MAP:")
-    head = "       " + "".join(f"{c:>7}" for c in CRYSTAL)
-    log(head)
+    log("\n  Gram (cosine) — the v15 MAP (best register):")
+    log("       " + "".join(f"{c:>7}" for c in CRYSTAL))
     for i, c in enumerate(CRYSTAL):
         log(f"  {c:>5}" + "".join(f"{G[i, j]:+7.2f}" for j in range(len(CRYSTAL))))
 
     out = {
-        "model": "v15", "register": "topological/routing",
-        "checkpoint": loaded_ckpt, "n_outer": args.n_outer,
-        "stack": args.stack, "d_ff": d_ff, "n_probes": len(prompts),
-        "counts": counts, "crystal_order": CRYSTAL, "n_perm": args.n_perm,
-        "git_sha": git_sha(),
-        "route_cmr_silhouette": sil_cmr, "route_full_silhouette": sil_full,
+        "model": "v15", "register": "topological/routing", "target": args.target,
+        "checkpoint": loaded_ckpt, "n_outer": args.n_outer, "width": width,
+        "n_probes": len(prompts), "counts": counts, "crystal_order": CRYSTAL,
+        "n_perm": args.n_perm, "git_sha": git_sha(),
+        "best_key": best_key,
+        "per_key_silhouette": per_key,
+        "route_cmr_silhouette": per_key[best_key],
+        "route_full_silhouette": sil_full,
         "map": {
             "gram": {CRYSTAL[i]: {CRYSTAL[j]: round(float(G[i, j]), 4)
                                   for j in range(len(CRYSTAL))}
@@ -298,7 +336,8 @@ def main() -> None:
         },
         "elapsed_s": round(time.time() - t0, 1),
     }
-    tag = args.tag or (Path(loaded_ckpt).parent.name if loaded_ckpt else "base")
+    ckpt_tag = Path(loaded_ckpt).parent.name if loaded_ckpt else "base"
+    tag = args.tag or f"{args.target}_{ckpt_tag}"
     safe = f"v15_{tag}"
     np.savez_compressed(
         RESULTS_DIR / f"{safe}.npz",
