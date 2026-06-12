@@ -29,10 +29,25 @@
 > 7.21) ⇒ contractivity-trained K=2 is contractive-to-WHNF *and* CE-competitive at
 > scale. First ckpt step_001000 landed; 4 to go (~3.5 days). main:1 UNTOUCHED all
 > session (async discipline).
-> **▶ FIRST ACTION NEXT SESSION: see s219 HEADLINE below.** Open: extend sweep to
-> Qwen3-32B/30B-A3B/235B (does skeleton/recursion gap widen with scale?); construct
-> the harvest fold (Procrustes-align positive edges into base frame, WHNF-verify);
-> or main:1 step-2000 ckpt → strengthen Exp B. main:1 stays UNTOUCHED.
+> **s219 work COMMITTED** (`8f0f19a` instrument+data, `ae00856` knowledge, `2602009`
+> state). **SCALE EXTENSION IN FLIGHT (tmux main:2):** `combinator_relationship_map.py`
+> on Qwen3-30B-A3B then Qwen3-32B (235B DROPPED — weights not downloaded, only 15M
+> metadata local). At handoff 30B-A3B was DOWNLOADING shards ("Fetching 16 files",
+> local copy incomplete) — may take a while. Log `/tmp/combinator_scale.log`, script
+> `/tmp/combinator_scale.sh`.
+> **▶ FIRST ACTION NEXT SESSION (declare register: topological/routing):**
+> (1) Check main:2: did 30B-A3B + 32B land in `results/combinator-relationship-map/`?
+>   If yes → re-run `uv run python scripts/experiments/combinator_map_consensus.py
+>   --fracs 0.1,0.2,0.3,0.4,0.5 --n-perm 5000` over ALL 11 models → does the
+>   skeleton/recursion z_bind gap WIDEN with scale (s217's 14B>0.6B call)? Does the
+>   30B-A3B MoE sit on or off the dense trend? Commit the extended consensus.
+> (2) ⚠ VERIFY main:1 RESUMED STEPPING — it sat at step ~1310 across several checks
+>   while the 30B-A3B download/load contended the box (memory was fine, 80% free; the
+>   stall was likely load contention, not a crash). `tmux capture-pane -p -t main:1`.
+>   If stalled/dead, check `/tmp/v15_outer_k2_fp5_5k.log` + resume from step_001000.
+> Other open threads (s219 headline): construct the harvest fold (Procrustes-align
+> positive edges into base frame + WHNF-verify); detect map/fold directions; main:1
+> step-2000 ckpt → strengthen Exp B. **main:1 stays UNTOUCHED.**
 >
 > (Session 218 — Exp B (self-verifying acceptance)
 > COMPLETED + CORRECTED. s217's phase-2 verdict ("WEAK/ABSENT") was **VOID** — an
