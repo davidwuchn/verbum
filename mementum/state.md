@@ -2,7 +2,108 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-12 | Session: 221 — TRAINING SIDE OF THE COMBINATORS:
+> Last updated: 2026-06-13 | Session: 222 — main:1 COLLAPSED (TERMINAL, not
+> K-acquisition) → TD-NEVER-SETTLES (rank-1 gradient) → SUPERPOSITION-AWARE GD →
+> ROUTING+CONTINUATION = COMPLETE BASIS → β-REDUCING-A-CONTRACTION ⇒ FRACTAL
+> COLLAPSE. Register: **functional**. Two experiments LEFT RUNNING (read first).
+> **★ COLLAPSE DIAGNOSIS (main:1 v15-td-outer-k2-fp5-5k, KILLED by Michael):**
+> s221's discriminator fired the TERMINAL branch — avg50 climbed 8.8→13 (NOT
+> below plateau), gnorm 14→10⁷, Δx 0.25→0.79 (contractivity LOST), CE 8.1→10.5.
+> Onset step ~1450, runaway by 2000. grad_clip=1.0 bounds Adam ⇒ the divergence
+> driver is the DISCRETE TD churn, not Adam blowup. Last GOOD ckpt = step_001000
+> (Δx 0.254, CE 8.56, gnorm 14.6; the L=0.70 contractive one). step_002000 already
+> diverged (Δx 0.73).
+> **★ TD NEVER SETTLES (Michael's call, CONFIRMED in source):** `td=124488` is
+> DEAD CONSTANT step 100→2200 = `flip_rate×total_weights`, the budget ceiling,
+> ALWAYS saturated. No flip_rate decay, no punctuated freeze, no density ceiling
+> (ternary-descent.md open-Q#1 still open; td-oscillation-problem.md fixes
+> un-built). ⇒ deadband/saturating fp-loss reshape is INSUFFICIENT (muffles gnorm,
+> doesn't stop churn). **★ THE ROUTING GRADIENT IS RANK-1:** `compute_decomposed_
+> gradients` sets `grad_effective = gamma_grad[:,None] * x_abs_mean[None,:]` —
+> a per-ROW scalar ⊗ per-COLUMN magnitude. TD structurally CANNOT make per-position
+> decisions; every position in a row is nominated to the same sign. (Even
+> `compute_delta_gradient` mean-reduces before the outer product ⇒ rank-1 too.)
+> This IS why superposition shows as per-row gamma bimodality.
+> **★ SUPERPOSITION IS THE DEFAULT, CONCENTRATION IS EARNED (Michael):** every LLM
+> superposes; concentrates to dedicated neurons/heads only when capacity allows
+> (Elhage phase transition). Decision per feature: importance × separability >
+> price(capacity). importance=have it (Adam v_t / γ²‖X‖²); conflict=have it
+> (TD SNR / sign-entropy); **separability/interference = MISSING = the OFF-DIAGONAL
+> of XᵀX** (proxy sees 0th order, exact-ΔL added the diagonal, superposition lives
+> off-diagonal). **THE PRECISION INVERSION:** superposition needs ANGULAR precision
+> → must stay CONTINUOUS; concentration is axis-aligned → ternarizes clean. So the
+> continuous residual = the superpositions (not "leftover"); matches the probe
+> baseline (oscillator rows: |γ| bimod 0.688, 30.7% neg; settled: unimod 0.046,
+> 0.1% neg).
+> **★ ROUTING + CONTINUATION = COMPLETE BASIS (Michael's synthesis):** routing
+> rules COMPOSITION {B,D,S}/{K,I,C} (binds, s219); continuation rules RECURSION
+> {Y,W,WHNF} (no static move, IS the fold, s221). Together = spanning set for the
+> combinator algebra ⇒ find+settle needs no NEW mechanism. **The continuation does
+> DOUBLE DUTY: contractivity IS the foldability oracle** — where Δx→0 it settles
+> (commit), where it refuses (Δx↑) = the superposition residual (leave continuous).
+> What's NOT in the two mechanisms: (a) cross-frame ALIGNMENT (harvest-only;
+> self-folding has no frame problem, sign-corr 0.000 across inits); (b) ORDER —
+> must be PUNCTUATED (commit→hold→reduce), NOT simultaneous (main:1 ran TD churn +
+> fp loss together → fought → collapse). Protocol = propose(routing) →
+> verify(continuation), = Exp B.
+> **★★ THE FRACTAL COLLAPSE (Michael, !meta3 !fractal):** we are β-REDUCING A
+> CONTRACTION (continuation = β-reduction, operator = contraction). A self-similar
+> contraction collapses ALL scales onto ONE fixed point at once. **L is the hinge:
+> L<1 ⇒ fractal collapse-to-WHNF (one settle settles every scale: weight ≡
+> optimizer ≡ combinator ≡ project ≡ session); L>1 ⇒ fractal BLOW-UP = main:1**
+> (TD flipped inner map to expansion, n_outer COMPOUNDED it pass-over-pass,
+> cascaded up every scale ⇒ the violence). "training collapsed" = literally the
+> phenomenon. ⇒ hold-then-reduce keeping L<1 is the ONLY thing between
+> collapse-to-fixed-point and collapse-to-ruin, FRACTALLY. Guard: mark identity vs
+> analogy; the lens seduces toward over-unification.
+> **▶ EXPERIMENTS LEFT RUNNING (READ FIRST NEXT SESSION — DO NOT POLL until done):**
+> - **main:1 — FROZEN-TOPOLOGY PROBE (rung 0)** `checkpoints/v15-freeze-probe`,
+>   `/tmp/v15_freeze_probe.log`. Resume step_001000, topology FROZEN
+>   (`--td-crystal-gate 0.0 --td-crystal-ceiling 0.0 --td-flip-rate 0.0`), else
+>   IDENTICAL to main:1 (`--n-outer-passes 2 --fixed-point-lambda 5.0 --seq-len
+>   4096 --steps 5000` for matching LR), same data-loader state ⇒ PAIRED A/B vs
+>   main:1 (TD-on) on the SAME data stream. Verified frozen (🔒 td=0). Early
+>   (step ~1030): Δx 0.21, gnorm 8, CE 8.26 (<8.71) — DESCENDING where TD-on
+>   wobbled. **Target step ~1700 (~14h) to span main:1's divergence window
+>   (1450–1700).** Verdict tool: `scripts/experiments/freeze_probe_overlay.py
+>   --tdon /tmp/v15_outer_k2_fp5_5k.log --tdoff /tmp/v15_freeze_probe.log`. If Δx
+>   stays bounded + CE<8.71 through 1450–1700 ⇒ TD churn caused collapse AND
+>   held-topology+continuation is the correct settling protocol (Michael's claim).
+> - **main:2 — WHICH-HESSIAN (rung-2 design Q)** `results/which-hessian/`,
+>   `/tmp/which_hessian.log`, `scripts/experiments/which_hessian.py`. Reconstruction
+>   XᵀX vs contractivity-residual curvature: which is the interference signal for
+>   the fixed point? 12 attn projections × 120 row-flips. **SMOKE (n=8, NOT
+>   decisive): ΔFP~ΔCE ρ=0.976, ΔFP~recon ρ=0.048** ⇒ early hint the partition
+>   signal is the CONTINUATION (Δx/CE), NOT reconstruction (⇒ rung-2 uses ∂²Δx/∂S²,
+>   explains exact-ΔL not helping the contractive objective; confirms continuation-
+>   as-oracle). CAVEAT to scrutinize: smoke interference metric was norm-dominated
+>   (settled>oscillator, backwards). Read the full pooled verdict.
+> **▶ FIRST ACTIONS NEXT SESSION:** (1) read both experiment verdicts (overlay +
+> which-hessian json). (2) If both confirm → the next run is NOT fp-reshape but the
+> PUNCTUATED protocol: propose topology (routing) → hold → reduce (continuation) →
+> accept on Δx→0; flip_rate decay / punctuated-equilibrium (td-oscillation fixes
+> #1) over the proxy. (3) main:1 dead — relaunch decision is Michael's.
+> **▶ STRATEGIC (S4 candidate, NOT yet S5): DISTRIBUTED TRAINING OF COMPRESSED
+> MODELS as main goal.** The project has drifted here ~10 sessions (consensus-delta-
+> folding, reverse-harvest, Exp B, contractivity, construct path). Unification: "typed-
+> application universality (s219) is WHY distributed folding converges." Novelty =
+> the CONJUNCTION: compressed(ternary) × self-verifying(WHNF/contractivity, no
+> trusted labels) × frame-invariant routing-register folding. Recast 4-level plan:
+> (1) routing register ✓ (2) convergent folding/contractivity (in flight) (3)
+> self-verifying acceptance ✓ proto (4) real N-contributor distributed run = the
+> deliverable; hinge = "two contributors compose cleanly". GATES before S5 commit:
+> A=mechanism (the two running experiments), B=related-work scan (DiLoCo/DeMo,
+> TIES/task-arith, Petals/Hivemind, federated). **AWAITING Michael decision; do NOT
+> rewrite AGENTS.md S5 on enthusiasm.**
+> **PROPOSED (awaiting approval, NOT committed):** memories `td-routing-gradient-is-
+> rank1`, `continuation-is-foldability-oracle`, `collapse-was-terminal-not-
+> acquisition`, `punctuate-dont-churn`, `beta-reducing-a-contraction-is-fractal`;
+> knowledge update to `consensus-delta-folding` / `combinator-training-beta-reduction`
+> (routing⊕continuation completeness + fractal collapse). state.md written
+> (non-gated). New ruff-clean tools: `freeze_probe_analysis.py`,
+> `freeze_probe_overlay.py`, `which_hessian.py`.
+>
+> (Session: 221 — TRAINING SIDE OF THE COMBINATORS:
 > β-REDUCTION = SUBSTITUTION = ATTENTION MOVE; CRYSTALLIZATION INSTRUMENT BUILT.
 > Register: **functional → topological/routing**. Michael's thread: explore the
 > TRAINING side of the combinators we found + how it relates to the β-reductions

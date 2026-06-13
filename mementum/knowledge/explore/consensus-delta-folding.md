@@ -748,3 +748,32 @@ Reference: Qwen3-14B silhouette **z=+7.97**; ecosystem cross-model GramCorr **+0
 | `results/combinator-harvest-fold/prescription.json` | s220 prescription: edges S-D,B-D,B-C,K-C,S-Y over the 4-14B band; deferred GPU phases listed |
 | `results/combinator-relationship-map/` | 10 per-model `{model}.json/.npz` (5 families, 410M→32B) |
 | `/tmp/combinator_sweep.log` | s219 9-model sweep transcript; `/tmp/combinator_scale.log` s220 32B; `/tmp/combinator_consensus_10models.log` s220 consensus |
+
+## s222 — Routing ⊕ Continuation = a complete basis for find+settle
+
+(See `../session-222.md`.) The folding machinery decomposes into exactly two
+mechanisms we already have, which together span the combinator algebra:
+
+- **Routing rules COMPOSITION** `{B,D,S}/{K,I,C}` (binds as static sign topology).
+- **Continuation rules RECURSION** `{Y,W,WHNF}` (no static move; the recurrence
+  IS the fold).
+
+⇒ distributed find+settle needs **no new mechanism**. The continuation does
+**double duty**: contractivity IS the **foldability oracle** — where Δx→0 a
+normal form is committable (fold), where it refuses (Δx↑) it is the superposition
+residual (leave continuous; needs the recurrence or a continuous home).
+
+**What the two mechanisms do NOT contain:**
+1. **Cross-frame ALIGNMENT** — harvest-only (cross-init sign-corr 0.000);
+   *self*-folding has no frame problem. So routing+continuation is self-sufficient
+   for self-distillation; reverse-harvest adds Procrustes alignment.
+2. **ORDER (punctuation)** — `propose(routing) → hold → reduce(continuation) →
+   accept on Δx→0`, NOT simultaneous. main:1 ran TD churn + fp loss together →
+   collapse. = the Exp B acceptance pattern.
+
+**β-reducing a contraction ⇒ fractal collapse.** Folding is β-reduction of an
+operator meant to be a contraction. A self-similar contraction collapses all
+scales onto one fixed point; **L is the hinge** (L<1 settle-to-WHNF; L>1 fractal
+blow-up = main:1). Distributed folding only converges if every accepted delta
+keeps L<1 — the contractivity acceptance test is load-bearing *fractally*, not
+just locally.

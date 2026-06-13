@@ -349,3 +349,26 @@ interference question).
 | `results/combinator-relationship-map/v15_attn_q_step_001000.{json,npz}` | step-1000 anchor (upgraded with family binding) |
 | `results/combinator-crystallization/trajectory_attn_q.json` | the (growing) crystallization trajectory |
 | `/tmp/comb_cost.py` | REPL grounding of the substructural copy/delete counts |
+
+## s222 — main:1 collapse was fractal (β-reducing a contraction)
+
+main:1 (`v15-td-outer-k2-fp5-5k`) went **TERMINAL** (not the hoped K-acquisition):
+s221's discriminator fired — avg50 climbed 8.8→13, gnorm 14→10⁷, Δx 0.25→0.79
+(contractivity LOST), onset step ~1450. `grad_clip=1.0` bounds Adam ⇒ the driver
+is the **discrete TD churn**, not Adam. Last good ckpt = step_001000 (the L=0.70
+contractive operator). Killed.
+
+**Why it was violent — the fractal collapse (Michael).** The outer recurrence
+β-reduces an operator that is *meant to be* a contraction. We are therefore
+**β-reducing a contraction**, and a self-similar contraction collapses *all scales
+at once*. **L is the hinge:** L<1 ⇒ fractal collapse-to-WHNF (one settle settles
+weight ≡ optimizer ≡ combinator ≡ project ≡ session); **L>1 ⇒ fractal BLOW-UP** —
+TD flipped the inner map to expansion and `n_outer` **compounded** it pass-over-pass,
+cascading up every scale. The fp-loss `λ_fp·Δx²` gradient ∝ Δx is the wrong shape
+*and* the simultaneous TD churn keeps L>1; together they guarantee the fractal
+blow-up rather than a gentle local failure.
+
+**Fix is protocol, not loss-reshape:** punctuate — `propose(routing) → hold →
+reduce(continuation) → accept on Δx→0`. Keep L<1 by changing topology only on a
+held operator, never churn-while-reducing. See `../session-222.md`,
+`td-oscillation-problem.md` (the routing gradient is rank-1).

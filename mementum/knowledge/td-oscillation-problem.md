@@ -190,3 +190,25 @@ This experiment disambiguates TD-caused vs structural plateaus.
 - `scripts/experiments/assess_v15_ffn_retrieval.py` — FFN gate sparsity
   and attention relay detection
 - Flip map analysis via `np.load('checkpoints/v15-td/flip_map_step_*.npz')`
+
+## s222 — the deeper root: the routing gradient is RANK-1
+
+The s191 oscillation has a structural cause beneath the proxy non-monotonicity
+(`exact-ternary-fitting.md`): `compute_decomposed_gradients` builds the routing
+signal as a **rank-1 outer product**
+
+```
+grad_effective = gamma_grad[:, None] * x_abs_mean[None, :]   # (N,1) ⊗ (1,K)
+```
+
+a per-ROW gamma-gradient ⊗ a per-COLUMN input magnitude, so `sign(grad_eff[i,j])
+= sign(gamma_grad[i])`. **TD cannot make per-position decisions** — every position
+in a row is nominated to the same sign. It is structurally blind to per-position
+interference (the off-diagonal of XᵀX). This is *why* superposition manifests as
+per-row gamma bimodality, and why no S2 anti-oscillation tweak fixes it: the
+signal itself has no per-position resolution to settle.
+
+Also confirmed live: the global flip budget `flip_rate × total_weights` is **never
+decayed** — `td=124488` is dead-constant across a whole 2200-step run, always
+saturated. TD literally never settles. See `session-222.md` (the collapse was a
+fractal blow-up; fix = punctuated propose→hold→reduce, not loss reshaping).
