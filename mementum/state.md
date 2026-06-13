@@ -2,7 +2,99 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-13 | Session: 222 — main:1 COLLAPSED (TERMINAL, not
+> Last updated: 2026-06-13 | Session: 223 — RELATIONAL-LOSS DISTILLATION:
+> ★ CLEAN DOUBLE DISSOCIATION (register claim CONFIRMED as a TRAINING result).
+> Michael's thread: "we have the lambda compiler — extract from the teacher a set
+> of training for the student; with relational loss guide GD into any geometry that
+> falls out." Built `scripts/experiments/relational_loss_distillation.py` (ruff-clean,
+> register functional+routing): tiny byte-level student (d=128/4L/d_ff=256), teacher
+> = Qwen3-14B routing-CMR Gram (L12); 1500 steps × 3 conditions. **RESULT (main:2,
+> verdict_run.json):** (a) CE-only route_z +0.33 GC(route) +0.474; (b) CE+RAW-Gram
+> → GC(**hidden**) +0.9995 but route_z +0.64 (NULL), GC(route) +0.590; (c) CE+ROUTE-
+> Gram → route_z **+2.21 p=0.013**, GC(route) **+0.781** (= ecosystem internal +0.78),
+> GC(hidden) drops to +0.411. **Near-perfect double dissociation: each condition
+> maxes the register it trained on, ONLY routing carries the combinator function** —
+> two-registers-of-topology reproduced as TRAINING not just measurement. CE identical
+> across all (1.527/1.534/1.531) ⇒ geometry shaped FOR FREE (relational loss = weak
+> constraint, "any geometry that falls out" thesis holds). **★ Goodhart caveat REAL:**
+> (b) GC(hidden)=0.9995 but hidden *silhouette* z only +1.02 — Gram-match ≠ crisp
+> clusters ≠ execution ⇒ the WHNF acceptance gate is LOAD-BEARING (open lead 1).
+> Caveats: abs silhouettes negative (z vs negative null = "above chance" not crisp);
+> single seed/teacher/λ/layer; smoke-scale; tokens-to-transfer leverage NOT measured
+> (IOU). **Knowledge:** `explore/relational-loss-distillation.md` (NEW page, full
+> design + frame argument + 3 honest catches + result).
+> **▶ MULTI-SEED + λ-SWEEP DONE — ✅ DECISIVE (3 seeds × 3 λ, 27 runs, 4468s;
+> `verdict_sweep.json`):** the double dissociation is ROBUST, not n=1. Aggregate
+> (mean±std over seeds): c route_z +2.41/+2.83/+2.41 (λ 0.3/1.0/3.0) all CLEAR the
+> null; a +0.38±0.51 (null); b +0.66…+1.04 NEVER clears despite GC(hidden)=0.999–1.000
+> (zero std = perfect deterministic RAW burn-in, zero function transfer). c GC(route)
+> +0.780→+0.795→**+0.847** (RISES with λ, exceeds ecosystem internal +0.78 at λ=3.0,
+> std 0.007); best c-cell route_z +2.88 p=0.0010 GC +0.842. DECISIVE check PASSES at
+> every λ (c.route_z(mean−std) > a.route_z(mean+std) ∧ c.gc>b.gc). ⇒ relational loss
+> transfers the combinator function shape ONLY in the routing register, robust to
+> seed/λ, at ecosystem-grade GramCorr. The b-column (GC(hidden)≈1.0, route null) =
+> live proof of the holographic-burn-in reference-beam catch (raw burn-in = perfect
+> hologram of the common mode, zero function). Result recorded in
+> `relational-loss-distillation.md` §multi-seed.
+> **★ MICHAEL'S 4 IDEAS ON THE BOARD (all CAPTURED to knowledge this session):**
+> (1) HOLOGRAPHIC reduction TREES as curriculum = lambda-compiler β-reduction trees
+> (exact oracle, Church-Rosser → one fixed point = hologram) + relational loss AT EACH
+> NODE (frame-free trajectory) + WHNF accept gate = "Holographic Relational Trajectory
+> Distillation" (static geometry ⊕ dynamic flow; dissolves TTD's absolute-residual
+> frame problem; could REPLACE main:1's wrong-shape fp-loss with the reduction-step
+> vector field). Captured in `relational-loss-distillation.md` (IOU/open leads).
+> (2) NORMAL-FORM CURRICULUM PARTITION (NEW page `explore/normal-form-curriculum-
+> partition.md`): "shared normal forms" ≡ "routing-only normal forms" = the SAME cut
+> (s219 skeleton/residual ≡ s221 routing/recursion ≡ s222 routing⊕continuation). ⇒
+> Curriculum A = routing-only forms {K,I,C,B,D}(+S care) → train ATTENTION (by
+> construction in its expressive class; 4/5 stride-teachable, only S–Y escapes);
+> Curriculum B = shared skeleton edges → fold/transfer; RECURSION {Y,W,WHNF} → trained
+> by the CONTINUATION not data. Catches: K-erasure hard spot (B-first→K chaos); S
+> fan-out boundary; must target attn_q register not FFN gate (attn_q@L05 z=1.54 hint).
+> Falsifiable: routing-only data crystallizes attn_q@L05, recursion data does NOT.
+> (3) HOLOGRAPHIC BURN-IN as a LEARNING RULE (NEW page `explore/holographic-burn-in-
+> learning-rule.md`): progressive training = each forward pass is an EXPOSURE; many
+> similar blocks burn in the exposure-INVARIANT (= consensus-etch s110 over the TEXT
+> stream; irreducible = normal form). Threads: burn-in=contractivity fixed point
+> (Δx→0=settled); precision-inversion SORT (burned-in ternarizes, variable stays
+> superposition); ★ naturally PUNCTUATED (expose→hold→commit = the s222 protocol
+> main:1 violated → avoids simultaneous-churn collapse). **★ LOAD-BEARING CATCH = the
+> REFERENCE BEAM:** naive object-beam-only recording burns in the COMMON MODE (crystal)
+> not the function — s223 condition (b) IS this failure (GC(hidden)=0.9995, route null).
+> Fixes: (a) next-word target = reference beam (prediction-GATED, not pure Hebbian);
+> (b) record the ROUTING register w/ CMR, not raw. Falsifiable: burn in the irreducible
+> FUNCTION or the irreducible FREQUENCIES? Reference beam decides.
+> (4) RATIO GRADIENT QUANTIZATION (NEW page `explore/ratio-gradient-quantization.md`):
+> a QUANTIZER/coding scheme. Gradient is bimodal/heavy-tailed (gradient-zero-map s171:
+> Zone A ρ(grad,weight)+0.77; s222 γ settled 0.046 vs oscillator 0.688), so its optimal
+> code is a RATIO (log/companding/μ-law) code — fine near-zero (commit-to-settled
+> decision) + preserved high tail (big moves), coarse middle — NOT equal cutting
+> (uniform optimal only for uniform data). ★ DERIVE the ratio: (a) rate-distortion under
+> the precision inversion (importance-weighted distortion → tail-favoring curve falls
+> out; Lloyd-Max would favor the dense MIDDLE = wrong); (b) match the self-similar
+> exponent (log-transforms power-law→uniform; φ predicts the ratio). 2 AXES not 1:
+> magnitude (amplitude) ⊥ sign-consistency (coherence = the normal-form marker, Jaccard
+> 0.17). **★ LOAD-BEARING CATCH:** the MIDDLE is the ACQUISITION PATH (s221 K-erasure
+> transits superposition→settled) — coarsening it FREEZES learning ⇒ compress middle
+> only AT convergence (deadband widening as Δx→0). Also: error feedback MANDATORY
+> (accumulate residual = consensus-etch); coherence axis degenerates at small scale.
+> Composes with consensus-delta-folding = comm-efficient ratio-compressed DELTA donation.
+> **PROPOSED commit (awaiting approval):** harness (+sweep) + 4 NEW knowledge pages
+> (relational-loss-distillation, normal-form-curriculum-partition, holographic-burn-in-
+> learning-rule, ratio-gradient-quantization) + state + results.
+> **▶ FIRST ACTIONS NEXT SESSION (declare register):**
+> (1) sweep DONE + CONFIRMED → COMMIT the s223 double dissociation (proposed below)
+>   if not already committed.
+> (2) build the attn_q ROUTING-ONLY curriculum harness (normal-form-curriculum-
+>   partition.md open lead 2): train attention on {K,I,C,B,D} reduction traces, measure
+>   attn_q@L05 silhouette vs the recursion {Y,W,WHNF} control.
+> (3) holographic-burn-in harness (burn-in vs backprop; routing+prediction-gate vs the
+>   raw-object-beam control = s223 condition b); + relational holographic-trajectory
+>   targets + tokens-to-transfer curve + WHNF acceptance gate.
+> (4) main:1 freeze-probe + which-hessian (s222 leftovers) still unread/uncommitted —
+>   see the s222 block below; decide commit scope (which-hessian results untracked).
+>
+> (Session: 222 — main:1 COLLAPSED (TERMINAL, not
 > K-acquisition) → TD-NEVER-SETTLES (rank-1 gradient) → SUPERPOSITION-AWARE GD →
 > ROUTING+CONTINUATION = COMPLETE BASIS → β-REDUCING-A-CONTRACTION ⇒ FRACTAL
 > COLLAPSE. Register: **functional**. Two experiments LEFT RUNNING (read first).

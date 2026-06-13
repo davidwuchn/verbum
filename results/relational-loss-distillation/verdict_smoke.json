@@ -1,0 +1,110 @@
+{
+  "experiment": "relational-loss-distillation",
+  "register": "functional + topological/routing",
+  "teacher": "Qwen_Qwen3-14B",
+  "teacher_best_layer": 12,
+  "git_sha": "34ae541a15a8050b002d6e02994f75c15894a8bf",
+  "smoke": true,
+  "config": {
+    "teacher": "Qwen_Qwen3-14B",
+    "device": "mps",
+    "steps": 30,
+    "batch_size": 32,
+    "block_size": 64,
+    "d_model": 64,
+    "n_head": 4,
+    "n_layer": 3,
+    "d_ff": 128,
+    "capture_layer": -1,
+    "lr": 0.0003,
+    "rel_lambda": 1.0,
+    "rel_every": 1,
+    "probe_batch": 64,
+    "probe_max_len": 96,
+    "n_perm": 200,
+    "log_every": 10,
+    "seed": 0,
+    "smoke": true
+  },
+  "elapsed_s": 12.9,
+  "conditions": [
+    {
+      "condition": "a_ce_only",
+      "rel_kind": null,
+      "capture_layer": 1,
+      "final": {
+        "step": 30,
+        "ce": 4.913898468017578,
+        "rel": 0.0
+      },
+      "route_cmr_silhouette": {
+        "silhouette": -0.12476853879680812,
+        "null_mean": -0.13806397716480223,
+        "null_std": 0.012169795738781774,
+        "z": 1.0924947840846029,
+        "p_value": 0.14925373134328357
+      },
+      "hidden_cmr_silhouette": {
+        "silhouette": -0.15794072233543316,
+        "null_mean": -0.19533552710323135,
+        "null_std": 0.015007538640156625,
+        "z": 2.49173469843606,
+        "p_value": 0.009950248756218905
+      },
+      "gramcorr_route_vs_teacher": 0.3886973869636572,
+      "gramcorr_hidden_vs_teacher": 0.4328183802021029
+    },
+    {
+      "condition": "b_ce_raw_gram",
+      "rel_kind": "hidden",
+      "capture_layer": 1,
+      "final": {
+        "step": 30,
+        "ce": 4.978212356567383,
+        "rel": 0.07577876001596451
+      },
+      "route_cmr_silhouette": {
+        "silhouette": -0.12848068557079714,
+        "null_mean": -0.13835902349431134,
+        "null_std": 0.011804987843122899,
+        "z": 0.836793570208453,
+        "p_value": 0.20398009950248755
+      },
+      "hidden_cmr_silhouette": {
+        "silhouette": -0.16862043699666998,
+        "null_mean": -0.19700838858920855,
+        "null_std": 0.015292521666858403,
+        "z": 1.85632900910386,
+        "p_value": 0.04477611940298507
+      },
+      "gramcorr_route_vs_teacher": 0.5121896113632092,
+      "gramcorr_hidden_vs_teacher": 0.8836451302378592
+    },
+    {
+      "condition": "c_ce_route_gram",
+      "rel_kind": "gate",
+      "capture_layer": 1,
+      "final": {
+        "step": 30,
+        "ce": 4.9531402587890625,
+        "rel": 0.012656005099415779
+      },
+      "route_cmr_silhouette": {
+        "silhouette": -0.11298213260508207,
+        "null_mean": -0.1306591075359077,
+        "null_std": 0.010680236496070795,
+        "z": 1.6551108149458027,
+        "p_value": 0.05970149253731343
+      },
+      "hidden_cmr_silhouette": {
+        "silhouette": -0.1513149080905503,
+        "null_mean": -0.1919263824856953,
+        "null_std": 0.014623402615606008,
+        "z": 2.7771562790594775,
+        "p_value": 0.009950248756218905
+      },
+      "gramcorr_route_vs_teacher": 0.735792183691825,
+      "gramcorr_hidden_vs_teacher": 0.4908542174061045
+    }
+  ]
+}
