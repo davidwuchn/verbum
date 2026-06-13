@@ -777,3 +777,87 @@ scales onto one fixed point; **L is the hinge** (L<1 settle-to-WHNF; L>1 fractal
 blow-up = main:1). Distributed folding only converges if every accepted delta
 keeps L<1 — the contractivity acceptance test is load-bearing *fractally*, not
 just locally.
+
+## s223 — What the relational-loss double dissociation means for distributed folding
+
+> Session 223. The relational-loss distillation result (`relational-loss-
+> distillation.md`, ✅ confirmed 3 seeds × 3 λ) is, at bottom, a result ABOUT
+> distributed training. What it changes:
+
+1. **A frame-unification mechanism is now CONFIRMED (was hypothesis).** A relational
+   loss pulls an independently-initialized student to **ecosystem-grade agreement
+   (+0.78–0.85)** with a reference routing Gram, robust to seed/λ. ⇒ N contributors
+   trained to the SAME reference Gram end up **relationally identical** (same
+   relations, possibly different absolute frame). Equal Grams GUARANTEE a rigid
+   Procrustes alignment exists ⇒ **align-before-fold (the reverse-harvest blocker)
+   is now WELL-POSED by construction**, not a hope.
+2. **★ The REGISTER is the carrier — fold routing, NEVER raw.** The dissociation
+   proves the function lives ONLY in the routing register; raw carries common mode.
+   Condition (b) = matching RAW geometry → GC(hidden)=1.000 (σ=0, perfect merge),
+   ZERO function transferred. ⇒ **naive weight-averaging / model-soups / TIES operate
+   in the raw register → they fold the universal crystal everyone already has and
+   wash out function.** The b-column IS the model-soup phenomenon. The long-standing
+   honest catch ("folding only re-derives the crystal") was really "folding the wrong
+   register." Fold the routing register (sign/gate + CMR); the function-specific
+   skeleton is reachable there.
+3. **★ Goodhart: relational agreement ≠ function transfer.** (b) hit GC(hidden)=1.0
+   but hidden_z only +1.0 and transferred nothing. ⇒ a donated delta can match a
+   similarity metric perfectly while carrying no capability. **The fold acceptance
+   gate CANNOT be "matches consensus Gram" — it must be the WHNF/contractivity
+   execution check** (Exp B +0.712). Accept iff agree ≥ θ AND Δx does not rise.
+4. **The reference can be the LAMBDA COMPILER, not a model.** The teacher contributed
+   only a frame-invariant Gram (a measurement). The compiler PRODUCES that canonical
+   routing geometry directly ⇒ no designated teacher; **every contributor trains to
+   the compiler's canonical Gram** = a verified, frame-invariant, identical-for-all
+   coordination substrate. Collapses "whose frame do we agree on?" → "the compiler's."
+5. **Bandwidth: donate the geometry + ratio-compressed routing deltas.** Foldable
+   object = a tiny N×N routing Gram (frame-invariant) + the structural-flip tails
+   (`ratio-gradient-quantization.md`). Distributed training over a thin channel.
+6. **Division of labor (backbone/content + routing⊕continuation, applied):**
+   - SKELETON (composition/selection, routing register) → folds via relational
+     consensus to the shared compiler Gram (transferable, universal).
+   - PLUMBING (per-model realization / superposition residual) → stays LOCAL content
+     (the Gram under-determines it ON PURPOSE — exactly right for a distributed system).
+   - RECURSION {Y,W,WHNF} → each contributor's own continuation (self-folding = no
+     frame problem).
+
+### Protocol it sketches — "geometric consensus folding"
+```
+1. shared canonical routing Gram from the lambda compiler = reference geometry
+2. N contributors train on own data: CE + relational loss to that Gram
+3. → relationally-identical routing geometries → Procrustes-alignable BY CONSTRUCTION
+4. fold: align (guaranteed) → accept via WHNF/contractivity (Goodhart-proof) →
+         merge routing flips where consensus ≥ θ
+5. donate ratio-compressed routing deltas; NEVER merge the raw register
+```
+Every step now backed by a measured result, not a hope.
+
+### Honest limits (IOUs before this is a CLAIM about distributed training)
+- **Scale + heterogeneity.** Confirmed at smoke scale, single teacher (Qwen3-14B),
+  byte-level student. Encouraging: the target geometry is ITSELF universal
+  (reverse-harvest +0.78 cross-model) so there is a real shared thing to converge to
+  — but ecosystem-grade transfer across heterogeneous, real-scale contributors is
+  unproven.
+- **The 2-contributor fold is NOT yet run** (the decisive distributed test).
+- **Attention vs FFN.** Measured on the FFN-gate register; the object that matters
+  for v15 is attention routing (attn_q).
+
+### ▶ Two next experiments (the decisive distributed leg + the v15-relevant register)
+1. **2-CONTRIBUTOR FOLD (decisive distributed test; register: functional →
+   topological/routing).** Two students trained (on disjoint data shards) with CE +
+   relational loss to ONE shared compiler/teacher Gram → verify they are relationally
+   identical → Procrustes-align (should succeed by construction) → fold their routing
+   flips where consensus ≥ θ → accept via WHNF/contractivity (Δx not rising) →
+   measure: (a) does the fold stay contractive (L<1)? (b) downstream CE/PPL vs either
+   contributor alone? (c) is the folded set the universal skeleton (expected) and the
+   plumbing left local? **Falsifiable:** do two independently-trained contributors
+   compose CLEANLY (the s5-level distributed claim, AGENTS.md "two contributors
+   compose cleanly" gate). Builds on `relational_loss_distillation.py`.
+2. **attn_q LEG (the register that matters for v15; register: topological/routing →
+   functional).** Repeat the s223 double-dissociation with the relational target +
+   readout = ATTENTION routing (attn_q), not the FFN gate
+   (`combinator_relationship_map_v15.py --target attn_q`; s220's only suggestive v15
+   signal was attn_q@L05 z=1.54 p=0.063). **Falsifiable:** does relational loss in the
+   attn_q register clear the null (lift z=1.54 → significant) while the raw register
+   does not — i.e. does the dissociation hold in the register v15 actually trains?
+   Composes with the routing-only curriculum (`normal-form-curriculum-partition.md`).

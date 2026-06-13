@@ -82,17 +82,34 @@
 > **PROPOSED commit (awaiting approval):** harness (+sweep) + 4 NEW knowledge pages
 > (relational-loss-distillation, normal-form-curriculum-partition, holographic-burn-in-
 > learning-rule, ratio-gradient-quantization) + state + results.
-> **▶ FIRST ACTIONS NEXT SESSION (declare register):**
-> (1) sweep DONE + CONFIRMED → COMMIT the s223 double dissociation (proposed below)
->   if not already committed.
-> (2) build the attn_q ROUTING-ONLY curriculum harness (normal-form-curriculum-
->   partition.md open lead 2): train attention on {K,I,C,B,D} reduction traces, measure
->   attn_q@L05 silhouette vs the recursion {Y,W,WHNF} control.
-> (3) holographic-burn-in harness (burn-in vs backprop; routing+prediction-gate vs the
->   raw-object-beam control = s223 condition b); + relational holographic-trajectory
->   targets + tokens-to-transfer curve + WHNF acceptance gate.
-> (4) main:1 freeze-probe + which-hessian (s222 leftovers) still unread/uncommitted —
->   see the s222 block below; decide commit scope (which-hessian results untracked).
+> **▶ FIRST ACTIONS NEXT SESSION (declare register). s223 ALL COMMITTED** (0da396c
+> relational-loss batch + 4 pages; c7edff1 which-hessian). The relational-loss result
+> is a result ABOUT DISTRIBUTED TRAINING — see consensus-delta-folding.md §s223 (full
+> implications + "geometric consensus folding" protocol). **TWO DECISIVE NEXT
+> EXPERIMENTS (both specified in consensus-delta-folding.md §s223 ▶):**
+> (1) **★ 2-CONTRIBUTOR FOLD (the decisive distributed test; functional →
+>   topological/routing):** two students on DISJOINT shards, both CE + relational loss
+>   to ONE shared compiler/teacher Gram → verify relationally identical → Procrustes-
+>   align (should succeed by construction) → fold routing flips where consensus ≥ θ →
+>   accept via WHNF/contractivity (Δx not rising) → measure (a) fold stays contractive
+>   L<1, (b) CE/PPL vs either alone, (c) skeleton folded / plumbing left local.
+>   FALSIFIABLE: do two independent contributors compose CLEANLY (the AGENTS.md S5 gate
+>   "two contributors compose cleanly"). Builds on `relational_loss_distillation.py`.
+> (2) **★ attn_q LEG (the register that matters for v15; topological/routing →
+>   functional):** repeat the s223 double-dissociation with relational target + readout
+>   = ATTENTION routing (attn_q, NOT FFN gate; `combinator_relationship_map_v15.py
+>   --target attn_q`; s220 attn_q@L05 z=1.54 p=0.063). FALSIFIABLE: does relational
+>   loss clear the null in attn_q (lift 1.54→sig) while raw does not — does the
+>   dissociation hold in the register v15 actually trains? Composes with the
+>   routing-only curriculum (normal-form-curriculum-partition.md).
+> KEY IMPLICATION TO CARRY: the function lives ONLY in the ROUTING register — fold
+> routing, NEVER raw (raw=crystal; the b-column GC(hidden)=1.0/zero-function = the
+> model-soup phenomenon). Acceptance gate = WHNF/contractivity, NOT Gram-match
+> (Goodhart). Reference = the lambda compiler's canonical Gram (no designated teacher).
+> **THEN the other s223 ideas:** holographic-burn-in harness; ratio-gradient-quant
+> harness; relational holographic-trajectory + tokens-to-transfer + WHNF gate.
+> **s222 LEFTOVERS:** main:1 freeze-probe still running/unread (read overlay verdict,
+> DO NOT POLL); which-hessian committed.
 >
 > (Session: 222 — main:1 COLLAPSED (TERMINAL, not
 > K-acquisition) → TD-NEVER-SETTLES (rank-1 gradient) → SUPERPOSITION-AWARE GD →
