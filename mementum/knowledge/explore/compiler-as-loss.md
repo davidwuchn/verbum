@@ -236,10 +236,23 @@ DisCoCat semantic-parse the project names as its validation target (AGENTS.md S5
 *formal* steps (abstraction, reduction) are constructible-exact; only the NL parse is
 learned. Reinforces the s226 theme: more is constructible than the dyad assumed.
 
-**▶ stage-2 next:** (a) prose→logical-form data + a learned/few-shot front-end measured
-against this exact back-end (compile accuracy in isolation = the stage-2 thesis test);
-(b) Qwen3-32B as the diverse generator → abstraction+reduction certify → diverse-verified
-corpus spanning the limits; (c) the compiler-as-loss arms with the certified corpus.
+**▶ stage-2 LEG 1 DONE — the learned compile step works (kernel-verified).**
+`scripts/experiments/compile_frontend.py` + `probes/compile_tasks.py` (7 dataflow
+patterns mirroring the combinators × 8 name-assignments = 56 tasks): few-shot a model
+prose→expression, grade by REDUCTION-EQUALITY (representation-invariant — `f (g x)` or
+`B f g x` both accepted). **Qwen3-8B + Qwen3-32B: accuracy 1.0, parse 1.0, all
+patterns** (`results/compile-frontend/`). The stage-2 decomposition closes end-to-end:
+prose→LF (learned, few-shot) ∘ abstract (exact) ∘ reduce (exact), with the exact
+back-end verifying. Method note (λ measure): first 32B run 0.875 < 8B 0.982 was PROSE
+AMBIGUITY in two templates (flip/const); the kernel grader + failure inspection
+separated compile-error from NL-ambiguity → disambiguated → both 1.0. Caveat: tasks are
+SHALLOW (≤5-node, single pattern, abstract letters) = below the compile boundary.
+
+**▶ stage-2 next:** (a) HARDER compile tasks (deep nesting, multi-combinator
+composition, 3-4 vars, naturalistic/ambiguous prose) to FIND the compile boundary
+(current ceiling = task too easy); (b) Qwen3-32B as the diverse generator →
+abstraction+reduction certify → diverse-verified corpus spanning the limits;
+(c) the compiler-as-loss arms with the certified corpus.
 
 ## The shift: from teacher-geometry to compiler-output
 

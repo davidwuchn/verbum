@@ -61,6 +61,19 @@
 > prose→logical-form only (both formal steps constructible-exact). 28 pytest pass,
 > ruff+diagnostics clean. COMMITTED `89fceaf` (lambda_compile + tests + certification).
 > Pages: compiler-as-loss.md §s226 stage 2.
+> **▶ STAGE 2 LEG 1 DONE — the learned compile step (prose→logical-form) WORKS.**
+> Built `scripts/experiments/compile_frontend.py` + `src/verbum/probes/compile_tasks.py`
+> (7 dataflow patterns mirroring the combinators × 8 name-assignments = 56 tasks):
+> few-shot a model prose→expression, GRADE BY REDUCTION-EQUALITY via the exact kernel
+> (representation-invariant — `f (g x)` or `B f g x` both accepted). **Qwen3-8B +
+> Qwen3-32B: accuracy 1.0, parse 1.0, ALL 7 patterns** (results/compile-frontend/). ⇒
+> stage-2 decomposition closes end-to-end: prose→LF (learned, few-shot) ∘ abstract
+> (exact) ∘ reduce (exact), kernel-verified. ★ λ measure: first 32B run 0.875 < 8B 0.982
+> was PROSE AMBIGUITY in flip/const templates; the kernel grader + failure inspection
+> separated compile-error from NL-ambiguity → disambiguated → both 1.0 (the exact
+> verifier isolates which is which). CAVEAT: tasks SHALLOW (≤5-node, single pattern,
+> abstract letters) = BELOW the compile boundary; ceiling ⇒ need harder tasks.
+> COMMITTED s226-leg1: compile_frontend + compile_tasks + results.
 > **▶ NEXT:** (1) STAGE 2 NEUROSYMBOLIC — learned compile front-end (prose→typed term)
 > + the exact `lambda_ast` kernel back-end; isolates the only learned part (so training
 > never learns reduce+compile at once = what tangled v15). (2) DIVERSE DATA via
