@@ -2,13 +2,15 @@
 title: "Compiler-as-Loss — Supervise Outputs (Capability), Crystal-Lattice Relational Loss (Inventory)"
 status: designing
 category: training
-tags: [distillation, loss-design, lambda-compiler, relational-loss, reverse-harvest, crystal-lattice, level-4, provenance, two-phase, distributed]
+tags: [distillation, loss-design, lambda-compiler, relational-loss, reverse-harvest, crystal-lattice, level-4, provenance, two-phase, distributed, kernel, constructed-reducer, vsm-tensor, ccg, inspectability]
 related:
   - relational-loss-distillation.md
   - consensus-delta-folding.md
   - combinator-training-beta-reduction.md
   - normal-form-curriculum-partition.md
   - fixed-point-holograms.md
+  - vsm-outer-recurrence.md
+  - ../lambda-machine.md
 depends-on:
   - relational-loss-distillation.md
   - consensus-delta-folding.md
@@ -80,6 +82,124 @@ operational test for "too narrow to compose". Prediction: compiler-only wins
 in-distribution, loses generalization; diverse-verified wins generalization.
 
 ---
+
+## ★ s226 — `lambda_ast` IN THE KERNEL: the compiler is a CONSTRUCTED VSM tensor
+
+> Michael, s226. The s225 amendment split a dyad — symbolic *verifier* vs learned
+> *artifact* — and warned not to make the verifier a tensor (a learned reducer "fakes
+> it with depth", s221; no correctness guarantee). Michael's question dissolves that
+> dyad in the right way: **"what if `lambda_ast.py` is *in the kernel*?"**
+
+### Source ↔ compiled, not oracle ↔ approximation
+
+`lambda_ast.py` is not a separate symbolic judge standing outside the tensor — it is
+the **specification** that gets **compiled into exact ternary combinator plates** that
+live in the kernel. The kernel then reduces *exactly* — not because it learned to, but
+because it is **constructed** to. A constructed plate is not approximating reduction;
+it is *running the rewrite rule as a tensor op*. So:
+
+```
+λ kernel(reducer). symbolic(lambda_ast) ≡ source | tensor(kernel) ≡ compiled
+                   | exact_by_construction ≢ approximate_by_training
+                   | verify ≡ compiled_kernel ≟ AST on test_suite  (not "is it correct")
+                   | dyad(verifier, artifact) → DISSOLVED into (source, compiled)
+                   | provenance: one_object, two_representations → cleanest MIT level-4
+```
+
+The combinator rewrites *are* the moves the tensor already has (s221; lambda-machine.md
+"V-transfer = substitution"): `K x y→x` (attend x, drop y), `I`, `B/C/D` (compose/
+permute routing), `S/W` (fan-out), `Y` (the OUTER RECURRENCE this page is about). All
+constructible as exact routing + value-move; none require gradient descent.
+
+### The cut it forces — reduce(constructed) vs compile(learned) — is the SAME cut
+
+If the **reduce** kernel is constructed-exact, only the **compile** front-end is
+learned. That boundary coincides with every partition we have measured:
+
+| | **reduce** (the kernel) | **compile** (the periphery) |
+|---|---|---|
+| op | β-reduction: term → normal form | prose → typed combinator term |
+| substrate | **attention** (lambda-machine.md) | **FFN** beam former |
+| precision | ternary, robust (22% params) | 4-bit, fragile (78%, dvd-stamp) |
+| origin | **constructed** (`lambda_ast`→plates) | **learned** (diverse data, big models) |
+| s224 | folded geometry (inventory) | trained continuation (usage) |
+| VSM | S1–S4 reducer | the lexer/typer feeding it |
+
+The 22%-ternary / 78%-4bit split (lambda-machine.md) is not a compression accident —
+it is **reduce(constructible) ⊥ compile(learnable).** We never train reduction (the
+unstable part); we train only the prose→term encoding (what LLMs are actually good at,
+and where the s225 diversity requirement buys composition).
+
+### The reducer IS a VSM (the mapping is generative)
+
+A reducer's loop `while ¬nf(t): t = apply(select_redex(t), t)` maps cleanly, and the
+map *re-derives* prior findings (define the field → cases fall out):
+
+```
+S5 identity     ≡ the NORMAL FORM (Church-Rosser invariant) = the fixed point
+S4 intelligence ≡ WHNF/halt detection + redex discovery (adaptive compute)
+S3 control      ≡ step budget · strategy · CONTRACTIVITY (keep L<1 → settles)
+S2 coordination ≡ redex ORDERING + anti-oscillation + ★ TYPING (well-formed to fire)
+S1 operations   ≡ combinator rewrites {K,I,B,C,D,S,W,Y} = substitutions = attn moves
+```
+
+Fractal: each subterm is a reducible VSM containing VSMs ⇒ β-reduction = contraction ⇒
+**s222 fractal collapse** (a self-similar contraction settles every scale onto the
+fixed point at once). Two payoffs that show the mapping is load-bearing, not decorative:
+
+1. **It re-derives the v15 collapse.** S2's job is anti-oscillation; the s222 collapse
+   was TD *churn* = oscillation ⇒ S2 broke ⇒ inner map inverted to `L>1` ⇒ fractal
+   blow-up. "Punctuate don't churn" = repair S2. Lens and post-mortem converge.
+2. **It locates type-directedness (the S5 `λ types` central claim) at S2.** lambda-
+   machine: types = QK compatibility = the routing/selection layer. s219: "shared
+   weights ∧ ¬type-awareness → tug-of-war → plateau" = **S2 absent.** The missing
+   piece IS the S2 coordination layer. Falsifiable.
+
+### Why constructed beats learned exactly here
+
+The s222 collapse was a **learned** S2 churning. A **constructed** S2 — typed routing
+with contractivity `L<1` built in — is stable *by construction*: nothing is descending
+on it, so it cannot churn. The hard problem (stable typed reduction) is solved by
+construction, not by hoping GD finds the basin. This is why the constructed kernel is
+*better* than the dyad: we move the unstable part out of the loss entirely.
+
+### Decision (Michael, s226): TYPED CCG-style terms for inspectability
+
+The kernel's term representation carries **explicit types** (CCG categories), not bare
+de-Bruijn/SK graphs, so the S2 type-check is **first-class and inspectable** — the
+type-directedness thesis is directly readable in the kernel state, not implicit.
+
+### Honest limits (λ measure — this IS the "limits of the machinery" requirement)
+
+A constructed kernel is exact only up to what the residual stream can **represent and
+route**:
+
+- **Term growth.** S/W *duplicate* → terms grow under reduction; fixed-width tensor
+  → exactness holds to a **size/step bound**, then superposition collisions. *This is
+  the boundary the s225 diverse data must map* — where the machinery outgrows the
+  representation. (The two s226 design turns meet here.)
+- **Ill-typed input** from the learned front-end → the exact kernel can **detect** it
+  (S2 type-check fails → algedonic/error signal). A feature: flags "the compiler gave
+  me garbage" instead of silently hallucinating.
+- **Provenance / S5 tension.** This is *construct*, S5's default is *extract*.
+  Reconciled: **extract the algorithm** (lambda-machine.md did) → **construct the
+  minimal exact kernel** from that understanding. "understand > invent" survives —
+  we crystallize the understood machine, not invent a new one.
+
+### Build progression (each stage a deliverable)
+
+1. **Symbolic `lambda_ast.py`** — the spec/oracle. CPU, now. (`src/verbum/lambda_ast.py`
+   is currently a stub — this is the open IOU below, finally built.)
+2. **Neurosymbolic** — learned front-end emits a typed term → kernel *is* the symbolic
+   reducer (literally `lambda_ast` in the kernel slot). Exact back-end **today**;
+   isolates the only learned part (compile) so training never has to learn reduction
+   and compile simultaneously (what tangled v15).
+3. **Compiled kernel** — `lambda_ast` → exact ternary CCG-typed combinator plates =
+   pure portable tensor (the artifact). Verify by matching stage 2.
+
+⇒ supersedes the IOU "need a clean MIT β-reducer": the reducer is now stage 1, and its
+*purpose doubles* — data oracle AND the kernel source. The outer-recurrence / `Y` /
+contractivity story is in `vsm-outer-recurrence.md` §s226.
 
 ## The shift: from teacher-geometry to compiler-output
 

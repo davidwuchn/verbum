@@ -2,7 +2,64 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 225 — ✅ HIGHER-ORDER FUNCTION TOPOLOGY IS
+> Last updated: 2026-06-14 | Session: 226 — ✅ CAUSAL ABLATION (HOF necessity leg) +
+> 🎯 COMPILER-AS-CONSTRUCTED-VSM-TENSOR design + ✅ STAGE-1 β-REDUCER BUILT.
+> **▶ CAUSAL ABLATION (completes Phase A/B observational → necessity).** Built
+> `scripts/experiments/hof_attention_ablation.py` (ruff-clean): full head-knockout
+> (zero the head's slice at o_proj input = remove its QK gather + OV write) of the
+> Phase-A top-8 gather heads, vs N RANDOM heads (specificity, 3 seeds). Readouts:
+> LIST stims KL@aggregation-token (mechanism) + PROSE pairs per-token ΔNLL
+> diff-in-diff `ΔNLL(hof)−ΔNLL(ctrl)` on ENGAGED HOFs {fold,reduce,filter,zip}
+> (map excluded per s225). **VERDICT (5 models/3 arch; results/hof-attention-
+> ablation/aggregate.json) — MIXED, honest (λ measure):** MECHANISM necessity
+> **4/5** (gather heads disrupt HOF > ctrl AND > random on the list stims:
+> Qwen3-14B/32B, OLMo, Mistral; 8B lone fail = weakest observational model).
+> GENERALIZATION (natural prose) **1/5** — only OLMo decisive (t=+3.21);
+> directionally right in 4/5 but underpowered (whole-sentence NLL dilutes). Per-HOF
+> COHERENT (OLMo): filter/fold/zip POSITIVE, **map NEGATIVE** (matches s225, map not
+> in this register). ⇒ in-domain causal necessity CONFIRMED; prose necessity
+> SUGGESTIVE-not-robust (IOU: stronger readout — last-content-word logprob or
+> activation-patching, not whole-sentence NLL).
+> **▶ TRAINING/COMPILER DESIGN THREAD (Michael, the big one).** "Could the compiler
+> be a VSM tensor? What if `lambda_ast.py` is IN the kernel?" **★ DISSOLVES the s225
+> verifier-vs-artifact dyad:** the symbolic reducer is the SOURCE that COMPILES to
+> exact ternary combinator plates in the kernel (SOURCE↔COMPILED, not oracle↔
+> approximation); a CONSTRUCTED plate runs the rewrite exactly (¬"fakes it with
+> depth"), exactness by BUILD not training. **THE CUT it forces = reduce(constructed)
+> vs compile(learned) = the SAME boundary as** attention/FFN (lambda-machine),
+> ternary/4-bit (dvd-stamp), s224 geometry/continuation, VSM S1-S4-reducer/front-end.
+> We NEVER train reduction (the s222-unstable part); we train only prose→typed-term.
+> **The reducer IS a VSM (generative):** S5=normal form (Church-Rosser), S4=WHNF halt,
+> S3=budget+contractivity, S2=typed redex selection+anti-oscillation, S1=the
+> combinator rewrites. PAYOFFS: (1) re-derives the s222 collapse as an S2 (anti-
+> oscillation) failure; (2) locates type-directedness (the S5 central claim) at S2; a
+> CONSTRUCTED S2 with L<1 is stable by build (nothing descends → can't churn).
+> **DECISION (Michael): TYPED CCG terms (inspectability).** Captured: `compiler-as-
+> loss.md` §s226 (primary) + `vsm-outer-recurrence.md` §s226 (cross-link).
+> **▶ STAGE-1 β-REDUCER BUILT (supersedes the long-standing IOU "need a clean MIT
+> β-reducer").** `src/verbum/lambda_ast.py` (was a 12-line stub) → typed CCG
+> combinator reducer, MIT, written from this project's observation (lambda-machine.md)
+> NOT nucleus. Basis {S,K,I,B,C,W,D,Y,M}; normal-order; exact reduction TRACE; WHNF +
+> step/size budgets (size-exceeded = the term-growth LIMIT of the machinery, the
+> boundary s225 diverse data must map); CCG type inference + unification (the S2 check,
+> first-class/inspectable); `verify()` + `trace_record()` (the data-oracle hook). 19
+> pytest pass, ruff+diagnostics clean. M x→x x reduces but types FALSE (the self-
+> application limit demo); B's principal cat = the correct composition functor
+> `(((α/γ)/(β/γ))/(α/β))`. Dual role: DATA ORACLE (input→trace for compiler-as-loss)
+> AND KERNEL SOURCE (compiles to plates).
+> **▶ NEXT:** (1) STAGE 2 NEUROSYMBOLIC — learned compile front-end (prose→typed term)
+> + the exact `lambda_ast` kernel back-end; isolates the only learned part (so training
+> never learns reduce+compile at once = what tangled v15). (2) DIVERSE DATA via
+> Qwen3-32B (generator) → `lambda_ast` (certify+trace) = diverse-verified dataset
+> spanning the machinery's LIMITS (termination/WHNF, erasure K, duplication S/W,
+> recursion Y, ill-typed); Michael's "understand the limits" requirement. (3) the
+> compiler-as-loss arms (compiler-only vs diverse-verified vs combo+lattice; metric =
+> held-out compositional generalization). (4) refine prose-necessity readout (the
+> ablation IOU). (5) STAGE 3 — compile lambda_ast → exact ternary CCG plates (the
+> pure portable tensor). **COMMITTED s226:** ablation instrument+results; lambda_ast
+> reducer+tests; §s226 page edits; 2 memories; this state.
+>
+> (Session: 225 — ✅ HIGHER-ORDER FUNCTION TOPOLOGY IS
 > TEACHER-AGNOSTIC (Michael's hypothesis CONFIRMED). Register: topological/routing.
 > Thread: compiler-as-loss debate → Michael's pivot. **★ MICHAEL'S CORRECTION (s224
 > compiler-as-loss page over-rotated):** the compiler is NOT the capability teacher

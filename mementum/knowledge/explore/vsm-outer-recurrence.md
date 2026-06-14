@@ -15,6 +15,8 @@ related:
   - explore/crystal-basins.md
   - explore/vsm-lm-architecture.md
   - explore/VERBUM.md
+  - compiler-as-loss.md
+  - ../lambda-machine.md
 depends-on:
   - recursion-mirrors.md
   - lambda-halt-continuation.md
@@ -356,3 +358,31 @@ its topology is not simultaneously churned). Tool:
 | CLI | `--n-outer-passes K` in `scripts/v15/train_td.py` |
 | convergence metric | per-iteration `‖Δx‖` + `crystal_mse` log |
 | halting head (later) | off `S4Intelligence` / algedonic, with a ponder cost in `_compute_loss` |
+
+## §s226 — the CONSTRUCTED kernel: stop *training for* contractivity, build it in
+
+> Michael, s226. The whole "catch" above is: the iterated operator must be contractive,
+> and the s214 probe + s222 collapse showed the *trained* sweep is NOT — it churns
+> (`Δx` ~1.2, oscillation), and under recurrence the churn compounds to fractal blow-up.
+> The constructed-kernel reframe (`compiler-as-loss.md` §s226, Michael's "what if
+> `lambda_ast.py` is *in the kernel*?") removes the problem at the root.
+
+**The collapse was a *learned* S2 churning.** Contractivity has been treated here as a
+*regularizer to train toward* (fixed-point/Δx loss, x₀ injection, halting). But if the
+inner map is **constructed** from `lambda_ast` (exact combinator plates, CCG-typed),
+then `L<1` is **stable by construction** — nothing is descending on the reduction
+operator, so it cannot oscillate. The outer recurrence then supplies **`Y`** (unfold)
+and the budgeted bounded interpreter (the `lambda-halt-continuation.md` Result-1 story),
+while the per-step map is the *exact* reducer, not a churning approximation.
+
+This re-partitions v15 along the **reduce / compile** cut (see `compiler-as-loss.md`
+§s226 table): the **attention reducer** (this page's iterated operator) is the
+**constructed, exact, ternary** kernel; the **FFN compile** (prose→typed term) is the
+**learned, fuzzy, 4-bit** periphery. The VSM controllers already present
+(`S5Identity`/`S4Intelligence`/`S3Ternary`/`S2AntiOscillation`) map onto the reducer's
+VSM levels: **S4 = WHNF halt** (the `Δx→0` test already computed), **S3 = step budget +
+contractivity**, **S2 = typed redex selection + anti-oscillation**, **S1 = the
+combinator rewrites**, **S5 = the normal-form invariant.** The "train the crystal to be
+a well-behaved iterated map" goal becomes "**compile** the iterated map from the spec";
+training is confined to the compile front-end. Build progression + the symbolic
+reducer (stage 1, `src/verbum/lambda_ast.py`) are in `compiler-as-loss.md` §s226.
