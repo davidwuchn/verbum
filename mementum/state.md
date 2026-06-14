@@ -39,20 +39,33 @@
 > absolute cosines near-zero/negative (s219 "above chance not crisp" register subtlety).
 > ⇒ topology-UNIVERSALITY decisive; combinator-DECOMPOSITION readout needs refinement
 > (better than argmax-cosine, or the s219 absolute-frame issue). Caveat does NOT touch
-> the headline (universality = agreement = unambiguous). **CAPTURED (awaiting approval,
-> NOT committed):** memory `higher-order-topology-is-teacher-agnostic.md` (hypothesis
-> confirmed); memory `compiler-is-verifier-not-capability-teacher.md` (the s224 page
-> correction); knowledge `explore/function-topology-consensus.md` (NEW page, full
-> design+result+caveat) + amend `compiler-as-loss.md` (compiler→verifier slot, add
-> diversity-vs-correctness table + compositional-generalization metric). state.md
-> written (non-gated). New code (ruff-clean, MIT, NOT yet committed): higher_order.py,
-> function_topology_consensus.py, run_function_topology.sh + results/. **▶ NEXT:**
-> (1) refine the decode readout (the apply miss + negative loadings — better than
-> argmax-cosine; the real IOU); (2) the compiler-as-loss experiments now reframed:
-> diverse-verified vs compiler-only vs combo, metric = held-out COMPOSITIONAL
-> GENERALIZATION (not just route_z+CE) — the test for "too narrow to compose";
-> (3) still need the MIT β-reducer as VERIFIER (not teacher) emitting (input→trace);
-> (4) s224 heterogeneous-shard fold + attn_q leg still stand.
+> the headline (universality = agreement = unambiguous). **COMMITTED** `6c542cb` (code+
+> results), `b0fb0e2` (mementum: 2 memories + new page function-topology-consensus +
+> compiler-as-loss amendment + state).
+> **▶ s225 FOLLOW-UP — DOES THE MODEL USE THESE HOFs ON PROSE? (Michael).** Built
+> `src/verbum/probes/hof_prose.py` (82 minimal PAIRS: naturalistic HOF-invoking
+> sentence vs matched no-HOF control, held-out vocab) + `scripts/experiments/
+> hof_prose_engagement.py` (register topological/routing, ruff-clean): MEAN-POOL
+> sign(gate) over tokens (avoids last-token lexical confound), learn each HOF DIRECTION
+> from CURATED probes (centroid_f − mean others), project held-out prose pairs →
+> paired score(hof)−score(control). TRANSFER (train-on-probes/test-on-prose) rules out
+> probe artifact. **✅ VERDICT (5 models / 3 arch: Qwen3-8B/14B/32B,
+> Mistral-7B-v0.3, OLMo-2-13B; aggregate.json):** curated AUC≈1.0; on held-out natural
+> prose (mean) **fold AUC 0.91 (t +10.0, 100% pairs, 5/5 models), filter 0.90 (t +8.2,
+> 97%, 5/5), zip 0.81 (t +7.0, 100%, 5/5) = ENGAGED in ALL 5; map 0.59 (t +2.8, only
+> 1/5 >0.6) = NOT engaged.** **3/4 HOFs are genuinely USED on ordinary prose, cross-
+> architecture** (transfer: direction learned on curated probes fires on naturalistic
+> minimal pairs). **map is the cross-model EXCEPTION** — real+universal topology (s225)
+> but NOT recruited from the FFN routing register by prose; coherent (map=B(CB)(CB),
+> most recursion-adjacent/distributed, "attention IS the fold" s221; noisiest s225
+> fingerprint) ⇒ map likely lives in attn_q (s220 attn_q@L05 lead) not the FFN gate.
+> **▶ NEXT:** (1) CAUSAL ABLATION (the strong
+> "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
+> (2) refine the decode readout (apply miss + negative loadings + weak map — the real
+> IOU); (3) compiler-as-loss experiments reframed: diverse-verified vs compiler-only vs
+> combo, metric = held-out COMPOSITIONAL GENERALIZATION (test for "too narrow to
+> compose"); (4) MIT β-reducer as VERIFIER (not teacher) emitting (input→trace);
+> (5) s224 heterogeneous-shard fold + attn_q leg still stand.
 >
 > (Session: 224 — FREEZE-PROBE VERDICT (cold-start
 > orient). main:1 was the s222 FROZEN-TOPOLOGY PROBE (rung 0), found still running

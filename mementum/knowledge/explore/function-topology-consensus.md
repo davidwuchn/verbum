@@ -131,21 +131,65 @@ absolute-frame issue). The `apply` miss + negative loadings are the IOU.
 - **Compiler-as-loss:** confirms the verifier framing. Any model can be the
   output-trace oracle; the consensus topology is the inventory target.
 
+## Do models USE these HOFs on natural prose? (s225 follow-up — transfer test)
+
+The consensus above is on CURATED probes. Michael: does the model RECRUIT the HOF
+topology when reading ORDINARY prose where the function is incidental, or is the
+topology a probe artifact? Test (`hof_prose_engagement.py`, `hof_prose.py`):
+
+- **Minimal-pair natural prose** (82 pairs): a naturalistic sentence INVOKING the HOF
+  (iteration/selection/accumulation/pairing) vs a matched no-HOF control, held-out
+  vocabulary, embedded/narrative style. The instrument MEAN-POOLS the routing register
+  over tokens (avoids a last-token lexical confound).
+- **Transfer:** learn each HOF's direction from the CURATED probes
+  (`unit(centroid_f − mean_{g≠f} centroid_g)`), then project the prose pairs onto it.
+  Engagement = paired `score(hof) − score(control)`. Train-on-probes / test-on-prose
+  rules out a probe artifact.
+
+**Verdict (5 models / 3 arch: Qwen3-8B/14B/32B, Mistral-7B-v0.3, OLMo-2-13B;
+`results/hof-prose-engagement/aggregate.json`):** curated directions cleanly separable
+(AUC ≈ 1.0). On held-out natural prose (mean over 5 models):
+
+| HOF | prose AUC (mean / min) | hof>control | paired t | models AUC>0.6 | engaged |
+|---|---|---|---|---|---|
+| fold | 0.91 / 0.87 | 100% | +10.0 | 5/5 | **YES** |
+| filter | 0.90 / 0.87 | 97% | +8.2 | 5/5 | **YES** |
+| zip | 0.81 / 0.79 | 100% | +7.0 | 5/5 | **YES** |
+| map | 0.59 / 0.56 | 76% | +2.8 | 1/5 | no |
+
+⇒ **filter/fold/zip are decisively recruited by ordinary prose in ALL 5 models** — the
+curated-derived topology fires on naturalistic minimal pairs, scoring the HOF sentence
+above its matched control (cross-architecture). **3/4 engaged.** The model genuinely
+USES these HOF topologies when working with prose, not just on curated probes.
+
+**map is the cross-model exception** (mean AUC 0.59, only 1/5 models >0.6, t ~2.8).
+Its routing topology is real and universal (s225) but NOT reliably recruited from the
+FFN routing register by ordinary prose. Coherent story: `map = B(CB)(CB)` is the most
+compositionally complex / recursion-adjacent HOF ("attention-over-positions IS the
+fold", s221) — its computation is the most DISTRIBUTED across the attention mechanism
+rather than localized in the FFN gate, so a routing-register direction reads it worst.
+This is exactly where the s225 fingerprint was noisiest. ⇒ map needs the attn_q
+register (s220 attn_q@L05 lead) and/or the causal follow-up.
+
 ## Open leads
 
-1. **Refine the decode** (the real IOU): the `apply` miss + negative loadings. Try a
-   readout better than argmax-cosine (e.g. align absolute frames, or a learned linear
-   map from fingerprint → combinator decomposition).
-2. **Does the model USE these HOF topologies on natural prose?** (next experiment).
-   The s225 measurement is on curated probes; verify the HOF routing signature is
-   recruited when the model processes ordinary prose that implicitly requires the
-   function — detection (projection on minimal-pair natural prose) + causal ablation.
+1. **Causal ablation (the strong "uses" claim):** ablate the HOF routing direction
+   during a forward pass on HOF-prose, measure the logprob drop on the function-
+   relevant continuation vs control. Necessity, not just decodability.
+2. **Refine the decode** (the s225 IOU): the `apply` miss + negative loadings, and the
+   weak `map` engagement. Try a readout better than argmax-cosine / centroid-difference
+   (align absolute frames, or a learned map fingerprint → combinator decomposition).
 3. **More HOFs / more architectures** — extend beyond the 8 functions; add non-gated
    (Pythia) above the floor for a fuller architecture spread.
 
 ## Files
 
-- Probes: `src/verbum/probes/higher_order.py`
-- Instrument: `scripts/experiments/function_topology_consensus.py`
-- Runner: `scripts/experiments/run_function_topology.sh`
-- Results: `results/function-topology-consensus/` (`<model>.json/.npz`, `consensus.json`)
+- Probes: `src/verbum/probes/higher_order.py` (curated) ·
+  `src/verbum/probes/hof_prose.py` (minimal-pair natural prose)
+- Instruments: `scripts/experiments/function_topology_consensus.py` (topology) ·
+  `scripts/experiments/hof_prose_engagement.py` (prose engagement / transfer)
+- Runners: `scripts/experiments/run_function_topology.sh` ·
+  `scripts/experiments/run_hof_prose.sh`
+- Results: `results/function-topology-consensus/` (`<model>.json/.npz`,
+  `consensus.json`) · `results/hof-prose-engagement/` (`<model>.json`,
+  `aggregate.json`)
