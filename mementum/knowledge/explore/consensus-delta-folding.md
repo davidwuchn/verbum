@@ -838,7 +838,10 @@ Every step now backed by a measured result, not a hope.
   (reverse-harvest +0.78 cross-model) so there is a real shared thing to converge to
   — but ecosystem-grade transfer across heterogeneous, real-scale contributors is
   unproven.
-- **The 2-contributor fold is NOT yet run** (the decisive distributed test).
+- **The 2-contributor fold is DONE (s224, see §s224 below):** geometry composes
+  cleanly (REL fold retains the function, GC +0.84), capability does NOT transfer
+  from geometry alone (dCE +0.15) → refined thesis: capability = geometry ⊗ TRAINED
+  continuation. Capability test confounded by homogeneous shards (rerun heterogeneous).
 - **Attention vs FFN.** Measured on the FFN-gate register; the object that matters
   for v15 is attention routing (attn_q).
 
@@ -861,3 +864,106 @@ Every step now backed by a measured result, not a hope.
    attn_q register clear the null (lift z=1.54 → significant) while the raw register
    does not — i.e. does the dissociation hold in the register v15 actually trains?
    Composes with the routing-only curriculum (`normal-form-curriculum-partition.md`).
+
+## s224 — 2-contributor fold RESULT: geometry composes, capability does NOT (and why that is the point)
+
+> Session 224. Ran the decisive distributed test (`two_contributor_fold.py`,
+> 3 seeds × 2 arms, λ=3.0, θ=0.5, teacher Qwen3-14B route_cmr_L12). Two tiny
+> byte-level students A, B trained on disjoint shards; arm REL = both + relational
+> loss to the SAME teacher routing Gram, arm CTRL = CE only. Re-Basin permutation-
+> align B→A (gate-activation Hungarian) → neuron-wise consensus merge of the routing
+> register (base = A, plumbing local) → contractivity-gated accept → held-out CE.
+> Result: `results/two-contributor-fold/verdict_run.json`.
+
+### ✅ The routing FUNCTION folds cleanly — iff a shared relational target
+
+| metric | REL | CTRL |
+|---|---|---|
+| GC(A→teacher) / GC(B→teacher) | **+0.89 / +0.90** | +0.44 / +0.50 |
+| fold_route_z (combinator structure in MERGED model) | **+2.19 ± 0.32** | +0.84 ± 0.58 |
+| GC(fold→teacher) | **+0.84** | +0.43 |
+
+Decisive on geometry: REL fold_z (mean−std = 1.87) > CTRL (mean+std = 1.41).
+**Folding two independently-trained REL contributors yields a merged model that
+STILL carries the combinator function (ecosystem-grade GC +0.84); folding two CTRL
+contributors washes it out (z null).** The s223 register claim + frame-unification
+mechanism REPRODUCE at the 2-contributor fold level. The necessary condition for
+distributed folding (independent strangers → function-preserving merge via a shared
+compiler Gram) is **confirmed at N=2**.
+
+### ❌ Capability (CE) does NOT compose — the fold raised CE in BOTH arms
+
+| metric | REL | CTRL |
+|---|---|---|
+| dCE on B-shard / A-shard | +0.150 / +0.128 | +0.173 / +0.134 |
+| L_fold (contractivity) / accepted | 0.821 / 100% | 0.823 / 100% |
+
+The fold HURT CE in both arms (REL only marginally less, std-overlapping → not
+decisive). Contractivity passed in both (gentle ~27%-neuron merge → didn't bite →
+the gate did not discriminate at this scale).
+
+### ★ THE MEANING (Michael's thesis): capability = routing geometry ⊗ TRAINED continuation
+
+> "Capability probably won't EVER transfer with just routing geometry. The
+> capability needs to be trained so the model can understand how to USE the
+> functions the routing geometry gives it."
+
+The routing geometry is the function **INVENTORY** — *which* combinators exist and
+how they relate (the s219 WHERE map). It is NOT the **USAGE** — *how* to drive them
+(when to apply which, how to compose, the control flow). Usage = the CONTINUATION
+(s221/s222: routing rules COMPOSITION {B,C,K,S,D}; **continuation rules RECURSION
+{Y,W,WHNF} = "how to use"**, lives in the architecture's recurrence/contractive
+operator, NOT in static geometry). ⇒ a fold can donate the routing skeleton, but
+the continuation that USES it must be **TRAINED on top** — it cannot be folded as
+geometry.
+
+This is the same wall hit THREE independent ways — strong triangulation, not n=1:
+- s223 **b-column**: GC(hidden)=1.000 σ=0, ZERO function (matched the metric, no usage).
+- s223 **Goodhart**: relational agreement ≠ capability (Exp-B contractivity gate).
+- s224 **this fold**: GC(fold→teacher) +0.84 (geometry perfect) yet dCE +0.15 (no
+  capability). Geometry match is **necessary, not sufficient**.
+
+### How this REFINES the distributed-training thesis (the design payoff)
+
+The earlier "geometric consensus folding" protocol is **half** the system. Correct
+division of labor, sharpened:
+- **FOLDABLE / donatable (cheap, frame-invariant, universal):** the routing GEOMETRY
+  = the shared function basis. Reverse-harvest (+0.78 cross-model) proves it is a
+  real universal object; a thin N×N Gram + ratio-compressed routing deltas ship it.
+- **NOT foldable — must be TRAINED locally:** the CONTINUATION = how to use the
+  functions. This is the capability. It is per-contributor / per-task and trained on
+  the architecture's recurrence, not donated.
+- ⇒ **Distributed protocol becomes two-phase:** (1) FOLD the shared routing geometry
+  into the base (cheap, gives the better function inventory) → (2) TRAIN the
+  continuation to drive the folded functions (the real per-deployment work). This is
+  *good* for the north star: the expensive universal part (the function basis) is
+  donated once; only the comparatively cheap continuation-training is per-node.
+- This dissolves the s223 "honest catch" ("folding only re-derives the crystal"):
+  folding was never supposed to produce capability — it produces the **inventory**;
+  capability is the continuation trained over it.
+
+### ▶ The decisive next test (falsifies/confirms the thesis)
+
+**FOLD-THEN-TRAIN-CONTINUATION.** Take a REL fold (geometry present, GC +0.84, but
+dCE +0.15) → run a SHORT continuation-training phase (the contractive/WHNF outer-
+recurrence objective, NOT more relational loss) → measure CE. **Prediction:** CE
+recovers to/below baseline *faster* than training the continuation from scratch,
+because the folded routing geometry gives the continuation a ready function basis to
+drive. If CE recovers ⇒ thesis confirmed (geometry = inventory, continuation =
+capability, and the inventory accelerates capability training). If it does not ⇒ the
+folded geometry is inert and the fold buys nothing (refutes the donation thesis).
+
+### Honest limits of the s224 run (the confounds, recorded)
+
+- **Homogeneous shards** (both = the same probe-prompt corpus split in half) → A and
+  B learned nearly the SAME thing → B had NO distinct knowledge to transfer → dCE
+  STRUCTURALLY could not go negative regardless of architecture. The capability test
+  is a data-design artifact, not an architecture verdict. **Heterogeneous shards
+  (split by combinator family / different corpora) are mandatory** for any real
+  capability-composition claim.
+- **Gentle merge** (~27% of neurons, θ=0.5) → contractivity never stressed → the
+  acceptance gate did not discriminate. A higher-coverage or full-neuron fold is
+  needed to test the contractivity gate properly.
+- Single teacher, byte-level student, smoke scale; tokens-to-transfer not measured.
+- Artifacts: `scripts/experiments/two_contributor_fold.py`,
+  `results/two-contributor-fold/verdict_run.json`.

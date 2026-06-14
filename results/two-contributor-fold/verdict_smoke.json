@@ -1,0 +1,251 @@
+{
+  "experiment": "two-contributor-fold",
+  "register": "functional -> topological/routing",
+  "teacher": "Qwen_Qwen3-14B",
+  "teacher_layer": 12,
+  "git_sha": "bc0cec410f465fb75aae0708a2a46e7bda279f83",
+  "smoke": true,
+  "seeds": [
+    0
+  ],
+  "config": {
+    "teacher": "Qwen_Qwen3-14B",
+    "teacher_layer": 12,
+    "device": "mps",
+    "steps": 40,
+    "batch_size": 32,
+    "block_size": 64,
+    "d_model": 64,
+    "n_head": 4,
+    "n_layer": 3,
+    "d_ff": 128,
+    "capture_layer": -1,
+    "lr": 0.0003,
+    "rel_lambda": 3.0,
+    "rel_every": 1,
+    "theta": 0.5,
+    "probe_batch": 64,
+    "probe_max_len": 96,
+    "n_perm": 200,
+    "log_every": 20,
+    "seeds": "0",
+    "smoke": true
+  },
+  "elapsed_s": 7.2,
+  "summary": {
+    "REL": {
+      "gc_route_AB": [
+        0.7495,
+        0.0
+      ],
+      "gc_raw_AB": [
+        0.9306,
+        0.0
+      ],
+      "consensus_frac": [
+        0.2318,
+        0.0
+      ],
+      "L_fold": [
+        0.966,
+        0.0
+      ],
+      "fold_accept_frac": [
+        1.0,
+        0.0
+      ],
+      "delta_fold_on_Bev_vs_A": [
+        0.0335,
+        0.0
+      ],
+      "delta_fold_on_Aev_vs_A": [
+        0.0326,
+        0.0
+      ],
+      "fold_route_z": [
+        1.5608,
+        0.0
+      ]
+    },
+    "CTRL": {
+      "gc_route_AB": [
+        0.8771,
+        0.0
+      ],
+      "gc_raw_AB": [
+        0.9283,
+        0.0
+      ],
+      "consensus_frac": [
+        0.237,
+        0.0
+      ],
+      "L_fold": [
+        0.9452,
+        0.0
+      ],
+      "fold_accept_frac": [
+        1.0,
+        0.0
+      ],
+      "delta_fold_on_Bev_vs_A": [
+        0.0406,
+        0.0
+      ],
+      "delta_fold_on_Aev_vs_A": [
+        0.0397,
+        0.0
+      ],
+      "fold_route_z": [
+        1.9849,
+        0.0
+      ]
+    }
+  },
+  "runs": [
+    {
+      "arm": "REL",
+      "seed": 0,
+      "gramcorr_route_AB": 0.7495301227139547,
+      "gramcorr_raw_AB": 0.9306428633528468,
+      "gramcorr_route_A_teacher": 0.8150257595576439,
+      "gramcorr_route_B_teacher": 0.5564789857857207,
+      "rebasin": "gate-activation Hungarian",
+      "fold": {
+        "consensus_frac_per_block": [
+          0.21875,
+          0.265625,
+          0.2109375
+        ],
+        "consensus_frac_mean": 0.23177083333333334,
+        "theta": 0.5,
+        "matched_corr_mean": 0.3932862756579804,
+        "matched_corr_median": 0.37293559312820435
+      },
+      "contractivity_A": {
+        "L": 0.9505726826128206,
+        "deltas": [
+          0.27248233556747437,
+          0.3191574215888977,
+          0.32851937413215637,
+          0.2969173192977905,
+          0.25205308198928833,
+          0.21147790551185608
+        ],
+        "ratios": [
+          1.1712958233532684,
+          1.0293333380612668,
+          0.90380459320321,
+          0.8488998977376766,
+          0.839021303933131
+        ],
+        "rising": false
+      },
+      "contractivity_fold": {
+        "L": 0.9660482556750746,
+        "deltas": [
+          0.2505206763744354,
+          0.2954919636249542,
+          0.31153562664985657,
+          0.28876999020576477,
+          0.2491670846939087,
+          0.21078401803970337
+        ],
+        "ratios": [
+          1.1795112798678697,
+          1.0542947524766226,
+          0.9269244526225386,
+          0.8628565749352984,
+          0.8459545059805822
+        ],
+        "rising": false
+      },
+      "fold_accepted": true,
+      "ce": {
+        "A_on_Aev": 4.46702618598938,
+        "A_on_Bev": 4.437863445281982,
+        "B_on_Aev": 4.153608918190002,
+        "B_on_Bev": 4.166279232501983,
+        "fold_on_Aev": 4.499675405025482,
+        "fold_on_Bev": 4.471393096446991
+      },
+      "fold_route_silhouette_z": 1.560753081113881,
+      "fold_route_silhouette_p": 0.07462686567164178,
+      "gramcorr_fold_teacher": 0.7166922797924483,
+      "delta_fold_on_Bev_vs_A": 0.03352965116500872,
+      "delta_fold_on_Aev_vs_A": 0.032649219036102295
+    },
+    {
+      "arm": "CTRL",
+      "seed": 0,
+      "gramcorr_route_AB": 0.877075695270828,
+      "gramcorr_raw_AB": 0.9282911239834104,
+      "gramcorr_route_A_teacher": 0.42022804958601334,
+      "gramcorr_route_B_teacher": 0.3986173748980945,
+      "rebasin": "gate-activation Hungarian",
+      "fold": {
+        "consensus_frac_per_block": [
+          0.2265625,
+          0.2578125,
+          0.2265625
+        ],
+        "consensus_frac_mean": 0.23697916666666666,
+        "theta": 0.5,
+        "matched_corr_mean": 0.3978256589810674,
+        "matched_corr_median": 0.3806290626525879
+      },
+      "contractivity_A": {
+        "L": 0.9229374895773171,
+        "deltas": [
+          0.32494983077049255,
+          0.3920965790748596,
+          0.3868812620639801,
+          0.3280414342880249,
+          0.2660602033138275,
+          0.2176094502210617
+        ],
+        "ratios": [
+          1.2066372773420069,
+          0.9866988969294974,
+          0.847912438398031,
+          0.8110567004758672,
+          0.8178955270644731
+        ],
+        "rising": false
+      },
+      "contractivity_fold": {
+        "L": 0.9452435142285854,
+        "deltas": [
+          0.28926119208335876,
+          0.3553059697151184,
+          0.3657386600971222,
+          0.3212319314479828,
+          0.26509591937065125,
+          0.21827736496925354
+        ],
+        "ratios": [
+          1.2283222894673638,
+          1.0293625530393966,
+          0.8783100243266629,
+          0.8252477210932347,
+          0.8233901354899379
+        ],
+        "rising": false
+      },
+      "fold_accepted": true,
+      "ce": {
+        "A_on_Aev": 4.371315383911133,
+        "A_on_Bev": 4.3444365620613095,
+        "B_on_Aev": 4.104632413387298,
+        "B_on_Bev": 4.117800295352936,
+        "fold_on_Aev": 4.410976564884185,
+        "fold_on_Bev": 4.385019552707672
+      },
+      "fold_route_silhouette_z": 1.9848978394558068,
+      "fold_route_silhouette_p": 0.03482587064676617,
+      "gramcorr_fold_teacher": 0.42583808135790463,
+      "delta_fold_on_Bev_vs_A": 0.04058299064636284,
+      "delta_fold_on_Aev_vs_A": 0.03966118097305227
+    }
+  ]
+}

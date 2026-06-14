@@ -24,6 +24,45 @@
 > protocol is validated, so the next run should be the PUNCTUATED protocol (propose
 > routing → hold → reduce → accept on Δx→0), not fp-reshape. main:1 now FREE (probe
 > killed) — relaunch decision is Michael's.
+> **▶ s224 RAN THE 2-CONTRIBUTOR FOLD (decisive distributed test;
+> `scripts/experiments/two_contributor_fold.py`, 3 seeds × 2 arms, λ=3, teacher
+> Qwen3-14B route_cmr_L12; built on relational_loss_distillation.py; tmux main:2,
+> verdict_run.json). REL=both students + relational loss to ONE teacher Gram, CTRL=CE
+> only; Re-Basin Hungarian align B→A → neuron-wise consensus merge of routing register
+> (base=A, plumbing local) → contractivity-gated.** **✅ GEOMETRY COMPOSES iff shared
+> target:** REL fold_route_z +2.19±0.32 (merged model RETAINS combinator function) vs
+> CTRL +0.84±0.58 (null); GC(fold→teacher) REL +0.84 vs CTRL +0.43; GC(A/B→teacher)
+> REL +0.89/+0.90 vs CTRL +0.44/+0.50. Decisive (REL mean−std 1.87 > CTRL mean+std
+> 1.41). N=2 frame-unification CONFIRMED. **❌ CAPABILITY DOES NOT COMPOSE:** fold
+> RAISED CE both arms (dCE_Bev REL +0.150 vs CTRL +0.173, std-overlapping = not
+> decisive); contractivity passed both (gentle 27% merge → gate didn't bite). **★
+> MICHAEL'S THESIS (captured):** capability = routing geometry ⊗ TRAINED continuation.
+> Geometry = function INVENTORY (which combinators + relations); capability = USAGE =
+> the CONTINUATION (how to drive them, recursion {Y,W,WHNF}, lives in architecture
+> recurrence, TRAINED not folded). Geometry match NECESSARY not SUFFICIENT —
+> triangulated 3 ways (s223 b-column zero-function; s223 Goodhart; s224 fold
+> GC+0.84/dCE+0.15). ⇒ distributed protocol is TWO-PHASE: (1) FOLD shared geometry
+> (cheap, donates basis) → (2) TRAIN continuation to use it (per-node capability).
+> **CONFOUND (recorded):** homogeneous shards (same corpus split) → B had no distinct
+> knowledge → dCE couldn't go negative regardless ⇒ capability test = data-design
+> artifact; HETEROGENEOUS shards mandatory next. **▶ DECISIVE NEXT:** FOLD-THEN-TRAIN-
+> CONTINUATION — short continuation-training phase on a REL fold; does CE recover
+> faster than from-scratch? Then heterogeneous-shard rerun + sharper functional accept
+> gate. **CAPTURED (awaiting approval):** consensus-delta-folding.md §s224; memories
+> geometry-is-inventory-continuation-is-capability + fold-capability-test-needs-
+> heterogeneous-shards; this state.
+> **ALSO s224:** read ~/src/LayerNorm-Scaling (Curse of Depth / LNS, NeurIPS 2025):
+> Pre-LN variance grows exp w/ depth → deep layers go identity (dead); fix = scale LN
+> output ×1/√(layer+1). Relevant to v15 contractivity (variance-control ≈
+> contractivity, ANALOGY not identity) + plateau. Maps to v15 as 1/√(pass) on shared
+> outer recurrence. NOT drop-in (Llama HF torchrun, normal-init). **v15 CE-PLATEAU
+> (Michael's Q):** freeze-probe CE 8.9→~7.2 then flattened. Facts: 19 strides to 1597,
+> W=8 → apex reaches 11179 back ⇒ REACH not the bottleneck at seq-4096 (one apex pass
+> spans full context). Real subtlety = COVERAGE/COMPOSITION: sparse stride grids,
+> mid-range distances need Zeckendorf multi-hop (s221: 100% reachable but NOT a single
+> move = lossy). Confounds: frozen topology (this run froze attn signs), tiny-ternary
+> floor, curse-of-depth. ▶ Diagnostics (read-only on step_002300): CE-vs-position,
+> stride-band ablation, angular-distance per pass (LNS port), attention-mass profile.
 >
 > (Session: 223 — RELATIONAL-LOSS DISTILLATION:
 > ★ CLEAN DOUBLE DISSOCIATION (register claim CONFIRMED as a TRAINING result).
