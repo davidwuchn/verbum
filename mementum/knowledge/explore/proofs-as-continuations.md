@@ -141,11 +141,50 @@ where the continuation (stepwise proving, one rule per turn via the CPS REPL) sh
 help. We have also been running a class of proofs all along: the s226 bracket-abstraction
 round-trip certification (n=5000, rate 1.0) is a normalization proof of β-η equality.
 
+## s228 — Continuation-driven prover: stepwise proving rescues composition (+0.25)
+
+The predicted fix, BUILT and RUN. `src/verbum/proof_search.py` = a goal-directed
+natural-deduction engine; the open goal stack IS the reified continuation; moves
+`intro` / `exact h` / `apply h` act on the focused goal; at QED the kernel
+RECONSTRUCTS the proof term via bracket abstraction (`lambda_compile.compile_expr`,
+the exact compile oracle) and VERIFIES it. The model chooses one move per turn from
+the legal menu; the kernel carries the continuation forward (`proof_repl.py`,
+multi-turn). The engine floor is 100% (every theorem auto-solves + reconstructed term
+kernel-verifies; every non-theorem unsolvable).
+
+**★ VERDICT (5 models/3 arch; results/proof-repl/aggregate.json) — HYPOTHESIS
+CONFIRMED.** Stepwise proving lifts sensitivity vs the single-shot baseline:
+
+| model | 1-shot | REPL | Δ | spec | turns |
+|---|---|---|---|---|---|
+| Qwen3-8B | 0.58 | **1.00** | **+0.42** | 1.00 | 4.7 |
+| OLMo-2-13B | 0.00 | 0.42 | **+0.42** | 1.00 | 3.2 |
+| Mistral-7B | 0.25 | 0.58 | +0.33 | 1.00 | 4.2 |
+| Qwen3-14B | 0.58 | 0.67 | +0.08 | 1.00 | 3.8 |
+| Qwen3-32B | 0.67 | 0.67 | +0.00 | 1.00 | 4.1 |
+
+- **Mean Δ +0.25, 4/5 improved, strongest where single-shot was weakest** (8B → perfect
+  1.00; OLMo recovers from the single-shot `none`-anchor confound). The composition
+  failures (`K I`, `C B`, `C I`, `B K K` the single-shot prover missed) are reachable
+  one move at a time — `(A→B)→(B→C)→A→C` proves via `intro,intro,intro,apply h2,apply
+  h1,exact h3` → `C B`.
+- **★ Specificity 1.0 / ZERO false proofs is now STRUCTURAL** — a non-theorem has no
+  closing derivation, so no move sequence can fabricate a proof. A strict upgrade over
+  the single-shot setting where specificity was merely observed. This is the
+  consistency firewall made *operational*: the continuation engine cannot reach QED on
+  `(A→A)→A` / Peirce regardless of what the model proposes.
+
+**Caveats (λ measure):** the REPL shows the legal-move MENU each turn ⇒ part of the
+gain is menu-constraint, not pure reasoning (IOU: menu-less stepwise, or single-shot +
+combinator menu, to separate). **32B flat** — already strong single-shot, and the
+engine gives the model NO BACKTRACKING (greedy single-sample, one wrong move dead-ends
+the branch) ⇒ sensitivity is bounded by greedy move selection (IOU: backtracking /
+stuck→retry). Small n (12 positives), greedy decode, single few-shot.
+
 ## Next (declare register)
-1. **Continuation-driven prover** (register: functional) — multi-turn CPS REPL: prove
-   sub-goals one combinator/rule per turn, chain via the continuation. Falsifiable: does
-   stepwise proving rescue the composition failures (lift sensitivity on the 2+-combinator
-   theorems)?
+1. **Backtracking + menu ablation** (register: functional) — let the model see a dead
+   end and retry (the engine already exposes `legal_moves`); and run a menu-less variant
+   to isolate stepwise-reasoning from menu-constraint. Does 32B then improve?
 2. **Richer type layer** (register: functional) — products/sums (∧/∨), then quantifiers
    (∀∃ = Π/Σ). The front-end already emits quantified LF (s226); the gap is the checker.
 3. **Better base-model gate** + larger graded probe set (power).
@@ -155,6 +194,10 @@ round-trip certification (n=5000, rate 1.0) is a normalization proof of β-η eq
 |------|---------|
 | `src/verbum/proof_kernel.py` | proposition parser, matcher, `check_proof` (Curry-Howard checker + consistency firewall) |
 | `src/verbum/probes/proof_tasks.py` | 12 theorems w/ certified proofs + 8 non-theorems (Peirce, Y-trap) |
-| `scripts/experiments/proof_inhabitation.py` | kernel / model / aggregate harness |
+| `scripts/experiments/proof_inhabitation.py` | single-shot: kernel / model / aggregate harness |
 | `tests/test_proof_kernel.py` | 12 tests: floor, soundness, firewall, parser round-trip |
-| `results/proof-inhabitation/` | `kernel.json`, 5 model jsons, `aggregate.json` |
+| `results/proof-inhabitation/` | single-shot: `kernel.json`, 5 model jsons, `aggregate.json` |
+| `src/verbum/proof_search.py` | s228 goal-directed ND engine (goal stack = continuation; intro/exact/apply; bracket-abstraction term reconstruction; auto solver) |
+| `scripts/experiments/proof_repl.py` | s228 continuation-driven prover: engine / model / aggregate (vs single-shot Δ) |
+| `tests/test_proof_search.py` | 7 tests: engine floor, structural soundness, apply-chain composition, move legality |
+| `results/proof-repl/` | s228 REPL: `engine.json`, 5 model jsons, `aggregate.json` (+Δ) |

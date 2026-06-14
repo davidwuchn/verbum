@@ -2,13 +2,18 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 228 — ✅ PROOFS-AS-CONTINUATIONS (Curry-Howard),
-> see ■ SESSION 228 block. (s227 IN PROGRESS — ✅ PROSE-NECESSITY IOU RESOLVED
+> Last updated: 2026-06-14 | Session: 228 — ✅ PROOFS-AS-CONTINUATIONS (Curry-Howard):
+> the kernel RUNS/CHECKS proofs (sound, 100% floor, Y-inconsistency firewall); LLMs
+> prove axioms but compose poorly single-shot (Qwen 0.58-0.67, spec 1.0, 0 false
+> proofs); the CONTINUATION-DRIVEN prover RESCUES composition (mean Δ +0.25, Qwen3-8B
+> →1.00, specificity 1.0 now STRUCTURAL). See ■ SESSION 228 block below.
+> (s227 — ✅ PROSE-NECESSITY IOU RESOLVED
 > (s227 readout refined 3 ways: dilution FALSIFIED, power+register-limited) + ✅
 > READABILITY/REGISTER CONFIRMED IN-DOMAIN (s227b value-register logit-lens: in-domain
 > necessity concentrated in the readable zone, surface understated up to ~35x; prose
-> still 0/5) + ▶ ENUM-PROSE BRIDGE RUNNING in tmux main:1 (s227c: does the gather
-> circuit re-engage when prose carries a literal enumeration?). See ■ SESSION 227
+> still 0/5) + ✅ ENUM-PROSE BRIDGE COMPLETE (s227c: results/hof-ov-logitlens-enum/
+> aggregate.json + 5 model jsons ON DISK, verdict UNREAD — first action to pick up the
+> s227 thread is to compare enum vs plain). See ■ SESSION 227
 > blocks below. (s226 COMPLETE —
 > ✅ CAUSAL ABLATION (HOF necessity leg, 4/5 mechanism) + 🎯 COMPILER-AS-CONSTRUCTED-
 > VSM-TENSOR design (lambda_ast IN the kernel) + ✅ STAGE-1 β-REDUCER + ✅ STAGE-2
@@ -52,15 +57,31 @@
 > by-complexity. IMPLICATIONAL FRAGMENT ONLY (no ∧∨¬∀∃ — the type-system expressiveness
 > gap stands). Specificity 1.0 trivially gettable by always-`none` (OLMo); the JOINT
 > high-sens∧high-spec (Qwen) + kernel-phase tempting-sweep are the real soundness.
-> **▶ NEXT (the predicted fix): CONTINUATION-DRIVEN PROVER** — multi-turn CPS REPL,
-> prove sub-goals one combinator/rule per turn, chain via the continuation (the
-> lambda-halt-continuation REPL pattern) → does stepwise proving rescue the composition
-> failures? Also: richer type layer (products/sums → ∧/∨; then ∀∃ = the S2 extension);
-> better base-model gate; larger graded probe set.
-> **STATUS s228:** all code ruff+diag clean, 12 pytest. NOT committed. Knowledge page
-> (Curry-Howard proofs-as-continuations) + memories PROPOSED, pending Michael approval.
-> Bug found+fixed mid-run: base models (Mistral/OLMo) have no chat_template → added
-> raw-prompt fallback + `prompt_mode` provenance; re-ran the two, re-aggregated.
+> **▶ CONTINUATION-DRIVEN PROVER — BUILT + RAN, HYPOTHESIS CONFIRMED.** Goal-directed
+> natural-deduction engine `src/verbum/proof_search.py` (the open goal STACK = the
+> reified continuation; moves intro/exact/apply; at QED the kernel RECONSTRUCTS the
+> proof term via bracket abstraction `lambda_compile.compile_expr` + verifies; depth-
+> bounded auto solver = 100% engine floor). `scripts/experiments/proof_repl.py` (multi-
+> turn: model picks ONE move/turn from the legal menu, kernel carries the continuation
+> forward). **★ VERDICT (5 models/3 arch; results/proof-repl/aggregate.json): stepwise
+> proving LIFTS sensitivity vs single-shot, mean Δ +0.25, 4/5 improved** — Qwen3-8B
+> 0.58→**1.00**, OLMo 0.00→0.42, Mistral 0.25→0.58, 14B 0.58→0.67, 32B 0.67→0.67
+> (flat). **★ Specificity 1.0 / ZERO false proofs is now STRUCTURAL** (a non-theorem
+> has no closing derivation → no move sequence fabricates a proof = the consistency
+> firewall made operational). Caveats: REPL shows the legal-move MENU (part of the gain
+> is menu-constraint, IOU menu-less ablation); 32B flat = engine gives NO BACKTRACKING
+> (greedy, one wrong move dead-ends, IOU backtracking/stuck→retry); small n (12 pos).
+> 19 new pytest (7 proof_search + 12 proof_kernel), ruff+diag clean.
+> **▶ NEXT:** (1) backtracking + menu-less ablation (isolate stepwise from menu; does
+> 32B then improve?); (2) richer type layer (products/sums → ∧/∨; then ∀∃ = the S2
+> extension; front-end already emits quantified LF); (3) larger graded probe set; better
+> base gate.
+> **STATUS s228:** COMMITTED — single-shot code `84af2a4`, mementum (knowledge page +
+> 3 memories + state) `ecc06e5`. PENDING COMMIT (drafted, ruff+diag clean): continuation
+> prover code (proof_search.py, proof_repl.py, run_proof_repl.sh, test_proof_search.py,
+> results/proof-repl/) + knowledge-page §s228 update + memory continuation-rescues-proof-
+> composition.md + this state. Bug found+fixed mid-run earlier: base models (Mistral/
+> OLMo) have no chat_template → raw-prompt fallback + `prompt_mode` provenance.
 >
 > **■ SESSION 227 — PROSE-NECESSITY IOU RESOLVED (register: topological/routing,
 > causal). The s226 handoff IOU #4: "refine the prose-NECESSITY readout (whole-
