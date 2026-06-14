@@ -1,0 +1,93 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "dtype": "bfloat16",
+  "register": "topological/routing",
+  "pooling": "mean(sign(gate)) over tokens, CMR over stimuli",
+  "n_curated": 112,
+  "n_prose_sentences": 164,
+  "n_layers": 40,
+  "best_layer": 23,
+  "best_frac": 0.59,
+  "per_layer": {
+    "0": {
+      "frac": 0.0,
+      "curated_hof_silhouette": 0.3637
+    },
+    "4": {
+      "frac": 0.103,
+      "curated_hof_silhouette": 0.3033
+    },
+    "8": {
+      "frac": 0.205,
+      "curated_hof_silhouette": 0.3534
+    },
+    "12": {
+      "frac": 0.308,
+      "curated_hof_silhouette": 0.4073
+    },
+    "16": {
+      "frac": 0.41,
+      "curated_hof_silhouette": 0.4122
+    },
+    "20": {
+      "frac": 0.513,
+      "curated_hof_silhouette": 0.3831
+    },
+    "23": {
+      "frac": 0.59,
+      "curated_hof_silhouette": 0.4356
+    },
+    "27": {
+      "frac": 0.692,
+      "curated_hof_silhouette": 0.4346
+    },
+    "31": {
+      "frac": 0.795,
+      "curated_hof_silhouette": 0.3319
+    },
+    "35": {
+      "frac": 0.897,
+      "curated_hof_silhouette": 0.2955
+    },
+    "39": {
+      "frac": 1.0,
+      "curated_hof_silhouette": 0.2891
+    }
+  },
+  "per_function": {
+    "map": {
+      "curated_auc": 0.9957,
+      "n_pairs": 22,
+      "paired_mean_diff": 0.7392,
+      "paired_t": 1.636,
+      "frac_hof_gt_control": 0.7273,
+      "prose_auc_hof_vs_control": 0.5599
+    },
+    "filter": {
+      "curated_auc": 1.0,
+      "n_pairs": 20,
+      "paired_mean_diff": 6.7174,
+      "paired_t": 9.941,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.895
+    },
+    "fold": {
+      "curated_auc": 1.0,
+      "n_pairs": 20,
+      "paired_mean_diff": 7.0748,
+      "paired_t": 10.467,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.895
+    },
+    "zip": {
+      "curated_auc": 1.0,
+      "n_pairs": 20,
+      "paired_mean_diff": 4.5711,
+      "paired_t": 6.776,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.81
+    }
+  },
+  "git_sha": "b0fb0e21d1014ee77f285618be482b3602a35041",
+  "elapsed_s": 33.4
+}
