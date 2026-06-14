@@ -156,7 +156,7 @@ Next: **OV-path / activation patching** (isolate the substitution) + a **peak-ba
 (not zone-average) readout. Or accept weak prose recruitment and build on the solid
 in-domain foundation.
 
-## Bridge test (s227c, in flight) — engagement vs necessity
+## Bridge test (s227c) — engagement vs necessity
 
 A sharper framing of the weak prose leg: **engagement ≠ necessity.**
 - ENGAGEMENT (s225, robust): a HOF direction learned on curated probes *fires* on
@@ -184,6 +184,39 @@ of a gather target (prose DOES use HOFs, via this circuit, when a list is presen
 it stays weak ⇒ prose composition is genuinely distributed / non-enumeration and the
 in-domain circuit is special to artificial lists. (Result: `results/hof-ov-logitlens-
 enum/aggregate.json` vs `results/hof-ov-logitlens/aggregate.json`.)
+
+### Result (s227c, read in s228) — PARTIAL recovery, not a clean confirmation
+
+`list_*` columns are identical to plain (shared list stims; only the prose leg
+differs). Prose readable-zone necessity t-stat (`prose_zone_t`), plain → enum:
+
+| model | plain zoneT | enum zoneT | Δ | enum r>rand |
+|---|---|---|---|---|
+| Qwen3-8B | +0.40 | **+2.47** ✓ | +2.07 | Y |
+| Qwen3-32B | −1.72 | +1.39 | +3.11 | Y |
+| Mistral-7B | +0.61 | +1.65 | +1.04 | Y |
+| Qwen3-14B | −0.60 | −2.26 | −1.66 | N |
+| OLMo-2-13B | +0.41 | −1.55 | −1.96 | N |
+| strict-necessary (zoneT>2 ∧ >rand) | **0/5** | **1/5** | | |
+
+**Split verdict.** 3/5 RECOVER — Qwen3-8B/32B + Mistral; mean zoneT lifts −0.18 →
++0.34 (Δ +0.52); **8B crosses strict significance** (+2.47, was +0.40) and **32B flips
+decisively positive** (−1.72 → +1.39, now beats random). For these, plain prose's
+weakness was partly a **"no gather target"** artifact. But **2/5 REVERSE — Qwen3-14B
+worsens and OLMo (the prior gold-standard necessity model, s226 t=+3.21) FLIPS NEGATIVE**
+(+0.41 → −1.55). A clean "gather keys off enumeration" story predicts OLMo should
+recover most. The recovery split (8B/32B/Mistral up; OLMo/14B down) does **not** match
+the s227 clean/muddy split (OLMo/Mistral clean; Qwen muddy) ⇒ the effect is noisy, not
+a stable architectural property.
+
+**Interpretation — sharpens, does not overturn, s227.** Even handed an explicit
+enumeration, prose HOF necessity recovers only partially (1/5 strict, 3/5 directional,
+2/5 reverse). So the engagement≠necessity gap is **not merely** "plain prose lacks a
+gather target": the heads are recruited (engagement, robust s225) but stay largely
+**non-load-bearing for prose** even with a list present — consistent with **distributed
+redundancy** in prose that artificial lists lack. The in-domain (list) circuit remains
+the clean strong signal. The decisive lever is unchanged: **activation patching**
+(cleaner than full head-knockout NLL) + more prose pairs for power.
 
 ## Why this matters
 

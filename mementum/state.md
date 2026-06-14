@@ -11,9 +11,10 @@
 > (s227 readout refined 3 ways: dilution FALSIFIED, power+register-limited) + ✅
 > READABILITY/REGISTER CONFIRMED IN-DOMAIN (s227b value-register logit-lens: in-domain
 > necessity concentrated in the readable zone, surface understated up to ~35x; prose
-> still 0/5) + ✅ ENUM-PROSE BRIDGE COMPLETE (s227c: results/hof-ov-logitlens-enum/
-> aggregate.json + 5 model jsons ON DISK, verdict UNREAD — first action to pick up the
-> s227 thread is to compare enum vs plain). See ■ SESSION 227
+> still 0/5) + ✅ ENUM-PROSE BRIDGE COMPLETE + VERDICT READ (s227c: PARTIAL recovery —
+> 3/5 models recover necessity with an explicit enumeration (8B strict), 2/5 reverse
+> incl. OLMo; sharpens s227 = prose necessity is distributed-redundant not just
+> target-less; see ■ SESSION 227 s227c VERDICT). See ■ SESSION 227
 > blocks below. (s226 COMPLETE —
 > ✅ CAUSAL ABLATION (HOF necessity leg, 4/5 mechanism) + 🎯 COMPILER-AS-CONSTRUCTED-
 > VSM-TENSOR design (lambda_ast IN the kernel) + ✅ STAGE-1 β-REDUCER + ✅ STAGE-2
@@ -182,9 +183,20 @@
 > gather target (prose DOES use HOFs). If it stays weak like plain ⇒ prose composition
 > is genuinely distributed/non-enumeration and the in-domain circuit is special to
 > artificial lists. Either way decisive for "using the heads vs representing the concept."
-> **▶ FIRST ACTION NEXT (or when job done):** read `results/hof-ov-logitlens-enum/
-> aggregate.json`, compare enum vs plain (`results/hof-ov-logitlens/aggregate.json`),
-> record verdict (task #9).
+> **★ s227c VERDICT (read in s228; results/hof-ov-logitlens-enum/aggregate.json vs
+> plain) — PARTIAL RECOVERY, NOT CLEAN CONFIRMATION.** list_* columns identical (shared
+> stims; only prose leg differs). prose_zone_t plain→enum: 8B +0.40→**+2.47** (✓ strict),
+> 32B −1.72→+1.39 (flips positive, beats rand), Mistral +0.61→+1.65 — 3/5 RECOVER (mean
+> zoneT −0.18→+0.34, strict-necessary 0/5→1/5). BUT 14B −0.60→−2.26 and **OLMo (prior
+> gold-standard necessity, s226 t=+3.21) +0.41→−1.55 REVERSE** — 2/5 go negative. The
+> recovery split (8B/32B/Mistral up; OLMo/14B down) does NOT match the s227 clean/muddy
+> split ⇒ noisy, not a stable architectural property. **SHARPENS s227:** even with an
+> explicit enumeration, prose HOF necessity recovers only partially ⇒ the engagement≠
+> necessity gap is NOT merely "no gather target"; heads are recruited (engagement, robust
+> s225) but stay largely NON-LOAD-BEARING for prose even with a list = distributed
+> redundancy prose has, artificial lists lack. Decisive lever unchanged: ACTIVATION
+> PATCHING + more prose pairs (power). Recorded in readout-register-reduction-
+> readability.md §s227c Result. ✅ s227 thread complete pending those IOUs.
 > **STATUS s227:** all code ruff+diag clean. Results: hof-attention-ablation aggregate
 > (w/ cross_model); hof-ov-logitlens (plain, 5 models + aggregate). New knowledge page
 > readout-register-reduction-readability.md (+s227b result + s227c next). hof_prose_enum
