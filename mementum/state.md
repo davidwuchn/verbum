@@ -113,6 +113,22 @@
 > decompose per-head OV, measure value moved FROM list positions (substituted term) HOF
 > vs ctrl → completes (attends-to)×(projection)=β-reduction.** Then per-HOF gather
 > (does fold gather > map?), causal ablation of gather heads on HOF prose.
+> **★ s225 PHASE B — OV PROJECTION (the value moved, "what it calculates").
+> hof_attention_ov.py (GQA-aware per-head OV decomp at the Phase-A gather heads:
+> project attn-weighted value through W_O^h, value moved FROM list vs total, HOF vs
+> ctrl). ✅ ALL 5 MODELS/3 ARCH: best heads ov_list_frac HOF 0.47–0.82 (Mistral L21H9
+> 0.82, Qwen3-14B L4H22 0.78, Qwen3-32B L32H39 0.65/ovSEL+0.56, OLMo L23H36 0.62);
+> across 8 probed heads/model mean AMPLIFY +0.25→+0.44 (ALL positive), 7–8/8 OV-
+> selective. 3 facts: (1) OV carries the substitution (47–82% of moved value from the
+> items when iterating); (2) it AMPLIFIES — moves far MORE value from items than the
+> bare attention mass (amplify=ov_frac−attn_mass big+; e.g. 8B L27H13 11% mass→51%
+> value) ⇒ QK pattern UNDERSTATES, the value is in V→O; (3) iteration-selective
+> (HOF>ctrl 7–8/8). ⇒ FULL β-REDUCTION OBSERVED IN ATTENTION cross-arch: (QK=which
+> redex args)×(OV=move/amplify values), stronger when iterating. Wrinkle: some
+> substitution heads EARLY (14B L4H22, 8B L4H1) — value move can precede the gather
+> layer. committed hof_attention_ov.py (f2448d6) + results/hof-attention-ov/.
+> ▶ NEXT: causal ablation of these heads on HOF prose (necessity); per-HOF OV (fold
+> collapse vs map preserve — catamorphism result-type axis in the OV).**
 > **▶ NEXT:** (1) CAUSAL ABLATION (the strong
 > "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
 > (2) refine the decode readout (apply miss + negative loadings + weak map — the real

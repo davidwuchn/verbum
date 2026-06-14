@@ -278,10 +278,42 @@ Caveats (λ measure): the "first" control still scans somewhat (so SELECTIVITY, 
 gather, is the read); magnitude modest in Qwen3-8B (+0.11) but strong in Mistral/32B
 (+0.31/+0.36); this is the PATTERN half only — Phase B is the OV/value PROJECTION.
 
-**▶ PHASE B (the PROJECTION — "what it calculates"):** at the identified gather heads,
-decompose the per-head OV output and measure how much of the moved value comes from the
-list positions (the substituted term), HOF vs control. Completes
-(what it attends to) × (projection it calculates) = the β-reduction step.
+### Phase B — the OV PROJECTION carries the substitution (the value moved)
+
+At the Phase-A gather heads, decompose the per-head OV output (GQA-aware: query head h
+reads kv head h//group; project the attention-weighted value through W_O^h) and measure
+how much of the moved value comes from the list positions, HOF vs control
+(`hof_attention_ov.py`, `results/hof-attention-ov/`).
+
+**✅ Confirmed in ALL 5 models / 3 architectures** (best head per model):
+
+| model | best head | ov_list_frac HOF / ctrl | ov selectivity | amplify |
+|---|---|---|---|---|
+| Mistral-7B-v0.3 | L21H9 | 0.82 / 0.49 | +0.33 | +0.40 |
+| Qwen3-14B | L4H22 | 0.78 / 0.41 | +0.37 | +0.44 |
+| Qwen3-32B | L32H39 | 0.65 / 0.09 | +0.56 | +0.33 |
+| OLMo-2-13B | L23H36 | 0.62 / 0.23 | +0.40 | +0.36 |
+| Qwen3-8B | L4H1 | 0.47 / 0.17 | +0.30 | +0.32 |
+
+Across the 8 probed heads/model: mean amplify **+0.25 to +0.44 (all positive)**,
+7–8 of 8 heads OV-selective. Three facts:
+1. **OV carries the substitution** — 47–82% of the head's moved value comes from the
+   list items when iterating.
+2. **It AMPLIFIES** — `amplify = ov_list_frac − attn_mass` is large-positive everywhere:
+   the projection moves far more value from the items than the bare attention mass shows
+   (e.g. Qwen3-8B L27H13: 11% attn mass → 51% of moved value). The QK pattern UNDERSTATES
+   the substitution; the value lives in V→O.
+3. **Iteration-selective** — value moved from items is higher for HOF than the
+   single-item control (7–8/8 heads).
+
+⇒ **the full β-reduction is observed in attention, cross-architecture:** (QK pattern =
+which redex arguments) × (OV projection = move/amplify their values), stronger when the
+task iterates. Wrinkle: some substitution heads are EARLY (Qwen3-14B L4H22, Qwen3-8B
+L4H1) — value movement can precede the cleanest pattern-gather layer.
+
+**▶ Next:** causal ablation of these heads on HOF prose (necessity); per-HOF OV (does
+fold's substitution collapse to one value vs map preserving structure — the catamorphism
+result-type axis, now in the OV).
 
 ## Open leads
 
