@@ -27,6 +27,7 @@ License: MIT
 
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -56,9 +57,15 @@ def unit(v):
 
 
 def main():
-    files = sorted(f for f in RESULTS_DIR.glob("*.json") if f.stem != "consensus")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--target", default="ffn_gate",
+                    choices=["ffn_gate", "attn_q", "attn_out"])
+    args = ap.parse_args()
+    in_dir = RESULTS_DIR if args.target == "ffn_gate" else RESULTS_DIR / args.target
+    files = sorted(f for f in in_dir.glob("*.json")
+                   if f.stem not in ("consensus", "function_pairs"))
     if not files:
-        log(f"no per-model jsons in {RESULTS_DIR}")
+        log(f"no per-model jsons in {in_dir}")
         sys.exit(1)
     models = [json.loads(f.read_text()) for f in files]
     crystal = models[0]["crystal_order"]

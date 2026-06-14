@@ -120,15 +120,24 @@ def load_probes(limit_per: int = 0, seed: int = 0):
 
 
 # ---- model introspection -----------------------------------------------------
-def find_gate_modules(model):
+# which module's output is the "routing register" — FFN gate (s203) or an
+# attention projection (s221: attention-over-positions IS the fold; map's home).
+TARGET_PATTERNS = {
+    "ffn_gate": r"\.(\d+)\.mlp\.(gate_proj|dense_h_to_4h)$",
+    "attn_q": r"\.(\d+)\.self_attn\.(q_proj)$",
+    "attn_out": r"\.(\d+)\.self_attn\.(o_proj)$",
+}
+
+
+def find_modules(model, target):
+    pat = re.compile(TARGET_PATTERNS[target])
     hits = []
-    pat = re.compile(r"\.(\d+)\.mlp\.(gate_proj|dense_h_to_4h)$")
     for name, mod in model.named_modules():
         m = pat.search(name)
         if m:
-            hits.append((int(m.group(1)), name, mod, m.group(2)))
+            hits.append((int(m.group(1)), name, mod))
     hits.sort(key=lambda x: x[0])
-    return [(li, name, mod) for (li, name, mod, k) in hits]
+    return hits
 
 
 def pick_layers(n_layers: int):
@@ -138,8 +147,8 @@ def pick_layers(n_layers: int):
 
 # ---- capture -----------------------------------------------------------------
 @torch.no_grad()
-def collect(model, tokenizer, device, prompts, max_length, want_layers):
-    gate_mods = find_gate_modules(model)
+def collect(model, tokenizer, device, prompts, max_length, want_layers, target):
+    gate_mods = find_modules(model, target)
     want = set(want_layers)
     buf = {}
 
@@ -242,7 +251,8 @@ def fingerprint(fn_centroid, comb_C):
 
 # ---- mode: model -------------------------------------------------------------
 def run_model(args):
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    out_dir = RESULTS_DIR / args.target
+    out_dir.mkdir(parents=True, exist_ok=True)
     safe = args.model.replace("/", "_")
     t0 = time.time()
 
@@ -256,11 +266,11 @@ def run_model(args):
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype)
     model.to(args.device).eval()
 
-    n_layers = len(find_gate_modules(model))
+    n_layers = len(find_modules(model, args.target))
     want_layers = pick_layers(n_layers)
-    log(f"  arch: {n_layers} layers; capturing {want_layers}")
+    log(f"  arch: {n_layers} layers; target={args.target}; capturing {want_layers}")
     gate, n_layers = collect(model, tok, args.device, prompts,
-                             args.max_length, want_layers)
+                             args.max_length, want_layers, args.target)
     del model
     gc.collect()
     if args.device == "mps":
@@ -298,6 +308,7 @@ def run_model(args):
 
     out = {
         "model": args.model, "dtype": args.dtype, "register": "topological/routing",
+        "target": args.target,
         "n_probes": len(prompts), "counts": counts, "n_layers": n_layers,
         "best_layer": int(best_li), "best_frac": best_frac,
         "crystal_order": CRYSTAL, "functions": fns,
@@ -305,10 +316,10 @@ def run_model(args):
         "per_layer": per_layer, "n_perm": args.n_perm, "git_sha": git_sha(),
         "elapsed_s": round(time.time() - t0, 1),
     }
-    np.savez_compressed(RESULTS_DIR / f"{safe}.npz",
+    np.savez_compressed(out_dir / f"{safe}.npz",
                         comb_centroids=comb_C.astype(np.float32),
                         fn_centroids=fn_C, best_layer=np.array([best_li]))
-    (RESULTS_DIR / f"{safe}.json").write_text(json.dumps(out, indent=2))
+    (out_dir / f"{safe}.json").write_text(json.dumps(out, indent=2))
 
     # readable
     log("")
@@ -341,12 +352,13 @@ def _pairwise_mean_corr(M):
 
 
 def run_consensus(args):
-    files = sorted(RESULTS_DIR.glob("*.json"))
+    out_dir = RESULTS_DIR / args.target
+    files = sorted(f for f in out_dir.glob("*.json") if f.stem != "consensus")
     if args.models:
         want = {m.replace("/", "_") for m in args.models}
         files = [f for f in files if f.stem in want]
     if len(files) < 2:
-        log(f"need >=2 model jsons in {RESULTS_DIR} (found {len(files)})")
+        log(f"need >=2 model jsons in {out_dir} (found {len(files)})")
         sys.exit(1)
     models = [json.loads(f.read_text()) for f in files]
     names = [m["model"] for m in models]
@@ -390,7 +402,8 @@ def run_consensus(args):
     }
 
     out = {
-        "models": names, "n_models": len(models), "n_perm": args.n_perm,
+        "models": names, "n_models": len(models), "target": args.target,
+        "n_perm": args.n_perm,
         "z_gate": args.z_gate, "corr_gate": args.corr_gate,
         "crystal_order": CRYSTAL, "per_function": verdict,
         "map_theory_check": map_check, "git_sha": git_sha(),
@@ -401,7 +414,7 @@ def run_consensus(args):
         "controls_all_hit": all(verdict[fn]["control_hit"]
                                 for fn in fns if verdict[fn]["expected"]),
     }
-    (RESULTS_DIR / "consensus.json").write_text(json.dumps(out, indent=2))
+    (out_dir / "consensus.json").write_text(json.dumps(out, indent=2))
 
     log("")
     log("  === FUNCTION-TOPOLOGY CONSENSUS ===")
@@ -431,6 +444,9 @@ def run_consensus(args):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["model", "consensus"], required=True)
+    ap.add_argument("--target", default="ffn_gate",
+                    choices=["ffn_gate", "attn_q", "attn_out"],
+                    help="routing register: FFN gate (s203) or attention projection")
     ap.add_argument("--model", default="Qwen/Qwen3-4B")
     ap.add_argument("--models", nargs="*", default=None,
                     help="consensus: restrict to these model names")
