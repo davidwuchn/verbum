@@ -1,0 +1,160 @@
+{
+  "phase": "engine (auto solver floor)",
+  "timestamp": "2026-06-14T21:36:00.738933+00:00",
+  "floor_ok": true,
+  "records": [
+    {
+      "id": "pos_I",
+      "prop": "A -> A",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "I"
+    },
+    {
+      "id": "pos_K",
+      "prop": "A -> B -> A",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "K"
+    },
+    {
+      "id": "pos_KI",
+      "prop": "A -> B -> B",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "K I"
+    },
+    {
+      "id": "pos_B",
+      "prop": "(B -> C) -> (A -> B) -> A -> C",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "B"
+    },
+    {
+      "id": "pos_compose",
+      "prop": "(A -> B) -> (C -> A) -> C -> B",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "B"
+    },
+    {
+      "id": "pos_S",
+      "prop": "(A -> B -> C) -> (A -> B) -> A -> C",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "S"
+    },
+    {
+      "id": "pos_C",
+      "prop": "(A -> B -> C) -> B -> A -> C",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "C"
+    },
+    {
+      "id": "pos_flipcompose",
+      "prop": "(A -> B) -> (B -> C) -> A -> C",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "C B"
+    },
+    {
+      "id": "pos_W",
+      "prop": "(A -> A -> B) -> A -> B",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "C S I"
+    },
+    {
+      "id": "pos_apply",
+      "prop": "A -> (A -> B) -> B",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "C I"
+    },
+    {
+      "id": "pos_funcid",
+      "prop": "(A -> B) -> A -> B",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "I"
+    },
+    {
+      "id": "pos_const_chain",
+      "prop": "A -> B -> C -> A",
+      "provable": true,
+      "solved": true,
+      "verified": true,
+      "term": "B K K"
+    },
+    {
+      "id": "neg_atom",
+      "prop": "A",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_weaken",
+      "prop": "A -> B",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_getC",
+      "prop": "A -> B -> C",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_elim",
+      "prop": "(A -> B) -> B",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_retA",
+      "prop": "(A -> B) -> A",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_peirce",
+      "prop": "((A -> B) -> A) -> A",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_dne",
+      "prop": "((A -> B) -> B) -> A",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    },
+    {
+      "id": "neg_y_trap",
+      "prop": "(A -> A) -> A",
+      "provable": false,
+      "solved": false,
+      "verified": null
+    }
+  ],
+  "git_sha": "ecc06e574941ac799f3d0d9852b0a6f5a6278323"
+}
