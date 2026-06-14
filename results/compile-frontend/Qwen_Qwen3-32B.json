@@ -1,0 +1,666 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "dtype": "bfloat16",
+  "register": "functional (learned compile, kernel-verified)",
+  "n": 56,
+  "accuracy": 1.0,
+  "parse_rate": 1.0,
+  "by_pattern": {
+    "identity": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "const": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "compose": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "flip": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "dup": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "subst": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    },
+    "deep": {
+      "n": 8,
+      "correct": 8,
+      "rate": 1.0
+    }
+  },
+  "failures": [],
+  "records": [
+    {
+      "id": "compile_identity_00",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take x and return it unchanged.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_00",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just x by itself; ignore y completely.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_00",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply g to x, then apply f to that result.",
+      "gold": "f (g x)",
+      "model_output": "f (g x)",
+      "model_nf": "f (g x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_00",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply f to y and x, with y as the first argument and x as the second.",
+      "gold": "f y x",
+      "model_output": "f y x",
+      "model_nf": "f y x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_00",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply f to x, passing x as both of its arguments.",
+      "gold": "f x x",
+      "model_output": "f x x",
+      "model_nf": "f x x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_00",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply f to x and to the result of applying g to x.",
+      "gold": "f x (g x)",
+      "model_output": "f x (g x)",
+      "model_nf": "f x (g x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_00",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply h to x, then apply g to that, then apply f to that.",
+      "gold": "f (g (h x))",
+      "model_output": "f (g (h x))",
+      "model_nf": "f (g (h x))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_01",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take a and return it unchanged.",
+      "gold": "a",
+      "model_output": "a",
+      "model_nf": "a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_01",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just a by itself; ignore b completely.",
+      "gold": "a",
+      "model_output": "a",
+      "model_nf": "a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_01",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply q to a, then apply p to that result.",
+      "gold": "p (q a)",
+      "model_output": "p (q a)",
+      "model_nf": "p (q a)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_01",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply p to b and a, with b as the first argument and a as the second.",
+      "gold": "p b a",
+      "model_output": "p b a",
+      "model_nf": "p b a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_01",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply p to a, passing a as both of its arguments.",
+      "gold": "p a a",
+      "model_output": "p a a",
+      "model_nf": "p a a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_01",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply p to a and to the result of applying q to a.",
+      "gold": "p a (q a)",
+      "model_output": "p a (q a)",
+      "model_nf": "p a (q a)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_01",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply r to a, then apply q to that, then apply p to that.",
+      "gold": "p (q (r a))",
+      "model_output": "p (q (r a))",
+      "model_nf": "p (q (r a))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_02",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take u and return it unchanged.",
+      "gold": "u",
+      "model_output": "u",
+      "model_nf": "u",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_02",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just u by itself; ignore v completely.",
+      "gold": "u",
+      "model_output": "u",
+      "model_nf": "u",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_02",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply h to u, then apply f to that result.",
+      "gold": "f (h u)",
+      "model_output": "f (h u)",
+      "model_nf": "f (h u)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_02",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply f to v and u, with v as the first argument and u as the second.",
+      "gold": "f v u",
+      "model_output": "f v u",
+      "model_nf": "f v u",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_02",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply f to u, passing u as both of its arguments.",
+      "gold": "f u u",
+      "model_output": "f u u",
+      "model_nf": "f u u",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_02",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply f to u and to the result of applying h to u.",
+      "gold": "f u (h u)",
+      "model_output": "f u (h u)",
+      "model_nf": "f u (h u)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_02",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply g to u, then apply h to that, then apply f to that.",
+      "gold": "f (h (g u))",
+      "model_output": "f (h (g u))",
+      "model_nf": "f (h (g u))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_03",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take x and return it unchanged.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_03",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just x by itself; ignore a completely.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_03",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply f to x, then apply g to that result.",
+      "gold": "g (f x)",
+      "model_output": "g (f x)",
+      "model_nf": "g (f x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_03",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply g to a and x, with a as the first argument and x as the second.",
+      "gold": "g a x",
+      "model_output": "g a x",
+      "model_nf": "g a x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_03",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply g to x, passing x as both of its arguments.",
+      "gold": "g x x",
+      "model_output": "g x x",
+      "model_nf": "g x x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_03",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply g to x and to the result of applying f to x.",
+      "gold": "g x (f x)",
+      "model_output": "g x (f x)",
+      "model_nf": "g x (f x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_03",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply p to x, then apply f to that, then apply g to that.",
+      "gold": "g (f (p x))",
+      "model_output": "g (f (p x))",
+      "model_nf": "g (f (p x))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_04",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take b and return it unchanged.",
+      "gold": "b",
+      "model_output": "b",
+      "model_nf": "b",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_04",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just b by itself; ignore y completely.",
+      "gold": "b",
+      "model_output": "b",
+      "model_nf": "b",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_04",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply p to b, then apply q to that result.",
+      "gold": "q (p b)",
+      "model_output": "q (p b)",
+      "model_nf": "q (p b)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_04",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply q to y and b, with y as the first argument and b as the second.",
+      "gold": "q y b",
+      "model_output": "q y b",
+      "model_nf": "q y b",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_04",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply q to b, passing b as both of its arguments.",
+      "gold": "q b b",
+      "model_output": "q b b",
+      "model_nf": "q b b",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_04",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply q to b and to the result of applying p to b.",
+      "gold": "q b (p b)",
+      "model_output": "q b (p b)",
+      "model_nf": "q b (p b)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_04",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply r to b, then apply p to that, then apply q to that.",
+      "gold": "q (p (r b))",
+      "model_output": "q (p (r b))",
+      "model_nf": "q (p (r b))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_05",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take z and return it unchanged.",
+      "gold": "z",
+      "model_output": "z",
+      "model_nf": "z",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_05",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just z by itself; ignore c completely.",
+      "gold": "z",
+      "model_output": "z",
+      "model_nf": "z",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_05",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply g to z, then apply h to that result.",
+      "gold": "h (g z)",
+      "model_output": "h (g z)",
+      "model_nf": "h (g z)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_05",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply h to c and z, with c as the first argument and z as the second.",
+      "gold": "h c z",
+      "model_output": "h c z",
+      "model_nf": "h c z",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_05",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply h to z, passing z as both of its arguments.",
+      "gold": "h z z",
+      "model_output": "h z z",
+      "model_nf": "h z z",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_05",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply h to z and to the result of applying g to z.",
+      "gold": "h z (g z)",
+      "model_output": "h z (g z)",
+      "model_nf": "h z (g z)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_05",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply f to z, then apply g to that, then apply h to that.",
+      "gold": "h (g (f z))",
+      "model_output": "h (g (f z))",
+      "model_nf": "h (g (f z))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_06",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take a and return it unchanged.",
+      "gold": "a",
+      "model_output": "a",
+      "model_nf": "a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_06",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just a by itself; ignore x completely.",
+      "gold": "a",
+      "model_output": "a",
+      "model_nf": "a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_06",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply f to a, then apply p to that result.",
+      "gold": "p (f a)",
+      "model_output": "p (f a)",
+      "model_nf": "p (f a)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_06",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply p to x and a, with x as the first argument and a as the second.",
+      "gold": "p x a",
+      "model_output": "p x a",
+      "model_nf": "p x a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_06",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply p to a, passing a as both of its arguments.",
+      "gold": "p a a",
+      "model_output": "p a a",
+      "model_nf": "p a a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_06",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply p to a and to the result of applying f to a.",
+      "gold": "p a (f a)",
+      "model_output": "p a (f a)",
+      "model_nf": "p a (f a)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_06",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply q to a, then apply f to that, then apply p to that.",
+      "gold": "p (f (q a))",
+      "model_output": "p (f (q a))",
+      "model_nf": "p (f (q a))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_identity_07",
+      "pattern": "identity",
+      "complexity": 1,
+      "prose": "Take x and return it unchanged.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_const_07",
+      "pattern": "const",
+      "complexity": 1,
+      "prose": "Return just x by itself; ignore u completely.",
+      "gold": "x",
+      "model_output": "x",
+      "model_nf": "x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_compose_07",
+      "pattern": "compose",
+      "complexity": 3,
+      "prose": "First apply p to x, then apply f to that result.",
+      "gold": "f (p x)",
+      "model_output": "f (p x)",
+      "model_nf": "f (p x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_flip_07",
+      "pattern": "flip",
+      "complexity": 3,
+      "prose": "Apply f to u and x, with u as the first argument and x as the second.",
+      "gold": "f u x",
+      "model_output": "f u x",
+      "model_nf": "f u x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_dup_07",
+      "pattern": "dup",
+      "complexity": 3,
+      "prose": "Apply f to x, passing x as both of its arguments.",
+      "gold": "f x x",
+      "model_output": "f x x",
+      "model_nf": "f x x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_subst_07",
+      "pattern": "subst",
+      "complexity": 5,
+      "prose": "Apply f to x and to the result of applying p to x.",
+      "gold": "f x (p x)",
+      "model_output": "f x (p x)",
+      "model_nf": "f x (p x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "compile_deep_07",
+      "pattern": "deep",
+      "complexity": 5,
+      "prose": "Apply h to x, then apply p to that, then apply f to that.",
+      "gold": "f (p (h x))",
+      "model_output": "f (p (h x))",
+      "model_nf": "f (p (h x))",
+      "parsed": true,
+      "correct": true
+    }
+  ],
+  "git_sha": "5040c6dd36d8465d7671443ae21586fccb4df128",
+  "elapsed_s": 68.0
+}

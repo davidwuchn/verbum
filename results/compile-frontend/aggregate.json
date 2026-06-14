@@ -1,0 +1,19 @@
+{
+  "models": [
+    "Qwen/Qwen3-32B",
+    "Qwen/Qwen3-8B"
+  ],
+  "rows": [
+    {
+      "model": "Qwen/Qwen3-32B",
+      "accuracy": 1.0,
+      "parse_rate": 1.0
+    },
+    {
+      "model": "Qwen/Qwen3-8B",
+      "accuracy": 1.0,
+      "parse_rate": 1.0
+    }
+  ],
+  "git_sha": "5040c6dd36d8465d7671443ae21586fccb4df128"
+}
