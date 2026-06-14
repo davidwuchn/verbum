@@ -45,10 +45,19 @@
 > (cheap, donates basis) → (2) TRAIN continuation to use it (per-node capability).
 > **CONFOUND (recorded):** homogeneous shards (same corpus split) → B had no distinct
 > knowledge → dCE couldn't go negative regardless ⇒ capability test = data-design
-> artifact; HETEROGENEOUS shards mandatory next. **▶ DECISIVE NEXT:** FOLD-THEN-TRAIN-
-> CONTINUATION — short continuation-training phase on a REL fold; does CE recover
-> faster than from-scratch? Then heterogeneous-shard rerun + sharper functional accept
-> gate. **CAPTURED (awaiting approval):** consensus-delta-folding.md §s224; memories
+> artifact; HETEROGENEOUS shards mandatory next. **▶ DECISIVE NEXT — ✅ DONE, THESIS
+> CONFIRMED (fold_then_train_continuation.py, 3 seeds, distill 1500/cont 1000,
+> verdict_run.json):** freeze folded routing register (inventory, 132k) → train
+> continuation (usage, 604k) on full task. A-baseline 2.270; fold PRE 2.441 (dCE
+> +0.171); **F_cont 2.053 (BELOW baseline −0.217)**; A_cont 2.063; **scratch_cont
+> (RANDOM frozen inventory) 2.135 — F_cont beats it CLEAN (2.074 < 2.124)**. ⇒ folded
+> geometry NOT inert (beats random) but needs trained continuation to become
+> capability; recovery FAST (2.45→2.05 in 100 steps); folded geometry PERSISTS through
+> continuation training (z +2.26→+2.38, L 0.76–0.82). geometry=inventory(real, useful,
+> foldable, persistent), capability=trained continuation. TWO-PHASE protocol validated.
+> F_cont≈A_cont (homogeneous shards). Then heterogeneous-shard rerun (does folding B
+> beat A_cont?) + sharper functional accept gate (gentle 27% merge didn't stress
+> contractivity) + attn_q. **CAPTURED (awaiting approval):** consensus-delta-folding.md §s224; memories
 > geometry-is-inventory-continuation-is-capability + fold-capability-test-needs-
 > heterogeneous-shards; this state.
 > **ALSO s224:** read ~/src/LayerNorm-Scaling (Curse of Depth / LNS, NeurIPS 2025):

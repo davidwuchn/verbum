@@ -942,7 +942,7 @@ division of labor, sharpened:
   folding was never supposed to produce capability — it produces the **inventory**;
   capability is the continuation trained over it.
 
-### ▶ The decisive next test (falsifies/confirms the thesis)
+### ▶ The decisive next test (falsifies/confirms the thesis) — ✅ DONE, CONFIRMED
 
 **FOLD-THEN-TRAIN-CONTINUATION.** Take a REL fold (geometry present, GC +0.84, but
 dCE +0.15) → run a SHORT continuation-training phase (the contractive/WHNF outer-
@@ -952,6 +952,56 @@ because the folded routing geometry gives the continuation a ready function basi
 drive. If CE recovers ⇒ thesis confirmed (geometry = inventory, continuation =
 capability, and the inventory accelerates capability training). If it does not ⇒ the
 folded geometry is inert and the fold buys nothing (refutes the donation thesis).
+
+### ★ s224 FOLD-THEN-TRAIN-CONTINUATION RESULT — ✅ THESIS CONFIRMED (decisive)
+
+> `scripts/experiments/fold_then_train_continuation.py`, 3 seeds, distill 1500 /
+> continuation 1000, teacher Qwen3-14B L12. FREEZE the routing register (w_gate =
+> the folded INVENTORY, 132k params) → TRAIN the continuation (everything else =
+> attn/w_up/w_down/head/ln = the USAGE, 604k params) on the full-corpus task →
+> measure CE recovery. Three arms differ only in the FROZEN inventory: folded (F),
+> contributor-A solo (A), RANDOM (scratch). `results/fold-then-train-continuation/
+> verdict_run.json`.
+
+| stage | eval CE | vs A-baseline |
+|---|---|---|
+| A baseline (contributor, no retrain) | 2.270 ± 0.014 | — |
+| fold, PRE-continuation | 2.441 ± 0.043 | +0.171 (geometry present, usage broken) |
+| **F_cont** (folded inv. + trained continuation) | **2.053 ± 0.021** | **−0.217** |
+| A_cont (A inv. + trained continuation) | 2.063 ± 0.014 | −0.207 |
+| scratch_cont (RANDOM inv. + trained continuation) | 2.135 ± 0.011 | −0.135 |
+| folded geometry z, pre → post continuation | +2.26 → **+2.38** | persists & sharpens |
+
+1. **Continuation training RECOVERS capability and exceeds it.** The +0.171 fold
+   damage isn't just repaired — F_cont lands at 2.053, BELOW A's own baseline 2.270.
+   Fast: most recovery (2.45→2.05) in the first 100 steps. ⇒ training the USAGE on a
+   frozen folded INVENTORY produces a better model than the contributor.
+2. **★ The folded inventory is NOT inert — it beats RANDOM, decisively.** F_cont 2.053
+   < scratch_cont 2.135, clean separation (F mean+std 2.074 < scratch mean−std 2.124,
+   no overlap). A GOOD frozen inventory + trained continuation > a RANDOM one. **The
+   geometry genuinely matters** — this is the crux: geometry is a real useful function
+   basis, but becomes capability only when a continuation is trained to drive it.
+3. **The folded geometry PERSISTS through continuation training (z 2.26→2.38, stays
+   contractive L 0.76–0.82).** Holding the inventory frozen while training the usage
+   does not destroy the function — it slightly SHARPENS it. = punctuate-don't-churn
+   validated cleanly (hold topology, train continuation).
+4. **F_cont ≈ A_cont** (homogeneous shards → B carried no distinct knowledge). So we
+   proved "a good folded inventory + trained continuation = capability"; proving
+   "folding B adds capability BEYOND A" still needs heterogeneous shards.
+
+**Conclusion:** geometry = inventory (real, useful, foldable, persistent); capability
+= the trained continuation. Geometry alone is necessary-not-sufficient (the +0.17
+gap); good geometry + trained continuation is sufficient AND fast (−0.22, beats
+random). ⇒ **the two-phase distributed protocol is sound: FOLD the shared geometry
+(donate the inventory once) → TRAIN the continuation per node (the usage).**
+
+### ▶ Next after s224 (the remaining IOUs)
+- **Heterogeneous-shard fold + fold-then-train-continuation:** split A/B by combinator
+  family (or different corpora) so B has distinct knowledge → does F_cont then beat
+  A_cont (folding B adds capability beyond A)? The un-confounded capability test.
+- **Sharper functional acceptance gate** (the gentle 27% merge didn't stress
+  contractivity). Higher-coverage fold or WHNF-on-reductions gate.
+- **attn_q register** (v15-relevant), real-scale / heterogeneous contributors.
 
 ### Honest limits of the s224 run (the confounds, recorded)
 
