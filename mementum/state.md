@@ -59,6 +59,19 @@
 > but NOT recruited from the FFN routing register by prose; coherent (map=B(CB)(CB),
 > most recursion-adjacent/distributed, "attention IS the fold" s221; noisiest s225
 > fingerprint) ⇒ map likely lives in attn_q (s220 attn_q@L05 lead) not the FFN gate.
+> **★ s225 reduce/map-as-fold test (Michael: "can map be expressed as a fold?" — YES:
+> map f = foldr(λx acc. f x:acc) [], REPL-verified; fold = universal catamorphism).
+> Added `reduce` (synonym) + `map` to the function set; `function_pair_similarity.py`
+> (cross-function fingerprint cosine, 5 models, function_pairs.json). ✅ BOTH PREDS:
+> reduce≡fold cosine +0.958 (±0.013), reduce's nearest = fold, ZERO lexical overlap ⇒
+> TOPOLOGY TRACKS FUNCTION NOT WORD (semantic). map≉fold +0.607, map's nearest =
+> compose/flip/apply (structure-PRESERVING family). SEPARATING AXIS = WHNF/collapse:
+> fold +0.015, reduce +0.001 (collapse [a]→b, top) … map −0.323 (preserve [a]→[b],
+> bottom). ⇒ TWO super-clusters: collapse {fold,reduce,zip} vs preserve {map,compose,
+> flip,apply}. Math: map=fold; model files it by RESULT TYPE (preserve vs collapse) —
+> the shared fold substrate (iteration) is in ATTENTION (s221), invisible to FFN
+> fingerprint; FFN encodes the algebra/result-type. (reduce prose-engagement row
+> landing as the prose sweep finishes — expected to engage like fold.)
 > **▶ NEXT:** (1) CAUSAL ABLATION (the strong
 > "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
 > (2) refine the decode readout (apply miss + negative loadings + weak map — the real

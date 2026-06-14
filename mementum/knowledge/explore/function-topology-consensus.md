@@ -131,6 +131,38 @@ absolute-frame issue). The `apply` miss + negative loadings are the IOU.
 - **Compiler-as-loss:** confirms the verifier framing. Any model can be the
   output-trace oracle; the consensus topology is the inventory target.
 
+## reduce ≡ fold, map ≉ fold: the collapse/preserve axis (s225, Michael)
+
+Two named functions added (`reduce`; `map` already present) to test the catamorphism
+structure. map CAN be expressed as a fold (`map f = foldr (λx acc. f x : acc) []`,
+REPL-verified); fold is the universal list eliminator. Does the model represent this?
+Cross-function fingerprint cosine, 5 models (`function_pair_similarity.py`,
+`results/function-topology-consensus/function_pairs.json`):
+
+- **reduce ≡ fold — CONFIRMED.** reduce↔fold cosine **+0.958 (±0.013)**; reduce's
+  nearest function is fold. reduce and fold share NO lexical surface (reduce probes:
+  aggregate/condense/distill/collapse; fold: add/combine/sum/total) yet co-locate
+  exactly ⇒ **the topology tracks the FUNCTION, not the WORD** (semantic, not lexical).
+- **map ≉ fold — CONFIRMED.** map↔fold cosine **+0.607** (well below reduce↔fold).
+  map's nearest neighbours are compose (+0.93), flip (+0.93), apply (+0.89) — the
+  structure-PRESERVING family, not fold.
+- **The separating axis is the type distinction (WHNF / collapse loading):**
+
+  ```
+  fold +0.015, reduce +0.001   ← collapse [a]→b   (terminal, top of WHNF axis)
+  zip  -0.086 ...
+  map  -0.323                  ← preserve [a]→[b]  (bottom of WHNF axis)
+  ```
+
+⇒ The model organizes HOFs into two super-clusters along the **collapse/preserve**
+axis: **collapse-to-value {fold, reduce, zip}** (fold–reduce .96, fold–zip .90,
+reduce–zip .92) vs **structure-preserving {map, compose, flip, apply}** (map–compose
+.93, map–flip .93). Mathematically map = fold, but the model files it by RESULT TYPE:
+map preserves structure (composition cluster, WHNF↓), fold collapses to a value (WHNF↑
+= the only positive loadings). The shared fold *substrate* (iteration) lives in
+attention (s221), invisible to this FFN-routing fingerprint; the FFN encodes the
+algebra/result-type — exactly what separates the catamorphism's two faces.
+
 ## Do models USE these HOFs on natural prose? (s225 follow-up — transfer test)
 
 The consensus above is on CURATED probes. Michael: does the model RECRUIT the HOF
