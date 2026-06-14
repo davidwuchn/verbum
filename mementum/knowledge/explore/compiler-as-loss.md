@@ -201,6 +201,46 @@ route**:
 *purpose doubles* — data oracle AND the kernel source. The outer-recurrence / `Y` /
 contractivity story is in `vsm-outer-recurrence.md` §s226.
 
+### s226 stage 2 — bracket abstraction is the EXACT compile oracle (the learned surface shrinks again)
+
+> Building stage 2 ("learned compile front-end + exact kernel back-end") surfaced that
+> "compile" factors further, and most of it is *also* constructible.
+
+```
+prose          → logical-form      : LEARNED  (NL understanding; Montague/CCG parse)
+logical-form   → combinator term   : EXACT    (bracket abstraction — src/verbum/lambda_compile.py)
+combinator term → normal form      : EXACT    (reduction — lambda_ast, stage 1)
+```
+
+**Bracket abstraction is the inverse of reduction** (combinatory completeness, Turner
+1979) — Turner-style `[x]` over {S,K,I,B,C} with K/B/C/η optimizations. So the symbolic
+compiler now has TWO exact halves that **cross-validate through the kernel**:
+
+```
+reduce( compile([x..], e) applied to [x..] )  ≡  e        # the round-trip
+```
+
+**★ CERTIFIED (s226, `results/compile-roundtrip/summary.json`, n=5000, stratified
+1–3 vars × depth 1–5):** round-trip rate **1.0000** — abstraction and reduction are
+exact inverses on every sample ⇒ the two constructible halves are genuine inverses, the
+compiler is correct by construction. Two LIMITS made quantitative (λ measure):
+
+- **well-typed 0.941** — ~6% of abstracted terms are operationally correct but **not
+  simply typable** (self-application structure, e.g. abstracting `x x`). The
+  type-directedness boundary (S2) is REAL and measurable even where reduction is exact.
+- **term/expr size mean 2.84×, max 7×** — the S/W duplication blow-up = the
+  representational LIMIT (the boundary s225's diverse data must map).
+
+**⇒ the learned surface shrinks to prose→logical-form** — exactly the Montague /
+DisCoCat semantic-parse the project names as its validation target (AGENTS.md S5). Both
+*formal* steps (abstraction, reduction) are constructible-exact; only the NL parse is
+learned. Reinforces the s226 theme: more is constructible than the dyad assumed.
+
+**▶ stage-2 next:** (a) prose→logical-form data + a learned/few-shot front-end measured
+against this exact back-end (compile accuracy in isolation = the stage-2 thesis test);
+(b) Qwen3-32B as the diverse generator → abstraction+reduction certify → diverse-verified
+corpus spanning the limits; (c) the compiler-as-loss arms with the certified corpus.
+
 ## The shift: from teacher-geometry to compiler-output
 
 What we did through s223–s224: the teacher (Qwen3-14B) contributed a **frozen routing

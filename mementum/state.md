@@ -47,6 +47,20 @@
 > application limit demo); B's principal cat = the correct composition functor
 > `(((α/γ)/(β/γ))/(α/β))`. Dual role: DATA ORACLE (input→trace for compiler-as-loss)
 > AND KERNEL SOURCE (compiles to plates).
+> **▶ STAGE 2 STARTED — bracket abstraction = the EXACT compile oracle (CERTIFIED).**
+> Found "compile" factors further: prose→logical-form (LEARNED, Montague/CCG parse) ∘
+> logical-form→term (bracket abstraction, EXACT) ∘ term→nf (reduction, EXACT). Built
+> `src/verbum/lambda_compile.py` (Turner `[x]` over {S,K,I,B,C} + K/B/C/η; abstract /
+> compile_expr / roundtrip / compile_record). Bracket abstraction = the INVERSE of
+> reduction ⇒ the two symbolic halves cross-validate via the kernel:
+> reduce(compile([x..],e) applied to [x..]) ≡ e. **★ CERTIFIED (compile_roundtrip.py,
+> n=5000, strat 1-3 vars × depth 1-5; results/compile-roundtrip/): round-trip rate
+> 1.0000 (EXACT INVERSES, all strata); well-typed 0.941 (~6% operationally-correct-but-
+> not-simply-typable = the type/S2 limit); term/expr size mean 2.84× max 7× (S/W
+> duplication = the representational limit).** ⇒ the LEARNED surface shrinks to
+> prose→logical-form only (both formal steps constructible-exact). 28 pytest pass,
+> ruff+diagnostics clean. COMMITTED `89fceaf` (lambda_compile + tests + certification).
+> Pages: compiler-as-loss.md §s226 stage 2.
 > **▶ NEXT:** (1) STAGE 2 NEUROSYMBOLIC — learned compile front-end (prose→typed term)
 > + the exact `lambda_ast` kernel back-end; isolates the only learned part (so training
 > never learns reduce+compile at once = what tangled v15). (2) DIVERSE DATA via
