@@ -1,0 +1,552 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "dtype": "bfloat16",
+  "task_set": "hard",
+  "register": "functional (learned compile, kernel-verified)",
+  "n": 42,
+  "accuracy": 0.9286,
+  "parse_rate": 1.0,
+  "by_pattern": {
+    "depth4": {
+      "n": 5,
+      "correct": 5,
+      "rate": 1.0
+    },
+    "depth5": {
+      "n": 5,
+      "correct": 4,
+      "rate": 0.8
+    },
+    "branch2": {
+      "n": 5,
+      "correct": 5,
+      "rate": 1.0
+    },
+    "branch3": {
+      "n": 5,
+      "correct": 5,
+      "rate": 1.0
+    },
+    "reuse": {
+      "n": 5,
+      "correct": 5,
+      "rate": 1.0
+    },
+    "mixed": {
+      "n": 5,
+      "correct": 5,
+      "rate": 1.0
+    },
+    "natural": {
+      "n": 8,
+      "correct": 7,
+      "rate": 0.875
+    },
+    "ambiguous": {
+      "n": 4,
+      "correct": 3,
+      "rate": 0.75
+    }
+  },
+  "failures": [
+    {
+      "id": "hard_depth5_00",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply p to x, then k to that, then h to that, then g to that, then f to that.",
+      "gold": "f (g (h (k (p x))))",
+      "model_output": "f (h (k (p x)))",
+      "model_nf": "f (h (k (p x)))",
+      "parsed": true,
+      "correct": false
+    },
+    {
+      "id": "hard_natural_00",
+      "pattern": "natural",
+      "complexity": 2,
+      "prose": "The scanner digitizes the form, then the office will archive the result.",
+      "gold": "archive (digitize form)",
+      "model_output": "archive (scanner digitize form)",
+      "model_nf": "archive (scanner digitize form)",
+      "parsed": true,
+      "correct": false
+    },
+    {
+      "id": "hard_ambiguous_03",
+      "pattern": "ambiguous",
+      "complexity": 2,
+      "prose": "Apply p to q of a and b and c.",
+      "gold": "p (q a) b c",
+      "model_output": "p q a b c",
+      "model_nf": "p q a b c",
+      "parsed": true,
+      "correct": false
+    }
+  ],
+  "records": [
+    {
+      "id": "hard_depth4_00",
+      "pattern": "depth4",
+      "complexity": 7,
+      "prose": "Apply k to x, then apply h to that, then apply g to that, then apply f to that.",
+      "gold": "f (g (h (k x)))",
+      "model_output": "f (g (h (k x)))",
+      "model_nf": "f (g (h (k x)))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth5_00",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply p to x, then k to that, then h to that, then g to that, then f to that.",
+      "gold": "f (g (h (k (p x))))",
+      "model_output": "f (h (k (p x)))",
+      "model_nf": "f (h (k (p x)))",
+      "parsed": true,
+      "correct": false
+    },
+    {
+      "id": "hard_branch2_00",
+      "pattern": "branch2",
+      "complexity": 7,
+      "prose": "Apply f to two arguments: first the result of applying g to x, then the result of applying h to y.",
+      "gold": "f (g x) (h y)",
+      "model_output": "f (g x) (h y)",
+      "model_nf": "f (g x) (h y)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch3_00",
+      "pattern": "branch3",
+      "complexity": 10,
+      "prose": "Apply f to three arguments: the result of g on x, then the result of h on y, then the result of k on z.",
+      "gold": "f (g x) (h y) (k z)",
+      "model_output": "f (g x) (h y) (k z)",
+      "model_nf": "f (g x) (h y) (k z)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_reuse_00",
+      "pattern": "reuse",
+      "complexity": 6,
+      "prose": "Apply f to three arguments in order: x, then the result of applying g to x, then x again.",
+      "gold": "f x (g x) x",
+      "model_output": "f x (g x) x",
+      "model_nf": "f x (g x) x",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_mixed_00",
+      "pattern": "mixed",
+      "complexity": 9,
+      "prose": "Apply f to two arguments: the result of applying g to x, and the result of applying h to (k applied to y).",
+      "gold": "f (g x) (h (k y))",
+      "model_output": "f (g x) (h (k y))",
+      "model_nf": "f (g x) (h (k y))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth4_01",
+      "pattern": "depth4",
+      "complexity": 7,
+      "prose": "Apply s to a, then apply r to that, then apply q to that, then apply p to that.",
+      "gold": "p (q (r (s a)))",
+      "model_output": "p (q (r (s a)))",
+      "model_nf": "p (q (r (s a)))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth5_01",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply t to a, then s to that, then r to that, then q to that, then p to that.",
+      "gold": "p (q (r (s (t a))))",
+      "model_output": "p (q (r (s (t a))))",
+      "model_nf": "p (q (r (s (t a))))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch2_01",
+      "pattern": "branch2",
+      "complexity": 7,
+      "prose": "Apply p to two arguments: first the result of applying q to a, then the result of applying r to b.",
+      "gold": "p (q a) (r b)",
+      "model_output": "p (q a) (r b)",
+      "model_nf": "p (q a) (r b)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch3_01",
+      "pattern": "branch3",
+      "complexity": 10,
+      "prose": "Apply p to three arguments: the result of q on a, then the result of r on b, then the result of s on c.",
+      "gold": "p (q a) (r b) (s c)",
+      "model_output": "p (q a) (r b) (s c)",
+      "model_nf": "p (q a) (r b) (s c)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_reuse_01",
+      "pattern": "reuse",
+      "complexity": 6,
+      "prose": "Apply p to three arguments in order: a, then the result of applying q to a, then a again.",
+      "gold": "p a (q a) a",
+      "model_output": "p a (q a) a",
+      "model_nf": "p a (q a) a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_mixed_01",
+      "pattern": "mixed",
+      "complexity": 9,
+      "prose": "Apply p to two arguments: the result of applying q to a, and the result of applying r to (s applied to b).",
+      "gold": "p (q a) (r (s b))",
+      "model_output": "p (q a) (r (s b))",
+      "model_nf": "p (q a) (r (s b))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth4_02",
+      "pattern": "depth4",
+      "complexity": 7,
+      "prose": "Apply p to u, then apply f to that, then apply h to that, then apply g to that.",
+      "gold": "g (h (f (p u)))",
+      "model_output": "g (h (f (p u)))",
+      "model_nf": "g (h (f (p u)))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth5_02",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply k to u, then p to that, then f to that, then h to that, then g to that.",
+      "gold": "g (h (f (p (k u))))",
+      "model_output": "g (h (f (p (k u))))",
+      "model_nf": "g (h (f (p (k u))))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch2_02",
+      "pattern": "branch2",
+      "complexity": 7,
+      "prose": "Apply g to two arguments: first the result of applying h to u, then the result of applying f to v.",
+      "gold": "g (h u) (f v)",
+      "model_output": "g (h u) (f v)",
+      "model_nf": "g (h u) (f v)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch3_02",
+      "pattern": "branch3",
+      "complexity": 10,
+      "prose": "Apply g to three arguments: the result of h on u, then the result of f on v, then the result of p on w.",
+      "gold": "g (h u) (f v) (p w)",
+      "model_output": "g (h u) (f v) (p w)",
+      "model_nf": "g (h u) (f v) (p w)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_reuse_02",
+      "pattern": "reuse",
+      "complexity": 6,
+      "prose": "Apply g to three arguments in order: u, then the result of applying h to u, then u again.",
+      "gold": "g u (h u) u",
+      "model_output": "g u (h u) u",
+      "model_nf": "g u (h u) u",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_mixed_02",
+      "pattern": "mixed",
+      "complexity": 9,
+      "prose": "Apply g to two arguments: the result of applying h to u, and the result of applying f to (p applied to v).",
+      "gold": "g (h u) (f (p v))",
+      "model_output": "g (h u) (f (p v))",
+      "model_nf": "g (h u) (f (p v))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth4_03",
+      "pattern": "depth4",
+      "complexity": 7,
+      "prose": "Apply q to a, then apply g to that, then apply f to that, then apply h to that.",
+      "gold": "h (f (g (q a)))",
+      "model_output": "h (f (g (q a)))",
+      "model_nf": "h (f (g (q a)))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth5_03",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply p to a, then q to that, then g to that, then f to that, then h to that.",
+      "gold": "h (f (g (q (p a))))",
+      "model_output": "h (f (g (q (p a))))",
+      "model_nf": "h (f (g (q (p a))))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch2_03",
+      "pattern": "branch2",
+      "complexity": 7,
+      "prose": "Apply h to two arguments: first the result of applying f to a, then the result of applying g to x.",
+      "gold": "h (f a) (g x)",
+      "model_output": "h (f a) (g x)",
+      "model_nf": "h (f a) (g x)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch3_03",
+      "pattern": "branch3",
+      "complexity": 10,
+      "prose": "Apply h to three arguments: the result of f on a, then the result of g on x, then the result of q on u.",
+      "gold": "h (f a) (g x) (q u)",
+      "model_output": "h (f a) (g x) (q u)",
+      "model_nf": "h (f a) (g x) (q u)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_reuse_03",
+      "pattern": "reuse",
+      "complexity": 6,
+      "prose": "Apply h to three arguments in order: a, then the result of applying f to a, then a again.",
+      "gold": "h a (f a) a",
+      "model_output": "h a (f a) a",
+      "model_nf": "h a (f a) a",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_mixed_03",
+      "pattern": "mixed",
+      "complexity": 9,
+      "prose": "Apply h to two arguments: the result of applying f to a, and the result of applying g to (q applied to x).",
+      "gold": "h (f a) (g (q x))",
+      "model_output": "h (f a) (g (q x))",
+      "model_nf": "h (f a) (g (q x))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth4_04",
+      "pattern": "depth4",
+      "complexity": 7,
+      "prose": "Apply f to b, then apply k to that, then apply p to that, then apply q to that.",
+      "gold": "q (p (k (f b)))",
+      "model_output": "q (p (k (f b)))",
+      "model_nf": "q (p (k (f b)))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_depth5_04",
+      "pattern": "depth5",
+      "complexity": 9,
+      "prose": "Apply g to b, then f to that, then k to that, then p to that, then q to that.",
+      "gold": "q (p (k (f (g b))))",
+      "model_output": "q (p (k (f (g b))))",
+      "model_nf": "q (p (k (f (g b))))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch2_04",
+      "pattern": "branch2",
+      "complexity": 7,
+      "prose": "Apply q to two arguments: first the result of applying p to b, then the result of applying k to y.",
+      "gold": "q (p b) (k y)",
+      "model_output": "q (p b) (k y)",
+      "model_nf": "q (p b) (k y)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_branch3_04",
+      "pattern": "branch3",
+      "complexity": 10,
+      "prose": "Apply q to three arguments: the result of p on b, then the result of k on y, then the result of f on v.",
+      "gold": "q (p b) (k y) (f v)",
+      "model_output": "q (p b) (k y) (f v)",
+      "model_nf": "q (p b) (k y) (f v)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_reuse_04",
+      "pattern": "reuse",
+      "complexity": 6,
+      "prose": "Apply q to three arguments in order: b, then the result of applying p to b, then b again.",
+      "gold": "q b (p b) b",
+      "model_output": "q b (p b) b",
+      "model_nf": "q b (p b) b",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_mixed_04",
+      "pattern": "mixed",
+      "complexity": 9,
+      "prose": "Apply q to two arguments: the result of applying p to b, and the result of applying k to (f applied to y).",
+      "gold": "q (p b) (k (f y))",
+      "model_output": "q (p b) (k (f y))",
+      "model_nf": "q (p b) (k (f y))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_00",
+      "pattern": "natural",
+      "complexity": 2,
+      "prose": "The scanner digitizes the form, then the office will archive the result.",
+      "gold": "archive (digitize form)",
+      "model_output": "archive (scanner digitize form)",
+      "model_nf": "archive (scanner digitize form)",
+      "parsed": true,
+      "correct": false
+    },
+    {
+      "id": "hard_natural_01",
+      "pattern": "natural",
+      "complexity": 2,
+      "prose": "First peel the potato, then boil it.",
+      "gold": "boil (peel potato)",
+      "model_output": "boil (peel potato)",
+      "model_nf": "boil (peel potato)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_02",
+      "pattern": "natural",
+      "complexity": 2,
+      "prose": "Revise the draft, then print the revision.",
+      "gold": "print (revise draft)",
+      "model_output": "print (revise draft)",
+      "model_nf": "print (revise draft)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_03",
+      "pattern": "natural",
+      "complexity": 3,
+      "prose": "The robot welds the panel, then paints it, then inspects it.",
+      "gold": "inspect (paint (weld panel))",
+      "model_output": "inspect (paint (weld panel))",
+      "model_nf": "inspect (paint (weld panel))",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_04",
+      "pattern": "natural",
+      "complexity": 3,
+      "prose": "Merge the result of testing the blood with the result of scanning the bone.",
+      "gold": "merge (test blood) (scan bone)",
+      "model_output": "merge (test blood) (scan bone)",
+      "model_nf": "merge (test blood) (scan bone)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_05",
+      "pattern": "natural",
+      "complexity": 1,
+      "prose": "The teacher will grade the essay and the quiz.",
+      "gold": "grade essay quiz",
+      "model_output": "grade essay quiz",
+      "model_nf": "grade essay quiz",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_06",
+      "pattern": "natural",
+      "complexity": 1,
+      "prose": "The bank will verify the signature and the balance.",
+      "gold": "verify signature balance",
+      "model_output": "verify signature balance",
+      "model_nf": "verify signature balance",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_natural_07",
+      "pattern": "natural",
+      "complexity": 3,
+      "prose": "Combine the result of chopping the onion with the result of dicing the carrot.",
+      "gold": "combine (chop onion) (dice carrot)",
+      "model_output": "combine (chop onion) (dice carrot)",
+      "model_nf": "combine (chop onion) (dice carrot)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_ambiguous_00",
+      "pattern": "ambiguous",
+      "complexity": 2,
+      "prose": "Apply f to g of x and y.",
+      "gold": "f (g x) y",
+      "model_output": "f (g x) y",
+      "model_nf": "f (g x) y",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_ambiguous_01",
+      "pattern": "ambiguous",
+      "complexity": 2,
+      "prose": "Apply f to x and g of y and z.",
+      "gold": "f x (g y) z",
+      "model_output": "f x (g y z)",
+      "model_nf": "f x (g y z)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_ambiguous_02",
+      "pattern": "ambiguous",
+      "complexity": 3,
+      "prose": "Apply h to f of x and g of y.",
+      "gold": "h (f x) (g y)",
+      "model_output": "h (f x) (g y)",
+      "model_nf": "h (f x) (g y)",
+      "parsed": true,
+      "correct": true
+    },
+    {
+      "id": "hard_ambiguous_03",
+      "pattern": "ambiguous",
+      "complexity": 2,
+      "prose": "Apply p to q of a and b and c.",
+      "gold": "p (q a) b c",
+      "model_output": "p q a b c",
+      "model_nf": "p q a b c",
+      "parsed": true,
+      "correct": false
+    }
+  ],
+  "git_sha": "b7ff7895ab981a398a3a3982103ea6e48b82a590",
+  "elapsed_s": 87.7
+}

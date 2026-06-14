@@ -1,0 +1,56 @@
+{
+  "models": [
+    "Qwen/Qwen3-14B",
+    "Qwen/Qwen3-32B",
+    "Qwen/Qwen3-8B"
+  ],
+  "task_set": "hard",
+  "rows": [
+    {
+      "model": "Qwen/Qwen3-14B",
+      "accuracy": 0.8571,
+      "parse_rate": 1.0,
+      "by_pattern": {
+        "depth4": 1.0,
+        "depth5": 0.8,
+        "branch2": 1.0,
+        "branch3": 1.0,
+        "reuse": 1.0,
+        "mixed": 1.0,
+        "natural": 0.625,
+        "ambiguous": 0.5
+      }
+    },
+    {
+      "model": "Qwen/Qwen3-32B",
+      "accuracy": 0.9286,
+      "parse_rate": 1.0,
+      "by_pattern": {
+        "depth4": 1.0,
+        "depth5": 0.8,
+        "branch2": 1.0,
+        "branch3": 1.0,
+        "reuse": 1.0,
+        "mixed": 1.0,
+        "natural": 0.875,
+        "ambiguous": 0.75
+      }
+    },
+    {
+      "model": "Qwen/Qwen3-8B",
+      "accuracy": 0.881,
+      "parse_rate": 1.0,
+      "by_pattern": {
+        "depth4": 0.6,
+        "depth5": 1.0,
+        "branch2": 1.0,
+        "branch3": 1.0,
+        "reuse": 1.0,
+        "mixed": 1.0,
+        "natural": 0.75,
+        "ambiguous": 0.75
+      }
+    }
+  ],
+  "git_sha": "b7ff7895ab981a398a3a3982103ea6e48b82a590"
+}

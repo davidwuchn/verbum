@@ -38,6 +38,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "src"))
 from verbum.lambda_ast import normal_form, parse, pretty
 from verbum.probes.compile_tasks import compile_tasks, pattern_names
+from verbum.probes.compile_tasks_hard import family_names, hard_tasks
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 RESULTS_DIR = _PROJECT_ROOT / "results" / "compile-frontend"
@@ -58,6 +59,17 @@ FEWSHOT: list[tuple[str, str]] = [
     ("Apply s to m and to the result of applying t to m.", "s m (t m)"),
 ]
 
+# Hard few-shot — demonstrates deep nesting, branching, reuse, and naturalistic
+# (real words as atoms) so OUTPUT FORMAT is never the failure mode; held-out names.
+FEWSHOT_HARD: list[tuple[str, str]] = [
+    ("Apply u to m, then apply t to that, then apply s to that.", "s (t (u m))"),
+    ("Apply s to two arguments: the result of t on m, and the result of u on n.",
+     "s (t m) (u n)"),
+    ("Apply s to m, then to the result of t on m, then to m again.", "s m (t m) m"),
+    ("First wash the dish, then dry it.", "dry (wash dish)"),
+    ("Stack the plate and the bowl.", "stack plate bowl"),
+]
+
 
 def log(msg: str = "") -> None:
     print(msg, file=sys.stderr, flush=True)
@@ -71,12 +83,29 @@ def git_sha() -> str:
         return "unknown"
 
 
-def build_prompt(prose: str) -> str:
+def build_prompt(prose: str, fewshot: list[tuple[str, str]]) -> str:
     lines = [INSTRUCTION, ""]
-    for d, e in FEWSHOT:
+    for d, e in fewshot:
         lines += [f"Description: {d}", f"Expression: {e}", ""]
     lines += [f"Description: {prose}", "Expression:"]
     return "\n".join(lines)
+
+
+def load_task_set(task_set: str):
+    """(tasks, family/pattern names, few-shot, output subdir) for a task-set."""
+    if task_set == "hard":
+        return hard_tasks(), family_names(), FEWSHOT_HARD, RESULTS_DIR / "hard"
+    return compile_tasks(), pattern_names(), FEWSHOT, RESULTS_DIR
+
+
+def accept_nfs(task) -> set[str]:
+    """The set of acceptable normal-form strings for a task (gold + also_ok)."""
+    out = set()
+    for s in (task.gold, *task.also_ok):
+        nf = nf_str(s)
+        if nf is not None:
+            out.add(nf)
+    return out
 
 
 def clean_output(text: str) -> str:
@@ -102,11 +131,11 @@ def nf_str(s: str) -> str | None:
 
 @torch.no_grad()
 def run_model(args) -> None:
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     safe = args.model.replace("/", "_")
     t0 = time.time()
-    tasks = compile_tasks()
-    gold_nf = {t.id: nf_str(t.gold) for t in tasks}
+    tasks, names, fewshot, out_dir = load_task_set(args.task_set)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    accept = {t.id: accept_nfs(t) for t in tasks}
 
     dtype = {"float32": torch.float32, "float16": torch.float16,
              "bfloat16": torch.bfloat16}[args.dtype]
@@ -117,7 +146,7 @@ def run_model(args) -> None:
 
     records = []
     for i, task in enumerate(tasks):
-        prompt = build_prompt(task.prose)
+        prompt = build_prompt(task.prose, fewshot)
         try:
             text = tok.apply_chat_template(
                 [{"role": "user", "content": prompt}],
@@ -134,7 +163,7 @@ def run_model(args) -> None:
                          skip_special_tokens=True)
         cand = clean_output(gen)
         cand_nf = nf_str(cand)
-        correct = cand_nf is not None and cand_nf == gold_nf[task.id]
+        correct = cand_nf is not None and cand_nf in accept[task.id]
         records.append({
             "id": task.id, "pattern": task.pattern, "complexity": task.complexity,
             "prose": task.prose, "gold": task.gold,
@@ -153,12 +182,12 @@ def run_model(args) -> None:
     n_ok = sum(r["correct"] for r in records)
     n_parsed = sum(r["parsed"] for r in records)
     by_pat = {}
-    for p in pattern_names():
+    for p in names:
         rs = [r for r in records if r["pattern"] == p]
         by_pat[p] = {"n": len(rs), "correct": sum(r["correct"] for r in rs),
                      "rate": round(sum(r["correct"] for r in rs) / max(len(rs), 1), 3)}
     out = {
-        "model": args.model, "dtype": args.dtype,
+        "model": args.model, "dtype": args.dtype, "task_set": args.task_set,
         "register": "functional (learned compile, kernel-verified)",
         "n": n, "accuracy": round(n_ok / n, 4),
         "parse_rate": round(n_parsed / n, 4),
@@ -167,13 +196,13 @@ def run_model(args) -> None:
         "records": records,
         "git_sha": git_sha(), "elapsed_s": round(time.time() - t0, 1),
     }
-    (RESULTS_DIR / f"{safe}.json").write_text(json.dumps(out, indent=2))
+    (out_dir / f"{safe}.json").write_text(json.dumps(out, indent=2))
 
     log("")
-    log(f"  === {args.model} compile front-end (prose -> logical form) ===")
+    log(f"  === {args.model} compile front-end [{args.task_set}] ===")
     log(f"  accuracy {out['accuracy']:.3f} ({n_ok}/{n}); "
         f"parse-rate {out['parse_rate']:.3f}")
-    for p in pattern_names():
+    for p in names:
         v = by_pat[p]
         log(f"    {p:9} {v['correct']:>2}/{v['n']:<2} {v['rate']:.2f}")
     if out["failures"]:
@@ -186,30 +215,36 @@ def run_model(args) -> None:
 
 
 def run_aggregate(args) -> None:
-    files = sorted(f for f in RESULTS_DIR.glob("*.json") if f.stem != "aggregate")
+    _, names, _, out_dir = load_task_set(args.task_set)
+    files = sorted(f for f in out_dir.glob("*.json") if f.stem != "aggregate")
     if args.models:
         want = {m.replace("/", "_") for m in args.models}
         files = [f for f in files if f.stem in want]
     if not files:
-        log(f"no model jsons in {RESULTS_DIR}")
+        log(f"no model jsons in {out_dir}")
         sys.exit(1)
     models = [json.loads(f.read_text()) for f in files]
     rows = [{"model": m["model"], "accuracy": m["accuracy"],
-             "parse_rate": m["parse_rate"]} for m in models]
-    out = {"models": [m["model"] for m in models], "rows": rows,
-           "git_sha": git_sha()}
-    (RESULTS_DIR / "aggregate.json").write_text(json.dumps(out, indent=2))
+             "parse_rate": m["parse_rate"],
+             "by_pattern": {p: m["by_pattern"][p]["rate"] for p in names}}
+            for m in models]
+    out = {"models": [m["model"] for m in models], "task_set": args.task_set,
+           "rows": rows, "git_sha": git_sha()}
+    (out_dir / "aggregate.json").write_text(json.dumps(out, indent=2))
     log("")
-    log("  === COMPILE FRONT-END (prose -> logical form, kernel-verified) ===")
-    log(f"  {'model':>26} {'acc':>6} {'parse':>6}")
+    log(f"  === COMPILE FRONT-END [{args.task_set}] (kernel-verified) ===")
+    hdr = "".join(f"{p[:6]:>7}" for p in names)
+    log(f"  {'model':>22} {'acc':>5}{hdr}")
     for r in rows:
-        log(f"  {r['model']:>26} {r['accuracy']:>6.3f} {r['parse_rate']:>6.3f}")
+        cells = "".join(f"{r['by_pattern'][p]:>7.2f}" for p in names)
+        log(f"  {r['model']:>22} {r['accuracy']:>5.2f}{cells}")
     log("  wrote aggregate.json")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["model", "aggregate"], default="model")
+    ap.add_argument("--task-set", choices=["base", "hard"], default="base")
     ap.add_argument("--model", default="Qwen/Qwen3-32B")
     ap.add_argument("--models", nargs="*", default=None)
     ap.add_argument("--device", default="mps")

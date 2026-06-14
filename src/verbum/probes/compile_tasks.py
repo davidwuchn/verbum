@@ -39,10 +39,11 @@ __all__ = [
 @dataclass(frozen=True, slots=True)
 class CompileTask:
     id: str
-    pattern: str      # identity|const|compose|flip|dup|subst|deep
+    pattern: str      # identity|const|compose|flip|dup|subst|deep (or hard family)
     prose: str        # natural-language dataflow description
     gold: str         # normal-form expression (lambda_ast syntax)
     complexity: int   # # of applications in gold
+    also_ok: tuple[str, ...] = ()  # extra acceptable readings (ambiguous prose)
 
 
 PATTERNS: tuple[str, ...] = (
