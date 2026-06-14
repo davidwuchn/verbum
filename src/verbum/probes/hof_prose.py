@@ -59,7 +59,7 @@ class ProsePair:
     domain: str
 
 
-FUNCTIONS: tuple[str, ...] = ("map", "filter", "fold", "zip")
+FUNCTIONS: tuple[str, ...] = ("map", "filter", "fold", "reduce", "zip")
 
 
 # (hof, control, domain) — hof and control share the final token.
@@ -240,10 +240,54 @@ _ZIP: list[tuple[str, str, str]] = [
 ]
 
 
+_REDUCE: list[tuple[str, str, str]] = [
+    ("The analyst aggregated the whole year of sales into one annual",
+     "The analyst noted a single day of sales as one daily", "commerce"),
+    ("The script collapsed the entire folder of logs into one summary",
+     "The script opened a single log file as one plain", "technology"),
+    ("She condensed the team's many notes into one short",
+     "She copied one team member's note into one short", "education"),
+    ("The chef reduced the big pot of stock down to a concentrated",
+     "The chef poured a single cup of stock into a thin", "cooking"),
+    ("The query summed every transaction into a single running",
+     "The query read one transaction as a single line", "technology"),
+    ("Distilling the long trial into a verdict, the jury reached one",
+     "Reading one piece of evidence, the jury noted one", "law"),
+    ("The model compressed the high-dimensional dataset into one",
+     "The model logged one data point as one", "technology"),
+    ("Averaging all the patients' results, the lab issued one combined",
+     "Recording one patient's result, the lab issued one routine", "medicine"),
+    ("The editor boiled the sprawling draft down to one tight",
+     "The editor marked one line of the draft as one tight", "arts"),
+    ("Merging every regional report, headquarters produced one global",
+     "Filing one regional report, headquarters produced one local", "commerce"),
+    ("The census reduced millions of responses to a single national",
+     "The census recorded one response as a single local", "education"),
+    ("Consolidating all his debts, he was left with one monthly",
+     "Reviewing one small debt, he was left with one monthly", "commerce"),
+    ("The funnel narrowed thousands of leads down to one qualified",
+     "The rep called one lead and noted one qualified", "commerce"),
+    ("Folding the partial counts together, the system returned one final",
+     "Logging one partial count, the system returned one raw", "technology"),
+    ("The committee distilled the dozens of proposals into one unified",
+     "The committee read one proposal and noted one minor", "law"),
+    ("Aggregating every sensor's reading, the dashboard showed one overall",
+     "Showing one sensor's reading, the dashboard showed one raw", "technology"),
+    ("Summing the rainfall across the whole season into one record",
+     "Noting the rainfall on one day as one small", "nature"),
+    ("The archive compressed the entire library into a single",
+     "The archive stored one book as a single", "education"),
+    ("Pooling all the donations together, the charity announced one grand",
+     "Counting one donation, the charity announced one modest", "commerce"),
+    ("The reducer combined every shard into one consolidated",
+     "The loader opened one shard as one plain", "technology"),
+]
+
 _RAW: dict[str, list[tuple[str, str, str]]] = {
     "map": _MAP,
     "filter": _FILTER,
     "fold": _FOLD,
+    "reduce": _REDUCE,
     "zip": _ZIP,
 }
 

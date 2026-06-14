@@ -25,21 +25,21 @@
     "compose": {
       "kind": "control",
       "expected": "B",
-      "mean_pairwise_corr": 0.8938,
-      "z": 8.129,
+      "mean_pairwise_corr": 0.895,
+      "z": 8.132,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "D",
-          -0.0363
-        ],
-        [
-          "S",
-          -0.1329
+          -0.0278
         ],
         [
           "B",
-          -0.1443
+          -0.1288
+        ],
+        [
+          "S",
+          -0.129
         ]
       ],
       "control_hit": false,
@@ -48,21 +48,21 @@
     "flip": {
       "kind": "control",
       "expected": "C",
-      "mean_pairwise_corr": 0.7495,
-      "z": 6.766,
+      "mean_pairwise_corr": 0.7563,
+      "z": 6.827,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "C",
-          0.124
+          0.142
         ],
         [
           "D",
-          -0.0782
+          -0.0593
         ],
         [
           "B",
-          -0.1689
+          -0.142
         ]
       ],
       "control_hit": true,
@@ -71,21 +71,21 @@
     "const": {
       "kind": "control",
       "expected": "K",
-      "mean_pairwise_corr": 0.9455,
-      "z": 8.485,
+      "mean_pairwise_corr": 0.9446,
+      "z": 8.48,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "K",
-          0.1154
+          0.106
         ],
         [
           "I",
-          0.0014
+          -0.0022
         ],
         [
           "W",
-          -0.1136
+          -0.1188
         ]
       ],
       "control_hit": true,
@@ -94,21 +94,21 @@
     "apply": {
       "kind": "control",
       "expected": "I",
-      "mean_pairwise_corr": 0.6733,
-      "z": 5.944,
+      "mean_pairwise_corr": 0.6909,
+      "z": 6.098,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "C",
-          -0.1107
+          -0.0981
         ],
         [
           "B",
-          -0.1391
+          -0.1277
         ],
         [
           "S",
-          -0.1512
+          -0.1502
         ]
       ],
       "control_hit": false,
@@ -117,21 +117,21 @@
     "map": {
       "kind": "test",
       "expected": null,
-      "mean_pairwise_corr": 0.7208,
-      "z": 6.497,
+      "mean_pairwise_corr": 0.7296,
+      "z": 6.576,
       "p_value": 0.0002,
       "consensus_top": [
         [
-          "D",
-          -0.0649
+          "C",
+          -0.0469
         ],
         [
-          "C",
-          -0.0668
+          "D",
+          -0.0489
         ],
         [
           "B",
-          -0.179
+          -0.1555
         ]
       ],
       "control_hit": null,
@@ -140,21 +140,21 @@
     "filter": {
       "kind": "test",
       "expected": null,
-      "mean_pairwise_corr": 0.87,
-      "z": 7.713,
+      "mean_pairwise_corr": 0.8733,
+      "z": 7.723,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "K",
-          -0.0382
+          -0.0344
         ],
         [
           "C",
-          -0.0794
+          -0.0672
         ],
         [
           "WHNF",
-          -0.1285
+          -0.1277
         ]
       ],
       "control_hit": null,
@@ -163,21 +163,44 @@
     "fold": {
       "kind": "test",
       "expected": null,
-      "mean_pairwise_corr": 0.9264,
-      "z": 8.554,
+      "mean_pairwise_corr": 0.9342,
+      "z": 8.647,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "WHNF",
-          0.0524
+          0.0149
         ],
         [
           "S",
-          0.042
+          -0.0017
         ],
         [
           "D",
-          -0.0647
+          -0.1182
+        ]
+      ],
+      "control_hit": null,
+      "classification": "universal"
+    },
+    "reduce": {
+      "kind": "test",
+      "expected": null,
+      "mean_pairwise_corr": 0.9031,
+      "z": 8.091,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "WHNF",
+          0.0012
+        ],
+        [
+          "K",
+          -0.0691
+        ],
+        [
+          "S",
+          -0.0843
         ]
       ],
       "control_hit": null,
@@ -186,21 +209,21 @@
     "zip": {
       "kind": "test",
       "expected": null,
-      "mean_pairwise_corr": 0.7605,
-      "z": 6.663,
+      "mean_pairwise_corr": 0.7438,
+      "z": 6.507,
       "p_value": 0.0002,
       "consensus_top": [
         [
           "S",
-          -0.0478
+          -0.0544
         ],
         [
           "WHNF",
-          -0.077
+          -0.0855
         ],
         [
           "W",
-          -0.0995
+          -0.1056
         ]
       ],
       "control_hit": null,
@@ -208,13 +231,13 @@
     }
   },
   "map_theory_check": {
-    "loads_B": -0.179,
-    "loads_C": -0.0668,
-    "loads_Y": -0.2933,
+    "loads_B": -0.1555,
+    "loads_C": -0.0469,
+    "loads_Y": -0.2773,
     "B_and_C_gt_Y": true
   },
-  "git_sha": "e1df947bd6595778db25bbdb030b613aeeeb21af",
-  "n_universal": 8,
+  "git_sha": "ebac910eb6eb809af5e424f3f6767a6470f573f1",
+  "n_universal": 9,
   "n_idiosyncratic": 0,
   "controls_all_hit": false
 }

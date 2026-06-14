@@ -59,7 +59,7 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 _PROJECT_ROOT = _SCRIPT_DIR.parent.parent
 RESULTS_DIR = _PROJECT_ROOT / "results" / "hof-prose-engagement"
 
-HOFS = ["map", "filter", "fold", "zip"]
+HOFS = ["map", "filter", "fold", "reduce", "zip"]
 LAYER_FRACS = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 

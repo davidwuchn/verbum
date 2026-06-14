@@ -78,7 +78,7 @@ class FunctionProbe:
 # Canonical function order: controls first, then higher-order tests.
 FUNCTIONS: tuple[str, ...] = (
     "compose", "flip", "const", "apply",        # controls (≡ B, C, K, I)
-    "map", "filter", "fold", "zip",             # higher-order tests
+    "map", "filter", "fold", "reduce", "zip",   # tests (reduce≡fold synonym)
 )
 
 # Theory anchor for the positive controls — the primitive each should land on.
@@ -91,6 +91,7 @@ EXPECTED_COMBINATOR: dict[str, str | None] = {
     "map": None,
     "filter": None,
     "fold": None,
+    "reduce": None,
     "zip": None,
 }
 
@@ -321,6 +322,37 @@ _FOLD: list[tuple[str, str]] = [  # accumulate a sequence into a SINGLE value
     ("Rolling all the changes into one final", "technology"),
 ]
 
+_REDUCE: list[tuple[str, str]] = [  # ≡ fold synonym: collapse a sequence to ONE value
+    ("The function reduced the whole list down to a single", "technology"),
+    ("Aggregating the quarterly figures, the analyst got one", "commerce"),
+    ("The algorithm collapsed the array into a single", "technology"),
+    ("She condensed the sprawling report into one concise", "education"),
+    ("Summing across every row, the query returned a single", "technology"),
+    ("The editor distilled the long manuscript into one tight", "arts"),
+    ("Aggregating the sensor feeds, the dashboard showed one overall", "technology"),
+    ("The committee reduced the dozens of proposals to a single", "law"),
+    ("Boiling the argument down, the lawyer reduced it to one", "law"),
+    ("The pipeline aggregated the logs into one summary", "technology"),
+    ("Distilling the survey responses, the team reported a single", "commerce"),
+    ("The model reduced the high-dimensional data to one", "technology"),
+    ("Collapsing the nested folders, the script left a single", "technology"),
+    ("The chemist concentrated the dilute mixture into one", "medicine"),
+    ("Averaging every trial, the lab reduced the results to one", "medicine"),
+    ("The chef reduced the stock down to a rich", "cooking"),
+    ("Consolidating the branches, the manager merged them into one", "commerce"),
+    ("The accountant reduced the year of expenses to a single", "commerce"),
+    ("Folding the running totals together yielded one grand", "commerce"),
+    ("The compressor reduced the huge file to a single", "technology"),
+    ("Summarizing the debate, the moderator reduced it to one", "law"),
+    ("The census aggregated millions of records into one", "education"),
+    ("Reducing the recipe's many steps, she ended with one", "cooking"),
+    ("The reducer combined the partial counts into one final", "technology"),
+    ("Distilling decades of research into a single", "education"),
+    ("The funnel reduced thousands of leads to a single", "commerce"),
+    ("Merging all the shards, the database returned one", "technology"),
+    ("The poll reduced every vote to one decisive", "law"),
+]
+
 _ZIP: list[tuple[str, str]] = [  # pair two sequences element-wise
     ("She matched each sock with its corresponding", "everyday"),
     ("Each name on the list was paired with a", "education"),
@@ -361,6 +393,7 @@ _RAW: dict[str, list[tuple[str, str]]] = {
     "map": _MAP,
     "filter": _FILTER,
     "fold": _FOLD,
+    "reduce": _REDUCE,
     "zip": _ZIP,
 }
 
