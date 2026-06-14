@@ -1,0 +1,132 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "dtype": "bfloat16",
+  "register": "topological/routing (causal ablation)",
+  "intervention": "zero o_proj input slice (full head knockout)",
+  "n_layers": 64,
+  "n_heads": 64,
+  "head_dim": 128,
+  "n_ablated": 8,
+  "gather_heads": [
+    [
+      26,
+      54
+    ],
+    [
+      32,
+      39
+    ],
+    [
+      24,
+      62
+    ],
+    [
+      25,
+      34
+    ],
+    [
+      26,
+      58
+    ],
+    [
+      23,
+      14
+    ],
+    [
+      37,
+      15
+    ],
+    [
+      52,
+      14
+    ]
+  ],
+  "n_random_draws": 3,
+  "seed": 0,
+  "list_kl": {
+    "gather": {
+      "kl_hof": 0.012,
+      "kl_ctrl": 0.00476,
+      "kl_interaction": 0.00724
+    },
+    "random": {
+      "kl_hof": 0.00945,
+      "kl_ctrl": 0.00586,
+      "kl_interaction": 0.00359
+    }
+  },
+  "prose_nll": {
+    "gather": {
+      "dNLL_hof": -6e-05,
+      "dNLL_ctrl": -0.0096,
+      "interaction_mean": 0.00954,
+      "interaction_t": 1.248,
+      "frac_hof_gt_ctrl": 0.5588,
+      "n_pairs": 102,
+      "engaged": {
+        "interaction_mean": 0.00948,
+        "interaction_t": 1.036,
+        "frac_hof_gt_ctrl": 0.55,
+        "n_pairs": 80
+      },
+      "per_function": {
+        "filter": {
+          "interaction_mean": 0.01154,
+          "interaction_t": 1.021,
+          "frac_hof_gt_ctrl": 0.6,
+          "n_pairs": 20,
+          "dNLL_hof": 0.0031,
+          "dNLL_ctrl": -0.00844
+        },
+        "fold": {
+          "interaction_mean": -0.01142,
+          "interaction_t": -0.978,
+          "frac_hof_gt_ctrl": 0.45,
+          "n_pairs": 20,
+          "dNLL_hof": -0.00376,
+          "dNLL_ctrl": 0.00765
+        },
+        "map": {
+          "interaction_mean": 0.00973,
+          "interaction_t": 0.78,
+          "frac_hof_gt_ctrl": 0.5909,
+          "n_pairs": 22,
+          "dNLL_hof": 0.00247,
+          "dNLL_ctrl": -0.00727
+        },
+        "reduce": {
+          "interaction_mean": 0.02402,
+          "interaction_t": 0.755,
+          "frac_hof_gt_ctrl": 0.55,
+          "n_pairs": 20,
+          "dNLL_hof": 0.00213,
+          "dNLL_ctrl": -0.02188
+        },
+        "zip": {
+          "interaction_mean": 0.01378,
+          "interaction_t": 1.505,
+          "frac_hof_gt_ctrl": 0.6,
+          "n_pairs": 20,
+          "dNLL_hof": -0.00449,
+          "dNLL_ctrl": -0.01827
+        }
+      }
+    },
+    "random": {
+      "dNLL_hof": 0.00077,
+      "dNLL_ctrl": 0.00484,
+      "interaction_mean": -0.00407,
+      "interaction_t": -0.715,
+      "frac_hof_gt_ctrl": 0.47713,
+      "engaged": {
+        "interaction_mean": -0.00206,
+        "interaction_t": -0.25967,
+        "frac_hof_gt_ctrl": 0.4875
+      }
+    }
+  },
+  "list_necessary": true,
+  "prose_necessary": false,
+  "git_sha": "44d42e6f221e91e7dd26b58081866c19e2df1355",
+  "elapsed_s": 212.4
+}
