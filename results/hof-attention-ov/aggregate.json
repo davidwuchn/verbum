@@ -1,0 +1,70 @@
+{
+  "models": [
+    {
+      "model": "Qwen/Qwen3-14B",
+      "best": {
+        "layer": 4,
+        "head": 22,
+        "ov_list_frac_hof": 0.7774,
+        "ov_list_frac_ctrl": 0.4071,
+        "ov_frac_selectivity": 0.3703,
+        "attn_mass_hof": 0.3424,
+        "attn_mass_ctrl": 0.2551,
+        "ov_amplifies_over_attn": 0.435
+      }
+    },
+    {
+      "model": "Qwen/Qwen3-32B",
+      "best": {
+        "layer": 32,
+        "head": 39,
+        "ov_list_frac_hof": 0.65,
+        "ov_list_frac_ctrl": 0.094,
+        "ov_frac_selectivity": 0.556,
+        "attn_mass_hof": 0.3196,
+        "attn_mass_ctrl": 0.0078,
+        "ov_amplifies_over_attn": 0.3304
+      }
+    },
+    {
+      "model": "Qwen/Qwen3-8B",
+      "best": {
+        "layer": 4,
+        "head": 1,
+        "ov_list_frac_hof": 0.4681,
+        "ov_list_frac_ctrl": 0.1666,
+        "ov_frac_selectivity": 0.3016,
+        "attn_mass_hof": 0.145,
+        "attn_mass_ctrl": 0.0623,
+        "ov_amplifies_over_attn": 0.3232
+      }
+    },
+    {
+      "model": "allenai/OLMo-2-1124-13B",
+      "best": {
+        "layer": 23,
+        "head": 36,
+        "ov_list_frac_hof": 0.6217,
+        "ov_list_frac_ctrl": 0.2255,
+        "ov_frac_selectivity": 0.3962,
+        "attn_mass_hof": 0.2665,
+        "attn_mass_ctrl": 0.0822,
+        "ov_amplifies_over_attn": 0.3552
+      }
+    },
+    {
+      "model": "mistralai/Mistral-7B-v0.3",
+      "best": {
+        "layer": 21,
+        "head": 9,
+        "ov_list_frac_hof": 0.8224,
+        "ov_list_frac_ctrl": 0.4893,
+        "ov_frac_selectivity": 0.3332,
+        "attn_mass_hof": 0.4218,
+        "attn_mass_ctrl": 0.1134,
+        "ov_amplifies_over_attn": 0.4007
+      }
+    }
+  ],
+  "git_sha": "f2448d6d6c4504993bbae0d6fa0c6892bfdf6d5a"
+}

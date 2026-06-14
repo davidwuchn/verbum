@@ -1,0 +1,92 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "register": "attention-OV",
+  "n_heads": 64,
+  "n_kv": 8,
+  "head_dim": 128,
+  "group": 8,
+  "heads": [
+    {
+      "layer": 32,
+      "head": 39,
+      "ov_list_frac_hof": 0.65,
+      "ov_list_frac_ctrl": 0.094,
+      "ov_frac_selectivity": 0.556,
+      "attn_mass_hof": 0.3196,
+      "attn_mass_ctrl": 0.0078,
+      "ov_amplifies_over_attn": 0.3304
+    },
+    {
+      "layer": 26,
+      "head": 54,
+      "ov_list_frac_hof": 0.8273,
+      "ov_list_frac_ctrl": 0.3384,
+      "ov_frac_selectivity": 0.489,
+      "attn_mass_hof": 0.4707,
+      "attn_mass_ctrl": 0.1152,
+      "ov_amplifies_over_attn": 0.3566
+    },
+    {
+      "layer": 23,
+      "head": 14,
+      "ov_list_frac_hof": 0.4457,
+      "ov_list_frac_ctrl": 0.0551,
+      "ov_frac_selectivity": 0.3905,
+      "attn_mass_hof": 0.2715,
+      "attn_mass_ctrl": 0.0069,
+      "ov_amplifies_over_attn": 0.1742
+    },
+    {
+      "layer": 24,
+      "head": 62,
+      "ov_list_frac_hof": 0.4077,
+      "ov_list_frac_ctrl": 0.0993,
+      "ov_frac_selectivity": 0.3084,
+      "attn_mass_hof": 0.3008,
+      "attn_mass_ctrl": 0.0053,
+      "ov_amplifies_over_attn": 0.1068
+    },
+    {
+      "layer": 26,
+      "head": 58,
+      "ov_list_frac_hof": 0.4834,
+      "ov_list_frac_ctrl": 0.1998,
+      "ov_frac_selectivity": 0.2836,
+      "attn_mass_hof": 0.2942,
+      "attn_mass_ctrl": 0.0285,
+      "ov_amplifies_over_attn": 0.1893
+    },
+    {
+      "layer": 37,
+      "head": 15,
+      "ov_list_frac_hof": 0.4181,
+      "ov_list_frac_ctrl": 0.2189,
+      "ov_frac_selectivity": 0.1992,
+      "attn_mass_hof": 0.2614,
+      "attn_mass_ctrl": 0.0396,
+      "ov_amplifies_over_attn": 0.1567
+    },
+    {
+      "layer": 25,
+      "head": 34,
+      "ov_list_frac_hof": 0.7261,
+      "ov_list_frac_ctrl": 0.5364,
+      "ov_frac_selectivity": 0.1898,
+      "attn_mass_hof": 0.377,
+      "attn_mass_ctrl": 0.1059,
+      "ov_amplifies_over_attn": 0.3491
+    },
+    {
+      "layer": 52,
+      "head": 14,
+      "ov_list_frac_hof": 0.6328,
+      "ov_list_frac_ctrl": 0.4648,
+      "ov_frac_selectivity": 0.168,
+      "attn_mass_hof": 0.3241,
+      "attn_mass_ctrl": 0.1081,
+      "ov_amplifies_over_attn": 0.3087
+    }
+  ],
+  "git_sha": "f2448d6d6c4504993bbae0d6fa0c6892bfdf6d5a",
+  "elapsed_s": 16.9
+}
