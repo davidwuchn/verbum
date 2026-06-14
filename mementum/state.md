@@ -2,7 +2,8 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 227 IN PROGRESS — ✅ PROSE-NECESSITY IOU RESOLVED
+> Last updated: 2026-06-14 | Session: 228 — ✅ PROOFS-AS-CONTINUATIONS (Curry-Howard),
+> see ■ SESSION 228 block. (s227 IN PROGRESS — ✅ PROSE-NECESSITY IOU RESOLVED
 > (s227 readout refined 3 ways: dilution FALSIFIED, power+register-limited) + ✅
 > READABILITY/REGISTER CONFIRMED IN-DOMAIN (s227b value-register logit-lens: in-domain
 > necessity concentrated in the readable zone, surface understated up to ~35x; prose
@@ -15,6 +16,52 @@
 > (prose→LF) + ✅ COMPILE BOUNDARY (structural solved; NL+ambiguity is the boundary).
 > Next: diverse-verified naturalistic corpus → compiler-as-loss arms. See ■ SESSION
 > 226 COMPLETE block below.)
+> **■ SESSION 228 — PROOFS-AS-CONTINUATIONS (Curry-Howard). Michael: "would
+> continuations allow us to run proofs?"** Register: **functional (learned prover,
+> kernel-verified).** Refreshed on continuations + distributed training first
+> (continuations-as-composed-plates, sealable-continuation, lambda-halt-continuation,
+> consensus-delta-folding, relational-loss-distillation). Then BUILT the experiment:
+> under Curry-Howard a proof of P is a closed combinator term inhabiting type P;
+> proof-check = the lambda_ast S2 type-check; normalization (β-reduction → WHNF, the
+> continuation) = cut-elimination. The combinator basis IS a Hilbert calculus (K, S =
+> the axiom schemes); Y = the inconsistency edge.
+> **▶ BUILT (ruff+diag clean, 12 pytest green):** `src/verbum/proof_kernel.py`
+> (proposition parser implicational-logic→CCG category; first-order matcher;
+> `check_proof(term,prop)` → verdict ∈ {valid, none, parse_error, open_term,
+> unsound_recursion, ill_typed, type_mismatch}; sound basis {S,K,I,B,C,W,D}, Y rejected
+> (recursion=inconsistency), M auto-rejected (ill-typed), open terms rejected; records
+> the term reduced to NF = the "run"). `src/verbum/probes/proof_tasks.py` (12 positives
+> w/ kernel-certified proofs + 8 negatives incl. Peirce + the **Y-trap** `(A→A)→A`).
+> `scripts/experiments/proof_inhabitation.py` (--mode kernel|model|aggregate, mirrors
+> compile_frontend). `tests/test_proof_kernel.py`, `run_proof_inhabitation.sh`.
+> **★ VERDICT (5 models/3 arch; results/proof-inhabitation/):**
+> **(1) KERNEL LAYER SOLID by construction** — 100% floor (all 12 ref proofs typecheck
+> at goal), SOUND (no non-theorem proved by any tempting term), **consistency firewall
+> HOLDS** (Y typed (α→α)→α but sound gate → `unsound_recursion`). Proof normalization
+> IS the continuation; the kernel runs/checks proofs end-to-end for the implicational
+> fragment. **(2) LLM LAYER: proves AXIOMS, fails to COMPOSE.** Sensitivity (theorems
+> proved): Qwen3-32B 0.67, 14B/8B 0.58, Mistral 0.25, OLMo 0.00. **Specificity 1.00 ALL
+> 5, ZERO false proofs** — the model CANNOT bluff past the kernel (compiler-as-loss /
+> co-processor discipline confirmed). Failures concentrate on derived proofs needing
+> 2+ combinators (K I, C B, C I, B K K → model returns a single axiom) = the SAME
+> composition-failure signature as lambda-halt-continuation §"composition fails but
+> continuations solve it." Scale helps mildly (32B best).
+> **★ CAVEATS (λ measure):** base-model numbers CONFOUNDED (OLMo answered `none` 15/20
+> — the single `none` few-shot anchors a raw base continuation; NOT proof-inability;
+> IOU better base gate). Small n (12+8), greedy single-sample, single few-shot, noisy
+> by-complexity. IMPLICATIONAL FRAGMENT ONLY (no ∧∨¬∀∃ — the type-system expressiveness
+> gap stands). Specificity 1.0 trivially gettable by always-`none` (OLMo); the JOINT
+> high-sens∧high-spec (Qwen) + kernel-phase tempting-sweep are the real soundness.
+> **▶ NEXT (the predicted fix): CONTINUATION-DRIVEN PROVER** — multi-turn CPS REPL,
+> prove sub-goals one combinator/rule per turn, chain via the continuation (the
+> lambda-halt-continuation REPL pattern) → does stepwise proving rescue the composition
+> failures? Also: richer type layer (products/sums → ∧/∨; then ∀∃ = the S2 extension);
+> better base-model gate; larger graded probe set.
+> **STATUS s228:** all code ruff+diag clean, 12 pytest. NOT committed. Knowledge page
+> (Curry-Howard proofs-as-continuations) + memories PROPOSED, pending Michael approval.
+> Bug found+fixed mid-run: base models (Mistral/OLMo) have no chat_template → added
+> raw-prompt fallback + `prompt_mode` provenance; re-ran the two, re-aggregated.
+>
 > **■ SESSION 227 — PROSE-NECESSITY IOU RESOLVED (register: topological/routing,
 > causal). The s226 handoff IOU #4: "refine the prose-NECESSITY readout (whole-
 > sentence NLL dilutes; only OLMo decisive)."** Hypothesis to test: was the weak prose
