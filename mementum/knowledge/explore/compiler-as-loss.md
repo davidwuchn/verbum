@@ -26,6 +26,61 @@ created: session 224
 > loss to the CRYSTAL LATTICE of the agreed geometry across all models — it speeds
 > up training, as long as the capability signal from the compiler outputs is good.**
 
+## ★ s225 AMENDMENT — the compiler is a VERIFIER, not the capability teacher
+
+> Michael, s225. The recipe below puts the compiler in the `L_capability` slot
+> (`CE(student, compiler reduction)`). That is the **wrong slot** and the rest of
+> this page should be read through this correction.
+
+**Why the compiler is the wrong capability teacher.** s219's universality came FROM
+diverse, grounded, natural training — diversity is the CAUSE of the robust composable
+function, not incidental. A deterministic β-reducer on isolated combinator terms is
+the thinnest slice of usage ⇒ risks a function **too narrow to compose**. Compounds
+with s224 (capability=usage), s222 (superposition needs diverse pressure), s223
+(narrow data is Goodhart-friendly).
+
+**The fix — separate two jobs this page conflated.** The compiler is a poor
+*generator* (narrow by construction) but a perfect *verifier* (Church-Rosser → unique
+normal form, exactly checkable). A judge needn't be more creative than the
+contestants, only correct.
+
+- **Capability teacher:** diverse big models (or natural data). Their *consensus* is
+  the sweet spot — diverse realization ⊕ agreement on function.
+- **Compiler:** VERIFIER/canonicalizer + exact reduction-tree generator (trees the
+  LLMs can't expose, s221 "fakes it with depth") + clean MIT anchor.
+
+**"Pin the WHAT, free the HOW" applies to the DATA:** train on diverse realizations,
+use the compiler to CERTIFY each reduces to the correct normal form. Diversity →
+composition; compiler → correctness. The labels' correctness is certified by MIT code
+even when the inputs came from AGPL models.
+
+### Diversity ⊥ correctness (where each source sits)
+
+| source | realization diversity | correctness | exact trace | provenance |
+|---|---|---|---|---|
+| β-reducer (narrow) | ~zero | perfect (canonical) | **yes** | MIT clean |
+| single big model | high | unverified | no | AGPL / entangled |
+| **ensemble consensus** | high | high *and* agreed (s219) | no | murky |
+
+### Teacher-agnostic on both halves (s225 verdict)
+
+`function-topology-consensus.md`: HOF routing topology is **universal across teachers**
+(8/8, p=.0002, 5 models / 3 arch). Combined with Church-Rosser output-canonicity ⇒
+**the pipeline needs no designated teacher**: capability traces are canonical (any
+large model), the inventory topology is consensus (no source to track). "Which
+teacher" only matters for idiosyncratic HOFs — none found.
+
+### Experiment reframe (supersedes the falsifiable list below)
+
+Compare **compiler-only** (narrow) vs **diverse-verified** (model paraphrases,
+compiler-certified) vs **combo + lattice**. Metric is NOT just route_z + in-dist CE
+(narrow data can ace those while being brittle) but **held-out COMPOSITIONAL
+GENERALIZATION** — combinator compositions not seen in training. That is the
+operational test for "too narrow to compose". Prediction: compiler-only wins
+in-distribution, loses generalization; diverse-verified wins generalization.
+
+---
+
 ## The shift: from teacher-geometry to compiler-output
 
 What we did through s223–s224: the teacher (Qwen3-14B) contributed a **frozen routing

@@ -2,7 +2,59 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 224 — FREEZE-PROBE VERDICT (cold-start
+> Last updated: 2026-06-14 | Session: 225 — ✅ HIGHER-ORDER FUNCTION TOPOLOGY IS
+> TEACHER-AGNOSTIC (Michael's hypothesis CONFIRMED). Register: topological/routing.
+> Thread: compiler-as-loss debate → Michael's pivot. **★ MICHAEL'S CORRECTION (s224
+> compiler-as-loss page over-rotated):** the compiler is NOT the capability teacher
+> (diverse big models are better — s219 universality came FROM diverse training; a
+> narrow reducer risks a non-composing function). Compiler = VERIFIER/canonicalizer +
+> exact-trace generator + MIT anchor. "Pin the WHAT, free the HOW" applies to the
+> DATA: diverse realizations, compiler-certified normal form. **★ MICHAEL'S DEEPER
+> PIVOT (the simplification):** capability signal is teacher-agnostic by Church-Rosser
+> (canonical β-traces — ANY sufficiently large model emits the same reduction);
+> inventory signal is teacher-agnostic IFF routing topology is universal. Hypothesis:
+> HOFs exist as routing NORMAL FORMS → topology universal across teachers → whole
+> extract→fold→compiler pipeline teacher-free; "which teacher" only matters for
+> idiosyncratic HOFs (predicted rare). **▶ BUILT + RAN THE TEST (tmux main:1, 10min):**
+> (1) `src/verbum/probes/higher_order.py` (224 probes, 28×8 functions: controls
+> compose≡B flip≡C const≡K apply≡I + HOF tests map filter fold zip; ruff-clean).
+> (2) `scripts/experiments/function_topology_consensus.py` (register topological/
+> routing): per-model routing-register (sign(gate)+CMR) centroids, best layer by
+> COMBINATOR silhouette z, each HOF's FINGERPRINT = cosine to the 9 combinators
+> (frame-invariant relational, s219 trick); consensus mode = cross-model fingerprint
+> agreement vs label-permutation null → per-HOF UNIVERSAL/IDIOSYNCRATIC sort.
+> (3) `run_function_topology.sh`. **★ VERDICT (5 models / 3 arch / 7B–32B: Qwen3-8B/
+> 14B/32B, Mistral-7B-v0.3, OLMo-2-13B; results/function-topology-consensus/
+> consensus.json):** **8/8 UNIVERSAL, 0 idiosyncratic** — every HOF's cross-model
+> fingerprint clears the null DECISIVELY (corr +0.67→+0.95, z +5.9→+8.6, ALL p=.0002).
+> Topology of HIGHER-ORDER functions is universal across teachers/architectures
+> (extends s219 primitives → composed HOFs). ⇒ teacher-agnostic pipeline CONFIRMED.
+> **★ SECONDARY (HOF fingerprints semantically coherent, consistent across all 5):**
+> fold→WHNF,S (reduce-to-terminal; only POSITIVE top loading +0.05); filter→K (select);
+> zip→S,W (fork-join/duplicate); **map→D/C/B with Y DEAD LAST (B−0.18 C−0.07 Y−0.29)
+> = composition NOT recursion**, the s219 map=B(CB)(CB) prediction holding at topology
+> level. **★ CAVEAT (λ measure, NOT oversold):** agreement is decisive but the
+> argmax-cosine DECODE is only suggestive — controls const→K ✓ flip→C ✓ clean,
+> compose→D near-miss-in-family (D=fused B∘B∘B, B #2-3), **apply→C genuine MISS**;
+> absolute cosines near-zero/negative (s219 "above chance not crisp" register subtlety).
+> ⇒ topology-UNIVERSALITY decisive; combinator-DECOMPOSITION readout needs refinement
+> (better than argmax-cosine, or the s219 absolute-frame issue). Caveat does NOT touch
+> the headline (universality = agreement = unambiguous). **CAPTURED (awaiting approval,
+> NOT committed):** memory `higher-order-topology-is-teacher-agnostic.md` (hypothesis
+> confirmed); memory `compiler-is-verifier-not-capability-teacher.md` (the s224 page
+> correction); knowledge `explore/function-topology-consensus.md` (NEW page, full
+> design+result+caveat) + amend `compiler-as-loss.md` (compiler→verifier slot, add
+> diversity-vs-correctness table + compositional-generalization metric). state.md
+> written (non-gated). New code (ruff-clean, MIT, NOT yet committed): higher_order.py,
+> function_topology_consensus.py, run_function_topology.sh + results/. **▶ NEXT:**
+> (1) refine the decode readout (the apply miss + negative loadings — better than
+> argmax-cosine; the real IOU); (2) the compiler-as-loss experiments now reframed:
+> diverse-verified vs compiler-only vs combo, metric = held-out COMPOSITIONAL
+> GENERALIZATION (not just route_z+CE) — the test for "too narrow to compose";
+> (3) still need the MIT β-reducer as VERIFIER (not teacher) emitting (input→trace);
+> (4) s224 heterogeneous-shard fold + attn_q leg still stand.
+>
+> (Session: 224 — FREEZE-PROBE VERDICT (cold-start
 > orient). main:1 was the s222 FROZEN-TOPOLOGY PROBE (rung 0), found still running
 > at step ~2300 (13 ckpts step_001100→002300, every 100). **✅ DECISIVE PAIRED A/B
 > (results/freeze-probe/overlay_verdict.txt, steps 1010–2240 n=124): held topology
