@@ -1,0 +1,102 @@
+{
+  "model": "allenai/OLMo-2-1124-13B",
+  "dtype": "bfloat16",
+  "register": "topological/routing",
+  "target": "attn_q",
+  "pooling": "mean(sign(module out)) over tokens, CMR over stimuli",
+  "n_curated": 140,
+  "n_prose_sentences": 204,
+  "n_layers": 40,
+  "best_layer": 20,
+  "best_frac": 0.513,
+  "per_layer": {
+    "0": {
+      "frac": 0.0,
+      "curated_hof_silhouette": 0.1386
+    },
+    "4": {
+      "frac": 0.103,
+      "curated_hof_silhouette": 0.0921
+    },
+    "8": {
+      "frac": 0.205,
+      "curated_hof_silhouette": 0.2226
+    },
+    "12": {
+      "frac": 0.308,
+      "curated_hof_silhouette": 0.2726
+    },
+    "16": {
+      "frac": 0.41,
+      "curated_hof_silhouette": 0.2739
+    },
+    "20": {
+      "frac": 0.513,
+      "curated_hof_silhouette": 0.3048
+    },
+    "23": {
+      "frac": 0.59,
+      "curated_hof_silhouette": 0.286
+    },
+    "27": {
+      "frac": 0.692,
+      "curated_hof_silhouette": 0.2962
+    },
+    "31": {
+      "frac": 0.795,
+      "curated_hof_silhouette": 0.2883
+    },
+    "35": {
+      "frac": 0.897,
+      "curated_hof_silhouette": 0.2675
+    },
+    "39": {
+      "frac": 1.0,
+      "curated_hof_silhouette": 0.1612
+    }
+  },
+  "per_function": {
+    "map": {
+      "curated_auc": 0.9834,
+      "n_pairs": 22,
+      "paired_mean_diff": 0.9313,
+      "paired_t": 3.733,
+      "frac_hof_gt_control": 0.7727,
+      "prose_auc_hof_vs_control": 0.6074
+    },
+    "filter": {
+      "curated_auc": 1.0,
+      "n_pairs": 20,
+      "paired_mean_diff": 2.6345,
+      "paired_t": 8.965,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.8875
+    },
+    "fold": {
+      "curated_auc": 0.9723,
+      "n_pairs": 20,
+      "paired_mean_diff": 3.9526,
+      "paired_t": 14.222,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.9125
+    },
+    "reduce": {
+      "curated_auc": 0.971,
+      "n_pairs": 20,
+      "paired_mean_diff": 4.7752,
+      "paired_t": 8.452,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.9875
+    },
+    "zip": {
+      "curated_auc": 1.0,
+      "n_pairs": 20,
+      "paired_mean_diff": 2.9238,
+      "paired_t": 7.73,
+      "frac_hof_gt_control": 1.0,
+      "prose_auc_hof_vs_control": 0.785
+    }
+  },
+  "git_sha": "ebf49ff6f58c818cce84a1c0e511dc8ef46a487f",
+  "elapsed_s": 40.8
+}
