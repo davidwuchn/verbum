@@ -1,0 +1,74 @@
+{
+  "models": [
+    "Qwen/Qwen3-14B",
+    "Qwen/Qwen3-32B",
+    "Qwen/Qwen3-8B",
+    "allenai/OLMo-2-1124-13B",
+    "mistralai/Mistral-7B-v0.3"
+  ],
+  "rows": [
+    {
+      "model": "Qwen/Qwen3-14B",
+      "list_readable": 0.03458,
+      "list_surface": 0.03776,
+      "list_r_gt_surf": false,
+      "prose_readable": -0.00387,
+      "prose_surface": 0.01629,
+      "prose_random": -0.00821,
+      "prose_zone_t": -0.596,
+      "prose_r_gt_surf": false,
+      "prose_r_gt_rand": true
+    },
+    {
+      "model": "Qwen/Qwen3-32B",
+      "list_readable": 0.02859,
+      "list_surface": 0.07951,
+      "list_r_gt_surf": false,
+      "prose_readable": -0.00446,
+      "prose_surface": -0.02575,
+      "prose_random": -0.00085,
+      "prose_zone_t": -1.718,
+      "prose_r_gt_surf": true,
+      "prose_r_gt_rand": false
+    },
+    {
+      "model": "Qwen/Qwen3-8B",
+      "list_readable": 0.01241,
+      "list_surface": 0.00364,
+      "list_r_gt_surf": true,
+      "prose_readable": 0.00653,
+      "prose_surface": -0.00513,
+      "prose_random": -0.02235,
+      "prose_zone_t": 0.4,
+      "prose_r_gt_surf": true,
+      "prose_r_gt_rand": true
+    },
+    {
+      "model": "allenai/OLMo-2-1124-13B",
+      "list_readable": 0.09836,
+      "list_surface": 0.00769,
+      "list_r_gt_surf": true,
+      "prose_readable": 0.00258,
+      "prose_surface": 0.00176,
+      "prose_random": -0.00101,
+      "prose_zone_t": 0.414,
+      "prose_r_gt_surf": true,
+      "prose_r_gt_rand": true
+    },
+    {
+      "model": "mistralai/Mistral-7B-v0.3",
+      "list_readable": 0.08114,
+      "list_surface": 0.01646,
+      "list_r_gt_surf": true,
+      "prose_readable": 0.00313,
+      "prose_surface": 0.00234,
+      "prose_random": -0.00777,
+      "prose_zone_t": 0.612,
+      "prose_r_gt_surf": true,
+      "prose_r_gt_rand": true
+    }
+  ],
+  "n_prose_readable_necessary": 0,
+  "n_prose_readable_gt_surface": 4,
+  "git_sha": "7f859f6a0cecbee78cbc3c0c6ea427a876ccbed8"
+}
