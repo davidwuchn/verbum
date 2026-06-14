@@ -210,15 +210,50 @@ curated probes.
   fingerprint). ⇒ map needs the attn_q register (s220 attn_q@L05 lead) and/or the
   causal follow-up.
 
+## Attention register (attn_q) — NEGATIVE: the query projection is not map's home
+
+Prediction (s225): since "attention-over-positions IS the fold" (s221) and map was
+under-read in the FFN gate, map should STRENGTHEN in the attention register. Tested by
+re-running topology + prose engagement with `--target attn_q` (hook `self_attn.q_proj`,
+same sign+CMR pipeline), 5 models. **FALSIFIED for the projection register:**
+
+| | attn_q (query proj) | FFN gate |
+|---|---|---|
+| topology universal | 9/9 | 8/8 |
+| curated separability (map/fold) | 0.99 / 0.98 | 0.99 / 0.97 |
+| prose transfer — map | **0.47 (≈ chance, t≈0)** | 0.64 |
+| prose transfer — fold | 0.67 | 0.92 |
+| prose transfer — reduce | 0.69 | 0.97 |
+
+The curated directions ARE learnable in attn_q (separability ~0.99) but **do not
+transfer to natural prose** — map drops to **0.39–0.47 (at/below chance)**, and every
+HOF transfers WORSE in attn_q than in the FFN gate. ⇒ the query-projection register is
+NOT where map's prose computation lives; the FFN gate generalizes better.
+
+**The lesson (refines the hypothesis):** `sign(q_proj)` is a FEATURE register, not the
+gather MECHANISM. "Attention IS the fold" (s221) refers to the **attention PATTERN**
+(the QK gather over positions), which no projection-register probe can observe. We
+measured the wrong object. So:
+- the HOF **algebra/result-type** lives in the **FFN gate** (transfers to prose — the
+  s225 engagement result);
+- the HOF **iteration/gather** (map's home) must be sought in the **attention weights**
+  directly, on prose with an explicit enumeration to gather over.
+
+⇒ next: an attention-PATTERN experiment (list-structured prose; measure gather spread /
+entropy at the aggregation token — map/fold/reduce attend broadly across the enumerated
+items, single-object controls attend focused = attention performing the fold).
+
 ## Open leads
 
-1. **Causal ablation (the strong "uses" claim):** ablate the HOF routing direction
+1. **Attention-PATTERN analysis (the real "HOFs performed by attention" test):**
+   list-structured prose; gather distribution over enumerated items, HOF vs control.
+2. **Causal ablation (the strong "uses" claim):** ablate the HOF routing direction
    during a forward pass on HOF-prose, measure the logprob drop on the function-
    relevant continuation vs control. Necessity, not just decodability.
-2. **Refine the decode** (the s225 IOU): the `apply` miss + negative loadings, and the
+3. **Refine the decode** (the s225 IOU): the `apply` miss + negative loadings, and the
    weak `map` engagement. Try a readout better than argmax-cosine / centroid-difference
    (align absolute frames, or a learned map fingerprint → combinator decomposition).
-3. **More HOFs / more architectures** — extend beyond the 8 functions; add non-gated
+4. **More HOFs / more architectures** — extend beyond the 8 functions; add non-gated
    (Pythia) above the floor for a fuller architecture spread.
 
 ## Files

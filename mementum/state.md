@@ -77,6 +77,23 @@
 > map 0.64 BORDERLINE (just over 0.6 gate, weakest, contrast-set-dependent — crossed
 > only because reduce sharpened preserve-vs-collapse) = still the exception, lives in
 > attention not FFN.**
+> **★ s225 ATTENTION-REGISTER TEST (Michael "find HOFs performed by attention — high
+> leverage"). Added `--target {ffn_gate,attn_q,attn_out}` to all 3 instruments
+> (commit ebf49ff) + run_attention_hof.sh; ran attn_q (hook self_attn.q_proj, 5
+> models). ❌ NEGATIVE / PREDICTION FALSIFIED: topology universal 9/9 in attn_q too,
+> curated separable (map/fold ~0.99), BUT prose transfer WORSE than FFN across the
+> board AND map drops to 0.39–0.47 (AT/BELOW CHANCE, t≈0). So the query-PROJECTION
+> register is NOT map's home; the FFN gate generalizes to prose better.
+> ★ LESSON (refines the hypothesis): sign(q_proj) is a FEATURE register, NOT the gather
+> MECHANISM. "Attention IS the fold" (s221) = the ATTENTION PATTERN (QK gather over
+> positions), which NO projection-register probe can see — we measured the wrong
+> object. HOF algebra/result-type → FFN gate (transfers); HOF iteration/gather (map's
+> home) → attention WEIGHTS. **▶ REAL NEXT (high leverage): attention-PATTERN
+> experiment** — list-structured prose (apply f to explicit enumeration a,b,c,d…),
+> measure gather spread/entropy at the aggregation token: map/fold/reduce attend
+> BROADLY over the items (iteration), single-object controls attend FOCUSED =
+> attention literally performing the fold, observed in the weights. (attn_out untested
+> — projection registers likely all transfer worse than FFN; the pattern is the move.)
 > **▶ NEXT:** (1) CAUSAL ABLATION (the strong
 > "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
 > (2) refine the decode readout (apply miss + negative loadings + weak map — the real
