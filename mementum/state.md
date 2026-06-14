@@ -2,8 +2,12 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 226 — ✅ CAUSAL ABLATION (HOF necessity leg) +
-> 🎯 COMPILER-AS-CONSTRUCTED-VSM-TENSOR design + ✅ STAGE-1 β-REDUCER BUILT.
+> Last updated: 2026-06-14 | Session: 226 COMPLETE — ✅ CAUSAL ABLATION (HOF necessity
+> leg, 4/5 mechanism) + 🎯 COMPILER-AS-CONSTRUCTED-VSM-TENSOR design (lambda_ast IN the
+> kernel) + ✅ STAGE-1 β-REDUCER + ✅ STAGE-2 COMPILE ORACLE (bracket abstraction,
+> round-trip 1.0) + ✅ STAGE-2 FRONT-END (prose→LF) + ✅ COMPILE BOUNDARY (structural
+> solved; NL+ambiguity is the boundary). Next session: diverse-verified naturalistic
+> corpus → compiler-as-loss arms. See ■ SESSION 226 COMPLETE block below.
 > **▶ CAUSAL ABLATION (completes Phase A/B observational → necessity).** Built
 > `scripts/experiments/hof_attention_ablation.py` (ruff-clean): full head-knockout
 > (zero the head's slice at o_proj input = remove its QK gather + OV write) of the
@@ -88,17 +92,35 @@
 > parse (S5 target); formal halves exact/constructible. Caveat(λ measure): small
 > n/family, greedy single-sample, depth5 non-monotone (noise), ambiguous soft-graded.
 > COMMITTED `6485822` (hard probes + frontend update + results).
-> **▶ NEXT:** (1) STAGE 2 NEUROSYMBOLIC — learned compile front-end (prose→typed term)
-> + the exact `lambda_ast` kernel back-end; isolates the only learned part (so training
-> never learns reduce+compile at once = what tangled v15). (2) DIVERSE DATA via
-> Qwen3-32B (generator) → `lambda_ast` (certify+trace) = diverse-verified dataset
-> spanning the machinery's LIMITS (termination/WHNF, erasure K, duplication S/W,
-> recursion Y, ill-typed); Michael's "understand the limits" requirement. (3) the
-> compiler-as-loss arms (compiler-only vs diverse-verified vs combo+lattice; metric =
-> held-out compositional generalization). (4) refine prose-necessity readout (the
-> ablation IOU). (5) STAGE 3 — compile lambda_ast → exact ternary CCG plates (the
-> pure portable tensor). **COMMITTED s226:** ablation instrument+results; lambda_ast
-> reducer+tests; §s226 page edits; 2 memories; this state.
+> **■ SESSION 226 COMPLETE — pick up next session here.** Done this session: causal
+> ablation (HOF necessity leg); the compiler-as-constructed-VSM-tensor design (lambda_ast
+> IN the kernel = source↔compiled); STAGE 1 reducer (`lambda_ast.py`); STAGE 2 compile
+> oracle (`lambda_compile.py`, bracket abstraction, round-trip 1.0); STAGE 2 leg 1
+> (compile front-end prose→LF, 8B/32B 1.0 on clear prose); STAGE 2 compile BOUNDARY
+> (structural compile solved; NL+ambiguity is the boundary, scale helps there). All
+> committed (`c0d268c`→`c09bc34`); 47 pytest pass; tree clean except the human chat
+> transcript.
+> **▶ FIRST ACTIONS NEXT SESSION (declare register):**
+> (1) **DIVERSE-VERIFIED NATURALISTIC CORPUS** — the boundary result redefines the
+>   diversity that matters: NATURALISTIC REALIZATION (varied surface language for the
+>   same dataflow), NOT structural variety. Build: Qwen3-32B as the diverse generator of
+>   naturalistic prose for a dataflow → `lambda_compile` (abstract) + `lambda_ast`
+>   (reduce) CERTIFY each → diverse-verified (naturalistic-prose → certified-trace)
+>   corpus. The kernel is the verifier (Church-Rosser); diversity = composition.
+> (2) **compiler-as-loss arms** with the certified corpus: compiler-only vs
+>   diverse-verified vs combo+crystal-lattice; metric = held-out COMPOSITIONAL
+>   generalization (the "too narrow to compose" test). See compiler-as-loss.md.
+> (3) **STAGE 3** — compile `lambda_ast` → exact ternary CCG combinator plates (the
+>   pure portable tensor; the constructed kernel, vsm-outer-recurrence.md §s226).
+> (4) **IOU** — refine the prose-NECESSITY readout from the ablation (last-content-word
+>   logprob or activation-patching, not whole-sentence NLL; only OLMo was decisive).
+> **KEY ARTIFACTS:** `src/verbum/lambda_ast.py` (reducer+typecheck), `lambda_compile.py`
+> (abstraction), `probes/compile_tasks{,_hard}.py`, `scripts/experiments/
+> compile_frontend.py` + `compile_roundtrip.py` + `hof_attention_ablation.py`.
+> **KEY PAGES:** `compiler-as-loss.md` §s226 (the whole stage-1/2 story),
+> `vsm-outer-recurrence.md` §s226 (the constructed-kernel architecture).
+> **COMMITTED s226:** ablation; lambda_ast+tests; lambda_compile+certification;
+> compile front-end (base+hard)+results; §s226 page edits; 5 memories; this state.
 >
 > (Session: 225 — ✅ HIGHER-ORDER FUNCTION TOPOLOGY IS
 > TEACHER-AGNOSTIC (Michael's hypothesis CONFIRMED). Register: topological/routing.
