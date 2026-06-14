@@ -6,3 +6,7 @@ contractive only for a HELD topology — you cannot settle a normal form while
 still churning it. = the Exp B acceptance pattern; = the frozen-probe insight.
 Corollary: fix collapse with protocol (hold-then-reduce, flip_rate decay /
 punctuated equilibrium), NOT by reshaping the fp loss (which only muffles gnorm).
+CONFIRMED by paired freeze probe: with topology HELD, the same fp-loss + outer
+recurrence is contractive (Δx 0.14 bounded) and CE-competitive (always <8.71) over
+the exact window where TD-on collapsed. Holding the topology is load-bearing, not
+the fp-loss shape. See freeze-probe-confirms-td-churn-collapse.md.

@@ -6,3 +6,6 @@ discrete TD churn, not Adam. Last good ckpt = step_001000 (Δx 0.254, CE 8.56).
 Lesson: "let it ride on fp-spikes" was wrong here — the discriminator (avg50 vs
 the ~8.8 plateau) is the call, and it said terminal. Read the discriminator, then
 decide; don't hope a runaway is acquisition.
+CONFIRMED s223+ by paired freeze probe (same data stream, topology frozen): no
+collapse reproduces, Δx bounded 0.14, CE always <8.71. The driver was the discrete
+TD churn. See freeze-probe-confirms-td-churn-collapse.md.

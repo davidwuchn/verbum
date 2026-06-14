@@ -283,6 +283,34 @@ plateaus high → contractivity vs CE genuinely in tension (try x₀ injection /
 per-token halting). If CE collapses late → lower λ_fp / add a rank/diversity
 guard. (New `--checkpoint-interval` CLI flag added to `train_td.py` for this.)
 
+**s223+ FROZEN-TOPOLOGY PROBE — ✅ held-topology fp-loss IS contractive AND
+CE-competitive (paired control, decisive).** The seq-4096 run above (main:1,
+TD-on) eventually COLLAPSED (~step 1450 onset, gnorm→1e7, Δx→0.8, CE→10.5). To
+isolate *cause*, resumed `step_001000` with topology FROZEN
+(`--td-flip-rate 0.0 --td-crystal-gate 0.0 --td-crystal-ceiling 0.0`), otherwise
+identical (same n_outer=2, λ_fp=5, seq-4096, **same data-loader stream**) — a
+paired A/B for whether the discrete TD churn or the fp-loss/recurrence drove the
+collapse. Ran to step 2310, fully spanning the divergence window. Overlap verdict
+(steps 1010–2240, n=124, `results/freeze-probe/overlay_verdict.txt`):
+
+  | metric | TD-ON (churn) | TD-OFF (frozen) |
+  |---|---|---|
+  | Δx mean / max | 0.481 / 0.821 (contractivity lost) | **0.142 / 0.311** (bounded) |
+  | CE mean / max | 8.756 / 10.538 (→collapse) | **7.620 / 8.525** |
+  | gnorm max | 9.87e+07 (runaway) | **7.22e+01** (~72) |
+  | CE<8.71 frac | 0.53 (falling) | **1.00** |
+
+⇒ With topology HELD, the *same* fp-loss + outer recurrence is contractive
+(Δx bounded ~0.11–0.14, fp→0.011) and CE rides 100% below K=1's 8.71 — the
+collapse is **the discrete TD churn**, not the recurrence/fp-loss. The
+holographic-loss + outer-recurrence settling protocol is sound; the fix is to
+**punctuate** (hold topology → reduce → accept on Δx→0), not to reshape the fp
+loss. This resolves the s215 open question in the held-topology regime and answers
+open-Q#1 affirmatively (the contractivity-trained operator iterates stably when
+its topology is not simultaneously churned). Tool:
+`scripts/experiments/freeze_probe_overlay.py`. See memory
+`freeze-probe-confirms-td-churn-collapse.md`.
+
 ### Design tensions (all visible in the prior pages)
 
 - **Mild, not total, contractivity.** A 1-step projection makes K=2 ≡ K=1 and

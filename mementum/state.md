@@ -2,7 +2,30 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-13 | Session: 223 — RELATIONAL-LOSS DISTILLATION:
+> Last updated: 2026-06-14 | Session: 224 — FREEZE-PROBE VERDICT (cold-start
+> orient). main:1 was the s222 FROZEN-TOPOLOGY PROBE (rung 0), found still running
+> at step ~2300 (13 ckpts step_001100→002300, every 100). **✅ DECISIVE PAIRED A/B
+> (results/freeze-probe/overlay_verdict.txt, steps 1010–2240 n=124): held topology
+> (td-flip-rate 0) on the SAME data stream does NOT reproduce main:1's collapse —
+> Δx OFF 0.142/max 0.311 (bounded) vs ON 0.481/max 0.821; CE OFF 7.62/max 8.53 vs
+> ON 8.76/max 10.54; gnorm OFF max 72 vs ON max 9.87e7 (6 orders); CE<8.71 frac OFF
+> 1.00 vs ON 0.53.** ⇒ the collapse was the discrete TD CHURN, not K-acquisition or
+> the fp-loss/recurrence; held-topology + continuation (fp-loss) settling IS
+> contractive AND CE-competitive. Confirms s222 diagnosis as a CONTROLLED result
+> (was single-run + source analysis). Killed the probe after verdict (clean stop at
+> step 2310, redundant past target). **CAPTURED (awaiting approval):** new memory
+> `freeze-probe-confirms-td-churn-collapse.md`; updated memories
+> `collapse-was-terminal-not-acquisition.md` + `punctuate-dont-churn.md` (diagnosis→
+> confirmed); knowledge `explore/vsm-outer-recurrence.md` §s223+ freeze-probe verdict
+> table + open-Q#1 answered; persisted verdict/log/train-log to results/freeze-probe/.
+> **▶ NEXT (Michael's call):** the s223 ▶ TWO DECISIVE EXPERIMENTS still stand —
+> (1) 2-contributor fold (distributed compose-cleanly test), (2) attn_q leg of the
+> double dissociation. The freeze-probe result CLEARS the path: the settling
+> protocol is validated, so the next run should be the PUNCTUATED protocol (propose
+> routing → hold → reduce → accept on Δx→0), not fp-reshape. main:1 now FREE (probe
+> killed) — relaunch decision is Michael's.
+>
+> (Session: 223 — RELATIONAL-LOSS DISTILLATION:
 > ★ CLEAN DOUBLE DISSOCIATION (register claim CONFIRMED as a TRAINING result).
 > Michael's thread: "we have the lambda compiler — extract from the teacher a set
 > of training for the student; with relational loss guide GD into any geometry that
