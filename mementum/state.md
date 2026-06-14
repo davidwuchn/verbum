@@ -2,12 +2,128 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 226 COMPLETE — ✅ CAUSAL ABLATION (HOF necessity
-> leg, 4/5 mechanism) + 🎯 COMPILER-AS-CONSTRUCTED-VSM-TENSOR design (lambda_ast IN the
-> kernel) + ✅ STAGE-1 β-REDUCER + ✅ STAGE-2 COMPILE ORACLE (bracket abstraction,
-> round-trip 1.0) + ✅ STAGE-2 FRONT-END (prose→LF) + ✅ COMPILE BOUNDARY (structural
-> solved; NL+ambiguity is the boundary). Next session: diverse-verified naturalistic
-> corpus → compiler-as-loss arms. See ■ SESSION 226 COMPLETE block below.
+> Last updated: 2026-06-14 | Session: 227 IN PROGRESS — ✅ PROSE-NECESSITY IOU RESOLVED
+> (s227 readout refined 3 ways: dilution FALSIFIED, power+register-limited) + ✅
+> READABILITY/REGISTER CONFIRMED IN-DOMAIN (s227b value-register logit-lens: in-domain
+> necessity concentrated in the readable zone, surface understated up to ~35x; prose
+> still 0/5) + ▶ ENUM-PROSE BRIDGE RUNNING in tmux main:1 (s227c: does the gather
+> circuit re-engage when prose carries a literal enumeration?). See ■ SESSION 227
+> blocks below. (s226 COMPLETE —
+> ✅ CAUSAL ABLATION (HOF necessity leg, 4/5 mechanism) + 🎯 COMPILER-AS-CONSTRUCTED-
+> VSM-TENSOR design (lambda_ast IN the kernel) + ✅ STAGE-1 β-REDUCER + ✅ STAGE-2
+> COMPILE ORACLE (bracket abstraction, round-trip 1.0) + ✅ STAGE-2 FRONT-END
+> (prose→LF) + ✅ COMPILE BOUNDARY (structural solved; NL+ambiguity is the boundary).
+> Next: diverse-verified naturalistic corpus → compiler-as-loss arms. See ■ SESSION
+> 226 COMPLETE block below.)
+> **■ SESSION 227 — PROSE-NECESSITY IOU RESOLVED (register: topological/routing,
+> causal). The s226 handoff IOU #4: "refine the prose-NECESSITY readout (whole-
+> sentence NLL dilutes; only OLMo decisive)."** Hypothesis to test: was the weak prose
+> leg (1/5 vs 4/5 mechanism) a DILUTION ARTIFACT of whole-sentence mean-NLL?
+> **▶ BUILT (additive to `hof_attention_ablation.py`, ruff+diagnostics clean; old
+> whole-sentence readout PRESERVED for back-compat):** three prose readouts of the
+> SAME diff-in-diff interaction `effect(hof)−effect(control)`:
+> (1) **region (PRIMARY, the IOU fix)** — NLL over ONLY the divergent-middle tokens of
+>   each minimal pair (drop the shared token prefix/suffix via `region_bounds`), i.e.
+>   literally remove the diluting shared tokens ('each plant' vs 'the plant');
+> (2) **lastkl (secondary)** — KL of the continuation distribution at the final token =
+>   the SAME metric as the LIST leg (cross-leg consistency);
+> (3) **whole (reference)** — the s226 whole-sentence mean-NLL.
+> Re-ran all 5 models (Qwen3-8B/14B/32B, Mistral-7B-v0.3, OLMo-2-13B; `results/hof-
+> attention-ablation/aggregate.json`; ~10min, bg job clean exit).
+> **★ VERDICT (λ measure, honest):** **DILUTION HYPOTHESIS FALSIFIED.** The de-diluted
+> region readout gives the SAME strict per-model count as whole-sentence: list **4/5**
+> (reproduces s226 exactly), region **1/5** (only OLMo t=+2.29), lastkl **0/5**, whole
+> **1/5**. A sharper readout did NOT rescue per-model significance ⇒ the weak prose leg
+> was NOT a metric artifact.
+> **★ BUT region IS the better readout — it fixed cross-model COHERENCE (recorded in
+> aggregate `cross_model`):** region is directionally POSITIVE 5/5 (sign p1=0.031) AND
+> gather>random 5/5, Stouffer z=+3.18 (t_mean +1.42); whereas whole-sentence had 14B
+> at the WRONG SIGN (−0.04) → only 4/5 positive, 4/5 gt-random. So whole-sentence was
+> adding sign-flip noise; region removed it. **lastkl is NULL (t_mean +0.03, Stouffer
+> +0.06, 3/5 positive) = the continuation-at-final-token is the WRONG LOCUS** (these
+> prose stems end at arbitrary determiners/prepositions, not at the HOF result slot) —
+> readout ruled out.
+> **★ FOUNDATION CONCLUSION (solid):** in-domain causal necessity is SOLID (list 4/5);
+> prose-generalization necessity is REAL and cross-model-CONSISTENT (region 5/5
+> directional + 5/5 specificity, combined sign p=0.031) but SMALL — per-model robust
+> only in OLMo. **The limit is statistical POWER / effect size (~+0.01 NLL at n=80
+> engaged pairs), NOT the metric.** Caveat: Stouffer assumes independent per-model t's
+> but they share the prose pairs (positively correlated → Stouffer overstates); the
+> sign test (5/5, p=0.031) is the assumption-free conservative claim.
+> **▶ REMAINING IOU (for a per-model-robust prose claim — NOT a readout problem):**
+> (a) **activation patching** (cleaner/larger causal effect than full head-knockout
+>   NLL) — the gold-standard next lever; (b) **more prose pairs** (power at n=80);
+>   (c) a **pooled per-pair mixed-effects test** (model as random effect) — needs the
+>   script to dump per-pair region interactions (currently only aggregate stats saved).
+> **▶ s227b — VALUE-REGISTER LOGIT-LENS ABLATION (Michael: "are we looking in the
+> right place? what must hold for the projection to SHOW the β-reduction?").** Recall
+> surfaced the READABILITY CONDITION (FFN reduction trace s187 / compilation-pipeline
+> s192): mid-stack L7–L22 the reduction is written ORTHOGONAL to vocabulary (null-space
+> compose, INVISIBLE); vocab-READABLE only at L23–L35. ⇒ surface NLL is the wrong
+> projection for a mid-stack substitution. Captured `knowledge/explore/readout-register-
+> reduction-readability.md` (the two-axis register rule: value/OV not attn-weight/q_proj
+> per s206+s225; readable layer not surface). Built `scripts/experiments/
+> hof_ov_logitlens_ablation.py` (+ run_hof_ov_logitlens.sh; ruff+diag clean): same head-
+> knockout, READOUT = per-layer KL(clean||ablated) of `lm_head(norm(residual_L))` at the
+> last token, diff-in-diff hof-control, vs random; headline = READABLE ZONE (depth≥0.6)
+> vs SURFACE. Ran 5 models in tmux main:1 (`results/hof-ov-logitlens/`, ~1.5h, clean).
+> **★ VERDICT (λ measure, honest — TWO-SIDED):**
+> **(1) READABILITY CONDITION CONFIRMED IN-DOMAIN (the register lesson holds).** LIST
+> necessity is CONCENTRATED in the readable zone, far above surface: OLMo peak@L23(d=0.6)
+> KL +0.273 vs surface +0.008 (≈35×); Mistral peak@L27(d=0.875) +0.168 vs +0.017 (≈10×);
+> 8B peak@L30(d=0.861) +0.112 vs +0.004. 4/5 LIST peaks sit in the readable zone (d
+> 0.6–0.9), right AT/after the gather heads' own layers (OLMo L23, Mistral L27) — knocking
+> the gather heads breaks the readable reduction exactly where they write. Surface
+> dramatically UNDERSTATED in-domain necessity (s226/s227 read the wrong locus). LIST
+> readable>random clean for OLMo/Mistral, marginal 14B; FAILS specificity for 8B/32B
+> (zone-AVERAGE dilutes the narrow peak — peak-vs-random is the sharper IOU test).
+> **(2) PROSE NECESSITY STILL NOT RESCUED (register was NOT the prose bottleneck).**
+> readable-necessary (zoneT>2 & >rand) **0/5**; readable>surface 4/5 but values tiny.
+> Where a prose signal exists it IS in the right zone (8B peak d=0.69, OLMo d=0.625,
+> Mistral d=0.94; zoneT +0.40/+0.41/+0.61, >random) but too small; Qwen 14B/32B
+> NEGATIVE (zoneT −0.60/−1.72). So even read at the correct register+locus, prose HOF
+> necessity is genuinely SMALL.
+> **★ SYNTHESIS (two independent refinements agree):** s227 de-diluted region NLL AND
+> s227b value-register readable logit-lens BOTH leave prose non-significant ⇒ prose
+> recruitment is REAL but weak (consistent with s225 modest prose engagement; map not
+> engaged), NOT a dilution or register artifact. The in-domain β-reduction necessity is
+> SOLID and now shown legible in the value register at the readable layers (strengthens
+> the compilation-pipeline readability story with a causal+value confirmation). Arch
+> split persists: OLMo/Mistral clean, Qwen muddy (same models that misbehaved in s227).
+> **▶ REMAINING IOU (now well-specified):** (a) **OV-path / activation patching** —
+> isolate the OV substitution (whole-head knockout removes QK+OV together; too blunt);
+> (b) **peak-based readout** (not zone-average — the average dilutes the narrow peak,
+> caused the 8B/32B specificity fail); (c) more prose pairs (power) OR accept prose
+> recruitment is weak and proceed to the construction/training threads on the solid
+> in-domain foundation.
+> **▶ s227c — ENUM-PROSE BRIDGE (Michael: "so prose is not using HOFs?" → the sharp
+> resolution test). KEY DISTINCTION restated: ENGAGEMENT (s225, robust: prose recruits
+> fold/reduce/filter/zip, AUC 0.81–0.97, 5/5; map not) ≠ NECESSITY (s226/s227b, weak on
+> plain prose). Hypothesis: plain prose has NO literal list to gather over, so the
+> explicit-enumeration gather circuit is the right mechanism ONLY when an enumeration is
+> present.** TEST: inject a literal "A, B, and C" enumeration into naturalistic prose and
+> re-measure causal necessity in the value register. Built `src/verbum/probes/
+> hof_prose_enum.py` (70 minimal pairs, 14×5 fns, 56 engaged; BOTH members carry the
+> SAME 3-item list → diff-in-diff isolates the HOF ITERATION over the list, not
+> list-presence) + `--prose-set {plain,enum}` on `hof_ov_logitlens_ablation.py` (separate
+> results dir `results/hof-ov-logitlens-enum/`; ruff+diag clean; smoke OK). **RUNNING in
+> tmux main:1** (`/tmp/hof_ov_logitlens_enum_s227.log`, 5 models, ~1.5h; ends "ALLDONE").
+> **FALSIFIABLE PREDICTION (read aggregate next):** if enum readable-zone necessity
+> RECOVERS toward in-domain (rises, beats random, zoneT climbs) vs plain's 0/5 ⇒ the
+> gather circuit KEYS OFF EXPLICIT ENUMERATION; plain prose was weak only for lack of a
+> gather target (prose DOES use HOFs). If it stays weak like plain ⇒ prose composition
+> is genuinely distributed/non-enumeration and the in-domain circuit is special to
+> artificial lists. Either way decisive for "using the heads vs representing the concept."
+> **▶ FIRST ACTION NEXT (or when job done):** read `results/hof-ov-logitlens-enum/
+> aggregate.json`, compare enum vs plain (`results/hof-ov-logitlens/aggregate.json`),
+> record verdict (task #9).
+> **STATUS s227:** all code ruff+diag clean. Results: hof-attention-ablation aggregate
+> (w/ cross_model); hof-ov-logitlens (plain, 5 models + aggregate). New knowledge page
+> readout-register-reduction-readability.md (+s227b result + s227c next). hof_prose_enum
+> + enum run IN FLIGHT (main:1). NOT committed. Memory/knowledge proposals pending
+> Michael approval. Proposed memories: (1) prose-necessity power+register not metric
+> (s227/s227b); (2) the-register-was-right-the-prose-effect-is-small (s227b); (3) [after
+> enum] engagement-vs-necessity / gather-keys-off-enumeration.
 > **▶ CAUSAL ABLATION (completes Phase A/B observational → necessity).** Built
 > `scripts/experiments/hof_attention_ablation.py` (ruff-clean): full head-knockout
 > (zero the head's slice at o_proj input = remove its QK gather + OV write) of the
