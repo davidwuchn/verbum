@@ -55,78 +55,209 @@
       "kl_interaction": -0.00213
     }
   },
-  "prose_nll": {
-    "gather": {
-      "dNLL_hof": 0.0154,
-      "dNLL_ctrl": 0.00944,
-      "interaction_mean": 0.00596,
-      "interaction_t": 2.143,
-      "frac_hof_gt_ctrl": 0.5588,
-      "n_pairs": 102,
-      "engaged": {
-        "interaction_mean": 0.00993,
-        "interaction_t": 3.206,
-        "frac_hof_gt_ctrl": 0.6,
-        "n_pairs": 80
+  "prose": {
+    "readout": "diff-in-diff (hof-control) of ablation effect; region=PRIMARY (divergent-middle NLL), lastkl=secondary (continuation KL, list-leg metric), whole=s226 reference (whole-sentence NLL)",
+    "region": {
+      "gather": {
+        "hof": 0.01624,
+        "ctrl": 0.00752,
+        "interaction_mean": 0.00872,
+        "interaction_t": 2.34,
+        "frac_hof_gt_ctrl": 0.5392,
+        "n_pairs": 102,
+        "engaged": {
+          "interaction_mean": 0.00984,
+          "interaction_t": 2.292,
+          "frac_hof_gt_ctrl": 0.5625,
+          "n_pairs": 80
+        },
+        "per_function": {
+          "filter": {
+            "interaction_mean": 0.02244,
+            "interaction_t": 2.303,
+            "frac_hof_gt_ctrl": 0.75,
+            "n_pairs": 20,
+            "hof": 0.0392,
+            "ctrl": 0.01676
+          },
+          "fold": {
+            "interaction_mean": 0.01173,
+            "interaction_t": 1.41,
+            "frac_hof_gt_ctrl": 0.55,
+            "n_pairs": 20,
+            "hof": 0.01663,
+            "ctrl": 0.0049
+          },
+          "map": {
+            "interaction_mean": 0.00465,
+            "interaction_t": 0.618,
+            "frac_hof_gt_ctrl": 0.4545,
+            "n_pairs": 22,
+            "hof": 0.01561,
+            "ctrl": 0.01096
+          },
+          "reduce": {
+            "interaction_mean": 0.00293,
+            "interaction_t": 0.453,
+            "frac_hof_gt_ctrl": 0.5,
+            "n_pairs": 20,
+            "hof": 0.00452,
+            "ctrl": 0.00159
+          },
+          "zip": {
+            "interaction_mean": 0.00224,
+            "interaction_t": 0.242,
+            "frac_hof_gt_ctrl": 0.45,
+            "n_pairs": 20,
+            "hof": 0.00531,
+            "ctrl": 0.00306
+          }
+        }
       },
-      "per_function": {
-        "filter": {
-          "interaction_mean": 0.01377,
-          "interaction_t": 2.433,
-          "frac_hof_gt_ctrl": 0.65,
-          "n_pairs": 20,
-          "dNLL_hof": 0.02555,
-          "dNLL_ctrl": 0.01178
-        },
-        "fold": {
-          "interaction_mean": 0.01298,
-          "interaction_t": 1.703,
-          "frac_hof_gt_ctrl": 0.6,
-          "n_pairs": 20,
-          "dNLL_hof": 0.01818,
-          "dNLL_ctrl": 0.0052
-        },
-        "map": {
-          "interaction_mean": -0.00844,
-          "interaction_t": -1.567,
-          "frac_hof_gt_ctrl": 0.4091,
-          "n_pairs": 22,
-          "dNLL_hof": 0.01376,
-          "dNLL_ctrl": 0.0222
-        },
-        "reduce": {
-          "interaction_mean": 0.0029,
-          "interaction_t": 0.507,
-          "frac_hof_gt_ctrl": 0.5,
-          "n_pairs": 20,
-          "dNLL_hof": 0.00285,
-          "dNLL_ctrl": -5e-05
-        },
-        "zip": {
-          "interaction_mean": 0.01006,
-          "interaction_t": 1.757,
-          "frac_hof_gt_ctrl": 0.65,
-          "n_pairs": 20,
-          "dNLL_hof": 0.01684,
-          "dNLL_ctrl": 0.00678
+      "random": {
+        "engaged": {
+          "interaction_mean": 0.00225,
+          "interaction_t": 0.39633,
+          "frac_hof_gt_ctrl": 0.52083
         }
       }
     },
-    "random": {
-      "dNLL_hof": 0.00299,
-      "dNLL_ctrl": 0.0031,
-      "interaction_mean": -0.00011,
-      "interaction_t": -0.09,
-      "frac_hof_gt_ctrl": 0.5098,
-      "engaged": {
-        "interaction_mean": -3e-05,
-        "interaction_t": -0.02267,
-        "frac_hof_gt_ctrl": 0.50833
+    "lastkl": {
+      "gather": {
+        "hof": 0.00921,
+        "ctrl": 0.00807,
+        "interaction_mean": 0.00114,
+        "interaction_t": 0.908,
+        "frac_hof_gt_ctrl": 0.3725,
+        "n_pairs": 102,
+        "engaged": {
+          "interaction_mean": 0.00113,
+          "interaction_t": 0.745,
+          "frac_hof_gt_ctrl": 0.375,
+          "n_pairs": 80
+        },
+        "per_function": {
+          "filter": {
+            "interaction_mean": -0.00105,
+            "interaction_t": -1.521,
+            "frac_hof_gt_ctrl": 0.25,
+            "n_pairs": 20,
+            "hof": 0.0051,
+            "ctrl": 0.00615
+          },
+          "fold": {
+            "interaction_mean": -0.00052,
+            "interaction_t": -0.205,
+            "frac_hof_gt_ctrl": 0.3,
+            "n_pairs": 20,
+            "hof": 0.00805,
+            "ctrl": 0.00857
+          },
+          "map": {
+            "interaction_mean": 0.0012,
+            "interaction_t": 0.601,
+            "frac_hof_gt_ctrl": 0.3636,
+            "n_pairs": 22,
+            "hof": 0.0139,
+            "ctrl": 0.0127
+          },
+          "reduce": {
+            "interaction_mean": -0.00081,
+            "interaction_t": -0.752,
+            "frac_hof_gt_ctrl": 0.4,
+            "n_pairs": 20,
+            "hof": 0.0037,
+            "ctrl": 0.00451
+          },
+          "zip": {
+            "interaction_mean": 0.00689,
+            "interaction_t": 1.306,
+            "frac_hof_gt_ctrl": 0.55,
+            "n_pairs": 20,
+            "hof": 0.01483,
+            "ctrl": 0.00794
+          }
+        }
+      },
+      "random": {
+        "engaged": {
+          "interaction_mean": -0.00043,
+          "interaction_t": -1.45933,
+          "frac_hof_gt_ctrl": 0.36667
+        }
+      }
+    },
+    "whole": {
+      "gather": {
+        "hof": 0.0154,
+        "ctrl": 0.00944,
+        "interaction_mean": 0.00596,
+        "interaction_t": 2.143,
+        "frac_hof_gt_ctrl": 0.5588,
+        "n_pairs": 102,
+        "engaged": {
+          "interaction_mean": 0.00993,
+          "interaction_t": 3.206,
+          "frac_hof_gt_ctrl": 0.6,
+          "n_pairs": 80
+        },
+        "per_function": {
+          "filter": {
+            "interaction_mean": 0.01377,
+            "interaction_t": 2.433,
+            "frac_hof_gt_ctrl": 0.65,
+            "n_pairs": 20,
+            "hof": 0.02555,
+            "ctrl": 0.01178
+          },
+          "fold": {
+            "interaction_mean": 0.01298,
+            "interaction_t": 1.703,
+            "frac_hof_gt_ctrl": 0.6,
+            "n_pairs": 20,
+            "hof": 0.01818,
+            "ctrl": 0.0052
+          },
+          "map": {
+            "interaction_mean": -0.00844,
+            "interaction_t": -1.567,
+            "frac_hof_gt_ctrl": 0.4091,
+            "n_pairs": 22,
+            "hof": 0.01376,
+            "ctrl": 0.0222
+          },
+          "reduce": {
+            "interaction_mean": 0.0029,
+            "interaction_t": 0.507,
+            "frac_hof_gt_ctrl": 0.5,
+            "n_pairs": 20,
+            "hof": 0.00285,
+            "ctrl": -5e-05
+          },
+          "zip": {
+            "interaction_mean": 0.01006,
+            "interaction_t": 1.757,
+            "frac_hof_gt_ctrl": 0.65,
+            "n_pairs": 20,
+            "hof": 0.01684,
+            "ctrl": 0.00678
+          }
+        }
+      },
+      "random": {
+        "engaged": {
+          "interaction_mean": -3e-05,
+          "interaction_t": -0.02267,
+          "frac_hof_gt_ctrl": 0.50833
+        }
       }
     }
   },
   "list_necessary": true,
   "prose_necessary": true,
-  "git_sha": "44d42e6f221e91e7dd26b58081866c19e2df1355",
-  "elapsed_s": 108.0
+  "prose_necessary_region": true,
+  "prose_necessary_lastkl": false,
+  "prose_necessary_whole": true,
+  "git_sha": "7f859f6a0cecbee78cbc3c0c6ea427a876ccbed8",
+  "elapsed_s": 104.4
 }

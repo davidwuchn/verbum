@@ -11,54 +11,121 @@
       "model": "Qwen/Qwen3-14B",
       "list_kl_inter_gather": 0.00811,
       "list_kl_inter_random": 0.00752,
-      "prose_eng_inter_gather": -0.00038,
-      "prose_eng_t_gather": -0.038,
-      "prose_eng_inter_random": -0.00228,
+      "region_inter_gather": 0.01013,
+      "region_t_gather": 0.913,
+      "region_inter_random": -0.00971,
+      "lastkl_t_gather": 0.629,
+      "whole_t_gather": -0.038,
       "list_necessary": true,
-      "prose_necessary": false
+      "prose_necessary_region": false,
+      "prose_necessary_lastkl": false,
+      "prose_necessary_whole": false
     },
     {
       "model": "Qwen/Qwen3-32B",
       "list_kl_inter_gather": 0.00724,
       "list_kl_inter_random": 0.00359,
-      "prose_eng_inter_gather": 0.00948,
-      "prose_eng_t_gather": 1.036,
-      "prose_eng_inter_random": -0.00206,
+      "region_inter_gather": 0.01672,
+      "region_t_gather": 1.375,
+      "region_inter_random": -0.00232,
+      "lastkl_t_gather": -1.221,
+      "whole_t_gather": 1.036,
       "list_necessary": true,
-      "prose_necessary": false
+      "prose_necessary_region": false,
+      "prose_necessary_lastkl": false,
+      "prose_necessary_whole": false
     },
     {
       "model": "Qwen/Qwen3-8B",
       "list_kl_inter_gather": -0.00229,
       "list_kl_inter_random": 0.01224,
-      "prose_eng_inter_gather": 0.00665,
-      "prose_eng_t_gather": 0.491,
-      "prose_eng_inter_random": -0.00964,
+      "region_inter_gather": 0.025,
+      "region_t_gather": 0.979,
+      "region_inter_random": 0.00563,
+      "lastkl_t_gather": -0.926,
+      "whole_t_gather": 0.491,
       "list_necessary": false,
-      "prose_necessary": false
+      "prose_necessary_region": false,
+      "prose_necessary_lastkl": false,
+      "prose_necessary_whole": false
     },
     {
       "model": "allenai/OLMo-2-1124-13B",
       "list_kl_inter_gather": 0.00608,
       "list_kl_inter_random": -0.00213,
-      "prose_eng_inter_gather": 0.00993,
-      "prose_eng_t_gather": 3.206,
-      "prose_eng_inter_random": -3e-05,
+      "region_inter_gather": 0.00984,
+      "region_t_gather": 2.292,
+      "region_inter_random": 0.00225,
+      "lastkl_t_gather": 0.745,
+      "whole_t_gather": 3.206,
       "list_necessary": true,
-      "prose_necessary": true
+      "prose_necessary_region": true,
+      "prose_necessary_lastkl": false,
+      "prose_necessary_whole": true
     },
     {
       "model": "mistralai/Mistral-7B-v0.3",
       "list_kl_inter_gather": 0.01705,
       "list_kl_inter_random": 0.00774,
-      "prose_eng_inter_gather": 0.00811,
-      "prose_eng_t_gather": 2.304,
-      "prose_eng_inter_random": 0.00866,
+      "region_inter_gather": 0.00706,
+      "region_t_gather": 1.558,
+      "region_inter_random": 0.00628,
+      "lastkl_t_gather": 0.917,
+      "whole_t_gather": 2.304,
       "list_necessary": true,
-      "prose_necessary": false
+      "prose_necessary_region": false,
+      "prose_necessary_lastkl": false,
+      "prose_necessary_whole": false
     }
   ],
+  "primary_readout": "region (divergent-middle NLL diff-in-diff)",
+  "cross_model": {
+    "region": {
+      "t_mean": 1.423,
+      "t_per_model": [
+        0.913,
+        1.375,
+        0.979,
+        2.292,
+        1.558
+      ],
+      "n_positive": 5,
+      "sign_p_one_sided": 0.0312,
+      "n_gather_gt_random": 5,
+      "stouffer_z": 3.183
+    },
+    "lastkl": {
+      "t_mean": 0.029,
+      "t_per_model": [
+        0.629,
+        -1.221,
+        -0.926,
+        0.745,
+        0.917
+      ],
+      "n_positive": 3,
+      "sign_p_one_sided": 0.5,
+      "n_gather_gt_random": 5,
+      "stouffer_z": 0.064
+    },
+    "whole": {
+      "t_mean": 1.4,
+      "t_per_model": [
+        -0.038,
+        1.036,
+        0.491,
+        3.206,
+        2.304
+      ],
+      "n_positive": 4,
+      "sign_p_one_sided": 0.1875,
+      "n_gather_gt_random": 4,
+      "stouffer_z": 3.13
+    }
+  },
   "n_list_necessary": 4,
-  "n_prose_necessary": 1,
-  "git_sha": "44d42e6f221e91e7dd26b58081866c19e2df1355"
+  "n_prose_necessary_region": 1,
+  "n_prose_necessary_lastkl": 0,
+  "n_prose_necessary_whole": 1,
+  "git_sha": "7f859f6a0cecbee78cbc3c0c6ea427a876ccbed8"
 }
