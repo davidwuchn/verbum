@@ -1,0 +1,185 @@
+{
+  "phase": "kernel (proof checker)",
+  "timestamp": "2026-06-14T21:17:09.998493+00:00",
+  "floor_all_positives_valid": true,
+  "soundness_no_negative_falsely_proved": true,
+  "consistency_firewall": {
+    "prop": "(A -> A) -> A",
+    "Y_principal_type": "(\u03b1 -> \u03b1) -> \u03b1",
+    "sound_gate_verdict": "unsound_recursion",
+    "firewall_holds": true
+  },
+  "positives": [
+    {
+      "id": "pos_I",
+      "prop": "A -> A",
+      "provable": true,
+      "ref_proof": "I",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03b1 -> \u03b1",
+      "normal_form": "I"
+    },
+    {
+      "id": "pos_K",
+      "prop": "A -> B -> A",
+      "provable": true,
+      "ref_proof": "K",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03b1 -> \u03b2 -> \u03b1",
+      "normal_form": "K"
+    },
+    {
+      "id": "pos_KI",
+      "prop": "A -> B -> B",
+      "provable": true,
+      "ref_proof": "K I",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03b2 -> \u03b5 -> \u03b5",
+      "normal_form": "K I"
+    },
+    {
+      "id": "pos_B",
+      "prop": "(B -> C) -> (A -> B) -> A -> C",
+      "provable": true,
+      "ref_proof": "B",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b2 -> \u03b1) -> (\u03b3 -> \u03b2) -> \u03b3 -> \u03b1",
+      "normal_form": "B"
+    },
+    {
+      "id": "pos_compose",
+      "prop": "(A -> B) -> (C -> A) -> C -> B",
+      "provable": true,
+      "ref_proof": "B",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b2 -> \u03b1) -> (\u03b3 -> \u03b2) -> \u03b3 -> \u03b1",
+      "normal_form": "B"
+    },
+    {
+      "id": "pos_S",
+      "prop": "(A -> B -> C) -> (A -> B) -> A -> C",
+      "provable": true,
+      "ref_proof": "S",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b1 -> \u03b2 -> \u03b3) -> (\u03b1 -> \u03b2) -> \u03b1 -> \u03b3",
+      "normal_form": "S"
+    },
+    {
+      "id": "pos_C",
+      "prop": "(A -> B -> C) -> B -> A -> C",
+      "provable": true,
+      "ref_proof": "C",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b2 -> \u03b1 -> \u03b3) -> \u03b1 -> \u03b2 -> \u03b3",
+      "normal_form": "C"
+    },
+    {
+      "id": "pos_flipcompose",
+      "prop": "(A -> B) -> (B -> C) -> A -> C",
+      "provable": true,
+      "ref_proof": "C B",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b7 -> \u03b6) -> (\u03b6 -> \u03b5) -> \u03b7 -> \u03b5",
+      "normal_form": "C B"
+    },
+    {
+      "id": "pos_W",
+      "prop": "(A -> A -> B) -> A -> B",
+      "provable": true,
+      "ref_proof": "W",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "(\u03b2 -> \u03b2 -> \u03b3) -> \u03b2 -> \u03b3",
+      "normal_form": "W"
+    },
+    {
+      "id": "pos_apply",
+      "prop": "A -> (A -> B) -> B",
+      "provable": true,
+      "ref_proof": "C I",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03b1 -> (\u03b1 -> \u03b3) -> \u03b3",
+      "normal_form": "C I"
+    },
+    {
+      "id": "pos_funcid",
+      "prop": "(A -> B) -> A -> B",
+      "provable": true,
+      "ref_proof": "I",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03b1 -> \u03b1",
+      "normal_form": "I"
+    },
+    {
+      "id": "pos_const_chain",
+      "prop": "A -> B -> C -> A",
+      "provable": true,
+      "ref_proof": "B K K",
+      "verdict": "valid",
+      "valid": true,
+      "principal": "\u03ba -> \u03b6 -> \u03bb -> \u03ba",
+      "normal_form": "B K K"
+    }
+  ],
+  "negatives": [
+    {
+      "id": "neg_atom",
+      "prop": "A",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_weaken",
+      "prop": "A -> B",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_getC",
+      "prop": "A -> B -> C",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_elim",
+      "prop": "(A -> B) -> B",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_retA",
+      "prop": "(A -> B) -> A",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_peirce",
+      "prop": "((A -> B) -> A) -> A",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_dne",
+      "prop": "((A -> B) -> B) -> A",
+      "y_trap": false,
+      "falsely_proved_by": []
+    },
+    {
+      "id": "neg_y_trap",
+      "prop": "(A -> A) -> A",
+      "y_trap": true,
+      "falsely_proved_by": []
+    }
+  ],
+  "git_sha": "ec7e0c72e19a37b0a354e01dc2c9692a461781f0"
+}
