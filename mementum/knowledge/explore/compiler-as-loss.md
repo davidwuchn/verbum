@@ -248,11 +248,25 @@ AMBIGUITY in two templates (flip/const); the kernel grader + failure inspection
 separated compile-error from NL-ambiguity → disambiguated → both 1.0. Caveat: tasks are
 SHALLOW (≤5-node, single pattern, abstract letters) = below the compile boundary.
 
-**▶ stage-2 next:** (a) HARDER compile tasks (deep nesting, multi-combinator
-composition, 3-4 vars, naturalistic/ambiguous prose) to FIND the compile boundary
-(current ceiling = task too easy); (b) Qwen3-32B as the diverse generator →
-abstraction+reduction certify → diverse-verified corpus spanning the limits;
-(c) the compiler-as-loss arms with the certified corpus.
+**▶ stage-2 COMPILE BOUNDARY FOUND** (`probes/compile_tasks_hard.py`, 42 tasks × 8
+families graded by difficulty axis; scale curve Qwen3-8B/14B/32B,
+`results/compile-frontend/hard/`). **Structural complexity is NOT the boundary** —
+branch/reuse/multi-combinator = 1.0 for ALL models, deep nesting only mild paren-slips
+(0.8-1.0). The formal structure mapping is easy (and constructible-exact anyway).
+**The boundary is NATURALISTIC language + AMBIGUITY** — natural 0.62-0.88, ambiguous
+0.50-0.75; failures are genuine semantic-parse errors (which words are functions vs
+values vs ignorable subjects/determiners; pronouns; grouping). **Scale helps EXACTLY
+there** (32B best on natural/ambiguous; structural saturated for all). ⇒ the residual
+difficulty of the learned step is pure NL understanding = the Montague/CCG semantic
+parse (S5 validation target) — sharpens the thesis: formal halves exact/constructible,
+only NL parsing is genuinely learned & scale-sensitive. Caveat (λ measure): small
+n/family, greedy single-sample, ambiguous soft-graded.
+
+**▶ stage-2 next:** (a) Qwen3-32B as the diverse generator → abstraction+reduction
+certify → diverse-verified corpus spanning the limits (the boundary now tells us the
+diversity that matters is NATURALISTIC realization, not structural); (b) the
+compiler-as-loss arms with the certified corpus (compiler-only vs diverse-verified vs
+combo+lattice; metric = held-out compositional generalization).
 
 ## The shift: from teacher-geometry to compiler-output
 

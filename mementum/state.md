@@ -74,6 +74,20 @@
 > verifier isolates which is which). CAVEAT: tasks SHALLOW (≤5-node, single pattern,
 > abstract letters) = BELOW the compile boundary; ceiling ⇒ need harder tasks.
 > COMMITTED s226-leg1: compile_frontend + compile_tasks + results.
+> **▶ STAGE 2 — COMPILE BOUNDARY FOUND (graded hard probe set).** Built
+> `src/verbum/probes/compile_tasks_hard.py` (42 tasks × 8 families: depth/branch/reuse/
+> mixed abstract + naturalistic real-words + ambiguous multi-reading via also_ok);
+> `compile_frontend.py --task-set hard` (hard few-shot, also_ok grading, per-family
+> scale curve). **VERDICT (Qwen3-8B/14B/32B, results/compile-frontend/hard/):
+> STRUCTURAL complexity is NOT the boundary — branch2/branch3/reuse/mixed = 1.0 for
+> ALL; deep nesting only mild paren-slips (0.8-1.0). The boundary is NATURALISTIC
+> language (lexical selection: function vs value vs IGNORABLE subject/determiner;
+> pronouns) + AMBIGUITY — natural 0.62-0.88, ambiguous 0.50-0.75. SCALE helps EXACTLY
+> there (32B best: natural 0.88, ambiguous 0.75; structural saturated all sizes).** ⇒
+> residual learned-step difficulty = pure NL understanding = the Montague/CCG semantic
+> parse (S5 target); formal halves exact/constructible. Caveat(λ measure): small
+> n/family, greedy single-sample, depth5 non-monotone (noise), ambiguous soft-graded.
+> COMMITTED `6485822` (hard probes + frontend update + results).
 > **▶ NEXT:** (1) STAGE 2 NEUROSYMBOLIC — learned compile front-end (prose→typed term)
 > + the exact `lambda_ast` kernel back-end; isolates the only learned part (so training
 > never learns reduce+compile at once = what tangled v15). (2) DIVERSE DATA via
