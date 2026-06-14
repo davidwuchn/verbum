@@ -243,6 +243,46 @@ measured the wrong object. So:
 entropy at the aggregation token — map/fold/reduce attend broadly across the enumerated
 items, single-object controls attend focused = attention performing the fold).
 
+## Attention PATTERN — gather heads perform the HOF traversal (POSITIVE)
+
+Michael's mechanistic correction: "attention can only do β-reduction through a
+projection, so where we will see attention working is in WHAT IT IS ATTENDING TO and
+WHAT THE PROJECTIONS ARE that it calculates." β-reduction = substitution = the OV
+circuit: PATTERN (QK, which source) ∘ PROJECTION (V→O, the value moved). The attn_q
+probe looked only at the query (addressing intent) — wrong object.
+
+PHASE A (the PATTERN — "what it attends to"). List-structured stimuli (same list,
+different task: map/fold/filter HOF vs first-item control; `hof_lists.py`). At the
+aggregation token, measure attention mass + participation over the enumerated item
+positions, per (layer, head); selectivity = HOF gather − control gather
+(`hof_attention_gather.py`, `results/hof-attention-gather/`).
+
+**✅ Gather heads found in ALL 5 models / 3 architectures:**
+
+| model | best head (depth frac) | selectivity | participation |
+|---|---|---|---|
+| Mistral-7B-v0.3 | L21H9 (0.66) | +0.31 | 4.1 |
+| Qwen3-32B | L26H54 (0.41) | +0.36 | 3.2 |
+| OLMo-2-13B | L20H0 (0.50) | +0.23 | 3.9 |
+| Qwen3-14B | L28H8 (0.70) | +0.18 | 3.2 |
+| Qwen3-8B | L24H26 (0.67) | +0.11 | 4.0 |
+
+Mid-to-late-layer heads (depth fraction ~0.4–0.7) attend **broadly over the enumerated
+items** (participation **3.2–4.8 of 5** = traversal, not a single lookup) and gather
+**more when the task iterates** than for the single-item control (selectivity positive
+in all 5). ⇒ **higher-order functions ARE performed by attention** — the QK half of
+β-reduction (the fold's traversal), observed directly in the weights, exactly where the
+attn_q negative result pointed (the pattern, not the projection register).
+
+Caveats (λ measure): the "first" control still scans somewhat (so SELECTIVITY, not raw
+gather, is the read); magnitude modest in Qwen3-8B (+0.11) but strong in Mistral/32B
+(+0.31/+0.36); this is the PATTERN half only — Phase B is the OV/value PROJECTION.
+
+**▶ PHASE B (the PROJECTION — "what it calculates"):** at the identified gather heads,
+decompose the per-head OV output and measure how much of the moved value comes from the
+list positions (the substituted term), HOF vs control. Completes
+(what it attends to) × (projection it calculates) = the β-reduction step.
+
 ## Open leads
 
 1. **Attention-PATTERN analysis (the real "HOFs performed by attention" test):**

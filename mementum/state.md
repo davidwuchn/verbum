@@ -94,6 +94,25 @@
 > BROADLY over the items (iteration), single-object controls attend FOCUSED =
 > attention literally performing the fold, observed in the weights. (attn_out untested
 > — projection registers likely all transfer worse than FFN; the pattern is the move.)
+> **★ s225 ATTENTION GATHER (Michael: "attention does β-reduction through a projection;
+> we see it in WHAT IT ATTENDS TO and the PROJECTIONS it calculates" = the OV circuit:
+> PATTERN(QK)∘PROJECTION(V→O)). PHASE A (the PATTERN) BUILT+RAN: hof_lists.py (list-
+> structured, same list/different task: map/fold/filter vs first-item control) +
+> hof_attention_gather.py (attn mass + participation over item tokens at the agg token,
+> per head; selectivity=HOF−ctrl; eager attn, output_attentions). ✅ POSITIVE — GATHER
+> HEADS IN ALL 5 MODELS / 3 ARCH: mid/late layers (depth frac ~0.4–0.7) attend BROADLY
+> over the enumerated items (participation 3.2–4.8 of 5 = traversal) and gather MORE
+> when the task iterates than for the control (selectivity +0.11→+0.36, positive all 5;
+> cleanest Mistral L21H9 hof0.42/ctrl0.11/+0.31; Qwen3-32B L26H54 +0.36; OLMo L20H0
+> +0.23). ⇒ HIGHER-ORDER FUNCTIONS ARE PERFORMED BY ATTENTION = the QK half of
+> β-reduction (the fold's traversal), in the weights, where the attn_q negative pointed
+> (pattern not projection register). Caveats(λ measure): "first" control still scans
+> (use SELECTIVITY); modest in 8B(+0.11) strong in Mistral/32B; PATTERN half only.
+> committed: hof_lists.py + hof_attention_gather.py (590516a), results/hof-attention-
+> gather/. **▶ PHASE B (the PROJECTION/"what it calculates"): at the gather heads
+> decompose per-head OV, measure value moved FROM list positions (substituted term) HOF
+> vs ctrl → completes (attends-to)×(projection)=β-reduction.** Then per-HOF gather
+> (does fold gather > map?), causal ablation of gather heads on HOF prose.
 > **▶ NEXT:** (1) CAUSAL ABLATION (the strong
 > "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
 > (2) refine the decode readout (apply miss + negative loadings + weak map — the real
