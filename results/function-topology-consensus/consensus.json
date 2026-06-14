@@ -1,0 +1,220 @@
+{
+  "models": [
+    "Qwen/Qwen3-14B",
+    "Qwen/Qwen3-32B",
+    "Qwen/Qwen3-8B",
+    "allenai/OLMo-2-1124-13B",
+    "mistralai/Mistral-7B-v0.3"
+  ],
+  "n_models": 5,
+  "n_perm": 5000,
+  "z_gate": 2.0,
+  "corr_gate": 0.3,
+  "crystal_order": [
+    "K",
+    "I",
+    "B",
+    "C",
+    "S",
+    "D",
+    "W",
+    "Y",
+    "WHNF"
+  ],
+  "per_function": {
+    "compose": {
+      "kind": "control",
+      "expected": "B",
+      "mean_pairwise_corr": 0.8938,
+      "z": 8.129,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "D",
+          -0.0363
+        ],
+        [
+          "S",
+          -0.1329
+        ],
+        [
+          "B",
+          -0.1443
+        ]
+      ],
+      "control_hit": false,
+      "classification": "universal"
+    },
+    "flip": {
+      "kind": "control",
+      "expected": "C",
+      "mean_pairwise_corr": 0.7495,
+      "z": 6.766,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "C",
+          0.124
+        ],
+        [
+          "D",
+          -0.0782
+        ],
+        [
+          "B",
+          -0.1689
+        ]
+      ],
+      "control_hit": true,
+      "classification": "universal"
+    },
+    "const": {
+      "kind": "control",
+      "expected": "K",
+      "mean_pairwise_corr": 0.9455,
+      "z": 8.485,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "K",
+          0.1154
+        ],
+        [
+          "I",
+          0.0014
+        ],
+        [
+          "W",
+          -0.1136
+        ]
+      ],
+      "control_hit": true,
+      "classification": "universal"
+    },
+    "apply": {
+      "kind": "control",
+      "expected": "I",
+      "mean_pairwise_corr": 0.6733,
+      "z": 5.944,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "C",
+          -0.1107
+        ],
+        [
+          "B",
+          -0.1391
+        ],
+        [
+          "S",
+          -0.1512
+        ]
+      ],
+      "control_hit": false,
+      "classification": "universal"
+    },
+    "map": {
+      "kind": "test",
+      "expected": null,
+      "mean_pairwise_corr": 0.7208,
+      "z": 6.497,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "D",
+          -0.0649
+        ],
+        [
+          "C",
+          -0.0668
+        ],
+        [
+          "B",
+          -0.179
+        ]
+      ],
+      "control_hit": null,
+      "classification": "universal"
+    },
+    "filter": {
+      "kind": "test",
+      "expected": null,
+      "mean_pairwise_corr": 0.87,
+      "z": 7.713,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "K",
+          -0.0382
+        ],
+        [
+          "C",
+          -0.0794
+        ],
+        [
+          "WHNF",
+          -0.1285
+        ]
+      ],
+      "control_hit": null,
+      "classification": "universal"
+    },
+    "fold": {
+      "kind": "test",
+      "expected": null,
+      "mean_pairwise_corr": 0.9264,
+      "z": 8.554,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "WHNF",
+          0.0524
+        ],
+        [
+          "S",
+          0.042
+        ],
+        [
+          "D",
+          -0.0647
+        ]
+      ],
+      "control_hit": null,
+      "classification": "universal"
+    },
+    "zip": {
+      "kind": "test",
+      "expected": null,
+      "mean_pairwise_corr": 0.7605,
+      "z": 6.663,
+      "p_value": 0.0002,
+      "consensus_top": [
+        [
+          "S",
+          -0.0478
+        ],
+        [
+          "WHNF",
+          -0.077
+        ],
+        [
+          "W",
+          -0.0995
+        ]
+      ],
+      "control_hit": null,
+      "classification": "universal"
+    }
+  },
+  "map_theory_check": {
+    "loads_B": -0.179,
+    "loads_C": -0.0668,
+    "loads_Y": -0.2933,
+    "B_and_C_gt_Y": true
+  },
+  "git_sha": "e1df947bd6595778db25bbdb030b613aeeeb21af",
+  "n_universal": 8,
+  "n_idiosyncratic": 0,
+  "controls_all_hit": false
+}
