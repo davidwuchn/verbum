@@ -70,8 +70,13 @@
 > bottom). ⇒ TWO super-clusters: collapse {fold,reduce,zip} vs preserve {map,compose,
 > flip,apply}. Math: map=fold; model files it by RESULT TYPE (preserve vs collapse) —
 > the shared fold substrate (iteration) is in ATTENTION (s221), invisible to FFN
-> fingerprint; FFN encodes the algebra/result-type. (reduce prose-engagement row
-> landing as the prose sweep finishes — expected to engage like fold.)
+> fingerprint; FFN encodes the algebra/result-type. **PROSE w/ reduce DONE (5/5):
+> reduce AUC 0.97 (STRONGEST, t +8.5) = fold recruited by prose w/ zero lexical
+> overlap; 2ND CONFIRM reduce≡fold = fold's curated AUC dropped 1.0→0.97 when its
+> synonym reduce joined the rest set; fold 0.92, filter 0.89, zip 0.85 all engaged;
+> map 0.64 BORDERLINE (just over 0.6 gate, weakest, contrast-set-dependent — crossed
+> only because reduce sharpened preserve-vs-collapse) = still the exception, lives in
+> attention not FFN.**
 > **▶ NEXT:** (1) CAUSAL ABLATION (the strong
 > "uses" claim): ablate HOF routing direction on HOF-prose → logprob drop vs control;
 > (2) refine the decode readout (apply miss + negative loadings + weak map — the real

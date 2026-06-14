@@ -179,29 +179,36 @@ topology a probe artifact? Test (`hof_prose_engagement.py`, `hof_prose.py`):
   rules out a probe artifact.
 
 **Verdict (5 models / 3 arch: Qwen3-8B/14B/32B, Mistral-7B-v0.3, OLMo-2-13B;
-`results/hof-prose-engagement/aggregate.json`):** curated directions cleanly separable
-(AUC ≈ 1.0). On held-out natural prose (mean over 5 models):
+`results/hof-prose-engagement/aggregate.json`, with `reduce` added):** curated
+directions cleanly separable (AUC ≈ 0.97–1.0). On held-out natural prose (mean / min
+over 5 models):
 
-| HOF | prose AUC (mean / min) | hof>control | paired t | models AUC>0.6 | engaged |
-|---|---|---|---|---|---|
-| fold | 0.91 / 0.87 | 100% | +10.0 | 5/5 | **YES** |
-| filter | 0.90 / 0.87 | 97% | +8.2 | 5/5 | **YES** |
-| zip | 0.81 / 0.79 | 100% | +7.0 | 5/5 | **YES** |
-| map | 0.59 / 0.56 | 76% | +2.8 | 1/5 | no |
+| HOF | prose AUC (mean / min) | hof>control | paired t | engaged |
+|---|---|---|---|---|
+| reduce | 0.97 / 0.94 | 100% | +8.5 | **YES** (strongest) |
+| fold | 0.92 / 0.88 | 100% | +10.2 | **YES** |
+| filter | 0.89 / 0.85 | 97% | +8.4 | **YES** |
+| zip | 0.85 / 0.83 | 100% | +8.1 | **YES** |
+| map | 0.64 / 0.58 | 83% | +4.1 | marginal |
 
-⇒ **filter/fold/zip are decisively recruited by ordinary prose in ALL 5 models** — the
-curated-derived topology fires on naturalistic minimal pairs, scoring the HOF sentence
-above its matched control (cross-architecture). **3/4 engaged.** The model genuinely
-USES these HOF topologies when working with prose, not just on curated probes.
+⇒ **reduce/fold/filter/zip are decisively recruited by ordinary prose in all 5 models**
+— the curated-derived topology fires on naturalistic minimal pairs, cross-architecture.
+The model genuinely USES these HOF topologies when working with prose, not just on
+curated probes.
 
-**map is the cross-model exception** (mean AUC 0.59, only 1/5 models >0.6, t ~2.8).
-Its routing topology is real and universal (s225) but NOT reliably recruited from the
-FFN routing register by ordinary prose. Coherent story: `map = B(CB)(CB)` is the most
-compositionally complex / recursion-adjacent HOF ("attention-over-positions IS the
-fold", s221) — its computation is the most DISTRIBUTED across the attention mechanism
-rather than localized in the FFN gate, so a routing-register direction reads it worst.
-This is exactly where the s225 fingerprint was noisiest. ⇒ map needs the attn_q
-register (s220 attn_q@L05 lead) and/or the causal follow-up.
+- **reduce is the STRONGEST prose-engaged HOF (0.97)** — reduce ≡ fold (it *is* fold)
+  recruited by prose with zero lexical overlap.
+- **Second confirmation of reduce ≡ fold:** fold's curated AUC dropped 1.0 → 0.97 ONLY
+  when reduce joined the "rest" negative set — because reduce is fold's synonym, fold
+  becomes harder to separate from "everything else."
+- **map is borderline, still the exception** (0.64, just over the 0.6 gate, weakest by
+  a wide margin, t +4.1). It crossed the threshold only because adding reduce sharpened
+  the preserve-vs-collapse contrast in its direction — i.e. contrast-set-dependent, not
+  a clean engagement. Coherent: `map = B(CB)(CB)`, "attention-over-positions IS the
+  fold" (s221) — map's iteration is DISTRIBUTED across attention, not localized in the
+  FFN gate, so a routing-register direction reads it weakest (also the noisiest s225
+  fingerprint). ⇒ map needs the attn_q register (s220 attn_q@L05 lead) and/or the
+  causal follow-up.
 
 ## Open leads
 
