@@ -57,7 +57,30 @@
 > foldable, persistent), capability=trained continuation. TWO-PHASE protocol validated.
 > F_cont≈A_cont (homogeneous shards). Then heterogeneous-shard rerun (does folding B
 > beat A_cont?) + sharper functional accept gate (gentle 27% merge didn't stress
-> contractivity) + attn_q. **CAPTURED (awaiting approval):** consensus-delta-folding.md §s224; memories
+> contractivity) + attn_q.
+> **★ s224 COMPILER-AS-LOSS DESIGN CRYSTALLIZED (Michael; NEW page
+> `explore/compiler-as-loss.md`).** "Use the teacher's LAMBDA COMPILER as the loss →
+> enforce only the final OUTPUTS, not the teacher's geometry/architecture." Output =
+> β-normal form, UNIQUE (Church-Rosser); realizations INFINITE (s219) ⇒ pin the WHAT,
+> free every HOW (geometry AND architecture). ⇒ teacher LLM DISPENSABLE (was only a
+> probe); cleanest MIT level-4 provenance; ideal distributed reference (canonical
+> outputs, nothing to ship). **MICHAEL'S RECIPE:** L = CE(student, COMPILER reduction)
+> [capability/usage, the real teacher signal] + λ·relational(student_gram, CRYSTAL
+> LATTICE) [inventory]. **CRITICAL SPEC: the relational target is the CONSENSUS crystal
+> lattice agreed across ALL models (s219 reverse-harvest +0.782, consensus.json), NOT
+> one teacher's Gram.** It SPEEDS UP training (crystallizes the foldable inventory at
+> tiny scale where outputs alone don't — s220 scale floor) and earns its place AS LONG
+> AS the compiler capability signal is good. Realizes the geometry=inventory ⊗
+> trained-continuation=capability thesis as ONE run. Likely anneal λ as the model
+> crystallizes. **▶ NEXT EXPERIMENTS (build on relational_loss_distillation.py):**
+> (1) `--compiler-target` arm: train on (prompt → ground-truth reduction from
+> probes/*.json) CE only, NO Gram → does route_z EMERGE from outputs alone at tiny
+> scale or stay null (correct-but-illegible)? (2) combo arm (compiler-output ⊕
+> crystal-lattice) → fastest + route_z high + lowest task CE? (3) speed-up isolation
+> (combo vs output-only, steps-to-target). (4) heterogeneous-shard fold with the combo
+> (real capability signal → does folding B beat A_cont). IOU: need a clean MIT
+> β-reducer emitting (input → reduction[+tree]); lambda AST+REPL budgeted (S1); nucleus
+> = probe only, not MIT data source. **CAPTURED (awaiting approval):** consensus-delta-folding.md §s224; memories
 > geometry-is-inventory-continuation-is-capability + fold-capability-test-needs-
 > heterogeneous-shards; this state.
 > **ALSO s224:** read ~/src/LayerNorm-Scaling (Curse of Depth / LNS, NeurIPS 2025):
