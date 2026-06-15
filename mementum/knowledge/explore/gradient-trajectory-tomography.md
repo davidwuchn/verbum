@@ -247,6 +247,70 @@ the FUZZY part — approximate). Track ‖δw_invariant‖ / ‖δw_gauge‖ ove
 *how much of GD is function-building vs gauge-churning?* (s222 predicts: a lot is
 gauge.) This is the literal answer to "what is GD doing."
 
+## ★ s230 — v3 GRADIENT-SHADOW (does the routing topology cast a shadow in the gradients?)
+
+> Michael, s230: "If GD is creating soft topology in the gradients, do the gradients
+> show *shadows* of that? Height can be estimated from a tree's shadow if you know the
+> exact time and location. Does the routing topology leave a shadow in the gradients
+> we can detect?"
+
+**The analogy is mathematically apt.** A shadow = object projected through a KNOWN
+illumination geometry (sun angle = time+location); invertible because the projector is
+known. A gradient = loss-relevant structure projected through the JACOBIAN (chain
+rule). Both are projections; both invert IFF the projector is known.
+
+**The clean part — same coordinates.** The gate activation `g = W_gate·h`; the routing
+topology lives in g-space (the routing register). The upstream gradient `∂L/∂g` is a
+vector *in that same g-space*. So the gradient-SHADOW and the activation-OBJECT are
+directly commensurable — read the shadow in the routing register, where we already
+read the object (the combinator Gram). No need to go to weight space.
+
+**Evidence the shadow exists (two pieces, already in hand):**
+- *By construction (s230b):* the relational-loss gradient `∂L_inv/∂g` IS a function of
+  the gap between the current routing Gram and the consensus crystal = a topology-
+  shaped gradient. Gradients CAN carry the topology.
+- *By timing (s230 v1):* inventory is BUILT by gradients (crystallizes before
+  capability) ⇒ the topology must be IN the gradients while it is being built.
+- *Open:* does the PLAIN CE gradient (no relational term) cast the same shadow?
+
+**The catch — gauge, and its fix (same as the activation tomography).** Raw `∂L/∂W` in
+weight coordinates is gauge-variant (the "crumpled ground, randomly-rotated sun"; cross-
+init weight corr 0.000). Read it via the routing-register **relational Gram** (gauge-
+invariant). The "exact time and location" = the per-combinator PROBE LABELS (which
+combinator each gradient contribution belongs to) + the checkpoint weights (the
+Jacobian). Known illumination + relational projection ⇒ inversion well-posed.
+
+**First-order shadow needs curvature to fully invert.** `∂L/∂g` is a first-order shadow
+(length); to invert to the CONVERGED topology (full height) you need the Hessian (the
+sun angle): `target ≈ current − H⁻¹g`. Gradient = leading direction; curvature = where
+it lands. Precisely "shadow + known illumination → height."
+
+**★ The prediction that makes it worth building — the shadow LEADS the object.**
+`∂L/∂g` points toward the configuration GD is moving the activations toward ⇒ the
+gradient-Gram should resemble the FUTURE activation-Gram:
+
+> `gc_grad(t)` (gradient-shadow → consensus crystal) correlates with the crystal
+> EARLIER than `gc_route(t)` (activation-inventory) does.
+
+⇒ a THREE-STAGE cascade: **gradient-shadow (intent) → activation-inventory (geometry,
+s230 v1) → capability (usage).** A leading indicator: see where GD INTENDS to go before
+it arrives (early convergence prediction; detect wrong-basin aim before commitment).
+
+**Honest catches (λ measure):** (a) SNR — minibatch gradients are noisier than
+activations; the shadow at dawn is long but faint → accumulate over many probes (√N,
+s105). (b) Reference beam again — a gradient-Gram could reflect input combinator
+CO-OCCURRENCE (common mode), not the function; control = raw-gradient-Gram vs routing-
+gradient-Gram (only routing should track + lead). (c) Frame residue — the Jacobian is
+itself gauge-variant; the relational Gram absorbs most but not provably all (state as
+approximate).
+
+**Build (ready to run):** extend the gd-trajectory harness — at each checkpoint, for
+each crystal probe backprop the probe LM loss to `g` at the capture layer, gather the
+last-token gradient, build the per-combinator gradient-Gram → `gc_grad(t)`, log
+alongside `gc_route(t)` + a raw-gradient reference beam. Readout: does the shadow LEAD
+the object (and capability)? Reuses `soft_gram` (it does not care if you feed it
+activations or gradients).
+
 ## Honest catches (λ measure)
 
 - **Not greenfield** — s105 tomography + s223 instruments + v4.1/v6.1 trajectory
