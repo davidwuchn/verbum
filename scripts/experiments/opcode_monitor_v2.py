@@ -73,6 +73,9 @@ from relational_opcode import CRYSTAL, RelationalCrystalClassifier  # noqa: E402
 RESULTS_DIR = _ROOT / "results" / "opcode-monitor-v2"
 COMPILE_GATE = (_ROOT / "gates" / "compile.txt").read_text(encoding="utf-8")
 Z_SWEEP = [2.0, 3.0]
+# readable register (readout-register-reduction-readability.md): reduction becomes
+# vocab-readable at depth >= ~0.6; the C-late composition signal lives here (s232 v3).
+READABLE_FRAC = 0.6
 
 # LAMBDA signal — s127 compositional sentences (gate-prefixed, content read)
 LAMBDA_SENTENCES = [
@@ -334,6 +337,24 @@ def analyze_category(
         "cell_emit_rate": (cell_emit / cell_total) if cell_total else 0.0,
         "per_layer_dominant": {str(li): d for li, d in per_layer_dom.items()},
         "trajectory": trajectory,
+        "c_late": detect_c_late(trajectory, len(layers)),
+    }
+
+
+def detect_c_late(trajectory: list[dict], n_layers: int,
+                  readable_frac: float = READABLE_FRAC) -> dict:
+    """C-LATE detector (s232 v3): fraction of readable-zone (depth>=readable_frac)
+    crystal layers where C (composition combinator) dominates. The routing-register
+    composition signal is C-LATE, NOT the raw C-early→B-late arc (detect_arc)."""
+    zone_lo = int(readable_frac * n_layers)
+    zone = [t for t in trajectory if t["layer"] >= zone_lo]
+    c_zone = [t for t in zone if t["op"] == "C"]
+    return {
+        "readable_zone_lo": zone_lo,
+        "n_zone_layers": len(zone),
+        "n_C_late": len(c_zone),
+        "C_late_layers": [t["layer"] for t in c_zone],
+        "C_late_frac": (len(c_zone) / len(zone)) if zone else 0.0,
     }
 
 
@@ -365,10 +386,16 @@ def run_monitor(
     crystal_layers = rcc.crystal_layers
     gate_n = gate_prefix_len(tok)
 
-    # (prompts, gated?) per condition
+    # (prompts, gated?) per condition. gate_retrieval/gate_arithmetic = the v4
+    # FRAMING-MATCHED guards (valid under a gated null; the bare ones are invalid —
+    # they fire purely from framing-contrast, s232 v3 lesson). They are gated
+    # non-composition tasks: if C-late is composition-specific they must stay C-late
+    # silent; if they also route C-late then C-late is gated-generic not composition.
     conditions = {
         "lambda": ([COMPILE_GATE + s for s in LAMBDA_SENTENCES], True),
         "gate_neutral": ([COMPILE_GATE + s for s in GATE_NEUTRAL_SENTENCES], True),
+        "gate_retrieval": ([COMPILE_GATE + s for s in RETRIEVAL_PROMPTS], True),
+        "gate_arithmetic": ([COMPILE_GATE + s for s in ARITHMETIC_PROMPTS], True),
         "retrieval": (RETRIEVAL_PROMPTS, False),
         "arithmetic": (ARITHMETIC_PROMPTS, False),
     }
@@ -409,30 +436,37 @@ def build_verdict(monitor: dict) -> dict:
     and the gate-neutral control stays quieter than lambda?"""
     conds = monitor["conditions"]
     v: dict = {}
+    margin = 0.10  # C-late specificity margin
     for z in Z_SWEEP:
         key = f"z={z}"
         lam = conds["lambda"]["by_z"][key]
         gn = conds["gate_neutral"]["by_z"][key]
         ret = conds["retrieval"]["by_z"][key]
         arc = lam.get("arc", {})
+
+        def cl(cat: str, _key: str = key) -> float:
+            return conds[cat]["by_z"][_key]["c_late"]["C_late_frac"]
+
+        lam_cl = cl("lambda")
+        # framing-matched gated guards (v4) — the valid specificity controls
+        gated_guards = {c: round(cl(c), 4)
+                        for c in ("gate_neutral", "gate_retrieval", "gate_arithmetic")}
+        max_guard = max(gated_guards.values()) if gated_guards else 0.0
         v[key] = {
+            # ── PRIMARY (v3/v4): C-LATE composition signal ──────────────────────
+            "lambda_C_late_frac": round(lam_cl, 4),
+            "lambda_C_late_layers": lam["c_late"]["C_late_layers"],
+            "gated_guard_C_late_frac": gated_guards,
+            "max_gated_guard_C_late_frac": round(max_guard, 4),
+            # composition-SPECIFIC iff lambda C-late clears every framing-matched guard
+            "composition_specific": bool(lam_cl > max_guard + margin),
+            "readable_zone_lo": lam["c_late"]["readable_zone_lo"],
+            # ── back-compat: raw-shape arc + bare-guard over-read (now mis-framed) ─
             "lambda_arc_present": arc.get("arc_present", False),
-            "lambda_C_before_B": arc.get("C_before_B", False),
             "lambda_n_C": arc.get("n_C", 0), "lambda_n_B": arc.get("n_B", 0),
             "lambda_cell_emit_rate": round(lam["cell_emit_rate"], 4),
-            "retrieval_token_noop_rate": round(ret["token_noop_rate"], 4),
             "retrieval_cell_emit_rate": round(ret["cell_emit_rate"], 4),
-            "gate_neutral_arc_present": gn.get("arc", {}).get("arc_present", False),
             "gate_neutral_cell_emit_rate": round(gn["cell_emit_rate"], 4),
-            # over-read stays killed iff retrieval emits much less than lambda
-            "over_read_killed": bool(
-                ret["cell_emit_rate"] < 0.5 * lam["cell_emit_rate"] + 1e-9
-            ),
-            # arc is composition-driven iff lambda has the arc and gate-neutral doesn't
-            "arc_composition_driven": bool(
-                arc.get("arc_present", False)
-                and not gn.get("arc", {}).get("arc_present", False)
-            ),
         }
     return v
 
@@ -485,16 +519,16 @@ def _print_summary(calib: dict, verdict: dict) -> None:
     for z in Z_SWEEP:
         key = f"z={z}"
         d = verdict[key]
-        print(f"\n[{key}]")
-        print(f"  lambda arc present:   {d['lambda_arc_present']}  "
-              f"(C x{d['lambda_n_C']} before B x{d['lambda_n_B']}: "
-              f"{d['lambda_C_before_B']})  emit={d['lambda_cell_emit_rate']}")
-        print(f"  retrieval silent:     noop={d['retrieval_token_noop_rate']} "
-              f"emit={d['retrieval_cell_emit_rate']}  (over_read_killed="
-              f"{d['over_read_killed']})")
-        print(f"  gate-neutral arc:     {d['gate_neutral_arc_present']} "
-              f"emit={d['gate_neutral_cell_emit_rate']}  "
-              f"(arc_composition_driven={d['arc_composition_driven']})")
+        print(f"\n[{key}]  (readable zone L>={d['readable_zone_lo']})")
+        print(f"  ★ lambda C-late frac:   {d['lambda_C_late_frac']}  "
+              f"layers={d['lambda_C_late_layers']}")
+        print(f"    gated-guard C-late:   {d['gated_guard_C_late_frac']}  "
+              f"(max={d['max_gated_guard_C_late_frac']})")
+        print(f"    => COMPOSITION_SPECIFIC: {d['composition_specific']}")
+        print(f"    (back-compat) raw-arc={d['lambda_arc_present']} "
+              f"C x{d['lambda_n_C']}/B x{d['lambda_n_B']}; emit lam="
+              f"{d['lambda_cell_emit_rate']} gn={d['gate_neutral_cell_emit_rate']} "
+              f"ret_bare={d['retrieval_cell_emit_rate']}")
     print("═" * 72 + "\n")
 
 
@@ -538,9 +572,11 @@ def main() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     out = {"calibration_summary": calib, "monitor": monitor, "verdict": verdict}
-    # filename parametrized by null_mode; preserve the committed s232 verdict.json
-    vname = "verdict.json" if null_mode == "crosstask" else f"verdict_{null_mode}.json"
-    mname = "meta.json" if null_mode == "crosstask" else f"meta_{null_mode}.json"
+    # filename tagged by model + null_mode (v4: avoids clobber across the model sweep;
+    # the committed s232 verdict.json / verdict_gateneutral.json are left untouched).
+    slug = model_name.split("/")[-1].lower().replace(".", "-")
+    vname = f"verdict_{slug}_{null_mode}.json"
+    mname = f"meta_{slug}_{null_mode}.json"
     (RESULTS_DIR / vname).write_text(
         json.dumps(_json_safe(out), indent=2), encoding="utf-8")
     meta = {
