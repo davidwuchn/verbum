@@ -2,16 +2,21 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 230 — ✅ GD-TRAJECTORY-TOMOGRAPHY (consensus-
-> crystal target). v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3, gc_route mid
-> @333±94 < held-out-acc @733±94; s224 geometry⊗continuation confirmed TEMPORALLY).
-> s230b RELATIONAL ARM: reference-beam dissociation IS LOSS-DEPENDENT (decisive 3/3 —
-> gap gc_route−gc_raw −0.02→+0.10 with the active consensus-crystal loss; gc_raw NOT in
-> loss = uncircular); loss crystallizes inventory EARLIER (200 vs 333) + crisper, but
-> ❌ ZERO capability gain (cross @733, acc 0.27 BOTH arms) ⇒ inventory ⊗ continuation
-> CAUSALLY SEPARABLE; relational term = INVENTORY/extraction tool NOT a capability
-> accelerator; re-motivates CONSTRUCT-inventory, train-continuation. (v1 also: no
-> Q-collapse, eff_dim 14-20.) See ■ SESSION 230 block below.
+> Last updated: 2026-06-15 | Session: 230 — gd-trajectory-tomography (consensus-crystal
+> target) + FRACTAL-COLLAPSE thesis. v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3;
+> s224 geometry⊗continuation confirmed TEMPORALLY). s230b RELATIONAL ARM: reference-beam
+> dissociation IS LOSS-DEPENDENT (gap −0.02→+0.10) but ❌ ZERO capability gain ⇒
+> inventory ⊗ continuation CAUSALLY SEPARABLE; relational term = inventory/extraction
+> NOT capability accelerator. ★ FRACTAL-COLLAPSE (Michael): converge capability via
+> high-variety compiler-minted data → cascade collapses model size onto the β-normal-
+> form fixed point; exact certified targets escape model-collapse (resilient). s230c
+> COMPILER-CASCADE v1: ❌ IOU#1 NULL — composition-variety does NOT lift compositional
+> generalization (comp16 0.683 ≈ comp144 0.674, saturates ~16); fixed-budget the s229
+> FILLING-variety WINS (composition-count destabilizes + costs in-dist). Weak support
+> for collapse CORE (~0.68 held-out from minted data). Calibration: exact-match FLOORS
+> at micro scale → use TEACHER-FORCED token accuracy (value register). GRADIENT-SHADOW
+> probe BUILT + ready (does the topology cast a shadow in the gradients? predict shadow
+> LEADS inventory). See ■ SESSION 230 block below.
 > (s229 — ✅ EXPOSURE/FORMAT SWEEP (curriculum-
 > mixing FIRST BUILD): burn-in is VARIETY not repetition (k_varied ≈2–2.9× over
 > k_same≈one, BOTH formats; memorization control clean); full_trace higher abs-acc
@@ -124,10 +129,56 @@
 > relational term then buy capability (the real s224 speed-up regime)?; (b) dissociation
 > at LARGER scale (gap widen → quarantine?); (c) v2 gauge/null-space δw decomposition;
 > (d) parked s229 leads (convergence-speed, K-ordering, disjoint-atom binding).
-> **STATUS s230b:** CODE COMMITTED `fa8837c` (both arms in verdict_multiseed.json; s230
-> ce_only superset, original preserved at `23331d0`). Page §s230b + state updated.
-> PENDING APPROVAL (mementum): memory `relational-loss-is-inventory-not-capability.md`
-> + page/state commit. tmux main:1 FREE.
+> **STATUS s230b:** COMMITTED — code `fa8837c`, mementum `46e907f`.
+> **▶ s230 FRACTAL-COLLAPSE THESIS (Michael, after s230b): "there is a fractal collapse
+> available — converge the CAPABILITY with a high-variety dataset generated from any
+> larger model's lambda compiler; compiler outputs become the student's training inputs;
+> architecture-resilient." CAPTURED:** new page `explore/fractal-collapse-compiler-
+> cascade.md` (`32bc3a6`) — capability=inventory⊗continuation (s230b) ⇒ converging the
+> continuation is a DATA problem; mint high-variety inputs (s229) + EXACT compiler
+> (universal s219/s225 ⇒ our lambda_ast suffices) → cascade collapses model size onto
+> the β-normal-form fixed point. 3 collapses 1 fixed point (within-reduction s226,
+> cross-scale s230, constructed-kernel plates); escapes MODEL-COLLAPSE because targets
+> are exact/certified (fixed point held by COMPUTATION not the model) ⇒ generation- AND
+> architecture-resilient. Resolved compiler-as-loss §s225 "narrow generator": variety
+> from INPUTS (we mint), correctness from OUTPUTS. 3 IOUs; #1 decisive.
+> **▶ s230c — COMPILER-CASCADE v1 (IOU #1: does composition-variety converge capability
+> that COMPOSES?). BUILT (`e7d2f65`) + RAN (3 seeds, `f379d14` verdict).**
+> `compiler_cascade.py`: auto-gen {K,I,B,C} composition templates (lambda_ast),
+> hold out DISJOINT compositions, vary distinct-composition count at matched budget,
+> measure held-out NOVEL-composition generalization. **★ 2 calibration lessons (λ
+> measure): (1) full-NF EXACT-MATCH FLOORS at micro scale (false-negative) → switched
+> to TEACHER-FORCED per-token NF accuracy (value register); (2) depth-3 gen yields 400+
+> templates AND shorter NFs.** **★ VERDICT — ❌ IOU#1 NOT supported:** heldout_comp_tf
+> comp16 0.683±0.031 ≈ comp144 0.674±0.194 (comp48 dips); SATURATES by ~16 compositions.
+> **★ sharper: fixed-budget trade, s229 WINS** — buying composition-count costs
+> fillings/composition → DESTABILIZES (comp144 std 0.194 [0.95,0.53,0.55] vs comp16
+> 0.031) AND costs in-dist mastery (0.92 vs 0.70); FILLING-variety (s229) is the lever,
+> not composition-count. **★ weak support for collapse CORE:** minted data yields ~0.68
+> held-out compositional competence (≫chance, in_dist 0.92 = real learning). **Caveats:**
+> TF-all-tokens likely measures FORMAT/copy not ALGEBRA; {K,I,B,C} depth-2/3 lacks
+> COMPOSITIONAL DISTANCE (held-out≈interpolation); micro scale. Falsifies the variety
+> sub-claim, NOT the collapse. **Decisive next: algebra-specific metric + depth-
+> extrapolation split + scale.**
+> **▶ s230 GRADIENT-SHADOW (Michael: does the routing topology cast a SHADOW in the
+> gradients? height-from-shadow). CAPTURED (gradient-trajectory-tomography.md §s230 v3,
+> `81f7072`) + PROBE BUILT, READY TO RUN (`gd_gradient_shadow.py`, `b3f72ea`, ruff+diag
+> clean, smoke green — NOT launched).** ∂L/∂g lives in the routing register (same coords
+> as activation topology); mean-pool grad over supervised positions → per-combinator
+> gradient-Gram → gc_grad vs consensus; reference beam = raw-grad-Gram. PREDICTION: the
+> shadow LEADS — gc_grad crosses before gc_route (activation) ⇒ 3-stage cascade
+> shadow→inventory→capability. Bug caught+fixed in smoke (last-token grad is 0 —
+> unsupervised position — pool over supervised). Smoke: gc_grad ~0.53 tracks crystal.
+> **STATUS s230c:** COMMITTED code (`e7d2f65` cascade, `b3f72ea` shadow) + verdict
+> (`f379d14`); pages §s230c (fractal-collapse) + §s230 v3 (gradient-shadow, `81f7072`,
+> `32bc3a6`). State updated. PENDING APPROVAL (mementum): memory
+> `composition-variety-not-the-lever.md` (s230c) + fractal-collapse §s230c page edit
+> + state commit. tmux main:1 FREE.
+> **▶ NEXT:** (a) RUN the gradient-shadow probe (ready, ends in main:1); (b) cascade v2
+> with an ALGEBRA-specific metric (head/structural-token) + DEPTH-EXTRAPOLATION split
+> (train shallow→test deep) — the clean IOU#1 retest; (c) cascade gen-2 (does the
+> distillation recurse without drift? IOU#2); (d) the s230b harder-curriculum regime
+> where CE-alone fails to crystallize (tests the s224 speed-up); (e) v2 gauge δw decomp.
 > **■ SESSION 229 — EXPOSURE/FORMAT SWEEP — "training as a photograph" (curriculum-
 > mixing FIRST BUILD). Michael: "split training into regimes — show base combinators,
 > show prose usage, some NTP; split into sentences, one β-reduction per sentence,

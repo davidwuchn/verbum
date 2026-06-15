@@ -154,6 +154,53 @@ from *fillings→rule* to *compositions→algebra*. Relative (high vs low) is th
 (tiny model; cf s229 λ measure). If high-variety also fails held-out compositions ⇒
 the collapse needs richer (diverse-paraphrase) data, not just minted variety.
 
+## ★ s230c — v1 RESULT (IOU #1: composition-variety does NOT lift generalization — null)
+
+Built `compiler_cascade.py`, ran 3 seeds. **★ Two calibration lessons first (λ
+measure):** (1) full-NF EXACT-MATCH FLOORS at micro scale (CE drops to ~0.7 but
+exact-match stays ~0 — a crisp probe on a graded substrate, false-negative). Switched
+to TEACHER-FORCED per-token NF accuracy (value register) → learnable signal band.
+(2) depth-2 {K,I,B,C} generated too few templates; depth-3 yields 400+ AND shorter NFs
+(more K-erasers collapse) — more variety AND more learnable.
+
+| arm | comps × fills | heldout_comp_tf | in_dist_tf | per-seed heldout |
+|-----|---------------|-----------------|------------|------------------|
+| comp16  | 16 × 144 | **0.683 ± 0.031** | 0.916 ± 0.110 | [0.66, 0.67, 0.73] |
+| comp48  | 48 × 48  | 0.617 ± 0.135 | 0.673 ± 0.166 | [0.81, 0.54, 0.51] |
+| comp144 | 144 × 16 | **0.674 ± 0.194** | 0.698 ± 0.204 | [0.95, 0.53, 0.55] |
+
+**❌ IOU #1 NOT supported.** Held-out compositional generalization does NOT rise with
+composition-variety — comp16 (0.683) ≈ comp144 (0.674), comp48 dips. Competence
+SATURATES by ~16 compositions.
+
+**★ The sharper finding — a fixed-budget trade, and s229 WINS it.** Buying composition-
+count costs fillings-per-composition, which (a) DESTABILIZES learning — comp144 std
+0.194 (per-seed [0.95, 0.53, 0.55] = one lucky seed, two mediocre) vs comp16 std 0.031
+(tight); the OPPOSITE of s229 where filling-variety STABILIZED; and (b) costs in-dist
+mastery — comp16 0.92 ≫ heldout 0.68 (real gap) vs comp144 0.70 ≈ 0.67 (barely
+separates). ⇒ the s229 FILLING-variety axis is load-bearing; COMPOSITION-count beyond a
+low threshold is not the lever and only adds variance.
+
+**Weak support for the collapse CORE (not the variety sub-claim):** minted data DOES
+yield ~0.68 held-out compositional TF-competence (≫ chance; in_dist 0.92 = real
+learning) ⇒ capability generalizes compositionally from modest minted data — you just
+don't need composition-variety to get there.
+
+**Caveats (λ measure) — why this is NOT the final word on the collapse:**
+1. TF-all-tokens likely measures FORMAT/COPY competence (spaces, parens, atom-echo),
+   which saturates by 16 and dilutes the reduction-ALGEBRA signal. Too lenient — the
+   mirror of the exact-match floor. A clean test needs an ALGEBRA-specific metric
+   (head/structural-token accuracy, or exact-match with a more capable model).
+2. {K,I,B,C} at depth 2–3 = small space ⇒ held-out compositions ≈ INTERPOLATIONS of
+   training; 16 already covers the algebra. Real test = COMPOSITIONAL DISTANCE
+   (depth-extrapolation: train shallow → test deeper).
+3. Micro byte model, single curriculum, exact-match floored.
+
+**Net:** falsifies the specific sub-claim *minted composition-variety drives
+compositional generalization* (at micro scale, measurable band) and shows s229
+filling-variety is the real lever. Does NOT falsify the collapse itself. **Decisive
+next test:** algebra-specific metric + depth-extrapolation split + (likely) scale.
+
 ## Files
 
 | File | Content |
