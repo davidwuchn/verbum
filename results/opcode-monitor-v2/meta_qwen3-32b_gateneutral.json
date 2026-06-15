@@ -1,0 +1,19 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "smoke": false,
+  "git_sha": "066319fbae7094312666ceacde8293ee46d0ca97",
+  "timestamp_utc": "2026-06-15T22:09:38.774684+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 64,
+  "intermediate_size": 25600,
+  "n_perm": 300,
+  "probes_per_combinator": null,
+  "z_sweep": [
+    2.0,
+    3.0
+  ],
+  "null_kind": "crosstask",
+  "null_mode": "gateneutral",
+  "n_null_tokens": 56,
+  "n_crystal_layers": 49
+}
