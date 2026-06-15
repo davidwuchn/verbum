@@ -105,14 +105,15 @@ def load_consensus_gram() -> np.ndarray | None:
 # --------------------------------------------------------------------------- #
 @dataclass
 class LayerCalib:
-    """Per-layer calibration: the common-mode, centroids, and off-target null."""
+    """Per-layer calibration: the common-mode, centroids, and the null."""
     common_mode: np.ndarray                 # [d] mean sign(gate) over calib probes
     centroids: np.ndarray                   # [9, d] unit per-combinator centroids (CMR)
-    null_mean: np.ndarray                   # [9] off-target projection mean per op
-    null_std: np.ndarray                    # [9] off-target projection std per op
+    null_mean: np.ndarray                   # [9] null projection mean per op
+    null_std: np.ndarray                    # [9] null projection std per op
     silhouette_z: float                     # crystal significance at this layer
     gc_consensus: float                     # Gram alignment to consensus (or nan)
     crystal_bearing: bool                   # sil_z>thresh (∧ gc>0 if consensus present)
+    null_kind: str = "offtarget"            # "offtarget"(crystal) | "crosstask"
 
 
 @dataclass
@@ -144,12 +145,27 @@ class RelationalCrystalClassifier:
 
     # -- S5 calibration: build the per-layer crystal from the probe activations -- #
     def calibrate(self, gate_by_layer: dict[int, np.ndarray],
-                  labels: np.ndarray) -> dict[int, LayerCalib]:
+                  labels: np.ndarray,
+                  null_gate_by_layer: dict[int, np.ndarray] | None = None,
+                  ) -> dict[int, LayerCalib]:
         """gate_by_layer[li] = [N, d] gate last-token features for the N crystal probes;
-        labels [N] in CRYSTAL. Build per-layer common-mode, CMR centroids, off-target
-        null, silhouette-z, and consensus Gram alignment."""
+        labels [N] in CRYSTAL. Build per-layer common-mode, CMR centroids, the null,
+        silhouette-z, and consensus Gram alignment.
+
+        NULL (s231 v2 — the over-read-killer that no longer under-reads):
+          - null_gate_by_layer=None (default, BACK-COMPAT): off-target null — per op j
+            the null is the projection of NON-j crystal probes onto j's centroid. But
+            every crystal probe is lambda-mode, so "looks more like B than K/I/C?" has
+            LOW POWER (the s231 under-read: the C→B arc no-ops at z=3).
+          - null_gate_by_layer[li] = [M, d] NON-combinator baseline gate features (e.g.
+            natural-text / retrieval tokens where no β-reduction happens): CROSS-TASK
+            null — per op j the null is the projection of BASELINE tokens onto j's
+            centroid (through the SAME sign-CMR transform). Then z asks "does this token
+            look more like op j than a typical natural-text token does?" — recovers the
+            lambda compose-arc while keeping retrieval silent."""
         labels = np.asarray(labels)
         rng = np.random.default_rng(self.seed)
+        null_kind = "crosstask" if null_gate_by_layer is not None else "offtarget"
         for li in self.layers:
             G = np.asarray(gate_by_layer[li], dtype=np.float64)
             S = np.sign(G)
@@ -160,14 +176,27 @@ class RelationalCrystalClassifier:
             Xu = _unit_rows(X)
             sims = Xu @ ucents.T                          # [N, 9] cos to each centroid
             li_idx = np.array([CRYSTAL.index(c) for c in labels])
-            # off-target null per op: projections of NON-op probes onto op's centroid
             nmean = np.zeros(len(CRYSTAL))
             nstd = np.ones(len(CRYSTAL))
-            for j in range(len(CRYSTAL)):
-                off = sims[li_idx != j, j]
-                if off.size:
-                    nmean[j] = off.mean()
-                    nstd[j] = off.std() + 1e-9
+            if null_gate_by_layer is not None:
+                # CROSS-TASK null: project baseline (non-combinator) tokens through the
+                # SAME sign-CMR transform onto each centroid; the per-op population is
+                # the natural-text baseline distribution.
+                B = np.asarray(null_gate_by_layer[li], dtype=np.float64)  # [M, d]
+                Vb = np.sign(B) - common                                  # CMR baseline
+                Vbu = _unit_rows(Vb)
+                bsims = Vbu @ ucents.T                                    # [M, 9]
+                for j in range(len(CRYSTAL)):
+                    col = bsims[:, j]
+                    nmean[j] = col.mean()
+                    nstd[j] = col.std() + 1e-9
+            else:
+                # off-target null per op: projection of NON-op probes onto op centroid
+                for j in range(len(CRYSTAL)):
+                    off = sims[li_idx != j, j]
+                    if off.size:
+                        nmean[j] = off.mean()
+                        nstd[j] = off.std() + 1e-9
             sil_z = _silhouette_z(X, labels, self.n_perm, rng)
             gc = (_offdiag_corr(_gram(cents), self.consensus_gram)
                   if self.consensus_gram is not None else float("nan"))
@@ -176,7 +205,7 @@ class RelationalCrystalClassifier:
                 common_mode=common, centroids=ucents, null_mean=nmean, null_std=nstd,
                 silhouette_z=round(sil_z, 3),
                 gc_consensus=(round(gc, 3) if not np.isnan(gc) else float("nan")),
-                crystal_bearing=bool(bearing))
+                crystal_bearing=bool(bearing), null_kind=null_kind)
         return self.calib
 
     @property
@@ -214,6 +243,7 @@ class RelationalCrystalClassifier:
         return out
 
     def calibration_summary(self) -> dict:
+        null_kinds = {c.null_kind for c in self.calib.values()}
         return {
             "n_layers": len(self.calib),
             "crystal_layers": self.crystal_layers,
@@ -222,6 +252,8 @@ class RelationalCrystalClassifier:
                           for li, c in self.calib.items()},
             "z_thresh": self.z_thresh, "sil_z_thresh": self.sil_z_thresh,
             "has_consensus": self.consensus_gram is not None,
+            "null_kind": (next(iter(null_kinds)) if len(null_kinds) == 1
+                          else sorted(null_kinds)),
         }
 
 
@@ -263,7 +295,27 @@ def _smoke() -> None:
     rn = clf.classify(noop)
     print("common-mode-only token dominant:", rn.dominant, "| emitted:", rn.emitted)
     assert rn.dominant == "·", f"common-mode token should be no-op, got {rn.dominant}"
-    print("\n✅ smoke passed: crystal layer detected, B fires, common-mode -> no-op")
+    print("\n✅ smoke (offtarget null) passed: crystal layer detected, B fires, "
+          "common-mode -> no-op")
+
+    # -- CROSS-TASK null (s231 v2): baseline = common-mode-only "natural-text" -- #
+    base = {li: np.stack([common + rng.standard_normal(d) * 0.5 for _ in range(per)])
+            for li in layers}
+    clf2 = RelationalCrystalClassifier(layers, n_perm=120, z_thresh=3.0, seed=0,
+                                       consensus_gram=None)
+    clf2.calibrate(gate_cal, labels, null_gate_by_layer=base)
+    summ2 = clf2.calibration_summary()
+    assert summ2["null_kind"] == "crosstask", "cross-task null not recorded"
+    assert 1 in clf2.crystal_layers, "planted crystal layer 1 not detected (crosstask)"
+    res2 = clf2.classify(tok)
+    print("cross-task B-token dominant:", res2.dominant, "| emitted:", res2.emitted)
+    assert res2.dominant == "B", f"expected B (crosstask), got {res2.dominant}"
+    rn2 = clf2.classify(noop)
+    print("cross-task common-mode token dominant:", rn2.dominant)
+    assert rn2.dominant == "·", \
+        f"common-mode token should be no-op (crosstask), got {rn2.dominant}"
+    print("✅ smoke (crosstask null) passed: B fires vs natural-text baseline, "
+          "common-mode -> no-op")
 
 
 if __name__ == "__main__":

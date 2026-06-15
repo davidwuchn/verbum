@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "98d6086050edf4c07a847471ab57134a56247a12",
+  "timestamp_utc": "2026-06-15T20:50:51.186979+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "intermediate_size": 17408,
+  "n_perm": 300,
+  "probes_per_combinator": null,
+  "z_sweep": [
+    2.0,
+    3.0
+  ],
+  "null_kind": "crosstask",
+  "n_null_tokens": 84,
+  "n_crystal_layers": 31
+}
