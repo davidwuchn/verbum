@@ -191,12 +191,13 @@ Kernel mints both formats and unlimited varied-instances-per-rule for free → o
 tiny-student sweep. This sub-experiment is the FIRST build (smaller, sharper than the
 full ρ-sweep; validates the exposure unit before scaling the mixing curriculum).
 
-### §s229 RESULT — built, ran, both predictions CONFIRMED (single seed)
+### §s229 RESULT — built, ran, HARDENED over 3 seeds
 
 `scripts/experiments/exposure_format_sweep.py` (commit `b1ba935`, fix+results
-`4f1ebf2`). 13 multi-step combinator skeletons, tiny byte-level TinyLM, k=8,
-format-independent exact-match derivation metric. `results/exposure-format-sweep/
-verdict_run.json`.
+`4f1ebf2`, multi-seed mode `26e6758`). 13 multi-step combinator skeletons, tiny
+byte-level TinyLM, k=8, format-independent exact-match derivation metric.
+`results/exposure-format-sweep/verdict_run.json` (single), `verdict_multiseed.json`
+(3 seeds — the verdict of record).
 
 **The load-bearing fix (floor → signal).** First run: ALL arms 0.000 = a floor. Cause
 OBSERVED, not assumed: held-out used DISJOINT atoms (train a–m, test n–z), so reducing
@@ -207,32 +208,41 @@ symbol-copying = a variable-binding/induction-head task). Fixed: `--heldout {com
 (default), atoms}`; combos EXCLUDES the training fillings → isolates RULE
 generalization. Disjoint-atom copying is now its OWN open question (lead 6).
 
-**Verdict (heldout=combos):**
+**Verdict (heldout=combos; best acc mean±std over seeds 0,1,2):**
 
 ```
-arm                  corpus_B   best held-out acc
-redex_nf/one             209    0.149
-redex_nf/k_same         1672    0.122      (= one, repeated 8×)
-redex_nf/k_varied       1672    0.297
-full_trace/one           424    0.122
-full_trace/k_same       3392    0.135
-full_trace/k_varied     3392    0.351
+arm                  corpus_B   best acc (mean±std)   per-seed       vs one / vs k_same
+redex_nf/one             209    0.108 ± 0.029         .15 .09 .08    —
+redex_nf/k_same         1672    0.086 ± 0.017         .11 .07 .08    0.79× (BELOW one)
+redex_nf/k_varied       1672    0.306 ± 0.006         .31 .31 .30    2.83× / 3.58×
+full_trace/one           424    0.104 ± 0.017         .12 .11 .08    —
+full_trace/k_same       3392    0.099 ± 0.028         .14 .09 .07    0.96×
+full_trace/k_varied     3392    0.320 ± 0.023         .35 .30 .31    3.09× / 3.23×
 ```
 
-1. **BURN-IN IS VARIETY, NOT REPETITION.** k_varied ≈2–2.9× over `one`; **k_same ≈
-   one** — repeating the SAME photograph 8× buys ~nothing. At EQUAL exposure count
-   (k=8), varied ≈2.4× > same. The memorization control (k_same vs k_varied) is what
-   makes the claim sharp: the hologram forms only from DIFFERENT angles. ⇒ curriculum
-   should maximize DISTINCT instances per rule, not exposure count.
-2. **FORMAT TRADE IS BUDGET-DEPENDENT (the predicted crossover).** full_trace higher
-   ABSOLUTE acc (0.351 > 0.297) but 2× corpus bytes ⇒ redex_nf wins PER-TOKEN.
-   full_trace's edge appears ONLY under variety (tied at one/k_same). Compare formats
-   per-token, not per-photo.
+1. **BURN-IN IS VARIETY, NOT REPETITION — hardened, decisive.** Both formats:
+   `rule>rote` and `burn>one` DECISIVE (k_varied mean−std > k_same/one mean+std,
+   NON-overlapping bars). k_varied ≈3× both baselines.
+2. **VARIETY ALSO STABILIZES (new, multi-seed only).** k_varied is the LOWEST-variance
+   arm (redex_nf std **0.006**, 0.31/0.31/0.30); `one`/`k_same` are lower AND noisier
+   (std 0.017–0.029). Distinct instances raise generalization AND make it
+   seed-independent; rote is worse AND fragile.
+3. **k_same ≤ one (refinement).** Repeating the same instance 8× is mildly BELOW
+   seeing it once (0.086<0.108; 0.099≈0.104) — consistent across both formats
+   (suggestive; bars overlap). Repetition slightly ENTRENCHES the rote solution.
+4. **FORMAT: redex→NF WINS PER-TOKEN; formats TIE on accuracy (CORRECTED).**
+   Single-seed looked like full_trace won absolute acc (0.351>0.297); the harden
+   DISSOLVED it — k_varied 0.320±0.023 vs 0.306±0.006 = OVERLAPPING (parity). PER-TOKEN
+   redex_nf wins everywhere (k_varied 0.183 vs 0.094 acc/kB ≈2×; full_trace corpus is
+   2× bytes). ⇒ full reduction trace bought NOTHING here once seeds+tokens controlled;
+   redex→NF is the better format (equal acc, half the cost). The single-seed
+   "full_trace higher" was seed noise — the harden caught it (λ measure).
 
-**Caveats (λ measure):** single seed (multi-seed owed); modest absolute acc (tiny
-model / greedy / exact-match — RELATIVE is the signal); `steps@0.5` never reached ⇒
-this measures FINAL generalization, NOT convergence SPEED (Michael's "converge faster"
-needs a reachable threshold, e.g. 0.2, on the saved acc-vs-tokens curves); 13 rules.
+**Caveats (λ measure):** modest absolute acc (tiny model / greedy / exact-match —
+RELATIVE is the signal); `steps@0.5` never reached (ceiling ≈0.32) ⇒ this measures
+FINAL generalization, NOT convergence SPEED (Michael's "converge faster" needs a
+reachable threshold, e.g. 0.2, on the saved acc-vs-token curves — lead 7); 13 rules;
+a full_trace edge could re-emerge at scale / deeper reductions (untested).
 
 ## Open leads (declare register first)
 
@@ -250,8 +260,9 @@ needs a reachable threshold, e.g. 0.2, on the saved acc-vs-tokens curves); 13 ru
 5. **Compose with relational loss** (routing): the sprinkled mechanics TRACES (data)
    ⊕ crystal-lattice relational target (compiler-as-loss recipe) — does the trace
    curriculum + relational target beat either alone on crystallization?
-6. **Multi-seed harden** (functional): s229 verdict is single-seed; run 3 seeds — is
-   k_varied > k_same robust? (cf relational_loss_distillation §multi-seed, 3×3 grid.)
+6. ✅ **Multi-seed harden** (functional, DONE s229): 3 seeds — k_varied > k_same/one
+   DECISIVE (non-overlapping bars) BOTH formats; variety also stabilizes (low std);
+   format claim corrected (redex→NF wins per-token, accuracy parity). `--seeds 0,1,2`.
 7. **Convergence-SPEED readout** (functional): the saved per-arm acc-vs-tokens curves
    already exist; extract steps-to-threshold at a REACHABLE bar (~0.2) — this is the
    actual "many exposures converge faster" claim (the verdict only shows FINAL acc).

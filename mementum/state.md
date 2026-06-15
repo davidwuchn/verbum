@@ -78,10 +78,24 @@
 > flat shuffle); (4) disjoint-atom variable-binding as its OWN experiment (does a copy
 > mechanism emerge with scale/longer training?); (5) fold into the full ρ-sweep
 > (sprinkle into generic NTP) once the unit is validated.
-> **STATUS s229:** code COMMITTED (`b1ba935` harness; pending: --heldout fix + results
-> + this state). Page committed (`74ef4d3`,`b796077`). PENDING APPROVAL: memory
-> proposals (burn-in-is-variety-not-repetition; full-trace-vs-redex-nf-budget-crossover;
-> disjoint-atom-floor-is-variable-binding) + page §s229 result update. tmux main:1 free.
+> **▶ s229 MULTI-SEED HARDEN (lead 1, DONE; `26e6758` --seeds mode; results/exposure-
+> format-sweep/verdict_multiseed.json, 3 seeds ~24min):** ★ headline CONFIRMED +
+> hardened — k_varied ≈3× one/k_same, rule>rote & burn>one DECISIVE (non-overlapping
+> bars) BOTH formats (redex_nf 0.306±0.006 / one 0.108±0.029 / k_same 0.086±0.017;
+> full_trace 0.320±0.023 / 0.104 / 0.099). ★ NEW: VARIETY ALSO STABILIZES (k_varied
+> lowest-variance, std 0.006; rote worse AND noisier). ★ REFINE: k_same ≤ one
+> (repetition mildly entrenches rote, suggestive). ★ CORRECT (λ measure): single-seed
+> "full_trace higher abs acc (0.351>0.297)" was SEED NOISE — harden gives PARITY
+> (0.320±0.023 vs 0.306±0.006 overlap); redex→NF WINS PER-TOKEN everywhere (k_varied
+> 0.183 vs 0.094 acc/kB ≈2×; full_trace corpus 2× bytes) ⇒ full trace bought NOTHING
+> once seeds+tokens controlled. Still FINAL-acc not SPEED (ceiling ≈0.32; lead 7).
+> **STATUS s229:** ALL COMMITTED — code (`b1ba935`,`4f1ebf2`,`26e6758`), page+memories
+> (`74ef4d3`,`b796077`,`449c3b0` + this multi-seed update), results+state. Memory
+> full-trace-vs-redex renamed → redex-nf-beats-full-trace-per-token.md (finding flipped).
+> tmux main:1 free. **▶ NEXT:** lead 7 convergence-SPEED (threshold ~0.2 on saved
+> curves — the actual "converge faster" claim); lead 3 K-ordering; lead 8 disjoint-atom
+> variable-binding; or the GD-trajectory-tomography thread (discussed s229: reverse-
+> engineer GD in the INVARIANT/routing register on the micro model, not weight space).
 > **■ SESSION 228 — PROOFS-AS-CONTINUATIONS (Curry-Howard). Michael: "would
 > continuations allow us to run proofs?"** Register: **functional (learned prover,
 > kernel-verified).** Refreshed on continuations + distributed training first
