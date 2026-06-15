@@ -49,10 +49,26 @@ FALSIFIABLE PREDICTIONS:
                    the reverse-engineered GD behavior and the relational/laser
                    constraint is the lever.
 
+s230b EXTENSION — IS THE REFERENCE-BEAM SPLIT LOSS-DEPENDENT? s230 found that under
+plain CE the raw register tracks the consensus crystal as well as routing (gc_raw ~
+gc_route), so the routing-vs-raw dissociation did NOT reproduce passively. Hypothesis:
+the s223 register split is a property of an ACTIVE relational LOSS, not a passive
+readout. The `relational` arm adds the compiler-as-loss INVENTORY term:
+    L = CE + rel_lambda * offdiag_mse(student routing-register Gram, CONSENSUS CRYSTAL)
+Only the routing register is in the loss -> gc_raw (raw register) and held-out
+reduction acc are NOT in the loss = UNCIRCULAR readouts. Predictions:
+  dissociation : relational gc_route >> gc_raw (gap > 0) while ce_only gap ~ 0
+                 -> the register split is LOSS-DEPENDENT (reproduces s223 (b) as a
+                 trajectory). NB gc_route rising in the relational arm is partly
+                 tautological (it IS the loss); the TEST is the gc_raw gap + capability.
+  speed-up     : relational reaches held-out capability EARLIER than ce_only (the
+                 s224 crystal-term-accelerates-training claim; capability not in loss).
+
 Usage:
   uv run python scripts/experiments/gd_trajectory_tomography.py --smoke
-  uv run python scripts/experiments/gd_trajectory_tomography.py --steps 6000
   uv run python scripts/experiments/gd_trajectory_tomography.py --seeds 0,1,2
+  uv run python scripts/experiments/gd_trajectory_tomography.py \
+      --arms ce_only,relational --seeds 0,1,2 --rel-lambda 1.0
 
 License: MIT
 """
@@ -99,6 +115,8 @@ from relational_loss_distillation import (  # noqa: E402
     np_gram,
     np_silhouette_null,
     offdiag_corr,
+    offdiag_mse,
+    soft_gram,
 )
 
 RESULTS_DIR = _PROJECT_ROOT / "results" / "gd-trajectory-tomography"
@@ -261,19 +279,41 @@ def readout(curve: list[dict], init: dict, gc_frac: float, acc_frac: float,
         "reference_beam": {
             "gc_route_final": round(final_gc, 4),
             "gc_raw_final": _final(curve, "gc_raw"),
+            "gc_gap": round(final_gc - _final(curve, "gc_raw"), 4),  # dissociation
             "route_tracks_function": final_gc > abs(_final(curve, "gc_raw")),
         },
     }
 
 
 # --------------------------------------------------------------------------- #
-# Train one seed: CE-only, dense checkpoints, geometry movie                    #
+# Relational loss (the compiler-as-loss INVENTORY term): pull the student's    #
+# routing-register Gram toward the CONSENSUS CRYSTAL. Only the routing register #
+# is touched -> gc_raw (raw register) is NOT in the loss = uncircular reference #
+# beam; held-out reduction acc is NOT in the loss = uncircular capability test. #
+# --------------------------------------------------------------------------- #
+def relational_loss(model: TinyLM, p_ids: torch.Tensor, p_len: torch.Tensor,
+                    label_idx: torch.Tensor, cap: int, g_target: torch.Tensor,
+                    probe_batch: int) -> torch.Tensor:
+    feats = []
+    for s in range(0, p_ids.shape[0], probe_batch):
+        pb = p_ids[s:s + probe_batch]
+        _, _, gate = model(pb, capture_layer=cap)
+        feats.append(gather_last(gate, p_len[s:s + probe_batch]))
+    feats = torch.cat(feats, dim=0)
+    g_pred = soft_gram(feats, label_idx)  # routing-register CMR Gram [9,9]
+    return offdiag_mse(g_pred, g_target)
+
+
+# --------------------------------------------------------------------------- #
+# Train one seed/arm: dense checkpoints, geometry movie. arm in                 #
+# {ce_only, relational}; relational adds the consensus-crystal inventory term.  #
 # --------------------------------------------------------------------------- #
 def train_seed(args, device: str, consensus_gram: np.ndarray, seed: int,
                p_ids: torch.Tensor, p_len: torch.Tensor,
-               probe_labels: np.ndarray) -> dict:
+               probe_labels: np.ndarray, arm: str) -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
+    rel = arm == "relational"
 
     rules = validate_skeletons(SKELETONS)
     if args.smoke:
@@ -299,23 +339,28 @@ def train_seed(args, device: str, consensus_gram: np.ndarray, seed: int,
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
     cap = args.capture_layer if args.capture_layer >= 0 else args.n_layer // 2
 
+    g_target = (torch.tensor(consensus_gram, device=device, dtype=torch.float32)
+                if rel else None)
+    label_idx = (torch.tensor([CRYSTAL.index(c) for c in probe_labels],
+                              device=device) if rel else None)
+
     curve: list[dict] = []
     t0 = time.time()
 
-    def snapshot(step: int, ce_val: float) -> None:
+    def snapshot(step: int, ce_val: float, rel_val: float) -> None:
         acc = eval_acc(model, eval_items, T, device)
         geo = measure_geometry(model, p_ids, p_len, probe_labels, cap,
                                consensus_gram, args.n_perm, args.probe_batch, seed)
-        row = {"step": step, "tokens": step * bs * T,
-               "ce": round(ce_val, 4), "heldout_acc": round(acc, 4), **geo}
+        row = {"step": step, "tokens": step * bs * T, "ce": round(ce_val, 4),
+               "rel": round(rel_val, 5), "heldout_acc": round(acc, 4), **geo}
         curve.append(row)
-        log(f"  [seed {seed}] step {step:5d} | CE {ce_val:.3f} | acc {acc:.3f} "
-            f"| route_z {geo['route_z']:+.2f} | gc_route {geo['gc_route']:+.3f} "
-            f"| gc_raw {geo['gc_raw']:+.3f} | effd {geo['eff_dim_route']:.1f} "
-            f"| {time.time()-t0:.0f}s")
+        log(f"  [{arm[:3]} s{seed}] step {step:5d} | CE {ce_val:.3f} "
+            f"| rel {rel_val:.4f} | acc {acc:.3f} | route_z {geo['route_z']:+.2f} "
+            f"| gc_route {geo['gc_route']:+.3f} | gc_raw {geo['gc_raw']:+.3f} "
+            f"| gap {geo['gc_route']-geo['gc_raw']:+.3f} | {time.time()-t0:.0f}s")
 
     # frame at init (step 0) = the gauge baseline before any GD
-    snapshot(0, float("nan"))
+    snapshot(0, float("nan"), 0.0)
     for step in range(1, args.steps + 1):
         model.train()
         ix = torch.randint(0, n - T - 1, (bs,))
@@ -324,12 +369,19 @@ def train_seed(args, device: str, consensus_gram: np.ndarray, seed: int,
             [torch.from_numpy(ids[i + 1:i + 1 + T]) for i in ix]).to(device)
         logits, _, _ = model(xb)
         ce = F.cross_entropy(logits.reshape(-1, VOCAB), yb.reshape(-1))
+        loss = ce
+        rel_val = 0.0
+        if rel and step % args.rel_every == 0:
+            rl = relational_loss(model, p_ids, p_len, label_idx, cap, g_target,
+                                 args.probe_batch)
+            loss = ce + args.rel_lambda * rl
+            rel_val = float(rl.item())
         opt.zero_grad()
-        ce.backward()
+        loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         if step % args.ckpt_every == 0 or step == args.steps:
-            snapshot(step, float(ce.item()))
+            snapshot(step, float(ce.item()), rel_val)
 
     # readout uses post-init frames only (drop the nan-CE init frame for CE plateau)
     # but baselines crossings against the step-0 init frame (the gauge common mode)
@@ -341,8 +393,8 @@ def train_seed(args, device: str, consensus_gram: np.ndarray, seed: int,
                            "gc_raw": init_frame["gc_raw"],
                            "route_z": init_frame["route_z"],
                            "heldout_acc": init_frame["heldout_acc"]}
-    return {"seed": seed, "capture_layer": cap, "corpus_bytes": int(ids.shape[0]),
-            "curve": curve, "readout": rd}
+    return {"arm": arm, "seed": seed, "capture_layer": cap,
+            "corpus_bytes": int(ids.shape[0]), "curve": curve, "readout": rd}
 
 
 def _ms(vals: list[float]) -> list[float]:
@@ -382,6 +434,12 @@ def main() -> None:
                     help="route_z crossing threshold (significant structure)")
     ap.add_argument("--ce-tol", type=float, default=0.05,
                     help="CE plateau = within this frac of final CE")
+    ap.add_argument("--arms", default="ce_only,relational",
+                    help="csv arms: ce_only and/or relational (paired per seed)")
+    ap.add_argument("--rel-lambda", type=float, default=1.0,
+                    help="weight of the consensus-crystal inventory term")
+    ap.add_argument("--rel-every", type=int, default=2,
+                    help="apply the relational loss every N steps (cost knob)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--seeds", default="",
                     help="csv seeds for multi-seed harden (overrides --seed)")
@@ -392,6 +450,7 @@ def main() -> None:
         args.steps, args.ckpt_every = 120, 40
         args.k, args.m_eval, args.n_perm = 4, 3, 100
         args.d_model, args.d_ff, args.n_layer = 64, 128, 3
+        args.rel_every = 1
 
     device = args.device
     if device == "mps" and not torch.backends.mps.is_available():
@@ -412,78 +471,88 @@ def main() -> None:
     p_len = torch.tensor(probe_len, device=device)
     log(f"  crystal probes={probe_ids.shape[0]} maxlen={probe_ids.shape[1]}")
 
+    arms = [a.strip() for a in args.arms.split(",") if a.strip()]
     seeds = [int(s) for s in args.seeds.split(",") if s.strip()] or [args.seed]
-    log(f"  seeds={seeds} steps={args.steps} ckpt_every={args.ckpt_every}")
+    log(f"  arms={arms} seeds={seeds} steps={args.steps} "
+        f"ckpt_every={args.ckpt_every} rel_lambda={args.rel_lambda}")
 
-    runs = [train_seed(args, device, consensus_gram, sd, p_ids, p_len, probe_labels)
-            for sd in seeds]
+    runs = [train_seed(args, device, consensus_gram, sd, p_ids, p_len,
+                       probe_labels, arm)
+            for arm in arms for sd in seeds]
 
     meta = {
         "experiment": "gd-trajectory-tomography",
         "register": "functional + topological/routing",
-        "idea": "reverse-engineer GD in invariant coords; consensus-crystal target",
+        "idea": "reverse-engineer GD in invariant coords; consensus-crystal target; "
+                "ce_only vs relational arm = is the reference-beam split loss-dep",
         "timestamp_utc": datetime.now(UTC).isoformat(),
         "git_sha": git_sha(),
         "device": device,
         "smoke": args.smoke,
         "config": vars(args),
         "consensus": cmeta,
+        "arms": arms,
         "seeds": seeds,
         "elapsed_s": round(time.time() - t0, 1),
     }
 
-    if len(seeds) == 1:
-        out = {**meta, **runs[0]}
-        tag = "smoke" if args.smoke else "run"
-        (RESULTS_DIR / f"verdict_{tag}.json").write_text(json.dumps(out, indent=2))
-        rd = runs[0]["readout"]
-        log("\n  ==== GD TRAJECTORY TOMOGRAPHY (single seed) ====")
-        log(f"  final: gc_route={rd['final']['gc_route']:+.3f} "
-            f"gc_raw={rd['final']['gc_raw']:+.3f} "
-            f"route_z={rd['final']['route_z']:+.2f} "
-            f"heldout_acc={rd['final']['heldout_acc']:.3f} "
-            f"eff_dim_route={rd['final']['eff_dim_route']}")
-        log(f"  crystallize(gc_route 50%)@{rd['step_gc_route_cross']} | "
-            f"route_z>={args.z_thresh}@{rd['step_route_z_cross']} | "
-            f"heldout_acc 50%@{rd['step_heldout_acc_cross']} | "
-            f"CE plateau@{rd['step_ce_plateau']}")
-        log(f"  INVENTORY before CAPABILITY: {rd['inventory_before_capability']} "
-            f"(route_z: {rd['routing_z_before_capability']})")
-        log(f"  REFERENCE BEAM: gc_route {rd['reference_beam']['gc_route_final']:+.3f} "
-            f"vs gc_raw {rd['reference_beam']['gc_raw_final']:+.3f} -> "
-            f"route_tracks_function={rd['reference_beam']['route_tracks_function']}")
-        log(f"\n  wrote {RESULTS_DIR / f'verdict_{tag}.json'}  ({meta['elapsed_s']}s)")
-        return
+    def agg_arm(arm_runs: list[dict]) -> dict:
+        rds = [r["readout"] for r in arm_runs]
+        return {
+            "n": len(rds),
+            "step_gc_route_cross": _ms([r["step_gc_route_cross"] for r in rds]),
+            "step_heldout_acc_cross": _ms([r["step_heldout_acc_cross"] for r in rds]),
+            "step_ce_plateau": _ms([r["step_ce_plateau"] for r in rds]),
+            "gc_route_final": _ms([r["final"]["gc_route"] for r in rds]),
+            "gc_raw_final": _ms([r["final"]["gc_raw"] for r in rds]),
+            "gc_gap_final": _ms([r["reference_beam"]["gc_gap"] for r in rds]),
+            "route_z_final": _ms([r["final"]["route_z"] for r in rds]),
+            "heldout_acc_final": _ms([r["final"]["heldout_acc"] for r in rds]),
+            "inventory_before_capability": [r["inventory_before_capability"]
+                                            for r in rds],
+        }
 
-    # multi-seed aggregate of the readout ordering
-    rds = [r["readout"] for r in runs]
-    agg = {
-        "n_seeds": len(seeds),
-        "step_gc_route_cross": _ms([r["step_gc_route_cross"] for r in rds]),
-        "step_route_z_cross": _ms([r["step_route_z_cross"] for r in rds]),
-        "step_heldout_acc_cross": _ms([r["step_heldout_acc_cross"] for r in rds]),
-        "step_ce_plateau": _ms([r["step_ce_plateau"] for r in rds]),
-        "gc_route_final": _ms([r["final"]["gc_route"] for r in rds]),
-        "gc_raw_final": _ms([r["final"]["gc_raw"] for r in rds]),
-        "route_z_final": _ms([r["final"]["route_z"] for r in rds]),
-        "heldout_acc_final": _ms([r["final"]["heldout_acc"] for r in rds]),
-        "inventory_before_capability": [r["inventory_before_capability"]
-                                        for r in rds],
-        "route_tracks_function": [r["reference_beam"]["route_tracks_function"]
-                                  for r in rds],
-    }
-    out = {**meta, "aggregate": agg, "runs": runs}
-    (RESULTS_DIR / "verdict_multiseed.json").write_text(json.dumps(out, indent=2))
-    log("\n  ==== GD TRAJECTORY TOMOGRAPHY (multi-seed) ====")
-    log(f"  crystallize(gc_route)@{agg['step_gc_route_cross']} | "
-        f"route_z@{agg['step_route_z_cross']} | "
-        f"heldout_acc@{agg['step_heldout_acc_cross']} | "
-        f"CE plateau@{agg['step_ce_plateau']}  (step mean+-std)")
-    log(f"  gc_route_final={agg['gc_route_final']} gc_raw_final={agg['gc_raw_final']} "
-        f"route_z_final={agg['route_z_final']}")
-    log(f"  inventory_before_capability per-seed: {agg['inventory_before_capability']}")
-    log(f"  route_tracks_function per-seed: {agg['route_tracks_function']}")
-    log(f"\n  wrote {RESULTS_DIR / 'verdict_multiseed.json'}  ({meta['elapsed_s']}s)")
+    by_arm = {arm: agg_arm([r for r in runs if r["arm"] == arm]) for arm in arms}
+
+    # ---- the s230b comparison: is the reference-beam split LOSS-DEPENDENT? ----
+    comparison: dict = {}
+    if "ce_only" in by_arm and "relational" in by_arm:
+        ce, rel = by_arm["ce_only"], by_arm["relational"]
+        cg, rg = ce["gc_gap_final"], rel["gc_gap_final"]
+        ca, ra = ce["step_heldout_acc_cross"], rel["step_heldout_acc_cross"]
+        comparison = {
+            # dissociation: gc_route - gc_raw. gc_raw NOT in the loss = uncircular.
+            "gc_gap_ce_only": cg, "gc_gap_relational": rg,
+            "dissociation_loss_dependent": (rg[0] - rg[1]) > (cg[0] + cg[1]),
+            # capability (NOT in the loss) timing = the s224 speed-up claim
+            "capability_cross_ce_only": ca, "capability_cross_relational": ra,
+            "relational_speeds_capability": (ra[0] is not None and ca[0] is not None
+                                             and ra[0] < ca[0]),
+            "gc_crystallize_ce_only": ce["step_gc_route_cross"],
+            "gc_crystallize_relational": rel["step_gc_route_cross"],
+        }
+
+    tag = "smoke" if args.smoke else ("multiseed" if len(seeds) > 1 else "run")
+    out = {**meta, "by_arm": by_arm, "comparison": comparison, "runs": runs}
+    (RESULTS_DIR / f"verdict_{tag}.json").write_text(json.dumps(out, indent=2))
+
+    log("\n  ==== GD TRAJECTORY TOMOGRAPHY — ARM COMPARISON ====")
+    for arm in arms:
+        a = by_arm[arm]
+        log(f"  [{arm}] gc_route={a['gc_route_final']} gc_raw={a['gc_raw_final']} "
+            f"GAP={a['gc_gap_final']} | crystallize@{a['step_gc_route_cross']} "
+            f"capability@{a['step_heldout_acc_cross']} | acc={a['heldout_acc_final']} "
+            f"| inv<cap {a['inventory_before_capability']}")
+    if comparison:
+        log("\n  --- s230b: is the reference-beam split LOSS-DEPENDENT? ---")
+        log(f"  dissociation gap: ce_only={comparison['gc_gap_ce_only']} -> "
+            f"relational={comparison['gc_gap_relational']}  "
+            f"LOSS-DEPENDENT={comparison['dissociation_loss_dependent']}")
+        log(f"  capability cross: ce_only={comparison['capability_cross_ce_only']} -> "
+            f"relational={comparison['capability_cross_relational']}  "
+            f"SPEEDS-UP={comparison['relational_speeds_capability']}")
+        log("  (gc_raw and held-out acc are NOT in the loss = uncircular readouts)")
+    log(f"\n  wrote {RESULTS_DIR / f'verdict_{tag}.json'}  ({meta['elapsed_s']}s)")
 
 
 if __name__ == "__main__":
