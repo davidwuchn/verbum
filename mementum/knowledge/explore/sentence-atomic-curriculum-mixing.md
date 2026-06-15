@@ -138,11 +138,65 @@ the inventory where s225 predicts (gather→attention, algebra→FFN). If ρ>0 d
 beat ρ=0 on the composition test, the structured shards are inert (or the unit/order
 is wrong) — a clean negative is still an artifact (method + finding).
 
+## The exposure/format sub-experiment (s229 — "training as a photograph")
+
+> Michael's framing: a training step is an EXPOSURE to a single "photograph"; many
+> exposures to the same β-reduction should converge faster than one. This is the
+> holographic-burn-in claim — but with a fork that must be controlled or it measures
+> the wrong thing.
+
+**The fork.** "Many exposures to the same β-reduction" has two readings:
+
+```
+k× SAME EXACT instance      → burns in THAT instance  → MEMORIZATION
+                              (train loss ↓ fast, held-out flat)
+k× VARIED instances of the  → burns in the INVARIANT  → GENERALIZATION
+SAME RULE (e.g. K over        = the RULE               (each instance = the same
+varied term pairs)                                       object from a new ANGLE;
+                                                         the hologram forms only if
+                                                         the angles DIFFER)
+```
+
+So "faster with more exposures" is *trivially* true under exact repeats
+(memorization) and *interestingly* true only under varied instances measured as
+HELD-OUT generalization. Test both — the memorization arm is the control.
+
+**Crossed design (resolves full-trace vs redex→NF AT THE SAME TIME):**
+
+```
+Axis 1  FORMAT (content per photograph)
+  full-trace   every intermediate β-step = long-exposure photo (the MOVE is visible)
+  redex→NF     input → normal form only   = single sharp snapshot (no motion)
+
+Axis 2  EXPOSURE MULTIPLICITY
+  1 instance
+  k× SAME instance      (MEMORIZATION control — isolates rote)
+  k× VARIED instances   (true burn-in — the hologram from many angles)
+
+METRIC  convergence SPEED to HELD-OUT generalization (steps/tokens to target on
+        UNSEEN instances of the same rule) — NOT training loss
+FAIR    control TOKEN budget, not exposure count (full-trace photos cost more tokens)
+```
+
+**Falsifiable predictions.**
+- *Burn-in real:* varied-instances reaches held-out generalization faster than 1,
+  diminishing returns (more angles → sharper, saturating). Exact-repeat saturates
+  early, stays flat on held-out (memorizes train only).
+- *Format trade:* full-trace = info-rich long exposure → fewer DISTINCT instances
+  needed; redex→NF = cheap snapshot → needs more angles. Honest comparison is
+  PER-TOKEN. May be budget-dependent (full-trace wins low-budget, redex→NF wins
+  high) — that crossover would itself be the finding.
+
+Kernel mints both formats and unlimited varied-instances-per-rule for free → one
+tiny-student sweep. This sub-experiment is the FIRST build (smaller, sharper than the
+full ρ-sweep; validates the exposure unit before scaling the mixing curriculum).
+
 ## Open leads (declare register first)
 
 1. **Sentence format spec** (functional): exact rendering of `term → reduction
    trace` as one sentence; dual-render NL + combinator? include intermediate steps
-   or just redex→result? (intermediate steps = more exposure of the *move*.)
+   or just redex→result? — DECIDED to TEST, not assume: see §exposure/format
+   sub-experiment (full-trace vs redex→NF, crossed with exposure multiplicity).
 2. **Held-out composition set** (functional): pairs of reductions trained separately
    whose COMPOSITION is never shown — the generalization probe. Mint with
    `lambda_compile` so correctness is by construction (Church-Rosser).
@@ -158,6 +212,7 @@ is wrong) — a clean negative is still an artifact (method + finding).
 
 | File | Content |
 |------|---------|
+| (planned) `scripts/experiments/exposure_format_sweep.py` | FIRST build: full-trace vs redex→NF × {1, k-same, k-varied}, convergence-to-held-out-generalization per token |
 | (planned) `scripts/experiments/curriculum_mixing.py` | build A/B/C shards, sweep ρ, train tiny student, score held-out composition + dual-register crystallization |
 | `src/verbum/lambda_ast.py` | reduction-trace oracle (regime A data) |
 | `src/verbum/lambda_compile.py` | bracket abstraction (held-out composition minting) |
