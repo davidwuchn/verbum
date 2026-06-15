@@ -1,0 +1,12 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "fb0c9ecedf13e59e9405f9c782731df99cc8bc6b",
+  "timestamp_utc": "2026-06-15T20:13:40.525324+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "intermediate_size": 17408,
+  "n_crystal_layers": 31,
+  "n_perm": 300,
+  "probes_per_combinator": null
+}
