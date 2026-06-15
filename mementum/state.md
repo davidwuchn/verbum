@@ -45,13 +45,19 @@
 > likely scale-gated (s151) or 14B-specific (the s127 model). Caveats: 5 lambda sentences,
 > 2 models, modest fracs (above chance not crisp s219). Captured: page §s232 v4 + memory
 > c-late-composition-is-model-specific + this state. Code committed `9495b2b`.
-> **★★ FIRST ACTION NEXT SESSION — v5: (b) KERNEL-AS-REFERENCE (now priority — a single
-> model's read doesn't transfer, so anchor the model trajectory against lambda_ast's
-> CERTIFIED trace as the model-invariant; characterize composition→routing per-model).
-> Also: (2) Qwen3-32B (is 14B the outlier or do larger models recover specificity =
-> scale-gating prediction?); (3) bigger lambda probe set + investigate 8B gate_neutral
-> C-late confound.** PENDING APPROVAL (mementum: page §s232 v3+v4 + memories + state).
-> tmux main:1 FREE.
+> **▶ s232 v4 SCALE TEST — Qwen3-32B RUNNING (in flight, tmux main:1, log
+> /tmp/opcode_v4_32b_s232.log, marker V4_32B_DONE; writes verdict_qwen3-32b_gateneutral
+> .json; 64 layers ⇒ ~25-40min).** Tests scale-gating: ▸ 32B specific (composition_
+> specific=True) ⇒ 14B NOT an outlier, mid+large recover, 8B too small; ▸ 32B fails ⇒
+> 14B IS the outlier (s127-special, the model the compose mechanism was characterized on);
+> ▸ 32B partial ⇒ graded scale effect. ★★ NEXT ACTION: read
+> results/opcode-monitor-v2/verdict_qwen3-32b_gateneutral.json (lambda C-late vs the 3
+> gated guards at z=2/z=3) → capture §s232 v4 scale + memory + commit code/results.
+> **★★ THEN v5: (b) KERNEL-AS-REFERENCE (priority — a single model's read doesn't transfer,
+> so anchor the model trajectory against lambda_ast's CERTIFIED trace as the model-
+> invariant; characterize composition→routing per-model). Also (3) bigger lambda probe set
+> + investigate the 8B gate_neutral C-late confound.** PENDING APPROVAL (mementum: page
+> §s232 v3+v4 + memories + state).
 >
 > (Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
 > MECHANISM-OF-TRAINING per-combinator clock (micro crystal is RELATIONAL not categorical,

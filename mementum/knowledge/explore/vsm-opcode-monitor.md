@@ -210,11 +210,15 @@ s219).
 
 ### v5 — next steps
 
-- **(b) kernel-as-reference** (now the priority): a single model's opcode read does NOT
-  transfer (14B≠8B) ⇒ anchor the model trajectory against `lambda_ast`'s certified trace
-  as the invariant; characterize per-model how composition maps to the routing register.
-- 3rd model (Qwen3-32B) — is 14B the outlier or do larger models recover specificity
-  (scale-gating prediction)?
+- **Qwen3-32B scale test — RUNNING (s232, in flight).** `--model Qwen/Qwen3-32B
+  --null-mode gateneutral` (tmux main:1, log `/tmp/opcode_v4_32b_s232.log`, writes
+  `verdict_qwen3-32b_gateneutral.json`). Falsifiable: 32B `composition_specific=True` ⇒
+  14B not an outlier (scale recovers, 8B too small); 32B False ⇒ 14B IS the outlier
+  (s127-special); partial ⇒ graded scale effect. VERDICT PENDING (read next).
+- **(b) kernel-as-reference** (the priority after the scale read): a single model's opcode
+  read does NOT transfer (14B≠8B) ⇒ anchor the model trajectory against `lambda_ast`'s
+  certified trace as the invariant; characterize per-model how composition maps to the
+  routing register.
 - bigger probe sets (more lambda sentences) for crisper fractions; investigate WHY 8B's
   gate_neutral routes C-late (the simple-copular-sentence confound).
 
