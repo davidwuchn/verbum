@@ -2,7 +2,43 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 230 — gd-trajectory-tomography (consensus-crystal
+> Last updated: 2026-06-15 | Session: 231 — GRADIENT-SHADOW v3 RAN (3 seeds) + the
+> MECHANISM-OF-TRAINING thread opened (Michael). ✅ inventory-before-capability
+> REPRODUCED a 3rd time (gc_route@267±94 < acc@733±94). ❌ preregistered "shadow LEADS
+> as rising gc_grad" FALSIFIED — gc_grad starts at common-mode init (+0.58), decays to
+> 0.43 (crossing=None 3/3). 💡 REFRAME: the probe found the real signal in grad_z — the
+> gradient carries combinator structure FROM INIT (grad_z +4.7→+5.9 @step0), stays high
+> (3.6–4.1) while inventory crystallizes, then COLLAPSES (→−0.5…+2.1) exactly at the
+> inventory→capability HANDOFF (3/3). The shadow is the INITIAL CONDITION the object
+> grows into; its EXHAUSTION times the handoff (height-from-shadow corrected). Makes the
+> s221 fp-spike-is-acquisition law legible. Register gap (routing vs raw) null/noisy
+> (+0.06±0.08). INSTRUMENT LESSON: read grad_z NOT gc_grad-crossing. CAPTURED: page
+> §s231 + memory gradient-structure-is-inventory-fuel + this state.
+> **★ MECHANISM-OF-TRAINING THREAD (Michael, s231): "can we write probes that show
+> EXACTLY how GD learns? past runs: B-dominant first → loss plateau → discovers K → phase
+> transition (figuring out best ratios). Tailor training to MIRROR those phase
+> transitions. Spend probes on how ATTENTION organizes against the FFN projections;
+> design training to SHOW ATTENTION what to do using these functions."** Grounded in 4
+> prior findings (recall, not greenfield): fp-spike-is-acquisition (s221: B-first→
+> plateau→K-chaos, the acquisition fingerprint); montague-is-pre-transition (s151:
+> I→K→C→B bootstrap, scale-gated, transition=2D collapse); ffn-two-functional-groups
+> (s127: {K,I} selectors→FFN, {B,C} composers→attention = literally "attention vs FFN
+> projections"); c-boot-rotation-sequence (attention dominates 92°/49°/8°, combinators=
+> rotations, WHNF@L0=route-decision). DESIGN = 3 nested probes on the SAME shadow harness:
+> (1) per-combinator crystallization clock (acquisition ORDER); (2) per-combinator grad_z
+> fuel-gauge (does B exhaust before K? s221 read in the gradient); (3) two-register split
+> FFN-gate vs attention (does B/C live in attention, K/I in FFN, s127, FORMING over
+> training?). Payoffs: (C) curriculum-mirroring (order-matched vs counter vs flat, s221
+> lead + s229 burn-in); (D) "show attention what to do" = relational loss on the ATTENTION
+> pattern toward composer (B/C) structure (s230b loss, attention not FFN gate). CAVEATS
+> (λ measure, load-bearing): micro d=128 may be PRE-transition (s151 Montague, only I+K
+> differentiate → no B-first→K to see); "B-first" is StrideStack-specific (s221) so plain
+> TinyLM directly TESTS universality; per-combinator splits modest route_z (~2.7) →SNR.
+> Open lead 6 on the page. **▶ NEXT: pick scale (micro-first to validate the per-
+> combinator grad_z instrument + test if ANY ordering exists at d=128, then graduate to
+> a larger run where the B-first→K transition is KNOWN to live) — DISCUSSING experiments.**
+>
+> (Session: 230 — gd-trajectory-tomography (consensus-crystal
 > target) + FRACTAL-COLLAPSE thesis. v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3;
 > s224 geometry⊗continuation confirmed TEMPORALLY). s230b RELATIONAL ARM: reference-beam
 > dissociation IS LOSS-DEPENDENT (gap −0.02→+0.10) but ❌ ZERO capability gain ⇒

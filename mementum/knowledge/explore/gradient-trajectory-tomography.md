@@ -311,6 +311,42 @@ alongside `gc_route(t)` + a raw-gradient reference beam. Readout: does the shado
 the object (and capability)? Reuses `soft_gram` (it does not care if you feed it
 activations or gradients).
 
+## ★ s231 — v3 RESULT (gradient-shadow BUILT + RAN, 3 seeds, ~9.5min)
+
+`scripts/experiments/gd_gradient_shadow.py --seeds 0,1,2`;
+`results/gd-gradient-shadow/verdict_multiseed.json`. Two-sided (λ measure):
+
+**(1) ✅ inventory-before-capability REPRODUCED (3/3).** gc_route crosses @267±94,
+held-out acc @733±94 — a THIRD independent confirmation of the s224 thesis (now from
+the shadow harness, distinct seeds/run).
+
+**(2) ❌ THE PREREGISTERED PREDICTION IS FALSIFIED.** "gc_grad crosses its baseline→
+final midpoint BEFORE gc_route" — gc_grad does NOT rise. It starts at the common-mode
+init (+0.58, the gauge), peaks early (~step 400), and DECAYS to 0.43±0.04. The
+midpoint-crossing readout returns None for all 3 seeds (final < init). As a RISING-
+correlation signal the shadow does NOT lead. The routing-vs-raw gap is null/noisy
+(+0.06±0.08; only seed 2 +0.18) — same loss-dependent-separation lesson as s230a.
+
+**(3) 💡 THE PROBE FOUND THE REAL SIGNAL IN `grad_z` (the reframe).** The gradient
+carries combinator structure FROM INITIALIZATION — grad_z +4.7→+5.9 at step 0 — and
+that structure is CONSUMED building the inventory. grad_z is HIGH while inventory
+crystallizes (mean 3.6–4.1, steps ≤400) and COLLAPSES (→ −0.5…+2.1, steps 600–1200,
+3/3) exactly at the inventory→capability HANDOFF (acc onset 400–600). So the shadow
+DOES lead — not as a rising gc_grad, but as the INITIAL CONDITION the object grows into,
+whose EXHAUSTION times the handoff. Height-from-shadow corrected: the shadow is
+brightest BEFORE the object is carved and goes dark when carving is done. This makes the
+s221 fp-spike-is-acquisition law legible: structured gradient = the force carving
+inventory; structured component vanishes ⇒ capability (continuation) begins.
+
+**★ Instrument lesson:** the correct shadow readout is `grad_z` (silhouette
+significance of the gradient's combinator structure), NOT gc_grad correlation-crossing.
+gc_grad starts at the common-mode init so its SIGNAL is the DROP, not a rise; grad_z
+peak-then-collapse cleanly times the inventory→capability transition. ⇒ the per-
+combinator clock (open lead 6) reads grad_z PER COMBINATOR: does B's gradient-structure
+exhaust before K's (B on-grain/early, K against-grain/late, s221)?
+
+**STATUS s231:** code `gd_gradient_shadow.py` (b3f72ea, built s230) + results committed.
+
 ## Honest catches (λ measure)
 
 - **Not greenfield** — s105 tomography + s223 instruments + v4.1/v6.1 trajectory
@@ -339,6 +375,17 @@ activations or gradients).
    (Re-Basin permutation null space; the s222 "how much is churn" question).
 5. **Q-collapse watch** (topological): eff_dim(t) per layer — does the micro model
    flood-lamp (s105)? If so, the relational/laser constraint is the lever.
+6. **Per-combinator clock** (topological→functional, s231): read grad_z PER COMBINATOR
+   over checkpoints — the acquisition ORDER as a fuel-gauge movie. Prediction (s221):
+   B's gradient-structure exhausts FIRST (on-grain/early), K's stays HOT longer
+   (against-grain/late). Caveats: micro d=128 may be PRE-transition (s151 Montague
+   stage = only I+K differentiate → no B-first→K to see); "B-first" is StrideStack-
+   specific (s221) so plain TinyLM directly tests universality; per-combinator splits
+   the s230 modest route_z (~2.7) further → SNR risk (more probes/combinator or pool).
+   Pairs with: curriculum-mirroring (order-matched vs counter vs flat schedule, s221
+   lead + s229 burn-in) and the FFN-gate-vs-attention register split (s127: {K,I}
+   selectors→FFN, {B,C} composers→attention; "show attention what to do" = relational
+   loss on the attention pattern toward composer structure).
 
 ## Files
 
