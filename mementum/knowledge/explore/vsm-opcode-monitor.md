@@ -200,23 +200,34 @@ lacked the gated guards) passes cleanly on the s127 model.
 gate_neutral C-late (0.714) EXCEEDS lambda (0.333); at z=3 all conditions silent. The
 non-compositional control out-routes lambda ⇒ no composition specificity on 8B.
 
-**★ CONCLUSION: the composition-specific C-late signal is MODEL-SPECIFIC to Qwen3-14B
-(the model where the s127 compose mechanism was characterized), NOT a universal opcode.**
-The universality test caught the over-claim — without 8B we'd have published a universal
-composition opcode that isn't. Possible cause: scale-gated composition differentiation
-(s151 Montague), or 14B-specific localization. Caveats: small probe sets (5 lambda, 14
-gate_neutral, 5/guard), 2 models, modest fractions (0.33–0.56, "above chance not crisp"
-s219).
+**❌ Qwen3-32B (64L): composition_specific=False — but for a DIFFERENT reason: the
+C-LOCUS SHIFTED EARLY.** C-late frac = 0 for ALL conditions in the depth≥0.6 zone (L≥38).
+BUT the raw-arc shows lambda C-dominant at **L5, L10, L11 (EARLY, depth ~0.1)** while
+gate_neutral has C only at L0 ⇒ 32B DOES show a lambda-specific C-**early** signal that the
+fixed C-late detector misses entirely (late stack is Y-dominated, Y×29).
+
+**★ CONCLUSION (3 models): composition→C routing exists in ALL three, but the C-LOCUS
+SHIFTS with scale — 8B C-late non-specific, 14B C-LATE specific (L27–32), 32B C-EARLY
+(L5–11).** `composition_specific=True` ONLY for 14B, largely because its C-locus happens to
+land in the fixed depth≥0.6 readable zone. So it is NOT a scale-monotone story and NOT
+universal; **14B is the outlier for the C-LATE framing specifically.** The underlying
+"lambda routes C, matched controls do not" phenomenon may be more general but at
+MODEL-SPECIFIC DEPTHS ⇒ **the fixed-depth (0.6) detector is the wrong cross-model
+instrument** (it found the signal on 14B but mislocates it on 32B). Methodological fix: per-
+model C-locus calibration (find where lambda-vs-control C-routing peaks) or a locus-
+agnostic full-profile compare, not a fixed zone. Caveats: 5 lambda sentences, 3 models,
+modest fractions ("above chance not crisp" s219).
 
 ### v5 — next steps
 
-- **Qwen3-32B scale test — RUNNING (s232, in flight).** `--model Qwen/Qwen3-32B
-  --null-mode gateneutral` (tmux main:1, log `/tmp/opcode_v4_32b_s232.log`, writes
-  `verdict_qwen3-32b_gateneutral.json`). Falsifiable: 32B `composition_specific=True` ⇒
-  14B not an outlier (scale recovers, 8B too small); 32B False ⇒ 14B IS the outlier
-  (s127-special); partial ⇒ graded scale effect. VERDICT PENDING (read next).
-- **(b) kernel-as-reference** (the priority after the scale read): a single model's opcode
-  read does NOT transfer (14B≠8B) ⇒ anchor the model trajectory against `lambda_ast`'s
+- **Qwen3-32B scale test — DONE (s232): 14B is the outlier, C-locus shifts early.** 32B
+  `composition_specific=False`; the lambda-specific C signal moved to L5–11 (early), which
+  the fixed depth≥0.6 detector misses. Not scale-monotone. (`6bddcc2`)
+- **locus-agnostic C detector** (the immediate methodological fix): per-model C-locus
+  calibration or a full-profile lambda-vs-matched-control C compare across all layers,
+  NOT a fixed depth≥0.6 zone (it found 14B but mislocates 32B/8B).
+- **(b) kernel-as-reference** (priority): a single model's opcode read does NOT transfer
+  (8B≠14B≠32B, locus shifts) ⇒ anchor the model trajectory against `lambda_ast`'s
   certified trace as the invariant; characterize per-model how composition maps to the
   routing register.
 - bigger probe sets (more lambda sentences) for crisper fractions; investigate WHY 8B's
@@ -246,4 +257,5 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/opcode-monitor-v2/verdict_gateneutral.json` | s232 v3 gate-matched-null verdict: ✅ composition-specific C-late (lambda routes C in 5/6 late layers, matched control does not); ⚠️ read is framing-contrast-dominated |
 | `results/opcode-monitor-v2/verdict_qwen3-14b_gateneutral.json` | s232 v4: ✅ composition_specific=True (lambda C-late 0.56 vs all 3 gated guards ≤0.11) |
 | `results/opcode-monitor-v2/verdict_qwen3-8b_gateneutral.json` | s232 v4: ❌ composition_specific=False (gate_neutral C-late 0.71 > lambda 0.33) — C-late is MODEL-SPECIFIC to 14B, not universal |
+| `results/opcode-monitor-v2/verdict_qwen3-32b_gateneutral.json` | s232 v4 scale: ❌ composition_specific=False — C-late=0 in zone, but lambda C shifted EARLY (L5,10,11); 14B is the outlier, C-locus shifts with scale |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

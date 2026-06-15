@@ -12,11 +12,19 @@ C-dominant fraction).
 - Qwen3-8B: composition_specific=False. gate_neutral C-late 0.714 EXCEEDS lambda 0.333 at
   z=2; all silent at z=3. The non-compositional control out-routes lambda.
 
-⇒ a single model's opcode read does NOT transfer (14B≠8B). The universality test caught
-an over-claim we'd otherwise have published. Likely scale-gated (s151 Montague: composition
-differentiation is scale-dependent) or 14B-specific localization (14B = the s127 model).
+- Qwen3-32B (64L): composition_specific=False, but C-late=0 for ALL conditions in the
+  depth>=0.6 zone — because the lambda C signal SHIFTED EARLY (C-dominant L5,10,11, depth
+  ~0.1; gate_neutral C only at L0). 32B DOES show lambda-specific C-early; the fixed
+  detector misses it.
 
-CONSEQUENCE: prioritize (b) kernel-as-reference — anchor the model trajectory against
-lambda_ast's certified trace as the model-invariant; characterize composition→routing
-per-model rather than asserting a universal opcode. Caveats: 5 lambda sentences, 2 models,
-modest fractions (above chance not crisp, s219). Next: Qwen3-32B (is 14B the outlier?).
+⇒ 3 models: composition->C routing exists in all, but the C-LOCUS SHIFTS with scale (8B
+non-specific, 14B C-late L27-32, 32B C-early L5-11). composition_specific=True ONLY for 14B
+because its locus matches the fixed depth>=0.6 zone. NOT scale-monotone, NOT universal —
+14B is the outlier for the C-LATE framing. A single model's opcode read does not transfer.
+
+CONSEQUENCE: (1) the fixed-depth C-late detector is the WRONG cross-model instrument —
+needs per-model C-locus calibration or a locus-agnostic full-profile lambda-vs-control
+compare. (2) Prioritize (b) kernel-as-reference — anchor the model trajectory against
+lambda_ast's certified trace as the model-invariant; characterize composition->routing
+per-model. Caveats: 5 lambda sentences, 3 models, modest fractions (above chance not crisp,
+s219).
