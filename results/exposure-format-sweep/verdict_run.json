@@ -1,0 +1,386 @@
+{
+  "experiment": "exposure-format-sweep",
+  "register": "functional (held-out generalization)",
+  "idea": "training as a photograph (s229); fork = memorization vs rule burn-in",
+  "timestamp_utc": "2026-06-15T14:04:04.945000+00:00",
+  "git_sha": "b1ba93545cf7f376a67367910cd6f7ecee83a8d1",
+  "device": "mps",
+  "smoke": false,
+  "config": {
+    "device": "mps",
+    "steps": 4000,
+    "eval_every": 500,
+    "batch_size": 32,
+    "block_size": 128,
+    "d_model": 128,
+    "n_head": 4,
+    "n_layer": 4,
+    "d_ff": 256,
+    "lr": 0.0003,
+    "k": 8,
+    "m_eval": 6,
+    "heldout": "combos",
+    "seed": 0,
+    "smoke": false
+  },
+  "n_rules": 13,
+  "n_eval": 74,
+  "heldout": "combos",
+  "elapsed_s": 586.9,
+  "arms": [
+    {
+      "arm": "redex_nf/one",
+      "corpus_bytes": 209,
+      "final_acc": 0.12162162162162163,
+      "best_acc": 0.14864864864864866,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.0808,
+          "heldout_acc": 0.10810810810810811
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.0242,
+          "heldout_acc": 0.14864864864864866
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.0244,
+          "heldout_acc": 0.14864864864864866
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0239,
+          "heldout_acc": 0.12162162162162163
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.032,
+          "heldout_acc": 0.10810810810810811
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0264,
+          "heldout_acc": 0.13513513513513514
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.0219,
+          "heldout_acc": 0.13513513513513514
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.0259,
+          "heldout_acc": 0.12162162162162163
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "one"
+    },
+    {
+      "arm": "redex_nf/k_same",
+      "corpus_bytes": 1672,
+      "final_acc": 0.10810810810810811,
+      "best_acc": 0.12162162162162163,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.3032,
+          "heldout_acc": 0.08108108108108109
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.1217,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.0572,
+          "heldout_acc": 0.08108108108108109
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0499,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.0454,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0434,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.044,
+          "heldout_acc": 0.12162162162162163
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.0393,
+          "heldout_acc": 0.10810810810810811
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "k_same"
+    },
+    {
+      "arm": "redex_nf/k_varied",
+      "corpus_bytes": 1672,
+      "final_acc": 0.25675675675675674,
+      "best_acc": 0.2972972972972973,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.8663,
+          "heldout_acc": 0.13513513513513514
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.175,
+          "heldout_acc": 0.24324324324324326
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.0605,
+          "heldout_acc": 0.2702702702702703
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0516,
+          "heldout_acc": 0.2702702702702703
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.0484,
+          "heldout_acc": 0.28378378378378377
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0434,
+          "heldout_acc": 0.2972972972972973
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.043,
+          "heldout_acc": 0.2702702702702703
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.0485,
+          "heldout_acc": 0.25675675675675674
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "k_varied"
+    },
+    {
+      "arm": "full_trace/one",
+      "corpus_bytes": 424,
+      "final_acc": 0.10810810810810811,
+      "best_acc": 0.12162162162162163,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.1365,
+          "heldout_acc": 0.12162162162162163
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.0343,
+          "heldout_acc": 0.12162162162162163
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.0304,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0332,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.032,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0321,
+          "heldout_acc": 0.10810810810810811
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.032,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.0314,
+          "heldout_acc": 0.10810810810810811
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "one"
+    },
+    {
+      "arm": "full_trace/k_same",
+      "corpus_bytes": 3392,
+      "final_acc": 0.13513513513513514,
+      "best_acc": 0.13513513513513514,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.1717,
+          "heldout_acc": 0.05405405405405406
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.0961,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.0776,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0614,
+          "heldout_acc": 0.10810810810810811
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.0582,
+          "heldout_acc": 0.0945945945945946
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0495,
+          "heldout_acc": 0.08108108108108109
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.0497,
+          "heldout_acc": 0.10810810810810811
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.049,
+          "heldout_acc": 0.13513513513513514
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "k_same"
+    },
+    {
+      "arm": "full_trace/k_varied",
+      "corpus_bytes": 3392,
+      "final_acc": 0.35135135135135137,
+      "best_acc": 0.35135135135135137,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 500,
+          "tokens": 2048000,
+          "ce": 0.6772,
+          "heldout_acc": 0.22972972972972974
+        },
+        {
+          "step": 1000,
+          "tokens": 4096000,
+          "ce": 0.1913,
+          "heldout_acc": 0.28378378378378377
+        },
+        {
+          "step": 1500,
+          "tokens": 6144000,
+          "ce": 0.091,
+          "heldout_acc": 0.25675675675675674
+        },
+        {
+          "step": 2000,
+          "tokens": 8192000,
+          "ce": 0.0633,
+          "heldout_acc": 0.3108108108108108
+        },
+        {
+          "step": 2500,
+          "tokens": 10240000,
+          "ce": 0.062,
+          "heldout_acc": 0.32432432432432434
+        },
+        {
+          "step": 3000,
+          "tokens": 12288000,
+          "ce": 0.0561,
+          "heldout_acc": 0.28378378378378377
+        },
+        {
+          "step": 3500,
+          "tokens": 14336000,
+          "ce": 0.0522,
+          "heldout_acc": 0.2972972972972973
+        },
+        {
+          "step": 4000,
+          "tokens": 16384000,
+          "ce": 0.0573,
+          "heldout_acc": 0.35135135135135137
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "k_varied"
+    }
+  ]
+}

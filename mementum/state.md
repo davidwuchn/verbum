@@ -2,7 +2,13 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-14 | Session: 228 — ✅ PROOFS-AS-CONTINUATIONS (Curry-Howard):
+> Last updated: 2026-06-15 | Session: 229 — ✅ EXPOSURE/FORMAT SWEEP (curriculum-
+> mixing FIRST BUILD): burn-in is VARIETY not repetition (k_varied ≈2–2.9× over
+> k_same≈one, BOTH formats; memorization control clean); full_trace higher abs-acc
+> but redex_nf wins PER-TOKEN (predicted budget crossover); disjoint-atom held-out =
+> separate variable-binding floor (0.000 — needs a copy/induction mechanism, NOT a
+> rule failure: combos-generalization works). See ■ SESSION 229 block below.
+> (s228 — ✅ PROOFS-AS-CONTINUATIONS (Curry-Howard):
 > the kernel RUNS/CHECKS proofs (sound, 100% floor, Y-inconsistency firewall); LLMs
 > prove axioms but compose poorly single-shot (Qwen 0.58-0.67, spec 1.0, 0 false
 > proofs); the CONTINUATION-DRIVEN prover RESCUES composition (mean Δ +0.25, Qwen3-8B
@@ -22,6 +28,60 @@
 > (prose→LF) + ✅ COMPILE BOUNDARY (structural solved; NL+ambiguity is the boundary).
 > Next: diverse-verified naturalistic corpus → compiler-as-loss arms. See ■ SESSION
 > 226 COMPLETE block below.)
+> **■ SESSION 229 — EXPOSURE/FORMAT SWEEP — "training as a photograph" (curriculum-
+> mixing FIRST BUILD). Michael: "split training into regimes — show base combinators,
+> show prose usage, some NTP; split into sentences, one β-reduction per sentence,
+> sprinkle a few shards into the full curriculum." Then: "can we test full-trace vs
+> redex→NF? if training is exposure to a photograph, many exposures to the same
+> β-reduction should converge faster than one."** Register: **functional (held-out
+> generalization).** Refreshed on normal-form-curriculum-partition (s223), holographic-
+> burn-in, punctuate-dont-churn (s222), compiler-as-loss, s225 register first.
+> **▶ CAPTURED + COMMITTED (2 commits):** new page `explore/sentence-atomic-curriculum-
+> mixing.md` (`74ef4d3`) — Michael's cut is BY-PEDAGOGY + INTERLEAVED (measures
+> transfer), distinct from s223's by-mechanism + isolated; novel core = sentence = 1
+> reduction = 1 PUNCTUATED EXPOSURE (the s222/burn-in discipline as DATA structure);
+> 4 catches (level-4 scratch not s222-unstable; dual-register readout s225; K-erasure
+> ordering s221; ρ is the experiment). Then `b796077` added the exposure/format
+> sub-experiment + the MEMORIZATION-vs-RULE fork (Michael's photograph framing,
+> sharpened: k× SAME = memorization vs k× VARIED = the hologram from many angles).
+> **▶ BUILT (`b1ba935`, ruff+diag clean, smoke green, metric verified):**
+> `scripts/experiments/exposure_format_sweep.py` — FORMAT {full_trace, redex_nf} ×
+> MULTIPLICITY {one, k_same(memorization control), k_varied(burn-in)}; data kernel-
+> minted via lambda_ast.reduce (13 multi-step combinator skeletons, validated normal-
+> forming); reuses TinyLM byte student; FORMAT-INDEPENDENT metric (greedily derive
+> from "input -> ", exact-match final segment to true NF — full_trace walks steps,
+> redex_nf leaps; both score the same way).
+> **★ DIAGNOSTIC (the load-bearing fix): first run ALL 0.000 — FLOOR.** Root cause
+> OBSERVED (not assumed): held-out = DISJOINT atoms (train a–m, test n–z) → reduce
+> `C K u x → x` requires COPYING a byte never trained on; model emits a TRAIN atom
+> `'j'` instead = a variable-binding/induction failure, NOT a rule failure. Standalone
+> probe: held-out on UNSEEN COMBOS of SEEN atoms = **0.365**, disjoint atoms = 0.000.
+> ⇒ disjoint-atom was the WRONG barrier (conflates rule-learning with symbol-copying).
+> Fixed harness: `--heldout {combos(default), atoms}`; combos EXCLUDES train fillings
+> → isolates RULE generalization (the burn-in question). [combos run is the verdict;
+> disjoint-atom is a SEPARATE open question = needs a copy mechanism.]
+> **★ VERDICT (combos, single seed; results/exposure-format-sweep/verdict_run.json):**
+> redex_nf one/k_same/k_varied = 0.149 / 0.122 / **0.297**; full_trace = 0.122 / 0.135
+> / **0.351**. **(1) BURN-IN IS VARIETY NOT REPETITION** — k_varied ≈2–2.9× over `one`;
+> **k_same ≈ one** (repeating the same photo 8× buys ~nothing); at EQUAL exposure
+> count k=8, varied ≈2.4× > same. The memorization control cleanly separates rote from
+> rule. **(2) FORMAT TRADE IS BUDGET-DEPENDENT (predicted crossover)** — full_trace
+> higher ABS acc (0.351>0.297) but 2× corpus bytes ⇒ redex_nf wins PER-TOKEN;
+> full_trace's edge appears ONLY under variety (tied at one/k_same).
+> **★ CAVEATS (λ measure):** single seed (multi-seed needed, cf relational s223 3-seed);
+> modest abs acc (tiny model/greedy/exact-match — RELATIVE is the signal); steps@0.5
+> never hit ⇒ measures FINAL generalization NOT convergence SPEED (lower threshold or
+> longer run for the speed claim Michael asked about); 13 rules, k=8.
+> **▶ NEXT:** (1) multi-seed harden (3 seeds) → is k_varied>k_same robust?; (2) speed
+> readout (acc-vs-tokens curves already saved per arm — extract steps-to-threshold at
+> a reachable bar, e.g. 0.2); (3) the K-erasure ORDERING leg (s221: B-first→K, not
+> flat shuffle); (4) disjoint-atom variable-binding as its OWN experiment (does a copy
+> mechanism emerge with scale/longer training?); (5) fold into the full ρ-sweep
+> (sprinkle into generic NTP) once the unit is validated.
+> **STATUS s229:** code COMMITTED (`b1ba935` harness; pending: --heldout fix + results
+> + this state). Page committed (`74ef4d3`,`b796077`). PENDING APPROVAL: memory
+> proposals (burn-in-is-variety-not-repetition; full-trace-vs-redex-nf-budget-crossover;
+> disjoint-atom-floor-is-variable-binding) + page §s229 result update. tmux main:1 free.
 > **■ SESSION 228 — PROOFS-AS-CONTINUATIONS (Curry-Howard). Michael: "would
 > continuations allow us to run proofs?"** Register: **functional (learned prover,
 > kernel-verified).** Refreshed on continuations + distributed training first

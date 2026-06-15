@@ -1,0 +1,81 @@
+  validating skeletons (must be multi-step normal-forming)...
+  rules=13 train_atoms=13 test_atoms=13 k=8 m_eval=6
+  held-out eval instances=74 (heldout=combos)
+
+=== redex_nf/one  (corpus 209 bytes) ===
+  [redex_nf/one] step   500 | CE 0.081 | held-out acc 0.108 | 6s
+  [redex_nf/one] step  1000 | CE 0.024 | held-out acc 0.149 | 12s
+  [redex_nf/one] step  1500 | CE 0.024 | held-out acc 0.149 | 18s
+  [redex_nf/one] step  2000 | CE 0.024 | held-out acc 0.122 | 25s
+  [redex_nf/one] step  2500 | CE 0.032 | held-out acc 0.108 | 31s
+  [redex_nf/one] step  3000 | CE 0.026 | held-out acc 0.135 | 37s
+  [redex_nf/one] step  3500 | CE 0.022 | held-out acc 0.135 | 42s
+  [redex_nf/one] step  4000 | CE 0.026 | held-out acc 0.122 | 48s
+
+=== redex_nf/k_same  (corpus 1672 bytes) ===
+  [redex_nf/k_same] step   500 | CE 0.303 | held-out acc 0.081 | 7s
+  [redex_nf/k_same] step  1000 | CE 0.122 | held-out acc 0.095 | 13s
+  [redex_nf/k_same] step  1500 | CE 0.057 | held-out acc 0.081 | 19s
+  [redex_nf/k_same] step  2000 | CE 0.050 | held-out acc 0.095 | 25s
+  [redex_nf/k_same] step  2500 | CE 0.045 | held-out acc 0.095 | 32s
+  [redex_nf/k_same] step  3000 | CE 0.043 | held-out acc 0.095 | 38s
+  [redex_nf/k_same] step  3500 | CE 0.044 | held-out acc 0.122 | 45s
+  [redex_nf/k_same] step  4000 | CE 0.039 | held-out acc 0.108 | 51s
+
+=== redex_nf/k_varied  (corpus 1672 bytes) ===
+  [redex_nf/k_varied] step   500 | CE 0.866 | held-out acc 0.135 | 7s
+  [redex_nf/k_varied] step  1000 | CE 0.175 | held-out acc 0.243 | 13s
+  [redex_nf/k_varied] step  1500 | CE 0.060 | held-out acc 0.270 | 19s
+  [redex_nf/k_varied] step  2000 | CE 0.052 | held-out acc 0.270 | 25s
+  [redex_nf/k_varied] step  2500 | CE 0.048 | held-out acc 0.284 | 32s
+  [redex_nf/k_varied] step  3000 | CE 0.043 | held-out acc 0.297 | 38s
+  [redex_nf/k_varied] step  3500 | CE 0.043 | held-out acc 0.270 | 44s
+  [redex_nf/k_varied] step  4000 | CE 0.048 | held-out acc 0.257 | 50s
+
+=== full_trace/one  (corpus 424 bytes) ===
+  [full_trace/one] step   500 | CE 0.136 | held-out acc 0.122 | 15s
+  [full_trace/one] step  1000 | CE 0.034 | held-out acc 0.122 | 33s
+  [full_trace/one] step  1500 | CE 0.030 | held-out acc 0.095 | 52s
+  [full_trace/one] step  2000 | CE 0.033 | held-out acc 0.095 | 70s
+  [full_trace/one] step  2500 | CE 0.032 | held-out acc 0.095 | 88s
+  [full_trace/one] step  3000 | CE 0.032 | held-out acc 0.108 | 107s
+  [full_trace/one] step  3500 | CE 0.032 | held-out acc 0.095 | 125s
+  [full_trace/one] step  4000 | CE 0.031 | held-out acc 0.108 | 144s
+
+=== full_trace/k_same  (corpus 3392 bytes) ===
+  [full_trace/k_same] step   500 | CE 0.172 | held-out acc 0.054 | 19s
+  [full_trace/k_same] step  1000 | CE 0.096 | held-out acc 0.095 | 36s
+  [full_trace/k_same] step  1500 | CE 0.078 | held-out acc 0.095 | 55s
+  [full_trace/k_same] step  2000 | CE 0.061 | held-out acc 0.108 | 74s
+  [full_trace/k_same] step  2500 | CE 0.058 | held-out acc 0.095 | 93s
+  [full_trace/k_same] step  3000 | CE 0.050 | held-out acc 0.081 | 111s
+  [full_trace/k_same] step  3500 | CE 0.050 | held-out acc 0.108 | 130s
+  [full_trace/k_same] step  4000 | CE 0.049 | held-out acc 0.135 | 148s
+
+=== full_trace/k_varied  (corpus 3392 bytes) ===
+  [full_trace/k_varied] step   500 | CE 0.677 | held-out acc 0.230 | 22s
+  [full_trace/k_varied] step  1000 | CE 0.191 | held-out acc 0.284 | 40s
+  [full_trace/k_varied] step  1500 | CE 0.091 | held-out acc 0.257 | 59s
+  [full_trace/k_varied] step  2000 | CE 0.063 | held-out acc 0.311 | 77s
+  [full_trace/k_varied] step  2500 | CE 0.062 | held-out acc 0.324 | 93s
+  [full_trace/k_varied] step  3000 | CE 0.056 | held-out acc 0.284 | 109s
+  [full_trace/k_varied] step  3500 | CE 0.052 | held-out acc 0.297 | 126s
+  [full_trace/k_varied] step  4000 | CE 0.057 | held-out acc 0.351 | 145s
+
+  ==== EXPOSURE/FORMAT SWEEP ====
+  arm                     corpus_B  final_acc  best_acc  steps@0.5
+  redex_nf/one                 209      0.122     0.149       None
+  redex_nf/k_same             1672      0.108     0.122       None
+  redex_nf/k_varied           1672      0.257     0.297       None
+  full_trace/one               424      0.108     0.122       None
+  full_trace/k_same           3392      0.135     0.135       None
+  full_trace/k_varied         3392      0.351     0.351       None
+
+  PREDICTIONS (held-out generalization):
+   [redex_nf] burn-in (k_varied>one): 0.297>0.149 = True  | rule>rote (k_varied>k_same): 0.297>0.122 = True
+   [full_trace] burn-in (k_varied>one): 0.351>0.122 = True  | rule>rote (k_varied>k_same): 0.351>0.135 = True
+   [one] full_trace 0.122 (corpus 424B) vs redex_nf 0.149 (209B) -- compare PER-TOKEN
+   [k_same] full_trace 0.135 (corpus 3392B) vs redex_nf 0.122 (1672B) -- compare PER-TOKEN
+   [k_varied] full_trace 0.351 (corpus 3392B) vs redex_nf 0.297 (1672B) -- compare PER-TOKEN
+
+  wrote /Users/mwhitford/src/verbum/results/exposure-format-sweep/verdict_run.json  (586.9s)

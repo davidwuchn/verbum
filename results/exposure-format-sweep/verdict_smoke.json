@@ -1,0 +1,168 @@
+{
+  "experiment": "exposure-format-sweep",
+  "register": "functional (held-out generalization)",
+  "idea": "training as a photograph (s229); fork = memorization vs rule burn-in",
+  "timestamp_utc": "2026-06-15T13:34:37.391679+00:00",
+  "git_sha": "b7960773567a8c61b464bf0ce00e142d16c8ae37",
+  "device": "mps",
+  "smoke": true,
+  "config": {
+    "device": "mps",
+    "steps": 80,
+    "eval_every": 40,
+    "batch_size": 32,
+    "block_size": 128,
+    "d_model": 64,
+    "n_head": 4,
+    "n_layer": 3,
+    "d_ff": 128,
+    "lr": 0.0003,
+    "k": 4,
+    "m_eval": 3,
+    "seed": 0,
+    "smoke": true
+  },
+  "n_rules": 4,
+  "n_eval": 12,
+  "elapsed_s": 106.4,
+  "arms": [
+    {
+      "arm": "redex_nf/one",
+      "corpus_bytes": 50,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.3832,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.8162,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "one"
+    },
+    {
+      "arm": "redex_nf/k_same",
+      "corpus_bytes": 200,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.3858,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.8135,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "k_same"
+    },
+    {
+      "arm": "redex_nf/k_varied",
+      "corpus_bytes": 200,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.4073,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.8852,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "redex_nf",
+      "multiplicity": "k_varied"
+    },
+    {
+      "arm": "full_trace/one",
+      "corpus_bytes": 94,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.3606,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.8849,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "one"
+    },
+    {
+      "arm": "full_trace/k_same",
+      "corpus_bytes": 376,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.3608,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.8635,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "k_same"
+    },
+    {
+      "arm": "full_trace/k_varied",
+      "corpus_bytes": 376,
+      "final_acc": 0.0,
+      "best_acc": 0.0,
+      "steps_to_half": null,
+      "curve": [
+        {
+          "step": 40,
+          "tokens": 163840,
+          "ce": 3.3768,
+          "heldout_acc": 0.0
+        },
+        {
+          "step": 80,
+          "tokens": 327680,
+          "ce": 1.946,
+          "heldout_acc": 0.0
+        }
+      ],
+      "format": "full_trace",
+      "multiplicity": "k_varied"
+    }
+  ]
+}

@@ -199,11 +199,32 @@ def build_corpus(rules: list[tuple[str, int]], train_fillings: dict[str, list],
 
 
 def build_eval_items(rules: list[tuple[str, int]], m: int,
-                     rng: np.random.Generator) -> list[tuple[str, str]]:
-    """Held-out (input, normal_form) pairs built from TEST atoms (disjoint)."""
+                     rng: np.random.Generator, atoms: list[str],
+                     exclude: dict[str, list] | None = None
+                     ) -> list[tuple[str, str]]:
+    """Held-out (input, normal_form) pairs.
+
+    heldout='combos' (default): atoms = TRAIN_ATOMS, but combos EXCLUDED from the
+      training fillings -> isolates RULE generalization (the burn-in question) from
+      symbol-copying. This is the right barrier (s229 diagnostic: tiny byte model
+      reaches 0.365 here, 0.000 on disjoint atoms = a variable-binding failure, not
+      a rule failure).
+    heldout='atoms': atoms = TEST_ATOMS (disjoint) -> the SEPARATE, harder
+      systematic/variable-binding generalization question.
+    """
+    exclude = exclude or {}
     items: list[tuple[str, str]] = []
     for tmpl, h in rules:
-        for combo in make_fillings(rng, h, TEST_ATOMS, m):
+        ex = {tuple(c) for c in exclude.get(tmpl, [])}
+        chosen: list[tuple[str, ...]] = []
+        guard = 0
+        while len(chosen) < m and guard < 10000:
+            guard += 1
+            combo = tuple(rng.choice(atoms, size=h, replace=False).tolist()) if h \
+                else ()
+            if combo not in ex and combo not in chosen:
+                chosen.append(combo)
+        for combo in chosen:
             trace, nf, _s, _st = reduce_strs(fill(tmpl, combo))
             items.append((trace[0], nf))
     return items
@@ -309,6 +330,9 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--k", type=int, default=8, help="multiplicity (exposures/rule)")
     ap.add_argument("--m-eval", type=int, default=6, help="held-out instances/rule")
+    ap.add_argument("--heldout", choices=["combos", "atoms"], default="combos",
+                    help="combos=unseen fillings of SEEN atoms (rule generalization);"
+                         " atoms=disjoint TEST atoms (variable-binding generalization)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
@@ -340,8 +364,13 @@ def main() -> None:
     train_fillings = {tmpl: make_fillings(fill_rng, h, TRAIN_ATOMS, args.k)
                       for tmpl, h in rules}
     eval_rng = np.random.default_rng(args.seed + 777)
-    eval_items = build_eval_items(rules, args.m_eval, eval_rng)
-    log(f"  held-out eval instances={len(eval_items)} (disjoint atoms)")
+    if args.heldout == "combos":
+        eval_atoms, eval_exclude = TRAIN_ATOMS, train_fillings
+    else:
+        eval_atoms, eval_exclude = TEST_ATOMS, None
+    eval_items = build_eval_items(rules, args.m_eval, eval_rng, eval_atoms,
+                                  eval_exclude)
+    log(f"  held-out eval instances={len(eval_items)} (heldout={args.heldout})")
 
     formats = ["redex_nf", "full_trace"]
     mults = ["one", "k_same", "k_varied"]
@@ -368,6 +397,7 @@ def main() -> None:
         "config": vars(args),
         "n_rules": len(rules),
         "n_eval": len(eval_items),
+        "heldout": args.heldout,
         "elapsed_s": round(time.time() - t0, 1),
         "arms": arms,
     }
