@@ -18,8 +18,25 @@
 > (composition-above-framing, the cleanest single fix), THEN escalate to (b)
 > kernel-as-reference (anchor the model trajectory against lambda_ast's certified trace,
 > since the readout alone is null-sensitive). Captured: page vsm-opcode-monitor.md §s232
-> v2 + memory opcode-trajectory-is-null-dependent + this state. PENDING APPROVAL
-> (mementum). Code committed `8bd5f42`. tmux main:1 FREE.
+> v2 + memory opcode-trajectory-is-null-dependent. Code committed `8bd5f42`.
+> **▶ s232 v3 — GATE-MATCHED NULL BUILT + RAN (`--null-mode gateneutral`, code
+> `ad07574`). ★ PARTIAL SUCCESS (the v2 negative WAS a null mis-spec):** with the matched
+> null (GATE_NEUTRAL content, same compile-gate prefix) the S-late FRAMING is subtracted
+> and ✅ **lambda routes C (composition combinator) in its LATE stack (L27-32, the
+> READABLE register) while the matched non-compositional gate_neutral control does NOT**
+> (z=2 C×5 vs ×1; z=3 C×3 vs ×0); null self-centers silent (guard passes). ⇒ composition
+> IS decodable above framing. ❌ the s127 "C-early→B-late" arc shape did NOT reproduce —
+> signal is C-LATE not C-early (raw C-early = common-mode artifact; composition resolves
+> at the readable layers s187/s227b). ⚠️ over-read guard INVERTED: bare retrieval/arith
+> fire LOUD (WHNF/Y) vs the gated null ⇒ **the read is dominated by the FRAMING-CONTRAST
+> axis, NOT computation; valid guards MUST be framing-matched (gated)**. Modest not crisp
+> (s219: C ~40-50% of tokens, n=27/5 sentences, 1 model). Captured: page §s232 v3 +
+> memory composition-decodable-above-framing-c-late + this state. Code committed `ad07574`.
+> **★★ FIRST ACTION NEXT SESSION — v4: (1) re-run with GATED guards (gate+factual,
+> gate+arithmetic, framing-matched) to validate C-late specificity properly; (2) fix the
+> arc detector to detect readable-zone C-LATE (not raw C-early→B-late); (3) 2nd model
+> (8B/32B) — is C-late universal?; THEN (4) (b) kernel-as-reference.** PENDING APPROVAL
+> (mementum: page §s232 v3 + 2 memories + state). tmux main:1 FREE.
 >
 > (Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
 > MECHANISM-OF-TRAINING per-combinator clock (micro crystal is RELATIONAL not categorical,

@@ -140,15 +140,53 @@ silent (s231 under-read); cross-task null → S-late gate-framing (s232). Single
 (b) the over-read DIRECTION (raw over-fires) are null-robust. An opcode monitor cannot be
 trusted on its readout alone.
 
-## v3 — the lever s232 hands us
+## v3 — gate-matched null (BUILT + RAN, s232; `--null-mode gateneutral`, `ad07574`)
 
-- **null = GATE_NEUTRAL itself** (matched-prefix, non-compositional), NOT bare natural
-  text. Bare-text null only removes the natural-text common-mode, leaving the gate-framing
-  (S-late) to swamp the per-sentence composition signal. A gate-matched null subtracts the
-  framing ⇒ z measures *composition-above-framing* (the cleanest single fix).
-- because the readout is null-sensitive, **escalate to (b) kernel-as-reference** sooner:
-  anchor the model trajectory against `lambda_ast`'s certified trace instead of trusting
-  the model's opcodes in isolation.
+The lever: **null = GATE_NEUTRAL itself** (matched-prefix, non-compositional), NOT bare
+natural text. Bare-text null only removes the natural-text common-mode, leaving the
+gate-framing (S-late) to swamp composition. A gate-matched null subtracts the framing ⇒
+z measures *composition-above-framing*. Built as `--null-mode gateneutral` (null from
+GATE_NEUTRAL content tokens; GATE_NEUTRAL expanded to 14 for a robust null).
+
+### ★ s232 v3 VERDICT (Qwen3-14B; λ measure, two-sided) — PARTIAL SUCCESS
+
+**✅ Composition IS decodable above framing.** With the matched null, the S-late framing
+is subtracted and **lambda routes `C` (the composition/permutation combinator) in its
+LATE stack** while the matched non-compositional gate_neutral control does NOT:
+- z=2: lambda C-dominant at L27,29,30,31,32 (**5/6 late layers**); gate_neutral C-late ×1.
+- z=3: lambda C at L29,30,32; gate_neutral C-late **×0**.
+C surfaces in the **readable register** (L27–32) — consistent with
+`readout-register-reduction-readability.md` (reduction becomes vocab-readable L23–35).
+**Composition is resolved LATE, lambda-specifically.** The null self-centers silent
+(gate_neutral emit 0.097→0.012, noop 0.91 @z=3 — the matched guard passes).
+
+**❌ The s127 "C-early→B-late" arc shape did NOT reproduce.** The signal is C-**late**,
+not C-early; B is nearly absent (B×1). The raw "C-early" (s231 RAW argmax) was likely a
+common-mode artifact; the routing-register composition signal is **C-late**. (The
+arc_present detector, built for the raw shape, returns False — update it to detect
+readable-zone C-late.)
+
+**⚠️ The over-read guard INVERTED — and taught the deepest lesson.** Bare
+retrieval/arithmetic fire LOUD under the gated null (WHNF×22, Y×18) because they differ
+from it by FRAMING, not computation. ⇒ **the opcode read is dominated by the
+FRAMING-CONTRAST axis (gated vs bare), not the computation axis.** Whichever prompts
+share the null's framing go silent; whichever differ fire, and WHAT they fire (S/WHNF/C/Y)
+tracks the framing contrast. Valid guards must be framing-matched: under a gated null the
+correct guard is a GATED non-composition task (= gate_neutral, correctly silent); bare
+guards are invalid.
+
+**⚠️ Modest, not crisp** (s219): C routes in ~40–50% of tokens at those layers (7/20,
+8/18, 8/15), n=27 lambda tokens / 5 sentences, single model.
+
+### v4 — next steps the v3 result hands us
+
+- **GATED guards**: re-run with gate+factual and gate+arithmetic guards (framing-matched)
+  to validate C-late specificity properly (the bare guards were invalid).
+- **detector fix**: detect readable-zone C-late, not the raw C-early→B-late shape.
+- **robustness**: more lambda sentences + a 2nd model (8B/32B) — is C-late universal?
+- because the read is framing-dominated and null-sensitive, **escalate to (b)
+  kernel-as-reference**: anchor the model trajectory against `lambda_ast`'s certified
+  trace (C-late = composition resolved at readable layers → diff against the kernel).
 
 ## (b) — the kernel-as-reference audit (after v2)
 
@@ -170,5 +208,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/opcode_audit_validation.py` | Qwen3-14B calibrate + s127 battery + raw-vs-relational control — `143ccda` |
 | `results/opcode-audit-validation/verdict.json` | 31/40 crystal layers; over-read killed; relational under-reads at z=3 last-token |
 | `scripts/experiments/opcode_monitor_v2.py` | s232 v2: cross-task null + per-token + z-sweep + trajectory + GATE_NEUTRAL control — `8bd5f42` |
-| `results/opcode-monitor-v2/verdict.json` | s232 verdict: arc did NOT recover (S-late, gate-driven); opcode identity is null-dependent; substrate reproduced |
+| `results/opcode-monitor-v2/verdict.json` | s232 crosstask verdict: arc did NOT recover (S-late, gate-driven); opcode identity is null-dependent; substrate reproduced |
+| `results/opcode-monitor-v2/verdict_gateneutral.json` | s232 v3 gate-matched-null verdict: ✅ composition-specific C-late (lambda routes C in 5/6 late layers, matched control does not); ⚠️ read is framing-contrast-dominated |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
