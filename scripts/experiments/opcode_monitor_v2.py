@@ -83,13 +83,24 @@ LAMBDA_SENTENCES = [
     "Mary likes the cat that John owns.",
 ]
 
-# GATE-CONFOUND CONTROL — gate + non-compositional declaratives (content read)
+# GATE-CONFOUND CONTROL — gate + non-compositional declaratives (content read).
+# Also serves as the MATCHED-PREFIX NULL under --null-mode gateneutral (the v3 lever:
+# composition-ABOVE-FRAMING). Expanded to ~14 for a robust null (~70+ content tokens).
 GATE_NEUTRAL_SENTENCES = [
     "The sky is blue.",
     "Coffee is a drink.",
     "The house is old.",
     "The city is large.",
     "The book is heavy.",
+    "The water is cold.",
+    "The road is long.",
+    "The lamp is bright.",
+    "The chair is wooden.",
+    "The bread is fresh.",
+    "The river is wide.",
+    "The mountain is tall.",
+    "The garden is green.",
+    "The window is open.",
 ]
 
 # RETRIEVAL silence guard — bare fact-lookup (held out from the null)
@@ -195,7 +206,14 @@ def gate_prefix_len(tok) -> int:
 def calibrate_v2(
     model, tok, torch_mod, layers: list[int], n_perm: int,
     probes_per_combinator: int | None, null_positions_cap: int | None,
+    null_mode: str = "crosstask",
 ) -> tuple[RelationalCrystalClassifier, dict]:
+    """null_mode:
+      - "crosstask"   (s232): null = bare natural-text tokens (all positions). Removes
+        the natural-text common-mode; the gate-FRAMING (S-late) survives, swamps comp.
+      - "gateneutral" (s232 v3 lever): null = GATE_NEUTRAL CONTENT tokens (gate +
+        non-compositional sentence, content positions). MATCHED-PREFIX null => z is
+        composition-ABOVE-FRAMING (the framing S-late is subtracted)."""
     from verbum.probes.library import crystal_probes
 
     probes = [p for p in crystal_probes() if p.combinator in CRYSTAL]
@@ -220,19 +238,29 @@ def calibrate_v2(
     gate_np = {li: np.stack(gate_by_layer[li], axis=0) for li in layers}
     labels_np = np.array(labels)
 
-    # CROSS-TASK NULL — bare natural-text tokens (all positions, no β-reduction)
-    print(f"[v2] Building cross-task null from {len(BASELINE_NULL_SENTENCES)} "
-          "bare natural-text prompts ...")
     null_by_layer: dict[int, list[np.ndarray]] = {li: [] for li in layers}
-    for s in BASELINE_NULL_SENTENCES:
-        store, _n = forward_all_positions(s, model, tok, torch_mod, layers)
-        for li in layers:
-            null_by_layer[li].append(store[li])  # [T, d], all positions
+    if null_mode == "gateneutral":
+        gate_n = gate_prefix_len(tok)
+        print(f"[v2] Building MATCHED-PREFIX null from {len(GATE_NEUTRAL_SENTENCES)} "
+              "gate+non-compositional prompts (content positions) ...")
+        for s in GATE_NEUTRAL_SENTENCES:
+            store, n = forward_all_positions(
+                COMPILE_GATE + s, model, tok, torch_mod, layers)
+            lo = min(gate_n, n - 1)
+            for li in layers:
+                null_by_layer[li].append(store[li][lo:])  # content tokens only
+    else:  # crosstask
+        print(f"[v2] Building cross-task null from {len(BASELINE_NULL_SENTENCES)} "
+              "bare natural-text prompts ...")
+        for s in BASELINE_NULL_SENTENCES:
+            store, _n = forward_all_positions(s, model, tok, torch_mod, layers)
+            for li in layers:
+                null_by_layer[li].append(store[li])  # [T, d], all positions
     null_np = {li: np.concatenate(null_by_layer[li], axis=0) for li in layers}
     if null_positions_cap is not None:
         null_np = {li: arr[:null_positions_cap] for li, arr in null_np.items()}
     n_null = next(iter(null_np.values())).shape[0]
-    print(f"[v2] Cross-task null tokens pooled: {n_null}")
+    print(f"[v2] Null tokens pooled: {n_null}  (null_mode={null_mode})")
 
     rcc = RelationalCrystalClassifier(
         layers, n_perm=n_perm, z_thresh=min(Z_SWEEP), sil_z_thresh=2.0,
@@ -242,6 +270,7 @@ def calibrate_v2(
     summ = rcc.calibration_summary()
     summ["n_null_tokens"] = n_null
     summ["n_centroid_probes"] = len(probes)
+    summ["null_mode"] = null_mode
     return rcc, summ
 
 
@@ -450,7 +479,8 @@ def _print_summary(calib: dict, verdict: dict) -> None:
     print("OPCODE MONITOR v2 — SUMMARY")
     print("═" * 72)
     cl = calib["crystal_layers"]
-    print(f"Crystal layers: {len(cl)}/{calib['n_layers']}  null={calib['null_kind']}  "
+    print(f"Crystal layers: {len(cl)}/{calib['n_layers']}  "
+          f"null_mode={calib.get('null_mode')}  "
           f"null_tokens={calib.get('n_null_tokens')}")
     for z in Z_SWEEP:
         key = f"z={z}"
@@ -472,9 +502,14 @@ def _print_summary(calib: dict, verdict: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Opcode monitor v2 (cross-task null)")
     parser.add_argument("--model", default="Qwen/Qwen3-14B")
+    parser.add_argument("--null-mode", default="crosstask",
+                        choices=["crosstask", "gateneutral"],
+                        help="crosstask=bare natural-text null (s232); "
+                             "gateneutral=matched-prefix null (v3)")
     parser.add_argument("--smoke", action="store_true",
                         help="Qwen3-0.6B, 3 probes/comb, 2 prompts/cat, n_perm=80")
     args = parser.parse_args()
+    null_mode = args.null_mode
 
     model_name = args.model
     if args.smoke:
@@ -491,9 +526,10 @@ def main() -> None:
     layers = list(range(n_layers))
     print(f"[v2] Layers: {n_layers}, intermediate_size: {cfg.intermediate_size}")
 
-    rcc, calib = calibrate_v2(model, tok, torch_mod, layers, n_perm, ppc, null_cap)
+    rcc, calib = calibrate_v2(model, tok, torch_mod, layers, n_perm, ppc, null_cap,
+                              null_mode=null_mode)
     print(f"[v2] Crystal-bearing layers: {len(calib['crystal_layers'])}/{n_layers} "
-          f"-> {calib['crystal_layers'][:12]}")
+          f"-> {calib['crystal_layers'][:12]}  (null_mode={null_mode})")
 
     print("\n[v2] Running per-token monitor battery ...")
     monitor = run_monitor(model, tok, torch_mod, rcc, layers, n_prompts)
@@ -502,7 +538,10 @@ def main() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     out = {"calibration_summary": calib, "monitor": monitor, "verdict": verdict}
-    (RESULTS_DIR / "verdict.json").write_text(
+    # filename parametrized by null_mode; preserve the committed s232 verdict.json
+    vname = "verdict.json" if null_mode == "crosstask" else f"verdict_{null_mode}.json"
+    mname = "meta.json" if null_mode == "crosstask" else f"meta_{null_mode}.json"
+    (RESULTS_DIR / vname).write_text(
         json.dumps(_json_safe(out), indent=2), encoding="utf-8")
     meta = {
         "model": model_name, "smoke": args.smoke, "git_sha": _git_sha(),
@@ -510,12 +549,12 @@ def main() -> None:
         "transformers_version": _transformers_version(),
         "n_layers": n_layers, "intermediate_size": cfg.intermediate_size,
         "n_perm": n_perm, "probes_per_combinator": ppc, "z_sweep": Z_SWEEP,
-        "null_kind": calib.get("null_kind"),
+        "null_kind": calib.get("null_kind"), "null_mode": null_mode,
         "n_null_tokens": calib.get("n_null_tokens"),
         "n_crystal_layers": len(calib["crystal_layers"]),
     }
-    (RESULTS_DIR / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-    print(f"[v2] wrote {RESULTS_DIR/'verdict.json'} and meta.json")
+    (RESULTS_DIR / mname).write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    print(f"[v2] wrote {RESULTS_DIR/vname} and {mname}")
 
 
 if __name__ == "__main__":
