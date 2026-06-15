@@ -315,6 +315,45 @@ def train_arm(name: str, corpus: str, eval_items: list[tuple[str, str]],
     }
 
 
+FORMATS = ["redex_nf", "full_trace"]
+MULTS = ["one", "k_same", "k_varied"]
+
+
+def run_seed(args, device: str, rules: list[tuple[str, int]],
+             seed: int) -> list[dict]:
+    """Train all 6 arms (FORMAT x MULTIPLICITY) at one seed; reseed data + init."""
+    args.seed = seed
+    fill_rng = np.random.default_rng(seed)
+    train_fillings = {tmpl: make_fillings(fill_rng, h, TRAIN_ATOMS, args.k)
+                      for tmpl, h in rules}
+    eval_rng = np.random.default_rng(seed + 777)
+    if args.heldout == "combos":
+        eval_atoms, eval_exclude = TRAIN_ATOMS, train_fillings
+    else:
+        eval_atoms, eval_exclude = TEST_ATOMS, None
+    eval_items = build_eval_items(rules, args.m_eval, eval_rng, eval_atoms,
+                                  eval_exclude)
+    log(f"  [seed {seed}] held-out eval instances={len(eval_items)} "
+        f"(heldout={args.heldout})")
+    arms: list[dict] = []
+    for fmt in FORMATS:
+        for mult in MULTS:
+            corpus_rng = np.random.default_rng(seed + 13)
+            corpus = build_corpus(rules, train_fillings, fmt, mult, args.k,
+                                  corpus_rng)
+            name = f"{fmt}/{mult}"
+            log(f"\n=== seed {seed} {name}  (corpus {len(corpus.encode())} B) ===")
+            v = train_arm(name, corpus, eval_items, args, device)
+            v["format"], v["multiplicity"], v["seed"] = fmt, mult, seed
+            arms.append(v)
+    return arms
+
+
+def _ms(vals: list[float]) -> list[float]:
+    a = np.array(vals, dtype=float)
+    return [round(float(a.mean()), 4), round(float(a.std()), 4)]
+
+
 # --------------------------------------------------------------------------- #
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -334,6 +373,9 @@ def main() -> None:
                     help="combos=unseen fillings of SEEN atoms (rule generalization);"
                          " atoms=disjoint TEST atoms (variable-binding generalization)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seeds", default="",
+                    help="csv seeds for multi-seed harden, e.g. 0,1,2 "
+                         "(overrides --seed; aggregates mean±std per arm)")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
 
@@ -356,37 +398,15 @@ def main() -> None:
     rules = validate_skeletons(SKELETONS)
     if args.smoke:
         rules = rules[:4]
+    seeds = [int(s) for s in args.seeds.split(",") if s.strip()] or [args.seed]
     log(f"  rules={len(rules)} train_atoms={len(TRAIN_ATOMS)} "
-        f"test_atoms={len(TEST_ATOMS)} k={args.k} m_eval={args.m_eval}")
+        f"test_atoms={len(TEST_ATOMS)} k={args.k} m_eval={args.m_eval} seeds={seeds}")
 
-    # shared fillings (so one/k_same/k_varied are aligned) + shared eval set
-    fill_rng = np.random.default_rng(args.seed)
-    train_fillings = {tmpl: make_fillings(fill_rng, h, TRAIN_ATOMS, args.k)
-                      for tmpl, h in rules}
-    eval_rng = np.random.default_rng(args.seed + 777)
-    if args.heldout == "combos":
-        eval_atoms, eval_exclude = TRAIN_ATOMS, train_fillings
-    else:
-        eval_atoms, eval_exclude = TEST_ATOMS, None
-    eval_items = build_eval_items(rules, args.m_eval, eval_rng, eval_atoms,
-                                  eval_exclude)
-    log(f"  held-out eval instances={len(eval_items)} (heldout={args.heldout})")
+    all_arms: list[dict] = []
+    for sd in seeds:
+        all_arms.extend(run_seed(args, device, rules, sd))
 
-    formats = ["redex_nf", "full_trace"]
-    mults = ["one", "k_same", "k_varied"]
-    arms: list[dict] = []
-    for fmt in formats:
-        for mult in mults:
-            corpus_rng = np.random.default_rng(args.seed + 13)
-            corpus = build_corpus(rules, train_fillings, fmt, mult, args.k,
-                                  corpus_rng)
-            name = f"{fmt}/{mult}"
-            log(f"\n=== {name}  (corpus {len(corpus.encode())} bytes) ===")
-            v = train_arm(name, corpus, eval_items, args, device)
-            v["format"], v["multiplicity"] = fmt, mult
-            arms.append(v)
-
-    out = {
+    meta = {
         "experiment": "exposure-format-sweep",
         "register": "functional (held-out generalization)",
         "idea": "training as a photograph (s229); fork = memorization vs rule burn-in",
@@ -396,38 +416,71 @@ def main() -> None:
         "smoke": args.smoke,
         "config": vars(args),
         "n_rules": len(rules),
-        "n_eval": len(eval_items),
         "heldout": args.heldout,
+        "seeds": seeds,
         "elapsed_s": round(time.time() - t0, 1),
-        "arms": arms,
     }
-    tag = "smoke" if args.smoke else "run"
-    (RESULTS_DIR / f"verdict_{tag}.json").write_text(json.dumps(out, indent=2))
 
-    # ---- readout ----
-    by = {a["arm"]: a for a in arms}
-    log("\n  ==== EXPOSURE/FORMAT SWEEP ====")
-    log(f"  {'arm':<22} {'corpus_B':>9} {'final_acc':>10} {'best_acc':>9} "
-        f"{'steps@0.5':>10}")
-    for fmt in formats:
-        for mult in mults:
-            a = by[f"{fmt}/{mult}"]
-            log(f"  {a['arm']:<22} {a['corpus_bytes']:>9} {a['final_acc']:>10.3f} "
-                f"{a['best_acc']:>9.3f} {a['steps_to_half']!s:>10}")
-    log("\n  PREDICTIONS (held-out generalization):")
-    for fmt in formats:
-        o = by[f"{fmt}/one"]["best_acc"]
-        ks = by[f"{fmt}/k_same"]["best_acc"]
-        kv = by[f"{fmt}/k_varied"]["best_acc"]
-        log(f"   [{fmt}] burn-in (k_varied>one): {kv:.3f}>{o:.3f} = {kv > o}  | "
-            f"rule>rote (k_varied>k_same): {kv:.3f}>{ks:.3f} = {kv > ks}")
-    for mult in mults:
-        rn = by[f"redex_nf/{mult}"]
-        ft = by[f"full_trace/{mult}"]
-        log(f"   [{mult}] full_trace {ft['best_acc']:.3f} "
-            f"(corpus {ft['corpus_bytes']}B) vs redex_nf {rn['best_acc']:.3f} "
-            f"({rn['corpus_bytes']}B) -- compare PER-TOKEN")
-    log(f"\n  wrote {RESULTS_DIR / f'verdict_{tag}.json'}  ({out['elapsed_s']}s)")
+    # ---- single-seed path (unchanged output contract) ----
+    if len(seeds) == 1:
+        by = {a["arm"]: a for a in all_arms}
+        out = {**meta, "arms": all_arms}
+        tag = "smoke" if args.smoke else "run"
+        (RESULTS_DIR / f"verdict_{tag}.json").write_text(json.dumps(out, indent=2))
+        log("\n  ==== EXPOSURE/FORMAT SWEEP ====")
+        log(f"  {'arm':<22} {'corpus_B':>9} {'final_acc':>10} {'best_acc':>9} "
+            f"{'steps@0.5':>10}")
+        for fmt in FORMATS:
+            for mult in MULTS:
+                a = by[f"{fmt}/{mult}"]
+                log(f"  {a['arm']:<22} {a['corpus_bytes']:>9} "
+                    f"{a['final_acc']:>10.3f} {a['best_acc']:>9.3f} "
+                    f"{a['steps_to_half']!s:>10}")
+        log("\n  PREDICTIONS (held-out generalization):")
+        for fmt in FORMATS:
+            o = by[f"{fmt}/one"]["best_acc"]
+            ks = by[f"{fmt}/k_same"]["best_acc"]
+            kv = by[f"{fmt}/k_varied"]["best_acc"]
+            log(f"   [{fmt}] burn-in (k_varied>one): {kv:.3f}>{o:.3f} = {kv > o}  | "
+                f"rule>rote (k_varied>k_same): {kv:.3f}>{ks:.3f} = {kv > ks}")
+        log(f"\n  wrote {RESULTS_DIR / f'verdict_{tag}.json'}  ({meta['elapsed_s']}s)")
+        return
+
+    # ---- multi-seed aggregate (the harden) ----
+    agg: dict[str, dict] = {}
+    for fmt in FORMATS:
+        for mult in MULTS:
+            name = f"{fmt}/{mult}"
+            rs = [a for a in all_arms if a["arm"] == name]
+            agg[name] = {
+                "n": len(rs),
+                "best_acc": _ms([r["best_acc"] for r in rs]),
+                "final_acc": _ms([r["final_acc"] for r in rs]),
+                "corpus_bytes": rs[0]["corpus_bytes"],
+                "per_seed_best": [r["best_acc"] for r in rs],
+            }
+    out = {**meta, "aggregate": agg, "runs": all_arms}
+    (RESULTS_DIR / "verdict_multiseed.json").write_text(json.dumps(out, indent=2))
+
+    log("\n  ==== MULTI-SEED AGGREGATE (mean±std over seeds) ====")
+    log(f"  {'arm':<22} {'corpus_B':>9} {'best_acc(mean±std)':>22} {'per-seed':>20}")
+    for fmt in FORMATS:
+        for mult in MULTS:
+            a = agg[f"{fmt}/{mult}"]
+            ps = ",".join(f"{x:.2f}" for x in a["per_seed_best"])
+            log(f"  {fmt + '/' + mult:<22} {a['corpus_bytes']:>9} "
+                f"{a['best_acc'][0]:>+10.3f}±{a['best_acc'][1]:<5.3f}        {ps:>20}")
+    log("\n  ROBUSTNESS (best_acc, mean±std; decisive if k_varied(mean-std) clears):")
+    for fmt in FORMATS:
+        kv = agg[f"{fmt}/k_varied"]["best_acc"]
+        ks = agg[f"{fmt}/k_same"]["best_acc"]
+        o = agg[f"{fmt}/one"]["best_acc"]
+        rule_robust = (kv[0] - kv[1]) > (ks[0] + ks[1])
+        burn_robust = (kv[0] - kv[1]) > (o[0] + o[1])
+        log(f"   [{fmt}] rule>rote: k_varied {kv[0]:.3f}±{kv[1]:.3f} vs k_same "
+            f"{ks[0]:.3f}±{ks[1]:.3f} -> DECISIVE={rule_robust} | "
+            f"burn-in vs one {o[0]:.3f}±{o[1]:.3f} -> DECISIVE={burn_robust}")
+    log(f"\n  wrote {RESULTS_DIR / 'verdict_multiseed.json'}  ({meta['elapsed_s']}s)")
 
 
 if __name__ == "__main__":
