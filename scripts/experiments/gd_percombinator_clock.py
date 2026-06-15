@@ -156,6 +156,23 @@ def _round_vec(v: np.ndarray) -> dict:
             for c, x in zip(CRYSTAL, v, strict=True)}
 
 
+def per_row_align(g_student: np.ndarray, g_consensus: np.ndarray) -> np.ndarray:
+    """[9] per-ROW relational-fingerprint alignment to consensus = cosine between
+    student row c and consensus row c over the 8 OFF-diagonal entries (row c =
+    combinator c's similarity pattern to all others). The RELATIONAL clock — the
+    register where the micro crystal actually lives (s231b: categorical silhouette
+    is flat, the Gram is not). Cosine (not 8-point Pearson) for stability."""
+    n = len(CRYSTAL)
+    out = np.full(n, np.nan)
+    for i in range(n):
+        m = np.ones(n, dtype=bool)
+        m[i] = False
+        a, b = g_student[i, m], g_consensus[i, m]
+        na, nb = np.linalg.norm(a), np.linalg.norm(b)
+        out[i] = 0.0 if na < 1e-12 or nb < 1e-12 else float(a @ b / (na * nb))
+    return out
+
+
 # --------------------------------------------------------------------------- #
 # One movie frame: per-combinator clock in BOTH registers (gate + attention)    #
 # --------------------------------------------------------------------------- #
@@ -209,8 +226,10 @@ def measure_clock(model: TinyLM, p_ids: torch.Tensor, p_len: torch.Tensor,
     attn_grad = np_cmr(np.sign(F64["attn_grad"]))
 
     # aggregate continuity (matches s230/s231): gc_route, route_z, gc_grad, grad_z
+    gate_gram = np_gram(np_centroids(gate_act, labels))
+    attn_gram = np_gram(np_centroids(attn_act, labels))
     route_sil = np_silhouette_null(gate_act, labels, n_perm, seed)
-    gc_route = offdiag_corr(np_gram(np_centroids(gate_act, labels)), consensus_gram)
+    gc_route = offdiag_corr(gate_gram, consensus_gram)
     grad_sil = np_silhouette_null(gate_grad, labels, n_perm, seed)
     gc_grad = offdiag_corr(np_gram(np_centroids(gate_grad, labels)), consensus_gram)
 
@@ -219,11 +238,14 @@ def measure_clock(model: TinyLM, p_ids: torch.Tensor, p_len: torch.Tensor,
         "route_z": round(float(route_sil["z"]), 4),
         "gc_grad": round(float(gc_grad), 4),
         "grad_z": round(float(grad_sil["z"]), 4),
-        # per-combinator CLOCK (raw silhouette trajectories)
+        # per-combinator CATEGORICAL clock (raw silhouette; s231b: flat at micro)
         "pc_act_gate": _round_vec(percomb_silhouette(gate_act, labels)),
         "pc_act_attn": _round_vec(percomb_silhouette(attn_act, labels)),
         "pc_grad_gate": _round_vec(percomb_silhouette(gate_grad, labels)),
         "pc_grad_attn": _round_vec(percomb_silhouette(attn_grad, labels)),
+        # per-ROW RELATIONAL clock (s231b fix — the register the crystal lives in)
+        "pc_row_gc": _round_vec(per_row_align(gate_gram, consensus_gram)),
+        "pc_row_gc_attn": _round_vec(per_row_align(attn_gram, consensus_gram)),
     }
     if final_frame:                                    # null-calibrated z, once
         frame["pc_act_gate_z"] = _round_vec(percomb_z(gate_act, labels, n_perm, seed))
@@ -275,10 +297,22 @@ def _peak_then_collapse(
 def readout(curve: list[dict], gc_frac: float, acc_frac: float) -> dict:
     init = curve[0]
     fin = curve[-1]
-    # acquisition order from the GATE activation clock (the consensus register)
+    # CATEGORICAL clock (s231b: flat at micro) — acquisition order from GATE silhouette
     cross = {c: _cross_step(_pc_series(curve, "pc_act_gate", c), gc_frac)
              for c in CRYSTAL}
     order = sorted(CRYSTAL, key=lambda c: (cross[c] is None, cross[c] or 10**9))
+    # RELATIONAL clock (s231b fix) — order from per-ROW Gram alignment to consensus
+    rcross = {c: _cross_step(_pc_series(curve, "pc_row_gc", c), gc_frac)
+              for c in CRYSTAL}
+    rorder = sorted(CRYSTAL, key=lambda c: (rcross[c] is None, rcross[c] or 10**9))
+    rb, rk = rcross.get("B"), rcross.get("K")
+    # relational P3: does combinator c's fingerprint align better in attn vs gate?
+    rregion = {}
+    for c in CRYSTAL:
+        g = fin["pc_row_gc"].get(c)
+        a = fin["pc_row_gc_attn"].get(c)
+        rregion[c] = ("attn" if (g is not None and a is not None and a > g)
+                      else "gate" if (g is not None and a is not None) else "n/a")
     # B-vs-K fuel exhaustion (gate gradient)
     fuel = {c: _peak_then_collapse(_pc_series(curve, "pc_grad_gate", c))
             for c in CRYSTAL}
@@ -297,6 +331,14 @@ def readout(curve: list[dict], gc_frac: float, acc_frac: float) -> dict:
         "B_cross": b_cross, "K_cross": k_cross,
         "B_before_K_clock": (None if b_cross is None or k_cross is None
                              else b_cross < k_cross),
+        # RELATIONAL clock (the s231b fix — primary readout)
+        "relational_order": rorder,
+        "relational_cross_step": rcross,
+        "B_cross_rel": rb, "K_cross_rel": rk,
+        "B_before_K_relational": (None if rb is None or rk is None else rb < rk),
+        "relational_region_gate_vs_attn": rregion,
+        "composers_BC_attn_relational": [rregion.get("B"), rregion.get("C")],
+        "selectors_KI_gate_relational": [rregion.get("K"), rregion.get("I")],
         "fuel_peak_collapse": {c: {"peak": fuel[c][0], "collapse": fuel[c][1]}
                                for c in CRYSTAL},
         "B_fuel_exhausts_before_K": (None if b_coll is None or k_coll is None
@@ -464,13 +506,19 @@ def main() -> None:
     rds = [r["readout"] for r in runs]
     agg = {
         "n_seeds": len(seeds),
+        # RELATIONAL clock (s231b fix — primary)
+        "relational_order": [r["relational_order"] for r in rds],
+        "B_before_K_relational": _mode([r["B_before_K_relational"] for r in rds]),
+        "composers_BC_attn_relational": _mode(
+            [tuple(r["composers_BC_attn_relational"]) for r in rds]),
+        "selectors_KI_gate_relational": _mode(
+            [tuple(r["selectors_KI_gate_relational"]) for r in rds]),
+        "relational_region_gate_vs_attn": [
+            r["relational_region_gate_vs_attn"] for r in rds],
+        # CATEGORICAL clock (s231b: flat at micro — kept for continuity)
         "acquisition_order_gate": [r["acquisition_order_gate"] for r in rds],
         "B_before_K_clock": _mode([r["B_before_K_clock"] for r in rds]),
         "B_fuel_exhausts_before_K": _mode([r["B_fuel_exhausts_before_K"] for r in rds]),
-        "selectors_KI_gate": _mode(
-            [tuple(r["selectors_KI_gate"]) for r in rds]),
-        "composers_BC_attn": _mode(
-            [tuple(r["composers_BC_attn"]) for r in rds]),
         "region_gate_vs_attn": [r["region_gate_vs_attn"] for r in rds],
     }
     tag = "smoke" if args.smoke else ("multiseed" if len(seeds) > 1 else "run")
@@ -478,13 +526,21 @@ def main() -> None:
     (RESULTS_DIR / f"verdict_{tag}.json").write_text(json.dumps(out, indent=2))
 
     log("\n  ==== PER-COMBINATOR CLOCK (how does GD learn?) ====")
+    log("  -- RELATIONAL clock (per-row Gram alignment; the s231b fix) --")
+    for r in rds:
+        log(f"  rel order: {' < '.join(r['relational_order'])} | "
+            f"B@{r['B_cross_rel']} K@{r['K_cross_rel']} "
+            f"(B<K={r['B_before_K_relational']})")
+    log(f"  B_before_K_relational: {agg['B_before_K_relational']}")
+    log(f"  composers {{B,C}} fingerprint region (want attn): "
+        f"{agg['composers_BC_attn_relational']}")
+    log(f"  selectors {{K,I}} fingerprint region (want gate): "
+        f"{agg['selectors_KI_gate_relational']}")
+    log("  -- CATEGORICAL clock (s231b: flat at micro) --")
     for r in rds:
         log(f"  order(gate): {' < '.join(r['acquisition_order_gate'])} | "
             f"B@{r['B_cross']} K@{r['K_cross']} (B<K={r['B_before_K_clock']})")
     log(f"  B_before_K_clock: {agg['B_before_K_clock']}")
-    log(f"  B_fuel_exhausts_before_K: {agg['B_fuel_exhausts_before_K']}")
-    log(f"  selectors {{K,I}} region (want gate): {agg['selectors_KI_gate']}")
-    log(f"  composers {{B,C}} region (want attn): {agg['composers_BC_attn']}")
     log(f"\n  wrote {RESULTS_DIR / f'verdict_{tag}.json'}  ({meta['elapsed_s']}s)")
 
 
