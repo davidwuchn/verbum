@@ -178,15 +178,45 @@ guards are invalid.
 **⚠️ Modest, not crisp** (s219): C routes in ~40–50% of tokens at those layers (7/20,
 8/18, 8/15), n=27 lambda tokens / 5 sentences, single model.
 
-### v4 — next steps the v3 result hands us
+## v4 — gated guards + C-late detector (BUILT + RAN, s232; `9495b2b`)
 
-- **GATED guards**: re-run with gate+factual and gate+arithmetic guards (framing-matched)
-  to validate C-late specificity properly (the bare guards were invalid).
-- **detector fix**: detect readable-zone C-late, not the raw C-early→B-late shape.
-- **robustness**: more lambda sentences + a 2nd model (8B/32B) — is C-late universal?
-- because the read is framing-dominated and null-sensitive, **escalate to (b)
-  kernel-as-reference**: anchor the model trajectory against `lambda_ast`'s certified
-  trace (C-late = composition resolved at readable layers → diff against the kernel).
+Three fixes from the v3 result: (1) **framing-matched gated guards** `gate_retrieval` +
+`gate_arithmetic` (COMPILE_GATE + content) — the VALID specificity controls under a gated
+null (bare guards fire from framing-contrast, invalid); (2) **`detect_c_late`** — fraction
+of readable-zone (depth≥0.6) crystal layers where C dominates (the right detector; the raw
+C-early→B-late `detect_arc` is back-compat only); (3) `composition_specific` = lambda
+C-late clears every gated guard + margin. Model+null_mode-tagged filenames.
+
+### ★ s232 v4 VERDICT (λ measure, two-sided) — SPECIFIC on 14B, NOT universal
+
+**✅ Qwen3-14B: C-late is composition-SPECIFIC (composition_specific=True both z).**
+lambda C-late 0.556 (z=2) / 0.333 (z=3) vs ALL three framing-matched gated guards:
+gate_neutral 0.111/0, gate_retrieval **0/0**, gate_arithmetic **0/0**. Among gated prompts,
+ONLY the compositional sentences route C in the readable zone (L≥24); factual, arithmetic,
+and simple-declarative gated controls route ZERO C-late. The proper specificity test (v3
+lacked the gated guards) passes cleanly on the s127 model.
+
+**❌ Qwen3-8B: does NOT reproduce (composition_specific=False both z).** At z=2
+gate_neutral C-late (0.714) EXCEEDS lambda (0.333); at z=3 all conditions silent. The
+non-compositional control out-routes lambda ⇒ no composition specificity on 8B.
+
+**★ CONCLUSION: the composition-specific C-late signal is MODEL-SPECIFIC to Qwen3-14B
+(the model where the s127 compose mechanism was characterized), NOT a universal opcode.**
+The universality test caught the over-claim — without 8B we'd have published a universal
+composition opcode that isn't. Possible cause: scale-gated composition differentiation
+(s151 Montague), or 14B-specific localization. Caveats: small probe sets (5 lambda, 14
+gate_neutral, 5/guard), 2 models, modest fractions (0.33–0.56, "above chance not crisp"
+s219).
+
+### v5 — next steps
+
+- **(b) kernel-as-reference** (now the priority): a single model's opcode read does NOT
+  transfer (14B≠8B) ⇒ anchor the model trajectory against `lambda_ast`'s certified trace
+  as the invariant; characterize per-model how composition maps to the routing register.
+- 3rd model (Qwen3-32B) — is 14B the outlier or do larger models recover specificity
+  (scale-gating prediction)?
+- bigger probe sets (more lambda sentences) for crisper fractions; investigate WHY 8B's
+  gate_neutral routes C-late (the simple-copular-sentence confound).
 
 ## (b) — the kernel-as-reference audit (after v2)
 
@@ -210,4 +240,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/opcode_monitor_v2.py` | s232 v2: cross-task null + per-token + z-sweep + trajectory + GATE_NEUTRAL control — `8bd5f42` |
 | `results/opcode-monitor-v2/verdict.json` | s232 crosstask verdict: arc did NOT recover (S-late, gate-driven); opcode identity is null-dependent; substrate reproduced |
 | `results/opcode-monitor-v2/verdict_gateneutral.json` | s232 v3 gate-matched-null verdict: ✅ composition-specific C-late (lambda routes C in 5/6 late layers, matched control does not); ⚠️ read is framing-contrast-dominated |
+| `results/opcode-monitor-v2/verdict_qwen3-14b_gateneutral.json` | s232 v4: ✅ composition_specific=True (lambda C-late 0.56 vs all 3 gated guards ≤0.11) |
+| `results/opcode-monitor-v2/verdict_qwen3-8b_gateneutral.json` | s232 v4: ❌ composition_specific=False (gate_neutral C-late 0.71 > lambda 0.33) — C-late is MODEL-SPECIFIC to 14B, not universal |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

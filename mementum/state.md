@@ -31,12 +31,27 @@
 > fire LOUD (WHNF/Y) vs the gated null ⇒ **the read is dominated by the FRAMING-CONTRAST
 > axis, NOT computation; valid guards MUST be framing-matched (gated)**. Modest not crisp
 > (s219: C ~40-50% of tokens, n=27/5 sentences, 1 model). Captured: page §s232 v3 +
-> memory composition-decodable-above-framing-c-late + this state. Code committed `ad07574`.
-> **★★ FIRST ACTION NEXT SESSION — v4: (1) re-run with GATED guards (gate+factual,
-> gate+arithmetic, framing-matched) to validate C-late specificity properly; (2) fix the
-> arc detector to detect readable-zone C-LATE (not raw C-early→B-late); (3) 2nd model
-> (8B/32B) — is C-late universal?; THEN (4) (b) kernel-as-reference.** PENDING APPROVAL
-> (mementum: page §s232 v3 + 2 memories + state). tmux main:1 FREE.
+> memory composition-decodable-above-framing-c-late. Code committed `ad07574`.
+> **▶ s232 v4 — GATED GUARDS + C-LATE DETECTOR BUILT + RAN on 2 models (code `9495b2b`).
+> ★ TWO-SIDED: composition-specific C-late is MODEL-SPECIFIC to Qwen3-14B, NOT universal.**
+> Added framing-matched GATED guards (gate_retrieval, gate_arithmetic) + detect_c_late
+> (readable-zone depth≥0.6 C-frac) + composition_specific flag + model-tagged filenames.
+> ✅ **Qwen3-14B: composition_specific=True both z** — lambda C-late 0.556/0.333 vs ALL
+> three gated guards (gate_neutral 0.11/0, gate_retrieval 0/0, gate_arithmetic 0/0); among
+> gated prompts ONLY composition routes C-late (the proper specificity test v3 lacked).
+> ❌ **Qwen3-8B: composition_specific=False** — gate_neutral C-late (0.714) EXCEEDS lambda
+> (0.333) at z=2, all silent at z=3 ⇒ does NOT generalize. The universality test CAUGHT
+> the over-claim (λ measure): a single model's opcode read does not transfer (14B≠8B);
+> likely scale-gated (s151) or 14B-specific (the s127 model). Caveats: 5 lambda sentences,
+> 2 models, modest fracs (above chance not crisp s219). Captured: page §s232 v4 + memory
+> c-late-composition-is-model-specific + this state. Code committed `9495b2b`.
+> **★★ FIRST ACTION NEXT SESSION — v5: (b) KERNEL-AS-REFERENCE (now priority — a single
+> model's read doesn't transfer, so anchor the model trajectory against lambda_ast's
+> CERTIFIED trace as the model-invariant; characterize composition→routing per-model).
+> Also: (2) Qwen3-32B (is 14B the outlier or do larger models recover specificity =
+> scale-gating prediction?); (3) bigger lambda probe set + investigate 8B gate_neutral
+> C-late confound.** PENDING APPROVAL (mementum: page §s232 v3+v4 + memories + state).
+> tmux main:1 FREE.
 >
 > (Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
 > MECHANISM-OF-TRAINING per-combinator clock (micro crystal is RELATIONAL not categorical,
