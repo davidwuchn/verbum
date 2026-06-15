@@ -1,0 +1,894 @@
+{
+  "experiment": "compiler-cascade",
+  "register": "functional (held-out compositional generalization)",
+  "idea": "fractal-collapse IOU#1: does compiler-minted COMPOSITION-variety converge capability that COMPOSES (held-out novel compositions)?",
+  "timestamp_utc": "2026-06-15T17:40:11.839317+00:00",
+  "git_sha": "e7d2f65746e78fadfa70317b31897c4a0ff7bb50",
+  "device": "mps",
+  "smoke": false,
+  "config": {
+    "device": "mps",
+    "steps": 6000,
+    "eval_every": 500,
+    "batch_size": 32,
+    "block_size": 128,
+    "d_model": 128,
+    "n_head": 4,
+    "n_layer": 4,
+    "d_ff": 256,
+    "lr": 0.0003,
+    "budget": 2304,
+    "arm_levels": "16,48,144",
+    "pool_size": 200,
+    "heldout_templates": 40,
+    "in_dist_templates": 20,
+    "m_eval": 3,
+    "max_depth": 3,
+    "p_recurse": 0.55,
+    "min_steps": 2,
+    "max_steps": 3,
+    "min_holes": 2,
+    "max_holes": 5,
+    "max_nf_len": 15,
+    "seed": 2,
+    "seeds": "0,1,2",
+    "smoke": false
+  },
+  "arm_levels": [
+    16,
+    48,
+    144
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_train_pool": 200,
+  "n_heldout_templates": 40,
+  "elapsed_s": 638.3,
+  "aggregate": {
+    "comp16": {
+      "n_compositions": 16,
+      "n_fillings": 144,
+      "examples": 2304,
+      "heldout_comp_best": [
+        0.6827,
+        0.0308
+      ],
+      "heldout_comp_final": [
+        0.6752,
+        0.038
+      ],
+      "in_dist_best": [
+        0.9162,
+        0.1096
+      ],
+      "per_seed_heldout": [
+        0.6571,
+        0.6651,
+        0.726
+      ]
+    },
+    "comp48": {
+      "n_compositions": 48,
+      "n_fillings": 48,
+      "examples": 2304,
+      "heldout_comp_best": [
+        0.6165,
+        0.1346
+      ],
+      "heldout_comp_final": [
+        0.6138,
+        0.1367
+      ],
+      "in_dist_best": [
+        0.6734,
+        0.1663
+      ],
+      "per_seed_heldout": [
+        0.8061,
+        0.5353,
+        0.508
+      ]
+    },
+    "comp144": {
+      "n_compositions": 144,
+      "n_fillings": 16,
+      "examples": 2304,
+      "heldout_comp_best": [
+        0.6741,
+        0.1943
+      ],
+      "heldout_comp_final": [
+        0.6741,
+        0.1943
+      ],
+      "in_dist_best": [
+        0.6984,
+        0.2037
+      ],
+      "per_seed_heldout": [
+        0.9487,
+        0.5272,
+        0.5465
+      ]
+    }
+  },
+  "runs": [
+    {
+      "arm": "comp16",
+      "corpus_bytes": 70848,
+      "heldout_comp_best": 0.6571,
+      "heldout_comp_final": 0.6346,
+      "in_dist_best": 1.0,
+      "in_dist_final": 0.9968,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.3926,
+          "in_dist": 0.4327,
+          "ce": 1.122
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4455,
+          "in_dist": 0.4968,
+          "ce": 0.9193
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4583,
+          "in_dist": 0.5385,
+          "ce": 0.8015
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.484,
+          "in_dist": 0.5577,
+          "ce": 0.7552
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.4808,
+          "in_dist": 0.5481,
+          "ce": 0.7615
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.4359,
+          "in_dist": 0.5513,
+          "ce": 0.7419
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.4631,
+          "in_dist": 0.5609,
+          "ce": 0.7595
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.476,
+          "in_dist": 0.5417,
+          "ce": 0.7509
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.5224,
+          "in_dist": 0.6538,
+          "ce": 0.6977
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.609,
+          "in_dist": 0.8462,
+          "ce": 0.5868
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.6571,
+          "in_dist": 1.0,
+          "ce": 0.5211
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.6346,
+          "in_dist": 0.9968,
+          "ce": 0.5042
+        }
+      ],
+      "n_compositions": 16,
+      "n_fillings": 144,
+      "examples": 2304,
+      "seed": 0
+    },
+    {
+      "arm": "comp48",
+      "corpus_bytes": 70944,
+      "heldout_comp_best": 0.8061,
+      "heldout_comp_final": 0.8061,
+      "in_dist_best": 0.9062,
+      "in_dist_final": 0.9062,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4199,
+          "in_dist": 0.4219,
+          "ce": 1.1601
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4856,
+          "in_dist": 0.4792,
+          "ce": 1.008
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.508,
+          "in_dist": 0.5,
+          "ce": 0.8952
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.4984,
+          "in_dist": 0.5365,
+          "ce": 0.8509
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.5128,
+          "in_dist": 0.5286,
+          "ce": 0.8118
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.5016,
+          "in_dist": 0.5286,
+          "ce": 0.808
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.508,
+          "in_dist": 0.5417,
+          "ce": 0.7676
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.5144,
+          "in_dist": 0.5365,
+          "ce": 0.7899
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.5112,
+          "in_dist": 0.5703,
+          "ce": 0.7643
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.6026,
+          "in_dist": 0.6354,
+          "ce": 0.7178
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.7276,
+          "in_dist": 0.7891,
+          "ce": 0.6611
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.8061,
+          "in_dist": 0.9062,
+          "ce": 0.5833
+        }
+      ],
+      "n_compositions": 48,
+      "n_fillings": 48,
+      "examples": 2304,
+      "seed": 0
+    },
+    {
+      "arm": "comp144",
+      "corpus_bytes": 70560,
+      "heldout_comp_best": 0.9487,
+      "heldout_comp_final": 0.9487,
+      "in_dist_best": 0.9844,
+      "in_dist_final": 0.9844,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4359,
+          "in_dist": 0.4401,
+          "ce": 1.1492
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4744,
+          "in_dist": 0.4922,
+          "ce": 0.9697
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.5032,
+          "in_dist": 0.5182,
+          "ce": 0.9108
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.5096,
+          "in_dist": 0.5469,
+          "ce": 0.8748
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.5128,
+          "in_dist": 0.5469,
+          "ce": 0.8647
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.5337,
+          "in_dist": 0.5312,
+          "ce": 0.8444
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.5401,
+          "in_dist": 0.5573,
+          "ce": 0.8336
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.6074,
+          "in_dist": 0.6484,
+          "ce": 0.7709
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.8606,
+          "in_dist": 0.9193,
+          "ce": 0.6483
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.9263,
+          "in_dist": 0.9688,
+          "ce": 0.6359
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.9471,
+          "in_dist": 0.9844,
+          "ce": 0.61
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.9487,
+          "in_dist": 0.9844,
+          "ce": 0.6092
+        }
+      ],
+      "n_compositions": 144,
+      "n_fillings": 16,
+      "examples": 2304,
+      "seed": 0
+    },
+    {
+      "arm": "comp16",
+      "corpus_bytes": 66528,
+      "heldout_comp_best": 0.6651,
+      "heldout_comp_final": 0.6651,
+      "in_dist_best": 0.7614,
+      "in_dist_final": 0.7614,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.3958,
+          "in_dist": 0.3864,
+          "ce": 1.0485
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4712,
+          "in_dist": 0.4773,
+          "ce": 0.8345
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4647,
+          "in_dist": 0.5038,
+          "ce": 0.7758
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.4631,
+          "in_dist": 0.5,
+          "ce": 0.7515
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.4391,
+          "in_dist": 0.5114,
+          "ce": 0.7621
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.4487,
+          "in_dist": 0.5265,
+          "ce": 0.7306
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.4679,
+          "in_dist": 0.5076,
+          "ce": 0.7361
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.4487,
+          "in_dist": 0.5152,
+          "ce": 0.7278
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.4599,
+          "in_dist": 0.5341,
+          "ce": 0.7353
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.4824,
+          "in_dist": 0.5379,
+          "ce": 0.7254
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.5994,
+          "in_dist": 0.7121,
+          "ce": 0.6519
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.6651,
+          "in_dist": 0.7614,
+          "ce": 0.6002
+        }
+      ],
+      "n_compositions": 16,
+      "n_fillings": 144,
+      "examples": 2304,
+      "seed": 1
+    },
+    {
+      "arm": "comp48",
+      "corpus_bytes": 68448,
+      "heldout_comp_best": 0.5353,
+      "heldout_comp_final": 0.5353,
+      "in_dist_best": 0.5283,
+      "in_dist_final": 0.5189,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4022,
+          "in_dist": 0.3836,
+          "ce": 1.1317
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4968,
+          "in_dist": 0.4497,
+          "ce": 0.9874
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4936,
+          "in_dist": 0.4717,
+          "ce": 0.8814
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.4904,
+          "in_dist": 0.5063,
+          "ce": 0.833
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.5064,
+          "in_dist": 0.4969,
+          "ce": 0.7881
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.5144,
+          "in_dist": 0.5094,
+          "ce": 0.7889
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.5016,
+          "in_dist": 0.5283,
+          "ce": 0.7878
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.5048,
+          "in_dist": 0.5189,
+          "ce": 0.7689
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.5016,
+          "in_dist": 0.5126,
+          "ce": 0.7847
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.5096,
+          "in_dist": 0.5094,
+          "ce": 0.7803
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.5032,
+          "in_dist": 0.5063,
+          "ce": 0.7579
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.5353,
+          "in_dist": 0.5189,
+          "ce": 0.747
+        }
+      ],
+      "n_compositions": 48,
+      "n_fillings": 48,
+      "examples": 2304,
+      "seed": 1
+    },
+    {
+      "arm": "comp144",
+      "corpus_bytes": 70240,
+      "heldout_comp_best": 0.5272,
+      "heldout_comp_final": 0.5272,
+      "in_dist_best": 0.5252,
+      "in_dist_final": 0.5252,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4295,
+          "in_dist": 0.4088,
+          "ce": 1.1581
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4679,
+          "in_dist": 0.4057,
+          "ce": 1.0101
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4968,
+          "in_dist": 0.4654,
+          "ce": 0.9411
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.5128,
+          "in_dist": 0.478,
+          "ce": 0.917
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.5016,
+          "in_dist": 0.4811,
+          "ce": 0.8866
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.508,
+          "in_dist": 0.4969,
+          "ce": 0.8529
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.5112,
+          "in_dist": 0.4843,
+          "ce": 0.8529
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.5256,
+          "in_dist": 0.4937,
+          "ce": 0.8539
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.5096,
+          "in_dist": 0.5063,
+          "ce": 0.8334
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.5112,
+          "in_dist": 0.5063,
+          "ce": 0.8252
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.5096,
+          "in_dist": 0.5063,
+          "ce": 0.8175
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.5272,
+          "in_dist": 0.5252,
+          "ce": 0.8045
+        }
+      ],
+      "n_compositions": 144,
+      "n_fillings": 16,
+      "examples": 2304,
+      "seed": 1
+    },
+    {
+      "arm": "comp16",
+      "corpus_bytes": 71424,
+      "heldout_comp_best": 0.726,
+      "heldout_comp_final": 0.726,
+      "in_dist_best": 0.9872,
+      "in_dist_final": 0.9872,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.391,
+          "in_dist": 0.4167,
+          "ce": 1.1629
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4231,
+          "in_dist": 0.484,
+          "ce": 0.9597
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4583,
+          "in_dist": 0.5353,
+          "ce": 0.8257
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.4792,
+          "in_dist": 0.5641,
+          "ce": 0.7783
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.4984,
+          "in_dist": 0.5962,
+          "ce": 0.7354
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.4808,
+          "in_dist": 0.5962,
+          "ce": 0.722
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.4792,
+          "in_dist": 0.5801,
+          "ce": 0.7355
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.4808,
+          "in_dist": 0.5929,
+          "ce": 0.7321
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.4696,
+          "in_dist": 0.5801,
+          "ce": 0.724
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.4728,
+          "in_dist": 0.5801,
+          "ce": 0.7195
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.5321,
+          "in_dist": 0.6282,
+          "ce": 0.6694
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.726,
+          "in_dist": 0.9872,
+          "ce": 0.5282
+        }
+      ],
+      "n_compositions": 16,
+      "n_fillings": 144,
+      "examples": 2304,
+      "seed": 2
+    },
+    {
+      "arm": "comp48",
+      "corpus_bytes": 70944,
+      "heldout_comp_best": 0.508,
+      "heldout_comp_final": 0.5,
+      "in_dist_best": 0.5857,
+      "in_dist_final": 0.5857,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4311,
+          "in_dist": 0.4595,
+          "ce": 1.1728
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4679,
+          "in_dist": 0.4881,
+          "ce": 0.9997
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.508,
+          "in_dist": 0.5214,
+          "ce": 0.9318
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.5016,
+          "in_dist": 0.5571,
+          "ce": 0.8865
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.4968,
+          "in_dist": 0.569,
+          "ce": 0.8211
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.4984,
+          "in_dist": 0.5476,
+          "ce": 0.8099
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.5064,
+          "in_dist": 0.5714,
+          "ce": 0.7946
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.4888,
+          "in_dist": 0.581,
+          "ce": 0.7846
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.4856,
+          "in_dist": 0.5857,
+          "ce": 0.7605
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.4984,
+          "in_dist": 0.5738,
+          "ce": 0.7766
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.508,
+          "in_dist": 0.5833,
+          "ce": 0.7848
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.5,
+          "in_dist": 0.5857,
+          "ce": 0.7711
+        }
+      ],
+      "n_compositions": 48,
+      "n_fillings": 48,
+      "examples": 2304,
+      "seed": 2
+    },
+    {
+      "arm": "comp144",
+      "corpus_bytes": 70784,
+      "heldout_comp_best": 0.5465,
+      "heldout_comp_final": 0.5465,
+      "in_dist_best": 0.5857,
+      "in_dist_final": 0.5714,
+      "curve": [
+        {
+          "step": 500,
+          "heldout_comp": 0.4167,
+          "in_dist": 0.419,
+          "ce": 1.1688
+        },
+        {
+          "step": 1000,
+          "heldout_comp": 0.4712,
+          "in_dist": 0.4929,
+          "ce": 1.0576
+        },
+        {
+          "step": 1500,
+          "heldout_comp": 0.4631,
+          "in_dist": 0.5071,
+          "ce": 0.9694
+        },
+        {
+          "step": 2000,
+          "heldout_comp": 0.4952,
+          "in_dist": 0.5429,
+          "ce": 0.8988
+        },
+        {
+          "step": 2500,
+          "heldout_comp": 0.4936,
+          "in_dist": 0.5381,
+          "ce": 0.883
+        },
+        {
+          "step": 3000,
+          "heldout_comp": 0.4952,
+          "in_dist": 0.5357,
+          "ce": 0.8902
+        },
+        {
+          "step": 3500,
+          "heldout_comp": 0.5064,
+          "in_dist": 0.5619,
+          "ce": 0.8743
+        },
+        {
+          "step": 4000,
+          "heldout_comp": 0.5192,
+          "in_dist": 0.5643,
+          "ce": 0.8536
+        },
+        {
+          "step": 4500,
+          "heldout_comp": 0.5032,
+          "in_dist": 0.5667,
+          "ce": 0.8492
+        },
+        {
+          "step": 5000,
+          "heldout_comp": 0.5304,
+          "in_dist": 0.5762,
+          "ce": 0.8538
+        },
+        {
+          "step": 5500,
+          "heldout_comp": 0.5337,
+          "in_dist": 0.5857,
+          "ce": 0.8256
+        },
+        {
+          "step": 6000,
+          "heldout_comp": 0.5465,
+          "in_dist": 0.5714,
+          "ce": 0.8375
+        }
+      ],
+      "n_compositions": 144,
+      "n_fillings": 16,
+      "examples": 2304,
+      "seed": 2
+    }
+  ]
+}
