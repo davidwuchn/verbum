@@ -92,10 +92,29 @@
 > **STATUS s229:** ALL COMMITTED — code (`b1ba935`,`4f1ebf2`,`26e6758`), page+memories
 > (`74ef4d3`,`b796077`,`449c3b0` + this multi-seed update), results+state. Memory
 > full-trace-vs-redex renamed → redex-nf-beats-full-trace-per-token.md (finding flipped).
-> tmux main:1 free. **▶ NEXT:** lead 7 convergence-SPEED (threshold ~0.2 on saved
-> curves — the actual "converge faster" claim); lead 3 K-ordering; lead 8 disjoint-atom
-> variable-binding; or the GD-trajectory-tomography thread (discussed s229: reverse-
-> engineer GD in the INVARIANT/routing register on the micro model, not weight space).
+> tmux main:1 free.
+> **▶ s229 GD-TRAJECTORY-TOMOGRAPHY THREAD CAPTURED (Michael: "if models do holographic
+> inference, why can't we reverse-engineer what GD is doing? use the micro model").**
+> NEW page `explore/gradient-trajectory-tomography.md` (committed). Claim: can't
+> reverse-engineer GD in WEIGHT space (gauge + superposition) but CAN on the micro
+> model in INVARIANT coords (routing register, CMR), prediction-gated, with the
+> compiler/crystal as GROUND-TRUTH target — watch the relational geometry develop
+> frame-by-frame over checkpoints. ★ RECALL surfaced PRIOR ART (build on, don't
+> reinvent): s105 holographic-tomography.md ALREADY has the photograph framing + the
+> gauge result (RSA 0.74 / cos 0) + Q-COLLAPSE (a GD behavior already reverse-
+> engineered: flood-lamp not laser); v4.1/v6.1-training-trajectory = trajectory tracking
+> precedent; s223 relational_loss_distillation = the instruments (route_z, GramCorr,
+> raw Gram) + condition-(b) reference-beam failure. DELTA = TEMPORAL (intersect training
+> STEPS) vs prior SPATIAL (intersect MODELS) + ground-truth + reference-beam control +
+> gauge gradient decomposition. ★ COLLISION: same REFERENCE BEAM decides this as burn-in
+> — naive GD-watching reconstructs the common mode, not the function; read via routing
+> register. v1 = dense-checkpoint CE-only run logging route_z/GramCorr(routing,raw)/CE/
+> held-out-acc/eff_dim as a MOVIE + reference-beam control (extends relational_loss_
+> distillation). v2 = δw_invariant vs δw_gauge decomposition (Re-Basin null space;
+> approximate). OPEN DESIGN CHOICE before build: teacher target = consensus crystal
+> (s219) vs a model's compiler geometry. **▶ NEXT:** build v1 (after teacher-target
+> decision); lead 7 convergence-SPEED (threshold ~0.2 on saved s229 curves — the actual
+> "converge faster" claim); lead 3 K-ordering; lead 8 disjoint-atom variable-binding.
 > **■ SESSION 228 — PROOFS-AS-CONTINUATIONS (Curry-Howard). Michael: "would
 > continuations allow us to run proofs?"** Register: **functional (learned prover,
 > kernel-verified).** Refreshed on continuations + distributed training first
