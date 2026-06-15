@@ -2,15 +2,16 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 230 — ✅ GD-TRAJECTORY-TOMOGRAPHY v1 (consensus-
-> crystal target): INVENTORY crystallizes BEFORE CAPABILITY (3/3 seeds, DECISIVE —
-> gc_route init→final midpoint @333±94 steps, NON-OVERLAPPING below held-out-acc
-> midpoint @733±94; s224 geometry=inventory⊗continuation=capability confirmed
-> TEMPORALLY, consensus-crystal ground truth). HONEST two-sided: reference-beam
-> dissociation did NOT reproduce passively (gc_raw 0.75 ≈ gc_route 0.73; raw register
-> tracks consensus as well as routing at micro scale — register split is a property
-> of s223's trained-loss DECOY, not a passive readout); no Q-collapse (eff_dim 14-20).
-> See ■ SESSION 230 block below.
+> Last updated: 2026-06-15 | Session: 230 — ✅ GD-TRAJECTORY-TOMOGRAPHY (consensus-
+> crystal target). v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3, gc_route mid
+> @333±94 < held-out-acc @733±94; s224 geometry⊗continuation confirmed TEMPORALLY).
+> s230b RELATIONAL ARM: reference-beam dissociation IS LOSS-DEPENDENT (decisive 3/3 —
+> gap gc_route−gc_raw −0.02→+0.10 with the active consensus-crystal loss; gc_raw NOT in
+> loss = uncircular); loss crystallizes inventory EARLIER (200 vs 333) + crisper, but
+> ❌ ZERO capability gain (cross @733, acc 0.27 BOTH arms) ⇒ inventory ⊗ continuation
+> CAUSALLY SEPARABLE; relational term = INVENTORY/extraction tool NOT a capability
+> accelerator; re-motivates CONSTRUCT-inventory, train-continuation. (v1 also: no
+> Q-collapse, eff_dim 14-20.) See ■ SESSION 230 block below.
 > (s229 — ✅ EXPOSURE/FORMAT SWEEP (curriculum-
 > mixing FIRST BUILD): burn-in is VARIETY not repetition (k_varied ≈2–2.9× over
 > k_same≈one, BOTH formats; memorization control clean); full_trace higher abs-acc
@@ -90,10 +91,43 @@
 > much of GD is churn" question); (c) crystallization SHAPE sudden-vs-gradual (here
 > gradual); (d) back to s229 leads — convergence-SPEED readout, K-erasure ordering,
 > disjoint-atom variable-binding.
-> **STATUS s230:** CODE COMMITTED `23331d0` (script + verdict_multiseed.json).
-> Knowledge page §s230 updated (gradient-trajectory-tomography.md). State updated.
-> PENDING APPROVAL (mementum): proposed memory `inventory-crystallizes-before-
-> capability.md` + the page/state commit. tmux main:1 FREE.
+> **STATUS s230:** COMMITTED — code `23331d0`, mementum `e2cd8d7` (page §s230 +
+> memory inventory-crystallizes-before-capability + state).
+> **▶ s230b — RELATIONAL ARM (Michael: "yes" to "add the relational-loss arm → test
+> whether the reference-beam register split is loss-dependent"). BUILT + RAN (`fa8837c`,
+> ruff+diag clean, smoke green, ~45min main:1).** Added `--arms ce_only,relational` to
+> gd_trajectory_tomography.py: the compiler-as-loss INVENTORY term L = CE + λ·offdiag_mse
+> (student routing Gram, CONSENSUS CRYSTAL); gc_raw + held-out acc NOT in the loss =
+> UNCIRCULAR. Paired, 3 seeds. **★ VERDICT (λ measure):**
+> **(1) ✅ DISSOCIATION IS LOSS-DEPENDENT (decisive 3/3):** gap (gc_route−gc_raw)
+> −0.02±0.04 (ce_only) → +0.10±0.05 (relational); relational mean−std 0.05 > ce_only
+> mean+std 0.02. The active consensus-crystal loss pushes gc_route to 0.90 while gc_raw
+> (not in loss) reaches only 0.80 — a gap passive CE never opens. ⇒ the routing-vs-raw
+> register split is a property of the TRAINED-LOSS decoy (s223 (b)), reproduced as a
+> TRAJECTORY. CONFIRMS the s230 hypothesis.
+> **(2) ✅ loss crystallizes inventory EARLIER (200 vs 333) + CRISPER (route_z 3.0
+> crosses significance vs 2.5).**
+> **(3) ❌ NO CAPABILITY GAIN — s224 crystal-accelerates-capability NOT supported here:**
+> held-out cross @733 and acc 0.27 in BOTH arms. Crystallizing inventory faster bought
+> ZERO capability ⇒ inventory ⊗ continuation are CAUSALLY SEPARABLE (moved inventory
+> alone, capability unmoved). Capability gated by the CONTINUATION, which the inventory
+> term never touches.
+> **⚠️ dissociation PARTIAL at d=128 (gc_raw leaks to 0.80, full quarantine needs scale);
+> caveat: CE-alone already builds inventory on this clean curriculum (s224 speed-up
+> regime = CE FAILS to crystallize, untested).**
+> **★ DESIGN IMPACT:** the relational/crystal term is an INVENTORY tool (quality/timing/
+> register-localization) + EXTRACTION/FOLDING tool, NOT a from-scratch capability
+> accelerator. Re-motivates the constructed-kernel cut HARD: inventory is cheap,
+> passively learnable, NOT the bottleneck ⇒ CONSTRUCT it (lambda_ast in the kernel),
+> spend training on the CONTINUATION. Page §s230b (gradient-trajectory-tomography.md).
+> **▶ NEXT:** (a) HARDER curriculum where CE-alone FAILS to crystallize → does the
+> relational term then buy capability (the real s224 speed-up regime)?; (b) dissociation
+> at LARGER scale (gap widen → quarantine?); (c) v2 gauge/null-space δw decomposition;
+> (d) parked s229 leads (convergence-speed, K-ordering, disjoint-atom binding).
+> **STATUS s230b:** CODE COMMITTED `fa8837c` (both arms in verdict_multiseed.json; s230
+> ce_only superset, original preserved at `23331d0`). Page §s230b + state updated.
+> PENDING APPROVAL (mementum): memory `relational-loss-is-inventory-not-capability.md`
+> + page/state commit. tmux main:1 FREE.
 > **■ SESSION 229 — EXPOSURE/FORMAT SWEEP — "training as a photograph" (curriculum-
 > mixing FIRST BUILD). Michael: "split training into regimes — show base combinators,
 > show prose usage, some NTP; split into sentences, one β-reduction per sentence,

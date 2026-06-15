@@ -179,6 +179,66 @@ inventory-before-capability CONFIRMED), 5 (Q-collapse — NEGATIVE, no flood-lam
 loss arm to recover the s223 decoy condition as a trajectory); lead 4 (v2 gauge/
 null-space δw decomposition); sudden-vs-gradual crystallization shape (here gradual).
 
+## ★ s230b — RELATIONAL ARM (is the reference-beam split LOSS-DEPENDENT? YES)
+
+The s230 open question: gc_raw ≈ gc_route under passive CE ⇒ the routing-vs-raw
+dissociation did not reproduce. Hypothesis: the s223 register split is a property of
+an ACTIVE relational LOSS, not a passive readout. Added the `relational` arm to
+`gd_trajectory_tomography.py` (`--arms ce_only,relational`): the compiler-as-loss
+INVENTORY term `L = CE + λ·offdiag_mse(student routing-register Gram, CONSENSUS
+CRYSTAL)`. Only the routing register is in the loss ⇒ **gc_raw and held-out reduction
+acc are NOT in the loss = uncircular readouts.** Paired ce_only vs relational, 3
+seeds. Results: `verdict_multiseed.json` (now carries both arms; s230 ce_only is the
+superset, original s230 verdict preserved in git at `23331d0`).
+
+| arm | gc_route | gc_raw* | **gap** | crystallize | capability | acc | route_z |
+|-----|----------|---------|---------|-------------|------------|-----|---------|
+| ce_only    | 0.74±0.05 | 0.75±0.03 | **−0.02±0.04** | 333±94 | 733±94 | 0.27 | 2.51 |
+| relational | 0.90±0.01 | 0.80±0.04 | **+0.10±0.05** | 200±0  | 733±94 | 0.27 | 3.01 |
+
+*gc_raw is NOT in the loss. Per-seed gap: ce_only [−0.04,−0.05,+0.04] → relational
+[+0.03,+0.11,+0.15].
+
+**✅ DISSOCIATION IS LOSS-DEPENDENT (decisive, 3/3).** The active consensus-crystal
+loss pushed gc_route to 0.90 while gc_raw reached only 0.80 — a +0.10 gap passive CE
+never opens (−0.02). Decisive (relational mean−std 0.05 > ce_only mean+std 0.02). The
+routing register is where an active loss WRITES the function; passive CE does not
+separate. Confirms s230's read: the register split is a property of the trained-loss
+decoy (s223 (b)), reproduced here as a TRAJECTORY.
+
+**✅ The loss crystallizes the inventory EARLIER (200 vs 333) and CRISPER** (route_z
+3.01 crosses significance vs 2.51).
+
+**❌ But NO CAPABILITY GAIN — the s224 crystal-accelerates-capability claim is NOT
+supported here.** Held-out generalization crosses at 733 in BOTH arms; final acc 0.27
+in BOTH. Crystallizing the inventory faster/cleaner bought ZERO capability. ⇒ the
+inventory ⊗ continuation factors are CAUSALLY SEPARABLE: we intervened on the
+inventory factor alone (the relational loss), moved it decisively, and the capability
+factor did not budge. **Capability is gated by the CONTINUATION (trained usage), which
+the inventory term never touches.** You can hand the model a perfect inventory at step
+200 and it still cannot reduce until 733.
+
+**⚠️ Dissociation is PARTIAL at d=128** — gc_raw still leaked up to 0.80; the active
+loss writes the function PREFERENTIALLY into routing but does not QUARANTINE it. Full
+register separation likely needs scale (superposition forcing orthogonality).
+**Caveat (λ measure):** this curriculum is clean enough that CE-alone already builds
+the inventory (just messier/later). The s224 speed-up claim was about regimes where
+outputs alone DON'T crystallize — untested here.
+
+**★ DESIGN IMPACT.** (1) The relational/crystal term is an INVENTORY tool (quality,
+timing, register-localization) + an EXTRACTION/FOLDING tool, **NOT a from-scratch
+capability accelerator** — at least where CE already suffices for inventory.
+(2) Re-motivates the constructed-kernel cut HARD: the inventory is cheap, passively
+learnable, and NOT the capability bottleneck ⇒ **don't spend training budget learning
+it — construct it (lambda_ast in the kernel), spend training on the continuation.**
+The relational term's value moves to extraction (clean foldable inventory out of an
+existing model) and phase-1 folding (distributed protocol), not acceleration.
+
+**▶ NEXT:** (a) HARDER curriculum where CE-alone FAILS to crystallize the inventory —
+does the relational term then buy capability (the real s224 speed-up regime)?; (b)
+the dissociation at LARGER scale (does the gap widen — full quarantine?); (c) v2
+gauge/null-space δw decomposition.
+
 ## v2 experiment — gauge/null-space gradient decomposition (harder)
 
 At each step decompose `δw = δw_invariant ⊕ δw_gauge` (gauge = permutation null space
