@@ -34,9 +34,22 @@
 > (λ measure, load-bearing): micro d=128 may be PRE-transition (s151 Montague, only I+K
 > differentiate → no B-first→K to see); "B-first" is StrideStack-specific (s221) so plain
 > TinyLM directly TESTS universality; per-combinator splits modest route_z (~2.7) →SNR.
-> Open lead 6 on the page. **▶ NEXT: pick scale (micro-first to validate the per-
-> combinator grad_z instrument + test if ANY ordering exists at d=128, then graduate to
-> a larger run where the B-first→K transition is KNOWN to live) — DISCUSSING experiments.**
+> Open lead 6 on the page.
+> **▶ s231b — PER-COMBINATOR CLOCK BUILT + RAN (gd_percombinator_clock.py, b601028, 3
+> seeds). TWO-SIDED:** ✅ inventory-before-capability REPRODUCED a 4TH time (gc_route
+> @200–400 < acc@600–800). ❌ the per-combinator CATEGORICAL silhouette is the WRONG
+> instrument at d=128 — NO combinator clusters (silhouettes negative all run: gate
+> −0.03…−0.11, attn −0.19…−0.44; null z |≥2| only W/D/S inconsistently, NEVER B/C/K/I),
+> YET the relational Gram crystallizes (gc_route +0.75) ⇒ **micro crystal is RELATIONAL
+> not CATEGORICAL** (s219/s225 "above chance not crisp", pinned per-combinator). P1
+> (B-first→K) + P3 (s127 attn/FFN split) UNTESTABLE via categorical readout (order/region
+> headlines = noise-floor artifacts). 💡 FIX: read order RELATIONALLY = per-ROW Gram
+> alignment to consensus (does B's fingerprint align before K's?). Reframes s221: B-first
+> may be StrideStack/scale-specific (categorical separation needs strided bias or s151 2D
+> transition). CAPTURED: page §s231b + memory micro-crystal-is-relational-not-categorical
+> + open lead 6/6b + this state. **▶ NEXT (Michael approved BUILD): v2 RELATIONAL PER-ROW
+> CLOCK (task #4) — log per-row gram-to-consensus per checkpoint, read B-first→K
+> relationally; if flat → escalate to scale sweep (Exp 1.5).**
 >
 > (Session: 230 — gd-trajectory-tomography (consensus-crystal
 > target) + FRACTAL-COLLAPSE thesis. v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3;

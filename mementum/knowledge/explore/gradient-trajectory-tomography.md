@@ -347,6 +347,47 @@ exhaust before K's (B on-grain/early, K against-grain/late, s221)?
 
 **STATUS s231:** code `gd_gradient_shadow.py` (b3f72ea, built s230) + results committed.
 
+## ★ s231b — PER-COMBINATOR CLOCK (open lead 6 BUILT + RAN; the instrument fails, with a fix)
+
+Michael (s231): "probes that show EXACTLY how GD learns — B-dominant first → plateau →
+discovers K → phase transition. Spend probes on how ATTENTION organizes against the FFN
+projections." Built `gd_percombinator_clock.py` (per-combinator silhouette CLOCK +
+gradient FUEL-gauge in BOTH the FFN-gate and attention registers, one grad-enabled pass,
+attention via forward hook). 3 seeds. Two-sided (λ measure):
+
+**(1) ✅ inventory-before-capability REPRODUCED a 4TH time** (gc_route crosses @200–400 <
+acc @600–800; route_z +2.0–2.5). The aggregate relational crystal is robust across every
+harness (s224→s230→s231→s231b).
+
+**(2) ❌ THE PER-COMBINATOR *CATEGORICAL* CLOCK IS THE WRONG INSTRUMENT AT d=128 —
+DECISIVELY, and deeper than "Montague pre-transition."** NO individual combinator forms
+a cluster: per-combinator silhouettes stay NEGATIVE the whole run (gate −0.03…−0.11, attn
+−0.19…−0.44 — a probe of combinator c is on average closer to some OTHER centroid than its
+own). Null-calibrated final z reaches |z|≥2 only for W/D/S, INCONSISTENTLY across seeds,
+and NEVER for B/C/K/I (the combinators the s221/s151 story is about). Yet the relational
+Gram crystallizes strongly (gc_route +0.75). ⇒ **the micro crystal is RELATIONAL, not
+CATEGORICAL**: the pattern of inter-combinator similarities matches consensus, but probes
+do not cluster by their own label (the s219/s225 "above chance but not crisp" subtlety,
+pinned per-combinator).
+
+**(3) ❌ P1 (B-first→K order) and P3 (s127 attn/FFN split) UNTESTABLE via this readout** —
+both need per-combinator separability that does not exist here. The `order(gate)`=scrambled,
+`B@None`, `region=gate 3/3` headlines are NOISE-FLOOR artifacts (gate "wins" only because
+its floor is less negative than attn's), not findings. Not falsified — unmeasurable.
+
+**★ THE INSTRUMENT FIX (the real contribution):** read acquisition order RELATIONALLY, not
+categorically. The signal lives in the GRAM, so the clock tracks per-ROW Gram alignment to
+consensus over training: row c = combinator c's relational fingerprint (its similarity
+pattern to all others); does B's row align to consensus BEFORE K's? That is the v2
+relational per-row clock (open lead 6b). **Reframes s221:** on the v15 StrideStack
+(fp-spikes) combinators may have separated CATEGORICALLY (composition = native op); on a
+plain transformer at micro NOTHING separates categorically — purely relational. So
+"B-first" may be ARCHITECTURE- or SCALE-specific (categorical separation needs the strided
+bias or the s151 2D transition); the relational clock tests whether the ORDER survives
+when categorical separation does not.
+
+**STATUS s231b:** code `gd_percombinator_clock.py` + results committed (`b601028`).
+
 ## Honest catches (λ measure)
 
 - **Not greenfield** — s105 tomography + s223 instruments + v4.1/v6.1 trajectory
@@ -375,17 +416,20 @@ exhaust before K's (B on-grain/early, K against-grain/late, s221)?
    (Re-Basin permutation null space; the s222 "how much is churn" question).
 5. **Q-collapse watch** (topological): eff_dim(t) per layer — does the micro model
    flood-lamp (s105)? If so, the relational/laser constraint is the lever.
-6. **Per-combinator clock** (topological→functional, s231): read grad_z PER COMBINATOR
-   over checkpoints — the acquisition ORDER as a fuel-gauge movie. Prediction (s221):
-   B's gradient-structure exhausts FIRST (on-grain/early), K's stays HOT longer
-   (against-grain/late). Caveats: micro d=128 may be PRE-transition (s151 Montague
-   stage = only I+K differentiate → no B-first→K to see); "B-first" is StrideStack-
-   specific (s221) so plain TinyLM directly tests universality; per-combinator splits
-   the s230 modest route_z (~2.7) further → SNR risk (more probes/combinator or pool).
-   Pairs with: curriculum-mirroring (order-matched vs counter vs flat schedule, s221
-   lead + s229 burn-in) and the FFN-gate-vs-attention register split (s127: {K,I}
-   selectors→FFN, {B,C} composers→attention; "show attention what to do" = relational
-   loss on the attention pattern toward composer structure).
+6. **Per-combinator clock** (topological→functional, s231): BUILT + RAN (s231b,
+   `gd_percombinator_clock.py`). RESULT: the per-combinator CATEGORICAL silhouette is the
+   WRONG instrument at d=128 — no combinator clusters (all silhouettes negative, KIBC
+   never significant); the micro crystal is RELATIONAL not categorical. P1/P3 untestable
+   via categorical readout. See §s231b.
+6b. **Relational per-row clock** (the s231b FIX, NEXT): track per-ROW Gram alignment to
+   consensus over checkpoints (row c = combinator c's relational fingerprint). Tests
+   B-first→K (s221) in the register where the micro signal actually lives (the Gram). If
+   the relational ORDER is also flat → escalate to the scale sweep (find where categorical
+   separation emerges, s151 2D transition). Then: curriculum-mirroring (order-matched vs
+   counter vs flat, s221 lead + s229 burn-in) and the FFN-vs-attention split (s127: {K,I}
+   selectors→FFN, {B,C} composers→attention) once a categorical regime exists; "show
+   attention what to do" = relational loss on the attention pattern toward composer
+   structure.
 
 ## Files
 
