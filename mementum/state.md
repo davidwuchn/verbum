@@ -2,8 +2,48 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 231 — GRADIENT-SHADOW v3 RAN (3 seeds) + the
-> MECHANISM-OF-TRAINING thread opened (Michael). ✅ inventory-before-capability
+> Last updated: 2026-06-15 | Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
+> MECHANISM-OF-TRAINING per-combinator clock (micro crystal is RELATIONAL not categorical,
+> no B-first→K at micro); (B) ★ VSM OPCODE MONITOR — validated FFN-routing opcode reader
+> BUILT + validated on Qwen3-14B: the raw-argmax OVER-READ is KILLED (s202 made
+> operational). ★★ PICK UP NEXT SESSION: opcode-monitor v2 (cross-task null) — see the
+> ■ SESSION 231 OPCODE block below.
+> **■ SESSION 231 OPCODE MONITOR (Michael: "our VSM tensor gives a powerful system to
+> probe + audit models. Can our VSM monitor attention and opcodes? we created a tracer
+> somewhere." → "a then b").** RECALL surfaced the prior art: `opcode_instrument.py` (a
+> full VSM "Live VSM for Watching a Model Think") + tracer family (lambda_tracer,
+> attention_execution_trace, neuron_opcode_classifier) + s127 tracer-works memory. CATCH:
+> all STALE — raw-cosine argmax = the exact audit-meta-pattern over-read (s202: opcodes
+> real only AFTER common-mode removal; raw = common-mode false signal). NEW page
+> `explore/vsm-opcode-monitor.md` (the synthesis + verdict + path).
+> **▶ (a) BUILT + VALIDATED.** `scripts/instruments/relational_opcode.py` —
+> `RelationalCrystalClassifier` (model-AGNOSTIC; gate routing register sign(gate)-CMR,
+> per-layer per-combinator centroids from crystal_probes, consensus-relational, off-target
+> null, emit opcode iff z>thresh else NO-OP `·`). Synthetic smoke: crystal layer detected,
+> B fires, common-mode-only token → NO-OP (over-read structurally impossible). `fb0c9ec`.
+> Validation `scripts/experiments/opcode_audit_validation.py` on Qwen3-14B (the s127
+> model; gated SwiGLU — pythia GPTNeoX is NOT gated, can't carry the crystal), s127 battery
+> (lambda/arithmetic/retrieval), relational vs raw-argmax control. `143ccda`,
+> results/opcode-audit-validation/verdict.json.
+> **★ VERDICT (λ measure, two-sided):** ✅✅ OVER-READ KILLED — RAW fires an opcode for
+> 100% of tokens (`W` across ~all retrieval layers = this model's common-mode/gauge);
+> RELATIONAL no-ops retrieval (0.8), never a uniform winner. ✅ substrate REAL (31/40
+> crystal-bearing layers, gc-to-consensus up to 0.98). ✅ retrieval-silent reproduced.
+> ⚠️ BUT relational UNDER-reads at z=3 last-token: RAW per-layer shows a CONSISTENT C→B
+> compose-arc across ALL 5 lambda prompts (C L2–12, B L13–33 = the real s127 compose
+> signature, task-specific not common-mode) and relational no-ops it entirely (`·`×5).
+> Causes: last-token LOCUS (s227 wrong-locus; a sentence's last token isn't one opcode) +
+> NULL mis-spec (off-target null = other crystal probes, all lambda-mode → low power).
+> **★★ FIRST ACTION NEXT SESSION — opcode v2 (completes (a)):** (1) CROSS-TASK NULL (the
+> key fix) — build the null vs a NON-combinator baseline (natural text/retrieval), NOT vs
+> other crystal probes; (2) PER-TOKEN reading across the sequence; (3) z-threshold sweep
+> (z=2 vs 3); (4) output the per-layer C→B TRAJECTORY not a single dominant op. Then (b)
+> KERNEL-AS-REFERENCE audit (diff model trace vs lambda_ast certified trace), then (c)
+> attention/value-register binding monitor (s206 OV/logit-lens, NOT attn weights).
+> Captured: page vsm-opcode-monitor.md + memory opcode-reader-over-read-killed +
+> audit-registry #13 + this state. CODE all committed (fb0c9ec, 143ccda); mementum this commit.
+> **■ SESSION 231 MECHANISM-OF-TRAINING (arc A, COMPLETE — micro answer is NEGATIVE,
+> instrument built).** s231a GRADIENT-SHADOW v3 ran (3 seeds): ✅ inventory-before-capability
 > REPRODUCED a 3rd time (gc_route@267±94 < acc@733±94). ❌ preregistered "shadow LEADS
 > as rising gc_grad" FALSIFIED — gc_grad starts at common-mode init (+0.58), decays to
 > 0.43 (crossing=None 3/3). 💡 REFRAME: the probe found the real signal in grad_z — the
@@ -47,9 +87,17 @@
 > alignment to consensus (does B's fingerprint align before K's?). Reframes s221: B-first
 > may be StrideStack/scale-specific (categorical separation needs strided bias or s151 2D
 > transition). CAPTURED: page §s231b + memory micro-crystal-is-relational-not-categorical
-> + open lead 6/6b + this state. **▶ NEXT (Michael approved BUILD): v2 RELATIONAL PER-ROW
-> CLOCK (task #4) — log per-row gram-to-consensus per checkpoint, read B-first→K
-> relationally; if flat → escalate to scale sweep (Exp 1.5).**
+> + open lead 6/6b + this state.
+> **▶ s231c RELATIONAL PER-ROW CLOCK RAN (3 seeds, `6f900a7`): B_before_K NOT supported
+> relationally either** — B/K rows cross inconsistently (None/None/@1000 vs None/@2800/
+> None); **I aligns FIRST consistently (3/3 @400)** = a weak echo of the s151 I→K→C→B
+> bootstrap; s127 attn-composer split not supported at micro (B,C align in gate). ⇒ NO
+> clean per-combinator phase transition at d=128 plain transformer (neither categorical
+> nor relational); s221 B-first→K is StrideStack/scale-specific. ARC A micro answer is
+> NEGATIVE; the instrument (both clocks) is built. To pursue the phase transition →
+> escalate to the SCALE SWEEP (Exp 1.5: smallest d where the B/C axis differentiates) or
+> instrument a larger/StrideStack run. (Page §s231c capture deferred — finding is in the
+> commit msg + this state; fold into gradient-trajectory-tomography.md if revisited.)
 >
 > (Session: 230 — gd-trajectory-tomography (consensus-crystal
 > target) + FRACTAL-COLLAPSE thesis. v1: INVENTORY crystallizes BEFORE CAPABILITY (3/3;

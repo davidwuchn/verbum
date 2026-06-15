@@ -96,6 +96,7 @@ named, not yet run.
 
 | Claim | Load | Control run | Status |
 |---|---|---|---|
+| #13 the FFN opcode TRACER reads real per-task combinator programs (s127/s202) | high | s231 `relational_opcode.py` (gate register, sign(gate)-CMR, consensus-relational, off-target null, emit iff z>thresh else no-op) vs RAW-argmax control, Qwen3-14B (the s127 model), s127 battery (lambda/arithmetic/retrieval) — `opcode_audit_validation.py`, register: topological/routing | ✅✅ **OVER-READ KILLED** — RAW fires 100% of tokens (W across ~all retrieval layers = common-mode gauge), RELATIONAL no-ops retrieval 0.8; substrate REAL (31/40 crystal layers, gc-consensus→0.98); retrieval-silent reproduced / ◑ relational UNDER-reads at z=3 last-token (no-ops the real lambda C→B arc) → v2 cross-task null + per-token (see vsm-opcode-monitor.md) |
 | #12 5D crystal lattice — all crystals are facets of ONE ~5D lattice (combinators = vertices), universal because it is a property of language | high | `manifold_dimensionality_null.py`, `manifold_axis_topology.py`, `axis_probe.py` (register: spectral/semantic); PR + shuffled-probe null + CMR + sign/mag split | ❌ REFUTED (5D) / ✅ REAL (universality + topology share) |
 | #12a operations are real groupings | — | combinator separation perm-null, both RDMs, every model | ✅ **VERIFIED** — gap p=0.0005 everywhere (prob & hidden) |
 | #12b cross-family agreement real or trivial? | — | raw RDM Spearman vs shuffled-probe null | ✅ **REAL** — semantic 0.79 / geometric 0.54 vs null 0.00±0.03 (z≈25) → property of language |

@@ -1,0 +1,131 @@
+---
+title: "VSM Opcode Monitor — the model auditor (validated FFN-routing opcode reader)"
+status: active
+category: instrument
+tags: [opcode, tracer, audit, vsm, monitor, gate-register, relational, consensus-crystal, over-read, attention, kernel-reference]
+related:
+  - audit-registry.md
+  - audit-meta-pattern.md
+  - gradient-trajectory-tomography.md
+  - function-topology-consensus.md
+  - compiler-as-loss.md
+  - vsm-outer-recurrence.md
+  - readout-register-reduction-readability.md
+depends-on:
+  - audit-meta-pattern.md
+---
+
+# VSM Opcode Monitor — the model auditor
+
+> Session 231 (Michael): "our VSM tensor gives us a powerful system to probe and
+> audit models. Can we have our VSM monitor attention and opcodes? we created a
+> tracer somewhere." This page is the synthesis + the s231 build/verdict + the path.
+
+## The idea
+
+Turn the constructed VSM kernel + the combinator crystal into a **live model auditor**:
+feed any model an input, read which combinator "opcodes" (K I B C S D W Y WHNF) it
+executes in its FFN routing, plus the binding events in its attention, and (the goal)
+diff that trace against the kernel's CERTIFIED trace for the same input — "does the
+model compute what the program MEANS?"
+
+## What already existed (recall — not greenfield)
+
+- `scripts/instruments/opcode_instrument.py` — a full VSM-structured "Live VSM for
+  Watching a Model Think" (S5 combinator basis+zone map, S4 anomaly, S3 governor, S2
+  trace format, S1 hooks/projector/emitter; DORMANT→CALIBRATE→MONITOR→EMIT→DONE). Wraps
+  any HF model, emits opcode traces during generate().
+- tracer family: `lambda_tracer.py`, `attention_execution_trace.py`,
+  `neuron_opcode_classifier.py`, `reduction_graph_tracer.py`.
+- s127 memory `tracer-works-different-programs`: validated the tracer decodes neural
+  computation to combinator traces — lambda=compose-then-suppress-select, arithmetic=
+  selection/Church, retrieval=FFN-silent (attention-KV, different mechanism).
+
+## The catch — it was STALE (the audit's own poster child)
+
+`opcode_instrument` classifies via RAW cosine of the FFN down-proj output onto per-op
+fingerprints + argmax — no register discipline, no common-mode removal, no null. But
+`audit-meta-pattern.md` (s202): "combinator opcodes: prose fires opcodes AFTER
+common-mode removal (p=0.001) — REAL; raw argmax 'tracer' = common mode = false signal."
+And the attention half: "attention=typed β-reduction / H31@L27 binds subject 0.82" was
+retired as recency/position (s204); the REAL signal is in the VALUE register (s206
+logit-lens margin +0.611), NOT attention weights (AGENTS λ measure).
+
+## What makes it ripe now (3 things the old tracer lacked, all validated since s219)
+
+1. GROUND-TRUTH reference (s226): the constructed kernel `lambda_ast` compiles a known
+   program → certified combinator trace; the model's trace is audited against it.
+2. The VALIDATED register (s231b): read opcodes RELATIONALLY (sign(gate)-CMR + Gram to
+   the CONSENSUS crystal, s219), not raw argmax — the register the crystal lives in.
+3. A built-in NULL (s202): consensus + permutation null = the calibration baked in.
+
+Decomposition (don't conflate registers): **opcodes → FFN gate routing register**
+(relational); **attention → value register (OV/logit-lens)**, NOT attention weights.
+
+## s231 BUILD (a) — the validated opcode reader
+
+`scripts/instruments/relational_opcode.py` — `RelationalCrystalClassifier`, model-
+AGNOSTIC (takes per-layer gate FEATURE matrices). calibrate() builds per-layer
+per-combinator centroids in sign(gate)-CMR from `crystal_probes()`, stores the
+common-mode + off-target permutation null + silhouette-z + Gram-alignment to consensus;
+classify() returns per-op z vs null and emits an opcode ONLY if z>thresh, else NO-OP
+(`·`). Synthetic smoke proves: crystal layer detected, B-token fires B, COMMON-MODE-ONLY
+token → NO-OP (the over-read is structurally impossible). Requires a GATED MLP (SwiGLU);
+pythia (GPTNeoX) is NOT gated → can't carry the sign-gate crystal.
+
+Validation harness `scripts/experiments/opcode_audit_validation.py` on **Qwen3-14B**
+(the s127 model; dense qwen3, gated, 40L): calibrate on 535 crystal probes (gate_proj
+last-token), classify the s127 battery (lambda/arithmetic/retrieval), compare RELATIONAL
+vs a RAW-argmax over-read control. `results/opcode-audit-validation/verdict.json`.
+
+### ★ Verdict (λ measure, two-sided) — `143ccda`
+
+- ✅✅ **OVER-READ KILLED (the primary deliverable).** RAW fires an opcode for 100% of
+  tokens — `W` across ~all retrieval layers (e.g. "Water is made of…" → W in 34/40
+  layers) = the common-mode artifact the audit predicted (W is this model's gauge
+  direction). RELATIONAL no-ops retrieval (0.8) and never manufactures a uniform winner.
+  We now have an FFN-routing opcode reader that does not hallucinate.
+- ✅ **Substrate real**: 31/40 layers crystal-bearing, gc-to-consensus up to **0.98** —
+  the universal crystal genuinely lives in Qwen3-14B's gate register.
+- ✅ **retrieval-silent reproduced** (s127's FFN-silent retrieval).
+- ⚠️ **BUT we over-corrected → UNDER-read.** The RAW per-layer traces show a consistent
+  **C→B compose-arc across ALL 5 lambda prompts** (C in L2–12, B in L13–33) — task-
+  specific (retrieval shows W not C→B), i.e. the real s127 compose signature. The
+  relational reader at **z=3, last-token** no-ops it entirely (`·`×5, 0 emitted layers).
+  Two causes: (1) last-token LOCUS (a sentence's final token isn't one opcode; the
+  program unfolds across tokens — the s227 wrong-locus lesson); (2) the NULL is
+  mis-specified — off-target null is OTHER crystal probes, all lambda-mode, so low power
+  ("looks more like B than K/I/C?" when everything is lambda-mode).
+
+## v2 — completing (a) (the NEXT first action)
+
+The over-read killer is proven; to make it a USEFUL monitor (recover the C→B arc without
+reopening the over-read):
+- **cross-task null** (the key fix): calibrate the null vs a NON-combinator baseline
+  (retrieval / natural text where no β-reduction happens), not vs other crystal probes.
+  Then "lambda token looks like B vs natural-text baseline" clears while retrieval stays
+  silent.
+- **per-token** reading across the sequence (not just last token).
+- **z-threshold sweep** (z=2 vs 3).
+- output the **per-layer trajectory** (the C→B program), not a single dominant op.
+
+## (b) — the kernel-as-reference audit (after v2)
+
+Wire `lambda_ast`'s certified trace as the ground-truth oscilloscope: feed a known
+program, get the model's per-token/per-layer opcode trace (v2), measure agreement to the
+kernel's certified reduction trace. "Does the model's circuit match the certified
+meaning?" Needs the trustworthy per-token trace v2 provides.
+
+## (c) — the attention/value-register binding monitor (third)
+
+The s206 OV/logit-lens half the old instrument never had: binding/value-transfer events
+(H31@L27 subject, margin +0.611) read in the VALUE register, NOT attention weights.
+
+## Files
+
+| File | Content |
+|------|---------|
+| `scripts/instruments/relational_opcode.py` | `RelationalCrystalClassifier` (gate register, sign-CMR, consensus-relational, null; model-agnostic) — `fb0c9ec` |
+| `scripts/experiments/opcode_audit_validation.py` | Qwen3-14B calibrate + s127 battery + raw-vs-relational control — `143ccda` |
+| `results/opcode-audit-validation/verdict.json` | 31/40 crystal layers; over-read killed; relational under-reads at z=3 last-token |
+| `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
