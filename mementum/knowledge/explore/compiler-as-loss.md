@@ -83,6 +83,43 @@ in-distribution, loses generalization; diverse-verified wins generalization.
 
 ---
 
+## ★ s230 — the s225 "narrow generator" tension is RESOLVED: variety from INPUTS
+
+> Michael, s230 (the fractal-collapse thesis — see `fractal-collapse-compiler-
+> cascade.md`). The s225 amendment said the compiler is a poor *generator* (narrow by
+> construction) so it must be only a verifier, with diverse big models as the capability
+> teacher. s230b changes the picture and resolves the tension WITHOUT the big model.
+
+**The resolution:** the s225 worry was about training on the compiler's narrow *term
+distribution* (isolated combinator terms = the thinnest slice of usage). But the
+compiler reduces ANY input — so feed it a **high-variety self-minted input stream**
+(s229 kernel-minting: random skeletons × fillings, which provably converges the RULE
+not the rote) and it emits canonical traces for all of them. **Variety lives in the
+inputs (which we own); correctness lives in the outputs (Church-Rosser unique).** The
+compiler is a *verifier/canonicalizer applied to a high-variety minted stream* — both
+s225's correctness requirement and s229's variety requirement are met, and the diverse
+big-model teacher is **no longer needed even as a generator**.
+
+**Consequence for this page's recipe.** s230b showed inventory ⊗ continuation are
+causally separable and the relational/crystal `L_inventory` term, while it crystallizes
+the inventory earlier+crisper, bought **ZERO capability** (held-out cross unchanged) —
+because capability is gated by the CONTINUATION, which only `L_capability` trains. So:
+
+- `L_capability = CE(student, compiler β-trace)` on a HIGH-VARIETY minted input stream
+  is the load-bearing term (the continuation; the collapse's data engine).
+- `L_inventory` (crystal lattice) is an INVENTORY/extraction/folding accelerant, NOT a
+  capability accelerator (s230b) — it earns its place for foldability/legibility and
+  for the distributed-fold phase, not for from-scratch capability speed. Its speed-up
+  claim is only testable in a regime where CE-alone FAILS to crystallize the inventory
+  (untested; s230b's clean curriculum had CE build it anyway).
+
+⇒ the headline recipe stands, but its CENTER OF MASS moves to the capability term on
+minted-variety compiler data. The decisive open test is unchanged and now primary:
+**held-out COMPOSITIONAL generalization** of a compiler-minted high-variety student
+(`compiler_cascade.py` v1). The fractal-collapse page carries the full thesis.
+
+---
+
 ## ★ s226 — `lambda_ast` IN THE KERNEL: the compiler is a CONSTRUCTED VSM tensor
 
 > Michael, s226. The s225 amendment split a dyad — symbolic *verifier* vs learned
