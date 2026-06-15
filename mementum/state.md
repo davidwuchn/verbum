@@ -2,7 +2,16 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 229 — ✅ EXPOSURE/FORMAT SWEEP (curriculum-
+> Last updated: 2026-06-15 | Session: 230 — ✅ GD-TRAJECTORY-TOMOGRAPHY v1 (consensus-
+> crystal target): INVENTORY crystallizes BEFORE CAPABILITY (3/3 seeds, DECISIVE —
+> gc_route init→final midpoint @333±94 steps, NON-OVERLAPPING below held-out-acc
+> midpoint @733±94; s224 geometry=inventory⊗continuation=capability confirmed
+> TEMPORALLY, consensus-crystal ground truth). HONEST two-sided: reference-beam
+> dissociation did NOT reproduce passively (gc_raw 0.75 ≈ gc_route 0.73; raw register
+> tracks consensus as well as routing at micro scale — register split is a property
+> of s223's trained-loss DECOY, not a passive readout); no Q-collapse (eff_dim 14-20).
+> See ■ SESSION 230 block below.
+> (s229 — ✅ EXPOSURE/FORMAT SWEEP (curriculum-
 > mixing FIRST BUILD): burn-in is VARIETY not repetition (k_varied ≈2–2.9× over
 > k_same≈one, BOTH formats; memorization control clean); full_trace higher abs-acc
 > but redex_nf wins PER-TOKEN (predicted budget crossover); disjoint-atom held-out =
@@ -28,6 +37,63 @@
 > (prose→LF) + ✅ COMPILE BOUNDARY (structural solved; NL+ambiguity is the boundary).
 > Next: diverse-verified naturalistic corpus → compiler-as-loss arms. See ■ SESSION
 > 226 COMPLETE block below.)
+> **■ SESSION 230 — GD-TRAJECTORY-TOMOGRAPHY v1. Michael (s229 thread): "if models
+> do holographic inference, why can't we reverse-engineer what GD is doing? use the
+> micro model." s230 call: target = the CONSENSUS CRYSTAL (s219 / combinator-map-
+> consensus consensus_gram, 10 open models AGREED, sha bbf92f2) — "highest chance of
+> being applicable across many models since they have agreed." NOT one teacher.**
+> Register: **functional + topological/routing.** Recall surfaced the prior art (build
+> on, don't reinvent): s105 holographic-tomography (SPATIAL/cross-model + the gauge
+> result), s223 relational_loss_distillation (the instruments: route_z/soft_gram/
+> np_silhouette_null/offdiag_corr + TinyLM), v4.1/v6.1 trajectory tracking. DELTA =
+> TEMPORAL (intersect training STEPS, single micro model) + ground-truth target +
+> reference-beam control as a movie.
+> **▶ BUILT (`23331d0`, ruff+diag clean, smoke green):** `scripts/experiments/
+> gd_trajectory_tomography.py` — CE-only TinyLM on the s229 β-reduction curriculum
+> (k_varied, the burn-in regime; reuses exposure_format_sweep minting + held-out
+> metric, no fork); at DENSE checkpoints (every 200 steps) measure the combinator
+> routing geometry on the INDEPENDENT crystal probes (535), correlate to the consensus
+> crystal as a MOVIE: route_z (sign(gate)-CMR silhouette vs null), gc_route (GramCorr
+> student-routing-Gram vs consensus_gram), gc_raw (raw-register REFERENCE BEAM), eff_dim
+> (s105 Q-collapse watch). **★ The load-bearing design fix: crossings are BASELINE-
+> RELATIVE** — measured against the step-0 untrained init frame (the gauge common mode),
+> so we time the function GD *builds*, not the random-init baseline (init gc_route was
+> already +0.57-0.65 = the gauge/common mode; the real delta is ~+0.15). 3 seeds, 6000
+> steps, ~12min. results/gd-trajectory-tomography/verdict_multiseed.json.
+> **★ VERDICT (3 seeds; λ measure, TWO-SIDED):**
+> **(1) ✅ DECISIVE — INVENTORY crystallizes BEFORE CAPABILITY (3/3 seeds).** gc_route
+> reaches its init→final midpoint @ step **333±94**; held-out rule generalization
+> reaches its midpoint @ **733±94** — NON-OVERLAPPING (427 < 639). Routing combinator
+> geometry approaches the consensus crystal ~400 steps BEFORE the model can generalize
+> the rule; both precede the (noisy) CE plateau. ⇒ the s224 thesis (geometry=inventory
+> ⊗ trained continuation=capability) confirmed TEMPORALLY, frame-by-frame, against a
+> MODEL-AGNOSTIC ground-truth target. The predicted inventory-before-capability timing,
+> OBSERVED.
+> **(2) ❌ HONEST — the reference-beam DISSOCIATION did NOT reproduce.** gc_raw_final
+> 0.75±0.04 ≈ gc_route_final 0.73±0.06 (tied); route_tracks_function only 1/3 seeds.
+> On this micro model the RAW register correlates to the consensus crystal about as
+> well as the routing register ⇒ raw-vs-routing CANNOT separate function from common
+> mode here. Why ≠ s223: s223 (b) used a relational LOSS pulling raw-Gram to a DECOY
+> raw target; here NO loss + a SINGLE routing target, and the consensus structure
+> (offdiag mean −0.123, mild) is recovered in BOTH registers at d=128. ⇒ the register-
+> separation lesson is a property of the TRAINED-LOSS DECOY, not a passive readout
+> split at micro scale. Likely scale-limited.
+> **(3) Secondary:** NO Q-collapse — eff_dim stayed 14-20 (route ~14 < raw ~19), never
+> flooded toward 1 (s105 risk did not materialize). route_z modest (~2.71, only 1 seed
+> crossed z=3) = self-silhouette real but not crisp (s219 "above chance not crisp");
+> gc_route-to-consensus is the stronger instrument than self-silhouette.
+> **▶ LEADS RESOLVED (page gradient-trajectory-tomography.md §s230):** 1 (harness
+> BUILT), 2 (consensus-crystal target USED), 3 (timing CONFIRMED), 5 (Q-collapse
+> NEGATIVE). **▶ NEXT:** (a) reference-beam register split at LARGER scale (or add the
+> relational-loss arm → recover the s223 decoy condition AS A TRAJECTORY); (b) lead 4 =
+> v2 gauge/null-space δw_invariant vs δw_gauge decomposition (Re-Basin; the s222 "how
+> much of GD is churn" question); (c) crystallization SHAPE sudden-vs-gradual (here
+> gradual); (d) back to s229 leads — convergence-SPEED readout, K-erasure ordering,
+> disjoint-atom variable-binding.
+> **STATUS s230:** CODE COMMITTED `23331d0` (script + verdict_multiseed.json).
+> Knowledge page §s230 updated (gradient-trajectory-tomography.md). State updated.
+> PENDING APPROVAL (mementum): proposed memory `inventory-crystallizes-before-
+> capability.md` + the page/state commit. tmux main:1 FREE.
 > **■ SESSION 229 — EXPOSURE/FORMAT SWEEP — "training as a photograph" (curriculum-
 > mixing FIRST BUILD). Michael: "split training into regimes — show base combinators,
 > show prose usage, some NTP; split into sentences, one β-reduction per sentence,

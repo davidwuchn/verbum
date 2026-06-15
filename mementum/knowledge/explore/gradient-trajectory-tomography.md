@@ -132,6 +132,53 @@ readout  WHEN/HOW does the invariant crystallize? sudden (grok) or gradual (burn
   crystallizing — track eff_dim too; if it collapses, that IS the reverse-engineered
   GD behavior (and the laser/relational constraint is the lever).
 
+## ★ s230 — v1 RESULT (consensus-crystal target, BUILT + RAN)
+
+Michael's call: target = the **consensus crystal** (`results/combinator-map-
+consensus/consensus.json` `consensus_gram`, 10 open models agreed, sha `bbf92f2`) —
+highest chance of being model-agnostic *because the models already agreed*. NOT one
+teacher. Built `scripts/experiments/gd_trajectory_tomography.py` (CE-only TinyLM on
+the s229 β-reduction curriculum, k_varied; dense checkpoints measure the combinator
+routing geometry on the INDEPENDENT crystal probes, correlate to the consensus
+crystal as a movie; raw register alongside = reference beam; eff_dim = Q-collapse
+watch). Reuses `relational_loss_distillation` instruments + `exposure_format_sweep`
+curriculum (no fork). **Crossings are baseline-relative** — measured against the
+step-0 untrained init frame (the gauge common mode), so we time the function GD
+*builds*, not the random-init baseline. 3 seeds, 6000 steps. Results:
+`results/gd-trajectory-tomography/verdict_multiseed.json`.
+
+**✅ DECISIVE (3/3 seeds): INVENTORY crystallizes BEFORE CAPABILITY.**
+`gc_route` reaches its init→final midpoint at step **333±94**; held-out rule
+generalization reaches its midpoint at **733±94** — NON-OVERLAPPING (427 < 639).
+The routing combinator geometry approaches the consensus crystal ~400 steps BEFORE
+the model can generalize the rule. Both precede the (noisy) CE plateau. ⇒ the s224
+thesis (**geometry = inventory ⊗ trained continuation = capability**) confirmed
+TEMPORALLY, frame-by-frame, against a model-agnostic ground-truth target. This is
+the predicted *inventory-before-capability* timing, observed.
+
+**❌ HONEST two-sided (λ measure): the reference-beam DISSOCIATION did NOT reproduce.**
+`gc_raw_final` 0.75±0.04 ≈ `gc_route_final` 0.73±0.06 — tied; `route_tracks_function`
+only 1/3 seeds. On this micro model the RAW register correlates to the consensus
+crystal about as well as the routing register, so raw-vs-routing **cannot** separate
+function from common mode here. Why this ≠ s223: s223 condition (b) used a relational
+LOSS actively pulling raw-Gram to a *decoy raw target*; here there is NO loss and a
+SINGLE routing target, and the consensus structure (offdiag mean −0.123, mild) is
+recovered in BOTH registers at d=128. The register-separation lesson is a property of
+the **trained-loss decoy**, not a passive readout split at micro scale. Likely
+scale-limited (revisit at larger d / more layers, or with the relational loss arm).
+
+**Secondary:** NO Q-collapse — eff_dim stayed 14–20 (route ~14 slightly more
+compressed than raw ~19), never flooded toward 1 (s105 risk did not materialize on
+this curriculum). `route_z` modest (~2.71, only 1 seed crossed z=3) — the self-
+silhouette combinator structure is real but not crisp (s219 "above chance not
+crisp"); `gc_route`-to-consensus is the stronger instrument than self-silhouette.
+
+**Leads resolved:** 1 (harness BUILT), 2 (consensus-crystal target USED), 3 (timing —
+inventory-before-capability CONFIRMED), 5 (Q-collapse — NEGATIVE, no flood-lamp).
+**Open:** the reference-beam register split at LARGER scale (or add the relational-
+loss arm to recover the s223 decoy condition as a trajectory); lead 4 (v2 gauge/
+null-space δw decomposition); sudden-vs-gradual crystallization shape (here gradual).
+
 ## v2 experiment — gauge/null-space gradient decomposition (harder)
 
 At each step decompose `δw = δw_invariant ⊕ δw_gauge` (gauge = permutation null space
