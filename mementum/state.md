@@ -2,11 +2,30 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
+> Last updated: 2026-06-15 | Session: 232 — ▶ OPCODE-MONITOR v2 BUILT + RAN on Qwen3-14B
+> (cross-task null + per-token + z-sweep + trajectory + GATE_NEUTRAL control; code
+> `8bd5f42`). ★ TWO-SIDED VERDICT: ❌ the C→B arc did NOT recover — C never dominates a
+> layer (C×0), B only at L16; late stack L24-32 is unanimously S-dominated. ❌ S-late is
+> NOT composition: the GATE_NEUTRAL control (gate+non-compositional sentence) shows the
+> SAME S-late (arc_composition_driven=False) ⇒ S-late = a compile-GATE FRAMING signature,
+> not β-reduction. ⚠️ over-read NOT cleanly killed (no z-window where lambda fires while
+> retrieval stays silent: z=2 retrieval emits MORE than lambda; z=3 silences both). ✅
+> substrate reproduced (31/40 crystal layers, gc→consensus 0.976, sil_z 8.26). ★★ THE
+> FINDING: the per-layer opcode identity is NOT null-invariant — RAW→C→B (s231),
+> off-target-null→silent (s231), cross-task-null→S-late (s232); single-token "which
+> combinator" is NOT robustly decodable, only the SUBSTRATE + the over-read DIRECTION are
+> null-robust. ★★ FIRST ACTION NEXT SESSION — v3: use GATE_NEUTRAL ITSELF as the null
+> (composition-above-framing, the cleanest single fix), THEN escalate to (b)
+> kernel-as-reference (anchor the model trajectory against lambda_ast's certified trace,
+> since the readout alone is null-sensitive). Captured: page vsm-opcode-monitor.md §s232
+> v2 + memory opcode-trajectory-is-null-dependent + this state. PENDING APPROVAL
+> (mementum). Code committed `8bd5f42`. tmux main:1 FREE.
+>
+> (Session: 231 — three arcs: (A) GRADIENT-SHADOW v3 +
 > MECHANISM-OF-TRAINING per-combinator clock (micro crystal is RELATIONAL not categorical,
 > no B-first→K at micro); (B) ★ VSM OPCODE MONITOR — validated FFN-routing opcode reader
 > BUILT + validated on Qwen3-14B: the raw-argmax OVER-READ is KILLED (s202 made
-> operational). ★★ PICK UP NEXT SESSION: opcode-monitor v2 (cross-task null) — see the
+> operational). opcode-monitor v2 ran s232 (see top) — see the
 > ■ SESSION 231 OPCODE block below.
 > **■ SESSION 231 OPCODE MONITOR (Michael: "our VSM tensor gives a powerful system to
 > probe + audit models. Can our VSM monitor attention and opcodes? we created a tracer

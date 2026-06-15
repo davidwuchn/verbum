@@ -97,17 +97,58 @@ vs a RAW-argmax over-read control. `results/opcode-audit-validation/verdict.json
   mis-specified — off-target null is OTHER crystal probes, all lambda-mode, so low power
   ("looks more like B than K/I/C?" when everything is lambda-mode).
 
-## v2 — completing (a) (the NEXT first action)
+## v2 — completing (a) (BUILT + RUN, s232)
 
-The over-read killer is proven; to make it a USEFUL monitor (recover the C→B arc without
-reopening the over-read):
+The over-read killer is proven; v2 tried to make it a USEFUL monitor (recover the C→B
+arc without reopening the over-read) with four fixes:
 - **cross-task null** (the key fix): calibrate the null vs a NON-combinator baseline
-  (retrieval / natural text where no β-reduction happens), not vs other crystal probes.
-  Then "lambda token looks like B vs natural-text baseline" clears while retrieval stays
-  silent.
-- **per-token** reading across the sequence (not just last token).
-- **z-threshold sweep** (z=2 vs 3).
-- output the **per-layer trajectory** (the C→B program), not a single dominant op.
+  (bare natural text where no β-reduction happens), not vs other crystal probes.
+- **per-token** reading across the sequence (not just last token — the s227 locus fix).
+- **z-threshold sweep** (z=2 vs 3, post-hoc — z is threshold-independent).
+- output the **per-layer trajectory** (the program), not a single dominant op.
+- **GATE_NEUTRAL control** (gate + non-compositional sentence): the load-bearing control
+  for the gate-prefix confound (does the arc come from composition or from the gate?).
+
+Files: `scripts/experiments/opcode_monitor_v2.py` + `relational_opcode.py`
+`calibrate(..., null_gate_by_layer=...)`. Commit `8bd5f42`.
+
+### ★ s232 v2 VERDICT (Qwen3-14B; λ measure, two-sided) — the arc is NULL-DEPENDENT
+
+**❌ The C→B arc did NOT recover under the cross-task null.** In the z=2 lambda
+trajectory, `C` NEVER dominates a layer (C×0), `B` dominates exactly one (L16); the late
+stack **L24–32 is unanimously `S`-dominated** (8/8, 7/7, 6/6 votes), with `WHNF` at L0–1
+and mixed `I/Y/K` mid-stack.
+
+**❌ The S-late pattern is NOT composition-driven — the GATE_NEUTRAL control falsifies it.**
+gate+non-compositional sentences show the SAME S-late signature (S×10, emit 0.195 ≈
+lambda 0.199) ⇒ `arc_composition_driven=False`. Bare prompts diverge (retrieval → WHNF/W
+gauge; arithmetic → Y), so **S-late is a compile-GATE FRAMING signature shared by any
+gated prompt, not β-reduction of the specific sentence.** (The control did its job — without
+it we'd have falsely read "S = the compose op".)
+
+**⚠️ Over-read not cleanly killed.** At z=2 retrieval emits MORE than lambda (0.269 vs
+0.199, noop=0); at z=3 retrieval silences (noop 0.75) but lambda silences too (emit 0.071,
+noop 0.70). **No z-window exists where lambda fires the arc while retrieval stays silent.**
+
+**✅ Substrate reproduced** (31/40 crystal layers, gc→consensus **0.976**, sil_z 8.26 —
+matches the s231 validation).
+
+**★ THE REAL FINDING — the per-layer opcode identity is NOT null-invariant.** Three nulls,
+three answers for the same model+prompts: RAW argmax → C→B arc (s231); off-target null →
+silent (s231 under-read); cross-task null → S-late gate-framing (s232). Single-token
+"which combinator" is NOT robustly decodable; only (a) the crystal-bearing substrate and
+(b) the over-read DIRECTION (raw over-fires) are null-robust. An opcode monitor cannot be
+trusted on its readout alone.
+
+## v3 — the lever s232 hands us
+
+- **null = GATE_NEUTRAL itself** (matched-prefix, non-compositional), NOT bare natural
+  text. Bare-text null only removes the natural-text common-mode, leaving the gate-framing
+  (S-late) to swamp the per-sentence composition signal. A gate-matched null subtracts the
+  framing ⇒ z measures *composition-above-framing* (the cleanest single fix).
+- because the readout is null-sensitive, **escalate to (b) kernel-as-reference** sooner:
+  anchor the model trajectory against `lambda_ast`'s certified trace instead of trusting
+  the model's opcodes in isolation.
 
 ## (b) — the kernel-as-reference audit (after v2)
 
@@ -125,7 +166,9 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 
 | File | Content |
 |------|---------|
-| `scripts/instruments/relational_opcode.py` | `RelationalCrystalClassifier` (gate register, sign-CMR, consensus-relational, null; model-agnostic) — `fb0c9ec` |
+| `scripts/instruments/relational_opcode.py` | `RelationalCrystalClassifier` (gate register, sign-CMR, consensus-relational, null; model-agnostic). s232: `calibrate(null_gate_by_layer=...)` = cross-task null — `fb0c9ec`, `8bd5f42` |
 | `scripts/experiments/opcode_audit_validation.py` | Qwen3-14B calibrate + s127 battery + raw-vs-relational control — `143ccda` |
 | `results/opcode-audit-validation/verdict.json` | 31/40 crystal layers; over-read killed; relational under-reads at z=3 last-token |
+| `scripts/experiments/opcode_monitor_v2.py` | s232 v2: cross-task null + per-token + z-sweep + trajectory + GATE_NEUTRAL control — `8bd5f42` |
+| `results/opcode-monitor-v2/verdict.json` | s232 verdict: arc did NOT recover (S-late, gate-driven); opcode identity is null-dependent; substrate reproduced |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
