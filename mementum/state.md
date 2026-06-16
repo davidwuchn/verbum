@@ -2,7 +2,33 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2b — PROSE BRIDGE
+> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2c — GAUGE-SUBTRACTED
+> DISCRIMINABILITY RESCUES COMPOSITION SPECIFICITY on prose (Qwen3-14B; code `dd6c511`).
+> ★ The lead-2b "specificity is gauge-dominated (S/Y win the argmax)" was a METRIC
+> artifact. New discr(c) = route_frac(c | c-prose) − route_frac(c | other-prose) replaces
+> argmax-winner with a per-op CONTRAST (stores full per-op route_fracs per held-out probe).
+> **★ Qwen3-14B VERDICT (z=2, two-sided): C and I become DISCRIMINABLE** — C on/off
+> 0.062/0.009 (~6.6×, argmax_spec WAS 0.0!), I 0.183/0.063 (~2.9×); composition_
+> discriminable=True. ⇒ the composition signal IS specific once read gauge-aware; the
+> argmax metric was hiding it because S/Y have huge absolute route_frac. **⚠️ PARTIAL:**
+> only I, C of the 6 composition combinators (z=2); **B, K, D, W are NOT discriminable on
+> held-out prose** (B on/off 0.010/0.015 = negative!); and **S/Y STAY strongly
+> discriminable** (discr 0.45/0.43) ⇒ S/Y are NOT pure gauge — they have a large
+> common-mode (high off 0.27/0.09) AND genuine selectivity. The compose family SPLITS: C
+> discriminable, B not (cf s127 ffn-two-groups put B,C together; here only C shows
+> held-out prose discriminability). z=3 leaves I, S, Y. Caveats (λ measure): 1 model
+> (14B), n=10/comb held-out, single-combinator labels, last-token locus, crosstask null.
+> **★★ FIRST ACTION NEXT SESSION — v5 lead 2d: (1) chase the B/D/W gap — why do the
+> deep/duplicate composers fail held-out prose discriminability while C/I succeed? (more
+> prose per comb for power + per-layer breakdown of where C fires vs where B should);
+> (2) the COMPOSITE trace-order bridge (now justified for the discriminable combinators):
+> CL program → certified trace (fired_sequence, DONE) → render PROSE (lambda_gen decompile
+> via the model's decompile gate) → align routing to the certified multi-combinator ORDER,
+> focusing on C/I (+S/Y); (3) per-model sweep 8B/32B with the discriminability metric.**
+> PENDING APPROVAL (mementum: page §s233 v5 lead 2c + memory + this state). Code committed
+> `dd6c511`. tmux main:1 FREE.
+>
+> (Session: 233 — ▶ OPCODE v5 LEAD 2b — PROSE BRIDGE
 > BUILT + RAN on Qwen3-14B (code `53ed331`). ★ THE BRIDGE DIRECTION IS RIGHT (two-sided):
 > held-out PROSE recalls its combinator where bare symbols routed only gauge — but
 > specificity is still gauge-dominated. Built: `calibrate_v2` gained a `centroid_probes`

@@ -322,15 +322,45 @@ S/Y common-mode SUBTRACTION (the relational CMR / locus-agnostic machinery from 
 a gauge-matched null) before composition-combinator specificity is readable. Caveats: 1
 model (14B), single-combinator labels (not composite trace-order yet), last-token locus.
 
+## v5 lead 2c — gauge-subtracted discriminability (BUILT + RAN, s233; `dd6c511`)
+
+The lead-2b "specificity is gauge-dominated (S/Y win the argmax)" was a METRIC artifact.
+New metric: **discr(c) = mean route_frac(c | c-prose) − mean route_frac(c | other-prose)**
+— a per-op CONTRAST replacing argmax-winner (stores full per-op route_fracs per held-out
+probe). `kernel_reference_prose.py` discriminability block.
+
+### ★ s233 v5 lead 2c VERDICT (Qwen3-14B; λ measure, TWO-SIDED)
+
+**★ RESCUE — C and I become DISCRIMINABLE (z=2):** C on/off **0.062 / 0.009 (~6.6×)** —
+its argmax_spec was **0.0**; I 0.183 / 0.063 (~2.9×). `composition_discriminable=True`. The
+compose signal IS specific to compose-prose; argmax-winner hid it because S/Y have huge
+ABSOLUTE route_frac and always take the top spot.
+
+**⚠️ PARTIAL + nuance:**
+- Only I, C of the 6 composition combinators are discriminable (z=2); z=3 leaves I, S, Y.
+- **B, K, D, W are NOT discriminable** on held-out prose (B on/off 0.010/0.015 = negative).
+  The compose family SPLITS: C discriminable, B not — cf s127 ffn-two-groups put {B,C}
+  together as composers, yet only C shows held-out PROSE discriminability here.
+- **S and Y STAY strongly discriminable** (discr 0.45/0.43): NOT pure gauge — a LARGE
+  common-mode (off 0.27/0.09) AND genuine selectivity. Discriminability separates the two
+  components; it does not zero them.
+
+**★ LESSON:** argmax-winner specificity is the wrong metric when one op carries a large
+common-mode — it manufactures false negatives for low-amplitude but specific ops (C/I). A
+contrast/discriminability read (on-prose − off-prose; same family as s225 AUC and the
+lead-1 lambda-vs-control logic) recovers them. The composition signal is real and
+prose-discriminable; the bridge carries it. Caveats: 1 model (14B), n=10/comb held-out,
+single-combinator labels, last-token locus.
+
 ### v5 — next steps
 
-- **★ lead 2c — gauge-subtract the prose read, then composite trace-order:** (1) add S/Y
-  common-mode subtraction (relational CMR / gauge-matched null) to the prose read and
-  re-score composition-combinator specificity — does C/B/K become specific once gauge is
-  removed? (2) THEN the composite bridge: CL program → certified trace (`fired_sequence`,
-  DONE) → render PROSE (`lambda_gen` decompile via the model's decompile gate) → align
-  routing to the certified multi-combinator ORDER. (3) per-model sweep (8B/32B) once the
-  gauge-subtracted prose read works.
+- **★ lead 2d:** (1) chase the **B/D/W gap** — why do deep/duplicate composers fail
+  held-out prose discriminability while C/I succeed? (more prose/comb for power +
+  per-layer breakdown of where C fires vs where B should). (2) the **composite trace-order
+  bridge** (now justified for the discriminable combinators): CL program → certified trace
+  (`fired_sequence`, DONE) → render PROSE (`lambda_gen` decompile) → align routing to the
+  certified multi-combinator ORDER, focusing on C/I (+S/Y). (3) per-model sweep (8B/32B)
+  with the discriminability metric.
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
   directional signal can't clear the margin); more sentences for crisper fractions.
 - **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
@@ -368,5 +398,5 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/kernel_reference_audit.py` | s233 v5 lead 2: anchor model routing vs the certified trace (reducibility / recall / specificity / trace-recall) — `1532e4e` |
 | `results/kernel-reference-audit/verdict_qwen3-14b_crosstask.json` | s233 v5 lead 2 verdict: ❌ bare symbolic CL routes ONLY S-gauge (target_recall 1/7, reducibility not tracked) ⇒ register is prose-semantic, bridge must be compiled prose |
 | `scripts/experiments/kernel_reference_prose.py` | s233 v5 lead 2b: held-out crystal-prose recall/specificity (non-circular calib/test split via `centroid_probes`) — `53ed331` |
-| `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b verdict: ✅ prose recall 0.575 >> symbol 0.14 (register is prose-semantic) but ⚠️ specificity gauge-dominated (S/Y win; C 0.9 recall/0.0 spec) ⇒ needs gauge subtraction |
+| `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b/2c verdict: ✅ prose recall 0.575 >> symbol 0.14; gauge-subtracted DISCRIMINABILITY rescues C (on/off 0.062/0.009 ~6.6×) + I as specific; B/D/W not; S/Y = common-mode + selectivity |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
