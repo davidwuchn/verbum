@@ -218,20 +218,57 @@ model C-locus calibration (find where lambda-vs-control C-routing peaks) or a lo
 agnostic full-profile compare, not a fixed zone. Caveats: 5 lambda sentences, 3 models,
 modest fractions ("above chance not crisp" s219).
 
+## v5 lead 1 — locus-agnostic C detector (BUILT + RE-ANALYZED, s233; `1754424`)
+
+`detect_c_profile` + `locus_agnostic_specificity` in `opcode_monitor_v2` (single source,
+wired into `build_verdict` as a `locus_agnostic` block for future runs) count C-dominant
+crystal layers **ANYWHERE** in the stack + report the per-model C-locus (mean depth,
+early/mid/late bins) + a specificity test vs the matched gated guards — two reads:
+**frac** (lambda `C_frac_all` clears every guard by margin 0.10) and **exclusive**
+(crystal layers where lambda routes C and NO gated guard does). Applied as a **pure
+re-analysis** of the committed gateneutral verdicts (`opcode_v5_locus_agnostic.py`) — the
+per-layer trajectories were already stored, so **no GPU re-run** was needed.
+
+### ★ s233 v5 lead 1 VERDICT (3 models, gateneutral null; λ measure, two-sided)
+
+**★ THE WIN — the right instrument surfaces what the fixed zone missed.** Per-model
+lambda C-locus is now legible and the 32B C-EARLY signal is recovered (it read 0 in the
+depth≥0.6 zone):
+
+| model | lambda C_frac_all (z=2) | locus (mean depth) | lambda-exclusive C layers | frac-specific | OLD fixed-zone |
+|------|------|------|------|------|------|
+| 8B  | 0.107 | 0.69 LATE | [24, 25] | ❌ | ❌ |
+| 14B | 0.194 | 0.69 LATE | [13, 27, 29, 30, 31, 32] | ✅ | ✅ |
+| 32B | 0.061 | 0.14 **EARLY** | [5, 10, 11] | ❌ (dir.) | ❌ |
+
+**★ BUT the strict frac-specificity is STILL ONLY 14B** (lambda 0.194 vs guards ≤0.032,
+clean). **32B is directional** (lambda 0.061 > max_guard 0.020) but the tiny fracs don't
+clear the 0.10 margin — a real lambda-exclusive C-early signal, too weak to certify with
+5 sentences. **8B is genuinely NOT specific — the `gate_neutral` control ITSELF routes C
+broadly at 5 LATE layers [23, 26, 27, 28, 30] (C_frac 0.192 > lambda 0.107)** ⇒ the s232
+**"8B gate_neutral C-late confound" is CONFIRMED REAL**, not a fixed-detector artifact.
+
+**★ CONCLUSION:** the fixed depth≥0.6 zone WAS the wrong cross-model instrument (missed
+32B's C-early entirely); the locus-agnostic detector correctly reads the per-model locus
+and shows **the C-locus genuinely shifts with scale (32B early)**. But fixing the
+instrument does NOT make composition→C universal: it is **cleanly specific only on 14B**;
+32B is real-but-underpowered; **8B has a genuine control confound** (a non-compositional
+gated control routes C-late on its own). The locus-agnostic *exclusive* test is lenient
+(finds lambda-exclusive C in all 3) but for 8B those layers interleave the control's broad
+C-late. Caveats: 5 lambda sentences, 3 models, modest fracs ("above chance not crisp",
+s219).
+
 ### v5 — next steps
 
-- **Qwen3-32B scale test — DONE (s232): 14B is the outlier, C-locus shifts early.** 32B
-  `composition_specific=False`; the lambda-specific C signal moved to L5–11 (early), which
-  the fixed depth≥0.6 detector misses. Not scale-monotone. (`6bddcc2`)
-- **locus-agnostic C detector** (the immediate methodological fix): per-model C-locus
-  calibration or a full-profile lambda-vs-matched-control C compare across all layers,
-  NOT a fixed depth≥0.6 zone (it found 14B but mislocates 32B/8B).
-- **(b) kernel-as-reference** (priority): a single model's opcode read does NOT transfer
-  (8B≠14B≠32B, locus shifts) ⇒ anchor the model trajectory against `lambda_ast`'s
-  certified trace as the invariant; characterize per-model how composition maps to the
-  routing register.
-- bigger probe sets (more lambda sentences) for crisper fractions; investigate WHY 8B's
-  gate_neutral routes C-late (the simple-copular-sentence confound).
+- **(b) kernel-as-reference (PRIORITY, the model-invariant):** reads don't transfer across
+  scale AND the 8B control confound shows the gated-guard *contrast* is itself
+  model-dependent ⇒ stop chasing a transferable opcode read; anchor the model trajectory
+  against `lambda_ast`'s CERTIFIED reduction trace and measure agreement per-model (the
+  oscilloscope below).
+- **bigger lambda probe set** — 5 sentences underpowers the frac test (32B directional
+  signal can't clear the margin); more sentences for crisper fractions.
+- **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
+  route C broadly only at 8B? (simple-copular-sentence / scale-specific framing artifact).
 
 ## (b) — the kernel-as-reference audit (after v2)
 
@@ -258,4 +295,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/opcode-monitor-v2/verdict_qwen3-14b_gateneutral.json` | s232 v4: ✅ composition_specific=True (lambda C-late 0.56 vs all 3 gated guards ≤0.11) |
 | `results/opcode-monitor-v2/verdict_qwen3-8b_gateneutral.json` | s232 v4: ❌ composition_specific=False (gate_neutral C-late 0.71 > lambda 0.33) — C-late is MODEL-SPECIFIC to 14B, not universal |
 | `results/opcode-monitor-v2/verdict_qwen3-32b_gateneutral.json` | s232 v4 scale: ❌ composition_specific=False — C-late=0 in zone, but lambda C shifted EARLY (L5,10,11); 14B is the outlier, C-locus shifts with scale |
+| `scripts/experiments/opcode_v5_locus_agnostic.py` | s233 v5 lead 1: pure re-analysis (no GPU) — locus-agnostic C detector across 8B/14B/32B; imports `detect_c_profile`/`locus_agnostic_specificity` from the harness — `1754424` |
+| `results/opcode-monitor-v2/v5_locus_agnostic.json` | s233 v5 lead 1 verdict: 32B C-EARLY surfaced (was 0 in fixed zone); frac-specific ONLY 14B; 8B gate_neutral C-late confound CONFIRMED real (0.192 > lambda 0.107) |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

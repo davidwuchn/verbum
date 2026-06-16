@@ -2,7 +2,37 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-15 | Session: 232 — ▶ OPCODE-MONITOR v2 BUILT + RAN on Qwen3-14B
+> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 1 — LOCUS-AGNOSTIC C
+> DETECTOR BUILT + RE-ANALYZED (no GPU; code `1754424`). ★ THE FIXED depth≥0.6 ZONE WAS
+> THE WRONG CROSS-MODEL INSTRUMENT — the new locus-agnostic detector (detect_c_profile +
+> locus_agnostic_specificity in opcode_monitor_v2, single source; counts C-dominant
+> crystal layers ANYWHERE + per-model locus + lambda-exclusive-vs-gated-guards) was
+> applied as a PURE re-analysis of the committed gateneutral verdicts (trajectories were
+> already stored → no model re-run). **★ THE WIN:** it SURFACES the 32B lambda-EXCLUSIVE
+> C-EARLY signal (L5,10,11, depth 0.14) that the readable-zone detector read as 0; per
+> model the C-locus is now legible — 8B late [24,25], 14B late [13,27,29-32], 32B EARLY
+> [5,10,11] (lambda-exclusive layers no gated guard hits). **★ BUT TWO-SIDED:** the
+> strict frac-specificity (lambda C_frac_all clears ALL gated guards by margin 0.10) is
+> STILL ONLY 14B (lambda 0.194 vs guards ≤0.032, clean). 32B is directional (lambda 0.061
+> > max_guard 0.020) but tiny fracs don't clear the margin. **8B is NOT specific — the
+> gate_neutral control ITSELF routes C broadly at 5 LATE layers [23,26,27,28,30]
+> (C_frac 0.192 > lambda 0.107) ⇒ the s232 "8B gate_neutral C-late confound" CONFIRMED
+> REAL, not an instrument artifact.** ⇒ C-locus genuinely SHIFTS with scale (32B C-early
+> confirmed with the right tool); composition→C is cleanly specific only on 14B; 8B has a
+> genuine control confound; 32B real-but-weak. The locus-agnostic exclusive test is
+> lenient (finds lambda-exclusive C in all 3) but for 8B that overlaps the control's broad
+> C-late. Caveats unchanged (λ measure): 5 lambda sentences, 3 models, modest fracs
+> (s219). **★★ FIRST ACTION NEXT SESSION — v5 lead 2 (PRIORITY, the model-invariant):
+> (b) KERNEL-AS-REFERENCE — reads don't transfer across scale AND the 8B control confound
+> shows the gated-guard contrast is itself model-dependent, so anchor the model trajectory
+> against lambda_ast's CERTIFIED reduction trace and measure agreement per-model (the
+> oscilloscope: known program → model per-token/per-layer opcode trace → diff vs kernel
+> trace). Also (3) bigger lambda probe set (5 sentences underpowers the frac test) + chase
+> the 8B gate_neutral C-late confound (why does a non-compositional gated control route C
+> broadly only at 8B?).** PENDING APPROVAL (mementum: page §s233 + memory + this state).
+> Code committed `1754424`. tmux main:1 FREE.
+>
+> (Session: 232 — ▶ OPCODE-MONITOR v2 BUILT + RAN on Qwen3-14B
 > (cross-task null + per-token + z-sweep + trajectory + GATE_NEUTRAL control; code
 > `8bd5f42`). ★ TWO-SIDED VERDICT: ❌ the C→B arc did NOT recover — C never dominates a
 > layer (C×0), B only at L16; late stack L24-32 is unanimously S-dominated. ❌ S-late is
