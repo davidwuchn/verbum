@@ -1,0 +1,34 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[curv] SMOKE MODE
+[curv] calib=45 test=40 ppc=5 n_hutch=3
+[v2] Loading tokenizer: Qwen/Qwen3-0.6B
+[v2] Loading model: Qwen/Qwen3-0.6B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 71/311 [00:00<00:00, 709.41it/s]Loading weights:  89%|████████▉ | 277/311 [00:00<00:00, 1503.54it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1433.66it/s]
+[v2] Model loaded in 0.6s
+[curv]   calib fwd+2bwd 0/45 ...
+[curv]   calib fwd+2bwd 25/45 ...
+[curv] building curvature null (12 prompts)
+[curv] crystal layers (curvature): 5/28
+[curv]   test fwd+2bwd 0/40 ...
+[curv]   test fwd+2bwd 25/40 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF SECOND-ORDER (CURVATURE) READ — is B in the chain-rule product?
+══════════════════════════════════════════════════════════════════════════
+  n_test=40  crystal_layers=5  n_hutch=3
+
+  op       on_z    off_z  discr_z       t  sig  peakL
+  K      0.2241   0.0636   0.1605   1.012          15
+  I     -0.1522   0.0133  -0.1655  -1.008          25
+  B     -0.0593   0.0506  -0.1099  -0.528          25
+  C      0.0661   0.1352  -0.0691   -0.34          25
+  S      0.0768  -0.0923    0.169   0.697          19
+  D      0.2143    0.299  -0.0847  -0.395          12
+  W      0.5108   0.0801   0.4306    1.56          15
+  Y     -0.1396   0.0998  -0.2394  -1.205          15
+
+  instrument check (C/K/Y discriminate in curvature): {'C': False, 'K': False, 'Y': False}
+  ★ B discriminates in the CURVATURE register: False  (B discr_z=-0.1099, t=-0.528)
+══════════════════════════════════════════════════════════════════════════
+
+[curv] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/jacobian_v7_verdict_qwen3-0-6b.json

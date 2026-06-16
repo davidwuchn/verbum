@@ -1,0 +1,45 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[curv] calib=225 test=160 ppc=25 n_hutch=4
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:58,  1.23it/s]Loading weights:   0%|          | 2/443 [00:00<03:02,  2.41it/s]Loading weights:   5%|▌         | 23/443 [00:01<00:11, 37.25it/s]Loading weights:   9%|▉         | 41/443 [00:01<00:06, 64.80it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 92.33it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:03, 118.24it/s]Loading weights:  23%|██▎       | 103/443 [00:01<00:02, 140.01it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:02, 155.86it/s]Loading weights:  33%|███▎      | 147/443 [00:01<00:01, 168.82it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:01, 178.10it/s]Loading weights:  43%|████▎     | 191/443 [00:01<00:01, 184.96it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:01, 187.67it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:01, 190.85it/s]Loading weights:  58%|█████▊    | 257/443 [00:02<00:00, 192.18it/s]Loading weights:  63%|██████▎   | 277/443 [00:02<00:00, 192.81it/s]Loading weights:  67%|██████▋   | 297/443 [00:02<00:00, 187.48it/s]Loading weights:  71%|███████▏  | 316/443 [00:02<00:00, 185.90it/s]Loading weights:  76%|███████▌  | 336/443 [00:02<00:00, 185.85it/s]Loading weights:  81%|████████  | 357/443 [00:02<00:00, 191.85it/s]Loading weights:  85%|████████▌ | 378/443 [00:02<00:00, 194.51it/s]Loading weights:  90%|████████▉ | 398/443 [00:02<00:00, 193.00it/s]Loading weights:  94%|█████████▍| 418/443 [00:03<00:00, 189.38it/s]Loading weights:  99%|█████████▊| 437/443 [00:03<00:00, 184.72it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 137.74it/s]
+[v2] Model loaded in 3.8s
+[curv]   calib fwd+2bwd 0/225 ...
+[curv]   calib fwd+2bwd 25/225 ...
+[curv]   calib fwd+2bwd 50/225 ...
+[curv]   calib fwd+2bwd 75/225 ...
+[curv]   calib fwd+2bwd 100/225 ...
+[curv]   calib fwd+2bwd 125/225 ...
+[curv]   calib fwd+2bwd 150/225 ...
+[curv]   calib fwd+2bwd 175/225 ...
+[curv]   calib fwd+2bwd 200/225 ...
+[curv] building curvature null (12 prompts)
+[curv] crystal layers (curvature): 29/40
+[curv]   test fwd+2bwd 0/160 ...
+[curv]   test fwd+2bwd 25/160 ...
+[curv]   test fwd+2bwd 50/160 ...
+[curv]   test fwd+2bwd 75/160 ...
+[curv]   test fwd+2bwd 100/160 ...
+[curv]   test fwd+2bwd 125/160 ...
+[curv]   test fwd+2bwd 150/160 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF SECOND-ORDER (CURVATURE) READ — is B in the chain-rule product?
+══════════════════════════════════════════════════════════════════════════
+  n_test=160  crystal_layers=29  n_hutch=4
+
+  op       on_z    off_z  discr_z       t  sig  peakL
+  K       0.201   0.0409   0.1601    1.94          13
+  I     -0.1487  -0.1859   0.0372   0.683          39
+  B      0.0449  -0.0728   0.1178     1.9          19
+  C      0.0816  -0.2751   0.3568   2.517    ✓     39
+  S      0.4944   0.6248  -0.1304  -0.944           6
+  D     -0.0692   0.0724  -0.1416  -1.684           6
+  W     -0.2494  -0.1598  -0.0896  -0.903          19
+  Y      0.3604  -0.0576    0.418   4.527    ✓     39
+
+  instrument check (C/K/Y discriminate in curvature): {'C': True, 'K': False, 'Y': True}
+  ★ B discriminates in the CURVATURE register: False  (B discr_z=0.1178, t=1.9)
+══════════════════════════════════════════════════════════════════════════
+
+[curv] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/jacobian_v7_verdict_qwen3-14b.json

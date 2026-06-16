@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "smoke": true,
+  "git_sha": "018248a987b71bfb48d13cd9c384286b5c0c5fe3",
+  "timestamp_utc": "2026-06-16T16:31:29.729131+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 28,
+  "n_perm": 80,
+  "ppc": 5,
+  "heldout_per": 5,
+  "n_hutch": 3,
+  "n_calib": 45,
+  "n_test": 40,
+  "register": "CURVATURE diag Hessian dL2/d gate_proj2, pooled supervised, Hutchinson"
+}
