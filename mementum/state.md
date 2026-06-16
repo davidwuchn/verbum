@@ -2,33 +2,47 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2c — GAUGE-SUBTRACTED
-> DISCRIMINABILITY RESCUES COMPOSITION SPECIFICITY on prose (Qwen3-14B; code `dd6c511`).
-> ★ The lead-2b "specificity is gauge-dominated (S/Y win the argmax)" was a METRIC
-> artifact. New discr(c) = route_frac(c | c-prose) − route_frac(c | other-prose) replaces
-> argmax-winner with a per-op CONTRAST (stores full per-op route_fracs per held-out probe).
-> **★ Qwen3-14B VERDICT (z=2, two-sided): C and I become DISCRIMINABLE** — C on/off
-> 0.062/0.009 (~6.6×, argmax_spec WAS 0.0!), I 0.183/0.063 (~2.9×); composition_
-> discriminable=True. ⇒ the composition signal IS specific once read gauge-aware; the
-> argmax metric was hiding it because S/Y have huge absolute route_frac. **⚠️ PARTIAL:**
-> only I, C of the 6 composition combinators (z=2); **B, K, D, W are NOT discriminable on
-> held-out prose** (B on/off 0.010/0.015 = negative!); and **S/Y STAY strongly
-> discriminable** (discr 0.45/0.43) ⇒ S/Y are NOT pure gauge — they have a large
-> common-mode (high off 0.27/0.09) AND genuine selectivity. The compose family SPLITS: C
-> discriminable, B not (cf s127 ffn-two-groups put B,C together; here only C shows
-> held-out prose discriminability). z=3 leaves I, S, Y. Caveats (λ measure): 1 model
-> (14B), n=10/comb held-out, single-combinator labels, last-token locus, crosstask null.
-> **★★ FIRST ACTION NEXT SESSION — v5 lead 2d: (1) chase the B/D/W gap — why do the
+> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 (leads 1→2c) — the compositional
+> opcode signal is REAL but FAINT-against-common-mode and LOCUS-SHIFTS-with-scale; every
+> "negative" this session was an INSTRUMENT flaw (wrong place → wrong input language →
+> wrong metric), each diagnosed + fixed. ALL COMMITTED (`1754424` `1532e4e` `53ed331`
+> `dd6c511` + mementum); working tree clean. Full per-lead detail in
+> `knowledge/explore/vsm-opcode-monitor.md` §v5 lead 1/2/2b/2c (+ below) and 4 memories.
+> **THE ARC:**
+> • **lead 1 — locus-agnostic C detector** (`1754424`, re-analysis no GPU): the fixed
+>   depth≥0.6 zone was the WRONG cross-model instrument; `detect_c_profile` +
+>   `locus_agnostic_specificity` (count C-dominant crystal layers ANYWHERE + per-model
+>   locus). Surfaces the 32B lambda-EXCLUSIVE C-EARLY signal (L5,10,11) the zone read as 0.
+>   But strict frac-specificity still only 14B; 8B's `gate_neutral` C-late confound CONFIRMED
+>   REAL (control routes C 0.192 > lambda 0.107). C-locus shifts with scale.
+> • **lead 2 — kernel-as-reference** (`1532e4e`): built the model-invariant —
+>   `lambda_ast.step_fired`/`fired_sequence` (certified per-step opcode trace, +6 pytest),
+>   `probes/kernel_reference.py` (symbolic programs, SAT⊗INERT + composites),
+>   `kernel_reference_audit.py`. ❌ DECISIVE NEGATIVE: bare symbolic CL routes ONLY S-gauge
+>   (target_recall 1/7; reducibility not tracked) ⇒ the register reads PROSE SEMANTICS, not
+>   CL SYNTAX. Instrument sound, bridge must be compiled prose.
+> • **lead 2b — prose bridge** (`53ed331`): `calibrate_v2(centroid_probes=)` held-out split;
+>   `kernel_reference_prose.py`. ✅ held-out PROSE recall 0.575 ≫ bare-symbol 0.14 ⇒ register
+>   IS prose-semantic. ⚠️ but argmax-winner specificity gauge-dominated (S/Y win).
+> • **lead 2c — gauge-subtracted discriminability** (`dd6c511`): discr(c)=route_frac(c|c-prose)
+>   − route_frac(c|other-prose) replaces argmax-winner. ✅ RESCUE: C discriminable (on/off
+>   0.062/0.009 ~6.6×, argmax_spec was 0.0) + I. ⚠️ PARTIAL: B/K/D/W NOT discriminable
+>   (compose family SPLITS — C yes, B no, cf s127 {B,C}); S/Y stay discriminable = large
+>   common-mode + genuine selectivity (NOT pure gauge). Lesson: argmax-winner manufactures
+>   false negatives when one op has a big common-mode; use a contrast (cf s225 AUC, lead-1
+>   lambda-vs-control).
+> **CAVEATS (λ measure, carried):** lead 2/2b/2c all 1 model (Qwen3-14B); n=10/comb held-out;
+> single-combinator labels (NOT composite trace-order yet); last-token locus; crosstask null.
+> **★★ FIRST ACTION NEXT SESSION — v5 lead 2d:** (1) chase the **B/D/W gap** — why do the
 > deep/duplicate composers fail held-out prose discriminability while C/I succeed? (more
-> prose per comb for power + per-layer breakdown of where C fires vs where B should);
-> (2) the COMPOSITE trace-order bridge (now justified for the discriminable combinators):
-> CL program → certified trace (fired_sequence, DONE) → render PROSE (lambda_gen decompile
+> prose/comb for power + per-layer breakdown of where C fires vs where B should); (2) the
+> **COMPOSITE trace-order bridge** (now justified for the discriminable combinators): CL
+> program → certified trace (`fired_sequence`, DONE) → render PROSE (`lambda_gen` decompile
 > via the model's decompile gate) → align routing to the certified multi-combinator ORDER,
-> focusing on C/I (+S/Y); (3) per-model sweep 8B/32B with the discriminability metric.**
-> PENDING APPROVAL (mementum: page §s233 v5 lead 2c + memory + this state). Code committed
-> `dd6c511`. tmux main:1 FREE.
+> focus C/I (+S/Y); (3) **per-model sweep 8B/32B** with the discriminability metric.
+> tmux main:1 FREE.
 >
-> (Session: 233 — ▶ OPCODE v5 LEAD 2b — PROSE BRIDGE
+> (Session: 233 detail — ▶ OPCODE v5 LEAD 2b — PROSE BRIDGE
 > BUILT + RAN on Qwen3-14B (code `53ed331`). ★ THE BRIDGE DIRECTION IS RIGHT (two-sided):
 > held-out PROSE recalls its combinator where bare symbols routed only gauge — but
 > specificity is still gauge-dominated. Built: `calibrate_v2` gained a `centroid_probes`
@@ -57,7 +71,7 @@
 > (8B/32B) once the gauge-subtracted prose read works.** PENDING APPROVAL (mementum: page
 > §s233 v5 lead 2b + memory + this state). Code committed `53ed331`. tmux main:1 FREE.
 >
-> (Session: 233 — ▶ OPCODE v5 LEAD 2 — KERNEL-AS-REFERENCE
+> (Session: 233 detail — ▶ OPCODE v5 LEAD 2 — KERNEL-AS-REFERENCE
 > BUILT + RAN on Qwen3-14B (code `1532e4e`). ★ DECISIVE NEGATIVE (two-sided): the
 > model-invariant reference works as an INSTRUMENT but bare symbolic CL programs route
 > ONLY GAUGE. Built: (1) `lambda_ast.step_fired`/`fired_sequence` = certified per-step
@@ -86,7 +100,7 @@
 > crosstask null, 7 targets + 8 composites. PENDING APPROVAL (mementum: page §s233 v5
 > lead 2 + memory + this state). Code committed `1532e4e`. tmux main:1 FREE.
 >
-> (Session: 233 — ▶ OPCODE v5 LEAD 1 — LOCUS-AGNOSTIC C
+> (Session: 233 detail — ▶ OPCODE v5 LEAD 1 — LOCUS-AGNOSTIC C
 > DETECTOR BUILT + RE-ANALYZED (no GPU; code `1754424`). ★ THE FIXED depth≥0.6 ZONE WAS
 > THE WRONG CROSS-MODEL INSTRUMENT — the new locus-agnostic detector (detect_c_profile +
 > locus_agnostic_specificity in opcode_monitor_v2, single source; counts C-dominant

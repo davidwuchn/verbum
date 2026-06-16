@@ -218,6 +218,26 @@ model C-locus calibration (find where lambda-vs-control C-routing peaks) or a lo
 agnostic full-profile compare, not a fixed zone. Caveats: 5 lambda sentences, 3 models,
 modest fractions ("above chance not crisp" s219).
 
+# v5 — session 233 synthesis (leads 1→2c)
+
+One through-line held across all four leads: **the compositional opcode signal is REAL but
+FAINT against the common-mode, and its LOCUS SHIFTS with scale.** Every apparent negative
+this session was an INSTRUMENT flaw, each diagnosed and fixed:
+
+| lead | instrument flaw | fix | result |
+|------|-----------------|-----|--------|
+| 1 (`1754424`) | wrong PLACE (fixed depth≥0.6 zone) | count C anywhere + per-model locus | 32B C-EARLY surfaced (read 0 before); frac-specific only 14B; 8B confound real |
+| 2 (`1532e4e`) | wrong INPUT LANGUAGE (bare CL symbols) | — (diagnosed) | symbols route only S-gauge ⇒ register is prose-semantic, not CL-syntax |
+| 2b (`53ed331`) | — (prose works) | held-out prose recall/spec | recall 0.575 ≫ symbol 0.14; but argmax-spec gauge-dominated |
+| 2c (`dd6c511`) | wrong METRIC (argmax-winner) | discriminability (on-prose − off-prose) | C (6.6×) + I rescued; B/K/D/W gap; S/Y = common-mode + real selectivity |
+
+The recurring fix is a **contrast read** (lambda-vs-control, on-prose-minus-off-prose; cf
+s225 AUC, s202/s231 over-read): an absolute/argmax read buries a low-amplitude but specific
+signal under the model's common-mode. Net gain: a working, gauge-aware **prose bridge** that
+demonstrably carries a specific composition signal (C, I), anchored to the kernel's certified
+trace — clearing the ground for the composite **trace-order** test (lead 2d). Caveats carried:
+leads 2/2b/2c are 1 model (Qwen3-14B), n=10/comb, single-combinator labels, last-token locus.
+
 ## v5 lead 1 — locus-agnostic C detector (BUILT + RE-ANALYZED, s233; `1754424`)
 
 `detect_c_profile` + `locus_agnostic_specificity` in `opcode_monitor_v2` (single source,
