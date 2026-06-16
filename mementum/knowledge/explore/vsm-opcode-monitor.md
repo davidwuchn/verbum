@@ -459,23 +459,60 @@ into the FFN gate, B should appear only in attention.
 explanation falsified, register untested); single-combinator labels; D/W anti-signal
 unexplained (possible duplicator centroid mis-calibration).
 
+## v5 lead 2d prong 1b-ii — the value-register read (BUILT + RAN, s234)
+
+The decisive C-yes/B-no resolver: read the crystal in the ATTENTION/value register, where
+s127 ({B,C}=composers→attention) predicts B lives. Parametrized the opcode reader with a
+`hook` slot (open-slot extension): `hook='gate'` (mlp.gate_proj, default) vs `hook='attn'`
+(self_attn.o_proj output = attention's residual write). `kernel_reference_prose_v4.py`
+re-runs the SAME per-token raw-z contrast + position profile in the attn register — direct
+comparison to the FFN-gate v2/v3.
+
+### ★ s234 v5 lead 2d prong 1b-ii VERDICT (Qwen3-14B, attn=o_proj, n=20/comb; λ measure)
+
+**❌ THE s127 PREDICTION IS NOT CONFIRMED — B is FLAT in the attention register TOO.**
+B attn max t=**0.49 (n.s.)** vs gate max t=0.68 (n.s.) — flat in BOTH; attn position
+profile delta hovers ~0 across all bins (best +0.17). Having now tested the two main
+registers (FFN gate + attention/value output), the simplest "wrong register" explanation
+is RULED OUT: B has no single-combinator, last/any-token signature in either.
+
+**★ THE REAL FINDING — discriminability is a property of the COMBINATOR, not the register.**
+{C,I,K,Y} are REGISTER-ROBUST (discriminable in BOTH gate and attn with similar t):
+C gate t=5.61 / attn 6.55; I 4.49 / 4.13; K 3.29 / 3.28; Y 8.39 / 9.36. B/D/W absent or
+anti in BOTH (D gate t=−2.66 / attn −1.75; W −3.40 / −4.77). So the s127 two-group
+register separation ({K,I}→FFN, {B,C}→attention) is NOT reflected in this single-
+combinator last-token readout — ALL of {C,I,K,Y} read in both registers, B/D/W in neither.
+The axis that matters is combinator identity, not gate-vs-attention.
+
+**★ WHAT REMAINS (B's absence, now register-exhausted):**
+- **head dilution** — o_proj output SUMS all heads; a single B-composer head (s127) could
+  be averaged away. → per-HEAD OV read (finer than o_proj output).
+- **no single-token signature — only ORDER** — B = deep composition (B f g x = f (g x));
+  its signature may exist only as a multi-combinator SEQUENCE across tokens, not a single-
+  token routing event. → the composite trace-order bridge (prong 2) is the natural test.
+
+**Caveats (λ measure):** 1 model (14B); n=20/comb; o_proj is head-SUMMED (per-head untested);
+single-combinator labels (composite order untested); last/max/mean over tokens; D/W anti
+unexplained.
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
   B false-positive; B/D/W gap is GENUINE at last-token. Discriminable set {C,I,K,Y}.
 - **★ lead 2d prong 1b — DONE (s234):** per-token read FALSIFIES the token-locus
-  explanation — B flat at ALL positions (max t=0.68 n.s.); D/W anti everywhere. B/D/W
-  absence is a REGISTER property of the FFN gate, not token-locus. {C,I,K,Y} robust.
-- **★ lead 2d prong 1b-ii (the value-register read — NEXT):** B is absent from the FFN
-  gate at every token, so per s127 ({B,C}=composers→attention) re-read B in the
-  **attention/value register** (s206 OV/logit-lens, NOT attn weights): hook `o_proj` /
-  attention output, build per-layer crystal centroids in THAT register, run the raw-z
-  contrast. Does B appear in attention where the FFN gate cannot see it? The decisive
-  C-yes/B-no resolver.
-- **★ lead 2d prong 2 (composite trace-order bridge):** now justified for the discriminable
-  combinators {C,I,K,Y}: CL program → certified trace (`fired_sequence`, DONE) → render
-  PROSE (`lambda_gen` decompile) → align routing to the certified multi-combinator ORDER,
-  focusing on C/I/K. Use the raw-z contrast (not argmax) as the read.
+  explanation — B flat at ALL positions (max t=0.68 n.s.). Register property, not locus.
+- **★ lead 2d prong 1b-ii — DONE (s234):** value-register read FALSIFIES the s127
+  "B→attention" prediction — B flat in attention TOO (max t=0.49 n.s.). Register exhausted.
+  **Discriminability is a COMBINATOR property ({C,I,K,Y} read in both registers), not a
+  register split.** B's absence remains: head-dilution OR no-single-token-signature.
+- **★ lead 2d prong 1b-iii (per-head OV, optional):** o_proj sums heads — re-read B per
+  attention HEAD (OV circuit) to test the head-dilution hypothesis before concluding B has
+  no localized signature.
+- **★ lead 2d prong 2 (composite trace-order bridge — NEXT, the main path):** justified for
+  the discriminable {C,I,K,Y} AND the natural test of whether B appears as ORDER rather
+  than amplitude: CL program → certified trace (`fired_sequence`, DONE) → render PROSE
+  (`lambda_gen` decompile) → align routing to the certified multi-combinator ORDER, raw-z
+  contrast as the read.
 - **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
   with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
@@ -520,4 +557,7 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/prose_v2_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1 verdict: ✅ raw-z RESCUES K (t=2.12) + sharpens C/I (t=5.7/3.8), KILLS B false-positive; ❌ B flat / D,W anti (t −4.6/−2.3) ⇒ B/D/W gap GENUINE at last-token; discriminable {C,I,K,Y}; S=gauge Y=selective; ops peak L12-14 readable zone |
 | `scripts/experiments/kernel_reference_prose_v3.py` | s234 v5 lead 2d prong 1b: per-token read (last/max/mean over tokens, Welch t) + relative-position profile — the B LOCUS test (reuses split_probes/welch_t from v2) |
 | `results/kernel-reference-audit/prose_v3_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b verdict: ❌ TOKEN-LOCUS FALSIFIED — B does not recover at ANY position (max t=0.68 n.s.); D/W anti everywhere ⇒ B/D/W absence is a REGISTER property of the FFN gate, not token-locus. {C,I,K,Y} robust w/ position signatures (I early, K mid, C mid-late, Y late) ⇒ build the value-register read (1b-ii) |
+| `scripts/experiments/opcode_monitor_v2.py` `hook` param | s234 v5 lead 2d prong 1b-ii: open-slot register selector — `forward_all_positions`/`calibrate_v2` take `hook='gate'` (mlp.gate_proj, default) or `hook='attn'` (self_attn.o_proj = attention residual write) |
+| `scripts/experiments/kernel_reference_prose_v4.py` | s234 v5 lead 2d prong 1b-ii: value-register read — same per-token raw-z contrast + profile as v3 but `--register attn` (reuses v2 split + v3 read/contrast) |
+| `results/kernel-reference-audit/prose_v4_attn_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-ii verdict: ❌ s127 "B→attention" NOT confirmed — B flat in attention TOO (max t=0.49 n.s.) ⇒ register exhausted. {C,I,K,Y} register-ROBUST (C gate t=5.6/attn 6.5; Y 8.4/9.4) ⇒ discriminability is a COMBINATOR property, not a register split. B remains: head-dilution or no-single-token-signature |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

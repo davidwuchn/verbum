@@ -2,7 +2,34 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b (the B/D/W
+> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b + 1b-ii
+> (the B/D/W gap, fully chased). PRONG 1b-ii — the VALUE-REGISTER read
+> (`kernel_reference_prose_v4.py`, Qwen3-14B, 1:35 main:1): parametrized the reader with an
+> open-slot `hook` param (opcode_monitor_v2) — `hook='gate'` (mlp.gate_proj, FFN, default)
+> vs `hook='attn'` (self_attn.o_proj = attention's residual write) — and re-ran the
+> per-token raw-z contrast in the ATTENTION/value register, where s127 ({B,C}=composers→
+> attention) predicts B lives. **★ VERDICT: ❌ s127 "B→attention" NOT confirmed — B is FLAT
+> in attention TOO** (attn max t=0.49 n.s. vs gate max t=0.68 n.s.; attn profile delta ~0
+> all bins). Having tested the TWO main registers, the "wrong register" explanation for B is
+> RULED OUT. **★ THE FINDING: discriminability is a COMBINATOR property, NOT a register
+> split** — {C,I,K,Y} are REGISTER-ROBUST (discriminable in BOTH gate AND attn: C gate
+> t=5.6/attn 6.5; I 4.5/4.1; K 3.3/3.3; Y 8.4/9.4), B/D/W absent-or-anti in BOTH (D gate
+> −2.7/attn −1.8; W −3.4/−4.8). The s127 two-group register separation is NOT reflected in
+> this single-combinator last-token readout. **B's absence is now register-exhausted; two
+> live explanations:** (1) HEAD DILUTION — o_proj SUMS heads, a single B-composer head
+> could average away → per-HEAD OV read (prong 1b-iii); (2) NO SINGLE-TOKEN SIGNATURE — B
+> (deep composition Bfgx=f(gx)) may exist only as multi-combinator ORDER across tokens →
+> the composite trace-order bridge (prong 2). **★★ FIRST ACTION NEXT SESSION — lead 2d
+> PRONG 2 (composite trace-order bridge, the MAIN PATH; per-head OV = optional 1b-iii):**
+> CL program → certified trace (`fired_sequence`, DONE) → render PROSE (`lambda_gen`
+> decompile) → align routing to the certified multi-combinator ORDER, raw-z contrast as the
+> read; this serves {C,I,K,Y} AND tests whether B appears as ORDER not amplitude. CAVEATS
+> (λ measure): 1 model (14B), n=20/comb, o_proj head-SUMMED (per-head untested), single-
+> combinator labels, D/W anti unexplained. CODE COMMITTED; mementum (page §v5 lead 2d prong
+> 1b-ii + memory `discriminability-is-combinator-not-register` + this state) PENDING
+> APPROVAL. tmux main:1 FREE.
+>
+> (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b (the B/D/W
 > gap). PRONG 1b (per-token B LOCUS test, `kernel_reference_prose_v3.py`, Qwen3-14B, 2:24
 > main:1): reads ALL token positions (free — forward_all_positions already returns [T,d]),
 > contrasts last/max/mean over tokens (Welch t) + relative-position profile, to decide
