@@ -1,8 +1,8 @@
 {
-  "model": "Qwen/Qwen3-8B",
+  "model": "Qwen/Qwen3-32B",
   "smoke": false,
   "git_sha": "e5b4cded72060bc121e371a5510720b6a62c985b",
-  "timestamp_utc": "2026-06-16T20:19:31.402920+00:00",
+  "timestamp_utc": "2026-06-16T20:21:30.168832+00:00",
   "transformers_version": "5.5.4",
   "n_each": 24,
   "n_programs": 216,
