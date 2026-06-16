@@ -1,0 +1,41 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[prose-v4] register=attn calib=355 test=160 (heldout_per=20)
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:46,  1.09it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:19, 22.26it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:07, 53.00it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 82.10it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 108.31it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 129.87it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:02, 148.01it/s]Loading weights:  34%|███▎      | 149/443 [00:01<00:01, 161.65it/s]Loading weights:  39%|███▊      | 171/443 [00:01<00:01, 171.50it/s]Loading weights:  43%|████▎     | 192/443 [00:01<00:01, 181.36it/s]Loading weights:  48%|████▊     | 213/443 [00:02<00:01, 187.08it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:01, 189.75it/s]Loading weights:  58%|█████▊    | 257/443 [00:02<00:00, 191.35it/s]Loading weights:  63%|██████▎   | 277/443 [00:02<00:00, 193.14it/s]Loading weights:  67%|██████▋   | 297/443 [00:02<00:00, 189.45it/s]Loading weights:  72%|███████▏  | 317/443 [00:02<00:00, 188.58it/s]Loading weights:  76%|███████▌  | 337/443 [00:02<00:00, 185.18it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 187.15it/s]Loading weights:  86%|████████▌ | 380/443 [00:02<00:00, 189.77it/s]Loading weights:  91%|█████████ | 401/443 [00:02<00:00, 195.23it/s]Loading weights:  95%|█████████▌| 422/443 [00:03<00:00, 198.49it/s]Loading weights: 100%|█████████▉| 442/443 [00:03<00:00, 196.83it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 138.94it/s]
+[v2] Model loaded in 3.7s
+[v2] Crystal probes (last-token centroids): 355
+[v2]   centroid forward 0/355 ...
+[v2]   centroid forward 50/355 ...
+[v2]   centroid forward 100/355 ...
+[v2]   centroid forward 150/355 ...
+[v2]   centroid forward 200/355 ...
+[v2]   centroid forward 250/355 ...
+[v2]   centroid forward 300/355 ...
+[v2]   centroid forward 350/355 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[prose-v4] crystal layers: 34/40
+
+════════════════════════════════════════════════════════════════════════════════
+KERNEL-REFERENCE PROSE BRIDGE v4 — register=ATTN (o_proj=attn vs gate_proj=FFN)
+════════════════════════════════════════════════════════════════════════════════
+  n_test=160  heldout_per=20  crystal_layers=34
+
+  op    last_d      t |    max_d      t |   mean_d      t |  peakRel
+  K     0.8732 2.281✓ |    1.066 3.284✓ |   0.5972 3.283✓ |    0.558
+  I     1.1995 3.873✓ |   0.9519 4.134✓ |   0.7195 4.593✓ |    0.279
+  B     0.0192 0.058  |   0.2168 0.492  |  -0.0154-0.065  |    0.895
+  C      1.242 4.793✓ |    1.487 6.546✓ |   0.9768 7.416✓ |    0.618
+  S     0.0573  0.22  |   0.3927 1.396  |   0.6344  3.56✓ |    0.899
+  D     -0.352-2.696  |  -0.2714-1.755  |  -0.1334-1.295  |    0.752
+  W    -0.4116-1.263  |  -0.1514-4.773  |  -0.3492-1.548  |      0.0
+  Y     2.0078 7.906✓ |   1.8725 9.355✓ |   1.1641  7.54✓ |    0.833
+
+  ★ recovered (sig on>off):  last={'B': False, 'C': True, 'D': False, 'W': False}
+                             max ={'B': False, 'C': True, 'D': False, 'W': False}
+                             mean={'B': False, 'C': True, 'D': False, 'W': False}
+  ★ B appears in ATTENTION register: False
+════════════════════════════════════════════════════════════════════════════════
+
+[prose-v4] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/prose_v4_attn_verdict_qwen3-14b.json

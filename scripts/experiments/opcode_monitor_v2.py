@@ -153,14 +153,30 @@ BASELINE_NULL_SENTENCES = [
 # Gate-capture hook (ALL token positions — the per-token fix)
 # ═══════════════════════════════════════════════════════════════════════════════
 def _make_hook(store: dict[int, np.ndarray], layer_idx: int):
-    """Forward hook: capture the WHOLE gate_proj output [T, d] as float64 CPU."""
+    """Forward hook: capture the WHOLE module output [T, d] as float64 CPU."""
 
     def _hook(_module, _inp, out):
-        # out: [B, T, intermediate_size] — keep all positions
+        # out: [B, T, d] — keep all positions (d = intermediate_size for gate,
+        # hidden_size for attn o_proj)
         vec = out[0, :, :].detach().float().cpu().numpy()
         store[layer_idx] = vec.astype(np.float64)
 
     return _hook
+
+
+def _hook_module(model, li: int, hook: str):
+    """Select the per-layer module to hook for a given register.
+
+    hook='gate' → mlp.gate_proj output (the FFN gate register, default).
+    hook='attn' → self_attn.o_proj output (attention's write to the residual = the
+                  value/attention register; s127 {B,C}=composers→attention, s206).
+    """
+    layer = model.model.layers[li]
+    if hook == "gate":
+        return layer.mlp.gate_proj
+    if hook == "attn":
+        return layer.self_attn.o_proj
+    raise ValueError(f"unknown hook target: {hook!r} (expected 'gate' or 'attn')")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -183,13 +199,16 @@ def load_model_and_tokenizer(model_name: str):
 
 
 def forward_all_positions(
-    prompt: str, model, tok, torch_mod, layers: list[int]
+    prompt: str, model, tok, torch_mod, layers: list[int], hook: str = "gate"
 ) -> tuple[dict[int, np.ndarray], int]:
-    """Run one prompt forward; return ({li: gate [T, d]}, n_tokens)."""
+    """Run one prompt forward; return ({li: activation [T, d]}, n_tokens).
+
+    hook ∈ {'gate' (default, mlp.gate_proj), 'attn' (self_attn.o_proj)}.
+    """
     store: dict[int, np.ndarray] = {}
     handles = []
     for li in layers:
-        h = model.model.layers[li].mlp.gate_proj.register_forward_hook(
+        h = _hook_module(model, li, hook).register_forward_hook(
             _make_hook(store, li)
         )
         handles.append(h)
@@ -219,6 +238,7 @@ def calibrate_v2(
     probes_per_combinator: int | None, null_positions_cap: int | None,
     null_mode: str = "crosstask",
     centroid_probes: list | None = None,
+    hook: str = "gate",
 ) -> tuple[RelationalCrystalClassifier, dict]:
     """null_mode:
       - "crosstask"   (s232): null = bare natural-text tokens (all positions). Removes
@@ -246,7 +266,8 @@ def calibrate_v2(
     for i, p in enumerate(probes):
         if i % 50 == 0:
             print(f"[v2]   centroid forward {i}/{len(probes)} ...")
-        store, _ = forward_all_positions(p.prompt, model, tok, torch_mod, layers)
+        store, _ = forward_all_positions(p.prompt, model, tok, torch_mod, layers,
+                                         hook=hook)
         for li in layers:
             gate_by_layer[li].append(store[li][-1])  # last token = the crystal locus
         labels.append(p.combinator)  # type: ignore[arg-type]
@@ -260,7 +281,7 @@ def calibrate_v2(
               "gate+non-compositional prompts (content positions) ...")
         for s in GATE_NEUTRAL_SENTENCES:
             store, n = forward_all_positions(
-                COMPILE_GATE + s, model, tok, torch_mod, layers)
+                COMPILE_GATE + s, model, tok, torch_mod, layers, hook=hook)
             lo = min(gate_n, n - 1)
             for li in layers:
                 null_by_layer[li].append(store[li][lo:])  # content tokens only
@@ -268,7 +289,8 @@ def calibrate_v2(
         print(f"[v2] Building cross-task null from {len(BASELINE_NULL_SENTENCES)} "
               "bare natural-text prompts ...")
         for s in BASELINE_NULL_SENTENCES:
-            store, _n = forward_all_positions(s, model, tok, torch_mod, layers)
+            store, _n = forward_all_positions(s, model, tok, torch_mod, layers,
+                                              hook=hook)
             for li in layers:
                 null_by_layer[li].append(store[li])  # [T, d], all positions
     null_np = {li: np.concatenate(null_by_layer[li], axis=0) for li in layers}
@@ -286,6 +308,7 @@ def calibrate_v2(
     summ["n_null_tokens"] = n_null
     summ["n_centroid_probes"] = len(probes)
     summ["null_mode"] = null_mode
+    summ["hook"] = hook
     return rcc, summ
 
 
