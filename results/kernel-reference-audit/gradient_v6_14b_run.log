@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[grad] calib=225 test=160 ppc=25
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<07:01,  1.05it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:19, 21.71it/s]Loading weights:   9%|▊         | 38/443 [00:01<00:07, 51.15it/s]Loading weights:  13%|█▎        | 59/443 [00:01<00:04, 80.16it/s]Loading weights:  18%|█▊        | 78/443 [00:01<00:03, 102.62it/s]Loading weights:  22%|██▏       | 96/443 [00:01<00:02, 119.36it/s]Loading weights:  26%|██▌       | 116/443 [00:01<00:02, 135.17it/s]Loading weights:  31%|███       | 138/443 [00:01<00:02, 151.52it/s]Loading weights:  36%|███▌      | 159/443 [00:01<00:01, 166.15it/s]Loading weights:  41%|████      | 181/443 [00:01<00:01, 175.43it/s]Loading weights:  46%|████▌     | 203/443 [00:02<00:01, 182.66it/s]Loading weights:  51%|█████     | 225/443 [00:02<00:01, 187.31it/s]Loading weights:  56%|█████▌    | 246/443 [00:02<00:01, 193.24it/s]Loading weights:  60%|██████    | 266/443 [00:02<00:00, 194.61it/s]Loading weights:  65%|██████▍   | 286/443 [00:02<00:00, 190.81it/s]Loading weights:  69%|██████▉   | 306/443 [00:02<00:00, 188.30it/s]Loading weights:  74%|███████▎  | 326/443 [00:02<00:00, 181.82it/s]Loading weights:  78%|███████▊  | 346/443 [00:02<00:00, 186.52it/s]Loading weights:  83%|████████▎ | 367/443 [00:02<00:00, 192.92it/s]Loading weights:  88%|████████▊ | 389/443 [00:02<00:00, 193.42it/s]Loading weights:  93%|█████████▎| 411/443 [00:03<00:00, 194.51it/s]Loading weights:  98%|█████████▊| 433/443 [00:03<00:00, 194.17it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 136.75it/s]
+[v2] Model loaded in 3.8s
+[grad]   calib fwd+bwd 0/225 ...
+[grad]   calib fwd+bwd 25/225 ...
+[grad]   calib fwd+bwd 50/225 ...
+[grad]   calib fwd+bwd 75/225 ...
+[grad]   calib fwd+bwd 100/225 ...
+[grad]   calib fwd+bwd 125/225 ...
+[grad]   calib fwd+bwd 150/225 ...
+[grad]   calib fwd+bwd 175/225 ...
+[grad]   calib fwd+bwd 200/225 ...
+[grad] building gradient null (12 prompts)
+[grad] crystal layers (gradient): 34/40
+[grad]   test fwd+bwd 0/160 ...
+[grad]   test fwd+bwd 25/160 ...
+[grad]   test fwd+bwd 50/160 ...
+[grad]   test fwd+bwd 75/160 ...
+[grad]   test fwd+bwd 100/160 ...
+[grad]   test fwd+bwd 125/160 ...
+[grad]   test fwd+bwd 150/160 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF GRADIENT-REGISTER READ — is B in the gradients?
+══════════════════════════════════════════════════════════════════════════
+  n_test=160  crystal_layers=34
+
+  op       on_z    off_z  discr_z       t  sig  peakL
+  K      0.3887   -0.081   0.4697   2.885    ✓      0
+  I     -0.1923   -0.287   0.0947    1.02          23
+  B     -0.0298  -0.1588   0.1289   1.066          21
+  C      0.5362  -0.6337   1.1699   2.274    ✓     27
+  S      0.6827    1.283  -0.6004  -2.011          16
+  D     -0.4787  -0.0552  -0.4235   -1.85           9
+  W     -0.4149  -0.2339   -0.181  -0.982          16
+  Y      0.7309  -0.0474   0.7783   3.874    ✓     25
+
+  ★ B discriminates in the GRADIENT register: False  (B discr_z=0.1289, t=1.066)
+══════════════════════════════════════════════════════════════════════════
+
+[grad] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/gradient_v6_verdict_qwen3-14b.json

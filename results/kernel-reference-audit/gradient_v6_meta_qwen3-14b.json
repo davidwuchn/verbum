@@ -1,0 +1,14 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "ae45f16a54a214227b5cac4a3ecc930149f64e9b",
+  "timestamp_utc": "2026-06-16T15:47:05.974077+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "n_perm": 200,
+  "ppc": 25,
+  "heldout_per": 20,
+  "n_calib": 225,
+  "n_test": 160,
+  "register": "GRADIENT dL/d gate_proj, pooled over supervised positions"
+}
