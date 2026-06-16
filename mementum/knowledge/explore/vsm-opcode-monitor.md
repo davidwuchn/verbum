@@ -258,15 +258,50 @@ gated control routes C-late on its own). The locus-agnostic *exclusive* test is 
 C-late. Caveats: 5 lambda sentences, 3 models, modest fracs ("above chance not crisp",
 s219).
 
+## v5 lead 2 — kernel-as-reference (BUILT + RAN, s233; `1532e4e`)
+
+Reads don't transfer across scale AND the 8B control confound shows the gated-guard
+*contrast* is itself model-dependent (lead 1) ⇒ stop chasing a transferable opcode read;
+anchor each model's routing trajectory against a FIXED model-invariant: the kernel's
+CERTIFIED reduction trace of a symbolic combinator program.
+
+Built: `lambda_ast.step_fired`/`fired_sequence` (certified per-step opcode trace, +6
+pytest); `src/verbum/probes/kernel_reference.py` (symbolic programs with kernel-certified
+traces — SATURATED target fires ⊗ INERT under-applied no-fire pairs + COMPOSITE
+multi-fire); `scripts/experiments/kernel_reference_audit.py` (feed program, read
+per-token/per-layer routing via the s231 classifier, measure agreement: SAT-vs-INERT
+reducibility Δ + target recall + specificity + composite trace recall).
+
+### ★ s233 v5 lead 2 VERDICT (Qwen3-14B, crosstask null; λ measure, DECISIVE NEGATIVE)
+
+Feeding **BARE symbolic CL terms** ("B f g h", "C f g h", ...) → the routing **collapses
+to S (14B's common-mode/gauge), Y secondary**:
+
+- **target_recall = 1/7** — only S routes at all; **B, C, K, I, W, D route 0**.
+- **reducibility NOT tracked** — SAT_S 0.376 ≈ INERT_S 0.371 (mean Δ≈0, `tracked=False`
+  both z); the model routes the SAME whether the kernel certifies a live redex or an inert
+  under-applied symbol.
+- B_sat = {S 0.40, Y 0.22}; C_sat = {Y 0.32, S 0.39}; composite trace recall 0.10. The
+  certified target combinator NEVER routes.
+
+**★ CONCLUSION:** the gate-routing register reads **PROSE SEMANTICS, not symbolic CL
+SYNTAX.** OOD bare-symbol input collapses to common-mode (re-confirms the s202/s231
+over-read in a new regime — note the relational z-gate kept the *other* ops silent, so no
+false over-read, but the natural-text null doesn't subtract the symbol-string common
+mode). The kernel-as-reference IDEA is sound and the INSTRUMENT is built; the **BRIDGE was
+wrong** — bare symbols are out-of-distribution. Caveats: 1 model (14B), 7 targets + 8
+composites, crosstask null.
+
 ### v5 — next steps
 
-- **(b) kernel-as-reference (PRIORITY, the model-invariant):** reads don't transfer across
-  scale AND the 8B control confound shows the gated-guard *contrast* is itself
-  model-dependent ⇒ stop chasing a transferable opcode read; anchor the model trajectory
-  against `lambda_ast`'s CERTIFIED reduction trace and measure agreement per-model (the
-  oscilloscope below).
-- **bigger lambda probe set** — 5 sentences underpowers the frac test (32B directional
-  signal can't clear the margin); more sentences for crisper fractions.
+- **★ lead 2b — the PROSE bridge (immediate next):** CL program → certified trace
+  (`fired_sequence`, DONE) → **render as PROSE** (`lambda_gen` Montague decompile, or the
+  s226 compile front-end) → feed the PROSE → compare routing to the certified CL trace.
+  Add `--input prose` to `kernel_reference_audit` reusing the certified trace; re-run the
+  SAT/INERT + trace-recall agreement on prose (the prose register IS where the substrate
+  is real, s231). Then per-model sweep (8B/32B) on the working bridge.
+- **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
+  directional signal can't clear the margin); more sentences for crisper fractions.
 - **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
   route C broadly only at 8B? (simple-copular-sentence / scale-specific framing artifact).
 
@@ -297,4 +332,8 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/opcode-monitor-v2/verdict_qwen3-32b_gateneutral.json` | s232 v4 scale: ❌ composition_specific=False — C-late=0 in zone, but lambda C shifted EARLY (L5,10,11); 14B is the outlier, C-locus shifts with scale |
 | `scripts/experiments/opcode_v5_locus_agnostic.py` | s233 v5 lead 1: pure re-analysis (no GPU) — locus-agnostic C detector across 8B/14B/32B; imports `detect_c_profile`/`locus_agnostic_specificity` from the harness — `1754424` |
 | `results/opcode-monitor-v2/v5_locus_agnostic.json` | s233 v5 lead 1 verdict: 32B C-EARLY surfaced (was 0 in fixed zone); frac-specific ONLY 14B; 8B gate_neutral C-late confound CONFIRMED real (0.192 > lambda 0.107) |
+| `src/verbum/lambda_ast.py` `step_fired`/`fired_sequence` | s233 v5 lead 2: certified per-step opcode trace (the model-invariant reference) — `1532e4e` |
+| `src/verbum/probes/kernel_reference.py` | s233 v5 lead 2: symbolic combinator programs + kernel-certified traces; SATURATED⊗INERT pairs + COMPOSITE multi-fire — `1532e4e` |
+| `scripts/experiments/kernel_reference_audit.py` | s233 v5 lead 2: anchor model routing vs the certified trace (reducibility / recall / specificity / trace-recall) — `1532e4e` |
+| `results/kernel-reference-audit/verdict_qwen3-14b_crosstask.json` | s233 v5 lead 2 verdict: ❌ bare symbolic CL routes ONLY S-gauge (target_recall 1/7, reducibility not tracked) ⇒ register is prose-semantic, bridge must be compiled prose |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

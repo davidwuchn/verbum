@@ -2,7 +2,36 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 1 — LOCUS-AGNOSTIC C
+> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2 — KERNEL-AS-REFERENCE
+> BUILT + RAN on Qwen3-14B (code `1532e4e`). ★ DECISIVE NEGATIVE (two-sided): the
+> model-invariant reference works as an INSTRUMENT but bare symbolic CL programs route
+> ONLY GAUGE. Built: (1) `lambda_ast.step_fired`/`fired_sequence` = certified per-step
+> opcode trace (+6 pytest); (2) `probes/kernel_reference.py` = symbolic combinator
+> programs with kernel-certified traces, SATURATED(target fires)⊗INERT(under-applied, no
+> fire) pairs + COMPOSITE multi-fire; (3) `kernel_reference_audit.py` = anchor the model's
+> per-token/per-layer routing against the kernel's certified `fired_sequence`
+> (saturated-vs-inert REDUCIBILITY contrast + target recall + specificity + composite
+> trace recall). **★ Qwen3-14B VERDICT:** feeding BARE symbolic CL terms → routing
+> collapses to **S (common-mode/gauge), Y secondary**; **target_recall 1/7** (only S
+> routes at all; B/C/K/I/W/D route 0), **reducibility NOT tracked** (SAT_S 0.376 ≈ INERT_S
+> 0.371, mean Δ≈0), composite trace recall 0.10. B_sat={S 0.40, Y 0.22}; C_sat={Y 0.32,
+> S 0.39} — the certified target NEVER routes. ⇒ **the gate-routing register reads PROSE
+> SEMANTICS, not symbolic CL SYNTAX**; OOD bare symbols collapse to common-mode
+> (re-confirms s202/s231 over-read in a new regime; the relational z-gate kept other ops
+> silent = no false over-read, but the natural-text null doesn't subtract the
+> symbol-string common-mode). **The kernel-as-reference idea is SOUND, the instrument is
+> BUILT, but the BRIDGE must be COMPILED PROSE — CL program → certified trace → RENDER as
+> prose (lambda_gen Montague decompile, or the s226 compile front-end) → feed the PROSE →
+> compare routing to the certified CL trace.** Bare symbols are the wrong input.
+> **★★ FIRST ACTION NEXT SESSION — v5 lead 2b (the prose bridge): generate CL programs,
+> certify traces (fired_sequence, DONE), render each as PROSE via lambda_gen, feed prose
+> to kernel_reference_audit (add a `--input prose` mode reusing the certified trace), and
+> re-run the SAT/INERT + trace-recall agreement on the prose. THEN per-model sweep (8B/32B)
+> on the working prose bridge.** Caveats (λ measure): 1 model (14B), bare-symbol input,
+> crosstask null, 7 targets + 8 composites. PENDING APPROVAL (mementum: page §s233 v5
+> lead 2 + memory + this state). Code committed `1532e4e`. tmux main:1 FREE.
+>
+> (Session: 233 — ▶ OPCODE v5 LEAD 1 — LOCUS-AGNOSTIC C
 > DETECTOR BUILT + RE-ANALYZED (no GPU; code `1754424`). ★ THE FIXED depth≥0.6 ZONE WAS
 > THE WRONG CROSS-MODEL INSTRUMENT — the new locus-agnostic detector (detect_c_profile +
 > locus_agnostic_specificity in opcode_monitor_v2, single source; counts C-dominant
