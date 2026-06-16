@@ -1,0 +1,14 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "smoke": true,
+  "git_sha": "cc69abbb866aecb07b4918a2b27fd47a20d60c28",
+  "timestamp_utc": "2026-06-16T14:56:17.805136+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 28,
+  "n_perm": 80,
+  "heldout_per": 5,
+  "n_calib": 490,
+  "n_test": 40,
+  "metric": "per-token raw-z (last/max/mean) Welch contrast + position profile",
+  "reference": "held-out crystal-prose combinator labels (non-circular split)"
+}
