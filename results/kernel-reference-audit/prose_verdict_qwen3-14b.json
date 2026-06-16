@@ -1,0 +1,1832 @@
+{
+  "calibration_summary": {
+    "n_layers": 40,
+    "crystal_layers": [
+      0,
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 3.793,
+        "gc_consensus": 0.72,
+        "crystal_bearing": true
+      },
+      "1": {
+        "sil_z": 3.627,
+        "gc_consensus": 0.516,
+        "crystal_bearing": true
+      },
+      "2": {
+        "sil_z": 1.576,
+        "gc_consensus": 0.28,
+        "crystal_bearing": false
+      },
+      "3": {
+        "sil_z": 3.646,
+        "gc_consensus": 0.369,
+        "crystal_bearing": true
+      },
+      "4": {
+        "sil_z": 0.717,
+        "gc_consensus": 0.403,
+        "crystal_bearing": false
+      },
+      "5": {
+        "sil_z": 4.107,
+        "gc_consensus": 0.735,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 6.891,
+        "gc_consensus": 0.717,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 5.72,
+        "gc_consensus": 0.75,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 4.307,
+        "gc_consensus": 0.701,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 5.931,
+        "gc_consensus": 0.712,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 7.843,
+        "gc_consensus": 0.708,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 8.338,
+        "gc_consensus": 0.74,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 8.794,
+        "gc_consensus": 0.725,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 7.384,
+        "gc_consensus": 0.757,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 7.619,
+        "gc_consensus": 0.743,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 8.19,
+        "gc_consensus": 0.746,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 8.243,
+        "gc_consensus": 0.751,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 7.552,
+        "gc_consensus": 0.784,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 6.531,
+        "gc_consensus": 0.744,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 7.541,
+        "gc_consensus": 0.741,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 7.048,
+        "gc_consensus": 0.743,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 6.822,
+        "gc_consensus": 0.768,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 7.712,
+        "gc_consensus": 0.765,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 6.523,
+        "gc_consensus": 0.767,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 5.389,
+        "gc_consensus": 0.775,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 5.889,
+        "gc_consensus": 0.761,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 4.752,
+        "gc_consensus": 0.744,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 4.345,
+        "gc_consensus": 0.728,
+        "crystal_bearing": true
+      },
+      "28": {
+        "sil_z": 3.406,
+        "gc_consensus": 0.706,
+        "crystal_bearing": true
+      },
+      "29": {
+        "sil_z": 3.497,
+        "gc_consensus": 0.697,
+        "crystal_bearing": true
+      },
+      "30": {
+        "sil_z": 2.783,
+        "gc_consensus": 0.653,
+        "crystal_bearing": true
+      },
+      "31": {
+        "sil_z": 1.979,
+        "gc_consensus": 0.651,
+        "crystal_bearing": false
+      },
+      "32": {
+        "sil_z": 1.715,
+        "gc_consensus": 0.651,
+        "crystal_bearing": false
+      },
+      "33": {
+        "sil_z": 1.329,
+        "gc_consensus": 0.65,
+        "crystal_bearing": false
+      },
+      "34": {
+        "sil_z": 0.941,
+        "gc_consensus": 0.629,
+        "crystal_bearing": false
+      },
+      "35": {
+        "sil_z": 0.592,
+        "gc_consensus": 0.593,
+        "crystal_bearing": false
+      },
+      "36": {
+        "sil_z": 0.7,
+        "gc_consensus": 0.612,
+        "crystal_bearing": false
+      },
+      "37": {
+        "sil_z": 0.646,
+        "gc_consensus": 0.602,
+        "crystal_bearing": false
+      },
+      "38": {
+        "sil_z": 0.741,
+        "gc_consensus": 0.573,
+        "crystal_bearing": false
+      },
+      "39": {
+        "sil_z": 1.249,
+        "gc_consensus": 0.465,
+        "crystal_bearing": false
+      }
+    },
+    "z_thresh": 2.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_null_tokens": 84,
+    "n_centroid_probes": 445,
+    "null_mode": "crosstask"
+  },
+  "per_probe": [
+    {
+      "combinator": "K",
+      "prompt": "John, rather than his brother, won the competition in the en",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.2069,
+          "top_crystal_op": "K",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.1034,
+          "top_crystal_op": "K",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The red ball, not the blue one, rolled under the table slowl",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "Some students but not all students passed the difficult exam",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The old house, unlike the new building, survived the earthqu",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.1724,
+          "top_crystal_op": "K",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The cat chased the mouse across the yard very quickly.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The president signed the treaty at the ceremony last week.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "John won the competition in the end with great effort.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The red ball rolled under the table slowly after the push.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "B",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "All students passed the difficult exam with high scores.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "K",
+      "prompt": "The old house survived the earthquake without any damage.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "She ran quickly. She ran so quickly that nobody could catch ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "The temperature is rising. The temperature keeps rising ever",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "First he ate the apple. Then he ate another apple after that",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.1034,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "The plan was simple. It was simple and it worked perfectly w",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.3103,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.1034,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "He said \"hello\" and then she said \"goodbye\" to everyone.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.2414,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "The result was five. The method is correct. Nothing was wron",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.4138,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.2759,
+          "top_crystal_op": "K",
+          "recall_hit": true,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "She ran quickly. The others walked slowly behind the group.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.1034,
+          "top_crystal_op": "C",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "The temperature is rising. The wind keeps shifting every day",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "First he ate the apple. Then he drank some water after that.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "I",
+      "prompt": "The plan was simple. It was elegant and it surprised everyon",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.2069,
+          "top_crystal_op": "K",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "K",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "If every teacher who knows a student that failed helps them,",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The company that hired the lawyer who won the case prospered",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "D",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "D",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "She believed that he thought that the answer was obviously w",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The key that opened the door that led to the garden was lost",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The man ran away quickly after the incident in the park.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The student passed the course with excellent marks this year",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "If every teacher helps struggling students then all will imp",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The company prospered greatly after its successful year over",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "She believed the answer was obviously wrong from the start.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "B",
+      "prompt": "The key was lost somewhere in the garden behind the house.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The book was read by every student in the advanced class.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The window was broken by the ball during the afternoon game.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.069,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The letter was written by Mary to her friend in another city",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.069,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The cake was baked by the chef for the celebration last nigh",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.069,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The cat chased the mouse through the garden very quickly.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.069,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": null,
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The president signed the treaty at the formal ceremony today",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "Every student read the book in the advanced class this term.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The ball broke the window during the afternoon game outside.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "Mary wrote the letter to her friend in another city yesterda",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.1724,
+          "top_crystal_op": "I",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "I",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "C",
+      "prompt": "The chef baked the cake for the celebration last night here.",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.069,
+          "top_crystal_op": "D",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "D",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "The function that tests whether something equals itself:",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Use the password as both the key and the value to",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Write a function that passes the same argument twice to a bi",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Define the diagonal: given f(x,y), produce a function that c",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Implement self-application: given f, produce the function th",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Describe what this does: \u03bbf.\u03bbx.f(x)(x)",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "The committee that oversees itself discovered that",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "K",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "K",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "The program that analyzes its own source code found",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "Compare each item in the list with every other item in the s",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "W",
+      "prompt": "W uses one binding twice \u2014 the same variable appears in two ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Define parallel application: given f, g, x, y, compute f(x) ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Describe the computation: \u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Grade the essay separately for content and for grammar, then",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Analyze the image for both color and shape independently, th",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0345,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Encrypt the message and then encrypt the encrypted result fo",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Hash the hash of the password to produce a doubly-secure",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "The function f(f(x)) squares the effect: if f doubles, then ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "Blur the image, then blur the blurred image to produce a hea",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "The derivative of the derivative is the second derivative wh",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "Y",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "D",
+      "prompt": "The boss of the boss is the CEO who oversees the entire",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.0,
+          "top_crystal_op": "S",
+          "recall_hit": false,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "Define a combinator that enables recursion in a language wit",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.4483,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.4138,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "Implement the mechanism by which a function can call itself ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.3793,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.3448,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "What is the purpose of: \u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "The rule for simplifying is: if the expression contains a re",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.6552,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "Start with an initial guess, apply Newton's method, and keep",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.4483,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.4138,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "To sort, split the list in half, sort each half, then merge ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8276,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7931,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "The sentence that refers to itself is true if and only if",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.7931,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7586,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "Y creates a self-referential binding \u2014 the function is bound",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.5862,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "The function calls itself with n-1 until n reaches zero and ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.1379,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.1034,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "Y",
+      "prompt": "Each recursive call peels off one layer until the base case ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.3793,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.3103,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The convolution operation multiplies and sums two signals el",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8276,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7586,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The merge step of mergesort takes two sorted halves and inte",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.7931,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7241,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "Apply both the discount rate and the tax rate to the price t",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8966,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7586,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The cross product of two vectors gives a vector perpendicula",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.3103,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": false
+        },
+        "z=3.0": {
+          "label_frac": 0.2414,
+          "top_crystal_op": "Y",
+          "recall_hit": true,
+          "specific_hit": false
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "Check both the username and the password to authenticate the",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8276,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.6552,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The correlation coefficient measures how two variables move ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.4828,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.2759,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "Validate both the format and the content of the input before",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8276,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.7586,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The bilinear form takes two vectors and produces a scalar by",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.8621,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.8276,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "The loss function compares the prediction and the label to p",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.5517,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.4483,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    },
+    {
+      "combinator": "S",
+      "prompt": "Both the sender and the receiver must agree on the protocol ",
+      "by_z": {
+        "z=2.0": {
+          "label_frac": 0.7586,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        },
+        "z=3.0": {
+          "label_frac": 0.5172,
+          "top_crystal_op": "S",
+          "recall_hit": true,
+          "specific_hit": true
+        }
+      }
+    }
+  ],
+  "verdict": {
+    "z=2.0": {
+      "n_test": 80,
+      "recall_rate": 0.575,
+      "specificity_rate": 0.287,
+      "per_combinator": {
+        "K": {
+          "n": 10,
+          "recall": 0.3,
+          "specificity": 0.2,
+          "mean_label_frac": 0.0414
+        },
+        "I": {
+          "n": 10,
+          "recall": 1.0,
+          "specificity": 0.3,
+          "mean_label_frac": 0.1828
+        },
+        "B": {
+          "n": 10,
+          "recall": 0.3,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0104
+        },
+        "C": {
+          "n": 10,
+          "recall": 0.9,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0621
+        },
+        "S": {
+          "n": 10,
+          "recall": 1.0,
+          "specificity": 0.9,
+          "mean_label_frac": 0.7138
+        },
+        "D": {
+          "n": 10,
+          "recall": 0.1,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0035
+        },
+        "W": {
+          "n": 10,
+          "recall": 0.0,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0
+        },
+        "Y": {
+          "n": 10,
+          "recall": 1.0,
+          "specificity": 0.9,
+          "mean_label_frac": 0.5207
+        }
+      },
+      "bridge_viable": true
+    },
+    "z=3.0": {
+      "n_test": 80,
+      "recall_rate": 0.3,
+      "specificity_rate": 0.263,
+      "per_combinator": {
+        "K": {
+          "n": 10,
+          "recall": 0.1,
+          "specificity": 0.1,
+          "mean_label_frac": 0.0103
+        },
+        "I": {
+          "n": 10,
+          "recall": 0.3,
+          "specificity": 0.2,
+          "mean_label_frac": 0.0621
+        },
+        "B": {
+          "n": 10,
+          "recall": 0.0,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0
+        },
+        "C": {
+          "n": 10,
+          "recall": 0.0,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0
+        },
+        "S": {
+          "n": 10,
+          "recall": 1.0,
+          "specificity": 0.9,
+          "mean_label_frac": 0.5965
+        },
+        "D": {
+          "n": 10,
+          "recall": 0.0,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0
+        },
+        "W": {
+          "n": 10,
+          "recall": 0.0,
+          "specificity": 0.0,
+          "mean_label_frac": 0.0
+        },
+        "Y": {
+          "n": 10,
+          "recall": 1.0,
+          "specificity": 0.9,
+          "mean_label_frac": 0.4793
+        }
+      },
+      "bridge_viable": false
+    }
+  },
+  "crystal_layers": [
+    0,
+    1,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+  ]
+}

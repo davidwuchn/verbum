@@ -218,6 +218,7 @@ def calibrate_v2(
     model, tok, torch_mod, layers: list[int], n_perm: int,
     probes_per_combinator: int | None, null_positions_cap: int | None,
     null_mode: str = "crosstask",
+    centroid_probes: list | None = None,
 ) -> tuple[RelationalCrystalClassifier, dict]:
     """null_mode:
       - "crosstask"   (s232): null = bare natural-text tokens (all positions). Removes
@@ -227,7 +228,10 @@ def calibrate_v2(
         composition-ABOVE-FRAMING (the framing S-late is subtracted)."""
     from verbum.probes.library import crystal_probes
 
-    probes = [p for p in crystal_probes() if p.combinator in CRYSTAL]
+    # centroid_probes (held-out split, s233 lead 2b): use the supplied list instead of
+    # the full crystal set, so the prose bridge can calibrate on CALIB and read TEST.
+    source = centroid_probes if centroid_probes is not None else crystal_probes()
+    probes = [p for p in source if p.combinator in CRYSTAL]
     if probes_per_combinator is not None:
         kept, counts = [], Counter()
         for p in probes:
