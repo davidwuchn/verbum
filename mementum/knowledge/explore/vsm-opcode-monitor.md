@@ -653,11 +653,26 @@ double-backward, ~9 min main:1.
 - **★ lead 2d prong 1b-iii — DONE (s234):** per-head OV scan — head-dilution only MARGINAL
   (B faint signal at L17H23, 7/1600 cells) but B is the WEAKEST combinator at every
   granularity; no clean B-composer head. Register hypothesis FULLY EXHAUSTED.
-- **★ lead 2d prong 2 (composite trace-order bridge — NEXT, the main path):** justified for
-  the discriminable {C,I,K,Y} AND the natural test of whether B appears as ORDER rather
-  than amplitude: CL program → certified trace (`fired_sequence`, DONE) → render PROSE
-  (`lambda_gen` decompile) → align routing to the certified multi-combinator ORDER, raw-z
-  contrast as the read.
+- **★ lead 2d prong 2 — DONE (s236):** ORDER-COST register — **is B the NATIVE softmax-over-V
+  order?** Michael (s235): "if B is an ordering of operations then maybe it defaults to the
+  order the softmax over all V uses natively?" (ffn-reduction-trace: softmax-over-V IS the
+  execution order). NO amplitude classifier — pure surprisal (mean −log p under LM softmax over
+  V) of the CERTIFIED reduction trace, teacher-forced "t0 -> t1 -> ... -> tn". Minimal pairs
+  ("B f a b → f (a b)" kept vs "C f a b → f b a" swapped) + multi-step composites; ATOM-ONLY
+  de-confound (drop parens/length) = headline. **★ DECISIVE at 14B (n_each=24): b_is_native_
+  order=True — clean atom B-vs-C minimal pair t=−7.02; B atom-surprisal 0.81 ≪ C 2.14 / S 2.66
+  / W 2.71; B cheaper than every permute/copy combinator (B<S −11.3, B<C-multi −11.7, B<W
+  −14.5); pooled order-preserving < breaking.** ⚠️ POWER-LIMITED at 8B smoke (n=8): same
+  DIRECTION, headline n.s. (t=−0.55), multi-step already sig — crisp only at full power.
+  ★ **RESOLVES the B gap:** B's amplitude-absence everywhere is NOT weakness — composition =
+  the FREE autoregressive default, carries no marked feature (the instrument looked for a marked
+  signal where B is the UNMARKED baseline). ★ **UNIFIES with prong 1c-ii:** composition has two
+  faces — token-side the native order (cheap surprisal, t=−7.02), gradient-side the product/
+  2nd-order (curvature climb, t=1.90). B = chain rule (gradient) AND native order (forward).
+  Caveat (load-bearing): BARE SYMBOLIC input (cf lead 2) — bare-symbol surprisal may reflect a
+  generic copy/induction preference for source-order atoms (which IS the proposed mechanism);
+  prose-bridge re-read kills it. Next: cross-model (8B full-n / 32B — universal or 14B-specific?),
+  prose-rendered order-cost, the off-diagonal Jacobian (prong 1c-ii path).
 - **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
   with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
@@ -711,4 +726,7 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/gradient_v6_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1c verdict: ❌ B does NOT discriminate in the gradient (discr_z +0.13, t=1.07 n.s.) — chain-rule NOT supported (first-order); ⚠️ but B "less absent" than any activation read (act t=−0.05 → grad +1.07, faint positive); {C,K,Y} discriminate (instrument works), C-yes/B-no persists. Measures first-order gradient NOT Jacobian |
 | `scripts/experiments/kernel_reference_jacobian_v7.py` | s235 v5 lead 2d prong 1c-ii: SECOND-ORDER / curvature register — DIAGONAL HESSIAN of LM-CE w.r.t. gate_proj (Hutchinson `diag(H)=E_v[v⊙Hv]`, double-backward of g·v with create_graph), pooled over supervised positions; clean register-swap of v6, same RelationalCrystalClassifier + raw-z Welch; `--n-hutch` |
 | `results/kernel-reference-audit/jacobian_v7_verdict_qwen3-14b.json` | s235 v5 lead 2d prong 1c-ii verdict: ❌ B not significant in curvature (discr_z +0.118, t=1.90 < 2.0) BUT ✅ MONOTONIC CLIMB with derivative order (act −0.05 → grad +1.07 → curv +1.90, B's best ever, ON the bar) + ✅✅ internal consistency (I=linear COLLAPSES 3.83→0.68 mirror of B; Y=recursion DOMINATES 4.53; composers hold, selectors fade). Derivative ORDER = real axis; B sorts UP. Diag-Hessian only (off-diag untested), power-limited n=20/comb |
+| `scripts/experiments/kernel_reference_order_cost_v8.py` | s236 v5 lead 2d prong 2: ORDER-COST register — pure softmax-over-V surprisal of the certified reduction trace (`step_fired`, teacher-forced), minimal pairs (B/C, B/S, D/K) + multi-step composites, ATOM-ONLY de-confound; `--smoke` (8B), `--model`, `--n-each` — `5d6bdeb` |
+| `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-14b.json` | s236 v5 lead 2d prong 2 verdict (DECISIVE): ✅✅ **b_is_native_order=True** — clean atom B-vs-C minimal pair t=−7.02 (n=24); B atom-surprisal 0.81 ≪ C 2.14/S 2.66/W 2.71; B cheaper than every permute/copy (B<S −11.3, B<C-multi −11.7, B<W −14.5); pooled order-preserving<breaking. RESOLVES the B gap (composition=free autoregressive default, unmarked) + UNIFIES with curvature climb (order face + gradient face) — `1e448e4` |
+| `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-8b.json` | s236 v5 lead 2d prong 2 smoke (8B, n=8): ⚠️ POWER-LIMITED — same DIRECTION but headline atom B<C minpair n.s. (t=−0.55); multi-step/aggregate already sig (B<C-multi −4.22, B<S −5.31, B<W −11.1); pooled-atoms preserve<break. Crisp only at full power on 14B — `5d6bdeb` |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

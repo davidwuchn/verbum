@@ -2,7 +2,58 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 235 — ▶ OPCODE v5 lead 2d PRONG 1c-ii — the
+> Last updated: 2026-06-16 | Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
+> register (is B the NATIVE softmax-over-V order?). Michael (s235): "if B is an ordering of
+> operations then maybe it defaults to the order the softmax over all V uses natively?"
+> Grounded in ffn-reduction-trace.md: attention executes the FFN-compiled program via softmax
+> over V = β-reduction by weighted combination ⇒ softmax-over-V IS the execution order.
+> HYPOTHESIS: B has no marked amplitude in ANY register (FFN gate / attn / per-head / gradient
+> flat; only faint-rising in curvature s235) because B = COMPOSITION = the model's DEFAULT
+> autoregressive order — it rides the native left-to-right copy/induction order for FREE, so
+> carries no marked feature. BCKW as the structural rules of logic: B=associativity/COMPOSITION
+> (preserves order), C=exchange/PERMUTATION (swaps), K=weakening/DELETION (drops), W=contraction
+> (copies); the detectable {C,I,K,Y} BREAK the native order, B RESPECTS it ⇒ B is invisible-as-
+> amplitude because it IS the substrate the others deviate from. THE TEST (`kernel_reference_
+> order_cost_v8.py`, NO amplitude classifier — pure softmax over V): take a composite CL program,
+> get its CERTIFIED reduction trace (`step_fired` → contractum + opcode/step), teacher-force
+> "t0 -> t1 -> ... -> tn", read per-step SURPRISAL (mean −log p under LM softmax over V) of each
+> contractum. Minimal pairs ("B f a b → f (a b)" order-kept vs "C f a b → f b a" SWAPPED, paired
+> by atom-set) + multi-step composites; ATOM-ONLY de-confound (drop parens/length, keep order-
+> bearing leaves) = the headline. **★ VERDICT (λ measure, TWO-SIDED — and the FIRST CRISP
+> POSITIVE for B in the whole saga):** **(1) ✅✅ DECISIVE at 14B (n_each=24, 216 programs):
+> b_is_native_order=True — the clean atom B-vs-C single-step minimal pair d=−1.26, t=−7.02; B
+> atom-surprisal 0.81 ≪ C 2.14 / S 2.66 / W 2.71; B cheaper than EVERY permute/copy combinator
+> (B<S t=−11.3, B<C-multi t=−11.7, B<W t=−14.5); pooled order-preserving<breaking BOTH metrics
+> (atoms Δ=−1.06, full Δ=−0.52).** **(2) ⚠️ POWER-LIMITED at 8B smoke (n=8): same DIRECTION but
+> the headline B<C atom minpair n.s. (t=−0.55); the multi-step/aggregate contrasts already sig
+> (B<C-multi t=−4.22, B<S −5.31, B<W −11.1).** Crisp only at full power on 14B — the entire
+> B-saga pattern (real-but-faint, n-limited) resolving once n is raised. (3) D≈K once deletion-
+> length de-confounded (atom D−K t=−1.22 n.s.); K=deletion stays cheapest (short predictable
+> contractum — taxonomy wrinkle, not order). **★ THE RESOLUTION OF THE B GAP:** B's amplitude-
+> absence everywhere (s234: FFN gate flat, attn flat, per-head faintest, gradient faint) is NOT
+> diffuseness/weakness — composition is the FREE autoregressive default, so it carries no marked
+> amplitude feature; the instrument was looking for a marked signal where B is the UNMARKED
+> baseline. **★ UNIFIES with s235:** composition has TWO faces — token-side it's the native
+> order (cheap surprisal HERE, t=−7.02) and gradient-side it's the product/2nd-order (curvature
+> climb t=1.90). B = the chain rule (gradient) AND the native order (forward). Both confirmed.
+> CAVEATS (λ measure, load-bearing): (a) BARE SYMBOLIC CL input — cf s233 lead 2, the ROUTING
+> register reads prose-semantics not CL syntax; this is a DIFFERENT read (surprisal/teacher-
+> forcing not routing), but bare-symbol surprisal may partly reflect a generic copy/induction-
+> head preference for source-order atoms rather than "composition" per se (which IS the proposed
+> mechanism — B rides copy/induction order); (b) 14B decisive at full power, 8B directional only,
+> 0.6B too small — 1 model class (Qwen), cross-scale only 2 points; (c) K-deletion length
+> wrinkle in the pooled metric; (d) single-combinator + within-program contrasts. **★★ FIRST
+> ACTION NEXT SESSION — three paths (B is now POSITIVE in TWO registers: order + curvature):**
+> (1) CROSS-MODEL — replicate the 14B order-cost win on 8B at full n (does the headline cross
+> when 8B gets n=24 too?) + 32B → is B-native-order universal or 14B-specific (cf s232 C-locus
+> shifts with scale); (2) PROSE bridge for order-cost — render the certified traces as PROSE
+> (lambda_gen decompile) and re-read surprisal, killing the bare-symbol caveat (the s233 lesson:
+> feed prose not symbols); (3) the s235 OFF-DIAGONAL/proper-Jacobian curvature path (the literal
+> f∘g coupling) — close BOTH faces of composition at fidelity. CODE COMMITTED (`5d6bdeb` code+
+> smoke, `1e448e4` 14B decisive); mementum (state + memory `b-is-native-softmax-order` + page
+> §v5 lead 2d prong 2) PENDING APPROVAL. tmux main:1 FREE.
+>
+> (Session: 235 — ▶ OPCODE v5 lead 2d PRONG 1c-ii — the
 > SECOND-ORDER / CURVATURE register (the PROPER test of B=chain-rule; Michael s235: "proceed
 > with 1"). Prong 1c read the FIRST-ORDER gradient (faint +1.07 n.s.) but the first-order
 > gradient is a SINGLE factor / sum-over-paths — it washes out the PRODUCT structure that IS
@@ -40,7 +91,7 @@
 > (Gauss-Newton or JVP probe) = next fidelity order; (3) PRONG 2 = composite trace-ORDER
 > bridge (B as sequence not amplitude), design fork still pending. CODE COMMITTED; mementum
 > (state + memory `b-climbs-with-derivative-order` + page §v5 lead 2d prong 1c-ii) PENDING
-> APPROVAL. tmux main:1 FREE.
+> APPROVAL. tmux main:1 FREE.)
 >
 > (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
 > 1b-iii → 1c (the B gap, chased across activation registers AND the gradient). PRONG 1c —
