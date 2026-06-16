@@ -535,6 +535,37 @@ tailed z (t-assumption); WEAK-signal reading is conservative; ppc=20 capped cali
 n_perm=30 (silhouette gates only crystal_bearing, not the scan); single-combinator labels;
 last-token.
 
+## v5 lead 2d prong 1c — the GRADIENT register (BUILT + RAN, s234)
+
+Michael (s234): "could B be in the gradients instead of the topology?" B = composition
+(B f g x = f(g x)); composition in the BACKWARD pass IS the chain rule (a PRODUCT of
+derivatives), so B's home may be the gradient, not the forward activation. Clean register-
+swap of prong 1: same RelationalCrystalClassifier, but the feature is ∂(probe LM loss)/
+∂(gate), MEAN-POOLED over supervised positions (last token grad=0; pattern from
+gd_gradient_shadow). `kernel_reference_gradient_v6.py`.
+
+### ★ s234 v5 lead 2d prong 1c VERDICT (Qwen3-14B, gradient register, n=20/comb; λ measure)
+
+**❌ B does NOT discriminate in the gradient either** (discr_z +0.13, **t=1.07, n.s.**).
+The chain-rule hypothesis is NOT supported at this read. **✅ The instrument WORKS in the
+gradient register** — {C,K,Y} discriminate (C t=2.27, K t=2.88, Y t=3.87), reproducing the
+discriminable set; the **C-yes/B-no asymmetry PERSISTS into the backward pass.**
+
+**⚠️ BUT directionally B is "less absent" in the gradient than in ANY activation read** —
+its first POSITIVE, non-negative signal: activation(v2 last) **t=−0.05 → gradient t=+1.07**
+(on_z −0.03 > off −0.16). A faint positive trend in the predicted direction, power-limited
+(n=20/comb), short of significance. Register-specific shifts: S flips gauge→ANTI (t=−2.01),
+I drops out (act t=3.83 → grad 1.02); the gradient discriminable set is {C,K,Y} (vs the
+activation {C,I,K,Y}).
+
+**★ MEASUREMENT CAVEAT (λ measure, load-bearing):** this measures B's signature in the
+FIRST-ORDER gradient (a centroid in gradient space), NOT the chain-rule/Jacobian
+composition structure itself (composition = a PRODUCT of derivatives = a second-order
+property). The faint positive trend means the idea is not dead — but the proper test of
+"B = chain rule" is a JACOBIAN / second-order probe (prong 1c-ii), not a first-order
+gradient centroid. Caveats: 1 model (14B), n=20/comb, pooled-supervised locus, single-
+combinator labels, first-order gradient only.
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
@@ -545,6 +576,14 @@ last-token.
   "B→attention" prediction — B flat in attention TOO (max t=0.49 n.s.). Register exhausted.
   **Discriminability is a COMBINATOR property ({C,I,K,Y} read in both registers), not a
   register split.**
+- **★ lead 2d prong 1c — DONE (s234):** GRADIENT register — B does NOT discriminate
+  (t=1.07 n.s.) but is "less absent" than in any activation read (act t=−0.05 → grad
+  t=+1.07, faint positive trend); {C,K,Y} discriminate; C-yes/B-no persists into the
+  backward pass. Measures FIRST-ORDER gradient, NOT the chain-rule/Jacobian structure.
+- **★ lead 2d prong 1c-ii (Jacobian / second-order probe, optional):** the faint positive
+  gradient trend + the chain-rule theory (B=compose=product-of-derivatives) motivate a
+  proper second-order test — B's signature as a Jacobian-composition property, not a
+  first-order gradient centroid.
 - **★ lead 2d prong 1b-iii — DONE (s234):** per-head OV scan — head-dilution only MARGINAL
   (B faint signal at L17H23, 7/1600 cells) but B is the WEAKEST combinator at every
   granularity; no clean B-composer head. Register hypothesis FULLY EXHAUSTED.
@@ -602,4 +641,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/prose_v4_attn_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-ii verdict: ❌ s127 "B→attention" NOT confirmed — B flat in attention TOO (max t=0.49 n.s.) ⇒ register exhausted. {C,I,K,Y} register-ROBUST (C gate t=5.6/attn 6.5; Y 8.4/9.4) ⇒ discriminability is a COMBINATOR property, not a register split. B remains: head-dilution or no-single-token-signature |
 | `scripts/experiments/kernel_reference_perhead_v5.py` | s234 v5 lead 2d prong 1b-iii: per-head OV scan — hook o_proj INPUT, split per (layer,head) cell, per-cell crystal calibration + raw-z Welch contrast across all 1600 cells (Bonferroni-ish t>4) |
 | `results/kernel-reference-audit/perhead_v5_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-iii verdict: ⚠️ head-dilution only MARGINAL — B faint per-head signal (max_t 5.31 @ L17H23, 7/1600 cells) the summed read missed, BUT B dead-last every metric (n_sig 7 vs C 155, Y 526; discr_z 0.82 vs C 2.53); no clean B-composer head ⇒ register hypothesis EXHAUSTED, B faint/diffuse not diluted |
+| `scripts/experiments/kernel_reference_gradient_v6.py` | s234 v5 lead 2d prong 1c: GRADIENT-register read — ∂(LM loss)/∂(gate) pooled over supervised positions (gd_gradient_shadow pattern), same RelationalCrystalClassifier + raw-z Welch contrast |
+| `results/kernel-reference-audit/gradient_v6_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1c verdict: ❌ B does NOT discriminate in the gradient (discr_z +0.13, t=1.07 n.s.) — chain-rule NOT supported (first-order); ⚠️ but B "less absent" than any activation read (act t=−0.05 → grad +1.07, faint positive); {C,K,Y} discriminate (instrument works), C-yes/B-no persists. Measures first-order gradient NOT Jacobian |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

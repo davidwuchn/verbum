@@ -3,6 +3,33 @@
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
 > Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
+> 1b-iii → 1c (the B gap, chased across activation registers AND the gradient). PRONG 1c —
+> the GRADIENT register (Michael: "could B be in the gradients instead of the topology?";
+> `kernel_reference_gradient_v6.py`, Qwen3-14B, 1:57 main:1). Rationale: B=composition
+> (Bfgx=f(gx)); in the BACKWARD pass composition IS the chain rule (product of derivatives),
+> so B's home may be the gradient. Clean register-swap of prong 1: same classifier, feature
+> = ∂(probe LM loss)/∂(gate) MEAN-POOLED over supervised positions (last-token grad=0;
+> gd_gradient_shadow pattern). **★ VERDICT: ❌ B does NOT discriminate in the gradient
+> (discr_z +0.13, t=1.07 n.s.) — chain-rule NOT supported (first-order); ✅ instrument WORKS
+> (gradient {C,K,Y} discriminate: C t=2.27, K 2.88, Y 3.87) — C-yes/B-no PERSISTS into the
+> backward pass.** ⚠️ BUT directionally B is its LEAST-absent: activation(v2) t=−0.05 →
+> gradient t=+1.07 (on_z −0.03 > off −0.16), B's first POSITIVE signal, predicted direction,
+> power-limited n.s. Register shifts: S flips gauge→ANTI (t=−2.01); I drops (3.83→1.02);
+> gradient set {C,K,Y} (vs activation {C,I,K,Y}). **★ MEASUREMENT CAVEAT (λ measure, load-
+> bearing): this measures B in the FIRST-ORDER gradient (centroid in gradient space), NOT
+> the chain-rule/Jacobian composition structure (= product of derivatives = SECOND-order).**
+> **★★ FIRST ACTION NEXT SESSION — two live paths for B (pick one):** (1) PRONG 1c-ii =
+> the JACOBIAN / second-order probe — the PROPER test of B=chain-rule (the faint +trend +
+> theory motivate it; first-order gradient centroid is the wrong order); (2) PRONG 2 =
+> composite trace-ORDER bridge (B as sequence not amplitude) — DESIGN FORK still pending
+> (Path A β-reduction-order via lambda_gen decompiled prose vs Path B concatenated validated
+> crystal-prose, span-recall + Kendall-tau order vs shuffle null). WHERE B STANDS: FFN gate
+> flat, attn-summed flat, per-head faintest, first-order gradient faint-positive-n.s. CAVEATS
+> (λ measure): 1 model (14B), n=20/comb, pooled-supervised locus, single-combinator labels,
+> first-order only. CODE COMMITTED; mementum (page §v5 lead 2d prong 1c + memory
+> `b-not-clearly-in-first-order-gradient` + this state) PENDING APPROVAL. tmux main:1 FREE.
+>
+> (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
 > 1b-iii (the B/D/W gap, fully chased across registers). PRONG 1b-iii — the PER-HEAD OV
 > scan (`kernel_reference_perhead_v5.py`, Qwen3-14B, 0:57 main:1): o_proj OUTPUT sums heads,
 > so a single B-composer head could be averaged away → hook o_proj INPUT, split per
