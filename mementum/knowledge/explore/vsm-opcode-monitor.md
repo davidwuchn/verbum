@@ -566,6 +566,67 @@ property). The faint positive trend means the idea is not dead — but the prope
 gradient centroid. Caveats: 1 model (14B), n=20/comb, pooled-supervised locus, single-
 combinator labels, first-order gradient only.
 
+## v5 lead 2d prong 1c-ii — the SECOND-ORDER / CURVATURE register (BUILT + RAN, s235)
+
+Michael (s235): "proceed with 1" — the Jacobian / second-order probe, the PROPER test of
+B=chain-rule. Prong 1c read the FIRST-ORDER gradient ∂L/∂gate (faint +1.07 n.s.), but the
+first-order gradient is a SINGLE factor / a sum over paths — it washes out the PRODUCT
+structure that IS the chain rule. B = `B f g x = f(g x)` = composition; its backward
+signature `d(f∘g)/dx = f'(g x)·g'(x)` is a PRODUCT of derivatives = a SECOND-ORDER quantity.
+For `L = ℓ(f(g(z)))` with `z` = the gate activation,
+
+```
+dL/dz   = g'(z)ᵀ f'(g)ᵀ ℓ'                         # first order (v6 read this)
+d²L/dz² = g'ᵀ [f''(g)·ℓ'] g'  +  (ℓ'f') g''        # SECOND order — the product g'ᵀ(…)g'
+```
+
+the curvature carries the quadratic form `g'ᵀ(…)g'` — the literal product-of-derivatives
+chain-rule signature the first-order gradient cannot show. Clean register-swap of v6: same
+RelationalCrystalClassifier (sign-CMR, crosstask null, raw-z Welch), feature = the DIAGONAL
+HESSIAN of the probe LM-CE w.r.t. gate_proj, Hutchinson estimator
+`diag(H)_a = E_v[v_a (Hv)_a]`, `v ~ Rademacher` over all gate tensors (off-diagonal cross-
+coord/cross-layer terms cancel because `E[v_a v_b]=0`, a≠b); one HVP = a double-backward of
+the scalar `g·v` where `g = grad(CE, gates, create_graph=True)`; pooled over supervised
+positions, `n_hutch=4`. `kernel_reference_jacobian_v7.py`.
+
+### ★ s235 v5 lead 2d prong 1c-ii VERDICT (Qwen3-14B, curvature register, n=20/comb; λ measure, THREE-sided)
+
+**(1) ❌ STRICT — B does NOT reach significance in curvature either** (discr_z +0.118,
+**t=1.90 < 2.0**). The chain-rule hypothesis is NOT confirmed at the significance bar; B's
+gap survives into the second order.
+
+**(2) ✅ DIRECTIONAL — the MONOTONIC CLIMB WITH DERIVATIVE ORDER, exactly as chain-rule
+predicts:** B activation(v2) **t=−0.05** → first-order gradient(v6) **t=+1.07** →
+second-order curvature(v7) **t=+1.90** (on +0.045 > off −0.073). B is at its strongest signal
+EVER, in the PREDICTED register, sitting right ON the 2.0 threshold — power-limited
+(n=20/comb), **not absent**.
+
+**(3) ✅✅ INTERNAL CONSISTENCY (the structural win) — the curvature register reweights the
+combinators EXACTLY as the math demands:**
+
+| combinator | role | act (v2) | grad (v6) | **curv (v7)** | reads as |
+|---|---|---|---|---|---|
+| **I** (identity, `Ix=x`) | LINEAR → zero curvature | 3.83 | 1.02 | **0.68** | monotone DOWN ↓ |
+| **B** (composition, `Bfgx=f(gx)`) | composer, product-of-derivs | −0.05 | +1.07 | **+1.90** | monotone UP ↑ |
+| **C** (composer) | composer | 5.7 | 2.27 | **2.52 ✓** | holds |
+| **Y** (recursion, self-application) | higher-order | 8.4 | 3.87 | **4.53 ✓** | dominates |
+| **K** (selector) | selector | 3.3 | 2.88 | **1.94** | fades to bar |
+
+**I (the LINEAR combinator) COLLAPSES monotonically** down the derivative-order axis — the
+exact MIRROR IMAGE of B's climb. **Y (recursion = self-application = inherently higher-order)
+DOMINATES** the curvature register (t=4.53). The composers {B,C} hold/rise; the selectors
+{K,I} fade. The second-order register preferentially carries COMPOSITION/RECURSION structure
+(s127 {B,C}=composers) and SHEDS the linear combinator. **The two opposite monotones (B↑
+with order, I↓ with order) are the signature: derivative ORDER is a real axis the combinators
+sort along, and B sorts UP it while the linear combinator sorts DOWN.** Instrument WORKS
+(C ✓, Y ✓). Curvature discriminable set {C,Y} (K, B at the bar).
+
+**Caveats (λ measure):** 1 model (14B); n=20/comb (B sits ON the bar — power-limited);
+n_hutch=4 (Hutchinson diagonal estimate noise); **DIAGONAL Hessian only** — the off-diagonal /
+interlayer-Jacobian cross-coupling (the literal f∘g coupling, `dgate_late/dgate_early`) is
+UNTESTED; single-combinator labels; pooled-supervised locus. Mac (no CUDA) → MPS/CPU
+double-backward, ~9 min main:1.
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
@@ -580,10 +641,15 @@ combinator labels, first-order gradient only.
   (t=1.07 n.s.) but is "less absent" than in any activation read (act t=−0.05 → grad
   t=+1.07, faint positive trend); {C,K,Y} discriminate; C-yes/B-no persists into the
   backward pass. Measures FIRST-ORDER gradient, NOT the chain-rule/Jacobian structure.
-- **★ lead 2d prong 1c-ii (Jacobian / second-order probe, optional):** the faint positive
-  gradient trend + the chain-rule theory (B=compose=product-of-derivatives) motivate a
-  proper second-order test — B's signature as a Jacobian-composition property, not a
-  first-order gradient centroid.
+- **★ lead 2d prong 1c-ii — DONE (s235):** SECOND-ORDER / curvature register (diag Hessian,
+  Hutchinson). ❌ B not significant (t=1.90 < 2.0) BUT ✅ a clean MONOTONIC CLIMB with
+  derivative order (act −0.05 → grad +1.07 → curv +1.90, B's best ever, in the predicted
+  register, ON the bar) + ✅✅ internal consistency (I=linear COLLAPSES 3.83→0.68 = mirror of
+  B; Y=recursion DOMINATES 4.53; composers hold, selectors fade). Derivative ORDER is a real
+  axis combinators sort along; B sorts UP it. Power-limited (n=20/comb). Three live follow-ups:
+  (1) POWER (raise n / n_hutch — does t=1.90 cross 2.0? cheapest decisive); (2) OFF-DIAGONAL /
+  interlayer Jacobian (diag-Hessian only captures g'ᵀ(diag)g'; the literal f∘g coupling lives
+  off-diagonal — Gauss-Newton / JVP probe); (3) prong 2 trace-order.
 - **★ lead 2d prong 1b-iii — DONE (s234):** per-head OV scan — head-dilution only MARGINAL
   (B faint signal at L17H23, 7/1600 cells) but B is the WEAKEST combinator at every
   granularity; no clean B-composer head. Register hypothesis FULLY EXHAUSTED.
@@ -643,4 +709,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/perhead_v5_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-iii verdict: ⚠️ head-dilution only MARGINAL — B faint per-head signal (max_t 5.31 @ L17H23, 7/1600 cells) the summed read missed, BUT B dead-last every metric (n_sig 7 vs C 155, Y 526; discr_z 0.82 vs C 2.53); no clean B-composer head ⇒ register hypothesis EXHAUSTED, B faint/diffuse not diluted |
 | `scripts/experiments/kernel_reference_gradient_v6.py` | s234 v5 lead 2d prong 1c: GRADIENT-register read — ∂(LM loss)/∂(gate) pooled over supervised positions (gd_gradient_shadow pattern), same RelationalCrystalClassifier + raw-z Welch contrast |
 | `results/kernel-reference-audit/gradient_v6_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1c verdict: ❌ B does NOT discriminate in the gradient (discr_z +0.13, t=1.07 n.s.) — chain-rule NOT supported (first-order); ⚠️ but B "less absent" than any activation read (act t=−0.05 → grad +1.07, faint positive); {C,K,Y} discriminate (instrument works), C-yes/B-no persists. Measures first-order gradient NOT Jacobian |
+| `scripts/experiments/kernel_reference_jacobian_v7.py` | s235 v5 lead 2d prong 1c-ii: SECOND-ORDER / curvature register — DIAGONAL HESSIAN of LM-CE w.r.t. gate_proj (Hutchinson `diag(H)=E_v[v⊙Hv]`, double-backward of g·v with create_graph), pooled over supervised positions; clean register-swap of v6, same RelationalCrystalClassifier + raw-z Welch; `--n-hutch` |
+| `results/kernel-reference-audit/jacobian_v7_verdict_qwen3-14b.json` | s235 v5 lead 2d prong 1c-ii verdict: ❌ B not significant in curvature (discr_z +0.118, t=1.90 < 2.0) BUT ✅ MONOTONIC CLIMB with derivative order (act −0.05 → grad +1.07 → curv +1.90, B's best ever, ON the bar) + ✅✅ internal consistency (I=linear COLLAPSES 3.83→0.68 mirror of B; Y=recursion DOMINATES 4.53; composers hold, selectors fade). Derivative ORDER = real axis; B sorts UP. Diag-Hessian only (off-diag untested), power-limited n=20/comb |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

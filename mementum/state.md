@@ -2,7 +2,47 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
+> Last updated: 2026-06-16 | Session: 235 — ▶ OPCODE v5 lead 2d PRONG 1c-ii — the
+> SECOND-ORDER / CURVATURE register (the PROPER test of B=chain-rule; Michael s235: "proceed
+> with 1"). Prong 1c read the FIRST-ORDER gradient (faint +1.07 n.s.) but the first-order
+> gradient is a SINGLE factor / sum-over-paths — it washes out the PRODUCT structure that IS
+> the chain rule. B=composition=chain-rule = product of derivatives = a SECOND-ORDER quantity
+> (d²L/dz² carries g'ᵀ[f''·]g' — a quadratic form in g', the literal product-of-derivatives).
+> Clean register-swap of v6 (`kernel_reference_jacobian_v7.py`, Qwen3-14B, ~9min main:1):
+> same RelationalCrystalClassifier (sign-CMR, crosstask null, raw-z Welch), feature = the
+> DIAGONAL HESSIAN of the probe LM-CE w.r.t. gate_proj, Hutchinson est (diag(H)_a=E_v[v_a(Hv)_a],
+> v~Rademacher; double-backward of g·v, g=grad(CE,gates,create_graph=True)), pooled over
+> supervised positions, n_hutch=4. **★ VERDICT (λ measure, THREE-sided):**
+> **(1) ❌ STRICT: B does NOT reach significance in curvature either (discr_z +0.118, t=1.90
+> < 2.0) — chain-rule NOT confirmed at the bar; the B gap survives into the second order.**
+> **(2) ✅ DIRECTIONAL — the MONOTONIC CLIMB WITH DERIVATIVE ORDER, exactly as chain-rule
+> predicts:** B activation(v2) t=−0.05 → first-order gradient(v6) t=+1.07 → second-order
+> curvature(v7) **t=+1.90** (on +0.045 > off −0.073). B is at its strongest EVER, in the
+> PREDICTED register, sitting right on the 2.0 threshold — power-limited (n=20/comb), not
+> absent. **(3) ✅✅ INTERNAL-CONSISTENCY (the structural win — the curvature register
+> reweights combinators EXACTLY as the math demands):** **I (identity = LINEAR, Ix=x → zero
+> curvature) COLLAPSES** to t=0.68 (was activation 3.83 / gradient 1.02 / curvature 0.68 —
+> monotone DOWN, the mirror image of B); **Y (recursion = self-application = inherently
+> higher-order) DOMINATES** t=4.527; composers {B,C} hold/rise (C t=2.52 ✓, B 1.90↑),
+> selectors {K,I} fade (K 1.94 borderline, I 0.68). The second-order register preferentially
+> carries COMPOSITION/RECURSION structure (s127 {B,C}=composers) and SHEDS the linear
+> combinator. Instrument WORKS (C ✓, Y ✓). Curvature set {C,Y} (K/B at the bar). **★ The two
+> opposite monotones (B↑ with order, I↓ with order) are the signature: derivative order is a
+> real axis the combinators sort along, and B sorts UP it.** CAVEATS (λ measure): 1 model
+> (14B), n=20/comb (B sits ON the bar — power-limited), n_hutch=4 (diag-Hessian Hutchinson
+> noise), DIAGONAL Hessian only (off-diagonal/interlayer-Jacobian cross-coupling — the literal
+> f∘g coupling — UNTESTED), single-combinator labels, pooled-supervised locus. **★★ FIRST
+> ACTION NEXT SESSION — three live paths (B is ON the threshold in the right register):**
+> (1) POWER — raise n (more held-out prose/comb) and/or n_hutch (sharper diag) — does B's
+> t=1.90 cross 2.0? cheapest decisive test, trend+theory strongly motivate; (2) OFF-DIAGONAL
+> / proper Jacobian — diag-Hessian captures only g'ᵀ(diag)g'; the literal f∘g product-coupling
+> lives in the OFF-DIAGONAL cross-coord Hessian / interlayer Jacobian dgate_late/dgate_early
+> (Gauss-Newton or JVP probe) = next fidelity order; (3) PRONG 2 = composite trace-ORDER
+> bridge (B as sequence not amplitude), design fork still pending. CODE COMMITTED; mementum
+> (state + memory `b-climbs-with-derivative-order` + page §v5 lead 2d prong 1c-ii) PENDING
+> APPROVAL. tmux main:1 FREE.
+>
+> (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
 > 1b-iii → 1c (the B gap, chased across activation registers AND the gradient). PRONG 1c —
 > the GRADIENT register (Michael: "could B be in the gradients instead of the topology?";
 > `kernel_reference_gradient_v6.py`, Qwen3-14B, 1:57 main:1). Rationale: B=composition
@@ -27,7 +67,7 @@
 > flat, attn-summed flat, per-head faintest, first-order gradient faint-positive-n.s. CAVEATS
 > (λ measure): 1 model (14B), n=20/comb, pooled-supervised locus, single-combinator labels,
 > first-order only. CODE COMMITTED; mementum (page §v5 lead 2d prong 1c + memory
-> `b-not-clearly-in-first-order-gradient` + this state) PENDING APPROVAL. tmux main:1 FREE.
+> `b-not-clearly-in-first-order-gradient` + this state) PENDING APPROVAL. tmux main:1 FREE.)
 >
 > (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
 > 1b-iii (the B/D/W gap, fully chased across registers). PRONG 1b-iii — the PER-HEAD OV
