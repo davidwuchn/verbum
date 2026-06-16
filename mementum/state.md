@@ -2,7 +2,36 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b + 1b-ii
+> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 → 1b → 1b-ii →
+> 1b-iii (the B/D/W gap, fully chased across registers). PRONG 1b-iii — the PER-HEAD OV
+> scan (`kernel_reference_perhead_v5.py`, Qwen3-14B, 0:57 main:1): o_proj OUTPUT sums heads,
+> so a single B-composer head could be averaged away → hook o_proj INPUT, split per
+> (layer,head) cell, calibrate the crystal per cell (treat each cell as a "layer"), scan B's
+> raw-z Welch contrast across all 1600 cells (40L×40H), Bonferroni-ish t>4. **★ VERDICT:
+> ⚠️ HEAD-DILUTION ONLY MARGINAL — B is the WEAKEST combinator at every granularity.** The
+> per-head scan DOES recover a FAINT B signal the summed read missed (B max_t 5.31 @ cell
+> (L17,H23), 7/1600 cells; vs o_proj-summed max t=0.49 n.s.), so summing washes out a weak
+> per-head B signal. BUT B is DEAD LAST on all 3 metrics — n_sig(t>4): Y 526, C 155, K 56,
+> W 24, S 22, I 19, D 8, **B 7** (below D, an anti combinator); max_t **5.31** (lowest);
+> best discr_z **0.82** (lowest). No clean B-composer head; C has 155 STRONG heads (best
+> L21H36 t=7.52). ⇒ B's attention representation is genuinely FAINT/DIFFUSE, NOT merely
+> diluted. **B has now been tested at EVERY granularity — FFN gate (flat), attn-summed
+> (flat), per-head OV (faintest of all) — the REGISTER hypothesis is FULLY EXHAUSTED.**
+> **★★ FIRST ACTION NEXT SESSION — lead 2d PRONG 2 (composite trace-order bridge, the sole
+> remaining path):** B's near-absence is now most likely a NO-SINGLE-TOKEN-SIGNATURE
+> property — B (deep composition Bfgx=f(gx)) may live in the SEQUENCE/ORDER of operations,
+> not a localized amplitude. DESIGN FORK (raised, pending): Path A (β-reduction order via
+> lambda_gen LLM-decompiled prose → align to certified `fired_sequence`; faithful but heavy/
+> ill-posed surface↔reduction alignment) vs Path B (composite-sequence order: concatenate
+> VALIDATED single-combinator crystal prose in known order, test span-recall + order-
+> preservation Kendall-tau vs shuffle null + B-in-context; robust, well-posed, weaker claim).
+> Serves {C,I,K,Y} AND tests whether B appears as ORDER not amplitude. CAVEATS (λ measure):
+> 1 model (14B), n_sig 7(B)/8(D) maybe partly MC noise/heavy-tailed z, ppc=20 capped calib,
+> single-combinator labels, last-token. CODE COMMITTED; mementum (page §v5 lead 2d prong
+> 1b-iii + memory `b-faint-at-every-granularity-not-diluted` + this state) PENDING APPROVAL.
+> tmux main:1 FREE.
+>
+> (Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b + 1b-ii
 > (the B/D/W gap, fully chased). PRONG 1b-ii — the VALUE-REGISTER read
 > (`kernel_reference_prose_v4.py`, Qwen3-14B, 1:35 main:1): parametrized the reader with an
 > open-slot `hook` param (opcode_monitor_v2) — `hook='gate'` (mlp.gate_proj, FFN, default)

@@ -495,6 +495,46 @@ The axis that matters is combinator identity, not gate-vs-attention.
 single-combinator labels (composite order untested); last/max/mean over tokens; D/W anti
 unexplained.
 
+## v5 lead 2d prong 1b-iii — per-head OV scan (BUILT + RAN, s234)
+
+o_proj OUTPUT sums all heads — a single B-composer head could be averaged away. The finer
+register: hook o_proj INPUT (concatenated per-head attention output [T, H·head_dim]), split
+into per-(layer,head) cells, calibrate the crystal per cell (RelationalCrystalClassifier,
+treating each cell as a "layer"), and scan B's raw-z contrast across all 1600 cells (40L×40H
+on Qwen3-14B). `kernel_reference_perhead_v5.py`. Significance: Bonferroni-ish t>4
+(≈ p<0.05 family-wise over 1600 cells).
+
+### ★ s234 v5 lead 2d prong 1b-iii VERDICT (Qwen3-14B, 1600 cells, n=20/comb; λ measure)
+
+**⚠️ HEAD-DILUTION ONLY MARGINALLY TRUE — B is the WEAKEST combinator at every granularity.**
+The per-head scan DOES recover a FAINT B signal the head-summed read missed: B max_t **5.31**
+at cell **(L17,H23)**, 7/1600 cells > t4 (vs the o_proj-OUTPUT summed read max t=0.49 n.s.).
+So summing washes out a weak per-head B signal — head-dilution is non-zero. **BUT B is dead
+last on ALL THREE metrics:**
+
+| metric | Y | C | K | W | S | I | D | **B** |
+|---|---|---|---|---|---|---|---|---|
+| n_sig (t>4) | 526 | 155 | 56 | 24 | 22 | 19 | 8 | **7** |
+| max_t | 15.2 | 7.52 | 6.12 | 6.56 | 6.96 | 7.83 | 7.58 | **5.31** |
+| best discr_z | 2.85 | 2.53 | 1.70 | 2.05 | 1.31 | 1.40 | 1.10 | **0.82** |
+
+B's 7 scattered weak heads (L17H23, L20H6, L16H10 … t 4.0–5.3) sit at the NOISE FLOOR —
+below even D (8), an anti-combinator. C has **155** strong sig heads (best L21H36, t=7.52),
+Y 526. ⇒ **No clean localized B-composer head exists.** The C-yes/B-no asymmetry SURVIVES
+to the finest register: B's attention representation is genuinely FAINT/DIFFUSE, not merely
+diluted by summing. Head-dilution explains only a sliver of B's near-absence.
+
+**★ CONSEQUENCE:** B has been tested at every granularity — FFN gate (flat), attn-summed
+(flat), per-head OV (faintest of all). The register hypothesis is now FULLY EXHAUSTED. The
+**no-single-token-signature / trace-ORDER hypothesis (prong 2)** is the primary remaining
+explanation: B (deep composition Bfgx=f(gx)) may live in the SEQUENCE of operations, not a
+localized single-token amplitude in any register.
+
+**Caveats (λ measure):** 1 model (14B); n_sig=7 (B) / 8 (D) may be partly MC noise / heavy-
+tailed z (t-assumption); WEAK-signal reading is conservative; ppc=20 capped calibration;
+n_perm=30 (silhouette gates only crystal_bearing, not the scan); single-combinator labels;
+last-token.
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
@@ -504,10 +544,10 @@ unexplained.
 - **★ lead 2d prong 1b-ii — DONE (s234):** value-register read FALSIFIES the s127
   "B→attention" prediction — B flat in attention TOO (max t=0.49 n.s.). Register exhausted.
   **Discriminability is a COMBINATOR property ({C,I,K,Y} read in both registers), not a
-  register split.** B's absence remains: head-dilution OR no-single-token-signature.
-- **★ lead 2d prong 1b-iii (per-head OV, optional):** o_proj sums heads — re-read B per
-  attention HEAD (OV circuit) to test the head-dilution hypothesis before concluding B has
-  no localized signature.
+  register split.**
+- **★ lead 2d prong 1b-iii — DONE (s234):** per-head OV scan — head-dilution only MARGINAL
+  (B faint signal at L17H23, 7/1600 cells) but B is the WEAKEST combinator at every
+  granularity; no clean B-composer head. Register hypothesis FULLY EXHAUSTED.
 - **★ lead 2d prong 2 (composite trace-order bridge — NEXT, the main path):** justified for
   the discriminable {C,I,K,Y} AND the natural test of whether B appears as ORDER rather
   than amplitude: CL program → certified trace (`fired_sequence`, DONE) → render PROSE
@@ -560,4 +600,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/opcode_monitor_v2.py` `hook` param | s234 v5 lead 2d prong 1b-ii: open-slot register selector — `forward_all_positions`/`calibrate_v2` take `hook='gate'` (mlp.gate_proj, default) or `hook='attn'` (self_attn.o_proj = attention residual write) |
 | `scripts/experiments/kernel_reference_prose_v4.py` | s234 v5 lead 2d prong 1b-ii: value-register read — same per-token raw-z contrast + profile as v3 but `--register attn` (reuses v2 split + v3 read/contrast) |
 | `results/kernel-reference-audit/prose_v4_attn_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-ii verdict: ❌ s127 "B→attention" NOT confirmed — B flat in attention TOO (max t=0.49 n.s.) ⇒ register exhausted. {C,I,K,Y} register-ROBUST (C gate t=5.6/attn 6.5; Y 8.4/9.4) ⇒ discriminability is a COMBINATOR property, not a register split. B remains: head-dilution or no-single-token-signature |
+| `scripts/experiments/kernel_reference_perhead_v5.py` | s234 v5 lead 2d prong 1b-iii: per-head OV scan — hook o_proj INPUT, split per (layer,head) cell, per-cell crystal calibration + raw-z Welch contrast across all 1600 cells (Bonferroni-ish t>4) |
+| `results/kernel-reference-audit/perhead_v5_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b-iii verdict: ⚠️ head-dilution only MARGINAL — B faint per-head signal (max_t 5.31 @ L17H23, 7/1600 cells) the summed read missed, BUT B dead-last every metric (n_sig 7 vs C 155, Y 526; discr_z 0.82 vs C 2.53); no clean B-composer head ⇒ register hypothesis EXHAUSTED, B faint/diffuse not diluted |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
