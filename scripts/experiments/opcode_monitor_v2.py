@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # register: topological/routing
-"""Opcode Monitor v2 — recover the compose-arc without reopening the over-read (s231).
+"""Opcode Monitor v2 (+v5 lead 1) — recover the compose-arc without reopening the
+over-read (s231); add a LOCUS-AGNOSTIC C detector (s233).
+
+v5 lead 1 (s233): the s232 scale verdict found the fixed depth>=0.6 C-late detector is
+the WRONG cross-model instrument — it found 14B (C-late L27-32) but mislocates 8B/32B,
+because the composition->C routing LOCUS SHIFTS with scale (32B is C-EARLY L5,10,11,
+depth ~0.1). build_verdict now emits a locus_agnostic block (detect_c_profile +
+locus_agnostic_specificity) that counts C-dominant crystal layers ANYWHERE and tests
+specificity vs the matched gated guards independent of locus.
 
 s231 (a) BUILT + VALIDATED the over-read killer: RelationalCrystalClassifier no-ops
 retrieval (the raw-argmax tracer fired an opcode for 100% of tokens = common-mode).
@@ -358,6 +366,59 @@ def detect_c_late(trajectory: list[dict], n_layers: int,
     }
 
 
+def detect_c_profile(trajectory: list[dict], n_layers: int) -> dict:
+    """LOCUS-AGNOSTIC C detector (v5 lead 1). The fixed depth>=0.6 zone (detect_c_late)
+    found 14B (C-late) but MISLOCATED 8B/32B — 32B routes composition C-EARLY (L5,10,11,
+    depth ~0.1) which the readable-zone detector reads as 0 (s232 scale verdict: the
+    C-locus SHIFTS with scale, the fixed-depth detector is the wrong cross-model
+    instrument). This counts C-dominant crystal layers ANYWHERE in the stack and
+    reports the per-model locus, so specificity is locus-independent."""
+    c_layers = [t["layer"] for t in trajectory if t["op"] == "C"]
+    n_traj = len(trajectory)
+    denom = max(n_layers - 1, 1)
+    depths = [li / denom for li in c_layers]
+    early = [li for li in c_layers if li / denom < 1 / 3]
+    mid = [li for li in c_layers if 1 / 3 <= li / denom < 2 / 3]
+    late = [li for li in c_layers if li / denom >= 2 / 3]
+    return {
+        "C_layers": c_layers,
+        "n_C": len(c_layers),
+        "n_crystal_in_traj": n_traj,
+        "C_frac_all": (len(c_layers) / n_traj) if n_traj else 0.0,
+        "C_mean_depth": (float(np.mean(depths)) if depths else None),
+        "C_locus_bins": {"early": len(early), "mid": len(mid), "late": len(late)},
+    }
+
+
+def locus_agnostic_specificity(
+    lam_traj: list[dict], guard_trajs: dict[str, list[dict]],
+    n_layers: int, margin: float = 0.10,
+) -> dict:
+    """Compare lambda's C-routing to the matched gated guards across ALL crystal layers
+    (locus-agnostic). Two specificity reads:
+      • frac:      lambda C_frac_all clears every guard's C_frac_all by `margin`;
+      • exclusive: crystal layers where lambda routes C and NO gated guard does
+                   (the sharpest 'composition routes C where controls don't' test,
+                   independent of locus)."""
+    lam = detect_c_profile(lam_traj, n_layers)
+    guards = {g: detect_c_profile(t, n_layers) for g, t in guard_trajs.items()}
+    guard_fracs = {g: round(p["C_frac_all"], 4) for g, p in guards.items()}
+    max_guard = max(guard_fracs.values()) if guard_fracs else 0.0
+    guard_c_union = set()
+    for p in guards.values():
+        guard_c_union |= set(p["C_layers"])
+    exclusive = sorted(set(lam["C_layers"]) - guard_c_union)
+    return {
+        "lambda_C_profile": lam,
+        "guard_C_frac_all": guard_fracs,
+        "max_guard_C_frac_all": round(max_guard, 4),
+        "composition_specific_agnostic": bool(lam["C_frac_all"] > max_guard + margin),
+        "C_exclusive_layers": exclusive,
+        "n_C_exclusive": len(exclusive),
+        "exclusive_specific": bool(len(exclusive) >= 2),
+    }
+
+
 def detect_arc(trajectory: list[dict]) -> dict:
     """C→B compose-arc detector: are C-dominant layers earlier than B-dominant?"""
     c_layers = [t["layer"] for t in trajectory if t["op"] == "C"]
@@ -431,18 +492,32 @@ def run_monitor(
 # ═══════════════════════════════════════════════════════════════════════════════
 # Verdict
 # ═══════════════════════════════════════════════════════════════════════════════
-def build_verdict(monitor: dict) -> dict:
+def build_verdict(monitor: dict, n_layers: int | None = None) -> dict:
     """Two-sided read: did the C→B arc recover in lambda while retrieval stays silent
-    and the gate-neutral control stays quieter than lambda?"""
+    and the gate-neutral control stays quieter than lambda?
+
+    v5 lead 1 adds a LOCUS-AGNOSTIC block (locus_agnostic_specificity) alongside the
+    fixed depth>=0.6 C-late read, so cross-model specificity is tested wherever C
+    concentrates (the s232 scale verdict: C-locus shifts with scale)."""
     conds = monitor["conditions"]
+    if n_layers is None:
+        # crystal_layers max + 1 is a lower bound; prefer caller-supplied n_layers
+        n_layers = (max(monitor.get("crystal_layers", [0])) + 1) if monitor.get(
+            "crystal_layers") else 1
     v: dict = {}
     margin = 0.10  # C-late specificity margin
+    gated_guard_cats = ("gate_neutral", "gate_retrieval", "gate_arithmetic")
     for z in Z_SWEEP:
         key = f"z={z}"
         lam = conds["lambda"]["by_z"][key]
         gn = conds["gate_neutral"]["by_z"][key]
         ret = conds["retrieval"]["by_z"][key]
         arc = lam.get("arc", {})
+        locus_agnostic = locus_agnostic_specificity(
+            lam["trajectory"],
+            {c: conds[c]["by_z"][key]["trajectory"] for c in gated_guard_cats},
+            n_layers, margin,
+        )
 
         def cl(cat: str, _key: str = key) -> float:
             return conds[cat]["by_z"][_key]["c_late"]["C_late_frac"]
@@ -461,6 +536,8 @@ def build_verdict(monitor: dict) -> dict:
             # composition-SPECIFIC iff lambda C-late clears every framing-matched guard
             "composition_specific": bool(lam_cl > max_guard + margin),
             "readable_zone_lo": lam["c_late"]["readable_zone_lo"],
+            # ── v5 lead 1: LOCUS-AGNOSTIC C routing (right cross-model instrument) ──
+            "locus_agnostic": locus_agnostic,
             # ── back-compat: raw-shape arc + bare-guard over-read (now mis-framed) ─
             "lambda_arc_present": arc.get("arc_present", False),
             "lambda_n_C": arc.get("n_C", 0), "lambda_n_B": arc.get("n_B", 0),
@@ -524,7 +601,20 @@ def _print_summary(calib: dict, verdict: dict) -> None:
               f"layers={d['lambda_C_late_layers']}")
         print(f"    gated-guard C-late:   {d['gated_guard_C_late_frac']}  "
               f"(max={d['max_gated_guard_C_late_frac']})")
-        print(f"    => COMPOSITION_SPECIFIC: {d['composition_specific']}")
+        print(f"    => COMPOSITION_SPECIFIC (fixed zone): {d['composition_specific']}")
+        la = d["locus_agnostic"]
+        lp = la["lambda_C_profile"]
+        cfa = round(lp["C_frac_all"], 4)
+        print(f"  ★ LOCUS-AGNOSTIC: lambda C_frac_all={cfa}"
+              f" (nC={lp['n_C']} depth={lp['C_mean_depth']})")
+        print(f"    locus bins={lp['C_locus_bins']}")
+        print(f"    guard C_frac_all={la['guard_C_frac_all']} "
+              f"(max={la['max_guard_C_frac_all']})")
+        print(f"    C_exclusive_layers={la['C_exclusive_layers']} "
+              f"(n={la['n_C_exclusive']})")
+        af = la["composition_specific_agnostic"]
+        print(f"    => COMP_SPECIFIC agnostic-frac={af}"
+              f" exclusive={la['exclusive_specific']}")
         print(f"    (back-compat) raw-arc={d['lambda_arc_present']} "
               f"C x{d['lambda_n_C']}/B x{d['lambda_n_B']}; emit lam="
               f"{d['lambda_cell_emit_rate']} gn={d['gate_neutral_cell_emit_rate']} "
@@ -567,7 +657,7 @@ def main() -> None:
 
     print("\n[v2] Running per-token monitor battery ...")
     monitor = run_monitor(model, tok, torch_mod, rcc, layers, n_prompts)
-    verdict = build_verdict(monitor)
+    verdict = build_verdict(monitor, n_layers=n_layers)
     _print_summary(calib, verdict)
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,528 @@
+{
+  "per_model": [
+    {
+      "model": "8B",
+      "n_layers": 36,
+      "by_z": {
+        "z=2.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                23,
+                24,
+                25
+              ],
+              "n_C": 3,
+              "n_crystal_in_traj": 28,
+              "C_frac_all": 0.10714285714285714,
+              "C_mean_depth": 0.6857142857142858,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 1,
+                "late": 2
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.1923,
+              "gate_retrieval": 0.0357,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.1923,
+            "composition_specific_agnostic": false,
+            "C_exclusive_layers": [
+              24,
+              25
+            ],
+            "n_C_exclusive": 2,
+            "exclusive_specific": true
+          },
+          "old_fixed_zone_composition_specific": false,
+          "old_lambda_C_late_frac": 0.3333,
+          "old_lambda_C_late_layers": [
+            23,
+            24,
+            25
+          ],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [
+                23,
+                26,
+                27,
+                28,
+                30
+              ],
+              "n_C": 5,
+              "n_crystal_in_traj": 26,
+              "C_frac_all": 0.19230769230769232,
+              "C_mean_depth": 0.7657142857142858,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 1,
+                "late": 4
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [
+                23
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 28,
+              "C_frac_all": 0.03571428571428571,
+              "C_mean_depth": 0.6571428571428571,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 1,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 27,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        },
+        "z=3.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                7
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 25,
+              "C_frac_all": 0.04,
+              "C_mean_depth": 0.2,
+              "C_locus_bins": {
+                "early": 1,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.0,
+              "gate_retrieval": 0.0,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.0,
+            "composition_specific_agnostic": false,
+            "C_exclusive_layers": [
+              7
+            ],
+            "n_C_exclusive": 1,
+            "exclusive_specific": false
+          },
+          "old_fixed_zone_composition_specific": false,
+          "old_lambda_C_late_frac": 0.0,
+          "old_lambda_C_late_layers": [],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 11,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 26,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 27,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "14B",
+      "n_layers": 40,
+      "by_z": {
+        "z=2.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                13,
+                27,
+                29,
+                30,
+                31,
+                32
+              ],
+              "n_C": 6,
+              "n_crystal_in_traj": 31,
+              "C_frac_all": 0.1935483870967742,
+              "C_mean_depth": 0.6923076923076922,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 1,
+                "late": 5
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.0323,
+              "gate_retrieval": 0.0,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.0323,
+            "composition_specific_agnostic": true,
+            "C_exclusive_layers": [
+              13,
+              27,
+              29,
+              30,
+              31,
+              32
+            ],
+            "n_C_exclusive": 6,
+            "exclusive_specific": true
+          },
+          "old_fixed_zone_composition_specific": true,
+          "old_lambda_C_late_frac": 0.5556,
+          "old_lambda_C_late_layers": [
+            27,
+            29,
+            30,
+            31,
+            32
+          ],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [
+                28
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 31,
+              "C_frac_all": 0.03225806451612903,
+              "C_mean_depth": 0.717948717948718,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 1
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 31,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 31,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        },
+        "z=3.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                1,
+                13,
+                29,
+                30,
+                32
+              ],
+              "n_C": 5,
+              "n_crystal_in_traj": 30,
+              "C_frac_all": 0.16666666666666666,
+              "C_mean_depth": 0.5384615384615385,
+              "C_locus_bins": {
+                "early": 1,
+                "mid": 1,
+                "late": 3
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.0526,
+              "gate_retrieval": 0.0,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.0526,
+            "composition_specific_agnostic": true,
+            "C_exclusive_layers": [
+              13,
+              29,
+              30,
+              32
+            ],
+            "n_C_exclusive": 4,
+            "exclusive_specific": true
+          },
+          "old_fixed_zone_composition_specific": true,
+          "old_lambda_C_late_frac": 0.3333,
+          "old_lambda_C_late_layers": [
+            29,
+            30,
+            32
+          ],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [
+                1
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 19,
+              "C_frac_all": 0.05263157894736842,
+              "C_mean_depth": 0.02564102564102564,
+              "C_locus_bins": {
+                "early": 1,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 30,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 30,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "32B",
+      "n_layers": 64,
+      "by_z": {
+        "z=2.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                5,
+                10,
+                11
+              ],
+              "n_C": 3,
+              "n_crystal_in_traj": 49,
+              "C_frac_all": 0.061224489795918366,
+              "C_mean_depth": 0.13756613756613756,
+              "C_locus_bins": {
+                "early": 3,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.0204,
+              "gate_retrieval": 0.0,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.0204,
+            "composition_specific_agnostic": false,
+            "C_exclusive_layers": [
+              5,
+              10,
+              11
+            ],
+            "n_C_exclusive": 3,
+            "exclusive_specific": true
+          },
+          "old_fixed_zone_composition_specific": false,
+          "old_lambda_C_late_frac": 0.0,
+          "old_lambda_C_late_layers": [],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [
+                0
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 49,
+              "C_frac_all": 0.02040816326530612,
+              "C_mean_depth": 0.0,
+              "C_locus_bins": {
+                "early": 1,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 49,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 49,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        },
+        "z=3.0": {
+          "locus_agnostic": {
+            "lambda_C_profile": {
+              "C_layers": [
+                10
+              ],
+              "n_C": 1,
+              "n_crystal_in_traj": 47,
+              "C_frac_all": 0.02127659574468085,
+              "C_mean_depth": 0.15873015873015872,
+              "C_locus_bins": {
+                "early": 1,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "guard_C_frac_all": {
+              "gate_neutral": 0.0,
+              "gate_retrieval": 0.0,
+              "gate_arithmetic": 0.0
+            },
+            "max_guard_C_frac_all": 0.0,
+            "composition_specific_agnostic": false,
+            "C_exclusive_layers": [
+              10
+            ],
+            "n_C_exclusive": 1,
+            "exclusive_specific": false
+          },
+          "old_fixed_zone_composition_specific": false,
+          "old_lambda_C_late_frac": 0.0,
+          "old_lambda_C_late_layers": [],
+          "guard_profiles": {
+            "gate_neutral": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 28,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_retrieval": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 47,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            },
+            "gate_arithmetic": {
+              "C_layers": [],
+              "n_C": 0,
+              "n_crystal_in_traj": 47,
+              "C_frac_all": 0.0,
+              "C_mean_depth": null,
+              "C_locus_bins": {
+                "early": 0,
+                "mid": 0,
+                "late": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "cross_model": {
+    "by_z": {
+      "z=2.0": {
+        "n_models": 3,
+        "agnostic_frac_specific": 1,
+        "agnostic_exclusive_specific": 3,
+        "old_fixed_zone_specific": 1,
+        "per_model_locus": {
+          "8B": "0.69(LATE)",
+          "14B": "0.69(LATE)",
+          "32B": "0.14(EARLY)"
+        }
+      },
+      "z=3.0": {
+        "n_models": 3,
+        "agnostic_frac_specific": 1,
+        "agnostic_exclusive_specific": 1,
+        "old_fixed_zone_specific": 1,
+        "per_model_locus": {
+          "8B": "0.20(EARLY)",
+          "14B": "0.54(MID)",
+          "32B": "0.16(EARLY)"
+        }
+      }
+    }
+  },
+  "instrument": "locus_agnostic_specificity (v5 lead 1)",
+  "null_mode": "gateneutral"
+}
